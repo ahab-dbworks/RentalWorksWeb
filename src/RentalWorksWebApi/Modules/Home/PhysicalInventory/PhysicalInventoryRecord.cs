@@ -30,7 +30,7 @@ namespace WebApi.Modules.Home.PhysicalInventory
         //[FwSqlDataField(column: "location", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 30)]
         //public string Location { get; set; }
         ////------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "rank", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        [FwSqlDataField(column: "rank", modeltype: FwDataTypes.Text, sqltype: "char")]
         public string Rank { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "step0", modeltype: FwDataTypes.Integer, sqltype: "numeric")]
@@ -177,6 +177,25 @@ namespace WebApi.Modules.Home.PhysicalInventory
                 FwSqlCommand qry = new FwSqlCommand(conn, "savephysicalinventorydepartment", this.AppConfig.DatabaseSettings.QueryTimeout);
                 qry.AddParameter("@physicalid", SqlDbType.NVarChar, ParameterDirection.Input, PhysicalInventoryId);
                 qry.AddParameter("@inventorydepartmentid", SqlDbType.NVarChar, ParameterDirection.Input, inventoryTypeId);
+                await qry.ExecuteNonQueryAsync();
+                saved = true;
+            }
+            return saved;
+        }
+        //-------------------------------------------------------------------------------------------------------   
+        public async Task<bool> SaveCategoryAndSubCategory(string categoryId, string subCategoryId, FwSqlConnection conn)
+        {
+            bool saved = false;
+            if ((categoryId != null) || (subCategoryId != null))
+            {
+                if (conn == null)
+                {
+                    conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString);
+                }
+                FwSqlCommand qry = new FwSqlCommand(conn, "savephysicalinventorycategorysubcategory", this.AppConfig.DatabaseSettings.QueryTimeout);
+                qry.AddParameter("@physicalid", SqlDbType.NVarChar, ParameterDirection.Input, PhysicalInventoryId);
+                qry.AddParameter("@categoryid", SqlDbType.NVarChar, ParameterDirection.Input, categoryId);
+                qry.AddParameter("@subcategoryid", SqlDbType.NVarChar, ParameterDirection.Input, subCategoryId);
                 await qry.ExecuteNonQueryAsync();
                 saved = true;
             }

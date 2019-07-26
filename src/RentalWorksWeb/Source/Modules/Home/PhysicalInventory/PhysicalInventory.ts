@@ -125,6 +125,17 @@
 
             FwFormField.setValueByDataField($report, 'PhysicalInventoryId', physicalInventoryId, physicalInventoryNumber);
             jQuery('.tab.submodule.active').find('.caption').html(`Print Count Sheets`);
+            const request: any = {};
+            request.PhysicalInventoryId = physicalInventoryId;
+            FwAppData.apiMethod(true, 'POST', `api/v1/physicalinventory/${physicalInventoryId}/updatestep/printcountsheet`, request, FwServices.defaultTimeout,
+                response => {
+                    $form.empty().append(PhysicalInventoryController.loadForm(request));
+                },
+                ex => FwFunc.showError(ex),
+                $form);
+
+
+
         });
 
         $form.find('.printexception').on('click', e => {
@@ -300,7 +311,7 @@
     }
     //---------------------------------------------------------------------------------------------
     afterSave($form) {
- 
+
     }
     //---------------------------------------------------------------------------------------------
     renderGrids($form) {
@@ -370,6 +381,24 @@
                 if (recType === 'P') { request.uniqueids.Parts = true };
                 break;
         }
+    }
+    beforeValidateCategory($browse, $grid, request) {
+        let inventoryTypeId = FwFormField.getValueByDataField($grid, 'InventoryTypeId');
+        let recType = FwFormField.getValueByDataField($grid, 'RecType');
+        request.uniqueids = {
+            InventoryTypeId: inventoryTypeId,
+            RecType: recType
+        };
+    }
+    beforeValidateSubCategory($browse, $grid, request) {
+        let inventoryTypeId = FwFormField.getValueByDataField($grid, 'InventoryTypeId');
+        let categoryId = FwFormField.getValueByDataField($grid, 'CategoryId');
+        let recType = FwFormField.getValueByDataField($grid, 'RecType');
+        request.uniqueids = {
+            InventoryTypeId: inventoryTypeId,
+            CategoryId: categoryId,
+            RecType: recType
+        };
     }
 }
 //---------------------------------------------------------------------------------------------

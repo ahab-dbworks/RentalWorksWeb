@@ -60,6 +60,18 @@ namespace WebApi.Modules.Home.PhysicalInventory
         [FwSqlDataField(column: "inventorydepartment", modeltype: FwDataTypes.Text)]
         public string InventoryType { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "categoryid", modeltype: FwDataTypes.Text)]
+        public string CategoryId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "category", modeltype: FwDataTypes.Text)]
+        public string Category { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "subcategoryid", modeltype: FwDataTypes.Text)]
+        public string SubCategoryId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "subcategory", modeltype: FwDataTypes.Text)]
+        public string SubCategory { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rectype", modeltype: FwDataTypes.Text)]
         public string RecType { get; set; }
         //------------------------------------------------------------------------------------ 

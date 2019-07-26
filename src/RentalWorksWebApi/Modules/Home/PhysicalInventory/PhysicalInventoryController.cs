@@ -147,10 +147,56 @@ namespace WebApi.Modules.Home.PhysicalInventory
             }
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/physicalinventory/A0000001/updatestep/printcountsheet
+        [HttpPost("{id}/updatestep/{stepname}")]
+        [FwControllerMethod(Id: "oKpeX6tpLVHXq")]
+        public async Task<ActionResult<PhysicalInventoryLogic>> UpdateStep([FromRoute]string id, [FromRoute]string stepname)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                PhysicalInventoryLogic l = new PhysicalInventoryLogic();
+                l.SetDependencies(AppConfig, UserSession);
+                l.PhysicalInventoryId = id;
+                if (await l.LoadAsync<PhysicalInventoryLogic>())
+                {
+
+                    //PhysicalInventoryLogic lOrig = new PhysicalInventoryLogic();
+                    //lOrig.SetDependencies(AppConfig, UserSession);
+                    //lOrig.PhysicalInventoryId = id;
+                    //await lOrig.LoadAsync<PhysicalInventoryLogic>();
+
+                    if (stepname.Equals("printcountsheet"))
+                    {
+                        l.StepPrintCountSheets++;
+                    }
+                    else
+                    {
+                        return NotFound();
+                    }
+                    //l.SetDependencies(AppConfig, UserSession);
+                    //await l.SaveAsync(lOrig);
+                    await l.SaveAsync(null);
+                    return new OkObjectResult(l);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------ 
         // POST api/v1/physicalinventory/countbarcode 
         [HttpPost("countbarcode")]
         [FwControllerMethod(Id: "CsBdv9lRxfqhd")]
-        public async Task<ActionResult<PhysicalInventoryCountBarCodeResponse>> CountBarCode ([FromBody]PhysicalInventoryCountBarCodeRequest request)
+        public async Task<ActionResult<PhysicalInventoryCountBarCodeResponse>> CountBarCode([FromBody]PhysicalInventoryCountBarCodeRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -163,8 +209,8 @@ namespace WebApi.Modules.Home.PhysicalInventory
                 //l.PhysicalInventoryId = request.PhysicalInventoryId;
                 //if (await l.LoadAsync<PhysicalInventoryLogic>())
                 //{
-                    PhysicalInventoryCountBarCodeResponse response = await PhysicalInventoryFunc.CountBarCode(AppConfig, UserSession, request);
-                    return new OkObjectResult(response);
+                PhysicalInventoryCountBarCodeResponse response = await PhysicalInventoryFunc.CountBarCode(AppConfig, UserSession, request);
+                return new OkObjectResult(response);
                 //}
                 //else
                 //{

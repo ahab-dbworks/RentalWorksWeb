@@ -17,6 +17,7 @@ namespace WebApi.Modules.Home.PhysicalInventory
             dataRecords.Add(physicalInventory);
             dataLoader = physicalInventoryLoader;
 
+            ForceSave = true;
             BeforeSave += OnBeforeSave;
             AfterSave += OnAfterSave;
         }
@@ -71,6 +72,18 @@ namespace WebApi.Modules.Home.PhysicalInventory
 
         [FwLogicProperty(Id: "Sj332iAKKy3G", IsReadOnly: true)]
         public string InventoryType { get; set; }
+
+        [FwLogicProperty(Id: "YW2LNiYggMS00")]
+        public string CategoryId { get; set; }
+
+        [FwLogicProperty(Id: "8cOJaru1YaaGz", IsReadOnly: true)]
+        public string Category { get; set; }
+
+        [FwLogicProperty(Id: "lVJKJ3JDhKm6u")]
+        public string SubCategoryId { get; set; }
+
+        [FwLogicProperty(Id: "UrBE4XWbij56V", IsReadOnly: true)]
+        public string SubCategory { get; set; }
 
         [FwLogicProperty(Id: "6wZiXgLxSvdt")]
         public string RecType { get { return physicalInventory.RecType; } set { physicalInventory.RecType = value; } }
@@ -148,79 +161,79 @@ namespace WebApi.Modules.Home.PhysicalInventory
         public int? StepPreScan { get { return physicalInventory.StepPreScan; } set { physicalInventory.StepPreScan = value; } }
 
         [FwLogicProperty(Id: "HLcu7SaeFDRsB", IsReadOnly: true)]
-        public bool? AllowStepPreScan { get { return (StepPreScan == 0) && (StepInitiate == 0); } }
+        public bool? AllowStepPreScan { get { return ((!PhysicalInventoryId.Equals(string.Empty)) && (StepPreScan == 0) && (StepInitiate == 0)); } }
 
         [FwLogicProperty(Id: "cGq2QA2cfnmi")]
         public int? StepInitiate { get { return physicalInventory.StepInitiate; } set { physicalInventory.StepInitiate = value; } }
 
         [FwLogicProperty(Id: "zDO6KDqQsK0X6", IsReadOnly: true)]
-        public bool? AllowStepInitiate { get { return (StepInitiate == 0); } }
+        public bool? AllowStepInitiate { get { return ((!PhysicalInventoryId.Equals(string.Empty)) && (StepInitiate == 0)); } }
 
         [FwLogicProperty(Id: "ktRUSnhiROBH")]
         public int? StepPrintCountSheets { get { return physicalInventory.StepPrintCountSheets; } set { physicalInventory.StepPrintCountSheets = value; } }
 
         [FwLogicProperty(Id: "rMDZAZbsZfxXj", IsReadOnly: true)]
-        public bool? AllowStepPrintCountSheets { get { return (StepPreScan > 0) || (StepInitiate > 0); } }
+        public bool? AllowStepPrintCountSheets { get { return ((!PhysicalInventoryId.Equals(string.Empty)) && ((StepPreScan > 0) || (StepInitiate > 0))); } }
 
         [FwLogicProperty(Id: "WoF5hrbrRySc")]
         public int? StepCount { get { return physicalInventory.StepCount; } set { physicalInventory.StepCount = value; } }
 
         [FwLogicProperty(Id: "2e6sK7AoshIyH", IsReadOnly: true)]
-        public bool? AllowStepCount { get { return (StepPrintCountSheets > 0); } }
+        public bool? AllowStepCount { get { return ((!PhysicalInventoryId.Equals(string.Empty)) && (StepPrintCountSheets > 0)); } }
 
         [FwLogicProperty(Id: "KmC2DIMlmBgR")]
         public int? StepPrintExceptionReport { get { return physicalInventory.StepPrintExceptionReport; } set { physicalInventory.StepPrintExceptionReport = value; } }
 
         [FwLogicProperty(Id: "fbB4fzwxvz34z", IsReadOnly: true)]
-        public bool? AllowStepPrintExceptionReport { get { return (StepPrintCountSheets > 0); } }
+        public bool? AllowStepPrintExceptionReport { get { return ((!PhysicalInventoryId.Equals(string.Empty)) && (StepPrintCountSheets > 0)); } }
 
         [FwLogicProperty(Id: "zIiu12j2THefs")]
         public int? StepPrintDiscrepancyReport { get { return physicalInventory.StepPrintDiscrepancyReport; } set { physicalInventory.StepPrintDiscrepancyReport = value; } }
 
         [FwLogicProperty(Id: "jbZZ438Obk2Jy", IsReadOnly: true)]
-        public bool? AllowStepPrintDiscrepancyReport { get { return (StepPrintCountSheets > 0); } }
+        public bool? AllowStepPrintDiscrepancyReport { get { return ((!PhysicalInventoryId.Equals(string.Empty)) && (StepPrintCountSheets > 0)); } }
 
         [FwLogicProperty(Id: "SIel2BpMN3MR")]
         public int? StepRecount { get { return physicalInventory.StepRecount; } set { physicalInventory.StepRecount = value; } }
 
         [FwLogicProperty(Id: "GUiNP5pWeznhR", IsReadOnly: true)]
-        public bool? AllowStepRecount { get { return (StepPrintCountSheets > 0); } }
+        public bool? AllowStepRecount { get { return ((!PhysicalInventoryId.Equals(string.Empty)) && (StepPrintCountSheets > 0)); } }
 
         [FwLogicProperty(Id: "oANRKbgDltZr")]
         public int? StepPrintRecountAnalysisReport { get { return physicalInventory.StepPrintRecountAnalysisReport; } set { physicalInventory.StepPrintRecountAnalysisReport = value; } }
 
         [FwLogicProperty(Id: "K8mDqIiXIiUEz", IsReadOnly: true)]
-        public bool? AllowStepPrintRecountAnalysisReport { get { return (StepPrintCountSheets > 0); } }
+        public bool? AllowStepPrintRecountAnalysisReport { get { return ((!PhysicalInventoryId.Equals(string.Empty)) && (StepPrintCountSheets > 0)); } }
 
         [FwLogicProperty(Id: "d82DJYvSNPkms")]
         public int? StepPrintReconciliationReport { get { return physicalInventory.StepPrintReconciliationReport; } set { physicalInventory.StepPrintReconciliationReport = value; } }
 
         [FwLogicProperty(Id: "Dn3Upb4qsvZEn", IsReadOnly: true)]
-        public bool? AllowStepPrintReconciliationReport { get { return (StepPrintCountSheets > 0); } }
+        public bool? AllowStepPrintReconciliationReport { get { return ((!PhysicalInventoryId.Equals(string.Empty)) && (StepPrintCountSheets > 0)); } }
 
         [FwLogicProperty(Id: "Or5OdD4LxmFY2")]
         public int? StepApproveCounts { get { return physicalInventory.StepApproveCounts; } set { physicalInventory.StepApproveCounts = value; } }
 
         [FwLogicProperty(Id: "GB9t9zXsITTB2", IsReadOnly: true)]
-        public bool? AllowStepApproveCounts { get { return (StepCount > 0); } }
+        public bool? AllowStepApproveCounts { get { return ((!PhysicalInventoryId.Equals(string.Empty)) && (StepCount > 0)); } }
 
         [FwLogicProperty(Id: "pkqjHbztU2NT")]
         public int? StepClose { get { return physicalInventory.StepClose; } set { physicalInventory.StepClose = value; } }
 
         [FwLogicProperty(Id: "kwNDs1BTYfkQ3", IsReadOnly: true)]
-        public bool? AllowStepClose { get { return ((StepApproveCounts > 0) && (StepClose == 0) && (StepCloseWithoutAdjustments == 0)); } }
+        public bool? AllowStepClose { get { return ((!PhysicalInventoryId.Equals(string.Empty)) && (StepApproveCounts > 0) && (StepClose == 0) && (StepCloseWithoutAdjustments == 0)); } }
 
         [FwLogicProperty(Id: "cHdtMkYhr7DqA")]
         public int? StepCloseWithoutAdjustments { get { return physicalInventory.StepCloseWithoutAdjustments; } set { physicalInventory.StepCloseWithoutAdjustments = value; } }
 
         [FwLogicProperty(Id: "YfMmg9cenmqW9", IsReadOnly: true)]
-        public bool? AllowStepCloseWithoutAdjustments { get { return ((StepApproveCounts > 0) && (StepClose == 0) && (StepCloseWithoutAdjustments == 0)); } }
+        public bool? AllowStepCloseWithoutAdjustments { get { return ((!PhysicalInventoryId.Equals(string.Empty)) && (StepApproveCounts > 0) && (StepClose == 0) && (StepCloseWithoutAdjustments == 0)); } }
 
         [FwLogicProperty(Id: "DxljnDcuVxst")]
         public int? StepPrintResults { get { return physicalInventory.StepPrintResults; } set { physicalInventory.StepPrintResults = value; } }
 
         [FwLogicProperty(Id: "15lWMkmsIOEFB", IsReadOnly: true)]
-        public bool? AllowStepPrintResults { get { return (StepPrintCountSheets > 0); } }
+        public bool? AllowStepPrintResults { get { return ((!PhysicalInventoryId.Equals(string.Empty)) && (StepPrintCountSheets > 0)); } }
 
         [FwLogicProperty(Id: "608KDO2tu1oX", DisableDirectModify: true)]
         public string Status { get { return physicalInventory.Status; } set { physicalInventory.Status = value; } }
@@ -286,7 +299,7 @@ namespace WebApi.Modules.Home.PhysicalInventory
         public string DateStamp { get { return physicalInventory.DateStamp; } set { physicalInventory.DateStamp = value; } }
 
         //------------------------------------------------------------------------------------ 
-        protected bool ValidateNotChangedAFterInitialized(PropertyInfo property, PhysicalInventoryLogic orig, ref string validateMsg)
+        protected bool ValidateNotChangedAFterInitiated(PropertyInfo property, PhysicalInventoryLogic orig, ref string validateMsg)
         {
             bool isValid = true;
             object newValue = property.GetValue(this);
@@ -294,7 +307,7 @@ namespace WebApi.Modules.Home.PhysicalInventory
             if ((newValue != null) && (!newValue.Equals(oldValue)))
             {
                 isValid = false;
-                validateMsg = property.Name + " cannot be changed after Physical Inventory has been initialized.";
+                validateMsg = property.Name + " cannot be changed after Physical Inventory has started Pre-Scan or has been Initiated.";
             }
             return isValid;
         }
@@ -306,28 +319,29 @@ namespace WebApi.Modules.Home.PhysicalInventory
             if (saveMode.Equals(TDataRecordSaveMode.smUpdate))
             {
                 PhysicalInventoryLogic orig = (PhysicalInventoryLogic)original;
-                string status = Status ?? orig.Status;
+                int? stepPreScan = StepPreScan ?? orig.StepPreScan;
+                int? stepInitiate = StepInitiate ?? orig.StepInitiate;
 
-                if (!status.Equals(RwConstants.PHYSICAL_INVENTORY_STATUS_NEW))
+                if ((stepPreScan.GetValueOrDefault(0) > 0) || (stepInitiate.GetValueOrDefault(0) > 0))
                 {
-                    isValid = ValidateNotChangedAFterInitialized(this.GetType().GetProperty(nameof(PhysicalInventoryLogic.RecType)), orig, ref validateMsg) &&
-                              ValidateNotChangedAFterInitialized(this.GetType().GetProperty(nameof(PhysicalInventoryLogic.CountType)), orig, ref validateMsg) &&
-                              ValidateNotChangedAFterInitialized(this.GetType().GetProperty(nameof(PhysicalInventoryLogic.InventoryTypeId)), orig, ref validateMsg) &&
-                              ValidateNotChangedAFterInitialized(this.GetType().GetProperty(nameof(PhysicalInventoryLogic.CycleTrackedBy)), orig, ref validateMsg) &&
-                              ValidateNotChangedAFterInitialized(this.GetType().GetProperty(nameof(PhysicalInventoryLogic.CycleAisle)), orig, ref validateMsg) &&
-                              ValidateNotChangedAFterInitialized(this.GetType().GetProperty(nameof(PhysicalInventoryLogic.CycleShelf)), orig, ref validateMsg) &&
-                              ValidateNotChangedAFterInitialized(this.GetType().GetProperty(nameof(PhysicalInventoryLogic.CycleLastCounted)), orig, ref validateMsg) &&
-                              ValidateNotChangedAFterInitialized(this.GetType().GetProperty(nameof(PhysicalInventoryLogic.CycleIncludeOwned)), orig, ref validateMsg) &&
-                              ValidateNotChangedAFterInitialized(this.GetType().GetProperty(nameof(PhysicalInventoryLogic.CycleIncludeConsigned)), orig, ref validateMsg) &&
-                              ValidateNotChangedAFterInitialized(this.GetType().GetProperty(nameof(PhysicalInventoryLogic.CycleOnlyIncludeInventoryWithNonZeroQuantity)), orig, ref validateMsg) &&
-                              ValidateNotChangedAFterInitialized(this.GetType().GetProperty(nameof(PhysicalInventoryLogic.ExcludeInventoryWithNoAvailabilityCheck)), orig, ref validateMsg) &&
-                              ValidateNotChangedAFterInitialized(this.GetType().GetProperty(nameof(PhysicalInventoryLogic.CycleRankA)), orig, ref validateMsg) &&
-                              ValidateNotChangedAFterInitialized(this.GetType().GetProperty(nameof(PhysicalInventoryLogic.CycleRankB)), orig, ref validateMsg) &&
-                              ValidateNotChangedAFterInitialized(this.GetType().GetProperty(nameof(PhysicalInventoryLogic.CycleRankC)), orig, ref validateMsg) &&
-                              ValidateNotChangedAFterInitialized(this.GetType().GetProperty(nameof(PhysicalInventoryLogic.CycleRankD)), orig, ref validateMsg) &&
-                              ValidateNotChangedAFterInitialized(this.GetType().GetProperty(nameof(PhysicalInventoryLogic.CycleRankE)), orig, ref validateMsg) &&
-                              ValidateNotChangedAFterInitialized(this.GetType().GetProperty(nameof(PhysicalInventoryLogic.CycleRankF)), orig, ref validateMsg) &&
-                              ValidateNotChangedAFterInitialized(this.GetType().GetProperty(nameof(PhysicalInventoryLogic.CycleRankG)), orig, ref validateMsg) &&
+                    isValid = ValidateNotChangedAFterInitiated(this.GetType().GetProperty(nameof(PhysicalInventoryLogic.RecType)), orig, ref validateMsg) &&
+                              ValidateNotChangedAFterInitiated(this.GetType().GetProperty(nameof(PhysicalInventoryLogic.CountType)), orig, ref validateMsg) &&
+                              ValidateNotChangedAFterInitiated(this.GetType().GetProperty(nameof(PhysicalInventoryLogic.InventoryTypeId)), orig, ref validateMsg) &&
+                              ValidateNotChangedAFterInitiated(this.GetType().GetProperty(nameof(PhysicalInventoryLogic.CycleTrackedBy)), orig, ref validateMsg) &&
+                              ValidateNotChangedAFterInitiated(this.GetType().GetProperty(nameof(PhysicalInventoryLogic.CycleAisle)), orig, ref validateMsg) &&
+                              ValidateNotChangedAFterInitiated(this.GetType().GetProperty(nameof(PhysicalInventoryLogic.CycleShelf)), orig, ref validateMsg) &&
+                              ValidateNotChangedAFterInitiated(this.GetType().GetProperty(nameof(PhysicalInventoryLogic.CycleLastCounted)), orig, ref validateMsg) &&
+                              ValidateNotChangedAFterInitiated(this.GetType().GetProperty(nameof(PhysicalInventoryLogic.CycleIncludeOwned)), orig, ref validateMsg) &&
+                              ValidateNotChangedAFterInitiated(this.GetType().GetProperty(nameof(PhysicalInventoryLogic.CycleIncludeConsigned)), orig, ref validateMsg) &&
+                              ValidateNotChangedAFterInitiated(this.GetType().GetProperty(nameof(PhysicalInventoryLogic.CycleOnlyIncludeInventoryWithNonZeroQuantity)), orig, ref validateMsg) &&
+                              ValidateNotChangedAFterInitiated(this.GetType().GetProperty(nameof(PhysicalInventoryLogic.ExcludeInventoryWithNoAvailabilityCheck)), orig, ref validateMsg) &&
+                              ValidateNotChangedAFterInitiated(this.GetType().GetProperty(nameof(PhysicalInventoryLogic.CycleRankA)), orig, ref validateMsg) &&
+                              ValidateNotChangedAFterInitiated(this.GetType().GetProperty(nameof(PhysicalInventoryLogic.CycleRankB)), orig, ref validateMsg) &&
+                              ValidateNotChangedAFterInitiated(this.GetType().GetProperty(nameof(PhysicalInventoryLogic.CycleRankC)), orig, ref validateMsg) &&
+                              ValidateNotChangedAFterInitiated(this.GetType().GetProperty(nameof(PhysicalInventoryLogic.CycleRankD)), orig, ref validateMsg) &&
+                              ValidateNotChangedAFterInitiated(this.GetType().GetProperty(nameof(PhysicalInventoryLogic.CycleRankE)), orig, ref validateMsg) &&
+                              ValidateNotChangedAFterInitiated(this.GetType().GetProperty(nameof(PhysicalInventoryLogic.CycleRankF)), orig, ref validateMsg) &&
+                              ValidateNotChangedAFterInitiated(this.GetType().GetProperty(nameof(PhysicalInventoryLogic.CycleRankG)), orig, ref validateMsg) &&
                               true; // placeholder
 
                 }
@@ -347,18 +361,39 @@ namespace WebApi.Modules.Home.PhysicalInventory
         public void OnAfterSave(object sender, AfterSaveEventArgs e)
         {
             bool doSaveInventoryType = false;
+            bool doSaveCategoryAndSubCategory = false;
+            string inventoryTypeId = string.Empty;
+            string categoryId = string.Empty;
+            string subCategoryId = string.Empty;
             if (e.SaveMode.Equals(TDataRecordSaveMode.smInsert))
             {
                 doSaveInventoryType = true;
+                doSaveCategoryAndSubCategory = true;
+                inventoryTypeId = InventoryTypeId;
+                categoryId = CategoryId;
+                subCategoryId = SubCategoryId;
             }
             else if (e.Original != null)
             {
                 PhysicalInventoryLogic orig = (PhysicalInventoryLogic)e.Original;
-                doSaveInventoryType = (!orig.InventoryTypeId.Equals(InventoryTypeId));
+                doSaveInventoryType = ((InventoryTypeId != null) && (!orig.InventoryTypeId.Equals(InventoryTypeId)));
+                doSaveCategoryAndSubCategory = (((CategoryId != null) && (!orig.CategoryId.Equals(CategoryId))) || ((SubCategoryId != null) && (!orig.SubCategoryId.Equals(SubCategoryId))));
+
+                inventoryTypeId = InventoryTypeId ?? orig.InventoryTypeId;
+                categoryId = CategoryId ?? orig.CategoryId;
+                subCategoryId = SubCategoryId ?? orig.SubCategoryId;
             }
             if (doSaveInventoryType)
             {
-                bool saved = physicalInventory.SaveInventoryType(InventoryTypeId, e.SqlConnection).Result;
+                bool saved = physicalInventory.SaveInventoryType(inventoryTypeId, e.SqlConnection).Result;
+                if (saved)
+                {
+                    e.RecordsAffected++;
+                }
+            }
+            if (doSaveCategoryAndSubCategory)
+            {
+                bool saved = physicalInventory.SaveCategoryAndSubCategory(categoryId, subCategoryId, e.SqlConnection).Result;
                 if (saved)
                 {
                     e.RecordsAffected++;
