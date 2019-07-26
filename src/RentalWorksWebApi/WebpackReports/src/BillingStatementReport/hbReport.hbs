@@ -1,8 +1,10 @@
 ﻿<!--BillingStatementReport-->
-{{#ifEquals action "Print/PDF"}}
 {{#each this}}
 {{#ifEquals RowType "Dealheader"}}
-<div class="page-break"></div>
+
+{{#ifNotEquals isFirstDealheader true}}
+<div style="page-break-before: always !important"></div>
+{{/ifNotEquals}}
 <table>
   <thead>
     <tr>
@@ -155,115 +157,3 @@
   </tfoot>
   {{/each}}
 </table>
-{{else}}
-<!--Non-Print Version-->
-<div class="rpt-flexrow">
-  <div class="rpt-flexcolumn">
-    <span class="rpt-header-left">{{System}}</span>
-  </div>
-  <div class="rpt-flexcolumn">
-    <span class="rpt-title">{{Report}}</span>
-    <span class="rpt-header-center">From: {{FromDate}} To: {{ToDate}}</span>
-  </div>
-  <div class="rpt-flexcolumn">
-    <span class="rpt-header-right">{{Company}}</span>
-  </div>
-</div>
-<div class="rpt-flexrow" style="margin-top:40px;">
-  <table>
-    <thead class="main-header">
-      <tr>
-        <th class="top">Date</th>
-        <th class="top">Invoice No.</th>
-        <th class="top">PO No.</th>
-        <th class="top">Description</th>
-        <th class="top number">Amount Due</th>
-        <th class="top number">Credits</th>
-        <th class="top number">Balance</th>
-      </tr>
-    </thead>
-    {{#each this}}
-    {{#ifEquals RowType "Dealheader"}}
-    <thead data-rowtype="{{RowType}}">
-      <tr>
-        <th class="header-row" colspan="4">Deal: {{Deal}}</th>
-      </tr>
-    </thead>
-    {{/ifEquals}}
-    {{#ifEquals RowType "InvoiceNumberheader"}}
-    <thead data-rowtype="{{RowType}}">
-      <tr>
-        <th class="lower header-row" colspan="4">Invoice: {{InvoiceNumber}}</th>
-      </tr>
-    </thead>
-    {{/ifEquals}}
-    {{#ifEquals RowType "detail"}}
-    <tbody data-rowtype="{{RowType}}">
-      {{#ifEquals ARRecType ""}}
-      <tr>
-        <td class="nowrap">{{InvoiceDate}}</td>
-        <td>{{InvoiceNumber}}</td>
-        <td>{{PurchaseOrderNumber}}</td>
-        <td>{{InvoiceDescription}}</td>
-        <td class="number">{{Due}}</td>
-        <td class="number">{{Received}}</td>
-        <td class="number">{{Remaining}}</td>
-      </tr>
-      {{/ifEquals}}
-      {{#ifEquals ARRecType "C"}}
-      <tr>
-        <td class="nowrap">{{InvoiceDate}}</td>
-        <td>{{InvoiceNumber}}</td>
-        <td>{{PurchaseOrderNumber}}</td>
-        <td>{{InvoiceDescription}}</td>
-        <td class="number">{{Due}}</td>
-        <td class="number">{{Received}}</td>
-        <td class="number">{{Remaining}}</td>
-      </tr>
-      {{/ifEquals}}
-      {{#ifEquals HasPayments true}}
-      <tr>
-        <th style="background-color:white;" colspan="2"></th>
-        <th class="subHeaders">Payment Date</th>
-        <th class="subHeaders" colspan="4">Description</th>
-      </tr>
-      {{/ifEquals}}
-      {{#ifNotEquals ARRecType ""}}
-      <tr class="subValues">
-        <td style="background-color:white;" colspan="2"></td>
-        <td>{{PaymentDate}}</td>
-        <td>{{PaymentDescription}}</td>
-        <td class="number">{{Due}}</td>
-        <td class="number">{{Received}}</td>
-        <td class="number">{{Remaining}}</td>
-      </tr>
-      {{/ifNotEquals}}
-    </tbody>
-    {{/ifEquals}}
-  <tfoot data-rowtype="{{RowType}}">
-    {{#ifEquals RowType "Dealfooter"}}
-    <tr>
-      <td colspan="4" class="total-name">{{Deal}}&nbsp;</td>
-      <td class="total-val" data-value="{{Due}}"></td>
-      <td class="total-val" data-value="{{Received}}"></td>
-      <td class="total-val" data-value="{{Remaining}}"></td>
-    </tr>
-    <tr data-rowtype="{{RowType}}">
-      <td colspan="2" style="padding-bottom:15px;" class="total-name"></td>
-    </tr>
-    <tr class="deal-total header"><td style="border:none;"></td><td>Total</td><td>Current</td><td>31 - 60</td><td>61 - 90</td><td>> 90</td></tr>
-    <tr class="deal-total val"><td style="border:none;"></td><td>{{DealTotal}}</td><td>{{DealCurrentTotal}}</td><td>{{Deal3160Total}}</td><td>{{Deal6190Total}}</td><td>{{DealOver90Total}}</td></tr>
-    {{/ifEquals}}
-    {{#ifEquals RowType "InvoiceNumberfooter"}}
-    <tr>
-      <td colspan="4" class="total-name">{{InvoiceNumber}}&nbsp;</td>
-      <td class="total-val" data-value="{{Due}}"></td>
-      <td class="total-val" data-value="{{Received}}"></td>
-      <td class="total-val" data-value="{{Remaining}}"></td>
-    </tr>
-    {{/ifEquals}}
-  </tfoot>
-    {{/each}}
-  </table>
-</div>
-{{/ifEquals}}
