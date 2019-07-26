@@ -55,12 +55,12 @@
     <thead>
       <tr data-rowtype={{RowType}}>
         <th class="no-border"></th>
-        <th>Inv. No.</th>
+        <th>Invoice No.</th>
         <th>Inv. Date</th>
         <th>Bill Start</th>
         <th>Bill Stop</th>
         <th>Status</th>
-        <th>NC</th>
+        <th>No Charge</th>
         <th>Hiatus</th>
         <th>Flat</th>
         <th class="number">Rental</th>
@@ -87,101 +87,102 @@
         <td data-value="{{NoChargeDescription}}"></td>
         <td data-value="{{HiatusDescription}}"></td>
         <td data-value="{{FlatPODescription}}"></td>
-        <td class="total-val" data-value="{{RentalRevenue}}"></td>
-        <td class="total-val" data-value="{{SalesRevenue}}"></td>
-        <td class="total-val" data-value="{{SpaceRevenue}}"></td>
-        <td class="total-val" data-value="{{LaborRevenue}}"></td>
-        <td class="total-val" data-value="{{MiscRevenue}}"></td>
-        <td class="total-val" data-value="{{RentalSaleRevenue}}"></td>
-        <td class="total-val" data-value="{{PartsRevenue}}"></td>
-        <td class="total-val" data-value="{{Tax}}"></td>
-        <td class="total-val" data-value="{{TotalRevenue}}"></td>
+        <td class="number" data-value="{{RentalRevenue}}"></td>
+        <td class="number" data-value="{{SalesRevenue}}"></td>
+        <td class="number" data-value="{{SpaceRevenue}}"></td>
+        <td class="number" data-value="{{LaborRevenue}}"></td>
+        <td class="number" data-value="{{MiscRevenue}}"></td>
+        <td class="number" data-value="{{RentalSaleRevenue}}"></td>
+        <td class="number" data-value="{{PartsRevenue}}"></td>
+        <td class="number" data-value="{{Tax}}"></td>
+        <td class="number" data-value="{{TotalRevenue}}"></td>
       </tr>
       <tr>
       <tr class="detail">
         <td class="no-border"></td>
         <td colspan="7"></td>
-        <td style="font-weight:700;">Cost of Subs:&nbsp;</td>
-        <td class="border-top number" data-value="{{RentalCost}}"></td>
-        <td class="border-top number" data-value="{{SalesCost}}"></td>
-        <td class="border-top number" data-value="{{SpaceCost}}"></td>
-        <td class="border-top number" data-value="{{LaborCost}}"></td>
-        <td class="border-top number" data-value="{{MiscCost}}"></td>
-        <td class="border-top number" data-value="{{RentalSaleCost}}"></td>
-        <td class="border-top number" data-value="{{PartsCost}}"></td>
-        <td class="border-top"></td>
-        <td class="border-top number" data-value="{{TotalCost}}"></td>
+        <td style="font-weight:700;text-align: right;">Cost of Subs:&nbsp;</td>
+        <td class="number" data-value="{{RentalCost}}"></td>
+        <td class="number" data-value="{{SalesCost}}"></td>
+        <td class="number" data-value="{{SpaceCost}}"></td>
+        <td class="number" data-value="{{LaborCost}}"></td>
+        <td class="number" data-value="{{MiscCost}}"></td>
+        <td class="number" data-value="{{RentalSaleCost}}"></td>
+        <td class="number" data-value="{{PartsCost}}"></td>
+        <td class=""></td>
+        <td class="number" data-value="{{TotalCost}}"></td>
       </tr>
       <tr>
       <tr class="detail">
         <td class="no-border"></td>
-        <td colspan="8"></td>
-        <td class="number" data-value="{{RentalNet}}"></td>
-        <td class="number" data-value="{{SalesNet}}"></td>
-        <td class="number" data-value="{{SpaceNet}}"></td>
-        <td class="number" data-value="{{LaborNet}}"></td>
-        <td class="number" data-value="{{MiscNet}}"></td>
-        <td class="number" data-value="{{RentalSaleNet}}"></td>
-        <td class="number" data-value="{{PartsNet}}"></td>
-        <td class="number"></td>
-        <td class="number" data-value="{{TotalNet}}"></td>
+        <td colspan="7"></td>
+        <td style="font-weight:700;text-align: right;">Invoice {{InvoiceNumber}} Net:&nbsp;</td>
+        <td class="border-top total-val" data-value="{{RentalNet}}"></td>
+        <td class="border-top total-val" data-value="{{SalesNet}}"></td>
+        <td class="border-top total-val" data-value="{{SpaceNet}}"></td>
+        <td class="border-top total-val" data-value="{{LaborNet}}"></td>
+        <td class="border-top total-val" data-value="{{MiscNet}}"></td>
+        <td class="border-top total-val" data-value="{{RentalSaleNet}}"></td>
+        <td class="border-top total-val" data-value="{{PartsNet}}"></td>
+        <td class="border-top total-val"></td>
+        <td class="border-top total-val" data-value="{{TotalNet}}"></td>
       </tr>
     </tbody>
     {{/ifEquals}}
     {{#ifEquals RowType "OrderNumberfooter"}}
     <tr data-rowtype="{{RowType}}">
       <td colspan="9" class="total-name">{{OrderNumber}}:&nbsp;</td>
-      <td class="total-val" data-value="{{RentalRevenue}}"></td>
-      <td class="total-val" data-value="{{SalesRevenue}}"></td>
-      <td class="total-val" data-value="{{SpaceRevenue}}"></td>
-      <td class="total-val" data-value="{{LaborRevenue}}"></td>
-      <td class="total-val" data-value="{{MiscRevenue}}"></td>
-      <td class="total-val" data-value="{{RentalSaleRevenue}}"></td>
-      <td class="total-val" data-value="{{PartsRevenue}}"></td>
+      <td class="total-val" data-value="{{RentalNet}}"></td>
+      <td class="total-val" data-value="{{SalesNet}}"></td>
+      <td class="total-val" data-value="{{SpaceNet}}"></td>
+      <td class="total-val" data-value="{{LaborNet}}"></td>
+      <td class="total-val" data-value="{{MiscNet}}"></td>
+      <td class="total-val" data-value="{{RentalSaleNet}}"></td>
+      <td class="total-val" data-value="{{PartsNet}}"></td>
       <td class="total-val" data-value="{{Tax}}"></td>
-      <td class="total-val" data-value="{{TotalRevenue}}"></td>
+      <td class="total-val" data-value="{{TotalNet}}"></td>
     </tr>
     {{/ifEquals}}
     {{#ifEquals RowType "Dealfooter"}}
     <tr data-rowtype="{{RowType}}">
       <td colspan="9" class="total-name">{{Deal}}:&nbsp;</td>
-      <td class="total-val" data-value="{{RentalRevenue}}"></td>
-      <td class="total-val" data-value="{{SalesRevenue}}"></td>
-      <td class="total-val" data-value="{{SpaceRevenue}}"></td>
-      <td class="total-val" data-value="{{LaborRevenue}}"></td>
-      <td class="total-val" data-value="{{MiscRevenue}}"></td>
-      <td class="total-val" data-value="{{RentalSaleRevenue}}"></td>
-      <td class="total-val" data-value="{{PartsRevenue}}"></td>
+      <td class="total-val" data-value="{{RentalNet}}"></td>
+      <td class="total-val" data-value="{{SalesNet}}"></td>
+      <td class="total-val" data-value="{{SpaceNet}}"></td>
+      <td class="total-val" data-value="{{LaborNet}}"></td>
+      <td class="total-val" data-value="{{MiscNet}}"></td>
+      <td class="total-val" data-value="{{RentalSaleNet}}"></td>
+      <td class="total-val" data-value="{{PartsNet}}"></td>
       <td class="total-val" data-value="{{Tax}}"></td>
-      <td class="total-val" data-value="{{TotalRevenue}}"></td>
+      <td class="total-val" data-value="{{TotalNet}}"></td>
     </tr>
     {{/ifEquals}}
     {{#ifEquals RowType "OfficeLocationfooter"}}
     <tr data-rowtype="{{RowType}}">
       <td colspan="9" class="total-name">{{OfficeLocation}}:&nbsp;</td>
-      <td class="total-val" data-value="{{RentalRevenue}}"></td>
-      <td class="total-val" data-value="{{SalesRevenue}}"></td>
-      <td class="total-val" data-value="{{SpaceRevenue}}"></td>
-      <td class="total-val" data-value="{{LaborRevenue}}"></td>
-      <td class="total-val" data-value="{{MiscRevenue}}"></td>
-      <td class="total-val" data-value="{{RentalSaleRevenue}}"></td>
-      <td class="total-val" data-value="{{PartsRevenue}}"></td>
+      <td class="total-val" data-value="{{RentalNet}}"></td>
+      <td class="total-val" data-value="{{SalesNet}}"></td>
+      <td class="total-val" data-value="{{SpaceNet}}"></td>
+      <td class="total-val" data-value="{{LaborNet}}"></td>
+      <td class="total-val" data-value="{{MiscNet}}"></td>
+      <td class="total-val" data-value="{{RentalSaleNet}}"></td>
+      <td class="total-val" data-value="{{PartsNet}}"></td>
       <td class="total-val" data-value="{{Tax}}"></td>
-      <td class="total-val" data-value="{{TotalRevenue}}"></td>
+      <td class="total-val" data-value="{{TotalNet}}"></td>
     </tr>
     {{/ifEquals}}
     {{#ifEquals RowType "grandtotal"}}
     <tr data-rowtype="{{RowType}}">
       <td colspan="9" class="total-name">Grand Total:&nbsp;</td>
-      <td class="total-val" data-value="{{RentalRevenue}}"></td>
-      <td class="total-val" data-value="{{SalesRevenue}}"></td>
-      <td class="total-val" data-value="{{SpaceRevenue}}"></td>
-      <td class="total-val" data-value="{{LaborRevenue}}"></td>
-      <td class="total-val" data-value="{{MiscRevenue}}"></td>
-      <td class="total-val" data-value="{{RentalSaleRevenue}}"></td>
-      <td class="total-val" data-value="{{PartsRevenue}}"></td>
+      <td class="total-val" data-value="{{RentalNet}}"></td>
+      <td class="total-val" data-value="{{SalesNet}}"></td>
+      <td class="total-val" data-value="{{SpaceNet}}"></td>
+      <td class="total-val" data-value="{{LaborNet}}"></td>
+      <td class="total-val" data-value="{{MiscNet}}"></td>
+      <td class="total-val" data-value="{{RentalSaleNet}}"></td>
+      <td class="total-val" data-value="{{PartsNet}}"></td>
       <td class="total-val" data-value="{{Tax}}"></td>
-      <td class="total-val" data-value="{{TotalRevenue}}"></td>
+      <td class="total-val" data-value="{{TotalNet}}"></td>
     </tr>
     {{/ifEquals}}
     {{/each}}
@@ -244,12 +245,12 @@
     <thead>
       <tr data-rowtype={{RowType}}>
         <th class="no-border"></th>
-        <th>Inv. No.</th>
+        <th>Invoice No.</th>
         <th>Inv. Date</th>
         <th>Bill Start</th>
         <th>Bill Stop</th>
         <th>Status</th>
-        <th>NC</th>
+        <th>No Charge</th>
         <th>Hiatus</th>
         <th>Flat</th>
         <th class="number">Rental</th>
@@ -273,9 +274,9 @@
         <td data-value="{{BillingStartDate}}"></td>
         <td data-value="{{BillingStopDate}}"></td>
         <td data-value="{{Status}}"></td>
-        <td data-value="{{NoCharge}}"></td>
-        <td data-value="{{Hiatus}}"></td>
-        <td data-value="{{FlatPO}}"></td>
+        <td data-value="{{NoChargeDescription}}"></td>
+        <td data-value="{{HiatusDescription}}"></td>
+        <td data-value="{{FlatPODescription}}"></td>
         <td class="number" data-value="{{RentalRevenue}}"></td>
         <td class="number" data-value="{{SalesRevenue}}"></td>
         <td class="number" data-value="{{SpaceRevenue}}"></td>

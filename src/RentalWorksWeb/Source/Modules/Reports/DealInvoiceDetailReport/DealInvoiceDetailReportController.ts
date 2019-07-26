@@ -169,7 +169,6 @@ class DealInvoiceDetailReport extends FwWebApiReport {
             { value: "APPROVED", text: "Approved", selected: "T" },
             { value: "PROCESSED", text: "Processed", selected: "T" },
             { value: "CLOSED", text: "Closed", selected: "T" },
-            { value: "VOID", text: "Void", selected: "T" },
         ]);
     }
     //----------------------------------------------------------------------------------------------
