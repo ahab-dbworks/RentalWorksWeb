@@ -95,6 +95,7 @@ namespace WebApi.Modules.Settings.SubCategory
             addFilterToSelect("CategoryId", "categoryid", select, request);
             addFilterToSelect("TypeId", "inventorydepartmentid", select, request);
             addFilterToSelect("InventoryTypeId", "inventorydepartmentid", select, request);
+            addFilterToSelect("RecType", "rectype", select, request);
 
             addRecTypeToSelect("Rental",  select, request);
             addRecTypeToSelect("Sales", select, request);
