@@ -262,38 +262,25 @@
             const $yes = FwConfirmation.addButton($confirmation, 'Yes', false);
             FwConfirmation.addButton($confirmation, 'No', true);
 
-            $yes.on('click', (): Promise<any> => {
-                return new Promise((resolve, reject) => {
-                    promise
-                        .then(() => {
-                            FwAppData.apiMethod(true, 'POST', 'api/v1/physicalinventory/updateicodes', request, FwServices.defaultTimeout,
-                                response => {
-                                    FwConfirmation.destroyConfirmation($confirmation);
-                                    $form.find('.error-msg').html('');
-                                    if (response.success) {
-                                        FwBrowse.search($physicalInventoryCycleInventoryGrid);
-                                    } else {
-                                        $form.find('div.error-msg').html(`<div><span>${response.msg}</span></div>`);
-                                    }
-                                },
-                                ex => FwFunc.showError(ex),
-                                $form);
-                            resolve();
-                        })
-                        .catch((reason) => {
-                            reject(reason);
-                        });
-                });
+            $yes.on('click', () => {
+                FwConfirmation.destroyConfirmation($confirmation);
+                FwAppData.apiMethod(true, 'POST', 'api/v1/physicalinventory/updateicodes', request, FwServices.defaultTimeout,
+                    response => {
+                        $form.find('.error-msg').html('');
+                        if (response.success) {
+                            FwBrowse.search($physicalInventoryCycleInventoryGrid);
+                        } else {
+                            $form.find('div.error-msg').html(`<div><span>${response.msg}</span></div>`);
+                        }
+                    },
+                    ex => FwFunc.showError(ex),
+                    $form);
             });
+        });
 
-            var promise = new Promise((resolve, reject) => {
-                try {
-                    this.saveForm($form, { closetab: false })
-                    resolve();
-                } catch (ex) {
-                    reject(ex);
-                }
-            })
+        //disables update icodes button when the form is modified
+        $form.on('change keyup', '.fwformfield[data-enabled="true"]:not([data-isuniqueid="true"][data-datafield=""])', e => {
+            FwFormField.disable($form.find('.update-icodes'));
         });
 
         return $form;
@@ -310,6 +297,10 @@
     //---------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
+    }
+    //---------------------------------------------------------------------------------------------
+    afterSave($form) {
+ 
     }
     //---------------------------------------------------------------------------------------------
     renderGrids($form) {
@@ -329,6 +320,8 @@
     }
     //---------------------------------------------------------------------------------------------
     afterLoad($form: any) {
+        FwFormField.enable($form.find('.update-icodes'));
+
         const $physicalInventoryCycleInventoryGrid: any = $form.find('[data-name="PhysicalInventoryCycleInventoryGrid"]');
         FwBrowse.search($physicalInventoryCycleInventoryGrid);
 
@@ -344,6 +337,7 @@
 
         const preScanDateTime = FwFormField.getValueByDataField($form, 'PreScanDateTime');
         if (preScanDateTime.length > 0) {
+            $form.find('.prescan-desc span').remove();
             $form.find('.prescan-desc').append(`<span style="color:red; margin-left:20px;">Pre-Scan started on ${preScanDateTime}</span>`);
         }
 
@@ -352,6 +346,7 @@
 
         const initiateDateTime = FwFormField.getValueByDataField($form, 'InitiateDateTime');
         if (initiateDateTime.length > 0) {
+            $form.find('.initiate-desc span').remove();
             $form.find('.initiate-desc').append(`<span style="color:red; margin-left:20px;">Initiated on ${initiateDateTime}</span>`);
         }
 
