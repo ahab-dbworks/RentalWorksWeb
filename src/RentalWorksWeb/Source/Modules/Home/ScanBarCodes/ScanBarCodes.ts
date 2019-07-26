@@ -1,4 +1,4 @@
-﻿
+
 class ScanBarCodes {
     Module: string = 'ScanBarCodes';
     //caption: string = Constants.Modules.Home.AssignBarCodes.caption;
@@ -85,7 +85,7 @@ class ScanBarCodes {
       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Physical Inventory">
         <div class="flexrow">
           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Physical Inventory" data-datafield="PhysicalInventoryId" style="display:none;"></div>
-          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Physical Inventory No." data-datafield="PhysicalInventoryNumber" style="flex:1"></div>
+          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Physical Inventory No." data-datafield="PhysicalInventoryNumber" data-enabled="false" style="flex:1"></div>
           <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Date" data-datafield="ScheduleDate" data-enabled="false" style="flex:1"></div>
           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description" data-enabled="false" style="flex:3"></div>
           <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield officelocation" data-caption="Office Location" data-datafield="OfficeLocationId" data-displayfield="OfficeLocation" data-enabled="false" style="float:left;width:250px;"></div>
