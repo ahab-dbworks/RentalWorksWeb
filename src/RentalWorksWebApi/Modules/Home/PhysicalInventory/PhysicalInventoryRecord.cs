@@ -90,7 +90,7 @@ namespace WebApi.Modules.Home.PhysicalInventory
         [FwSqlDataField(column: "cycletrackedby", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string CycleTrackedBy { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "cyclea", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        [FwSqlDataField(column: "cyclea", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
         public bool? CycleRankA { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "cycleb", modeltype: FwDataTypes.Boolean, sqltype: "char")]
