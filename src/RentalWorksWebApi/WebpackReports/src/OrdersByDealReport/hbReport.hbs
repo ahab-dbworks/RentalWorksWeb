@@ -5,7 +5,18 @@
   </div>
   <div class="rpt-flexcolumn">
     <span class="rpt-title">{{Report}}</span>
-    <span class="rpt-header-center">From: {{FromDate}} To: {{ToDate}}</span>
+    {{#if FilterDatesOrderCreate}}
+    <span class="rpt-header-center">Order Create From: {{OrderCreateFromDate}} To: {{OrderCreateToDate}}</span>
+    {{/if}}
+    {{#if FilterDatesOrderStart}}
+    <span class="rpt-header-center"> Order Start From: {{OrderStartFromDate}} To: {{OrderStartToDate}}</span>
+    {{/if}}
+    {{#if FilterDatesDealCredit}}
+    <span class="rpt-header-center">Deal Credit Status From: {{DealCreditFromDate}} To: {{DealCreditToDate}}</span>
+    {{/if}}
+    {{#if FilterDatesDealInsurance}}
+    <span class="rpt-header-center">Deal Insurance From: {{DealInsuranceFromDate}} To: {{DealInsuranceToDate}}</span>
+    {{/if}}
   </div>
   <div class="rpt-flexcolumn">
     <span class="rpt-header-right">{{Company}}</span>
@@ -66,7 +77,7 @@
     <thead>
       <tr data-rowtype={{RowType}}>
         <th class="no-border"></th>
-        <th>Order No.</th>
+        <th class="nowrap">Order No.</th>
         <th>Create Date</th>
         <th>Est. Start Date</th>
         <th>Description</th>

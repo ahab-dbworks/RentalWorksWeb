@@ -11,7 +11,6 @@ const hbFooter = require("./hbFooter.hbs");
 export class OrdersByDealReport extends WebpackReport {
     renderReport(apiUrl: string, authorizationHeader: string, parameters: any): void {
         try {
-            console.log('param', parameters)
             super.renderReport(apiUrl, authorizationHeader, parameters);
 
             HandlebarsHelpers.registerHelpers();
@@ -22,10 +21,29 @@ export class OrdersByDealReport extends WebpackReport {
                     data.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
                     data.FromDate = parameters.FromDate;
                     data.ToDate = parameters.ToDate;
-                    data.FilterDates = parameters.FilterDates;
                     data.Report = 'Orders By Deal Report';
                     data.System = 'RENTALWORKS';
                     data.Company = parameters.companyName;
+                    if (parameters.FilterDatesOrderCreate) {
+                        data.FilterDatesOrderCreate = true;
+                        data.OrderCreateFromDate = parameters.OrderCreateFromDate;
+                        data.OrderCreateToDate = parameters.OrderCreateToDate;
+                    }
+                    if (parameters.FilterDatesOrderStart) {
+                        data.FilterDatesOrderStart = true;
+                        data.OrderStartFromDate = parameters.OrderStartFromDate;
+                        data.OrderStartToDate = parameters.OrderStartToDate;
+                    }
+                    if (parameters.FilterDatesDealCredit) {
+                        data.FilterDatesDealCredit = true;
+                        data.DealCreditFromDate = parameters.DealCreditFromDate;
+                        data.DealCreditToDate = parameters.DealCreditToDate;
+                    }
+                    if (parameters.FilterDatesDealInsurance) {
+                        data.FilterDatesDealInsurance = true;
+                        data.DealInsuranceFromDate = parameters.DealInsuranceFromDate;
+                        data.DealInsuranceToDate = parameters.DealInsuranceToDate;
+                    }
                     this.renderFooterHtml(data);
                     console.log('rpt', data)
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
