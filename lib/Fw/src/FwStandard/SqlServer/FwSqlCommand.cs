@@ -2129,7 +2129,15 @@ namespace FwStandard.SqlServer
                     }
                     else if (propertyValue.GetType().Equals(typeof(string)))
                     {
-                        data = FwConvert.ToDateTime(((string)propertyValue).Trim()).ToString("yyyy-MM-dd hh:mm:ss tt");
+                        //data = FwConvert.ToDateTime(((string)propertyValue).Trim()).ToString("yyyy-MM-dd hh:mm:ss tt");
+                        if (((string)propertyValue).Equals(string.Empty))
+                        {
+                            data = DBNull.Value;
+                        }
+                        else
+                        {
+                            data = FwConvert.ToDateTime(((string)propertyValue).Trim()).ToString("yyyy-MM-dd hh:mm:ss tt");
+                        }
                     }
                     else
                     {
