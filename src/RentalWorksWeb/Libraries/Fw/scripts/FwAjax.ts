@@ -5,21 +5,21 @@ class GetManyModel<T> {
     Items: Array<T>;
 }
 
-class FwAjaxRequest {
+class FwAjaxRequest<T> {
     httpMethod: 'GET' | 'POST' | 'PUT' | 'DELETE' = 'GET';
     url: string = '';
     timeout?: number = 15000;
     $elementToBlock?: JQuery = null;
     addAuthorizationHeader?: boolean = true;
     requestHeaders?: any = {};
-    data?: any = null;
+    data?: T = null;
     requestId?: string = FwAjax.generateUID();
     xmlHttpRequest?: XMLHttpRequest = new XMLHttpRequest();
     cancelable?: boolean = false;
 }
 
 interface IRequest {
-   [key: string]: FwAjaxRequest;
+   [key: string]: FwAjaxRequest<any>;
 }
 
 class FwAjaxRejectReason {
@@ -34,8 +34,8 @@ class FwAjaxRejectReason {
 class FwAjaxClass {
     requests: IRequest = {};
     //----------------------------------------------------------------------------------------------
-    async callWebApi<T>(options: FwAjaxRequest): Promise<T> {
-        return new Promise<T>((resolve, reject) => {
+    async callWebApi<TRequest, TResponse>(options: FwAjaxRequest<TRequest>): Promise<TResponse> {
+        return new Promise<TResponse>(async(resolve, reject) => {
             try {
                 if (typeof options.timeout === 'undefined') {
                     options.timeout = 15000;
@@ -77,7 +77,7 @@ class FwAjaxClass {
                     if (typeof FwAjax.requests[options.requestId] !== 'undefined') {
                         if (options.xmlHttpRequest.status == 200) {
                             this.hideLoader(options);
-                            resolve(JSON.parse(options.xmlHttpRequest.response));
+                            return resolve(JSON.parse(options.xmlHttpRequest.response));
                         }
                         else {
                             this.hideLoader(options);
@@ -86,7 +86,7 @@ class FwAjaxClass {
                             rejectReason.statusCode = options.xmlHttpRequest.status;
                             rejectReason.statusText = options.xmlHttpRequest.statusText;
                             rejectReason.message = `${options.xmlHttpRequest.status} ${options.xmlHttpRequest.statusText}\nGET: ${options.url}\n\n${options.xmlHttpRequest.responseText}`;
-                            reject(rejectReason);
+                            return reject(rejectReason);
                         }
                     }
                 };
@@ -94,11 +94,11 @@ class FwAjaxClass {
                     if (options.$elementToBlock !== null) {
                         this.hideLoader(options);
                     }
-                    reject(`Request timeout expired\nGET: ${options.url}\n\n${options.xmlHttpRequest.responseText}`);
+                    //reject(`Request timeout expired\nGET: ${options.url}\n\n${options.xmlHttpRequest.responseText}`);
                     let rejectReason = new FwAjaxRejectReason();
                     rejectReason.reason = 'Timeout';
                     rejectReason.message = `Request timeout expired\n${options.httpMethod}: ${options.url}\n\n${options.xmlHttpRequest.responseText}`;
-                    reject(rejectReason);
+                    return reject(rejectReason);
                 };
                 options.xmlHttpRequest.onabort = () => {
                     this.hideLoader(options);
@@ -109,11 +109,11 @@ class FwAjaxClass {
                 }
                 options.xmlHttpRequest.onerror = () => {
                     this.hideLoader(options);
-                    reject(`${options.xmlHttpRequest.status} ${options.xmlHttpRequest.statusText}\n${options.httpMethod}: ${options.url}\n\n${options.xmlHttpRequest.responseText}`);
+                    //reject(`${options.xmlHttpRequest.status} ${options.xmlHttpRequest.statusText}\n${options.httpMethod}: ${options.url}\n\n${options.xmlHttpRequest.responseText}`);
                     let rejectReason = new FwAjaxRejectReason();
                     rejectReason.reason = 'Exception';
                     rejectReason.message = `${options.xmlHttpRequest.status} ${options.xmlHttpRequest.statusText}\n${options.httpMethod}: ${options.url}\n\n${options.xmlHttpRequest.responseText}`;
-                    reject(rejectReason);
+                    return reject(rejectReason);
                 };
                 if (options.httpMethod === 'GET') {
                     options.xmlHttpRequest.send();
@@ -128,7 +128,7 @@ class FwAjaxClass {
                 let rejectReason = new FwAjaxRejectReason();
                 rejectReason.reason = 'Exception';
                 rejectReason.exception = ex;
-                reject(rejectReason);
+                return reject(rejectReason);
             }
         });
     }
@@ -147,7 +147,7 @@ class FwAjaxClass {
         }
     }
     //----------------------------------------------------------------------------------------------
-    showLoader(options: FwAjaxRequest) {
+    showLoader(options: FwAjaxRequest<any>) {
         FwAjax.requests[options.requestId] = options;
         if (options.$elementToBlock !== null) {
             var isdesktop = jQuery('html').hasClass('desktop');
@@ -175,7 +175,7 @@ class FwAjaxClass {
         }
     }
     //----------------------------------------------------------------------------------------------
-    hideLoader(options: FwAjaxRequest) {
+    hideLoader(options: FwAjaxRequest<any>) {
         delete FwAjax.requests[options.requestId];
         var isdesktop = jQuery('html').hasClass('desktop');
         var ismobile = jQuery('html').hasClass('mobile');
@@ -207,7 +207,7 @@ class FwAjaxClass {
         return firstPart + secondPart;
     }
     //----------------------------------------------------------------------------------------------
-    showPleaseWaitOverlay(options: FwAjaxRequest) {
+    showPleaseWaitOverlay(options: FwAjaxRequest<any>) {
         var html, $moduleoverlay, maxZIndex;
 
         html = [];
@@ -237,7 +237,7 @@ class FwAjaxClass {
         return $moduleoverlay;
     }
     //----------------------------------------------------------------------------------------------
-    hideOverlay(options: FwAjaxRequest) {
+    hideOverlay(options: FwAjaxRequest<any>) {
         let $overlay = options.$elementToBlock.data('ajaxoverlay');
         if (typeof $overlay !== 'undefined') {
             $overlay.remove();

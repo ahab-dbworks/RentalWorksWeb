@@ -267,7 +267,7 @@ class RwMaster extends WebMaster {
                             const departmentid = FwFormField.getValueByDataField($confirmation, 'DepartmentId');
 
                             // Ajax: Get Office Location Info
-                            const responseGetOfficeLocationInfo = await FwAjax.callWebApi<any>({
+                            const responseGetOfficeLocationInfo = await FwAjax.callWebApi<any, any>({
                                 httpMethod: 'GET',
                                 url: `${applicationConfig.apiurl}api/v1/account/officelocation?locationid=${locationid}&warehouseid=${warehouseid}&departmentid=${departmentid}`,
                                 $elementToBlock: $confirmation

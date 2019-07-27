@@ -2099,7 +2099,7 @@ class FwBrowseClass {
                                         request.timeout = 15000;
                                         request.$elementToBlock = $control.data('$control');
                                         request.addAuthorizationHeader = true;
-                                        let getManyResponse = await FwAjax.callWebApi<GetManyModel<any>>(request);
+                                        let getManyResponse = await FwAjax.callWebApi<any, GetManyModel<any>>(request);
                                         let dt = DataTable.objectListToDataTable(getManyResponse);
                                         me.beforeDataBindCallBack($control, request, dt);
                                         resolve();
@@ -3938,25 +3938,33 @@ class DataTableColumn {
 }
 
 class BrowseRequest {
-    miscfields: any = {};
-    module: string = '';
-    options: any = {};
-    orderby: string = '';
-    orderbydirection: string = '';
-    top: number = 0;
-    pageno: number = 0;
-    pagesize: number = 0;
-    searchfieldoperators: Array<string> = [];
-    searchfields: Array<string> = [];
-    searchfieldvalues: Array<string> = [];
-    searchfieldtypes: Array<string> = [];
-    searchseparators: Array<string> = [];
-    searchcondition: Array<string> = [];
-    searchconjunctions: Array<string> = [];
-    uniqueids: any = {};
-    boundids: any = {};
-    filterfields: any = {};
-    activeview: string = '';
+    miscfields?:  {
+        [key: string]: string;
+    } = {};
+    module?: string = '';
+    options?: any = {};
+    orderby?: string = '';
+    orderbydirection?: string = '';
+    top?: number = 0;
+    pageno?: number = 0;
+    pagesize?: number = 0;
+    searchfieldoperators?: string[] = [];
+    searchfields?: string[] = [];
+    searchfieldvalues?: string[] = [];
+    searchfieldtypes?: string[] = [];
+    searchseparators?: string[] = [];
+    searchcondition?: string[] = [];
+    searchconjunctions?: string[] = [];
+    uniqueids?: {
+        [key: string]: string;
+    } = {};
+    boundids?: {
+        [key: string]: string;    
+    } = {};
+    filterfields?: {
+        [key: string]: string;    
+    } = {};
+    activeview?: string = '';
 }
 
 class GetManyRequest {
