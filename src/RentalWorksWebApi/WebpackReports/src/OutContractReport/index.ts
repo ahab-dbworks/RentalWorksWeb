@@ -91,7 +91,7 @@ class OutContract {
     DealInactive = false;
     Truck = false;
     BillingDate = '';
-    HasAdjustedBillingDate = false;
+    BillingDateAdjusted = false;
     HasVoId = false;
     SessionId = '';
     OrderDescription = '';

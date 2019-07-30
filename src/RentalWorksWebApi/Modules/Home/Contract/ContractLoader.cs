@@ -50,7 +50,7 @@ namespace WebApi.Modules.Home.Contract
         public bool? Truck { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "hasadjustedrentaldate", modeltype: FwDataTypes.Boolean)]
-        public bool? HasAdjustedBillingDate { get; set; }
+        public bool? BillingDateAdjusted { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "hasvoid", modeltype: FwDataTypes.Boolean)]
         public bool? HasVoId { get; set; }
