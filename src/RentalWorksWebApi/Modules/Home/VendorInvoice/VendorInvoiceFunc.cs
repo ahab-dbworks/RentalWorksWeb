@@ -69,7 +69,6 @@ namespace WebApi.Modules.Home.VendorInvoice
                 response.status = qry.GetParameter("@status").ToInt32();
                 response.success = (response.status == 0);
                 response.msg = qry.GetParameter("@msg").ToString();
-                response.success = true;
             }
             return response;
         }
