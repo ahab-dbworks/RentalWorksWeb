@@ -153,6 +153,7 @@
         public const string CONTRACT_TYPE_RETURN = "RETURN";
         public const string CONTRACT_TYPE_MANIFEST = "MANIFEST";
         public const string CONTRACT_TYPE_FILL = "FILL";
+        public const string CONTRACT_TYPE_LOST = "LOST";
 
         //CONTRACT ITEM
         public const int CONTRACT_ITEM_VOIDED_COLOR = 255; //red

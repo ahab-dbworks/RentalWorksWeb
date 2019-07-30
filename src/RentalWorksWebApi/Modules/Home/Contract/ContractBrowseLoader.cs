@@ -4,6 +4,8 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 using System.Collections.Generic;
+using WebLibrary;
+
 namespace WebApi.Modules.Home.Contract
 {
     [FwSqlTable("contractview")]
@@ -87,6 +89,15 @@ namespace WebApi.Modules.Home.Contract
             addFilterToSelect("DealId", "dealid", select, request);
             addFilterToSelect("CustomerId", "customerid", select, request);
             addFilterToSelect("ContractType", "contracttype", select, request);
+
+            SelectedCheckBoxListItems items = new SelectedCheckBoxListItems();
+            items.Add(new SelectedCheckBoxListItem(RwConstants.CONTRACT_TYPE_RECEIVE));
+            items.Add(new SelectedCheckBoxListItem(RwConstants.CONTRACT_TYPE_OUT));
+            items.Add(new SelectedCheckBoxListItem(RwConstants.CONTRACT_TYPE_EXCHANGE));
+            items.Add(new SelectedCheckBoxListItem(RwConstants.CONTRACT_TYPE_IN));
+            items.Add(new SelectedCheckBoxListItem(RwConstants.CONTRACT_TYPE_RETURN));
+            items.Add(new SelectedCheckBoxListItem(RwConstants.CONTRACT_TYPE_LOST));
+            select.AddWhereIn("contracttype", items);
 
             if ((request != null) && (request.uniqueids != null))
             {
