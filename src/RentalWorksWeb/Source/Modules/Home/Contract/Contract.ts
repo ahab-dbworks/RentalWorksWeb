@@ -96,6 +96,12 @@ class Contract {
         let $form = jQuery(this.getFormTemplate());
         $form = FwModule.openForm($form, mode);
 
+        FwFormField.loadItems($form.find('div[data-datafield="DeliveryDeliveryType"]'), [
+            { value: 'DELIVER', text: 'Deliver to Customer' },
+            { value: 'SHIP', text: 'Ship to Customer' },
+            { value: 'PICK UP', text: 'Customer Pick Up' }
+        ], true);
+
         this.events($form);
         return $form;
     }
@@ -127,6 +133,32 @@ class Contract {
                 }
             });
         }
+        // Out / In DeliveryType radio in Deliver tab
+        $form.find('div[data-datafield="DeliveryAddressType"]').on('change', event => {
+            this.deliveryTypeAddresses($form, event);
+        });
+        // Stores previous value for DeliveryDeliveryType
+        $form.find('div[data-datafield="DeliveryDeliveryType"]').on('click', event => {
+            const $element = jQuery(event.currentTarget);
+            $element.data('prevValue', FwFormField.getValueByDataField($form, 'DeliveryDeliveryType'))
+        });
+        // Delivery type select field on Deliver tab
+        $form.find('div[data-datafield="DeliveryDeliveryType"]').on('change', event => {
+            const $element = jQuery(event.currentTarget);
+            const newValue = $element.find('.fwformfield-value').val();
+            const prevValue = $element.data('prevValue');
+
+            if (newValue === 'DELIVER' && prevValue === 'PICK UP') {
+                FwFormField.setValueByDataField($form, 'DeliveryAddressType', 'DEAL');
+            }
+            if (newValue === 'SHIP' && prevValue === 'PICK UP') {
+                FwFormField.setValueByDataField($form, 'DeliveryAddressType', 'DEAL');
+            }
+            if (newValue === 'PICK UP') {
+                FwFormField.setValueByDataField($form, 'DeliveryAddressType', 'WAREHOUSE');
+            }
+            $form.find('div[data-datafield="OutDeliveryAddressType"]').change();
+        });
     }
     //----------------------------------------------------------------------------------------------
     renderGrids($form: JQuery): void {
@@ -272,6 +304,94 @@ class Contract {
             }
         }
     }
+    //----------------------------------------------------------------------------------------------
+    deliveryTypeAddresses($form: any, event: any): void {
+        const $element = jQuery(event.currentTarget);
+        const value = FwFormField.getValueByDataField($form, 'DeliveryAddressType');
+        if (value === 'WAREHOUSE') {
+            this.getWarehouseAddress($form);
+        } else if (value === 'DEAL') {
+            this.fillDeliveryAddressFieldsforDeal($form);
+        }
+
+    }
+    //----------------------------------------------------------------------------------------------
+    getWarehouseAddress($form: any): void {
+        const warehouseId = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid;
+        let WHresponse: any = {};
+
+        if ($form.data('whAddress')) {
+            WHresponse = $form.data('whAddress');
+
+            FwFormField.setValueByDataField($form, `DeliveryToAttention`, WHresponse.Attention);
+            FwFormField.setValueByDataField($form, `DeliveryToAddress1`, WHresponse.Address1);
+            FwFormField.setValueByDataField($form, `DeliveryToAddress2`, WHresponse.Address2);
+            FwFormField.setValueByDataField($form, `DeliveryToCity`, WHresponse.City);
+            FwFormField.setValueByDataField($form, `DeliveryToState`, WHresponse.State);
+            FwFormField.setValueByDataField($form, `DeliveryToZipCode`, WHresponse.Zip);
+            FwFormField.setValueByDataField($form, `DeliveryToCountryId`, WHresponse.CountryId, WHresponse.Country);
+        } else {
+            FwAppData.apiMethod(true, 'GET', `api/v1/warehouse/${warehouseId}`, null, FwServices.defaultTimeout, response => {
+                WHresponse = response;
+
+                FwFormField.setValueByDataField($form, `DeliveryToAttention`, WHresponse.Attention);
+                FwFormField.setValueByDataField($form, `DeliveryToAddress1`, WHresponse.Address1);
+                FwFormField.setValueByDataField($form, `DeliveryToAddress2`, WHresponse.Address2);
+                FwFormField.setValueByDataField($form, `DeliveryToCity`, WHresponse.City);
+                FwFormField.setValueByDataField($form, `DeliveryToState`, WHresponse.State);
+                FwFormField.setValueByDataField($form, `DeliveryToZipCode`, WHresponse.Zip);
+                FwFormField.setValueByDataField($form, `DeliveryToCountryId`, WHresponse.CountryId, WHresponse.Country);
+                // Preventing unnecessary API calls once warehouse addresses have been requested once
+                $form.data('whAddress', {
+                    'Attention': response.Attention,
+                    'Address1': response.Address1,
+                    'Address2': response.Address2,
+                    'City': response.City,
+                    'State': response.State,
+                    'Zip': response.Zip,
+                    'CountryId': response.CountryId,
+                    'Country': response.Country
+                })
+            }, null, null);
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    fillDeliveryAddressFieldsforDeal($form: any): void {
+        const dealId = FwFormField.getValueByDataField($form, 'DealId');
+        FwAppData.apiMethod(true, 'GET', `api/v1/deal/${dealId}`, null, FwServices.defaultTimeout, res => {
+            FwFormField.setValueByDataField($form, `DeliveryToAttention`, res.ShipAttention);
+            FwFormField.setValueByDataField($form, `DeliveryToAddress1`, res.ShipAddress1);
+            FwFormField.setValueByDataField($form, `DeliveryToAddress2`, res.ShipAddress2);
+            FwFormField.setValueByDataField($form, `$DeliveryToCity`, res.ShipCity);
+            FwFormField.setValueByDataField($form, `$DeliveryToState`, res.ShipState);
+            FwFormField.setValueByDataField($form, `DeliveryToZipCode`, res.ShipZipCode);
+            FwFormField.setValueByDataField($form, `DeliveryToCountryId`, res.ShipCountryId, res.ShipCountry);
+        }, null, null);
+
+    }
+    //----------------------------------------------------------------------------------------------
+    beforeValidateShipVia($browse: any, $grid: any, request: any) {
+        const validationName = request.module;
+        const deliveryCarrierId = jQuery($grid.find('[data-datafield="DeliveryCarrierId"] input')).val();
+        switch (validationName) {
+            case 'ShipViaValidation':
+                request.uniqueids = {
+                    VendorId: deliveryCarrierId
+                };
+                break;
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    beforeValidateCarrier($browse: any, $grid: any, request: any) {
+        let validationName = request.module;
+        switch (validationName) {
+            case 'VendorValidation':
+                request.uniqueids = {
+                    Freight: true
+                };
+                break;
+        }
+    }
     //----------------------------------------------------------------------------------------------  
     getBrowseTemplate(): string {
         return `
@@ -343,9 +463,10 @@ class Contract {
                     <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Type" data-datafield="ContractType" style="float:left;width:200px;" data-enabled="false"></div>
                     <div data-control="FwFormField" data-type="validation" data-validationname="DepartmentValidation" data-displayfield="Department" class="fwcontrol fwformfield" data-caption="Department" data-datafield="DepartmentId" style="float:left;width:250px;" data-enabled="false"></div>
                     <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Billing Start" data-datafield="BillingDate" style="float:left;width:150px;" data-enabled="true"></div>
-                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Sales" data-datafield="Sales" style="float:left;width:250px; display:none"></div>
-                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Rental" data-datafield="Rental" style="float:left;width:250px; display:none"></div>
-                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Exchange" data-datafield="Exchange" style="float:left;width:250px; display:none"></div>
+                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Sales" data-datafield="Sales" style="float:left;width:250px; display:none;"></div>
+                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Rental" data-datafield="Rental" style="float:left;width:250px; display:none;"></div>
+                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Exchange" data-datafield="Exchange" style="float:left;width:250px; display:none;"></div>
+                    <div data-control="FwFormField" data-type="validation" data-validationname="DealValidation" data-displayfield="Deal" class="fwcontrol fwformfield" data-caption="Department" data-datafield="DealId" style="float:left;width:250px;display:none;" data-enabled="false"></div>
                     <div class="print fwformcontrol" data-type="button" style="flex:1 1 50px;margin:15px 0 0 10px;">Print</div>
                   </div>
                 </div>
@@ -379,13 +500,77 @@ class Contract {
             </div>
             <div data-type="tabpage" id="deliverytabpage" class="tabpage" data-tabid="deliverytab">
                 <div class="flexpage" style="max-width:500px;">
+                 <div class="flexrow">
+                  <div class="flexcolumn" style="flex:1 1 575px;">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Delivery">
-                        <div class="flexrow">
-                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Tracking URL" data-allcaps="false" data-datafield="DeliveryFreightTrackingUrl" style="display:none;"></div>
-                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Tracking Number" data-allcaps="false" data-datafield="DeliveryFreightTrackingNumber"></div>
-                            <div class="fwformcontrol track-shipment" data-type="button" style="flex:0 1 150px;margin:15px 0 0 10px;text-align:center;">Track Shipment</div>
-                        </div>
+                      <div class="flexrow">
+                        <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield" data-caption="Type" data-datafield="DeliveryDeliveryType" style="flex:1 1 150px;"></div>
+                        <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="On" data-datafield="DeliveryTargetShipDate" style="flex:1 1 125px;"></div>
+                        <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Required By" data-datafield="DeliveryRequiredDate" style="flex:1 1 125px;"></div>
+                      </div>
+                      <div class="flexrow">
+                        <div data-control="FwFormField" data-type="time" data-timeformat="24" class="fwcontrol fwformfield" data-caption="Required Time" data-datafield="DeliveryRequiredTime" style="flex:0 1 100px;"></div>
+                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Contact" data-datafield="DeliveryToContact" style="flex:1 1 210px;"></div>
+                        <div data-control="FwFormField" data-type="phone" class="fwcontrol fwformfield" data-caption="Phone" data-datafield="DeliveryToContactPhone" style="flex:0 1 150px;"></div>
+                      </div>
                     </div>
+                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Ship Via">
+                      <div class="flexrow">
+                        <div data-control="FwFormField" data-type="validation" data-validationname="VendorValidation" class="fwcontrol fwformfield" data-caption="Carrier" data-datafield="DeliveryCarrierId" data-displayfield="DeliveryCarrier" data-formbeforevalidate="beforeValidateCarrier"></div>
+                        <div data-control="FwFormField" data-type="validation" data-validationname="ShipViaValidation" class="fwcontrol fwformfield" data-caption="Ship Via" data-datafield="DeliveryShipViaId" data-displayfield="DeliveryShipVia" data-formbeforevalidate="beforeValidateShipVia"></div>
+                      </div>
+                      <div class="flexrow">
+                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Tracking URL" data-datafield="DeliveryFreightTrackingUrl" data-allcaps="false" style="display:none;"></div>
+                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Tracking Number" data-datafield="DeliveryFreightTrackingNumber" data-allcaps="false" style="flex:1 1 250px;"></div>
+                        <div class="fwformcontrol track-shipment" data-type="button" style="flex:0 1 150px;margin:15px 0 0 10px;text-align:center;">Track Shipment</div>
+                      </div>
+                    </div>
+                    <div class="flexrow">
+                      <div class="flexcolumn" style="width:25%;flex:0 1 auto;">
+                        <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="Address" data-datafield="DeliveryAddressType">
+                          <div data-value="DEAL" data-caption="Deal"></div>
+                          <div data-value="OTHER" data-caption="Other"></div>
+                          <div data-value="VENUE" data-caption="Venue"></div>
+                          <div data-value="WAREHOUSE" data-caption="Warehouse"></div>
+                        </div>
+                      </div>
+                      <div class="flexcolumn" style="width:75%;">
+                        <div class="flexrow">
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Location" data-datafield="DeliveryToLocation"></div>
+                        </div>
+                        <div class="flexrow">
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Attention" data-datafield="DeliveryToAttention"></div>
+                        </div>
+                        <div class="flexrow">
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Address" data-datafield="DeliveryToAddress1"></div>
+                        </div>
+                        <div class="flexrow">
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="DeliveryToAddress2"></div>
+                        </div>
+                        <div class="flexrow">
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="City" data-datafield="DeliveryToCity"></div>
+                        </div>
+                        <div class="flexrow">
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="State/Province" data-datafield="DeliveryToState"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Zip/Postal" data-datafield="DeliveryToZipCode"></div>
+                        </div>
+                        <div class="flexrow">
+                          <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Country" data-validationname="CountryValidation" data-datafield="DeliveryToCountryId" data-displayfield="DeliveryToCountry"></div>
+                        </div>
+                        <div class="flexrow">
+                          <div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield" data-caption="Cross Streets" data-datafield="DeliveryToCrossStreets"></div>
+                        </div>
+                        <div class="flexrow">
+                          <div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield" data-caption="Notes" data-datafield="DeliveryDeliveryNotes"></div>
+                        </div>
+                        <div class="flexrow">
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Order No" data-datafield="DeliveryOnlineOrderNumber"></div>
+                          <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield online" data-caption="Status" data-datafield="DeliveryOnlineOrderStatus"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 </div>
             </div>
           </div>
