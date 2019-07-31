@@ -115,16 +115,18 @@ class Contract {
     //----------------------------------------------------------------------------------------------
     events($form) {
         //Track shipment
-        $form.find('.track-shipment').on('click', e => {
-            const trackingURL = FwFormField.getValueByDataField($form, 'DeliveryFreightTrackingUrl');
-            if (trackingURL !== '') {
-                try {
-                    window.open(trackingURL);
-                } catch (ex) {
-                    FwFunc.showError(ex);
+        if (this.Module === 'Contract') {
+            $form.find('.track-shipment').on('click', e => {
+                const trackingURL = FwFormField.getValueByDataField($form, 'DeliveryFreightTrackingUrl');
+                if (trackingURL !== '') {
+                    try {
+                        window.open(trackingURL);
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
                 }
-            }
-        });
+            });
+        }
     }
     //----------------------------------------------------------------------------------------------
     renderGrids($form: JQuery): void {
@@ -260,12 +262,14 @@ class Contract {
         });
 
         //Disable 'Track Shipment' button
-        const trackingNumber = FwFormField.getValueByDataField($form, 'DeliveryFreightTrackingNumber');
-        const $trackShipmentBtn = $form.find('.track-shipment');
-        if (trackingNumber === '') {
-            FwFormField.disable($trackShipmentBtn);
-        } else {
-            FwFormField.enable($trackShipmentBtn);
+        if (this.Module === 'Contract') {
+            const trackingNumber = FwFormField.getValueByDataField($form, 'DeliveryFreightTrackingNumber');
+            const $trackShipmentBtn = $form.find('.track-shipment');
+            if (trackingNumber === '') {
+                FwFormField.disable($trackShipmentBtn);
+            } else {
+                FwFormField.enable($trackShipmentBtn);
+            }
         }
     }
     //----------------------------------------------------------------------------------------------  
