@@ -254,20 +254,12 @@ class Contract {
         const showSales = FwFormField.getValueByDataField($form, 'Sales');
         const showRental = FwFormField.getValueByDataField($form, 'Rental');
         const showExchange = FwFormField.getValueByDataField($form, 'Exchange');
+        console.log('fff', showSales, showRental, showExchange )
 
-        if (showSales === 'false') {
-            $form.find('[data-type="tab"][data-caption="Sales Detail"]').hide();
-        }
-
-        if (showRental === 'false') {
-            $form.find('[data-type="tab"][data-caption="Rental Detail"]').hide();
-        }
-
-        if (showExchange === 'true') {
-            $form.find('.summary').hide();
-        } else {
-            $form.find('.exchange').hide();
-        }
+        showSales === 'false' ? $form.find('[data-type="tab"][data-caption="Sales Detail"]').hide() : $form.find('[data-type="tab"][data-caption="Sales Detail"]').show();
+        showRental === 'false' ? $form.find('[data-type="tab"][data-caption="Rental Detail"]').hide() : $form.find('[data-type="tab"][data-caption="Rental Detail"]').show();
+        showExchange === 'true' ? $form.find('.summary-grid').hide() : $form.find('.exchange-item-grid').hide();
+        
 
         $form.find('.print').on('click', e => {
             let $report, contractNumber, contractId, recordTitle, printTab;
@@ -463,18 +455,18 @@ class Contract {
                     <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Type" data-datafield="ContractType" style="float:left;width:200px;" data-enabled="false"></div>
                     <div data-control="FwFormField" data-type="validation" data-validationname="DepartmentValidation" data-displayfield="Department" class="fwcontrol fwformfield" data-caption="Department" data-datafield="DepartmentId" style="float:left;width:250px;" data-enabled="false"></div>
                     <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Billing Start" data-datafield="BillingDate" style="float:left;width:150px;" data-enabled="true"></div>
-                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Sales" data-datafield="Sales" style="float:left;width:250px; display:none;"></div>
-                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Rental" data-datafield="Rental" style="float:left;width:250px; display:none;"></div>
-                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Exchange" data-datafield="Exchange" style="float:left;width:250px; display:none;"></div>
+                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Sales" data-datafield="Sales" style="float:left;width:250px;"></div>
+                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Rental" data-datafield="Rental" style="float:left;width:250px;"></div>
+                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Exchange" data-datafield="Exchange" style="float:left;width:250px;"></div>
                     <div data-control="FwFormField" data-type="validation" data-validationname="DealValidation" data-displayfield="Deal" class="fwcontrol fwformfield" data-caption="Department" data-datafield="DealId" style="float:left;width:250px;display:none;" data-enabled="false"></div>
                     <div class="print fwformcontrol" data-type="button" style="flex:1 1 50px;margin:15px 0 0 10px;">Print</div>
                   </div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Summary">
-                  <div class="flexrow summary" style="max-width:1800px;">
+                  <div class="flexrow summary-grid" style="max-width:1800px;">
                     <div data-control="FwGrid" data-grid="ContractSummaryGrid" data-securitycaption="Contract Summary"></div>
                   </div>
-                  <div class="flexrow exchange" style="max-width:1800px;">
+                  <div class="flexrow exchange-item-grid" style="max-width:1800px;">
                     <div data-control="FwGrid" data-grid="ContractExchangeItemGrid" data-securitycaption="Contract Exchange Item"></div>
                   </div>
                 </div>
