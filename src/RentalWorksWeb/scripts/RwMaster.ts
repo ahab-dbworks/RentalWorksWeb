@@ -78,9 +78,10 @@ class RwMaster extends WebMaster {
                     Constants.Modules.Home.RemoveFromContainer,
                 ]
             };
-            if ((applicationOptions.container != undefined) && (applicationOptions.container.enabled != null) && (applicationOptions.container.enabled)) {
+            //jh 07/31/2019 #790: I just discovered that in v2019, we removed the "Container" application option.  Module is available for all sites now.
+            //if ((applicationOptions.container != undefined) && (applicationOptions.container.enabled != null) && (applicationOptions.container.enabled)) {
                 this.navigation.push(menuContainer);
-            }
+            //}
             // Transfers Menu
             const menuTransfers = {
                 caption: 'Transfers',
