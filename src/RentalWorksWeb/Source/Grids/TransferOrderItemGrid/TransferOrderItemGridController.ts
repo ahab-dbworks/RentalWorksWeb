@@ -27,8 +27,8 @@
      }
 }
 //-----------------------------------------------------------------------------------------------------
-//Open Search Interface
-FwApplicationTree.clickEvents[Constants.Grids.TransferOrderItemGrid.menuItems.Search.id] = function (event: JQuery.ClickEvent) {
+//QuikSearch
+FwApplicationTree.clickEvents[Constants.Grids.TransferOrderItemGrid.menuItems.QuikSearch.id] = function (event: JQuery.ClickEvent) {
     try {
         const $form = jQuery(event.currentTarget).closest('.fwform');
 

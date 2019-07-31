@@ -29,7 +29,7 @@ class SearchInterface {
                                 <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield fwformcontrol" data-caption="Est. Stop" data-datafield="ToDate" style="flex: 0 1 135px;"></div>
                                 <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield fwformcontrol" data-caption="Select" data-datafield="Select" style="flex: 0 1 150px;"></div>
                                 <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield fwformcontrol" data-caption="Sort By" data-datafield="SortBy" style="flex: 0 1 255px;"></div>
-                                <div data-type="button" class="fwformcontrol addToOrder" style="max-width:140px;">Add to ${type}</div>
+                                <div data-type="button" class="fwformcontrol addToOrder">Add to ${type}</div>
                                 <div data-type="button" class="fwformcontrol refresh-availability" style="display:none;">Refresh Availability</div>
                               </div>
                               <div style="display:flex;flex: 0 0 auto;padding: .4em 0;">
@@ -125,7 +125,7 @@ class SearchInterface {
             inventoryTypes.push({value: 'P', caption: 'Parts'});
         }
 
-        if (type === 'Complete' || type === 'Kit') {
+        if (type === 'Complete' || type === 'Kit' || type === 'Container') {
             if (gridInventoryType === 'Sales') {
                 inventoryTypes = [{
                     value: 'S', caption: 'Sales'
@@ -167,7 +167,7 @@ class SearchInterface {
         }
 
         $popup.find('#itemsearch').data('parentformid', id);
-        let warehouseId = (type === 'Transfer' || type === 'Complete' || type === 'Kit') ? JSON.parse(sessionStorage.getItem('warehouse')).warehouseid : FwFormField.getValueByDataField($form, 'WarehouseId');
+        let warehouseId = (type === 'Transfer' || type === 'Complete' || type === 'Kit' || type === 'Container') ? JSON.parse(sessionStorage.getItem('warehouse')).warehouseid : FwFormField.getValueByDataField($form, 'WarehouseId');
         $popup.find('#itemsearch').data('warehouseid', warehouseId);
 
         this.getViewSettings($popup);
@@ -867,7 +867,7 @@ class SearchInterface {
                     SessionId: id
                 }
                 const type = $popup.find('#itemsearch').attr('data-moduletype');
-                if (type === "Complete" || type === "Kit") {
+                if (type === "Complete" || type === "Kit" || type === "Container") {
                     request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
                 }
                 $popup.find('.addToOrder').css('cursor', 'wait');
@@ -889,6 +889,10 @@ class SearchInterface {
                     if (type === "Kit") {
                         let $kitGrid = $form.find('[data-name="InventoryKitGrid"]');
                         FwBrowse.search($kitGrid);
+                    }
+                    if (type === "Container") {
+                        let $containerGrid = $form.find('[data-name="InventoryContainerItemGrid"]');
+                        FwBrowse.search($containerGrid);
                     }
 
                     if ($form.find('.combinedtab').css('display') != 'none') {

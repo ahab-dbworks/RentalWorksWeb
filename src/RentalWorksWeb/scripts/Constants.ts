@@ -308,6 +308,11 @@
                 QuikSearch: { id: '{A3EEC381-6D45-485D-8E12-5DA6B38BB71A}'}
             }
         },
+        InventoryContainerItemGrid: {
+            menuItems: {
+                QuikSearch: { id: '{BA9FD9DD-2E96-4A4D-80B9-6010BEE66D6F}' }
+            }
+        },
         InventoryKitGrid: {
             menuItems: {
                 QuikSearch: { id: '{B599B514-30BD-49B3-A08A-7863693D979C}' }
@@ -355,7 +360,7 @@
         },
         TransferOrderItemGrid: {
             menuItems: {
-                Search: { id: '{16CD0101-28D7-49E2-A3ED-43C03152FEE6}' },
+                QuikSearch: { id: '{16CD0101-28D7-49E2-A3ED-43C03152FEE6}' },
                 CopyTemplate: { id: '{5E73772F-F5E2-4382-9F50-3272F4E79A25}' },
                 RefreshAvailability: { id: '{1065995B-3EF3-4B50-B513-F966F88570F1}' }
             }
