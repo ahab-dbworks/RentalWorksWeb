@@ -23,6 +23,7 @@ namespace WebApi.Modules.Home.Contract
             dataLoader = contractLoader;
             browseLoader = contractBrowseLoader;
 
+            BeforeSave += OnBeforeSave;
             AfterSave += OnAfterSave;
             ForceSave = true;
         }
@@ -319,12 +320,25 @@ namespace WebApi.Modules.Home.Contract
         public string DateStamp { get { return contract.DateStamp; } set { contract.DateStamp = value; } }
 
         //------------------------------------------------------------------------------------ 
+        public virtual void OnBeforeSave(object sender, BeforeSaveEventArgs e)
+        {
+            if (e.SaveMode.Equals(TDataRecordSaveMode.smUpdate))
+            {
+                if (e.Original != null)
+                {
+                    ContractLogic orig = ((ContractLogic)e.Original);
+                    DeliveryId = orig.DeliveryId;
+                }
+            }
+        }
+        //------------------------------------------------------------------------------------
         public void OnAfterSave(object sender, AfterSaveEventArgs e)
         {
             if (e.SaveMode.Equals(TDataRecordSaveMode.smUpdate))
             {
                 ContractLogic orig = (ContractLogic)e.Original;
-                if (!BillingDate.Equals(orig.BillingDate))
+
+                if ((BillingDate != null) && (!BillingDate.Equals(orig.BillingDate)))
                 {
                     ChangeContractBillingDateRequest request = new ChangeContractBillingDateRequest();
                     request.ContractId = ContractId;
