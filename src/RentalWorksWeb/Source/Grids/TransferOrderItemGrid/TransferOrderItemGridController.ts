@@ -26,6 +26,29 @@
          });
      }
 }
+//-----------------------------------------------------------------------------------------------------
+//Open Search Interface
+FwApplicationTree.clickEvents[Constants.Grids.TransferOrderItemGrid.menuItems.Search.id] = function (event: JQuery.ClickEvent) {
+    try {
+        const $form = jQuery(event.currentTarget).closest('.fwform');
+
+        if ($form.attr('data-mode') === 'NEW') {
+            TransferOrderController.saveForm($form, { closetab: false });
+            return;
+        }
+
+        const transferId = FwFormField.getValueByDataField($form, 'TransferId');
+        if (transferId == "") {
+            FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
+        } else {
+            let search = new SearchInterface();
+            search.renderSearchPopup($form, transferId, 'Transfer');
+        }
+    }
+    catch (ex) {
+        FwFunc.showError(ex);
+    }
+};
 //----------------------------------------------------------------------------------------------
 //Refresh Availability
 FwApplicationTree.clickEvents[Constants.Grids.TransferOrderItemGrid.menuItems.RefreshAvailability.id] = function (e: JQuery.ClickEvent) {
@@ -67,6 +90,7 @@ FwApplicationTree.clickEvents[Constants.Grids.TransferOrderItemGrid.menuItems.Re
     jQuery(document).trigger('click');
 }
 //----------------------------------------------------------------------------------------------
+//Copy Template
 FwApplicationTree.clickEvents[Constants.Grids.TransferOrderItemGrid.menuItems.CopyTemplate.id] = function (e: JQuery.ClickEvent) {
     const $form = jQuery(this).closest('.fwform');
     const $grid = jQuery(this).closest('[data-name="TransferOrderItemGrid"]');
@@ -164,4 +188,5 @@ FwApplicationTree.clickEvents[Constants.Grids.TransferOrderItemGrid.menuItems.Co
 
     FwBrowse.search($templateBrowse);
 };
+//----------------------------------------------------------------------------------------------
 var TransferOrderItemGridController = new TransferOrderItemGrid();

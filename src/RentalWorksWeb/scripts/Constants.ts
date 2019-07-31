@@ -357,7 +357,7 @@
             menuItems: {
                 Search: { id: '{16CD0101-28D7-49E2-A3ED-43C03152FEE6}' },
                 CopyTemplate: { id: '{5E73772F-F5E2-4382-9F50-3272F4E79A25}' },
-                RefreshAvailability: { id: '{5E73772F-F5E2-4382-9F50-3272F4E79A25}' }
+                RefreshAvailability: { id: '{1065995B-3EF3-4B50-B513-F966F88570F1}' }
             }
         }
     }
