@@ -8,7 +8,7 @@ using WebLibrary;
 
 namespace WebApi.Modules.Home.Contract
 {
-    [FwSqlTable("contractview")]
+    [FwSqlTable("contractwebbrowseview")]
     public class ContractBrowseLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
