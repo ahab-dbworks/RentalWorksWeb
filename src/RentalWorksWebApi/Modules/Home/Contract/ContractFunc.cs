@@ -9,6 +9,10 @@ using WebLibrary;
 
 namespace WebApi.Modules.Home.Contract
 {
+    public class CancelContractRequest
+    {
+        public string ContractId;
+    }
     public class VoidContractRequest
     {
         public string ContractId { get; set; }

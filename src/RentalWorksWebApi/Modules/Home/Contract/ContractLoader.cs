@@ -1,9 +1,5 @@
-using FwStandard.DataLayer;
-using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using WebApi.Data;
-using System.Collections.Generic;
 namespace WebApi.Modules.Home.Contract
 {
     [FwSqlTable("contractview")]
@@ -15,9 +11,6 @@ namespace WebApi.Modules.Home.Contract
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "requisitionno", modeltype: FwDataTypes.Text)]
         public string RequisitionNumber { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "migrated", modeltype: FwDataTypes.Boolean)]
-        public bool? IsMigrated { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "needreconcile", modeltype: FwDataTypes.Boolean)]
         public bool? NeedReconcile { get; set; }
@@ -48,12 +41,6 @@ namespace WebApi.Modules.Home.Contract
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "truck", modeltype: FwDataTypes.Boolean)]
         public bool? Truck { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "hasadjustedrentaldate", modeltype: FwDataTypes.Boolean)]
-        public bool? BillingDateAdjusted { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "hasvoid", modeltype: FwDataTypes.Boolean)]
-        public bool? HasVoId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "sessionid", modeltype: FwDataTypes.Text)]
         public string SessionId { get; set; }

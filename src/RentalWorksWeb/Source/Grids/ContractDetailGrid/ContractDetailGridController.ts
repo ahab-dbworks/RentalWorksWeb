@@ -8,7 +8,7 @@
         FwBrowse.setAfterRenderRowCallback($control, ($tr: JQuery, dt: FwJsonDataTable, rowIndex: number) => {
             if ($tr.find('[data-browsedatafield="IsVoid"]').attr('data-originalvalue') === 'true') {
                 $tr.css('text-decoration', 'line-through');
-                $tr.find('td.column div.field').css('background-color', 'red');
+                $tr.find('td.column div.field').css('background-color', '#00ffff');
             }
         });
     }

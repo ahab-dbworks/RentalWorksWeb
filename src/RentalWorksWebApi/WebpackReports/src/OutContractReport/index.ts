@@ -92,7 +92,7 @@ class OutContract {
     Truck = false;
     BillingDate = '';
     BillingDateAdjusted = false;
-    HasVoId = false;
+    HasVoid = false;
     SessionId = '';
     OrderDescription = '';
     DateStamp = '';

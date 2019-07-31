@@ -34,34 +34,47 @@ class Contract {
         $browse = FwModule.openBrowse($browse);
         const self = this;
 
-        switch (this.Module) {
-            case 'Contract':
-                $browse.data('ondatabind', function (request) {
-                    request.activeviewfields = self.ActiveViewFields;
-                });
-                FwBrowse.addLegend($browse, 'Unassigned Items', '#FF0000');
-                FwBrowse.addLegend($browse, 'Pending Exchanges', '#FFFF00');
-                FwBrowse.addLegend($browse, 'Migrated', '#8080FF');
-                FwBrowse.addLegend($browse, 'Inactive Deal', '#C0C0C0');
-                FwBrowse.addLegend($browse, 'Truck (No Charge)', '#FFFF00');
-                FwBrowse.addLegend($browse, 'Adjusted Billing Date', '#FF8080');
-                FwBrowse.addLegend($browse, 'Voided Items', '#00FFFF');
-                break;
-            case 'Manifest':
-                $browse.data('ondatabind', function (request) {
-                    request.activeviewfields = self.ActiveViewFields;
-                    request.uniqueids.ContractType = 'MANIFEST';
-                });
-                FwBrowse.addLegend($browse, 'Voided Items', '#00FFFF');
-                break;
-            case 'TransferReceipt':
-                $browse.data('ondatabind', function (request) {
-                    request.activeviewfields = self.ActiveViewFields;
-                    request.uniqueids.ContractType = 'RECEIPT';
-                });
-                FwBrowse.addLegend($browse, 'Voided Items', '#00FFFF');
-                break;
+        //switch (this.Module) {
+        //    case 'Contract':
+        //        $browse.data('ondatabind', function (request) {
+        //            request.activeviewfields = self.ActiveViewFields;
+        //        });
+        //        FwBrowse.addLegend($browse, 'Unassigned Items', '#FF0000');
+        //        FwBrowse.addLegend($browse, 'Pending Exchanges', '#FFFF00');
+        //        FwBrowse.addLegend($browse, 'Migrated', '#8080FF');
+        //        FwBrowse.addLegend($browse, 'Inactive Deal', '#C0C0C0');
+        //        FwBrowse.addLegend($browse, 'Truck (No Charge)', '#FFFF00');
+        //        FwBrowse.addLegend($browse, 'Adjusted Billing Date', '#FF8080');
+        //        FwBrowse.addLegend($browse, 'Voided Items', '#00FFFF');
+        //        break;
+        //    case 'Manifest':
+        //        $browse.data('ondatabind', function (request) {
+        //            request.activeviewfields = self.ActiveViewFields;
+        //            request.uniqueids.ContractType = 'MANIFEST';
+        //        });
+        //        FwBrowse.addLegend($browse, 'Voided Items', '#00FFFF');
+        //        break;
+        //    case 'TransferReceipt':
+        //        $browse.data('ondatabind', function (request) {
+        //            request.activeviewfields = self.ActiveViewFields;
+        //            request.uniqueids.ContractType = 'RECEIPT';
+        //        });
+        //        FwBrowse.addLegend($browse, 'Voided Items', '#00FFFF');
+        //        break;
+        //}
+
+        try {
+            FwAppData.apiMethod(true, 'GET', `${this.apiurl}/legend`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                for (let key in response) {
+                    FwBrowse.addLegend($browse, key, response[key]);
+                }
+            }, function onError(response) {
+                FwFunc.showError(response);
+            }, $browse)
+        } catch (ex) {
+            FwFunc.showError(ex);
         }
+
 
         return $browse;
     }
@@ -269,10 +282,10 @@ class Contract {
           <div class="field" data-caption="Type" data-datafield="ContractType" data-browsedatatype="text" data-sort="off"></div>
         </div>
         <div class="column" data-width="auto" data-visible="true">
-          <div class="field" data-caption="Date" data-datafield="ContractDate" data-browsedatatype="date" data-sortsequence="1" data-sort="desc"></div>
+          <div class="field" data-caption="Date" data-datafield="ContractDate" data-browsedatatype="date" data-cellcolor="ContractDateColor" data-sortsequence="1" data-sort="desc"></div>
         </div>
         <div class="column" data-width="auto" data-visible="true">
-          <div class="field" data-caption="Time" data-datafield="ContractTime" data-browsedatatype="text" data-sortsequence="2" data-sort="desc"></div>
+          <div class="field" data-caption="Time" data-datafield="ContractTime" data-browsedatatype="text" data-cellcolor="ContractTimeColor" data-sortsequence="2" data-sort="desc"></div>
         </div>
         <div class="column" data-width="auto" data-visible="true">
           <div class="field" data-caption="Deal" data-datafield="Deal" data-browsedatatype="text" data-sort="off"></div>
@@ -290,7 +303,7 @@ class Contract {
           <div class="field" data-caption="PO No." data-datafield="PurchaseOrderNumber" data-browsedatatype="text" data-sort="off"></div>
         </div>
         <div class="column" data-width="auto" data-visible="true">
-          <div class="field" data-caption="Billing Start/Stop" data-datafield="BillingDate" data-browsedatatype="date" data-sort="off"></div>
+          <div class="field" data-caption="Billing Start/Stop" data-datafield="BillingDate" data-browsedatatype="date" data-cellcolor="BillingDateColor" data-sort="off"></div>
         </div>
         <div class="column" data-width="auto" data-visible="true">
           <div class="field" data-caption="Warehouse" data-datafield="Warehouse" data-browsedatatype="text" data-sort="off"></div>

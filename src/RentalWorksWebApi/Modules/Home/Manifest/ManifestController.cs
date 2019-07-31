@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using FwStandard.SqlServer;
 using System.Collections.Generic;
 using FwStandard.AppManager;
+using WebLibrary;
+
 namespace WebApi.Modules.Home.Manifest
 {
     [Route("api/v1/[controller]")]
@@ -21,6 +23,17 @@ namespace WebApi.Modules.Home.Manifest
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // GET api/v1/manifest/legend 
+        [HttpGet("legend")]
+        [FwControllerMethod(Id: "d3Q7wt3ufSHTb")]
+        public async Task<ActionResult<Dictionary<string, string>>> GetLegend()
+        {
+            Dictionary<string, string> legend = new Dictionary<string, string>();
+            legend.Add("Voided Items", RwGlobals.CONTRACT_ITEM_VOIDED_COLOR);
+            await Task.CompletedTask; // get rid of the no async call warning
+            return new OkObjectResult(legend);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/manifest/exportexcelxlsx/filedownloadname 

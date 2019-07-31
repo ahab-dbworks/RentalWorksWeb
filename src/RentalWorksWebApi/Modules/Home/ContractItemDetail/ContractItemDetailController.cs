@@ -15,14 +15,14 @@ namespace WebApi.Modules.Home.ContractItemDetail
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
-    [FwController(Id:"uJtRkkpKi8zT")]
+    [FwController(Id: "uJtRkkpKi8zT")]
     public class ContractItemDetailController : AppDataController
     {
         public ContractItemDetailController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(ContractItemDetailLogic); }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/contractitemdetail/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"xppzinq0cvq4")]
+        [FwControllerMethod(Id: "xppzinq0cvq4")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
@@ -35,13 +35,14 @@ namespace WebApi.Modules.Home.ContractItemDetail
         {
             Dictionary<string, string> legend = new Dictionary<string, string>();
             legend.Add("Voided Items", RwGlobals.CONTRACT_ITEM_VOIDED_COLOR);
-            await Task.CompletedTask; 
+            legend.Add("Adjusted", RwGlobals.CONTRACT_BILLING_DATE_ADJUSTED_COLOR);
+            await Task.CompletedTask;
             return new OkObjectResult(legend);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/contractitemdetail/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
-        [FwControllerMethod(Id:"YAvXaedfvmus")]
+        [FwControllerMethod(Id: "YAvXaedfvmus")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);

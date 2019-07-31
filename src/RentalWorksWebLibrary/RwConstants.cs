@@ -155,8 +155,11 @@
         public const string CONTRACT_TYPE_FILL = "FILL";
         public const string CONTRACT_TYPE_LOST = "LOST";
 
-        //CONTRACT ITEM
-        public const int CONTRACT_ITEM_VOIDED_COLOR = 255; //red
+        //CONTRACT
+        public const int CONTRACT_ITEM_VOIDED_COLOR = 16776960;          //aqua
+        public const int CONTRACT_BILLING_DATE_ADJUSTED_COLOR = 7303167; // light red
+        public const int CONTRACT_MIGRATED_COLOR = 16746632;             // blue
+
 
         //INVOICE
         public const string INVOICE_DATE_TYPE_INPUT_DATE = "INPUT_DATE";

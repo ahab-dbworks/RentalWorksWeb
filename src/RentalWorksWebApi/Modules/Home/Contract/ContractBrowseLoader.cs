@@ -12,6 +12,11 @@ namespace WebApi.Modules.Home.Contract
     public class ContractBrowseLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
+        public ContractBrowseLoader()
+        {
+            AfterBrowse += OnAfterBrowse;
+        }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "contractid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
         public string ContractId { get; set; } = "";
         //------------------------------------------------------------------------------------ 
@@ -24,9 +29,23 @@ namespace WebApi.Modules.Home.Contract
         [FwSqlDataField(column: "contractdate", modeltype: FwDataTypes.Date)]
         public string ContractDate { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string ContractDateColor
+        {
+            get { return getContractDateColor(IsMigrated); }
+            set { }
+        }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "contracttime", modeltype: FwDataTypes.Text)]
         public string ContractTime { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string ContractTimeColor
+        {
+            get { return getContractTimeColor(HasVoid); }
+            set { }
+        }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "locationid", modeltype: FwDataTypes.Text)]
         public string LocationId { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -69,15 +88,30 @@ namespace WebApi.Modules.Home.Contract
         [FwSqlDataField(column: "vendor", modeltype: FwDataTypes.Text)]
         public string Vendor { get; set; }
         //------------------------------------------------------------------------------------ 
-
         [FwSqlDataField(column: "rentaldate", modeltype: FwDataTypes.Text)]
         public string BillingDate { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "hasadjustedrentaldate", modeltype: FwDataTypes.Boolean)]
+        public bool? BillingDateAdjusted { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string BillingDateColor
+        {
+            get { return getBillingDateColor(BillingDateAdjusted); }
+            set { }
+        }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "orderdesc", modeltype: FwDataTypes.Text)]
         public string OrderDescription { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "poorderdesc", modeltype: FwDataTypes.Text)]
         public string PoOrderDescription { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "hasvoid", modeltype: FwDataTypes.Boolean)]
+        public bool? HasVoid { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "migrated", modeltype: FwDataTypes.Boolean)]
+        public bool? IsMigrated { get; set; }
         //------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
@@ -117,6 +151,53 @@ namespace WebApi.Modules.Home.Contract
             AddActiveViewFieldToSelect("WarehouseId", "warehouseid", select, request);
             AddActiveViewFieldToSelect("LocationId", "locationid", select, request);
 
+        }
+        //------------------------------------------------------------------------------------ 
+        public void OnAfterBrowse(object sender, AfterBrowseEventArgs e)
+        {
+            if (e.DataTable != null)
+            {
+                FwJsonDataTable dt = e.DataTable;
+                if (dt.Rows.Count > 0)
+                {
+                    foreach (List<object> row in dt.Rows)
+                    {
+                        row[dt.GetColumnNo("ContractDateColor")] = getContractDateColor(FwConvert.ToBoolean(row[dt.GetColumnNo("IsMigrated")].ToString()));
+                        row[dt.GetColumnNo("ContractTimeColor")] = getContractTimeColor(FwConvert.ToBoolean(row[dt.GetColumnNo("HasVoid")].ToString()));
+                        row[dt.GetColumnNo("BillingDateColor")] = getBillingDateColor(FwConvert.ToBoolean(row[dt.GetColumnNo("BillingDateAdjusted")].ToString()));
+                    }
+                }
+            }
+        }
+        //------------------------------------------------------------------------------------    
+        protected string getContractDateColor(bool? isMigrated)
+        {
+            string color = null;
+            if (isMigrated.GetValueOrDefault(false))
+            {
+                color = RwGlobals.CONTRACT_MIGRATED_COLOR;
+            }
+            return color;
+        }
+        //------------------------------------------------------------------------------------ 
+        protected string getContractTimeColor(bool? hasVoid)
+        {
+            string color = null;
+            if (hasVoid.GetValueOrDefault(false))
+            {
+                color = RwGlobals.CONTRACT_ITEM_VOIDED_COLOR;
+            }
+            return color;
+        }
+        //------------------------------------------------------------------------------------ 
+        protected string getBillingDateColor(bool? billingDateAdjusted)
+        {
+            string color = null;
+            if (billingDateAdjusted.GetValueOrDefault(false))
+            {
+                color = RwGlobals.CONTRACT_BILLING_DATE_ADJUSTED_COLOR;
+            }
+            return color;
         }
         //------------------------------------------------------------------------------------ 
     }

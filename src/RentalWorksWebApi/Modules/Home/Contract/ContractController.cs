@@ -9,13 +9,10 @@ using System.Threading.Tasks;
 using WebApi.Logic;
 using System;
 using Microsoft.AspNetCore.Http;
+using WebLibrary;
 
 namespace WebApi.Modules.Home.Contract
 {
-    public class CancelContractRequest
-    {
-        public string ContractId;
-    }
 
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
@@ -30,6 +27,23 @@ namespace WebApi.Modules.Home.Contract
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // GET api/v1/contract/legend 
+        [HttpGet("legend")]
+        [FwControllerMethod(Id: "d3Q7wt3ufSHTb")]
+        public async Task<ActionResult<Dictionary<string, string>>> GetLegend()
+        {
+            Dictionary<string, string> legend = new Dictionary<string, string>();
+            //legend.Add("Unassigned Items", RwGlobals.QUOTE_ORDER_ON_HOLD_COLOR);
+            //legend.Add("Pending Exchanges", RwGlobals.QUOTE_ORDER_NO_CHARGE_COLOR);
+            legend.Add("Migrated", RwGlobals.CONTRACT_MIGRATED_COLOR);
+            //legend.Add("Inactive Deal", RwGlobals.ORDER_LATE_COLOR);
+            //legend.Add("Truck (No Charge)", RwGlobals.ORDER_LATE_COLOR);
+            legend.Add("Adjusted Billing Date", RwGlobals.CONTRACT_BILLING_DATE_ADJUSTED_COLOR);
+            legend.Add("Voided Items", RwGlobals.CONTRACT_ITEM_VOIDED_COLOR);
+            await Task.CompletedTask; // get rid of the no async call warning
+            return new OkObjectResult(legend);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
