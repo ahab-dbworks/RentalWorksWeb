@@ -773,7 +773,7 @@ class OrderBase {
                 break;
         }
     };
-    beforeValidate($browse: any, $grid: any, request: any) {
+    beforeValidateDeal($browse: any, $grid: any, request: any) {
         let $form = $grid.closest('.fwform');
         var officeLocationId = FwFormField.getValueByDataField($form, 'OfficeLocationId');
         request.uniqueids = {

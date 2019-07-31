@@ -292,5 +292,12 @@ class MigrateOrders {
         return $browse;
     }
     //----------------------------------------------------------------------------------------------
+    beforeValidateDeal($browse: any, $grid: any, request: any) {
+        let $form = $grid.closest('.fwform');
+        var officeLocationId = FwFormField.getValueByDataField($form, 'OfficeLocationId');
+        request.uniqueids = {
+            LocationId: officeLocationId
+        }
+    };
 }
 var MigrateOrdersController = new MigrateOrders();
