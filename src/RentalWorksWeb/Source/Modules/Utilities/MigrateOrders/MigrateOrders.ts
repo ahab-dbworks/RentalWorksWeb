@@ -280,13 +280,12 @@ class MigrateOrders {
         $browse.attr('data-hasmultirowselect', 'true');
         $browse.attr('data-type', 'Browse');
         $browse.attr('data-showsearch', 'false');
-
+        $browse.attr('data-pagesize', 1000);
         $browse = FwModule.openBrowse($browse);
         $browse.find('.fwbrowse-menu').hide();
 
         $browse.data('ondatabind', request => {
             request.ActiveViewFields = OrderController.ActiveViewFields;
-            request.pagesize = 15;
             request.orderby = 'OrderDate desc';
         });
         return $browse;
