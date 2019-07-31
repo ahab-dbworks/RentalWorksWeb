@@ -248,12 +248,10 @@ class CheckIn {
                 if (this.Module === 'CheckIn') request.DealId = FwFormField.getValueByDataField($form, 'DealId');
                 FwAppData.apiMethod(true, 'POST', 'api/v1/checkin/startcheckincontract', request, FwServices.defaultTimeout, function onSuccess(response) {
                     FwFormField.setValueByDataField($form, 'ContractId', response.ContractId);
-
+                    $form.find('.suspendedsession').hide();
                     $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'true');
                     $form.find('[data-datafield="BarCode"] input').focus();
                 }, null, null);
-
-                $form.find('.suspendedsession').hide();
             }
         });
         //Deal selection
@@ -268,6 +266,7 @@ class CheckIn {
                 }
                 FwAppData.apiMethod(true, 'POST', 'api/v1/checkin/startcheckincontract', request, FwServices.defaultTimeout, function onSuccess(response) {
                     FwFormField.setValueByDataField($form, 'ContractId', response.ContractId);
+                    $form.find('.suspendedsession').hide();
                     $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'true');
                     $form.find('[data-datafield="BarCode"] input').focus();
                 }, null, null);
@@ -489,6 +488,7 @@ class CheckIn {
                 FwFormField.setValueByDataField($form, 'QuantityOut', response.InventoryStatus.QuantityOut);
                 FwFormField.setValueByDataField($form, 'QuantityIn', response.InventoryStatus.QuantityIn);
                 FwFormField.setValueByDataField($form, 'QuantityRemaining', response.InventoryStatus.QuantityRemaining);
+                $form.find('.suspendedsession').hide();
                 const cancelMenuOptionId = Constants.Modules.Home.CheckIn.form.menuItems.Cancel.id.replace('{', '').replace('}', '');
                 $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'true');
 

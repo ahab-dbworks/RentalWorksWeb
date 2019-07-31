@@ -119,7 +119,7 @@ class ReceiveFromVendor {
                         $receiveItemsGridControl: any;
 
                     FwFormField.setValueByDataField($form, 'ContractId', contractId);
-
+                    $form.find('.suspendedsession').hide();
                     const cancelMenuOptionId = Constants.Modules.Home.ReceiveFromVendor.form.menuItems.Cancel.id.replace('{', '').replace('}', '');
                     $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'true');
 
@@ -133,8 +133,6 @@ class ReceiveFromVendor {
                         $form.find('[data-datafield="AutomaticallyCreateCheckOut"] input').prop('checked', false);
                     }
                 }, null, null);
-
-                $form.find('.suspendedsession').hide();
             }
         });
     }

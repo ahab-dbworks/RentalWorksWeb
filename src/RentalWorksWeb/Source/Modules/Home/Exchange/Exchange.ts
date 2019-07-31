@@ -128,6 +128,7 @@
                 FwAppData.apiMethod(true, 'POST', "api/v1/exchange/startexchangecontract", contractRequest, FwServices.defaultTimeout, response => {
                     if (this.ContractId === '') {
                         this.ContractId = response.ContractId
+                        $form.find('.suspendedsession').hide();
                         $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'true');
                     }
 
@@ -158,6 +159,7 @@
                     FwAppData.apiMethod(true, 'POST', "api/v1/exchange/startexchangecontract", contractRequest, FwServices.defaultTimeout, response => {
                         if (this.ContractId === '') {
                             this.ContractId = response.ContractId
+                            $form.find('.suspendedsession').hide();
                             $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'true');
                         }
 
@@ -168,7 +170,6 @@
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }
-                $form.find('.suspendedsession').hide();
             }
         });
         // Check-Out
@@ -233,7 +234,8 @@
                     FwAppData.apiMethod(true, 'POST', "api/v1/exchange/exchangeitemin", inRequest, FwServices.defaultTimeout, response => {
                         if (response.success) {
                             if (this.ContractId === '') {
-                                this.ContractId = response.ContractId
+                                this.ContractId = response.ContractId;
+                                $form.find('.suspendedsession').hide();
                                 $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'true');
                             }
                             $form.find('div.error-msg.check-in').html('');

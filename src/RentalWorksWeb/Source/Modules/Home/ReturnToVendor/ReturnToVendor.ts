@@ -123,14 +123,13 @@ class ReturnToVendor {
                         $pOReturnItemGridControl: any;
 
                     FwFormField.setValueByDataField($form, 'ContractId', contractId);
+                    $form.find('.suspendedsession').hide();
                     const cancelMenuOptionId = Constants.Modules.Home.ReturnToVendor.form.menuItems.Cancel.id.replace('{', '').replace('}', '');
                     $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'true');
 
                     $pOReturnItemGridControl = $form.find('div[data-name="POReturnItemGrid"]');
                     FwBrowse.search($pOReturnItemGridControl);
                 }, null, null);
-
-                $form.find('.suspendedsession').hide();
             }
         });
     };
