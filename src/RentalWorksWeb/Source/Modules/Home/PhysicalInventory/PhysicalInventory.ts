@@ -75,6 +75,9 @@
             FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', location.locationid, location.location);
 
             FwFormField.setValueByDataField($form, 'CycleIncludeOwned', true);
+
+            //disables buttons in NEW mode
+            FwFormField.disable($form.find('[data-type="button"]'));
         }
 
         $form.find('.prescan').on('click', e => {
@@ -356,17 +359,11 @@
             $form.find('.count-type').hide();
         }
 
-        const allowStepPreScan = FwFormField.getValueByDataField($form, 'AllowStepPreScan');
-        allowStepPreScan == 'false' ? FwFormField.disable($form.find('.prescan[data-type="button"]')) : FwFormField.enable($form.find('.prescan[data-type="button"]'));
-
         const preScanDateTime = FwFormField.getValueByDataField($form, 'PreScanDateTime');
         if (preScanDateTime.length > 0) {
             $form.find('.prescan-desc span').remove();
             $form.find('.prescan-desc').append(`<span style="color:red; margin-left:20px;">Pre-Scan started on ${preScanDateTime}</span>`);
         }
-
-        const allowStepInitiate = FwFormField.getValueByDataField($form, 'AllowStepInitiate');
-        allowStepInitiate == 'false' ? FwFormField.disable($form.find('.initiate[data-type="button"]')) : FwFormField.enable($form.find('.initiate[data-type="button"]'));
 
         const initiateDateTime = FwFormField.getValueByDataField($form, 'InitiateDateTime');
         if (initiateDateTime.length > 0) {
