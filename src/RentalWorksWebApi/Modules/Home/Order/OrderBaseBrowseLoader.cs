@@ -211,6 +211,19 @@ namespace WebApi.Modules.Home.Order
                     select.AddParameter("@stagingwhid", stagingWarehouseId);
                 }
             }
+            else if (GetMiscFieldAsBoolean("Exchange", request).GetValueOrDefault(false))
+            {
+                //justin - wip
+                select.AddWhereIn("and", "status", RwConstants.ORDER_STATUS_ACTIVE);
+
+                string exchangeWarehouseId = GetMiscFieldAsString("ExchangeWarehouseId", request);
+                if (!string.IsNullOrEmpty(exchangeWarehouseId))
+                {
+                    select.AddWhere(" ((warehouseid = @exchangewhid) or exists (select * from masteritem mi with (nolock) where mi.orderid = " + TableAlias + ".orderid and mi.warehouseid = @exchangewhid))");
+                    select.AddParameter("@exchangewhid", exchangeWarehouseId);
+                }
+                select.AddWhere("exists (select * from masteritem mi with (nolock) join ordertran ot with (nolock) on (mi.orderid = ot.orderid and mi.masteritemid = ot.masteritemid) where mi.orderid = " + TableAlias + ".orderid and mi.rectype = '" + RwConstants.RECTYPE_RENTAL + "'" + (string.IsNullOrEmpty(exchangeWarehouseId) ? "" : " and mi.warehouseid = @exchangewhid") + ")");
+            }
             else if (GetMiscFieldAsBoolean("CheckIn", request).GetValueOrDefault(false))
             {
                 //justin - wip

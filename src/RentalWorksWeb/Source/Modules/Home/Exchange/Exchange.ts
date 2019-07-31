@@ -307,6 +307,14 @@
                 'DealId': DealId
             }
         }
+
+        let warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+        let warehouseId = warehouse.warehouseid;
+        request.miscfields = {
+            Exchange: true,
+            ExchangeWarehouseId: warehouseId
+        }
+
     };
     //----------------------------------------------------------------------------------------------
     resetForm($form) {
