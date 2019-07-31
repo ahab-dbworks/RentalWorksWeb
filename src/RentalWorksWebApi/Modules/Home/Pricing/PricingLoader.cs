@@ -4,12 +4,10 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using System;
 
 namespace WebApi.Modules.Home.Pricing
 {
-    [FwSqlTable("dbo.funcmasterwhrates2(@masterid, @warehouseid, @warehouseid, @currencyid)")]
+    [FwSqlTable("dbo.funcmasterwh2(@masterid, @warehouseid, @warehouseid, @currencyid, 'T', 'F')")]  // last 2 params are @getrates and @getcounts
     public class PricingLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
