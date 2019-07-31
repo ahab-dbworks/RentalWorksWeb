@@ -12,6 +12,9 @@ namespace WebApi.Modules.Settings.AccountingSettings
         [FwSqlDataField(column: "controlid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
         public string ControlId { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "'Accounting Settings'", modeltype: FwDataTypes.Text)]
+        public string Name { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "prefixonasset", modeltype: FwDataTypes.Boolean)]
         public bool? UsePrefixOnAssetAccounts { get; set; }
         //------------------------------------------------------------------------------------ 

@@ -16,6 +16,8 @@ namespace WebApi.Modules.Settings.AccountingSettings
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "wd8bATwZg023X", IsPrimaryKey: true)]
         public string ControlId { get { return accountingSettings.ControlId; } set { accountingSettings.ControlId = value; } }
+        [FwLogicProperty(Id: "10OrwrySHB7C6", IsReadOnly: true)]
+        public string Name { get; set; }
         [FwLogicProperty(Id: "Ip6xy5l1qxSZE")]
         public bool? UsePrefixOnAssetAccounts { get { return accountingSettings.UsePrefixOnAssetAccounts; } set { accountingSettings.UsePrefixOnAssetAccounts = value; } }
         [FwLogicProperty(Id: "pdGmIJcNoa1PY")]
