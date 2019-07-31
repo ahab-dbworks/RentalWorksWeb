@@ -15,7 +15,7 @@ namespace WebApi.Modules.Home.CheckedInItem
     {
         public CheckedInItemController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(CheckedInItemLogic); }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/stageditem/browse 
+        // POST api/v1/checkedinitem/browse 
         [HttpPost("browse")]
         [FwControllerMethod(Id:"oVapNGEi7I4")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
@@ -23,7 +23,7 @@ namespace WebApi.Modules.Home.CheckedInItem
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/stageditem/exportexcelxlsx/filedownloadname 
+        // POST api/v1/checkedinitem/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
         [FwControllerMethod(Id:"Yw6wRAPx056")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)

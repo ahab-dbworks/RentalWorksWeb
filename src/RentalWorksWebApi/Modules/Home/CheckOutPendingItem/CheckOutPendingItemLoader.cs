@@ -119,6 +119,20 @@ namespace WebApi.Modules.Home.CheckOutPendingItem
         [FwSqlDataField(column: "rectype", modeltype: FwDataTypes.Text)]
         public string RecType { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string RecTypeDisplay
+        {
+            get { return getRecTypeDisplay(RecType); }
+            set { }
+        }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string RecTypeColor
+        {
+            get { return determineRecTypeColor(RecType); }
+            set { }
+        }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "itemclass", modeltype: FwDataTypes.Text)]
         public string ItemClass { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -182,6 +196,16 @@ namespace WebApi.Modules.Home.CheckOutPendingItem
             return (!string.IsNullOrEmpty(subVendorId) ? RwGlobals.SUB_COLOR : (!string.IsNullOrEmpty(consignorId) ? RwGlobals.CONSIGNMENT_COLOR : null));
         }
         //------------------------------------------------------------------------------------ 
+        private string getRecTypeDisplay(string recType)
+        {
+            return AppFunc.GetInventoryRecTypeDisplay(recType);
+        }
+        //------------------------------------------------------------------------------------ 
+        private string determineRecTypeColor(string recType)
+        {
+            return AppFunc.GetInventoryRecTypeColor(recType);
+        }
+        //------------------------------------------------------------------------------------    
         public void OnAfterBrowse(object sender, AfterBrowseEventArgs e)
         {
             if (e.DataTable != null)
@@ -195,6 +219,8 @@ namespace WebApi.Modules.Home.CheckOutPendingItem
                         row[dt.GetColumnNo("DescriptionColor")] = getDescriptionColor(row[dt.GetColumnNo("ItemClass")].ToString());
                         row[dt.GetColumnNo("VendorColor")] = getVendorColor(row[dt.GetColumnNo("SubVendorId")].ToString(), row[dt.GetColumnNo("ConsignorId")].ToString());
                         row[dt.GetColumnNo("MissingColor")] = getMissingColor(FwConvert.ToBoolean(row[dt.GetColumnNo("IsMissing")].ToString()));
+                        row[dt.GetColumnNo("RecTypeDisplay")] = getRecTypeDisplay(row[dt.GetColumnNo("RecType")].ToString());
+                        row[dt.GetColumnNo("RecTypeColor")] = determineRecTypeColor(row[dt.GetColumnNo("RecType")].ToString());
                     }
                 }
             }

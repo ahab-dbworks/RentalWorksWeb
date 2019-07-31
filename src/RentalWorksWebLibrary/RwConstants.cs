@@ -120,6 +120,11 @@
         public const string RECTYPE_LOSS_AND_DAMAGE = "F";
         public const string RECTYPE_USED_SALE = "RS";
 
+        public const string RECTYPE_RENTAL_DESCRIPTION = "RENTAL";
+        public const string RECTYPE_SALE_DESCRIPTION = "SALES";
+        public const string RECTYPE_PARTS_DESCRIPTION = "PARTS";
+
+
         public const string TOTAL_TYPE_WEEKLY = "W";
         public const string TOTAL_TYPE_MONTHLY = "M";
         public const string TOTAL_TYPE_EPISODIC = "E";
