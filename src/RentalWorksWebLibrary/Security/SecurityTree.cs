@@ -96,6 +96,7 @@ namespace WebLibrary.Security
             AddModule("Suspended Session",       "{5FBE7FF8-3770-48C5-855C-4320C961D95A}", null, "SuspendedSessionController");
             //Settings 
             var lv2menuAccountingSettings   = AddSettingsMenu("Accounting Settings",                  "{BAF9A442-BA44-4DD1-9119-905C1A8FF199}", lv1menuSettings.Id);
+                                                     AddSettingsModule("Accounting Settings",         "{6EB6300F-1416-42DE-B776-3E418656021D}", lv2menuAccountingSettings.Id,   "AccountingSettingsController",          description: "");
                                                      AddSettingsModule("Chart of Accounts",           "{F03CA227-99EE-42EF-B615-94540DCB21B3}", lv2menuAccountingSettings.Id,   "GlAccountController",                   description: "Asset, Income, Liability, and Expense Accounts for tracking revenue and expenses.");
                                                      AddSettingsModule("G/L Distribution",            "{7C249F59-B5E3-4DAE-933D-38D30858CF7C}", lv2menuAccountingSettings.Id,   "GlDistributionController",              description: "Accounts to use for Accounts Receivable, Receipts, Payables, etc.");
             var lv2menuAddressSettings      = AddSettingsMenu("Address Settings",                     "{2ABD806F-D059-4CCC-87C0-C4AE01B46EBC}", lv1menuSettings.Id);

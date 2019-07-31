@@ -624,6 +624,7 @@
     <TypeScriptCompile Include="Source\Modules\Reports\AgentBilling\AgentBillingReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\OutContract\OutContractReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\AvailabilitySettings\AvailabilitySettings.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\AccountingSettings\AccountingSettings.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\Sound\Sound.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\EmailSettings\EmailSettings.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\WorkWeek\WorkWeek.ts" />
@@ -653,8 +654,10 @@
     <Content Include="Source\Modules\Home\SubWorksheet\SubWorksheetForm.htm" />
     <Content Include="Source\Modules\Home\Project\ProjectBrowse.htm" />
     <Content Include="Source\Modules\Home\Project\ProjectForm.htm" />
+    <Content Include="Source\Modules\Settings\AccountingSettings\AccountingSettingsBrowse.htm" />
     <Content Include="Source\Modules\Settings\AvailabilitySettings\AvailabilitySettingsBrowse.htm" />
     <Content Include="Source\Modules\Settings\AvailabilitySettings\AvailabilitySettingsForm.htm" />
+    <Content Include="Source\Modules\Settings\AccountingSettings\AccountingSettingsForm.htm" />
     <Content Include="Source\Modules\Settings\Sound\SoundBrowse.htm" />
     <Content Include="Source\Modules\Settings\Sound\SoundForm.htm" />
     <Content Include="Source\Modules\Settings\EmailSettings\EmailSettingsBrowse.htm" />
