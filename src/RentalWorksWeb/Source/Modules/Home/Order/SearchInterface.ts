@@ -872,42 +872,52 @@ class SearchInterface {
                 }
                 $popup.find('.addToOrder').css('cursor', 'wait');
                 $popup.off('click', '.addToOrder');
-                FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/addto", request, FwServices.defaultTimeout, function onSuccess(response) {
-                    FwPopup.destroyPopup(jQuery(document).find('.fwpopup'));
-                    let $combinedGrid           = $form.find('.combinedgrid [data-name="OrderItemGrid"]'),
-                        $orderItemGridRental    = $form.find('.rentalgrid [data-name="OrderItemGrid"]'),
-                        $orderItemGridSales     = $form.find('.salesgrid [data-name="OrderItemGrid"]'),
-                        $orderItemGridLabor     = $form.find('.laborgrid [data-name="OrderItemGrid"]'),
-                        $orderItemGridMisc      = $form.find('.miscgrid [data-name="OrderItemGrid"]');
-                    let $transferItemGridRental = $form.find('.rentalItemGrid [data-name="TransferOrderItemGrid"]');
-                    let $transferItemGridSales = $form.find('.salesItemGrid [data-name="TransferOrderItemGrid"]');
+                FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/addto", request, FwServices.defaultTimeout,
+                    response => {
+                        FwPopup.destroyPopup(jQuery(document).find('.fwpopup'));
+                        //let $combinedGrid = $form.find('.combinedgrid [data-name="OrderItemGrid"]'),
+                        //    $orderItemGridRental = $form.find('.rentalgrid [data-name="OrderItemGrid"]'),
+                        //    $orderItemGridSales = $form.find('.salesgrid [data-name="OrderItemGrid"]'),
+                        //    $orderItemGridLabor = $form.find('.laborgrid [data-name="OrderItemGrid"]'),
+                        //    $orderItemGridMisc = $form.find('.miscgrid [data-name="OrderItemGrid"]');
+                        //let $transferItemGridRental = $form.find('.rentalItemGrid [data-name="TransferOrderItemGrid"]');
+                        //let $transferItemGridSales = $form.find('.salesItemGrid [data-name="TransferOrderItemGrid"]');
 
-                    if (type === "Complete") {
-                        let $completeGrid = $form.find('[data-name="InventoryCompleteGrid"]');
-                        FwBrowse.search($completeGrid);
-                    }
-                    if (type === "Kit") {
-                        let $kitGrid = $form.find('[data-name="InventoryKitGrid"]');
-                        FwBrowse.search($kitGrid);
-                    }
-                    if (type === "Container") {
-                        let $containerGrid = $form.find('[data-name="InventoryContainerItemGrid"]');
-                        FwBrowse.search($containerGrid);
-                    }
+                        //if (type === "Complete") {
+                        //    let $completeGrid = $form.find('[data-name="InventoryCompleteGrid"]');
+                        //    FwBrowse.search($completeGrid);
+                        //}
+                        //if (type === "Kit") {
+                        //    let $kitGrid = $form.find('[data-name="InventoryKitGrid"]');
+                        //    FwBrowse.search($kitGrid);
+                        //}
+                        //if (type === "Container") {
+                        //    let $containerGrid = $form.find('[data-name="InventoryContainerItemGrid"]');
+                        //    FwBrowse.search($containerGrid);
+                        //}
 
-                    if ($form.find('.combinedtab').css('display') != 'none') {
-                        FwBrowse.search($combinedGrid);
-                    }
+                        //if ($form.find('.combinedtab').css('display') != 'none') {
+                        //    FwBrowse.search($combinedGrid);
+                        //}
 
-                    if ($form.find('.notcombinedtab').css('display') != 'none') {
-                        FwBrowse.search($orderItemGridRental);
-                        FwBrowse.search($orderItemGridMisc);
-                        FwBrowse.search($orderItemGridLabor);
-                        FwBrowse.search($orderItemGridSales);
-                        FwBrowse.search($transferItemGridRental);
-                        FwBrowse.search($transferItemGridSales);
-                    }
-                }, null, $searchpopup, /*id*/ (request.InventoryId ? null: id));
+                        //if ($form.find('.notcombinedtab').css('display') != 'none') {
+                        //    FwBrowse.search($orderItemGridRental);
+                        //    FwBrowse.search($orderItemGridMisc);
+                        //    FwBrowse.search($orderItemGridLabor);
+                        //    FwBrowse.search($orderItemGridSales);
+                        //    FwBrowse.search($transferItemGridRental);
+                        //    FwBrowse.search($transferItemGridSales);
+                        //}
+
+                        //reloads grids on active tab
+                        $form.find('.tabGridsLoaded[data-type="tab"]').removeClass('tabGridsLoaded');
+                        const $activeGrid = $form.find('.active[data-type="tabpage"] [data-type="Grid"]');
+                        for (let i = 0; i < $activeGrid.length; i++) {
+                            const $gridcontrol = jQuery($activeGrid[i]);
+                            FwBrowse.search($gridcontrol);
+                        }
+
+                    }, ex => FwFunc.showError(ex), $searchpopup, (request.InventoryId ? null : id));
             }
         });
 
