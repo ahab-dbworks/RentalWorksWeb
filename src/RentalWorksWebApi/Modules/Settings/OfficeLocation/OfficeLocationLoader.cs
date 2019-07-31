@@ -33,6 +33,12 @@ namespace WebApi.Modules.Settings.OfficeLocation
         [FwSqlDataField(column: "defaultpoordertype", modeltype: FwDataTypes.Text)]
         public string DefaultPurchasePoType { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "glprefix", modeltype: FwDataTypes.Text)]
+        public string GlPrefix { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "glsuffix", modeltype: FwDataTypes.Text)]
+        public string GlSuffix { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------ 

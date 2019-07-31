@@ -40,6 +40,12 @@ namespace WebApi.Modules.Settings.OfficeLocation
         [FwLogicProperty(Id:"BuPhPT7D3XD")]
         public string DefaultPurchasePoType { get; set; }
 
+        [FwLogicProperty(Id: "xxxxxxxxx")]
+        public string GlPrefix { get { return location.GlPrefix; } set { location.GlPrefix = value; } }
+
+        [FwLogicProperty(Id: "xxxxxxx")]
+        public string GlSuffix { get { return location.GlSuffix; } set { location.GlSuffix = value; } }
+
         [FwLogicProperty(Id:"GDXu3A4umCh")]
         public bool? Inactive { get { return location.Inactive; } set { location.Inactive = value; } }
 
