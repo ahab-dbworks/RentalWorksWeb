@@ -256,9 +256,31 @@ class Contract {
         const showExchange = FwFormField.getValueByDataField($form, 'Exchange');
         console.log('fff', showSales, showRental, showExchange )
 
-        showSales === 'false' ? $form.find('[data-type="tab"][data-caption="Sales Detail"]').hide() : $form.find('[data-type="tab"][data-caption="Sales Detail"]').show();
-        showRental === 'false' ? $form.find('[data-type="tab"][data-caption="Rental Detail"]').hide() : $form.find('[data-type="tab"][data-caption="Rental Detail"]').show();
-        showExchange === 'true' ? $form.find('.summary-grid').hide() : $form.find('.exchange-item-grid').hide();
+        //showSales === 'false' ? $form.find('[data-type="tab"][data-caption="Sales Detail"]').hide() : $form.find('[data-type="tab"][data-caption="Sales Detail"]').show();
+        //showRental === 'false' ? $form.find('[data-type="tab"][data-caption="Rental Detail"]').hide() : $form.find('[data-type="tab"][data-caption="Rental Detail"]').show();
+        //showExchange === 'true' ? $form.find('.summary-grid').hide() : $form.find('.exchange-item-grid').hide();
+        if (showSales) {
+            $form.find('[data-type="tab"][data-caption="Sales Detail"]').show();
+        }
+        else {
+            $form.find('[data-type="tab"][data-caption="Sales Detail"]').hide();
+        }
+
+        if (showRental) {
+            $form.find('[data-type="tab"][data-caption="Rental Detail"]').show();
+        }
+        else {
+            $form.find('[data-type="tab"][data-caption="Rental Detail"]').hide();
+        }
+
+        if (showExchange) {
+            $form.find('.summary-grid').hide();
+            $form.find('.exchange-item-grid').show();
+        }
+        else {
+            $form.find('.summary-grid').show();
+            $form.find('.exchange-item-grid').hide();
+        }
         
 
         $form.find('.print').on('click', e => {
@@ -455,9 +477,9 @@ class Contract {
                     <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Type" data-datafield="ContractType" style="float:left;width:200px;" data-enabled="false"></div>
                     <div data-control="FwFormField" data-type="validation" data-validationname="DepartmentValidation" data-displayfield="Department" class="fwcontrol fwformfield" data-caption="Department" data-datafield="DepartmentId" style="float:left;width:250px;" data-enabled="false"></div>
                     <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Billing Start" data-datafield="BillingDate" style="float:left;width:150px;" data-enabled="true"></div>
-                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Sales" data-datafield="Sales" style="float:left;width:250px;display:none;"></div>
-                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Rental" data-datafield="Rental" style="float:left;width:250px;display:none;"></div>
-                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Exchange" data-datafield="Exchange" style="float:left;width:250px;display:none;"></div>
+                    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Sales" data-datafield="Sales" style="float:left;width:250px;display:none;"></div>
+                    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Rental" data-datafield="Rental" style="float:left;width:250px;display:none;"></div>
+                    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Exchange" data-datafield="Exchange" style="float:left;width:250px;display:none;"></div>
                     <div data-control="FwFormField" data-type="validation" data-validationname="DealValidation" data-displayfield="Deal" class="fwcontrol fwformfield" data-caption="Department" data-datafield="DealId" style="float:left;width:250px;display:none;" data-enabled="false"></div>
                     <div class="print fwformcontrol" data-type="button" style="flex:1 1 50px;margin:15px 0 0 10px;">Print</div>
                   </div>
