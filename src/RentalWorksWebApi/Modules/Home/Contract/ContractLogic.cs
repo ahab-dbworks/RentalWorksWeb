@@ -320,6 +320,28 @@ namespace WebApi.Modules.Home.Contract
         public string DateStamp { get { return contract.DateStamp; } set { contract.DateStamp = value; } }
 
         //------------------------------------------------------------------------------------ 
+        protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
+        {
+            bool isValid = true;
+            if (isValid)
+            {
+                if (saveMode.Equals(TDataRecordSaveMode.smUpdate))
+                {
+                    ContractLogic orig = (ContractLogic)original;
+
+                    if ((BillingDate != null) && (!BillingDate.Equals(orig.BillingDate)))
+                    {
+                        if (string.IsNullOrEmpty(BillingDateChangeReason))
+                        {
+                            isValid = false;
+                            validateMsg = "Input a Reason for changing the Billing Date of this " + BusinessLogicModuleName;
+                        }
+                    }
+                }
+            }
+            return isValid;
+        }
+        //------------------------------------------------------------------------------------
         public virtual void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {
             if (e.SaveMode.Equals(TDataRecordSaveMode.smUpdate))
@@ -344,7 +366,7 @@ namespace WebApi.Modules.Home.Contract
                     request.ContractId = ContractId;
                     request.OldBillingDate = FwConvert.ToDateTime(orig.BillingDate);
                     request.NewBillingDate = FwConvert.ToDateTime(BillingDate);
-                    request.Reason = BillingDateChangeReason;  //#jhtodo: make this required once the front-end is done
+                    request.Reason = BillingDateChangeReason; 
                     TSpStatusResponse response = ContractFunc.UpdateContractBillingDate(AppConfig, UserSession, request, e.SqlConnection).Result;
                 }
             }
