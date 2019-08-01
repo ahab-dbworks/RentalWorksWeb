@@ -18,7 +18,7 @@ namespace WebApi.Modules.Home.Contact
     {
         public ContactController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(ContactLogic); }
         //------------------------------------------------------------------------------------
-        // POST api/v1/customerstatus/browse
+        // POST api/v1/contact/browse
         /// <summary>
         /// Retrieves a list of records
         /// </summary>
@@ -36,7 +36,7 @@ namespace WebApi.Modules.Home.Contact
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        // POST api/v1/contact/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
         [FwControllerMethod(Id:"nhBg3nFWSLBS")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
@@ -44,7 +44,7 @@ namespace WebApi.Modules.Home.Contact
             return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------
-        // GET api/v1/customerstatus
+        // GET api/v1/contact
         /// <summary>
         /// REST: Retrieves a list of records
         /// </summary>
@@ -61,7 +61,7 @@ namespace WebApi.Modules.Home.Contact
             return await DoGetAsync<ContactLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------
-        // GET api/v1/customerstatus/A0000001
+        // GET api/v1/contact/A0000001
         [HttpGet("{id}")]
         [Produces(typeof(ContactLogic))]
         [SwaggerResponse(200, Type = typeof(ContactLogic))]
@@ -71,7 +71,7 @@ namespace WebApi.Modules.Home.Contact
             return await DoGetAsync<ContactLogic>(id);
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/customerstatus
+        // POST api/v1/contact
         [HttpPost]
         [FwControllerMethod(Id:"3qX4qzUxUYlL")]
         public async Task<ActionResult<ContactLogic>> PostAsync([FromBody]ContactLogic l)
@@ -79,7 +79,7 @@ namespace WebApi.Modules.Home.Contact
             return await DoPostAsync<ContactLogic>(l);
         }
         //------------------------------------------------------------------------------------
-        // DELETE api/v1/customerstatus/A0000001
+        // DELETE api/v1/contact/A0000001
         [HttpDelete("{id}")]
         [FwControllerMethod(Id:"8PPmwft0gjJw")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
