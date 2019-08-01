@@ -133,7 +133,7 @@ class Contract {
                 }
             });
         }
-        // Out / In DeliveryType radio in Deliver tab
+        // DeliveryType radio in Deliver tab
         $form.find('div[data-datafield="DeliveryAddressType"]').on('change', event => {
             this.deliveryTypeAddresses($form, event);
         });
@@ -157,7 +157,7 @@ class Contract {
             if (newValue === 'PICK UP') {
                 FwFormField.setValueByDataField($form, 'DeliveryAddressType', 'WAREHOUSE');
             }
-            $form.find('div[data-datafield="OutDeliveryAddressType"]').change();
+            $form.find('div[data-datafield="DeliveryAddressType"]').change();
         });
     }
     //----------------------------------------------------------------------------------------------
