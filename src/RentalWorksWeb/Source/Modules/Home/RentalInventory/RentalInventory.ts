@@ -434,7 +434,7 @@ class RentalInventory extends InventoryBase {
         this.afterLoadSetClassification($form);
         this.addAssetTab($form);
 
-        let classificationType = FwFormField.getValueByDataField($form, 'Classification');
+        const classificationType = FwFormField.getValueByDataField($form, 'Classification');
         //Change the grid on primary to tab when classification is container
         if (classificationType == 'N') {
             $form.find('[data-grid="RentalInventoryWarehouseGrid"]').hide();
