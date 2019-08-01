@@ -361,6 +361,7 @@ namespace WebLibrary.Security
             AddModule("Export Settings",               "{70CEC5BB-2FD9-4C68-9BE2-F8A3C6A17BB7}", lv1menuUtilities.Id, "ExportSettingsController");
             AddModule("QuikActivity Calendar",         "{897BCF55-6CE7-412C-82CB-557B045F8C0A}", lv1menuUtilities.Id, "QuikActivityCalendarController");
             AddModule("Migrate Orders",                "{6FAA0140-ACA2-40CA-9FDD-507EAC437F2A}", lv1menuUtilities.Id, "MigrateOrdersController");
+            AddModule("Refresh G/L History",           "{8F036E39-78D3-4FB9-A98E-BD33A5DB7FDA}", lv1menuUtilities.Id, "RefreshGLHistoryController");
 
             // Add Administrator 
             AddModule("Alerts",              "{6E5F47FB-1F18-443E-B464-9D2351857361}", lv1menuAdministrator.Id, "AlertController");
