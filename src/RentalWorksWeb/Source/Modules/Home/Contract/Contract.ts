@@ -6,16 +6,16 @@ class Contract {
     id: string = '6BBB8A0A-53FA-4E1D-89B3-8B184B233DEA';
     ActiveViewFields: any = {};
     ActiveViewFieldsId: string;
+    BillingDate: string;
     //----------------------------------------------------------------------------------------------
-    getModuleScreen = () => {
-        let screen, $browse;
+    getModuleScreen() {
 
-        screen = {};
+        const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
-        $browse = this.openBrowse();
+        const $browse = this.openBrowse();
 
         screen.load = () => {
             FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
@@ -29,10 +29,9 @@ class Contract {
         return screen;
     }
     //----------------------------------------------------------------------------------------------
-    openBrowse = () => {
+    openBrowse() {
         let $browse = jQuery(this.getBrowseTemplate());
         $browse = FwModule.openBrowse($browse);
-        const self = this;
 
         //switch (this.Module) {
         //    case 'Contract':
@@ -75,11 +74,10 @@ class Contract {
             FwFunc.showError(ex);
         }
 
-
         return $browse;
     }
     //----------------------------------------------------------------------------------------------
-    addBrowseMenuItems = ($menuObject) => {
+    addBrowseMenuItems($menuObject) {
         const location = JSON.parse(sessionStorage.getItem('location'));
         const $allLocations = FwMenu.generateDropDownViewBtn('ALL Locations', false, "ALL");
         const $userLocation = FwMenu.generateDropDownViewBtn(location.location, true, location.locationid);
@@ -101,17 +99,14 @@ class Contract {
             { value: 'SHIP', text: 'Ship to Customer' },
             { value: 'PICK UP', text: 'Customer Pick Up' }
         ], true);
-
         this.events($form);
         return $form;
     }
     //----------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
-        var $form;
-
         const module = (this.Module == 'Contract' ? 'Contract' : 'Manifest');
 
-        $form = this.openForm('EDIT');
+        const $form = this.openForm('EDIT');
         $form.find(`div.fwformfield[data-datafield="${module}Id"] input`).val(uniqueids[`${module}Id`]);
 
         FwModule.loadForm(this.Module, $form);
@@ -216,6 +211,8 @@ class Contract {
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
+        this.BillingDate = FwFormField.getValueByDataField($form, 'BillingDate');
+
         const $contractSummaryGrid = $form.find('[data-name="ContractSummaryGrid"]');
         FwBrowse.search($contractSummaryGrid);
         const $contractRentalGrid = $form.find('.rentaldetailgrid [data-name="ContractDetailGrid"]');
@@ -226,8 +223,8 @@ class Contract {
         FwBrowse.search($contractExchangeItemGrid);
 
         if (this.Module == 'Contract') {
-            var type = FwFormField.getValueByDataField($form, 'ContractType');
-            var $billing = $form.find('[data-datafield="BillingDate"] .fwformfield-caption');
+            const type = FwFormField.getValueByDataField($form, 'ContractType');
+            const $billing = $form.find('[data-datafield="BillingDate"] .fwformfield-caption');
 
             switch (type) {
                 case 'RECEIVE':
@@ -254,11 +251,7 @@ class Contract {
         const showSales = FwFormField.getValueByDataField($form, 'Sales');
         const showRental = FwFormField.getValueByDataField($form, 'Rental');
         const showExchange = FwFormField.getValueByDataField($form, 'Exchange');
-        console.log('fff', showSales, showRental, showExchange )
 
-        //showSales === 'false' ? $form.find('[data-type="tab"][data-caption="Sales Detail"]').hide() : $form.find('[data-type="tab"][data-caption="Sales Detail"]').show();
-        //showRental === 'false' ? $form.find('[data-type="tab"][data-caption="Rental Detail"]').hide() : $form.find('[data-type="tab"][data-caption="Rental Detail"]').show();
-        //showExchange === 'true' ? $form.find('.summary-grid').hide() : $form.find('.exchange-item-grid').hide();
         if (showSales) {
             $form.find('[data-type="tab"][data-caption="Sales Detail"]').show();
         }
@@ -281,25 +274,27 @@ class Contract {
             $form.find('.summary-grid').show();
             $form.find('.exchange-item-grid').hide();
         }
-        
+
+        // Highlight Billing Date field if adjusted
+        if (FwFormField.getValueByDataField($form, 'BillingDateAdjusted') === true) {
+            $form.find('[data-datafield="BillingDate"] .fwformfield-control').css('background-color', '#ff6f6f')
+        }
 
         $form.find('.print').on('click', e => {
-            let $report, contractNumber, contractId, recordTitle, printTab;
-            const module = (this.Module == 'Contract' ? 'Contract' : 'Manifest');
             try {
-                contractNumber = $form.find(`div.fwformfield[data-datafield="${module}Number"] input`).val();
-                contractId = $form.find(`div.fwformfield[data-datafield="${module}Id"] input`).val();
-                recordTitle = jQuery('.tabs .active[data-tabtype="FORM"] .caption').text();
-                $report = OutContractReportController.openForm();
-
+                const $report = OutContractReportController.openForm();
                 FwModule.openSubModuleTab($form, $report);
 
+                const module = (this.Module == 'Contract' ? 'Contract' : 'Manifest');
+                const contractId = $form.find(`div.fwformfield[data-datafield="${module}Id"] input`).val();
                 $report.find(`div.fwformfield[data-datafield="${module}Id"] input`).val(contractId);
+                const contractNumber = $form.find(`div.fwformfield[data-datafield="${module}Number"] input`).val();
                 $report.find(`div.fwformfield[data-datafield="${module}Id"] .fwformfield-text`).val(contractNumber);
                 jQuery('.tab.submodule.active').find('.caption').html(`Print ${module}`);
 
-                printTab = jQuery('.tab.submodule.active');
+                const printTab = jQuery('.tab.submodule.active');
                 printTab.find('.caption').html(`Print ${module}`);
+                const recordTitle = jQuery('.tabs .active[data-tabtype="FORM"] .caption').text();
                 printTab.attr('data-caption', `${module} ${recordTitle}`);
             }
             catch (ex) {
@@ -317,10 +312,23 @@ class Contract {
                 FwFormField.enable($trackShipmentBtn);
             }
         }
+        // Billing Date change
+        $form.find('div[data-datafield="BillingDate"]').on('changeDate', event => {
+        const billingDate = FwFormField.getValueByDataField($form, 'BillingDate');
+
+        if (billingDate !== this.BillingDate) {
+            $form.find('.date-change-reason').show();
+            $form.find('div[data-datafield="BillingDateChangeReason"]').attr('data-required', 'true');
+
+        } else {
+            $form.find('.date-change-reason').hide();
+            FwFormField.setValueByDataField($form, 'BillingDateChangeReason', '');
+            $form.find('div[data-datafield="BillingDateChangeReason"]').attr('data-required', 'false');
+        }
+        });
     }
     //----------------------------------------------------------------------------------------------
     deliveryTypeAddresses($form: any, event: any): void {
-        const $element = jQuery(event.currentTarget);
         const value = FwFormField.getValueByDataField($form, 'DeliveryAddressType');
         if (value === 'WAREHOUSE') {
             this.getWarehouseAddress($form);
@@ -397,7 +405,7 @@ class Contract {
     }
     //----------------------------------------------------------------------------------------------
     beforeValidateCarrier($browse: any, $grid: any, request: any) {
-        let validationName = request.module;
+        const validationName = request.module;
         switch (validationName) {
             case 'VendorValidation':
                 request.uniqueids = {
@@ -480,10 +488,14 @@ class Contract {
                     <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Sales" data-datafield="Sales" style="float:left;width:250px;display:none;"></div>
                     <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Rental" data-datafield="Rental" style="float:left;width:250px;display:none;"></div>
                     <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Exchange" data-datafield="Exchange" style="float:left;width:250px;display:none;"></div>
+                    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="BillingDateAdjusted" data-datafield="BillingDateAdjusted" style="float:left;width:250px;display:none;"></div>
                     <div data-control="FwFormField" data-type="validation" data-validationname="DealValidation" data-displayfield="Deal" class="fwcontrol fwformfield" data-caption="Department" data-datafield="DealId" style="float:left;width:250px;display:none;" data-enabled="false"></div>
                     <div class="print fwformcontrol" data-type="button" style="flex:1 1 50px;margin:15px 0 0 10px;">Print</div>
                   </div>
                 </div>
+                <div class="flexrow date-change-reason" style="max-width:800px;display:none;padding-left:10px;">
+                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Date Change Reason" data-datafield="BillingDateChangeReason" style="float:left;width:250px;" data-enabled="true"></div>
+                  </div>
                 <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Summary">
                   <div class="flexrow summary-grid" style="max-width:1800px;">
                     <div data-control="FwGrid" data-grid="ContractSummaryGrid" data-securitycaption="Contract Summary"></div>
