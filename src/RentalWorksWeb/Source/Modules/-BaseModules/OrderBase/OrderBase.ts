@@ -1587,12 +1587,12 @@ class OrderBase {
     }
     //----------------------------------------------------------------------------------------------
     getWarehouseAddress($form: any, prefix: string): void {
-        const WAREHOUSEID = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid;
+        const warehouseId = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid;
         let WHresponse: any = {};
 
         if ($form.data('whAddress')) {
             WHresponse = $form.data('whAddress');
-
+            FwFormField.setValueByDataField($form, `${prefix}DeliveryToLocation`, WHresponse.Warehouse);
             FwFormField.setValueByDataField($form, `${prefix}DeliveryToAttention`, WHresponse.Attention);
             FwFormField.setValueByDataField($form, `${prefix}DeliveryToAddress1`, WHresponse.Address1);
             FwFormField.setValueByDataField($form, `${prefix}DeliveryToAddress2`, WHresponse.Address2);
@@ -1601,9 +1601,9 @@ class OrderBase {
             FwFormField.setValueByDataField($form, `${prefix}DeliveryToZipCode`, WHresponse.Zip);
             FwFormField.setValueByDataField($form, `${prefix}DeliveryToCountryId`, WHresponse.CountryId, WHresponse.Country);
         } else {
-            FwAppData.apiMethod(true, 'GET', `api/v1/warehouse/${WAREHOUSEID}`, null, FwServices.defaultTimeout, response => {
+            FwAppData.apiMethod(true, 'GET', `api/v1/warehouse/${warehouseId}`, null, FwServices.defaultTimeout, response => {
                 WHresponse = response;
-
+                FwFormField.setValueByDataField($form, `${prefix}DeliveryToLocation`, WHresponse.Warehouse);
                 FwFormField.setValueByDataField($form, `${prefix}DeliveryToAttention`, WHresponse.Attention);
                 FwFormField.setValueByDataField($form, `${prefix}DeliveryToAddress1`, WHresponse.Address1);
                 FwFormField.setValueByDataField($form, `${prefix}DeliveryToAddress2`, WHresponse.Address2);
@@ -1613,6 +1613,7 @@ class OrderBase {
                 FwFormField.setValueByDataField($form, `${prefix}DeliveryToCountryId`, WHresponse.CountryId, WHresponse.Country);
                 // Preventing unnecessary API calls once warehouse addresses have been requested once
                 $form.data('whAddress', {
+                    'Warehouse': response.Warehouse,
                     'Attention': response.Attention,
                     'Address1': response.Address1,
                     'Address2': response.Address2,
@@ -1628,8 +1629,9 @@ class OrderBase {
     //----------------------------------------------------------------------------------------------
     fillDeliveryAddressFieldsforDeal($form: any, prefix: string, response?: any): void {
         if (!response) {
-            const DEALID = FwFormField.getValueByDataField($form, 'DealId');
-            FwAppData.apiMethod(true, 'GET', `api/v1/deal/${DEALID}`, null, FwServices.defaultTimeout, res => {
+            const dealId = FwFormField.getValueByDataField($form, 'DealId');
+            FwAppData.apiMethod(true, 'GET', `api/v1/deal/${dealId}`, null, FwServices.defaultTimeout, res => {
+                FwFormField.setValueByDataField($form, `${prefix}DeliveryToLocation`, res.Deal);
                 FwFormField.setValueByDataField($form, `${prefix}DeliveryToAttention`, res.ShipAttention);
                 FwFormField.setValueByDataField($form, `${prefix}DeliveryToAddress1`, res.ShipAddress1);
                 FwFormField.setValueByDataField($form, `${prefix}DeliveryToAddress2`, res.ShipAddress2);
@@ -1639,6 +1641,7 @@ class OrderBase {
                 FwFormField.setValueByDataField($form, `${prefix}DeliveryToCountryId`, res.ShipCountryId, res.ShipCountry);
             }, null, null);
         } else {
+            FwFormField.setValueByDataField($form, `${prefix}DeliveryToLocation`, response.Deal);
             FwFormField.setValueByDataField($form, `${prefix}DeliveryToAttention`, response.ShipAttention);
             FwFormField.setValueByDataField($form, `${prefix}DeliveryToAddress1`, response.ShipAddress1);
             FwFormField.setValueByDataField($form, `${prefix}DeliveryToAddress2`, response.ShipAddress2);

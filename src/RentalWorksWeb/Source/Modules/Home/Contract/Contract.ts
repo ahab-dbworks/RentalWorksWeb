@@ -344,7 +344,7 @@ class Contract {
 
         if ($form.data('whAddress')) {
             WHresponse = $form.data('whAddress');
-
+            FwFormField.setValueByDataField($form, `DeliveryToLocation`, WHresponse.Warehouse);
             FwFormField.setValueByDataField($form, `DeliveryToAttention`, WHresponse.Attention);
             FwFormField.setValueByDataField($form, `DeliveryToAddress1`, WHresponse.Address1);
             FwFormField.setValueByDataField($form, `DeliveryToAddress2`, WHresponse.Address2);
@@ -355,7 +355,7 @@ class Contract {
         } else {
             FwAppData.apiMethod(true, 'GET', `api/v1/warehouse/${warehouseId}`, null, FwServices.defaultTimeout, response => {
                 WHresponse = response;
-
+                FwFormField.setValueByDataField($form, `DeliveryToLocation`, WHresponse.Warehouse);
                 FwFormField.setValueByDataField($form, `DeliveryToAttention`, WHresponse.Attention);
                 FwFormField.setValueByDataField($form, `DeliveryToAddress1`, WHresponse.Address1);
                 FwFormField.setValueByDataField($form, `DeliveryToAddress2`, WHresponse.Address2);
@@ -365,6 +365,7 @@ class Contract {
                 FwFormField.setValueByDataField($form, `DeliveryToCountryId`, WHresponse.CountryId, WHresponse.Country);
                 // Preventing unnecessary API calls once warehouse addresses have been requested once
                 $form.data('whAddress', {
+                    'Warehouse': response.Warehouse,
                     'Attention': response.Attention,
                     'Address1': response.Address1,
                     'Address2': response.Address2,
@@ -381,6 +382,7 @@ class Contract {
     fillDeliveryAddressFieldsforDeal($form: any): void {
         const dealId = FwFormField.getValueByDataField($form, 'DealId');
         FwAppData.apiMethod(true, 'GET', `api/v1/deal/${dealId}`, null, FwServices.defaultTimeout, res => {
+            FwFormField.setValueByDataField($form, `DeliveryToLocation`, res.Deal);
             FwFormField.setValueByDataField($form, `DeliveryToAttention`, res.ShipAttention);
             FwFormField.setValueByDataField($form, `DeliveryToAddress1`, res.ShipAddress1);
             FwFormField.setValueByDataField($form, `DeliveryToAddress2`, res.ShipAddress2);
