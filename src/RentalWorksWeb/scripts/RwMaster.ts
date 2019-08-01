@@ -120,6 +120,7 @@ class RwMaster extends WebMaster {
                     Constants.Modules.Utilities.InvoiceProcessBatch,
                     Constants.Modules.Utilities.MigrateOrders,
                     Constants.Modules.Utilities.ReceiptProcessBatch,
+                    Constants.Modules.Utilities.RefreshGLHistory,
                     Constants.Modules.Utilities.VendorInvoiceProcessBatch,
                     Constants.Modules.Utilities.QuikActivityCalendar
                 ]

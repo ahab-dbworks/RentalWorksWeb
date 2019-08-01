@@ -293,6 +293,7 @@
                     }
                 }
             },
+            RefreshGLHistory: { id: '8F036E39-78D3-4FB9-A98E-BD33A5DB7FDA', caption: 'Refresh G/L History', nav: 'module/refreshglhistory' },
             VendorInvoiceProcessBatch: {id: '4FA8A060-F2DF-4E59-8F9D-4A6A62A0D240', caption: 'Process Vendor Invoices', nav: 'module/vendorinvoiceprocessbatch' }
 
         }
