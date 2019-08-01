@@ -9,7 +9,6 @@ class Contract {
     BillingDate: string;
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
-
         const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
@@ -168,7 +167,7 @@ class Contract {
         });
         FwBrowse.init($contractSummaryGridControl);
         FwBrowse.renderRuntimeHtml($contractSummaryGridControl);
-
+        // ----------
         const $contractRentalDetailGrid = $form.find('.rentaldetailgrid div[data-grid="ContractDetailGrid"]');
         const $contractRentalDetailGridControl = FwBrowse.loadGridFromTemplate('ContractDetailGrid');
         $contractRentalDetailGrid.empty().append($contractRentalDetailGridControl);
@@ -180,7 +179,7 @@ class Contract {
         });
         FwBrowse.init($contractRentalDetailGridControl);
         FwBrowse.renderRuntimeHtml($contractRentalDetailGridControl);
-
+        // ----------
         const $contractSalesDetailGrid = $form.find('.salesdetailgrid div[data-grid="ContractDetailGrid"]');
         const $contractSalesDetailGridControl = FwBrowse.loadGridFromTemplate('ContractDetailGrid');
         $contractSalesDetailGrid.empty().append($contractSalesDetailGridControl);
@@ -192,7 +191,7 @@ class Contract {
         });
         FwBrowse.init($contractSalesDetailGridControl);
         FwBrowse.renderRuntimeHtml($contractSalesDetailGridControl);
-
+        // ----------
         const $contractExchangeItemGrid = $form.find('div[data-grid="ContractExchangeItemGrid"]');
         const $contractExchangeItemGridControl = FwBrowse.loadGridFromTemplate('ContractExchangeItemGrid');
         $contractExchangeItemGrid.empty().append($contractExchangeItemGridControl);
@@ -301,7 +300,6 @@ class Contract {
                 FwFunc.showError(ex);
             }
         });
-
         //Disable 'Track Shipment' button
         if (this.Module === 'Contract') {
             const trackingNumber = FwFormField.getValueByDataField($form, 'DeliveryFreightTrackingNumber');
@@ -335,7 +333,6 @@ class Contract {
         } else if (value === 'DEAL') {
             this.fillDeliveryAddressFieldsforDeal($form);
         }
-
     }
     //----------------------------------------------------------------------------------------------
     getWarehouseAddress($form: any): void {
@@ -391,7 +388,6 @@ class Contract {
             FwFormField.setValueByDataField($form, `DeliveryToZipCode`, res.ShipZipCode);
             FwFormField.setValueByDataField($form, `DeliveryToCountryId`, res.ShipCountryId, res.ShipCountry);
         }, null, null);
-
     }
     //----------------------------------------------------------------------------------------------
     beforeValidateShipVia($browse: any, $grid: any, request: any) {
