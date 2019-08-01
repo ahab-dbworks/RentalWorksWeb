@@ -106,6 +106,7 @@ namespace WebApi.Modules.Home.InventorySearch
                         qrySessionItems.AddParameter("@sessionid", request.SessionId);
                         FwJsonDataTable dt = await qrySessionItems.QueryToFwJsonTableAsync();
 
+                        //#jhtodo: need to handle Containers special here #788
                         foreach (List<object> row in dt.Rows)
                         {
                             InventoryPackageInventoryLogic item = new InventoryPackageInventoryLogic();
