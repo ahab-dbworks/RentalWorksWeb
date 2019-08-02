@@ -124,15 +124,7 @@ namespace WebApi.Modules.Home.Contract
             addFilterToSelect("CustomerId", "customerid", select, request);
             addFilterToSelect("ContractType", "contracttype", select, request);
 
-            SelectedCheckBoxListItems items = new SelectedCheckBoxListItems();
-            items.Add(new SelectedCheckBoxListItem(RwConstants.CONTRACT_TYPE_RECEIVE));
-            items.Add(new SelectedCheckBoxListItem(RwConstants.CONTRACT_TYPE_OUT));
-            items.Add(new SelectedCheckBoxListItem(RwConstants.CONTRACT_TYPE_EXCHANGE));
-            items.Add(new SelectedCheckBoxListItem(RwConstants.CONTRACT_TYPE_IN));
-            items.Add(new SelectedCheckBoxListItem(RwConstants.CONTRACT_TYPE_RETURN));
-            items.Add(new SelectedCheckBoxListItem(RwConstants.CONTRACT_TYPE_LOST));
-            select.AddWhereIn("contracttype", items);
-
+            bool hasContractTypeFilter = false;
             if ((request != null) && (request.uniqueids != null))
             {
                 IDictionary<string, object> uniqueIds = ((IDictionary<string, object>)request.uniqueids);
@@ -146,6 +138,18 @@ namespace WebApi.Modules.Home.Contract
                     select.AddWhere("exists (select * from ordercontract oc where oc.contractid = " + TableAlias + ".contractid and oc.poid = @poid)");
                     select.AddParameter("@poid", uniqueIds["PurchaseOrderId"].ToString());
                 }
+                hasContractTypeFilter = uniqueIds.ContainsKey("ContractType");
+            }
+
+            if ((!hasContractTypeFilter) && (string.IsNullOrEmpty(ContractId)))
+            {
+                SelectedCheckBoxListItems items = new SelectedCheckBoxListItems();
+                items.Add(new SelectedCheckBoxListItem(RwConstants.CONTRACT_TYPE_RECEIVE));
+                items.Add(new SelectedCheckBoxListItem(RwConstants.CONTRACT_TYPE_OUT));
+                items.Add(new SelectedCheckBoxListItem(RwConstants.CONTRACT_TYPE_EXCHANGE));
+                items.Add(new SelectedCheckBoxListItem(RwConstants.CONTRACT_TYPE_IN));
+                items.Add(new SelectedCheckBoxListItem(RwConstants.CONTRACT_TYPE_RETURN));
+                items.Add(new SelectedCheckBoxListItem(RwConstants.CONTRACT_TYPE_LOST));
             }
 
             AddActiveViewFieldToSelect("WarehouseId", "warehouseid", select, request);
