@@ -32,34 +32,25 @@ class Contract {
         let $browse = jQuery(this.getBrowseTemplate());
         $browse = FwModule.openBrowse($browse);
 
-        //switch (this.Module) {
-        //    case 'Contract':
-        //        $browse.data('ondatabind', function (request) {
-        //            request.activeviewfields = self.ActiveViewFields;
-        //        });
-        //        FwBrowse.addLegend($browse, 'Unassigned Items', '#FF0000');
-        //        FwBrowse.addLegend($browse, 'Pending Exchanges', '#FFFF00');
-        //        FwBrowse.addLegend($browse, 'Migrated', '#8080FF');
-        //        FwBrowse.addLegend($browse, 'Inactive Deal', '#C0C0C0');
-        //        FwBrowse.addLegend($browse, 'Truck (No Charge)', '#FFFF00');
-        //        FwBrowse.addLegend($browse, 'Adjusted Billing Date', '#FF8080');
-        //        FwBrowse.addLegend($browse, 'Voided Items', '#00FFFF');
-        //        break;
-        //    case 'Manifest':
-        //        $browse.data('ondatabind', function (request) {
-        //            request.activeviewfields = self.ActiveViewFields;
-        //            request.uniqueids.ContractType = 'MANIFEST';
-        //        });
-        //        FwBrowse.addLegend($browse, 'Voided Items', '#00FFFF');
-        //        break;
-        //    case 'TransferReceipt':
-        //        $browse.data('ondatabind', function (request) {
-        //            request.activeviewfields = self.ActiveViewFields;
-        //            request.uniqueids.ContractType = 'RECEIPT';
-        //        });
-        //        FwBrowse.addLegend($browse, 'Voided Items', '#00FFFF');
-        //        break;
-        //}
+        switch (this.Module) {
+            case 'Contract':
+                $browse.data('ondatabind', request => {
+                    request.activeviewfields = this.ActiveViewFields;
+                });
+                break;
+            case 'Manifest':
+                $browse.data('ondatabind', request => {
+                    request.activeviewfields = this.ActiveViewFields;
+                    request.uniqueids.ContractType = 'MANIFEST';
+                });
+                break;
+            case 'TransferReceipt':
+                $browse.data('ondatabind', request => {
+                    request.activeviewfields = this.ActiveViewFields;
+                    request.uniqueids.ContractType = 'RECEIPT';
+                });
+                break;
+        }
 
         try {
             FwAppData.apiMethod(true, 'GET', `${this.apiurl}/legend`, null, FwServices.defaultTimeout, function onSuccess(response) {
@@ -312,17 +303,17 @@ class Contract {
         }
         // Billing Date change
         $form.find('div[data-datafield="BillingDate"]').on('changeDate', event => {
-        const billingDate = FwFormField.getValueByDataField($form, 'BillingDate');
+            const billingDate = FwFormField.getValueByDataField($form, 'BillingDate');
 
-        if (billingDate !== this.BillingDate) {
-            $form.find('.date-change-reason').show();
-            $form.find('div[data-datafield="BillingDateChangeReason"]').attr('data-required', 'true');
+            if (billingDate !== this.BillingDate) {
+                $form.find('.date-change-reason').show();
+                $form.find('div[data-datafield="BillingDateChangeReason"]').attr('data-required', 'true');
 
-        } else {
-            $form.find('.date-change-reason').hide();
-            FwFormField.setValueByDataField($form, 'BillingDateChangeReason', '');
-            $form.find('div[data-datafield="BillingDateChangeReason"]').attr('data-required', 'false');
-        }
+            } else {
+                $form.find('.date-change-reason').hide();
+                FwFormField.setValueByDataField($form, 'BillingDateChangeReason', '');
+                $form.find('div[data-datafield="BillingDateChangeReason"]').attr('data-required', 'false');
+            }
         });
     }
     //----------------------------------------------------------------------------------------------

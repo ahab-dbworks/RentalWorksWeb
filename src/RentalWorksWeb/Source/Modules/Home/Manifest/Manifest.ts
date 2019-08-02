@@ -3,9 +3,9 @@ routes.push({ pattern: /^module\/manifest$/, action: function (match: RegExpExec
 class Manifest extends Contract {
     Module: string = 'Manifest';
     apiurl: string = 'api/v1/manifest';
-    caption: string = Constants.Modules.Home.Contract.caption;
-	nav: string = Constants.Modules.Home.Contract.nav;
-	id: string = Constants.Modules.Home.Contract.id;
+    caption: string = Constants.Modules.Home.Manifest.caption;
+    nav: string = Constants.Modules.Home.Manifest.nav;
+    id: string = Constants.Modules.Home.Manifest.id;
     ActiveViewFields: any = {};
     ActiveViewFieldsId: string;
     //---------------------------------------------------------------------------------------------
