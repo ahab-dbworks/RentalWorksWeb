@@ -29,6 +29,7 @@ namespace WebApi.Modules.Home.CheckIn
     
     public class CheckInItemRequest
     {
+        public string ModuleType;   // O=Order or T=Transfer
         public string ContractId;
         public string Code;
         public string OrderId;

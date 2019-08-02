@@ -126,8 +126,8 @@ create procedure dbo.pdacheckinitem(@code                   varchar(255),
                     qry.AddParameter("@qty", SqlDbType.Int, ParameterDirection.Input, request.Quantity);
                 }
                 qry.AddParameter("@neworderaction", SqlDbType.NVarChar, ParameterDirection.Input, (request.AddOrderToContract.GetValueOrDefault(false) ? RwConstants.CHECK_IN_NEW_ORDER_ACTION_ADD_NEW_ORDER : (request.SwapItem.GetValueOrDefault(false) ? RwConstants.CHECK_IN_NEW_ORDER_ACTION_SWAP_ITEM : "")));
-                qry.AddParameter("@moduletype", SqlDbType.NVarChar, ParameterDirection.Input, "O");
-                qry.AddParameter("@checkinmode", SqlDbType.NVarChar, ParameterDirection.Input, "O");
+                qry.AddParameter("@moduletype", SqlDbType.NVarChar, ParameterDirection.Input, request.ModuleType);
+                qry.AddParameter("@checkinmode", SqlDbType.NVarChar, ParameterDirection.Input, request.ModuleType);
                 qry.AddParameter("@itemorderid", SqlDbType.NVarChar, ParameterDirection.Output);
                 qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Output);
                 qry.AddParameter("@orderno", SqlDbType.NVarChar, ParameterDirection.Output);
