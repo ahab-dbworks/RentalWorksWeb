@@ -43,17 +43,9 @@ class RefreshGLHistory {
                 request.FromDate = FwFormField.getValueByDataField($form, 'FromDate');
                 request.ToDate = FwFormField.getValueByDataField($form, 'ToDate');
 
-                //FwAppData.apiMethod(true, 'POST', `api/v1/invoiceprocessbatch/createbatch`, request, FwServices.defaultTimeout, function onSuccess(response) {
-                //    if ((response.success === true) && (response.Batch !== null)) {
-                //        var batch = response.Batch;
-                //        var batchId = batch.BatchId;
-                //        var batchNumber = batch.BatchNumber
-                //        FwFormField.setValueByDataField($form, 'BatchId', batchId, batchNumber);
-                //        exportBatch();
-                //    } else {
-                //        FwNotification.renderNotification('WARNING', 'There are no Approved Invoices to process.');
-                //    }
-                //}, null, $form, userId);
+                FwAppData.apiMethod(true, 'POST', `api/v1/gldistribution/refresh`, request, FwServices.defaultTimeout,
+                    response => { },
+                    ex => FwFunc.showError(ex), $form);
             });
     }
     //----------------------------------------------------------------------------------------------
