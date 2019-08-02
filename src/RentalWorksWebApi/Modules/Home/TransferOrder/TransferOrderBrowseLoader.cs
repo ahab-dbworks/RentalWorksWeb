@@ -2,6 +2,8 @@ using FwStandard.DataLayer;
 using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
+using System.Collections.Generic;
+using System.Text;
 using WebApi.Data;
 using WebLibrary;
 
@@ -89,12 +91,60 @@ namespace WebApi.Modules.Home.TransferOrder
             select.Parse();
 
             addFilterToSelect("OfficeLocationId", "locationid", select, request);
-            addFilterToSelect("WarehouseId", "warehouseid", select, request);
+            //addFilterToSelect("WarehouseId", "warehouseid", select, request);
             addFilterToSelect("DepartmentId", "departmentid", select, request);
 
 
-            AddActiveViewFieldToSelect("WarehouseId", "warehouseid", select, request);
+            //AddActiveViewFieldToSelect("WarehouseId", "warehouseid", select, request);
             AddActiveViewFieldToSelect("LocationId", "locationid", select, request);
+
+
+            if ((request != null) && (request.uniqueids != null))
+            {
+                IDictionary<string, object> uniqueIds = ((IDictionary<string, object>)request.uniqueids);
+                if (uniqueIds.ContainsKey("WarehouseId"))
+                {
+                    select.AddWhere("(warehouseid = @warehouseid1 or fromwarehouseid = @warehouseid1)");
+                    select.AddParameter("@warehouseid1", uniqueIds["WarehouseId"].ToString());
+                }
+            }
+
+            if ((request != null) && (request.activeviewfields != null))
+            {
+                if (request.activeviewfields.ContainsKey("WarehouseId"))
+                {
+                    List<string> values = request.activeviewfields["WarehouseId"];
+                    if (values.Count == 1)
+                    {
+                        string value = values[0];
+                        if (!value.ToUpper().Equals("ALL"))
+                        {
+                            select.AddWhere("(warehouseid = @warehouseid2 or fromwarehouseid = @warehouseid2)");
+                            select.AddParameter("@warehouseid2", value);
+                        }
+                    }
+                    else if (values.Count > 1)
+                    {
+                        int v = 2; // prameter index
+                        StringBuilder sb = new StringBuilder();
+                        foreach (string value in values)
+                        {
+                            if (!value.ToUpper().Equals("ALL"))
+                            {
+                                string paramName = "@warehouseid" + v.ToString();
+                                sb.AppendLine("(warehouseid = " + paramName + " or fromwarehouseid = " + paramName + ")");
+                                sb.AppendLine("or");
+                                select.AddParameter(paramName, value);
+                            }
+                            v++;
+                        }
+                        sb.Remove(sb.Length - 1, 1);
+                        sb.Insert(0, "(");
+                        sb.Append(")");
+                        select.AddWhere(sb.ToString()); ;
+                    }
+                }
+            }
 
 
 
