@@ -182,7 +182,9 @@
             }
             FwAppData.apiMethod(true, 'GET', apiUrl, null, FwServices.defaultTimeout,
                 response => {
-                    $form.find('.buttonbar').append(`<div class="fwformcontrol suspendedsession" data-type="button" style="float:left;">Suspended Sessions</div>`);
+                    if (response) {
+                        $form.find('.buttonbar').append(`<div class="fwformcontrol suspendedsession" data-type="button" style="float:left;">Suspended Sessions</div>`);
+                    }
                 },
                 ex => FwFunc.showError(ex), $form);
 
