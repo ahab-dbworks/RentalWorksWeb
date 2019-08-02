@@ -212,8 +212,8 @@
                     $form.find(`[data-datafield="${this.Type}Id"] input`).change();
                     $form.find('.suspendedsession').hide();
 
-                    const $stagedItemGrid = $form.find('div[data-name="StagedItemGrid"]');
-                    FwBrowse.search($stagedItemGrid);
+                    this.partialContractGridVisibility($form);
+                    this.renderPartialCheckoutGrids($form);
                 });
             });
         }
@@ -317,9 +317,11 @@
                 FwFunc.showError(ex);
             }
             FwFormField.disable($form.find(`div[data-datafield="${this.Type}Id"]`));
-            $form.find('.orderstatus').show();
-            $form.find('.createcontract').show();
-            $form.find('.original-buttons').show();
+            if (this.contractId == '') {
+                $form.find('.orderstatus').show();
+                $form.find('.createcontract').show();
+                $form.find('.original-buttons').show();
+            }
             $form.find('[data-datafield="Code"] input').focus();
             $form.find('.suspendedsession').hide();
         });
@@ -363,21 +365,12 @@
     //----------------------------------------------------------------------------------------------
     startPartialCheckoutItems = ($form: JQuery, event): void => {
         $form.find('.error-msg:not(.qty)').html('');
-        const maxPageSize = 20;
+
         const requestBody: any = {};
         const orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
         requestBody.OrderId = orderId;
         if (orderId != '') {
-            $form.find('.orderstatus').hide();
-            $form.find('.createcontract').hide();
-            $form.find('.original-buttons').hide();
-            $form.find('.complete-checkout-contract').show();
-            $form.find('.abort-checkout-contract').show();
-            $form.find('[data-caption="Items"]').hide();
-            $form.find('.partial-contract').show();
-            $form.find('.flexrow').css('max-width', '2200px');
-            $form.find('.pending-item-grid').hide();
-            $form.find('.staged-item-grid').show();
+            this.partialContractGridVisibility($form);
             FwAppData.apiMethod(true, 'POST', `api/v1/checkout/startcheckoutcontract`, requestBody, FwServices.defaultTimeout, response => {
                 try {
                     this.contractId = response.ContractId;
@@ -385,31 +378,7 @@
                     const cancelMenuOptionId = Constants.Modules.Home.StagingCheckout.form.menuItems.Cancel.id.replace('{', '').replace('}', '');
                     $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'true');
 
-                    const $checkedOutItemGridControl = $form.find('[data-name="CheckedOutItemGrid"]');
-                    $checkedOutItemGridControl.data('ContractId', this.contractId); // Stores ContractId on grid for dblclick in grid controller
-                    $checkedOutItemGridControl.attr('data-tableheight', '735px');
-                    $checkedOutItemGridControl.data('ondatabind', request => {
-                        request.uniqueids = {
-                            ContractId: this.contractId
-                        }
-                        request.orderby = 'OrderBy';
-                        request.pagesize = maxPageSize;
-                    })
-                    FwBrowse.search($checkedOutItemGridControl);
-
-                    const $stagedItemGridControl = $form.find('[data-name="StagedItemGrid"]');
-                    $stagedItemGridControl.data('ContractId', this.contractId); // Stores ContractId on grid for dblclick in grid controller
-                    $stagedItemGridControl.attr('data-tableheight', '735px');
-                    $stagedItemGridControl.data('ondatabind', request => {
-                        request.orderby = "ItemOrder";
-                        request.uniqueids = {
-                            OrderId: FwFormField.getValueByDataField($form, `${this.Type}Id`),
-                            WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId')
-                        };
-                        request.pagesize = maxPageSize;
-                    })
-
-                    FwBrowse.search($stagedItemGridControl);
+                    this.renderPartialCheckoutGrids($form);
                 }
                 catch (ex) {
                     FwFunc.showError(ex);
@@ -420,6 +389,48 @@
             FwNotification.renderNotification('WARNING', 'Select an Order.')
         }
     };
+    //----------------------------------------------------------------------------------------------
+    partialContractGridVisibility($form) {
+        $form.find('.orderstatus').hide();
+        $form.find('.createcontract').hide();
+        $form.find('.original-buttons').hide();
+        $form.find('.complete-checkout-contract').show();
+        $form.find('.abort-checkout-contract').show();
+        $form.find('[data-caption="Items"]').hide();
+        $form.find('.partial-contract').show();
+        $form.find('.flexrow').css('max-width', '2200px');
+        $form.find('.pending-item-grid').hide();
+        $form.find('.staged-item-grid').show();
+    }
+    //----------------------------------------------------------------------------------------------
+    renderPartialCheckoutGrids($form) {
+        const maxPageSize = 20;
+        const $checkedOutItemGridControl = $form.find('[data-name="CheckedOutItemGrid"]');
+        $checkedOutItemGridControl.data('ContractId', this.contractId); // Stores ContractId on grid for dblclick in grid controller
+        $checkedOutItemGridControl.attr('data-tableheight', '735px');
+        $checkedOutItemGridControl.data('ondatabind', request => {
+            request.uniqueids = {
+                ContractId: this.contractId
+            }
+            request.orderby = 'OrderBy';
+            request.pagesize = maxPageSize;
+        })
+        FwBrowse.search($checkedOutItemGridControl);
+
+        const $stagedItemGridControl = $form.find('[data-name="StagedItemGrid"]');
+        $stagedItemGridControl.data('ContractId', this.contractId); // Stores ContractId on grid for dblclick in grid controller
+        $stagedItemGridControl.attr('data-tableheight', '735px');
+        $stagedItemGridControl.data('ondatabind', request => {
+            request.orderby = "ItemOrder";
+            request.uniqueids = {
+                OrderId: FwFormField.getValueByDataField($form, `${this.Type}Id`),
+                WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId')
+            };
+            request.pagesize = maxPageSize;
+        })
+
+        FwBrowse.search($stagedItemGridControl);
+    }
     //----------------------------------------------------------------------------------------------
     abortPartialContract($form: JQuery): void {
         $form.find('.orderstatus').show();
