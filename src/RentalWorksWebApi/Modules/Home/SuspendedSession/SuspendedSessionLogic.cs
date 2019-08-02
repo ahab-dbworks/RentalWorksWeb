@@ -64,6 +64,8 @@ namespace WebApi.Modules.Home.SuspendedSession
         public bool? IsQuikInSession { get; set; }
         [FwLogicProperty(Id: "PH9qQUriGS15", IsReadOnly: true)]
         public string OrderType { get; set; }
+        [FwLogicProperty(Id: "GfdsT0Y5OyCJe", IsReadOnly: true)]
+        public string ContainerItemId { get; set; }
         //------------------------------------------------------------------------------------ 
     }
 }
