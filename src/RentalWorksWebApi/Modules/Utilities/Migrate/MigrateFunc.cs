@@ -113,6 +113,36 @@ namespace WebApi.Modules.Utilities.Migrate
                 response.success = false;
                 response.msg = "SessionId is required.";
             }
+            else if (request.MigrateToNewOrder.GetValueOrDefault(false) && (string.IsNullOrEmpty(request.NewOrderDealId)))
+            {
+                response.success = false;
+                response.msg = "New Order Deal is required.";
+            }
+            else if (request.MigrateToNewOrder.GetValueOrDefault(false) && (string.IsNullOrEmpty(request.NewOrderDescription)))
+            {
+                response.success = false;
+                response.msg = "New Order Description is required.";
+            }
+            else if (request.MigrateToNewOrder.GetValueOrDefault(false) && (string.IsNullOrEmpty(request.NewOrderOfficeLocationId)))
+            {
+                response.success = false;
+                response.msg = "New Order Office Location is required.";
+            }
+            else if (request.MigrateToNewOrder.GetValueOrDefault(false) && (string.IsNullOrEmpty(request.NewOrderRateType)))
+            {
+                response.success = false;
+                response.msg = "New Order Office Rate Type is required.";
+            }
+            else if (request.MigrateToNewOrder.GetValueOrDefault(false) && ((request.NewOrderFromDate == null) || (request.NewOrderToDate == null)))
+            {
+                response.success = false;
+                response.msg = "New Order \"From\" and \"To\" Dates are required.";
+            }
+            else if (request.MigrateToExistingOrder.GetValueOrDefault(false) && (string.IsNullOrEmpty(request.ExistingOrderId)))
+            {
+                response.success = false;
+                response.msg = "Existing Order not specified.";
+            }
             else
             {
                 using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
