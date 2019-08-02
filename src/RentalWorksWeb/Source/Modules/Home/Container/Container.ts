@@ -71,8 +71,18 @@ class Container {
     openForm(mode: string) {
         // var $form = FwModule.loadFormFromTemplate(this.Module);
         let $form = jQuery(this.getFormTemplate());
-
+        $form.find('.container-section').show();
         $form = FwModule.openForm($form, mode);
+
+        $form.find('.container-status').on('click', e => {
+            let orderInfo: any = {};
+            orderInfo.OrderId = FwFormField.getValueByDataField($form, 'ContainerItemId');
+            orderInfo.OrderNumber = FwFormField.getValueByDataField($form, 'BarCode');
+            let $orderStatusForm = ContainerStatusController.openForm('EDIT', orderInfo);
+            FwModule.openSubModuleTab($form, $orderStatusForm);
+            jQuery('.tab.submodule.active').find('.caption').html('Container Status');
+        });
+
         return $form;
     };
     //---------------------------------------------------------------------------------------------
