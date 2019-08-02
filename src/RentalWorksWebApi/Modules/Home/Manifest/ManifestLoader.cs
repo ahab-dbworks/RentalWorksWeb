@@ -2,7 +2,10 @@ using FwStandard.DataLayer;
 using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
+using System.Collections.Generic;
 using WebApi.Data;
+using WebLibrary;
+
 namespace WebApi.Modules.Home.Manifest
 {
     [FwSqlTable("manifestwebview")]
@@ -65,6 +68,24 @@ namespace WebApi.Modules.Home.Manifest
             addFilterToSelect("ContractType", "contracttype", select, request);
             addFilterToSelect("TransferId", "orderid", select, request);
             AddActiveViewFieldToSelect("LocationId", "locationid", select, request);
+
+            bool hasContractTypeFilter = false;
+            if ((request != null) && (request.uniqueids != null))
+            {
+                IDictionary<string, object> uniqueIds = ((IDictionary<string, object>)request.uniqueids);
+                hasContractTypeFilter = uniqueIds.ContainsKey("ContractType");
+            }
+
+            if ((!hasContractTypeFilter) && (string.IsNullOrEmpty(ManifestId)))
+            {
+                SelectedCheckBoxListItems items = new SelectedCheckBoxListItems();
+                items.Add(new SelectedCheckBoxListItem(RwConstants.CONTRACT_TYPE_MANIFEST));
+                items.Add(new SelectedCheckBoxListItem(RwConstants.CONTRACT_TYPE_RECEIPT));
+                select.AddWhereIn("contracttype", items);
+            }
+
+
+
         }
         //------------------------------------------------------------------------------------ 
     }

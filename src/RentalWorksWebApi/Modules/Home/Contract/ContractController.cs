@@ -16,14 +16,14 @@ namespace WebApi.Modules.Home.Contract
 
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
-    [FwController(Id:"Z8MlDQp7xOqu")]
+    [FwController(Id: "Z8MlDQp7xOqu")]
     public class ContractController : AppDataController
     {
         public ContractController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(ContractLogic); }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/contract/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"aO0JWGjjIprZ")]
+        [FwControllerMethod(Id: "aO0JWGjjIprZ")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
@@ -48,7 +48,7 @@ namespace WebApi.Modules.Home.Contract
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
-        [FwControllerMethod(Id:"jCKeSS8CiNxw")]
+        [FwControllerMethod(Id: "jCKeSS8CiNxw")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -56,7 +56,7 @@ namespace WebApi.Modules.Home.Contract
         //------------------------------------------------------------------------------------ 
         // GET api/v1/contract 
         [HttpGet]
-        [FwControllerMethod(Id:"Fm14zjtMVHLz")]
+        [FwControllerMethod(Id: "Fm14zjtMVHLz")]
         public async Task<ActionResult<IEnumerable<ContractLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<ContractLogic>(pageno, pagesize, sort);
@@ -66,7 +66,7 @@ namespace WebApi.Modules.Home.Contract
         [HttpGet("{id}")]
         [ProducesResponseType(200, Type = typeof(ContractLogic))]
         [ProducesResponseType(404)]
-        [FwControllerMethod(Id:"jAXbxwqepki6")]
+        [FwControllerMethod(Id: "jAXbxwqepki6")]
         public async Task<ActionResult<ContractLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<ContractLogic>(id);
@@ -75,7 +75,7 @@ namespace WebApi.Modules.Home.Contract
         //------------------------------------------------------------------------------------ 
         // POST api/v1/contract 
         [HttpPost]
-        [FwControllerMethod(Id:"t3psI38R6AMl")]
+        [FwControllerMethod(Id: "t3psI38R6AMl")]
         public async Task<ActionResult<ContractLogic>> PostAsync([FromBody]ContractLogic l)
         {
             return await DoPostAsync<ContractLogic>(l);
@@ -83,7 +83,7 @@ namespace WebApi.Modules.Home.Contract
         //------------------------------------------------------------------------------------ 
         // DELETE api/v1/contract/A0000001 
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id:"AeKHviMBg3XP")]
+        [FwControllerMethod(Id: "AeKHviMBg3XP")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<ContractLogic>(id);
@@ -105,11 +105,12 @@ namespace WebApi.Modules.Home.Contract
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                //FwApiException jsonException = new FwApiException();
+                //jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                //jsonException.Message = ex.Message;
+                //jsonException.StackTrace = ex.StackTrace;
+                //return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------ 
@@ -124,16 +125,18 @@ namespace WebApi.Modules.Home.Contract
             }
             try
             {
-                TSpStatusResponse response = await ContractFunc.VoidContract(AppConfig, UserSession, request);
-                return response;
+                throw new NotImplementedException();
+                //TSpStatusResponse response = await ContractFunc.VoidContract(AppConfig, UserSession, request);
+                //return response;
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                //FwApiException jsonException = new FwApiException();
+                //jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                //jsonException.Message = ex.Message;
+                //jsonException.StackTrace = ex.StackTrace;
+                //return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------ 

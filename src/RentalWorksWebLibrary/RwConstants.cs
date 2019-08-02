@@ -157,6 +157,7 @@
         public const string CONTRACT_TYPE_IN = "IN";
         public const string CONTRACT_TYPE_RETURN = "RETURN";
         public const string CONTRACT_TYPE_MANIFEST = "MANIFEST";
+        public const string CONTRACT_TYPE_RECEIPT = "RECEIPT";
         public const string CONTRACT_TYPE_FILL = "FILL";
         public const string CONTRACT_TYPE_LOST = "LOST";
 
