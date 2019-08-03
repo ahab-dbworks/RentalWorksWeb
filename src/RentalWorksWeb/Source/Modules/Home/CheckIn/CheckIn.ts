@@ -424,9 +424,16 @@ class CheckIn {
             let orderInfo: any = {}, $orderStatusForm;
             orderInfo.OrderId = FwFormField.getValueByDataField($form, `${type}Id`);
             orderInfo.OrderNumber = FwFormField.getTextByDataField($form, `${type}Id`);
-            $orderStatusForm = OrderStatusController.openForm('EDIT', orderInfo);
-            FwModule.openSubModuleTab($form, $orderStatusForm);
-            jQuery('.tab.submodule.active').find('.caption').html('Order Status');
+            if (this.Module == 'TransferIn') {
+                $orderStatusForm = TransferStatusController.openForm('EDIT', orderInfo);
+                FwModule.openSubModuleTab($form, $orderStatusForm);
+                jQuery('.tab.submodule.active').find('.caption').html('Transfer Status');
+            } else {
+                $orderStatusForm = OrderStatusController.openForm('EDIT', orderInfo);
+                FwModule.openSubModuleTab($form, $orderStatusForm);
+                jQuery('.tab.submodule.active').find('.caption').html('Order Status');
+            }
+           
         });
         //Refresh grid on Check-In tab click
         $form.find('.checkintab').on('click', e => {
