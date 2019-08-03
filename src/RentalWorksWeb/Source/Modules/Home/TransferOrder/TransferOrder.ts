@@ -174,7 +174,7 @@ class TransferOrder {
         $orderItemRentalGridControl.data('ondatabind', request => {
             request.uniqueids = {
                 OrderId: FwFormField.getValueByDataField($form, 'TransferId')
-                , Rectype: 'R'
+                , RecType: 'R'
             };
         });
         $orderItemRentalGridControl.data('beforesave', request => {
@@ -191,7 +191,7 @@ class TransferOrder {
         $orderItemSalesGridControl.data('ondatabind', request => {
             request.uniqueids = {
                 OrderId: FwFormField.getValueByDataField($form, 'TransferId')
-                , Rectype: 'S'
+                , RecType: 'S'
             };
         });
         $orderItemSalesGridControl.data('beforesave', request => {
