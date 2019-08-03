@@ -314,6 +314,8 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.TransferOrder.form.menuItem
         const mode = 'EDIT';
         const orderInfo: any = {};
         orderInfo.TransferId = FwFormField.getValueByDataField($form, 'TransferId');
+        orderInfo.WarehouseId = FwFormField.getValueByDataField($form, 'FromWarehouseId');
+        // orderInfo.Warehouse = FwFormField.getValueByDataField($form, 'FromWarehouseId');
         orderInfo.TransferNumber = FwFormField.getValueByDataField($form, 'TransferNumber');
         const $stagingCheckoutForm = TransferOutController.openForm(mode, orderInfo);
         FwModule.openSubModuleTab($form, $stagingCheckoutForm);
