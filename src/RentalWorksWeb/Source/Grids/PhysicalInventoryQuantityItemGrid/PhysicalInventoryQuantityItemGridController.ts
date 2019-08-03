@@ -27,7 +27,7 @@
             const html: any = [];
             const $grid = $tr.parents('[data-grid="PhysicalInventoryQuantityItemGrid"]');
 
-            if (trackedByValue === 'QUANTITY' && itemClassValue !== 'K') {
+            //if (trackedByValue === 'QUANTITY' && itemClassValue !== 'K') {
                 html.push('<button class="decrementQuantity" tabindex="-1" style="padding: 5px 0px; float:left; width:25%; border:none;">-</button>');
                 html.push('<div style="position:relative">');
                 html.push(`     <input class="fieldvalue" type="number" style="height:1.5em; width:40px; text-align:center;" value="${originalquantity}">`);
@@ -89,10 +89,10 @@
                             }, this.$form);
                     }
                 });
-            } else {
-                $tr.find('.quantity').text('');
-                $tr.find('[data-browsedatafield="Quantity"]').attr('data-formreadonly', 'true');
-            } //end of trackedBy conditional
+            //} else {
+            //    $tr.find('.quantity').text('');
+            //    $tr.find('[data-browsedatafield="Quantity"]').attr('data-formreadonly', 'true');
+            //} //end of trackedBy conditional
 
         });
     }

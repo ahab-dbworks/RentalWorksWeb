@@ -315,6 +315,9 @@ class Contract {
                 $form.find('div[data-datafield="BillingDateChangeReason"]').attr('data-required', 'false');
             }
         });
+        // After Save, remove and clear out reason row
+        $form.find('.date-change-reason').hide();
+        FwFormField.setValueByDataField($form, 'BillingDateChangeReason', '');
     }
     //----------------------------------------------------------------------------------------------
     deliveryTypeAddresses($form: any, event: any): void {
