@@ -25,6 +25,20 @@
              }
          });
      }
+
+     beforeValidateItem = function ($browse, $grid, request, datafield, $tr) {
+         const availFor = $grid.find('.active [data-grid="TransferOrderItemGrid"]');
+
+         if (availFor.hasClass('R')) {
+             request.uniqueids = {
+                 AvailFor: 'R'
+             };
+         } else if (availFor.hasClass('S')) {
+             request.uniqueids = {
+                 AvailFor: 'S'
+             };
+         }
+     };
 }
 //-----------------------------------------------------------------------------------------------------
 //QuikSearch
