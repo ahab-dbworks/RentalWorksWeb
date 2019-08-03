@@ -449,22 +449,23 @@ class CheckIn {
         notificationSound = new Audio(this.notificationSoundFileName);
 
         const module = this.Module;
+        const request: any = {};
         let idType;
         switch (module) {
             case 'CheckIn':
                 idType = 'Order';
+                request.ModuleType = 'O';
                 break;
             case 'TransferIn':
                 idType = 'Transfer';
+                request.ModuleType = 'T';
                 break;
         }
 
         $form.find('.swapitem').hide();
         let contractId = FwFormField.getValueByDataField($form, 'ContractId');
-        let request: any = {};
-        request = {
-            Code: FwFormField.getValueByDataField($form, 'BarCode')
-        }
+       
+        request.Code = FwFormField.getValueByDataField($form, 'BarCode');
         if (contractId) {
             request.ContractId = contractId;
         }

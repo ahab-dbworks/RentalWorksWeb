@@ -73,7 +73,8 @@
                     ContractId: contractId,
                     OrderItemId: orderItemId,
                     Code: code,
-                    Quantity: quantity
+                    Quantity: quantity,
+                    ModuleType: 'O'
                 };
 
                 if (orderItemIdComment) {
