@@ -60,6 +60,7 @@ namespace WebLibrary.Security
             AddModule("Repair Order",           "{2BD0DC82-270E-4B86-A9AA-DD0461A0186A}", lv1menuInventory.Id, "RepairController");
             AddModule("Complete Qc",            "{3F20813A-CC21-49D8-A5F8-9930B7F05404}", lv1menuInventory.Id, "CompleteQcController");
             AddModule("Physical Inventory",     "{BABFE80E-8A52-49D4-81D9-6B6EBB518E89}", lv1menuInventory.Id, "PhysicalInventoryController");
+            AddModule("Count Quantity Inventory", "{0A02B28D-C025-4579-993B-860832F8837F}", lv1menuInventory.Id, "CountQuantityInventoryController");
             AddModule("Availability Conflicts", "{DF2859D1-3834-42DA-A367-85B168850ED9}", lv1menuInventory.Id, "AvailabilityConflictsController");
             //Warehouse
             AddModule("Order Status",        "{F6AE5BC1-865D-467B-A201-95C93F8E8D0B}", lv1menuWarehouse.Id, "OrderStatusController");

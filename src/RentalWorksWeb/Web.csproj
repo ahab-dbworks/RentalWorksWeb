@@ -504,6 +504,7 @@
     <TypeScriptCompile Include="Source\Modules\Administrator\Hotfix\Hotfix.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\Reports\ReportsController.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\EmailHistory\EmailHistory.ts" />
+    <TypeScriptCompile Include="Source\Modules\Home\CountQuantityInventory\CountQuantityInventory.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\ScanBarCodes\ScanBarCodes.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Billing\BillingMessage.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\EmptyContainer\EmptyContainer.ts" />

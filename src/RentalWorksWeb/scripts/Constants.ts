@@ -47,6 +47,7 @@
                     } 
                 }
             },
+            CountQuantityInventory: { id: '0A02B28D-C025-4579-993B-860832F8837F', caption: 'Count Quantity Inventory', nav: 'module/physicalinventoryquantityinventory' },
             CreatePickList: { id: '1407A536-B5C9-4363-8B54-A56DB8CE902D', caption: 'Create Pick List', nav: 'module/contract' },
             Customer: { id: '214C6242-AA91-4498-A4CC-E0F3DCCCE71E', caption: 'Customer', nav: 'module/customer' },
             CustomerCredit: { id: 'CCFCD376-FC2B-49F4-BAE0-3FB1F0258F66', caption: 'Customer Credit', nav: 'module/customercredit' },

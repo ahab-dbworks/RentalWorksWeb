@@ -1,27 +1,23 @@
-
-class ScanBarCodes {
-    Module: string = 'ScanBarCodes';
-    //caption: string = Constants.Modules.Home.AssignBarCodes.caption;
-    //nav: string = Constants.Modules.Home.AssignBarCodes.nav;
-    //id: string = Constants.Modules.Home.AssignBarCodes.id;
-    caption: 'Scan Bar Codes';
-    nav: 'module/scanbarcodes';
-    id: 'C8683D4F-70C1-40CD-967A-0891B14664E8';
+class CountQuantityInventory {
+    Module: string = 'CountQuantityInventory';
+    caption: string = Constants.Modules.Home.CountQuantityInventory.caption;
+    nav: string = Constants.Modules.Home.CountQuantityInventory.nav;
+    id: string = Constants.Modules.Home.CountQuantityInventory.id;
     successSoundFileName: string;
     errorSoundFileName: string;
     notificationSoundFileName: string;
 
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
-        var screen: any = {};
+        const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
-        var $form = this.openForm('EDIT');
+        const $form = this.openForm('EDIT');
 
         screen.load = function () {
-            FwModule.openModuleTab($form, 'Scan Bar Codes', false, 'FORM', true);
+            FwModule.openModuleTab($form, 'Count Quantity Inventory', false, 'FORM', true);
         };
         screen.unload = function () {
         };
@@ -49,38 +45,11 @@ class ScanBarCodes {
         return $form;
     };
     //----------------------------------------------------------------------------------------------
-    events($form) {
-        //BarCode input
-        $form.find('[data-datafield="BarCode"] input').on('keydown', e => {
-            if (e.which === 13) {
-                $form.find('.error-msg').html('');
-                const physicalInventoryId = FwFormField.getValueByDataField($form, 'PhysicalInventoryId');
-                const barCode = FwFormField.getValueByDataField($form, 'BarCode');
-                const request: any = {};
-                request.PhysicalInventoryId = physicalInventoryId;
-                request.BarCode = barCode;
-                FwAppData.apiMethod(true, 'POST', 'api/v1/physicalinventory/countbarcode', request, FwServices.defaultTimeout,
-                    response => {
-                        if (response.success) {
-                            $form.find('[data-datafield="BarCode"] input').select();
-                            FwFormField.setValueByDataField($form, 'ICode', response.ICode);
-                            FwFormField.setValueByDataField($form, 'InventoryDescription', response.Description);
-                        } else {
-                            $form.find('.error-msg').html(`<div><span>${response.msg}</span></div>`);
-                            $form.find('[data-datafield="BarCode"] input').select();
-                            FwFormField.setValueByDataField($form, 'ICode', '');
-                            FwFormField.setValueByDataField($form, 'InventoryDescription', '');
-                        }
-                    },
-                    ex => FwFunc.showError(ex)
-                    , $form);
-            }
-        });
-    }
+    events($form) { }
     //----------------------------------------------------------------------------------------------
     getFormTemplate(): string {
         return `
-        <div id="scanbarcodesform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-caption="Scan Bar Codes" data-hasaudit="false" data-controller="ScanBarCodesController">
+        <div id="countquantityform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-caption="Count Quantity Inventory" data-hasaudit="false" data-controller="CountQuantityInventoryController">
           <div class="flexpage">
             <div class="flexrow">
               <div class="flexcolumn" style="flex:1 1 575px;">
@@ -94,11 +63,9 @@ class ScanBarCodes {
                     <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield warehouse" data-caption="Warehouse" data-datafield="WarehouseId" data-displayfield="Warehouse" data-enabled="false" style="float:left;width:250px;"></div>
                   </div>
                 </div>
-                <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Scan Bar Codes to count Inventory" style="flex:1 1 750px;">
+                <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Apply Counted Inventory Quantities" style="flex:1 1 750px;">
                   <div class="flexrow">
-                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Bar Code" data-datafield="BarCode" style="flex:1 1 300px;"></div>
-                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="ICode" style="flex:1 1 300px;" data-enabled="false"></div>
-                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="InventoryDescription" style="flex:1 1 400px;" data-enabled="false"></div>
+                    <div>GRID</div>
                   </div>
                   <div class="flexrow"><div class="error-msg" style="margin-top:8px;"></div></div>
                 </div>
@@ -109,4 +76,4 @@ class ScanBarCodes {
         `;
     }
 }
-var ScanBarCodesController = new ScanBarCodes();
+var CountQuantityInventoryController = new CountQuantityInventory();
