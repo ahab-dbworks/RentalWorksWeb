@@ -94,6 +94,9 @@
                 FwAppData.apiMethod(true, 'POST', 'api/v1/physicalinventory/prescan', request, FwServices.defaultTimeout,
                     response => {
                         $form.empty().append(PhysicalInventoryController.loadForm(request));
+                        const $tabControl = $form.find('.fwtabs');
+                        const $countTab = $form.find('[data-type="tab"][data-caption="Count"]');
+                        FwTabs.setActiveTab($tabControl, $countTab);
                     },
                     ex => FwFunc.showError(ex),
                     $form);
@@ -114,6 +117,9 @@
                 FwAppData.apiMethod(true, 'POST', 'api/v1/physicalinventory/initiate', request, FwServices.defaultTimeout,
                     response => {
                         $form.empty().append(PhysicalInventoryController.loadForm(request));
+                        const $tabControl = $form.find('.fwtabs');
+                        const $countTab = $form.find('[data-type="tab"][data-caption="Count"]');
+                        FwTabs.setActiveTab($tabControl, $countTab);
                     },
                     ex => FwFunc.showError(ex),
                     $form);
@@ -133,6 +139,9 @@
             FwAppData.apiMethod(true, 'POST', `api/v1/physicalinventory/${physicalInventoryId}/updatestep/printcountsheet`, request, FwServices.defaultTimeout,
                 response => {
                     $form.empty().append(PhysicalInventoryController.loadForm(request));
+                    const $tabControl = $form.find('.fwtabs');
+                    const $countTab = $form.find('[data-type="tab"][data-caption="Count"]');
+                    FwTabs.setActiveTab($tabControl, $countTab);
                 },
                 ex => FwFunc.showError(ex),
                 $form);
