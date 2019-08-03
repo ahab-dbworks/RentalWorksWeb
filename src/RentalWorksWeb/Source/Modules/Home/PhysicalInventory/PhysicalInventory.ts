@@ -371,11 +371,11 @@
             $form.find('.initiate-desc').append(`<span style="color:red; margin-left:20px;">Initiated on ${initiateDateTime}</span>`);
         }
 
-        const $buttonFields = $form.find('.button-fields div.fwformfield');
+        const $buttonFields = $form.find('.button-fields');
         for (let i = 0; i < $buttonFields.length; i++) {
             const field = jQuery($buttonFields[i]).attr('data-datafield');
             const isAllowed = FwFormField.getValueByDataField($form, field);
-            const $button = $form.find(`[data-datafield="${field.substring(5)}"]`).siblings('[data-type="button"]');
+            const $button = jQuery($buttonFields[i]).siblings('[data-type="button"]');
             isAllowed == 'false' ? FwFormField.disable($button) : FwFormField.enable($button);
         }
     }
