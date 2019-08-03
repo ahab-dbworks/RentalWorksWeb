@@ -244,10 +244,14 @@ class CheckIn {
             if (contractId.length === 0) {
                 let request: any = {};
                 request = {
-                    OrderId: FwFormField.getValueByDataField($form, `${type}Id`)
-                    , DepartmentId: FwFormField.getValueByDataField($form, 'DepartmentId')
+                    OrderId: FwFormField.getValueByDataField($form, `${type}Id`),
+                    DepartmentId: FwFormField.getValueByDataField($form, 'DepartmentId'),
+                    OfficeLocationId: JSON.parse(sessionStorage.getItem('location')).locationid,
+                    WarehouseId: JSON.parse(sessionStorage.getItem('warehouse')).warehouseid
                 }
-                if (this.Module === 'CheckIn') request.DealId = FwFormField.getValueByDataField($form, 'DealId');
+                if (this.Module === 'CheckIn') {
+                    request.DealId = FwFormField.getValueByDataField($form, 'DealId');
+                }
                 FwAppData.apiMethod(true, 'POST', 'api/v1/checkin/startcheckincontract', request, FwServices.defaultTimeout, function onSuccess(response) {
                     FwFormField.setValueByDataField($form, 'ContractId', response.ContractId);
                     $form.find('.suspendedsession').hide();
@@ -263,8 +267,10 @@ class CheckIn {
                 FwFormField.disable($form.find('[data-datafield="OrderId"], [data-datafield="DealId"]'));
                 let request: any = {};
                 request = {
-                    DealId: FwFormField.getValueByDataField($form, 'DealId')
-                    , DepartmentId: FwFormField.getValueByDataField($form, 'DepartmentId')
+                    DealId: FwFormField.getValueByDataField($form, 'DealId'),
+                    DepartmentId: FwFormField.getValueByDataField($form, 'DepartmentId'),
+                    OfficeLocationId: JSON.parse(sessionStorage.getItem('location')).locationid,
+                    WarehouseId: JSON.parse(sessionStorage.getItem('warehouse')).warehouseid
                 }
                 FwAppData.apiMethod(true, 'POST', 'api/v1/checkin/startcheckincontract', request, FwServices.defaultTimeout, function onSuccess(response) {
                     FwFormField.setValueByDataField($form, 'ContractId', response.ContractId);

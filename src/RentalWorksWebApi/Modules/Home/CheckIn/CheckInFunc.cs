@@ -9,6 +9,32 @@ using WebLibrary;
 namespace WebApi.Modules.Home.CheckIn
 {
 
+    public class CheckInContractRequest
+    {
+        public string OrderId;
+        public string DealId;
+        public string DepartmentId;
+        public string OfficeLocationId;
+        public string WarehouseId;
+    }
+
+    public class CheckInContractResponse
+    {
+        public string ContractId;
+    }
+
+    public class CheckInItemRequest
+    {
+        public string ModuleType;   // O=Order or T=Transfer
+        public string ContractId;
+        public string Code;
+        public string OrderId;
+        public string OrderItemId;
+        public int? Quantity;
+        public bool? AddOrderToContract;
+        public bool? SwapItem;
+    }
+
     public class OrderInventoryStatusCheckIn
     {
         public string ICode;
@@ -41,19 +67,17 @@ namespace WebApi.Modules.Home.CheckIn
     public static class CheckInFunc
     {
         //-------------------------------------------------------------------------------------------------------
-        public static async Task<string> CreateCheckInContract(FwApplicationConfig appConfig, FwUserSession userSession, string OrderId, string DealId, string DepartmentId)
+        public static async Task<string> CreateCheckInContract(FwApplicationConfig appConfig, FwUserSession userSession, CheckInContractRequest request)
         {
             string contractId = "";
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
             {
-                if (OrderId == null)
-                {
-                    OrderId = "";
-                }
                 FwSqlCommand qry = new FwSqlCommand(conn, "createincontract", appConfig.DatabaseSettings.QueryTimeout);
-                qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
-                qry.AddParameter("@dealid", SqlDbType.NVarChar, ParameterDirection.Input, DealId ?? "");
-                qry.AddParameter("@departmentid", SqlDbType.NVarChar, ParameterDirection.Input, DepartmentId);
+                qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, request.OrderId?? "");
+                qry.AddParameter("@dealid", SqlDbType.NVarChar, ParameterDirection.Input, request.DealId ?? "");
+                qry.AddParameter("@departmentid", SqlDbType.NVarChar, ParameterDirection.Input, request.DepartmentId);
+                qry.AddParameter("@locationid", SqlDbType.NVarChar, ParameterDirection.Input, request.OfficeLocationId);
+                qry.AddParameter("@warehouseid", SqlDbType.NVarChar, ParameterDirection.Input, request.WarehouseId);
                 qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
                 qry.AddParameter("@contractid", SqlDbType.NVarChar, ParameterDirection.Output);
                 await qry.ExecuteNonQueryAsync();

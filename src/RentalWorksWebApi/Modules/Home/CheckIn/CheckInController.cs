@@ -4,49 +4,19 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options; 
 using WebApi.Controllers; 
 using System.Threading.Tasks;
-using FwStandard.SqlServer;
 using System;
-using Microsoft.AspNetCore.Http;
-//using WebApi.Home.CheckIn;
 using WebApi.Logic;
 using WebApi.Modules.Home.Contract;
 using WebLibrary;
 
 namespace WebApi.Modules.Home.CheckIn
 {
-
-    public class CheckInContractRequest
-    {
-        public string OrderId;
-        public string DealId;
-        public string DepartmentId;
-    }
-
-    public class CheckInContractResponse
-    {
-        public string ContractId;
-    }
-    
-    public class CheckInItemRequest
-    {
-        public string ModuleType;   // O=Order or T=Transfer
-        public string ContractId;
-        public string Code;
-        public string OrderId;
-        public string OrderItemId;
-        public int? Quantity;
-        public bool? AddOrderToContract;
-        public bool? SwapItem;
-    }
-
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
     [FwController(Id:"krnJWTUs4n5U")]
     public class CheckInController : AppDataController
     {
         public CheckInController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
-
-
 
         //------------------------------------------------------------------------------------ 
 
@@ -65,11 +35,7 @@ namespace WebApi.Modules.Home.CheckIn
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------ 
@@ -88,11 +54,7 @@ namespace WebApi.Modules.Home.CheckIn
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
 
@@ -107,18 +69,14 @@ namespace WebApi.Modules.Home.CheckIn
             }
             try
             {
-                string ContractId = await CheckInFunc.CreateCheckInContract(AppConfig, UserSession, request.OrderId, request.DealId, request.DepartmentId);
+                string ContractId = await CheckInFunc.CreateCheckInContract(AppConfig, UserSession, request);
                 CheckInContractResponse response = new CheckInContractResponse();
                 response.ContractId = ContractId;
                 return new OkObjectResult(response);
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------ 
@@ -152,11 +110,7 @@ namespace WebApi.Modules.Home.CheckIn
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------       
@@ -192,11 +146,7 @@ namespace WebApi.Modules.Home.CheckIn
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
     }
