@@ -45,6 +45,48 @@ class CountQuantityInventory {
         return $form;
     };
     //----------------------------------------------------------------------------------------------
+    renderGrids($form: JQuery): void {
+        const $physicalInventoryQuantityItemGrid = $form.find('div[data-grid="PhysicalInventoryQuantityItemGrid"]');;
+        const $physicalInventoryQuantityItemGridControl = FwBrowse.loadGridFromTemplate('PhysicalInventoryQuantityItemGrid');
+        $physicalInventoryQuantityItemGrid.empty().append($physicalInventoryQuantityItemGridControl);
+        $physicalInventoryQuantityItemGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                PhysicalInventoryId: FwFormField.getValueByDataField($form, `PhysicalInventoryId`)
+            };
+        });
+        FwBrowse.init($physicalInventoryQuantityItemGridControl);
+        FwBrowse.renderRuntimeHtml($physicalInventoryQuantityItemGridControl);
+        // ----------
+    }
+    //----------------------------------------------------------------------------------------------
+    afterLoad($form: JQuery): void {
+        const $physicalInventoryQuantityItemGrid = $form.find('[data-name="PhysicalInventoryQuantityItemGrid"]');
+        FwBrowse.search($physicalInventoryQuantityItemGrid);
+
+        //Click Event on tabs to load grids/browses
+        $form.on('click', '[data-type="tab"]', e => {
+            const tabname = jQuery(e.currentTarget).attr('id');
+            const lastIndexOfTab = tabname.lastIndexOf('tab');
+            const tabpage = `${tabname.substring(0, lastIndexOfTab)}tabpage${tabname.substring(lastIndexOfTab + 3)}`;
+
+            const $gridControls = $form.find(`#${tabpage} [data-type="Grid"]`);
+            if ($gridControls.length > 0) {
+                for (let i = 0; i < $gridControls.length; i++) {
+                    const $gridcontrol = jQuery($gridControls[i]);
+                    FwBrowse.search($gridcontrol);
+                }
+            }
+
+            const $browseControls = $form.find(`#${tabpage} [data-type="Browse"]`);
+            if ($browseControls.length > 0) {
+                for (let i = 0; i < $browseControls.length; i++) {
+                    const $browseControl = jQuery($browseControls[i]);
+                    FwBrowse.search($browseControl);
+                }
+            }
+        });
+    }
+    //----------------------------------------------------------------------------------------------
     events($form) { }
     //----------------------------------------------------------------------------------------------
     getFormTemplate(): string {
@@ -65,7 +107,7 @@ class CountQuantityInventory {
                 </div>
                 <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Apply Counted Inventory Quantities" style="flex:1 1 750px;">
                   <div class="flexrow">
-                    <div>GRID</div>
+                     <div data-control="FwGrid" data-grid="PhysicalInventoryQuantityItemGrid" data-securitycaption="PhysicalInventoryQuantityItemGrid"></div>
                   </div>
                   <div class="flexrow"><div class="error-msg" style="margin-top:8px;"></div></div>
                 </div>
