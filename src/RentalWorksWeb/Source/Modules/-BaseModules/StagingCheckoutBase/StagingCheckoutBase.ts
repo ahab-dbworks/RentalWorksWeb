@@ -760,7 +760,12 @@
                 }, null, $form);
             } else {
                 event.stopPropagation();
-                FwNotification.renderNotification('WARNING', 'Select an Order.')
+                const buttonText = event.currentTarget.innerText;
+                if (buttonText.startsWith('FILL')) {
+                    FwNotification.renderNotification('WARNING', 'Select a Container.')
+                } else {
+                    FwNotification.renderNotification('WARNING', 'Select an Order.')
+                }
             }
         }
     };
