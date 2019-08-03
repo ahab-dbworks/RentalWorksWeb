@@ -337,25 +337,26 @@ class Receipt {
             const $amountFields = $form.find('td[data-invoicefield="InvoiceAmount"] input');
             const amountToApply = FwFormField.getValueByDataField($form, 'PaymentAmount');
             for (let i = 0; i < $amountFields.length; i++) {
-                // Total Column
-                let totalVal = $totalFields.eq(i).text();
-                totalVal = totalVal.replace(/,/g, '');
-                totalTotal = totalTotal.plus(totalVal);
-                // Applied Column
                 let appliedVal = $appliedFields.eq(i).text();
-                appliedVal = appliedVal.replace(/,/g, '');
-                appliedTotal = appliedTotal.plus(appliedVal);
-                // Due Column
+                let totalVal = $totalFields.eq(i).text();
                 let dueVal = $dueFields.eq(i).text();
-                dueVal = dueVal.replace(/,/g, '');
-                dueTotal = dueTotal.plus(dueVal);
-                // Amount Column
                 let amountInput = $amountFields.eq(i).val();
+                // Amount Column
                 if (amountInput === '') {
                     amountInput = '0.00';
                 }
                 amountInput = amountInput.replace(/,/g, '');
                 amountTotal = amountTotal.plus(amountInput);
+                // Total Column
+                totalVal = totalVal.replace(/,/g, '');
+                totalTotal = totalTotal.plus(totalVal);
+                // Applied Column
+                appliedVal = appliedVal.replace(/,/g, '');
+                appliedTotal = appliedTotal.plus(appliedVal);
+
+                // Due Column
+                dueVal = dueVal.replace(/,/g, '');
+                dueTotal = dueTotal.plus(dueVal);
             }
             const amount: any = amountTotal.toFixed(2);
             const total = totalTotal.toFixed(2);
