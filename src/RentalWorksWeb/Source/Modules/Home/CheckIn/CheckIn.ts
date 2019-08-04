@@ -350,7 +350,13 @@ class CheckIn {
                 if ($form.find('.optionlist').css('display') === 'none') {
                     $form.find('.optionlist').toggle();
                 }
-                allActiveOrders.prop('checked', true);
+                if (this.Module == 'CheckIn') {
+                    allActiveOrders.prop('checked', true);
+                } else if (this.Module == 'TransferIn') {
+                    allActiveOrders.prop('checked', false);
+                    $form.find('.all-orders').hide();
+                }
+              
                 FwBrowse.search($checkInQuantityItemsGridControl);
             }
         });
@@ -646,7 +652,7 @@ class CheckIn {
                     <div class="fwformcontrol selectall" data-type="button" style="float:left; margin-left:10px;">Select All</div>
                     <div class="fwformcontrol selectnone" data-type="button" style="float:left; margin-left:10px;">Select None</div>
                   </div>
-                  <div class="flexrow optionlist" style="display:none;">
+                  <div class="flexrow optionlist all-orders" style="display:none;">
                     <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Show all ACTIVE Orders for this ${Constants.Modules.Home.Deal.caption}" data-datafield="AllOrdersForDeal" style="flex:0 1 350px;"></div>
                     <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Specific Order" data-datafield="SpecificOrder" style="flex:0 1 150px;"></div>
                     <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Order No." data-datafield="SpecificOrderId" data-displayfield="SpecificOrderNumber" data-validationname="OrderValidation" data-formbeforevalidate="beforeValidateSpecificOrder" style="flex:0 1 175px;" data-enabled="false"></div>
