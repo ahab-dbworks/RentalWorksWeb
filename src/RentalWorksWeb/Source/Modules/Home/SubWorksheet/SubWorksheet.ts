@@ -148,6 +148,7 @@ class SubWorksheet {
                                 request.uniqueids = {
                                     SessionId: this.SessionId
                                 }
+                                request.totalfields = this.gridTotalFields;
                             })
                             FwBrowse.search($subPurchaseOrderItemGridControl);
                         }
@@ -174,6 +175,7 @@ class SubWorksheet {
                                 request.uniqueids = {
                                     SessionId: this.SessionId
                                 }
+                                request.totalfields = this.gridTotalFields;
                             })
                             FwBrowse.search($subPurchaseOrderItemGridControl);
                         }
