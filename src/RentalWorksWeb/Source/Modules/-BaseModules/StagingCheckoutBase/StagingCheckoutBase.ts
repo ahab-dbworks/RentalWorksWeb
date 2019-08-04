@@ -203,13 +203,18 @@
 
                 $browse.on('dblclick', 'tr.viewmode', e => {
                     const $this = jQuery(e.currentTarget);
-                    const orderId = $this.find(`[data-browsedatafield="${this.Type}Id"]`).attr('data-originalvalue');
-                    const orderNo = $this.find(`[data-browsedatafield="${this.Type}Number"]`).attr('data-originalvalue');
+                    const id = $this.find(`[data-browsedatafield="${this.Type}Id"]`).attr('data-originalvalue');
+                    const number = $this.find(`[data-browsedatafield="${this.Type}Number"]`).attr('data-originalvalue');
                     const contractId = $this.find(`[data-browsedatafield="ContractId"]`).attr('data-originalvalue');
                     this.contractId = contractId;
                     const cancelMenuOptionId = Constants.Modules.Home.StagingCheckout.form.menuItems.Cancel.id.replace('{', '').replace('}', '');
                     $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'true');
-                    FwFormField.setValueByDataField($form, `${this.Type}Id`, orderId, orderNo);
+                    FwFormField.setValueByDataField($form, `${this.Type}Id`, id, number);
+                    if (this.Module == 'FillContainer') {
+                        const orderId = $this.find(`[data-browsedatafield="OrderId"]`).attr('data-originalvalue');
+                        FwFormField.setValueByDataField($form, 'OrderId', orderId);
+                    }
+
                     FwPopup.destroyPopup($popup);
                     $form.find(`[data-datafield="${this.Type}Id"] input`).change();
                     $form.find('.suspendedsession').hide();
@@ -255,7 +260,7 @@
                         apiName = 'containeritem';
                         break;
                 }
-                const orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
+                const orderId = FwFormField.getValueByDataField($form, `${this.Type == 'ContainerItem' ? 'Order' : this.Type}Id`);
                 const warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
                 FwFormField.setValueByDataField($form, 'GridView', 'STAGE');
                 const apiUrl = `api/v1/${apiName}/${orderId}`;
@@ -263,6 +268,7 @@
                     FwFormField.setValueByDataField($form, 'Description', response.Description);
                     FwFormField.setValueByDataField($form, 'Location', response.Location);
                     if (module == 'StagingCheckout') FwFormField.setValueByDataField($form, 'DealId', response.DealId, response.Deal);
+                    if (module == 'FillContainer') FwFormField.setValueByDataField($form, 'BarCode', response.BarCode);
                     // Determine tabs to render
                     FwAppData.apiMethod(true, 'GET', `api/v1/checkout/stagingtabs?OrderId=${orderId}&WarehouseId=${warehouseId}`, null, FwServices.defaultTimeout, res => {
                         res.QuantityTab === true ? $form.find('.quantity-items-tab').show() : $form.find('.quantity-items-tab').hide();
@@ -425,7 +431,7 @@
         $stagedItemGridControl.data('ondatabind', request => {
             request.orderby = "ItemOrder";
             request.uniqueids = {
-                OrderId: FwFormField.getValueByDataField($form, `${this.Type}Id`),
+                OrderId: FwFormField.getValueByDataField($form, `${this.Type == 'ContainerItem' ? 'Order' : this.Type}Id`),
                 WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId')
             };
             request.pagesize = maxPageSize;
@@ -1263,7 +1269,8 @@
                 tabCaption = this.caption;
                 //typeHTML = `<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield clearable" data-caption="Container Item" data-datafield="ContainerItemId" data-displayfield="BarCode" data-formbeforevalidate="beforeValidate" data-validationname="ContainerItemValidation" style="flex:0 1 175px;"></div>`;
                 typeHTML = `<div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield clearable" data-caption="Container Item" data-datafield="BarCode" style="flex:0 1 175px;"></div>
-                            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield clearable" data-datafield="ContainerItemId" data-displayfield="BarCode" data-validationname="ContainerItemValidation" style="display:none;"></div>`;
+                            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield clearable" data-datafield="ContainerItemId" data-displayfield="BarCode" data-validationname="ContainerItemValidation" style="display:none;"></div>
+                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield clearable" data-caption="Order Id" data-datafield="OrderId" style="display:none;"></div>`;
                 statusBtnCaption = 'Container Status';
                 createBtnCaption = 'Fill Container';
                 break;
