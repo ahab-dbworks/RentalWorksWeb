@@ -356,7 +356,6 @@ class CheckIn {
                     allActiveOrders.prop('checked', false);
                     $form.find('.all-orders').hide();
                 }
-              
                 FwBrowse.search($checkInQuantityItemsGridControl);
             }
         });
@@ -372,6 +371,10 @@ class CheckIn {
         //Options button
         $form.find('.optionsbutton').on('click', e => {
             $form.find('.optionlist').toggle();
+            if (this.Module == 'TransferIn') {
+                allActiveOrders.prop('checked', false);
+                $form.find('.all-orders').hide();
+            }
         });
 
         //AllOrdersForDeal Checkbox functionality
