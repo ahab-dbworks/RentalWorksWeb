@@ -102,49 +102,61 @@ namespace WebApi.Modules.Home.TransferOrder
             if ((request != null) && (request.uniqueids != null))
             {
                 IDictionary<string, object> uniqueIds = ((IDictionary<string, object>)request.uniqueids);
+                //if (uniqueIds.ContainsKey("WarehouseId"))
+                //{
+                //    select.AddWhere("(warehouseid = @warehouseid1 or fromwarehouseid = @warehouseid1)");
+                //    select.AddParameter("@warehouseid1", uniqueIds["WarehouseId"].ToString());
+                //}
+                // above is too slow
+
+
                 if (uniqueIds.ContainsKey("WarehouseId"))
                 {
-                    select.AddWhere("(warehouseid = @warehouseid1 or fromwarehouseid = @warehouseid1)");
+                    select.AddWhere("(warehouseid = @warehouseid1)");
                     select.AddParameter("@warehouseid1", uniqueIds["WarehouseId"].ToString());
                 }
             }
 
-            if ((request != null) && (request.activeviewfields != null))
-            {
-                if (request.activeviewfields.ContainsKey("WarehouseId"))
-                {
-                    List<string> values = request.activeviewfields["WarehouseId"];
-                    if (values.Count == 1)
-                    {
-                        string value = values[0];
-                        if (!value.ToUpper().Equals("ALL"))
-                        {
-                            select.AddWhere("(warehouseid = @warehouseid2 or fromwarehouseid = @warehouseid2)");
-                            select.AddParameter("@warehouseid2", value);
-                        }
-                    }
-                    else if (values.Count > 1)
-                    {
-                        int v = 2; // prameter index
-                        StringBuilder sb = new StringBuilder();
-                        foreach (string value in values)
-                        {
-                            if (!value.ToUpper().Equals("ALL"))
-                            {
-                                string paramName = "@warehouseid" + v.ToString();
-                                sb.AppendLine("(warehouseid = " + paramName + " or fromwarehouseid = " + paramName + ")");
-                                sb.AppendLine("or");
-                                select.AddParameter(paramName, value);
-                            }
-                            v++;
-                        }
-                        sb.Remove(sb.Length - 1, 1);
-                        sb.Insert(0, "(");
-                        sb.Append(")");
-                        select.AddWhere(sb.ToString()); ;
-                    }
-                }
-            }
+            //if ((request != null) && (request.activeviewfields != null))
+            //{
+            //    if (request.activeviewfields.ContainsKey("WarehouseId"))
+            //    {
+            //        List<string> values = request.activeviewfields["WarehouseId"];
+            //        if (values.Count == 1)
+            //        {
+            //            string value = values[0];
+            //            if (!value.ToUpper().Equals("ALL"))
+            //            {
+            //                select.AddWhere("(warehouseid = @warehouseid2 or fromwarehouseid = @warehouseid2)");
+            //                select.AddParameter("@warehouseid2", value);
+            //            }
+            //        }
+            //        else if (values.Count > 1)
+            //        {
+            //            int v = 2; // prameter index
+            //            StringBuilder sb = new StringBuilder();
+            //            foreach (string value in values)
+            //            {
+            //                if (!value.ToUpper().Equals("ALL"))
+            //                {
+            //                    string paramName = "@warehouseid" + v.ToString();
+            //                    sb.AppendLine("(warehouseid = " + paramName + " or fromwarehouseid = " + paramName + ")");
+            //                    sb.AppendLine("or");
+            //                    select.AddParameter(paramName, value);
+            //                }
+            //                v++;
+            //            }
+            //            sb.Remove(sb.Length - 1, 1);
+            //            sb.Insert(0, "(");
+            //            sb.Append(")");
+            //            select.AddWhere(sb.ToString()); ;
+            //        }
+            //    }
+            //}
+            
+            
+            // above is too slow
+            AddActiveViewFieldToSelect("WarehouseId", "warehouseid", select, request);
 
 
 
