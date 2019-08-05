@@ -766,8 +766,7 @@
                 }, null, $form);
             } else {
                 event.stopPropagation();
-                const buttonText = event.currentTarget.innerText;
-                if (buttonText != undefined && buttonText.startsWith('FILL')) {
+                if (type != undefined && type === 'ContainerItem') {
                     FwNotification.renderNotification('WARNING', 'Select a Container.')
                 } else {
                     FwNotification.renderNotification('WARNING', 'Select an Order.')
