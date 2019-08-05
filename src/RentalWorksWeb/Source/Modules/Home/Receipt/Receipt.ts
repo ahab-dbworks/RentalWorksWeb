@@ -116,6 +116,7 @@ class Receipt {
                 }
             });
         }
+        $form.find('div[data-datafield="PaymentAmount"] input').inputmask({ alias: "currency", prefix: '' }); // temp until we fix FW money prefix to render based on country
         this.events($form);
         
         $form.find('.braintree-btn').click(() => {
@@ -337,25 +338,26 @@ class Receipt {
             const $amountFields = $form.find('td[data-invoicefield="InvoiceAmount"] input');
             const amountToApply = FwFormField.getValueByDataField($form, 'PaymentAmount');
             for (let i = 0; i < $amountFields.length; i++) {
-                let appliedVal = $appliedFields.eq(i).text();
-                let totalVal = $totalFields.eq(i).text();
-                let dueVal = $dueFields.eq(i).text();
-                let amountInput = $amountFields.eq(i).val();
+                let appliedVal = $appliedFields.eq(i).text().replace(/,/g, '');
+                let totalVal = $totalFields.eq(i).text().replace(/,/g, '');
+                let dueVal = $dueFields.eq(i).text().replace(/,/g, '');
+                let amountInput = $amountFields.eq(i).val().replace(/,/g, '');
+                let appliedLineTotal = new Decimal(0);
                 // Amount Column
                 if (amountInput === '') {
                     amountInput = '0.00';
                 }
-                amountInput = amountInput.replace(/,/g, '');
                 amountTotal = amountTotal.plus(amountInput);
                 // Total Column
-                totalVal = totalVal.replace(/,/g, '');
                 totalTotal = totalTotal.plus(totalVal);
                 // Applied Column
-                appliedVal = appliedVal.replace(/,/g, '');
-                appliedTotal = appliedTotal.plus(appliedVal);
+                appliedLineTotal = appliedLineTotal.plus(appliedVal).plus(amountInput);
+                //appliedLineTotal = appliedLineTotal.plus(amountInput);
+
+                $appliedFields.eq(i).text(appliedLineTotal.toFixed(2));
+                appliedTotal = appliedTotal.plus(appliedVal); // for bottom line
 
                 // Due Column
-                dueVal = dueVal.replace(/,/g, '');
                 dueTotal = dueTotal.plus(dueVal);
             }
             const amount: any = amountTotal.toFixed(2);
