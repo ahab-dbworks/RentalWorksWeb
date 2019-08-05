@@ -100,7 +100,6 @@ class QuikActivityCalendar {
             setTimeout(() => {
                 const date = FwScheduler.getTodaysDate();
                 FwScheduler.navigate($calendar, date);
-                FwScheduler.refresh($calendar);
             }, 1);
         }
 
