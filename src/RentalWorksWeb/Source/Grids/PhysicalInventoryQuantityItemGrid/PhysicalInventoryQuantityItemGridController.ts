@@ -1,6 +1,6 @@
 ﻿class PhysicalInventoryQuantityItemGrid {
     Module: string = 'PhysicalInventoryQuantityItemGrid';
-    apiurl: string = 'api/v1/physicalinventoryquantityitem';
+    apiurl: string = 'api/v1/physicalinventoryquantityinventory';
     errorSoundFileName: string;
     successSoundFileName: string;
     addItemRequest: any = {};

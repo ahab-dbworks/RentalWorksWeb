@@ -98,6 +98,18 @@ namespace WebApi.Modules.Home.PhysicalInventoryQuantityInventory
         //------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
+            useWithNoLock = false;
+            string physicalInventoryId = PhysicalInventoryId;
+
+            if (string.IsNullOrEmpty(physicalInventoryId))
+            {
+                physicalInventoryId = GetUniqueIdAsString("PhysicalInventoryId", request);
+            }
+            if (string.IsNullOrEmpty(physicalInventoryId))
+            {
+                physicalInventoryId = "~xx~";
+            }
+
             //string paramString = GetUniqueIdAsString("ParamString", request) ?? ""; 
             //DateTime paramDate = GetUniqueIdAsDate("ParamDate", request) ?? DateTime.MinValue; 
             //bool paramBoolean = GetUniqueIdAsBoolean("ParamBoolean", request) ?? false; 
@@ -108,6 +120,9 @@ namespace WebApi.Modules.Home.PhysicalInventoryQuantityInventory
             //select.AddParameter("@paramstring", paramString); 
             //select.AddParameter("@paramdate", paramDate); 
             //select.AddParameter("@paramboolean", paramBoolean); 
+
+            select.AddParameter("@physicalid", physicalInventoryId);
+
         }
         //------------------------------------------------------------------------------------ 
     }

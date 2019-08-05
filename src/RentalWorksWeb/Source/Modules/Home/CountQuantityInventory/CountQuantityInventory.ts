@@ -105,7 +105,7 @@ class CountQuantityInventory {
                     <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield warehouse" data-caption="Warehouse" data-datafield="WarehouseId" data-displayfield="Warehouse" data-enabled="false" style="float:left;width:250px;"></div>
                   </div>
                 </div>
-                <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Apply Counted Inventory Quantities" style="flex:1 1 750px;">
+                <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Counted Inventory Quantities" style="flex:1 1 750px;">
                   <div class="flexrow">
                      <div data-control="FwGrid" data-grid="PhysicalInventoryQuantityItemGrid" data-securitycaption="PhysicalInventoryQuantityItemGrid"></div>
                   </div>
