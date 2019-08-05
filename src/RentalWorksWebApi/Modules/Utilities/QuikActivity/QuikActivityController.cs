@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System;
 using FwStandard.AppManager;
 using static WebApi.Modules.Utilities.QuikActivity.QuikActivityFunc;
+using FwStandard.SqlServer;
 
 namespace WebApi.Modules.Utilities.QuikActivity
 {
@@ -14,7 +15,15 @@ namespace WebApi.Modules.Utilities.QuikActivity
     [FwController(Id: "yhYOLhLE92IT")]
     public class QuikActivityController : AppDataController
     {
-        public QuikActivityController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) {/* logicType = typeof(QuikActivityLogic); */}
+        public QuikActivityController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(QuikActivityLogic); }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/quikactivity/browse 
+        [HttpPost("browse")]
+        [FwControllerMethod(Id: "U48xqYD5BCIsF")]
+        public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync(browseRequest);
+        }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/quikactivity/calendardata 
         [HttpGet("calendardata")]
@@ -36,27 +45,5 @@ namespace WebApi.Modules.Utilities.QuikActivity
             }
         }
         //------------------------------------------------------------------------------------ 
-        //// GET api/v1/quikactivity/browse 
-        //[HttpGet("calendardata")]
-        //[FwControllerMethod(Id: "RhaSuoafWaVn0")]
-        //public async Task<ActionResult<TQuikActivityCalendarResponse>> GetCalendarDataAsync(string WarehouseId, DateTime FromDate, DateTime ToDate, string ActivityType)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
-        //    try
-        //    {
-        //        TQuikActivityCalendarResponse response = await QuikActivityFunc.GetQuikActivityCalendarData(AppConfig, UserSession, WarehouseId, FromDate, ToDate, ActivityType);
-        //        return new OkObjectResult(response);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return GetApiExceptionResult(ex);
-        //    }
-        //}
-        ////------------------------------------------------------------------------------------ 
-
-
     }
 }
