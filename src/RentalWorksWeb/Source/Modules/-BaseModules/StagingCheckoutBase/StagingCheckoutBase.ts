@@ -209,16 +209,13 @@
                     this.contractId = contractId;
                     const cancelMenuOptionId = Constants.Modules.Home.StagingCheckout.form.menuItems.Cancel.id.replace('{', '').replace('}', '');
                     $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'true');
-                    FwFormField.setValueByDataField($form, `${this.Type}Id`, id, number);
                     if (this.Module == 'FillContainer') {
                         const orderId = $this.find(`[data-browsedatafield="OrderId"]`).attr('data-originalvalue');
                         FwFormField.setValueByDataField($form, 'OrderId', orderId);
                     }
-
+                    FwFormField.setValueByDataField($form, `${this.Type}Id`, id, number, true);
                     FwPopup.destroyPopup($popup);
-                    $form.find(`[data-datafield="${this.Type}Id"] input`).change();
                     $form.find('.suspendedsession').hide();
-
                     this.partialContractGridVisibility($form);
                     this.renderPartialCheckoutGrids($form);
                 });
