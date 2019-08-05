@@ -21,10 +21,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
-		ConvertingToNewValidation.md = ConvertingToNewValidation.md
-		how to release RentalWorks Web.md = how to release RentalWorks Web.md
 		README.md = README.md
-		RentalWorks API v1.postman_collection.json = RentalWorks API v1.postman_collection.json
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RentalWorksTest", "src\RentalWorksTest\RentalWorksTest.csproj", "{86349F96-FDF2-4D9F-B23C-3664AE189B00}"
@@ -52,6 +49,21 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuartzScheduler", "src\QuartzScheduler\QuartzScheduler.csproj", "{0E4387DB-3F03-4C59-8C8D-48529C01C7DA}"
 EndProject
 Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "JestTest", "src\JestTest\JestTest.njsproj", "{9A88A175-8FFF-4A04-882B-A4CF74BE2FC7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "getting started with RentalWorksWeb on a new machine", "getting started with RentalWorksWeb on a new machine", "{920F1EA3-BD62-4428-9EB3-23423915A48C}"
+	ProjectSection(SolutionItems) = preProject
+		doc\getting started with RentalWorksWeb on a new machine\Getting started with RentalWorksWeb on a new machine.md = doc\getting started with RentalWorksWeb on a new machine\Getting started with RentalWorksWeb on a new machine.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "converting Validations to the new format", "converting Validations to the new format", "{EFEDEFDF-BBF1-43EF-B842-D93CA8852F39}"
+	ProjectSection(SolutionItems) = preProject
+		doc\converting Validations to the new format\ConvertingValidationsToNewFormat.md = doc\converting Validations to the new format\ConvertingValidationsToNewFormat.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "how to release RentalWorksWeb", "how to release RentalWorksWeb", "{6762EA08-96B3-40DD-9AD4-8975DB08BB84}"
+	ProjectSection(SolutionItems) = preProject
+		doc\how to release RentalWorksWeb\how to release RentalWorks Web.md = doc\how to release RentalWorksWeb\how to release RentalWorks Web.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -380,6 +392,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{920F1EA3-BD62-4428-9EB3-23423915A48C} = {362116D5-D26E-4EFA-9683-8C7F2F2E22C6}
+		{EFEDEFDF-BBF1-43EF-B842-D93CA8852F39} = {362116D5-D26E-4EFA-9683-8C7F2F2E22C6}
+		{6762EA08-96B3-40DD-9AD4-8975DB08BB84} = {362116D5-D26E-4EFA-9683-8C7F2F2E22C6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E145E0E5-999D-45BB-A556-3EA0D6972F03}
