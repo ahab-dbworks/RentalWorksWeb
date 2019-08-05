@@ -50,7 +50,7 @@ const quikActivityReportTemplate = `
                   <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Inventory Type" data-datafield="InventoryTypeId" data-displayfield="InventoryType" data-validationname="InventoryTypeValidation" style="min-width:400px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Activity" data-datafield="ActivityType" data-displayfield="ActivityType" data-formbeforevalidate="beforeValidate" data-validationname="OrderActivityTypeValidation" style="min-width:400px;"></div>
+                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Activity" data-datafield="ActivityType" data-displayfield="ActivityType" data-formbeforevalidate="beforeValidate" data-validationname="QuikActivityTypeValidation" style="min-width:400px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Agent" data-datafield="AgentId" data-displayfield="Agent" data-validationname="UserValidation" style="min-width:400px;"></div>

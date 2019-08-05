@@ -984,7 +984,7 @@
     <Content Include="Source\Validations\ContainerValidation\ContainerValidationBrowse.htm" />
     <Content Include="Source\Validations\InvoiceCreationBatchValidation\InvoiceCreationBatchValidationBrowse.htm" />
     <Content Include="Source\Validations\InvoiceValidation\InvoiceValidationBrowse.htm" />
-    <Content Include="Source\Validations\OrderActivityTypeValidation\OrderActivityTypeValidationBrowse.htm" />
+    <Content Include="Source\Validations\QuikActivityTypeValidation\QuikActivityTypeValidationBrowse.htm" />
     <Content Include="Source\Validations\TransferOrderValidation\TransferOrderValidationBrowse.htm" />
     <Content Include="Source\Validations\ReceiptProcessBatchValidation\ReceiptProcessBatchValidationBrowse.htm" />
     <Content Include="Source\Validations\ReceiptValidation\ReceiptValidationBrowse.htm" />

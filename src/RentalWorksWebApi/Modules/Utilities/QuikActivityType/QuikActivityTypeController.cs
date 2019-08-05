@@ -4,18 +4,17 @@ using Microsoft.Extensions.Options;
 using WebApi.Controllers;
 using System.Threading.Tasks;
 using FwStandard.SqlServer;
-using System.Collections.Generic;
 using FwStandard.AppManager;
-namespace WebApi.Modules.Utilities.OrderActivityType
+namespace WebApi.Modules.Utilities.QuikActivityType
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "utilities-v1")]
     [FwController(Id: "yhYOLhLE92IT")]
-    public class OrderActivityTypeController : AppDataController
+    public class QuikActivityTypeController : AppDataController
     {
-        public OrderActivityTypeController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(OrderActivityTypeLogic); }
+        public QuikActivityTypeController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(QuikActivityTypeLogic); }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/OrderActivityType/browse 
+        // POST api/v1/quikactivitytype/browse 
         [HttpPost("browse")]
         [FwControllerMethod(Id: "RhaSuoafWaVn0")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
@@ -23,7 +22,7 @@ namespace WebApi.Modules.Utilities.OrderActivityType
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/OrderActivityType/exportexcelxlsx/filedownloadname 
+        // POST api/v1/auikactivitytype/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
         [FwControllerMethod(Id: "0RUvheRQ5Bgn")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)

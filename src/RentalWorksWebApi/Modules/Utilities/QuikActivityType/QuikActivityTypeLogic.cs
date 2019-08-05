@@ -1,15 +1,15 @@
 using WebApi.Logic;
 using FwStandard.AppManager;
-namespace WebApi.Modules.Utilities.OrderActivityType
+namespace WebApi.Modules.Utilities.QuikActivityType
 {
     [FwLogic(Id: "msAlquOdYjM43")]
-    public class OrderActivityTypeLogic : AppBusinessLogic
+    public class QuikActivityTypeLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
-        OrderActivityTypeLoader OrderActivityTypeLoader = new OrderActivityTypeLoader();
-        public OrderActivityTypeLogic()
+        QuikActivityTypeLoader QuikActivityTypeLoader = new QuikActivityTypeLoader();
+        public QuikActivityTypeLogic()
         {
-            dataLoader = OrderActivityTypeLoader;
+            dataLoader = QuikActivityTypeLoader;
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "y91I3WM7tbZj", IsReadOnly: true)]

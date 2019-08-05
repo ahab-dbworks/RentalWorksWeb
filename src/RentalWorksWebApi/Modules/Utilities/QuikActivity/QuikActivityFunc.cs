@@ -5,12 +5,12 @@ using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
 
-namespace WebApi.Modules.Utilities.OrderActivity
+namespace WebApi.Modules.Utilities.QuikActivity
 {
-    public static class OrderActivityFunc
+    public static class QuikActivityFunc
     {
         //-------------------------------------------------------------------------------------------------------
-        public class TOrderActivityCalendarEvent
+        public class TQuikActivityCalendarEvent
         {
             public string start { get; set; }
             public string end { get; set; }
@@ -20,41 +20,34 @@ namespace WebApi.Modules.Utilities.OrderActivity
             public string id { get; set; } = "";
         }
         //-------------------------------------------------------------------------------------------------------
-        public class TOrderActivityCalendarResponse
+        public class TQuikActivityCalendarResponse
         {
-            public List<TOrderActivityCalendarEvent> OrderActivityCalendarEvents { get; set; } = new List<TOrderActivityCalendarEvent>();
+            public List<TQuikActivityCalendarEvent> QuikActivityCalendarEvents { get; set; } = new List<TQuikActivityCalendarEvent>();
         }
         //-------------------------------------------------------------------------------------------------------
-        public static async Task<TOrderActivityCalendarResponse> GetOrderActivityCalendarData(FwApplicationConfig appConfig, FwUserSession userSession, string WarehouseId, DateTime FromDate, DateTime ToDate, string ActivityType)
+        public static async Task<TQuikActivityCalendarResponse> GetQuikActivityCalendarData(FwApplicationConfig appConfig, FwUserSession userSession, string WarehouseId, DateTime FromDate, DateTime ToDate, string ActivityType)
         {
-            TOrderActivityCalendarResponse response = new TOrderActivityCalendarResponse();
+            TQuikActivityCalendarResponse response = new TQuikActivityCalendarResponse();
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
             {
-                using (FwSqlCommand qry = new FwSqlCommand(conn, "getorderactivitydata", appConfig.DatabaseSettings.QueryTimeout))
+                using (FwSqlCommand qry = new FwSqlCommand(conn, "getquikactivitydatasummary", appConfig.DatabaseSettings.QueryTimeout))
                 {
                     qry.AddParameter("@warehouseid", SqlDbType.NVarChar, ParameterDirection.Input, WarehouseId);
                     qry.AddParameter("@fromdate", SqlDbType.DateTime, ParameterDirection.Input, FromDate);
                     qry.AddParameter("@todate", SqlDbType.DateTime, ParameterDirection.Input, ToDate);
                     qry.AddParameter("@activitytype", SqlDbType.NVarChar, ParameterDirection.Input, ActivityType);
-                    qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
-                    //qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
-                    //qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
-
                     FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync(true);
-
-                    //response.success = (qry.GetParameter("@status").ToInt32() == 0);
-                    //response.msg = qry.GetParameter("@msg").ToString();
 
                     foreach (List<object> row in dt.Rows)
                     {
-                        TOrderActivityCalendarEvent ev = new TOrderActivityCalendarEvent();
+                        TQuikActivityCalendarEvent ev = new TQuikActivityCalendarEvent();
                         ev.id = row[dt.GetColumnNo("id")].ToString();
                         ev.start = FwConvert.ToDateTime(row[dt.GetColumnNo("fromdate")].ToString()).ToString("yyyy-MM-ddTHH:mm:ss tt");
                         ev.end = FwConvert.ToDateTime(row[dt.GetColumnNo("todate")].ToString()).ToString("yyyy-MM-ddTHH:mm:ss tt");
                         ev.text = row[dt.GetColumnNo("description")].ToString();
                         ev.backColor = FwConvert.OleColorToHtmlColor(FwConvert.ToInt32(row[dt.GetColumnNo("color")]));
                         ev.textColor = FwConvert.OleColorToHtmlColor(FwConvert.ToInt32(row[dt.GetColumnNo("textcolor")]));
-                        response.OrderActivityCalendarEvents.Add(ev);
+                        response.QuikActivityCalendarEvents.Add(ev);
                     }
                 }
             }

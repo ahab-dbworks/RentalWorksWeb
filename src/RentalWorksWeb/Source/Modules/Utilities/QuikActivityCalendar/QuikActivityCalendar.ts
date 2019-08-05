@@ -38,7 +38,7 @@ class QuikActivityCalendar {
     //----------------------------------------------------------------------------------------------
     populateCheckboxes($form: any) {
         const request = {};
-        FwAppData.apiMethod(true, 'POST', `api/v1/orderactivitytype/browse`, request, FwServices.defaultTimeout, response => {
+        FwAppData.apiMethod(true, 'POST', `api/v1/quikactivitytype/browse`, request, FwServices.defaultTimeout, response => {
             try {
                 const $activities = $form.find('.activities');
                 const descriptionIndex = response.ColumnIndex.Description;
@@ -70,10 +70,10 @@ class QuikActivityCalendar {
                 const startOfMonth = moment(request.start.value).format('MM/DD/YYYY');
                 const endOfMonth = moment(request.start.value).add(request.days, 'd').format('MM/DD/YYYY');
                 const warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
-                const apiURL = `api/v1/orderactivity/calendardata?WarehouseId=${warehouseId}&FromDate=${startOfMonth}&ToDate=${endOfMonth}`;
+                const apiURL = `api/v1/quikactivity/calendardata?WarehouseId=${warehouseId}&FromDate=${startOfMonth}&ToDate=${endOfMonth}`;
                 const activityType = activityTypes != "" ? `&ActivityType=${activityTypes}` : '';
                 FwAppData.apiMethod(true, 'GET', `${apiURL}${activityType}`, null, FwServices.defaultTimeout, response => {
-                    const calendarEvents = response.OrderActivityCalendarEvents;
+                    const calendarEvents = response.QuikActivityCalendarEvents;
                     //FwScheduler.loadYearEventsCallback($calendar, [{ id: '1', name: '' }], calendarEvents);
                     for (var i = 0; i < calendarEvents.length; i++) {
                         if (calendarEvents[i].textColor !== 'rgb(0,0,0)') {

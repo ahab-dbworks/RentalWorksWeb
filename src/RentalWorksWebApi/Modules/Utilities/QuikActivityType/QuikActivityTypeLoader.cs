@@ -3,10 +3,10 @@ using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-namespace WebApi.Modules.Utilities.OrderActivityType
+namespace WebApi.Modules.Utilities.QuikActivityType
 {
     [FwSqlTable("dbo.funcgetallactivities()")]
-    public class OrderActivityTypeLoader : AppDataLoadRecord
+    public class QuikActivityTypeLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "description", modeltype: FwDataTypes.Text)]
