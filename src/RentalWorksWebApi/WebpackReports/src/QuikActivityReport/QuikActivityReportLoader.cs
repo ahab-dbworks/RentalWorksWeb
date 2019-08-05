@@ -133,7 +133,7 @@ namespace WebApi.Modules.Reports.QuikActivityReport
                     qry.AddParameter("@summary", SqlDbType.Text, ParameterDirection.Input, request.IsSummary);
                     qry.AddParameter("@ordertype", SqlDbType.Text, ParameterDirection.Input, request.OrderTypes.ToString());
                     qry.AddParameter("@activitytype", SqlDbType.Text, ParameterDirection.Input, request.ActivityType);
-                    qry.AddParameter("@includeinuse", SqlDbType.Text, ParameterDirection.Input, request.IncludeInUse);
+                    //qry.AddParameter("@includeinuse", SqlDbType.Text, ParameterDirection.Input, request.IncludeInUse);
                     qry.AddParameter("@onlysubs", SqlDbType.Text, ParameterDirection.Input, request.OnlySubs);
                     qry.AddParameter("@rectype", SqlDbType.Text, ParameterDirection.Input, request.RecType);
                     qry.AddParameter("@warehouseid", SqlDbType.Text, ParameterDirection.Input, request.WarehouseId);

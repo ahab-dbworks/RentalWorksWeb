@@ -15,7 +15,7 @@ namespace WebApi.Modules.Reports.QuikActivityReport
     {
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }
-        public bool? IncludeInUse { get; set; }
+        //public bool? IncludeInUse { get; set; }
         public bool? OnlySubs { get; set; }
         public string IsSummary { get; set; }
         public string RecType { get; set; }
