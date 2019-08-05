@@ -100,7 +100,7 @@ namespace WebApi.Modules.Home.PhysicalInventoryQuantityInventory
         {
             useWithNoLock = false;
             string physicalInventoryId = PhysicalInventoryId;
-
+    
             if (string.IsNullOrEmpty(physicalInventoryId))
             {
                 physicalInventoryId = GetUniqueIdAsString("PhysicalInventoryId", request);

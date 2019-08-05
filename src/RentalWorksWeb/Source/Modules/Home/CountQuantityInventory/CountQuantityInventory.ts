@@ -42,26 +42,29 @@ class CountQuantityInventory {
             FwFormField.setValueByDataField($form, 'OfficeLocationId', parentmoduleinfo.OfficeLocationId, parentmoduleinfo.OfficeLocation);
             FwFormField.setValueByDataField($form, 'WarehouseId', parentmoduleinfo.WarehouseId, parentmoduleinfo.Warehouse);
         }
+
+        const $physicalInventoryQuantityInventoryGrid = $form.find('[data-name="PhysicalInventoryQuantityInventoryGrid"]');
+        FwBrowse.search($physicalInventoryQuantityInventoryGrid);
         return $form;
     };
     //----------------------------------------------------------------------------------------------
     renderGrids($form: JQuery): void {
-        const $physicalInventoryQuantityItemGrid = $form.find('div[data-grid="PhysicalInventoryQuantityItemGrid"]');;
-        const $physicalInventoryQuantityItemGridControl = FwBrowse.loadGridFromTemplate('PhysicalInventoryQuantityItemGrid');
-        $physicalInventoryQuantityItemGrid.empty().append($physicalInventoryQuantityItemGridControl);
-        $physicalInventoryQuantityItemGridControl.data('ondatabind', function (request) {
+        const $physicalInventoryQuantityInventoryGrid = $form.find('div[data-grid="PhysicalInventoryQuantityInventoryGrid"]');;
+        const $physicalInventoryQuantityInventoryGridControl = FwBrowse.loadGridFromTemplate('PhysicalInventoryQuantityInventoryGrid');
+        $physicalInventoryQuantityInventoryGrid.empty().append($physicalInventoryQuantityInventoryGridControl);
+        $physicalInventoryQuantityInventoryGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
                 PhysicalInventoryId: FwFormField.getValueByDataField($form, `PhysicalInventoryId`)
             };
         });
-        FwBrowse.init($physicalInventoryQuantityItemGridControl);
-        FwBrowse.renderRuntimeHtml($physicalInventoryQuantityItemGridControl);
+        FwBrowse.init($physicalInventoryQuantityInventoryGridControl);
+        FwBrowse.renderRuntimeHtml($physicalInventoryQuantityInventoryGridControl);
         // ----------
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form: JQuery): void {
-        const $physicalInventoryQuantityItemGrid = $form.find('[data-name="PhysicalInventoryQuantityItemGrid"]');
-        FwBrowse.search($physicalInventoryQuantityItemGrid);
+        const $physicalInventoryQuantityInventoryGrid = $form.find('[data-name="PhysicalInventoryQuantityInventoryGrid"]');
+        FwBrowse.search($physicalInventoryQuantityInventoryGrid);
 
         //Click Event on tabs to load grids/browses
         $form.on('click', '[data-type="tab"]', e => {
@@ -107,7 +110,7 @@ class CountQuantityInventory {
                 </div>
                 <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Counted Inventory Quantities" style="flex:1 1 750px;">
                   <div class="flexrow">
-                     <div data-control="FwGrid" data-grid="PhysicalInventoryQuantityItemGrid" data-securitycaption="PhysicalInventoryQuantityItemGrid"></div>
+                     <div data-control="FwGrid" data-grid="PhysicalInventoryQuantityInventoryGrid" data-securitycaption="PhysicalInventoryQuantityInventoryGrid"></div>
                   </div>
                   <div class="flexrow"><div class="error-msg" style="margin-top:8px;"></div></div>
                 </div>

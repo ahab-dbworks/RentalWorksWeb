@@ -8,14 +8,12 @@
     ActiveViewFieldsId: string;
     //---------------------------------------------------------------------------------------------
     getModuleScreen() {
-        var screen, $browse;
-
-        screen = {};
+        const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
-        $browse = this.openBrowse();
+        const $browse = this.openBrowse();
 
         screen.load = function () {
             FwModule.openModuleTab($browse, 'Physical Inventory', false, 'BROWSE', true);
@@ -30,9 +28,7 @@
     }
     //---------------------------------------------------------------------------------------------
     openBrowse() {
-        var $browse;
-
-        $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
+        let $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
 
         $browse.data('ondatabind', request => {
@@ -59,9 +55,7 @@
     };
     //---------------------------------------------------------------------------------------------
     openForm(mode: string) {
-        var $form;
-
-        $form = FwModule.loadFormFromTemplate(this.Module);
+        let $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 
         if (mode === 'NEW') {

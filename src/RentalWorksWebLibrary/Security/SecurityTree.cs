@@ -488,7 +488,7 @@ namespace WebLibrary.Security
             AddGrid("Pending Items",                          "{28DA22B8-D429-4751-B97D-8210D78C9402}", lv1menuGrids.Id, "CheckOutPendingItemGridController");
             AddGrid("Physical Inventory Inventory",           "{B4256DE8-60A8-4C7F-B35E-FB6971263793}", lv1menuGrids.Id, "PhysicalInventoryInventoryGridController");
             AddGrid("Physical Inventory Cycle Inventory",     "{CE9B28C8-D403-435D-842F-9DD5E6A2760A}", lv1menuGrids.Id, "PhysicalInventoryCycleInventoryGridController");
-            AddGrid("Physical Inventory Quantity Items",      "{7AA9683E-EEF1-4437-87BD-D0E137CD8506}", lv1menuGrids.Id, "PhysicalInventoryQuantityItemGridController");
+            AddGrid("Physical Inventory Quantity Inventory",  "{7AA9683E-EEF1-4437-87BD-D0E137CD8506}", lv1menuGrids.Id, "PhysicalInventoryQuantityInventoryGridController");
             AddGrid("PO Approver",                            "{314CEEC5-6E42-4539-BD10-8F680A0F70F4}", lv1menuGrids.Id, "POApproverGridController");
             AddGrid("PO Receive Bar Code",                    "{27703F1E-8F2A-44E3-93AF-F46BADC3D4B1}", lv1menuGrids.Id, "POReceiveBarCodeGridController");
             AddGrid("PO Receive Items",                       "{EF042B8D-23B8-4253-A6E8-11603E800629}", lv1menuGrids.Id, "POReceiveItemGridController");
