@@ -321,7 +321,7 @@
             catch (ex) {
                 FwFunc.showError(ex);
             }
-            FwFormField.disable($form.find(`div[data-datafield="${this.Type}Id"]`));
+            FwFormField.disable($form.find(`div[data-datafield="${this.Type == 'ContainerItem' ? 'BarCode' : this.Type}Id"]`));
             if (this.contractId == '') {
                 $form.find('.orderstatus').show();
                 $form.find('.createcontract').show();
