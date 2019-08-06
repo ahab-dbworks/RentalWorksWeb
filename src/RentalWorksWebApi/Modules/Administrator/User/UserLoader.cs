@@ -238,8 +238,8 @@ namespace WebApi.Modules.Administrator.User
         [FwSqlDataField(column: "substitutedeletesoriginal", modeltype: FwDataTypes.Boolean)]
         public bool? DeleteOriginalOnSubstitution { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "allowcancelcontract", modeltype: FwDataTypes.Boolean)]
-        public bool? AllowCancelContract { get; set; }
+        //[FwSqlDataField(column: "allowcancelcontract", modeltype: FwDataTypes.Boolean)]
+        //public bool? AllowCancelContract { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "quikactivityprintdollar", modeltype: FwDataTypes.Boolean)]
         public bool? QuikActivityAllowPrintDollarAmounts { get; set; }

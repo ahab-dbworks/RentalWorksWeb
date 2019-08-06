@@ -586,11 +586,6 @@ class User {
                       <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Allow Staging of Unreserved Consigned Items" data-datafield="AllowStagingOfUnreservedConsignedItems" style="flex:1 1 505px;"></div>
                     </div>
                     <div class="flexcolumn">
-                      <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Contract Session">
-                        <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Allow user to cancel Contracts" data-datafield="AllowCancelContract" style="flex:1 1 125px;"></div>
-                      </div>
-                    </div>
-                    <div class="flexcolumn">
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="RentalWorks Mobile/QuikScan">
                         <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Allow user to create Contracts" data-datafield="QuikScanAllowCreateContract" style="flex:1 1 125px;"></div>
                         <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption='Allow "Apply All Quantity Items" button' data-datafield="QuikScanAllowApplyAll" style="flex:1 1 125px;"></div>

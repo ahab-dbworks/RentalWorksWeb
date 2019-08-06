@@ -323,8 +323,8 @@ namespace WebApi.Modules.Administrator.User
         [FwLogicProperty(Id: "g0AJR2wPAFj")]
         public bool? DeleteOriginalOnSubstitution { get { return user.DeleteOriginalOnSubstitution; } set { user.DeleteOriginalOnSubstitution = value; } }
 
-        [FwLogicProperty(Id: "2CCV8JrJbYr")]
-        public bool? AllowCancelContract { get { return user.AllowCancelContract; } set { user.AllowCancelContract = value; } }
+        //[FwLogicProperty(Id: "2CCV8JrJbYr")]
+        //public bool? AllowCancelContract { get { return user.AllowCancelContract; } set { user.AllowCancelContract = value; } }
 
         [FwLogicProperty(Id: "yDueJWdmkgy")]
         public bool? QuikActivityAllowPrintDollarAmounts { get { return user.QuikActivityAllowPrintDollarAmounts; } set { user.QuikActivityAllowPrintDollarAmounts = value; } }
