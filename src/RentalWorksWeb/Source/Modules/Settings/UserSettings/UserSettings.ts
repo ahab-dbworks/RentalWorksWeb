@@ -60,17 +60,15 @@
                 const moduleCaption = modules[i].properties.caption;
                 const moduleController = modules[i].properties.controller;
                 if (typeof window[moduleController] !== 'undefined') {
-                    if (window[moduleController].hasOwnProperty('apiurl')) {
+                    if (window[moduleController].hasOwnProperty('nav')) {
                         const moduleNav = window[moduleController].nav;
-                        if (moduleNav) {
-                            allModules.push({ value: moduleGUID, text: moduleCaption, apiurl: moduleNav });
-                            sortableModules.push({ value: moduleNav, text: moduleCaption, selected: 'T' });
-                        }
+                        allModules.push({ value: moduleGUID, text: moduleCaption, nav: moduleNav });
+                        sortableModules.push({ value: moduleNav, text: moduleCaption, selected: 'T' });
                     }
                 }
             }
         };
-        allModules.push({ value: 'DF8111F5-F022-40B4-BAE6-23B2C6CF3705', text: 'Dashboard', apiurl: 'module/dashboard' });
+        allModules.push({ value: 'DF8111F5-F022-40B4-BAE6-23B2C6CF3705', text: 'Dashboard', nav: 'module/dashboard' });
         //Sort modules
         function compare(a, b) {
             if (a.text < b.text)
@@ -163,8 +161,8 @@
             const notificationSound = new Audio(notificationSoundFileName);
             notificationSound.play();
         });
-        $form.find('div.default-home-page').on("change", function () {
-            const moduleUrl = jQuery(this).find(':selected').attr('data-apiurl')
+        $form.find('div.default-home-page').on("change", e => {
+            const moduleUrl = jQuery(e.currentTarget).find(':selected').attr('data-nav')
             FwFormField.setValueByDataField($form, 'HomeMenuPath', moduleUrl)
         });
 
