@@ -5,7 +5,7 @@ using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 namespace WebApi.Modules.Home.SuspendedSession
 {
-    [FwSqlTable("suspendview")]
+    [FwSqlTable("suspendwebview")]
     public class SuspendedSessionLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
