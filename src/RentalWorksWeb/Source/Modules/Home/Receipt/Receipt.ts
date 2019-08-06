@@ -5,8 +5,8 @@ class Receipt {
     Module: string = 'Receipt';
     apiurl: string = 'api/v1/receipt';
     caption: string = Constants.Modules.Home.Receipt.caption;
-	nav: string = Constants.Modules.Home.Receipt.nav;
-	id: string = Constants.Modules.Home.Receipt.id;
+    nav: string = Constants.Modules.Home.Receipt.nav;
+    id: string = Constants.Modules.Home.Receipt.id;
     ActiveViewFields: any = {};
     ActiveViewFieldsId: string;
     thisModule: Receipt;
@@ -20,7 +20,7 @@ class Receipt {
         const $browse: any = this.openBrowse();
         const today = FwFunc.getDate();
 
-        screen.load = () =>  {
+        screen.load = () => {
             FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
 
             if (typeof filter !== 'undefined') {
@@ -118,7 +118,7 @@ class Receipt {
         }
         $form.find('div[data-datafield="PaymentAmount"] input').inputmask({ alias: "currency", prefix: '' }); // temp until we fix FW money prefix to render based on country
         this.events($form);
-        
+
         $form.find('.braintree-btn').click(() => {
             let braintreeScipt = `<script>
               let button = document.querySelector('#braintree-btn');
@@ -164,7 +164,7 @@ class Receipt {
             //let $popup = FwPopup.renderPopup(jQuery(braintreeScipt), { ismodal: true });
             //FwPopup.showPopup($popup);
         })
-      
+
         // Adds receipt invoice datatable to request
         $form.data('beforesave', request => {
             request.InvoiceDataList = this.getFormTableData($form);
@@ -260,7 +260,7 @@ class Receipt {
             if (dealCustomer === '') {
                 e.stopPropagation();
                 FwNotification.renderNotification('WARNING', 'Select a Deal or Customer first.')
-            } 
+            }
         });
     }
     //----------------------------------------------------------------------------------------------
@@ -320,14 +320,14 @@ class Receipt {
         }, function onError(response) {
             FwFunc.showError(response);
         }, null)
-        
+
     }
     //----------------------------------------------------------------------------------------------
     loadReceiptInvoiceGrid($form: JQuery): void {
         if ($form.attr('data-mode') === 'NEW') {
             $form.find('.table-rows').html('<tr class="empty-row" style="height:33px;"><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>');
         }
-        const calculateInvoiceTotals = ($form) => {
+        const calculateInvoiceTotals = ($form, element?) => {
             let totalTotal = new Decimal(0);
             let appliedTotal = new Decimal(0);
             let dueTotal = new Decimal(0);
@@ -338,27 +338,34 @@ class Receipt {
             const $amountFields = $form.find('td[data-invoicefield="InvoiceAmount"] input');
             const amountToApply = FwFormField.getValueByDataField($form, 'PaymentAmount');
             for (let i = 0; i < $amountFields.length; i++) {
-                let appliedVal = $appliedFields.eq(i).text().replace(/,/g, '');
-                let totalVal = $totalFields.eq(i).text().replace(/,/g, '');
-                let dueVal = $dueFields.eq(i).text().replace(/,/g, '');
-                let amountInput = $amountFields.eq(i).val().replace(/,/g, '');
-                let appliedLineTotal = new Decimal(0);
                 // Amount Column
+                let amountInput = $amountFields.eq(i).val().replace(/,/g, '');
                 if (amountInput === '') {
                     amountInput = '0.00';
                 }
                 amountTotal = amountTotal.plus(amountInput);
                 // Total Column
+                let totalVal = $totalFields.eq(i).text().replace(/,/g, '');
                 totalTotal = totalTotal.plus(totalVal);
                 // Applied Column
-                appliedLineTotal = appliedLineTotal.plus(appliedVal).plus(amountInput);
-                //appliedLineTotal = appliedLineTotal.plus(amountInput);
-
-                $appliedFields.eq(i).text(appliedLineTotal.toFixed(2));
-                appliedTotal = appliedTotal.plus(appliedVal); // for bottom line
-
+                let appliedVal = $appliedFields.eq(i).text().replace(/,/g, '');
+                appliedTotal = appliedTotal.plus(appliedVal);
                 // Due Column
+                let dueVal = $dueFields.eq(i).text().replace(/,/g, '');
                 dueTotal = dueTotal.plus(dueVal);
+                // Line Totaling for Applied and Due fields
+                if (element) {
+                    const currentAmountField = $amountFields.eq(i);
+                    if (element.is(currentAmountField)) {
+                        let appliedLineTotal = new Decimal(0);
+                        appliedLineTotal = appliedLineTotal.plus(appliedVal).plus(amountInput);
+                        let dueLineTotal = new Decimal(0);
+                        dueLineTotal = dueLineTotal.plus(dueVal).minus(amountInput);
+
+                        $appliedFields.eq(i).text(appliedLineTotal.toFixed(2));
+                        $dueFields.eq(i).text(dueLineTotal.toFixed(2));
+                    }
+                }
             }
             const amount: any = amountTotal.toFixed(2);
             const total = totalTotal.toFixed(2);
@@ -371,7 +378,6 @@ class Receipt {
             $form.find(`div[data-totalfield="InvoiceApplied"] input`).val(applied);
             $form.find(`div[data-totalfield="InvoiceDue"] input`).val(due);
             $form.find(`div[data-totalfield="InvoiceAmountTotal"] input`).val(amount);
-
         }
         const getInvoiceData = ($form) => {
             const request: any = {};
@@ -428,7 +434,7 @@ class Receipt {
                                 el.css('background-color', '#F4FFCC');
                             }
                         }
-                        calculateInvoiceTotals($form);
+                        calculateInvoiceTotals($form, el);
                     });
                     // btnpeek
                     $form.find('tbody tr .btnpeek').on('click', function (e: JQuery.Event) {
