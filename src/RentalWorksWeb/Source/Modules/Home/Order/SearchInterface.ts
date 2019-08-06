@@ -20,6 +20,16 @@ class SearchInterface {
         let $popup     = FwPopup.renderPopup($popupHtml, { ismodal: true });
         FwPopup.showPopup($popup);
 
+        let buttonCaption;
+        switch (type) {
+            case 'PurchaseOrder':
+                buttonCaption = 'Purchase Order';
+                break;
+            default:
+                buttonCaption = type;
+                break;
+        }
+
         let searchhtml = `<div id="itemsearch" data-moduletype="${type}">
                             <div class="flexpage">
                               <div class="fwmenu default"></div>
@@ -29,7 +39,7 @@ class SearchInterface {
                                 <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield fwformcontrol" data-caption="Est. Stop" data-datafield="ToDate" style="flex: 0 1 135px;"></div>
                                 <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield fwformcontrol" data-caption="Select" data-datafield="Select" style="flex: 0 1 150px;"></div>
                                 <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield fwformcontrol" data-caption="Sort By" data-datafield="SortBy" style="flex: 0 1 255px;"></div>
-                                <div data-type="button" class="fwformcontrol addToOrder">Add to ${type === 'PurchaseOrder' ? 'Purchase Order' : type}</div>
+                                <div data-type="button" class="fwformcontrol addToOrder">Add to ${buttonCaption}</div>
                                 <div data-type="button" class="fwformcontrol refresh-availability" style="display:none;">Refresh Availability</div>
                               </div>
                               <div style="display:flex;flex: 0 0 auto;padding: .4em 0;">
@@ -92,7 +102,7 @@ class SearchInterface {
         let previewhtml = `<div id="previewHtml">
                              <div class="fwmenu default"></div>
                              <div style="padding: 5px;text-align: right;">
-                               <div data-type="button" class="fwformcontrol addToOrder">Add to ${type === 'PurchaseOrder' ? 'Purchase Order' : type}</div>
+                               <div data-type="button" class="fwformcontrol addToOrder">Add to ${buttonCaption}</div>
                              </div>
                              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                                <div data-control="FwGrid" data-grid="SearchPreviewGrid" data-securitycaption="Preview"></div>
