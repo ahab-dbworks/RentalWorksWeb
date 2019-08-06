@@ -1,4 +1,4 @@
-﻿routes.push({ pattern: /^module\/fillcontainer$/, action: function (match: RegExpExecArray) { return FillContainerController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/fillcontainer$/, action: function (match: RegExpExecArray) { return FillContainerController.getModuleScreen(); } });
 
 class FillContainer extends StagingCheckoutBase {
     Module: string = 'FillContainer';
@@ -99,6 +99,7 @@ class FillContainer extends StagingCheckoutBase {
                                         response => {
                                             if (response.success) {
                                                 FwFormField.disable($form.find('[data-datafield="BarCode"]'));
+                                                FwFormField.setValueByDataField($form, 'OrderId', response.ContainerItemId);
                                                 FwFormField.setValueByDataField($form, 'ContainerItemId', response.ContainerItemId, barcode, true);
                                                 FwNotification.renderNotification('SUCCESS', 'Successfully Instantiated New Container.');
                                                 $form.find('[data-datafield="Code"] input').focus();
