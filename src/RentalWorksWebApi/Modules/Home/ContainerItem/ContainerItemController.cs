@@ -48,14 +48,14 @@ namespace WebApi.Modules.Home.ContainerItem
             return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // GET api/v1/containeritem 
-        [HttpGet]
-        [FwControllerMethod(Id: "Yb3dL1hmjU37")]
-        public async Task<ActionResult<IEnumerable<ContainerItemLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
-        {
-            return await DoGetAsync<ContainerItemLogic>(pageno, pagesize, sort);
-        }
-        //------------------------------------------------------------------------------------ 
+        //// GET api/v1/containeritem 
+        //[HttpGet]
+        //[FwControllerMethod(Id: "Yb3dL1hmjU37")]
+        //public async Task<ActionResult<IEnumerable<ContainerItemLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        //{
+        //    return await DoGetAsync<ContainerItemLogic>(pageno, pagesize, sort);
+        //}
+        ////------------------------------------------------------------------------------------ 
         // GET api/v1/containeritem/A0000001 
         [HttpGet("{id}")]
         [FwControllerMethod(Id: "t1bsMSPUNPNx")]
