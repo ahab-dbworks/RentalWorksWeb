@@ -176,8 +176,6 @@
     <TypeScriptCompile Include="scripts\DefaultApplicationConfig.ts" />
     <TypeScriptCompile Include="scripts\Program.ts" />
     <Content Include="scripts\RwLanguages.js" />
-    <Content Include="Application.dev.config" />
-    <Content Include="Application.test.config" />
     <Content Include="packages.config" />
     <TypeScriptCompile Include="scripts\RwMaster.ts" />
     <Content Include="Source\Grids\AvailabilityHistoryGrid\AvailabilityHistoryGridBrowse.htm" />
@@ -1240,10 +1238,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Application.sample.config" />
-    <Content Include="Application.config">
-      <SubType>Designer</SubType>
-    </Content>
     <Content Include="JSAppBuilder.config">
       <SubType>Designer</SubType>
     </Content>
