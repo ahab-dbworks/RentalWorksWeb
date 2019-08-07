@@ -3,10 +3,28 @@ tbody[data-rowtype="detail"]:nth-of-type(even) {
     background-color: #DCDCDC;
 }
 
+tbody[data-rowtype="detail"] tr:last-of-type td {
+    padding-bottom: 10px;
+}
+
 .main-header {
     border-top: 2px solid #000000;
     border-bottom: 2px solid #000000;
     font-weight: bold;
     padding: 5px;
     white-space: nowrap;
+}
+
+.field-name {
+    word-wrap: break-word;
+}
+
+.value-fields {
+    word-break: break-word;
+}
+
+.changes-header {
+    border-bottom: 2px solid black;
+    font-weight: bold;
+    font-size: 13px;
 }

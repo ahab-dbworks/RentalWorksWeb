@@ -46,6 +46,9 @@ export class ChangeAuditReport extends WebpackReport {
 
                         //parse changes json
                         data[i].Json = JSON.parse(data[i].Json);
+                        for (let j = 0; j < data[i].Json.length; j++) {
+                            data[i].Json[j].FieldName = data[i].Json[j].FieldName.replace(/([A-Z]+)/g, " $1").trim();
+                        }
                     }
 
                     console.log('rpt: ', data)

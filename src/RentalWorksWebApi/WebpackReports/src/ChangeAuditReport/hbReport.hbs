@@ -40,16 +40,16 @@
       <tr>
         <td data-value="{{DateStamp}}"></td>
         <td data-value="{{RecordTitle}}"></td>
-        <td class="header-row">Field Name</td>
-        <td class="header-row">Old Value</td>
-        <td class="header-row">New value</td>
+        <td class="changes-header">Field Name</td>
+        <td class="changes-header">Old Value</td>
+        <td class="changes-header">New Value</td>
       </tr>
       {{#each Json}}
       <tr>
         <td colspan="2"></td>
-        <td data-value="{{FieldName}}"></td>
-        <td data-value="{{OldValue}}"></td>
-        <td data-value="{{NewValue}}"></td>
+        <td class="field-name" data-value="{{FieldName}}"></td>
+        <td class="value-fields" data-value="{{OldValue}}"></td>
+        <td class="value-fields" data-value="{{NewValue}}"></td>
       </tr>
     {{/each}}
     </tbody>
