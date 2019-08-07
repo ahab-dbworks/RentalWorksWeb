@@ -11,7 +11,6 @@ using System;
 
 namespace WebApi.Modules.Utilities.QuikActivity
 {
-    //[FwSqlTable("masteritem")]
     public class QuikActivityLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
