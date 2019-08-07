@@ -65,6 +65,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "how to release RentalWorksW
 		doc\how to release RentalWorksWeb\how to release RentalWorks Web.md = doc\how to release RentalWorksWeb\how to release RentalWorks Web.md
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "how to add data fields to a Logical object in the API", "how to add data fields to a Logical object in the API", "{187221DF-BEEC-4397-8C56-95056FB237A0}"
+	ProjectSection(SolutionItems) = preProject
+		doc\how to add data fields to a Logical object in the API\how to add data fields to a Logical object in the API.md = doc\how to add data fields to a Logical object in the API\how to add data fields to a Logical object in the API.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug API|Any CPU = Debug API|Any CPU
@@ -397,6 +402,7 @@ Global
 		{920F1EA3-BD62-4428-9EB3-23423915A48C} = {362116D5-D26E-4EFA-9683-8C7F2F2E22C6}
 		{EFEDEFDF-BBF1-43EF-B842-D93CA8852F39} = {362116D5-D26E-4EFA-9683-8C7F2F2E22C6}
 		{6762EA08-96B3-40DD-9AD4-8975DB08BB84} = {362116D5-D26E-4EFA-9683-8C7F2F2E22C6}
+		{187221DF-BEEC-4397-8C56-95056FB237A0} = {362116D5-D26E-4EFA-9683-8C7F2F2E22C6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E145E0E5-999D-45BB-A556-3EA0D6972F03}
