@@ -391,7 +391,11 @@
             }, null, null);
         } else {
             event.stopPropagation();
-            FwNotification.renderNotification('WARNING', 'Select an Order.')
+            if (this.Type != undefined && this.Type === 'ContainerItem') {
+                FwNotification.renderNotification('WARNING', 'Select a Container.')
+            } else {
+                FwNotification.renderNotification('WARNING', 'Select an Order.')
+            }
         }
     };
     //----------------------------------------------------------------------------------------------
