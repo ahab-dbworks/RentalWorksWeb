@@ -92,6 +92,9 @@ class RentalInventory extends InventoryBase {
             request.uniqueids = {
                 InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
             };
+            request.miscfields = {
+                UserWarehouseId: warehouse.warehouseid
+            };
         });
         containerWarehouseGridControl.data('beforesave', function (request) {
             request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
@@ -105,6 +108,9 @@ class RentalInventory extends InventoryBase {
         $rentalInventoryWarehouseGridPricingControl.data('ondatabind', request => {
             request.uniqueids = {
                 InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+            };
+            request.miscfields = {
+                UserWarehouseId: warehouse.warehouseid
             };
             request.pagesize = 100;  //justin 04/01/2019 #359 show all active warehouses here
         });

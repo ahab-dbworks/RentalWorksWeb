@@ -68,6 +68,9 @@ class SalesInventory extends InventoryBase {
             request.uniqueids = {
                 InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
             };
+            request.miscfields = {
+                UserWarehouseId: warehouse.warehouseid
+            };
             request.pagesize = 100;  //justin 04/01/2019 #359 show all active warehouses here
         });
         $salesInventoryWarehouseGridControl.data('beforesave', function (request) {
@@ -82,6 +85,9 @@ class SalesInventory extends InventoryBase {
         $salesInventoryWarehouseGridPricingControl.data('ondatabind', request => {
             request.uniqueids = {
                 InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+            };
+            request.miscfields = {
+                UserWarehouseId: warehouse.warehouseid
             };
             request.pagesize = 100;  //justin 04/01/2019 #359 show all active warehouses here
         });
