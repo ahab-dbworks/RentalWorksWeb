@@ -505,13 +505,17 @@ html.theme-material .fwformcontrol[data-type="button"].pressed {
 }
 
 /* Audit History Grid */
-html.theme-material [data-name="AuditHistoryGrid"] tbody td ul:not(.auditHeader):nth-child(even) span:not(.auditSpacer) {
-    background-color: #F5F5F5;
-}
-
-html.theme-material [data-name="AuditHistoryGrid"] tbody tr.selected td ul:not(.auditHeader):nth-child(even) span:not(.auditSpacer){
-    background-color: #0087f3 !important;
-}
+html.theme-material [data-name="AuditHistoryGrid"] tbody td ul {font-size:14px; display:flex;}
+html.theme-material [data-name="AuditHistoryGrid"] tbody td ul.audit-header span.field-name-header{font-weight:bold; float:left; width:300px; text-decoration:underline; padding-right:1em;}
+html.theme-material [data-name="AuditHistoryGrid"] tbody td ul.audit-header span.value-header{font-weight:bold; float:left; width:250px; text-decoration:underline; padding-right:1em;}
+html.theme-material [data-name="AuditHistoryGrid"] tbody td ul span.field-name{font-weight:bold; float:left; width:300px; padding-right:1em; word-wrap: break-word;}
+html.theme-material [data-name="AuditHistoryGrid"] tbody td ul span.old-value{width:250px; padding-right:1em;}
+html.theme-material [data-name="AuditHistoryGrid"] tbody td ul span.new-value{width:250px; padding-right:4em;}
+html.theme-material [data-name="AuditHistoryGrid"] tbody td ul span.old-html span{font-weight:bolder; cursor:pointer; display:contents;}
+html.theme-material [data-name="AuditHistoryGrid"] tbody td ul span.old-html textarea{display:none;}
+html.theme-material [data-name="AuditHistoryGrid"] tbody td ul span.audit-spacer{flex:1 1 0}
+html.theme-material [data-name="AuditHistoryGrid"] tbody td ul:not(.audit-header):nth-child(even) span:not(.audit-spacer) {background-color: #F5F5F5;}
+html.theme-material [data-name="AuditHistoryGrid"] tbody tr.selected td ul:not(.audit-header):nth-child(even) span:not(.audit-spacer){background-color: #0087f3 !important;}
 
 /* Custom fields marker in duplicate rules and custom forms */
 [data-iscustomfield="true"]::after {
@@ -603,3 +607,4 @@ html.theme-material [data-name="AuditHistoryGrid"] tbody tr.selected td ul:not(.
 }
 
 .submenu-btn[data-enabled="false"] {pointer-events: none;color: lightgray;}
+
