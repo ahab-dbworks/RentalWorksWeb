@@ -63,8 +63,6 @@ Database Works:
    
    App_Data (directory)
    
-   Application.config
-   
    ApplicationConfig.js.
 - Copy over the new deliverable files. (Do not copy the App_Data directory to the target.)
 
