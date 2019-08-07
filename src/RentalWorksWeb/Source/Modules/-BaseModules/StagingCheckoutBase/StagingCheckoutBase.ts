@@ -376,21 +376,27 @@
         requestBody.OrderId = orderId;
         if (orderId != '') {
             this.partialContractGridVisibility($form);
-            FwAppData.apiMethod(true, 'POST', `api/v1/checkout/startcheckoutcontract`, requestBody, FwServices.defaultTimeout, response => {
-                try {
-                    if (this.contractId !== '' || this.contractId != undefined) {
+            if (this.contractId == '' || this.contractId == undefined) {
+                FwAppData.apiMethod(true, 'POST', `api/v1/checkout/startcheckoutcontract`, requestBody, FwServices.defaultTimeout, response => {
+                    try {
                         this.contractId = response.ContractId;
-                    }
-                    $form.find('.suspendedsession').hide();
-                    const cancelMenuOptionId = Constants.Modules.Home.StagingCheckout.form.menuItems.Cancel.id.replace('{', '').replace('}', '');
-                    $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'true');
+                        $form.find('.suspendedsession').hide();
+                        const cancelMenuOptionId = Constants.Modules.Home.StagingCheckout.form.menuItems.Cancel.id.replace('{', '').replace('}', '');
+                        $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'true');
 
-                    this.renderPartialCheckoutGrids($form);
-                }
-                catch (ex) {
-                    FwFunc.showError(ex);
-                }
-            }, null, null);
+                        this.renderPartialCheckoutGrids($form);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                }, null, null);
+            } else {
+                $form.find('.suspendedsession').hide();
+                const cancelMenuOptionId = Constants.Modules.Home.StagingCheckout.form.menuItems.Cancel.id.replace('{', '').replace('}', '');
+                $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'true');
+
+                this.renderPartialCheckoutGrids($form);
+            }
         } else {
             event.stopPropagation();
             if (this.Type != undefined && this.Type === 'ContainerItem') {
