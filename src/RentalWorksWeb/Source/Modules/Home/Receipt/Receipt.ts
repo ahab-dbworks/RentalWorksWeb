@@ -327,7 +327,7 @@ class Receipt {
         if ($form.attr('data-mode') === 'NEW') {
             $form.find('.table-rows').html('<tr class="empty-row" style="height:33px;"><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>');
         }
-        const calculateInvoiceTotals = ($form, element?) => {
+        const calculateInvoiceTotals = ($form, event?) => {
             let totalTotal = new Decimal(0);
             let appliedTotal = new Decimal(0);
             let dueTotal = new Decimal(0);
@@ -337,6 +337,7 @@ class Receipt {
             const $dueFields = $form.find('td[data-invoicefield="InvoiceDue"]');
             const $amountFields = $form.find('td[data-invoicefield="InvoiceAmount"] input');
             const amountToApply = FwFormField.getValueByDataField($form, 'PaymentAmount');
+            const unappliedTotalPrior = $form.find(`div[data-totalfield="UnappliedInvoiceTotal"] input`).val().replace(/[^\d\.\,\s]+/g, '').trim();
             for (let i = 0; i < $amountFields.length; i++) {
                 // Amount Column
                 let amountInput = $amountFields.eq(i).val().replace(/,/g, '');
@@ -353,8 +354,29 @@ class Receipt {
                 // Due Column
                 let dueVal = $dueFields.eq(i).text().replace(/,/g, '');
                 dueTotal = dueTotal.plus(dueVal);
+
+
+
                 // Line Totaling for Applied and Due fields
-                if (element) {
+                if (event) {
+                    const element = jQuery(event.currentTarget);
+                    if (element.attr('data-type') === 'button') {
+                        if (+(element.attr('row-index')) === i) {
+                            let unappliedTotalPriorDecimal = new Decimal(0);
+                            unappliedTotalPriorDecimal = unappliedTotalPriorDecimal.plus(unappliedTotalPrior);
+                            // If Unapplied Amount >= "Due"  increase the "Amount" value by the "Due" value on the line
+                            if (unappliedTotalPriorDecimal.greaterThanOrEqualTo(dueTotal)) {
+                                const amountVal = dueTotal.plus(amountTotal)
+                                $amountFields.eq(i).val(amountVal.toFixed(2));
+                            }
+                            // If Unapplied Amount < "Due"  increase the "Amount" value by the Unapplied Amount value on the line
+                            if (unappliedTotalPriorDecimal.lessThan(dueTotal)) {
+                                const amountVal = amountTotal.plus(unappliedTotalPriorDecimal)
+                                $amountFields.eq(i).val(amountVal.toFixed(2));
+                            }
+                        }
+                    }
+                    // may need to trigger line change after apply button
                     const currentAmountField = $amountFields.eq(i);
                     if (element.is(currentAmountField)) {
                         let appliedLineTotal = new Decimal(0);
@@ -403,7 +425,7 @@ class Receipt {
                 const htmlRows: Array<string> = [];
                 if (rows.length) {
                     for (let i = 0; i < rows.length; i++) {
-                        htmlRows.push(`<tr class="row"><td data-validationname="Deal" data-fieldname="DealId" data-datafield="${rows[i][res.ColumnIndex.DealId]}" data-displayfield="${rows[i][res.ColumnIndex.Deal]}" class="text">${rows[i][res.ColumnIndex.Deal]}<i class="material-icons btnpeek">more_horiz</i></td><td class="text InvoiceId" style="display:none;">${rows[i][res.ColumnIndex.InvoiceId]}</td><td class="text InvoiceReceiptId" style="display:none;">${rows[i][res.ColumnIndex.InvoiceReceiptId]}</td><td data-validationname="Invoice" data-fieldname="InvoiceId" data-datafield="${rows[i][res.ColumnIndex.InvoiceId]}" data-displayfield="${rows[i][res.ColumnIndex.InvoiceNumber]}" class="text">${rows[i][res.ColumnIndex.InvoiceNumber]}<i class="material-icons btnpeek">more_horiz</i></td><td class="text">${rows[i][res.ColumnIndex.InvoiceDate]}</td><td data-validationname="Order" data-fieldname="OrderId" data-datafield="${rows[i][res.ColumnIndex.OrderId]}" data-displayfield="${rows[i][res.ColumnIndex.Description]}" class="text">${rows[i][res.ColumnIndex.OrderNumber]}<i class="material-icons btnpeek">more_horiz</i></td><td class="text">${rows[i][res.ColumnIndex.Description]}</td><td style="text-align:right;" data-invoicefield="InvoiceTotal" class="decimal static-amount">${rows[i][res.ColumnIndex.Total]}</td><td style="text-align:right;" data-invoicefield="InvoiceApplied" class="decimal static-amount">${rows[i][res.ColumnIndex.Applied]}</td><td style="text-align:right;" data-invoicefield="InvoiceDue" class="decimal static-amount">${rows[i][res.ColumnIndex.Due]}</td><td data-enabled="true" data-isuniqueid="false" data-datafield="InvoiceAmount" data-invoicefield="InvoiceAmount" class="decimal fwformfield pay-amount invoice-amount"><input class="decimal fwformfield fwformfield-value" style="font-size:inherit;" type="text" autocapitalize="none" value="${rows[i][res.ColumnIndex.Amount]}"></td></tr>`);
+                        htmlRows.push(`<tr class="row"><td data-validationname="Deal" data-fieldname="DealId" data-datafield="${rows[i][res.ColumnIndex.DealId]}" data-displayfield="${rows[i][res.ColumnIndex.Deal]}" class="text">${rows[i][res.ColumnIndex.Deal]}<i class="material-icons btnpeek">more_horiz</i></td><td class="text InvoiceId" style="display:none;">${rows[i][res.ColumnIndex.InvoiceId]}</td><td class="text InvoiceReceiptId" style="display:none;">${rows[i][res.ColumnIndex.InvoiceReceiptId]}</td><td data-validationname="Invoice" data-fieldname="InvoiceId" data-datafield="${rows[i][res.ColumnIndex.InvoiceId]}" data-displayfield="${rows[i][res.ColumnIndex.InvoiceNumber]}" class="text">${rows[i][res.ColumnIndex.InvoiceNumber]}<i class="material-icons btnpeek">more_horiz</i></td><td class="text">${rows[i][res.ColumnIndex.InvoiceDate]}</td><td data-validationname="Order" data-fieldname="OrderId" data-datafield="${rows[i][res.ColumnIndex.OrderId]}" data-displayfield="${rows[i][res.ColumnIndex.Description]}" class="text">${rows[i][res.ColumnIndex.OrderNumber]}<i class="material-icons btnpeek">more_horiz</i></td><td class="text">${rows[i][res.ColumnIndex.Description]}</td><td style="text-align:right;" data-invoicefield="InvoiceTotal" class="decimal static-amount">${rows[i][res.ColumnIndex.Total]}</td><td style="text-align:right;" data-invoicefield="InvoiceApplied" class="decimal static-amount">${rows[i][res.ColumnIndex.Applied]}</td><td style="text-align:right;" data-invoicefield="InvoiceDue" class="decimal static-amount">${rows[i][res.ColumnIndex.Due]}</td><td data-enabled="true" data-isuniqueid="false" data-datafield="InvoiceAmount" data-invoicefield="InvoiceAmount" class="decimal fwformfield pay-amount invoice-amount"><input class="decimal fwformfield fwformfield-value" style="font-size:inherit;" type="text" autocapitalize="none" row-index="${i}" value="${rows[i][res.ColumnIndex.Amount]}"> </td><td><div class="fwformcontrol apply-btn" row-index="${i}" data-type="button" style="">Apply</div></td></tr>`);
                     }
                     $form.find('.table-rows').html('');
                     $form.find('.table-rows').html(htmlRows.join(''));
@@ -423,9 +445,9 @@ class Receipt {
                         calculateInvoiceTotals($form);
                     })();
                     // Amount column listener
-                    $form.find('.pay-amount input').on('change', e => {
-                        e.stopPropagation();
-                        const el = jQuery(e.currentTarget);
+                    $form.find('.pay-amount input').on('change', ev => {
+                        ev.stopPropagation();
+                        const el = jQuery(ev.currentTarget);
                         const val = el.val();
                         if (el.hasClass('decimal')) {
                             if (val === '0.00' || val === '') {
@@ -434,8 +456,12 @@ class Receipt {
                                 el.css('background-color', '#F4FFCC');
                             }
                         }
-                        calculateInvoiceTotals($form, el);
+                        calculateInvoiceTotals($form, ev);
                     });
+                    $form.find('.apply-btn').click((ev: JQuery.ClickEvent) => {
+                        calculateInvoiceTotals($form, ev);
+
+                    })
                     // btnpeek
                     $form.find('tbody tr .btnpeek').on('click', function (e: JQuery.Event) {
                         try {
