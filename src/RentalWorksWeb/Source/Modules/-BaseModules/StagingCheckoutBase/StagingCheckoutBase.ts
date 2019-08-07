@@ -378,7 +378,9 @@
             this.partialContractGridVisibility($form);
             FwAppData.apiMethod(true, 'POST', `api/v1/checkout/startcheckoutcontract`, requestBody, FwServices.defaultTimeout, response => {
                 try {
-                    this.contractId = response.ContractId;
+                    if (this.contractId !== '' || this.contractId != undefined) {
+                        this.contractId = response.ContractId;
+                    }
                     $form.find('.suspendedsession').hide();
                     const cancelMenuOptionId = Constants.Modules.Home.StagingCheckout.form.menuItems.Cancel.id.replace('{', '').replace('}', '');
                     $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'true');
