@@ -328,6 +328,7 @@ class Receipt {
             $form.find('.table-rows').html('<tr class="empty-row" style="height:33px;"><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>');
         }
         const calculateInvoiceTotals = ($form, event?) => {
+            const amountValBefore = $form.data('payAmountOnFocus')
             let totalTotal = new Decimal(0);
             let appliedTotal = new Decimal(0);
             let dueTotal = new Decimal(0);
@@ -379,10 +380,12 @@ class Receipt {
                     // may need to trigger line change after apply button
                     const currentAmountField = $amountFields.eq(i);
                     if (element.is(currentAmountField)) {
+                        let amountDifference = new Decimal(0);
+                        amountDifference = amountTotal.minus(amountValBefore)
                         let appliedLineTotal = new Decimal(0);
-                        appliedLineTotal = appliedLineTotal.plus(appliedVal).plus(amountInput);
+                        appliedLineTotal = appliedLineTotal.plus(appliedVal).plus(amountDifference);
                         let dueLineTotal = new Decimal(0);
-                        dueLineTotal = dueLineTotal.plus(dueVal).minus(amountInput);
+                        dueLineTotal = dueLineTotal.plus(dueVal).minus(amountDifference);
                         // if amount = due => 0.00
                         $appliedFields.eq(i).text(appliedLineTotal.toFixed(2));
                         $dueFields.eq(i).text(dueLineTotal.toFixed(2));
@@ -458,10 +461,19 @@ class Receipt {
                         }
                         calculateInvoiceTotals($form, ev);
                     });
+                    // Store intial amount value for calculations after change
+                    $form.find('.pay-amount input').on('focus', ev => {
+                        ev.stopPropagation();
+                        const el = jQuery(ev.currentTarget);
+                        let val = el.val();
+                        if (val === '') {
+                            val = '0.00'
+                        }
+                        $form.data('payAmountOnFocus', val);            
+                    });
                     $form.find('.apply-btn').click((ev: JQuery.ClickEvent) => {
                         calculateInvoiceTotals($form, ev);
-
-                    })
+                    });
                     // btnpeek
                     $form.find('tbody tr .btnpeek').on('click', function (e: JQuery.Event) {
                         try {
