@@ -65,6 +65,14 @@ class QuikActivityCalendar {
     calendarEvents($form: any) {
         const $calendar = $form.find('.calendar');
         let activityTypes = '';
+
+        //render QuikActivity grid
+        const $quikActivityGrid = $form.find('div[data-grid="QuikActivityGrid"]');
+        const $quikActivityGridControl = FwBrowse.loadGridFromTemplate('QuikActivityGrid');
+        $quikActivityGrid.empty().append($quikActivityGridControl);
+        FwBrowse.init($quikActivityGridControl);
+        FwBrowse.renderRuntimeHtml($quikActivityGridControl);
+
         $calendar
             .data('ongetevents', request => {
                 const startOfMonth = moment(request.start.value).format('MM/DD/YYYY');
@@ -94,6 +102,41 @@ class QuikActivityCalendar {
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }
+            })
+            .data('ontimerangeselect', event => {
+                try {
+                    const fromDate = moment(event.start.value).format('MM/DD/YYYY');
+                    const toDate = moment(event.end.value).format('MM/DD/YYYY');
+                    const summary = FwFormField.getValueByDataField($form, 'Summary');
+                    $quikActivityGridControl.data('ondatabind', request => {
+                        request.uniqueids = {
+                            WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId')
+                            , FromDate: fromDate
+                            , ToDate: toDate
+                            , Summary: summary
+                        };
+                    });
+                    FwBrowse.search($quikActivityGridControl);
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            })
+            .data('oneventclick', e => {
+                const data = e.e.data;
+                const fromDate = moment(data.start.value).format('MM/DD/YYYY');
+                const toDate = moment(data.end.value).format('MM/DD/YYYY');
+                const activityType = data.activityType;
+                const summary = FwFormField.getValueByDataField($form, 'Summary');
+                $quikActivityGridControl.data('ondatabind', request => {
+                    request.uniqueids = {
+                        WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId')
+                        , FromDate: fromDate
+                        , ToDate: toDate
+                        , ActivityType: activityType
+                        , Summary: summary
+                    };
+                });
+                FwBrowse.search($quikActivityGridControl);
             });
 
         if ($calendar.length > 0) {
@@ -129,6 +172,54 @@ class QuikActivityCalendar {
             FwScheduler.refresh($calendar);
         });
 
+        const $quikActivityGrid = $form.find('div[data-grid="QuikActivityGrid"]');
+
+        $form.find('[data-datafield="Summary"]').on('change', e => {
+            const isSummary = FwFormField.getValueByDataField($form, 'Summary');
+            const $detailColumns = $quikActivityGrid
+                .find('[data-browsedatafield="ICode"], [data-browsedatafield="Description"], [data-browsedatafield="Quantity"]')
+                .parents('.column');
+            if (isSummary == 'true') {
+                $detailColumns.hide();
+            } else {
+                $detailColumns.show();
+            }
+        });
+
+        //$form.on('click', '.month_default_cell_inner', e => {
+        //    //const day = FwScheduler.getSelectedDay(e.currentTarget);
+        //    const startEndDates = FwScheduler.getSelectedTimeRange(e.currentTarget);
+        //    const fromDate = startEndDates.start;
+        //    const toDate = startEndDates.end;
+
+        //    $quikActivityGridControl.data('ondatabind', request => {
+        //        request.uniqueids = {
+        //            WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId')
+        //            , FromDate: fromDate
+        //            , ToDate: toDate
+        //            , Summary: FwFormField.getValueByDataField($form, 'Summary')
+        //        };
+        //    });
+        //});
+
+        //$form.on('click', '.month_default_event', e => {
+        //    //const day = FwScheduler.getSelectedDay(e.currentTarget);
+        //    const startEndDates = FwScheduler.getSelectedTimeRange(e.currentTarget);
+        //    const fromDate = startEndDates.start;
+        //    const toDate = startEndDates.end;
+        //    const activityType = 'RETURN';
+
+        //        $quikActivityGridControl.data('ondatabind', request => {
+        //            request.uniqueids = {
+        //                WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId')
+        //                , FromDate: fromDate
+        //                , ToDate: toDate
+        //                , ActivityType: activityType
+        //                , Summary: FwFormField.getValueByDataField($form, 'Summary')
+        //            };
+        //        });
+        //});
+
         ////toggle validation type
         //$form.on('change', '[data-datafield="QuoteOrderToggle"]', e => {
         //    const validationType = FwFormField.getValueByDataField($form, 'QuoteOrderToggle');
@@ -155,6 +246,19 @@ class QuikActivityCalendar {
                         </div>
                         <div class="flexcolumn">
                             <div data-control="FwScheduler" class="fwcontrol fwscheduler calendar"></div>
+                        </div>
+                    </div>
+                    <div class="flexrow" style="max-width:none;">
+                        <div class="flexcolumn" style="max-width:250px;">
+                            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="View">
+                                <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="" data-datafield="Summary">
+                                   <div data-value="true" data-caption="Summary"></div>
+                                   <div data-value="false" data-caption="Detail"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flexcolumn">
+                            <div data-control="FwGrid" data-grid="QuikActivityGrid" data-securitycaption="QuikActivity"></div>
                         </div>
                     </div>
                 </div>`;

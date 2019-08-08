@@ -17,6 +17,7 @@ namespace WebApi.Modules.Utilities.QuikActivity
             public string text { get; set; }
             public string backColor { get; set; }
             public string textColor { get; set; }
+            public string activityType { get; set; }
             public string id { get; set; } = "";
         }
         //-------------------------------------------------------------------------------------------------------
@@ -47,6 +48,7 @@ namespace WebApi.Modules.Utilities.QuikActivity
                         ev.text = row[dt.GetColumnNo("description")].ToString();
                         ev.backColor = FwConvert.OleColorToHtmlColor(FwConvert.ToInt32(row[dt.GetColumnNo("color")]));
                         ev.textColor = FwConvert.OleColorToHtmlColor(FwConvert.ToInt32(row[dt.GetColumnNo("textcolor")]));
+                        ev.activityType = row[dt.GetColumnNo("activitytype")].ToString();
                         response.QuikActivityCalendarEvents.Add(ev);
                     }
                 }
