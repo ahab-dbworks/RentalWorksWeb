@@ -40,6 +40,7 @@ namespace WebApi.Modules.Utilities.QuikActivity
         //------------------------------------------------------------------------------------ 
         public override async Task<FwJsonDataTable> BrowseAsync(BrowseRequest request, FwCustomFields customFields = null)
         {
+            string sessionId = GetUniqueIdAsString("SessionId", request) ?? "";
             string warehouseId = GetUniqueIdAsString("WarehouseId", request) ?? "";
             DateTime fromDate = GetUniqueIdAsDate("FromDate", request).GetValueOrDefault(DateTime.Today);
             DateTime toDate = GetUniqueIdAsDate("ToDate", request).GetValueOrDefault(DateTime.Today);
@@ -52,6 +53,7 @@ namespace WebApi.Modules.Utilities.QuikActivity
             {
                 using (FwSqlCommand qry = new FwSqlCommand(conn, "getquikactivitydatadetail", this.AppConfig.DatabaseSettings.QueryTimeout))
                 {
+                    qry.AddParameter("@sessionid", SqlDbType.NVarChar, ParameterDirection.Input, sessionId);
                     qry.AddParameter("@warehouseid", SqlDbType.NVarChar, ParameterDirection.Input, warehouseId);
                     qry.AddParameter("@fromdate", SqlDbType.Date, ParameterDirection.Input, fromDate);
                     qry.AddParameter("@todate", SqlDbType.Date, ParameterDirection.Input, toDate);

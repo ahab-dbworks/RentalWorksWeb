@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
+using WebApi.Logic;
 
 namespace WebApi.Modules.Utilities.QuikActivity
 {
@@ -23,16 +24,19 @@ namespace WebApi.Modules.Utilities.QuikActivity
         //-------------------------------------------------------------------------------------------------------
         public class TQuikActivityCalendarResponse
         {
+            public string SessionId { get; set; } = "";
             public List<TQuikActivityCalendarEvent> QuikActivityCalendarEvents { get; set; } = new List<TQuikActivityCalendarEvent>();
         }
         //-------------------------------------------------------------------------------------------------------
         public static async Task<TQuikActivityCalendarResponse> GetQuikActivityCalendarData(FwApplicationConfig appConfig, FwUserSession userSession, string WarehouseId, DateTime FromDate, DateTime ToDate, string ActivityType)
         {
             TQuikActivityCalendarResponse response = new TQuikActivityCalendarResponse();
+            string sessionId = AppFunc.GetNextIdAsync(appConfig).Result;
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
             {
                 using (FwSqlCommand qry = new FwSqlCommand(conn, "getquikactivitydatasummary", appConfig.DatabaseSettings.QueryTimeout))
                 {
+                    qry.AddParameter("@sessionid", SqlDbType.NVarChar, ParameterDirection.Input, sessionId);
                     qry.AddParameter("@warehouseid", SqlDbType.NVarChar, ParameterDirection.Input, WarehouseId);
                     qry.AddParameter("@fromdate", SqlDbType.DateTime, ParameterDirection.Input, FromDate);
                     qry.AddParameter("@todate", SqlDbType.DateTime, ParameterDirection.Input, ToDate);
@@ -51,6 +55,8 @@ namespace WebApi.Modules.Utilities.QuikActivity
                         ev.activityType = row[dt.GetColumnNo("activitytype")].ToString();
                         response.QuikActivityCalendarEvents.Add(ev);
                     }
+                    response.SessionId = sessionId;
+
                 }
             }
             return response;
