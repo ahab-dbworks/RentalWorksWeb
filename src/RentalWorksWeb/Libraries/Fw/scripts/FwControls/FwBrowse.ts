@@ -3938,9 +3938,7 @@ class DataTableColumn {
 }
 
 class BrowseRequest {
-    miscfields?:  {
-        [key: string]: string;
-    } = {};
+    miscfields?: any = {};
     module?: string = '';
     options?: any = {};
     orderby?: string = '';
@@ -3955,15 +3953,9 @@ class BrowseRequest {
     searchseparators?: string[] = [];
     searchcondition?: string[] = [];
     searchconjunctions?: string[] = [];
-    uniqueids?: {
-        [key: string]: string;
-    } = {};
-    boundids?: {
-        [key: string]: string;    
-    } = {};
-    filterfields?: {
-        [key: string]: string;    
-    } = {};
+    uniqueids?: any = {};
+    boundids?: any = {};
+    filterfields?: any = {};
     activeview?: string = '';
 }
 

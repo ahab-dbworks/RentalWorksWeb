@@ -106,6 +106,14 @@ namespace FwStandard.Security
                                         identity.AddClaim(new Claim(AuthenticationClaimsTypes.PersonId, personid));
                                     }
                                 }
+                                if (qry.FieldNames.Contains("fullname"))
+                                {
+                                    string userName = qry.GetField("fullname").ToString().TrimEnd();
+                                    if (!string.IsNullOrEmpty(userName))
+                                    {
+                                        identity.AddClaim(new Claim(AuthenticationClaimsTypes.UserName, userName));
+                                    }
+                                }
                             }
                         }
                     }
@@ -162,6 +170,7 @@ namespace FwStandard.Security
             public const string PersonId   = "http://www.dbworks.com/claims/personid";
             public const string DealId     = "dealid";
             public const string CampusId   = "campusid";
+            public const string UserName   = "username";
         }
         //---------------------------------------------------------------------------------------------
     }

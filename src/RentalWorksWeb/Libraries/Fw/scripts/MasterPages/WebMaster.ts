@@ -40,10 +40,13 @@
         $view
             .on('click', '.bgothm', () => {
                 try {
-                    const homePagePath = JSON.parse(sessionStorage.getItem('homePage')).path;
-
-                    if (homePagePath !== null && homePagePath !== '') {
-                        program.getModule(homePagePath);
+                    if (sessionStorage.getItem('homePage') !== null) {
+                        const homePagePath = JSON.parse(sessionStorage.getItem('homePage')).path;
+                        if (homePagePath !== null && homePagePath !== '') {
+                            program.getModule(homePagePath);
+                        } else {
+                            program.getModule('module/dashboard');
+                        }
                     } else {
                         program.getModule('module/dashboard');
                     }

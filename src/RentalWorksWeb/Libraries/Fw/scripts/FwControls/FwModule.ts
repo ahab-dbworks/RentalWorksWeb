@@ -388,7 +388,7 @@
                                         $menubarbutton.append(`
                                         <div class="findbutton-dropdown">
                                             <div class="query">
-                                                <div class="flexrow queryrow" style="align-items:center;min-width:800px;">
+                                                <div class="queryrow">
                                                     <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield find-field andor" data-caption="" data-datafield="AndOr" style="flex:1 1 auto;"></div>
                                                     <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield find-field datafieldselect" data-caption="Data Field" data-datafield="Datafield" style="flex:1 1 auto;"></div>
                                                     <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield find-field datafieldcomparison" data-caption="" data-datafield="DatafieldComparison" style="flex:1 1 150px;"></div>

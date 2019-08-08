@@ -25,6 +25,16 @@ namespace FwStandard.Models
             }
         }
         //------------------------------------------------------------------------------------
+        public string UsersName
+        {
+            get
+            {
+                var claim = this.User.Claims.FirstOrDefault(x => x.Type == AuthenticationClaimsTypes.UserName);
+                string userName = (claim != null) ? claim.Value : string.Empty;
+                return userName;
+            }
+        }
+        //------------------------------------------------------------------------------------
         public string WebUsersId
         {
             get

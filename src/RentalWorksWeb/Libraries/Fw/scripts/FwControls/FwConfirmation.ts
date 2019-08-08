@@ -27,40 +27,51 @@
         $more = $control.find('.more');
         $more.toggle($body[0].scrollHeight > $body[0].clientHeight);
 
-        $control.on('click', '.fwconfirmation-button.default', function () {
-            FwConfirmation.destroyConfirmation($control);
-        });
-
         return $control;
     }
     //----------------------------------------------------------------------------------------------
-    static addButton($control: JQuery, buttontext: string, hasDefaultEvent?: boolean) {
-        var html, $button, cssclass;
+    static addButton($confirmation: JQuery, buttontext: string, hasDefaultEvent?: boolean) {
+        var $button = jQuery('<div>')
+            .addClass('fwconfirmation-button')
+            .attr('role', 'button')
+            .attr('tabindex', '0')
+            .html(buttontext)
+            .appendTo($confirmation.find('.fwconfirmation-buttonbar'))
+            .on('keypress', function (e) {
+                if (e.which === 13) {
+                    $button.click();
+                    e.preventDefault();
+                }
+            });
 
-        cssclass = ((typeof hasDefaultEvent === 'boolean') && (!hasDefaultEvent)) ? '' : ' default';
-        html = [];
-        html.push('<div class="fwconfirmation-button' + cssclass + '" tabindex="0" role="button">' + buttontext + '</div>');
-        $button = jQuery(html.join(''));
-        $control.find('.fwconfirmation-buttonbar').append($button);
-        $button.on('keypress', function (e) {
-            if (e.which === 13) {
-                $button.click();
-                e.preventDefault();
-            }
-        });
+        if (hasDefaultEvent !== false) {
+            $button.on('click', function () {
+                FwConfirmation.destroyConfirmation($confirmation);
+            });
+        }
 
         return $button;
     }
     //----------------------------------------------------------------------------------------------
-    static destroyConfirmation($control) {
-        $control.remove();
+    static destroyConfirmation($confirmation) {
+        $confirmation.remove();
     }
     //----------------------------------------------------------------------------------------------
-    static addControls($control: JQuery, controlshtml: string) {
-        $control.find('.body').append('<div class="controls fwform">' + controlshtml + '</div>');
-        //FwControl.init($control.find('.fwcontrol')); // 2015-03-19 MV+MY almost seems like this line should be here, can't change this now because need to build release
-        FwControl.renderRuntimeControls($control.find('.fwcontrol'));
-        $control.data('fields', $control.find('.fwformfield'));
+    static addControls($confirmation: JQuery, controlshtml: string) {
+        $confirmation.find('.body').append('<div class="controls fwform">' + controlshtml + '</div>');
+        FwControl.renderRuntimeControls($confirmation.find('.fwcontrol'));
+        $confirmation.data('fields', $confirmation.find('.fwformfield'));
+    }
+    //----------------------------------------------------------------------------------------------
+    static addJqueryControl($confirmation: JQuery, $control: JQuery) {
+        let $fwform = $confirmation.find('.body .fwform');
+        if ($fwform.length === 0) {
+            $fwform = jQuery('<div class="controls fwform"></div>');
+            $confirmation.find('.body').append($fwform);
+        }
+        $fwform.append($control);
+        FwControl.renderRuntimeControls($confirmation.find('.fwcontrol'));
+        $confirmation.data('fields', $confirmation.find('.fwformfield'));
     }
     //----------------------------------------------------------------------------------------------
     static showMessage(title: string, message: string, hascancelbutton: boolean, autoclose: boolean, buttontext: string, onbuttonclick: Function) {

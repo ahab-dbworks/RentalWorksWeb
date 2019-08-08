@@ -37,7 +37,7 @@ class FwAjaxClass {
     async callWebApi<TRequest, TResponse>(options: FwAjaxRequest<TRequest>): Promise<TResponse> {
         return new Promise<TResponse>(async(resolve, reject) => {
             try {
-                if (typeof options.timeout === 'undefined') {
+                if (typeof options.timeout === 'undefined' || options.timeout === null) {
                     options.timeout = 15000;
                 }
                 if (typeof options.$elementToBlock === 'undefined') {
@@ -59,9 +59,6 @@ class FwAjaxClass {
                     options.cancelable = false;
                 }
                 this.showLoader(options);
-                if (options.timeout === null) {
-                    options.timeout = 15000;
-                }
                 options.xmlHttpRequest.timeout = options.timeout;
                 options.xmlHttpRequest.open(options.httpMethod, options.url);
                 if (options.httpMethod === 'POST' || options.httpMethod === 'PUT') {

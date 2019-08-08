@@ -1669,10 +1669,112 @@ namespace FwStandard.SqlServer
         /// <returns></returns>
         public async Task<List<T>> QueryToTypedListAsync<T>()
         {
-            var objs = await QueryToDynamicList2Async();
-            string json = JsonConvert.SerializeObject(objs);
-            List<T> results = JsonConvert.DeserializeObject<List<T>>(json);
-            return results;
+            List<T> rows;
+            T row;
+            string fieldName;
+
+            bool closeConnection = true;
+
+            try
+            {
+                this.RowCount = 0;
+                string methodName = "QueryToTypedListAsync";
+                string usefulLinesFromStackTrace = GetUsefulLinesFromStackTrace(methodName);
+                //FwFunc.WriteLog("Begin FwSqlCommand:QueryToDynamicList()");
+                rows = new List<T>();
+                this.sqlCommand.CommandText = this.qryText.ToString();
+                //FwFunc.WriteLog("Query:\n" + this.sqlCommand.CommandText);
+
+                closeConnection = !sqlConnection.IsOpen();
+
+                if (closeConnection)
+                {
+                    await this.sqlCommand.Connection.OpenAsync();
+                }
+
+                this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand, usefulLinesFromStackTrace);
+                this.sqlLogEntry.Start();
+
+
+                using (SqlDataReader reader = await this.sqlCommand.ExecuteReaderAsync())
+                {
+                    Dictionary<string, FwJsonDataTableColumn> indexedColumns = new Dictionary<string, FwJsonDataTableColumn>();
+                    for (int colno = 0; colno < columns.Count; colno++)
+                    {
+                        FwJsonDataTableColumn column = columns[colno];
+                        indexedColumns[column.DataField] = column;
+                    }
+                    while (await reader.ReadAsync())
+                    {
+                        this.RowCount++;
+                        //                     rowObj = new ExpandoObject();
+                        row = Activator.CreateInstance<T>();
+                        for (int ordinal = 0; ordinal < reader.FieldCount; ordinal++)
+                        {
+                            fieldName = reader.GetName(ordinal);
+                            object data = string.Empty;
+                            if (!indexedColumns.ContainsKey(fieldName))
+                            {
+                                // don't format the data
+                                data = reader.GetValue(ordinal);
+                                if (data is String)
+                                {
+                                    data = ((string)data).TrimEnd();
+                                }
+                                else if (data is DateTime)
+                                {
+                                    //data = new FwDatabaseField(data).ToShortDateTimeString();
+                                    //justin 10/01/2018 - need to return a date string when the time is not part of the value
+                                    if (((DateTime)data).TimeOfDay.TotalMilliseconds.Equals(0))
+                                    {
+                                        data = new FwDatabaseField(data).ToShortDateString();
+                                    }
+                                    else
+                                    {
+                                        data = new FwDatabaseField(data).ToShortDateTimeString();
+                                    }
+                                }
+
+                                if (reader.IsDBNull(ordinal))
+                                {
+                                    data = string.Empty;
+                                }
+                            }
+                            else
+                            {
+                                // use the specified column formatter
+                                FwJsonDataTableColumn column = indexedColumns[fieldName];
+                                if (indexedColumns[fieldName].IsUniqueId)
+                                {
+                                    //data = FwCryptography.AjaxEncrypt(reader.GetValue(ordinal).ToString().Trim());
+                                    data = reader.GetValue(ordinal).ToString();
+                                }
+                                else
+                                {
+                                    data = FormatReaderData(column.DataType, ordinal, reader);
+                                }
+                            }
+                            var propertyInfo = typeof(T).GetProperty(fieldName, BindingFlags.Instance | BindingFlags.IgnoreCase | BindingFlags.Public);
+                            if (propertyInfo != null)
+                            {
+                                propertyInfo.SetValue(row, data);
+                            }
+                        }
+                        rows.Add(row);
+                    }
+                }
+            }
+            finally
+            {
+                if (closeConnection)
+                {
+                    this.sqlCommand.Connection.Close();
+                }
+                //FwFunc.WriteLog("End FwSqlCommand:QueryToDynamicList()");
+                this.sqlLogEntry.Stop(this.RowCount);
+            }
+
+            return rows;
         }
         //------------------------------------------------------------------------------------
         /// <summary>

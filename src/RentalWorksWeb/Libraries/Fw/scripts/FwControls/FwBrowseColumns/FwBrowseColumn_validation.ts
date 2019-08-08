@@ -40,19 +40,23 @@ class FwBrowseColumn_validationClass implements IFwBrowseColumn {
         $field.data('autoselect', false);
         var originaltext = (typeof $field.attr('data-originaltext') === 'string') ? $field.attr('data-originaltext') : '';
         let html = [];
-        const isWebAdmin = JSON.parse(sessionStorage.getItem('userid')).webadministrator;
-        let showPeek = false;
-        if (!($field.attr('data-validationpeek') === 'false')) {
-            if (isWebAdmin === 'true') {
-                showPeek = true;
+
+        if (sessionStorage.getItem('userid') !== null) {
+            let showPeek = false;
+            const isWebAdmin = JSON.parse(sessionStorage.getItem('userid')).webadministrator;
+            if (!($field.attr('data-validationpeek') === 'false')) {
+                if (isWebAdmin === 'true') {
+                    showPeek = true;
+                }
+                else if (isWebAdmin === 'false' && FwValidation.isHomeModule($field)) {
+                    showPeek = true;
+                }
             }
-            else if (isWebAdmin === 'false' && FwValidation.isHomeModule($field)) {
-                showPeek = true;
+            if (showPeek) {
+                html.push('<div class="btnpeek"><i class="material-icons">more_horiz</i></div>');
             }
         }
-        if (showPeek) {
-            html.push('<div class="btnpeek"><i class="material-icons">more_horiz</i></div>');
-        }
+
         // push hidden spinner
         html.push('<div class="sk-fading-circle validation-loader"><div class="sk-circle1 sk-circle"></div><div class="sk-circle2 sk-circle"></div><div class="sk-circle3 sk-circle"></div><div class="sk-circle4 sk-circle"></div><div class="sk-circle5 sk-circle"></div><div class="sk-circle6 sk-circle"></div><div class="sk-circle7 sk-circle"></div><div class="sk-circle8 sk-circle"></div><div class="sk-circle9 sk-circle"></div><div class="sk-circle10 sk-circle"></div><div class="sk-circle11 sk-circle"></div><div class="sk-circle12 sk-circle"></div></div>');
 
