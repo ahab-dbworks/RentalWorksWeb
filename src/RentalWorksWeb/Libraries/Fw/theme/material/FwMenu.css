@@ -26,10 +26,11 @@ html.theme-material .fwmenu.default .buttonbar {flex:1 0 auto;height:2.5em;margi
 html.theme-material .fwmenu.default .buttonbar .vr {height:30px;width:1px;margin:0 5px;background-color:rgba(0,0,0,0.4);}
 html.theme-material .fwmenu.default .buttonbar > .btn {cursor:pointer;padding:0 10px .25em 10px;display:flex;align-items: center;height: 100%;box-sizing: border-box;border-top: .25em solid transparent;transition: .3s;outline:0;}
 html.theme-material .fwmenu.default .buttonbar .btn .findbutton-dropdown { display:none;position: absolute; top: 40px; -moz-box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12); -webkit-box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12); box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12); background: #fafafa; border: 1px solid #d6d6d6; color: #263248;}
+html.theme-material .fwmenu.default .buttonbar .btn .findbutton-dropdown .queryrow { display: flex; flex-wrap: nowrap; }
 html.theme-material .fwmenu.default .buttonbar .btn.active .findbutton-dropdown {display:block;cursor:default;}
 html.theme-material .fwmenu.default .buttonbar .btn.active .findbutton-dropdown .andor { visibility:hidden; }
-html.theme-material .fwmenu.default .buttonbar .btn.active .findbutton-dropdown .delete-query { visibility:hidden; cursor:pointer;}
-html.theme-material .fwmenu.default .buttonbar .btn.active .findbutton-dropdown .add-query {cursor:pointer;}
+html.theme-material .fwmenu.default .buttonbar .btn.active .findbutton-dropdown .delete-query { visibility:hidden; cursor:pointer; margin: .9em 0 0 0;}
+html.theme-material .fwmenu.default .buttonbar .btn.active .findbutton-dropdown .add-query {cursor:pointer; margin: .9em 0 0 0;}
 html.theme-material .fwmenu.default .buttonbar .btn:hover:not(.disabled) {border-top:.25em solid #2e7d32;}
 html.theme-material .fwmenu.default .buttonbar .btn.disabled {opacity:0.6;}
 html.theme-material .fwmenu.default .buttonbar .btn > i {font-size:1.5em;}
@@ -64,5 +65,26 @@ html.theme-material .fwmenu.default .submenubutton .submenu .submenu-column .sub
 
 html.theme-material .fwmenu.default .submenubutton.fw {float:right;}
 html.theme-material .fwmenu.default .submenubutton.fw .submenu {right:0;}
+
+/*#region data-type="btnmenu" (main button)*/
+html.theme-material [data-type="btnmenu"] .btnmenu {float:left;border-radius:2px 0 0 2px;padding: 0 1rem;cursor:pointer;display:inline-block;height: 36px;letter-spacing: .5px;line-height: 36px;font-size: 15px;text-transform: uppercase;will-change: opacity, transform;-webkit-transition: all 0.3s ease-out;-moz-transition: all 0.3s ease-out;-o-transition: all 0.3s ease-out;-ms-transition: all 0.3s ease-out;transition: all 0.3s ease-out;}
+html.theme-material [data-type="btnmenu"] .btnmenu {background-color: #01579b;color: #ffffff;box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12);}
+html.theme-material [data-type="btnmenu"] .btnmenu:hover {box-shadow: 0 5px 11px 0 rgba(0,0,0,0.18), 0 4px 15px 0 rgba(0,0,0,0.15);}
+html.theme-material [data-type="btnmenu"] .btnmenu:active {background-color:#1e88e5;}
+/*#endregion*/
+
+/*#region data-type="btnmenu" (button drop-down menu)*/
+html.theme-material [data-type="btnmenu"] .btnmenuoptions {border-radius:2px;margin-top:37px;display:none;position:absolute; background-color: #01579b;color: #ffffff;box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12);}
+/*#endregion*/
+
+/*#region data-type="btnmenu" (icon revealing dropdown)*/
+html.theme-material [data-type="btnmenu"] i.btnmenudd { vertical-align:middle;float:right;background-color:#01579B;color:white;height:29px;padding:4px 3px 3px 3px;border-radius:0 2px 2px 0;cursor:pointer; }
+/*#endregion*/
+
+/*#region data-type="btnmenu" (button menu options) */
+html.theme-material [data-type="btnmenu"] .btnmenuoption {cursor: pointer; padding:.5em 1em .5em 1em;}
+html.theme-material [data-type="btnmenu"] .btnmenuoption:hover {box-shadow: 0 5px 11px 0 rgba(0,0,0,0.18), 0 4px 15px 0 rgba(0,0,0,0.15);}
+html.theme-material [data-type="btnmenu"] .btnmenuoption:active {background-color:#1e88e5;}
+/*#endregion*/
 
 /*#endregion FwMenu:(Browses/Forms)*/

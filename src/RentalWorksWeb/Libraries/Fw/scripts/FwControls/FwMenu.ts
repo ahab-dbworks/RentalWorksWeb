@@ -410,11 +410,10 @@ class FwMenuClass {
     };
     //----------------------------------------------------------------------------------------------
     addButtonMenuOptions($control, menuOptions) {
-        let caption = $control.attr('data-caption');
-        let html = [];
-        html.push(`<div class="fwformcontrol btnmenu">${caption}`);
-        html.push('  <i class="material-icons btnmenudd" style="vertical-align:middle">&#xE5C5;</i>');
-        html.push('</div>');
+        const caption = $control.attr('data-caption');
+        const html = [];
+        html.push(`<div class="fwformcontrol btnmenu">${caption}</div>`);
+        html.push('  <div><i class="material-icons btnmenudd">&#xE5C5;</i></div>');
         html.push('<div class="btnmenuoptions"></div>');
         $control.append(html.join(''))
             .find('.btnmenuoptions')
