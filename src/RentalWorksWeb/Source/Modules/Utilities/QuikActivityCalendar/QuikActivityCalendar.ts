@@ -106,7 +106,7 @@ class QuikActivityCalendar {
             .data('ontimerangeselect', event => {
                 try {
                     const fromDate = moment(event.start.value).format('MM/DD/YYYY');
-                    const toDate = moment(event.end.value).format('MM/DD/YYYY');
+                    const toDate = moment(event.start.value).format('MM/DD/YYYY');
                     const summary = FwFormField.getValueByDataField($form, 'Summary');
                     $quikActivityGridControl.data('ondatabind', request => {
                         request.uniqueids = {
@@ -184,6 +184,7 @@ class QuikActivityCalendar {
             } else {
                 $detailColumns.show();
             }
+            FwBrowse.search($quikActivityGrid.find('[data-type="Grid"]'));
         });
 
         //$form.on('click', '.month_default_cell_inner', e => {
