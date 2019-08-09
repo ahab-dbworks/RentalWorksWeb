@@ -379,6 +379,84 @@ class OrderBase {
             FwFormField.setValue($form, 'div[data-datafield="BillingCycleId"]', parentModuleInfo.BillingCycleId, parentModuleInfo.BillingCycle);
         }
 
+        //Toggle Buttons - Rental tab - Rental totals
+        FwFormField.loadItems($form.find('div[data-datafield="totalTypeRental"]'), [
+            { value: 'W', caption: 'Weekly' },
+            { value: 'M', caption: 'Monthly' },
+            { value: 'P', caption: 'Period' }
+        ]);
+
+        //Toggle Buttons - Misc. tab - Misc. totals
+        FwFormField.loadItems($form.find('div[data-datafield="totalTypeMisc"]'), [
+            { value: 'W', caption: 'Weekly' },
+            { value: 'M', caption: 'Monthly' },
+            { value: 'P', caption: 'Period' }
+        ]);
+
+        //Toggle Buttons - Labor tab - Labor totals
+        FwFormField.loadItems($form.find('div[data-datafield="totalTypeLabor"]'), [
+            { value: 'W', caption: 'Weekly' },
+            { value: 'M', caption: 'Monthly' },
+            { value: 'P', caption: 'Period' }
+        ]);
+
+        //Toggle Buttons - Billing tab - Issue To Address
+        FwFormField.loadItems($form.find('div[data-datafield="PrintIssuedToAddressFrom"]'), [
+            { value: 'DEAL',        caption: 'Deal' },
+            { value: 'CUSTOMER',    caption: 'Customer' },
+            { value: 'ORDER',       caption: 'Order' }
+        ]);
+
+        //Toggle Buttons - Billing tab - Bill Quantities From 
+        FwFormField.loadItems($form.find('div[data-datafield="DetermineQuantitiesToBillBasedOn"]'), [
+            { value: 'CONTRACT', caption: 'Contract Activity' },
+            { value: 'ORDER', caption: 'Order Quantity' }
+        ]);
+
+        //Toggle Buttons - Billing tab - Labor Prep Fees
+        FwFormField.loadItems($form.find('div[data-datafield="IncludePrepFeesInRentalRate"]'), [
+            { value: 'false', caption: 'As Labor Charge' },
+            { value: 'true', caption: 'Into Rental Rate' }
+        ]);
+
+        //Toggle Buttons - Billing tab - Hiatus Schedule
+        FwFormField.loadItems($form.find('div[data-datafield="HiatusDiscountFrom"]'), [
+            { value: 'DEAL',    caption: 'Deal' },
+            { value: 'ORDER',   caption: 'Order' }
+        ]);
+
+        //Toggle Buttons - Deliver/Ship tab - Outgoing Address
+        FwFormField.loadItems($form.find('div[data-datafield="OutDeliveryAddressType"]'), [
+            { value: 'DEAL',        caption: 'Deal' },
+            { value: 'VENUE',       caption: 'Venue' },
+            { value: 'WAREHOUSE',   caption: 'Warehouse' },
+            { value: 'OTHER',   caption: 'Other' }
+        ]);
+
+        //Toggle Buttons - Deliver/Ship tab - Incoming Address
+        FwFormField.loadItems($form.find('div[data-datafield="InDeliveryAddressType"]'), [
+            { value: 'DEAL',        caption: 'Deal' },
+            { value: 'VENUE',       caption: 'Venue' },
+            { value: 'WAREHOUSE',   caption: 'Warehouse' },
+            { value: 'OTHER',       caption: 'Other' }
+        ]);
+        //Toggle Buttons - Manifest tab - Rental Valuation
+        FwFormField.loadItems($form.find('div[data-datafield="rentalValueSelector"]'), [
+            { value: '', caption: 'Default Value' },
+            { value: '', caption: 'Replacement Cost' }
+        ]);
+        //Toggle Buttons - Manifest tab - Sales Valuation
+        FwFormField.loadItems($form.find('div[data-datafield="salesValueSelector"]'), [
+            { value: '', caption: 'Sell Price'},
+            { value: '', caption: 'Default Cost'  },
+            { value: '', caption: 'Average Cost' }
+        ]);
+        //Toggle Buttons - Manifest tab - Weight Type
+        FwFormField.loadItems($form.find('div[data-datafield="weightSelector"]'), [
+            { value: 'IMPERIAL',    caption: 'Imperial' },
+            { value: 'METRIC',      caption: 'Metric' }
+        ]);
+
         this.events($form);
         this.activityCheckboxEvents($form, mode);
         this.renderPrintButton($form);
@@ -2114,7 +2192,39 @@ class OrderBase {
         // color the Notes tab if notes exist
         let hasNotes = FwFormField.getValueByDataField($form, 'HasNotes');
         if (hasNotes) {
-            FwTabs.setTabColor($form.find('.notestab'), '#FFFF00');
+            FwTabs.setTabColor($form.find('.notestab'), '#FFFF8d');
+        }
+
+        // color the Rental tab if RentalItems exist
+        let hasRentalItem = FwFormField.getValueByDataField($form, 'HasRentalItem');
+        if (hasRentalItem) {
+            FwTabs.setTabColor($form.find('.rentaltab'), '#FFFF8d');
+        }
+        // color the Sales tab if SalesItems exist
+        let hasSalesItem = FwFormField.getValueByDataField($form, 'HasSalesItem');
+        if (hasSalesItem) {
+            FwTabs.setTabColor($form.find('.salestab'), '#FFFF8d');
+        }
+        // color the Misc. tab if MiscItems exist
+        let hasMiscItem = FwFormField.getValueByDataField($form, 'HasMiscellaneousItem');
+        if (hasMiscItem) {
+            FwTabs.setTabColor($form.find('.misctab'), '#FFFF8d');
+        }
+        // color the Labor tab if LaborItems exist
+        let hasLaborItem = FwFormField.getValueByDataField($form, 'HasLaborItem');
+        if (hasLaborItem) {
+            FwTabs.setTabColor($form.find('.labortab'), '#FFFF8d');
+        }
+        // color the Rental Sale tab if RentalSaleItems exist
+        let hasRentalSaleItem = FwFormField.getValueByDataField($form, 'HasRentalSaleItem');
+        if (hasRentalSaleItem) {
+            FwTabs.setTabColor($form.find('.labortab'), '#FFFF8d');
+        }
+
+        // color the Loss and Damage tab if LossDamageItems exist
+        let hasLossAndDamageItem = FwFormField.getValueByDataField($form, 'HasLossAndDamageItem');
+        if (hasLossAndDamageItem) {
+            FwTabs.setTabColor($form.find('.labortab'), '#FFFF8d');
         }
 
         //Click Event on tabs to load grids/browses
