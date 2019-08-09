@@ -516,7 +516,7 @@ class Order extends OrderBase {
               <div data-type="tabpage" id="profitlosstabpage" class="tabpage" data-tabid="profitlosstab" data-render="false">
                 <div class="wideflexrow">
                   <!-- Order Profitability -->
-                  <div class="flexcolumn" style="flex:0 1 175px;">
+                  <div class="flexcolumn" style="flex:1 1 175px;">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Order">
                       <div class="flexrow">
                         <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield frame" data-caption="Sub-Total" data-datafield="" data-framedatafield="TotalPrice"></div>
@@ -542,7 +542,7 @@ class Order extends OrderBase {
                     </div>
                   </div>
                   <!-- Rental Profitability -->
-                  <div class="flexcolumn" style="flex:0 1 175px;">
+                  <div class="flexcolumn" style="flex:1 1 175px;">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Rentals">
                       <div class="flexrow">
                         <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield frame" data-caption="Sub-Total" data-datafield="" data-framedatafield="RentalPrice"></div>
@@ -568,7 +568,7 @@ class Order extends OrderBase {
                     </div>
                   </div>
                   <!-- Sales Profitability -->
-                  <div class="flexcolumn" style="flex:0 1 175px;">
+                  <div class="flexcolumn" style="flex:1 1 175px;">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Sales">
                       <div class="flexrow">
                         <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield frame" data-caption="Sub-Total" data-datafield="" data-framedatafield="SalesPrice"></div>
@@ -594,7 +594,7 @@ class Order extends OrderBase {
                     </div>
                   </div>
                   <!-- Labor Profitability -->
-                  <div class="flexcolumn" style="flex:0 1 175px;">
+                  <div class="flexcolumn" style="flex:1 1 175px;">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Labor">
                       <div class="flexrow">
                         <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield frame" data-caption="Sub-Total" data-datafield="" data-framedatafield="LaborPrice"></div>
@@ -620,7 +620,7 @@ class Order extends OrderBase {
                     </div>
                   </div>
                   <!-- Miscellaneous Profitability -->
-                  <div class="flexcolumn" style="flex:0 1 175px;">
+                  <div class="flexcolumn" style="flex:1 1 175px;">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Miscellaneous">
                       <div class="flexrow">
                         <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield frame" data-caption="Sub-Total" data-datafield="" data-framedatafield="MiscPrice"></div>
@@ -646,7 +646,7 @@ class Order extends OrderBase {
                     </div>
                   </div>
                   <!-- Used Sale Profitability -->
-                  <div class="flexcolumn" style="flex:0 1 175px;">
+                  <div class="flexcolumn" style="flex:1 1 175px;">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Used Sales">
                       <div class="flexrow">
                         <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield frame" data-caption="Sub-Total" data-datafield="" data-framedatafield="RentalSalePrice"></div>
@@ -706,6 +706,14 @@ class Order extends OrderBase {
                       <div class="wideflexrow">
                         <div data-control="FwGrid" data-grid="OrderItemGrid" data-securitycaption="Rental Items"></div>
                       </div>    
+                    </div>
+                  </div>
+                  <div class="flexcolumn" style="flex:0 0 35px;">
+                    <div class="flexrow">
+                      <div style="margin-top:10px; margin-left: 5px;">
+                        <i class="material-icons expandArrow expandFrames" style="cursor:pointer; background-color:#37474F; color:white">keyboard_arrow_right</i>
+                        <i class="material-icons expandArrow hideFrames" style="cursor:pointer; background-color:#37474F; color:white">keyboard_arrow_down</i>
+                      </div>
                     </div>
                   </div>
                   <div class="flexcolumn" style="flex:0 1 200px;padding-right:10px;">
@@ -811,6 +819,14 @@ class Order extends OrderBase {
                       </div>
                     </div>
                   </div>
+                  <div class="flexcolumn" style="flex:0 0 35px;">
+                    <div class="flexrow">
+                      <div style="margin-top:10px; margin-left: 5px;">
+                        <i class="material-icons expandArrow expandFrames" style="cursor:pointer; background-color:#37474F; color:white">keyboard_arrow_right</i>
+                        <i class="material-icons expandArrow hideFrames" style="cursor:pointer; background-color:#37474F; color:white">keyboard_arrow_down</i>
+                      </div>
+                    </div>
+                  </div>
                   <div class="flexcolumn labortotals laboradjustments" style="flex:0 0 200px;padding-right:10px;">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Labor Totals">
                       <div class="flexrow">
@@ -866,6 +882,14 @@ class Order extends OrderBase {
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Misc Items">
                       <div class="wide-flexrow">
                         <div data-control="FwGrid" data-grid="OrderItemGrid" data-securitycaption="Miscellaneous Items"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="flexcolumn" style="flex:0 0 35px;">
+                    <div class="flexrow">
+                      <div style="margin-top:10px; margin-left: 5px;">
+                        <i class="material-icons expandArrow expandFrames" style="cursor:pointer; background-color:#37474F; color:white">keyboard_arrow_right</i>
+                        <i class="material-icons expandArrow hideFrames" style="cursor:pointer; background-color:#37474F; color:white">keyboard_arrow_down</i>
                       </div>
                     </div>
                   </div>
@@ -927,6 +951,14 @@ class Order extends OrderBase {
                       </div>
                     </div>                  
                   </div>
+                  <div class="flexcolumn" style="flex:0 0 35px;">
+                    <div class="flexrow">
+                      <div style="margin-top:10px; margin-left: 5px;">
+                        <i class="material-icons expandArrow expandFrames" style="cursor:pointer; background-color:#37474F; color:white">keyboard_arrow_right</i>
+                        <i class="material-icons expandArrow hideFrames" style="cursor:pointer; background-color:#37474F; color:white">keyboard_arrow_down</i>
+                      </div>
+                    </div>
+                  </div>
                   <div class="flexcolumn usedsaletotals usedsaleadjustments" style="flex:0 0 200px;padding-right:10px;">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Used Sales Totals">
                       <div class="flexrow usedsaletotals">
@@ -982,6 +1014,14 @@ class Order extends OrderBase {
                       </div>
                     </div>                
                   </div>
+                  <div class="flexcolumn" style="flex:0 0 35px;">
+                    <div class="flexrow">
+                      <div style="margin-top:10px; margin-left: 5px;">
+                        <i class="material-icons expandArrow expandFrames" style="cursor:pointer; background-color:#37474F; color:white">keyboard_arrow_right</i>
+                        <i class="material-icons expandArrow hideFrames" style="cursor:pointer; background-color:#37474F; color:white">keyboard_arrow_down</i>
+                      </div>
+                    </div>
+                  </div>
                   <div class="flexcolumn" style="flex:0 0 200px;padding-right:10px;">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="L&D Totals">
                       <div class="flexrow">
@@ -1022,6 +1062,14 @@ class Order extends OrderBase {
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Order Items">
                       <div class="wideflexrow">
                         <div data-control="FwGrid" data-grid="OrderItemGrid" data-securitycaption="Order Items"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="flexcolumn" style="flex:0 0 35px;">
+                    <div class="flexrow">
+                      <div style="margin-top:10px; margin-left: 5px;">
+                        <i class="material-icons expandArrow expandFrames" style="cursor:pointer; background-color:#37474F; color:white">keyboard_arrow_right</i>
+                        <i class="material-icons expandArrow hideFrames" style="cursor:pointer; background-color:#37474F; color:white">keyboard_arrow_down</i>
                       </div>
                     </div>
                   </div>
