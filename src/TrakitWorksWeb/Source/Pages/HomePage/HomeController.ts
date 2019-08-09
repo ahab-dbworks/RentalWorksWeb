@@ -19,7 +19,7 @@
         screen.load = async () => {
             if (typeof window.firstLoadCompleted === 'undefined') {
                 // Get ActiveViewFields
-                const responseGetActiveViewFields = await FwAjax.callWebApi<any>({
+                const responseGetActiveViewFields = await FwAjax.callWebApi<any, any>({
                     httpMethod: 'POST',
                     url: `${applicationConfig.apiurl}api/v1/browseactiveviewfields/browse`,
                     $elementToBlock: jQuery('body'),

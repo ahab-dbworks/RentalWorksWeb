@@ -77,7 +77,7 @@ class CustomField {
             const moduleCaption = modules[i].properties.caption;
             if (typeof window[controller] !== 'undefined') {
                 if (window[controller].hasOwnProperty('apiurl')) {
-                    let moduleNav = window[controller].nav;
+                    let moduleNav = (<any>window)[controller].nav;
                     if (moduleNav) {
                         const sliceIndex = moduleNav.lastIndexOf('/');
                         moduleNav = moduleNav.slice(sliceIndex + 1);
@@ -110,7 +110,7 @@ class CustomField {
                         , moduleController = gridModules[i].properties.controller;
                     if (typeof window[moduleController] !== 'undefined') {
                         if (window[moduleController].hasOwnProperty('apiurl')) {
-                            let moduleUrl = window[moduleController].apiurl;
+                            let moduleUrl = (<any>window)[moduleController].apiurl;
                             allModules.push({ value: moduleNav, text: moduleCaption, apiurl: moduleUrl });
                         }
                     }

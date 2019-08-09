@@ -60,7 +60,7 @@
                         sessionStorage.clear();
                         
                         // Ajax for a jwt token
-                        const responseJwt = await FwAjax.callWebApi<any>({
+                        const responseJwt = await FwAjax.callWebApi<any, any>({
                             httpMethod: 'POST',
                             url: `${applicationConfig.apiurl}api/v1/jwt`,
                             $elementToBlock: $loginWindow,
@@ -81,7 +81,7 @@
                                 }
                             } else {
                                  // get session info
-                                const responseSessionInfo = await FwAjax.callWebApi<any>({
+                                const responseSessionInfo = await FwAjax.callWebApi<any, any>({
                                     httpMethod: 'GET',
                                     url: `${applicationConfig.apiurl}api/v1/account/session?applicationid=${FwApplicationTree.currentApplicationId}`,
                                     $elementToBlock: $loginWindow
@@ -111,19 +111,19 @@
                                 
                                 // run several AJAX calls in parallel
 
-                                const promiseGetUserSettings = FwAjax.callWebApi<any>({
+                                const promiseGetUserSettings = FwAjax.callWebApi<any, any>({
                                     httpMethod: 'GET',
                                     url: `${applicationConfig.apiurl}api/v1/usersettings/${responseSessionInfo.webUser.webusersid}`,
                                     $elementToBlock: $loginWindow
                                 });
 
-                                const promiseGetCustomFields = FwAjax.callWebApi<any>({
+                                const promiseGetCustomFields = FwAjax.callWebApi<any, any>({
                                     httpMethod: 'GET',
                                     url: `${applicationConfig.apiurl}api/v1/customfield`,
                                     $elementToBlock: $loginWindow
                                 });
 
-                                const promiseGetCustomForms = FwAjax.callWebApi<any>({
+                                const promiseGetCustomForms = FwAjax.callWebApi<any, any>({
                                     httpMethod: 'POST',
                                     url: `${applicationConfig.apiurl}api/v1/assignedcustomform/browse`,
                                     $elementToBlock: $loginWindow,
@@ -134,7 +134,7 @@
                                     }
                                 });
 
-                                const promiseGetControlDefaults = FwAjax.callWebApi<any>({
+                                const promiseGetControlDefaults = FwAjax.callWebApi<any, any>({
                                     httpMethod: 'GET',
                                     url: `${applicationConfig.apiurl}api/v1/control/1`,
                                     $elementToBlock: $loginWindow

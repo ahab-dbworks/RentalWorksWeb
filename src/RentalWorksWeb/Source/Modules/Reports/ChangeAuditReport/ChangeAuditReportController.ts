@@ -97,7 +97,7 @@ class ChangeAuditReport extends FwWebApiReport {
                             , moduleController = modules[i].properties.controller;
                         if (typeof window[moduleController] !== 'undefined') {
                             if (window[moduleController].hasOwnProperty('apiurl')) {
-                                var moduleUrl = window[moduleController].apiurl;
+                                var moduleUrl = (<any>window)[moduleController].apiurl;
                                 allModules.push({ value: moduleNav, text: `${moduleCaption}`, apiurl: moduleUrl });
                             }
                         }
@@ -121,7 +121,7 @@ class ChangeAuditReport extends FwWebApiReport {
                         , moduleController = gridModules[i].properties.controller;
                     if (typeof window[moduleController] !== 'undefined') {
                         if (window[moduleController].hasOwnProperty('apiurl')) {
-                            let moduleUrl = window[moduleController].apiurl;
+                            let moduleUrl = (<any>window)[moduleController].apiurl;
                             allModules.push({ value: moduleNav, text: `${moduleCaption}`, apiurl: moduleUrl });
                         }
                     }

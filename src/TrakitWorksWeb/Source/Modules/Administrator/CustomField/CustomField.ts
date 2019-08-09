@@ -101,7 +101,7 @@ class CustomField {
                         , moduleController = gridModules[i].properties.controller;
                     if (typeof window[moduleController] !== 'undefined') {
                         if (window[moduleController].hasOwnProperty('apiurl')) {
-                            let moduleUrl = window[moduleController].apiurl;
+                            let moduleUrl = (<any>window)[moduleController].apiurl;
                             allModules.push({ value: moduleNav, text: moduleCaption, apiurl: moduleUrl });
                         }
                     }

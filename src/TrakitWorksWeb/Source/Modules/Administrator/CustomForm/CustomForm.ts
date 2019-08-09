@@ -158,10 +158,10 @@ class CustomForm {
             //get the html from the template and set it as codemirror's value
             switch (type) {
                 case 'Browse':
-                    typeof window[controller].getBrowseTemplate == "function" ? modulehtml = window[controller].getBrowseTemplate() : modulehtml = jQuery(`#tmpl-modules-${moduleName}`).html();
+                    typeof (<any>window)[controller].getBrowseTemplate == "function" ? modulehtml = (<any>window)[controller].getBrowseTemplate() : modulehtml = jQuery(`#tmpl-modules-${moduleName}`).html();
                     break;
                 case 'Form':
-                    typeof window[controller].getFormTemplate == "function" ? modulehtml = window[controller].getFormTemplate() : modulehtml = jQuery(`#tmpl-modules-${moduleName}`).html();
+                    typeof (<any>window)[controller].getFormTemplate == "function" ? modulehtml = (<any>window)[controller].getFormTemplate() : modulehtml = jQuery(`#tmpl-modules-${moduleName}`).html();
                     break;
                 case 'Grid':
                     modulehtml = jQuery(`#tmpl-grids-${moduleName}`).html();
@@ -328,7 +328,7 @@ class CustomForm {
             let moduleUrl;
             if (typeof window[controller] !== 'undefined') {
                 if (window[controller].hasOwnProperty('apiurl')) {
-                    moduleUrl = window[controller].apiurl;
+                    moduleUrl = (<any>window)[controller].apiurl;
                 }
             }
             switch (type) {

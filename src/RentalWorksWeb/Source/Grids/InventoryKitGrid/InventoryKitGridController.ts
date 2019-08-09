@@ -32,7 +32,7 @@ FwApplicationTree.clickEvents[Constants.Grids.InventoryKitGrid.menuItems.QuikSea
         let isValid = FwModule.validateForm($form);
         if (isValid) {
             let activeTabId = jQuery($form.find('[data-type="tab"].active')).attr('id');
-            window[controllerName].saveForm($form, { closetab: false });
+            (<any>window)[controllerName].saveForm($form, { closetab: false });
             $form.attr('data-opensearch', 'true');
             $form.attr('data-searchtype', gridInventoryType);
             $form.attr('data-activetabid', activeTabId);

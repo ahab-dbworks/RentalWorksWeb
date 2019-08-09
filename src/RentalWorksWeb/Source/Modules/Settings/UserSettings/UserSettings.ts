@@ -61,7 +61,7 @@
                 const moduleController = modules[i].properties.controller;
                 if (typeof window[moduleController] !== 'undefined') {
                     if (window[moduleController].hasOwnProperty('nav')) {
-                        const moduleNav = window[moduleController].nav;
+                        const moduleNav = (<any>window)[moduleController].nav;
                         allModules.push({ value: moduleGUID, text: moduleCaption, nav: moduleNav });
                         sortableModules.push({ value: moduleNav, text: moduleCaption, selected: 'T' });
                     }
