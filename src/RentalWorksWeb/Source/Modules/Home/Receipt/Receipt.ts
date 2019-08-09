@@ -483,6 +483,8 @@ class Receipt {
                             }
                         }
                         calculateInvoiceTotals($form, ev);
+                        $form.data('payAmountOnFocus', val);
+                        console.log('payAmountOnFocusChange', $form.data('payAmountOnFocus'))
                     });
                     // Store intial amount value for calculations after change
                     $form.find('.pay-amount input').on('focus', ev => {
