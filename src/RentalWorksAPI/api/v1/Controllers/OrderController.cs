@@ -40,7 +40,7 @@ namespace RentalWorksAPI.api.v1
         /// <param name="orderid">Order Id</param>
         /// <returns></returns>
         [HttpPost]
-        [Route("order/{orderid:alpha}")]
+        [Route("order/{orderid}")]
         public HttpResponseMessage GetOrder([FromUri]string orderid)
         {
             List<Order> orders = new List<Order>();

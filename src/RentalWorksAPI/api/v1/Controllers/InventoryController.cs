@@ -37,7 +37,7 @@ namespace RentalWorksAPI.api.v1
         }
         //----------------------------------------------------------------------------------------------------
         [HttpPost]
-        [Route("inventory/sales/{asofdate=datetime}")]
+        [Route("inventory/sales/{asofdate:datetime}")]
         public HttpResponseMessage GetSalesInventoryAsOf([FromUri]string asofdate)
         {
             DateTime dDate;

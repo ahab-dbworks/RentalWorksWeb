@@ -31,7 +31,7 @@ namespace RentalWorksAPI.api.v1
         }
         //----------------------------------------------------------------------------------------------------
         [HttpPost]
-        [Route("customer/{customerid:alpha}")]
+        [Route("customer/{customerid}")]
         public HttpResponseMessage GetCustomer([FromUri]string customerid)
         {
             List<Customer> result = new List<Customer>();
@@ -48,7 +48,7 @@ namespace RentalWorksAPI.api.v1
         }
         //----------------------------------------------------------------------------------------------------
         [HttpPost]
-        [Route("customer/customerno={customerno:alpha}")]
+        [Route("customer/customerno={customerno}")]
         public HttpResponseMessage GetCustomerByNo([FromUri]string customerno)
         {
             List<Customer> result = new List<Customer>();
@@ -65,7 +65,7 @@ namespace RentalWorksAPI.api.v1
         }
         //----------------------------------------------------------------------------------------------------
         [HttpPost]
-        [Route("customer/{customerid:alpha}/orders")]
+        [Route("customer/{customerid}/orders")]
         public HttpResponseMessage GetCustomerOrders([FromUri]string customerid, [FromBody]OrderParameters request)
         {
             List<Customer> customerinfo;
@@ -131,7 +131,7 @@ namespace RentalWorksAPI.api.v1
         }
         //----------------------------------------------------------------------------------------------------
         [HttpPut]
-        [Route("customer/customerno={customerno:alpha}")]
+        [Route("customer/customerno={customerno}")]
         public HttpResponseMessage ProcessCustomerByNo([FromBody]Customer customer, [FromUri]string customerno)
         {
             List<Customer> result       = new List<Customer>();
