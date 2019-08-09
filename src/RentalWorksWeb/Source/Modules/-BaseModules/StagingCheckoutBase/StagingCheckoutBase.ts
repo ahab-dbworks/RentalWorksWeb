@@ -159,26 +159,27 @@
     };
     //----------------------------------------------------------------------------------------------
     getSuspendedSessions($form) {
+        const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         const showSuspendedSessions = $form.attr('data-showsuspendedsessions');
         if (showSuspendedSessions != "false") {
             let apiUrl;
             let sessionType;
-            let orderType;
+            //let orderType;
             switch (this.Module) {
                 case 'StagingCheckout':
-                    apiUrl = `api/v1/checkout/suspendedsessionsexist`;
+                    apiUrl = `api/v1/checkout/suspendedsessionsexist?warehouseId=${warehouse.warehouseid}`;
                     sessionType = 'OUT';
-                    orderType = 'O';
+                    //orderType = 'O';
                     break;
                 case 'TransferOut':
-                    apiUrl = `api/v1/checkout/transfersuspendedsessionsexist`;
+                    apiUrl = `api/v1/checkout/transfersuspendedsessionsexist?warehouseId=${warehouse.warehouseid}`;
                     sessionType = 'MANIFEST';
-                    orderType = 'T';
+                    //orderType = 'T';
                     break;
                 case 'FillContainer':
-                    apiUrl = `api/v1/checkout/containersuspendedsessionsexist`;
+                    apiUrl = `api/v1/checkout/containersuspendedsessionsexist?warehouseId=${warehouse.warehouseid}`;
                     sessionType = 'FILL';
-                    orderType = 'N';
+                    //orderType = 'N';
             }
             FwAppData.apiMethod(true, 'GET', apiUrl, null, FwServices.defaultTimeout,
                 response => {
@@ -194,9 +195,8 @@
                 FwPopup.showPopup($popup);
                 $browse.data('ondatabind', request => {
                     request.uniqueids = {
-                        OfficeLocationId: JSON.parse(sessionStorage.getItem('location')).locationid
-                        , SessionType: sessionType
-                        , OrderType: orderType
+                        SessionType: sessionType,
+                        WarehouseId: JSON.parse(sessionStorage.getItem('warehouse')).warehouseid
                     }
                 });
                 FwBrowse.search($browse);

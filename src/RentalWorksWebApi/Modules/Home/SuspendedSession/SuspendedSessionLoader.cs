@@ -69,9 +69,6 @@ namespace WebApi.Modules.Home.SuspendedSession
         [FwSqlDataField(column: "warehouse", modeltype: FwDataTypes.Text)]
         public string Warehouse { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "fromwarehouse", modeltype: FwDataTypes.Text)]
-        public string FromWarehouse { get; set; }
-        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "exchangecontractid", modeltype: FwDataTypes.Text)]
         public string ExchangeContractId { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -81,29 +78,15 @@ namespace WebApi.Modules.Home.SuspendedSession
         [FwSqlDataField(column: "forcedsuspend", modeltype: FwDataTypes.Boolean)]
         public bool? IsForcedSuspend { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "quikinsession", modeltype: FwDataTypes.Boolean)]
-        public bool? IsQuikInSession { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "ordertype", modeltype: FwDataTypes.Text)]
-        public string OrderType { get; set; }
-        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "containerrentalitemid", modeltype: FwDataTypes.Text)]
         public string ContainerItemId { get; set; }
         //------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
-            //string paramString = GetUniqueIdAsString("ParamString", request) ?? ""; 
-            //DateTime paramDate = GetUniqueIdAsDateTime("ParamDate", request) ?? DateTime.MinValue; 
-            //bool paramBoolean = GetUniqueIdAsBoolean("ParamBoolean", request) ?? false; 
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
-            //select.AddWhere("(xxxtype = 'ABCDEF')"); 
-            addFilterToSelect("OfficeLocationId", "locationid", select, request); 
+            addFilterToSelect("WarehouseId", "warehouseid", select, request); 
             addFilterToSelect("SessionType", "contracttype", select, request); 
-            addFilterToSelect("OrderType", "ordertype", select, request); 
-            //select.AddParameter("@paramstring", paramString); 
-            //select.AddParameter("@paramdate", paramDate); 
-            //select.AddParameter("@paramboolean", paramBoolean); 
         }
         //------------------------------------------------------------------------------------ 
     }

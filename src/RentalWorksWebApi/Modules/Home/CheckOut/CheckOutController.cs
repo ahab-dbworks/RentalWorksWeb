@@ -21,7 +21,7 @@ namespace WebApi.Modules.Home.CheckOut
         // GET api/v1/checkout/suspendedsessionsexist
         [HttpGet("suspendedsessionsexist")]
         [FwControllerMethod(Id: "bcGmOQgVzeDpc")]
-        public async Task<ActionResult<bool>> SuspendedSessionsExist()
+        public async Task<ActionResult<bool>> SuspendedSessionsExist(string warehouseId)
         {
             if (!ModelState.IsValid)
             {
@@ -29,7 +29,7 @@ namespace WebApi.Modules.Home.CheckOut
             }
             try
             {
-                return await ContractFunc.SuspendedSessionsExist(AppConfig, UserSession, RwConstants.CONTRACT_TYPE_OUT, RwConstants.ORDER_TYPE_ORDER);
+                return await ContractFunc.SuspendedSessionsExist(AppConfig, UserSession, RwConstants.CONTRACT_TYPE_OUT, warehouseId);
             }
             catch (Exception ex)
             {
@@ -40,7 +40,7 @@ namespace WebApi.Modules.Home.CheckOut
         // GET api/v1/checkout/transfersuspendedsessionsexist
         [HttpGet("transfersuspendedsessionsexist")]
         [FwControllerMethod(Id: "enHr6q0s4X9")]
-        public async Task<ActionResult<bool>> TransferSuspendedSessionsExist()
+        public async Task<ActionResult<bool>> TransferSuspendedSessionsExist(string warehouseId)
         {
             if (!ModelState.IsValid)
             {
@@ -48,7 +48,7 @@ namespace WebApi.Modules.Home.CheckOut
             }
             try
             {
-                return await ContractFunc.SuspendedSessionsExist(AppConfig, UserSession, RwConstants.CONTRACT_TYPE_MANIFEST, RwConstants.ORDER_TYPE_TRANSFER);
+                return await ContractFunc.SuspendedSessionsExist(AppConfig, UserSession, RwConstants.CONTRACT_TYPE_MANIFEST, warehouseId);
             }
             catch (Exception ex)
             {
@@ -59,7 +59,7 @@ namespace WebApi.Modules.Home.CheckOut
         // GET api/v1/checkout/containersuspendedsessionsexist
         [HttpGet("containersuspendedsessionsexist")]
         [FwControllerMethod(Id: "QnA31soyCzm")]
-        public async Task<ActionResult<bool>> ContainerSuspendedSessionsExist()
+        public async Task<ActionResult<bool>> ContainerSuspendedSessionsExist(string warehouseId)
         {
             if (!ModelState.IsValid)
             {
@@ -67,7 +67,7 @@ namespace WebApi.Modules.Home.CheckOut
             }
             try
             {
-                return await ContractFunc.SuspendedSessionsExist(AppConfig, UserSession, RwConstants.CONTRACT_TYPE_FILL, RwConstants.ORDER_TYPE_CONTAINER);
+                return await ContractFunc.SuspendedSessionsExist(AppConfig, UserSession, RwConstants.CONTRACT_TYPE_FILL, warehouseId);
             }
             catch (Exception ex)
             {

@@ -57,9 +57,11 @@
     };
     //----------------------------------------------------------------------------------------------
     getSuspendedSessions($form) {
+        const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         const showSuspendedSessions = $form.attr('data-showsuspendedsessions');
+        let sessionType = 'EXCHANGE';
         if (showSuspendedSessions != "false") {
-            FwAppData.apiMethod(true, 'GET', 'api/v1/exchange/suspendedsessionsexist', null, FwServices.defaultTimeout,
+            FwAppData.apiMethod(true, 'GET', `api/v1/exchange/suspendedsessionsexist?warehouseId=${warehouse.warehouseid}`, null, FwServices.defaultTimeout,
                 response => {
                     if (response) {
                         $form.find('.buttonbar').append(`<div class="fwformcontrol suspendedsession" data-type="button" style="float:left;">Suspended Sessions</div>`);
@@ -72,9 +74,8 @@
                 FwPopup.showPopup($popup);
                 $browse.data('ondatabind', request => {
                     request.uniqueids = {
-                        OfficeLocationId: JSON.parse(sessionStorage.getItem('location')).locationid
-                        , SessionType: 'EXCHANGE'
-                        , OrderType: 'O'
+                        SessionType: sessionType,
+                        WarehouseId: JSON.parse(sessionStorage.getItem('warehouse')).warehouseid
                     }
                 });
                 FwBrowse.search($browse);

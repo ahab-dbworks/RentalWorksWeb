@@ -58,9 +58,11 @@ class ReceiveFromVendor {
     };
     //----------------------------------------------------------------------------------------------
     getSuspendedSessions($form) {
+        const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         const showSuspendedSessions = $form.attr('data-showsuspendedsessions');
+        let sessionType = 'RECEIVE';
         if (showSuspendedSessions != "false") {
-            FwAppData.apiMethod(true, 'GET', 'api/v1/purchaseorder/receivesuspendedsessionsexist', null, FwServices.defaultTimeout,
+            FwAppData.apiMethod(true, 'GET', `api/v1/purchaseorder/receivesuspendedsessionsexist?warehouseId=${warehouse.warehouseid}`, null, FwServices.defaultTimeout,
                 response => {
                     if (response) {
                         $form.find('.buttonbar').append(`<div class="fwformcontrol suspendedsession" data-type="button" style="float:left;">Suspended Sessions</div>`);
@@ -73,9 +75,8 @@ class ReceiveFromVendor {
                 FwPopup.showPopup($popup);
                 $browse.data('ondatabind', request => {
                     request.uniqueids = {
-                        OfficeLocationId: JSON.parse(sessionStorage.getItem('location')).locationid
-                        , SessionType: 'RECEIVE'
-                        , OrderType: 'C'
+                        SessionType: sessionType,
+                        WarehouseId: JSON.parse(sessionStorage.getItem('warehouse')).warehouseid
                     }
                 });
                 FwBrowse.search($browse);

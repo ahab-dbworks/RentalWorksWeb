@@ -52,18 +52,12 @@ namespace WebApi.Modules.Home.SuspendedSession
         public string WarehouseId { get; set; }
         [FwLogicProperty(Id: "DEvthzhUsum2", IsReadOnly: true)]
         public string Warehouse { get; set; }
-        [FwLogicProperty(Id: "rjhw5J7Z77Is", IsReadOnly: true)]
-        public string FromWarehouse { get; set; }
         [FwLogicProperty(Id: "4gqoyHjbYNfO", IsReadOnly: true)]
         public string ExchangeContractId { get; set; }
         [FwLogicProperty(Id: "NncDnrO5ou1H", IsReadOnly: true)]
         public string ContractType { get; set; }
         [FwLogicProperty(Id: "isF3UikJV1AV", IsReadOnly: true)]
         public bool? IsForcedSuspend { get; set; }
-        [FwLogicProperty(Id: "vHGb7zaMJLNe", IsReadOnly: true)]
-        public bool? IsQuikInSession { get; set; }
-        [FwLogicProperty(Id: "PH9qQUriGS15", IsReadOnly: true)]
-        public string OrderType { get; set; }
         [FwLogicProperty(Id: "GfdsT0Y5OyCJe", IsReadOnly: true)]
         public string ContainerItemId { get; set; }
         //------------------------------------------------------------------------------------ 

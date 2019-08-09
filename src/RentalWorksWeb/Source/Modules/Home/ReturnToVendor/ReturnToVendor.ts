@@ -60,9 +60,11 @@ class ReturnToVendor {
     };
     //----------------------------------------------------------------------------------------------
     getSuspendedSessions($form) {
+        const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         const showSuspendedSessions = $form.attr('data-showsuspendedsessions');
+        let sessionType = 'RETURN';
         if (showSuspendedSessions != "false") {
-            FwAppData.apiMethod(true, 'GET', 'api/v1/purchaseorder/returnsuspendedsessionsexist', null, FwServices.defaultTimeout,
+            FwAppData.apiMethod(true, 'GET', 'api/v1/purchaseorder/returnsuspendedsessionsexist?warehouseId=${warehouse.warehouseid}', null, FwServices.defaultTimeout,
                 response => {
                     if (response) {
                         $form.find('.buttonbar').append(`<div class="fwformcontrol suspendedsession" data-type="button" style="float:left;">Suspended Sessions</div>`);
@@ -75,9 +77,8 @@ class ReturnToVendor {
                 FwPopup.showPopup($popup);
                 $browse.data('ondatabind', request => {
                     request.uniqueids = {
-                        OfficeLocationId: JSON.parse(sessionStorage.getItem('location')).locationid
-                        , SessionType: 'RETURN'
-                        , OrderType: 'C'
+                        SessionType: sessionType,
+                        WarehouseId: JSON.parse(sessionStorage.getItem('warehouse')).warehouseid
                     }
                 });
                 FwBrowse.search($browse);

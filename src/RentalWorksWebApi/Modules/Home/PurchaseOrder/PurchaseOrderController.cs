@@ -197,7 +197,7 @@ namespace WebApi.Modules.Home.PurchaseOrder
         // GET api/v1/purchaseorder/receivesuspendedsessionsexist
         [HttpGet("receivesuspendedsessionsexist")]
         [FwControllerMethod(Id: "RyFgNYsAQk5p9")]
-        public async Task<ActionResult<bool>> RecevieSuspendedSessionsExist()
+        public async Task<ActionResult<bool>> RecevieSuspendedSessionsExist(string warehouseId)
         {
             if (!ModelState.IsValid)
             {
@@ -205,7 +205,7 @@ namespace WebApi.Modules.Home.PurchaseOrder
             }
             try
             {
-                return await ContractFunc.SuspendedSessionsExist(AppConfig, UserSession, RwConstants.CONTRACT_TYPE_RECEIVE, RwConstants.ORDER_TYPE_PURCHASE_ORDER);
+                return await ContractFunc.SuspendedSessionsExist(AppConfig, UserSession, RwConstants.CONTRACT_TYPE_RECEIVE, warehouseId);
             }
             catch (Exception ex)
             {
@@ -311,7 +311,7 @@ namespace WebApi.Modules.Home.PurchaseOrder
         // GET api/v1/purchaseorder/returnsuspendedsessionsexist
         [HttpGet("returnsuspendedsessionsexist")]
         [FwControllerMethod(Id: "zPuvlEmQXvmog")]
-        public async Task<ActionResult<bool>> ReturnSuspendedSessionsExist()
+        public async Task<ActionResult<bool>> ReturnSuspendedSessionsExist(string warehouseId)
         {
             if (!ModelState.IsValid)
             {
@@ -319,7 +319,7 @@ namespace WebApi.Modules.Home.PurchaseOrder
             }
             try
             {
-                return await ContractFunc.SuspendedSessionsExist(AppConfig, UserSession, RwConstants.CONTRACT_TYPE_RETURN, RwConstants.ORDER_TYPE_PURCHASE_ORDER);
+                return await ContractFunc.SuspendedSessionsExist(AppConfig, UserSession, RwConstants.CONTRACT_TYPE_RETURN, warehouseId);
             }
             catch (Exception ex)
             {

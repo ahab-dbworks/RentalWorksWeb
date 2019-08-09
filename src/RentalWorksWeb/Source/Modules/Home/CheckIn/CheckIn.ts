@@ -63,21 +63,22 @@ class CheckIn {
     };
     //----------------------------------------------------------------------------------------------
     getSuspendedSessions($form) {
+        const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         const showSuspendedSessions = $form.attr('data-showsuspendedsessions');
         if (showSuspendedSessions != "false") {
             let apiUrl;
             let sessionType;
-            let orderType;
+            //let orderType;
             switch (this.Module) {
                 case 'CheckIn':
-                    apiUrl = `api/v1/checkin/suspendedsessionsexist`;
+                    apiUrl = `api/v1/checkin/suspendedsessionsexist?warehouseId=${warehouse.warehouseid}`;
                     sessionType = 'IN';
-                    orderType = 'O';
+                    //orderType = 'O';
                     break;
                 case 'TransferIn':
-                    apiUrl = `api/v1/checkin/transfersuspendedsessionsexist`;
+                    apiUrl = `api/v1/checkin/transfersuspendedsessionsexist?warehouseId=${warehouse.warehouseid}`;
                     sessionType = 'RECEIPT';
-                    orderType = 'T';
+                    //orderType = 'T';
                     break;
             }
             FwAppData.apiMethod(true, 'GET', apiUrl, null, FwServices.defaultTimeout,
@@ -93,9 +94,8 @@ class CheckIn {
                 FwPopup.showPopup($popup);
                 $browse.data('ondatabind', request => {
                     request.uniqueids = {
-                        OfficeLocationId: JSON.parse(sessionStorage.getItem('location')).locationid
-                        , SessionType: sessionType
-                        , OrderType: orderType
+                        SessionType: sessionType,
+                        WarehouseId: JSON.parse(sessionStorage.getItem('warehouse')).warehouseid
                     }
                 });
                 FwBrowse.search($browse);

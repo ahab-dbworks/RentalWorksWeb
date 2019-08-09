@@ -23,7 +23,7 @@ namespace WebApi.Modules.Home.CheckIn
         // GET api/v1/checkin/suspendedsessionsexist
         [HttpGet("suspendedsessionsexist")]
         [FwControllerMethod(Id: "gqnWo60RWZUkA")]
-        public async Task<ActionResult<bool>> SuspendedSessionsExist()
+        public async Task<ActionResult<bool>> SuspendedSessionsExist(string warehouseId)
         {
             if (!ModelState.IsValid)
             {
@@ -31,7 +31,7 @@ namespace WebApi.Modules.Home.CheckIn
             }
             try
             {
-                return await ContractFunc.SuspendedSessionsExist(AppConfig, UserSession, RwConstants.CONTRACT_TYPE_IN, RwConstants.ORDER_TYPE_ORDER);
+                return await ContractFunc.SuspendedSessionsExist(AppConfig, UserSession, RwConstants.CONTRACT_TYPE_IN, warehouseId);
             }
             catch (Exception ex)
             {
@@ -42,7 +42,7 @@ namespace WebApi.Modules.Home.CheckIn
         // GET api/v1/checkin/transfersuspendedsessionsexist
         [HttpGet("transfersuspendedsessionsexist")]
         [FwControllerMethod(Id: "nn5aXjSowjt")]
-        public async Task<ActionResult<bool>> TransferSuspendedSessionsExist()
+        public async Task<ActionResult<bool>> TransferSuspendedSessionsExist(string warehouseId)
         {
             if (!ModelState.IsValid)
             {
@@ -50,7 +50,7 @@ namespace WebApi.Modules.Home.CheckIn
             }
             try
             {
-                return await ContractFunc.SuspendedSessionsExist(AppConfig, UserSession, RwConstants.CONTRACT_TYPE_MANIFEST, RwConstants.ORDER_TYPE_TRANSFER);
+                return await ContractFunc.SuspendedSessionsExist(AppConfig, UserSession, RwConstants.CONTRACT_TYPE_MANIFEST, warehouseId);
             }
             catch (Exception ex)
             {

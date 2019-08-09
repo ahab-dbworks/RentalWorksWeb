@@ -88,7 +88,7 @@ namespace WebApi.Modules.Home.Exchange
         // GET api/v1/exchange/suspendedsessionsexist
         [HttpGet("suspendedsessionsexist")]
         [FwControllerMethod(Id: "DetgPNBfyCRRX")]
-        public async Task<ActionResult<bool>> SuspendedSessionsExist()
+        public async Task<ActionResult<bool>> SuspendedSessionsExist(string warehouseId)
         {
             if (!ModelState.IsValid)
             {
@@ -96,7 +96,7 @@ namespace WebApi.Modules.Home.Exchange
             }
             try
             {
-                return await ContractFunc.SuspendedSessionsExist(AppConfig, UserSession, RwConstants.CONTRACT_TYPE_EXCHANGE, RwConstants.ORDER_TYPE_ORDER);
+                return await ContractFunc.SuspendedSessionsExist(AppConfig, UserSession, RwConstants.CONTRACT_TYPE_EXCHANGE, warehouseId);
             }
             catch (Exception ex)
             {

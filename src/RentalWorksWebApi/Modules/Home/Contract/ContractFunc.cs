@@ -90,19 +90,14 @@ namespace WebApi.Modules.Home.Contract
             return response;
         }
         //------------------------------------------------------------------------------------------------------- 
-        public static async Task<bool> SuspendedSessionsExist(FwApplicationConfig appConfig, FwUserSession userSession, string sessionType, string orderType = "")
+        public static async Task<bool> SuspendedSessionsExist(FwApplicationConfig appConfig, FwUserSession userSession, string sessionType, string warehouseId)
         {
             bool suspendedSessionsExist = false;
-            if (orderType.Equals(""))
-            {
-                orderType = RwConstants.ORDER_TYPE_ORDER;
-            }
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
             {
                 FwSqlCommand qry = new FwSqlCommand(conn, "suspendedsessionsexist", appConfig.DatabaseSettings.QueryTimeout);
-                qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
                 qry.AddParameter("@sessiontype", SqlDbType.NVarChar, ParameterDirection.Input, sessionType);
-                qry.AddParameter("@ordertype", SqlDbType.NVarChar, ParameterDirection.Input, orderType);
+                qry.AddParameter("@warehouseid", SqlDbType.NVarChar, ParameterDirection.Input, warehouseId);
                 qry.AddParameter("@sessionsexist", SqlDbType.NVarChar, ParameterDirection.Output);
                 await qry.ExecuteNonQueryAsync();
                 suspendedSessionsExist = qry.GetParameter("@sessionsexist").ToString().Equals("T");
