@@ -165,19 +165,46 @@ namespace FwStandard.Modules.Administrator.Alert
 
                             if (modeConditionMet)
                             {
-
-
-
                                 foreach (AlertConditionLogic condition in alert.conditions)
                                 {
                                     bool thisConditionMet = false;
-
-                                    object field1 = GetFwBusinessLogicPropertyByName(propertyInfo, condition.FieldName1, oldObject, newObject);
+                                    object field1;
                                     object field2;
+
+                                    if (condition.FieldName1.EndsWith("___OldValue") || condition.FieldName1.EndsWith("___NewValue"))
+                                    {
+                                        field1 = GetFwBusinessLogicPropertyByName(propertyInfo, condition.FieldName1, oldObject, newObject);
+                                    }
+                                    else if (condition.FieldName1.Equals("DATACHANGEDBYUSER"))
+                                    {
+                                        using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+                                        {
+                                            field1 = FwSqlCommand.GetStringDataAsync(conn, appConfig.DatabaseSettings.QueryTimeout, "webusersview", "webusersid", userSession.WebUsersId, "username").Result;
+                                        }
+                                    }
+                                    else if (condition.FieldName1.Equals("DATACHANGEDATETIME"))
+                                    {
+                                        field1 = newObject.GetType().GetProperty("DateStamp").GetValue(newObject);
+                                    }
+                                    else
+                                    {
+                                        break;
+                                    }
 
                                     if (condition.FieldName2.EndsWith("___OldValue") || condition.FieldName2.EndsWith("___NewValue"))
                                     {
                                         field2 = GetFwBusinessLogicPropertyByName(propertyInfo, condition.FieldName2, oldObject, newObject);
+                                    }
+                                    else if (condition.FieldName2.Equals("DATACHANGEDBYUSER"))
+                                    {
+                                        using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+                                        {
+                                            field2 = FwSqlCommand.GetStringDataAsync(conn, appConfig.DatabaseSettings.QueryTimeout, "webusersview", "webusersid", userSession.WebUsersId, "username").Result;
+                                        }
+                                    }
+                                    else if (condition.FieldName2.Equals("DATACHANGEDATETIME"))
+                                    {
+                                        field2 = newObject.GetType().GetProperty("DateStamp").GetValue(newObject);
                                     }
                                     else // use literal value
                                     {
@@ -230,7 +257,22 @@ namespace FwStandard.Modules.Administrator.Alert
                                     foreach (Match sm in subjectMatches)
                                     {
                                         string field = sm.ToString();
-                                        object value = GetFwBusinessLogicPropertyByName(propertyInfo, field, oldObject, newObject);
+                                        object value;
+                                        if (field.Equals("Data Changed by User Name"))
+                                        {
+                                            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+                                            {
+                                                value = FwSqlCommand.GetStringDataAsync(conn, appConfig.DatabaseSettings.QueryTimeout, "webusersview", "webusersid", userSession.WebUsersId, "username").Result;
+                                            }
+                                        }
+                                        else if (field.Equals("Data Change Date/Time"))
+                                        {
+                                            value = newObject.GetType().GetProperty("DateStamp").GetValue(newObject);
+                                        }
+                                        else
+                                        {
+                                            value = GetFwBusinessLogicPropertyByName(propertyInfo, field, oldObject, newObject);
+                                        }
 
                                         if (value != null)
                                         {
@@ -241,7 +283,22 @@ namespace FwStandard.Modules.Administrator.Alert
                                     foreach (Match bm in bodyMatches)
                                     {
                                         string field = bm.ToString();
-                                        object value = GetFwBusinessLogicPropertyByName(propertyInfo, field, oldObject, newObject);
+                                        object value;
+                                        if (field.Equals("Data Changed by User Name"))
+                                        {
+                                            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+                                            {
+                                                value = FwSqlCommand.GetStringDataAsync(conn, appConfig.DatabaseSettings.QueryTimeout, "webusersview", "webusersid", userSession.WebUsersId, "username").Result;
+                                            }
+                                        }
+                                        else if (field.Equals("Data Change Date/Time"))
+                                        {
+                                            value = newObject.GetType().GetProperty("DateStamp").GetValue(newObject);
+                                        }
+                                        else
+                                        {
+                                            value = GetFwBusinessLogicPropertyByName(propertyInfo, field, oldObject, newObject);
+                                        }
 
                                         if (value != null)
                                         {

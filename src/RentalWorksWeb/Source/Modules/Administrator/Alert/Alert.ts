@@ -201,12 +201,29 @@ class Alert {
         $form.on('change', '[data-datafield="FieldName2"]', e => {
             const $this = jQuery(e.currentTarget);
             const val = $this.find(':selected').attr('value');
-            if (val === 'LITERALVALUE') {
+            if (val == 'LITERALVALUE') {
                 FwFormField.enable($this.siblings('[data-datafield="Value"]'));
             } else {
                 FwFormField.disable($this.siblings('[data-datafield="Value"]'));
             }
         });
+
+        //$form.on('change', '[data-datafield="FieldName1"]', e => {
+        //    const $this = jQuery(e.currentTarget);
+        //    const val = $this.find(':selected').attr('value');
+        //    if (val == 'DATACHANGEDBYUSER' || val == 'DATACHANGEDATETIME') {
+        //        FwFormField.enable($this.siblings('[data-datafield="Value"]'));
+        //        FwFormField.disable($this.siblings('[data-datafield="FieldName2"]'));
+        //        FwFormField.disable($this.siblings('[data-datafield="Condition"]'));
+        //    } else {
+        //        const isLiteralVal = FwFormField.getValue2($this.siblings('[data-datafield="FieldName2"]'));
+        //        if (isLiteralVal == 'LITERALVALUE') {
+        //            FwFormField.disable($this.siblings('[data-datafield="Value"]'));
+        //        }
+        //        FwFormField.enable($this.siblings('[data-datafield="FieldName2"]'));
+        //        FwFormField.enable($this.siblings('[data-datafield="Condition"]'));
+        //    }
+        //});
 
         //add condition fields
         const $conditionList = $form.find('.condition-list')
@@ -274,6 +291,12 @@ class Alert {
                     } else {
                         fieldsList = jQuery.merge(oldVal, newVal);
                     }
+
+                    fieldsList.push(
+                        { 'value': 'DATACHANGEDBYUSERNAME', 'text': 'Data Changed by User Name', 'datatype': 'Text' }
+                        , { 'value': 'DATACHANGEDATETIME', 'text': 'Data Change Date/Time', 'datatype': 'Date' }
+                    )
+
                     fieldsList = fieldsList.sort(this.compare);
                     this.datafields = fieldsList;
                     const $fieldListSection = $form.find('.field-list');
@@ -317,9 +340,15 @@ class Alert {
         if (moduleName != '') {
             const $datafield1 = $conditionRow.find('[data-datafield="FieldName1"]');
             FwFormField.loadItems($datafield1, this.datafields);
+            jQuery($datafield1).find('select option:first-of-type')
+                .after(`<option value="DATACHANGEDBYUSER">Data Changed by User Name</option>
+                        <option value="DATACHANGEDATETIME">Data Change Date/Time</option>`);
             const $datafield2 = $conditionRow.find('[data-datafield="FieldName2"]');
             FwFormField.loadItems($datafield2, this.datafields);
-            jQuery($datafield2).find('select option:first-of-type').after(`<option value="LITERALVALUE">Literal Value</option>`);
+            jQuery($datafield2).find('select option:first-of-type')
+                .after(`<option value="LITERALVALUE">Literal Value</option>
+                        <option value="DATACHANGEDBYUSER">Data Changed by User Name</option>
+                        <option value="DATACHANGEDATETIME">Data Change Date/Time</option>`);
 
             const $conditionSelect = $conditionRow.find('[data-datafield="Condition"]');
             FwFormField.loadItems($conditionSelect, [
@@ -367,6 +396,12 @@ class Alert {
                         if (fieldName2 === 'LITERALVALUE') {
                             FwFormField.enable(jQuery($conditionRow).find('[data-datafield="Value"]'));
                         }
+
+                        //if (fieldName1 === 'DATACHANGEDBYUSER' || fieldName1 === 'DATACHANGEDATETIME') {
+                        //    FwFormField.enable(jQuery($conditionRow).find('[data-datafield="Value"]'));
+                        //    FwFormField.disable(jQuery($conditionRow).find('[data-datafield="FieldName2"]'));
+                        //    FwFormField.disable(jQuery($conditionRow).find('[data-datafield="Condition"]'));
+                        //}
                     }
                 }
                 const $addConditionRow = this.renderConditionRow($form);
