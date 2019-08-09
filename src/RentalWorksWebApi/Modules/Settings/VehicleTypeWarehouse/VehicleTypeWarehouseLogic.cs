@@ -4,7 +4,7 @@ using WebApi.Logic;
 using WebApi.Modules.Home.Master;
 using WebApi.Modules.Settings.Category;
 using System;
-using static FwStandard.DataLayer.FwDataReadWriteRecord;
+using static FwStandard.Data.FwDataReadWriteRecord;
 using WebApi.Modules.Home.MasterWarehouse;
 
 namespace WebApi.Modules.Settings.VehicleTypeWarehouse

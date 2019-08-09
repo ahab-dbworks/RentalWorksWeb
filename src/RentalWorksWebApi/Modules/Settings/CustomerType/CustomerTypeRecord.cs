@@ -1,7 +1,8 @@
 ﻿using FwStandard.BusinessLogic;
-using FwStandard.DataLayer;
+using FwStandard.Data;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
+using System.Threading.Tasks;
 using WebApi.Data;
 
 namespace WebApi.Modules.Settings.CustomerType
@@ -34,34 +35,34 @@ namespace WebApi.Modules.Settings.CustomerType
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------
-        protected override bool Validate(TDataRecordSaveMode saveMode, FwDataReadWriteRecord original, ref string validateMsg)
+        protected override async Task<FwValidateResult> ValidateAsync(TDataRecordSaveMode saveMode, FwDataReadWriteRecord original, FwValidateResult result)
         {
-            bool isValid = true;
-            if (isValid)
+            if (result.IsValid)
             {
                 if (DefaultRentalDiscountPercent > 100)
                 {
-                    validateMsg = "Rental Discount Percent cannot be greater than 100.";
-                    isValid = false;
+                    result.ValidateMsg = "Rental Discount Percent cannot be greater than 100.";
+                    result.IsValid = false;
                 }
             }
-            if (isValid)
+            if (result.IsValid)
             {
                 if (DefaultSalesDiscountPercent > 100)
                 {
-                    validateMsg = "Sales Discount Percent cannot be greater than 100.";
-                    isValid = false;
+                    result.ValidateMsg = "Sales Discount Percent cannot be greater than 100.";
+                    result.IsValid = false;
                 }
             }
-            if (isValid)
+            if (result.IsValid)
             {
                 if (DefaultFacilitiesDiscountPercent > 100)
                 {
-                    validateMsg = "Sales Facilities Percent cannot be greater than 100.";
-                    isValid = false;
+                    result.ValidateMsg = "Sales Facilities Percent cannot be greater than 100.";
+                    result.IsValid = false;
                 }
             }
-            return isValid;
+            await Task.CompletedTask;
+            return result;
         }
         //------------------------------------------------------------------------------------
     }

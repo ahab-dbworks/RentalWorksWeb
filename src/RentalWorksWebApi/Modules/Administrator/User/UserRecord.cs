@@ -1,7 +1,8 @@
 using FwStandard.BusinessLogic;
-using FwStandard.DataLayer;
+using FwStandard.Data;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
+using System.Threading.Tasks;
 using WebApi.Data;
 using WebApi.Logic;
 using WebLibrary;
@@ -334,10 +335,9 @@ namespace WebApi.Modules.Administrator.User
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
-        protected override bool Validate(TDataRecordSaveMode saveMode, FwDataReadWriteRecord original, ref string validateMsg)
+        protected override async Task<FwValidateResult> ValidateAsync(TDataRecordSaveMode saveMode, FwDataReadWriteRecord original, FwValidateResult result)
         {
-            bool isValid = true;
-            if (saveMode == TDataRecordSaveMode.smInsert)
+            if (result.IsValid && saveMode == TDataRecordSaveMode.smInsert)
             {
                 string primaryDepartmentId = string.Empty;
                 switch (DefaultDepartmentType)
@@ -369,11 +369,12 @@ namespace WebApi.Modules.Administrator.User
                 }
                 if (primaryDepartmentId.Equals(string.Empty))
                 {
-                    isValid = false;
-                    validateMsg = "Primary Department is required.";
+                    result.IsValid = false;
+                    result.ValidateMsg = "Primary Department is required.";
                 }
             }
-            return isValid;
+            await Task.CompletedTask;
+            return result;
         }
         //------------------------------------------------------------------------------------
         public void OnBeforeSaveUser(object sender, BeforeSaveDataRecordEventArgs e)

@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 using WebApi.Logic;
 using WebApi.Modules.Administrator.User;
 using WebApi.Modules.Home.Contact;
-using static FwStandard.DataLayer.FwDataReadWriteRecord;
+using static FwStandard.Data.FwDataReadWriteRecord;
 
 namespace WebApi.Modules.Settings.Crew
 {

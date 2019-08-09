@@ -5,7 +5,7 @@ using System;
 using WebApi.Logic;
 using WebApi.Modules.Administrator.User;
 using WebLibrary;
-using static FwStandard.DataLayer.FwDataReadWriteRecord;
+using static FwStandard.Data.FwDataReadWriteRecord;
 
 namespace WebApi.Modules.Home.Contact
 {

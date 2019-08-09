@@ -1,7 +1,8 @@
 using FwStandard.BusinessLogic;
-using FwStandard.DataLayer;
+using FwStandard.Data;
 using FwStandard.SqlServer; 
-using FwStandard.SqlServer.Attributes; 
+using FwStandard.SqlServer.Attributes;
+using System.Threading.Tasks;
 using WebApi.Data;
 namespace WebApi.Modules.Settings.WarehouseCatalog
 {
@@ -24,18 +25,18 @@ namespace WebApi.Modules.Settings.WarehouseCatalog
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
-        protected override bool Validate(TDataRecordSaveMode saveMode, FwDataReadWriteRecord original, ref string validateMsg)
+        protected override async Task<FwValidateResult> ValidateAsync(TDataRecordSaveMode saveMode, FwDataReadWriteRecord original, FwValidateResult result)
         {
-            bool isValid = true;
-            if (CatalogType != null)
+            if (result.IsValid && CatalogType != null)
             {
                 if (!(CatalogType.Equals("RENTAL") || CatalogType.Equals("SALES") || CatalogType.Equals("PARTS")))
                 {
-                    isValid = false;
-                    validateMsg = "Invalid CatalogType: " + CatalogType;
+                    result.IsValid = false;
+                    result.ValidateMsg = "Invalid CatalogType: " + CatalogType;
                 }
             }
-            return isValid;
+            await Task.CompletedTask;
+            return result;
         }
         //------------------------------------------------------------------------------------ 
     }

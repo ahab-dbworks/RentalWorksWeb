@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using WebApi.Logic;
 using WebApi.Modules.Settings.OrderTypeFields;
-using static FwStandard.DataLayer.FwDataReadWriteRecord;
+using static FwStandard.Data.FwDataReadWriteRecord;
 
 namespace WebApi.Modules.Settings.OrderType
 {

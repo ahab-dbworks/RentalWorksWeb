@@ -3,7 +3,7 @@ using FwStandard.BusinessLogic;
 using WebApi.Modules.Home.ItemDimension;
 using WebApi.Modules.Home.Master;
 using WebApi.Logic;
-using static FwStandard.DataLayer.FwDataReadWriteRecord;
+using static FwStandard.Data.FwDataReadWriteRecord;
 using System.Reflection;
 using WebLibrary;
 

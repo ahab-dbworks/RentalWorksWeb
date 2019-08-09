@@ -2,7 +2,7 @@ using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
 using WebApi.Logic;
 using WebApi.Modules.Home.Purchase;
-using static FwStandard.DataLayer.FwDataReadWriteRecord;
+using static FwStandard.Data.FwDataReadWriteRecord;
 
 namespace WebApi.Modules.Home.Item
 {

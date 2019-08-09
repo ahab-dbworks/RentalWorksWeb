@@ -118,7 +118,7 @@ namespace WebApi.Modules.Home.Contract
             return response;
         }
         //-------------------------------------------------------------------------------------------------------
-        public static async Task<TSpStatusResponse> VoidContract(FwApplicationConfig appConfig, FwUserSession userSession, VoidContractRequest request)
+        public static async Task<TSpStatusResponse> VoidContractAsync(FwApplicationConfig appConfig, FwUserSession userSession, VoidContractRequest request)
         {
 
             TSpStatusResponse response = new TSpStatusResponse();
@@ -130,7 +130,7 @@ namespace WebApi.Modules.Home.Contract
             //    await qry.ExecuteNonQueryAsync();
             //}
             response.msg = "Not yet programmed.";
-
+            await Task.CompletedTask;
             return response;
         }
         //-------------------------------------------------------------------------------------------------------

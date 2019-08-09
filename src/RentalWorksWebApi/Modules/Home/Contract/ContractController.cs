@@ -117,8 +117,9 @@ namespace WebApi.Modules.Home.Contract
         // POST api/v1/contract/voidcontract 
         [HttpPost("voidcontract")]
         [FwControllerMethod(Id: "bwrnjBpQv1P")]
-        public async Task<ActionResult<TSpStatusResponse>> VoidContract([FromBody]VoidContractRequest request)
+        public async Task<ActionResult<TSpStatusResponse>> VoidContractAsync([FromBody]VoidContractRequest request)
         {
+            await Task.CompletedTask;
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);

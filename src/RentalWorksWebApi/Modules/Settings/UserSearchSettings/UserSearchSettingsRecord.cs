@@ -1,8 +1,9 @@
 using FwStandard.BusinessLogic;
-using FwStandard.DataLayer;
+using FwStandard.Data;
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes;
 using System.Data;
+using System.Threading.Tasks;
 using WebApi.Data;
 
 namespace WebApi.Modules.Settings.UserSearchSettings
@@ -29,18 +30,19 @@ namespace WebApi.Modules.Settings.UserSearchSettings
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
-        protected override bool Validate(TDataRecordSaveMode saveMode, FwDataReadWriteRecord original, ref string validateMsg)
+        protected override async Task<FwValidateResult> ValidateAsync(TDataRecordSaveMode saveMode, FwDataReadWriteRecord original, FwValidateResult result)
         {
-            bool isValid = true;
-
-            using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
+            if (result.IsValid)
             {
-                FwSqlCommand qry = new FwSqlCommand(conn, "checkwebusersearchsettings", this.AppConfig.DatabaseSettings.QueryTimeout);
-                qry.AddParameter("@webusersid", SqlDbType.NVarChar, ParameterDirection.Input, WebUserId);
-                int i = qry.ExecuteNonQueryAsync().Result;
+                using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
+                {
+                    FwSqlCommand qry = new FwSqlCommand(conn, "checkwebusersearchsettings", this.AppConfig.DatabaseSettings.QueryTimeout);
+                    qry.AddParameter("@webusersid", SqlDbType.NVarChar, ParameterDirection.Input, WebUserId);
+                    int i = await qry.ExecuteNonQueryAsync();
+                }
             }
-
-            return isValid;
+            await Task.CompletedTask;
+            return result;
         }
         //------------------------------------------------------------------------------------
     }
