@@ -188,7 +188,15 @@ class QuikActivityCalendar {
             } else {
                 $detailColumns.show();
             }
-            FwBrowse.search($quikActivityGrid.find('[data-type="Grid"]'));
+            const $quikActivityGridControl = $quikActivityGrid.find('[data-type="Grid"]');
+            const onDataBind = $quikActivityGridControl.data('ondatabind');
+            if (typeof onDataBind == 'function') {
+                $quikActivityGridControl.data('ondatabind', request => {
+                    onDataBind(request);
+                    request.uniqueids.Summary = isSummary;
+                });
+            }
+            FwBrowse.search($quikActivityGridControl);
         });
 
         //$form.on('click', '.month_default_cell_inner', e => {
