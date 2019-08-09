@@ -334,6 +334,7 @@ class Receipt {
             let appliedTotal = new Decimal(0);
             let dueTotal = new Decimal(0);
             let amountTotal = new Decimal(0);
+            let buttonTrigger = false;
             const $totalFields = $form.find('td[data-invoicefield="InvoiceTotal"]');
             const $appliedFields = $form.find('td[data-invoicefield="InvoiceApplied"]');
             const $dueFields = $form.find('td[data-invoicefield="InvoiceDue"]');
@@ -368,6 +369,7 @@ class Receipt {
                             if (amountInput === '') {
                                 amountInput = '0.00';
                             }
+                            let amountTotal = new Decimal(0);
                             amountTotal = amountTotal.plus(amountInput);
                             let dueTotal = new Decimal(0);
                             let dueVal = $dueFields.eq(i).text().replace(/,/g, '');
@@ -384,9 +386,11 @@ class Receipt {
                                 const amountVal = amountTotal.plus(unappliedTotalPriorDecimal)
                                 $amountFields.eq(i).val(amountVal.toFixed(2));
                             }
+                            buttonTrigger = true;
                         }
                         break;
-                    }
+                    } // end button
+
                     // may need to trigger line change after apply button
                     const currentAmountField = $amountFields.eq(i);
                     if (element.is(currentAmountField)) {
@@ -406,8 +410,12 @@ class Receipt {
                         dueLineTotal = dueLineTotal.plus(dueVal).minus(amountDifference);
                         $appliedFields.eq(i).text(appliedLineTotal.toFixed(2));
                         $dueFields.eq(i).text(dueLineTotal.toFixed(2));
-                    }
+                    } // end amount change
                 }
+            }
+            if (buttonTrigger) {
+                $form.find('.pay-amount input').change();
+                return;
             }
             const amount: any = amountTotal.toFixed(2);
             const total = totalTotal.toFixed(2);
@@ -486,7 +494,7 @@ class Receipt {
                         if (val === '') {
                             val = '0.00'
                         }
-                        $form.data('payAmountOnFocus', val);  
+                        $form.data('payAmountOnFocus', val);
                         console.log('payAmountOnFocus', $form.data('payAmountOnFocus'));
                     });
                     $form.find('.apply-btn').click((ev: JQuery.ClickEvent) => {
