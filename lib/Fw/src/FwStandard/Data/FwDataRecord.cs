@@ -13,7 +13,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FwStandard.DataLayer
+namespace FwStandard.Data
 {
 
     public class BeforeBrowseEventArgs : EventArgs
@@ -281,47 +281,45 @@ namespace FwStandard.DataLayer
             return isModified;
         }
         //------------------------------------------------------------------------------------
-        public virtual bool AllFieldsValid(TDataRecordSaveMode saveMode, ref string validateMsg)
+        public virtual async Task<FwValidateResult> AllFieldsValidAsync(TDataRecordSaveMode saveMode, FwValidateResult result)
         {
-            bool valid = true;
-
             PropertyInfo[] properties = this.GetType().GetProperties();
             foreach (PropertyInfo property in properties)
             {
-                if ((valid) && (property.IsDefined(typeof(FwSqlDataFieldAttribute))))
+                if ((result.IsValid) && (property.IsDefined(typeof(FwSqlDataFieldAttribute))))
                 {
                     foreach (Attribute attribute in property.GetCustomAttributes())
                     {
-                        if ((valid) && (attribute.GetType() == typeof(FwSqlDataFieldAttribute)))
+                        if ((result.IsValid) && (attribute.GetType() == typeof(FwSqlDataFieldAttribute)))
                         {
                             FwSqlDataFieldAttribute dataFieldAttribute = (FwSqlDataFieldAttribute)attribute;
                             object propertyValue = property.GetValue(this);
-                            if ((valid) && (dataFieldAttribute.Required))
+                            if ((result.IsValid) && (dataFieldAttribute.Required))
                             {
-                                if ((valid) && (saveMode == TDataRecordSaveMode.smInsert))
+                                if ((result.IsValid) && (saveMode == TDataRecordSaveMode.smInsert))
                                 {
                                     if (propertyValue == null)
                                     {
-                                        valid = false;
-                                        validateMsg = property.Name + " is required.";
+                                        result.IsValid = false;
+                                        result.ValidateMsg = property.Name + " is required.";
                                     }
                                 }
-                                if ((valid) && (propertyValue != null))
+                                if ((result.IsValid) && (propertyValue != null))
                                 {
                                     if (propertyValue is string)
                                     {
-                                        valid = ((propertyValue as string).Length > 0);
-                                        if (!valid)
+                                        result.IsValid = ((propertyValue as string).Length > 0);
+                                        if (!result.IsValid)
                                         {
-                                            validateMsg = property.Name + " cannot be blank.";
+                                            result.ValidateMsg = property.Name + " cannot be blank.";
                                         }
                                     }
                                     else if (propertyValue is Int32)
                                     {
-                                        valid = (((Int32)propertyValue) != 0);
-                                        if (!valid)
+                                        result.IsValid = (((Int32)propertyValue) != 0);
+                                        if (!result.IsValid)
                                         {
-                                            validateMsg = property.Name + " cannot be zero.";
+                                            result.ValidateMsg = property.Name + " cannot be zero.";
                                         }
                                     }
                                     else
@@ -331,25 +329,25 @@ namespace FwStandard.DataLayer
                                 }
                             }
 
-                            if ((valid) && (dataFieldAttribute.MaxLength > 0))
+                            if ((result.IsValid) && (dataFieldAttribute.MaxLength > 0))
                             {
                                 if (propertyValue != null)
                                 {
                                     if (propertyValue is bool)
                                     {
-                                        valid = true;
+                                        result.IsValid = true;
                                     }
                                     else if (propertyValue is string)
                                     {
-                                        valid = ((propertyValue as string).Length <= dataFieldAttribute.MaxLength);
-                                        if (!valid)
+                                        result.IsValid = ((propertyValue as string).Length <= dataFieldAttribute.MaxLength);
+                                        if (!result.IsValid)
                                         {
-                                            validateMsg = property.Name + " cannot be longer than " + dataFieldAttribute.MaxLength.ToString() + " characters.";
+                                            result.ValidateMsg = property.Name + " cannot be longer than " + dataFieldAttribute.MaxLength.ToString() + " characters.";
                                         }
                                     }
                                     else if (propertyValue is int)
                                     {
-                                        valid = true;
+                                        result.IsValid = true;
                                     }
                                     else
                                     {
@@ -362,7 +360,8 @@ namespace FwStandard.DataLayer
                     }
                 }
             }
-            return valid;
+            await Task.CompletedTask;
+            return result;
         }
         //------------------------------------------------------------------------------------
         protected virtual async Task SetPrimaryKeyIdsForInsertAsync(FwSqlConnection conn)

@@ -1,5 +1,5 @@
 ﻿using FwStandard.BusinessLogic;
-using FwStandard.DataLayer;
+using FwStandard.Data;
 using FwStandard.Models;
 using FwStandard.Modules.Administrator.AlertCondition;
 using FwStandard.Modules.Administrator.AlertWebUsers;
@@ -111,7 +111,7 @@ namespace FwStandard.Modules.Administrator.Alert
             }
         }
         //-------------------------------------------------------------------------------------------------------        
-        public static async void ProcessAlerts(FwApplicationConfig appConfig, FwUserSession userSession, string moduleName, FwBusinessLogic oldObject, FwBusinessLogic newObject, TDataRecordSaveMode? saveMode)
+        public static async Task ProcessAlertsAsync(FwApplicationConfig appConfig, FwUserSession userSession, string moduleName, FwBusinessLogic oldObject, FwBusinessLogic newObject, TDataRecordSaveMode? saveMode)
         {
             if (Alerts.Count > 0)
             {
@@ -179,7 +179,7 @@ namespace FwStandard.Modules.Administrator.Alert
                                     {
                                         using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
                                         {
-                                            field1 = FwSqlCommand.GetStringDataAsync(conn, appConfig.DatabaseSettings.QueryTimeout, "webusersview", "webusersid", userSession.WebUsersId, "username").Result;
+                                            field1 = await FwSqlCommand.GetStringDataAsync(conn, appConfig.DatabaseSettings.QueryTimeout, "webusersview", "webusersid", userSession.WebUsersId, "username");
                                         }
                                     }
                                     else if (condition.FieldName1.Equals("DATACHANGEDATETIME"))
@@ -199,7 +199,7 @@ namespace FwStandard.Modules.Administrator.Alert
                                     {
                                         using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
                                         {
-                                            field2 = FwSqlCommand.GetStringDataAsync(conn, appConfig.DatabaseSettings.QueryTimeout, "webusersview", "webusersid", userSession.WebUsersId, "username").Result;
+                                            field2 = await FwSqlCommand.GetStringDataAsync(conn, appConfig.DatabaseSettings.QueryTimeout, "webusersview", "webusersid", userSession.WebUsersId, "username");
                                         }
                                     }
                                     else if (condition.FieldName2.Equals("DATACHANGEDATETIME"))
@@ -262,7 +262,7 @@ namespace FwStandard.Modules.Administrator.Alert
                                         {
                                             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
                                             {
-                                                value = FwSqlCommand.GetStringDataAsync(conn, appConfig.DatabaseSettings.QueryTimeout, "webusersview", "webusersid", userSession.WebUsersId, "username").Result;
+                                                value = await FwSqlCommand.GetStringDataAsync(conn, appConfig.DatabaseSettings.QueryTimeout, "webusersview", "webusersid", userSession.WebUsersId, "username");
                                             }
                                         }
                                         else if (field.Equals("Data Change Date/Time"))
@@ -288,7 +288,7 @@ namespace FwStandard.Modules.Administrator.Alert
                                         {
                                             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
                                             {
-                                                value = FwSqlCommand.GetStringDataAsync(conn, appConfig.DatabaseSettings.QueryTimeout, "webusersview", "webusersid", userSession.WebUsersId, "username").Result;
+                                                value = await FwSqlCommand.GetStringDataAsync(conn, appConfig.DatabaseSettings.QueryTimeout, "webusersview", "webusersid", userSession.WebUsersId, "username");
                                             }
                                         }
                                         else if (field.Equals("Data Change Date/Time"))
@@ -317,7 +317,7 @@ namespace FwStandard.Modules.Administrator.Alert
                                     string from;
                                     using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
                                     {
-                                        from = FwSqlCommand.GetStringDataAsync(conn, appConfig.DatabaseSettings.QueryTimeout, "webusersview", "webusersid", userSession.WebUsersId, "email").Result;
+                                        from = await FwSqlCommand.GetStringDataAsync(conn, appConfig.DatabaseSettings.QueryTimeout, "webusersview", "webusersid", userSession.WebUsersId, "email");
                                     }
                                     string to = String.Join(",", toEmails);
 

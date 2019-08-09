@@ -468,7 +468,7 @@ class FwSettingsClass {
                     $form = jQuery(jQuery('#tmpl-modules-' + moduleName + 'Form').html());
                     controller = $form.data('controller');
                     if ($rowBody.is(':empty')) {
-                        $form = window[controller].openForm('EDIT');
+                        $form = (<any>window[controller]).openForm('EDIT');
                         $rowBody.append($form);
 
                         for (var key in recordData) {
@@ -526,7 +526,7 @@ class FwSettingsClass {
             newRowHtml.push('</div>');
 
             controller = $form.data('controller');
-            $form = window[controller].openForm('NEW');
+            $form = (<any>window[controller]).openForm('NEW');
             $body.prepend($form);
             $body.prepend(jQuery(newRowHtml.join('')));
         }
@@ -943,7 +943,7 @@ class FwSettingsClass {
                 controller = $form.data('controller');
 
                 if ($rowBody.is(':empty')) {
-                    $form = window[controller].openForm('EDIT');
+                    $form = (<any>window[controller]).openForm('EDIT');
                     $rowBody.append($form);
                     $formSections = $form.find('.fwform-section-title');
                     $form.find('.highlighted').removeClass('highlighted');
@@ -1223,11 +1223,11 @@ class FwSettingsClass {
                 let controller = $form.data('controller');
                 ids = FwModule.getFormUniqueIds($form);
                 let request = {
-                    module: window[controller].Module,
+                    module: (<any>window[controller]).Module,
                     ids: ids
                 };
                 try {
-                    FwServices.module.method(request, window[controller].Module, 'Delete', $form, function (response) {
+                    FwServices.module.method(request, (<any>window[controller]).Module, 'Delete', $form, function (response) {
                         $form = FwModule.getFormByUniqueIds(ids);
                         if ((typeof $form != 'undefined') && ($form.length > 0)) {
                             $form.closest('.panel-record').remove();

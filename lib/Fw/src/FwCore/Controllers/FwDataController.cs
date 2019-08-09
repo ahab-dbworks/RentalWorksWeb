@@ -1,5 +1,5 @@
 ﻿using FwStandard.BusinessLogic;
-using FwStandard.DataLayer;
+using FwStandard.Data;
 using FwStandard.Models;
 using FwStandard.Modules.Administrator.WebAuditJson;
 using FwStandard.SqlServer;
@@ -55,6 +55,11 @@ namespace FwCore.Controllers
             {
                 return GetApiExceptionResult(ex);
             }
+        }
+        //------------------------------------------------------------------------------------
+        protected virtual async Task<ActionResult<FwJsonDataTable>> DoBrowseAsync<T>(BrowseRequest browseRequest)
+        {
+            return await this.DoBrowseAsync(browseRequest, typeof(T));
         }
         //------------------------------------------------------------------------------------
         public class DoExportExcelXlsxExportFileAsyncResult
@@ -122,6 +127,11 @@ namespace FwCore.Controllers
             {
                 return GetApiExceptionResult(ex);
             }
+        }
+        //------------------------------------------------------------------------------------
+        protected virtual async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> DoExportExcelXlsxFileAsync<T>(BrowseRequest browseRequest, string worksheetName = "")
+        {
+            return await this.DoExportExcelXlsxFileAsync(browseRequest, typeof(T), worksheetName);
         }
         //------------------------------------------------------------------------------------
         protected virtual async Task<ActionResult<IEnumerable<T>>> DoGetAsync<T>(int pageno, int pagesize, string sort, Type type = null)
@@ -248,8 +258,7 @@ namespace FwCore.Controllers
                 l.AppConfig = this.AppConfig;
                 l.UserSession = this.UserSession;
 
-                bool isValid = true;
-                string validateMsg = string.Empty;
+                var result = new FwValidateResult();
                 if (l.AllPrimaryKeysHaveValues)
                 {
                     //updating
@@ -272,9 +281,9 @@ namespace FwCore.Controllers
                 {
                     //inserting
                 }
-                isValid = l.ValidateBusinessLogic(saveMode, original, ref validateMsg);
+                await l.ValidateBusinessLogicAsync(saveMode, original, result);
 
-                if (isValid)
+                if (result.IsValid)
                 {
                     int rowsAffected = await l.SaveAsync(original);
 
@@ -286,7 +295,7 @@ namespace FwCore.Controllers
                 }
                 else
                 {
-                    throw new Exception(validateMsg);
+                    throw new Exception(result.ValidateMsg);
                 }
             }
             catch (Exception ex)
@@ -373,27 +382,26 @@ namespace FwCore.Controllers
                 }
 
                 logic.AppConfig = AppConfig;
-                bool isValid = true;
-                string validateMsg = string.Empty;
+                var result = new FwValidateResult();
 
                 if (logic.AllPrimaryKeysHaveValues)
                 {
                     //update
-                    isValid = logic.ValidateBusinessLogic(TDataRecordSaveMode.smUpdate, null, ref validateMsg);
+                    await logic.ValidateBusinessLogicAsync(TDataRecordSaveMode.smUpdate, null, result);
                 }
                 else
                 {
                     //insert
-                    isValid = logic.ValidateBusinessLogic(TDataRecordSaveMode.smInsert, null, ref validateMsg);
+                    await logic.ValidateBusinessLogicAsync(TDataRecordSaveMode.smInsert, null, result);
                 }
-                if (isValid)
+                if (result.IsValid)
                 {
                     await logic.SaveAsync(null);
                     return new OkObjectResult(logic);
                 }
                 else
                 {
-                    throw new Exception(validateMsg);
+                    throw new Exception(result.ValidateMsg);
                 }
             }
             catch (Exception ex)

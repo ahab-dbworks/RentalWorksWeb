@@ -41,20 +41,18 @@ class FwBrowseColumn_validationClass implements IFwBrowseColumn {
         var originaltext = (typeof $field.attr('data-originaltext') === 'string') ? $field.attr('data-originaltext') : '';
         let html = [];
 
-        if (sessionStorage.getItem('userid') !== null) {
-            let showPeek = false;
-            const isWebAdmin = JSON.parse(sessionStorage.getItem('userid')).webadministrator;
-            if (!($field.attr('data-validationpeek') === 'false')) {
-                if (isWebAdmin === 'true') {
-                    showPeek = true;
-                }
-                else if (isWebAdmin === 'false' && FwValidation.isHomeModule($field)) {
-                    showPeek = true;
-                }
+        let showPeek = false;
+        const isWebAdmin = (sessionStorage.getItem('userid') !== null) ? JSON.parse(sessionStorage.getItem('userid')).webadministrator === 'true' : false;
+        if (!($field.attr('data-validationpeek') === 'false')) {
+            if (isWebAdmin === true) {
+                showPeek = true;
             }
-            if (showPeek) {
-                html.push('<div class="btnpeek"><i class="material-icons">more_horiz</i></div>');
+            else if (isWebAdmin === false && FwValidation.isHomeModule($field)) {
+                showPeek = true;
             }
+        }
+        if (showPeek) {
+            html.push('<div class="btnpeek"><i class="material-icons">more_horiz</i></div>');
         }
 
         // push hidden spinner

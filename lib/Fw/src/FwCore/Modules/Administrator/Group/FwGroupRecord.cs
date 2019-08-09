@@ -1,4 +1,4 @@
-using FwStandard.DataLayer;
+using FwStandard.Data;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 

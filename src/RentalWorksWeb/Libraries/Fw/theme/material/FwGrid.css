@@ -5,7 +5,7 @@ html.theme-material .fw-grid table {width:100%;margin:0;empty-cells:show;border-
 html.theme-material .fw-grid .grid-title {font-size: 1.5em;font-weight: 500;padding: 10px;border-style: solid;border-width: 0 0 1px 0;border-color: #BDBDBD;flex:0 0;}
 
 html.theme-material .fw-grid .grid-menu {display:flex;align-items:center;padding: 6px 10px;border-style: solid;border-width: 0 0 1px 0;border-color: #BDBDBD;background-color: #EEEEEE;flex:0 0;}
-html.theme-material .fw-grid .grid-menu .grid-menu-button {display:inline-flex;align-items:center;padding:6px 16px;cursor:pointer;border-radius:2px;transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;margin:0 4px;border:1px solid rgba(0,0,0,0.1);background-color:#90CAF9;line-height:24px;}
+html.theme-material .fw-grid .grid-menu .grid-menu-button {display:inline-flex;align-items:center;white-space: nowrap;padding:6px 16px;cursor:pointer;border-radius:2px;transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;margin:0 4px;border:1px solid rgba(0,0,0,0.1);background-color:#90CAF9;line-height:24px;}
 html.theme-material .fw-grid .grid-menu .grid-menu-button i.left {margin:0 4px 0 -4px;}
 html.theme-material .fw-grid .grid-menu .grid-menu-button i.right {margin:0 -4px 0 4px;}
 html.theme-material .fw-grid .grid-menu .grid-menu-button:hover {background-color: #BBDEFB;}

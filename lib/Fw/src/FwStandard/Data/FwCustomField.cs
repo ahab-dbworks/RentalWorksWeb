@@ -1,6 +1,6 @@
-﻿using FwStandard.SqlServer;
+using FwStandard.SqlServer;
 
-namespace FwStandard.DataLayer
+namespace FwStandard.Data
 {
     public class FwCustomField
     {

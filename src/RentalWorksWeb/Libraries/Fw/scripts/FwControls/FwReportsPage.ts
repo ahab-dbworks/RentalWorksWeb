@@ -55,8 +55,8 @@
         var modules = FwApplicationTree.getChildrenByType(node, 'ReportsModule');
         for (var i = 0; i < modules.length; i++) {
             var moduleName = modules[i].properties.controller;
-            if (typeof window[moduleName].openForm === 'function') {
-                var $form = window[moduleName].openForm();
+            if (typeof (<any>window[moduleName]).openForm === 'function') {
+                var $form = (<any>window[moduleName]).openForm();
                 var $fwformfields = $form.find('.fwformfield[data-caption]');
                 for (var j = 0; j < $fwformfields.length; j++) {
                     var $field = $fwformfields.eq(j);

@@ -4,7 +4,7 @@ using FwStandard.SqlServer.Attributes;
 //using WebApi.Data;
 using System.Data;
 using System.Threading.Tasks;
-using FwStandard.DataLayer;
+using FwStandard.Data;
 
 namespace FwStandard.Modules.Administrator.DuplicateRule
 {

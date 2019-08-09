@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using FwStandard.AppManager;
-using FwStandard.DataLayer;
+using FwStandard.Data;
 using FwStandard.Models;
 using FwStandard.Modules.Administrator.Alert;
 using FwStandard.Modules.Administrator.DuplicateRule;
@@ -68,15 +68,9 @@ namespace FwStandard.BusinessLogic
         public FwDataReadWriteRecord Original { get; set; }
     }
 
-
-    public class InsteadOfDeleteEventArgs : EventArgs
-    {
-        public bool Success { get; set; }
-    };
-
     public class InsteadOfDataRecordDeleteEventArgs : EventArgs
     {
-        public bool Success { get; set; }
+        public bool Success { get; set; } = true;
     };
 
 
@@ -211,36 +205,39 @@ namespace FwStandard.BusinessLogic
         public event EventHandler<BeforeSaveEventArgs> BeforeSave;
         public event EventHandler<AfterSaveEventArgs> AfterSave;
         public event EventHandler<BeforeValidateEventArgs> BeforeValidate;
-        public event EventHandler<InsteadOfDeleteEventArgs> InsteadOfDelete;
         public event EventHandler<BeforeDeleteEventArgs> BeforeDelete;
         public event EventHandler<AfterDeleteEventArgs> AfterDelete;
 
         public delegate void BeforeSaveEventHandler(BeforeSaveEventArgs e);
         public delegate void AfterSaveEventHandler(AfterSaveEventArgs e);
         public delegate void BeforeValidateEventHandler(BeforeValidateEventArgs e);
-        public delegate void InsteadOfDeleteEventHandler(InsteadOfDeleteEventArgs e);
         public delegate void BeforeDeleteEventHandler(BeforeDeleteEventArgs e);
         public delegate void AfterDeleteEventHandler(AfterDeleteEventArgs e);
 
-        protected virtual void OnBeforeSave(BeforeSaveEventArgs e)
+        protected virtual async Task BeforeSaveAsync(BeforeSaveEventArgs e)
         {
             BeforeSave?.Invoke(this, e);
+            await Task.CompletedTask;
         }
-        protected virtual void OnAfterSave(AfterSaveEventArgs e)
+        protected virtual async Task AfterSaveAsync(AfterSaveEventArgs e)
         {
             AfterSave?.Invoke(this, e);
+            await Task.CompletedTask;
         }
-        protected virtual void OnBeforeValidate(BeforeValidateEventArgs e)
+        protected virtual async Task BeforeValidateAsync(BeforeValidateEventArgs e)
         {
             BeforeValidate?.Invoke(this, e);
+            await Task.CompletedTask;
         }
-        protected virtual void OnBeforeDelete(BeforeDeleteEventArgs e)
+        protected virtual async Task BeforeDeleteAsync(BeforeDeleteEventArgs e)
         {
             BeforeDelete?.Invoke(this, e);
+            await Task.CompletedTask;
         }
-        protected virtual void OnAfterDelete(AfterDeleteEventArgs e)
+        protected virtual async Task AfterDeleteAsync(AfterDeleteEventArgs e)
         {
             AfterDelete?.Invoke(this, e);
+            await Task.CompletedTask;
         }
 
 
@@ -681,10 +678,8 @@ namespace FwStandard.BusinessLogic
             return customFieldsLoaded;
         }
         //------------------------------------------------------------------------------------
-        protected virtual bool CheckDuplicates(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
+        protected virtual async Task CheckDuplicatesAsync(TDataRecordSaveMode saveMode, FwBusinessLogic original, FwValidateResult result)
         {
-            bool isValid = true;
-
             if (duplicateRules == null)
             {
                 refreshDuplicateRules();
@@ -767,7 +762,7 @@ namespace FwStandard.BusinessLogic
                                         {
                                             if (saveMode == TDataRecordSaveMode.smUpdate)
                                             {
-                                                bool b = l2.LoadAsync<Type>(ids).Result;
+                                                bool b = await l2.LoadAsync<Type>(ids);
                                                 //var databaseValue = l2.GetType().GetProperty(property.Name).GetValue(l2, null);
                                                 //searchFieldVals.Add(databaseValue.ToString());
                                                 valueToCompare = l2.GetType().GetProperty(property.Name).GetValue(l2);
@@ -855,7 +850,7 @@ namespace FwStandard.BusinessLogic
                         browseRequest2.searchfieldvalues = searchFieldVals;
                         FwBusinessLogic l3 = (FwBusinessLogic)Activator.CreateInstance(type);
                         l3.AppConfig = dataRecords[0].AppConfig;
-                        FwJsonDataTable dt = l3.BrowseAsync(browseRequest2).Result;
+                        FwJsonDataTable dt = await l3.BrowseAsync(browseRequest2);
 
                         bool isDuplicate = false;
                         for (int r = 0; r <= dt.Rows.Count - 1; r++)
@@ -884,14 +879,13 @@ namespace FwStandard.BusinessLogic
                         }
                         if (isDuplicate)
                         {
-                            isValid = false;
+                            result.IsValid = false;
                             //validateMsg = "A record of this type already exists. " + "(" + rule[2] + ")";
-                            validateMsg = this.BusinessLogicModuleName + " cannot be saved because of Duplicate Rule \"" + rule[2] + "\"";
+                            result.ValidateMsg = this.BusinessLogicModuleName + " cannot be saved because of Duplicate Rule \"" + rule[2] + "\"";
                         }
                     }
                 }
             }
-            return isValid;
         }
         //------------------------------------------------------------------------------------
         protected virtual bool IsValidStringValue(PropertyInfo property, string[] acceptableValues, ref string validateMsg, bool nullAcceptable = true)
@@ -1045,26 +1039,23 @@ namespace FwStandard.BusinessLogic
             return isValid;
         }
         //------------------------------------------------------------------------------------
-        public virtual bool ValidateBusinessLogic(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
+        public virtual async Task ValidateBusinessLogicAsync(TDataRecordSaveMode saveMode, FwBusinessLogic original, FwValidateResult result)
         {
-            bool isValid = true;
-            validateMsg = "";
-
-            if (BeforeValidate != null)
-            {
-                BeforeValidateEventArgs args = new BeforeValidateEventArgs();
-                args.SaveMode = saveMode;
-                args.Original = original;
-                BeforeValidate(this, args);
-            }
+            BeforeValidateEventArgs args = new BeforeValidateEventArgs();
+            args.SaveMode = saveMode;
+            args.Original = original;
+            //BeforeValidate?.Invoke(this, args);
+            await BeforeValidateAsync(args);
 
             // validate not assignig any prohibited properties on New or Edit
-            if (isValid)
+            if (result.IsValid)
             {
-                isValid = ValidateNotChangingProhibitedProperties(saveMode, original, ref validateMsg);
+                var validateMsg = result.ValidateMsg;
+                result.IsValid = ValidateNotChangingProhibitedProperties(saveMode, original, ref validateMsg);
+                result.ValidateMsg = validateMsg;
             }
 
-            if (isValid)
+            if (result.IsValid)
             {
                 int r = 0;
                 foreach (FwDataReadWriteRecord rec in dataRecords)
@@ -1074,27 +1065,27 @@ namespace FwStandard.BusinessLogic
                     {
                         originalRec = original.dataRecords[r];
                     }
-                    isValid = rec.ValidateDataRecord(saveMode, originalRec, ref validateMsg);
-                    if (!isValid)
+                    await rec.ValidateDataRecordAsync(saveMode, originalRec, result);
+                    if (!result.IsValid)
                     {
                         break;
                     }
                     r++;
                 }
             }
-            if (isValid)
+            if (result.IsValid)
             {
                 //check for duplicate Business Logic here
-                isValid = CheckDuplicates(saveMode, original, ref validateMsg);
+                await CheckDuplicatesAsync(saveMode, original, result);
             }
-            if (isValid)
+            if (result.IsValid)
             {
-                isValid = Validate(saveMode, original, ref validateMsg);
+                var validateMsg = result.ValidateMsg;
+                result.IsValid = Validate(saveMode, original, ref validateMsg);
+                result.ValidateMsg = validateMsg;
             }
-            return isValid;
         }
         //------------------------------------------------------------------------------------
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Await.Warning", "CS4014")]  // do not warn about the call to Task.Run not being awaited.  I want it to run in a separte unawaited thread
         public virtual async Task<int> SaveAsync(FwBusinessLogic original, FwSqlConnection conn = null)
         {
             bool success = false;
@@ -1136,19 +1127,19 @@ namespace FwStandard.BusinessLogic
                 afterSaveArgs.Original = original;
                 afterSaveArgs.SqlConnection = conn;
 
-                BeforeSave?.Invoke(this, beforeSaveArgs);
+                //BeforeSave?.Invoke(this, beforeSaveArgs);
+                await BeforeSaveAsync(beforeSaveArgs);
                 if (beforeSaveArgs.PerformSave)
                 {
-                    int r = 0;
                     FwDataReadWriteRecord originalRec = null;
-                    foreach (FwDataReadWriteRecord rec in dataRecords)
+                    for (int r = 0; r < dataRecords.Count; r++)
                     {
+                        var rec = dataRecords[r];
                         if (original != null)
                         {
                             originalRec = original.dataRecords[r];
                         }
                         rowsAffected += await rec.SaveAsync(originalRec, conn);
-                        r++;
                     }
                     LoadCustomFields();
 
@@ -1192,17 +1183,18 @@ namespace FwStandard.BusinessLogic
                     }
                     if ((savePerformed) || (ForceSave))
                     {
-                        AfterSave?.Invoke(this, afterSaveArgs);
+                        //AfterSave?.Invoke(this, afterSaveArgs);
+                        await AfterSaveAsync(afterSaveArgs);
                         if (rowsAffected == 0)
                         {
                             rowsAffected = afterSaveArgs.RecordsAffected;
                         }
 
-                        Task.Run(() =>
+                        // process alerts on another thread without blocking
+                        _ = Task.Run(async () =>
                         {
-                            AlertFunc.ProcessAlerts(this.AppConfig, this.UserSession, this.BusinessLogicModuleName, original, this, saveMode);
+                            await AlertFunc.ProcessAlertsAsync(this.AppConfig, this.UserSession, this.BusinessLogicModuleName, original, this, saveMode);
                         });
-
                     }
                 }
                 success = true;
@@ -1228,41 +1220,34 @@ namespace FwStandard.BusinessLogic
 
             if ((success) && (HasAudit) && (rowsAffected > 0))
             {
-                Task.Run(() =>
+                // Add the audit record on another thread without blocking
+                _ = Task.Run(async () =>
                 {
-                    WebAuditJsonFunc.AddAudit(this.AppConfig, this.UserSession, original, this);
+                    await WebAuditJsonFunc.AddAuditAsync(this.AppConfig, this.UserSession, original, this);
                 });
             }
 
             return rowsAffected;
         }
         //------------------------------------------------------------------------------------
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Await.Warning", "CS4014")]  // do not warn about the call to Task.Run not being awaited.  I want it to run in a separte unawaited thread
         public virtual async Task<bool> DeleteAsync()
         {
             bool success = true;
-            InsteadOfDeleteEventArgs insteadOfDeleteArgs = new InsteadOfDeleteEventArgs();
             BeforeDeleteEventArgs beforeDeleteArgs = new BeforeDeleteEventArgs();
             AfterDeleteEventArgs afterDeleteArgs = new AfterDeleteEventArgs();
-            BeforeDelete?.Invoke(this, beforeDeleteArgs);
+            await BeforeDeleteAsync(beforeDeleteArgs);
             if (beforeDeleteArgs.PerformDelete)
             {
-                if (InsteadOfDelete != null)
+                foreach (FwDataReadWriteRecord rec in dataRecords)
                 {
-                    InsteadOfDelete(this, insteadOfDeleteArgs);
-                    success = insteadOfDeleteArgs.Success;
+                    success &= await rec.DeleteAsync();
                 }
-                else
+                await AfterDeleteAsync(afterDeleteArgs);
+                
+                // process alerts on another thread without blocking
+                _ = Task.Run(async () =>
                 {
-                    foreach (FwDataReadWriteRecord rec in dataRecords)
-                    {
-                        success &= await rec.DeleteAsync();
-                    }
-                }
-                AfterDelete?.Invoke(this, afterDeleteArgs);
-                Task.Run(() =>
-                {
-                    AlertFunc.ProcessAlerts(this.AppConfig, this.UserSession, this.BusinessLogicModuleName, this, null, null);
+                    await AlertFunc.ProcessAlertsAsync(this.AppConfig, this.UserSession, this.BusinessLogicModuleName, this, null, null);
                 });
 
             }

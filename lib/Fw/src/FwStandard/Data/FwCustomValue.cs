@@ -1,4 +1,4 @@
-﻿namespace FwStandard.DataLayer
+namespace FwStandard.Data
 {
 
     public class FwCustomValue

@@ -1,8 +1,8 @@
-﻿using FwStandard.SqlServer;
+using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using System;
 
-namespace FwStandard.DataLayer
+namespace FwStandard.Data
 {
     public class FwDataLoadRecord : FwDataRecord
     {

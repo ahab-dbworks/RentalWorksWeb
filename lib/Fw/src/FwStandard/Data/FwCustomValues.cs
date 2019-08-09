@@ -1,4 +1,4 @@
-﻿using FwStandard.Models;
+using FwStandard.Models;
 using FwStandard.SqlServer;
 using Newtonsoft.Json;
 using System;
@@ -7,7 +7,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
 
-namespace FwStandard.DataLayer
+namespace FwStandard.Data
 {
 
     public class FwCustomValues : List<FwCustomValue>

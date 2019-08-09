@@ -965,6 +965,7 @@ interface GridPager {
 }
 
 interface GridPagerMessages {
+    allPages?: string,
     display?: string;
     empty?: string;
     page?: string;
@@ -977,4 +978,3 @@ interface GridPagerMessages {
     refresh?: string;
     morePages?: string;
 }
-

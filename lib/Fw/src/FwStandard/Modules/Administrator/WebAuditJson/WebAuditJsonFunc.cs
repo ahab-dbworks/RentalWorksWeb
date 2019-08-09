@@ -3,6 +3,7 @@ using FwStandard.Models;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace FwStandard.Modules.Administrator.WebAuditJson
 {
@@ -10,7 +11,7 @@ namespace FwStandard.Modules.Administrator.WebAuditJson
     public static class WebAuditJsonFunc
     {
         //------------------------------------------------------------------------------------ 
-        public static async void AddAudit(FwApplicationConfig appConfig, FwUserSession userSession, FwBusinessLogic oldObject, FwBusinessLogic newObject)
+        public static async Task AddAuditAsync(FwApplicationConfig appConfig, FwUserSession userSession, FwBusinessLogic oldObject, FwBusinessLogic newObject)
         {
             WebAuditJsonLogic audit = new WebAuditJsonLogic();
             audit.AppConfig = appConfig;

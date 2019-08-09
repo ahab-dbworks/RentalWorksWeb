@@ -1,7 +1,7 @@
-﻿using FwStandard.Models;
+using FwStandard.Models;
 using System.Collections.Generic;
 
-namespace FwStandard.DataLayer
+namespace FwStandard.Data
 {
     public class FwCustomFields : List<FwCustomField>
     {

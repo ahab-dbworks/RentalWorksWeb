@@ -448,8 +448,8 @@ abstract class FwWebApiReport {
             });
         }
 
-        if (typeof window[$form.attr('data-controller')].addReportMenuItems === 'function') {
-            $menuObject = window[$form.attr('data-controller')].addReportMenuItems($menuObject, $form);
+        if (typeof (<any>window[$form.attr('data-controller')]).addReportMenuItems === 'function') {
+            $menuObject = (<any>window[$form.attr('data-controller')]).addReportMenuItems($menuObject, $form);
         }
 
         FwControl.renderRuntimeControls($menuObject.find('.fwcontrol').addBack());

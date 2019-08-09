@@ -1,15 +1,14 @@
-﻿using FwStandard.BusinessLogic;
+using FwStandard.BusinessLogic;
 using FwStandard.SqlServer;
 using System;
 using System.Threading.Tasks;
 
-namespace FwStandard.DataLayer
+namespace FwStandard.Data
 {
     public class FwDataReadWriteRecord : FwDataRecord
     {
-
-
-
+        // It's better to use for example: BeforeSaveAsync vs BeforeSave event handler because event handlers are not async.
+        // The time to use the event handlers is when you are working with an instance of the logic, where as the async method should be overriden in the logic class itself, since it allows you to preserve the async flow
         public event EventHandler<BeforeSaveDataRecordEventArgs> BeforeSave;
         public event EventHandler<AfterSaveDataRecordEventArgs> AfterSave;
         public event EventHandler<BeforeValidateDataRecordEventArgs> BeforeValidate;
@@ -26,70 +25,74 @@ namespace FwStandard.DataLayer
         public delegate void AfterDeleteEventHandler(AfterDeleteEventArgs e);
         public delegate void AssignPrimaryKeysEventHandler(EventArgs e);
 
-        protected virtual void OnBeforeSave(BeforeSaveDataRecordEventArgs e)
+        protected virtual async Task BeforeSaveAsync(BeforeSaveDataRecordEventArgs e)
         {
             BeforeSave?.Invoke(this, e);
+            await Task.CompletedTask;
         }
-        protected virtual void OnAfterSave(AfterSaveDataRecordEventArgs e)
+        protected virtual async Task AfterSaveAsync(AfterSaveDataRecordEventArgs e)
         {
             AfterSave?.Invoke(this, e);
+            await Task.CompletedTask;
         }
-        protected virtual void OnBeforeValidate(BeforeValidateDataRecordEventArgs e)
+        protected virtual async Task BeforeValidateAsync(BeforeValidateDataRecordEventArgs e)
         {
             BeforeValidate?.Invoke(this, e);
+            await Task.CompletedTask;
         }
 
-        protected virtual void OnInsteadOfDelete(InsteadOfDataRecordDeleteEventArgs e)
+        protected virtual async Task InsteadOfDeleteAsync(InsteadOfDataRecordDeleteEventArgs e)
         {
             InsteadOfDelete?.Invoke(this, e);
+            await Task.CompletedTask;
         }
 
-        protected virtual void OnBeforeDelete(BeforeDeleteEventArgs e)
+        protected virtual async Task BeforeDeleteAsync(BeforeDeleteEventArgs e)
         {
             BeforeDelete?.Invoke(this, e);
+            await Task.CompletedTask;
         }
-        protected virtual void OnAfterDelete(AfterDeleteEventArgs e)
+        protected virtual async Task AfterDeleteAsync(AfterDeleteEventArgs e)
         {
             AfterDelete?.Invoke(this, e);
+            await Task.CompletedTask;
         }
-        protected virtual void OnAssignPrimaryKeys(EventArgs e)
+        protected virtual async Task AssignPrimaryKeysAsync(EventArgs e)
         {
             AssignPrimaryKeys?.Invoke(this, e);
+            await Task.CompletedTask;
         }
 
 
         //------------------------------------------------------------------------------------
         public FwDataReadWriteRecord() : base() { }
         //------------------------------------------------------------------------------------
-        protected virtual bool Validate(TDataRecordSaveMode saveMode, FwDataReadWriteRecord original, ref string validateMsg)
+        protected virtual async Task<FwValidateResult> ValidateAsync(TDataRecordSaveMode saveMode, FwDataReadWriteRecord original, FwValidateResult result)
         {
-            //override this method on a derived class to implement custom validation logic
-            bool isValid = true;
-            return isValid;
+            await Task.CompletedTask;
+            ////override this method on a derived class to implement custom validation logic
+            //bool isValid = true;
+            //return isValid;
+            return result;
         }
         //------------------------------------------------------------------------------------
-        public virtual bool ValidateDataRecord(TDataRecordSaveMode saveMode, FwDataReadWriteRecord original, ref string validateMsg)
+        public virtual async Task<FwValidateResult> ValidateDataRecordAsync(TDataRecordSaveMode saveMode, FwDataReadWriteRecord original, FwValidateResult result)
         {
-            bool isValid = true;
-            validateMsg = "";
+            BeforeValidateDataRecordEventArgs args = new BeforeValidateDataRecordEventArgs();
+            args.SaveMode = saveMode;
+            args.Original = original;
+            //BeforeValidate?.Invoke(this, args);
+            await BeforeValidateAsync(args);
 
-            if (BeforeValidate != null)
+            if (result.IsValid)
             {
-                BeforeValidateDataRecordEventArgs args = new BeforeValidateDataRecordEventArgs();
-                args.SaveMode = saveMode;
-                args.Original = original;
-                BeforeValidate(this, args);
+                result = await AllFieldsValidAsync(saveMode, result);
             }
-
-            if (isValid)
+            if (result.IsValid)
             {
-                isValid = AllFieldsValid(saveMode, ref validateMsg);
+                result = await ValidateAsync(saveMode, original, result);
             }
-            if (isValid)
-            {
-                isValid = Validate(saveMode, original, ref validateMsg);
-            }
-            return isValid;
+            return result;
         }
         //------------------------------------------------------------------------------------
         /// <summary>
@@ -138,7 +141,8 @@ namespace FwStandard.DataLayer
                 }
             }
 
-            BeforeSave?.Invoke(this, beforeSaveArgs);
+            //BeforeSave?.Invoke(this, beforeSaveArgs);
+            await BeforeSaveAsync(beforeSaveArgs);
 
             if (beforeSaveArgs.PerformSave)
             {
@@ -161,7 +165,8 @@ namespace FwStandard.DataLayer
                             afterSaveArgs.SaveMode = beforeSaveArgs.SaveMode;
                             afterSaveArgs.Original = original;
                             afterSaveArgs.SqlConnection = conn;
-                            AfterSave?.Invoke(this, afterSaveArgs);
+                            //AfterSave?.Invoke(this, afterSaveArgs);
+                            await AfterSaveAsync(afterSaveArgs);
                         }
                     }
                 }
@@ -175,7 +180,8 @@ namespace FwStandard.DataLayer
             InsteadOfDataRecordDeleteEventArgs insteadOfDeleteArgs = new InsteadOfDataRecordDeleteEventArgs();
             BeforeDeleteEventArgs beforeDeleteArgs = new BeforeDeleteEventArgs();
             AfterDeleteEventArgs afterDeleteArgs = new AfterDeleteEventArgs();
-            BeforeDelete?.Invoke(this, beforeDeleteArgs);
+            //BeforeDelete?.Invoke(this, beforeDeleteArgs);
+            await BeforeDeleteAsync(beforeDeleteArgs);
             if (beforeDeleteArgs.PerformDelete)
             {
                 using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
@@ -193,7 +199,8 @@ namespace FwStandard.DataLayer
                             success = (rowcount > 0);
                         }
                     }
-                    AfterDelete?.Invoke(this, afterDeleteArgs);
+                    //AfterDelete?.Invoke(this, afterDeleteArgs);
+                    await AfterDeleteAsync(afterDeleteArgs);
                 }
             }
             return success;
