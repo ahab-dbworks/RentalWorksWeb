@@ -5,6 +5,7 @@ class QuikActivityCalendar {
     caption: string = Constants.Modules.Utilities.QuikActivityCalendar.caption;
     nav: string = Constants.Modules.Utilities.QuikActivityCalendar.nav;
     id: string = Constants.Modules.Utilities.QuikActivityCalendar.id;
+    SessionId: string;
     //----------------------------------------------------------------------------------------------
     getModuleScreen = () => {
         const screen: any = {};
@@ -82,6 +83,7 @@ class QuikActivityCalendar {
                 const activityType = activityTypes != "" ? `&ActivityType=${activityTypes}` : '';
                 FwAppData.apiMethod(true, 'GET', `${apiURL}${activityType}`, null, FwServices.defaultTimeout, response => {
                     const calendarEvents = response.QuikActivityCalendarEvents;
+                    this.SessionId = response.SessionId;
                     //FwScheduler.loadYearEventsCallback($calendar, [{ id: '1', name: '' }], calendarEvents);
                     for (var i = 0; i < calendarEvents.length; i++) {
                         if (calendarEvents[i].textColor !== 'rgb(0,0,0)') {
@@ -114,6 +116,7 @@ class QuikActivityCalendar {
                             , FromDate: fromDate
                             , ToDate: toDate
                             , Summary: summary
+                            , SessionId: this.SessionId
                         };
                     });
                     FwBrowse.search($quikActivityGridControl);
@@ -134,6 +137,7 @@ class QuikActivityCalendar {
                         , ToDate: toDate
                         , ActivityType: activityType
                         , Summary: summary
+                        , SessionId: this.SessionId
                     };
                 });
                 FwBrowse.search($quikActivityGridControl);
