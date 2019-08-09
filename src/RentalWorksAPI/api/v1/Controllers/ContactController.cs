@@ -31,7 +31,7 @@ namespace RentalWorksAPI.api.v1
         }
         //----------------------------------------------------------------------------------------------------
         [HttpPost]
-        [Route("contact/{contactid:alpha}")]
+        [Route("contact/{contactid}")]
         public HttpResponseMessage GetContact([FromUri]string contactid)
         {
             List<Contact> result = new List<Contact>();
@@ -48,7 +48,7 @@ namespace RentalWorksAPI.api.v1
         }
         //----------------------------------------------------------------------------------------------------
         [HttpPost]
-        [Route("contact/{webusersid:alpha}/orders")]
+        [Route("contact/{webusersid}/orders")]
         public HttpResponseMessage GetContactOrders([FromUri]string webusersid, [FromBody]OrderParameters request)
         {
             WebUsers webuserinfo;
@@ -108,7 +108,7 @@ namespace RentalWorksAPI.api.v1
         }
         //----------------------------------------------------------------------------------------------------
         [HttpPost]
-        [Route("contact/{webusersid:alpha}/deals")]
+        [Route("contact/{webusersid}/deals")]
         public HttpResponseMessage GetContactDeals([FromUri]string webusersid)
         {
             ContactDeals result = new ContactDeals();

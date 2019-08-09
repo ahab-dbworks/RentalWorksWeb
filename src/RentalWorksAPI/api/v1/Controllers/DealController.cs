@@ -31,7 +31,7 @@ namespace RentalWorksAPI.api.v1
         }
         //----------------------------------------------------------------------------------------------------
         [HttpPost]
-        [Route("deal/{dealid:alpha}")]
+        [Route("deal/{dealid}")]
         public HttpResponseMessage GetDeal([FromUri]string dealid)
         {
             List<Deal> result = new List<Deal>();
@@ -48,7 +48,7 @@ namespace RentalWorksAPI.api.v1
         }
         //----------------------------------------------------------------------------------------------------
         [HttpPost]
-        [Route("deal/dealno={dealno:alpha}")]
+        [Route("deal/dealno={dealno}")]
         public HttpResponseMessage GetDealByNo([FromUri]string dealno)
         {
             List<Deal> result = new List<Deal>();
@@ -121,7 +121,7 @@ namespace RentalWorksAPI.api.v1
         }
         //----------------------------------------------------------------------------------------------------
         [HttpPut]
-        [Route("deal/dealno={dealno:alpha}")]
+        [Route("deal/dealno={dealno}")]
         public HttpResponseMessage ProcessDealByNo([FromBody]Deal deal, [FromUri]string dealno)
         {
             List<Deal> result    = new List<Deal>();
