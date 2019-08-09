@@ -328,7 +328,8 @@ class Receipt {
             $form.find('.table-rows').html('<tr class="empty-row" style="height:33px;"><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>');
         }
         const calculateInvoiceTotals = ($form, event?) => {
-            const amountValBefore = $form.data('payAmountOnFocus')
+            const amountValBefore = $form.data('payAmountOnFocus');
+            console.log('amountValBefore', amountValBefore)
             let totalTotal = new Decimal(0);
             let appliedTotal = new Decimal(0);
             let dueTotal = new Decimal(0);
@@ -363,6 +364,14 @@ class Receipt {
                     const element = jQuery(event.currentTarget);
                     if (element.attr('data-type') === 'button') {
                         if (+(element.attr('row-index')) === i) {
+                            let amountInput = $amountFields.eq(i).val().replace(/,/g, '');
+                            if (amountInput === '') {
+                                amountInput = '0.00';
+                            }
+                            amountTotal = amountTotal.plus(amountInput);
+                            let dueTotal = new Decimal(0);
+                            let dueVal = $dueFields.eq(i).text().replace(/,/g, '');
+                            dueTotal = dueTotal.plus(dueVal);
                             let unappliedTotalPriorDecimal = new Decimal(0);
                             unappliedTotalPriorDecimal = unappliedTotalPriorDecimal.plus(unappliedTotalPrior);
                             // If Unapplied Amount >= "Due"  increase the "Amount" value by the "Due" value on the line
@@ -376,17 +385,25 @@ class Receipt {
                                 $amountFields.eq(i).val(amountVal.toFixed(2));
                             }
                         }
+                        break;
                     }
                     // may need to trigger line change after apply button
                     const currentAmountField = $amountFields.eq(i);
                     if (element.is(currentAmountField)) {
+
                         let amountDifference = new Decimal(0);
+                        let amountTotal = new Decimal(0);
+
+                        let amountInput = $amountFields.eq(i).val().replace(/,/g, '');
+                        if (amountInput === '') {
+                            amountInput = '0.00';
+                        }
+                        amountTotal = amountTotal.plus(amountInput);
                         amountDifference = amountTotal.minus(amountValBefore)
                         let appliedLineTotal = new Decimal(0);
                         appliedLineTotal = appliedLineTotal.plus(appliedVal).plus(amountDifference);
                         let dueLineTotal = new Decimal(0);
                         dueLineTotal = dueLineTotal.plus(dueVal).minus(amountDifference);
-                        // if amount = due => 0.00
                         $appliedFields.eq(i).text(appliedLineTotal.toFixed(2));
                         $dueFields.eq(i).text(dueLineTotal.toFixed(2));
                     }
@@ -469,7 +486,8 @@ class Receipt {
                         if (val === '') {
                             val = '0.00'
                         }
-                        $form.data('payAmountOnFocus', val);            
+                        $form.data('payAmountOnFocus', val);  
+                        console.log('payAmountOnFocus', $form.data('payAmountOnFocus'));
                     });
                     $form.find('.apply-btn').click((ev: JQuery.ClickEvent) => {
                         calculateInvoiceTotals($form, ev);
