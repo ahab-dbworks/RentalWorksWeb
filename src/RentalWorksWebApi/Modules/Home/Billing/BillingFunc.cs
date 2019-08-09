@@ -41,6 +41,7 @@ namespace WebApi.Modules.Home.Billing
                     qry.AddParameter("@pending", SqlDbType.NVarChar, ParameterDirection.Input, request.ShowOrdersWithPendingPO);
                     qry.AddParameter("@combineperiods", SqlDbType.NVarChar, ParameterDirection.Input, request.BillIfComplete);
                     qry.AddParameter("@billifcomplete", SqlDbType.NVarChar, ParameterDirection.Input, request.CombinePeriods);
+                    qry.AddParameter("@includetotals", SqlDbType.NVarChar, ParameterDirection.Input, request.IncludeTotals);
                     //               @flatorder       char(01) = 'F',
                     //               @flatbill        char(01) = 'F',
                     qry.AddParameter("@sessionid", SqlDbType.NVarChar, ParameterDirection.Output);

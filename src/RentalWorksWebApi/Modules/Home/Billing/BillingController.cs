@@ -23,7 +23,7 @@ namespace WebApi.Modules.Home.Billing
         public bool? ShowOrdersWithPendingPO { get; set; }
         public bool? BillIfComplete { get; set; }
         public bool? CombinePeriods { get; set; }
-
+        public bool? IncludeTotals { get; set; }
     }
 
     public class PopulateBillingResponse : TSpStatusResponse
@@ -56,11 +56,7 @@ namespace WebApi.Modules.Home.Billing
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------ 
@@ -105,11 +101,7 @@ namespace WebApi.Modules.Home.Billing
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------ 
