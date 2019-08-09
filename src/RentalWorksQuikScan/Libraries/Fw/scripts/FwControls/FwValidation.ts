@@ -536,6 +536,12 @@
         catch (ex) {
             FwFunc.showError(ex);
         }
-    };
+    }
+    homeModules: Array<string> = ['ContactValidation', 'CustomerValidation', 'DealValidation', 'OrderValidation', 'ProjectValidation', 'PurchaseOrderValidation', 'QuoteValidation', 'VendorValidation', 'AssetValidation', 'PartsInventoryValidation', 'RentalInventoryValidation', 'RepairOrderValidation', 'SalesInventoryValidation', 'ContractValidation', 'PickListValidation', 'ContainerValidation', 'InvoiceValidation', 'ReceiptValidation'];
+    //----------------------------------------------------------------------------------------------
+    isHomeModule($control: JQuery<HTMLElement>): boolean { //temp (inefficient) solution, til security tree implementations are in place, used to determine whether to render peek buttons - jpace 7/16/19
+        return (this.homeModules.indexOf($control.attr('data-validationname')) > -1);
+    }
+    //----------------------------------------------------------------------------------------------
 }
 var FwValidation = new FwValidationClass();

@@ -194,7 +194,8 @@ class FwAppData {
                 if (isdesktop || (ismobile && ($elementToBlock !== null))) {
                     if ((typeof $elementToBlock === 'object') && ($elementToBlock !== null)) {
 
-                        if (progressBarSessionId !== undefined) {
+                        //if (progressBarSessionId !== undefined) {
+                        if ((progressBarSessionId !== undefined) && (progressBarSessionId !== null)) {
                             $overlay = FwOverlay.showProgressBarOverlay($elementToBlock, progressBarSessionId);
                         } else {
                             $overlay = FwOverlay.showPleaseWaitOverlay($elementToBlock, settings.context.requestid);

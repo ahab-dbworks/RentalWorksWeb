@@ -9,7 +9,7 @@
         let $form = $control.closest('.fwform');
         html.push('<div class="fwformfield-caption">' + $control.attr('data-caption') + '</div>');;
         html.push('<div class="fwformfield-control">');
-        html.push('  <ol style="min-height:500px;min-width:150px;">');
+        html.push('  <ol style="min-height:1200px;min-width:200px;">');
         html.push('  </ol>');
         html.push('</div>');
         $control.html(html.join(''));
@@ -77,6 +77,9 @@
                 html.push('<input class="checkbox" type="checkbox" id="');
                 html.push(checkboxid);
                 html.push('"');
+                if ($control.attr('data-showcheckboxes') === 'false') {
+                    html.push(' style="display:none" ');
+                }
                 if (items[i].selected === 'T') {
                     html.push(' checked="checked"');
                 }

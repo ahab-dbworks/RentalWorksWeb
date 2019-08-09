@@ -251,7 +251,9 @@ FwMobileMasterController.generateMenuLinks = function($menu) {
     }
 
     $link      = FwMobileMasterController.generateLink($menu, 'Settings',    'theme/images/icons/128/preferences.png', 'account/preferences'); $menu.find('.menu-body-links').append($link);
-    $link      = FwMobileMasterController.generateLink($menu, 'Logoff',      'theme/images/icons/128/logoff.png',      'logoff');      $menu.find('.menu-body-links').append($link);
+    if (!applicationConfig.demoMode) {
+        $link      = FwMobileMasterController.generateLink($menu, 'Logoff',      'theme/images/icons/128/logoff.png',      'logoff');      $menu.find('.menu-body-links').append($link);
+    }
 };
 //----------------------------------------------------------------------------------------------
 FwMobileMasterController.generateLink = function($menu, caption, imagesrc, nav) {

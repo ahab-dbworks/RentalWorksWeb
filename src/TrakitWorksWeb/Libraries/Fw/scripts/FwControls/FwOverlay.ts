@@ -56,28 +56,31 @@
         $moduleoverlay.html(html.join(''));
         $appendToElement.css('position', 'relative').append($moduleoverlay);
 
-        let handle = setInterval(() => {
+        let handle: number = window.setInterval(() => {
             jQuery.ajax(ajaxOptions)
                 .done(response => {
+                    console.log('res: ', response)
                     try {
-                        if ((isNaN(response.CurrentStep)) || (response.CurrentStep === 'undefined') || (response.CurrentStep === undefined)) {
-                            caption = 'Processing...';
-                            currentStep += 2.5;
-                            $moduleoverlay.find('progress').val(100);
-                            $moduleoverlay.find('progress').attr('max', 100);
-                            $moduleoverlay.find('.progress_bar_caption').text(caption);
+                        if ($moduleoverlay) {
+                            if ((isNaN(response.CurrentStep)) || (response.CurrentStep === 'undefined') || (response.CurrentStep === undefined)) {
+                                caption = 'Processing...';
+                                currentStep += 2.5;
+                                $moduleoverlay.find('progress').val(100);
+                                $moduleoverlay.find('progress').attr('max', 100);
+                                $moduleoverlay.find('.progress_bar_caption').text(caption);
 
-                        } else {
-                            caption = response.Caption;
-                            currentStep = parseInt(response.CurrentStep);
-                            totalSteps = parseInt(response.TotalSteps);
-                            percentage = parseInt(response.PercentComplete)
+                            } else {
+                                caption = response.Caption;
+                                currentStep = parseInt(response.CurrentStep);
+                                totalSteps = parseInt(response.TotalSteps);
+                                percentage = parseInt(response.PercentComplete)
 
-                            $moduleoverlay.find('progress').val(currentStep);
-                            $moduleoverlay.find('progress').attr('max', totalSteps);
-                            $moduleoverlay.find('.progress_bar_text').text(`${percentage}%`);
-                            $moduleoverlay.find('.progress_span').text(`${percentage}%`);
-                            $moduleoverlay.find('.progress_bar_caption').text(caption);
+                                $moduleoverlay.find('progress').val(currentStep);
+                                $moduleoverlay.find('progress').attr('max', totalSteps);
+                                $moduleoverlay.find('.progress_bar_text').text(`${percentage}%`);
+                                $moduleoverlay.find('.progress_span').text(`${percentage}%`);
+                                $moduleoverlay.find('.progress_bar_caption').text(caption);
+                            }
                         }
                     }
                     catch (ex) {
@@ -87,7 +90,7 @@
                     if (currentStep >= totalSteps) {
                         progressCompleted = true;
                         if (progressCompleted) {
-                            clearInterval(handle);
+                            window.clearInterval(handle);
                             handle = 0;
                         }
                     }

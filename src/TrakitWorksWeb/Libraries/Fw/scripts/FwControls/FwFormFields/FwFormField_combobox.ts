@@ -1,4 +1,4 @@
-﻿class FwFormField_comboboxClass implements IFwFormField {
+class FwFormField_comboboxClass implements IFwFormField {
     //---------------------------------------------------------------------------------
     renderDesignerHtml($control: JQuery<HTMLElement>, html: string[]): void {
         html.push(FwControl.generateDesignerHandle($control.attr('data-type'), $control.attr('id')));
@@ -296,8 +296,10 @@
         var rownostart = (((dt.PageNo * pageSize) - pageSize + 1) > 0) ? ((dt.PageNo * pageSize) - pageSize + 1) : 0;
         var rownoend = (((dt.PageNo * pageSize) - pageSize + 1) > 0) ? (dt.PageNo * pageSize) - (pageSize - dt.Rows.length) : 0;
 
-        // focus the searchfield so the user can use keydown handler on the field to arrow up and down through the dropdown
-        $searchfield.focus();
+        // only focus the searchfield on desktop browsers so the user can use keydown handler on the field to arrow up and down through the dropdown
+        if (typeof (<any>window).cordova === 'undefined') {
+            $searchfield.focus();
+        }
 
         if (dt.Rows.length > 0) {
             var uniqueid, displayfield;

@@ -1,4 +1,4 @@
-﻿//----------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------
 class FwSettingsClass {
     filter: Array<any> = [];
     customFilter: Array<any> = [];
@@ -19,6 +19,7 @@ class FwSettingsClass {
         html.push('<div class="fwsettingsheader">');
         //html.push('<div class="settingsmenu">');
         //html.push('</div>')
+        html.push('  <div class="settings-header-title">Settings</div>');
         html.push('  <div class="input-group pull-right">');
         html.push('    <input type="text" id="settingsSearch" class="form-control" placeholder="Search..." autofocus>');
         html.push('    <span class="input-group-clear">');
@@ -467,7 +468,7 @@ class FwSettingsClass {
                     $form = jQuery(jQuery('#tmpl-modules-' + moduleName + 'Form').html());
                     controller = $form.data('controller');
                     if ($rowBody.is(':empty')) {
-                        $form = window[controller].openForm('EDIT');
+                        $form = (<any>window[controller]).openForm('EDIT');
                         $rowBody.append($form);
 
                         for (var key in recordData) {
@@ -525,7 +526,7 @@ class FwSettingsClass {
             newRowHtml.push('</div>');
 
             controller = $form.data('controller');
-            $form = window[controller].openForm('NEW');
+            $form = (<any>window[controller]).openForm('NEW');
             $body.prepend($form);
             $body.prepend(jQuery(newRowHtml.join('')));
         }
@@ -603,13 +604,19 @@ class FwSettingsClass {
         html.push('        </div>');
         html.push('        </h4>');
         html.push('      </div>');
-        if (description === "") {
-            html.push('      <small id="searchId" style="display:none;">' + moduleName + '</small>');
-            html.push('      <small style="margin:0 0 0 32px;" id="description-text">' + moduleName + '</small>');
-        } else {
-            html.push('      <small id="searchId" style="display:none;">' + moduleName + '</small>');
+        //if (description === "") {
+        //    html.push('      <small id="searchId" style="display:none;">' + moduleName + '</small>');
+        //    html.push('      <small style="margin:0 0 0 32px;" id="description-text">' + moduleName + '</small>');
+        //} else {
+        //    html.push('      <small id="searchId" style="display:none;">' + moduleName + '</small>');
+        //    html.push('      <small style="margin:0 0 0 32px;" id="description-text">' + description + '</small>');
+        //}
+
+        html.push('      <small id="searchId" style="display:none;">' + moduleName + '</small>');
+        if (description) {
             html.push('      <small style="margin:0 0 0 32px;" id="description-text">' + description + '</small>');
         }
+
         html.push('    </div>');
         html.push('    <div class="panel-collapse collapse" style="display:none; "><div class="panel-body header-content" id="' + moduleName + '"></div></div>');
         html.push('  </div>');
@@ -936,7 +943,7 @@ class FwSettingsClass {
                 controller = $form.data('controller');
 
                 if ($rowBody.is(':empty')) {
-                    $form = window[controller].openForm('EDIT');
+                    $form = (<any>window[controller]).openForm('EDIT');
                     $rowBody.append($form);
                     $formSections = $form.find('.fwform-section-title');
                     $form.find('.highlighted').removeClass('highlighted');
@@ -1144,10 +1151,9 @@ class FwSettingsClass {
                         }
                     }
 
+                    var module: any = [];
                     for (var i = 0; i < results.length; i++) {
                         //check descriptions for match
-                        var module: any = [];
-
                         for (var k = 0; k < $module.length; k++) {
                             // match results
                             if ($module.eq(k).attr('id').toUpperCase() === results[i]) {
@@ -1168,10 +1174,10 @@ class FwSettingsClass {
                     let description = module.find('small#description-text');
                     let title = module.find('a#title');
 
-                    for (var j = 0; j < description.length; j++) {
-                        if (description[j] !== undefined) {
-                            let descriptionIndex = jQuery(description[j]).text().toUpperCase().indexOf(val);
+                    for (var j = 0; j < title.length; j++) {
+                        if (title[j] !== undefined) {
                             let titleIndex = jQuery(title[j]).text().toUpperCase().indexOf(val);
+                            let descriptionIndex = jQuery(description[j]).text().toUpperCase().indexOf(val);
                             if (descriptionIndex > -1) {
                                 highlightSearch(description[j], val);
                             }
@@ -1186,7 +1192,7 @@ class FwSettingsClass {
                             return -1 != jQuery(this).text().toUpperCase().indexOf(results[i]);
                         }).closest('div.panel-group').show();
                     }
-                    module.show().find('#searchId').hide();;
+                    module.show().find('#searchId').hide();
 
                     let searchResults = $control.find('.panel-heading:visible');
 
@@ -1217,11 +1223,11 @@ class FwSettingsClass {
                 let controller = $form.data('controller');
                 ids = FwModule.getFormUniqueIds($form);
                 let request = {
-                    module: window[controller].Module,
+                    module: (<any>window[controller]).Module,
                     ids: ids
                 };
                 try {
-                    FwServices.module.method(request, window[controller].Module, 'Delete', $form, function (response) {
+                    FwServices.module.method(request, (<any>window[controller]).Module, 'Delete', $form, function (response) {
                         $form = FwModule.getFormByUniqueIds(ids);
                         if ((typeof $form != 'undefined') && ($form.length > 0)) {
                             $form.closest('.panel-record').remove();

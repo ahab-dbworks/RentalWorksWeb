@@ -7,6 +7,7 @@ class FwApplication {
     audioErrorArray: number[];
     audioSuccess: HTMLAudioElement;
     audioError: HTMLAudioElement;
+    localStoragePrefix: string;
     //---------------------------------------------------------------------------------
     constructor() {
         this.setAudioMode('NativeAudio');
@@ -459,3 +460,26 @@ window.onhashchange = function () {
 //    this.navigateHashChange(history.state);
 //});
 //---------------------------------------------------------------------------------
+// Handle uncaught exceptions
+window.addEventListener("error", e => {
+    // if logged in on the desktop, but the master section doesn't come up, need to logout to clear the error
+    // this can avoid the user getting a blank white screen under certain error conditions
+    if (jQuery('#master').length === 0 && jQuery('html.desktop').length === 1 && sessionStorage.getItem('apiToken') !== null) {
+        sessionStorage.clear();
+        window.location.reload(true);
+    } else {
+        FwFunc.showError(e);
+    }
+});
+//---------------------------------------------------------------------------------
+// Handle uncaught promise rejections
+window.addEventListener("unhandledrejection", e => { 
+    // if logged in on the desktop, but the master section doesn't come up, need to logout to clear the error
+    // this can avoid the user getting a blank white screen under certain error conditions
+    if (jQuery('#master').length === 0 && jQuery('html.desktop').length === 1 && sessionStorage.getItem('apiToken') !== null) {
+        sessionStorage.clear();
+        window.location.reload(true);
+    } else {
+        FwFunc.showError(e.reason);
+    }
+});

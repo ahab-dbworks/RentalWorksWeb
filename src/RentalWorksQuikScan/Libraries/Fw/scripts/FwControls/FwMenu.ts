@@ -213,8 +213,8 @@ class FwMenuClass {
                 $ddBtn.prepend(`<input type="checkbox">`);
 
                 if (typeof filterField !== 'undefined') {
-                    if (typeof window[controller].ActiveViewFields[filterField] == 'undefined') {
-                        window[controller].ActiveViewFields[filterField] = ["ALL"];
+                    if (typeof (<any>window)[controller].ActiveViewFields[filterField] == 'undefined') {
+                        (<any>window)[controller].ActiveViewFields[filterField] = ["ALL"];
                     }
                 }
             }
@@ -226,7 +226,7 @@ class FwMenuClass {
                 if (allowMultiple) {
                     e.stopPropagation();
                     const value = $this.attr('data-value');
-                    let fields = window[controller].ActiveViewFields[filterField];
+                    let fields = (<any>window)[controller].ActiveViewFields[filterField];
                     if (value === "ALL") $this.addClass('select-all-filters');
                     let isSelectAllFilters: boolean = $this.hasClass('select-all-filters');
                     let isChecked: boolean = $this.find('input[type="checkbox"]').prop('checked');
@@ -282,21 +282,21 @@ class FwMenuClass {
                         }
                     }
 
-                    window[controller].ActiveViewFields[filterField] = fields;
+                    (<any>window)[controller].ActiveViewFields[filterField] = fields;
 
                     let request = {
                         WebUserId: JSON.parse(sessionStorage.getItem('userid')).webusersid
-                        , ModuleName: window[controller].Module
-                        , ActiveViewFields: JSON.stringify(window[controller].ActiveViewFields)
+                        , ModuleName: (<any>window)[controller].Module
+                        , ActiveViewFields: JSON.stringify((<any>window)[controller].ActiveViewFields)
                         , OfficeLocationId: JSON.parse(sessionStorage.getItem('location')).locationid
                     };
 
-                    if (typeof window[controller].ActiveViewFieldsId == 'undefined') {
+                    if (typeof (<any>window)[controller].ActiveViewFieldsId == 'undefined') {
                         FwAppData.apiMethod(true, 'POST', `api/v1/browseactiveviewfields/`, request, FwServices.defaultTimeout, function onSuccess(response) {
-                            window[controller].ActiveViewFieldsId = response.Id;
+                            (<any>window)[controller].ActiveViewFieldsId = response.Id;
                         }, null, null);
                     } else {
-                        request["Id"] = window[controller].ActiveViewFieldsId;
+                        request["Id"] = (<any>window)[controller].ActiveViewFieldsId;
                         FwAppData.apiMethod(true, 'POST', `api/v1/browseactiveviewfields/`, request, FwServices.defaultTimeout, function onSuccess(response) {
                         }, null, null);
                     }
@@ -312,16 +312,16 @@ class FwMenuClass {
         }
 
         //set caption and check checkboxes upon loading
-        if (typeof filterField !== 'undefined' && typeof window[controller].ActiveViewFields[filterField] !== 'undefined') {
-            for (let i = 0; i < window[controller].ActiveViewFields[filterField].length; i++) {
-                const $this = window[controller].ActiveViewFields[filterField][i];
+        if (typeof filterField !== 'undefined' && typeof (<any>window)[controller].ActiveViewFields[filterField] !== 'undefined') {
+            for (let i = 0; i < (<any>window)[controller].ActiveViewFields[filterField].length; i++) {
+                const $this = (<any>window)[controller].ActiveViewFields[filterField][i];
                 let $ddbtn = $btn.find(`[data-value="${$this}"]`);
                 //To account for changes in location
                 if (filterField == 'LocationId' && $ddbtn.length == 0) {
                     const loc = JSON.parse(sessionStorage.getItem('location')).locationid;
-                    window[controller].ActiveViewFieldsId = undefined;
+                    (<any>window)[controller].ActiveViewFieldsId = undefined;
                     $ddbtn = $btn.find(`[data-value="${loc}"]`);
-                    window[controller].ActiveViewFields[filterField][i] = loc;
+                    (<any>window)[controller].ActiveViewFields[filterField][i] = loc;
                 }
                 const caption = $ddbtn.find(`.ddviewbtn-dropdown-btn-caption`).html();
                 if ($this == 'ALL') {
@@ -410,11 +410,10 @@ class FwMenuClass {
     };
     //----------------------------------------------------------------------------------------------
     addButtonMenuOptions($control, menuOptions) {
-        let caption = $control.attr('data-caption');
-        let html = [];
-        html.push(`<div class="fwformcontrol btnmenu">${caption}`);
-        html.push('  <i class="material-icons btnmenudd" style="vertical-align:middle">&#xE5C5;</i>');
-        html.push('</div>');
+        const caption = $control.attr('data-caption');
+        const html = [];
+        html.push(`<div class="fwformcontrol btnmenu">${caption}</div>`);
+        html.push('  <div><i class="material-icons btnmenudd">&#xE5C5;</i></div>');
         html.push('<div class="btnmenuoptions"></div>');
         $control.append(html.join(''))
             .find('.btnmenuoptions')

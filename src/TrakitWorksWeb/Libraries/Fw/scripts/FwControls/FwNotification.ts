@@ -1,7 +1,7 @@
 ﻿class FwNotification {
     static $notification: JQuery;
     //----------------------------------------------------------------------------------------------
-    static renderNotification(type, message, options?) {
+    static renderNotification(type: 'SUCCESS'|'ERROR'|'INFO'|'PERSISTENTINFO'|'WARNING', message: string, css?: any) {
         var html, $notification, maxZIndex;
         jQuery('.fwnotification').each((index: number, element: HTMLElement) => {
             let $this = jQuery(element);
@@ -40,8 +40,8 @@
 
         maxZIndex = FwFunc.getMaxZ('*');
 
-        if (options !== undefined) {
-            $notification.css(options)
+        if (css !== undefined) {
+            $notification.css(css)
         }
 
         $notification

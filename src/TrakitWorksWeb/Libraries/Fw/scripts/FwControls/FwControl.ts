@@ -34,13 +34,15 @@
     };
     //---------------------------------------------------------------------------------
     static init($these: JQuery) {
-        var functionName, data_control, $this, designerObj, designerObjName;
-        functionName = 'init';
+        const functionName = 'init';
         $these
             .each(function(index, element) {
-                $this        = jQuery(element);
-                data_control = $this.attr('data-control');
-                designerObj     = window[data_control];
+                const $this = jQuery(element);
+                if (typeof $this.data('rendered') === 'boolean' && $this.data('rendered') === true) {
+                    return;
+                }
+                const data_control = $this.attr('data-control');
+                const designerObj     = window[data_control];
                 if ((typeof designerObj === 'undefined') || (typeof designerObj[functionName] !== 'function')) throw 'Not implemented: ' + data_control + '.' + functionName;
                 designerObj[functionName]($this);
             })
@@ -51,27 +53,28 @@
     };
     //---------------------------------------------------------------------------------
     static renderDesignerHtml($these: JQuery) {
-        var functionName, data_control, data_type, $this, designerObj;
-        functionName = 'renderDesignerHtml';
+        const functionName = 'renderDesignerHtml';
         $these.each(function(index, element) {
-            $this        = jQuery(element);
-            data_control = $this.attr('data-control');
-            data_type    = $this.attr('data-type');
-            designerObj     = window[data_control];
+            const $this        = jQuery(element);
+            const data_control = $this.attr('data-control');
+            const data_type    = $this.attr('data-type');
+            const designerObj     = window[data_control];
             if ((typeof designerObj === 'undefined') || (typeof designerObj[functionName] !== 'function')) throw 'Not implemented: ' + data_control + '.' + functionName;
             designerObj[functionName]($this);
         });
     };
     //---------------------------------------------------------------------------------
     static renderRuntimeHtml($these: JQuery) {
-        var functionName;
-        functionName = 'renderRuntimeHtml';
+        const functionName = 'renderRuntimeHtml';
         $these.each(function(index, element) {
-            var data_control, data_type, $this, designerObj;
-            $this         = jQuery(element);
-            data_control  = $this.attr('data-control');
-            data_type     = $this.attr('data-type');
-            designerObj   = window[data_control];
+            const $this         = jQuery(element);
+            if (typeof $this.data('rendered') === 'boolean' && $this.data('rendered') === true) {
+                return;
+            }
+            $this.data('rendered', true);
+            const data_control  = $this.attr('data-control');
+            const data_type     = $this.attr('data-type');
+            const designerObj   = window[data_control];
             if ((typeof designerObj === 'undefined') || (typeof designerObj[functionName] !== 'function')) throw 'Not implemented: ' + data_control + '.' + functionName;
             designerObj[functionName]($this);
         });

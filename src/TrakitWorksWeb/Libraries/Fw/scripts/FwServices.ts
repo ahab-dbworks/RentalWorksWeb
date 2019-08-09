@@ -16,12 +16,25 @@ class FwServicesClass {
         }
     };
     module = {
-        method: function(request: any, module: string, method: string, $elementToBlock: JQuery, onSuccess: (response: any) => void, onError?: (error: any) => void) {
+        method: function(request: any, module: string, method: string, $form: JQuery, onSuccess: (response: any) => void, onError?: (error: any) => void) {
             var controller = window[module + 'Controller'];
             if (typeof controller === 'undefined') {
                 throw module + 'Controller is not defined.'
             }
-            if (typeof controller.apiurl !== 'undefined') {
+            let url = '';
+            if (typeof $form.data('getapiurl') === 'function') {
+                url = $form.data('getapiurl')(method);
+            }
+            if (url.length === 0 && typeof controller.apiurl !== 'undefined' || typeof $form.data('getbaseapiurl') === 'function') {
+                if (typeof $form.data('getbaseapiurl') !== 'undefined') {
+                    url = $form.data('getbaseapiurl')();
+                }
+                else if (typeof controller.apiurl !== 'undefined' && controller.apiurl.length > 0) {
+                    url = controller.apiurl;
+                }
+                else {
+                    throw `No apiurl defined for Module: ${module}`;
+                }
                 if (method === 'Load') {
                     var ids: any = [];
                     for (var key in request.ids) {
@@ -31,7 +44,7 @@ class FwServicesClass {
                         ids.push(request.ids[key].value);
                     }
                     ids = ids.join('~');
-                    FwAppData.apiMethod(true, 'GET', controller.apiurl + '/' + ids, null, FwServices.defaultTimeout, onSuccess, onError, $elementToBlock);
+                    url += '/' + ids
                 }
                 else if (method === 'Delete') {
                     var ids: any = [];
@@ -42,26 +55,51 @@ class FwServicesClass {
                     if (ids.length === 0) {
                         throw 'primary key id(s) cannot be blank';
                     }
-                    FwAppData.apiMethod(true, 'DELETE', controller.apiurl + '/' + ids, null, FwServices.defaultTimeout, onSuccess, onError, $elementToBlock);
+                    url += '/' + ids;
                 }
                 else if (method === 'Save') {
-                    FwAppData.apiMethod(true, 'POST', controller.apiurl, request, FwServices.defaultTimeout, onSuccess, onError, $elementToBlock);
+                     // do nothing
+                } else {
+                     url += '/' + method.toLowerCase()
                 }
-                else {
-                    FwAppData.jsonPost(true, controller.apiurl + '/' + method.toLowerCase(), request, FwServices.defaultTimeout, onSuccess, onError, $elementToBlock);
-                }
-            } else {
-                FwAppData.jsonPost(true, 'services.ashx?path=/module/' + module + '/' + method, request, FwServices.defaultTimeout, onSuccess, onError, $elementToBlock);
-            } 
+            }
+            if (url.length === 0) {
+                throw `apiurl property or getApiUrl function is required on: ${module}Controller`
+            }
+            if (method === 'Load') {
+                FwAppData.apiMethod(true, 'GET', url, null, FwServices.defaultTimeout, onSuccess, onError, $form);
+            }
+            else if (method === 'Delete') {
+                FwAppData.apiMethod(true, 'DELETE', url, null, FwServices.defaultTimeout, onSuccess, onError, $form);
+            }
+            else if (method === 'Save') {
+                FwAppData.apiMethod(true, 'POST', url, request, FwServices.defaultTimeout, onSuccess, onError, $form);
+            }
+            else {
+                FwAppData.jsonPost(true, url , request, FwServices.defaultTimeout, onSuccess, onError, $form);
+            }
         }
     };
     grid = {
-        method: function(request: any, module: string, method: string, $elementToBlock: JQuery, onSuccess: (response: any) => void, onError?: (error: any) => void): void {
+        method: function(request: any, module: string, method: string, $grid: JQuery, onSuccess: (response: any) => void, onError?: (error: any) => void): void {
             var controller = window[module + 'Controller'];
             if (typeof controller === 'undefined') {
                 throw module + 'Controller is not defined.'
             }
-            if (typeof controller.apiurl !== 'undefined') {
+            let url = '';
+            if (typeof $grid.data('getapiurl') === 'function') {
+                url = controller.data('getapiurl')(method);
+            }
+            if (url.length === 0 && typeof controller.apiurl !== 'undefined' || typeof $grid.data('getbaseapiurl') === 'function') {
+                if (typeof $grid.data('getbaseapiurl') !== 'undefined') {
+                    url = $grid.data('getbaseapiurl')();
+                }
+                else if (typeof controller.apiurl !== 'undefined' && controller.apiurl.length > 0) {
+                    url = controller.apiurl;
+                }
+                else {
+                    throw `No apiurl defined for Grid: ${module}`;
+                }
                 if (method === 'Load') {
                     var ids: any = [];
                     for (var key in request.ids) {
@@ -71,7 +109,7 @@ class FwServicesClass {
                     if (ids.length === 0) {
                         throw 'primary key id(s) cannot be blank';
                     }
-                    FwAppData.apiMethod(true, 'GET', controller.apiurl + '/' + ids, null, FwServices.defaultTimeout, onSuccess, onError, $elementToBlock);
+                    url += '/' + ids;
                 }
                 else if (method === 'Delete') {
                     var ids: any = [];
@@ -82,39 +120,48 @@ class FwServicesClass {
                     if (ids.length === 0) {
                         throw 'primary key id(s) cannot be blank';
                     }
-                    FwAppData.apiMethod(true, 'DELETE', controller.apiurl + '/' + ids, null, FwServices.defaultTimeout, onSuccess, onError, $elementToBlock);
+                    url += '/' + ids;
                 }
-                else if (method === 'Insert') {
-                    FwAppData.apiMethod(true, 'POST', controller.apiurl, request, FwServices.defaultTimeout, onSuccess, onError, $elementToBlock);
+                else if (method ==='Save' || method === 'Insert' || method === 'Update') {
+                    // do nothing
                 }
-                else if (method === 'Update') {
-                    FwAppData.apiMethod(true, 'POST', controller.apiurl, request, FwServices.defaultTimeout, onSuccess, onError, $elementToBlock);
+                else {
+                    url += '/' + method.toLowerCase();
                 }
-                else if (method === 'ValidateDuplicate') {
-                    FwAppData.jsonPost(true, controller.apiurl + '/' + method.toLowerCase(), request, FwServices.defaultTimeout, onSuccess, onError, null);
-                } else {
-                    FwAppData.jsonPost(true, controller.apiurl + '/' + method.toLowerCase(), request, FwServices.defaultTimeout, onSuccess, onError, $elementToBlock);
-                }
+            }
+            if (url.length === 0) {
+                throw `apiurl property or getApiUrl function is required on: ${module}Controller`
+            }
+            if (method === 'Load') {
+                FwAppData.apiMethod(true, 'GET', url, null, FwServices.defaultTimeout, onSuccess, onError, $grid);
+            }
+            else if (method === 'Delete') {
+                FwAppData.apiMethod(true, 'DELETE', url, null, FwServices.defaultTimeout, onSuccess, onError, $grid);
+            }
+            else if (method === 'Insert' || method === 'Update' || method === 'Save') {
+                FwAppData.apiMethod(true, 'POST', url, request, FwServices.defaultTimeout, onSuccess, onError, $grid);
+            }
+            else if (method === 'ValidateDuplicate') {
+                FwAppData.jsonPost(true, url, request, FwServices.defaultTimeout, onSuccess, onError, null);
             } else {
-                FwAppData.jsonPost(true, 'services.ashx?path=/grid/' + module + '/' + method, request, FwServices.defaultTimeout, onSuccess, onError, $elementToBlock);
+                FwAppData.jsonPost(true, url, request, FwServices.defaultTimeout, onSuccess, onError, $grid);
             }
         }
     };
     validation = {
-        method: function(request: any, module: string, method: string, $control: JQuery, onSuccess: (response: any) => void, onError?: (error: any) => void) {
-            var $elementToBlock = $control;
+        method: function(request: any, module: string, method: string, $validationbrowse: JQuery, onSuccess: (response: any) => void, onError?: (error: any) => void) {
             var controller = window[module + 'Controller'];
             if (typeof controller === 'undefined') {
                 throw module + 'Controller is not defined.'
             }
-            if (typeof $control.attr('data-apiurl') === 'string') {
-                FwAppData.jsonPost(true, $control.attr('data-apiurl') + '/' + method.toLowerCase(), request, FwServices.defaultTimeout, onSuccess, onError, $elementToBlock);
+            if (typeof $validationbrowse.attr('data-apiurl') === 'string') {
+                FwAppData.jsonPost(true, $validationbrowse.attr('data-apiurl') + '/' + method.toLowerCase(), request, FwServices.defaultTimeout, onSuccess, onError, $validationbrowse);
             }
             else if (typeof controller.apiurl !== 'undefined') {
-                FwAppData.jsonPost(true, controller.apiurl + '/' + method.toLowerCase(), request, FwServices.defaultTimeout, onSuccess, onError, $elementToBlock);
+                FwAppData.jsonPost(true, controller.apiurl + '/' + method.toLowerCase(), request, FwServices.defaultTimeout, onSuccess, onError, $validationbrowse);
             }
             else {
-                FwAppData.jsonPost(true, 'services.ashx?path=/validation/' + module + '/' + method, request, FwServices.defaultTimeout, onSuccess, onError, $elementToBlock);
+                FwAppData.jsonPost(true, 'services.ashx?path=/validation/' + module + '/' + method, request, FwServices.defaultTimeout, onSuccess, onError, $validationbrowse);
             }
         }
     };

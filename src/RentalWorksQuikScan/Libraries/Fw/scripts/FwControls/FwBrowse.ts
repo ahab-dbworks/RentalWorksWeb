@@ -464,7 +464,7 @@ class FwBrowseClass {
             });
 
         //Events only attached when the API is not defined for the control.
-        var controller = window[$control.attr('data-controller')];
+        var controller = (<any>window)[$control.attr('data-controller')];
         if (($control.attr('data-type') == 'Grid') && (typeof controller.apiurl === 'undefined')) {
             $control.on('change', '.field[data-formnoduplicate="true"]', function () {
                 var $field, value, originalvalue, $form, formuniqueids, formfields, request: any = {};
@@ -511,8 +511,8 @@ class FwBrowseClass {
             var controller;
             controller = $control.attr('data-controller');
             if (typeof window[controller] === 'undefined') throw 'Missing javascript module: ' + controller;
-            if (typeof window[controller]['init'] === 'function') {
-                window[controller]['init']($control);
+            if (typeof (<any>window)[controller]['init'] === 'function') {
+                (<any>window)[controller]['init']($control);
             }
         }
     }
@@ -1186,13 +1186,20 @@ class FwBrowseClass {
                 html.push('<div class="legend" style="display:none;"></div>');
                 html.push('<div class="pager"></div>');
                 if ($control.attr('data-type') === 'Validation') {
+                    const moduleName = $control.attr('data-name').replace('Validation', '');
+                    const controller = `${moduleName}Controller`;
+                    const nodeModule = FwApplicationTree.getNodeByController(controller);
+                    const nodeBrowse = FwApplicationTree.getChildByType(nodeModule, 'Browse');
+                    const nodeBrowseNewButton = FwApplicationTree.getChildrenByType(nodeBrowse, 'NewMenuBarButton');
+                    const hasBrowseNew = (nodeBrowseNewButton.length > 0) ? (nodeBrowseNewButton[0].properties.visible === 'T') : false;
+
                     html.push('<div class="validationbuttons">');
                     html.push('<div class="fwbrowsebutton btnSelect">Select</div>');
                     html.push('<div class="fwbrowsebutton btnSelectAll" title="The report will run faster if you Select All from this button vs selecting individual rows." style="display:none;">Select All</div>');
                     html.push('<div class="fwbrowsebutton btnClear">Clear</div>');
                     html.push('<div class="fwbrowsebutton btnViewSelection" style="display:none;">View Selection</div>');
                     html.push('<div class="fwbrowsebutton btnCancel">Cancel</div>');
-                    if ($control.attr('data-allownew') !== 'false') {
+                    if (hasBrowseNew) {
                         html.push('<div class="fwbrowsebutton btnNew">New</div>');
                     }
                     html.push(`<div class="multiSelectDisplay" style="font-size:.9em; font-weight:bold; margin:0px 10px; display:none;">
@@ -1522,12 +1529,12 @@ class FwBrowseClass {
                         }
                         if ($submenubtn !== null) {
                             const hasDeleteAction = nodeDeleteAction !== null && nodeDeleteAction.properties['visible'] === 'T';
-                            
+
                             // if there are any actions
                             if (hasDeleteAction) {
                                 const $submenucolumn = FwGridMenu.addSubMenuColumn($submenubtn);
                                 const $rowactions = FwGridMenu.addSubMenuGroup($submenucolumn, 'Actions', '');
-                                
+
                                 // Delete Action 
                                 if (hasDeleteAction) {
                                     const $submenuitem = FwGridMenu.addSubMenuBtn($rowactions, 'Delete Selected', nodeDeleteAction.id);
@@ -2092,7 +2099,7 @@ class FwBrowseClass {
                                         request.timeout = 15000;
                                         request.$elementToBlock = $control.data('$control');
                                         request.addAuthorizationHeader = true;
-                                        let getManyResponse = await FwAjax.callWebApi<GetManyModel<any>>(request);
+                                        let getManyResponse = await FwAjax.callWebApi<any, GetManyModel<any>>(request);
                                         let dt = DataTable.objectListToDataTable(getManyResponse);
                                         me.beforeDataBindCallBack($control, request, dt);
                                         resolve();
@@ -3484,7 +3491,7 @@ class FwBrowseClass {
     getGridData($object: JQuery, request: any, responseFunc: Function) {
         var webserviceurl, controller, module;
         controller = $object.attr('data-controller');
-        module = window[controller].Module;
+        module = (<any>window)[controller].Module;
         request.module = module;
         webserviceurl = 'services.ashx?path=/grid/' + module + '/GetData';
         FwAppData.jsonPost(true, webserviceurl, request, FwServices.defaultTimeout, responseFunc, null, $object);
@@ -3568,10 +3575,12 @@ class FwBrowseClass {
                 $confirmation.find('.color-col input').prop('checked') === true ? includeColorColumns = true : includeColorColumns = false;
                 request.IncludeColorColumns = includeColorColumns;
 
-                const module = window[controller].Module;
-                const apiurl = window[controller].apiurl;
+                const module = (<any>window)[controller].Module;
+                const apiurl = (<any>window)[controller].apiurl;
 
-                FwAppData.apiMethod(true, 'POST', `${apiurl}/exportexcelxlsx/${module}`, request, FwServices.defaultTimeout, function (response) {
+                const timeout = 7200; // 2 hour timeout for the ajax request
+
+                FwAppData.apiMethod(true, 'POST', `${apiurl}/exportexcelxlsx/${module}`, request, timeout, function (response) {
                     try {
                         const $iframe = jQuery(`<iframe src="${applicationConfig.apiurl}${response.downloadUrl}" style="display:none;"></iframe>`);
                         jQuery('#application').append($iframe);
@@ -3729,7 +3738,7 @@ class FwBrowseClass {
     getValidationData($object: JQuery, request: any, responseFunc: Function) {
         var webserviceurl, controller, module;
         controller = $object.attr('data-controller');
-        module = window[controller].Module;
+        module = (<any>window)[controller].Module;
         request.module = module;
         webserviceurl = 'services.ashx?path=/validation/' + module + '/GetData';
         FwAppData.jsonPost(true, webserviceurl, request, FwServices.defaultTimeout, responseFunc, null, $object);
@@ -3929,25 +3938,25 @@ class DataTableColumn {
 }
 
 class BrowseRequest {
-    miscfields: any = {};
-    module: string = '';
-    options: any = {};
-    orderby: string = '';
-    orderbydirection: string = '';
-    top: number = 0;
-    pageno: number = 0;
-    pagesize: number = 0;
-    searchfieldoperators: Array<string> = [];
-    searchfields: Array<string> = [];
-    searchfieldvalues: Array<string> = [];
-    searchfieldtypes: Array<string> = [];
-    searchseparators: Array<string> = [];
-    searchcondition: Array<string> = [];
-    searchconjunctions: Array<string> = [];
-    uniqueids: any = {};
-    boundids: any = {};
-    filterfields: any = {};
-    activeview: string = '';
+    miscfields?: any = {};
+    module?: string = '';
+    options?: any = {};
+    orderby?: string = '';
+    orderbydirection?: string = '';
+    top?: number = 0;
+    pageno?: number = 0;
+    pagesize?: number = 0;
+    searchfieldoperators?: string[] = [];
+    searchfields?: string[] = [];
+    searchfieldvalues?: string[] = [];
+    searchfieldtypes?: string[] = [];
+    searchseparators?: string[] = [];
+    searchcondition?: string[] = [];
+    searchconjunctions?: string[] = [];
+    uniqueids?: any = {};
+    boundids?: any = {};
+    filterfields?: any = {};
+    activeview?: string = '';
 }
 
 class GetManyRequest {

@@ -50,7 +50,7 @@ var FwFormField_selectClass = (function () {
                     }
                 }
                 html.push('>' + items[i].text + '</option>');
-                if ((typeof items.optgroup !== 'undefined') && ((i + 1) < items.length) && (items[i].optgroup !== items[i + 1].optgroup)) {
+                if ((typeof items[i].optgroup !== 'undefined') && ((i + 1) < items.length) && (items[i].optgroup !== items[i + 1].optgroup)) {
                     html.push('</optgroup>');
                 }
             }

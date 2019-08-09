@@ -272,7 +272,9 @@ var FwFormField_comboboxClass = (function () {
         var htmlPager = [];
         var rownostart = (((dt.PageNo * pageSize) - pageSize + 1) > 0) ? ((dt.PageNo * pageSize) - pageSize + 1) : 0;
         var rownoend = (((dt.PageNo * pageSize) - pageSize + 1) > 0) ? (dt.PageNo * pageSize) - (pageSize - dt.Rows.length) : 0;
-        $searchfield.focus();
+        if (typeof window.cordova === 'undefined') {
+            $searchfield.focus();
+        }
         if (dt.Rows.length > 0) {
             var uniqueid, displayfield;
             for (var i = 0; i < dt.Columns.length; i++) {

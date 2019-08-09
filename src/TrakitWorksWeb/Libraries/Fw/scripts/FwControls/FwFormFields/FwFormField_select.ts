@@ -25,7 +25,7 @@
         $control.html(html.join(''));
     }
     //---------------------------------------------------------------------------------
-    loadItems($control: JQuery<HTMLElement>, items: any, hideEmptyItem: boolean): void {
+    loadItems($control: JQuery<HTMLElement>, items: {text:string, value:string, selected?:boolean, optgroup?:string}[], hideEmptyItem: boolean): void {
         var html, previousoptgroup, optgroup, selected;
 
         html = [];
@@ -52,7 +52,7 @@
                     }
                 }
                 html.push('>' + items[i].text + '</option>');
-                if ((typeof items.optgroup !== 'undefined') && ((i + 1) < items.length) && (items[i].optgroup !== items[i + 1].optgroup)) {
+                if ((typeof items[i].optgroup !== 'undefined') && ((i + 1) < items.length) && (items[i].optgroup !== items[i + 1].optgroup)) {
                     html.push('</optgroup>');
                 }
             }

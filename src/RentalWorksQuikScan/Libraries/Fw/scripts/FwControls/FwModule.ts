@@ -314,8 +314,8 @@
                                                 controller = $browse.attr('data-controller');
                                                 issubmodule = $browse.closest('.tabpage').hasClass('submodule');
                                                 if (typeof window[controller] === 'undefined') throw 'Missing javascript module: ' + controller;
-                                                if (typeof window[controller].openForm !== 'function') throw 'Missing javascript function: ' + controller + '.openForm';
-                                                $form = window[controller].openForm('NEW');
+                                                if (typeof (<any>window[controller]).openForm !== 'function') throw 'Missing javascript function: ' + controller + '.openForm';
+                                                $form = (<any>window[controller]).openForm('NEW');
                                                 if (!issubmodule) {
                                                     FwModule.openModuleTab($form, 'New ' + $form.attr('data-caption'), true, 'FORM', true);
                                                 } else {
@@ -376,7 +376,7 @@
                                             if (typeof window[controller]['deleteRecord'] === 'function') {
                                                 window[controller]['deleteRecord']($browse);
                                             } else {
-                                                FwModule['deleteRecord'](window[controller].Module, $browse);
+                                                FwModule['deleteRecord']((<any>window[controller]).Module, $browse);
                                             }
                                         });
                                         break;
@@ -388,13 +388,13 @@
                                         $menubarbutton.append(`
                                         <div class="findbutton-dropdown">
                                             <div class="query">
-                                                <div class="flexrow queryrow" style="align-items:center;min-width:800px;">
-                                                    <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield andor" data-caption="" data-datafield="AndOr" style="flex:1 1 auto;"></div>
-                                                    <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield datafieldselect" data-caption="Data Field" data-datafield="Datafield" style="flex:1 1 auto;"></div>
-                                                    <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield datafieldcomparison" data-caption="" data-datafield="DatafieldComparison" style="flex:1 1 150px;"></div>
-                                                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield textquery" data-caption="" data-datafield="DatafieldQuery" style="flex:1 1 200px;"></div>
-                                                    <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield datequery" data-caption="" data-datafield="DateFieldQuery" style="flex:1 1 200px;display:none;"></div>
-                                                    <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield booleanquery" data-caption="" data-datafield="BooleanFieldQuery" style="flex:1 1 200px;display:none;"></div>
+                                                <div class="queryrow">
+                                                    <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield find-field andor" data-caption="" data-datafield="AndOr" style="flex:1 1 auto;"></div>
+                                                    <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield find-field datafieldselect" data-caption="Data Field" data-datafield="Datafield" style="flex:1 1 auto;"></div>
+                                                    <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield find-field datafieldcomparison" data-caption="" data-datafield="DatafieldComparison" style="flex:1 1 150px;"></div>
+                                                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield find-field textquery" data-caption="" data-datafield="DatafieldQuery" style="flex:1 1 200px;"></div>
+                                                    <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield find-field datequery" data-caption="" data-datafield="DateFieldQuery" style="flex:1 1 200px;display:none;"></div>
+                                                    <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield find-field booleanquery" data-caption="" data-datafield="BooleanFieldQuery" style="flex:1 1 200px;display:none;"></div>
                                                     <i class="material-icons delete-query">delete_outline</i>
                                                     <i class="material-icons add-query">add_circle_outline</i>
                                                 </div>
@@ -442,7 +442,7 @@
                                             let $this = jQuery(this);
                                             e.preventDefault();
                                             if (!loaded) {
-                                                FwAppData.apiMethod(true, 'GET', window[controller].apiurl + '/emptyobject', null, FwServices.defaultTimeout, function onSuccess(response) {
+                                                FwAppData.apiMethod(true, 'GET', (<any>window[controller]).apiurl + '/emptyobject', null, FwServices.defaultTimeout, function onSuccess(response) {
                                                     let dateField = $browse.find('.datequery');
                                                     let textField = $browse.find('.textquery');
                                                     let booleanField = $browse.find('.booleanquery');
@@ -779,8 +779,11 @@
             auditTabIds = FwTabs.addTab($formTabControl, 'Audit', false, 'AUDIT', false);
             $auditControl = jQuery(FwBrowse.loadGridFromTemplate('AuditHistoryGrid'));
             $auditControl.data('ondatabind', function (request) {
+                const apiurl = (<any>window[controller]).apiurl;
+                const sliceIndex = apiurl.lastIndexOf('/');
+                const moduleName = apiurl.slice(sliceIndex + 1);
                 request.uniqueids = {};
-                request.uniqueids.ModuleName = window[controller].Module;
+                request.uniqueids.ModuleName = moduleName;
                 for (let i = 0; i < 2; i++) {
                     let uniqueIdValue = jQuery($keys[i]).find('input').val();
                     if (typeof uniqueIdValue !== 'undefined') {
@@ -842,14 +845,15 @@
                 $this = jQuery(this);
                 value = FwFormField.getValue2($this);
                 errorTab = $this.closest('.tabpage').attr('data-tabid');
-                if (value != '') {
+                if (value != '' && !$this.hasClass('date-validation')) {
                     $this.removeClass('error');
                     if ($this.closest('.tabpage.active').has('.error').length === 0) {
                         $this.parents('.fwcontrol .fwtabs').find('#' + errorTab).removeClass('error');
                     }
                 }
+                setTimeout(() => { FwModule.validateForm($form); }, 500); // some fields with .error with values assigned as the result of another validation were not being triggered
             })
-            .on('change', '.fwformfield[data-enabled="true"][data-datafield!=""]', function (e) {
+            .on('change', '.fwformfield[data-enabled="true"][data-datafield!=""]:not(.find-field)', function (e) {
                 e.stopPropagation();
                 const $this = jQuery(this);
                 const fieldName = $this.attr('data-datafield');
@@ -1183,10 +1187,10 @@
                     controller = $browse.attr('data-controller');
                     ids = FwBrowse.getRowFormUniqueIds($browse, $selectedRow);
                     request = {
-                        module: window[controller].Module,
+                        module: (<any>window[controller]).Module,
                         ids: ids
                     };
-                    FwServices.module.method(request, window[controller].Module, 'Delete', $browse, function (response) {
+                    FwServices.module.method(request, (<any>window[controller]).Module, 'Delete', $browse, function (response) {
                         $form = FwModule.getFormByUniqueIds(ids);
                         if ((typeof $form != 'undefined') && ($form.length > 0)) {
                             $tab = jQuery('#' + $form.closest('div.tabpage').attr('data-tabid'));
@@ -1213,6 +1217,16 @@
 
         nodeModule = FwApplicationTree.getNodeByController(controller);
         if (nodeModule !== null) {
+            const nodeBrowse = FwApplicationTree.getChildByType(nodeModule, 'Browse');
+            let hasBrowseNew = false;
+            let hasBrowseEdit = false;
+            const hasBrowse = (nodeBrowse !== null);
+            if (hasBrowse) {
+                const nodeBrowseNewButton = FwApplicationTree.getChildrenByType(nodeBrowse, 'NewMenuBarButton');
+                const nodeBrowseEditButton = FwApplicationTree.getChildrenByType(nodeBrowse, 'EditMenuBarButton');
+                hasBrowseNew = (nodeBrowseNewButton !== null && nodeBrowseNewButton.length > 0) ? (nodeBrowseNewButton[0].properties.visible === 'T') : false;
+                hasBrowseEdit = (nodeBrowseEditButton !== null && nodeBrowseEditButton.length > 0) ? (nodeBrowseEditButton[0].properties.visible === 'T') : false;
+            }
             nodeForm = FwApplicationTree.getChildByType(nodeModule, 'Form');
             if (nodeForm !== null) {
                 nodeFormMenuBar = FwApplicationTree.getChildByType(nodeForm, 'MenuBar');
@@ -1255,26 +1269,28 @@
                                         $menubarbutton.on('click', FwApplicationTree.clickEvents['{' + nodeMenuBarItem.id + '}']);
                                         break;
                                     case 'SaveMenuBarButton':
-                                        $menubarbutton = FwMenu.addStandardBtn($menu, nodeMenuBarItem.properties.caption);
-                                        $menubarbutton.attr('data-type', 'SaveMenuBarButton');
-                                        $menubarbutton.addClass('disabled');
-                                        $menubarbutton.on('click', function (event) {
-                                            var method, ismodified;
-                                            try {
-                                                method = 'saveForm';
-                                                ismodified = $form.attr('data-modified');
-                                                if (ismodified === 'true') {
-                                                    if (typeof window[controller] === 'undefined') throw 'Missing javascript module: ' + controller;
-                                                    if (typeof window[controller][method] === 'function') {
-                                                        window[controller][method]($form, { closetab: false });
-                                                    } else {
-                                                        FwModule[method](window[controller].Module, $form, { closetab: false });
+                                        if (($form.attr('data-mode') === 'NEW' && (hasBrowseNew || !hasBrowse)) || ($form.attr('data-mode') === 'EDIT' && (hasBrowseEdit || !hasBrowse))) {
+                                            $menubarbutton = FwMenu.addStandardBtn($menu, nodeMenuBarItem.properties.caption);
+                                            $menubarbutton.attr('data-type', 'SaveMenuBarButton');
+                                            $menubarbutton.addClass('disabled');
+                                            $menubarbutton.on('click', function (event) {
+                                                var method, ismodified;
+                                                try {
+                                                    method = 'saveForm';
+                                                    ismodified = $form.attr('data-modified');
+                                                    if (ismodified === 'true') {
+                                                        if (typeof window[controller] === 'undefined') throw 'Missing javascript module: ' + controller;
+                                                        if (typeof window[controller][method] === 'function') {
+                                                            (<any>window)[controller][method]($form, { closetab: false });
+                                                        } else {
+                                                            FwModule[method]((<any>window)[controller].Module, $form, { closetab: false });
+                                                        }
                                                     }
+                                                } catch (ex) {
+                                                    FwFunc.showError(ex);
                                                 }
-                                            } catch (ex) {
-                                                FwFunc.showError(ex);
-                                            }
-                                        });
+                                            });
+                                        }
                                         break;
                                     case 'PrevMenuBarButton':
                                         if (nodeMenuBarItem.properties.visible === 'T') {
@@ -1634,6 +1650,8 @@
 
         if (!isvalid) {
             FwNotification.renderNotification('ERROR', 'Please resolve the error(s) on the form.');
+        } else {
+            $form.find('[data-type="tab"].error').removeClass('error');
         }
 
         return isvalid;
@@ -1642,7 +1660,7 @@
     static getData($object: JQuery, request: any, responseFunc: Function, $elementToBlock: JQuery, timeout?: number) {
         var webserviceurl, controller, module, timeoutParam;
         controller = $object.attr('data-controller');
-        module = window[controller].Module;
+        module = (<any>window)[controller].Module;
         request.module = module;
         webserviceurl = 'services.ashx?path=/module/' + module + '/GetData';
         if (typeof timeout !== 'number') {
@@ -1691,10 +1709,10 @@
     static checkDuplicate($form: JQuery, $fieldtocheck: JQuery) {
         var $fields, request: any = {}, groupname, $field, datafield, value, type, table, runcheck = true, controller, required;
         controller = $form.attr('data-controller');
-        if (typeof window[controller].Module !== 'undefined') {
+        if (typeof (<any>window)[controller].Module !== 'undefined') {
             //($fieldtocheck.find('input.fwformfield-value').val() != '') &&
             //($fieldtocheck.find('input.fwformfield-value').val().toUpperCase() != $fieldtocheck.attr('data-originalvalue').toUpperCase())) {     //2015-12-21 MY: removed logic to support non required duplicategroup fields.
-            request.module = window[controller].Module;
+            request.module = (<any>window)[controller].Module;
             request.fields = {};
             request.table = $fieldtocheck.attr('data-datafield').split('.')[0];
             $fields = $fieldtocheck;
@@ -1714,14 +1732,14 @@
 
                 if ((required == 'true') && (value == '')) {
                     runcheck = false;
-                } else if (typeof typeof window[controller] !== 'undefined' && typeof typeof window[controller].apiurl === 'undefined' && request.table != table) {
+                } else if (typeof typeof (<any>window)[controller] !== 'undefined' && typeof typeof (<any>window)[controller].apiurl === 'undefined' && request.table != table) {
                     runcheck = false;
                     FwNotification.renderNotification('ERROR', 'Fields are not part of the same table.');
                 }
             });
             runcheck = runcheck && typeof controller.apiurl === 'undefined';
             if (runcheck) {
-                FwServices.module.method(request, window[controller].Module, 'ValidateDuplicate', $form,
+                FwServices.module.method(request, (<any>window)[controller].Module, 'ValidateDuplicate', $form,
                     // onSuccess
                     function (response) {
                         try {

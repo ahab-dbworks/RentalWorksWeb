@@ -20,7 +20,11 @@ var FwFormField_multiselectvalidationClass = (function () {
         var validationName, $valuefield, $searchfield, $btnvalidate;
         html.push('<div class="fwformfield-caption">' + $control.attr('data-caption') + '</div>');
         html.push('<div class="fwformfield-control">');
-        html.push("<div contenteditable=\"true\" class=\"multiselectitems\"><span class=\"addItem\" tabindex=\"-1\"></span></div>");
+        html.push('<div contenteditable="true" class="multiselectitems"><span class="addItem" tabindex="-1"');
+        if (applicationConfig.allCaps && $control.attr('data-allcaps') !== 'false') {
+            html.push(' style="text-transform:uppercase"');
+        }
+        html.push('></span></div>');
         html.push('<input class="fwformfield-value" type="hidden" />');
         html.push('<input class="fwformfield-text" type="text" readonly="true"');
         if ($control.attr('data-enabled') === 'false') {
@@ -78,7 +82,13 @@ var FwFormField_multiselectvalidationClass = (function () {
         return value;
     };
     FwFormField_multiselectvalidationClass.prototype.getText2 = function ($fwformfield) {
-        var text = $fwformfield.find('.fwformfield-text').val();
+        var text;
+        if (applicationConfig.allCaps && $fwformfield.attr('data-allcaps') !== 'false') {
+            text = $fwformfield.find('.fwformfield-text').val().toUpperCase();
+        }
+        else {
+            text = $fwformfield.find('.fwformfield-text').val();
+        }
         return text;
     };
     FwFormField_multiselectvalidationClass.prototype.setValue = function ($fwformfield, value, text, firechangeevent) {

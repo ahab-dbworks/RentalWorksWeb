@@ -10,7 +10,7 @@ html.theme-material .fwtabs[data-version="1"] > .tabs .tab.active {background-co
 html.theme-material .fwtabs[data-version="1"] > .tabs .tab.inactive {margin-top:.25em;background-color:rgba(200,200,200,.9);color:#777777;}
 html.theme-material .fwtabs[data-version="2"] > .tabs .tab.error {border: 1px solid #f44336;background-color: #FFEBEE;}
 html.theme-material .fwtabs[data-version="1"] > .tabs .tab[data-tabdisplay="hidden"] {display:none;}
-html.theme-material .fwtabs[data-version="1"] > .tabs .tab .caption {min-width:1em;font-size: .8em;-webkit-touch-callout: none;-webkit-user-select: none;-khtml-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;}
+html.theme-material .fwtabs[data-version="1"] > .tabs .tab .caption { min-width: 1em; font-size: .8em; -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; max-width: 16em; }
 html.theme-material .fwtabs[data-version="1"] > .tabs .tab[data-enabled="false"] .caption {color:#aaaaaa;}
 html.theme-material .fwtabs[data-version="1"] > .tabs .tab .modified {}
 html.theme-material .fwtabs[data-version="1"] > .tabs .tab .delete {cursor:pointer;margin:0 0 0 .3125em;border-radius:.625em;line-height:.1;padding:.04em;color:black;}
@@ -20,10 +20,11 @@ html.theme-material .fwtabs[data-version="1"] > .tabs .tab .delete i {font-size:
 html.theme-material .fwtabs[data-version="1"] > .tabs .tab .submodule-caption {float:left;}
 html.theme-material .fwtabs[data-version="1"] > .tabs .tab .submodule-caption .form-caption {float:left;}
 html.theme-material .fwtabs[data-version="1"] > .tabpages {clear:left;}
-html.theme-material .fwtabs[data-version="1"] > .tabs .newtabbutton {float:left; padding:22px 0 0 10px;}
+html.theme-material .fwtabs[data-version="1"] > .tabs .rightsidebuttons { display: flex; flex-wrap: nowrap; }
+html.theme-material .fwtabs[data-version="1"] > .tabs .newtabbutton {padding:22px 0 0 10px;}
 html.theme-material .fwtabs[data-version="1"] > .tabs .newtabbutton .addnewtab i {cursor:pointer;color:black;background-color:#eeeeee;border-radius:50%;}
 html.theme-material .fwtabs[data-version="1"] > .tabs .newtabbutton .addnewtab i:hover {background-color:#dcdcdc;}
-html.theme-material .fwtabs[data-version="1"] > .tabs .closetabbutton {float:left; padding:22px 0 0 10px;}
+html.theme-material .fwtabs[data-version="1"] > .tabs .closetabbutton {padding:22px 0 0 10px;}
 html.theme-material .fwtabs[data-version="1"] > .tabs .closetabbutton .closetab i {cursor:pointer;color:black;background-color:#eeeeee;border-radius:50%;}
 html.theme-material .fwtabs[data-version="1"] > .tabs .closetabbutton .closetab i:hover {background-color:#dcdcdc;}
 html.theme-material .fwtabs[data-version="1"] > .tabs .closetabbutton .closetab .close-dialog {display:none;z-index:1;transition:.3s;position:absolute;font-size:14px;float:right;-moz-box-shadow:0 2px 5px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12);-webkit-box-shadow:0 2px 5px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12);box-shadow:0 2px 5px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12);background: #fafafa;border: 1px solid #d6d6d6;color:#263248;}

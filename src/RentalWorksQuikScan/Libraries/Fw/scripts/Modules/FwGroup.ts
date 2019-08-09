@@ -70,7 +70,7 @@
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }
-            }, null, null);
+            }, null, $form);
         };
 
         render($form, $editgrouptree, $previewgrouptree, applicationtree) {
@@ -380,7 +380,10 @@
             let $editgrouptree = $form.find('.editgrouptree');
             let $previewgrouptree = $form.find('.previewgrouptree');
             let GroupId = FwFormField.getValueByDataField($form, 'GroupId');
-            this.loadGroupTree($editgrouptree, $previewgrouptree, $form, GroupId);
+
+            $form.find('[data-type="tab"][data-caption="Security"]').one('click', e => {
+                this.loadGroupTree($editgrouptree, $previewgrouptree, $form, GroupId);
+            })
         }
 
         getBrowseTemplate() {

@@ -80,7 +80,7 @@ class FwSchedulerClass {
         schedulerbtns.push('    <div class="changeview btnWeek">Week</div>');
         schedulerbtns.push('    <div class="changeview btn5Week">5 Week</div>');
         schedulerbtns.push('    <div class="changeview btnMonth">Month</div>');
-        schedulerbtns.push('    <div class="changeview btnYear">Year</div>');
+        //schedulerbtns.push('    <div class="changeview btnYear">Year</div>');
         schedulerbtns.push('    <div class="changeview btnSchedule">Schedule</div>');
         schedulerbtns.push('  </div>');
         schedulerbtns.push('  <div class="topnavigation">');
@@ -446,6 +446,8 @@ class FwSchedulerClass {
             dpmonth.update();
         };
         if (typeof $control.data('ontimerangedoubleclicked') === 'function') dpmonth.onTimeRangeDoubleClicked = $control.data('ontimerangedoubleclicked');
+        if (typeof $control.data('oneventclick') === 'function') dpmonth.onEventClick = $control.data('oneventclick');
+        if (typeof $control.data('ontimerangeselect') === 'function') dpmonth.onTimeRangeSelect = $control.data('ontimerangeselect');
         dpmonth.onBeforeCellRender = function (args) {
             var selectedstartdate, selectedenddate;
 
@@ -505,6 +507,9 @@ class FwSchedulerClass {
             dp5week.update();
         };
         if (typeof $control.data('ontimerangedoubleclicked') === 'function') dp5week.onTimeRangeDoubleClicked = $control.data('ontimerangedoubleclicked');
+        if (typeof $control.data('oneventclick') === 'function') dp5week.onEventClick = $control.data('oneventclick');
+        if (typeof $control.data('ontimerangeselect') === 'function') dp5week.onTimeRangeSelect = $control.data('ontimerangeselect');
+
         dp5week.onBeforeCellRender = function (args) {
             var selectedstartdate, selectedenddate;
 

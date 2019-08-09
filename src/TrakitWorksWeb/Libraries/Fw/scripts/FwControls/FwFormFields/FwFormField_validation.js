@@ -33,12 +33,15 @@ class FwFormField_validationClass {
         html.push(' />');
         html.push('<i class="material-icons btnvalidate">search</i>');
         html.push('<div class="sk-fading-circle validation-loader"><div class="sk-circle1 sk-circle"></div><div class="sk-circle2 sk-circle"></div><div class="sk-circle3 sk-circle"></div><div class="sk-circle4 sk-circle"></div><div class="sk-circle5 sk-circle"></div><div class="sk-circle6 sk-circle"></div><div class="sk-circle7 sk-circle"></div><div class="sk-circle8 sk-circle"></div><div class="sk-circle9 sk-circle"></div><div class="sk-circle10 sk-circle"></div><div class="sk-circle11 sk-circle"></div><div class="sk-circle12 sk-circle"></div></div>');
+        const isWebAdmin = (sessionStorage.getItem('userid') !== null) ? JSON.parse(sessionStorage.getItem('userid')).webadministrator === 'true' : false;
         let showPeek = false;
-        if (applicationConfig.defaultPeek === true) {
-            showPeek = (!($control.attr('data-validationpeek') === 'false'));
-        }
-        else {
-            showPeek = ($control.attr('data-validationpeek') === 'true');
+        if (!($control.attr('data-validationpeek') === 'false')) {
+            if (isWebAdmin === true) {
+                showPeek = true;
+            }
+            else if (isWebAdmin === false && FwValidation.isHomeModule($control)) {
+                showPeek = true;
+            }
         }
         if (showPeek) {
             html.push('<i class="material-icons btnpeek">more_horiz</i>');
