@@ -328,13 +328,16 @@ class Receipt {
             $form.find('.table-rows').html('<tr class="empty-row" style="height:33px;"><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>');
         }
         const calculateInvoiceTotals = ($form, event?) => {
-            const amountValBefore = $form.data('payAmountOnFocus');
-            console.log('amountValBefore', amountValBefore)
+            let amountValBefore = $form.data('payAmountOnFocus');
+            if (amountValBefore) {
+                amountValBefore = amountValBefore.replace(/,/g, '');
+                console.log('amountValBefore', amountValBefore)
+            }
             let totalTotal = new Decimal(0);
             let appliedTotal = new Decimal(0);
             let dueTotal = new Decimal(0);
             let amountTotal = new Decimal(0);
-            let buttonTrigger = false;
+            let recurse = false;
             const $totalFields = $form.find('td[data-invoicefield="InvoiceTotal"]');
             const $appliedFields = $form.find('td[data-invoicefield="InvoiceApplied"]');
             const $dueFields = $form.find('td[data-invoicefield="InvoiceDue"]');
@@ -342,38 +345,34 @@ class Receipt {
             const amountToApply = FwFormField.getValueByDataField($form, 'PaymentAmount');
             const unappliedTotalPrior = $form.find(`div[data-totalfield="UnappliedInvoiceTotal"] input`).val().replace(/[^\d\.\,\s]+/g, '').trim();
             for (let i = 0; i < $amountFields.length; i++) {
+                // ----- Bottom line totaling
+                let amountValOnLine = $amountFields.eq(i).val().replace(/,/g, '');
+                if (amountValOnLine === '') { amountValOnLine = '0.00'; }
                 // Amount Column
-                let amountInput = $amountFields.eq(i).val().replace(/,/g, '');
-                if (amountInput === '') {
-                    amountInput = '0.00';
-                }
-                amountTotal = amountTotal.plus(amountInput);
+                amountTotal = amountTotal.plus(amountValOnLine);
                 // Total Column
-                let totalVal = $totalFields.eq(i).text().replace(/,/g, '');
-                totalTotal = totalTotal.plus(totalVal);
+                let totalValOnLine = $totalFields.eq(i).text().replace(/,/g, '');
+                totalTotal = totalTotal.plus(totalValOnLine);
                 // Applied Column
-                let appliedVal = $appliedFields.eq(i).text().replace(/,/g, '');
-                appliedTotal = appliedTotal.plus(appliedVal);
+                let appliedValOnLine = $appliedFields.eq(i).text().replace(/,/g, '');
+                appliedTotal = appliedTotal.plus(appliedValOnLine);
                 // Due Column
-                let dueVal = $dueFields.eq(i).text().replace(/,/g, '');
-                dueTotal = dueTotal.plus(dueVal);
+                let dueValOnLine = $dueFields.eq(i).text().replace(/,/g, '');
+                dueTotal = dueTotal.plus(dueValOnLine);
 
-
-
-                // Line Totaling for Applied and Due fields
+                // ----- Line Totaling for Applied and Due fields
                 if (event) {
                     const element = jQuery(event.currentTarget);
+                    // Button
                     if (element.attr('data-type') === 'button') {
                         if (+(element.attr('row-index')) === i) {
                             let amountInput = $amountFields.eq(i).val().replace(/,/g, '');
-                            if (amountInput === '') {
-                                amountInput = '0.00';
-                            }
+                            if (amountInput === '') { amountInput = '0.00'; }
                             let amountTotal = new Decimal(0);
                             amountTotal = amountTotal.plus(amountInput);
                             let dueTotal = new Decimal(0);
-                            let dueVal = $dueFields.eq(i).text().replace(/,/g, '');
-                            dueTotal = dueTotal.plus(dueVal);
+                            const dueValOnLine = $dueFields.eq(i).text().replace(/,/g, '');
+                            dueTotal = dueTotal.plus(dueValOnLine);
                             let unappliedTotalPriorDecimal = new Decimal(0);
                             unappliedTotalPriorDecimal = unappliedTotalPriorDecimal.plus(unappliedTotalPrior);
                             // If Unapplied Amount >= "Due"  increase the "Amount" value by the "Due" value on the line
@@ -386,35 +385,34 @@ class Receipt {
                                 const amountVal = amountTotal.plus(unappliedTotalPriorDecimal)
                                 $amountFields.eq(i).val(amountVal.toFixed(2));
                             }
-                            buttonTrigger = true;
+                            recurse = true;
+                            break;
                         }
-                        break;
-                    } // end button
-
-                    // may need to trigger line change after apply button
+                    }
+                    // Amount field
                     const currentAmountField = $amountFields.eq(i);
                     if (element.is(currentAmountField)) {
-
-                        let amountDifference = new Decimal(0);
-                        let amountTotal = new Decimal(0);
-
                         let amountInput = $amountFields.eq(i).val().replace(/,/g, '');
                         if (amountInput === '') {
                             amountInput = '0.00';
                         }
+                        let amountTotal = new Decimal(0);
                         amountTotal = amountTotal.plus(amountInput);
+                        let amountDifference = new Decimal(0);
                         amountDifference = amountTotal.minus(amountValBefore)
                         let appliedLineTotal = new Decimal(0);
-                        appliedLineTotal = appliedLineTotal.plus(appliedVal).plus(amountDifference);
+                        appliedLineTotal = appliedLineTotal.plus(appliedValOnLine).plus(amountDifference);
                         let dueLineTotal = new Decimal(0);
-                        dueLineTotal = dueLineTotal.plus(dueVal).minus(amountDifference);
+                        dueLineTotal = dueLineTotal.plus(dueValOnLine).minus(amountDifference);
                         $appliedFields.eq(i).text(appliedLineTotal.toFixed(2));
                         $dueFields.eq(i).text(dueLineTotal.toFixed(2));
-                    } // end amount change
+                        recurse = true;
+                        break;
+                    }
                 }
             }
-            if (buttonTrigger) {
-                $form.find('.pay-amount input').change();
+            if (recurse) {
+                calculateInvoiceTotals($form);
                 return;
             }
             const amount: any = amountTotal.toFixed(2);
@@ -495,7 +493,7 @@ class Receipt {
                             val = '0.00'
                         }
                         $form.data('payAmountOnFocus', val);
-                        console.log('payAmountOnFocus', $form.data('payAmountOnFocus'));
+                        console.log('payAmountOnFocus', $form.data('payAmountOnFocus'))
                     });
                     $form.find('.apply-btn').click((ev: JQuery.ClickEvent) => {
                         calculateInvoiceTotals($form, ev);
