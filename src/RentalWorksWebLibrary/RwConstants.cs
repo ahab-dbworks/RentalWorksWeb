@@ -479,6 +479,7 @@
 
         //COLOR TYPES
         public const string COLOR_TYPE_WARDROBE = "W";
+        public const string COLOR_TYPE_VEHICLE = "V";
 
     }
 

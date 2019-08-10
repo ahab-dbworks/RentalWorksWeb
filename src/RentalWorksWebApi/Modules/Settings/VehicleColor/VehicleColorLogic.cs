@@ -2,6 +2,7 @@ using FwStandard.AppManager;
 ﻿using FwStandard.BusinessLogic;
 using WebApi.Logic;
 using WebApi.Modules.Settings.Color;
+using WebLibrary;
 
 namespace WebApi.Modules.Settings.VehicleColor
 {
@@ -15,7 +16,7 @@ namespace WebApi.Modules.Settings.VehicleColor
         {
             dataRecords.Add(vehicleColor);
             dataLoader = vehicleColorLoader;
-            BeforeSave += OnBeforeSave;
+            ColorType = RwConstants.COLOR_TYPE_VEHICLE;
         }
         //------------------------------------------------------------------------------------
         [FwLogicProperty(Id:"fd5cOy9IK62sP", IsPrimaryKey:true)]
@@ -34,12 +35,5 @@ namespace WebApi.Modules.Settings.VehicleColor
         public string DateStamp { get { return vehicleColor.DateStamp; } set { vehicleColor.DateStamp = value; } }
 
         //------------------------------------------------------------------------------------
-        public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
-        {
-            ColorType = "V";
-        }
-        //------------------------------------------------------------------------------------
-
     }
-
 }
