@@ -1,12 +1,12 @@
 class GeneratorType {
     Module: string;
     apiurl: string;
-
+    //----------------------------------------------------------------------------------------------
     constructor() {
         this.Module = 'GeneratorType';
         this.apiurl = 'api/v1/generatortype';
     }
-
+    //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen, $browse;
 
@@ -28,7 +28,7 @@ class GeneratorType {
 
         return screen;
     }
-
+    //----------------------------------------------------------------------------------------------
     openBrowse() {
         var $browse;
 
@@ -37,12 +37,13 @@ class GeneratorType {
 
         return $browse;
     }
-
+    //----------------------------------------------------------------------------------------------
     disableFields(): void {
         jQuery('.disablefield').attr('data-required', 'false');
     }
-
+    //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
+        const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         const $generatorTypeWarehouseGrid = $form.find('div[data-grid="GeneratorTypeWarehouseGrid"]');
         const $generatorTypeWarehouseControl = FwBrowse.loadGridFromTemplate('GeneratorTypeWarehouseGrid');
         $generatorTypeWarehouseGrid.empty().append($generatorTypeWarehouseControl);
@@ -50,11 +51,14 @@ class GeneratorType {
             request.uniqueids = {
                 GeneratorTypeId: FwFormField.getValueByDataField($form, 'GeneratorTypeId')
             }
+            request.miscfields = {
+                UserWarehouseId: warehouse.warehouseid
+            };
         });
         FwBrowse.init($generatorTypeWarehouseControl);
         FwBrowse.renderRuntimeHtml($generatorTypeWarehouseControl);
     }
-
+    //----------------------------------------------------------------------------------------------
     openForm(mode: string) {
         var $form;
 
@@ -63,7 +67,7 @@ class GeneratorType {
 
         return $form;
     }
-
+    //----------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
         var $form;
 
@@ -73,17 +77,24 @@ class GeneratorType {
 
         return $form;
     }
-
+    //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
     }
-
+    //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
         const $generatorTypeWarehouseGrid = $form.find('[data-name="GeneratorTypeWarehouseGrid"]');
         FwBrowse.search($generatorTypeWarehouseGrid);
 
         this.disableFields();
     }
+    //----------------------------------------------------------------------------------------------
+    beforeValidateInventoryType($browse, $grid, request) {
+        request.uniqueids = {
+            Vehicle: true
+        };
+    }
+    //----------------------------------------------------------------------------------------------
 }
 
 var GeneratorTypeController = new GeneratorType();

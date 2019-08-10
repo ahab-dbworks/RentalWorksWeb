@@ -1,12 +1,12 @@
 class VehicleType {
     Module: string;
     apiurl: string;
-
+    //----------------------------------------------------------------------------------------------
     constructor() {
         this.Module = 'VehicleType';
         this.apiurl = 'api/v1/vehicletype';
     }
-
+    //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen, $browse;
 
@@ -28,11 +28,11 @@ class VehicleType {
 
         return screen;
     }
-
+    //----------------------------------------------------------------------------------------------
     disableFields(): void {
         jQuery('.disablefield').attr('data-required', 'false');
     }
-
+    //----------------------------------------------------------------------------------------------
     openBrowse() {
         var $browse;
 
@@ -41,8 +41,9 @@ class VehicleType {
 
         return $browse;
     }
-
+    //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
+        const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         const $vehicleTypeWarehouseGrid = $form.find('div[data-grid="VehicleTypeWarehouseGrid"]');
         const $vehicleTypeWarehouseControl = FwBrowse.loadGridFromTemplate('VehicleTypeWarehouseGrid');
         $vehicleTypeWarehouseGrid.empty().append($vehicleTypeWarehouseControl);
@@ -50,11 +51,14 @@ class VehicleType {
             request.uniqueids = {
                 VehicleTypeId: FwFormField.getValueByDataField($form, 'VehicleTypeId')
             }
+            request.miscfields = {
+                UserWarehouseId: warehouse.warehouseid
+            };
         });
         FwBrowse.init($vehicleTypeWarehouseControl);
         FwBrowse.renderRuntimeHtml($vehicleTypeWarehouseControl);
     }
-
+    //----------------------------------------------------------------------------------------------
     openForm(mode: string) {
         var $form;
 
@@ -63,7 +67,7 @@ class VehicleType {
 
         return $form;
     }
-
+    //----------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
         var $form;
 
@@ -73,23 +77,24 @@ class VehicleType {
 
         return $form;
     }
-
+    //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
     }
-
+    //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
         const $vehicleTypeWarehouseGrid = $form.find('[data-name="VehicleTypeWarehouseGrid"]');
         FwBrowse.search($vehicleTypeWarehouseGrid);
 
         this.disableFields();
     }
-
-    beforeValidate = function ($browse, $grid, request) {
+    //----------------------------------------------------------------------------------------------
+    beforeValidateInventoryType = function ($browse, $grid, request) {
         request.uniqueids = {
-            Transportation: true
+            Vehicle: true
         };
     }
+    //----------------------------------------------------------------------------------------------
 }
 
 var VehicleTypeController = new VehicleType();

@@ -11,7 +11,7 @@ namespace WebApi.Modules.Settings.GeneratorTypeWarehouse
     public class GeneratorTypeWarehouseLoader : MasterWarehouseLoader 
     {
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "categoryid", isPrimaryKey: true, modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "masterid", isPrimaryKey: true, modeltype: FwDataTypes.Text)]
         public string GeneratorTypeId { get; set; }
         //------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
