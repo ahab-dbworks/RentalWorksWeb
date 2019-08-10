@@ -2,6 +2,7 @@ using FwStandard.AppManager;
 ﻿using FwStandard.BusinessLogic;
 using WebApi.Logic;
 using WebApi.Modules.Settings.Color;
+using WebLibrary;
 
 namespace WebApi.Modules.Settings.WardrobeColor
 {
@@ -15,7 +16,7 @@ namespace WebApi.Modules.Settings.WardrobeColor
         {
             dataRecords.Add(wardrobeColor);
             dataLoader = wardrobeColorLoader;
-            BeforeSave += OnBeforeSave;
+            ColorType = RwConstants.COLOR_TYPE_WARDROBE;
         }
         //------------------------------------------------------------------------------------
         [FwLogicProperty(Id:"7YshxUROXu9Ob", IsPrimaryKey:true)]
@@ -34,12 +35,5 @@ namespace WebApi.Modules.Settings.WardrobeColor
         public string DateStamp { get { return wardrobeColor.DateStamp; } set { wardrobeColor.DateStamp = value; } }
 
         //------------------------------------------------------------------------------------
-        public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
-        {
-            ColorType = "W";
-        }
-        //------------------------------------------------------------------------------------
-
     }
-
 }

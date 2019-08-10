@@ -477,6 +477,8 @@
         public const string PHYSICAL_INVENTORY_COUNT_ADD = "A";
         public const string PHYSICAL_INVENTORY_COUNT_REPLACE = "R";
 
+        //COLOR TYPES
+        public const string COLOR_TYPE_WARDROBE = "W";
 
     }
 
