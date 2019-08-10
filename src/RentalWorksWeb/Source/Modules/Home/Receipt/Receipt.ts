@@ -342,8 +342,9 @@ class Receipt {
             const $appliedFields = $form.find('td[data-invoicefield="InvoiceApplied"]');
             const $dueFields = $form.find('td[data-invoicefield="InvoiceDue"]');
             const $amountFields = $form.find('td[data-invoicefield="InvoiceAmount"] input');
-            const amountToApply = FwFormField.getValueByDataField($form, 'PaymentAmount');
-            const unappliedTotalPrior = $form.find(`div[data-totalfield="UnappliedInvoiceTotal"] input`).val().replace(/[$ ,]+/g, "").trim();
+            const amountToApply = FwFormField.getValueByDataField($form, 'PaymentAmount').replace(/,/g, '');
+            let unappliedTotalPrior = $form.find(`div[data-totalfield="UnappliedInvoiceTotal"] input`).val().replace(/[$ ,]+/g, "").trim();
+            if (unappliedTotalPrior === '') { unappliedTotalPrior = '0.00'; }
             for (let i = 0; i < $amountFields.length; i++) {
                 // ----- Bottom line totaling
                 let amountValOnLine = $amountFields.eq(i).val().replace(/,/g, '');
