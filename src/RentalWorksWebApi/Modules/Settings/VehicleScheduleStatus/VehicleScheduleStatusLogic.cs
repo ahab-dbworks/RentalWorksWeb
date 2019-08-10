@@ -1,8 +1,8 @@
 using FwStandard.AppManager;
-﻿using FwStandard.BusinessLogic;
 using Newtonsoft.Json;
 using WebApi.Logic;
 using WebApi.Modules.Settings.ScheduleStatus;
+using WebLibrary;
 
 namespace WebApi.Modules.Settings.VehicleScheduleStatus
 {
@@ -16,7 +16,7 @@ namespace WebApi.Modules.Settings.VehicleScheduleStatus
         {
             dataRecords.Add(scheduleStatus);
             dataLoader = scheduleStatusLoader;
-            BeforeSave += OnBeforeSave;
+            RecType = RwConstants.SCHEDULE_STATUS_TYPE_VEHICLE;
         }
         //------------------------------------------------------------------------------------
         [FwLogicProperty(Id:"EUc3uPUfXsyF4", IsPrimaryKey:true)]
@@ -45,12 +45,5 @@ namespace WebApi.Modules.Settings.VehicleScheduleStatus
         public string DateStamp { get { return scheduleStatus.DateStamp; } set { scheduleStatus.DateStamp = value; } }
 
         //------------------------------------------------------------------------------------
-        public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
-        {
-            RecType = "V";
-        }
-        //------------------------------------------------------------------------------------
-
     }
-
 }

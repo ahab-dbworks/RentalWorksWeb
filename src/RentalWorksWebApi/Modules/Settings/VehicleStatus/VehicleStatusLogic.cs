@@ -1,8 +1,8 @@
 using FwStandard.AppManager;
-﻿using FwStandard.BusinessLogic;
 using Newtonsoft.Json;
 using WebApi.Logic;
 using WebApi.Modules.Settings.ResourceStatus;
+using WebLibrary;
 
 namespace WebApi.Modules.Settings.VehicleStatus
 {
@@ -16,7 +16,7 @@ namespace WebApi.Modules.Settings.VehicleStatus
         {
             dataRecords.Add(resourceStatus);
             dataLoader = resourceStatusLoader;
-            RecType = "V";
+            RecType = RwConstants.RESOURCE_STATUS_TYPE_VEHICLE;
         }
         //------------------------------------------------------------------------------------
         [FwLogicProperty(Id:"16MNQA5fmZqtr", IsPrimaryKey:true)]

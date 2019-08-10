@@ -481,6 +481,12 @@
         public const string COLOR_TYPE_WARDROBE = "W";
         public const string COLOR_TYPE_VEHICLE = "V";
 
+        //SCHEDULE STATUS
+        public const string SCHEDULE_STATUS_TYPE_VEHICLE = "V";
+
+        //RESOURCE STATUS
+        public const string RESOURCE_STATUS_TYPE_VEHICLE = "V";
+
     }
 
     public class QuoteOrderCopyRequest
