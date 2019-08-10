@@ -855,8 +855,6 @@
     <Content Include="Source\Modules\Settings\VehicleColor\VehicleColorForm.htm" />
     <Content Include="Source\Modules\Settings\VehicleFuelType\VehicleFuelTypeBrowse.htm" />
     <Content Include="Source\Modules\Settings\VehicleFuelType\VehicleFuelTypeForm.htm" />
-    <Content Include="Source\Modules\Settings\VehicleRating\VehicleRatingBrowse.htm" />
-    <Content Include="Source\Modules\Settings\VehicleRating\VehicleRatingForm.htm" />
     <Content Include="Source\Modules\Settings\VehicleScheduleStatus\VehicleScheduleStatusBrowse.htm" />
     <Content Include="Source\Modules\Settings\VehicleScheduleStatus\VehicleScheduleStatusForm.htm" />
     <Content Include="Source\Modules\Settings\Currency\CurrencyBrowse.htm" />
@@ -1363,7 +1361,6 @@
     <TypeScriptCompile Include="Source\Modules\Settings\UserStatus\UserStatus.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\VehicleColor\VehicleColor.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\VehicleFuelType\VehicleFuelType.ts" />
-    <TypeScriptCompile Include="Source\Modules\Settings\VehicleRating\VehicleRating.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\VehicleScheduleStatus\VehicleScheduleStatus.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\CrewScheduleStatus\CrewScheduleStatus.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\POImportance\POImportance.ts" />

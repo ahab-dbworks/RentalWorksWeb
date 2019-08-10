@@ -199,7 +199,6 @@ routes.push({ pattern: /^module\/generatorfueltype$/, action: function (match: R
 routes.push({ pattern: /^module\/generatormake$/, action: function (match: RegExpExecArray) { return GeneratorMakeController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/generatorrating$/, action: function (match: RegExpExecArray) { return GeneratorRatingController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/vehiclefueltype$/, action: function (match: RegExpExecArray) { return VehicleFuelTypeController.getModuleScreen(); } });
-routes.push({ pattern: /^module\/vehiclerating$/, action: function (match: RegExpExecArray) { return VehicleRatingController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/wardrobeperiod$/, action: function (match: RegExpExecArray) { return WardrobePeriodController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/wardrobepattern$/, action: function (match: RegExpExecArray) { return WardrobePatternController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/poapproverrole$/, action: function (match: RegExpExecArray) { return POApproverRoleController.getModuleScreen(); } });
