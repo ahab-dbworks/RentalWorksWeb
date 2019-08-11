@@ -348,7 +348,7 @@ class Receipt {
             for (let i = 0; i < $amountFields.length; i++) {
                 // ----- Bottom line totaling
                 let amountValOnLine = $amountFields.eq(i).val().replace(/,/g, '');
-                if (amountValOnLine === '') { amountValOnLine = '0.00'; }
+                if (amountValOnLine === '') { amountValOnLine = '0.00'; } // possibly unecessary
                 // Amount Column
                 amountTotal = amountTotal.plus(amountValOnLine);
                 // Total Column
@@ -376,14 +376,29 @@ class Receipt {
                             dueTotal = dueTotal.plus(dueValOnLine);
                             let unappliedTotalPriorDecimal = new Decimal(0);
                             unappliedTotalPriorDecimal = unappliedTotalPriorDecimal.plus(unappliedTotalPrior);
+
+
+                            console.log('unappliedTotalPrior', unappliedTotalPrior)
+                            console.log('amountInput', amountInput)
+                            console.log('amountTotal', amountTotal)
+                            console.log('dueValOnLine', dueValOnLine)
+                            console.log('dueTotal', dueTotal)
+                            console.log('unappliedTotalPriorDecimal', unappliedTotalPriorDecimal)
+
+
+
                             // If Unapplied Amount >= "Due"  increase the "Amount" value by the "Due" value on the line
                             if (unappliedTotalPriorDecimal.greaterThanOrEqualTo(dueTotal)) {
-                                const amountVal = dueTotal.plus(amountTotal)
+                                const amountVal = dueTotal.plus(amountTotal);
+                                console.log('amountVal', amountVal)
+
                                 $amountFields.eq(i).val(amountVal.toFixed(2));
                             }
                             // If Unapplied Amount < "Due"  increase the "Amount" value by the Unapplied Amount value on the line
                             if (unappliedTotalPriorDecimal.lessThan(dueTotal)) {
                                 const amountVal = amountTotal.plus(unappliedTotalPriorDecimal)
+                                console.log('amountVal', amountVal)
+
                                 $amountFields.eq(i).val(amountVal.toFixed(2));
                             }
                             recurse = true;
@@ -405,8 +420,12 @@ class Receipt {
                         appliedLineTotal = appliedLineTotal.plus(appliedValOnLine).plus(amountDifference);
                         let dueLineTotal = new Decimal(0);
                         dueLineTotal = dueLineTotal.plus(dueValOnLine).minus(amountDifference);
-                        $appliedFields.eq(i).text(appliedLineTotal.toFixed(2));
-                        $dueFields.eq(i).text(dueLineTotal.toFixed(2));
+                        let applied = appliedLineTotal.toFixed(2);
+                        applied = applied.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+                        $appliedFields.eq(i).text(applied);
+                        let due = dueLineTotal.toFixed(2);
+                        due = due.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+                        $dueFields.eq(i).text(due);
                         recurse = true;
                         break;
                     }
@@ -452,7 +471,7 @@ class Receipt {
                 const htmlRows: Array<string> = [];
                 if (rows.length) {
                     for (let i = 0; i < rows.length; i++) {
-                        htmlRows.push(`<tr class="row"><td data-validationname="Deal" data-fieldname="DealId" data-datafield="${rows[i][res.ColumnIndex.DealId]}" data-displayfield="${rows[i][res.ColumnIndex.Deal]}" class="text">${rows[i][res.ColumnIndex.Deal]}<i class="material-icons btnpeek">more_horiz</i></td><td class="text InvoiceId" style="display:none;">${rows[i][res.ColumnIndex.InvoiceId]}</td><td class="text InvoiceReceiptId" style="display:none;">${rows[i][res.ColumnIndex.InvoiceReceiptId]}</td><td data-validationname="Invoice" data-fieldname="InvoiceId" data-datafield="${rows[i][res.ColumnIndex.InvoiceId]}" data-displayfield="${rows[i][res.ColumnIndex.InvoiceNumber]}" class="text">${rows[i][res.ColumnIndex.InvoiceNumber]}<i class="material-icons btnpeek">more_horiz</i></td><td class="text">${rows[i][res.ColumnIndex.InvoiceDate]}</td><td data-validationname="Order" data-fieldname="OrderId" data-datafield="${rows[i][res.ColumnIndex.OrderId]}" data-displayfield="${rows[i][res.ColumnIndex.Description]}" class="text">${rows[i][res.ColumnIndex.OrderNumber]}<i class="material-icons btnpeek">more_horiz</i></td><td class="text">${rows[i][res.ColumnIndex.Description]}</td><td style="text-align:right;" data-invoicefield="InvoiceTotal" class="decimal static-amount">${rows[i][res.ColumnIndex.Total]}</td><td style="text-align:right;" data-invoicefield="InvoiceApplied" class="decimal static-amount">${rows[i][res.ColumnIndex.Applied]}</td><td style="text-align:right;" data-invoicefield="InvoiceDue" class="decimal static-amount">${rows[i][res.ColumnIndex.Due]}</td><td data-enabled="true" data-isuniqueid="false" data-datafield="InvoiceAmount" data-invoicefield="InvoiceAmount" class="decimal fwformfield pay-amount invoice-amount"><input class="decimal fwformfield fwformfield-value" style="font-size:inherit;" type="text" autocapitalize="none" row-index="${i}" value="${rows[i][res.ColumnIndex.Amount]}"> </td><td><div class="fwformcontrol apply-btn" row-index="${i}" data-type="button" style="height:18px;padding:.3rem;line-height:17px;font-size:14px;">Apply</div></td></tr>`);
+                        htmlRows.push(`<tr class="row"><td data-validationname="Deal" data-fieldname="DealId" data-datafield="${rows[i][res.ColumnIndex.DealId]}" data-displayfield="${rows[i][res.ColumnIndex.Deal]}" class="text">${rows[i][res.ColumnIndex.Deal]}<i class="material-icons btnpeek">more_horiz</i></td><td class="text InvoiceId" style="display:none;">${rows[i][res.ColumnIndex.InvoiceId]}</td><td class="text InvoiceReceiptId" style="display:none;">${rows[i][res.ColumnIndex.InvoiceReceiptId]}</td><td data-validationname="Invoice" data-fieldname="InvoiceId" data-datafield="${rows[i][res.ColumnIndex.InvoiceId]}" data-displayfield="${rows[i][res.ColumnIndex.InvoiceNumber]}" class="text">${rows[i][res.ColumnIndex.InvoiceNumber]}<i class="material-icons btnpeek">more_horiz</i></td><td class="text">${rows[i][res.ColumnIndex.InvoiceDate]}</td><td data-validationname="Order" data-fieldname="OrderId" data-datafield="${rows[i][res.ColumnIndex.OrderId]}" data-displayfield="${rows[i][res.ColumnIndex.Description]}" class="text">${rows[i][res.ColumnIndex.OrderNumber]}<i class="material-icons btnpeek">more_horiz</i></td><td class="text">${rows[i][res.ColumnIndex.Description]}</td><td style="text-align:right;" data-invoicefield="InvoiceTotal" class="decimal static-amount">${rows[i][res.ColumnIndex.Total]}</td><td style="text-align:right;" data-invoicefield="InvoiceApplied" class="decimal static-amount">${rows[i][res.ColumnIndex.Applied]}</td><td style="text-align:right;" data-invoicefield="InvoiceDue" class="decimal static-amount">${rows[i][res.ColumnIndex.Due]}</td><td data-enabled="true" data-isuniqueid="false" data-datafield="InvoiceAmount" data-invoicefield="InvoiceAmount" class="decimal fwformfield pay-amount invoice-amount"><input class="decimal fwformfield fwformfield-value" style="font-size:inherit;" type="text" autocapitalize="none" row-index="${i}" value="${rows[i][res.ColumnIndex.Amount]}"></td><td><div class="fwformcontrol apply-btn" row-index="${i}" data-type="button" style="height:18px;padding:.3rem;line-height:17px;font-size:14px;">Apply</div></td></tr>`);
                     }
                     $form.find('.table-rows').html('');
                     $form.find('.table-rows').html(htmlRows.join(''));
@@ -475,10 +494,11 @@ class Receipt {
                     $form.find('.pay-amount input').on('change', ev => {
                         ev.stopPropagation();
                         const el = jQuery(ev.currentTarget);
-                        const val = el.val();
+                        let val = el.val();
                         if (el.hasClass('decimal')) {
                             if (val === '0.00' || val === '') {
                                 el.css('background-color', 'white');
+                                val = '0.00';
                             } else {
                                 el.css('background-color', '#F4FFCC');
                             }
