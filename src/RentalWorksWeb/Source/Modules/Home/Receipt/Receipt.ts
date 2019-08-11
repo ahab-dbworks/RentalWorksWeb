@@ -376,7 +376,7 @@ class Receipt {
                             dueTotal = dueTotal.plus(dueValOnLine);
                             let unappliedTotalPriorDecimal = new Decimal(0);
                             unappliedTotalPriorDecimal = unappliedTotalPriorDecimal.plus(unappliedTotalPrior);
-
+                            let amountVal;
 
                             console.log('unappliedTotalPrior', unappliedTotalPrior)
                             console.log('amountInput', amountInput)
@@ -389,18 +389,30 @@ class Receipt {
 
                             // If Unapplied Amount >= "Due"  increase the "Amount" value by the "Due" value on the line
                             if (unappliedTotalPriorDecimal.greaterThanOrEqualTo(dueTotal)) {
-                                const amountVal = dueTotal.plus(amountTotal);
+                                amountVal = dueTotal.plus(amountTotal);
                                 console.log('amountVal', amountVal)
 
                                 $amountFields.eq(i).val(amountVal.toFixed(2));
                             }
                             // If Unapplied Amount < "Due"  increase the "Amount" value by the Unapplied Amount value on the line
                             if (unappliedTotalPriorDecimal.lessThan(dueTotal)) {
-                                const amountVal = amountTotal.plus(unappliedTotalPriorDecimal)
+                                amountVal = amountTotal.plus(unappliedTotalPriorDecimal)
                                 console.log('amountVal', amountVal)
 
                                 $amountFields.eq(i).val(amountVal.toFixed(2));
                             }
+                            let amountDifference = new Decimal(0);
+                            amountDifference = amountVal.minus(amountTotal)
+                            let appliedLineTotal = new Decimal(0);
+                            appliedLineTotal = appliedLineTotal.plus(appliedValOnLine).plus(amountDifference);
+                            let dueLineTotal = new Decimal(0);
+                            dueLineTotal = dueLineTotal.plus(dueValOnLine).minus(amountDifference);
+                            let applied = appliedLineTotal.toFixed(2);
+                            applied = applied.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+                            $appliedFields.eq(i).text(applied);
+                            let due = dueLineTotal.toFixed(2);
+                            due = due.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+                            $dueFields.eq(i).text(due);
                             recurse = true;
                             break;
                         }
@@ -506,6 +518,17 @@ class Receipt {
                         calculateInvoiceTotals($form, ev);
                         $form.data('payAmountOnFocus', val);
                         console.log('payAmountOnFocusChange', $form.data('payAmountOnFocus'))
+                    });
+                    // Store intial amount value for calculations after change
+                    $form.find('.pay-amount input').on('focus', ev => {
+                        ev.stopPropagation();
+                        const el = jQuery(ev.currentTarget);
+                        let val = el.val();
+                        if (val === '') {
+                            val = '0.00'
+                        }
+                        $form.data('payAmountOnFocus', val);
+                        console.log('payAmountOnFocus', $form.data('payAmountOnFocus'))
                     });
                     // Store intial amount value for calculations after change
                     $form.find('.pay-amount input').on('focus', ev => {
