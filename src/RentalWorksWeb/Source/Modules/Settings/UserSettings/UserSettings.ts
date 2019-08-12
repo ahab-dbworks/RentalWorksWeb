@@ -68,7 +68,7 @@
                 }
             }
         };
-        allModules.push({ value: 'DF8111F5-F022-40B4-BAE6-23B2C6CF3705', text: 'Dashboard', nav: 'module/dashboard' });
+      
         //Sort modules
         function compare(a, b) {
             if (a.text < b.text)
@@ -80,10 +80,6 @@
         allModules.sort(compare);
         const $defaultHomePage = $form.find('.default-home-page');
         FwFormField.loadItems($defaultHomePage, allModules, true);
-
-        //add utility modules
-        sortableModules.push({ value: 'module/quikactivitycalendar', text: 'QuikActivity Calendar', selected: 'T' });
-        sortableModules.push({ value: 'module/vendorinvoiceprocessbatch', text: 'Process Vendor Invoices', selected: 'T' });
 
         sortableModules.sort(compare);
         const $availModules = $form.find('.available-modules');
