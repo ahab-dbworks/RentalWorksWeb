@@ -4,8 +4,8 @@ class TransferOrder {
     Module: string = 'TransferOrder';
     apiurl: string = 'api/v1/transferorder';
     caption: string = Constants.Modules.Home.TransferOrder.caption;
-	nav: string = Constants.Modules.Home.TransferOrder.nav;
-	id: string = Constants.Modules.Home.TransferOrder.id;
+    nav: string = Constants.Modules.Home.TransferOrder.nav;
+    id: string = Constants.Modules.Home.TransferOrder.id;
     ActiveViewFields: any = {};
     ActiveViewFieldsId: string;
     //----------------------------------------------------------------------------------------------
@@ -292,13 +292,13 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.TransferOrder.form.menuItem
     try {
         const $form = jQuery(e.currentTarget).closest('.fwform');
         const mode = 'EDIT';
-        const orderInfo: any = {};
-        orderInfo.OrderId = FwFormField.getValueByDataField($form, 'TransferId');
-        orderInfo.OrderNumber = FwFormField.getValueByDataField($form, 'TransferNumber');
-        orderInfo.Type = 'Transfer';
-        const $orderStatusForm = OrderStatusController.openForm(mode, orderInfo);
-        FwModule.openSubModuleTab($form, $orderStatusForm);
-        const $tabPage = FwTabs.getTabPageByElement($orderStatusForm);
+        const transferInfo: any = {};
+        transferInfo.OrderId = FwFormField.getValueByDataField($form, 'TransferId');
+        transferInfo.OrderNumber = FwFormField.getValueByDataField($form, 'TransferNumber');
+        transferInfo.Type = 'Transfer';
+        const $transferStatusForm = TransferStatusController.openForm(mode, transferInfo);
+        FwModule.openSubModuleTab($form, $transferStatusForm);
+        const $tabPage = FwTabs.getTabPageByElement($transferStatusForm);
         const $tab = FwTabs.getTabByElement(jQuery($tabPage));
         $tab.find('.caption').html('Transfer Status');
     }
