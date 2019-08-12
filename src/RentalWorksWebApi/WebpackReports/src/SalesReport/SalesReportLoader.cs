@@ -134,6 +134,9 @@ namespace WebApi.Modules.Reports.SalesReport
         [FwSqlDataField(column: "unitcost", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? UnitCost { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "extendedcost", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public decimal? ExtendedCost { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "unitprice", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? UnitPrice { get; set; }
         //------------------------------------------------------------------------------------ 
