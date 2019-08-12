@@ -208,7 +208,7 @@ class Quote extends OrderBase {
               <div data-type="tab" id="alltab" class="combinedtab tab" data-tabpageid="alltabpage" data-caption="Items"></div>
               <div data-type="tab" id="billingtab" class="billingtab tab" data-tabpageid="billingtabpage" data-caption="Billing"></div>
               <div data-type="tab" id="delivershiptab" class="tab" data-tabpageid="delivershiptabpage" data-caption="Deliver/Ship"></div>
-              <div data-type="tab" id="manifesttab" class="tab" data-tabpageid="manifesttabpage" data-caption="Manifest"></div>
+              <!--<div data-type="tab" id="manifesttab" class="tab" data-tabpageid="manifesttabpage" data-caption="Manifest"></div>-->
               <div data-type="tab" id="notetab" class="tab notestab" data-tabpageid="notetabpage" data-caption="Notes"></div>
               <div data-type="tab" id="historytab" class="tab" data-tabpageid="historytabpage" data-caption="History"></div>
               <div data-type="tab" id="emailhistorytab" class="tab" data-tabpageid="emailhistorytabpage" data-caption="Email History"></div>

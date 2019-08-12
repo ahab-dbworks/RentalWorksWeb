@@ -56,6 +56,20 @@ class Vendor {
             { value: 'PERSON',  caption: 'Person' }
         ]);
 
+        //Toggle Buttons - Deliver/Ship tab - Default Delivery Address
+        FwFormField.loadItems($form.find('div[data-datafield="DefaultOutgoingDeliveryType"]'), [
+            { value: 'DELIVER', caption: 'Vendor Deliver' },
+            { value: 'SHIP',    caption: 'Ship' },
+            { value: 'PICK UP',  caption: 'Pick Up' }
+        ]);
+
+        //Toggle Buttons - Deliver/Ship tab - Default Return Delivery Address
+        FwFormField.loadItems($form.find('div[data-datafield="DefaultIncomingDeliveryType"]'), [
+            { value: 'DELIVER', caption: 'Deliver' },
+            { value: 'SHIP',    caption: 'Ship' },
+            { value: 'PICK UP',  caption: 'Vendor Pick Up' }
+        ]);
+
         return $form;
     }
     //---------------------------------------------------------------------------------
@@ -337,7 +351,7 @@ class Vendor {
                   <div class="flexcolumn" style="flex:1 1 275px;">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Address">
                      <div class="flexrow">
-                       <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Address 1" data-datafield="Address1" style="flex:1 1 275px;"></div>
+                       <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Address" data-datafield="Address1" style="flex:1 1 275px;"></div>
                      </div>
                      <div class="flexrow">
                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Address 2" data-datafield="Address2" style="flex:1 1 250px;"></div>
@@ -511,37 +525,30 @@ class Vendor {
             <!-- SHIPPING TAB -->
             <div data-type="tabpage" id="shippingtabpage" class="tabpage" data-tabid="shippingtab">
               <div class="flexpage">
-                  <div class="flexrow">
-                    <!-- Default section -->
-                    <div class="flexcolumn" style="flex:1 1 300px;">
-                      <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Default Delivery">
-                        <div class="flexrow">
-                          <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield vendertyperadio" data-caption="Type" data-datafield="DefaultOutgoingDeliveryType" style="flex:1 1 150px;"></div>
-                        </div>
-                      </div>
-                      <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Default Return Delivery">
-                        <div class="flexrow">
-                          <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield vendertyperadio" data-caption="Type" data-datafield="DefaultIncomingDeliveryType" style="flex:1 1 150px;"></div>
-                        </div>
+                <div class="flexrow">
+                  <!-- Default section -->
+                  <div class="flexcolumn" style="flex:0 1 425px;">
+                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Default Delivery">
+                      <div class="flexrow">
+                        <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield vendertyperadio" data-caption="Type" data-datafield="DefaultOutgoingDeliveryType" style="flex:1 1 150px;"></div>
                       </div>
                     </div>
-                    <!-- Tracking No. section -->
-                    <div class="flexcolumn" style="flex:1 1 300px;">
-                      <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Tracking No">
-                        <div class="flexrow">
-                          <div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield" data-caption="Tracking No. Hyperlink" data-datafield="ShippingTrackingLink"></div>
-                        </div>
-                        <div class="flexrow">
-                          <div style="padding-left:5px;font-size:14px;" >Use the token @trackingno to indicate where the tracking number needs to be injected.</div>
-                        </div>
+                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Default Return Delivery">
+                      <div class="flexrow">
+                        <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield vendertyperadio" data-caption="Type" data-datafield="DefaultIncomingDeliveryType" style="flex:1 1 150px;"></div>
                       </div>
                     </div>
                   </div>
-
-
-                <div class="flexrow">
-                  <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Tracking No." style="flex:0 1 600px;">
-
+                  <!-- Tracking No. section -->
+                  <div class="flexcolumn" style="flex:0 1 425px;">
+                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Tracking No">
+                      <div class="flexrow">
+                        <div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield" data-caption="Tracking No. Hyperlink" data-datafield="ShippingTrackingLink"></div>
+                      </div>
+                      <div class="flexrow">
+                        <div style="padding-left:5px;font-size:14px;" >Use the token @trackingno to indicate where the tracking number needs to be injected.</div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -577,23 +584,18 @@ class Vendor {
             <div data-type="tabpage" id="contactstabpage" class="tabpage" data-tabid="contactstab">
               <div class="flexpage">
                 <div class="flexrow">
-                  <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Contacts" style="flex:1 1 1200px;">
-                    <div class="flexrow">
-                      <div data-control="FwGrid" data-grid="CompanyContactGrid" data-securitycaption="Vendor Contacts"></div>
-                    </div>
-                  </div>
+                  <div data-control="FwGrid" data-grid="CompanyContactGrid" data-securitycaption="Vendor Contacts"></div>
                 </div>
               </div>
             </div>
 
             <!-- PURCHASE ORDER TAB -->
-            <div data-type="tabpage" id="purchaseordertabpage" class="tabpage purchaseOrderSubModule" data-tabid="purchaseordertab">
+            <div data-type="tabpage" id="purchaseordertabpage" class="tabpage purchaseOrderSubModule rwSubModule" data-tabid="purchaseordertab">
             </div>
 
             <!-- VENDOR INVOICE TAB -->
-            <div data-type="tabpage" id="vendorinvoicetabpage" class="tabpage vendorInvoiceSubModule" data-tabid="vendorinvoicetab">
+            <div data-type="tabpage" id="vendorinvoicetabpage" class="tabpage vendorInvoiceSubModule rwSubModule" data-tabid="vendorinvoicetab">
             </div>
-
 
             <!-- NOTES TAB -->
             <div data-type="tabpage" id="notestabpage" class="tabpage" data-tabid="notestab">
