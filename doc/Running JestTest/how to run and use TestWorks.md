@@ -13,6 +13,7 @@ Last Updated 08/12/2019
 ### Terminal within the TestWorks Environment
 - From Windows Explorer, navigate to the src folder within the RentalWorksWeb directory.
 - Right-click 'JestTest' and choose 'Git bash here' if installed or Open PowerShell window at this directory.
+- If it is the first time running tests on your local machine, start with 'npm install' to load required node packages
 
 ### Running commands for TestWorks
 - Testing commands are comprised a few components:
