@@ -8,12 +8,12 @@ import './index.scss';
 const hbReport = require("./hbReport.hbs");
 const hbFooter = require("./hbFooter.hbs");
 
-export class SalesReport extends WebpackReport {
+export class SalesHistoryReport extends WebpackReport {
     renderReport(apiUrl: string, authorizationHeader: string, parameters: any): void {
         try {
             super.renderReport(apiUrl, authorizationHeader, parameters);
             HandlebarsHelpers.registerHelpers();
-            Ajax.post<DataTable>(`${apiUrl}/api/v1/salesreport/runreport`, authorizationHeader, parameters)
+            Ajax.post<DataTable>(`${apiUrl}/api/v1/saleshistoryreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
                     const data: any = DataTable.toObjectList(response);
                     data.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
@@ -57,4 +57,4 @@ export class SalesReport extends WebpackReport {
     }
 }
 
-(<any>window).report = new SalesReport();
+(<any>window).report = new SalesHistoryReport();

@@ -579,7 +579,7 @@
     <TypeScriptCompile Include="Source\Modules\Reports\RentalInventoryUsageReport\RentalInventoryUsageReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\RentalEquipmentRepairHistoryReport\RentalEquipmentRepairHistoryReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\SalesInventoryMasterReport\SalesInventoryMasterReportController.ts" />
-    <TypeScriptCompile Include="Source\Modules\Reports\SalesReport\SalesReportController.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\SalesHistoryReport\SalesHistoryReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\RentalLostAndDamagedBillingHistoryReport\RentalLostAndDamagedBillingHistoryReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\RentalInventoryMasterReport\RentalInventoryMasterReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\ValueOfOutRentalInventoryReport\ValueOfOutRentalInventoryReportController.ts" />

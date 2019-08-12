@@ -6,9 +6,9 @@ using WebApi.Data;
 using System.Threading.Tasks;
 using System.Data;
 using System.Reflection;
-namespace WebApi.Modules.Reports.SalesReport
+namespace WebApi.Modules.Reports.SalesHistoryReport
 {
-    public class SalesReportLoader : AppDataLoadRecord
+    public class SalesHistoryReportLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text, isVisible: false)]
@@ -152,7 +152,7 @@ namespace WebApi.Modules.Reports.SalesReport
         [FwSqlDataField(column: "classification", modeltype: FwDataTypes.Text)]
         public string Classification { get; set; }
         //------------------------------------------------------------------------------------ 
-        public async Task<FwJsonDataTable> RunReportAsync(SalesReportRequest request)
+        public async Task<FwJsonDataTable> RunReportAsync(SalesHistoryReportRequest request)
         {
             FwJsonDataTable dt = null;
             using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))

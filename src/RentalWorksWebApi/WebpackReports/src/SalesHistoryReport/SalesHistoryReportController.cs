@@ -11,9 +11,9 @@ using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Http;
 using FwStandard.AppManager;
 using static FwCore.Controllers.FwDataController;
-namespace WebApi.Modules.Reports.SalesReport
+namespace WebApi.Modules.Reports.SalesHistoryReport
 {
-    public class SalesReportRequest : AppReportRequest
+    public class SalesHistoryReportRequest : AppReportRequest
     {
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }
@@ -32,12 +32,12 @@ namespace WebApi.Modules.Reports.SalesReport
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
     [FwController(Id: "0qFfabkzl5Vi")]
-    public class SalesReportController : AppReportController
+    public class SalesHistoryReportController : AppReportController
     {
-        public SalesReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
-        protected override string GetReportFileName() { return "SalesReport"; }
+        public SalesHistoryReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        protected override string GetReportFileName() { return "SalesHistoryReport"; }
         //------------------------------------------------------------------------------------ 
-        protected override string GetReportFriendlyName() { return "Sales Report"; }
+        protected override string GetReportFriendlyName() { return "Sales History Report"; }
         //------------------------------------------------------------------------------------ 
         protected override PdfOptions GetPdfOptions()
         {
@@ -50,10 +50,10 @@ namespace WebApi.Modules.Reports.SalesReport
         protected override string GetUniqueId(FwReportRenderRequest request)
         {
             //return request.parameters["xxxxid"].ToString().TrimEnd(); 
-            return "SalesReport";
+            return "SalesHistoryReport";
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/salesreport/render 
+        // POST api/v1/saleshistoryreport/render 
         [HttpPost("render")]
         [FwControllerMethod(Id: "9xFLArMHZEt8")]
         public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody]FwReportRenderRequest request)
@@ -63,20 +63,20 @@ namespace WebApi.Modules.Reports.SalesReport
             return new OkObjectResult(response);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/salesreport/exportexcelxlsx/filedownloadname 
+        // POST api/v1/saleshistoryreport/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
         [FwControllerMethod(Id: "CvzEDfhX6TXt")]
-        public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]SalesReportRequest request)
+        public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]SalesHistoryReportRequest request)
         {
             ActionResult<FwJsonDataTable> actionResult = await RunReportAsync(request);
             FwJsonDataTable dt = (FwJsonDataTable)((OkObjectResult)(actionResult.Result)).Value;
             return await DoExportExcelXlsxFileAsync(dt, includeIdColumns: request.IncludeIdColumns);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/salesreport/runreport 
+        // POST api/v1/saleshistoryreport/runreport 
         [HttpPost("runreport")]
         [FwControllerMethod(Id: "rSUz9e1kJEbB")]
-        public async Task<ActionResult<FwJsonDataTable>> RunReportAsync([FromBody]SalesReportRequest request)
+        public async Task<ActionResult<FwJsonDataTable>> RunReportAsync([FromBody]SalesHistoryReportRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -84,7 +84,7 @@ namespace WebApi.Modules.Reports.SalesReport
             }
             try
             {
-                SalesReportLoader l = new SalesReportLoader();
+                SalesHistoryReportLoader l = new SalesHistoryReportLoader();
                 l.SetDependencies(this.AppConfig, this.UserSession);
                 FwJsonDataTable dt = await l.RunReportAsync(request);
                 return new OkObjectResult(dt);
