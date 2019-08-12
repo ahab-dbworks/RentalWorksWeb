@@ -266,9 +266,7 @@
     <Content Include="Source\Grids\OrderTypeNoteGrid\OrderTypeNoteGridBrowse.htm" />
     <Content Include="Source\Grids\OrderTypeContactTitleGrid\OrderTypeContactTitleGridBrowse.htm" />
     <Content Include="Source\Grids\DocumentGrid\DocumentGridBrowse.htm" />
-    <Content Include="Source\Grids\DocumentGrid\DocumentGridController.js" />
     <Content Include="Source\Grids\ContactEmailHistoryGrid\ContactEmailHistoryGridBrowse.htm" />
-    <Content Include="Source\Grids\ContactEmailHistoryGrid\ContactEmailHistoryGridController.js" />
     <Content Include="Source\Grids\ContactNoteGrid\ContactNoteGridBrowse.htm" />
     <Content Include="Source\Grids\ContactPersonalEventGrid\ContactPersonalEventGridBrowse.htm" />
     <Content Include="Source\Grids\InventoryCompleteGrid\InventoryCompleteGridBrowse.htm" />
