@@ -308,7 +308,7 @@ namespace WebApi.Modules.Home.Receipt
                     if (totalReceipts > invoiceTotal)
                     {
                         isValid = false;
-                        validateMsg = "Cannot apply more than the Invoice Total.";
+                        validateMsg = "Cannot apply more than the Invoice Total for Invoice " + iL.InvoiceNumber + " (" + iL.InvoiceDescription + ").";
                     }
                 }
             }
