@@ -32,10 +32,17 @@ const salesReportTemplate = `
                 </div>
               </div>
             </div>
-            <div class="flexcolumn" style="max-width:200px;">
-              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Status">
+            <div class="flexcolumn" style="max-width:120px;">
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Invoice Status">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-control="FwFormField" data-type="checkboxlist" class="fwcontrol fwformfield" data-caption="" data-datafield="Statuses" style="float:left;max-width:200px;"></div>
+                </div>
+              </div>
+            </div>
+            <div class="flexcolumn" style="max-width:250px;">
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Options">
+                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                  <div data-datafield="IncludeSalesTax" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Include Sales Tax" style="float:left;max-width:420px;"></div>
                 </div>
               </div>
             </div>

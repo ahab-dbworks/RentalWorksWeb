@@ -18,6 +18,7 @@ namespace WebApi.Modules.Reports.SalesReport
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }
         public bool? Summary { get; set; }
+        public bool? IncludeSalesTax { get; set; }
         public SelectedCheckBoxListItems Statuses { get; set; } = new SelectedCheckBoxListItems();
         public string OfficeLocationId { get; set; }
         public string WarehouseId { get; set; }

@@ -13,14 +13,13 @@ export class SalesReport extends WebpackReport {
         try {
             super.renderReport(apiUrl, authorizationHeader, parameters);
             HandlebarsHelpers.registerHelpers();
-
             Ajax.post<DataTable>(`${apiUrl}/api/v1/salesreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
                     const data: any = DataTable.toObjectList(response);
                     data.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
                     data.FromDate = parameters.FromDate;
                     data.ToDate = parameters.ToDate;
-                    data.Report = 'Sales Report';
+                    data.Report = 'Sales History Report';
                     data.System = 'RENTALWORKS';
                     data.Company = parameters.companyName;
         
@@ -29,6 +28,12 @@ export class SalesReport extends WebpackReport {
                         data.ViewSetting = 'SummaryView';
                     } else {
                         data.ViewSetting = 'DetailView';
+                    }
+                   
+                    if (parameters.IncludeSalesTax === true) {
+                        data.IncludeSalesTax = true;
+                    } else {
+                        data.IncludeSalesTax = false;
                     }
                     console.log('rpt: ', data)
                     this.renderFooterHtml(data);
