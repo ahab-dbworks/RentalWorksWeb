@@ -72,7 +72,7 @@ namespace WebApi.Modules.Home.Deal
         public string Phone { get { return deal.Phone; } set { deal.Phone = value; } }
 
         [FwLogicProperty(Id:"QZPCuAO1lD8x")]
-        public string Phone800 { get { return deal.Phone800; } set { deal.Phone800 = value; } }
+        public string PhoneTollFree { get { return deal.PhoneTollFree; } set { deal.PhoneTollFree = value; } }
 
         [FwLogicProperty(Id:"xbmlSIpuZHRf")]
         public string Fax { get { return deal.Fax; } set { deal.Fax = value; } }

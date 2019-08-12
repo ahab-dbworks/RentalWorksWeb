@@ -72,7 +72,7 @@ TODO:
         public string Fax { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "phone800", modeltype: FwDataTypes.Text, maxlength: 20)]
-        public string Phone800 { get; set; }
+        public string PhoneTollFree { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "phoneother", modeltype: FwDataTypes.Text, maxlength: 20)]
         public string OtherPhone { get; set; }

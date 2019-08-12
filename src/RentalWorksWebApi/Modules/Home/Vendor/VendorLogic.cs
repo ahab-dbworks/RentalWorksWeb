@@ -87,7 +87,7 @@ namespace WebApi.Modules.Home.Vendor
         public string Fax { get { return vendor.Fax; } set { vendor.Fax = value; } }
 
         [FwLogicProperty(Id:"tPj88RfxNz1t")]
-        public string Phone800 { get { return vendor.Phone800; } set { vendor.Phone800 = value; } }
+        public string PhoneTollFree { get { return vendor.PhoneTollFree; } set { vendor.PhoneTollFree = value; } }
 
         [FwLogicProperty(Id:"tyIXDggf9G2j")]
         public string OtherPhone { get { return vendor.OtherPhone; } set { vendor.OtherPhone = value; } }

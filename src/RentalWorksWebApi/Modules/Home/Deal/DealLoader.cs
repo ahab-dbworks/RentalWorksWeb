@@ -35,7 +35,7 @@ namespace WebApi.Modules.Home.Deal
         public string Phone { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "phone800", modeltype: FwDataTypes.Text)]
-        public string Phone800 { get; set; }
+        public string PhoneTollFree { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "fax", modeltype: FwDataTypes.Text)]
         public string Fax { get; set; }

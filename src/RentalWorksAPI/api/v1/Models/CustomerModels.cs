@@ -58,7 +58,7 @@ namespace RentalWorksAPI.api.v1.Models
         public string location               { get; set; }
 
         [DataType(DataType.PhoneNumber)]
-        public string phone800               { get; set; }
+        public string phonetollfree          { get; set; }
 
         [DataType(DataType.PhoneNumber)]
         public string phoneother             { get; set; }

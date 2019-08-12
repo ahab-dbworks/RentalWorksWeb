@@ -95,7 +95,7 @@ namespace WebApi.Modules.Home.Customer
         public string Fax { get { return customer.Fax; } set { customer.Fax = value; } }
 
         [FwLogicProperty(Id:"JWeIRH34q31b")]
-        public string Phone800 { get { return customer.Phone800; } set { customer.Phone800 = value; } }
+        public string PhoneTollFree { get { return customer.PhoneTollFree; } set { customer.PhoneTollFree = value; } }
 
         [FwLogicProperty(Id:"hfV2XOUyDJgW")]
         public string OtherPhone { get { return customer.OtherPhone; } set { customer.OtherPhone = value; } }

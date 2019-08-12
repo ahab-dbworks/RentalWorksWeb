@@ -745,7 +745,7 @@ class Deal {
             FwFormField.setValueByDataField($form, 'State', response.State);
             FwFormField.setValueByDataField($form, 'ZipCode', response.ZipCode);
             FwFormField.setValueByDataField($form, 'Phone', response.Phone);
-            FwFormField.setValueByDataField($form, 'Phone800', response.Phone800);
+            FwFormField.setValueByDataField($form, 'PhoneTollFree', response.PhoneTollFree);
             FwFormField.setValueByDataField($form, 'Fax', response.Fax);
             FwFormField.setValueByDataField($form, 'PhoneOther', response.OtherPhone);
             FwFormField.setValue($form, 'div[data-datafield="CountryId"]', response.CountryId, response.Country);
@@ -981,7 +981,7 @@ class Deal {
                           <div data-control="FwFormField" data-type="phone" class="fwcontrol fwformfield" data-caption="Fax" data-datafield="Fax" style="flex:1 1 125px;"></div>
                         </div>
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="phone" class="fwcontrol fwformfield" data-caption="800 Phone" data-datafield="Phone800" style="flex:1 1 125px;"></div>
+                          <div data-control="FwFormField" data-type="phone" class="fwcontrol fwformfield" data-caption="Phone Toll-Free" data-datafield="PhoneTollFree" style="flex:1 1 125px;"></div>
                           <div data-control="FwFormField" data-type="phone" class="fwcontrol fwformfield" data-caption="Other" data-datafield="PhoneOther" style="flex:1 1 125px;"></div>
                         </div>
                       </div>

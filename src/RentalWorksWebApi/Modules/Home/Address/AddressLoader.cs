@@ -50,7 +50,7 @@ namespace WebApi.Modules.Home.Address
         public string Fax { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "phone800", modeltype: FwDataTypes.Text)]
-        public string Phone800 { get; set; }
+        public string PhoneTollFree { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "phoneother", modeltype: FwDataTypes.Text)]
         public string PhoneOther { get; set; }

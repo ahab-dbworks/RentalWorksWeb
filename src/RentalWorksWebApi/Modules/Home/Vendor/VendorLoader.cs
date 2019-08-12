@@ -41,7 +41,7 @@ namespace WebApi.Modules.Home.Vendor
         public string VendorClassId { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "phone800", modeltype: FwDataTypes.Text)]
-        public string Phone800 { get; set; }
+        public string PhoneTollFree { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "phoneother", modeltype: FwDataTypes.Text)]
         public string OtherPhone { get; set; }

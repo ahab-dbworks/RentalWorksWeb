@@ -54,7 +54,7 @@ namespace WebApi.Modules.Home.Address
         public string Fax { get { return address.Fax; } set { address.Fax = value; } }
 
         [FwLogicProperty(Id:"xW49uJtaIv94r")]
-        public string Phone800 { get { return address.Phone800; } set { address.Phone800 = value; } }
+        public string PhoneTollFree { get { return address.PhoneTollFree; } set { address.PhoneTollFree = value; } }
 
         [FwLogicProperty(Id:"pjsfw92l7vuJc")]
         public string PhoneOther { get { return address.PhoneOther; } set { address.PhoneOther = value; } }

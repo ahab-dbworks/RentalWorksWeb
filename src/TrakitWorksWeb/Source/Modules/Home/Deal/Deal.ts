@@ -299,7 +299,7 @@ class Deal {
             FwFormField.setValueByDataField($form, 'State', response.State);
             FwFormField.setValueByDataField($form, 'ZipCode', response.ZipCode);
             FwFormField.setValueByDataField($form, 'Phone', response.Phone);
-            FwFormField.setValueByDataField($form, 'Phone800', response.Phone800);
+            FwFormField.setValueByDataField($form, 'PhoneTollFree', response.PhoneTollFree);
             FwFormField.setValueByDataField($form, 'Fax', response.Fax);
             FwFormField.setValueByDataField($form, 'PhoneOther', response.OtherPhone);
             FwFormField.setValue($form, 'div[data-datafield="CountryId"]', response.CountryId, response.Country);
