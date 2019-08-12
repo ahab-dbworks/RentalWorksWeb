@@ -52,7 +52,7 @@ namespace RentalWorksAPI.api.v1.Data
                 newCustomer.customercategory       = dt.Rows[i][dt.ColumnIndex["custcatdesc"]].ToString().TrimEnd();
                 newCustomer.phone                  = dt.Rows[i][dt.ColumnIndex["phone"]].ToString().TrimEnd();
                 newCustomer.fax                    = dt.Rows[i][dt.ColumnIndex["faxno"]].ToString().TrimEnd();
-                newCustomer.phonetollfree          = dt.Rows[i][dt.ColumnIndex["phone800"]].ToString().TrimEnd();
+                newCustomer.phone800               = dt.Rows[i][dt.ColumnIndex["phone800"]].ToString().TrimEnd();
                 newCustomer.phoneother             = dt.Rows[i][dt.ColumnIndex["phoneother"]].ToString().TrimEnd();
                 newCustomer.creditstatus           = dt.Rows[i][dt.ColumnIndex["creditstatus"]].ToString().TrimEnd();
                 newCustomer.creditthroughdate      = dt.Rows[i][dt.ColumnIndex["creditthroughdate"]].ToString().TrimEnd();
@@ -213,7 +213,7 @@ namespace RentalWorksAPI.api.v1.Data
             }
             sp.AddParameter("@phone",             customerdata.phone);
             sp.AddParameter("@faxno",             customerdata.fax);
-            sp.AddParameter("@phone800",          customerdata.phonetollfree);
+            sp.AddParameter("@phone800",          customerdata.phone800);
             sp.AddParameter("@phoneother",        customerdata.phoneother);
             sp.AddParameter("@billtoadd",         customerdata.billtoaddress);
             sp.AddParameter("@creditstatus",      customerdata.creditstatus);

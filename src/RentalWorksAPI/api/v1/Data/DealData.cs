@@ -50,7 +50,7 @@ namespace RentalWorksAPI.api.v1.Data
                 deal.dealstatus             = dt.Rows[i][dt.ColumnIndex["dealstatus"]].ToString().TrimEnd();
                 deal.phone                  = dt.Rows[i][dt.ColumnIndex["phone"]].ToString().TrimEnd();
                 deal.fax                    = dt.Rows[i][dt.ColumnIndex["fax"]].ToString().TrimEnd();
-                deal.phonetollfree          = dt.Rows[i][dt.ColumnIndex["phone800"]].ToString().TrimEnd();
+                deal.phone800               = dt.Rows[i][dt.ColumnIndex["phone800"]].ToString().TrimEnd();
                 deal.phoneother             = dt.Rows[i][dt.ColumnIndex["otherphone"]].ToString().TrimEnd();
                 deal.billperiod             = dt.Rows[i][dt.ColumnIndex["billperiod"]].ToString().TrimEnd();
                 deal.paymenttype            = dt.Rows[i][dt.ColumnIndex["paytype"]].ToString().TrimEnd();
@@ -111,7 +111,7 @@ namespace RentalWorksAPI.api.v1.Data
             sp.AddParameter("@dealstatus",        deal.dealstatus);
             sp.AddParameter("@mainphone",         deal.phone);
             sp.AddParameter("@fax",               deal.fax);
-            sp.AddParameter("@phone800",          deal.phonetollfree);
+            sp.AddParameter("@phone800",          deal.phone800);
             sp.AddParameter("@otherphone",        deal.phoneother);
             sp.AddParameter("@billperiod",        deal.billperiod);
             sp.AddParameter("@paytype",           deal.paymenttype);

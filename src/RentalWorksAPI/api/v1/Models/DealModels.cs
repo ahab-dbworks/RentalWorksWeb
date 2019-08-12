@@ -48,7 +48,7 @@ namespace RentalWorksAPI.api.v1.Models
         public string creditstatus           { get; set; }
 
         [DataType(DataType.PhoneNumber)]
-        public string phonetollfree          { get; set; }
+        public string phone800               { get; set; }
 
         [DataType(DataType.PhoneNumber)]
         public string phoneother             { get; set; }
