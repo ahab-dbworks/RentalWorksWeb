@@ -55,3 +55,4 @@ copy %zipfilename% history
 rem command-line Git push in the modified version and assemply files
 rem command-line Git make Release and Tag
 rem command-line gren make Build Release Document
+rem gren changelog --token=4f42c7ba6af985f6ac6a6c9eba45d8f25388ef58 --username=databaseworks --repo=rentalworksweb --generate --override --changelog-filename=RELEASE_NOTES.md -D issues -m --group-by label
