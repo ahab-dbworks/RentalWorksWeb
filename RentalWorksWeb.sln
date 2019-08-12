@@ -82,7 +82,7 @@ Global
 		Release API|Any CPU = Release API|Any CPU
 		Release MiddleTier|Any CPU = Release MiddleTier|Any CPU
 		Release QuikScan Fast|Any CPU = Release QuikScan Fast|Any CPU
-		Release Web Fast|Any CPU = Release Web Fast|Any CPU
+		Release Web|Any CPU = Release Web|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
@@ -99,8 +99,8 @@ Global
 		{5FFA9EA3-4357-44D0-BD80-B6842529F0E1}.Release API|Any CPU.ActiveCfg = Release|Any CPU
 		{5FFA9EA3-4357-44D0-BD80-B6842529F0E1}.Release MiddleTier|Any CPU.ActiveCfg = Release Web Fast|Any CPU
 		{5FFA9EA3-4357-44D0-BD80-B6842529F0E1}.Release QuikScan Fast|Any CPU.ActiveCfg = Release|Any CPU
-		{5FFA9EA3-4357-44D0-BD80-B6842529F0E1}.Release Web Fast|Any CPU.ActiveCfg = Release Web Fast|Any CPU
-		{5FFA9EA3-4357-44D0-BD80-B6842529F0E1}.Release Web Fast|Any CPU.Build.0 = Release Web Fast|Any CPU
+		{5FFA9EA3-4357-44D0-BD80-B6842529F0E1}.Release Web|Any CPU.ActiveCfg = Release Web Fast|Any CPU
+		{5FFA9EA3-4357-44D0-BD80-B6842529F0E1}.Release Web|Any CPU.Build.0 = Release Web Fast|Any CPU
 		{5FFA9EA3-4357-44D0-BD80-B6842529F0E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5FFA9EA3-4357-44D0-BD80-B6842529F0E1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3BE1823F-3F08-4CA5-94BC-9C7EFD2FC64F}.Debug API|Any CPU.ActiveCfg = Debug|Any CPU
@@ -122,8 +122,8 @@ Global
 		{3BE1823F-3F08-4CA5-94BC-9C7EFD2FC64F}.Release MiddleTier|Any CPU.Build.0 = Release|Any CPU
 		{3BE1823F-3F08-4CA5-94BC-9C7EFD2FC64F}.Release QuikScan Fast|Any CPU.ActiveCfg = Release|Any CPU
 		{3BE1823F-3F08-4CA5-94BC-9C7EFD2FC64F}.Release QuikScan Fast|Any CPU.Build.0 = Release|Any CPU
-		{3BE1823F-3F08-4CA5-94BC-9C7EFD2FC64F}.Release Web Fast|Any CPU.ActiveCfg = Release|Any CPU
-		{3BE1823F-3F08-4CA5-94BC-9C7EFD2FC64F}.Release Web Fast|Any CPU.Build.0 = Release|Any CPU
+		{3BE1823F-3F08-4CA5-94BC-9C7EFD2FC64F}.Release Web|Any CPU.ActiveCfg = Release|Any CPU
+		{3BE1823F-3F08-4CA5-94BC-9C7EFD2FC64F}.Release Web|Any CPU.Build.0 = Release|Any CPU
 		{3BE1823F-3F08-4CA5-94BC-9C7EFD2FC64F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3BE1823F-3F08-4CA5-94BC-9C7EFD2FC64F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{81982370-068F-4922-9F56-8807515D2291}.Debug API|Any CPU.ActiveCfg = Debug|Any CPU
@@ -139,7 +139,7 @@ Global
 		{81982370-068F-4922-9F56-8807515D2291}.Release API|Any CPU.Build.0 = Release|Any CPU
 		{81982370-068F-4922-9F56-8807515D2291}.Release MiddleTier|Any CPU.ActiveCfg = Release|Any CPU
 		{81982370-068F-4922-9F56-8807515D2291}.Release QuikScan Fast|Any CPU.ActiveCfg = Release|Any CPU
-		{81982370-068F-4922-9F56-8807515D2291}.Release Web Fast|Any CPU.ActiveCfg = Release|Any CPU
+		{81982370-068F-4922-9F56-8807515D2291}.Release Web|Any CPU.ActiveCfg = Release|Any CPU
 		{81982370-068F-4922-9F56-8807515D2291}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{81982370-068F-4922-9F56-8807515D2291}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7576C47B-B75E-4491-AF97-5FCFEF52484E}.Debug API|Any CPU.ActiveCfg = Debug|Any CPU
@@ -156,7 +156,7 @@ Global
 		{7576C47B-B75E-4491-AF97-5FCFEF52484E}.Release MiddleTier|Any CPU.ActiveCfg = Release QuikScan Fast|Any CPU
 		{7576C47B-B75E-4491-AF97-5FCFEF52484E}.Release QuikScan Fast|Any CPU.ActiveCfg = Release QuikScan Fast|Any CPU
 		{7576C47B-B75E-4491-AF97-5FCFEF52484E}.Release QuikScan Fast|Any CPU.Build.0 = Release QuikScan Fast|Any CPU
-		{7576C47B-B75E-4491-AF97-5FCFEF52484E}.Release Web Fast|Any CPU.ActiveCfg = Release|Any CPU
+		{7576C47B-B75E-4491-AF97-5FCFEF52484E}.Release Web|Any CPU.ActiveCfg = Release|Any CPU
 		{7576C47B-B75E-4491-AF97-5FCFEF52484E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7576C47B-B75E-4491-AF97-5FCFEF52484E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{86349F96-FDF2-4D9F-B23C-3664AE189B00}.Debug API|Any CPU.ActiveCfg = Debug|Any CPU
@@ -176,8 +176,7 @@ Global
 		{86349F96-FDF2-4D9F-B23C-3664AE189B00}.Release MiddleTier|Any CPU.Build.0 = Release|Any CPU
 		{86349F96-FDF2-4D9F-B23C-3664AE189B00}.Release QuikScan Fast|Any CPU.ActiveCfg = Release|Any CPU
 		{86349F96-FDF2-4D9F-B23C-3664AE189B00}.Release QuikScan Fast|Any CPU.Build.0 = Release|Any CPU
-		{86349F96-FDF2-4D9F-B23C-3664AE189B00}.Release Web Fast|Any CPU.ActiveCfg = Release|Any CPU
-		{86349F96-FDF2-4D9F-B23C-3664AE189B00}.Release Web Fast|Any CPU.Build.0 = Release|Any CPU
+		{86349F96-FDF2-4D9F-B23C-3664AE189B00}.Release Web|Any CPU.ActiveCfg = Release|Any CPU
 		{86349F96-FDF2-4D9F-B23C-3664AE189B00}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{86349F96-FDF2-4D9F-B23C-3664AE189B00}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BF70FE28-DA24-40EC-AA7E-613803411E12}.Debug API|Any CPU.ActiveCfg = Debug|Any CPU
@@ -200,8 +199,8 @@ Global
 		{BF70FE28-DA24-40EC-AA7E-613803411E12}.Release MiddleTier|Any CPU.Build.0 = Release|Any CPU
 		{BF70FE28-DA24-40EC-AA7E-613803411E12}.Release QuikScan Fast|Any CPU.ActiveCfg = Release|Any CPU
 		{BF70FE28-DA24-40EC-AA7E-613803411E12}.Release QuikScan Fast|Any CPU.Build.0 = Release|Any CPU
-		{BF70FE28-DA24-40EC-AA7E-613803411E12}.Release Web Fast|Any CPU.ActiveCfg = Release|Any CPU
-		{BF70FE28-DA24-40EC-AA7E-613803411E12}.Release Web Fast|Any CPU.Build.0 = Release|Any CPU
+		{BF70FE28-DA24-40EC-AA7E-613803411E12}.Release Web|Any CPU.ActiveCfg = Release|Any CPU
+		{BF70FE28-DA24-40EC-AA7E-613803411E12}.Release Web|Any CPU.Build.0 = Release|Any CPU
 		{BF70FE28-DA24-40EC-AA7E-613803411E12}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BF70FE28-DA24-40EC-AA7E-613803411E12}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8015A604-E732-481C-AB96-065C9E7E20B0}.Debug API|Any CPU.ActiveCfg = Debug|Any CPU
@@ -224,8 +223,8 @@ Global
 		{8015A604-E732-481C-AB96-065C9E7E20B0}.Release MiddleTier|Any CPU.Build.0 = Release|Any CPU
 		{8015A604-E732-481C-AB96-065C9E7E20B0}.Release QuikScan Fast|Any CPU.ActiveCfg = Release|Any CPU
 		{8015A604-E732-481C-AB96-065C9E7E20B0}.Release QuikScan Fast|Any CPU.Build.0 = Release|Any CPU
-		{8015A604-E732-481C-AB96-065C9E7E20B0}.Release Web Fast|Any CPU.ActiveCfg = Release|Any CPU
-		{8015A604-E732-481C-AB96-065C9E7E20B0}.Release Web Fast|Any CPU.Build.0 = Release|Any CPU
+		{8015A604-E732-481C-AB96-065C9E7E20B0}.Release Web|Any CPU.ActiveCfg = Release|Any CPU
+		{8015A604-E732-481C-AB96-065C9E7E20B0}.Release Web|Any CPU.Build.0 = Release|Any CPU
 		{8015A604-E732-481C-AB96-065C9E7E20B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8015A604-E732-481C-AB96-065C9E7E20B0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{28FF8708-3B6C-4933-B35A-BE80C879060F}.Debug API|Any CPU.ActiveCfg = Debug|Any CPU
@@ -248,8 +247,8 @@ Global
 		{28FF8708-3B6C-4933-B35A-BE80C879060F}.Release MiddleTier|Any CPU.Build.0 = Release|Any CPU
 		{28FF8708-3B6C-4933-B35A-BE80C879060F}.Release QuikScan Fast|Any CPU.ActiveCfg = Release|Any CPU
 		{28FF8708-3B6C-4933-B35A-BE80C879060F}.Release QuikScan Fast|Any CPU.Build.0 = Release|Any CPU
-		{28FF8708-3B6C-4933-B35A-BE80C879060F}.Release Web Fast|Any CPU.ActiveCfg = Release|Any CPU
-		{28FF8708-3B6C-4933-B35A-BE80C879060F}.Release Web Fast|Any CPU.Build.0 = Release|Any CPU
+		{28FF8708-3B6C-4933-B35A-BE80C879060F}.Release Web|Any CPU.ActiveCfg = Release|Any CPU
+		{28FF8708-3B6C-4933-B35A-BE80C879060F}.Release Web|Any CPU.Build.0 = Release|Any CPU
 		{28FF8708-3B6C-4933-B35A-BE80C879060F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{28FF8708-3B6C-4933-B35A-BE80C879060F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{727C09EB-27BD-4657-A43E-7CA436679403}.Debug API|Any CPU.ActiveCfg = Debug|Any CPU
@@ -272,8 +271,8 @@ Global
 		{727C09EB-27BD-4657-A43E-7CA436679403}.Release MiddleTier|Any CPU.Build.0 = Release|Any CPU
 		{727C09EB-27BD-4657-A43E-7CA436679403}.Release QuikScan Fast|Any CPU.ActiveCfg = Release|Any CPU
 		{727C09EB-27BD-4657-A43E-7CA436679403}.Release QuikScan Fast|Any CPU.Build.0 = Release|Any CPU
-		{727C09EB-27BD-4657-A43E-7CA436679403}.Release Web Fast|Any CPU.ActiveCfg = Release|Any CPU
-		{727C09EB-27BD-4657-A43E-7CA436679403}.Release Web Fast|Any CPU.Build.0 = Release|Any CPU
+		{727C09EB-27BD-4657-A43E-7CA436679403}.Release Web|Any CPU.ActiveCfg = Release|Any CPU
+		{727C09EB-27BD-4657-A43E-7CA436679403}.Release Web|Any CPU.Build.0 = Release|Any CPU
 		{727C09EB-27BD-4657-A43E-7CA436679403}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{727C09EB-27BD-4657-A43E-7CA436679403}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D56B7396-11E1-4E1B-8511-1F0838770F9A}.Debug API|Any CPU.ActiveCfg = Debug Web Fast|Any CPU
@@ -296,8 +295,7 @@ Global
 		{D56B7396-11E1-4E1B-8511-1F0838770F9A}.Release MiddleTier|Any CPU.Build.0 = Release Web Fast|Any CPU
 		{D56B7396-11E1-4E1B-8511-1F0838770F9A}.Release QuikScan Fast|Any CPU.ActiveCfg = Release Web Fast|Any CPU
 		{D56B7396-11E1-4E1B-8511-1F0838770F9A}.Release QuikScan Fast|Any CPU.Build.0 = Release Web Fast|Any CPU
-		{D56B7396-11E1-4E1B-8511-1F0838770F9A}.Release Web Fast|Any CPU.ActiveCfg = Release Web Fast|Any CPU
-		{D56B7396-11E1-4E1B-8511-1F0838770F9A}.Release Web Fast|Any CPU.Build.0 = Release Web Fast|Any CPU
+		{D56B7396-11E1-4E1B-8511-1F0838770F9A}.Release Web|Any CPU.ActiveCfg = Release Web Fast|Any CPU
 		{D56B7396-11E1-4E1B-8511-1F0838770F9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D56B7396-11E1-4E1B-8511-1F0838770F9A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5A1B32D5-4C84-456A-9D28-A1D3696BC594}.Debug API|Any CPU.ActiveCfg = Debug Web Fast|Any CPU
@@ -320,8 +318,7 @@ Global
 		{5A1B32D5-4C84-456A-9D28-A1D3696BC594}.Release MiddleTier|Any CPU.Build.0 = Release Web Fast|Any CPU
 		{5A1B32D5-4C84-456A-9D28-A1D3696BC594}.Release QuikScan Fast|Any CPU.ActiveCfg = Release Web Fast|Any CPU
 		{5A1B32D5-4C84-456A-9D28-A1D3696BC594}.Release QuikScan Fast|Any CPU.Build.0 = Release Web Fast|Any CPU
-		{5A1B32D5-4C84-456A-9D28-A1D3696BC594}.Release Web Fast|Any CPU.ActiveCfg = Release Web Fast|Any CPU
-		{5A1B32D5-4C84-456A-9D28-A1D3696BC594}.Release Web Fast|Any CPU.Build.0 = Release Web Fast|Any CPU
+		{5A1B32D5-4C84-456A-9D28-A1D3696BC594}.Release Web|Any CPU.ActiveCfg = Release Web Fast|Any CPU
 		{5A1B32D5-4C84-456A-9D28-A1D3696BC594}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5A1B32D5-4C84-456A-9D28-A1D3696BC594}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8323F78C-1359-4DC1-831C-4C8B7B25F916}.Debug API|Any CPU.ActiveCfg = Debug|Any CPU
@@ -344,8 +341,8 @@ Global
 		{8323F78C-1359-4DC1-831C-4C8B7B25F916}.Release MiddleTier|Any CPU.Build.0 = Release|Any CPU
 		{8323F78C-1359-4DC1-831C-4C8B7B25F916}.Release QuikScan Fast|Any CPU.ActiveCfg = Release|Any CPU
 		{8323F78C-1359-4DC1-831C-4C8B7B25F916}.Release QuikScan Fast|Any CPU.Build.0 = Release|Any CPU
-		{8323F78C-1359-4DC1-831C-4C8B7B25F916}.Release Web Fast|Any CPU.ActiveCfg = Release|Any CPU
-		{8323F78C-1359-4DC1-831C-4C8B7B25F916}.Release Web Fast|Any CPU.Build.0 = Release|Any CPU
+		{8323F78C-1359-4DC1-831C-4C8B7B25F916}.Release Web|Any CPU.ActiveCfg = Release|Any CPU
+		{8323F78C-1359-4DC1-831C-4C8B7B25F916}.Release Web|Any CPU.Build.0 = Release|Any CPU
 		{8323F78C-1359-4DC1-831C-4C8B7B25F916}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8323F78C-1359-4DC1-831C-4C8B7B25F916}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0E4387DB-3F03-4C59-8C8D-48529C01C7DA}.Debug API|Any CPU.ActiveCfg = Debug|Any CPU
@@ -368,8 +365,7 @@ Global
 		{0E4387DB-3F03-4C59-8C8D-48529C01C7DA}.Release MiddleTier|Any CPU.Build.0 = Release|Any CPU
 		{0E4387DB-3F03-4C59-8C8D-48529C01C7DA}.Release QuikScan Fast|Any CPU.ActiveCfg = Release|Any CPU
 		{0E4387DB-3F03-4C59-8C8D-48529C01C7DA}.Release QuikScan Fast|Any CPU.Build.0 = Release|Any CPU
-		{0E4387DB-3F03-4C59-8C8D-48529C01C7DA}.Release Web Fast|Any CPU.ActiveCfg = Release|Any CPU
-		{0E4387DB-3F03-4C59-8C8D-48529C01C7DA}.Release Web Fast|Any CPU.Build.0 = Release|Any CPU
+		{0E4387DB-3F03-4C59-8C8D-48529C01C7DA}.Release Web|Any CPU.ActiveCfg = Release|Any CPU
 		{0E4387DB-3F03-4C59-8C8D-48529C01C7DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0E4387DB-3F03-4C59-8C8D-48529C01C7DA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9A88A175-8FFF-4A04-882B-A4CF74BE2FC7}.Debug API|Any CPU.ActiveCfg = Debug|Any CPU
@@ -391,8 +387,7 @@ Global
 		{9A88A175-8FFF-4A04-882B-A4CF74BE2FC7}.Release MiddleTier|Any CPU.Build.0 = Release|Any CPU
 		{9A88A175-8FFF-4A04-882B-A4CF74BE2FC7}.Release QuikScan Fast|Any CPU.ActiveCfg = Release|Any CPU
 		{9A88A175-8FFF-4A04-882B-A4CF74BE2FC7}.Release QuikScan Fast|Any CPU.Build.0 = Release|Any CPU
-		{9A88A175-8FFF-4A04-882B-A4CF74BE2FC7}.Release Web Fast|Any CPU.ActiveCfg = Release|Any CPU
-		{9A88A175-8FFF-4A04-882B-A4CF74BE2FC7}.Release Web Fast|Any CPU.Build.0 = Release|Any CPU
+		{9A88A175-8FFF-4A04-882B-A4CF74BE2FC7}.Release Web|Any CPU.ActiveCfg = Release|Any CPU
 		{9A88A175-8FFF-4A04-882B-A4CF74BE2FC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
