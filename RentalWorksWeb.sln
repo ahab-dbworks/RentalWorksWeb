@@ -21,6 +21,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
+		doc\Running JestTest\how to run and use TestWorks.md = doc\Running JestTest\how to run and use TestWorks.md
 		README.md = README.md
 	EndProjectSection
 EndProject
@@ -68,6 +69,11 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "how to add data fields to a Logical object in the API", "how to add data fields to a Logical object in the API", "{187221DF-BEEC-4397-8C56-95056FB237A0}"
 	ProjectSection(SolutionItems) = preProject
 		doc\how to add data fields to a Logical object in the API\how to add data fields to a Logical object in the API.md = doc\how to add data fields to a Logical object in the API\how to add data fields to a Logical object in the API.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Using JestTest - TestWorks", "Using JestTest - TestWorks", "{39554123-D422-473A-8BC9-D744D7EC2B0E}"
+	ProjectSection(SolutionItems) = preProject
+		doc\Running JestTest\how to run and use TestWorks.md = doc\Running JestTest\how to run and use TestWorks.md
 	EndProjectSection
 EndProject
 Global
@@ -398,6 +404,7 @@ Global
 		{EFEDEFDF-BBF1-43EF-B842-D93CA8852F39} = {362116D5-D26E-4EFA-9683-8C7F2F2E22C6}
 		{6762EA08-96B3-40DD-9AD4-8975DB08BB84} = {362116D5-D26E-4EFA-9683-8C7F2F2E22C6}
 		{187221DF-BEEC-4397-8C56-95056FB237A0} = {362116D5-D26E-4EFA-9683-8C7F2F2E22C6}
+		{39554123-D422-473A-8BC9-D744D7EC2B0E} = {362116D5-D26E-4EFA-9683-8C7F2F2E22C6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E145E0E5-999D-45BB-A556-3EA0D6972F03}

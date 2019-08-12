@@ -35,6 +35,9 @@
   <ItemGroup>
     <Content Include="package.json" />
     <Content Include="README.md" />
+    <Content Include="src\ts\rentalworksweb\RWWDEMOBurbank.test.ts">
+      <SubType>Code</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="src\" />
@@ -46,8 +49,6 @@
     <Folder Include="src\ts\shared\" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="src\ts\rentalworksweb\AddGridRow.test.ts" />
-    <TypeScriptCompile Include="src\ts\rentalworksweb\CustomerDealQuote.test.ts" />
     <TypeScriptCompile Include="src\ts\rentalworksweb\modules\Customer.ts" />
     <TypeScriptCompile Include="src\ts\rentalworksweb\modules\Deal.ts" />
     <TypeScriptCompile Include="src\ts\rentalworksweb\modules\Order.ts" />
@@ -58,10 +59,10 @@
     <TypeScriptCompile Include="src\ts\rentalworksweb\modules\SalesInventory.ts" />
     <TypeScriptCompile Include="src\ts\rentalworksweb\modules\Vendor.ts" />
     <TypeScriptCompile Include="src\ts\rentalworksweb\RentalAvailability.test.ts" />
-    <TypeScriptCompile Include="src\ts\rentalworksweb\NewRentalInventory.test.ts" />
-    <TypeScriptCompile Include="src\ts\rentalworksweb\NewVendor.test.ts" />
     <TypeScriptCompile Include="src\ts\rentalworksweb\RentalWorksWeb.ts" />
-    <TypeScriptCompile Include="src\ts\rentalworksweb\RWWDEMO.test.ts" />
+    <TypeScriptCompile Include="src\ts\rentalworksweb\CustomerDealQuote.test.ts" />
+    <TypeScriptCompile Include="src\ts\rentalworksweb\AddGridRow.test.ts" />
+    <TypeScriptCompile Include="src\ts\rentalworksweb\NewVendor.test.ts" />
     <TypeScriptCompile Include="src\ts\shared\Ajax.ts" />
     <TypeScriptCompile Include="src\ts\shared\ModuleBase.ts" />
     <TypeScriptCompile Include="src\ts\shared\TestUtils.ts" />
