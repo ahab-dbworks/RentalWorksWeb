@@ -16,8 +16,14 @@ namespace WebApi.Modules.Reports.ReturnOnAssetReport
 {
     public class ReturnOnAssetReportRequest : AppReportRequest
     {
+        public bool? UsePeriodSelector { get; set; }
         public string ReportYear { get; set; }
         public string ReportPeriod { get; set; }
+
+        public bool? UseDateRange { get; set; }
+        public DateTime FromDate { get; set; }
+        public DateTime ToDate { get; set; }
+
         public string WarehouseId { get; set; }
         public string InventoryTypeId { get; set; }
         public string CategoryId { get; set; }

@@ -132,14 +132,30 @@ namespace WebApi.Modules.Reports.ReturnOnAssetReport
             {
                 FwSqlSelect select = new FwSqlSelect();
                 select.EnablePaging = false;
-				select.UseOptionRecompile = true;
+                select.UseOptionRecompile = true;
+               
                 using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DataWarehouseDatabaseSettings.ReportTimeout))
                 {
+
+                    if (request.UseDateRange.GetValueOrDefault(false))
+                    {
+                        OverrideTableName = "dbo.dwreturnonasset(@fromdate, @todate, @icode)";
+                    }
+
                     SetBaseSelectQuery(select, qry);
                     select.Parse();
 
-                    select.AddWhereIn("RptYear", request.ReportYear);
-                    select.AddWhereIn("ReportDateRangeCode", request.ReportPeriod);
+                    if (request.UseDateRange.GetValueOrDefault(false))
+                    {
+                        select.AddParameter("@fromdate", request.FromDate);
+                        select.AddParameter("@todate", request.ToDate);
+                        select.AddParameter("@icode", "");
+                    }
+                    else
+                    {
+                        select.AddWhereIn("RptYear", request.ReportYear);
+                        select.AddWhereIn("ReportDateRangeCode", request.ReportPeriod);
+                    }
                     select.AddWhereIn("WarehouseKey", request.WarehouseId);
                     select.AddWhereIn("DepartmentKey", request.InventoryTypeId);
                     select.AddWhereIn("CategoryKey", request.CategoryId);
