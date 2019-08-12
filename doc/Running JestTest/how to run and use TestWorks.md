@@ -23,5 +23,6 @@ npm run test-rentalworksweb -t rwwdemo
 ```
 - Firstly, 'npm run' always initializes the command string.
 - The keyword 'test' hypened with the directory in which you wish to invoke tests (e.g. rentalworksapi OR rentalworksweb).
+- Note, test directories are located within \JestTest\src\ts
 - The '-t' flag and succeeding string can be utilized in order to target a particular test name or group of tests. It will target filename partial matches and is not case-sensitive.
 - *Without the '-t' flag and search string, the program will run all files in the directory ending with the .test.ts file extension*.
