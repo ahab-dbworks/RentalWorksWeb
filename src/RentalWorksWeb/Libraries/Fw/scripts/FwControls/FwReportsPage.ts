@@ -297,10 +297,11 @@
                     const modules: any = [];
                     for (var i = 0; i < results.length; i++) {
                         //check report ids for match
-                        for (let k = 0; k < $reports.length; k++) {
-                            if ($reports.eq(k).attr('id').toUpperCase() === results[i]) {
-                                modules.push($reports.eq(k)[0]);
-                            }
+                        const matchedResults = $reports.filter(function () {
+                            return -1 != jQuery(this).attr('id').toUpperCase().indexOf(results[i]);
+                        }).closest('div.panel-group');
+                        if (matchedResults.length > 0) {
+                            jQuery.merge(modules, matchedResults);
                         }
 
                         //check descriptions for match
@@ -309,7 +310,7 @@
                         }).closest('div.panel-group');
                         matchedDescription.find('.highlighted').removeClass('highlighted');
                         if (matchedDescription.length > 0) {
-                            modules.push(matchedDescription);
+                            jQuery.merge(modules, matchedDescription);
                         }
 
                         //check titles for match
@@ -317,7 +318,7 @@
                             return -1 != jQuery(this).text().toUpperCase().indexOf(results[i]);
                         }).closest('div.panel-group');
                         if (matchedTitle.length > 0) {
-                            modules.push(matchedTitle);
+                            jQuery.merge(modules, matchedTitle);
                         }
                     }
                     matchDescriptionTitle(modules);
