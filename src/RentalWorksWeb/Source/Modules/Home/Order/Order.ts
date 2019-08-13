@@ -411,7 +411,7 @@ class Order extends OrderBase {
                           <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield anti-LD activity" data-caption="Used Sale" data-datafield="RentalSale" style="flex:1 1 100px;"></div>
                         </div>                          
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield activity" data-caption="Loss and Damage" data-datafield="LossAndDamage" style="flex:1 1 125px;"></div>
+                          <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield activity" data-caption="Loss &amp; Damage" data-datafield="LossAndDamage" style="flex:1 1 125px;"></div>
                         </div>
                         <div class="flexrow" style="display:none;">
                           <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="HasRentalItem" data-datafield="HasRentalItem" style="flex:1 1 100px;"></div>
@@ -516,7 +516,7 @@ class Order extends OrderBase {
               <div data-type="tabpage" id="profitlosstabpage" class="tabpage" data-tabid="profitlosstab" data-render="false">
                 <div class="wideflexrow">
                   <!-- Order Profitability -->
-                  <div class="flexcolumn" style="flex:1 1 175px;">
+                  <div class="flexcolumn" style="flex:0 1 200px;">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Order">
                       <div class="flexrow">
                         <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield frame" data-caption="Sub-Total" data-datafield="" data-framedatafield="TotalPrice"></div>
@@ -542,7 +542,7 @@ class Order extends OrderBase {
                     </div>
                   </div>
                   <!-- Rental Profitability -->
-                  <div class="flexcolumn rental-pl" style="flex:1 1 175px;">
+                  <div class="flexcolumn rental-pl" style="flex:0 1 200px;">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Rentals">
                       <div class="flexrow">
                         <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield frame" data-caption="Sub-Total" data-datafield="" data-framedatafield="RentalPrice"></div>
@@ -568,7 +568,7 @@ class Order extends OrderBase {
                     </div>
                   </div>
                   <!-- Sales Profitability -->
-                  <div class="flexcolumn sales-pl" style="flex:1 1 175px;">
+                  <div class="flexcolumn sales-pl" style="flex:0 1 200px;">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Sales">
                       <div class="flexrow">
                         <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield frame" data-caption="Sub-Total" data-datafield="" data-framedatafield="SalesPrice"></div>
@@ -594,7 +594,7 @@ class Order extends OrderBase {
                     </div>
                   </div>
                   <!-- Labor Profitability -->
-                  <div class="flexcolumn labor-pl" style="flex:1 1 175px;">
+                  <div class="flexcolumn labor-pl" style="flex:0 1 200px;">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Labor">
                       <div class="flexrow">
                         <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield frame" data-caption="Sub-Total" data-datafield="" data-framedatafield="LaborPrice"></div>
@@ -620,7 +620,7 @@ class Order extends OrderBase {
                     </div>
                   </div>
                   <!-- Miscellaneous Profitability -->
-                  <div class="flexcolumn misc-pl" style="flex:1 1 175px;">
+                  <div class="flexcolumn misc-pl" style="flex:0 1 200px;">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Miscellaneous">
                       <div class="flexrow">
                         <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield frame" data-caption="Sub-Total" data-datafield="" data-framedatafield="MiscPrice"></div>
@@ -646,7 +646,7 @@ class Order extends OrderBase {
                     </div>
                   </div>
                   <!-- Used Sale Profitability -->
-                  <div class="flexcolumn usedsale-pl" style="flex:1 1 175px;">
+                  <div class="flexcolumn usedsale-pl" style="flex:0 1 200px;">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Used Sales">
                       <div class="flexrow">
                         <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield frame" data-caption="Sub-Total" data-datafield="" data-framedatafield="RentalSalePrice"></div>
@@ -672,7 +672,7 @@ class Order extends OrderBase {
                     </div>
                   </div>
                   <!-- Sales Tax -->
-                  <div class="flexcolumn salestax-pl" style="flex:0 1 150px;">
+                  <div class="flexcolumn salestax-pl" style="flex:0 1 200px;">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Sales Tax">
                       <div class="flexrow">
                         <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield frame" data-caption="" data-datafield="" data-framedatafield="" style="visibility:hidden;"></div>
@@ -708,60 +708,60 @@ class Order extends OrderBase {
                       </div>    
                     </div>
                   </div>
-                  <div class="flexcolumn" style="flex:0 0 35px;">
+                  <div class="flexcolumn" style="flex:0 0 auto;">
                     <div class="flexrow toggle-totals-buttons">
-                      <div style="margin-top:10px; margin-left: 5px;">
+                      <div style="margin: 10px 10px 0px 5px;">
                         <i class="material-icons expandArrow expandFrames" style="cursor:pointer; background-color:#37474F; color:white">keyboard_arrow_right</i>
                         <i class="material-icons expandArrow hideFrames" style="cursor:pointer; background-color:#37474F; color:white">keyboard_arrow_down</i>
                       </div>
                     </div>
-                 <div class="flexcolumn summarySection" style="flex:0 1 200px;padding-right:10px; display:none;">
-                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Rental Totals">
-                      <div class="flexrow rentaltotals">
-                        <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield totals totalType" data-gridtype="rental" data-caption="View" data-datafield="totalTypeRental" style="flex:1 1 175px;"></div>
+                    <div class="flexcolumn summarySection" style="flex:0 1 200px;padding-right:10px; display:none;">
+                      <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Rental Totals">
+                        <div class="flexrow rentaltotals">
+                          <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield totals totalType" data-gridtype="rental" data-caption="View" data-datafield="totalTypeRental" style="flex:1 1 175px;"></div>
+                        </div>
+                        <div class="flexrow rentaltotals">
+                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Gross Total" data-datafield="" data-enabled="false" data-totalfield="GrossTotal" style="flex:1 1 175px;"></div>
+                        </div>
+                        <div class="flexrow rentaltotals">
+                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Discount" data-datafield="" data-enabled="false" data-totalfield="Discount" style="flex:1 1 175px;"></div>
+                        </div>
+                        <div class="flexrow rentaltotals">
+                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Sub-Total" data-datafield="" data-enabled="false" data-totalfield="SubTotal" style="flex:1 1 175px;"></div>
+                        </div>
+                        <div class="flexrow rentaltotals">
+                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Tax" data-datafield="" data-enabled="false" data-totalfield="Tax" style="flex:1 1 175px;"></div>
+                        </div>
+                        <div class="flexrow rentaltotals">
+                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Total" data-datafield="" data-enabled="false" data-totalfield="Total" style="flex:1 1 175px;"></div>
+                        </div>
                       </div>
-                      <div class="flexrow rentaltotals">
-                        <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Gross Total" data-datafield="" data-enabled="false" data-totalfield="GrossTotal" style="flex:1 1 175px;"></div>
-                      </div>
-                      <div class="flexrow rentaltotals">
-                        <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Discount" data-datafield="" data-enabled="false" data-totalfield="Discount" style="flex:1 1 175px;"></div>
-                      </div>
-                      <div class="flexrow rentaltotals">
-                        <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Sub-Total" data-datafield="" data-enabled="false" data-totalfield="SubTotal" style="flex:1 1 175px;"></div>
-                      </div>
-                      <div class="flexrow rentaltotals">
-                        <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Tax" data-datafield="" data-enabled="false" data-totalfield="Tax" style="flex:1 1 175px;"></div>
-                      </div>
-                      <div class="flexrow rentaltotals">
-                        <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Total" data-datafield="" data-enabled="false" data-totalfield="Total" style="flex:1 1 175px;"></div>
+                      <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Rental Adjustments">
+                        <div class="flexrow rentalAdjustments">
+                          <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield totals RentalDaysPerWeek" data-caption="D/W" data-datafield="RentalDaysPerWeek" data-digits="3" data-digitsoptional="false" style="flex:1 1 175px;"></div>
+                        </div>
+                        <div class="flexrow rentalAdjustments">
+                          <div data-control="FwFormField" data-type="percent" class="fwcontrol fwformfield bottom_line_discount" data-caption="Disc. %" data-rectype="R" data-datafield="RentalDiscountPercent" data-digits="2" style="flex:1 1 175px;"></div>
+                        </div>
+                        <div class="flexrow rentalAdjustments">
+                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals rentalOrderItemTotal bottom_line_total_tax rentalAdjustmentsPeriod" data-caption="Total" data-rectype="R" data-datafield="PeriodRentalTotal" style="flex:1 1 175px;"></div>
+                        </div>
+                        <div class="flexrow rentalAdjustments">
+                          <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield rentalTotalWithTax bottom_line_total_tax rentalAdjustmentsPeriod" data-caption="Include Tax in Total" data-rectype="R" data-datafield="PeriodRentalTotalIncludesTax" style="flex:1 1 175px;margin-top:10px;"></div>                      </div>
+                        <div class="flexrow rentalAdjustments">
+                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals rentalOrderItemTotal bottom_line_total_tax rentalAdjustmentsWeekly" data-caption="Total" data-rectype="R" data-datafield="WeeklyRentalTotal" style="flex:1 1 175px; display:none;"></div>
+                        </div>
+                        <div class="flexrow rentalAdjustments">
+                          <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield rentalTotalWithTax bottom_line_total_tax rentalAdjustmentsWeekly" data-caption="Include Tax in Total" data-rectype="R" data-datafield="WeeklyRentalTotalIncludesTax" style="flex:1 1 175px;margin-top:10px; display:none;"></div>
+                        </div>
+                        <div class="flexrow rentalAdjustments">
+                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals rentalOrderItemTotal bottom_line_total_tax rentalAdjustmentsMonthly" data-caption="Total" data-rectype="R" data-datafield="MonthlyRentalTotal" style="flex:1 1 175px; display:none;"></div>
+                        </div>
+                        <div class="flexrow rentalAdjustments">
+                          <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield rentalTotalWithTax bottom_line_total_tax rentalAdjustmentsMonthly" data-caption="Include Tax in Total" data-rectype="R" data-datafield="MonthlyRentalTotalIncludesTax" style="flex:1 1 175px;margin-top:10px; display:none;"></div>
+                        </div>
                       </div>
                     </div>
-                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Rental Adjustments">
-                      <div class="flexrow rentalAdjustments">
-                        <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield totals RentalDaysPerWeek" data-caption="D/W" data-datafield="RentalDaysPerWeek" data-digits="3" data-digitsoptional="false" style="flex:1 1 175px;"></div>
-                      </div>
-                      <div class="flexrow rentalAdjustments">
-                        <div data-control="FwFormField" data-type="percent" class="fwcontrol fwformfield bottom_line_discount" data-caption="Disc. %" data-rectype="R" data-datafield="RentalDiscountPercent" data-digits="2" style="flex:1 1 175px;"></div>
-                      </div>
-                      <div class="flexrow rentalAdjustments">
-                        <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals rentalOrderItemTotal bottom_line_total_tax rentalAdjustmentsPeriod" data-caption="Total" data-rectype="R" data-datafield="PeriodRentalTotal" style="flex:1 1 175px;"></div>
-                      </div>
-                      <div class="flexrow rentalAdjustments">
-                        <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield rentalTotalWithTax bottom_line_total_tax rentalAdjustmentsPeriod" data-caption="Include Tax in Total" data-rectype="R" data-datafield="PeriodRentalTotalIncludesTax" style="flex:1 1 175px;margin-top:10px;"></div>                      </div>
-                      <div class="flexrow rentalAdjustments">
-                        <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals rentalOrderItemTotal bottom_line_total_tax rentalAdjustmentsWeekly" data-caption="Total" data-rectype="R" data-datafield="WeeklyRentalTotal" style="flex:1 1 175px; display:none;"></div>
-                      </div>
-                      <div class="flexrow rentalAdjustments">
-                        <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield rentalTotalWithTax bottom_line_total_tax rentalAdjustmentsWeekly" data-caption="Include Tax in Total" data-rectype="R" data-datafield="WeeklyRentalTotalIncludesTax" style="flex:1 1 175px;margin-top:10px; display:none;"></div>
-                      </div>
-                      <div class="flexrow rentalAdjustments">
-                        <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals rentalOrderItemTotal bottom_line_total_tax rentalAdjustmentsMonthly" data-caption="Total" data-rectype="R" data-datafield="MonthlyRentalTotal" style="flex:1 1 175px; display:none;"></div>
-                      </div>
-                      <div class="flexrow rentalAdjustments">
-                        <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield rentalTotalWithTax bottom_line_total_tax rentalAdjustmentsMonthly" data-caption="Include Tax in Total" data-rectype="R" data-datafield="MonthlyRentalTotalIncludesTax" style="flex:1 1 175px;margin-top:10px; display:none;"></div>
-                      </div>
-                    </div>
-                  </div>
                   </div>
                 </div>
               </div>
@@ -776,9 +776,9 @@ class Order extends OrderBase {
                       </div>
                     </div>
                   </div>
-                  <div class="flexcolumn" style="flex:0 0 35px;">
+                  <div class="flexcolumn" style="flex:0 0 auto;">
                     <div class="flexrow toggle-totals-buttons">
-                      <div style="margin-top:10px; margin-left: 5px;">
+                      <div style="margin: 10px 10px 0px 5px;">
                         <i class="material-icons expandArrow expandFrames" style="cursor:pointer; background-color:#37474F; color:white">keyboard_arrow_right</i>
                         <i class="material-icons expandArrow hideFrames" style="cursor:pointer; background-color:#37474F; color:white">keyboard_arrow_down</i>
                       </div>
@@ -827,9 +827,9 @@ class Order extends OrderBase {
                       </div>
                     </div>
                   </div>
-                  <div class="flexcolumn" style="flex:0 0 35px;">
+                  <div class="flexcolumn" style="flex:0 0 auto;">
                     <div class="flexrow toggle-totals-buttons">
-                      <div style="margin-top:10px; margin-left: 5px;">
+                      <div style="margin: 10px 10px 0px 5px;">
                         <i class="material-icons expandArrow expandFrames" style="cursor:pointer; background-color:#37474F; color:white">keyboard_arrow_right</i>
                         <i class="material-icons expandArrow hideFrames" style="cursor:pointer; background-color:#37474F; color:white">keyboard_arrow_down</i>
                       </div>
@@ -893,9 +893,9 @@ class Order extends OrderBase {
                       </div>
                     </div>
                   </div>
-                  <div class="flexcolumn" style="flex:0 0 35px;">
+                  <div class="flexcolumn" style="flex:0 0 auto;">
                     <div class="flexrow toggle-totals-buttons">
-                      <div style="margin-top:10px; margin-left: 5px;">
+                      <div style="margin: 10px 10px 0px 5px;">
                         <i class="material-icons expandArrow expandFrames" style="cursor:pointer; background-color:#37474F; color:white">keyboard_arrow_right</i>
                         <i class="material-icons expandArrow hideFrames" style="cursor:pointer; background-color:#37474F; color:white">keyboard_arrow_down</i>
                       </div>
@@ -959,9 +959,9 @@ class Order extends OrderBase {
                       </div>
                     </div>                  
                   </div>
-                  <div class="flexcolumn" style="flex:0 0 35px;">
+                  <div class="flexcolumn" style="flex:0 0 auto;">
                     <div class="flexrow toggle-totals-buttons">
-                      <div style="margin-top:10px; margin-left: 5px;">
+                      <div style="margin: 10px 10px 0px 5px;">
                         <i class="material-icons expandArrow expandFrames" style="cursor:pointer; background-color:#37474F; color:white">keyboard_arrow_right</i>
                         <i class="material-icons expandArrow hideFrames" style="cursor:pointer; background-color:#37474F; color:white">keyboard_arrow_down</i>
                       </div>
@@ -1022,9 +1022,9 @@ class Order extends OrderBase {
                       </div>
                     </div>                
                   </div>
-                  <div class="flexcolumn" style="flex:0 0 35px;">
+                  <div class="flexcolumn" style="flex:0 0 auto;">
                     <div class="flexrow toggle-totals-buttons">
-                      <div style="margin-top:10px; margin-left: 5px;">
+                      <div style="margin: 10px 10px 0px 5px;">
                         <i class="material-icons expandArrow expandFrames" style="cursor:pointer; background-color:#37474F; color:white">keyboard_arrow_right</i>
                         <i class="material-icons expandArrow hideFrames" style="cursor:pointer; background-color:#37474F; color:white">keyboard_arrow_down</i>
                       </div>
@@ -1073,9 +1073,9 @@ class Order extends OrderBase {
                       </div>
                     </div>
                   </div>
-                  <div class="flexcolumn" style="flex:0 0 35px;">
+                  <div class="flexcolumn" style="flex:0 0 auto;">
                     <div class="flexrow toggle-totals-buttons">
-                      <div style="margin-top:10px; margin-left: 5px;">
+                      <div style="margin: 10px 10px 0px 5px;">
                         <i class="material-icons expandArrow expandFrames" style="cursor:pointer; background-color:#37474F; color:white">keyboard_arrow_right</i>
                         <i class="material-icons expandArrow hideFrames" style="cursor:pointer; background-color:#37474F; color:white">keyboard_arrow_down</i>
                       </div>
