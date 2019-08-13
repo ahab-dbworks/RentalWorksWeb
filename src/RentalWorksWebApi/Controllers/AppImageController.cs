@@ -48,6 +48,20 @@ namespace WebApi.Controllers
             return await base.DoGetOneAsync(null, thumbnail, uniqueid1, uniqueid2, uniqueid3, orderby);
         }
         //------------------------------------------------------------------------------------
+        public class RepositionAsyncRequest
+        {
+            public string AppImageId { get; set; }
+            public int OrderBy { get; set; }
+        }
+
+        // POST api/v1/appimage/repositionimage
+        [HttpPost("repositionimage")]
+        [FwControllerMethod(Id: "OFOzYGj2Lppbd")]
+        public async Task<ActionResult> RepositionAsync([FromBody]RepositionAsyncRequest request)
+        {
+            return await base.DoRepositionAsync(request.AppImageId, request.OrderBy);
+        }
+        //------------------------------------------------------------------------------------
         public class AddAsyncRequest
         {
             public string Uniqueid1 { get; set; }
@@ -58,7 +72,7 @@ namespace WebApi.Controllers
             public string RecType { get; set; }
             public string ImageDataUrl { get; set; }
         }
-        // POST api/v1/deal 
+        // POST api/v1/appimage 
         [HttpPost]
         [FwControllerMethod(Id: "Ilka63gr9i15")]
         public async Task<ActionResult> AddAsync([FromBody]AddAsyncRequest request)
@@ -70,7 +84,7 @@ namespace WebApi.Controllers
         {
             public string AppImageId { get; set; }
         }
-        // DELETE api/v1/deal/A0000001 
+        // DELETE api/v1/appimage/A0000001 
         [HttpDelete]
         [FwControllerMethod(Id: "DixsvcLqBocO")]
         public async Task<ActionResult> DeleteAsync([FromBody]DeleteAsyncRequest request)
