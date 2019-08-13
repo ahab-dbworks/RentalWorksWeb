@@ -289,10 +289,12 @@ class Deal {
             FwFormField.enable($form.find('div[data-name="CompanyResaleGrid"]'));
             FwFormField.enable($form.find('div[data-name="CompanyTaxOptionGrid"]'));
         }
-
-        if (FwFormField.getValue($form, 'div[data-datafield="UnlimitedCredit"]') === true) {
+        // UnlimitedCredit checkbox on Credit tab
+        const useCustomerCredit = FwFormField.getValueByDataField($form, 'UseCustomerCredit');
+        const unlimitedCredit = FwFormField.getValueByDataField($form, 'UnlimitedCredit');
+        if (unlimitedCredit) {
             FwFormField.disable($form.find('div[data-datafield="CreditLimit"]'));
-        } else {
+        } else if (!unlimitedCredit && !useCustomerCredit) {
             FwFormField.enable($form.find('div[data-datafield="CreditLimit"]'));
         }
 
@@ -382,7 +384,6 @@ class Deal {
         });
         $form.find('[data-datafield="UnlimitedCredit"] .fwformfield-value').on('change', function () {
             const $this = jQuery(this);
-            const useCustomerCredit = FwFormField.getValueByDataField($form, 'UseCustomerCredit');
             if ($this.prop('checked') === true) {
                 FwFormField.disable($form.find('div[data-datafield="CreditLimit"]'));
             } else {
