@@ -52,6 +52,18 @@ namespace FwCore.Controllers
             return new OkObjectResult(new object());
         }
         //------------------------------------------------------------------------------------
+        protected async Task<ActionResult> DoRepositionAsync(string appimageid, int orderby)
+        {
+            //jh wip 08/12/2019 #868
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var appImageLogic = new FwAppImageLogic(this.AppConfig);
+            await appImageLogic.RepositionAsync(appimageid, orderby);
+            return new OkObjectResult(new object());
+        }
+        //------------------------------------------------------------------------------------
         protected async Task<ActionResult> DoDeleteAsync(string appimageid)
         {
             if (!ModelState.IsValid)

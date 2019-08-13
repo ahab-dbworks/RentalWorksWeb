@@ -19,7 +19,7 @@ namespace FwStandard.SqlServer
             this._appConfig = appConfig;
         }
         //------------------------------------------------------------------------------------
-        public async Task<FwAppImageModel> GetOneAsync(string appimageid, string thumbnail="false", string uniqueid1="", string uniqueid2="", string uniqueid3="", string orderby="")
+        public async Task<FwAppImageModel> GetOneAsync(string appimageid, string thumbnail = "false", string uniqueid1 = "", string uniqueid2 = "", string uniqueid3 = "", string orderby = "")
         {
             byte[] image = null;
             using (FwSqlConnection conn = new FwSqlConnection(this._appConfig.DatabaseSettings.ConnectionString))
@@ -86,7 +86,7 @@ namespace FwStandard.SqlServer
             }
         }
         //------------------------------------------------------------------------------------
-        public async Task<List<FwAppImageModel>> GetManyAsync(string uniqueid1, string uniqueid2="", string uniqueid3="", string description="", string rectype="")
+        public async Task<List<FwAppImageModel>> GetManyAsync(string uniqueid1, string uniqueid2 = "", string uniqueid3 = "", string description = "", string rectype = "")
         {
             using (FwSqlConnection conn = new FwSqlConnection(_appConfig.DatabaseSettings.ConnectionString))
             {
@@ -190,6 +190,62 @@ namespace FwStandard.SqlServer
                 {
                     cmd.Add("delete appimage");
                     cmd.Add("where appimageid = @appimageid");
+                    cmd.AddParameter("@appimageid", appimageid);
+                    await cmd.ExecuteNonQueryAsync();
+                }
+            }
+        }
+        //------------------------------------------------------------------------------------
+        public async Task RepositionAsync(string appimageid, int orderby)
+        {
+            //jh wip 08/12/2019 #868
+            using (FwSqlConnection conn = new FwSqlConnection(this._appConfig.DatabaseSettings.ConnectionString))
+            {
+                string uniqueid1 = "";
+                string uniqueid2 = "";
+                string uniqueid3 = "";
+                using (FwSqlCommand cmd = new FwSqlCommand(conn, this._appConfig.DatabaseSettings.QueryTimeout))
+                {
+                    cmd.Add("select ai.uniqueid1, ai.uniqueid2, ai.uniqueid3");
+                    cmd.Add(" from  appimage ai with (nolock)");
+                    cmd.Add(" where appimageid = @appimageid");
+                    cmd.AddParameter("@appimageid", appimageid);
+                    var dt = await cmd.QueryToFwJsonTableAsync();
+                    if (dt.Rows.Count > 0)
+                    {
+                        uniqueid1 = dt.GetValue(0, "uniqueid1").ToString();
+                        uniqueid2 = dt.GetValue(0, "uniqueid2").ToString();
+                        uniqueid3 = dt.GetValue(0, "uniqueid3").ToString();
+                    }
+                }
+
+                using (FwSqlCommand cmd = new FwSqlCommand(conn, this._appConfig.DatabaseSettings.QueryTimeout))
+                {
+                    cmd.Add("update appimage");
+                    cmd.Add(" set   orderby = @orderby");
+                    cmd.Add(" where appimageid = @appimageid");
+                    cmd.AddParameter("@appimageid", appimageid);
+                    cmd.AddParameter("@orderby", orderby);
+                    await cmd.ExecuteNonQueryAsync();
+                }
+
+                using (FwSqlCommand cmd = new FwSqlCommand(conn, this._appConfig.DatabaseSettings.QueryTimeout))
+                {
+                    cmd.Add("update ai");
+                    cmd.Add(" set   orderby = (select count(*)                      ");
+                    cmd.Add("                   from  appimage ai2                  ");
+                    cmd.Add("                   where ai2.uniqueid1 =  ai.uniqueid1 ");
+                    cmd.Add("                   and   ai2.uniqueid2 =  ai.uniqueid2 ");
+                    cmd.Add("                   and   ai2.uniqueid3 =  ai.uniqueid3 ");
+                    cmd.Add("                   and   ai2.orderby   <= ai.orderby)  ");
+                    cmd.Add(" from  appimage ai");
+                    cmd.Add(" where ai.uniqueid1  =  @uniqueid1");
+                    cmd.Add(" and   ai.uniqueid2  =  @uniqueid2");
+                    cmd.Add(" and   ai.uniqueid3  =  @uniqueid3");
+                    cmd.Add(" and   ai.appimageid <> @appimageid");
+                    cmd.AddParameter("@uniqueid1", uniqueid1);
+                    cmd.AddParameter("@uniqueid2", uniqueid2);
+                    cmd.AddParameter("@uniqueid3", uniqueid3);
                     cmd.AddParameter("@appimageid", appimageid);
                     await cmd.ExecuteNonQueryAsync();
                 }
