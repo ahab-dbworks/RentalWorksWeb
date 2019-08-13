@@ -256,7 +256,13 @@ class Receipt {
         });
         $form.find('div.credits-tab').on('click', e => {
             //Disable clicking  tab w/o a Deal / Customer
-            const dealCustomer = FwFormField.getValue($form, '.deal-customer:visible');
+            const paymentBy = FwFormField.getValueByDataField($form, 'PaymentBy');
+            let dealCustomer;
+            if (paymentBy === 'DEAL') {
+                dealCustomer = FwFormField.getValueByDataField($form, 'DealId');
+            } else if (paymentBy === 'CUSTOMER') {
+                dealCustomer = FwFormField.getValueByDataField($form, 'CustomerId');
+            }
             if (dealCustomer === '') {
                 e.stopPropagation();
                 FwNotification.renderNotification('WARNING', 'Select a Deal or Customer first.')
@@ -266,21 +272,27 @@ class Receipt {
     //----------------------------------------------------------------------------------------------
     openCreditBrowse($form) {
         let $browse;
-        const dealCustomerId = FwFormField.getValue($form, '.deal-customer:visible');
-        const dealCustomer = $form.find('.deal-customer:visible').attr('data-datafield');
-        if (dealCustomer === 'DealId') {
+        const paymentBy = FwFormField.getValueByDataField($form, 'PaymentBy');
+        let dealCustomerId;
+        let dealCustomer;
+        if (paymentBy === 'DEAL') {
+            dealCustomerId = FwFormField.getValueByDataField($form, 'DealId');
+            dealCustomer = $form.find('div[data-datafield="DealId"]').attr('data-datafield');
             $browse = DealCreditController.openBrowse();
             $browse.data('ondatabind', request => {
                 request.uniqueids = { DealId: dealCustomerId }
                 request.activeviewfields = DealCreditController.ActiveViewFields;
             });
-        } else {
+        } else if (paymentBy === 'CUSTOMER') {
+            dealCustomerId = FwFormField.getValueByDataField($form, 'CustomerId');
+            dealCustomer = $form.find('div[data-datafield="CustomerId"]').attr('data-datafield');
             $browse = CustomerCreditController.openBrowse();
             $browse.data('ondatabind', request => {
                 request.uniqueids = { CustomerId: dealCustomerId }
                 request.activeviewfields = CustomerCreditController.ActiveViewFields;
             });
         }
+
         FwBrowse.addEventHandler($browse, 'afterdatabindcallback', ($control, dt) => {
             this.calculateCreditTotals($form, dealCustomer, dealCustomerId);
         });
