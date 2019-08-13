@@ -360,6 +360,7 @@ namespace WebLibrary.Security
             AddModule("Process Vendor Invoices",       "{4FA8A060-F2DF-4E59-8F9D-4A6A62A0D240}", lv1menuUtilities.Id, "VendorInvoiceProcessBatchController");
             AddModule("Export Settings",               "{70CEC5BB-2FD9-4C68-9BE2-F8A3C6A17BB7}", lv1menuUtilities.Id, "ExportSettingsController");
             AddModule("QuikActivity Calendar",         "{897BCF55-6CE7-412C-82CB-557B045F8C0A}", lv1menuUtilities.Id, "QuikActivityCalendarController");
+            AddModule("QuikSearch",                    "{07587E25-9802-4379-8630-96DBA3136595}", lv1menuUtilities.Id, "QuikSearchController");
             AddModule("Migrate Orders",                "{6FAA0140-ACA2-40CA-9FDD-507EAC437F2A}", lv1menuUtilities.Id, "MigrateOrdersController");
             AddModule("Refresh G/L History",           "{8F036E39-78D3-4FB9-A98E-BD33A5DB7FDA}", lv1menuUtilities.Id, "RefreshGLHistoryController");
 

@@ -960,6 +960,7 @@
     <TypeScriptCompile Include="Source\Modules\Home\PartsInventory\PartsInventory.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\MarketSegment\MarketSegment.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\MarketType\MarketType.ts" />
+    <TypeScriptCompile Include="Source\Modules\Utilities\QuikSearch\QuikSearch.ts" />
     <TypeScriptCompile Include="Source\Modules\Utilities\RefreshGLHistory\RefreshGLHistoryController.ts" />
     <TypeScriptCompile Include="Source\Modules\Utilities\MigrateOrders\MigrateOrders.ts" />
     <TypeScriptCompile Include="Source\Modules\Utilities\ExportSettings\ExportSettings.ts" />

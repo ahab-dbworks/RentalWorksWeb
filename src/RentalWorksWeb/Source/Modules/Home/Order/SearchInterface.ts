@@ -5,12 +5,18 @@ class SearchInterface {
         html.push('<div id="searchpopup" class="fwform fwcontrol">');
         html.push('  <div id="searchTabs" class="fwcontrol fwtabs" data-control="FwTabs" data-version="1">');
         html.push('    <div class="tabs">');
-        html.push('      <div data-type="tab" id="itemsearchtab" class="tab" data-tabpageid="itemsearchtabpage" data-caption="Search"></div>');
-        html.push('      <div data-type="tab" id="previewtab"    class="tab" data-tabpageid="previewtabpage"    data-caption="Preview"></div>');
+        html.push('          <div data-type="tab" id="itemsearchtab" class="tab" data-tabpageid="itemsearchtabpage" data-caption="Search"></div>');
+        html.push('          <div data-type="tab" id="previewtab"    class="tab" data-tabpageid="previewtabpage"    data-caption="Preview"></div>');
+        if (type === 'Main') {
+        html.push('          <div data-type="tab" id="addtotab"      class="tab" data-tabpageid="addtotabpage"      data-caption="Add To"></div>');
+        }
         html.push('    </div>');
         html.push('    <div class="tabpages">');
         html.push('      <div data-type="tabpage" id="itemsearchtabpage" class="tabpage" data-tabid="itemsearchtab"></div>');
         html.push('      <div data-type="tabpage" id="previewtabpage"    class="tabpage" data-tabid="previewtab"></div>');
+        if (type === 'Main') {
+        html.push('      <div data-type="tabpage" id="addtotabpage"      class="tabpage" data-tabid="addtotab"></div>');
+        }
         html.push('    </div>');
         html.push('  </div>');
         html.push('  <div class="close-modal"><i class="material-icons">clear</i><div class="btn-text">Close</div></div>');
@@ -109,7 +115,13 @@ class SearchInterface {
                              </div>
                            </div>`;
         $popup.find('#previewtabpage').append(jQuery(previewhtml));
-        
+
+
+        if (type === 'Main') {
+            $popup.find('.addToOrder').hide();
+            this.renderAddToTab($popup);
+        }
+
         FwControl.renderRuntimeControls($popup.find('#searchpopup .fwcontrol'));
 
         FwFormField.loadItems($popup.find('div[data-datafield="Select"]'), [
@@ -151,6 +163,13 @@ class SearchInterface {
         let startDate;
         let stopDate;
         switch (type) {
+            case 'Main':
+                const addToTypes = [{ value: 'Quote', caption: 'Quote', checked: 'T' },
+                { value: 'Order', caption: 'Order' },
+                { value: 'Purchase', caption: 'Purchase' },
+                { value: 'Transfer', caption: 'Transfer' }];
+                FwFormField.loadItems($popup.find('div[data-datafield="AddToType"]'), addToTypes);
+                break;
             case 'Order':
             case 'Quote':
                 startDate = FwFormField.getValueByDataField($form, 'EstimatedStartDate');
@@ -177,7 +196,7 @@ class SearchInterface {
         }
 
         $popup.find('#itemsearch').data('parentformid', id);
-        let warehouseId = (type === 'Transfer' || type === 'Complete' || type === 'Kit' || type === 'Container') ? JSON.parse(sessionStorage.getItem('warehouse')).warehouseid : FwFormField.getValueByDataField($form, 'WarehouseId');
+        let warehouseId = (type === 'Transfer' || type === 'Complete' || type === 'Kit' || type === 'Container' || type === 'Main') ? JSON.parse(sessionStorage.getItem('warehouse')).warehouseid : FwFormField.getValueByDataField($form, 'WarehouseId');
         $popup.find('#itemsearch').data('warehouseid', warehouseId);
 
         this.getViewSettings($popup);
@@ -230,6 +249,48 @@ class SearchInterface {
         }
 
         return $popup;
+    }
+    //----------------------------------------------------------------------------------------------
+    renderAddToTab($popup) {
+        const html = `<div id="addToTab">
+                        <div class="fwmenu default"></div>
+                        <div class="flexrow">
+                            <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield" data-caption="" data-datafield="AddToType" style="flex:0 1 450px;"></div>
+                        </div>
+                        <div class="flexrow">
+                           <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Quote">
+                               <div class="flexrow">
+                                 <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description" data-required="true" style="flex:1 1 250px;"></div>
+                                 <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Department" data-datafield="DepartmentId" data-displayfield="Department" data-validationname="DepartmentValidation" data-required="true" style="flex:1 1 175px;"></div>
+                               </div>
+                            </div>
+                        </div>
+                        <div style="padding: 5px;text-align: right;">
+                           <div data-type="button" class="fwformcontrol create-new">Create Quote</div>
+                         </div>
+                      </div>`;
+        $popup.find('#addtotabpage').append(jQuery(html));
+
+        $popup.find('[data-datafield="AddToType"]').on('change', e => {
+            const addToType = jQuery(e.target).val();
+            const $section = $popup.find('#addToTab [data-type="section"]');
+            switch (addToType) {
+                case 'Quote':
+                    break;
+                case 'Order':
+                    break;
+                case 'Purchase':
+                    break;
+                case 'Transfer':
+                    break;
+            }
+            $section.find('.fwform-section-title').text(addToType);
+            $popup.find('div.create-new').html(`Create ${addToType}`);
+        });
+
+        $popup.find('div.create-new').on('click', e => {
+            //create new record, add items, then open form
+        });
     }
     //----------------------------------------------------------------------------------------------
     populateTypeMenu($popup) {
