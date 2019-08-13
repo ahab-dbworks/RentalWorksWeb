@@ -2,8 +2,8 @@ class Deal {
     Module: string = 'Deal';
     apiurl: string = 'api/v1/deal';
     caption: string = Constants.Modules.Home.Deal.caption;
-	nav: string = Constants.Modules.Home.Deal.nav;
-	id: string = Constants.Modules.Home.Deal.id;
+    nav: string = Constants.Modules.Home.Deal.nav;
+    id: string = Constants.Modules.Home.Deal.id;
     //----------------------------------------------------------------------------------------------
     getModuleScreen(filter?: { datafield: string, search: string }) {
         const screen: any = {};
@@ -44,21 +44,18 @@ class Deal {
     }
     //----------------------------------------------------------------------------------------------
     openForm(mode: string, parentmoduleinfo?: any) {
-        var $submoduleQuoteBrowse, $submoduleOrderBrowse;
-
         //var $form = FwModule.loadFormFromTemplate(this.Module);
         let $form = jQuery(this.getFormTemplate());
         $form = FwModule.openForm($form, mode);
-
 
         FwFormField.disable($form.find('.CompanyResaleGrid'));
         this.events($form);
 
         //Toggle Buttons on Billing tab
         FwFormField.loadItems($form.find('div[data-datafield="BillToAddressType"]'), [
-            { value: 'CUSTOMER',    caption: 'Customer', checked: true },
-            { value: 'DEAL',        caption: 'Deal' },
-            { value: 'OTHER',       caption: 'Other' }
+            { value: 'CUSTOMER', caption: 'Customer', checked: true },
+            { value: 'DEAL', caption: 'Deal' },
+            { value: 'OTHER', caption: 'Other' }
         ]);
 
         //Toggle Buttons on Billing tab
@@ -75,26 +72,26 @@ class Deal {
 
         //Toggle Buttons on Tax tab - Taxable / Non-Taxable option
         FwFormField.loadItems($form.find('div[data-datafield="Taxable"]'), [
-            { value: 'TRUE',    caption: 'Taxable', checked: true },
-            { value: 'FALSE',   caption: 'Non-Taxable' }
+            { value: 'TRUE', caption: 'Taxable', checked: true },
+            { value: 'FALSE', caption: 'Non-Taxable' }
         ]);
 
         //Toggle Buttons on Shipping tab
         FwFormField.loadItems($form.find('div[data-datafield="ShippingAddressType"]'), [
-            { value: 'CUSTOMER',    caption: 'Customer', checked: true },
-            { value: 'DEAL',        caption: 'Deal' },
-            { value: 'OTHER',       caption: 'Other' }
+            { value: 'CUSTOMER', caption: 'Customer', checked: true },
+            { value: 'DEAL', caption: 'Deal' },
+            { value: 'OTHER', caption: 'Other' }
         ]);
 
         FwFormField.loadItems($form.find('div[data-datafield="DefaultOutgoingDeliveryType"]'), [
             { value: 'DELIVER', caption: 'Deliver to Customer', checked: true },
-            { value: 'SHIP',    caption: 'Ship to Customer', },
+            { value: 'SHIP', caption: 'Ship to Customer', },
             { value: 'PICK UP', caption: 'Customer Pick Up' }
         ]);
 
         FwFormField.loadItems($form.find('div[data-datafield="DefaultIncomingDeliveryType"]'), [
             { value: 'DELIVER', caption: 'Customer Deliver', checked: true },
-            { value: 'SHIP',    caption: 'Customer Ship' },
+            { value: 'SHIP', caption: 'Customer Ship' },
             { value: 'PICK UP', caption: 'Pick Up from Customer' }
         ]);
 
@@ -107,7 +104,7 @@ class Deal {
             $form.find('[data-datafield="UseCustomerDiscount"] .fwformfield-value').change();
             $form.find('[data-datafield="UseCustomerCredit"] .fwformfield-value').change();
             $form.find('[data-datafield="UseCustomerInsurance"] .fwformfield-value').change();
-  
+
             let officeLocation = JSON.parse(sessionStorage.getItem('location'));
             let dealDefaults = JSON.parse(sessionStorage.getItem('controldefaults'));
             FwFormField.setValue($form, 'div[data-datafield="LocationId"]', officeLocation.locationid, officeLocation.location);
@@ -116,7 +113,7 @@ class Deal {
             FwFormField.setValueByDataField($form, 'DefaultRate', officeLocation.ratetype, officeLocation.ratetype);
         }
         // SUBMODULES
-        $submoduleQuoteBrowse = this.openQuoteBrowse($form);
+        const $submoduleQuoteBrowse = this.openQuoteBrowse($form);
         $form.find('.quote').append($submoduleQuoteBrowse);
         $submoduleQuoteBrowse.find('div.btn[data-type="NewMenuBarButton"]').off('click');
         $submoduleQuoteBrowse.find('div.btn[data-type="NewMenuBarButton"]').on('click', function () {
@@ -135,7 +132,7 @@ class Deal {
             FwModule.openSubModuleTab($browse, $quoteForm);
         });
 
-        $submoduleOrderBrowse = this.openOrderBrowse($form);
+        const $submoduleOrderBrowse = this.openOrderBrowse($form);
         $form.find('.order').append($submoduleOrderBrowse);
         $submoduleOrderBrowse.find('div.btn[data-type="NewMenuBarButton"]').off('click');
         $submoduleOrderBrowse.find('div.btn[data-type="NewMenuBarButton"]').on('click', function () {
@@ -173,495 +170,22 @@ class Deal {
     }
     //----------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
-        var $form;
-
-        $form = this.openForm('EDIT');
+        const $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="DealId"] input').val(uniqueids.DealId);
         FwModule.loadForm(this.Module, $form);
 
         this.disableFields($form, ['DiscountTemplateId', 'DiscountTemplate']);
 
-  
+
         $form.find('.contractSubModule').append(this.openContractBrowse($form));
         $form.find('.invoiceSubModule').append(this.openInvoiceBrowse($form));
         $form.find('.receiptSubModule').append(this.openReceiptBrowse($form));
 
         return $form;
     }
-    //----------------------------------------------------------------------------------------------
-    openContractBrowse($form) {
-        let dealId = FwFormField.getValueByDataField($form, 'DealId');
-        const $browse = ContractController.openBrowse();
-        $browse.data('ondatabind', function (request) {
-            request.activeviewfields = ContractController.ActiveViewFields;
-            request.uniqueids = {
-                DealId: dealId
-            };
-        });
-        return $browse;
-    }
-   //---------------------------------------------------------------------------------------------
-    openInvoiceBrowse($form) {
-        let dealId = FwFormField.getValueByDataField($form, 'DealId');
-        const $browse = InvoiceController.openBrowse();
-        $browse.data('ondatabind', function (request) {
-            request.activeviewfields = InvoiceController.ActiveViewFields;
-            request.uniqueids = {
-                DealId: dealId
-            };
-        });
-        return $browse;
-    }
-   //---------------------------------------------------------------------------------------------
-    openReceiptBrowse($form) {
-        let dealId = FwFormField.getValueByDataField($form, 'DealId');
-        const $browse = ReceiptController.openBrowse();
-        $browse.data('ondatabind', function (request) {
-            request.activeviewfields = ReceiptController.ActiveViewFields;
-            request.uniqueids = {
-                DealId: dealId
-            };
-        });
-        return $browse;
-    }
-   //---------------------------------------------------------------------------------------------
-    saveForm($form: any, parameters: any):void {
+    //---------------------------------------------------------------------------------------------
+    saveForm($form: any, parameters: any): void {
         FwModule.saveForm(this.Module, $form, parameters);
-    }
-    //----------------------------------------------------------------------------------------------
-    afterLoad($form: any): void {
-        var $resaleGrid,
-            $taxOptionGrid,
-            $contactGrid,
-            $dealNoteGrid,
-            $vendorGrid;
-
-        $resaleGrid = $form.find('[data-name="CompanyResaleGrid"]');
-        //FwBrowse.search($resaleGrid);
-
-        $taxOptionGrid = $form.find('[data-name="CompanyTaxOptionGrid"]');
-        //FwBrowse.search($taxOptionGrid);
-
-        $contactGrid = $form.find('[data-name="ContactGrid"]');
-        //FwBrowse.search($contactGrid);
-
-        $dealNoteGrid = $form.find('[data-name="DealNoteGrid"]');
-        //FwBrowse.search($dealNoteGrid);
-
-        $vendorGrid = $form.find('[data-name="DealShipperGrid"]');
-        //FwBrowse.search($vendorGrid);
-
-        var $companyContactGrid: any = $form.find('[data-name="CompanyContactGrid"]');
-        FwBrowse.search($companyContactGrid);
-
-        this.disableFields($form, ['DiscountTemplateId', 'DiscountTemplate']);
-        //this.useDiscountTemplate(FwFormField.getValueByDataField($form, 'UseDiscountTemplate'));
-        this.toggleBillingUseDiscount($form, FwFormField.getValueByDataField($form, 'UseDiscountTemplate'));
-        var val_bill = FwFormField.getValueByDataField($form, 'BillToAddressType') !== 'OTHER' ? true : false;
-        this.toggleBillingAddressInfo($form, val_bill);
-        var val_ship = FwFormField.getValueByDataField($form, 'ShippingAddressType') !== 'OTHER' ? true : false;
-        this.toggleShippingAddressInfo($form, val_ship);
-        this.useCustomer($form, FwFormField.getValueByDataField($form, 'UseCustomerDiscount'));
-        this.toggleInsurTabIfUseCustomer($form, FwFormField.getValueByDataField($form, 'UseCustomerInsurance'));
-        this.toggleCredTabIfUseCustomer($form, FwFormField.getValueByDataField($form, 'UseCustomerCredit'));
-        this.toggleTaxTabIfUseCustomer($form, FwFormField.getValueByDataField($form, 'UseCustomerTax'));
-        this.disableInsurCompanyInfo($form);
-        this.toggleOptionsTabIfExcludeQuote($form, FwFormField.getValueByDataField($form, 'DisableQuoteOrderActivity'));
-        this.billingAddressTypeChange($form);
-        this.shippingAddressTypeChange($form);
-        this.transferDealAddressValues($form);
-
-        // Disable Tax grids if UseCustomerTax is selected on page load
-        if (FwFormField.getValueByDataField($form, 'UseCustomerTax') === true) {
-            FwFormField.disable($form.find('div[data-name="CompanyResaleGrid"]'));
-            FwFormField.disable($form.find('div[data-name="CompanyTaxOptionGrid"]'));
-        }
-        else {
-            FwFormField.enable($form.find('div[data-name="CompanyResaleGrid"]'));
-            FwFormField.enable($form.find('div[data-name="CompanyTaxOptionGrid"]'));
-        }
-
-        if (FwFormField.getValueByDataField($form, 'UseCustomerInsurance') === true) {
-            this.getCustomerInsuranceValues($form);
-        }
-
-        // Disable Tax grids on change
-        $form.find('[data-datafield="UseCustomerTax"] .fwformfield-value').on('change', function () {
-            if (FwFormField.getValueByDataField($form, 'UseCustomerTax') === true) {
-                FwFormField.disable($form.find('div[data-name="CompanyResaleGrid"]'));
-                FwFormField.disable($form.find('div[data-name="CompanyTaxOptionGrid"]'));
-            }
-            else {
-                FwFormField.enable($form.find('div[data-name="CompanyResaleGrid"]'));
-                FwFormField.enable($form.find('div[data-name="CompanyTaxOptionGrid"]'));
-            }
-        });
-
-        //Click Event on tabs to load grids/browses
-        $form.on('click', '[data-type="tab"]', e => {
-            const tabname = jQuery(e.currentTarget).attr('id');
-            const lastIndexOfTab = tabname.lastIndexOf('tab');
-            const tabpage = `${tabname.substring(0, lastIndexOfTab)}tabpage${tabname.substring(lastIndexOfTab + 3)}`;
-
-            const $gridControls = $form.find(`#${tabpage} [data-type="Grid"]`);
-            if ($gridControls.length > 0) {
-                for (let i = 0; i < $gridControls.length; i++) {
-                    const $gridcontrol = jQuery($gridControls[i]);
-                    FwBrowse.search($gridcontrol);
-                }
-            }
-
-            const $browseControls = $form.find(`#${tabpage} [data-type="Browse"]`);
-            if ($browseControls.length > 0) {
-                for (let i = 0; i < $browseControls.length; i++) {
-                    const $browseControl = jQuery($browseControls[i]);
-                    FwBrowse.search($browseControl);
-                }
-            }
-        });
-    }
-    //----------------------------------------------------------------------------------------------
-    events($form: JQuery): void {
-        $form.find('[data-name="CompanyTaxOptionGrid"]').data('onselectedrowchanged', ($control: JQuery, $tr: JQuery) => {
-            try {
-                this.updateExternalInputsWithGridValues($tr);
-            } catch (ex) {
-                FwFunc.showError(ex);
-            }
-        });
-        // If user changes customer, update corresponding address fields in other tabs
-        $form.find('div[data-datafield="CustomerId"]').data('onchange', e => {
-            this.customerChange($form);
-        });
-        // If user updates general address info
-        $form.find('.deal_address input').on('change', e => {
-            this.transferDealAddressValues($form);
-        });
-        //Shipping Address Type Change
-        $form.find('div[data-datafield="ShippingAddressType"]').on('change', e => {
-            var val = FwFormField.getValueByDataField($form, 'ShippingAddressType') !== 'OTHER' ? true : false;
-            this.toggleShippingAddressInfo($form, val);
-            this.shippingAddressTypeChange($form);
-        });
-        //Billing Address Type Change
-        $form.find('div[data-datafield="BillToAddressType"]').on('change', e => {
-            var val = FwFormField.getValueByDataField($form, 'BillToAddressType') !== 'OTHER' ? true : false;
-            this.toggleBillingAddressInfo($form, val);
-            this.billingAddressTypeChange($form);
-        });
-
-        $form.on('change', '.billing_use_discount_template input[type=checkbox]', e => {
-            //this.useDiscountTemplate(jQuery(e.currentTarget).is(':checked'));
-            this.toggleBillingUseDiscount($form, jQuery(e.currentTarget).is(':checked'));
-        });
-
-        $form.on('change', '.billing_use_customer input[type=checkbox]', e => {
-            this.useCustomer($form, jQuery(e.currentTarget).is(':checked'));
-        });
-
-        //$form.on('change', '.billing-type-radio input[type=radio]', e => {
-        //    var val = jQuery(e.currentTarget).val() !== 'OTHER' ? true : false;
-        //    this.toggleBillingAddressInfo($form, val);
-        //});
-
-        //$form.on('change', '.shipping_address_type_radio input[type=radio]', e => {
-        //    var val = jQuery(e.currentTarget).val() !== 'OTHER' ? true : false;
-        //    this.toggleShippingAddressInfo($form, val);
-        //});
-
-        $form.on('change', '.credit_use_customer input[type=checkbox]', e => {
-            var isChecked = jQuery(e.currentTarget).is(':checked');
-            this.toggleCredTabIfUseCustomer($form, isChecked);
-        });
-
-        $form.on('change', '.insurance_use_customer input[type=checkbox]', e => {
-            var isChecked = jQuery(e.currentTarget).is(':checked');
-            this.toggleInsurTabIfUseCustomer($form, isChecked);
-            if (isChecked) {
-                this.getCustomerInsuranceValues($form);
-            }
-        });
-
-        //$form.on('change', '.billing_potype input[type=radio]', (e) => {
-        //    FwFormField.setValue($form, jQuery(e.currentTarget))
-        //});
-
-        $form.on('change', '.tax_use_customer input[type=checkbox]', e => {
-            var isChecked = jQuery(e.currentTarget).is(':checked');
-            this.toggleTaxTabIfUseCustomer($form, isChecked);
-            if (FwFormField.getValueByDataField($form, 'UseCustomerTax') === true) {
-                FwFormField.disable($form.find('div[data-name="CompanyResaleGrid"]'));
-                FwFormField.disable($form.find('div[data-name="CompanyTaxOptionGrid"]'));
-            }
-            else {
-                FwFormField.enable($form.find('div[data-name="CompanyResaleGrid"]'));
-                FwFormField.enable($form.find('div[data-name="CompanyTaxOptionGrid"]'));
-            }
-        });
-
-        $form.on('change', '.exlude_quote input[type=checkbox]', e => {
-            var isChecked = jQuery(e.currentTarget).is(':checked');
-            this.toggleOptionsTabIfExcludeQuote($form, isChecked);
-        });
-        // Insurance Vendor validation
-        $form.find('div[data-datafield="InsuranceCompanyId"]').data('onchange', $tr => {
-            FwFormField.setValueByDataField($form, 'InsuranceCompanyAgent', $tr.find('.field[data-formdatafield="PrimaryContact"]').attr('data-originalvalue'));
-            FwFormField.setValueByDataField($form, 'InsuranceCompanyAddress1', $tr.find('.field[data-formdatafield="Address1"]').attr('data-originalvalue'));
-            FwFormField.setValueByDataField($form, 'InsuranceCompanyAddress2', $tr.find('.field[data-formdatafield="Address2"]').attr('data-originalvalue'));
-            FwFormField.setValueByDataField($form, 'InsuranceCompanyCity', $tr.find('.field[data-formdatafield="City"]').attr('data-originalvalue'));
-            FwFormField.setValueByDataField($form, 'InsuranceCompanyState', $tr.find('.field[data-formdatafield="State"]').attr('data-originalvalue'));
-            FwFormField.setValueByDataField($form, 'InsuranceCompanyZipCode', $tr.find('.field[data-formdatafield="ZipCode"]').attr('data-originalvalue'));
-            FwFormField.setValueByDataField($form, 'InsuranceCompanyFax', $tr.find('.field[data-formdatafield="Fax"]').attr('data-originalvalue'));
-            FwFormField.setValueByDataField($form, 'InsuranceCompanyPhone', $tr.find('.field[data-formdatafield="Phone"]').attr('data-originalvalue'));
-            FwFormField.setValue($form, 'div[data-datafield="InsuranceCompanyCountryId"]', $tr.find('.field[data-formdatafield="CountryId"]').attr('data-originalvalue'), $tr.find('.field[data-formdatafield="Country"]').attr('data-originalvalue'));
-        });
-    }
-
-    //useDiscountTemplate(isChecked: boolean): void {
-    //    var $temp: JQuery = jQuery('.billing_template');
-    //    // DiscountTemplateId
-    //    if (!isChecked) {
-    //        $temp.attr('data-enabled', 'false');
-    //        $temp.find('input').prop('disabled', true);
-    //    } else {
-    //        $temp.attr('data-enabled', 'true');
-    //        $temp.find('input').prop('disabled', false);
-    //    }
-    //}
-    //----------------------------------------------------------------------------------------------
-    useCustomer($form: any, isChecked: boolean): void {
-        var $discTemp: JQuery = jQuery('.billing_use_discount_template'),
-            $useCust: JQuery = jQuery('.billing_use_customer'),
-            $temp: JQuery = jQuery('.billing_template');
-
-        if (isChecked) {
-            $temp.attr('data-enabled', 'false');
-            $temp.find('input').prop('disabled', true);
-            FwFormField.disable($form.find('[data-datafield="UseDiscountTemplate"]'))
-        } else {
-            if ($discTemp.find('input[type=checkbox]').is(':checked')) {
-                $temp.attr('data-enabled', 'true');
-                $temp.find('input').prop('disabled', false);
-            } else {
-                $temp.attr('data-enabled', 'false');
-                $temp.find('input').prop('disabled', true);
-            }
-            FwFormField.enable($form.find('[data-datafield="UseDiscountTemplate"]'))
-
-        }
-    }
-    //----------------------------------------------------------------------------------------------
-    toggleBillingUseDiscount($form: JQuery, isDiscountTemplate: boolean): void {
-        var list = ['DiscountTemplateId'];
-
-        isDiscountTemplate ? this.enableFields($form, list) : this.disableFields($form, list);
-    }
-    //----------------------------------------------------------------------------------------------
-    toggleBillingAddressInfo($form: JQuery, isOther: boolean) {
-        var list = [
-            'BillToAddress1',
-            'BillToAddress2',
-            'BillToCity',
-            'BillToState',
-            'BillToZipCode',
-            'BillToCountryId'];
-
-        isOther ? this.disableFields($form, list) : this.enableFields($form, list);
-    }
-    //----------------------------------------------------------------------------------------------
-    toggleShippingAddressInfo($form: JQuery, isOther: boolean) {
-        var list = [
-            'ShipAddress1',
-            'ShipAddress2',
-            'ShipCity',
-            'ShipState',
-            'ShipZipCode',
-            'ShipCountryId'];
-
-        isOther ? this.disableFields($form, list) : this.enableFields($form, list);
-    }
-    //----------------------------------------------------------------------------------------------
-    toggleCredTabIfUseCustomer($form: JQuery, isCustomer: boolean): void {
-        var list = ['CreditStatusId',
-            'CreditStatusThrough',
-            'CreditLimit',
-            'UnlimitedCredit',
-            'CreditApplicationOnFile',
-            'TradeReferencesVerifiedBy',
-            'TradeReferencesVerifiedOn',
-            'TradeReferencesVerified',
-            'CreditCardName',
-            'CreditCardAuthorizationFormOnFile',
-            'CreditCardTypeId',
-            'CreditCardExpirationMonth',
-            'CreditCardExpirationYear',
-            'CreditCardCode',
-            'CreditCardLimit',
-            'CreditCardNumber',
-            'CreditResponsibleParty',
-            'CreditResponsiblePartyOnFile',
-            'DepletingDepositThresholdAmount',
-            'DepletingDepositThresholdPercent'
-            //'DepletingDepositTotal',
-            //'DepletingDepositApplied',
-            //'DepletingDepositRemaining'
-        ];
-
-        isCustomer ? this.disableFields($form, list) : this.enableFields($form, list);
-    }
-    //----------------------------------------------------------------------------------------------
-    toggleInsurTabIfUseCustomer($form: JQuery, isCustomer: boolean): void {
-        var list = ['InsuranceCertificationValidThrough',
-            'InsuranceCoverageLiability',
-            'InsuranceCoverageLiabilityDeductible',
-            'InsuranceCertification',
-            'InsuranceCoverageProperty',
-            'InsuranceCoveragePropertyDeductible',
-            'VehicleInsuranceCertification',
-            'InsuranceCompanyId',
-            'InsuranceCompanyAgent'];
-
-        var $insuranceName: JQuery = jQuery('.insurance_name');
-
-        isCustomer ? this.disableFields($form, list) : this.enableFields($form, list);
-
-        if (isCustomer) {
-            $insuranceName.attr('data-enabled', 'false');
-            $insuranceName.find('input').prop('disabled', true);
-        } else {
-            $insuranceName.attr('data-enabled', 'true');
-            $insuranceName.find('input').prop('disabled', false);
-        }
-    }
-    //----------------------------------------------------------------------------------------------
-    disableInsurCompanyInfo($form: JQuery): void {
-        var list = ['InsuranceCompanyAddress1',
-            'InsuranceCompanyAddress2',
-            'InsuranceCompanyCity',
-            'InsuranceCompanyState',
-            'InsuranceCompanyZipCode',
-            'InsuranceCompanyCountryId',
-            'InsuranceCompanyPhone',
-            'InsuranceCompanyFax'];
-        this.disableFields($form, list);
-    }
-    //----------------------------------------------------------------------------------------------
-    toggleTaxTabIfUseCustomer($form: JQuery, isCustomer: boolean): void {
-        var list = ['Taxable',
-            'TaxStateOfIncorporationId',
-            'TaxFederalNo',
-            'NonTaxableCertificateNo',
-            'NonTaxableYear',
-            'NonTaxableCertificateValidThrough',
-            'NonTaxableCertificateOnFile'];
-
-        isCustomer ? this.disableFields($form, list) : this.enableFields($form, list);
-    }
-    //----------------------------------------------------------------------------------------------
-    toggleOptionsTabIfExcludeQuote($form: JQuery, isExcluded: boolean): void {
-        var list = ['DisableRental',
-            'DisableSales',
-            'DisableFacilities',
-            'DisableTransportation',
-            'DisableLabor',
-            'DisableMisc',
-            'DisableRentalSale',
-            'DisableSubRental',
-            'DisableSubSale',
-            'DisableSubLabor',
-            'DisableSubMisc'];
-
-        isExcluded ? this.enableFields($form, list) : this.disableFields($form, list);
-    }
-    //----------------------------------------------------------------------------------------------
-    billingAddressTypeChange($form: any): void {
-        if (FwFormField.getValueByDataField($form, 'BillToAddressType') === 'CUSTOMER') {
-            const CUSTOMERID = FwFormField.getValueByDataField($form, 'CustomerId');
-            FwAppData.apiMethod(true, 'GET', `api/v1/customer/${CUSTOMERID}`, null, FwServices.defaultTimeout, response => {
-                this.loadCustomerBillingValues($form,response);
-            }, null, $form);
-        }
-        if (FwFormField.getValueByDataField($form, 'BillToAddressType') === 'DEAL') {
-            FwFormField.enable($form.find('div[data-datafield="BillToAttention1"]'));
-            FwFormField.enable($form.find('div[data-datafield="BillToAttention2"]'));
-            FwFormField.setValueByDataField($form, 'BillToAddress1', FwFormField.getValueByDataField($form, 'Address1'));
-            FwFormField.setValueByDataField($form, 'BillToAddress2', FwFormField.getValueByDataField($form, 'Address2'));
-            FwFormField.setValueByDataField($form, 'BillToCity', FwFormField.getValueByDataField($form, 'City'));
-            FwFormField.setValueByDataField($form, 'BillToState', FwFormField.getValueByDataField($form, 'State'));
-            FwFormField.setValueByDataField($form, 'BillToZipCode', FwFormField.getValueByDataField($form, 'ZipCode'));
-            FwFormField.setValueByDataField($form, 'BillToCountryId', FwFormField.getValueByDataField($form, 'CountryId'), FwFormField.getTextByDataField($form, 'CountryId'));
-        }
-        if (FwFormField.getValueByDataField($form, 'BillToAddressType') === 'OTHER') {
-            FwFormField.enable($form.find('div[data-datafield="BillToAttention1"]'));
-            FwFormField.enable($form.find('div[data-datafield="BillToAttention2"]'));
-        }
-    }
-    //----------------------------------------------------------------------------------------------
-    shippingAddressTypeChange($form: any): void {
-        if (FwFormField.getValueByDataField($form, 'ShippingAddressType') === 'CUSTOMER') {
-            const CUSTOMERID = FwFormField.getValueByDataField($form, 'CustomerId');
-            FwAppData.apiMethod(true, 'GET', `api/v1/customer/${CUSTOMERID}`, null, FwServices.defaultTimeout, response => {
-                this.loadCustomerShippingValues($form, response);
-            }, null, null);
-        }
-
-        if (FwFormField.getValueByDataField($form, 'ShippingAddressType') === 'DEAL') {
-            FwFormField.setValueByDataField($form, 'ShipAddress1', FwFormField.getValueByDataField($form, 'Address1'));
-            FwFormField.setValueByDataField($form, 'ShipAddress2', FwFormField.getValueByDataField($form, 'Address2'));
-            FwFormField.setValueByDataField($form, 'ShipCity', FwFormField.getValueByDataField($form, 'City'));
-            FwFormField.setValueByDataField($form, 'ShipState', FwFormField.getValueByDataField($form, 'State'));
-            FwFormField.setValueByDataField($form, 'ShipZipCode', FwFormField.getValueByDataField($form, 'ZipCode'));
-            FwFormField.setValueByDataField($form, 'ShipCountryId', FwFormField.getValueByDataField($form, 'CountryId'), FwFormField.getTextByDataField($form, 'CountryId'));
-        }
-
-        //if (FwFormField.getValueByDataField($form, 'ShippingAddressType') === 'OTHER') {
-        //    FwFormField.enable($form.find('div[data-datafield="ShipToAttention"]'));
-        //}
-    }
-    //----------------------------------------------------------------------------------------------
-    transferDealAddressValues($form: any): void {
-        setTimeout(() => { // Wrapped in a setTimeout because text value in Country validation was not resetting prior to setting values
-            // Billing Tab
-            if (FwFormField.getValueByDataField($form, 'BillToAddressType') === 'DEAL') {
-                FwFormField.setValueByDataField($form, 'BillToAddress1', FwFormField.getValueByDataField($form, 'Address1'));
-                FwFormField.setValueByDataField($form, 'BillToAddress2', FwFormField.getValueByDataField($form, 'Address2'));
-                FwFormField.setValueByDataField($form, 'BillToCity', FwFormField.getValueByDataField($form, 'City'));
-                FwFormField.setValueByDataField($form, 'BillToState', FwFormField.getValueByDataField($form, 'State'));
-                FwFormField.setValueByDataField($form, 'BillToZipCode', FwFormField.getValueByDataField($form, 'ZipCode'));
-                FwFormField.setValueByDataField($form, 'BillToCountryId', FwFormField.getValueByDataField($form, 'CountryId'), FwFormField.getTextByDataField($form, 'CountryId'));
-            }
-            // Shipping Tab
-            if (FwFormField.getValueByDataField($form, 'ShippingAddressType') === 'DEAL') {
-                FwFormField.setValueByDataField($form, 'ShipAddress1', FwFormField.getValueByDataField($form, 'Address1'));
-                FwFormField.setValueByDataField($form, 'ShipAddress2', FwFormField.getValueByDataField($form, 'Address2'));
-                FwFormField.setValueByDataField($form, 'ShipCity', FwFormField.getValueByDataField($form, 'City'));
-                FwFormField.setValueByDataField($form, 'ShipState', FwFormField.getValueByDataField($form, 'State'));
-                FwFormField.setValueByDataField($form, 'ShipZipCode', FwFormField.getValueByDataField($form, 'ZipCode'));
-                FwFormField.setValueByDataField($form, 'ShipCountryId', FwFormField.getValueByDataField($form, 'CountryId'), FwFormField.getTextByDataField($form, 'CountryId'));
-            }
-        },1000)
-    }
-    //----------------------------------------------------------------------------------------------
-    disableFields($form: JQuery, fields: string[]): void {
-        fields.forEach((e, i) => { FwFormField.disable($form.find(`[data-datafield="${e}"]`)); });
-    }
-    //----------------------------------------------------------------------------------------------
-    enableFields($form: JQuery, fields: string[]): void {
-        fields.forEach((e, i) => { FwFormField.enable($form.find(`[data-datafield="${e}"]`)); });
-    }
-    //----------------------------------------------------------------------------------------------
-    updateExternalInputsWithGridValues($tr: JQuery): void {
-        let TaxOption = $tr.find('.field[data-browsedatafield="TaxOptionId"]').attr('data-originaltext');
-
-        $tr.find('.column > .field').each((i, e) => {
-            let $column = jQuery(e), id = $column.attr('data-browsedatafield'), value = $column.attr('data-originalvalue');
-            if (value === undefined || null) {
-                jQuery(`.${id}`).find(':input').val(0);
-            } else {
-                jQuery(`.${id}`).find(':input').val(value);
-            }
-        });
-        jQuery('.TaxOption').find(':input').val(TaxOption);
     }
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
@@ -735,6 +259,468 @@ class Deal {
         FwBrowse.renderRuntimeHtml($companyContactControl);
     }
     //----------------------------------------------------------------------------------------------
+    afterLoad($form: any): void {
+        const $companyContactGrid: any = $form.find('[data-name="CompanyContactGrid"]');
+        FwBrowse.search($companyContactGrid);
+
+        this.disableFields($form, ['DiscountTemplateId', 'DiscountTemplate']);
+        //this.useDiscountTemplate(FwFormField.getValueByDataField($form, 'UseDiscountTemplate'));
+        this.toggleBillingUseDiscount($form, FwFormField.getValueByDataField($form, 'UseDiscountTemplate'));
+        const val_bill = FwFormField.getValueByDataField($form, 'BillToAddressType') !== 'OTHER' ? true : false;
+        this.toggleBillingAddressInfo($form, val_bill);
+        var val_ship = FwFormField.getValueByDataField($form, 'ShippingAddressType') !== 'OTHER' ? true : false;
+        this.toggleShippingAddressInfo($form, val_ship);
+        this.useCustomer($form, FwFormField.getValueByDataField($form, 'UseCustomerDiscount'));
+        this.toggleInsurTabIfUseCustomer($form, FwFormField.getValueByDataField($form, 'UseCustomerInsurance'));
+        this.toggleCredTabIfUseCustomer($form, FwFormField.getValueByDataField($form, 'UseCustomerCredit'));
+        this.toggleTaxTabIfUseCustomer($form, FwFormField.getValueByDataField($form, 'UseCustomerTax'));
+        this.disableInsurCompanyInfo($form);
+        this.toggleOptionsTabIfExcludeQuote($form, FwFormField.getValueByDataField($form, 'DisableQuoteOrderActivity'));
+        this.billingAddressTypeChange($form);
+        this.shippingAddressTypeChange($form);
+        this.transferDealAddressValues($form);
+
+        // Disable Tax grids if UseCustomerTax is selected on page load
+        if (FwFormField.getValueByDataField($form, 'UseCustomerTax') === true) {
+            FwFormField.disable($form.find('div[data-name="CompanyResaleGrid"]'));
+            FwFormField.disable($form.find('div[data-name="CompanyTaxOptionGrid"]'));
+        }
+        else {
+            FwFormField.enable($form.find('div[data-name="CompanyResaleGrid"]'));
+            FwFormField.enable($form.find('div[data-name="CompanyTaxOptionGrid"]'));
+        }
+
+        if (FwFormField.getValue($form, 'div[data-datafield="UnlimitedCredit"]') === true) {
+            FwFormField.disable($form.find('div[data-datafield="CreditLimit"]'));
+        } else {
+            FwFormField.enable($form.find('div[data-datafield="CreditLimit"]'));
+        }
+
+        if (FwFormField.getValueByDataField($form, 'UseCustomerInsurance') === true) {
+            this.getCustomerInsuranceValues($form);
+        }
+
+        // Disable Tax grids on change
+        $form.find('[data-datafield="UseCustomerTax"] .fwformfield-value').on('change', function () {
+            if (FwFormField.getValueByDataField($form, 'UseCustomerTax') === true) {
+                FwFormField.disable($form.find('div[data-name="CompanyResaleGrid"]'));
+                FwFormField.disable($form.find('div[data-name="CompanyTaxOptionGrid"]'));
+            }
+            else {
+                FwFormField.enable($form.find('div[data-name="CompanyResaleGrid"]'));
+                FwFormField.enable($form.find('div[data-name="CompanyTaxOptionGrid"]'));
+            }
+        });
+
+        //Click Event on tabs to load grids/browses
+        $form.on('click', '[data-type="tab"]', e => {
+            const tabname = jQuery(e.currentTarget).attr('id');
+            const lastIndexOfTab = tabname.lastIndexOf('tab');
+            const tabpage = `${tabname.substring(0, lastIndexOfTab)}tabpage${tabname.substring(lastIndexOfTab + 3)}`;
+
+            const $gridControls = $form.find(`#${tabpage} [data-type="Grid"]`);
+            if ($gridControls.length > 0) {
+                for (let i = 0; i < $gridControls.length; i++) {
+                    const $gridcontrol = jQuery($gridControls[i]);
+                    FwBrowse.search($gridcontrol);
+                }
+            }
+
+            const $browseControls = $form.find(`#${tabpage} [data-type="Browse"]`);
+            if ($browseControls.length > 0) {
+                for (let i = 0; i < $browseControls.length; i++) {
+                    const $browseControl = jQuery($browseControls[i]);
+                    FwBrowse.search($browseControl);
+                }
+            }
+        });
+    }
+    //----------------------------------------------------------------------------------------------
+    openContractBrowse($form) {
+        const dealId = FwFormField.getValueByDataField($form, 'DealId');
+        const $browse = ContractController.openBrowse();
+        $browse.data('ondatabind', function (request) {
+            request.activeviewfields = ContractController.ActiveViewFields;
+            request.uniqueids = {
+                DealId: dealId
+            };
+        });
+        return $browse;
+    }
+    //---------------------------------------------------------------------------------------------
+    openInvoiceBrowse($form) {
+        const dealId = FwFormField.getValueByDataField($form, 'DealId');
+        const $browse = InvoiceController.openBrowse();
+        $browse.data('ondatabind', function (request) {
+            request.activeviewfields = InvoiceController.ActiveViewFields;
+            request.uniqueids = {
+                DealId: dealId
+            };
+        });
+        return $browse;
+    }
+    //---------------------------------------------------------------------------------------------
+    openReceiptBrowse($form) {
+        const dealId = FwFormField.getValueByDataField($form, 'DealId');
+        const $browse = ReceiptController.openBrowse();
+        $browse.data('ondatabind', function (request) {
+            request.activeviewfields = ReceiptController.ActiveViewFields;
+            request.uniqueids = {
+                DealId: dealId
+            };
+        });
+        return $browse;
+    }
+    //----------------------------------------------------------------------------------------------
+    events($form: JQuery): void {
+        $form.find('[data-name="CompanyTaxOptionGrid"]').data('onselectedrowchanged', ($control: JQuery, $tr: JQuery) => {
+            try {
+                this.updateExternalInputsWithGridValues($tr);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+        $form.find('[data-datafield="UnlimitedCredit"] .fwformfield-value').on('change', function () {
+            const $this = jQuery(this);
+            const useCustomerCredit = FwFormField.getValueByDataField($form, 'UseCustomerCredit');
+            if ($this.prop('checked') === true) {
+                FwFormField.disable($form.find('div[data-datafield="CreditLimit"]'));
+            } else {
+                FwFormField.enable($form.find('div[data-datafield="CreditLimit"]'));
+            }
+        });
+        // If user changes customer, update corresponding address fields in other tabs
+        $form.find('div[data-datafield="CustomerId"]').data('onchange', e => {
+            this.customerChange($form);
+        });
+        // If user updates general address info
+        $form.find('.deal_address input').on('change', e => {
+            this.transferDealAddressValues($form);
+        });
+        //Shipping Address Type Change
+        $form.find('div[data-datafield="ShippingAddressType"]').on('change', e => {
+            const val = FwFormField.getValueByDataField($form, 'ShippingAddressType') !== 'OTHER' ? true : false;
+            this.toggleShippingAddressInfo($form, val);
+            this.shippingAddressTypeChange($form);
+        });
+        //Billing Address Type Change
+        $form.find('div[data-datafield="BillToAddressType"]').on('change', e => {
+            const val = FwFormField.getValueByDataField($form, 'BillToAddressType') !== 'OTHER' ? true : false;
+            this.toggleBillingAddressInfo($form, val);
+            this.billingAddressTypeChange($form);
+        });
+
+        $form.on('change', '.billing_use_discount_template input[type=checkbox]', e => {
+            //this.useDiscountTemplate(jQuery(e.currentTarget).is(':checked'));
+            this.toggleBillingUseDiscount($form, jQuery(e.currentTarget).is(':checked'));
+        });
+
+        $form.on('change', '.billing_use_customer input[type=checkbox]', e => {
+            this.useCustomer($form, jQuery(e.currentTarget).is(':checked'));
+        });
+
+        //$form.on('change', '.billing-type-radio input[type=radio]', e => {
+        //    var val = jQuery(e.currentTarget).val() !== 'OTHER' ? true : false;
+        //    this.toggleBillingAddressInfo($form, val);
+        //});
+
+        //$form.on('change', '.shipping_address_type_radio input[type=radio]', e => {
+        //    var val = jQuery(e.currentTarget).val() !== 'OTHER' ? true : false;
+        //    this.toggleShippingAddressInfo($form, val);
+        //});
+
+        $form.on('change', '.credit_use_customer input[type=checkbox]', e => {
+            const isChecked = jQuery(e.currentTarget).is(':checked');
+            this.toggleCredTabIfUseCustomer($form, isChecked);
+        });
+
+        $form.on('change', '.insurance_use_customer input[type=checkbox]', e => {
+            const isChecked = jQuery(e.currentTarget).is(':checked');
+            this.toggleInsurTabIfUseCustomer($form, isChecked);
+            if (isChecked) {
+                this.getCustomerInsuranceValues($form);
+            }
+        });
+
+        //$form.on('change', '.billing_potype input[type=radio]', (e) => {
+        //    FwFormField.setValue($form, jQuery(e.currentTarget))
+        //});
+
+        $form.on('change', '.tax_use_customer input[type=checkbox]', e => {
+            const isChecked = jQuery(e.currentTarget).is(':checked');
+            this.toggleTaxTabIfUseCustomer($form, isChecked);
+            if (FwFormField.getValueByDataField($form, 'UseCustomerTax') === true) {
+                FwFormField.disable($form.find('div[data-name="CompanyResaleGrid"]'));
+                FwFormField.disable($form.find('div[data-name="CompanyTaxOptionGrid"]'));
+            }
+            else {
+                FwFormField.enable($form.find('div[data-name="CompanyResaleGrid"]'));
+                FwFormField.enable($form.find('div[data-name="CompanyTaxOptionGrid"]'));
+            }
+        });
+
+        $form.on('change', '.exlude_quote input[type=checkbox]', e => {
+            const isChecked = jQuery(e.currentTarget).is(':checked');
+            this.toggleOptionsTabIfExcludeQuote($form, isChecked);
+        });
+        // Insurance Vendor validation
+        $form.find('div[data-datafield="InsuranceCompanyId"]').data('onchange', $tr => {
+            FwFormField.setValueByDataField($form, 'InsuranceCompanyAgent', $tr.find('.field[data-formdatafield="PrimaryContact"]').attr('data-originalvalue'));
+            FwFormField.setValueByDataField($form, 'InsuranceCompanyAddress1', $tr.find('.field[data-formdatafield="Address1"]').attr('data-originalvalue'));
+            FwFormField.setValueByDataField($form, 'InsuranceCompanyAddress2', $tr.find('.field[data-formdatafield="Address2"]').attr('data-originalvalue'));
+            FwFormField.setValueByDataField($form, 'InsuranceCompanyCity', $tr.find('.field[data-formdatafield="City"]').attr('data-originalvalue'));
+            FwFormField.setValueByDataField($form, 'InsuranceCompanyState', $tr.find('.field[data-formdatafield="State"]').attr('data-originalvalue'));
+            FwFormField.setValueByDataField($form, 'InsuranceCompanyZipCode', $tr.find('.field[data-formdatafield="ZipCode"]').attr('data-originalvalue'));
+            FwFormField.setValueByDataField($form, 'InsuranceCompanyFax', $tr.find('.field[data-formdatafield="Fax"]').attr('data-originalvalue'));
+            FwFormField.setValueByDataField($form, 'InsuranceCompanyPhone', $tr.find('.field[data-formdatafield="Phone"]').attr('data-originalvalue'));
+            FwFormField.setValue($form, 'div[data-datafield="InsuranceCompanyCountryId"]', $tr.find('.field[data-formdatafield="CountryId"]').attr('data-originalvalue'), $tr.find('.field[data-formdatafield="Country"]').attr('data-originalvalue'));
+        });
+    }
+
+    //useDiscountTemplate(isChecked: boolean): void {
+    //    var $temp: JQuery = jQuery('.billing_template');
+    //    // DiscountTemplateId
+    //    if (!isChecked) {
+    //        $temp.attr('data-enabled', 'false');
+    //        $temp.find('input').prop('disabled', true);
+    //    } else {
+    //        $temp.attr('data-enabled', 'true');
+    //        $temp.find('input').prop('disabled', false);
+    //    }
+    //}
+    //----------------------------------------------------------------------------------------------
+    useCustomer($form: any, isChecked: boolean): void {
+        const $temp: JQuery = jQuery('.billing_template');
+
+        if (isChecked) {
+            $temp.attr('data-enabled', 'false');
+            $temp.find('input').prop('disabled', true);
+            FwFormField.disable($form.find('[data-datafield="UseDiscountTemplate"]'))
+        } else {
+            const $discTemp: JQuery = jQuery('.billing_use_discount_template');
+            if ($discTemp.find('input[type=checkbox]').is(':checked')) {
+                $temp.attr('data-enabled', 'true');
+                $temp.find('input').prop('disabled', false);
+            } else {
+                $temp.attr('data-enabled', 'false');
+                $temp.find('input').prop('disabled', true);
+            }
+            FwFormField.enable($form.find('[data-datafield="UseDiscountTemplate"]'))
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    toggleBillingUseDiscount($form: JQuery, isDiscountTemplate: boolean): void {
+        const list = ['DiscountTemplateId'];
+
+        isDiscountTemplate ? this.enableFields($form, list) : this.disableFields($form, list);
+    }
+    //----------------------------------------------------------------------------------------------
+    toggleBillingAddressInfo($form: JQuery, isOther: boolean) {
+        var list = [
+            'BillToAddress1',
+            'BillToAddress2',
+            'BillToCity',
+            'BillToState',
+            'BillToZipCode',
+            'BillToCountryId'];
+
+        isOther ? this.disableFields($form, list) : this.enableFields($form, list);
+    }
+    //----------------------------------------------------------------------------------------------
+    toggleShippingAddressInfo($form: JQuery, isOther: boolean) {
+        var list = [
+            'ShipAddress1',
+            'ShipAddress2',
+            'ShipCity',
+            'ShipState',
+            'ShipZipCode',
+            'ShipCountryId'];
+
+        isOther ? this.disableFields($form, list) : this.enableFields($form, list);
+    }
+    //----------------------------------------------------------------------------------------------
+    toggleCredTabIfUseCustomer($form: JQuery, isCustomer: boolean): void {
+        var list = ['CreditStatusId',
+            'CreditStatusThrough',
+            'CreditLimit',
+            'UnlimitedCredit',
+            'CreditApplicationOnFile',
+            'TradeReferencesVerifiedBy',
+            'TradeReferencesVerifiedOn',
+            'TradeReferencesVerified',
+            'CreditCardName',
+            'CreditCardAuthorizationFormOnFile',
+            'CreditCardTypeId',
+            'CreditCardExpirationMonth',
+            'CreditCardExpirationYear',
+            'CreditCardCode',
+            'CreditCardLimit',
+            'CreditCardNumber',
+            'CreditResponsibleParty',
+            'CreditResponsiblePartyOnFile',
+            'DepletingDepositThresholdAmount',
+            'DepletingDepositThresholdPercent'
+            //'DepletingDepositTotal',
+            //'DepletingDepositApplied',
+            //'DepletingDepositRemaining'
+        ];
+        isCustomer ? this.disableFields($form, list) : this.enableFields($form, list);
+    }
+    //----------------------------------------------------------------------------------------------
+    toggleInsurTabIfUseCustomer($form: JQuery, isCustomer: boolean): void {
+        var list = ['InsuranceCertificationValidThrough',
+            'InsuranceCoverageLiability',
+            'InsuranceCoverageLiabilityDeductible',
+            'InsuranceCertification',
+            'InsuranceCoverageProperty',
+            'InsuranceCoveragePropertyDeductible',
+            'VehicleInsuranceCertification',
+            'InsuranceCompanyId',
+            'InsuranceCompanyAgent'];
+
+        var $insuranceName: JQuery = jQuery('.insurance_name');
+
+        isCustomer ? this.disableFields($form, list) : this.enableFields($form, list);
+
+        if (isCustomer) {
+            $insuranceName.attr('data-enabled', 'false');
+            $insuranceName.find('input').prop('disabled', true);
+        } else {
+            $insuranceName.attr('data-enabled', 'true');
+            $insuranceName.find('input').prop('disabled', false);
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    disableInsurCompanyInfo($form: JQuery): void {
+        var list = ['InsuranceCompanyAddress1',
+            'InsuranceCompanyAddress2',
+            'InsuranceCompanyCity',
+            'InsuranceCompanyState',
+            'InsuranceCompanyZipCode',
+            'InsuranceCompanyCountryId',
+            'InsuranceCompanyPhone',
+            'InsuranceCompanyFax'];
+        this.disableFields($form, list);
+    }
+    //----------------------------------------------------------------------------------------------
+    toggleTaxTabIfUseCustomer($form: JQuery, isCustomer: boolean): void {
+        var list = ['Taxable',
+            'TaxStateOfIncorporationId',
+            'TaxFederalNo',
+            'NonTaxableCertificateNo',
+            'NonTaxableYear',
+            'NonTaxableCertificateValidThrough',
+            'NonTaxableCertificateOnFile'];
+
+        isCustomer ? this.disableFields($form, list) : this.enableFields($form, list);
+    }
+    //----------------------------------------------------------------------------------------------
+    toggleOptionsTabIfExcludeQuote($form: JQuery, isExcluded: boolean): void {
+        var list = ['DisableRental',
+            'DisableSales',
+            'DisableFacilities',
+            'DisableTransportation',
+            'DisableLabor',
+            'DisableMisc',
+            'DisableRentalSale',
+            'DisableSubRental',
+            'DisableSubSale',
+            'DisableSubLabor',
+            'DisableSubMisc'];
+
+        isExcluded ? this.enableFields($form, list) : this.disableFields($form, list);
+    }
+    //----------------------------------------------------------------------------------------------
+    billingAddressTypeChange($form: any): void {
+        if (FwFormField.getValueByDataField($form, 'BillToAddressType') === 'CUSTOMER') {
+            const customerId = FwFormField.getValueByDataField($form, 'CustomerId');
+            FwAppData.apiMethod(true, 'GET', `api/v1/customer/${customerId}`, null, FwServices.defaultTimeout, response => {
+                this.loadCustomerBillingValues($form, response);
+            }, null, $form);
+        }
+        if (FwFormField.getValueByDataField($form, 'BillToAddressType') === 'DEAL') {
+            FwFormField.enable($form.find('div[data-datafield="BillToAttention1"]'));
+            FwFormField.enable($form.find('div[data-datafield="BillToAttention2"]'));
+            FwFormField.setValueByDataField($form, 'BillToAddress1', FwFormField.getValueByDataField($form, 'Address1'));
+            FwFormField.setValueByDataField($form, 'BillToAddress2', FwFormField.getValueByDataField($form, 'Address2'));
+            FwFormField.setValueByDataField($form, 'BillToCity', FwFormField.getValueByDataField($form, 'City'));
+            FwFormField.setValueByDataField($form, 'BillToState', FwFormField.getValueByDataField($form, 'State'));
+            FwFormField.setValueByDataField($form, 'BillToZipCode', FwFormField.getValueByDataField($form, 'ZipCode'));
+            FwFormField.setValueByDataField($form, 'BillToCountryId', FwFormField.getValueByDataField($form, 'CountryId'), FwFormField.getTextByDataField($form, 'CountryId'));
+        }
+        if (FwFormField.getValueByDataField($form, 'BillToAddressType') === 'OTHER') {
+            FwFormField.enable($form.find('div[data-datafield="BillToAttention1"]'));
+            FwFormField.enable($form.find('div[data-datafield="BillToAttention2"]'));
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    shippingAddressTypeChange($form: any): void {
+        if (FwFormField.getValueByDataField($form, 'ShippingAddressType') === 'CUSTOMER') {
+            const customerId = FwFormField.getValueByDataField($form, 'CustomerId');
+            FwAppData.apiMethod(true, 'GET', `api/v1/customer/${customerId}`, null, FwServices.defaultTimeout, response => {
+                this.loadCustomerShippingValues($form, response);
+            }, null, null);
+        }
+
+        if (FwFormField.getValueByDataField($form, 'ShippingAddressType') === 'DEAL') {
+            FwFormField.setValueByDataField($form, 'ShipAddress1', FwFormField.getValueByDataField($form, 'Address1'));
+            FwFormField.setValueByDataField($form, 'ShipAddress2', FwFormField.getValueByDataField($form, 'Address2'));
+            FwFormField.setValueByDataField($form, 'ShipCity', FwFormField.getValueByDataField($form, 'City'));
+            FwFormField.setValueByDataField($form, 'ShipState', FwFormField.getValueByDataField($form, 'State'));
+            FwFormField.setValueByDataField($form, 'ShipZipCode', FwFormField.getValueByDataField($form, 'ZipCode'));
+            FwFormField.setValueByDataField($form, 'ShipCountryId', FwFormField.getValueByDataField($form, 'CountryId'), FwFormField.getTextByDataField($form, 'CountryId'));
+        }
+
+        //if (FwFormField.getValueByDataField($form, 'ShippingAddressType') === 'OTHER') {
+        //    FwFormField.enable($form.find('div[data-datafield="ShipToAttention"]'));
+        //}
+    }
+    //----------------------------------------------------------------------------------------------
+    transferDealAddressValues($form: any): void {
+        setTimeout(() => { // Wrapped in a setTimeout because text value in Country validation was not resetting prior to setting values
+            // Billing Tab
+            if (FwFormField.getValueByDataField($form, 'BillToAddressType') === 'DEAL') {
+                FwFormField.setValueByDataField($form, 'BillToAddress1', FwFormField.getValueByDataField($form, 'Address1'));
+                FwFormField.setValueByDataField($form, 'BillToAddress2', FwFormField.getValueByDataField($form, 'Address2'));
+                FwFormField.setValueByDataField($form, 'BillToCity', FwFormField.getValueByDataField($form, 'City'));
+                FwFormField.setValueByDataField($form, 'BillToState', FwFormField.getValueByDataField($form, 'State'));
+                FwFormField.setValueByDataField($form, 'BillToZipCode', FwFormField.getValueByDataField($form, 'ZipCode'));
+                FwFormField.setValueByDataField($form, 'BillToCountryId', FwFormField.getValueByDataField($form, 'CountryId'), FwFormField.getTextByDataField($form, 'CountryId'));
+            }
+            // Shipping Tab
+            if (FwFormField.getValueByDataField($form, 'ShippingAddressType') === 'DEAL') {
+                FwFormField.setValueByDataField($form, 'ShipAddress1', FwFormField.getValueByDataField($form, 'Address1'));
+                FwFormField.setValueByDataField($form, 'ShipAddress2', FwFormField.getValueByDataField($form, 'Address2'));
+                FwFormField.setValueByDataField($form, 'ShipCity', FwFormField.getValueByDataField($form, 'City'));
+                FwFormField.setValueByDataField($form, 'ShipState', FwFormField.getValueByDataField($form, 'State'));
+                FwFormField.setValueByDataField($form, 'ShipZipCode', FwFormField.getValueByDataField($form, 'ZipCode'));
+                FwFormField.setValueByDataField($form, 'ShipCountryId', FwFormField.getValueByDataField($form, 'CountryId'), FwFormField.getTextByDataField($form, 'CountryId'));
+            }
+        }, 1000)
+    }
+    //----------------------------------------------------------------------------------------------
+    disableFields($form: JQuery, fields: string[]): void {
+        fields.forEach((e, i) => { FwFormField.disable($form.find(`[data-datafield="${e}"]`)); });
+    }
+    //----------------------------------------------------------------------------------------------
+    enableFields($form: JQuery, fields: string[]): void {
+        fields.forEach((e, i) => { FwFormField.enable($form.find(`[data-datafield="${e}"]`)); });
+    }
+    //----------------------------------------------------------------------------------------------
+    updateExternalInputsWithGridValues($tr: JQuery): void {
+        let TaxOption = $tr.find('.field[data-browsedatafield="TaxOptionId"]').attr('data-originaltext');
+
+        $tr.find('.column > .field').each((i, e) => {
+            let $column = jQuery(e), id = $column.attr('data-browsedatafield'), value = $column.attr('data-originalvalue');
+            if (value === undefined || null) {
+                jQuery(`.${id}`).find(':input').val(0);
+            } else {
+                jQuery(`.${id}`).find(':input').val(value);
+            }
+        });
+        jQuery('.TaxOption').find(':input').val(TaxOption);
+    }
+    //----------------------------------------------------------------------------------------------
     customerChange($form: any): void {
         const CUSTOMERID = FwFormField.getValueByDataField($form, 'CustomerId');
         FwAppData.apiMethod(true, 'GET', `api/v1/customer/${CUSTOMERID}`, null, FwServices.defaultTimeout, response => {
@@ -762,7 +748,7 @@ class Deal {
                 FwFormField.setValue($form, 'div[data-datafield="InsuranceCompanyCountryId"]', response.InsuranceCompanyCountryId, response.InsuranceCompanyCountry);
                 FwFormField.setValue($form, 'div[data-datafield="InsuranceCompanyId"]', response.InsuranceCompanyId, response.InsuranceCompany);
                 FwFormField.setValueByDataField($form, 'InsuranceCompanyAgent', response.InsuranceAgent);
-            } 
+            }
             // Shipping Address tab defaults
             if (FwFormField.getValueByDataField($form, 'ShippingAddressType') === 'CUSTOMER') {
                 this.loadCustomerShippingValues($form, response);

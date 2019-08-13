@@ -51,7 +51,7 @@
 
         // example: setting validation getapiurl functions
         //FwFormField.getDataField($form, 'OfficeLocationId').data('getapiurl', () => 'api/v1/customer/lookup/officelocations');
-        
+
         if (mode === 'NEW') {
             let officeLocation = JSON.parse(sessionStorage.getItem('location'));
             let customerStatus = JSON.parse(sessionStorage.getItem('controldefaults'));
@@ -61,20 +61,20 @@
 
         //Toggle Buttons on Billing tab
         FwFormField.loadItems($form.find('div[data-datafield="BillingAddressType"]'), [
-            { value: 'CUSTOMER',    caption: 'Customer', checked: true },
-            { value: 'OTHER',       caption: 'Other' }
+            { value: 'CUSTOMER', caption: 'Customer', checked: true },
+            { value: 'OTHER', caption: 'Other' }
         ]);
 
         //Toggle Buttons on Tax tab
         FwFormField.loadItems($form.find('div[data-datafield="Taxable"]'), [
-            { value: 'TRUE',    caption: 'Taxable', checked: true },
-            { value: 'FALSE',   caption: 'Non-Taxable' }
+            { value: 'TRUE', caption: 'Taxable', checked: true },
+            { value: 'FALSE', caption: 'Non-Taxable' }
         ]);
 
         //Toggle Buttons on Shipping tab
         FwFormField.loadItems($form.find('div[data-datafield="ShippingAddressType"]'), [
-            { value: 'CUSTOMER',    caption: 'Customer', checked: true },
-            { value: 'OTHER',       caption: 'Other' }
+            { value: 'CUSTOMER', caption: 'Customer', checked: true },
+            { value: 'OTHER', caption: 'Other' }
         ]);
         // SUBMODULES
         // Deal  submodule
@@ -129,18 +129,26 @@
         $form.find('[data-datafield="UseDiscountTemplate"] .fwformfield-value').on('change', function () {
             var $this = jQuery(this);
             if ($this.prop('checked') === true) {
-                FwFormField.enable($form.find('.discount-validation'))
+                FwFormField.enable($form.find('.discount-validation'));
             } else {
-                FwFormField.disable($form.find('.discount-validation'))
+                FwFormField.disable($form.find('.discount-validation'));
+            }
+        });
+        $form.find('[data-datafield="CreditUnlimited"] .fwformfield-value').on('change', function () {
+            const $this = jQuery(this);
+            if ($this.prop('checked') === true) {
+                FwFormField.disable($form.find('div[data-datafield="CreditLimit"]'));
+            } else {
+                FwFormField.enable($form.find('div[data-datafield="CreditLimit"]'));
             }
         });
 
         $form.find('[data-datafield="DisableQuoteOrderActivity"] .fwformfield-value').on('change', function () {
             var $this = jQuery(this);
             if ($this.prop('checked') === true) {
-                FwFormField.enable($form.find('.quote-order [data-type="checkbox"]'))
+                FwFormField.enable($form.find('.quote-order [data-type="checkbox"]'));
             } else {
-                FwFormField.disable($form.find('.quote-order [data-type="checkbox"]'))
+                FwFormField.disable($form.find('.quote-order [data-type="checkbox"]'));
             }
         });
 
@@ -293,14 +301,14 @@
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
-        var $customerResaleGrid: any = $form.find('[data-name="CompanyResaleGrid"]');
-        var $customerNoteGrid: any = $form.find('[data-name="CustomerNoteGrid"]');
-        var $companyTaxGrid: any = $form.find('[data-name="CompanyTaxOptionGrid"]');
-        var $companyContactGrid: any = $form.find('[data-name="CompanyContactGrid"]');
-
         if (FwFormField.getValue($form, 'div[data-datafield="UseDiscountTemplate"]') === true) {
             FwFormField.enable($form.find('.discount-validation'));
-        };
+        }
+        if (FwFormField.getValue($form, 'div[data-datafield="CreditUnlimited"]') === true) {
+            FwFormField.disable($form.find('div[data-datafield="CreditLimit"]'));
+        } else {
+            FwFormField.enable($form.find('div[data-datafield="CreditLimit"]'));
+        }
 
         //Click Event on tabs to load grids/browses
         $form.on('click', '[data-type="tab"]', e => {
