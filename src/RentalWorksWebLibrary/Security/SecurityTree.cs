@@ -455,6 +455,7 @@ namespace WebLibrary.Security
             AddGrid("Inventory Location Tax",                 "{7DDD2E10-5A1E-4FE9-BBA5-FDBE99DF04F6}", lv1menuGrids.Id, "InventoryLocationTaxGridController");
             AddGrid("Item Qc",                                "{496FEE6D-FC41-47D7-8576-7EF95CAE1B18}", lv1menuGrids.Id, "ItemQcGridController");
             AddGrid("Lost and Damage Items",                  "{D9D02203-025E-47BD-ADF4-0436DC5593BB}", lv1menuGrids.Id, "LostAndDamageItemGridController");
+            AddGrid("Manual G/L Transactions",                "{9EE2D14A-E79B-4D27-9B8E-5DDDEDD8862E}", lv1menuGrids.Id, "ManualGlTransactionsGridController");
             AddGrid("Master Item",                            "{F21525ED-EDAC-4627-8791-0B410C74DAAE}", lv1menuGrids.Id, "RwMasterItemGridController");
             AddGrid("Market Segment Job",                     "{6CB1FD8E-5E6E-45BC-B0E6-AC8E06A38990}", lv1menuGrids.Id, "MarketSegmentJobGridController");
             AddGrid("Migrate Orders Item",                    "{B6709AA1-64C9-429C-BD6E-B244F03ECCC6}", lv1menuGrids.Id, "MigrateOrdersItemGridController");

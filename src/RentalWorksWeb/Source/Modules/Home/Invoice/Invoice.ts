@@ -302,6 +302,7 @@ class Invoice {
         FwBrowse.init($invoiceNoteGridControl);
         FwBrowse.renderRuntimeHtml($invoiceNoteGridControl);
         // ----------
+        const glTotalFields = ["Debit", "Credit"];
         const $glDistributionGrid = $form.find('div[data-grid="GlDistributionGrid"]');
         const $glDistributionGridControl = FwBrowse.loadGridFromTemplate('GlDistributionGrid');
         $glDistributionGrid.empty().append($glDistributionGridControl);
@@ -309,9 +310,32 @@ class Invoice {
             request.uniqueids = {
                 InvoiceId: FwFormField.getValueByDataField($form, 'InvoiceId')
             };
+            request.totalfields = glTotalFields;
+        });
+        FwBrowse.addEventHandler($glDistributionGridControl, 'afterdatabindcallback', ($glDistributionGridControl, dt) => {
+            FwFormField.setValue2($form.find('.gldistribution-totals [data-totalfield="Debit"]'), dt.Totals.Debit);
+            FwFormField.setValue2($form.find('.gldistribution-totals [data-totalfield="Credit"]'), dt.Totals.Credit);
         });
         FwBrowse.init($glDistributionGridControl);
         FwBrowse.renderRuntimeHtml($glDistributionGridControl);
+        // ----------
+        const $manualGlGrid = $form.find('div[data-grid="ManualGlTransactionsGrid"]');
+        const $manualGlGridControl = FwBrowse.loadGridFromTemplate('ManualGlTransactionsGrid');
+        $manualGlGrid.empty().append($manualGlGridControl);
+        $manualGlGridControl.data('ondatabind', request => {
+            request.uniqueids = {
+                InvoiceId: FwFormField.getValueByDataField($form, 'InvoiceId')
+            };
+            request.totalfields = ["Amount"];
+        });
+        FwBrowse.addEventHandler($manualGlGridControl, 'afterdatabindcallback', ($manualGlGridControl, dt) => {
+            FwFormField.setValue2($form.find('.manualgl-totals [data-totalfield="Amount"]'), dt.Totals.Amount);
+        });
+        $manualGlGridControl.data('beforesave', request => {
+            request.InvoiceId = FwFormField.getValueByDataField($form, 'InvoiceId');
+        });
+        FwBrowse.init($manualGlGridControl);
+        FwBrowse.renderRuntimeHtml($manualGlGridControl);
         // ----------
         const $invoiceOrderGrid = $form.find('div[data-grid="InvoiceOrderGrid"]');
         const $invoiceOrderGridControl = FwBrowse.loadGridFromTemplate('InvoiceOrderGrid');

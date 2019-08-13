@@ -9,14 +9,14 @@ namespace WebApi.Modules.Home.GlManual
     public class GlManualLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "glid", modeltype: FwDataTypes.Integer)]
+        [FwSqlDataField(column: "glid", modeltype: FwDataTypes.Integer, isPrimaryKey: true)]
         public int? Id { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "internalchar", modeltype: FwDataTypes.Boolean)]
+        [FwSqlDataField(column: "internalchar", modeltype: FwDataTypes.Text)]
         public string InternalChar { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "locationid", modeltype: FwDataTypes.Text)]
-        public string OfficLocationId { get; set; }
+        public string OfficeLocationId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "location", modeltype: FwDataTypes.Text)]
         public string OfficeLocation { get; set; }
@@ -70,6 +70,7 @@ namespace WebApi.Modules.Home.GlManual
             //bool paramBoolean = GetUniqueIdAsBoolean("ParamBoolean", request) ?? false; 
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
+            addFilterToSelect("InvoiceId", "invoiceid", select, request);
             //select.AddWhere("(xxxtype = 'ABCDEF')"); 
             //addFilterToSelect("UniqueId", "uniqueid", select, request); 
             //select.AddParameter("@paramstring", paramString); 

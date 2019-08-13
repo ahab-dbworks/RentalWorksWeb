@@ -7,7 +7,7 @@ namespace WebApi.Modules.Home.GlManual
     public class GlManualRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "glid", modeltype: FwDataTypes.Integer, sqltype: "int", isPrimaryKey: true)]
+        [FwSqlDataField(column: "glid", modeltype: FwDataTypes.Integer, sqltype: "int", isPrimaryKey: true, identity: true)]
         public int? Id { get; set; } = 0;
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "internalchar", modeltype: FwDataTypes.Text, sqltype: "char", isPrimaryKey: true)]
