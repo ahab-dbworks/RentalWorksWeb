@@ -1,21 +1,14 @@
 class VehicleType {
-    Module: string;
-    apiurl: string;
-    //----------------------------------------------------------------------------------------------
-    constructor() {
-        this.Module = 'VehicleType';
-        this.apiurl = 'api/v1/vehicletype';
-    }
+    Module: string = 'VehicleType';
+    apiurl: string = 'api/v1/vehicletype';
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
-        var screen, $browse;
-
-        screen = {};
+        const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
-        $browse = this.openBrowse();
+        const $browse = this.openBrowse();
 
         screen.load = function () {
             FwModule.openModuleTab($browse, 'Vehicle Type', false, 'BROWSE', true);
@@ -34,9 +27,7 @@ class VehicleType {
     }
     //----------------------------------------------------------------------------------------------
     openBrowse() {
-        var $browse;
-
-        $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
+        let $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
 
         return $browse;
@@ -60,18 +51,14 @@ class VehicleType {
     }
     //----------------------------------------------------------------------------------------------
     openForm(mode: string) {
-        var $form;
-
-        $form = FwModule.loadFormFromTemplate(this.Module);
+        let $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
-
+        this.events($form);
         return $form;
     }
     //----------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
-        var $form;
-
-        $form = this.openForm('EDIT');
+        const $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="VehicleTypeId"] input').val(uniqueids.VehicleTypeId);
         FwModule.loadForm(this.Module, $form);
 
@@ -87,6 +74,30 @@ class VehicleType {
         FwBrowse.search($vehicleTypeWarehouseGrid);
 
         this.disableFields();
+    }
+    //----------------------------------------------------------------------------------------------
+    events($form: JQuery): void {
+        $form.find('div[data-datafield="AssetAccountId"]').data('onchange', function ($tr) {
+            FwFormField.setValue($form, 'div[data-datafield="AssetAccountDescription"]', $tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
+        });
+        $form.find('div[data-datafield="IncomeAccountId"]').data('onchange', function ($tr) {
+            FwFormField.setValue($form, 'div[data-datafield="IncomeAccountDescription"]', $tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
+        });
+        $form.find('div[data-datafield="SubIncomeAccountId"]').data('onchange', function ($tr) {
+            FwFormField.setValue($form, 'div[data-datafield="SubIncomeAccountDescription"]', $tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
+        });
+        $form.find('div[data-datafield="EquipmentSaleIncomeAccountId"]').data('onchange', function ($tr) {
+            FwFormField.setValue($form, 'div[data-datafield="EquipmentSaleIncomeAccountDescription"]', $tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
+        });
+        $form.find('div[data-datafield="LdIncomeAccountId"]').data('onchange', function ($tr) {
+            FwFormField.setValue($form, 'div[data-datafield="LdIncomeAccountDescription"]', $tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
+        });
+        $form.find('div[data-datafield="CostOfGoodsSoldExpenseAccountId"]').data('onchange', function ($tr) {
+            FwFormField.setValue($form, 'div[data-datafield="CostOfGoodsSoldExpenseAccountDescription"]', $tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
+        });
+        $form.find('div[data-datafield="CostOfGoodsRentedExpenseAccountId"]').data('onchange', function ($tr) {
+            FwFormField.setValue($form, 'div[data-datafield="CostOfGoodsRentedExpenseAccountDescription"]', $tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
+        });
     }
     //----------------------------------------------------------------------------------------------
     beforeValidateInventoryType = function ($browse, $grid, request) {

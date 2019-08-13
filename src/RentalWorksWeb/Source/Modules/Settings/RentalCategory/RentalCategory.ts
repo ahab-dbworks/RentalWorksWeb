@@ -24,21 +24,6 @@ class RentalCategory {
         return screen;
     }
     //----------------------------------------------------------------------------------------------
-    events($form: JQuery): void {
-        $form.on('change', '.overridecheck input[type=checkbox]', (e) => {
-            const $overrideCheck = jQuery(e.currentTarget), $categoryValidation = $form.find('.catvalidation');
-            this.toggleEnabled($overrideCheck, $categoryValidation);
-        });
-    }
-    //----------------------------------------------------------------------------------------------
-    toggleEnabled($checkbox: JQuery, $validation: JQuery): void {
-        if ($checkbox.is(':checked')) {
-            $validation.attr('data-enabled', 'true');
-        } else {
-            $validation.attr('data-enabled', 'false');
-        }
-    }
-    //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
         const $subCategoryGrid = $form.find('div[data-grid="SubCategoryGrid"]');
         const $subCategoryControl = FwBrowse.loadGridFromTemplate('SubCategoryGrid');
@@ -66,10 +51,8 @@ class RentalCategory {
         let $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 
-        this.events($form);
-
         $form.find('[data-datafield="CatalogCategory"] .fwformfield-value').on('change', function () {
-            var $this = jQuery(this);
+            const $this = jQuery(this);
             if ($this.prop('checked') === true) {
                 FwFormField.enable($form.find('.designer'))
                 FwFormField.disable($form.find('.barcodetype'))
@@ -81,34 +64,7 @@ class RentalCategory {
 
         this.toggleEnabled($form.find('.overridecheck input[type=checkbox]'), $form.find('.catvalidation'));
 
-        $form.find('div[data-datafield="IncomeAccountId"]').data('onchange', function ($tr) {
-            FwFormField.setValue($form, 'div[data-datafield="IncomeAccountDescription"]', $tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
-        });
-
-        $form.find('div[data-datafield="SubIncomeAccountId"]').data('onchange', function ($tr) {
-            FwFormField.setValue($form, 'div[data-datafield="SubIncomeAccountDescription"]', $tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
-        });
-
-        $form.find('div[data-datafield="AssetAccountId"]').data('onchange', function ($tr) {
-            FwFormField.setValue($form, 'div[data-datafield="AssetAccountDescription"]', $tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
-        });
-
-        $form.find('div[data-datafield="EquipmentSaleIncomeAccountId"]').data('onchange', function ($tr) {
-            FwFormField.setValue($form, 'div[data-datafield="EquipmentSaleIncomeAccountDescription"]', $tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
-        });
-
-        $form.find('div[data-datafield="LdIncomeAccountId"]').data('onchange', function ($tr) {
-            FwFormField.setValue($form, 'div[data-datafield="LdIncomeAccountDescription"]', $tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
-        });
-
-        $form.find('div[data-datafield="CostOfGoodsSoldExpenseAccountId"]').data('onchange', function ($tr) {
-            FwFormField.setValue($form, 'div[data-datafield="CostOfGoodsSoldExpenseAccountDescription"]', $tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
-        });
-
-        $form.find('div[data-datafield="CostOfGoodsRentedExpenseAccountId"]').data('onchange', function ($tr) {
-            FwFormField.setValue($form, 'div[data-datafield="CostOfGoodsRentedExpenseAccountDescription"]', $tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
-        });
-
+        this.events($form);
         return $form;
     }
     //----------------------------------------------------------------------------------------------
@@ -134,6 +90,42 @@ class RentalCategory {
         } else {
             FwFormField.disable($form.find('.designer'))
             FwFormField.enable($form.find('.barcodetype'))
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    events($form: JQuery): void {
+        $form.on('change', '.overridecheck input[type=checkbox]', (e) => {
+            const $overrideCheck = jQuery(e.currentTarget), $categoryValidation = $form.find('.catvalidation');
+            this.toggleEnabled($overrideCheck, $categoryValidation);
+        });
+        $form.find('div[data-datafield="AssetAccountId"]').data('onchange', function ($tr) {
+            FwFormField.setValue($form, 'div[data-datafield="AssetAccountDescription"]', $tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
+        });
+        $form.find('div[data-datafield="IncomeAccountId"]').data('onchange', function ($tr) {
+            FwFormField.setValue($form, 'div[data-datafield="IncomeAccountDescription"]', $tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
+        });
+        $form.find('div[data-datafield="SubIncomeAccountId"]').data('onchange', function ($tr) {
+            FwFormField.setValue($form, 'div[data-datafield="SubIncomeAccountDescription"]', $tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
+        });
+        $form.find('div[data-datafield="EquipmentSaleIncomeAccountId"]').data('onchange', function ($tr) {
+            FwFormField.setValue($form, 'div[data-datafield="EquipmentSaleIncomeAccountDescription"]', $tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
+        });
+        $form.find('div[data-datafield="LdIncomeAccountId"]').data('onchange', function ($tr) {
+            FwFormField.setValue($form, 'div[data-datafield="LdIncomeAccountDescription"]', $tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
+        });
+        $form.find('div[data-datafield="CostOfGoodsSoldExpenseAccountId"]').data('onchange', function ($tr) {
+            FwFormField.setValue($form, 'div[data-datafield="CostOfGoodsSoldExpenseAccountDescription"]', $tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
+        });
+        $form.find('div[data-datafield="CostOfGoodsRentedExpenseAccountId"]').data('onchange', function ($tr) {
+            FwFormField.setValue($form, 'div[data-datafield="CostOfGoodsRentedExpenseAccountDescription"]', $tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
+        });
+    }
+    //----------------------------------------------------------------------------------------------
+    toggleEnabled($checkbox: JQuery, $validation: JQuery): void {
+        if ($checkbox.is(':checked')) {
+            $validation.attr('data-enabled', 'true');
+        } else {
+            $validation.attr('data-enabled', 'false');
         }
     }
     //----------------------------------------------------------------------------------------------
