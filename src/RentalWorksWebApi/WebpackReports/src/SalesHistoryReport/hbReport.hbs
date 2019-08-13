@@ -38,11 +38,11 @@
     <tbody>
       {{#each this}}
       <tr data-rowtype={{RowType}}>
-        {{#ifEquals RowType "Warehouseheader"}}
-        <td colspan="5" class="header-row">Warehouse: {{Warehouse}}</td>
-        {{/ifEquals}}
         {{#ifEquals RowType "OfficeLocationheader"}}
-        <td colspan="5" class="lower header-row">Office: {{OfficeLocation}}</td>
+        <td colspan="5" class="header-row">Office: {{OfficeLocation}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "Warehouseheader"}}
+        <td colspan="5" class="lower header-row">Warehouse: {{Warehouse}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "Departmentheader"}}
         <td colspan="5" class="lower header-row">Department: {{"Department"}}</td>
@@ -159,11 +159,11 @@
     <tbody>
       {{#each this}}
       <tr data-rowtype={{RowType}}>
-        {{#ifEquals RowType "Warehouseheader"}}
-        <td colspan="5" class="header-row">Warehouse: {{Warehouse}}</td>
-        {{/ifEquals}}
         {{#ifEquals RowType "OfficeLocationheader"}}
-        <td colspan="5" class="lower header-row">Office: {{OfficeLocation}}</td>
+        <td colspan="5" class="header-row">Office: {{OfficeLocation}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "Warehouseheader"}}
+        <td colspan="5" class="lower header-row">Warehouse: {{Warehouse}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "Departmentheader"}}
         <td colspan="5" class="lower header-row">Department: {{"Department"}}</td>
