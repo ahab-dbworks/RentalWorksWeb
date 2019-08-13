@@ -22,8 +22,8 @@
         <th>Description</th>
         <th class="number">Qty</th>
         <th class="number">Unit Cost</th>
-        <th class="number">Unit Price</th>
         <th class="number">Unit Extended</th>
+        <th class="number">Unit Price</th>
         <th class="number">Extended</th>
         {{#if IncludeSalesTax}}
         <th class="number">Tax</th>
@@ -55,12 +55,12 @@
         {{/ifEquals}}
         {{#ifEquals RowType "detail"}}
         <td data-value="{{OrderNumber}}"></td>
-        <td data-value="{{ICode}}"></td>
+        <td class="nowrap" data-value="{{ICode}}"></td>
         <td data-value="{{Description}}"></td>
         <td class="number" data-value="{{Quantity}}"></td>
         <td class="number" data-value="{{UnitCost}}"></td>
-        <td class="number" data-value="{{UnitPrice}}"></td>
         <td class="number" data-value="{{ExtendedCost}}"></td>
+        <td class="number" data-value="{{UnitPrice}}"></td>
         <td class="number" data-value="{{Extended}}"></td>
         {{#if ../IncludeSalesTax}}
         <td class="number" data-value="{{Tax}}"></td>
@@ -74,8 +74,8 @@
         {{#ifEquals RowType "Warehousefooter"}}
         <td colspan="3" class="total-name">{{Warehouse}}&nbsp;</td>
         <td class="total-val" data-value="{{Quantity}}"></td>
-        <td colspan="3" class="total-val" data-value="{{ExtendedCost}}"></td>
-        <td class="total-val" data-value="{{Extended}}"></td>
+        <td colspan="2" class="total-val" data-value="{{ExtendedCost}}"></td>
+        <td colspan="2" class="total-val" data-value="{{Extended}}"></td>
         {{#if ../IncludeSalesTax}}
         <td class="total-val" data-value="{{Tax}}"></td>
         <td class="total-val" data-value="{{Total}}"></td>
@@ -84,8 +84,8 @@
         {{#ifEquals RowType "OfficeLocationfooter"}}
         <td colspan="3" class="total-name">{{OfficeLocation}}&nbsp;</td>
         <td class="total-val" data-value="{{Quantity}}"></td>
-        <td colspan="3" class="total-val" data-value="{{ExtendedCost}}"></td>
-        <td class="total-val" data-value="{{Extended}}"></td>
+        <td colspan="2" class="total-val" data-value="{{ExtendedCost}}"></td>
+        <td colspan="2" class="total-val" data-value="{{Extended}}"></td>
         {{#if ../IncludeSalesTax}}
         <td class="total-val" data-value="{{Tax}}"></td>
         <td class="total-val" data-value="{{Total}}"></td>
@@ -94,8 +94,8 @@
         {{#ifEquals RowType "Departmentfooter"}}
         <td colspan="3" class="total-name">{{Department}}&nbsp;</td>
         <td class="total-val" data-value="{{Quantity}}"></td>
-        <td colspan="3" class="total-val" data-value="{{ExtendedCost}}"></td>
-        <td class="total-val" data-value="{{Extended}}"></td>
+        <td colspan="2" class="total-val" data-value="{{ExtendedCost}}"></td>
+        <td colspan="2" class="total-val" data-value="{{Extended}}"></td>
         {{#if ../IncludeSalesTax}}
         <td class="total-val" data-value="{{Tax}}"></td>
         <td class="total-val" data-value="{{Total}}"></td>
@@ -104,8 +104,8 @@
         {{#ifEquals RowType "Customerfooter"}}
         <td colspan="3" class="total-name">{{Customer}}&nbsp;</td>
         <td class="total-val" data-value="{{Quantity}}"></td>
-        <td colspan="3" class="total-val" data-value="{{ExtendedCost}}"></td>
-        <td class="total-val" data-value="{{Extended}}"></td>
+        <td colspan="2" class="total-val" data-value="{{ExtendedCost}}"></td>
+        <td colspan="2" class="total-val" data-value="{{Extended}}"></td>
         {{#if ../IncludeSalesTax}}
         <td class="total-val" data-value="{{Tax}}"></td>
         <td class="total-val" data-value="{{Total}}"></td>
@@ -114,8 +114,8 @@
         {{#ifEquals RowType "Dealfooter"}}
         <td colspan="3" class="total-name">{{Deal}}&nbsp;</td>
         <td class="total-val" data-value="{{Quantity}}"></td>
-        <td colspan="3" class="total-val" data-value="{{ExtendedCost}}"></td>
-        <td class="total-val" data-value="{{Extended}}"></td>
+        <td colspan="2" class="total-val" data-value="{{ExtendedCost}}"></td>
+        <td colspan="2" class="total-val" data-value="{{Extended}}"></td>
         {{#if ../IncludeSalesTax}}
         <td class="total-val" data-value="{{Tax}}"></td>
         <td class="total-val" data-value="{{Total}}"></td>
@@ -124,8 +124,8 @@
         {{#ifEquals RowType "grandtotal"}}
         <td colspan="3" class="total-name">Grand Total:&nbsp;</td>
         <td class="total-val" data-value="{{Quantity}}"></td>
-        <td colspan="3" class="total-val" data-value="{{ExtendedCost}}"></td>
-        <td class="total-val" data-value="{{Extended}}"></td>
+        <td colspan="2" class="total-val" data-value="{{ExtendedCost}}"></td>
+        <td colspan="2" class="total-val" data-value="{{Extended}}"></td>
         {{#if ../IncludeSalesTax}}
         <td class="total-val" data-value="{{Tax}}"></td>
         <td class="total-val" data-value="{{Total}}"></td>
@@ -189,7 +189,8 @@
         <td data-value="{{PurchaseOrderNumber}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "Warehousefooter"}}
-        <td colspan="3" class="total-name">{{Warehouse}}&nbsp;</td>
+        <td colspan="2" class="total-name">{{Warehouse}}&nbsp;</td>
+        <td class="total-val" data-value="{{ExtendedCost}}"></td>
         <td class="total-val" data-value="{{Extended}}"></td>
         {{#if ../IncludeSalesTax}}
         <td class="total-val" data-value="{{Tax}}"></td>
@@ -197,7 +198,8 @@
         {{/if}}
         {{/ifEquals}}
         {{#ifEquals RowType "OfficeLocationfooter"}}
-        <td colspan="3" class="total-name">{{OfficeLocation}}&nbsp;</td>
+        <td colspan="2" class="total-name">{{OfficeLocation}}&nbsp;</td>
+        <td class="total-val" data-value="{{ExtendedCost}}"></td>
         <td class="total-val" data-value="{{Extended}}"></td>
         {{#if ../IncludeSalesTax}}
         <td class="total-val" data-value="{{Tax}}"></td>
@@ -205,7 +207,8 @@
         {{/if}}
         {{/ifEquals}}
         {{#ifEquals RowType "Departmentfooter"}}
-        <td colspan="3" class="total-name">{{Department}}&nbsp;</td>
+        <td colspan="2" class="total-name">{{Department}}&nbsp;</td>
+        <td class="total-val" data-value="{{ExtendedCost}}"></td>
         <td class="total-val" data-value="{{Extended}}"></td>
         {{#if ../IncludeSalesTax}}
         <td class="total-val" data-value="{{Tax}}"></td>
@@ -213,7 +216,8 @@
         {{/if}}
         {{/ifEquals}}
         {{#ifEquals RowType "Customerfooter"}}
-        <td colspan="3" class="total-name">{{Customer}}&nbsp;</td>
+        <td colspan="2" class="total-name">{{Customer}}&nbsp;</td>
+        <td class="total-val" data-value="{{ExtendedCost}}"></td>
         <td class="total-val" data-value="{{Extended}}"></td>
         {{#if ../IncludeSalesTax}}
         <td class="total-val" data-value="{{Tax}}"></td>
@@ -221,7 +225,8 @@
         {{/if}}
         {{/ifEquals}}
         {{#ifEquals RowType "Dealfooter"}}
-        <td colspan="3" class="total-name">{{Deal}}&nbsp;</td>
+        <td colspan="2" class="total-name">{{Deal}}&nbsp;</td>
+        <td class="total-val" data-value="{{ExtendedCost}}"></td>
         <td class="total-val" data-value="{{Extended}}"></td>
         {{#if ../IncludeSalesTax}}
         <td class="total-val" data-value="{{Tax}}"></td>
@@ -229,7 +234,8 @@
         {{/if}}
         {{/ifEquals}}
         {{#ifEquals RowType "grandtotal"}}
-        <td colspan="3" class="total-name">Grand Total:&nbsp;</td>
+        <td colspan="2" class="total-name">Grand Total:&nbsp;</td>
+        <td class="total-val" data-value="{{ExtendedCost}}"></td>
         <td class="total-val" data-value="{{Extended}}"></td>
         {{#if ../IncludeSalesTax}}
         <td class="total-val" data-value="{{Tax}}"></td>

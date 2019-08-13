@@ -177,7 +177,7 @@ namespace WebApi.Modules.Reports.SalesHistoryReport
             }
             if (request.IncludeSubHeadingsAndSubTotals)
             {
-                string[] totalFields = new string[] { "Quantity", "Extended", "Tax", "Total" };
+                string[] totalFields = new string[] { "Quantity", "Extended", "ExtendedCost", "Tax", "Total" };
                 dt.InsertSubTotalRows("OfficeLocation", "RowType", totalFields);
                 dt.InsertSubTotalRows("Warehouse", "RowType", totalFields);
                 dt.InsertSubTotalRows("Department", "RowType", totalFields);
