@@ -17,7 +17,7 @@ class Deal {
             FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
 
             if (typeof filter !== 'undefined') {
-                var datafields = filter.datafield.split('%20');
+                const datafields = filter.datafield.split('%20');
                 for (let i = 0; i < datafields.length; i++) {
                     datafields[i] = datafields[i].charAt(0).toUpperCase() + datafields[i].substr(1);
                 }
@@ -105,8 +105,8 @@ class Deal {
             $form.find('[data-datafield="UseCustomerCredit"] .fwformfield-value').change();
             $form.find('[data-datafield="UseCustomerInsurance"] .fwformfield-value').change();
 
-            let officeLocation = JSON.parse(sessionStorage.getItem('location'));
-            let dealDefaults = JSON.parse(sessionStorage.getItem('controldefaults'));
+            const officeLocation = JSON.parse(sessionStorage.getItem('location'));
+            const dealDefaults = JSON.parse(sessionStorage.getItem('controldefaults'));
             FwFormField.setValue($form, 'div[data-datafield="LocationId"]', officeLocation.locationid, officeLocation.location);
             FwFormField.setValue($form, 'div[data-datafield="DealStatusId"]', dealDefaults.defaultcustomerstatusid, dealDefaults.defaultdealstatus);
             FwFormField.setValue($form, 'div[data-datafield="BillingCycleId"]', dealDefaults.defaultdealbillingcycleid, dealDefaults.defaultdealbillingcycle);
@@ -117,9 +117,9 @@ class Deal {
         $form.find('.quote').append($submoduleQuoteBrowse);
         $submoduleQuoteBrowse.find('div.btn[data-type="NewMenuBarButton"]').off('click');
         $submoduleQuoteBrowse.find('div.btn[data-type="NewMenuBarButton"]').on('click', function () {
-            var $quoteForm, controller, $browse, quoteFormData: any = {};
-            $browse = jQuery(this).closest('.fwbrowse');
-            controller = $browse.attr('data-controller');
+            const quoteFormData: any = {};
+            const $browse = jQuery(this).closest('.fwbrowse');
+            const controller = $browse.attr('data-controller');
             quoteFormData.DealId = FwFormField.getValueByDataField($form, 'DealId');
             quoteFormData.Deal = FwFormField.getValueByDataField($form, 'Deal');
             quoteFormData.RateTypeId = FwFormField.getValueByDataField($form, 'DefaultRate');
@@ -128,7 +128,7 @@ class Deal {
             quoteFormData.BillingCycle = FwFormField.getTextByDataField($form, 'BillingCycleId');
             if (typeof window[controller] !== 'object') throw 'Missing javascript module: ' + controller;
             if (typeof window[controller]['openForm'] !== 'function') throw 'Missing javascript function: ' + controller + '.openForm';
-            $quoteForm = window[controller]['openForm']('NEW', quoteFormData);
+            const $quoteForm = window[controller]['openForm']('NEW', quoteFormData);
             FwModule.openSubModuleTab($browse, $quoteForm);
         });
 
@@ -136,9 +136,9 @@ class Deal {
         $form.find('.order').append($submoduleOrderBrowse);
         $submoduleOrderBrowse.find('div.btn[data-type="NewMenuBarButton"]').off('click');
         $submoduleOrderBrowse.find('div.btn[data-type="NewMenuBarButton"]').on('click', function () {
-            var $orderForm, controller, $browse, orderFormData: any = {};
-            $browse = jQuery(this).closest('.fwbrowse');
-            controller = $browse.attr('data-controller');
+            const orderFormData: any = {};
+            const $browse = jQuery(this).closest('.fwbrowse');
+            const controller = $browse.attr('data-controller');
             orderFormData.DealId = FwFormField.getValueByDataField($form, 'DealId');
             orderFormData.Deal = FwFormField.getValueByDataField($form, 'Deal');
             orderFormData.RateTypeId = FwFormField.getValueByDataField($form, 'DefaultRate');
@@ -147,7 +147,7 @@ class Deal {
             orderFormData.BillingCycle = FwFormField.getTextByDataField($form, 'BillingCycleId');
             if (typeof window[controller] !== 'object') throw 'Missing javascript module: ' + controller;
             if (typeof window[controller]['openForm'] !== 'function') throw 'Missing javascript function: ' + controller + '.openForm';
-            $orderForm = window[controller]['openForm']('NEW', orderFormData);
+            const $orderForm = window[controller]['openForm']('NEW', orderFormData);
             FwModule.openSubModuleTab($browse, $orderForm);
         });
         // Deal Credit submodule
@@ -268,7 +268,7 @@ class Deal {
         this.toggleBillingUseDiscount($form, FwFormField.getValueByDataField($form, 'UseDiscountTemplate'));
         const val_bill = FwFormField.getValueByDataField($form, 'BillToAddressType') !== 'OTHER' ? true : false;
         this.toggleBillingAddressInfo($form, val_bill);
-        var val_ship = FwFormField.getValueByDataField($form, 'ShippingAddressType') !== 'OTHER' ? true : false;
+        const val_ship = FwFormField.getValueByDataField($form, 'ShippingAddressType') !== 'OTHER' ? true : false;
         this.toggleShippingAddressInfo($form, val_ship);
         this.useCustomer($form, FwFormField.getValueByDataField($form, 'UseCustomerDiscount'));
         this.toggleInsurTabIfUseCustomer($form, FwFormField.getValueByDataField($form, 'UseCustomerInsurance'));
@@ -517,7 +517,7 @@ class Deal {
     }
     //----------------------------------------------------------------------------------------------
     toggleBillingAddressInfo($form: JQuery, isOther: boolean) {
-        var list = [
+        const list = [
             'BillToAddress1',
             'BillToAddress2',
             'BillToCity',
@@ -529,7 +529,7 @@ class Deal {
     }
     //----------------------------------------------------------------------------------------------
     toggleShippingAddressInfo($form: JQuery, isOther: boolean) {
-        var list = [
+        const list = [
             'ShipAddress1',
             'ShipAddress2',
             'ShipCity',
@@ -541,7 +541,7 @@ class Deal {
     }
     //----------------------------------------------------------------------------------------------
     toggleCredTabIfUseCustomer($form: JQuery, isCustomer: boolean): void {
-        var list = ['CreditStatusId',
+        const list = ['CreditStatusId',
             'CreditStatusThrough',
             'CreditLimit',
             'UnlimitedCredit',
@@ -566,21 +566,13 @@ class Deal {
             //'DepletingDepositRemaining'
         ];
         const unlimitedCredit = FwFormField.getValueByDataField($form, 'UnlimitedCredit');
-        if (isCustomer) {
-            this.disableFields($form, list);
-        } else {
-            list.forEach((e, i) => {
-                if (unlimitedCredit && e == 'CreditLimit') {
-                    // do nothing
-                } else {
-                    FwFormField.enable($form.find(`[data-datafield="${e}"]`));
-                }
-            })
-        }
+        if (unlimitedCredit) { list.splice(2, 1); }
+
+        isCustomer ? this.disableFields($form, list) : this.enableFields($form, list);
     }
     //----------------------------------------------------------------------------------------------
     toggleInsurTabIfUseCustomer($form: JQuery, isCustomer: boolean): void {
-        var list = ['InsuranceCertificationValidThrough',
+        const list = ['InsuranceCertificationValidThrough',
             'InsuranceCoverageLiability',
             'InsuranceCoverageLiabilityDeductible',
             'InsuranceCertification',
@@ -590,7 +582,7 @@ class Deal {
             'InsuranceCompanyId',
             'InsuranceCompanyAgent'];
 
-        var $insuranceName: JQuery = jQuery('.insurance_name');
+        const $insuranceName: JQuery = jQuery('.insurance_name');
 
         isCustomer ? this.disableFields($form, list) : this.enableFields($form, list);
 
@@ -604,7 +596,7 @@ class Deal {
     }
     //----------------------------------------------------------------------------------------------
     disableInsurCompanyInfo($form: JQuery): void {
-        var list = ['InsuranceCompanyAddress1',
+        const list = ['InsuranceCompanyAddress1',
             'InsuranceCompanyAddress2',
             'InsuranceCompanyCity',
             'InsuranceCompanyState',
@@ -616,7 +608,7 @@ class Deal {
     }
     //----------------------------------------------------------------------------------------------
     toggleTaxTabIfUseCustomer($form: JQuery, isCustomer: boolean): void {
-        var list = ['Taxable',
+        const list = ['Taxable',
             'TaxStateOfIncorporationId',
             'TaxFederalNo',
             'NonTaxableCertificateNo',
@@ -628,7 +620,7 @@ class Deal {
     }
     //----------------------------------------------------------------------------------------------
     toggleOptionsTabIfExcludeQuote($form: JQuery, isExcluded: boolean): void {
-        var list = ['DisableRental',
+        const list = ['DisableRental',
             'DisableSales',
             'DisableFacilities',
             'DisableTransportation',
@@ -720,7 +712,6 @@ class Deal {
     }
     //----------------------------------------------------------------------------------------------
     updateExternalInputsWithGridValues($tr: JQuery): void {
-        let TaxOption = $tr.find('.field[data-browsedatafield="TaxOptionId"]').attr('data-originaltext');
 
         $tr.find('.column > .field').each((i, e) => {
             let $column = jQuery(e), id = $column.attr('data-browsedatafield'), value = $column.attr('data-originalvalue');
@@ -730,12 +721,13 @@ class Deal {
                 jQuery(`.${id}`).find(':input').val(value);
             }
         });
+        const TaxOption = $tr.find('.field[data-browsedatafield="TaxOptionId"]').attr('data-originaltext');
         jQuery('.TaxOption').find(':input').val(TaxOption);
     }
     //----------------------------------------------------------------------------------------------
     customerChange($form: any): void {
-        const CUSTOMERID = FwFormField.getValueByDataField($form, 'CustomerId');
-        FwAppData.apiMethod(true, 'GET', `api/v1/customer/${CUSTOMERID}`, null, FwServices.defaultTimeout, response => {
+        const customerId = FwFormField.getValueByDataField($form, 'CustomerId');
+        FwAppData.apiMethod(true, 'GET', `api/v1/customer/${customerId}`, null, FwServices.defaultTimeout, response => {
             // Deal tab
             FwFormField.setValueByDataField($form, 'Address1', response.Address1);
             FwFormField.setValueByDataField($form, 'Address2', response.Address2);
@@ -810,8 +802,8 @@ class Deal {
     }
     //----------------------------------------------------------------------------------------------
     getCustomerInsuranceValues($form: any): void {
-        const CUSTOMERID = FwFormField.getValueByDataField($form, 'CustomerId');
-        FwAppData.apiMethod(true, 'GET', `api/v1/customer/${CUSTOMERID}`, null, FwServices.defaultTimeout, response => {
+        const customerId = FwFormField.getValueByDataField($form, 'CustomerId');
+        FwAppData.apiMethod(true, 'GET', `api/v1/customer/${customerId}`, null, FwServices.defaultTimeout, response => {
             FwFormField.setValueByDataField($form, 'InsuranceCompanyAddress1', response.InsuranceCompanyAddress1);
             FwFormField.setValueByDataField($form, 'InsuranceCompanyAddress2', response.InsuranceCompanyAddress2);
             FwFormField.setValueByDataField($form, 'InsuranceCompanyCity', response.InsuranceCompanyCity);
@@ -827,7 +819,6 @@ class Deal {
     //----------------------------------------------------------------------------------------------
     openQuoteBrowse($form) {
         const $browse = QuoteController.openBrowse();
-
         $browse.data('ondatabind', function (request) {
             request.activeviewfields = QuoteController.ActiveViewFields;
             request.uniqueids = {
@@ -840,7 +831,6 @@ class Deal {
     //----------------------------------------------------------------------------------------------
     openOrderBrowse($form) {
         const $browse = OrderController.openBrowse();
-
         $browse.data('ondatabind', function (request) {
             request.activeviewfields = OrderController.ActiveViewFields;
             request.uniqueids = {
@@ -853,7 +843,6 @@ class Deal {
     //----------------------------------------------------------------------------------------------
     openDealCreditBrowse($form) {
         const $browse = DealCreditController.openBrowse();
-
         $browse.data('ondatabind', request => {
             request.activeviewfields = DealCreditController.ActiveViewFields;
             request.uniqueids = {
