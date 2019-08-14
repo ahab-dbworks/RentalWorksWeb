@@ -20,7 +20,6 @@ class QuikSearch {
         screen.load = () => {
         };
         screen.unload = function () {
-            FwPopup.destroyPopup($popup);
         };
 
         return screen;
