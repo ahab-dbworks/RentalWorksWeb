@@ -565,7 +565,18 @@ class Deal {
             //'DepletingDepositApplied',
             //'DepletingDepositRemaining'
         ];
-        isCustomer ? this.disableFields($form, list) : this.enableFields($form, list);
+        const unlimitedCredit = FwFormField.getValueByDataField($form, 'UnlimitedCredit');
+        if (isCustomer) {
+            this.disableFields($form, list);
+        } else {
+            list.forEach((e, i) => {
+                if (unlimitedCredit && e == 'CreditLimit') {
+                    // do nothing
+                } else {
+                    FwFormField.enable($form.find(`[data-datafield="${e}"]`));
+                }
+            })
+        }
     }
     //----------------------------------------------------------------------------------------------
     toggleInsurTabIfUseCustomer($form: JQuery, isCustomer: boolean): void {
