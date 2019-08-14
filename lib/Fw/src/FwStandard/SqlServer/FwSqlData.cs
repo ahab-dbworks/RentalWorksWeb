@@ -77,6 +77,17 @@ namespace FwStandard.SqlServer
             }
         }
         //-----------------------------------------------------------------------------
+        public static async Task<String> GetInternalChar(FwSqlConnection conn, SqlServerConfig dbConfig)
+        {
+            using (FwSqlCommand sp = new FwSqlCommand(conn, "getinternalchar", dbConfig.QueryTimeout))
+            {
+                sp.AddParameter("@internalchar", SqlDbType.Char, ParameterDirection.Output);
+                await sp.ExecuteAsync();
+                string result = sp.GetParameter("@internalchar").ToString().TrimEnd();
+                return result;
+            }
+        }
+        //-----------------------------------------------------------------------------
         //jh 03/15/2019 commenting this overloaded version of the method. This behavior is now automatic whenever "conn" has an active transaction already started.  see conn.GetActiveTransaction()
         //static public async Task<String> GetNextIdAsync(FwSqlConnection conn, SqlTransaction transaction, SqlServerConfig dbConfig)
         //{
