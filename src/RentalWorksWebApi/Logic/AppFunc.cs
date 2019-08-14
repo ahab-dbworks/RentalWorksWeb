@@ -38,7 +38,18 @@ namespace WebApi.Logic
             return id;
         }
         //-------------------------------------------------------------------------------------------------------
-        static public async Task<string> EncryptAsync(FwApplicationConfig appConfig, string data)
+        public static async Task<string> GetInternalChar(FwApplicationConfig appConfig, FwSqlConnection conn = null)
+        {
+            string internalchar = "";
+            if (conn == null)
+            {
+                conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString);
+            }
+            internalchar = await FwSqlData.GetInternalChar(conn, appConfig.DatabaseSettings);
+            return internalchar;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public static async Task<string> EncryptAsync(FwApplicationConfig appConfig, string data)
         {
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
             {

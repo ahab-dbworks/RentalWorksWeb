@@ -12,7 +12,7 @@ namespace WebApi.Modules.Home.GlManual
         [FwSqlDataField(column: "glid", modeltype: FwDataTypes.Integer, isPrimaryKey: true)]
         public int? Id { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "internalchar", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "internalchar", modeltype: FwDataTypes.Text, isPrimaryKey: true, isPrimaryKeyOptional: true)]
         public string InternalChar { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "locationid", modeltype: FwDataTypes.Text)]

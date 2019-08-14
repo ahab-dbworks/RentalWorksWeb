@@ -23,7 +23,7 @@ namespace WebLibrary
         //AVAILABILITY
         public static string AVAILABILITY_COLOR_RESERVED { get; set; }
         public static string AVAILABILITY_COLOR_LATE { get; set; }
-        
+
 
 
         //QUOTE/ORDER 
@@ -196,7 +196,7 @@ namespace WebLibrary
             CONTRACT_BILLING_DATE_ADJUSTED_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.CONTRACT_BILLING_DATE_ADJUSTED_COLOR);
             CONTRACT_MIGRATED_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.CONTRACT_MIGRATED_COLOR);
 
+        }
+        //---------------------------------------------------------------------------
     }
-    //---------------------------------------------------------------------------
-}
 }

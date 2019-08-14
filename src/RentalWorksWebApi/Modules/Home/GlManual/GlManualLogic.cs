@@ -1,6 +1,7 @@
 using WebApi.Logic;
 using FwStandard.AppManager;
 using Newtonsoft.Json;
+using FwStandard.BusinessLogic;
 
 namespace WebApi.Modules.Home.GlManual
 {
@@ -19,7 +20,7 @@ namespace WebApi.Modules.Home.GlManual
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "04hega34m9SOW", IsPrimaryKey: true)]
         public int? Id { get { return glManual.Id; } set { glManual.Id = value; } }
-        [FwLogicProperty(Id: "05QoL9ClWAvox")]
+        [FwLogicProperty(Id: "05QoL9ClWAvox", IsPrimaryKey: true, IsPrimaryKeyOptional: true)]
         public string InternalChar { get { return glManual.InternalChar; } set { glManual.InternalChar = value; } }
         [FwLogicProperty(Id: "06D4oXfmCN7kz")]
         public string OfficeLocationId { get { return glManual.OfficeLocationId; } set { glManual.OfficeLocationId = value; } }
@@ -55,12 +56,18 @@ namespace WebApi.Modules.Home.GlManual
         [FwLogicProperty(Id: "0CdFAKQCWeOwB")]
         public bool? IsManual { get { return glManual.IsManual; } set { glManual.IsManual = value; } }
         //------------------------------------------------------------------------------------ 
-        //protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg) 
-        //{ 
-        //    //override this method on a derived class to implement custom validation logic 
-        //    bool isValid = true; 
-        //    return isValid; 
-        //} 
+        protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
+        {
+            bool isValid = true;
+            if (saveMode.Equals(TDataRecordSaveMode.smInsert))
+            {
+                if (string.IsNullOrEmpty(InternalChar))
+                {
+                    InternalChar = AppFunc.GetInternalChar(AppConfig).Result;
+                }
+            }
+            return isValid;
+        }
         //------------------------------------------------------------------------------------ 
     }
 }
