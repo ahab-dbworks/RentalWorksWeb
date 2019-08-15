@@ -15,7 +15,8 @@ const returnOnAssetTemplate = `
         <div class="formpage">
           <div class="row" style="display:flex;flex-wrap:wrap;">
             <div class="flexcolumn" style="max-width:250px;">
-              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Date Range">
+             <div class="flexcolumn" style="max-width:350px;">
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Date Range By Validation">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Year" data-datafield="ReportYear" data-displayfield="Year" data-validationname="ReturnOnAssetYearValidation" style="float:left;max-width:300px;"></div>
                 </div>
@@ -23,8 +24,18 @@ const returnOnAssetTemplate = `
                   <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Period" data-datafield="ReportPeriod" data-displayfield="Label" data-validationname="ReturnOnAssetPeriodValidation" style="float:left;max-width:300px;"></div>
                 </div>
               </div>
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Date Range By Calendar">
+                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                  <div data-datafield="UseDateRange" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield filter-dates" data-caption="Filter Dates By Calendar" style="max-width:110px;"></div>
+                  <div class="flexcolumn">
+                    <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield date-range" data-caption="From:" data-datafield="FromDate" data-required="true"></div>
+                    <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="To:" data-datafield="ToDate" data-required="true"></div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="flexcolumn" style="max-width:200px;">
+            </div>
+            <div class="flexcolumn" style="max-width:142px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Tracked By">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-datafield="TrackedBys" data-control="FwFormField" data-type="checkboxlist" class="fwcontrol fwformfield" data-caption="" style="float:left;max-width:200px;"></div>
@@ -38,7 +49,7 @@ const returnOnAssetTemplate = `
                 </div>
               </div>
             </div>
-            <div class="flexcolumn" style="max-width:285px;">
+            <div class="flexcolumn" style="max-width:208px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Options">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-datafield="IncludeZeroCurrentOwned" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Include Zero Current Owned" style="float:left;max-width:420px;"></div>
@@ -111,6 +122,26 @@ class ReturnOnAssetReport extends FwWebApiReport {
         const date = new Date();
         const year = date.getFullYear();
         FwFormField.setValue($form, 'div[data-datafield="ReportYear"]', year, year);
+
+        // Expose date fields if Filter Date
+        $form.on('change', '.filter-dates input[type=checkbox]', e => {
+            const filterDate = FwFormField.getValueByDataField($form, 'UseDateRange');
+            FwFormField.toggle($form.find('div[data-datafield="FromDate"]'), filterDate);
+            FwFormField.toggle($form.find('div[data-datafield="ToDate"]'), filterDate);
+            FwFormField.toggle($form.find('div[data-datafield="ReportYear"]'), !filterDate);
+            FwFormField.toggle($form.find('div[data-datafield="ReportPeriod"]'), !filterDate);
+            $form.find('.date-range').attr('data-required', `${filterDate}`);
+        });
+    }
+    //----------------------------------------------------------------------------------------------
+    afterLoad($form) {
+        // Filter Dates
+        const filterDate = FwFormField.getValueByDataField($form, 'UseDateRange');
+        FwFormField.toggle($form.find('div[data-datafield="FromDate"]'), filterDate);
+        FwFormField.toggle($form.find('div[data-datafield="ToDate"]'), filterDate);
+        FwFormField.toggle($form.find('div[data-datafield="ReportYear"]'), !filterDate);
+        FwFormField.toggle($form.find('div[data-datafield="ReportPeriod"]'), !filterDate);
+        $form.find('.date-range').attr('data-required', `${filterDate}`);
     }
     //----------------------------------------------------------------------------------------------
     convertParameters(parameters: any) {
