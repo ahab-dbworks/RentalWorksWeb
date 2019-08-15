@@ -389,13 +389,13 @@ class SearchInterface {
                     request.ShipTime = FwFormField.getValue2($addToTab.find('[data-datafield="ShipTime"]'));
                     break;
             }
-            apiurl = window[controller].apiurl;
+            apiurl = (<any>window)[controller].apiurl;
             FwAppData.apiMethod(true, 'POST', apiurl, request, FwServices.defaultTimeout,
                 response => {
                     $popup.find('#addToTab').data('newTypeId', response[`${addToType}Id`]);
                     $popup.find('.addToOrder').click();
                     FwPopup.destroyPopup($popup);
-                    const $newForm = window[controller].loadForm(response);
+                    const $newForm = (<any>window)[controller].loadForm(response);
                     FwModule.openModuleTab($newForm, `Loading`, true, 'FORM', true);
                 }, ex => FwFunc.showError(ex), $searchpopup);
         });
