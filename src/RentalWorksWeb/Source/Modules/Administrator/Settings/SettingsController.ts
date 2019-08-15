@@ -9,7 +9,6 @@
         var combinedViewModel: any;
         var screen: any = {};
         var $settings: any = {};
-        var self = this;
 
         combinedViewModel = {
             captionPageTitle: "Settings"
@@ -22,9 +21,9 @@
         screen.moduleCaptions = {};
         $settings = this.openSettings();
 
-        screen.load = function () {
+        screen.load = () => {
             FwModule.openModuleTab($settings, 'Settings', false, 'SETTINGS', true)
-            var node = FwApplicationTree.getNodeById(FwApplicationTree.tree, self.settingsMenuId);
+            var node = FwApplicationTree.getNodeById(FwApplicationTree.tree, this.settingsMenuId);
             var modules = FwApplicationTree.getChildrenByType(node, 'SettingsModule');
             var moduleMenu = FwApplicationTree.getChildrenByType(node, 'SettingsMenu');
 
