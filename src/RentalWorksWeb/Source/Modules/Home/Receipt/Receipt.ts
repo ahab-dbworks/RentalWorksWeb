@@ -482,14 +482,14 @@ class Receipt {
                 ReceiptId: receiptId,
                 ReceiptDate: receiptDate,
             }
-
-            const dealCustomer = FwFormField.getValue($form, '.deal-customer:visible');
-            const dealCustomerId = $form.find('.deal-customer:visible').attr('data-datafield');
-            if (dealCustomerId === 'DealId') {
-                request.uniqueids.DealId = dealCustomer;
-            } else {
-                request.uniqueids.CustomerId = dealCustomer;
+            request.orderby = 'InvoiceDate'
+            const paymentBy = FwFormField.getValueByDataField($form, 'PaymentBy');
+            if (paymentBy === 'DEAL') {
+                request.uniqueids.DealId = FwFormField.getValueByDataField($form, 'DealId');
+            } else if (paymentBy === 'CUSTOMER') {
+                request.uniqueids.CustomerId = FwFormField.getValueByDataField($form, 'CustomerId');
             }
+
             FwAppData.apiMethod(true, 'POST', 'api/v1/receiptinvoice/browse', request, FwServices.defaultTimeout, res => {
                 const rows = res.Rows;
                 console.log('rows: ', rows)
