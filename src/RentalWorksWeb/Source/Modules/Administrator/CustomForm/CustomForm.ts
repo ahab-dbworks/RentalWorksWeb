@@ -709,6 +709,7 @@ class CustomForm {
                         $thisContainer.addClass('emptyContainer');
                     }
                 }
+
                 $customForm
                     .off('dragstart', 'div.fwformfield, div.flexrow, div.flexcolumn')
                     .on('dragstart', 'div.fwformfield, div.flexrow, div.flexcolumn', e => {
@@ -727,9 +728,10 @@ class CustomForm {
                         e.preventDefault();
                         e.originalEvent.dataTransfer.dropEffect = "none";
                     })
-                    .off('dragover', 'div.fwformfield')
-                    .on('dragover', 'div.fwformfield', e => {
+                    .off('dragover', 'div.fwformfield, div.flexrow, div.flexcolumn')
+                    .on('dragover', 'div.fwformfield, div.flexrow, div.flexcolumn', e => {
                         e.preventDefault();
+                        e.stopPropagation();
                         if ($elementDragged.attr('data-type') !== "tab") {
                             let $this = jQuery(e.currentTarget);
                             indexDrop = $this.attr('data-index');
