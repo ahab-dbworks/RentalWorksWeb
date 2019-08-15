@@ -492,6 +492,7 @@ class Receipt {
             }
             FwAppData.apiMethod(true, 'POST', 'api/v1/receiptinvoice/browse', request, FwServices.defaultTimeout, res => {
                 const rows = res.Rows;
+                console.log('rows: ', rows)
                 const htmlRows: Array<string> = [];
                 if (rows.length) {
                     for (let i = 0; i < rows.length; i++) {
