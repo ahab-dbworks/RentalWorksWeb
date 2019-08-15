@@ -1376,7 +1376,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \t\t\"BillAsOfDate\": \"01/06/2019\",\n    \t\t\"OfficeLocationId\": \"\",\n    \t\t\"CustomerId\": \"\",\n    \t\t\"DealId\": \"B003KROA\",\n    \t\t\"DepartmentId\": \"\",\n    \t\t\"OrderId\": \"\"\n}\n\n\n\n"
+							"raw": "{\"BillAsOfDate\":\"08/09/2019\",\"OfficeLocationId\":\"B001WH00\",\"CustomerId\":\"\",\"DealId\":\"D00B0V2S\",\"DepartmentId\":\"\",\"AgentId\":\"\",\"OrderId\":\"\",\"ShowOrdersWithPendingPO\":true,\"BillIfComplete\":false,\"CombinePeriods\":false, \"IncludeTotals\":true}"
 						},
 						"url": {
 							"raw": "http://localhost:57949/api/v1/billing/populate",
@@ -1411,7 +1411,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Deal\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\n    \t\t\"SessionId\": \"I0009PGV\"\n    \t}\n}\n\n\n"
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Deal\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\n    \t\t\"SessionId\": \"Y000X9D4\"\n    \t}\n}\n\n\n"
 						},
 						"url": {
 							"raw": "http://localhost:57949/api/v1/billing/browse",
@@ -5443,6 +5443,682 @@
 			]
 		},
 		{
+			"name": "System Settings",
+			"item": [
+				{
+					"name": "System Settings: Get Many",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:57949/api/v1/systemsettings",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"systemsettings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "System Settings: Browse",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"SystemSettingsId\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/systemsettings/browse",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"systemsettings",
+								"browse"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "System Settings: Get One",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:57949/api/v1/systemsettings/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"systemsettings",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "System Settings: Insert",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"Field1\": \"1\",\n    \"Field2\": \"2\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/systemsettings",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"systemsettings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "System Settings: Update",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t \"ControlId\":\"1\",\n\t \"SystemName\":\"RENTALWORKS\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/systemsettings",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"systemsettings"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Inventory Settings",
+			"item": [
+				{
+					"name": "Inventory Settings: Get Many",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:57949/api/v1/inventorysettings",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"inventorysettings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Inventory Settings: Browse",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"InventorySettingsId\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/inventorysettings/browse",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"inventorysettings",
+								"browse"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Inventory Settings: Get One",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:57949/api/v1/inventorysettings/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"inventorysettings",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Inventory Settings: Insert",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"Field1\": \"1\",\n    \"Field2\": \"2\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/inventorysettings",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"inventorysettings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Inventory Settings: Update",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t \"InventorySettingsId\":\"1\",\n\t \"SystemName\":\"RENTALWORKS\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/inventorysettings",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"inventorysettings"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Default Settings",
+			"item": [
+				{
+					"name": "Default Settings: Get Many",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:57949/api/v1/defaultsettings",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"defaultsettings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Default Settings: Browse",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"DefaultSettingsId\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/defaultsettings/browse",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"defaultsettings",
+								"browse"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Default Settings: Get One",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:57949/api/v1/defaultsettings/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"defaultsettings",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Default Settings: Insert",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"Field1\": \"1\",\n    \"Field2\": \"2\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/defaultsettings",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"defaultsettings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Default Settings: Update",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t \"DefaultSettingsId\":\"1\",\n\t \"SystemName\":\"RENTALWORKS\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/defaultsettings",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"defaultsettings"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Logo Settings",
+			"item": [
+				{
+					"name": "Logo Settings: Get Many",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:57949/api/v1/logosettings",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"logosettings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logo Settings: Browse",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"LogoSettingsId\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/logosettings/browse",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"logosettings",
+								"browse"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logo Settings: Get One",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:57949/api/v1/logosettings/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"logosettings",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logo Settings: Insert",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"Field1\": \"1\",\n    \"Field2\": \"2\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/logosettings",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"logosettings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logo Settings: Update",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t \"LogoSettingsId\":\"1\",\n\t \"SystemName\":\"RENTALWORKS\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/logosettings",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"logosettings"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Country",
 			"item": [
 				{
@@ -8005,10 +8681,10 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n        \"CustomerStatus\": \"TEST60\",\n        \"StatusType\": \"X\"\n    }"
+							"raw": "{\r\n    \"_Custom\": [],\r\n    \"CustomerNumber\": \"123456\",\r\n    \"OfficeLocationId\": \"0000000F\",\r\n    \"CustomerTypeId\": \"0000014L\",\r\n    \"Customer\": \"NEW CUSTOMER JUSTIN 1234\",\r\n    \"Address1\": \"\",\r\n    \"Address2\": \"\",\r\n    \"City\": \"\",\r\n    \"State\": \"\",\r\n    \"CountryId\": \"\",\r\n    \"Country\": \"\",\r\n    \"ZipCode\": \"\",\r\n    \"CustomerStatusId\": \"0000013X\",\r\n    \"StatusAsOf\": \"08/06/2019\",\r\n    \"BillingAddressType\": \"CUSTOMER\",\r\n    \"PaymentTermsId\": \"000001KB\",\r\n    \"CreditStatusId\": \"A00003ML\",\r\n    \"ShippingAddressType\": \"CUSTOMER\"\r\n}"
 						},
 						"url": {
-							"raw": "http://localhost:57949/api/v1/customerstatus",
+							"raw": "http://localhost:57949/api/v1/customer",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -8017,7 +8693,7 @@
 							"path": [
 								"api",
 								"v1",
-								"customerstatus"
+								"customer"
 							]
 						}
 					},
@@ -26169,6 +26845,41 @@
 								"v1",
 								"order",
 								"startmodifypoworksheetsession"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Orders: PO Worksheet Session Browse",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{  \r\n   \"miscfields\":{  \r\n\r\n   },\r\n   \"module\":\"SubPurchaseOrderItemGrid\",\r\n   \"options\":{  \r\n\r\n   },\r\n   \"orderby\":\"ItemOrder asc\",\r\n   \"orderbydirection\":\"\",\r\n   \"top\":0,\r\n   \"pageno\":1,\r\n   \"pagesize\":50,\r\n   \"searchfieldoperators\":[  \r\n\r\n   ],\r\n   \"searchfields\":[  \r\n\r\n   ],\r\n   \"searchfieldvalues\":[  \r\n\r\n   ],\r\n   \"searchfieldtypes\":[  \r\n\r\n   ],\r\n   \"searchseparators\":[  \r\n\r\n   ],\r\n   \"searchcondition\":[  \r\n\r\n   ],\r\n   \"searchconjunctions\":[  \r\n\r\n   ],\r\n   \"uniqueids\":{  \r\n      \"SessionId\":\"A000XWKS\"\r\n   },\r\n   \"boundids\":{  \r\n\r\n   },\r\n   \"filterfields\":{  \r\n\r\n   },\r\n   \"activeview\":\"\",\r\n   \"totalfields\":[  \r\n      \"VendorWeeklyTotal\",\r\n      \"VendorWeeklyDiscount\",\r\n      \"VendorWeeklySubTotal\",\r\n      \"VendorWeeklyTax\",\r\n      \"VendorWeeklyExtended\",\r\n      \"VendorMonthlyTotal\",\r\n      \"VendorMonthlyDiscount\",\r\n      \"VendorMonthlySubTotal\",\r\n      \"VendorMonthlyTax\",\r\n      \"VendorMonthlyExtended\",\r\n      \"VendorPeriodTotal\",\r\n      \"VendorPeriodDiscount\",\r\n      \"VendorPeriodSubTotal\",\r\n      \"VendorPeriodTax\",\r\n      \"VendorPeriodExtended\"\r\n   ],\r\n   \"requestid\":\"4dc24896-7a7f-4dee-b71d-f1cf075dd851\",\r\n   \"clientVersion\":\"2019.1.1.19\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/subpurchaseorderitem/browse",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"subpurchaseorderitem",
+								"browse"
 							]
 						}
 					},
@@ -54260,6 +54971,46 @@
 									"key": "body",
 									"value": "here is a test"
 								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "QuikActivity",
+			"item": [
+				{
+					"name": "QuikActivity: Browse",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\n    \t\t\"WarehouseId\": \"0000000H\",\n    \t\t\"FromDate\": \"01/01/2019\",\n    \t\t\"ToDate\": \"06/01/2019\",\n    \t\t\"ActivityType\": \"PICK\",\n    \t\t\"Summary\": false\n    \t}\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/quikactivity/browse",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"quikactivity",
+								"browse"
 							]
 						}
 					},
