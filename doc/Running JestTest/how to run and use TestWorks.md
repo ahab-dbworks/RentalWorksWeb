@@ -9,20 +9,20 @@ Last Updated 08/12/2019
 - After the package downloads and installs, VS will be restarted.
 - Find 'JestTest' in the solution explorer, right-click, and choose 'reload project'.
 
-### Setting up credentials used for login
-- Create a new .env file (named '.env') file in root directory (src) with the values replaced with your actual login information or that of a test account
-- If options for env files are not found in your editor, create a text file and rename it.
+###Create a new environment file
+- This can be done by right-clicking the 'JestTest' root directory in Visual Studio, choosing 'Add', then 'New Item'. Disregard file type options, name it '.env', and click 'Add'.
+- Copy and paste the code below into the file, substituting 'youremail' and 'yourpassword' with your actual username and password used to sign into RWW (or a test account).
 ```
 RW_EMAIL=youremail
 RW_PASSWORD=yourpassword
 ```
-
 
 ## Running a test
 ### Terminal within the TestWorks Environment
 - From Windows Explorer, navigate to the src folder within the RentalWorksWeb directory.
 - Right-click 'JestTest' and choose 'Git bash here' if installed or Open PowerShell window at this directory.
 - If it is the first time running tests on your local machine, start with 'npm install' to load required node packages
+- Your Visual Studio environment must be running in order to execute tests.
 
 ### Running commands for TestWorks
 - Testing commands are comprised a few components:
