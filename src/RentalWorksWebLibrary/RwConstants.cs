@@ -119,6 +119,7 @@
         public const string RECTYPE_LABOR = "L";
         public const string RECTYPE_LOSS_AND_DAMAGE = "F";
         public const string RECTYPE_USED_SALE = "RS";
+        public const string RECTYPE_VEHICLE = "V";
 
         public const string RECTYPE_RENTAL_DESCRIPTION = "RENTAL";
         public const string RECTYPE_SALE_DESCRIPTION = "SALES";
@@ -280,6 +281,7 @@
         public const string INVENTORY_CLASSIFICATION_ITEM = "I";
         public const string INVENTORY_CLASSIFICATION_ACCESSORY = "A";
         public const string INVENTORY_CLASSIFICATION_MISCELLAENOUS = "M";
+        public const string INVENTORY_CLASSIFICATION_VEHICLE = "V";
 
         public const string INVENTORY_SORT_BY_ICODE = "ICODE";
         public const string INVENTORY_SORT_BY_DESCRIPTION = "DESCRIPTION";

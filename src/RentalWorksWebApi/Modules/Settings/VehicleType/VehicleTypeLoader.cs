@@ -3,6 +3,7 @@ using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
+using WebLibrary;
 
 namespace WebApi.Modules.Settings.VehicleType
 {
@@ -37,7 +38,7 @@ namespace WebApi.Modules.Settings.VehicleType
         {
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
-            select.AddWhere("(vehicletype = 'VEHICLE')");
+            select.AddWhere("(vehicletype = '" + RwConstants.VEHICLE_TYPE_VEHICLE + "')");
         }
         //------------------------------------------------------------------------------------
     }

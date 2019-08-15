@@ -4,6 +4,7 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 using WebApi.Modules.Settings.VehicleType;
+using WebLibrary;
 
 namespace WebApi.Modules.Settings.GeneratorType
 {
@@ -23,7 +24,7 @@ namespace WebApi.Modules.Settings.GeneratorType
         {
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
-            select.AddWhere("(vehicletype = 'GENERATOR')");
+            select.AddWhere("(vehicletype = '" + RwConstants.VEHICLE_TYPE_GENERATOR + "')");
         }
         //------------------------------------------------------------------------------------
     }

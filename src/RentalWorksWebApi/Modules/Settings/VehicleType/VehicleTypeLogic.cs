@@ -1,6 +1,6 @@
 using FwStandard.AppManager;
 ﻿using FwStandard.BusinessLogic;
-using Newtonsoft.Json;
+using WebLibrary;
 
 namespace WebApi.Modules.Settings.VehicleType
 {
@@ -11,9 +11,6 @@ namespace WebApi.Modules.Settings.VehicleType
         public VehicleTypeLogic() : base()
         {
             dataLoader = vehicleTypeLoader;
-            inventoryCategory.BeforeSave += OnBeforeSaveCategory;
-            inventoryCategory.AfterSave += OnAfterSaveCategory;
-            masterRecord.AfterSave += OnAfterSaveMasterRecord;
             BeforeSave += OnBeforeSave;
         }
         //------------------------------------------------------------------------------------
@@ -22,7 +19,7 @@ namespace WebApi.Modules.Settings.VehicleType
         public string VehicleTypeId { get { return masterRecord.MasterId; } set { masterRecord.MasterId = value; } }
 
         [FwLogicProperty(Id:"w2uFguixgEUkt", IsRecordTitle:true)]
-        public string VehicleType { get { return masterRecord.Description; } set { masterRecord.Description = value; } }
+        public string VehicleType { get { return masterRecord.Description; } set { inventoryCategory.Category = value; masterRecord.Description = value; } }
 
         [FwLogicProperty(Id:"oMyBTM3VYqxm")]
         public string PreventiveMaintenanceCycle { get { return inventoryCategory.PreventiveMaintenanceCycle; } set { inventoryCategory.PreventiveMaintenanceCycle = value; } }
@@ -41,46 +38,17 @@ namespace WebApi.Modules.Settings.VehicleType
 
         [FwLogicProperty(Id:"omRLj0ZQ2QKG")]
         public bool? Regulated { get { return inventoryCategory.Regulated; } set { inventoryCategory.Regulated = value; } }
-
-        [JsonIgnore]
-        [FwLogicProperty(Id:"2Cj8aJX7GnAK")]
-        public string CategoryId { get { return inventoryCategory.CategoryId; } set { inventoryCategory.CategoryId = value; } }
-
+        
         //------------------------------------------------------------------------------------
-        public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
+        public override void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {
-            RecType = "V";
-            InternalVehicleType = "VEHICLE";
+            base.OnBeforeSave(sender, e);
+            RecType = RwConstants.RECTYPE_VEHICLE;
+            InternalVehicleType = RwConstants.VEHICLE_TYPE_VEHICLE;
             HasMaintenance = true;
-            Classification = "V";
-            AvailableFrom = "W";
-            AvailFor = "V";
-        }
-        //------------------------------------------------------------------------------------
-        public void OnBeforeSaveCategory(object sender, BeforeSaveDataRecordEventArgs e)
-        {
-            Category = VehicleTypeId;  // jh removing the TEMP value here
-        }
-        //------------------------------------------------------------------------------------
-        public void OnAfterSaveMasterRecord(object sender, AfterSaveDataRecordEventArgs e)
-        {
-            if ((e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate) && (MasterId == null))
-            {
-                VehicleTypeLogic l2 = new VehicleTypeLogic();
-                l2.AppConfig = masterRecord.AppConfig;
-                object[] pk = GetPrimaryKeys();
-                bool b = l2.LoadAsync<VehicleTypeLogic>(pk).Result;
-                CategoryId = l2.CategoryId;
-            }
-        }
-        //------------------------------------------------------------------------------------
-        public void OnAfterSaveCategory(object sender, AfterSaveDataRecordEventArgs e)
-        {
-            if ((e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert) && (masterRecord.CategoryId == null))
-            {
-                masterRecord.CategoryId = inventoryCategory.CategoryId;
-                int i = masterRecord.SaveAsync(null).Result;
-            }
+            Classification = RwConstants.INVENTORY_CLASSIFICATION_VEHICLE;
+            AvailableFrom = RwConstants.INVENTORY_AVAILABLE_FROM_WAREHOUSE;
+            AvailFor = RwConstants.INVENTORY_AVAILABLE_FOR_VEHICLE;
         }
         //------------------------------------------------------------------------------------
     }

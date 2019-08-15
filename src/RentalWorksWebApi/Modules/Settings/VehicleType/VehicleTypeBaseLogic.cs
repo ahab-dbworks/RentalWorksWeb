@@ -1,7 +1,7 @@
 using FwStandard.AppManager;
 ﻿using FwStandard.BusinessLogic;
-using FwStandard.Data;
 using Newtonsoft.Json;
+using System;
 using WebApi.Logic;
 using WebApi.Modules.Home.Master;
 using WebApi.Modules.Settings.Category;
@@ -16,10 +16,10 @@ namespace WebApi.Modules.Settings.VehicleType
         protected MasterRecord masterRecord = new MasterRecord();
         public VehicleTypeBaseLogic()
         {
-            dataRecords.Add(masterRecord);
             dataRecords.Add(inventoryCategory);
-            inventoryCategory.Category = "TEMP";  //jh - temporary value because the field is required
-            inventoryCategory.BeforeValidate += OnBeforeValidateCategory;
+            dataRecords.Add(masterRecord);
+            masterRecord.AssignPrimaryKeys += MasterAssignPrimaryKeys;
+            BeforeSave += OnBeforeSave;
         }
         //------------------------------------------------------------------------------------
         [FwLogicProperty(Id:"oAkN18doD9h")]
@@ -37,8 +37,13 @@ namespace WebApi.Modules.Settings.VehicleType
         public string MasterId { get { return masterRecord.MasterId; } set { masterRecord.MasterId = value; } }
 
         [JsonIgnore]
-        [FwLogicProperty(Id:"goLKIqt0dJk")]
+        [FwLogicProperty(Id:"2Cj8aJX7GnAK")]
         public string Category { get { return inventoryCategory.Category; } set { /*inventoryCategory.CategoryId = value; */inventoryCategory.Category = value; } }
+
+        [JsonIgnore]
+        [FwLogicProperty(Id: "2Cj8aJX7GnAK")]
+        public string CategoryId { get { return inventoryCategory.CategoryId; } set { inventoryCategory.CategoryId = value; masterRecord.CategoryId = value; } }
+
 
         [JsonIgnore]
         [FwLogicProperty(Id:"ctpV5KsW9xP")]
@@ -153,11 +158,21 @@ namespace WebApi.Modules.Settings.VehicleType
         public string DateStamp { get { return inventoryCategory.DateStamp; } set { inventoryCategory.DateStamp = value; } }
 
         //------------------------------------------------------------------------------------
-        public void OnBeforeValidateCategory(object sender, BeforeValidateDataRecordEventArgs e)
+        public void MasterAssignPrimaryKeys(object sender, EventArgs e)
         {
-            if (inventoryCategory.Category.Equals(string.Empty))
+            ((MasterRecord)sender).MasterId = CategoryId;
+            ((MasterRecord)sender).CategoryId = CategoryId;
+        }
+        //------------------------------------------------------------------------------------ 
+        public virtual void OnBeforeSave(object sender, BeforeSaveEventArgs e)
+        {
+            if (e.SaveMode.Equals(TDataRecordSaveMode.smUpdate))
             {
-                inventoryCategory.Category = masterRecord.Description;
+                if (e.Original != null)
+                {
+                    VehicleTypeBaseLogic orig = ((VehicleTypeBaseLogic)e.Original);
+                    CategoryId = orig.CategoryId;
+                }
             }
         }
         //------------------------------------------------------------------------------------
