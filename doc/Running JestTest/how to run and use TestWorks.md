@@ -9,6 +9,15 @@ Last Updated 08/12/2019
 - After the package downloads and installs, VS will be restarted.
 - Find 'JestTest' in the solution explorer, right-click, and choose 'reload project'.
 
+### Setting up credentials used for login
+- Create a new .env file (named '.env') file in root directory (src) with the values replaced with your actual login information or that of a test account
+- If options for env files are not found in your editor, create a text file and rename it.
+```
+RW_EMAIL=youremail
+RW_PASSWORD=yourpassword
+```
+
+
 ## Running a test
 ### Terminal within the TestWorks Environment
 - From Windows Explorer, navigate to the src folder within the RentalWorksWeb directory.
