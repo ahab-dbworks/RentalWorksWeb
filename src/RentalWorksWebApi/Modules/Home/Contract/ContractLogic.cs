@@ -64,6 +64,9 @@ namespace WebApi.Modules.Home.Contract
         [FwLogicProperty(Id: "0qFLtPV8K3nK", IsReadOnly: true)]
         public string CustomerId { get; set; }
 
+        [FwLogicProperty(Id: "YksTi512fOcUn", IsReadOnly: true)]
+        public string Customer { get; set; }
+
         [FwLogicProperty(Id: "yEiu8kbykGAl")]
         public string DealId { get { return contract.DealId; } set { contract.DealId = value; } }
 

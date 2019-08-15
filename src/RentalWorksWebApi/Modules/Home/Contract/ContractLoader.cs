@@ -9,6 +9,9 @@ namespace WebApi.Modules.Home.Contract
         [FwSqlDataField(column: "customerid", modeltype: FwDataTypes.Text)]
         public string CustomerId { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "customer", modeltype: FwDataTypes.Text)]
+        public string Customer { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "requisitionno", modeltype: FwDataTypes.Text)]
         public string RequisitionNumber { get; set; }
         //------------------------------------------------------------------------------------ 
