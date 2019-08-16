@@ -102,8 +102,11 @@ namespace WebApi.Modules.Settings.PoApprover
 
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
-            select.AddWhere("projectid = @projectid");
-            select.AddParameter("@projectid", projectFilterId);
+            if (!string.IsNullOrEmpty(projectFilterId))
+            {
+                select.AddWhere("projectid = @projectid");
+                select.AddParameter("@projectid", projectFilterId);
+            }
         }
         //------------------------------------------------------------------------------------ 
     }
