@@ -379,25 +379,32 @@ class OrderBase {
             FwFormField.setValue($form, 'div[data-datafield="BillingCycleId"]', parentModuleInfo.BillingCycleId, parentModuleInfo.BillingCycle);
         }
 
+        //Toggle Buttons - Profit Loss tab
+        FwFormField.loadItems($form.find('div[data-datafield="totalTypeProfitLoss"]'), [
+            { value: 'W', caption: 'Weekly' },
+            { value: 'M', caption: 'Monthly' },
+            { value: 'P', caption: 'Period', checked: 'checked' }
+        ]);
+
         //Toggle Buttons - Rental tab - Rental totals
         FwFormField.loadItems($form.find('div[data-datafield="totalTypeRental"]'), [
             { value: 'W', caption: 'Weekly' },
             { value: 'M', caption: 'Monthly' },
-            { value: 'P', caption: 'Period' }
+            { value: 'P', caption: 'Period', checked: 'checked'}
         ]);
 
         //Toggle Buttons - Misc. tab - Misc. totals
         FwFormField.loadItems($form.find('div[data-datafield="totalTypeMisc"]'), [
             { value: 'W', caption: 'Weekly' },
             { value: 'M', caption: 'Monthly' },
-            { value: 'P', caption: 'Period' }
+            { value: 'P', caption: 'Period', checked: 'checked' }
         ]);
 
         //Toggle Buttons - Labor tab - Labor totals
         FwFormField.loadItems($form.find('div[data-datafield="totalTypeLabor"]'), [
             { value: 'W', caption: 'Weekly' },
             { value: 'M', caption: 'Monthly' },
-            { value: 'P', caption: 'Period' }
+            { value: 'P', caption: 'Period', checked: 'checked' }
         ]);
 
         // Show/Hide available view buttons based on rate type
@@ -1191,13 +1198,6 @@ class OrderBase {
             $form.find('.togglebutton-item input[value="P"]').click();
         });
 
-        //Summary button events
-        $form.find('.togglebutton-item input').on('click', e => {
-            const $this = jQuery(e.currentTarget);
-            const period = $this.val();
-            this.renderFrames($form, null, period);
-        });
-
         $form.find(".combineddw").on('change', '.fwformfield-text, .fwformfield-value', event => {
             let val = event.target.value;
             let dwRequest = {
@@ -1210,6 +1210,30 @@ class OrderBase {
             }, function onError(response) {
                 FwFunc.showError(response);
             }, $form);
+        });
+
+        //Track shipment-out
+        $form.find('.track-shipment-out').on('click', e => {
+            const trackingURL = FwFormField.getValueByDataField($form, 'OutDeliveryFreightTrackingUrl');
+            if (trackingURL !== '') {
+                try {
+                    window.open(trackingURL);
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            }
+        });
+
+        //Track shipment-in
+        $form.find('.track-shipment-in').on('click', e => {
+            const trackingURL = FwFormField.getValueByDataField($form, 'InDeliveryFreightTrackingUrl');
+            if (trackingURL !== '') {
+                try {
+                    window.open(trackingURL);
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            }
         });
     };
     //----------------------------------------------------------------------------------------------
@@ -2493,6 +2517,23 @@ class OrderBase {
                 },
                 ex => FwFunc.showError(ex), $form);
         });
+
+        //Disable 'Track Shipment' button
+        const outtrackingNumber = FwFormField.getValueByDataField($form, 'OutDeliveryFreightTrackingNumber');
+        const $outtrackShipmentBtn = $form.find('.track-shipment-out');
+        if (outtrackingNumber === '') {
+            FwFormField.disable($outtrackShipmentBtn);
+        } else {
+            FwFormField.enable($outtrackShipmentBtn);
+        }
+
+        const intrackingNumber = FwFormField.getValueByDataField($form, 'InDeliveryFreightTrackingNumber');
+        const $intrackShipmentBtn = $form.find('.track-shipment-in');
+        if (intrackingNumber === '') {
+            FwFormField.disable($intrackShipmentBtn);
+        } else {
+            FwFormField.enable($intrackShipmentBtn);
+        }
 
     }
     //----------------------------------------------------------------------------------------------

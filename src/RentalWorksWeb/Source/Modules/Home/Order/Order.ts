@@ -226,22 +226,6 @@ class Order extends OrderBase {
 
     };
     //----------------------------------------------------------------------------------------------
-    events($form) {
-        super.events($form);
-
-        //Track shipment
-        $form.find('.track-shipment').on('click', e => {
-            const trackingURL = FwFormField.getValueByDataField($form, 'OutDeliveryFreightTrackingUrl');
-            if (trackingURL !== '') {
-                try {
-                    window.open(trackingURL);
-                } catch (ex) {
-                    FwFunc.showError(ex);
-                }
-            }
-        });
-    }
-    //----------------------------------------------------------------------------------------------
     afterLoad($form) {
         super.afterLoad($form);
         let lossDamageTab = $form.find('[data-type="tab"][data-caption="Loss and Damage"]');
@@ -255,15 +239,6 @@ class Order extends OrderBase {
             FwFormField.disable(FwFormField.getDataField($form, 'LossAndDamage'));
         }
         if (!FwFormField.getValueByDataField($form, 'LossAndDamage')) { $form.find('[data-type="tab"][data-caption="Loss And Damage"]').hide() }
-
-        //Disable 'Track Shipment' button
-        const trackingNumber = FwFormField.getValueByDataField($form, 'OutDeliveryFreightTrackingNumber');
-        const $trackShipmentBtn = $form.find('.track-shipment');
-        if (trackingNumber === '') {
-            FwFormField.disable($trackShipmentBtn);
-        } else {
-            FwFormField.enable($trackShipmentBtn);
-        }
     };
     //----------------------------------------------------------------------------------------------
     getBrowseTemplate(): string {
@@ -326,8 +301,6 @@ class Order extends OrderBase {
           <div id="orderform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
             <div class="tabs">
               <div data-type="tab" id="generaltab" class="generaltab tab" data-tabpageid="generaltabpage" data-caption="Order"></div>
-              <div data-type="tab" id="summarytab" class="profitlosstab tab" data-tabpageid="profitlosstabpage" data-caption="Profit &amp; Loss"></div>
-              <div data-type="tab" id="contactstab" class="tab" data-tabpageid="contactstabpage" data-caption="Contacts"></div>
               <div data-type="tab" id="rentaltab" class="rentaltab notcombinedtab tab" data-tabpageid="rentaltabpage" data-caption="Rental"></div>
               <div data-type="tab" id="salestab" class="salestab notcombinedtab tab" data-tabpageid="salestabpage" data-caption="Sales"></div>
               <div data-type="tab" id="misctab" class="misctab notcombinedtab tab" data-tabpageid="misctabpage" data-caption="Miscellaneous"></div>
@@ -337,6 +310,8 @@ class Order extends OrderBase {
               <div data-type="tab" id="alltab" class="combinedtab tab" data-tabpageid="alltabpage" data-caption="Items"></div>
               <div data-type="tab" id="subpurchaseordertab" class="tab submodule" data-tabpageid="subpurchaseordertabpage" data-caption="Sub POs"></div>
               <div data-type="tab" id="billingtab" class="tab" data-tabpageid="billingtabpage" data-caption="Billing"></div>
+              <div data-type="tab" id="summarytab" class="profitlosstab tab" data-tabpageid="profitlosstabpage" data-caption="Profit &amp; Loss"></div>
+              <div data-type="tab" id="contactstab" class="tab" data-tabpageid="contactstabpage" data-caption="Contacts"></div>
               <div data-type="tab" id="picklisttab" class="tab submodule" data-tabpageid="picklisttabpage" data-caption="Pick List"></div>
               <div data-type="tab" id="contracttab" class="tab submodule" data-tabpageid="contracttabpage" data-caption="Contracts"></div>
               <div data-type="tab" id="delivershiptab" class="tab" data-tabpageid="delivershiptabpage" data-caption="Deliver/Ship"></div>
@@ -513,7 +488,10 @@ class Order extends OrderBase {
               </div>
 
               <!-- P&L TAB -->
-              <div data-type="tabpage" id="profitlosstabpage" class="tabpage" data-tabid="profitlosstab" data-render="false">
+              <div data-type="tabpage" id="profitlosstabpage" class="profitlossgrid tabpage" data-tabid="profitlosstab" data-render="false">
+                <div class="wideflexrow">
+                   <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield totals totalType" data-caption="View" data-gridtype="profitloss" data-datafield="totalTypeProfitLoss" style="flex:0 1 275px;"></div>
+               </div>
                 <div class="wideflexrow">
                   <!-- Order Profitability -->
                   <div class="flexcolumn" style="flex:0 1 200px;">
@@ -709,13 +687,7 @@ class Order extends OrderBase {
                     </div>
                   </div>
                   <div class="flexcolumn" style="flex:0 0 auto;">
-                    <div class="flexrow toggle-totals-buttons">
-                      <div style="margin: 10px 10px 0px 5px;">
-                        <i class="material-icons expandArrow expandFrames" style="cursor:pointer; background-color:#37474F; color:white">keyboard_arrow_right</i>
-                        <i class="material-icons expandArrow hideFrames" style="cursor:pointer; background-color:#37474F; color:white">keyboard_arrow_down</i>
-                      </div>
-                    </div>
-                    <div class="flexcolumn summarySection" style="flex:0 1 200px;padding-right:10px; display:none;">
+                    <div class="flexcolumn summarySection" style="flex:0 1 200px;padding-right:10px;">
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Rental Totals">
                         <div class="flexrow rentaltotals">
                           <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield totals totalType" data-gridtype="rental" data-caption="View" data-datafield="totalTypeRental" style="flex:1 1 175px;"></div>
@@ -777,13 +749,7 @@ class Order extends OrderBase {
                     </div>
                   </div>
                   <div class="flexcolumn" style="flex:0 0 auto;">
-                    <div class="flexrow toggle-totals-buttons">
-                      <div style="margin: 10px 10px 0px 5px;">
-                        <i class="material-icons expandArrow expandFrames" style="cursor:pointer; background-color:#37474F; color:white">keyboard_arrow_right</i>
-                        <i class="material-icons expandArrow hideFrames" style="cursor:pointer; background-color:#37474F; color:white">keyboard_arrow_down</i>
-                      </div>
-                    </div>
-                  <div class="flexcolumn summarySection" style="flex:0 0 200px;padding-right:10px; display:none;">
+                  <div class="flexcolumn summarySection" style="flex:0 0 200px;padding-right:10px;">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Sales Totals">
                       <div class="flexrow salestotals">
                         <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Gross Total" data-datafield="" data-enabled="false" data-totalfield="GrossTotal" style="flex:1 1 175px;"></div>
@@ -828,13 +794,7 @@ class Order extends OrderBase {
                     </div>
                   </div>
                   <div class="flexcolumn" style="flex:0 0 auto;">
-                    <div class="flexrow toggle-totals-buttons">
-                      <div style="margin: 10px 10px 0px 5px;">
-                        <i class="material-icons expandArrow expandFrames" style="cursor:pointer; background-color:#37474F; color:white">keyboard_arrow_right</i>
-                        <i class="material-icons expandArrow hideFrames" style="cursor:pointer; background-color:#37474F; color:white">keyboard_arrow_down</i>
-                      </div>
-                    </div>
-                  <div class="flexcolumn labortotals laboradjustments summarySection" style="flex:0 0 200px;padding-right:10px; display:none;">
+                  <div class="flexcolumn labortotals laboradjustments summarySection" style="flex:0 0 200px;padding-right:10px;">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Labor Totals">
                       <div class="flexrow">
                         <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield totals totalType" data-gridtype="labor" data-caption="View" data-datafield="totalTypeLabor" style="flex:1 1 175px;"></div>
@@ -894,13 +854,7 @@ class Order extends OrderBase {
                     </div>
                   </div>
                   <div class="flexcolumn" style="flex:0 0 auto;">
-                    <div class="flexrow toggle-totals-buttons">
-                      <div style="margin: 10px 10px 0px 5px;">
-                        <i class="material-icons expandArrow expandFrames" style="cursor:pointer; background-color:#37474F; color:white">keyboard_arrow_right</i>
-                        <i class="material-icons expandArrow hideFrames" style="cursor:pointer; background-color:#37474F; color:white">keyboard_arrow_down</i>
-                      </div>
-                    </div>
-                 <div class="flexcolumn summarySection" style="flex:0 0 200px;padding-right:10px; display:none;">
+                 <div class="flexcolumn summarySection" style="flex:0 0 200px;padding-right:10px;">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Misc Totals">
                       <div class="flexrow misctotals">
                         <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield totals totalType" data-gridtype="misc" data-caption="View" data-datafield="totalTypeMisc" style="flex:1 1 175px;"></div>
@@ -960,13 +914,7 @@ class Order extends OrderBase {
                     </div>                  
                   </div>
                   <div class="flexcolumn" style="flex:0 0 auto;">
-                    <div class="flexrow toggle-totals-buttons">
-                      <div style="margin: 10px 10px 0px 5px;">
-                        <i class="material-icons expandArrow expandFrames" style="cursor:pointer; background-color:#37474F; color:white">keyboard_arrow_right</i>
-                        <i class="material-icons expandArrow hideFrames" style="cursor:pointer; background-color:#37474F; color:white">keyboard_arrow_down</i>
-                      </div>
-                    </div>
-                  <div class="flexcolumn usedsaletotals usedsaleadjustments summarySection" style="flex:0 0 200px;padding-right:10px; display:none;">
+                  <div class="flexcolumn usedsaletotals usedsaleadjustments summarySection" style="flex:0 0 200px;padding-right:10px;">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Used Sales Totals">
                       <div class="flexrow usedsaletotals">
                         <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Gross Total" data-datafield="" data-enabled="false" data-totalfield="GrossTotal" style="flex:2 1 175px;"></div>
@@ -1023,13 +971,7 @@ class Order extends OrderBase {
                     </div>                
                   </div>
                   <div class="flexcolumn" style="flex:0 0 auto;">
-                    <div class="flexrow toggle-totals-buttons">
-                      <div style="margin: 10px 10px 0px 5px;">
-                        <i class="material-icons expandArrow expandFrames" style="cursor:pointer; background-color:#37474F; color:white">keyboard_arrow_right</i>
-                        <i class="material-icons expandArrow hideFrames" style="cursor:pointer; background-color:#37474F; color:white">keyboard_arrow_down</i>
-                      </div>
-                    </div>
-                  <div class="flexcolumn summarySection" style="flex:0 0 200px;padding-right:10px; display:none;">
+                  <div class="flexcolumn summarySection" style="flex:0 0 200px;padding-right:10px;">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="L&D Totals">
                       <div class="flexrow">
                         <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Gross Total" data-datafield="" data-enabled="false" data-totalfield="GrossTotal" style="flex:1 1 175px;"></div>
@@ -1074,13 +1016,7 @@ class Order extends OrderBase {
                     </div>
                   </div>
                   <div class="flexcolumn" style="flex:0 0 auto;">
-                    <div class="flexrow toggle-totals-buttons">
-                      <div style="margin: 10px 10px 0px 5px;">
-                        <i class="material-icons expandArrow expandFrames" style="cursor:pointer; background-color:#37474F; color:white">keyboard_arrow_right</i>
-                        <i class="material-icons expandArrow hideFrames" style="cursor:pointer; background-color:#37474F; color:white">keyboard_arrow_down</i>
-                      </div>
-                    </div>
-                  <div class="flexcolumn summarySection" style="flex:0 0 200px;padding-right:10px; display:none;">
+                  <div class="flexcolumn summarySection" style="flex:0 0 200px;padding-right:10px;">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Order Totals">
                       <div class="flexrow combinedAdjustments">
                         <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield totals totalType" data-gridtype="combined" data-caption="View" data-datafield="totalTypeAll" style="flex:1 1 175px;"></div>
@@ -1295,7 +1231,7 @@ class Order extends OrderBase {
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Tracking URL" data-datafield="OutDeliveryFreightTrackingUrl" data-allcaps="false" style="display:none;flex:1 1 200px;"></div>
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Tracking Number" data-datafield="OutDeliveryFreightTrackingNumber" data-allcaps="false" style="flex:1 1 200px;"></div>
-                          <div class="fwformcontrol track-shipment" data-type="button" style="flex:1 1 150px;margin:16px 10px 0px 5px;text-align:center;">Track Shipment</div>
+                          <div class="fwformcontrol track-shipment-out" data-type="button" data-enabled="false" style="flex:1 1 150px;margin:16px 10px 0px 5px;text-align:center;">Track Shipment</div>
                         </div>
                       </div>
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Outgoing Address">
@@ -1360,7 +1296,7 @@ class Order extends OrderBase {
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Tracking URL" data-datafield="InDeliveryFreightTrackingUrl" data-allcaps="false" style="display:none;flex:1 1 200px;"></div>
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Tracking Number" data-datafield="InDeliveryFreightTrackingNumber" data-allcaps="false" style="flex:1 1 200px;"></div>
-                          <div class="fwformcontrol track-shipment" data-type="button" style="flex:1 1 150px;margin:16px 10px 0px 5px;text-align:center;">Track Shipment</div>
+                          <div class="fwformcontrol track-shipment-in" data-type="button" data-enabled="false" style="flex:1 1 150px;margin:16px 10px 0px 5px;text-align:center;">Track Shipment</div>
                         </div>
                       </div>
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Incoming Address">
