@@ -26,6 +26,11 @@ namespace FwStandard.Data
         public FwJsonDataTable DataTable { get; set; }
     }
 
+    public class AfterLoadEventArgs : EventArgs
+    {
+        public dynamic Record { get; set; }
+    }
+
 
     public class FwDataRecord : FwBaseRecord
     {
@@ -44,9 +49,11 @@ namespace FwStandard.Data
 
         public event EventHandler<BeforeBrowseEventArgs> BeforeBrowse;
         public event EventHandler<AfterBrowseEventArgs> AfterBrowse;
+        public event EventHandler<AfterLoadEventArgs> AfterLoad;
 
         public delegate void BeforeBrowseEventHandler(BeforeBrowseEventArgs e);
         public delegate void AfterBrowseEventHandler(AfterBrowseEventArgs e);
+        public delegate void AfterLoadEventHandler(AfterLoadEventArgs e);
 
         protected virtual void OnBeforeBrowse(BeforeBrowseEventArgs e)
         {
@@ -55,6 +62,13 @@ namespace FwStandard.Data
         protected virtual void OnAfterBrowse(AfterBrowseEventArgs e)
         {
             AfterBrowse?.Invoke(this, e);
+        }
+
+        //note: this event only executes when loading a single object. 
+        //      does not execute on GetMany loads or Browse loads
+        protected virtual void OnAfterLoad(AfterLoadEventArgs e)
+        {
+            AfterLoad?.Invoke(this, e);
         }
 
         //------------------------------------------------------------------------------------
@@ -1414,12 +1428,10 @@ namespace FwStandard.Data
         //------------------------------------------------------------------------------------
         public virtual async Task<dynamic> GetAsync<T>(FwCustomFields customFields = null)
         {
-            //if (AllPrimaryKeysHaveValues)
             if (PrimaryKeyCount > 0)
             {
                 if (AllPrimaryKeysHaveValues)
                 {
-                    //using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
                     using (FwSqlConnection conn = GetDatabaseConnection())
                     {
                         FwSqlSelect select = new FwSqlSelect();
@@ -1427,8 +1439,6 @@ namespace FwStandard.Data
                         {
                             SetBaseSelectQuery(select, qry, customFields);
                             select.SetQuery(qry);
-
-
 
                             List<PropertyInfo> primaryKeyProperties = GetPrimaryKeyProperties();
                             int k = 0;
@@ -1468,6 +1478,11 @@ namespace FwStandard.Data
                             {
                                 record = records[0];
                             }
+
+                            AfterLoadEventArgs afterLoadArgs = new AfterLoadEventArgs();
+                            afterLoadArgs.Record = record;
+                            AfterLoad?.Invoke(this, afterLoadArgs);
+
                             return record;
                         }
                     }

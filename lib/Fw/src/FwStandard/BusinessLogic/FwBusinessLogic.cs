@@ -35,8 +35,6 @@ namespace FwStandard.BusinessLogic
         public FwSqlConnection SqlConnection { get; set; }
     }
 
-
-
     public class BeforeSaveDataRecordEventArgs : EventArgs
     {
         public TDataRecordSaveMode SaveMode { get; set; }
@@ -44,7 +42,6 @@ namespace FwStandard.BusinessLogic
         public bool PerformSave { get; set; } = true;
         public FwSqlConnection SqlConnection { get; set; }
     }
-
 
     public class AfterSaveDataRecordEventArgs : EventArgs
     {
@@ -54,13 +51,11 @@ namespace FwStandard.BusinessLogic
         public FwSqlConnection SqlConnection { get; set; }
     }
 
-
     public class BeforeValidateEventArgs : EventArgs
     {
         public TDataRecordSaveMode SaveMode { get; set; }
         public FwBusinessLogic Original { get; set; }
     }
-
 
     public class BeforeValidateDataRecordEventArgs : EventArgs
     {
@@ -71,8 +66,7 @@ namespace FwStandard.BusinessLogic
     public class InsteadOfDataRecordDeleteEventArgs : EventArgs
     {
         public bool Success { get; set; } = true;
-    };
-
+    }
 
     public class BeforeDeleteEventArgs : EventArgs
     {
@@ -81,6 +75,10 @@ namespace FwStandard.BusinessLogic
 
     public class AfterDeleteEventArgs : EventArgs { }
 
+    public class AfterMapEventArgs : EventArgs
+    {
+        public FwDataRecord Source { get; set; }
+    }
 
     //---------------------------------------------------------------------------------------------
     public class FwBusinessLogicFieldDefinition
@@ -207,12 +205,14 @@ namespace FwStandard.BusinessLogic
         public event EventHandler<BeforeValidateEventArgs> BeforeValidate;
         public event EventHandler<BeforeDeleteEventArgs> BeforeDelete;
         public event EventHandler<AfterDeleteEventArgs> AfterDelete;
+        public event EventHandler<AfterMapEventArgs> AfterMap;
 
         public delegate void BeforeSaveEventHandler(BeforeSaveEventArgs e);
         public delegate void AfterSaveEventHandler(AfterSaveEventArgs e);
         public delegate void BeforeValidateEventHandler(BeforeValidateEventArgs e);
         public delegate void BeforeDeleteEventHandler(BeforeDeleteEventArgs e);
         public delegate void AfterDeleteEventHandler(AfterDeleteEventArgs e);
+        public delegate void AfterMapEventHandler(AfterMapEventArgs e);
 
         protected virtual async Task BeforeSaveAsync(BeforeSaveEventArgs e)
         {
@@ -237,6 +237,11 @@ namespace FwStandard.BusinessLogic
         protected virtual async Task AfterDeleteAsync(AfterDeleteEventArgs e)
         {
             AfterDelete?.Invoke(this, e);
+            await Task.CompletedTask;
+        }
+        protected virtual async Task AfterMapAsync(AfterMapEventArgs e)
+        {
+            AfterMap?.Invoke(this, e);
             await Task.CompletedTask;
         }
 
@@ -403,6 +408,7 @@ namespace FwStandard.BusinessLogic
                 {
                     opts.ConfigureMap(MemberList.None);
                 });
+
             }
             return records;
         }
@@ -476,6 +482,11 @@ namespace FwStandard.BusinessLogic
                     {
                         opts.ConfigureMap(MemberList.None);
                     });
+
+                    AfterMapEventArgs afterMapArgs = new AfterMapEventArgs();
+                    afterMapArgs.Source = rec;
+                    await AfterMapAsync(afterMapArgs);
+
                     recLoaded = (rec != null);
 
                     if (i == 0)
@@ -490,6 +501,7 @@ namespace FwStandard.BusinessLogic
             else
             {
                 dataLoader = await dataLoader.GetAsync<T>(primaryKeyValues, _Custom.CustomFields);
+
                 blLoaded = (dataLoader != null);
                 Mapper.Map(dataLoader, this, opts =>
                 {
@@ -498,11 +510,11 @@ namespace FwStandard.BusinessLogic
                 this.AppConfig = tmpAppConfig;
                 this.UserSession = tmpUserSession;
 
+                AfterMapEventArgs afterMapArgs = new AfterMapEventArgs();
+                afterMapArgs.Source = dataLoader;
+                await AfterMapAsync(afterMapArgs);
+
             }
-            //if (blLoaded) 
-            //{
-            //    await _Custom.LoadAsync(primaryKeyValues);
-            //}
 
             return blLoaded;
         }
@@ -1243,7 +1255,7 @@ namespace FwStandard.BusinessLogic
                     success &= await rec.DeleteAsync();
                 }
                 await AfterDeleteAsync(afterDeleteArgs);
-                
+
                 // process alerts on another thread without blocking
                 _ = Task.Run(async () =>
                 {
