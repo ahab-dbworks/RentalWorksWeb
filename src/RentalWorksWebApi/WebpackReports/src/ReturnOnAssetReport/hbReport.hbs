@@ -3,7 +3,11 @@
   <span class="rpt-title">{{Report}}</span>
 </div>
 <div class="rpt-flexrow-ROA">
+  {{#if UseDateRange}}
+  <span class="rpt-title">{{FromDate}} - {{ToDate}}</span>
+  {{else}}
   <span class="rpt-title">{{ReportPeriod}} {{ReportYear}}</span>
+  {{/if}}
 </div>
 <div class="rpt-flexrow-ROA" style="margin-top:40px;">
   <table>

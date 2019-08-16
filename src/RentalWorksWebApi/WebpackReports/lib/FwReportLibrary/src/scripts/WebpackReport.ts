@@ -14,7 +14,8 @@ export abstract class WebpackReport {
             }
         });
         window.addEventListener('load', (ev: Event) => {
-            const reportURL: any = ev.srcElement.baseURI;
+            const srcEl: any = ev.srcElement;
+            const reportURL: any = srcEl.baseURI;
             if (window.opener != null) {
                 window.opener.postMessage(reportURL, '*'); // postMessage to report page to notify new window (rendered report) is loaded
             }
