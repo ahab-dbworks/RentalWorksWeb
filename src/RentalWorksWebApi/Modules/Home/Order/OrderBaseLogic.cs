@@ -12,9 +12,9 @@ using WebApi.Modules.Home.Tax;
 using System;
 using FwStandard.SqlServer;
 using WebApi.Modules.Home.Delivery;
-using System.Reflection;
-using System.Text;
 using WebApi.Modules.Home.Deal;
+using System.Collections.Generic;
+using WebApi.Modules.Home.OrderDates;
 
 namespace WebApi.Modules.Home.Order
 {
@@ -39,6 +39,7 @@ namespace WebApi.Modules.Home.Order
 
             BeforeSave += OnBeforeSave;
             AfterSave += OnAfterSave;
+            AfterMap += OnAfterMap;
 
             dealOrder.BeforeSave += OnBeforeSaveDealOrder;
             dealOrder.AfterSave += OnAfterSaveDealOrder;
@@ -48,6 +49,7 @@ namespace WebApi.Modules.Home.Order
             tax.AfterSave += OnAfterSaveTax;
 
             UseTransactionToSave = true;
+
         }
         //------------------------------------------------------------------------------------
         [FwLogicProperty(Id: "jic1cq8SZoZk")]
@@ -191,57 +193,64 @@ namespace WebApi.Modules.Home.Order
 
             get
             {
-                //build up the dates and times strings here
-                StringBuilder sb = new StringBuilder();
+                ////build up the dates and times strings here
+                //StringBuilder sb = new StringBuilder();
 
-                //pick date and time
-                if (!string.IsNullOrEmpty(PickDate))
-                {
-                    sb.Append("Pick: ");
-                    sb.Append(PickDate);
-                    if (!string.IsNullOrEmpty(PickTime))
-                    {
-                        sb.Append(" ");
-                        sb.Append(PickTime);
-                    }
-                }
+                ////pick date and time
+                //if (!string.IsNullOrEmpty(PickDate))
+                //{
+                //    sb.Append("Pick: ");
+                //    sb.Append(PickDate);
+                //    if (!string.IsNullOrEmpty(PickTime))
+                //    {
+                //        sb.Append(" ");
+                //        sb.Append(PickTime);
+                //    }
+                //}
 
-                //estimated start and stop dates
-                if (!string.IsNullOrEmpty(EstimatedStartDate))
-                {
-                    if (sb.Length > 0)
-                    {
-                        sb.Append(" ");
-                    }
-                    sb.Append("Start: ");
-                    sb.Append(EstimatedStartDate);
-                    if (!string.IsNullOrEmpty(EstimatedStartTime))
-                    {
-                        sb.Append(" ");
-                        sb.Append(EstimatedStartTime);
-                    }
-                }
+                ////estimated start and stop dates
+                //if (!string.IsNullOrEmpty(EstimatedStartDate))
+                //{
+                //    if (sb.Length > 0)
+                //    {
+                //        sb.Append(" ");
+                //    }
+                //    sb.Append("Start: ");
+                //    sb.Append(EstimatedStartDate);
+                //    if (!string.IsNullOrEmpty(EstimatedStartTime))
+                //    {
+                //        sb.Append(" ");
+                //        sb.Append(EstimatedStartTime);
+                //    }
+                //}
 
-                if (!string.IsNullOrEmpty(EstimatedStopDate))
-                {
-                    if (sb.Length > 0)
-                    {
-                        sb.Append(" ");
-                    }
-                    sb.Append("Stop: ");
-                    sb.Append(EstimatedStopDate);
-                    if (!string.IsNullOrEmpty(EstimatedStopTime))
-                    {
-                        sb.Append(" ");
-                        sb.Append(EstimatedStopTime);
-                    }
-                }
+                //if (!string.IsNullOrEmpty(EstimatedStopDate))
+                //{
+                //    if (sb.Length > 0)
+                //    {
+                //        sb.Append(" ");
+                //    }
+                //    sb.Append("Stop: ");
+                //    sb.Append(EstimatedStopDate);
+                //    if (!string.IsNullOrEmpty(EstimatedStopTime))
+                //    {
+                //        sb.Append(" ");
+                //        sb.Append(EstimatedStopTime);
+                //    }
+                //}
 
-                //other dates
+                ////other dates
 
-                return sb.ToString();
+                //return sb.ToString();
+
+                return "NOTHING HERE";
             }
         }
+
+        //------------------------------------------------------------------------------------ 
+
+        [FwLogicProperty(Id: "y4trOTswSEcP3", IsNotAudited: true)]
+        public List<OrderDatesLogic> ActivityDatesAndTimes { get; set; } = new List<OrderDatesLogic>();
 
         //------------------------------------------------------------------------------------ 
 
@@ -1374,6 +1383,26 @@ namespace WebApi.Modules.Home.Order
                     }
                 }
             }
+
+            if (ActivityDatesAndTimes.Count > 0)
+            {
+                ApplyOrderDatesAndTimesRequest request = new ApplyOrderDatesAndTimesRequest();
+                request.OrderId = GetPrimaryKeys()[0].ToString();
+                foreach (OrderDatesLogic d in ActivityDatesAndTimes)
+                {
+                    OrderDateAndTime dt = new OrderDateAndTime();
+                    dt.OrderTypeDateTypeId = d.OrderTypeDateTypeId;
+                    if (string.IsNullOrEmpty(d.Date))
+                    {
+                        dt.Date = FwConvert.ToDateTime(d.Date);
+                    }
+                    dt.Time = d.Time;
+                    dt.IsMilestone = d.IsMilestone;
+                    dt.IsProductionActivity = d.IsProductionActivity;
+                    request.DatesAndTimes.Add(dt);
+                }
+                ApplyOrderDatesAndTimesResponse response = OrderFunc.ApplyOrderDatesAndTimes(AppConfig, UserSession, request).Result;
+            }
         }
         //------------------------------------------------------------------------------------
 
@@ -1480,5 +1509,10 @@ namespace WebApi.Modules.Home.Order
             return success;
         }
         //------------------------------------------------------------------------------------
+        public void OnAfterMap(object sender, AfterMapEventArgs e)
+        {
+            ActivityDatesAndTimes = ((OrderBaseLoader)e.Source).ActivityDatesAndTimes;
+        }
+        //-----------------------------------------------------------------------------------
     }
 }

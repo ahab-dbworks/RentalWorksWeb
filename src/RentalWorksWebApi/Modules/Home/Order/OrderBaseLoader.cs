@@ -2,13 +2,19 @@
 using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
+using System.Collections.Generic;
 using WebApi.Data;
+using WebApi.Modules.Home.OrderDates;
 
 namespace WebApi.Modules.Home.Order
 {
     [FwSqlTable("orderwebview")]
     public abstract class OrderBaseLoader : OrderBaseBrowseLoader
     {
+        public OrderBaseLoader()
+        {
+            AfterLoad += OnAfterLoad;
+        }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "rental", modeltype: FwDataTypes.Boolean)]
         public bool? Rental { get; set; }
@@ -861,8 +867,29 @@ namespace WebApi.Modules.Home.Order
         public string QuoteOrderTitle { get; set; }
         //------------------------------------------------------------------------------------
 
+
+        public List<OrderDatesLogic> ActivityDatesAndTimes { get; set; } = new List<OrderDatesLogic>();
+
+        //------------------------------------------------------------------------------------
+
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------
+        public void OnAfterLoad(object sender, AfterLoadEventArgs e)
+        {
+            if ((e.Record != null) && (e.Record is OrderBaseLoader))
+            {
+                BrowseRequest request = new BrowseRequest();
+                request.pageno = 0;
+                request.pagesize = 0;
+                request.orderby = "OrderBy";
+                request.uniqueids = new Dictionary<string, object>();
+                request.uniqueids.Add("OrderId", GetPrimaryKeys()[0].ToString());
+                OrderDatesLogic l = new OrderDatesLogic();
+                l.SetDependencies(AppConfig, UserSession);
+                ((OrderBaseLoader)e.Record).ActivityDatesAndTimes = l.SelectAsync<OrderDatesLogic>(request).Result;
+            }
+        }
+        //------------------------------------------------------------------------------------    
     }
 }
