@@ -1233,9 +1233,7 @@ class FwSettingsClass {
                             $form.closest('.panel-record').remove();
                         }
                         FwNotification.renderNotification('SUCCESS', 'Record deleted.');
-                    }, function (error) {
-                        FwNotification.renderNotification('ERROR', 'Error deleting form.');
-                    });
+                    }, null); // Removed error method to allow Fw error message protocol to execute - J.Pace
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }
