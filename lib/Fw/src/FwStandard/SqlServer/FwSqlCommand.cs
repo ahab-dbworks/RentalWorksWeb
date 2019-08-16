@@ -2164,7 +2164,7 @@ namespace FwStandard.SqlServer
 
                         if (needsTotalRows && hasColTotalRows)
                         {
-                            int colTotalRows = reader.GetOrdinal("TotalRows");
+                            int colTotalRows = reader.GetOrdinal(FwSqlSelect.TOTAL_ROWS_FIELD);
                             if (colTotalRows >= 0)
                             {
                                 response.TotalRows = reader.GetInt32(colTotalRows);
