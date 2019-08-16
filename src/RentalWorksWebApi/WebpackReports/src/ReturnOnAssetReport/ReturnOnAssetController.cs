@@ -87,18 +87,24 @@ namespace WebApi.Modules.Reports.ReturnOnAssetReport
             }
             try
             {
-                ReturnOnAssetReportLoader l = new ReturnOnAssetReportLoader();
-                l.SetDependencies(this.AppConfig, this.UserSession);
-                FwJsonDataTable dt = await l.RunReportAsync(request);
+                FwJsonDataTable dt = null;
+                if (request.UseDateRange.GetValueOrDefault(false))
+                {
+                    ReturnOnAssetByDateRangeReportLoader l = new ReturnOnAssetByDateRangeReportLoader();
+                    l.SetDependencies(this.AppConfig, this.UserSession);
+                    dt = await l.RunReportAsync(request);
+                }
+                else
+                {
+                    ReturnOnAssetByPeriodReportLoader l = new ReturnOnAssetByPeriodReportLoader();
+                    l.SetDependencies(this.AppConfig, this.UserSession);
+                    dt = await l.RunReportAsync(request);
+                }
                 return new OkObjectResult(dt);
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------ 

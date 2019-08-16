@@ -4,27 +4,21 @@ using WebApi.Data;
 using System.Threading.Tasks;
 namespace WebApi.Modules.Reports.ReturnOnAssetReport
 {
-    [FwSqlTable("ReturnOnAsset")]
-    public class ReturnOnAssetReportLoader : AppDataLoadRecord
+    [FwSqlTable("dbo.dwreturnonasset(@fromdate, @todate, @icode)")]
+    public class ReturnOnAssetByDateRangeReportLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(calculatedColumnSql: "'detail'", modeltype: FwDataTypes.Text, isVisible: false)]
         public string RowType { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "ReturnOnAssetKey", modeltype: FwDataTypes.Integer)]
-        public int? ReturnOnAssetKey { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "FromDate", modeltype: FwDataTypes.Date)]
+        [FwSqlDataField(column: "MinDate", modeltype: FwDataTypes.Date)]
         public string FromDate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "ToDate", modeltype: FwDataTypes.Date)]
+        [FwSqlDataField(column: "MaxDate", modeltype: FwDataTypes.Date)]
         public string ToDate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "ReportDateRangeCode", modeltype: FwDataTypes.Text)]
-        public string ReportDateRangeCode { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "RptYear", modeltype: FwDataTypes.Text)]
-        public string ReportYear { get; set; }
+        [FwSqlDataField(column: "ReportPeriod", modeltype: FwDataTypes.Text)]
+        public string ReportPeriod { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "Warehouse", modeltype: FwDataTypes.Text)]
         public string Warehouse { get; set; }
@@ -44,7 +38,7 @@ namespace WebApi.Modules.Reports.ReturnOnAssetReport
         [FwSqlDataField(column: "ICode", modeltype: FwDataTypes.Text)]
         public string ICode { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "ICodeDescription", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "Description", modeltype: FwDataTypes.Text)]
         public string ICodeDescription { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "TrackedBy", modeltype: FwDataTypes.Text)]
@@ -65,13 +59,13 @@ namespace WebApi.Modules.Reports.ReturnOnAssetReport
         [FwSqlDataField(column: "OutUtilization", modeltype: FwDataTypes.Percentage)]
         public decimal? OutUtilization { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "AnnualROA", modeltype: FwDataTypes.Percentage)]
+        [FwSqlDataField(column: "ROA", modeltype: FwDataTypes.Percentage)]
         public decimal? AnnualROA { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "AnnualROR", modeltype: FwDataTypes.Percentage)]
+        [FwSqlDataField(column: "ROR", modeltype: FwDataTypes.Percentage)]
         public decimal? AnnualROR { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "AnnualROUV", modeltype: FwDataTypes.Percentage)]
+        [FwSqlDataField(column: "ROUV", modeltype: FwDataTypes.Percentage)]
         public decimal? AnnualROUV { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "WeeksBilled", modeltype: FwDataTypes.Integer)]
@@ -113,14 +107,8 @@ namespace WebApi.Modules.Reports.ReturnOnAssetReport
         [FwSqlDataField(column: "DaysOut", modeltype: FwDataTypes.Integer)]
         public int? DaysOut { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "EffectiveDate", modeltype: FwDataTypes.Date)]
-        public string EffectiveDate { get; set; }
-        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "MaxDailyRate", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? MaxDailyRate { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "ExportDate", modeltype: FwDataTypes.Date)]
-        public string ExportDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "DaysOwned", modeltype: FwDataTypes.Integer)]
         public int? DaysOwned { get; set; }
@@ -136,26 +124,15 @@ namespace WebApi.Modules.Reports.ReturnOnAssetReport
 
                 using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DataWarehouseDatabaseSettings.ReportTimeout))
                 {
-
-                    if (request.UseDateRange.GetValueOrDefault(false))
-                    {
-                        OverrideTableName = "dbo.dwreturnonasset(@fromdate, @todate, @icode)";
-                    }
+                    useWithNoLock = false;
 
                     SetBaseSelectQuery(select, qry);
                     select.Parse();
 
-                    if (request.UseDateRange.GetValueOrDefault(false))
-                    {
-                        select.AddParameter("@fromdate", request.FromDate);
-                        select.AddParameter("@todate", request.ToDate);
-                        select.AddParameter("@icode", "");
-                    }
-                    else
-                    {
-                        select.AddWhereIn("RptYear", request.ReportYear);
-                        select.AddWhereIn("ReportDateRangeCode", request.ReportPeriod);
-                    }
+                    select.AddParameter("@fromdate", request.FromDate);
+                    select.AddParameter("@todate", request.ToDate);
+                    select.AddParameter("@icode", "");
+
                     select.AddWhereIn("WarehouseKey", request.WarehouseId);
                     select.AddWhereIn("DepartmentKey", request.InventoryTypeId);
                     select.AddWhereIn("CategoryKey", request.CategoryId);
