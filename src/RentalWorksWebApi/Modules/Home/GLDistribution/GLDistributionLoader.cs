@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using WebApi.Data;
 namespace WebApi.Modules.Home.GLDistribution
 {
+    [FwSqlTable("dbo.funcvendorinvoiceglweb(@vendorinvoiceid)")]
     public class GLDistributionLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
@@ -37,30 +38,42 @@ namespace WebApi.Modules.Home.GLDistribution
         [FwSqlDataField(column: "groupheadingorder", modeltype: FwDataTypes.Integer)]
         public int? GroupHeadingOrder { get; set; }
         //------------------------------------------------------------------------------------ 
-        public override async Task<FwJsonDataTable> BrowseAsync(BrowseRequest request, FwCustomFields customFields = null)
+        protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
+            useWithNoLock = false;
             string invoiceId = GetUniqueIdAsString("InvoiceId", request) ?? "";
             string receiptId = GetUniqueIdAsString("ReceiptId", request) ?? "";
             string vendorInvoiceId = GetUniqueIdAsString("VendorInvoiceId", request) ?? "";
 
-            FwJsonDataTable dt = null;
-
-            using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
+            if (!invoiceId.Equals(string.Empty))
             {
-                using (FwSqlCommand qry = new FwSqlCommand(conn, "getglforwebgrid ", this.AppConfig.DatabaseSettings.QueryTimeout))
-                {
-                    qry.AddParameter("@invoiceid", SqlDbType.NVarChar, ParameterDirection.Input, invoiceId);
-                    qry.AddParameter("@arid", SqlDbType.NVarChar, ParameterDirection.Input, receiptId);
-                    qry.AddParameter("@vendorinvoiceid", SqlDbType.NVarChar, ParameterDirection.Input, vendorInvoiceId);
-                    AddPropertiesAsQueryColumns(qry);
-                    dt = await qry.QueryToFwJsonTableAsync(false, 0);
-                }
+                OverrideTableName = "dbo.funcinvoiceglweb(@invoiceid)";
             }
-            return dt;
+            else if (!receiptId.Equals(string.Empty))
+            {
+                OverrideTableName = "dbo.funcarglweb(@ar)";
+            }
+            else if (!vendorInvoiceId.Equals(string.Empty))
+            {
+                OverrideTableName = "dbo.funcvendorinvoiceglweb(@vendorinvoiceid)";
+            }
 
+            base.SetBaseSelectQuery(select, qry, customFields, request);
+            select.Parse();
 
+            if (!invoiceId.Equals(string.Empty))
+            {
+                select.AddParameter("@invoiceid", invoiceId);
+            }
+            if (!receiptId.Equals(string.Empty))
+            {
+                select.AddParameter("@arid", receiptId);
+            }
+            if (!vendorInvoiceId.Equals(string.Empty))
+            {
+                select.AddParameter("@vendorinvoiceid", vendorInvoiceId);
+            }
         }
-        //------------------------------------------------------------------------------------
-
+        //------------------------------------------------------------------------------------ 
     }
 }
