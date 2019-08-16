@@ -14,6 +14,7 @@ using FwStandard.SqlServer;
 using WebApi.Modules.Home.Delivery;
 using System.Reflection;
 using System.Text;
+using WebApi.Modules.Home.Deal;
 
 namespace WebApi.Modules.Home.Order
 {
@@ -1295,6 +1296,27 @@ namespace WebApi.Modules.Home.Order
         //------------------------------------------------------------------------------------
         public virtual void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {
+            if (e.SaveMode.Equals(TDataRecordSaveMode.smInsert))
+            {
+                if (string.IsNullOrEmpty(BillingCycleId))
+                {
+                    DealLogic deal = new DealLogic();
+                    deal.SetDependencies(AppConfig, UserSession);
+                    deal.DealId = DealId;
+                    bool b = deal.LoadAsync<DealLogic>().Result;
+                    BillingCycleId = deal.BillingCycleId;
+                }
+
+                if (string.IsNullOrEmpty(AgentId))
+                {
+                    AgentId = UserSession.UsersId;
+                }
+                if (string.IsNullOrEmpty(ProjectManagerId))
+                {
+                    ProjectManagerId = UserSession.UsersId;
+                }
+            }
+
             if (e.SaveMode.Equals(TDataRecordSaveMode.smUpdate))
             {
                 if (e.Original != null)

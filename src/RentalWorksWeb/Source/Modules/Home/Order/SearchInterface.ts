@@ -164,11 +164,22 @@ class SearchInterface {
         let stopDate;
         switch (type) {
             case 'Main':
+                const department = JSON.parse(sessionStorage.getItem('department')); 
+                const location = JSON.parse(sessionStorage.getItem('location')); 
+                const today = FwFunc.getDate();
                 const addToTypes = [{ value: 'Quote', caption: 'Quote', checked: 'T' },
                 { value: 'Order', caption: 'Order' },
                 { value: 'Purchase', caption: 'Purchase' },
                 { value: 'Transfer', caption: 'Transfer' }];
                 FwFormField.loadItems($popup.find('div[data-datafield="AddToType"]'), addToTypes);
+                FwFormField.setValueByDataField($popup, 'DepartmentId', department.departmentid, department.department);
+                FwFormField.setValueByDataField($popup, 'RateType', location.ratetype, location.ratetype);
+                FwFormField.setValueByDataField($popup, 'PickDate', today);
+                FwFormField.setValueByDataField($popup, 'FromDate', today);
+                FwFormField.setValueByDataField($popup, 'ToDate', today);
+                FwAppData.apiMethod(true, 'GET', 'api/v1/departmentlocation/' + department.departmentid + '~' + location.locationid, null, FwServices.defaultTimeout, response => {
+                    FwFormField.setValueByDataField($popup, 'OrderTypeId', response.DefaultOrderTypeId, response.DefaultOrderType);
+                }, ex => FwFunc.showError(ex), null);
                 break;
             case 'Order':
             case 'Quote':
@@ -345,38 +356,38 @@ class SearchInterface {
                     controller = 'QuoteController';
                     request.DealId = FwFormField.getValue2($addToTab.find('[data-datafield="DealId"]'));
                     request.RateType = FwFormField.getValue2($addToTab.find('[data-datafield="RateType"]'));
-                    request.Type = FwFormField.getValue2($addToTab.find('[data-datafield="OrderTypeId"]'));
+                    request.OrderTypeId = FwFormField.getValue2($addToTab.find('[data-datafield="OrderTypeId"]'));
                     request.PickDate = FwFormField.getValue2($addToTab.find('[data-datafield="PickDate"]'));
                     request.PickTime = FwFormField.getValue2($addToTab.find('[data-datafield="PickTime"]'));
-                    request.FromDate = FwFormField.getValue2($addToTab.find('[data-datafield="FromDate"]'));
-                    request.FromTime = FwFormField.getValue2($addToTab.find('[data-datafield="FromTime"]'));
-                    request.ToDate = FwFormField.getValue2($addToTab.find('[data-datafield="ToDate"]'));
-                    request.ToTime = FwFormField.getValue2($addToTab.find('[data-datafield="ToTime"]'));
+                    request.EstimatedStartDate = FwFormField.getValue2($addToTab.find('[data-datafield="FromDate"]'));
+                    request.EstimatedStartTime = FwFormField.getValue2($addToTab.find('[data-datafield="FromTime"]'));
+                    request.EstimatedStopDate = FwFormField.getValue2($addToTab.find('[data-datafield="ToDate"]'));
+                    request.EstimatedStopTime = FwFormField.getValue2($addToTab.find('[data-datafield="ToTime"]'));
                     break;
                 case 'Order':
                     controller = 'OrderController';
                     request.DealId = FwFormField.getValue2($addToTab.find('[data-datafield="DealId"]'));
                     request.RateType = FwFormField.getValue2($addToTab.find('[data-datafield="RateType"]'));
-                    request.Type = FwFormField.getValue2($addToTab.find('[data-datafield="OrderTypeId"]'));
+                    request.OrderTypeId = FwFormField.getValue2($addToTab.find('[data-datafield="OrderTypeId"]'));
                     request.PickDate = FwFormField.getValue2($addToTab.find('[data-datafield="PickDate"]'));
                     request.PickTime = FwFormField.getValue2($addToTab.find('[data-datafield="PickTime"]'));
-                    request.FromDate = FwFormField.getValue2($addToTab.find('[data-datafield="FromDate"]'));
-                    request.FromTime = FwFormField.getValue2($addToTab.find('[data-datafield="FromTime"]'));
-                    request.ToDate = FwFormField.getValue2($addToTab.find('[data-datafield="ToDate"]'));
-                    request.ToTime = FwFormField.getValue2($addToTab.find('[data-datafield="ToTime"]'));
+                    request.EstimatedStartDate = FwFormField.getValue2($addToTab.find('[data-datafield="FromDate"]'));
+                    request.EstimatedStartTime = FwFormField.getValue2($addToTab.find('[data-datafield="FromTime"]'));
+                    request.EstimatedStopDate = FwFormField.getValue2($addToTab.find('[data-datafield="ToDate"]'));
+                    request.EstimatedStopTime = FwFormField.getValue2($addToTab.find('[data-datafield="ToTime"]'));
                     break;
                 case 'Purchase':
                     addToType = PurchaseOrderController.Module;
                     controller = 'PurchaseOrderController';
                     request.VendorId = FwFormField.getValue2($addToTab.find('[data-datafield="VendorId"]'));
                     request.RateType = FwFormField.getValue2($addToTab.find('[data-datafield="RateType"]'));
-                    request.Type = FwFormField.getValue2($addToTab.find('[data-datafield="OrderTypeId"]'));
+                    request.OrderTypeId = FwFormField.getValue2($addToTab.find('[data-datafield="OrderTypeId"]'));
                     request.PickDate = FwFormField.getValue2($addToTab.find('[data-datafield="PickDate"]'));
                     request.PickTime = FwFormField.getValue2($addToTab.find('[data-datafield="PickTime"]'));
-                    request.FromDate = FwFormField.getValue2($addToTab.find('[data-datafield="FromDate"]'));
-                    request.FromTime = FwFormField.getValue2($addToTab.find('[data-datafield="FromTime"]'));
-                    request.ToDate = FwFormField.getValue2($addToTab.find('[data-datafield="ToDate"]'));
-                    request.ToTime = FwFormField.getValue2($addToTab.find('[data-datafield="ToTime"]'));
+                    request.EstimatedStartDate = FwFormField.getValue2($addToTab.find('[data-datafield="FromDate"]'));
+                    request.EstimatedStartTime = FwFormField.getValue2($addToTab.find('[data-datafield="FromTime"]'));
+                    request.EstimatedStopDate = FwFormField.getValue2($addToTab.find('[data-datafield="ToDate"]'));
+                    request.EstimatedStopTime = FwFormField.getValue2($addToTab.find('[data-datafield="ToTime"]'));
                     break;
                 case 'Transfer':
                     addToType = TransferOrderController.Module;
@@ -697,7 +708,7 @@ class SearchInterface {
         let $searchpopup   = $popup.find('#searchpopup');
 
         $popup
-            .on('change', 'div[data-datafield="FromDate"], div[data-datafield="ToDate"]', function () {
+            .on('change', '#itemsearch div[data-datafield="FromDate"], #itemsearch div[data-datafield="ToDate"]', function () {
                 if ($popup.find('#inventory').children().length > 0) {
                     self.getInventory($popup, false);
                 }
