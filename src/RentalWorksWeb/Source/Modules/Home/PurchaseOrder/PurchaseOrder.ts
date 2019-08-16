@@ -146,6 +146,13 @@ class PurchaseOrder {
         FwFormField.disable($form.find('[data-datafield="SalesTaxRate1"]'));
         FwFormField.disable($form.find('[data-datafield="LaborTaxRate1"]'));
 
+        //Toggle Buttons - SubRental tab - Sub-Rental totals
+        FwFormField.loadItems($form.find('div[data-datafield="totalTypeSubRental"]'), [
+            { value: 'W', caption: 'Weekly' },
+            { value: 'M', caption: 'Monthly' },
+            { value: 'P', caption: 'Period' }
+        ]);
+
         this.events($form);
         this.activityCheckboxEvents($form, mode);
         this.renderSearchButton($form);

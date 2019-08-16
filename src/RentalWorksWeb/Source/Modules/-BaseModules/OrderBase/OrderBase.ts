@@ -342,13 +342,13 @@ class OrderBase {
             $form.find(".frame .add-on").children().hide();
 
             FwFormField.setValueByDataField($form, 'RateType', office.ratetype, office.ratetype);
-            if (office.ratetype === 'MONTHLY') {
-                $form.find('.summaryweekly').hide();
-                $form.find('.summarymonthly').show();
-            } else {
-                $form.find('.summarymonthly').hide();
-                $form.find('.summaryweekly').show();
-            }
+            //if (office.ratetype === 'MONTHLY') {
+            //    $form.find('.summaryweekly').hide();
+            //    $form.find('.summarymonthly').show();
+            //} else {
+            //    $form.find('.summarymonthly').hide();
+            //    $form.find('.summaryweekly').show();
+            //}
         } else {
             $form.find('.date-fields').hide();
         };
@@ -378,6 +378,96 @@ class OrderBase {
             FwFormField.setValue($form, 'div[data-datafield="RateType"]', parentModuleInfo.RateTypeId, parentModuleInfo.RateType);
             FwFormField.setValue($form, 'div[data-datafield="BillingCycleId"]', parentModuleInfo.BillingCycleId, parentModuleInfo.BillingCycle);
         }
+
+        //Toggle Buttons - Rental tab - Rental totals
+        FwFormField.loadItems($form.find('div[data-datafield="totalTypeRental"]'), [
+            { value: 'W', caption: 'Weekly' },
+            { value: 'M', caption: 'Monthly' },
+            { value: 'P', caption: 'Period' }
+        ]);
+
+        //Toggle Buttons - Misc. tab - Misc. totals
+        FwFormField.loadItems($form.find('div[data-datafield="totalTypeMisc"]'), [
+            { value: 'W', caption: 'Weekly' },
+            { value: 'M', caption: 'Monthly' },
+            { value: 'P', caption: 'Period' }
+        ]);
+
+        //Toggle Buttons - Labor tab - Labor totals
+        FwFormField.loadItems($form.find('div[data-datafield="totalTypeLabor"]'), [
+            { value: 'W', caption: 'Weekly' },
+            { value: 'M', caption: 'Monthly' },
+            { value: 'P', caption: 'Period' }
+        ]);
+
+        // Show/Hide available view buttons based on rate type
+        if (mode === 'NEW') {
+            const rateType = FwFormField.getValueByDataField($form, 'RateType');
+            if (rateType === 'MONTHLY') {
+                $form.find('.togglebutton-item input[value="W"]').parent().hide();
+                $form.find('.togglebutton-item input[value="M"]').parent().show();
+            } else {
+                $form.find('.togglebutton-item input[value="W"]').parent().show();
+                $form.find('.togglebutton-item input[value="M"]').parent().hide();
+            }
+        }
+
+        //Toggle Buttons - Billing tab - Issue To Address
+        FwFormField.loadItems($form.find('div[data-datafield="PrintIssuedToAddressFrom"]'), [
+            { value: 'DEAL', caption: 'Deal' },
+            { value: 'CUSTOMER', caption: 'Customer' },
+            { value: 'ORDER', caption: 'Order' }
+        ]);
+
+        //Toggle Buttons - Billing tab - Bill Quantities From 
+        FwFormField.loadItems($form.find('div[data-datafield="DetermineQuantitiesToBillBasedOn"]'), [
+            { value: 'CONTRACT', caption: 'Contract Activity' },
+            { value: 'ORDER', caption: 'Order Quantity' }
+        ]);
+
+        //Toggle Buttons - Billing tab - Labor Prep Fees
+        FwFormField.loadItems($form.find('div[data-datafield="IncludePrepFeesInRentalRate"]'), [
+            { value: 'false', caption: 'As Labor Charge' },
+            { value: 'true', caption: 'Into Rental Rate' }
+        ]);
+
+        //Toggle Buttons - Billing tab - Hiatus Schedule
+        FwFormField.loadItems($form.find('div[data-datafield="HiatusDiscountFrom"]'), [
+            { value: 'DEAL',    caption: 'Deal' },
+            { value: 'ORDER',   caption: 'Order' }
+        ]);
+
+        //Toggle Buttons - Deliver/Ship tab - Outgoing Address
+        FwFormField.loadItems($form.find('div[data-datafield="OutDeliveryAddressType"]'), [
+            { value: 'DEAL',        caption: 'Deal' },
+            { value: 'VENUE',       caption: 'Venue' },
+            { value: 'WAREHOUSE',   caption: 'Warehouse' },
+            { value: 'OTHER',   caption: 'Other' }
+        ]);
+
+        //Toggle Buttons - Deliver/Ship tab - Incoming Address
+        FwFormField.loadItems($form.find('div[data-datafield="InDeliveryAddressType"]'), [
+            { value: 'DEAL',        caption: 'Deal' },
+            { value: 'VENUE',       caption: 'Venue' },
+            { value: 'WAREHOUSE',   caption: 'Warehouse' },
+            { value: 'OTHER',       caption: 'Other' }
+        ]);
+        //Toggle Buttons - Manifest tab - Rental Valuation
+        FwFormField.loadItems($form.find('div[data-datafield="rentalValueSelector"]'), [
+            { value: '', caption: 'Default Value' },
+            { value: '', caption: 'Replacement Cost' }
+        ]);
+        //Toggle Buttons - Manifest tab - Sales Valuation
+        FwFormField.loadItems($form.find('div[data-datafield="salesValueSelector"]'), [
+            { value: '', caption: 'Sell Price'},
+            { value: '', caption: 'Default Cost'  },
+            { value: '', caption: 'Average Cost' }
+        ]);
+        //Toggle Buttons - Manifest tab - Weight Type
+        FwFormField.loadItems($form.find('div[data-datafield="weightSelector"]'), [
+            { value: 'IMPERIAL',    caption: 'Imperial' },
+            { value: 'METRIC',      caption: 'Metric' }
+        ]);
 
         this.events($form);
         this.activityCheckboxEvents($form, mode);
@@ -464,6 +554,10 @@ class OrderBase {
                         jQuery(this).css('background-color', '#ffffe5');
                     }
                 })
+
+                const totalTaxVal = parseFloat(FwFormField.getValue2($form.find('[data-framedatafield="TotalTax"]')));
+                totalTaxVal == 0 ? $form.find('.salestax-pl').hide() : $form.find('.salestax-pl').show();
+
             }, null, $form);
             $form.find(".frame .add-on").children().hide();
         }
@@ -962,15 +1056,25 @@ class OrderBase {
         $form.find('.allFrames').css('display', 'none');
         $form.find('.hideFrames').css('display', 'none');
         $form.find('.expandArrow').on('click', e => {
-            $form.find('.hideFrames').toggle();
-            $form.find('.expandFrames').toggle();
+            //$form.find('.hideFrames').toggle();
+            //$form.find('.expandFrames').toggle();
             $form.find('.allFrames').toggle();
             $form.find('.totalRowFrames').toggle();
-            if ($form.find('.summarySection').css('flex') != '0 1 65%') {
-                $form.find('.summarySection').css('flex', '0 1 65%');
+            //if ($form.find('.summarySection').css('flex') != '0 1 65%') {
+            //    $form.find('.summarySection').css('flex', '0 1 65%');
+            //} else {
+            //    $form.find('.summarySection').css('flex', '');
+            //}
+            const $this = jQuery(e.currentTarget);
+            const isExpanded = $this.hasClass('expandFrames');
+            const $summarySection = $this.parents('.toggle-totals-buttons').siblings('.summarySection');
+            if (isExpanded) {
+                $summarySection.show();
             } else {
-                $form.find('.summarySection').css('flex', '');
+                $summarySection.hide();
             }
+            $this.toggle();
+            $this.siblings('.expandArrow').toggle();
         });
         $form.find(".weeklyType").show();
         $form.find(".monthlyType").hide();
@@ -1075,35 +1179,22 @@ class OrderBase {
         });
         //Hide/Show summary buttons based on rate type
         $form.find('[data-datafield="RateType"] input').on('change', e => {
-            let rateType = FwFormField.getValueByDataField($form, 'RateType');
+            const rateType = FwFormField.getValueByDataField($form, 'RateType');
             if (rateType === 'MONTHLY') {
-                $form.find('.summaryweekly').hide();
-                $form.find('.summarymonthly').show();
+                $form.find('.togglebutton-item input[value="W"]').parent().hide();
+                $form.find('.togglebutton-item input[value="M"]').parent().show();
             } else {
-                $form.find('.summarymonthly').hide();
-                $form.find('.summaryweekly').show();
+                $form.find('.togglebutton-item input[value="W"]').parent().show();
+                $form.find('.togglebutton-item input[value="M"]').parent().hide();
             }
             //resets back to period summary frames
-            $form.find('.summaryperiod').click();
+            $form.find('.togglebutton-item input[value="P"]').click();
         });
 
         //Summary button events
-        $form.find('.summaryperiod, .summaryweekly, .summarymonthly').on('click', e => {
-            let $this = jQuery(e.currentTarget);
-            let period;
-            if ($this.hasClass('summaryperiod')) {
-                period = 'P';
-                $form.find('.summaryperiod').addClass('pressed');
-                $form.find('.summaryweekly, .summarymonthly').removeClass('pressed');
-            } else if ($this.hasClass('summaryweekly')) {
-                period = 'W';
-                $form.find('.summaryweekly').addClass('pressed');
-                $form.find('.summaryperiod, .summarymonthly').removeClass('pressed');
-            } else if ($this.hasClass('summarymonthly')) {
-                period = 'M';
-                $form.find('.summarymonthly').addClass('pressed');
-                $form.find('.summaryperiod, .summaryweekly').removeClass('pressed');
-            }
+        $form.find('.togglebutton-item input').on('click', e => {
+            const $this = jQuery(e.currentTarget);
+            const period = $this.val();
             this.renderFrames($form, null, period);
         });
 
@@ -1339,7 +1430,7 @@ class OrderBase {
                 total = totals.PeriodTotal;
         }
 
-        $form.find(".totalType input").on('change', e => {
+        $form.find(".totalType input").off('change').on('change', e => {
             let $target = jQuery(e.currentTarget),
                 gridType = $target.parents('.totalType').attr('data-gridtype'),
                 rateType = $target.val(),
@@ -2016,7 +2107,7 @@ class OrderBase {
         }
 
         // update fields on the form based on Rate Type
-        var rateType = FwFormField.getValueByDataField($form, 'RateType');
+        const rateType = FwFormField.getValueByDataField($form, 'RateType');
         if (rateType === 'MONTHLY') {
             $form.find(".BillingWeeks").hide();
             $form.find(".BillingMonths").show();
@@ -2037,11 +2128,11 @@ class OrderBase {
         //Show/hide summary buttons based on rate type
         $form.find('.summaryperiod').addClass('pressed');
         if (rateType === 'MONTHLY') {
-            $form.find('.summaryweekly').hide();
-            $form.find('.summarymonthly').show();
+            $form.find('.togglebutton-item input[value="W"]').parent().hide();
+            $form.find('.togglebutton-item input[value="M"]').parent().show();
         } else {
-            $form.find('.summarymonthly').hide();
-            $form.find('.summaryweekly').show();
+            $form.find('.togglebutton-item input[value="W"]').parent().show();
+            $form.find('.togglebutton-item input[value="M"]').parent().hide();
         }
 
         $form.find(".totals .add-on").hide();
@@ -2114,7 +2205,39 @@ class OrderBase {
         // color the Notes tab if notes exist
         let hasNotes = FwFormField.getValueByDataField($form, 'HasNotes');
         if (hasNotes) {
-            FwTabs.setTabColor($form.find('.notestab'), '#FFFF00');
+            FwTabs.setTabColor($form.find('.notestab'), '#FFFF8d');
+        }
+
+        // color the Rental tab if RentalItems exist
+        let hasRentalItem = FwFormField.getValueByDataField($form, 'HasRentalItem');
+        if (hasRentalItem) {
+            FwTabs.setTabColor($form.find('.rentaltab'), '#FFFF8d');
+        }
+        // color the Sales tab if SalesItems exist
+        let hasSalesItem = FwFormField.getValueByDataField($form, 'HasSalesItem');
+        if (hasSalesItem) {
+            FwTabs.setTabColor($form.find('.salestab'), '#FFFF8d');
+        }
+        // color the Misc. tab if MiscItems exist
+        let hasMiscItem = FwFormField.getValueByDataField($form, 'HasMiscellaneousItem');
+        if (hasMiscItem) {
+            FwTabs.setTabColor($form.find('.misctab'), '#FFFF8d');
+        }
+        // color the Labor tab if LaborItems exist
+        let hasLaborItem = FwFormField.getValueByDataField($form, 'HasLaborItem');
+        if (hasLaborItem) {
+            FwTabs.setTabColor($form.find('.labortab'), '#FFFF8d');
+        }
+        // color the Rental Sale tab if RentalSaleItems exist
+        let hasRentalSaleItem = FwFormField.getValueByDataField($form, 'HasRentalSaleItem');
+        if (hasRentalSaleItem) {
+            FwTabs.setTabColor($form.find('.labortab'), '#FFFF8d');
+        }
+
+        // color the Loss and Damage tab if LossDamageItems exist
+        let hasLossAndDamageItem = FwFormField.getValueByDataField($form, 'HasLossAndDamageItem');
+        if (hasLossAndDamageItem) {
+            FwTabs.setTabColor($form.find('.labortab'), '#FFFF8d');
         }
 
         //Click Event on tabs to load grids/browses
@@ -2148,7 +2271,6 @@ class OrderBase {
             $tab.addClass('tabGridsLoaded');
         });
 
-
         // disable the Activity checkboxes if Items exist
         if (FwFormField.getValueByDataField($form, 'HasRentalItem')) {
             FwFormField.disable(FwFormField.getDataField($form, 'Rental'));
@@ -2166,15 +2288,29 @@ class OrderBase {
             FwFormField.disable(FwFormField.getDataField($form, 'RentalSale'));
         }
 
-        // LD Disable checkbox in Order form
-        let rentalVal = FwFormField.getValueByDataField($form, 'Rental');
-        let salesVal = FwFormField.getValueByDataField($form, 'Sales');
-        let usedSaleVal = FwFormField.getValueByDataField($form, 'RentalSale');
+        // Enable/Disable checkboxes and show/hide Profit & Loss sections
+        const rentalVal = FwFormField.getValueByDataField($form, 'Rental');
+        const salesVal = FwFormField.getValueByDataField($form, 'Sales');
+        const usedSaleVal = FwFormField.getValueByDataField($form, 'RentalSale');
+        const lossDamageVal = FwFormField.getValueByDataField($form, 'LossAndDamage');
+        const laborVal = FwFormField.getValueByDataField($form, 'Labor');
+        const miscVal = FwFormField.getValueByDataField($form, 'Miscellaneous');
         if (rentalVal === true || salesVal === true || usedSaleVal === true) {
             FwFormField.disable($form.find('[data-datafield="LossAndDamage"]'));
         } else if (rentalVal === false && salesVal === false && usedSaleVal === false) {
             FwFormField.enable($form.find('[data-datafield="LossAndDamage"]'));
         }
+        if (rentalVal || lossDamageVal) {
+            FwFormField.disable(FwFormField.getDataField($form, 'RentalSale'));
+        } else if (!rentalVal && !lossDamageVal) {
+            FwFormField.enable(FwFormField.getDataField($form, 'RentalSale'));
+        }
+        //toggle profit & loss activity section visibility
+        rentalVal ? $form.find('.rental-pl').show() : $form.find('.rental-pl').hide();
+        salesVal ? $form.find('.sales-pl').show() : $form.find('.sales-pl').hide();
+        laborVal ? $form.find('.labor-pl').show() : $form.find('.labor-pl').hide();
+        miscVal ? $form.find('.misc-pl').show() : $form.find('.misc-pl').hide();
+        usedSaleVal ? $form.find('.usedsale-pl').show() : $form.find('.usedsale-pl').hide();
 
         // disable all controls on the form based on Quote/Order status
         let status = FwFormField.getValueByDataField($form, 'Status');
