@@ -1377,9 +1377,9 @@ class Order extends OrderBase {
                   </div>
                   <div class="flexcolumn" style="flex:1 1 450px;">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Manifest Items">
-                      <div class="wideflexrow">
+                      <!-- <div class="wideflexrow">
                         <div data-control="FwGrid" data-grid="" data-securitycaption="" style="border:1px solid #9e9e9e;min-height:500px;padding:10px;"></div>
-                      </div>
+                      </div> -->
                       <div class="wideflexrow">
                         <div class="flexcolumn">
                           <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Rental Valuation">
