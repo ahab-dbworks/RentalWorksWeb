@@ -221,7 +221,11 @@ namespace WebLibrary.Security
             var lv2menuSourceSettings       = AddSettingsModule("Source",                             "{6D6165D1-51F2-4616-A67C-DCC803B549AF}", lv1menuSettings.Id,             "SourceController",                      description: "");
             var lv2menuSystemSettings       = AddSettingsMenu("System Settings",                      "{EF0A0F0D-F76B-4F25-8AF4-10F7934CFDC0}", lv1menuSettings.Id);
                                                      AddSettingsModule("Availability Settings",       "{E1C62A69-05B0-4657-AAF0-703F8BDEBC5C}", lv2menuSystemSettings.Id,       "AvailabilitySettingsController",        description: "");
+                                                     AddSettingsModule("Default Settings",            "{3F551271-C157-44F6-B06A-8F835F7A2084}", lv2menuSystemSettings.Id,       "DefaultSettingsController",             description: "");
                                                      AddSettingsModule("Email Settings",              "{8C9613E0-E7E5-4242-9DF6-4F57F59CE2B9}", lv2menuSystemSettings.Id,       "EmailSettingsController",               description: "");
+                                                     AddSettingsModule("Inventory Settings",          "{5C7D5BFA-3EA3-42C5-B90A-27A9EA5EA9FC}", lv2menuSystemSettings.Id,       "InventorySettingsController",           description: "");
+                                                     AddSettingsModule("Logo Settings",               "{B3ADDF49-64EB-4740-AB41-4327E6E56242}", lv2menuSystemSettings.Id,       "LogoSettingsController",                description: "");
+                                                     AddSettingsModule("System Settings",             "{6EFC3A8C-E83E-4FE3-BAC8-8E04EBD7F204}", lv2menuSystemSettings.Id,       "SystemSettingsController",              description: "");
             var lv2menuTaxOptionSettings    = AddSettingsModule("Tax Option",                         "{5895CA39-5EF8-405B-9E97-2FEB83939EE5}", lv1menuSettings.Id,             "TaxOptionController",                   description: "");
             var lv2menuTemplateSettings     = AddSettingsModule("Template",                           "{BDDB1439-F128-4AB7-9657-B1CDFFA12721}", lv1menuSettings.Id,             "TemplateController",                    description: "");
             var lv2menuUserSettings         = AddSettingsMenu("User Settings",                        "{13E1A9A9-1096-447E-B4AE-E538BEF5BCB5}", lv1menuSettings.Id);
@@ -366,7 +370,6 @@ namespace WebLibrary.Security
 
             // Add Administrator 
             AddModule("Alerts",              "{6E5F47FB-1F18-443E-B464-9D2351857361}", lv1menuAdministrator.Id, "AlertController");
-            AddModule("Control",             "{B3ADDF49-64EB-4740-AB41-4327E6E56242}", lv1menuAdministrator.Id, "ControlController");
             AddModule("Custom Field",        "{C98C4CB4-2036-4D70-BC29-8F5A2874B178}", lv1menuAdministrator.Id, "CustomFieldController");
             AddModule("Custom Forms",        "{CB2EF8FF-2E8D-4AD0-B880-07037B839C5E}", lv1menuAdministrator.Id, "CustomFormController");
             AddModule("Duplicate Rules",     "{2E0EA479-AC02-43B1-87FA-CCE2ABA6E934}", lv1menuAdministrator.Id, "DuplicateRuleController");

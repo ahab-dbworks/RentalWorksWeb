@@ -11,13 +11,13 @@
     Modules: {
         Administrator: {
             Alert: { id: '6E5F47FB-1F18-443E-B464-9D2351857361', caption: 'Alerts', nav: 'module/alert' },
-            Control: { id: 'B3ADDF49-64EB-4740-AB41-4327E6E56242', caption: 'Control', nav: 'module/control' },
             CustomField: { id: 'C98C4CB4-2036-4D70-BC29-8F5A2874B178', caption: 'Custom Fields', nav: 'module/customfield' },
             CustomForm: { id: 'CB2EF8FF-2E8D-4AD0-B880-07037B839C5E', caption: 'Custom Forms', nav: 'module/customform' },
             DuplicateRule: { id: '2E0EA479-AC02-43B1-87FA-CCE2ABA6E934', caption: 'Duplicate Rules', nav: 'module/duplicaterule' },
             EmailHistory: { id: '3F44AC27-CE34-46BA-B4FB-A8AEBB214167', caption: 'Email History', nav: 'module/emailhistory' },
             Group: { id: '9BE101B6-B406-4253-B2C6-D0571C7E5916', caption: 'Group', nav: 'module/group' },
             Hotfix: { id: '9D29A5D9-744F-40CE-AE3B-09219611A680', caption: 'Hotfix', nav: 'module/hotfix' },
+          
             Reports: { id: '3C5C7603-9E7B-47AB-A722-B29CA09B3B8C', caption: 'Reports', nav: 'module/reports' },
             Settings: { id: '57150967-486A-42DE-978D-A2B0F843341A', caption: 'Settings', nav: 'module/settings' },
             User: { id: '79E93B21-8638-483C-B377-3F4D561F1243', caption: 'User', nav: 'module/user' }
@@ -259,6 +259,10 @@
             }
         },
         Settings: {
+            DefaultSettings: { id: '3F551271-C157-44F6-B06A-8F835F7A2084', caption: 'Default Settings', nav: 'module/defaultsettings' },
+            InventorySettings: { id: '5C7D5BFA-3EA3-42C5-B90A-27A9EA5EA9FC', caption: 'Inventory Settings', nav: 'module/inventorysettings' },
+            LogoSettings: { id: 'B3ADDF49-64EB-4740-AB41-4327E6E56242', caption: 'Logo Settings', nav: 'module/logosettings' },
+            SystemSettings: { id: '6EFC3A8C-E83E-4FE3-BAC8-8E04EBD7F204', caption: 'System Settings', nav: 'module/systemsettings' },
             TaxOption: {
                 form: {
                     menuItems: {

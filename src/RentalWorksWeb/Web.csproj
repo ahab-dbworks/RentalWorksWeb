@@ -628,8 +628,12 @@
     <TypeScriptCompile Include="Source\Modules\Reports\OutContract\OutContractReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\AvailabilitySettings\AvailabilitySettings.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\AccountingSettings\AccountingSettings.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\DefaultSettings\DefaultSettings.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\InventorySettings\InventorySettings.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\LogoSettings\LogoSettings.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\Sound\Sound.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\EmailSettings\EmailSettings.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\SystemSettings\SystemSettings.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\WorkWeek\WorkWeek.ts" />
     <TypeScriptCompile Include="Source\Modules\-BaseModules\OrderBase\OrderBase.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\CreatePickList\CreatePickList.ts" />
@@ -661,10 +665,22 @@
     <Content Include="Source\Modules\Settings\AvailabilitySettings\AvailabilitySettingsBrowse.htm" />
     <Content Include="Source\Modules\Settings\AvailabilitySettings\AvailabilitySettingsForm.htm" />
     <Content Include="Source\Modules\Settings\AccountingSettings\AccountingSettingsForm.htm" />
+    <Content Include="Source\Modules\Settings\DefaultSettings\DefaultSettings.js" />
+    <Content Include="Source\Modules\Settings\DefaultSettings\DefaultSettingsBrowse.htm" />
+    <Content Include="Source\Modules\Settings\DefaultSettings\DefaultSettingsForm.htm" />
+    <Content Include="Source\Modules\Settings\InventorySettings\InventorySettings.js" />
+    <Content Include="Source\Modules\Settings\InventorySettings\InventorySettingsBrowse.htm" />
+    <Content Include="Source\Modules\Settings\InventorySettings\InventorySettingsForm.htm" />
+    <Content Include="Source\Modules\Settings\LogoSettings\LogoSettings.js" />
+    <Content Include="Source\Modules\Settings\LogoSettings\LogoSettingsBrowse.htm" />
+    <Content Include="Source\Modules\Settings\LogoSettings\LogoSettingsForm.htm" />
     <Content Include="Source\Modules\Settings\Sound\SoundBrowse.htm" />
     <Content Include="Source\Modules\Settings\Sound\SoundForm.htm" />
     <Content Include="Source\Modules\Settings\EmailSettings\EmailSettingsBrowse.htm" />
     <Content Include="Source\Modules\Settings\EmailSettings\EmailSettingsForm.htm" />
+    <Content Include="Source\Modules\Settings\SystemSettings\SystemSettings.js" />
+    <Content Include="Source\Modules\Settings\SystemSettings\SystemSettingsBrowse.htm" />
+    <Content Include="Source\Modules\Settings\SystemSettings\SystemSettingsForm.htm" />
     <Content Include="Source\Modules\Settings\WorkWeek\WorkWeekBrowse.htm" />
     <Content Include="Source\Modules\Settings\WorkWeek\WorkWeekForm.htm" />
     <Content Include="Source\Modules\Home\CreatePickList\CreatePickListForm.htm" />
@@ -716,8 +732,6 @@
     <Content Include="Source\Modules\Settings\Widget\WidgetForm.htm" />
     <Content Include="Source\Modules\Settings\Template\TemplateBrowse.htm" />
     <Content Include="Source\Modules\Settings\Template\TemplateForm.htm" />
-    <Content Include="Source\Modules\Administrator\Control\ControlBrowse.htm" />
-    <Content Include="Source\Modules\Administrator\Control\ControlForm.htm" />
     <Content Include="Source\Modules\Settings\VendorInvoiceApprover\VendorInvoiceApproverBrowse.htm" />
     <Content Include="Source\Modules\Settings\VendorInvoiceApprover\VendorInvoiceApproverForm.htm" />
     <Content Include="Source\Modules\Settings\Building\BuildingBrowse.htm" />
@@ -1246,6 +1260,10 @@
     <Content Include="tsconfig.json" />
     <Content Include="Source\Modules\Home\Quote\Quote.js.map" />
     <Content Include="Source\Grids\GlDistributionGrid\GlDistributionGridController.js.map" />
+    <Content Include="Source\Modules\Settings\DefaultSettings\DefaultSettings.js.map" />
+    <Content Include="Source\Modules\Settings\InventorySettings\InventorySettings.js.map" />
+    <Content Include="Source\Modules\Settings\LogoSettings\LogoSettings.js.map" />
+    <Content Include="Source\Modules\Settings\SystemSettings\SystemSettings.js.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1293,7 +1311,6 @@
     <TypeScriptCompile Include="Source\Modules\Settings\LaborPosition\LaborPosition.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\POType\POType.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\Template\Template.ts" />
-    <TypeScriptCompile Include="Source\Modules\Administrator\Control\Control.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\VendorInvoiceApprover\VendorInvoiceApprover.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\Building\Building.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\DiscountTemplate\DiscountTemplate.ts" />

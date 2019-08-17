@@ -1,23 +1,23 @@
-﻿class Control {
-    Module: string = 'Control';
-    apiurl: string = 'api/v1/control';
-    caption: string = Constants.Modules.Administrator.Control.caption;
-    nav: string = Constants.Modules.Administrator.Control.nav;
-    id: string = Constants.Modules.Administrator.Control.id;
+﻿routes.push({ pattern: /^module\/logosettings$/, action: function (match: RegExpExecArray) { return LogoSettingsController.getModuleScreen(); } });
+
+class LogoSettings {
+    Module: string = 'LogoSettings';
+    apiurl: string = 'api/v1/logosettings';
+    caption: string = Constants.Modules.Settings.LogoSettings.caption;
+    nav: string = Constants.Modules.Settings.LogoSettings.nav;
+    id: string = Constants.Modules.Settings.LogoSettings.id;
     reportImageId: string = Constants.MainMenu.Reports.id;
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
-        var screen, $browse;
-
-        screen = {};
+        const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
-        $browse = this.openBrowse();
+        const $browse = this.openBrowse();
 
-        screen.load = function () {
-            FwModule.openModuleTab($browse, 'Control', false, 'BROWSE', true);
+        screen.load = () => {
+            FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };
@@ -29,18 +29,14 @@
     }
     //----------------------------------------------------------------------------------------------
     openBrowse() {
-        var $browse;
-
-        $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
+        let $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
 
         return $browse;
     }
     //----------------------------------------------------------------------------------------------
     openForm(mode: string) {
-        var $form;
-
-        $form = FwModule.loadFormFromTemplate(this.Module);
+        let $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 
         if (mode === 'NEW') {
@@ -53,10 +49,8 @@
     }
     //----------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
-        var $form;
-
-        $form = this.openForm('EDIT');
-        $form.find('div.fwformfield[data-datafield="ControlId"] input').val(uniqueids.ControlId);
+        const $form = this.openForm('EDIT');
+        $form.find('div.fwformfield[data-datafield="LogoSettingsId"] input').val(uniqueids.LogoSettingsId);
         FwModule.loadForm(this.Module, $form);
 
         return $form;
@@ -70,4 +64,4 @@
     }
 }
 //----------------------------------------------------------------------------------------------
-var ControlController = new Control();
+var LogoSettingsController = new LogoSettings();
