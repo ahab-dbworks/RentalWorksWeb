@@ -1235,6 +1235,12 @@ class OrderBase {
                 }
             }
         });
+
+        //profit & loss toggle buttons
+        $form.find('.profit-loss-total input').off('change').on('change', e => {
+            const period = FwFormField.getValueByDataField($form, 'totalTypeProfitLoss');
+            this.renderFrames($form, FwFormField.getValueByDataField($form, `${this.Module}Id`), period);
+        });
     };
     //----------------------------------------------------------------------------------------------
     bottomLineDiscountChange($form: any, event: any) {
@@ -1986,7 +1992,7 @@ class OrderBase {
         }
 
         function applyOrderTypeToColumns($form, orderTypeData) {
-            const $lossDamageTab = $form.find('[data-type="tab"][data-caption="Loss and Damage"]');
+            const $lossDamageTab = $form.find('[data-type="tab"][data-caption="Loss & Damage"]');
             $form.find('[data-datafield="CombineActivity"] input').val(orderTypeData.CombineActivityTabs);
 
             if (orderTypeData.CombineActivityTabs === true) {
@@ -2117,7 +2123,8 @@ class OrderBase {
     };
     //----------------------------------------------------------------------------------------------
     afterLoad($form) {
-        this.renderFrames($form, FwFormField.getValueByDataField($form, `${this.Module}Id`));
+        const period = FwFormField.getValueByDataField($form, 'totalTypeProfitLoss');
+        this.renderFrames($form, FwFormField.getValueByDataField($form, `${this.Module}Id`), period);
         this.applyOrderTypeAndRateTypeToForm($form);
 
         // disable/enable PO Number and Amount based on PO Pending
@@ -2316,19 +2323,29 @@ class OrderBase {
         const rentalVal = FwFormField.getValueByDataField($form, 'Rental');
         const salesVal = FwFormField.getValueByDataField($form, 'Sales');
         const usedSaleVal = FwFormField.getValueByDataField($form, 'RentalSale');
-        const lossDamageVal = FwFormField.getValueByDataField($form, 'LossAndDamage');
         const laborVal = FwFormField.getValueByDataField($form, 'Labor');
         const miscVal = FwFormField.getValueByDataField($form, 'Miscellaneous');
+        let lossDamageVal;
         if (rentalVal === true || salesVal === true || usedSaleVal === true) {
             FwFormField.disable($form.find('[data-datafield="LossAndDamage"]'));
         } else if (rentalVal === false && salesVal === false && usedSaleVal === false) {
             FwFormField.enable($form.find('[data-datafield="LossAndDamage"]'));
         }
-        if (rentalVal || lossDamageVal) {
-            FwFormField.disable(FwFormField.getDataField($form, 'RentalSale'));
-        } else if (!rentalVal && !lossDamageVal) {
-            FwFormField.enable(FwFormField.getDataField($form, 'RentalSale'));
+        if (this.Module === 'Order') {
+            lossDamageVal = FwFormField.getValueByDataField($form, 'LossAndDamage');
+            if (rentalVal || lossDamageVal) {
+                FwFormField.disable(FwFormField.getDataField($form, 'RentalSale'));
+            } else if (!rentalVal && !lossDamageVal) {
+                FwFormField.enable(FwFormField.getDataField($form, 'RentalSale'));
+            }
+        } else {
+            if (rentalVal) {
+                FwFormField.disable(FwFormField.getDataField($form, 'RentalSale'));
+            } else if (!rentalVal && !lossDamageVal) {
+                FwFormField.enable(FwFormField.getDataField($form, 'RentalSale'));
+            }
         }
+      
         //toggle profit & loss activity section visibility
         rentalVal ? $form.find('.rental-pl').show() : $form.find('.rental-pl').hide();
         salesVal ? $form.find('.sales-pl').show() : $form.find('.sales-pl').hide();
@@ -2552,7 +2569,8 @@ class OrderBase {
             $form.find('.generaltab').click();
         }
         this.renderGrids($form);
-        this.renderFrames($form, FwFormField.getValueByDataField($form, `${this.Module}Id`));
+        const period = FwFormField.getValueByDataField($form, 'totalTypeProfitLoss');
+        this.renderFrames($form, FwFormField.getValueByDataField($form, `${this.Module}Id`), period);
         //this.dynamicColumns($form);
         this.applyOrderTypeAndRateTypeToForm($form);
     };

@@ -278,9 +278,6 @@ class Quote extends OrderBase {
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield anti-LD activity" data-caption="Used Sale" data-datafield="RentalSale" style="flex:1 1 100px;"></div>
                         </div>                          
-                        <div class="flexrow">
-                          <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield activity" data-caption="Loss and Damage" data-datafield="LossAndDamage" style="flex:1 1 125px;"></div>
-                        </div>
                         <!--
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield activity" data-caption="Facilities" data-datafield="Facilities" style="flex:1 1 100px;"></div>
@@ -391,7 +388,7 @@ class Quote extends OrderBase {
               <!-- P&L TAB -->
               <div data-type="tabpage" id="profitlosstabpage" class="tabpage" data-tabid="profitlosstab" data-render="false">
                 <div class="wideflexrow">
-                   <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield totals totalType" data-caption="View" data-datafield="totalTypeProfitLoss" style="flex:0 1 275px;"></div>
+                   <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield profit-loss-total" data-caption="View" data-datafield="totalTypeProfitLoss" style="flex:0 1 275px;"></div>
                </div>
                 <div class="wideflexrow">
                   <!-- Profitability Summary section -->
@@ -1233,7 +1230,7 @@ class Quote extends OrderBase {
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Tracking URL" data-datafield="InDeliveryFreightTrackingUrl" data-allcaps="false" style="display:none;flex:1 1 200px;"></div>
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Tracking Number" data-datafield="InDeliveryFreightTrackingNumber" data-allcaps="false" style="flex:1 1 200px;"></div>
-                          <div class="fwformcontrol track-shipment-in" data-type="button" style="flex:1 1 150px;margin:16px 10px 0px 5px;text-align:center;">Track Shipment</div>
+                          <div class="fwformcontrol track-shipment-in" data-enabled="false" data-type="button" style="flex:1 1 150px;margin:16px 10px 0px 5px;text-align:center;">Track Shipment</div>
                         </div>
                       </div>
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Incoming Address">

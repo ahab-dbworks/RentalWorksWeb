@@ -490,7 +490,7 @@ class Order extends OrderBase {
               <!-- P&L TAB -->
               <div data-type="tabpage" id="profitlosstabpage" class="profitlossgrid tabpage" data-tabid="profitlosstab" data-render="false">
                 <div class="wideflexrow">
-                   <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield totals totalType" data-caption="View" data-gridtype="profitloss" data-datafield="totalTypeProfitLoss" style="flex:0 1 275px;"></div>
+                   <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield profit-loss-total" data-caption="View" data-gridtype="profitloss" data-datafield="totalTypeProfitLoss" style="flex:0 1 275px;"></div>
                </div>
                 <div class="wideflexrow">
                   <!-- Order Profitability -->
