@@ -665,20 +665,16 @@
     <Content Include="Source\Modules\Settings\AvailabilitySettings\AvailabilitySettingsBrowse.htm" />
     <Content Include="Source\Modules\Settings\AvailabilitySettings\AvailabilitySettingsForm.htm" />
     <Content Include="Source\Modules\Settings\AccountingSettings\AccountingSettingsForm.htm" />
-    <Content Include="Source\Modules\Settings\DefaultSettings\DefaultSettings.js" />
     <Content Include="Source\Modules\Settings\DefaultSettings\DefaultSettingsBrowse.htm" />
     <Content Include="Source\Modules\Settings\DefaultSettings\DefaultSettingsForm.htm" />
-    <Content Include="Source\Modules\Settings\InventorySettings\InventorySettings.js" />
     <Content Include="Source\Modules\Settings\InventorySettings\InventorySettingsBrowse.htm" />
     <Content Include="Source\Modules\Settings\InventorySettings\InventorySettingsForm.htm" />
-    <Content Include="Source\Modules\Settings\LogoSettings\LogoSettings.js" />
     <Content Include="Source\Modules\Settings\LogoSettings\LogoSettingsBrowse.htm" />
     <Content Include="Source\Modules\Settings\LogoSettings\LogoSettingsForm.htm" />
     <Content Include="Source\Modules\Settings\Sound\SoundBrowse.htm" />
     <Content Include="Source\Modules\Settings\Sound\SoundForm.htm" />
     <Content Include="Source\Modules\Settings\EmailSettings\EmailSettingsBrowse.htm" />
     <Content Include="Source\Modules\Settings\EmailSettings\EmailSettingsForm.htm" />
-    <Content Include="Source\Modules\Settings\SystemSettings\SystemSettings.js" />
     <Content Include="Source\Modules\Settings\SystemSettings\SystemSettingsBrowse.htm" />
     <Content Include="Source\Modules\Settings\SystemSettings\SystemSettingsForm.htm" />
     <Content Include="Source\Modules\Settings\WorkWeek\WorkWeekBrowse.htm" />
@@ -1260,10 +1256,6 @@
     <Content Include="tsconfig.json" />
     <Content Include="Source\Modules\Home\Quote\Quote.js.map" />
     <Content Include="Source\Grids\GlDistributionGrid\GlDistributionGridController.js.map" />
-    <Content Include="Source\Modules\Settings\DefaultSettings\DefaultSettings.js.map" />
-    <Content Include="Source\Modules\Settings\InventorySettings\InventorySettings.js.map" />
-    <Content Include="Source\Modules\Settings\LogoSettings\LogoSettings.js.map" />
-    <Content Include="Source\Modules\Settings\SystemSettings\SystemSettings.js.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -6,7 +6,6 @@ class DefaultSettings {
     caption: string = Constants.Modules.Settings.DefaultSettings.caption;
     nav: string = Constants.Modules.Settings.DefaultSettings.nav;
     id: string = Constants.Modules.Settings.DefaultSettings.id;
-    reportImageId: string = Constants.MainMenu.Reports.id;
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         const screen: any = {};

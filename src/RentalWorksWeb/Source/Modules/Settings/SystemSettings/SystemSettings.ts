@@ -6,7 +6,6 @@ class SystemSettings {
     caption: string = Constants.Modules.Settings.SystemSettings.caption;
     nav: string = Constants.Modules.Settings.SystemSettings.nav;
     id: string = Constants.Modules.Settings.SystemSettings.id;
-    reportImageId: string = Constants.MainMenu.Reports.id;
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         const screen: any = {};

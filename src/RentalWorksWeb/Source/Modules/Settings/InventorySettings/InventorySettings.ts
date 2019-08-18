@@ -6,7 +6,6 @@ class InventorySettings {
     caption: string = Constants.Modules.Settings.InventorySettings.caption;
     nav: string = Constants.Modules.Settings.InventorySettings.nav;
     id: string = Constants.Modules.Settings.InventorySettings.id;
-    reportImageId: string = Constants.MainMenu.Reports.id;
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         const screen: any = {};
