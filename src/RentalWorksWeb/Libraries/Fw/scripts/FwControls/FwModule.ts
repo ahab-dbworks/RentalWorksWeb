@@ -1019,6 +1019,9 @@
             if (typeof window[controller]['afterLoad'] === 'function') {
                 window[controller]['afterLoad']($form);
             }
+            if (typeof window[controller]['renderScheduleDateAndTimeSection'] === 'function') {
+                window[controller]['renderScheduleDateAndTimeSection']($form, response);
+            }
         } else {
             //$form.attr('data-mode', 'EDIT');
             controller = $form.attr('data-controller');

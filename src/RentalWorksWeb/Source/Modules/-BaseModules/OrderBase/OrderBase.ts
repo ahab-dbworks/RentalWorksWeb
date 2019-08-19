@@ -342,16 +342,7 @@ class OrderBase {
             $form.find(".frame .add-on").children().hide();
 
             FwFormField.setValueByDataField($form, 'RateType', office.ratetype, office.ratetype);
-            //if (office.ratetype === 'MONTHLY') {
-            //    $form.find('.summaryweekly').hide();
-            //    $form.find('.summarymonthly').show();
-            //} else {
-            //    $form.find('.summarymonthly').hide();
-            //    $form.find('.summaryweekly').show();
-            //}
-        } else {
-            $form.find('.date-fields').hide();
-        };
+        }
 
         let $emailHistorySubModuleBrowse = this.openEmailHistoryBrowse($form);
         $form.find('.emailhistory-page').append($emailHistorySubModuleBrowse);
@@ -1240,6 +1231,18 @@ class OrderBase {
         $form.find('.profit-loss-total input').off('change').on('change', e => {
             const period = FwFormField.getValueByDataField($form, 'totalTypeProfitLoss');
             this.renderFrames($form, FwFormField.getValueByDataField($form, `${this.Module}Id`), period);
+        });
+
+        //specify billing dates checkbox
+        $form.find('[data-datafield="SpecifyBillingDatesByType"]').on('change', e => {
+            const isChecked = FwFormField.getValueByDataField($form, 'SpecifyBillingDatesByType');
+            if (isChecked) {
+                $form.find('.date-types').show();
+                FwFormField.disable($form.find('.date-types-disable'));
+            } else {
+                $form.find('.date-types').hide();
+                FwFormField.enable($form.find('.date-types-disable'));
+            }
         });
     };
     //----------------------------------------------------------------------------------------------
@@ -2360,181 +2363,6 @@ class OrderBase {
             $form.find('.btn[data-securityid="searchbtn"]').addClass('disabled');
         }
 
-        //replace date and time fields
-        const datesAndTimes = FwFormField.getValueByDataField($form, 'DatesAndTimes');
-        $form.find('.date-fields').hide();
-        $form.find('.modify-dates').empty();
-        const dates = `<span style="margin-left:5px;">${datesAndTimes}</span> <span class="modify" style="cursor:pointer; color:blue; margin-left:20px; text-decoration:underline;">Modify</span>`;
-        $form.find('div.modify-dates').append(dates);
-
-        //activity dates popup
-        $form.find('.modify').off().on('click', e => {
-            const request: any = {};
-            const orderId = FwFormField.getValueByDataField($form, `${this.Module}Id`);
-            request.uniqueids = {
-                OrderId: orderId
-            };
-            FwAppData.apiMethod(true, 'POST', `api/v1/orderdates/browse`, request, FwServices.defaultTimeout,
-                response => {
-                    const $confirmation = FwConfirmation.renderConfirmation(`Modify ${this.Module} Dates`, '');
-                    $confirmation.find('.fwconfirmationbox').css('min-width', '700px');
-                    const html = `<div class="fwform dates-form" data-controller="none" style="background-color: transparent;">
-                            <div class="flexrow">
-                              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="${this.Module} No." data-datafield="${this.Module}Number" data-enabled="false" style="flex:0 1 100px;"></div>
-                              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description" data-enabled="false" style="flex:1 1 300px;"></div>
-                              <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Deal" data-datafield="DealId" data-displayfield="Deal" data-validationname="DealValidation" data-enabled="false" style="flex:1 1 150px;"></div>
-                            </div>
-                            <div class="flexrow">
-                                <div class="flexcolumn dates" style="max-width:770px;"></div>
-                                <div class="flexcolumn toggle-edits" style="max-width:350px;">
-                                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Billing Dates">
-                                        <div class="flexrow">                                    
-                                            <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Start" data-datafield="Date"></div>
-                                            <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Stop" data-datafield="Date"></div>
-                                        </div> 
-                                    </div>
-                                    <div class="flexrow">
-                                        <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Lock BIlling Dates" data-datafield="" style="flex:1 1 150px"></div>
-                                    </div>
-                                    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Specify Billing Dates by Type" data-datafield="SpecifyBillingDatesByType"></div>
-                                        <div class="fwcontrol fwcontainer fwform-section date-types" data-control="FwContainer" data-type="section" data-caption="Rental Billing Period" style="display:none;">
-                                            <div class="flexrow">                                    
-                                                <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Start" data-datafield="Date"></div>
-                                                <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Stop" data-datafield="Date"></div>
-                                            </div> 
-                                        </div>
-                                    <div class="fwcontrol fwcontainer fwform-section date-types" data-control="FwContainer" data-type="section" data-caption="Facilities Billing Period" style="display:none;">
-                                        <div class="flexrow">                                    
-                                            <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Start" data-datafield="Date"></div>
-                                            <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Stop" data-datafield="Date"></div>
-                                        </div> 
-                                    </div>
-                                    <div class="fwcontrol fwcontainer fwform-section date-types" data-control="FwContainer" data-type="section" data-caption="Vehicle Billing Period" style="display:none;">
-                                        <div class="flexrow">                                    
-                                            <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Start" data-datafield="Date"></div>
-                                            <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Stop" data-datafield="Date"></div>
-                                        </div> 
-                                    </div>
-                                    <div class="fwcontrol fwcontainer fwform-section date-types" data-control="FwContainer" data-type="section" data-caption="Crew Billing Period" style="display:none;">
-                                        <div class="flexrow">                                    
-                                            <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Start" data-datafield="Date"></div>
-                                            <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Stop" data-datafield="Date"></div>
-                                        </div> 
-                                    </div>
-                                    <div class="fwcontrol fwcontainer fwform-section date-types" data-control="FwContainer" data-type="section" data-caption="Misc Billing Period" style="display:none;">
-                                        <div class="flexrow">                                    
-                                            <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Start" data-datafield="Date"></div>
-                                            <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Stop" data-datafield="Date"></div>
-                                        </div> 
-                                    </div>
-                                </div>
-                            </div>
-                          </div>`;
-                    FwConfirmation.addControls($confirmation, html);
-
-                    //makes section headers smaller
-                    $confirmation.find('.fwform-section-title').css('font-size', '.9em');
-
-                    const orderTypeDateTypeIdIndex = response.ColumnIndex.OrderTypeDateTypeId;
-                    const descriptionDisplayIndex = response.ColumnIndex.Descriptiondisplay;
-                    const dateIndex = response.ColumnIndex.Date;
-                    const timeIndex = response.ColumnIndex.Time;
-                    const dayOfWeekIndex = response.ColumnIndex.DayOfWeek;
-                    const prodActivityIndex = response.ColumnIndex.IsProductionActivity;
-                    const milestoneIndex = response.ColumnIndex.IsMilestone;
-                    for (let i = 0; i < response.Rows.length; i++) {
-                        const row = response.Rows[i];
-                        const $row = jQuery(`<div class="flexrow date-row">
-                              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="OrderTypeDateTypeId" style="display:none;"></div>
-                              <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="${row[descriptionDisplayIndex]}" data-datafield="Date" data-enabled="true" style="flex:0 1 150px;"></div>
-                              <div data-control="FwFormField" data-type="timepicker" class="fwcontrol fwformfield" data-caption="" data-datafield="Time" data-enabled="true" style="flex:0 1 150px;"></div>
-                              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Day" data-datafield="DayOfWeek" data-enabled="false" style="flex:0 1 150px;"></div>                          
-                              <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Production Activity" data-datafield="IsProductionActivity" style="display:none; flex:0 1 180px;"></div>
-                              <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Milestone" data-datafield="IsMilestone" style="display:none; flex:0 1 110px;"></div>
-                            </div>`);
-
-                        FwControl.renderRuntimeControls($row.find('.fwcontrol'));
-
-                        FwFormField.setValueByDataField($row, 'OrderTypeDateTypeId', row[orderTypeDateTypeIdIndex]);
-                        FwFormField.setValueByDataField($row, 'Date', row[dateIndex]);
-                        FwFormField.setValueByDataField($row, 'Time', row[timeIndex]);
-                        FwFormField.setValueByDataField($row, 'DayOfWeek', row[dayOfWeekIndex]);
-                        FwFormField.setValueByDataField($row, 'IsProductionActivity', row[prodActivityIndex]);
-                        FwFormField.setValueByDataField($row, 'IsMilestone', row[milestoneIndex]);
-
-                        $confirmation.find('.dates').append($row);
-                    };
-
-                    const $showActivitiesAndMilestones = jQuery(`<div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Show Production Activities and Milestones" data-datafield="ShowActivitiesAndMilestones" style="flex:1 1 250px;"></div>`);
-                    FwControl.renderRuntimeControls($showActivitiesAndMilestones);
-                    $confirmation.find('.dates').append($showActivitiesAndMilestones);
-
-                    $showActivitiesAndMilestones.on('change', e => {
-                        const isChecked = jQuery(e.currentTarget).find('input').prop('checked');
-                        const $checkboxes = $confirmation.find('[data-datafield="IsMilestone"], [data-datafield="IsProductionActivity"]');
-                        if (isChecked) {
-                            $checkboxes.show();
-                        } else {
-                            $checkboxes.hide();
-                        }
-                    });
-
-                    $confirmation.find('[data-datafield="SpecifyBillingDatesByType"]').on('change', e => {
-                        const isChecked = FwFormField.getValueByDataField($confirmation, 'SpecifyBillingDatesByType');
-                        if (isChecked === 'T') {
-                            $confirmation.find('.date-types').show();
-                        } else {
-                            $confirmation.find('.date-types').hide();
-                        }
-                    });
-
-                    const orderNumber = FwFormField.getValueByDataField($form, `${this.Module}Number`);
-                    FwFormField.setValueByDataField($confirmation, `${this.Module}Number`, orderNumber);
-                    const description = FwFormField.getValueByDataField($form, `Description`);
-                    FwFormField.setValueByDataField($confirmation, `Description`, description);
-                    const dealId = FwFormField.getValueByDataField($form, `DealId`);
-                    const deal = FwFormField.getTextByDataField($form, `DealId`);
-                    FwFormField.setValueByDataField($confirmation, `DealId`, dealId, deal);
-
-                    FwFormField.setValueByDataField($confirmation, `Description`, description);
-
-                    const $apply = FwConfirmation.addButton($confirmation, 'Apply', false);
-                    $apply.on('click', e => {
-                        const request: any = {};
-                        request.OrderId = FwFormField.getValueByDataField($form, `${this.Module}Id`);
-                        const datesAndTimes = [];
-
-                        const $rows = $confirmation.find('.date-row');
-                        for (let i = 0; i < $rows.length; i++) {
-                            const $row = jQuery($rows[i]);
-                            let isProductionActivity = FwFormField.getValue2($row.find('[data-datafield="IsProductionActivity"]'));
-                            isProductionActivity === "T" ? isProductionActivity = true : isProductionActivity = false;
-                            let isMilestone = FwFormField.getValue2($row.find('[data-datafield="IsMilestone"]'));
-                            isMilestone === "T" ? isMilestone = true : isMilestone = false;
-                            datesAndTimes.push({
-                                OrderTypeDateTypeId: FwFormField.getValue2($row.find('[data-datafield="OrderTypeDateTypeId"]'))
-                                , Date: FwFormField.getValue2($row.find('[data-datafield="Date"]'))
-                                , Time: FwFormField.getValue2($row.find('[data-datafield="Time"]'))
-                                , IsProductionActivity: isProductionActivity
-                                , IsMilestone: isMilestone
-                            });
-                        }
-                        request.DatesAndTimes = datesAndTimes;
-
-                        FwAppData.apiMethod(true, 'POST', `api/v1/orderdates/apply`, request, FwServices.defaultTimeout,
-                            response => {
-                                FwConfirmation.destroyConfirmation($confirmation);
-                                this.saveForm($form, '');
-                                FwModule.refreshForm($form, this);
-                            },
-                            ex => FwFunc.showError(ex),
-                            $confirmation.find('.dates-form'));
-                    });
-                    FwConfirmation.addButton($confirmation, 'Cancel');
-                },
-                ex => FwFunc.showError(ex), $form);
-        });
-
         //Disable 'Track Shipment' button
         const outtrackingNumber = FwFormField.getValueByDataField($form, 'OutDeliveryFreightTrackingNumber');
         const $outtrackShipmentBtn = $form.find('.track-shipment-out');
@@ -2551,7 +2379,72 @@ class OrderBase {
         } else {
             FwFormField.enable($intrackShipmentBtn);
         }
+    }
+    //----------------------------------------------------------------------------------------------
+    renderScheduleDateAndTimeSection($form, response) {
+        //this is being called from FwModule > afterLoadForm in order to get the ActivityDatesAndTimes fields
+        const dates = `<span class="modify" style="cursor:pointer; color:blue; margin-left:20px; text-decoration:underline;">Show All Dates and Times</span>`;
+        $form.find('.activity-dates-toggle').empty().append(dates);
+        $form.find('.activity-dates').empty();
+        const activityDatesAndTimes = response.ActivityDatesAndTimes;
+        for (let i = 0; i < activityDatesAndTimes.length; i++) {
+            const row = activityDatesAndTimes[i];
+            const $row = jQuery(`<div class="flexrow date-row">
+                              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="OrderTypeDateTypeId" style="display:none;"></div>
+                              <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="${row.Descriptiondisplay}" data-datafield="Date" data-enabled="true" style="flex:0 1 150px;"></div>
+                              <div data-control="FwFormField" data-type="timepicker" class="fwcontrol fwformfield" data-caption="" data-datafield="Time" data-enabled="true" style="flex:0 1 120px;"></div>
+                              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Day" data-datafield="DayOfWeek" data-enabled="false" style="flex:0 1 120px;"></div>                          
+                              <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Production Activity" data-datafield="IsProductionActivity" style="display:none; flex:0 1 180px;"></div>                          
+                              <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Milestone" data-datafield="IsMilestone" style="display:none; flex:0 1 110px;"></div>                          
+                              </div>`);
+            FwControl.renderRuntimeControls($row.find('.fwcontrol'));
+            FwFormField.setValueByDataField($row, 'OrderTypeDateTypeId', row.OrderTypeDateTypeId);
+            FwFormField.setValueByDataField($row, 'Date', row.Date);
+            FwFormField.setValueByDataField($row, 'Time', row.Time);
+            FwFormField.setValueByDataField($row, 'DayOfWeek', row.DayOfWeek);
+            FwFormField.setValueByDataField($row, 'IsProductionActivity', row.IsProductionActivity);
+            FwFormField.setValueByDataField($row, 'IsMilestone', row.IsMilestone);
+            $form.find('.activity-dates').append($row);
+        };
 
+        const $showActivitiesAndMilestones = jQuery(`<div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Show Production Activities and Milestones" data-datafield="ShowActivitiesAndMilestones" style="flex:1 1 250px;"></div>`);
+        FwControl.renderRuntimeControls($showActivitiesAndMilestones);
+        $form.find('.activity-dates').append($showActivitiesAndMilestones);
+
+        $showActivitiesAndMilestones.on('change', e => {
+            const isChecked = jQuery(e.currentTarget).find('input').prop('checked');
+            const $checkboxes = $form.find('[data-datafield="IsMilestone"], [data-datafield="IsProductionActivity"]');
+            if (isChecked) {
+                $checkboxes.show();
+            } else {
+                $checkboxes.hide();
+            }
+        });
+
+        //activity dates
+        $form.find('.modify').off().on('click', e => {
+            $form.find('.schedule-date-fields').hide();
+            $form.find('.activity-dates').show();
+        });
+        
+        $form.data('beforesave', request => {
+            const activityDatesAndTimes = [];
+            const $rows = $form.find('.date-row');
+            for (let i = 0; i < $rows.length; i++) {
+                const $row = jQuery($rows[i]);
+                activityDatesAndTimes.push({
+                    OrderTypeDateTypeId: FwFormField.getValue2($row.find('[data-datafield="OrderTypeDateTypeId"]'))
+                    , Date: FwFormField.getValue2($row.find('[data-datafield="Date"]'))
+                    , Time: FwFormField.getValue2($row.find('[data-datafield="Time"]'))
+                    , IsProductionActivity: FwFormField.getValue2($row.find('[data-datafield="IsProductionActivity"]'))
+                    , IsMilestone: FwFormField.getValue2($row.find('[data-datafield="IsMilestone"]'))
+                });
+            }
+            request['ActivityDatesAndTimes'] = activityDatesAndTimes;
+        });
+
+        //stops field event bubbling
+        $form.off('change', '.fwformfield[data-enabled="true"][data-datafield!=""]:not(.find-field)');
     }
     //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
