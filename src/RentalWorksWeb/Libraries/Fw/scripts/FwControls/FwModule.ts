@@ -1017,10 +1017,7 @@
                 window[controller]['setFormProperties']($form);
             }
             if (typeof window[controller]['afterLoad'] === 'function') {
-                window[controller]['afterLoad']($form);
-            }
-            if (typeof window[controller]['renderScheduleDateAndTimeSection'] === 'function') {
-                window[controller]['renderScheduleDateAndTimeSection']($form, response);
+                window[controller]['afterLoad']($form, response);
             }
         } else {
             //$form.attr('data-mode', 'EDIT');
@@ -1040,7 +1037,7 @@
                 window[controller]['setFormProperties']($form);
             }
             if (typeof window[controller]['afterLoad'] === 'function') {
-                window[controller]['afterLoad']($form);
+                window[controller]['afterLoad']($form, response);
             }
         }
     }
@@ -1088,7 +1085,7 @@
                         FwFormField.loadForm($formfields, response);
                         $form.attr('data-modified', 'false');
                         if (typeof controller['afterLoad'] === 'function') {
-                            controller['afterLoad']($form);
+                            controller['afterLoad']($form, response);
                         }
                         if (typeof controller['afterSave'] === 'function') {
                             controller['afterSave']($form);
@@ -1136,7 +1133,7 @@
                         FwFormField.loadForm($formfields, response.tables);
                         $form.attr('data-modified', 'false');
                         if (typeof controller['afterLoad'] === 'function') {
-                            controller['afterLoad']($form);
+                            controller['afterLoad']($form, response);
                         }
                         if (typeof controller['afterSave'] === 'function') {
                             controller['afterSave']($form);
