@@ -184,3 +184,5 @@
 /src/JestTest/dist
 /src/JestTest/*.env
 /src/JestTest/*.log
+/src/JestTest/**/*.js
+/src/JestTest/**/*.map
