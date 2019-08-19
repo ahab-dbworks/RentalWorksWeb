@@ -226,8 +226,8 @@ class Order extends OrderBase {
 
     };
     //----------------------------------------------------------------------------------------------
-    afterLoad($form) {
-        super.afterLoad($form);
+    afterLoad($form, response) {
+        super.afterLoad($form, response);
         let lossDamageTab = $form.find('[data-type="tab"][data-caption="Loss and Damage"]');
 
         if ($form.find('[data-datafield="CombineActivity"] input').val() === 'false') {

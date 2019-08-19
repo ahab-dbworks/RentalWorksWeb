@@ -2125,7 +2125,7 @@ class OrderBase {
         }
     };
     //----------------------------------------------------------------------------------------------
-    afterLoad($form) {
+    afterLoad($form, response) {
         const period = FwFormField.getValueByDataField($form, 'totalTypeProfitLoss');
         this.renderFrames($form, FwFormField.getValueByDataField($form, `${this.Module}Id`), period);
         this.applyOrderTypeAndRateTypeToForm($form);
@@ -2379,6 +2379,8 @@ class OrderBase {
         } else {
             FwFormField.enable($intrackShipmentBtn);
         }
+
+        this.renderScheduleDateAndTimeSection($form, response);
     }
     //----------------------------------------------------------------------------------------------
     renderScheduleDateAndTimeSection($form, response) {
