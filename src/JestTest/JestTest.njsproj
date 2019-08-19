@@ -61,6 +61,7 @@
     <TypeScriptCompile Include="src\ts\rentalworksweb\modules\RentalInventory.ts" />
     <TypeScriptCompile Include="src\ts\rentalworksweb\modules\SalesInventory.ts" />
     <TypeScriptCompile Include="src\ts\rentalworksweb\modules\Vendor.ts" />
+    <TypeScriptCompile Include="src\ts\rentalworksweb\LoginLogout.test.ts" />
     <TypeScriptCompile Include="src\ts\rentalworksweb\RentalAvailability.test.ts" />
     <TypeScriptCompile Include="src\ts\rentalworksweb\RentalWorksWeb.ts" />
     <TypeScriptCompile Include="src\ts\rentalworksweb\CustomerDealQuote.test.ts" />

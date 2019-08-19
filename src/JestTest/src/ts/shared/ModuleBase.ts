@@ -81,12 +81,17 @@ export class ModuleBase {
         return continueTest;
     }
 
+    static async wait(milliseconds: number): Promise<void> {
+        await page.waitFor(milliseconds)
+    }
+
     async openModule(timeout?: number, sleepafteropening?: number): Promise<void> {
         if (!timeout) {
             timeout = 5000;
         }
         //await this.delay(1000);
-        await page.waitFor(750)
+        //await page.waitFor(750)
+        await ModuleBase.wait(750);
         await page.click('.appmenu');
         await expect(page).toClick(this.moduleBtnId, { timeout: timeout });
         await page.waitForSelector('div.tab.active[data-tabtype="BROWSE"]')
@@ -165,7 +170,8 @@ export class ModuleBase {
             recordToSelect = 1;
         }
         await page.click(`.fwformfield[data-datafield="${dataField}"] i.btnvalidate`);
-        await page.waitFor(500);
+        //await page.waitFor(500);
+        await ModuleBase.wait(500);
         await page.waitForSelector(`div[data-name="${validationName}"] tr.viewmode:nth-child(1)`, { visible: true });
         await page.click(`div[data-name="${validationName}"] tr.viewmode:nth-child(${recordToSelect})`, { clickCount: 2 });
     }
@@ -182,7 +188,8 @@ export class ModuleBase {
         }
 
         await page.waitForSelector(`${grid} .buttonbar [data-type="NewButton"] i`);
-        await page.waitFor(1000);
+        //await page.waitFor(1000);
+        await ModuleBase.wait(1000);
         await page.click(`${grid} .buttonbar [data-type="NewButton"] i`); // add new row
         await page.waitForSelector(`${grid} tbody tr`);
         async function fillValues() {
@@ -193,12 +200,15 @@ export class ModuleBase {
                     // console.log('selector', `${grid} .tablewrapper table tbody tr td div[data-browsedatafield="${key}"] input.text`)
                     page.type(`${grid} .tablewrapper table tbody tr td div[data-browsedatafield="${key}"] input.text`, fieldObject[key])
                 }
-                await page.waitFor(1500); //  need better wait that all values have been assigned
+                //await page.waitFor(1500); //  need better wait that all values have been assigned
+                await ModuleBase.wait(1500);
 
                 await page.keyboard.press('Enter');
-                await page.waitFor(1000);
+                //await page.waitFor(1000);
+                await ModuleBase.wait(1000);
                 await page.click(`${grid} .tablewrapper table tbody tr td div.divsaverow i`);
-                await page.waitFor(3000);
+                //await page.waitFor(3000);
+                await ModuleBase.wait(3000);
             }
         }
         await fillValues();
@@ -233,9 +243,15 @@ export class ModuleBase {
     }
 
     static async logoff(): Promise<void> {
-        let baseUrl: string = "http://localhost/rentalworksweb";
-        await page.goto(`${baseUrl}/#/logoff`);
+        //let baseUrl: string = "http://localhost/rentalworksweb";
+        //await page.goto(`${baseUrl}/#/logoff`);
+        //await page.waitForSelector(`.programlogo`);
+
+        await page.click('.usermenu');
+        await page.waitForSelector('#master-header > div > div.user-controls > div > div.user-dropdown > div.menuitems > div:nth-child(2)');
+        await page.click('#master-header > div > div.user-controls > div > div.user-dropdown > div.menuitems > div:nth-child(2)');
         await page.waitForSelector(`.programlogo`);
+
     }
 
     static async emailResults(): Promise<void> {
