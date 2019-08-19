@@ -13,6 +13,9 @@ namespace WebApi.Modules.Settings.DefaultSettings
         [FwSqlDataField(column: "controlid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
         public string DefaultSettingsId { get; set; } = "";
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "'Default Settings'", modeltype: FwDataTypes.Text)]
+        public string DefaultSettingsName { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "defaultunitid", modeltype: FwDataTypes.Text)]
         public string DefaultUnitId { get; set; }
         //------------------------------------------------------------------------------------ 

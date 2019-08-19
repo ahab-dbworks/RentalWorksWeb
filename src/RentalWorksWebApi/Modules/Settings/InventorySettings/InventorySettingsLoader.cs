@@ -13,6 +13,9 @@ namespace WebApi.Modules.Settings.InventorySettings
         [FwSqlDataField(column: "controlid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
         public string InventorySettingsId { get; set; } = "";
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "'Inventory Settings'", modeltype: FwDataTypes.Text)]
+        public string InventorySettingsName { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "invmask", modeltype: FwDataTypes.Text)]
         public string ICodeMask { get; set; }
         //------------------------------------------------------------------------------------ 

@@ -13,6 +13,9 @@ namespace WebApi.Modules.Settings.LogoSettings
         [FwSqlDataField(column: "controlid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
         public string LogoSettingsId { get; set; } = "";
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "'Logo Settings'", modeltype: FwDataTypes.Text)]
+        public string LogoSettingsName { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "reportlogoimageid", modeltype: FwDataTypes.Text)]
         public string LogoImageId { get; set; }
         //------------------------------------------------------------------------------------ 
