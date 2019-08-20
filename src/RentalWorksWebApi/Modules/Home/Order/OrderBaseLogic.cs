@@ -49,6 +49,7 @@ namespace WebApi.Modules.Home.Order
             tax.AfterSave += OnAfterSaveTax;
 
             UseTransactionToSave = true;
+            ForceSave = true;
 
         }
         //------------------------------------------------------------------------------------
@@ -1392,7 +1393,7 @@ namespace WebApi.Modules.Home.Order
                 {
                     OrderDateAndTime dt = new OrderDateAndTime();
                     dt.OrderTypeDateTypeId = d.OrderTypeDateTypeId;
-                    if (string.IsNullOrEmpty(d.Date))
+                    if (!string.IsNullOrEmpty(d.Date))
                     {
                         dt.Date = FwConvert.ToDateTime(d.Date);
                     }
