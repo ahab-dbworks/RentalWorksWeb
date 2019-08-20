@@ -118,6 +118,7 @@ class SearchInterface {
 
 
         if (type === 'Main') {
+            jQuery('title').html('QuikSearch');
             $popup.find('.addToOrder').hide();
             this.renderAddToTab($popup);
         }
@@ -278,15 +279,15 @@ class SearchInterface {
                                 <div class="flexrow deal-fields">
                                     <div data-control="FwFormField" data-type="text" class="po-hide fwcontrol fwformfield" data-caption="Deal No." data-datafield="DealNumber" data-enabled="false" style="flex:1 1 100px;"></div>
                                     <div data-control="FwFormField" data-type="validation" class="po-show fwcontrol fwformfield" data-caption="Vendor" data-datafield="VendorId" data-displayfield="Vendor" data-validationname="VendorValidation" style="flex:1 1 275px; display:none;"></div>                               
-                                    <div data-control="FwFormField" data-type="validation" class="po-hide fwcontrol fwformfield" data-caption="Deal" data-datafield="DealId" data-displayfield="Deal" data-validationname="DealValidation" data-required="true" style="flex:1 1 275px;"></div>
+                                    <div data-control="FwFormField" data-type="validation" class="po-hide fwcontrol fwformfield" data-caption="Deal" data-datafield="DealId" data-displayfield="Deal" data-validationname="DealValidation" style="flex:1 1 275px;"></div>
                                     <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Rate" data-datafield="RateType" data-displayfield="RateType" data-validationname="RateTypeValidation" data-required="true" style="flex:1 1 175px;"></div>
                                     <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Type" data-datafield="OrderTypeId" data-displayfield="OrderType" data-validationname="OrderTypeValidation" data-required="true" style="flex:1 1 175px;"></div>                                 
                                 </div>
                                 <div class="flexrow transfer-show" style="display:none;">
-                                    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="From Warehouse" data-datafield="FromWarehouseId" data-displayfield="WarehouseCode" data-validationname="WarebouseCodeValidation" data-required="true" style="flex:1 1 175px;"></div>
-                                    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="To Warehouse" data-datafield="ToWarehouseId" data-displayfield="WarehouseCode" data-validationname="WarebouseCodeValidation" data-required="true" style="flex:1 1 175px;"></div>                                 
+                                    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="From Warehouse" data-datafield="FromWarehouseId" data-displayfield="Warehouse" data-validationname="WarehouseValidation" data-required="true" style="flex:1 1 175px;"></div>
+                                    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="To Warehouse" data-datafield="ToWarehouseId" data-displayfield="Warehouse" data-validationname="WarehouseValidation" data-required="true" style="flex:1 1 175px;"></div>                                 
                                 </div>
-                                <div class="flexrow">
+                                <div class="flexrow po-hide">
                                     <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Pick Date" data-datafield="PickDate" style="flex:1 1 115px;"></div>
                                     <div data-control="FwFormField" data-type="timepicker" data-timeformat="24" class="fwcontrol fwformfield" data-caption="Pick Time" data-datafield="PickTime" style="flex:1 1 84px;"></div>
                                     <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield transfer-hide" data-caption="From Date" data-datafield="FromDate" style="flex:1 1 115px;"></div>
@@ -295,6 +296,8 @@ class SearchInterface {
                                     <div data-control="FwFormField" data-type="timepicker" data-timeformat="24" class="fwcontrol fwformfield transfer-hide" data-caption="To Time" data-datafield="ToTime" style="flex:1 1 84px;"></div>
                                     <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield transfer-show" data-caption="Ship Date" data-datafield="ShipDate" data-required="true" style="flex:1 1 115px; display:none;"></div>
                                     <div data-control="FwFormField" data-type="timepicker" data-timeformat="24" class="fwcontrol fwformfield transfer-show" data-caption="Ship Time" data-datafield="ShipTime" style="display:none; flex:1 1 84px;"></div>
+                                    <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield transfer-show" data-caption="Required Date" data-datafield="RequiredDate" style="flex:1 1 115px; display:none;"></div>
+                                    <div data-control="FwFormField" data-type="timepicker" data-timeformat="24" class="fwcontrol fwformfield transfer-show" data-caption="Required Time" data-datafield="RequiredTime" style="display:none; flex:1 1 84px;"></div>
                                  </div>
                             </div>
                         </div>
@@ -316,7 +319,15 @@ class SearchInterface {
             // show/hide fields.  could have separate html for each type instead if this gets too confusing
             switch (addToType) {
                 case 'Quote':
+                    $popup.find('#addToTab [data-datafield="DealId"]').attr('data-required', false);
+                    $popup.find('#addToTab .po-hide').show();
+                    $popup.find('#addToTab .deal-fields').show();
+                    $popup.find('#addToTab .po-show').hide();
+                    $popup.find('#addToTab .transfer-hide').show();
+                    $popup.find('#addToTab .transfer-show').hide();
+                    break;
                 case 'Order':
+                    $popup.find('#addToTab [data-datafield="DealId"]').attr('data-required', true);
                     $popup.find('#addToTab .po-hide').show();
                     $popup.find('#addToTab .deal-fields').show();
                     $popup.find('#addToTab .po-show').hide();
@@ -331,6 +342,9 @@ class SearchInterface {
                     $popup.find('#addToTab .po-hide').hide();
                     break;
                 case 'Transfer':
+                    const wh = JSON.parse(sessionStorage.getItem('warehouse'));
+                    FwFormField.setValue2($popup.find('#addToTab [data-datafield="FromWarehouseId"]'), wh.warehouseid, wh.warehouse);
+                    $popup.find('#addToTab .po-hide').show();
                     $popup.find('#addToTab .deal-fields').hide();
                     $popup.find('#addToTab .transfer-hide').hide();
                     $popup.find('#addToTab .transfer-show').show();
@@ -403,11 +417,14 @@ class SearchInterface {
             apiurl = (<any>window)[controller].apiurl;
             FwAppData.apiMethod(true, 'POST', apiurl, request, FwServices.defaultTimeout,
                 response => {
-                    $popup.find('#addToTab').data('newTypeId', response[`${addToType}Id`]);
+                    const newRecordInfo: any = {
+                        "Controller": controller
+                        , "UniqueIdField": `${addToType}Id`
+                        , "UniqueId": response[`${addToType}Id`]
+                        , "Caption": addToType
+                    }
+                    $popup.find('#addToTab').data('newRecordInfo', newRecordInfo);
                     $popup.find('.addToOrder').click();
-                    FwPopup.destroyPopup($popup);
-                    const $newForm = (<any>window)[controller].loadForm(response);
-                    FwModule.openModuleTab($newForm, `Loading`, true, 'FORM', true);
                 }, ex => FwFunc.showError(ex), $searchpopup);
         });
     }
@@ -1053,10 +1070,11 @@ class SearchInterface {
 
             function addToOrder() {
                 let request: any = {};
+                let newRecordInfo;
                 const type = $popup.find('#itemsearch').attr('data-moduletype');
                 if (type === 'Main') {
-                    const newId = $popup.find('#addToTab').data('newTypeId');
-                    request.OrderId = newId;
+                    newRecordInfo = $popup.find('#addToTab').data('newRecordInfo');
+                    request.OrderId = newRecordInfo.UniqueId;
                     request.SessionId = id;
                 } else {
                     request.OrderId = id;
@@ -1103,9 +1121,15 @@ class SearchInterface {
                         //    FwBrowse.search($transferItemGridRental);
                         //    FwBrowse.search($transferItemGridSales);
                         //}
-
-                        //reloads grids on active tab
-                        if (type != 'Main') {
+                        if (type === 'Main') {
+                            const uniqueIds: any = {};
+                            uniqueIds[newRecordInfo.UniqueIdField] = newRecordInfo.UniqueId;
+                            let caption = newRecordInfo.Caption;
+                            if (caption === 'PurchaseOrder') caption = 'Purchase Order';
+                            const $newForm = (<any>window)[newRecordInfo.Controller].loadForm(uniqueIds);
+                            FwModule.openModuleTab($newForm, caption, true, 'FORM', true);
+                        }
+                        else { //reloads grids on active tab
                         $form.find('.tabGridsLoaded[data-type="tab"]').removeClass('tabGridsLoaded');
                         const $activeGrid = $form.find('.active[data-type="tabpage"] [data-type="Grid"]');
                         for (let i = 0; i < $activeGrid.length; i++) {
