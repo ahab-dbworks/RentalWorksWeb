@@ -217,11 +217,11 @@ namespace WebApi.Modules.Reports.QuoteOrderMasterReport
                     SetBaseSelectQuery(select, qry);
                     select.Parse();
                     select.AddWhereIn("locationid", request.OfficeLocationId);
-                    select.AddWhereIn("agentid", request.DepartmentId);
+                    select.AddWhereIn("departmentid", request.DepartmentId);
                     select.AddWhereIn("customerid", request.CustomerId);
-                    select.AddWhereIn("agentid", request.DepartmentId);
                     select.AddWhereIn("dealtypeid", request.DealTypeId);
                     select.AddWhereIn("dealstatusid", request.DealStatusId);
+                    select.AddWhereIn("dealid", request.DealId);
                     select.AddWhereIn("type", request.OrderType);
 
                     request.QuoteStatus.Add(new SelectedCheckBoxListItem(""));
