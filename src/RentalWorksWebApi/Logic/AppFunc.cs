@@ -336,6 +336,9 @@ namespace WebApi.Logic
                 case RwConstants.ORDER_TYPE_CONTAINER:
                     orderTypeDescription = RwConstants.ORDER_TYPE_DESCRIPTION_CONTAINER;
                     break;
+                case RwConstants.ORDER_TYPE_REPAIR:
+                    orderTypeDescription = RwConstants.ORDER_TYPE_DESCRIPTION_REPAIR;
+                    break;
             }
             return orderTypeDescription;
         }

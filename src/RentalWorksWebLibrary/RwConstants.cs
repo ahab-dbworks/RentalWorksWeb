@@ -50,6 +50,7 @@
         public const string ORDER_TYPE_PURCHASE_ORDER = "C";
         public const string ORDER_TYPE_TRANSFER = "T";
         public const string ORDER_TYPE_CONTAINER = "N";
+        public const string ORDER_TYPE_REPAIR = "R";
 
         public const string ORDER_TYPE_DESCRIPTION_QUOTE = "QUOTE";
         public const string ORDER_TYPE_DESCRIPTION_ORDER = "ORDER";
@@ -57,6 +58,7 @@
         public const string ORDER_TYPE_DESCRIPTION_PURCHASE_ORDER = "PO";
         public const string ORDER_TYPE_DESCRIPTION_TRANSFER = "TRANSFER";
         public const string ORDER_TYPE_DESCRIPTION_CONTAINER = "CONTAINER";
+        public const string ORDER_TYPE_DESCRIPTION_REPAIR = "REPAIR";
 
         public const string QUOTE_STATUS_NEW = "NEW";
         public const string QUOTE_STATUS_PROSPECT = "PROSPECT";
