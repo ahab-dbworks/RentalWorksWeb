@@ -392,89 +392,90 @@
         //dp.update();
     }
     //----------------------------------------------------------------------------------------------
-    loadGantt($form) {
-        var dp = new DayPilot.Gantt($form.find('#gantt')[0]);
-        dp.startDate = moment().format('YYYY-MM-DD');
-        dp.days = 31;
-        dp.init();
-        dp.onBeforeRowHeaderRender = function (args) {
-            args.row.backColor = 'coral';
-        };
-        dp.onBeforeCellRender = function (args) {
-            args.cell.backColor = 'coral';
-        };
+    //jh 08/19/2019 obsolete
+    //loadGantt($form) {
+    //    var dp = new DayPilot.Gantt($form.find('#gantt')[0]);
+    //    dp.startDate = moment().format('YYYY-MM-DD');
+    //    dp.days = 31;
+    //    dp.init();
+    //    dp.onBeforeRowHeaderRender = function (args) {
+    //        args.row.backColor = 'coral';
+    //    };
+    //    dp.onBeforeCellRender = function (args) {
+    //        args.cell.backColor = 'coral';
+    //    };
 
-        dp.tasks.list = [
-            {
-                "id": "1",
-                "text": "200002-024",
-                "start": "2018-11-30T00:00:00",
-                "end": "2018-12-15T00:00:00",
-                "complete": "200002-024 PENDING EXCHANGE (DED RENTALS)",
-                "box": {
-                    "bubbleHtml": "Task details (box): <br/>Task 0<br>Starting on November 21, 2018",
-                    "html": "200002-024 PENDING EXCHANGE (DED RENTALS)",
-                    "htmlRight": "200002-024"
-                },
-            },
-            {
-                "id": "2",
-                "text": "L300044",
-                "start": "2018-11-30T00:00:00",
-                "end": "2018-12-30T00:00:00",
-                "complete": "L300044 SUB-RENTAL REPORT - SUBS (THE MOVIE HOUSE - 2014 RENTALS)",
-                "box": {
-                    "bubbleHtml": "Task details (box): <br/>Task 0<br>Starting on November 21, 2018",
-                    "html": "L300044 SUB-RENTAL REPORT - SUBS (THE MOVIE HOUSE - 2014 RENTALS)",
-                    "htmlRight": "L300044"
-                },
-            },
-            {
-                "id": "5",
-                "text": "L300044",
-                "start": "2018-12-16T00:00:00",
-                "end": "2018-12-30T00:00:00",
-                "complete": "L300044 SUB-RENTAL REPORT - SUBS (THE MOVIE HOUSE - 2014 RENTALS)",
-                "box": {
-                    "bubbleHtml": "Task details (box): <br/>Task 0<br>Starting on November 21, 2018",
-                    "html": "L300044 SUB-RENTAL REPORT - SUBS (THE MOVIE HOUSE - 2014 RENTALS)",
-                    "htmlRight": "L300044"
-                },
-            },
-            {
-                "id": "3",
-                "text": "L300230",
-                "start": "2018-11-30T00:00:00",
-                "end": "2018-12-30T00:00:00",
-                "complete": "L300230 CROSS I-CODE EXCHANGE TEST (FELD RENTALS)",
-                "title": "hello",
-                "box": {
-                    "bubbleHtml": "Task details (box): <br/>Task 0<br>Starting on November 21, 2018",
-                    "html": "L300230 CROSS I-CODE EXCHANGE TEST (FELD RENTALS)",
-                    "title": "L300230 CROSS I-CODE EXCHANGE TEST (FELD RENTALS)",
-                    "htmlRight": "L300230"
-                },
-            },
-            {
-                "id": "4",
-                "text": "L300962",
-                "start": "2018-11-30T00:00:00",
-                "end": "2018-12-02T00:00:00",
-                "complete": "",
-                "title": "hello",
-                "box": {
-                    "bubbleHtml": "Task details (box): <br/>Task 0<br>Starting on November 21, 2018",
-                    "html": "L300962 ORDER FOR STAGING A CONTAINER (ENDLESS3)",
-                    "title": "L300962 ORDER FOR STAGING A CONTAINER (ENDLESS3)",
-                    "htmlRight": "L300962"
-                },
-                "row": {
-                    "bubbleHtml": "Task details (row): <br/>Task 0<br>Starting on November 21, 2018"
-                }
-            },
-        ]
-        dp.update();
-    }
+    //    dp.tasks.list = [
+    //        {
+    //            "id": "1",
+    //            "text": "200002-024",
+    //            "start": "2018-11-30T00:00:00",
+    //            "end": "2018-12-15T00:00:00",
+    //            "complete": "200002-024 PENDING EXCHANGE (DED RENTALS)",
+    //            "box": {
+    //                "bubbleHtml": "Task details (box): <br/>Task 0<br>Starting on November 21, 2018",
+    //                "html": "200002-024 PENDING EXCHANGE (DED RENTALS)",
+    //                "htmlRight": "200002-024"
+    //            },
+    //        },
+    //        {
+    //            "id": "2",
+    //            "text": "L300044",
+    //            "start": "2018-11-30T00:00:00",
+    //            "end": "2018-12-30T00:00:00",
+    //            "complete": "L300044 SUB-RENTAL REPORT - SUBS (THE MOVIE HOUSE - 2014 RENTALS)",
+    //            "box": {
+    //                "bubbleHtml": "Task details (box): <br/>Task 0<br>Starting on November 21, 2018",
+    //                "html": "L300044 SUB-RENTAL REPORT - SUBS (THE MOVIE HOUSE - 2014 RENTALS)",
+    //                "htmlRight": "L300044"
+    //            },
+    //        },
+    //        {
+    //            "id": "5",
+    //            "text": "L300044",
+    //            "start": "2018-12-16T00:00:00",
+    //            "end": "2018-12-30T00:00:00",
+    //            "complete": "L300044 SUB-RENTAL REPORT - SUBS (THE MOVIE HOUSE - 2014 RENTALS)",
+    //            "box": {
+    //                "bubbleHtml": "Task details (box): <br/>Task 0<br>Starting on November 21, 2018",
+    //                "html": "L300044 SUB-RENTAL REPORT - SUBS (THE MOVIE HOUSE - 2014 RENTALS)",
+    //                "htmlRight": "L300044"
+    //            },
+    //        },
+    //        {
+    //            "id": "3",
+    //            "text": "L300230",
+    //            "start": "2018-11-30T00:00:00",
+    //            "end": "2018-12-30T00:00:00",
+    //            "complete": "L300230 CROSS I-CODE EXCHANGE TEST (FELD RENTALS)",
+    //            "title": "hello",
+    //            "box": {
+    //                "bubbleHtml": "Task details (box): <br/>Task 0<br>Starting on November 21, 2018",
+    //                "html": "L300230 CROSS I-CODE EXCHANGE TEST (FELD RENTALS)",
+    //                "title": "L300230 CROSS I-CODE EXCHANGE TEST (FELD RENTALS)",
+    //                "htmlRight": "L300230"
+    //            },
+    //        },
+    //        {
+    //            "id": "4",
+    //            "text": "L300962",
+    //            "start": "2018-11-30T00:00:00",
+    //            "end": "2018-12-02T00:00:00",
+    //            "complete": "",
+    //            "title": "hello",
+    //            "box": {
+    //                "bubbleHtml": "Task details (box): <br/>Task 0<br>Starting on November 21, 2018",
+    //                "html": "L300962 ORDER FOR STAGING A CONTAINER (ENDLESS3)",
+    //                "title": "L300962 ORDER FOR STAGING A CONTAINER (ENDLESS3)",
+    //                "htmlRight": "L300962"
+    //            },
+    //            "row": {
+    //                "bubbleHtml": "Task details (row): <br/>Task 0<br>Starting on November 21, 2018"
+    //            }
+    //        },
+    //    ]
+    //    dp.update();
+    //}
     //----------------------------------------------------------------------------------------------
     addBrowseMenuItems($menuObject: any) {
         const $all: JQuery = FwMenu.generateDropDownViewBtn('All', true, "ALL");

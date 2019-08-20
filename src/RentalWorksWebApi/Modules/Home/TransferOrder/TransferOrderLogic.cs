@@ -8,6 +8,7 @@ using WebLibrary;
 using System;
 using FwStandard.SqlServer;
 using Newtonsoft.Json;
+using WebApi.Modules.Home.Order;
 
 namespace WebApi.Modules.Home.TransferOrder
 {
@@ -40,7 +41,7 @@ namespace WebApi.Modules.Home.TransferOrder
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "SGlehEEeuOjZO", IsPrimaryKey: true)]
-        public string TransferId { get { return transferOrder.OrderId; } set { transferOrder.OrderId = value; } }
+        public string TransferId { get { return transferOrder.OrderId; } set { transferOrder.OrderId = value; transferOrderDetail.OrderId = value; } }
 
 
         [JsonIgnore]
@@ -523,9 +524,41 @@ namespace WebApi.Modules.Home.TransferOrder
                 transferOrder.InDeliveryId = inDelivery.DeliveryId;
                 int i = transferOrder.SaveAsync(null).Result;
             }
+            else
+            {
+                // this is a modfied Quote/Order
+                if (e.Original != null)
+                {
+                    TransferOrderLogic orig = ((TransferOrderLogic)e.Original);
+
+                    if (
+                        ((PickDate != null) && (PickDate != orig.PickDate)) ||
+                        ((PickTime != null) && (PickTime != orig.PickTime)) ||
+                        ((ShipDate != null) && (ShipDate != orig.ShipDate)) ||
+                        ((ShipTime != null) && (ShipTime != orig.ShipTime)) ||
+                        ((RequiredDate != null) && (RequiredDate != orig.RequiredDate)) ||
+                        ((RequiredTime != null) && (RequiredTime != orig.RequiredTime))
+                        )
+                    {
+                        OrderDatesAndTimesChange change = new OrderDatesAndTimesChange();
+                        change.OrderId = this.GetPrimaryKeys()[0].ToString();
+                        change.OldPickDate = orig.PickDate;
+                        change.NewPickDate = PickDate ?? orig.PickDate;
+                        change.OldPickTime = orig.PickTime;
+                        change.NewPickTime = PickTime ?? orig.PickTime;
+                        change.OldEstimatedStartDate = orig.ShipDate;
+                        change.NewEstimatedStartDate = ShipDate ?? orig.ShipDate;
+                        change.OldEstimatedStartTime = orig.ShipTime;
+                        change.NewEstimatedStartTime = ShipTime ?? orig.ShipTime;
+                        change.OldEstimatedStopDate = orig.RequiredDate;
+                        change.NewEstimatedStopDate = RequiredDate ?? orig.RequiredDate;
+                        change.OldEstimatedStopTime = orig.RequiredTime;
+                        change.NewEstimatedStopTime = RequiredTime ?? orig.RequiredTime;
+                        bool b = OrderFunc.UpdateOrderItemDatesAndTimes(AppConfig, UserSession, change, e.SqlConnection).Result;
+                    }
+                }
+            }
         }
         //------------------------------------------------------------------------------------
-
-
     }
 }
