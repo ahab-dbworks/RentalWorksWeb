@@ -1402,7 +1402,7 @@ namespace WebApi.Modules.Home.Order
                     dt.IsProductionActivity = d.IsProductionActivity;
                     request.DatesAndTimes.Add(dt);
                 }
-                ApplyOrderDatesAndTimesResponse response = OrderFunc.ApplyOrderDatesAndTimes(AppConfig, UserSession, request).Result;
+                ApplyOrderDatesAndTimesResponse response = OrderFunc.ApplyOrderDatesAndTimes(AppConfig, UserSession, request, e.SqlConnection).Result;
             }
         }
         //------------------------------------------------------------------------------------
