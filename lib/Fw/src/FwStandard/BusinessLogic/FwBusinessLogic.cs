@@ -872,13 +872,22 @@ namespace FwStandard.BusinessLogic
                             isDuplicate = true;
                             if (saveMode == TDataRecordSaveMode.smUpdate)
                             {
-                                var dtToArray = dt.Rows[r].Select(i => i.ToString()).ToArray();
+                                //var dtToArray = dt.Rows[r].Select(i => i.ToString()).ToArray();
                                 bool pkFound = true;
                                 foreach (object id in ids)
                                 {
                                     string idString = id.ToString();
-                                    int indexOfId = Array.IndexOf(dtToArray, idString);
-                                    pkFound = (indexOfId >= 0);
+                                    //int indexOfId = Array.IndexOf(dtToArray, idString);
+                                    //pkFound = (indexOfId >= 0);
+                                    foreach (object objField in dt.Rows[r])
+                                    {
+                                        string strField = objField.ToString();
+                                        if (strField.Equals(idString))
+                                        {
+                                            pkFound = true;
+                                            break;
+                                        }
+                                    }
                                     if (!pkFound)
                                     {
                                         break;
