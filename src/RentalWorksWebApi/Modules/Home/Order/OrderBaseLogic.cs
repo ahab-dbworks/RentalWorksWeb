@@ -1325,6 +1325,11 @@ namespace WebApi.Modules.Home.Order
                 {
                     ProjectManagerId = UserSession.UsersId;
                 }
+
+                if ((!PendingPo.GetValueOrDefault(false)) && (!FlatPo.GetValueOrDefault(false)) && (string.IsNullOrEmpty(PoNumber)))
+                {
+                    PendingPo = true;
+                }
             }
 
             if (e.SaveMode.Equals(TDataRecordSaveMode.smUpdate))
