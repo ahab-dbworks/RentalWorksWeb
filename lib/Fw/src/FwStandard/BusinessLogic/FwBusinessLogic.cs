@@ -719,6 +719,7 @@ namespace FwStandard.BusinessLogic
                     propertyInfo = type.GetProperties();
                     FwBusinessLogic l2 = (FwBusinessLogic)Activator.CreateInstance(type);
                     l2.AppConfig = dataRecords[0].AppConfig;
+                    l2.UserSession = dataRecords[0].UserSession;
 
                     foreach (List<object> rule in rulesList)
                     {
@@ -862,6 +863,7 @@ namespace FwStandard.BusinessLogic
                         browseRequest2.searchfieldvalues = searchFieldVals;
                         FwBusinessLogic l3 = (FwBusinessLogic)Activator.CreateInstance(type);
                         l3.AppConfig = dataRecords[0].AppConfig;
+                        l3.UserSession = dataRecords[0].UserSession;
                         FwJsonDataTable dt = await l3.BrowseAsync(browseRequest2);
 
                         bool isDuplicate = false;
