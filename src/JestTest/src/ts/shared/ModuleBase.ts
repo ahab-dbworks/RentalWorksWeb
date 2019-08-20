@@ -175,6 +175,31 @@ export class ModuleBase {
         await page.waitForSelector(`div[data-name="${validationName}"] tr.viewmode:nth-child(1)`, { visible: true });
         await page.click(`div[data-name="${validationName}"] tr.viewmode:nth-child(${recordToSelect})`, { clickCount: 2 });
     }
+
+    async getDataFieldValue(dataField: string): Promise<void> {
+        const selector = `div[data-datafield="${dataField}"] .fwformfield-value`;
+        const val = await page.$eval(selector, (e: any) => {
+            return e.value
+        })
+        return val;
+    }
+    async getDataFieldText(dataField: string): Promise<string> {
+        const selector = `div[data-datafield="${dataField}"] .fwformfield-text`;
+        const val = await page.$eval(selector, (e: any) => {
+            return e.value
+        })
+        return val;
+    }
+    async getValueWithEvaluate(dataField: string) { //retaining this for reference for a different method of retrieving values in the browser
+        const selector = `div[data-datafield="${dataField}"] .fwformfield-text`;
+        const value = await page.evaluate((selector) => {
+            const $form = jQuery('body').find('.fwform');
+            const val = $form.find(selector).val();
+
+            return val;
+        }, selector)
+        return value;
+    }
     async addGridRow(gridController: string, className?: string, numberOfRows?: number, fieldObject?: any) {
         if (numberOfRows === undefined) {
             numberOfRows = 1;
