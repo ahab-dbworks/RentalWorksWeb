@@ -183,7 +183,7 @@ export class ModuleBase {
         })
         return val;
     }
-    
+
     async getDataFieldText(dataField: string): Promise<string> {
         const selector = `div[data-datafield="${dataField}"] .fwformfield-text`;
         const val = await page.$eval(selector, (e: any) => {
@@ -214,7 +214,6 @@ export class ModuleBase {
         }
 
         await page.waitForSelector(`${grid} .buttonbar [data-type="NewButton"] i`);
-        //await page.waitFor(1000);
         await ModuleBase.wait(1000);
         await page.click(`${grid} .buttonbar [data-type="NewButton"] i`); // add new row
         await page.waitForSelector(`${grid} tbody tr`);
@@ -222,29 +221,33 @@ export class ModuleBase {
             if (fieldObject !== null && (typeof fieldObject === 'object' && !Array.isArray(fieldObject))) {
 
                 for (let key in fieldObject) {
-                    //// differentiate b/w datafield inputs and validations - structure is different
-                    // console.log('selector', `${grid} .tablewrapper table tbody tr td div[data-browsedatafield="${key}"] input.text`)
-
-                    console.log(`Adding to grid: `, `FieldName: "${key}"     Value: "${fieldObject[key]}"`);
-
-
-                    page.type(`${grid} .tablewrapper table tbody tr td div[data-browsedatafield="${key}"] input.text`, fieldObject[key])
+                    console.log(`Adding to grid: `, `FieldName: "${key}"   Value: "${fieldObject[key]}"`);
+                    const gridLineSelector = `${grid} .tablewrapper table tbody tr td div[data-browsedatafield="${key}"] input`;
+                    const fieldValue = await page.$eval(gridLineSelector, (e: any) => e.value);
+                    if (fieldValue != '') {
+                        // clear out existing value
+                        const elementHandle = await page.$(gridLineSelector);
+                        await elementHandle.click();
+                        await elementHandle.focus();
+                        await elementHandle.click({ clickCount: 3 });
+                        await elementHandle.press('Backspace');
+                        // assign value
+                        page.type(gridLineSelector, fieldObject[key]);
+                    } else {
+                        page.type(gridLineSelector, fieldObject[key]);
+                    }
                     await ModuleBase.wait(3000);
                     await page.keyboard.press('Enter');
                 }
-                //await page.waitFor(1500); //  need better wait that all values have been assigned
                 await ModuleBase.wait(1500);
 
                 await page.keyboard.press('Enter');
-                //await page.waitFor(1000);
                 await ModuleBase.wait(1000);
                 await page.click(`${grid} .tablewrapper table tbody tr td div.divsaverow i`);
-                //await page.waitFor(3000);
                 await ModuleBase.wait(3000);
             }
         }
         await fillValues();
-        //await page.waitFor(3000)
     }
 
     async saveRecord(): Promise<void> {

@@ -100,7 +100,8 @@ try {
 
                 const fieldObject = {
                     InventoryId: iCode,
-                    //QuantityOrdered: 20
+                    ManufacturerPartNumber: '4HX6T-#5tr',
+                    QuantityOrdered: '20', // all values must be string type
                 }
                 await poModule.clickTab("Rental Inventory");
                 await poModule.addGridRow('OrderItemGrid', 'R', null, fieldObject)
