@@ -320,38 +320,39 @@ class SearchInterface {
         $popup.find('[data-datafield="AddToType"]').on('change', e => {
             const addToType = jQuery(e.target).val();
             const $section = $popup.find('#addToTab [data-type="section"]');
+            $popup.find('#addToTab .fwformfield:visible').removeClass('error');
             // show/hide fields.  could have separate html for each type instead if this gets too confusing
             switch (addToType) {
                 case 'Quote':
                     $popup.find('#addToTab [data-datafield="DealId"]').attr('data-required', false);
-                    $popup.find('#addToTab .po-hide').attr('data-enabled', true).show();
-                    $popup.find('#addToTab .deal-fields').attr('data-enabled', true).show();
-                    $popup.find('#addToTab .po-show').attr('data-enabled', false).removeClass('error').hide();
-                    $popup.find('#addToTab .transfer-hide').attr('data-enabled', true).show();
-                    $popup.find('#addToTab .transfer-show').attr('data-enabled', false).removeClass('error').hide();
+                    $popup.find('#addToTab .po-hide').show();
+                    $popup.find('#addToTab .deal-fields').show();
+                    $popup.find('#addToTab .po-show').hide();
+                    $popup.find('#addToTab .transfer-hide').show();
+                    $popup.find('#addToTab .transfer-show').hide();
                     break;
                 case 'Order':
                     $popup.find('#addToTab [data-datafield="DealId"]').attr('data-required', true);
-                    $popup.find('#addToTab .po-hide').attr('data-enabled', true).show();
-                    $popup.find('#addToTab .deal-fields').attr('data-enabled', true).show();
-                    $popup.find('#addToTab .po-show').attr('data-enabled', false).removeClass('error').hide();
-                    $popup.find('#addToTab .transfer-hide').attr('data-enabled', true).show();
-                    $popup.find('#addToTab .transfer-show').attr('data-enabled', false).removeClass('error').hide();
+                    $popup.find('#addToTab .po-hide').show();
+                    $popup.find('#addToTab .deal-fields').show();
+                    $popup.find('#addToTab .po-show').hide();
+                    $popup.find('#addToTab .transfer-hide').show();
+                    $popup.find('#addToTab .transfer-show').hide();
                     break;
                 case 'Purchase':
-                    $popup.find('#addToTab .deal-fields').attr('data-enabled', true).show();
-                    $popup.find('#addToTab .transfer-hide').attr('data-enabled', true).show();
-                    $popup.find('#addToTab .po-show').attr('data-enabled', true).show();
-                    $popup.find('#addToTab .transfer-show').attr('data-enabled', false).removeClass('error').hide();
-                    $popup.find('#addToTab .po-hide').attr('data-enabled', false).removeClass('error').hide();
+                    $popup.find('#addToTab .deal-fields').show();
+                    $popup.find('#addToTab .transfer-hide').show();
+                    $popup.find('#addToTab .po-show').show();
+                    $popup.find('#addToTab .transfer-show').hide();
+                    $popup.find('#addToTab .po-hide').hide();
                     break;
                 case 'Transfer':
                     const wh = JSON.parse(sessionStorage.getItem('warehouse'));
                     FwFormField.setValue2($popup.find('#addToTab [data-datafield="FromWarehouseId"]'), wh.warehouseid, wh.warehouse);
-                    $popup.find('#addToTab .po-hide').attr('data-enabled', true).show();
-                    $popup.find('#addToTab .deal-fields').attr('data-enabled', false).removeClass('error').hide();
-                    $popup.find('#addToTab .transfer-hide').attr('data-enabled', false).removeClass('error').hide();
-                    $popup.find('#addToTab .transfer-show').attr('data-enabled', true).show();
+                    $popup.find('#addToTab .po-hide').show();
+                    $popup.find('#addToTab .deal-fields').hide();
+                    $popup.find('#addToTab .transfer-hide').hide();
+                    $popup.find('#addToTab .transfer-show').show();
                     break;
             }
             $section.find('.fwform-section-title').text(addToType);
@@ -361,7 +362,7 @@ class SearchInterface {
           //create new record, add items, then open form
         $popup.find('div.create-new').on('click', e => {
             const $addToTab = $popup.find('#addToTab');
-            $addToTab.data('fields', $addToTab.find('.fwformfield'));
+            $addToTab.data('fields', $addToTab.find('.fwformfield:visible'));
             const isValid = FwModule.validateForm($addToTab);
             if (isValid) {
                 let addToType = FwFormField.getValue2($addToTab.find('[data-datafield="AddToType"]'));
