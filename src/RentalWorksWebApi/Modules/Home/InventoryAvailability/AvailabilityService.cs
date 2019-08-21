@@ -5,6 +5,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using WebApi.Modules.Settings.AvailabilitySettings;
+using WebLibrary;
 
 namespace WebApi.Modules.Home.InventoryAvailability
 {
@@ -41,7 +42,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
 
             availSettings = new AvailabilitySettingsLogic();
             availSettings.SetDependencies(appConfig, null);
-            availSettings.ControlId = "1";
+            availSettings.ControlId = RwConstants.CONTROL_ID;
             b = availSettings.LoadAsync<AvailabilitySettingsLogic>().Result;
 
             //timer ticks every 60 seconds in order to detect change in Hours or Days

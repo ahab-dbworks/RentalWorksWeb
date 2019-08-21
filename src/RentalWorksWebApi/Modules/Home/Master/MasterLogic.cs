@@ -2,6 +2,7 @@ using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
 using Newtonsoft.Json;
 using WebApi.Logic;
+using WebLibrary;
 using static FwStandard.Data.FwDataReadWriteRecord;
 
 namespace WebApi.Modules.Home.Master
@@ -134,7 +135,7 @@ namespace WebApi.Modules.Home.Master
                 {
                     //jh todo: need to make a single SP for this new ICode logic
                     ICode = AppFunc.GetNextSystemCounterAsync(AppConfig, UserSession, "masterno", e.SqlConnection).Result;
-                    string iCodePrefix = AppFunc.GetStringDataAsync(AppConfig, "syscontrol", "controlid", "1", "icodeprefix").Result;
+                    string iCodePrefix = AppFunc.GetStringDataAsync(AppConfig, "syscontrol", "controlid", RwConstants.CONTROL_ID, "icodeprefix").Result;
                     ICode = iCodePrefix.Trim() + ICode.PadLeft(6, '0');
                 }
             }

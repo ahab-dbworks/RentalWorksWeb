@@ -183,7 +183,7 @@ namespace WebApi.Logic
             qry.AddParameter("@tablename", SqlDbType.NVarChar, ParameterDirection.Input, "syscontrol");
             qry.AddParameter("@columnname", SqlDbType.NVarChar, ParameterDirection.Input, counterColumnName);
             qry.AddParameter("@uniqueid1name", SqlDbType.NVarChar, ParameterDirection.Input, "controlid");
-            qry.AddParameter("@uniqueid1valuestr", SqlDbType.NVarChar, ParameterDirection.Input, "1");
+            qry.AddParameter("@uniqueid1valuestr", SqlDbType.NVarChar, ParameterDirection.Input, RwConstants.CONTROL_ID);
             qry.AddParameter("@counter", SqlDbType.Int, ParameterDirection.Output);
             await qry.ExecuteNonQueryAsync();
             counter = qry.GetParameter("@counter").ToString().TrimEnd();

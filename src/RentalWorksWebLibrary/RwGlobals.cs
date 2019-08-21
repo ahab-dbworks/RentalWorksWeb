@@ -142,7 +142,7 @@ namespace WebLibrary
             int consignmentColorInt = 0;
             using (FwSqlConnection conn = new FwSqlConnection(databaseSettings.ConnectionString))
             {
-                consignmentColorInt = FwConvert.ToInt32(FwSqlCommand.GetDataAsync(conn, databaseSettings.QueryTimeout, "syscontrol", "controlid", "1", "consignmentcolor").Result.ToString().TrimEnd());
+                consignmentColorInt = FwConvert.ToInt32(FwSqlCommand.GetDataAsync(conn, databaseSettings.QueryTimeout, "syscontrol", "controlid", RwConstants.CONTROL_ID, "consignmentcolor").Result.ToString().TrimEnd());
             }
             CONSIGNMENT_COLOR = FwConvert.OleColorToHtmlColor(consignmentColorInt);
 

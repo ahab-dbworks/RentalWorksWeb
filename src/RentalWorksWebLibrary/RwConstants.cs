@@ -2,6 +2,8 @@
 {
     public static class RwConstants
     {
+        //CONTROL
+        public const string CONTROL_ID = "1";
 
         //USER
         public const string WEB_USER_TYPE_USER = "USER";
