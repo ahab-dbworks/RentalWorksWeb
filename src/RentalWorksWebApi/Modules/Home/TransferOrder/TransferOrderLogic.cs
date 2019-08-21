@@ -504,6 +504,14 @@ namespace WebApi.Modules.Home.TransferOrder
 
         public virtual void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {
+            if (e.SaveMode == TDataRecordSaveMode.smInsert)
+            {
+                if (string.IsNullOrEmpty(AgentId))
+                {
+                    AgentId = UserSession.UsersId;
+                }
+            }
+
             if (e.SaveMode == TDataRecordSaveMode.smUpdate)
             {
                 if (e.Original != null)

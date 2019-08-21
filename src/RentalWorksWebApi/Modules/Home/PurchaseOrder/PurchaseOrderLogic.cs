@@ -9,6 +9,9 @@ using WebApi.Modules.Home.Contract;
 using WebApi.Modules.Home.DealOrder;
 using WebApi.Modules.Home.DealOrderDetail;
 using WebApi.Modules.Home.Tax;
+using WebApi.Modules.Home.Vendor;
+using WebApi.Modules.Settings.DefaultSettings;
+using WebApi.Modules.Settings.OfficeLocation;
 using WebLibrary;
 
 namespace WebApi.Modules.Home.PurchaseOrder
@@ -592,6 +595,36 @@ namespace WebApi.Modules.Home.PurchaseOrder
                 {
                     PurchaseOrderDate = FwConvert.ToString(DateTime.Today);
                 }
+
+                if (string.IsNullOrEmpty(BillingCycleId))
+                {
+                    if (string.IsNullOrEmpty(VendorId))
+                    {
+                        DefaultSettingsLogic defaults = new DefaultSettingsLogic();
+                        defaults.SetDependencies(AppConfig, UserSession);
+                        defaults.DefaultSettingsId = RwConstants.CONTROL_ID;
+                        bool b = defaults.LoadAsync<DefaultSettingsLogic>().Result;
+                        BillingCycleId = defaults.DefaultDealBillingCycleId;
+                    }
+                    else
+                    {
+                        VendorLogic vendor = new VendorLogic();
+                        vendor.SetDependencies(AppConfig, UserSession);
+                        vendor.VendorId = VendorId;
+                        bool b = vendor.LoadAsync<VendorLogic>().Result;
+                        BillingCycleId = vendor.BillingCycleId;
+                    }
+                }
+
+                if (string.IsNullOrEmpty(AgentId))
+                {
+                    AgentId = UserSession.UsersId;
+                }
+                if (string.IsNullOrEmpty(ProjectManagerId))
+                {
+                    ProjectManagerId = UserSession.UsersId;
+                }
+
             }
         }
         //------------------------------------------------------------------------------------ 

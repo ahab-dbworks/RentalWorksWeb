@@ -278,7 +278,7 @@ class SearchInterface {
                                 </div>
                                 <div class="flexrow deal-fields">
                                     <div data-control="FwFormField" data-type="text" class="po-hide fwcontrol fwformfield" data-caption="Deal No." data-datafield="DealNumber" data-enabled="false" style="flex:1 1 100px;"></div>
-                                    <div data-control="FwFormField" data-type="validation" class="po-show fwcontrol fwformfield" data-caption="Vendor" data-datafield="VendorId" data-displayfield="Vendor" data-validationname="VendorValidation" style="flex:1 1 275px; display:none;"></div>                               
+                                    <div data-control="FwFormField" data-type="validation" class="po-show fwcontrol fwformfield" data-caption="Vendor" data-datafield="VendorId" data-displayfield="Vendor" data-validationname="VendorValidation" data-required="true" style="flex:1 1 275px; display:none;"></div>                               
                                     <div data-control="FwFormField" data-type="validation" class="po-hide fwcontrol fwformfield" data-caption="Deal" data-datafield="DealId" data-displayfield="Deal" data-validationname="DealValidation" style="flex:1 1 275px;"></div>
                                     <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Rate" data-datafield="RateType" data-displayfield="RateType" data-validationname="RateTypeValidation" data-required="true" style="flex:1 1 175px;"></div>
                                     <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Type" data-datafield="OrderTypeId" data-displayfield="OrderType" data-validationname="OrderTypeValidation" data-required="true" style="flex:1 1 175px;"></div>                                 
@@ -395,7 +395,7 @@ class SearchInterface {
                     controller = 'PurchaseOrderController';
                     request.VendorId = FwFormField.getValue2($addToTab.find('[data-datafield="VendorId"]'));
                     request.RateType = FwFormField.getValue2($addToTab.find('[data-datafield="RateType"]'));
-                    request.OrderTypeId = FwFormField.getValue2($addToTab.find('[data-datafield="OrderTypeId"]'));
+                    request.PoTypeId = FwFormField.getValue2($addToTab.find('[data-datafield="OrderTypeId"]'));
                     request.PickDate = FwFormField.getValue2($addToTab.find('[data-datafield="PickDate"]'));
                     request.PickTime = FwFormField.getValue2($addToTab.find('[data-datafield="PickTime"]'));
                     request.EstimatedStartDate = FwFormField.getValue2($addToTab.find('[data-datafield="FromDate"]'));
@@ -404,7 +404,6 @@ class SearchInterface {
                     request.EstimatedStopTime = FwFormField.getValue2($addToTab.find('[data-datafield="ToTime"]'));
                     break;
                 case 'Transfer':
-                    addToType = TransferOrderController.Module;
                     controller = 'TransferOrderController';
                     request.ToWarehouseId = FwFormField.getValue2($addToTab.find('[data-datafield="ToWarehouseId"]'));
                     request.FromWarehouseId = FwFormField.getValue2($addToTab.find('[data-datafield="FromWarehouseId"]'));
@@ -412,6 +411,9 @@ class SearchInterface {
                     request.PickTime = FwFormField.getValue2($addToTab.find('[data-datafield="PickTime"]'));
                     request.ShipDate = FwFormField.getValue2($addToTab.find('[data-datafield="ShipDate"]'));
                     request.ShipTime = FwFormField.getValue2($addToTab.find('[data-datafield="ShipTime"]'));
+                    request.RequiredDate = FwFormField.getValue2($addToTab.find('[data-datafield="RequiredDate"]'));
+                    request.RequiredTime = FwFormField.getValue2($addToTab.find('[data-datafield="RequiredTime"]'));
+
                     break;
             }
             apiurl = (<any>window)[controller].apiurl;
