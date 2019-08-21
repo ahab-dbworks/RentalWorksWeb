@@ -26,7 +26,9 @@ try {
 
     //globals
     let continueTest: boolean = true;
-    let iCode: string = "";
+    let iCode1: string = "";
+    let iCode2: string = "";
+    let iCode3: string = "";
     let poDescription: string = "";
 
     //login
@@ -36,7 +38,7 @@ try {
             .catch(err => logger.error('authenticate: ', err));
     }, 45000);
 
-    //rental inventory
+    //rental inventory 1
     if (continueTest) {
         const rentalInventoryModule: RentalInventory = new RentalInventory();
 
@@ -52,10 +54,77 @@ try {
                     .catch(err => logger.error('createNewRecord: ', err));
             }, 10000);
             test('Fill in form data', async () => {
-                iCode = await rentalInventoryModule.populateNew()
+                iCode1 = await rentalInventoryModule.populateNew()
                     .then()
                     .catch(err => logger.error('populateNew: ', err));
-                console.log('iCode', iCode);
+            }, 10000);
+
+            test('Save new', async () => {
+                await rentalInventoryModule.saveRecord()
+                    .then()
+                    .catch(err => logger.error('saveRecord: ', err));
+            }, 10000);
+            test('Close', async () => {
+                await rentalInventoryModule.closeRecord()
+                    .then()
+                    .catch(err => logger.error('closeRecord: ', err));
+            }, 10000);
+        });
+    }
+
+    //rental inventory 2
+    if (continueTest) {
+        const rentalInventoryModule: RentalInventory = new RentalInventory();
+
+        describe('Create new Rental Inventory, fill out form, save record', () => {
+            test('Open module', async () => {
+                await rentalInventoryModule.openModule(5000, 1000) // wait 1 second after the module is opened to allow control query to load system defaults
+                    .then()
+                    .catch(err => logger.error('openModule: ', err));
+            }, 10000);
+            test('Create New record', async () => {
+                await rentalInventoryModule.createNewRecord(1)
+                    .then()
+                    .catch(err => logger.error('createNewRecord: ', err));
+            }, 10000);
+            test('Fill in form data', async () => {
+                iCode2 = await rentalInventoryModule.populateNew()
+                    .then()
+                    .catch(err => logger.error('populateNew: ', err));
+            }, 10000);
+
+            test('Save new', async () => {
+                await rentalInventoryModule.saveRecord()
+                    .then()
+                    .catch(err => logger.error('saveRecord: ', err));
+            }, 10000);
+            test('Close', async () => {
+                await rentalInventoryModule.closeRecord()
+                    .then()
+                    .catch(err => logger.error('closeRecord: ', err));
+            }, 10000);
+        });
+    }
+
+    //rental inventory 3
+    if (continueTest) {
+        const rentalInventoryModule: RentalInventory = new RentalInventory();
+
+        describe('Create new Rental Inventory, fill out form, save record', () => {
+            test('Open module', async () => {
+                await rentalInventoryModule.openModule(5000, 1000) // wait 1 second after the module is opened to allow control query to load system defaults
+                    .then()
+                    .catch(err => logger.error('openModule: ', err));
+            }, 10000);
+            test('Create New record', async () => {
+                await rentalInventoryModule.createNewRecord(1)
+                    .then()
+                    .catch(err => logger.error('createNewRecord: ', err));
+            }, 10000);
+            test('Fill in form data', async () => {
+                iCode3 = await rentalInventoryModule.populateNew()
+                    .then()
+                    .catch(err => logger.error('populateNew: ', err));
             }, 10000);
 
             test('Save new', async () => {
@@ -96,17 +165,42 @@ try {
                     .catch(err => logger.error('saveRecord: ', err));
             }, 20000);
             test('Add one grid row in rental tab', async () => {
-                console.log('iCode', iCode);
-
-                const fieldObject = {
-                    InventoryId: iCode,
-                    ManufacturerPartNumber: '4HX6T-#5tr',
-                    QuantityOrdered: '20', // all values must be string type
-                }
                 await poModule.clickTab("Rental Inventory");
-                await poModule.addGridRow('OrderItemGrid', 'R', null, fieldObject)
+
+                // row 1
+                const fieldObject1 = {
+                    InventoryId: iCode1,
+                    ManufacturerPartNumber: '111',
+                    QuantityOrdered: '10' // all values must be string type
+                }
+                // row 2
+                const fieldObject2 = {
+                    InventoryId: iCode2,
+                    ManufacturerPartNumber: '2222',
+                    QuantityOrdered: '20' // all values must be string type
+                }
+                // row 3
+                const fieldObject3 = {
+                    InventoryId: iCode3,
+                    ManufacturerPartNumber: '3333',
+                    QuantityOrdered: '30' // all values must be string type
+                }
+
+
+                await poModule.addGridRow('OrderItemGrid', 'R', null, fieldObject1)
                     .then()
                     .catch(err => logger.error('saveRecord: ', err));
+
+
+                await poModule.addGridRow('OrderItemGrid', 'R', null, fieldObject2)
+                    .then()
+                    .catch(err => logger.error('saveRecord: ', err));
+
+                await poModule.addGridRow('OrderItemGrid', 'R', null, fieldObject3)
+                    .then()
+                    .catch(err => logger.error('saveRecord: ', err));
+
+
             }, 200000);
             test('Save new PO', async () => {
                 await poModule.saveRecord()

@@ -56,7 +56,6 @@
     <Folder Include="src\ts\shared\" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="src\ts\rentalworksweb\datafieldTest.test.ts" />
     <TypeScriptCompile Include="src\ts\rentalworksweb\modules\Customer.ts" />
     <TypeScriptCompile Include="src\ts\rentalworksweb\modules\Deal.ts" />
     <TypeScriptCompile Include="src\ts\rentalworksweb\modules\Order.ts" />
