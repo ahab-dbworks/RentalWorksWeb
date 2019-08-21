@@ -2394,7 +2394,7 @@ class OrderBase {
             const $row = jQuery(`<div class="flexrow date-row">
                               <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="OrderTypeDateTypeId" style="display:none;"></div>
                               <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="${row.Descriptiondisplay}" data-datafield="Date" data-enabled="true" style="flex:0 1 150px;"></div>
-                              <div data-control="FwFormField" data-type="timepicker" class="fwcontrol fwformfield" data-caption="" data-datafield="Time" data-enabled="true" style="flex:0 1 120px;"></div>
+                              <div data-control="FwFormField" data-type="timepicker" data-timeformat="24" class="fwcontrol fwformfield" data-caption="" data-datafield="Time" data-enabled="true" style="flex:0 1 120px;"></div>
                               <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Day" data-datafield="DayOfWeek" data-enabled="false" style="flex:0 1 120px;"></div>                          
                               <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Production Activity" data-datafield="IsProductionActivity" style="display:none; flex:0 1 180px;"></div>                          
                               <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Milestone" data-datafield="IsMilestone" style="display:none; flex:0 1 110px;"></div>                          
