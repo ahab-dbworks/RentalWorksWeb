@@ -36,6 +36,7 @@
     <Content Include=".env">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="jest-puppeteer.config.js" />
     <Content Include="package.json" />
     <Content Include="README.md" />
     <Content Include="src\combined.log" />
