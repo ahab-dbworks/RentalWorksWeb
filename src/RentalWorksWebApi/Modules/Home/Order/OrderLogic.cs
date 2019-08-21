@@ -36,6 +36,31 @@ namespace WebApi.Modules.Home.Order
         public string OrderDate { get { return dealOrder.OrderDate; } set { dealOrder.OrderDate = value; } }
 
         //------------------------------------------------------------------------------------
+        protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
+        {
+            bool isValid = base.Validate(saveMode, original, ref validateMsg);
+            if (isValid)
+            {
+                string dealId = string.Empty;
+                if (saveMode.Equals(TDataRecordSaveMode.smInsert))
+                {
+                    dealId = DealId;
+                }
+                else
+                {
+                    dealId = ((OrderLogic)original).DealId;
+                }
+
+                if (string.IsNullOrEmpty(dealId))
+                {
+                    isValid = false;
+                    validateMsg = "Deal is required for this " + BusinessLogicModuleName + ".";
+                }
+
+            }
+            return isValid;
+        }
+        //------------------------------------------------------------------------------------
         public override void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {
             base.OnBeforeSave(sender, e);
