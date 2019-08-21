@@ -15,6 +15,7 @@ using WebApi.Modules.Home.Delivery;
 using WebApi.Modules.Home.Deal;
 using System.Collections.Generic;
 using WebApi.Modules.Home.OrderDates;
+using WebApi.Modules.Settings.DefaultSettings;
 
 namespace WebApi.Modules.Home.Order
 {
@@ -1310,11 +1311,22 @@ namespace WebApi.Modules.Home.Order
             {
                 if (string.IsNullOrEmpty(BillingCycleId))
                 {
-                    DealLogic deal = new DealLogic();
-                    deal.SetDependencies(AppConfig, UserSession);
-                    deal.DealId = DealId;
-                    bool b = deal.LoadAsync<DealLogic>().Result;
-                    BillingCycleId = deal.BillingCycleId;
+                    if (string.IsNullOrEmpty(DealId))
+                    {
+                        DefaultSettingsLogic defaults = new DefaultSettingsLogic();
+                        defaults.SetDependencies(AppConfig, UserSession);
+                        defaults.DefaultSettingsId = RwConstants.CONTROL_ID;
+                        bool b = defaults.LoadAsync<DefaultSettingsLogic>().Result;
+                        BillingCycleId = defaults.DefaultDealBillingCycleId;
+                    }
+                    else
+                    {
+                        DealLogic deal = new DealLogic();
+                        deal.SetDependencies(AppConfig, UserSession);
+                        deal.DealId = DealId;
+                        bool b = deal.LoadAsync<DealLogic>().Result;
+                        BillingCycleId = deal.BillingCycleId;
+                    }
                 }
 
                 if (string.IsNullOrEmpty(AgentId))
