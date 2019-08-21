@@ -32,7 +32,7 @@ try {
             .then((data) => { })
             .catch(err => logger.error('authenticate: ', err));
     }, 45000);
-    ModuleBase.emailResults()
+    //ModuleBase.emailResults()
     //contact
     if (continueTest) {
         const module: Contact = new Contact();
