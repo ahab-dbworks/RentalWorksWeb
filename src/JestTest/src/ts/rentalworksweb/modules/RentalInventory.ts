@@ -33,9 +33,9 @@ export class RentalInventory extends ModuleBase {
         //rank
         await this.populateValidationField("Rank", "RankValidation", 3);
 
-        //iCode = await this.getDataFieldValue('ICode');
+        iCode = await this.getDataFieldValue('ICode');
         //iCode = await this.getDataFieldText('ICode');
-        //console.log('iCode', iCode);
+        console.log('iCode', iCode);
 
         return iCode;
 

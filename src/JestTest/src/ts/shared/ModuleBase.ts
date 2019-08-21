@@ -183,6 +183,7 @@ export class ModuleBase {
         })
         return val;
     }
+    
     async getDataFieldText(dataField: string): Promise<string> {
         const selector = `div[data-datafield="${dataField}"] .fwformfield-text`;
         const val = await page.$eval(selector, (e: any) => {
