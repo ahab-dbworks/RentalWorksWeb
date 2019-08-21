@@ -17,17 +17,17 @@ export class OrderReport extends WebpackReport {
             HandlebarsHelpers.registerHelpers();
 
             // Report rendering and Logo
-            Ajax.get<DataTable>(`${apiUrl}/api/v1/control/1`, authorizationHeader)
+            Ajax.get<DataTable>(`${apiUrl}/api/v1/logosettings/1`, authorizationHeader)
                 .then((response: DataTable) => {
-                    const controlObject: any = response;
+                    const logoObject: any = response;
                     Ajax.post<Order>(`${apiUrl}/api/v1/orderreport/runreport`, authorizationHeader, parameters)
                         .then((response: Order) => {
                             const data: any = response;
                             data.Items = DataTable.toObjectList(response.Items);
                             data.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
                             data.System = 'RENTALWORKS';
-                            if (controlObject.ReportLogoImage != '') {
-                                data.Logosrc = controlObject.ReportLogoImage;
+                            if (logoObject.LogoImage != '') {
+                                data.Logosrc = logoObject.LogoImage;
                             }
                             if (parameters.isQuote) {
                                 data.Report = 'QUOTE';

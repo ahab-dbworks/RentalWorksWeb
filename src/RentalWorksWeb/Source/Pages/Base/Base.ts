@@ -134,9 +134,19 @@ class Base {
                                     }
                                 });
 
-                                const promiseGetControlDefaults = FwAjax.callWebApi<any, any>({
+                                const promiseGetDefaultSettings = FwAjax.callWebApi<any, any>({
                                     httpMethod: 'GET',
-                                    url: `${applicationConfig.apiurl}api/v1/control/1`,
+                                    url: `${applicationConfig.apiurl}api/v1/defaultsettings/1`,
+                                    $elementToBlock: $loginWindow
+                                });
+                                const promiseGetInventorySettings = FwAjax.callWebApi<any, any>({
+                                    httpMethod: 'GET',
+                                    url: `${applicationConfig.apiurl}api/v1/inventorysettings/1`,
+                                    $elementToBlock: $loginWindow
+                                });
+                                const promiseGetSystemSettings = FwAjax.callWebApi<any, any>({
+                                    httpMethod: 'GET',
+                                    url: `${applicationConfig.apiurl}api/v1/systemsettings/1`,
                                     $elementToBlock: $loginWindow
                                 });
 
@@ -149,11 +159,13 @@ class Base {
 
                                 // wait for all the queries to finish
                                 await Promise.all([
-                                    promiseGetUserSettings,     // 00
-                                    promiseGetCustomFields,     // 01
-                                    promiseGetCustomForms,      // 02
-                                    promiseGetControlDefaults,  // 03
-                                    promiseGetUser   // 04
+                                    promiseGetUserSettings,      // 00
+                                    promiseGetCustomFields,      // 01
+                                    promiseGetCustomForms,       // 02
+                                    promiseGetDefaultSettings,   // 03
+                                    promiseGetInventorySettings, // 04
+                                    promiseGetSystemSettings,    // 05
+                                    promiseGetUser,              // 06
                                 ])
                                     .then((values: any) => {
                                         const responseGetUserSettings = values[0];
@@ -177,7 +189,7 @@ class Base {
                                         sessionStorage.setItem('userid', JSON.stringify(userid));
 
                                         const responseGetCustomFields = values[1];
-                                        var customFields = [];
+                                        const customFields = [];
                                         for (let i = 0; i < responseGetCustomFields.length; i++) {
                                             if (customFields.indexOf(responseGetCustomFields[i].ModuleName) === -1) {
                                                 customFields.push(responseGetCustomFields[i].ModuleName);
@@ -186,13 +198,13 @@ class Base {
                                         sessionStorage.setItem('customFields', JSON.stringify(customFields));
 
                                         const responseGetCustomForms = values[2];
-                                        let baseFormIndex = responseGetCustomForms.ColumnIndex.BaseForm;
-                                        let customFormIdIndex = responseGetCustomForms.ColumnIndex.CustomFormId;
-                                        let htmlIndex = responseGetCustomForms.ColumnIndex.Html;
-                                        let activeCustomForms: any = [];
+                                        const baseFormIndex = responseGetCustomForms.ColumnIndex.BaseForm;
+                                        const customFormIdIndex = responseGetCustomForms.ColumnIndex.CustomFormId;
+                                        const htmlIndex = responseGetCustomForms.ColumnIndex.Html;
+                                        const activeCustomForms: any = [];
                                         for (let i = 0; i < responseGetCustomForms.Rows.length; i++) {
-                                            let customForm = responseGetCustomForms.Rows[i];
-                                            let baseform = customForm[baseFormIndex];
+                                            const customForm = responseGetCustomForms.Rows[i];
+                                            const baseform = customForm[baseFormIndex];
                                             activeCustomForms.push({ 'BaseForm': baseform, 'CustomFormId': customForm[customFormIdIndex] });
                                             jQuery('head').append(`<template id="tmpl-custom-${baseform}">${customForm[htmlIndex]}</template>`);
                                         }
@@ -200,19 +212,21 @@ class Base {
                                             sessionStorage.setItem('customForms', JSON.stringify(activeCustomForms));
                                         }
 
-                                        const responseGetControlDefaults = values[3];
-                                        let controlDefaults = {
-                                            defaultdealstatusid: responseGetControlDefaults.DefaultDealStatusId
-                                            , defaultdealstatus: responseGetControlDefaults.DefaultDealStatus
-                                            , defaultcustomerstatusid: responseGetControlDefaults.DefaultCustomerStatusId
-                                            , defaultcustomerstatus: responseGetControlDefaults.DefaultCustomerStatus
-                                            , defaultdealbillingcycleid: responseGetControlDefaults.DefaultDealBillingCycleId
-                                            , defaultdealbillingcycle: responseGetControlDefaults.DefaultDealBillingCycle
-                                            , defaultunitid: responseGetControlDefaults.DefaultUnitId
-                                            , defaultunit: responseGetControlDefaults.DefaultUnit
-                                            , defaulticodemask: responseGetControlDefaults.ICodeMask
-                                            , systemname: responseGetControlDefaults.SystemName
-                                            , companyname: responseGetControlDefaults.CompanyName
+                                        const responseGetDefaultSettings = values[3];
+                                        const responseGetInventorySettings = values[4];
+                                        const responseGetSystemSettings = values[5];
+                                        const controlDefaults = {
+                                            defaultdealstatusid: responseGetDefaultSettings.DefaultDealStatusId
+                                            , defaultdealstatus: responseGetDefaultSettings.DefaultDealStatus
+                                            , defaultcustomerstatusid: responseGetDefaultSettings.DefaultCustomerStatusId
+                                            , defaultcustomerstatus: responseGetDefaultSettings.DefaultCustomerStatus
+                                            , defaultdealbillingcycleid: responseGetDefaultSettings.DefaultDealBillingCycleId
+                                            , defaultdealbillingcycle: responseGetDefaultSettings.DefaultDealBillingCycle
+                                            , defaultunitid: responseGetDefaultSettings.DefaultUnitId
+                                            , defaultunit: responseGetDefaultSettings.DefaultUnit
+                                            , defaulticodemask: responseGetInventorySettings.ICodeMask
+                                            , systemname: responseGetSystemSettings.SystemName
+                                            , companyname: responseGetSystemSettings.CompanyName
                                         }
                                         sessionStorage.setItem('controldefaults', JSON.stringify(controlDefaults));
 

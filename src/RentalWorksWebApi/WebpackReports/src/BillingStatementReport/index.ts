@@ -15,9 +15,9 @@ export class BillingStatementReport extends WebpackReport {
             super.renderReport(apiUrl, authorizationHeader, parameters);
 
             HandlebarsHelpers.registerHelpers();
-            Ajax.get<DataTable>(`${apiUrl}/api/v1/control/1`, authorizationHeader)
+            Ajax.get<DataTable>(`${apiUrl}/api/v1/logosettings/1`, authorizationHeader)
                 .then((response: DataTable) => {
-                    const controlObject: any = response;
+                    const logoObject: any = response;
                     Ajax.post<DataTable>(`${apiUrl}/api/v1/BillingStatementReport/runreport`, authorizationHeader, parameters)
                         .then((response: DataTable) => {
                             const data: any = DataTable.toObjectList(response);
@@ -29,8 +29,8 @@ export class BillingStatementReport extends WebpackReport {
                             data.Today = moment().format('MM/DD/YYYY')
                             data.Company = parameters.companyName;
                             
-                            if (controlObject.ReportLogoImage != '') {
-                                data.Logosrc = controlObject.ReportLogoImage;
+                            if (logoObject.LogoImage != '') {
+                                data.Logosrc = logoObject.LogoImage;
                             }
                             if (data[2]) {
                                 const firstDetail = data[2];

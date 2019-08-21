@@ -17,9 +17,9 @@ export class OutContractReport extends WebpackReport {
             super.renderReport(apiUrl, authorizationHeader, parameters);
             HandlebarsHelpers.registerHelpers();
 
-            Ajax.get<DataTable>(`${apiUrl}/api/v1/control/1`, authorizationHeader)
+            Ajax.get<DataTable>(`${apiUrl}/api/v1/logosettings/1`, authorizationHeader)
                 .then((response: DataTable) => {
-                    const controlObject: any = response;
+                    const logoObject: any = response;
             Ajax.get<OutContract>(`${apiUrl}/api/v1/outcontractreport/${parameters.ContractId}`, authorizationHeader)
                 .then((response: OutContract) => {
                     const data: any = response;
@@ -27,8 +27,8 @@ export class OutContractReport extends WebpackReport {
                     data.System = 'RENTALWORKS';
                     data.Company = parameters.companyName;
                     data.Report = 'OUT CONTRACT';
-                    if (controlObject.ReportLogoImage != '') {
-                        data.Logosrc = controlObject.ReportLogoImage;
+                    if (logoObject.LogoImage != '') {
+                        data.Logosrc = logoObject.LogoImage;
                     } 
                     this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {

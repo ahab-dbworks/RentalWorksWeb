@@ -17,9 +17,9 @@ export class InvoiceReport extends WebpackReport {
             super.renderReport(apiUrl, authorizationHeader, parameters);
             HandlebarsHelpers.registerHelpers();
             // Report rendering and Logo
-            Ajax.get<DataTable>(`${apiUrl}/api/v1/control/1`, authorizationHeader)
+            Ajax.get<DataTable>(`${apiUrl}/api/v1/logosettings/1`, authorizationHeader)
                 .then((response: DataTable) => {
-                    const controlObject: any = response;
+                    const logoObject: any = response;
                     Ajax.post<Invoice>(`${apiUrl}/api/v1/invoicereport/runreport`, authorizationHeader, parameters)
                         .then((response: Invoice) => {
                             const data: any = response;
@@ -27,8 +27,8 @@ export class InvoiceReport extends WebpackReport {
                             data.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
                             data.System = 'RENTALWORKS';
                             data.Report = 'INVOICE';
-                            if (controlObject.ReportLogoImage != '') {
-                                data.Logosrc = controlObject.ReportLogoImage;
+                            if (logoObject.LogoImage != '') {
+                                data.Logosrc = logoObject.LogoImage;
                             }
                             this.renderFooterHtml(data);
                             if (this.action === 'Preview' || this.action === 'PrintHtml') {
