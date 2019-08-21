@@ -98,7 +98,7 @@ try {
                     InventoryId: iCode,
                     //QuantityOrdered: 20
                 }
-                await poModule.clickTab("Rental");
+                await poModule.clickTab("Rental Inventory");
                 await poModule.addGridRow('OrderItemGrid', 'R', null, fieldObject)
                     .then()
                     .catch(err => logger.error('saveRecord: ', err));

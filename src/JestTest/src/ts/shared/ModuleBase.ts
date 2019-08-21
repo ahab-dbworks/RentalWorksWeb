@@ -176,7 +176,7 @@ export class ModuleBase {
         await page.click(`div[data-name="${validationName}"] tr.viewmode:nth-child(${recordToSelect})`, { clickCount: 2 });
     }
 
-    async getDataFieldValue(dataField: string): Promise<void> {
+    async getDataFieldValue(dataField: string): Promise<string> {
         const selector = `div[data-datafield="${dataField}"] .fwformfield-value`;
         const val = await page.$eval(selector, (e: any) => {
             return e.value

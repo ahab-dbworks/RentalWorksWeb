@@ -15,7 +15,8 @@ export class RentalInventory extends ModuleBase {
         await page.waitForSelector('.fwformfield[data-datafield="ICode"]', { visible: true });
 
         //icode and description
-        const iCode = faker.random.alphaNumeric(5);
+        let iCode: string = faker.random.alphaNumeric(5);
+        //let iCode: string = faker.random.alphaNumeric(7);
         await this.populateTextField("ICode", iCode);
         await this.populateTextField("Description", `JEST - ${faker.commerce.productName()}`);
 
@@ -31,6 +32,10 @@ export class RentalInventory extends ModuleBase {
 
         //rank
         await this.populateValidationField("Rank", "RankValidation", 3);
+
+        //iCode = await this.getDataFieldValue('ICode');
+        //iCode = await this.getDataFieldText('ICode');
+        //console.log('iCode', iCode);
 
         return iCode;
 
