@@ -62,7 +62,7 @@
                     console.log('res: ', response)
                     try {
                         if ($moduleoverlay) {
-                            if ((isNaN(response.CurrentStep)) || (response.CurrentStep === 'undefined') || (response.CurrentStep === undefined)) {
+                            if ((isNaN(response.CurrentStep)) || (response.CurrentStep === 'undefined') || (response.CurrentStep === undefined) || (response.CurrentStep === null)) {
                                 caption = 'Processing...';
                                 currentStep += 2.5;
                                 $moduleoverlay.find('progress').val(100);
