@@ -54,8 +54,10 @@ try {
             test('Fill in form data', async () => {
                 iCode = await rentalInventoryModule.populateNew()
                     .then()
-                    .catch(err => logger.error('populateNew: ', err))
+                    .catch(err => logger.error('populateNew: ', err));
+                console.log('iCode', iCode);
             }, 10000);
+
             test('Save new', async () => {
                 await rentalInventoryModule.saveRecord()
                     .then()
@@ -94,6 +96,8 @@ try {
                     .catch(err => logger.error('saveRecord: ', err));
             }, 20000);
             test('Add one grid row in rental tab', async () => {
+                console.log('iCode', iCode);
+
                 const fieldObject = {
                     InventoryId: iCode,
                     //QuantityOrdered: 20

@@ -224,7 +224,13 @@ export class ModuleBase {
                 for (let key in fieldObject) {
                     //// differentiate b/w datafield inputs and validations - structure is different
                     // console.log('selector', `${grid} .tablewrapper table tbody tr td div[data-browsedatafield="${key}"] input.text`)
+
+                    console.log(`Adding to grid: `, `FieldName: "${key}"     Value: "${fieldObject[key]}"`);
+
+
                     page.type(`${grid} .tablewrapper table tbody tr td div[data-browsedatafield="${key}"] input.text`, fieldObject[key])
+                    await ModuleBase.wait(3000);
+                    await page.keyboard.press('Enter');
                 }
                 //await page.waitFor(1500); //  need better wait that all values have been assigned
                 await ModuleBase.wait(1500);
