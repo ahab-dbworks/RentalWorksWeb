@@ -413,8 +413,8 @@ class FwMenuClass {
         const caption = $control.attr('data-caption');
         const html = [];
         html.push(`<div class="fwformcontrol btnmenu">${caption}</div>`);
-        html.push('  <div><i class="material-icons btnmenudd">&#xE5C5;</i></div>');
-        html.push('<div class="btnmenuoptions"></div>');
+        html.push(`<div class="icon-wrapper"><i class="material-icons btnmenudd">&#xE5C5;</i></div>`);
+        html.push(`<div class="btnmenuoptions"></div>`);
         $control.append(html.join(''))
             .find('.btnmenuoptions')
             .append(menuOptions);

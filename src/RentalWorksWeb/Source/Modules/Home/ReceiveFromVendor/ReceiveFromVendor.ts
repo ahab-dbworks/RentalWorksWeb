@@ -11,15 +11,15 @@ class ReceiveFromVendor {
 
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
-        var screen: any = {};
+        const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
-        var $form = this.openForm('EDIT');
+        const $form = this.openForm('EDIT');
 
-        screen.load = function () {
-            FwModule.openModuleTab($form, 'Receive From Vendor', false, 'FORM', true);
+        screen.load = () => {
+            FwModule.openModuleTab($form, this.caption, false, 'FORM', true);
         };
         screen.unload = function () {
         };

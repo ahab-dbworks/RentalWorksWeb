@@ -78,6 +78,8 @@ html.theme-material [data-type="btnmenu"] .btnmenuoptions {border-radius:2px;mar
 /*#endregion*/
 
 /*#region data-type="btnmenu" (icon area revealing dropdown)*/
+html.theme-material [data-type="btnmenu"] .icon-wrapper { float:left;padding-left:1px; }
+
 html.theme-material [data-type="btnmenu"] i.btnmenudd { vertical-align:middle;float:right;background-color:#01579B;color:white;height:29px;padding:4px 3px 3px 3px;border-radius:0 2px 2px 0;cursor:pointer; }
 html.theme-material [data-type="btnmenu"] i.btnmenudd { background-color:#01579b;color: #ffffff;box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12); }
 html.theme-material [data-type="btnmenu"] i.btnmenudd:hover { box-shadow: 0 5px 11px 0 rgba(0,0,0,0.18), 0 4px 15px 0 rgba(0,0,0,0.15); }

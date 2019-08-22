@@ -1352,7 +1352,7 @@
                           </div>
                           <div class="flexrow original-buttons" style="display:flex;justify-content:space-between;">
                             <div class="orderstatus fwformcontrol" data-type="button" style="flex:0 1 145px; margin-left:8px; text-align:center;">${statusBtnCaption}</div>
-                            <div class="createcontract" data-type="btnmenu" style="flex:0 1 200px;margin-right:7px;" data-caption="${createBtnCaption}"></div>
+                            <div class="createcontract" data-type="btnmenu" style="flex:0 1 201px;margin-right:7px;" data-caption="${createBtnCaption}"></div>
                           </div>
                           <div class="fwformcontrol abort-checkout-contract" data-type="button" style="max-width:157px;display:none;"><< Back to Staging</div>
                         </div>
