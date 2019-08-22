@@ -49,14 +49,50 @@ try {
                         .catch(err => logger.error('createNewRecord: ', err));
                 }, 10000);
                 test('Fill in Contact form data', async () => {
-                    await module.populateNew()
+                    await module.populateNewContact()
                         .then()
-                        .catch(err => logger.error('populateNew: ', err))
+                        .catch(err => logger.error('populateNewContact: ', err))
                 }, 10000);
                 test('Save new Contact', async () => {
                     await module.saveRecord()
                         .then()
                         .catch(err => logger.error('saveRecord: ', err));
+                }, 10000);
+                test('Close Record', async () => {
+                    await module.closeRecord()
+                        .then()
+                        .catch(err => logger.error('closeRecord: ', err));
+                }, 10000);
+            }
+        });
+
+        describe('Create new Contact, fill out form without a required field and attempt to save record', () => {
+            if (continueTest) {
+                test('Open module and create', async () => {
+                    await module.openModule()
+                        .then()
+                        .catch(err => logger.error('openModule: ', err));
+                }, 10000);
+                test('Create New record', async () => {
+                    await module.createNewRecord(1)
+                        .then()
+                        .catch(err => logger.error('createNewRecord: ', err));
+                }, 10000);
+                test('Fill in Contact form data without Email (set as a required field)', async () => {
+                    await module.populateNewContactWithoutEmail()
+                        .then()
+                        .catch(err => logger.error('populateNewContactWithoutEmail: ', err))
+                }, 10000);
+                test('Save new Contact (expect error)', async () => {
+                      continueTest = await module.saveRecord()
+                        .then()
+                        .catch(err => logger.error('saveRecord: ', err));
+                        expect(continueTest).toBe(false);
+                }, 10000);
+                test('Detect error class on form field', async () => {
+                    await page.waitForSelector('.fwformfield.error')
+                        .then()
+                        .catch(err => logger.error('detectErrorOnField: ', err));
                 }, 10000);
                 test('Close Record', async () => {
                     await module.closeRecord()

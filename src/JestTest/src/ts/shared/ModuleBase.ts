@@ -256,19 +256,18 @@ export class ModuleBase {
         await page.waitForSelector('.advisory');
         //await page.screenshot({ path: 'PageAfterVendorSave.png', fullPage: true });
         await page.waitForFunction(() => document.querySelector('.advisory'), { polling: 'mutation' })
-            .then(async done => {
-                const afterSaveMsg = await page.evaluate(() => {
-                    const messageText = jQuery('body').find('.advisory').text();
-                    return messageText;
-                })
-                if (afterSaveMsg.includes('saved')) {
-                    logger.info(`${this.moduleCaption} Record saved: ${afterSaveMsg}`);
-                    continueTest = true;
-                } else if (afterSaveMsg.includes('Error') || afterSaveMsg.includes('resolve')) {
-                    logger.error(`${this.moduleCaption} Record not saved: ${afterSaveMsg}`);
-                    continueTest = false;
-                }
-            })
+        .then(async done => {
+            const afterSaveMsg = await page.$eval('.advisory', el => el.textContent);
+            if (afterSaveMsg.includes('saved')) {
+                logger.info(`${this.moduleCaption} Record saved: ${afterSaveMsg}`);
+                continueTest = true;
+            } else if (afterSaveMsg.includes('Error') || afterSaveMsg.includes('resolve')) {
+                logger.error(`${this.moduleCaption} Record not saved: ${afterSaveMsg}`);
+                continueTest = false;
+            }
+            await ModuleBase.wait(3000);
+        })
+       
         return continueTest;
     }
 

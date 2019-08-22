@@ -10,8 +10,15 @@ export class Contact extends ModuleBase {
         this.moduleCaption = 'Contact';
     }
 
-    async populateNew(): Promise<void> {
+    async populateNewContact(): Promise<void> {
         await page.waitForSelector('.fwformfield[data-datafield="FirstName"]', {visible:true});
+        await this.populateTextField("FirstName", `JEST - ${faker.name.firstName()}`);
+        await this.populateTextField("LastName", faker.name.lastName());
+        await this.populateTextField("Email", faker.internet.email());
+    }
+
+    async populateNewContactWithoutEmail(): Promise<void> {
+        await page.waitForSelector('.fwformfield[data-datafield="FirstName"]', { visible: true });
         await this.populateTextField("FirstName", `JEST - ${faker.name.firstName()}`);
         await this.populateTextField("LastName", faker.name.lastName());
     }
