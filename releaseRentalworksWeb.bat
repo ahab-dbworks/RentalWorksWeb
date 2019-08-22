@@ -31,6 +31,9 @@ IF "%DwFtpUploadUser%"=="" exit /B
 IF "%DwFtpUploadPassword%"=="" ECHO Environment Variable DwFtpUploadPassword is NOT defined
 IF "%DwFtpUploadPassword%"=="" exit /B
 
+if not exist "c:\Program Files\7-Zip\7z.exe" ECHO 7 Zip is not installed
+if not exist "c:\Program Files\7-Zip\7z.exe" exit /B
+
 
 rem Get the Build number from the user
 set /p buildno="Build Number (ie. 2019.1.1.15): "
@@ -39,13 +42,13 @@ rem determine ZIP filename
 setlocal ENABLEDELAYEDEXPANSION
 set buildnoforzip=%buildno:.=_%
 set zipfilename=RentalWorksWeb_%buildnoforzip%.zip
-echo %zipfilename%
+rem echo %zipfilename%
 
 rem delete any old build files
 cd %DwRentalWorksWebPath%\build
-rmdir RentalWorksWeb /S /Q
-rmdir RentalWorksWebApi /S /Q
-del %zipfilename%
+if exist RentalWorksWeb\ (rmdir RentalWorksWeb /S /Q)
+if exist RentalWorksWebApi\ (rmdir RentalWorksWebApi /S /Q)
+if exist %zipfilename% (del %zipfilename%)
 
 
 rem Update the Build number in the version.txt files
@@ -74,14 +77,11 @@ cd %DwRentalWorksWebPath%\build
 
 
 rem delete the work files
-rmdir RentalWorksWeb /S /Q
-rmdir RentalWorksWebApi /S /Q
-
+if exist RentalWorksWeb\ (rmdir RentalWorksWeb /S /Q)
+if exist RentalWorksWebApi\ (rmdir RentalWorksWebApi /S /Q)
 
 rem copy the ZIP delivable to "history" sub-directory
 copy %zipfilename% history
-
-
 
 rem Create FTP command file to upload the zip
 setlocal DISABLEDELAYEDEXPANSION
@@ -104,6 +104,16 @@ del %ftpcommandfilename%
 
 
 rem command-line Git push in the modified version and assemply files
+rem ??
+
+
 rem command-line Git make Release and Tag
+rem ??
+
+
 rem command-line gren make Build Release Document
-rem gren changelog --token=4f42c7ba6af985f6ac6a6c9eba45d8f25388ef58 --username=databaseworks --repo=rentalworksweb --generate --override --changelog-filename=RELEASE_NOTES.md -D issues -m --group-by label
+rem cd %DwRentalWorksWebPath%\build
+rem gren changelog --token=4f42c7ba6af985f6ac6a6c9eba45d8f25388ef58 --username=databaseworks --repo=rentalworksweb --generate --override --changelog-filename=v2019.1.1.xx.md -D issues -m --group-by label
+
+
+

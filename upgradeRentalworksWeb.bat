@@ -12,9 +12,9 @@ rem --------------------------------------------------------------------------
 rem Set the name of the Application Pool that the API runs in
 set apppoolname=XXAppPoolNameHereXX
 rem --------------------------------------------------------------------------
-rem Set the paths for Web and API files (do not supply trailing "\")
-set webpath=C:\Temp\web            
-set apipath=C:\Temp\api
+rem Set the actual paths here for Web and API running directories (do not supply trailing "\")
+set webpath=C:\Temp\xxxweb
+set apipath=C:\Temp\xxxapi
 rem --------------------------------------------------------------------------
 
 
@@ -30,6 +30,28 @@ rem prompt for the build number to download and install
 set /p buildno="Build Number (ie. 2019.1.1.15): "
 
 
+if not exist "c:\Program Files\7-Zip\7z.exe" ECHO 7 Zip is not installed
+if not exist "c:\Program Files\7-Zip\7z.exe" exit /B
+
+if %apppoolname%==XXAppPoolNameHereXX ECHO Need to configure the name of the Application Pool
+if %apppoolname%==XXAppPoolNameHereXX exit /B
+
+if %webpath%==C:\Temp\xxxweb ECHO Need to configure install location for Web
+if %webpath%==C:\Temp\xxxweb exit /B
+
+if %apipath%==C:\Temp\xxxapi ECHO Need to configure install location for API
+if %apipath%==C:\Temp\xxxapi exit /B
+
+if not exist %apipath%\ ECHO Cannot find install location for API -- %apipath%
+if not exist %apipath%\ exit /B
+
+if not exist %webpath%\ ECHO Cannot find install location for Web -- %webpath%
+if not exist %webpath%\ exit /B
+
+if not exist %apipath%\ ECHO Cannot find install location for API -- %apipath%
+if not exist %apipath%\ exit /B
+
+
 rem determine the name of the ZIP file to download
 setlocal ENABLEDELAYEDEXPANSION
 set buildnoforzip=%buildno:.=_%
@@ -37,10 +59,10 @@ set zipfilename=RentalWorksWeb_%buildnoforzip%.zip
 
 rem delete any old files in the working directory (c:\temp)
 cd %workingdirectory%
-rmdir RentalWorksWeb /S /Q
-rmdir RentalWorksWebApi /S /Q
-del %ftpcommandfilename%
-del %zipfilename%
+if exist RentalWorksWeb\ (rmdir RentalWorksWeb /S /Q)
+if exist RentalWorksWebApi\ (rmdir RentalWorksWebApi /S /Q)
+if exist %ftpcommandfilename% (del %ftpcommandfilename%)
+if exist %zipfilename% (del %zipfilename%)
 
 rem Create FTP command file to download the zip
 echo open ftp.dbworks.com>%ftpcommandfilename%
@@ -64,8 +86,8 @@ rem WEB
 rem --------------------------------------------------------------------------
 rem delete any downloaded files that should not be here
 cd %workingdirectory%\RentalWorksWeb
-rmdir App_Data /S /Q
-del ApplicationConfig.js
+if exist App_Data\ (rmdir App_Data /S /Q)
+if exist ApplicationConfig.js (del ApplicationConfig.js)
 rem delete any old installations in the target "web" directory
 cd %webpath%
 rem remove all directories except .well-known and App_Data
@@ -81,7 +103,7 @@ rem API
 rem --------------------------------------------------------------------------
 rem delete any downloaded files that should not be here
 cd %workingdirectory%\RentalWorksWebApi 
-del appsettings.json
+if exist appsettings.json (del appsettings.json)
 rem delete all except directories that start with "." and appsettings.json
 cd %apipath%
 rem remove all directories except .well-known and .local-chromium
@@ -92,8 +114,8 @@ rem copy all files from the downloaded api directoy to the target api directory
 xcopy %workingdirectory%\RentalWorksWebApi\*.* %apipath% /e
 
 cd %workingdirectory%
-rmdir RentalWorksWeb /S /Q
-rmdir RentalWorksWebApi /S /Q
+if exist RentalWorksWeb\ (rmdir RentalWorksWeb /S /Q)
+if exist RentalWorksWebApi\ (rmdir RentalWorksWebApi /S /Q)
 
 
 rem grant "modify" permissions for the IIS User to the temp\downloads directory for users to be able to make Excel files
