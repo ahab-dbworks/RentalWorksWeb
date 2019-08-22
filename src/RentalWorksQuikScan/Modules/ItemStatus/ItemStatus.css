@@ -26,7 +26,7 @@
 #itemStatus .is-warehouses .warehouse:first-child {}
 #itemStatus .is-warehouses .warehouse:first-child .captionWarehouse {color:rgba(0,200,0,1);}
 #itemStatus .is-warehouses .warehouse:first-child .valueWarehouse {color:rgba(0,200,0,1);}
-#itemStatus .is-warehouses .warehouse .captionTotal {padding:0 5px;width:40px;font-weight: bold;}
+/*#itemStatus .is-warehouses .warehouse .captionTotal {padding:0 5px;width:40px;font-weight: bold;}
 #itemStatus .is-warehouses .warehouse .valueTotal {padding:0 5px;width:40px;text-align:right;}
 #itemStatus .is-warehouses .warehouse .captionAisleloc {padding:0 5px;width:40px;font-weight: bold;}
 #itemStatus .is-warehouses .warehouse .valueAisleloc {padding:0 5px;width:45px;text-align:right;}
@@ -43,7 +43,9 @@
 #itemStatus .is-warehouses .warehouse .captionInRepair {padding:0 5px;width:60px;font-weight: bold;}
 #itemStatus .is-warehouses .warehouse .valueInRepair {padding:0 5px;width:40px;text-align:right;}
 #itemStatus .is-warehouses .warehouse .captionOnPO {padding:0 5px;width:45px;font-weight: bold;}
-#itemStatus .is-warehouses .warehouse .valueOnPO {padding:0 5px;width:40px;text-align:right;}
+#itemStatus .is-warehouses .warehouse .valueOnPO {padding:0 5px;width:40px;text-align:right;}*/
+#itemStatus .is-warehouses .warehouse .caption {padding:0 5px;font-weight:bold;flex:1 0;}
+#itemStatus .is-warehouses .warehouse .value {padding:0 5px;text-align:right;flex:1 0;}
 
 #itemStatus .is-rfiditems {display:none;background-color: #212121;margin-top:10px;}
 #itemStatus .is-rfiditems .norecords {text-align:center;margin:5px;}

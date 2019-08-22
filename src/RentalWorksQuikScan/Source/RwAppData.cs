@@ -1162,7 +1162,7 @@ namespace RentalWorksQuikScan.Source
             qry.AddColumn("warehouseid",        false);
             qry.AddColumn("whcode",             false);
             qry.Add("select top 1 *");
-            qry.Add(", qtyin = dbo.calmasteritemqtyin(@orderid, @masteritemid)");  
+            qry.Add(", qtyin = dbo.calmasteritemqtyin2(@orderid, @masteritemid, '')");
             qry.Add("from dbo.funccheckoutexception2(@orderid, @warehouseid, @contractid)");
             qry.Add("where masteritemid = @masteritemid");
             qry.AddParameter("@orderid", orderId);
@@ -1495,7 +1495,7 @@ namespace RentalWorksQuikScan.Source
 
             qry = new FwSqlCommand(conn);
             qry.Add("select *");
-            qry.Add("from funcmasterwh(@masterid, @userswarehouseid, @filterwareouseid, @currencyid)");
+            qry.Add("from funcmasterwh2(@masterid, @userswarehouseid, @filterwareouseid, @currencyid, 'T', 'T')");
             qry.Add("order by orderby");
             qry.AddParameter("@masterid",         masterid);
             qry.AddParameter("@userswarehouseid", userswarehouseid);

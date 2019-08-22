@@ -152,11 +152,11 @@ RwOrderController.getItemStatusScreen = function(viewModel, properties) {
                 captionQCRqd:       RwLanguages.translate('QC Rq\'d'),
                 valueQCRqd:         itemdata.warehousedata[whno].qtyqcrequired,
                 captionStaged:      RwLanguages.translate('Staged'),
-                valueStaged:        itemdata.warehousedata[whno].staged,
+                valueStaged:        itemdata.warehousedata[whno].qtystaged,
                 captionOut:         RwLanguages.translate('Out'),
                 valueOut:           itemdata.warehousedata[whno].qtyout,
                 captionInRepair:    RwLanguages.translate('In Repair'),
-                valueInRepair:      itemdata.warehousedata[whno].inrepair,
+                valueInRepair:      itemdata.warehousedata[whno].qtyinrepair,
                 captionOnPO:        RwLanguages.translate('On PO'),
                 valueOnPO:          itemdata.warehousedata[whno].qtyonpo
             }));
