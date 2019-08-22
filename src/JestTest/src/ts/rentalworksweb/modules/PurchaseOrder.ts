@@ -9,18 +9,17 @@ export class PurchaseOrder extends ModuleBase {
         this.moduleCaption = 'Purchase Order';
     }
 
-    async populateNew(): Promise<string> {
+    async populateNew(testToken: string): Promise<string> {
 
         //wait for the form to open and find the PurchaseOrderNumber field
         await page.waitForSelector('.fwformfield[data-datafield="PurchaseOrderNumber"]', { visible: true });
 
-        //Vendor field
+        //faker
+        let poDescription = `JEST - ${testToken} - ${faker.name.jobTitle()}`;
+
+        //populate fields
         await this.populateValidationField("VendorId", "VendorValidation", 2);
-
-        //PO description
-        const poDescription = `JEST - ${faker.name.jobTitle()}`;
         await this.populateTextField("Description", poDescription);
-
 
         return poDescription;
     }

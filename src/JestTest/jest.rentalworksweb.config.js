@@ -15,5 +15,15 @@ module.exports = {
         "node"
     ],
     "setupFilesAfterEnv": ["expect-puppeteer"],
-    "preset": "jest-puppeteer"
+    "preset": "jest-puppeteer",
+	"reporters": [
+        "default",
+        [
+		"./node_modules/jest-html-reporter", {
+            "pageTitle": "RentalWorksWeb Test Report",
+			includeFailureMsg : true,
+			logo: "rwwlogo.png"
+           }
+		]
+    ]
 }

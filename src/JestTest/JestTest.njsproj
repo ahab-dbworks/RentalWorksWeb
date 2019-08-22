@@ -41,7 +41,6 @@
     <Content Include="README.md" />
     <Content Include="src\combined.log" />
     <Content Include="src\error.log" />
-    <Content Include="src\jest.config.js" />
     <Content Include="src\tsconfig.json" />
     <Content Include="src\ts\rentalworksweb\RWWDEMOBurbank.test.ts">
       <SubType>Code</SubType>

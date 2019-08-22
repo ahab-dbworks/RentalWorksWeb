@@ -186,3 +186,4 @@
 /src/JestTest/*.log
 /src/JestTest/**/*.js
 /src/JestTest/**/*.map
+/src/JestTest/test-report.html

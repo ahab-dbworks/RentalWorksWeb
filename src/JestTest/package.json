@@ -29,7 +29,9 @@
     "ts-jest": "24.0.2",
     "typescript": "3.5.2"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "jest-html-reporter": "^2.5.0"
+  },
   "scripts": {
     "test-rentalworksapi": "jest --config=jest.rentalworksapi.config.js",
     "test-rentalworksweb": "jest --config=jest.rentalworksweb.config.js",

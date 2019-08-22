@@ -17,6 +17,11 @@ RW_EMAIL=youremail
 RW_PASSWORD=yourpassword
 ```
 
+## Jest HTML Reporting Tool
+- install this reporting package for Jest
+
+https://www.npmjs.com/package/jest-html-reporter
+
 ## Running a test
 ### Terminal within the TestWorks Environment
 - From Windows Explorer, navigate to the src folder within the RentalWorksWeb directory.
