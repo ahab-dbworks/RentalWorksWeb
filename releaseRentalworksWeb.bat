@@ -31,7 +31,7 @@ IF "%DwFtpUploadUser%"=="" exit /B
 IF "%DwFtpUploadPassword%"=="" ECHO Environment Variable DwFtpUploadPassword is NOT defined
 IF "%DwFtpUploadPassword%"=="" exit /B
 
-if not exist "c:\Program Files\7-Zip\7z.exe" ECHO 7 Zip is not installed
+if not exist "c:\Program Files\7-Zip\7z.exe" ECHO 7-Zip is not installed
 if not exist "c:\Program Files\7-Zip\7z.exe" exit /B
 
 

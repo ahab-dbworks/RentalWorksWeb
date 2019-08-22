@@ -30,7 +30,7 @@ rem prompt for the build number to download and install
 set /p buildno="Build Number (ie. 2019.1.1.15): "
 
 
-if not exist "c:\Program Files\7-Zip\7z.exe" ECHO 7 Zip is not installed
+if not exist "c:\Program Files\7-Zip\7z.exe" ECHO 7-Zip is not installed
 if not exist "c:\Program Files\7-Zip\7z.exe" exit /B
 
 if %apppoolname%==XXAppPoolNameHereXX ECHO Need to configure the name of the Application Pool
@@ -104,6 +104,10 @@ rem --------------------------------------------------------------------------
 rem delete any downloaded files that should not be here
 cd %workingdirectory%\RentalWorksWebApi 
 if exist appsettings.json (del appsettings.json)
+
+rem recycle the Application Pool (before updating API)
+%systemroot%\system32\inetsrv\appcmd recycle apppool /apppool.name:"%apppoolname%"
+
 rem delete all except directories that start with "." and appsettings.json
 cd %apipath%
 rem remove all directories except .well-known and .local-chromium
@@ -121,5 +125,5 @@ if exist RentalWorksWebApi\ (rmdir RentalWorksWebApi /S /Q)
 rem grant "modify" permissions for the IIS User to the temp\downloads directory for users to be able to make Excel files
 icacls %apipath%\wwwroot\temp\downloads /grant IIS_IUSRS:M
 
-rem recycle the Application Pool
+rem recycle the Application Pool (after updating API)
 %systemroot%\system32\inetsrv\appcmd recycle apppool /apppool.name:"%apppoolname%"
