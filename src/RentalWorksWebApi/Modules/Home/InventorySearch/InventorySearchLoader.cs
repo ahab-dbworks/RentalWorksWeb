@@ -228,7 +228,8 @@ namespace WebApi.Modules.Home.InventorySearch
                 }
             }
             
-            dt = await AddAvailabilityData(dt, request.ShowAvailability.GetValueOrDefault(false), request.FromDate, request.ToDate, request.SessionId, request.RefreshAvailability.GetValueOrDefault(false));
+            //dt = await AddAvailabilityData(dt, request.ShowAvailability.GetValueOrDefault(false), request.FromDate, request.ToDate, request.SessionId, request.RefreshAvailability.GetValueOrDefault(false));
+            dt = await AddAvailabilityData(dt, request.ShowAvailability.GetValueOrDefault(false), request.FromDate, request.ToDate, request.SessionId, true);  //jh 08/23/2019 experimental
 
             return dt;
         }
@@ -259,7 +260,8 @@ namespace WebApi.Modules.Home.InventorySearch
                 }
             }
 
-            dt = await AddAvailabilityData(dt, request.ShowAvailability.GetValueOrDefault(false), request.FromDate, request.ToDate, request.SessionId, request.RefreshAvailability.GetValueOrDefault(false));
+            //dt = await AddAvailabilityData(dt, request.ShowAvailability.GetValueOrDefault(false), request.FromDate, request.ToDate, request.SessionId, request.RefreshAvailability.GetValueOrDefault(false));
+            dt = await AddAvailabilityData(dt, request.ShowAvailability.GetValueOrDefault(false), request.FromDate, request.ToDate, request.SessionId, true);  //jh 08/23/2019 experimental
 
             return dt;
         }

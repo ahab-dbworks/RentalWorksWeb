@@ -184,7 +184,8 @@ namespace WebApi.Modules.Home.InventorySearchPreview
                             availRequestItems.Add(new TInventoryWarehouseAvailabilityRequestItem(inventoryId, warehouseId, fromDateTime, toDateTime));
                         }
 
-                        TAvailabilityCache availCache = await InventoryAvailabilityFunc.GetAvailability(AppConfig, UserSession, availRequestItems, request.RefreshAvailability.GetValueOrDefault(false));
+                        //TAvailabilityCache availCache = await InventoryAvailabilityFunc.GetAvailability(AppConfig, UserSession, availRequestItems, request.RefreshAvailability.GetValueOrDefault(false));
+                        TAvailabilityCache availCache = await InventoryAvailabilityFunc.GetAvailability(AppConfig, UserSession, availRequestItems, true);  //jh 08/23/2019 experimental
 
                         foreach (List<object> row in dt.Rows)
                         {
@@ -196,6 +197,7 @@ namespace WebApi.Modules.Home.InventorySearchPreview
                             bool isStale = true;
                             DateTime? conflictDate = null;
                             string availColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_NEEDRECALC);
+                            string availabilityState = RwConstants.AVAILABILITY_STATE_STALE;
 
 
                             TInventoryWarehouseAvailability availData = null;
@@ -207,6 +209,7 @@ namespace WebApi.Modules.Home.InventorySearchPreview
                                 conflictDate = minAvail.FirstConfict;
                                 isStale = minAvail.IsStale;
                                 availColor = minAvail.Color;
+                                availabilityState = minAvail.AvailabilityState;
                             }
 
                             row[dt.GetColumnNo("QuantityAvailable")] = qtyAvailable;
@@ -218,6 +221,7 @@ namespace WebApi.Modules.Home.InventorySearchPreview
 
                             row[dt.GetColumnNo("QuantityAvailableColor")] = availColor;
                             row[dt.GetColumnNo("QuantityAvailableIsStale")] = isStale;
+                            row[dt.GetColumnNo("AvailabilityState")] = availabilityState;
 
 
                             //TInventoryWarehouseAvailabilityKey availKey = new TInventoryWarehouseAvailabilityKey(inventoryId, warehouseId);

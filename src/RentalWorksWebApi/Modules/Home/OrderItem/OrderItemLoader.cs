@@ -856,6 +856,8 @@ namespace WebApi.Modules.Home.OrderItem
             }
 
             refreshAvailability = GetUniqueIdAsBoolean("RefreshAvailability", request).GetValueOrDefault(false);
+            refreshAvailability = true; // jh 08/23/2019 experimental
+
 
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();

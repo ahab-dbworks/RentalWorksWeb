@@ -2,6 +2,7 @@ using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
 using System.Collections.Generic;
 using WebApi.Logic;
+using WebApi.Modules.Home.InventoryAvailability;
 using WebApi.Modules.Home.Master;
 using WebApi.Modules.Home.MasterItem;
 using WebApi.Modules.Home.Order;
@@ -1122,6 +1123,9 @@ namespace WebApi.Modules.Home.OrderItem
             {
                 bool saved = orderItem.SaveNoteASync(Notes).Result;
             }
+
+            InventoryAvailabilityFunc.RequestRecalc(InventoryId, WarehouseId, ItemClass);
+
 
         }
         //------------------------------------------------------------------------------------
