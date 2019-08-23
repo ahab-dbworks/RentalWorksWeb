@@ -20,6 +20,7 @@ namespace WebApi.Modules.Home.InventorySearchPreview
 
             ReloadOnSave = false;
             LoadOriginalBeforeSaving = false;
+            LoadOriginalBeforeDeleting = false;
         }
         //------------------------------------------------------------------------------------ 
 
