@@ -504,6 +504,13 @@ class CustomForm {
             //disables availability calendar
             $customForm.find('[data-control="FwSchedulerDetailed"]').unbind('onactivatetab');
             $customForm.find('[data-control="FwScheduler"]').unbind('onactivatetab');
+
+            //disable and add placeholder text for togglebutton controls
+            if (type === 'Form') {
+                const $toggleButtons = $customForm.find('[data-type="togglebuttons"]');
+                FwFormField.disable($toggleButtons);
+                $toggleButtons.text('[Toggle Buttons]');
+            }
         }
         disableControls();
 
@@ -1465,6 +1472,7 @@ class CustomForm {
 
         }
     }
+    //----------------------------------------------------------------------------------------------
     getValueOptions(fieldname: string) {
         var values: any = [];
         switch (fieldname) {
