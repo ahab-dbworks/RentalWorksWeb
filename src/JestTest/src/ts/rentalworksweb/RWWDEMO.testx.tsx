@@ -34,6 +34,9 @@ try {
     let customerName: string = "";
     let dealName: string = "";
     let quoteDescription: string = "";
+    let testToken: string = "";
+
+    if (process.env.TEST_TOKEN !== undefined) testToken = process.env.TEST_TOKEN;
 
     //login
     test('Login', async () => {
@@ -195,7 +198,7 @@ try {
                         .catch(err => logger.error('createNewRecord: ', err));
                 }, 10000);
                 test('Fill in form data', async () => {
-                    await module.populateNew()
+                    await module.populateNew(testToken)
                         .then()
                         .catch(err => logger.error('populateNew: ', err))
                 }, 10000);

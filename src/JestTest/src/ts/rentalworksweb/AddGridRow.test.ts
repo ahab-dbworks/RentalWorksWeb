@@ -90,15 +90,3 @@ try {
 } catch (ex) {
     logger.error('Error in catch AddGrid', ex);
 }
-© 2019 GitHub, Inc.
-    Terms
-Privacy
-Security
-Status
-Help
-Contact GitHub
-Pricing
-API
-Training
-Blog
-About
