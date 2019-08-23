@@ -432,8 +432,8 @@ namespace WebApi.Modules.Home.Order
         {
             ApplyOrderDatesAndTimesResponse response = new ApplyOrderDatesAndTimesResponse();
             response.success = true;  // initialize to true
-            string session1Id = AppFunc.GetNextIdAsync(appConfig).Result;
-            string session2Id = AppFunc.GetNextIdAsync(appConfig).Result;
+            string session1Id = AppFunc.GetNextIdAsync(appConfig, conn).Result;
+            string session2Id = AppFunc.GetNextIdAsync(appConfig, conn).Result;
 
             if (conn == null)
             {

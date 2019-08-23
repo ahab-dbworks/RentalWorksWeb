@@ -282,22 +282,23 @@ namespace WebApi.Logic
             return str;
         }
         //-------------------------------------------------------------------------------------------------------
-        public static async Task<string> GetLocationAsync(FwApplicationConfig appConfig, FwUserSession userSession, string locationId, string fieldName)
+        public static async Task<string> GetLocationAsync(FwApplicationConfig appConfig, FwUserSession userSession, string locationId, string fieldName, FwSqlConnection conn = null)
         {
             string str = "";
-            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            if (conn == null)
             {
-                FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
-                qry.Add("select " + fieldName);
-                qry.Add(" from  location l ");
-                qry.Add(" where l.locationid = @locationid");
-                qry.AddParameter("@locationid", locationId);
-                qry.AddColumn(fieldName);
-                FwJsonDataTable table = await qry.QueryToFwJsonTableAsync(true);
-                for (int r = 0; r < table.Rows.Count; r++)
-                {
-                    str = table.Rows[0][0].ToString();
-                }
+                conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString);
+            }
+            FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
+            qry.Add("select " + fieldName);
+            qry.Add(" from  location l ");
+            qry.Add(" where l.locationid = @locationid");
+            qry.AddParameter("@locationid", locationId);
+            qry.AddColumn(fieldName);
+            FwJsonDataTable table = await qry.QueryToFwJsonTableAsync(true);
+            for (int r = 0; r < table.Rows.Count; r++)
+            {
+                str = table.Rows[0][0].ToString();
             }
             return str;
         }
