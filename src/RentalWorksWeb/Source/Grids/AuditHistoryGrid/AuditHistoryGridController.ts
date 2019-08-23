@@ -43,8 +43,8 @@
                             } else {
                                 html.push(`<ul>
                                          <span class="field-name">${fieldName}:</span>
-                                         <span class="old-value">${changes[i].NewValue === "" ? "&#160;" : changes[i].NewValue}</span>
-                                         <span class="new-value">${changes[i].OldValue === "" ? "&#160;" : changes[i].OldValue}</span>
+                                         <span class="old-value">${changes[i].OldValue === "" ? "&#160;" : changes[i].OldValue}</span>
+                                         <span class="new-value">${changes[i].NewValue === "" ? "&#160;" : changes[i].NewValue}</span>
                                          <span class="audit-spacer"></span>
                                        </ul>`);
                             }
