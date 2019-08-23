@@ -258,21 +258,21 @@ export class ModuleBase {
         await page.waitForFunction(() => document.querySelector('.advisory'), { polling: 'mutation' })
         .then(async done => {
             const afterSaveMsg = await page.$eval('.advisory', el => el.textContent);
-            if (afterSaveMsg.includes('saved')) {
+            if ((afterSaveMsg.includes('saved')) && (!afterSaveMsg.includes('Error'))) {
                 logger.info(`${this.moduleCaption} Record saved: ${afterSaveMsg}`);
                 continueTest = true;
             } else if (afterSaveMsg.includes('Error') || afterSaveMsg.includes('resolve')) {
-                logger.error(`${this.moduleCaption} Record not saved: ${afterSaveMsg}`);
+                logger.info(`${this.moduleCaption} Record not saved: ${afterSaveMsg}`);
                 continueTest = false;
             }
-            await ModuleBase.wait(3000);
         })
-       
+        await ModuleBase.wait(3000);
         return continueTest;
     }
 
     async closeRecord(): Promise<void> {
         await page.click('div.delete');
+        logger.info(`Record closed.`);
         //await page.waitForNavigation();
     }
 

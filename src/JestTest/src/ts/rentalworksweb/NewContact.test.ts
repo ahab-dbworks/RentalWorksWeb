@@ -91,8 +91,98 @@ try {
                 }, 10000);
                 test('Detect error class on form field', async () => {
                     await page.waitForSelector('.fwformfield.error')
-                        .then()
+                        .then(() => {
+                            logger.info(`Error class detected.`);
+                        })
                         .catch(err => logger.error('detectErrorOnField: ', err));
+                }, 10000);
+                test('Close Record', async () => {
+                    await module.closeRecord()
+                        .then()
+                        .catch(err => logger.error('closeRecord: ', err));
+                    continueTest = true;
+                }, 10000);
+                test('Detect "Close Tab" notification', async () => {
+                    await page.waitForSelector('.advisory .fwconfirmation-button')
+                        .then(() => {
+                            logger.info(`"Close Tab" notification detected.`);
+                        })
+                        .catch(err => logger.error('detectCloseTabNotification: ', err));
+                }, 10000);
+                test('Close record without saving', async () => {
+                    const options = await page.$$('.advisory .fwconfirmation-button');
+                    await options[1].click() // clicks "Don't Save" option
+                        .then(() => {
+                            logger.info(`Closed tab without saving`);
+                        })
+                        .catch(err => logger.error('closeWithoutSaving: ', err));
+                }, 10000);
+            }
+        });
+
+        describe('Create new Contact with duplicate email', () => {
+            if (continueTest) {
+                let email;
+                test('Open module and create', async () => {
+                    await module.openModule()
+                        .then()
+                        .catch(err => logger.error('openModule: ', err));
+                }, 10000);
+                test('Create New record', async () => {
+                    await module.createNewRecord(1)
+                        .then()
+                        .catch(err => logger.error('createNewRecord: ', err));
+                }, 10000);
+                test('Fill in Contact form data (return email value)', async () => {
+                    await module.populateNewContactDuplicateEmail()
+                        .then((data) => {
+                            email = data;
+                        })
+                        .catch(err => logger.error('populateNewContact: ', err))
+                }, 10000);
+                test('Save new Contact', async () => {
+                    continueTest = await module.saveRecord()
+                        .then()
+                        .catch(err => logger.error('saveRecord: ', err));
+                }, 10000);
+                test('Close Record', async () => {
+                    await module.closeRecord()
+                        .then()
+                        .catch(err => logger.error('closeRecord: ', err));
+                }, 10000);
+                test('Open module and create', async () => {
+                    await module.openModule()
+                        .then()
+                        .catch(err => logger.error('openModule: ', err));
+                }, 10000);
+                test('Create New record', async () => {
+                    await module.createNewRecord(1)
+                        .then()
+                        .catch(err => logger.error('createNewRecord: ', err));
+                }, 10000);
+                test('Fill in Contact form data with duplicate email', async () => {
+                    await module.populateNewContact(email)
+                        .then()
+                        .catch(err => logger.error('populateNewContact: ', err))
+                }, 10000);
+                test('Save new Contact (expect error)', async () => {
+                    continueTest = await module.saveRecord()
+                        .then()
+                        .catch(err => logger.error('saveRecord: ', err));
+                    expect(continueTest).toBe(false);
+                }, 10000);
+                test('Detect error message notification popup', async () => {
+                    await page.waitForSelector('.advisory .message')
+                        .then()
+                        .catch(err => logger.error('detectPopup: ', err));
+                    const popupText = await page.$eval('.advisory', el => el.textContent);
+                    expect(popupText).toContain('Duplicate Rule');
+                }, 10000);
+                test('Close notification', async () => {
+                    await page.click(`.fwconfirmation-button`)
+                        .then()
+                        .catch(err => logger.error('closeRecord: ', err));
+                    await page.waitFor(() => !document.querySelector('.advisory'));
                 }, 10000);
                 test('Close Record', async () => {
                     await module.closeRecord()
