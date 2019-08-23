@@ -4,7 +4,7 @@
  */
 
 CKEDITOR.editorConfig = function (config) {
-    config.extraPlugins = 'font';
+    config.extraPlugins = 'font, basicstyles';
     config.toolbar_Full = [
         { name: 'document', groups: ['mode', 'document', 'doctools'], items: ['Source'/*, 'Save', 'NewPage', 'DocProps', 'Preview', 'Print', 'Templates', 'document'*/] },
         { name: 'clipboard', groups: ['clipboard', 'undo'], items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', 'Undo', 'Redo'] },
