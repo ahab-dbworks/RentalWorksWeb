@@ -49,7 +49,7 @@ class CheckIn {
             } else if (this.Module === 'TransferIn') {
                 FwFormField.setValueByDataField($form, 'TransferId', parentmoduleinfo.TransferId, parentmoduleinfo.TransferNumber);
             }
-            jQuery($form.find(`[data-datafield="${this.Type}Id"]`)).trigger('change');
+            jQuery($form.find(`[data-datafield="${this.Type}Id"] input`)).trigger('change');
             $form.attr('data-showsuspendedsessions', 'false');
         }
 
