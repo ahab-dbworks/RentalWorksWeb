@@ -177,7 +177,7 @@ class PurchaseOrder {
             const $vendorInvoiceForm = VendorInvoiceController.openForm('NEW');
             const poNumber = FwFormField.getValueByDataField($form, 'PurchaseOrderNumber');
             const poId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
-            FwFormField.setValueByDataField($vendorInvoiceForm, 'PurchaseOrderId', poId ,poNumber, true);
+            FwFormField.setValueByDataField($vendorInvoiceForm, 'PurchaseOrderId', poId, poNumber, true);
             FwModule.openSubModuleTab($vendorInvoiceBrowse, $vendorInvoiceForm);
         }
 
@@ -747,17 +747,30 @@ class PurchaseOrder {
             $form.find('.btn[data-securityid="searchbtn"]').addClass('disabled');
         }
 
-        if (!FwFormField.getValueByDataField($form, 'Rental')) { $form.find('[data-type="tab"][data-caption="Rental"]').hide() }
-        if (!FwFormField.getValueByDataField($form, 'Sales')) { $form.find('[data-type="tab"][data-caption="Sales"]').hide() }
-        if (!FwFormField.getValueByDataField($form, 'Miscellaneous')) { $form.find('[data-type="tab"][data-caption="Misc"]').hide() }
-        if (!FwFormField.getValueByDataField($form, 'Labor')) { $form.find('[data-type="tab"][data-caption="Labor"]').hide() }
-        if (!FwFormField.getValueByDataField($form, 'Parts')) { $form.find('[data-type="tab"][data-caption="Parts"]').hide() }
-        if (!FwFormField.getValueByDataField($form, 'SubRent')) { $form.find('[data-type="tab"][data-caption="Sub-Rental"]').hide() }
-        if (!FwFormField.getValueByDataField($form, 'SubSale')) { $form.find('[data-type="tab"][data-caption="Sub-Sales"]').hide() }
-        if (!FwFormField.getValueByDataField($form, 'Repair')) { $form.find('[data-type="tab"][data-caption="Repair"]').hide() }
-        if (!FwFormField.getValueByDataField($form, 'SubMiscellaneous')) { $form.find('[data-type="tab"][data-caption="Sub-Misc"]').hide() }
-        if (!FwFormField.getValueByDataField($form, 'SubLabor')) { $form.find('[data-type="tab"][data-caption="Sub-Labor"]').hide() }
+        const $scheduleDateFields = $form.find('.activity-unchecked');
+        const isRental = FwFormField.getValueByDataField($form, 'Rental');
+        const isSales = FwFormField.getValueByDataField($form, 'Sales');
+        const isMisc = FwFormField.getValueByDataField($form, 'Miscellaneous');
+        const isLabor = FwFormField.getValueByDataField($form, 'Labor');
+        const isParts = FwFormField.getValueByDataField($form, 'Parts');
+        const isSubRent = FwFormField.getValueByDataField($form, 'SubRent');
+        const isSubSale = FwFormField.getValueByDataField($form, 'SubSale');
+        const isRepair = FwFormField.getValueByDataField($form, 'Repair');
+        const isSubMisc = FwFormField.getValueByDataField($form, 'SubMiscellaneous');
+        const isSubLabor = FwFormField.getValueByDataField($form, 'SubLabor');
 
+        if (!isRental) { $form.find('.rentalinventorytab').hide() }
+        if (!isSales) { $form.find('.salesinventorytab').hide() }
+        if (!isMisc) { $form.find('.misctab').hide() }
+        if (!isLabor) { $form.find('.labortab').hide() }
+        if (!isParts) { $form.find('.partstab').hide() }
+        if (!isSubRent) { $form.find('.subrentaltab').hide() }
+        if (!isSubSale) { $form.find('.subsalestab').hide() }
+        if (!isRepair) { $form.find('.repairtab').hide() }
+        if (!isSubMisc) { $form.find('.submisctab').hide() }
+        if (!isSubLabor) { $form.find('.sublabortab').hide() }
+
+        if (!isMisc && !isLabor && !isSubRent && !isSubSale && !isSubMisc && !isSubLabor) $scheduleDateFields.hide();
 
         //Click Event on tabs to load grids/browses
         $form.find('.tabGridsLoaded[data-type="tab"]').removeClass('tabGridsLoaded');
@@ -1058,16 +1071,17 @@ class PurchaseOrder {
     };
     //----------------------------------------------------------------------------------------------
     activityCheckboxEvents($form, mode) {
-        const rentalTab = $form.find('[data-type="tab"][data-caption="Rental"]')
-            , salesTab = $form.find('[data-type="tab"][data-caption="Sales"]')
-            , partsTab = $form.find('[data-type="tab"][data-caption="Parts"]')
-            , miscTab = $form.find('[data-type="tab"][data-caption="Misc"]')
-            , laborTab = $form.find('[data-type="tab"][data-caption="Labor"]')
-            , subrentalTab = $form.find('[data-type="tab"][data-caption="Sub-Rental"]')
-            , subsalesTab = $form.find('[data-type="tab"][data-caption="Sub-Sales"]')
-            , repairTab = $form.find('[data-type="tab"][data-caption="Repair"]')
-            , submiscTab = $form.find('[data-type="tab"][data-caption="Sub-Misc"]')
-            , sublaborTab = $form.find('[data-type="tab"][data-caption="Sub-Labor"]');
+        const rentalTab = $form.find('.rentalinventorytab')
+            , salesTab = $form.find('.salesinventorytab')
+            , partsTab = $form.find('.partstab')
+            , miscTab = $form.find('.misctab')
+            , laborTab = $form.find('.labortab')
+            , subrentalTab = $form.find('.subrentaltab')
+            , subsalesTab = $form.find('.subsalestab')
+            , repairTab = $form.find('.repairtab')
+            , submiscTab = $form.find('.submisctab')
+            , sublaborTab = $form.find('.sublabortab');
+        const $scheduleDateFields = $form.find('.activity-unchecked');
         $form.find('[data-datafield="Rental"] input').on('change', e => {
             if (mode == "NEW") {
                 if (jQuery(e.currentTarget).prop('checked')) {
@@ -1093,25 +1107,56 @@ class PurchaseOrder {
             jQuery(e.currentTarget).prop('checked') ? partsTab.show() : partsTab.hide();
         });
         $form.find('[data-datafield="Miscellaneous"] input').on('change', e => {
-            jQuery(e.currentTarget).prop('checked') ? miscTab.show() : miscTab.hide();
+            if (jQuery(e.currentTarget).prop('checked')) {
+                miscTab.show();
+                $scheduleDateFields.show();
+            } else {
+                miscTab.hide();
+            }
         });
         $form.find('[data-datafield="Labor"] input').on('change', e => {
-            jQuery(e.currentTarget).prop('checked') ? laborTab.show() : laborTab.hide();
+            if (jQuery(e.currentTarget).prop('checked')) {
+                laborTab.show();
+                $scheduleDateFields.show();
+            }
+            else {
+                laborTab.hide();
+            }
         });
         $form.find('[data-datafield="SubRent"] input').on('change', e => {
-            jQuery(e.currentTarget).prop('checked') ? subrentalTab.show() : subrentalTab.hide();
+            if (jQuery(e.currentTarget).prop('checked')) {
+                subrentalTab.show();
+                $scheduleDateFields.show();
+            } else {
+                subrentalTab.hide();
+            }
         });
         $form.find('[data-datafield="SubSale"] input').on('change', e => {
-            jQuery(e.currentTarget).prop('checked') ? subsalesTab.show() : subsalesTab.hide();
+            if (jQuery(e.currentTarget).prop('checked')) {
+                subsalesTab.show();
+                $scheduleDateFields.show();
+            } else {
+                subsalesTab.hide();
+            }
         });
         $form.find('[data-datafield="Repair"] input').on('change', e => {
             jQuery(e.currentTarget).prop('checked') ? repairTab.show() : repairTab.hide();
         });
         $form.find('[data-datafield="SubMiscellaneous"] input').on('change', e => {
-            jQuery(e.currentTarget).prop('checked') ? submiscTab.show() : submiscTab.hide();
+            if (jQuery(e.currentTarget).prop('checked')) {
+                submiscTab.show();
+                $scheduleDateFields.show();
+            } else {
+                submiscTab.hide();
+            }
         });
         $form.find('[data-datafield="SubLabor"] input').on('change', e => {
-            jQuery(e.currentTarget).prop('checked') ? sublaborTab.show() : sublaborTab.hide();
+            if (jQuery(e.currentTarget).prop('checked')) {
+                sublaborTab.show();
+                $scheduleDateFields.show();
+            } else {
+                sublaborTab.hide();
+            }
         });
     };
     //----------------------------------------------------------------------------------------------

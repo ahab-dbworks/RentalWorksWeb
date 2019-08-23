@@ -1,4 +1,4 @@
-<div id="purchaseorderform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-caption="Purchase Order" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="PurchaseOrderController">
+﻿<div id="purchaseorderform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-caption="Purchase Order" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="PurchaseOrderController">
   <div data-control="FwFormField" data-type="key" class="fwcontrol fwformfield" data-isuniqueid="true" data-saveorder="1" data-caption="" data-datafield="PurchaseOrderId"></div>
   <div id="purchaseorderform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs">
@@ -6,13 +6,13 @@
       <div data-type="tab" id="rentaltab" class="rentalinventorytab tab" data-tabpageid="rentaltabpage" data-caption="Rental Inventory"></div>
       <div data-type="tab" id="salestab" class="salesinventorytab tab" data-tabpageid="salestabpage" data-caption="Sales Inventory"></div>
       <div data-type="tab" id="parttab" class="partstab tab" data-tabpageid="parttabpage" data-caption="Parts Inventory"></div>
-      <div data-type="tab" id="misctab" class="notcombinedtab tab" data-tabpageid="misctabpage" data-caption="Misc"></div>
-      <div data-type="tab" id="labortab" class="notcombinedtab tab" data-tabpageid="labortabpage" data-caption="Labor"></div>
-      <div data-type="tab" id="subrentaltab" class="tab" data-tabpageid="subrentaltabpage" data-caption="Sub-Rental"></div>
-      <div data-type="tab" id="subsalestab" class="tab" data-tabpageid="subsalestabpage" data-caption="Sub-Sales"></div>
-      <!--<div data-type="tab" id="repairtab" class="tab" data-tabpageid="repairtabpage" data-caption="Repair"></div>-->
-      <div data-type="tab" id="submisctab" class="notcombinedtab tab" data-tabpageid="submisctabpage" data-caption="Sub-Misc"></div>
-      <div data-type="tab" id="sublabortab" class="notcombinedtab tab" data-tabpageid="sublabortabpage" data-caption="Sub-Labor"></div>
+      <div data-type="tab" id="misctab" class="misctab notcombinedtab tab" data-tabpageid="misctabpage" data-caption="Misc"></div>
+      <div data-type="tab" id="labortab" class="labortab notcombinedtab tab" data-tabpageid="labortabpage" data-caption="Labor"></div>
+      <div data-type="tab" id="subrentaltab" class="subrentaltab tab" data-tabpageid="subrentaltabpage" data-caption="Sub-Rental"></div>
+      <div data-type="tab" id="subsalestab" class="subsalestab tab" data-tabpageid="subsalestabpage" data-caption="Sub-Sales"></div>
+      <!--<div data-type="tab" id="repairtab" class="repairtab tab" data-tabpageid="repairtabpage" data-caption="Repair"></div>-->
+      <div data-type="tab" id="submisctab" class="submisctab notcombinedtab tab" data-tabpageid="submisctabpage" data-caption="Sub-Misc"></div>
+      <div data-type="tab" id="sublabortab" class="sublabortab notcombinedtab tab" data-tabpageid="sublabortabpage" data-caption="Sub-Labor"></div>
       <!--<div data-type="tab" id="alltab" class="combinedtab tab" data-tabpageid="alltabpage" data-caption="Items"></div>-->
       <!--<div data-type="tab" id="contracttab" class="tab submodule" data-tabpageid="contracttabpage" data-caption="Contract"></div>-->
       <div data-type="tab" id="billingtab" class="tab" data-tabpageid="billingtabpage" data-caption="Billing"></div>
@@ -109,11 +109,11 @@
                 <div class="flexrow">
                   <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="PO Date" data-datafield="PurchaseOrderDate" style="flex:1 1 225px;"></div>
                 </div>
-                <div class="flexrow">
+                <div class="flexrow activity-unchecked">
                   <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield pick_date_validation" data-caption="From Date" data-datafield="EstimatedStartDate" style="flex:1 1 110px;"></div>
                   <div data-control="FwFormField" data-type="timepicker" data-timeformat="24" class="fwcontrol fwformfield" data-caption="From Time" data-datafield="EstimatedStartTime" style="flex:1 1 110px;"></div>
                 </div>
-                <div class="flexrow">
+                <div class="flexrow activity-unchecked">
                   <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield pick_date_validation" data-caption="To Date" data-datafield="EstimatedStopDate" style="flex:1 1 110px;"></div>
                   <div data-control="FwFormField" data-type="timepicker" data-timeformat="24" class="fwcontrol fwformfield" data-caption="To Time" data-datafield="EstimatedStopTime" style="flex:1 1 110px;"></div>
                 </div>
