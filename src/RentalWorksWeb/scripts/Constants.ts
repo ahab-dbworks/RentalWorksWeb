@@ -143,10 +143,11 @@
             PurchaseOrder: { id: '67D8C8BB-CF55-4231-B4A2-BB308ADF18F0', caption: 'Purchase Order', nav: 'module/purchaseorder',
                 form: {
                     menuItems: {
+                        AssignBarCodes: { id: '{649E744B-0BDD-43ED-BB6E-5945CBB0BFA5}' },
                         Search: { id: '{D512214F-F6BD-4098-8473-0AC7F675893D}' },
                         ReceiveFromVendor: { id: '{4BB0AB54-641E-4638-89B4-0F9BFE88DF82}' },
                         ReturnToVendor: { id: '{B287428E-FF45-469A-8203-3BFF18E90810}' },
-                        AssignBarCodes: { id: '{649E744B-0BDD-43ED-BB6E-5945CBB0BFA5}' }
+                        Void: { id: '{7F102668-CB35-471B-8812-352C13C123AB}' },
                     }
                 }    
             },

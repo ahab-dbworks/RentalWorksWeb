@@ -745,6 +745,11 @@ namespace WebApi.Modules.Home.PurchaseOrder
             return contractId;
         }
         //------------------------------------------------------------------------------------
-
+        public async Task<bool> Void(VoidPurchaseOrderRequest request)
+        {
+            bool success = await purchaseOrder.Void(request);
+            return success;
+        }
+        //------------------------------------------------------------------------------------ 
     }
 }

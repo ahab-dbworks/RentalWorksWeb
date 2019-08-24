@@ -3,16 +3,16 @@
 
 //----------------------------------------------------------------------------------------------
 class PurchaseOrder {
-    Module:                   string = 'PurchaseOrder';
-    apiurl:                   string = 'api/v1/purchaseorder';
+    Module: string = 'PurchaseOrder';
+    apiurl: string = 'api/v1/purchaseorder';
     caption: string = Constants.Modules.Home.PurchaseOrder.caption;
-	nav: string = Constants.Modules.Home.PurchaseOrder.nav;
-	id: string = Constants.Modules.Home.PurchaseOrder.id;
-    DefaultPurchasePoType:    string;
-    DefaultPurchasePoTypeId:  string;
-    ActiveViewFields:         any    = {};
-    ActiveViewFieldsId:       string;
-    CachedPurchaseOrderTypes: any    = {};
+    nav: string = Constants.Modules.Home.PurchaseOrder.nav;
+    id: string = Constants.Modules.Home.PurchaseOrder.id;
+    DefaultPurchasePoType: string;
+    DefaultPurchasePoTypeId: string;
+    ActiveViewFields: any = {};
+    ActiveViewFieldsId: string;
+    CachedPurchaseOrderTypes: any = {};
     //----------------------------------------------------------------------------------------------
     getModuleScreen(filter?: any) {
         const screen: any = {};
@@ -1185,6 +1185,45 @@ class PurchaseOrder {
         //}
     }
     //----------------------------------------------------------------------------------------------
+    voidPO($form: JQuery): void {
+        const $confirmation = FwConfirmation.renderConfirmation('Void', '');
+        $confirmation.find('.fwconfirmationbox').css('width', '450px');
+        const html: Array<string> = [];
+        html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+        html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+        html.push('    <div>Void this Purchase Order?</div>');
+        html.push('  </div>');
+        html.push('</div>');
+
+        FwConfirmation.addControls($confirmation, html.join(''));
+        const $yes = FwConfirmation.addButton($confirmation, 'Void', false);
+        const $no = FwConfirmation.addButton($confirmation, 'Cancel');
+
+        $yes.on('click', makeVoid);
+        // ----------
+        function makeVoid() {
+
+            FwFormField.disable($confirmation.find('.fwformfield'));
+            FwFormField.disable($yes);
+            $yes.text('Voiding...');
+            $yes.off('click');
+
+            const purchaseOrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
+            FwAppData.apiMethod(true, 'POST', `api/v1/purchaseorder/void/${purchaseOrderId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                FwNotification.renderNotification('SUCCESS', 'Purchase Order Successfully Voided');
+                FwConfirmation.destroyConfirmation($confirmation);
+                FwModule.refreshForm($form, PurchaseOrderController);
+            }, function onError(response) {
+                $yes.on('click', makeVoid);
+                $yes.text('Void');
+                FwFunc.showError(response);
+                FwFormField.enable($confirmation.find('.fwformfield'));
+                FwFormField.enable($yes);
+                FwModule.refreshForm($form, PurchaseOrderController);
+            }, $form);
+        };
+    };
+    //----------------------------------------------------------------------------------------------
     //dynamicColumns($form: any): void {
     //    const POTYPE = FwFormField.getValueByDataField($form, "PoTypeId"),
     //        $rentalGrid = $form.find('.rentalgrid [data-name="OrderItemGrid"]'),
@@ -1441,6 +1480,16 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.PurchaseOrder.form.menuItem
         let $returnToVendorForm = ReturnToVendorController.openForm(mode, purchaseOrderInfo);
         FwModule.openSubModuleTab($form, $returnToVendorForm);
         jQuery('.tab.submodule.active').find('.caption').html('Return To Vendor');
+    }
+    catch (ex) {
+        FwFunc.showError(ex);
+    }
+};
+// Void PO
+FwApplicationTree.clickEvents[Constants.Modules.Home.PurchaseOrder.form.menuItems.Void.id] = function (event: JQuery.ClickEvent) {
+    try {
+        const $form = jQuery(this).closest('.fwform');
+        PurchaseOrderController.voidPO($form);
     }
     catch (ex) {
         FwFunc.showError(ex);

@@ -457,6 +457,49 @@ namespace WebApi.Modules.Home.PurchaseOrder
                 return StatusCode(jsonException.StatusCode, jsonException);
             }
         }
+        //------------------------------------------------------------------------------------        
+        // POST api/v1/purchaseorder/void/A0000001
+        [HttpPost("void/{id}")]
+        [FwControllerMethod(Id: "u5eAwyixomSFN")]
+        public async Task<ActionResult<PurchaseOrderLogic>> Void([FromRoute]string id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                string[] ids = id.Split('~');
+                PurchaseOrderLogic l = new PurchaseOrderLogic();
+                l.SetDependencies(AppConfig, UserSession);
+                if (await l.LoadAsync<PurchaseOrderLogic>(ids))
+                {
+                    VoidPurchaseOrderRequest response = await l.Void(id);
+                    if (response.success)
+                    {
+                        await l.LoadAsync<PurchaseOrderLogic>(ids);
+                        return new OkObjectResult(l);
+                    }
+                    else
+                    {
+                        throw new Exception(response.msg);
+                    }
+
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                FwApiException jsonException = new FwApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
+            }
+        }
         //------------------------------------------------------------------------------------       
         // GET api/v1/purchaseorder/nextvendorinvoicedefaultdates/A0000001
         [HttpGet("nextvendorinvoicedefaultdates/{PurchaseOrderId}")]

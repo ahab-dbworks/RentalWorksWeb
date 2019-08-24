@@ -533,6 +533,8 @@
         public decimal Total;
         public bool? IncludeTaxInTotal;
     }
-
-
+    public class VoidPurchaseOrderRequest
+    {
+        public string PurchaseOrderId;
+    }
 }

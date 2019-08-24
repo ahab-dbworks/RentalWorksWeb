@@ -1249,22 +1249,22 @@ public string DateStamp { get; set; }
         {
             OrderOnHoldResponse response = new OrderOnHoldResponse();
 
-                if ((OrderId != null) && (Type.Equals(RwConstants.ORDER_TYPE_ORDER)))
+            if ((OrderId != null) && (Type.Equals(RwConstants.ORDER_TYPE_ORDER)))
+            {
+                using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
                 {
-                    using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
-                    {
-                        FwSqlCommand qry = new FwSqlCommand(conn, "orderonhold", this.AppConfig.DatabaseSettings.QueryTimeout);
-                        qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
-                        qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, UserSession.UsersId);
-                        qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
-                        qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
-                        await qry.ExecuteNonQueryAsync();
-                        response.status = qry.GetParameter("@status").ToInt32();
-                        response.success = (qry.GetParameter("@status").ToInt32() == 0);
-                        response.msg = qry.GetParameter("@msg").ToString();
-                    }
+                    FwSqlCommand qry = new FwSqlCommand(conn, "orderonhold", this.AppConfig.DatabaseSettings.QueryTimeout);
+                    qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
+                    qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, UserSession.UsersId);
+                    qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
+                    qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
+                    await qry.ExecuteNonQueryAsync();
+                    response.status = qry.GetParameter("@status").ToInt32();
+                    response.success = (qry.GetParameter("@status").ToInt32() == 0);
+                    response.msg = qry.GetParameter("@msg").ToString();
                 }
-            
+            }
+
             return response;
         }
         //-------------------------------------------------------------------------------------------------------
@@ -1340,7 +1340,6 @@ public string DateStamp { get; set; }
             return contractId;
         }
         //-------------------------------------------------------------------------------------------------------    
-
         public async Task<string> CreateReturnContract()
         {
             string contractId = "";
@@ -1399,6 +1398,23 @@ public string DateStamp { get; set; }
                 }
             }
             return newOrderId;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public async Task<bool> Void(string PoNumberId)
+        {
+            bool success = false;
+            int errno = 0;
+
+            using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
+            {
+                FwSqlCommand qry = new FwSqlCommand(conn, "voidpo", this.AppConfig.DatabaseSettings.QueryTimeout);
+                qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, PoNumberId);
+                qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, UserSession.UsersId);
+                await qry.ExecuteNonQueryAsync();
+                errno = qry.GetParameter("@errno").ToInt32();
+                success = (errno == 0);
+            }
+            return success;
         }
         //-------------------------------------------------------------------------------------------------------
     }
