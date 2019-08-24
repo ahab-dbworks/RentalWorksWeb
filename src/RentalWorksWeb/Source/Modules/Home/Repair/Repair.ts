@@ -2,8 +2,8 @@ class Repair {
     Module: string = 'Repair';
     apiurl: string = 'api/v1/repair';
     caption: string = Constants.Modules.Home.Repair.caption;
-	nav: string = Constants.Modules.Home.Repair.nav;
-	id: string = Constants.Modules.Home.Repair.id;
+    nav: string = Constants.Modules.Home.Repair.nav;
+    id: string = Constants.Modules.Home.Repair.id;
     ActiveViewFields: any = {};
     ActiveViewFieldsId: string;
     //----------------------------------------------------------------------------------------------
@@ -40,14 +40,13 @@ class Repair {
     };
     //----------------------------------------------------------------------------------------------
     openBrowse() {
-        const self = this;
         //let $browse: JQuery = FwBrowse.loadBrowseFromTemplate(this.Module);
         let $browse = jQuery(this.getBrowseTemplate());
         $browse = FwModule.openBrowse($browse);
 
 
-        $browse.data('ondatabind', function (request) {
-            request.activeviewfields = self.ActiveViewFields;
+        $browse.data('ondatabind', request => {
+            request.activeviewfields = this.ActiveViewFields;
         });
 
         FwAppData.apiMethod(true, 'GET', "api/v1/inventorystatus", null, FwServices.defaultTimeout, function onSuccess(response) {
@@ -899,7 +898,7 @@ class Repair {
         html.push('    <div>Void this Repair Order?</div>');
         html.push('  </div>');
         html.push('</div>');
-        
+
         FwConfirmation.addControls($confirmation, html.join(''));
         const $yes = FwConfirmation.addButton($confirmation, 'Void', false);
         const $no = FwConfirmation.addButton($confirmation, 'Cancel');
@@ -913,8 +912,8 @@ class Repair {
             $yes.text('Voiding...');
             $yes.off('click');
 
-            const RepairId = FwFormField.getValueByDataField($form, 'RepairId');
-            FwAppData.apiMethod(true, 'POST', `api/v1/repair/void/${RepairId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+            const repairId = FwFormField.getValueByDataField($form, 'RepairId');
+            FwAppData.apiMethod(true, 'POST', `api/v1/repair/void/${repairId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
                 FwNotification.renderNotification('SUCCESS', 'Repair Order Successfully Voided');
                 FwConfirmation.destroyConfirmation($confirmation);
                 FwModule.refreshForm($form, RepairController);
