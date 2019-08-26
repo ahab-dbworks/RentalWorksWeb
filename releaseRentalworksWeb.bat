@@ -14,16 +14,15 @@ rem --------------------------------------------------------------------------
 
 
 
+
+
 rem NO MODIFICATIONS BEYOND THIS POINT
 rem --------------------------------------------------------------------------
 rem --------------------------------------------------------------------------
 rem --------------------------------------------------------------------------
 rem --------------------------------------------------------------------------
-
-
 IF "%DwRentalWorksWebPath%"=="" ECHO Environment Variable DwRentalWorksWebPath is NOT defined
 IF "%DwRentalWorksWebPath%"=="" exit /B
-
 
 IF "%DwFtpUploadUser%"=="" ECHO Environment Variable DwFtpUploadUser is NOT defined
 IF "%DwFtpUploadUser%"=="" exit /B
@@ -34,7 +33,6 @@ IF "%DwFtpUploadPassword%"=="" exit /B
 if not exist "c:\Program Files\7-Zip\7z.exe" ECHO 7-Zip is not installed
 if not exist "c:\Program Files\7-Zip\7z.exe" exit /B
 
-
 rem Get the Build number from the user
 set /p buildno="Build Number (ie. 2019.1.1.15): "
 
@@ -42,20 +40,11 @@ rem determine ZIP filename
 setlocal ENABLEDELAYEDEXPANSION
 set buildnoforzip=%buildno:.=_%
 set zipfilename=RentalWorksWeb_%buildnoforzip%.zip
-rem echo %zipfilename%
-
-rem delete any old build files
-cd %DwRentalWorksWebPath%\build
-if exist RentalWorksWeb\ (rmdir RentalWorksWeb /S /Q)
-if exist RentalWorksWebApi\ (rmdir RentalWorksWebApi /S /Q)
-if exist %zipfilename% (del %zipfilename%)
-
 
 rem Update the Build number in the version.txt files
 echo | set /p buildnumber=%buildno%> %DwRentalWorksWebPath%\src\RentalWorksWeb\version.txt
 echo | set /p buildnumber=%buildno%> %DwRentalWorksWebPath%\src\RentalWorksWebApi\version.txt
 echo | set /p buildnumber=%buildno%> %DwRentalWorksWebPath%\src\RentalWorksWeb\version-RentalWorksWeb.txt
-
 
 rem update AssemblyInfo.cs
 cmd /c exit 91
@@ -64,7 +53,7 @@ rem echo %openBrack%
 cmd /c exit 93
 set closeBrack=%=exitcodeAscii%
 rem echo %closeBrack%
-set newassemblyline=%openBrack%AssemblyVersion("%buildno%")%closeBrack%
+set newassemblyline=%openBrack%assembly: AssemblyVersion("%buildno%")%closeBrack%
 rem echo %newassemblyline%
 set "file=%DwRentalWorksWebPath%\src\RentalWorksWeb\Properties\AssemblyInfo.cs"
 for /F "delims=" %%a in (%file%) do (
@@ -78,7 +67,7 @@ for /L %%i in (1,1,%count%) do (
    echo !array[%%i]!|find "AssemblyVersion" >nul
    if errorlevel 1 (echo !array[%%i]!>>%file%) else (call echo !newassemblyline!>>%file%))
 
-rem command-line Git push in the modified version and assemply files
+rem rem command-line Git push in the modified version and assemply files
 cd %DwRentalWorksWebPath%
 git config --global gc.auto 0
 git add "src/RentalWorksWeb/version.txt"
@@ -92,13 +81,17 @@ git push origin web/v%buildno%
 
 rem command-line gren make Build Release Document
 cd %DwRentalWorksWebPath%\build
-gren changelog --token=4f42c7ba6af985f6ac6a6c9eba45d8f25388ef58 --username=databaseworks --repo=rentalworksweb --generate --override --changelog-filename=v%buildno%.md -D issues -m --group-by label
+call gren changelog --token=4f42c7ba6af985f6ac6a6c9eba45d8f25388ef58 --username=databaseworks --repo=rentalworksweb --generate --override --changelog-filename=v%buildno%.md -D issues -m --group-by label
 
+rem delete any old build files
+cd %DwRentalWorksWebPath%\build
+if exist RentalWorksWeb\ (rmdir RentalWorksWeb /S /Q)
+if exist RentalWorksWebApi\ (rmdir RentalWorksWebApi /S /Q)
+if exist %zipfilename% (del %zipfilename%)
 
 rem build Web
 dotnet restore %DwRentalWorksWebPath%\RentalWorksWeb.sln
 "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\msbuild.exe" %DwRentalWorksWebPath%\RentalWorksWeb.sln /t:Rebuild /p:Configuration="Release Web" /p:Platform="any cpu" /p:ReferencePath=%DwRentalWorksWebPath%\packages 
-
 
 rem build the API 
 cd %DwRentalWorksWebPath%\src\RentalWorksWebApi
@@ -108,7 +101,6 @@ rem make the ZIP deliverable
 "c:\Program Files\7-Zip\7z.exe" a %DwRentalWorksWebPath%\build\%zipfilename% %DwRentalWorksWebPath%\build\RentalWorksWeb\
 "c:\Program Files\7-Zip\7z.exe" a %DwRentalWorksWebPath%\build\%zipfilename% %DwRentalWorksWebPath%\build\RentalWorksWebApi\
 cd %DwRentalWorksWebPath%\build
-
 
 rem delete the work files
 if exist RentalWorksWeb\ (rmdir RentalWorksWeb /S /Q)
