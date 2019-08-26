@@ -13,6 +13,7 @@ using WebApi.Modules.Home.Vendor;
 using WebApi.Modules.Settings.DefaultSettings;
 using WebApi.Modules.Settings.OfficeLocation;
 using WebLibrary;
+using static WebApi.Modules.Home.DealOrder.DealOrderRecord;
 
 namespace WebApi.Modules.Home.PurchaseOrder
 {
@@ -747,8 +748,7 @@ namespace WebApi.Modules.Home.PurchaseOrder
         //------------------------------------------------------------------------------------
         public async Task<VoidPurchaseOrderResponse> Void()
         {
-            VoidPurchaseOrderResponse response = await purchaseOrder.Void();
-            return success;
+            return await purchaseOrder.Void();
         }
         //------------------------------------------------------------------------------------ 
     }
