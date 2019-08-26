@@ -11,6 +11,7 @@ using WebApi.Logic;
 using WebApi.Modules.Home.Order;
 using System;
 using Microsoft.AspNetCore.Http;
+using FwStandard.BusinessLogic;
 
 namespace WebApi.Modules.Home.SubPurchaseOrderItem
 {
@@ -66,6 +67,27 @@ namespace WebApi.Modules.Home.SubPurchaseOrderItem
             return await DoPostAsync<SubPurchaseOrderItemLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
+
+
+
+        //justin 08/26/2019 experimental
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/subpurchaseorderitem/many
+        [HttpPost("many")]
+        [FwControllerMethod(Id: "cAECvO0xOlKfG")]
+        public async Task<List<ActionResult<SubPurchaseOrderItemLogic>>> PostAsync([FromBody]List<SubPurchaseOrderItemLogic> l)
+        {
+            FwBusinessLogicList l2 = new FwBusinessLogicList();
+            l2.AddRange(l);
+            return await DoPostAsync<SubPurchaseOrderItemLogic>(l2);
+        }
+        //------------------------------------------------------------------------------------ 
+
+
+
+
+
+
         // DELETE api/v1/subpurchaseorderitem/A0000001 
         [HttpDelete("{id}")]
         [FwControllerMethod(Id:"Bhu77r9vju2F3")]

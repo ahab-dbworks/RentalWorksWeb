@@ -1,4 +1,4 @@
-﻿<div data-name="SubPurchaseOrderItemGrid" data-control="FwBrowse" data-type="Grid" class="fwcontrol fwbrowse flexbox" data-caption="Items" data-rendermode="template" data-showsearch="false" data-hasaudithistory="false" data-pagesize="50" data-controller="SubPurchaseOrderItemGridController" data-refreshaftersave="true">
+﻿<div data-name="SubPurchaseOrderItemGrid" data-control="FwBrowse" data-type="Grid" class="fwcontrol fwbrowse flexbox" data-caption="Items" data-rendermode="template" data-showsearch="false" data-hasaudithistory="false" data-pagesize="50" data-controller="SubPurchaseOrderItemGridController" data-refreshaftersave="true" data-multisave="true">
   <div class="column" data-width="0" data-visible="false">
     <div class="field" data-isuniqueid="true" data-datafield="OrderItemId" data-datatype="key" data-formreadonly="true" data-sort="off"></div>
   </div>
@@ -33,16 +33,22 @@
     <div class="field" data-caption="Cost" data-datafield="VendorRate" data-datatype="money" data-sort="none" data-mappedfield="UnitCost"></div>
   </div>
   <div class="column" data-width="50px" data-visible="true">
-    <div class="field field-to-lock" data-caption="Disc. %" data-datafield="VendorDiscountPercent" data-datatype="number" data-digits="2" data-sort="none" data-mappedfield="DiscountPercent"></div>
+    <div class="field" data-caption="D/W" data-datafield="VendorDaysPerWeek" data-datatype="number" data-digits="3" data-sort="none" data-mappedfield="DaysPerWeek"></div>
   </div>
   <div class="column" data-width="50px" data-visible="true">
-    <div class="field field-to-lock" data-caption="Weekly" data-datafield="VendorWeeklyExtended" data-datatype="money" data-formreadonly="true" data-digits="2" data-sort="none"></div>
+    <div class="field" data-caption="Disc. %" data-datafield="VendorDiscountPercent" data-datatype="number" data-digits="2" data-sort="none" data-mappedfield="DiscountPercent"></div>
+  </div>
+  <div class="column" data-width="50px" data-visible="true">
+    <div class="field" data-caption="Weekly" data-datafield="VendorWeeklyExtended" data-datatype="money" data-formreadonly="true" data-digits="2" data-sort="none"></div>
   </div>
   <div class="column" data-width="50px" data-visible="true">
     <div class="field" data-caption="Period" data-datafield="VendorPeriodExtended" data-datatype="money" data-formreadonly="true" data-digits="2" data-sort="none"></div>
   </div>
   <div class="column" data-width="50px" data-visible="true">
     <div class="field" data-caption="Deal Rate" data-datafield="DealRate" data-datatype="money" data-sort="none" data-formreadonly="false" data-mappedfield="UnitCost"></div>
+  </div>
+  <div class="column" data-width="50px" data-visible="true">
+    <div class="field" data-caption="Deal D/W" data-datafield="DealDaysPerWeek" data-datatype="number" data-digits="3" data-sort="none" data-mappedfield="DaysPerWeek"></div>
   </div>
   <div class="column" data-width="50px" data-visible="true">
     <div class="field" data-caption="Deal Disc. %" data-datafield="DealDiscountPercent" data-datatype="number" data-digits="2" data-sort="none" data-mappedfield="DiscountPercent"></div>

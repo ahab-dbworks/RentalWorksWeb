@@ -400,12 +400,12 @@ class SubWorksheet {
         const $subPurchaseOrderItemGridControl = FwBrowse.loadGridFromTemplate('SubPurchaseOrderItemGrid');
         $subPurchaseOrderItemGrid.empty().append($subPurchaseOrderItemGridControl);
         $subPurchaseOrderItemGridControl.data('ondatabind', request => {
+            request.pagesize = 0;
             request.uniqueids = { OrderId: this.OrderId };
             request.totalfields = this.gridTotalFields;
         });
         $subPurchaseOrderItemGridControl.data('beforesave', request => {
             request.SessionId = this.SessionId;
-            request.RecType = 'R';
         });
         FwBrowse.init($subPurchaseOrderItemGridControl);
         FwBrowse.renderRuntimeHtml($subPurchaseOrderItemGridControl);
