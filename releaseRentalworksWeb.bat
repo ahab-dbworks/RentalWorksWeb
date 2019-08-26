@@ -4,7 +4,7 @@ rem Purpose:
 rem This batch file will produce a new build of RentalWorksWeb in the "build" directory.
 rem --------------------------------------------------------------------------
 rem Author:        Justin Hoffman
-rem Last modified: 08/13/2019
+rem Last modified: 08/26/2019
 rem --------------------------------------------------------------------------
 rem
 rem
@@ -71,7 +71,6 @@ for /F "delims=" %%a in (%file%) do (
     set /A count+=1
     set "array[!count!]=%%a"
 )
-rem for /L %%i in (1,1,%count%) do echo !array[%%i]!
 del %file%
 for /L %%i in (1,1,%count%) do (
    rem set "line=!array[%%i]!"

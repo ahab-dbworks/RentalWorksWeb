@@ -2,9 +2,12 @@ echo off
 rem --------------------------------------------------------------------------
 rem Purpose:       
 rem This batch file will download the requested ZIP file for RentalWorksWeb and deploy it to the directories hosting the Web and Api files
+rem 
+rem Usagw:       
+rem upgradeRentalWorksWeb <version>
 rem --------------------------------------------------------------------------
 rem Author:        Justin Hoffman
-rem Last modified: 08/13/2019
+rem Last modified: 08/26/2019
 rem --------------------------------------------------------------------------
 rem
 rem
@@ -25,10 +28,8 @@ rem --------------------------------------------------------------------------
 rem --------------------------------------------------------------------------
 rem --------------------------------------------------------------------------
 set workingdirectory=C:\temp
+set updatesfilename=updates.txt
 set ftpcommandfilename=ftp.txt
-rem prompt for the build number to download and install
-set /p buildno="Build Number (ie. 2019.1.1.15): "
-
 
 if not exist "c:\Program Files\7-Zip\7z.exe" ECHO 7-Zip is not installed
 if not exist "c:\Program Files\7-Zip\7z.exe" exit /B
@@ -50,6 +51,36 @@ if not exist %webpath%\ exit /B
 
 if not exist %apipath%\ ECHO Cannot find install location for API -- %apipath%
 if not exist %apipath%\ exit /B
+
+rem Determine the version number to upgrade to
+setlocal
+set buildno=LATEST
+if not "%1"=="" set buildno=%1
+set updatesfile=%workingdirectory%\%updatesfilename%
+if "%buildno%"=="LATEST" (
+   if exist !updatesfile! (del !updatesfile!)
+   set zipupdatefile=none
+   rem Create FTP command file to download the zip
+   echo open ftp.dbworks.com>%ftpcommandfilename%
+   echo update>>%ftpcommandfilename%
+   echo update>>%ftpcommandfilename%
+   echo cd rentalworksweb>>%ftpcommandfilename%
+   echo cd 2019.1.1>>%ftpcommandfilename%
+   echo ls * %updatesfile%>>%ftpcommandfilename%
+   echo quit>>%ftpcommandfilename%
+   ftp -s:%ftpcommandfilename% -v
+   del %ftpcommandfilename%
+   setlocal ENABLEDELAYEDEXPANSION
+   for /F "delims=" %%a in (%updatesfile%) do (
+	  set updatefile=%%a
+	  set fileextension=!updatefile:~-3!
+      if "!fileextension!"=="zip" set zipupdatefile=!updatefile!
+	  )
+   if exist !updatesfile! (del !updatesfile!)
+   set buildno=!zipupdatefile:~15,11!
+   set buildno=!buildno:_=.!
+)
+echo Upgrading to Version %buildno%
 
 
 rem determine the name of the ZIP file to download
