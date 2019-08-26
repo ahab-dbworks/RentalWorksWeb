@@ -795,7 +795,8 @@ namespace WebApi.Modules.Home.InventoryAvailability
                 }
             }
 
-            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString);
+
             {
                 FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
                 qry.Add("delete                        ");
@@ -805,7 +806,6 @@ namespace WebApi.Modules.Home.InventoryAvailability
                 await qry.ExecuteNonQueryAsync();
             }
 
-            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
             {
                 FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
                 int i = 0;
@@ -841,7 +841,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
             }
 
             Dictionary<TInventoryWarehouseAvailabilityKey, TInventoryWarehouse> packages = new Dictionary<TInventoryWarehouseAvailabilityKey, TInventoryWarehouse>();
-            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+
             {
 
                 FwSqlCommand qryAcc = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
@@ -892,8 +892,8 @@ namespace WebApi.Modules.Home.InventoryAvailability
                 }
             }
 
+            //add all of the accessories to the searchsession, too
 
-            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
             {
                 FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
                 qry.Add("select a.masterid, a.warehouseid, a.availfor,                                                                         ");
@@ -987,7 +987,6 @@ namespace WebApi.Modules.Home.InventoryAvailability
                 }
             }
 
-            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
             {
                 FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
                 qry.Add("delete t                                                                ");
@@ -1002,8 +1001,6 @@ namespace WebApi.Modules.Home.InventoryAvailability
 
             bool hasConsignment = false;  //jh 02/28/2019 place-holder.  #jhtodo: need to add system-wide option for consignment here 
 
-
-            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
             {
                 FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
                 qry.Add("select a.masterid, a.warehouseid, a.returntowarehouseid,                               ");
@@ -1124,7 +1121,6 @@ namespace WebApi.Modules.Home.InventoryAvailability
             }
 
             //incoming transfers, increase availability
-            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
             {
                 FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
                 qry.Add("select a.masterid, a.warehouseid, a.returntowarehouseid,                               ");
