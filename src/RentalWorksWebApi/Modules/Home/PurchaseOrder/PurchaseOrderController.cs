@@ -11,6 +11,7 @@ using WebApi.Modules.Home.Contract;
 using WebApi.Logic;
 using System.Collections.Generic;
 using WebLibrary;
+using static WebApi.Modules.Home.DealOrder.DealOrderRecord;
 
 namespace WebApi.Modules.Home.PurchaseOrder
 {
@@ -474,21 +475,22 @@ namespace WebApi.Modules.Home.PurchaseOrder
                 l.SetDependencies(AppConfig, UserSession);
                 if (await l.LoadAsync<PurchaseOrderLogic>(ids))
                 {
-                    VoidPurchaseOrderRequest response = await l.Void(id);
+                    VoidPurchaseOrderResponse response = await l.Void();   // we know we have a valid Purchase Order.  now we try to void it.
                     if (response.success)
                     {
-                        await l.LoadAsync<PurchaseOrderLogic>(ids);
-                        return new OkObjectResult(l);
+                        await l.LoadAsync<PurchaseOrderLogic>(ids);  // if the void works, then load the entire PO object again to get any other potentially-updated values
+                        response.purchaseOrder = l;                  // add the newly refreshed Purchase Order object to the response
+                        return new OkObjectResult(response);         // send the entire response back to the browser
                     }
                     else
                     {
-                        throw new Exception(response.msg);
+                        throw new Exception(response.msg);           // something went wrong when trying to void, send the error message back to the browser in the response object
                     }
 
                 }
                 else
                 {
-                    return NotFound();
+                    return NotFound();                               // invalid Purchase Order Id
                 }
             }
             catch (Exception ex)
