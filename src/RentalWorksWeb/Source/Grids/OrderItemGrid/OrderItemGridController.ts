@@ -624,6 +624,8 @@ FwApplicationTree.clickEvents[Constants.Grids.OrderItemGrid.menuItems.SubWorkshe
         $form = jQuery(this).closest('.fwform');
         subWorksheetData.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
         subWorksheetData.RateType = FwFormField.getValueByDataField($form, 'RateType');
+        subWorksheetData.CurrencyId = FwFormField.getValueByDataField($form, 'CurrencyId');
+        subWorksheetData.CurrencyCode = FwFormField.getTextByDataField($form, 'CurrencyId');
         subWorksheetData.EstimatedStartDate = FwFormField.getValueByDataField($form, 'EstimatedStartDate');
         subWorksheetData.EstimatedStopDate = FwFormField.getValueByDataField($form, 'EstimatedStopDate');
         subWorksheetData.EstimatedStartTime = FwFormField.getValueByDataField($form, 'EstimatedStartTime');

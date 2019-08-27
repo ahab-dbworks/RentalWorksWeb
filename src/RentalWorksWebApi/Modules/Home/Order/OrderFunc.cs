@@ -36,6 +36,7 @@ namespace WebApi.Modules.Home.Order
         public string VendorId;
         public string ContactId;
         public string RateType;
+        public string CurrencyId;
         public string BillingCycleId;
         public DateTime? RequiredDate;
         public string RequiredTime;
@@ -230,6 +231,7 @@ namespace WebApi.Modules.Home.Order
                 qry.AddParameter("@rectype", SqlDbType.NVarChar, ParameterDirection.Input, request.RecType);
                 qry.AddParameter("@vendorid", SqlDbType.NVarChar, ParameterDirection.Input, request.VendorId);
                 qry.AddParameter("@ratetype", SqlDbType.NVarChar, ParameterDirection.Input, request.RateType);
+                qry.AddParameter("@currencyid", SqlDbType.NVarChar, ParameterDirection.Input, request.CurrencyId);
                 qry.AddParameter("@billperiodid", SqlDbType.NVarChar, ParameterDirection.Input, request.BillingCycleId);
                 if (request.RequiredDate != null)
                 {

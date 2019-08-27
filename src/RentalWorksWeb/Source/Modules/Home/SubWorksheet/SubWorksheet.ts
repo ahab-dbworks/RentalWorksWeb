@@ -5,7 +5,6 @@ class SubWorksheet {
     OrderId: string;
     SessionId: string;
     RecType: string;
-    OrderRateType: string;
     caption: string = Constants.Modules.Home.SubWorksheet.caption;
 	nav: string = Constants.Modules.Home.SubWorksheet.nav;
 	id: string = Constants.Modules.Home.SubWorksheet.id;
@@ -37,7 +36,6 @@ class SubWorksheet {
 
         this.OrderId = parentmoduleinfo.OrderId;
         this.RecType = parentmoduleinfo.RecType;
-        this.OrderRateType = parentmoduleinfo.RateType;
         $form.find('div[data-datafield="CreateNew"] input').prop('checked', true);
         //disables asterisk and save prompt
         $form.off('change keyup', '.fwformfield[data-enabled="true"]:not([data-isuniqueid="true"][data-datafield=""])');
@@ -46,6 +44,7 @@ class SubWorksheet {
         FwFormField.setValueByDataField($form, 'FromDate', parentmoduleinfo.EstimatedStartDate);
         FwFormField.setValueByDataField($form, 'ToDate', parentmoduleinfo.EstimatedStopDate);
         FwFormField.setValueByDataField($form, 'RequiredTime', parentmoduleinfo.EstimatedStartTime);
+        FwFormField.setValue($form, 'div[data-datafield="CurrencyId"]', parentmoduleinfo.CurrencyId, parentmoduleinfo.CurrencyCode);
 
         this.events($form, parentmoduleinfo)
         return $form;
@@ -195,7 +194,11 @@ class SubWorksheet {
         // Misc events
         $form.find('div[data-datafield="VendorId"]').data('onchange', function ($tr) {
             FwFormField.setValueByDataField($form, 'RateId', $tr.find('.field[data-browsedatafield="DefaultRate"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="DefaultRate"]').attr('data-originalvalue'));
-            FwFormField.setValueByDataField($form, 'CurrencyId', $tr.find('.field[data-browsedatafield="DefaultCurrencyId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="DefaultCurrencyCode"]').attr('data-originalvalue'));
+
+            //only update the Currency if one is specified on the Vendor
+            if ($tr.find('.field[data-browsedatafield="DefaultCurrencyId"]').attr('data-originalvalue')) {
+                FwFormField.setValueByDataField($form, 'CurrencyId', $tr.find('.field[data-browsedatafield="DefaultCurrencyId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="DefaultCurrencyCode"]').attr('data-originalvalue'));
+            }
             FwFormField.setValueByDataField($form, 'BillingCycleId', $tr.find('.field[data-browsedatafield="BillingCycleId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="BillingCycle"]').attr('data-originalvalue'));
             FwFormField.setValueByDataField($form, 'ContactId', $tr.find('.field[data-browsedatafield="PrimaryContactId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="PrimaryContact"]').attr('data-originalvalue'));
             FwFormField.setValueByDataField($form, 'OfficePhone', $tr.find('.field[data-browsedatafield="PrimaryContactPhone"]').attr('data-originalvalue'));
@@ -206,6 +209,25 @@ class SubWorksheet {
             FwFormField.setValueByDataField($form, 'OfficePhone', $tr.find('.field[data-browsedatafield="OfficePhone"]').attr('data-originalvalue'));
             FwFormField.setValueByDataField($form, 'OfficeExtension', $tr.find('.field[data-browsedatafield="OfficeExtension"]').attr('data-originalvalue'));
         });
+
+        $form.find('.bottom_line_discount_percent').on('change', event => {
+            let $element, $subPurchaseOrderItemGridControl, discountPercent;
+            $element = jQuery(event.currentTarget);
+            discountPercent = $element.find('.fwformfield-value').val().slice(0, -1);
+            $subPurchaseOrderItemGridControl = $form.find('[data-name="SubPurchaseOrderItemGrid"]');
+
+            // here I want to iterate through each row in the grid and auto-update the VendorDiscountPercent field with the "discountPercent" value, and then keep the row in "Edit" mode with the Save All button shown
+        });
+
+        $form.find('.bottom_line_daysperweek').on('change', event => {
+            let $element, $subPurchaseOrderItemGridControl, daysPerWeek;
+            $element = jQuery(event.currentTarget);
+            daysPerWeek = $element.find('.fwformfield-value').val().slice(0, -1);
+            $subPurchaseOrderItemGridControl = $form.find('[data-name="SubPurchaseOrderItemGrid"]');
+
+            // here I want to iterate through each row in the grid and auto-update the VendorDaysPerWeek field with the "daysPerWeek" value, and then keep the row in "Edit" mode with the Save All button shown
+        });
+
     }
     //----------------------------------------------------------------------------------------------
     createNewWorksheet($form: JQuery, parentmoduleinfo: any): void {
@@ -216,6 +238,7 @@ class SubWorksheet {
                 VendorId: FwFormField.getValueByDataField($form, 'VendorId'),
                 ContactId: FwFormField.getValueByDataField($form, 'ContactId'),
                 RateType: FwFormField.getValueByDataField($form, 'RateId'),
+                CurrencyId: FwFormField.getValueByDataField($form, 'CurrencyId'),
                 BillingCycleId: FwFormField.getValueByDataField($form, 'BillingCycleId'),
                 RequiredTime: FwFormField.getValueByDataField($form, 'RequiredTime'),
                 FromDate: FwFormField.getValueByDataField($form, 'FromDate'),
