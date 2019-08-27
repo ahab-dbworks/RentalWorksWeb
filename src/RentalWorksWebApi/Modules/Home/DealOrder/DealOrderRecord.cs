@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using WebApi.Data;
 using WebApi.Logic;
 using WebApi.Modules.Home.Order;
+using WebApi.Modules.Home.PurchaseOrder;
 using WebLibrary;
 
 namespace WebApi.Modules.Home.DealOrder
@@ -959,6 +960,14 @@ public string DateStamp { get; set; }
             public OrderLogic order { get; set; } = null;
         }
 
+        // here we are defining the response object for the void request.  Usually I do this in some separate "Func" class. But I'll keep it here for consistency with "Order On Hold" above.
+        public class VoidPurchaseOrderResponse : TSpStatusResponse
+        {
+            public PurchaseOrderLogic purchaseOrder { get; set; } = null;
+        }
+
+
+
         //------------------------------------------------------------------------------------
         public async Task<bool> SavePoASync(string PoNumber, decimal? PoAmount, FwSqlConnection conn = null)
         {
@@ -1249,22 +1258,22 @@ public string DateStamp { get; set; }
         {
             OrderOnHoldResponse response = new OrderOnHoldResponse();
 
-                if ((OrderId != null) && (Type.Equals(RwConstants.ORDER_TYPE_ORDER)))
+            if ((OrderId != null) && (Type.Equals(RwConstants.ORDER_TYPE_ORDER)))
+            {
+                using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
                 {
-                    using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
-                    {
-                        FwSqlCommand qry = new FwSqlCommand(conn, "orderonhold", this.AppConfig.DatabaseSettings.QueryTimeout);
-                        qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
-                        qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, UserSession.UsersId);
-                        qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
-                        qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
-                        await qry.ExecuteNonQueryAsync();
-                        response.status = qry.GetParameter("@status").ToInt32();
-                        response.success = (qry.GetParameter("@status").ToInt32() == 0);
-                        response.msg = qry.GetParameter("@msg").ToString();
-                    }
+                    FwSqlCommand qry = new FwSqlCommand(conn, "orderonhold", this.AppConfig.DatabaseSettings.QueryTimeout);
+                    qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
+                    qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, UserSession.UsersId);
+                    qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
+                    qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
+                    await qry.ExecuteNonQueryAsync();
+                    response.status = qry.GetParameter("@status").ToInt32();
+                    response.success = (qry.GetParameter("@status").ToInt32() == 0);
+                    response.msg = qry.GetParameter("@msg").ToString();
                 }
-            
+            }
+
             return response;
         }
         //-------------------------------------------------------------------------------------------------------
@@ -1340,7 +1349,6 @@ public string DateStamp { get; set; }
             return contractId;
         }
         //-------------------------------------------------------------------------------------------------------    
-
         public async Task<string> CreateReturnContract()
         {
             string contractId = "";
@@ -1399,6 +1407,31 @@ public string DateStamp { get; set; }
                 }
             }
             return newOrderId;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public async Task<VoidPurchaseOrderResponse> Void()
+        {
+            // here is where we are making our request to the database.  I added a new stored procedure "voidpoweb" with output parameters for @status and @msg
+
+
+            VoidPurchaseOrderResponse response = new VoidPurchaseOrderResponse();
+
+            if ((OrderId != null) && (Type.Equals(RwConstants.ORDER_TYPE_PURCHASE_ORDER)))
+            {
+                using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
+                {
+                    FwSqlCommand qry = new FwSqlCommand(conn, "voidpoweb", this.AppConfig.DatabaseSettings.QueryTimeout);
+                    qry.AddParameter("@poid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);  // "OrderId" is part of this DealOrderRecord object.  This is our Purchase Order Id
+                    qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, UserSession.UsersId);
+                    qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
+                    qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
+                    await qry.ExecuteNonQueryAsync();
+                    response.status = qry.GetParameter("@status").ToInt32();
+                    response.msg = qry.GetParameter("@msg").ToString();
+                    response.success = (response.status == 0);
+                }
+            }
+            return response;  // return the entire object which either has a success=true or has success=false and an error message
         }
         //-------------------------------------------------------------------------------------------------------
     }

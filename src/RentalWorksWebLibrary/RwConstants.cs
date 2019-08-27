@@ -533,6 +533,4 @@
         public decimal Total;
         public bool? IncludeTaxInTotal;
     }
-
-
 }

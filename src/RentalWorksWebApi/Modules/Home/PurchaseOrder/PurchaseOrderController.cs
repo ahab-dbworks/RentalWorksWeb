@@ -11,6 +11,7 @@ using WebApi.Modules.Home.Contract;
 using WebApi.Logic;
 using System.Collections.Generic;
 using WebLibrary;
+using static WebApi.Modules.Home.DealOrder.DealOrderRecord;
 
 namespace WebApi.Modules.Home.PurchaseOrder
 {
@@ -447,6 +448,50 @@ namespace WebApi.Modules.Home.PurchaseOrder
 
                 PurchaseOrderReceiveAssignBarCodesResponse response = await ContractFunc.AssignBarCodesFromReceive(AppConfig, UserSession, request.PurchaseOrderId, request.ContractId);
                 return new OkObjectResult(response);
+            }
+            catch (Exception ex)
+            {
+                FwApiException jsonException = new FwApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
+            }
+        }
+        //------------------------------------------------------------------------------------        
+        // POST api/v1/purchaseorder/void/A0000001
+        [HttpPost("void/{id}")]
+        [FwControllerMethod(Id: "u5eAwyixomSFN")]
+        public async Task<ActionResult<PurchaseOrderLogic>> Void([FromRoute]string id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                string[] ids = id.Split('~');
+                PurchaseOrderLogic l = new PurchaseOrderLogic();
+                l.SetDependencies(AppConfig, UserSession);
+                if (await l.LoadAsync<PurchaseOrderLogic>(ids))
+                {
+                    VoidPurchaseOrderResponse response = await l.Void();   // we know we have a valid Purchase Order.  now we try to void it.
+                    if (response.success)
+                    {
+                        await l.LoadAsync<PurchaseOrderLogic>(ids);  // if the void works, then load the entire PO object again to get any other potentially-updated values
+                        response.purchaseOrder = l;                  // add the newly refreshed Purchase Order object to the response
+                        return new OkObjectResult(response);         // send the entire response back to the browser
+                    }
+                    else
+                    {
+                        throw new Exception(response.msg);           // something went wrong when trying to void, send the error message back to the browser in the response object
+                    }
+
+                }
+                else
+                {
+                    return NotFound();                               // invalid Purchase Order Id
+                }
             }
             catch (Exception ex)
             {

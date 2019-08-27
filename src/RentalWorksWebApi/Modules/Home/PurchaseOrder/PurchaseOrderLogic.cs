@@ -13,6 +13,7 @@ using WebApi.Modules.Home.Vendor;
 using WebApi.Modules.Settings.DefaultSettings;
 using WebApi.Modules.Settings.OfficeLocation;
 using WebLibrary;
+using static WebApi.Modules.Home.DealOrder.DealOrderRecord;
 
 namespace WebApi.Modules.Home.PurchaseOrder
 {
@@ -745,6 +746,10 @@ namespace WebApi.Modules.Home.PurchaseOrder
             return contractId;
         }
         //------------------------------------------------------------------------------------
-
+        public async Task<VoidPurchaseOrderResponse> Void()
+        {
+            return await purchaseOrder.Void();
+        }
+        //------------------------------------------------------------------------------------ 
     }
 }
