@@ -256,9 +256,11 @@ class SubWorksheet {
                     $form.find('.completeorder').show();
                     $form.find('.create-modify-po').text('Create Purchase Order');
 
+                    const $dwColumn = $subPurchaseOrderItemGridControl.find('thead [data-browsedatafield="VendorDaysPerWeek"]').parent('td');
+                    const $dealDwColumn = $subPurchaseOrderItemGridControl.find('thead [data-browsedatafield="DealDaysPerWeek"]').parent('td');
                     FwFormField.getValueByDataField($form, 'RateId') === 'DAILY' ? $form.find('.vendordaily').show() : $form.find('.vendordaily').hide();
-                    FwFormField.getValueByDataField($form, 'RateId') === 'DAILY' ? $subPurchaseOrderItemGridControl.find('.vendordailycolumn').show() : $subPurchaseOrderItemGridControl.find('.vendordailycolumn').hide();
-                    parentmoduleinfo.RateType === 'DAILY' ? $subPurchaseOrderItemGridControl.find('.orderdailycolumn').show() : $subPurchaseOrderItemGridControl.find('.orderdailycolumn').hide();
+                    FwFormField.getValueByDataField($form, 'RateId') === 'DAILY' ? $dwColumn.show() : $dwColumn.hide();
+                    parentmoduleinfo.RateType === 'DAILY' ? $dealDwColumn.show() : $dealDwColumn.hide();
 
                 } else {
                     $form.find('.error-msg:not(.qty)').html(`<div style="margin-left:5px;"><span>${response.msg}</span></div>`);
