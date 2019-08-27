@@ -5,6 +5,7 @@ class SubWorksheet {
     OrderId: string;
     SessionId: string;
     RecType: string;
+    OrderRateType: string;
     caption: string = Constants.Modules.Home.SubWorksheet.caption;
 	nav: string = Constants.Modules.Home.SubWorksheet.nav;
 	id: string = Constants.Modules.Home.SubWorksheet.id;
@@ -36,6 +37,7 @@ class SubWorksheet {
 
         this.OrderId = parentmoduleinfo.OrderId;
         this.RecType = parentmoduleinfo.RecType;
+        this.OrderRateType = parentmoduleinfo.RateType;
         $form.find('div[data-datafield="CreateNew"] input').prop('checked', true);
         //disables asterisk and save prompt
         $form.off('change keyup', '.fwformfield[data-enabled="true"]:not([data-isuniqueid="true"][data-datafield=""])');
@@ -254,7 +256,10 @@ class SubWorksheet {
                     $form.find('.completeorder').show();
                     $form.find('.create-modify-po').text('Create Purchase Order');
 
-                    FwFormField.getValueByDataField($form, 'RateId') === 'DAILY' ? $form.find('.daily').show() : $form.find('.daily').hide();
+                    FwFormField.getValueByDataField($form, 'RateId') === 'DAILY' ? $form.find('.vendordaily').show() : $form.find('.vendordaily').hide();
+                    FwFormField.getValueByDataField($form, 'RateId') === 'DAILY' ? $subPurchaseOrderItemGridControl.find('.vendordailycolumn').show() : $subPurchaseOrderItemGridControl.find('.vendordailycolumn').hide();
+                    parentmoduleinfo.RateType === 'DAILY' ? $subPurchaseOrderItemGridControl.find('.orderdailycolumn').show() : $subPurchaseOrderItemGridControl.find('.orderdailycolumn').hide();
+
                 } else {
                     $form.find('.error-msg:not(.qty)').html(`<div style="margin-left:5px;"><span>${response.msg}</span></div>`);
                 }
