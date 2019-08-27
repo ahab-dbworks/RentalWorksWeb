@@ -241,7 +241,27 @@ class OrderBase {
 
         $form.find('.tabGridsLoaded[data-type="tab"]').removeClass('tabGridsLoaded');
 
-
+        if (this.Module === 'Quote') {
+            //hide subworksheet and LD menu items
+            $orderItemGridRental.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"], [data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"], [data-securityid="78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412"]').hide();
+            $orderItemGridSales.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"], [data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"], [data-securityid="78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412"]').hide();
+            $orderItemGridLabor.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"], [data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"], [data-securityid="78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412"]').hide();
+            $orderItemGridMisc.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"], [data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"], [data-securityid="78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412"]').hide();
+            $orderItemGridUsedSale.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"], [data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"], [data-securityid="78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412"]').hide();
+            $combinedOrderItemGrid.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"], [data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"], [data-securityid="78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412"]').hide();
+        }
+        else if (this.Module === 'Order') {
+            //hide LD menu items
+            $orderItemGridRental.find('.submenu-btn').filter('[data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"], [data-securityid="78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412"]').hide();
+            $orderItemGridSales.find('.submenu-btn').filter('[data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"], [data-securityid="78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412"]').hide();
+            $orderItemGridLabor.find('.submenu-btn').filter('[data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"], [data-securityid="78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412"]').hide();
+            $orderItemGridMisc.find('.submenu-btn').filter('[data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"], [data-securityid="78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412"]').hide();
+            $orderItemGridUsedSale.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"], [data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"], [data-securityid="78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412"]').hide();
+            $combinedOrderItemGrid.find('.submenu-btn').filter('[data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"], [data-securityid="78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412"]').hide();
+            //Hides non-LD menu items
+            const $lossDamageGrid = $form.find('.lossdamagegrid [data-name="OrderItemGrid"]');
+            $lossDamageGrid.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"], [data-securityid="AD3FB369-5A40-4984-8A65-46E683851E52"], [data-securityid="B6B68464-B95C-4A4C-BAF2-6AA59B871468"], [data-securityid="01EB96CB-6C62-4D5C-9224-8B6F45AD9F63"], [data-securityid="9476D532-5274-429C-A563-FE89F5B89B01"]').hide();
+        }
     }
     //----------------------------------------------------------------------------------------------
     openBrowse() {
@@ -381,7 +401,7 @@ class OrderBase {
         FwFormField.loadItems($form.find('div[data-datafield="totalTypeRental"]'), [
             { value: 'W', caption: 'Weekly' },
             { value: 'M', caption: 'Monthly' },
-            { value: 'P', caption: 'Period', checked: 'checked'}
+            { value: 'P', caption: 'Period', checked: 'checked' }
         ]);
 
         //Toggle Buttons - Misc. tab - Misc. totals
@@ -431,24 +451,24 @@ class OrderBase {
 
         //Toggle Buttons - Billing tab - Hiatus Schedule
         FwFormField.loadItems($form.find('div[data-datafield="HiatusDiscountFrom"]'), [
-            { value: 'DEAL',    caption: 'Deal' },
-            { value: 'ORDER',   caption: 'Order' }
+            { value: 'DEAL', caption: 'Deal' },
+            { value: 'ORDER', caption: 'Order' }
         ]);
 
         //Toggle Buttons - Deliver/Ship tab - Outgoing Address
         FwFormField.loadItems($form.find('div[data-datafield="OutDeliveryAddressType"]'), [
-            { value: 'DEAL',        caption: 'Deal' },
-            { value: 'VENUE',       caption: 'Venue' },
-            { value: 'WAREHOUSE',   caption: 'Warehouse' },
-            { value: 'OTHER',   caption: 'Other' }
+            { value: 'DEAL', caption: 'Deal' },
+            { value: 'VENUE', caption: 'Venue' },
+            { value: 'WAREHOUSE', caption: 'Warehouse' },
+            { value: 'OTHER', caption: 'Other' }
         ]);
 
         //Toggle Buttons - Deliver/Ship tab - Incoming Address
         FwFormField.loadItems($form.find('div[data-datafield="InDeliveryAddressType"]'), [
-            { value: 'DEAL',        caption: 'Deal' },
-            { value: 'VENUE',       caption: 'Venue' },
-            { value: 'WAREHOUSE',   caption: 'Warehouse' },
-            { value: 'OTHER',       caption: 'Other' }
+            { value: 'DEAL', caption: 'Deal' },
+            { value: 'VENUE', caption: 'Venue' },
+            { value: 'WAREHOUSE', caption: 'Warehouse' },
+            { value: 'OTHER', caption: 'Other' }
         ]);
         //Toggle Buttons - Manifest tab - Rental Valuation
         FwFormField.loadItems($form.find('div[data-datafield="rentalValueSelector"]'), [
@@ -457,14 +477,14 @@ class OrderBase {
         ]);
         //Toggle Buttons - Manifest tab - Sales Valuation
         FwFormField.loadItems($form.find('div[data-datafield="salesValueSelector"]'), [
-            { value: '', caption: 'Sell Price'},
-            { value: '', caption: 'Default Cost'  },
+            { value: '', caption: 'Sell Price' },
+            { value: '', caption: 'Default Cost' },
             { value: '', caption: 'Average Cost' }
         ]);
         //Toggle Buttons - Manifest tab - Weight Type
         FwFormField.loadItems($form.find('div[data-datafield="weightSelector"]'), [
-            { value: 'IMPERIAL',    caption: 'Imperial' },
-            { value: 'METRIC',      caption: 'Metric' }
+            { value: 'IMPERIAL', caption: 'Imperial' },
+            { value: 'METRIC', caption: 'Metric' }
         ]);
 
         this.events($form);
@@ -535,7 +555,7 @@ class OrderBase {
                     }
                 }
 
-                var $profitFrames = $form.find('.profitframes .frame');
+                const $profitFrames = $form.find('.profitframes .frame');
                 $profitFrames.each(function () {
                     var profit = parseFloat(jQuery(this).attr('data-originalvalue'));
                     if (profit > 0) {
@@ -545,7 +565,7 @@ class OrderBase {
                     }
                 });
 
-                var $totalFrames = $form.find('.totalColors input');
+                const $totalFrames = $form.find('.totalColors input');
                 $totalFrames.each(function () {
                     var total = jQuery(this).val();
                     if (total != 0) {
@@ -2173,34 +2193,12 @@ class OrderBase {
         $form.find('.totals input').css('text-align', 'right');
 
         // find all the items grids on the form
-        let $rentalGrid = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
-        let $salesGrid = $form.find('.salesgrid [data-name="OrderItemGrid"]');
-        let $laborGrid = $form.find('.laborgrid [data-name="OrderItemGrid"]');
-        let $miscGrid = $form.find('.miscgrid [data-name="OrderItemGrid"]');
-        let $usedSaleGrid = $form.find('.usedsalegrid [data-name="OrderItemGrid"]');
-        let $lossDamageGrid = $form.find('.lossdamagegrid [data-name="OrderItemGrid"]');
-        let $combinedGrid = $form.find('.combinedgrid [data-name="OrderItemGrid"]');
-
-        if (this.Module === 'Quote') {
-            //hide subworksheet and LD menu items
-            $rentalGrid.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"], [data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"], [data-securityid="78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412"]').hide();
-            $salesGrid.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"], [data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"], [data-securityid="78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412"]').hide();
-            $laborGrid.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"], [data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"], [data-securityid="78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412"]').hide();
-            $miscGrid.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"], [data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"], [data-securityid="78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412"]').hide();
-            $usedSaleGrid.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"], [data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"], [data-securityid="78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412"]').hide();
-            $combinedGrid.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"], [data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"], [data-securityid="78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412"]').hide();
-        }
-        else if (this.Module === 'Order') {
-            //hide LD menu items
-            $rentalGrid.find('.submenu-btn').filter('[data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"], [data-securityid="78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412"]').hide();
-            $salesGrid.find('.submenu-btn').filter('[data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"], [data-securityid="78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412"]').hide();
-            $laborGrid.find('.submenu-btn').filter('[data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"], [data-securityid="78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412"]').hide();
-            $miscGrid.find('.submenu-btn').filter('[data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"], [data-securityid="78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412"]').hide();
-            $usedSaleGrid.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"], [data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"], [data-securityid="78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412"]').hide();
-            $combinedGrid.find('.submenu-btn').filter('[data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"], [data-securityid="78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412"]').hide();
-            //Hides non-LD menu items
-            $lossDamageGrid.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"], [data-securityid="AD3FB369-5A40-4984-8A65-46E683851E52"], [data-securityid="B6B68464-B95C-4A4C-BAF2-6AA59B871468"], [data-securityid="01EB96CB-6C62-4D5C-9224-8B6F45AD9F63"], [data-securityid="9476D532-5274-429C-A563-FE89F5B89B01"]').hide();
-        }
+        const $rentalGrid = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
+        const $salesGrid = $form.find('.salesgrid [data-name="OrderItemGrid"]');
+        const $laborGrid = $form.find('.laborgrid [data-name="OrderItemGrid"]');
+        const $miscGrid = $form.find('.miscgrid [data-name="OrderItemGrid"]');
+        const $usedSaleGrid = $form.find('.usedsalegrid [data-name="OrderItemGrid"]');
+        const $lossDamageGrid = $form.find('.lossdamagegrid [data-name="OrderItemGrid"]');
 
         // disable the Rate column
         if (FwFormField.getValueByDataField($form, 'DisableEditingRentalRate')) {
@@ -2225,7 +2223,7 @@ class OrderBase {
         }
 
         // disable/enable the No Charge Reason field
-        var noChargeValue = FwFormField.getValueByDataField($form, 'NoCharge');
+        const noChargeValue = FwFormField.getValueByDataField($form, 'NoCharge');
         if (noChargeValue == false) {
             FwFormField.disable($form.find('[data-datafield="NoChargeReason"]'));
         } else {
@@ -2237,33 +2235,33 @@ class OrderBase {
 
 
         // color the Notes tab if notes exist
-        let hasNotes = FwFormField.getValueByDataField($form, 'HasNotes');
+        const hasNotes = FwFormField.getValueByDataField($form, 'HasNotes');
         if (hasNotes) {
             FwTabs.setTabColor($form.find('.notestab'), '#FFFF8d');
         }
 
         // color the Rental tab if RentalItems exist
-        let hasRentalItem = FwFormField.getValueByDataField($form, 'HasRentalItem');
+        const hasRentalItem = FwFormField.getValueByDataField($form, 'HasRentalItem');
         if (hasRentalItem) {
             FwTabs.setTabColor($form.find('.rentaltab'), '#FFFF8d');
         }
         // color the Sales tab if SalesItems exist
-        let hasSalesItem = FwFormField.getValueByDataField($form, 'HasSalesItem');
+        const hasSalesItem = FwFormField.getValueByDataField($form, 'HasSalesItem');
         if (hasSalesItem) {
             FwTabs.setTabColor($form.find('.salestab'), '#FFFF8d');
         }
         // color the Misc. tab if MiscItems exist
-        let hasMiscItem = FwFormField.getValueByDataField($form, 'HasMiscellaneousItem');
+        const hasMiscItem = FwFormField.getValueByDataField($form, 'HasMiscellaneousItem');
         if (hasMiscItem) {
             FwTabs.setTabColor($form.find('.misctab'), '#FFFF8d');
         }
         // color the Labor tab if LaborItems exist
-        let hasLaborItem = FwFormField.getValueByDataField($form, 'HasLaborItem');
+        const hasLaborItem = FwFormField.getValueByDataField($form, 'HasLaborItem');
         if (hasLaborItem) {
             FwTabs.setTabColor($form.find('.labortab'), '#FFFF8d');
         }
         // color the Rental Sale tab if RentalSaleItems exist
-        let hasRentalSaleItem = FwFormField.getValueByDataField($form, 'HasRentalSaleItem');
+        const hasRentalSaleItem = FwFormField.getValueByDataField($form, 'HasRentalSaleItem');
         if (hasRentalSaleItem) {
             FwTabs.setTabColor($form.find('.labortab'), '#FFFF8d');
         }
@@ -2348,7 +2346,7 @@ class OrderBase {
                 FwFormField.enable(FwFormField.getDataField($form, 'RentalSale'));
             }
         }
-      
+
         //toggle profit & loss activity section visibility
         rentalVal ? $form.find('.rental-pl').show() : $form.find('.rental-pl').hide();
         salesVal ? $form.find('.sales-pl').show() : $form.find('.sales-pl').hide();
@@ -2357,7 +2355,7 @@ class OrderBase {
         usedSaleVal ? $form.find('.usedsale-pl').show() : $form.find('.usedsale-pl').hide();
 
         // disable all controls on the form based on Quote/Order status
-        let status = FwFormField.getValueByDataField($form, 'Status');
+        const status = FwFormField.getValueByDataField($form, 'Status');
         if (status === 'ORDERED' || status === 'CLOSED' || status === 'CANCELLED' || status === 'SNAPSHOT') {
             FwModule.setFormReadOnly($form);
             $form.find('.btn[data-securityid="searchbtn"]').addClass('disabled');
@@ -2428,7 +2426,7 @@ class OrderBase {
             $form.find('.schedule-date-fields').hide();
             $form.find('.activity-dates').show();
         });
-        
+
         $form.data('beforesave', request => {
             const activityDatesAndTimes = [];
             const $rows = $form.find('.date-row');
