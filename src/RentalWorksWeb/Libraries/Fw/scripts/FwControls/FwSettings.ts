@@ -486,7 +486,7 @@ class FwSettingsClass {
                         }
                     }
                 })
-                .on('click', '.save', function (e) {
+                .on('click', '.save', function (e) { // dont think this is being executed
                     e.stopPropagation();
                     var $form = jQuery(this).closest('.panel-record').find('.fwform');
                     me.saveForm(window[moduleName + 'Controller'].Module, $form, false, '');
@@ -524,7 +524,6 @@ class FwSettingsClass {
             newRowHtml.push('    </div>');
             newRowHtml.push('  </div>');
             newRowHtml.push('</div>');
-
             controller = $form.data('controller');
             $form = (<any>window[controller]).openForm('NEW');
             $body.prepend($form);
@@ -539,7 +538,7 @@ class FwSettingsClass {
             $form.remove();
         });
 
-        $body.on('click', '.save-new-row', function (e) {
+        $body.on('click', '.save-new-row', function (e) { // dont think this is executed
             var $form;
             e.stopPropagation();
             $form = jQuery(this).closest('.panel-body').find('.fwform');
@@ -628,8 +627,9 @@ class FwSettingsClass {
         //saving form
         $settingsPageModules.on('click', '.btn', function (e) {
             if (FwModule.validateForm(jQuery(this).closest('.fwform'))) {
-                $body.empty();
-                me.getRows($body, $control, apiurl, $control.find('#' + moduleName), moduleName);
+                //$body.empty();
+                //me.getRows($body, $control, apiurl, $control.find('#' + moduleName), moduleName);
+                debugger;
             }
         });
 
@@ -1403,7 +1403,7 @@ class FwSettingsClass {
                     FwFunc.showError(ex);
                 }
             })
-        ;
+            ;
 
         $menu.find('.menu').append($modulebtn);
     };
