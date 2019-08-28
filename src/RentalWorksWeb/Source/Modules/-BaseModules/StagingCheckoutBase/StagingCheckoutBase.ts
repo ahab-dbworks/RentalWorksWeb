@@ -227,7 +227,6 @@
         this.successSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).successSoundFileName;
         this.errorSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).errorSoundFileName;
         this.notificationSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).notificationSoundFileName;
-        { "successSoundFileName": "", "errorSoundFileName": "", "notificationSoundFileName": "./THEME/AUDIO/APPOINTED.MP3" }
     }
     //----------------------------------------------------------------------------------------------
     getOrder($form: JQuery): void {
