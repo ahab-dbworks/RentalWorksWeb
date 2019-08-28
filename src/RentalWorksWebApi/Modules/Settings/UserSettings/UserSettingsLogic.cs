@@ -2,6 +2,7 @@ using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
 using WebApi.Logic;
 using WebApi.Modules.Administrator.User;
+using WebLibrary;
 
 namespace WebApi.Modules.Settings.UserSettings
 {
@@ -45,8 +46,25 @@ namespace WebApi.Modules.Settings.UserSettings
         [FwLogicProperty(Id:"y9L5kSGYGJAx")]
         public string SuccessSound { get; set; }
 
+        private string _successSoundFileName = "";
         [FwLogicProperty(Id:"un2900EpcFpd")]
-        public string SuccessSoundFileName { get; set; }
+        //public string SuccessSoundFileName { get; set; }
+        public string SuccessSoundFileName
+        {
+            get
+            {
+                string fileName = _successSoundFileName;
+                if (string.IsNullOrEmpty(fileName))
+                {
+                    fileName = RwConstants.DEFAULT_SOUND_FILE_NAME;
+                }
+                return fileName;
+            }
+            set
+            {
+                _successSoundFileName = value;
+            }
+        }
 
         [FwLogicProperty(Id:"fTfhujW6vP6C")]
         public string ErrorSoundId { get { return webUser.ErrorSoundId; } set { webUser.ErrorSoundId = value; } }
@@ -54,8 +72,25 @@ namespace WebApi.Modules.Settings.UserSettings
         [FwLogicProperty(Id:"jZaf3H62W9Pp")]
         public string ErrorSound { get; set; }
 
+        private string _errorSoundFileName = "";
         [FwLogicProperty(Id:"at37zWVEk7OM")]
-        public string ErrorSoundFileName { get; set; }
+        //public string ErrorSoundFileName { get; set; }
+        public string ErrorSoundFileName
+        {
+            get
+            {
+                string fileName = _errorSoundFileName;
+                if (string.IsNullOrEmpty(fileName))
+                {
+                    fileName = RwConstants.DEFAULT_SOUND_FILE_NAME;
+                }
+                return fileName;
+            }
+            set
+            {
+                _errorSoundFileName = value;
+            }
+        }
 
         [FwLogicProperty(Id:"7akrq6SztEca")]
         public string NotificationSoundId { get { return webUser.NotificationSoundId; } set { webUser.NotificationSoundId = value; } }
@@ -63,8 +98,25 @@ namespace WebApi.Modules.Settings.UserSettings
         [FwLogicProperty(Id:"FcspfaoMg0MD")]
         public string NotificationSound { get; set; }
 
+        private string _notificationSoundFileName = "";
         [FwLogicProperty(Id:"RiJwTjmPSP4u")]
-        public string NotificationSoundFileName { get; set; }
+        //public string NotificationSoundFileName { get; set; }
+        public string NotificationSoundFileName
+        {
+            get
+            {
+                string fileName = _notificationSoundFileName;
+                if (string.IsNullOrEmpty(fileName))
+                {
+                    fileName = RwConstants.DEFAULT_SOUND_FILE_NAME;
+                }
+                return fileName;
+            }
+            set
+            {
+                _notificationSoundFileName = value;
+            }
+        }
 
         [FwLogicProperty(Id: "ypkfs1JBnySIQ")]
         public string ToolBarJson { get; set; }

@@ -493,6 +493,10 @@
         //RESOURCE STATUS
         public const string RESOURCE_STATUS_TYPE_VEHICLE = "V";
 
+        //SOUNDS
+        public const string DEFAULT_SOUND_FILE_NAME = "./THEME/AUDIO/APPOINTED.MP3";
+
+
     }
 
     public class QuoteOrderCopyRequest
