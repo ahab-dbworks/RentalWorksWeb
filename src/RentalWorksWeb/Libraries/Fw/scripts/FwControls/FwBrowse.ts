@@ -145,6 +145,35 @@ class FwBrowseClass {
                             if ($control.attr('data-type') === 'Browse' || $control.attr('data-type') === 'Validation') {
                                 me.selectPrevRow($control);
                                 return false;
+                            } else if ($control.attr('data-type') === 'Grid') {
+                                const $tr = jQuery(e.currentTarget);
+                                const $cell = jQuery(e.target);
+                                const fieldName = jQuery(e.target).parent('div').attr('data-browsedatafield');
+                                $control.data('selectedfield', fieldName);
+                                if ($control.attr('data-multisave') == 'true') {
+                                    const $prevRow = me.selectPrevRow($control);
+                                    if ($prevRow.length > 0) {
+                                        me.setRowEditMode($control, $prevRow);
+                                    }
+                                } else {
+                                    me.saveRow($control, $tr)
+                                        .then(() => {
+                                            const rowindex = me.getSelectedRowIndex($control);
+                                            if (rowindex === 0) {
+                                                $control.data('selectedrowmode', 'edit');
+                                                me.selectPrevRow($control);
+                                            } else if (rowindex > 0) {
+                                                const $prevRow = me.selectPrevRow($control);
+                                                if ($prevRow.length > 0) {
+                                                    me.setRowEditMode($control, $prevRow);
+                                                }
+                                            }
+                                        })
+                                        .catch(() => {
+                                            $cell.select();
+                                        });
+                                }
+                                return false;
                             }
                         case 39: //Right Arrow Key
                             if ($control.attr('data-type') === 'Browse' || $control.attr('data-type') === 'Validation') {
@@ -154,6 +183,36 @@ class FwBrowseClass {
                         case 40: //Down Arrow Key
                             if ($control.attr('data-type') === 'Browse' || $control.attr('data-type') === 'Validation') {
                                 me.selectNextRow($control);
+                                return false;
+                            } else if ($control.attr('data-type') === 'Grid') {
+                                const $tr = jQuery(e.currentTarget);
+                                const $cell = jQuery(e.target);
+                                const fieldName = jQuery(e.target).parent('div').attr('data-browsedatafield');
+                                $control.data('selectedfield', fieldName);
+                                if ($control.attr('data-multisave') == 'true') {
+                                    const $nextRow = me.selectNextRow($control);
+                                    if ($nextRow.length > 0) {
+                                        me.setRowEditMode($control, $nextRow);
+                                    }
+                                } else {
+                                    me.saveRow($control, $tr)
+                                        .then(() => {
+                                            const rowindex = me.getSelectedRowIndex($control);
+                                            const lastrowindex = $control.find('tbody tr').length - 1;
+                                            if (rowindex === lastrowindex) {
+                                                $control.data('selectedrowmode', 'edit');
+                                                me.selectNextRow($control);
+                                            } else if (rowindex < lastrowindex) {
+                                                const $nextRow = me.selectNextRow($control);
+                                                if ($nextRow.length > 0) {
+                                                    me.setRowEditMode($control, $nextRow);
+                                                }
+                                            }
+                                        })
+                                        .catch(() => {
+                                            $cell.select();
+                                        });
+                                }
                                 return false;
                             }
                     }
@@ -660,10 +719,11 @@ class FwBrowseClass {
                 afterrowselected();
             }
         } else if ((rowindex === 0) && (pageno > 1)) {
+            var self = this;
             rowindex = pagesize - 1;
             this.setSelectedIndex($control, rowindex);
             this.addEventHandler($control, 'afterdatabindcallback', function afterdatabindcallback_selectPrevRow() {
-                this.removeEventHandler($control, 'afterdatabindcallback', afterdatabindcallback_selectPrevRow);
+                self.removeEventHandler($control, 'afterdatabindcallback', afterdatabindcallback_selectPrevRow);
                 if (typeof afterrowselected === 'function') {
                     afterrowselected();
                 }
@@ -682,24 +742,27 @@ class FwBrowseClass {
         var totalpages = this.getTotalPages($control);
         var rowindex = this.getSelectedRowIndex($control);
         var lastrowindex = $control.find('tbody tr').length - 1;
+        var $trselected;
         if (rowindex < lastrowindex) {
             $selectedrow = $selectedrow.next();
             this.selectRow($control, $selectedrow);
             if (typeof afterrowselected === 'function') {
                 afterrowselected();
             }
+            $trselected = $control.find('tbody tr.selected');
         }
         else if ((rowindex === lastrowindex) && (pageno < totalpages)) {
+            var self = this;
             this.setSelectedIndex($control, 0);
             this.addEventHandler($control, 'afterdatabindcallback', function afterdatabindcallback_selectNextRow() {
-                this.removeEventHandler($control, 'afterdatabindcallback', afterdatabindcallback_selectNextRow);
+                self.removeEventHandler($control, 'afterdatabindcallback', afterdatabindcallback_selectNextRow);
                 if (typeof afterrowselected === 'function') {
                     afterrowselected();
                 }
             });
             this.nextPage($control);
         }
-        var $trselected = $control.find('tbody tr.selected');
+         
         return $trselected;
     }
     //---------------------------------------------------------------------------------
@@ -2902,6 +2965,12 @@ class FwBrowseClass {
                     window[controller]['afterRowEditMode']($control, $tr);
                 }
             }
+
+            if (typeof $control.data('selectedfield') === 'string') {
+                const fieldName = $control.data('selectedfield');
+                $tr.find(`[data-browsedatafield="${fieldName}"] input`).select();
+                $control.data('selectedfield', []);
+            }
         } else {
             this.beforeNewOrEditRow($control, $tr)
                 .then(() => {
@@ -2941,6 +3010,12 @@ class FwBrowseClass {
                         if (typeof window[controller]['afterRowEditMode'] === 'function') {
                             window[controller]['afterRowEditMode']($control, $tr);
                         }
+                    }
+
+                    if (typeof $control.data('selectedfield') === 'string') {
+                        const fieldName = $control.data('selectedfield');
+                        $tr.find(`[data-browsedatafield="${fieldName}"] input`).select();
+                        $control.data('selectedfield', []);
                     }
                 });
         }
@@ -3003,20 +3078,22 @@ class FwBrowseClass {
         // add the cancel button
         const $tdselectrow = $tr.find('.tdselectrow');
         $tr.closest('tbody').find('.browsecontextmenu').hide();
-        const $divcancelsaverow = jQuery('<div class="divcancelsaverow"><i class="material-icons">&#xE5C9;</i></div>'); //cancel
-        $divcancelsaverow.on('click', function () {
-            try {
-                const $this = jQuery(this);
-                const $tr = $this.closest('tr');
-                me.cancelEditMode($control, $tr);
-                $tr.find('.browsecontextmenucell').show();
-                const rowsInEditMode = $control.find('.editmode').length;
-                if (rowsInEditMode == 0) $gridmenu.find('.grid-multi-save').hide();
-            } catch (ex) {
-                FwFunc.showError(ex);
-            }
-        });
-        $tdselectrow.append($divcancelsaverow);
+        if ($tr.find('.divcancelsaverow').length === 0) {
+            const $divcancelsaverow = jQuery('<div class="divcancelsaverow"><i class="material-icons">&#xE5C9;</i></div>'); //cancel
+            $divcancelsaverow.on('click', function () {
+                try {
+                    const $this = jQuery(this);
+                    const $tr = $this.closest('tr');
+                    me.cancelEditMode($control, $tr);
+                    $tr.find('.browsecontextmenucell').show();
+                    const rowsInEditMode = $control.find('.editmode').length;
+                    if (rowsInEditMode == 0) $gridmenu.find('.grid-multi-save').hide();
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            });
+            $tdselectrow.append($divcancelsaverow);
+        }
     }
     //---------------------------------------------------------------------------------
     setFieldEditMode($control: JQuery, $tr: JQuery, $field: JQuery): void {
@@ -3330,6 +3407,8 @@ class FwBrowseClass {
                             reject();
                         }
                     });
+                } else {
+                    reject();
                 }
             } else {
                 this.cancelEditMode($control, $tr);
