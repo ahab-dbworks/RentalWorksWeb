@@ -1284,6 +1284,7 @@ public string DateStamp { get; set; }
             {
                 using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
                 {
+                    //jh 08/28/2019 #922 posted hotfix 067 to fix this bug
                     FwSqlCommand qry = new FwSqlCommand(conn, "quotenewver", this.AppConfig.DatabaseSettings.QueryTimeout);
                     qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
                     qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, UserSession.UsersId);
