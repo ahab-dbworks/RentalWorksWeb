@@ -17,14 +17,14 @@ namespace WebApi.Modules.Home.PurchaseOrder
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
-    [FwController(Id:"9a0xOMvBM7Uh9")]
+    [FwController(Id: "9a0xOMvBM7Uh9")]
     public class PurchaseOrderController : AppDataController
     {
         public PurchaseOrderController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(PurchaseOrderLogic); }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/purchaseorder/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"CT5m1NLaLhzuD")]
+        [FwControllerMethod(Id: "CT5m1NLaLhzuD")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
@@ -47,7 +47,7 @@ namespace WebApi.Modules.Home.PurchaseOrder
         //------------------------------------------------------------------------------------ 
         // POST api/v1/purchaseorder/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
-        [FwControllerMethod(Id:"UoKvbRlRbt1bF")]
+        [FwControllerMethod(Id: "UoKvbRlRbt1bF")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -55,7 +55,7 @@ namespace WebApi.Modules.Home.PurchaseOrder
         //------------------------------------------------------------------------------------ 
         // GET api/v1/purchaseorder 
         [HttpGet]
-        [FwControllerMethod(Id:"LIKzNq6S5IzDy")]
+        [FwControllerMethod(Id: "LIKzNq6S5IzDy")]
         public async Task<ActionResult<IEnumerable<PurchaseOrderLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<PurchaseOrderLogic>(pageno, pagesize, sort);
@@ -63,7 +63,7 @@ namespace WebApi.Modules.Home.PurchaseOrder
         //------------------------------------------------------------------------------------ 
         // GET api/v1/purchaseorder/A0000001 
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"RFk1UEbjNbkyG")]
+        [FwControllerMethod(Id: "RFk1UEbjNbkyG")]
         public async Task<ActionResult<PurchaseOrderLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<PurchaseOrderLogic>(id);
@@ -71,7 +71,7 @@ namespace WebApi.Modules.Home.PurchaseOrder
         //------------------------------------------------------------------------------------ 
         // POST api/v1/purchaseorder 
         [HttpPost]
-        [FwControllerMethod(Id:"IRGS1gIXKz13P")]
+        [FwControllerMethod(Id: "IRGS1gIXKz13P")]
         public async Task<ActionResult<PurchaseOrderLogic>> PostAsync([FromBody]PurchaseOrderLogic l)
         {
             return await DoPostAsync<PurchaseOrderLogic>(l);
@@ -89,7 +89,7 @@ namespace WebApi.Modules.Home.PurchaseOrder
 
         // POST api/v1/purchaseorder/applybottomlinedaysperweek
         [HttpPost("applybottomlinedaysperweek")]
-        [FwControllerMethod(Id:"kS5BrDluy5bBu")]
+        [FwControllerMethod(Id: "kS5BrDluy5bBu")]
         public async Task<ActionResult<bool>> ApplyBottomLineDaysPerWeek([FromBody] ApplyBottomLineDaysPerWeekRequest request)
         {
             if (!ModelState.IsValid)
@@ -124,7 +124,7 @@ namespace WebApi.Modules.Home.PurchaseOrder
         //------------------------------------------------------------------------------------
         // POST api/v1/purchaseorder/applybottomlinediscountpercent
         [HttpPost("applybottomlinediscountpercent")]
-        [FwControllerMethod(Id:"i9rBnq4qjg6HC")]
+        [FwControllerMethod(Id: "i9rBnq4qjg6HC")]
         public async Task<ActionResult<bool>> ApplyBottomLineDiscountPercent([FromBody] ApplyBottomLineDiscountPercentRequest request)
         {
             if (!ModelState.IsValid)
@@ -159,7 +159,7 @@ namespace WebApi.Modules.Home.PurchaseOrder
         //------------------------------------------------------------------------------------
         // POST api/v1/purchaseorder/applybottomlinetotal
         [HttpPost("applybottomlinetotal")]
-        [FwControllerMethod(Id:"vV0pObeeL5y4K")]
+        [FwControllerMethod(Id: "vV0pObeeL5y4K")]
         public async Task<ActionResult<bool>> ApplyBottomLineTotal([FromBody] ApplyBottomLineTotalRequest request)
         {
             if (!ModelState.IsValid)
@@ -222,7 +222,7 @@ namespace WebApi.Modules.Home.PurchaseOrder
 
         // POST api/v1/purchaseorder/startreceivecontract
         [HttpPost("startreceivecontract")]
-        [FwControllerMethod(Id:"Xs4EV6zXN8jsa")]
+        [FwControllerMethod(Id: "Xs4EV6zXN8jsa")]
         public async Task<ActionResult<ReceiveContractResponse>> StartReceiveContractAsync([FromBody]ReceiveContractRequest request)
         {
             if (!ModelState.IsValid)
@@ -258,7 +258,7 @@ namespace WebApi.Modules.Home.PurchaseOrder
         //------------------------------------------------------------------------------------ 
         // POST api/v1/purchaseorder/completereceivecontract
         [HttpPost("completereceivecontract/{id}")]
-        [FwControllerMethod(Id:"SFnrq53IYU6HS")]
+        [FwControllerMethod(Id: "SFnrq53IYU6HS")]
         public async Task<ActionResult<List<ContractLogic>>> CompleteReceiveContractAsync([FromRoute]string id, [FromBody] CompleteReceiveContractRequest request)
         {
             if (!ModelState.IsValid)
@@ -337,7 +337,7 @@ namespace WebApi.Modules.Home.PurchaseOrder
 
         // POST api/v1/purchaseorder/startreturncontract
         [HttpPost("startreturncontract")]
-        [FwControllerMethod(Id:"IHQC7YuIlyflM")]
+        [FwControllerMethod(Id: "IHQC7YuIlyflM")]
         public async Task<ActionResult<ReturnContractResponse>> StartReturnContractAsync([FromBody]ReturnContractRequest request)
         {
             if (!ModelState.IsValid)
@@ -373,7 +373,7 @@ namespace WebApi.Modules.Home.PurchaseOrder
         //------------------------------------------------------------------------------------ 
         // POST api/v1/purchaseorder/completereturncontract
         [HttpPost("completereturncontract/{id}")]
-        [FwControllerMethod(Id:"Yu4sDt9BpjVrt")]
+        [FwControllerMethod(Id: "Yu4sDt9BpjVrt")]
         public async Task<ActionResult<ContractLogic>> CompleteReturnContractAsync([FromRoute]string id)
         {
             if (!ModelState.IsValid)
@@ -411,7 +411,7 @@ namespace WebApi.Modules.Home.PurchaseOrder
         //------------------------------------------------------------------------------------    
         // POST api/v1/purchaseorder/receivebarcodeadditems
         [HttpPost("receivebarcodeadditems")]
-        [FwControllerMethod(Id:"x7nZuntw3E0dk")]
+        [FwControllerMethod(Id: "x7nZuntw3E0dk")]
         public async Task<ActionResult<PurchaseOrderReceiveBarCodeAddItemsResponse>> ReceiveBarCodeAddItems([FromBody] PurchaseOrderReceiveBarCodeAddItemsRequest request)
         {
             if (!ModelState.IsValid)
@@ -436,7 +436,7 @@ namespace WebApi.Modules.Home.PurchaseOrder
         //------------------------------------------------------------------------------------       
         // POST api/v1/purchaseorder/assignbarcodesfromreceive
         [HttpPost("assignbarcodesfromreceive")]
-        [FwControllerMethod(Id:"RFMr1ZCHMVvo4")]
+        [FwControllerMethod(Id: "RFMr1ZCHMVvo4")]
         public async Task<ActionResult<PurchaseOrderReceiveAssignBarCodesResponse>> AssignBarCodesFromReceive([FromBody] PurchaseOrderReceiveAssignBarCodesRequest request)
         {
             if (!ModelState.IsValid)

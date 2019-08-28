@@ -1186,42 +1186,47 @@ class PurchaseOrder {
     }
     //----------------------------------------------------------------------------------------------
     voidPO($form: JQuery): void {
-        const $confirmation = FwConfirmation.renderConfirmation('Void', '');
-        $confirmation.find('.fwconfirmationbox').css('width', '450px');
-        const html: Array<string> = [];
-        html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
-        html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-        html.push('    <div>Void this Purchase Order?</div>');
-        html.push('  </div>');
-        html.push('</div>');
+        const status = FwFormField.getValueByDataField($form, 'Status');
+        if (status === 'NEW') {
+            const $confirmation = FwConfirmation.renderConfirmation('Void', '');
+            $confirmation.find('.fwconfirmationbox').css('width', '450px');
+            const html: Array<string> = [];
+            html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+            html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+            html.push('    <div>Void this Purchase Order?</div>');
+            html.push('  </div>');
+            html.push('</div>');
 
-        FwConfirmation.addControls($confirmation, html.join(''));
-        const $yes = FwConfirmation.addButton($confirmation, 'Void', false);
-        const $no = FwConfirmation.addButton($confirmation, 'Cancel');
+            FwConfirmation.addControls($confirmation, html.join(''));
+            const $yes = FwConfirmation.addButton($confirmation, 'Void', false);
+            const $no = FwConfirmation.addButton($confirmation, 'Cancel');
 
-        $yes.on('click', makeVoid);
-        // ----------
-        function makeVoid() {
+            $yes.on('click', makeVoid);
+            // ----------
+            function makeVoid() {
 
-            FwFormField.disable($confirmation.find('.fwformfield'));
-            FwFormField.disable($yes);
-            $yes.text('Voiding...');
-            $yes.off('click');
+                FwFormField.disable($confirmation.find('.fwformfield'));
+                FwFormField.disable($yes);
+                $yes.text('Voiding...');
+                $yes.off('click');
 
-            const purchaseOrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
-            FwAppData.apiMethod(true, 'POST', `api/v1/purchaseorder/void/${purchaseOrderId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
-                FwNotification.renderNotification('SUCCESS', 'Purchase Order Successfully Voided');
-                FwConfirmation.destroyConfirmation($confirmation);
-                FwModule.refreshForm($form, PurchaseOrderController);
-            }, function onError(response) {
-                $yes.on('click', makeVoid);
-                $yes.text('Void');
-                FwFunc.showError(response);
-                FwFormField.enable($confirmation.find('.fwformfield'));
-                FwFormField.enable($yes);
-                FwModule.refreshForm($form, PurchaseOrderController);
-            }, $form);
-        };
+                const purchaseOrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
+                FwAppData.apiMethod(true, 'POST', `api/v1/purchaseorder/void/${purchaseOrderId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                    FwNotification.renderNotification('SUCCESS', 'Purchase Order Successfully Voided');
+                    FwConfirmation.destroyConfirmation($confirmation);
+                    FwModule.refreshForm($form, PurchaseOrderController);
+                }, function onError(response) {
+                    $yes.on('click', makeVoid);
+                    $yes.text('Void');
+                    FwFunc.showError(response);
+                    FwFormField.enable($confirmation.find('.fwformfield'));
+                    FwFormField.enable($yes);
+                    FwModule.refreshForm($form, PurchaseOrderController);
+                }, $form);
+            };
+        } else {
+            FwNotification.renderNotification('WARNING', 'Only NEW Purchase Orders can be voided.');
+        }
     };
     //----------------------------------------------------------------------------------------------
     //dynamicColumns($form: any): void {
