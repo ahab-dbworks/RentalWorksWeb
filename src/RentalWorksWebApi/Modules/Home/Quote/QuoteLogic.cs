@@ -1,5 +1,5 @@
 using FwStandard.AppManager;
-﻿using FwStandard.BusinessLogic;
+using FwStandard.BusinessLogic;
 using WebApi.Modules.Home.Order;
 using System;
 using WebLibrary;
@@ -7,6 +7,7 @@ using WebApi.Logic;
 using FwStandard.SqlServer;
 using System.Threading.Tasks;
 using WebApi.Modules.Home.DealOrder;
+using static WebApi.Modules.Home.DealOrder.DealOrderRecord;
 
 namespace WebApi.Modules.Home.Quote
 {
@@ -14,6 +15,7 @@ namespace WebApi.Modules.Home.Quote
     {
         QuoteLoader quoteLoader = new QuoteLoader();
         QuoteBrowseLoader quoteBrowseLoader = new QuoteBrowseLoader();
+        DealOrderRecord quote = new DealOrderRecord();
         //------------------------------------------------------------------------------------
         public QuoteLogic()
         {
@@ -24,16 +26,16 @@ namespace WebApi.Modules.Home.Quote
             dealOrder.AfterSave += OnAfterSaveDealOrder;
         }
         //------------------------------------------------------------------------------------
-        [FwLogicProperty(Id:"PZaTT296KqnzM", IsPrimaryKey:true)]
+        [FwLogicProperty(Id: "PZaTT296KqnzM", IsPrimaryKey: true)]
         public string QuoteId { get { return dealOrder.OrderId; } set { dealOrder.OrderId = value; dealOrderDetail.OrderId = value; } }
 
-        [FwLogicProperty(Id:"kwFYukQcQp9o", DisableDirectAssign: true, DisableDirectModify: true)]
+        [FwLogicProperty(Id: "kwFYukQcQp9o", DisableDirectAssign: true, DisableDirectModify: true)]
         public string QuoteNumber { get { return dealOrder.OrderNumber; } set { dealOrder.OrderNumber = value; } }
 
-        [FwLogicProperty(Id:"aN8TGE6a4YFv", DisableDirectAssign: true, DisableDirectModify: true)]
+        [FwLogicProperty(Id: "aN8TGE6a4YFv", DisableDirectAssign: true, DisableDirectModify: true)]
         public string QuoteDate { get { return dealOrder.OrderDate; } set { dealOrder.OrderDate = value; } }
 
-        [FwLogicProperty(Id:"cVKvrBbjaH2B", DisableDirectModify: true)]
+        [FwLogicProperty(Id: "cVKvrBbjaH2B", DisableDirectModify: true)]
         public int? VersionNumber { get { return dealOrder.VersionNumber; } set { dealOrder.VersionNumber = value; } }
 
         //------------------------------------------------------------------------------------
@@ -136,11 +138,18 @@ namespace WebApi.Modules.Home.Quote
         {
             bool success = await dealOrder.SubmitQuote();
 
-            if (success) {
+            if (success)
+            {
                 await LoadAsync<QuoteLogic>();
             }
             return this;
         }
+        //------------------------------------------------------------------------------------
+        public async Task<ReserveQuoteResponse> Reserve()
+        {
+            return await quote.Reserve();
+        }
+        //------------------------------------------------------------------------------------ 
         //------------------------------------------------------------------------------------
         public async Task<QuoteLogic> ActivateQuoteRequestASync()
         {

@@ -17,7 +17,7 @@
             EmailHistory: { id: '3F44AC27-CE34-46BA-B4FB-A8AEBB214167', caption: 'Email History', nav: 'module/emailhistory' },
             Group: { id: '9BE101B6-B406-4253-B2C6-D0571C7E5916', caption: 'Group', nav: 'module/group' },
             Hotfix: { id: '9D29A5D9-744F-40CE-AE3B-09219611A680', caption: 'Hotfix', nav: 'module/hotfix' },
-          
+
             Reports: { id: '3C5C7603-9E7B-47AB-A722-B29CA09B3B8C', caption: 'Reports', nav: 'module/reports' },
             Settings: { id: '57150967-486A-42DE-978D-A2B0F843341A', caption: 'Settings', nav: 'module/settings' },
             User: { id: '79E93B21-8638-483C-B377-3F4D561F1243', caption: 'User', nav: 'module/user' }
@@ -25,10 +25,11 @@
         Home: {
             Asset: { id: '1C45299E-F8DB-4AE4-966F-BE142295E3D6', caption: 'Asset', nav: 'module/item' },
             AssignBarCodes: { id: '4B9C17DE-7FC0-4C33-B953-26FC90F32EA0', caption: 'Assign Bar Codes', nav: 'module/assignbarcodes' },
-            AvailabilityConflicts: { id: 'DF2859D1-3834-42DA-A367-85B168850ED9', caption: 'Availability Conflicts', nav: 'module/availabilityconflicts'},
+            AvailabilityConflicts: { id: 'DF2859D1-3834-42DA-A367-85B168850ED9', caption: 'Availability Conflicts', nav: 'module/availabilityconflicts' },
             Billing: { id: '34E0472E-9057-4C66-8CC2-1938B3222569', caption: 'Billing', nav: 'module/billing' },
             BillingMessage: { id: 'B232DF4D-462A-4810-952D-73F8DE66800C', caption: 'Billing Message', nav: 'module/billingmessage' },
-            CheckIn: { id: '77317E53-25A2-4C12-8DAD-7541F9A09436', caption: 'Check-In', nav: 'module/checkin',
+            CheckIn: {
+                id: '77317E53-25A2-4C12-8DAD-7541F9A09436', caption: 'Check-In', nav: 'module/checkin',
                 form: {
                     menuItems: {
                         Cancel: { id: '{52BEF7F5-C9F7-44DE-AD84-8E5AC68A9D7B}' }
@@ -39,12 +40,13 @@
             Contact: { id: '3F803517-618A-41C0-9F0B-2C96B8BDAFC4', caption: 'Contact', nav: 'module/contact' },
             Container: { id: '28A49328-FFBD-42D5-A492-EDF540DF7011', caption: 'Container', nav: 'module/container' },
             ContainerStatus: { id: '0CD07ACF-D9A4-42A3-A288-162398683F8A', caption: 'Container Status', nav: 'module/containerstatus' },
-            Contract: { id: '6BBB8A0A-53FA-4E1D-89B3-8B184B233DEA', caption: 'Contract', nav: 'module/contract', 
+            Contract: {
+                id: '6BBB8A0A-53FA-4E1D-89B3-8B184B233DEA', caption: 'Contract', nav: 'module/contract',
                 form: {
-                    menuItems: { 
+                    menuItems: {
                         PrintOrder: { id: '{8C34754E-B27F-4FE1-93F3-8D6D84339322}' },
                         VoidContract: { id: '{426E75B4-D91E-416F-AEB2-F6B4F8BB5936}' }
-                    } 
+                    }
                 }
             },
             CountQuantityInventory: { id: '0A02B28D-C025-4579-993B-860832F8837F', caption: 'Count Quantity Inventory', nav: 'module/physicalinventoryquantityinventory' },
@@ -54,7 +56,8 @@
             Deal: { id: 'C67AD425-5273-4F80-A452-146B2008B41C', caption: 'Deal', nav: 'module/deal' },
             DealCredit: { id: '3DD1BA32-0213-472E-ADA8-E54D531464CC', caption: 'Deal Credit', nav: 'module/dealcredit' },
             EmptyContainer: { id: '60CAE944-DE89-459E-86AC-2F1B68211E07', caption: 'Empty Container', nav: 'module/emptycontainer' },
-            Exchange: { id: '2AEDB175-7998-48BC-B2C4-D4794BF65342', caption: 'Exchange', nav: 'module/exchange',
+            Exchange: {
+                id: '2AEDB175-7998-48BC-B2C4-D4794BF65342', caption: 'Exchange', nav: 'module/exchange',
                 form: {
                     menuItems: {
                         Cancel: { id: '{2301B78E-7928-4672-8747-29ED57C529FC}' }
@@ -62,7 +65,8 @@
                 }
             },
             FillContainer: { id: '0F1050FB-48DF-41D7-A969-37300B81B7B5', caption: 'Fill Container', nav: 'module/fillcontainer' },
-            Invoice: { id: '9B79D7D8-08A1-4F6B-AC0A-028DFA9FE10F', caption: 'Invoice', nav: 'module/invoice',
+            Invoice: {
+                id: '9B79D7D8-08A1-4F6B-AC0A-028DFA9FE10F', caption: 'Invoice', nav: 'module/invoice',
                 browse: {
                     menuItems: {
                         Void: { id: '{DACF4B06-DE63-4867-A684-4C77199D6961}' },
@@ -79,14 +83,16 @@
                     }
                 }
             },
-            Manifest: { id: '1643B4CE-D368-4D64-8C05-6EF7C7D80336', caption: 'Transfer Manifest', nav: 'module/manifest',
+            Manifest: {
+                id: '1643B4CE-D368-4D64-8C05-6EF7C7D80336', caption: 'Transfer Manifest', nav: 'module/manifest',
                 form: {
                     menuItems: {
                         Print: { id: '{8FC8A0F2-C016-476F-971B-64CF2ED95E41}' }
                     }
-                }    
+                }
             },
-            Order: { id: '64C46F51-5E00-48FA-94B6-FC4EF53FEA20', caption: 'Order', nav: 'module/order',
+            Order: {
+                id: '64C46F51-5E00-48FA-94B6-FC4EF53FEA20', caption: 'Order', nav: 'module/order',
                 browse: {
                     menuItems: {
                         CancelUncancel: { id: '{DAE6DC23-A2CA-4E36-8214-72351C4E1449}' }
@@ -112,15 +118,17 @@
                 }
             },
             OrderStatus: { id: 'F6AE5BC1-865D-467B-A201-95C93F8E8D0B', caption: 'Order Status', nav: 'module/orderstatus' },
-            PartsInventory: { id: '351B8A09-7778-4F06-A6A2-ED0920A5C360', caption: 'Parts Inventory', nav: 'module/partsinventory',
+            PartsInventory: {
+                id: '351B8A09-7778-4F06-A6A2-ED0920A5C360', caption: 'Parts Inventory', nav: 'module/partsinventory',
                 form: {
                     menuItems: {
                         CreateComplete: { id: '{1881D7B6-E17A-4D20-A2E5-71F383FBD8CB}' }
                     }
-                }    
+                }
             },
             PhysicalInventory: { id: 'BABFE80E-8A52-49D4-81D9-6B6EBB518E89', caption: 'Physical Inventory', nav: 'module/physicalinventory' },
-            PickList: { id: '7B04E5D4-D079-4F3A-9CB0-844F293569ED', caption: 'Pick List', nav: 'module/picklist',
+            PickList: {
+                id: '7B04E5D4-D079-4F3A-9CB0-844F293569ED', caption: 'Pick List', nav: 'module/picklist',
                 browse: {
                     menuItems: {
                         PrintPickList: { id: '{51C78FB1-CD66-431F-A7BA-FFFB3BFDFD6C}' }
@@ -133,14 +141,16 @@
                     }
                 }
             },
-            Project: { id: 'C6C8167A-C3B5-4915-8290-4520AF7EDB35', caption: 'Project', nav: 'module/project',
+            Project: {
+                id: 'C6C8167A-C3B5-4915-8290-4520AF7EDB35', caption: 'Project', nav: 'module/project',
                 form: {
                     menuItems: {
-                        CreateQuote : { id: '{92B78408-298F-431C-A535-2ADC7C4DD2F7}' }
+                        CreateQuote: { id: '{92B78408-298F-431C-A535-2ADC7C4DD2F7}' }
                     }
-                }    
+                }
             },
-            PurchaseOrder: { id: '67D8C8BB-CF55-4231-B4A2-BB308ADF18F0', caption: 'Purchase Order', nav: 'module/purchaseorder',
+            PurchaseOrder: {
+                id: '67D8C8BB-CF55-4231-B4A2-BB308ADF18F0', caption: 'Purchase Order', nav: 'module/purchaseorder',
                 form: {
                     menuItems: {
                         AssignBarCodes: { id: '{649E744B-0BDD-43ED-BB6E-5945CBB0BFA5}' },
@@ -149,9 +159,10 @@
                         ReturnToVendor: { id: '{B287428E-FF45-469A-8203-3BFF18E90810}' },
                         Void: { id: '{7F102668-CB35-471B-8812-352C13C123AB}' },
                     }
-                }    
+                }
             },
-            Quote: { id: '4D785844-BE8A-4C00-B1FA-2AA5B05183E5', caption: 'Quote', nav: 'module/quote',
+            Quote: {
+                id: '4D785844-BE8A-4C00-B1FA-2AA5B05183E5', caption: 'Quote', nav: 'module/quote',
                 browse: {
                     menuItems: {
                         CancelUncancel: { id: '{78ACB73C-23DD-46F0-B179-0571BAD3A17D}' }
@@ -164,12 +175,14 @@
                         PrintQuote: { id: '{B20DDE47-A5D7-49A9-B980-8860CADBF7F6}' },
                         CreateOrder: { id: '{E265DFD0-380F-4E8C-BCFD-FA5DCBA4A654}' },
                         NewVersion: { id: '{F79F8C21-66DF-4458-BBEB-E19B2BFCAEAA}' },
+                        Reserve: { id: '{C122C2C5-9D68-4CDF-86C9-E37CB70C57A0}' },
                         CancelUncancel: { id: '{BF633873-8A40-4BD6-8ED8-3EAC27059C84}' }
                     }
-                }    
+                }
             },
             Receipt: { id: '57E34535-1B9F-4223-AD82-981CA34A6DEC', caption: 'Receipts', nav: 'module/receipt' },
-            ReceiveFromVendor: { id: '00539824-6489-4377-A291-EBFE26325FAD', caption: 'Receive From Vendor', nav: 'module/receivefromvendor',
+            ReceiveFromVendor: {
+                id: '00539824-6489-4377-A291-EBFE26325FAD', caption: 'Receive From Vendor', nav: 'module/receivefromvendor',
                 form: {
                     menuItems: {
                         Cancel: { id: '{A3BA715F-9249-4504-B076-1E9195F35372}' }
@@ -177,14 +190,16 @@
                 }
             },
             RemoveFromContainer: { id: 'FB9876B5-165E-486C-9E06-DFB3ACB3CBF0', caption: 'Remove From Container', nav: 'module/removefromcontainer' },
-            RentalInventory: { id: 'FCDB4C86-20E7-489B-A8B7-D22EE6F85C06', caption: 'Rental Inventory', nav: 'module/rentalinventory',
+            RentalInventory: {
+                id: 'FCDB4C86-20E7-489B-A8B7-D22EE6F85C06', caption: 'Rental Inventory', nav: 'module/rentalinventory',
                 form: {
                     menuItems: {
-                        CreateComplete: { id: '{B3371C86-740C-44C4-A8FA-E8DE750800F3}' } 
+                        CreateComplete: { id: '{B3371C86-740C-44C4-A8FA-E8DE750800F3}' }
                     }
                 }
             },
-            Repair: { id: '2BD0DC82-270E-4B86-A9AA-DD0461A0186A', caption: 'Repair Order', nav: 'module/repair',
+            Repair: {
+                id: '2BD0DC82-270E-4B86-A9AA-DD0461A0186A', caption: 'Repair Order', nav: 'module/repair',
                 browse: {
                     menuItems: {
                         Void: { id: '{AFA36551-F49E-4FB9-84DD-A54A423CCFF3}' }
@@ -199,30 +214,35 @@
                     }
                 }
             },
-            ReturnToVendor: { id: 'D54EAA01-A710-4F78-A1EE-5FC9EE9150D8', caption: 'Return To Vendor', nav: 'module/returntovendor',
+            ReturnToVendor: {
+                id: 'D54EAA01-A710-4F78-A1EE-5FC9EE9150D8', caption: 'Return To Vendor', nav: 'module/returntovendor',
                 form: {
                     menuItems: {
                         Cancel: { id: '{C072441D-1FE3-4D2E-A015-DBE871CEC0FD}' }
                     }
                 }
             },
-            SalesInventory: { id: 'B0CF2E66-CDF8-4E58-8006-49CA68AE38C2', caption: 'Sales Inventory', nav: 'module/salesinventory',
+            SalesInventory: {
+                id: 'B0CF2E66-CDF8-4E58-8006-49CA68AE38C2', caption: 'Sales Inventory', nav: 'module/salesinventory',
                 form: {
                     menuItems: {
                         CreateComplete: { id: '{B13C0180-D25C-4AFC-9B2C-556C7B0FA53F}' }
                     }
                 }
             },
-            StagingCheckout: { id: 'C3B5EEC9-3654-4660-AD28-20DE8FF9044D', caption: 'Staging / Check-Out', nav: 'module/checkout',
+            StagingCheckout: {
+                id: 'C3B5EEC9-3654-4660-AD28-20DE8FF9044D', caption: 'Staging / Check-Out', nav: 'module/checkout',
                 form: {
                     menuItems: {
                         Cancel: { id: '{6E95996C-E104-4BBA-BE13-5FD73E4AAD04}' }
                     }
-                }},
+                }
+            },
             SubWorksheet: { id: '2227B6C3-587D-48B1-98B6-B9125E0E4D9D', caption: 'Sub Worksheet', nav: 'module/subworksheet' },
             SuspendedSession: { id: '5FBE7FF8-3770-48C5-855C-4320C961D95A', caption: 'Suspended Session', nav: 'module/suspendedsession' },
             TransferIn: { id: 'F089C9A9-554D-40BF-B1FA-015FEDE43591', caption: 'Transfer In', nav: 'module/transferin' },
-            TransferOrder: { id: '91E79272-C1CF-4678-A28F-B716907D060C', caption: 'Transfer Order', nav: 'module/transferorder',
+            TransferOrder: {
+                id: '91E79272-C1CF-4678-A28F-B716907D060C', caption: 'Transfer Order', nav: 'module/transferorder',
                 form: {
                     menuItems: {
                         Search: { id: '{EE207266-01FC-4D0E-8469-48F5B099ED71}' },
@@ -232,19 +252,21 @@
                         TransferOut: { id: '{D0AB3734-7F96-46A6-8297-331110A4854F}' },
                         TransferIn: { id: '{E362D71D-7597-4752-8BDD-72EE0CB7B2C4}' }
                     }
-                }    
+                }
             },
             TransferOut: { id: '91E79272-C1CF-4678-A28F-B716907D060C', caption: 'Transfer Out', nav: 'module/transferout' },
-            TransferReceipt: { id: '2B60012B-ED6A-430B-B2CB-C1287FD4CE8B', caption: 'Transfer Receipt', nav: 'module/transferreceipt',
+            TransferReceipt: {
+                id: '2B60012B-ED6A-430B-B2CB-C1287FD4CE8B', caption: 'Transfer Receipt', nav: 'module/transferreceipt',
                 form: {
                     menuItems: {
                         Print: { id: '{5C35E285-F8DA-4D27-AA64-379156213B7F}' }
                     }
-                }    
+                }
             },
             TransferStatus: { id: '58D5D354-136E-40D5-9675-B74FD7807D6F', caption: 'Transfer Status', nav: 'module/transferstatus' },
             Vendor: { id: 'AE4884F4-CB21-4D10-A0B5-306BD0883F19', caption: 'Vendor', nav: 'module/vendor' },
-            VendorInvoice: { id: '854B3C59-7040-47C4-A8A3-8A336FC970FE', caption: 'Vendor Invoice', nav: 'module/vendorinvoice',
+            VendorInvoice: {
+                id: '854B3C59-7040-47C4-A8A3-8A336FC970FE', caption: 'Vendor Invoice', nav: 'module/vendorinvoice',
                 browse: {
                     menuItems: {
                         Approve: { id: '{4A8CEF38-F59F-4306-8A9B-9B43FF6D127D}' },
@@ -256,7 +278,7 @@
                         Approve: { id: '{79ABAD41-19F1-42C1-A88B-41479DE13B3B}' },
                         Unapprove: { id: '{FB248072-C14C-4EEC-8B99-5ED8E950CE8A}' }
                     }
-                }    
+                }
             }
         },
         Settings: {
@@ -283,7 +305,8 @@
         Utilities: {
             Dashboard: { id: 'DF8111F5-F022-40B4-BAE6-23B2C6CF3705', caption: 'Dashboard', nav: 'module/dashboard' },
             DashboardSettings: { id: '1B40C62A-1FA0-402E-BE52-9CBFDB30AD3F', caption: 'Dashboard Settings', nav: 'module/dashboardsettings' },
-            InvoiceProcessBatch: { id: '5DB3FB9C-6F86-4696-867A-9B99AB0D6647', caption: 'Process Invoices', nav: 'module/invoiceprocessbatch',
+            InvoiceProcessBatch: {
+                id: '5DB3FB9C-6F86-4696-867A-9B99AB0D6647', caption: 'Process Invoices', nav: 'module/invoiceprocessbatch',
                 form: {
                     menuItems: {
                         ExportSettings: { id: '{28D5F4EF-9A60-4D7F-B294-4B302B88413F}' }
@@ -293,7 +316,8 @@
             MigrateOrders: { id: '6FAA0140-ACA2-40CA-9FDD-507EAC437F2A', caption: 'Migrate Orders', nav: 'module/migrateorders' },
             QuikActivityCalendar: { id: '897BCF55-6CE7-412C-82CB-557B045F8C0A', caption: 'QuikActivity Calendar', nav: 'module/quikactivitycalendar' },
             QuikSearch: { id: '07587E25-9802-4379-8630-96DBA3136595', caption: 'QuikSearch', nav: 'module/quiksearch' },
-            ReceiptProcessBatch: { id: '0BB9B45C-57FA-47E1-BC02-39CEE720792C', caption: 'Process Receipts', nav: 'module/receiptprocessbatch',
+            ReceiptProcessBatch: {
+                id: '0BB9B45C-57FA-47E1-BC02-39CEE720792C', caption: 'Process Receipts', nav: 'module/receiptprocessbatch',
                 form: {
                     menuItems: {
                         ExportSettings: { id: '{0D951DA8-1843-4080-AD73-B0DF7F27189B}' }
@@ -301,7 +325,7 @@
                 }
             },
             RefreshGLHistory: { id: '8F036E39-78D3-4FB9-A98E-BD33A5DB7FDA', caption: 'Refresh G/L History', nav: 'module/refreshglhistory' },
-            VendorInvoiceProcessBatch: {id: '4FA8A060-F2DF-4E59-8F9D-4A6A62A0D240', caption: 'Process Vendor Invoices', nav: 'module/vendorinvoiceprocessbatch' }
+            VendorInvoiceProcessBatch: { id: '4FA8A060-F2DF-4E59-8F9D-4A6A62A0D240', caption: 'Process Vendor Invoices', nav: 'module/vendorinvoiceprocessbatch' }
 
         }
     },
@@ -313,7 +337,7 @@
         },
         InventoryCompleteGrid: {
             menuItems: {
-                QuikSearch: { id: '{A3EEC381-6D45-485D-8E12-5DA6B38BB71A}'}
+                QuikSearch: { id: '{A3EEC381-6D45-485D-8E12-5DA6B38BB71A}' }
             }
         },
         InventoryContainerItemGrid: {

@@ -7,6 +7,7 @@ using WebApi.Data;
 using WebApi.Logic;
 using WebApi.Modules.Home.Order;
 using WebApi.Modules.Home.PurchaseOrder;
+using WebApi.Modules.Home.Quote;
 using WebLibrary;
 
 namespace WebApi.Modules.Home.DealOrder
@@ -959,14 +960,14 @@ public string DateStamp { get; set; }
         {
             public OrderLogic order { get; set; } = null;
         }
-
-        // here we are defining the response object for the void request.  Usually I do this in some separate "Func" class. But I'll keep it here for consistency with "Order On Hold" above.
         public class VoidPurchaseOrderResponse : TSpStatusResponse
         {
             public PurchaseOrderLogic purchaseOrder { get; set; } = null;
         }
-
-
+        public class ReserveQuoteResponse : TSpStatusResponse
+        {
+            public QuoteLogic quote { get; set; } = null;
+        }
 
         //------------------------------------------------------------------------------------
         public async Task<bool> SavePoASync(string PoNumber, decimal? PoAmount, FwSqlConnection conn = null)
@@ -1435,5 +1436,26 @@ public string DateStamp { get; set; }
             return response;  // return the entire object which either has a success=true or has success=false and an error message
         }
         //-------------------------------------------------------------------------------------------------------
+        public async Task<ReserveQuoteResponse> Reserve()
+        {
+            ReserveQuoteResponse response = new ReserveQuoteResponse();
+
+            if ((OrderId != null) && (Type.Equals(RwConstants.ORDER_TYPE_DESCRIPTION_QUOTE)))
+            {
+                using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
+                {
+                    FwSqlCommand qry = new FwSqlCommand(conn, "togglereservequoteweb", this.AppConfig.DatabaseSettings.QueryTimeout);
+                    qry.AddParameter("@quoteid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
+                    qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, UserSession.UsersId);
+                    qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
+                    qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
+                    await qry.ExecuteNonQueryAsync();
+                    response.status = qry.GetParameter("@status").ToInt32();
+                    response.msg = qry.GetParameter("@msg").ToString();
+                    response.success = (response.status == 0);
+                }
+            }
+            return response;
+        }
     }
 }

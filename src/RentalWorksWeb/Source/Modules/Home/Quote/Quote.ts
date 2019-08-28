@@ -1490,6 +1490,85 @@ class Quote extends OrderBase {
         }
     };
     //----------------------------------------------------------------------------------------------
+    reserveQuote($form: JQuery): void {
+        const status = FwFormField.getValueByDataField($form, 'Status');
+        if (status === 'ACTIVE') {
+            const $confirmation = FwConfirmation.renderConfirmation('Reserve', '');
+            $confirmation.find('.fwconfirmationbox').css('width', '450px');
+            const html: Array<string> = [];
+            html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+            html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+            html.push('    <div>Reserve this quote?</div>');
+            html.push('  </div>');
+            html.push('</div>');
+
+            FwConfirmation.addControls($confirmation, html.join(''));
+            const $yes = FwConfirmation.addButton($confirmation, 'Reserve', false);
+            const $no = FwConfirmation.addButton($confirmation, 'Cancel');
+
+            $yes.on('click', reserve);
+            // ----------
+            function reserve() {
+
+                FwFormField.disable($confirmation.find('.fwformfield'));
+                FwFormField.disable($yes);
+                $yes.text('Completing...');
+                $yes.off('click');
+
+                const quoteId = FwFormField.getValueByDataField($form, 'QuoteId');
+                FwAppData.apiMethod(true, 'POST', `api/v1/quote/reserve/${quoteId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                    FwNotification.renderNotification('SUCCESS', 'Operation Completed');
+                    FwConfirmation.destroyConfirmation($confirmation);
+                    FwModule.refreshForm($form, QuoteController);
+                }, function onError(response) {
+                    $yes.on('click', reserve);
+                    $yes.text('Unreserve');
+                    FwFunc.showError(response);
+                    FwFormField.enable($confirmation.find('.fwformfield'));
+                    FwFormField.enable($yes);
+                    FwModule.refreshForm($form, QuoteController);
+                }, $form);
+            };
+        } else if (status === 'RESERVED') {
+            const $confirmation = FwConfirmation.renderConfirmation('Reserve', '');
+            $confirmation.find('.fwconfirmationbox').css('width', '450px');
+            const html: Array<string> = [];
+            html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+            html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+            html.push('    <div>Unreserve this quote?</div>');
+            html.push('  </div>');
+            html.push('</div>');
+
+            FwConfirmation.addControls($confirmation, html.join(''));
+            const $yes = FwConfirmation.addButton($confirmation, 'Unreserve', false);
+            const $no = FwConfirmation.addButton($confirmation, 'Cancel');
+
+            $yes.on('click', reserve);
+            // ----------
+            function reserve() {
+
+                FwFormField.disable($confirmation.find('.fwformfield'));
+                FwFormField.disable($yes);
+                $yes.text('Completing...');
+                $yes.off('click');
+
+                const quoteId = FwFormField.getValueByDataField($form, 'QuoteId');
+                FwAppData.apiMethod(true, 'POST', `api/v1/quote/reserve/${quoteId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                    FwNotification.renderNotification('SUCCESS', 'Operation Completed');
+                    FwConfirmation.destroyConfirmation($confirmation);
+                    FwModule.refreshForm($form, QuoteController);
+                }, function onError(response) {
+                    $yes.on('click', reserve);
+                        $yes.text('Unreserve');
+                    FwFunc.showError(response);
+                    FwFormField.enable($confirmation.find('.fwformfield'));
+                    FwFormField.enable($yes);
+                    FwModule.refreshForm($form, QuoteController);
+                }, $form);
+            };
+        }
+
+    }
 };
 
 //-----------------------------------------------------------------------------------------------------
@@ -1549,6 +1628,17 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.Quote.form.menuItems.Cancel
     try {
         let $form = jQuery(this).closest('.fwform');
         QuoteController.cancelUncancelOrder($form);
+    }
+    catch (ex) {
+        FwFunc.showError(ex);
+    }
+};
+//-----------------------------------------------------------------------------------------------------
+//Form Reserve Option
+FwApplicationTree.clickEvents[Constants.Modules.Home.Quote.form.menuItems.Reserve.id] = function (event: JQuery.ClickEvent) {
+    try {
+        let $form = jQuery(this).closest('.fwform');
+        QuoteController.reserveQuote($form);
     }
     catch (ex) {
         FwFunc.showError(ex);
