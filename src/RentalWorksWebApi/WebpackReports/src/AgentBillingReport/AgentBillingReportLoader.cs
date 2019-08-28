@@ -19,85 +19,85 @@ namespace WebApi.Modules.Reports.AgentBillingReport
         [FwSqlDataField(column: "agent", modeltype: FwDataTypes.Text)]
         public string Agent { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "location", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "location", modeltype: FwDataTypes.Text, hideInSummary: true)]
         public string OfficeLocation { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "department", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "department", modeltype: FwDataTypes.Text, hideInSummary: true)]
         public string Department { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "customer", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "customer", modeltype: FwDataTypes.Text, hideInSummary: true)]
         public string Customer { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "customertype", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "customertype", modeltype: FwDataTypes.Text, hideInSummary: true)]
         public string CustomerType { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "deal", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "deal", modeltype: FwDataTypes.Text, hideInSummary: true)]
         public string Deal { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "dealtype", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "dealtype", modeltype: FwDataTypes.Text, hideInSummary: true)]
         public string DealType { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "orderno", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "orderno", modeltype: FwDataTypes.Text, hideInSummary: true)]
         public string OrderNumber { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "invoiceno", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "invoiceno", modeltype: FwDataTypes.Text, hideInSummary: true)]
         public string InvoiceNumber { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "invoicedate", modeltype: FwDataTypes.Date)]
+        [FwSqlDataField(column: "invoicedate", modeltype: FwDataTypes.Date, hideInSummary: true)]
         public string InvoiceDate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "invoicedesc", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "invoicedesc", modeltype: FwDataTypes.Text, hideInSummary: true)]
         public string InvoiceDescription { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "status", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "status", modeltype: FwDataTypes.Text, hideInSummary: true)]
         public string Status { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "billingstart", modeltype: FwDataTypes.Date)]
+        [FwSqlDataField(column: "billingstart", modeltype: FwDataTypes.Date, hideInSummary: true)]
         public string BillingStartDate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "billingend", modeltype: FwDataTypes.Date)]
+        [FwSqlDataField(column: "billingend", modeltype: FwDataTypes.Date, hideInSummary: true)]
         public string BillingEndDate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "billingnote", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "billingnote", modeltype: FwDataTypes.Text, hideInSummary: true)]
         public string BillingNote { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "periodtype", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "periodtype", modeltype: FwDataTypes.Text, hideInSummary: true)]
         public string BillingCycleType { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "pono", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "pono", modeltype: FwDataTypes.Text, hideInSummary: true)]
         public string PurchaseOrderNumber { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "wano", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "wano", modeltype: FwDataTypes.Text, hideInSummary: true)]
         public string WorkAuthorizationNumber { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "groupno", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "groupno", modeltype: FwDataTypes.Text, hideInSummary: true)]
         public string GroupNumber { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "lastbatchno", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "lastbatchno", modeltype: FwDataTypes.Text, hideInSummary: true)]
         public string LastBatchNumber { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "nocharge", modeltype: FwDataTypes.Boolean)]
+        [FwSqlDataField(column: "nocharge", modeltype: FwDataTypes.Boolean, hideInSummary: true)]
         public bool? IsNoCharge { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "orderid", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "orderid", modeltype: FwDataTypes.Text, hideInSummary: true)]
         public string OrderId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "invoiceid", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "invoiceid", modeltype: FwDataTypes.Text, hideInSummary: true)]
         public string InvoiceId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "locationid", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "locationid", modeltype: FwDataTypes.Text, hideInSummary: true)]
         public string OfficeLocationId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "departmentid", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "departmentid", modeltype: FwDataTypes.Text, hideInSummary: true)]
         public string DepartmentId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "agentid", modeltype: FwDataTypes.Text)]
         public string AgentId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "customerid", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "customerid", modeltype: FwDataTypes.Text, hideInSummary: true)]
         public string CustomerId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "dealid", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "dealid", modeltype: FwDataTypes.Text, hideInSummary: true)]
         public string DealId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rentaltotal", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
@@ -130,7 +130,7 @@ namespace WebApi.Modules.Reports.AgentBillingReport
         [FwSqlDataField(column: "invoicetotal", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? InvoiceTotal { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "nonbillable", modeltype: FwDataTypes.Boolean)]
+        [FwSqlDataField(column: "nonbillable", modeltype: FwDataTypes.Boolean, hideInSummary: true)]
         public bool? IsNonBillable { get; set; }
         //------------------------------------------------------------------------------------ 
         public async Task<FwJsonDataTable> RunReportAsync(AgentBillingReportRequest request)
@@ -214,34 +214,35 @@ namespace WebApi.Modules.Reports.AgentBillingReport
                 dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
             }
 
-
-            //PropertyInfo[] properties = this.GetType().GetProperties();   // get an array of all of the properties (fields) on this object (AgentBillingReportLoader)
-            //foreach (FwJsonDataTableColumn col in dt.Columns)             // iterate through each column in the FwJsonDataTable
-            //{
-            //    foreach (PropertyInfo property in properties)             // iterate through each Property trying to find one that matches the name of the column
-            //    {
-            //        if (property.Name.Equals(col.DataField))              // we found the Property whose name matches the column name
-            //        {
-            //            if (property.IsDefined(typeof(FwSqlDataFieldAttribute)))     // make sure the Property has a FwSqlDataFieldAttribute defined on it
-            //            {
-            //                foreach (Attribute attribute in property.GetCustomAttributes())   // iterate through each attribute to find the one that is FwSqlDataFieldAttribute
-            //                {
-            //                    if (attribute.GetType() == typeof(FwSqlDataFieldAttribute))   // we found the one attribute that is FwSqlDataFieldAttribute
-            //                    {
-            //                        FwSqlDataFieldAttribute fieldAttribute = (FwSqlDataFieldAttribute)attribute;  // create a variable to hold the attribute info
-            //                        if (fieldAttribute.HideInSummary)                                             // if the Property (field) is defined as "HideInSummary" then make the column invisible
-            //                        {
-            //                            col.IsVisible = false;
-            //                        }
-            //                        break;
-            //                    }
-            //                }
-            //            }
-            //            break;
-            //        }
-            //    }
-            //}
-
+            if (request.IsSummary.GetValueOrDefault(false))
+            {
+                PropertyInfo[] properties = this.GetType().GetProperties();   // get an array of all of the properties (fields) on this object (AgentBillingReportLoader)
+                foreach (FwJsonDataTableColumn col in dt.Columns)             // iterate through each column in the FwJsonDataTable
+                {
+                    foreach (PropertyInfo property in properties)             // iterate through each Property trying to find one that matches the name of the column
+                    {
+                        if (property.Name.Equals(col.DataField))              // we found the Property whose name matches the column name
+                        {
+                            if (property.IsDefined(typeof(FwSqlDataFieldAttribute)))     // make sure the Property has a FwSqlDataFieldAttribute defined on it
+                            {
+                                foreach (Attribute attribute in property.GetCustomAttributes())   // iterate through each attribute to find the one that is FwSqlDataFieldAttribute
+                                {
+                                    if (attribute.GetType() == typeof(FwSqlDataFieldAttribute))   // we found the one attribute that is FwSqlDataFieldAttribute
+                                    {
+                                        FwSqlDataFieldAttribute fieldAttribute = (FwSqlDataFieldAttribute)attribute;  // create a variable to hold the attribute info
+                                        if (fieldAttribute.HideInSummary)                                             // if the Property (field) is defined as "HideInSummary" then make the column invisible
+                                        {
+                                            col.IsVisible = false;
+                                        }
+                                        break;
+                                    }
+                                }
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
 
             return dt;
         }
