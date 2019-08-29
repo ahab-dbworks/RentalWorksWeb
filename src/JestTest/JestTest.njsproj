@@ -42,7 +42,7 @@
     <Content Include="src\combined.log" />
     <Content Include="src\error.log" />
     <Content Include="src\tsconfig.json" />
-    <Content Include="src\ts\rentalworksweb\RWWDEMOBurbank.test.ts">
+    <Content Include="src\ts\rentalworksweb\old\RWWDEMOBurbank.test.ts">
       <SubType>Code</SubType>
     </Content>
   </ItemGroup>
@@ -53,9 +53,11 @@
     <Folder Include="src\ts\rentalworksapi\TestAll\" />
     <Folder Include="src\ts\rentalworksweb\" />
     <Folder Include="src\ts\rentalworksweb\modules\" />
+    <Folder Include="src\ts\rentalworksweb\old\" />
     <Folder Include="src\ts\shared\" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="src\ts\rentalworksweb\RwwRegression.test.ts" />
     <TypeScriptCompile Include="src\ts\rentalworksweb\modules\Customer.ts" />
     <TypeScriptCompile Include="src\ts\rentalworksweb\modules\Deal.ts" />
     <TypeScriptCompile Include="src\ts\rentalworksweb\modules\Order.ts" />
@@ -66,15 +68,17 @@
     <TypeScriptCompile Include="src\ts\rentalworksweb\modules\SalesInventory.ts" />
     <TypeScriptCompile Include="src\ts\rentalworksweb\modules\Contact.ts" />
     <TypeScriptCompile Include="src\ts\rentalworksweb\modules\Vendor.ts" />
-    <TypeScriptCompile Include="src\ts\rentalworksweb\LoginLogout.test.ts" />
-    <TypeScriptCompile Include="src\ts\rentalworksweb\NewContact.test.ts" />
-    <TypeScriptCompile Include="src\ts\rentalworksweb\RentalAvailability.test.ts" />
-    <TypeScriptCompile Include="src\ts\rentalworksweb\RentalWorksWeb.ts" />
-    <TypeScriptCompile Include="src\ts\rentalworksweb\CustomerDealQuote.test.ts" />
-    <TypeScriptCompile Include="src\ts\rentalworksweb\AddGridRow.test.ts" />
-    <TypeScriptCompile Include="src\ts\rentalworksweb\NewVendor.test.ts" />
+    <TypeScriptCompile Include="src\ts\rentalworksweb\old\LoginLogout.test.ts" />
+    <TypeScriptCompile Include="src\ts\rentalworksweb\old\NewContact.test.ts" />
+    <TypeScriptCompile Include="src\ts\rentalworksweb\old\RentalAvailability.test.ts" />
+    <TypeScriptCompile Include="src\ts\rentalworksweb\old\RentalWorksWeb.ts" />
+    <TypeScriptCompile Include="src\ts\rentalworksweb\old\CustomerDealQuote.test.ts" />
+    <TypeScriptCompile Include="src\ts\rentalworksweb\old\AddGridRow.test.ts" />
+    <TypeScriptCompile Include="src\ts\rentalworksweb\old\NewVendor.test.ts" />
     <TypeScriptCompile Include="src\ts\shared\Ajax.ts" />
     <TypeScriptCompile Include="src\ts\shared\ModuleBase.ts" />
+    <TypeScriptCompile Include="src\ts\shared\Logging.ts" />
+    <TypeScriptCompile Include="src\ts\shared\BaseTest.ts" />
     <TypeScriptCompile Include="src\ts\shared\TestUtils.ts" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsToolsV2.targets" />

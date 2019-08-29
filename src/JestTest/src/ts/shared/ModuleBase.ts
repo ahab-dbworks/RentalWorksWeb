@@ -1,96 +1,23 @@
+import { Logging } from '../shared/Logging';
 import { TestUtils } from './TestUtils';
-const fs = require('fs');
-const { createLogger, format, transports } = require('winston');
-const { combine, timestamp, label, printf } = format;
-const myFormat: any = printf(({ level, message, label, timestamp }) => `${timestamp} ${level}: ${message}`);
-const sgMail = require('@sendgrid/mail');
-const logger = createLogger({
-    format: combine(
-        timestamp(),
-        myFormat
-    ),
-    defaultMeta: { service: 'user-service' },
-    transports: [
-        new transports.Console(),
-        new transports.File({ filename: 'error.log', level: 'error' }),
-        new transports.File({ filename: 'combined.log', level: 'info' }),
-    ]
-});
 
-beforeAll(async () => {
-    await page.setViewport({ width: 1600, height: 1080 })
-        .then()
-        .catch(err => logger.error('Error in BeforeAll: ', err));
-});
-
+//---------------------------------------------------------------------------------------
 export class ModuleBase {
     moduleName: string;
     moduleBtnId: string;
     moduleCaption: string;
 
-
-    //constructor(moduleName: string, moduleBtnId: string, moduleCaption: string) {
-    //    this.moduleName = moduleName;
-    //    this.moduleBtnId = moduleBtnId;
-    //    this.moduleCaption = moduleCaption;
-    //}
-
+    //---------------------------------------------------------------------------------------
     constructor() { }
-
-    static async authenticate(): Promise<void> {
-        let baseUrl: string = "http://localhost/rentalworksweb";
-        let continueTest;
-        await page.goto(`${baseUrl}/#/login`);
-        await page.waitForNavigation();
-        await page.waitForSelector('.btnLogin', { visible: true });
-        await page.click('.btnLogin');
-        await page.waitForSelector('#email', { visible: true });
-        await page.type('#email', <string>process.env.RW_EMAIL);
-        await page.click('#password');
-        await page.type('#password', <string>process.env.RW_PASSWORD);
-        await page.click('.btnLogin');
-        await page.waitForSelector('div.fwoverlay', { visible: true, timeout: 20000 });
-        await page.waitForFunction(() => !document.querySelector('div.fwoverlay'), { polling: 'mutation' })
-            .then(async done => {
-                const evaluateLogin = await page.evaluate(() => {
-                    const errorMessageText = jQuery('body').find('.errormessage').text();
-                    return errorMessageText;
-                })
-                if (evaluateLogin.includes('Invalid')) {
-                    logger.error(`Error in login: ${evaluateLogin}`);
-                    await browser.close(); // abort test by closing window. Probably a better way
-                    continueTest = false;
-                } else if (evaluateLogin === '') {
-                    logger.info(`Successful login for user ${process.env.RW_EMAIL}`);
-                    continueTest = true;
-                }
-            })
-        if (continueTest) {
-            await page.waitForSelector('.appmenu', { visible: true, timeout: 20000 }) // Upper left 'hamburger menu'
-                .then(done => {
-                    if (done) {
-                        logger.info(`Successful authentication process for user ${process.env.RW_EMAIL}`);
-                        continueTest = true;
-                    }
-                }).catch(ex => {
-                    logger.error(`Unsuccessful authentication process for user ${process.env.RW_EMAIL}. Test aborted`);
-                    browser.close();
-                    continueTest = false;
-                })
-        }
-        return continueTest;
-    }
-
+    //---------------------------------------------------------------------------------------
     static async wait(milliseconds: number): Promise<void> {
         await page.waitFor(milliseconds)
     }
-
+    //---------------------------------------------------------------------------------------
     async openModule(timeout?: number, sleepafteropening?: number): Promise<void> {
         if (!timeout) {
             timeout = 5000;
         }
-        //await this.delay(1000);
-        //await page.waitFor(750)
         await ModuleBase.wait(750);
         await page.click('.appmenu');
         await expect(page).toClick(this.moduleBtnId, { timeout: timeout });
@@ -101,9 +28,9 @@ export class ModuleBase {
                     return moduleTabText;
                 })
                 if (evaluateBrowse.includes(`${this.moduleCaption}`)) {
-                    logger.info(`Opened ${this.moduleCaption} module`);
+                    Logging.logger.info(`Opened ${this.moduleCaption} module`);
                 } else {
-                    logger.error(`Error opening ${this.moduleCaption} module`);
+                    Logging.logger.error(`Error opening ${this.moduleCaption} module`);
                     await browser.close();
                 }
             })
@@ -111,7 +38,7 @@ export class ModuleBase {
             await TestUtils.sleepAsync(sleepafteropening);  // wait x seconds to allow other queries to complete
         }
     }
-
+    //---------------------------------------------------------------------------------------
     async openRecord(index: number, sleepafteropening?: number): Promise<void> {
         await page.waitForSelector(`.fwbrowse tbody tr.viewmode:nth-child(${index})`);
         await page.click('.fwbrowse tbody tr.viewmode', { clickCount: 2 });
@@ -119,8 +46,13 @@ export class ModuleBase {
             await TestUtils.sleepAsync(sleepafteropening);
         }
     }
+    //---------------------------------------------------------------------------------------
+    async createNewRecord(count?: number): Promise<void> {
 
-    async createNewRecord(count: number): Promise<void> {
+        if (count === undefined) {
+            count = 1;
+        }
+
         await page.waitForSelector(`.fwbrowse tbody`);
         await page.click('.addnewtab i.material-icons', { clickCount: count });
         await page.waitForSelector(`.fwform`)
@@ -130,14 +62,14 @@ export class ModuleBase {
                     return caption;
                 })
                 if (formCaption !== '') {
-                    logger.info(`New ${this.moduleCaption} Created`);
+                    Logging.logger.info(`New ${this.moduleCaption} Created`);
                 } else {
-                    logger.error(`New ${this.moduleCaption} not Created`);
+                    Logging.logger.error(`New ${this.moduleCaption} not Created`);
                     await browser.close();
                 }
             })
     }
-
+    //---------------------------------------------------------------------------------------
     async clearInputField(dataField: string): Promise<void> {
         const elementHandle = await page.$(`.fwformfield[data-datafield="${dataField}"] input`);
         await elementHandle.click();
@@ -146,11 +78,11 @@ export class ModuleBase {
         await elementHandle.click({ clickCount: 3 });
         await elementHandle.press('Backspace');
     }
-
+    //---------------------------------------------------------------------------------------
     async clickTab(tabCaption: string): Promise<void> {
         await page.click(`.fwform .tabs [data-caption="${tabCaption}"]`);
     }
-
+    //---------------------------------------------------------------------------------------
     async populateTextField(dataField: string, value: string): Promise<void> {
         if (value === '') {
             await this.clearInputField(dataField);
@@ -159,12 +91,12 @@ export class ModuleBase {
             await page.type(`.fwformfield[data-datafield="${dataField}"] input`, value);
         }
     }
-
+    //---------------------------------------------------------------------------------------
     async populateValidationTextField(dataField: string, value: string): Promise<void> {
         await page.type(`.fwformfield[data-datafield="${dataField}"] .fwformfield-text`, value);
         await page.keyboard.press('Enter');
     }
-
+    //---------------------------------------------------------------------------------------
     async populateValidationField(dataField: string, validationName: string, recordToSelect?: number): Promise<void> {
         if (recordToSelect === undefined) {
             recordToSelect = 1;
@@ -175,7 +107,7 @@ export class ModuleBase {
         await page.waitForSelector(`div[data-name="${validationName}"] tr.viewmode:nth-child(1)`, { visible: true });
         await page.click(`div[data-name="${validationName}"] tr.viewmode:nth-child(${recordToSelect})`, { clickCount: 2 });
     }
-
+    //---------------------------------------------------------------------------------------
     async getDataFieldValue(dataField: string): Promise<string> {
         const selector = `div[data-datafield="${dataField}"] .fwformfield-value`;
         const val = await page.$eval(selector, (e: any) => {
@@ -183,7 +115,7 @@ export class ModuleBase {
         })
         return val;
     }
-
+    //---------------------------------------------------------------------------------------
     async getDataFieldText(dataField: string): Promise<string> {
         const selector = `div[data-datafield="${dataField}"] .fwformfield-text`;
         const val = await page.$eval(selector, (e: any) => {
@@ -191,6 +123,7 @@ export class ModuleBase {
         })
         return val;
     }
+    //---------------------------------------------------------------------------------------
     async getValueWithEvaluate(dataField: string) { //retaining this for reference for a different method of retrieving values in the browser
         const selector = `div[data-datafield="${dataField}"] .fwformfield-text`;
         const value = await page.evaluate((selector) => {
@@ -201,6 +134,7 @@ export class ModuleBase {
         }, selector)
         return value;
     }
+    //---------------------------------------------------------------------------------------
     async addGridRow(gridController: string, className?: string, numberOfRows?: number, fieldObject?: any) {
         if (numberOfRows === undefined) {
             numberOfRows = 1;
@@ -249,76 +183,58 @@ export class ModuleBase {
         }
         await fillValues();
     }
-
-    async saveRecord(): Promise<void> {
-        let continueTest;
+    //---------------------------------------------------------------------------------------
+    async saveRecord(): Promise<boolean> {
+        let successfulSave: boolean = false;
         await page.click('.btn[data-type="SaveMenuBarButton"]');
         await page.waitForSelector('.advisory');
-        //await page.screenshot({ path: 'PageAfterVendorSave.png', fullPage: true });
         await page.waitForFunction(() => document.querySelector('.advisory'), { polling: 'mutation' })
-        .then(async done => {
-            const afterSaveMsg = await page.$eval('.advisory', el => el.textContent);
-            if ((afterSaveMsg.includes('saved')) && (!afterSaveMsg.includes('Error'))) {
-                logger.info(`${this.moduleCaption} Record saved: ${afterSaveMsg}`);
-                continueTest = true;
-            } else if (afterSaveMsg.includes('Error') || afterSaveMsg.includes('resolve')) {
-                logger.info(`${this.moduleCaption} Record not saved: ${afterSaveMsg}`);
-                continueTest = false;
-            }
-        })
-        await ModuleBase.wait(3000);
-        return continueTest;
+            .then(async done => {
+                const afterSaveMsg = await page.$eval('.advisory', el => el.textContent);
+                if ((afterSaveMsg.includes('saved')) && (!afterSaveMsg.includes('Error'))) {
+                    Logging.logger.info(`${this.moduleCaption} Record saved: ${afterSaveMsg}`);
+                    successfulSave = true;
+                } else if (afterSaveMsg.includes('Error') || afterSaveMsg.includes('resolve')) {
+                    Logging.logger.info(`${this.moduleCaption} Record not saved: ${afterSaveMsg}`);
+                    successfulSave = false;
+                }
+            })
+        return successfulSave;
     }
-
+    //---------------------------------------------------------------------------------------
+    async checkForDuplicatePrompt(): Promise<void> {
+        await page.waitForSelector('.advisory .message');
+        const popupText = await page.$eval('.advisory', el => el.textContent);
+        expect(popupText).toContain('Duplicate Rule');
+    }
+    //---------------------------------------------------------------------------------------
+    async closeDuplicatePrompt(): Promise<void> {
+        await page.waitForSelector('.advisory .fwconfirmation-button');
+        await page.click(`.fwconfirmation-button`);
+        await page.waitFor(() => !document.querySelector('.advisory'));
+    }
+    //---------------------------------------------------------------------------------------
     async closeRecord(): Promise<void> {
         await page.click('div.delete');
-        logger.info(`Record closed.`);
+        Logging.logger.info(`Record closed.`);
         //await page.waitForNavigation();
     }
+    //---------------------------------------------------------------------------------------
+    async closeModifiedRecordWithoutSaving(): Promise<void> {
+        await page.click('div.delete');
+        const popupText = await page.$eval('.advisory', el => el.textContent);
+        if (popupText.includes('save your changes')) {
+            Logging.logger.info(`Close tab, save changes propmt detected.`);
 
-    static async logoff(): Promise<void> {
-        //let baseUrl: string = "http://localhost/rentalworksweb";
-        //await page.goto(`${baseUrl}/#/logoff`);
-        //await page.waitForSelector(`.programlogo`);
-
-        await page.click('.usermenu');
-        await page.waitForSelector('#master-header > div > div.user-controls > div > div.user-dropdown > div.menuitems > div:nth-child(2)');
-        await page.click('#master-header > div > div.user-controls > div > div.user-dropdown > div.menuitems > div:nth-child(2)');
-        await page.waitForSelector(`.programlogo`);
-
+            const options = await page.$$('.advisory .fwconfirmation-button');
+            await options[1].click() // clicks "Don't Save" option
+                .then(() => {
+                    Logging.logger.info(`Clicked the "Don't Save" button.`);
+                })
+            await page.waitFor(() => !document.querySelector('.advisory'));
+        }
+        Logging.logger.info(`Record closed without saving.`);
+        //await page.waitForNavigation();
     }
-
-    static async emailResults(): Promise<void> {
-        let buffer = '';
-        const combinedLog = fs.createReadStream("./combined.log", "utf8");
-        combinedLog.on('data', chunk => {
-            buffer += chunk;
-        });
-        combinedLog.on('end', () => {
-            const result = buffer;
-            console.log('result:', result);
-            //  console.log('TYPEOF:', typeof result);
-            //  result = result.toString();
-            sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-            const msg = {
-                to: 'joshpace@gmail.com',
-                from: 'jpace@4wall.com',
-                subject: 'SendGrid Sending logfile',
-                text: 'result',
-                html: '<strong>and easy to do anywhere, even with Node.js</strong>',
-                attachments: [
-                    {
-                        content: 'Some base 64 encoded attachment content',
-                        filename: 'some-attachment.txt',
-                        type: 'plain/text',
-                        disposition: 'attachment',
-                        contentId: 'mytext'
-                    },
-                ],
-            };
-            sgMail.send(msg)
-                .then((res) => console.log('RES: ', res))
-                .catch((err) => console.log('ERR: ', err))
-        });
-    }
+    //---------------------------------------------------------------------------------------
 }
