@@ -1247,7 +1247,7 @@ class SearchInterface {
         //Display # of items from previous session in preview tab
         FwAppData.apiMethod(true, 'GET', `api/v1/inventorysearch/gettotal/${id}`, null, FwServices.defaultTimeout,
             response => {
-                if (response.TotalQuantityInSession) {
+                if (typeof response.TotalQuantityInSession === 'number') {
                     $popup.find('.tab[data-caption="Preview"] .caption').text(`Preview (${response.TotalQuantityInSession})`);
                     if (initialLoad === true) {
                         FwNotification.renderNotification('WARNING', 'There are items from a previous Search session that have not been added.  Click the Preview tab to view.');
