@@ -1249,7 +1249,7 @@ class SearchInterface {
             response => {
                 if (typeof response.TotalQuantityInSession === 'number') {
                     $popup.find('.tab[data-caption="Preview"] .caption').text(`Preview (${response.TotalQuantityInSession})`);
-                    if (initialLoad === true) {
+                    if (initialLoad === true && response.TotalQuantityInSession > 0) {
                         FwNotification.renderNotification('WARNING', 'There are items from a previous Search session that have not been added.  Click the Preview tab to view.');
                     }
                 }
