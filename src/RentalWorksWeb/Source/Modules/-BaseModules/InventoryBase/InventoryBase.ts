@@ -152,17 +152,17 @@
     addSchedulerEvents($form, $control, inventoryId) {
         $control
             .data('ongetevents', function (request) {
-                var start = moment(request.start.value).format('MM/DD/YYYY');
-                var end = moment(request.start.value).add(31, 'days').format('MM/DD/YYYY')
-                let warehouseId = FwFormField.getValue($form, '.warehousefilter');
+                const start = moment(request.start.value).format('MM/DD/YYYY');
+                const end = moment(request.start.value).add(31, 'days').format('MM/DD/YYYY')
+                const warehouseId = FwFormField.getValue($form, '.warehousefilter');
 
                 FwAppData.apiMethod(true, 'GET', `api/v1/inventoryavailability/calendarandscheduledata?&InventoryId=${inventoryId}&WarehouseId=${warehouseId}&FromDate=${start}&ToDate=${end}`, null, FwServices.defaultTimeout, function onSuccess(response) {
-                    var schedulerEvents = response.InventoryAvailabilityScheduleEvents;
+                    const schedulerEvents = response.InventoryAvailabilityScheduleEvents;
                     for (let i = 0; i < schedulerEvents.length; i++) {
                         if (schedulerEvents[i].textColor !== 'rgb(0,0,0)') {
-                            schedulerEvents[i].html = `<div style="color:${schedulerEvents[i].textColor};">${schedulerEvents[i].text}</div>`
+                            schedulerEvents[i].html = `<div style="color:${schedulerEvents[i].textColor};"${schedulerEvents[i].text}</div>`
                         } else {
-                            schedulerEvents[i].html = `<div style="color:${schedulerEvents[i].textColor};text-align:left;">${schedulerEvents[i].text}</div>`
+                            schedulerEvents[i].html = `<div style="color:${schedulerEvents[i].textColor};text-align:left;"><span style="font-weight:700;padding:0 5px 0 0;">${schedulerEvents[i].total}</span>${schedulerEvents[i].text}</div>`
                         }
                     }
                     FwSchedulerDetailed.loadEventsCallback($control, response.InventoryAvailabilityScheduleResources, response.InventoryAvailabilityScheduleEvents);

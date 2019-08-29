@@ -592,6 +592,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
         public string start { get; set; }
         public string end { get; set; }
         public string text { get; set; }
+        public string total { get; set; }
         public string backColor { get; set; }
         public string barColor { get; set; }
         public string textColor { get; set; }
@@ -1736,8 +1737,6 @@ namespace WebApi.Modules.Home.InventoryAvailability
                         TInventoryWarehouseAvailabilityDateTime inventoryWarehouseAvailabilityDateTime = null;
                         if (availData.AvailabilityDatesAndTimes.TryGetValue(theDate, out inventoryWarehouseAvailabilityDateTime))
                         {
-
-
                             //late
                             if ((isToday) && (availData.Late.Total != 0))
                             {
@@ -1918,7 +1917,8 @@ namespace WebApi.Modules.Home.InventoryAvailability
                             availScheduleEvent.end = reservationToDateTime.ToString("yyyy-MM-ddTHH:mm:ss tt");
                             //availScheduleEvent.text = ((int)reservation.QuantityReserved.Total).ToString() + " " + reservation.OrderNumber + " " + reservation.OrderDescription + " (" + reservation.Deal + ")";
                             //availScheduleEvent.text = ((int)reservation.QuantityReserved.Total).ToString() + " " + reservation.ReservationDescription;
-                            availScheduleEvent.text = AvailabilityNumberToString(reservation.QuantityReserved.Total) + " " + reservation.ReservationDescription;
+                            availScheduleEvent.text = reservation.ReservationDescription;
+                            availScheduleEvent.total = AvailabilityNumberToString(reservation.QuantityReserved.Total);
                             availScheduleEvent.orderNumber = reservation.OrderNumber;
                             availScheduleEvent.orderStatus = reservation.OrderStatus;
                             availScheduleEvent.deal = reservation.Deal;
@@ -1956,7 +1956,8 @@ namespace WebApi.Modules.Home.InventoryAvailability
                             availScheduleEvent.end = reservationToDateTime.ToString("yyyy-MM-ddTHH:mm:ss tt");
                             //availScheduleEvent.text = ((int)reservation.QuantityStaged.Total).ToString() + " " + reservation.OrderNumber + " " + reservation.OrderDescription + " (" + reservation.Deal + ")";
                             //availScheduleEvent.text = ((int)reservation.QuantityStaged.Total).ToString() + " " + reservation.ReservationDescription;
-                            availScheduleEvent.text = AvailabilityNumberToString(reservation.QuantityStaged.Total) + " " + reservation.ReservationDescription;
+                            availScheduleEvent.text = reservation.ReservationDescription;
+                            availScheduleEvent.total = AvailabilityNumberToString(reservation.QuantityStaged.Total);
                             availScheduleEvent.orderNumber = reservation.OrderNumber;
                             availScheduleEvent.orderStatus = reservation.OrderStatus;
                             availScheduleEvent.deal = reservation.Deal;
@@ -1994,7 +1995,8 @@ namespace WebApi.Modules.Home.InventoryAvailability
                             availScheduleEvent.end = reservationToDateTime.ToString("yyyy-MM-ddTHH:mm:ss tt");
                             //availScheduleEvent.text = ((int)reservation.QuantityOut.Total).ToString() + " " + reservation.OrderNumber + " " + reservation.OrderDescription + " (" + reservation.Deal + ")";
                             //availScheduleEvent.text = ((int)reservation.QuantityOut.Total).ToString() + " " + reservation.ReservationDescription;
-                            availScheduleEvent.text = AvailabilityNumberToString(reservation.QuantityOut.Total) + " " + reservation.ReservationDescription;
+                            availScheduleEvent.text = reservation.ReservationDescription;
+                            availScheduleEvent.total = AvailabilityNumberToString(reservation.QuantityOut.Total);
                             availScheduleEvent.orderNumber = reservation.OrderNumber;
                             availScheduleEvent.orderStatus = reservation.OrderStatus;
                             availScheduleEvent.deal = reservation.Deal;
@@ -2011,8 +2013,6 @@ namespace WebApi.Modules.Home.InventoryAvailability
                             response.InventoryAvailabilityScheduleEvents.Add(availScheduleEvent);
                         }
                     }
-
-
 
                     //repair
                     if (reservation.QuantityInRepair.Total != 0)
@@ -2042,7 +2042,8 @@ namespace WebApi.Modules.Home.InventoryAvailability
                             availScheduleEvent.end = reservationToDateTime.ToString("yyyy-MM-ddTHH:mm:ss tt");
                             //availScheduleEvent.text = ((int)reservation.QuantityInRepair.Total).ToString() + " " + reservation.OrderNumber + " " + reservation.OrderDescription + " (" + reservation.Deal + ")";
                             //availScheduleEvent.text = ((int)reservation.QuantityInRepair.Total).ToString() + " " + reservation.ReservationDescription;
-                            availScheduleEvent.text = AvailabilityNumberToString(reservation.QuantityInRepair.Total) + " " + reservation.ReservationDescription;
+                            availScheduleEvent.text = reservation.ReservationDescription;
+                            availScheduleEvent.total = AvailabilityNumberToString(reservation.QuantityInRepair.Total);
                             availScheduleEvent.orderNumber = reservation.OrderNumber;
                             availScheduleEvent.orderStatus = reservation.OrderStatus;
                             availScheduleEvent.deal = reservation.Deal;
@@ -2051,8 +2052,6 @@ namespace WebApi.Modules.Home.InventoryAvailability
                             response.InventoryAvailabilityScheduleEvents.Add(availScheduleEvent);
                         }
                     }
-
-
                 }
             }
 
