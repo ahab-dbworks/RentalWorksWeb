@@ -150,15 +150,32 @@ class FwBrowseClass {
                                 const $cell = jQuery(e.target);
                                 const fieldName = jQuery(e.target).parent('div').attr('data-browsedatafield');
                                 $control.data('selectedfield', fieldName);
+                                const rowindex = me.getSelectedRowIndex($control);
+                                const pageno = me.getPageNo($control);
                                 if ($control.attr('data-multisave') == 'true') {
-                                    const $prevRow = me.selectPrevRow($control);
-                                    if ($prevRow.length > 0) {
-                                        me.setRowEditMode($control, $prevRow);
+                                    if ((rowindex === 0) && (pageno > 1)) {
+                                        FwConfirmation.yesNo('Save', 'Save rows?', function onyes() {
+                                            const $trs = $control.find('tr.editmode.editrow');
+                                            me.multiSaveRow($control, $trs)
+                                                .then(() => {
+                                                    $control.data('selectedrowmode', 'edit');
+                                                    $control.find('tbody tr:first-of-type').addClass('selected');
+                                                 
+                                                    const $prevRow = me.selectPrevRow($control);
+                                                    if ($prevRow.length > 0) {
+                                                        me.setRowEditMode($control, $prevRow);
+                                                    }
+                                                })
+                                        }, function onno() { });
+                                    } else if (rowindex > 0) {
+                                        const $prevRow = me.selectPrevRow($control);
+                                        if ($prevRow.length > 0) {
+                                            me.setRowEditMode($control, $prevRow);
+                                        }
                                     }
                                 } else {
                                     me.saveRow($control, $tr)
                                         .then(() => {
-                                            const rowindex = me.getSelectedRowIndex($control);
                                             if (rowindex === 0) {
                                                 $control.data('selectedrowmode', 'edit');
                                                 me.selectPrevRow($control);
@@ -189,16 +206,33 @@ class FwBrowseClass {
                                 const $cell = jQuery(e.target);
                                 const fieldName = jQuery(e.target).parent('div').attr('data-browsedatafield');
                                 $control.data('selectedfield', fieldName);
+                                const rowindex = me.getSelectedRowIndex($control);
+                                const lastrowindex = $control.find('tbody tr').length - 1;
+                                const pageno = me.getPageNo($control);
+                                const totalpages = me.getTotalPages($control);
                                 if ($control.attr('data-multisave') == 'true') {
-                                    const $nextRow = me.selectNextRow($control);
-                                    if ($nextRow.length > 0) {
-                                        me.setRowEditMode($control, $nextRow);
+                                    if ((rowindex === lastrowindex) && (pageno < totalpages)) {
+                                        FwConfirmation.yesNo('Save', 'Save rows?', function onyes() {
+                                            const $trs = $control.find('tr.editmode.editrow');
+                                            me.multiSaveRow($control, $trs)
+                                                .then(() => {
+                                                    $control.data('selectedrowmode', 'edit');
+                                                    $control.find('tbody tr:last-of-type').addClass('selected');
+                                                    me.selectNextRow($control);
+                                                    //if ($nextRow.length > 0) {
+                                                    //    me.setRowEditMode($control, $nextRow);
+                                                    //}
+                                                })
+                                        }, function onno() { });
+                                    } else if (rowindex < lastrowindex) {
+                                        const $nextRow = me.selectNextRow($control);
+                                        if ($nextRow.length > 0) {
+                                            me.setRowEditMode($control, $nextRow);
+                                        }
                                     }
                                 } else {
                                     me.saveRow($control, $tr)
                                         .then(() => {
-                                            const rowindex = me.getSelectedRowIndex($control);
-                                            const lastrowindex = $control.find('tbody tr').length - 1;
                                             if (rowindex === lastrowindex) {
                                                 $control.data('selectedrowmode', 'edit');
                                                 me.selectNextRow($control);
