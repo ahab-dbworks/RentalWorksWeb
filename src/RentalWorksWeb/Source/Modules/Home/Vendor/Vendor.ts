@@ -530,12 +530,12 @@ class Vendor {
                   <div class="flexcolumn" style="flex:0 1 425px;">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Default Delivery">
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield vendertyperadio" data-caption="Type" data-datafield="DefaultOutgoingDeliveryType" style="flex:1 1 150px;"></div>
+                        <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield" data-caption="Type" data-datafield="DefaultOutgoingDeliveryType" style="flex:1 1 150px;"></div>
                       </div>
                     </div>
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Default Return Delivery">
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield vendertyperadio" data-caption="Type" data-datafield="DefaultIncomingDeliveryType" style="flex:1 1 150px;"></div>
+                        <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield" data-caption="Type" data-datafield="DefaultIncomingDeliveryType" style="flex:1 1 150px;"></div>
                       </div>
                     </div>
                   </div>
