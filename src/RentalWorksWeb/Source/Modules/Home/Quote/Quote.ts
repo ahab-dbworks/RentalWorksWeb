@@ -10,14 +10,12 @@ class Quote extends OrderBase {
     id: string = Constants.Modules.Home.Quote.id;
     //----------------------------------------------------------------------------------------------
     getModuleScreen(filter?: { datafield: string, search: string }) {
-        var screen, $browse;
-
-        screen = {};
+        const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
-        $browse = this.openBrowse();
+        const $browse = this.openBrowse();
 
         screen.load = function () {
             FwModule.openModuleTab($browse, 'Quote', false, 'BROWSE', true);
@@ -25,7 +23,7 @@ class Quote extends OrderBase {
             if (typeof filter !== 'undefined') {
                 filter.search = filter.search.replace(/%20/, ' ');
                 var datafields = filter.datafield.split('%20');
-                for (var i = 0; i < datafields.length; i++) {
+                for (let i = 0; i < datafields.length; i++) {
                     datafields[i] = datafields[i].charAt(0).toUpperCase() + datafields[i].substr(1);
                 }
                 filter.datafield = datafields.join('')
@@ -114,9 +112,7 @@ class Quote extends OrderBase {
 
     //----------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
-        var $form;
-
-        $form = this.openForm('EDIT', uniqueids);
+        const $form = this.openForm('EDIT', uniqueids);
         $form.find('div.fwformfield[data-datafield="QuoteId"] input').val(uniqueids.QuoteId);
         FwModule.loadForm(this.Module, $form);
 
@@ -1455,14 +1451,12 @@ class Quote extends OrderBase {
     };
     //----------------------------------------------------------------------------------------------
     createNewVersionQuote($form, event) {
-        let quoteNumber, quoteId;
-        quoteNumber = FwFormField.getValueByDataField($form, 'QuoteNumber');
-        quoteId = FwFormField.getValueByDataField($form, 'QuoteId');
-        var $confirmation, $yes, $no;
+        const quoteNumber = FwFormField.getValueByDataField($form, 'QuoteNumber');
+        const quoteId = FwFormField.getValueByDataField($form, 'QuoteId');
 
-        $confirmation = FwConfirmation.renderConfirmation('Create New Version', '');
+        const $confirmation = FwConfirmation.renderConfirmation('Create New Version', '');
         $confirmation.find('.fwconfirmationbox').css('width', '450px');
-        var html = [];
+        const html: Array<string> = [];
         html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
         html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
         html.push(`    <div>Create New Version for Quote ${quoteNumber}?</div>`);
@@ -1471,8 +1465,8 @@ class Quote extends OrderBase {
 
         FwConfirmation.addControls($confirmation, html.join(''));
 
-        $yes = FwConfirmation.addButton($confirmation, 'Create New Version', false);
-        $no = FwConfirmation.addButton($confirmation, 'Cancel');
+        const $yes = FwConfirmation.addButton($confirmation, 'Create New Version', false);
+        const $no = FwConfirmation.addButton($confirmation, 'Cancel');
 
         $yes.on('click', createNewVersion);
         var $confirmationbox = jQuery('.fwconfirmationbox');
@@ -1492,89 +1486,72 @@ class Quote extends OrderBase {
     //----------------------------------------------------------------------------------------------
     reserveQuote($form: JQuery): void {
         const status = FwFormField.getValueByDataField($form, 'Status');
-        if (status === 'ACTIVE') {
-            const $confirmation = FwConfirmation.renderConfirmation('Reserve', '');
-            $confirmation.find('.fwconfirmationbox').css('width', '450px');
-            const html: Array<string> = [];
-            html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
-            html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-            html.push('    <div>Reserve this quote?</div>');
-            html.push('  </div>');
-            html.push('</div>');
+        let $confirmation, $yes;
+        if (status === 'ACTIVE' || status === 'RESERVED') {
+            if (status === 'ACTIVE') {
+                $confirmation = FwConfirmation.renderConfirmation('Reserve', '');
+                $confirmation.find('.fwconfirmationbox').css('width', '450px');
+                const html: Array<string> = [];
+                html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+                html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+                html.push('    <div>Reserve this quote?</div>');
+                html.push('  </div>');
+                html.push('</div>');
 
-            FwConfirmation.addControls($confirmation, html.join(''));
-            const $yes = FwConfirmation.addButton($confirmation, 'Reserve', false);
-            const $no = FwConfirmation.addButton($confirmation, 'Cancel');
+                FwConfirmation.addControls($confirmation, html.join(''));
+                $yes = FwConfirmation.addButton($confirmation, 'Reserve', false);
+                const $no = FwConfirmation.addButton($confirmation, 'Cancel');
 
-            $yes.on('click', reserve);
-            // ----------
-            function reserve() {
+                $yes.on('click', reserve);
 
-                FwFormField.disable($confirmation.find('.fwformfield'));
-                FwFormField.disable($yes);
-                $yes.text('Completing...');
-                $yes.off('click');
+            } else if (status === 'RESERVED') {
+                $confirmation = FwConfirmation.renderConfirmation('Unreserve', '');
+                $confirmation.find('.fwconfirmationbox').css('width', '450px');
+                const html: Array<string> = [];
+                html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+                html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+                html.push('    <div>Unreserve this quote?</div>');
+                html.push('  </div>');
+                html.push('</div>');
 
-                const quoteId = FwFormField.getValueByDataField($form, 'QuoteId');
-                FwAppData.apiMethod(true, 'POST', `api/v1/quote/reserve/${quoteId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
-                    FwNotification.renderNotification('SUCCESS', 'Operation Completed');
-                    FwConfirmation.destroyConfirmation($confirmation);
-                    FwModule.refreshForm($form, QuoteController);
-                }, function onError(response) {
-                    $yes.on('click', reserve);
-                    $yes.text('Unreserve');
-                    FwFunc.showError(response);
-                    FwFormField.enable($confirmation.find('.fwformfield'));
-                    FwFormField.enable($yes);
-                    FwModule.refreshForm($form, QuoteController);
-                }, $form);
-            };
-        } else if (status === 'RESERVED') {
-            const $confirmation = FwConfirmation.renderConfirmation('Reserve', '');
-            $confirmation.find('.fwconfirmationbox').css('width', '450px');
-            const html: Array<string> = [];
-            html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
-            html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-            html.push('    <div>Unreserve this quote?</div>');
-            html.push('  </div>');
-            html.push('</div>');
+                FwConfirmation.addControls($confirmation, html.join(''));
+                $yes = FwConfirmation.addButton($confirmation, 'Unreserve', false);
+                const $no = FwConfirmation.addButton($confirmation, 'Cancel');
 
-            FwConfirmation.addControls($confirmation, html.join(''));
-            const $yes = FwConfirmation.addButton($confirmation, 'Unreserve', false);
-            const $no = FwConfirmation.addButton($confirmation, 'Cancel');
-
-            $yes.on('click', reserve);
-            // ----------
-            function reserve() {
-
-                FwFormField.disable($confirmation.find('.fwformfield'));
-                FwFormField.disable($yes);
-                $yes.text('Completing...');
-                $yes.off('click');
-
-                const quoteId = FwFormField.getValueByDataField($form, 'QuoteId');
-                FwAppData.apiMethod(true, 'POST', `api/v1/quote/reserve/${quoteId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
-                    FwNotification.renderNotification('SUCCESS', 'Operation Completed');
-                    FwConfirmation.destroyConfirmation($confirmation);
-                    FwModule.refreshForm($form, QuoteController);
-                }, function onError(response) {
-                    $yes.on('click', reserve);
-                        $yes.text('Unreserve');
-                    FwFunc.showError(response);
-                    FwFormField.enable($confirmation.find('.fwformfield'));
-                    FwFormField.enable($yes);
-                    FwModule.refreshForm($form, QuoteController);
-                }, $form);
-            };
+                $yes.on('click', reserve);
+            }
+        } else {
+            FwNotification.renderNotification('WARNING', 'This can be completed only for Quotes with status of either ACTIVE or RESERVED.');
         }
+        // ----------
+        function reserve() {
 
+            FwFormField.disable($confirmation.find('.fwformfield'));
+            FwFormField.disable($yes);
+            $yes.text('Completing...');
+            $yes.off('click');
+
+            const quoteId = FwFormField.getValueByDataField($form, 'QuoteId');
+            FwAppData.apiMethod(true, 'POST', `api/v1/quote/reserve/${quoteId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                FwNotification.renderNotification('SUCCESS', 'Operation Completed');
+                FwConfirmation.destroyConfirmation($confirmation);
+                FwModule.refreshForm($form, QuoteController);
+            }, function onError(response) {
+                $yes.on('click', reserve);
+                $yes.text('Complete');
+                FwFunc.showError(response);
+                FwFormField.enable($confirmation.find('.fwformfield'));
+                FwFormField.enable($yes);
+                FwModule.refreshForm($form, QuoteController);
+            }, $form);
+        };
     }
 };
 
 //-----------------------------------------------------------------------------------------------------
 FwApplicationTree.clickEvents[Constants.Modules.Home.Quote.form.menuItems.CopyQuote.id] = function (event: JQuery.ClickEvent) {
     try {
-        let $form = jQuery(this).closest('.fwform');
+        const $form = jQuery(this).closest('.fwform');
         QuoteController.copyOrderOrQuote($form);
     }
     catch (ex) {
@@ -1585,8 +1562,8 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.Quote.form.menuItems.CopyQu
 //Open Search Interface
 FwApplicationTree.clickEvents[Constants.Modules.Home.Quote.form.menuItems.Search.id] = function (event: JQuery.ClickEvent) {
     try {
-        let $form = jQuery(this).closest('.fwform');
-        let quoteId = FwFormField.getValueByDataField($form, 'QuoteId');
+        const $form = jQuery(this).closest('.fwform');
+        const quoteId = FwFormField.getValueByDataField($form, 'QuoteId');
         if ($form.attr('data-mode') === 'NEW') {
             QuoteController.saveForm($form, { closetab: false });
             return;
@@ -1594,7 +1571,7 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.Quote.form.menuItems.Search
         if (quoteId == "") {
             FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
         } else {
-            let search = new SearchInterface();
+            const search = new SearchInterface();
             search.renderSearchPopup($form, quoteId, 'Quote');
         }
     }
@@ -1606,7 +1583,7 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.Quote.form.menuItems.Search
 //Print Quote
 FwApplicationTree.clickEvents[Constants.Modules.Home.Quote.form.menuItems.PrintQuote.id] = function (e: JQuery.ClickEvent) {
     try {
-        let $form = jQuery(this).closest('.fwform');
+        const $form = jQuery(this).closest('.fwform');
         QuoteController.printQuoteOrder($form);
     } catch (ex) {
         FwFunc.showError(ex);
@@ -1615,7 +1592,7 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.Quote.form.menuItems.PrintQ
 //----------------------------------------------------------------------------------------------
 FwApplicationTree.clickEvents[Constants.Modules.Home.Quote.form.menuItems.NewVersion.id] = function (event: JQuery.ClickEvent) {
     try {
-        let $form = jQuery(this).closest('.fwform');
+        const $form = jQuery(this).closest('.fwform');
         QuoteController.createNewVersionQuote($form, event);
     }
     catch (ex) {
@@ -1626,7 +1603,7 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.Quote.form.menuItems.NewVer
 //Form Cancel Option
 FwApplicationTree.clickEvents[Constants.Modules.Home.Quote.form.menuItems.CancelUncancel.id] = function (event: JQuery.ClickEvent) {
     try {
-        let $form = jQuery(this).closest('.fwform');
+        const $form = jQuery(this).closest('.fwform');
         QuoteController.cancelUncancelOrder($form);
     }
     catch (ex) {
@@ -1637,7 +1614,7 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.Quote.form.menuItems.Cancel
 //Form Reserve Option
 FwApplicationTree.clickEvents[Constants.Modules.Home.Quote.form.menuItems.Reserve.id] = function (event: JQuery.ClickEvent) {
     try {
-        let $form = jQuery(this).closest('.fwform');
+        const $form = jQuery(this).closest('.fwform');
         QuoteController.reserveQuote($form);
     }
     catch (ex) {
@@ -1647,8 +1624,8 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.Quote.form.menuItems.Reserv
 //-----------------------------------------------------------------------------------------------------
 FwApplicationTree.clickEvents[Constants.Modules.Home.Quote.form.menuItems.CreateOrder.id] = function (event: JQuery.ClickEvent) {
     try {
-        let $form = jQuery(this).closest('.fwform');
-        let status = FwFormField.getValueByDataField($form, 'Status');
+        const $form = jQuery(this).closest('.fwform');
+        const status = FwFormField.getValueByDataField($form, 'Status');
 
         if (status === 'ACTIVE') {
             let $quoteTab = jQuery('#' + $form.closest('.tabpage').attr('data-tabid'));
@@ -1671,7 +1648,7 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.Quote.form.menuItems.Create
                 }, null, $confirmation);
             });
         } else {
-            FwNotification.renderNotification('WARNING', 'Can only convert an "Active" quote to an order!');
+            FwNotification.renderNotification('WARNING', 'Can only convert an "Active" quote to an order.');
         }
     } catch (ex) {
         FwFunc.showError(ex);
@@ -1681,15 +1658,15 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.Quote.form.menuItems.Create
 //Browse Cancel Option
 FwApplicationTree.clickEvents[Constants.Modules.Home.Quote.browse.menuItems.CancelUncancel.id] = function (event: JQuery.ClickEvent) {
     try {
-        let $confirmation, $yes, $no, $browse, quoteId, quoteStatus;
-        $browse = jQuery(this).closest('.fwbrowse');
-        quoteId = $browse.find('.selected [data-browsedatafield="QuoteId"]').attr('data-originalvalue');
-        quoteStatus = $browse.find('.selected [data-formdatafield="Status"]').attr('data-originalvalue');
+        let $confirmation, $yes, $no;
+        const $browse = jQuery(this).closest('.fwbrowse');
+        const quoteId = $browse.find('.selected [data-browsedatafield="QuoteId"]').attr('data-originalvalue');
+        const quoteStatus = $browse.find('.selected [data-formdatafield="Status"]').attr('data-originalvalue');
         if (quoteId != null) {
             if (quoteStatus === "CANCELLED") {
                 $confirmation = FwConfirmation.renderConfirmation('Cancel', '');
                 $confirmation.find('.fwconfirmationbox').css('width', '450px');
-                let html = [];
+                const html: Array<string> = [];
                 html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
                 html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
                 html.push('    <div>Would you like to un-cancel this Quote?</div>');

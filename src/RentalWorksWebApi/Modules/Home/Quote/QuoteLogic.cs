@@ -149,7 +149,6 @@ namespace WebApi.Modules.Home.Quote
         {
             return await quote.Reserve();
         }
-        //------------------------------------------------------------------------------------ 
         //------------------------------------------------------------------------------------
         public async Task<QuoteLogic> ActivateQuoteRequestASync()
         {

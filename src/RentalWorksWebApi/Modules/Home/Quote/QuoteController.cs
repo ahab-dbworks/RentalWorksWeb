@@ -177,22 +177,22 @@ namespace WebApi.Modules.Home.Quote
                 l.SetDependencies(AppConfig, UserSession);
                 if (await l.LoadAsync<QuoteLogic>(ids))
                 {
-                    ReserveQuoteResponse response = await l.Reserve();   // we know we have a valid Purchase Order.  now we try to void it.
+                    ReserveQuoteResponse response = await l.Reserve();   
                     if (response.success)
                     {
-                        await l.LoadAsync<QuoteLogic>(ids);  // if the void works, then load the entire PO object again to get any other potentially-updated values
-                        response.quote = l;                  // add the newly refreshed Purchase Order object to the response
-                        return new OkObjectResult(response);         // send the entire response back to the browser
+                        await l.LoadAsync<QuoteLogic>(ids); 
+                        response.quote = l;                  
+                        return new OkObjectResult(response);         
                     }
                     else
                     {
-                        throw new Exception(response.msg);           // something went wrong when trying to void, send the error message back to the browser in the response object
+                        throw new Exception(response.msg);          
                     }
 
                 }
                 else
                 {
-                    return NotFound();                               // invalid Purchase Order Id
+                    return NotFound();                              
                 }
             }
             catch (Exception ex)
