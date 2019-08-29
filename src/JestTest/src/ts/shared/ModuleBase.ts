@@ -199,8 +199,13 @@ export class ModuleBase {
             .then(async done => {
                 const afterSaveMsg = await page.$eval('.advisory', el => el.textContent);
                 if ((afterSaveMsg.includes('saved')) && (!afterSaveMsg.includes('Error'))) {
-                    await page.waitFor(() => !document.querySelector('.advisory'));  // wait for toaster to go away
                     Logging.logger.info(`${this.moduleCaption} Record saved: ${afterSaveMsg}`);
+
+                    //make the "record saved" toaster message go away
+                    await page.waitForSelector('.advisory .messageclose');
+                    await page.click(`.advisory .messageclose`);
+                    await page.waitFor(() => !document.querySelector('.advisory'));  // wait for toaster to go away
+
                     successfulSave = true;
                 } else if (afterSaveMsg.includes('Error') || afterSaveMsg.includes('resolve')) {
                     Logging.logger.info(`${this.moduleCaption} Record not saved: ${afterSaveMsg}`);
