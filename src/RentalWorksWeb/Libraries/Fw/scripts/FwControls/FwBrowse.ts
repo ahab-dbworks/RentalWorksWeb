@@ -165,8 +165,14 @@ class FwBrowseClass {
                                         }, function onno() { });
                                     } else if (rowindex > 0) {
                                         const $prevRow = me.selectPrevRow($control);
-                                        if ($prevRow.length > 0) {
+                                        if (($prevRow.length > 0) && (!$prevRow.hasClass('editmode'))) {
                                             me.setRowEditMode($control, $prevRow);
+                                        } else {
+                                            if (typeof $control.data('selectedfield') === 'string') {
+                                                const fieldName = $control.data('selectedfield');
+                                                $prevRow.find(`[data-browsedatafield="${fieldName}"] input`).select();
+                                                $control.data('selectedfield', []);
+                                            }
                                         }
                                     }
                                 } else {
@@ -219,8 +225,14 @@ class FwBrowseClass {
                                         }, function onno() { });
                                     } else if (rowindex < lastrowindex) {
                                         const $nextRow = me.selectNextRow($control);
-                                        if ($nextRow.length > 0) {
+                                        if (($nextRow.length > 0) && (!$nextRow.hasClass('editmode'))) {
                                             me.setRowEditMode($control, $nextRow);
+                                        } else {
+                                            if (typeof $control.data('selectedfield') === 'string') {
+                                                const fieldName = $control.data('selectedfield');
+                                                $nextRow.find(`[data-browsedatafield="${fieldName}"] input`).select();
+                                                $control.data('selectedfield', []);
+                                            }
                                         }
                                     }
                                 } else {
