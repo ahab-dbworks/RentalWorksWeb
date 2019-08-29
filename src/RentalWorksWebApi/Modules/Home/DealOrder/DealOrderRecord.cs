@@ -1440,7 +1440,7 @@ public string DateStamp { get; set; }
         {
             ReserveQuoteResponse response = new ReserveQuoteResponse();
 
-            if ((OrderId != null) && (Type.Equals(RwConstants.ORDER_TYPE_DESCRIPTION_QUOTE)))
+            if ((OrderId != null) && (Type.Equals(RwConstants.ORDER_TYPE_QUOTE)))
             {
                 using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
                 {

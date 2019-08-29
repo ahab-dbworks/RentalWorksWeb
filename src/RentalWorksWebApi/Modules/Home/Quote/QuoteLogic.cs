@@ -15,7 +15,6 @@ namespace WebApi.Modules.Home.Quote
     {
         QuoteLoader quoteLoader = new QuoteLoader();
         QuoteBrowseLoader quoteBrowseLoader = new QuoteBrowseLoader();
-        DealOrderRecord quote = new DealOrderRecord();
         //------------------------------------------------------------------------------------
         public QuoteLogic()
         {
@@ -147,7 +146,7 @@ namespace WebApi.Modules.Home.Quote
         //------------------------------------------------------------------------------------
         public async Task<ReserveQuoteResponse> Reserve()
         {
-            return await quote.Reserve();
+            return await dealOrder.Reserve();
         }
         //------------------------------------------------------------------------------------
         public async Task<QuoteLogic> ActivateQuoteRequestASync()
