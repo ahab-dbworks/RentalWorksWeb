@@ -9,11 +9,14 @@ export class RegressionTest extends BaseTest {
         let testName: string = "";
         let customerInputs: any;
         let customerResolved: any;
-        let duplicateCustomerInputs: any;
+        let duplicateCustomer1Inputs: any;
+        let duplicateCustomer2Inputs: any;
         let dealInputs: any;
         let dealResolved: any;
 
-        //customer
+        //-------------
+        //CUSTOMER
+        //------------
         if (this.continueTest) {
             const customerModule: Customer = new Customer();
             describe('Create new Customer, fill out form, save record', () => {
@@ -66,6 +69,14 @@ export class RegressionTest extends BaseTest {
                         customerResolved = await customerModule.getCustomer().then().catch(err => this.LogError(testName, err));
                         expect(customerResolved.Customer).toBe(customerInputs.Customer.toUpperCase());
                         expect(customerResolved.CustomerNumber).toBe(customerInputs.CustomerNumber.toUpperCase());
+                        expect(customerResolved.Address1).toBe(customerInputs.Address1.toUpperCase());
+                        expect(customerResolved.Address2).toBe(customerInputs.Address2.toUpperCase());
+                        expect(customerResolved.City).toBe(customerInputs.City.toUpperCase());
+                        expect(customerResolved.State).toBe(customerInputs.State.toUpperCase());
+                        expect(customerResolved.ZipCode).toBe(customerInputs.ZipCode.toUpperCase());
+                        //expect(customerResolved.Phone).toBe(customerInputs.Phone.toUpperCase());
+                        //expect(customerResolved.Fax).toBe(customerInputs.Fax.toUpperCase());
+                        expect(customerResolved.WebAddress).toBe(customerInputs.WebAddress);
                     }, this.testTimeout);
                 }
                 //---------------------------------------------------------------------------------------
@@ -99,7 +110,7 @@ export class RegressionTest extends BaseTest {
                     testName = 'Fill in Customer form data';
                     test(testName, async () => {
                         // change everything except the Customer Name
-                        duplicateCustomerInputs = {
+                        duplicateCustomer1Inputs = {
                             Customer: customerInputs.Customer,
                             CustomerNumber: faker.random.alphaNumeric(8),
                             Address1: faker.address.streetAddress(),
@@ -111,7 +122,74 @@ export class RegressionTest extends BaseTest {
                             Fax: faker.phone.phoneNumber(),
                             WebAddress: faker.internet.url()
                         }
-                        await customerModule.populateNew(duplicateCustomerInputs).then().catch(err => this.LogError(testName, err));
+                        await customerModule.populateNew(duplicateCustomer1Inputs).then().catch(err => this.LogError(testName, err));
+                    }, this.testTimeout);
+                }
+                //---------------------------------------------------------------------------------------
+                if (this.continueTest) {
+                    testName = 'Try to save new Customer (expect error)';
+                    test(testName, async () => {
+                        this.continueTest = await customerModule.saveRecord().then().catch(err => this.LogError(testName, err));
+                        expect(this.continueTest).toBe(false);
+                    }, this.testTimeout);
+                }
+                //---------------------------------------------------------------------------------------
+                if (this.continueTest) {
+                    testName = 'Detect error message notification popup';
+                    test(testName, async () => {
+                        await customerModule.checkForDuplicatePrompt().then().catch(err => this.LogError(testName, err));
+                    }, this.testTimeout);
+                }
+                //---------------------------------------------------------------------------------------
+                if (this.continueTest) {
+                    testName = 'Close duplicate notification popup';
+                    test(testName, async () => {
+                        await customerModule.closeDuplicatePrompt().then().catch(err => this.LogError(testName, err));
+                    }, this.testTimeout);
+                }
+                //---------------------------------------------------------------------------------------
+                if (this.continueTest) {
+                    testName = 'Close Record';
+                    test(testName, async () => {
+                        await customerModule.closeModifiedRecordWithoutSaving().then().catch(err => this.LogError(testName, err));
+                    }, this.testTimeout);
+                }
+                //---------------------------------------------------------------------------------------
+            });
+
+            describe('Attempt to create a duplicate Customer Numer', () => {
+                //---------------------------------------------------------------------------------------
+                if (this.continueTest) {
+                    testName = 'Open Customer Module';
+                    test(testName, async () => {
+                        await customerModule.openModule().then().catch(err => this.LogError(testName, err));
+                    }, this.testTimeout);
+                }
+                //---------------------------------------------------------------------------------------
+                if (this.continueTest) {
+                    testName = 'Open Customer Form in New mode';
+                    test(testName, async () => {
+                        await customerModule.createNewRecord().then().catch(err => this.LogError(testName, err));
+                    }, this.testTimeout);
+                }
+                //---------------------------------------------------------------------------------------
+                if (this.continueTest) {
+                    testName = 'Fill in Customer form data';
+                    test(testName, async () => {
+                        // change everything except the Customer Number
+                        duplicateCustomer1Inputs = {
+                            Customer: `JEST - ${faker.company.companyName()} - ${this.testToken}`,
+                            CustomerNumber: customerInputs.CustomerNumber,
+                            Address1: faker.address.streetAddress(),
+                            Address2: faker.address.secondaryAddress(),
+                            City: faker.address.city(),
+                            State: faker.address.state(true),
+                            ZipCode: faker.address.zipCode("99999"),
+                            Phone: faker.phone.phoneNumber(),
+                            Fax: faker.phone.phoneNumber(),
+                            WebAddress: faker.internet.url()
+                        }
+                        await customerModule.populateNew(duplicateCustomer1Inputs).then().catch(err => this.LogError(testName, err));
                     }, this.testTimeout);
                 }
                 //---------------------------------------------------------------------------------------
@@ -148,7 +226,9 @@ export class RegressionTest extends BaseTest {
         }
 
 
-        //deal
+        //-------------
+        //DEAL
+        //------------
         if (this.continueTest) {
             const dealModule: Deal = new Deal();
             describe('Create new Deal, fill out form, save record', () => {

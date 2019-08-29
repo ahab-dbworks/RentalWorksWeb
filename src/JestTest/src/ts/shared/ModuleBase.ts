@@ -88,12 +88,19 @@ export class ModuleBase {
             await this.clearInputField(dataField);
         }
         else {
-            await page.type(`.fwformfield[data-datafield="${dataField}"] input`, value);
+            //await page.type(`.fwformfield[data-datafield="${dataField}"] input`, value);
+            const elementHandle = await page.$(`.fwformfield[data-datafield="${dataField}"] input`);
+            await elementHandle.click();
+            await page.keyboard.sendCharacter(value);
         }
     }
     //---------------------------------------------------------------------------------------
     async populateValidationTextField(dataField: string, value: string): Promise<void> {
-        await page.type(`.fwformfield[data-datafield="${dataField}"] .fwformfield-text`, value);
+        //await page.type(`.fwformfield[data-datafield="${dataField}"] .fwformfield-text`, value);
+        //await page.keyboard.press('Enter');
+        const elementHandle = await page.$(`.fwformfield[data-datafield="${dataField}"] .fwformfield-text`);
+        await elementHandle.click();
+        await page.keyboard.sendCharacter(value);
         await page.keyboard.press('Enter');
     }
     //---------------------------------------------------------------------------------------
@@ -192,6 +199,7 @@ export class ModuleBase {
             .then(async done => {
                 const afterSaveMsg = await page.$eval('.advisory', el => el.textContent);
                 if ((afterSaveMsg.includes('saved')) && (!afterSaveMsg.includes('Error'))) {
+                    await page.waitFor(() => !document.querySelector('.advisory'));  // wait for toaster to go away
                     Logging.logger.info(`${this.moduleCaption} Record saved: ${afterSaveMsg}`);
                     successfulSave = true;
                 } else if (afterSaveMsg.includes('Error') || afterSaveMsg.includes('resolve')) {
