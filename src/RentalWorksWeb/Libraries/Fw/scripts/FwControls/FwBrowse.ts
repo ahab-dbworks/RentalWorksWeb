@@ -154,17 +154,13 @@ class FwBrowseClass {
                                 const pageno = me.getPageNo($control);
                                 if ($control.attr('data-multisave') == 'true') {
                                     if ((rowindex === 0) && (pageno > 1)) {
-                                        FwConfirmation.yesNo('Save', 'Save rows?', function onyes() {
+                                        FwConfirmation.yesNo('Save', 'Save row(s)?', function onyes() {
                                             const $trs = $control.find('tr.editmode.editrow');
                                             me.multiSaveRow($control, $trs)
                                                 .then(() => {
                                                     $control.data('selectedrowmode', 'edit');
                                                     $control.find('tbody tr:first-of-type').addClass('selected');
-                                                 
-                                                    const $prevRow = me.selectPrevRow($control);
-                                                    if ($prevRow.length > 0) {
-                                                        me.setRowEditMode($control, $prevRow);
-                                                    }
+                                                    me.selectPrevRow($control);
                                                 })
                                         }, function onno() { });
                                     } else if (rowindex > 0) {
@@ -219,9 +215,6 @@ class FwBrowseClass {
                                                     $control.data('selectedrowmode', 'edit');
                                                     $control.find('tbody tr:last-of-type').addClass('selected');
                                                     me.selectNextRow($control);
-                                                    //if ($nextRow.length > 0) {
-                                                    //    me.setRowEditMode($control, $nextRow);
-                                                    //}
                                                 })
                                         }, function onno() { });
                                     } else if (rowindex < lastrowindex) {
@@ -477,6 +470,7 @@ class FwBrowseClass {
                 try {
                     e.stopPropagation();
                     var $btnFirstPage = jQuery(this);
+                    $control.data('selectedrowmode', []);
                     if ($btnFirstPage.attr('data-enabled') === 'true') {
                         $control.attr('data-pageno', '1');
                         me.databind($control);
@@ -489,6 +483,7 @@ class FwBrowseClass {
             .on('click', '.runtime .pager div.buttons .btnPreviousPage', function (e: JQuery.Event) {
                 try {
                     e.stopPropagation();
+                    $control.data('selectedrowmode', []);
                     me.prevPage($control);
                 } catch (ex) {
                     FwFunc.showError(ex);
@@ -524,6 +519,7 @@ class FwBrowseClass {
             .on('click', '.runtime .pager div.buttons .btnNextPage', function (e: JQuery.Event) {
                 try {
                     e.stopPropagation();
+                    $control.data('selectedrowmode', []);
                     me.nextPage($control);
                 } catch (ex) {
                     FwFunc.showError(ex);
@@ -534,6 +530,7 @@ class FwBrowseClass {
                 try {
                     e.stopPropagation();
                     var $btnLastPage = jQuery(this);
+                    $control.data('selectedrowmode', []);
                     if ($btnLastPage.attr('data-enabled') === 'true') {
                         var pageno = me.getTotalPages($control);
                         me.setPageNo($control, pageno);
@@ -776,14 +773,13 @@ class FwBrowseClass {
         var totalpages = this.getTotalPages($control);
         var rowindex = this.getSelectedRowIndex($control);
         var lastrowindex = $control.find('tbody tr').length - 1;
-        var $trselected;
+       
         if (rowindex < lastrowindex) {
             $selectedrow = $selectedrow.next();
             this.selectRow($control, $selectedrow);
             if (typeof afterrowselected === 'function') {
                 afterrowselected();
             }
-            $trselected = $control.find('tbody tr.selected');
         }
         else if ((rowindex === lastrowindex) && (pageno < totalpages)) {
             var self = this;
@@ -796,7 +792,7 @@ class FwBrowseClass {
             });
             this.nextPage($control);
         }
-         
+        const $trselected = $control.find('tbody tr.selected');
         return $trselected;
     }
     //---------------------------------------------------------------------------------
@@ -3004,6 +3000,9 @@ class FwBrowseClass {
                 const fieldName = $control.data('selectedfield');
                 $tr.find(`[data-browsedatafield="${fieldName}"] input`).select();
                 $control.data('selectedfield', []);
+            }
+            else {
+                $tr.find('td.column:visible div.editablefield input.text').select();
             }
         } else {
             this.beforeNewOrEditRow($control, $tr)
