@@ -1,6 +1,13 @@
 ﻿﻿class SearchPreviewGrid {
      Module: string = 'SearchPreviewGrid';
      apiurl: string = 'api/v1/inventorysearchpreview';
+
+     generateRow($control, $generatedtr) {
+         FwBrowse.setAfterRenderRowCallback($control, ($tr: JQuery, dt: FwJsonDataTable, rowIndex: number) => {
+             const availabilityState = $generatedtr.find('[data-browsedatafield="AvailabilityState"]').attr('data-originalvalue');
+             $generatedtr.find('[data-browsedatafield="QuantityAvailable"]').attr('data-state', availabilityState);
+         });
+     }
 }
 //----------------------------------------------------------------------------------------------
 //Refresh Availability
