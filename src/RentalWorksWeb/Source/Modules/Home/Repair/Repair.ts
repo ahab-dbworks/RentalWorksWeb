@@ -783,6 +783,8 @@ class Repair {
 
             $yes.text('Estimating...');
             $yes.off('click');
+            const topLayer = '<div class="top-layer" data-controller="none" style="background-color: transparent;z-index:1"></div>';
+            const blockConfirmation = jQuery($confirmation.find('.fwconfirmationbox')).prepend(topLayer);
 
             const RepairId = FwFormField.getValueByDataField($form, 'RepairId');
             FwAppData.apiMethod(true, 'POST', `api/v1/repair/estimate/${RepairId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
@@ -796,7 +798,7 @@ class Repair {
                 FwFormField.enable($confirmation.find('.fwformfield'));
                 FwFormField.enable($yes);
                 FwModule.refreshForm($form, RepairController);
-            }, $form);
+            }, blockConfirmation);
         };
         // ----------
         function cancelEstimate() {
@@ -807,7 +809,8 @@ class Repair {
 
             $yes.text('Canceling Estimate...');
             $yes.off('click');
-
+            const topLayer = '<div class="top-layer" data-controller="none" style="background-color: transparent;z-index:1"></div>';
+            const blockConfirmation = jQuery($confirmation.find('.fwconfirmationbox')).prepend(topLayer);
             const RepairId = FwFormField.getValueByDataField($form, 'RepairId');
             FwAppData.apiMethod(true, 'POST', `api/v1/repair/estimate/${RepairId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
                 FwNotification.renderNotification('SUCCESS', 'Estimate Successfully Cancelled');
@@ -820,7 +823,7 @@ class Repair {
                 FwFormField.enable($confirmation.find('.fwformfield'));
                 FwFormField.enable($yes);
                 FwModule.refreshForm($form, RepairController);
-            }, $form);
+            }, blockConfirmation);
         };
     };
     //----------------------------------------------------------------------------------------------
@@ -870,6 +873,8 @@ class Repair {
             FwFormField.disable($yes);
             $yes.text('Completing...');
             $yes.off('click');
+            const topLayer = '<div class="top-layer" data-controller="none" style="background-color: transparent;z-index:1"></div>';
+            const blockConfirmation = jQuery($confirmation.find('.fwconfirmationbox')).prepend(topLayer);
 
             const RepairId = FwFormField.getValueByDataField($form, 'RepairId');
             FwAppData.apiMethod(true, 'POST', `api/v1/repair/complete/${RepairId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
@@ -885,25 +890,31 @@ class Repair {
                 FwFormField.enable($yes);
                 FwModule.refreshForm($form, RepairController);
                 $form.data('hasCompleted', true);
-            }, $form);
+            }, blockConfirmation);
         };
     };
     //----------------------------------------------------------------------------------------------
     voidOrder($form: JQuery): void {
-        const $confirmation = FwConfirmation.renderConfirmation('Void', '');
-        $confirmation.find('.fwconfirmationbox').css('width', '450px');
-        const html: Array<string> = [];
-        html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
-        html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-        html.push('    <div>Void this Repair Order?</div>');
-        html.push('  </div>');
-        html.push('</div>');
+        const status = FwFormField.getValueByDataField($form, 'Status');
+        let $confirmation, $yes, $no;
+        if (status !== 'COMPLETE') {
+            $confirmation = FwConfirmation.renderConfirmation('Void', '');
+            $confirmation.find('.fwconfirmationbox').css('width', '450px');
+            const html: Array<string> = [];
+            html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+            html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+            html.push('    <div>Void this Repair Order?</div>');
+            html.push('  </div>');
+            html.push('</div>');
 
-        FwConfirmation.addControls($confirmation, html.join(''));
-        const $yes = FwConfirmation.addButton($confirmation, 'Void', false);
-        const $no = FwConfirmation.addButton($confirmation, 'Cancel');
+            FwConfirmation.addControls($confirmation, html.join(''));
+            $yes = FwConfirmation.addButton($confirmation, 'Void', false);
+            $no = FwConfirmation.addButton($confirmation, 'Cancel');
 
-        $yes.on('click', makeVoid);
+            $yes.on('click', makeVoid);
+        } else if (status === 'COMPLETE') {
+            FwNotification.renderNotification('WARNING', 'COMPLETE Repair Orders cannot be VOIDED.');
+        }
         // ----------
         function makeVoid() {
 
@@ -911,6 +922,8 @@ class Repair {
             FwFormField.disable($yes);
             $yes.text('Voiding...');
             $yes.off('click');
+            const topLayer = '<div class="top-layer" data-controller="none" style="background-color: transparent;z-index:1"></div>';
+            const blockConfirmation = jQuery($confirmation.find('.fwconfirmationbox')).prepend(topLayer);
 
             const repairId = FwFormField.getValueByDataField($form, 'RepairId');
             FwAppData.apiMethod(true, 'POST', `api/v1/repair/void/${repairId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
@@ -924,7 +937,7 @@ class Repair {
                 FwFormField.enable($confirmation.find('.fwformfield'));
                 FwFormField.enable($yes);
                 FwModule.refreshForm($form, RepairController);
-            }, $form);
+            }, blockConfirmation);
         };
     };
     //----------------------------------------------------------------------------------------------
@@ -993,7 +1006,8 @@ class Repair {
                 FwFormField.disable($yes);
                 $yes.text('Releasing...');
                 $yes.off('click');
-
+                const topLayer = '<div class="top-layer" data-controller="none" style="background-color: transparent;z-index:1"></div>';
+                const blockConfirmation = jQuery($confirmation.find('.fwconfirmationbox')).prepend(topLayer);
                 const RepairId = FwFormField.getValueByDataField($form, 'RepairId');
                 FwAppData.apiMethod(true, 'POST', `api/v1/repair/releaseitems/${RepairId}/${releasedQuantityConfirmation}`, null, FwServices.defaultTimeout, function onSuccess(response) {
                     FwNotification.renderNotification('SUCCESS', 'Items Successfully Released');
@@ -1005,7 +1019,7 @@ class Repair {
                     FwFunc.showError(response);
                     FwFormField.enable($confirmation.find('.fwformfield'));
                     FwFormField.enable($yes);
-                }, $form);
+                }, blockConfirmation);
             } else {
                 FwFunc.showError("You are attempting to release more items than are available.");
             }
