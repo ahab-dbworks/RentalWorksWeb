@@ -27,18 +27,18 @@
         };
 
         return screen;
-    };
+    }
     //----------------------------------------------------------------------------------------------
     openBrowse() {
         let $browse: JQuery = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
 
-        const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+        const warehouseId = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid;
 
         $browse.data('ondatabind', request => {
             request.activeviewfields = this.ActiveViewFields;
             request.uniqueids = {
-                WarehouseId: warehouse.warehouseid
+                WarehouseId: warehouseId
             }
         });
 
@@ -55,21 +55,43 @@
         }
 
         return $browse;
-    };
+    }
+    //----------------------------------------------------------------------------------------------
+    addBrowseMenuItems($menuObject: any) {
+        const $all: JQuery = FwMenu.generateDropDownViewBtn('All', true, "ALL");
+        const $item: JQuery = FwMenu.generateDropDownViewBtn('Item', true, "I");
+        const $accessory: JQuery = FwMenu.generateDropDownViewBtn('Accessory', false, "A");
+        const $complete: JQuery = FwMenu.generateDropDownViewBtn('Complete', false, "C");
+        const $kit: JQuery = FwMenu.generateDropDownViewBtn('Kit', false, "K");
+        const $set: JQuery = FwMenu.generateDropDownViewBtn('Set', false, "S");
+        const $misc: JQuery = FwMenu.generateDropDownViewBtn('Misc', false, "M");
+        const $container: JQuery = FwMenu.generateDropDownViewBtn('Container', false, "N");
+
+        FwMenu.addVerticleSeparator($menuObject);
+
+        const viewSubitems: Array<JQuery> = [];
+        viewSubitems.push($all, $item, $accessory, $complete, $kit, $set, $misc);
+        if (this.AvailableFor === "R") {
+            viewSubitems.push($container);
+        }
+        FwMenu.addViewBtn($menuObject, 'View', viewSubitems, true, "Classification");
+
+        return $menuObject;
+    }
     //----------------------------------------------------------------------------------------------
     openForm(mode: string, uniqueids?) {
-        let inventoryId;
         let $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 
         if (mode === 'NEW') {
-            let controlDefaults = JSON.parse(sessionStorage.getItem('controldefaults'));
+            const controlDefaults = JSON.parse(sessionStorage.getItem('controldefaults'));
             FwFormField.setValue($form, 'div[data-datafield="UnitId"]', controlDefaults.defaultunitid, controlDefaults.defaultunit);
             if (this.Module === 'RentalInventory') {
                 RentalInventoryController.iCodeMask($form);
             }
         }
 
+        let inventoryId;
         if (typeof uniqueids !== 'undefined') {
             inventoryId = uniqueids.InventoryId;
         }
@@ -96,7 +118,42 @@
 
         this.events($form);
         return $form;
-    };
+    }
+    //----------------------------------------------------------------------------------------------
+    loadForm(uniqueids: any) {
+        const $form = this.openForm('EDIT', uniqueids);
+        $form.find('div.fwformfield[data-datafield="InventoryId"] input').val(uniqueids.InventoryId);
+        FwModule.loadForm(this.Module, $form);
+        let schddate;
+        const $calendar = $form.find('.calendar');
+        if ($calendar.length > 0) {
+            setTimeout(function () {
+                schddate = FwScheduler.getTodaysDate();
+                FwScheduler.navigate($calendar, schddate);
+                FwScheduler.refresh($calendar);
+            }, 1);
+        }
+
+        const $realScheduler = $form.find('.realscheduler');
+        if ($realScheduler.length > 0) {
+            setTimeout(function () {
+                schddate = FwSchedulerDetailed.getTodaysDate();
+                FwSchedulerDetailed.navigate($realScheduler, schddate, 35);
+                FwSchedulerDetailed.refresh($realScheduler);
+            }, 1);
+        }
+
+        const controller = $form.attr('data-controller');
+        if (controller == "SalesInventoryController" || controller == "RentalInventoryController") {
+            let $submoduleRepairOrderBrowse = this.openRepairOrderBrowse($form);
+            $form.find('.repairOrderSubModule').append($submoduleRepairOrderBrowse);
+        }
+        return $form;
+    }
+    //---------------------------------------------------------------------------------------------
+    saveForm($form: any, parameters: any) {
+        FwModule.saveForm(this.Module, $form, parameters);
+    }
     //----------------------------------------------------------------------------------------------
     addCalendarEvents($form, $control, inventoryId) {
         let startOfMonth = moment().startOf('month').format('MM/DD/YYYY');
@@ -105,14 +162,13 @@
             .data('ongetevents', calendarRequest => {
                 startOfMonth = moment(calendarRequest.start.value).format('MM/DD/YYYY');
                 endOfMonth = moment(calendarRequest.start.value).add(calendarRequest.days, 'd').format('MM/DD/YYYY');
-                let warehouseId = FwFormField.getValue($form, '.warehousefilter');   //justin 11/11/2018 fixing build error
+                const warehouseId = FwFormField.getValue($form, '.warehousefilter');   //justin 11/11/2018 fixing build error
 
                 FwAppData.apiMethod(true, 'GET', `api/v1/inventoryavailability/calendarandscheduledata?&InventoryId=${inventoryId}&WarehouseId=${warehouseId}&FromDate=${startOfMonth}&ToDate=${endOfMonth}`, null, FwServices.defaultTimeout, response => {
                     FwScheduler.loadYearEventsCallback($control, [{ id: '1', name: '' }], this.yearlyEvents);
-                    var calendarevents = response.InventoryAvailabilityCalendarEvents;
-                    var schedulerEvents = response.InventoryAvailabilityScheduleEvents;
+                    const calendarevents = response.InventoryAvailabilityCalendarEvents;
                     for (let i = 0; i < calendarevents.length; i++) {
-                        if (calendarevents[i].textColor !== 'rgb(0,0,0') { // missing closing parens here
+                        if (calendarevents[i].textColor !== 'rgb(0,0,0)') {
                             calendarevents[i].html = `<div style="color:${calendarevents[i].textColor};">${calendarevents[i].text}</div>`
                         }
                     }
@@ -160,7 +216,7 @@
                     const schedulerEvents = response.InventoryAvailabilityScheduleEvents;
                     for (let i = 0; i < schedulerEvents.length; i++) {
                         if (schedulerEvents[i].textColor !== 'rgb(0,0,0)') {
-                            schedulerEvents[i].html = `<div style="color:${schedulerEvents[i].textColor};"${schedulerEvents[i].text}</div>`
+                            schedulerEvents[i].html = `<div style="color:${schedulerEvents[i].textColor};">${schedulerEvents[i].text}</div>`
                         } else {
                             schedulerEvents[i].html = `<div style="color:${schedulerEvents[i].textColor};text-align:left;"><span style="font-weight:700;padding:0 5px 0 0;">${schedulerEvents[i].total}</span>${schedulerEvents[i].text}</div>`
                         }
@@ -172,124 +228,8 @@
             })
     }
     //----------------------------------------------------------------------------------------------
-    loadForm(uniqueids: any) {
-        var $form, $calendar, schddate, $realScheduler;
-
-        $form = this.openForm('EDIT', uniqueids);
-        $form.find('div.fwformfield[data-datafield="InventoryId"] input').val(uniqueids.InventoryId);
-        FwModule.loadForm(this.Module, $form);
-
-        $calendar = $form.find('.calendar');
-        if ($calendar.length > 0) {
-            setTimeout(function () {
-                schddate = FwScheduler.getTodaysDate();
-                FwScheduler.navigate($calendar, schddate);
-                FwScheduler.refresh($calendar);
-            }, 1);
-        }
-
-        $realScheduler = $form.find('.realscheduler');
-        if ($realScheduler.length > 0) {
-            setTimeout(function () {
-                schddate = FwSchedulerDetailed.getTodaysDate();
-                FwSchedulerDetailed.navigate($realScheduler, schddate, 35);
-                FwSchedulerDetailed.refresh($realScheduler);
-            }, 1);
-        }
-
-        let controller = $form.attr('data-controller');
-        if (controller == "SalesInventoryController" || controller == "RentalInventoryController") {
-            let $submoduleRepairOrderBrowse = this.openRepairOrderBrowse($form);
-            $form.find('.repairOrderSubModule').append($submoduleRepairOrderBrowse);
-        }
-        return $form;
-    };
-    //----------------------------------------------------------------------------------------------
-    openRepairOrderBrowse($form) {
-        const inventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
-        const $browse = RepairController.openBrowse();
-        $browse.data('ondatabind', function (request) {
-            request.activeviewfields = RepairController.ActiveViewFields;
-            request.uniqueids = {
-                InventoryId: inventoryId
-            };
-        });
-        jQuery($browse).find('.ddviewbtn-caption:contains("Show:")').siblings('.ddviewbtn-select').find('.ddviewbtn-dropdown-btn:contains("All")').click();
-        return $browse;
-    }
-    //---------------------------------------------------------------------------------------------
-    saveForm($form: any, parameters: any) {
-        FwModule.saveForm(this.Module, $form, parameters);
-    };
-    //----------------------------------------------------------------------------------------------
-    events($form: any): void {
-        let classificationValue, trackedByValue;
-
-        $form.find('[data-datafield="OverrideProfitAndLossCategory"] .fwformfield-value').on('change', function () {
-            let $this = jQuery(this);
-            if ($this.prop('checked') === true) {
-                FwFormField.enable($form.find('[data-datafield="ProfitAndLossCategoryId"]'));
-            }
-            else {
-                FwFormField.disable($form.find('[data-datafield="ProfitAndLossCategoryId"]'));
-            }
-        });
-
-        $form.find('div[data-datafield="InventoryTypeId"]').data('onchange', $tr => {
-            if ($tr.find('.field[data-browsedatafield="Wardrobe"]').attr('data-originalvalue') === 'true') {
-                $form.find('.wardrobetab').show();
-            } else {
-                $form.find('.wardrobetab').hide();
-            }
-        });
-
-        $form.find('div[data-datafield="CategoryId"]').data('onchange', $tr => {
-            FwFormField.disable($form.find('.subcategory'));
-            if ($tr.find('.field[data-browsedatafield="SubCategoryCount"]').attr('data-originalvalue') > 0) {
-                FwFormField.enable($form.find('.subcategory'));
-            } else {
-                FwFormField.setValueByDataField($form, 'SubCategoryId', '')
-            }
-        });
-        // Hides or shows Asset tab for particular settings on the form
-        $form.find('.class-tracked-radio input').on('change', () => {
-            classificationValue = FwFormField.getValueByDataField($form, 'Classification');
-            trackedByValue = FwFormField.getValueByDataField($form, 'TrackedBy');
-            if (classificationValue === 'I' || classificationValue === 'A') {
-                if (trackedByValue !== 'QUANTITY') {
-                    $form.find('.asset-submodule').show();
-                } else {
-                    $form.find('.asset-submodule').hide();
-                }
-            } else {
-                $form.find('.asset-submodule').hide();
-            }
-        });
-
-        //Accessory Revenue Allocation checkboxes and radio events
-        $form.find(`[data-datafield="OverrideSystemDefaultRevenueAllocationBehavior"] .fwformfield-value`).on('change', e => {
-            const $this = jQuery(e.currentTarget);
-            if ($this.prop('checked') === true) {
-                FwFormField.enable($form.find('[data-datafield="AllocateRevenueForAccessories"]'));
-            } else {
-                FwFormField.disable($form.find('[data-datafield="AllocateRevenueForAccessories"]'));
-                FwFormField.disable($form.find('[data-datafield="PackageRevenueCalculationFormula"]'));
-            }
-        });
-        $form.find(`[data-datafield="AllocateRevenueForAccessories"] .fwformfield-value`).on('change', e => {
-            const $this = jQuery(e.currentTarget);
-            if ($this.prop('checked') === true) {
-                FwFormField.enable($form.find('[data-datafield="PackageRevenueCalculationFormula"]'));
-            } else {
-                FwFormField.disable($form.find('[data-datafield="PackageRevenueCalculationFormula"]'));
-            }
-        });
-
-    }
-    //----------------------------------------------------------------------------------------------
     loadScheduler($form, events, resources) {
-
-        var dp = new DayPilot.Scheduler($form.find('.realscheduler')[0]);
+        const dp = new DayPilot.Scheduler($form.find('.realscheduler')[0]);
 
         // behavior and appearance
         dp.cellWidth = 40;
@@ -392,6 +332,82 @@
         //dp.update();
     }
     //----------------------------------------------------------------------------------------------
+    openRepairOrderBrowse($form) {
+        const inventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
+        const $browse = RepairController.openBrowse();
+        $browse.data('ondatabind', function (request) {
+            request.activeviewfields = RepairController.ActiveViewFields;
+            request.uniqueids = {
+                InventoryId: inventoryId
+            };
+        });
+        jQuery($browse).find('.ddviewbtn-caption:contains("Show:")').siblings('.ddviewbtn-select').find('.ddviewbtn-dropdown-btn:contains("All")').click();
+        return $browse;
+    }
+    //----------------------------------------------------------------------------------------------
+    events($form: any): void {
+        $form.find('[data-datafield="OverrideProfitAndLossCategory"] .fwformfield-value').on('change', function () {
+            const $this = jQuery(this);
+            if ($this.prop('checked') === true) {
+                FwFormField.enable($form.find('[data-datafield="ProfitAndLossCategoryId"]'));
+            }
+            else {
+                FwFormField.disable($form.find('[data-datafield="ProfitAndLossCategoryId"]'));
+            }
+        });
+
+        $form.find('div[data-datafield="InventoryTypeId"]').data('onchange', $tr => {
+            if ($tr.find('.field[data-browsedatafield="Wardrobe"]').attr('data-originalvalue') === 'true') {
+                $form.find('.wardrobetab').show();
+            } else {
+                $form.find('.wardrobetab').hide();
+            }
+        });
+
+        $form.find('div[data-datafield="CategoryId"]').data('onchange', $tr => {
+            FwFormField.disable($form.find('.subcategory'));
+            if ($tr.find('.field[data-browsedatafield="SubCategoryCount"]').attr('data-originalvalue') > 0) {
+                FwFormField.enable($form.find('.subcategory'));
+            } else {
+                FwFormField.setValueByDataField($form, 'SubCategoryId', '')
+            }
+        });
+        // Hides or shows Asset tab for particular settings on the form
+        $form.find('.class-tracked-radio input').on('change', () => {
+            const classificationValue = FwFormField.getValueByDataField($form, 'Classification');
+            const trackedByValue = FwFormField.getValueByDataField($form, 'TrackedBy');
+            if (classificationValue === 'I' || classificationValue === 'A') {
+                if (trackedByValue !== 'QUANTITY') {
+                    $form.find('.asset-submodule').show();
+                } else {
+                    $form.find('.asset-submodule').hide();
+                }
+            } else {
+                $form.find('.asset-submodule').hide();
+            }
+        });
+
+        //Accessory Revenue Allocation checkboxes and radio events
+        $form.find(`[data-datafield="OverrideSystemDefaultRevenueAllocationBehavior"] .fwformfield-value`).on('change', e => {
+            const $this = jQuery(e.currentTarget);
+            if ($this.prop('checked') === true) {
+                FwFormField.enable($form.find('[data-datafield="AllocateRevenueForAccessories"]'));
+            } else {
+                FwFormField.disable($form.find('[data-datafield="AllocateRevenueForAccessories"]'));
+                FwFormField.disable($form.find('[data-datafield="PackageRevenueCalculationFormula"]'));
+            }
+        });
+        $form.find(`[data-datafield="AllocateRevenueForAccessories"] .fwformfield-value`).on('change', e => {
+            const $this = jQuery(e.currentTarget);
+            if ($this.prop('checked') === true) {
+                FwFormField.enable($form.find('[data-datafield="PackageRevenueCalculationFormula"]'));
+            } else {
+                FwFormField.disable($form.find('[data-datafield="PackageRevenueCalculationFormula"]'));
+            }
+        });
+
+    }
+    //----------------------------------------------------------------------------------------------
     //jh 08/19/2019 obsolete
     //loadGantt($form) {
     //    var dp = new DayPilot.Gantt($form.find('#gantt')[0]);
@@ -476,28 +492,6 @@
     //    ]
     //    dp.update();
     //}
-    //----------------------------------------------------------------------------------------------
-    addBrowseMenuItems($menuObject: any) {
-        const $all: JQuery = FwMenu.generateDropDownViewBtn('All', true, "ALL");
-        const $item: JQuery = FwMenu.generateDropDownViewBtn('Item', true, "I");
-        const $accessory: JQuery = FwMenu.generateDropDownViewBtn('Accessory', false, "A");
-        const $complete: JQuery = FwMenu.generateDropDownViewBtn('Complete', false, "C");
-        const $kit: JQuery = FwMenu.generateDropDownViewBtn('Kit', false, "K");
-        const $set: JQuery = FwMenu.generateDropDownViewBtn('Set', false, "S");
-        const $misc: JQuery = FwMenu.generateDropDownViewBtn('Misc', false, "M");
-        const $container: JQuery = FwMenu.generateDropDownViewBtn('Container', false, "N");
-
-        FwMenu.addVerticleSeparator($menuObject);
-
-        var viewSubitems: Array<JQuery> = [];
-        viewSubitems.push($all, $item, $accessory, $complete, $kit, $set, $misc);
-        if (this.AvailableFor === "R") {
-            viewSubitems.push($container);
-        }
-        FwMenu.addViewBtn($menuObject, 'View', viewSubitems, true, "Classification");
-
-        return $menuObject;
-    };
     //----------------------------------------------------------------------------------------------
     loadInventoryDataTotals($form: JQuery, data) {
         $form.find(`.inv-data-totals [data-totalfield="Total"] input`).val(data.Total.Total);
