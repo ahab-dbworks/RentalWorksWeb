@@ -1254,13 +1254,17 @@ class OrderBase {
         });
 
         //specify billing dates checkbox
+        //need to change datafields for these -jason h 08/30/2019
         $form.find('[data-datafield="SpecifyBillingDatesByType"]').on('change', e => {
             const isChecked = FwFormField.getValueByDataField($form, 'SpecifyBillingDatesByType');
+            const dateTypeSection = $form.find('.date-types');
             if (isChecked) {
-                $form.find('.date-types').show();
+                dateTypeSection.show();
+                dateTypeSection.find('[data-datafield="Date"]').attr('data-enabled', true);
                 FwFormField.disable($form.find('.date-types-disable'));
             } else {
-                $form.find('.date-types').hide();
+                dateTypeSection.hide();
+                dateTypeSection.find('[data-datafield="Date"]').attr('data-enabled', false);
                 FwFormField.enable($form.find('.date-types-disable'));
             }
         });

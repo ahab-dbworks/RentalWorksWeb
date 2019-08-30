@@ -555,7 +555,8 @@ class CustomForm {
                 $form.find('.addColumn[data-type="btnmenu"]').hide();
             } else if (type === 'Form') {
                 $form.find('.addColumn[data-type="btnmenu"]')
-                    .css({ 'width': '177px', 'margin-left': '27%' })
+                    //.css({ 'width': '177px', 'margin-left': '27%' })
+                    .css({ 'display': 'flex', 'margin-left': '27%' })
                     .show();
                 $form.find('.addColumn[data-type="button"]').hide();
                 $form.find('.addColumn .btnmenuoption:contains("ADD NEW CONTAINER")').addClass('addNewContainer');
@@ -1063,6 +1064,10 @@ class CustomForm {
                                     jQuery($customFormClone).find(`div[data-index="${index}"]`).attr('data-customfield', 'true');
                                 }
                                 jQuery($customFormClone).find(`div[data-index="${index}"]`).attr(`data-caption`, `${value}`);
+                            }
+
+                            if (attribute === 'data-caption') {
+                                jQuery(originalHtml).find(`.fwformfield-caption`).text(value);
                             }
 
                             let isTab = jQuery(originalHtml).attr('data-type');
