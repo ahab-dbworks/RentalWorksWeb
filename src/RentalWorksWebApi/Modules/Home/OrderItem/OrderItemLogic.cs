@@ -102,6 +102,9 @@ namespace WebApi.Modules.Home.OrderItem
         [FwLogicProperty(Id:"9GCGUd4nSEzY", IsReadOnly:true)]
         public string AvailableQuantityColor { get; set; }
 
+        [FwLogicProperty(Id: "eNrj2HGEqivOG", IsReadOnly: true)]
+        public string AvailabilityState { get; set; }
+
         [FwLogicProperty(Id:"72nuyMc1ObMF", IsReadOnly:true)]
         public decimal? AvailableAllWarehousesQuantity { get; set; }
 

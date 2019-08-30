@@ -112,13 +112,19 @@ namespace WebApi.Modules.Home.OrderItem
         [FwSqlDataField(column: "availcolor", modeltype: FwDataTypes.OleToHtmlColor)]
         public string AvailableQuantityColor { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "''", modeltype: FwDataTypes.Text)]
+        public string AvailabilityState { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "availqtyallwh", modeltype: FwDataTypes.Decimal)]
         public decimal? AvailableAllWarehousesQuantity { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "availcolorallwh", modeltype: FwDataTypes.Integer)]
         public int? AvailableAllWarehousesQuantityColor { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "conflictdate", modeltype: FwDataTypes.Date)]
+        //[FwSqlDataField(column: "conflictdate", modeltype: FwDataTypes.Date)]
+        //public string ConflictDate { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Date)]
         public string ConflictDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "conflictdateallwh", modeltype: FwDataTypes.Date)]
@@ -930,14 +936,46 @@ namespace WebApi.Modules.Home.OrderItem
                         DateTime availToDateTime = FwConvert.ToDateTime(row[dt.GetColumnNo("ToDate")].ToString());      // not accurate
                         TInventoryWarehouseAvailabilityKey availKey = new TInventoryWarehouseAvailabilityKey(inventoryId, warehouseId);
                         TInventoryWarehouseAvailability availData = null;
-                        row[dt.GetColumnNo("AvailableQuantityColor")] = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_NEEDRECALC);
-                        if (availCache.TryGetValue(availKey, out availData))
+
+
+                        decimal qtyAvailable = 0;
+                        bool isStale = true;
+                        DateTime? conflictDate = null;
+                        string availColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_NEEDRECALC);
+                        string availabilityState = RwConstants.AVAILABILITY_STATE_STALE;
+                        //row[dt.GetColumnNo("AvailableQuantityColor")] = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_NEEDRECALC);
+                        //if (availCache.TryGetValue(availKey, out availData))
+                        //{
+                        //    row[dt.GetColumnNo("AvailableQuantityColor")] = null;
+                        //    TInventoryWarehouseAvailabilityMinimum minAvail = availData.GetMinimumAvailableQuantity(availFromDateTime, availToDateTime);
+                        //    row[dt.GetColumnNo("AvailableQuantity")] = minAvail.MinimumAvailable.Total;
+                        //    row[dt.GetColumnNo("AvailableQuantityColor")] = minAvail.Color;
+
+                        //}
+
+
+                        if (availCache.TryGetValue(new TInventoryWarehouseAvailabilityKey(inventoryId, warehouseId), out availData))
                         {
-                            row[dt.GetColumnNo("AvailableQuantityColor")] = null;
                             TInventoryWarehouseAvailabilityMinimum minAvail = availData.GetMinimumAvailableQuantity(availFromDateTime, availToDateTime);
-                            row[dt.GetColumnNo("AvailableQuantity")] = minAvail.MinimumAvailable.Total;
-                            row[dt.GetColumnNo("AvailableQuantityColor")] = minAvail.Color;
+
+                            qtyAvailable = minAvail.MinimumAvailable.Total;
+                            conflictDate = minAvail.FirstConfict;
+                            isStale = minAvail.IsStale;
+                            availColor = minAvail.Color;
+                            availabilityState = minAvail.AvailabilityState;
                         }
+
+                        row[dt.GetColumnNo("AvailableQuantity")] = qtyAvailable;
+                        if (conflictDate != null)
+                        {
+                            row[dt.GetColumnNo("ConflictDate")] = FwConvert.ToUSShortDate(conflictDate.GetValueOrDefault(DateTime.MinValue));
+                        }
+                        row[dt.GetColumnNo("AvailableQuantityColor")] = availColor;
+                        //row[dt.GetColumnNo("QuantityAvailableIsStale")] = isStale;
+                        row[dt.GetColumnNo("AvailabilityState")] = availabilityState;
+
+
+
                         row[dt.GetColumnNo("ICodeColor")] = getICodeColor(row[dt.GetColumnNo("ItemClass")].ToString());
                         row[dt.GetColumnNo("DescriptionColor")] = getDescriptionColor(row[dt.GetColumnNo("ItemClass")].ToString());
                         row[dt.GetColumnNo("SubQuantityColor")] = getSubQuantityColor(row[dt.GetColumnNo("SubPurchaseOrderItemId")].ToString());
