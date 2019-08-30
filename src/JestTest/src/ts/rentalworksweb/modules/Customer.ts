@@ -9,7 +9,7 @@ export class Customer extends ModuleBase {
         this.moduleCaption = 'Customer';
     }
     //---------------------------------------------------------------------------------------
-    async populateNew(customerRecord: any): Promise<any> {
+    async populateFormWithRecord(customerRecord: any): Promise<void> {
 
         //wait for the form to open and find the Customer field
         await page.waitForSelector('.fwformfield[data-datafield="Customer"]', { visible: true });
@@ -30,11 +30,9 @@ export class Customer extends ModuleBase {
         //credit tab
         await this.clickTab("Credit");
         await this.populateValidationField("CreditStatusId", "CreditStatusValidation", 1);
-
-        return customerRecord;
     }
     //---------------------------------------------------------------------------------------
-    async getCustomer(): Promise<any> {
+    async getFormRecord(): Promise<any> {
         let customerRecord: any = {
             Customer: await this.getDataFieldValue('Customer'),
             CustomerNumber: await this.getDataFieldValue('CustomerNumber'),
@@ -51,7 +49,6 @@ export class Customer extends ModuleBase {
             CreditStatusId: await this.getDataFieldValue('CreditStatusId'),
             CreditStatus: await this.getDataFieldText('CreditStatusId')
         }
-
         return customerRecord;
     }
     //---------------------------------------------------------------------------------------

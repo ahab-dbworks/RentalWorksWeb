@@ -1,6 +1,12 @@
 import { Logging } from '../shared/Logging';
 import { TestUtils } from './TestUtils';
 
+
+export class SaveResponse {
+    saved: boolean;
+    errorMessage: string;
+}
+
 //---------------------------------------------------------------------------------------
 export class ModuleBase {
     moduleName: string;
@@ -14,11 +20,12 @@ export class ModuleBase {
         await page.waitFor(milliseconds)
     }
     //---------------------------------------------------------------------------------------
-    async openModule(timeout?: number, sleepafteropening?: number): Promise<void> {
+    async openBrowse(timeout?: number, sleepafteropening?: number): Promise<void> {
         if (!timeout) {
             timeout = 5000;
         }
-        await ModuleBase.wait(750);
+        await page.waitForSelector('.appmenu')
+        //await ModuleBase.wait(250);
         await page.click('.appmenu');
         await expect(page).toClick(this.moduleBtnId, { timeout: timeout });
         await page.waitForSelector('div.tab.active[data-tabtype="BROWSE"]')
@@ -70,7 +77,11 @@ export class ModuleBase {
             })
     }
     //---------------------------------------------------------------------------------------
-    async clearInputField(dataField: string): Promise<void> {
+    async populateFormWithRecord(record: any): Promise<any> { }
+    //---------------------------------------------------------------------------------------
+    async getFormRecord(): Promise<any> { }
+    //---------------------------------------------------------------------------------------
+        async clearInputField(dataField: string): Promise<void> {
         const elementHandle = await page.$(`.fwformfield[data-datafield="${dataField}"] input`);
         await elementHandle.click();
         await elementHandle.focus();
@@ -191,8 +202,9 @@ export class ModuleBase {
         await fillValues();
     }
     //---------------------------------------------------------------------------------------
-    async saveRecord(): Promise<boolean> {
-        let successfulSave: boolean = false;
+    async saveRecord(closeUnexpectedErrors: boolean = false): Promise<SaveResponse> {
+        //let successfulSave: boolean = false;
+        let response = new SaveResponse();
         await page.click('.btn[data-type="SaveMenuBarButton"]');
         await page.waitForSelector('.advisory');
         await page.waitForFunction(() => document.querySelector('.advisory'), { polling: 'mutation' })
@@ -206,13 +218,21 @@ export class ModuleBase {
                     await page.click(`.advisory .messageclose`);
                     await page.waitFor(() => !document.querySelector('.advisory'));  // wait for toaster to go away
 
-                    successfulSave = true;
+                    response.saved = true;
                 } else if (afterSaveMsg.includes('Error') || afterSaveMsg.includes('resolve')) {
                     Logging.logger.info(`${this.moduleCaption} Record not saved: ${afterSaveMsg}`);
-                    successfulSave = false;
+                    response.saved = false;
+                    response.errorMessage = afterSaveMsg;
+
+                    if (closeUnexpectedErrors) {
+                        //click the error message to make it go away
+                        await page.waitForSelector('.advisory .fwconfirmation-button');
+                        await page.click(`.fwconfirmation-button`);
+                        await page.waitFor(() => !document.querySelector('.advisory'));
+                    }
                 }
             })
-        return successfulSave;
+        return response;
     }
     //---------------------------------------------------------------------------------------
     async checkForDuplicatePrompt(): Promise<void> {

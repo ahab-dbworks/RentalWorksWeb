@@ -43,6 +43,7 @@ export class TestUtils {
                     continueTest = false;
                 })
         }
+        await TestUtils.sleepAsync(750);
         return continueTest;
     }
     //-----------------------------------------------------------------------------------------------------------------
@@ -58,14 +59,14 @@ export class TestUtils {
             try {
                 setTimeout(() => {
                     resolve();
-                }, timeout);    
-            } catch(ex) {
+                }, timeout);
+            } catch (ex) {
                 reject(ex);
             }
         });
     }
     //-----------------------------------------------------------------------------------------------------------------
-    static async getDateTimeToken(): Promise<string> {
+    static getDateTimeToken(): string {
         const date = new Date();
         const hours = date.getHours();
         const minutes = date.getMinutes();
@@ -74,5 +75,8 @@ export class TestUtils {
         return dateTimeToken;
     }
     //-----------------------------------------------------------------------------------------------------------------
-
+    static getTestToken(): string {
+        return this.getDateTimeToken();
+    }
+    //-----------------------------------------------------------------------------------------------------------------
 }

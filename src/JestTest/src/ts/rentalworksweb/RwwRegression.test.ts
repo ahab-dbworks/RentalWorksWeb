@@ -1,347 +1,199 @@
 ﻿import faker from 'faker';
 import { BaseTest } from '../shared/BaseTest';
+import { TestUtils } from '../shared/TestUtils';
 import { Customer } from './modules/Customer';
 import { Deal } from './modules/Deal';
+import { Quote } from './modules/Quote';
 
 export class RegressionTest extends BaseTest {
+    //---------------------------------------------------------------------------------------
     PerformTests() {
+        const testToken = TestUtils.getTestToken();
+        var customerInputs: any;
+        var dealInputs: any;
+        var quoteInputs: any;
 
-        let testName: string = "";
-        let customerInputs: any;
-        let customerResolved: any;
-        let duplicateCustomer1Inputs: any;
-        let duplicateCustomer2Inputs: any;
-        let dealInputs: any;
-        let dealResolved: any;
-
-        //-------------
-        //CUSTOMER
-        //------------
+        //-------------//
+        //  CUSTOMER   //
+        //-------------//
         if (this.continueTest) {
             const customerModule: Customer = new Customer();
-            describe('Create new Customer, fill out form, save record', () => {
-                //---------------------------------------------------------------------------------------
-                if (this.continueTest) {
-                    testName = 'Open Customer Module';
-                    test(testName, async () => {
-                        await customerModule.openModule().then().catch(err => this.LogError(testName, err));
-                    }, this.testTimeout);
-                }
-                //---------------------------------------------------------------------------------------
-                if (this.continueTest) {
-                    testName = 'Open Customer Form in New mode';
-                    test(testName, async () => {
-                        await customerModule.createNewRecord().then().catch(err => this.LogError(testName, err));
-                    }, this.testTimeout);
-                }
-                //---------------------------------------------------------------------------------------
-                if (this.continueTest) {
-                    testName = 'Fill in Customer form data';
-                    test(testName, async () => {
-                        customerInputs = {
-                            Customer: `JEST - ${faker.company.companyName()} - ${this.testToken}`,
-                            CustomerNumber: faker.random.alphaNumeric(8),
-                            Address1: faker.address.streetAddress(),
-                            Address2: faker.address.secondaryAddress(),
-                            City: faker.address.city(),
-                            State: faker.address.state(true),
-                            ZipCode: faker.address.zipCode("99999"),
-                            Phone: faker.phone.phoneNumber(),
-                            Fax: faker.phone.phoneNumber(),
-                            WebAddress: faker.internet.url()
-                        }
-                        await customerModule.populateNew(customerInputs).then().catch(err => this.LogError(testName, err));
-                    }, this.testTimeout);
-                }
-                //---------------------------------------------------------------------------------------
-                if (this.continueTest) {
-                    testName = 'Save new Customer';
-                    test(testName, async () => {
-                        let saved: boolean | void = await customerModule.saveRecord().then().catch(err => this.LogError(testName, err));
-                        expect(saved).toBe(true);
-                        this.continueTest = saved;
-                    }, this.testTimeout);
-                }
-                //---------------------------------------------------------------------------------------
-                if (this.continueTest) {
-                    testName = 'Check Customer';
-                    test(testName, async () => {
-                        customerResolved = await customerModule.getCustomer().then().catch(err => this.LogError(testName, err));
-                        expect(customerResolved.Customer).toBe(customerInputs.Customer.toUpperCase());
-                        expect(customerResolved.CustomerNumber).toBe(customerInputs.CustomerNumber.toUpperCase());
-                        expect(customerResolved.Address1).toBe(customerInputs.Address1.toUpperCase());
-                        expect(customerResolved.Address2).toBe(customerInputs.Address2.toUpperCase());
-                        expect(customerResolved.City).toBe(customerInputs.City.toUpperCase());
-                        expect(customerResolved.State).toBe(customerInputs.State.toUpperCase());
-                        expect(customerResolved.ZipCode).toBe(customerInputs.ZipCode.toUpperCase());
-                        //expect(customerResolved.Phone).toBe(customerInputs.Phone.toUpperCase());
-                        //expect(customerResolved.Fax).toBe(customerInputs.Fax.toUpperCase());
-                        expect(customerResolved.WebAddress).toBe(customerInputs.WebAddress);
-                    }, this.testTimeout);
-                }
-                //---------------------------------------------------------------------------------------
-                if (this.continueTest) {
-                    testName = 'Close Record';
-                    test(testName, async () => {
-                        await customerModule.closeRecord().then().catch(err => this.LogError(testName, err));
-                    }, this.testTimeout);
-                }
-                //---------------------------------------------------------------------------------------
-            });
+            customerInputs = {
+                Customer: `JEST - ${faker.company.companyName()} - ${testToken}`,
+                CustomerNumber: faker.random.alphaNumeric(8),
+                Address1: faker.address.streetAddress(),
+                Address2: faker.address.secondaryAddress(),
+                City: faker.address.city(),
+                State: faker.address.state(true),
+                ZipCode: faker.address.zipCode("99999"),
+                Phone: faker.phone.phoneNumber(),
+                Fax: faker.phone.phoneNumber(),
+                WebAddress: faker.internet.url()
+            }
+
+            var customerExpected: any = {
+                Customer: customerInputs.Customer.toUpperCase(),
+                CustomerNumber: customerInputs.CustomerNumber.toUpperCase(),
+                Address1: customerInputs.Address1.toUpperCase(),
+                Address2: customerInputs.Address2.toUpperCase(),
+                City: customerInputs.City.toUpperCase(),
+                State: customerInputs.State.toUpperCase(),
+                ZipCode: customerInputs.ZipCode.toUpperCase(),
+                //Phone: faker.phone.phoneNumber(),
+                //Fax: faker.phone.phoneNumber(),
+                WebAddress: customerInputs.WebAddress,
+            }
+
+            this.TestModule(customerModule, customerInputs, customerExpected);
+
+            // change everything except the Customer Name
+            var duplicateCustomer1Inputs: any = {
+                Customer: customerInputs.Customer,
+                CustomerNumber: faker.random.alphaNumeric(8),
+                Address1: faker.address.streetAddress(),
+                Address2: faker.address.secondaryAddress(),
+                City: faker.address.city(),
+                State: faker.address.state(true),
+                ZipCode: faker.address.zipCode("99999"),
+                Phone: faker.phone.phoneNumber(),
+                Fax: faker.phone.phoneNumber(),
+                WebAddress: faker.internet.url()
+            }
 
 
-            describe('Attempt to create a duplicate Customer Name', () => {
-                //---------------------------------------------------------------------------------------
-                if (this.continueTest) {
-                    testName = 'Open Customer Module';
-                    test(testName, async () => {
-                        await customerModule.openModule().then().catch(err => this.LogError(testName, err));
-                    }, this.testTimeout);
-                }
-                //---------------------------------------------------------------------------------------
-                if (this.continueTest) {
-                    testName = 'Open Customer Form in New mode';
-                    test(testName, async () => {
-                        await customerModule.createNewRecord().then().catch(err => this.LogError(testName, err));
-                    }, this.testTimeout);
-                }
-                //---------------------------------------------------------------------------------------
-                if (this.continueTest) {
-                    testName = 'Fill in Customer form data';
-                    test(testName, async () => {
-                        // change everything except the Customer Name
-                        duplicateCustomer1Inputs = {
-                            Customer: customerInputs.Customer,
-                            CustomerNumber: faker.random.alphaNumeric(8),
-                            Address1: faker.address.streetAddress(),
-                            Address2: faker.address.secondaryAddress(),
-                            City: faker.address.city(),
-                            State: faker.address.state(true),
-                            ZipCode: faker.address.zipCode("99999"),
-                            Phone: faker.phone.phoneNumber(),
-                            Fax: faker.phone.phoneNumber(),
-                            WebAddress: faker.internet.url()
-                        }
-                        await customerModule.populateNew(duplicateCustomer1Inputs).then().catch(err => this.LogError(testName, err));
-                    }, this.testTimeout);
-                }
-                //---------------------------------------------------------------------------------------
-                if (this.continueTest) {
-                    testName = 'Try to save new Customer (expect error)';
-                    test(testName, async () => {
-                        this.continueTest = await customerModule.saveRecord().then().catch(err => this.LogError(testName, err));
-                        expect(this.continueTest).toBe(false);
-                    }, this.testTimeout);
-                }
-                //---------------------------------------------------------------------------------------
-                if (this.continueTest) {
-                    testName = 'Detect error message notification popup';
-                    test(testName, async () => {
-                        await customerModule.checkForDuplicatePrompt().then().catch(err => this.LogError(testName, err));
-                    }, this.testTimeout);
-                }
-                //---------------------------------------------------------------------------------------
-                if (this.continueTest) {
-                    testName = 'Close duplicate notification popup';
-                    test(testName, async () => {
-                        await customerModule.closeDuplicatePrompt().then().catch(err => this.LogError(testName, err));
-                    }, this.testTimeout);
-                }
-                //---------------------------------------------------------------------------------------
-                if (this.continueTest) {
-                    testName = 'Close Record';
-                    test(testName, async () => {
-                        await customerModule.closeModifiedRecordWithoutSaving().then().catch(err => this.LogError(testName, err));
-                    }, this.testTimeout);
-                }
-                //---------------------------------------------------------------------------------------
-            });
+            this.TestModuleForDuplicate(customerModule, duplicateCustomer1Inputs, 'Customer Name');
 
-            describe('Attempt to create a duplicate Customer Numer', () => {
-                //---------------------------------------------------------------------------------------
-                if (this.continueTest) {
-                    testName = 'Open Customer Module';
-                    test(testName, async () => {
-                        await customerModule.openModule().then().catch(err => this.LogError(testName, err));
-                    }, this.testTimeout);
-                }
-                //---------------------------------------------------------------------------------------
-                if (this.continueTest) {
-                    testName = 'Open Customer Form in New mode';
-                    test(testName, async () => {
-                        await customerModule.createNewRecord().then().catch(err => this.LogError(testName, err));
-                    }, this.testTimeout);
-                }
-                //---------------------------------------------------------------------------------------
-                if (this.continueTest) {
-                    testName = 'Fill in Customer form data';
-                    test(testName, async () => {
-                        // change everything except the Customer Number
-                        duplicateCustomer1Inputs = {
-                            Customer: `JEST - ${faker.company.companyName()} - ${this.testToken}`,
-                            CustomerNumber: customerInputs.CustomerNumber,
-                            Address1: faker.address.streetAddress(),
-                            Address2: faker.address.secondaryAddress(),
-                            City: faker.address.city(),
-                            State: faker.address.state(true),
-                            ZipCode: faker.address.zipCode("99999"),
-                            Phone: faker.phone.phoneNumber(),
-                            Fax: faker.phone.phoneNumber(),
-                            WebAddress: faker.internet.url()
-                        }
-                        await customerModule.populateNew(duplicateCustomer1Inputs).then().catch(err => this.LogError(testName, err));
-                    }, this.testTimeout);
-                }
-                //---------------------------------------------------------------------------------------
-                if (this.continueTest) {
-                    testName = 'Try to save new Customer (expect error)';
-                    test(testName, async () => {
-                        this.continueTest = await customerModule.saveRecord().then().catch(err => this.LogError(testName, err));
-                        expect(this.continueTest).toBe(false);
-                    }, this.testTimeout);
-                }
-                //---------------------------------------------------------------------------------------
-                if (this.continueTest) {
-                    testName = 'Detect error message notification popup';
-                    test(testName, async () => {
-                        await customerModule.checkForDuplicatePrompt().then().catch(err => this.LogError(testName, err));
-                    }, this.testTimeout);
-                }
-                //---------------------------------------------------------------------------------------
-                if (this.continueTest) {
-                    testName = 'Close duplicate notification popup';
-                    test(testName, async () => {
-                        await customerModule.closeDuplicatePrompt().then().catch(err => this.LogError(testName, err));
-                    }, this.testTimeout);
-                }
-                //---------------------------------------------------------------------------------------
-                if (this.continueTest) {
-                    testName = 'Close Record';
-                    test(testName, async () => {
-                        await customerModule.closeModifiedRecordWithoutSaving().then().catch(err => this.LogError(testName, err));
-                    }, this.testTimeout);
-                }
-                //---------------------------------------------------------------------------------------
-            });
+
+            // change everything except the Customer Number
+            var duplicateCustomer2Inputs: any = {
+                Customer: `JEST - ${faker.company.companyName()} - ${testToken}`,
+                CustomerNumber: customerInputs.CustomerNumber,
+                Address1: faker.address.streetAddress(),
+                Address2: faker.address.secondaryAddress(),
+                City: faker.address.city(),
+                State: faker.address.state(true),
+                ZipCode: faker.address.zipCode("99999"),
+                Phone: faker.phone.phoneNumber(),
+                Fax: faker.phone.phoneNumber(),
+                WebAddress: faker.internet.url()
+            }
+
+            this.TestModuleForDuplicate(customerModule, duplicateCustomer2Inputs, 'Customer Number');
+
         }
 
 
-        //-------------
-        //DEAL
-        //------------
+        //-------------//
+        //    DEAL     //
+        //-------------//
         if (this.continueTest) {
             const dealModule: Deal = new Deal();
-            describe('Create new Deal, fill out form, save record', () => {
-                //---------------------------------------------------------------------------------------
-                testName = 'Open Deal Module';
-                test(testName, async () => {
-                    await dealModule.openModule().then().catch(err => this.LogError(testName, err));
-                }, this.testTimeout);
-                //---------------------------------------------------------------------------------------
-                testName = 'Open Deal Form in New mode';
-                test(testName, async () => {
-                    await dealModule.createNewRecord().then().catch(err => this.LogError(testName, err));
-                }, this.testTimeout);
-                //---------------------------------------------------------------------------------------
-                testName = 'Fill in Deal form data';
-                test(testName, async () => {
-                    dealInputs = {
-                        Customer: customerResolved.Customer,
-                        Deal: `JEST - ${faker.company.companyName()} - ${this.testToken}`,
-                        DealNumber: faker.random.alphaNumeric(8),
-                        //Address1: faker.address.streetAddress(),
-                        Address2: faker.address.secondaryAddress(),
-                        //City: faker.address.city(),
-                        //State: faker.address.state(true),
-                        //ZipCode: faker.address.zipCode("99999"),
-                        Phone: faker.phone.phoneNumber(),
-                        Fax: faker.phone.phoneNumber(),
-                        //WebAddress: faker.internet.url()
-                    }
-                    await dealModule.populateNew(dealInputs).then().catch(err => this.LogError(testName, err));
-                }, this.testTimeout);
-                //---------------------------------------------------------------------------------------
-                testName = 'Save new Deal';
-                test(testName, async () => {
-                    await dealModule.saveRecord().then().catch(err => this.LogError(testName, err));
-                }, this.testTimeout);
-                //---------------------------------------------------------------------------------------
-                testName = 'Check Deal';
-                test(testName, async () => {
-                    dealResolved = await dealModule.getDeal().then().catch(err => this.LogError(testName, err));
-                    expect(dealResolved.Deal).toBe(dealInputs.Deal.toUpperCase());
-                    expect(dealResolved.Customer).toBe(dealInputs.Customer.toUpperCase());
-                    expect(dealResolved.DealNumber).toBe(dealInputs.DealNumber.toUpperCase());
-                    expect(dealResolved.Address1).toBe(customerInputs.Address1.toUpperCase());
-                    expect(dealResolved.Address2).toBe(dealInputs.Address2.toUpperCase());
-                    expect(dealResolved.City).toBe(customerInputs.City.toUpperCase());
-                    expect(dealResolved.State).toBe(customerInputs.State.toUpperCase());
-                    expect(dealResolved.ZipCode).toBe(customerInputs.ZipCode.toUpperCase());
-                    //expect(dealResolved.Phone).toBe(dealInputs.Phone.toUpperCase());
-                    //expect(dealResolved.Fax).toBe(dealInputs.Fax.toUpperCase());
-                }, this.testTimeout);
-                //---------------------------------------------------------------------------------------
-                testName = 'Close Record';
-                test(testName, async () => {
-                    await dealModule.closeRecord().then().catch(err => this.LogError(testName, err));
-                }, this.testTimeout);
-                //---------------------------------------------------------------------------------------
-            });
+
+            dealInputs = {
+                Customer: customerInputs.Customer,
+                Deal: `JEST - ${faker.company.companyName()} - ${testToken}`,
+                DealNumber: faker.random.alphaNumeric(8),
+                //Address1: faker.address.streetAddress(),
+                Address2: faker.address.secondaryAddress(),
+                //City: faker.address.city(),
+                //State: faker.address.state(true),
+                //ZipCode: faker.address.zipCode("99999"),
+                Phone: faker.phone.phoneNumber(),
+                Fax: faker.phone.phoneNumber(),
+            }
+
+            var dealExpected: any = {
+                Customer: dealInputs.Customer.toUpperCase(),
+                Deal: dealInputs.Deal.toUpperCase(),
+                DealNumber: dealInputs.DealNumber.toUpperCase(),
+                Address1: customerInputs.Address1.toUpperCase(),
+                Address2: dealInputs.Address2.toUpperCase(),
+                City: customerInputs.City.toUpperCase(),
+                State: customerInputs.State.toUpperCase(),
+                ZipCode: customerInputs.ZipCode.toUpperCase(),
+                //Phone: faker.phone.phoneNumber(),
+                //Fax: faker.phone.phoneNumber(),
+            }
+
+            this.TestModule(dealModule, dealInputs, dealExpected);
+
+
+            // change all other fields except Deal name
+            var duplicateDeal1Inputs: any = {
+                Customer: customerInputs.Customer,
+                Deal: dealInputs.Deal,
+                DealNumber: faker.random.alphaNumeric(8),
+                //Address1: faker.address.streetAddress(),
+                Address2: faker.address.secondaryAddress(),
+                //City: faker.address.city(),
+                //State: faker.address.state(true),
+                //ZipCode: faker.address.zipCode("99999"),
+                Phone: faker.phone.phoneNumber(),
+                Fax: faker.phone.phoneNumber(),
+            }
+
+            this.TestModuleForDuplicate(dealModule, duplicateDeal1Inputs, 'Deal Name');
+
+            // change all other fields except Deal Number
+            var duplicateDeal2Inputs: any = {
+                Customer: customerInputs.Customer,
+                Deal: `JEST - ${faker.company.companyName()} - ${testToken}`,
+                DealNumber: dealInputs.DealNumber,
+                //Address1: faker.address.streetAddress(),
+                Address2: faker.address.secondaryAddress(),
+                //City: faker.address.city(),
+                //State: faker.address.state(true),
+                //ZipCode: faker.address.zipCode("99999"),
+                Phone: faker.phone.phoneNumber(),
+                Fax: faker.phone.phoneNumber(),
+            }
+
+            this.TestModuleForDuplicate(dealModule, duplicateDeal1Inputs, 'Deal Number');
+
         }
 
 
-        ////quote
-        //if (continueTest) {
-        //    const quoteModule: Quote = new Quote();
-        //    describe('Create new Quote, fill out form, save record', () => {
-        //        test('Open quoteModule and create', async () => {
-        //            await quoteModule.openModule()
-        //                .then()
-        //                .catch(err => logger.error('openModule: ', err));
-        //        }, 10000);
-        //        test('Create New record', async () => {
-        //            await quoteModule.createNewRecord(1)
-        //                .then()
-        //                .catch(err => logger.error('createNewRecord: ', err));
-        //        }, 10000);
-        //        test('Fill in Quote form data', async () => {
-        //            quoteDescription = await quoteModule.populateNew(dealName)
-        //                .then()
-        //                .catch(err => logger.error('populateNewQuote: ', err))
-        //        }, 10000);
-        //        test('Save new Quote', async () => {
-        //            await quoteModule.saveRecord()
-        //                .then()
-        //                .catch(err => logger.error('saveRecord: ', err));
-        //        }, 10000);
+        //-------------//
+        //    QUOTE    //
+        //-------------//
+        if (this.continueTest) {
+            const quoteModule: Quote = new Quote();
 
+            quoteInputs = {
+                Deal: dealInputs.Deal,
+                Description: `JEST - ${faker.name.jobTitle()} - ${testToken}`,
+                QuoteNumber: faker.random.alphaNumeric(8),
+                Location: faker.address.streetName(),
+                ReferenceNumber: faker.random.alphaNumeric(8)
+            }
 
-        //        test('Add one grid row in rental tab', async () => {
-        //            const fieldObject = {
-        //                InventoryId: '100686' // I-Code
-        //            }
-        //            await quoteModule.clickTab("Rental");
-        //            await quoteModule.addGridRow('OrderItemGrid', 'R', null, fieldObject)
-        //                .then()
-        //                .catch(err => logger.error('saveRecord: ', err));
-        //        }, 200000);
-        //        test('Save new Quote', async () => {
-        //            await quoteModule.saveRecord()
-        //                .then()
-        //                .catch(err => logger.error('saveRecord: ', err));
-        //        }, 10000);
+            var quoteExpected: any = {
+                Deal: quoteInputs.Deal.toUpperCase(),
+                Description: quoteInputs.Description.toUpperCase(),
+                //QuoteNumber: faker.random.alphaNumeric(8),
+                Location: quoteInputs.Location.toUpperCase(),
+                ReferenceNumber: quoteInputs.ReferenceNumber.toUpperCase()
+            }
 
+            this.TestModule(quoteModule, quoteInputs, quoteExpected);
 
-
-        //        test('Close Record', async () => {
-        //            await quoteModule.closeRecord()
-        //                .then()
-        //                .catch(err => logger.error('closeRecord: ', err));
-        //        }, 10000);
-        //    });
-        //}
-
+            //        test('Add one grid row in rental tab', async () => {
+            //            const fieldObject = {
+            //                InventoryId: '100686' // I-Code
+            //            }
+            //            await quoteModule.clickTab("Rental");
+            //            await quoteModule.addGridRow('OrderItemGrid', 'R', null, fieldObject)
+            //                .then()
+            //                .catch(err => logger.error('saveRecord: ', err));
+            //        }, 200000);
+            //        test('Save new Quote', async () => {
+            //            await quoteModule.saveRecord()
+            //                .then()
+            //                .catch(err => logger.error('saveRecord: ', err));
+            //        }, 10000);
+        }
     }
+    //---------------------------------------------------------------------------------------
 }
 
 new RegressionTest().Run();

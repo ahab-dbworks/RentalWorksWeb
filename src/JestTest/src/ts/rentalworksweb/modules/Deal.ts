@@ -9,7 +9,7 @@ export class Deal extends ModuleBase {
         this.moduleCaption = 'Deal';
     }
     //---------------------------------------------------------------------------------------
-    async populateNew(dealRecord: any): Promise<any> {
+    async populateFormWithRecord(dealRecord: any): Promise<void> {
 
         //wait for the form to open and find the Deal field
         await page.waitForSelector('.fwformfield[data-datafield="Deal"]', { visible: true });
@@ -36,10 +36,10 @@ export class Deal extends ModuleBase {
         //await this.clickTab("Credit");
         //await this.populateValidationField("CreditStatusId", "CreditStatusValidation", 1);
 
-        return dealRecord;
+        //return dealRecord;
     }
     //---------------------------------------------------------------------------------------
-    async getDeal(): Promise<any> {
+    async getFormRecord(): Promise<any> {
         let dealRecord: any = {
             Deal: await this.getDataFieldValue('Deal'),
             DealNumber: await this.getDataFieldValue('DealNumber'),
@@ -55,7 +55,6 @@ export class Deal extends ModuleBase {
             Phone: await this.getDataFieldValue('Phone'),
             Fax: await this.getDataFieldValue('Fax'),
         }
-
         return dealRecord;
     }
     //---------------------------------------------------------------------------------------
