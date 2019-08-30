@@ -1495,7 +1495,7 @@ class Quote extends OrderBase {
                     const html: Array<string> = [];
                     html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
                     html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-                    html.push('    <div>Reserve this quote?</div>');
+                    html.push('    <div>Reserve this Quote?</div>');
                     html.push('  </div>');
                     html.push('</div>');
 
@@ -1511,7 +1511,7 @@ class Quote extends OrderBase {
                     const html: Array<string> = [];
                     html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
                     html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-                    html.push('    <div>Unreserve this quote?</div>');
+                    html.push('    <div>Unreserve this Quote?</div>');
                     html.push('  </div>');
                     html.push('</div>');
 
@@ -1534,6 +1534,8 @@ class Quote extends OrderBase {
             FwFormField.disable($yes);
             $yes.text('Completing...');
             $yes.off('click');
+            const topLayer = '<div class="top-layer" data-controller="none" style="background-color: transparent;z-index:1"></div>';
+            const realCofirm = jQuery($confirmation.find('.fwconfirmationbox')).prepend(topLayer);
 
             const quoteId = FwFormField.getValueByDataField($form, 'QuoteId');
             FwAppData.apiMethod(true, 'POST', `api/v1/quote/reserve/${quoteId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
@@ -1547,7 +1549,7 @@ class Quote extends OrderBase {
                 FwFormField.enable($confirmation.find('.fwformfield'));
                 FwFormField.enable($yes);
                 FwModule.refreshForm($form, QuoteController);
-            }, $form);
+                }, realCofirm);
         };
     }
 };
