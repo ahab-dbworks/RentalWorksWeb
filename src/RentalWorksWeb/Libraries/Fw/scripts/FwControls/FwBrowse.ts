@@ -197,8 +197,8 @@ class FwBrowseClass {
                         case 39: //Right Arrow Key
                             if ($control.attr('data-type') === 'Browse' || $control.attr('data-type') === 'Validation') {
                                 me.nextPage($control);
-                                return false;
                             }
+                            return false;
                         case 40: //Down Arrow Key
                             if ($control.attr('data-type') === 'Browse' || $control.attr('data-type') === 'Validation') {
                                 me.selectNextRow($control);
