@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using FwStandard.Models;
 using FwStandard.SqlServer;
 using System.Threading.Tasks;
@@ -592,7 +592,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
         public string start { get; set; }
         public string end { get; set; }
         public string text { get; set; }
-        public string total { get; set; }
+        public string total { get; set; } = "";
         public string backColor { get; set; }
         public string barColor { get; set; }
         public string textColor { get; set; }
