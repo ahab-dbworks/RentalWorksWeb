@@ -8,6 +8,7 @@ export abstract class BaseTest {
 
     continueTest: boolean | void = true;
     testTimeout: number = 45000; // 45 seconds
+    testToken = TestUtils.getTestToken();
 
     //---------------------------------------------------------------------------------------
     LogError(testName: string, err: any) {
@@ -27,23 +28,40 @@ export abstract class BaseTest {
         });
     }
     //---------------------------------------------------------------------------------------
+    VerifyTestToken() {
+        let testName: string = "";
+        const testCollectionName = `Verify Test Token`;
+        describe(testCollectionName, () => {
+            testName = `Verify Test Token ${this.testToken}`;
+            test(testName, async () => {
+                expect(this.testToken).not.toBe("");
+            }, this.testTimeout);
+        });
+    }
+    //---------------------------------------------------------------------------------------
     DoLogin() {
-        describe('Login', () => {
-            test('Login', async () => {
+        let testName: string = "";
+        const testCollectionName = `Login`;
+        describe(testCollectionName, () => {
+            testName = 'Login';
+            test(testName, async () => {
                 this.continueTest = await TestUtils.authenticate()
                     .then((data) => { })
                     .catch(err => Logging.logger.error('Error in DoLogin: ', err));
-            }, 45000);
+            }, this.testTimeout);
         });
     }
     //---------------------------------------------------------------------------------------
     DoLogoff() {
-        describe('Logoff', () => {
-            test('Logoff', async () => {
+        let testName: string = "";
+        const testCollectionName = `Logoff`;
+        describe(testCollectionName, () => {
+            testName = 'Logoff';
+            test(testName, async () => {
                 this.continueTest = await TestUtils.logoff()
                     .then((data) => { })
                     .catch(err => Logging.logger.error('Error in DoLogoff: ', err));
-            }, 45000);
+            }, this.testTimeout);
         });
     }
     //---------------------------------------------------------------------------------------
@@ -90,7 +108,13 @@ export abstract class BaseTest {
                     let savedObject = await module.getFormRecord().then().catch(err => this.LogError(testName, err));
                     for (let key in expectedObject) {
                         console.log(`Comparing : "${key}": `, `"${savedObject[key]}"`, `"${expectedObject[key]}"`);
-                        expect(savedObject[key]).toBe(expectedObject[key]);
+                        if (expectedObject[key] === "|NOTEMPTY|") {
+                            expect(savedObject[key]).not.toBe("");
+                        }
+                        else {
+                            expect(savedObject[key]).not.toBeUndefined();
+                            expect(savedObject[key]).toBe(expectedObject[key]);
+                        }
                     }
                 }, this.testTimeout);
             }
@@ -175,6 +199,7 @@ export abstract class BaseTest {
     Run() {
         try {
             this.DoBeforeAll();
+            this.VerifyTestToken();
             this.CheckDependencies();
             this.DoLogin();
             this.PerformTests();

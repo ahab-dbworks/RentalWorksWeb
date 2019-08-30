@@ -28,10 +28,12 @@ export class Quote extends ModuleBase {
     //---------------------------------------------------------------------------------------
     async getFormRecord(): Promise<any> {
         let quoteRecord: any = {
-            Deal: await this.getDataFieldText('Deal'),
+            Deal: await this.getDataFieldText('DealId'),
             DealNumber: await this.getDataFieldValue('DealNumber'),
             QuoteNumber: await this.getDataFieldValue('QuoteNumber'),
-            Description: await this.getDataFieldValue('Description')
+            Description: await this.getDataFieldValue('Description'),
+            Location: await this.getDataFieldValue('Location'),
+            ReferenceNumber: await this.getDataFieldValue('ReferenceNumber')
         }
         return quoteRecord;
     }
