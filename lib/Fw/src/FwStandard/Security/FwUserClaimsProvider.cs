@@ -114,12 +114,19 @@ namespace FwStandard.Security
                                         identity.AddClaim(new Claim(AuthenticationClaimsTypes.UserName, userName));
                                     }
                                 }
+                                if (qry.FieldNames.Contains("primarycampusid"))
+                                {
+                                    string campusId = qry.GetField("primarycampusid").ToString().TrimEnd();
+                                    if (!string.IsNullOrEmpty(campusId))
+                                    {
+                                        identity.AddClaim(new Claim(AuthenticationClaimsTypes.CampusId, campusId));;
+                                    }
+                                }
                             }
                         }
                     }
                 }
             }
-
             return identity;
         }
         //---------------------------------------------------------------------------------------------

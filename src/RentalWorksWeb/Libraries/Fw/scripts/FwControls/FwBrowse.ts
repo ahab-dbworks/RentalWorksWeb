@@ -785,7 +785,7 @@ class FwBrowseClass {
         var totalpages = this.getTotalPages($control);
         var rowindex = this.getSelectedRowIndex($control);
         var lastrowindex = $control.find('tbody tr').length - 1;
-       
+
         if (rowindex < lastrowindex) {
             $selectedrow = $selectedrow.next();
             this.selectRow($control, $selectedrow);

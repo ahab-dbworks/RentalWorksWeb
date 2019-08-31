@@ -17,9 +17,8 @@ namespace FwStandard.SqlServer.Attributes
         public readonly bool IsVisible;
         public readonly bool Required;
         public readonly string CalculatedColumnSql;
-        public readonly bool HideInSummary;
         //---------------------------------------------------------------------------------------------------------------------------
-        public FwSqlDataFieldAttribute(string column = "", FwDataTypes modeltype = FwDataTypes.Text, string sqltype = "", bool identity = false, int maxlength = 0, int precision = 0, int scale = 0, bool isPrimaryKey = false, bool isPrimaryKeyOptional = false, bool isVisible = true, bool required = false, string calculatedColumnSql = "", bool hideInSummary = false)
+        public FwSqlDataFieldAttribute(string column = "", FwDataTypes modeltype = FwDataTypes.Text, string sqltype = "", bool identity = false, int maxlength = 0, int precision = 0, int scale = 0, bool isPrimaryKey = false, bool isPrimaryKeyOptional = false, bool isVisible = true, bool required = false, string calculatedColumnSql = "")
         {
             ColumnName           = column;
             ModelType            = modeltype;
@@ -33,7 +32,6 @@ namespace FwStandard.SqlServer.Attributes
             IsVisible            = isVisible;
             Required             = required;
             CalculatedColumnSql  = calculatedColumnSql;
-            HideInSummary        = hideInSummary;
         }
         //---------------------------------------------------------------------------------------------------------------------------
     }

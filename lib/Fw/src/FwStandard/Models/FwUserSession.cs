@@ -15,6 +15,16 @@ namespace FwStandard.Models
             this.User = user;
         }
         //------------------------------------------------------------------------------------
+        public IEnumerable<Claim> UpdateUserClaim(string key, string value)
+        {
+            var identity = new ClaimsIdentity(this.User.Identity);
+
+            identity.RemoveClaim(identity.FindFirst(key));
+            identity.AddClaim(new Claim(key, value));
+
+            return identity.Claims;
+        }
+        //------------------------------------------------------------------------------------
         public string UsersId
         {
             get
@@ -84,5 +94,16 @@ namespace FwStandard.Models
                 return personid;
             }
         }
+        //------------------------------------------------------------------------------------
+        public string CampusId
+        {
+            get
+            {
+                var claim = this.User.Claims.FirstOrDefault(x => x.Type == AuthenticationClaimsTypes.CampusId);
+                string campusid = (claim != null) ? claim.Value : string.Empty;
+                return campusid;
+            }
+        }
+        //------------------------------------------------------------------------------------
     }
 }

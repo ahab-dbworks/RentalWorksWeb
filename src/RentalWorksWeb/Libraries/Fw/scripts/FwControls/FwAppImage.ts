@@ -648,7 +648,7 @@ class FwAppImageClass {
                         }
                         const request: any = {};
                         request.AppImageId = $thumb.attr('data-appimageid');
-                        request.OrderBy = i+1;
+                        request.OrderBy = i + 1;
                         FwAppData.apiMethod(true, 'POST', `api/v1/appimage/repositionimage`, request, applicationConfig.ajaxTimeoutSeconds,
                             (response: any) => {
                             },

@@ -1,15 +1,14 @@
-﻿using FwCore.Security;
+﻿using FwCore.Logic;
+using FwCore.Security;
 using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 using static FwStandard.Security.FwUserClaimsProvider;
 
@@ -33,7 +32,7 @@ namespace FwCore.Controllers
             //    Formatting = Formatting.Indented
             //};
         }
-
+        //---------------------------------------------------------------------------------------------
         public class JwtResponseModel
         {
             public int statuscode { get; set; }
@@ -64,15 +63,7 @@ namespace FwCore.Controllers
                 claims.AddRange(identity.Claims);
 
                 // Create the JWT security token and encode it.
-                var jwt = new JwtSecurityToken(
-                    issuer:             _appConfig.JwtIssuerOptions.Issuer,
-                    audience:           _appConfig.JwtIssuerOptions.Audience,
-                    claims:             claims,
-                    notBefore:          _appConfig.JwtIssuerOptions.NotBefore,
-                    expires:            _appConfig.JwtIssuerOptions.Expiration,
-                    signingCredentials: new SigningCredentials(new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_appConfig.JwtIssuerOptions.SecretKey)), SecurityAlgorithms.HmacSha256) );
-
-                var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
+                var encodedJwt = FwJwtLogic.GenerateEncodedJwtToken(_appConfig, claims);
 
                 // Serialize and return the response
                 response.statuscode   = 0;
@@ -94,7 +85,7 @@ namespace FwCore.Controllers
             public string campusid { get; set; }
 
         }
-
+        //---------------------------------------------------------------------------------------------
         protected virtual async Task<ActionResult<IntegrationResponseModel>> DoIntegrationPost([FromBody] FwStandard.Models.FwIntegration client)
         {
             dynamic response = new ExpandoObject();
@@ -117,15 +108,7 @@ namespace FwCore.Controllers
                 claims.AddRange(identity.Claims);
 
                 // Create the JWT security token and encode it.
-                var jwt = new JwtSecurityToken(
-                    issuer:             _appConfig.JwtIssuerOptions.Issuer,
-                    audience:           _appConfig.JwtIssuerOptions.Audience,
-                    claims:             claims,
-                    notBefore:          _appConfig.JwtIssuerOptions.NotBefore,
-                    expires:            _appConfig.JwtIssuerOptions.Expiration,
-                    signingCredentials: new SigningCredentials(new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_appConfig.JwtIssuerOptions.SecretKey)), SecurityAlgorithms.HmacSha256) );
-
-                var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
+                var encodedJwt = FwJwtLogic.GenerateEncodedJwtToken(_appConfig, claims);
 
                 // Serialize and return the response
                 response.statuscode   = 0;
