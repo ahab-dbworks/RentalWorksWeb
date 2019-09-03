@@ -571,7 +571,6 @@ namespace WebApi.Modules.Home.InventoryAvailability
         public string WarehouseId { get; set; }
         public string start { get; set; }
         public string end { get; set; }
-        public string enddisplay { get; set; }
         public string text { get; set; }
         public string backColor { get; set; }
         public string textColor { get; set; }
@@ -1729,14 +1728,6 @@ namespace WebApi.Modules.Home.InventoryAvailability
                         iAvail.WarehouseId = WarehouseId;
                         iAvail.start = startDateTime.ToString("yyyy-MM-ddTHH:mm:ss tt");   //"2019-02-28 12:00:00 AM"
                         iAvail.end = endDateTime.ToString("yyyy-MM-ddTHH:mm:ss tt");
-                        if (theDate.Equals(InventoryAvailabilityFunc.LateDateTime))
-                        {
-                            iAvail.enddisplay = "No End Date";
-                        }
-                        else
-                        {
-                            iAvail.enddisplay = theDate.ToString();
-                        }
                         iAvail.text = RwConstants.NO_AVAILABILITY_CAPTION;
                         iAvail.backColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_NO_AVAILABILITY);
                         iAvail.textColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_TEXT_COLOR_POSITIVE);
@@ -1757,15 +1748,6 @@ namespace WebApi.Modules.Home.InventoryAvailability
                                 iLate.WarehouseId = WarehouseId;
                                 iLate.start = startDateTime.ToString("yyyy-MM-ddTHH:mm:ss tt");   //"2019-02-28 12:00:00 AM"
                                 iLate.end = endDateTime.ToString("yyyy-MM-ddTHH:mm:ss tt");
-                                if (theDate.Equals(InventoryAvailabilityFunc.LateDateTime))
-                                {
-                                    iLate.enddisplay = "No End Date";
-                                }
-                                else
-                                {
-                                    iLate.enddisplay = theDate.ToString();
-                                }
-
                                 iLate.text = "Late " + AvailabilityNumberToString(availData.Late.Total);
                                 iLate.backColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_LATE);
                                 iLate.textColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_TEXT_COLOR_LATE);
@@ -1780,15 +1762,6 @@ namespace WebApi.Modules.Home.InventoryAvailability
                             iAvail.WarehouseId = WarehouseId;
                             iAvail.start = startDateTime.ToString("yyyy-MM-ddTHH:mm:ss tt");   //"2019-02-28 12:00:00 AM"
                             iAvail.end = endDateTime.ToString("yyyy-MM-ddTHH:mm:ss tt");
-                            if (theDate.Equals(InventoryAvailabilityFunc.LateDateTime))
-                            {
-                                iAvail.enddisplay = "No End Date";
-                            }
-                            else
-                            {
-                                iAvail.enddisplay = theDate.ToString();
-                            }
-
                             iAvail.text = "Available " + AvailabilityNumberToString(inventoryWarehouseAvailabilityDateTime.Available.Total);
                             if (inventoryWarehouseAvailabilityDateTime.Available.Total < 0)
                             {
@@ -1817,15 +1790,6 @@ namespace WebApi.Modules.Home.InventoryAvailability
                                 iReserve.WarehouseId = WarehouseId;
                                 iReserve.start = startDateTime.ToString("yyyy-MM-ddTHH:mm:ss tt");   //"2019-02-28 12:00:00 AM"
                                 iReserve.end = endDateTime.ToString("yyyy-MM-ddTHH:mm:ss tt");
-                                if (theDate.Equals(InventoryAvailabilityFunc.LateDateTime))
-                                {
-                                    iReserve.enddisplay = "No End Date";
-                                }
-                                else
-                                {
-                                    iReserve.enddisplay = theDate.ToString();
-                                }
-
                                 iReserve.text = "Reserved " + AvailabilityNumberToString(inventoryWarehouseAvailabilityDateTime.Reserved.Total);
                                 iReserve.backColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_RESERVED);
                                 iReserve.textColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_TEXT_COLOR_RESERVED);
@@ -1842,15 +1806,6 @@ namespace WebApi.Modules.Home.InventoryAvailability
                                 iReturn.WarehouseId = WarehouseId;
                                 iReturn.start = startDateTime.ToString("yyyy-MM-ddTHH:mm:ss tt");   //"2019-02-28 12:00:00 AM"
                                 iReturn.end = endDateTime.ToString("yyyy-MM-ddTHH:mm:ss tt");
-                                if (theDate.Equals(InventoryAvailabilityFunc.LateDateTime))
-                                {
-                                    iReturn.enddisplay = "No End Date";
-                                }
-                                else
-                                {
-                                    iReturn.enddisplay = theDate.ToString();
-                                }
-
                                 iReturn.text = "Returning " + AvailabilityNumberToString(inventoryWarehouseAvailabilityDateTime.Returning.Total);
                                 iReturn.backColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_RETURNING);
                                 iReturn.textColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_TEXT_COLOR_RETURNING);
@@ -1882,14 +1837,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
                     availEvent.WarehouseId = WarehouseId;
                     availEvent.start = FromDate.ToString("yyyy-MM-ddTHH:mm:ss tt");   //"2019-02-28 12:00:00 AM"
                     availEvent.end = ToDate.ToString("yyyy-MM-ddTHH:mm:ss tt");
-                    if (ToDate.Equals(InventoryAvailabilityFunc.LateDateTime))
-                    {
-                        availEvent.enddisplay = "No End Date";
-                    }
-                    else
-                    {
-                        availEvent.enddisplay = theDate.ToString();
-                    }
+                    availEvent.enddisplay = ToDate.ToString();
 
                     availEvent.text = RwConstants.NO_AVAILABILITY_CAPTION;
                     availEvent.backColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_NO_AVAILABILITY);
@@ -1912,16 +1860,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
                             availEvent.WarehouseId = WarehouseId;
                             availEvent.start = theDate.ToString("yyyy-MM-ddTHH:mm:ss tt");   //"2019-02-28 12:00:00 AM"
                             availEvent.end = theDate.ToString("yyyy-MM-ddTHH:mm:ss tt");
-
-                            if (theDate.Equals(InventoryAvailabilityFunc.LateDateTime))
-                            {
-                                availEvent.enddisplay = "No End Date";
-                            }
-                            else
-                            {
-                                availEvent.enddisplay = theDate.ToString();
-                            }
-
+                            availEvent.enddisplay = theDate.ToString();
                             availEvent.text = AvailabilityNumberToString(inventoryWarehouseAvailabilityDateTime.Available.Total);
                             if (inventoryWarehouseAvailabilityDateTime.Available.Total < 0)
                             {
