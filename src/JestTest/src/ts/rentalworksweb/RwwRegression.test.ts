@@ -27,7 +27,9 @@ export class RegressionTest extends BaseTest {
                 ZipCode: faker.address.zipCode("99999"),
                 Phone: faker.phone.phoneNumber(),
                 Fax: faker.phone.phoneNumber(),
-                WebAddress: faker.internet.url()
+                WebAddress: faker.internet.url(),
+                CustomerTypeId: 1,
+                CreditStatusId: 1
             }
 
             var customerExpected: any = {
@@ -57,7 +59,9 @@ export class RegressionTest extends BaseTest {
                 ZipCode: faker.address.zipCode("99999"),
                 Phone: faker.phone.phoneNumber(),
                 Fax: faker.phone.phoneNumber(),
-                WebAddress: faker.internet.url()
+                WebAddress: faker.internet.url(),
+                CustomerTypeId: 1,
+                CreditStatusId: 1
             }
 
 
@@ -76,7 +80,9 @@ export class RegressionTest extends BaseTest {
                 ZipCode: faker.address.zipCode("99999"),
                 Phone: faker.phone.phoneNumber(),
                 Fax: faker.phone.phoneNumber(),
-                WebAddress: faker.internet.url()
+                WebAddress: faker.internet.url(),
+                CustomerTypeId: 1,
+                CreditStatusId: 1
             }
 
             // attempt to create a duplicate customer using the same Customer Number

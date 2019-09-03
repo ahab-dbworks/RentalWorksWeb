@@ -77,11 +77,57 @@ export class ModuleBase {
             })
     }
     //---------------------------------------------------------------------------------------
-    async populateFormWithRecord(record: any): Promise<any> { }
+    async populateFormWithRecord(record: any): Promise<any> {
+        for (var key in record) {
+            const datatype = await this.getDataType(key);
+            const tabId = await page.$eval(`.fwformfield[data-datafield="${key}"]`, el => el.closest('[data-type="tabpage"]').getAttribute('data-tabid'));
+            const tabIsActive = await page.$eval(`#${tabId}`, el => el.classList.contains('active'));
+            if (!tabIsActive) {
+                await page.click(`#${tabId}`);
+            }
+            switch (datatype) {
+                case 'phone':
+                case 'text':
+                    await this.populateTextField(key, record[key]);
+                    break;
+                case 'validation':
+                    const validationname = await page.$eval(`.fwformfield[data-datafield="${key}"]`, el => el.getAttribute('data-validationname'));
+                    await this.populateValidationField(key, validationname, record[key]);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
     //---------------------------------------------------------------------------------------
-    async getFormRecord(): Promise<any> { }
+    async getDataType(fieldName: string): Promise<string> {
+        return await page.$eval(`.fwformfield[data-datafield="${fieldName}"]`, el => el.getAttribute('data-type'));
+    }
     //---------------------------------------------------------------------------------------
-        async clearInputField(dataField: string): Promise<void> {
+    async getFormRecord(): Promise<any> {
+        let record: any = {};
+        const datafields = await page.$$eval(`.fwformfield`, fields => fields.map((field) => field.getAttribute('data-datafield')));
+        for (let i = 0; i < datafields.length; i++) {
+            if (datafields[i] != '') {
+                let value;
+                const datatype = await this.getDataType(datafields[i]);
+                switch (datatype) {
+                    case 'validation':
+                        value = await this.getDataFieldText(datafields[i]);
+                        break;
+                    default:
+                        value = await this.getDataFieldValue(datafields[i]);
+                        break;
+                }
+                if (value != '') {
+                    record[datafields[i]] = value;
+                }
+            }
+        }
+        return record;
+    }
+    //---------------------------------------------------------------------------------------
+    async clearInputField(dataField: string): Promise<void> {
         const elementHandle = await page.$(`.fwformfield[data-datafield="${dataField}"] input`);
         await elementHandle.click();
         await elementHandle.focus();
