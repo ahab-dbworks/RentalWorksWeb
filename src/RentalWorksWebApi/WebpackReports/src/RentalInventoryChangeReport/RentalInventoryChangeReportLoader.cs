@@ -110,6 +110,7 @@ namespace WebApi.Modules.Reports.RentalInventoryChangeReport
 
                     select.AddWhereIn("TrackedBy", request.TrackedBys);
                     select.AddWhereIn("ICodeRank", request.Ranks);
+                    select.AddWhereIn("TransactionType", request.TransactionType);
 
                     select.AddOrderBy("Warehouse, Department, CategoryOrderBy, SubCategoryOrderBy, ICodeRank, ICode, ICodeDescription, TransactionDate, TransactionSequence");
                     dt = await qry.QueryToFwJsonTableAsync(select, false);

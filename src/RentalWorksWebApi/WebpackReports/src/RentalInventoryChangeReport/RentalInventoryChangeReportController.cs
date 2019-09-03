@@ -23,6 +23,7 @@ namespace WebApi.Modules.Reports.RentalInventoryChangeReport
         public string CategoryId { get; set; }
         public string SubCategoryId { get; set; }
         public string InventoryId { get; set; }
+        public string TransactionType { get; set; }
         public SelectedCheckBoxListItems Ranks { get; set; } = new SelectedCheckBoxListItems();
         public SelectedCheckBoxListItems TrackedBys { get; set; } = new SelectedCheckBoxListItems();
     }

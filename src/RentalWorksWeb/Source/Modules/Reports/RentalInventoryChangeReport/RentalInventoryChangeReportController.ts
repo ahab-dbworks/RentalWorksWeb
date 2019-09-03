@@ -55,6 +55,9 @@ const rentalInventoryChangeTemplate = `
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="InventoryId" data-formbeforevalidate="beforeValidate" data-displayfield="ICode" data-validationname="RentalInventoryValidation" style="float:left;min-width:400px;"></div>
                 </div>
+                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Transaction Type" data-datafield="TransactionType" data-displayfield="TransactionType" data-validationname="InventoryChangeTransactionTypeValidation" style="float:left;min-width:400px;"></div>
+                </div>
               </div>
             </div>
           </div>
