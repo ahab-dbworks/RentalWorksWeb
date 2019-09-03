@@ -1035,6 +1035,7 @@ class CustomForm {
 
                                 //update caption when datafield is changed
                                 jQuery(originalHtml).attr('data-caption', value);
+                                jQuery(originalHtml).find(`.fwformfield-caption`).text(value);
                                 $form.find(`#controlProperties .propname:contains('data-caption')`).siblings('.propval').find('input').val(value);
 
                                 if (isCustomField === "true") {
