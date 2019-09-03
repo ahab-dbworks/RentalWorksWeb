@@ -1,0 +1,18 @@
+{
+    "dataSource": "issues",
+    "ignoreIssuesWith": [
+        "wontfix",
+        "duplicate"
+    ],
+    "groupBy": {
+        "<div style=\"color:black;background-color:yellow;padding-left:5px;padding-top:5px;padding-bottom:5px\">Enhancements:</div>": ["enhancement", "internal"],
+        "<div style=\"color:white;background-color:red;padding-left:5px;padding-top:5px;padding-bottom:5px\">Defects:</div>": ["defect"]
+    },
+    "template": {
+       "changelogTitle": "<center>![RentalWorksWeb](../releasedocumentlogo.png \"RentalWorksWeb\")</center>\n",
+       "release": "#Build Release Document - {{release}}\n{{body}}",
+	   "group": "\n### {{heading}}\n",
+       "issue": "- {{name}} [**{{text}}**]({{url}})"
+	}
+}
+

@@ -81,7 +81,8 @@ git push origin web/v%buildno%
 
 rem command-line gren make Build Release Document
 cd %DwRentalWorksWebPath%\build
-call gren changelog --token=4f42c7ba6af985f6ac6a6c9eba45d8f25388ef58 --username=databaseworks --repo=rentalworksweb --generate --override --changelog-filename=v%buildno%.md -D issues -m --group-by label
+call gren changelog --token=4f42c7ba6af985f6ac6a6c9eba45d8f25388ef58 --username=databaseworks --repo=rentalworksweb --generate --override --changelog-filename=v%buildno%.md -c  ..\config.grenrc
+
 
 rem delete any old build files
 cd %DwRentalWorksWebPath%\build
