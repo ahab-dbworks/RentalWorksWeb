@@ -5,6 +5,7 @@ import { TestUtils } from './TestUtils';
 export class SaveResponse {
     saved: boolean;
     errorMessage: string;
+    errorFields: any;
 }
 
 //---------------------------------------------------------------------------------------
@@ -92,6 +93,7 @@ export class ModuleBase {
     }
     //---------------------------------------------------------------------------------------
     async populateFormWithRecord(record: any): Promise<any> {
+        var currentValue = "";
         for (var key in record) {
             let displayfield;
             const datatype = await this.getDataType(key);
@@ -107,7 +109,10 @@ export class ModuleBase {
             switch (datatype) {
                 case 'phone':
                 case 'text':
-                    await this.clearInputField(key);
+                    currentValue = await this.getDataFieldValue(key);
+                    if (currentValue != "") {
+                        await this.clearInputField(key);
+                    }
                     await this.populateTextField(key, record[key]);
                     break;
                 case 'validation':
@@ -117,11 +122,13 @@ export class ModuleBase {
                 case 'displayfield':
                     //await this.clearInputField(key);
                     await this.populateValidationTextField(key, record[displayfield]);
+                    await ModuleBase.wait(750);  // allow "after validate" methods to finish
                     break;
                 default:
                     break;
             }
         }
+        await ModuleBase.wait(500);
     }
     //---------------------------------------------------------------------------------------
     async getFormRecord(): Promise<any> {
@@ -132,6 +139,11 @@ export class ModuleBase {
                 let value;
                 const datatype = await this.getDataType(datafields[i]);
                 switch (datatype) {
+                    case 'phone':
+                    case 'text':
+                        value = await this.getDataFieldValue(datafields[i]);
+                        record[datafields[i]] = value;
+                        break;
                     case 'validation':
                         value = await this.getDataFieldText(datafields[i]);
                         const displayFieldName = await page.$eval(`.fwformfield[data-datafield="${datafields[i]}"]`, el => el.getAttribute('data-displayfield'));
@@ -139,8 +151,12 @@ export class ModuleBase {
                         record[datafields[i]] = displayValue;
                         record[displayFieldName] = value;
                         break;
+                    case 'togglebuttons':
+                        value = ""; // un-handled field type
+                        record[datafields[i]] = value;
+                        break;
                     default:
-                        value = await this.getDataFieldValue(datafields[i]);
+                        value = ""; // un-handled field type
                         record[datafields[i]] = value;
                         break;
                 }
@@ -272,7 +288,7 @@ export class ModuleBase {
     }
     //---------------------------------------------------------------------------------------
     async saveRecord(closeUnexpectedErrors: boolean = false): Promise<SaveResponse> {
-        //let successfulSave: boolean = false;
+        var selector = "";
         let response = new SaveResponse();
         response.saved = false;
         response.errorMessage = "not saved";
@@ -295,13 +311,31 @@ export class ModuleBase {
                     Logging.logger.info(`${this.moduleCaption} Record not saved: ${afterSaveMsg}`);
                     response.saved = false;
                     response.errorMessage = afterSaveMsg;
+                    response.errorFields = await page.$$eval(`.fwformfield.error`, fields => fields.map((field) => field.getAttribute('data-datafield')));
+                    Logging.logger.info(`Error Fields: ${JSON.stringify(response.errorFields)}`);
 
                     if (closeUnexpectedErrors) {
-                        //click the error message to make it go away
-                        await page.waitForSelector('.advisory .fwconfirmation-button');
-                        await page.click(`.fwconfirmation-button`);
-                        await page.waitFor(() => !document.querySelector('.advisory'));
+                        //check for any error message pop-ups and click them to make error messages go away
+                        selector = '.advisory .fwconfirmation-button';
+                        const elementHandle = await page.$(selector);
+                        if (elementHandle != null) {
+                            //await page.waitForSelector('.advisory .fwconfirmation-button');
+                            await page.waitForSelector(selector);
+                            await page.click(`.fwconfirmation-button`);
+                            await page.waitFor(() => !document.querySelector('.advisory'));
+                        }
                     }
+
+                    //check for the "record not saved" toaster message and make it go away
+                    selector = `.advisory .messageclose`;
+                    const elementHandle = await page.$(selector);
+                    if (elementHandle != null) {
+                        await page.waitForSelector(selector);
+                        await page.click(selector);
+                        await page.waitFor(() => !document.querySelector('.advisory'));  // wait for toaster to go away
+                    }
+
+
                 }
             })
         return response;

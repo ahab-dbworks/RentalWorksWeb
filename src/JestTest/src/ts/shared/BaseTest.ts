@@ -71,14 +71,14 @@ export abstract class BaseTest {
         describe(testCollectionName, () => {
             //---------------------------------------------------------------------------------------
             if (this.continueTest) {
-                testName = `Open ${module.moduleName} Browse`;
+                testName = `Open ${module.moduleName} browse`;
                 test(testName, async () => {
                     await module.openBrowse().then().catch(err => this.LogError(testName, err));
                 }, this.testTimeout);
             }
             //---------------------------------------------------------------------------------------
             if (this.continueTest) {
-                testName = `Open ${module.moduleName} Form in New mode`;
+                testName = `Open ${module.moduleName} form in new mode`;
                 test(testName, async () => {
                     await module.createNewRecord().then().catch(err => this.LogError(testName, err));
                 }, this.testTimeout);
@@ -103,7 +103,7 @@ export abstract class BaseTest {
             }
             //---------------------------------------------------------------------------------------
             if (this.continueTest) {
-                testName = `Validate saved ${module.moduleName}`;
+                testName = `Validate all values on saved ${module.moduleName}, compare with expected values`;
                 test(testName, async () => {
                     let savedObject = await module.getFormRecord().then().catch(err => this.LogError(testName, err));
                     for (let key in expectedObject) {
@@ -135,14 +135,14 @@ export abstract class BaseTest {
         describe(testCollectionName, () => {
             //---------------------------------------------------------------------------------------
             if (this.continueTest) {
-                testName = `Open ${module.moduleName} Browse`;
+                testName = `Open ${module.moduleName} browse`;
                 test(testName, async () => {
                     await module.openBrowse().then().catch(err => this.LogError(testName, err));
                 }, this.testTimeout);
             }
             //---------------------------------------------------------------------------------------
             if (this.continueTest) {
-                testName = `Open ${module.moduleName} Form in New mode`;
+                testName = `Open ${module.moduleName} form in new mode`;
                 test(testName, async () => {
                     await module.createNewRecord().then().catch(err => this.LogError(testName, err));
                 }, this.testTimeout);
@@ -156,12 +156,8 @@ export abstract class BaseTest {
             }
             //---------------------------------------------------------------------------------------
             if (this.continueTest) {
-                testName = `Save new ${module.moduleName}`;
+                testName = `Attempt to save new ${module.moduleName}, expect Duplicate Error from system`;
                 test(testName, async () => {
-                    //let saved: boolean | void = await module.saveRecord().then().catch(err => this.LogError(testName, err));
-                    //expect(saved).toBe(false);
-                    //this.continueTest = !saved;
-
                     let saveResponse: SaveResponse | void = await module.saveRecord().then().catch(err => this.LogError(testName, err));
                     let strictSaveResponse = saveResponse as SaveResponse;
                     this.continueTest = !strictSaveResponse.saved;
@@ -184,7 +180,7 @@ export abstract class BaseTest {
             }
             //---------------------------------------------------------------------------------------
             if (this.continueTest) {
-                testName = 'Close Record';
+                testName = `Close new ${module.moduleName} form without saving`;
                 test(testName, async () => {
                     await module.closeModifiedRecordWithoutSaving().then().catch(err => this.LogError(testName, err));
                 }, this.testTimeout);
@@ -192,6 +188,55 @@ export abstract class BaseTest {
             //---------------------------------------------------------------------------------------
         });
     }
+    //---------------------------------------------------------------------------------------
+    TestModuleForMissingRequiredField(module: ModuleBase, inputObject: any, missingRequiredFieldName: string = "") {
+        let testName: string = "";
+        const testCollectionName = `Attempt to create a ${module.moduleName} without a required ${missingRequiredFieldName}`;
+        describe(testCollectionName, () => {
+            //---------------------------------------------------------------------------------------
+            if (this.continueTest) {
+                testName = `Open ${module.moduleName} browse`;
+                test(testName, async () => {
+                    await module.openBrowse().then().catch(err => this.LogError(testName, err));
+                }, this.testTimeout);
+            }
+            //---------------------------------------------------------------------------------------
+            if (this.continueTest) {
+                testName = `Open ${module.moduleName} form in new mode`;
+                test(testName, async () => {
+                    await module.createNewRecord().then().catch(err => this.LogError(testName, err));
+                }, this.testTimeout);
+            }
+            //---------------------------------------------------------------------------------------
+            if (this.continueTest) {
+                testName = `Fill in ${module.moduleName} form data`;
+                test(testName, async () => {
+                    await module.populateFormWithRecord(inputObject).then().catch(err => this.LogError(testName, err));
+                }, this.testTimeout);
+            }
+            //---------------------------------------------------------------------------------------
+            if (this.continueTest) {
+                testName = `Attempt to save new ${module.moduleName}, expect missing required field error from system`;
+                test(testName, async () => {
+                    let saveResponse: SaveResponse | void = await module.saveRecord(true).then().catch(err => this.LogError(testName, err));
+                    let strictSaveResponse = saveResponse as SaveResponse;
+                    this.continueTest = !strictSaveResponse.saved;
+                    expect(strictSaveResponse.saved).toBe(false);
+                    expect(strictSaveResponse.errorFields).toContain(missingRequiredFieldName);
+                }, this.testTimeout);
+            }
+            //---------------------------------------------------------------------------------------
+            if (this.continueTest) {
+                testName = `Close new ${module.moduleName} form without saving`;
+                test(testName, async () => {
+                    await module.closeModifiedRecordWithoutSaving().then().catch(err => this.LogError(testName, err));
+                }, this.testTimeout);
+            }
+            //---------------------------------------------------------------------------------------
+        });
+    }
+
+
     //---------------------------------------------------------------------------------------
     // this method will be overridden in sub classes for each test collection we want to perform
     PerformTests() { }

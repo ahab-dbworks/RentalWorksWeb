@@ -1,6 +1,7 @@
 ﻿import faker from 'faker';
 import { BaseTest } from '../shared/BaseTest';
-import { TestUtils } from '../shared/TestUtils';
+//import { TestUtils } from '../shared/TestUtils';
+import { Vendor } from './modules/Vendor';
 import { Customer } from './modules/Customer';
 import { Deal } from './modules/Deal';
 import { Quote } from './modules/Quote';
@@ -8,9 +9,60 @@ import { Quote } from './modules/Quote';
 export class RegressionTest extends BaseTest {
     //---------------------------------------------------------------------------------------
     PerformTests() {
+        var vendorInputs: any;
         var customerInputs: any;
         var dealInputs: any;
         var quoteInputs: any;
+
+        if (this.continueTest) {
+            const vendorModule: Vendor = new Vendor();
+            vendorInputs = {
+                Vendor: `JEST - ${faker.company.companyName()} - ${this.testToken}`,
+                VendorNumber: faker.random.alphaNumeric(8),
+                Address1: faker.address.streetAddress(),
+                Address2: faker.address.secondaryAddress(),
+                City: faker.address.city(),
+                State: faker.address.state(true),
+                ZipCode: faker.address.zipCode("99999"),
+                Phone: faker.phone.phoneNumber(),
+                Fax: faker.phone.phoneNumber(),
+                WebAddress: faker.internet.url(),
+                OfficeLocation: "LAS VEGAS"
+            }
+
+            var vendorExpected: any = {
+                Vendor: vendorInputs.Vendor.toUpperCase(),
+                VendorNumber: vendorInputs.VendorNumber.toUpperCase(),
+                Address1: vendorInputs.Address1.toUpperCase(),
+                Address2: vendorInputs.Address2.toUpperCase(),
+                City: vendorInputs.City.toUpperCase(),
+                State: vendorInputs.State.toUpperCase(),
+                ZipCode: vendorInputs.ZipCode.toUpperCase(),
+                //Phone: faker.phone.phoneNumber(),
+                //Fax: faker.phone.phoneNumber(),
+                WebAddress: vendorInputs.WebAddress,
+                OfficeLocation: vendorInputs.OfficeLocation
+            }
+
+            // attempt to create a valid vendor using "vendorInputs", compare the values the system saves with the "vendorExpected" object
+            this.TestModule(vendorModule, vendorInputs, vendorExpected);
+
+            // vendor record with a blank Vendor Number
+            var missingVendorNumberVendorInputs: any = {
+                Vendor: `JEST - ${faker.company.companyName()} - ${this.testToken}`,
+                //VendorNumber: faker.random.alphaNumeric(8),
+                Address1: faker.address.streetAddress(),
+                Address2: faker.address.secondaryAddress(),
+                City: faker.address.city(),
+                State: faker.address.state(true),
+                ZipCode: faker.address.zipCode("99999"),
+                Phone: faker.phone.phoneNumber(),
+                Fax: faker.phone.phoneNumber(),
+                WebAddress: faker.internet.url(),
+                OfficeLocation: "LAS VEGAS"
+            }
+            this.TestModuleForMissingRequiredField(vendorModule, missingVendorNumberVendorInputs, "VendorNumber");
+        }
 
         //-------------//
         //  CUSTOMER   //
@@ -98,9 +150,9 @@ export class RegressionTest extends BaseTest {
             const dealModule: Deal = new Deal();
 
             dealInputs = {
-                Customer: customerInputs.Customer,
                 Deal: `JEST - ${faker.company.companyName()} - ${this.testToken}`,
                 DealNumber: faker.random.alphaNumeric(8),
+                Customer: customerInputs.Customer,
                 //Address1: faker.address.streetAddress(),
                 Address2: faker.address.secondaryAddress(),
                 //City: faker.address.city(),
@@ -130,9 +182,9 @@ export class RegressionTest extends BaseTest {
 
             // change all other fields except Deal name
             var duplicateDeal1Inputs: any = {
-                Customer: customerInputs.Customer,
                 Deal: dealInputs.Deal,
                 DealNumber: faker.random.alphaNumeric(8),
+                Customer: customerInputs.Customer,
                 //Address1: faker.address.streetAddress(),
                 Address2: faker.address.secondaryAddress(),
                 //City: faker.address.city(),
@@ -148,9 +200,9 @@ export class RegressionTest extends BaseTest {
 
             // change all other fields except Deal Number
             var duplicateDeal2Inputs: any = {
-                Customer: customerInputs.Customer,
                 Deal: `JEST - ${faker.company.companyName()} - ${this.testToken}`,
                 DealNumber: dealInputs.DealNumber,
+                Customer: customerInputs.Customer,
                 //Address1: faker.address.streetAddress(),
                 Address2: faker.address.secondaryAddress(),
                 //City: faker.address.city(),
