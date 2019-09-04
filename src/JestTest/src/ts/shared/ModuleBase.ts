@@ -79,7 +79,12 @@ export class ModuleBase {
     //---------------------------------------------------------------------------------------
     async populateFormWithRecord(record: any): Promise<any> {
         for (var key in record) {
+            let displayfield;
             const datatype = await this.getDataType(key);
+            if (datatype === 'displayfield') {
+                displayfield = key;
+                key = await page.$eval(`.fwformfield[data-displayfield="${key}"]`, el => el.getAttribute('data-datafield'));
+            }
             const tabId = await page.$eval(`.fwformfield[data-datafield="${key}"]`, el => el.closest('[data-type="tabpage"]').getAttribute('data-tabid'));
             const tabIsActive = await page.$eval(`#${tabId}`, el => el.classList.contains('active'));
             if (!tabIsActive) {
@@ -94,6 +99,9 @@ export class ModuleBase {
                     const validationname = await page.$eval(`.fwformfield[data-datafield="${key}"]`, el => el.getAttribute('data-validationname'));
                     await this.populateValidationField(key, validationname, record[key]);
                     break;
+                case 'displayfield':
+                    await this.populateValidationTextField(key, record[displayfield]); 
+                    break;
                 default:
                     break;
             }
@@ -101,7 +109,17 @@ export class ModuleBase {
     }
     //---------------------------------------------------------------------------------------
     async getDataType(fieldName: string): Promise<string> {
-        return await page.$eval(`.fwformfield[data-datafield="${fieldName}"]`, el => el.getAttribute('data-type'));
+        let datatype;
+        const field = await page.$(`.fwformfield[data-datafield="${fieldName}"]`);
+        if (field != null) {
+            datatype = await page.$eval(`.fwformfield[data-datafield="${fieldName}"]`, el => el.getAttribute('data-type'));
+        } else {
+            const isDisplayField = await page.$(`.fwformfield[data-displayfield="${fieldName}"]`);
+            if (isDisplayField != null) {
+                datatype = 'displayfield';
+            }
+        }
+        return datatype;
     }
     //---------------------------------------------------------------------------------------
     async getFormRecord(): Promise<any> {
