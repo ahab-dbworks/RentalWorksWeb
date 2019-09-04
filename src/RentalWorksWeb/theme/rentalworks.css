@@ -500,6 +500,14 @@ Form tables
 #previewHtml div[data-browsedatafield="QuantityAvailable"][data-state="positiveconflict"] .fieldvalue {background-color:#006600;color:#ffffff;}
 /*#endregion*/
 
+[data-name="OrderItemGrid"] div[data-browsedatafield="AvailableQuantity"] .fieldvalue {padding:4px 8px;border-radius:4px;display:inline-block;min-width: 36px;border: 1px solid rgba(0, 40, 100, 0.12);}
+[data-name="OrderItemGrid"] div[data-browsedatafield="AvailableQuantity"][data-state="enough"] .fieldvalue {background-color:#009933;color:#ffffff;}
+[data-name="OrderItemGrid"] div[data-browsedatafield="AvailableQuantity"][data-state="negative"] .fieldvalue {background-color:#f44336;color:#ffffff;}
+[data-name="OrderItemGrid"] div[data-browsedatafield="AvailableQuantity"][data-state="stale"] .fieldvalue {background-color:#1565C0;color:#ffffff;}
+[data-name="OrderItemGrid"] div[data-browsedatafield="AvailableQuantity"][data-state="low"] .fieldvalue {background-color:#ffeb3b;}
+[data-name="OrderItemGrid"] div[data-browsedatafield="AvailableQuantity"][data-state="noavailcheck"] .fieldvalue {background-color:#00ffff;}
+[data-name="OrderItemGrid"] div[data-browsedatafield="AvailableQuantity"][data-state="positiveconflict"] .fieldvalue {background-color:#006600;color:#ffffff;}
+
 html.theme-material .fwformcontrol[data-type="button"].pressed {
     background-color: #1E88EF;
 }

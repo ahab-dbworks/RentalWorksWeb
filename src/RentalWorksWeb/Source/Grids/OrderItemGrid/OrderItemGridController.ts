@@ -124,6 +124,11 @@
                 }
             });
 
+            FwBrowse.setAfterRenderRowCallback($control, ($tr: JQuery, dt: FwJsonDataTable, rowIndex: number) => {
+                const availabilityState = $generatedtr.find('[data-browsedatafield="AvailabilityState"]').attr('data-originalvalue');
+                $generatedtr.find('[data-browsedatafield="AvailableQuantity"]').attr('data-state', availabilityState);
+            });
+
             $generatedtr.find('div[data-browsedatafield="ItemId"]').data('onchange', function ($tr) {
                 $generatedtr.find('.field[data-browsedatafield="InventoryId"] input').val($tr.find('.field[data-browsedatafield="InventoryId"]').attr('data-originalvalue'));
                 $generatedtr.find('.field[data-browsedatafield="InventoryId"] input.text').val($tr.find('.field[data-browsedatafield="ICode"]').attr('data-originalvalue'));
