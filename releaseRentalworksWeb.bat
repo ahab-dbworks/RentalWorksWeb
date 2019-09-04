@@ -79,6 +79,15 @@ git push
 git tag web/v%buildno%
 git push origin web/v%buildno%
 
+rem Need to use command line to print this MD file as a PDF
+rem Need to use curl to publish the PDF file to ZenDesk as a new "article"
+rem curl https://dbworks.zendesk.com/api/v2/help_center/sections/{id}/articles.json \
+rem   -d '{"article": {"title": "RentalWorksWeb v2019.1.1.XX", "body": "RentalWorksWeb v2019.1.1.XX has been released", "locale": "en-us" }, "notify_subscribers": false}' \
+rem   -v -u {email_address}:{password} -X POST -H "Content-Type: application/json"
+rem Note: "section" will be something like RentalWorksWeb > Release Documents
+rem Note: need to research how to attach documents
+
+
 rem command-line gren make Build Release Document
 cd %DwRentalWorksWebPath%\build
 call gren changelog --token=4f42c7ba6af985f6ac6a6c9eba45d8f25388ef58 --username=databaseworks --repo=rentalworksweb --generate --override --changelog-filename=v%buildno%.md -c  ..\config.grenrc
