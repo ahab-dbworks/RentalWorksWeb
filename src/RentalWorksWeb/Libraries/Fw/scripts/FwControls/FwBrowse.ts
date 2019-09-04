@@ -2044,12 +2044,12 @@ class FwBrowseClass {
         }
         if ($control.data('advancedsearchrequest') !== undefined) {
             let advancedSearch = $control.data('advancedsearchrequest');
-            request.searchfieldoperators = advancedSearch.searchfieldoperators;
-            request.searchfields = advancedSearch.searchfields;
-            request.searchfieldtypes = advancedSearch.searchfieldtypes;
-            request.searchfieldvalues = advancedSearch.searchfieldvalues;
-            request.searchseparators = advancedSearch.searchseparators;
-            request.searchconjunctions = advancedSearch.searchconjunctions;
+            request.searchfieldoperators = request.searchfieldoperators.concat(advancedSearch.searchfieldoperators);
+            request.searchfields = request.searchfields.concat(advancedSearch.searchfields);
+            request.searchfieldtypes = request.searchfieldtypes.concat(advancedSearch.searchfieldtypes);
+            request.searchfieldvalues = request.searchfieldvalues.concat(advancedSearch.searchfieldvalues);
+            request.searchseparators = request.searchseparators.concat(advancedSearch.searchseparators);
+            request.searchconjunctions = request.searchconjunctions.concat(advancedSearch.searchconjunctions);
         }
         //sort orderby list by sequence, map to return only the field, and join into a string
         request.orderby = orderby

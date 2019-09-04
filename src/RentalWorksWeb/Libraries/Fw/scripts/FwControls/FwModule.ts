@@ -580,55 +580,65 @@
                                         })
 
                                         $browse.find('.querysearch').on('click', function (e) {
+                                            $browse.removeData('advancedsearchrequest')
                                             let request = FwBrowse.getRequest($browse);
+                                            let advancedSearch: any = {};
                                             let queryRows = $browse.find('.query').find('.queryrow');
                                             let $find = jQuery(this).closest('.btn');
-                                            request.searchfieldoperators = [];
-                                            request.searchfieldtypes = [];
-                                            request.searchfields = [];
-                                            request.searchfieldvalues = [];
-                                            request.searchcondition = [];
-                                            request.searchseparators = [];
-                                            request.searchconjunctions = [];
-
+                                            advancedSearch.searchfieldoperators = [];
+                                            advancedSearch.searchfieldtypes = [];
+                                            advancedSearch.searchfields = [];
+                                            advancedSearch.searchfieldvalues = [];
+                                            advancedSearch.searchcondition = [];
+                                            advancedSearch.searchseparators = [];
+                                            advancedSearch.searchconjunctions = [];
+                                            
                                             for (var i = 0; i < queryRows.length; i++) {
                                                 let type = jQuery(queryRows[i]).find('.datafieldselect').find(':selected').data('type')
                                                 if (FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="Datafield"]')) !== '') {
-                                                    request.searchfieldtypes.unshift(jQuery(queryRows[i]).find('.datafieldselect').find(':selected').data('type'));
-                                                    request.searchfields.unshift(FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="Datafield"]')));
+                                                    advancedSearch.searchfieldtypes.push(jQuery(queryRows[i]).find('.datafieldselect').find(':selected').data('type'));
+                                                    advancedSearch.searchfields.push(FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="Datafield"]')));
                                                     switch (type) {
                                                         case 'True/False':
                                                         case 'Boolean':
                                                             let bool = FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="BooleanFieldQuery"]'));
                                                             let comp = FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="DatafieldComparison"]'));
                                                             if (bool === 'F' && comp === '=') {
-                                                                request.searchfieldvalues.unshift('T');
-                                                                request.searchfieldoperators.unshift('<>');
+                                                                advancedSearch.searchfieldvalues.push('T');
+                                                                advancedSearch.searchfieldoperators.push('<>');
                                                             } else if (bool === 'F' && comp === '<>') {
-                                                                request.searchfieldvalues.unshift('T');
-                                                                request.searchfieldoperators.unshift('=');
+                                                                advancedSearch.searchfieldvalues.push('T');
+                                                                advancedSearch.searchfieldoperators.push('=');
                                                             } else {
-                                                                request.searchfieldvalues.unshift(bool);
-                                                                request.searchfieldoperators.unshift(comp);
+                                                                advancedSearch.searchfieldvalues.push(bool);
+                                                                advancedSearch.searchfieldoperators.push(comp);
                                                             }
                                                             break;
                                                         case 'Date':
-                                                            request.searchfieldvalues.unshift(FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="DateFieldQuery"]')));
-                                                            request.searchfieldoperators.unshift(FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="DatafieldComparison"]')));
+                                                            advancedSearch.searchfieldvalues.push(FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="DateFieldQuery"]')));
+                                                            advancedSearch.searchfieldoperators.push(FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="DatafieldComparison"]')));
                                                             break;
                                                         default:
-                                                            request.searchfieldvalues.unshift(FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="DatafieldQuery"]')));
-                                                            request.searchfieldoperators.unshift(FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="DatafieldComparison"]')));
+                                                            advancedSearch.searchfieldvalues.push(FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="DatafieldQuery"]')));
+                                                            advancedSearch.searchfieldoperators.push(FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="DatafieldComparison"]')));
                                                             break;
                                                     }
-                                                    request.searchseparators.unshift(',');
+                                                    advancedSearch.searchseparators.push(',');
                                                 }
                                                 if (i === 0) {
-                                                    request.searchconjunctions.push(' ');
+                                                    advancedSearch.searchconjunctions.push(' ');
                                                 } else {
-                                                    request.searchconjunctions.push(FwFormField.getValue2(jQuery(queryRows[i]).find('.andor')));
+                                                    advancedSearch.searchconjunctions.push(FwFormField.getValue2(jQuery(queryRows[i]).find('.andor')));
                                                 }
                                             }
+                                            $browse.data('advancedsearchrequest', advancedSearch);
+
+                                            request.searchfieldoperators = request.searchfieldoperators.concat(advancedSearch.searchfieldoperators);
+                                            request.searchfields = request.searchfields.concat(advancedSearch.searchfields);
+                                            request.searchfieldtypes = request.searchfieldtypes.concat(advancedSearch.searchfieldtypes);
+                                            request.searchfieldvalues = request.searchfieldvalues.concat(advancedSearch.searchfieldvalues);
+                                            request.searchseparators = request.searchseparators.concat(advancedSearch.searchseparators);
+                                            request.searchconjunctions = request.searchconjunctions.concat(advancedSearch.searchconjunctions);
 
                                             FwServices.module.method(request, request.module, 'Browse', $browse, function (response) {
                                                 try {
@@ -641,11 +651,9 @@
                                             $find.removeClass('active');
                                             $find.find('.findbutton-dropdown').css('z-index', '0');
                                             jQuery(document).off('click');
-                                            $browse.data('advancedsearchrequest', request);
+                                            
                                             e.stopPropagation();
                                         })
-
-
                                         break;
                                 }
                             }
