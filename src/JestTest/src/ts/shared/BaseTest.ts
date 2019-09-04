@@ -97,7 +97,7 @@ export abstract class BaseTest {
                     let saveResponse: SaveResponse | void = await module.saveRecord(true).then().catch(err => this.LogError(testName, err));
                     let strictSaveResponse = saveResponse as SaveResponse;
                     this.continueTest = strictSaveResponse.saved;
-                    expect(strictSaveResponse.errorMessage).toBeUndefined();
+                    expect(strictSaveResponse.errorMessage).toBe("");
                     expect(strictSaveResponse.saved).toBe(true);
                 }, this.testTimeout);
             }

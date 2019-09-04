@@ -108,6 +108,7 @@ export class RegressionTest extends BaseTest {
                 //ZipCode: faker.address.zipCode("99999"),
                 Phone: faker.phone.phoneNumber(),
                 Fax: faker.phone.phoneNumber(),
+                DealTypeId: 1
             }
 
             var dealExpected: any = {
@@ -139,6 +140,7 @@ export class RegressionTest extends BaseTest {
                 //ZipCode: faker.address.zipCode("99999"),
                 Phone: faker.phone.phoneNumber(),
                 Fax: faker.phone.phoneNumber(),
+                DealTypeId: 1
             }
 
             // attempt to create a duplicate deal using the same Deal Name
@@ -156,10 +158,11 @@ export class RegressionTest extends BaseTest {
                 //ZipCode: faker.address.zipCode("99999"),
                 Phone: faker.phone.phoneNumber(),
                 Fax: faker.phone.phoneNumber(),
+                DealTypeId: 1
             }
 
             // attempt to create a duplicate deal using the same Deal Number
-            this.TestModuleForDuplicate(dealModule, duplicateDeal1Inputs, 'Deal Number');
+            this.TestModuleForDuplicate(dealModule, duplicateDeal2Inputs, 'Deal Number');
 
         }
 

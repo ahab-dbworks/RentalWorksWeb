@@ -77,6 +77,20 @@ export class ModuleBase {
             })
     }
     //---------------------------------------------------------------------------------------
+    async getDataType(fieldName: string): Promise<string> {
+        let datatype;
+        const field = await page.$(`.fwformfield[data-datafield="${fieldName}"]`);
+        if (field != null) {
+            datatype = await page.$eval(`.fwformfield[data-datafield="${fieldName}"]`, el => el.getAttribute('data-type'));
+        } else {
+            const isDisplayField = await page.$(`.fwformfield[data-displayfield="${fieldName}"]`);
+            if (isDisplayField != null) {
+                datatype = 'displayfield';
+            }
+        }
+        return datatype;
+    }
+    //---------------------------------------------------------------------------------------
     async populateFormWithRecord(record: any): Promise<any> {
         for (var key in record) {
             let displayfield;
@@ -93,6 +107,7 @@ export class ModuleBase {
             switch (datatype) {
                 case 'phone':
                 case 'text':
+                    await this.clearInputField(key);
                     await this.populateTextField(key, record[key]);
                     break;
                 case 'validation':
@@ -100,26 +115,13 @@ export class ModuleBase {
                     await this.populateValidationField(key, validationname, record[key]);
                     break;
                 case 'displayfield':
-                    await this.populateValidationTextField(key, record[displayfield]); 
+                    //await this.clearInputField(key);
+                    await this.populateValidationTextField(key, record[displayfield]);
                     break;
                 default:
                     break;
             }
         }
-    }
-    //---------------------------------------------------------------------------------------
-    async getDataType(fieldName: string): Promise<string> {
-        let datatype;
-        const field = await page.$(`.fwformfield[data-datafield="${fieldName}"]`);
-        if (field != null) {
-            datatype = await page.$eval(`.fwformfield[data-datafield="${fieldName}"]`, el => el.getAttribute('data-type'));
-        } else {
-            const isDisplayField = await page.$(`.fwformfield[data-displayfield="${fieldName}"]`);
-            if (isDisplayField != null) {
-                datatype = 'displayfield';
-            }
-        }
-        return datatype;
     }
     //---------------------------------------------------------------------------------------
     async getFormRecord(): Promise<any> {
@@ -132,16 +134,19 @@ export class ModuleBase {
                 switch (datatype) {
                     case 'validation':
                         value = await this.getDataFieldText(datafields[i]);
+                        const displayFieldName = await page.$eval(`.fwformfield[data-datafield="${datafields[i]}"]`, el => el.getAttribute('data-displayfield'));
+                        const displayValue = await this.getDataFieldValue(datafields[i]);
+                        record[datafields[i]] = displayValue;
+                        record[displayFieldName] = value;
                         break;
                     default:
                         value = await this.getDataFieldValue(datafields[i]);
+                        record[datafields[i]] = value;
                         break;
-                }
-                if (value != '') {
-                    record[datafields[i]] = value;
                 }
             }
         }
+        Logging.logger.info(`Form Record: ${JSON.stringify(record)}`);
         return record;
     }
     //---------------------------------------------------------------------------------------
@@ -269,6 +274,8 @@ export class ModuleBase {
     async saveRecord(closeUnexpectedErrors: boolean = false): Promise<SaveResponse> {
         //let successfulSave: boolean = false;
         let response = new SaveResponse();
+        response.saved = false;
+        response.errorMessage = "not saved";
         await page.click('.btn[data-type="SaveMenuBarButton"]');
         await page.waitForSelector('.advisory');
         await page.waitForFunction(() => document.querySelector('.advisory'), { polling: 'mutation' })
@@ -283,6 +290,7 @@ export class ModuleBase {
                     await page.waitFor(() => !document.querySelector('.advisory'));  // wait for toaster to go away
 
                     response.saved = true;
+                    response.errorMessage = "";
                 } else if (afterSaveMsg.includes('Error') || afterSaveMsg.includes('resolve')) {
                     Logging.logger.info(`${this.moduleCaption} Record not saved: ${afterSaveMsg}`);
                     response.saved = false;
