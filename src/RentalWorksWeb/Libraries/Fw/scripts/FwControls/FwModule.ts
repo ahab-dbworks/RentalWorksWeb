@@ -592,38 +592,65 @@
                                             advancedSearch.searchcondition = [];
                                             advancedSearch.searchseparators = [];
                                             advancedSearch.searchconjunctions = [];
-                                            
+
+                                            //adds container for read-only fields from "Find"
+                                            const $browsemenu = $browse.find('.fwbrowse-menu');
+                                            let $searchFields;
+                                            if ($browsemenu.find('.read-only-searchfields').length === 0) {
+                                                $searchFields = jQuery(`<div class="fwcontrol fwmenu default read-only-searchfields flexcolumn" style="padding-bottom:10px;"></div>`);
+                                                $browsemenu.append($searchFields);
+                                            } else {
+                                                $searchFields = $browsemenu.find('.read-only-searchfields').empty();
+                                            }
+
                                             for (var i = 0; i < queryRows.length; i++) {
-                                                let type = jQuery(queryRows[i]).find('.datafieldselect').find(':selected').data('type')
-                                                if (FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="Datafield"]')) !== '') {
+                                                let valuefield;
+                                                const comparisonText = jQuery(queryRows[i]).find('.datafieldcomparison').find(':selected').text();
+                                                const comparisonfield = FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="DatafieldComparison"]'));
+                                                const datafield = FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="Datafield"]'));
+                                                let type = jQuery(queryRows[i]).find('.datafieldselect').find(':selected').data('type');
+                                                if (datafield != '') {
                                                     advancedSearch.searchfieldtypes.push(jQuery(queryRows[i]).find('.datafieldselect').find(':selected').data('type'));
-                                                    advancedSearch.searchfields.push(FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="Datafield"]')));
+                                                    advancedSearch.searchfields.push(datafield);
                                                     switch (type) {
                                                         case 'True/False':
                                                         case 'Boolean':
-                                                            let bool = FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="BooleanFieldQuery"]'));
-                                                            let comp = FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="DatafieldComparison"]'));
-                                                            if (bool === 'F' && comp === '=') {
+                                                            valuefield = FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="BooleanFieldQuery"]'));
+                                                            if (valuefield === 'F' && comparisonfield === '=') {
                                                                 advancedSearch.searchfieldvalues.push('T');
                                                                 advancedSearch.searchfieldoperators.push('<>');
-                                                            } else if (bool === 'F' && comp === '<>') {
+                                                            } else if (valuefield === 'F' && comparisonfield === '<>') {
                                                                 advancedSearch.searchfieldvalues.push('T');
                                                                 advancedSearch.searchfieldoperators.push('=');
                                                             } else {
-                                                                advancedSearch.searchfieldvalues.push(bool);
-                                                                advancedSearch.searchfieldoperators.push(comp);
+                                                                advancedSearch.searchfieldvalues.push(valuefield);
+                                                                advancedSearch.searchfieldoperators.push(comparisonfield);
                                                             }
                                                             break;
                                                         case 'Date':
-                                                            advancedSearch.searchfieldvalues.push(FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="DateFieldQuery"]')));
-                                                            advancedSearch.searchfieldoperators.push(FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="DatafieldComparison"]')));
+                                                            valuefield = FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="DateFieldQuery"]'));
+                                                            advancedSearch.searchfieldvalues.push(valuefield);
+                                                            advancedSearch.searchfieldoperators.push(comparisonfield);
                                                             break;
                                                         default:
-                                                            advancedSearch.searchfieldvalues.push(FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="DatafieldQuery"]')));
-                                                            advancedSearch.searchfieldoperators.push(FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="DatafieldComparison"]')));
+                                                            valuefield = FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="DatafieldQuery"]'));
+                                                            advancedSearch.searchfieldvalues.push(valuefield);
+                                                            advancedSearch.searchfieldoperators.push(comparisonfield);
                                                             break;
                                                     }
                                                     advancedSearch.searchseparators.push(',');
+
+                                                    //adds read-only fields
+                                                    const $readOnlyField = jQuery(`<div class="searchfield-row" style="display:flex;">
+                                                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="Datafield" data-enabled="false" style="flex:0 0 200px;"></div>
+                                                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="Comparison" data-enabled="false" style="flex:0 0 200px;"></div>
+                                                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="Value" data-enabled="false" style="flex:0 0 200px;"></div>
+                                                    </div>`);
+                                                    FwControl.renderRuntimeHtml($readOnlyField.find('.fwformfield'));
+                                                    FwFormField.setValue2($readOnlyField.find('[data-datafield="Datafield"]'), datafield, datafield);
+                                                    FwFormField.setValue2($readOnlyField.find('[data-datafield="Comparison"]'), comparisonText, comparisonText);
+                                                    FwFormField.setValue2($readOnlyField.find('[data-datafield="Value"]'), valuefield, valuefield);
+                                                    $searchFields.append($readOnlyField);
                                                 }
                                                 if (i === 0) {
                                                     advancedSearch.searchconjunctions.push(' ');
@@ -631,6 +658,7 @@
                                                     advancedSearch.searchconjunctions.push(FwFormField.getValue2(jQuery(queryRows[i]).find('.andor')));
                                                 }
                                             }
+
                                             $browse.data('advancedsearchrequest', advancedSearch);
 
                                             request.searchfieldoperators = request.searchfieldoperators.concat(advancedSearch.searchfieldoperators);
