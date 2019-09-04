@@ -250,7 +250,7 @@ class PurchaseOrder {
     renderGrids($form: JQuery): void {
         // ----------
         const $orderStatusHistoryGrid = $form.find('div[data-grid="OrderStatusHistoryGrid"]');
-        const $orderStatusHistoryGridControl = FwBrowse.loadGridFromTemplate('InvoiceItemGrid');
+        const $orderStatusHistoryGridControl = FwBrowse.loadGridFromTemplate('OrderStatusHistoryGrid');
         $orderStatusHistoryGrid.empty().append($orderStatusHistoryGridControl);
         $orderStatusHistoryGridControl.data('ondatabind', request => {
             request.uniqueids = {
