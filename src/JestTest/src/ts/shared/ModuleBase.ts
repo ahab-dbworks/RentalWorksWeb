@@ -162,7 +162,7 @@ export class ModuleBase {
                 }
             }
         }
-        Logging.logger.info(`Form Record: ${JSON.stringify(record)}`);
+        //Logging.logger.info(`Form Record: ${JSON.stringify(record)}`);
         return record;
     }
     //---------------------------------------------------------------------------------------
@@ -292,6 +292,10 @@ export class ModuleBase {
         let response = new SaveResponse();
         response.saved = false;
         response.errorMessage = "not saved";
+
+        let savingObject = await this.getFormRecord();
+        Logging.logger.info(`About to try to save ${this.moduleCaption} Record: ${JSON.stringify(savingObject)}`);
+
         await page.click('.btn[data-type="SaveMenuBarButton"]');
         await page.waitForSelector('.advisory');
         await page.waitForFunction(() => document.querySelector('.advisory'), { polling: 'mutation' })

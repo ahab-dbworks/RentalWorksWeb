@@ -106,6 +106,7 @@ export abstract class BaseTest {
                 testName = `Validate all values on saved ${module.moduleName}, compare with expected values`;
                 test(testName, async () => {
                     let savedObject = await module.getFormRecord().then().catch(err => this.LogError(testName, err));
+                    Logging.logger.info(`Form Record: ${JSON.stringify(savedObject)}`);
                     for (let key in expectedObject) {
                         console.log(`Comparing : "${key}": `, `"${savedObject[key]}"`, `"${expectedObject[key]}"`);
                         if (expectedObject[key] === "|NOTEMPTY|") {

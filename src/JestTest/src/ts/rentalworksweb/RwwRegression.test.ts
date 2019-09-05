@@ -1,6 +1,7 @@
 ﻿import faker from 'faker';
 import { BaseTest } from '../shared/BaseTest';
 //import { TestUtils } from '../shared/TestUtils';
+import { Contact } from './modules/Contact';
 import { Vendor } from './modules/Vendor';
 import { Customer } from './modules/Customer';
 import { Deal } from './modules/Deal';
@@ -9,11 +10,50 @@ import { Quote } from './modules/Quote';
 export class RegressionTest extends BaseTest {
     //---------------------------------------------------------------------------------------
     PerformTests() {
+        var contactInputs: any;
         var vendorInputs: any;
         var customerInputs: any;
         var dealInputs: any;
         var quoteInputs: any;
 
+        //-------------//
+        //   CONTACT   //
+        //-------------//
+        if (this.continueTest) {
+            const contactModule: Contact = new Contact();
+            contactInputs = {
+                FirstName: `${faker.name.firstName()} - ${this.testToken}`,
+                LastName: faker.name.lastName(),
+                Email: faker.internet.email(),
+                Address1: faker.address.streetAddress(),
+                Address2: faker.address.secondaryAddress(),
+                City: faker.address.city(),
+                State: faker.address.state(true),
+                ZipCode: faker.address.zipCode("99999")
+            }
+
+            var contactExpected: any = {
+                FirstName: contactInputs.FirstName.toUpperCase(),
+                LastName: contactInputs.LastName.toUpperCase(),
+                Email: contactInputs.Email,
+                Address1: contactInputs.Address1.toUpperCase(),
+                Address2: contactInputs.Address2.toUpperCase(),
+                City: contactInputs.City.toUpperCase(),
+                State: contactInputs.State.toUpperCase(),
+                ZipCode: contactInputs.ZipCode.toUpperCase(),
+            }
+
+            // attempt to create a valid contact using "contactInputs", compare the values the system saves with the "contactExpected" object
+            this.TestModule(contactModule, contactInputs, contactExpected);
+
+        }
+
+
+
+
+        //-------------//
+        //   VENDOR    //
+        //-------------//
         if (this.continueTest) {
             const vendorModule: Vendor = new Vendor();
             vendorInputs = {
@@ -226,8 +266,8 @@ export class RegressionTest extends BaseTest {
             const quoteModule: Quote = new Quote();
 
             quoteInputs = {
-                Deal: dealInputs.Deal,
                 Description: `JEST - ${faker.name.jobTitle().substring(0, 25)} - ${this.testToken}`,
+                Deal: dealInputs.Deal,
                 Location: faker.address.streetName(),
                 ReferenceNumber: faker.random.alphaNumeric(8)
             }
