@@ -24,6 +24,17 @@ export class RegressionTest extends BaseTest {
         //-----------------------------------//
         if (this.continueTest) {
             const rentalInventoryModule: RentalInventory = new RentalInventory();
+
+
+
+            var defaultRentalInventoryExpected: any = {
+                Unit: "EA",
+            }
+
+            this.TestModuleDefaultsOnNewForm(rentalInventoryModule, defaultRentalInventoryExpected);
+
+
+
             rentalInventoryInputs = {
                 ICode: TestUtils.randomAlphanumeric(7),
                 Description: `${TestUtils.randomProductName()} - ${this.testToken}`,
@@ -231,6 +242,14 @@ export class RegressionTest extends BaseTest {
         //-------------//
         if (this.continueTest) {
             const dealModule: Deal = new Deal();
+
+            var defaultDealExpected: any = {
+                Location: "LAS VEGAS",
+                DealStatus: "ACTIVE",
+            }
+
+            this.TestModuleDefaultsOnNewForm(dealModule, defaultDealExpected);
+
 
             dealInputs = {
                 Deal: `${TestUtils.randomCompanyName()} - ${this.testToken}`,

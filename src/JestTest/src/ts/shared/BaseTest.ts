@@ -65,6 +65,67 @@ export abstract class BaseTest {
         });
     }
     //---------------------------------------------------------------------------------------
+    TestModuleDefaultsOnNewForm(module: ModuleBase, expectedObject: any) {
+        let testName: string = "";
+        const testCollectionName = `Start new ${module.moduleName}, check form for expected default values`;
+        describe(testCollectionName, () => {
+            //---------------------------------------------------------------------------------------
+            if (this.continueTest) {
+                testName = `Open ${module.moduleName} browse`;
+                test(testName, async () => {
+                    await module.openBrowse().then().catch(err => this.LogError(testName, err));
+                }, this.testTimeout);
+            }
+            //---------------------------------------------------------------------------------------
+            if (this.continueTest) {
+                testName = `Open ${module.moduleName} form in new mode`;
+                test(testName, async () => {
+                    await module.createNewRecord().then().catch(err => this.LogError(testName, err));
+                }, this.testTimeout);
+            }
+            //---------------------------------------------------------------------------------------
+            if (this.continueTest) {
+                testName = `Validate default values on new ${module.moduleName} form, compare with expected values`;
+                test(testName, async () => {
+                    let defaultObject = await module.getFormRecord().then().catch(err => this.LogError(testName, err));
+                    Logging.logger.info(`Form Record: ${JSON.stringify(defaultObject)}`);
+                    for (let key in expectedObject) {
+                        console.log(`Comparing: ${key}\n     Expecting: "${expectedObject[key]}"\n     Found:     "${defaultObject[key]}"`);
+                        if (expectedObject[key] === "|NOTEMPTY|") {
+                            expect(defaultObject[key]).not.toBe("");
+                        }
+                        else {
+                            expect(defaultObject[key]).not.toBeUndefined();
+                            expect(defaultObject[key]).toBe(expectedObject[key]);
+                        }
+                    }
+                }, this.testTimeout);
+            }
+            //---------------------------------------------------------------------------------------
+            if (this.continueTest) {
+                testName = `Close new ${module.moduleName} form without saving`;
+                test(testName, async () => {
+                    await module.closeModifiedRecordWithoutSaving().then().catch(err => this.LogError(testName, err));
+                }, this.testTimeout);
+            }
+            //---------------------------------------------------------------------------------------
+        });
+    }
+    //---------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     TestModuleCreateNewRecord(module: ModuleBase, inputObject: any, expectedObject: any) {
         let testName: string = "";
         const testCollectionName = `Create new ${module.moduleName}, fill out form, save record`;
