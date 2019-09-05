@@ -473,7 +473,7 @@ namespace WebApi.Modules.Reports.RentalInventoryAvailabilityReport
                 availRequestItems.Add(new TInventoryWarehouseAvailabilityRequestItem(inventoryId, warehouseId, request.FromDate, request.ToDate));
             }
             bool refreshIfNeeded = true; // user may want to make this true/false in some cases
-            TAvailabilityCache availCache = InventoryAvailabilityFunc.GetAvailability(AppConfig, UserSession, availRequestItems, refreshIfNeeded).Result;
+            TAvailabilityCache availCache = InventoryAvailabilityFunc.GetAvailability(AppConfig, UserSession, availRequestItems, refreshIfNeeded, forceRefresh: false).Result;
 
             DateTime theDate = request.FromDate;
             int x = 1;

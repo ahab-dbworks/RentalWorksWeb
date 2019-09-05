@@ -758,45 +758,45 @@ FwApplicationTree.clickEvents[Constants.Grids.OrderItemGrid.menuItems.CopyTempla
     FwBrowse.search($templateBrowse);
 };
 //----------------------------------------------------------------------------------------------
-//Refresh Availability
-FwApplicationTree.clickEvents[Constants.Grids.OrderItemGrid.menuItems.RefreshAvailability.id] = function (e) {
-    const $orderItemGrid = jQuery(this).closest('[data-name="OrderItemGrid"]');
-    let recType;
-    recType = jQuery(this).closest('[data-grid="OrderItemGrid"]');
-    if (recType.hasClass('R')) {
-        recType = 'R';
-    } else if (recType.hasClass('S')) {
-        recType = 'S';
-    } else if (recType.hasClass('L')) {
-        recType = 'L';
-    } else if (recType.hasClass('M')) {
-        recType = 'M';
-    } else if (recType.hasClass('P')) {
-        recType = 'P';
-    } else if (recType.hasClass('A')) {
-        recType = '';
-    } else if (recType.hasClass('RS')) {
-        recType = 'RS'
-    }
+////Refresh Availability
+//FwApplicationTree.clickEvents[Constants.Grids.OrderItemGrid.menuItems.RefreshAvailability.id] = function (e) {
+//    const $orderItemGrid = jQuery(this).closest('[data-name="OrderItemGrid"]');
+//    let recType;
+//    recType = jQuery(this).closest('[data-grid="OrderItemGrid"]');
+//    if (recType.hasClass('R')) {
+//        recType = 'R';
+//    } else if (recType.hasClass('S')) {
+//        recType = 'S';
+//    } else if (recType.hasClass('L')) {
+//        recType = 'L';
+//    } else if (recType.hasClass('M')) {
+//        recType = 'M';
+//    } else if (recType.hasClass('P')) {
+//        recType = 'P';
+//    } else if (recType.hasClass('A')) {
+//        recType = '';
+//    } else if (recType.hasClass('RS')) {
+//        recType = 'RS'
+//    }
 
-    const pageNumber = $orderItemGrid.attr('data-pageno');
-    const onDataBind = $orderItemGrid.data('ondatabind');
-    if (typeof onDataBind == 'function') {
-        $orderItemGrid.data('ondatabind', function (request) {
-            onDataBind(request);
-            request.uniqueids.RefreshAvailability = true;
-            request.pageno = parseInt(pageNumber);
-        });
-    }
+//    const pageNumber = $orderItemGrid.attr('data-pageno');
+//    const onDataBind = $orderItemGrid.data('ondatabind');
+//    if (typeof onDataBind == 'function') {
+//        $orderItemGrid.data('ondatabind', function (request) {
+//            onDataBind(request);
+//            request.uniqueids.RefreshAvailability = true;
+//            request.pageno = parseInt(pageNumber);
+//        });
+//    }
 
-    FwBrowse.search($orderItemGrid);
-    $orderItemGrid.attr('data-pageno', pageNumber);
-    //resets ondatabind
-    $orderItemGrid.data('ondatabind', onDataBind);
+//    FwBrowse.search($orderItemGrid);
+//    $orderItemGrid.attr('data-pageno', pageNumber);
+//    //resets ondatabind
+//    $orderItemGrid.data('ondatabind', onDataBind);
 
-    jQuery(document).trigger('click');
-}
-//---------------------------------------------------------------------------------
+//    jQuery(document).trigger('click');
+//}
+////---------------------------------------------------------------------------------
 // Bold Selected
 FwApplicationTree.clickEvents[Constants.Grids.OrderItemGrid.menuItems.BoldUnBoldSelected.id] = function (event) {
     const $browse = jQuery(this).closest('.fwbrowse');

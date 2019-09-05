@@ -17,7 +17,7 @@ namespace WebLibrary.Security.Tree.TrakitWorksWeb.Grids
                         //tree.AddSubMenuItem("Search Inventory", "{A87867E1-6756-49C4-AE71-C31648A5F029}", nodeBrowseOptions.Id, true);
                         tree.AddSubMenuItem("Bold / Unbold Selected", "{373CEE50-A632-463D-9F6F-0387557509CB}", nodeBrowseOptions.Id);
                         //tree.AddSubMenuItem("Sub Worksheet", "{E6C6D5E2-68A0-4FF8-9146-7217C282DAAB}", nodeBrowseOptions.Id);
-                        tree.AddSubMenuItem("Refresh Availability", "{74E160D8-54C7-4293-9944-CAB226AD4565}", nodeBrowseOptions.Id);
+                        //tree.AddSubMenuItem("Refresh Availability", "{74E160D8-54C7-4293-9944-CAB226AD4565}", nodeBrowseOptions.Id);
                 tree.AddNewMenuBarButton("{823E1CC8-5FC1-4B3C-B0D4-1A39FEB3B516}", nodeGridMenuBar.Id);
                 tree.AddEditMenuBarButton("{C7AE7FB2-5C68-468B-89CD-D8269EC693AC}", nodeGridMenuBar.Id);
                 tree.AddDeleteMenuBarButton("{F292EFCF-C415-4A0D-8B67-F12EE73A8296}", nodeGridMenuBar.Id);

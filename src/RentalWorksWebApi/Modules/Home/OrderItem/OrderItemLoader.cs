@@ -15,7 +15,7 @@ namespace WebApi.Modules.Home.OrderItem
     [FwSqlTable("orderitemwebview")]
     public class OrderItemLoader : AppDataLoadRecord
     {
-        private bool _refreshAvailability = false;   // pupulated during SetBaseSelectQuery, reused later
+        //private bool _refreshAvailability = false;   // pupulated during SetBaseSelectQuery, reused later
 
         public OrderItemLoader()
         {
@@ -832,7 +832,7 @@ namespace WebApi.Modules.Home.OrderItem
             string orderId = OrderId;
             bool summaryMode = false;
             bool subs = false;
-            bool refreshAvailability = false;
+            //bool refreshAvailability = false;
 
             if (string.IsNullOrEmpty(orderId))
             {
@@ -861,8 +861,8 @@ namespace WebApi.Modules.Home.OrderItem
                 subs = GetUniqueIdAsBoolean("Subs", request).GetValueOrDefault(false);
             }
 
-            refreshAvailability = GetUniqueIdAsBoolean("RefreshAvailability", request).GetValueOrDefault(false);
-            refreshAvailability = true; // jh 08/23/2019 experimental
+            //refreshAvailability = GetUniqueIdAsBoolean("RefreshAvailability", request).GetValueOrDefault(false);
+            //refreshAvailability = true; // jh 08/23/2019 experimental
 
 
             base.SetBaseSelectQuery(select, qry, customFields, request);
@@ -890,7 +890,7 @@ namespace WebApi.Modules.Home.OrderItem
             select.AddParameter("@orderid", orderId);
 
             // saved here for AfterBrowse
-            _refreshAvailability = refreshAvailability;
+            //_refreshAvailability = refreshAvailability;
 
         }
         //------------------------------------------------------------------------------------ 
@@ -926,7 +926,7 @@ namespace WebApi.Modules.Home.OrderItem
                         availRequestItems.Add(new TInventoryWarehouseAvailabilityRequestItem(inventoryId, warehouseId, fromDateTime, toDateTime));
                     }
 
-                    TAvailabilityCache availCache = InventoryAvailabilityFunc.GetAvailability(AppConfig, UserSession, availRequestItems, _refreshAvailability).Result;
+                    TAvailabilityCache availCache = InventoryAvailabilityFunc.GetAvailability(AppConfig, UserSession, availRequestItems, /*_refreshAvailability*/ refreshIfNeeded: true, forceRefresh: false).Result;
 
                     foreach (List<object> row in dt.Rows)
                     {

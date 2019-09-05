@@ -194,7 +194,7 @@ namespace WebApi.Modules.Reports.OrderConflictReport
                 availRequestItems.Add(new TInventoryWarehouseAvailabilityRequestItem(inventoryId, warehouseId, request.FromDate, request.ToDate));
             }
             bool refreshIfNeeded = true; // user may want to make this true in some cases
-            TAvailabilityCache availCache = InventoryAvailabilityFunc.GetAvailability(AppConfig, UserSession, availRequestItems, refreshIfNeeded).Result;
+            TAvailabilityCache availCache = InventoryAvailabilityFunc.GetAvailability(AppConfig, UserSession, availRequestItems, refreshIfNeeded, forceRefresh: false).Result;
 
             List<OrderConflict> conflictRows = new List<OrderConflict>();
 

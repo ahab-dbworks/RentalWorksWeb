@@ -64,46 +64,46 @@ FwApplicationTree.clickEvents[Constants.Grids.TransferOrderItemGrid.menuItems.Qu
     }
 };
 //----------------------------------------------------------------------------------------------
-//Refresh Availability
-FwApplicationTree.clickEvents[Constants.Grids.TransferOrderItemGrid.menuItems.RefreshAvailability.id] = function (e: JQuery.ClickEvent) {
-    const $transferOrderItemGrid = jQuery(this).closest('[data-name="TransferOrderItemGrid"]');
-    let recType;
-    recType = jQuery(this).closest('[data-grid="TransferOrderItemGrid"]');
-    if (recType.hasClass('R')) {
-        recType = 'R';
-    } else if (recType.hasClass('S')) {
-        recType = 'S';
-    }
-    //else if (recType.hasClass('L')) {
-    //    recType = 'L';
-    //} else if (recType.hasClass('M')) {
-    //    recType = 'M';
-    //} else if (recType.hasClass('P')) {
-    //    recType = 'P';
-    //} else if (recType.hasClass('A')) {
-    //    recType = '';
-    //} else if (recType.hasClass('RS')) {
-    //    recType = 'RS'
-    //}
+////Refresh Availability
+//FwApplicationTree.clickEvents[Constants.Grids.TransferOrderItemGrid.menuItems.RefreshAvailability.id] = function (e: JQuery.ClickEvent) {
+//    const $transferOrderItemGrid = jQuery(this).closest('[data-name="TransferOrderItemGrid"]');
+//    let recType;
+//    recType = jQuery(this).closest('[data-grid="TransferOrderItemGrid"]');
+//    if (recType.hasClass('R')) {
+//        recType = 'R';
+//    } else if (recType.hasClass('S')) {
+//        recType = 'S';
+//    }
+//    //else if (recType.hasClass('L')) {
+//    //    recType = 'L';
+//    //} else if (recType.hasClass('M')) {
+//    //    recType = 'M';
+//    //} else if (recType.hasClass('P')) {
+//    //    recType = 'P';
+//    //} else if (recType.hasClass('A')) {
+//    //    recType = '';
+//    //} else if (recType.hasClass('RS')) {
+//    //    recType = 'RS'
+//    //}
 
-    const pageNumber = $transferOrderItemGrid.attr('data-pageno');
-    const onDataBind = $transferOrderItemGrid.data('ondatabind');
-    if (typeof onDataBind == 'function') {
-        $transferOrderItemGrid.data('ondatabind', function (request) {
-            onDataBind(request);
-            request.uniqueids.RefreshAvailability = true;
-            request.pageno = parseInt(pageNumber);
-        });
-    }
+//    const pageNumber = $transferOrderItemGrid.attr('data-pageno');
+//    const onDataBind = $transferOrderItemGrid.data('ondatabind');
+//    if (typeof onDataBind == 'function') {
+//        $transferOrderItemGrid.data('ondatabind', function (request) {
+//            onDataBind(request);
+//            request.uniqueids.RefreshAvailability = true;
+//            request.pageno = parseInt(pageNumber);
+//        });
+//    }
 
-    FwBrowse.search($transferOrderItemGrid);
-    $transferOrderItemGrid.attr('data-pageno', pageNumber);
-    //resets ondatabind
-    $transferOrderItemGrid.data('ondatabind', onDataBind);
+//    FwBrowse.search($transferOrderItemGrid);
+//    $transferOrderItemGrid.attr('data-pageno', pageNumber);
+//    //resets ondatabind
+//    $transferOrderItemGrid.data('ondatabind', onDataBind);
 
-    jQuery(document).trigger('click');
-}
-//----------------------------------------------------------------------------------------------
+//    jQuery(document).trigger('click');
+//}
+////----------------------------------------------------------------------------------------------
 //Copy Template
 FwApplicationTree.clickEvents[Constants.Grids.TransferOrderItemGrid.menuItems.CopyTemplate.id] = function (e: JQuery.ClickEvent) {
     const $form = jQuery(this).closest('.fwform');

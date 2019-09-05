@@ -738,7 +738,8 @@ class SearchInterface {
         $popup
             .on('change', '#itemsearch div[data-datafield="FromDate"], #itemsearch div[data-datafield="ToDate"]', function () {
                 if ($popup.find('#inventory').children().length > 0) {
-                    self.getInventory($popup, false);
+                    //self.getInventory($popup, false);
+                    self.getInventory($popup);
                 }
             })
             .on('click', '#breadcrumbs .basetype', e => {
@@ -846,7 +847,8 @@ class SearchInterface {
 
                     //Load the Inventory items if selected category doesn't have any sub-categories
                     if (response.Rows.length == 0) {
-                       self.getInventory($popup, false);
+                       //self.getInventory($popup, false);
+                       self.getInventory($popup);
                     } else {
                         $popup.find('#inventory').empty();
                         $popup.find('#category ul').not('.selected').hide();
@@ -879,7 +881,8 @@ class SearchInterface {
                 $breadcrumbs.append(`<div class="subcategory breadcrumb"><div class="value">${$this.attr('data-caption')}</div></div>`);
 
                 $popup.find('#itemsearch').attr('data-subcategoryid', $this.attr('data-value'));
-                self.getInventory($popup, false);
+                //self.getInventory($popup, false);
+                self.getInventory($popup);
             })
         ;
 
@@ -926,7 +929,8 @@ class SearchInterface {
     
                 //perform search again with new settings
                 if ($popup.find('#inventory').children().length > 0) {
-                    self.getInventory($popup, false);
+                    //self.getInventory($popup, false);
+                    self.getInventory($popup);
                 }
             })
             .on('click', '.options .restoreDefaults', e => {
@@ -954,7 +958,8 @@ class SearchInterface {
             try {
                 if (code === 13) { //Enter Key
                     self.populateTypeMenu($popup);
-                    self.getInventory($popup, false);
+                    //self.getInventory($popup, false);
+                    self.getInventory($popup);
                 }
             } catch (ex) {
                 FwFunc.showError(ex);
@@ -1164,12 +1169,14 @@ class SearchInterface {
 
         //Sorting option events
         $popup.on('change', 'div[data-datafield="Select"], div[data-datafield="SortBy"]', e => {
-            self.getInventory($popup, false);
+            //self.getInventory($popup, false);
+            self.getInventory($popup);
         });
 
         //Refresh Availability button
         $popup.on('click', '.refresh-availability', e => {
-            self.getInventory($popup, true);
+            //self.getInventory($popup, true);
+            self.getInventory($popup);
         });
 
         $popup.on('click', '.acc-refresh-avail', e => {
@@ -1256,7 +1263,8 @@ class SearchInterface {
             }, ex => FwFunc.showError(ex), null);
     }
     //----------------------------------------------------------------------------------------------
-     getInventory($popup, refreshAvailability) {
+     //getInventory($popup, refreshAvailability) {
+     getInventory($popup) {
         var self         = this;
         let $searchpopup = $popup.find('#searchpopup');
         let parentFormId = $popup.find('#itemsearch').data('parentformid');
@@ -1277,7 +1285,7 @@ class SearchInterface {
             CategoryId:                    $popup.find('#itemsearch').attr('data-categoryid') || undefined,
             SubCategoryId:                 $popup.find('#itemsearch').attr('data-subcategoryid') || undefined,
             SearchText:                    FwFormField.getValueByDataField($popup, 'SearchBox') || undefined,
-            RefreshAvailability:           refreshAvailability
+            //RefreshAvailability:           refreshAvailability
         }
 
         FwAppData.apiMethod(true, 'POST', 'api/v1/inventorysearch/search', request, FwServices.defaultTimeout, function onSuccess(response) {
@@ -1315,7 +1323,7 @@ class SearchInterface {
         }
 
         if ($popup.data('refreshaccessories') == true) {
-            request.RefreshAvailability = true;
+            //request.RefreshAvailability = true;
             $popup.data('refreshaccessories', false)
         }
 

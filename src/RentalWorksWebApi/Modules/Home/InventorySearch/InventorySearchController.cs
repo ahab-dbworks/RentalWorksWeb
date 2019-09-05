@@ -35,7 +35,7 @@ namespace WebApi.Modules.Home.InventorySearch
         public string Classification;
         public string SearchText;
         public bool? ShowAvailability;
-        public bool? RefreshAvailability;
+        //public bool? RefreshAvailability;
         public DateTime FromDate;
         public DateTime ToDate;
         public bool? ShowImages;
@@ -50,7 +50,7 @@ namespace WebApi.Modules.Home.InventorySearch
         public string ParentId;
         public string WarehouseId;
         public bool? ShowAvailability;
-        public bool? RefreshAvailability;
+        //public bool? RefreshAvailability;
         public DateTime FromDate;
         public DateTime ToDate;
         public bool? ShowImages;

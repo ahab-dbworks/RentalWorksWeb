@@ -1524,7 +1524,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
                     }
 
                     // update the global cache of availability data
-                    await GetAvailability(appConfig, null, availRequestItems, true, true);
+                    await GetAvailability(appConfig, null, availRequestItems, refreshIfNeeded: true, forceRefresh: true);
 
                     //Console.WriteLine(availNeedRecalcItem.Count.ToString().PadLeft(7) + " master/warehouse item/accessory records need recalc");
                 }
@@ -1551,7 +1551,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
                     }
 
                     // update the static cache of availability data
-                    await GetAvailability(appConfig, null, availRequestItems, true, true);
+                    await GetAvailability(appConfig, null, availRequestItems, refreshIfNeeded: true, forceRefresh: true);
 
                     //Console.WriteLine(availNeedRecalcPackage.Count.ToString().PadLeft(7) + " master/warehouse complete/kit records need recalc");
                 }
@@ -1661,7 +1661,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
             if (availRequestToRefresh.Count > 0)
             {
                 await RefreshAvailability(appConfig, userSession, availRequestToRefresh);
-                availCache = await GetAvailability(appConfig, userSession, availRequestItems, false);   // this is a recursive call to grab the cache of all items again: originals and refreshes
+                availCache = await GetAvailability(appConfig, userSession, availRequestItems, refreshIfNeeded: false, forceRefresh: false);   // this is a recursive call to grab the cache of all items again: originals and refreshes
             }
 
             return availCache;
@@ -2152,7 +2152,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
                 availRequestItems.Add(new TInventoryWarehouseAvailabilityRequestItem(inventoryId, warehouseId, fromDateTime, toDateTime));
             }
             bool refreshIfNeeded = true; // user may want to make this true/false in some cases
-            TAvailabilityCache availCache = InventoryAvailabilityFunc.GetAvailability(appConfig, userSession, availRequestItems, refreshIfNeeded).Result;
+            TAvailabilityCache availCache = InventoryAvailabilityFunc.GetAvailability(appConfig, userSession, availRequestItems, refreshIfNeeded, forceRefresh: false).Result;
 
 
             foreach (List<object> row in dt.Rows)

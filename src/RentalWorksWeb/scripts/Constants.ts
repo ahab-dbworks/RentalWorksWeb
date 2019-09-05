@@ -367,7 +367,7 @@
                 SubWorksheet: { id: '{007C4F21-7526-437C-AD1C-4BBB1030AABA}' },
                 AddLossAndDamageItems: { id: '{427FCDFE-7E42-4081-A388-150D3D7FAE36}' },
                 RetireLossAndDamageItems: { id: '{78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412}' },
-                RefreshAvailability: { id: '{9476D532-5274-429C-A563-FE89F5B89B01}' }
+                //RefreshAvailability: { id: '{9476D532-5274-429C-A563-FE89F5B89B01}' }
             }
         },
         OrderSnapshotGrid: {
@@ -377,7 +377,7 @@
         },
         SearchPreviewGrid: {
             menuItems: {
-                RefreshAvailability: { id: '{3756AF3A-1611-4BCD-BBD9-E3233F5A772E}' }
+                //RefreshAvailability: { id: '{3756AF3A-1611-4BCD-BBD9-E3233F5A772E}' }
             }
         },
         StagedItemGrid: {
@@ -394,7 +394,7 @@
             menuItems: {
                 QuikSearch: { id: '{16CD0101-28D7-49E2-A3ED-43C03152FEE6}' },
                 CopyTemplate: { id: '{5E73772F-F5E2-4382-9F50-3272F4E79A25}' },
-                RefreshAvailability: { id: '{1065995B-3EF3-4B50-B513-F966F88570F1}' }
+                //RefreshAvailability: { id: '{1065995B-3EF3-4B50-B513-F966F88570F1}' }
             }
         }
     }

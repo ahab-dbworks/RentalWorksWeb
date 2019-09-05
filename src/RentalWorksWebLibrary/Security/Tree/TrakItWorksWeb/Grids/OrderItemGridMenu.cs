@@ -21,7 +21,7 @@ namespace WebLibrary.Security.Tree.TrakitWorksWeb.Grids
             tree.AddSubMenuItem("Sub Worksheet", "{D31432DB-1343-4542-85B0-40EB6CAF5DE7}", nodeBrowseOptions.Id);
             //tree.AddSubMenuItem("Add Loss and Damage Items", "{FFF72FDF-85A4-4EB6-8FB4-3E4CE5857CF5}", nodeBrowseOptions.Id);        // mv 5/1/19 commented these out, because they are not implemented on the grid
             //tree.AddSubMenuItem("Retire Loss and Damage Items", "{29DECF73-E409-4B51-81B2-B9196B7EDE18}", nodeBrowseOptions.Id);
-            tree.AddSubMenuItem("Refresh Availability", "{BBC9E755-54D3-474A-ACBE-E99D4A8C568D}", nodeBrowseOptions.Id);
+            //tree.AddSubMenuItem("Refresh Availability", "{BBC9E755-54D3-474A-ACBE-E99D4A8C568D}", nodeBrowseOptions.Id);
             tree.AddNewMenuBarButton("{3E6F44A1-DC91-4065-A602-43FBFFFD9127}", nodeGridMenuBar.Id);
             tree.AddEditMenuBarButton("{F3C33FF2-E571-4CEF-AFFB-95DD7A2DF8C3}", nodeGridMenuBar.Id);
             tree.AddDeleteMenuBarButton("{298C9806-6916-4180-A53F-F4559EF952AF}", nodeGridMenuBar.Id);

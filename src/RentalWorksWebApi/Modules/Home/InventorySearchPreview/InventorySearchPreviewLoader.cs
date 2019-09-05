@@ -185,7 +185,7 @@ namespace WebApi.Modules.Home.InventorySearchPreview
                         }
 
                         //TAvailabilityCache availCache = await InventoryAvailabilityFunc.GetAvailability(AppConfig, UserSession, availRequestItems, request.RefreshAvailability.GetValueOrDefault(false));
-                        TAvailabilityCache availCache = await InventoryAvailabilityFunc.GetAvailability(AppConfig, UserSession, availRequestItems, true);  //jh 08/23/2019 experimental
+                        TAvailabilityCache availCache = await InventoryAvailabilityFunc.GetAvailability(AppConfig, UserSession, availRequestItems, refreshIfNeeded: true, forceRefresh: false);  //jh 08/23/2019 experimental
 
                         foreach (List<object> row in dt.Rows)
                         {

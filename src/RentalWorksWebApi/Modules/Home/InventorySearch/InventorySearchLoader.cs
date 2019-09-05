@@ -131,7 +131,7 @@ namespace WebApi.Modules.Home.InventorySearch
         //------------------------------------------------------------------------------------ 
 
         //------------------------------------------------------------------------------------ 
-        private async Task<FwJsonDataTable> AddAvailabilityData(FwJsonDataTable dt, bool showAvailability, DateTime? fromDate, DateTime? toDate, string sessionId, bool refreshAvailability)
+        private async Task<FwJsonDataTable> AddAvailabilityData(FwJsonDataTable dt, bool showAvailability, DateTime? fromDate, DateTime? toDate, string sessionId/*, bool refreshAvailability*/)
         {
             FwJsonDataTable dtOut = dt;
             if (showAvailability)
@@ -160,7 +160,7 @@ namespace WebApi.Modules.Home.InventorySearch
                             availRequestItems.Add(new TInventoryWarehouseAvailabilityRequestItem(inventoryId, warehouseId, fromDateTime, toDateTime));
                         }
 
-                        TAvailabilityCache availCache = await InventoryAvailabilityFunc.GetAvailability(AppConfig, UserSession, availRequestItems, refreshAvailability);
+                        TAvailabilityCache availCache = await InventoryAvailabilityFunc.GetAvailability(AppConfig, UserSession, availRequestItems/*, refreshAvailability*/, refreshIfNeeded: true, forceRefresh: false);
 
                         foreach (List<object> row in dtOut.Rows)
                         {
@@ -229,7 +229,7 @@ namespace WebApi.Modules.Home.InventorySearch
             }
             
             //dt = await AddAvailabilityData(dt, request.ShowAvailability.GetValueOrDefault(false), request.FromDate, request.ToDate, request.SessionId, request.RefreshAvailability.GetValueOrDefault(false));
-            dt = await AddAvailabilityData(dt, request.ShowAvailability.GetValueOrDefault(false), request.FromDate, request.ToDate, request.SessionId, true);  //jh 08/23/2019 experimental
+            dt = await AddAvailabilityData(dt, request.ShowAvailability.GetValueOrDefault(false), request.FromDate, request.ToDate, request.SessionId/*, true*/);  //jh 08/23/2019 experimental
 
             return dt;
         }
@@ -261,7 +261,7 @@ namespace WebApi.Modules.Home.InventorySearch
             }
 
             //dt = await AddAvailabilityData(dt, request.ShowAvailability.GetValueOrDefault(false), request.FromDate, request.ToDate, request.SessionId, request.RefreshAvailability.GetValueOrDefault(false));
-            dt = await AddAvailabilityData(dt, request.ShowAvailability.GetValueOrDefault(false), request.FromDate, request.ToDate, request.SessionId, true);  //jh 08/23/2019 experimental
+            dt = await AddAvailabilityData(dt, request.ShowAvailability.GetValueOrDefault(false), request.FromDate, request.ToDate, request.SessionId/*, true*/);  //jh 08/23/2019 experimental
 
             return dt;
         }

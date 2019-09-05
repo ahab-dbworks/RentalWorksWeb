@@ -21,7 +21,7 @@ namespace WebApi.Modules.Home.InventorySearchPreview
         {
             public string SessionId;
             public bool? ShowAvailability;
-            public bool? RefreshAvailability;
+            //public bool? RefreshAvailability;
             public DateTime? FromDate;
             public DateTime? ToDate;
         }
