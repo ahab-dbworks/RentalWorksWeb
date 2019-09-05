@@ -626,6 +626,7 @@
                                                                 advancedSearch.searchfieldvalues.push(valuefield);
                                                                 advancedSearch.searchfieldoperators.push(comparisonfield);
                                                             }
+                                                            valuefield = (valuefield == 'F' ? 'FALSE' : 'TRUE');
                                                             break;
                                                         case 'Date':
                                                             valuefield = FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="DateFieldQuery"]'));
