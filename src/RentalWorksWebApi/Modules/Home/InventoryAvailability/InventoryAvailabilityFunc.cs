@@ -602,6 +602,8 @@ namespace WebApi.Modules.Home.InventoryAvailability
         public string orderNumber { get; set; }
         public string orderStatus { get; set; }
         public string deal { get; set; }
+        public bool isWarehouseTotal { get; set; } = false;
+        public bool isGrandTotal { get; set; } = false;
     }
     //------------------------------------------------------------------------------------ 
     public class TInventoryAvailabilityCalendarAndScheduleResponse
@@ -1838,6 +1840,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
                     availEvent.start = FromDate.ToString("yyyy-MM-ddTHH:mm:ss tt");   //"2019-02-28 12:00:00 AM"
                     availEvent.end = ToDate.ToString("yyyy-MM-ddTHH:mm:ss tt");
                     availEvent.enddisplay = ToDate.ToString();
+                    availEvent.isWarehouseTotal = true;
 
                     availEvent.text = RwConstants.NO_AVAILABILITY_CAPTION;
                     availEvent.backColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_NO_AVAILABILITY);
@@ -1877,6 +1880,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
                                 availEvent.backColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_POSITIVE);
                                 availEvent.textColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_TEXT_COLOR_POSITIVE);
                             }
+                            availEvent.isWarehouseTotal = true;
                             response.InventoryAvailabilityScheduleEvents.Add(availEvent);
                         }
                         theDate = theDate.AddDays(1); //daily availability
