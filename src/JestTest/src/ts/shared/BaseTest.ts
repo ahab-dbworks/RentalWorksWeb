@@ -108,7 +108,8 @@ export abstract class BaseTest {
                     let savedObject = await module.getFormRecord().then().catch(err => this.LogError(testName, err));
                     Logging.logger.info(`Form Record: ${JSON.stringify(savedObject)}`);
                     for (let key in expectedObject) {
-                        console.log(`Comparing : "${key}": `, `"${savedObject[key]}"`, `"${expectedObject[key]}"`);
+                        //console.log(`Comparing : "${key}": `, `"${savedObject[key]}"`, `"${expectedObject[key]}"`);
+                        console.log(`Comparing: ${key}\n     Expecting: "${expectedObject[key]}"\n     Found:     "${savedObject[key]}"`);
                         if (expectedObject[key] === "|NOTEMPTY|") {
                             expect(savedObject[key]).not.toBe("");
                         }

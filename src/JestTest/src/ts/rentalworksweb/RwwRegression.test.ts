@@ -1,5 +1,6 @@
 ﻿import { BaseTest } from '../shared/BaseTest';
 import { TestUtils } from '../shared/TestUtils';
+import { RentalInventory } from './modules/RentalInventory';
 import { Contact } from './modules/Contact';
 import { Vendor } from './modules/Vendor';
 import { Customer } from './modules/Customer';
@@ -9,11 +10,42 @@ import { Quote } from './modules/Quote';
 export class RegressionTest extends BaseTest {
     //---------------------------------------------------------------------------------------
     PerformTests() {
+        var rentalInventoryInputs: any;
         var contactInputs: any;
         var vendorInputs: any;
         var customerInputs: any;
         var dealInputs: any;
         var quoteInputs: any;
+
+
+
+        //-----------------------------------//
+        //        RENTAL INVENTORY           //
+        //-----------------------------------//
+        if (this.continueTest) {
+            const rentalInventoryModule: RentalInventory = new RentalInventory();
+            rentalInventoryInputs = {
+                ICode: TestUtils.randomAlphanumeric(7),
+                Description: `${TestUtils.randomProductName()} - ${this.testToken}`,
+                InventoryTypeId: 2,
+                CategoryId: 1,
+                UnitId: 1,
+                ManufacturerPartNumber: TestUtils.randomAlphanumeric(8),
+                Rank: 3,
+            }
+
+            var rentalInventoryExpected: any = {
+                ICode: rentalInventoryInputs.ICode.toUpperCase().substr(0, 5) + '-' + rentalInventoryInputs.ICode.toUpperCase().substr(5),
+                Description: rentalInventoryInputs.Description.toUpperCase(),
+                ManufacturerPartNumber: rentalInventoryInputs.ManufacturerPartNumber.toUpperCase(),
+            }
+
+
+            // attempt to create a valid rentalInventory using "rentalInventoryInputs", compare the values the system saves with the "rentalInventoryExpected" object
+            this.TestModule(rentalInventoryModule, rentalInventoryInputs, rentalInventoryExpected);
+
+        }
+
 
         //-------------//
         //   CONTACT   //
