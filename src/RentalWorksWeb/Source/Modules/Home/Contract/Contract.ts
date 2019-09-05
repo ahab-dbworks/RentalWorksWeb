@@ -463,6 +463,7 @@ class Contract {
             <div data-type="tab" id="rentaltab" class="tab" data-tabpageid="rentaltabpage" data-caption="Rental Detail"></div>
             <div data-type="tab" id="salestab" class="tab" data-tabpageid="salestabpage" data-caption="Sales Detail"></div>
             <div data-type="tab" id="deliverytab" class="tab" data-tabpageid="deliverytabpage" data-caption="Delivery"></div>
+            <div data-type="tab" id="notestab" class="tab" data-tabpageid="notestabpage" data-caption="Notes"></div>
           </div>
           <div class="tabpages">
             <div data-type="tabpage" id="generaltabpage" class="tabpage" data-tabid="generaltab">
@@ -590,6 +591,18 @@ class Contract {
                   </div>
                 </div>
                 </div>
+            </div>
+            <div data-type="tabpage" id="notestabpage" class="tabpage" data-tabid="notestab">
+              <div class="formpage">
+                <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Notes">
+                   <div class="flexrow">
+                      <div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield" data-caption="Contract Notes" data-datafield="Note"></div>
+                   </div>
+                   <div class="flexrow">
+                       <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Print on Order" data-datafield="PrintNoteOnOrder"></div>
+                   </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

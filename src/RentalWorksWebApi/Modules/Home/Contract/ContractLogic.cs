@@ -319,6 +319,12 @@ namespace WebApi.Modules.Home.Contract
         [FwLogicProperty(Id: "nlru0JZhiNUkX")]
         public string DeliveryDateStamp { get { return delivery.DateStamp; } set { delivery.DateStamp = value; } }
 
+        [FwLogicProperty(Id: "JyynxvOccTHf", IsReadOnly: true)]
+        public string Note { get; set; }
+
+        [FwLogicProperty(Id: "QCswoixUBKV")]
+        public bool? PrintNoteOnOrder { get { return contract.PrintNoteOnOrder; } set { contract.PrintNoteOnOrder = value; } }
+
         [FwLogicProperty(Id: "7lTe6d93tfl6")]
         public string DateStamp { get { return contract.DateStamp; } set { contract.DateStamp = value; } }
 
@@ -359,6 +365,25 @@ namespace WebApi.Modules.Home.Contract
         //------------------------------------------------------------------------------------
         public void OnAfterSave(object sender, AfterSaveEventArgs e)
         {
+            bool doSaveNote = false;
+            if (e.SaveMode.Equals(TDataRecordSaveMode.smInsert))
+            {
+                doSaveNote = true;
+            }
+            else if (e.Original != null)
+            {
+                ContractLogic orig = (ContractLogic)e.Original;
+                doSaveNote = (!orig.Note.Equals(Note));
+            }
+            if (doSaveNote)
+            {
+                bool saved = contract.SaveNoteASync(Note).Result;
+                if (saved)
+                {
+                    e.RecordsAffected++;
+                }
+            }
+
             if (e.SaveMode.Equals(TDataRecordSaveMode.smUpdate))
             {
                 ContractLogic orig = (ContractLogic)e.Original;

@@ -1,7 +1,10 @@
 using FwStandard.BusinessLogic;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
+using System.Threading.Tasks;
 using WebApi.Data;
+using WebApi.Logic;
+
 namespace WebApi.Modules.Home.Contract
 {
     [FwSqlTable("contract")]
@@ -47,8 +50,8 @@ namespace WebApi.Modules.Home.Contract
         [FwSqlDataField(column: "moddate", modeltype: FwDataTypes.Date, sqltype: "smalldatetime")]
         public string ModifiedDate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "notes", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 8000)]
-        public string Notes { get; set; }
+        [FwSqlDataField(column: "note", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 8000)]
+        public string Note { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "multiorder", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool? IsMultiOrder { get; set; }
@@ -152,8 +155,15 @@ namespace WebApi.Modules.Home.Contract
         [FwSqlDataField(column: "quikinoneorderpercontract", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool? QuikInOneOrderPerContract { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "printonorder", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool? PrintNoteOnOrder { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
+        public async Task<bool> SaveNoteASync(string Note)
+        {
+            return await AppFunc.SaveNoteAsync(AppConfig, UserSession, ContractId, "", "", Note);
+        }
     }
 }

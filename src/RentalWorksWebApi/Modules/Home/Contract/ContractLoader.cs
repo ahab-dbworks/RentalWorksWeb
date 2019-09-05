@@ -225,6 +225,12 @@ namespace WebApi.Modules.Home.Contract
         [FwSqlDataField(column: "deliverydatestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DeliveryDateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "note", modeltype: FwDataTypes.Text)]
+        public string Note { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "printonorder", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool? PrintNoteOnOrder { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
