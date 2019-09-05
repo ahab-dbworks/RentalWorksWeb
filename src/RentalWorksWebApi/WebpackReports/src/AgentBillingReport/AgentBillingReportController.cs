@@ -11,6 +11,7 @@ using PuppeteerSharp.Media;
 using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Http;
 using static FwCore.Controllers.FwDataController;
+using WebApi.Data;
 
 namespace WebApi.Modules.Reports.AgentBillingReport
 {
@@ -18,7 +19,7 @@ namespace WebApi.Modules.Reports.AgentBillingReport
     {
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }
-        public bool? IsSummary { get; set; }
+        //public bool? IsSummary { get; set; }
         public string DateType { get; set; }
         public bool? IncludeNoCharge { get; set; }
         public string OfficeLocationId { get; set; }
@@ -88,6 +89,7 @@ namespace WebApi.Modules.Reports.AgentBillingReport
                 AgentBillingReportLoader l = new AgentBillingReportLoader();
                 l.SetDependencies(this.AppConfig, this.UserSession);
                 FwJsonDataTable dt = await l.RunReportAsync(request);
+                l.HideDetailColumnsInSummaryDataTable(request, dt);
                 return new OkObjectResult(dt);
             }
             catch (Exception ex)

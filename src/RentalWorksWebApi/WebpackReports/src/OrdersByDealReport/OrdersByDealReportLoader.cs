@@ -12,7 +12,7 @@ using System.Text;
 namespace WebApi.Modules.Reports.OrdersByDealReport
 {
     [FwSqlTable("dealorderrptwebview")]
-    public class OrdersByDealReportLoader : AppDataLoadRecord
+    public class OrdersByDealReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(calculatedColumnSql: "'detail'", modeltype: FwDataTypes.Text, isVisible: false)]

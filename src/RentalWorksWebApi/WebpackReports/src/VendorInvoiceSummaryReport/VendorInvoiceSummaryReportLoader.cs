@@ -11,7 +11,7 @@ using WebLibrary;
 namespace WebApi.Modules.Reports.VendorInvoiceSummaryReport
 {
     [FwSqlTable("vendorinvoiceviewwithaccruals")]
-    public class VendorInvoiceSummaryReportLoader : AppDataLoadRecord
+    public class VendorInvoiceSummaryReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(calculatedColumnSql: "'detail'", modeltype: FwDataTypes.Text, isVisible: false)]

@@ -7,7 +7,7 @@ using WebLibrary;
 
 namespace WebApi.Modules.Reports.UnretiredRentalInventoryReport
 {
-    public class UnretiredRentalInventoryReportLoader : AppDataLoadRecord
+    public class UnretiredRentalInventoryReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text, isVisible: false)]

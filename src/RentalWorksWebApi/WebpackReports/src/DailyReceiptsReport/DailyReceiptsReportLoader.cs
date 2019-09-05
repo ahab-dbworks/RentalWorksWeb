@@ -8,7 +8,7 @@ using System.Text;
 namespace WebApi.Modules.Reports.DailyReceiptsReport
 {
     [FwSqlTable("dailyreceiptview")]
-    public class DailyReceiptsReportLoader : AppDataLoadRecord
+    public class DailyReceiptsReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(calculatedColumnSql: "'detail'", modeltype: FwDataTypes.Text, isVisible: false)]

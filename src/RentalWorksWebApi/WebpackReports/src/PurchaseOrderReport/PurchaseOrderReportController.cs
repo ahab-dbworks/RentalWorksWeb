@@ -9,6 +9,8 @@ using System;
 using System.Threading.Tasks;
 using WebApi.Controllers;
 using static FwCore.Controllers.FwDataController;
+using WebApi.Data;
+
 namespace WebApi.Modules.Reports.PurchaseOrderReport
 {
     public class PurchaseOrderReportRequest : AppReportRequest
@@ -80,6 +82,7 @@ namespace WebApi.Modules.Reports.PurchaseOrderReport
                 PurchaseOrderReportLoader l = new PurchaseOrderReportLoader();
                 l.SetDependencies(this.AppConfig, this.UserSession);
                 FwJsonDataTable dt = await l.RunReportAsync(request);
+                l.HideDetailColumnsInSummaryDataTable(request, dt);
                 return new OkObjectResult(dt);
             }
             catch (Exception ex)

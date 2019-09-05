@@ -9,7 +9,7 @@ using System.Reflection;
 namespace WebApi.Modules.Reports.VendorInvoiceBatchReport
 {
     [FwSqlTable("vendorinvoicechgbatchview")]
-    public class VendorInvoiceBatchReportLoader : AppDataLoadRecord
+    public class VendorInvoiceBatchReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text, isVisible: false)]

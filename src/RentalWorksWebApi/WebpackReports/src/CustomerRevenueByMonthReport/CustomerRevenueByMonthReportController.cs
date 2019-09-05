@@ -11,6 +11,8 @@ using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Http;
 using FwStandard.AppManager;
 using static FwCore.Controllers.FwDataController;
+using WebApi.Data;
+
 namespace WebApi.Modules.Reports.CustomerRevenueByMonthReport
 {
     public class CustomerRevenueByMonthReportRequest : AppReportRequest
@@ -24,7 +26,7 @@ namespace WebApi.Modules.Reports.CustomerRevenueByMonthReport
         public string DealTypeId { get; set; }
         public string DealId { get; set; }
         public string InventoryTypeId { get; set; }
-        public bool? IsSummary { get; set; }
+        //public bool? IsSummary { get; set; }
         public SelectedCheckBoxListItems RevenueTypes { get; set; } = new SelectedCheckBoxListItems();
     }
     [Route("api/v1/[controller]")]
@@ -85,6 +87,7 @@ namespace WebApi.Modules.Reports.CustomerRevenueByMonthReport
                 CustomerRevenueByMonthReportLoader l = new CustomerRevenueByMonthReportLoader();
                 l.SetDependencies(this.AppConfig, this.UserSession);
                 FwJsonDataTable dt = await l.RunReportAsync(request);
+                l.HideDetailColumnsInSummaryDataTable(request, dt);
                 return new OkObjectResult(dt);
             }
             catch (Exception ex)

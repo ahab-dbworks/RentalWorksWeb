@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Reports.RentalEquipmentRepairHistoryReport
 {
     [FwSqlTable("dbo.funcrepairhistoryrpt(@fromdate, @todate)")]
-    public class RentalEquipmentRepairHistoryReportLoader : AppDataLoadRecord
+    public class RentalEquipmentRepairHistoryReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(calculatedColumnSql: "'detail'", modeltype: FwDataTypes.Text, isVisible: false)]

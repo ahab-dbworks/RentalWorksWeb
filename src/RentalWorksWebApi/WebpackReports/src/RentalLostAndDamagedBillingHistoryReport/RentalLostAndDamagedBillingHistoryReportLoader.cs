@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.Data;
 namespace WebApi.Modules.Reports.RentalLostAndDamagedBillingHistoryReport
 {
-    public class RentalLostAndDamagedBillingHistoryReportLoader : AppDataLoadRecord
+    public class RentalLostAndDamagedBillingHistoryReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text)]

@@ -12,7 +12,7 @@ using System.Reflection;
 namespace WebApi.Modules.Reports.InvoiceReport
 {
 
-    public class InvoiceItemReportLoader : AppDataLoadRecord
+    public class InvoiceItemReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "invoiceid", modeltype: FwDataTypes.Text)]
@@ -65,7 +65,7 @@ namespace WebApi.Modules.Reports.InvoiceReport
     }
 
 
-    public class InvoiceReportLoader : AppDataLoadRecord
+    public class InvoiceReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "invoiceid", modeltype: FwDataTypes.Text)]

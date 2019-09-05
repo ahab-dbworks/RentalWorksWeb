@@ -11,6 +11,8 @@ using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Http;
 using FwStandard.AppManager;
 using static FwCore.Controllers.FwDataController;
+using WebApi.Data;
+
 namespace WebApi.Modules.Reports.SubItemStatusReport
 {
     public class SubItemStatusReportRequest : AppReportRequest
@@ -86,6 +88,7 @@ namespace WebApi.Modules.Reports.SubItemStatusReport
                 SubItemStatusReportLoader l = new SubItemStatusReportLoader();
                 l.SetDependencies(this.AppConfig, this.UserSession);
                 FwJsonDataTable dt = await l.RunReportAsync(request);
+                l.HideDetailColumnsInSummaryDataTable(request, dt);
                 return new OkObjectResult(dt);
             }
             catch (Exception ex)

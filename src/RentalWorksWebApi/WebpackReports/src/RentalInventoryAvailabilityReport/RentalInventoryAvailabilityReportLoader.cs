@@ -9,7 +9,7 @@ using System;
 namespace WebApi.Modules.Reports.RentalInventoryAvailabilityReport
 {
     [FwSqlTable("availabilitymasterwhview")]
-    public class RentalInventoryAvailabilityReportLoader : AppDataLoadRecord
+    public class RentalInventoryAvailabilityReportLoader : AppReportLoader
     {
         const int MAX_AVAILABILITY_DATE_COLUMNS = 30;
         //------------------------------------------------------------------------------------ 

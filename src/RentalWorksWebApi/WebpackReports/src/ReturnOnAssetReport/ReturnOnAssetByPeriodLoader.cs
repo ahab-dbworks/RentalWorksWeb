@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Reports.ReturnOnAssetReport
 {
     [FwSqlTable("ReturnOnAsset")]
-    public class ReturnOnAssetByPeriodReportLoader : AppDataLoadRecord
+    public class ReturnOnAssetByPeriodReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(calculatedColumnSql: "'detail'", modeltype: FwDataTypes.Text, isVisible: false)]

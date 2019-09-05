@@ -13,6 +13,8 @@ using Microsoft.AspNetCore.Http;
 using WebApi.Modules.Reports.InventoryPurchaseHistoryReport;
 using static FwCore.Controllers.FwDataController;
 
+using WebApi.Data;
+
 namespace WebApi.Modules.Reports.SalesInventoryPurchaseHistoryReport
 {
 
@@ -74,6 +76,7 @@ namespace WebApi.Modules.Reports.SalesInventoryPurchaseHistoryReport
                 SalesInventoryPurchaseHistoryReportLoader l = new SalesInventoryPurchaseHistoryReportLoader();
                 l.SetDependencies(this.AppConfig, this.UserSession);
                 FwJsonDataTable dt = await l.RunReportAsync(request);
+                l.HideDetailColumnsInSummaryDataTable(request, dt);
                 return new OkObjectResult(dt);
             }
             catch (Exception ex)

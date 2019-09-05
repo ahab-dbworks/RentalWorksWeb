@@ -10,9 +10,11 @@ using PuppeteerSharp.Media;
 using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Http;
 using FwStandard.AppManager;
+using WebApi.Data;
+
 namespace WebApi.Modules.Reports.VendorInvoiceSummaryReport
 {
-    public class VendorInvoiceSummaryReportRequest
+    public class VendorInvoiceSummaryReportRequest : AppReportRequest
     {
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }
@@ -78,6 +80,7 @@ namespace WebApi.Modules.Reports.VendorInvoiceSummaryReport
                 VendorInvoiceSummaryReportLoader l = new VendorInvoiceSummaryReportLoader();
                 l.SetDependencies(this.AppConfig, this.UserSession);
                 FwJsonDataTable dt = await l.RunReportAsync(request);
+                l.HideDetailColumnsInSummaryDataTable(request, dt);
                 return new OkObjectResult(dt);
             }
             catch (Exception ex)

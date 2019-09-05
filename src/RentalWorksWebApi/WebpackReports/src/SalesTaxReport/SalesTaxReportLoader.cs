@@ -23,7 +23,7 @@ namespace WebApi.Modules.Reports.SalesTaxReport
     }
 
 
-    public abstract class SalesTaxReportLoader : AppDataLoadRecord
+    public abstract class SalesTaxReportLoader : AppReportLoader
     {
         protected string TaxCountryFilter = RwConstants.TAX_COUNTRY_USA;
         //------------------------------------------------------------------------------------ 

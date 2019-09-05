@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.Http;
 using FwStandard.AppManager;
 using static FwCore.Controllers.FwDataController;
 
+using WebApi.Data;
+
 namespace WebApi.Modules.Reports.ReturnOnAssetReport
 {
     public class ReturnOnAssetReportRequest : AppReportRequest
@@ -93,6 +95,7 @@ namespace WebApi.Modules.Reports.ReturnOnAssetReport
                     ReturnOnAssetByDateRangeReportLoader l = new ReturnOnAssetByDateRangeReportLoader();
                     l.SetDependencies(this.AppConfig, this.UserSession);
                     dt = await l.RunReportAsync(request);
+                l.HideDetailColumnsInSummaryDataTable(request, dt);
                 }
                 else
                 {

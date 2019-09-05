@@ -9,7 +9,7 @@ using System.Reflection;
 namespace WebApi.Modules.Reports.RentalInventoryUsageReport
 {
     [FwSqlTable("funcinventoryusagerpt(@fromdate, @todate)")]
-    public class RentalInventoryUsageReportLoader : AppDataLoadRecord
+    public class RentalInventoryUsageReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text)]

@@ -9,7 +9,7 @@ using System.Reflection;
 namespace WebApi.Modules.Reports.SalesBackorderReport
 {
     [FwSqlTable("dbo.funcsalesbackorderrpt()")]
-    public class SalesBackorderReportLoader : AppDataLoadRecord
+    public class SalesBackorderReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(calculatedColumnSql: "'detail'", modeltype: FwDataTypes.Text, isVisible: false)]

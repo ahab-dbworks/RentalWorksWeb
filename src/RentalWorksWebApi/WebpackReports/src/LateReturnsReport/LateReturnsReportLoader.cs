@@ -12,7 +12,7 @@ using System.Reflection;
 
 namespace WebApi.Modules.Reports.LateReturnsReport
 {
-    public class LateReturnsReportLoader : AppDataLoadRecord
+    public class LateReturnsReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text, isVisible: false)]

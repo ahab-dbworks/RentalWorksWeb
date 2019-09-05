@@ -9,7 +9,7 @@ using System.Reflection;
 namespace WebApi.Modules.Reports.SalesQuoteBillingReport
 {
     [FwSqlTable("dbo.funcsalesbillingquoterpt(@fromdate, @todate, @datefield)")]
-    public class SalesQuoteBillingReportLoader : AppDataLoadRecord
+    public class SalesQuoteBillingReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(calculatedColumnSql: "'detail'", modeltype: FwDataTypes.Text, isVisible: false)]

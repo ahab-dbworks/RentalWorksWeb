@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.Data;
 namespace WebApi.Modules.Reports.DealInvoiceDetailReport
 {
-    public class DealInvoiceDetailReportLoader : AppDataLoadRecord
+    public class DealInvoiceDetailReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text, isVisible: false)]

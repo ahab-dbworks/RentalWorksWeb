@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Reports.ProfitLossReport
 {
     [FwSqlTable("dbo.funcprofitandlossrpt(@fromdate,@todate)")]
-    public class ProfitLossReportLoader : AppDataLoadRecord
+    public class ProfitLossReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(calculatedColumnSql: "'detail'", modeltype: FwDataTypes.Text, isVisible: false)]

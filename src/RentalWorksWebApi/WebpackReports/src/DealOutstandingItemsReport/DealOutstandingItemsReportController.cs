@@ -12,6 +12,8 @@ using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Http;
 using static FwCore.Controllers.FwDataController;
 
+using WebApi.Data;
+
 namespace WebApi.Modules.Reports.DealOutstandingItemsReport
 {
     public class DealOutstandingItemsReportRequest : AppReportRequest
@@ -96,6 +98,7 @@ namespace WebApi.Modules.Reports.DealOutstandingItemsReport
                 DealOutstandingItemsReportLoader l = new DealOutstandingItemsReportLoader();
                 l.SetDependencies(this.AppConfig, this.UserSession);
                 FwJsonDataTable dt = await l.RunReportAsync(request);
+                l.HideDetailColumnsInSummaryDataTable(request, dt);
                 return new OkObjectResult(dt);
             }
             catch (Exception ex)

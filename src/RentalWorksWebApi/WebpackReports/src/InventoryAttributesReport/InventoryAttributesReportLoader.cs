@@ -21,7 +21,7 @@ namespace WebApi.Modules.Reports.InventoryAttributesReport
 
 
     [FwSqlTable("dbo.funcinventoryattributerpt()")]
-    public abstract class InventoryAttributesReportLoader : AppDataLoadRecord
+    public abstract class InventoryAttributesReportLoader : AppReportLoader
     {
         protected string AvailableForFilter = "";
         //------------------------------------------------------------------------------------ 

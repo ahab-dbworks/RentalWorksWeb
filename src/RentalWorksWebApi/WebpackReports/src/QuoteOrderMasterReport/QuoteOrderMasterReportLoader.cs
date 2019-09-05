@@ -11,7 +11,7 @@ using WebLibrary;
 namespace WebApi.Modules.Reports.QuoteOrderMasterReport
 {
     [FwSqlTable("quoteordermasterrptview")]
-    public class QuoteOrderMasterReportLoader : AppDataLoadRecord
+    public class QuoteOrderMasterReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(calculatedColumnSql: "'detail'", modeltype: FwDataTypes.Text, isVisible: false)]

@@ -6,7 +6,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Reports.QuikActivityReport
 {
     [FwSqlTable("getquikactivityrptweb(@fromdate, @todate)")]
-    public class QuikActivityReportLoader : AppDataLoadRecord
+    public class QuikActivityReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text, isVisible: false)]

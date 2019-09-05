@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Reports.ProjectManagerBillingReport
 {
     [FwSqlTable("agentbillingview")]
-    public class ProjectManagerBillingReportLoader : AppDataLoadRecord
+    public class ProjectManagerBillingReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text, isVisible: false)]

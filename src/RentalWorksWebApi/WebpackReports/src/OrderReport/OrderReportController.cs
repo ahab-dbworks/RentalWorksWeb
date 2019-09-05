@@ -11,6 +11,8 @@ using PuppeteerSharp.Media;
 using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Http;
 
+using WebApi.Data;
+
 namespace WebApi.Modules.Reports.OrderReport
 {
     public class OrderReportRequest : AppReportRequest
@@ -63,7 +65,7 @@ namespace WebApi.Modules.Reports.OrderReport
             {
                 OrderReportLoader l = new OrderReportLoader();
                 l.SetDependencies(this.AppConfig, this.UserSession);
-                return new OkObjectResult(await l.RunReportAsync(request));
+                return new OkObjectResult(await l.RunReportAsync(request));               
             }
             catch (Exception ex)
             {

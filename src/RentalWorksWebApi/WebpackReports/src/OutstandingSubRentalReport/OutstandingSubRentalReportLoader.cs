@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Reports.OutstandingSubRentalReport
 {
     [FwSqlTable("outstandingsubrentalrptview")]
-    public class OutstandingSubRentalReportLoader : AppDataLoadRecord
+    public class OutstandingSubRentalReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(calculatedColumnSql: "'detail'", modeltype: FwDataTypes.Text, isVisible: false)]

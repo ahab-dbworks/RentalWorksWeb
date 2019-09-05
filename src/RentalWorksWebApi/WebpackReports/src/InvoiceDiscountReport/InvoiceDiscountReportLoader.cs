@@ -8,7 +8,7 @@ using System;
 namespace WebApi.Modules.Reports.InvoiceDiscountReport
 {
     [FwSqlTable("dbo.funcinvoicediscountrpt(@invoicedatefrom, @invoicedateto, @billingstartdatefrom, @billingstartdateto, @discountpct, @includedeptswithnodata)")]
-    public class InvoiceDiscountReportLoader : AppDataLoadRecord
+    public class InvoiceDiscountReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text, isVisible: false)]

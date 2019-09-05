@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Reports.InvoiceSummaryReport
 {
     [FwSqlTable("invoicesummaryrptview")]
-    public class InvoiceSummaryReportLoader : AppDataLoadRecord
+    public class InvoiceSummaryReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text, isVisible: false)]

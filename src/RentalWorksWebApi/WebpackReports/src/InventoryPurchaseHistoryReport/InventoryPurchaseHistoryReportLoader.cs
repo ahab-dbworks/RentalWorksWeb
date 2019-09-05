@@ -27,7 +27,7 @@ namespace WebApi.Modules.Reports.InventoryPurchaseHistoryReport
 
 
     [FwSqlTable("inventorypurchaseshistoryrptview")]
-    public abstract class InventoryPurchaseHistoryReportLoader : AppDataLoadRecord
+    public abstract class InventoryPurchaseHistoryReportLoader : AppReportLoader
     {
         protected string AvailableForFilter = "X";
         //------------------------------------------------------------------------------------ 

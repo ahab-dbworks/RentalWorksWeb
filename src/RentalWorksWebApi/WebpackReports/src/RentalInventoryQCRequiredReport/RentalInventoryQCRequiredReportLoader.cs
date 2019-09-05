@@ -9,7 +9,7 @@ using System.Reflection;
 namespace WebApi.Modules.Reports.RentalInventoryQCRequiredReport
 {
     [FwSqlTable("dbo.funcqcrequiredweb('')")]
-    public class RentalInventoryQCRequiredReportLoader : AppDataLoadRecord
+    public class RentalInventoryQCRequiredReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(calculatedColumnSql: "'detail'", modeltype: FwDataTypes.Text, isVisible: false)]

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Reports.ValueOfOutRentalInventoryReport
 {
     [FwSqlTable("valueofoutinventoryrptview")]
-    public class ValueOfOutRentalInventoryReportLoader : AppDataLoadRecord
+    public class ValueOfOutRentalInventoryReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(calculatedColumnSql: "'detail'", modeltype: FwDataTypes.Text, isVisible: false)]

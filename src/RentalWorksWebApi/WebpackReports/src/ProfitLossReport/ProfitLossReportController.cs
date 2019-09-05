@@ -11,6 +11,8 @@ using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Http;
 using FwStandard.AppManager;
 using static FwCore.Controllers.FwDataController;
+using WebApi.Data;
+
 namespace WebApi.Modules.Reports.ProfitLossReport
 {
     public class ProfitLossReportRequest : AppReportRequest
@@ -84,6 +86,7 @@ namespace WebApi.Modules.Reports.ProfitLossReport
                 ProfitLossReportLoader l = new ProfitLossReportLoader();
                 l.SetDependencies(this.AppConfig, this.UserSession);
                 FwJsonDataTable dt = await l.RunReportAsync(request);
+                l.HideDetailColumnsInSummaryDataTable(request, dt);
                 return new OkObjectResult(dt);
             }
             catch (Exception ex)

@@ -24,7 +24,7 @@ namespace WebApi.Modules.Reports.InventoryCatalogReport
 
 
     [FwSqlTable("inventorycatalogrptview")]
-    public abstract class InventoryCatalogReportLoader : AppDataLoadRecord
+    public abstract class InventoryCatalogReportLoader : AppReportLoader
     {
         protected string AvailableForFilter = "X";
         //------------------------------------------------------------------------------------ 

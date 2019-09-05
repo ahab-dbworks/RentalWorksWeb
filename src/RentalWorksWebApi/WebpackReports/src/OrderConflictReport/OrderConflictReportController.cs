@@ -11,6 +11,8 @@ using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Http;
 using FwStandard.AppManager;
 using static FwCore.Controllers.FwDataController;
+using WebApi.Data;
+
 namespace WebApi.Modules.Reports.OrderConflictReport
 {
     public class OrderConflictReportRequest : AppReportRequest
@@ -91,6 +93,7 @@ namespace WebApi.Modules.Reports.OrderConflictReport
                 OrderConflictReportLoader l = new OrderConflictReportLoader();
                 l.SetDependencies(this.AppConfig, this.UserSession);
                 FwJsonDataTable dt = await l.RunReportAsync(request);
+                l.HideDetailColumnsInSummaryDataTable(request, dt);
                 return new OkObjectResult(dt);
             }
             catch (Exception ex)

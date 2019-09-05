@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Reports.ReturnedToInventoryReport
 {
     [FwSqlTable("returnedtoinventoryrptview")]
-    public class ReturnedToInventoryReportLoader : AppDataLoadRecord
+    public class ReturnedToInventoryReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(calculatedColumnSql: "'detail'", modeltype: FwDataTypes.Text, isVisible: false)]

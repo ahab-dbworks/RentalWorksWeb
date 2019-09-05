@@ -9,7 +9,7 @@ using System.Collections.Generic;
 
 namespace WebApi.Modules.Reports.CustomerRevenueByMonthReport
 {
-    public class CustomerRevenueByMonthReportLoader : AppDataLoadRecord
+    public class CustomerRevenueByMonthReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text)]

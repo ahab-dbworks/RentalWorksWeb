@@ -9,6 +9,8 @@ using System;
 using System.Threading.Tasks;
 using WebApi.Controllers;
 using static FwCore.Controllers.FwDataController;
+using WebApi.Data;
+
 namespace WebApi.Modules.Reports.QuikActivityReport
 {
     public class QuikActivityReportRequest : AppReportRequest
@@ -17,7 +19,7 @@ namespace WebApi.Modules.Reports.QuikActivityReport
         public DateTime ToDate { get; set; }
         //public bool? IncludeInUse { get; set; }
         public bool? OnlySubs { get; set; }
-        public string IsSummary { get; set; }
+        //public string IsSummary { get; set; }
         public string RecType { get; set; }
         public string DepartmentId { get; set; }
         public string AgentId { get; set; }
@@ -84,6 +86,7 @@ namespace WebApi.Modules.Reports.QuikActivityReport
                 QuikActivityReportLoader l = new QuikActivityReportLoader();
                 l.SetDependencies(this.AppConfig, this.UserSession);
                 FwJsonDataTable dt = await l.RunReportAsync(request);
+                l.HideDetailColumnsInSummaryDataTable(request, dt);
                 return new OkObjectResult(dt);
             }
             catch (Exception ex)

@@ -12,7 +12,7 @@ using System.Reflection;
 namespace WebApi.Modules.Reports.OrderReport
 {
 
-    public class OrderItemReportLoader : AppDataLoadRecord
+    public class OrderItemReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderid", modeltype: FwDataTypes.Text)]
@@ -65,7 +65,7 @@ namespace WebApi.Modules.Reports.OrderReport
     }
 
 
-    public class OrderReportLoader : AppDataLoadRecord
+    public class OrderReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderid", modeltype: FwDataTypes.Text)]

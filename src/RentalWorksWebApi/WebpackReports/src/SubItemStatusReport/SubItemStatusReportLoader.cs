@@ -8,7 +8,7 @@ using System.Data;
 using System.Reflection;
 namespace WebApi.Modules.Reports.SubItemStatusReport
 {
-    public class SubItemStatusReportLoader : AppDataLoadRecord
+    public class SubItemStatusReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text, isVisible: false)]

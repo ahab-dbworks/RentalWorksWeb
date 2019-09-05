@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Reports.CreditsOnAccountReport
 {
     [FwSqlTable("creditsonaccountwebview")]
-    public class CreditsOnAccountReportLoader : AppDataLoadRecord
+    public class CreditsOnAccountReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(calculatedColumnSql: "'detail'", modeltype: FwDataTypes.Text, isVisible: false)]

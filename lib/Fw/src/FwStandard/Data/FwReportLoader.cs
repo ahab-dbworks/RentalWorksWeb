@@ -8,9 +8,7 @@ namespace FwStandard.Data
     public abstract class FwReportLoader : FwDataReadWriteRecord 
     {
         //------------------------------------------------------------------------------------
-        //public async abstract Task<FwJsonDataTable> RunReportAsync(FwReportRenderRequest request);
-        //------------------------------------------------------------------------------------
-        public virtual void HideSummaryColumnsInDataTable(FwReportRequest request, FwJsonDataTable dt)
+        public virtual void HideDetailColumnsInSummaryDataTable(FwReportRequest request, FwJsonDataTable dt)
         {
             if (request.IsSummary.GetValueOrDefault(false))
             {

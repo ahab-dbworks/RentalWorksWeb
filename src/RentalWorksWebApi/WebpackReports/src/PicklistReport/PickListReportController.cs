@@ -11,6 +11,8 @@ using PuppeteerSharp.Media;
 using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Http;
 
+using WebApi.Data;
+
 namespace WebApi.Modules.Reports.PickListReport
 {
     public class PickListReportRequest : AppReportRequest

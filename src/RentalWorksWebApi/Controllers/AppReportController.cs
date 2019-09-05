@@ -1,6 +1,4 @@
 ﻿using FwCore.Controllers;
-using FwStandard.AppManager;
-using FwStandard.BusinessLogic;
 using FwStandard.Models;
 using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Http;
@@ -14,12 +12,6 @@ using static FwCore.Controllers.FwDataController;
 
 namespace WebApi.Controllers
 {
-    public class AppReportRequest
-    {
-        public bool IncludeSubHeadingsAndSubTotals { get; set; } = true;
-        public bool IncludeIdColumns { get; set; } = true;
-    }
-
     public abstract class AppReportController : FwReportController
     {
         //------------------------------------------------------------------------------------

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using WebApi.Data;
 namespace WebApi.Modules.Reports.SubRentalBillingAnalysisReport
 {
-    public class SubRentalBillingAnalysisReportLoader : AppDataLoadRecord
+    public class SubRentalBillingAnalysisReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text, isVisible: false)]

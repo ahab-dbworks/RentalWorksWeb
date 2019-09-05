@@ -13,6 +13,8 @@ using FwStandard.AppManager;
 using static FwCore.Controllers.FwDataController;
 using WebApi.Modules.Reports.SalesTaxReport;
 
+using WebApi.Data;
+
 namespace WebApi.Modules.Reports.SalesTaxUSAReport
 {
     [Route("api/v1/[controller]")]
@@ -73,6 +75,7 @@ namespace WebApi.Modules.Reports.SalesTaxUSAReport
                 SalesTaxUSAReportLoader l = new SalesTaxUSAReportLoader();
                 l.SetDependencies(this.AppConfig, this.UserSession);
                 FwJsonDataTable dt = await l.RunReportAsync(request);
+                l.HideDetailColumnsInSummaryDataTable(request, dt);
                 return new OkObjectResult(dt);
             }
             catch (Exception ex)

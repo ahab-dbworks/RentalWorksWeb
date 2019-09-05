@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.Http;
 using FwStandard.AppManager;
 using static FwCore.Controllers.FwDataController;
 
+using WebApi.Data;
+
 namespace WebApi.Modules.Reports.InvoiceDiscountReport
 {
     public class InvoiceDiscountReportRequest : AppReportRequest
@@ -84,6 +86,7 @@ namespace WebApi.Modules.Reports.InvoiceDiscountReport
                 InvoiceDiscountReportLoader l = new InvoiceDiscountReportLoader();
                 l.SetDependencies(this.AppConfig, this.UserSession);
                 FwJsonDataTable dt = await l.RunReportAsync(request);
+                l.HideDetailColumnsInSummaryDataTable(request, dt);
                 return new OkObjectResult(dt);
             }
             catch (Exception ex)

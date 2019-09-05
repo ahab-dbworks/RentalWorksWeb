@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Reports.CreateInvoiceProcessReport
 {
     [FwSqlTable("billingprocessrptview")]
-    public class CreateInvoiceProcessReportLoader : AppDataLoadRecord
+    public class CreateInvoiceProcessReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text, isVisible: false)]

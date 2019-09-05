@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Reports.CrewSignInReport
 {
     [FwSqlTable("funccrewsigninrpt(@rentfromdate, @renttodate)")]
-    public class CrewSignInReportLoader : AppDataLoadRecord
+    public class CrewSignInReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text, isVisible: false)]

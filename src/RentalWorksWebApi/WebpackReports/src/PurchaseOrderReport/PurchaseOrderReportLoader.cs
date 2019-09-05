@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Reports.PurchaseOrderReport
 {
     [FwSqlTable("purchaseorderrptview")]
-    public class PurchaseOrderReportLoader : AppDataLoadRecord
+    public class PurchaseOrderReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(calculatedColumnSql: "'detail'", modeltype: FwDataTypes.Text, isVisible: false)]

@@ -12,6 +12,8 @@ using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Http;
 using static FwCore.Controllers.FwDataController;
 
+using WebApi.Data;
+
 namespace WebApi.Modules.Reports.CreateInvoiceProcessReport
 {
 
@@ -80,6 +82,7 @@ namespace WebApi.Modules.Reports.CreateInvoiceProcessReport
                 CreateInvoiceProcessReportLoader l = new CreateInvoiceProcessReportLoader();
                 l.SetDependencies(this.AppConfig, this.UserSession);
                 FwJsonDataTable dt = await l.RunReportAsync(request);
+                l.HideDetailColumnsInSummaryDataTable(request, dt);
                 return new OkObjectResult(dt);
             }
             catch (Exception ex)

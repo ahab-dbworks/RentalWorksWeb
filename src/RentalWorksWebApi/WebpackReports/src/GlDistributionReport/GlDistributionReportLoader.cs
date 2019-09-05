@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Reports.GlDistributionReport
 {
     [FwSqlTable("dbo.funcglsummaryrpt(@fromdate, @todate, @dealid)")]
-    public class GlDistributionReportLoader : AppDataLoadRecord
+    public class GlDistributionReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(calculatedColumnSql: "'detail'", modeltype: FwDataTypes.Text, isVisible: false)]

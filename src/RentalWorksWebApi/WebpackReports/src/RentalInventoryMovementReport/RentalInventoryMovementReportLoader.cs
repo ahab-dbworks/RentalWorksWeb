@@ -6,7 +6,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Reports.RentalInventoryMovementReport
 {
     [FwSqlTable("dbo.getinventorymovementrpt(@fromdate, @todate, @includezeroowned, @value, @warehouseid, @rank, @trackedby, @inventorydepartmentid, @categoryid, @subcategoryid, @masterid)")]
-    public class RentalInventoryMovementReportLoader : AppDataLoadRecord
+    public class RentalInventoryMovementReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
         //[FwSqlDataField(calculatedColumnSql: "'detail'", modeltype: FwDataTypes.Text, isVisible: false)]

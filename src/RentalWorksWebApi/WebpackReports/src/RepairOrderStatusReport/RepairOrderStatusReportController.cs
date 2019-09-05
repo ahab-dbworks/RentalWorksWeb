@@ -11,6 +11,8 @@ using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Http;
 using FwStandard.AppManager;
 using static FwCore.Controllers.FwDataController;
+using WebApi.Data;
+
 namespace WebApi.Modules.Reports.RepairOrderStatusReport
 {
     public class RepairOrderStatusReportRequest : AppReportRequest
@@ -20,7 +22,7 @@ namespace WebApi.Modules.Reports.RepairOrderStatusReport
         public bool? Billable { get; set; } // true, false, null=all
         public bool? Billed { get; set; } // true, false, null=all
         public bool? Owned { get; set; } // true, false, null=all
-        public bool? IsSummary { get; set; }
+        //public bool? IsSummary { get; set; }
         public int? DaysInRepair { get; set; }
         public string DaysInRepairFilterMode { get; set; } = "ALL";  // ALL/LTE/GT
         public bool? IncludeOutsideRepairsOnly { get; set; }
@@ -94,6 +96,7 @@ namespace WebApi.Modules.Reports.RepairOrderStatusReport
                 RepairOrderStatusReportLoader l = new RepairOrderStatusReportLoader();
                 l.SetDependencies(this.AppConfig, this.UserSession);
                 FwJsonDataTable dt = await l.RunReportAsync(request);
+                l.HideDetailColumnsInSummaryDataTable(request, dt);
                 return new OkObjectResult(dt);
             }
             catch (Exception ex)

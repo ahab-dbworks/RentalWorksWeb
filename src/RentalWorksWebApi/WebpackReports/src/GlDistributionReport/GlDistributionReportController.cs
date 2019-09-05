@@ -12,6 +12,8 @@ using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Http;
 using static FwCore.Controllers.FwDataController;
 
+using WebApi.Data;
+
 namespace WebApi.Modules.Reports.GlDistributionReport
 {
 
@@ -22,7 +24,7 @@ namespace WebApi.Modules.Reports.GlDistributionReport
         public string OfficeLocationId { get; set; }
         public string GlAccountId { get; set; }
         public string DealId { get; set; }
-        public bool? IsSummary { get; set; }
+        //public bool? IsSummary { get; set; }
     }
 
 
@@ -86,6 +88,7 @@ namespace WebApi.Modules.Reports.GlDistributionReport
                 GlDistributionReportLoader l = new GlDistributionReportLoader();
                 l.SetDependencies(this.AppConfig, this.UserSession);
                 FwJsonDataTable dt = await l.RunReportAsync(request);
+                l.HideDetailColumnsInSummaryDataTable(request, dt);
                 return new OkObjectResult(dt);
             }
             catch (Exception ex)

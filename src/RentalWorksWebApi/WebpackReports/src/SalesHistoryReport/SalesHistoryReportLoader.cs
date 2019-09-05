@@ -8,7 +8,7 @@ using System.Data;
 using System.Reflection;
 namespace WebApi.Modules.Reports.SalesHistoryReport
 {
-    public class SalesHistoryReportLoader : AppDataLoadRecord
+    public class SalesHistoryReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text, isVisible: false)]

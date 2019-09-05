@@ -12,6 +12,8 @@ using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Http;
 using static FwCore.Controllers.FwDataController;
 
+using WebApi.Data;
+
 namespace WebApi.Modules.Reports.LateReturnsReport
 {
     public class LateReturnsReportRequest : AppReportRequest
@@ -85,6 +87,7 @@ namespace WebApi.Modules.Reports.LateReturnsReport
                 LateReturnsReportLoader l = new LateReturnsReportLoader();
                 l.SetDependencies(this.AppConfig, this.UserSession);
                 FwJsonDataTable dt = await l.RunReportAsync(request);
+                l.HideDetailColumnsInSummaryDataTable(request, dt);
                 return new OkObjectResult(dt);
             }
             catch (Exception ex)

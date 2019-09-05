@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Reports.ReturnOnAssetReport
 {
     [FwSqlTable("dbo.dwreturnonasset(@fromdate, @todate, @icode)")]
-    public class ReturnOnAssetByDateRangeReportLoader : AppDataLoadRecord
+    public class ReturnOnAssetByDateRangeReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(calculatedColumnSql: "'detail'", modeltype: FwDataTypes.Text, isVisible: false)]

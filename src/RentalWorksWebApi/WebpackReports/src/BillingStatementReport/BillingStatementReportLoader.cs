@@ -8,7 +8,7 @@ using System.Data;
 using System.Reflection;
 namespace WebApi.Modules.Reports.BillingStatementReport
 {
-    public class BillingStatementReportLoader : AppDataLoadRecord
+    public class BillingStatementReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text)]

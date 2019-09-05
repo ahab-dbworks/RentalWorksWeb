@@ -22,7 +22,7 @@ namespace WebApi.Modules.Reports.InventoryTransactionReport
     }
 
     [FwSqlTable("rptinventorytransaction")]
-    public abstract class InventoryTransactionReportLoader : AppDataLoadRecord
+    public abstract class InventoryTransactionReportLoader : AppReportLoader
     {
         protected string AvailableForFilter = "X";
         //------------------------------------------------------------------------------------ 

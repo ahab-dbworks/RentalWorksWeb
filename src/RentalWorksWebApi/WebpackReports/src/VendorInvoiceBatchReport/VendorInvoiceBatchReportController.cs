@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.Http;
 using FwStandard.AppManager;
 using static FwCore.Controllers.FwDataController;
 
+using WebApi.Data;
+
 namespace WebApi.Modules.Reports.VendorInvoiceBatchReport
 {
     public class VendorInvoiceBatchReportRequest : AppReportRequest
@@ -78,6 +80,7 @@ namespace WebApi.Modules.Reports.VendorInvoiceBatchReport
                 VendorInvoiceBatchReportLoader l = new VendorInvoiceBatchReportLoader();
                 l.SetDependencies(this.AppConfig, this.UserSession);
                 FwJsonDataTable dt = await l.RunReportAsync(request);
+                l.HideDetailColumnsInSummaryDataTable(request, dt);
                 return new OkObjectResult(dt);
             }
             catch (Exception ex)

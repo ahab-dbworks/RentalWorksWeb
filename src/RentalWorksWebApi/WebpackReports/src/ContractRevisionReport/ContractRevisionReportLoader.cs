@@ -9,7 +9,7 @@ using System.Reflection;
 namespace WebApi.Modules.Reports.ContractRevisionReport
 {
     [FwSqlTable("dbo.funccontractrevisionrptweb(@fromdate,@todate)")]
-    public class ContractRevisionReportLoader : AppDataLoadRecord
+    public class ContractRevisionReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(calculatedColumnSql: "'detail'", modeltype: FwDataTypes.Text, isVisible: false)]

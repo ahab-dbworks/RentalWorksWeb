@@ -11,7 +11,7 @@ using System.Text;
 namespace WebApi.Modules.Reports.RepairOrderStatusReport
 {
     [FwSqlTable("repairorderstatusrptwebview")]
-    public class RepairOrderStatusReportLoader : AppDataLoadRecord
+    public class RepairOrderStatusReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(calculatedColumnSql: "'detail'", modeltype: FwDataTypes.Text, isVisible: false)]

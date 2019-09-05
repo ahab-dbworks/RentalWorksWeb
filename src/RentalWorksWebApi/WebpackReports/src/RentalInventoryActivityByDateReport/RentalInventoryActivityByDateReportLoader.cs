@@ -8,7 +8,7 @@ using System.Data;
 using System.Reflection;
 namespace WebApi.Modules.Reports.RentalInventoryActivityByDateReport
 {
-    public class RentalInventoryActivityByDateReportLoader : AppDataLoadRecord
+    public class RentalInventoryActivityByDateReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text, isVisible: false)]

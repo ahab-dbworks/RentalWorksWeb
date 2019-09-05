@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Reports.RentalInventoryStatusAndRevenueReport
 {
     [FwSqlTable("dbo.funcrentalinventorystatusandrevenueweb(@revenuefromdate, @revenuetodate)")]
-    public class RentalInventoryStatusAndRevenueReportLoader : AppDataLoadRecord
+    public class RentalInventoryStatusAndRevenueReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(calculatedColumnSql: "'detail'", modeltype: FwDataTypes.Text, isVisible: false)]

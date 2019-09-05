@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.Data;
 namespace WebApi.Modules.Reports.ArAgingReport
 {
-    public class ArAgingReportLoader : AppDataLoadRecord
+    public class ArAgingReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text, isVisible: false)]

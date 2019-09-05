@@ -9,7 +9,7 @@ using WebLibrary;
 
 namespace WebApi.Modules.Reports.PurchaseOrderMasterReport
 {
-    public class PurchaseOrderMasterReportLoader : AppDataLoadRecord
+    public class PurchaseOrderMasterReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text)]

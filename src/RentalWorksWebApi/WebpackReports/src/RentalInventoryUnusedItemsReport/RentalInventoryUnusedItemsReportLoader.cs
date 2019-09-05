@@ -9,7 +9,7 @@ using System.Reflection;
 namespace WebApi.Modules.Reports.RentalInventoryUnusedItemsReport
 {
     [FwSqlTable("dbo.funcunuseditemsrpt(@asofdate)")]
-    public class RentalInventoryUnusedItemsReportLoader : AppDataLoadRecord
+    public class RentalInventoryUnusedItemsReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(calculatedColumnSql: "'detail'", modeltype: FwDataTypes.Text, isVisible: false)]

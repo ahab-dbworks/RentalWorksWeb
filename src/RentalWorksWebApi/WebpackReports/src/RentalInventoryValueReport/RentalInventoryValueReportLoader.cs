@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Data;
 namespace WebApi.Modules.Reports.RentalInventoryValueReport
 {
-    public class RentalInventoryValueReportLoader : AppDataLoadRecord
+    public class RentalInventoryValueReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text, isVisible: false)]

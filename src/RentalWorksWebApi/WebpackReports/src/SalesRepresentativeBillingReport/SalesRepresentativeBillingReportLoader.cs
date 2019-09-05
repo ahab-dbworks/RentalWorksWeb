@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Reports.SalesRepresentativeBillingReport
 {
     [FwSqlTable("agentbillingview")]
-    public class SalesRepresentativeBillingReportLoader : AppDataLoadRecord
+    public class SalesRepresentativeBillingReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text, isVisible: false)]

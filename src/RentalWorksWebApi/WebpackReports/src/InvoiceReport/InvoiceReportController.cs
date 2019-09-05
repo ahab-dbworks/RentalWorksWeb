@@ -10,6 +10,8 @@ using PuppeteerSharp;
 using PuppeteerSharp.Media;
 using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Http;
+using WebApi.Data;
+
 namespace WebApi.Modules.Reports.InvoiceReport
 {
     public class InvoiceReportRequest

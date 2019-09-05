@@ -9,7 +9,7 @@ using System.Reflection;
 namespace WebApi.Modules.Reports.SalesInventoryMasterReport
 {
     [FwSqlTable("dbo.funcsalesmasterrpt(@revenuefromdate, @revenuetodate)")]
-    public class SalesInventoryMasterReportLoader : AppDataLoadRecord
+    public class SalesInventoryMasterReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(calculatedColumnSql: "'detail'", modeltype: FwDataTypes.Text, isVisible: false)]

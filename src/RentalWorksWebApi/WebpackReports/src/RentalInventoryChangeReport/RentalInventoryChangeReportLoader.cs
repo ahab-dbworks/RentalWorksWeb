@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Reports.RentalInventoryChangeReport
 {
     [FwSqlTable("dbo.dwinventorychange(@fromdate, @todate)")]
-    public class RentalInventoryChangeReportLoader : AppDataLoadRecord
+    public class RentalInventoryChangeReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text, isVisible: false)]

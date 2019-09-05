@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Reports.SubSalesStagedItemsReport
 {
     [FwSqlTable("subsalesstagedrptview")]
-    public class SubSalesStagedItemsReportLoader : AppDataLoadRecord
+    public class SubSalesStagedItemsReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(calculatedColumnSql: "'detail'", modeltype: FwDataTypes.Text, isVisible: false)]

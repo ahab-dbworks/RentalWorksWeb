@@ -9,7 +9,7 @@ using WebLibrary;
 namespace WebApi.Modules.Reports.BillingAnalysisReport
 {
     [FwSqlTable("dbo.funcbillinganalysisweb(@includerental, @includesales, @includemisc, @includelabor, @includeld, @includers, @includetaxordertotal, @includetaxordercost, @includetaxinvoiced, @includetaxvendorinvoice, @includecreditsinvoiced, @includebilledintotal)")]
-    public class BillingAnalysisReportLoader : AppDataLoadRecord
+    public class BillingAnalysisReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(calculatedColumnSql: "'detail'", modeltype: FwDataTypes.Text, isVisible: false)]

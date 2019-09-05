@@ -59,7 +59,7 @@ namespace WebApi.Modules.Reports.OrderConflictReport
     //------------------------------------------------------------------------------------ 
 
     [FwSqlTable("availabilitymasterwhview")]
-    public class OrderConflictReportLoader : AppDataLoadRecord
+    public class OrderConflictReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(calculatedColumnSql: "'detail'", modeltype: FwDataTypes.Text, isVisible: false)]

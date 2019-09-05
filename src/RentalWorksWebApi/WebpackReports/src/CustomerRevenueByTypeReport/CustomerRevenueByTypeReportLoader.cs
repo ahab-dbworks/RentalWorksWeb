@@ -7,7 +7,7 @@ using System.Data;
 
 namespace WebApi.Modules.Reports.CustomerRevenueByTypeReport
 {
-    public class CustomerRevenueByTypeReportLoader : AppDataLoadRecord
+    public class CustomerRevenueByTypeReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text, isVisible: false)]

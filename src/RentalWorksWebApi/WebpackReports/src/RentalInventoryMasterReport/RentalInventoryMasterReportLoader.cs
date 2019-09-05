@@ -9,7 +9,7 @@ using System.Reflection;
 namespace WebApi.Modules.Reports.RentalInventoryMasterReport
 {
     [FwSqlTable("rentalmasterrptview")]
-    public class RentalInventoryMasterReportLoader : AppDataLoadRecord
+    public class RentalInventoryMasterReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(calculatedColumnSql: "'detail'", modeltype: FwDataTypes.Text, isVisible: false)]

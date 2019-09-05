@@ -12,6 +12,8 @@ using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Http;
 using static FwCore.Controllers.FwDataController;
 
+using WebApi.Data;
+
 namespace WebApi.Modules.Reports.ProjectManagerBillingReport
 {
 
@@ -90,6 +92,7 @@ namespace WebApi.Modules.Reports.ProjectManagerBillingReport
                 ProjectManagerBillingReportLoader l = new ProjectManagerBillingReportLoader();
                 l.SetDependencies(this.AppConfig, this.UserSession);
                 FwJsonDataTable dt = await l.RunReportAsync(request);
+                l.HideDetailColumnsInSummaryDataTable(request, dt);
                 return new OkObjectResult(dt);
             }
             catch (Exception ex)

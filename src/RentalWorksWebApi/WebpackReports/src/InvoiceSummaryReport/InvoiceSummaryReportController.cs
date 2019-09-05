@@ -14,6 +14,8 @@ using System.Collections.Generic;
 using System.Text;
 using static FwCore.Controllers.FwDataController;
 
+using WebApi.Data;
+
 namespace WebApi.Modules.Reports.InvoiceSummaryReport
 {
 
@@ -88,6 +90,7 @@ namespace WebApi.Modules.Reports.InvoiceSummaryReport
                 InvoiceSummaryReportLoader l = new InvoiceSummaryReportLoader();
                 l.SetDependencies(this.AppConfig, this.UserSession);
                 FwJsonDataTable dt = await l.RunReportAsync(request);
+                l.HideDetailColumnsInSummaryDataTable(request, dt);
                 return new OkObjectResult(dt);
             }
             catch (Exception ex)

@@ -9,7 +9,7 @@ using System.Reflection;
 namespace WebApi.Modules.Reports.ChangeAuditReport
 {
     [FwSqlTable("webauditjsonview")]
-    public class ChangeAuditReportLoader : AppDataLoadRecord
+    public class ChangeAuditReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(calculatedColumnSql: "'detail'", modeltype: FwDataTypes.Text, isVisible: false)]

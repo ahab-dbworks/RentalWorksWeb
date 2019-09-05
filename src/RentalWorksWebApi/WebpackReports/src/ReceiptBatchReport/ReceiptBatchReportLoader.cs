@@ -9,7 +9,7 @@ using System.Reflection;
 namespace WebApi.Modules.Reports.ReceiptBatchReport
 {
     [FwSqlTable("receiptbatchview")]
-    public class ReceiptBatchReportLoader : AppDataLoadRecord
+    public class ReceiptBatchReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text, isVisible: false)]

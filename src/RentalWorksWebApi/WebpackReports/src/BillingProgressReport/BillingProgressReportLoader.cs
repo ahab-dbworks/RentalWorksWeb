@@ -8,7 +8,7 @@ using System.Data;
 
 namespace WebApi.Modules.Reports.BillingProgressReport
 {
-    public class BillingProgressReportLoader : AppDataLoadRecord
+    public class BillingProgressReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text, isVisible: false)]

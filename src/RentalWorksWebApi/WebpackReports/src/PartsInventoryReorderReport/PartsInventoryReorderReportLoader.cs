@@ -10,7 +10,7 @@ using WebLibrary;
 
 namespace WebApi.Modules.Reports.PartsInventoryReorderReport
 {
-    public class PartsInventoryReorderReportLoader : AppDataLoadRecord
+    public class PartsInventoryReorderReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text, isVisible: false)]

@@ -14,7 +14,7 @@ namespace WebApi.Modules.Reports.PickListReport
 
 
     [FwSqlTable("picklistrptview")]
-    public class PickListItemReportLoader : AppDataLoadRecord
+    public class PickListItemReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text, isVisible: false)]
@@ -320,7 +320,7 @@ namespace WebApi.Modules.Reports.PickListReport
 
 
     [FwSqlTable("picklistrpttitleview")]
-    public class PickListReportLoader : AppDataLoadRecord
+    public class PickListReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "picklistid", modeltype: FwDataTypes.Text)]

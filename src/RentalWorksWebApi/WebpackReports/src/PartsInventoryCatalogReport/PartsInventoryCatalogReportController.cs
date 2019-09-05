@@ -13,6 +13,8 @@ using Microsoft.AspNetCore.Http;
 using static FwCore.Controllers.FwDataController;
 using WebApi.Modules.Reports.InventoryCatalogReport;
 
+using WebApi.Data;
+
 namespace WebApi.Modules.Reports.PartsInventoryCatalogReport
 {
 
@@ -74,6 +76,7 @@ namespace WebApi.Modules.Reports.PartsInventoryCatalogReport
                 PartsInventoryCatalogReportLoader l = new PartsInventoryCatalogReportLoader();
                 l.SetDependencies(this.AppConfig, this.UserSession);
                 FwJsonDataTable dt = await l.RunReportAsync(request);
+                l.HideDetailColumnsInSummaryDataTable(request, dt);
                 return new OkObjectResult(dt);
             }
             catch (Exception ex)

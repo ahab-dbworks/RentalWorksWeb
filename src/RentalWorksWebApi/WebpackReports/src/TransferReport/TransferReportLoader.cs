@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.Data;
 namespace WebApi.Modules.Reports.TransferReport
 {
-    public class TransferReportLoader : AppDataLoadRecord
+    public class TransferReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text, isVisible: false)]

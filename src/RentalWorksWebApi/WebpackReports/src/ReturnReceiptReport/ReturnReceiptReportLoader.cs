@@ -9,7 +9,7 @@ using System.Reflection;
 namespace WebApi.Modules.Reports.ReturnReceiptReport
 {
     [FwSqlTable("returnreceiptrptwebview")]
-    public class ReturnReceiptReportLoader : AppDataLoadRecord
+    public class ReturnReceiptReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text)]
