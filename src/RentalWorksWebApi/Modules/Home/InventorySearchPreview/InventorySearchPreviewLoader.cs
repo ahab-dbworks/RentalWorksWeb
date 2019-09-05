@@ -9,6 +9,7 @@ using static WebApi.Modules.Home.InventorySearchPreview.InventorySearchPreviewCo
 using WebApi.Modules.Home.InventoryAvailability;
 using System.Collections.Generic;
 using WebLibrary;
+using WebApi.Logic;
 
 namespace WebApi.Modules.Home.InventorySearchPreview
 {
@@ -30,6 +31,20 @@ namespace WebApi.Modules.Home.InventorySearchPreview
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "availfor", modeltype: FwDataTypes.Text)]
         public string AvailFor { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string AvailableForDisplay
+        {
+            get { return getRecTypeDisplay(AvailFor); }
+            set { }
+        }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string AvailableForColor
+        {
+            get { return determineRecTypeColor(AvailFor); }
+            set { }
+        }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "masterno", modeltype: FwDataTypes.Text)]
         public string ICode { get; set; }
@@ -133,6 +148,16 @@ namespace WebApi.Modules.Home.InventorySearchPreview
         [FwSqlDataField(column: "imagewidth", modeltype: FwDataTypes.Integer)]
         public int? ImageWidth { get; set; }
         //------------------------------------------------------------------------------------ 
+        private string getRecTypeDisplay(string recType)
+        {
+            return AppFunc.GetInventoryRecTypeDisplay(recType);
+        }
+        //------------------------------------------------------------------------------------ 
+        private string determineRecTypeColor(string recType)
+        {
+            return AppFunc.GetInventoryRecTypeColor(recType);
+        }
+        //------------------------------------------------------------------------------------    
 
 
         //------------------------------------------------------------------------------------ 
@@ -248,6 +273,17 @@ namespace WebApi.Modules.Home.InventorySearchPreview
                     }
                 }
             }
+
+
+            if (dt.Rows.Count > 0)
+            {
+                foreach (List<object> row in dt.Rows)
+                {
+                    row[dt.GetColumnNo("AvailableForDisplay")] = getRecTypeDisplay(row[dt.GetColumnNo("AvailFor")].ToString());
+                    row[dt.GetColumnNo("AvailableForColor")] = determineRecTypeColor(row[dt.GetColumnNo("AvailFor")].ToString());
+                }
+            }
+
 
             return dt;
         }
