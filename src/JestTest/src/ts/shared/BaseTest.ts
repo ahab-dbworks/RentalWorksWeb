@@ -132,7 +132,7 @@ export abstract class BaseTest {
     //---------------------------------------------------------------------------------------
     TestModuleForDuplicate(module: ModuleBase, inputObject: any, duplicatedFieldsForTestName: string = "") {
         let testName: string = "";
-        const testCollectionName = `Attempt to create a duplicate ${module.moduleName} ${duplicatedFieldsForTestName ? " using " + duplicatedFieldsForTestName : ""}`;
+        const testCollectionName = `Attempt to create a duplicate ${module.moduleName} ${duplicatedFieldsForTestName ? "using " + duplicatedFieldsForTestName : ""}`;
         describe(testCollectionName, () => {
             //---------------------------------------------------------------------------------------
             if (this.continueTest) {

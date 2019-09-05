@@ -89,25 +89,32 @@ export class ModuleBase {
                 datatype = 'displayfield';
             }
         }
+        Logging.logger.info(`${fieldName} datatype is ${datatype}`);
         return datatype;
     }
     //---------------------------------------------------------------------------------------
     async populateFormWithRecord(record: any): Promise<any> {
         var currentValue = "";
         for (var key in record) {
+            Logging.logger.info(`About to populate ${key} with ${record[key]}`);
             let displayfield;
             const datatype = await this.getDataType(key);
             if (datatype === 'displayfield') {
                 displayfield = key;
                 key = await page.$eval(`.fwformfield[data-displayfield="${key}"]`, el => el.getAttribute('data-datafield'));
+                Logging.logger.info(`About to populate ${key} with ${record[key]}`);
             }
             const tabId = await page.$eval(`.fwformfield[data-datafield="${key}"]`, el => el.closest('[data-type="tabpage"]').getAttribute('data-tabid'));
+            Logging.logger.info(`Found ${key} field on tab ${tabId}`);
             const tabIsActive = await page.$eval(`#${tabId}`, el => el.classList.contains('active'));
             if (!tabIsActive) {
+                Logging.logger.info(`Clicking tab ${tabId}`);
                 await page.click(`#${tabId}`);
             }
             switch (datatype) {
                 case 'phone':
+                case 'email':
+                case 'zipcode':
                 case 'text':
                     currentValue = await this.getDataFieldValue(key);
                     if (currentValue != "") {
@@ -140,6 +147,8 @@ export class ModuleBase {
                 const datatype = await this.getDataType(datafields[i]);
                 switch (datatype) {
                     case 'phone':
+                    case 'email':
+                    case 'zipcode':
                     case 'text':
                         value = await this.getDataFieldValue(datafields[i]);
                         record[datafields[i]] = value;

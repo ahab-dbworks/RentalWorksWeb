@@ -1,4 +1,5 @@
 import { Logging } from '../shared/Logging';
+import faker from 'faker';
 
 export class TestUtils {
     //-----------------------------------------------------------------------------------------------------------------
@@ -77,6 +78,102 @@ export class TestUtils {
     //-----------------------------------------------------------------------------------------------------------------
     static getTestToken(): string {
         return this.getDateTimeToken();
+    }
+    //-----------------------------------------------------------------------------------------------------------------
+    static randomAlphanumeric(length: number): string {
+        return faker.random.alphaNumeric(length);
+    }
+    //-----------------------------------------------------------------------------------------------------------------
+    static randomNumeric(length: number): string {
+        let symbol: string = "#";
+        let format: string = symbol.repeat(length);
+        return faker.helpers.replaceSymbolWithNumber(format, symbol);
+    }
+    //-----------------------------------------------------------------------------------------------------------------
+    static randomFirstName(): string {
+        return faker.name.firstName();
+    }
+    //-----------------------------------------------------------------------------------------------------------------
+    static randomLastName(): string {
+        return faker.name.lastName();
+    }
+    //-----------------------------------------------------------------------------------------------------------------
+    static randomEmail(): string {
+        return faker.internet.email();
+    }
+    //-----------------------------------------------------------------------------------------------------------------
+    static randomUrl(): string {
+        return faker.internet.url();
+    }
+    //-----------------------------------------------------------------------------------------------------------------
+    static randomAddress1(): string {
+        return faker.address.streetAddress();
+    }
+    //-----------------------------------------------------------------------------------------------------------------
+    static randomAddress2(): string {
+        return faker.address.secondaryAddress();
+    }
+    //-----------------------------------------------------------------------------------------------------------------
+    static randomStreetName(): string {
+        return faker.address.streetName();
+    }
+    //-----------------------------------------------------------------------------------------------------------------
+    static randomCity(): string {
+        return faker.address.city();
+    }
+    //-----------------------------------------------------------------------------------------------------------------
+    static randomState(): string {
+        return faker.address.state();
+    }
+    //-----------------------------------------------------------------------------------------------------------------
+    static randomStateCode(): string {
+        return faker.address.stateAbbr();
+    }
+    //-----------------------------------------------------------------------------------------------------------------
+    static randomZipCode5(): string {
+        return faker.address.zipCode("#####");
+    }
+    //-----------------------------------------------------------------------------------------------------------------
+    static randomZipCode(): string {
+        return this.randomZipCode5();
+    }
+    //-----------------------------------------------------------------------------------------------------------------
+    static randomZipCode9(): string {
+        return faker.address.zipCode("#####-####");
+    }
+    //-----------------------------------------------------------------------------------------------------------------
+    static randomPhone(): string {
+        //return faker.phone.phoneNumber();
+        let phone: string = faker.phone.phoneNumberFormat(0);
+        phone = phone.split('-').join("");  // remove the dashes, we just want the numbers
+        return phone;
+        /*
+        faker.phone.phoneNumberFormat(format);
+        Formats:
+        0 = "587-753-7028
+        1 = "(116) 239-1938
+        2 = "1-878-758-7353
+        3 = "343.578.4788
+        */
+    }
+    //-----------------------------------------------------------------------------------------------------------------
+    static formattedPhone(phone: string): string {  //phone should be just numbers like 7142038800, returns (714) 203-8800
+        let formattedPhone: string = "";
+        //formattedPhone = '(' + phone.substring(0, 3) + ') ' + phone.substring(3, 6) + '-' + phone.substring(6); 
+        formattedPhone = '(' + phone.substr(0, 3) + ') ' + phone.substr(3, 3) + '-' + phone.substr(6);
+        return formattedPhone;
+    }
+    //-----------------------------------------------------------------------------------------------------------------
+    static randomPhoneExtension(): string {
+        return this.randomNumeric(4);
+    }
+    //-----------------------------------------------------------------------------------------------------------------
+    static randomCompanyName(): string {
+        return faker.company.companyName();
+    }
+    //-----------------------------------------------------------------------------------------------------------------
+    static randomJobTitle(): string {
+        return faker.name.jobTitle();
     }
     //-----------------------------------------------------------------------------------------------------------------
 }

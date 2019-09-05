@@ -1,6 +1,5 @@
-﻿import faker from 'faker';
-import { BaseTest } from '../shared/BaseTest';
-//import { TestUtils } from '../shared/TestUtils';
+﻿import { BaseTest } from '../shared/BaseTest';
+import { TestUtils } from '../shared/TestUtils';
 import { Contact } from './modules/Contact';
 import { Vendor } from './modules/Vendor';
 import { Customer } from './modules/Customer';
@@ -22,14 +21,20 @@ export class RegressionTest extends BaseTest {
         if (this.continueTest) {
             const contactModule: Contact = new Contact();
             contactInputs = {
-                FirstName: `${faker.name.firstName()} - ${this.testToken}`,
-                LastName: faker.name.lastName(),
-                Email: faker.internet.email(),
-                Address1: faker.address.streetAddress(),
-                Address2: faker.address.secondaryAddress(),
-                City: faker.address.city(),
-                State: faker.address.state(true),
-                ZipCode: faker.address.zipCode("99999")
+                FirstName: `${TestUtils.randomFirstName()} - ${this.testToken}`,
+                LastName: TestUtils.randomLastName(),
+                Email: TestUtils.randomEmail(),
+                Address1: TestUtils.randomAddress1(),
+                Address2: TestUtils.randomAddress2(),
+                City: TestUtils.randomCity(),
+                State: TestUtils.randomStateCode(),
+                ZipCode: TestUtils.randomZipCode(),
+                OfficePhone: TestUtils.randomPhone(),
+                OfficeExtension: TestUtils.randomPhoneExtension(),
+                DirectPhone: TestUtils.randomPhone(),
+                MobilePhone: TestUtils.randomPhone(),
+                HomePhone: TestUtils.randomPhone(),
+                Fax: TestUtils.randomPhone(),
             }
 
             var contactExpected: any = {
@@ -41,6 +46,12 @@ export class RegressionTest extends BaseTest {
                 City: contactInputs.City.toUpperCase(),
                 State: contactInputs.State.toUpperCase(),
                 ZipCode: contactInputs.ZipCode.toUpperCase(),
+                OfficePhone: TestUtils.formattedPhone(contactInputs.OfficePhone),
+                OfficeExtension: contactInputs.OfficeExtension,
+                DirectPhone: TestUtils.formattedPhone(contactInputs.DirectPhone),
+                MobilePhone: TestUtils.formattedPhone(contactInputs.MobilePhone),
+                HomePhone: TestUtils.formattedPhone(contactInputs.HomePhone),
+                Fax: TestUtils.formattedPhone(contactInputs.Fax),
             }
 
             // attempt to create a valid contact using "contactInputs", compare the values the system saves with the "contactExpected" object
@@ -57,16 +68,16 @@ export class RegressionTest extends BaseTest {
         if (this.continueTest) {
             const vendorModule: Vendor = new Vendor();
             vendorInputs = {
-                Vendor: `JEST - ${faker.company.companyName()} - ${this.testToken}`,
-                VendorNumber: faker.random.alphaNumeric(8),
-                Address1: faker.address.streetAddress(),
-                Address2: faker.address.secondaryAddress(),
-                City: faker.address.city(),
-                State: faker.address.state(true),
-                ZipCode: faker.address.zipCode("99999"),
-                Phone: faker.phone.phoneNumber(),
-                Fax: faker.phone.phoneNumber(),
-                WebAddress: faker.internet.url(),
+                Vendor: `${TestUtils.randomCompanyName()} - ${this.testToken}`,
+                VendorNumber: TestUtils.randomAlphanumeric(8),
+                Address1: TestUtils.randomAddress1(),
+                Address2: TestUtils.randomAddress2(),
+                City: TestUtils.randomCity(),
+                State: TestUtils.randomState(),
+                ZipCode: TestUtils.randomZipCode(),
+                Phone: TestUtils.randomPhone(),
+                Fax: TestUtils.randomPhone(),
+                WebAddress: TestUtils.randomUrl(),
                 OfficeLocation: "LAS VEGAS"
             }
 
@@ -78,8 +89,8 @@ export class RegressionTest extends BaseTest {
                 City: vendorInputs.City.toUpperCase(),
                 State: vendorInputs.State.toUpperCase(),
                 ZipCode: vendorInputs.ZipCode.toUpperCase(),
-                //Phone: faker.phone.phoneNumber(),
-                //Fax: faker.phone.phoneNumber(),
+                Phone: TestUtils.formattedPhone(vendorInputs.Phone),
+                Fax: TestUtils.formattedPhone(vendorInputs.Fax),
                 WebAddress: vendorInputs.WebAddress,
                 OfficeLocation: vendorInputs.OfficeLocation
             }
@@ -89,16 +100,16 @@ export class RegressionTest extends BaseTest {
 
             // vendor record with a blank Vendor Number
             var missingVendorNumberVendorInputs: any = {
-                Vendor: `JEST - ${faker.company.companyName()} - ${this.testToken}`,
+                Vendor: `${TestUtils.randomCompanyName()} - ${this.testToken}`,
                 //VendorNumber: faker.random.alphaNumeric(8),
-                Address1: faker.address.streetAddress(),
-                Address2: faker.address.secondaryAddress(),
-                City: faker.address.city(),
-                State: faker.address.state(true),
-                ZipCode: faker.address.zipCode("99999"),
-                Phone: faker.phone.phoneNumber(),
-                Fax: faker.phone.phoneNumber(),
-                WebAddress: faker.internet.url(),
+                Address1: TestUtils.randomAddress1(),
+                Address2: TestUtils.randomAddress2(),
+                City: TestUtils.randomCity(),
+                State: TestUtils.randomState(),
+                ZipCode: TestUtils.randomZipCode(),
+                Phone: TestUtils.randomPhone(),
+                Fax: TestUtils.randomPhone(),
+                WebAddress: TestUtils.randomUrl(),
                 OfficeLocation: "LAS VEGAS"
             }
             this.TestModuleForMissingRequiredField(vendorModule, missingVendorNumberVendorInputs, "VendorNumber");
@@ -110,16 +121,16 @@ export class RegressionTest extends BaseTest {
         if (this.continueTest) {
             const customerModule: Customer = new Customer();
             customerInputs = {
-                Customer: `JEST - ${faker.company.companyName()} - ${this.testToken}`,
-                CustomerNumber: faker.random.alphaNumeric(8),
-                Address1: faker.address.streetAddress(),
-                Address2: faker.address.secondaryAddress(),
-                City: faker.address.city(),
-                State: faker.address.state(true),
-                ZipCode: faker.address.zipCode("99999"),
-                Phone: faker.phone.phoneNumber(),
-                Fax: faker.phone.phoneNumber(),
-                WebAddress: faker.internet.url(),
+                Customer: `${TestUtils.randomCompanyName()} - ${this.testToken}`,
+                CustomerNumber: TestUtils.randomAlphanumeric(8),
+                Address1: TestUtils.randomAddress1(),
+                Address2: TestUtils.randomAddress2(),
+                City: TestUtils.randomCity(),
+                State: TestUtils.randomState(),
+                ZipCode: TestUtils.randomZipCode(),
+                Phone: TestUtils.randomPhone(),
+                Fax: TestUtils.randomPhone(),
+                WebAddress: TestUtils.randomUrl(),
                 CustomerTypeId: 1,
                 CreditStatusId: 1
             }
@@ -132,8 +143,8 @@ export class RegressionTest extends BaseTest {
                 City: customerInputs.City.toUpperCase(),
                 State: customerInputs.State.toUpperCase(),
                 ZipCode: customerInputs.ZipCode.toUpperCase(),
-                //Phone: faker.phone.phoneNumber(),
-                //Fax: faker.phone.phoneNumber(),
+                Phone: TestUtils.formattedPhone(customerInputs.Phone),
+                Fax: TestUtils.formattedPhone(customerInputs.Fax),
                 WebAddress: customerInputs.WebAddress,
             }
 
@@ -143,15 +154,15 @@ export class RegressionTest extends BaseTest {
             // change everything except the Customer Name
             var duplicateCustomer1Inputs: any = {
                 Customer: customerInputs.Customer,
-                CustomerNumber: faker.random.alphaNumeric(8),
-                Address1: faker.address.streetAddress(),
-                Address2: faker.address.secondaryAddress(),
-                City: faker.address.city(),
-                State: faker.address.state(true),
-                ZipCode: faker.address.zipCode("99999"),
-                Phone: faker.phone.phoneNumber(),
-                Fax: faker.phone.phoneNumber(),
-                WebAddress: faker.internet.url(),
+                CustomerNumber: TestUtils.randomAlphanumeric(8),
+                Address1: TestUtils.randomAddress1(),
+                Address2: TestUtils.randomAddress2(),
+                City: TestUtils.randomCity(),
+                State: TestUtils.randomState(),
+                ZipCode: TestUtils.randomZipCode(),
+                Phone: TestUtils.randomPhone(),
+                Fax: TestUtils.randomPhone(),
+                WebAddress: TestUtils.randomUrl(),
                 CustomerTypeId: 1,
                 CreditStatusId: 1
             }
@@ -163,16 +174,16 @@ export class RegressionTest extends BaseTest {
 
             // change everything except the Customer Number
             var duplicateCustomer2Inputs: any = {
-                Customer: `JEST - ${faker.company.companyName()} - ${this.testToken}`,
+                Customer: `${TestUtils.randomCompanyName()} - ${this.testToken}`,
                 CustomerNumber: customerInputs.CustomerNumber,
-                Address1: faker.address.streetAddress(),
-                Address2: faker.address.secondaryAddress(),
-                City: faker.address.city(),
-                State: faker.address.state(true),
-                ZipCode: faker.address.zipCode("99999"),
-                Phone: faker.phone.phoneNumber(),
-                Fax: faker.phone.phoneNumber(),
-                WebAddress: faker.internet.url(),
+                Address1: TestUtils.randomAddress1(),
+                Address2: TestUtils.randomAddress2(),
+                City: TestUtils.randomCity(),
+                State: TestUtils.randomState(),
+                ZipCode: TestUtils.randomZipCode(),
+                Phone: TestUtils.randomPhone(),
+                Fax: TestUtils.randomPhone(),
+                WebAddress: TestUtils.randomUrl(),
                 CustomerTypeId: 1,
                 CreditStatusId: 1
             }
@@ -190,16 +201,11 @@ export class RegressionTest extends BaseTest {
             const dealModule: Deal = new Deal();
 
             dealInputs = {
-                Deal: `JEST - ${faker.company.companyName()} - ${this.testToken}`,
-                DealNumber: faker.random.alphaNumeric(8),
+                Deal: `${TestUtils.randomCompanyName()} - ${this.testToken}`,
+                DealNumber: customerInputs.CustomerNumber,
                 Customer: customerInputs.Customer,
-                //Address1: faker.address.streetAddress(),
-                Address2: faker.address.secondaryAddress(),
-                //City: faker.address.city(),
-                //State: faker.address.state(true),
-                //ZipCode: faker.address.zipCode("99999"),
-                Phone: faker.phone.phoneNumber(),
-                Fax: faker.phone.phoneNumber(),
+                Address2: TestUtils.randomAddress2(),
+                Fax: TestUtils.randomPhone(),
                 DealTypeId: 1
             }
 
@@ -212,8 +218,8 @@ export class RegressionTest extends BaseTest {
                 City: customerInputs.City.toUpperCase(),
                 State: customerInputs.State.toUpperCase(),
                 ZipCode: customerInputs.ZipCode.toUpperCase(),
-                //Phone: faker.phone.phoneNumber(),
-                //Fax: faker.phone.phoneNumber(),
+                Phone: TestUtils.formattedPhone(customerInputs.Phone),
+                Fax: TestUtils.formattedPhone(dealInputs.Fax),
             }
 
             // attempt to create a valid deal using "dealInputs", compare the values the system saves with the "dealExpected" object
@@ -223,15 +229,11 @@ export class RegressionTest extends BaseTest {
             // change all other fields except Deal name
             var duplicateDeal1Inputs: any = {
                 Deal: dealInputs.Deal,
-                DealNumber: faker.random.alphaNumeric(8),
+                DealNumber: customerInputs.CustomerNumber,
                 Customer: customerInputs.Customer,
-                //Address1: faker.address.streetAddress(),
-                Address2: faker.address.secondaryAddress(),
-                //City: faker.address.city(),
-                //State: faker.address.state(true),
-                //ZipCode: faker.address.zipCode("99999"),
-                Phone: faker.phone.phoneNumber(),
-                Fax: faker.phone.phoneNumber(),
+                Address2: TestUtils.randomAddress2(),
+                Phone: TestUtils.randomPhone(),
+                Fax: TestUtils.randomPhone(),
                 DealTypeId: 1
             }
 
@@ -240,16 +242,12 @@ export class RegressionTest extends BaseTest {
 
             // change all other fields except Deal Number
             var duplicateDeal2Inputs: any = {
-                Deal: `JEST - ${faker.company.companyName()} - ${this.testToken}`,
+                Deal: `${TestUtils.randomCompanyName()} - ${this.testToken}`,
                 DealNumber: dealInputs.DealNumber,
                 Customer: customerInputs.Customer,
-                //Address1: faker.address.streetAddress(),
-                Address2: faker.address.secondaryAddress(),
-                //City: faker.address.city(),
-                //State: faker.address.state(true),
-                //ZipCode: faker.address.zipCode("99999"),
-                Phone: faker.phone.phoneNumber(),
-                Fax: faker.phone.phoneNumber(),
+                Address2: TestUtils.randomAddress2(),
+                Phone: TestUtils.randomPhone(),
+                Fax: TestUtils.randomPhone(),
                 DealTypeId: 1
             }
 
@@ -266,10 +264,10 @@ export class RegressionTest extends BaseTest {
             const quoteModule: Quote = new Quote();
 
             quoteInputs = {
-                Description: `JEST - ${faker.name.jobTitle().substring(0, 25)} - ${this.testToken}`,
+                Description: `${TestUtils.randomJobTitle().substring(0, 25)} - ${this.testToken}`,
                 Deal: dealInputs.Deal,
-                Location: faker.address.streetName(),
-                ReferenceNumber: faker.random.alphaNumeric(8)
+                Location: TestUtils.randomStreetName(),
+                ReferenceNumber: TestUtils.randomAlphanumeric(8)
             }
 
             var quoteExpected: any = {
