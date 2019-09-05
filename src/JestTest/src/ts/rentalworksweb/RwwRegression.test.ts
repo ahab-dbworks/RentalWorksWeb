@@ -42,7 +42,7 @@ export class RegressionTest extends BaseTest {
 
 
             // attempt to create a valid rentalInventory using "rentalInventoryInputs", compare the values the system saves with the "rentalInventoryExpected" object
-            this.TestModule(rentalInventoryModule, rentalInventoryInputs, rentalInventoryExpected);
+            this.TestModuleCreateNewRecord(rentalInventoryModule, rentalInventoryInputs, rentalInventoryExpected);
 
         }
 
@@ -87,7 +87,7 @@ export class RegressionTest extends BaseTest {
             }
 
             // attempt to create a valid contact using "contactInputs", compare the values the system saves with the "contactExpected" object
-            this.TestModule(contactModule, contactInputs, contactExpected);
+            this.TestModuleCreateNewRecord(contactModule, contactInputs, contactExpected);
 
         }
 
@@ -128,7 +128,7 @@ export class RegressionTest extends BaseTest {
             }
 
             // attempt to create a valid vendor using "vendorInputs", compare the values the system saves with the "vendorExpected" object
-            this.TestModule(vendorModule, vendorInputs, vendorExpected);
+            this.TestModuleCreateNewRecord(vendorModule, vendorInputs, vendorExpected);
 
             // vendor record with a blank Vendor Number
             var missingVendorNumberVendorInputs: any = {
@@ -181,7 +181,7 @@ export class RegressionTest extends BaseTest {
             }
 
             // attempt to create a valid customer using "customerInputs", compare the values the system saves with the "customerExpected" object
-            this.TestModule(customerModule, customerInputs, customerExpected);
+            this.TestModuleCreateNewRecord(customerModule, customerInputs, customerExpected);
 
             // change everything except the Customer Name
             var duplicateCustomer1Inputs: any = {
@@ -201,7 +201,7 @@ export class RegressionTest extends BaseTest {
 
 
             // attempt to create a duplicate customer using the same Customer Name
-            this.TestModuleForDuplicate(customerModule, duplicateCustomer1Inputs, 'Customer Name');
+            this.TestModulePreventDuplicate(customerModule, duplicateCustomer1Inputs, 'Customer Name');
 
 
             // change everything except the Customer Number
@@ -221,7 +221,7 @@ export class RegressionTest extends BaseTest {
             }
 
             // attempt to create a duplicate customer using the same Customer Number
-            this.TestModuleForDuplicate(customerModule, duplicateCustomer2Inputs, 'Customer Number');
+            this.TestModulePreventDuplicate(customerModule, duplicateCustomer2Inputs, 'Customer Number');
 
         }
 
@@ -255,7 +255,7 @@ export class RegressionTest extends BaseTest {
             }
 
             // attempt to create a valid deal using "dealInputs", compare the values the system saves with the "dealExpected" object
-            this.TestModule(dealModule, dealInputs, dealExpected);
+            this.TestModuleCreateNewRecord(dealModule, dealInputs, dealExpected);
 
 
             // change all other fields except Deal name
@@ -270,7 +270,7 @@ export class RegressionTest extends BaseTest {
             }
 
             // attempt to create a duplicate deal using the same Deal Name
-            this.TestModuleForDuplicate(dealModule, duplicateDeal1Inputs, 'Deal Name');
+            this.TestModulePreventDuplicate(dealModule, duplicateDeal1Inputs, 'Deal Name');
 
             // change all other fields except Deal Number
             var duplicateDeal2Inputs: any = {
@@ -284,7 +284,7 @@ export class RegressionTest extends BaseTest {
             }
 
             // attempt to create a duplicate deal using the same Deal Number
-            this.TestModuleForDuplicate(dealModule, duplicateDeal2Inputs, 'Deal Number');
+            this.TestModulePreventDuplicate(dealModule, duplicateDeal2Inputs, 'Deal Number');
 
         }
 
@@ -311,7 +311,7 @@ export class RegressionTest extends BaseTest {
             }
 
             // attempt to create a valid Quote using "quoteInputs", compare the values the system saves with the "quoteExpected" object
-            this.TestModule(quoteModule, quoteInputs, quoteExpected);
+            this.TestModuleCreateNewRecord(quoteModule, quoteInputs, quoteExpected);
 
             //        test('Add one grid row in rental tab', async () => {
             //            const fieldObject = {

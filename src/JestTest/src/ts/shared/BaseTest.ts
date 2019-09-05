@@ -65,7 +65,7 @@ export abstract class BaseTest {
         });
     }
     //---------------------------------------------------------------------------------------
-    TestModule(module: ModuleBase, inputObject: any, expectedObject: any) {
+    TestModuleCreateNewRecord(module: ModuleBase, inputObject: any, expectedObject: any) {
         let testName: string = "";
         const testCollectionName = `Create new ${module.moduleName}, fill out form, save record`;
         describe(testCollectionName, () => {
@@ -131,7 +131,7 @@ export abstract class BaseTest {
         });
     }
     //---------------------------------------------------------------------------------------
-    TestModuleForDuplicate(module: ModuleBase, inputObject: any, duplicatedFieldsForTestName: string = "") {
+    TestModulePreventDuplicate(module: ModuleBase, inputObject: any, duplicatedFieldsForTestName: string = "") {
         let testName: string = "";
         const testCollectionName = `Attempt to create a duplicate ${module.moduleName} ${duplicatedFieldsForTestName ? "using " + duplicatedFieldsForTestName : ""}`;
         describe(testCollectionName, () => {
