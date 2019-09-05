@@ -133,7 +133,7 @@ export class ModuleBase {
     //---------------------------------------------------------------------------------------
     async getFormRecord(): Promise<any> {
         let record: any = {};
-        const datafields = await page.$$eval(`.fwformfield`, fields => fields.map((field) => field.getAttribute('data-datafield')));
+        const datafields = await page.$$eval(`.fwform .fwformfield`, fields => fields.map((field) => field.getAttribute('data-datafield')));
         for (let i = 0; i < datafields.length; i++) {
             if (datafields[i] != '') {
                 let value;
