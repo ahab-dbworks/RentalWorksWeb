@@ -44,7 +44,6 @@ class Repair {
         let $browse = jQuery(this.getBrowseTemplate());
         $browse = FwModule.openBrowse($browse);
 
-
         $browse.data('ondatabind', request => {
             request.activeviewfields = this.ActiveViewFields;
         });

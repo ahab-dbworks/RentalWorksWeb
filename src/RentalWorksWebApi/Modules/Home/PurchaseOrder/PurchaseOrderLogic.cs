@@ -281,14 +281,11 @@ namespace WebApi.Modules.Home.PurchaseOrder
         [FwLogicProperty(Id: "r0nQNfNwLAu", IsReadOnly: true)]
         public int? PaymentTermsDueInDays { get; set; }
 
-
         [FwLogicProperty(Id: "D60yNs4DNU1R")]
         public string TaxOptionId { get { return tax.TaxOptionId; } set { tax.TaxOptionId = value; } }
 
         [FwLogicProperty(Id: "oafJa8FREKfAu", IsReadOnly: true)]
         public string TaxOption { get; set; }
-
-
 
         [FwLogicProperty(Id: "gNNYzTTDz8v8", DisableDirectModify: true)]
         public string TaxId { get { return purchaseOrder.TaxId; } set { purchaseOrder.TaxId = value; } }
@@ -311,8 +308,6 @@ namespace WebApi.Modules.Home.PurchaseOrder
         [FwLogicProperty(Id: "vpxC9SS88U27")]
         public decimal? LaborTaxRate2 { get { return tax.LaborTaxRate2; } set { tax.LaborTaxRate2 = value; } }
 
-
-
         [FwLogicProperty(Id: "HFIgsyl9ZgM2r", IsReadOnly: true)]
         public bool? HasRentalItem { get; set; }
 
@@ -333,12 +328,7 @@ namespace WebApi.Modules.Home.PurchaseOrder
 
         [FwLogicProperty(Id: "DpKgFis6AxoL7", IsReadOnly: true)]
         public bool? HasRentalSaleItem { get; set; }
-
         //------------------------------------------------------------------------------------ 
-
-
-
-
         [FwLogicProperty(Id: "t4giqsPWsD65K", IsReadOnly: true)]
         public decimal? RentalDiscountPercent { get; set; }
 
@@ -366,7 +356,6 @@ namespace WebApi.Modules.Home.PurchaseOrder
         [FwLogicProperty(Id: "DHbrVrf7qwF8d", IsReadOnly: true)]
         public bool? PartsTotalIncludesTax { get; set; }
 
-
         [FwLogicProperty(Id: "WRIFQEwFJ1TeJ", IsReadOnly: true)]
         public decimal? VehicleDiscountPercent { get; set; }
 
@@ -375,8 +364,6 @@ namespace WebApi.Modules.Home.PurchaseOrder
 
         [FwLogicProperty(Id: "7Hp7w9aCw0tx4", IsReadOnly: true)]
         public bool? VehicleTotalIncludesTax { get; set; }
-
-
 
         [FwLogicProperty(Id: "3LltCBVzUG7a")]
         public decimal? MiscDiscountPercent { get; set; }
@@ -387,7 +374,6 @@ namespace WebApi.Modules.Home.PurchaseOrder
         [FwLogicProperty(Id: "7Hp7w9aCw0tx4", IsReadOnly: true)]
         public bool? MiscTotalIncludesTax { get; set; }
 
-
         [FwLogicProperty(Id: "DN7hr95RFHCXk", IsReadOnly: true)]
         public decimal? LaborDiscountPercent { get; set; }
 
@@ -396,16 +382,6 @@ namespace WebApi.Modules.Home.PurchaseOrder
 
         [FwLogicProperty(Id: "DN7hr95RFHCXk", IsReadOnly: true)]
         public bool? LaborTotalIncludesTax { get; set; }
-
-
-
-
-
-
-
-
-
-
 
         [FwLogicProperty(Id: "t4giqsPWsD65K", IsReadOnly: true)]
         public decimal? SubRentalDaysPerWeek { get; set; }
@@ -431,7 +407,6 @@ namespace WebApi.Modules.Home.PurchaseOrder
         [FwLogicProperty(Id: "t4giqsPWsD65K", IsReadOnly: true)]
         public bool? PeriodSubRentalTotalIncludesTax { get; set; }
 
-
         [FwLogicProperty(Id: "BvhjiMz2RirLb", IsReadOnly: true)]
         public decimal? SubSalesDiscountPercent { get; set; }
 
@@ -440,7 +415,6 @@ namespace WebApi.Modules.Home.PurchaseOrder
 
         [FwLogicProperty(Id: "BvhjiMz2RirLb", IsReadOnly: true)]
         public bool? SubSalesTotalIncludesTax { get; set; }
-
 
         [FwLogicProperty(Id: "Bb2UKU0DH2xKL", IsReadOnly: true)]
         public decimal? SubVehicleDaysPerWeek { get; set; }
@@ -466,8 +440,6 @@ namespace WebApi.Modules.Home.PurchaseOrder
         [FwLogicProperty(Id: "Bb2UKU0DH2xKL", IsReadOnly: true)]
         public bool? PeriodSubVehicleTotalIncludesTax { get; set; }
 
-
-
         [FwLogicProperty(Id: "2XE5e6UFQ8Xu")]
         public decimal? SubMiscDiscountPercent { get; set; }
 
@@ -488,8 +460,6 @@ namespace WebApi.Modules.Home.PurchaseOrder
 
         [FwLogicProperty(Id: "7Hp7w9aCw0tx4", IsReadOnly: true)]
         public bool? PeriodSubMiscTotalIncludesTax { get; set; }
-
-
 
         [FwLogicProperty(Id: "DN7hr95RFHCXk", IsReadOnly: true)]
         public decimal? SubLaborDiscountPercent { get; set; }
@@ -512,9 +482,6 @@ namespace WebApi.Modules.Home.PurchaseOrder
         [FwLogicProperty(Id: "DN7hr95RFHCXk", IsReadOnly: true)]
         public bool? PeriodSubLaborTotalIncludesTax { get; set; }
 
-
-
-
         [FwLogicProperty(Id: "EJHdP3FGL75fJ", IsReadOnly: true)]
         public string CurrencyColor { get; set; }
         [FwLogicProperty(Id: "mbfCIKAk0BI79", IsReadOnly: true)]
@@ -525,10 +492,9 @@ namespace WebApi.Modules.Home.PurchaseOrder
         public string VendorColor { get; set; }
         [FwLogicProperty(Id: "4RDOWSMI7rlpm", IsReadOnly: true)]
         public string DescriptionColor { get; set; }
-
-
+        [FwLogicProperty(Id: "DtTheaPQm2q9R", IsReadOnly: true)]
+        public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------ 
-
 
         protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
         {
