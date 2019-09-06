@@ -596,7 +596,7 @@ class Contract {
               <div class="formpage">
                 <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Notes">
                    <div class="flexrow">
-                      <div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield" data-caption="Contract Notes" data-datafield="Note"></div>
+                      <div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield" data-caption="Contract Notes" data-datafield="Note" data-height="500px"></div>
                    </div>
                    <div class="flexrow">
                        <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Print on Order" data-datafield="PrintNoteOnOrder"></div>
