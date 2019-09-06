@@ -38,7 +38,4 @@ html.theme-material .fwscheduler .changeview[data-selected="true"] {background-c
 html.theme-material .fwscheduler .topnavigation button {border-top:4px solid transparent;line-height: 36px;}
 html.theme-material .fwscheduler .topnavigation button:hover{border-top:4px solid #2e7d32;}
 
-html.theme-material .fwscheduler .scheduler_default_event_inner { text-align:center; }
-html.theme-material .fwscheduler scheduler_default_event .scheduler_default_event_line0 scheduler_default_event_continueleft .scheduler_default_event_continueright .scheduler_default_event_inner { text-align:left; }
-
 
