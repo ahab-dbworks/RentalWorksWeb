@@ -85,7 +85,7 @@
 
         if (mode === 'NEW') {
             const controlDefaults = JSON.parse(sessionStorage.getItem('controldefaults'));
-            FwFormField.setValue($form, 'div[data-datafield="UnitId"]', controlDefaults.defaultunitid, controlDefaults.defaultunit);
+            FwFormField.setValue($form, 'div[data-datafield="UnitId"]', controlDefaults.defaultunitid, controlDefaults.defaultunit); // 2 condition blocks of same eval?
             if (this.Module === 'RentalInventory') {
                 RentalInventoryController.iCodeMask($form);
             }
@@ -94,6 +94,8 @@
         let inventoryId;
         if (typeof uniqueids !== 'undefined') {
             inventoryId = uniqueids.InventoryId;
+        } else {
+            inventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
         }
 
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
@@ -163,6 +165,9 @@
                 startOfMonth = moment(calendarRequest.start.value).format('MM/DD/YYYY');
                 endOfMonth = moment(calendarRequest.start.value).add(calendarRequest.days, 'd').format('MM/DD/YYYY');
                 const warehouseId = FwFormField.getValue($form, '.warehousefilter');   //justin 11/11/2018 fixing build error
+                if (inventoryId === null || inventoryId === '') {
+                    inventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
+                }
 
                 FwAppData.apiMethod(true, 'GET', `api/v1/inventoryavailability/calendarandscheduledata?&InventoryId=${inventoryId}&WarehouseId=${warehouseId}&FromDate=${startOfMonth}&ToDate=${endOfMonth}`, null, FwServices.defaultTimeout, response => {
                     FwScheduler.loadYearEventsCallback($control, [{ id: '1', name: '' }], this.yearlyEvents);
@@ -211,12 +216,14 @@
                 const start = moment(request.start.value).format('MM/DD/YYYY');
                 const end = moment(request.start.value).add(31, 'days').format('MM/DD/YYYY')
                 const warehouseId = FwFormField.getValue($form, '.warehousefilter');
-
+                if (inventoryId === null || inventoryId === '') {
+                    inventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
+                }
                 FwAppData.apiMethod(true, 'GET', `api/v1/inventoryavailability/calendarandscheduledata?&InventoryId=${inventoryId}&WarehouseId=${warehouseId}&FromDate=${start}&ToDate=${end}`, null, FwServices.defaultTimeout, function onSuccess(response) {
                     const schedulerEvents = response.InventoryAvailabilityScheduleEvents;
                     for (let i = 0; i < schedulerEvents.length; i++) {
-                        if (schedulerEvents[i].textColor !== 'rgb(0,0,0)') {
-                            schedulerEvents[i].html = `<div style="color:${schedulerEvents[i].textColor};">${schedulerEvents[i].text}</div>`
+                        if (schedulerEvents[i].isWarehouseTotal === true) {
+                            schedulerEvents[i].html = `<div style="color:${schedulerEvents[i].textColor};text-align:center;">${schedulerEvents[i].text}</div>`
                         } else {
                             schedulerEvents[i].html = `<div style="color:${schedulerEvents[i].textColor};text-align:left;"><span style="font-weight:700;padding:0 5px 0 0;">${schedulerEvents[i].total}</span>${schedulerEvents[i].text}</div>`
                         }
@@ -405,6 +412,13 @@
                 FwFormField.disable($form.find('[data-datafield="PackageRevenueCalculationFormula"]'));
             }
         });
+        // Block Availability Calendar tab for new, unsaved records
+        $form.find('div[data-type="tab"][data-caption="Availability Calendar"]').click(e => {
+            if ($form.attr('data-mode') === 'NEW') {
+                e.stopPropagation();
+                FwNotification.renderNotification('WARNING', 'Save Record first.');
+            }
+        })
 
     }
     //----------------------------------------------------------------------------------------------
