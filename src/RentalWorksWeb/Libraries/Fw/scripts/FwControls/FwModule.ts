@@ -680,7 +680,7 @@
                                             $find.removeClass('active');
                                             $find.find('.findbutton-dropdown').css('z-index', '0');
                                             jQuery(document).off('click');
-                                            
+
                                             e.stopPropagation();
                                         })
                                         break;
