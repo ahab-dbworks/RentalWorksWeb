@@ -492,8 +492,6 @@ namespace WebApi.Modules.Home.PurchaseOrder
         public string VendorColor { get; set; }
         [FwLogicProperty(Id: "4RDOWSMI7rlpm", IsReadOnly: true)]
         public string DescriptionColor { get; set; }
-        [FwLogicProperty(Id: "DtTheaPQm2q9R", IsReadOnly: true)]
-        public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------ 
 
         protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)

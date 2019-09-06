@@ -46,6 +46,12 @@ class PurchaseOrder {
         $browse = FwModule.openBrowse($browse);
         const location = JSON.parse(sessionStorage.getItem('location'));
 
+        FwBrowse.setAfterRenderRowCallback($browse, function ($tr, dt, rowIndex) {
+            if (dt.Rows[rowIndex][dt.ColumnIndex['Status']] === 'VOID') {
+                $tr.css('color', '#aaaaaa');
+            }
+        });
+
         FwAppData.apiMethod(true, 'GET', `api/v1/officelocation/${location.locationid}`, null, FwServices.defaultTimeout, response => {
             this.DefaultPurchasePoType = response.DefaultPurchasePoType;
             this.DefaultPurchasePoTypeId = response.DefaultPurchasePoTypeId;
@@ -53,7 +59,7 @@ class PurchaseOrder {
 
         try {
             FwAppData.apiMethod(true, 'GET', `${this.apiurl}/legend`, null, FwServices.defaultTimeout, function onSuccess(response) {
-                for (var key in response) {
+                for (let key in response) {
                     FwBrowse.addLegend($browse, key, response[key]);
                 }
             }, function onError(response) {
@@ -139,7 +145,7 @@ class PurchaseOrder {
             FwFormField.setValue($form, 'div[data-datafield="PoTypeId"]', this.DefaultPurchasePoTypeId, this.DefaultPurchasePoType);
         };
 
-        let $emailHistorySubModuleBrowse = this.openEmailHistoryBrowse($form);
+        const $emailHistorySubModuleBrowse = this.openEmailHistoryBrowse($form);
         $form.find('.emailhistory-page').append($emailHistorySubModuleBrowse);
 
         FwFormField.disable($form.find('[data-datafield="RentalTaxRate1"]'));
@@ -185,9 +191,7 @@ class PurchaseOrder {
     };
     //----------------------------------------------------------------------------------------------
     openEmailHistoryBrowse($form) {
-        var $browse;
-
-        $browse = EmailHistoryController.openBrowse();
+        const $browse = EmailHistoryController.openBrowse();
 
         $browse.data('ondatabind', function (request) {
             request.uniqueids = {
@@ -226,19 +230,18 @@ class PurchaseOrder {
     };
     //----------------------------------------------------------------------------------------------
     renderSearchButton($form: any) {
-        var self = this;
-        var $search = FwMenu.addStandardBtn($form.find('.fwmenu:first'), 'QuikSearch', 'searchbtn');
+        const $search = FwMenu.addStandardBtn($form.find('.fwmenu:first'), 'QuikSearch', 'searchbtn');
         $search.prepend('<i class="material-icons">search</i>');
-        $search.on('click', function () {
+        $search.on('click', e => {
             try {
-                let $form = jQuery(this).closest('.fwform');
-                let orderId = FwFormField.getValueByDataField($form, `${self.Module}Id`);
+                const $form = jQuery(e.currentTarget).closest('.fwform');
+                const orderId = FwFormField.getValueByDataField($form, `${this.Module}Id`);
 
                 if (orderId == "") {
                     FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
-                } else if (!jQuery(this).hasClass('disabled')) {
-                    let search = new SearchInterface();
-                    search.renderSearchPopup($form, orderId, self.Module);
+                } else if (!jQuery(e.currentTarget).hasClass('disabled')) {
+                    const search = new SearchInterface();
+                    search.renderSearchPopup($form, orderId, this.Module);
                 }
             }
             catch (ex) {
