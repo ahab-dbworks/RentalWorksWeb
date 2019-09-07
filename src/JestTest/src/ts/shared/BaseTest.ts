@@ -299,6 +299,29 @@ export abstract class BaseTest {
         });
     }
 
+    //---------------------------------------------------------------------------------------
+    TestModuleOpenSpecificRecord(module: ModuleBase, seekObject: any) {
+        let testName: string = "";
+        const testCollectionName = `Attempt to seek to and open a ${module.moduleName}`;
+        describe(testCollectionName, () => {
+            //---------------------------------------------------------------------------------------
+            if (this.continueTest) {
+                testName = `Open ${module.moduleName} browse`;
+                test(testName, async () => {
+                    await module.openBrowse().then().catch(err => this.LogError(testName, err));
+                }, this.testTimeout);
+            }
+            //---------------------------------------------------------------------------------------
+            if (this.continueTest) {
+                testName = `Use column headers to seek a ${module.moduleName} record`;
+                test(testName, async () => {
+                    await module.browseSeekRecord(seekObject).then().catch(err => this.LogError(testName, err));
+                }, this.testTimeout);
+            }
+            //---------------------------------------------------------------------------------------
+        });
+    }
+
 
     //---------------------------------------------------------------------------------------
     // this method will be overridden in sub classes for each test collection we want to perform

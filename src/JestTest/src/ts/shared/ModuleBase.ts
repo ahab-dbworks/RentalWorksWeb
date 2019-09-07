@@ -47,6 +47,19 @@ export class ModuleBase {
         }
     }
     //---------------------------------------------------------------------------------------
+    async browseSeekRecord(seekObject: any): Promise<void> {
+        await page.waitForSelector(`.fwbrowse .fieldnames`);
+        for (var key in seekObject) {
+            Logging.logger.info(`About to add seek field ${key} with ${seekObject[key]}`);
+            let elementHandle = await page.$(`.fwbrowse .field[data-browsedatafield="${key}"] input`);
+            await elementHandle.click();
+            await page.keyboard.sendCharacter(seekObject[key]);
+            await page.keyboard.press('Enter');
+        }
+        await ModuleBase.wait(1000);  // how can we wait for the browse to refresh without a time?
+        await this.openRecord(1);     // how can we be sure there is only 1 record in the results?
+    }
+    //---------------------------------------------------------------------------------------
     async openRecord(index: number, sleepafteropening?: number): Promise<void> {
         await page.waitForSelector(`.fwbrowse tbody tr.viewmode:nth-child(${index})`);
         await page.click('.fwbrowse tbody tr.viewmode', { clickCount: 2 });
