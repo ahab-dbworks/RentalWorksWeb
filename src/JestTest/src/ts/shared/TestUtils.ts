@@ -68,16 +68,26 @@ export class TestUtils {
     }
     //-----------------------------------------------------------------------------------------------------------------
     static getDateTimeToken(): string {
-        const date = new Date();
-        const hours = date.getHours();
-        const minutes = date.getMinutes();
-        const seconds = date.getSeconds();
-        const dateTimeToken = `${date.toLocaleDateString().replace(/\//g, '')}${hours}${minutes}${seconds}`;
+        //const date = new Date();
+        //const hours = date.getHours();
+        //const minutes = date.getMinutes();
+        //const seconds = date.getSeconds();
+        //const dateTimeToken = `${date.toLocaleDateString().replace(/\//g, '')}${hours}${minutes}${seconds}`;
+        const theDate = new Date();
+        const year = theDate.getFullYear().toString();
+        const month = (theDate.getMonth()+1).toString();
+        const date = theDate.getDate().toString();
+        const hours = theDate.getHours().toString();
+        const minutes = theDate.getMinutes().toString();
+        const seconds = theDate.getSeconds().toString();
+        const dateTimeToken = year.padStart(4, '0') + month.padStart(2, '0') + date.padStart(2, '0') + hours.padStart(2, '0') + minutes.padStart(2, '0') + seconds.padStart(2, '0');;
         return dateTimeToken;
     }
     //-----------------------------------------------------------------------------------------------------------------
     static getTestToken(): string {
-        return this.getDateTimeToken();
+        let testToken = this.getDateTimeToken();
+        Logging.logger.info(`Test Token: ${testToken}`);
+        return testToken;
     }
     //-----------------------------------------------------------------------------------------------------------------
     static randomAlphanumeric(length: number): string {

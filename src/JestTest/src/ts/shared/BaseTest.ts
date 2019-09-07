@@ -313,14 +313,61 @@ export abstract class BaseTest {
             }
             //---------------------------------------------------------------------------------------
             if (this.continueTest) {
-                testName = `Use column headers to seek a ${module.moduleName} record`;
+                testName = `Use column headers to seek a specific ${module.moduleName} record`;
                 test(testName, async () => {
-                    await module.browseSeekRecord(seekObject).then().catch(err => this.LogError(testName, err));
+                    let recordCount = await module.browseSeek(seekObject).then().catch(err => this.LogError(testName, err));
+                    expect(recordCount).toBe(1);
+                    this.continueTest = (recordCount == 1);
+                }, this.testTimeout);
+            }
+            //---------------------------------------------------------------------------------------
+            if (this.continueTest) {
+                testName = `Open the ${module.moduleName} record`;
+                test(testName, async () => {
+                    let formCountBefore = await module.countOpenForms();
+                    await module.openRecord();
+                    let formCountAfter = await module.countOpenForms();
+                    expect(formCountAfter).toBe(formCountBefore + 1);
                 }, this.testTimeout);
             }
             //---------------------------------------------------------------------------------------
         });
     }
+    //---------------------------------------------------------------------------------------
+    TestModuleDeleteSpecificRecord(module: ModuleBase, seekObject: any) {
+        let testName: string = "";
+        const testCollectionName = `Attempt to seek to and delete a ${module.moduleName}`;
+        describe(testCollectionName, () => {
+            //---------------------------------------------------------------------------------------
+            if (this.continueTest) {
+                testName = `Open ${module.moduleName} browse`;
+                test(testName, async () => {
+                    await module.openBrowse().then().catch(err => this.LogError(testName, err));
+                }, this.testTimeout);
+            }
+            //---------------------------------------------------------------------------------------
+            if (this.continueTest) {
+                testName = `Use column headers to seek a specific ${module.moduleName} record`;
+                test(testName, async () => {
+                    let recordCount = await module.browseSeek(seekObject).then().catch(err => this.LogError(testName, err));
+                    expect(recordCount).toBe(1);
+                    this.continueTest = (recordCount == 1);
+                }, this.testTimeout);
+            }
+            //---------------------------------------------------------------------------------------
+            if (this.continueTest) {
+                testName = `Delete the ${module.moduleName} record`;
+                test(testName, async () => {
+                    let rowCountBefore = await module.browseGetRowsDisplayed();
+                    await module.deleteRecord();
+                    let rowCountAfter = await module.browseGetRowsDisplayed();
+                    expect(rowCountAfter).toBe(rowCountBefore - 1);
+                }, this.testTimeout);
+            }
+            //---------------------------------------------------------------------------------------
+        });
+    }
+    //---------------------------------------------------------------------------------------
 
 
     //---------------------------------------------------------------------------------------

@@ -29,8 +29,10 @@ IF "%DwRentalWorksWebPath%"=="" exit /B
 
 cd %DwRentalWorksWebPath%\src\JestTest
 
-call npm run test-rentalworksweb -t NewContact
-ren test-report.html test-report-NewContact.html
+call npm run test-rentalworksweb -t RwwRegression
+ren test-report.html test-report-RwwRegression.html
 
-call npm run test-rentalworksweb -t RentalAvailability
-ren test-report.html test-report-RentalAvailability.html
+test-report-RwwRegression.html
+
+rem call npm run test-rentalworksweb -t RentalAvailability
+rem ren test-report.html test-report-RentalAvailability.html

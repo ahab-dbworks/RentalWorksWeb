@@ -17,8 +17,6 @@ export class RegressionTest extends BaseTest {
         var dealInputs: any;
         var quoteInputs: any;
 
-
-
         //-----------------------------------//
         //        RENTAL INVENTORY           //
         //-----------------------------------//
@@ -103,8 +101,6 @@ export class RegressionTest extends BaseTest {
         }
 
 
-
-
         //-------------//
         //   VENDOR    //
         //-------------//
@@ -155,8 +151,24 @@ export class RegressionTest extends BaseTest {
                 WebAddress: TestUtils.randomUrl(),
                 OfficeLocation: "LAS VEGAS"
             }
-            this.TestModuleForMissingRequiredField(vendorModule, missingVendorNumberVendorInputs, "VendorNumber");
+            //this.TestModuleForMissingRequiredField(vendorModule, missingVendorNumberVendorInputs, "VendorNumber");
+
+
+            // try to seek for the vendor record and open it
+            var findVendorInputs: any = {
+                VendorDisplayName: this.testToken
+            }
+            this.TestModuleOpenSpecificRecord(vendorModule, findVendorInputs);
+
+
+
+            // try to seek for the vendor record and delete it
+            var deleteVendorInputs: any = {
+                VendorDisplayName: this.testToken
+            }
+            this.TestModuleDeleteSpecificRecord(vendorModule, deleteVendorInputs);
         }
+
 
         //-------------//
         //  CUSTOMER   //
@@ -347,6 +359,7 @@ export class RegressionTest extends BaseTest {
             //                .catch(err => logger.error('saveRecord: ', err));
             //        }, 10000);
         }
+
     }
     //---------------------------------------------------------------------------------------
 }

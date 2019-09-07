@@ -47,7 +47,15 @@ export class ModuleBase {
         }
     }
     //---------------------------------------------------------------------------------------
-    async browseSeekRecord(seekObject: any): Promise<void> {
+    async browseGetRowsDisplayed(): Promise<number> {
+        await page.waitForSelector(`.fwbrowse .fieldnames`);
+        let records = await page.$$eval(`.fwbrowse tbody tr`, (e: any) => { return e; });
+        let recordCount = records.length;
+        Logging.logger.info(`Record Count: ${recordCount}`);
+        return recordCount;
+    }
+    //---------------------------------------------------------------------------------------
+    async browseSeek(seekObject: any): Promise<number> {
         await page.waitForSelector(`.fwbrowse .fieldnames`);
         for (var key in seekObject) {
             Logging.logger.info(`About to add seek field ${key} with ${seekObject[key]}`);
@@ -55,21 +63,71 @@ export class ModuleBase {
             await elementHandle.click();
             await page.keyboard.sendCharacter(seekObject[key]);
             await page.keyboard.press('Enter');
+            await page.waitForFunction(() => document.querySelector('.pleasewait'), { polling: 'mutation' });
         }
-        await ModuleBase.wait(1000);  // how can we wait for the browse to refresh without a time?
-        await this.openRecord(1);     // how can we be sure there is only 1 record in the results?
+        await ModuleBase.wait(300); // let the rows render
+        let records = await page.$$eval(`.fwbrowse tbody tr`, (e: any) => { return e; });
+        let recordCount = records.length;
+        Logging.logger.info(`Record Count: ${recordCount}`);
+        return recordCount;
+
     }
     //---------------------------------------------------------------------------------------
-    async openRecord(index: number, sleepafteropening?: number): Promise<void> {
+    async openRecord(index?: number, sleepAfterOpening?: number): Promise<void> {
+        if (index == undefined) {
+            index = 1;
+        }
         await page.waitForSelector(`.fwbrowse tbody tr.viewmode:nth-child(${index})`);
         await page.click('.fwbrowse tbody tr.viewmode', { clickCount: 2 });
-        if (sleepafteropening > 0) {
-            await TestUtils.sleepAsync(sleepafteropening);
+        await page.waitForFunction(() => document.querySelector('.pleasewait'), { polling: 'mutation' });
+        if (sleepAfterOpening > 0) {
+            await ModuleBase.wait(sleepAfterOpening); 
         }
+    }
+    //---------------------------------------------------------------------------------------
+    async deleteRecord(index?: number, sleepAfterDeleting?: number): Promise<void> {
+        if (index == undefined) {
+            index = 1;
+        }
+        await page.waitForSelector(`.fwbrowse tbody tr.viewmode:nth-child(${index})`);
+        await page.click('.fwbrowse tbody tr.viewmode', { clickCount: 1 });   // click the row
+        await page.waitForSelector(`.btn[data-type="DeleteMenuBarButton"]`);
+        await page.click('.btn[data-type="DeleteMenuBarButton"]', { clickCount: 1 });  // click the delete button
+
+        const popupText = await page.$eval('.advisory', el => el.textContent);
+        if (popupText.includes('delete this record')) {
+            Logging.logger.info(`Delete record, confirmation prompt detected.`);
+
+            const options = await page.$$('.advisory .fwconfirmation-button');
+            await options[0].click() // click "Yes" option
+                .then(() => {
+                    Logging.logger.info(`Clicked the "Yes" button.`);
+                })
+            await page.waitFor(() => !document.querySelector('.advisory'));
+            await page.waitFor(() => document.querySelector('.pleasewait'));
+            await page.waitFor(() => !document.querySelector('.pleasewait'));
+        }
+        Logging.logger.info(`Record deleted.`);
+
+        if (sleepAfterDeleting > 0) {
+            await ModuleBase.wait(sleepAfterDeleting);
+        }
+    }
+    //---------------------------------------------------------------------------------------
+    async countOpenForms(): Promise<number> {
+        let forms = await page.$$eval(`.fwform .fwform-body`, (e: any) => { return e; });
+        var formCount;
+        if (forms == undefined) {
+            formCount = 0;
+        }
+        else {
+            formCount = forms.length;
+        }
+        Logging.logger.info(`Open Form Count: ${formCount}`);
+        return formCount;
     }
     //---------------------------------------------------------------------------------------
     async createNewRecord(count?: number): Promise<void> {
-
         if (count === undefined) {
             count = 1;
         }
@@ -389,7 +447,7 @@ export class ModuleBase {
         await page.click('div.delete');
         const popupText = await page.$eval('.advisory', el => el.textContent);
         if (popupText.includes('save your changes')) {
-            Logging.logger.info(`Close tab, save changes propmt detected.`);
+            Logging.logger.info(`Close tab, save changes prompt detected.`);
 
             const options = await page.$$('.advisory .fwconfirmation-button');
             await options[1].click() // clicks "Don't Save" option
