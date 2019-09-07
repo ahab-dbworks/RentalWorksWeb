@@ -32,10 +32,12 @@ export abstract class BaseTest {
         let testName: string = "";
         const testCollectionName = `Verify Test Token`;
         describe(testCollectionName, () => {
+            //---------------------------------------------------------------------------------------
             testName = `Verify Test Token ${this.testToken}`;
             test(testName, async () => {
                 expect(this.testToken).not.toBe("");
             }, this.testTimeout);
+            //---------------------------------------------------------------------------------------
         });
     }
     //---------------------------------------------------------------------------------------
@@ -43,12 +45,14 @@ export abstract class BaseTest {
         let testName: string = "";
         const testCollectionName = `Login`;
         describe(testCollectionName, () => {
+            //---------------------------------------------------------------------------------------
             testName = 'Login';
             test(testName, async () => {
                 this.continueTest = await TestUtils.authenticate()
                     .then((data) => { })
                     .catch(err => Logging.logger.error('Error in DoLogin: ', err));
             }, this.testTimeout);
+            //---------------------------------------------------------------------------------------
         });
     }
     //---------------------------------------------------------------------------------------
@@ -56,12 +60,50 @@ export abstract class BaseTest {
         let testName: string = "";
         const testCollectionName = `Logoff`;
         describe(testCollectionName, () => {
+            //---------------------------------------------------------------------------------------
             testName = 'Logoff';
             test(testName, async () => {
                 this.continueTest = await TestUtils.logoff()
                     .then((data) => { })
                     .catch(err => Logging.logger.error('Error in DoLogoff: ', err));
             }, this.testTimeout);
+            //---------------------------------------------------------------------------------------
+        });
+    }
+    //---------------------------------------------------------------------------------------
+    TestModuleOpenBrowse(module: ModuleBase) {
+        let testName: string = "";
+        const testCollectionName = `Open ${module.moduleName} browse`;
+        describe(testCollectionName, () => {
+            //---------------------------------------------------------------------------------------
+            testName = `Open ${module.moduleName} browse`;
+            test(testName, async () => {
+                await module.openBrowse().then().catch(err => this.LogError(testName, err));
+            }, this.testTimeout);
+            //---------------------------------------------------------------------------------------
+        });
+    }
+    //---------------------------------------------------------------------------------------
+    TestModuleOpenBrowseOpenForm(module: ModuleBase, index: number) {
+        let testName: string = "";
+        const testCollectionName = `Open ${module.moduleName} browse`;
+        describe(testCollectionName, () => {
+            //---------------------------------------------------------------------------------------
+            testName = `Open ${module.moduleName} browse`;
+            test(testName, async () => {
+                await module.openBrowse().then().catch(err => this.LogError(testName, err));
+            }, this.testTimeout);
+            //---------------------------------------------------------------------------------------
+            testName = `Open ${module.moduleName} form`;
+            test(testName, async () => {
+                let formCountBefore = await module.countOpenForms();
+                await module.openRecord(index).then().catch(err => this.LogError(testName, err));
+                let formCountAfter = await module.countOpenForms();
+                expect(formCountAfter).toBe(formCountBefore + 1);
+                let formObject = await module.getFormRecord().then().catch(err => this.LogError(testName, err));
+                console.log(`Record: ${JSON.stringify(formObject)}`);
+            }, this.testTimeout);
+            //---------------------------------------------------------------------------------------
         });
     }
     //---------------------------------------------------------------------------------------
@@ -112,20 +154,6 @@ export abstract class BaseTest {
         });
     }
     //---------------------------------------------------------------------------------------
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     TestModuleCreateNewRecord(module: ModuleBase, inputObject: any, expectedObject: any) {
         let testName: string = "";
         const testCollectionName = `Create new ${module.moduleName}, fill out form, save record`;
@@ -298,7 +326,6 @@ export abstract class BaseTest {
             //---------------------------------------------------------------------------------------
         });
     }
-
     //---------------------------------------------------------------------------------------
     TestModuleOpenSpecificRecord(module: ModuleBase, seekObject: any) {
         let testName: string = "";
@@ -367,9 +394,6 @@ export abstract class BaseTest {
             //---------------------------------------------------------------------------------------
         });
     }
-    //---------------------------------------------------------------------------------------
-
-
     //---------------------------------------------------------------------------------------
     // this method will be overridden in sub classes for each test collection we want to perform
     PerformTests() { }

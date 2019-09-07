@@ -6,6 +6,7 @@ import { Vendor } from './modules/Vendor';
 import { Customer } from './modules/Customer';
 import { Deal } from './modules/Deal';
 import { Quote } from './modules/Quote';
+import { DefaultSettings } from './modules/DefaultSettings';
 
 export class RegressionTest extends BaseTest {
     //---------------------------------------------------------------------------------------
@@ -17,6 +18,20 @@ export class RegressionTest extends BaseTest {
         var dealInputs: any;
         var quoteInputs: any;
 
+        //-----------------------------------//
+        //        DEFAULT SETTINGS           //
+        //-----------------------------------//
+
+        if (this.continueTest) {
+            const defaultSettingsModule: DefaultSettings = new DefaultSettings();
+
+            this.TestModuleOpenBrowse(defaultSettingsModule);
+
+            this.TestModuleOpenBrowseOpenForm(defaultSettingsModule, 1);
+
+        }
+
+        /*
         //-----------------------------------//
         //        RENTAL INVENTORY           //
         //-----------------------------------//
@@ -360,6 +375,7 @@ export class RegressionTest extends BaseTest {
             //        }, 10000);
         }
 
+    */
     }
     //---------------------------------------------------------------------------------------
 }

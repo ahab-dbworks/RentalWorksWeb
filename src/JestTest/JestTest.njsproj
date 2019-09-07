@@ -57,6 +57,7 @@
     <Folder Include="src\ts\shared\" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="src\ts\rentalworksweb\modules\DefaultSettings.ts" />
     <TypeScriptCompile Include="src\ts\rentalworksweb\RwwRegression.test.ts" />
     <TypeScriptCompile Include="src\ts\rentalworksweb\modules\Customer.ts" />
     <TypeScriptCompile Include="src\ts\rentalworksweb\modules\Deal.ts" />
@@ -76,6 +77,7 @@
     <TypeScriptCompile Include="src\ts\rentalworksweb\old\AddGridRow.test.ts" />
     <TypeScriptCompile Include="src\ts\rentalworksweb\old\NewVendor.test.ts" />
     <TypeScriptCompile Include="src\ts\shared\Ajax.ts" />
+    <TypeScriptCompile Include="src\ts\shared\SettingsModule.ts" />
     <TypeScriptCompile Include="src\ts\shared\ModuleBase.ts" />
     <TypeScriptCompile Include="src\ts\shared\Logging.ts" />
     <TypeScriptCompile Include="src\ts\shared\BaseTest.ts" />
