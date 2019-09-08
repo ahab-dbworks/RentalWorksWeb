@@ -38,8 +38,7 @@ export class RegressionTest extends BaseTest {
             const rentalInventoryModule: RentalInventory = new RentalInventory();
 
             var defaultRentalInventoryExpected: any = {
-                //Unit: "EA",
-                Unit: "GlobalScope.DefaultSettings~1.DefaultUnit",
+                Unit: "GlobalScope.DefaultSettings~1.DefaultUnit",   // ie. "EA"
             }
 
             this.TestModuleDefaultsOnNewForm(rentalInventoryModule, defaultRentalInventoryExpected);
@@ -68,7 +67,6 @@ export class RegressionTest extends BaseTest {
 
         }
 
-        /*
 
         //-------------//
         //   CONTACT   //
@@ -271,7 +269,7 @@ export class RegressionTest extends BaseTest {
 
             var defaultDealExpected: any = {
                 Location: "LAS VEGAS",
-                DealStatus: "ACTIVE",
+                DealStatus: "GlobalScope.DefaultSettings~1.DefaultDealStatus",   // ie. "ACTIVE"
             }
 
             this.TestModuleDefaultsOnNewForm(dealModule, defaultDealExpected);
@@ -374,7 +372,6 @@ export class RegressionTest extends BaseTest {
             //        }, 10000);
         }
 
-    */
     }
     //---------------------------------------------------------------------------------------
 }
