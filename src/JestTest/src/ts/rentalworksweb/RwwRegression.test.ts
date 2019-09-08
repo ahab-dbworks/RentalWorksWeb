@@ -1,5 +1,6 @@
 ﻿import { BaseTest } from '../shared/BaseTest';
 import { TestUtils } from '../shared/TestUtils';
+import { GlobalScope } from '../shared/GlobalScope';
 import { RentalInventory } from './modules/RentalInventory';
 import { Contact } from './modules/Contact';
 import { Vendor } from './modules/Vendor';
@@ -10,7 +11,7 @@ import { DefaultSettings } from './modules/DefaultSettings';
 
 export class RegressionTest extends BaseTest {
     //---------------------------------------------------------------------------------------
-    PerformTests() {
+    async PerformTests() {
         var rentalInventoryInputs: any;
         var contactInputs: any;
         var vendorInputs: any;
@@ -27,21 +28,18 @@ export class RegressionTest extends BaseTest {
 
             this.TestModuleOpenBrowse(defaultSettingsModule);
 
-            this.TestModuleOpenBrowseOpenForm(defaultSettingsModule, 1);
-
+            this.TestModuleOpenBrowseOpenForm(defaultSettingsModule, 1, true);
         }
 
-        /*
         //-----------------------------------//
         //        RENTAL INVENTORY           //
         //-----------------------------------//
         if (this.continueTest) {
             const rentalInventoryModule: RentalInventory = new RentalInventory();
 
-
-
             var defaultRentalInventoryExpected: any = {
-                Unit: "EA",
+                //Unit: "EA",
+                Unit: "GlobalScope.DefaultSettings~1.DefaultUnit",
             }
 
             this.TestModuleDefaultsOnNewForm(rentalInventoryModule, defaultRentalInventoryExpected);
@@ -70,6 +68,7 @@ export class RegressionTest extends BaseTest {
 
         }
 
+        /*
 
         //-------------//
         //   CONTACT   //

@@ -81,7 +81,7 @@ export class ModuleBase {
         await page.click('.fwbrowse tbody tr.viewmode', { clickCount: 2 });
         await page.waitForFunction(() => document.querySelector('.pleasewait'), { polling: 'mutation' });
         if (sleepAfterOpening > 0) {
-            await ModuleBase.wait(sleepAfterOpening); 
+            await ModuleBase.wait(sleepAfterOpening);
         }
     }
     //---------------------------------------------------------------------------------------
@@ -207,6 +207,19 @@ export class ModuleBase {
             }
         }
         await ModuleBase.wait(500);
+    }
+    //---------------------------------------------------------------------------------------
+    async getFormKeys(): Promise<any> {
+        let keys: any = {};
+        const datafields = await page.$$eval(`.fwform .fwformfield[data-type="key"]`, fields => fields.map((field) => field.getAttribute('data-datafield')));
+        for (let i = 0; i < datafields.length; i++) {
+            if (datafields[i] != '') {
+                let value = await this.getDataFieldValue(datafields[i]);
+                keys[datafields[i]] = value;
+            }
+        }
+        //Logging.logger.info(`Form Keys: ${JSON.stringify(record)}`);
+        return keys;
     }
     //---------------------------------------------------------------------------------------
     async getFormRecord(): Promise<any> {

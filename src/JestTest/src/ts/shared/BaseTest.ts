@@ -3,12 +3,15 @@ import { Logging } from '../shared/Logging';
 import { TestUtils } from '../shared/TestUtils';
 import { ModuleBase } from '../shared/ModuleBase';
 import { SaveResponse } from '../shared/ModuleBase';
+import { GlobalScope } from '../shared/GlobalScope';
 
 export abstract class BaseTest {
 
     continueTest: boolean | void = true;
     testTimeout: number = 45000; // 45 seconds
     testToken = TestUtils.getTestToken();
+
+    globalScopeRef = GlobalScope;
 
     //---------------------------------------------------------------------------------------
     LogError(testName: string, err: any) {
@@ -28,7 +31,7 @@ export abstract class BaseTest {
         });
     }
     //---------------------------------------------------------------------------------------
-    VerifyTestToken() {
+    async VerifyTestToken() {
         let testName: string = "";
         const testCollectionName = `Verify Test Token`;
         describe(testCollectionName, () => {
@@ -41,7 +44,7 @@ export abstract class BaseTest {
         });
     }
     //---------------------------------------------------------------------------------------
-    DoLogin() {
+    async DoLogin() {
         let testName: string = "";
         const testCollectionName = `Login`;
         describe(testCollectionName, () => {
@@ -56,7 +59,7 @@ export abstract class BaseTest {
         });
     }
     //---------------------------------------------------------------------------------------
-    DoLogoff() {
+    async DoLogoff() {
         let testName: string = "";
         const testCollectionName = `Logoff`;
         describe(testCollectionName, () => {
@@ -71,7 +74,7 @@ export abstract class BaseTest {
         });
     }
     //---------------------------------------------------------------------------------------
-    TestModuleOpenBrowse(module: ModuleBase) {
+    async TestModuleOpenBrowse(module: ModuleBase) {
         let testName: string = "";
         const testCollectionName = `Open ${module.moduleName} browse`;
         describe(testCollectionName, () => {
@@ -84,7 +87,7 @@ export abstract class BaseTest {
         });
     }
     //---------------------------------------------------------------------------------------
-    TestModuleOpenBrowseOpenForm(module: ModuleBase, index: number) {
+    async TestModuleOpenBrowseOpenForm(module: ModuleBase, index: number, registerGlobal?: boolean) {
         let testName: string = "";
         const testCollectionName = `Open ${module.moduleName} browse`;
         describe(testCollectionName, () => {
@@ -101,13 +104,25 @@ export abstract class BaseTest {
                 let formCountAfter = await module.countOpenForms();
                 expect(formCountAfter).toBe(formCountBefore + 1);
                 let formObject = await module.getFormRecord().then().catch(err => this.LogError(testName, err));
-                console.log(`Record: ${JSON.stringify(formObject)}`);
+                Logging.logger.info(`Form Record: ${JSON.stringify(formObject)}`);
+
+                let formKeys = await module.getFormKeys().then().catch(err => this.LogError(testName, err));
+                Logging.logger.info(`Form Keys: ${JSON.stringify(formKeys)}`);
+
+                if (registerGlobal) {
+                    let globalKey = module.moduleName;
+                    for (var key in formKeys) {
+                        globalKey = globalKey + "~" + formKeys[key];
+                    }
+                    Logging.logger.info(`Global Key: ${globalKey}`);
+                    this.globalScopeRef[globalKey] = formObject;
+                }
             }, this.testTimeout);
             //---------------------------------------------------------------------------------------
         });
     }
     //---------------------------------------------------------------------------------------
-    TestModuleDefaultsOnNewForm(module: ModuleBase, expectedObject: any) {
+    async TestModuleDefaultsOnNewForm(module: ModuleBase, expectedObject: any) {
         let testName: string = "";
         const testCollectionName = `Start new ${module.moduleName}, check form for expected default values`;
         describe(testCollectionName, () => {
@@ -131,8 +146,17 @@ export abstract class BaseTest {
                 test(testName, async () => {
                     let defaultObject = await module.getFormRecord().then().catch(err => this.LogError(testName, err));
                     Logging.logger.info(`Form Record: ${JSON.stringify(defaultObject)}`);
+
                     for (let key in expectedObject) {
                         console.log(`Comparing: ${key}\n     Expecting: "${expectedObject[key]}"\n     Found:     "${defaultObject[key]}"`);
+
+                        if (expectedObject[key].toString().startsWith("GlobalScope")) {
+                            //example: "GlobalScope.DefaultSettings~1.DefaultUnit",
+                            let globalScopeKey = expectedObject[key].toString().split('.');
+                            expectedObject[key] = this.globalScopeRef[globalScopeKey[1].toString()][globalScopeKey[2].toString()];
+                            console.log(`Comparing: ${key}\n     Expecting: "${expectedObject[key]}"\n     Found:     "${defaultObject[key]}"`);
+                        }
+
                         if (expectedObject[key] === "|NOTEMPTY|") {
                             expect(defaultObject[key]).not.toBe("");
                         }
@@ -154,7 +178,7 @@ export abstract class BaseTest {
         });
     }
     //---------------------------------------------------------------------------------------
-    TestModuleCreateNewRecord(module: ModuleBase, inputObject: any, expectedObject: any) {
+    async TestModuleCreateNewRecord(module: ModuleBase, inputObject: any, expectedObject: any) {
         let testName: string = "";
         const testCollectionName = `Create new ${module.moduleName}, fill out form, save record`;
         describe(testCollectionName, () => {
@@ -197,8 +221,15 @@ export abstract class BaseTest {
                     let savedObject = await module.getFormRecord().then().catch(err => this.LogError(testName, err));
                     Logging.logger.info(`Form Record: ${JSON.stringify(savedObject)}`);
                     for (let key in expectedObject) {
-                        //console.log(`Comparing : "${key}": `, `"${savedObject[key]}"`, `"${expectedObject[key]}"`);
                         console.log(`Comparing: ${key}\n     Expecting: "${expectedObject[key]}"\n     Found:     "${savedObject[key]}"`);
+
+                        if (expectedObject[key].toString().startsWith("GlobalScope")) {
+                            //example: "GlobalScope.DefaultSettings~1.DefaultUnit",
+                            let globalScopeKey = expectedObject[key].toString().split('.');
+                            expectedObject[key] = this.globalScopeRef[globalScopeKey[1].toString()][globalScopeKey[2].toString()];
+                            console.log(`Comparing: ${key}\n     Expecting: "${expectedObject[key]}"\n     Found:     "${savedObject[key]}"`);
+                        }
+
                         if (expectedObject[key] === "|NOTEMPTY|") {
                             expect(savedObject[key]).not.toBe("");
                         }
@@ -220,7 +251,7 @@ export abstract class BaseTest {
         });
     }
     //---------------------------------------------------------------------------------------
-    TestModulePreventDuplicate(module: ModuleBase, inputObject: any, duplicatedFieldsForTestName: string = "") {
+    async TestModulePreventDuplicate(module: ModuleBase, inputObject: any, duplicatedFieldsForTestName: string = "") {
         let testName: string = "";
         const testCollectionName = `Attempt to create a duplicate ${module.moduleName} ${duplicatedFieldsForTestName ? "using " + duplicatedFieldsForTestName : ""}`;
         describe(testCollectionName, () => {
@@ -280,7 +311,7 @@ export abstract class BaseTest {
         });
     }
     //---------------------------------------------------------------------------------------
-    TestModuleForMissingRequiredField(module: ModuleBase, inputObject: any, missingRequiredFieldName: string = "") {
+    async TestModuleForMissingRequiredField(module: ModuleBase, inputObject: any, missingRequiredFieldName: string = "") {
         let testName: string = "";
         const testCollectionName = `Attempt to create a ${module.moduleName} without a required ${missingRequiredFieldName}`;
         describe(testCollectionName, () => {
@@ -327,7 +358,7 @@ export abstract class BaseTest {
         });
     }
     //---------------------------------------------------------------------------------------
-    TestModuleOpenSpecificRecord(module: ModuleBase, seekObject: any) {
+    async TestModuleOpenSpecificRecord(module: ModuleBase, seekObject: any) {
         let testName: string = "";
         const testCollectionName = `Attempt to seek to and open a ${module.moduleName}`;
         describe(testCollectionName, () => {
@@ -361,7 +392,7 @@ export abstract class BaseTest {
         });
     }
     //---------------------------------------------------------------------------------------
-    TestModuleDeleteSpecificRecord(module: ModuleBase, seekObject: any) {
+    async TestModuleDeleteSpecificRecord(module: ModuleBase, seekObject: any) {
         let testName: string = "";
         const testCollectionName = `Attempt to seek to and delete a ${module.moduleName}`;
         describe(testCollectionName, () => {
@@ -396,15 +427,15 @@ export abstract class BaseTest {
     }
     //---------------------------------------------------------------------------------------
     // this method will be overridden in sub classes for each test collection we want to perform
-    PerformTests() { }
+    async PerformTests() { }
     //---------------------------------------------------------------------------------------
-    Run() {
+    async Run() {
         try {
             this.DoBeforeAll();
             this.VerifyTestToken();
             this.CheckDependencies();
             this.DoLogin();
-            this.PerformTests();
+            await this.PerformTests();
             this.DoLogoff();
         } catch (ex) {
             Logging.logger.error('Error in Run.', ex);

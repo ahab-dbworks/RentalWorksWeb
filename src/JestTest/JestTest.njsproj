@@ -77,6 +77,7 @@
     <TypeScriptCompile Include="src\ts\rentalworksweb\old\AddGridRow.test.ts" />
     <TypeScriptCompile Include="src\ts\rentalworksweb\old\NewVendor.test.ts" />
     <TypeScriptCompile Include="src\ts\shared\Ajax.ts" />
+    <TypeScriptCompile Include="src\ts\shared\GlobalScope.ts" />
     <TypeScriptCompile Include="src\ts\shared\SettingsModule.ts" />
     <TypeScriptCompile Include="src\ts\shared\ModuleBase.ts" />
     <TypeScriptCompile Include="src\ts\shared\Logging.ts" />
