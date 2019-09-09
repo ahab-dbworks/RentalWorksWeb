@@ -2384,27 +2384,28 @@ class OrderBase {
         const specifyDatesChecked = FwFormField.getValueByDataField($form, 'SpecifyBillingDatesByType');
         const dateTypeSection = $form.find('.date-types');
         const $billingPeriodFields = dateTypeSection.find('.fwformfield[data-type="date"]');
+        const $billingDates = $form.find('.date-types-disable');
         if (specifyDatesChecked) {
             dateTypeSection.show();
-            FwFormField.disable($form.find('.date-types-disable'));
+            FwFormField.disable($billingDates);
             if (lockDatesChecked) {
-                $billingPeriodFields.attr('data-enabled', false);
+                FwFormField.disable($billingPeriodFields);
             } else {
-                $billingPeriodFields.attr('data-enabled', true);
+                FwFormField.enable($billingPeriodFields);
             }
         } else {
             dateTypeSection.hide();
-            $billingPeriodFields.attr('data-enabled', false);
-            FwFormField.enable($form.find('.date-types-disable'));
+            FwFormField.disable($billingPeriodFields);
+            FwFormField.enable($billingDates);
         }
 
         if (lockDatesChecked) {
-            FwFormField.disable($form.find('.date-types-disable'));
+            FwFormField.disable($billingDates);
         } else {
             if (!specifyDatesChecked) {
-                FwFormField.enable($form.find('.date-types-disable'));
+                FwFormField.enable($billingDates);
             } else {
-                $billingPeriodFields.attr('data-enabled', true);
+                FwFormField.enable($billingPeriodFields);
             }
         }
     }
