@@ -1025,32 +1025,32 @@ class Quote extends OrderBase {
                       <div class="flexcolumn">
                           <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Rental Billing Period">
                               <div class="flexrow">                                    
-                                  <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-enabled="false" data-caption="Start" data-datafield="Date"></div>
-                                  <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-enabled="false" data-caption="Stop" data-datafield="Date"></div>
+                                  <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-enabled="false" data-caption="Start" data-datafield="RentalBillingStartDate"></div>
+                                  <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-enabled="false" data-caption="Stop" data-datafield="RentalBillingEndDate"></div>
                               </div> 
                           </div>
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Facilities Billing Period">
                           <div class="flexrow">                                    
-                              <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-enabled="false" data-caption="Start" data-datafield="Date"></div>
-                              <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-enabled="false" data-caption="Stop" data-datafield="Date"></div>
+                              <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-enabled="false" data-caption="Start" data-datafield="FacilitiesBillingStartDate"></div>
+                              <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-enabled="false" data-caption="Stop" data-datafield="FacilitiesBillingEndDate"></div>
                           </div> 
                       </div>
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Vehicle Billing Period">
                           <div class="flexrow">                                    
-                              <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-enabled="false" data-caption="Start" data-datafield="Date"></div>
-                              <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-enabled="false" data-caption="Stop" data-datafield="Date"></div>
+                              <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-enabled="false" data-caption="Start" data-datafield="VehicleBillingStartDate"></div>
+                              <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-enabled="false" data-caption="Stop" data-datafield="VehicleBillingEndDate"></div>
                           </div> 
                       </div>
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Crew Billing Period">
                           <div class="flexrow">                                    
-                              <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-enabled="false" data-caption="Start" data-datafield="Date"></div>
-                              <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-enabled="false" data-caption="Stop" data-datafield="Date"></div>
+                              <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-enabled="false" data-caption="Start" data-datafield="LaborBillingStartDate"></div>
+                              <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-enabled="false" data-caption="Stop" data-datafield="LaborBillingEndDate"></div>
                           </div> 
                       </div>
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Misc Billing Period">
                           <div class="flexrow">                                    
-                              <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-enabled="false" data-caption="Start" data-datafield="Date"></div>
-                              <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-enabled="false" data-caption="Stop" data-datafield="Date"></div>
+                              <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-enabled="false" data-caption="Start" data-datafield="MiscellaneousBillingStartDate"></div>
+                              <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-enabled="false" data-caption="Stop" data-datafield="MiscellaneousBillingEndDate"></div>
                           </div> 
                       </div>
                      </div>

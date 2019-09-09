@@ -2382,19 +2382,19 @@ class OrderBase {
     billingPeriodEvents($form) {
         const lockDatesChecked = FwFormField.getValueByDataField($form, 'LockBillingDates');
         const specifyDatesChecked = FwFormField.getValueByDataField($form, 'SpecifyBillingDatesByType');
-        const dateTypeSection = $form.find('.date-types'); //rental, facilities, vehicle, crew, misc billing periods
-
+        const dateTypeSection = $form.find('.date-types');
+        const $billingPeriodFields = dateTypeSection.find('.fwformfield[data-type="date"]');
         if (specifyDatesChecked) {
             dateTypeSection.show();
             FwFormField.disable($form.find('.date-types-disable'));
             if (lockDatesChecked) {
-                dateTypeSection.find('[data-datafield="Date"]').attr('data-enabled', false);
+                $billingPeriodFields.attr('data-enabled', false);
             } else {
-                dateTypeSection.find('[data-datafield="Date"]').attr('data-enabled', true);
+                $billingPeriodFields.attr('data-enabled', true);
             }
         } else {
             dateTypeSection.hide();
-            dateTypeSection.find('[data-datafield="Date"]').attr('data-enabled', false);
+            $billingPeriodFields.attr('data-enabled', false);
             FwFormField.enable($form.find('.date-types-disable'));
         }
 
@@ -2404,7 +2404,7 @@ class OrderBase {
             if (!specifyDatesChecked) {
                 FwFormField.enable($form.find('.date-types-disable'));
             } else {
-                dateTypeSection.find('[data-datafield="Date"]').attr('data-enabled', true);
+                $billingPeriodFields.attr('data-enabled', true);
             }
         }
     }
