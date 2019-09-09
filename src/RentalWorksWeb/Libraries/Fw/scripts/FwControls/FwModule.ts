@@ -390,7 +390,7 @@
                                                     <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield find-field datafieldselect" data-caption="Data Field" data-datafield="Datafield" style="flex:1 1 auto;"></div>
                                                     <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield find-field datafieldcomparison" data-caption="" data-datafield="DatafieldComparison" style="flex:1 1 150px;"></div>
                                                     <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield find-field textquery" data-caption="" data-datafield="DatafieldQuery" style="flex:1 1 200px;"></div>
-                                                    <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield find-field datequery" data-caption="" data-datafield="DateFieldQuery" style="flex:1 1 200px;display:none;"></div>
+                                                    <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield find-field datequery" data-enabled="true" data-caption="" data-datafield="DateFieldQuery" style="flex:1 1 200px;display:none;"></div>
                                                     <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield find-field booleanquery" data-caption="" data-datafield="BooleanFieldQuery" style="flex:1 1 200px;display:none;"></div>
                                                     <i class="material-icons delete-query">delete_outline</i>
                                                     <i class="material-icons add-query">add_circle_outline</i>
