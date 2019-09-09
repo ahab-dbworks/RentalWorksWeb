@@ -1047,26 +1047,35 @@
         });
         // Select None
         $form.find('.selectnone').on('click', e => {
-            let request: any = {};
-            const orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
-            request.OrderId = orderId;
-            FwAppData.apiMethod(true, 'POST', `api/v1/stagequantityitem/selectnone`, request, FwServices.defaultTimeout, response => {
-                errorMsgQty.html('');
-                if (response.success === false) {
-                    errorSound.play();
-                    errorMsgQty.html(`<div><span>${response.msg}</span></div>`);
-                } else {
-                    successSound.play();
-                    const $stageQuantityItemGrid = $form.find('div[data-name="StageQuantityItemGrid"]');
-                    FwBrowse.search($stageQuantityItemGrid);
-                }
-            }, response => {
-                FwFunc.showError(response);
-            }, $form);
+            const $confirmation = FwConfirmation.renderConfirmation(`Unstage All`, `Unstage ALL Quantity items staged on this Order?`);
+            const $yes = FwConfirmation.addButton($confirmation, 'Yes', false);
+            FwConfirmation.addButton($confirmation, 'No', true);
+
+            $yes.on('click', () => {
+                FwConfirmation.destroyConfirmation($confirmation);
+                let request: any = {};
+                const orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
+                request.OrderId = orderId;
+                FwAppData.apiMethod(true, 'POST', `api/v1/stagequantityitem/selectnone`, request, FwServices.defaultTimeout, response => {
+                    errorMsgQty.html('');
+                    if (response.success === false) {
+                        errorSound.play();
+                        errorMsgQty.html(`<div><span>${response.msg}</span></div>`);
+                    } else {
+                        successSound.play();
+                        const $stageQuantityItemGrid = $form.find('div[data-name="StageQuantityItemGrid"]');
+                        FwBrowse.search($stageQuantityItemGrid);
+                    }
+                }, response => {
+                    FwFunc.showError(response);
+                }, $form);
+            });
         });
         // Select All
         $form.find('.selectall').on('click', e => {
             let request: any = {};
+            $form.find('.option-list').show();
+            FwFormField.setValueByDataField($form, 'IncludeZeroRemaining', true);
             const orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
             request.OrderId = orderId;
             FwAppData.apiMethod(true, 'POST', `api/v1/stagequantityitem/selectall`, request, FwServices.defaultTimeout, response => {
@@ -1385,8 +1394,8 @@
                   </div>
                   <div class="formrow">
                     <div class="fwformcontrol options-button" data-type="button" style="float:left; margin-left:10px;">Options &#8675;</div>
-                    <div class="fwformcontrol selectall" data-type="button" style="float:left; margin-left:10px;">Select All</div>
-                    <div class="fwformcontrol selectnone" data-type="button" style="float:left; margin-left:10px;">Select None</div>
+                    <div class="fwformcontrol selectall" data-type="button" style="float:left; margin-left:10px;">Stage All</div>
+                    <div class="fwformcontrol selectnone" data-type="button" style="float:left; margin-left:10px;">Unstage All</div>
                   </div>
                   <div class="formrow option-list" style="display:none;">
                     <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Show items with zero Remaining" data-datafield="IncludeZeroRemaining"></div>
