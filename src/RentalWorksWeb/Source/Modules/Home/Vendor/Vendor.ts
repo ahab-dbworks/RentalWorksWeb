@@ -44,6 +44,9 @@ class Vendor {
 
         if (mode == 'NEW') {
             this.toggleRequiredFields($form);
+
+            const officeLocation = JSON.parse(sessionStorage.getItem('location'));
+            FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', officeLocation.locationid, officeLocation.location);
             FwFormField.setValueByDataField($form, 'DefaultSubRentDaysPerWeek', 0);
             FwFormField.setValueByDataField($form, 'DefaultSubRentDiscountPercent', 0);
             FwFormField.setValueByDataField($form, 'DefaultSubSaleDiscountPercent', 0);

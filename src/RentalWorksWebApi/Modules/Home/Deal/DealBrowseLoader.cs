@@ -26,10 +26,10 @@ namespace WebApi.Modules.Home.Deal
         public string Customer { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "locationid", modeltype: FwDataTypes.Text)]
-        public string LocationId { get; set; }
+        public string OfficeLocationId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "location", modeltype: FwDataTypes.Text)]
-        public string Location { get; set; }
+        public string OfficeLocation { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "dealtypeid", modeltype: FwDataTypes.Text)]
         public string DealTypeId { get; set; }

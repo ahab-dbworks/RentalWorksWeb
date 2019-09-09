@@ -36,10 +36,10 @@ namespace WebApi.Modules.Home.Deal
         public string Customer { get; set; }
 
         [FwLogicProperty(Id:"AHNWRG32QMHN")]
-        public string LocationId { get { return deal.LocationId; } set { deal.LocationId = value; } }
+        public string OfficeLocationId { get { return deal.OfficeLocationId; } set { deal.OfficeLocationId = value; } }
 
         [FwLogicProperty(Id:"hE75eNnZR5cQ", IsReadOnly:true)]
-        public string Location { get; set; }
+        public string OfficeLocation { get; set; }
 
         [FwLogicProperty(Id:"qJWJGegtsy0x", IsReadOnly:true)]
         public string DealTypeId { get { return deal.DealTypeId; } set { deal.DealTypeId = value; } }

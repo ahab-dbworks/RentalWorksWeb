@@ -25,7 +25,7 @@ namespace WebApi.Modules.Home.Deal
         public string CustomerId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "locationid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
-        public string LocationId { get; set; }
+        public string OfficeLocationId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "dealtypeid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string DealTypeId { get; set; }
@@ -464,7 +464,7 @@ namespace WebApi.Modules.Home.Deal
 
         public async Task<bool> SetNumber(FwSqlConnection conn)
         {
-            DealNumber = await AppFunc.GetNextModuleCounterAsync(AppConfig, UserSession, RwConstants.MODULE_DEAL, LocationId, conn);
+            DealNumber = await AppFunc.GetNextModuleCounterAsync(AppConfig, UserSession, RwConstants.MODULE_DEAL, OfficeLocationId, conn);
             return true;
         }
         //-------------------------------------------------------------------------------------------------------    

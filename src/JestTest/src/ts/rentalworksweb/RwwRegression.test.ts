@@ -41,7 +41,7 @@ export class RegressionTest extends BaseTest {
 
 
 
-
+        /*
         //-----------------------------------//
         //        RENTAL INVENTORY           //
         //-----------------------------------//
@@ -122,12 +122,21 @@ export class RegressionTest extends BaseTest {
             this.TestModuleCreateNewRecord(contactModule, contactInputs, contactExpected);
 
         }
-
+        */
         //-------------//
         //   VENDOR    //
         //-------------//
         if (this.continueTest) {
             const vendorModule: Vendor = new Vendor();
+
+
+            var defaultVendorExpected: any = {
+                OfficeLocation: "GlobalScope.User~ME.OfficeLocation",                  // ie. "LAS VEGAS"
+            }
+
+            this.TestModuleDefaultsOnNewForm(vendorModule, defaultVendorExpected);
+
+
             vendorInputs = {
                 Vendor: `${TestUtils.randomCompanyName()} - ${this.testToken}`,
                 VendorNumber: TestUtils.randomAlphanumeric(8),
@@ -277,7 +286,7 @@ export class RegressionTest extends BaseTest {
             const dealModule: Deal = new Deal();
 
             var defaultDealExpected: any = {
-                Location: "GlobalScope.User~ME.OfficeLocation",                  // ie. "LAS VEGAS"
+                OfficeLocation: "GlobalScope.User~ME.OfficeLocation",                  // ie. "LAS VEGAS"
                 DealStatus: "GlobalScope.DefaultSettings~1.DefaultDealStatus",   // ie. "ACTIVE"
             }
 
