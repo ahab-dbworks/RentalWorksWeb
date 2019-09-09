@@ -31,6 +31,7 @@ namespace WebLibrary.Security.Tree.RentalWorksWeb.Modules.Settings
             tree.AddSubMenuItem("Print Quote", "{B20DDE47-A5D7-49A9-B980-8860CADBF7F6}", nodeFormOptions.Id);
             tree.AddSubMenuItem("Create Order", "{E265DFD0-380F-4E8C-BCFD-FA5DCBA4A654}", nodeFormOptions.Id);
             tree.AddSubMenuItem("New Version", "{F79F8C21-66DF-4458-BBEB-E19B2BFCAEAA}", nodeFormOptions.Id);
+            tree.AddSubMenuItem("Make Quote Active", "{32BF5F46-987A-4D61-9E85-6A7954897077}", nodeFormOptions.Id);
             tree.AddSubMenuItem("Reserve / Unreserve", "{C122C2C5-9D68-4CDF-86C9-E37CB70C57A0}", nodeFormOptions.Id);
             tree.AddSubMenuItem("Cancel / Uncancel", "{BF633873-8A40-4BD6-8ED8-3EAC27059C84}", nodeFormOptions.Id);
         }

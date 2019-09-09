@@ -1552,6 +1552,16 @@ class Quote extends OrderBase {
                 }, realCofirm);
         };
     }
+    //-----------------------------------------------------------------------------------------------------
+    afterLoad($form, response) {
+        super.afterLoad($form, response);
+
+        const status = FwFormField.getValueByDataField($form, 'Status');
+        if (status != 'CLOSED') {
+            const makeQuoteActiveOptionId = Constants.Modules.Home.Quote.form.menuItems.MakeQuoteActive.id.replace('{', '').replace('}', '');
+            $form.find(`.submenu-btn[data-securityid="${makeQuoteActiveOptionId}"]`).attr('data-enabled', 'false');
+        }
+    }
 };
 
 //-----------------------------------------------------------------------------------------------------
@@ -1600,6 +1610,30 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.Quote.form.menuItems.NewVer
     try {
         const $form = jQuery(this).closest('.fwform');
         QuoteController.createNewVersionQuote($form, event);
+    }
+    catch (ex) {
+        FwFunc.showError(ex);
+    }
+};
+//----------------------------------------------------------------------------------------------
+FwApplicationTree.clickEvents[Constants.Modules.Home.Quote.form.menuItems.MakeQuoteActive.id] = function (event: JQuery.ClickEvent) {
+    try {
+        const $form = jQuery(this).closest('.fwform');
+        const quoteNumber = FwFormField.getValueByDataField($form, 'QuoteNumber');
+        const $confirmation = FwConfirmation.renderConfirmation(`Make Quote Active`, `Make Quote ${quoteNumber} active?`);
+        const $yes = FwConfirmation.addButton($confirmation, 'Yes', false);
+        FwConfirmation.addButton($confirmation, 'No', true);
+
+        $yes.on('click', () => {
+            const quoteId = FwFormField.getValueByDataField($form, 'QuoteId');
+            FwAppData.apiMethod(true, 'POST', `api/v1/quote/makequoteactive/${quoteId}`, null, FwServices.defaultTimeout,
+                response => {
+                    FwNotification.renderNotification('SUCCESS', 'Quote Status Successfully Changed to Active.');
+                    FwConfirmation.destroyConfirmation($confirmation);
+                    FwModule.refreshForm($form, QuoteController);
+                },
+                ex => FwFunc.showError(ex), $confirmation);
+        });
     }
     catch (ex) {
         FwFunc.showError(ex);

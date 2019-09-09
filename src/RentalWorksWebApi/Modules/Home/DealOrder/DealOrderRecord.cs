@@ -1297,6 +1297,27 @@ public string DateStamp { get; set; }
             return newId;
         }
         //-------------------------------------------------------------------------------------------------------
+        public async Task<TSpStatusResponse> MakeQuoteActive()
+        {
+            TSpStatusResponse response = new TSpStatusResponse();
+            if ((OrderId != null) && (Type.Equals(RwConstants.ORDER_TYPE_QUOTE)))
+            {
+                using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
+                {
+                    FwSqlCommand qry = new FwSqlCommand(conn, "makequoteactiveweb", this.AppConfig.DatabaseSettings.QueryTimeout);
+                    qry.AddParameter("@quoteid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
+                    qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, UserSession.UsersId);
+                    qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
+                    qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
+                    await qry.ExecuteNonQueryAsync();
+                    response.status = qry.GetParameter("@status").ToInt32();
+                    response.msg = qry.GetParameter("@msg").ToString();
+                    response.success = (response.status == 0);
+                }
+            }
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------
         public async Task<string> CreateSnapshot()
         {
             string newId = "";

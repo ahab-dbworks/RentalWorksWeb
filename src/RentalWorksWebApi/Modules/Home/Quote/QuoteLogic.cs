@@ -132,6 +132,11 @@ namespace WebApi.Modules.Home.Quote
 
             return l;
         }
+        //------------------------------------------------------------------------------------    
+        public async Task<TSpStatusResponse> MakeQuoteActiveAsync()
+        {
+            return await dealOrder.MakeQuoteActive();
+        }
         //------------------------------------------------------------------------------------
         public async Task<QuoteLogic> SubmitQuoteASync()
         {

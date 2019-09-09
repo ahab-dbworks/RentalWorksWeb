@@ -239,6 +239,47 @@ namespace WebApi.Modules.Home.Quote
             }
         }
         //------------------------------------------------------------------------------------        
+        // POST api/v1/quote/makequoteactive/A0000001
+        [HttpPost("makequoteactive/{id}")]
+        [FwControllerMethod(Id: "7mrZ4Q8ShsJ")]
+        public async Task<ActionResult<TSpStatusResponse>> MakeQuoteActive([FromRoute]string id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                string[] ids = id.Split('~');
+                QuoteLogic quote = new QuoteLogic();
+                quote.SetDependencies(AppConfig, UserSession);
+                if (await quote.LoadAsync<QuoteLogic>(ids))
+                {
+                    TSpStatusResponse response = await quote.MakeQuoteActiveAsync();
+                    if (response.success)
+                    {
+                        return new OkObjectResult(response);
+                    }
+                    else
+                    {
+                        throw new Exception(response.msg);
+                    }
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                FwApiException jsonException = new FwApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
+            }
+        }
+        //------------------------------------------------------------------------------------        
         // POST api/v1/quote/cancel/A0000001
         [HttpPost("cancel/{id}")]
         [FwControllerMethod(Id: "dpH0uCuEp3E89")]
