@@ -169,6 +169,13 @@ class Base {
                                 ])
                                     .then((values: any) => {
                                         const responseGetUserSettings = values[0];
+                                        const responseGetCustomFields = values[1];
+                                        const responseGetCustomForms = values[2];
+                                        const responseGetDefaultSettings = values[3];
+                                        const responseGetInventorySettings = values[4];
+                                        const responseGetSystemSettings = values[5];
+                                        const responseGetUser = values[6];
+
                                         let sounds: any = {}, homePage: any = {}, toolbar: any = {};
                                         sounds.successSoundFileName = responseGetUserSettings.SuccessSoundFileName;
                                         sounds.errorSoundFileName = responseGetUserSettings.ErrorSoundFileName;
@@ -181,14 +188,14 @@ class Base {
                                         sessionStorage.setItem('toolbar', toolbar);
                                         // Web admin - temp security for peek validation show / hide   J.Pace 7/12/19
                                         const userid = JSON.parse(sessionStorage.getItem('userid'));
-                                        if (values[4].WebAdministrator === true) {
+                                        //if (values[4].WebAdministrator === true) {
+                                        if (responseGetUser.WebAdministrator === true) {
                                             userid.webadministrator = 'true';
                                         } else {
                                             userid.webadministrator = 'false';
                                         }
                                         sessionStorage.setItem('userid', JSON.stringify(userid));
 
-                                        const responseGetCustomFields = values[1];
                                         const customFields = [];
                                         for (let i = 0; i < responseGetCustomFields.length; i++) {
                                             if (customFields.indexOf(responseGetCustomFields[i].ModuleName) === -1) {
@@ -197,7 +204,6 @@ class Base {
                                         }
                                         sessionStorage.setItem('customFields', JSON.stringify(customFields));
 
-                                        const responseGetCustomForms = values[2];
                                         const baseFormIndex = responseGetCustomForms.ColumnIndex.BaseForm;
                                         const customFormIdIndex = responseGetCustomForms.ColumnIndex.CustomFormId;
                                         const htmlIndex = responseGetCustomForms.ColumnIndex.Html;
@@ -212,9 +218,6 @@ class Base {
                                             sessionStorage.setItem('customForms', JSON.stringify(activeCustomForms));
                                         }
 
-                                        const responseGetDefaultSettings = values[3];
-                                        const responseGetInventorySettings = values[4];
-                                        const responseGetSystemSettings = values[5];
                                         const controlDefaults = {
                                             defaultdealstatusid: responseGetDefaultSettings.DefaultDealStatusId
                                             , defaultdealstatus: responseGetDefaultSettings.DefaultDealStatus
