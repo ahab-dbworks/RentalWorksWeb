@@ -280,6 +280,33 @@ namespace WebApi.Modules.Home.Order
         [FwLogicProperty(Id: "snrXlJ4LQ1QF")]
         public string EstimatedStopTime { get { return dealOrder.EstimatedStopTime; } set { dealOrder.EstimatedStopTime = value; } }
 
+        //------------------------------------------------------------------------------------ 
+        [FwLogicProperty(Id: "oBodDavk2oeXy")]
+        public string PickUpDate { get { return dealOrder.PickUpDate; } set { dealOrder.PickUpDate = value; } }
+        [FwLogicProperty(Id: "mot4tyZNWscWj")]
+        public string PickUpTime { get { return dealOrder.PickUpTime; } set { dealOrder.PickUpTime = value; } }
+        //------------------------------------------------------------------------------------ 
+        [FwLogicProperty(Id: "ES4KMkO1XuzuI")]
+        public string PrepDate { get { return dealOrder.PrepDate; } set { dealOrder.PrepDate = value; } }
+        [FwLogicProperty(Id: "bZmuHZ5JvuvDl")]
+        public string PrepTime { get { return dealOrder.PrepTime; } set { dealOrder.PrepTime = value; } }
+        //------------------------------------------------------------------------------------ 
+        [FwLogicProperty(Id: "vWrZBknOvmHTb")]
+        public string LoadInDate { get { return dealOrder.LoadInDate; } set { dealOrder.LoadInDate = value; } }
+        [FwLogicProperty(Id: "4oZaprANyizIL")]
+        public string LoadInTime { get { return dealOrder.LoadInTime; } set { dealOrder.LoadInTime = value; } }
+        //------------------------------------------------------------------------------------ 
+        [FwLogicProperty(Id: "6Lj1eg6voS69o")]
+        public string StrikeDate { get { return dealOrder.StrikeDate; } set { dealOrder.StrikeDate = value; } }
+        [FwLogicProperty(Id: "2FwxtOYVAh4L5")]
+        public string StrikeTime { get { return dealOrder.StrikeTime; } set { dealOrder.StrikeTime = value; } }
+        //------------------------------------------------------------------------------------ 
+        [FwLogicProperty(Id: "ydhsJYIZ58c9p")]
+        public string TestDate { get { return dealOrder.TestDate; } set { dealOrder.TestDate = value; } }
+        [FwLogicProperty(Id: "Ky4Xxt3Dub9gF")]
+        public string TestTime { get { return dealOrder.TestTime; } set { dealOrder.TestTime = value; } }
+        //------------------------------------------------------------------------------------ 
+
         //------------------------------------------------------------------------------------
         [FwLogicProperty(Id: "oKAEzwJNzY0T")]
         public string OrderTypeId { get { return dealOrder.OrderTypeId; } set { dealOrder.OrderTypeId = value; } }

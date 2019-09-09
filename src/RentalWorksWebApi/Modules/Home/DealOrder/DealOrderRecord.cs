@@ -76,24 +76,60 @@ namespace WebApi.Modules.Home.DealOrder
         [FwSqlDataField(column: "finalld", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool? LossAndDamage { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "pickdate", modeltype: FwDataTypes.Date)]
+        [FwSqlDataField(column: "pickdate", modeltype: FwDataTypes.Date, sqltype: "smalldatetime")]
         public string PickDate { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "picktime", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 5)]
         public string PickTime { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "estrentfrom", modeltype: FwDataTypes.Date)]
+        [FwSqlDataField(column: "estrentfrom", modeltype: FwDataTypes.Date, sqltype: "smalldatetime")]
         public string EstimatedStartDate { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "estfromtime", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 5)]
         public string EstimatedStartTime { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "estrentto", modeltype: FwDataTypes.Date)]
+        [FwSqlDataField(column: "estrentto", modeltype: FwDataTypes.Date, sqltype: "smalldatetime")]
         public string EstimatedStopDate { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "esttotime", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 5)]
         public string EstimatedStopTime { get; set; }
         //------------------------------------------------------------------------------------
+
+
+
+        [FwSqlDataField(column: "pickupdate", modeltype: FwDataTypes.Date, sqltype: "smalldatetime")]
+        public string PickUpDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "pickuptime", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 5)]
+        public string PickUpTime { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "prepdate", modeltype: FwDataTypes.Date, sqltype: "smalldatetime")]
+        public string PrepDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "preptime", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 5)]
+        public string PrepTime { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "loadindate", modeltype: FwDataTypes.Date, sqltype: "smalldatetime")]
+        public string LoadInDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "loadintime", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 5)]
+        public string LoadInTime { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "strikedate", modeltype: FwDataTypes.Date, sqltype: "smalldatetime")]
+        public string StrikeDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "striketime", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 5)]
+        public string StrikeTime { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "testdate", modeltype: FwDataTypes.Date, sqltype: "smalldatetime")]
+        public string TestDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "testtime", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 5)]
+        public string TestTime { get; set; }
+        //------------------------------------------------------------------------------------ 
+
+
+
         [FwSqlDataField(column: "ratetype", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string RateType { get; set; }
         //------------------------------------------------------------------------------------
@@ -209,7 +245,7 @@ namespace WebApi.Modules.Home.DealOrder
 
 
 
-        // New Purchase Order fields    
+        // purchase order
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "requisitionno", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 16)]
         public string RequisitionNumber { get; set; }
@@ -264,7 +300,7 @@ namespace WebApi.Modules.Home.DealOrder
         //------------------------------------------------------------------------------------ 
 
 
-
+        //container
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "scannablemasterid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string ScannableInventoryId { get; set; }
@@ -367,35 +403,11 @@ public bool? Enablesrmessage { get; set; }
 [FwSqlDataField(column: "issuedtoadd", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 10)] 
 public string Issuedtoadd { get; set; } 
 //------------------------------------------------------------------------------------ 
-[FwSqlDataField(column: "loadindate", modeltype: FwDataTypes.Date, sqltype: "smalldatetime")] 
-public string Loadindate { get; set; } 
-//------------------------------------------------------------------------------------ 
-[FwSqlDataField(column: "loadintime", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 5)] 
-public string Loadintime { get; set; } 
-//------------------------------------------------------------------------------------ 
 [FwSqlDataField(column: "locationid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)] 
 public string LocationId { get; set; } 
 //------------------------------------------------------------------------------------ 
 [FwSqlDataField(column: "outdeliveryid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)] 
 public string OutdeliveryId { get; set; } 
-//------------------------------------------------------------------------------------ 
-[FwSqlDataField(column: "pickdate", modeltype: FwDataTypes.Date, sqltype: "smalldatetime")] 
-public string Pickdate { get; set; } 
-//------------------------------------------------------------------------------------ 
-[FwSqlDataField(column: "picktime", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 5)] 
-public string Picktime { get; set; } 
-//------------------------------------------------------------------------------------ 
-[FwSqlDataField(column: "pickupdate", modeltype: FwDataTypes.Date, sqltype: "smalldatetime")] 
-public string Pickupdate { get; set; } 
-//------------------------------------------------------------------------------------ 
-[FwSqlDataField(column: "pickuptime", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 5)] 
-public string Pickuptime { get; set; } 
-//------------------------------------------------------------------------------------ 
-[FwSqlDataField(column: "prepdate", modeltype: FwDataTypes.Date, sqltype: "smalldatetime")] 
-public string Prepdate { get; set; } 
-//------------------------------------------------------------------------------------ 
-[FwSqlDataField(column: "preptime", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 5)] 
-public string Preptime { get; set; } 
 //------------------------------------------------------------------------------------ 
 [FwSqlDataField(column: "space", modeltype: FwDataTypes.Boolean, sqltype: "char")] 
 public bool? Space { get; set; } 
@@ -405,18 +417,6 @@ public decimal? Spacediscpercent { get; set; }
 //------------------------------------------------------------------------------------ 
 [FwSqlDataField(column: "spacesplitpercent", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 8, scale: 5)] 
 public decimal? Spacesplitpercent { get; set; } 
-//------------------------------------------------------------------------------------ 
-[FwSqlDataField(column: "strikedate", modeltype: FwDataTypes.Date, sqltype: "smalldatetime")] 
-public string Strikedate { get; set; } 
-//------------------------------------------------------------------------------------ 
-[FwSqlDataField(column: "striketime", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 5)] 
-public string Striketime { get; set; } 
-//------------------------------------------------------------------------------------ 
-[FwSqlDataField(column: "testdate", modeltype: FwDataTypes.Date, sqltype: "smalldatetime")] 
-public string Testdate { get; set; } 
-//------------------------------------------------------------------------------------ 
-[FwSqlDataField(column: "testtime", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 5)] 
-public string Testtime { get; set; } 
 //------------------------------------------------------------------------------------ 
 [FwSqlDataField(column: "requireworksheet", modeltype: FwDataTypes.Boolean, sqltype: "char")] 
 public bool? Requireworksheet { get; set; } 

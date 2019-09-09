@@ -75,9 +75,31 @@ namespace WebApi.Modules.Home.Order
         [FwSqlDataField(column: "orderlocation", modeltype: FwDataTypes.Text)]
         public string Location { get; set; }
         //------------------------------------------------------------------------------------
-        //[FwSqlDataField(column: "ordertotal", modeltype: FwDataTypes.Decimal)]
-        //public decimal? Total { get; set; }
-        //------------------------------------------------------------------------------------
+
+        [FwSqlDataField(column: "pickupdate", modeltype: FwDataTypes.Date)]
+        public string PickUpDate { get; set; }
+        [FwSqlDataField(column: "pickuptime", modeltype: FwDataTypes.Text)]
+        public string PickUpTime { get; set; }
+        [FwSqlDataField(column: "prepdate", modeltype: FwDataTypes.Date)]
+        public string PrepDate { get; set; }
+        [FwSqlDataField(column: "preptime", modeltype: FwDataTypes.Text)]
+        public string PrepTime { get; set; }
+        [FwSqlDataField(column: "loadindate", modeltype: FwDataTypes.Date)]
+        public string LoadInDate { get; set; }
+        [FwSqlDataField(column: "loadintime", modeltype: FwDataTypes.Text)]
+        public string LoadInTime { get; set; }
+        [FwSqlDataField(column: "strikedate", modeltype: FwDataTypes.Date)]
+        public string StrikeDate { get; set; }
+        [FwSqlDataField(column: "striketime", modeltype: FwDataTypes.Text)]
+        public string StrikeTime { get; set; }
+        [FwSqlDataField(column: "testdate", modeltype: FwDataTypes.Date)]
+        public string TestDate { get; set; }
+        [FwSqlDataField(column: "testtime", modeltype: FwDataTypes.Text)]
+        public string TestTime { get; set; }
+        //------------------------------------------------------------------------------------ 
+        
+
+
         //------------------------------------------------------------------------------------
         //[FwSqlDataField(column: "maxcumulativediscount", modeltype: FwDataTypes.Decimal)]
         //public decimal? MaximumCumulativeDiscount { get; set; }
@@ -438,7 +460,7 @@ namespace WebApi.Modules.Home.Order
         public string OutDeliveryFreightTrackingNumber { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "outdeliverytrackingurl", modeltype: FwDataTypes.Text)]
-        public string OutDeliveryFreightTrackingUrl{ get; set; }
+        public string OutDeliveryFreightTrackingUrl { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "outdeliveryfromcountryid", modeltype: FwDataTypes.Text)]
         public string OutDeliveryFromCountryId { get; set; }
