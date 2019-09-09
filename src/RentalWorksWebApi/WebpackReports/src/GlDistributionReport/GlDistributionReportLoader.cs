@@ -44,7 +44,7 @@ namespace WebApi.Modules.Reports.GlDistributionReport
         public string DealId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "deal", modeltype: FwDataTypes.Text)]
-        public string Deal{ get; set; }
+        public string Deal { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "itemdescription", modeltype: FwDataTypes.Text)]
         public string ItemDescription { get; set; }
@@ -65,14 +65,18 @@ namespace WebApi.Modules.Reports.GlDistributionReport
                 select.UseOptionRecompile = true;
                 using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.ReportTimeout))
                 {
-                    
+
                     if (request.IsSummary.GetValueOrDefault(false))
                     {
                         this.OverrideTableName = "dbo.funcglsummaryrpt(@fromdate, @todate, @dealid)";
                     }
+                    else if (request.IsSomeDetail.GetValueOrDefault(false))
+                    {
+                        this.OverrideTableName = "dbo.funcglsomedetailrpt(@fromdate, @todate, @dealid)";
+                    }
                     else
                     {
-                        this.OverrideTableName = "dbo.funcgldetailrpt(@fromdate, @todate)";
+                        this.OverrideTableName = "dbo.funcglfulldetailrpt(@fromdate, @todate, @dealid)";
                     }
 
                     useWithNoLock = false;
@@ -81,14 +85,7 @@ namespace WebApi.Modules.Reports.GlDistributionReport
 
                     select.AddWhereIn("locationid", request.OfficeLocationId);
                     select.AddWhereIn("glaccountid", request.GlAccountId);
-                    if (request.IsSummary.GetValueOrDefault(false))
-                    {
-                        select.AddParameter("@dealid", request.DealId);
-                    }
-                    else
-                    {
-                        select.AddWhereIn("dealid", request.DealId);
-                    }
+                    select.AddParameter("@dealid", request.DealId);
                     select.AddParameter("@fromdate", request.FromDate);
                     select.AddParameter("@todate", request.ToDate);
                     select.AddOrderBy("location,groupheadingorder,glno,glacctdesc");

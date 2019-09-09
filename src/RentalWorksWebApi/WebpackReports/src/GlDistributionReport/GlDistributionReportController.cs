@@ -24,7 +24,8 @@ namespace WebApi.Modules.Reports.GlDistributionReport
         public string OfficeLocationId { get; set; }
         public string GlAccountId { get; set; }
         public string DealId { get; set; }
-        //public bool? IsSummary { get; set; }
+        public bool? IsSomeDetail { get; set; }
+        public bool? IsFullDetail { get; set; }
     }
 
 
