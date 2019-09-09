@@ -45,14 +45,17 @@ export class DealOutstandingReport extends WebpackReport {
                     if (parameters.IncludeValueCost === 'R') {
                         data.IncludeValueCost = 'R';
                         data.IncludeValue = true;
+                        data.UnitValueHeading = "Replacement Cost";
                     }
                     if (parameters.IncludeValueCost === 'U') {
                         data.IncludeValueCost = 'U';
                         data.IncludeValue = true;
+                        data.UnitValueHeading = "Unit Value";
                     }
                     if (parameters.IncludeValueCost === 'P') {
                         data.IncludeValueCost = 'P';
                         data.IncludeValue = true;
+                        data.UnitValueHeading = "Purchase Amount";
                     }
               
                     data.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;

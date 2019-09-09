@@ -28,7 +28,15 @@
         <th>Bar Code</th>
         {{/ifEquals}}
         {{#ifEquals IncludeValue true}}
+        {{#ifEquals IncludeValueCost "R"}}
+        <th class="number">Replacement Cost</th>
+        {{/ifEquals}}
+        {{#ifEquals IncludeValueCost "U"}}
         <th class="number">Unit Value</th>
+        {{/ifEquals}}
+        {{#ifEquals IncludeValueCost "P"}}
+        <th class="number">Purchase Amount</th>
+        {{/ifEquals}}
         <th class="number">Extended</th>
         {{/ifEquals}}
         {{#ifEquals ShowResponsiblePerson true}}
@@ -174,7 +182,15 @@
         <th>Bar Code</th>
         {{/ifEquals}}
         {{#ifEquals IncludeValue true}}
+        {{#ifEquals IncludeValueCost "R"}}
+        <th class="number">Replacement Cost</th>
+        {{/ifEquals}}
+        {{#ifEquals IncludeValueCost "U"}}
         <th class="number">Unit Value</th>
+        {{/ifEquals}}
+        {{#ifEquals IncludeValueCost "P"}}
+        <th class="number">Purchase Amount</th>
+        {{/ifEquals}}
         <th class="number">Extended</th>
         {{/ifEquals}}
         {{#ifEquals ShowResponsiblePerson true}}
@@ -296,7 +312,7 @@
         {{#ifEquals RowType "grandtotal"}}
         <td colspan="{{../FooterColspan}}" class="total-name">Grand Total:&nbsp;</td>
         <td class="total-val" data-value="{{Quantity}}"></td>
-       {{#ifEquals ../IncludeValueCost "R"}}
+        {{#ifEquals ../IncludeValueCost "R"}}
         <td colspan="3" class="total-val" data-value="{{ReplacementCostExtended}}"></td>
         {{/ifEquals}}
         {{#ifEquals ../IncludeValueCost "U"}}
