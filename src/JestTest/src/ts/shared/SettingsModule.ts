@@ -52,6 +52,7 @@ export class SettingsModule extends ModuleBase {
         let selector = `.panel-group[id="${this.moduleName}"] .panel-primary .panel-collapse .panel-body .panel-record`;  // this only works for the first record
         await page.waitForSelector(selector);
         await page.click(selector);
+        await ModuleBase.wait(300); // let the row render
 
         if (sleepAfterOpening > 0) {
             await ModuleBase.wait(sleepAfterOpening);

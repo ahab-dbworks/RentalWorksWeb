@@ -1,5 +1,6 @@
 import { Logging } from '../shared/Logging';
 import { TestUtils } from './TestUtils';
+import { GlobalScope } from '../shared/GlobalScope';
 
 
 export class SaveResponse {
@@ -13,6 +14,7 @@ export class ModuleBase {
     moduleName: string;
     moduleBtnId: string;
     moduleCaption: string;
+    globalScopeRef = GlobalScope;
 
     //---------------------------------------------------------------------------------------
     constructor() { }
@@ -29,6 +31,7 @@ export class ModuleBase {
         //await ModuleBase.wait(250);
         await page.click('.appmenu');
         await expect(page).toClick(this.moduleBtnId, { timeout: timeout });
+        await ModuleBase.wait(300); // wait for the previously-open module to go away
         await page.waitForSelector('div.tab.active[data-tabtype="BROWSE"]')
             .then(async done => {
                 const evaluateBrowse = await page.evaluate(() => {
@@ -59,7 +62,8 @@ export class ModuleBase {
         await page.waitForSelector(`.fwbrowse .fieldnames`);
         for (var key in seekObject) {
             Logging.logger.info(`About to add seek field ${key} with ${seekObject[key]}`);
-            let elementHandle = await page.$(`.fwbrowse .field[data-browsedatafield="${key}"] input`);
+            let selector = `.fwbrowse .field[data-browsedatafield="${key}"] .search input`;
+            let elementHandle = await page.$(selector);
             await elementHandle.click();
             await page.keyboard.sendCharacter(seekObject[key]);
             await page.keyboard.press('Enter');
@@ -80,6 +84,7 @@ export class ModuleBase {
         await page.waitForSelector(`.fwbrowse tbody tr.viewmode:nth-child(${index})`);
         await page.click('.fwbrowse tbody tr.viewmode', { clickCount: 2 });
         await page.waitForFunction(() => document.querySelector('.pleasewait'), { polling: 'mutation' });
+        await ModuleBase.wait(300); // let the form render
         if (sleepAfterOpening > 0) {
             await ModuleBase.wait(sleepAfterOpening);
         }
@@ -166,6 +171,7 @@ export class ModuleBase {
     //---------------------------------------------------------------------------------------
     async populateFormWithRecord(record: any): Promise<any> {
         var currentValue = "";
+        let newValue = "";
         for (var key in record) {
             Logging.logger.info(`About to populate ${key} with ${record[key]}`);
             let displayfield;
@@ -187,11 +193,21 @@ export class ModuleBase {
                 case 'email':
                 case 'zipcode':
                 case 'text':
+                case 'textarea':
                     currentValue = await this.getDataFieldValue(key);
                     if (currentValue != "") {
                         await this.clearInputField(key);
                     }
-                    await this.populateTextField(key, record[key]);
+                    //await this.populateTextField(key, record[key]);
+
+                    newValue = record[key];
+                    if (newValue.toString().startsWith("GlobalScope")) {
+                        //example: "GlobalScope.DefaultSettings~1.DefaultUnit",
+                        let globalScopeKey = newValue.toString().split('.');
+                        newValue = this.globalScopeRef[globalScopeKey[1].toString()][globalScopeKey[2].toString()];
+                    }
+                    await this.populateTextField(key, newValue);
+
                     break;
                 case 'validation':
                     const validationname = await page.$eval(`.fwformfield[data-datafield="${key}"]`, el => el.getAttribute('data-validationname'));
@@ -199,7 +215,17 @@ export class ModuleBase {
                     break;
                 case 'displayfield':
                     //await this.clearInputField(key);
-                    await this.populateValidationTextField(key, record[displayfield]);
+                    //await this.populateValidationTextField(key, record[displayfield]);
+
+
+                    newValue = record[displayfield];
+                    if (newValue.toString().startsWith("GlobalScope")) {
+                        //example: "GlobalScope.DefaultSettings~1.DefaultUnit",
+                        let globalScopeKey = newValue.toString().split('.');
+                        newValue = this.globalScopeRef[globalScopeKey[1].toString()][globalScopeKey[2].toString()];
+                    }
+                    await this.populateValidationTextField(key, newValue);
+
                     await ModuleBase.wait(750);  // allow "after validate" methods to finish
                     break;
                 default:
@@ -234,6 +260,7 @@ export class ModuleBase {
                     case 'email':
                     case 'zipcode':
                     case 'text':
+                    case 'textarea':
                         value = await this.getDataFieldValue(datafields[i]);
                         record[datafields[i]] = value;
                         break;

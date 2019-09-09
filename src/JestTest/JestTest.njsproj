@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="src\ts\rentalworksweb\modules\DefaultSettings.ts" />
+    <TypeScriptCompile Include="src\ts\rentalworksweb\modules\User.ts" />
     <TypeScriptCompile Include="src\ts\rentalworksweb\RwwRegression.test.ts" />
     <TypeScriptCompile Include="src\ts\rentalworksweb\modules\Customer.ts" />
     <TypeScriptCompile Include="src\ts\rentalworksweb\modules\Deal.ts" />
@@ -78,6 +79,7 @@
     <TypeScriptCompile Include="src\ts\rentalworksweb\old\NewVendor.test.ts" />
     <TypeScriptCompile Include="src\ts\shared\Ajax.ts" />
     <TypeScriptCompile Include="src\ts\shared\GlobalScope.ts" />
+    <TypeScriptCompile Include="src\ts\shared\HomeModule.ts" />
     <TypeScriptCompile Include="src\ts\shared\SettingsModule.ts" />
     <TypeScriptCompile Include="src\ts\shared\ModuleBase.ts" />
     <TypeScriptCompile Include="src\ts\shared\Logging.ts" />

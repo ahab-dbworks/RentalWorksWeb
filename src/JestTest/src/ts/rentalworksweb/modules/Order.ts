@@ -1,5 +1,5 @@
-import { ModuleBase } from "../../shared/ModuleBase";
+import { HomeModule } from "../../shared/HomeModule";
 
-export class Order extends ModuleBase {
+export class Order extends HomeModule {
 
 }

@@ -4,14 +4,15 @@ import faker from 'faker';
 export class TestUtils {
     //-----------------------------------------------------------------------------------------------------------------
     static async authenticate(): Promise<void> {
-        let baseUrl: string = "http://localhost/rentalworksweb";
+        //let baseUrl: string = "http://localhost/rentalworksweb";
+        let baseUrl: string = process.env.RW_URL;
         let continueTest;
         await page.goto(`${baseUrl}/#/login`);
         await page.waitForNavigation();
         await page.waitForSelector('.btnLogin', { visible: true });
         await page.click('.btnLogin');
         await page.waitForSelector('#email', { visible: true });
-        await page.type('#email', <string>process.env.RW_EMAIL);
+        await page.type('#email', <string>process.env.RW_LOGIN);
         await page.click('#password');
         await page.type('#password', <string>process.env.RW_PASSWORD);
         await page.click('.btnLogin');
@@ -27,7 +28,7 @@ export class TestUtils {
                     await browser.close(); // abort test by closing window. Probably a better way
                     continueTest = false;
                 } else if (evaluateLogin === '') {
-                    Logging.logger.info(`Successful login for user ${process.env.RW_EMAIL}`);
+                    Logging.logger.info(`Successful login for user ${process.env.RW_LOGIN}`);
                     continueTest = true;
                 }
             })
@@ -35,11 +36,11 @@ export class TestUtils {
             await page.waitForSelector('.appmenu', { visible: true, timeout: 20000 }) // Upper left 'hamburger menu'
                 .then(done => {
                     if (done) {
-                        Logging.logger.info(`Successful authentication process for user ${process.env.RW_EMAIL}`);
+                        Logging.logger.info(`Successful authentication process for user ${process.env.RW_LOGIN}`);
                         continueTest = true;
                     }
                 }).catch(ex => {
-                    Logging.logger.error(`Unsuccessful authentication process for user ${process.env.RW_EMAIL}. Test aborted`);
+                    Logging.logger.error(`Unsuccessful authentication process for user ${process.env.RW_LOGIN}. Test aborted`);
                     browser.close();
                     continueTest = false;
                 })

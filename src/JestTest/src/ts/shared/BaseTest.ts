@@ -19,8 +19,9 @@ export abstract class BaseTest {
     }
     //---------------------------------------------------------------------------------------
     CheckDependencies() {
-        if (process.env.RW_EMAIL === undefined) throw 'Please add a line to the .env file such as RW_EMAIL=\'TEST\'';
-        if (process.env.RW_EMAIL === undefined) throw 'Please add a line to the .env file such as RW_EMAIL=\'TEST\'';
+        if (process.env.RW_URL === undefined) throw 'Please add a line to the .env file such as RW_URL=\'http://localhost/rentalworksweb\'';
+        if (process.env.RW_LOGIN === undefined) throw 'Please add a line to the .env file such as RW_LOGIN=\'TEST\'';
+        if (process.env.RW_PASSWORD === undefined) throw 'Please add a line to the .env file such as RW_PASSWORD=\'TEST\'';
     }
     //---------------------------------------------------------------------------------------
     DoBeforeAll() {
@@ -103,13 +104,13 @@ export abstract class BaseTest {
                 await module.openRecord(index).then().catch(err => this.LogError(testName, err));
                 let formCountAfter = await module.countOpenForms();
                 expect(formCountAfter).toBe(formCountBefore + 1);
-                let formObject = await module.getFormRecord().then().catch(err => this.LogError(testName, err));
-                Logging.logger.info(`Form Record: ${JSON.stringify(formObject)}`);
-
-                let formKeys = await module.getFormKeys().then().catch(err => this.LogError(testName, err));
-                Logging.logger.info(`Form Keys: ${JSON.stringify(formKeys)}`);
-
                 if (registerGlobal) {
+                    let formObject = await module.getFormRecord().then().catch(err => this.LogError(testName, err));
+                    Logging.logger.info(`Form Record: ${JSON.stringify(formObject)}`);
+
+                    let formKeys = await module.getFormKeys().then().catch(err => this.LogError(testName, err));
+                    Logging.logger.info(`Form Keys: ${JSON.stringify(formKeys)}`);
+
                     let globalKey = module.moduleName;
                     for (var key in formKeys) {
                         globalKey = globalKey + "~" + formKeys[key];
@@ -358,7 +359,7 @@ export abstract class BaseTest {
         });
     }
     //---------------------------------------------------------------------------------------
-    async TestModuleOpenSpecificRecord(module: ModuleBase, seekObject: any) {
+    async TestModuleOpenSpecificRecord(module: ModuleBase, seekObject: any, registerGlobal?: boolean, globalKeyValue?: string) {
         let testName: string = "";
         const testCollectionName = `Attempt to seek to and open a ${module.moduleName}`;
         describe(testCollectionName, () => {
@@ -386,6 +387,28 @@ export abstract class BaseTest {
                     await module.openRecord();
                     let formCountAfter = await module.countOpenForms();
                     expect(formCountAfter).toBe(formCountBefore + 1);
+
+
+                    if (registerGlobal) {
+                        let formObject = await module.getFormRecord().then().catch(err => this.LogError(testName, err));
+                        Logging.logger.info(`Form Record: ${JSON.stringify(formObject)}`);
+
+                        let formKeys = await module.getFormKeys().then().catch(err => this.LogError(testName, err));
+                        Logging.logger.info(`Form Keys: ${JSON.stringify(formKeys)}`);
+
+                        let globalKey = module.moduleName;
+                        if (globalKeyValue === undefined) {
+                            for (var key in formKeys) {
+                                globalKey = globalKey + "~" + formKeys[key];
+                            }
+                        }
+                        else {
+                            globalKey = globalKey + "~" + globalKeyValue;
+                        }
+                        Logging.logger.info(`Global Key: ${globalKey}`);
+                        this.globalScopeRef[globalKey] = formObject;
+                    }
+
                 }, this.testTimeout);
             }
             //---------------------------------------------------------------------------------------

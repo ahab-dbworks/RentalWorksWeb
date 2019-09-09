@@ -7,9 +7,13 @@ import { Vendor } from './modules/Vendor';
 import { Customer } from './modules/Customer';
 import { Deal } from './modules/Deal';
 import { Quote } from './modules/Quote';
+import { User } from './modules/User';
 import { DefaultSettings } from './modules/DefaultSettings';
+import { ModuleBase } from '../shared/ModuleBase';
 
 export class RegressionTest extends BaseTest {
+    //---------------------------------------------------------------------------------------
+    globalScopeRef = GlobalScope;
     //---------------------------------------------------------------------------------------
     async PerformTests() {
         var rentalInventoryInputs: any;
@@ -22,7 +26,6 @@ export class RegressionTest extends BaseTest {
         //-----------------------------------//
         //        DEFAULT SETTINGS           //
         //-----------------------------------//
-
         if (this.continueTest) {
             const defaultSettingsModule: DefaultSettings = new DefaultSettings();
 
@@ -30,6 +33,25 @@ export class RegressionTest extends BaseTest {
 
             this.TestModuleOpenBrowseOpenForm(defaultSettingsModule, 1, true);
         }
+
+
+
+
+        //-----------------------------------//
+        //                USER               //
+        //-----------------------------------//
+        if (this.continueTest) {
+            const userModule: User = new User();
+
+            // try to seek for the user record and open it
+            var findUserInputs: any = {
+                LoginName: process.env.RW_LOGIN
+            }
+            this.TestModuleOpenSpecificRecord(userModule, findUserInputs, true, "ME");
+        }
+
+
+
 
         //-----------------------------------//
         //        RENTAL INVENTORY           //
@@ -112,7 +134,6 @@ export class RegressionTest extends BaseTest {
 
         }
 
-
         //-------------//
         //   VENDOR    //
         //-------------//
@@ -129,7 +150,7 @@ export class RegressionTest extends BaseTest {
                 Phone: TestUtils.randomPhone(),
                 Fax: TestUtils.randomPhone(),
                 WebAddress: TestUtils.randomUrl(),
-                OfficeLocation: "LAS VEGAS"
+                OfficeLocation: "GlobalScope.User~ME.OfficeLocation",                  // ie. "LAS VEGAS"
             }
 
             var vendorExpected: any = {
@@ -161,7 +182,7 @@ export class RegressionTest extends BaseTest {
                 Phone: TestUtils.randomPhone(),
                 Fax: TestUtils.randomPhone(),
                 WebAddress: TestUtils.randomUrl(),
-                OfficeLocation: "LAS VEGAS"
+                OfficeLocation: "GlobalScope.User~ME.OfficeLocation",                  // ie. "LAS VEGAS"
             }
             //this.TestModuleForMissingRequiredField(vendorModule, missingVendorNumberVendorInputs, "VendorNumber");
 
@@ -260,7 +281,6 @@ export class RegressionTest extends BaseTest {
 
         }
 
-
         //-------------//
         //    DEAL     //
         //-------------//
@@ -268,7 +288,7 @@ export class RegressionTest extends BaseTest {
             const dealModule: Deal = new Deal();
 
             var defaultDealExpected: any = {
-                Location: "LAS VEGAS",
+                Location: "GlobalScope.User~ME.OfficeLocation",                  // ie. "LAS VEGAS"
                 DealStatus: "GlobalScope.DefaultSettings~1.DefaultDealStatus",   // ie. "ACTIVE"
             }
 
@@ -332,6 +352,7 @@ export class RegressionTest extends BaseTest {
         }
 
 
+
         //-------------//
         //    QUOTE    //
         //-------------//
@@ -371,9 +392,10 @@ export class RegressionTest extends BaseTest {
             //                .catch(err => logger.error('saveRecord: ', err));
             //        }, 10000);
         }
+        //---------------------------------------------------------------------------------------
+
 
     }
-    //---------------------------------------------------------------------------------------
 }
 
 new RegressionTest().Run();
