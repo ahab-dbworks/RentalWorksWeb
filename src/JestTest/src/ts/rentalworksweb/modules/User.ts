@@ -1,4 +1,5 @@
-import { HomeModule } from "../../shared/HomeModule";
+import { HomeModule } from '../../shared/HomeModule';
+
 
 export class User extends HomeModule {
     //---------------------------------------------------------------------------------------

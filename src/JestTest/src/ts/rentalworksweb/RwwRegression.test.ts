@@ -9,11 +9,16 @@ import { Deal } from './modules/Deal';
 import { Quote } from './modules/Quote';
 import { User } from './modules/User';
 import { DefaultSettings } from './modules/DefaultSettings';
-import { ModuleBase } from '../shared/ModuleBase';
 
 export class RegressionTest extends BaseTest {
     //---------------------------------------------------------------------------------------
     globalScopeRef = GlobalScope;
+    //---------------------------------------------------------------------------------------
+    async ValidateEnvironment() {
+        const userModule: User = new User();
+        this.LoadUserGlobal(userModule);
+        this.ValidateUserAndEnvironment();
+    }
     //---------------------------------------------------------------------------------------
     async PerformTests() {
         var rentalInventoryInputs: any;
@@ -32,22 +37,6 @@ export class RegressionTest extends BaseTest {
             this.TestModuleOpenBrowse(defaultSettingsModule);
 
             this.TestModuleOpenBrowseOpenForm(defaultSettingsModule, 1, true);
-        }
-
-
-
-
-        //-----------------------------------//
-        //                USER               //
-        //-----------------------------------//
-        if (this.continueTest) {
-            const userModule: User = new User();
-
-            // try to seek for the user record and open it
-            var findUserInputs: any = {
-                LoginName: process.env.RW_LOGIN
-            }
-            this.TestModuleOpenSpecificRecord(userModule, findUserInputs, true, "ME");
         }
 
 
@@ -393,6 +382,7 @@ export class RegressionTest extends BaseTest {
             //        }, 10000);
         }
         //---------------------------------------------------------------------------------------
+
 
 
     }

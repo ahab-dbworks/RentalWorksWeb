@@ -63,6 +63,7 @@ export class ModuleBase {
         for (var key in seekObject) {
             Logging.logger.info(`About to add seek field ${key} with ${seekObject[key]}`);
             let selector = `.fwbrowse .field[data-browsedatafield="${key}"] .search input`;
+            await page.waitForSelector(selector);
             let elementHandle = await page.$(selector);
             await elementHandle.click();
             await page.keyboard.sendCharacter(seekObject[key]);
@@ -83,8 +84,9 @@ export class ModuleBase {
         }
         await page.waitForSelector(`.fwbrowse tbody tr.viewmode:nth-child(${index})`);
         await page.click('.fwbrowse tbody tr.viewmode', { clickCount: 2 });
-        await page.waitForFunction(() => document.querySelector('.pleasewait'), { polling: 'mutation' });
-        await ModuleBase.wait(300); // let the form render
+        //await page.waitFor(() => document.querySelector('.pleasewait'), {timeout: 500});
+        await ModuleBase.wait(500);
+        await page.waitFor(() => !document.querySelector('.pleasewait'));
         if (sleepAfterOpening > 0) {
             await ModuleBase.wait(sleepAfterOpening);
         }
@@ -194,6 +196,7 @@ export class ModuleBase {
                 case 'zipcode':
                 case 'text':
                 case 'textarea':
+                case 'key':
                     currentValue = await this.getDataFieldValue(key);
                     if (currentValue != "") {
                         await this.clearInputField(key);
@@ -261,6 +264,7 @@ export class ModuleBase {
                     case 'zipcode':
                     case 'text':
                     case 'textarea':
+                    case 'key':
                         value = await this.getDataFieldValue(datafields[i]);
                         record[datafields[i]] = value;
                         break;

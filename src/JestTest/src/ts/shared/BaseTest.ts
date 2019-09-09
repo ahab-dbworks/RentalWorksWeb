@@ -88,6 +88,47 @@ export abstract class BaseTest {
         });
     }
     //---------------------------------------------------------------------------------------
+
+    async LoadUserGlobal(userModule: ModuleBase) {
+        var findUserInputs: any = {
+            LoginName: process.env.RW_LOGIN
+        }
+        await this.TestModuleOpenSpecificRecord(userModule, findUserInputs, true, "ME");
+    }
+    //---------------------------------------------------------------------------------------
+
+
+
+    async ValidateUserAndEnvironment() {
+        let testName: string = "";
+        const testCollectionName = `Validate User and Environment`;
+        describe(testCollectionName, () => {
+            //---------------------------------------------------------------------------------------
+            testName = `Validate User Name`;
+            test(testName, async () => {
+                let selector = `div.systembarcontrol[data-id="username"]`;
+                await page.waitForSelector(selector);
+                const element = await page.$(selector);
+                const userName = await page.evaluate(element => element.textContent, element);
+                let expectedUserName = this.globalScopeRef["User~ME"]["FirstName"] + " " + this.globalScopeRef["User~ME"]["LastName"];
+                Logging.logger.info(`Valiating User Name on toolbar:\n     Expecting: "${expectedUserName}"\n     Found:     "${userName}"`);
+                expect(userName).toBe(expectedUserName);
+            }, this.testTimeout);
+            //---------------------------------------------------------------------------------------
+            testName = `Validate Office Location`;
+            test(testName, async () => {
+                let selector = `div.systembarcontrol[data-id="officelocation"] .value`;
+                await page.waitForSelector(selector);
+                const element = await page.$(selector);
+                const officeLocation = await page.evaluate(element => element.textContent, element);
+                let expectedOfficeLocation = this.globalScopeRef["User~ME"]["OfficeLocation"];
+                Logging.logger.info(`Valiating Office Location on toolbar:\n     Expecting: "${expectedOfficeLocation}"\n     Found:     "${officeLocation}"`);
+                expect(officeLocation).toBe(expectedOfficeLocation);
+            }, this.testTimeout);
+            //---------------------------------------------------------------------------------------
+        });
+    }
+    //---------------------------------------------------------------------------------------
     async TestModuleOpenBrowseOpenForm(module: ModuleBase, index: number, registerGlobal?: boolean) {
         let testName: string = "";
         const testCollectionName = `Open ${module.moduleName} browse`;
@@ -449,6 +490,9 @@ export abstract class BaseTest {
         });
     }
     //---------------------------------------------------------------------------------------
+    // this method can be overridden in sub classes for each test collection we want to perform
+    async ValidateEnvironment() { }
+    //---------------------------------------------------------------------------------------
     // this method will be overridden in sub classes for each test collection we want to perform
     async PerformTests() { }
     //---------------------------------------------------------------------------------------
@@ -458,7 +502,8 @@ export abstract class BaseTest {
             this.VerifyTestToken();
             this.CheckDependencies();
             this.DoLogin();
-            await this.PerformTests();
+            this.ValidateEnvironment();
+            this.PerformTests();
             this.DoLogoff();
         } catch (ex) {
             Logging.logger.error('Error in Run.', ex);
