@@ -23,6 +23,44 @@ namespace WebApi.Modules.Home.DealOrderDetail
         [FwSqlDataField(column: "delaybillingsearchuntil", modeltype: FwDataTypes.Date, sqltype: "datetime")]
         public string DelayBillingSearchUntil { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "billperioddatesbytype", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
+        public bool? SpecifyBillingDatesByType { get; set; }
+        //------------------------------------------------------------------------------------
+
+
+        [FwSqlDataField(column: "billperiodstartrental", modeltype: FwDataTypes.Date, sqltype: "datetime")]
+        public string RentalBillingStartDate { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "billperiodendrental", modeltype: FwDataTypes.Date, sqltype: "datetime")]
+        public string RentalBillingEndDate { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "billperiodstartlabor", modeltype: FwDataTypes.Date, sqltype: "datetime")]
+        public string LaborBillingStartDate { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "billperiodendlabor", modeltype: FwDataTypes.Date, sqltype: "datetime")]
+        public string LaborBillingEndDate { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "billperiodstartmisc", modeltype: FwDataTypes.Date, sqltype: "datetime")]
+        public string MiscellaneousBillingStartDate { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "billperiodendmisc", modeltype: FwDataTypes.Date, sqltype: "datetime")]
+        public string MiscellaneousBillingEndDate { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "billperiodstartspace", modeltype: FwDataTypes.Date, sqltype: "datetime")]
+        public string FacilitiesBillingStartDate { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "billperiodendspace", modeltype: FwDataTypes.Date, sqltype: "datetime")]
+        public string FacilitiesBillingEndDate { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "billperiodstartvehicle", modeltype: FwDataTypes.Date, sqltype: "datetime")]
+        public string VehicleBillingStartDate { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "billperiodendvehicle", modeltype: FwDataTypes.Date, sqltype: "datetime")]
+        public string VehicleBillingEndDate { get; set; }
+        //------------------------------------------------------------------------------------
+
+
+
         [FwSqlDataField(column: "prepfeesinrentalrate", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
         public bool? IncludePrepFeesInRentalRate { get; set; }
         //------------------------------------------------------------------------------------

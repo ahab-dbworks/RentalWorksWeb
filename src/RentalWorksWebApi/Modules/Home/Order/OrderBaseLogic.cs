@@ -376,6 +376,32 @@ namespace WebApi.Modules.Home.Order
         [FwLogicProperty(Id: "NNVMYIgBUcjs")]
         public bool? LockBillingDates { get { return dealOrderDetail.LockBillingDates; } set { dealOrderDetail.LockBillingDates = value; } }
 
+
+        [FwLogicProperty(Id: "syicw91fEivDP")]
+        public bool? SpecifyBillingDatesByType { get { return dealOrderDetail.SpecifyBillingDatesByType; } set { dealOrderDetail.SpecifyBillingDatesByType = value; } }
+
+        [FwLogicProperty(Id: "nmYy0ngpZCSYi")]
+        public string RentalBillingStartDate { get { return dealOrderDetail.RentalBillingStartDate; } set { dealOrderDetail.RentalBillingStartDate = value; } }
+        [FwLogicProperty(Id: "xbcdyncQvx6v1")]
+        public string RentalBillingEndDate { get { return dealOrderDetail.RentalBillingEndDate; } set { dealOrderDetail.RentalBillingEndDate = value; } }
+        [FwLogicProperty(Id: "N7QQ3QqWqhAC4")]
+        public string LaborBillingStartDate { get { return dealOrderDetail.LaborBillingStartDate; } set { dealOrderDetail.LaborBillingStartDate = value; } }
+        [FwLogicProperty(Id: "XKCb85vN6iS3b")]
+        public string LaborBillingEndDate { get { return dealOrderDetail.LaborBillingEndDate; } set { dealOrderDetail.LaborBillingEndDate = value; } }
+        [FwLogicProperty(Id: "YksvfvZvU8JVo")]
+        public string MiscellaneousBillingStartDate { get { return dealOrderDetail.MiscellaneousBillingStartDate; } set { dealOrderDetail.MiscellaneousBillingStartDate = value; } }
+        [FwLogicProperty(Id: "cJ7bM7QI0VDIz")]
+        public string MiscellaneousBillingEndDate { get { return dealOrderDetail.MiscellaneousBillingEndDate; } set { dealOrderDetail.MiscellaneousBillingEndDate = value; } }
+        [FwLogicProperty(Id: "4j6DDStuP10IG")]
+        public string FacilitiesBillingStartDate { get { return dealOrderDetail.FacilitiesBillingStartDate; } set { dealOrderDetail.FacilitiesBillingStartDate = value; } }
+        [FwLogicProperty(Id: "Mof6qzREZMrjG")]
+        public string FacilitiesBillingEndDate { get { return dealOrderDetail.FacilitiesBillingEndDate; } set { dealOrderDetail.FacilitiesBillingEndDate = value; } }
+        [FwLogicProperty(Id: "M5nXbxaFhQSQQ")]
+        public string VehicleBillingStartDate { get { return dealOrderDetail.VehicleBillingStartDate; } set { dealOrderDetail.VehicleBillingStartDate = value; } }
+        [FwLogicProperty(Id: "lw2eFVbLZNu6w")]
+        public string VehicleBillingEndDate { get { return dealOrderDetail.VehicleBillingEndDate; } set { dealOrderDetail.VehicleBillingEndDate = value; } }
+
+
         //------------------------------------------------------------------------------------
         [FwLogicProperty(Id: "xzCqw9vuDcs2")]
         public string DelayBillingSearchUntil { get { return dealOrderDetail.DelayBillingSearchUntil; } set { dealOrderDetail.DelayBillingSearchUntil = value; } }
