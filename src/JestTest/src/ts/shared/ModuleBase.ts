@@ -17,7 +17,11 @@ export class ModuleBase {
     globalScopeRef = GlobalScope;
 
     //---------------------------------------------------------------------------------------
-    constructor() { }
+    constructor() {
+        this.moduleName = 'UnknownModule';
+        this.moduleBtnId = '#btnModule99999999-9999-9999-9999-999999999999';
+        this.moduleCaption = 'UnknownModule';
+}
     //---------------------------------------------------------------------------------------
     static async wait(milliseconds: number): Promise<void> {
         await page.waitFor(milliseconds)

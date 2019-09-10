@@ -1,78 +1,34 @@
 ﻿import { BaseTest } from '../shared/BaseTest';
-import { TestUtils } from '../shared/TestUtils';
 import { GlobalScope } from '../shared/GlobalScope';
-import { RentalInventory } from './modules/RentalInventory';
-import { Contact } from './modules/Contact';
-import { Vendor } from './modules/Vendor';
-import { Customer } from './modules/Customer';
-import { Deal } from './modules/Deal';
-import { Quote } from './modules/Quote';
-import { User } from './modules/User';
-import { DefaultSettings } from './modules/DefaultSettings';
+import { RentalInventory, SalesInventory, PartsInventory, Contact, Vendor, Customer, Deal, Quote, User, Contract, DefaultSettings, Order, Project, PurchaseOrder } from './modules/AllModules';
+
 
 export class ShallowRegressionTest extends BaseTest {
     //---------------------------------------------------------------------------------------
     globalScopeRef = GlobalScope;
     //---------------------------------------------------------------------------------------
-    async ValidateEnvironment() {
-        //const userModule: User = new User();
-        //this.LoadUserGlobal(userModule);
-        //this.ValidateUserAndEnvironment();
-    }
+    async ValidateEnvironment() { }
     //---------------------------------------------------------------------------------------
     async PerformTests() {
-        //-----------------------------------//
-        //        DEFAULT SETTINGS           //
-        //-----------------------------------//
-        //if (this.continueTest) {
-        //    const defaultSettingsModule: DefaultSettings = new DefaultSettings();
+        //Home
+        this.TestModuleOpenBrowseOpenForm(new Contact());
+        this.TestModuleOpenBrowseOpenForm(new Customer());
+        this.TestModuleOpenBrowseOpenForm(new Deal());
+        this.TestModuleOpenBrowseOpenForm(new Order());
+        this.TestModuleOpenBrowseOpenForm(new Project());
+        this.TestModuleOpenBrowseOpenForm(new PurchaseOrder());
+        this.TestModuleOpenBrowseOpenForm(new Quote());
+        this.TestModuleOpenBrowseOpenForm(new Vendor());
+        this.TestModuleOpenBrowseOpenForm(new RentalInventory());
+        this.TestModuleOpenBrowseOpenForm(new SalesInventory());
+        this.TestModuleOpenBrowseOpenForm(new PartsInventory());
+        this.TestModuleOpenBrowseOpenForm(new Contract());
 
-        //    this.TestModuleOpenBrowse(defaultSettingsModule);
+        //Settings
+        this.TestModuleOpenBrowseOpenForm(new DefaultSettings());
 
-        //    this.TestModuleOpenBrowseOpenForm(defaultSettingsModule, 1, true);
-        //}
-
-
-        //-----------------------------------//
-        //        RENTAL INVENTORY           //
-        //-----------------------------------//
-        const rentalInventoryModule: RentalInventory = new RentalInventory();
-        this.TestModuleOpenBrowseOpenForm(rentalInventoryModule, 1);
-
-
-        //-------------//
-        //   CONTACT   //
-        //-------------//
-        const contactModule: Contact = new Contact();
-        this.TestModuleOpenBrowseOpenForm(contactModule, 1);
-
-
-        //-------------//
-        //   VENDOR    //
-        //-------------//
-        const vendorModule: Vendor = new Vendor();
-        this.TestModuleOpenBrowseOpenForm(vendorModule, 1);
-
-        //-------------//
-        //  CUSTOMER   //
-        //-------------//
-        const customerModule: Customer = new Customer();
-        this.TestModuleOpenBrowseOpenForm(customerModule, 1);
-
-
-        //-------------//
-        //    DEAL     //
-        //-------------//
-        const dealModule: Deal = new Deal();
-        this.TestModuleOpenBrowseOpenForm(dealModule, 1);
-
-
-        //-------------//
-        //    QUOTE    //
-        //-------------//
-        const quoteModule: Quote = new Quote();
-        this.TestModuleOpenBrowseOpenForm(quoteModule, 1);
-
+        //Administrator
+        this.TestModuleOpenBrowseOpenForm(new User());
     }
     //---------------------------------------------------------------------------------------
 }

@@ -1,13 +1,12 @@
 import { HomeModule } from "../../shared/HomeModule";
 
-export class Order extends HomeModule {
+export class Project extends HomeModule {
     //---------------------------------------------------------------------------------------
     constructor() {
         super();
-        this.moduleName = 'Order';
-        this.moduleBtnId = '#btnModule64C46F51-5E00-48FA-94B6-FC4EF53FEA20';
-        this.moduleCaption = 'Order';
+        this.moduleName = 'Project';
+        this.moduleBtnId = '#btnModuleC6C8167A-C3B5-4915-8290-4520AF7EDB35';
+        this.moduleCaption = 'Project';
     }
     //---------------------------------------------------------------------------------------
-
 }

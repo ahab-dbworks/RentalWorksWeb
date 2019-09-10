@@ -1,14 +1,7 @@
 ﻿import { BaseTest } from '../shared/BaseTest';
 import { TestUtils } from '../shared/TestUtils';
 import { GlobalScope } from '../shared/GlobalScope';
-import { RentalInventory } from './modules/RentalInventory';
-import { Contact } from './modules/Contact';
-import { Vendor } from './modules/Vendor';
-import { Customer } from './modules/Customer';
-import { Deal } from './modules/Deal';
-import { Quote } from './modules/Quote';
-import { User } from './modules/User';
-import { DefaultSettings } from './modules/DefaultSettings';
+import { RentalInventory, SalesInventory, PartsInventory, Contact, Vendor, Customer, Deal, Quote, User, Contract, DefaultSettings, Order, Project, PurchaseOrder } from './modules/AllModules';
 
 export class FullRegressionTest extends BaseTest {
     //---------------------------------------------------------------------------------------

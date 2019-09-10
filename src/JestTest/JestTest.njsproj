@@ -57,7 +57,10 @@
     <Folder Include="src\ts\shared\" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="src\ts\rentalworksweb\modules\AllModules.ts" />
+    <TypeScriptCompile Include="src\ts\rentalworksweb\modules\Contract.ts" />
     <TypeScriptCompile Include="src\ts\rentalworksweb\modules\DefaultSettings.ts" />
+    <TypeScriptCompile Include="src\ts\rentalworksweb\modules\Project.ts" />
     <TypeScriptCompile Include="src\ts\rentalworksweb\modules\User.ts" />
     <TypeScriptCompile Include="src\ts\rentalworksweb\RwwShallowRegression.test.ts" />
     <TypeScriptCompile Include="src\ts\rentalworksweb\RwwFullRegression.test.ts" />
