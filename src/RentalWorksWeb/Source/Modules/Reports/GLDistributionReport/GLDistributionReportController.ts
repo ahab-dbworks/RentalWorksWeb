@@ -26,9 +26,10 @@ const GLDistributionTemplate = `
             </div>
             <div class="flexcolumn" style="max-width:400px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Report Type">
-                <div data-datafield="IsSummary" data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="">
-                  <div data-value="true" data-caption="Summary"></div>
-                  <div data-value="false" data-caption="Detail"></div>
+                <div data-datafield="ReportType" data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="">
+                  <div data-value="IsSummary" data-caption="Summary"></div>
+                  <div data-value="IsSomeDetail" data-caption="Some Detail"></div>
+                  <div data-value="IsFullDetail" data-caption="Full Detail"></div>
                 </div>
               </div>
             </div>
@@ -88,6 +89,7 @@ class GLDistributionReport extends FwWebApiReport {
     }
     //----------------------------------------------------------------------------------------------
     convertParameters(parameters: any) {
+        parameters[parameters.ReportType] = true;
         return parameters;
     }
     //----------------------------------------------------------------------------------------------

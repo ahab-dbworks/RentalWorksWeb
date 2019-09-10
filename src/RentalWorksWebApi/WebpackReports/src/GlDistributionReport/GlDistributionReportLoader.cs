@@ -96,9 +96,11 @@ namespace WebApi.Modules.Reports.GlDistributionReport
             if (request.IncludeSubHeadingsAndSubTotals)
             {
                 dt.Columns[dt.GetColumnNo("RowType")].IsVisible = true;
+                string[] headerFieldsGlAccount = new string[] { "AccountDescription" };
                 string[] totalFields = new string[] { "Debit", "Credit" };
                 dt.InsertSubTotalRows("Location", "RowType", totalFields);
                 dt.InsertSubTotalRows("GroupHeading", "RowType", totalFields);
+                dt.InsertSubTotalRows("AccountNumber", "RowType", totalFields, headerFieldsGlAccount);
             }
 
             return dt;
