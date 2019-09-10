@@ -1620,7 +1620,7 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.Quote.form.menuItems.MakeQu
     try {
         const $form = jQuery(this).closest('.fwform');
         const quoteNumber = FwFormField.getValueByDataField($form, 'QuoteNumber');
-        const $confirmation = FwConfirmation.renderConfirmation(`Make Quote Active`, `Make Quote ${quoteNumber} active?`);
+        const $confirmation = FwConfirmation.renderConfirmation(`Make Quote Active`, `Make Quote ${quoteNumber} Active?`);
         const $yes = FwConfirmation.addButton($confirmation, 'Yes', false);
         FwConfirmation.addButton($confirmation, 'No', true);
 
