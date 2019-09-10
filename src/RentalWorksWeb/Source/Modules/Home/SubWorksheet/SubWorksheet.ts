@@ -221,6 +221,8 @@ class SubWorksheet {
                 }
                 FwBrowse.setFieldValue($subPurchaseOrderItemGridControl, $tr, 'VendorDiscountPercent', { value: discountPercent });
             }
+            const $saveall = $subPurchaseOrderItemGridControl.find('div .grid-multi-save');
+            $saveall.click();
         });
 
         $form.find('.bottom_line_daysperweek').on('change', e => {
@@ -235,6 +237,8 @@ class SubWorksheet {
                 }
                 FwBrowse.setFieldValue($subPurchaseOrderItemGridControl, $tr, 'VendorDaysPerWeek', { value: daysPerWeek });
             }
+            const $saveall = $subPurchaseOrderItemGridControl.find('div .grid-multi-save');
+            $saveall.click();
         });
     }
     //----------------------------------------------------------------------------------------------
