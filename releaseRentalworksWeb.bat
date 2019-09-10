@@ -42,7 +42,7 @@ set buildnoforzip=%buildno:.=_%
 set zipfilename=RentalWorksWeb_%buildnoforzip%.zip
 
 rem Update the Build number in the version.txt files
-echo | set /p buildnumber=%buildno%> %DwRentalWorksWebPath%\src\RentalWorksWeb\version.txt
+echo | set /p buildnumber=%buildno% > %DwRentalWorksWebPath%\src\RentalWorksWeb\version.txt
 echo | set /p buildnumber=%buildno%> %DwRentalWorksWebPath%\src\RentalWorksWebApi\version.txt
 echo | set /p buildnumber=%buildno%> %DwRentalWorksWebPath%\src\RentalWorksWeb\version-RentalWorksWeb.txt
 
