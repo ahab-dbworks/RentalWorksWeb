@@ -196,7 +196,6 @@ export class ModuleBase {
                 case 'zipcode':
                 case 'text':
                 case 'textarea':
-                case 'key':
                     currentValue = await this.getDataFieldValue(key);
                     if (currentValue != "") {
                         await this.clearInputField(key);
@@ -220,6 +219,10 @@ export class ModuleBase {
                     //await this.clearInputField(key);
                     //await this.populateValidationTextField(key, record[displayfield]);
 
+                    currentValue = await this.getDataFieldText(key);
+                    if (currentValue != "") {
+                        await this.clearInputField(key);
+                    }
 
                     newValue = record[displayfield];
                     if (newValue.toString().startsWith("GlobalScope")) {

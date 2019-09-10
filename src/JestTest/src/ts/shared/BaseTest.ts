@@ -131,7 +131,7 @@ export abstract class BaseTest {
     //---------------------------------------------------------------------------------------
     async TestModuleOpenBrowseOpenForm(module: ModuleBase, index: number, registerGlobal?: boolean) {
         let testName: string = "";
-        const testCollectionName = `Open ${module.moduleName} browse`;
+        const testCollectionName = `Open ${module.moduleName} browse and form`;
         describe(testCollectionName, () => {
             //---------------------------------------------------------------------------------------
             testName = `Open ${module.moduleName} browse`;

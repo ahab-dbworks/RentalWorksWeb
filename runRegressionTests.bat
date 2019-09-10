@@ -25,14 +25,16 @@ rem --------------------------------------------------------------------------
 IF "%DwRentalWorksWebPath%"=="" ECHO Environment Variable DwRentalWorksWebPath is NOT defined
 IF "%DwRentalWorksWebPath%"=="" exit /B
 
-
-
 cd %DwRentalWorksWebPath%\src\JestTest
 
-call npm run test-rentalworksweb -t RwwRegression
-ren test-report.html test-report-RwwRegression.html
+if exist test-report.html (del test-report.html)
+if exist test-report-RwwShallowRegression.html (del test-report-RwwShallowRegression.html)
+call npm run test-rentalworksweb -t RwwShallowRegression
+ren test-report.html test-report-RwwShallowRegression.html
+start test-report-RwwShallowRegression.html
 
-test-report-RwwRegression.html
-
-rem call npm run test-rentalworksweb -t RentalAvailability
-rem ren test-report.html test-report-RentalAvailability.html
+if exist test-report.html (del test-report.html)
+if exist test-report-RwwFullRegression.html (del test-report-RwwFullRegression.html)
+call npm run test-rentalworksweb -t RwwFullRegression
+ren test-report.html test-report-RwwFullRegression.html
+start test-report-RwwFullRegression.html

@@ -10,7 +10,7 @@ import { Quote } from './modules/Quote';
 import { User } from './modules/User';
 import { DefaultSettings } from './modules/DefaultSettings';
 
-export class RegressionTest extends BaseTest {
+export class FullRegressionTest extends BaseTest {
     //---------------------------------------------------------------------------------------
     globalScopeRef = GlobalScope;
     //---------------------------------------------------------------------------------------
@@ -41,7 +41,6 @@ export class RegressionTest extends BaseTest {
 
 
 
-        /*
         //-----------------------------------//
         //        RENTAL INVENTORY           //
         //-----------------------------------//
@@ -122,7 +121,7 @@ export class RegressionTest extends BaseTest {
             this.TestModuleCreateNewRecord(contactModule, contactInputs, contactExpected);
 
         }
-        */
+
         //-------------//
         //   VENDOR    //
         //-------------//
@@ -397,4 +396,4 @@ export class RegressionTest extends BaseTest {
     }
 }
 
-new RegressionTest().Run();
+new FullRegressionTest().Run();
