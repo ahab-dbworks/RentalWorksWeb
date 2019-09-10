@@ -435,7 +435,10 @@ class Contract {
           <div class="field" data-caption="Vendor" data-datafield="Vendor" data-browsedatatype="text" data-sort="off"></div>
         </div>
         <div class="column" data-width="auto" data-visible="true">
-          <div class="field" data-caption="Order Description" data-datafield="OrderDescription" data-browsedatatype="text" data-sort="off"></div>
+          <div class="field" data-caption="Order/PO Description" data-datafield="PoOrderDescription" data-browsedatatype="text" data-sort="off"></div>
+        </div>
+        <div class="column" data-width="auto" data-visible="true">
+          <div class="field" data-caption="Order No." data-datafield="OrderNumber" data-browsedatatype="text" data-sort="off"></div>
         </div>
         <div class="column" data-width="auto" data-visible="true">
           <div class="field" data-caption="PO No." data-datafield="PurchaseOrderNumber" data-browsedatatype="text" data-sort="off"></div>

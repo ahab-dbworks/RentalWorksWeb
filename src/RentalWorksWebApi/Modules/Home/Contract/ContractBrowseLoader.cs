@@ -76,6 +76,12 @@ namespace WebApi.Modules.Home.Contract
         [FwSqlDataField(column: "department", modeltype: FwDataTypes.Text)]
         public string Department { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "orderno", modeltype: FwDataTypes.Text)]
+        public string OrderNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "orderdesc", modeltype: FwDataTypes.Text)]
+        public string OrderDescription { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "poid", modeltype: FwDataTypes.Text)]
         public string PurchaseOrderId { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -88,7 +94,10 @@ namespace WebApi.Modules.Home.Contract
         [FwSqlDataField(column: "vendor", modeltype: FwDataTypes.Text)]
         public string Vendor { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "rentaldate", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "poorderdesc", modeltype: FwDataTypes.Text)]
+        public string PoOrderDescription { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "billingdate", modeltype: FwDataTypes.Date)]
         public string BillingDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "hasadjustedrentaldate", modeltype: FwDataTypes.Boolean)]
@@ -101,12 +110,6 @@ namespace WebApi.Modules.Home.Contract
             set { }
         }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "orderdesc", modeltype: FwDataTypes.Text)]
-        public string OrderDescription { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "poorderdesc", modeltype: FwDataTypes.Text)]
-        public string PoOrderDescription { get; set; }
-        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "hasvoid", modeltype: FwDataTypes.Boolean)]
         public bool? HasVoid { get; set; }
         //------------------------------------------------------------------------------------ 
