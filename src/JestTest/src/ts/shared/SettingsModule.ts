@@ -11,21 +11,21 @@ export class SettingsModule extends ModuleBase {
     //---------------------------------------------------------------------------------------
     async openBrowse(timeout?: number, sleepafteropening?: number): Promise<void> {
         if (!timeout) {
-            timeout = 5000;
+            timeout = 3000;  //if we can't find the settings module header bar on the Settings Page within 3 seconds, then timeout the test
         }
 
-        let selector = `i.material-icons.dashboard.systembarcontrol[title="Settings"]`;
-        await page.waitForSelector(selector);
-        await page.click(selector);
+        let settingsGearSelector = `i.material-icons.dashboard.systembarcontrol[title="Settings"]`;
+        await page.waitForSelector(settingsGearSelector);
+        await page.click(settingsGearSelector);
 
-        selector = `.panel-group[id="${this.moduleName}"]`;
-        await page.waitForSelector(selector);
-        await page.click(selector);
+        let moduleHeadingSelector = `.panel-group[id="${this.moduleName}"]`;
+        await page.waitForSelector(moduleHeadingSelector, { timeout: timeout });
+        await page.click(moduleHeadingSelector);
 
-        selector = `.panel-group[id="${this.moduleName}"] .legend`;
-        await page.waitForSelector(selector)
+        let moduleLegendBarSelector = `.panel-group[id="${this.moduleName}"] .legend`;
+        await page.waitForSelector(moduleLegendBarSelector)
             .then(async done => {
-                Logging.logger.info(`Opened ${this.moduleCaption} module`);
+                Logging.logInfo(`Opened ${this.moduleCaption} module`);
             })
         if (sleepafteropening > 0) {
             await TestUtils.sleepAsync(sleepafteropening);  // wait x seconds to allow other queries to complete

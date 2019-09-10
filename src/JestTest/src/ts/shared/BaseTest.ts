@@ -77,10 +77,10 @@ export abstract class BaseTest {
     //---------------------------------------------------------------------------------------
     async TestModuleOpenBrowse(module: ModuleBase) {
         let testName: string = "";
-        const testCollectionName = `Open ${module.moduleName} browse`;
+        const testCollectionName = `Open ${module.moduleCaption} browse`;
         describe(testCollectionName, () => {
             //---------------------------------------------------------------------------------------
-            testName = `Open ${module.moduleName} browse`;
+            testName = `Open ${module.moduleCaption} browse`;
             test(testName, async () => {
                 await module.openBrowse().then().catch(err => this.LogError(testName, err));
             }, this.testTimeout);
@@ -131,15 +131,15 @@ export abstract class BaseTest {
     //---------------------------------------------------------------------------------------
     async TestModuleOpenBrowseOpenForm(module: ModuleBase, index?: number, registerGlobal?: boolean) {
         let testName: string = "";
-        const testCollectionName = `Open ${module.moduleName} browse and form`;
+        const testCollectionName = `Open ${module.moduleCaption} browse and form`;
         describe(testCollectionName, () => {
             //---------------------------------------------------------------------------------------
-            testName = `Open ${module.moduleName} browse`;
+            testName = `Open ${module.moduleCaption} browse`;
             test(testName, async () => {
                 await module.openBrowse().then().catch(err => this.LogError(testName, err));
             }, this.testTimeout);
             //---------------------------------------------------------------------------------------
-            testName = `Open ${module.moduleName} form`;
+            testName = `Open ${module.moduleCaption} form`;
             test(testName, async () => {
                 let formCountBefore = await module.countOpenForms();
                 await module.openRecord(index).then().catch(err => this.LogError(testName, err));
@@ -147,16 +147,17 @@ export abstract class BaseTest {
                 expect(formCountAfter).toBe(formCountBefore + 1);
                 if (registerGlobal) {
                     let formObject = await module.getFormRecord().then().catch(err => this.LogError(testName, err));
-                    Logging.logger.info(`Form Record: ${JSON.stringify(formObject)}`);
+                    Logging.logInfo(`Form Record: ${JSON.stringify(formObject)}`);
+
 
                     let formKeys = await module.getFormKeys().then().catch(err => this.LogError(testName, err));
-                    Logging.logger.info(`Form Keys: ${JSON.stringify(formKeys)}`);
+                    Logging.logInfo(`Form Keys: ${JSON.stringify(formKeys)}`);
 
                     let globalKey = module.moduleName;
                     for (var key in formKeys) {
                         globalKey = globalKey + "~" + formKeys[key];
                     }
-                    Logging.logger.info(`Global Key: ${globalKey}`);
+                    Logging.logInfo(`Global Key: ${globalKey}`);
                     this.globalScopeRef[globalKey] = formObject;
                 }
             }, this.testTimeout);
@@ -166,25 +167,25 @@ export abstract class BaseTest {
     //---------------------------------------------------------------------------------------
     async TestModuleDefaultsOnNewForm(module: ModuleBase, expectedObject: any) {
         let testName: string = "";
-        const testCollectionName = `Start new ${module.moduleName}, check form for expected default values`;
+        const testCollectionName = `Start new ${module.moduleCaption}, check form for expected default values`;
         describe(testCollectionName, () => {
             //---------------------------------------------------------------------------------------
             if (this.continueTest) {
-                testName = `Open ${module.moduleName} browse`;
+                testName = `Open ${module.moduleCaption} browse`;
                 test(testName, async () => {
                     await module.openBrowse().then().catch(err => this.LogError(testName, err));
                 }, this.testTimeout);
             }
             //---------------------------------------------------------------------------------------
             if (this.continueTest) {
-                testName = `Open ${module.moduleName} form in new mode`;
+                testName = `Open ${module.moduleCaption} form in new mode`;
                 test(testName, async () => {
                     await module.createNewRecord().then().catch(err => this.LogError(testName, err));
                 }, this.testTimeout);
             }
             //---------------------------------------------------------------------------------------
             if (this.continueTest) {
-                testName = `Validate default values on new ${module.moduleName} form, compare with expected values`;
+                testName = `Validate default values on new ${module.moduleCaption} form, compare with expected values`;
                 test(testName, async () => {
                     let defaultObject = await module.getFormRecord().then().catch(err => this.LogError(testName, err));
                     Logging.logger.info(`Form Record: ${JSON.stringify(defaultObject)}`);
@@ -211,7 +212,7 @@ export abstract class BaseTest {
             }
             //---------------------------------------------------------------------------------------
             if (this.continueTest) {
-                testName = `Close new ${module.moduleName} form without saving`;
+                testName = `Close new ${module.moduleCaption} form without saving`;
                 test(testName, async () => {
                     await module.closeModifiedRecordWithoutSaving().then().catch(err => this.LogError(testName, err));
                 }, this.testTimeout);
@@ -222,32 +223,32 @@ export abstract class BaseTest {
     //---------------------------------------------------------------------------------------
     async TestModuleCreateNewRecord(module: ModuleBase, inputObject: any, expectedObject: any) {
         let testName: string = "";
-        const testCollectionName = `Create new ${module.moduleName}, fill out form, save record`;
+        const testCollectionName = `Create new ${module.moduleCaption}, fill out form, save record`;
         describe(testCollectionName, () => {
             //---------------------------------------------------------------------------------------
             if (this.continueTest) {
-                testName = `Open ${module.moduleName} browse`;
+                testName = `Open ${module.moduleCaption} browse`;
                 test(testName, async () => {
                     await module.openBrowse().then().catch(err => this.LogError(testName, err));
                 }, this.testTimeout);
             }
             //---------------------------------------------------------------------------------------
             if (this.continueTest) {
-                testName = `Open ${module.moduleName} form in new mode`;
+                testName = `Open ${module.moduleCaption} form in new mode`;
                 test(testName, async () => {
                     await module.createNewRecord().then().catch(err => this.LogError(testName, err));
                 }, this.testTimeout);
             }
             //---------------------------------------------------------------------------------------
             if (this.continueTest) {
-                testName = `Fill in ${module.moduleName} form data`;
+                testName = `Fill in ${module.moduleCaption} form data`;
                 test(testName, async () => {
                     await module.populateFormWithRecord(inputObject).then().catch(err => this.LogError(testName, err));
                 }, this.testTimeout);
             }
             //---------------------------------------------------------------------------------------
             if (this.continueTest) {
-                testName = `Save new ${module.moduleName}`;
+                testName = `Save new ${module.moduleCaption}`;
                 test(testName, async () => {
                     let saveResponse: SaveResponse | void = await module.saveRecord(true).then().catch(err => this.LogError(testName, err));
                     let strictSaveResponse = saveResponse as SaveResponse;
@@ -258,7 +259,7 @@ export abstract class BaseTest {
             }
             //---------------------------------------------------------------------------------------
             if (this.continueTest) {
-                testName = `Validate all values on saved ${module.moduleName}, compare with expected values`;
+                testName = `Validate all values on saved ${module.moduleCaption}, compare with expected values`;
                 test(testName, async () => {
                     let savedObject = await module.getFormRecord().then().catch(err => this.LogError(testName, err));
                     Logging.logger.info(`Form Record: ${JSON.stringify(savedObject)}`);
@@ -284,7 +285,7 @@ export abstract class BaseTest {
             }
             //---------------------------------------------------------------------------------------
             if (this.continueTest) {
-                testName = `Close ${module.moduleName} record`;
+                testName = `Close ${module.moduleCaption} record`;
                 test(testName, async () => {
                     await module.closeRecord().then().catch(err => this.LogError(testName, err));
                 }, this.testTimeout);
@@ -295,32 +296,32 @@ export abstract class BaseTest {
     //---------------------------------------------------------------------------------------
     async TestModulePreventDuplicate(module: ModuleBase, inputObject: any, duplicatedFieldsForTestName: string = "") {
         let testName: string = "";
-        const testCollectionName = `Attempt to create a duplicate ${module.moduleName} ${duplicatedFieldsForTestName ? "using " + duplicatedFieldsForTestName : ""}`;
+        const testCollectionName = `Attempt to create a duplicate ${module.moduleCaption} ${duplicatedFieldsForTestName ? "using " + duplicatedFieldsForTestName : ""}`;
         describe(testCollectionName, () => {
             //---------------------------------------------------------------------------------------
             if (this.continueTest) {
-                testName = `Open ${module.moduleName} browse`;
+                testName = `Open ${module.moduleCaption} browse`;
                 test(testName, async () => {
                     await module.openBrowse().then().catch(err => this.LogError(testName, err));
                 }, this.testTimeout);
             }
             //---------------------------------------------------------------------------------------
             if (this.continueTest) {
-                testName = `Open ${module.moduleName} form in new mode`;
+                testName = `Open ${module.moduleCaption} form in new mode`;
                 test(testName, async () => {
                     await module.createNewRecord().then().catch(err => this.LogError(testName, err));
                 }, this.testTimeout);
             }
             //---------------------------------------------------------------------------------------
             if (this.continueTest) {
-                testName = `Fill in ${module.moduleName} form data`;
+                testName = `Fill in ${module.moduleCaption} form data`;
                 test(testName, async () => {
                     await module.populateFormWithRecord(inputObject).then().catch(err => this.LogError(testName, err));
                 }, this.testTimeout);
             }
             //---------------------------------------------------------------------------------------
             if (this.continueTest) {
-                testName = `Attempt to save new ${module.moduleName}, expect Duplicate Error from system`;
+                testName = `Attempt to save new ${module.moduleCaption}, expect Duplicate Error from system`;
                 test(testName, async () => {
                     let saveResponse: SaveResponse | void = await module.saveRecord().then().catch(err => this.LogError(testName, err));
                     let strictSaveResponse = saveResponse as SaveResponse;
@@ -344,7 +345,7 @@ export abstract class BaseTest {
             }
             //---------------------------------------------------------------------------------------
             if (this.continueTest) {
-                testName = `Close new ${module.moduleName} form without saving`;
+                testName = `Close new ${module.moduleCaption} form without saving`;
                 test(testName, async () => {
                     await module.closeModifiedRecordWithoutSaving().then().catch(err => this.LogError(testName, err));
                 }, this.testTimeout);
@@ -355,32 +356,32 @@ export abstract class BaseTest {
     //---------------------------------------------------------------------------------------
     async TestModuleForMissingRequiredField(module: ModuleBase, inputObject: any, missingRequiredFieldName: string = "") {
         let testName: string = "";
-        const testCollectionName = `Attempt to create a ${module.moduleName} without a required ${missingRequiredFieldName}`;
+        const testCollectionName = `Attempt to create a ${module.moduleCaption} without a required ${missingRequiredFieldName}`;
         describe(testCollectionName, () => {
             //---------------------------------------------------------------------------------------
             if (this.continueTest) {
-                testName = `Open ${module.moduleName} browse`;
+                testName = `Open ${module.moduleCaption} browse`;
                 test(testName, async () => {
                     await module.openBrowse().then().catch(err => this.LogError(testName, err));
                 }, this.testTimeout);
             }
             //---------------------------------------------------------------------------------------
             if (this.continueTest) {
-                testName = `Open ${module.moduleName} form in new mode`;
+                testName = `Open ${module.moduleCaption} form in new mode`;
                 test(testName, async () => {
                     await module.createNewRecord().then().catch(err => this.LogError(testName, err));
                 }, this.testTimeout);
             }
             //---------------------------------------------------------------------------------------
             if (this.continueTest) {
-                testName = `Fill in ${module.moduleName} form data`;
+                testName = `Fill in ${module.moduleCaption} form data`;
                 test(testName, async () => {
                     await module.populateFormWithRecord(inputObject).then().catch(err => this.LogError(testName, err));
                 }, this.testTimeout);
             }
             //---------------------------------------------------------------------------------------
             if (this.continueTest) {
-                testName = `Attempt to save new ${module.moduleName}, expect missing required field error from system`;
+                testName = `Attempt to save new ${module.moduleCaption}, expect missing required field error from system`;
                 test(testName, async () => {
                     let saveResponse: SaveResponse | void = await module.saveRecord(true).then().catch(err => this.LogError(testName, err));
                     let strictSaveResponse = saveResponse as SaveResponse;
@@ -391,7 +392,7 @@ export abstract class BaseTest {
             }
             //---------------------------------------------------------------------------------------
             if (this.continueTest) {
-                testName = `Close new ${module.moduleName} form without saving`;
+                testName = `Close new ${module.moduleCaption} form without saving`;
                 test(testName, async () => {
                     await module.closeModifiedRecordWithoutSaving().then().catch(err => this.LogError(testName, err));
                 }, this.testTimeout);
@@ -402,18 +403,18 @@ export abstract class BaseTest {
     //---------------------------------------------------------------------------------------
     async TestModuleOpenSpecificRecord(module: ModuleBase, seekObject: any, registerGlobal?: boolean, globalKeyValue?: string) {
         let testName: string = "";
-        const testCollectionName = `Attempt to seek to and open a ${module.moduleName}`;
+        const testCollectionName = `Attempt to seek to and open a ${module.moduleCaption}`;
         describe(testCollectionName, () => {
             //---------------------------------------------------------------------------------------
             if (this.continueTest) {
-                testName = `Open ${module.moduleName} browse`;
+                testName = `Open ${module.moduleCaption} browse`;
                 test(testName, async () => {
                     await module.openBrowse().then().catch(err => this.LogError(testName, err));
                 }, this.testTimeout);
             }
             //---------------------------------------------------------------------------------------
             if (this.continueTest) {
-                testName = `Use column headers to seek a specific ${module.moduleName} record`;
+                testName = `Use column headers to seek a specific ${module.moduleCaption} record`;
                 test(testName, async () => {
                     let recordCount = await module.browseSeek(seekObject).then().catch(err => this.LogError(testName, err));
                     expect(recordCount).toBe(1);
@@ -422,7 +423,7 @@ export abstract class BaseTest {
             }
             //---------------------------------------------------------------------------------------
             if (this.continueTest) {
-                testName = `Open the ${module.moduleName} record`;
+                testName = `Open the ${module.moduleCaption} record`;
                 test(testName, async () => {
                     let formCountBefore = await module.countOpenForms();
                     await module.openRecord();
@@ -458,18 +459,18 @@ export abstract class BaseTest {
     //---------------------------------------------------------------------------------------
     async TestModuleDeleteSpecificRecord(module: ModuleBase, seekObject: any) {
         let testName: string = "";
-        const testCollectionName = `Attempt to seek to and delete a ${module.moduleName}`;
+        const testCollectionName = `Attempt to seek to and delete a ${module.moduleCaption}`;
         describe(testCollectionName, () => {
             //---------------------------------------------------------------------------------------
             if (this.continueTest) {
-                testName = `Open ${module.moduleName} browse`;
+                testName = `Open ${module.moduleCaption} browse`;
                 test(testName, async () => {
                     await module.openBrowse().then().catch(err => this.LogError(testName, err));
                 }, this.testTimeout);
             }
             //---------------------------------------------------------------------------------------
             if (this.continueTest) {
-                testName = `Use column headers to seek a specific ${module.moduleName} record`;
+                testName = `Use column headers to seek a specific ${module.moduleCaption} record`;
                 test(testName, async () => {
                     let recordCount = await module.browseSeek(seekObject).then().catch(err => this.LogError(testName, err));
                     expect(recordCount).toBe(1);
@@ -478,7 +479,7 @@ export abstract class BaseTest {
             }
             //---------------------------------------------------------------------------------------
             if (this.continueTest) {
-                testName = `Delete the ${module.moduleName} record`;
+                testName = `Delete the ${module.moduleCaption} record`;
                 test(testName, async () => {
                     let rowCountBefore = await module.browseGetRowsDisplayed();
                     await module.deleteRecord();

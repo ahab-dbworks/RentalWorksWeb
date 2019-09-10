@@ -21,7 +21,7 @@ export class ModuleBase {
         this.moduleName = 'UnknownModule';
         this.moduleBtnId = '#btnModule99999999-9999-9999-9999-999999999999';
         this.moduleCaption = 'UnknownModule';
-}
+    }
     //---------------------------------------------------------------------------------------
     static async wait(milliseconds: number): Promise<void> {
         await page.waitFor(milliseconds)
@@ -29,24 +29,26 @@ export class ModuleBase {
     //---------------------------------------------------------------------------------------
     async openBrowse(timeout?: number, sleepafteropening?: number): Promise<void> {
         if (!timeout) {
-            timeout = 5000;
+            timeout = 2000;  //if we can't find the button on the main menu within 2 seconds, then timeout the test
         }
-        await page.waitForSelector('.appmenu')
-        //await ModuleBase.wait(250);
-        await page.click('.appmenu');
-        await expect(page).toClick(this.moduleBtnId, { timeout: timeout });
-        await ModuleBase.wait(300); // wait for the previously-open module to go away
-        await page.waitForSelector('div.tab.active[data-tabtype="BROWSE"]')
+        let mainMenuSelector = `.appmenu`;
+        await page.waitForSelector(mainMenuSelector, { timeout: timeout });
+        await page.click(mainMenuSelector);
+        await expect(page).toClick(this.moduleBtnId);
+        await ModuleBase.wait(300); // wait for the previously-open module to go away.  need a way to go back to a blank/home screen before attempting to get to this browse
+        let browseSelector = `div.tab.active[data-tabtype="BROWSE"]`;
+        await page.waitForSelector(browseSelector)
             .then(async done => {
                 const evaluateBrowse = await page.evaluate(() => {
-                    const moduleTabText = jQuery('body').find('div.tab.active[data-tabtype="BROWSE"]').text();
+                    let browseSelector = `div.tab.active[data-tabtype="BROWSE"]`; // must be redeclared here due to scope
+                    const moduleTabText = jQuery('body').find(browseSelector).text();
                     return moduleTabText;
                 })
                 if (evaluateBrowse.includes(`${this.moduleCaption}`)) {
-                    Logging.logger.info(`Opened ${this.moduleCaption} module`);
+                    Logging.logInfo(`Opened ${this.moduleCaption} module`);
                 } else {
-                    Logging.logger.error(`Error opening ${this.moduleCaption} module`);
-                    await browser.close();
+                    Logging.logError(`Error opening ${this.moduleCaption} module`);
+                    //await browser.close();
                 }
             })
         if (sleepafteropening > 0) {
@@ -126,7 +128,8 @@ export class ModuleBase {
     }
     //---------------------------------------------------------------------------------------
     async countOpenForms(): Promise<number> {
-        let forms = await page.$$eval(`.fwform .fwform-body`, (e: any) => { return e; });
+        let formSelector = `.fwform .fwform-body`;
+        let forms = await page.$$eval(formSelector, (e: any) => { return e; });
         var formCount;
         if (forms == undefined) {
             formCount = 0;
@@ -134,7 +137,8 @@ export class ModuleBase {
         else {
             formCount = forms.length;
         }
-        Logging.logger.info(`Open Form Count: ${formCount}`);
+        //Logging.logger.info(`Open Form Count: ${formCount}`);
+        Logging.logInfo(`Open Form Count: ${formCount}`);
         return formCount;
     }
     //---------------------------------------------------------------------------------------

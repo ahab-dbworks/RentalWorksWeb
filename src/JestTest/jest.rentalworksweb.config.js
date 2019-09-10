@@ -22,7 +22,7 @@ module.exports = {
 		"./node_modules/jest-html-reporter", {
             "pageTitle": "RentalWorksWeb Test Report",
 			includeFailureMsg : true,
-			includeConsoleLog : false,
+			includeConsoleLog : true,
 			logo: "rwwlogo.png"
            }
 		]

@@ -23,6 +23,16 @@ export class Logging {
         ]
     });
     //-----------------------------------------------------------------------------------------------------------------
+    static async logInfo(msg: string): Promise<void> {
+        Logging.logger.info(msg);
+        console.log(msg);
+    }
+    //-----------------------------------------------------------------------------------------------------------------
+    static async logError(msg: string): Promise<void> {
+        Logging.logger.error(msg);
+        console.log(msg);
+    }
+    //-----------------------------------------------------------------------------------------------------------------
     static async emailResults(): Promise<void> {
         let buffer = '';
         const combinedLog = fs.createReadStream("./combined.log", "utf8");
