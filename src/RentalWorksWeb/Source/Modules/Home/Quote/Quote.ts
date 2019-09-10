@@ -1535,7 +1535,7 @@ class Quote extends OrderBase {
             $yes.text('Completing...');
             $yes.off('click');
             const topLayer = '<div class="top-layer" data-controller="none" style="background-color: transparent;z-index:1"></div>';
-            const realCofirm = jQuery($confirmation.find('.fwconfirmationbox')).prepend(topLayer);
+            const realConfirm = jQuery($confirmation.find('.fwconfirmationbox')).prepend(topLayer);
 
             const quoteId = FwFormField.getValueByDataField($form, 'QuoteId');
             FwAppData.apiMethod(true, 'POST', `api/v1/quote/reserve/${quoteId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
@@ -1549,7 +1549,7 @@ class Quote extends OrderBase {
                 FwFormField.enable($confirmation.find('.fwformfield'));
                 FwFormField.enable($yes);
                 FwModule.refreshForm($form, QuoteController);
-                }, realCofirm);
+                }, realConfirm);
         };
     }
     //-----------------------------------------------------------------------------------------------------
@@ -1606,6 +1606,7 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.Quote.form.menuItems.PrintQ
     }
 };
 //----------------------------------------------------------------------------------------------
+//New Version
 FwApplicationTree.clickEvents[Constants.Modules.Home.Quote.form.menuItems.NewVersion.id] = function (event: JQuery.ClickEvent) {
     try {
         const $form = jQuery(this).closest('.fwform');
@@ -1616,6 +1617,7 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.Quote.form.menuItems.NewVer
     }
 };
 //----------------------------------------------------------------------------------------------
+//Make Quote Active
 FwApplicationTree.clickEvents[Constants.Modules.Home.Quote.form.menuItems.MakeQuoteActive.id] = function (event: JQuery.ClickEvent) {
     try {
         const $form = jQuery(this).closest('.fwform');
@@ -1623,7 +1625,8 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.Quote.form.menuItems.MakeQu
         const $confirmation = FwConfirmation.renderConfirmation(`Make Quote Active`, `Make Quote ${quoteNumber} Active?`);
         const $yes = FwConfirmation.addButton($confirmation, 'Yes', false);
         FwConfirmation.addButton($confirmation, 'No', true);
-
+        const topLayer = '<div class="top-layer" data-controller="none" style="background-color: transparent;z-index:1"></div>';
+        const realConfirm = jQuery($confirmation.find('.fwconfirmationbox')).prepend(topLayer);
         $yes.on('click', () => {
             const quoteId = FwFormField.getValueByDataField($form, 'QuoteId');
             FwAppData.apiMethod(true, 'POST', `api/v1/quote/makequoteactive/${quoteId}`, null, FwServices.defaultTimeout,
@@ -1632,7 +1635,7 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.Quote.form.menuItems.MakeQu
                     FwConfirmation.destroyConfirmation($confirmation);
                     FwModule.refreshForm($form, QuoteController);
                 },
-                ex => FwFunc.showError(ex), $confirmation);
+                ex => FwFunc.showError(ex), realConfirm);
         });
     }
     catch (ex) {
