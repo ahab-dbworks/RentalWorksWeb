@@ -2,6 +2,18 @@ import { Logging } from '../shared/Logging';
 import { TestUtils } from './TestUtils';
 import { GlobalScope } from '../shared/GlobalScope';
 
+export class OpenBrowseResponse {
+    opened: boolean;
+    recordCount: number;
+    errorMessage: string;
+}
+
+export class OpenRecordResponse {
+    opened: boolean;
+    keys: any;
+    record: any;
+    errorMessage: string;
+}
 
 export class SaveResponse {
     saved: boolean;
@@ -12,14 +24,14 @@ export class SaveResponse {
 //---------------------------------------------------------------------------------------
 export class ModuleBase {
     moduleName: string;
-    moduleBtnId: string;
+    moduleId: string;
     moduleCaption: string;
     globalScopeRef = GlobalScope;
 
     //---------------------------------------------------------------------------------------
     constructor() {
         this.moduleName = 'UnknownModule';
-        this.moduleBtnId = '#btnModule99999999-9999-9999-9999-999999999999';
+        this.moduleId = '99999999-9999-9999-9999-999999999999';
         this.moduleCaption = 'UnknownModule';
     }
     //---------------------------------------------------------------------------------------
@@ -27,47 +39,85 @@ export class ModuleBase {
         await page.waitFor(milliseconds)
     }
     //---------------------------------------------------------------------------------------
-    async openBrowse(timeout?: number, sleepafteropening?: number): Promise<void> {
+    async openBrowse(timeout?: number, sleepafteropening?: number): Promise<OpenBrowseResponse> {
+        let openBrowseResponse: OpenBrowseResponse = new OpenBrowseResponse();
+        openBrowseResponse.opened = false;
+        openBrowseResponse.recordCount = 0;
+        openBrowseResponse.errorMessage = "browse not opened";
         if (!timeout) {
             timeout = 2000;  //if we can't find the button on the main menu within 2 seconds, then timeout the test
         }
         let mainMenuSelector = `.appmenu`;
         await page.waitForSelector(mainMenuSelector, { timeout: timeout });
         await page.click(mainMenuSelector);
-        await expect(page).toClick(this.moduleBtnId);
-        await ModuleBase.wait(300); // wait for the previously-open module to go away.  need a way to go back to a blank/home screen before attempting to get to this browse
-        let browseSelector = `div.tab.active[data-tabtype="BROWSE"]`;
-        await page.waitForSelector(browseSelector)
-            .then(async done => {
-                const evaluateBrowse = await page.evaluate(() => {
-                    let browseSelector = `div.tab.active[data-tabtype="BROWSE"]`; // must be redeclared here due to scope
-                    const moduleTabText = jQuery('body').find(browseSelector).text();
-                    return moduleTabText;
-                })
-                if (evaluateBrowse.includes(`${this.moduleCaption}`)) {
-                    Logging.logInfo(`Opened ${this.moduleCaption} module`);
-                } else {
-                    Logging.logError(`Error opening ${this.moduleCaption} module`);
-                    //await browser.close();
-                }
-            })
-        if (sleepafteropening > 0) {
-            await TestUtils.sleepAsync(sleepafteropening);  // wait x seconds to allow other queries to complete
+        let menuButtonId = '#btnModule' + this.moduleId;
+        await expect(page).toClick(menuButtonId);
+        //await ModuleBase.wait(300); // wait for the previously-open module to go away.  may need a way to go back to a blank/home screen before attempting to get to this browse
+
+        // wait for the data to come in
+        await page.waitFor(() => document.querySelector('.pleasewait'));
+        await page.waitFor(() => !document.querySelector('.pleasewait'));
+
+        // find the browse tab
+        let browseTabSelector = `div.tab.active[data-tabtype="BROWSE"]`;
+        await page.waitForSelector(browseTabSelector);
+
+        // make sure that we are getting the browse we want
+        let browseTabCaptionSelector = browseTabSelector + ` div.caption`;
+        const browserTabCaption = await page.$eval(browseTabCaptionSelector, el => el.textContent);
+        while (browserTabCaption !== this.moduleCaption) {
+            await ModuleBase.wait(100);
         }
+
+        // find the browse column headers
+        Logging.logInfo(`Opened ${this.moduleCaption} module`);
+        await page.waitForSelector(`.fwbrowse .fieldnames`); 
+
+        // wait for the module to try to open, then check for errors
+        var popUp;
+        try {
+            popUp = await page.waitForSelector('.advisory', { timeout: 500 });
+        } catch (error) { } // no error pop-up
+
+        if (popUp !== undefined) {
+            let errorMessage = await page.$eval('.advisory', el => el.textContent);
+            openBrowseResponse.opened = false;
+            openBrowseResponse.recordCount = 0;
+            openBrowseResponse.errorMessage = errorMessage;
+
+            Logging.logError(`Error opening ${this.moduleCaption} browse: ` + errorMessage);
+
+            const options = await page.$$('.advisory .fwconfirmation-button');
+            await options[0].click() // click "OK" option
+                .then(() => {
+                    Logging.logInfo(`Clicked the "OK" button.`);
+                })
+        }
+        else {
+            let rowCount: number | void = this.browseGetRowsDisplayed() as unknown as number;
+            openBrowseResponse.opened = true;
+            openBrowseResponse.recordCount = rowCount;
+            openBrowseResponse.errorMessage = "";
+
+            if (sleepafteropening > 0) {
+                await TestUtils.sleepAsync(sleepafteropening);  // wait x seconds to allow other queries to complete
+            }
+        }
+        return openBrowseResponse;
     }
     //---------------------------------------------------------------------------------------
     async browseGetRowsDisplayed(): Promise<number> {
         await page.waitForSelector(`.fwbrowse .fieldnames`);
         let records = await page.$$eval(`.fwbrowse tbody tr`, (e: any) => { return e; });
         let recordCount = records.length;
-        Logging.logger.info(`Record Count: ${recordCount}`);
+        Logging.logInfo(`Record Count: ${recordCount}`);
         return recordCount;
     }
     //---------------------------------------------------------------------------------------
     async browseSeek(seekObject: any): Promise<number> {
         await page.waitForSelector(`.fwbrowse .fieldnames`);
         for (var key in seekObject) {
-            Logging.logger.info(`About to add seek field ${key} with ${seekObject[key]}`);
+            Logging.logInfo(`About to add seek field ${key} with ${seekObject[key]}`);
             let selector = `.fwbrowse .field[data-browsedatafield="${key}"] .search input`;
             await page.waitForSelector(selector);
             let elementHandle = await page.$(selector);
@@ -79,7 +129,7 @@ export class ModuleBase {
         await ModuleBase.wait(300); // let the rows render
         let records = await page.$$eval(`.fwbrowse tbody tr`, (e: any) => { return e; });
         let recordCount = records.length;
-        Logging.logger.info(`Record Count: ${recordCount}`);
+        Logging.logInfo(`Record Count: ${recordCount}`);
         return recordCount;
 
     }
@@ -90,12 +140,81 @@ export class ModuleBase {
         }
         await page.waitForSelector(`.fwbrowse tbody tr.viewmode:nth-child(${index})`);
         await page.click('.fwbrowse tbody tr.viewmode', { clickCount: 2 });
-        //await page.waitFor(() => document.querySelector('.pleasewait'), {timeout: 500});
-        await ModuleBase.wait(500);
+        await page.waitFor(() => document.querySelector('.pleasewait'));
         await page.waitFor(() => !document.querySelector('.pleasewait'));
         if (sleepAfterOpening > 0) {
             await ModuleBase.wait(sleepAfterOpening);
         }
+    }
+    //---------------------------------------------------------------------------------------
+    async openFirstRecordIfAny(sleepAfterOpening?: number): Promise<OpenRecordResponse> {
+        let openRecordResponse: OpenRecordResponse = new OpenRecordResponse();
+        openRecordResponse.opened = false;
+        openRecordResponse.record = null;
+        openRecordResponse.errorMessage = "form not opened";
+
+        let selector = `.fwbrowse tbody tr.viewmode`;
+        let records = await page.$$eval(selector, (e: any) => { return e; });
+        var recordCount;
+        if (records == undefined) {
+            recordCount = 0;
+        }
+        else {
+            recordCount = records.length;
+        }
+        Logging.logInfo(`Record Count: ${recordCount}`);
+
+
+        if (recordCount == 0) {
+            openRecordResponse.opened = true;
+            openRecordResponse.record = null;
+            openRecordResponse.errorMessage = "";
+        }
+        else {
+            selector += `:nth-child(1)`;
+            await page.waitForSelector(selector);
+            Logging.logInfo(`About to double-click the first row.`);
+            await page.click(selector, { clickCount: 2 });
+            //await page.waitFor(() => document.querySelector('.pleasewait'));
+
+            try {
+                await page.waitFor(() => document.querySelector('.pleasewait'), { timeout: 3000 });
+            } catch (error) { } // assume that we missed the Please Wait dialog
+
+            await page.waitFor(() => !document.querySelector('.pleasewait'));
+            Logging.logInfo(`Finished waiting for the Please Wait dialog.`);
+
+            var popUp;
+            try {
+                popUp = await page.waitForSelector('.advisory', { timeout: 500 });
+            } catch (error) { } // no error pop-up
+
+            if (popUp !== undefined) {
+                let errorMessage = await page.$eval('.advisory', el => el.textContent);
+                openRecordResponse.opened = false;
+                openRecordResponse.record = null;
+                openRecordResponse.errorMessage = errorMessage;
+
+                Logging.logError(`Error opening ${this.moduleCaption} form: ` + errorMessage);
+
+                const options = await page.$$('.advisory .fwconfirmation-button');
+                await options[0].click() // click "OK" option
+                    .then(() => {
+                        Logging.logInfo(`Clicked the "OK" button.`);
+                    })
+            }
+            else {
+                openRecordResponse.opened = true;
+                openRecordResponse.errorMessage = "";
+                openRecordResponse.record = await this.getFormRecord();
+                openRecordResponse.keys = await this.getFormKeys();
+            }
+
+            if (sleepAfterOpening > 0) {
+                await ModuleBase.wait(sleepAfterOpening);
+            }
+        }
+        return openRecordResponse;
     }
     //---------------------------------------------------------------------------------------
     async deleteRecord(index?: number, sleepAfterDeleting?: number): Promise<void> {
@@ -109,18 +228,18 @@ export class ModuleBase {
 
         const popupText = await page.$eval('.advisory', el => el.textContent);
         if (popupText.includes('delete this record')) {
-            Logging.logger.info(`Delete record, confirmation prompt detected.`);
+            Logging.logInfo(`Delete record, confirmation prompt detected.`);
 
             const options = await page.$$('.advisory .fwconfirmation-button');
             await options[0].click() // click "Yes" option
                 .then(() => {
-                    Logging.logger.info(`Clicked the "Yes" button.`);
+                    Logging.logInfo(`Clicked the "Yes" button.`);
                 })
             await page.waitFor(() => !document.querySelector('.advisory'));
             await page.waitFor(() => document.querySelector('.pleasewait'));
             await page.waitFor(() => !document.querySelector('.pleasewait'));
         }
-        Logging.logger.info(`Record deleted.`);
+        Logging.logInfo(`Record deleted.`);
 
         if (sleepAfterDeleting > 0) {
             await ModuleBase.wait(sleepAfterDeleting);
@@ -137,7 +256,7 @@ export class ModuleBase {
         else {
             formCount = forms.length;
         }
-        //Logging.logger.info(`Open Form Count: ${formCount}`);
+        //Logging.logInfo(`Open Form Count: ${formCount}`);
         Logging.logInfo(`Open Form Count: ${formCount}`);
         return formCount;
     }
@@ -156,9 +275,9 @@ export class ModuleBase {
                     return caption;
                 })
                 if (formCaption !== '') {
-                    Logging.logger.info(`New ${this.moduleCaption} Created`);
+                    Logging.logInfo(`New ${this.moduleCaption} Created`);
                 } else {
-                    Logging.logger.error(`New ${this.moduleCaption} not Created`);
+                    Logging.logError(`New ${this.moduleCaption} not Created`);
                     await browser.close();
                 }
             })
@@ -175,7 +294,7 @@ export class ModuleBase {
                 datatype = 'displayfield';
             }
         }
-        Logging.logger.info(`${fieldName} datatype is ${datatype}`);
+        //Logging.logInfo(`${fieldName} datatype is ${datatype}`);
         return datatype;
     }
     //---------------------------------------------------------------------------------------
@@ -183,19 +302,19 @@ export class ModuleBase {
         var currentValue = "";
         let newValue = "";
         for (var key in record) {
-            Logging.logger.info(`About to populate ${key} with ${record[key]}`);
+            Logging.logInfo(`About to populate ${key} with ${record[key]}`);
             let displayfield;
             const datatype = await this.getDataType(key);
             if (datatype === 'displayfield') {
                 displayfield = key;
                 key = await page.$eval(`.fwformfield[data-displayfield="${key}"]`, el => el.getAttribute('data-datafield'));
-                Logging.logger.info(`About to populate ${key} with ${record[key]}`);
+                Logging.logInfo(`About to populate ${key} with ${record[key]}`);
             }
             const tabId = await page.$eval(`.fwformfield[data-datafield="${key}"]`, el => el.closest('[data-type="tabpage"]').getAttribute('data-tabid'));
-            Logging.logger.info(`Found ${key} field on tab ${tabId}`);
+            Logging.logInfo(`Found ${key} field on tab ${tabId}`);
             const tabIsActive = await page.$eval(`#${tabId}`, el => el.classList.contains('active'));
             if (!tabIsActive) {
-                Logging.logger.info(`Clicking tab ${tabId}`);
+                Logging.logInfo(`Clicking tab ${tabId}`);
                 await page.click(`#${tabId}`);
             }
             switch (datatype) {
@@ -258,17 +377,20 @@ export class ModuleBase {
                 keys[datafields[i]] = value;
             }
         }
-        //Logging.logger.info(`Form Keys: ${JSON.stringify(record)}`);
+        //Logging.logInfo(`Form Keys: ${JSON.stringify(record)}`);
         return keys;
     }
     //---------------------------------------------------------------------------------------
     async getFormRecord(): Promise<any> {
         let record: any = {};
+        //Logging.logInfo(`About to gather form record for : ${this.moduleName}`);
         const datafields = await page.$$eval(`.fwform .fwformfield`, fields => fields.map((field) => field.getAttribute('data-datafield')));
         for (let i = 0; i < datafields.length; i++) {
-            if (datafields[i] != '') {
+            let dataField = datafields[i];
+            if (dataField != '') {
+                //Logging.logInfo(`About to gather field "${dataField}"`);
                 let value;
-                const datatype = await this.getDataType(datafields[i]);
+                const datatype = await this.getDataType(dataField);
                 switch (datatype) {
                     case 'phone':
                     case 'email':
@@ -276,28 +398,28 @@ export class ModuleBase {
                     case 'text':
                     case 'textarea':
                     case 'key':
-                        value = await this.getDataFieldValue(datafields[i]);
-                        record[datafields[i]] = value;
+                        value = await this.getDataFieldValue(dataField);
+                        record[dataField] = value;
                         break;
                     case 'validation':
-                        value = await this.getDataFieldText(datafields[i]);
-                        const displayFieldName = await page.$eval(`.fwformfield[data-datafield="${datafields[i]}"]`, el => el.getAttribute('data-displayfield'));
-                        const displayValue = await this.getDataFieldValue(datafields[i]);
-                        record[datafields[i]] = displayValue;
+                        value = await this.getDataFieldText(dataField);
+                        const displayFieldName = await page.$eval(`.fwformfield[data-datafield="${dataField}"]`, el => el.getAttribute('data-displayfield'));
+                        const displayValue = await this.getDataFieldValue(dataField);
+                        record[dataField] = displayValue;
                         record[displayFieldName] = value;
                         break;
                     case 'togglebuttons':
                         value = ""; // un-handled field type
-                        record[datafields[i]] = value;
+                        record[dataField] = value;
                         break;
                     default:
                         value = ""; // un-handled field type
-                        record[datafields[i]] = value;
+                        record[dataField] = value;
                         break;
                 }
             }
         }
-        //Logging.logger.info(`Form Record: ${JSON.stringify(record)}`);
+        //Logging.logInfo(`Form Record: ${JSON.stringify(record)}`);
         return record;
     }
     //---------------------------------------------------------------------------------------
@@ -429,7 +551,7 @@ export class ModuleBase {
         response.errorMessage = "not saved";
 
         let savingObject = await this.getFormRecord();
-        Logging.logger.info(`About to try to save ${this.moduleCaption} Record: ${JSON.stringify(savingObject)}`);
+        Logging.logInfo(`About to try to save ${this.moduleCaption} Record: ${JSON.stringify(savingObject)}`);
 
         await page.click('.btn[data-type="SaveMenuBarButton"]');
         await page.waitForSelector('.advisory');
@@ -437,7 +559,7 @@ export class ModuleBase {
             .then(async done => {
                 const afterSaveMsg = await page.$eval('.advisory', el => el.textContent);
                 if ((afterSaveMsg.includes('saved')) && (!afterSaveMsg.includes('Error'))) {
-                    Logging.logger.info(`${this.moduleCaption} Record saved: ${afterSaveMsg}`);
+                    Logging.logInfo(`${this.moduleCaption} Record saved: ${afterSaveMsg}`);
 
                     //make the "record saved" toaster message go away
                     await page.waitForSelector('.advisory .messageclose');
@@ -447,11 +569,11 @@ export class ModuleBase {
                     response.saved = true;
                     response.errorMessage = "";
                 } else if (afterSaveMsg.includes('Error') || afterSaveMsg.includes('resolve')) {
-                    Logging.logger.info(`${this.moduleCaption} Record not saved: ${afterSaveMsg}`);
+                    Logging.logInfo(`${this.moduleCaption} Record not saved: ${afterSaveMsg}`);
                     response.saved = false;
                     response.errorMessage = afterSaveMsg;
                     response.errorFields = await page.$$eval(`.fwformfield.error`, fields => fields.map((field) => field.getAttribute('data-datafield')));
-                    Logging.logger.info(`Error Fields: ${JSON.stringify(response.errorFields)}`);
+                    Logging.logInfo(`Error Fields: ${JSON.stringify(response.errorFields)}`);
 
                     if (closeUnexpectedErrors) {
                         //check for any error message pop-ups and click them to make error messages go away
@@ -494,7 +616,7 @@ export class ModuleBase {
     //---------------------------------------------------------------------------------------
     async closeRecord(): Promise<void> {
         await page.click('div.delete');
-        Logging.logger.info(`Record closed.`);
+        Logging.logInfo(`Record closed.`);
         //await page.waitForNavigation();
     }
     //---------------------------------------------------------------------------------------
@@ -502,16 +624,16 @@ export class ModuleBase {
         await page.click('div.delete');
         const popupText = await page.$eval('.advisory', el => el.textContent);
         if (popupText.includes('save your changes')) {
-            Logging.logger.info(`Close tab, save changes prompt detected.`);
+            Logging.logInfo(`Close tab, save changes prompt detected.`);
 
             const options = await page.$$('.advisory .fwconfirmation-button');
             await options[1].click() // clicks "Don't Save" option
                 .then(() => {
-                    Logging.logger.info(`Clicked the "Don't Save" button.`);
+                    Logging.logInfo(`Clicked the "Don't Save" button.`);
                 })
             await page.waitFor(() => !document.querySelector('.advisory'));
         }
-        Logging.logger.info(`Record closed without saving.`);
+        Logging.logInfo(`Record closed without saving.`);
         //await page.waitForNavigation();
     }
     //---------------------------------------------------------------------------------------

@@ -2,7 +2,7 @@
 import { Logging } from '../shared/Logging';
 import { TestUtils } from '../shared/TestUtils';
 import { ModuleBase } from '../shared/ModuleBase';
-import { SaveResponse } from '../shared/ModuleBase';
+import { SaveResponse, OpenBrowseResponse, OpenRecordResponse } from '../shared/ModuleBase';
 import { GlobalScope } from '../shared/GlobalScope';
 
 export abstract class BaseTest {
@@ -15,7 +15,7 @@ export abstract class BaseTest {
 
     //---------------------------------------------------------------------------------------
     LogError(testName: string, err: any) {
-        Logging.logger.error(testName, err);
+        Logging.logError("Error in " + testName + ": " + err);
     }
     //---------------------------------------------------------------------------------------
     CheckDependencies() {
@@ -28,7 +28,7 @@ export abstract class BaseTest {
         beforeAll(async () => {
             await page.setViewport({ width: 1600, height: 1080 })
                 .then()
-                .catch(err => Logging.logger.error('Error in BeforeAll: ', err));
+                .catch(err => Logging.logError('Error in BeforeAll: ' + err));
         });
     }
     //---------------------------------------------------------------------------------------
@@ -54,7 +54,7 @@ export abstract class BaseTest {
             test(testName, async () => {
                 this.continueTest = await TestUtils.authenticate()
                     .then((data) => { })
-                    .catch(err => Logging.logger.error('Error in DoLogin: ', err));
+                    .catch(err => Logging.logError('Error in DoLogin: ' + err));
             }, this.testTimeout);
             //---------------------------------------------------------------------------------------
         });
@@ -69,7 +69,7 @@ export abstract class BaseTest {
             test(testName, async () => {
                 this.continueTest = await TestUtils.logoff()
                     .then((data) => { })
-                    .catch(err => Logging.logger.error('Error in DoLogoff: ', err));
+                    .catch(err => Logging.logError('Error in DoLogoff: ' + err));
             }, this.testTimeout);
             //---------------------------------------------------------------------------------------
         });
@@ -111,7 +111,7 @@ export abstract class BaseTest {
                 const element = await page.$(selector);
                 const userName = await page.evaluate(element => element.textContent, element);
                 let expectedUserName = this.globalScopeRef["User~ME"]["FirstName"] + " " + this.globalScopeRef["User~ME"]["LastName"];
-                Logging.logger.info(`Valiating User Name on toolbar:\n     Expecting: "${expectedUserName}"\n     Found:     "${userName}"`);
+                Logging.logInfo(`Valiating User Name on toolbar:\n     Expecting: "${expectedUserName}"\n     Found:     "${userName}"`);
                 expect(userName).toBe(expectedUserName);
             }, this.testTimeout);
             //---------------------------------------------------------------------------------------
@@ -122,46 +122,49 @@ export abstract class BaseTest {
                 const element = await page.$(selector);
                 const officeLocation = await page.evaluate(element => element.textContent, element);
                 let expectedOfficeLocation = this.globalScopeRef["User~ME"]["OfficeLocation"];
-                Logging.logger.info(`Valiating Office Location on toolbar:\n     Expecting: "${expectedOfficeLocation}"\n     Found:     "${officeLocation}"`);
+                Logging.logInfo(`Valiating Office Location on toolbar:\n     Expecting: "${expectedOfficeLocation}"\n     Found:     "${officeLocation}"`);
                 expect(officeLocation).toBe(expectedOfficeLocation);
             }, this.testTimeout);
             //---------------------------------------------------------------------------------------
         });
     }
     //---------------------------------------------------------------------------------------
-    async TestModuleOpenBrowseOpenForm(module: ModuleBase, index?: number, registerGlobal?: boolean) {
+    async TestModuleOpenBrowseOpenFirstFormIfAny(module: ModuleBase, index?: number, registerGlobal?: boolean) {
         let testName: string = "";
-        const testCollectionName = `Open ${module.moduleCaption} browse and form`;
-        describe(testCollectionName, () => {
-            //---------------------------------------------------------------------------------------
-            testName = `Open ${module.moduleCaption} browse`;
-            test(testName, async () => {
-                await module.openBrowse().then().catch(err => this.LogError(testName, err));
-            }, this.testTimeout);
-            //---------------------------------------------------------------------------------------
-            testName = `Open ${module.moduleCaption} form`;
-            test(testName, async () => {
-                let formCountBefore = await module.countOpenForms();
-                await module.openRecord(index).then().catch(err => this.LogError(testName, err));
-                let formCountAfter = await module.countOpenForms();
-                expect(formCountAfter).toBe(formCountBefore + 1);
-                if (registerGlobal) {
-                    let formObject = await module.getFormRecord().then().catch(err => this.LogError(testName, err));
-                    Logging.logInfo(`Form Record: ${JSON.stringify(formObject)}`);
+        describe(module.moduleCaption, () => {
+            const testCollectionName = `Open browse and first form (if any)`;
+            describe(testCollectionName, () => {
+                //---------------------------------------------------------------------------------------
+                testName = `Open ${module.moduleCaption} browse`;
+                test(testName, async () => {
+                    let openBrowseResponse: OpenBrowseResponse | void = await module.openBrowse().then().catch(err => this.LogError(testName, err));
+                    let strictOpenBrowseResponse = openBrowseResponse as OpenBrowseResponse;
+                    expect(strictOpenBrowseResponse.errorMessage).toBe("");
+                    expect(strictOpenBrowseResponse.opened).toBeTruthy();
+                }, this.testTimeout);
+                //---------------------------------------------------------------------------------------
+                testName = `Open first ${module.moduleCaption} form, if any`;
+                test(testName, async () => {
+                    let openRecordResponse: OpenRecordResponse | void = await module.openFirstRecordIfAny().then().catch(err => this.LogError(testName, err));
+                    let strictOpenRecordResponse = openRecordResponse as OpenRecordResponse;
+                    expect(strictOpenRecordResponse.errorMessage).toBe("");
+                    expect(strictOpenRecordResponse.opened).toBeTruthy();
 
+                    if (registerGlobal) {
+                        Logging.logInfo(`Form Record: ${JSON.stringify(strictOpenRecordResponse.record)}`);
+                        Logging.logInfo(`Form Keys: ${JSON.stringify(strictOpenRecordResponse.keys)}`);
 
-                    let formKeys = await module.getFormKeys().then().catch(err => this.LogError(testName, err));
-                    Logging.logInfo(`Form Keys: ${JSON.stringify(formKeys)}`);
-
-                    let globalKey = module.moduleName;
-                    for (var key in formKeys) {
-                        globalKey = globalKey + "~" + formKeys[key];
+                        let globalKey = module.moduleName;
+                        for (var key in strictOpenRecordResponse.keys) {
+                            globalKey = globalKey + "~" + strictOpenRecordResponse.keys[key];
+                        }
+                        Logging.logInfo(`Global Key: ${globalKey}`);
+                        this.globalScopeRef[globalKey] = strictOpenRecordResponse.record;
                     }
-                    Logging.logInfo(`Global Key: ${globalKey}`);
-                    this.globalScopeRef[globalKey] = formObject;
-                }
-            }, this.testTimeout);
-            //---------------------------------------------------------------------------------------
+
+                }, this.testTimeout);
+                //---------------------------------------------------------------------------------------
+            });
         });
     }
     //---------------------------------------------------------------------------------------
@@ -188,7 +191,7 @@ export abstract class BaseTest {
                 testName = `Validate default values on new ${module.moduleCaption} form, compare with expected values`;
                 test(testName, async () => {
                     let defaultObject = await module.getFormRecord().then().catch(err => this.LogError(testName, err));
-                    Logging.logger.info(`Form Record: ${JSON.stringify(defaultObject)}`);
+                    Logging.logInfo(`Form Record: ${JSON.stringify(defaultObject)}`);
 
                     for (let key in expectedObject) {
                         console.log(`Comparing: ${key}\n     Expecting: "${expectedObject[key]}"\n     Found:     "${defaultObject[key]}"`);
@@ -262,7 +265,7 @@ export abstract class BaseTest {
                 testName = `Validate all values on saved ${module.moduleCaption}, compare with expected values`;
                 test(testName, async () => {
                     let savedObject = await module.getFormRecord().then().catch(err => this.LogError(testName, err));
-                    Logging.logger.info(`Form Record: ${JSON.stringify(savedObject)}`);
+                    Logging.logInfo(`Form Record: ${JSON.stringify(savedObject)}`);
                     for (let key in expectedObject) {
                         console.log(`Comparing: ${key}\n     Expecting: "${expectedObject[key]}"\n     Found:     "${savedObject[key]}"`);
 
@@ -433,10 +436,10 @@ export abstract class BaseTest {
 
                     if (registerGlobal) {
                         let formObject = await module.getFormRecord().then().catch(err => this.LogError(testName, err));
-                        Logging.logger.info(`Form Record: ${JSON.stringify(formObject)}`);
+                        Logging.logInfo(`Form Record: ${JSON.stringify(formObject)}`);
 
                         let formKeys = await module.getFormKeys().then().catch(err => this.LogError(testName, err));
-                        Logging.logger.info(`Form Keys: ${JSON.stringify(formKeys)}`);
+                        Logging.logInfo(`Form Keys: ${JSON.stringify(formKeys)}`);
 
                         let globalKey = module.moduleName;
                         if (globalKeyValue === undefined) {
@@ -447,7 +450,7 @@ export abstract class BaseTest {
                         else {
                             globalKey = globalKey + "~" + globalKeyValue;
                         }
-                        Logging.logger.info(`Global Key: ${globalKey}`);
+                        Logging.logInfo(`Global Key: ${globalKey}`);
                         this.globalScopeRef[globalKey] = formObject;
                     }
 
@@ -507,7 +510,7 @@ export abstract class BaseTest {
             this.PerformTests();
             this.DoLogoff();
         } catch (ex) {
-            Logging.logger.error('Error in Run.', ex);
+            Logging.logError('Error in Run.' + ex);
         }
     }
     //---------------------------------------------------------------------------------------

@@ -24,11 +24,11 @@ export class TestUtils {
                     return errorMessageText;
                 })
                 if (evaluateLogin.includes('Invalid')) {
-                    Logging.logger.error(`Error in login: ${evaluateLogin}`);
+                    Logging.logError(`Error in login: ${evaluateLogin}`);
                     await browser.close(); // abort test by closing window. Probably a better way
                     continueTest = false;
                 } else if (evaluateLogin === '') {
-                    Logging.logger.info(`Successful login for user ${process.env.RW_LOGIN}`);
+                    Logging.logInfo(`Successful login for user ${process.env.RW_LOGIN}`);
                     continueTest = true;
                 }
             })
@@ -36,11 +36,11 @@ export class TestUtils {
             await page.waitForSelector('.appmenu', { visible: true, timeout: 20000 }) // Upper left 'hamburger menu'
                 .then(done => {
                     if (done) {
-                        Logging.logger.info(`Successful authentication process for user ${process.env.RW_LOGIN}`);
+                        Logging.logInfo(`Successful authentication process for user ${process.env.RW_LOGIN}`);
                         continueTest = true;
                     }
                 }).catch(ex => {
-                    Logging.logger.error(`Unsuccessful authentication process for user ${process.env.RW_LOGIN}. Test aborted`);
+                    Logging.logError(`Unsuccessful authentication process for user ${process.env.RW_LOGIN}. Test aborted`);
                     browser.close();
                     continueTest = false;
                 })
@@ -87,7 +87,7 @@ export class TestUtils {
     //-----------------------------------------------------------------------------------------------------------------
     static getTestToken(): string {
         let testToken = this.getDateTimeToken();
-        Logging.logger.info(`Test Token: ${testToken}`);
+        Logging.logInfo(`Test Token: ${testToken}`);
         return testToken;
     }
     //-----------------------------------------------------------------------------------------------------------------

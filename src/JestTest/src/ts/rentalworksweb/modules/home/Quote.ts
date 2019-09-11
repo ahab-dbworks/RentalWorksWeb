@@ -5,7 +5,7 @@ export class Quote extends HomeModule {
     constructor() {
         super();
         this.moduleName = 'Quote';
-        this.moduleBtnId = '#btnModule4D785844-BE8A-4C00-B1FA-2AA5B05183E5';
+        this.moduleId = '4D785844-BE8A-4C00-B1FA-2AA5B05183E5';
         this.moduleCaption = 'Quote';
     }
     //---------------------------------------------------------------------------------------

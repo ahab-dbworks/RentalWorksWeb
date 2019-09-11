@@ -1,6 +1,7 @@
 import { ModuleBase } from '../shared/ModuleBase';
 import { Logging } from '../shared/Logging';
 import { TestUtils } from './TestUtils';
+import { SaveResponse, OpenBrowseResponse, OpenRecordResponse } from '../shared/ModuleBase';
 
 //---------------------------------------------------------------------------------------
 export class SettingsModule extends ModuleBase {
@@ -9,7 +10,11 @@ export class SettingsModule extends ModuleBase {
         super();
     }
     //---------------------------------------------------------------------------------------
-    async openBrowse(timeout?: number, sleepafteropening?: number): Promise<void> {
+    async openBrowse(timeout?: number, sleepafteropening?: number): Promise<OpenBrowseResponse> {
+        let openBrowseResponse: OpenBrowseResponse = new OpenBrowseResponse();
+        openBrowseResponse.opened = false;
+        openBrowseResponse.recordCount = 0;
+        openBrowseResponse.errorMessage = "browse not opened";
         if (!timeout) {
             timeout = 3000;  //if we can't find the settings module header bar on the Settings Page within 3 seconds, then timeout the test
         }
@@ -22,14 +27,45 @@ export class SettingsModule extends ModuleBase {
         await page.waitForSelector(moduleHeadingSelector, { timeout: timeout });
         await page.click(moduleHeadingSelector);
 
-        let moduleLegendBarSelector = `.panel-group[id="${this.moduleName}"] .legend`;
-        await page.waitForSelector(moduleLegendBarSelector)
-            .then(async done => {
-                Logging.logInfo(`Opened ${this.moduleCaption} module`);
-            })
-        if (sleepafteropening > 0) {
-            await TestUtils.sleepAsync(sleepafteropening);  // wait x seconds to allow other queries to complete
+        // wait for the module to try to open, then check for errors
+        var popUp;
+        try {
+            popUp = await page.waitForSelector('.advisory', { timeout: 500 });
+        } catch (error) { } // no error pop-up
+
+        if (popUp !== undefined) {
+            let errorMessage = await page.$eval('.advisory', el => el.textContent);
+            openBrowseResponse.opened = false;
+            openBrowseResponse.recordCount = 0;
+            openBrowseResponse.errorMessage = errorMessage;
+
+            Logging.logError(`Error opening ${this.moduleCaption} browse: ` + errorMessage);
+
+            const options = await page.$$('.advisory .fwconfirmation-button');
+            await options[0].click() // click "OK" option
+                .then(() => {
+                    Logging.logInfo(`Clicked the "OK" button.`);
+                })
         }
+        else {
+            let moduleLegendBarSelector = `.panel-group[id="${this.moduleName}"] .legend`;
+            await page.waitForSelector(moduleLegendBarSelector)
+                .then(async done => {
+                    Logging.logInfo(`Opened ${this.moduleCaption} module`);
+                    await ModuleBase.wait(200); // let the rows render, if any
+                })
+
+            //let rowCount: number | void = this.browseGetRowsDisplayed() as unknown as number;
+            openBrowseResponse.opened = true;
+            //openBrowseResponse.recordCount = rowCount;
+            openBrowseResponse.errorMessage = "";
+
+
+            if (sleepafteropening > 0) {
+                await TestUtils.sleepAsync(sleepafteropening);  // wait x seconds to allow other queries to complete
+            }
+        }
+        return openBrowseResponse;
     }
     //---------------------------------------------------------------------------------------
     async openRecord(index?: number, sleepAfterOpening?: number): Promise<void> {
@@ -45,18 +81,108 @@ export class SettingsModule extends ModuleBase {
 
         //let records = await page.$$eval(`.panel-group[id="${this.moduleName}"] .panel-primary .panel-collapse .panel-body .panel-record`, (e: any) => { return e.children; });
         //let records = await page.$$eval(`.panel-group[id="${this.moduleName}"] .panel-primary .panel-collapse .panel-body`, (e: any) => { return e.children; });
-        //Logging.logger.info(`records: ${JSON.stringify(records)}`);
+        //Logging.logInfo(`records: ${JSON.stringify(records)}`);
         //let elementHandle = records[0];
         //await page.click(elementHandle, { clickCount: 1 });
 
-        let selector = `.panel-group[id="${this.moduleName}"] .panel-primary .panel-collapse .panel-body .panel-record`;  // this only works for the first record
-        await page.waitForSelector(selector);
-        await page.click(selector);
-        await ModuleBase.wait(300); // let the row render
+        let selector = `.panel-group[id="${this.moduleName}"] .panel-primary .panel-collapse .panel-body .panel-record`;
+
+        let records = await page.$$eval(selector, (e: any) => { return e; });
+        var recordCount;
+        if (records == undefined) {
+            recordCount = 0;
+        }
+        else {
+            recordCount = records.length;
+        }
+
+        if (recordCount > 0) {
+            await page.waitForSelector(selector);  // this only works for the first record??
+            await page.click(selector);
+            await ModuleBase.wait(300); // let the row render
+        }
 
         if (sleepAfterOpening > 0) {
             await ModuleBase.wait(sleepAfterOpening);
         }
+    }
+    //---------------------------------------------------------------------------------------
+    async openFirstRecordIfAny(sleepAfterOpening?: number): Promise<OpenRecordResponse> {
+
+        let openRecordResponse: OpenRecordResponse = new OpenRecordResponse();
+        openRecordResponse.opened = false;
+        openRecordResponse.record = null;
+        openRecordResponse.errorMessage = "form not opened";
+
+        //let selector = `.panel-group[id="${this.moduleName}"] .panel-primary .panel-collapse .panel-body .panel-record .row-heading`;
+        let selector = `.panel-group[id="${this.moduleName}"] .panel-primary .panel-collapse .panel-body .panel-record .row-heading:not(.inactive-panel)`;
+        var records;
+        var recordCount;
+        try {
+            Logging.logInfo(`About to check for records in the ${this.moduleName} module`);
+            //await page.waitForSelector(selector, { visible: true });
+            records = await page.$$eval(selector, (e: any) => { return e; });
+        } catch (error) { } // no records found
+
+        if (records == undefined) {
+            recordCount = 0;
+        }
+        else {
+            recordCount = records.length;
+        }
+        Logging.logInfo(`Record Count: ${recordCount}`);
+
+        if (recordCount == 0) {
+            openRecordResponse.opened = true;
+            openRecordResponse.record = null;
+            openRecordResponse.errorMessage = "";
+        }
+        else {
+            //selector += `:nth-child(1)`;
+            //await page.waitForSelector(`.fwbrowse tbody tr.viewmode:nth-child(1)`);
+            await page.waitForSelector(selector);
+            Logging.logInfo(`About to click the first row.`);
+            await page.click(selector);
+
+            try {
+                await page.waitFor(() => document.querySelector('.pleasewait'), { timeout: 3000 });
+            } catch (error) { } // assume that we missed the Please Wait dialog
+
+            await page.waitFor(() => !document.querySelector('.pleasewait'));
+            Logging.logInfo(`Finished waiting for the Please Wait dialog.`);
+
+
+            var popUp;
+            try {
+                popUp = await page.waitForSelector('.advisory', { timeout: 500 });
+            } catch (error) { } // no error pop-up
+
+            if (popUp !== undefined) {
+                let errorMessage = await page.$eval('.advisory', el => el.textContent);
+                openRecordResponse.opened = false;
+                openRecordResponse.record = null;
+                openRecordResponse.errorMessage = errorMessage;
+
+                Logging.logError(`Error opening ${this.moduleCaption} form: ` + errorMessage);
+
+                const options = await page.$$('.advisory .fwconfirmation-button');
+                await options[0].click() // click "OK" option
+                    .then(() => {
+                        Logging.logInfo(`Clicked the "OK" button.`);
+                    })
+            }
+            else {
+                openRecordResponse.opened = true;
+                openRecordResponse.errorMessage = "";
+                openRecordResponse.record = await this.getFormRecord();
+                openRecordResponse.keys = await this.getFormKeys();
+            }
+
+            if (sleepAfterOpening > 0) {
+                await ModuleBase.wait(sleepAfterOpening);
+            }
+        }
+        return openRecordResponse;
     }
     //---------------------------------------------------------------------------------------
 }
