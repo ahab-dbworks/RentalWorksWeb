@@ -71,9 +71,15 @@ FwApplicationTree.clickEvents[Constants.Grids.ContractDetailGrid.menuItems.VoidI
                 const request: any = {
                     Items: contractItems
                     , ContractId: contractId
-                    , ReturnToInventory: FwFormField.getValueByDataField($confirmation, 'ReturnToInventory')
                     , Reason: FwFormField.getValueByDataField($confirmation, 'Reason')
                 };
+
+                if (contractType === 'OUT') {
+                    request.ReturnToInventory = FwFormField.getValueByDataField($confirmation, 'ReturnToInventory');
+                } else {
+                    request.ReturnToInventory = 'F';
+                }
+            
                 FwAppData.apiMethod(true, 'POST', `api/v1/contractitemdetail/voiditems`, request, FwServices.defaultTimeout,
                     response => {
                         FwConfirmation.destroyConfirmation($confirmation);
