@@ -3,6 +3,7 @@ using OfficeOpenXml.Drawing;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Web;
 
@@ -182,6 +183,12 @@ namespace FwStandard.SqlServer
                             else if (Array.Exists(numericTypes, element => element == col.DataType))
                             {
                                 worksheet.Cells[rowno + 2, worksheetcol].Value = this.GetValue(rowno, colno).ToDecimal();
+                                worksheetcol++;
+                            }
+                            else if (col.DataType == FwDataTypes.Date)
+                            {
+                                worksheet.Cells[rowno + 2, worksheetcol].Style.Numberformat.Format = CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern;
+                                worksheet.Cells[rowno + 2, worksheetcol].Value = this.GetValue(rowno, colno).ToDateTime();
                                 worksheetcol++;
                             }
                             else
