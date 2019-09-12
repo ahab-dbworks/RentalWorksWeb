@@ -28,6 +28,12 @@ IF "%DwRentalWorksWebPath%"=="" exit /B
 cd %DwRentalWorksWebPath%\src\JestTest
 
 if exist test-report.html (del test-report.html)
+if exist test-report-LoginLogout.html (del test-report-LoginLogout.html)
+call npm run test-rentalworksweb -t LoginLogout
+ren test-report.html test-report-LoginLogout.html
+start test-report-LoginLogout.html
+
+if exist test-report.html (del test-report.html)
 if exist test-report-RwwShallowRegression.html (del test-report-RwwShallowRegression.html)
 call npm run test-rentalworksweb -t RwwShallowRegression
 ren test-report.html test-report-RwwShallowRegression.html

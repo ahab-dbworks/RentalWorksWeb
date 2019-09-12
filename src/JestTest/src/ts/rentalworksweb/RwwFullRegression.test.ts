@@ -9,7 +9,7 @@ export class FullRegressionTest extends BaseTest {
     //---------------------------------------------------------------------------------------
     async ValidateEnvironment() {
         const userModule: User = new User();
-        this.LoadUserGlobal(userModule);
+        this.LoadMyUserGlobal(userModule);
         this.ValidateUserAndEnvironment();
     }
     //---------------------------------------------------------------------------------------
@@ -25,11 +25,7 @@ export class FullRegressionTest extends BaseTest {
         //        DEFAULT SETTINGS           //
         //-----------------------------------//
         if (this.continueTest) {
-            const defaultSettingsModule: DefaultSettings = new DefaultSettings();
-
-            this.TestModuleOpenBrowse(defaultSettingsModule);
-
-            this.TestModuleOpenBrowseOpenForm(defaultSettingsModule, 1, true);
+            this.TestModuleOpenBrowseOpenFirstFormIfAny(new DefaultSettings(), true);
         }
 
 

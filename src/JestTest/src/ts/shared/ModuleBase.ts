@@ -205,7 +205,10 @@ export class ModuleBase {
 
         let formCountBefore = await this.countOpenForms();
 
-        let selector = `.fwbrowse tbody tr.viewmode`;
+        let selector = `.fwbrowse`;
+        await page.waitForSelector(selector, { timeout: 3000 });
+
+        selector = `.fwbrowse tbody tr.viewmode`;
         let records = await page.$$eval(selector, (e: any) => { return e; });
         var recordCount;
         if (records == undefined) {

@@ -1,6 +1,6 @@
 ﻿require('dotenv').config()
 import { Logging } from '../shared/Logging';
-import { TestUtils } from '../shared/TestUtils';
+import { TestUtils, LoginResponse, LogoutResponse } from '../shared/TestUtils';
 import { ModuleBase } from '../shared/ModuleBase';
 import { SaveResponse, OpenBrowseResponse, OpenRecordResponse } from '../shared/ModuleBase';
 import { GlobalScope } from '../shared/GlobalScope';
@@ -8,7 +8,7 @@ import { GlobalScope } from '../shared/GlobalScope';
 export abstract class BaseTest {
 
     continueTest: boolean | void = true;
-    testTimeout: number = 45000; // 45 seconds
+    testTimeout: number = 30000; // 30 seconds
     testToken = TestUtils.getTestToken();
 
     globalScopeRef = GlobalScope;
@@ -52,9 +52,10 @@ export abstract class BaseTest {
             //---------------------------------------------------------------------------------------
             testName = 'Login';
             test(testName, async () => {
-                this.continueTest = await TestUtils.authenticate()
-                    .then((data) => { })
-                    .catch(err => Logging.logError('Error in DoLogin: ' + err));
+                let loginResponse: LoginResponse | void = await TestUtils.authenticate();
+                let strictLoginResponse = loginResponse as unknown as LoginResponse;
+                expect(strictLoginResponse.errorMessage).toBe("");
+                expect(strictLoginResponse.success).toBeTruthy();
             }, this.testTimeout);
             //---------------------------------------------------------------------------------------
         });
@@ -67,38 +68,22 @@ export abstract class BaseTest {
             //---------------------------------------------------------------------------------------
             testName = 'Logoff';
             test(testName, async () => {
-                this.continueTest = await TestUtils.logoff()
-                    .then((data) => { })
-                    .catch(err => Logging.logError('Error in DoLogoff: ' + err));
-            }, this.testTimeout);
-            //---------------------------------------------------------------------------------------
-        });
-    }
-    //---------------------------------------------------------------------------------------
-    async TestModuleOpenBrowse(module: ModuleBase) {
-        let testName: string = "";
-        const testCollectionName = `Open ${module.moduleCaption} browse`;
-        describe(testCollectionName, () => {
-            //---------------------------------------------------------------------------------------
-            testName = `Open ${module.moduleCaption} browse`;
-            test(testName, async () => {
-                await module.openBrowse().then().catch(err => this.LogError(testName, err));
-            }, this.testTimeout);
-            //---------------------------------------------------------------------------------------
-        });
-    }
-    //---------------------------------------------------------------------------------------
+                let logoutResponse: LogoutResponse | void = await TestUtils.logoff();
+                let strictLogoutResponse = logoutResponse as unknown as LogoutResponse;
+                expect(strictLogoutResponse.success).toBeTruthy();
 
-    async LoadUserGlobal(userModule: ModuleBase) {
+            }, this.testTimeout);
+            //---------------------------------------------------------------------------------------
+        });
+    }
+    //---------------------------------------------------------------------------------------
+    async LoadMyUserGlobal(userModule: ModuleBase) {
         var findUserInputs: any = {
             LoginName: process.env.RW_LOGIN
         }
         await this.TestModuleOpenSpecificRecord(userModule, findUserInputs, true, "ME");
     }
     //---------------------------------------------------------------------------------------
-
-
-
     async ValidateUserAndEnvironment() {
         let testName: string = "";
         const testCollectionName = `Validate User and Environment`;
@@ -129,7 +114,7 @@ export abstract class BaseTest {
         });
     }
     //---------------------------------------------------------------------------------------
-    async TestModuleOpenBrowseOpenFirstFormIfAny(module: ModuleBase, index?: number, registerGlobal?: boolean) {
+    async TestModuleOpenBrowseOpenFirstFormIfAny(module: ModuleBase, registerGlobal?: boolean) {
         let testName: string = "";
         describe(module.moduleCaption, () => {
             const testCollectionName = `Open browse and first form (if any)`;
@@ -137,7 +122,7 @@ export abstract class BaseTest {
                 //---------------------------------------------------------------------------------------
                 testName = `Open ${module.moduleCaption} browse`;
                 test(testName, async () => {
-                    let openBrowseResponse: OpenBrowseResponse | void = await module.openBrowse().then().catch(err => this.LogError(testName, err));
+                    let openBrowseResponse: OpenBrowseResponse | void = await module.openBrowse();//.then().catch(err => this.LogError(testName, err));
                     let strictOpenBrowseResponse = openBrowseResponse as OpenBrowseResponse;
                     expect(strictOpenBrowseResponse.errorMessage).toBe("");
                     expect(strictOpenBrowseResponse.opened).toBeTruthy();
@@ -145,7 +130,7 @@ export abstract class BaseTest {
                 //---------------------------------------------------------------------------------------
                 testName = `Open first ${module.moduleCaption} form, if any`;
                 test(testName, async () => {
-                    let openRecordResponse: OpenRecordResponse | void = await module.openFirstRecordIfAny().then().catch(err => this.LogError(testName, err));
+                    let openRecordResponse: OpenRecordResponse | void = await module.openFirstRecordIfAny();//.then().catch(err => this.LogError(testName, err));
                     let strictOpenRecordResponse = openRecordResponse as OpenRecordResponse;
                     expect(strictOpenRecordResponse.errorMessage).toBe("");
                     expect(strictOpenRecordResponse.opened).toBeTruthy();
@@ -176,7 +161,10 @@ export abstract class BaseTest {
             if (this.continueTest) {
                 testName = `Open ${module.moduleCaption} browse`;
                 test(testName, async () => {
-                    await module.openBrowse().then().catch(err => this.LogError(testName, err));
+                    let openBrowseResponse: OpenBrowseResponse | void = await module.openBrowse().then().catch(err => this.LogError(testName, err));
+                    let strictOpenBrowseResponse = openBrowseResponse as OpenBrowseResponse;
+                    expect(strictOpenBrowseResponse.errorMessage).toBe("");
+                    expect(strictOpenBrowseResponse.opened).toBeTruthy();
                 }, this.testTimeout);
             }
             //---------------------------------------------------------------------------------------
@@ -232,7 +220,10 @@ export abstract class BaseTest {
             if (this.continueTest) {
                 testName = `Open ${module.moduleCaption} browse`;
                 test(testName, async () => {
-                    await module.openBrowse().then().catch(err => this.LogError(testName, err));
+                    let openBrowseResponse: OpenBrowseResponse | void = await module.openBrowse().then().catch(err => this.LogError(testName, err));
+                    let strictOpenBrowseResponse = openBrowseResponse as OpenBrowseResponse;
+                    expect(strictOpenBrowseResponse.errorMessage).toBe("");
+                    expect(strictOpenBrowseResponse.opened).toBeTruthy();
                 }, this.testTimeout);
             }
             //---------------------------------------------------------------------------------------
@@ -305,7 +296,10 @@ export abstract class BaseTest {
             if (this.continueTest) {
                 testName = `Open ${module.moduleCaption} browse`;
                 test(testName, async () => {
-                    await module.openBrowse().then().catch(err => this.LogError(testName, err));
+                    let openBrowseResponse: OpenBrowseResponse | void = await module.openBrowse().then().catch(err => this.LogError(testName, err));
+                    let strictOpenBrowseResponse = openBrowseResponse as OpenBrowseResponse;
+                    expect(strictOpenBrowseResponse.errorMessage).toBe("");
+                    expect(strictOpenBrowseResponse.opened).toBeTruthy();
                 }, this.testTimeout);
             }
             //---------------------------------------------------------------------------------------
@@ -365,7 +359,10 @@ export abstract class BaseTest {
             if (this.continueTest) {
                 testName = `Open ${module.moduleCaption} browse`;
                 test(testName, async () => {
-                    await module.openBrowse().then().catch(err => this.LogError(testName, err));
+                    let openBrowseResponse: OpenBrowseResponse | void = await module.openBrowse().then().catch(err => this.LogError(testName, err));
+                    let strictOpenBrowseResponse = openBrowseResponse as OpenBrowseResponse;
+                    expect(strictOpenBrowseResponse.errorMessage).toBe("");
+                    expect(strictOpenBrowseResponse.opened).toBeTruthy();
                 }, this.testTimeout);
             }
             //---------------------------------------------------------------------------------------
@@ -412,7 +409,10 @@ export abstract class BaseTest {
             if (this.continueTest) {
                 testName = `Open ${module.moduleCaption} browse`;
                 test(testName, async () => {
-                    await module.openBrowse().then().catch(err => this.LogError(testName, err));
+                    let openBrowseResponse: OpenBrowseResponse | void = await module.openBrowse().then().catch(err => this.LogError(testName, err));
+                    let strictOpenBrowseResponse = openBrowseResponse as OpenBrowseResponse;
+                    expect(strictOpenBrowseResponse.errorMessage).toBe("");
+                    expect(strictOpenBrowseResponse.opened).toBeTruthy();
                 }, this.testTimeout);
             }
             //---------------------------------------------------------------------------------------
@@ -428,32 +428,27 @@ export abstract class BaseTest {
             if (this.continueTest) {
                 testName = `Open the ${module.moduleCaption} record`;
                 test(testName, async () => {
-                    let formCountBefore = await module.countOpenForms();
-                    await module.openRecord();
-                    let formCountAfter = await module.countOpenForms();
-                    expect(formCountAfter).toBe(formCountBefore + 1);
-
+                    let openRecordResponse: OpenRecordResponse | void = await module.openRecord().then().catch(err => this.LogError(testName, err));
+                    let strictOpenRecordResponse = openRecordResponse as OpenRecordResponse;
+                    expect(strictOpenRecordResponse.errorMessage).toBe("");
+                    expect(strictOpenRecordResponse.opened).toBeTruthy();
 
                     if (registerGlobal) {
-                        let formObject = await module.getFormRecord().then().catch(err => this.LogError(testName, err));
-                        Logging.logInfo(`Form Record: ${JSON.stringify(formObject)}`);
-
-                        let formKeys = await module.getFormKeys().then().catch(err => this.LogError(testName, err));
-                        Logging.logInfo(`Form Keys: ${JSON.stringify(formKeys)}`);
+                        Logging.logInfo(`Form Record: ${JSON.stringify(strictOpenRecordResponse.record)}`);
+                        Logging.logInfo(`Form Keys: ${JSON.stringify(strictOpenRecordResponse.keys)}`);
 
                         let globalKey = module.moduleName;
                         if (globalKeyValue === undefined) {
-                            for (var key in formKeys) {
-                                globalKey = globalKey + "~" + formKeys[key];
+                            for (var key in strictOpenRecordResponse.keys) {
+                                globalKey = globalKey + "~" + strictOpenRecordResponse.keys[key];
                             }
                         }
                         else {
                             globalKey = globalKey + "~" + globalKeyValue;
                         }
                         Logging.logInfo(`Global Key: ${globalKey}`);
-                        this.globalScopeRef[globalKey] = formObject;
+                        this.globalScopeRef[globalKey] = strictOpenRecordResponse.record;
                     }
-
                 }, this.testTimeout);
             }
             //---------------------------------------------------------------------------------------
@@ -468,7 +463,10 @@ export abstract class BaseTest {
             if (this.continueTest) {
                 testName = `Open ${module.moduleCaption} browse`;
                 test(testName, async () => {
-                    await module.openBrowse().then().catch(err => this.LogError(testName, err));
+                    let openBrowseResponse: OpenBrowseResponse | void = await module.openBrowse().then().catch(err => this.LogError(testName, err));
+                    let strictOpenBrowseResponse = openBrowseResponse as OpenBrowseResponse;
+                    expect(strictOpenBrowseResponse.errorMessage).toBe("");
+                    expect(strictOpenBrowseResponse.opened).toBeTruthy();
                 }, this.testTimeout);
             }
             //---------------------------------------------------------------------------------------
@@ -505,7 +503,7 @@ export abstract class BaseTest {
             this.DoBeforeAll();
             this.VerifyTestToken();
             this.CheckDependencies();
-            this.DoLogin();
+            this.DoLogin()
             this.ValidateEnvironment();
             this.PerformTests();
             this.DoLogoff();
