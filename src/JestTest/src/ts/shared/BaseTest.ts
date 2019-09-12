@@ -128,26 +128,28 @@ export abstract class BaseTest {
                     expect(strictOpenBrowseResponse.opened).toBeTruthy();
                 }, this.testTimeout);
                 //---------------------------------------------------------------------------------------
-                testName = `Open first ${module.moduleCaption} form, if any`;
-                test(testName, async () => {
-                    let openRecordResponse: OpenRecordResponse | void = await module.openFirstRecordIfAny();//.then().catch(err => this.LogError(testName, err));
-                    let strictOpenRecordResponse = openRecordResponse as OpenRecordResponse;
-                    expect(strictOpenRecordResponse.errorMessage).toBe("");
-                    expect(strictOpenRecordResponse.opened).toBeTruthy();
+                if (module.canView) {
+                    testName = `Open first ${module.moduleCaption} form, if any`;
+                    test(testName, async () => {
+                        let openRecordResponse: OpenRecordResponse | void = await module.openFirstRecordIfAny();//.then().catch(err => this.LogError(testName, err));
+                        let strictOpenRecordResponse = openRecordResponse as OpenRecordResponse;
+                        expect(strictOpenRecordResponse.errorMessage).toBe("");
+                        expect(strictOpenRecordResponse.opened).toBeTruthy();
 
-                    if (registerGlobal) {
-                        Logging.logInfo(`Form Record: ${JSON.stringify(strictOpenRecordResponse.record)}`);
-                        Logging.logInfo(`Form Keys: ${JSON.stringify(strictOpenRecordResponse.keys)}`);
+                        if (registerGlobal) {
+                            Logging.logInfo(`Form Record: ${JSON.stringify(strictOpenRecordResponse.record)}`);
+                            Logging.logInfo(`Form Keys: ${JSON.stringify(strictOpenRecordResponse.keys)}`);
 
-                        let globalKey = module.moduleName;
-                        for (var key in strictOpenRecordResponse.keys) {
-                            globalKey = globalKey + "~" + strictOpenRecordResponse.keys[key];
+                            let globalKey = module.moduleName;
+                            for (var key in strictOpenRecordResponse.keys) {
+                                globalKey = globalKey + "~" + strictOpenRecordResponse.keys[key];
+                            }
+                            Logging.logInfo(`Global Key: ${globalKey}`);
+                            this.globalScopeRef[globalKey] = strictOpenRecordResponse.record;
                         }
-                        Logging.logInfo(`Global Key: ${globalKey}`);
-                        this.globalScopeRef[globalKey] = strictOpenRecordResponse.record;
-                    }
 
-                }, this.testTimeout);
+                    }, this.testTimeout);
+                }
                 //---------------------------------------------------------------------------------------
             });
         });

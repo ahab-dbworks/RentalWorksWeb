@@ -943,6 +943,10 @@ export class FormDesign extends SettingsModule {
         this.moduleName = 'FormDesign';
         this.moduleId = '4DFEC75D-C33A-4358-9EF1-4D1F5F9C5D73';
         this.moduleCaption = 'Form Design';
+        this.canNew = false;
+        this.canView = false;
+        this.canEdit = false;
+        this.canDelete = false;
     }
     //---------------------------------------------------------------------------------------
 }

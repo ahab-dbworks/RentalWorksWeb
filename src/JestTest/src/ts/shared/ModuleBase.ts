@@ -26,6 +26,10 @@ export class ModuleBase {
     moduleName: string;
     moduleId: string;
     moduleCaption: string;
+    canNew: boolean = true;
+    canView: boolean = true;
+    canEdit: boolean = true;
+    canDelete: boolean = true;
     globalScopeRef = GlobalScope;
 
     //---------------------------------------------------------------------------------------
