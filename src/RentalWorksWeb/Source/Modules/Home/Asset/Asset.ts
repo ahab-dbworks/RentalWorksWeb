@@ -203,7 +203,7 @@ class RwAsset {
             <div class="field" data-caption="Bar Code" data-datafield="BarCode" data-browsedatatype="text" data-sort="asc"></div>
           </div>
           <div class="column flexcolumn" max-width="250px" data-visible="true">
-            <div class="field" data-caption="Serial Number" data-datafield="SerialNumber" data-browsedatatype="text" data-sort="off"></div>
+            <div class="field" data-caption="Serial Number" data-datafield="SerialNumber" data-browsedatatype="text" data-sort="asc"></div>
           </div>
           <div class="column flexcolumn" max-width="150px" data-visible="true">
             <div class="field" data-caption="I-Code" data-datafield="ICode" data-browsedatatype="text" data-sort="off"></div>
