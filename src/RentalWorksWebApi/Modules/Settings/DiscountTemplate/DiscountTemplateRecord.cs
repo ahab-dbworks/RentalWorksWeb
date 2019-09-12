@@ -63,7 +63,7 @@ namespace WebApi.Modules.Settings.DiscountTemplate
         public decimal? SpaceDaysPerWeek { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "locationid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, required: true)]
-        public string LocationId { get; set; }
+        public string OfficeLocationId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "companyid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string CompanyId { get; set; }

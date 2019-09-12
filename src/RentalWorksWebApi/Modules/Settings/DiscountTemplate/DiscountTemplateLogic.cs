@@ -21,10 +21,10 @@ namespace WebApi.Modules.Settings.DiscountTemplate
         public string DiscountTemplate { get { return discountTemplate.DiscountTemplate; } set { discountTemplate.DiscountTemplate = value; } }
 
         [FwLogicProperty(Id:"ArUtQy8HB0cE")]
-        public string LocationId { get { return discountTemplate.LocationId; } set { discountTemplate.LocationId = value; } }
+        public string OfficeLocationId { get { return discountTemplate.OfficeLocationId; } set { discountTemplate.OfficeLocationId = value; } }
 
         [FwLogicProperty(Id:"3gPd8bD7CGmQ", IsReadOnly:true)]
-        public string Location { get; set; }
+        public string OfficeLocation { get; set; }
 
         [FwLogicProperty(Id:"YY8obcU6REQV")]
         public bool? IsCompany { get { return discountTemplate.IsCompany; } set { discountTemplate.IsCompany = value; } }

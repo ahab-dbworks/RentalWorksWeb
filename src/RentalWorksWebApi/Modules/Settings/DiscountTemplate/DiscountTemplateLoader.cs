@@ -17,10 +17,10 @@ namespace WebApi.Modules.Settings.DiscountTemplate
         public string DiscountTemplate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "locationid", modeltype: FwDataTypes.Text)]
-        public string LocationId { get; set; }
+        public string OfficeLocationId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "location", modeltype: FwDataTypes.Text)]
-        public string Location { get; set; }
+        public string OfficeLocation { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "iscompany", modeltype: FwDataTypes.Boolean)]
         public bool? IsCompany { get; set; }

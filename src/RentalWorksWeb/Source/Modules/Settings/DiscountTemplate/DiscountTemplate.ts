@@ -110,6 +110,10 @@
         $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 
+        if (mode === 'NEW') {
+            const office = JSON.parse(sessionStorage.getItem('location'));
+            FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', office.locationid, office.location);
+        }
         return $form;
     }
 
@@ -143,13 +147,13 @@
         const $discountItemMiscControl = $form.find('[data-name="DiscountItemMiscGrid"]');
         FwBrowse.search($discountItemMiscControl);
 
-        const rentalDays = parseFloat(FwFormField.getValueByDataField($form, 'RentalDaysPerWeek'));
-        const rentalDecimals = rentalDays.toFixed(3);
-        FwFormField.setValueByDataField($form, 'RentalDaysPerWeek', rentalDecimals);
+        //const rentalDays = parseFloat(FwFormField.getValueByDataField($form, 'RentalDaysPerWeek'));
+        //const rentalDecimals = rentalDays.toFixed(3);
+        //FwFormField.setValueByDataField($form, 'RentalDaysPerWeek', rentalDecimals);
 
-        const spaceDays = parseFloat(FwFormField.getValueByDataField($form, 'SpaceDaysPerWeek'));
-        const spaceDecimals = spaceDays.toFixed(3);
-        FwFormField.setValueByDataField($form, 'SpaceDaysPerWeek', spaceDecimals);
+        //const spaceDays = parseFloat(FwFormField.getValueByDataField($form, 'SpaceDaysPerWeek'));
+        //const spaceDecimals = spaceDays.toFixed(3);
+        //FwFormField.setValueByDataField($form, 'SpaceDaysPerWeek', spaceDecimals);
     }
 }
 
