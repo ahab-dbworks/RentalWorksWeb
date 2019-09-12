@@ -76,8 +76,6 @@ FwApplicationTree.clickEvents[Constants.Grids.ContractDetailGrid.menuItems.VoidI
 
                 if (contractType === 'OUT') {
                     request.ReturnToInventory = FwFormField.getValueByDataField($confirmation, 'ReturnToInventory');
-                } else {
-                    request.ReturnToInventory = 'F';
                 }
             
                 FwAppData.apiMethod(true, 'POST', `api/v1/contractitemdetail/voiditems`, request, FwServices.defaultTimeout,

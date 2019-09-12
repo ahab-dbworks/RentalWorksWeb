@@ -17,11 +17,10 @@ namespace WebApi.Modules.Home.ContractItemDetail
     }
     public class VoidItemsRequest
     {
-        public List<ContractItem> Items { get; set; } = new List<ContractItem>();
-      
-        public string ReturnToInventory { get; set; }
-        public string Reason { get; set; }
         public string ContractId { get; set; }
+        public List<ContractItem> Items { get; set; } = new List<ContractItem>();
+        public string Reason { get; set; }
+        public bool? ReturnToInventory { get; set; }
     }
     public static class ContractItemDetailFunc
     {
@@ -33,22 +32,22 @@ namespace WebApi.Modules.Home.ContractItemDetail
             {
                 foreach (ContractItem Item in request.Items)
                 {
-                    FwSqlCommand qry = new FwSqlCommand(conn, "voidcontractitem2", appConfig.DatabaseSettings.QueryTimeout);
+                    FwSqlCommand qry = new FwSqlCommand(conn, "voidcontractitemweb", appConfig.DatabaseSettings.QueryTimeout);
                     qry.AddParameter("@contractid", SqlDbType.NVarChar, ParameterDirection.Input, request.ContractId);
                     qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, Item.OrderId);
                     qry.AddParameter("@masteritemid", SqlDbType.NVarChar, ParameterDirection.Input, Item.OrderItemId);
                     qry.AddParameter("@vendorid", SqlDbType.NVarChar, ParameterDirection.Input, Item.VendorId);
                     qry.AddParameter("@barcode", SqlDbType.NVarChar, ParameterDirection.Input, Item.BarCode);
                     qry.AddParameter("@qty", SqlDbType.Int, ParameterDirection.Input, Item.Quantity);
-                    qry.AddParameter("@returntoinventory", SqlDbType.NVarChar, ParameterDirection.Input, request.ReturnToInventory);
+                    qry.AddParameter("@returntoinventory", SqlDbType.NVarChar, ParameterDirection.Input, request.ReturnToInventory.GetValueOrDefault(false));
                     qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
                     qry.AddParameter("@reason", SqlDbType.NVarChar, ParameterDirection.Input, request.Reason);
-                    qry.AddParameter("@success", SqlDbType.NVarChar, ParameterDirection.Output);
+                    qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
                     qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
                     await qry.ExecuteNonQueryAsync();
-                    response.success = (qry.GetParameter("@success").ToString() == "T" ? true : false);
+                    response.status = qry.GetParameter("@status").ToInt32();
+                    response.success = (response.status == 0);
                     response.msg = qry.GetParameter("@msg").ToString();
-
                     if (!response.success)
                     {
                         break;
