@@ -68,7 +68,14 @@ export class SettingsModule extends ModuleBase {
         return openBrowseResponse;
     }
     //---------------------------------------------------------------------------------------
-    async openRecord(index?: number, sleepAfterOpening?: number): Promise<void> {
+    async openRecord(index?: number, sleepAfterOpening?: number): Promise<OpenRecordResponse> {
+        let openRecordResponse: OpenRecordResponse = new OpenRecordResponse();
+        openRecordResponse.opened = false;
+        openRecordResponse.record = null;
+        openRecordResponse.errorMessage = "form not opened";
+
+        let formCountBefore = await this.countOpenForms();
+
         if (index == undefined) {
             index = 1;
         }
@@ -85,7 +92,8 @@ export class SettingsModule extends ModuleBase {
         //let elementHandle = records[0];
         //await page.click(elementHandle, { clickCount: 1 });
 
-        let selector = `.panel-group[id="${this.moduleName}"] .panel-primary .panel-collapse .panel-body .panel-record`;
+        //let selector = `.panel-group[id="${this.moduleName}"] .panel-primary .panel-collapse .panel-body .panel-record`;
+        let selector = `.panel-group[id="${this.moduleName}"] .panel-primary .panel-collapse .panel-body .panel-record .row-heading:not(.inactive-panel)`;
 
         let records = await page.$$eval(selector, (e: any) => { return e; });
         var recordCount;
@@ -96,15 +104,62 @@ export class SettingsModule extends ModuleBase {
             recordCount = records.length;
         }
 
-        if (recordCount > 0) {
-            await page.waitForSelector(selector);  // this only works for the first record??
+        if (recordCount == 0) {
+            openRecordResponse.opened = true;
+            openRecordResponse.record = null;
+            openRecordResponse.errorMessage = "";
+        }
+        else {
+            await page.waitForSelector(selector);
+            Logging.logInfo(`About to click the first row.`);
             await page.click(selector);
-            await ModuleBase.wait(300); // let the row render
+
+            try {
+                await page.waitFor(() => document.querySelector('.pleasewait'), { timeout: 3000 });
+            } catch (error) { } // assume that we missed the Please Wait dialog
+
+            await page.waitFor(() => !document.querySelector('.pleasewait'));
+            Logging.logInfo(`Finished waiting for the Please Wait dialog.`);
+
+
+            var popUp;
+            try {
+                popUp = await page.waitForSelector('.advisory', { timeout: 500 });
+            } catch (error) { } // no error pop-up
+
+            if (popUp !== undefined) {
+                let errorMessage = await page.$eval('.advisory', el => el.textContent);
+                openRecordResponse.opened = false;
+                openRecordResponse.record = null;
+                openRecordResponse.errorMessage = errorMessage;
+
+                Logging.logError(`Error opening ${this.moduleCaption} form: ` + errorMessage);
+
+                const options = await page.$$('.advisory .fwconfirmation-button');
+                await options[0].click() // click "OK" option
+                    .then(() => {
+                        Logging.logInfo(`Clicked the "OK" button.`);
+                    })
+            }
+            else {
+
+                let formCountAfter = await this.countOpenForms();
+                if (formCountAfter == formCountBefore + 1) {
+
+                    openRecordResponse.opened = true;
+                    openRecordResponse.errorMessage = "";
+                    openRecordResponse.record = await this.getFormRecord();
+                    openRecordResponse.keys = await this.getFormKeys();
+
+                    if (sleepAfterOpening > 0) {
+                        await ModuleBase.wait(sleepAfterOpening);
+                    }
+                }
+            }
         }
 
-        if (sleepAfterOpening > 0) {
-            await ModuleBase.wait(sleepAfterOpening);
-        }
+        return openRecordResponse;
+
     }
     //---------------------------------------------------------------------------------------
     async openFirstRecordIfAny(sleepAfterOpening?: number): Promise<OpenRecordResponse> {
@@ -114,13 +169,14 @@ export class SettingsModule extends ModuleBase {
         openRecordResponse.record = null;
         openRecordResponse.errorMessage = "form not opened";
 
+        let formCountBefore = await this.countOpenForms();
+
         //let selector = `.panel-group[id="${this.moduleName}"] .panel-primary .panel-collapse .panel-body .panel-record .row-heading`;
         let selector = `.panel-group[id="${this.moduleName}"] .panel-primary .panel-collapse .panel-body .panel-record .row-heading:not(.inactive-panel)`;
         var records;
         var recordCount;
         try {
             Logging.logInfo(`About to check for records in the ${this.moduleName} module`);
-            //await page.waitForSelector(selector, { visible: true });
             records = await page.$$eval(selector, (e: any) => { return e; });
         } catch (error) { } // no records found
 
@@ -172,14 +228,19 @@ export class SettingsModule extends ModuleBase {
                     })
             }
             else {
-                openRecordResponse.opened = true;
-                openRecordResponse.errorMessage = "";
-                openRecordResponse.record = await this.getFormRecord();
-                openRecordResponse.keys = await this.getFormKeys();
-            }
 
-            if (sleepAfterOpening > 0) {
-                await ModuleBase.wait(sleepAfterOpening);
+                let formCountAfter = await this.countOpenForms();
+                if (formCountAfter == formCountBefore + 1) {
+
+                    openRecordResponse.opened = true;
+                    openRecordResponse.errorMessage = "";
+                    openRecordResponse.record = await this.getFormRecord();
+                    openRecordResponse.keys = await this.getFormKeys();
+
+                    if (sleepAfterOpening > 0) {
+                        await ModuleBase.wait(sleepAfterOpening);
+                    }
+                }
             }
         }
         return openRecordResponse;

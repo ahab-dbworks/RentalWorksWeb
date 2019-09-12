@@ -134,17 +134,67 @@ export class ModuleBase {
 
     }
     //---------------------------------------------------------------------------------------
-    async openRecord(index?: number, sleepAfterOpening?: number): Promise<void> {
+    async openRecord(index?: number, sleepAfterOpening?: number): Promise<OpenRecordResponse> {
+        let openRecordResponse: OpenRecordResponse = new OpenRecordResponse();
+        openRecordResponse.opened = false;
+        openRecordResponse.record = null;
+        openRecordResponse.errorMessage = "form not opened";
+
+        let formCountBefore = await this.countOpenForms();
+
         if (index == undefined) {
             index = 1;
         }
-        await page.waitForSelector(`.fwbrowse tbody tr.viewmode:nth-child(${index})`);
-        await page.click('.fwbrowse tbody tr.viewmode', { clickCount: 2 });
-        await page.waitFor(() => document.querySelector('.pleasewait'));
+        let selector = `.fwbrowse tbody tr.viewmode:nth-child(${index})`;
+        await page.waitForSelector(selector);
+        selector = `.fwbrowse tbody tr.viewmode`;
+        await page.click(selector, { clickCount: 2 });
+        //await page.waitFor(() => document.querySelector('.pleasewait'));
+        //await page.waitFor(() => !document.querySelector('.pleasewait'));
+
+        try {
+            await page.waitFor(() => document.querySelector('.pleasewait'), { timeout: 3000 });
+        } catch (error) { } // assume that we missed the Please Wait dialog
+
         await page.waitFor(() => !document.querySelector('.pleasewait'));
-        if (sleepAfterOpening > 0) {
-            await ModuleBase.wait(sleepAfterOpening);
+        Logging.logInfo(`Finished waiting for the Please Wait dialog.`);
+
+
+        var popUp;
+        try {
+            popUp = await page.waitForSelector('.advisory', { timeout: 500 });
+        } catch (error) { } // no error pop-up
+
+        if (popUp !== undefined) {
+            let errorMessage = await page.$eval('.advisory', el => el.textContent);
+            openRecordResponse.opened = false;
+            openRecordResponse.record = null;
+            openRecordResponse.errorMessage = errorMessage;
+
+            Logging.logError(`Error opening ${this.moduleCaption} form: ` + errorMessage);
+
+            const options = await page.$$('.advisory .fwconfirmation-button');
+            await options[0].click() // click "OK" option
+                .then(() => {
+                    Logging.logInfo(`Clicked the "OK" button.`);
+                })
         }
+        else {
+            let formCountAfter = await this.countOpenForms();
+            if (formCountAfter == formCountBefore + 1) {
+
+                openRecordResponse.opened = true;
+                openRecordResponse.errorMessage = "";
+                openRecordResponse.record = await this.getFormRecord();
+                openRecordResponse.keys = await this.getFormKeys();
+
+                if (sleepAfterOpening > 0) {
+                    await ModuleBase.wait(sleepAfterOpening);
+                }
+            }
+        }
+
+        return openRecordResponse;
     }
     //---------------------------------------------------------------------------------------
     async openFirstRecordIfAny(sleepAfterOpening?: number): Promise<OpenRecordResponse> {
@@ -152,6 +202,8 @@ export class ModuleBase {
         openRecordResponse.opened = false;
         openRecordResponse.record = null;
         openRecordResponse.errorMessage = "form not opened";
+
+        let formCountBefore = await this.countOpenForms();
 
         let selector = `.fwbrowse tbody tr.viewmode`;
         let records = await page.$$eval(selector, (e: any) => { return e; });
@@ -204,14 +256,17 @@ export class ModuleBase {
                     })
             }
             else {
-                openRecordResponse.opened = true;
-                openRecordResponse.errorMessage = "";
-                openRecordResponse.record = await this.getFormRecord();
-                openRecordResponse.keys = await this.getFormKeys();
-            }
+                let formCountAfter = await this.countOpenForms();
+                if (formCountAfter == formCountBefore + 1) {
+                    openRecordResponse.opened = true;
+                    openRecordResponse.errorMessage = "";
+                    openRecordResponse.record = await this.getFormRecord();
+                    openRecordResponse.keys = await this.getFormKeys();
 
-            if (sleepAfterOpening > 0) {
-                await ModuleBase.wait(sleepAfterOpening);
+                    if (sleepAfterOpening > 0) {
+                        await ModuleBase.wait(sleepAfterOpening);
+                    }
+                }
             }
         }
         return openRecordResponse;
