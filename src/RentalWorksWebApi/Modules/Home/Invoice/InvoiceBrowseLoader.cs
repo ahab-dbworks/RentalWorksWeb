@@ -143,6 +143,14 @@ namespace WebApi.Modules.Home.Invoice
                 select.AddParameter("@orderid", orderId);
             }
 
+            string inventoryId = GetUniqueIdAsString("InventoryId", request) ?? "";
+            if (!string.IsNullOrEmpty(inventoryId))
+            {
+                select.AddWhere("exists (select * from invoiceitem ii where ii.invoiceid = " + TableAlias + ".invoiceid and ii.masterid = @masterid)");
+                select.AddParameter("@masterid", inventoryId);
+            }
+
+
             AddActiveViewFieldToSelect("Status", "status", select, request);
             AddActiveViewFieldToSelect("LocationId", "locationid", select, request);
 

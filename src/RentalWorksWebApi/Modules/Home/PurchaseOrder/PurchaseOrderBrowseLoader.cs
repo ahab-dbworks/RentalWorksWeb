@@ -115,13 +115,19 @@ namespace WebApi.Modules.Home.PurchaseOrder
             addFilterToSelect("OfficeLocationId", "locationid", select, request);
             addFilterToSelect("WarehouseId", "warehouseid", select, request);
             addFilterToSelect("VendorId", "VendorId", select, request);
-            //addFilterToSelect("OrderId", "poorderid", select, request);
-            string orderId = GetUniqueIdAsString("OrderId", request) ?? "";
 
+            string orderId = GetUniqueIdAsString("OrderId", request) ?? "";
             if (!string.IsNullOrEmpty(orderId))
             {
                 select.AddWhere("exists (select * from poorder poo where poo.poid = " + TableAlias + ".orderid and poo.orderid = @orderid)");
                 select.AddParameter("@orderid", orderId);
+            }
+
+            string inventoryId = GetUniqueIdAsString("InventoryId", request) ?? "";
+            if (!string.IsNullOrEmpty(inventoryId))
+            {
+                select.AddWhere("exists (select * from masteritem mi where mi.orderid = " + TableAlias + ".orderid and mi.masterid = @masterid)");
+                select.AddParameter("@masterid", inventoryId);
             }
 
 

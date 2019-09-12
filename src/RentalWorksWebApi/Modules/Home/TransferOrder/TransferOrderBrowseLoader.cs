@@ -91,22 +91,34 @@ namespace WebApi.Modules.Home.TransferOrder
             select.Parse();
 
             addFilterToSelect("OfficeLocationId", "locationid", select, request);
-            //addFilterToSelect("WarehouseId", "warehouseid", select, request);
             addFilterToSelect("DepartmentId", "departmentid", select, request);
 
 
-            //AddActiveViewFieldToSelect("WarehouseId", "warehouseid", select, request);
             AddActiveViewFieldToSelect("LocationId", "locationid", select, request);
 
 
-            if ((request != null) && (request.uniqueids != null))
+            //if ((request != null) && (request.uniqueids != null))
+            //{
+            //    IDictionary<string, object> uniqueIds = ((IDictionary<string, object>)request.uniqueids);
+            //    if (uniqueIds.ContainsKey("WarehouseId"))
+            //    {
+            //        select.AddWhere("(warehouseid = @warehouseid1 or fromwarehouseid = @warehouseid1)");
+            //        select.AddParameter("@warehouseid1", uniqueIds["WarehouseId"].ToString());
+            //    }
+            //}
+
+            string warehouseId = GetUniqueIdAsString("WarehouseId", request) ?? "";
+            if (!string.IsNullOrEmpty(warehouseId))
             {
-                IDictionary<string, object> uniqueIds = ((IDictionary<string, object>)request.uniqueids);
-                if (uniqueIds.ContainsKey("WarehouseId"))
-                {
-                    select.AddWhere("(warehouseid = @warehouseid1 or fromwarehouseid = @warehouseid1)");
-                    select.AddParameter("@warehouseid1", uniqueIds["WarehouseId"].ToString());
-                }
+                select.AddWhere("(warehouseid = @warehouseid1 or fromwarehouseid = @warehouseid1)");
+                select.AddParameter("@warehouseid1", warehouseId);
+            }
+
+            string inventoryId = GetUniqueIdAsString("InventoryId", request) ?? "";
+            if (!string.IsNullOrEmpty(inventoryId))
+            {
+                select.AddWhere("exists (select * from masteritem mi where mi.orderid = " + TableAlias + ".orderid and mi.masterid = @masterid)");
+                select.AddParameter("@masterid", inventoryId);
             }
 
             if ((request != null) && (request.activeviewfields != null))

@@ -282,18 +282,20 @@ namespace WebApi.Modules.Home.Order
                 select.AddWhere("exists (select * from masteritem mi with (nolock) join ordertran ot with (nolock) on (mi.orderid = ot.orderid and mi.masteritemid = ot.masteritemid) where mi.orderid = " + TableAlias + ".orderid and mi.rectype = '" + RwConstants.RECTYPE_RENTAL + "'" + " and ot.itemstatus = 'O'" + ")");  // has Rentals Out
             }
 
-
-
-
-            if ((request != null) && (request.uniqueids != null))
+            string contactId = GetUniqueIdAsString("ContactId", request) ?? "";
+            if (!string.IsNullOrEmpty(contactId))
             {
-                IDictionary<string, object> uniqueIds = ((IDictionary<string, object>)request.uniqueids);
-                if (uniqueIds.ContainsKey("ContactId"))
-                {
-                    select.AddWhere("exists (select * from ordercontact oc where oc.orderid = " + TableAlias + ".orderid and oc.contactid = @contactid)");
-                    select.AddParameter("@contactid", uniqueIds["ContactId"].ToString());
-                }
+                select.AddWhere("exists (select * from ordercontact oc where oc.orderid = " + TableAlias + ".orderid and oc.contactid = @contactid)");
+                select.AddParameter("@contactid", contactId);
             }
+
+            string inventoryId = GetUniqueIdAsString("InventoryId", request) ?? "";
+            if (!string.IsNullOrEmpty(inventoryId))
+            {
+                select.AddWhere("exists (select * from masteritem mi where mi.orderid = " + TableAlias + ".orderid and mi.masterid = @masterid)");
+                select.AddParameter("@masterid", inventoryId);
+            }
+
 
             AddActiveViewFieldToSelect("Status", "status", select, request);
             if (UserSession.UserType == "USER")
