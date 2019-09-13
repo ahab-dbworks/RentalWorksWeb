@@ -15,6 +15,12 @@ export class OpenRecordResponse {
     errorMessage: string;
 }
 
+export class ClickAllTabsResponse {
+    success: boolean;
+    tabCount: number;
+    errorMessage: string;
+}
+
 export class SaveResponse {
     saved: boolean;
     errorMessage: string;
@@ -75,7 +81,7 @@ export class ModuleBase {
 
         // find the browse column headers
         Logging.logInfo(`Opened ${this.moduleCaption} module`);
-        await page.waitForSelector(`.fwbrowse .fieldnames`); 
+        await page.waitForSelector(`.fwbrowse .fieldnames`);
 
         // wait for the module to try to open, then check for errors
         var popUp;
@@ -277,6 +283,71 @@ export class ModuleBase {
             }
         }
         return openRecordResponse;
+    }
+    //---------------------------------------------------------------------------------------
+    async clickAllTabsOnForm(): Promise<ClickAllTabsResponse> {
+        let clickAllTabsResponse: ClickAllTabsResponse = new ClickAllTabsResponse();
+        clickAllTabsResponse.success = false;
+        clickAllTabsResponse.tabCount = 0;
+        clickAllTabsResponse.errorMessage = "tabs not clicked";
+
+        let errorFound = false;
+
+        let openFormCount = await this.countOpenForms();
+        if (openFormCount > 0) {
+
+            let tabSelector = `div .fwform .fwtabs .tab`;
+            const tabs = await page.$$(tabSelector);
+            clickAllTabsResponse.tabCount = tabs.length;
+
+            if (clickAllTabsResponse.tabCount > 0) {
+                for (let tab of tabs) {
+                    let styleAttributeValue: string = await page.evaluate(el => el.getAttribute('style'), tab);
+                    if ((styleAttributeValue === undefined) || (styleAttributeValue == null)) {
+                        styleAttributeValue = "";
+                    }
+                    if (!styleAttributeValue.replace(' ', '').includes("display:none")) {  // only try to click on the tab if it is visible
+                        await tab.click(); // click the tab
+
+                        // wait 300 milliseconds, then check for a Please Wait dialog
+                        var pleaseWaitDialog;
+                        try {
+                            pleaseWaitDialog = await page.waitFor(() => document.querySelector('.pleasewait'), { timeout: 300 });
+                        } catch (error) { } // assume that we missed the Please Wait dialog
+
+                        // if Please Wait dialog found, wait for it to go away
+                        if (pleaseWaitDialog !== undefined) {
+                            await page.waitFor(() => !document.querySelector('.pleasewait'));
+                        }
+
+                        // wait 300 milliseconds, then check for any errors
+                        var popUp;
+                        try {
+                            popUp = await page.waitForSelector('.advisory', { timeout: 300 });
+                        } catch (error) { } // no error pop-up
+
+                        if (popUp !== undefined) {
+                            errorFound = true;
+                            let errorMessage = await page.$eval('.advisory', el => el.textContent);
+                            clickAllTabsResponse.errorMessage = errorMessage;
+
+                            Logging.logError(`Error clicking ${tab} tab: ` + errorMessage);
+
+                            const options = await page.$$('.advisory .fwconfirmation-button');
+                            await options[0].click() // click "OK" option
+                                .then(() => {
+                                    Logging.logInfo(`Clicked the "OK" button.`);
+                                })
+                        }
+                    }
+                }
+            }
+        }
+        if (!errorFound) {
+            clickAllTabsResponse.success = true;
+            clickAllTabsResponse.errorMessage = "";
+        }
+        return clickAllTabsResponse;
     }
     //---------------------------------------------------------------------------------------
     async deleteRecord(index?: number, sleepAfterDeleting?: number): Promise<void> {

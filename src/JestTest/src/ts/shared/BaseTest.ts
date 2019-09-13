@@ -2,7 +2,7 @@
 import { Logging } from '../shared/Logging';
 import { TestUtils, LoginResponse, LogoutResponse } from '../shared/TestUtils';
 import { ModuleBase } from '../shared/ModuleBase';
-import { SaveResponse, OpenBrowseResponse, OpenRecordResponse } from '../shared/ModuleBase';
+import { SaveResponse, OpenBrowseResponse, OpenRecordResponse, ClickAllTabsResponse } from '../shared/ModuleBase';
 import { GlobalScope } from '../shared/GlobalScope';
 
 export abstract class BaseTest {
@@ -114,7 +114,7 @@ export abstract class BaseTest {
         });
     }
     //---------------------------------------------------------------------------------------
-    async TestModuleOpenBrowseOpenFirstFormIfAny(module: ModuleBase, registerGlobal?: boolean) {
+    async TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(module: ModuleBase, registerGlobal?: boolean) {
         let testName: string = "";
         describe(module.moduleCaption, () => {
             const testCollectionName = `Open browse and first form (if any)`;
@@ -129,6 +129,7 @@ export abstract class BaseTest {
                 }, this.testTimeout);
                 //---------------------------------------------------------------------------------------
                 if (module.canView) {
+                    //if the module supports form viewing, try to open the first form, if any
                     testName = `Open first ${module.moduleCaption} form, if any`;
                     test(testName, async () => {
                         let openRecordResponse: OpenRecordResponse | void = await module.openFirstRecordIfAny();//.then().catch(err => this.LogError(testName, err));
@@ -149,6 +150,17 @@ export abstract class BaseTest {
                         }
 
                     }, this.testTimeout);
+
+                    //if the module supports form viewing, try to click all tabs on the form
+                    testName = `Click all Tabs on the ${module.moduleCaption} form`;
+                    test(testName, async () => {
+                        let clickAllTabsResponse: ClickAllTabsResponse | void = await module.clickAllTabsOnForm();//.then().catch(err => this.LogError(testName, err));
+                        let strictOpenRecordResponse = clickAllTabsResponse as ClickAllTabsResponse;
+                        expect(strictOpenRecordResponse.errorMessage).toBe("");
+                        expect(strictOpenRecordResponse.success).toBeTruthy();
+                    }, this.testTimeout);
+
+
                 }
                 //---------------------------------------------------------------------------------------
             });
