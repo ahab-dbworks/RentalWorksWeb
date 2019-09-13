@@ -277,6 +277,32 @@ namespace WebApi.Modules.Home.Master
         //------------------------------------------------------------------------------------ 
 
 
+        [FwSqlDataField(column: "assetaccountid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        public string AssetAccountId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "incomeaccountid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        public string IncomeAccountId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "subincomeaccountid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        public string SubIncomeAccountId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "equipsaleincomeaccountid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        public string EquipmentSaleIncomeAccountId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "ldincomeaccountid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        public string LdIncomeAccountId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "expenseaccountid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        public string ExpenseAccountId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "cogsexpenseaccountid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        public string CostOfGoodsSoldExpenseAccountId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "cogrexpenseaccountid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        public string CostOfGoodsRentedExpenseAccountId { get; set; }
+        //------------------------------------------------------------------------------------ 
+
+
         /*
                 [FwSqlDataField(column: "replacementcost", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 12, scale: 3)]
                 public decimal? Replacementcost { get; set; }
@@ -413,30 +439,6 @@ namespace WebApi.Modules.Home.Master
                 //------------------------------------------------------------------------------------ 
                 [FwSqlDataField(column: "includeonpicklist", modeltype: FwDataTypes.Boolean, sqltype: "char")]
                 public bool? Includeonpicklist { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "assetaccountid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
-                public string AssetaccountId { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "incomeaccountid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
-                public string IncomeaccountId { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "subincomeaccountid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
-                public string SubincomeaccountId { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "equipsaleincomeaccountid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
-                public string EquipsaleincomeaccountId { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "ldincomeaccountid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
-                public string LdincomeaccountId { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "expenseaccountid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
-                public string ExpenseaccountId { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "cogsexpenseaccountid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
-                public string CogsexpenseaccountId { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "cogrexpenseaccountid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
-                public string CogrexpenseaccountId { get; set; }
                 //------------------------------------------------------------------------------------ 
                 [FwSqlDataField(column: "autoswap", modeltype: FwDataTypes.Boolean, sqltype: "char")]
                 public bool? Autoswap { get; set; }

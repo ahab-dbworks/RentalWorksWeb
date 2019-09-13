@@ -1,10 +1,6 @@
-using FwStandard.Data; 
-using FwStandard.Models; 
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
-using WebApi.Data;
 using WebApi.Modules.Home.Master;
-using System.Collections.Generic;
 
 namespace WebApi.Modules.Home.Inventory
 {
@@ -350,6 +346,78 @@ namespace WebApi.Modules.Home.Inventory
         //------------------------------------------------------------------------------------ 
 
 
+        [FwSqlDataField(column: "assetaccountid", modeltype: FwDataTypes.Text)]
+        public string AssetAccountId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "assetglno", modeltype: FwDataTypes.Text)]
+        public string AssetAccountNo { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "assetglacctdesc", modeltype: FwDataTypes.Text)]
+        public string AssetAccountDescription { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "incomeaccountid", modeltype: FwDataTypes.Text)]
+        public string IncomeAccountId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "incomeglno", modeltype: FwDataTypes.Text)]
+        public string IncomeAccountNo { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "incomeglacctdesc", modeltype: FwDataTypes.Text)]
+        public string IncomeAccountDescription { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "subincomeaccountid", modeltype: FwDataTypes.Text)]
+        public string SubIncomeAccountId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "subincomeglno", modeltype: FwDataTypes.Text)]
+        public string SubIncomeAccountNo { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "subincomeglacctdesc", modeltype: FwDataTypes.Text)]
+        public string SubIncomeAccountDescription { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "ldincomeaccountid", modeltype: FwDataTypes.Text)]
+        public string LdIncomeAccountId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "ldincomeglno", modeltype: FwDataTypes.Text)]
+        public string LdIncomeAccountNo { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "ldincomeglacctdesc", modeltype: FwDataTypes.Text)]
+        public string LdIncomeAccountDescription { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "equipsaleincomeaccountid", modeltype: FwDataTypes.Text)]
+        public string EquipmentSaleIncomeAccountId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "equipsaleincomeglno", modeltype: FwDataTypes.Text)]
+        public string EquipmentSaleIncomeAccountNo { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "equipsaleincomeglacctdesc", modeltype: FwDataTypes.Text)]
+        public string EquipmentSaleIncomeAccountDescription { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "expenseaccountid", modeltype: FwDataTypes.Text)]
+        public string ExpenseAccountId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "expenseglno", modeltype: FwDataTypes.Text)]
+        public string ExpenseAccountNo { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "expenseglacctdesc", modeltype: FwDataTypes.Text)]
+        public string ExpenseAccountDescription { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "cogsexpenseaccountid", modeltype: FwDataTypes.Text)]
+        public string CostOfGoodsSoldExpenseAccountId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "cogsexpenseglno", modeltype: FwDataTypes.Text)]
+        public string CostOfGoodsSoldExpenseAccountNo { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "cogsexpenseglacctdesc", modeltype: FwDataTypes.Text)]
+        public string CostOfGoodsSoldExpenseAccountDescription { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "cogrexpenseaccountid", modeltype: FwDataTypes.Text)]
+        public string CostOfGoodsRentedExpenseAccountId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "cogrexpenseglno", modeltype: FwDataTypes.Text)]
+        public string CostOfGoodsRentedExpenseAccountNo { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "cogrexpenseglacctdesc", modeltype: FwDataTypes.Text)]
+        public string CostOfGoodsRentedExpenseAccountDescription { get; set; }
+        //------------------------------------------------------------------------------------
 
     }
 }

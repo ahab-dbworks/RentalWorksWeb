@@ -118,6 +118,77 @@ namespace WebApi.Modules.Home.Master
         [FwLogicProperty(Id:"gZ4v469tyiMq")]
         public bool? PrintNoteOnPoReturnList { get { return master.PrintNoteOnPoReturnList; } set { master.PrintNoteOnPoReturnList = value; } }
 
+        [FwLogicProperty(Id: "TsG6I0pB3nio1")]
+        public string AssetAccountId { get { return master.AssetAccountId; } set { master.AssetAccountId = value; } }
+
+        [FwLogicProperty(Id: "83WU6Loq3MakM", IsReadOnly: true)]
+        public string AssetAccountNo { get; set; }
+
+        [FwLogicProperty(Id: "1ZrintrYVNul6", IsReadOnly: true)]
+        public string AssetAccountDescription { get; set; }
+
+        [FwLogicProperty(Id: "6ZPy6P7YU1uFS")]
+        public string IncomeAccountId { get { return master.IncomeAccountId; } set { master.IncomeAccountId = value; } }
+
+        [FwLogicProperty(Id: "EiM71G42Sf4v2", IsReadOnly: true)]
+        public string IncomeAccountNo { get; set; }
+
+        [FwLogicProperty(Id: "flweJl1nNtULa", IsReadOnly: true)]
+        public string IncomeAccountDescription { get; set; }
+
+        [FwLogicProperty(Id: "k0wmUu8ndNzuM")]
+        public string SubIncomeAccountId { get { return master.SubIncomeAccountId; } set { master.SubIncomeAccountId = value; } }
+
+        [FwLogicProperty(Id: "F4IpPKscn8Fa8", IsReadOnly: true)]
+        public string SubIncomeAccountNo { get; set; }
+
+        [FwLogicProperty(Id: "dxJUicVubKIsV", IsReadOnly: true)]
+        public string SubIncomeAccountDescription { get; set; }
+
+        [FwLogicProperty(Id: "ka675xLmATkqe")]
+        public string LdIncomeAccountId { get { return master.LdIncomeAccountId; } set { master.LdIncomeAccountId = value; } }
+
+        [FwLogicProperty(Id: "wjQ4dZDO2L5I8", IsReadOnly: true)]
+        public string LdIncomeAccountNo { get; set; }
+
+        [FwLogicProperty(Id: "TYp5FnLi7EB1Z", IsReadOnly: true)]
+        public string LdIncomeAccountDescription { get; set; }
+
+        [FwLogicProperty(Id: "qcPq3Ldm9oxVp")]
+        public string EquipmentSaleIncomeAccountId { get { return master.EquipmentSaleIncomeAccountId; } set { master.EquipmentSaleIncomeAccountId = value; } }
+
+        [FwLogicProperty(Id: "3NOqgj0x3cZCL", IsReadOnly: true)]
+        public string EquipmentSaleIncomeAccountNo { get; set; }
+
+        [FwLogicProperty(Id: "sRIPsrJxWkSjR", IsReadOnly: true)]
+        public string EquipmentSaleIncomeAccountDescription { get; set; }
+
+        [FwLogicProperty(Id: "vxIDCdWfsxiMp")]
+        public string ExpenseAccountId { get { return master.ExpenseAccountId; } set { master.ExpenseAccountId = value; } }
+
+        [FwLogicProperty(Id: "ypxs38RNHYNWH", IsReadOnly: true)]
+        public string ExpenseAccountNo { get; set; }
+
+        [FwLogicProperty(Id: "MXUSNvDK3wdOG", IsReadOnly: true)]
+        public string ExpenseAccountDescription { get; set; }
+
+        [FwLogicProperty(Id: "N9yqsnfAAezwa")]
+        public string CostOfGoodsSoldExpenseAccountId { get { return master.CostOfGoodsSoldExpenseAccountId; } set { master.CostOfGoodsSoldExpenseAccountId = value; } }
+
+        [FwLogicProperty(Id: "O2utjCUtlVL45", IsReadOnly: true)]
+        public string CostOfGoodsSoldExpenseAccountNo { get; set; }
+
+        [FwLogicProperty(Id: "GxC9FyFMualx1", IsReadOnly: true)]
+        public string CostOfGoodsSoldExpenseAccountDescription { get; set; }
+
+        [FwLogicProperty(Id: "ghW57upCinRhV")]
+        public string CostOfGoodsRentedExpenseAccountId { get { return master.CostOfGoodsRentedExpenseAccountId; } set { master.CostOfGoodsRentedExpenseAccountId = value; } }
+
+        [FwLogicProperty(Id: "VE1nDApvjihPh", IsReadOnly: true)]
+        public string CostOfGoodsRentedExpenseAccountNo { get; set; }
+
+        [FwLogicProperty(Id: "MmZUwR6995DXo", IsReadOnly: true)]
+        public string CostOfGoodsRentedExpenseAccountDescription { get; set; }
 
         [FwLogicProperty(Id:"DlarQ9MMkOEe")]
         public bool? Inactive { get { return master.Inactive; } set { master.Inactive = value; } }
