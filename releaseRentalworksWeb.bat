@@ -81,9 +81,10 @@ git push origin web/v%buildno%
 
 rem command-line gren make Build Release Document
 cd %DwRentalWorksWebPath%\build
-call gren changelog --token=4f42c7ba6af985f6ac6a6c9eba45d8f25388ef58 --username=databaseworks --repo=rentalworksweb --generate --override --changelog-filename=v%buildno%.md -c  ..\config.grenrc
+call gren changelog --token=4f42c7ba6af985f6ac6a6c9eba45d8f25388ef58 --username=databaseworks --repo=rentalworksweb --generate --override --changelog-filename=v%buildno%.md -t web/v%buildno% -c ..\config.grenrc
+start v%buildno%.md
 
-rem want to automate this, but haven't figured it out yet
+rem I really want to automate this, but haven't figured it out yet
 set /p=Manually create the %buildno%.pdf file, then hit ENTER to continue...
 
 rem Need to use curl to publish the PDF file to ZenDesk as a new "article"
