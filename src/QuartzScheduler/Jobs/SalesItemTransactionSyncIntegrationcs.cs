@@ -122,6 +122,9 @@ namespace QuartzScheduler.Jobs
         //---------------------------------------------------------------------------------------------
         public void SaveProcessDate(int id)
         {
+            FwDateTime asof;
+            asof = FwDateTime.Now;
+
             Console.Error.WriteLine();
             Console.Out.WriteLine("Executing: SaveProcessDate.");
             if (verboseLogging)
@@ -132,6 +135,14 @@ namespace QuartzScheduler.Jobs
             using (QuartzSqlCommand qry = new QuartzSqlCommand(syncdbConnectionString, "dbo.processupdatesalestransdate"))
             {
                 qry.AddParameter("@id", id);
+                qry.Execute();
+            }
+
+            using (QuartzSqlCommand qry = new QuartzSqlCommand(rentalworksdbConnectionString))
+            {
+                qry.Add("update controlsync");
+                qry.Add("set    asof = @asof");
+                qry.AddParameter("@asof", asof.GetSqlValue());
                 qry.Execute();
             }
         }

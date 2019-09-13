@@ -123,25 +123,25 @@ namespace QuartzScheduler.Jobs
 
                     try
                     {
-                        qry.AddParameter("@syncinvoiceid", syncInvoice[i].syncinvoiceid);
-                        qry.AddParameter("@invoicetype", syncInvoice[i].invoicetype);
-                        qry.AddParameter("@invoiceno", syncInvoice[i].invoiceno);
-                        qry.AddParameter("@custno", syncInvoice[i].custno);
+                        qry.AddParameter("@syncinvoiceid", syncInvoice[i].syncinvoiceid.ToString().Trim());
+                        qry.AddParameter("@invoicetype", syncInvoice[i].invoicetype.ToString().Trim());
+                        qry.AddParameter("@invoiceno", syncInvoice[i].invoiceno.ToString().Trim());
+                        qry.AddParameter("@custno", syncInvoice[i].custno.ToString().Trim());
                         qry.AddParameter("@invoicedate", syncInvoice[i].invoicedate);
-                        qry.AddParameter("@locationcode", syncInvoice[i].locationcode);
-                        qry.AddParameter("@location", syncInvoice[i].location);
-                        qry.AddParameter("@warehouse", syncInvoice[i].warehouse);
-                        qry.AddParameter("@currencycode", syncInvoice[i].currencycode);
-                        qry.AddParameter("@invoiceitemid", syncInvoice[i].invoiceitemid);
-                        qry.AddParameter("@masterid", syncInvoice[i].masterid);
-                        qry.AddParameter("@description", syncInvoice[i].description);
-                        qry.AddParameter("@unit", syncInvoice[i].unit);
+                        qry.AddParameter("@locationcode", syncInvoice[i].locationcode.ToString().Trim());
+                        qry.AddParameter("@location", syncInvoice[i].location.ToString().Trim());
+                        qry.AddParameter("@warehouse", syncInvoice[i].warehouse.ToString().Trim());
+                        qry.AddParameter("@currencycode", syncInvoice[i].currencycode.ToString().Trim());
+                        qry.AddParameter("@invoiceitemid", syncInvoice[i].invoiceitemid.ToString().Trim());
+                        qry.AddParameter("@masterno", syncInvoice[i].masterno.ToString().Trim());
+                        qry.AddParameter("@description", syncInvoice[i].description.ToString().Trim());
+                        qry.AddParameter("@unit", syncInvoice[i].unit.ToString().Trim());
                         qry.AddParameter("@qty", syncInvoice[i].qty);
                         qry.AddParameter("@cost", syncInvoice[i].cost);
                         qry.AddParameter("@rate", syncInvoice[i].rate);
                         qry.AddParameter("@revenuebase", syncInvoice[i].revenuebase);
                         qry.AddParameter("@costbase", syncInvoice[i].costbase);
-                        qry.AddParameter("@taxable", syncInvoice[i].taxable);
+                        qry.AddParameter("@taxable", syncInvoice[i].taxable.ToString().Trim());
                         qry.AddParameter("@total", syncInvoice[i].total);
                         qry.AddParameter("@discountamt", syncInvoice[i].discountamt);
                         qry.Execute();
@@ -158,6 +158,9 @@ namespace QuartzScheduler.Jobs
         //---------------------------------------------------------------------------------------------
         public void UpdateSyncInvoice(string invoiceId)
         {
+            FwDateTime asof;
+            asof = FwDateTime.Now;
+
             Console.Error.WriteLine();
             Console.Out.WriteLine("Executing: update Sync Invoice in rentalworks database.");
             if (verboseLogging)
@@ -168,6 +171,14 @@ namespace QuartzScheduler.Jobs
             using (QuartzSqlCommand qry = new QuartzSqlCommand(rentalworksdbConnectionString, "dbo.processupdatesyncinvoice"))
             {
                 qry.AddParameter("@invoiceid", invoiceId);
+                qry.Execute();
+            }
+
+            using (QuartzSqlCommand qry = new QuartzSqlCommand(rentalworksdbConnectionString))
+            {
+                qry.Add("update controlsync");
+                qry.Add("set    asof = @asof");
+                qry.AddParameter("@asof", asof.GetSqlValue());
                 qry.Execute();
             }
         }

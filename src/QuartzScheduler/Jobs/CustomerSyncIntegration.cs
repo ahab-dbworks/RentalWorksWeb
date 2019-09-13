@@ -174,6 +174,10 @@ namespace QuartzScheduler.Jobs
         //---------------------------------------------------------------------------------------------
         public void SaveSyncDate()
         {
+            FwDateTime asof;
+
+            asof = FwDateTime.Now;
+
             Console.Error.WriteLine();
             Console.Out.WriteLine("Executing: update controlsync in rentalworks database.");
             if (verboseLogging)
@@ -187,8 +191,10 @@ namespace QuartzScheduler.Jobs
                 using (QuartzSqlCommand qry = new QuartzSqlCommand(rentalworksdbConnectionString))
                 {
                     qry.Add("update controlsync");
-                    qry.Add("set synccustomerdate = @synccustomerdate");
+                    qry.Add("set synccustomerdate = @synccustomerdate,");
+                    qry.Add("    asof             = @asof");
                     qry.AddParameter("@synccustomerdate", syncDate.GetSqlValue());
+                    qry.AddParameter("@asof",             asof.GetSqlValue());
                     qry.Execute();
                 }
             }
