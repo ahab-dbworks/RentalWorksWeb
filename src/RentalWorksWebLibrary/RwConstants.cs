@@ -312,6 +312,11 @@
         public const string INVENTORY_CONFLICT_TYPE_NEGATIVE_DESCRIPTION = "NEGATIVE";
 
 
+        public const string INVENTORY_PACKAGE_PRICE_COMPLETEKIT_PRICE = "CP";
+        public const string INVENTORY_PACKAGE_PRICE_ITEM_PRICE = "IP";
+        public const string INVENTORY_PACKAGE_PRICE_SPECIAL_ITEM_PRICE = "SP";
+
+
 
         // ORDERTRAN
         public const string ORDERTRAN_ITEMSTATUS_STAGED = "S";

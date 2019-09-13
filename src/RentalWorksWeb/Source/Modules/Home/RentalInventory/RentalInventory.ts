@@ -314,7 +314,8 @@ class RentalInventory extends InventoryBase {
         $inventoryKitGrid.empty().append($inventoryKitGridControl);
         $inventoryKitGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
-                PackageId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+                PackageId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val(),
+                WarehouseId: warehouse.warehouseid
             };
         });
         $inventoryKitGridControl.data('beforesave', function (request) {

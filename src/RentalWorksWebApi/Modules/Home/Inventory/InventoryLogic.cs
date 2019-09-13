@@ -2,8 +2,8 @@ using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
 using WebApi.Modules.Home.ItemDimension;
 using WebApi.Modules.Home.Master;
-using WebApi.Logic;
-using static FwStandard.Data.FwDataReadWriteRecord;
+//using WebApi.Logic;
+//using static FwStandard.Data.FwDataReadWriteRecord;
 using System.Reflection;
 using WebLibrary;
 
@@ -403,6 +403,13 @@ namespace WebApi.Modules.Home.Inventory
             {
                 PropertyInfo property = typeof(InventoryLogic).GetProperty(nameof(InventoryLogic.PackageRevenueCalculationFormula));
                 string[] acceptableValues = { RwConstants.INVENTORY_PACKAGE_REVENUE_CALCULATION_FORMULA_USE_REPLACEMENT_COST, RwConstants.INVENTORY_PACKAGE_REVENUE_CALCULATION_FORMULA_USE_UNIT_VALUE };
+                isValid = IsValidStringValue(property, acceptableValues, ref validateMsg);
+            }
+
+            if (isValid)
+            {
+                PropertyInfo property = typeof(InventoryLogic).GetProperty(nameof(InventoryLogic.PackagePrice));
+                string[] acceptableValues = {"", RwConstants.INVENTORY_PACKAGE_PRICE_COMPLETEKIT_PRICE, RwConstants.INVENTORY_PACKAGE_PRICE_ITEM_PRICE, RwConstants.INVENTORY_PACKAGE_PRICE_SPECIAL_ITEM_PRICE };
                 isValid = IsValidStringValue(property, acceptableValues, ref validateMsg);
             }
 

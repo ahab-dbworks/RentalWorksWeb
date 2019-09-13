@@ -675,6 +675,15 @@
             FwFormField.enable($form.find('.completes-tab[data-datafield="OverrideSystemDefaultRevenueAllocationBehavior"]'));
         }
 
+        if (classification === 'C') {
+            $form.find('.pricinggridheading').text();
+            <div class="fwcontrol fwcontainer fwform-section pricinggridheading" data - control="FwContainer" data - type="section" data - caption="Warehouse Pricing" >
+
+        }
+        else if (classification === 'K') {
+        }
+
+
         const overrideDefaultAllocation = FwFormField.getValueByDataField($form, 'OverrideSystemDefaultRevenueAllocationBehavior');
         const allocateRevChecked = FwFormField.getValueByDataField($form, 'AllocateRevenueForAccessories');
         const $allocateRevenueForAcc = $form.find('[data-datafield="AllocateRevenueForAccessories"]');
