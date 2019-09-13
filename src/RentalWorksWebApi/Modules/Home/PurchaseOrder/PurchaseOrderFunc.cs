@@ -82,7 +82,7 @@ namespace WebApi.Modules.Home.PurchaseOrder
             response.Quantity = quantity;
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
             {
-                FwSqlCommand qry = new FwSqlCommand(conn, "receiveitem2", appConfig.DatabaseSettings.QueryTimeout);
+                FwSqlCommand qry = new FwSqlCommand(conn, "receiveitem", appConfig.DatabaseSettings.QueryTimeout);
                 qry.AddParameter("@contractid", SqlDbType.NVarChar, ParameterDirection.Input, contractId);
                 qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, purchaseOrderId);
                 qry.AddParameter("@masteritemid", SqlDbType.NVarChar, ParameterDirection.Input, purchaseOrderItemId);
