@@ -40,6 +40,11 @@ export abstract class BaseTest {
             testName = `Verify Test Token ${this.testToken}`;
             test(testName, async () => {
                 expect(this.testToken).not.toBe("");
+                //GlobalScope.TestToken~1.TestToken
+                this.globalScopeRef["TestToken~1"] = {
+                    TestToken: this.testToken,
+                    ShortTestToken: this.testToken.substring(this.testToken.length-3) // not guaranteed to be unique
+                };
             }, this.testTimeout);
             //---------------------------------------------------------------------------------------
         });
@@ -192,6 +197,25 @@ export abstract class BaseTest {
                         expect(strictCreateNewResponse.errorMessage).toBe("");
                         expect(strictCreateNewResponse.success).toBeTruthy();
                     }, this.testTimeout);
+
+                    if (module.defaultNewObject) {
+                        testName = `Populate new ${module.moduleCaption}`;
+                        test(testName, async () => {
+                            await module.populateFormWithRecord(module.defaultNewObject);//.then().catch(err => this.LogError(testName, err));
+                        }, this.testTimeout);
+                    }
+
+                    if (module.defaultNewObject) {
+                        testName = `Save new ${module.moduleCaption}`;
+                        test(testName, async () => {
+                            let saveResponse: SaveResponse | void = await module.saveRecord(true);//.then().catch(err => this.LogError(testName, err));
+                            let strictSaveResponse = saveResponse as SaveResponse;
+                            this.continueTest = strictSaveResponse.saved;
+                            expect(strictSaveResponse.errorMessage).toBe("");
+                            expect(strictSaveResponse.saved).toBe(true);
+                        }, this.testTimeout);
+                    }
+
                 }
                 //---------------------------------------------------------------------------------------
             });

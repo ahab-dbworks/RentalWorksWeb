@@ -21,6 +21,11 @@ export class GlAccount extends SettingsModule {
         this.moduleName = 'GlAccount';
         this.moduleId = 'F03CA227-99EE-42EF-B615-94540DCB21B3';
         this.moduleCaption = 'Chart of Accounts';
+
+        this.defaultNewObject = {
+            GlAccountNo: "GlobalScope.TestToken~1.TestToken",
+            GlAccountDescription: "GlobalScope.TestToken~1.TestToken"
+        };
     }
     //---------------------------------------------------------------------------------------
 }
@@ -45,6 +50,10 @@ export class Country extends SettingsModule {
         this.moduleName = 'Country';
         this.moduleId = 'D6E787E6-502B-4D36-B0A6-FA691E6D10CF';
         this.moduleCaption = 'Country';
+        this.defaultNewObject = {
+            Country: "GlobalScope.TestToken~1.TestToken",
+            CountryCode: "GlobalScope.TestToken~1.ShortTestToken",
+        };
     }
     //---------------------------------------------------------------------------------------
 }

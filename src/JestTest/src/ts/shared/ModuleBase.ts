@@ -42,6 +42,7 @@ export class ModuleBase {
     canView: boolean = true;
     canEdit: boolean = true;
     canDelete: boolean = true;
+    defaultNewObject: any; // to be used to try to create a New record
     globalScopeRef = GlobalScope;
 
     //---------------------------------------------------------------------------------------
