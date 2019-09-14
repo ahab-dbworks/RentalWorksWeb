@@ -419,5 +419,13 @@ namespace WebApi.Modules.Home.Inventory
         public string CostOfGoodsRentedExpenseAccountDescription { get; set; }
         //------------------------------------------------------------------------------------
 
+        [FwSqlDataField(column: "hazardousmaterial", modeltype: FwDataTypes.Boolean)]
+        public bool? IsHazardousMaterial { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "fixedasset", modeltype: FwDataTypes.Boolean)]
+        public bool? IsFixedAsset { get; set; }
+        //------------------------------------------------------------------------------------ 
+
+
     }
 }

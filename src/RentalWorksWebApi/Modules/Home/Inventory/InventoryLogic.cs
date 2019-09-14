@@ -360,6 +360,11 @@ namespace WebApi.Modules.Home.Inventory
         public string PackageRevenueCalculationFormula { get { return master.PackageRevenueCalculationFormula; } set { master.PackageRevenueCalculationFormula = value; } }
 
 
+        [FwLogicProperty(Id: "kYIqdwYcTpEXx")]
+        public bool? IsHazardousMaterial { get { return master.IsHazardousMaterial; } set { master.IsHazardousMaterial = value; } }
+        [FwLogicProperty(Id: "En3Gom0JH00QP")]
+        public bool? IsFixedAsset { get { return master.IsFixedAsset; } set { master.IsFixedAsset = value; } }
+
         //------------------------------------------------------------------------------------ 
         protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
         {

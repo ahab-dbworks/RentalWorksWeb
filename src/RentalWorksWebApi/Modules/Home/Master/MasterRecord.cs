@@ -302,6 +302,12 @@ namespace WebApi.Modules.Home.Master
         public string CostOfGoodsRentedExpenseAccountId { get; set; }
         //------------------------------------------------------------------------------------ 
 
+        [FwSqlDataField(column: "hazardousmaterial", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
+        public bool? IsHazardousMaterial { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "fixedasset", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
+        public bool? IsFixedAsset { get; set; }
+        //------------------------------------------------------------------------------------ 
 
         /*
                 [FwSqlDataField(column: "replacementcost", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 12, scale: 3)]
@@ -322,11 +328,11 @@ namespace WebApi.Modules.Home.Master
                 [FwSqlDataField(column: "tariffcode", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 12)]
                 public string Tariffcode { get; set; }
                 //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "hazardousmaterial", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
-                public string Hazardousmaterial { get; set; }
-                //------------------------------------------------------------------------------------ 
                 [FwSqlDataField(column: "mfgpdf", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255)]
                 public string Mfgpdf { get; set; }
+                //------------------------------------------------------------------------------------ 
+                [FwSqlDataField(column: "hazardousmaterial", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+                public string Hazardousmaterial { get; set; }
                 //------------------------------------------------------------------------------------ 
                 [FwSqlDataField(column: "fixedasset", modeltype: FwDataTypes.Boolean, sqltype: "char")]
                 public bool? Fixedasset { get; set; }
