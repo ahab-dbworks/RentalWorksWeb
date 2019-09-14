@@ -2,7 +2,7 @@
 import { Logging } from '../shared/Logging';
 import { TestUtils, LoginResponse, LogoutResponse } from '../shared/TestUtils';
 import { ModuleBase } from '../shared/ModuleBase';
-import { SaveResponse, OpenBrowseResponse, OpenRecordResponse, ClickAllTabsResponse } from '../shared/ModuleBase';
+import { SaveResponse, OpenBrowseResponse, CreateNewResponse, OpenRecordResponse, ClickAllTabsResponse } from '../shared/ModuleBase';
 import { GlobalScope } from '../shared/GlobalScope';
 
 export abstract class BaseTest {
@@ -117,12 +117,12 @@ export abstract class BaseTest {
     async TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(module: ModuleBase, registerGlobal?: boolean) {
         let testName: string = "";
         describe(module.moduleCaption, () => {
-            const testCollectionName = `Open browse and first form (if any)`;
+            const testCollectionName = `Open browse and first form (if any), click all tabs`;
             describe(testCollectionName, () => {
                 //---------------------------------------------------------------------------------------
                 testName = `Open ${module.moduleCaption} browse`;
                 test(testName, async () => {
-                    let openBrowseResponse: OpenBrowseResponse | void = await module.openBrowse();//.then().catch(err => this.LogError(testName, err));
+                    let openBrowseResponse: OpenBrowseResponse | void = await module.openBrowse();
                     let strictOpenBrowseResponse = openBrowseResponse as OpenBrowseResponse;
                     expect(strictOpenBrowseResponse.errorMessage).toBe("");
                     expect(strictOpenBrowseResponse.opened).toBeTruthy();
@@ -132,7 +132,7 @@ export abstract class BaseTest {
                     //if the module supports form viewing, try to open the first form, if any
                     testName = `Open first ${module.moduleCaption} form, if any`;
                     test(testName, async () => {
-                        let openRecordResponse: OpenRecordResponse | void = await module.openFirstRecordIfAny();//.then().catch(err => this.LogError(testName, err));
+                        let openRecordResponse: OpenRecordResponse | void = await module.openFirstRecordIfAny();
                         let strictOpenRecordResponse = openRecordResponse as OpenRecordResponse;
                         expect(strictOpenRecordResponse.errorMessage).toBe("");
                         expect(strictOpenRecordResponse.opened).toBeTruthy();
@@ -154,7 +154,7 @@ export abstract class BaseTest {
                     //if the module supports form viewing, try to click all tabs on the form
                     testName = `Click all Tabs on the ${module.moduleCaption} form`;
                     test(testName, async () => {
-                        let clickAllTabsResponse: ClickAllTabsResponse | void = await module.clickAllTabsOnForm();//.then().catch(err => this.LogError(testName, err));
+                        let clickAllTabsResponse: ClickAllTabsResponse | void = await module.clickAllTabsOnForm();
                         let strictOpenRecordResponse = clickAllTabsResponse as ClickAllTabsResponse;
                         expect(strictOpenRecordResponse.errorMessage).toBe("");
                         expect(strictOpenRecordResponse.success).toBeTruthy();
@@ -167,6 +167,39 @@ export abstract class BaseTest {
         });
     }
     //---------------------------------------------------------------------------------------
+
+
+    async TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(module: ModuleBase) {
+        let testName: string = "";
+        describe(module.moduleCaption, () => {
+            const testCollectionName = `Open browse, create new (if allowed), save, edit, save, delete (if allowed)`;
+            describe(testCollectionName, () => {
+                //---------------------------------------------------------------------------------------
+                testName = `Open ${module.moduleCaption} browse`;
+                test(testName, async () => {
+                    let openBrowseResponse: OpenBrowseResponse | void = await module.openBrowse();
+                    let strictOpenBrowseResponse = openBrowseResponse as OpenBrowseResponse;
+                    expect(strictOpenBrowseResponse.errorMessage).toBe("");
+                    expect(strictOpenBrowseResponse.opened).toBeTruthy();
+                }, this.testTimeout);
+                //---------------------------------------------------------------------------------------
+                if (module.canNew) {
+                    //if the module supports adding new records, try to add one
+                    testName = `Create new ${module.moduleCaption}`;
+                    test(testName, async () => {
+                        let createNewResponse: CreateNewResponse | void = await module.createNewRecord();
+                        let strictCreateNewResponse = createNewResponse as CreateNewResponse;
+                        expect(strictCreateNewResponse.errorMessage).toBe("");
+                        expect(strictCreateNewResponse.success).toBeTruthy();
+                    }, this.testTimeout);
+                }
+                //---------------------------------------------------------------------------------------
+            });
+        });
+    }
+    //---------------------------------------------------------------------------------------
+
+
     async TestModuleDefaultsOnNewForm(module: ModuleBase, expectedObject: any) {
         let testName: string = "";
         const testCollectionName = `Start new ${module.moduleCaption}, check form for expected default values`;

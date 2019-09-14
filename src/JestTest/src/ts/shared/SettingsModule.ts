@@ -1,7 +1,7 @@
 import { ModuleBase } from '../shared/ModuleBase';
 import { Logging } from '../shared/Logging';
 import { TestUtils } from './TestUtils';
-import { SaveResponse, OpenBrowseResponse, OpenRecordResponse } from '../shared/ModuleBase';
+import { SaveResponse, OpenBrowseResponse, OpenRecordResponse, CreateNewResponse } from '../shared/ModuleBase';
 
 //---------------------------------------------------------------------------------------
 export class SettingsModule extends ModuleBase {
@@ -244,6 +244,55 @@ export class SettingsModule extends ModuleBase {
             }
         }
         return openRecordResponse;
+    }
+    //---------------------------------------------------------------------------------------
+    async createNewRecord(count?: number): Promise<CreateNewResponse> {
+        let createNewResponse: CreateNewResponse = new CreateNewResponse()
+        createNewResponse.success = false;
+        createNewResponse.errorMessage = "could not create new";
+
+        if (count === undefined) {
+            count = 1;
+        }
+
+        let moduleLegendBarSelector = `.panel-group[id="${this.moduleName}"] .legend`;
+        await page.waitForSelector(moduleLegendBarSelector, { timeout: 1000 });
+
+        let openFormCountBefore = await this.countOpenForms();
+
+        //let newButtonSelector = `i.material-icons .panel-group[id="${this.moduleName}"] .new-row-menu`;
+        let newButtonSelector = `.panel-group[id="${this.moduleName}"] i.material-icons.new-row-menu`;
+
+        await page.waitForSelector(newButtonSelector, { timeout: 1000 });
+        await page.click(newButtonSelector, { clickCount: count });
+
+        let formSelector = `.fwform`;
+        await page.waitForSelector(formSelector, { timeout: 5000 })
+            .then(async done => {
+                let openFormCountAfter = await this.countOpenForms();
+
+                if (openFormCountAfter === (openFormCountBefore + count)) {
+
+                    const formCaption = await page.evaluate(() => {
+                        const caption = jQuery('body').find('div.tab.active').attr('data-caption');
+                        return caption;
+                    })
+                    //if (formCaption === `New ${this.moduleCaption}`) {
+                    createNewResponse.success = true;
+                    createNewResponse.errorMessage = "";
+                    createNewResponse.defaultRecord = await this.getFormRecord();
+                    Logging.logInfo(`New ${this.moduleCaption} Created`);
+                    //} else {
+                    //    createNewResponse.errorMessage = `New ${this.moduleCaption} not Created`;
+                    //    Logging.logError(createNewResponse.errorMessage);
+                    //}
+                }
+                else {
+                    createNewResponse.errorMessage = `Incorrect number of New ${this.moduleCaption} forms created. (${openFormCountAfter}, but expected ${openFormCountBefore + count})`;
+                }
+            });
+
+        return createNewResponse;
     }
     //---------------------------------------------------------------------------------------
 }

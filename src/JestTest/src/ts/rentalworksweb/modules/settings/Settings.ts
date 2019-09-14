@@ -8,6 +8,8 @@ export class AccountingSettings extends SettingsModule {
         this.moduleName = 'AccountingSettings';
         this.moduleId = '6EB6300F-1416-42DE-B776-3E418656021D';
         this.moduleCaption = 'Accounting Settings';
+        this.canNew = false;
+        this.canDelete = false;
     }
     //---------------------------------------------------------------------------------------
 }
@@ -30,6 +32,8 @@ export class GlDistribution extends SettingsModule {
         this.moduleName = 'GlDistribution';
         this.moduleId = '7C249F59-B5E3-4DAE-933D-38D30858CF7C';
         this.moduleCaption = 'G/L Distribution';
+        this.canNew = false;
+        this.canDelete = false;
     }
     //---------------------------------------------------------------------------------------
 }
