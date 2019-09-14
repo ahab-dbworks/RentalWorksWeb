@@ -208,28 +208,28 @@
                 calculateExtended('Extended', 'DiscountPercent');
             });
             $generatedtr.find('div[data-browsedatafield="UnitExtended"]').on('change', 'input.value', function ($tr) {
-                calculateExtended('Discount', 'UnitExtended');
+                updatePrice('Discount', 'UnitExtended', 'Unit');
             });
             $generatedtr.find('div[data-browsedatafield="WeeklyExtended"]').on('change', 'input.value', function ($tr) {
-                calculateExtended('Discount', 'WeeklyExtended');
+                updatePrice('Discount', 'WeeklyExtended', 'Weekly');
             });
             $generatedtr.find('div[data-browsedatafield="MonthlyExtended"]').on('change', 'input.value', function ($tr) {
-                calculateExtended('Discount', 'MonthlyExtended');
+                updatePrice('Discount', 'MonthlyExtended', 'Monthly');
             });
             $generatedtr.find('div[data-browsedatafield="PeriodExtended"]').on('change', 'input.value', function ($tr) {
-                calculateExtended('Discount', 'PeriodExtended');
+                updatePrice('Discount', 'PeriodExtended', 'Period');
             });
             $generatedtr.find('div[data-browsedatafield="UnitDiscountAmount"]').on('change', 'input.value', function ($tr) {
-                calculateExtended('Discount', 'UnitDiscountAmount');
+                updatePrice('Discount', 'UnitDiscountAmount', 'Unit');
             });
             $generatedtr.find('div[data-browsedatafield="WeeklyDiscountAmount"]').on('change', 'input.value', function ($tr) {
-                calculateExtended('Discount', 'WeeklyDiscountAmount');
+                updatePrice('Discount', 'WeeklyDiscountAmount', 'Weekly');
             });
             $generatedtr.find('div[data-browsedatafield="MonthlyDiscountAmount"]').on('change', 'input.value', function ($tr) {
-                calculateExtended('Discount', 'MonthlyDiscountAmount');
+                updatePrice('Discount', 'MonthlyDiscountAmount', 'Monthly');
             });
             $generatedtr.find('div[data-browsedatafield="PeriodDiscountAmount"]').on('change', 'input.value', function ($tr) {
-                calculateExtended('Discount', 'PeriodDiscountAmount');
+                updatePrice('Discount', 'PeriodDiscountAmount', 'Period');
             });
         }
         if ($form.attr('data-controller') === 'TemplateController') {
@@ -267,6 +267,34 @@
             });
         }
 
+        function updatePrice(type, field?, periodType?) {
+            const rate = $generatedtr.find('.field[data-browsedatafield="Price"] input').val();
+            if (rate == "") {
+                const $confirmation = FwConfirmation.renderConfirmation(`Update Rate Value`, `Update Rate Value?`);
+                const $yes = FwConfirmation.addButton($confirmation, 'Yes', false);
+                const $no = FwConfirmation.addButton($confirmation, 'No', false);
+
+                $yes.on('click', () => {
+                    FwConfirmation.destroyConfirmation($confirmation);
+                    const discountPercent = $generatedtr.find(`.field[data-browsedatafield="DiscountPercent"] input`).val();
+                    const extendedVal = $generatedtr.find(`[data-browsedatafield="${periodType}Extended"] input`).val();
+                    const discountAmount = $generatedtr.find(`[data-browsedatafield="${periodType}DiscountAmount"] input`).val();
+                    const discount = 1 + ((+discountPercent) / 100);
+                    const rate = (+extendedVal.substring(1).replace(',', '')) * discount;
+                    FwBrowse.setFieldValue($control, $generatedtr, 'Price', { value: rate.toString() });
+                    calculateExtended(type, field);
+                });
+
+                $no.on('click', () => {
+                    FwConfirmation.destroyConfirmation($confirmation);
+                    const originalVal = $generatedtr.find(`[data-browsedatafield="${field}"]`).attr('data-originalvalue');
+                    FwBrowse.setFieldValue($control, $generatedtr, field, { value: originalVal });
+                });
+            } else {
+                calculateExtended(type, field);
+            }
+        }
+
         function calculateExtended(type, field?) {
             let rateType, recType, fromDate, toDate, quantity, rate, daysPerWeek, discountPercent, weeklyExtended, unitExtended, periodExtended,
                 monthlyExtended, unitDiscountAmount, weeklyDiscountAmount, monthlyDiscountAmount, periodDiscountAmount;
@@ -287,10 +315,10 @@
             weeklyExtended = $generatedtr.find('.field[data-browsedatafield="WeeklyExtended"] input').val();
             unitExtended = $generatedtr.find('.field[data-browsedatafield="UnitExtended"] input').val();
             periodExtended = $generatedtr.find('.field[data-browsedatafield="PeriodExtended"] input').val();
-            monthlyExtended = $generatedtr.find('.field[data-browsedatafield="MonthlyExtended"] input').val();
+            //monthlyExtended = $generatedtr.find('.field[data-browsedatafield="MonthlyExtended"] input').val();
             unitDiscountAmount = $generatedtr.find('.field[data-browsedatafield="UnitDiscountAmount"] input').val();
             weeklyDiscountAmount = $generatedtr.find('.field[data-browsedatafield="WeeklyDiscountAmount"] input').val();
-            monthlyDiscountAmount = $generatedtr.find('.field[data-browsedatafield="MonthlyDiscountAmount"] input').val();
+            //monthlyDiscountAmount = $generatedtr.find('.field[data-browsedatafield="MonthlyDiscountAmount"] input').val();
             periodDiscountAmount = $generatedtr.find('.field[data-browsedatafield="PeriodDiscountAmount"] input').val();
 
             let apiurl = "api/v1/orderitem/"
@@ -319,15 +347,15 @@
                 apiurl += "&DiscountPercent=" + discountPercent;
 
                 FwAppData.apiMethod(true, 'GET', apiurl, null, FwServices.defaultTimeout, function onSuccess(response) {
-                    $generatedtr.find('.field[data-browsedatafield="DiscountPercent"] input').val(response.DiscountPercent);
-                    $generatedtr.find('.field[data-browsedatafield="UnitExtended"] input').val(response.UnitExtended);
-                    $generatedtr.find('.field[data-browsedatafield="UnitDiscountAmount"] input').val(response.UnitDiscountAmount);
-                    $generatedtr.find('.field[data-browsedatafield="WeeklyExtended"] input').val(response.WeeklyExtended);
-                    $generatedtr.find('.field[data-browsedatafield="WeeklyDiscountAmount"] input').val(response.WeeklyDiscountAmount);
-                    $generatedtr.find('.field[data-browsedatafield="MonthlyExtended"] input').val(response.MonthlyExtended);
-                    $generatedtr.find('.field[data-browsedatafield="MonthlyDiscountAmount"] input').val(response.MonthlyDiscountAmount);
-                    $generatedtr.find('.field[data-browsedatafield="PeriodExtended"] input').val(response.PeriodExtended);
-                    $generatedtr.find('.field[data-browsedatafield="PeriodDiscountAmount"] input').val(response.PeriodDiscountAmount);
+                    FwBrowse.setFieldValue($control, $generatedtr, 'DiscountPercent', { value: response.DiscountPercent.toString() });
+                    FwBrowse.setFieldValue($control, $generatedtr, 'UnitExtended', { value: response.UnitExtended.toString() });
+                    FwBrowse.setFieldValue($control, $generatedtr, 'UnitDiscountAmount', { value: response.UnitDiscountAmount.toString() });
+                    FwBrowse.setFieldValue($control, $generatedtr, 'WeeklyExtended', { value: response.WeeklyExtended.toString() });
+                    FwBrowse.setFieldValue($control, $generatedtr, 'WeeklyDiscountAmount', { value: response.WeeklyDiscountAmount.toString() });
+                    //FwBrowse.setFieldValue($control, $generatedtr, 'MonthlyExtended', { value: response.MonthlyExtended });
+                    //FwBrowse.setFieldValue($control, $generatedtr, 'MonthlyDiscountAmount', { value: response.MonthlyDiscountAmount });
+                    FwBrowse.setFieldValue($control, $generatedtr, 'PeriodExtended', { value: response.PeriodExtended.toString() });
+                    FwBrowse.setFieldValue($control, $generatedtr, 'PeriodDiscountAmount', { value: response.PeriodDiscountAmount.toString() });
                 }, null, null);
             }
 
@@ -359,16 +387,16 @@
                         break;
                 }
                 FwAppData.apiMethod(true, 'GET', apiurl, null, FwServices.defaultTimeout, function onSuccess(response) {
-                    $generatedtr.find('.field[data-browsedatafield="DiscountPercent"] input').val(response.DiscountPercent);
-                    $generatedtr.find('.field[data-browsedatafield="DiscountPercentDisplay"] input').val(response.DiscountPercent);
-                    $generatedtr.find('.field[data-browsedatafield="WeeklyExtended"] input').val(response.WeeklyExtended);
-                    $generatedtr.find('.field[data-browsedatafield="UnitExtended"] input').val(response.UnitExtended);
-                    $generatedtr.find('.field[data-browsedatafield="PeriodExtended"] input').val(response.PeriodExtended);
-                    $generatedtr.find('.field[data-browsedatafield="MonthlyExtended"] input').val(response.MonthlyExtended);
-                    $generatedtr.find('.field[data-browsedatafield="UnitDiscountAmount"] input').val(response.UnitDiscountAmount);
-                    $generatedtr.find('.field[data-browsedatafield="WeeklyDiscountAmount"] input').val(response.WeeklyDiscountAmount);
-                    $generatedtr.find('.field[data-browsedatafield="MonthlyDiscountAmount"] input').val(response.MonthlyDiscountAmount);
-                    $generatedtr.find('.field[data-browsedatafield="PeriodDiscountAmount"] input').val(response.PeriodDiscountAmount);
+                    FwBrowse.setFieldValue($control, $generatedtr, 'DiscountPercent', { value: response.DiscountPercent.toString() });
+                    FwBrowse.setFieldValue($control, $generatedtr, 'DiscountPercentDisplay', { value: response.DiscountPercent.toString() });
+                    FwBrowse.setFieldValue($control, $generatedtr, 'UnitExtended', { value: response.UnitExtended.toString() });
+                    FwBrowse.setFieldValue($control, $generatedtr, 'UnitDiscountAmount', { value: response.UnitDiscountAmount.toString() });
+                    FwBrowse.setFieldValue($control, $generatedtr, 'WeeklyExtended', { value: response.WeeklyExtended.toString() });
+                    FwBrowse.setFieldValue($control, $generatedtr, 'WeeklyDiscountAmount', { value: response.WeeklyDiscountAmount.toString() });
+                    //FwBrowse.setFieldValue($control, $generatedtr, 'MonthlyExtended', { value: response.MonthlyExtended });
+                    //FwBrowse.setFieldValue($control, $generatedtr, 'MonthlyDiscountAmount', { value: response.MonthlyDiscountAmount });
+                    FwBrowse.setFieldValue($control, $generatedtr, 'PeriodExtended', { value: response.PeriodExtended.toString() });
+                    FwBrowse.setFieldValue($control, $generatedtr, 'PeriodDiscountAmount', { value: response.PeriodDiscountAmount.toString() });
                 }, null, null);
             }
         }
