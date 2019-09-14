@@ -269,27 +269,39 @@
 
         function updatePrice(type, field?, periodType?) {
             const rate = $generatedtr.find('.field[data-browsedatafield="Price"] input').val();
+            const extendedVal = $generatedtr.find(`.field[data-browsedatafield="${periodType}Extended"] input`).val();
             if (rate == "") {
-                const $confirmation = FwConfirmation.renderConfirmation(`Update Rate Value`, `Update Rate Value?`);
-                const $yes = FwConfirmation.addButton($confirmation, 'Yes', false);
-                const $no = FwConfirmation.addButton($confirmation, 'No', false);
+                if (extendedVal == "") {
+                    return;
+                } else {
+                    const $confirmation = FwConfirmation.renderConfirmation(`Update Rate Value`, `Update Rate Value?`);
+                    const $yes = FwConfirmation.addButton($confirmation, 'Yes', false);
+                    const $no = FwConfirmation.addButton($confirmation, 'No', false);
 
-                $yes.on('click', () => {
-                    FwConfirmation.destroyConfirmation($confirmation);
-                    const discountPercent = $generatedtr.find(`.field[data-browsedatafield="DiscountPercent"] input`).val();
-                    const extendedVal = $generatedtr.find(`[data-browsedatafield="${periodType}Extended"] input`).val();
-                    const discountAmount = $generatedtr.find(`[data-browsedatafield="${periodType}DiscountAmount"] input`).val();
-                    const discount = 1 + ((+discountPercent) / 100);
-                    const rate = (+extendedVal.substring(1).replace(',', '')) * discount;
-                    FwBrowse.setFieldValue($control, $generatedtr, 'Price', { value: rate.toString() });
-                    calculateExtended(type, field);
-                });
+                    $yes.on('click', () => {
+                        FwConfirmation.destroyConfirmation($confirmation);
+                        const quantity = $generatedtr.find('.field[data-browsedatafield="QuantityOrdered"] input').val();
+                        const discountPercent = $generatedtr.find(`.field[data-browsedatafield="DiscountPercent"] input`).val();
+                        const discountAmount = $generatedtr.find(`.field[data-browsedatafield="${periodType}DiscountAmount"] input`).val();
+                        const extendedVal = $generatedtr.find(`[data-browsedatafield="${periodType}Extended"] input`).val();
+                        let discount;
+                        let rate;
+                        if (discountPercent == 0) {
+                            rate = (((+extendedVal.substring(1).replace(',', '')) + (+discountAmount.substring(1).replace(',', ''))) / quantity);
+                        } else {
+                            discount = 1 - ((+discountPercent) / 100);
+                            rate = (((+extendedVal.substring(1).replace(',', '')) / quantity ) / discount);
+                        }                     
+                        FwBrowse.setFieldValue($control, $generatedtr, 'Price', { value: rate.toString() });
+                        calculateExtended(type, field);
+                    });
 
-                $no.on('click', () => {
-                    FwConfirmation.destroyConfirmation($confirmation);
-                    const originalVal = $generatedtr.find(`[data-browsedatafield="${field}"]`).attr('data-originalvalue');
-                    FwBrowse.setFieldValue($control, $generatedtr, field, { value: originalVal });
-                });
+                    $no.on('click', () => {
+                        FwConfirmation.destroyConfirmation($confirmation);
+                        const originalVal = $generatedtr.find(`[data-browsedatafield="${field}"]`).attr('data-originalvalue');
+                        FwBrowse.setFieldValue($control, $generatedtr, field, { value: originalVal });
+                    });
+                }
             } else {
                 calculateExtended(type, field);
             }
