@@ -52,6 +52,14 @@ export class ModuleBase {
         this.moduleCaption = 'UnknownModule';
     }
     //---------------------------------------------------------------------------------------
+    getBrowseSelector(): string {
+        return `.fwbrowse tbody`;
+    }
+    //---------------------------------------------------------------------------------------
+    getNewButtonSelector(): string {
+        return `.addnewtab i.material-icons`;
+    }
+    //---------------------------------------------------------------------------------------
     static async wait(milliseconds: number): Promise<void> {
         await page.waitFor(milliseconds)
     }
@@ -401,6 +409,17 @@ export class ModuleBase {
         return formCount;
     }
     //---------------------------------------------------------------------------------------
+    async findNewButton(): Promise<boolean> {
+        let foundNewButton: boolean = false;
+        await page.waitForSelector(this.getBrowseSelector(), { timeout: 1000 });
+        var newButton;
+        try {
+            newButton = await page.waitForSelector(this.getNewButtonSelector(), { timeout: 1000 });
+        } catch (error) { } // nof found
+        foundNewButton = (newButton !== undefined);
+        return foundNewButton;
+    }
+    //---------------------------------------------------------------------------------------
     async createNewRecord(count?: number): Promise<CreateNewResponse> {
         let createNewResponse: CreateNewResponse = new CreateNewResponse()
         createNewResponse.success = false;
@@ -410,14 +429,15 @@ export class ModuleBase {
             count = 1;
         }
 
-        let browseSelector = `.fwbrowse tbody`;
-        await page.waitForSelector(browseSelector, { timeout: 1000 });
+        await page.waitForSelector(this.getBrowseSelector(), { timeout: 1000 });
 
         let openFormCountBefore = await this.countOpenForms();
 
-        let newButtonSelector = `.addnewtab i.material-icons`;
-        await page.waitForSelector(newButtonSelector, { timeout: 1000 });
-        await page.click(newButtonSelector, { clickCount: count });
+        //await page.waitForSelector(this.newButtonSelector, { timeout: 1000 });
+        //await page.click(this.newButtonSelector, { clickCount: count });
+        if (await this.findNewButton()) {
+            await page.click(this.getNewButtonSelector(), { clickCount: count });
+        }
 
         let formSelector = `.fwform`;
         await page.waitForSelector(formSelector, { timeout: 5000 })

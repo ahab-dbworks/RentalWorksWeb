@@ -1,4 +1,4 @@
-﻿require('dotenv').config()
+require('dotenv').config()
 import { Logging } from '../shared/Logging';
 import { TestUtils, LoginResponse, LogoutResponse } from '../shared/TestUtils';
 import { ModuleBase } from '../shared/ModuleBase';
@@ -216,6 +216,14 @@ export abstract class BaseTest {
                         }, this.testTimeout);
                     }
 
+                }
+                else {
+                    // make sure that the New button is not available
+                    testName = `Make sure no New button exists on ${module.moduleCaption} browse`;
+                    test(testName, async () => {
+                        let newButtonExists = await module.findNewButton();
+                        expect(newButtonExists).toBeFalsy();
+                    }, this.testTimeout);
                 }
                 //---------------------------------------------------------------------------------------
             });

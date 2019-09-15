@@ -10,6 +10,14 @@ export class SettingsModule extends ModuleBase {
         super();
     }
     //---------------------------------------------------------------------------------------
+    getBrowseSelector(): string {
+        return `.panel-group[id="${this.moduleName}"] .legend`;
+    }
+    //---------------------------------------------------------------------------------------
+    getNewButtonSelector(): string {
+        return `.panel-group[id="${this.moduleName}"] i.material-icons.new-row-menu`;
+    }
+    //---------------------------------------------------------------------------------------
     async openBrowse(timeout?: number, sleepafteropening?: number): Promise<OpenBrowseResponse> {
         let openBrowseResponse: OpenBrowseResponse = new OpenBrowseResponse();
         openBrowseResponse.opened = false;
@@ -260,11 +268,10 @@ export class SettingsModule extends ModuleBase {
 
         let openFormCountBefore = await this.countOpenForms();
 
-        //let newButtonSelector = `i.material-icons .panel-group[id="${this.moduleName}"] .new-row-menu`;
-        let newButtonSelector = `.panel-group[id="${this.moduleName}"] i.material-icons.new-row-menu`;
+        //let newButtonSelector = `.panel-group[id="${this.moduleName}"] i.material-icons.new-row-menu`;
 
-        await page.waitForSelector(newButtonSelector, { timeout: 1000 });
-        await page.click(newButtonSelector, { clickCount: count });
+        await page.waitForSelector(this.getNewButtonSelector(), { timeout: 1000 });
+        await page.click(this.getNewButtonSelector(), { clickCount: count });
 
         let formSelector = `.fwform`;
         await page.waitForSelector(formSelector, { timeout: 5000 })
