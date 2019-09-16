@@ -1954,7 +1954,8 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.Order.form.menuItems.Create
         orderInfo.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
         let $pickListForm = CreatePickListController.openForm(mode, orderInfo);
         FwModule.openSubModuleTab($form, $pickListForm);
-        jQuery('.tab.submodule.active').find('.caption').html('New Pick List');
+        //jQuery('.tab.submodule.active').find('.caption').html('New Pick List');
+        jQuery('.tab.submodule.active[data-tabtype="FORM"]').find('.caption').html('New Pick List');  //justin 09/16/2019 added data-tabtype="FORM" to target the top-level form tab, not the tab page on the Order form
         var $pickListUtilityGrid;
         $pickListUtilityGrid = $pickListForm.find('[data-name="PickListUtilityGrid"]');
         FwBrowse.search($pickListUtilityGrid);

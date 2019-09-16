@@ -81,7 +81,8 @@
                 const $report = PickListReportController.openForm();
                 FwModule.openSubModuleTab($form, $report);
                 FwFormField.setValueByDataField($report, 'PickListId', pickListId, pickListNumber);
-                jQuery('.tab.submodule.active').find('.caption').html('Print Pick List');
+                //jQuery('.tab.submodule.active').find('.caption').html('Print Pick List');
+                jQuery('.tab.submodule.active[data-tabtype="FORM"]').find('.caption').html('Print Pick List');  //justin 09/16/2019 added data-tabtype="FORM" to target the top-level form tab, not the tab page on the Order form
             }
             catch (ex) {
                 FwFunc.showError(ex);
