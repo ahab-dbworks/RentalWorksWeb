@@ -33,6 +33,11 @@ export class SaveResponse {
     errorFields: any;
 }
 
+export class NewRecordToCreate {
+    record: any;
+    seekObject: any
+}
+
 //---------------------------------------------------------------------------------------
 export class ModuleBase {
     moduleName: string;
@@ -42,7 +47,10 @@ export class ModuleBase {
     canView: boolean = true;
     canEdit: boolean = true;
     canDelete: boolean = true;
-    defaultNewObject: any; // to be used to try to create a New record
+
+    defaultNewRecordToExpect: any;
+    newRecordsToCreate: NewRecordToCreate[];
+
     globalScopeRef = GlobalScope;
 
     //---------------------------------------------------------------------------------------
@@ -58,6 +66,10 @@ export class ModuleBase {
     //---------------------------------------------------------------------------------------
     getNewButtonSelector(): string {
         return `.addnewtab i.material-icons`;
+    }
+    //---------------------------------------------------------------------------------------
+    getDeleteButtonSelector(): string {
+        return `.btn[data-type="DeleteMenuBarButton"]`;
     }
     //---------------------------------------------------------------------------------------
     static async wait(milliseconds: number): Promise<void> {
@@ -147,7 +159,15 @@ export class ModuleBase {
             await page.waitForSelector(selector);
             let elementHandle = await page.$(selector);
             await elementHandle.click();
-            await page.keyboard.sendCharacter(seekObject[key]);
+
+            let seekValue = seekObject[key];
+            if (seekValue.toString().startsWith("GlobalScope")) {
+                //example: "GlobalScope.DefaultSettings~1.DefaultUnit",
+                let globalScopeKey = seekValue.toString().split('.');
+                seekValue = this.globalScopeRef[globalScopeKey[1].toString()][globalScopeKey[2].toString()];
+            }
+
+            await page.keyboard.sendCharacter(seekValue);
             await page.keyboard.press('Enter');
             await page.waitForFunction(() => document.querySelector('.pleasewait'), { polling: 'mutation' });
         }
@@ -212,6 +232,9 @@ export class ModuleBase {
                 openRecordResponse.errorMessage = "";
                 openRecordResponse.record = await this.getFormRecord();
                 openRecordResponse.keys = await this.getFormKeys();
+
+                Logging.logInfo(`Form Record: ${JSON.stringify(openRecordResponse.record)}`);
+                Logging.logInfo(`Form Keys: ${JSON.stringify(openRecordResponse.keys)}`);
 
                 if (sleepAfterOpening > 0) {
                     await ModuleBase.wait(sleepAfterOpening);
@@ -291,6 +314,9 @@ export class ModuleBase {
                     openRecordResponse.record = await this.getFormRecord();
                     openRecordResponse.keys = await this.getFormKeys();
 
+                    Logging.logInfo(`Form Record: ${JSON.stringify(openRecordResponse.record)}`);
+                    Logging.logInfo(`Form Keys: ${JSON.stringify(openRecordResponse.keys)}`);
+
                     if (sleepAfterOpening > 0) {
                         await ModuleBase.wait(sleepAfterOpening);
                     }
@@ -365,14 +391,25 @@ export class ModuleBase {
         return clickAllTabsResponse;
     }
     //---------------------------------------------------------------------------------------
+    async findDeleteButton(): Promise<boolean> {
+        let foundDeleteButton: boolean = false;
+        await page.waitForSelector(this.getBrowseSelector(), { timeout: 1000 });
+        var newButton;
+        try {
+            newButton = await page.waitForSelector(this.getDeleteButtonSelector(), { timeout: 1000 });
+        } catch (error) { } // not found
+        foundDeleteButton = (newButton !== undefined);
+        return foundDeleteButton;
+    }
+    //---------------------------------------------------------------------------------------
     async deleteRecord(index?: number, sleepAfterDeleting?: number): Promise<void> {
         if (index == undefined) {
             index = 1;
         }
         await page.waitForSelector(`.fwbrowse tbody tr.viewmode:nth-child(${index})`);
         await page.click('.fwbrowse tbody tr.viewmode', { clickCount: 1 });   // click the row
-        await page.waitForSelector(`.btn[data-type="DeleteMenuBarButton"]`);
-        await page.click('.btn[data-type="DeleteMenuBarButton"]', { clickCount: 1 });  // click the delete button
+        await page.waitForSelector(this.getDeleteButtonSelector());
+        await page.click(this.getDeleteButtonSelector(), { clickCount: 1 });  // click the delete button
 
         const popupText = await page.$eval('.advisory', el => el.textContent);
         if (popupText.includes('delete this record')) {
@@ -415,7 +452,7 @@ export class ModuleBase {
         var newButton;
         try {
             newButton = await page.waitForSelector(this.getNewButtonSelector(), { timeout: 1000 });
-        } catch (error) { } // nof found
+        } catch (error) { } // not found
         foundNewButton = (newButton !== undefined);
         return foundNewButton;
     }
@@ -496,7 +533,7 @@ export class ModuleBase {
                 Logging.logInfo(`About to populate ${key} with ${record[key]}`);
             }
             const tabId = await page.$eval(`.fwformfield[data-datafield="${key}"]`, el => el.closest('[data-type="tabpage"]').getAttribute('data-tabid'));
-            Logging.logInfo(`Found ${key} field on tab ${tabId}`);
+            //Logging.logInfo(`Found ${key} field on tab ${tabId}`);
             const tabIsActive = await page.$eval(`#${tabId}`, el => el.classList.contains('active'));
             if (!tabIsActive) {
                 Logging.logInfo(`Clicking tab ${tabId}`);

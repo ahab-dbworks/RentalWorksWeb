@@ -7,6 +7,10 @@ export class SalesInventory extends HomeModule {
         this.moduleName = 'SalesInventory';
         this.moduleId = 'B0CF2E66-CDF8-4E58-8006-49CA68AE38C2';
         this.moduleCaption = 'Sales Inventory';
+
+        this.defaultNewRecordToExpect = {
+            Unit: "GlobalScope.DefaultSettings~1.DefaultUnit",   // ie. "EA"
+        }
     }
     //---------------------------------------------------------------------------------------
 }

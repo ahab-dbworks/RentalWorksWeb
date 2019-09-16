@@ -11,7 +11,7 @@ export class SettingsModule extends ModuleBase {
     }
     //---------------------------------------------------------------------------------------
     getBrowseSelector(): string {
-        return `.panel-group[id="${this.moduleName}"] .legend`;
+        return `.panel-group[id="${this.moduleName}"]`;
     }
     //---------------------------------------------------------------------------------------
     getNewButtonSelector(): string {
@@ -74,6 +74,69 @@ export class SettingsModule extends ModuleBase {
             }
         }
         return openBrowseResponse;
+    }
+    //---------------------------------------------------------------------------------------
+    async browseGetRowsDisplayed(): Promise<number> {
+        await page.waitForSelector(this.getBrowseSelector());
+
+        let recordSelector = `.panel-group[id="${this.moduleName}"] .panel-primary .panel-collapse .panel-body .panel-record:not(.inactive-panel)`;
+        const records = await page.$$(recordSelector);
+
+        var recordCount;
+        if (records == undefined) {
+            recordCount = 0;
+        }
+        else {
+            recordCount = 0;
+            for (let record of records) {
+                let styleAttributeValue: string = await page.evaluate(el => el.getAttribute('style'), record);
+                if ((styleAttributeValue === undefined) || (styleAttributeValue == null)) {
+                    styleAttributeValue = "";
+                }
+                if (!styleAttributeValue.replace(' ', '').includes("display:none")) {  // only count the record if it is displayed
+                    recordCount++;
+                }
+            }
+        }
+
+        Logging.logInfo(`Record Count: ${recordCount}`);
+        return recordCount;
+    }
+    //---------------------------------------------------------------------------------------
+    async browseSeek(seekObject: any): Promise<number> {
+        await page.waitForSelector(this.getBrowseSelector());
+
+        let refreshButtonSelector = `.panel-group[id="${this.moduleName}"] .refresh`;
+        await page.waitForSelector(refreshButtonSelector);
+        await page.click(refreshButtonSelector);
+
+        let searchFieldSelector = `.panel-group[id="${this.moduleName}"] input`;
+        await page.waitForSelector(searchFieldSelector);
+
+        let keyField = "";
+        for (var key in seekObject) {
+            keyField = key;  // get the first key field name
+            break;
+        }
+
+        let seekValue = seekObject[keyField];
+        if (seekValue.toString().startsWith("GlobalScope")) {
+            //example: "GlobalScope.DefaultSettings~1.DefaultUnit",
+            let globalScopeKey = seekValue.toString().split('.');
+            seekValue = this.globalScopeRef[globalScopeKey[1].toString()][globalScopeKey[2].toString()];
+        }
+        Logging.logInfo(`About to add search for ${seekValue}`);
+
+        let elementHandle = await page.$(searchFieldSelector);
+        await elementHandle.click();
+        await page.keyboard.sendCharacter(seekValue);
+        await page.keyboard.press('Enter');
+        await ModuleBase.wait(1000); // let the rows render
+
+        let recordCount = await this.browseGetRowsDisplayed();
+
+        return recordCount;
+
     }
     //---------------------------------------------------------------------------------------
     async openRecord(index?: number, sleepAfterOpening?: number): Promise<OpenRecordResponse> {
@@ -300,6 +363,69 @@ export class SettingsModule extends ModuleBase {
             });
 
         return createNewResponse;
+    }
+    //---------------------------------------------------------------------------------------
+    async closeRecord(): Promise<void> {
+        //await page.click('div.delete');
+
+        //let selector = `.panel-group[id="${this.moduleName}"] .panel-primary .panel-collapse .panel-body .panel-record .row-heading:not(.inactive-panel)`;
+        //await page.waitForSelector(selector);
+        //await page.click(selector, { clickCount: 1 });   // click the row
+
+
+        //Logging.logInfo(`Record closed.`);
+    }
+    //---------------------------------------------------------------------------------------
+    async deleteRecord(index?: number, sleepAfterDeleting?: number): Promise<void> {
+        if (index == undefined) {
+            index = 1;
+        }
+
+        let recordSelector = `.panel-group[id="${this.moduleName}"] .panel-primary .panel-collapse .panel-body .panel-record:not(.inactive-panel)`;
+        const records = await page.$$(recordSelector);
+
+        if (records !== undefined) {
+            for (let record of records) {
+                let styleAttributeValue: string = await page.evaluate(el => el.getAttribute('style'), record);
+                if ((styleAttributeValue === undefined) || (styleAttributeValue == null)) {
+                    styleAttributeValue = "";
+                }
+                let recordId: string = await page.evaluate(el => el.getAttribute('id'), record);
+                if (!styleAttributeValue.replace(' ', '').includes("display:none")) {
+                    await record.click(); // click the row
+
+                    let deleteButtonSelector = `div .panel-record[id="${recordId}"] .btn-delete[data-type="DeleteMenuBarButton"]`;
+                    await page.waitForSelector(deleteButtonSelector);
+                    await page.click(deleteButtonSelector, { clickCount: 1 });  // click the delete button
+
+                    const popupText = await page.$eval('.advisory', el => el.textContent);
+                    if (popupText.includes('delete this record')) {
+                        Logging.logInfo(`Delete record, confirmation prompt detected.`);
+
+                        const options = await page.$$('.advisory .fwconfirmation-button');
+                        await options[0].click() // click "Yes" option
+                            .then(() => {
+                                Logging.logInfo(`Clicked the "Yes" button.`);
+                            })
+                        await page.waitFor(() => !document.querySelector('.advisory'));
+                        await page.waitFor(() => document.querySelector('.pleasewait'));
+                        await page.waitFor(() => !document.querySelector('.pleasewait'));
+
+                        //make the "record deleted" toaster message go away
+                        await page.waitForSelector('.advisory .messageclose');
+                        await page.click(`.advisory .messageclose`);
+                        await page.waitFor(() => !document.querySelector('.advisory'));  // wait for toaster to go away
+
+                    }
+                    Logging.logInfo(`Record deleted.`);
+
+                    if (sleepAfterDeleting > 0) {
+                        await ModuleBase.wait(sleepAfterDeleting);
+                    }
+                    break;
+                }
+            }
+        }
     }
     //---------------------------------------------------------------------------------------
 }

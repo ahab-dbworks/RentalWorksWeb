@@ -1,4 +1,6 @@
 ﻿import { BaseTest } from '../shared/BaseTest';
+import { ModuleBase } from '../shared/ModuleBase';
+import { Logging } from '../shared/Logging';
 import {
     //home
     Contact, Customer, Deal, Order, Project, PurchaseOrder, Quote, Vendor,
@@ -24,172 +26,283 @@ import {
     User
 } from './modules/AllModules';
 
-
 export class MediumRegressionTest extends BaseTest {
     //---------------------------------------------------------------------------------------
+
+    async MediumRegressionOnModule(module: ModuleBase) {
+        let testName: string = "";
+        describe(module.moduleCaption, () => {
+            const testCollectionName = `Open browse, create new (if allowed), save, edit, save, delete (if allowed)`;
+            describe(testCollectionName, () => {
+                //---------------------------------------------------------------------------------------
+                testName = `Open ${module.moduleCaption} browse`;
+                test(testName, async () => {
+                    await module.openBrowse()
+                        .then(openBrowseResponse => {
+                            expect(openBrowseResponse.errorMessage).toBe("");
+                            expect(openBrowseResponse.opened).toBeTruthy();
+                        });
+                }, this.testTimeout);
+                //---------------------------------------------------------------------------------------
+                if (module.canNew) {     //if the module supports adding new records, try to add one
+                    if (module.newRecordsToCreate) {
+                        for (let rec of module.newRecordsToCreate) {
+
+                            testName = `Create new ${module.moduleCaption}`;
+                            test(testName, async () => {
+                                await module.createNewRecord()
+                                    .then(createNewResponse => {
+                                        expect(createNewResponse.errorMessage).toBe("");
+                                        expect(createNewResponse.success).toBeTruthy();
+                                    });
+                            }, this.testTimeout);
+
+                            if (module.defaultNewRecordToExpect) {
+                                testName = `Validate default values on new ${module.moduleCaption} form, compare with expected values`;
+                                test(testName, async () => {
+                                    await module.getFormRecord()
+                                        .then(defaultObject => {
+                                            for (let key in module.defaultNewRecordToExpect) {
+                                                let expectingValue = module.defaultNewRecordToExpect[key];
+                                                let foundValue = defaultObject[key];
+
+                                                if (expectingValue.toString().startsWith("GlobalScope")) {
+                                                    //example: "GlobalScope.DefaultSettings~1.DefaultUnit",
+                                                    let globalScopeKey = expectingValue.toString().split('.');
+                                                    expectingValue = this.globalScopeRef[globalScopeKey[1].toString()][globalScopeKey[2].toString()];
+                                                }
+
+                                                console.log(`Comparing: ${key}\n     Expecting: "${expectingValue}"\n     Found:     "${foundValue}"`);
+                                                if (expectingValue === "|NOTEMPTY|") {
+                                                    expect(foundValue).not.toBe("");
+                                                }
+                                                else {
+                                                    expect(foundValue).not.toBeUndefined();
+                                                    expect(foundValue).toBe(expectingValue);
+                                                }
+                                            }
+                                        });
+                                }, this.testTimeout);
+                            }
+
+                            testName = `Populate new ${module.moduleCaption}`;
+                            test(testName, async () => {
+                                await module.populateFormWithRecord(rec.record);
+                            }, this.testTimeout);
+
+                            testName = `Save new ${module.moduleCaption}`;
+                            test(testName, async () => {
+                                await module.saveRecord(true)
+                                    .then(saveResponse => {
+                                        expect(saveResponse.errorMessage).toBe("");
+                                        expect(saveResponse.saved).toBe(true);
+                                    });
+                                await module.closeRecord();  //close the form
+                            }, this.testTimeout);
+
+                            if (module.canDelete) {
+                                testName = `Seek a specific ${module.moduleCaption} record`;
+                                test(testName, async () => {
+                                    let recordCount = await module.browseSeek(rec.seekObject).then().catch(err => this.LogError(testName, err));
+                                    expect(recordCount).toBe(1);
+                                }, this.testTimeout);
+
+                                testName = `Delete the ${module.moduleCaption} record`;
+                                test(testName, async () => {
+                                    let rowCountBefore = await module.browseGetRowsDisplayed();
+                                    await module.deleteRecord();
+                                    let rowCountAfter = await module.browseGetRowsDisplayed();
+                                    expect(rowCountAfter).toBe(rowCountBefore - 1);
+                                }, this.testTimeout);
+                            }
+                            else {     // make sure that the Delete button is not available
+                                testName = `Make sure no Delete button exists on ${module.moduleCaption} browse`;
+                                test(testName, async () => {
+                                    let buttonExists = await module.findDeleteButton();
+                                    expect(buttonExists).toBeFalsy();
+                                }, this.testTimeout);
+                            }
+                        }
+                    }
+                }
+                else {     // make sure that the New button is not available
+                    testName = `Make sure no New button exists on ${module.moduleCaption} browse`;
+                    test(testName, async () => {
+                        let buttonExists = await module.findNewButton();
+                        expect(buttonExists).toBeFalsy();
+                    }, this.testTimeout);
+                }
+                //---------------------------------------------------------------------------------------
+            });
+        });
+    }
+    //---------------------------------------------------------------------------------------
     async PerformTests() {
+        this.LoadMyUserGlobal(new User());
 
-        ////Home - Agent
-        this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new Contact());
-        this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new Customer());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new Deal());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new Order());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new Project());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new PurchaseOrder());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new Quote());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new Vendor());
+        this.OpenSpecificRecord(new DefaultSettings(), null, true);
 
-        ////Home - Inventory
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new Asset());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new PartsInventory());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new PhysicalInventory());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new RentalInventory());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new RepairOrder());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new SalesInventory());
+        //Home - Agent
+        this.MediumRegressionOnModule(new Contact());
+        this.MediumRegressionOnModule(new Customer());
+        this.MediumRegressionOnModule(new Deal());
+        this.MediumRegressionOnModule(new Order());
+        this.MediumRegressionOnModule(new Project());
+        this.MediumRegressionOnModule(new PurchaseOrder());
+        this.MediumRegressionOnModule(new Quote());
+        this.MediumRegressionOnModule(new Vendor());
 
-        ////Home - Warehouse
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new Contract());
+        //Home - Inventory
+        this.MediumRegressionOnModule(new Asset());
+        this.MediumRegressionOnModule(new PartsInventory());
+        this.MediumRegressionOnModule(new PhysicalInventory());
+        this.MediumRegressionOnModule(new RentalInventory());
+        this.MediumRegressionOnModule(new RepairOrder());
+        this.MediumRegressionOnModule(new SalesInventory());
 
-        ////Settings
-        this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new AccountingSettings());
-        this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new GlAccount());
-        this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new GlDistribution());
-        this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new Country());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new State());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new BillingCycle());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new Department());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new ContactEvent());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new ContactTitle());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new MailList());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new Currency());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new CreditStatus());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new CustomerCategory());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new CustomerStatus());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new CustomerType());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new DealClassification());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new DealType());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new DealStatus());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new ProductionType());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new ScheduleType());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new DiscountTemplate());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new DocumentType());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new CoverLetter());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new TermsConditions());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new EventCategory());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new EventType());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new PersonnelType());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new PhotographyType());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new Building());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new FacilityType());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new FacilityRate());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new FacilityScheduleStatus());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new FacilityStatus());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new FacilityCategory());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new SpaceType());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new FiscalYear());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new GeneratorFuelType());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new GeneratorMake());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new GeneratorRating());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new GeneratorWatts());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new GeneratorType());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new Holiday());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new BlackoutStatus());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new BarCodeRange());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new InventoryAdjustmentReason());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new Attribute());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new InventoryCondition());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new InventoryGroup());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new InventoryRank());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new InventoryStatus());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new InventoryType());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new PartsCategory());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new RentalCategory());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new RetiredReason());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new SalesCategory());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new Unit());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new UnretiredReason());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new WarehouseCatalog());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new Crew());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new LaborRate());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new LaborPosition());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new LaborType());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new LaborCategory());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new CrewScheduleStatus());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new CrewStatus());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new MiscRate());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new MiscType());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new MiscCategory());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new OfficeLocation());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new OrderType());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new DiscountReason());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new MarketSegment());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new MarketType());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new OrderSetNo());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new OrderLocation());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new PaymentTerms());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new PaymentType());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new POApprovalStatus());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new POApproverRole());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new POClassification());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new POImportance());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new PORejectReason());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new POType());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new POApprover());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new VendorInvoiceApprover());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new FormDesign());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new PresentationLayer());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new ProjectAsBuild());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new ProjectCommissioning());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new ProjectDeposit());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new ProjectDrawings());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new ProjectDropShipItems());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new ProjectItemsOrdered());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new PropsCondition());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new Region());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new RepairItemStatus());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new SetCondition());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new SetSurface());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new SetOpening());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new WallDescription());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new WallType());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new ShipVia());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new Source());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new AvailabilitySettings());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new DefaultSettings());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new EmailSettings());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new InventorySettings());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new LogoSettings());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new SystemSettings());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new TaxOption());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new Template());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new UserStatus());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new Sound());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new LicenseClass());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new VehicleColor());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new VehicleFuelType());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new VehicleMake());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new VehicleScheduleStatus());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new VehicleStatus());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new VehicleType());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new OrganizationType());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new VendorCatalog());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new VendorClass());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new SapVendorInvoiceStatus());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new WardrobeCare());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new WardrobeColor());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new WardrobeCondition());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new WardrobeGender());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new WardrobeLabel());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new WardrobeMaterial());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new WardrobePattern());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new WardrobePeriod());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new WardrobeSource());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new Warehouse());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new Widget());
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new WorkWeek());
+        //Home - Warehouse
+        this.MediumRegressionOnModule(new Contract());
+
+        //Settings
+        this.MediumRegressionOnModule(new AccountingSettings());
+        this.MediumRegressionOnModule(new GlAccount());
+        this.MediumRegressionOnModule(new GlDistribution());
+        this.MediumRegressionOnModule(new Country());
+        //this.MediumRegressionOnModule(new State());
+        //this.MediumRegressionOnModule(new BillingCycle());
+        //this.MediumRegressionOnModule(new Department());
+        //this.MediumRegressionOnModule(new ContactEvent());
+        //this.MediumRegressionOnModule(new ContactTitle());
+        //this.MediumRegressionOnModule(new MailList());
+        //this.MediumRegressionOnModule(new Currency());
+        //this.MediumRegressionOnModule(new CreditStatus());
+        //this.MediumRegressionOnModule(new CustomerCategory());
+        //this.MediumRegressionOnModule(new CustomerStatus());
+        //this.MediumRegressionOnModule(new CustomerType());
+        //this.MediumRegressionOnModule(new DealClassification());
+        //this.MediumRegressionOnModule(new DealType());
+        //this.MediumRegressionOnModule(new DealStatus());
+        //this.MediumRegressionOnModule(new ProductionType());
+        //this.MediumRegressionOnModule(new ScheduleType());
+        //this.MediumRegressionOnModule(new DiscountTemplate());
+        //this.MediumRegressionOnModule(new DocumentType());
+        //this.MediumRegressionOnModule(new CoverLetter());
+        //this.MediumRegressionOnModule(new TermsConditions());
+        //this.MediumRegressionOnModule(new EventCategory());
+        //this.MediumRegressionOnModule(new EventType());
+        //this.MediumRegressionOnModule(new PersonnelType());
+        //this.MediumRegressionOnModule(new PhotographyType());
+        //this.MediumRegressionOnModule(new Building());
+        //this.MediumRegressionOnModule(new FacilityType());
+        //this.MediumRegressionOnModule(new FacilityRate());
+        //this.MediumRegressionOnModule(new FacilityScheduleStatus());
+        //this.MediumRegressionOnModule(new FacilityStatus());
+        //this.MediumRegressionOnModule(new FacilityCategory());
+        //this.MediumRegressionOnModule(new SpaceType());
+        //this.MediumRegressionOnModule(new FiscalYear());
+        //this.MediumRegressionOnModule(new GeneratorFuelType());
+        //this.MediumRegressionOnModule(new GeneratorMake());
+        //this.MediumRegressionOnModule(new GeneratorRating());
+        //this.MediumRegressionOnModule(new GeneratorWatts());
+        //this.MediumRegressionOnModule(new GeneratorType());
+        //this.MediumRegressionOnModule(new Holiday());
+        //this.MediumRegressionOnModule(new BlackoutStatus());
+        //this.MediumRegressionOnModule(new BarCodeRange());
+        //this.MediumRegressionOnModule(new InventoryAdjustmentReason());
+        //this.MediumRegressionOnModule(new Attribute());
+        //this.MediumRegressionOnModule(new InventoryCondition());
+        //this.MediumRegressionOnModule(new InventoryGroup());
+        //this.MediumRegressionOnModule(new InventoryRank());
+        //this.MediumRegressionOnModule(new InventoryStatus());
+        //this.MediumRegressionOnModule(new InventoryType());
+        //this.MediumRegressionOnModule(new PartsCategory());
+        //this.MediumRegressionOnModule(new RentalCategory());
+        //this.MediumRegressionOnModule(new RetiredReason());
+        //this.MediumRegressionOnModule(new SalesCategory());
+        //this.MediumRegressionOnModule(new Unit());
+        //this.MediumRegressionOnModule(new UnretiredReason());
+        //this.MediumRegressionOnModule(new WarehouseCatalog());
+        //this.MediumRegressionOnModule(new Crew());
+        //this.MediumRegressionOnModule(new LaborRate());
+        //this.MediumRegressionOnModule(new LaborPosition());
+        //this.MediumRegressionOnModule(new LaborType());
+        //this.MediumRegressionOnModule(new LaborCategory());
+        //this.MediumRegressionOnModule(new CrewScheduleStatus());
+        //this.MediumRegressionOnModule(new CrewStatus());
+        //this.MediumRegressionOnModule(new MiscRate());
+        //this.MediumRegressionOnModule(new MiscType());
+        //this.MediumRegressionOnModule(new MiscCategory());
+        //this.MediumRegressionOnModule(new OfficeLocation());
+        //this.MediumRegressionOnModule(new OrderType());
+        //this.MediumRegressionOnModule(new DiscountReason());
+        //this.MediumRegressionOnModule(new MarketSegment());
+        //this.MediumRegressionOnModule(new MarketType());
+        //this.MediumRegressionOnModule(new OrderSetNo());
+        //this.MediumRegressionOnModule(new OrderLocation());
+        //this.MediumRegressionOnModule(new PaymentTerms());
+        //this.MediumRegressionOnModule(new PaymentType());
+        //this.MediumRegressionOnModule(new POApprovalStatus());
+        //this.MediumRegressionOnModule(new POApproverRole());
+        //this.MediumRegressionOnModule(new POClassification());
+        //this.MediumRegressionOnModule(new POImportance());
+        //this.MediumRegressionOnModule(new PORejectReason());
+        //this.MediumRegressionOnModule(new POType());
+        //this.MediumRegressionOnModule(new POApprover());
+        //this.MediumRegressionOnModule(new VendorInvoiceApprover());
+        //this.MediumRegressionOnModule(new FormDesign());
+        //this.MediumRegressionOnModule(new PresentationLayer());
+        //this.MediumRegressionOnModule(new ProjectAsBuild());
+        //this.MediumRegressionOnModule(new ProjectCommissioning());
+        //this.MediumRegressionOnModule(new ProjectDeposit());
+        //this.MediumRegressionOnModule(new ProjectDrawings());
+        //this.MediumRegressionOnModule(new ProjectDropShipItems());
+        //this.MediumRegressionOnModule(new ProjectItemsOrdered());
+        //this.MediumRegressionOnModule(new PropsCondition());
+        //this.MediumRegressionOnModule(new Region());
+        //this.MediumRegressionOnModule(new RepairItemStatus());
+        //this.MediumRegressionOnModule(new SetCondition());
+        //this.MediumRegressionOnModule(new SetSurface());
+        //this.MediumRegressionOnModule(new SetOpening());
+        //this.MediumRegressionOnModule(new WallDescription());
+        //this.MediumRegressionOnModule(new WallType());
+        //this.MediumRegressionOnModule(new ShipVia());
+        //this.MediumRegressionOnModule(new Source());
+        //this.MediumRegressionOnModule(new AvailabilitySettings());
+        //this.MediumRegressionOnModule(new DefaultSettings());
+        //this.MediumRegressionOnModule(new EmailSettings());
+        //this.MediumRegressionOnModule(new InventorySettings());
+        //this.MediumRegressionOnModule(new LogoSettings());
+        //this.MediumRegressionOnModule(new SystemSettings());
+        //this.MediumRegressionOnModule(new TaxOption());
+        //this.MediumRegressionOnModule(new Template());
+        //this.MediumRegressionOnModule(new UserStatus());
+        //this.MediumRegressionOnModule(new Sound());
+        //this.MediumRegressionOnModule(new LicenseClass());
+        //this.MediumRegressionOnModule(new VehicleColor());
+        //this.MediumRegressionOnModule(new VehicleFuelType());
+        //this.MediumRegressionOnModule(new VehicleMake());
+        //this.MediumRegressionOnModule(new VehicleScheduleStatus());
+        //this.MediumRegressionOnModule(new VehicleStatus());
+        //this.MediumRegressionOnModule(new VehicleType());
+        //this.MediumRegressionOnModule(new OrganizationType());
+        //this.MediumRegressionOnModule(new VendorCatalog());
+        //this.MediumRegressionOnModule(new VendorClass());
+        //this.MediumRegressionOnModule(new SapVendorInvoiceStatus());
+        //this.MediumRegressionOnModule(new WardrobeCare());
+        //this.MediumRegressionOnModule(new WardrobeColor());
+        //this.MediumRegressionOnModule(new WardrobeCondition());
+        //this.MediumRegressionOnModule(new WardrobeGender());
+        //this.MediumRegressionOnModule(new WardrobeLabel());
+        //this.MediumRegressionOnModule(new WardrobeMaterial());
+        //this.MediumRegressionOnModule(new WardrobePattern());
+        //this.MediumRegressionOnModule(new WardrobePeriod());
+        //this.MediumRegressionOnModule(new WardrobeSource());
+        //this.MediumRegressionOnModule(new Warehouse());
+        //this.MediumRegressionOnModule(new Widget());
+        //this.MediumRegressionOnModule(new WorkWeek());
 
         ////Administrator
-        //this.TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(new User());
+        //this.MediumRegressionOnModule(new User());
     }
     //---------------------------------------------------------------------------------------
 }

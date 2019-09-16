@@ -7,6 +7,7 @@ export class Project extends HomeModule {
         this.moduleName = 'Project';
         this.moduleId = 'C6C8167A-C3B5-4915-8290-4520AF7EDB35';
         this.moduleCaption = 'Project';
+        this.canDelete = false;
     }
     //---------------------------------------------------------------------------------------
 }

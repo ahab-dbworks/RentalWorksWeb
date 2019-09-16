@@ -7,6 +7,11 @@ export class RentalInventory extends HomeModule {
         this.moduleName = 'RentalInventory';
         this.moduleId = 'FCDB4C86-20E7-489B-A8B7-D22EE6F85C06';
         this.moduleCaption = 'Rental Inventory';
+
+        this.defaultNewRecordToExpect = {
+            Unit: "GlobalScope.DefaultSettings~1.DefaultUnit",   // ie. "EA"
+        }
+
     }
     //---------------------------------------------------------------------------------------
 }

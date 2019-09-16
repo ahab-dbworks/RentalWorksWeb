@@ -1,8 +1,10 @@
 ﻿import { BaseTest } from '../shared/BaseTest';
+import { ModuleBase } from '../shared/ModuleBase';
+import { Logging } from '../shared/Logging';
 import {
     //home
     Contact, Customer, Deal, Order, Project, PurchaseOrder, Quote, Vendor,
-    Asset, PartsInventory, PhysicalInventory, RentalInventory, RepairOrder, SalesInventory, 
+    Asset, PartsInventory, PhysicalInventory, RentalInventory, RepairOrder, SalesInventory,
     Contract,
 
     //settings
@@ -27,169 +29,219 @@ import {
 
 export class ShallowRegressionTest extends BaseTest {
     //---------------------------------------------------------------------------------------
+    async ShallowRegressionOnModule(module: ModuleBase, registerGlobal?: boolean) {
+        let testName: string = "";
+        describe(module.moduleCaption, () => {
+            const testCollectionName = `Open browse and first form (if any), click all tabs`;
+            describe(testCollectionName, () => {
+                //---------------------------------------------------------------------------------------
+                testName = `Open ${module.moduleCaption} browse`;
+                test(testName, async () => {
+                    await module.openBrowse()
+                        .then(openBrowseResponse => {
+                            expect(openBrowseResponse.errorMessage).toBe("");
+                            expect(openBrowseResponse.opened).toBeTruthy();
+                        });
+                }, this.testTimeout);
+                //---------------------------------------------------------------------------------------
+                if (module.canView) {       //if the module supports form viewing, try to open the first form, if any
+                    testName = `Open first ${module.moduleCaption} form, if any`;
+                    test(testName, async () => {
+                        await module.openFirstRecordIfAny()
+                            .then(openRecordResponse => {
+                                expect(openRecordResponse.errorMessage).toBe("");
+                                expect(openRecordResponse.opened).toBeTruthy();
+
+                                if (registerGlobal) {
+                                    let globalKey = module.moduleName;
+                                    for (var key in openRecordResponse.keys) {
+                                        globalKey = globalKey + "~" + openRecordResponse.keys[key];
+                                    }
+                                    //Logging.logInfo(`Global Key: ${globalKey}`);
+                                    this.globalScopeRef[globalKey] = openRecordResponse.record;
+                                }
+                            });
+
+                    }, this.testTimeout);
+
+                    //if the module supports form viewing, try to click all tabs on the form
+                    testName = `Click all Tabs on the ${module.moduleCaption} form`;
+                    test(testName, async () => {
+                        await module.clickAllTabsOnForm()
+                            .then(openRecordResponse => {
+                                expect(openRecordResponse.errorMessage).toBe("");
+                                expect(openRecordResponse.success).toBeTruthy();
+                            });
+                    }, this.testTimeout);
+                }
+                //---------------------------------------------------------------------------------------
+            });
+        });
+    }
+    //---------------------------------------------------------------------------------------    
     async PerformTests() {
 
         //Home - Agent
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new Contact());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new Customer());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new Deal());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new Order());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new Project());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new PurchaseOrder());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new Quote());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new Vendor());
+        this.ShallowRegressionOnModule(new Contact());
+        this.ShallowRegressionOnModule(new Customer());
+        this.ShallowRegressionOnModule(new Deal());
+        this.ShallowRegressionOnModule(new Order());
+        this.ShallowRegressionOnModule(new Project());
+        this.ShallowRegressionOnModule(new PurchaseOrder());
+        this.ShallowRegressionOnModule(new Quote());
+        this.ShallowRegressionOnModule(new Vendor());
 
         //Home - Inventory
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new Asset());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new PartsInventory());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new PhysicalInventory());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new RentalInventory());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new RepairOrder());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new SalesInventory());
+        this.ShallowRegressionOnModule(new Asset());
+        this.ShallowRegressionOnModule(new PartsInventory());
+        this.ShallowRegressionOnModule(new PhysicalInventory());
+        this.ShallowRegressionOnModule(new RentalInventory());
+        this.ShallowRegressionOnModule(new RepairOrder());
+        this.ShallowRegressionOnModule(new SalesInventory());
 
         //Home - Warehouse
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new Contract());
+        this.ShallowRegressionOnModule(new Contract());
 
         //Settings
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new AccountingSettings());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new GlAccount());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new GlDistribution());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new Country());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new State());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new BillingCycle());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new Department());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new ContactEvent());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new ContactTitle());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new MailList());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new Currency());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new CreditStatus());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new CustomerCategory());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new CustomerStatus());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new CustomerType());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new DealClassification());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new DealType());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new DealStatus());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new ProductionType());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new ScheduleType());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new DiscountTemplate());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new DocumentType());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new CoverLetter());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new TermsConditions());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new EventCategory());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new EventType());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new PersonnelType());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new PhotographyType());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new Building());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new FacilityType());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new FacilityRate());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new FacilityScheduleStatus());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new FacilityStatus());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new FacilityCategory());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new SpaceType());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new FiscalYear());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new GeneratorFuelType());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new GeneratorMake());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new GeneratorRating());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new GeneratorWatts());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new GeneratorType());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new Holiday());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new BlackoutStatus());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new BarCodeRange());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new InventoryAdjustmentReason());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new Attribute());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new InventoryCondition());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new InventoryGroup());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new InventoryRank());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new InventoryStatus());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new InventoryType());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new PartsCategory());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new RentalCategory());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new RetiredReason());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new SalesCategory());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new Unit());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new UnretiredReason());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new WarehouseCatalog());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new Crew());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new LaborRate());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new LaborPosition());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new LaborType());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new LaborCategory());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new CrewScheduleStatus());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new CrewStatus());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new MiscRate());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new MiscType());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new MiscCategory());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new OfficeLocation());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new OrderType());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new DiscountReason());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new MarketSegment());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new MarketType());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new OrderSetNo());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new OrderLocation());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new PaymentTerms());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new PaymentType());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new POApprovalStatus());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new POApproverRole());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new POClassification());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new POImportance());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new PORejectReason());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new POType());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new POApprover());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new VendorInvoiceApprover());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new FormDesign());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new PresentationLayer());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new ProjectAsBuild());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new ProjectCommissioning());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new ProjectDeposit());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new ProjectDrawings());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new ProjectDropShipItems());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new ProjectItemsOrdered());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new PropsCondition());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new Region());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new RepairItemStatus());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new SetCondition());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new SetSurface());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new SetOpening());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new WallDescription());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new WallType());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new ShipVia());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new Source());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new AvailabilitySettings());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new DefaultSettings());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new EmailSettings());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new InventorySettings());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new LogoSettings());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new SystemSettings());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new TaxOption());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new Template());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new UserStatus());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new Sound());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new LicenseClass());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new VehicleColor());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new VehicleFuelType());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new VehicleMake());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new VehicleScheduleStatus());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new VehicleStatus());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new VehicleType());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new OrganizationType());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new VendorCatalog());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new VendorClass());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new SapVendorInvoiceStatus());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new WardrobeCare());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new WardrobeColor());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new WardrobeCondition());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new WardrobeGender());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new WardrobeLabel());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new WardrobeMaterial());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new WardrobePattern());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new WardrobePeriod());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new WardrobeSource());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new Warehouse());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new Widget());
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new WorkWeek());
+        this.ShallowRegressionOnModule(new AccountingSettings());
+        this.ShallowRegressionOnModule(new GlAccount());
+        this.ShallowRegressionOnModule(new GlDistribution());
+        this.ShallowRegressionOnModule(new Country());
+        this.ShallowRegressionOnModule(new State());
+        this.ShallowRegressionOnModule(new BillingCycle());
+        this.ShallowRegressionOnModule(new Department());
+        this.ShallowRegressionOnModule(new ContactEvent());
+        this.ShallowRegressionOnModule(new ContactTitle());
+        this.ShallowRegressionOnModule(new MailList());
+        this.ShallowRegressionOnModule(new Currency());
+        this.ShallowRegressionOnModule(new CreditStatus());
+        this.ShallowRegressionOnModule(new CustomerCategory());
+        this.ShallowRegressionOnModule(new CustomerStatus());
+        this.ShallowRegressionOnModule(new CustomerType());
+        this.ShallowRegressionOnModule(new DealClassification());
+        this.ShallowRegressionOnModule(new DealType());
+        this.ShallowRegressionOnModule(new DealStatus());
+        this.ShallowRegressionOnModule(new ProductionType());
+        this.ShallowRegressionOnModule(new ScheduleType());
+        this.ShallowRegressionOnModule(new DiscountTemplate());
+        this.ShallowRegressionOnModule(new DocumentType());
+        this.ShallowRegressionOnModule(new CoverLetter());
+        this.ShallowRegressionOnModule(new TermsConditions());
+        this.ShallowRegressionOnModule(new EventCategory());
+        this.ShallowRegressionOnModule(new EventType());
+        this.ShallowRegressionOnModule(new PersonnelType());
+        this.ShallowRegressionOnModule(new PhotographyType());
+        this.ShallowRegressionOnModule(new Building());
+        this.ShallowRegressionOnModule(new FacilityType());
+        this.ShallowRegressionOnModule(new FacilityRate());
+        this.ShallowRegressionOnModule(new FacilityScheduleStatus());
+        this.ShallowRegressionOnModule(new FacilityStatus());
+        this.ShallowRegressionOnModule(new FacilityCategory());
+        this.ShallowRegressionOnModule(new SpaceType());
+        this.ShallowRegressionOnModule(new FiscalYear());
+        this.ShallowRegressionOnModule(new GeneratorFuelType());
+        this.ShallowRegressionOnModule(new GeneratorMake());
+        this.ShallowRegressionOnModule(new GeneratorRating());
+        this.ShallowRegressionOnModule(new GeneratorWatts());
+        this.ShallowRegressionOnModule(new GeneratorType());
+        this.ShallowRegressionOnModule(new Holiday());
+        this.ShallowRegressionOnModule(new BlackoutStatus());
+        this.ShallowRegressionOnModule(new BarCodeRange());
+        this.ShallowRegressionOnModule(new InventoryAdjustmentReason());
+        this.ShallowRegressionOnModule(new Attribute());
+        this.ShallowRegressionOnModule(new InventoryCondition());
+        this.ShallowRegressionOnModule(new InventoryGroup());
+        this.ShallowRegressionOnModule(new InventoryRank());
+        this.ShallowRegressionOnModule(new InventoryStatus());
+        this.ShallowRegressionOnModule(new InventoryType());
+        this.ShallowRegressionOnModule(new PartsCategory());
+        this.ShallowRegressionOnModule(new RentalCategory());
+        this.ShallowRegressionOnModule(new RetiredReason());
+        this.ShallowRegressionOnModule(new SalesCategory());
+        this.ShallowRegressionOnModule(new Unit());
+        this.ShallowRegressionOnModule(new UnretiredReason());
+        this.ShallowRegressionOnModule(new WarehouseCatalog());
+        this.ShallowRegressionOnModule(new Crew());
+        this.ShallowRegressionOnModule(new LaborRate());
+        this.ShallowRegressionOnModule(new LaborPosition());
+        this.ShallowRegressionOnModule(new LaborType());
+        this.ShallowRegressionOnModule(new LaborCategory());
+        this.ShallowRegressionOnModule(new CrewScheduleStatus());
+        this.ShallowRegressionOnModule(new CrewStatus());
+        this.ShallowRegressionOnModule(new MiscRate());
+        this.ShallowRegressionOnModule(new MiscType());
+        this.ShallowRegressionOnModule(new MiscCategory());
+        this.ShallowRegressionOnModule(new OfficeLocation());
+        this.ShallowRegressionOnModule(new OrderType());
+        this.ShallowRegressionOnModule(new DiscountReason());
+        this.ShallowRegressionOnModule(new MarketSegment());
+        this.ShallowRegressionOnModule(new MarketType());
+        this.ShallowRegressionOnModule(new OrderSetNo());
+        this.ShallowRegressionOnModule(new OrderLocation());
+        this.ShallowRegressionOnModule(new PaymentTerms());
+        this.ShallowRegressionOnModule(new PaymentType());
+        this.ShallowRegressionOnModule(new POApprovalStatus());
+        this.ShallowRegressionOnModule(new POApproverRole());
+        this.ShallowRegressionOnModule(new POClassification());
+        this.ShallowRegressionOnModule(new POImportance());
+        this.ShallowRegressionOnModule(new PORejectReason());
+        this.ShallowRegressionOnModule(new POType());
+        this.ShallowRegressionOnModule(new POApprover());
+        this.ShallowRegressionOnModule(new VendorInvoiceApprover());
+        this.ShallowRegressionOnModule(new FormDesign());
+        this.ShallowRegressionOnModule(new PresentationLayer());
+        this.ShallowRegressionOnModule(new ProjectAsBuild());
+        this.ShallowRegressionOnModule(new ProjectCommissioning());
+        this.ShallowRegressionOnModule(new ProjectDeposit());
+        this.ShallowRegressionOnModule(new ProjectDrawings());
+        this.ShallowRegressionOnModule(new ProjectDropShipItems());
+        this.ShallowRegressionOnModule(new ProjectItemsOrdered());
+        this.ShallowRegressionOnModule(new PropsCondition());
+        this.ShallowRegressionOnModule(new Region());
+        this.ShallowRegressionOnModule(new RepairItemStatus());
+        this.ShallowRegressionOnModule(new SetCondition());
+        this.ShallowRegressionOnModule(new SetSurface());
+        this.ShallowRegressionOnModule(new SetOpening());
+        this.ShallowRegressionOnModule(new WallDescription());
+        this.ShallowRegressionOnModule(new WallType());
+        this.ShallowRegressionOnModule(new ShipVia());
+        this.ShallowRegressionOnModule(new Source());
+        this.ShallowRegressionOnModule(new AvailabilitySettings());
+        this.ShallowRegressionOnModule(new DefaultSettings());
+        this.ShallowRegressionOnModule(new EmailSettings());
+        this.ShallowRegressionOnModule(new InventorySettings());
+        this.ShallowRegressionOnModule(new LogoSettings());
+        this.ShallowRegressionOnModule(new SystemSettings());
+        this.ShallowRegressionOnModule(new TaxOption());
+        this.ShallowRegressionOnModule(new Template());
+        this.ShallowRegressionOnModule(new UserStatus());
+        this.ShallowRegressionOnModule(new Sound());
+        this.ShallowRegressionOnModule(new LicenseClass());
+        this.ShallowRegressionOnModule(new VehicleColor());
+        this.ShallowRegressionOnModule(new VehicleFuelType());
+        this.ShallowRegressionOnModule(new VehicleMake());
+        this.ShallowRegressionOnModule(new VehicleScheduleStatus());
+        this.ShallowRegressionOnModule(new VehicleStatus());
+        this.ShallowRegressionOnModule(new VehicleType());
+        this.ShallowRegressionOnModule(new OrganizationType());
+        this.ShallowRegressionOnModule(new VendorCatalog());
+        this.ShallowRegressionOnModule(new VendorClass());
+        this.ShallowRegressionOnModule(new SapVendorInvoiceStatus());
+        this.ShallowRegressionOnModule(new WardrobeCare());
+        this.ShallowRegressionOnModule(new WardrobeColor());
+        this.ShallowRegressionOnModule(new WardrobeCondition());
+        this.ShallowRegressionOnModule(new WardrobeGender());
+        this.ShallowRegressionOnModule(new WardrobeLabel());
+        this.ShallowRegressionOnModule(new WardrobeMaterial());
+        this.ShallowRegressionOnModule(new WardrobePattern());
+        this.ShallowRegressionOnModule(new WardrobePeriod());
+        this.ShallowRegressionOnModule(new WardrobeSource());
+        this.ShallowRegressionOnModule(new Warehouse());
+        this.ShallowRegressionOnModule(new Widget());
+        this.ShallowRegressionOnModule(new WorkWeek());
 
         //Administrator
-        this.TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(new User());
+        this.ShallowRegressionOnModule(new User());
     }
     //---------------------------------------------------------------------------------------
 }

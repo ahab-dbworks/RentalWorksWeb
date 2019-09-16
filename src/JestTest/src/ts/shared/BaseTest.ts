@@ -6,13 +6,10 @@ import { SaveResponse, OpenBrowseResponse, CreateNewResponse, OpenRecordResponse
 import { GlobalScope } from '../shared/GlobalScope';
 
 export abstract class BaseTest {
-
     continueTest: boolean | void = true;
     testTimeout: number = 30000; // 30 seconds
     testToken = TestUtils.getTestToken();
-
     globalScopeRef = GlobalScope;
-
     //---------------------------------------------------------------------------------------
     LogError(testName: string, err: any) {
         Logging.logError("Error in " + testName + ": " + err);
@@ -43,7 +40,8 @@ export abstract class BaseTest {
                 //GlobalScope.TestToken~1.TestToken
                 this.globalScopeRef["TestToken~1"] = {
                     TestToken: this.testToken,
-                    ShortTestToken: this.testToken.substring(this.testToken.length - 3) // not guaranteed to be unique
+                    MediumTestToken: this.testToken.substring(this.testToken.length - 8), // not guaranteed to be unique
+                    ShortTestToken: this.testToken.substring(this.testToken.length - 3), // not guaranteed to be unique
                 };
             }, this.testTimeout);
             //---------------------------------------------------------------------------------------
@@ -57,10 +55,6 @@ export abstract class BaseTest {
             //---------------------------------------------------------------------------------------
             testName = 'Login';
             test(testName, async () => {
-                //let loginResponse: LoginResponse | void = await TestUtils.authenticate();
-                //let strictLoginResponse = loginResponse as unknown as LoginResponse;
-                //expect(strictLoginResponse.errorMessage).toBe("");
-                //expect(strictLoginResponse.success).toBeTruthy();
                 await TestUtils.authenticate().
                     then(loginResponse => {
                         expect(loginResponse.errorMessage).toBe("");
@@ -78,12 +72,57 @@ export abstract class BaseTest {
             //---------------------------------------------------------------------------------------
             testName = 'Logoff';
             test(testName, async () => {
-                //let logoutResponse: LogoutResponse | void = await TestUtils.logoff();
-                //let strictLogoutResponse = logoutResponse as unknown as LogoutResponse;
-                //expect(strictLogoutResponse.success).toBeTruthy();
                 await TestUtils.logoff()
                     .then(logoutResponse => {
                         expect(logoutResponse.success).toBeTruthy();
+                    });
+            }, this.testTimeout);
+            //---------------------------------------------------------------------------------------
+        });
+    }
+    //---------------------------------------------------------------------------------------
+    async OpenSpecificRecord(module: ModuleBase, seekObject?: any, registerGlobal?: boolean, globalKeyValue?: string) {
+        let testName: string = "";
+        const testCollectionName = `Open a specific ${module.moduleCaption}`;// + registerGlobal ? `, register global values` : ``;
+        describe(testCollectionName, () => {
+            //---------------------------------------------------------------------------------------
+            testName = `Open ${module.moduleCaption} browse`;
+            test(testName, async () => {
+                await module.openBrowse()
+                    .then((openBrowseResponse) => {
+                        expect(openBrowseResponse.errorMessage).toBe("");
+                        expect(openBrowseResponse.opened).toBeTruthy();
+                    });
+            }, this.testTimeout);
+            //---------------------------------------------------------------------------------------
+            if (seekObject) {   // if seekObject supplied, use it.  Otherwise skip this and just open the first record in the browse
+                testName = `Use column headers to seek a specific ${module.moduleCaption} record`;
+                test(testName, async () => {
+                    let recordCount = await module.browseSeek(seekObject).then().catch(err => this.LogError(testName, err));
+                    expect(recordCount).toBe(1);
+                    this.continueTest = (recordCount == 1);
+                }, this.testTimeout);
+            }
+            //---------------------------------------------------------------------------------------
+            testName = `Open the ${module.moduleCaption} record`;
+            test(testName, async () => {
+                await module.openRecord()
+                    .then(openRecordResponse => {
+                        expect(openRecordResponse.errorMessage).toBe("");
+                        expect(openRecordResponse.opened).toBeTruthy();
+
+                        if (registerGlobal) {
+                            let globalKey = module.moduleName;
+                            if (globalKeyValue === undefined) {
+                                for (var key in openRecordResponse.keys) {
+                                    globalKey = globalKey + "~" + openRecordResponse.keys[key];
+                                }
+                            }
+                            else {
+                                globalKey = globalKey + "~" + globalKeyValue;
+                            }
+                            this.globalScopeRef[globalKey] = openRecordResponse.record;
+                        }
                     });
             }, this.testTimeout);
             //---------------------------------------------------------------------------------------
@@ -94,7 +133,7 @@ export abstract class BaseTest {
         var findUserInputs: any = {
             LoginName: process.env.RW_LOGIN
         }
-        await this.TestModuleOpenSpecificRecord(userModule, findUserInputs, true, "ME");
+        await this.OpenSpecificRecord(userModule, findUserInputs, true, "ME");
     }
     //---------------------------------------------------------------------------------------
     async ValidateUserAndEnvironment() {
@@ -127,150 +166,6 @@ export abstract class BaseTest {
         });
     }
     //---------------------------------------------------------------------------------------
-    async TestModule_OpenBrowse_OpenFirstFormIfAny_ClickAllTabs(module: ModuleBase, registerGlobal?: boolean) {
-        let testName: string = "";
-        describe(module.moduleCaption, () => {
-            const testCollectionName = `Open browse and first form (if any), click all tabs`;
-            describe(testCollectionName, () => {
-                //---------------------------------------------------------------------------------------
-                testName = `Open ${module.moduleCaption} browse`;
-                test(testName, async () => {
-                    //let openBrowseResponse: OpenBrowseResponse | void = await module.openBrowse();
-                    //let strictOpenBrowseResponse = openBrowseResponse as OpenBrowseResponse;
-                    //expect(strictOpenBrowseResponse.errorMessage).toBe("");
-                    //expect(strictOpenBrowseResponse.opened).toBeTruthy();
-                    await module.openBrowse()
-                        .then(openBrowseResponse => {
-                            expect(openBrowseResponse.errorMessage).toBe("");
-                            expect(openBrowseResponse.opened).toBeTruthy();
-                        });
-                }, this.testTimeout);
-                //---------------------------------------------------------------------------------------
-                if (module.canView) {
-                    //if the module supports form viewing, try to open the first form, if any
-                    testName = `Open first ${module.moduleCaption} form, if any`;
-                    test(testName, async () => {
-                        //let openRecordResponse: OpenRecordResponse | void = await module.openFirstRecordIfAny();
-                        //let strictOpenRecordResponse = openRecordResponse as OpenRecordResponse;
-                        //expect(strictOpenRecordResponse.errorMessage).toBe("");
-                        //expect(strictOpenRecordResponse.opened).toBeTruthy();
-
-                        await module.openFirstRecordIfAny()
-                            .then(openRecordResponse => {
-                                expect(openRecordResponse.errorMessage).toBe("");
-                                expect(openRecordResponse.opened).toBeTruthy();
-
-                                if (registerGlobal) {
-                                    Logging.logInfo(`Form Record: ${JSON.stringify(openRecordResponse.record)}`);
-                                    Logging.logInfo(`Form Keys: ${JSON.stringify(openRecordResponse.keys)}`);
-
-                                    let globalKey = module.moduleName;
-                                    for (var key in openRecordResponse.keys) {
-                                        globalKey = globalKey + "~" + openRecordResponse.keys[key];
-                                    }
-                                    Logging.logInfo(`Global Key: ${globalKey}`);
-                                    this.globalScopeRef[globalKey] = openRecordResponse.record;
-                                }
-                            });
-
-                    }, this.testTimeout);
-
-                    //if the module supports form viewing, try to click all tabs on the form
-                    testName = `Click all Tabs on the ${module.moduleCaption} form`;
-                    test(testName, async () => {
-                        //let clickAllTabsResponse: ClickAllTabsResponse | void = await module.clickAllTabsOnForm();
-                        //let strictOpenRecordResponse = clickAllTabsResponse as ClickAllTabsResponse;
-                        //expect(strictOpenRecordResponse.errorMessage).toBe("");
-                        //expect(strictOpenRecordResponse.success).toBeTruthy();
-                        await module.clickAllTabsOnForm()
-                            .then(openRecordResponse => {
-                                expect(openRecordResponse.errorMessage).toBe("");
-                                expect(openRecordResponse.success).toBeTruthy();
-                            });
-                    }, this.testTimeout);
-
-
-                }
-                //---------------------------------------------------------------------------------------
-            });
-        });
-    }
-    //---------------------------------------------------------------------------------------
-
-
-    async TestModule_OpenBrowse_CreateNew_Save_Edit_Save_Delete(module: ModuleBase) {
-        let testName: string = "";
-        describe(module.moduleCaption, () => {
-            const testCollectionName = `Open browse, create new (if allowed), save, edit, save, delete (if allowed)`;
-            describe(testCollectionName, () => {
-                //---------------------------------------------------------------------------------------
-                testName = `Open ${module.moduleCaption} browse`;
-                test(testName, async () => {
-                    //let openBrowseResponse: OpenBrowseResponse | void = await module.openBrowse();
-                    //let strictOpenBrowseResponse = openBrowseResponse as OpenBrowseResponse;
-                    //expect(strictOpenBrowseResponse.errorMessage).toBe("");
-                    //expect(strictOpenBrowseResponse.opened).toBeTruthy();
-                    await module.openBrowse()
-                        .then(openBrowseResponse => {
-                            expect(openBrowseResponse.errorMessage).toBe("");
-                            expect(openBrowseResponse.opened).toBeTruthy();
-                        });
-                }, this.testTimeout);
-                //---------------------------------------------------------------------------------------
-                if (module.canNew) {
-                    //if the module supports adding new records, try to add one
-                    testName = `Create new ${module.moduleCaption}`;
-                    test(testName, async () => {
-                        //let createNewResponse: CreateNewResponse | void = await module.createNewRecord();
-                        //let strictCreateNewResponse = createNewResponse as CreateNewResponse;
-                        //expect(strictCreateNewResponse.errorMessage).toBe("");
-                        //expect(strictCreateNewResponse.success).toBeTruthy();
-                        await module.createNewRecord()
-                            .then(createNewResponse => {
-                                expect(createNewResponse.errorMessage).toBe("");
-                                expect(createNewResponse.success).toBeTruthy();
-                            });
-                    }, this.testTimeout);
-
-                    if (module.defaultNewObject) {
-                        testName = `Populate new ${module.moduleCaption}`;
-                        test(testName, async () => {
-                            await module.populateFormWithRecord(module.defaultNewObject);//.then().catch(err => this.LogError(testName, err));
-                        }, this.testTimeout);
-                    }
-
-                    if (module.defaultNewObject) {
-                        testName = `Save new ${module.moduleCaption}`;
-                        test(testName, async () => {
-                            //let saveResponse: SaveResponse | void = await module.saveRecord(true);//.then().catch(err => this.LogError(testName, err));
-                            //let strictSaveResponse = saveResponse as SaveResponse;
-                            //this.continueTest = strictSaveResponse.saved;
-                            //expect(strictSaveResponse.errorMessage).toBe("");
-                            //expect(strictSaveResponse.saved).toBe(true);
-                            await module.saveRecord(true)
-                                .then(saveResponse => {
-                                    expect(saveResponse.errorMessage).toBe("");
-                                    expect(saveResponse.saved).toBe(true);
-                                });
-                        }, this.testTimeout);
-                    }
-
-                }
-                else {
-                    // make sure that the New button is not available
-                    testName = `Make sure no New button exists on ${module.moduleCaption} browse`;
-                    test(testName, async () => {
-                        let newButtonExists = await module.findNewButton();
-                        expect(newButtonExists).toBeFalsy();
-                    }, this.testTimeout);
-                }
-                //---------------------------------------------------------------------------------------
-            });
-        });
-    }
-    //---------------------------------------------------------------------------------------
-
-
     async TestModuleDefaultsOnNewForm(module: ModuleBase, expectedObject: any) {
         let testName: string = "";
         const testCollectionName = `Start new ${module.moduleCaption}, check form for expected default values`;
@@ -555,71 +450,7 @@ export abstract class BaseTest {
         });
     }
     //---------------------------------------------------------------------------------------
-    async TestModuleOpenSpecificRecord(module: ModuleBase, seekObject: any, registerGlobal?: boolean, globalKeyValue?: string) {
-        let testName: string = "";
-        const testCollectionName = `Attempt to seek to and open a ${module.moduleCaption}`;
-        describe(testCollectionName, () => {
-            //---------------------------------------------------------------------------------------
-            if (this.continueTest) {
-                testName = `Open ${module.moduleCaption} browse`;
-                test(testName, async () => {
-                    //let openBrowseResponse: OpenBrowseResponse | void = await module.openBrowse().then().catch(err => this.LogError(testName, err));
-                    //let strictOpenBrowseResponse = openBrowseResponse as OpenBrowseResponse;
-                    //expect(strictOpenBrowseResponse.errorMessage).toBe("");
-                    //expect(strictOpenBrowseResponse.opened).toBeTruthy();
-                    await module.openBrowse()
-                        .then((openBrowseResponse) => {
-                            expect(openBrowseResponse.errorMessage).toBe("");
-                            expect(openBrowseResponse.opened).toBeTruthy();
-                        });
-                }, this.testTimeout);
-            }
-            //---------------------------------------------------------------------------------------
-            if (this.continueTest) {
-                testName = `Use column headers to seek a specific ${module.moduleCaption} record`;
-                test(testName, async () => {
-                    let recordCount = await module.browseSeek(seekObject).then().catch(err => this.LogError(testName, err));
-                    expect(recordCount).toBe(1);
-                    this.continueTest = (recordCount == 1);
-                }, this.testTimeout);
-            }
-            //---------------------------------------------------------------------------------------
-            if (this.continueTest) {
-                testName = `Open the ${module.moduleCaption} record`;
-                test(testName, async () => {
-                    //let openRecordResponse: OpenRecordResponse | void = await module.openRecord().then().catch(err => this.LogError(testName, err));
-                    //let strictOpenRecordResponse = openRecordResponse as OpenRecordResponse;
-                    //expect(strictOpenRecordResponse.errorMessage).toBe("");
-                    //expect(strictOpenRecordResponse.opened).toBeTruthy();
 
-                    await module.openRecord()
-                        .then(openRecordResponse => {
-                            expect(openRecordResponse.errorMessage).toBe("");
-                            expect(openRecordResponse.opened).toBeTruthy();
-
-                            if (registerGlobal) {
-                                Logging.logInfo(`Form Record: ${JSON.stringify(openRecordResponse.record)}`);
-                                Logging.logInfo(`Form Keys: ${JSON.stringify(openRecordResponse.keys)}`);
-
-                                let globalKey = module.moduleName;
-                                if (globalKeyValue === undefined) {
-                                    for (var key in openRecordResponse.keys) {
-                                        globalKey = globalKey + "~" + openRecordResponse.keys[key];
-                                    }
-                                }
-                                else {
-                                    globalKey = globalKey + "~" + globalKeyValue;
-                                }
-                                Logging.logInfo(`Global Key: ${globalKey}`);
-                                this.globalScopeRef[globalKey] = openRecordResponse.record;
-                            }
-                        });
-                }, this.testTimeout);
-            }
-            //---------------------------------------------------------------------------------------
-        });
-    }
-    //---------------------------------------------------------------------------------------
     async TestModuleDeleteSpecificRecord(module: ModuleBase, seekObject: any) {
         let testName: string = "";
         const testCollectionName = `Attempt to seek to and delete a ${module.moduleCaption}`;

@@ -7,6 +7,7 @@ export class PhysicalInventory extends HomeModule {
         this.moduleName = 'PhysicalInventory';
         this.moduleId = 'BABFE80E-8A52-49D4-81D9-6B6EBB518E89';
         this.moduleCaption = 'Physical Inventory';
+        this.canDelete = false;
     }
     //---------------------------------------------------------------------------------------
 }
