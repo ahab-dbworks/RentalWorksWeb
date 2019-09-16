@@ -89,8 +89,8 @@ namespace WebApi.ApplicationManager
         //    catUtilities.Modules.Add(new FwAmModule() { Id="A11D6D7E299447B9B131D4602C054EF6", Category="Utilities", Name="Dashboard Settings" });
 
         //    catAdministrator.Modules.Add(new FwAmModule() { Id="F0D6EA7E2FBC4441AD0BC05388272743", Category="Administrator", Name="Control" });
-        //    catAdministrator.Modules.Add(new FwAmModule() { Id="2AA8D85D72CE41DAAFF4DAA8D5F1686A", Category="Administrator", Name="Custom Fields", Editions="Rw|E,Tw|E" });
-        //    catAdministrator.Modules.Add(new FwAmModule() { Id="70FF8A7EABDA44C78BF8C70A6010599A", Category="Administrator", Name="Duplicate Rules" });
+        //    catAdministrator.Modules.Add(new FwAmModule() { Id="2AA8D85D72CE41DAAFF4DAA8D5F1686A", Category="Administrator", Name="Custom Field", Editions="Rw|E,Tw|E" });
+        //    catAdministrator.Modules.Add(new FwAmModule() { Id="70FF8A7EABDA44C78BF8C70A6010599A", Category="Administrator", Name="Duplicate Rule" });
         //    catAdministrator.Modules.Add(new FwAmModule() { Id="0443E3CBD1CF491D905314D71B42FD86", Category="Administrator", Name="Group" });
         //    catAdministrator.Modules.Add(new FwAmModule() { Id="A8D4A670F1834F8F9F25B97565140CAC", Category="Administrator", Name="User" });
         //    catAdministrator.Modules.Add(new FwAmModule() { Id="4907FC5856904B9B87D503FE47D22447", Category="Administrator", Name="Settings" });

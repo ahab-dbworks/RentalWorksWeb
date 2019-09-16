@@ -7,7 +7,7 @@ export class Alert extends AdminModule {
         super();
         this.moduleName = 'Alert';
         this.moduleId = '6E5F47FB-1F18-443E-B464-9D2351857361';
-        this.moduleCaption = 'Alerts';
+        this.moduleCaption = 'Alert';
     }
     //---------------------------------------------------------------------------------------
 }
@@ -29,7 +29,7 @@ export class CustomForm extends AdminModule {
         super();
         this.moduleName = 'CustomForm';
         this.moduleId = 'CB2EF8FF-2E8D-4AD0-B880-07037B839C5E';
-        this.moduleCaption = 'Custom Forms';
+        this.moduleCaption = 'Custom Form';
     }
     //---------------------------------------------------------------------------------------
 }
@@ -40,7 +40,7 @@ export class DuplicateRule extends AdminModule {
         super();
         this.moduleName = 'DuplicateRule';
         this.moduleId = '2E0EA479-AC02-43B1-87FA-CCE2ABA6E934';
-        this.moduleCaption = 'Duplicate Rules';
+        this.moduleCaption = 'Duplicate Rule';
     }
     //---------------------------------------------------------------------------------------
 }

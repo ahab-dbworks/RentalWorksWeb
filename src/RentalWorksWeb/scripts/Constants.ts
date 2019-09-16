@@ -10,10 +10,10 @@
     },
     Modules: {
         Administrator: {
-            Alert: { id: '6E5F47FB-1F18-443E-B464-9D2351857361', caption: 'Alerts', nav: 'module/alert' },
-            CustomField: { id: 'C98C4CB4-2036-4D70-BC29-8F5A2874B178', caption: 'Custom Fields', nav: 'module/customfield' },
-            CustomForm: { id: 'CB2EF8FF-2E8D-4AD0-B880-07037B839C5E', caption: 'Custom Forms', nav: 'module/customform' },
-            DuplicateRule: { id: '2E0EA479-AC02-43B1-87FA-CCE2ABA6E934', caption: 'Duplicate Rules', nav: 'module/duplicaterule' },
+            Alert: { id: '6E5F47FB-1F18-443E-B464-9D2351857361', caption: 'Alert', nav: 'module/alert' },
+            CustomField: { id: 'C98C4CB4-2036-4D70-BC29-8F5A2874B178', caption: 'Custom Field', nav: 'module/customfield' },
+            CustomForm: { id: 'CB2EF8FF-2E8D-4AD0-B880-07037B839C5E', caption: 'Custom Form', nav: 'module/customform' },
+            DuplicateRule: { id: '2E0EA479-AC02-43B1-87FA-CCE2ABA6E934', caption: 'Duplicate Rule', nav: 'module/duplicaterule' },
             EmailHistory: { id: '3F44AC27-CE34-46BA-B4FB-A8AEBB214167', caption: 'Email History', nav: 'module/emailhistory' },
             Group: { id: '9BE101B6-B406-4253-B2C6-D0571C7E5916', caption: 'Group', nav: 'module/group' },
             Hotfix: { id: '9D29A5D9-744F-40CE-AE3B-09219611A680', caption: 'Hotfix', nav: 'module/hotfix' },
@@ -241,9 +241,9 @@
             },
             SubWorksheet: { id: '2227B6C3-587D-48B1-98B6-B9125E0E4D9D', caption: 'Sub Worksheet', nav: 'module/subworksheet' },
             SuspendedSession: { id: '5FBE7FF8-3770-48C5-855C-4320C961D95A', caption: 'Suspended Session', nav: 'module/suspendedsession' },
-            TransferIn: { id: 'F089C9A9-554D-40BF-B1FA-015FEDE43591', caption: 'Transfer In', nav: 'module/transferin' },
+            TransferIn: { id: 'D9F487C2-5DC1-45DF-88A2-42A05679376C', caption: 'Transfer In', nav: 'module/transferin' },
             TransferOrder: {
-                id: '91E79272-C1CF-4678-A28F-B716907D060C', caption: 'Transfer Order', nav: 'module/transferorder',
+                id: 'F089C9A9-554D-40BF-B1FA-015FEDE43591', caption: 'Transfer Order', nav: 'module/transferorder',
                 form: {
                     menuItems: {
                         Search: { id: '{EE207266-01FC-4D0E-8469-48F5B099ED71}' },

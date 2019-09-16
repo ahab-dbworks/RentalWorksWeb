@@ -369,10 +369,10 @@ namespace WebLibrary.Security
             AddModule("Refresh G/L History",           "{8F036E39-78D3-4FB9-A98E-BD33A5DB7FDA}", lv1menuUtilities.Id, "RefreshGLHistoryController");
 
             // Add Administrator 
-            AddModule("Alerts",              "{6E5F47FB-1F18-443E-B464-9D2351857361}", lv1menuAdministrator.Id, "AlertController");
+            AddModule("Alert",               "{6E5F47FB-1F18-443E-B464-9D2351857361}", lv1menuAdministrator.Id, "AlertController");
             AddModule("Custom Field",        "{C98C4CB4-2036-4D70-BC29-8F5A2874B178}", lv1menuAdministrator.Id, "CustomFieldController");
-            AddModule("Custom Forms",        "{CB2EF8FF-2E8D-4AD0-B880-07037B839C5E}", lv1menuAdministrator.Id, "CustomFormController");
-            AddModule("Duplicate Rules",     "{2E0EA479-AC02-43B1-87FA-CCE2ABA6E934}", lv1menuAdministrator.Id, "DuplicateRuleController");
+            AddModule("Custom Form",         "{CB2EF8FF-2E8D-4AD0-B880-07037B839C5E}", lv1menuAdministrator.Id, "CustomFormController");
+            AddModule("Duplicate Rule",      "{2E0EA479-AC02-43B1-87FA-CCE2ABA6E934}", lv1menuAdministrator.Id, "DuplicateRuleController");
             AddModule("Email History",       "{3F44AC27-CE34-46BA-B4FB-A8AEBB214167}", lv1menuAdministrator.Id, "EmailHistoryController");
             AddModule("Group",               "{9BE101B6-B406-4253-B2C6-D0571C7E5916}", lv1menuAdministrator.Id, "GroupController",           "USER");
             AddModule("Hotfix",              "{9D29A5D9-744F-40CE-AE3B-09219611A680}", lv1menuAdministrator.Id, "HotfixController");
@@ -736,8 +736,8 @@ namespace WebLibrary.Security
             // Administrator
             AddModule("Control",         "{044829ED-579F-4AAD-B464-B4823FDB5A35}", lv1menuAdministrator.Id, "ControlController");
             AddModule("Custom Field",    "{99D56DA6-5779-44A5-8BA6-E033F343C6D0}", lv1menuAdministrator.Id, "CustomFieldController");
-            AddModule("Custom Forms",    "{2F07BFC4-A120-4C97-9D96-F16906CD1B88}", lv1menuAdministrator.Id, "CustomFormController");
-            AddModule("Duplicate Rules", "{8A1EA4A2-6019-4B9B-8324-6143BD7916A1}", lv1menuAdministrator.Id, "DuplicateRuleController");
+            AddModule("Custom Form",     "{2F07BFC4-A120-4C97-9D96-F16906CD1B88}", lv1menuAdministrator.Id, "CustomFormController");
+            AddModule("Duplicate Rule",  "{8A1EA4A2-6019-4B9B-8324-6143BD7916A1}", lv1menuAdministrator.Id, "DuplicateRuleController");
             AddModule("Email History",   "{34092164-500A-46BB-8F09-86BBE0FEA082}", lv1menuAdministrator.Id, "EmailHistoryController");
             AddModule("Group",           "{849D2706-72EC-48C0-B41C-0890297BF24B}", lv1menuAdministrator.Id, "GroupController", "USER");
             AddModule("Hotfix",          "{B7336B5E-4BA4-4A99-97D6-60385045238B}", lv1menuAdministrator.Id, "HotfixController");

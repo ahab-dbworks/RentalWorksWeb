@@ -16,7 +16,7 @@ class CustomField {
         $browse = this.openBrowse();
 
         screen.load = function () {
-            FwModule.openModuleTab($browse, 'Custom Fields', false, 'BROWSE', true);
+            FwModule.openModuleTab($browse, 'Custom Field', false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };

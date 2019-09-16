@@ -108,7 +108,7 @@ export class ShallowRegressionTest extends BaseTest {
         this.ShallowRegressionOnModule(new Container());
 
         //Home - Transfer
-        //this.ShallowRegressionOnModule(new Manifest());
+        this.ShallowRegressionOnModule(new Manifest());
         this.ShallowRegressionOnModule(new TransferOrder());
         this.ShallowRegressionOnModule(new TransferReceipt());
 
