@@ -201,7 +201,6 @@ class Contract {
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
-        this.BillingDate = FwFormField.getValueByDataField($form, 'BillingDate');
 
         const $contractSummaryGrid = $form.find('[data-name="ContractSummaryGrid"]');
         FwBrowse.search($contractSummaryGrid);
@@ -213,6 +212,7 @@ class Contract {
         FwBrowse.search($contractExchangeItemGrid);
 
         if (this.Module == 'Contract') {
+            this.BillingDate = FwFormField.getValueByDataField($form, 'BillingDate');
             const type = FwFormField.getValueByDataField($form, 'ContractType');
             const $billing = $form.find('[data-datafield="BillingDate"] .fwformfield-caption');
 
@@ -265,9 +265,11 @@ class Contract {
             $form.find('.exchange-item-grid').hide();
         }
 
-        // Highlight Billing Date field if adjusted
-        if (FwFormField.getValueByDataField($form, 'BillingDateAdjusted') === true) {
-            $form.find('[data-datafield="BillingDate"] .fwformfield-control').css('background-color', '#ff6f6f')
+        if (this.Module == 'Contract') {
+            // Highlight Billing Date field if adjusted
+            if (FwFormField.getValueByDataField($form, 'BillingDateAdjusted') === true) {
+                $form.find('[data-datafield="BillingDate"] .fwformfield-control').css('background-color', '#ff6f6f')
+            }
         }
 
         $form.find('.print').on('click', e => {
@@ -300,24 +302,24 @@ class Contract {
             } else {
                 FwFormField.enable($trackShipmentBtn);
             }
+            // Billing Date change
+            $form.find('div[data-datafield="BillingDate"]').on('changeDate', event => {
+                const billingDate = FwFormField.getValueByDataField($form, 'BillingDate');
+
+                if (billingDate !== this.BillingDate) {
+                    $form.find('.date-change-reason').show();
+                    $form.find('div[data-datafield="BillingDateChangeReason"]').attr('data-required', 'true');
+
+                } else {
+                    $form.find('.date-change-reason').hide();
+                    FwFormField.setValueByDataField($form, 'BillingDateChangeReason', '');
+                    $form.find('div[data-datafield="BillingDateChangeReason"]').attr('data-required', 'false');
+                }
+            });
+            // After Save, remove and clear out reason row
+            $form.find('.date-change-reason').hide();
+            FwFormField.setValueByDataField($form, 'BillingDateChangeReason', '');
         }
-        // Billing Date change
-        $form.find('div[data-datafield="BillingDate"]').on('changeDate', event => {
-            const billingDate = FwFormField.getValueByDataField($form, 'BillingDate');
-
-            if (billingDate !== this.BillingDate) {
-                $form.find('.date-change-reason').show();
-                $form.find('div[data-datafield="BillingDateChangeReason"]').attr('data-required', 'true');
-
-            } else {
-                $form.find('.date-change-reason').hide();
-                FwFormField.setValueByDataField($form, 'BillingDateChangeReason', '');
-                $form.find('div[data-datafield="BillingDateChangeReason"]').attr('data-required', 'false');
-            }
-        });
-        // After Save, remove and clear out reason row
-        $form.find('.date-change-reason').hide();
-        FwFormField.setValueByDataField($form, 'BillingDateChangeReason', '');
     }
     //----------------------------------------------------------------------------------------------
     deliveryTypeAddresses($form: any, event: any): void {
