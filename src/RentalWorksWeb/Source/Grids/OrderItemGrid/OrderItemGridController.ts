@@ -1,4 +1,4 @@
-class OrderItemGrid {
+﻿class OrderItemGrid {
     Module: string = 'OrderItemGrid';
     apiurl: string = 'api/v1/orderitem';
 
@@ -272,6 +272,7 @@ class OrderItemGrid {
             const extendedVal = $generatedtr.find(`.field[data-browsedatafield="${periodType}Extended"] input`).val();
             if (rate == "") {
                 if (extendedVal == "") {
+                    FwNotification.renderNotification('WARNING', 'Unable to apply discount because Price and Extended values are 0.')
                     return;
                 } else {
                     const $confirmation = FwConfirmation.renderConfirmation(`Update Rate Value`, `Update Rate Value?`);
@@ -286,14 +287,23 @@ class OrderItemGrid {
                         const extendedVal = $generatedtr.find(`[data-browsedatafield="${periodType}Extended"] input`).val();
                         let discount;
                         let rate;
+
                         if (discountPercent == 0) {
-                            rate = (((+extendedVal.substring(1).replace(',', '')) + (+discountAmount.substring(1).replace(',', ''))) / quantity);
+                            if (field === 'UnitExtended') {
+                                rate = ((+extendedVal.substring(1).replace(',', '')) + (+discountAmount.substring(1).replace(',', '')));
+                            } else {
+                                rate = (((+extendedVal.substring(1).replace(',', '')) + (+discountAmount.substring(1).replace(',', ''))) / quantity);
+                            }
                         } else {
                             discount = 1 - ((+discountPercent) / 100);
-                            rate = (((+extendedVal.substring(1).replace(',', '')) / quantity ) / discount);
-                        }                     
+                            if (field === 'UnitExtended') {
+                                rate = (+extendedVal.substring(1).replace(',', '')) / discount;
+                            } else {
+                                rate = (((+extendedVal.substring(1).replace(',', '')) / quantity) / discount);
+                            }
+                        }
                         FwBrowse.setFieldValue($control, $generatedtr, 'Price', { value: rate.toString() });
-                        calculateExtended(type, field);
+                        calculateExtended('Extended', field);
                     });
 
                     $no.on('click', () => {
