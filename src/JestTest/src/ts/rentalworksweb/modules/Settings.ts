@@ -1,4 +1,4 @@
-import { SettingsModule } from "../../../shared/SettingsModule";
+import { SettingsModule } from "../../shared/SettingsModule";
 
 //---------------------------------------------------------------------------------------
 export class AccountingSettings extends SettingsModule {

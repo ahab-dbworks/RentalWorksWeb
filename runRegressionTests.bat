@@ -40,7 +40,7 @@ ren test-report.html test-report-RwwShallowRegression.html
 start test-report-RwwShallowRegression.html
 
 if exist test-report.html (del test-report.html)
-if exist test-report-RwwFullRegression.html (del test-report-RwwFullRegression.html)
-call npm run test-rentalworksweb -t RwwFullRegression
-ren test-report.html test-report-RwwFullRegression.html
-start test-report-RwwFullRegression.html
+if exist test-report-RwwMediumRegression.html (del test-report-RwwMediumRegression.html)
+call npm run test-rentalworksweb -t RwwMediumRegression
+ren test-report.html test-report-RwwMediumRegression.html
+start test-report-RwwMediumRegression.html

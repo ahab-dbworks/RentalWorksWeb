@@ -5,7 +5,8 @@ import {
     //home
     Contact, Customer, Deal, Order, Project, PurchaseOrder, Quote, Vendor,
     Asset, PartsInventory, PhysicalInventory, RentalInventory, RepairOrder, SalesInventory,
-    Contract,
+    Contract, PickList, Container, Manifest, TransferOrder, TransferReceipt,
+    Invoice, Receipt, VendorInvoice,
 
     //settings
     AccountingSettings, GlAccount, GlDistribution, Country, State, BillingCycle, Department, ContactEvent, ContactTitle, MailList, Currency,
@@ -23,7 +24,7 @@ import {
     WardrobeMaterial, WardrobePattern, WardrobePeriod, WardrobeSource, Warehouse, Widget, WorkWeek,
 
     //administrator
-    User
+    Alert, CustomField, CustomForm, DuplicateRule, EmailHistory, Group, Hotfix, User,
 } from './modules/AllModules';
 
 
@@ -101,6 +102,20 @@ export class ShallowRegressionTest extends BaseTest {
 
         //Home - Warehouse
         this.ShallowRegressionOnModule(new Contract());
+        this.ShallowRegressionOnModule(new PickList());
+
+        //Home - Container
+        this.ShallowRegressionOnModule(new Container());
+
+        //Home - Transfer
+        //this.ShallowRegressionOnModule(new Manifest());
+        this.ShallowRegressionOnModule(new TransferOrder());
+        this.ShallowRegressionOnModule(new TransferReceipt());
+
+        //Home - Billing
+        this.ShallowRegressionOnModule(new Invoice());
+        this.ShallowRegressionOnModule(new Receipt());
+        this.ShallowRegressionOnModule(new VendorInvoice());
 
         //Settings
         this.ShallowRegressionOnModule(new AccountingSettings());
@@ -241,6 +256,13 @@ export class ShallowRegressionTest extends BaseTest {
         this.ShallowRegressionOnModule(new WorkWeek());
 
         //Administrator
+        this.ShallowRegressionOnModule(new Alert());
+        this.ShallowRegressionOnModule(new CustomField());
+        this.ShallowRegressionOnModule(new CustomForm());
+        this.ShallowRegressionOnModule(new DuplicateRule());
+        this.ShallowRegressionOnModule(new EmailHistory());
+        this.ShallowRegressionOnModule(new Group());
+        this.ShallowRegressionOnModule(new Hotfix());
         this.ShallowRegressionOnModule(new User());
     }
     //---------------------------------------------------------------------------------------

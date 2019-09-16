@@ -1,12 +1,10 @@
-import { HomeModule } from '../../../shared/HomeModule';
+import { ModuleBase } from '../shared/ModuleBase';
 
-export class User extends HomeModule {
+//---------------------------------------------------------------------------------------
+export class AdminModule extends ModuleBase {
     //---------------------------------------------------------------------------------------
     constructor() {
         super();
-        this.moduleName = 'User';
-        this.moduleId = '79E93B21-8638-483C-B377-3F4D561F1243';
-        this.moduleCaption = 'User';
     }
     //---------------------------------------------------------------------------------------
 }

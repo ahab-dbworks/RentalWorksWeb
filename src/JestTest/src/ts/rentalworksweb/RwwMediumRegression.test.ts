@@ -4,8 +4,9 @@ import { Logging } from '../shared/Logging';
 import {
     //home
     Contact, Customer, Deal, Order, Project, PurchaseOrder, Quote, Vendor,
-    Asset, PartsInventory, PhysicalInventory, RentalInventory, RepairOrder, SalesInventory, 
-    Contract,
+    Asset, PartsInventory, PhysicalInventory, RentalInventory, RepairOrder, SalesInventory,
+    Contract, PickList, Container, Manifest, TransferOrder, TransferReceipt,
+    Invoice, Receipt, VendorInvoice,
 
     //settings
     AccountingSettings, GlAccount, GlDistribution, Country, State, BillingCycle, Department, ContactEvent, ContactTitle, MailList, Currency,
@@ -23,7 +24,7 @@ import {
     WardrobeMaterial, WardrobePattern, WardrobePeriod, WardrobeSource, Warehouse, Widget, WorkWeek,
 
     //administrator
-    User
+    Alert, CustomField, CustomForm, DuplicateRule, EmailHistory, Group, Hotfix, User,
 } from './modules/AllModules';
 
 export class MediumRegressionTest extends BaseTest {
@@ -138,8 +139,9 @@ export class MediumRegressionTest extends BaseTest {
     }
     //---------------------------------------------------------------------------------------
     async PerformTests() {
-        this.LoadMyUserGlobal(new User());
 
+        //prerequisites
+        this.LoadMyUserGlobal(new User());
         this.OpenSpecificRecord(new DefaultSettings(), null, true);
 
         //Home - Agent
@@ -162,6 +164,20 @@ export class MediumRegressionTest extends BaseTest {
 
         //Home - Warehouse
         this.MediumRegressionOnModule(new Contract());
+        this.MediumRegressionOnModule(new PickList());
+
+        //Home - Container
+        this.MediumRegressionOnModule(new Container());
+
+        //Home - Transfer
+        this.MediumRegressionOnModule(new Manifest());
+        this.MediumRegressionOnModule(new TransferOrder());
+        this.MediumRegressionOnModule(new TransferReceipt());
+
+        //Home - Billing
+        this.MediumRegressionOnModule(new Invoice());
+        this.MediumRegressionOnModule(new Receipt());
+        this.MediumRegressionOnModule(new VendorInvoice());
 
         //Settings
         this.MediumRegressionOnModule(new AccountingSettings());
@@ -302,6 +318,13 @@ export class MediumRegressionTest extends BaseTest {
         //this.MediumRegressionOnModule(new WorkWeek());
 
         ////Administrator
+        //this.MediumRegressionOnModule(new Alert());
+        //this.MediumRegressionOnModule(new CustomField());
+        //this.MediumRegressionOnModule(new CustomForm());
+        //this.MediumRegressionOnModule(new DuplicateRule());
+        //this.MediumRegressionOnModule(new EmailHistory());
+        //this.MediumRegressionOnModule(new Group());
+        //this.MediumRegressionOnModule(new Hotfix());
         //this.MediumRegressionOnModule(new User());
     }
     //---------------------------------------------------------------------------------------
