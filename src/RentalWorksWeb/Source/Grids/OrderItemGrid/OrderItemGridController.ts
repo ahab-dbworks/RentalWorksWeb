@@ -1,4 +1,4 @@
-﻿class OrderItemGrid {
+class OrderItemGrid {
     Module: string = 'OrderItemGrid';
     apiurl: string = 'api/v1/orderitem';
 
@@ -993,4 +993,35 @@ FwApplicationTree.clickEvents[Constants.Grids.OrderItemGrid.menuItems.ManualSort
     jQuery(document).trigger('click');
 };
 //----------------------------------------------------------------------------------------------
+// Color Legend
+FwApplicationTree.clickEvents[Constants.Grids.OrderItemGrid.menuItems.ColorLegend.id] = e => {
+    const html = `
+                <div id="previewHtml">
+                    <div style="margin-bottom:10px;">Availability</div>
+                    <div class="flexrow" style="margin-bottom:5px"><div data-browsedatafield="QuantityAvailable" data-state="enough"><div class="fieldvalue">32</div></div><div>Enough Available</div></div>
+                    <div class="flexrow" style="margin-bottom:5px"><div data-browsedatafield="QuantityAvailable" data-state="negative"><div class="fieldvalue">-7</div></div><div>Inventory Shortage</div></div>
+                    <div class="flexrow" style="margin-bottom:5px"><div data-browsedatafield="QuantityAvailable" data-state="low"><div class="fieldvalue">4</div></div><div>Low Availability</div></div>
+                </div>`;
+
+    const $confirmation = FwConfirmation.renderConfirmation(`Color Legend`, html);
+    const containerCSS = {
+        'box-sizing': 'border-box'
+        , 'height': '100%'
+        , 'line-height': '100%'
+        , 'white-space': 'nowrap'
+        , 'text-overflow': 'ellipsis'
+        , 'vertical-align': 'middle'
+        , 'display': 'flex'
+        , 'align-items': 'center'
+        , 'font-size': '.8em'
+        , 'max-width': '65px'
+    }
+    $confirmation.find('[data-browsedatafield="QuantityAvailable"]').css(containerCSS);
+    const $close = FwConfirmation.addButton($confirmation, 'Close', false);
+   
+    $close.on('click', () => {
+        FwConfirmation.destroyConfirmation($confirmation);
+    });
+};
+//---------------------------------------------------------------------------------
 var OrderItemGridController = new OrderItemGrid();

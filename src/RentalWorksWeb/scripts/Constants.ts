@@ -368,7 +368,7 @@
                 SubWorksheet: { id: '{007C4F21-7526-437C-AD1C-4BBB1030AABA}' },
                 AddLossAndDamageItems: { id: '{427FCDFE-7E42-4081-A388-150D3D7FAE36}' },
                 RetireLossAndDamageItems: { id: '{78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412}' },
-                //RefreshAvailability: { id: '{9476D532-5274-429C-A563-FE89F5B89B01}' }
+                ColorLegend: { id: '{A2CD9CB6-1C38-4E4E-935C-627D32282480}' }
             }
         },
         OrderSnapshotGrid: {
