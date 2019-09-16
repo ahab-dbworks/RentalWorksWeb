@@ -1,4 +1,5 @@
 ﻿import { HomeModule } from "../../shared/HomeModule";
+import { TestUtils } from "../../shared/TestUtils";
 
 //---------------------------------------------------------------------------------------
 export class Quote extends HomeModule {
@@ -46,6 +47,10 @@ export class Customer extends HomeModule {
 
             }
         ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            Customer: this.newRecordsToCreate[0].record.Customer,
+            CustomerNumber: this.newRecordsToCreate[0].record.CustomerNumber
+        }
     }
     //---------------------------------------------------------------------------------------
 }
@@ -128,10 +133,14 @@ export class Contact extends HomeModule {
                 },
                 seekObject: {
                     LastName: "GlobalScope.TestToken~1.TestToken",
-                }
-
+                },
             }
         ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            FirstName: this.newRecordsToCreate[0].record.FirstName,
+            LastName: this.newRecordsToCreate[0].record.LastName,
+            Email: this.newRecordsToCreate[0].record.Email,
+        }
     }
     //---------------------------------------------------------------------------------------
 }
@@ -169,6 +178,28 @@ export class RentalInventory extends HomeModule {
         this.moduleCaption = 'Rental Inventory';
         this.defaultNewRecordToExpect = {
             Unit: "GlobalScope.DefaultSettings~1.DefaultUnit",   // ie. "EA"
+        }
+
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    ICode: TestUtils.randomAlphanumeric(7),
+                    Description: `${TestUtils.randomProductName()} GlobalScope.TestToken~1.TestToken`,
+                    InventoryTypeId: 2,
+                    CategoryId: 1,
+                    UnitId: 1,
+                    ManufacturerPartNumber: TestUtils.randomAlphanumeric(8),
+                    Rank: 3,
+                },
+                seekObject: {
+                    Description: "GlobalScope.TestToken~1.TestToken",
+                },
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            ICode: this.newRecordsToCreate[0].record.ICode.toUpperCase().substr(0, 5) + '-' + this.newRecordsToCreate[0].record.ICode.toUpperCase().substr(5),
+            Description: this.newRecordsToCreate[0].record.Description.toUpperCase(),
+            ManufacturerPartNumber: this.newRecordsToCreate[0].record.ManufacturerPartNumber.toUpperCase(),
         }
     }
     //---------------------------------------------------------------------------------------

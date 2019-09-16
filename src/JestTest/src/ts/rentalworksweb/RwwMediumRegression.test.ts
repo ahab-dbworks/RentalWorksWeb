@@ -1,5 +1,5 @@
 ﻿import { BaseTest } from '../shared/BaseTest';
-import { ModuleBase } from '../shared/ModuleBase';
+import { ModuleBase, OpenRecordResponse } from '../shared/ModuleBase';
 import { Logging } from '../shared/Logging';
 import {
     //home
@@ -26,6 +26,7 @@ import {
     //administrator
     Alert, CustomField, CustomForm, DuplicateRule, EmailHistory, Group, Hotfix, User,
 } from './modules/AllModules';
+import { TestUtils } from '../shared/TestUtils';
 
 export class MediumRegressionTest extends BaseTest {
     //---------------------------------------------------------------------------------------
@@ -67,11 +68,16 @@ export class MediumRegressionTest extends BaseTest {
                                                 let expectingValue = module.defaultNewRecordToExpect[key];
                                                 let foundValue = defaultObject[key];
 
-                                                if (expectingValue.toString().startsWith("GlobalScope")) {
-                                                    //example: "GlobalScope.DefaultSettings~1.DefaultUnit",
-                                                    let globalScopeKey = expectingValue.toString().split('.');
-                                                    expectingValue = this.globalScopeRef[globalScopeKey[1].toString()][globalScopeKey[2].toString()];
+                                                //if (expectingValue.toString().startsWith("GlobalScope")) {
+                                                //    //example: "GlobalScope.DefaultSettings~1.DefaultUnit",
+                                                //    let globalScopeKey = expectingValue.toString().split('.');
+                                                //    expectingValue = this.globalScopeRef[globalScopeKey[1].toString()][globalScopeKey[2].toString()];
+                                                //}
+
+                                                if (expectingValue.toString().includes("GlobalScope.")) {
+                                                    expectingValue = TestUtils.getGlobalScopeValue(expectingValue, this.globalScopeRef);
                                                 }
+
 
                                                 console.log(`Comparing: ${key}\n     Expecting: "${expectingValue}"\n     Found:     "${foundValue}"`);
                                                 if (expectingValue === "|NOTEMPTY|") {
@@ -101,27 +107,63 @@ export class MediumRegressionTest extends BaseTest {
                                 await module.closeRecord();  //close the form
                             }, this.testTimeout);
 
-                            if (module.canDelete) {
-                                testName = `Seek a specific ${module.moduleCaption} record`;
+                            if (rec.seekObject) {
+                                testName = `Seek to the newly-created ${module.moduleCaption} record`;
                                 test(testName, async () => {
                                     let recordCount = await module.browseSeek(rec.seekObject).then().catch(err => this.LogError(testName, err));
                                     expect(recordCount).toBe(1);
                                 }, this.testTimeout);
 
-                                testName = `Delete the ${module.moduleCaption} record`;
-                                test(testName, async () => {
-                                    let rowCountBefore = await module.browseGetRowsDisplayed();
-                                    await module.deleteRecord();
-                                    let rowCountAfter = await module.browseGetRowsDisplayed();
-                                    expect(rowCountAfter).toBe(rowCountBefore - 1);
-                                }, this.testTimeout);
-                            }
-                            else {     // make sure that the Delete button is not available
-                                testName = `Make sure no Delete button exists on ${module.moduleCaption} browse`;
-                                test(testName, async () => {
-                                    let buttonExists = await module.findDeleteButton();
-                                    expect(buttonExists).toBeFalsy();
-                                }, this.testTimeout);
+                                if (rec.recordToExpect) {
+                                    testName = `Open the newly-created ${module.moduleCaption} record, compare values with expected`;
+                                    test(testName, async () => {
+                                        await module.openFirstRecordIfAny()
+                                            .then(openRecordResponse => {
+                                                for (let key in rec.recordToExpect) {
+                                                    let expectingValue = rec.recordToExpect[key];
+                                                    let foundValue = openRecordResponse.record[key];
+
+                                                    //if (expectingValue.toString().startsWith("GlobalScope")) {
+                                                    //    //example: "GlobalScope.DefaultSettings~1.DefaultUnit",
+                                                    //    let globalScopeKey = expectingValue.toString().split('.');
+                                                    //    expectingValue = this.globalScopeRef[globalScopeKey[1].toString()][globalScopeKey[2].toString()];
+                                                    //}
+
+                                                    if (expectingValue.toString().includes("GlobalScope.")) {
+                                                        expectingValue = TestUtils.getGlobalScopeValue(expectingValue, this.globalScopeRef);
+                                                    }
+
+
+                                                    console.log(`Comparing: ${key}\n     Expecting: "${expectingValue}"\n     Found:     "${foundValue}"`);
+                                                    if (expectingValue === "|NOTEMPTY|") {
+                                                        expect(foundValue).not.toBe("");
+                                                    }
+                                                    else {
+                                                        expect(foundValue).not.toBeUndefined();
+                                                        expect(foundValue).toBe(expectingValue);
+                                                    }
+                                                }
+                                            });
+                                        await module.closeRecord();  //close the form
+                                    }, this.testTimeout);
+                                }
+
+                                if (module.canDelete) {
+                                    testName = `Delete the ${module.moduleCaption} record`;
+                                    test(testName, async () => {
+                                        let rowCountBefore = await module.browseGetRowsDisplayed();
+                                        await module.deleteRecord();
+                                        let rowCountAfter = await module.browseGetRowsDisplayed();
+                                        expect(rowCountAfter).toBe(rowCountBefore - 1);
+                                    }, this.testTimeout);
+                                }
+                                else {     // make sure that the Delete button is not available
+                                    testName = `Make sure no Delete button exists on ${module.moduleCaption} browse`;
+                                    test(testName, async () => {
+                                        let buttonExists = await module.findDeleteButton();
+                                        expect(buttonExists).toBeFalsy();
+                                    }, this.testTimeout);
+                                }
                             }
                         }
                     }
@@ -147,37 +189,37 @@ export class MediumRegressionTest extends BaseTest {
         //Home - Agent
         this.MediumRegressionOnModule(new Contact());
         this.MediumRegressionOnModule(new Customer());
-        this.MediumRegressionOnModule(new Deal());
-        this.MediumRegressionOnModule(new Order());
-        this.MediumRegressionOnModule(new Project());
-        this.MediumRegressionOnModule(new PurchaseOrder());
-        this.MediumRegressionOnModule(new Quote());
-        this.MediumRegressionOnModule(new Vendor());
+        //this.MediumRegressionOnModule(new Deal());
+        //this.MediumRegressionOnModule(new Order());
+        //this.MediumRegressionOnModule(new Project());
+        //this.MediumRegressionOnModule(new PurchaseOrder());
+        //this.MediumRegressionOnModule(new Quote());
+        //this.MediumRegressionOnModule(new Vendor());
 
-        //Home - Inventory
-        this.MediumRegressionOnModule(new Asset());
-        this.MediumRegressionOnModule(new PartsInventory());
-        this.MediumRegressionOnModule(new PhysicalInventory());
+        ////Home - Inventory
+        //this.MediumRegressionOnModule(new Asset());
+        //this.MediumRegressionOnModule(new PartsInventory());
+        //this.MediumRegressionOnModule(new PhysicalInventory());
         this.MediumRegressionOnModule(new RentalInventory());
-        this.MediumRegressionOnModule(new RepairOrder());
-        this.MediumRegressionOnModule(new SalesInventory());
+        //this.MediumRegressionOnModule(new RepairOrder());
+        //this.MediumRegressionOnModule(new SalesInventory());
 
-        //Home - Warehouse
-        this.MediumRegressionOnModule(new Contract());
-        this.MediumRegressionOnModule(new PickList());
+        ////Home - Warehouse
+        //this.MediumRegressionOnModule(new Contract());
+        //this.MediumRegressionOnModule(new PickList());
 
-        //Home - Container
-        this.MediumRegressionOnModule(new Container());
+        ////Home - Container
+        //this.MediumRegressionOnModule(new Container());
 
-        //Home - Transfer
-        this.MediumRegressionOnModule(new Manifest());
-        this.MediumRegressionOnModule(new TransferOrder());
-        this.MediumRegressionOnModule(new TransferReceipt());
+        ////Home - Transfer
+        //this.MediumRegressionOnModule(new Manifest());
+        //this.MediumRegressionOnModule(new TransferOrder());
+        //this.MediumRegressionOnModule(new TransferReceipt());
 
-        //Home - Billing
-        this.MediumRegressionOnModule(new Invoice());
-        this.MediumRegressionOnModule(new Receipt());
-        this.MediumRegressionOnModule(new VendorInvoice());
+        ////Home - Billing
+        //this.MediumRegressionOnModule(new Invoice());
+        //this.MediumRegressionOnModule(new Receipt());
+        //this.MediumRegressionOnModule(new VendorInvoice());
 
         //Settings
         this.MediumRegressionOnModule(new AccountingSettings());

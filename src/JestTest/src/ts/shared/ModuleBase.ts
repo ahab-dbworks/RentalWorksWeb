@@ -35,7 +35,8 @@ export class SaveResponse {
 
 export class NewRecordToCreate {
     record: any;
-    seekObject: any
+    seekObject?: any;
+    recordToExpect?: any;
 }
 
 //---------------------------------------------------------------------------------------
@@ -161,10 +162,14 @@ export class ModuleBase {
             await elementHandle.click();
 
             let seekValue = seekObject[key];
-            if (seekValue.toString().startsWith("GlobalScope")) {
-                //example: "GlobalScope.DefaultSettings~1.DefaultUnit",
-                let globalScopeKey = seekValue.toString().split('.');
-                seekValue = this.globalScopeRef[globalScopeKey[1].toString()][globalScopeKey[2].toString()];
+            //if (seekValue.toString().startsWith("GlobalScope")) {
+            //    //example: "GlobalScope.DefaultSettings~1.DefaultUnit",
+            //    let globalScopeKey = seekValue.toString().split('.');
+            //    seekValue = this.globalScopeRef[globalScopeKey[1].toString()][globalScopeKey[2].toString()];
+            //}
+
+            if (seekValue.toString().includes("GlobalScope.")) {
+                seekValue = TestUtils.getGlobalScopeValue(seekValue, this.globalScopeRef);
             }
 
             await page.keyboard.sendCharacter(seekValue);
@@ -552,11 +557,17 @@ export class ModuleBase {
                     //await this.populateTextField(key, record[key]);
 
                     newValue = record[key];
-                    if (newValue.toString().startsWith("GlobalScope")) {
-                        //example: "GlobalScope.DefaultSettings~1.DefaultUnit",
-                        let globalScopeKey = newValue.toString().split('.');
-                        newValue = this.globalScopeRef[globalScopeKey[1].toString()][globalScopeKey[2].toString()];
+                    //if (newValue.toString().startsWith("GlobalScope")) {
+                    //    //example: "GlobalScope.DefaultSettings~1.DefaultUnit",
+                    //    let globalScopeKey = newValue.toString().split('.');
+                    //    newValue = this.globalScopeRef[globalScopeKey[1].toString()][globalScopeKey[2].toString()];
+                    //}
+
+                    if (newValue.toString().includes("GlobalScope.")) {
+                        newValue = TestUtils.getGlobalScopeValue(newValue, this.globalScopeRef);
                     }
+
+
                     await this.populateTextField(key, newValue);
 
                     break;
@@ -574,11 +585,17 @@ export class ModuleBase {
                     }
 
                     newValue = record[displayfield];
-                    if (newValue.toString().startsWith("GlobalScope")) {
-                        //example: "GlobalScope.DefaultSettings~1.DefaultUnit",
-                        let globalScopeKey = newValue.toString().split('.');
-                        newValue = this.globalScopeRef[globalScopeKey[1].toString()][globalScopeKey[2].toString()];
+                    //if (newValue.toString().startsWith("GlobalScope")) {
+                    //    //example: "GlobalScope.DefaultSettings~1.DefaultUnit",
+                    //    let globalScopeKey = newValue.toString().split('.');
+                    //    newValue = this.globalScopeRef[globalScopeKey[1].toString()][globalScopeKey[2].toString()];
+                    //}
+
+                    if (newValue.toString().includes("GlobalScope.")) {
+                        newValue = TestUtils.getGlobalScopeValue(newValue, this.globalScopeRef);
                     }
+
+
                     await this.populateValidationTextField(key, newValue);
 
                     await ModuleBase.wait(750);  // allow "after validate" methods to finish

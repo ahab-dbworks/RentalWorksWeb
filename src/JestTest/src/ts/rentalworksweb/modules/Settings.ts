@@ -26,7 +26,7 @@ export class GlAccount extends SettingsModule {
             {
                 record: {
                     GlAccountNo: "GlobalScope.TestToken~1.TestToken",
-                    GlAccountDescription: "GlobalScope.TestToken~1.TestToken"
+                    GlAccountDescription: "GlobalScope.TestToken~1.TestToken",
                 },
                 seekObject: {
                     GlAccountNo: "GlobalScope.TestToken~1.TestToken",
@@ -34,6 +34,10 @@ export class GlAccount extends SettingsModule {
 
             }
         ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            GlAccountNo: this.newRecordsToCreate[0].record.GlAccountNo,
+            GlAccountDescription: this.newRecordsToCreate[0].record.GlAccountDescription,
+        }
 
     }
     //---------------------------------------------------------------------------------------
@@ -71,6 +75,10 @@ export class Country extends SettingsModule {
                 }
             }
         ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            Country: this.newRecordsToCreate[0].record.Country,
+            CountryCode: this.newRecordsToCreate[0].record.CountryCode,
+        }
 
     }
     //---------------------------------------------------------------------------------------

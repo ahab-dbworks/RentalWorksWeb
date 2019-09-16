@@ -202,12 +202,17 @@ export abstract class BaseTest {
                     for (let key in expectedObject) {
                         console.log(`Comparing: ${key}\n     Expecting: "${expectedObject[key]}"\n     Found:     "${defaultObject[key]}"`);
 
-                        if (expectedObject[key].toString().startsWith("GlobalScope")) {
-                            //example: "GlobalScope.DefaultSettings~1.DefaultUnit",
-                            let globalScopeKey = expectedObject[key].toString().split('.');
-                            expectedObject[key] = this.globalScopeRef[globalScopeKey[1].toString()][globalScopeKey[2].toString()];
-                            console.log(`Comparing: ${key}\n     Expecting: "${expectedObject[key]}"\n     Found:     "${defaultObject[key]}"`);
+                        //if (expectedObject[key].toString().startsWith("GlobalScope")) {
+                        //    //example: "GlobalScope.DefaultSettings~1.DefaultUnit",
+                        //    let globalScopeKey = expectedObject[key].toString().split('.');
+                        //    expectedObject[key] = this.globalScopeRef[globalScopeKey[1].toString()][globalScopeKey[2].toString()];
+                        //    //console.log(`Comparing: ${key}\n     Expecting: "${expectedObject[key]}"\n     Found:     "${defaultObject[key]}"`);
+                        //}
+
+                        if (expectedObject[key].toString().includes("GlobalScope.")) {
+                            expectedObject[key] = TestUtils.getGlobalScopeValue(expectedObject[key], this.globalScopeRef);
                         }
+
 
                         if (expectedObject[key] === "|NOTEMPTY|") {
                             expect(defaultObject[key]).not.toBe("");
@@ -288,12 +293,17 @@ export abstract class BaseTest {
                     for (let key in expectedObject) {
                         console.log(`Comparing: ${key}\n     Expecting: "${expectedObject[key]}"\n     Found:     "${savedObject[key]}"`);
 
-                        if (expectedObject[key].toString().startsWith("GlobalScope")) {
-                            //example: "GlobalScope.DefaultSettings~1.DefaultUnit",
-                            let globalScopeKey = expectedObject[key].toString().split('.');
-                            expectedObject[key] = this.globalScopeRef[globalScopeKey[1].toString()][globalScopeKey[2].toString()];
-                            console.log(`Comparing: ${key}\n     Expecting: "${expectedObject[key]}"\n     Found:     "${savedObject[key]}"`);
+                        //if (expectedObject[key].toString().startsWith("GlobalScope")) {
+                        //    //example: "GlobalScope.DefaultSettings~1.DefaultUnit",
+                        //    let globalScopeKey = expectedObject[key].toString().split('.');
+                        //    expectedObject[key] = this.globalScopeRef[globalScopeKey[1].toString()][globalScopeKey[2].toString()];
+                        //    console.log(`Comparing: ${key}\n     Expecting: "${expectedObject[key]}"\n     Found:     "${savedObject[key]}"`);
+                        //}
+
+                        if (expectedObject[key].toString().includes("GlobalScope.")) {
+                            expectedObject[key] = TestUtils.getGlobalScopeValue(expectedObject[key], this.globalScopeRef);
                         }
+
 
                         if (expectedObject[key] === "|NOTEMPTY|") {
                             expect(savedObject[key]).not.toBe("");

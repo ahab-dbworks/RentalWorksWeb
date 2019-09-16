@@ -1,5 +1,6 @@
 import { Logging } from '../shared/Logging';
 import faker from 'faker';
+import { GlobalScope } from '../shared/GlobalScope';
 
 export class LoginResponse {
     success: boolean;
@@ -11,6 +12,7 @@ export class LogoutResponse {
 }
 
 export class TestUtils {
+
     //-----------------------------------------------------------------------------------------------------------------
     static async authenticate(): Promise<LoginResponse> {
         let loginReponse: LoginResponse = new LoginResponse();
@@ -131,6 +133,30 @@ export class TestUtils {
         return testToken;
     }
     //-----------------------------------------------------------------------------------------------------------------
+    static getGlobalScopeValue(valueIn: string, globalScope: GlobalScope): string {
+        let valueOut: string = valueIn;
+        if (valueIn.toString().includes("GlobalScope.")) {
+            //example1: "GlobalScope.DefaultSettings~1.DefaultUnit",
+            //example2: "Product124 GlobalScope.DefaultSettings~1.DefaultUnit",
+            //example2: "GlobalScope.DefaultSettings~1.DefaultUnit SomeOtherValue",
+
+            let globalScopeKeyString = "";
+            let rightOfGlobalScopeKeyString = valueIn.substring(valueIn.indexOf("GlobalScope."));
+            let endOfOfGlobalScopeKeyString = rightOfGlobalScopeKeyString.indexOf(" ");
+            if (endOfOfGlobalScopeKeyString >= 0) {   // string contains a space after the GlobalScope key
+                globalScopeKeyString = valueIn.substring(valueIn.indexOf("GlobalScope."), valueIn.indexOf("GlobalScope.") + endOfOfGlobalScopeKeyString);
+            }
+            else {
+                globalScopeKeyString = valueIn.substring(valueIn.indexOf("GlobalScope."));
+            }
+            valueIn = valueIn.replace(globalScopeKeyString, '!!!!!!!!');
+            let globalScopeKey = globalScopeKeyString.toString().split('.');
+            let globalScopeValue = globalScope[globalScopeKey[1].toString()][globalScopeKey[2].toString()];
+            valueOut = valueIn.replace('!!!!!!!!', globalScopeValue);
+        }
+        return valueOut;
+    }
+    //---------------------------------------------------------------------------------------
     static randomAlphanumeric(length: number): string {
         return faker.random.alphaNumeric(length);
     }
