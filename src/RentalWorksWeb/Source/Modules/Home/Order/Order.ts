@@ -1163,7 +1163,7 @@ class Order extends OrderBase {
                   </div>
                   <!-- Center column -->
                   <div class="flexcolumn" style="flex:1 1 325px;">
-                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Billing Address">
+                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Order Issued To">
                       <div class="flexrow">
                         <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield  billing-type-radio" data-caption="Issue To" data-datafield="PrintIssuedToAddressFrom"></div>
                       </div>
@@ -1182,7 +1182,8 @@ class Order extends OrderBase {
                         <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="City" data-datafield="IssuedToCity" style="flex:1 1 250px;"></div>
                       </div>
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="validation" data-validationname="StateValidation" class="fwcontrol fwformfield" data-caption="State/Province" data-datafield="IssuedToState" style="flex:1 1 100px;"></div>
+                        <!--<div data-control="FwFormField" data-type="validation" data-validationname="StateValidation" class="fwcontrol fwformfield" data-caption="State/Province" data-datafield="IssuedToState" style="flex:1 1 100px;"></div>-->
+                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="State" data-datafield="IssuedToState" style="flex:1 1 100px;"></div>
                         <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Zip/Postal" data-datafield="IssuedToZipCode" style="flex:1 1 100px;"></div>
                       </div>
                       <div class="flexrow">
@@ -1217,7 +1218,8 @@ class Order extends OrderBase {
                         <div data-control="FwFormField" data-type="text" class="differentaddress fwcontrol fwformfield" data-caption="City" data-datafield="BillToCity" data-enabled="false" style="flex:1 1 250px;"></div>
                       </div>
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="validation" data-validationname="StateValidation" class="differentaddress fwcontrol fwformfield" data-caption="State/Province" data-datafield="BillToState" data-enabled="false" style="flex:1 1 100px;"></div>
+                        <!--<div data-control="FwFormField" data-type="validation" data-validationname="StateValidation" class="differentaddress fwcontrol fwformfield" data-caption="State/Province" data-datafield="BillToState" data-enabled="false" style="flex:1 1 100px;"></div>-->
+                        <div data-control="FwFormField" data-type="text" class="differentaddress fwcontrol fwformfield" data-caption="State" data-datafield="BillToState" data-enabled="false" style="flex:1 1 100px;"></div>
                         <div data-control="FwFormField" data-type="text" class="differentaddress fwcontrol fwformfield" data-caption="Zip/Postal" data-datafield="BillToZipCode" data-enabled="false" style="flex:1 1 100px;"></div>
                       </div>
                       <div class="flexrow">
@@ -1898,7 +1900,7 @@ class Order extends OrderBase {
 };
 //---------------------------------------------------------------------------------
 FwApplicationTree.clickEvents[Constants.Modules.Home.Order.form.menuItems.AddLossAndDamage.id] = function (event: JQuery.ClickEvent) {
-    try {    
+    try {
         const $form = jQuery(this).closest('.fwform');
         if ($form.attr('data-mode') !== 'NEW') {
             OrderController.addLossDamage($form, event);
