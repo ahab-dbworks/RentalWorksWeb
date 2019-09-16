@@ -427,6 +427,9 @@ class FwBrowseClass {
             .on('click', '.runtime .pager div.btnRefresh', function (e: JQuery.Event) {
                 try {
                     e.stopPropagation();
+                    if ($control.attr('data-multisave') == 'true') {
+                        $control.find('.grid-multi-save').hide();
+                    }
                     me.databind($control);
                 } catch (ex) {
                     FwFunc.showError(ex);
