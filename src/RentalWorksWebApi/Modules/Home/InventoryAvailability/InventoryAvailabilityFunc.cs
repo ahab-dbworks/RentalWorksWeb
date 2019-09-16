@@ -1039,6 +1039,18 @@ namespace WebApi.Modules.Home.InventoryAvailability
                 qry.Add("          or                                                                            ");
                 qry.Add("        ((a.ordertype = '" + RwConstants.ORDER_TYPE_QUOTE + "') and ");
                 qry.Add("         (a.orderstatus = '" + RwConstants.QUOTE_STATUS_RESERVED + "')))");
+                qry.Add(" and   a.orderstatus not in (                                                           ");
+                qry.Add("                     '" + RwConstants.QUOTE_STATUS_CANCELLED + "'  ,                    ");
+                qry.Add("                     '" + RwConstants.QUOTE_STATUS_CLOSED + "'  ,                       ");
+                qry.Add("                     '" + RwConstants.QUOTE_STATUS_ORDERED + "'  ,                      ");
+                qry.Add("                     '" + RwConstants.TRANSFER_STATUS_NEW + "'  ,                       ");
+                qry.Add("                     '" + RwConstants.TRANSFER_STATUS_CANCELLED + "'  ,                 ");
+                qry.Add("                     '" + RwConstants.TRANSFER_STATUS_CLOSED + "'  ,                    ");
+                qry.Add("                     '" + RwConstants.TRANSFER_STATUS_COMPLETE + "'  ,                  ");
+                qry.Add("                     '" + RwConstants.ORDER_STATUS_CANCELLED + "'  ,                    ");
+                qry.Add("                     '" + RwConstants.ORDER_STATUS_COMPLETE + "'  ,                     ");
+                qry.Add("                     '" + RwConstants.ORDER_STATUS_CLOSED + "'                          ");
+                qry.Add("                        )                                                               ");
                 qry.AddParameter("@sessionid", sessionId);
                 FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync();
 
@@ -1159,6 +1171,18 @@ namespace WebApi.Modules.Home.InventoryAvailability
                 qry.Add("          or                                                                            ");
                 qry.Add("        ((a.ordertype = '" + RwConstants.ORDER_TYPE_QUOTE + "') and ");
                 qry.Add("         (a.orderstatus = '" + RwConstants.QUOTE_STATUS_RESERVED + "')))");
+                qry.Add(" and   a.orderstatus not in (                                                           ");
+                qry.Add("                     '" + RwConstants.QUOTE_STATUS_CANCELLED + "'  ,                    ");
+                qry.Add("                     '" + RwConstants.QUOTE_STATUS_CLOSED + "'  ,                       ");
+                qry.Add("                     '" + RwConstants.QUOTE_STATUS_ORDERED + "'  ,                      ");
+                qry.Add("                     '" + RwConstants.TRANSFER_STATUS_NEW + "'  ,                       ");
+                qry.Add("                     '" + RwConstants.TRANSFER_STATUS_CANCELLED + "'  ,                 ");
+                qry.Add("                     '" + RwConstants.TRANSFER_STATUS_CLOSED + "'  ,                    ");
+                qry.Add("                     '" + RwConstants.TRANSFER_STATUS_COMPLETE + "'  ,                  ");
+                qry.Add("                     '" + RwConstants.ORDER_STATUS_CANCELLED + "'  ,                    ");
+                qry.Add("                     '" + RwConstants.ORDER_STATUS_COMPLETE + "'  ,                     ");
+                qry.Add("                     '" + RwConstants.ORDER_STATUS_CLOSED + "'                          ");
+                qry.Add("                        )                                                               ");
                 qry.AddParameter("@sessionid", sessionId);
                 FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync();
 
