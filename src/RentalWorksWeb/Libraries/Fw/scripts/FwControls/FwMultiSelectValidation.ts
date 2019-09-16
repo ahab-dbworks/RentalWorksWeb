@@ -81,8 +81,8 @@
             var code = e.keyCode || e.which;
             try {
                 if (code === 13) { //Enter Key
-                    FwMultiSelectValidation.validate(validationName, $valuefield, $searchfield, $btnvalidate, $popup, $browse, true);
                     e.preventDefault();
+                    FwMultiSelectValidation.validate(validationName, $valuefield, $searchfield, $btnvalidate, $popup, $browse, true);
                     return false;
                 }
             } catch (ex) {
@@ -187,7 +187,7 @@
                     if (code === 13) { //Enter Key
                         e.preventDefault();
                         $searchfield = jQuery(e.currentTarget);
-                        FwMultiSelectValidation.validate(validationName, $valuefield, $searchfield, $btnvalidate, $popup, $browse, true);
+                        FwMultiSelectValidation.validate(validationName, $valuefield, $searchfield, $btnvalidate, $popup, $browse, false);
                     }
                 } catch (ex) {
                     FwFunc.showError(ex);
@@ -222,6 +222,7 @@
             var $trs, $tr, selectedrows, uniqueids;
             if (typeof $browse.data('selectedrows') !== 'undefined') {
                 selectedrows = $browse.data('selectedrows');
+                $browse.find('tr.selected').removeClass('selected');
                 $trs = $browse.find('tbody > tr');
                 $trs.each(function (index, element) {
                     $tr = jQuery(element);
@@ -299,6 +300,7 @@
                             } else {
                                 FwBrowse.selectRowByIndex($browse, 0);
                             };
+
                             break;
                         case 8:  //Backspace
                             const inputLength = $control.find('span.addItem').text().length;
@@ -334,19 +336,7 @@
             } else {
                 throw 'FwMultiSelectValidation: Validation is not setup correctly. Missing validation display field.';
             }
-        } else {
-            $validationSearchbox.val('');
         }
-
-        FwBrowse.addEventHandler($browse, 'afterdatabindcallback', function () {
-            let values: any = $valuefield.val();
-            if (values.length > 0) {
-                let valueArray = values.split(',');
-                for (var i = 0; i < valueArray.length; i++) {
-                    $browse.find(`div[data-originalvalue="${valueArray[i].trim()}"]`).closest('tr').addClass('selected');
-                }
-            }
-        })
 
         $browse.data('$btnvalidate', $btnvalidate);
         $btnvalidate.hide();
@@ -425,6 +415,7 @@
             $control.data('onchange')($selectedRows);
         }
         FwPopup.detachPopup($popup);
+        FwMultiSelectValidation.clearSearchCriteria($browse);
         FwMultiSelectValidation.setCaret($control);
     };
     //---------------------------------------------------------------------------------
@@ -461,6 +452,7 @@
         multiselectfield.append($inputField);
         $inputField.text('');
         FwPopup.detachPopup($popup);
+        FwMultiSelectValidation.clearSearchCriteria($browse);
         FwMultiSelectValidation.setCaret($control);
     };
     //---------------------------------------------------------------------------------
@@ -470,6 +462,15 @@
         $valuefield.val('').change();
         $searchfield.val('');
         $browse.find('tbody tr').removeClass('selected');
+    };
+    //---------------------------------------------------------------------------------
+    clearSearchCriteria($validationbrowse: JQuery) {
+        var $validationSearchboxes, $validationSearchbox;
+        $validationSearchboxes = $validationbrowse.find('thead .field > .search > input');
+        $validationSearchboxes.each(function (index, element) {
+            $validationSearchbox = jQuery(element);
+            $validationSearchbox.val('');
+        });
     };
     //---------------------------------------------------------------------------------
     viewSelection(validationName: string, $valuefield: JQuery, $searchfield: JQuery, $btnvalidate: JQuery, $popup, $browse: JQuery, controller: string): void {
