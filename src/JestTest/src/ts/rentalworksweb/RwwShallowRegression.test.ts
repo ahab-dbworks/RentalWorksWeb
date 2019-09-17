@@ -43,7 +43,7 @@ export class ShallowRegressionTest extends BaseTest {
                             expect(openBrowseResponse.errorMessage).toBe("");
                             expect(openBrowseResponse.opened).toBeTruthy();
                         });
-                }, this.testTimeout);
+                }, module.browseOpenTimeout);
                 //---------------------------------------------------------------------------------------
                 if (module.canView) {       //if the module supports form viewing, try to open the first form, if any
                     testName = `Open first ${module.moduleCaption} form, if any`;
@@ -63,7 +63,7 @@ export class ShallowRegressionTest extends BaseTest {
                                 }
                             });
 
-                    }, this.testTimeout);
+                    }, module.formOpenTimeout);
 
                     //if the module supports form viewing, try to click all tabs on the form
                     testName = `Click all Tabs on the ${module.moduleCaption} form`;
@@ -73,7 +73,7 @@ export class ShallowRegressionTest extends BaseTest {
                                 expect(openRecordResponse.errorMessage).toBe("");
                                 expect(openRecordResponse.success).toBeTruthy();
                             });
-                    }, this.testTimeout);
+                    }, module.formOpenTimeout);
                 }
                 //---------------------------------------------------------------------------------------
             });

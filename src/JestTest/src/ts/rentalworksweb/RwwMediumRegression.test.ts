@@ -44,7 +44,7 @@ export class MediumRegressionTest extends BaseTest {
                             expect(openBrowseResponse.errorMessage).toBe("");
                             expect(openBrowseResponse.opened).toBeTruthy();
                         });
-                }, this.testTimeout);
+                }, module.browseOpenTimeout);
                 //---------------------------------------------------------------------------------------
                 if (module.canNew) {     //if the module supports adding new records, try to add one
                     if (module.newRecordsToCreate) {
@@ -57,7 +57,7 @@ export class MediumRegressionTest extends BaseTest {
                                         expect(createNewResponse.errorMessage).toBe("");
                                         expect(createNewResponse.success).toBeTruthy();
                                     });
-                            }, this.testTimeout);
+                            }, module.formOpenTimeout);
 
                             if (module.defaultNewRecordToExpect) {
                                 testName = `Validate default values on new ${module.moduleCaption} form, compare with expected values`;
@@ -89,13 +89,13 @@ export class MediumRegressionTest extends BaseTest {
                                                 }
                                             }
                                         });
-                                }, this.testTimeout);
+                                }, module.formOpenTimeout);
                             }
 
                             testName = `Populate new ${module.moduleCaption}`;
                             test(testName, async () => {
                                 await module.populateFormWithRecord(rec.record);
-                            }, this.testTimeout);
+                            }, module.formOpenTimeout);
 
                             testName = `Save new ${module.moduleCaption}`;
                             test(testName, async () => {
@@ -105,14 +105,14 @@ export class MediumRegressionTest extends BaseTest {
                                         expect(saveResponse.saved).toBe(true);
                                     });
                                 await module.closeRecord();  //close the form
-                            }, this.testTimeout);
+                            }, module.formSaveTimeout);
 
                             if (rec.seekObject) {
                                 testName = `Seek to the newly-created ${module.moduleCaption} record`;
                                 test(testName, async () => {
                                     let recordCount = await module.browseSeek(rec.seekObject).then().catch(err => this.LogError(testName, err));
                                     expect(recordCount).toBe(1);
-                                }, this.testTimeout);
+                                }, module.browseOpenTimeout);
 
                                 if (rec.recordToExpect) {
                                     testName = `Open the newly-created ${module.moduleCaption} record, compare values with expected`;
@@ -145,7 +145,7 @@ export class MediumRegressionTest extends BaseTest {
                                                 }
                                             });
                                         await module.closeRecord();  //close the form
-                                    }, this.testTimeout);
+                                    }, module.formOpenTimeout);
                                 }
 
                                 if (module.canDelete) {
@@ -155,14 +155,14 @@ export class MediumRegressionTest extends BaseTest {
                                         await module.deleteRecord();
                                         let rowCountAfter = await module.browseGetRowsDisplayed();
                                         expect(rowCountAfter).toBe(rowCountBefore - 1);
-                                    }, this.testTimeout);
+                                    }, module.deleteTimeout);
                                 }
                                 else {     // make sure that the Delete button is not available
                                     testName = `Make sure no Delete button exists on ${module.moduleCaption} browse`;
                                     test(testName, async () => {
                                         let buttonExists = await module.findDeleteButton();
                                         expect(buttonExists).toBeFalsy();
-                                    }, this.testTimeout);
+                                    }, module.browseOpenTimeout);
                                 }
                             }
                         }
@@ -173,7 +173,7 @@ export class MediumRegressionTest extends BaseTest {
                     test(testName, async () => {
                         let buttonExists = await module.findNewButton();
                         expect(buttonExists).toBeFalsy();
-                    }, this.testTimeout);
+                    }, module.browseOpenTimeout);
                 }
                 //---------------------------------------------------------------------------------------
             });
