@@ -2484,11 +2484,11 @@ class OrderBase {
         if (this.CombineActivity === 'true') {
             $form.find('.combined').css('display', 'block');
             $form.find('.combinedtab').css('display', 'flex');
-            $form.find('.generaltab').click();
+            //$form.find('.generaltab').click();
         } else {
             $form.find('.notcombined').css('display', 'block');
             $form.find('.notcombinedtab').css('display', 'flex');
-            $form.find('.generaltab').click();
+            //$form.find('.generaltab').click();
         }
         this.renderGrids($form);
         const period = FwFormField.getValueByDataField($form, 'totalTypeProfitLoss');
