@@ -69,7 +69,7 @@ class FwBrowseClass {
             $control.attr('data-pageno', '1');
         }
         if (typeof $control.attr('data-pagesize') !== 'string') {
-            if ($control.attr('data-type') === 'Browse') {
+            if ($control.attr('data-type') === 'Browse' || $control.attr('data-type') === 'Grid') {
                 $control.attr('data-pagesize', sessionStorage.getItem('browsedefaultrows'));
             } else {
                 $control.attr('data-pagesize', '15');
