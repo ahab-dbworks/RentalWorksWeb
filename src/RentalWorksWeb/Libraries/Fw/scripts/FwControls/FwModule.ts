@@ -757,6 +757,7 @@
             customForms = customForms.filter(a => a.BaseForm == baseForm);
             if (customForms.length > 0) {
                 $form = jQuery(jQuery(`#tmpl-custom-${baseForm}`)[0].innerHTML);
+                $form.data('customformdata', customForms[0]);
             }
         }
 
@@ -793,23 +794,31 @@
             window[controller]['addButtonMenu']($form);
         }
 
-
-        //if (sessionStorage.getItem('customFields') !== null) {
-        //    let customFields = JSON.parse(sessionStorage.getItem('customFields'))
-        //    if (customFields !== null && typeof customFields.length === 'number' && customFields.length > 0) {
-        //        let hasCustomFields = false;
-        //        for (var i = 0; i < customFields.length; i++) {
-        //            if (controller.slice(0, -10) === customFields[i]) {
-        //                FwModule.loadCustomFields($form, customFields[i]);
-        //            }
-        //        }
-        //    }
-        //}   -- Jason Hoang 12/10/2018 removed custom fields tab
+        $formTabControl = $form.find('.fwtabs');
+        if (typeof $form.data('customformdata') !== 'undefined') {
+            //add custom form info tab
+            const customform = $form.data('customformdata');
+            const customformTabIds = FwTabs.addTab($formTabControl, 'Custom Form', false, 'CUSTOMFORM', false);
+            const $customformTab = $formTabControl.find(`#${customformTabIds.tabid}`);
+            FwTabs.setTabColor($customformTab, 'yellow');
+            let $customFormFields = jQuery(`
+                    <div class="flexpage">
+                        <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Custom Form" style="max-width:900px;">
+                              <div class="flexrow">
+                                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Base Form" data-datafield="CustomFormBaseForm" data-enabled="false" data-formreadonly="true" style="flex:1 1 200px;"></div>
+                                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Description" data-datafield="CustomFormId" data-displayfield="Description" data-validationname="CustomFormValidation" data-validationpeek="true" data-enabled="false" data-formreadonly="true" style="flex:1 1 300px;"></div>
+                              </div>
+                          </div>
+                    </div>`);
+            FwControl.renderRuntimeControls($customFormFields.find('.fwcontrol'));
+            $formTabControl.find(`#${customformTabIds.tabpageid}`).append($customFormFields);
+            FwFormField.setValueByDataField($form, 'CustomFormBaseForm', customform.BaseForm);
+            FwFormField.setValueByDataField($form, 'CustomFormId', customform.CustomFormId, customform.Description);
+        }
 
         //add Audit tab to all forms
         let $keys = $form.find('.fwformfield[data-type="key"]');
         if ($keys.length !== 0) {
-            $formTabControl = jQuery($form.find('.fwtabs'));
             auditTabIds = FwTabs.addTab($formTabControl, 'Audit', false, 'AUDIT', false);
             $auditControl = jQuery(FwBrowse.loadGridFromTemplate('AuditHistoryGrid'));
             $auditControl.data('ondatabind', function (request) {
