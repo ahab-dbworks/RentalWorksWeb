@@ -2481,13 +2481,14 @@ class OrderBase {
     };
     //----------------------------------------------------------------------------------------------
     afterSave($form) {
+        const $activeTab = $form.find('.active[data-type="tab"]');
         if (this.CombineActivity === 'true') {
-            $form.find('.combined').css('display', 'block');
             $form.find('.combinedtab').css('display', 'flex');
+            //$form.find('.combined').css('display', 'block');
             //$form.find('.generaltab').click();
         } else {
-            $form.find('.notcombined').css('display', 'block');
             $form.find('.notcombinedtab').css('display', 'flex');
+            //$form.find('.notcombined').css('display', 'block');
             //$form.find('.generaltab').click();
         }
         this.renderGrids($form);
@@ -2495,6 +2496,7 @@ class OrderBase {
         this.renderFrames($form, FwFormField.getValueByDataField($form, `${this.Module}Id`), period);
         //this.dynamicColumns($form);
         this.applyOrderTypeAndRateTypeToForm($form);
+        $activeTab.click();
     };
     //----------------------------------------------------------------------------------------------
 }
