@@ -209,7 +209,7 @@ export abstract class BaseTest {
                         //    //console.log(`Comparing: ${key}\n     Expecting: "${expectedObject[key]}"\n     Found:     "${defaultObject[key]}"`);
                         //}
 
-                        if (expectedObject[key].toString().includes("GlobalScope.")) {
+                        if (expectedObject[key].toString().toUpperCase().includes("GLOBALSCOPE.")) {
                             expectedObject[key] = TestUtils.getGlobalScopeValue(expectedObject[key], this.globalScopeRef);
                         }
 
@@ -300,7 +300,7 @@ export abstract class BaseTest {
                         //    console.log(`Comparing: ${key}\n     Expecting: "${expectedObject[key]}"\n     Found:     "${savedObject[key]}"`);
                         //}
 
-                        if (expectedObject[key].toString().includes("GlobalScope.")) {
+                        if (expectedObject[key].toString().toUpperCase().includes("GLOBALSCOPE.")) {
                             expectedObject[key] = TestUtils.getGlobalScopeValue(expectedObject[key], this.globalScopeRef);
                         }
 

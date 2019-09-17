@@ -168,7 +168,7 @@ export class ModuleBase {
             //    seekValue = this.globalScopeRef[globalScopeKey[1].toString()][globalScopeKey[2].toString()];
             //}
 
-            if (seekValue.toString().includes("GlobalScope.")) {
+            if (seekValue.toString().toUpperCase().includes("GLOBALSCOPE.")) {
                 seekValue = TestUtils.getGlobalScopeValue(seekValue, this.globalScopeRef);
             }
 
@@ -563,7 +563,7 @@ export class ModuleBase {
                     //    newValue = this.globalScopeRef[globalScopeKey[1].toString()][globalScopeKey[2].toString()];
                     //}
 
-                    if (newValue.toString().includes("GlobalScope.")) {
+                    if (newValue.toString().toUpperCase().includes("GLOBALSCOPE.")) {
                         newValue = TestUtils.getGlobalScopeValue(newValue, this.globalScopeRef);
                     }
 
@@ -591,7 +591,7 @@ export class ModuleBase {
                     //    newValue = this.globalScopeRef[globalScopeKey[1].toString()][globalScopeKey[2].toString()];
                     //}
 
-                    if (newValue.toString().includes("GlobalScope.")) {
+                    if (newValue.toString().toUpperCase().includes("GLOBALSCOPE.")) {
                         newValue = TestUtils.getGlobalScopeValue(newValue, this.globalScopeRef);
                     }
 

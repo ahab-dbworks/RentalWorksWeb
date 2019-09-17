@@ -74,7 +74,7 @@ export class MediumRegressionTest extends BaseTest {
                                                 //    expectingValue = this.globalScopeRef[globalScopeKey[1].toString()][globalScopeKey[2].toString()];
                                                 //}
 
-                                                if (expectingValue.toString().includes("GlobalScope.")) {
+                                                if (expectingValue.toString().toUpperCase().includes("GLOBALSCOPE.")) {
                                                     expectingValue = TestUtils.getGlobalScopeValue(expectingValue, this.globalScopeRef);
                                                 }
 
@@ -129,7 +129,7 @@ export class MediumRegressionTest extends BaseTest {
                                                     //    expectingValue = this.globalScopeRef[globalScopeKey[1].toString()][globalScopeKey[2].toString()];
                                                     //}
 
-                                                    if (expectingValue.toString().includes("GlobalScope.")) {
+                                                    if (expectingValue.toString().toUpperCase().includes("GLOBALSCOPE.")) {
                                                         expectingValue = TestUtils.getGlobalScopeValue(expectingValue, this.globalScopeRef);
                                                     }
 

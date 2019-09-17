@@ -127,9 +127,22 @@ export class Contact extends HomeModule {
         this.newRecordsToCreate = [
             {
                 record: {
-                    FirstName: "GlobalScope.TestToken~1.TestToken",
-                    LastName: "GlobalScope.TestToken~1.TestToken",
-                    Email: "GlobalScope.TestToken~1.TestToken",
+                    FirstName: TestUtils.randomFirstName(),
+                    LastName: `${TestUtils.randomLastName()} GlobalScope.TestToken~1.TestToken`,
+                    Email: TestUtils.randomEmail(),
+                    Address1: TestUtils.randomAddress1(),
+                    Address2: TestUtils.randomAddress2(),
+                    City: TestUtils.randomCity(),
+                    State: TestUtils.randomStateCode(),
+                    ZipCode: TestUtils.randomZipCode(),
+                    OfficePhone: TestUtils.randomPhone(),
+                    OfficeExtension: TestUtils.randomPhoneExtension(),
+                    DirectPhone: TestUtils.randomPhone(),
+                    MobilePhone: TestUtils.randomPhone(),
+                    HomePhone: TestUtils.randomPhone(),
+                    Fax: TestUtils.randomPhone(),
+
+
                 },
                 seekObject: {
                     LastName: "GlobalScope.TestToken~1.TestToken",
@@ -137,10 +150,22 @@ export class Contact extends HomeModule {
             }
         ];
         this.newRecordsToCreate[0].recordToExpect = {
-            FirstName: this.newRecordsToCreate[0].record.FirstName,
-            LastName: this.newRecordsToCreate[0].record.LastName,
+            FirstName: this.newRecordsToCreate[0].record.FirstName.toUpperCase(),
+            LastName: this.newRecordsToCreate[0].record.LastName.toUpperCase(),
             Email: this.newRecordsToCreate[0].record.Email,
+            Address1: this.newRecordsToCreate[0].record.Address1.toUpperCase(),
+            Address2: this.newRecordsToCreate[0].record.Address2.toUpperCase(),
+            City: this.newRecordsToCreate[0].record.City.toUpperCase(),
+            State: this.newRecordsToCreate[0].record.State.toUpperCase(),
+            ZipCode: this.newRecordsToCreate[0].record.ZipCode.toUpperCase(),
+            OfficePhone: TestUtils.formattedPhone(this.newRecordsToCreate[0].record.OfficePhone),
+            OfficeExtension: this.newRecordsToCreate[0].record.OfficeExtension,
+            DirectPhone: TestUtils.formattedPhone(this.newRecordsToCreate[0].record.DirectPhone),
+            MobilePhone: TestUtils.formattedPhone(this.newRecordsToCreate[0].record.MobilePhone),
+            HomePhone: TestUtils.formattedPhone(this.newRecordsToCreate[0].record.HomePhone),
+            Fax: TestUtils.formattedPhone(this.newRecordsToCreate[0].record.Fax),
         }
+
     }
     //---------------------------------------------------------------------------------------
 }

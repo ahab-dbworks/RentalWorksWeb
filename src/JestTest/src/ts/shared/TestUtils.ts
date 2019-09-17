@@ -135,24 +135,32 @@ export class TestUtils {
     //-----------------------------------------------------------------------------------------------------------------
     static getGlobalScopeValue(valueIn: string, globalScope: GlobalScope): string {
         let valueOut: string = valueIn;
-        if (valueIn.toString().includes("GlobalScope.")) {
+        if (valueIn.toString().toUpperCase().includes("GLOBALSCOPE.")) {
             //example1: "GlobalScope.DefaultSettings~1.DefaultUnit",
             //example2: "Product124 GlobalScope.DefaultSettings~1.DefaultUnit",
             //example2: "GlobalScope.DefaultSettings~1.DefaultUnit SomeOtherValue",
 
             let globalScopeKeyString = "";
-            let rightOfGlobalScopeKeyString = valueIn.substring(valueIn.indexOf("GlobalScope."));
+            let rightOfGlobalScopeKeyString = valueIn.substring(valueIn.toUpperCase().indexOf("GLOBALSCOPE."));
             let endOfOfGlobalScopeKeyString = rightOfGlobalScopeKeyString.indexOf(" ");
             if (endOfOfGlobalScopeKeyString >= 0) {   // string contains a space after the GlobalScope key
-                globalScopeKeyString = valueIn.substring(valueIn.indexOf("GlobalScope."), valueIn.indexOf("GlobalScope.") + endOfOfGlobalScopeKeyString);
+                globalScopeKeyString = valueIn.substring(valueIn.toUpperCase().indexOf("GLOBALSCOPE."), valueIn.toUpperCase().indexOf("GLOBALSCOPE.") + endOfOfGlobalScopeKeyString);
             }
             else {
-                globalScopeKeyString = valueIn.substring(valueIn.indexOf("GlobalScope."));
+                globalScopeKeyString = valueIn.substring(valueIn.toUpperCase().indexOf("GLOBALSCOPE."));
             }
-            valueIn = valueIn.replace(globalScopeKeyString, '!!!!!!!!');
+
+            const placeHolderString = '!x!x!x!x!x!';
+            valueIn = valueIn.replace(globalScopeKeyString, placeHolderString);
             let globalScopeKey = globalScopeKeyString.toString().split('.');
-            let globalScopeValue = globalScope[globalScopeKey[1].toString()][globalScopeKey[2].toString()];
-            valueOut = valueIn.replace('!!!!!!!!', globalScopeValue);
+            let globalScopeKeyPart1 = globalScopeKey[1].toString();
+            let globalScopeKeyPart2 = globalScopeKey[2].toString();
+
+            //let globalScopeValue = globalScope[globalScopeKeyPart1][globalScopeKeyPart2];
+
+            let globalScopeObject = globalScope[Object.keys(globalScope).find(key => key.toLowerCase() === globalScopeKeyPart1.toLowerCase())];
+            let globalScopeValue = globalScopeObject[Object.keys(globalScopeObject).find(key => key.toLowerCase() === globalScopeKeyPart2.toLowerCase())];
+            valueOut = valueIn.replace(placeHolderString, globalScopeValue);
         }
         return valueOut;
     }

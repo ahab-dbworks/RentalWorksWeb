@@ -131,7 +131,7 @@ export class SettingsModule extends ModuleBase {
         //    seekValue = this.globalScopeRef[globalScopeKey[1].toString()][globalScopeKey[2].toString()];
         //}
 
-        if (seekValue.toString().includes("GlobalScope.")) {
+        if (seekValue.toString().toUpperCase().includes("GLOBALSCOPE.")) {
             seekValue = TestUtils.getGlobalScopeValue(seekValue, this.globalScopeRef);
         }
 
