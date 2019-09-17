@@ -18,7 +18,6 @@ class Receipt {
         screen.properties = {};
 
         const $browse: any = this.openBrowse();
-        const today = FwFunc.getDate();
 
         screen.load = () => {
             FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
@@ -32,6 +31,7 @@ class Receipt {
                 $browse.find(`div[data-browsedatafield="${filter.datafield}"]`).find('input').val(filter.search);
             } else {
                 // if no filter passed in, default view to today's date
+                const today = FwFunc.getDate();
                 $browse.find('div[data-browsedatafield="ReceiptDate"]').find('input').val(today);
                 $browse.find('div[data-browsedatafield="ReceiptDate"]').find('input').change();
             }
@@ -268,6 +268,16 @@ class Receipt {
                 FwNotification.renderNotification('WARNING', 'Select a Deal or Customer first.')
             }
         });
+        const app = jQuery('#application');
+        app.bind('DOMSubtreeModified', () => {
+            if (app.find('.advisory').length > 0) {
+                const message = app.find('.advisory .fwconfirmationbox .body .message').text();
+                if (message.startsWith("Amount to Apply does not match Invoice")) {
+                    console.log('message', message);
+                }
+            }
+
+        })
     }
     //----------------------------------------------------------------------------------------------
     openCreditBrowse($form) {
