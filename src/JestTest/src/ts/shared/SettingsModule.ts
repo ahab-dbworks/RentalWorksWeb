@@ -5,6 +5,7 @@ import { SaveResponse, OpenBrowseResponse, OpenRecordResponse, CreateNewResponse
 
 export class ClickRecordResponse {
     clicked: boolean;
+    recordId: string;
     recordsVisible: number;
 }
 
@@ -153,6 +154,7 @@ export class SettingsModule extends ModuleBase {
     async clickRecord(index?: number): Promise<ClickRecordResponse> {
         let clickRecordResponse: ClickRecordResponse = new ClickRecordResponse();
         clickRecordResponse.clicked = false;
+        clickRecordResponse.recordId = "";
         clickRecordResponse.recordsVisible = 0;
 
         if (index == undefined) {
@@ -162,7 +164,9 @@ export class SettingsModule extends ModuleBase {
         let moduleLegendBarSelector = `.panel-group[id="${this.moduleName}"] .legend`;
         await page.waitForSelector(moduleLegendBarSelector, { timeout: 1000 });
 
-        let recordSelector = `.panel-group[id="${this.moduleName}"] .panel-primary .panel-collapse .panel-body .panel-record:not(.inactive-panel)`;
+        //let recordSelector = `.panel-group[id="${this.moduleName}"] .panel-primary .panel-collapse .panel-body .panel-record:not(.inactive-panel)`;
+        let recordSelector = `.panel-group[id="${this.moduleName}"] .panel-primary .panel-collapse .panel-body .panel-record:not(.inactive-panel) .panel-info .row-heading:not(.inactive-panel)`;
+
         const records = await page.$$(recordSelector);
 
         if (records == undefined) {
@@ -177,15 +181,17 @@ export class SettingsModule extends ModuleBase {
                 if ((styleAttributeValue === undefined) || (styleAttributeValue == null)) {
                     styleAttributeValue = "";
                 }
-                //let recordId: string = await page.evaluate(el => el.getAttribute('id'), record);
                 if (!styleAttributeValue.replace(' ', '').includes("display:none")) {
+
                     rowcounter++;
                     if (rowcounter === index) {
+                        clickRecordResponse.recordId = await page.evaluate(el => el.getAttribute('id'), record);
                         await record.click(); // click the row
                         clickRecordResponse.clicked = true;
                     }
                     clickRecordResponse.recordsVisible++;
                 }
+
             }
         }
 
@@ -521,15 +527,10 @@ export class SettingsModule extends ModuleBase {
         return createNewResponse;
     }
     //---------------------------------------------------------------------------------------
-    async closeRecord(): Promise<void> {
-        //await page.click('div.delete');
-
-        //let selector = `.panel-group[id="${this.moduleName}"] .panel-primary .panel-collapse .panel-body .panel-record .row-heading:not(.inactive-panel)`;
-        //await page.waitForSelector(selector);
-        //await page.click(selector, { clickCount: 1 });   // click the row
-
-
-        //Logging.logInfo(`Record closed.`);
+    async closeRecord(index?: number): Promise<void> {
+        // need to check to see if the record is open first
+        await this.clickRecord(index);
+        Logging.logInfo(`Record closed.`);
     }
     //---------------------------------------------------------------------------------------
     async deleteRecord(index?: number, sleepAfterDeleting?: number): Promise<void> {
@@ -582,6 +583,43 @@ export class SettingsModule extends ModuleBase {
                 }
             }
         }
+
+
+        // can't do this because when records are Searched, they are hidden differently
+        //let clickRecordResponse: ClickRecordResponse = await this.clickRecord(index);
+        //if (clickRecordResponse.clicked) {
+
+        //    let deleteButtonSelector = `div .panel-record[id="${clickRecordResponse.recordId}"] .btn-delete[data-type="DeleteMenuBarButton"]`;
+        //    await page.waitForSelector(deleteButtonSelector);
+        //    await page.click(deleteButtonSelector, { clickCount: 1 });  // click the delete button
+
+        //    const popupText = await page.$eval('.advisory', el => el.textContent);
+        //    if (popupText.includes('delete this record')) {
+        //        Logging.logInfo(`Delete record, confirmation prompt detected.`);
+
+        //        const options = await page.$$('.advisory .fwconfirmation-button');
+        //        await options[0].click() // click "Yes" option
+        //            .then(() => {
+        //                Logging.logInfo(`Clicked the "Yes" button.`);
+        //            })
+        //        await page.waitFor(() => !document.querySelector('.advisory'));
+        //        await page.waitFor(() => document.querySelector('.pleasewait'));
+        //        await page.waitFor(() => !document.querySelector('.pleasewait'));
+
+        //        //make the "record deleted" toaster message go away
+        //        await page.waitForSelector('.advisory .messageclose');
+        //        await page.click(`.advisory .messageclose`);
+        //        await page.waitFor(() => !document.querySelector('.advisory'));  // wait for toaster to go away
+
+        //    }
+        //    Logging.logInfo(`Record deleted.`);
+
+        //    if (sleepAfterDeleting > 0) {
+        //        await ModuleBase.wait(sleepAfterDeleting);
+        //    }
+        //}
+
+
     }
     //---------------------------------------------------------------------------------------
 }
