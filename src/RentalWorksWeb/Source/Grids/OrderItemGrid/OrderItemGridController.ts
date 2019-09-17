@@ -275,33 +275,59 @@
                     FwNotification.renderNotification('WARNING', 'Unable to apply discount because Price and Extended values are 0.')
                     return;
                 } else {
-                    const $confirmation = FwConfirmation.renderConfirmation(`Update Rate Value`, `Update Rate Value?`);
+
+
+                    const quantity = $generatedtr.find('.field[data-browsedatafield="QuantityOrdered"] input').val();
+                    const discountPercent = $generatedtr.find(`.field[data-browsedatafield="DiscountPercent"] input`).val();
+                    const billablePeriods = $generatedtr.find(`.field[data-browsedatafield="BillablePeriods"] input`).val();
+                    const discountAmount = $generatedtr.find(`.field[data-browsedatafield="${periodType}DiscountAmount"] input`).val();
+                    const extendedVal = $generatedtr.find(`[data-browsedatafield="${periodType}Extended"] input`).val();
+                    let discount;
+                    let rate;
+
+                    let extendedValNumber: number = +extendedVal.substring(1).replace(',', '');
+                    let discountAmountNumber: number = +discountAmount.substring(1).replace(',', '');
+
+                    if (discountPercent == 0) {
+                        if (field === 'UnitExtended') {
+                            //rate = ((+extendedVal.substring(1).replace(',', '')) + (+discountAmount.substring(1).replace(',', '')));
+                            rate = extendedValNumber + discountAmountNumber;
+                        } else if (field === 'WeeklyExtended') {
+                            // need an error message here if quantity==zero.
+                            //rate = (((+extendedVal.substring(1).replace(',', '')) + (+discountAmount.substring(1).replace(',', ''))) / quantity);
+                            rate = ((extendedValNumber + discountAmountNumber) / quantity);
+                        } else if (field === 'PeriodExtended') {
+                            // need an error message here if (quantity * billablePeriods)==zero.
+                            //rate = (((+extendedVal.substring(1).replace(',', '')) + (+discountAmount.substring(1).replace(',', ''))) / (quantity * billablePeriods));
+                            rate = ((extendedValNumber + discountAmountNumber) / quantity * billablePeriods);
+                        } else {
+                            // need to give an error here.  `unknown field: ${field}`
+                        }
+                    } else {
+                        discount = 1 - ((+discountPercent) / 100);
+                        // need an error message here if discount==zero.
+                        if (field === 'UnitExtended') {
+                            //rate = (+extendedVal.substring(1).replace(',', '')) / discount;
+                            rate = (extendedValNumber / discount);
+                        } else if (field === 'WeeklyExtended') {
+                            // need an error message here if quantity==zero.
+                            //rate = (((+extendedVal.substring(1).replace(',', '')) / quantity) / discount);
+                            rate = ((extendedValNumber / quantity) / discount);
+                        } else if (field === 'PeriodExtended') {
+                            // need an error message here if (quantity * billablePeriods)==zero.
+                            //rate = (((+extendedVal.substring(1).replace(',', '')) / (quantity * billablePeriods)) / discount);
+                            rate = ((extendedValNumber / (quantity * billablePeriods)) / discount);
+                        } else {
+                            // need to give an error here.  `unknown field: ${field}`
+                        }
+                    }
+
+                    const $confirmation = FwConfirmation.renderConfirmation(`Update Rate`, `Update Rate to ${rate}?`);
                     const $yes = FwConfirmation.addButton($confirmation, 'Yes', false);
                     const $no = FwConfirmation.addButton($confirmation, 'No', false);
 
                     $yes.on('click', () => {
                         FwConfirmation.destroyConfirmation($confirmation);
-                        const quantity = $generatedtr.find('.field[data-browsedatafield="QuantityOrdered"] input').val();
-                        const discountPercent = $generatedtr.find(`.field[data-browsedatafield="DiscountPercent"] input`).val();
-                        const discountAmount = $generatedtr.find(`.field[data-browsedatafield="${periodType}DiscountAmount"] input`).val();
-                        const extendedVal = $generatedtr.find(`[data-browsedatafield="${periodType}Extended"] input`).val();
-                        let discount;
-                        let rate;
-
-                        if (discountPercent == 0) {
-                            if (field === 'UnitExtended') {
-                                rate = ((+extendedVal.substring(1).replace(',', '')) + (+discountAmount.substring(1).replace(',', '')));
-                            } else {
-                                rate = (((+extendedVal.substring(1).replace(',', '')) + (+discountAmount.substring(1).replace(',', ''))) / quantity);
-                            }
-                        } else {
-                            discount = 1 - ((+discountPercent) / 100);
-                            if (field === 'UnitExtended') {
-                                rate = (+extendedVal.substring(1).replace(',', '')) / discount;
-                            } else {
-                                rate = (((+extendedVal.substring(1).replace(',', '')) / quantity) / discount);
-                            }
-                        }
                         FwBrowse.setFieldValue($control, $generatedtr, 'Price', { value: rate.toString() });
                         calculateExtended('Extended', field);
                     });
@@ -1028,7 +1054,7 @@ FwApplicationTree.clickEvents[Constants.Grids.OrderItemGrid.menuItems.ColorLegen
     }
     $confirmation.find('[data-browsedatafield="QuantityAvailable"]').css(containerCSS);
     const $close = FwConfirmation.addButton($confirmation, 'Close', false);
-   
+
     $close.on('click', () => {
         FwConfirmation.destroyConfirmation($confirmation);
     });
