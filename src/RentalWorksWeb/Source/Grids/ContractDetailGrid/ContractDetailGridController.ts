@@ -75,13 +75,18 @@ FwApplicationTree.clickEvents[Constants.Grids.ContractDetailGrid.menuItems.VoidI
                 };
 
                 if (contractType === 'OUT') {
-                    request.ReturnToInventory = FwFormField.getValueByDataField($confirmation, 'ReturnToInventory');
+                    let returnToInventory = FwFormField.getValueByDataField($confirmation, 'ReturnToInventory');
+                    returnToInventory = returnToInventory === 'T' ? true : false;
+                    request.ReturnToInventory = returnToInventory;
                 }
             
                 FwAppData.apiMethod(true, 'POST', `api/v1/contractitemdetail/voiditems`, request, FwServices.defaultTimeout,
                     response => {
-                        FwConfirmation.destroyConfirmation($confirmation);
+                        if (!response.success) {
+                            FwNotification.renderNotification('ERROR', response.msg);
+                        };
                         FwBrowse.search($grid);
+                        FwConfirmation.destroyConfirmation($confirmation);
                     },
                     ex => FwFunc.showError(ex), $confirmation.find('.fwconfirmationbox'));
             });
