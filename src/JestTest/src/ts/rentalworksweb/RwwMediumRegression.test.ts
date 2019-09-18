@@ -374,4 +374,4 @@ export class MediumRegressionTest extends BaseTest {
     //---------------------------------------------------------------------------------------
 }
 
-new MediumRegressionTest().Run();
+//new MediumRegressionTest().Run();
