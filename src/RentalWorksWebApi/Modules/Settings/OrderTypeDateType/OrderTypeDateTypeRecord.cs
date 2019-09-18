@@ -41,8 +41,11 @@ namespace WebApi.Modules.Settings.OrderTypeDateType
         [FwSqlDataField(column: "productionactivity", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool? ProductionActivity { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "color", modeltype: FwDataTypes.Integer, sqltype: "int")]
-        public int? Color { get; set; }
+        [FwSqlDataField(column: "color", modeltype: FwDataTypes.OleToHtmlColor, sqltype: "int")]
+        public string Color { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "textcolor", modeltype: FwDataTypes.OleToHtmlColor, sqltype: "int")]
+        public string TextColor { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }

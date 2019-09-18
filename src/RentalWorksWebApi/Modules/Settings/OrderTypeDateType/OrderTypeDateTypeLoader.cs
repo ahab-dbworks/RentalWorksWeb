@@ -46,8 +46,11 @@ namespace WebApi.Modules.Settings.OrderTypeDateType
         [FwSqlDataField(column: "requiredorder", modeltype: FwDataTypes.Boolean)]
         public bool? RequiredOnOrder { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "color", modeltype: FwDataTypes.Integer)]
-        public int? Color { get; set; }
+        [FwSqlDataField(column: "color", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string Color { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "textcolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string TextColor { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderby", modeltype: FwDataTypes.Decimal)]
         public decimal? OrderBy { get; set; }

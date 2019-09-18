@@ -53,7 +53,10 @@ namespace WebApi.Modules.Settings.OrderTypeDateType
         public bool? RequiredOnOrder { get { return orderTypeDateType.RequiredOnOrder; } set { orderTypeDateType.RequiredOnOrder = value; } }
 
         [FwLogicProperty(Id:"oM37jcODwW7b")]
-        public int? Color { get { return orderTypeDateType.Color; } set { orderTypeDateType.Color = value; } }
+        public string Color { get { return orderTypeDateType.Color; } set { orderTypeDateType.Color = value; } }
+
+        [FwLogicProperty(Id: "FaVm45YAegNF4")]
+        public string TextColor { get { return orderTypeDateType.TextColor; } set { orderTypeDateType.TextColor = value; } }
 
         [FwLogicProperty(Id:"lp6TThBq2eU3")]
         public decimal? OrderBy { get { return orderTypeDateType.OrderBy; } set { orderTypeDateType.OrderBy = value; } }
