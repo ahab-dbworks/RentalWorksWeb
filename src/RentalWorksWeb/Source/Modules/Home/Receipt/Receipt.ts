@@ -186,6 +186,23 @@ class Receipt {
         FwFormField.disable($form.find('div[data-datafield="PaymentBy"]'));
         FwFormField.disable($form.find('div[data-datafield="DealId"]'));
         FwFormField.disable($form.find('div[data-datafield="CustomerId"]'));
+
+        // Listen for DOM element creation for Overpayment workflow for new Receipts
+        if ($form.attr('data-mode') === 'NEW') {
+            const app = document.getElementById('application');
+            const config = { attributes: true, childList: true, subtree: true };
+            const listenForOverpayment = () => {
+                const message = jQuery(app).find('.advisory .fwconfirmationbox .body .message').text();
+                if (message.startsWith("Amount to Apply does not match Invoice")) {
+                    this.createOverPayment($form);
+                    observer.disconnect(); // perhaps have a condition here to make sure user did something with the workflow
+                }
+            }
+            // Create an observer instance linked to the callback function
+            const observer = new MutationObserver(listenForOverpayment);
+            // Start observing the target node for configured mutations
+            observer.observe(app, config);
+        }
     }
     //----------------------------------------------------------------------------------------------
     renderGrids($form: JQuery): void {
@@ -268,16 +285,33 @@ class Receipt {
                 FwNotification.renderNotification('WARNING', 'Select a Deal or Customer first.')
             }
         });
-        const app = jQuery('#application');
-        app.bind('DOMSubtreeModified', () => {
-            if (app.find('.advisory').length > 0) {
-                const message = app.find('.advisory .fwconfirmationbox .body .message').text();
-                if (message.startsWith("Amount to Apply does not match Invoice")) {
-                    console.log('message', message);
-                }
-            }
 
-        })
+    }
+    //----------------------------------------------------------------------------------------------
+    createOverPayment($form) {
+        jQuery('#application').find('.advisory .fwconfirmationbox .fwconfirmation-button').click();
+        const amountToApply = FwFormField.getValueByDataField($form, 'PaymentAmount').replace(/,/g, '');
+        const unappliedTotal = $form.find(`div[data-totalfield="UnappliedInvoiceTotal"] input`).val().replace(/[$ ,]+/g, "").trim();
+
+        const $confirmation = FwConfirmation.renderConfirmation(`Overpayment of ${unappliedTotal}`, '');
+        $confirmation.find('.fwconfirmationbox').css('width', '450px');
+        const html: Array<string> = [];
+
+        html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+        html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+        html.push(`    <div>Do you wish to save this Receipt with $${unappliedTotal} Overpayment?</div>`);
+        html.push('  </div>');
+        html.push('</div>');
+
+        FwConfirmation.addControls($confirmation, html.join(''));
+        const $yes = FwConfirmation.addButton($confirmation, 'Save', false);
+        const $no = FwConfirmation.addButton($confirmation, 'Cancel');
+
+        $yes.on('click', () => {
+            // add datafield with flag for server
+            // automate save
+            $form.find('.btn[data-type="SaveMenuBarButton"]').click();
+        });
     }
     //----------------------------------------------------------------------------------------------
     openCreditBrowse($form) {
