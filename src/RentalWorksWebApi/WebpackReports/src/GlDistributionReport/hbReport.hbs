@@ -30,7 +30,7 @@
         <td colspan="5" class="header-row">Location: {{Location}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "GroupHeadingheader"}}
-        <td class="GroupHeadingHeader" colspan="4">{{GroupHeading}}</td>
+        <td colspan="4" class="header-row">{{GroupHeading}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "detail"}}
         <td data-value="{{AccountNumber}}"></td>
@@ -73,7 +73,7 @@
       {{/ifEquals}}
       {{#ifEquals RowType "GroupHeadingheader"}}
       <tr data-rowtype="{{RowType}}">
-        <td class="GroupHeadingHeader" colspan="7">{{GroupHeading}}</td>
+        <td colspan="7" class="header-row">{{GroupHeading}}</td>
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "AccountNumberheader"}}
@@ -151,10 +151,13 @@
         <td colspan="5" class="header-row">Location: {{Location}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "GroupHeadingheader"}}
-        <td class="GroupHeadingHeader" colspan="4">{{GroupHeading}}</td>
+        <td colspan="4" class="header-row">{{GroupHeading}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "AccountNumberheader"}}
+      <td colspan="4" class="lower header-row">{{AccountNumber}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "detail"}}
-        <td data-value="{{AccountNumber}}"></td>
+        <td class="no-border"></td>
         <td data-value="{{GlDate}}"></td>
         <td data-value="{{AccountDescription}}"></td>
         <td data-value="{{InvoiceNumber}}"></td>
@@ -163,13 +166,18 @@
         <td class="number" data-value="{{Debit}}"></td>
         <td class="number" data-value="{{Credit}}"></td>
         {{/ifEquals}}
+        {{#ifEquals RowType "AccountNumberfooter"}}
+        <td colspan="6" class="total-name">{{AccountNumber}}:&nbsp;</td>
+        <td class="total-val" data-value="{{Debit}}"></td>
+        <td class="total-val" data-value="{{Credit}}"></td>
+        {{/ifEquals}}
         {{#ifEquals RowType "GroupHeadingfooter"}}
-        <td colspan="6" class="total-name">{{GroupHeading}}&nbsp;</td>
+        <td colspan="6" class="total-name">{{GroupHeading}}:&nbsp;</td>
         <td class="total-val" data-value="{{Debit}}"></td>
         <td class="total-val" data-value="{{Credit}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "Locationfooter"}}
-        <td colspan="6" class="total-name">{{Location}}&nbsp;</td>
+        <td colspan="6" class="total-name">{{Location}}:&nbsp;</td>
         <td class="total-val" data-value="{{Debit}}"></td>
         <td class="total-val" data-value="{{Credit}}"></td>
         {{/ifEquals}}
