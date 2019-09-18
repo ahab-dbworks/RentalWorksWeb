@@ -291,15 +291,16 @@ class Receipt {
     createOverPayment($form) {
         jQuery('#application').find('.advisory .fwconfirmationbox .fwconfirmation-button').click();
         const amountToApply = FwFormField.getValueByDataField($form, 'PaymentAmount').replace(/,/g, '');
-        const unappliedTotal = $form.find(`div[data-totalfield="UnappliedInvoiceTotal"] input`).val().replace(/[$ ,]+/g, "").trim();
+        const unappliedTotalTrimmed = $form.find(`div[data-totalfield="UnappliedInvoiceTotal"] input`).val().replace(/[$ ,]+/g, "").trim();
+        const unappliedTotal = $form.find(`div[data-totalfield="UnappliedInvoiceTotal"] input`).val()
 
         const $confirmation = FwConfirmation.renderConfirmation(`Overpayment of ${unappliedTotal}`, '');
-        $confirmation.find('.fwconfirmationbox').css('width', '450px');
+        $confirmation.find('.fwconfirmationbox').css('width', '490px');
         const html: Array<string> = [];
 
         html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
         html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-        html.push(`    <div>Do you wish to save this Receipt with $${unappliedTotal} Overpayment?</div>`);
+        html.push(`    <div>Do you wish to save this Receipt with ${unappliedTotal} Overpayment?</div>`);
         html.push('  </div>');
         html.push('</div>');
 
