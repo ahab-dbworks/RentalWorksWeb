@@ -10,7 +10,35 @@ export class Quote extends HomeModule {
         this.moduleId = '4D785844-BE8A-4C00-B1FA-2AA5B05183E5';
         this.moduleCaption = 'Quote';
         this.canDelete = false;
+
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    Description: `${TestUtils.randomJobTitle().substring(0, 25)} GlobalScope.TestToken~1.TestToken`,
+                    //Deal: dealInputs.Deal,
+                    DealId: 1,
+                    Location: TestUtils.randomStreetName(),
+                    ReferenceNumber: TestUtils.randomAlphanumeric(8)
+                },
+                seekObject: {
+                    Description: "GlobalScope.TestToken~1.TestToken",
+                }
+
+            }
+        ];
+
+        this.newRecordsToCreate[0].recordToExpect = {
+            //Deal: this.newRecordsToCreate[0].record.Deal.toUpperCase(),
+            Description: this.newRecordsToCreate[0].record.Description.toUpperCase(),
+            QuoteNumber: "|NOTEMPTY|",
+            Location: this.newRecordsToCreate[0].record.Location.toUpperCase(),
+            ReferenceNumber: this.newRecordsToCreate[0].record.ReferenceNumber.toUpperCase()
+        }
+
     }
+
+
+
     //---------------------------------------------------------------------------------------
 }
 //---------------------------------------------------------------------------------------
@@ -22,6 +50,32 @@ export class Order extends HomeModule {
         this.moduleId = '64C46F51-5E00-48FA-94B6-FC4EF53FEA20';
         this.moduleCaption = 'Order';
         this.canDelete = false;
+
+
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    Description: `${TestUtils.randomJobTitle().substring(0, 25)} GlobalScope.TestToken~1.TestToken`,
+                    //Deal: dealInputs.Deal,
+                    DealId: 1,
+                    Location: TestUtils.randomStreetName(),
+                    ReferenceNumber: TestUtils.randomAlphanumeric(8)
+                },
+                seekObject: {
+                    Description: "GlobalScope.TestToken~1.TestToken",
+                }
+
+            }
+        ];
+
+        this.newRecordsToCreate[0].recordToExpect = {
+            //Deal: this.newRecordsToCreate[0].record.Deal.toUpperCase(),
+            Description: this.newRecordsToCreate[0].record.Description.toUpperCase(),
+            QuoteNumber: "|NOTEMPTY|",
+            Location: this.newRecordsToCreate[0].record.Location.toUpperCase(),
+            ReferenceNumber: this.newRecordsToCreate[0].record.ReferenceNumber.toUpperCase()
+        }
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -36,10 +90,18 @@ export class Customer extends HomeModule {
         this.newRecordsToCreate = [
             {
                 record: {
-                    Customer: "GlobalScope.TestToken~1.TestToken",
+                    Customer: TestUtils.randomCompanyName() + " GlobalScope.TestToken~1.TestToken",
                     CustomerNumber: "GlobalScope.TestToken~1.TestToken",
+                    Address1: TestUtils.randomAddress1(),
+                    Address2: TestUtils.randomAddress2(),
+                    City: TestUtils.randomCity(),
+                    State: TestUtils.randomState(),
+                    ZipCode: TestUtils.randomZipCode(),
+                    Phone: TestUtils.randomPhone(),
+                    Fax: TestUtils.randomPhone(),
+                    WebAddress: TestUtils.randomUrl(),
                     CustomerTypeId: 1,
-                    CreditStatusId: 1,
+                    CreditStatusId: 1
                 },
                 seekObject: {
                     Customer: "GlobalScope.TestToken~1.TestToken",
@@ -47,9 +109,18 @@ export class Customer extends HomeModule {
 
             }
         ];
+
         this.newRecordsToCreate[0].recordToExpect = {
-            Customer: this.newRecordsToCreate[0].record.Customer,
-            CustomerNumber: this.newRecordsToCreate[0].record.CustomerNumber
+            Customer: this.newRecordsToCreate[0].record.Customer.toUpperCase(),
+            CustomerNumber: this.newRecordsToCreate[0].record.CustomerNumber,
+            Address1: this.newRecordsToCreate[0].record.Address1.toUpperCase(),
+            Address2: this.newRecordsToCreate[0].record.Address2.toUpperCase(),
+            City: this.newRecordsToCreate[0].record.City.toUpperCase(),
+            State: this.newRecordsToCreate[0].record.State.toUpperCase(),
+            ZipCode: this.newRecordsToCreate[0].record.ZipCode.toUpperCase(),
+            Phone: TestUtils.formattedPhone(this.newRecordsToCreate[0].record.Phone),
+            Fax: TestUtils.formattedPhone(this.newRecordsToCreate[0].record.Fax),
+            WebAddress: this.newRecordsToCreate[0].record.WebAddress,
         }
     }
     //---------------------------------------------------------------------------------------
@@ -72,9 +143,11 @@ export class Deal extends HomeModule {
         this.newRecordsToCreate = [
             {
                 record: {
-                    Deal: "GlobalScope.TestToken~1.TestToken",
+                    Deal: TestUtils.randomCompanyName() + " GlobalScope.TestToken~1.TestToken",
                     DealNumber: "GlobalScope.TestToken~1.TestToken",
                     CustomerId: 1,
+                    Address2: TestUtils.randomAddress2(),
+                    Fax: TestUtils.randomPhone(),
                     DealTypeId: 1
                 },
                 seekObject: {
@@ -83,6 +156,20 @@ export class Deal extends HomeModule {
 
             }
         ];
+
+        this.newRecordsToCreate[0].recordToExpect = {
+            //Customer: this.newRecordsToCreate[0].record.Customer.toUpperCase(),
+            Deal: this.newRecordsToCreate[0].record.Deal.toUpperCase(),
+            DealNumber: this.newRecordsToCreate[0].record.DealNumber.toUpperCase(),
+            //Address1: customerInputs.Address1.toUpperCase(),
+            Address2: this.newRecordsToCreate[0].record.Address2.toUpperCase(),
+            //City: customerInputs.City.toUpperCase(),
+            //State: customerInputs.State.toUpperCase(),
+            //ZipCode: customerInputs.ZipCode.toUpperCase(),
+            //Phone: TestUtils.formattedPhone(customerInputs.Phone),
+            Fax: TestUtils.formattedPhone(this.newRecordsToCreate[0].record.Fax),
+        }
+
 
     }
     //---------------------------------------------------------------------------------------
@@ -103,8 +190,17 @@ export class Vendor extends HomeModule {
         this.newRecordsToCreate = [
             {
                 record: {
-                    Vendor: "GlobalScope.TestToken~1.TestToken",
+                    Vendor: TestUtils.randomCompanyName() + " GlobalScope.TestToken~1.TestToken",
                     VendorNumber: "GlobalScope.TestToken~1.MediumTestToken",
+                    Address1: TestUtils.randomAddress1(),
+                    Address2: TestUtils.randomAddress2(),
+                    City: TestUtils.randomCity(),
+                    State: TestUtils.randomState(),
+                    ZipCode: TestUtils.randomZipCode(),
+                    Phone: TestUtils.randomPhone(),
+                    Fax: TestUtils.randomPhone(),
+                    WebAddress: TestUtils.randomUrl(),
+                    OfficeLocation: "GlobalScope.User~ME.OfficeLocation",                  // ie. "LAS VEGAS"
                 },
                 seekObject: {
                     VendorDisplayName: "GlobalScope.TestToken~1.TestToken",
@@ -113,6 +209,19 @@ export class Vendor extends HomeModule {
             }
         ];
 
+        this.newRecordsToCreate[0].recordToExpect = {
+            Vendor: this.newRecordsToCreate[0].record.Vendor.toUpperCase(),
+            VendorNumber: this.newRecordsToCreate[0].record.VendorNumber.toUpperCase(),
+            Address1: this.newRecordsToCreate[0].record.Address1.toUpperCase(),
+            Address2: this.newRecordsToCreate[0].record.Address2.toUpperCase(),
+            City: this.newRecordsToCreate[0].record.City.toUpperCase(),
+            State: this.newRecordsToCreate[0].record.State.toUpperCase(),
+            ZipCode: this.newRecordsToCreate[0].record.ZipCode.toUpperCase(),
+            Phone: TestUtils.formattedPhone(this.newRecordsToCreate[0].record.Phone),
+            Fax: TestUtils.formattedPhone(this.newRecordsToCreate[0].record.Fax),
+            WebAddress: this.newRecordsToCreate[0].record.WebAddress,
+            OfficeLocation: this.newRecordsToCreate[0].record.OfficeLocation
+        }
     }
     //---------------------------------------------------------------------------------------
 }
@@ -178,6 +287,28 @@ export class PurchaseOrder extends HomeModule {
         this.moduleId = '67D8C8BB-CF55-4231-B4A2-BB308ADF18F0';
         this.moduleCaption = 'Purchase Order';
         this.canDelete = false;
+
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    VendorId: 2,
+                    Description: `${TestUtils.randomJobTitle().substring(0, 25)} GlobalScope.TestToken~1.TestToken`,
+                    ReferenceNumber: TestUtils.randomAlphanumeric(8)
+                },
+                seekObject: {
+                    Description: "GlobalScope.TestToken~1.TestToken",
+                }
+
+            }
+        ];
+
+        this.newRecordsToCreate[0].recordToExpect = {
+            Description: this.newRecordsToCreate[0].record.Description.toUpperCase(),
+            PurchaseOrderNumber: "|NOTEMPTY|",
+            ReferenceNumber: this.newRecordsToCreate[0].record.ReferenceNumber.toUpperCase()
+        }
+
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -190,6 +321,30 @@ export class Project extends HomeModule {
         this.moduleId = 'C6C8167A-C3B5-4915-8290-4520AF7EDB35';
         this.moduleCaption = 'Project';
         this.canDelete = false;
+
+
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    Project: `${TestUtils.randomJobTitle().substring(0, 25)} GlobalScope.TestToken~1.TestToken`,
+                    //Deal: dealInputs.Deal,
+                    DealId: 1,
+                    ProjectDescription: TestUtils.randomAlphanumeric(30)
+                },
+                seekObject: {
+                    Project: "GlobalScope.TestToken~1.TestToken",
+                }
+
+            }
+        ];
+
+        this.newRecordsToCreate[0].recordToExpect = {
+            //Deal: this.newRecordsToCreate[0].record.Deal.toUpperCase(),
+            Project: this.newRecordsToCreate[0].record.Project.toUpperCase(),
+            ProjectNumber: "|NOTEMPTY|",
+            ProjectDescription: this.newRecordsToCreate[0].record.ProjectDescription.toUpperCase()
+        }
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -240,6 +395,28 @@ export class SalesInventory extends HomeModule {
         this.defaultNewRecordToExpect = {
             Unit: "GlobalScope.DefaultSettings~1.DefaultUnit",   // ie. "EA"
         }
+
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    ICode: TestUtils.randomAlphanumeric(7),
+                    Description: `${TestUtils.randomProductName()} GlobalScope.TestToken~1.TestToken`,
+                    InventoryTypeId: 2,
+                    CategoryId: 1,
+                    UnitId: 1,
+                    ManufacturerPartNumber: TestUtils.randomAlphanumeric(8),
+                    Rank: 3,
+                },
+                seekObject: {
+                    Description: "GlobalScope.TestToken~1.TestToken",
+                },
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            ICode: this.newRecordsToCreate[0].record.ICode.toUpperCase().substr(0, 5) + '-' + this.newRecordsToCreate[0].record.ICode.toUpperCase().substr(5),
+            Description: this.newRecordsToCreate[0].record.Description.toUpperCase(),
+            ManufacturerPartNumber: this.newRecordsToCreate[0].record.ManufacturerPartNumber.toUpperCase(),
+        }
     }
     //---------------------------------------------------------------------------------------
 }
@@ -254,6 +431,28 @@ export class PartsInventory extends HomeModule {
 
         this.defaultNewRecordToExpect = {
             Unit: "GlobalScope.DefaultSettings~1.DefaultUnit",   // ie. "EA"
+        }
+
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    ICode: TestUtils.randomAlphanumeric(7),
+                    Description: `${TestUtils.randomProductName()} GlobalScope.TestToken~1.TestToken`,
+                    InventoryTypeId: 2,
+                    CategoryId: 1,
+                    UnitId: 1,
+                    ManufacturerPartNumber: TestUtils.randomAlphanumeric(8),
+                    Rank: 3,
+                },
+                seekObject: {
+                    Description: "GlobalScope.TestToken~1.TestToken",
+                },
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            ICode: this.newRecordsToCreate[0].record.ICode.toUpperCase().substr(0, 5) + '-' + this.newRecordsToCreate[0].record.ICode.toUpperCase().substr(5),
+            Description: this.newRecordsToCreate[0].record.Description.toUpperCase(),
+            ManufacturerPartNumber: this.newRecordsToCreate[0].record.ManufacturerPartNumber.toUpperCase(),
         }
     }
     //---------------------------------------------------------------------------------------
@@ -291,6 +490,23 @@ export class PhysicalInventory extends HomeModule {
         this.moduleId = 'BABFE80E-8A52-49D4-81D9-6B6EBB518E89';
         this.moduleCaption = 'Physical Inventory';
         this.canDelete = false;
+
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    Description: `${TestUtils.randomProductName()} GlobalScope.TestToken~1.TestToken`,
+                    InventoryTypeId: 2,
+                },
+                seekObject: {
+                    Description: "GlobalScope.TestToken~1.TestToken",
+                },
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            Description: this.newRecordsToCreate[0].record.Description.toUpperCase(),
+        }
+
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -326,17 +542,8 @@ export class Container extends HomeModule {
         this.moduleName = 'Container';
         this.moduleId = '28A49328-FFBD-42D5-A492-EDF540DF7011';
         this.moduleCaption = 'Container';
-    }
-    //---------------------------------------------------------------------------------------
-}
-//---------------------------------------------------------------------------------------
-export class ContainerStatus extends HomeModule {
-    //---------------------------------------------------------------------------------------
-    constructor() {
-        super();
-        this.moduleName = 'ContainerStatus';
-        this.moduleId = '0CD07ACF-D9A4-42A3-A288-162398683F8A';
-        this.moduleCaption = 'Container Status';
+        this.canNew = false;
+        this.canDelete = false;
     }
     //---------------------------------------------------------------------------------------
 }
@@ -348,6 +555,8 @@ export class Manifest extends HomeModule {
         this.moduleName = 'Manifest';
         this.moduleId = '1643B4CE-D368-4D64-8C05-6EF7C7D80336';
         this.moduleCaption = 'Transfer Manifest';
+        this.canNew = false;
+        this.canDelete = false;
     }
     //---------------------------------------------------------------------------------------
 }
@@ -359,6 +568,25 @@ export class TransferOrder extends HomeModule {
         this.moduleName = 'TransferOrder';
         this.moduleId = 'F089C9A9-554D-40BF-B1FA-015FEDE43591';
         this.moduleCaption = 'Transfer Order';
+        this.canDelete = false;
+
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    Description: `${TestUtils.randomProductName()} GlobalScope.TestToken~1.TestToken`,
+                    FromWarehouseId: 1,
+                    ToWarehouseId: 2
+                },
+                seekObject: {
+                    Description: "GlobalScope.TestToken~1.TestToken",
+                },
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            Description: this.newRecordsToCreate[0].record.Description.toUpperCase(),
+        }
+
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -370,6 +598,8 @@ export class TransferReceipt extends HomeModule {
         this.moduleName = 'TransferReceipt';
         this.moduleId = '2B60012B-ED6A-430B-B2CB-C1287FD4CE8B';
         this.moduleCaption = 'Transfer Receipt';
+        this.canNew = false;
+        this.canDelete = false;
     }
     //---------------------------------------------------------------------------------------
 }

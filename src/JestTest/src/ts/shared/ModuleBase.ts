@@ -710,6 +710,7 @@ export class ModuleBase {
         await ModuleBase.wait(500);
         await page.waitForSelector(`div[data-name="${validationName}"] tr.viewmode:nth-child(1)`, { visible: true });
         await page.click(`div[data-name="${validationName}"] tr.viewmode:nth-child(${recordToSelect})`, { clickCount: 2 });
+        await ModuleBase.wait(750);  // allow "after validate" methods to finish
     }
     //---------------------------------------------------------------------------------------
     async getDataFieldValue(dataField: string): Promise<string> {
