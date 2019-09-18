@@ -200,7 +200,7 @@ export class Vendor extends HomeModule {
                     Phone: TestUtils.randomPhone(),
                     Fax: TestUtils.randomPhone(),
                     WebAddress: TestUtils.randomUrl(),
-                    OfficeLocation: "GlobalScope.User~ME.OfficeLocation",                  // ie. "LAS VEGAS"
+                    //OfficeLocation: "GlobalScope.User~ME.OfficeLocation",                  // ie. "LAS VEGAS"
                 },
                 seekObject: {
                     VendorDisplayName: "GlobalScope.TestToken~1.TestToken",
@@ -220,7 +220,7 @@ export class Vendor extends HomeModule {
             Phone: TestUtils.formattedPhone(this.newRecordsToCreate[0].record.Phone),
             Fax: TestUtils.formattedPhone(this.newRecordsToCreate[0].record.Fax),
             WebAddress: this.newRecordsToCreate[0].record.WebAddress,
-            OfficeLocation: this.newRecordsToCreate[0].record.OfficeLocation
+            OfficeLocation: "GlobalScope.User~ME.OfficeLocation"
         }
     }
     //---------------------------------------------------------------------------------------
@@ -574,7 +574,7 @@ export class TransferOrder extends HomeModule {
             {
                 record: {
                     Description: `${TestUtils.randomProductName()} GlobalScope.TestToken~1.TestToken`,
-                    FromWarehouseId: 1,
+                    FromWarehouseCode: "GlobalScope.User~ME.WarehouseCode",
                     ToWarehouseId: 2
                 },
                 seekObject: {

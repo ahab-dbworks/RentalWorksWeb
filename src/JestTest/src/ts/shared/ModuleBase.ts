@@ -160,23 +160,17 @@ export class ModuleBase {
     async browseSeek(seekObject: any): Promise<number> {
         await page.waitForSelector(`.fwbrowse .fieldnames`);
         for (var key in seekObject) {
-            Logging.logInfo(`About to add seek field ${key} with ${seekObject[key]}`);
-            let selector = `.fwbrowse .field[data-browsedatafield="${key}"] .search input`;
-            await page.waitForSelector(selector);
-            let elementHandle = await page.$(selector);
-            await elementHandle.click();
 
             let seekValue = seekObject[key];
-            //if (seekValue.toString().startsWith("GlobalScope")) {
-            //    //example: "GlobalScope.DefaultSettings~1.DefaultUnit",
-            //    let globalScopeKey = seekValue.toString().split('.');
-            //    seekValue = this.globalScopeRef[globalScopeKey[1].toString()][globalScopeKey[2].toString()];
-            //}
-
             if (seekValue.toString().toUpperCase().includes("GLOBALSCOPE.")) {
                 seekValue = TestUtils.getGlobalScopeValue(seekValue, this.globalScopeRef);
             }
 
+            Logging.logInfo(`About to seek on field ${key} with ${seekValue}`);
+            let selector = `.fwbrowse .field[data-browsedatafield="${key}"] .search input`;
+            await page.waitForSelector(selector);
+            let elementHandle = await page.$(selector);
+            await elementHandle.click();
             await page.keyboard.sendCharacter(seekValue);
             await page.keyboard.press('Enter');
             await page.waitForFunction(() => document.querySelector('.pleasewait'), { polling: 'mutation' });
@@ -452,7 +446,6 @@ export class ModuleBase {
             formCount = forms.length;
         }
         //Logging.logInfo(`Open Form Count: ${formCount}`);
-        Logging.logInfo(`Open Form Count: ${formCount}`);
         return formCount;
     }
     //---------------------------------------------------------------------------------------
@@ -534,15 +527,24 @@ export class ModuleBase {
         var currentValue = "";
         let newValue = "";
         for (var key in record) {
-            Logging.logInfo(`About to populate ${key} with ${record[key]}`);
-            let displayfield;
-            const datatype = await this.getDataType(key);
-            if (datatype === 'displayfield') {
-                displayfield = key;
-                key = await page.$eval(`.fwformfield[data-displayfield="${key}"]`, el => el.getAttribute('data-datafield'));
-                Logging.logInfo(`About to populate ${key} with ${record[key]}`);
+            //Logging.logInfo(`About to populate ${key} with ${record[key]}`);
+
+            let fieldToPopulate = key;
+            let valueToPopulate = record[key];
+
+            if (valueToPopulate.toString().toUpperCase().includes("GLOBALSCOPE.")) {
+                valueToPopulate = TestUtils.getGlobalScopeValue(valueToPopulate, this.globalScopeRef);
             }
-            const tabId = await page.$eval(`.fwformfield[data-datafield="${key}"]`, el => el.closest('[data-type="tabpage"]').getAttribute('data-tabid'));
+            Logging.logInfo(`About to populate ${fieldToPopulate} with ${valueToPopulate}`);
+
+            let displayfield;
+            const datatype = await this.getDataType(fieldToPopulate);
+            if (datatype === 'displayfield') {
+                displayfield = fieldToPopulate;
+                fieldToPopulate = await page.$eval(`.fwformfield[data-displayfield="${fieldToPopulate}"]`, el => el.getAttribute('data-datafield'));
+                Logging.logInfo(`About to populate ${fieldToPopulate} with ${valueToPopulate}`);
+            }
+            const tabId = await page.$eval(`.fwformfield[data-datafield="${fieldToPopulate}"]`, el => el.closest('[data-type="tabpage"]').getAttribute('data-tabid'));
             //Logging.logInfo(`Found ${key} field on tab ${tabId}`);
             const tabIsActive = await page.$eval(`#${tabId}`, el => el.classList.contains('active'));
             if (!tabIsActive) {
@@ -555,54 +557,22 @@ export class ModuleBase {
                 case 'zipcode':
                 case 'text':
                 case 'textarea':
-                    currentValue = await this.getDataFieldValue(key);
+                    currentValue = await this.getDataFieldValue(fieldToPopulate);
                     if (currentValue != "") {
-                        await this.clearInputField(key);
+                        await this.clearInputField(fieldToPopulate);
                     }
-                    //await this.populateTextField(key, record[key]);
-
-                    newValue = record[key];
-                    //if (newValue.toString().startsWith("GlobalScope")) {
-                    //    //example: "GlobalScope.DefaultSettings~1.DefaultUnit",
-                    //    let globalScopeKey = newValue.toString().split('.');
-                    //    newValue = this.globalScopeRef[globalScopeKey[1].toString()][globalScopeKey[2].toString()];
-                    //}
-
-                    if (newValue.toString().toUpperCase().includes("GLOBALSCOPE.")) {
-                        newValue = TestUtils.getGlobalScopeValue(newValue, this.globalScopeRef);
-                    }
-
-
-                    await this.populateTextField(key, newValue);
-
+                    await this.populateTextField(fieldToPopulate, valueToPopulate);
                     break;
                 case 'validation':
-                    const validationname = await page.$eval(`.fwformfield[data-datafield="${key}"]`, el => el.getAttribute('data-validationname'));
-                    await this.populateValidationField(key, validationname, record[key]);
+                    const validationname = await page.$eval(`.fwformfield[data-datafield="${fieldToPopulate}"]`, el => el.getAttribute('data-validationname'));
+                    await this.populateValidationField(fieldToPopulate, validationname, valueToPopulate);
                     break;
                 case 'displayfield':
-                    //await this.clearInputField(key);
-                    //await this.populateValidationTextField(key, record[displayfield]);
-
-                    currentValue = await this.getDataFieldText(key);
+                    currentValue = await this.getDataFieldText(fieldToPopulate);
                     if (currentValue != "") {
-                        await this.clearInputField(key);
+                        await this.clearInputField(fieldToPopulate);
                     }
-
-                    newValue = record[displayfield];
-                    //if (newValue.toString().startsWith("GlobalScope")) {
-                    //    //example: "GlobalScope.DefaultSettings~1.DefaultUnit",
-                    //    let globalScopeKey = newValue.toString().split('.');
-                    //    newValue = this.globalScopeRef[globalScopeKey[1].toString()][globalScopeKey[2].toString()];
-                    //}
-
-                    if (newValue.toString().toUpperCase().includes("GLOBALSCOPE.")) {
-                        newValue = TestUtils.getGlobalScopeValue(newValue, this.globalScopeRef);
-                    }
-
-
-                    await this.populateValidationTextField(key, newValue);
-
+                    await this.populateValidationTextField(fieldToPopulate, valueToPopulate);
                     await ModuleBase.wait(750);  // allow "after validate" methods to finish
                     break;
                 default:
@@ -860,12 +830,14 @@ export class ModuleBase {
     }
     //---------------------------------------------------------------------------------------
     async closeRecord(): Promise<void> {
+        Logging.logInfo(`about to close form tab`);
         await page.click('div.delete');
         Logging.logInfo(`Record closed.`);
         //await page.waitForNavigation();
     }
     //---------------------------------------------------------------------------------------
     async closeModifiedRecordWithoutSaving(): Promise<void> {
+        Logging.logInfo(`about to close form tab without saving`);
         await page.click('div.delete');
         const popupText = await page.$eval('.advisory', el => el.textContent);
         if (popupText.includes('save your changes')) {

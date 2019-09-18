@@ -1,6 +1,7 @@
 ﻿import { BaseTest } from '../shared/BaseTest';
 import { ModuleBase, OpenRecordResponse } from '../shared/ModuleBase';
 import { Logging } from '../shared/Logging';
+import { TestUtils } from '../shared/TestUtils';
 import {
     //home
     Contact, Customer, Deal, Order, Project, PurchaseOrder, Quote, Vendor,
@@ -26,7 +27,6 @@ import {
     //administrator
     Alert, CustomField, CustomForm, DuplicateRule, EmailHistory, Group, Hotfix, User,
 } from './modules/AllModules';
-import { TestUtils } from '../shared/TestUtils';
 
 export class MediumRegressionTest extends BaseTest {
     //---------------------------------------------------------------------------------------
@@ -34,7 +34,7 @@ export class MediumRegressionTest extends BaseTest {
     async MediumRegressionOnModule(module: ModuleBase) {
         let testName: string = "";
         describe(module.moduleCaption, () => {
-            const testCollectionName = `Open browse, create new (if allowed), save, edit, save, delete (if allowed)`;
+            const testCollectionName = `Open browse, create new (if allowed), save, seek, open, validate, close, seek, delete (if allowed)`;
             describe(testCollectionName, () => {
                 //---------------------------------------------------------------------------------------
                 testName = `Open ${module.moduleCaption} browse`;
@@ -68,18 +68,11 @@ export class MediumRegressionTest extends BaseTest {
                                                 let expectingValue = module.defaultNewRecordToExpect[key];
                                                 let foundValue = defaultObject[key];
 
-                                                //if (expectingValue.toString().startsWith("GlobalScope")) {
-                                                //    //example: "GlobalScope.DefaultSettings~1.DefaultUnit",
-                                                //    let globalScopeKey = expectingValue.toString().split('.');
-                                                //    expectingValue = this.globalScopeRef[globalScopeKey[1].toString()][globalScopeKey[2].toString()];
-                                                //}
-
                                                 if (expectingValue.toString().toUpperCase().includes("GLOBALSCOPE.")) {
                                                     expectingValue = TestUtils.getGlobalScopeValue(expectingValue, this.globalScopeRef);
                                                 }
 
-
-                                                console.log(`Comparing: ${key}\n     Expecting: "${expectingValue}"\n     Found:     "${foundValue}"`);
+                                                Logging.logInfo(`Comparing: ${key}\n     Expecting: "${expectingValue}"\n     Found:     "${foundValue}"`);
                                                 if (expectingValue === "|NOTEMPTY|") {
                                                     expect(foundValue).not.toBe("");
                                                 }
@@ -99,12 +92,22 @@ export class MediumRegressionTest extends BaseTest {
 
                             testName = `Save new ${module.moduleCaption}`;
                             test(testName, async () => {
+                                let successfulSave: boolean = false;
+                                let saveError: string = "";
                                 await module.saveRecord(true)
                                     .then(saveResponse => {
-                                        expect(saveResponse.errorMessage).toBe("");
-                                        expect(saveResponse.saved).toBe(true);
+                                        successfulSave = saveResponse.saved;
+                                        saveError = saveResponse.errorMessage;
                                     });
-                                await module.closeRecord();  //close the form
+                                if (successfulSave) {
+                                    await module.closeRecord();  //close the form
+                                }
+                                else {
+                                    await module.closeModifiedRecordWithoutSaving();  //close the form without saving
+                                }
+                                expect(saveError).toBe("");
+                                expect(successfulSave).toBe(true);
+
                             }, module.formSaveTimeout);
 
                             if (rec.seekObject) {
@@ -123,18 +126,11 @@ export class MediumRegressionTest extends BaseTest {
                                                     let expectingValue = rec.recordToExpect[key];
                                                     let foundValue = openRecordResponse.record[key];
 
-                                                    //if (expectingValue.toString().startsWith("GlobalScope")) {
-                                                    //    //example: "GlobalScope.DefaultSettings~1.DefaultUnit",
-                                                    //    let globalScopeKey = expectingValue.toString().split('.');
-                                                    //    expectingValue = this.globalScopeRef[globalScopeKey[1].toString()][globalScopeKey[2].toString()];
-                                                    //}
-
                                                     if (expectingValue.toString().toUpperCase().includes("GLOBALSCOPE.")) {
                                                         expectingValue = TestUtils.getGlobalScopeValue(expectingValue, this.globalScopeRef);
                                                     }
 
-
-                                                    console.log(`Comparing: ${key}\n     Expecting: "${expectingValue}"\n     Found:     "${foundValue}"`);
+                                                    Logging.logInfo(`Comparing: ${key}\n     Expecting: "${expectingValue}"\n     Found:     "${foundValue}"`);
                                                     if (expectingValue === "|NOTEMPTY|") {
                                                         expect(foundValue).not.toBe("");
                                                     }
@@ -157,13 +153,6 @@ export class MediumRegressionTest extends BaseTest {
                                         expect(rowCountAfter).toBe(rowCountBefore - 1);
                                     }, module.deleteTimeout);
                                 }
-                                //else {     // make sure that the Delete button is not available
-                                //    testName = `Make sure no Delete button exists on ${module.moduleCaption} browse`;
-                                //    test(testName, async () => {
-                                //        let buttonExists = await module.findDeleteButton();
-                                //        expect(buttonExists).toBeFalsy();
-                                //    }, module.browseOpenTimeout);
-                                //}
                             }
                         }
                     }
@@ -203,12 +192,12 @@ export class MediumRegressionTest extends BaseTest {
         this.MediumRegressionOnModule(new Customer());
         this.MediumRegressionOnModule(new Deal());
         this.MediumRegressionOnModule(new Order());
-        //this.MediumRegressionOnModule(new Project());  // cannot test this module because "Description" is a required field.  It is a textarea
+        this.MediumRegressionOnModule(new Project());  // this module fails because "Description" is a required field.  It is a textarea
         this.MediumRegressionOnModule(new PurchaseOrder());
         this.MediumRegressionOnModule(new Quote());
         this.MediumRegressionOnModule(new Vendor());
 
-        ////Home - Inventory
+        //Home - Inventory
         this.MediumRegressionOnModule(new Asset());
         //this.MediumRegressionOnModule(new PartsInventory());   // need to be able to force it to pick an Inventory Type that has Categories
         this.MediumRegressionOnModule(new PhysicalInventory());
@@ -225,13 +214,13 @@ export class MediumRegressionTest extends BaseTest {
 
         //Home - Transfer
         this.MediumRegressionOnModule(new Manifest());
-        this.MediumRegressionOnModule(new TransferOrder());
+        //this.MediumRegressionOnModule(new TransferOrder());  // cannot test this module because I don't have access to MY WarehouseCode
         this.MediumRegressionOnModule(new TransferReceipt());
 
-        ////Home - Billing
-        //this.MediumRegressionOnModule(new Invoice());
-        //this.MediumRegressionOnModule(new Receipt());
-        //this.MediumRegressionOnModule(new VendorInvoice());
+        //Home - Billing
+        this.MediumRegressionOnModule(new Invoice());
+        this.MediumRegressionOnModule(new Receipt());
+        this.MediumRegressionOnModule(new VendorInvoice());
 
         //Settings
         this.MediumRegressionOnModule(new AccountingSettings());
@@ -380,6 +369,7 @@ export class MediumRegressionTest extends BaseTest {
         this.MediumRegressionOnModule(new Group());
         this.MediumRegressionOnModule(new Hotfix());
         this.MediumRegressionOnModule(new User());
+
     }
     //---------------------------------------------------------------------------------------
 }
