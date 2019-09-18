@@ -369,6 +369,18 @@ class RentalInventory extends InventoryBase {
         FwBrowse.init($wardrobeInventoryMaterialGridControl);
         FwBrowse.renderRuntimeHtml($wardrobeInventoryMaterialGridControl);
         // ----------
+        const $purchaseVendorGrid = $form.find('div[data-grid="PurchaseVendorGrid"]');
+        const $purchaseVendorGridControl = FwBrowse.loadGridFromTemplate('PurchaseVendorGrid');
+        $purchaseVendorGrid.empty().append($purchaseVendorGridControl);
+        $purchaseVendorGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+            };
+        });
+        FwBrowse.init($purchaseVendorGridControl);
+        FwBrowse.renderRuntimeHtml($purchaseVendorGridControl);
+        // ----------
+
     };
     //----------------------------------------------------------------------------------------------
     dynamicColumns($form: any): void {

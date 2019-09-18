@@ -34,8 +34,8 @@
       <div data-type="tab" id="completeskitstab" class="completeskitstab tab" data-tabpageid="completeskitstabpage" data-caption="Completes / Kits"></div>
       <div data-type="tab" id="substitutestab" class="tab" data-tabpageid="substitutestabpage" data-caption="Substitutes"></div>
       <div data-type="tab" id="compatibilitytab" class="tab" data-tabpageid="compatibilitytabpage" data-caption="Compatibility"></div>
-      <!--<div data-type="tab" id="manufacturertab" class="tab" data-tabpageid="manufacturertabpage" data-caption="Manufacturer"></div>
-  <div data-type="tab" id="purchasevendortab" class="tab" data-tabpageid="purchasevendortabpage" data-caption="Purchase Vendor"></div>-->
+      <!--<div data-type="tab" id="manufacturertab" class="tab" data-tabpageid="manufacturertabpage" data-caption="Manufacturer"></div>-->
+      <div data-type="tab" id="purchasevendortab" class="tab" data-tabpageid="purchasevendortabpage" data-caption="Purchase Vendor"></div>
       <div data-type="tab" id="subrentalvendortab" class="tab" data-tabpageid="subrentalvendortabpage" data-caption="Sub-Rental Vendor"></div>
       <div data-type="tab" id="weightsdimensionstab" class="tab" data-tabpageid="weightsdimensionstabpage" data-caption="Weights &amp; Dimensions"></div>
       <div data-type="tab" id="prepqctab" class="tab" data-tabpageid="prepqctabpage" data-caption="Prep / QC"></div>
@@ -46,9 +46,9 @@
       <!--<div data-type="tab" id="accesstab" class="tab" data-tabpageid="accesstabpage" data-caption="Access"></div>-->
       <div data-type="tab" id="profitlosstab" class="tab" data-tabpageid="profitlosstabpage" data-caption="Profit / Loss"></div>
       <div data-type="tab" id="glaccounttab" class="tab" data-tabpageid="glaccounttabpage" data-caption="G/L Accounts"></div>
-  </div>
-  <div class="tabpages">
-    <!-- INVENTORY TAB -->
+    </div>
+    <div class="tabpages">
+      <!-- INVENTORY TAB -->
       <div data-type="tabpage" id="rentalitemtabpage" class="tabpage" data-tabid="rentalitemtab">
         <div class="flexpage">
           <!-- Rental Inventory -->
@@ -135,13 +135,13 @@
           <!-- Remove section once new listboxes are configured -->
           <div class="flexrow">
             <!--
-    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Rental">
-      <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="vendor.modifiedby" style="float:left;width:700px;"></div>
-        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Number" data-datafield="vendor.modifieddate" style="float:left;width:125px;"></div>
-      </div>
-    </div>
-    -->
+        <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Rental">
+          <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="vendor.modifiedby" style="float:left;width:700px;"></div>
+            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Number" data-datafield="vendor.modifieddate" style="float:left;width:125px;"></div>
+          </div>
+        </div>
+        -->
           </div>
           <div class="flexrow">
             <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Manufacturer">
@@ -1025,19 +1025,17 @@
     </div>
   </div>-->
       <!-- Purchase Vendor tab -->
-      <!--<div data-type="tabpage" id="purchasevendortabpage" class="tabpage" data-tabid="purchasevendortab">
-    <div class="formpage">
-      <div class="formrow">
-        <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Purchase Vendor" style="width:750px">
-          <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-            <div data-control="FwGrid" data-grid="CustomerNotes" data-securitycaption="Customer Notes" style="min-height:200px;border:1px solid silver;">
-              <p style="font-size:10pt;">Vendor | Date | Part No. | Cost | City | St./Pr. | Phone</p>
+      <div data-type="tabpage" id="purchasevendortabpage" class="tabpage" data-tabid="purchasevendortab">
+        <div class="flexpage">
+          <div class="wideflexrow">
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Purchase Vendor" style="flex:1 1 750px;">
+              <div class="wideflexrow">
+                <div data-control="FwGrid" data-grid="PurchaseVendorGrid" data-securitycaption="Purchase Vendor"></div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </div>-->
       <!-- SUB RENTAL VENDOR TAB -->
       <div data-type="tabpage" id="subrentalvendortabpage" class="tabpage" data-tabid="subrentalvendortab">
         <div class="flexpage">
