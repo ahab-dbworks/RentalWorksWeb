@@ -150,7 +150,27 @@
             let $submoduleRepairOrderBrowse = this.openRepairOrderBrowse($form);
             $form.find('.repairOrderSubModule').append($submoduleRepairOrderBrowse);
         }
+
+        $form.find('.order-submodule').append(this.openSubModuleBrowse($form, 'Order'));
+        $form.find('.invoice-submodule').append(this.openSubModuleBrowse($form, 'Invoice'));
+        $form.find('.transfer-submodule').append(this.openSubModuleBrowse($form, 'TransferOrder'));
+        $form.find('.subpurchaseorder-submodule').append(this.openSubModuleBrowse($form, 'PurchaseOrder'));
+
         return $form;
+    }
+    //----------------------------------------------------------------------------------------------
+    openSubModuleBrowse($form, module: string) {
+        let $browse = null;
+        if (typeof window[`${module}Controller`] !== undefined && typeof window[`${module}Controller`].openBrowse === 'function') {
+            $browse = (<any>window)[`${module}Controller`].openBrowse();
+            $browse.data('ondatabind', request => {
+                request.activeviewfields = (<any>window)[`${module}Controller`].ActiveViewFields;
+                request.uniqueids = {
+                    InventoryId: FwFormField.getValueByDataField($form, 'InventoryId')
+                }
+            });
+        }
+        return $browse;
     }
     //---------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
@@ -691,25 +711,30 @@
 
         //Click Event on tabs to load grids/browses
         $form.on('click', '[data-type="tab"]', e => {
-            const tabname = jQuery(e.currentTarget).attr('id');
-            const lastIndexOfTab = tabname.lastIndexOf('tab');
-            const tabpage = `${tabname.substring(0, lastIndexOfTab)}tabpage${tabname.substring(lastIndexOfTab + 3)}`;
+            const $tab = jQuery(e.currentTarget);
+            const tabPageId = $tab.attr('data-tabpageid');
+            if ($tab.hasClass('audittab') == false) {
+                const $gridControls = $form.find(`#${tabPageId} [data-type="Grid"]`);
+                if (($tab.hasClass('tabGridsLoaded') === false) && $gridControls.length > 0) {
+                    for (let i = 0; i < $gridControls.length; i++) {
+                        try {
+                            const $gridcontrol = jQuery($gridControls[i]);
+                            FwBrowse.search($gridcontrol);
+                        } catch (ex) {
+                            FwFunc.showError(ex);
+                        }
+                    }
+                }
 
-            const $gridControls = $form.find(`#${tabpage} [data-type="Grid"]`);
-            if ($gridControls.length > 0) {
-                for (let i = 0; i < $gridControls.length; i++) {
-                    const $gridcontrol = jQuery($gridControls[i]);
-                    FwBrowse.search($gridcontrol);
+                const $browseControls = $form.find(`#${tabPageId} [data-type="Browse"]`);
+                if (($tab.hasClass('tabGridsLoaded') === false) && $browseControls.length > 0) {
+                    for (let i = 0; i < $browseControls.length; i++) {
+                        const $browseControl = jQuery($browseControls[i]);
+                        FwBrowse.search($browseControl);
+                    }
                 }
             }
-
-            const $browseControls = $form.find(`#${tabpage} [data-type="Browse"]`);
-            if ($browseControls.length > 0) {
-                for (let i = 0; i < $browseControls.length; i++) {
-                    const $browseControl = jQuery($browseControls[i]);
-                    FwBrowse.search($browseControl);
-                }
-            }
+            $tab.addClass('tabGridsLoaded');
         });
     }
     calculateYearly() {
