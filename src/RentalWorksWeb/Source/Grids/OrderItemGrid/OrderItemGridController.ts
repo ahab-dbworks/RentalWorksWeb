@@ -234,12 +234,10 @@
         }
         if ($form.attr('data-controller') === 'TemplateController') {
             $generatedtr.find('div[data-browsedatafield="InventoryId"]').data('onchange', function ($tr) {
-                var warehouse = FwFormField.getTextByDataField($form, 'WarehouseId');
-                var warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
-                let warehouseCode = $form.find('[data-datafield="WarehouseCode"] input').val();
+                let warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
+                let warehouseCode = FwFormField.getValueByDataField($form, 'WarehouseCode');
                 let inventoryId = $generatedtr.find('div[data-browsedatafield="InventoryId"] input').val();
-                let rateType = $form.find('[data-datafield="RateType"] input').val();
-                let inventoryType = $generatedtr.find('[data-browsedatafield="InventoryId"]').attr('data-validationname');
+                let rateType = FwFormField.getValueByDataField($form, 'RateType');
 
                 $generatedtr.find('.field[data-browsedatafield="Description"] input').val($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
                 $generatedtr.find('.field[data-browsedatafield="QuantityOrdered"] input').val("1");
@@ -250,86 +248,98 @@
                 $generatedtr.find('.field[data-browsedatafield="ReturnToWarehouseId"] input.text').val(warehouseCode);
 
                 if ($generatedtr.hasClass("newmode")) {
-                    FwAppData.apiMethod(true, 'GET', "api/v1/pricing/" + inventoryId + "/" + warehouseId, null, FwServices.defaultTimeout, function onSuccess(response) {
-                        switch (rateType) {
-                            case 'DAILY':
-                                $generatedtr.find('[data-browsedatafield="Price"] input').val(response[0].DailyRate);
-                                break;
-                            case 'WEEKLY':
-                                $generatedtr.find('[data-browsedatafield="Price"] input').val(response[0].WeeklyRate);
-                                break;
-                            case 'MONTHLY':
-                                $generatedtr.find('[data-browsedatafield="Price"] input').val(response[0].MonthlyRate);
-                                break;
-                        }
-                    }, null, $form);
+                    FwAppData.apiMethod(true, 'GET', `api/v1/pricing/${inventoryId}/${warehouseId}`, null, FwServices.defaultTimeout,
+                        response => {
+                            switch (rateType) {
+                                case 'DAILY':
+                                    FwBrowse.setFieldValue($control, $generatedtr, 'Price', { value: response[0].DailyRate });
+                                    break;
+                                case 'WEEKLY':
+                                    FwBrowse.setFieldValue($control, $generatedtr, 'Price', { value: response[0].WeeklyRate });
+                                    break;
+                                case 'MONTHLY':
+                                    FwBrowse.setFieldValue($control, $generatedtr, 'Price', { value: response[0].MonthlyRate });
+                                    break;
+                            }
+                        }, ex => FwFunc.showError(ex), $form);
                 }
             });
         }
 
         function updatePrice(type, field?, periodType?) {
-            const rate = $generatedtr.find('.field[data-browsedatafield="Price"] input').val();
-            const extendedVal = $generatedtr.find(`.field[data-browsedatafield="${periodType}Extended"] input`).val();
-            if (rate == "") {
-                if (extendedVal == "") {
-                    FwNotification.renderNotification('WARNING', 'Unable to apply discount because Price and Extended values are 0.')
+            let rate: number = +FwBrowse.getValueByDataField($control, $generatedtr, 'Price');
+            const extendedVal: number = +FwBrowse.getValueByDataField($control, $generatedtr, `${periodType}Extended`);
+            if (rate == 0) {
+                if (extendedVal == 0) {
+                    FwNotification.renderNotification('WARNING', 'Unable to apply discount because Price and Extended values are 0.');
                     return;
                 } else {
-
-
-                    const quantity = $generatedtr.find('.field[data-browsedatafield="QuantityOrdered"] input').val();
-                    const discountPercent = $generatedtr.find(`.field[data-browsedatafield="DiscountPercent"] input`).val();
-                    const billablePeriods = $generatedtr.find(`.field[data-browsedatafield="BillablePeriods"] input`).val();
-                    const discountAmount = $generatedtr.find(`.field[data-browsedatafield="${periodType}DiscountAmount"] input`).val();
-                    const extendedVal = $generatedtr.find(`[data-browsedatafield="${periodType}Extended"] input`).val();
                     let discount;
-                    let rate;
-
-                    let extendedValNumber: number = +extendedVal.substring(1).replace(',', '');
-                    let discountAmountNumber: number = +discountAmount.substring(1).replace(',', '');
+                    const quantity: number = +FwBrowse.getValueByDataField($control, $generatedtr, 'QuantityOrdered');
+                    const discountPercent: number = +FwBrowse.getValueByDataField($control, $generatedtr, 'DiscountPercent');
+                    const billablePeriods: number = +FwBrowse.getValueByDataField($control, $generatedtr, 'BillablePeriods');
+                    const discountAmount: number = +FwBrowse.getValueByDataField($control, $generatedtr, `${periodType}DiscountAmount`);
 
                     if (discountPercent == 0) {
                         if (field === 'UnitExtended') {
-                            //rate = ((+extendedVal.substring(1).replace(',', '')) + (+discountAmount.substring(1).replace(',', '')));
-                            rate = extendedValNumber + discountAmountNumber;
+                            rate = extendedVal + discountAmount;
                         } else if (field === 'WeeklyExtended') {
-                            // need an error message here if quantity==zero.
-                            //rate = (((+extendedVal.substring(1).replace(',', '')) + (+discountAmount.substring(1).replace(',', ''))) / quantity);
-                            rate = ((extendedValNumber + discountAmountNumber) / quantity);
+                            if (quantity == 0) {
+                                FwNotification.renderNotification('ERROR', 'Quantity must be greater than 0.');
+                                return;
+                            } else {
+                                rate = ((extendedVal + discountAmount) / quantity);
+                            }
                         } else if (field === 'PeriodExtended') {
-                            // need an error message here if (quantity * billablePeriods)==zero.
-                            //rate = (((+extendedVal.substring(1).replace(',', '')) + (+discountAmount.substring(1).replace(',', ''))) / (quantity * billablePeriods));
-                            rate = ((extendedValNumber + discountAmountNumber) / quantity * billablePeriods);
+                            if (quantity == 0 || billablePeriods == 0) {
+                                FwNotification.renderNotification('ERROR', 'Either Quantity or Billable Periods must be greater than 0.')
+                                return;
+                            } else {
+                                rate = ((extendedVal + discountAmount) / quantity * billablePeriods);
+                            }
                         } else {
-                            // need to give an error here.  `unknown field: ${field}`
+                            FwNotification.renderNotification('ERROR', `Unknown field: ${field}`);
+                            return;
                         }
                     } else {
-                        discount = 1 - ((+discountPercent) / 100);
-                        // need an error message here if discount==zero.
-                        if (field === 'UnitExtended') {
-                            //rate = (+extendedVal.substring(1).replace(',', '')) / discount;
-                            rate = (extendedValNumber / discount);
-                        } else if (field === 'WeeklyExtended') {
-                            // need an error message here if quantity==zero.
-                            //rate = (((+extendedVal.substring(1).replace(',', '')) / quantity) / discount);
-                            rate = ((extendedValNumber / quantity) / discount);
-                        } else if (field === 'PeriodExtended') {
-                            // need an error message here if (quantity * billablePeriods)==zero.
-                            //rate = (((+extendedVal.substring(1).replace(',', '')) / (quantity * billablePeriods)) / discount);
-                            rate = ((extendedValNumber / (quantity * billablePeriods)) / discount);
+                        discount = 1 - (discountPercent / 100);
+                        if (discount === 0) {
+                            FwNotification.renderNotification('ERROR', `Discount percent must be less than 100.`);
+                            return;
                         } else {
-                            // need to give an error here.  `unknown field: ${field}`
+                            if (field === 'UnitExtended') {
+                                rate = (extendedVal / discount);
+                            } else if (field === 'WeeklyExtended') {
+                                if (quantity == 0) {
+                                    FwNotification.renderNotification('ERROR', 'Quantity must be greater than 0.')
+                                    return;
+                                } else {
+                                    rate = ((extendedVal / quantity) / discount);
+                                }
+                            } else if (field === 'PeriodExtended') {
+                                if (quantity == 0 || billablePeriods == 0) {
+                                    FwNotification.renderNotification('ERROR', 'Either Quantity or Billable Periods must be greater than 0.')
+                                    return;
+                                } else {
+                                    rate = ((extendedVal / (quantity * billablePeriods)) / discount);
+                                }
+                            } else {
+                                FwNotification.renderNotification('ERROR', `Unknown field: ${field}`);
+                                return;
+                            }
                         }
                     }
 
-                    const $confirmation = FwConfirmation.renderConfirmation(`Update Rate`, `Update Rate to ${rate}?`);
+                    let rateDisplay = Number(rate.toFixed(2)).toLocaleString();
+                    rateDisplay = rateDisplay.indexOf('.') == -1 ? `${rateDisplay}.00` : rateDisplay;
+                    const $confirmation = FwConfirmation.renderConfirmation(`Update Rate`, `Update Rate to ${rateDisplay}?`);
                     const $yes = FwConfirmation.addButton($confirmation, 'Yes', false);
                     const $no = FwConfirmation.addButton($confirmation, 'No', false);
 
                     $yes.on('click', () => {
                         FwConfirmation.destroyConfirmation($confirmation);
                         FwBrowse.setFieldValue($control, $generatedtr, 'Price', { value: rate.toString() });
-                        calculateExtended('Extended', field);
+                        calculateExtended(type, field);
                     });
 
                     $no.on('click', () => {
@@ -346,106 +356,94 @@
         function calculateExtended(type, field?) {
             let rateType, recType, fromDate, toDate, quantity, rate, daysPerWeek, discountPercent, weeklyExtended, unitExtended, periodExtended,
                 monthlyExtended, unitDiscountAmount, weeklyDiscountAmount, monthlyDiscountAmount, periodDiscountAmount;
-            rateType = $form.find('[data-datafield="RateType"] input').val();
-            recType = $generatedtr.find('.field[data-browsedatafield="RecType"] input').val();
-            fromDate = $generatedtr.find('.field[data-browsedatafield="FromDate"] input').val();
-            toDate = $generatedtr.find('.field[data-browsedatafield="ToDate"] input').val();
-            quantity = $generatedtr.find('.field[data-browsedatafield="QuantityOrdered"] input').val();
-            rate = $generatedtr.find('.field[data-browsedatafield="Price"] input').val();
-            daysPerWeek = $generatedtr.find('.field[data-browsedatafield="DaysPerWeek"] input').val();
-            //discountPercent = $generatedtr.find('.field[data-browsedatafield="DiscountPercent"] input').val();
+            rateType = FwFormField.getValueByDataField($form, 'RateType');
+            recType = FwBrowse.getValueByDataField($control, $generatedtr, 'RecType');
+            fromDate = FwBrowse.getValueByDataField($control, $generatedtr, 'FromDate');
+            toDate = FwBrowse.getValueByDataField($control, $generatedtr, 'ToDate');
+            quantity = FwBrowse.getValueByDataField($control, $generatedtr, 'QuantityOrdered');
+            rate = FwBrowse.getValueByDataField($control, $generatedtr, 'Price');
+            daysPerWeek = FwBrowse.getValueByDataField($control, $generatedtr, 'DaysPerWeek');
             if (field == "DiscountPercent") {
-                discountPercent = $generatedtr.find('.field[data-browsedatafield="DiscountPercentDisplay"] input').val();
+                discountPercent = FwBrowse.getValueByDataField($control, $generatedtr, 'DiscountPercentDisplay');
             }
             else {
-                discountPercent = $generatedtr.find('.field[data-browsedatafield="DiscountPercent"] input').val();
+                discountPercent = FwBrowse.getValueByDataField($control, $generatedtr, 'DiscountPercent');
             }
-            weeklyExtended = $generatedtr.find('.field[data-browsedatafield="WeeklyExtended"] input').val();
-            unitExtended = $generatedtr.find('.field[data-browsedatafield="UnitExtended"] input').val();
-            periodExtended = $generatedtr.find('.field[data-browsedatafield="PeriodExtended"] input').val();
+            weeklyExtended = FwBrowse.getValueByDataField($control, $generatedtr, 'WeeklyExtended');
+            unitExtended = FwBrowse.getValueByDataField($control, $generatedtr, 'UnitExtended');
+            periodExtended = FwBrowse.getValueByDataField($control, $generatedtr, 'PeriodExtended');
             //monthlyExtended = $generatedtr.find('.field[data-browsedatafield="MonthlyExtended"] input').val();
-            unitDiscountAmount = $generatedtr.find('.field[data-browsedatafield="UnitDiscountAmount"] input').val();
-            weeklyDiscountAmount = $generatedtr.find('.field[data-browsedatafield="WeeklyDiscountAmount"] input').val();
+            unitDiscountAmount = FwBrowse.getValueByDataField($control, $generatedtr, 'UnitDiscountAmount');
+            weeklyDiscountAmount = FwBrowse.getValueByDataField($control, $generatedtr, 'WeeklyDiscountAmount');
             //monthlyDiscountAmount = $generatedtr.find('.field[data-browsedatafield="MonthlyDiscountAmount"] input').val();
-            periodDiscountAmount = $generatedtr.find('.field[data-browsedatafield="PeriodDiscountAmount"] input').val();
+            periodDiscountAmount = FwBrowse.getValueByDataField($control, $generatedtr, 'PeriodDiscountAmount');
 
             let apiurl = "api/v1/orderitem/"
 
             if (type == "Extended") {
-                apiurl += "calculateextended?RateType="
+                apiurl += "calculateextended?";
             } else if (type == "Discount") {
-                apiurl += "calculatediscountpercent?RateType="
+                apiurl += "calculatediscountpercent?";
             }
-            apiurl +=
-                rateType
-                + "&RecType="
-                + recType
-                + "&FromDate="
-                + fromDate
-                + "&ToDate="
-                + toDate
-                + "&Quantity="
-                + quantity
-                + "&Rate="
-                + (+(rate.substring(1).replace(',', '')))
-                + "&DaysPerWeek="
-                + daysPerWeek
+            apiurl += `RateType=${rateType}&RecType=${recType}&FromDate=${fromDate}&ToDate=${toDate}&Quantity=${quantity}&Rate=${rate}&DaysPerWeek=${daysPerWeek}`;
 
             if (type == 'Extended') {
-                apiurl += "&DiscountPercent=" + discountPercent;
+                apiurl += `&DiscountPercent=${discountPercent}`;
 
-                FwAppData.apiMethod(true, 'GET', apiurl, null, FwServices.defaultTimeout, function onSuccess(response) {
-                    FwBrowse.setFieldValue($control, $generatedtr, 'DiscountPercent', { value: response.DiscountPercent.toString() });
-                    FwBrowse.setFieldValue($control, $generatedtr, 'UnitExtended', { value: response.UnitExtended.toString() });
-                    FwBrowse.setFieldValue($control, $generatedtr, 'UnitDiscountAmount', { value: response.UnitDiscountAmount.toString() });
-                    FwBrowse.setFieldValue($control, $generatedtr, 'WeeklyExtended', { value: response.WeeklyExtended.toString() });
-                    FwBrowse.setFieldValue($control, $generatedtr, 'WeeklyDiscountAmount', { value: response.WeeklyDiscountAmount.toString() });
-                    //FwBrowse.setFieldValue($control, $generatedtr, 'MonthlyExtended', { value: response.MonthlyExtended });
-                    //FwBrowse.setFieldValue($control, $generatedtr, 'MonthlyDiscountAmount', { value: response.MonthlyDiscountAmount });
-                    FwBrowse.setFieldValue($control, $generatedtr, 'PeriodExtended', { value: response.PeriodExtended.toString() });
-                    FwBrowse.setFieldValue($control, $generatedtr, 'PeriodDiscountAmount', { value: response.PeriodDiscountAmount.toString() });
-                }, null, null);
+                FwAppData.apiMethod(true, 'GET', apiurl, null, FwServices.defaultTimeout,
+                    response => {
+                        FwBrowse.setFieldValue($control, $generatedtr, 'DiscountPercent', { value: (response.DiscountPercent || 0).toString() });
+                        FwBrowse.setFieldValue($control, $generatedtr, 'UnitExtended', { value: (response.UnitExtended || 0).toString() });
+                        FwBrowse.setFieldValue($control, $generatedtr, 'UnitDiscountAmount', { value: (response.UnitDiscountAmount || 0).toString() });
+                        FwBrowse.setFieldValue($control, $generatedtr, 'WeeklyExtended', { value: (response.WeeklyExtended || 0).toString() });
+                        FwBrowse.setFieldValue($control, $generatedtr, 'WeeklyDiscountAmount', { value: (response.WeeklyDiscountAmount || 0).toString() });
+                        //FwBrowse.setFieldValue($control, $generatedtr, 'MonthlyExtended', { value: response.MonthlyExtended });
+                        //FwBrowse.setFieldValue($control, $generatedtr, 'MonthlyDiscountAmount', { value: response.MonthlyDiscountAmount });
+                        FwBrowse.setFieldValue($control, $generatedtr, 'PeriodExtended', { value: (response.PeriodExtended || 0).toString() });
+                        FwBrowse.setFieldValue($control, $generatedtr, 'PeriodDiscountAmount', { value: (response.PeriodDiscountAmount || 0).toString() });
+                    }, ex => FwFunc.showError(ex), null);
             }
 
             if (type == 'Discount') {
                 switch (field) {
                     case 'UnitExtended':
-                        apiurl += "&UnitExtended=" + (+unitExtended.substring(1).replace(',', ''));
+                        apiurl += `&UnitExtended=${unitExtended}`;
                         break;
                     case 'WeeklyExtended':
-                        apiurl += "&WeeklyExtended=" + (+weeklyExtended.substring(1).replace(',', ''));
+                        apiurl += `&WeeklyExtended=${weeklyExtended}`;
                         break;
                     case 'MonthlyExtended':
-                        apiurl += "&MonthlyExtended=" + (+monthlyExtended.substring(1).replace(',', ''));
+                        apiurl += `&MonthlyExtended=${monthlyExtended}`;
                         break;
                     case 'PeriodExtended':
-                        apiurl += "&PeriodExtended=" + (+periodExtended.substring(1).replace(',', ''));
+                        apiurl += `&PeriodExtended=${periodExtended}`;
                         break;
                     case 'UnitDiscountAmount':
-                        apiurl += "&UnitDiscountAmount=" + (+unitDiscountAmount.substring(1).replace(',', ''));
+                        apiurl += `&UnitDiscountAmount=${unitDiscountAmount}`;
                         break;
                     case 'WeeklyDiscountAmount':
-                        apiurl += "&WeeklyDiscountAmount=" + (+weeklyDiscountAmount.substring(1).replace(',', ''));
+                        apiurl += `&WeeklyDiscountAmount=${weeklyDiscountAmount}`;
                         break;
                     case 'MonthlyDiscountAmount':
-                        apiurl += "&MonthlyDiscountAmount=" + (+monthlyDiscountAmount.substring(1).replace(',', ''));
+                        apiurl += `&MonthlyDiscountAmount=${monthlyDiscountAmount}`;
                         break;
                     case 'PeriodDiscountAmount':
-                        apiurl += "&PeriodDiscountAmount=" + (+periodDiscountAmount.substring(1).replace(',', ''));
+                        apiurl += `&PeriodDiscountAmount=${periodDiscountAmount}`;
                         break;
                 }
-                FwAppData.apiMethod(true, 'GET', apiurl, null, FwServices.defaultTimeout, function onSuccess(response) {
-                    FwBrowse.setFieldValue($control, $generatedtr, 'DiscountPercent', { value: response.DiscountPercent.toString() });
-                    FwBrowse.setFieldValue($control, $generatedtr, 'DiscountPercentDisplay', { value: response.DiscountPercent.toString() });
-                    FwBrowse.setFieldValue($control, $generatedtr, 'UnitExtended', { value: response.UnitExtended.toString() });
-                    FwBrowse.setFieldValue($control, $generatedtr, 'UnitDiscountAmount', { value: response.UnitDiscountAmount.toString() });
-                    FwBrowse.setFieldValue($control, $generatedtr, 'WeeklyExtended', { value: response.WeeklyExtended.toString() });
-                    FwBrowse.setFieldValue($control, $generatedtr, 'WeeklyDiscountAmount', { value: response.WeeklyDiscountAmount.toString() });
-                    //FwBrowse.setFieldValue($control, $generatedtr, 'MonthlyExtended', { value: response.MonthlyExtended });
-                    //FwBrowse.setFieldValue($control, $generatedtr, 'MonthlyDiscountAmount', { value: response.MonthlyDiscountAmount });
-                    FwBrowse.setFieldValue($control, $generatedtr, 'PeriodExtended', { value: response.PeriodExtended.toString() });
-                    FwBrowse.setFieldValue($control, $generatedtr, 'PeriodDiscountAmount', { value: response.PeriodDiscountAmount.toString() });
-                }, null, null);
+                FwAppData.apiMethod(true, 'GET', apiurl, null, FwServices.defaultTimeout,
+                    response => {
+                        FwBrowse.setFieldValue($control, $generatedtr, 'DiscountPercent', { value: (response.DiscountPercent || 0).toString() });
+                        FwBrowse.setFieldValue($control, $generatedtr, 'DiscountPercentDisplay', { value: (response.DiscountPercent || 0).toString() });
+                        FwBrowse.setFieldValue($control, $generatedtr, 'UnitExtended', { value: (response.UnitExtended || 0).toString() });
+                        FwBrowse.setFieldValue($control, $generatedtr, 'UnitDiscountAmount', { value: (response.UnitDiscountAmount || 0).toString() });
+                        FwBrowse.setFieldValue($control, $generatedtr, 'WeeklyExtended', { value: (response.WeeklyExtended || 0).toString() });
+                        FwBrowse.setFieldValue($control, $generatedtr, 'WeeklyDiscountAmount', { value: (response.WeeklyDiscountAmount || 0).toString() });
+                        //FwBrowse.setFieldValue($control, $generatedtr, 'MonthlyExtended', { value: response.MonthlyExtended });
+                        //FwBrowse.setFieldValue($control, $generatedtr, 'MonthlyDiscountAmount', { value: response.MonthlyDiscountAmount });
+                        FwBrowse.setFieldValue($control, $generatedtr, 'PeriodExtended', { value: (response.PeriodExtended || 0).toString() });
+                        FwBrowse.setFieldValue($control, $generatedtr, 'PeriodDiscountAmount', { value: (response.PeriodDiscountAmount || 0).toString() });
+                    }, ex => FwFunc.showError(ex), null);
             }
         }
     };
