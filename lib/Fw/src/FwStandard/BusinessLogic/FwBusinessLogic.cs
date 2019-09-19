@@ -1243,14 +1243,24 @@ namespace FwStandard.BusinessLogic
 
             if ((success) && (HasAudit) && (rowsAffected > 0))
             {
-                // Add the audit record on another thread without blocking
-                _ = Task.Run(async () =>
-                {
-                    await WebAuditJsonFunc.AddAuditAsync(this.AppConfig, this.UserSession, original, this);
-                });
+                //// Add the audit record on another thread without blocking
+                //_ = Task.Run(async () =>
+                //{
+                //    await WebAuditJsonFunc.AddAuditAsync(this.AppConfig, this.UserSession, original, this);
+                //});
+                AddAudit(original);
             }
 
             return rowsAffected;
+        }
+        //------------------------------------------------------------------------------------
+        public virtual void AddAudit(FwBusinessLogic original)
+        {
+            // Add the audit record on another thread without blocking
+            _ = Task.Run(async () =>
+                    {
+                        await WebAuditJsonFunc.AddAuditAsync(this.AppConfig, this.UserSession, original, this);
+                    });
         }
         //------------------------------------------------------------------------------------
         public virtual async Task<bool> DeleteAsync()
