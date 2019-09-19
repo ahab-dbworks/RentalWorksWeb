@@ -270,12 +270,15 @@ namespace WebApi.Modules.Home.Receipt
 
             if (isValid)
             {
-                foreach (ReceiptInvoice i in InvoiceDataList)
+                if (InvoiceDataList != null)
                 {
-                    if (i.Amount < 0)
+                    foreach (ReceiptInvoice i in InvoiceDataList)
                     {
-                        isValid = false;
-                        validateMsg = "Amount to Apply cannot be negative.";
+                        if (i.Amount < 0)
+                        {
+                            isValid = false;
+                            validateMsg = "Amount to Apply cannot be negative.";
+                        }
                     }
                 }
             }
@@ -295,9 +298,12 @@ namespace WebApi.Modules.Home.Receipt
 
             if (isValid)
             {
-                foreach (ReceiptInvoice i in InvoiceDataList)
+                if (InvoiceDataList != null)
                 {
-                    invoiceAmountTotal += i.Amount;
+                    foreach (ReceiptInvoice i in InvoiceDataList)
+                    {
+                        invoiceAmountTotal += i.Amount;
+                    }
                 }
 
                 if (recType.Equals(RwConstants.RECEIPT_RECTYPE_PAYMENT))
@@ -343,41 +349,44 @@ namespace WebApi.Modules.Home.Receipt
 
             if (isValid)
             {
-                foreach (ReceiptInvoice i in InvoiceDataList)
+                if (InvoiceDataList != null)
                 {
-                    decimal invoiceTotal = 0;
-                    InvoiceLogic iL = new InvoiceLogic();
-                    iL.SetDependencies(AppConfig, UserSession);
-                    iL.InvoiceId = i.InvoiceId;
-                    bool b = iL.LoadAsync<InvoiceLogic>().Result;
-                    invoiceTotal = iL.InvoiceTotal.GetValueOrDefault(0);
-
-                    BrowseRequest br = new BrowseRequest();
-                    br.uniqueids = new Dictionary<string, object>();
-                    br.uniqueids.Add("InvoiceId", i.InvoiceId);
-                    InvoiceReceiptLogic irl = new InvoiceReceiptLogic();
-                    irl.SetDependencies(AppConfig, UserSession);
-                    FwJsonDataTable dt = irl.BrowseAsync(br).Result;
-
-                    //determine the total receipts applied against this invoice so far, not counting this current Receipt
-                    decimal totalReceipts = 0;
-                    foreach (List<object> row in dt.Rows)
+                    foreach (ReceiptInvoice i in InvoiceDataList)
                     {
-                        string recId = row[dt.GetColumnNo("ReceiptId")].ToString();
-                        decimal amount = FwConvert.ToDecimal(row[dt.GetColumnNo("Amount")].ToString());
-                        if (!recId.Equals(ReceiptId))  // exclude this current Receipt
+                        decimal invoiceTotal = 0;
+                        InvoiceLogic iL = new InvoiceLogic();
+                        iL.SetDependencies(AppConfig, UserSession);
+                        iL.InvoiceId = i.InvoiceId;
+                        bool b = iL.LoadAsync<InvoiceLogic>().Result;
+                        invoiceTotal = iL.InvoiceTotal.GetValueOrDefault(0);
+
+                        BrowseRequest br = new BrowseRequest();
+                        br.uniqueids = new Dictionary<string, object>();
+                        br.uniqueids.Add("InvoiceId", i.InvoiceId);
+                        InvoiceReceiptLogic irl = new InvoiceReceiptLogic();
+                        irl.SetDependencies(AppConfig, UserSession);
+                        FwJsonDataTable dt = irl.BrowseAsync(br).Result;
+
+                        //determine the total receipts applied against this invoice so far, not counting this current Receipt
+                        decimal totalReceipts = 0;
+                        foreach (List<object> row in dt.Rows)
                         {
-                            totalReceipts += amount;
+                            string recId = row[dt.GetColumnNo("ReceiptId")].ToString();
+                            decimal amount = FwConvert.ToDecimal(row[dt.GetColumnNo("Amount")].ToString());
+                            if (!recId.Equals(ReceiptId))  // exclude this current Receipt
+                            {
+                                totalReceipts += amount;
+                            }
                         }
-                    }
 
-                    //add the amount of this current Receipt
-                    totalReceipts += i.Amount;
+                        //add the amount of this current Receipt
+                        totalReceipts += i.Amount;
 
-                    if (totalReceipts > invoiceTotal)
-                    {
-                        isValid = false;
-                        validateMsg = "Cannot apply more than the Invoice Total for Invoice " + iL.InvoiceNumber + " (" + iL.InvoiceDescription + ").";
+                        if (totalReceipts > invoiceTotal)
+                        {
+                            isValid = false;
+                            validateMsg = "Cannot apply more than the Invoice Total for Invoice " + iL.InvoiceNumber + " (" + iL.InvoiceDescription + ").";
+                        }
                     }
                 }
             }
@@ -459,38 +468,44 @@ namespace WebApi.Modules.Home.Receipt
 
 
             // iterate through the PREVIOUS list.  compare each entry with the ones provided by the user.  If the amount is changed, we need to save the modifications to the database
-            foreach (InvoiceReceiptLogic irPrev in previousIrData)
+            if (InvoiceDataList != null)
             {
-                foreach (ReceiptInvoice riNew in InvoiceDataList)  // iterate through the list provided by the user
+                foreach (InvoiceReceiptLogic irPrev in previousIrData)
                 {
-                    if (irPrev.InvoiceReceiptId.ToString().Equals(riNew.InvoiceReceiptId)) // find the record that matches this InvoiceReceiptId
+                    foreach (ReceiptInvoice riNew in InvoiceDataList)  // iterate through the list provided by the user
                     {
-                        if (!irPrev.Amount.Equals(riNew.Amount))
+                        if (irPrev.InvoiceReceiptId.ToString().Equals(riNew.InvoiceReceiptId)) // find the record that matches this InvoiceReceiptId
                         {
-                            InvoiceReceiptLogic irNew = irPrev.MakeCopy<InvoiceReceiptLogic>();
-                            irNew.Amount = riNew.Amount;
-                            irNew.SetDependencies(AppConfig, UserSession);
-                            int saveCount = irNew.SaveAsync(irPrev, conn: e.SqlConnection).Result;
+                            if (!irPrev.Amount.Equals(riNew.Amount))
+                            {
+                                InvoiceReceiptLogic irNew = irPrev.MakeCopy<InvoiceReceiptLogic>();
+                                irNew.Amount = riNew.Amount;
+                                irNew.SetDependencies(AppConfig, UserSession);
+                                int saveCount = irNew.SaveAsync(irPrev, conn: e.SqlConnection).Result;
+                            }
                         }
                     }
                 }
             }
 
             // iterate through the NEW list.  anything without an InvoiceReceiptId is new, we need to save these
-            foreach (ReceiptInvoice ri in InvoiceDataList)
+            if (InvoiceDataList != null)
             {
-                if ((string.IsNullOrEmpty(ri.InvoiceReceiptId)) && (ri.Amount != 0))
+                foreach (ReceiptInvoice ri in InvoiceDataList)
                 {
-                    InvoiceReceiptLogic irNew = new InvoiceReceiptLogic();
-                    irNew.SetDependencies(AppConfig, UserSession);
-                    irNew.ReceiptId = ReceiptId;
-                    irNew.InvoiceId = ri.InvoiceId;
-                    irNew.Amount = ri.Amount;
-                    irNew.SetDependencies(AppConfig, UserSession);
-                    int saveCount = irNew.SaveAsync(null, conn: e.SqlConnection).Result;
-                    ri.InvoiceReceiptId = irNew.InvoiceReceiptId.ToString(); //jh 03/19/2019 provide the ID of the new payment record back with the response
+                    if ((string.IsNullOrEmpty(ri.InvoiceReceiptId)) && (ri.Amount != 0))
+                    {
+                        InvoiceReceiptLogic irNew = new InvoiceReceiptLogic();
+                        irNew.SetDependencies(AppConfig, UserSession);
+                        irNew.ReceiptId = ReceiptId;
+                        irNew.InvoiceId = ri.InvoiceId;
+                        irNew.Amount = ri.Amount;
+                        irNew.SetDependencies(AppConfig, UserSession);
+                        int saveCount = irNew.SaveAsync(null, conn: e.SqlConnection).Result;
+                        ri.InvoiceReceiptId = irNew.InvoiceReceiptId.ToString(); //jh 03/19/2019 provide the ID of the new payment record back with the response
+                    }
+                    invoiceAmountTotal += ri.Amount;
                 }
-                invoiceAmountTotal += ri.Amount;
             }
 
             if ((e.SaveMode.Equals(TDataRecordSaveMode.smInsert)) && (paymentAmount > invoiceAmountTotal))
@@ -511,7 +526,7 @@ namespace WebApi.Modules.Home.Receipt
                     o.ReceiptId = "";
                     o.PaymentAmount = (paymentAmount - invoiceAmountTotal);
                     o.RecType = RwConstants.RECEIPT_RECTYPE_OVERPAYMENT;
-                    int i1 = o.SaveAsync(this, e.SqlConnection).Result;
+                    int i1 = o.SaveAsync(null, e.SqlConnection).Result;
                     this.OverPaymentId = o.ReceiptId;
                     int i2 = this.SaveAsync(this, e.SqlConnection).Result;
                 }
