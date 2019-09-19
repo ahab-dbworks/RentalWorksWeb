@@ -193,8 +193,13 @@ class Receipt {
             const config = { attributes: true, childList: true, subtree: true };
             const listenForOverpayment = () => {
                 const message = jQuery(app).find('.advisory .fwconfirmationbox .body .message').text();
-                if (message.startsWith("Amount to Apply does not match Invoice")) {
+                //if (message.startsWith("Amount to Apply does not match Invoice")) {
+                if (message.startsWith("Amount to Apply exceeds the Invoice Amounts provided")) {
                     this.createOverPayment($form);
+                    observer.disconnect(); // perhaps have a condition here to make sure user did something with the workflow
+                }
+                else if (message.startsWith("No Invoice Amounts have been provided")) {
+                    //this.createDepletingDeposit($form);
                     observer.disconnect(); // perhaps have a condition here to make sure user did something with the workflow
                 }
             }

@@ -121,9 +121,20 @@ namespace WebApi.Modules.Home.Receipt
         [FwLogicProperty(Id: "DFYUuxYiQR5I", IsReadOnly: true)]
         public string OfficeLocationDefaultCurrencyId { get; set; }
 
+        [FwLogicProperty(Id: "gZIf5MIdFQlmZ")]
+        public string OverPaymentId { get { return receipt.OverPaymentId; } set { receipt.OverPaymentId = value; } }
 
+        // this field accepts the requested Invoices and Amounts from the user when saving a new or modified Receipt
         [FwLogicProperty(Id: "BD8n6SDR8Rn6y", IsNotAudited: true)]
-        public List<ReceiptInvoice> InvoiceDataList { get; set; }  // this field accepts the requested Invoices and Amounts from the user when saving a new or modified Receipt
+        public List<ReceiptInvoice> InvoiceDataList { get; set; }
+
+        // if saving a New Receipt, and this value is true, then any amounts over the Invoice Amounts should be saved as a separate Overpayment Receipt
+        [FwLogicProperty(Id: "2wv5LlhqpmDdU")]
+        public bool? CreateOverpayment { get; set; }
+
+        // if saving a New Receipt, and this value is true, then this Receipt should be saved as a Depleting Deposit
+        [FwLogicProperty(Id: "frwPI795LU3yb")]
+        public bool? CreateDepletingDeposit { get; set; }
 
 
         //------------------------------------------------------------------------------------ 
@@ -133,6 +144,7 @@ namespace WebApi.Modules.Home.Receipt
             bool isValid = true;
             decimal invoiceAmountTotal = 0;
             decimal paymentAmount = 0;
+            string recType = RecType;
 
             if (original != null)
             {
@@ -207,13 +219,23 @@ namespace WebApi.Modules.Home.Receipt
 
             if (isValid)
             {
+                if (RecType == null)
+                {
+                    if (saveMode.Equals(TDataRecordSaveMode.smUpdate))
+                    {
+                        recType = orig.RecType;
+                    }
+                }
+            }
+
+            if (isValid)
+            {
                 if (saveMode.Equals(TDataRecordSaveMode.smUpdate))
                 {
-                    string recTypeTest = RecType ?? orig.RecType;
-                    if (recTypeTest.Equals(RwConstants.RECEIPT_RECTYPE_OVERPAYMENT) ||
-                        recTypeTest.Equals(RwConstants.RECEIPT_RECTYPE_DEPLETING_DEPOSIT) ||
-                        recTypeTest.Equals(RwConstants.RECEIPT_RECTYPE_CREDIT_MEMO) ||
-                        recTypeTest.Equals(RwConstants.RECEIPT_RECTYPE_REFUND))
+                    if (recType.Equals(RwConstants.RECEIPT_RECTYPE_OVERPAYMENT) ||
+                        recType.Equals(RwConstants.RECEIPT_RECTYPE_DEPLETING_DEPOSIT) ||
+                        recType.Equals(RwConstants.RECEIPT_RECTYPE_CREDIT_MEMO) ||
+                        recType.Equals(RwConstants.RECEIPT_RECTYPE_REFUND))
                     {
                         isValid = false;
                         validateMsg = $"Cannot modify this {BusinessLogicModuleName} because of its RecType.";
@@ -258,16 +280,63 @@ namespace WebApi.Modules.Home.Receipt
                 }
             }
 
+            //if (isValid)
+            //{
+            //    foreach (ReceiptInvoice i in InvoiceDataList)
+            //    {
+            //        invoiceAmountTotal += i.Amount;
+            //    }
+            //    if (invoiceAmountTotal != paymentAmount)
+            //    {
+            //        isValid = false;
+            //        validateMsg = "Amount to Apply does not match Invoice Amounts provided.";
+            //    }
+            //}
+
             if (isValid)
             {
                 foreach (ReceiptInvoice i in InvoiceDataList)
                 {
                     invoiceAmountTotal += i.Amount;
                 }
-                if (invoiceAmountTotal != paymentAmount)
+
+                if (recType.Equals(RwConstants.RECEIPT_RECTYPE_PAYMENT))
                 {
-                    isValid = false;
-                    validateMsg = "Amount to Apply does not match Invoice Amounts provided.";
+                    if ((paymentAmount != 0) && (invoiceAmountTotal == 0))
+                    {
+                        if (paymentAmount > invoiceAmountTotal)
+                        {
+                            if ((saveMode.Equals(TDataRecordSaveMode.smInsert)) && CreateDepletingDeposit.GetValueOrDefault(false))
+                            {
+                                // user is creating a New Receipt and has indicated to create a Depleting Deposit with this amount
+                            }
+                            else
+                            {
+                                isValid = false;
+                                validateMsg = "No Invoice Amounts have been provided.";
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (paymentAmount > invoiceAmountTotal)
+                        {
+                            if ((saveMode.Equals(TDataRecordSaveMode.smInsert)) && CreateOverpayment.GetValueOrDefault(false))
+                            {
+                                // user is creating a New Receipt and has indicated to create an Overpayment with the left-over amount
+                            }
+                            else
+                            {
+                                isValid = false;
+                                validateMsg = "Amount to Apply exceeds the Invoice Amounts provided.";
+                            }
+                        }
+                        else if (paymentAmount < invoiceAmountTotal)
+                        {
+                            isValid = false;
+                            validateMsg = "Amount to Apply is less than the Invoice Amounts provided.";
+                        }
+                    }
                 }
             }
 
@@ -346,6 +415,33 @@ namespace WebApi.Modules.Home.Receipt
         //All of this is done within the same databas transaction as the insert/update of the Receipt.  Any failures will rollback everything
         public void OnAfterSave(object sender, AfterSaveEventArgs e)
         {
+            ReceiptLogic orig = null;
+            decimal invoiceAmountTotal = 0;
+            decimal paymentAmount = 0;
+
+            if (e.Original != null)
+            {
+                orig = (ReceiptLogic)e.Original;
+            }
+
+            if (e.SaveMode.Equals(TDataRecordSaveMode.smInsert))
+            {
+                paymentAmount = PaymentAmount.GetValueOrDefault(0);
+            }
+            else
+            {
+                if (PaymentAmount == null)
+                {
+                    paymentAmount = orig.PaymentAmount.GetValueOrDefault(0);
+                }
+                else
+                {
+                    paymentAmount = PaymentAmount.GetValueOrDefault(0);
+                }
+            }
+
+
+
             List<InvoiceReceiptLogic> previousIrData = new List<InvoiceReceiptLogic>();
 
             if (e.SaveMode.Equals(TDataRecordSaveMode.smUpdate))
@@ -380,7 +476,7 @@ namespace WebApi.Modules.Home.Receipt
                 }
             }
 
-            // iterate through the NEW list.  anyhing without an InvoiceReeiptId is new, we need to save these
+            // iterate through the NEW list.  anything without an InvoiceReceiptId is new, we need to save these
             foreach (ReceiptInvoice ri in InvoiceDataList)
             {
                 if ((string.IsNullOrEmpty(ri.InvoiceReceiptId)) && (ri.Amount != 0))
@@ -393,6 +489,35 @@ namespace WebApi.Modules.Home.Receipt
                     irNew.SetDependencies(AppConfig, UserSession);
                     int saveCount = irNew.SaveAsync(null, conn: e.SqlConnection).Result;
                     ri.InvoiceReceiptId = irNew.InvoiceReceiptId.ToString(); //jh 03/19/2019 provide the ID of the new payment record back with the response
+                }
+                invoiceAmountTotal += ri.Amount;
+            }
+
+            if ((e.SaveMode.Equals(TDataRecordSaveMode.smInsert)) && (paymentAmount > invoiceAmountTotal))
+            {
+                if ((invoiceAmountTotal == 0) && CreateDepletingDeposit.GetValueOrDefault(false))
+                {
+                    //change the RecType of this Receipt record to "D" (Depleting Deposit)
+                    this.RecType = RwConstants.RECEIPT_RECTYPE_DEPLETING_DEPOSIT;
+                    int i = this.SaveAsync(this, e.SqlConnection).Result;
+                }
+                else if ((invoiceAmountTotal > 0) && CreateOverpayment.GetValueOrDefault(false))
+                {
+                    //create a new Receipt record with the overage, using "O" as the RecType (Overpayment)
+                    ReceiptLogic o = new ReceiptLogic();
+                    o.SetDependencies(AppConfig, UserSession);
+                    o.ReceiptId = this.ReceiptId;
+                    bool overpaymentLoaded = o.LoadAsync<ReceiptLogic>(conn: e.SqlConnection).Result;
+                    o.ReceiptId = "";
+                    o.PaymentAmount = (paymentAmount - invoiceAmountTotal);
+                    o.RecType = RwConstants.RECEIPT_RECTYPE_OVERPAYMENT;
+                    int i1 = o.SaveAsync(this, e.SqlConnection).Result;
+                    this.OverPaymentId = o.ReceiptId;
+                    int i2 = this.SaveAsync(this, e.SqlConnection).Result;
+                }
+                else
+                {
+                    // should never get here
                 }
             }
 
