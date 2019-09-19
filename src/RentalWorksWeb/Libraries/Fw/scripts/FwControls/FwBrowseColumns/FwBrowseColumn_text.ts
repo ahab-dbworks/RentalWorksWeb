@@ -6,10 +6,15 @@
     //---------------------------------------------------------------------------------
     getFieldValue($browse, $tr, $field, field, originalvalue): void {
         if (($tr.hasClass('editmode')) || ($tr.hasClass('newmode'))) {
-            if (applicationConfig.allCaps && $field.attr('data-allcaps') !== 'false' && $field.find('input.value').val()) {
-                field.value = $field.find('input.value').val().toUpperCase();
+            var $value = $field.find('input.value');
+            if ($value.length > 0) {
+                if (applicationConfig.allCaps && $field.attr('data-allcaps') !== 'false' && $field.find('input.value').val()) {
+                    field.value = $field.find('input.value').val().toUpperCase();
+                } else {
+                    field.value = $field.find('input.value').val();
+                }
             } else {
-                field.value = $field.find('input.value').val();
+                field.value = originalvalue;
             }
         }
     }

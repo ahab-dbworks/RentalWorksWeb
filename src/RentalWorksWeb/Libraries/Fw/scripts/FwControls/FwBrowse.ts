@@ -3981,6 +3981,18 @@ class FwBrowseClass {
         (<IFwBrowseColumn>(<any>window)[`FwBrowseColumn_${datatype}`]).setFieldValue($control, $tr, $field, data);
     }
     //---------------------------------------------------------------------------------
+    getValueByDataField($control: JQuery, $tr: JQuery, datafield: string) {
+        let $field = $tr.find(`.field[data-browsedatafield="${datafield}"]`);
+        let datatype = $field.attr('data-browsedatatype');
+        let originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
+        let field: any = {
+            datafield: datafield,
+            value: originalvalue
+        };
+        (<IFwBrowseColumn>(<any>window)[`FwBrowseColumn_${datatype}`]).getFieldValue($control, $tr, $field, field, originalvalue);
+        return field.value;
+    }
+    //---------------------------------------------------------------------------------
 }
 
 var FwBrowse = new FwBrowseClass();
