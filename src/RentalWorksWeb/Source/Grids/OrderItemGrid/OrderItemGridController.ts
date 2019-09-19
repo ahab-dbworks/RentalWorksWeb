@@ -295,7 +295,7 @@
                                 FwNotification.renderNotification('ERROR', 'Either Quantity or Billable Periods must be greater than 0.')
                                 return;
                             } else {
-                                rate = ((extendedVal + discountAmount) / quantity * billablePeriods);
+                                rate = ((extendedVal + discountAmount) / (quantity * billablePeriods));
                             }
                         } else {
                             FwNotification.renderNotification('ERROR', `Unknown field: ${field}`);
