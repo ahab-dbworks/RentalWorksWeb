@@ -1108,8 +1108,8 @@
                 };
             }
             FwServices.module.method(request, module, 'Save', $form, function (response) {
-                var $formfields, $browse;
-
+                let $formfields, $browse;
+                $form.data('SaveFormAPIresponse', response); // meant to be temporary solution for settings page save of new record. Data used to populate new record panel for form - J. Pace
                 if (typeof controller.apiurl !== 'undefined') {
                     if (parameters.closetab === false) {
                         //Refresh the browse window on saving a record.
@@ -1216,27 +1216,25 @@
     }
     //----------------------------------------------------------------------------------------------
     static deleteRecord(module: string, $control: JQuery) {
-        var controller, method, $browse, ids, $selectedRow, $form, $tab, request;
         try {
-            $browse = $control;
-            $selectedRow = $browse.find('tr.selected');
+            const $browse = $control;
+            const $selectedRow = $browse.find('tr.selected');
             if ($selectedRow.length > 0) {
-                ids = {};
-                var $confirmation = FwConfirmation.renderConfirmation('Delete Record', 'Are you sure you want to delete this record?');
-                var $yes = FwConfirmation.addButton($confirmation, 'Yes');
-                var $no = FwConfirmation.addButton($confirmation, 'No');
-
+                const $confirmation = FwConfirmation.renderConfirmation('Delete Record', 'Are you sure you want to delete this record?');
+                const $yes = FwConfirmation.addButton($confirmation, 'Yes');
+                const $no = FwConfirmation.addButton($confirmation, 'No');
+                $yes.focus();
                 $yes.on('click', function () {
-                    controller = $browse.attr('data-controller');
-                    ids = FwBrowse.getRowFormUniqueIds($browse, $selectedRow);
-                    request = {
+                    const controller = $browse.attr('data-controller');
+                    const ids = FwBrowse.getRowFormUniqueIds($browse, $selectedRow);
+                    const request: any = {
                         module: (<any>window[controller]).Module,
                         ids: ids
                     };
                     FwServices.module.method(request, (<any>window[controller]).Module, 'Delete', $browse, function (response) {
-                        $form = FwModule.getFormByUniqueIds(ids);
+                        const $form = FwModule.getFormByUniqueIds(ids);
                         if ((typeof $form != 'undefined') && ($form.length > 0)) {
-                            $tab = jQuery('#' + $form.closest('div.tabpage').attr('data-tabid'));
+                            const $tab = jQuery(`#${$form.closest('div.tabpage').attr('data-tabid')}`);
                             FwModule.closeFormTab($tab, true);
                         }
                         FwBrowse.databind($browse);
