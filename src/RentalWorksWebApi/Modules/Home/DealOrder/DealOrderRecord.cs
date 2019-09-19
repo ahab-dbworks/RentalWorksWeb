@@ -1478,5 +1478,27 @@ public string DateStamp { get; set; }
             }
             return response;
         }
+        //-------------------------------------------------------------------------------------------------------
+        public async Task<ChangeOrderOfficeLocationResponse> ChangeOfficeLocationASync(ChangeOrderOfficeLocationRequest request)
+        {
+            ChangeOrderOfficeLocationResponse response = new ChangeOrderOfficeLocationResponse();
+            if (OrderId != null)
+            {
+                FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString);
+                FwSqlCommand qry = new FwSqlCommand(conn, "changelocationwarehousefororder", this.AppConfig.DatabaseSettings.QueryTimeout);
+                qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
+                qry.AddParameter("@newlocationid", SqlDbType.NVarChar, ParameterDirection.Input, request.OfficeLocationId);
+                qry.AddParameter("@newwarehouseid", SqlDbType.NVarChar, ParameterDirection.Input, request.WarehouseId);
+                qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, UserSession.UsersId);
+                qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
+                qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
+                await qry.ExecuteNonQueryAsync();
+                response.status = qry.GetParameter("@status").ToInt32();
+                response.msg = qry.GetParameter("@msg").ToString();
+                response.success = (response.status == 0);
+            }
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------
     }
 }

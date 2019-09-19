@@ -140,6 +140,16 @@ namespace WebApi.Modules.Home.Order
     {
     }
 
+    public class ChangeOrderOfficeLocationRequest
+    {
+        public string OfficeLocationId { get; set; } 
+        public string WarehouseId { get; set; }
+    }
+    public class ChangeOrderOfficeLocationResponse: TSpStatusResponse
+    {
+        public OrderBaseLogic quoteOrOrder { get; set; }
+    }
+
 
     public static class OrderFunc
     {

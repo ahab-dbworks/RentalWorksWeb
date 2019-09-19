@@ -34,6 +34,7 @@ namespace WebLibrary.Security.Tree.RentalWorksWeb.Modules.Settings
             tree.AddSubMenuItem("Make Quote Active", "{32BF5F46-987A-4D61-9E85-6A7954897077}", nodeFormOptions.Id);
             tree.AddSubMenuItem("Reserve / Unreserve", "{C122C2C5-9D68-4CDF-86C9-E37CB70C57A0}", nodeFormOptions.Id);
             tree.AddSubMenuItem("Cancel / Uncancel", "{BF633873-8A40-4BD6-8ED8-3EAC27059C84}", nodeFormOptions.Id);
+            tree.AddSubMenuItem("Change Office Location", "{FDFED8DE-151C-4C03-B509-5AE4B19A2588}", nodeFormOptions.Id);
         }
 
         //---------------------------------------------------------------------------------------------

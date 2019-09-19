@@ -40,6 +40,7 @@ namespace WebLibrary.Security.Tree.RentalWorksWeb.Modules
             tree.AddSubMenuItem("Order Status", "{CF245A59-3336-42BC-8CCB-B88807A9D4EA}", nodeFormOptions.Id);
             tree.AddSubMenuItem("Check-Out", "{771DCE59-EB57-48B2-B189-177B414A4ED3}", nodeFormOptions.Id);
             tree.AddSubMenuItem("Check-In", "{380318B6-7E4D-446D-A018-1EB7720F4338}", nodeFormOptions.Id);
+            tree.AddSubMenuItem("Change Office Location", "{31C62070-9045-478D-A0DC-D3B62B61E108}", nodeFormOptions.Id);
         }
         //---------------------------------------------------------------------------------------------
     }

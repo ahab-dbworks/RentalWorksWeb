@@ -492,6 +492,36 @@ namespace WebApi.Modules.Home.Order
             }
         }
         //------------------------------------------------------------------------------------        
+        // POST api/v1/order/changeofficelocation/A0000001
+        [HttpPost("changeofficelocation/{id}")]
+        [FwControllerMethod(Id: "xFLAlAgAGKG07")]
+        public async Task<ActionResult<ChangeOrderOfficeLocationResponse>> ChangeOfficeLocation([FromRoute]string id, [FromBody] ChangeOrderOfficeLocationRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                string[] ids = id.Split('~');
+                OrderLogic Order = new OrderLogic();
+                Order.SetDependencies(AppConfig, UserSession);
+                if (await Order.LoadAsync<OrderLogic>(ids))
+                {
+                    ChangeOrderOfficeLocationResponse response = await Order.ChangeOfficeLocationASync(request);
+                    return new OkObjectResult(response);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------       
         // GET api/v1/order
         [HttpGet]
         [FwControllerMethod(Id: "proTzh4yd7gn")]

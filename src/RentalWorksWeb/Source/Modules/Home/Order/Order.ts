@@ -2097,6 +2097,17 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.Order.form.menuItems.PrintO
     }
 };
 //---------------------------------------------------------------------------------
+//Form Change Office Location Option
+FwApplicationTree.clickEvents[Constants.Modules.Home.Order.form.menuItems.ChangeOfficeLocation.id] = function (event: JQuery.ClickEvent) {
+    try {
+        let $form = jQuery(this).closest('.fwform');
+        OrderController.changeOfficeLocation($form);
+    }
+    catch (ex) {
+        FwFunc.showError(ex);
+    }
+};
+//---------------------------------------------------------------------------------
 //Browse Cancel Option
 FwApplicationTree.clickEvents[Constants.Modules.Home.Order.browse.menuItems.CancelUncancel.id] = function (event: JQuery.ClickEvent) {
     try {

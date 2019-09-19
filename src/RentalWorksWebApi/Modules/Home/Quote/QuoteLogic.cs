@@ -166,5 +166,18 @@ namespace WebApi.Modules.Home.Quote
             return q;
         }
         //------------------------------------------------------------------------------------    
+        public async Task<ChangeOrderOfficeLocationResponse> ChangeOfficeLocationASync(ChangeOrderOfficeLocationRequest request)
+        {
+            QuoteLogic orig = (QuoteLogic)this.MemberwiseClone();
+            ChangeOrderOfficeLocationResponse response = await dealOrder.ChangeOfficeLocationASync(request);
+            if (response.success)
+            {
+                await LoadAsync<QuoteLogic>();
+                response.quoteOrOrder = this;
+                AddAudit(orig);
+            }
+            return response;
+        }
+        //------------------------------------------------------------------------------------
     }
 }

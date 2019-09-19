@@ -914,6 +914,14 @@ class OrderBase {
                 }
         };
     };
+    beforeValidateWarehouse($browse: any, $form: any, request: any) {
+        request.uniqueids = {};
+        const locationId = FwFormField.getValueByDataField($form, 'OfficeLocationId');
+
+        if (locationId) {
+            request.uniqueids.LocationId = locationId;
+        }
+    };
     //----------------------------------------------------------------------------------------------
     events($form: any) {
         //let weeklyType = $form.find(".weeklyType");
@@ -1937,6 +1945,89 @@ class OrderBase {
         };
     };
     //----------------------------------------------------------------------------------------------
+    changeOfficeLocation($form: any) {
+        let $confirmation, $yes, $no, id, self, module, controller;
+        self = this;
+        module = this.Module;
+        controller = $form.attr('data-controller');
+        id = FwFormField.getValueByDataField($form, `${module}Id`);
+
+        if (id != null) {
+            $confirmation = FwConfirmation.renderConfirmation('Change Office Location / Warehouse', '');
+            $confirmation.find('.fwconfirmationbox').css('width', '450px');
+            let html = [];
+            html.push(`<div class="fwform" data-controller="${controller}" style="background-color: transparent;">`);
+            html.push(`  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">`);
+            html.push(`    <div>Change Office Location / Warehouse for this ${module}:</div>`);
+            html.push(`      <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">`);
+            html.push(`        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Office Location" data-datafield="OfficeLocationId" data-validationname="OfficeLocationValidation" data-required="true"></div>`);
+            html.push(`      </div>`);
+            html.push(`      <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">`);
+            html.push(`        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Warehouse" data-formbeforevalidate="beforeValidateWarehouse" data-datafield="WarehouseId" data-validationname="WarehouseValidation" data-boundfields="OfficeLocationId" data-required="true"></div>`);
+            html.push(`      </div>`);
+            html.push('  </div>');
+            html.push('</div>');
+
+            FwConfirmation.addControls($confirmation, html.join(''));
+
+            FwFormField.setValueByDataField($confirmation, 'OfficeLocationId', FwFormField.getValueByDataField($form, 'OfficeLocationId'), FwFormField.getTextByDataField($form, 'OfficeLocationId'));
+            FwFormField.setValueByDataField($confirmation, 'WarehouseId', FwFormField.getValueByDataField($form, 'WarehouseId'), FwFormField.getTextByDataField($form, 'WarehouseId'));
+            $confirmation.find('[data-datafield="OfficeLocationId"]').data('onchange', e => {
+                FwFormField.setValue($confirmation, 'div[data-datafield="WarehouseId"]', '', '');
+            });
+
+            $yes = FwConfirmation.addButton($confirmation, `Change`, false);
+            $no = FwConfirmation.addButton($confirmation, 'Cancel');
+
+            $yes.on('click', changeOffice);
+        }
+        else {
+            FwNotification.renderNotification(`WARNING`, `No ${module} selected.`);
+        }
+
+        function changeOffice() {
+            let valid = FwModule.validateForm($confirmation);
+            if (valid) {
+                let request: any = {};
+                const locationid = FwFormField.getValueByDataField($confirmation, 'OfficeLocationId');
+                const warehouseid = FwFormField.getValueByDataField($confirmation, 'WarehouseId');
+                request = {
+                    OfficeLocationId: locationid,
+                    Warehouseid: warehouseid
+                };
+                FwFormField.disable($confirmation.find('.fwformfield'));
+                FwFormField.disable($yes);
+                $yes.text('Changing...');
+                $yes.off('click');
+                const topLayer = '<div class="top-layer" data-controller="none" style="background-color: transparent;z-index:1"></div>';
+                const realConfirm = jQuery($confirmation.find('.fwconfirmationbox')).prepend(topLayer);
+
+                FwAppData.apiMethod(true, 'POST', `api/v1/${module}/changeofficelocation/${id}`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                    if (response.success) {
+
+                        FwNotification.renderNotification('SUCCESS', `${module} Successfully Changed`);
+                        FwConfirmation.destroyConfirmation($confirmation);
+                        FwModule.refreshForm($form, self);
+                    }
+                    else {
+                        $yes.on('click', changeOffice);
+                        $yes.text('Change');
+                        FwFunc.showError(response.msg);
+                        FwFormField.enable($confirmation.find('.fwformfield'));
+                        FwFormField.enable($yes);
+                    }
+                }, function onError(response) {
+                    $yes.on('click', changeOffice);
+                    $yes.text('Change');
+                    FwFunc.showError(response);
+                    FwFormField.enable($confirmation.find('.fwformfield'));
+                    FwFormField.enable($yes);
+                    FwModule.refreshForm($form, self);
+                }, realConfirm);
+            }
+        };
+    };
+    //----------------------------------------------------------------------------------------------    
     applyOrderTypeAndRateTypeToForm($form) {
         const $rentalGrid = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
         const rateType = FwFormField.getValueByDataField($form, 'RateType');

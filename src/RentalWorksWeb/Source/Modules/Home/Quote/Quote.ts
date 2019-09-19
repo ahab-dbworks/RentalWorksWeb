@@ -1667,6 +1667,17 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.Quote.form.menuItems.Reserv
     }
 };
 //-----------------------------------------------------------------------------------------------------
+//Form Change Office Location Option
+FwApplicationTree.clickEvents[Constants.Modules.Home.Quote.form.menuItems.ChangeOfficeLocation.id] = function (event: JQuery.ClickEvent) {
+    try {
+        let $form = jQuery(this).closest('.fwform');
+        QuoteController.changeOfficeLocation($form);
+    }
+    catch (ex) {
+        FwFunc.showError(ex);
+    }
+};
+//---------------------------------------------------------------------------------
 FwApplicationTree.clickEvents[Constants.Modules.Home.Quote.form.menuItems.CreateOrder.id] = function (event: JQuery.ClickEvent) {
     try {
         const $form = jQuery(this).closest('.fwform');

@@ -24,15 +24,15 @@ namespace WebApi.Modules.Home.Order
             dealOrder.AfterSave += OnAfterSaveDealOrder;
         }
         //------------------------------------------------------------------------------------
-        [FwLogicProperty(Id:"t2iGW7Twvavm", IsPrimaryKey:true)]
+        [FwLogicProperty(Id: "t2iGW7Twvavm", IsPrimaryKey: true)]
         public string OrderId { get { return dealOrder.OrderId; } set { dealOrder.OrderId = value; dealOrderDetail.OrderId = value; } }
 
         //------------------------------------------------------------------------------------
-        [FwLogicProperty(Id:"LDW97FNr8Vrz", DisableDirectAssign: true, DisableDirectModify: true)]
+        [FwLogicProperty(Id: "LDW97FNr8Vrz", DisableDirectAssign: true, DisableDirectModify: true)]
         public string OrderNumber { get { return dealOrder.OrderNumber; } set { dealOrder.OrderNumber = value; } }
 
         //------------------------------------------------------------------------------------
-        [FwLogicProperty(Id:"ntviBtfhLqsd", DisableDirectAssign: true, DisableDirectModify: true)]
+        [FwLogicProperty(Id: "ntviBtfhLqsd", DisableDirectAssign: true, DisableDirectModify: true)]
         public string OrderDate { get { return dealOrder.OrderDate; } set { dealOrder.OrderDate = value; } }
 
         //------------------------------------------------------------------------------------
@@ -124,6 +124,19 @@ namespace WebApi.Modules.Home.Order
             bool x = await l.LoadAsync<OrderLogic>(keys);
 
             return l;
+        }
+        //------------------------------------------------------------------------------------
+        public async Task<ChangeOrderOfficeLocationResponse> ChangeOfficeLocationASync(ChangeOrderOfficeLocationRequest request)
+        {
+            OrderLogic orig = (OrderLogic)this.MemberwiseClone();
+            ChangeOrderOfficeLocationResponse response = await dealOrder.ChangeOfficeLocationASync(request);
+            if (response.success)
+            {
+                await LoadAsync<OrderLogic>();
+                response.quoteOrOrder = this;
+                AddAudit(orig);
+            }
+            return response;
         }
         //------------------------------------------------------------------------------------
     }

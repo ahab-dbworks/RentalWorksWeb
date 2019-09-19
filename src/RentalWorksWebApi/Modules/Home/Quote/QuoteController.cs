@@ -177,22 +177,22 @@ namespace WebApi.Modules.Home.Quote
                 l.SetDependencies(AppConfig, UserSession);
                 if (await l.LoadAsync<QuoteLogic>(ids))
                 {
-                    ReserveQuoteResponse response = await l.Reserve();   
+                    ReserveQuoteResponse response = await l.Reserve();
                     if (response.success)
                     {
-                        await l.LoadAsync<QuoteLogic>(ids); 
-                        response.quote = l;                  
-                        return new OkObjectResult(response);         
+                        await l.LoadAsync<QuoteLogic>(ids);
+                        response.quote = l;
+                        return new OkObjectResult(response);
                     }
                     else
                     {
-                        throw new Exception(response.msg);          
+                        throw new Exception(response.msg);
                     }
 
                 }
                 else
                 {
-                    return NotFound();                              
+                    return NotFound();
                 }
             }
             catch (Exception ex)
@@ -453,6 +453,38 @@ namespace WebApi.Modules.Home.Quote
             }
         }
         //------------------------------------------------------------------------------------                
+
+        // POST api/v1/quote/changeofficelocation/A0000001
+        [HttpPost("changeofficelocation/{id}")]
+        [FwControllerMethod(Id: "eu2FcQiK9adgk")]
+        public async Task<ActionResult<ChangeOrderOfficeLocationResponse>> ChangeOfficeLocation([FromRoute]string id, [FromBody] ChangeOrderOfficeLocationRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                string[] ids = id.Split('~');
+                QuoteLogic Quote = new QuoteLogic();
+                Quote.SetDependencies(AppConfig, UserSession);
+                if (await Quote.LoadAsync<QuoteLogic>(ids))
+                {
+                    ChangeOrderOfficeLocationResponse response = await Quote.ChangeOfficeLocationASync(request);
+                    return new OkObjectResult(response);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------       
+
         // GET api/v1/quote
         [HttpGet]
         [FwControllerMethod(Id: "pGYcsCb0FxCEC")]

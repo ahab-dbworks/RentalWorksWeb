@@ -113,7 +113,8 @@
                         OnHold: { id: '{00AB18C2-221A-46F9-86DC-A7145D13A0D8}' },
                         OrderStatus: { id: '{CF245A59-3336-42BC-8CCB-B88807A9D4EA}' },
                         CheckOut: { id: '{771DCE59-EB57-48B2-B189-177B414A4ED3}' },
-                        CheckIn: { id: '{380318B6-7E4D-446D-A018-1EB7720F4338}' }
+                        CheckIn: { id: '{380318B6-7E4D-446D-A018-1EB7720F4338}' },
+                        ChangeOfficeLocation: { id: '{31C62070-9045-478D-A0DC-D3B62B61E108}' },
                     }
                 }
             },
@@ -177,7 +178,8 @@
                         NewVersion: { id: '{F79F8C21-66DF-4458-BBEB-E19B2BFCAEAA}' },
                         MakeQuoteActive: { id: '{32BF5F46-987A-4D61-9E85-6A7954897077}' },
                         Reserve: { id: '{C122C2C5-9D68-4CDF-86C9-E37CB70C57A0}' },
-                        CancelUncancel: { id: '{BF633873-8A40-4BD6-8ED8-3EAC27059C84}' }
+                        CancelUncancel: { id: '{BF633873-8A40-4BD6-8ED8-3EAC27059C84}' },
+                        ChangeOfficeLocation: { id: '{FDFED8DE-151C-4C03-B509-5AE4B19A2588}' },
                     }
                 }
             },
