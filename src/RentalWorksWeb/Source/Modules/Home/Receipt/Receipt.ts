@@ -89,6 +89,10 @@ class Receipt {
         let $form: any = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
         $form.find(`.credit-amounts`).hide();
+        // Hidden fields used for Overpayment and Depleting Deposit actions in NEW Records ( this.createDepletingDeposit, etc. )
+        FwFormField.setValueByDataField($form, 'CreateOverpayment', false);
+        FwFormField.setValueByDataField($form, 'CreateDepletingDeposit', false);
+
         if (mode === 'NEW') {
             const location = JSON.parse(sessionStorage.getItem('location'));
             FwFormField.setValueByDataField($form, 'LocationId', location.locationid, location.location);
@@ -191,20 +195,19 @@ class Receipt {
         if ($form.attr('data-mode') === 'NEW') {
             const app = document.getElementById('application');
             const config = { attributes: true, childList: true, subtree: true };
-            const listenForOverpayment = () => {
+            const listener = () => {
                 const message = jQuery(app).find('.advisory .fwconfirmationbox .body .message').text();
-                //if (message.startsWith("Amount to Apply does not match Invoice")) {
                 if (message.startsWith("Amount to Apply exceeds the Invoice Amounts provided")) {
+                    observer.disconnect();
                     this.createOverPayment($form);
-                    observer.disconnect(); // perhaps have a condition here to make sure user did something with the workflow
                 }
                 else if (message.startsWith("No Invoice Amounts have been provided")) {
-                    //this.createDepletingDeposit($form);
-                    observer.disconnect(); // perhaps have a condition here to make sure user did something with the workflow
+                    observer.disconnect(); 
+                    this.createDepletingDeposit($form);
                 }
             }
             // Create an observer instance linked to the callback function
-            const observer = new MutationObserver(listenForOverpayment);
+            const observer = new MutationObserver(listener);
             // Start observing the target node for configured mutations
             observer.observe(app, config);
         }
@@ -295,26 +298,52 @@ class Receipt {
     //----------------------------------------------------------------------------------------------
     createOverPayment($form) {
         jQuery('#application').find('.advisory .fwconfirmationbox .fwconfirmation-button').click();
-        const amountToApply = FwFormField.getValueByDataField($form, 'PaymentAmount').replace(/,/g, '');
-        const unappliedTotalTrimmed = $form.find(`div[data-totalfield="UnappliedInvoiceTotal"] input`).val().replace(/[$ ,]+/g, "").trim();
-        const unappliedTotal = $form.find(`div[data-totalfield="UnappliedInvoiceTotal"] input`).val()
 
+        const unappliedTotal = $form.find(`div[data-totalfield="UnappliedInvoiceTotal"] input`).val()
         const $confirmation = FwConfirmation.renderConfirmation(`Overpayment of ${unappliedTotal}`, '');
         $confirmation.find('.fwconfirmationbox').css('width', '490px');
-        const html: Array<string> = [];
 
+        const html: Array<string> = [];
         html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
         html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-        html.push(`    <div>Do you wish to save this Receipt with ${unappliedTotal} Overpayment?</div>`);
+        html.push(`    <div>Save this Receipt with ${unappliedTotal} Overpayment?</div>`);
         html.push('  </div>');
         html.push('</div>');
 
         FwConfirmation.addControls($confirmation, html.join(''));
         const $yes = FwConfirmation.addButton($confirmation, 'Save', false);
         const $no = FwConfirmation.addButton($confirmation, 'Cancel');
-
+        $yes.focus();
         $yes.on('click', () => {
+            FwConfirmation.destroyConfirmation($confirmation);
             // add datafield with flag for server
+            FwFormField.setValueByDataField($form, 'CreateOverpayment', true);
+            // automate save
+            $form.find('.btn[data-type="SaveMenuBarButton"]').click();
+        });
+    }
+    //----------------------------------------------------------------------------------------------
+    createDepletingDeposit($form) {
+        jQuery('#application').find('.advisory .fwconfirmationbox .fwconfirmation-button').click();
+
+        const unappliedTotal = $form.find(`div[data-totalfield="UnappliedInvoiceTotal"] input`).val()
+        const $confirmation = FwConfirmation.renderConfirmation(`Depleting Deposit of ${unappliedTotal}`, '');
+        $confirmation.find('.fwconfirmationbox').css('width', '490px');
+
+        const html: Array<string> = [];
+        html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+        html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+        html.push(`    <div>Save this Receipt with ${unappliedTotal} Depleting Deposit?</div>`);
+        html.push('  </div>');
+        html.push('</div>');
+        FwConfirmation.addControls($confirmation, html.join(''));
+        const $yes = FwConfirmation.addButton($confirmation, 'Save', false);
+        const $no = FwConfirmation.addButton($confirmation, 'Cancel');
+        $yes.focus();
+        $yes.on('click', () => {
+            FwConfirmation.destroyConfirmation($confirmation);
+            // add datafield with flag for server
+            FwFormField.setValueByDataField($form, 'CreateDepletingDeposit', true);
             // automate save
             $form.find('.btn[data-type="SaveMenuBarButton"]').click();
         });
