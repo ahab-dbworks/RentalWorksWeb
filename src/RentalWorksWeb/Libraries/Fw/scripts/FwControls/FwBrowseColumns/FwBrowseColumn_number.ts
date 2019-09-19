@@ -6,12 +6,7 @@
     //---------------------------------------------------------------------------------
     getFieldValue($browse, $tr, $field, field, originalvalue) {
         if (($tr.hasClass('editmode')) || ($tr.hasClass('newmode'))) {
-            var $value = $field.find('input.value');
-            if ($value.length > 0) {
-                field.value = $field.find('input.value').val();
-            } else {
-                field.value = originalvalue;
-            }
+            field.value = $field.find('input.value').val();
         }
     }
     //---------------------------------------------------------------------------------
