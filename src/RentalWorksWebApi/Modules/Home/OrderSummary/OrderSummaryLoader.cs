@@ -307,7 +307,7 @@ namespace WebApi.Modules.Home.OrderSummary
         [FwSqlDataField(column: "caseweightgr", modeltype: FwDataTypes.Integer)]
         public int? WeightInCaseGrams { get; set; }
         //------------------------------------------------------------------------------------
-        public override async Task<dynamic> GetAsync<T>(FwCustomFields customFields = null)
+        public override async Task<dynamic> GetAsync<T>(FwCustomFields customFields = null, FwSqlConnection conn = null)
         {
             if (string.IsNullOrEmpty(OrderId))
             {
@@ -319,22 +319,23 @@ namespace WebApi.Modules.Home.OrderSummary
                 {
                     TotalType = RwConstants.TOTAL_TYPE_PERIOD;
                 }
-                using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
+                if (conn == null)
                 {
-                    using (FwSqlCommand qry = new FwSqlCommand(conn, this.AppConfig.DatabaseSettings.QueryTimeout))
+                    conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString);
+                }
+                using (FwSqlCommand qry = new FwSqlCommand(conn, this.AppConfig.DatabaseSettings.QueryTimeout))
+                {
+                    qry.Clear();
+                    qry.Add("exec getordersummaryasresultset @orderid = @orderid, @totaltype = @totaltype");
+                    qry.AddParameter("@orderid", OrderId);
+                    qry.AddParameter("@totaltype", TotalType);
+                    dynamic records = await qry.SelectAsync<OrderSummaryLoader>(/*true, */customFields);
+                    dynamic record = null;
+                    if (records.Count > 0)
                     {
-                        qry.Clear();
-                        qry.Add("exec getordersummaryasresultset @orderid = @orderid, @totaltype = @totaltype");
-                        qry.AddParameter("@orderid", OrderId);
-                        qry.AddParameter("@totaltype", TotalType);
-                        dynamic records = await qry.SelectAsync<OrderSummaryLoader>(/*true, */customFields);
-                        dynamic record = null;
-                        if (records.Count > 0)
-                        {
-                            record = records[0];
-                        }
-                        return record;
+                        record = records[0];
                     }
+                    return record;
                 }
             }
         }

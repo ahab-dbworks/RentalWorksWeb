@@ -1402,7 +1402,7 @@ namespace FwStandard.Data
 
         }
         //------------------------------------------------------------------------------------
-        public virtual async Task<dynamic> GetAsync<T>(object[] primaryKeyValues, FwCustomFields customFields = null)
+        public virtual async Task<dynamic> GetAsync<T>(object[] primaryKeyValues, FwCustomFields customFields = null, FwSqlConnection conn = null)
         {
             List<PropertyInfo> primaryKeyProperties = GetPrimaryKeyProperties();
             for (int i = 0; i < primaryKeyProperties.Count; i++)
@@ -1423,68 +1423,69 @@ namespace FwStandard.Data
                     throw new Exception("Primary key property type not implemented for " + propertyType.ToString() + ". [FwBusinessLogic.SetPrimaryKeys]");
                 }
             }
-            return await GetAsync<T>(customFields);
+            return await GetAsync<T>(customFields, conn);
         }
         //------------------------------------------------------------------------------------
-        public virtual async Task<dynamic> GetAsync<T>(FwCustomFields customFields = null)
+        public virtual async Task<dynamic> GetAsync<T>(FwCustomFields customFields = null, FwSqlConnection conn = null)
         {
             if (PrimaryKeyCount > 0)
             {
                 if (AllPrimaryKeysHaveValues)
                 {
-                    using (FwSqlConnection conn = GetDatabaseConnection())
+                    if (conn == null)
                     {
-                        FwSqlSelect select = new FwSqlSelect();
-                        using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout))
+                        conn = GetDatabaseConnection();
+                    }
+                    FwSqlSelect select = new FwSqlSelect();
+                    using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout))
+                    {
+                        SetBaseSelectQuery(select, qry, customFields);
+                        select.SetQuery(qry);
+
+                        List<PropertyInfo> primaryKeyProperties = GetPrimaryKeyProperties();
+                        int k = 0;
+                        foreach (PropertyInfo primaryKeyProperty in primaryKeyProperties)
                         {
-                            SetBaseSelectQuery(select, qry, customFields);
-                            select.SetQuery(qry);
-
-                            List<PropertyInfo> primaryKeyProperties = GetPrimaryKeyProperties();
-                            int k = 0;
-                            foreach (PropertyInfo primaryKeyProperty in primaryKeyProperties)
+                            //if (k == 0)
+                            if ((k == 0) && (select.SelectStatements[0].Where.Count == 0))
                             {
-                                //if (k == 0)
-                                if ((k == 0) && (select.SelectStatements[0].Where.Count == 0))
-                                {
-                                    qry.Add("where ");
-                                }
-                                else
-                                {
-                                    qry.Add("and ");
-                                }
-                                FwSqlDataFieldAttribute sqlDataFieldAttribute = primaryKeyProperty.GetCustomAttribute<FwSqlDataFieldAttribute>();
-                                string sqlColumnName = primaryKeyProperty.Name;
-                                if (!string.IsNullOrEmpty(sqlDataFieldAttribute.ColumnName))
-                                {
-                                    sqlColumnName = sqlDataFieldAttribute.ColumnName;
-                                }
-                                qry.Add(sqlColumnName);
-                                qry.Add(" = @keyvalue" + k.ToString());
-                                k++;
+                                qry.Add("where ");
                             }
-                            k = 0;
-                            foreach (PropertyInfo primaryKeyProperty in primaryKeyProperties)
+                            else
                             {
-                                qry.AddParameter("@keyvalue" + k.ToString(), primaryKeyProperty.GetValue(this));
-                                k++;
+                                qry.Add("and ");
                             }
-                            MethodInfo method = typeof(FwSqlCommand).GetMethod("SelectAsync");
-                            MethodInfo generic = method.MakeGenericMethod(this.GetType());
-                            dynamic result = generic.Invoke(qry, new object[] { customFields });
-                            dynamic records = await result;
-                            dynamic record = null;
-                            if (records.Count > 0)
+                            FwSqlDataFieldAttribute sqlDataFieldAttribute = primaryKeyProperty.GetCustomAttribute<FwSqlDataFieldAttribute>();
+                            string sqlColumnName = primaryKeyProperty.Name;
+                            if (!string.IsNullOrEmpty(sqlDataFieldAttribute.ColumnName))
                             {
-                                record = records[0];
+                                sqlColumnName = sqlDataFieldAttribute.ColumnName;
                             }
-
-                            AfterLoadEventArgs afterLoadArgs = new AfterLoadEventArgs();
-                            afterLoadArgs.Record = record;
-                            AfterLoad?.Invoke(this, afterLoadArgs);
-
-                            return record;
+                            qry.Add(sqlColumnName);
+                            qry.Add(" = @keyvalue" + k.ToString());
+                            k++;
                         }
+                        k = 0;
+                        foreach (PropertyInfo primaryKeyProperty in primaryKeyProperties)
+                        {
+                            qry.AddParameter("@keyvalue" + k.ToString(), primaryKeyProperty.GetValue(this));
+                            k++;
+                        }
+                        MethodInfo method = typeof(FwSqlCommand).GetMethod("SelectAsync");
+                        MethodInfo generic = method.MakeGenericMethod(this.GetType());
+                        dynamic result = generic.Invoke(qry, new object[] { customFields });
+                        dynamic records = await result;
+                        dynamic record = null;
+                        if (records.Count > 0)
+                        {
+                            record = records[0];
+                        }
+
+                        AfterLoadEventArgs afterLoadArgs = new AfterLoadEventArgs();
+                        afterLoadArgs.Record = record;
+                        AfterLoad?.Invoke(this, afterLoadArgs);
+
+                        return record;
                     }
                 }
                 else

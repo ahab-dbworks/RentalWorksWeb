@@ -462,7 +462,7 @@ namespace FwStandard.BusinessLogic
             return response;
         }
         //------------------------------------------------------------------------------------
-        public virtual async Task<bool> LoadAsync<T>(object[] primaryKeyValues)
+        public virtual async Task<bool> LoadAsync<T>(object[] primaryKeyValues, FwSqlConnection conn = null)
         {
             bool blLoaded = false;
             bool recLoaded = false;
@@ -476,7 +476,7 @@ namespace FwStandard.BusinessLogic
                 for (int i = 0; i < dataRecords.Count; i++)
                 {
                     FwDataReadWriteRecord rec = dataRecords[i];
-                    rec = await rec.GetAsync<T>(primaryKeyValues, _Custom.CustomFields);
+                    rec = await rec.GetAsync<T>(primaryKeyValues, _Custom.CustomFields, conn);
                     dataRecords[i] = rec;
                     Mapper.Map(rec, this, opts =>
                     {
@@ -500,7 +500,7 @@ namespace FwStandard.BusinessLogic
             }
             else
             {
-                dataLoader = await dataLoader.GetAsync<T>(primaryKeyValues, _Custom.CustomFields);
+                dataLoader = await dataLoader.GetAsync<T>(primaryKeyValues, _Custom.CustomFields, conn);
 
                 blLoaded = (dataLoader != null);
                 Mapper.Map(dataLoader, this, opts =>
@@ -519,9 +519,9 @@ namespace FwStandard.BusinessLogic
             return blLoaded;
         }
         //------------------------------------------------------------------------------------
-        public virtual async Task<bool> LoadAsync<T>()
+        public virtual async Task<bool> LoadAsync<T>(FwSqlConnection conn = null)
         {
-            return await LoadAsync<T>(GetPrimaryKeys());
+            return await LoadAsync<T>(GetPrimaryKeys(), conn);
         }
         //------------------------------------------------------------------------------------
         protected virtual List<PropertyInfo> GetPrimaryKeyProperties()
