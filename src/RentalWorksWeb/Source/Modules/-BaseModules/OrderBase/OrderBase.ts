@@ -2545,19 +2545,21 @@ class OrderBase {
         });
 
         $form.data('beforesave', request => {
-            const activityDatesAndTimes = [];
-            const $rows = $form.find('.date-row');
-            for (let i = 0; i < $rows.length; i++) {
-                const $row = jQuery($rows[i]);
-                activityDatesAndTimes.push({
-                    OrderTypeDateTypeId: FwFormField.getValue2($row.find('[data-datafield="OrderTypeDateTypeId"]'))
-                    , Date: FwFormField.getValue2($row.find('[data-datafield="Date"]'))
-                    , Time: FwFormField.getValue2($row.find('[data-datafield="Time"]'))
-                    , IsProductionActivity: FwFormField.getValue2($row.find('[data-datafield="IsProductionActivity"]'))
-                    , IsMilestone: FwFormField.getValue2($row.find('[data-datafield="IsMilestone"]'))
-                });
+            if ($form.find('.activity-dates:visible').length > 0) {
+                const activityDatesAndTimes = [];
+                const $rows = $form.find('.date-row');
+                for (let i = 0; i < $rows.length; i++) {
+                    const $row = jQuery($rows[i]);
+                    activityDatesAndTimes.push({
+                        OrderTypeDateTypeId: FwFormField.getValue2($row.find('[data-datafield="OrderTypeDateTypeId"]'))
+                        , Date: FwFormField.getValue2($row.find('[data-datafield="Date"]'))
+                        , Time: FwFormField.getValue2($row.find('[data-datafield="Time"]'))
+                        , IsProductionActivity: FwFormField.getValue2($row.find('[data-datafield="IsProductionActivity"]'))
+                        , IsMilestone: FwFormField.getValue2($row.find('[data-datafield="IsMilestone"]'))
+                    });
+                }
+                request['ActivityDatesAndTimes'] = activityDatesAndTimes;
             }
-            request['ActivityDatesAndTimes'] = activityDatesAndTimes;
         });
 
         //stops field event bubbling
