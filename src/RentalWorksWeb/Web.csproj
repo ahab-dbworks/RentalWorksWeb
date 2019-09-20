@@ -179,6 +179,7 @@
     <Content Include="packages.config" />
     <TypeScriptCompile Include="scripts\RwMaster.ts" />
     <Content Include="Source\Grids\AvailabilityHistoryGrid\AvailabilityHistoryGridBrowse.htm" />
+    <Content Include="Source\Grids\AlternativeDescriptionGrid\AlternativeDescriptionGridBrowse.htm" />
     <Content Include="Source\Grids\ManualGlTransactionsGrid\ManualGlTransactionsGridBrowse.htm" />
     <Content Include="Source\Grids\PurchaseVendorGrid\PurchaseVendorGridBrowse.htm" />
     <Content Include="Source\Grids\PhysicalInventoryCycleInventoryGrid\PhysicalInventoryCycleInventoryGridBrowse.htm" />
@@ -333,6 +334,7 @@
     <Content Include="Source\Grids\RateLocationTaxGrid\RateLocationTaxGridBrowse.htm" />
     <Content Include="Source\Grids\SubCategoryGrid\SubCategoryGridBrowse.htm" />
     <TypeScriptCompile Include="Source\Grids\AvailabilityHistoryGrid\AvailabilityHistoryGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\AlternativeDescriptionGrid\AlternativeDescriptionGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\ManualGlTransactionsGrid\ManualGlTransactionsGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\PurchaseVendorGrid\PurchaseVendorGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\PhysicalInventoryCycleInventoryGrid\PhysicalInventoryCycleInventoryGridController.ts" />
