@@ -329,8 +329,7 @@ export class Project extends HomeModule {
                     Project: `${TestUtils.randomJobTitle().substring(0, 25)} GlobalScope.TestToken~1.TestToken`,
                     //Deal: dealInputs.Deal,
                     DealId: 1,
-                    ProjectDescription: TestUtils.randomAlphanumeric(30),  // this does not work
-
+                    ProjectDescription: TestUtils.randomAlphanumeric(30)
                 },
                 seekObject: {
                     Project: "GlobalScope.TestToken~1.TestToken",
@@ -371,7 +370,7 @@ export class RentalInventory extends HomeModule {
                     UnitId: 1,
                     ManufacturerPartNumber: TestUtils.randomAlphanumeric(8),
                     Rank: 3,
-                    //TrackedBy: "QUANTITY"   // this does not work
+                    TrackedBy: "QUANTITY"
                 },
                 seekObject: {
                     Description: "GlobalScope.TestToken~1.TestToken",

@@ -124,7 +124,7 @@ export class MediumRegressionTest extends BaseTest {
                                             .then(openRecordResponse => {
                                                 for (let key in rec.recordToExpect) {
                                                     let expectingValue = rec.recordToExpect[key];
-                                                    let foundValue = openRecordResponse.record[key];
+                                                    let foundValue = openRecordResponse.record[key].toUpperCase();
 
                                                     if (expectingValue.toString().toUpperCase().includes("GLOBALSCOPE.")) {
                                                         expectingValue = TestUtils.getGlobalScopeValue(expectingValue, this.globalScopeRef);

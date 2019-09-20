@@ -556,12 +556,24 @@ export class ModuleBase {
                 case 'email':
                 case 'zipcode':
                 case 'text':
-                case 'textarea':
                     currentValue = await this.getDataFieldValue(fieldToPopulate);
                     if (currentValue != "") {
                         await this.clearInputField(fieldToPopulate);
                     }
                     await this.populateTextField(fieldToPopulate, valueToPopulate);
+                    break;
+                case 'textarea':
+                    currentValue = await this.getDataFieldValue(fieldToPopulate);
+                    if (currentValue != "") {
+                        await this.clearInputField(fieldToPopulate);
+                    }
+                    await this.populateTextAreaField(fieldToPopulate, valueToPopulate);
+                    break;
+                case 'checkbox':
+                    await this.populateCheckboxField(fieldToPopulate, valueToPopulate);
+                    break;
+                case 'radio':
+                    await this.populateRadioGroupField(fieldToPopulate, valueToPopulate);
                     break;
                 case 'validation':
                     const validationname = await page.$eval(`.fwformfield[data-datafield="${fieldToPopulate}"]`, el => el.getAttribute('data-validationname'));
@@ -660,6 +672,30 @@ export class ModuleBase {
             await elementHandle.click();
             await page.keyboard.sendCharacter(value);
         }
+    }
+    //---------------------------------------------------------------------------------------
+    async populateTextAreaField(dataField: string, value: string): Promise<void> {
+        if (value === '') {
+            await this.clearInputField(dataField);
+        }
+        else {
+            const elementHandle = await page.$(`.fwformfield[data-datafield="${dataField}"] textarea`);
+            await elementHandle.click();
+            await page.keyboard.sendCharacter(value);
+        }
+    }
+    //---------------------------------------------------------------------------------------
+    async populateCheckboxField(dataField: string, value: string): Promise<void> {
+        const elementHandle = await page.$(`.fwformfield[data-datafield="${dataField}"] input`);
+        const isChecked = await (await elementHandle.getProperty('checked')).jsonValue();
+        if (isChecked != value) {
+            await elementHandle.click();
+        }
+    }
+    //---------------------------------------------------------------------------------------
+    async populateRadioGroupField(dataField: string, value: string): Promise<void> {
+        const elementHandle = await page.$(`.fwformfield[data-datafield="${dataField}"] div[data-value="${value}"] input`);
+        await elementHandle.click();
     }
     //---------------------------------------------------------------------------------------
     async populateValidationTextField(dataField: string, value: string): Promise<void> {
