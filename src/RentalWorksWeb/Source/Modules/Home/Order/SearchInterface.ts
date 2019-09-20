@@ -1144,14 +1144,37 @@ class SearchInterface {
                             if (caption === 'PurchaseOrder') caption = 'Purchase Order';
                             const $newForm = (<any>window)[newRecordInfo.Controller].loadForm(uniqueIds);
                             FwModule.openModuleTab($newForm, caption, true, 'FORM', true);
-                        }
-                        else { //reloads grids on active tab
-                        $form.find('.tabGridsLoaded[data-type="tab"]').removeClass('tabGridsLoaded');
-                        const $activeGrid = $form.find('.active[data-type="tabpage"] [data-type="Grid"]');
-                        for (let i = 0; i < $activeGrid.length; i++) {
-                            const $gridcontrol = jQuery($activeGrid[i]);
-                            FwBrowse.search($gridcontrol);
+                        } else { //reloads grids on active tab
+                            $form.find('.tabGridsLoaded[data-type="tab"]').removeClass('tabGridsLoaded');
+                            const $activeGrid = $form.find('.active[data-type="tabpage"] [data-type="Grid"]');
+                            for (let i = 0; i < $activeGrid.length; i++) {
+                                const $gridcontrol = jQuery($activeGrid[i]);
+                                FwBrowse.search($gridcontrol);
                             }
+                        }
+
+                        if (type === 'Order' || type === 'Quote') {
+                            let url = `api/v1/${type}/${id}`
+                        FwAppData.apiMethod(true, 'GET', url, request, FwServices.defaultTimeout,
+                            response => {
+                                if (response.HasLaborItem) {
+                                    FwFormField.setValueByDataField($form, 'Labor', true, null, true);
+                                    FwTabs.setTabColor($form.find('.labortab'), '#FFFF8d');
+                                }
+                                if (response.HasMiscellaneousItem) {
+                                    FwFormField.setValueByDataField($form, 'Miscellaneous', true, null, true);
+                                    FwTabs.setTabColor($form.find('.misctab'), '#FFFF8d');
+                                }
+                                if (response.HasRentalItem) {
+                                    FwFormField.setValueByDataField($form, 'Rental', true, null, true);
+                                    FwTabs.setTabColor($form.find('.rentaltab'), '#FFFF8d');
+                                }
+                                if (response.HasSalesItem) {
+                                    FwFormField.setValueByDataField($form, 'Sales', true, null, true);
+                                    FwTabs.setTabColor($form.find('.salestab'), '#FFFF8d');
+                                }
+                            }
+                            , ex => FwFunc.showError(ex), $form);
                         }
 
                     }, ex => FwFunc.showError(ex), $searchpopup, (request.InventoryId ? null : id));
