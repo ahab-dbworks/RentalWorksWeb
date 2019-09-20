@@ -4,6 +4,7 @@
   <div id="partsinventoryform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs">
       <div data-type="tab" id="partsitemtab" class="tab" data-tabpageid="partsitemtabpage" data-caption="Parts Inventory"></div>
+      <div data-type="tab" id="akatab" class="tab" data-tabpageid="akatabpage" data-caption="AKA"></div>
       <div data-type="tab" id="availabilitycalendartab" class="tab" data-tabpageid="availabilitycalendartabpage" data-caption="Availability Calendar"></div>
       <div data-type="tab" id="kittab" class="kittab tab" data-tabpageid="kittabpage" data-caption="Kit" style="display:none;"></div>
       <div data-type="tab" id="completetab" class="completetab tab" data-tabpageid="completetabpage" data-caption="Complete" style="display:none;"></div>
@@ -118,7 +119,12 @@
       <div data-type="tabpage" id="transfertabpage" class="tabpage transfer-submodule submodule" data-tabid="transfertab"></div>
       <!-- SUB PURCHASEORDER SUBMODULE-->
       <div data-type="tabpage" id="subpurchaseordertabpage" class="tabpage subpurchaseorder-submodule submodule" data-tabid="subpurchaseordertab"></div>
-
+      <!-- AKA tab -->
+      <div data-type="tabpage" id="akatabpage" class="tabpage" data-tabid="akatab">
+        <div class="flexrow">
+          <div data-control="FwGrid" data-grid="AlternativeDescriptionGrid" data-securitycaption="Alternative Description"></div>
+        </div>
+      </div>
       <!-- Availability Calendar tab -->
       <div data-type="tabpage" id="availabilitycalendartabpage" class="tabpage" data-tabid="availabilitycalendartab">
         <div class="formpage" style="width:auto;">

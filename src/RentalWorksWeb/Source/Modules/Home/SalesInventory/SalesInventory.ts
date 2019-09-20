@@ -318,6 +318,20 @@ class SalesInventory extends InventoryBase {
         FwBrowse.init($purchaseVendorGridControl);
         FwBrowse.renderRuntimeHtml($purchaseVendorGridControl);
         // ----------
+        const $akaGrid = $form.find('div[data-grid="AlternativeDescriptionGrid"]');
+        const $akaGridControl = FwBrowse.loadGridFromTemplate('AlternativeDescriptionGrid');
+        $akaGrid.empty().append($akaGridControl);
+        $akaGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                InventoryId: FwFormField.getValueByDataField($form, 'InventoryId')
+            };
+        });
+        $akaGridControl.data('beforesave', function (request) {
+            request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId')
+                , request.IsPrimary = false
+        });
+        FwBrowse.init($akaGridControl);
+        FwBrowse.renderRuntimeHtml($akaGridControl);
     };
 
     //----------------------------------------------------------------------------------------------
