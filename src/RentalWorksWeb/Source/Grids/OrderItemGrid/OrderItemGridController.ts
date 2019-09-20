@@ -329,9 +329,14 @@
                             }
                         }
                     }
-
                     let rateDisplay = Number(rate.toFixed(2)).toLocaleString();
-                    rateDisplay = rateDisplay.indexOf('.') == -1 ? `${rateDisplay}.00` : rateDisplay;
+                    const rateLength = rateDisplay.length;
+                    const decimalIndex = rateDisplay.indexOf('.');
+                    if (rateLength - decimalIndex > rateLength) {
+                        rateDisplay = `${rateDisplay}.00`;
+                    } else if (rateLength - decimalIndex == 2) {
+                        rateDisplay = `${rateDisplay}0`;
+                    }
                     const $confirmation = FwConfirmation.renderConfirmation(`Update Rate`, `Update Rate to ${rateDisplay}?`);
                     const $yes = FwConfirmation.addButton($confirmation, 'Yes', false);
                     const $no = FwConfirmation.addButton($confirmation, 'No', false);
