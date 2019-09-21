@@ -329,7 +329,7 @@ export class Project extends HomeModule {
                     Project: `${TestUtils.randomJobTitle().substring(0, 25)} GlobalScope.TestToken~1.TestToken`,
                     //Deal: dealInputs.Deal,
                     DealId: 1,
-                    ProjectDescription: TestUtils.randomAlphanumeric(30)
+                    ProjectDescription: TestUtils.randomLoremWords(10),
                 },
                 seekObject: {
                     Project: "GlobalScope.TestToken~1.TestToken",
@@ -342,7 +342,7 @@ export class Project extends HomeModule {
             //Deal: this.newRecordsToCreate[0].record.Deal.toUpperCase(),
             Project: this.newRecordsToCreate[0].record.Project.toUpperCase(),
             ProjectNumber: "|NOTEMPTY|",
-            ProjectDescription: this.newRecordsToCreate[0].record.ProjectDescription.toUpperCase()
+            ProjectDescription: this.newRecordsToCreate[0].record.ProjectDescription,
         }
 
     }
@@ -365,12 +365,13 @@ export class RentalInventory extends HomeModule {
                 record: {
                     ICode: TestUtils.randomAlphanumeric(7),
                     Description: `${TestUtils.randomProductName()} GlobalScope.TestToken~1.TestToken`,
-                    InventoryTypeId: 2,
+                    InventoryTypeId: 1,
                     CategoryId: 1,
                     UnitId: 1,
                     ManufacturerPartNumber: TestUtils.randomAlphanumeric(8),
-                    Rank: 3,
-                    TrackedBy: "QUANTITY"
+                    Rank: 1,
+                    TrackedBy: "QUANTITY",
+                    IsFixedAsset: true
                 },
                 seekObject: {
                     Description: "GlobalScope.TestToken~1.TestToken",
@@ -381,6 +382,8 @@ export class RentalInventory extends HomeModule {
             ICode: this.newRecordsToCreate[0].record.ICode.toUpperCase().substr(0, 5) + '-' + this.newRecordsToCreate[0].record.ICode.toUpperCase().substr(5),
             Description: this.newRecordsToCreate[0].record.Description.toUpperCase(),
             ManufacturerPartNumber: this.newRecordsToCreate[0].record.ManufacturerPartNumber.toUpperCase(),
+            TrackedBy: this.newRecordsToCreate[0].record.TrackedBy.toUpperCase(),
+            IsFixedAsset: this.newRecordsToCreate[0].record.IsFixedAsset,
         }
     }
     //---------------------------------------------------------------------------------------
@@ -402,11 +405,11 @@ export class SalesInventory extends HomeModule {
                 record: {
                     ICode: TestUtils.randomAlphanumeric(7),
                     Description: `${TestUtils.randomProductName()} GlobalScope.TestToken~1.TestToken`,
-                    InventoryTypeId: 2,
+                    InventoryTypeId: 1,
                     CategoryId: 1,
                     UnitId: 1,
                     ManufacturerPartNumber: TestUtils.randomAlphanumeric(8),
-                    Rank: 3,
+                    Rank: 1,
                 },
                 seekObject: {
                     Description: "GlobalScope.TestToken~1.TestToken",
@@ -414,7 +417,7 @@ export class SalesInventory extends HomeModule {
             }
         ];
         this.newRecordsToCreate[0].recordToExpect = {
-            ICode: this.newRecordsToCreate[0].record.ICode.toUpperCase().substr(0, 5) + '-' + this.newRecordsToCreate[0].record.ICode.toUpperCase().substr(5),
+            ICode: this.newRecordsToCreate[0].record.ICode.toUpperCase(),
             Description: this.newRecordsToCreate[0].record.Description.toUpperCase(),
             ManufacturerPartNumber: this.newRecordsToCreate[0].record.ManufacturerPartNumber.toUpperCase(),
         }
@@ -439,11 +442,11 @@ export class PartsInventory extends HomeModule {
                 record: {
                     ICode: TestUtils.randomAlphanumeric(7),
                     Description: `${TestUtils.randomProductName()} GlobalScope.TestToken~1.TestToken`,
-                    InventoryTypeId: 2,
+                    InventoryTypeId: 1,
                     CategoryId: 1,
                     UnitId: 1,
                     ManufacturerPartNumber: TestUtils.randomAlphanumeric(8),
-                    Rank: 3,
+                    Rank: 1,
                 },
                 seekObject: {
                     Description: "GlobalScope.TestToken~1.TestToken",
@@ -451,7 +454,7 @@ export class PartsInventory extends HomeModule {
             }
         ];
         this.newRecordsToCreate[0].recordToExpect = {
-            ICode: this.newRecordsToCreate[0].record.ICode.toUpperCase().substr(0, 5) + '-' + this.newRecordsToCreate[0].record.ICode.toUpperCase().substr(5),
+            ICode: this.newRecordsToCreate[0].record.ICode.toUpperCase(),
             Description: this.newRecordsToCreate[0].record.Description.toUpperCase(),
             ManufacturerPartNumber: this.newRecordsToCreate[0].record.ManufacturerPartNumber.toUpperCase(),
         }
@@ -575,8 +578,8 @@ export class TransferOrder extends HomeModule {
             {
                 record: {
                     Description: `${TestUtils.randomProductName()} GlobalScope.TestToken~1.TestToken`,
-                    FromWarehouseCode: "GlobalScope.User~ME.WarehouseCode",
-                    ToWarehouseId: 2
+                    FromWarehouseCode: "GlobalScope.Warehouse~ME.WarehouseCode",
+                    ToWarehouseId: 2,
                 },
                 seekObject: {
                     Description: "GlobalScope.TestToken~1.TestToken",

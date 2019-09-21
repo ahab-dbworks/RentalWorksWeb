@@ -627,6 +627,22 @@ export class ModuleBase {
                         value = await this.getDataFieldValue(dataField);
                         record[dataField] = value;
                         break;
+                    case 'checkbox':
+                        value = false;
+                        const elementHandle = await page.$(`div[data-datafield="${dataField}"] input:checked`);
+                        if (elementHandle != null)
+                        {
+                            value = true;
+                        }
+                        record[dataField] = value;
+                        break;
+                    case 'radio':
+                        let selector = `div[data-datafield="${dataField}"] input:checked`;
+                        value = await page.$eval(selector, (e: any) => {
+                            return e.value
+                        });
+                        record[dataField] = value;
+                        break;
                     case 'validation':
                         value = await this.getDataFieldText(dataField);
                         const displayFieldName = await page.$eval(`.fwformfield[data-datafield="${dataField}"]`, el => el.getAttribute('data-displayfield'));

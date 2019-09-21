@@ -265,4 +265,12 @@ export class TestUtils {
         return faker.commerce.productName();
     }
     //-----------------------------------------------------------------------------------------------------------------
+    static randomLoremSentences(sentenceCount?: number): string {
+        return faker.lorem.sentences(sentenceCount);
+    }
+    //-----------------------------------------------------------------------------------------------------------------
+    static randomLoremWords(wordCount?: number): string {
+        return faker.lorem.words(wordCount)
+    }
+    //-----------------------------------------------------------------------------------------------------------------
 }

@@ -100,7 +100,19 @@ export class SettingsModule extends ModuleBase {
                     styleAttributeValue = "";
                 }
                 if (!styleAttributeValue.replace(' ', '').includes("display:none")) {  // only count the record if it is displayed
-                    recordCount++;
+
+
+                    let childSelector = `.panel-info .row-heading:not(.inactive-panel)`;
+                    const childDiv = await record.$(childSelector);
+
+                    let childStyleAttributeValue: string = await page.evaluate(el => el.getAttribute('style'), childDiv);
+                    if ((childStyleAttributeValue === undefined) || (childStyleAttributeValue == null)) {
+                        childStyleAttributeValue = "";
+                    }
+                    if (!childStyleAttributeValue.replace(' ', '').includes("display:none")) {
+
+                        recordCount++;
+                    }
                 }
             }
         }
@@ -164,8 +176,8 @@ export class SettingsModule extends ModuleBase {
         let moduleLegendBarSelector = `.panel-group[id="${this.moduleName}"] .legend`;
         await page.waitForSelector(moduleLegendBarSelector, { timeout: 1000 });
 
-        //let recordSelector = `.panel-group[id="${this.moduleName}"] .panel-primary .panel-collapse .panel-body .panel-record:not(.inactive-panel)`;
-        let recordSelector = `.panel-group[id="${this.moduleName}"] .panel-primary .panel-collapse .panel-body .panel-record:not(.inactive-panel) .panel-info .row-heading:not(.inactive-panel)`;
+        let recordSelector = `.panel-group[id="${this.moduleName}"] .panel-primary .panel-collapse .panel-body .panel-record:not(.inactive-panel)`;
+        //let recordSelector = `.panel-group[id="${this.moduleName}"] .panel-primary .panel-collapse .panel-body .panel-record:not(.inactive-panel) .panel-info .row-heading:not(.inactive-panel)`;
 
         const records = await page.$$(recordSelector);
 
@@ -183,13 +195,23 @@ export class SettingsModule extends ModuleBase {
                 }
                 if (!styleAttributeValue.replace(' ', '').includes("display:none")) {
 
-                    rowcounter++;
-                    if (rowcounter === index) {
-                        clickRecordResponse.recordId = await page.evaluate(el => el.getAttribute('id'), record);
-                        await record.click(); // click the row
-                        clickRecordResponse.clicked = true;
+                    let childSelector = `.panel-info .row-heading:not(.inactive-panel)`;
+                    const childDiv = await record.$(childSelector);
+
+                    let childStyleAttributeValue: string = await page.evaluate(el => el.getAttribute('style'), childDiv);
+                    if ((childStyleAttributeValue === undefined) || (childStyleAttributeValue == null)) {
+                        childStyleAttributeValue = "";
                     }
-                    clickRecordResponse.recordsVisible++;
+                    if (!childStyleAttributeValue.replace(' ', '').includes("display:none")) {
+
+                        rowcounter++;
+                        if (rowcounter === index) {
+                            clickRecordResponse.recordId = await page.evaluate(el => el.getAttribute('id'), record);
+                            await record.click(); // click the row
+                            clickRecordResponse.clicked = true;
+                        }
+                        clickRecordResponse.recordsVisible++;
+                    }
                 }
 
             }
@@ -432,7 +454,7 @@ export class SettingsModule extends ModuleBase {
 
             if (clickRecordResponse.clicked) {
                 try {
-                    await page.waitFor(() => document.querySelector('.pleasewait'), { timeout: 3000 });
+                    await page.waitFor(() => document.querySelector('.pleasewait'), { timeout: 1000 });
                 } catch (error) { } // assume that we missed the Please Wait dialog
 
                 await page.waitFor(() => !document.querySelector('.pleasewait'));
