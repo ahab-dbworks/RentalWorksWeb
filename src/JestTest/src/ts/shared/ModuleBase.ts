@@ -689,7 +689,7 @@ export class ModuleBase {
         const elementHandle = await page.$(`.fwformfield[data-datafield="${dataField}"] input`);
         const isChecked = await (await elementHandle.getProperty('checked')).jsonValue();
         if (isChecked != value) {
-            await elementHandle.click();
+            await (await page.$(`.fwformfield[data-datafield="${dataField}"] label`)).click(); //clicking the input element doesn't seem to work, but the label does.
         }
     }
     //---------------------------------------------------------------------------------------
