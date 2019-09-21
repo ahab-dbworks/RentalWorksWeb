@@ -567,7 +567,9 @@ class RentalInventory extends InventoryBase {
         switch (validationName) {
             case 'InventoryTypeValidation':
                 request.uniqueids = {
-                    Rental: true
+                    //Rental: true,
+                    RecType: "R",
+                    HasCategories: true
                 };
                 break;
             case 'RentalCategoryValidation':

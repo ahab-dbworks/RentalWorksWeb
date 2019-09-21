@@ -399,7 +399,9 @@ class SalesInventory extends InventoryBase {
         switch (validationName) {
             case 'InventoryTypeValidation':
                 request.uniqueids = {
-                    Sales: true
+                    //Sales: true,
+                    RecType: "S",
+                    HasCategories: true
                 };
                 break;
             case 'SalesCategoryValidation':

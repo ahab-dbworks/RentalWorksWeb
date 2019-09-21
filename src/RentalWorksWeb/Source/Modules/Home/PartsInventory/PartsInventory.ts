@@ -307,7 +307,9 @@ class PartsInventory extends InventoryBase {
         switch (validationName) {
             case 'InventoryTypeValidation':
                 request.uniqueids = {
-                    Parts: true
+                    //Parts: true,
+                    RecType: "P",
+                    HasCategories: true
                 };
                 break;
             case 'PartsCategoryValidation':

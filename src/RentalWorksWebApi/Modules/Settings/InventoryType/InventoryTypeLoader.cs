@@ -6,7 +6,7 @@ using WebApi.Data;
 
 namespace WebApi.Modules.Settings.InventoryType
 {
-    [FwSqlTable("inventorydepartmentview")]
+    [FwSqlTable("dbo.funcinventorytype(@rectype)")]
     public class InventoryTypeLoader: AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------
@@ -60,6 +60,7 @@ namespace WebApi.Modules.Settings.InventoryType
         //------------------------------------------------------------------------------------
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
+            useWithNoLock = false;
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
             select.AddWhere("(rental='T' or sales = 'T' or parts='T' or sets='T' or props='T' or wardrobe='T' or vehicle ='T')");
@@ -70,6 +71,15 @@ namespace WebApi.Modules.Settings.InventoryType
             addFilterToSelect("Props", "props", select, request);
             addFilterToSelect("Wardrobe", "wardrobe", select, request);
             addFilterToSelect("Vehicle", "vehicle", select, request);
+
+            string recType = GetUniqueIdAsString("RecType", request) ?? "";
+            select.AddParameter("@rectype", recType);
+
+            if (GetUniqueIdAsBoolean("HasCategories", request).GetValueOrDefault(false))
+            {
+                select.AddWhere("(categorycount > 0)");
+            }
+
         }
         //------------------------------------------------------------------------------------
     }
