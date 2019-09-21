@@ -22,7 +22,7 @@ namespace Web.Source.Modules
             tree.AddNewMenuBarButton("{47A056D4-346B-4B96-A986-C5D1F20F9D4D}", nodeBrowseMenuBar.Id);
             tree.AddViewMenuBarButton("{C350869D-5A09-4D2A-A50B-D9B116F62D541}", nodeBrowseMenuBar.Id);
             tree.AddEditMenuBarButton("{3DF84BF8-D5E6-44FE-BBA7-8D2254A104E7}", nodeBrowseMenuBar.Id);
-            tree.AddDeleteMenuBarButton("{8FE0BD8E-9CE1-4706-AA3F-EB6A1C37C3A4}", nodeBrowseMenuBar.Id);
+            //tree.AddDeleteMenuBarButton("{8FE0BD8E-9CE1-4706-AA3F-EB6A1C37C3A4}", nodeBrowseMenuBar.Id);
 
             // Form
             var nodeForm = tree.AddForm("{4E657588-CDA6-4079-A120-E806774F0E66}", MODULEID);
