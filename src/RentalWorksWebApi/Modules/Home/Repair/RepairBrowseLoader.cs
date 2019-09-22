@@ -108,6 +108,7 @@ namespace WebApi.Modules.Home.Repair
             addFilterToSelect("WarehouseId", "warehouseid", select, request);
             addFilterToSelect("InventoryId", "masterid", select, request);
             addFilterToSelect("ItemId", "rentalitemid", select, request);
+            addFilterToSelect("OrderId", "damageorderid", select, request);
 
             AddActiveViewFieldToSelect("LocationId", "locationid", select, request);
             AddActiveViewFieldToSelect("WarehouseId", "warehouseid", select, request);
