@@ -22,11 +22,19 @@ export class GlAccount extends SettingsModule {
         this.moduleId = 'F03CA227-99EE-42EF-B615-94540DCB21B3';
         this.moduleCaption = 'Chart of Accounts';
 
+        this.defaultNewRecordToExpect = {
+            GlAccountNo: "",
+            GlAccountDescription: "",
+            GlAccountType: "ASSET",
+            Inactive: false
+        }
+
         this.newRecordsToCreate = [
             {
                 record: {
                     GlAccountNo: "GlobalScope.TestToken~1.TestToken",
                     GlAccountDescription: "GlobalScope.TestToken~1.TestToken",
+                    GlAccountType: "INCOME",
                 },
                 seekObject: {
                     GlAccountNo: "GlobalScope.TestToken~1.TestToken",
@@ -35,8 +43,10 @@ export class GlAccount extends SettingsModule {
             }
         ];
         this.newRecordsToCreate[0].recordToExpect = {
-            GlAccountNo: this.newRecordsToCreate[0].record.GlAccountNo,
-            GlAccountDescription: this.newRecordsToCreate[0].record.GlAccountDescription,
+            GlAccountNo: this.newRecordsToCreate[0].record.GlAccountNo.toUpperCase(),
+            GlAccountDescription: this.newRecordsToCreate[0].record.GlAccountDescription.toUpperCase(),
+            GlAccountType: this.newRecordsToCreate[0].record.GlAccountType.toUpperCase(),
+            Inactive: false
         }
 
     }
@@ -64,11 +74,20 @@ export class Country extends SettingsModule {
         this.moduleId = 'D6E787E6-502B-4D36-B0A6-FA691E6D10CF';
         this.moduleCaption = 'Country';
 
+        this.defaultNewRecordToExpect = {
+            Country: "",
+            CountryCode: "",
+            IsUSA: false,
+            Metric: false,
+            Inactive: false,
+        }
+
         this.newRecordsToCreate = [
             {
                 record: {
                     Country: "GlobalScope.TestToken~1.TestToken",
                     CountryCode: "GlobalScope.TestToken~1.ShortTestToken",
+                    IsUSA: true,
                 },
                 seekObject: {
                     Country: "GlobalScope.TestToken~1.TestToken",
@@ -78,6 +97,9 @@ export class Country extends SettingsModule {
         this.newRecordsToCreate[0].recordToExpect = {
             Country: this.newRecordsToCreate[0].record.Country,
             CountryCode: this.newRecordsToCreate[0].record.CountryCode,
+            IsUSA: true,
+            Metric: false,
+            Inactive: false,
         }
 
     }

@@ -186,7 +186,7 @@ export class SettingsModule extends ModuleBase {
         }
         else {
             clickRecordResponse.recordsVisible = 0;
-
+            let recordToClick: any;
             let rowcounter: number = 0;
             for (let record of records) {
                 let styleAttributeValue: string = await page.evaluate(el => el.getAttribute('style'), record);
@@ -197,24 +197,33 @@ export class SettingsModule extends ModuleBase {
 
                     let childSelector = `.panel-info .row-heading:not(.inactive-panel)`;
                     const childDiv = await record.$(childSelector);
+                    if (childDiv != null) {
+                        let recordId = await page.evaluate(el => el.getAttribute('id'), record);
 
-                    let childStyleAttributeValue: string = await page.evaluate(el => el.getAttribute('style'), childDiv);
-                    if ((childStyleAttributeValue === undefined) || (childStyleAttributeValue == null)) {
-                        childStyleAttributeValue = "";
-                    }
-                    if (!childStyleAttributeValue.replace(' ', '').includes("display:none")) {
-
-                        rowcounter++;
-                        if (rowcounter === index) {
-                            clickRecordResponse.recordId = await page.evaluate(el => el.getAttribute('id'), record);
-                            await record.click(); // click the row
-                            clickRecordResponse.clicked = true;
+                        let childStyleAttributeValue: string = await page.evaluate(el => el.getAttribute('style'), childDiv);
+                        if ((childStyleAttributeValue === undefined) || (childStyleAttributeValue == null)) {
+                            childStyleAttributeValue = "";
                         }
-                        clickRecordResponse.recordsVisible++;
+                        if (!childStyleAttributeValue.replace(' ', '').includes("display:none")) {
+
+                            rowcounter++;
+                            if (rowcounter === index) {
+                                clickRecordResponse.recordId = recordId;
+                                recordToClick = record;
+                                //await record.click(); // click the row
+                                //clickRecordResponse.clicked = true;
+                            }
+                            clickRecordResponse.recordsVisible++;
+                        }
                     }
                 }
-
             }
+            if (recordToClick != null)
+            {
+                await recordToClick.click(); // click the row
+                clickRecordResponse.clicked = true;
+            }
+
         }
 
         return clickRecordResponse;
@@ -348,6 +357,9 @@ export class SettingsModule extends ModuleBase {
                     openRecordResponse.errorMessage = "";
                     openRecordResponse.record = await this.getFormRecord();
                     openRecordResponse.keys = await this.getFormKeys();
+
+                    Logging.logInfo(`Form Record: ${JSON.stringify(openRecordResponse.record)}`);
+                    Logging.logInfo(`Form Keys: ${JSON.stringify(openRecordResponse.keys)}`);
 
                     if (sleepAfterOpening > 0) {
                         await ModuleBase.wait(sleepAfterOpening);
@@ -489,6 +501,9 @@ export class SettingsModule extends ModuleBase {
                         openRecordResponse.record = await this.getFormRecord();
                         openRecordResponse.keys = await this.getFormKeys();
 
+                        Logging.logInfo(`Form Record: ${JSON.stringify(openRecordResponse.record)}`);
+                        Logging.logInfo(`Form Keys: ${JSON.stringify(openRecordResponse.keys)}`);
+
                         if (sleepAfterOpening > 0) {
                             await ModuleBase.wait(sleepAfterOpening);
                         }
@@ -535,6 +550,9 @@ export class SettingsModule extends ModuleBase {
                     createNewResponse.success = true;
                     createNewResponse.errorMessage = "";
                     createNewResponse.defaultRecord = await this.getFormRecord();
+
+                    Logging.logInfo(`Form Record: ${JSON.stringify(createNewResponse.defaultRecord)}`);
+
                     Logging.logInfo(`New ${this.moduleCaption} Created`);
                     //} else {
                     //    createNewResponse.errorMessage = `New ${this.moduleCaption} not Created`;
@@ -560,86 +578,87 @@ export class SettingsModule extends ModuleBase {
             index = 1;
         }
 
-        let recordSelector = `.panel-group[id="${this.moduleName}"] .panel-primary .panel-collapse .panel-body .panel-record:not(.inactive-panel)`;
-        const records = await page.$$(recordSelector);
+        //let recordSelector = `.panel-group[id="${this.moduleName}"] .panel-primary .panel-collapse .panel-body .panel-record:not(.inactive-panel)`;
+        //const records = await page.$$(recordSelector);
 
-        if (records !== undefined) {
-            for (let record of records) {
-                let styleAttributeValue: string = await page.evaluate(el => el.getAttribute('style'), record);
-                if ((styleAttributeValue === undefined) || (styleAttributeValue == null)) {
-                    styleAttributeValue = "";
-                }
-                let recordId: string = await page.evaluate(el => el.getAttribute('id'), record);
-                if (!styleAttributeValue.replace(' ', '').includes("display:none")) {
-                    await record.click(); // click the row
+        //if (records !== undefined) {
+        //    for (let record of records) {
+        //        let styleAttributeValue: string = await page.evaluate(el => el.getAttribute('style'), record);
+        //        if ((styleAttributeValue === undefined) || (styleAttributeValue == null)) {
+        //            styleAttributeValue = "";
+        //        }
+        //        let recordId: string = await page.evaluate(el => el.getAttribute('id'), record);
+        //        if (!styleAttributeValue.replace(' ', '').includes("display:none")) {
+        //            await record.click(); // click the row
 
-                    let deleteButtonSelector = `div .panel-record[id="${recordId}"] .btn-delete[data-type="DeleteMenuBarButton"]`;
-                    await page.waitForSelector(deleteButtonSelector);
-                    await page.click(deleteButtonSelector, { clickCount: 1 });  // click the delete button
+        //            let deleteButtonSelector = `div .panel-record[id="${recordId}"] .btn-delete[data-type="DeleteMenuBarButton"]`;
+        //            await page.waitForSelector(deleteButtonSelector);
+        //            await page.click(deleteButtonSelector, { clickCount: 1 });  // click the delete button
 
-                    const popupText = await page.$eval('.advisory', el => el.textContent);
-                    if (popupText.includes('delete this record')) {
-                        Logging.logInfo(`Delete record, confirmation prompt detected.`);
+        //            const popupText = await page.$eval('.advisory', el => el.textContent);
+        //            if (popupText.includes('delete this record')) {
+        //                Logging.logInfo(`Delete record, confirmation prompt detected.`);
 
-                        const options = await page.$$('.advisory .fwconfirmation-button');
-                        await options[0].click() // click "Yes" option
-                            .then(() => {
-                                Logging.logInfo(`Clicked the "Yes" button.`);
-                            })
-                        await page.waitFor(() => !document.querySelector('.advisory'));
-                        await page.waitFor(() => document.querySelector('.pleasewait'));
-                        await page.waitFor(() => !document.querySelector('.pleasewait'));
+        //                const options = await page.$$('.advisory .fwconfirmation-button');
+        //                await options[0].click() // click "Yes" option
+        //                    .then(() => {
+        //                        Logging.logInfo(`Clicked the "Yes" button.`);
+        //                    })
+        //                await page.waitFor(() => !document.querySelector('.advisory'));
+        //                await page.waitFor(() => document.querySelector('.pleasewait'));
+        //                await page.waitFor(() => !document.querySelector('.pleasewait'));
 
-                        //make the "record deleted" toaster message go away
-                        await page.waitForSelector('.advisory .messageclose');
-                        await page.click(`.advisory .messageclose`);
-                        await page.waitFor(() => !document.querySelector('.advisory'));  // wait for toaster to go away
+        //                //make the "record deleted" toaster message go away
+        //                await page.waitForSelector('.advisory .messageclose');
+        //                await page.click(`.advisory .messageclose`);
+        //                await page.waitFor(() => !document.querySelector('.advisory'));  // wait for toaster to go away
 
-                    }
-                    Logging.logInfo(`Record deleted.`);
+        //            }
+        //            Logging.logInfo(`Record deleted.`);
 
-                    if (sleepAfterDeleting > 0) {
-                        await ModuleBase.wait(sleepAfterDeleting);
-                    }
-                    break;
-                }
-            }
-        }
-
-
-        // can't do this because when records are Searched, they are hidden differently
-        //let clickRecordResponse: ClickRecordResponse = await this.clickRecord(index);
-        //if (clickRecordResponse.clicked) {
-
-        //    let deleteButtonSelector = `div .panel-record[id="${clickRecordResponse.recordId}"] .btn-delete[data-type="DeleteMenuBarButton"]`;
-        //    await page.waitForSelector(deleteButtonSelector);
-        //    await page.click(deleteButtonSelector, { clickCount: 1 });  // click the delete button
-
-        //    const popupText = await page.$eval('.advisory', el => el.textContent);
-        //    if (popupText.includes('delete this record')) {
-        //        Logging.logInfo(`Delete record, confirmation prompt detected.`);
-
-        //        const options = await page.$$('.advisory .fwconfirmation-button');
-        //        await options[0].click() // click "Yes" option
-        //            .then(() => {
-        //                Logging.logInfo(`Clicked the "Yes" button.`);
-        //            })
-        //        await page.waitFor(() => !document.querySelector('.advisory'));
-        //        await page.waitFor(() => document.querySelector('.pleasewait'));
-        //        await page.waitFor(() => !document.querySelector('.pleasewait'));
-
-        //        //make the "record deleted" toaster message go away
-        //        await page.waitForSelector('.advisory .messageclose');
-        //        await page.click(`.advisory .messageclose`);
-        //        await page.waitFor(() => !document.querySelector('.advisory'));  // wait for toaster to go away
-
-        //    }
-        //    Logging.logInfo(`Record deleted.`);
-
-        //    if (sleepAfterDeleting > 0) {
-        //        await ModuleBase.wait(sleepAfterDeleting);
+        //            if (sleepAfterDeleting > 0) {
+        //                await ModuleBase.wait(sleepAfterDeleting);
+        //            }
+        //            break;
+        //        }
         //    }
         //}
+
+
+
+        let clickRecordResponse: ClickRecordResponse = await this.clickRecord(index);
+        if (clickRecordResponse.clicked) {
+
+            let deleteButtonSelector = `div .panel-record[id="${clickRecordResponse.recordId}"] .btn-delete[data-type="DeleteMenuBarButton"]`;
+            await page.waitForSelector(deleteButtonSelector);
+            await page.click(deleteButtonSelector, { clickCount: 1 });  // click the delete button
+
+            const popupText = await page.$eval('.advisory', el => el.textContent);
+            if (popupText.includes('Delete this record')) {
+                Logging.logInfo(`Delete record, confirmation prompt detected.`);
+
+                const options = await page.$$('.advisory .fwconfirmation-button');
+                await options[0].click() // click "Yes" option
+                    .then(() => {
+                        Logging.logInfo(`Clicked the "Yes" button.`);
+                    })
+                await page.waitFor(() => !document.querySelector('.advisory'));
+                await page.waitFor(() => document.querySelector('.pleasewait'));
+                await page.waitFor(() => !document.querySelector('.pleasewait'));
+
+                //make the "record deleted" toaster message go away
+                await page.waitForSelector('.advisory .messageclose');
+                await page.click(`.advisory .messageclose`);
+                await page.waitFor(() => !document.querySelector('.advisory'));  // wait for toaster to go away
+
+
+            }
+            Logging.logInfo(`Record deleted.`);
+
+            if (sleepAfterDeleting > 0) {
+                await ModuleBase.wait(sleepAfterDeleting);
+            }
+        }
 
 
     }

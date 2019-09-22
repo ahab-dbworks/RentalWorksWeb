@@ -494,6 +494,9 @@ export class ModuleBase {
                         createNewResponse.success = true;
                         createNewResponse.errorMessage = "";
                         createNewResponse.defaultRecord = await this.getFormRecord();
+
+                        Logging.logInfo(`Form Record: ${JSON.stringify(createNewResponse.defaultRecord)}`);
+
                         Logging.logInfo(`New ${this.moduleCaption} Created`);
                     } else {
                         createNewResponse.errorMessage = `New ${this.moduleCaption} not Created`;

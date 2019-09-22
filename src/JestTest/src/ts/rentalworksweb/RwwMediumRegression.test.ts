@@ -27,6 +27,7 @@ import {
     //administrator
     Alert, CustomField, CustomForm, DuplicateRule, EmailHistory, Group, Hotfix, User,
 } from './modules/AllModules';
+import { SettingsModule } from '../shared/SettingsModule';
 
 export class MediumRegressionTest extends BaseTest {
     //---------------------------------------------------------------------------------------
@@ -142,11 +143,19 @@ export class MediumRegressionTest extends BaseTest {
                                             });
                                     }, module.formOpenTimeout);
 
-
-                                    testName = `Close the ${module.moduleCaption} record`;
-                                    test(testName, async () => {
-                                        await module.closeRecord();  //close the form
-                                    }, module.formOpenTimeout);
+                                    if ((module instanceof SettingsModule)) {
+                                        testName = `Seek to the newly-created ${module.moduleCaption} record`;
+                                        test(testName, async () => {
+                                            let recordCount = await module.browseSeek(rec.seekObject).then().catch(err => this.LogError(testName, err));
+                                            expect(recordCount).toBe(1);
+                                        }, module.browseOpenTimeout);
+                                    }
+                                    else {
+                                        testName = `Close the ${module.moduleCaption} record`;
+                                        test(testName, async () => {
+                                            await module.closeRecord();  //close the form
+                                        }, module.formOpenTimeout);
+                                    }
                                 }
 
                                 if (module.canDelete) {
@@ -227,16 +236,16 @@ export class MediumRegressionTest extends BaseTest {
         this.MediumRegressionOnModule(new TransferOrder());
         this.MediumRegressionOnModule(new TransferReceipt());
 
-        ////Home - Billing
-        //this.MediumRegressionOnModule(new Invoice());
-        //this.MediumRegressionOnModule(new Receipt());
-        //this.MediumRegressionOnModule(new VendorInvoice());
+        //Home - Billing
+        this.MediumRegressionOnModule(new Invoice());
+        this.MediumRegressionOnModule(new Receipt());
+        this.MediumRegressionOnModule(new VendorInvoice());
 
-        ////Settings
-        //this.MediumRegressionOnModule(new AccountingSettings());
-        //this.MediumRegressionOnModule(new GlAccount());
-        //this.MediumRegressionOnModule(new GlDistribution());
-        //this.MediumRegressionOnModule(new Country());
+        //Settings
+        this.MediumRegressionOnModule(new AccountingSettings());
+        this.MediumRegressionOnModule(new GlAccount());
+        this.MediumRegressionOnModule(new GlDistribution());
+        this.MediumRegressionOnModule(new Country());
         //this.MediumRegressionOnModule(new State());
         //this.MediumRegressionOnModule(new BillingCycle());
         //this.MediumRegressionOnModule(new Department());
