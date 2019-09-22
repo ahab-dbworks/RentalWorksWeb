@@ -92,13 +92,13 @@ namespace WebApi.Modules.Home.TransferOrder
             return await DoPostAsync<TransferOrderLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
-        // DELETE api/v1/transferorder/A0000001 
-        [HttpDelete("{id}")]
-        [FwControllerMethod(Id: "EqJ7cN287WIb")]
-        public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
-        {
-            return await DoDeleteAsync<TransferOrderLogic>(id);
-        }
+        //// DELETE api/v1/transferorder/A0000001 
+        //[HttpDelete("{id}")]
+        //[FwControllerMethod(Id: "EqJ7cN287WIb")]
+        //public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
+        //{
+        //    return await DoDeleteAsync<TransferOrderLogic>(id);
+        //}
         //------------------------------------------------------------------------------------ 
     }
 }
