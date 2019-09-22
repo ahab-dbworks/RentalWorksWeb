@@ -365,6 +365,9 @@ export class SettingsModule extends ModuleBase {
                         await ModuleBase.wait(sleepAfterOpening);
                     }
                 }
+                else {
+                    openRecordResponse.errorMessage = `${formCountAfter} forms opened`;
+                }
             }
         }
 
@@ -507,6 +510,9 @@ export class SettingsModule extends ModuleBase {
                         if (sleepAfterOpening > 0) {
                             await ModuleBase.wait(sleepAfterOpening);
                         }
+                    }
+                    else {
+                        openRecordResponse.errorMessage = `${formCountAfter} forms opened`;
                     }
                 }
 

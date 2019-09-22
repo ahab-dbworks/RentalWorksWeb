@@ -244,6 +244,9 @@ export class ModuleBase {
                     await ModuleBase.wait(sleepAfterOpening);
                 }
             }
+            else {
+                openRecordResponse.errorMessage = `${formCountAfter} forms opened`;
+            }
         }
 
         return openRecordResponse;
@@ -324,6 +327,9 @@ export class ModuleBase {
                     if (sleepAfterOpening > 0) {
                         await ModuleBase.wait(sleepAfterOpening);
                     }
+                }
+                else {
+                    openRecordResponse.errorMessage = `${formCountAfter} forms opened`;
                 }
             }
         }
