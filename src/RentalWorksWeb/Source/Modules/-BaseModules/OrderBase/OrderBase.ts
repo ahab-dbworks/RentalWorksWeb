@@ -647,20 +647,26 @@ class OrderBase {
                 }
             }
         });
+
+        const quikSearchMenuId = Constants.Modules.Home.Order.form.menuItems.Search.id.replace('{', '').replace('}', '');
         $form.find('[data-datafield="LossAndDamage"] input').on('change', e => {
             if (jQuery(e.currentTarget).prop('checked')) {
                 lossDamageTab.show();
+                $form.find('[data-securityid="searchbtn"]').addClass('disabled');
+                $form.find(`.submenu-btn[data-securityid="${quikSearchMenuId}"]`).attr('data-enabled', 'false');
                 FwFormField.disable($form.find('[data-datafield="Rental"]'));
                 FwFormField.disable($form.find('[data-datafield="Sales"]'));
                 FwFormField.disable($form.find('[data-datafield="RentalSale"]'));
             } else {
                 lossDamageTab.hide();
                 console.log('in change b4: ', $form.data('antiLD'))
+                $form.find('[data-securityid="searchbtn"]').removeClass('disabled');
+                $form.find(`.submenu-btn[data-securityid="${quikSearchMenuId}"]`).attr('data-enabled', 'true');
                 //if ()
                 FwFormField.enable($form.find('[data-datafield="Rental"]'));
                 FwFormField.enable($form.find('[data-datafield="Sales"]'));
                 FwFormField.enable($form.find('[data-datafield="RentalSale"]'));
-                $form.data('antiLD', null)
+                $form.data('antiLD', null);
                 console.log('inchange after null: ', $form.data('antiLD'))
             }
         });
@@ -2430,6 +2436,15 @@ class OrderBase {
             } else if (!rentalVal && !lossDamageVal) {
                 FwFormField.enable(FwFormField.getDataField($form, 'RentalSale'));
             }
+        }
+
+        const quikSearchMenuId = Constants.Modules.Home.Order.form.menuItems.Search.id.replace('{', '').replace('}', '');
+        if (lossDamageVal) {
+            $form.find('[data-securityid="searchbtn"]').addClass('disabled')
+            $form.find(`.submenu-btn[data-securityid="${quikSearchMenuId}"]`).attr('data-enabled', 'false');
+        } else {
+            $form.find('[data-securityid="searchbtn"]').removeClass('disabled');
+            $form.find(`.submenu-btn[data-securityid="${quikSearchMenuId}"]`).attr('data-enabled', 'true');
         }
 
         //toggle profit & loss activity section visibility
