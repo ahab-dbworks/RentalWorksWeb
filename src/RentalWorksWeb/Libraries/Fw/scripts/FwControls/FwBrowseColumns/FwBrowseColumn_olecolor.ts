@@ -13,7 +13,12 @@
     }
     //---------------------------------------------------------------------------------
     isModified($browse, $tr, $field): boolean {
-        let isModified = false;
+        var isModified = false;
+        let originalValue = $field.attr('data-originalvalue');
+        if (($tr.hasClass('editmode')) || ($tr.hasClass('newmode'))) {
+            let currentValue = $field.find('input.value').val();
+            isModified = currentValue !== originalValue;
+        }
         return isModified;
     }
     //---------------------------------------------------------------------------------
@@ -28,32 +33,27 @@
     setFieldEditMode($browse, $tr, $field): void {
         const originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
         if (originalvalue.length > 1) {
-            const color = ((originalvalue.charAt(0) == '#') ? originalvalue : (`#${originalvalue}`));
             let editable = false;
             let paletteColor = '#616161';
             if ($field.attr('data-formreadonly') === 'false') {
                 editable = true;
                 paletteColor = '#2196f3'
             }
-            $field.html(`<div class="color-wrapper" style="padding: 0 0 0 4px;"><div class="legendbox" style="border-radius:2px;float:left;cursor:pointer;background-color:${originalvalue};width:14px;height:20px;border:1px solid #777777;"></div><i style="float:right;color:${paletteColor};padding: 0;font-size: 1.5em;margin: auto 5px;box-sizing: border-box;cursor:pointer;" class="material-icons btncolorpicker">&#xE3B7;</i><div>`);
-
-            const wrapper = $field.find('div.color-wrapper');
-            wrapper
+            $field.html(`<div class="color-wrapper" style="padding: 0 0 0 4px;"><div class="legendbox" style="border-radius:2px;float:left;cursor:pointer;background-color:${originalvalue};width:14px;height:20px;border:1px solid #777777;"></div><i style="float:right;color:${paletteColor};padding: 0;font-size: 1.5em;margin: auto 5px;box-sizing:border-box;cursor:pointer;" class="material-icons btncolorpicker">&#xE3B7;</i><div>`);
+            const $wrapper = $field.find('div.color-wrapper');
+            $wrapper
                 .colpick({
                     layout: 'hex',
                     colorScheme: 'light',
                     color: 'ffffff',
                     showEvent: '',
                     onSubmit: function (hsb, hex, rgb, el) {
-                        const legend = $field.find('.legendbox');
-                        const element = jQuery(el);
-                        const attr = $field.attr('data-originalvalue')
-
                         $field.attr('data-originalvalue', `#${hex}`).change();
-                        jQuery(el).css('background-color', `#${hex}`);
+                        $field.find('div.legendbox').css('background-color', `#${hex}`);
                         jQuery(el).colpickHide();
-                        wrapper.colpickHide();
-                        wrapper.css('background-color', `#${hex}`);
+                    },
+                    onHide: function () {
+                        jQuery('body').find('.colpick').remove();
                     }
                 })
                 .on('click', function (e: JQuery.Event) {

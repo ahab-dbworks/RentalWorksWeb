@@ -2922,7 +2922,6 @@ class FwBrowseClass {
     };
     //---------------------------------------------------------------------------------
     beforeNewOrEditRow($control: JQuery, $tr: JQuery): Promise<any> {
-        let me = this;
         return new Promise((resolve, reject) => {
             this.autoSave($control, $tr) // this is actually saving any other rows that were open in new/edit mode and ignoring the row passed in
                 .then(() => {
@@ -2930,11 +2929,11 @@ class FwBrowseClass {
                         $control.find('thead .tdselectrow .divselectrow').hide();
                         jQuery(window)
                             .off('click.FwBrowse')
-                            .on('click.FwBrowse', function (e: JQuery.ClickEvent) {
+                            .on('click.FwBrowse', (e: JQuery.ClickEvent) => {
                                 try {
                                     let triggerAutoSave = true;
-                                    let clockPicker = jQuery(document.body).find('.clockpicker-popover');
-
+                                    const clockPicker = jQuery(document.body).find('.clockpicker-popover');
+                                    const colorPickerLength = jQuery(document.body).find('div.colpick').length;
                                     if (jQuery(e.target).closest('.fwconfirmation').length > 0 || jQuery(e.target).closest('body').length === 0) {
                                         triggerAutoSave = false;
                                     } else if ((jQuery(e.target).closest('body').length === 0 && jQuery(e.target).find('body').length > 0) || (jQuery(e.target).closest('body').length > 0 && jQuery(e.target).find('body').length === 0)) {
@@ -2945,7 +2944,7 @@ class FwBrowseClass {
                                         triggerAutoSave = false;
                                     }
                                     if (clockPicker.length > 0) {
-                                        for (var i = 0; i < clockPicker.length; i++) {
+                                        for (let i = 0; i < clockPicker.length; i++) {
                                             if (clockPicker.css('display') === 'none' && !clockPicker.get(i).contains(<Node>e.target)) {
                                                 triggerAutoSave = true;
                                             } else if (clockPicker.get(i).contains(<Node>e.target)) {
@@ -2953,8 +2952,12 @@ class FwBrowseClass {
                                             }
                                         }
                                     }
+
+                                    if (colorPickerLength > 0) { // to prevent losing edit mode within a grid row while changing colorpicker values
+                                        triggerAutoSave = false;
+                                    }
                                     if (triggerAutoSave) {
-                                        me.saveRow($control, $tr);
+                                        this.saveRow($control, $tr);
                                     }
                                 } catch (ex) {
                                     FwFunc.showError(ex);
