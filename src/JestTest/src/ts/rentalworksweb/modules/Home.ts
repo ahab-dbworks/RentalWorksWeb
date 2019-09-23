@@ -11,6 +11,16 @@ export class Quote extends HomeModule {
         this.moduleCaption = 'Quote';
         this.canDelete = false;
 
+        this.defaultNewRecordToExpect = {
+            QuoteNumber: "",
+            Department: "GlobalScope.User~ME.PrimaryDepartment",
+            OfficeLocation: "GlobalScope.User~ME.OfficeLocation",
+            Warehouse: "GlobalScope.User~ME.Warehouse",
+            Agent: "GlobalScope.User~ME.Name",
+            ProjectManager: "GlobalScope.User~ME.Name",
+            PendingPo: true,
+        }
+
         this.newRecordsToCreate = [
             {
                 record: {
@@ -28,11 +38,16 @@ export class Quote extends HomeModule {
         ];
 
         this.newRecordsToCreate[0].recordToExpect = {
-            //Deal: this.newRecordsToCreate[0].record.Deal.toUpperCase(),
-            Description: this.newRecordsToCreate[0].record.Description.toUpperCase(),
             QuoteNumber: "|NOTEMPTY|",
+            Description: this.newRecordsToCreate[0].record.Description.toUpperCase(),
+            Deal: "|NOTEMPTY|",
             Location: this.newRecordsToCreate[0].record.Location.toUpperCase(),
-            ReferenceNumber: this.newRecordsToCreate[0].record.ReferenceNumber.toUpperCase()
+            ReferenceNumber: this.newRecordsToCreate[0].record.ReferenceNumber.toUpperCase(),
+            OfficeLocation: "GlobalScope.User~ME.OfficeLocation",
+            Warehouse: "GlobalScope.User~ME.Warehouse",
+            Agent: "GlobalScope.User~ME.Name",
+            ProjectManager: "GlobalScope.User~ME.Name",
+            PendingPo: true,
         }
 
     }
@@ -52,6 +67,16 @@ export class Order extends HomeModule {
         this.canDelete = false;
 
 
+        this.defaultNewRecordToExpect = {
+            OrderNumber: "",
+            Department: "GlobalScope.User~ME.PrimaryDepartment",
+            OfficeLocation: "GlobalScope.User~ME.OfficeLocation",
+            Warehouse: "GlobalScope.User~ME.Warehouse",
+            Agent: "GlobalScope.User~ME.Name",
+            ProjectManager: "GlobalScope.User~ME.Name",
+            PendingPo: true,
+        }
+
         this.newRecordsToCreate = [
             {
                 record: {
@@ -69,11 +94,16 @@ export class Order extends HomeModule {
         ];
 
         this.newRecordsToCreate[0].recordToExpect = {
-            //Deal: this.newRecordsToCreate[0].record.Deal.toUpperCase(),
+            OrderNumber: "|NOTEMPTY|",
+            Deal: "|NOTEMPTY|",
             Description: this.newRecordsToCreate[0].record.Description.toUpperCase(),
-            QuoteNumber: "|NOTEMPTY|",
             Location: this.newRecordsToCreate[0].record.Location.toUpperCase(),
-            ReferenceNumber: this.newRecordsToCreate[0].record.ReferenceNumber.toUpperCase()
+            ReferenceNumber: this.newRecordsToCreate[0].record.ReferenceNumber.toUpperCase(),
+            OfficeLocation: "GlobalScope.User~ME.OfficeLocation",
+            Warehouse: "GlobalScope.User~ME.Warehouse",
+            Agent: "GlobalScope.User~ME.Name",
+            ProjectManager: "GlobalScope.User~ME.Name",
+            PendingPo: true,
         }
 
     }
@@ -615,6 +645,40 @@ export class Invoice extends HomeModule {
         this.moduleName = 'Invoice';
         this.moduleId = '9B79D7D8-08A1-4F6B-AC0A-028DFA9FE10F';
         this.moduleCaption = 'Invoice';
+
+        this.defaultNewRecordToExpect = {
+            InvoiceNumber: "",
+            Description: "",
+            Department: "GlobalScope.User~ME.PrimaryDepartment",
+            OfficeLocation: "GlobalScope.User~ME.OfficeLocation",
+            Agent: "GlobalScope.User~ME.Name",
+            ProjectManager: "GlobalScope.User~ME.Name",
+            Status: "NEW",
+        }
+
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    Description: `${TestUtils.randomProductName()} GlobalScope.TestToken~1.TestToken`,
+                    DealId: 2,
+                    RateType: 1,
+                },
+                seekObject: {
+                    Description: "GlobalScope.TestToken~1.TestToken",
+                },
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            InvoiceNumber: "|NOTEMPTY|",
+            Deal: "|NOTEMPTY|",
+            RateType: "|NOTEMPTY|",
+            Description: this.newRecordsToCreate[0].record.Description.toUpperCase(),
+            Agent: "GlobalScope.User~ME.Name",
+            ProjectManager: "GlobalScope.User~ME.Name",
+        }
+
+
+
     }
     //---------------------------------------------------------------------------------------
 }

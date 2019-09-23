@@ -217,7 +217,7 @@ export class MediumRegressionTest extends BaseTest {
         this.MediumRegressionOnModule(new Vendor());
 
         //Home - Inventory
-        this.MediumRegressionOnModule(new Asset());
+        //this.MediumRegressionOnModule(new Asset());
         this.MediumRegressionOnModule(new PartsInventory());
         this.MediumRegressionOnModule(new PhysicalInventory());
         this.MediumRegressionOnModule(new RentalInventory());
@@ -225,16 +225,16 @@ export class MediumRegressionTest extends BaseTest {
         this.MediumRegressionOnModule(new SalesInventory());
 
         //Home - Warehouse
-        this.MediumRegressionOnModule(new Contract());
-        this.MediumRegressionOnModule(new PickList());
+        //this.MediumRegressionOnModule(new Contract());
+        //this.MediumRegressionOnModule(new PickList());
 
         //Home - Container
-        this.MediumRegressionOnModule(new Container());
+        //this.MediumRegressionOnModule(new Container());
 
         //Home - Transfer
-        this.MediumRegressionOnModule(new Manifest());
+        //this.MediumRegressionOnModule(new Manifest());
         this.MediumRegressionOnModule(new TransferOrder());
-        this.MediumRegressionOnModule(new TransferReceipt());
+        //this.MediumRegressionOnModule(new TransferReceipt());
 
         //Home - Billing
         this.MediumRegressionOnModule(new Invoice());
