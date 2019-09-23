@@ -1370,6 +1370,9 @@ class FwSettingsClass {
         const $rowBody = $body.find(`#${saveData[rowId]}.panel-body`);
         if (!inactiverecord) {
             $rowBody.prepend($form);
+            if ($control.find(`#${moduleName}`).attr('data-showDelete') === 'true') {
+                $form.find('div.fwmenu.default > .buttonbar').append('<div class="btn-delete" data-type="DeleteMenuBarButton"><i class="material-icons"></i><div class="btn-text">Delete</div></div>');
+            }
             $rowBody.show("fast");
         } else {
             $rowBody.parent().find('.record-selector').html('keyboard_arrow_down');
