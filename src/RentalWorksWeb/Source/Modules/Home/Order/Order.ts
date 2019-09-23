@@ -82,11 +82,11 @@ class Order extends OrderBase {
             FwFormField.disable($form.find('[data-datafield="LossAndDamage"]'));
         };
 
-        const $submodulePickListBrowse = this.openPickListBrowse($form);
-        $form.find('.picklist').append($submodulePickListBrowse);
-
-        const $submoduleContractBrowse = this.openContractBrowse($form);
-        $form.find('.contract').append($submoduleContractBrowse);
+        $form.find('.contract-submodule').append(this.openSubModuleBrowse($form, 'Contract'));
+        $form.find('.picklist-submodule').append(this.openSubModuleBrowse($form, 'PickList'));
+        $form.find('.repair-submodule').append(this.openSubModuleBrowse($form, 'Repair'));
+        $form.find('.purchaseorder-submodule').append(this.openSubModuleBrowse($form, 'PurchaseOrder'));
+        $form.find('.invoice-submodule').append(this.openSubModuleBrowse($form, 'Invoice'));
 
         const $orderItemGridLossDamage = $form.find('.lossdamagegrid [data-name="OrderItemGrid"]');
 
@@ -98,72 +98,28 @@ class Order extends OrderBase {
 
         return $form;
     };
-
     //----------------------------------------------------------------------------------------------
-    openPickListBrowse($form) {
-        const $browse = PickListController.openBrowse();
-
-        $browse.data('ondatabind', function (request) {
-            request.activeviewfields = PickListController.ActiveViewFields;
-            request.uniqueids = {
-                OrderId: $form.find('[data-datafield="OrderId"] input.fwformfield-value').val()
-            }
-        });
-
+    openSubModuleBrowse($form, module: string) {
+        let $browse = null;
+        if (typeof window[`${module}Controller`] !== undefined && typeof window[`${module}Controller`].openBrowse === 'function') {
+            $browse = (<any>window)[`${module}Controller`].openBrowse();
+            $browse.data('ondatabind', request => {
+                request.activeviewfields = (<any>window)[`${module}Controller`].ActiveViewFields;
+                request.uniqueids = {
+                    OrderId: FwFormField.getValueByDataField($form, 'OrderId')
+                }
+            });
+        }
         return $browse;
-    };
-
-    //----------------------------------------------------------------------------------------------
-    openContractBrowse($form) {
-        const $browse = ContractController.openBrowse();
-
-        $browse.data('ondatabind', function (request) {
-            request.activeviewfields = ContractController.ActiveViewFields;
-            request.uniqueids = {
-                OrderId: $form.find('[data-datafield="OrderId"] input.fwformfield-value').val()
-            }
-        });
-
-        return $browse;
-    };
-
+    }
     //----------------------------------------------------------------------------------------------
     loadForm(uniqueids) {
         const $form = this.openForm('EDIT', uniqueids);
         $form.find('div.fwformfield[data-datafield="OrderId"] input').val(uniqueids.OrderId);
         FwModule.loadForm(this.Module, $form);
 
-        let $submodulePurchaseOrderBrowse = this.openPurchaseOrderBrowse($form);
-        $form.find('.subPurchaseOrderSubModule').append($submodulePurchaseOrderBrowse);
-        let $submoduleInvoiceBrowse = this.openInvoiceBrowse($form);
-        $form.find('.invoiceSubModule').append($submoduleInvoiceBrowse);
-
         return $form;
     };
-    //----------------------------------------------------------------------------------------------
-    openPurchaseOrderBrowse($form) {
-        const $browse = PurchaseOrderController.openBrowse();
-        const orderId = FwFormField.getValueByDataField($form, 'OrderId');
-        $browse.data('ondatabind', function (request) {
-            request.activeviewfields = PurchaseOrderController.ActiveViewFields;
-            request.uniqueids = {
-                OrderId: orderId
-            };
-        });
-        return $browse;
-    }
-    //---------------------------------------------------------------------------------------------
-    openInvoiceBrowse($form) {
-        const $browse = InvoiceController.openBrowse();
-        const orderId = FwFormField.getValueByDataField($form, 'OrderId');
-        $browse.data('ondatabind', function (request) {
-            request.activeviewfields = InvoiceController.ActiveViewFields;
-            request.uniqueids = {
-                OrderId: orderId
-            };
-        });
-        return $browse;
-    }
     //---------------------------------------------------------------------------------------------
     renderGrids($form) {
         super.renderGrids($form);
@@ -316,7 +272,8 @@ class Order extends OrderBase {
               <div data-type="tab" id="contracttab" class="tab submodule" data-tabpageid="contracttabpage" data-caption="Contracts"></div>
               <div data-type="tab" id="delivershiptab" class="tab" data-tabpageid="delivershiptabpage" data-caption="Deliver/Ship"></div>
               <!--<div data-type="tab" id="manifesttab" class="tab" data-tabpageid="manifesttabpage" data-caption="Manifest"></div>-->
-              <div data-type="tab" id="invoicetab" class="tab submodule" data-tabpageid="invoicetabpage" data-caption="Invoices"></div>        
+              <div data-type="tab" id="invoicetab" class="tab submodule" data-tabpageid="invoicetabpage" data-caption="Invoices"></div>    
+              <div data-type="tab" id="repairtab" class="tab submodule" data-tabpageid="repairtabpage" data-caption="Repair"></div>    
               <div data-type="tab" id="notetab" class="notestab tab" data-tabpageid="notetabpage" data-caption="Notes"></div>
               <div data-type="tab" id="historytab" class="tab" data-tabpageid="historytabpage" data-caption="History"></div>
               <div data-type="tab" id="emailhistorytab" class="tab" data-tabpageid="emailhistorytabpage" data-caption="Email History"></div>
@@ -1239,10 +1196,10 @@ class Order extends OrderBase {
               </div>
 
               <!--  PICK LIST TAB  -->
-              <div data-type="tabpage" id="picklisttabpage" class="tabpage submodule picklist rwSubModule" data-tabid="picklisttab"></div>
+              <div data-type="tabpage" id="picklisttabpage" class="tabpage submodule picklist-submodule rwSubModule" data-tabid="picklisttab"></div>
 
               <!--  CONTRACT TAB  -->
-              <div data-type="tabpage" id="contracttabpage" class="tabpage submodule contract rwSubModule" data-tabid="contracttab"></div>
+              <div data-type="tabpage" id="contracttabpage" class="tabpage submodule contract-submodule rwSubModule" data-tabid="contracttab"></div>
 
               <!-- DELIVER/SHIP TAB -->
               <div data-type="tabpage" id="delivershiptabpage" class="tabpage" data-tabid="delivershiptab">
@@ -1472,10 +1429,13 @@ class Order extends OrderBase {
               -->
 
              <!-- SUB PURCHASE ORDER TAB -->
-             <div data-type="tabpage" id="subpurchaseordertabpage" class="tabpage subPurchaseOrderSubModule rwSubModule" data-tabid="subpurchaseordertab"></div>
+             <div data-type="tabpage" id="subpurchaseordertabpage" class="tabpage purchaseorder-submodule rwSubModule" data-tabid="subpurchaseordertab"></div>
 
               <!-- INVOICE tab -->
-             <div data-type="tabpage" id="invoicetabpage" class="tabpage invoiceSubModule rwSubModule" data-tabid="invoicetab"></div>
+             <div data-type="tabpage" id="invoicetabpage" class="tabpage invoice-submodule rwSubModule" data-tabid="invoicetab"></div>
+
+             <!-- REPAIR TAB -->
+              <div data-type="tabpage" id="repairtabpage" class="tabpage submodule repair-submodule" data-tabid="repairtab"></div>
 
               <!-- NOTES TAB -->
               <div data-type="tabpage" id="notetabpage" class="tabpage" data-tabid="notetab">
