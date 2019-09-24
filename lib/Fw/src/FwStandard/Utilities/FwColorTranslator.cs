@@ -20,6 +20,15 @@ namespace FwStandard.Utilities
                 green = Convert.ToInt32(htmlColor.Substring(3, 2), 16);
                 blue = Convert.ToInt32(htmlColor.Substring(5, 2), 16);
             }
+            else if (htmlColor.StartsWith("rgb("))
+            {
+                htmlColor = htmlColor.Substring(4);
+                htmlColor = htmlColor.Substring(0, htmlColor.Length-1);
+                string[] colors = htmlColor.Split(',');
+                red = Convert.ToInt32(colors[0]);
+                green = Convert.ToInt32(colors[1]);
+                blue = Convert.ToInt32(colors[2]);
+            }
             Color c = Color.FromArgb(red, green, blue);
             return BitConverter.ToInt32(new byte[] { c.R, c.G, c.B, 0x00 }, 0);
         }
