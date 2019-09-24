@@ -1,7 +1,7 @@
-﻿class FwBrowseColumn_numberClass implements IFwBrowseColumn {
+class FwBrowseColumn_numberClass implements IFwBrowseColumn {
     //---------------------------------------------------------------------------------
     databindfield($browse, $field, dt, dtRow, $tr): void {
-    
+
     }
     //---------------------------------------------------------------------------------
     getFieldValue($browse, $tr, $field, field, originalvalue) {

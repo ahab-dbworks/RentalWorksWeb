@@ -2933,7 +2933,7 @@ class FwBrowseClass {
                                 try {
                                     let triggerAutoSave = true;
                                     const clockPicker = jQuery(document.body).find('.clockpicker-popover');
-                                    const colorPickerLength = jQuery(document.body).find('div.colpick').length;
+                                    const colorPickerDisplayed = jQuery(document.body).find('div.colpick').is(':visible');
                                     if (jQuery(e.target).closest('.fwconfirmation').length > 0 || jQuery(e.target).closest('body').length === 0) {
                                         triggerAutoSave = false;
                                     } else if ((jQuery(e.target).closest('body').length === 0 && jQuery(e.target).find('body').length > 0) || (jQuery(e.target).closest('body').length > 0 && jQuery(e.target).find('body').length === 0)) {
@@ -2953,7 +2953,7 @@ class FwBrowseClass {
                                         }
                                     }
 
-                                    if (colorPickerLength > 0) { // to prevent losing edit mode within a grid row while changing colorpicker values
+                                    if (colorPickerDisplayed) { // to prevent losing edit mode within a grid row while changing colorpicker values
                                         triggerAutoSave = false;
                                     }
                                     if (triggerAutoSave) {
