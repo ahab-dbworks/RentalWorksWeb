@@ -1,8 +1,22 @@
 ﻿/*Pick List Report*/
 tbody {
+    tr[data-rowtype="detail"]{
+        text-indent:10px;
+    }
+
     tr[data-rowtype="detail"]:nth-child(even) {
         background-color: #DCDCDC;
     }
+
+    tr[data-rowtype="detail"][data-itemclass="K"],
+    tr[data-rowtype="detail"][data-itemclass="C"] {
+        font-weight: bold;
+        text-indent: 0px;
+    }
+}
+
+.picked-by {
+    border-bottom:2px solid black;
 }
 
 .boxcol {

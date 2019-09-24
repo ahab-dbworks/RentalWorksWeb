@@ -310,7 +310,7 @@ namespace WebApi.Modules.Reports.PickListReport
                 dt.Columns[dt.GetColumnNo("RowType")].IsVisible = true;
             string[] totalFields = new string[] { "PickQuantity" };
             dt.InsertSubTotalRows("RecTypeDisplay", "RowType", totalFields);
-            //dt.InsertSubTotalRows("GroupField2", "RowType", totalFields);
+            dt.InsertSubTotalRows("InventoryType", "RowType", totalFields);
             dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
             return dt;
         }
