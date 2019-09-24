@@ -1063,4 +1063,29 @@ FwApplicationTree.clickEvents[Constants.Grids.OrderItemGrid.menuItems.ColorLegen
     });
 };
 //---------------------------------------------------------------------------------
+//Shortages Only
+FwApplicationTree.clickEvents[Constants.Grids.OrderItemGrid.menuItems.ShortagesOnly.id] = function (e) {
+    let $element = jQuery(event.currentTarget);
+    const $orderItemGrid = jQuery(this).closest('[data-name="OrderItemGrid"]');
+
+    let shortages: boolean = $orderItemGrid.data('Shortages');
+    shortages = !shortages;
+    $orderItemGrid.data('Shortages', shortages);
+    $element.children().text(shortages ? 'All Items (not Shortages Only)' : 'Shortages Only');
+
+    const onDataBind = $orderItemGrid.data('ondatabind');
+    if (typeof onDataBind == 'function') {
+        $orderItemGrid.data('ondatabind', function (request) {
+            onDataBind(request);
+            request.uniqueids.ShortagesOnly = shortages;
+        });
+    }
+
+    FwBrowse.search($orderItemGrid);
+
+    jQuery(document).trigger('click');
+}
+//---------------------------------------------------------------------------------
+
+
 var OrderItemGridController = new OrderItemGrid();

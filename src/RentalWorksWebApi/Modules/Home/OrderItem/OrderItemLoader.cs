@@ -15,7 +15,7 @@ namespace WebApi.Modules.Home.OrderItem
     [FwSqlTable("orderitemwebview")]
     public class OrderItemLoader : AppDataLoadRecord
     {
-        //private bool _refreshAvailability = false;   // pupulated during SetBaseSelectQuery, reused later
+        private bool _shortagesOnly = false;
 
         public OrderItemLoader()
         {
@@ -832,7 +832,6 @@ namespace WebApi.Modules.Home.OrderItem
             string orderId = OrderId;
             bool summaryMode = false;
             bool subs = false;
-            //bool refreshAvailability = false;
 
             if (string.IsNullOrEmpty(orderId))
             {
@@ -855,14 +854,12 @@ namespace WebApi.Modules.Home.OrderItem
             }
 
             summaryMode = GetUniqueIdAsBoolean("Summary", request).GetValueOrDefault(false);
+            _shortagesOnly = GetUniqueIdAsBoolean("ShortagesOnly", request).GetValueOrDefault(false);
 
             if (!subs)
             {
                 subs = GetUniqueIdAsBoolean("Subs", request).GetValueOrDefault(false);
             }
-
-            //refreshAvailability = GetUniqueIdAsBoolean("RefreshAvailability", request).GetValueOrDefault(false);
-            //refreshAvailability = true; // jh 08/23/2019 experimental
 
 
             base.SetBaseSelectQuery(select, qry, customFields, request);
@@ -943,16 +940,6 @@ namespace WebApi.Modules.Home.OrderItem
                         DateTime? conflictDate = null;
                         string availColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_NEEDRECALC);
                         string availabilityState = RwConstants.AVAILABILITY_STATE_STALE;
-                        //row[dt.GetColumnNo("AvailableQuantityColor")] = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_NEEDRECALC);
-                        //if (availCache.TryGetValue(availKey, out availData))
-                        //{
-                        //    row[dt.GetColumnNo("AvailableQuantityColor")] = null;
-                        //    TInventoryWarehouseAvailabilityMinimum minAvail = availData.GetMinimumAvailableQuantity(availFromDateTime, availToDateTime);
-                        //    row[dt.GetColumnNo("AvailableQuantity")] = minAvail.MinimumAvailable.Total;
-                        //    row[dt.GetColumnNo("AvailableQuantityColor")] = minAvail.Color;
-
-                        //}
-
 
                         if (availCache.TryGetValue(new TInventoryWarehouseAvailabilityKey(inventoryId, warehouseId), out availData))
                         {
@@ -971,14 +958,25 @@ namespace WebApi.Modules.Home.OrderItem
                             row[dt.GetColumnNo("ConflictDate")] = FwConvert.ToUSShortDate(conflictDate.GetValueOrDefault(DateTime.MinValue));
                         }
                         row[dt.GetColumnNo("AvailableQuantityColor")] = availColor;
-                        //row[dt.GetColumnNo("QuantityAvailableIsStale")] = isStale;
                         row[dt.GetColumnNo("AvailabilityState")] = availabilityState;
-
-
 
                         row[dt.GetColumnNo("ICodeColor")] = getICodeColor(row[dt.GetColumnNo("ItemClass")].ToString());
                         row[dt.GetColumnNo("DescriptionColor")] = getDescriptionColor(row[dt.GetColumnNo("ItemClass")].ToString());
                         row[dt.GetColumnNo("SubQuantityColor")] = getSubQuantityColor(row[dt.GetColumnNo("SubPurchaseOrderItemId")].ToString());
+                    }
+                }
+
+                if (dt.Rows.Count > 0)
+                {
+                    if (_shortagesOnly)
+                    {
+                        for (int r = dt.Rows.Count-1; r>=0; r--)
+                        {
+                            if (FwConvert.ToInt32(dt.Rows[r][dt.GetColumnNo("AvailableQuantity")]) >= 0)
+                            {
+                                dt.Rows.RemoveAt(r);
+                            }
+                        }
                     }
                 }
             }
