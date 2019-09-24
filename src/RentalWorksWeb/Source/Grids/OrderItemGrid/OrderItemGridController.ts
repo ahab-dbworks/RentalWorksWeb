@@ -105,15 +105,19 @@
         var $form = $control.closest('.fwform');
 
         if ($form.attr('data-controller') === 'OrderController' || $form.attr('data-controller') === 'QuoteController' || $form.attr('data-controller') === 'PurchaseOrderController') {
-            // Bold Row
             FwBrowse.setAfterRenderRowCallback($control, ($tr: JQuery, dt: FwJsonDataTable, rowIndex: number) => {
+                // Bold Row
                 if ($tr.find('.order-item-bold').text() === 'true') {
                     $tr.css('font-weight', "bold");
                 }
+                
+                const availabilityState = FwBrowse.getValueByDataField($control, $generatedtr, 'AvailabilityState');
+                $generatedtr.find('[data-browsedatafield="AvailableQuantity"]').attr('data-state', availabilityState);
             });
 
-            // Lock Fields
+           
             FwBrowse.setAfterRenderFieldCallback($control, ($tr: JQuery, $td: JQuery, $field: JQuery, dt: FwJsonDataTable, rowIndex: number, colIndex: number) => {
+                // Lock Fields
                 if ($tr.find('.order-item-lock').text() === 'true') {
                     $tr.find('.field-to-lock').css('background-color', "#f5f5f5");
                     $tr.find('.field-to-lock').attr('data-formreadonly', 'true');
@@ -122,11 +126,12 @@
                         $tr.find('.field-to-lock').css('background-color', 'transparent');
                     }
                 }
-            });
 
-            FwBrowse.setAfterRenderRowCallback($control, ($tr: JQuery, dt: FwJsonDataTable, rowIndex: number) => {
-                const availabilityState = $generatedtr.find('[data-browsedatafield="AvailabilityState"]').attr('data-originalvalue');
-                $generatedtr.find('[data-browsedatafield="AvailableQuantity"]').attr('data-state', availabilityState);
+                //enable editing price on misc items
+                const isMiscClass = FwBrowse.getValueByDataField($control, $generatedtr, 'ItemClass');
+                if (isMiscClass === 'M') {
+                    $generatedtr.find('[data-browsedatafield="Price"]').attr('data-formreadonly', 'false');
+                }
             });
 
             $generatedtr.find('div[data-browsedatafield="ItemId"]').data('onchange', function ($tr) {
