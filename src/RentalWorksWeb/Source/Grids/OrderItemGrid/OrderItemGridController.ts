@@ -453,70 +453,41 @@
         }
     };
     //----------------------------------------------------------------------------------------------
-    toggleOrderItemView($form: any, event: any, module) {
-        // Toggle between Detail and Summary view in all OrderItemGrid
-        let $element, $orderItemGrid, recType, isSummary, orderId, isSubGrid;
-        $element = jQuery(event.currentTarget);
-        //recType = $element.parentsUntil('.flexrow').eq(9).attr('class');
-        recType = $element.closest('[data-grid="OrderItemGrid"]').attr('class');
-        isSubGrid = $element.closest('[data-grid="OrderItemGrid"]').attr('data-issubgrid');
-        orderId = FwFormField.getValueByDataField($form, `${module}Id`);
-        const totalFields = ['WeeklyExtendedNoDiscount', 'WeeklyDiscountAmount', 'WeeklyExtended', 'WeeklyTax', 'WeeklyTotal', 'MonthlyExtendedNoDiscount', 'MonthlyDiscountAmount', 'MonthlyExtended', 'MonthlyTax', 'MonthlyTotal', 'PeriodExtendedNoDiscount', 'PeriodDiscountAmount', 'PeriodExtended', 'PeriodTax', 'PeriodTotal',]
-        //combined grid logic -- rec type should be removed from request and not A.
-        if (recType === 'A') {
-            recType = undefined;
-        }
+    //toggleOrderItemView($form: any, event: any, module) {
+    //    // Toggle between Detail and Summary view in all OrderItemGrid
+    //    let $element, $orderItemGrid, isSummary, orderId, isSubGrid;
+    //    $element = jQuery(event.currentTarget);
+    //    isSubGrid = $element.closest('[data-grid="OrderItemGrid"]').attr('data-issubgrid');
+    //    orderId = FwFormField.getValueByDataField($form, `${module}Id`);
+    //    //const totalFields = ['WeeklyExtendedNoDiscount', 'WeeklyDiscountAmount', 'WeeklyExtended', 'WeeklyTax', 'WeeklyTotal', 'MonthlyExtendedNoDiscount', 'MonthlyDiscountAmount', 'MonthlyExtended', 'MonthlyTax', 'MonthlyTotal', 'PeriodExtendedNoDiscount', 'PeriodDiscountAmount', 'PeriodExtended', 'PeriodTax', 'PeriodTotal',]
 
-        //if (recType === 'R') {
-        //    $orderItemGrid = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
-        //}
-        //if (recType === 'S') {
-        //    $orderItemGrid = $form.find('.salesgrid [data-name="OrderItemGrid"]');
-        //}
-        //if (recType === 'L') {
-        //    $orderItemGrid = $form.find('.laborgrid [data-name="OrderItemGrid"]');
-        //}
-        //if (recType === 'M') {
-        //    $orderItemGrid = $form.find('.miscgrid [data-name="OrderItemGrid"]');
-        //}
-        //if (recType === '') {
-        //    $orderItemGrid = $form.find('.combinedgrid div[data-grid="OrderItemGrid"]');
-        //}
+    //    $orderItemGrid = $element.closest('[data-name="OrderItemGrid"]');
 
-        $orderItemGrid = $element.closest('[data-name="OrderItemGrid"]');
+    //    if ($orderItemGrid.data('isSummary') === false) {
+    //        isSummary = true;
+    //        $orderItemGrid.data('isSummary', true);
+    //        $element.children().text('Detail View')
+    //    }
+    //    else {
+    //        isSummary = false;
+    //        $orderItemGrid.data('isSummary', false);
+    //        $element.children().text('Summary View')
+    //    }
 
-        if ($orderItemGrid.data('isSummary') === false) {
-            isSummary = true;
-            $orderItemGrid.data('isSummary', true);
-            $element.children().text('Detail View')
-        }
-        else {
-            isSummary = false;
-            $orderItemGrid.data('isSummary', false);
-            $element.children().text('Summary View')
-        }
+    //    $orderItemGrid.data('ondatabind', request => {
+    //        request.uniqueids = {
+    //            OrderId: orderId,
+    //            Summary: isSummary,
+    //        }
+    //        request.orderby = "RowNumber,RecTypeDisplay"
+    //        request.totalfields = totalFields;
+    //        if (isSubGrid === "true") {
+    //            request.uniqueids.Subs = true;
+    //        }
+    //    });
 
-        $orderItemGrid.data('ondatabind', request => {
-            request.uniqueids = {
-                OrderId: orderId,
-                Summary: isSummary,
-                RecType: recType
-            }
-            request.orderby = "RowNumber,RecTypeDisplay"
-            request.totalfields = totalFields;
-            if (isSubGrid === "true") {
-                request.uniqueids.Subs = true;
-            }
-        });
-
-        $orderItemGrid.data('beforesave', request => {
-            request.OrderId = orderId;
-            request.RecType = recType;
-            request.Summary = isSummary;
-        });
-
-        FwBrowse.search($orderItemGrid);
-    };
+    //    FwBrowse.search($orderItemGrid);
+    //};
     //----------------------------------------------------------------------------------------------
     orderItemGridBoldUnbold($browse: any, event: any): void {
         let orderId, $selectedCheckBoxes, boldItems = [];
@@ -724,17 +695,23 @@ FwApplicationTree.clickEvents[Constants.Grids.OrderItemGrid.menuItems.SubWorkshe
 //----------------------------------------------------------------------------------------------
 // Toggle between Detail and Summary view
 FwApplicationTree.clickEvents[Constants.Grids.OrderItemGrid.menuItems.SummaryView.id] = function (event) {
-    let $form;
-    $form = jQuery(this).closest('.fwform');
+    let $element = jQuery(event.currentTarget);
+    const $orderItemGrid = jQuery(this).closest('[data-name="OrderItemGrid"]');
 
-    let module = $form.attr('data-controller').replace('Controller', '');
-    try {
-        OrderItemGridController.toggleOrderItemView($form, event, module);
-        jQuery(document).trigger('click');
+    let summary: boolean = $orderItemGrid.data('Summary');
+    summary = !summary;
+    $orderItemGrid.data('Summary', summary);
+    $element.children().text(summary ? 'Detail View' : 'Summary View');
+
+    const onDataBind = $orderItemGrid.data('ondatabind');
+    if (typeof onDataBind == 'function') {
+        $orderItemGrid.data('ondatabind', function (request) {
+            onDataBind(request);
+            request.uniqueids.Summary = summary;
+        });
     }
-    catch (ex) {
-        FwFunc.showError(ex);
-    }
+    FwBrowse.search($orderItemGrid);
+    jQuery(document).trigger('click');
 };
 //----------------------------------------------------------------------------------------------
 //Copy Template

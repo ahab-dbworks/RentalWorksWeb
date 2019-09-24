@@ -149,7 +149,6 @@ class Order extends OrderBase {
         const $orderItemGridLossDamage = $form.find('.lossdamagegrid div[data-grid="OrderItemGrid"]');
         const $orderItemGridLossDamageControl = FwBrowse.loadGridFromTemplate('OrderItemGrid');
         $orderItemGridLossDamage.empty().append($orderItemGridLossDamageControl);
-        $orderItemGridLossDamageControl.data('isSummary', false);
         $orderItemGridLossDamage.addClass('F');
         $orderItemGridLossDamage.find('div[data-datafield="InventoryId"]').attr('data-formreadonly', 'true');
         $orderItemGridLossDamage.find('div[data-datafield="Description"]').attr('data-formreadonly', 'true');

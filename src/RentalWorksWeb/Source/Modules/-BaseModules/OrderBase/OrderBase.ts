@@ -63,7 +63,6 @@ class OrderBase {
         const $orderItemGridRental = $form.find('.rentalgrid div[data-grid="OrderItemGrid"]');
         const $orderItemGridRentalControl = FwBrowse.loadGridFromTemplate('OrderItemGrid');
         $orderItemGridRental.empty().append($orderItemGridRentalControl);
-        $orderItemGridRentalControl.data('isSummary', false);
         $orderItemGridRental.addClass('R');
 
         $orderItemGridRentalControl.data('ondatabind', request => {
@@ -95,7 +94,6 @@ class OrderBase {
         $orderItemGridSalesControl.find('div[data-datafield="PeriodExtended"]').attr('data-caption', 'Extended');
         $orderItemGridSales.empty().append($orderItemGridSalesControl);
         $orderItemGridSales.addClass('S');
-        $orderItemGridSalesControl.data('isSummary', false);
 
         $orderItemGridSalesControl.data('ondatabind', request => {
             request.uniqueids = {
@@ -123,7 +121,6 @@ class OrderBase {
         $orderItemGridLaborControl.find('div[data-datafield="InventoryId"]').attr('data-caption', 'Item No.');
         $orderItemGridLabor.empty().append($orderItemGridLaborControl);
         $orderItemGridLabor.addClass('L');
-        $orderItemGridLaborControl.data('isSummary', false);
 
         $orderItemGridLaborControl.data('ondatabind', request => {
             request.uniqueids = {
@@ -151,7 +148,6 @@ class OrderBase {
         $orderItemGridMiscControl.find('div[data-datafield="InventoryId"]').attr('data-caption', 'Item No.');
         $orderItemGridMisc.empty().append($orderItemGridMiscControl);
         $orderItemGridMisc.addClass('M');
-        $orderItemGridMiscControl.data('isSummary', false);
 
         $orderItemGridMiscControl.data('ondatabind', request => {
             request.uniqueids = {
@@ -180,7 +176,6 @@ class OrderBase {
         const $orderItemGridUsedSaleControl = FwBrowse.loadGridFromTemplate('OrderItemGrid');
         $orderItemGridUsedSale.empty().append($orderItemGridUsedSaleControl);
         $orderItemGridUsedSale.addClass('RS');
-        $orderItemGridUsedSaleControl.data('isSummary', false);
 
         $orderItemGridUsedSaleControl.data('ondatabind', request => {
             request.uniqueids = {
@@ -202,7 +197,6 @@ class OrderBase {
         $combinedOrderItemGridControl.find('.individual').attr('data-visible', 'false');
         $combinedOrderItemGrid.empty().append($combinedOrderItemGridControl);
         $combinedOrderItemGrid.addClass('A');
-        $combinedOrderItemGridControl.data('isSummary', false);
 
         $combinedOrderItemGridControl.data('ondatabind', request => {
             request.uniqueids = {

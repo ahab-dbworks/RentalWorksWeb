@@ -271,7 +271,6 @@ class PurchaseOrder {
         $orderItemGridRentalControl.find('div[data-datafield="PeriodExtended"]').attr('data-formreadonly', 'true');
 
         $orderItemGridRental.empty().append($orderItemGridRentalControl);
-        $orderItemGridRentalControl.data('isSummary', false);
         $orderItemGridRental.addClass('R');
 
         $orderItemGridRentalControl.data('ondatabind', request => {
@@ -301,7 +300,6 @@ class PurchaseOrder {
         $orderItemGridSalesControl.find('div[data-datafield="PeriodExtended"]').attr('data-caption', 'Extended');
         $orderItemGridSales.empty().append($orderItemGridSalesControl);
         $orderItemGridSales.addClass('S');
-        $orderItemGridSalesControl.data('isSummary', false);
 
         $orderItemGridSalesControl.data('ondatabind', request => {
             request.uniqueids = {
@@ -329,7 +327,6 @@ class PurchaseOrder {
         $orderItemGridPartControl.find('div[data-datafield="PeriodExtended"]').attr('data-caption', 'Extended');
         $orderItemGridPart.empty().append($orderItemGridPartControl);
         $orderItemGridPart.addClass('P');
-        $orderItemGridPartControl.data('isSummary', false);
 
         $orderItemGridPartControl.data('ondatabind', request => {
             request.uniqueids = {
@@ -358,7 +355,6 @@ class PurchaseOrder {
         $orderItemGridLaborControl.find('div[data-datafield="PeriodExtended"]').attr('data-caption', 'Extended');
         $orderItemGridLabor.empty().append($orderItemGridLaborControl);
         $orderItemGridLabor.addClass('L');
-        $orderItemGridLaborControl.data('isSummary', false);
 
         $orderItemGridLaborControl.data('ondatabind', request => {
             request.uniqueids = {
@@ -387,7 +383,6 @@ class PurchaseOrder {
         $orderItemGridMiscControl.find('div[data-datafield="PeriodExtended"]').attr('data-caption', 'Extended');
         $orderItemGridMisc.empty().append($orderItemGridMiscControl);
         $orderItemGridMisc.addClass('M');
-        $orderItemGridMiscControl.data('isSummary', false);
 
         $orderItemGridMiscControl.data('ondatabind', request => {
             request.uniqueids = {
@@ -416,20 +411,17 @@ class PurchaseOrder {
         $orderItemGridSubRentControl.find('div[data-datafield="PeriodExtended"]').attr('data-caption', 'Extended');
         $orderItemGridSubRent.empty().append($orderItemGridSubRentControl);
         $orderItemGridSubRent.addClass('R');
-        $orderItemGridSubRentControl.data('isSummary', false);
 
         $orderItemGridSubRentControl.data('ondatabind', request => {
             request.uniqueids = {
                 OrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId'),
                 RecType: 'R',
-                Summary: true,
                 Subs: true
             };
         });
         $orderItemGridSubRentControl.data('beforesave', request => {
             request.OrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
             request.RecType = 'R';
-            request.Summary = true;
             request.Subs = true;
         });
         FwBrowse.addEventHandler($orderItemGridSubRentControl, 'afterdatabindcallback', () => {
@@ -449,20 +441,17 @@ class PurchaseOrder {
         $oderItemGridSubSalesControl.find('div[data-datafield="PeriodExtended"]').attr('data-caption', 'Extended');
         $oderItemGridSubSales.empty().append($oderItemGridSubSalesControl);
         $oderItemGridSubSales.addClass('S');
-        $oderItemGridSubSalesControl.data('isSummary', false);
 
         $oderItemGridSubSalesControl.data('ondatabind', request => {
             request.uniqueids = {
                 OrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId'),
                 RecType: 'S',
-                Summary: true,
                 Subs: true
             };
         });
         $oderItemGridSubSalesControl.data('beforesave', request => {
             request.OrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
             request.RecType = 'S';
-            request.Summary = true;
             request.Subs = true;
         });
         FwBrowse.addEventHandler($oderItemGridSubSalesControl, 'afterdatabindcallback', () => {
@@ -483,20 +472,17 @@ class PurchaseOrder {
         $orderItemGridSubLaborControl.find('div[data-datafield="PeriodExtended"]').attr('data-caption', 'Extended');
         $orderItemGridSubLabor.empty().append($orderItemGridSubLaborControl);
         $orderItemGridSubLabor.addClass('L');
-        $orderItemGridSubLaborControl.data('isSummary', false);
 
         $orderItemGridSubLaborControl.data('ondatabind', request => {
             request.uniqueids = {
                 OrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId'),
                 RecType: 'L',
-                Summary: true,
                 Subs: true
             };
         });
         $orderItemGridSubLaborControl.data('beforesave', request => {
             request.OrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
             request.RecType = 'L';
-            request.Summary = true;
             request.Subs = true;
         });
         FwBrowse.addEventHandler($orderItemGridSubLaborControl, 'afterdatabindcallback', () => {
@@ -517,20 +503,17 @@ class PurchaseOrder {
         $orderItemGridSubMiscControl.find('div[data-datafield="PeriodExtended"]').attr('data-caption', 'Extended');
         $orderItemGridSubMisc.empty().append($orderItemGridSubMiscControl);
         $orderItemGridSubMisc.addClass('R');
-        $orderItemGridSubMiscControl.data('isSummary', false);
 
         $orderItemGridSubMiscControl.data('ondatabind', request => {
             request.uniqueids = {
                 OrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId'),
                 RecType: 'R',
-                Summary: true,
                 Subs: true
             };
         });
         $orderItemGridSubMiscControl.data('beforesave', request => {
             request.OrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
             request.RecType = 'R';
-            request.Summary = true;
             request.Subs = true;
         });
         FwBrowse.addEventHandler($orderItemGridSubMiscControl, 'afterdatabindcallback', () => {
