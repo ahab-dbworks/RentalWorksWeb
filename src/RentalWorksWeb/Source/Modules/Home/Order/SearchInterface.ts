@@ -1066,8 +1066,11 @@ class SearchInterface {
             let imageId = jQuery(e.currentTarget).attr('data-value');
             if (imageId !== '') {
                 let $confirmation = FwConfirmation.renderConfirmation('Image Viewer',
-                    `<div style="white-space:pre;">\n<img src="${applicationConfig.appbaseurl}${applicationConfig.appvirtualdirectory}fwappimage.ashx?method=GetAppImage&appimageid=${imageId}&thumbnail=false" data-value="${imageId}" alt="No Image" class="image" style="max-width:100%;">`);
-                let $cancel = FwConfirmation.addButton($confirmation, 'Close');
+                    `<div style="white-space:pre;">\n<img src="${applicationConfig.apiurl}api/v1/appimage/getimage?appimageid=${imageId}&thumbnail=false" data-value="${imageId}" alt="No Image" class="image" style="max-width:100%;">`);
+                $confirmation.find('.message').css({
+                    'text-align': 'center'
+                })
+                FwConfirmation.addButton($confirmation, 'Close');
             }
         });
 

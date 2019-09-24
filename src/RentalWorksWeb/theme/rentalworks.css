@@ -407,7 +407,7 @@ Form tables
 #itemsearch #itemlist[data-view="GRID"] #inventory .item-container {flex:0 0 280px;}
 #itemsearch #itemlist[data-view="GRID"] .item-info {padding:20px;position:relative;border: 1px solid #E0E0E0;}
 #itemsearch #itemlist[data-view="GRID"] div[data-column="ItemImage"] {width:8em;height:8em;position:relative;margin:0 auto;}
-#itemsearch #itemlist[data-view="GRID"] div[data-column="ItemImage"] img {max-height:100%;max-width:100%;position:absolute;top:0;bottom:0;left:0;right:0;margin:auto;}
+#itemsearch #itemlist[data-view="GRID"] div[data-column="ItemImage"] img {max-height:100%;max-width:100%;position:absolute;top:0;bottom:0;left:0;right:0;margin:auto;cursor:pointer;}
 #itemsearch #itemlist[data-view="GRID"] div[data-column="Description"] {height:4em;}
 #itemsearch #itemlist[data-view="GRID"] div[data-column="Description"] .description {font-weight:bold;}
 #itemsearch #itemlist[data-view="GRID"] div[data-column="Description"] .toggleaccessories {display:none;}
@@ -453,7 +453,7 @@ Form tables
 #itemsearch #itemlist[data-view="HYBRID"] .item-info {display:flex;align-items:center;padding:5px;position:relative;border-bottom: 1px solid #BDBDBD;}
 #itemsearch #itemlist[data-view="HYBRID"] div[data-column="ItemImage"] {width:4em;margin-right:10px;}
 #itemsearch #itemlist[data-view="HYBRID"] .item-info div[data-column="ItemImage"] {height:4em;}
-#itemsearch #itemlist[data-view="HYBRID"] div[data-column="ItemImage"] img {max-height:100%;max-width:100%;}
+#itemsearch #itemlist[data-view="HYBRID"] div[data-column="ItemImage"] img {max-height:100%;max-width:100%;cursor:pointer;}
 #itemsearch #itemlist[data-view="HYBRID"] div[data-column="Description"] {flex:1 0 250px;margin-right:10px;}
 #itemsearch #itemlist[data-view="HYBRID"] div[data-column="Description"] .descriptionrow {display:flex;align-items:center;}
 #itemsearch #itemlist[data-view="HYBRID"] div[data-column="Tags"] {flex:1 0 100px;margin-right:10px;}
@@ -475,7 +475,7 @@ Form tables
 #inventory .item-container .item-info .toggleaccessories {font-weight: bold;color: #1E88E5;display:inline-block;cursor:pointer;}
 #inventory .item-container .item-info .toggleaccessories:hover {text-decoration:underline;}
 
-.item-info .incrementQuantity, .item-info .decrementQuantity {padding: 5px 0px;float: left;width: 25%;border: none;}
+.item-info .incrementQuantity, .item-info .decrementQuantity {padding: 5px 0px;float: left;width: 25%;border: none;cursor:pointer;}
 
 .item-container .lightBlue {background-color: #c5eefb;}
 
