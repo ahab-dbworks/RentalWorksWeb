@@ -34,7 +34,7 @@ namespace WebLibrary.Security.Tree.RentalWorksWeb.Grids
             //view
             tree.AddSubMenuItem("Summary View", "{D27AD4E7-E924-47D1-AF6E-992B92F5A647}", nodeBrowseView.Id);
             tree.AddSubMenuItem("Shortages Only", "{873546DE-E8EF-4B34-8215-B2EC65E12056}", nodeBrowseView.Id);
-            tree.AddSubMenuItem("Split Details", "{679D6E7A-C212-41A3-88D0-5B48936812A0}", nodeBrowseView.Id);
+            tree.AddSubMenuItem("Show Split Details", "{679D6E7A-C212-41A3-88D0-5B48936812A0}", nodeBrowseView.Id);
             tree.AddSubMenuItem("Color Legend", "{A2CD9CB6-1C38-4E4E-935C-627D32282480}", nodeBrowseView.Id);
         }
         //--------------------------------------------------------------------------------------------- 

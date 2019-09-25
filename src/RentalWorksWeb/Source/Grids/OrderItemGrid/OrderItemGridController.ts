@@ -110,6 +110,11 @@
                 if ($tr.find('.order-item-bold').text() === 'true') {
                     $tr.css('font-weight', "bold");
                 }
+
+                // Summarized Row
+                if ($tr.find('.order-item-rowsrolledup').text() === 'true') {
+                    $tr.css('font-style', "italic");
+                }
                 
                 const availabilityState = FwBrowse.getValueByDataField($control, $generatedtr, 'AvailabilityState');
                 $generatedtr.find('[data-browsedatafield="AvailableQuantity"]').attr('data-state', availabilityState);
@@ -1068,6 +1073,28 @@ FwApplicationTree.clickEvents[Constants.Grids.OrderItemGrid.menuItems.ShortagesO
     jQuery(document).trigger('click');
 }
 //---------------------------------------------------------------------------------
+//Split Detail
+FwApplicationTree.clickEvents[Constants.Grids.OrderItemGrid.menuItems.SplitDetails.id] = function (e) {
+    let $element = jQuery(event.currentTarget);
+    const $orderItemGrid = jQuery(this).closest('[data-name="OrderItemGrid"]');
 
+    let splitDetails: boolean = $orderItemGrid.data('SplitDetails');
+    splitDetails = !splitDetails;
+    $orderItemGrid.data('SplitDetails', splitDetails);
+    $element.children().text(splitDetails ? 'Roll-up Quantities' : 'Show Split Details');
+
+    const onDataBind = $orderItemGrid.data('ondatabind');
+    if (typeof onDataBind == 'function') {
+        $orderItemGrid.data('ondatabind', function (request) {
+            onDataBind(request);
+            request.uniqueids.SplitDetails = splitDetails;
+        });
+    }
+
+    FwBrowse.search($orderItemGrid);
+
+    jQuery(document).trigger('click');
+}
+//---------------------------------------------------------------------------------
 
 var OrderItemGridController = new OrderItemGrid();

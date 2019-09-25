@@ -12,7 +12,7 @@ using WebLibrary;
 
 namespace WebApi.Modules.Home.OrderItem
 {
-    [FwSqlTable("orderitemwebview")]
+    [FwSqlTable("orderitemsummarywebview")]
     public class OrderItemLoader : AppDataLoadRecord
     {
         private bool _shortagesOnly = false;
@@ -27,6 +27,16 @@ namespace WebApi.Modules.Home.OrderItem
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderid", modeltype: FwDataTypes.Text)]
         public string OrderId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "rowsrolledup", modeltype: FwDataTypes.Boolean)]
+        public bool? RowsRolledUp { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "rolledupids", modeltype: FwDataTypes.Text)]
+        public string RolledUpIds { get; set; }
+        //------------------------------------------------------------------------------------ 
+        //this field is called PrimaryKey only to allow the FrameWork to pass it from the Logic to this Loader.  Allows developer to foce the detail row to be loaded when desired
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Boolean, isPrimaryKey: true, isPrimaryKeyOptional: true)]
+        public bool? DetailOnly { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rectype", modeltype: FwDataTypes.Text)]
         public string RecType { get; set; }
@@ -106,32 +116,14 @@ namespace WebApi.Modules.Home.OrderItem
         [FwSqlDataField(column: "reservedrentalitems", modeltype: FwDataTypes.Integer)]
         public int? ReservedItemQuantity { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "availqty", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(calculatedColumnSql: "0.0", modeltype: FwDataTypes.Decimal)]
         public decimal? AvailableQuantity { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "availcolor", modeltype: FwDataTypes.OleToHtmlColor)]
-        public string AvailableQuantityColor { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(calculatedColumnSql: "''", modeltype: FwDataTypes.Text)]
         public string AvailabilityState { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "availqtyallwh", modeltype: FwDataTypes.Decimal)]
-        public decimal? AvailableAllWarehousesQuantity { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "availcolorallwh", modeltype: FwDataTypes.Integer)]
-        public int? AvailableAllWarehousesQuantityColor { get; set; }
-        //------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "conflictdate", modeltype: FwDataTypes.Date)]
-        //public string ConflictDate { get; set; }
-        ////------------------------------------------------------------------------------------ 
         [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Date)]
         public string ConflictDate { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "conflictdateallwh", modeltype: FwDataTypes.Date)]
-        public string ConflictDateAllWarehouses { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "conflictdateconsign", modeltype: FwDataTypes.Date)]
-        public string ConflictDateConsignment { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "unitid", modeltype: FwDataTypes.Text)]
         public string UnitId { get; set; }
@@ -533,18 +525,6 @@ namespace WebApi.Modules.Home.OrderItem
         //[FwSqlDataField(column: "excludefromquikpaydiscount", modeltype: FwDataTypes.Boolean)]
         //public bool? Excludefromquikpaydiscount { get; set; }
         ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "availcolorsummary", modeltype: FwDataTypes.Integer)]
-        //public int? Availcolorsummary { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "availcolorallwh", modeltype: FwDataTypes.Integer)]
-        //public int? Availcolorallwh { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "availcolorconsign", modeltype: FwDataTypes.Integer)]
-        //public int? Availcolorconsign { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "availcolorconsignsummary", modeltype: FwDataTypes.Integer)]
-        //public int? Availcolorconsignsummary { get; set; }
-        ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "primaryitemorder", modeltype: FwDataTypes.Text)]
         //public string Primaryitemorder { get; set; }
         ////------------------------------------------------------------------------------------ 
@@ -568,15 +548,6 @@ namespace WebApi.Modules.Home.OrderItem
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "availsequence", modeltype: FwDataTypes.Text)]
         //public string Availsequence { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "conflict", modeltype: FwDataTypes.Boolean)]
-        //public bool? Conflict { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "forceconflictflg", modeltype: FwDataTypes.Boolean)]
-        //public bool? Forceconflictflg { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "positiveconflict", modeltype: FwDataTypes.Boolean)]
-        //public bool? Positiveconflict { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "issplit", modeltype: FwDataTypes.Boolean)]
         //public bool? Issplit { get; set; }
@@ -679,45 +650,6 @@ namespace WebApi.Modules.Home.OrderItem
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "weeksanddaysexcluded", modeltype: FwDataTypes.Boolean)]
         //public bool? Weeksanddaysexcluded { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "conflictdate", modeltype: FwDataTypes.Date)]
-        //public string Conflictdate { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "conflictdatesummary", modeltype: FwDataTypes.Date)]
-        //public string Conflictdatesummary { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "conflictdateallwh", modeltype: FwDataTypes.Date)]
-        //public string Conflictdateallwh { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "conflictdateconsign", modeltype: FwDataTypes.Date)]
-        //public string Conflictdateconsign { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "conflictdateconsignsummary", modeltype: FwDataTypes.Date)]
-        //public string Conflictdateconsignsummary { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "conflictdateconsignallwh", modeltype: FwDataTypes.Date)]
-        //public string Conflictdateconsignallwh { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "availiscurrent", modeltype: FwDataTypes.Boolean)]
-        //public bool? Availiscurrent { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "availiscurrentallwh", modeltype: FwDataTypes.Boolean)]
-        //public bool? Availiscurrentallwh { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "availqtysummary", modeltype: FwDataTypes.Decimal)]
-        //public decimal? AvailQuantitysummary { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "availqtyallwh", modeltype: FwDataTypes.Decimal)]
-        //public decimal? AvailQuantityallwh { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "availqtyconsign", modeltype: FwDataTypes.Integer)]
-        //public int? AvailQuantityconsign { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "availqtyconsignsummary", modeltype: FwDataTypes.Integer)]
-        //public int? AvailQuantityconsignsummary { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "availqtyconsignallwh", modeltype: FwDataTypes.Integer)]
-        //public int? AvailQuantityconsignallwh { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "ldoutqty", modeltype: FwDataTypes.Integer)]
         //public int? LdoutQuantity { get; set; }
@@ -830,8 +762,15 @@ namespace WebApi.Modules.Home.OrderItem
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
             string orderId = OrderId;
-            bool summaryMode = false;
+            bool summaryMode = GetUniqueIdAsBoolean("Summary", request).GetValueOrDefault(false);
             bool subs = false;
+            bool splitDetails = GetUniqueIdAsBoolean("SplitDetails", request).GetValueOrDefault(false);
+            _shortagesOnly = GetUniqueIdAsBoolean("ShortagesOnly", request).GetValueOrDefault(false);
+
+            if ((splitDetails) || (DetailOnly.GetValueOrDefault(false)))
+            {
+                OverrideTableName = "orderitemdetailwebview";
+            }
 
             if (string.IsNullOrEmpty(orderId))
             {
@@ -853,9 +792,6 @@ namespace WebApi.Modules.Home.OrderItem
                 orderId = "~xx~";
             }
 
-            summaryMode = GetUniqueIdAsBoolean("Summary", request).GetValueOrDefault(false);
-            _shortagesOnly = GetUniqueIdAsBoolean("ShortagesOnly", request).GetValueOrDefault(false);
-
             if (!subs)
             {
                 subs = GetUniqueIdAsBoolean("Subs", request).GetValueOrDefault(false);
@@ -870,7 +806,7 @@ namespace WebApi.Modules.Home.OrderItem
                 StringBuilder summaryWhere = new StringBuilder();
                 summaryWhere.Append(" (not                     ");
                 summaryWhere.Append("     ( ");
-                summaryWhere.Append("     (isnull(substring(itemclass, 2, 1), '') in ('I', 'O')) ");
+                summaryWhere.Append("     (isnull(substring(itemclass, 2, 1), '') in ('" + RwConstants.ITEMCLASS_SUFFIX_ITEM + "', '" + RwConstants.ITEMCLASS_SUFFIX_OPTION + "')) ");
                 summaryWhere.Append("     and   displaywhenrateiszero <> 'T'");
                 summaryWhere.Append("     and   price                 = 0  ");
                 summaryWhere.Append("     and   parentid             <> ''");
@@ -885,10 +821,6 @@ namespace WebApi.Modules.Home.OrderItem
 
             select.AddWhere("orderid = @orderid");
             select.AddParameter("@orderid", orderId);
-
-            // saved here for AfterBrowse
-            //_refreshAvailability = refreshAvailability;
-
         }
         //------------------------------------------------------------------------------------ 
         private string getICodeColor(string itemClass)
@@ -934,7 +866,6 @@ namespace WebApi.Modules.Home.OrderItem
                         TInventoryWarehouseAvailabilityKey availKey = new TInventoryWarehouseAvailabilityKey(inventoryId, warehouseId);
                         TInventoryWarehouseAvailability availData = null;
 
-
                         decimal qtyAvailable = 0;
                         bool isStale = true;
                         DateTime? conflictDate = null;
@@ -957,9 +888,7 @@ namespace WebApi.Modules.Home.OrderItem
                         {
                             row[dt.GetColumnNo("ConflictDate")] = FwConvert.ToUSShortDate(conflictDate.GetValueOrDefault(DateTime.MinValue));
                         }
-                        row[dt.GetColumnNo("AvailableQuantityColor")] = availColor;
                         row[dt.GetColumnNo("AvailabilityState")] = availabilityState;
-
                         row[dt.GetColumnNo("ICodeColor")] = getICodeColor(row[dt.GetColumnNo("ItemClass")].ToString());
                         row[dt.GetColumnNo("DescriptionColor")] = getDescriptionColor(row[dt.GetColumnNo("ItemClass")].ToString());
                         row[dt.GetColumnNo("SubQuantityColor")] = getSubQuantityColor(row[dt.GetColumnNo("SubPurchaseOrderItemId")].ToString());
@@ -970,7 +899,7 @@ namespace WebApi.Modules.Home.OrderItem
                 {
                     if (_shortagesOnly)
                     {
-                        for (int r = dt.Rows.Count-1; r>=0; r--)
+                        for (int r = dt.Rows.Count - 1; r >= 0; r--)
                         {
                             if (FwConvert.ToInt32(dt.Rows[r][dt.GetColumnNo("AvailableQuantity")]) >= 0)
                             {

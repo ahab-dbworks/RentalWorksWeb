@@ -27,6 +27,14 @@ namespace FwStandard.BusinessLogic
         public FwSqlConnection SqlConnection { get; set; }
     }
 
+    public class InsteadOfSaveEventArgs : EventArgs
+    {
+        public TDataRecordSaveMode SaveMode { get; set; }
+        public FwBusinessLogic Original { get; set; }
+        public FwSqlConnection SqlConnection { get; set; }
+        public bool SavePerformed { get; set; } = false;
+    }
+
     public class AfterSaveEventArgs : EventArgs
     {
         public TDataRecordSaveMode SaveMode { get; set; }
@@ -40,6 +48,13 @@ namespace FwStandard.BusinessLogic
         public TDataRecordSaveMode SaveMode { get; set; }
         public FwDataReadWriteRecord Original { get; set; }
         public bool PerformSave { get; set; } = true;
+        public FwSqlConnection SqlConnection { get; set; }
+    }
+
+    public class InsteadOfSaveDataRecordEventArgs : EventArgs
+    {
+        public TDataRecordSaveMode SaveMode { get; set; }
+        public FwDataReadWriteRecord Original { get; set; }
         public FwSqlConnection SqlConnection { get; set; }
     }
 
@@ -201,6 +216,7 @@ namespace FwStandard.BusinessLogic
         public FwCustomValues _Custom = new FwCustomValues();  //todo: don't initialize here.  Instead, only initialize when custom fields exist for this module.  load custom fields in a static class.
 
         public event EventHandler<BeforeSaveEventArgs> BeforeSave;
+        public event EventHandler<InsteadOfSaveEventArgs> InsteadOfSave;
         public event EventHandler<AfterSaveEventArgs> AfterSave;
         public event EventHandler<BeforeValidateEventArgs> BeforeValidate;
         public event EventHandler<BeforeDeleteEventArgs> BeforeDelete;
@@ -208,6 +224,7 @@ namespace FwStandard.BusinessLogic
         public event EventHandler<AfterMapEventArgs> AfterMap;
 
         public delegate void BeforeSaveEventHandler(BeforeSaveEventArgs e);
+        public delegate void InsteadOfSaveEventHandler(InsteadOfSaveEventArgs e);
         public delegate void AfterSaveEventHandler(AfterSaveEventArgs e);
         public delegate void BeforeValidateEventHandler(BeforeValidateEventArgs e);
         public delegate void BeforeDeleteEventHandler(BeforeDeleteEventArgs e);
@@ -217,6 +234,11 @@ namespace FwStandard.BusinessLogic
         protected virtual async Task BeforeSaveAsync(BeforeSaveEventArgs e)
         {
             BeforeSave?.Invoke(this, e);
+            await Task.CompletedTask;
+        }
+        protected virtual async Task InsteadOfSaveAsync(InsteadOfSaveEventArgs e)
+        {
+            InsteadOfSave?.Invoke(this, e);
             await Task.CompletedTask;
         }
         protected virtual async Task AfterSaveAsync(AfterSaveEventArgs e)
@@ -626,6 +648,15 @@ namespace FwStandard.BusinessLogic
                 else if (propertyType == typeof(string))
                 {
                     pkProperty.SetValue(this, ids[i]);
+                }
+                else if ((propertyType == typeof(bool?)) || (propertyType == typeof(bool)))
+                {
+                    bool b = false;
+                    if (ids[i] != null)
+                    {
+                        b = FwConvert.ToBoolean(ids[i].ToString());
+                    }
+                    pkProperty.SetValue(this, b);
                 }
                 else
                 {
@@ -1145,6 +1176,11 @@ namespace FwStandard.BusinessLogic
                 beforeSaveArgs.Original = original;
                 beforeSaveArgs.SqlConnection = conn;
 
+                InsteadOfSaveEventArgs insteadOfSaveArgs = new InsteadOfSaveEventArgs();
+                insteadOfSaveArgs.SaveMode = saveMode;
+                insteadOfSaveArgs.Original = original;
+                insteadOfSaveArgs.SqlConnection = conn;
+
                 AfterSaveEventArgs afterSaveArgs = new AfterSaveEventArgs();
                 afterSaveArgs.SaveMode = saveMode;
                 afterSaveArgs.Original = original;
@@ -1154,28 +1190,37 @@ namespace FwStandard.BusinessLogic
                 await BeforeSaveAsync(beforeSaveArgs);
                 if (beforeSaveArgs.PerformSave)
                 {
-                    FwDataReadWriteRecord originalRec = null;
-                    for (int r = 0; r < dataRecords.Count; r++)
+                    bool savePerformed = false;
+                    if (InsteadOfSave != null)
                     {
-                        var rec = dataRecords[r];
-                        if (original != null)
-                        {
-                            originalRec = original.dataRecords[r];
-                        }
-                        rowsAffected += await rec.SaveAsync(originalRec, conn);
+                        InsteadOfSave(this, insteadOfSaveArgs);
+                        savePerformed = insteadOfSaveArgs.SavePerformed;
                     }
-                    LoadCustomFields();
+                    else
+                    {
+                        FwDataReadWriteRecord originalRec = null;
+                        for (int r = 0; r < dataRecords.Count; r++)
+                        {
+                            var rec = dataRecords[r];
+                            if (original != null)
+                            {
+                                originalRec = original.dataRecords[r];
+                            }
+                            rowsAffected += await rec.SaveAsync(originalRec, conn);
+                        }
+                        LoadCustomFields();
 
-                    bool customFieldsSaved = false;
-                    if (_Custom.Count > 0)
-                    {
-                        customFieldsSaved = await _Custom.SaveAsync(GetPrimaryKeys(), conn);
-                        if (customFieldsSaved && rowsAffected == 0)
+                        bool customFieldsSaved = false;
+                        if (_Custom.Count > 0)
                         {
-                            rowsAffected = 1;
+                            customFieldsSaved = await _Custom.SaveAsync(GetPrimaryKeys(), conn);
+                            if (customFieldsSaved && rowsAffected == 0)
+                            {
+                                rowsAffected = 1;
+                            }
                         }
+                        savePerformed = ((rowsAffected > 0) || customFieldsSaved);
                     }
-                    bool savePerformed = ((rowsAffected > 0) || customFieldsSaved);
 
                     //justin 10/16/2018 CAS-23961-WQNG temporary fix to make the AfterSave fire whenever notes are supplied.  Notes are currently saved outside of this framework.
                     //justin 03/05/2019 would like to automate the saving of "notes" data to the appnote table instead of hand-coding the save function in each inherited BusinessLogic.

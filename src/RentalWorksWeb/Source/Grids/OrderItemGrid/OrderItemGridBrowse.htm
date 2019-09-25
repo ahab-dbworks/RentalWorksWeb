@@ -11,6 +11,9 @@
   <div class="column" data-width="0" data-visible="false">
     <div class="field" data-datafield="ItemClass" data-datatype="text" data-formreadonly="true" data-sort="off"></div>
   </div>
+  <div class="column" data-width="0" data-visible="false">
+    <div class="field order-item-rowsrolledup" data-datafield="RowsRolledUp" data-datatype="text" data-formreadonly="true" data-sort="none"></div>
+  </div>
   <div class="column individual" data-width="10px" data-visible="true">
     <div class="field template" data-caption="&#35;" data-datafield="RowNumber" data-datatype="text" data-sort="off" data-formreadonly="true"></div>
   </div>
@@ -19,6 +22,10 @@
   </div>
   <div class="column combined" data-width="80px" data-visible="false">
     <div class="field" data-caption="Type" data-datafield="RecType" data-browsedisplayfield="RecTypeDisplay" data-datatype="validation" data-sort="off" data-validationpeek="false" data-validationname="RecTypeValidation"></div>
+  </div>
+  <div class="column subpo" data-width="100px" data-visible="false">
+    <!--<div class="field" data-caption="PO No." data-datafield="PoSubOrderId" data-browsedisplayfield="PoSubOrderNumber" data-validationname="PurchaseOrderValidation" data-datatype="validation" data-mappedfield="PoNumber" data-formreadonly="true" data-sort="asc"></div>-->
+    <div class="field" data-datafield="SubPurchaseOrderItemId" data-datatype="text" data-formreadonly="true" data-sort="asc"></div>
   </div>
   <div class="column suborder" data-width="100px" data-visible="false">
     <div class="field" data-caption="Order No." data-datafield="PoSubOrderId" data-browsedisplayfield="PoSubOrderNumber" data-validationname="OrderValidation" data-datatype="validation" data-mappedfield="PoSubOrderNumber" data-formreadonly="true" data-sort="asc"></div>
@@ -78,7 +85,7 @@
     <div class="field" data-caption="Availablility State" data-datafield="AvailabilityState" data-datatype="text" data-sort="off" data-formreadonly="true"></div>
   </div>
   <div class="column" data-width="40px" data-visible="true">
-    <div class="field" data-caption="All WH" data-datafield="AvailableAllWarehousesQuantity" data-cellcolor="AvailableAllWarehousesQuantityColor" data-datatype="number" data-sort="none" data-formreadonly="true" data-mappedfield="AvailableAllWarehousesQuantity"></div>
+    <div class="field" data-caption="All WH" data-datafield="AvailableAllWarehousesQuantity" data-datatype="number" data-sort="none" data-formreadonly="true" data-mappedfield="AvailableAllWarehousesQuantity"></div>
   </div>
   <div class="column" data-width="75px" data-visible="true">
     <div class="field" data-caption="Conflict" data-datafield="ConflictDate" data-datatype="date" data-sort="none" data-formreadonly="true" data-mappedfield="ConflictDate"></div>

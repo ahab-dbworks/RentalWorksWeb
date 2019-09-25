@@ -1,16 +1,16 @@
 using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using WebApi.Logic;
 using WebApi.Modules.Home.InventoryAvailability;
-using WebApi.Modules.Home.Master;
 using WebApi.Modules.Home.MasterItem;
 using WebApi.Modules.Home.Order;
 using WebLibrary;
 
 namespace WebApi.Modules.Home.OrderItem
 {
-    [FwLogic(Id:"N05EVbv5HL3y")]
+    [FwLogic(Id: "N05EVbv5HL3y")]
     public class OrderItemLogic : AppBusinessLogic
     {
         private string OriginalItemClass;
@@ -25,257 +25,261 @@ namespace WebApi.Modules.Home.OrderItem
             dataRecords.Add(orderItem);
             dataLoader = orderItemLoader;
 
-            orderItem.AfterSave += OnAfterSaveOrderItem;
             BeforeSave += OnBeforeSave;
             AfterSave += OnAfterSave;
         }
         //------------------------------------------------------------------------------------ 
-        [FwLogicProperty(Id:"j5BoEx9ak5Ry", IsPrimaryKey:true)]
+        [FwLogicProperty(Id: "j5BoEx9ak5Ry", IsPrimaryKey: true)]
         public string OrderItemId { get { return orderItem.MasterItemId; } set { orderItem.MasterItemId = value; } }
 
-        [FwLogicProperty(Id:"OAKJ6N3eUpao")]
+        [FwLogicProperty(Id: "OAKJ6N3eUpao")]
         public string OrderId { get { return orderItem.OrderId; } set { orderItem.OrderId = value; } }
 
-        [FwLogicProperty(Id:"6sOCOcNV2gVV")]
+        [FwLogicProperty(Id: "AsMKdufgM74qt")]
+        public bool? RowsRolledUp { get; set; }
+
+        [FwLogicProperty(Id: "OeNeaMjQUYmLH")]
+        public string RolledUpIds { get; set; }
+
+        //this field is called PrimaryKey only to allow the FrameWork to pass it to the Loader.  Allows developer to foce the detail row to be loaded when desired
+        [JsonIgnore]
+        [FwLogicProperty(Id: "ovkYGK5CTBmcX", IsReadOnly: true, IsPrimaryKey: true, IsPrimaryKeyOptional: true)]
+        public bool? DetailOnly { get; set; }
+
+        [FwLogicProperty(Id: "6sOCOcNV2gVV")]
         public string RecType { get { return orderItem.RecType; } set { orderItem.RecType = value; } }
 
-        [FwLogicProperty(Id:"BK5pcd3yhqHk", IsReadOnly:true)]
+        [FwLogicProperty(Id: "BK5pcd3yhqHk", IsReadOnly: true)]
         public string RecTypeDisplay { get; set; }
 
-        [FwLogicProperty(Id:"NtiA3zTf3Trc", IsReadOnly:true)]
+        [FwLogicProperty(Id: "NtiA3zTf3Trc", IsReadOnly: true)]
         public int? RowNumber { get; set; }
 
-        [FwLogicProperty(Id:"QD4tvO0cAUb7")]
+        [FwLogicProperty(Id: "QD4tvO0cAUb7")]
         public string InventoryId { get { return orderItem.InventoryId; } set { orderItem.InventoryId = value; } }
 
-        [FwLogicProperty(Id:"xIkgrGEWdaUB", IsReadOnly:true)]
+        [FwLogicProperty(Id: "xIkgrGEWdaUB", IsReadOnly: true)]
         public string ICode { get; set; }
 
-        [FwLogicProperty(Id:"lFFaCwPq4CVY")]
+        [FwLogicProperty(Id: "lFFaCwPq4CVY")]
         public string ICodeColor { get; set; }
 
-        [FwLogicProperty(Id:"2UNmRTEnzcLN")]
+        [FwLogicProperty(Id: "2UNmRTEnzcLN")]
         public string Description { get { return orderItem.Description; } set { orderItem.Description = value; } }
 
-        [FwLogicProperty(Id:"yBhefWjf1iXP")]
+        [FwLogicProperty(Id: "yBhefWjf1iXP")]
         public string DescriptionColor { get; set; }
 
-        [FwLogicProperty(Id:"Fi6gMVn3kom1")]
+        [FwLogicProperty(Id: "Fi6gMVn3kom1")]
         public string PickDate { get { return orderItem.PickDate; } set { orderItem.PickDate = value; } }
 
-        [FwLogicProperty(Id:"SnnaBDaibQIM")]
+        [FwLogicProperty(Id: "SnnaBDaibQIM")]
         public string PickTime { get { return orderItem.PickTime; } set { orderItem.PickTime = value; } }
 
-        [FwLogicProperty(Id:"p9q9hxotQsNZ")]
+        [FwLogicProperty(Id: "p9q9hxotQsNZ")]
         public string FromDate { get { return orderItem.FromDate; } set { orderItem.FromDate = value; } }
 
-        [FwLogicProperty(Id:"2ARsSnjZ9U6S")]
+        [FwLogicProperty(Id: "2ARsSnjZ9U6S")]
         public string FromTime { get { return orderItem.FromTime; } set { orderItem.FromTime = value; } }
 
-        [FwLogicProperty(Id:"fzUKdQ5dcMVA")]
+        [FwLogicProperty(Id: "fzUKdQ5dcMVA")]
         public string ToDate { get { return orderItem.ToDate; } set { orderItem.ToDate = value; } }
 
-        [FwLogicProperty(Id:"OMyyJjNQ4xB8")]
+        [FwLogicProperty(Id: "OMyyJjNQ4xB8")]
         public string ToTime { get { return orderItem.ToTime; } set { orderItem.ToTime = value; } }
 
-        [FwLogicProperty(Id:"eODVDwIqgxZD", IsReadOnly:true)]
+        [FwLogicProperty(Id: "eODVDwIqgxZD", IsReadOnly: true)]
         public decimal? BillablePeriods { get; set; }
 
-        [FwLogicProperty(Id:"4zAONsnFq94R")]
+        [FwLogicProperty(Id: "4zAONsnFq94R")]
         public decimal? QuantityOrdered { get { return orderItem.QuantityOrdered; } set { orderItem.QuantityOrdered = value; } }
 
-        [FwLogicProperty(Id:"fzTd0fTQvjjS")]
+        [FwLogicProperty(Id: "fzTd0fTQvjjS")]
         public decimal? SubQuantity { get { return orderItem.SubQuantity; } set { orderItem.SubQuantity = value; } }
 
-        [FwLogicProperty(Id:"0bMbDmb0dtJT", IsReadOnly:true)]
+        [FwLogicProperty(Id: "0bMbDmb0dtJT", IsReadOnly: true)]
         public string SubQuantityColor { get; set; }
 
-        [FwLogicProperty(Id:"m19auC9SJFxP")]
+        [FwLogicProperty(Id: "m19auC9SJFxP")]
         public int? ConsignQuantity { get { return orderItem.ConsignQuantity; } set { orderItem.ConsignQuantity = value; } }
 
-        [FwLogicProperty(Id:"0DIiGv2TZoYQ", IsReadOnly:true)]
+        [FwLogicProperty(Id: "0DIiGv2TZoYQ", IsReadOnly: true)]
         public int? ReservedItemQuantity { get; set; }
 
-        [FwLogicProperty(Id:"9GCGUd4nSEzY", IsReadOnly:true)]
+        [FwLogicProperty(Id: "9GCGUd4nSEzY", IsReadOnly: true)]
         public decimal? AvailableQuantity { get; set; }
-
-        [FwLogicProperty(Id:"9GCGUd4nSEzY", IsReadOnly:true)]
-        public string AvailableQuantityColor { get; set; }
 
         [FwLogicProperty(Id: "eNrj2HGEqivOG", IsReadOnly: true)]
         public string AvailabilityState { get; set; }
 
-        [FwLogicProperty(Id:"72nuyMc1ObMF", IsReadOnly:true)]
+        [FwLogicProperty(Id: "72nuyMc1ObMF", IsReadOnly: true)]
         public decimal? AvailableAllWarehousesQuantity { get; set; }
 
-        [FwLogicProperty(Id:"72nuyMc1ObMF", IsReadOnly:true)]
-        public int? AvailableAllWarehousesQuantityColor { get; set; }
-
-        [FwLogicProperty(Id:"uyqTEgf63XVZ", IsReadOnly:true)]
+        [FwLogicProperty(Id: "uyqTEgf63XVZ", IsReadOnly: true)]
         public string ConflictDate { get; set; }
 
-        [FwLogicProperty(Id:"uyqTEgf63XVZ", IsReadOnly:true)]
+        [FwLogicProperty(Id: "uyqTEgf63XVZ", IsReadOnly: true)]
         public string ConflictDateAllWarehouses { get; set; }
 
-        [FwLogicProperty(Id:"uyqTEgf63XVZ", IsReadOnly:true)]
+        [FwLogicProperty(Id: "uyqTEgf63XVZ", IsReadOnly: true)]
         public string ConflictDateConsignment { get; set; }
 
-        [FwLogicProperty(Id:"iveRLjAjbZfE")]
+        [FwLogicProperty(Id: "iveRLjAjbZfE")]
         public string UnitId { get { return orderItem.UnitId; } set { orderItem.UnitId = value; } }
 
-        [FwLogicProperty(Id:"lOxm8tMSUg0H", IsReadOnly:true)]
+        [FwLogicProperty(Id: "lOxm8tMSUg0H", IsReadOnly: true)]
         public string Unit { get; set; }
 
-        [FwLogicProperty(Id:"afqSIpqM2zRl")]
+        [FwLogicProperty(Id: "afqSIpqM2zRl")]
         public decimal? UnitCost { get { return orderItem.UnitCost; } set { orderItem.UnitCost = value; } }
 
-        [FwLogicProperty(Id:"oviFmLXKieOY")]
+        [FwLogicProperty(Id: "oviFmLXKieOY")]
         public decimal? MarginPercent { get { return orderItem.MarginPercent; } set { orderItem.MarginPercent = value; } }
 
-        [FwLogicProperty(Id:"sqHWUPCwXBV7")]
+        [FwLogicProperty(Id: "sqHWUPCwXBV7")]
         public decimal? MarkupPercent { get { return orderItem.MarkupPercent; } set { orderItem.MarkupPercent = value; } }
 
-        [FwLogicProperty(Id:"ax63RXYHuhIg")]
+        [FwLogicProperty(Id: "ax63RXYHuhIg")]
         public decimal? PremiumPercent { get { return orderItem.PremiumPercent; } set { orderItem.PremiumPercent = value; } }
 
 
 
-        [FwLogicProperty(Id:"wHykSivokIui")]
+        [FwLogicProperty(Id: "wHykSivokIui")]
         public string CrewContactId { get { return orderItem.CrewContactId; } set { orderItem.CrewContactId = value; } }
 
-        [FwLogicProperty(Id:"hq5SJLid3NUW", IsReadOnly:true)]
+        [FwLogicProperty(Id: "hq5SJLid3NUW", IsReadOnly: true)]
         public string CrewName { get; set; }
 
-        [FwLogicProperty(Id:"O6sFxr5sDp9g")]
+        [FwLogicProperty(Id: "O6sFxr5sDp9g")]
         public decimal? Hours { get { return orderItem.Hours; } set { orderItem.Hours = value; } }
 
-        [FwLogicProperty(Id:"pXJCm4PiQysJ")]
+        [FwLogicProperty(Id: "pXJCm4PiQysJ")]
         public decimal? HoursOvertime { get { return orderItem.HoursOvertime; } set { orderItem.HoursOvertime = value; } }
 
-        [FwLogicProperty(Id:"Gmv7ENhx95Vp")]
+        [FwLogicProperty(Id: "Gmv7ENhx95Vp")]
         public decimal? HoursDoubletime { get { return orderItem.HoursDoubletime; } set { orderItem.HoursDoubletime = value; } }
 
 
 
-        [FwLogicProperty(Id:"942P4NHhJ4oI")]
+        [FwLogicProperty(Id: "942P4NHhJ4oI")]
         public decimal? Price { get { return orderItem.Price; } set { orderItem.Price = value; } }
 
-        [FwLogicProperty(Id:"VP8DplnNZi1q")]
+        [FwLogicProperty(Id: "VP8DplnNZi1q")]
         public decimal? Price2 { get { return orderItem.Price2; } set { orderItem.Price2 = value; } }
 
-        [FwLogicProperty(Id:"JyeG0VBB1DLv")]
+        [FwLogicProperty(Id: "JyeG0VBB1DLv")]
         public decimal? Price3 { get { return orderItem.Price3; } set { orderItem.Price3 = value; } }
 
-        [FwLogicProperty(Id:"UcLWk6jILxt1")]
+        [FwLogicProperty(Id: "UcLWk6jILxt1")]
         public decimal? Price4 { get { return orderItem.Price4; } set { orderItem.Price4 = value; } }
 
-        [FwLogicProperty(Id:"VcaO5H1IJ4AB")]
+        [FwLogicProperty(Id: "VcaO5H1IJ4AB")]
         public decimal? Price5 { get { return orderItem.Price5; } set { orderItem.Price5 = value; } }
 
-        [FwLogicProperty(Id:"4inUtg3xbuNn")]
+        [FwLogicProperty(Id: "4inUtg3xbuNn")]
         public decimal? DaysPerWeek { get { return orderItem.DaysPerWeek; } set { orderItem.DaysPerWeek = value; } }
 
-        [FwLogicProperty(Id:"LGRvNm8smgXM")]
+        [FwLogicProperty(Id: "LGRvNm8smgXM")]
         public decimal? DiscountPercent { get { return orderItem.DiscountPercent; } set { orderItem.DiscountPercent = value; } }
 
-        [FwLogicProperty(Id:"XveWv5CJHrHG", IsReadOnly:true)]
+        [FwLogicProperty(Id: "XveWv5CJHrHG", IsReadOnly: true)]
         public decimal? DiscountPercentDisplay { get; set; }
 
 
 
 
 
-        [FwLogicProperty(Id:"lOxm8tMSUg0H", IsReadOnly:true)]
+        [FwLogicProperty(Id: "lOxm8tMSUg0H", IsReadOnly: true)]
         public decimal? UnitExtendedNoDiscount { get; set; }
 
-        [FwLogicProperty(Id:"lOxm8tMSUg0H", IsReadOnly:true)]
+        [FwLogicProperty(Id: "lOxm8tMSUg0H", IsReadOnly: true)]
         public decimal? UnitDiscountAmount { get; set; }
 
-        [FwLogicProperty(Id:"lOxm8tMSUg0H", IsReadOnly:true)]
+        [FwLogicProperty(Id: "lOxm8tMSUg0H", IsReadOnly: true)]
         public decimal? UnitExtended { get; set; }
 
-        [FwLogicProperty(Id:"VCuU57T6mUQT", IsReadOnly:true)]
+        [FwLogicProperty(Id: "VCuU57T6mUQT", IsReadOnly: true)]
         public decimal? WeeklyExtendedNoDiscount { get; set; }
 
-        [FwLogicProperty(Id:"U6SQuOYSOav3", IsReadOnly:true)]
+        [FwLogicProperty(Id: "U6SQuOYSOav3", IsReadOnly: true)]
         public decimal? WeeklyDiscountAmount { get; set; }
 
-        [FwLogicProperty(Id:"VCuU57T6mUQT", IsReadOnly:true)]
+        [FwLogicProperty(Id: "VCuU57T6mUQT", IsReadOnly: true)]
         public decimal? WeeklyExtended { get; set; }
 
-        [FwLogicProperty(Id:"SjBEnC0Gw7W6", IsReadOnly:true)]
+        [FwLogicProperty(Id: "SjBEnC0Gw7W6", IsReadOnly: true)]
         public decimal? WeeklyCostExtended { get; set; }
 
-        [FwLogicProperty(Id:"8FotF6KXPAc9", IsReadOnly:true)]
+        [FwLogicProperty(Id: "8FotF6KXPAc9", IsReadOnly: true)]
         public decimal? WeeklyTax { get; set; }
 
         [FwLogicProperty(Id: "FUB8yskSCpCVj", IsReadOnly: true)]
         public decimal? WeeklyTotal { get; set; }
 
-        [FwLogicProperty(Id:"mBjGTUbEP0DD")]
+        [FwLogicProperty(Id: "mBjGTUbEP0DD")]
         public decimal? Week2Extended { get; set; }
 
-        [FwLogicProperty(Id:"5AQ6ngTbtAdt", IsReadOnly:true)]
+        [FwLogicProperty(Id: "5AQ6ngTbtAdt", IsReadOnly: true)]
         public decimal? Week3Extended { get; set; }
 
-        [FwLogicProperty(Id:"zTEjmXFtaony", IsReadOnly:true)]
+        [FwLogicProperty(Id: "zTEjmXFtaony", IsReadOnly: true)]
         public decimal? Weeks1Through3Extended { get; set; }
 
-        [FwLogicProperty(Id:"XmTkwFvdRIfO", IsReadOnly:true)]
+        [FwLogicProperty(Id: "XmTkwFvdRIfO", IsReadOnly: true)]
         public decimal? Weeks4PlusExtended { get; set; }
 
-        [FwLogicProperty(Id:"SKi7wZVHuMLb", IsReadOnly:true)]
+        [FwLogicProperty(Id: "SKi7wZVHuMLb", IsReadOnly: true)]
         public decimal? Week4Extended { get; set; }
 
-        [FwLogicProperty(Id:"0f68TPtI5WWo", IsReadOnly:true)]
+        [FwLogicProperty(Id: "0f68TPtI5WWo", IsReadOnly: true)]
         public decimal? AverageWeeklyExtended { get; set; }
 
-        [FwLogicProperty(Id:"0f68TPtI5WWo", IsReadOnly:true)]
+        [FwLogicProperty(Id: "0f68TPtI5WWo", IsReadOnly: true)]
         public decimal? AverageWeeklyExtendedNoDiscount { get; set; }
 
-        [FwLogicProperty(Id:"ab4SmyGMUuyn", IsReadOnly:true)]
+        [FwLogicProperty(Id: "ab4SmyGMUuyn", IsReadOnly: true)]
         public int? Episodes { get; set; }
 
-        [FwLogicProperty(Id:"Khz9ko84K1xi", IsReadOnly:true)]
+        [FwLogicProperty(Id: "Khz9ko84K1xi", IsReadOnly: true)]
         public decimal? MonthlyExtendedNoDiscount { get; set; }
 
-        [FwLogicProperty(Id:"huBd3kB8ekSm", IsReadOnly:true)]
+        [FwLogicProperty(Id: "huBd3kB8ekSm", IsReadOnly: true)]
         public decimal? MonthlyDiscountAmount { get; set; }
 
-        [FwLogicProperty(Id:"Khz9ko84K1xi", IsReadOnly:true)]
+        [FwLogicProperty(Id: "Khz9ko84K1xi", IsReadOnly: true)]
         public decimal? MonthlyExtended { get; set; }
 
-        [FwLogicProperty(Id:"9tJ4UHRdwI30", IsReadOnly:true)]
+        [FwLogicProperty(Id: "9tJ4UHRdwI30", IsReadOnly: true)]
         public decimal? MonthlyCostExtended { get; set; }
 
-        [FwLogicProperty(Id:"NnVFcSmTD2zF", IsReadOnly:true)]
+        [FwLogicProperty(Id: "NnVFcSmTD2zF", IsReadOnly: true)]
         public decimal? MonthlyTax { get; set; }
 
         [FwLogicProperty(Id: "SvZ6addubgvnC", IsReadOnly: true)]
         public decimal? MonthlyTotal { get; set; }
 
-        [FwLogicProperty(Id:"16fZQS3NTlTW")]
+        [FwLogicProperty(Id: "16fZQS3NTlTW")]
         public decimal? PeriodExtendedNoDiscount { get; set; }
 
-        [FwLogicProperty(Id:"JNUQaXwAg2dB", IsReadOnly:true)]
+        [FwLogicProperty(Id: "JNUQaXwAg2dB", IsReadOnly: true)]
         public decimal? PeriodCostExtended { get; set; }
 
-        [FwLogicProperty(Id:"0olV7E3aEent", IsReadOnly:true)]
+        [FwLogicProperty(Id: "0olV7E3aEent", IsReadOnly: true)]
         public decimal? PeriodDiscountAmount { get; set; }
 
-        [FwLogicProperty(Id:"n3nkqImWmZK1", IsReadOnly:true)]
+        [FwLogicProperty(Id: "n3nkqImWmZK1", IsReadOnly: true)]
         public decimal? PeriodExtended { get; set; }
 
-        [FwLogicProperty(Id:"Fz0tQ5thjcfX", IsReadOnly:true)]
+        [FwLogicProperty(Id: "Fz0tQ5thjcfX", IsReadOnly: true)]
         public decimal? PeriodTax { get; set; }
 
         [FwLogicProperty(Id: "7N4hypXEFwSb7", IsReadOnly: true)]
         public decimal? PeriodTotal { get; set; }
 
-        [FwLogicProperty(Id:"OqjfCDLbWBhp", IsReadOnly:true)]
+        [FwLogicProperty(Id: "OqjfCDLbWBhp", IsReadOnly: true)]
         public decimal? PeriodVarianceExtended { get; set; }
 
-        [FwLogicProperty(Id:"CZsuRPakxuvE", IsReadOnly:true)]
+        [FwLogicProperty(Id: "CZsuRPakxuvE", IsReadOnly: true)]
         public decimal? VariancePercent { get; set; }
 
 
@@ -284,84 +288,84 @@ namespace WebApi.Modules.Home.OrderItem
 
 
 
-        [FwLogicProperty(Id:"gvVBDhMHpiqR")]
+        [FwLogicProperty(Id: "gvVBDhMHpiqR")]
         public bool? Bold { get { return orderItem.Bold; } set { orderItem.Bold = value; } }
 
-        [FwLogicProperty(Id:"3t82OibLduM4")]
+        [FwLogicProperty(Id: "3t82OibLduM4")]
         public bool? Locked { get { return orderItem.Locked; } set { orderItem.Locked = value; } }
 
-        [FwLogicProperty(Id:"4sm1QsukezOU")]
+        [FwLogicProperty(Id: "4sm1QsukezOU")]
         public bool? Taxable { get { return orderItem.Taxable; } set { orderItem.Taxable = value; } }
 
 
-        [FwLogicProperty(Id:"oYEkf28FoUTz")]
+        [FwLogicProperty(Id: "oYEkf28FoUTz")]
         public string WarehouseId { get { return orderItem.WarehouseId; } set { orderItem.WarehouseId = value; } }
 
-        [FwLogicProperty(Id:"rT3jbk0lrJjR", IsReadOnly:true)]
+        [FwLogicProperty(Id: "rT3jbk0lrJjR", IsReadOnly: true)]
         public string WarehouseCode { get; set; }
 
-        [FwLogicProperty(Id:"PdTsToHIWi3c")]
+        [FwLogicProperty(Id: "PdTsToHIWi3c")]
         public string ReturnToWarehouseId { get { return orderItem.ReturnToWarehouseId; } set { orderItem.ReturnToWarehouseId = value; } }
 
-        [FwLogicProperty(Id:"dWKczDxqA9Jh", IsReadOnly:true)]
+        [FwLogicProperty(Id: "dWKczDxqA9Jh", IsReadOnly: true)]
         public string ReturnToWarehouseCode { get; set; }
 
-        [FwLogicProperty(Id:"RT2U3nU2HIK0", IsReadOnly:true)]
+        [FwLogicProperty(Id: "RT2U3nU2HIK0", IsReadOnly: true)]
         public string Notes { get; set; }
 
-        [FwLogicProperty(Id:"Qlong658w5Mh", IsReadOnly:true)]
+        [FwLogicProperty(Id: "Qlong658w5Mh", IsReadOnly: true)]
         public string ItemOrder { get; set; }
 
 
-        [FwLogicProperty(Id:"wEauLrU45GML")]
+        [FwLogicProperty(Id: "wEauLrU45GML")]
         public string ParentId { get { return orderItem.ParentId; } set { orderItem.ParentId = value; } }
 
-        [FwLogicProperty(Id:"VcghZbMujni2")]
+        [FwLogicProperty(Id: "VcghZbMujni2")]
         public string ItemClass { get { return orderItem.ItemClass; } set { orderItem.ItemClass = value; } }
 
 
-        [FwLogicProperty(Id:"dN4KvdTOsjK0")]
+        [FwLogicProperty(Id: "dN4KvdTOsjK0")]
         public string RetiredReasonId { get { return orderItem.RetiredReasonId; } set { orderItem.RetiredReasonId = value; } }
 
-        [FwLogicProperty(Id:"hoawNFkayBP8", IsReadOnly:true)]
+        [FwLogicProperty(Id: "hoawNFkayBP8", IsReadOnly: true)]
         public string RetiredReason { get; set; }
 
-        [FwLogicProperty(Id:"cOAWsfYNbYIZ")]
+        [FwLogicProperty(Id: "cOAWsfYNbYIZ")]
         public string ItemId { get { return orderItem.ItemId; } set { orderItem.ItemId = value; } }
 
-        [FwLogicProperty(Id:"evXOlAWq1ZkY", IsReadOnly:true)]
+        [FwLogicProperty(Id: "evXOlAWq1ZkY", IsReadOnly: true)]
         public string BarCode { get; set; }
 
-        [FwLogicProperty(Id:"8b3GnpOIQeTg", IsReadOnly:true)]
+        [FwLogicProperty(Id: "8b3GnpOIQeTg", IsReadOnly: true)]
         public string SerialNumber { get; set; }
 
 
-        [FwLogicProperty(Id:"qi5o8wEKKUsY")]
+        [FwLogicProperty(Id: "qi5o8wEKKUsY")]
         public string ManufacturerPartNumber { get { return orderItem.ManufacturerPartNumber; } set { orderItem.ManufacturerPartNumber = value; } }
 
 
 
-        [FwLogicProperty(Id:"kjUv2AElj7gT", IsReadOnly:true)]
+        [FwLogicProperty(Id: "kjUv2AElj7gT", IsReadOnly: true)]
         public string PoSubOrderId { get; set; }
 
-        [FwLogicProperty(Id:"j5BoEx9ak5Ry", IsReadOnly:true)]
+        [FwLogicProperty(Id: "j5BoEx9ak5Ry", IsReadOnly: true)]
         public string PoSubOrderItemId { get; set; }
 
-        [FwLogicProperty(Id:"xA0AyEdCclax", IsReadOnly:true)]
+        [FwLogicProperty(Id: "xA0AyEdCclax", IsReadOnly: true)]
         public string PoSubOrderNumber { get; set; }
 
 
         //------------------------------------------------------------------------------------ 
 
-        [FwLogicProperty(Id:"kjUv2AElj7gT", IsReadOnly:true)]
+        [FwLogicProperty(Id: "kjUv2AElj7gT", IsReadOnly: true)]
         public string LossAndDamageOrderId { get; set; }
 
         //------------------------------------------------------------------------------------ 
-        [FwLogicProperty(Id:"j5BoEx9ak5Ry", IsReadOnly:true)]
+        [FwLogicProperty(Id: "j5BoEx9ak5Ry", IsReadOnly: true)]
         public string LossAndDamageOrderItemId { get; set; }
 
         //------------------------------------------------------------------------------------ 
-        [FwLogicProperty(Id:"hv01bK2gv9jb")]
+        [FwLogicProperty(Id: "hv01bK2gv9jb")]
         public string LossAndDamageOrderNumber { get; set; }
 
         //------------------------------------------------------------------------------------ 
@@ -1047,7 +1051,7 @@ namespace WebApi.Modules.Home.OrderItem
         //[FwLogicProperty(Id:"kJn7Dj3kLFrj")]
         //public decimal? Quantityreturned { get; set; }
 
-        [FwLogicProperty(Id:"Wd2Vwb34Ijw3")]
+        [FwLogicProperty(Id: "Wd2Vwb34Ijw3")]
         public string DateStamp { get { return orderItem.DateStamp; } set { orderItem.DateStamp = value; } }
 
         //------------------------------------------------------------------------------------ 
@@ -1065,39 +1069,48 @@ namespace WebApi.Modules.Home.OrderItem
                     }
                 }
                 ItemOrder = "";
+                DetailOnly = true;
             }
             else  // updating
             {
-                OrderItemLogic oiOrig = new OrderItemLogic();
-                oiOrig.SetDependencies(AppConfig, UserSession);
-                oiOrig.OrderId = OrderId;
-                oiOrig.OrderItemId = OrderItemId;
-                bool b1 = oiOrig.LoadAsync<OrderItemLogic>().Result;
-                // save here for use during AfterSaves
-                OriginalItemClass = oiOrig.ItemClass;
-                OriginalParentId = oiOrig.ParentId;
-                OriginalQuantityOrdered = oiOrig.QuantityOrdered;
-
-                if (oiOrig.Locked.GetValueOrDefault(false))
+                if (RowsRolledUp.GetValueOrDefault(false))
                 {
-                    Price = oiOrig.Price;
-                    Price2 = oiOrig.Price2;
-                    Price3 = oiOrig.Price3;
-                    Price4 = oiOrig.Price4;
-                    Price5 = oiOrig.Price5;
-                    DiscountPercent = oiOrig.DiscountPercent;
-                    DaysPerWeek = oiOrig.DaysPerWeek;
+                    InsteadOfSave += SaveRolledUpRow;
                 }
-
-                if (QuantityOrdered != null)
+                else
                 {
-                    if (OriginalItemClass != null)
+                    DetailOnly = true;
+                    OrderItemLogic oiOrig = new OrderItemLogic();
+                    oiOrig.SetDependencies(AppConfig, UserSession);
+                    oiOrig.OrderId = OrderId;
+                    oiOrig.OrderItemId = OrderItemId;
+                    bool b1 = oiOrig.LoadAsync<OrderItemLogic>().Result;
+                    // save here for use during AfterSaves
+                    OriginalItemClass = oiOrig.ItemClass;
+                    OriginalParentId = oiOrig.ParentId;
+                    OriginalQuantityOrdered = oiOrig.QuantityOrdered;
+
+                    if (oiOrig.Locked.GetValueOrDefault(false))
                     {
-                        if ((OriginalItemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_KIT)) || (OriginalItemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_COMPLETE)))
+                        Price = oiOrig.Price;
+                        Price2 = oiOrig.Price2;
+                        Price3 = oiOrig.Price3;
+                        Price4 = oiOrig.Price4;
+                        Price5 = oiOrig.Price5;
+                        DiscountPercent = oiOrig.DiscountPercent;
+                        DaysPerWeek = oiOrig.DaysPerWeek;
+                    }
+
+                    if (QuantityOrdered != null)
+                    {
+                        if (OriginalItemClass != null)
                         {
-                            if (OriginalQuantityOrdered != QuantityOrdered)
+                            if ((OriginalItemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_KIT)) || (OriginalItemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_COMPLETE)))
                             {
-                                bool b2 = OrderFunc.UpdatePackageQuantities(AppConfig, UserSession, this).Result;
+                                if (OriginalQuantityOrdered != QuantityOrdered)
+                                {
+                                    bool b2 = OrderFunc.UpdatePackageQuantities(AppConfig, UserSession, this).Result;
+                                }
                             }
                         }
                     }
@@ -1127,14 +1140,46 @@ namespace WebApi.Modules.Home.OrderItem
                 bool saved = orderItem.SaveNoteASync(Notes).Result;
             }
 
-            InventoryAvailabilityFunc.RequestRecalc(InventoryId, WarehouseId, ItemClass);
+            if ((InventoryId != null) && (WarehouseId != null))
+            {
+                InventoryAvailabilityFunc.RequestRecalc(InventoryId, WarehouseId, ItemClass);
+            }
 
 
         }
         //------------------------------------------------------------------------------------
-        public void OnAfterSaveOrderItem(object sender, AfterSaveDataRecordEventArgs e)
+        public void SaveRolledUpRow(object sender, InsteadOfSaveEventArgs e)
         {
-            //bool saved = orderItem.SaveNoteASync(Notes).Result;
+            OrderItemLogic orig = (OrderItemLogic)e.Original;
+            List<OrderItemLogic> rolledUpItems = new List<OrderItemLogic>();
+            int rowsSaved = 0;
+
+            //get all of the rolled-up OrderItems
+            foreach (string id in orig.RolledUpIds.Split(','))
+            {
+                OrderItemLogic oi = new OrderItemLogic();
+                oi.SetDependencies(AppConfig, UserSession);
+                oi.OrderId = OrderId;
+                oi.OrderItemId = id.Trim();
+                oi.DetailOnly = true;
+                bool b = oi.LoadAsync<OrderItemLogic>().Result;
+                oi.DetailOnly = true;
+                rolledUpItems.Add(oi);
+            }
+
+            //save all of the rolled-up OrderItems
+            foreach (OrderItemLogic oi in rolledUpItems)
+            {
+                OrderItemLogic oiNew = new OrderItemLogic();
+                oiNew.SetDependencies(AppConfig, UserSession);
+                oiNew.DetailOnly = true;
+                oiNew.OrderId = oi.OrderId;
+                oiNew.OrderItemId = oi.OrderItemId;
+                oiNew.Taxable = Taxable;
+                rowsSaved += oiNew.SaveAsync(oi, e.SqlConnection).Result;
+            }
+
+            e.SavePerformed = (rowsSaved > 0);
         }
         //------------------------------------------------------------------------------------
     }

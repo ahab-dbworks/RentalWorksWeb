@@ -1419,6 +1419,16 @@ namespace FwStandard.Data
                 {
                     pkProperty.SetValue(this, primaryKeyValues[i]);
                 }
+                else if ((propertyType == typeof(bool?)) || (propertyType == typeof(bool)))
+                {
+                    bool b = false;
+                    if (primaryKeyValues[i] != null)
+                    {
+                        b = FwConvert.ToBoolean(primaryKeyValues[i].ToString());
+                    }
+                    pkProperty.SetValue(this, b);
+
+                }
                 else
                 {
                     throw new Exception("Primary key property type not implemented for " + propertyType.ToString() + ". [FwBusinessLogic.SetPrimaryKeys]");
@@ -1447,31 +1457,36 @@ namespace FwStandard.Data
                         int k = 0;
                         foreach (PropertyInfo primaryKeyProperty in primaryKeyProperties)
                         {
-                            //if (k == 0)
-                            if ((k == 0) && (select.SelectStatements[0].Where.Count == 0))
-                            {
-                                qry.Add("where ");
-                            }
-                            else
-                            {
-                                qry.Add("and ");
-                            }
                             FwSqlDataFieldAttribute sqlDataFieldAttribute = primaryKeyProperty.GetCustomAttribute<FwSqlDataFieldAttribute>();
-                            string sqlColumnName = primaryKeyProperty.Name;
+                            string sqlColumnName = string.Empty;
                             if (!string.IsNullOrEmpty(sqlDataFieldAttribute.ColumnName))
                             {
                                 sqlColumnName = sqlDataFieldAttribute.ColumnName;
                             }
-                            qry.Add(sqlColumnName);
-                            qry.Add(" = @keyvalue" + k.ToString());
-                            k++;
+                            if (!sqlColumnName.Equals(string.Empty))
+                            {
+                                if ((k == 0) && (select.SelectStatements[0].Where.Count == 0))
+                                {
+                                    qry.Add("where ");
+                                }
+                                else
+                                {
+                                    qry.Add("and ");
+                                }
+                                qry.Add(sqlColumnName);
+                                qry.Add(" = @keyvalue" + k.ToString());
+
+                                qry.AddParameter("@keyvalue" + k.ToString(), primaryKeyProperty.GetValue(this));
+
+                                k++;
+                            }
                         }
-                        k = 0;
-                        foreach (PropertyInfo primaryKeyProperty in primaryKeyProperties)
-                        {
-                            qry.AddParameter("@keyvalue" + k.ToString(), primaryKeyProperty.GetValue(this));
-                            k++;
-                        }
+                        //k = 0;
+                        //foreach (PropertyInfo primaryKeyProperty in primaryKeyProperties)
+                        //{
+                        //    qry.AddParameter("@keyvalue" + k.ToString(), primaryKeyProperty.GetValue(this));
+                        //    k++;
+                        //}
                         MethodInfo method = typeof(FwSqlCommand).GetMethod("SelectAsync");
                         MethodInfo generic = method.MakeGenericMethod(this.GetType());
                         dynamic result = generic.Invoke(qry, new object[] { customFields });

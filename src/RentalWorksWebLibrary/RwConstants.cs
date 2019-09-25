@@ -145,6 +145,8 @@
         public const string ITEMCLASS_CONTAINER_ITEM = "NI";
         public const string ITEMCLASS_CONTAINER_OPTION = "NO";
         public const string ITEMCLASS_MISCELLANEOUS = "M";
+        public const string ITEMCLASS_SUFFIX_ITEM = "I";
+        public const string ITEMCLASS_SUFFIX_OPTION = "O";
 
         public const int COMPLETE_COLOR = 16746632;     // purple
         public const int KIT_COLOR = 5101142;           // green
