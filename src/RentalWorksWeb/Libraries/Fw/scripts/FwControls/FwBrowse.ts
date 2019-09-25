@@ -2930,37 +2930,34 @@ class FwBrowseClass {
                         jQuery(window)
                             .off('click.FwBrowse')
                             .on('click.FwBrowse', (e: JQuery.ClickEvent) => {
-                                try {
-                                    let triggerAutoSave = true;
-                                    const clockPicker = jQuery(document.body).find('.clockpicker-popover');
-                                    const colorPickerDisplayed = jQuery(document.body).find('div.colpick').is(':visible');
-                                    if (jQuery(e.target).closest('.fwconfirmation').length > 0 || jQuery(e.target).closest('body').length === 0) {
-                                        triggerAutoSave = false;
-                                    } else if ((jQuery(e.target).closest('body').length === 0 && jQuery(e.target).find('body').length > 0) || (jQuery(e.target).closest('body').length > 0 && jQuery(e.target).find('body').length === 0)) {
-                                        triggerAutoSave = true;
-                                    }
+                                if (typeof $control.attr('data-autosave') === 'undefined' || $control.attr('data-autosave') === 'true') {
+                                    try {
+                                        let triggerAutoSave = true;
+                                        const clockPicker = jQuery(document.body).find('.clockpicker-popover');
+                                        if (jQuery(e.target).closest('.fwconfirmation').length > 0 || jQuery(e.target).closest('body').length === 0) {
+                                            triggerAutoSave = false;
+                                        } else if ((jQuery(e.target).closest('body').length === 0 && jQuery(e.target).find('body').length > 0) || (jQuery(e.target).closest('body').length > 0 && jQuery(e.target).find('body').length === 0)) {
+                                            triggerAutoSave = true;
+                                        }
 
-                                    if ($control.find('.tablewrapper tbody').get(0).contains(<Node>e.target)) {
-                                        triggerAutoSave = false;
-                                    }
-                                    if (clockPicker.length > 0) {
-                                        for (let i = 0; i < clockPicker.length; i++) {
-                                            if (clockPicker.css('display') === 'none' && !clockPicker.get(i).contains(<Node>e.target)) {
-                                                triggerAutoSave = true;
-                                            } else if (clockPicker.get(i).contains(<Node>e.target)) {
-                                                triggerAutoSave = false;
+                                        if ($control.find('.tablewrapper tbody').get(0).contains(<Node>e.target)) {
+                                            triggerAutoSave = false;
+                                        }
+                                        if (clockPicker.length > 0) {
+                                            for (let i = 0; i < clockPicker.length; i++) {
+                                                if (clockPicker.css('display') === 'none' && !clockPicker.get(i).contains(<Node>e.target)) {
+                                                    triggerAutoSave = true;
+                                                } else if (clockPicker.get(i).contains(<Node>e.target)) {
+                                                    triggerAutoSave = false;
+                                                }
                                             }
                                         }
+                                        if (triggerAutoSave) {
+                                            this.saveRow($control, $tr);
+                                        }
+                                    } catch (ex) {
+                                        FwFunc.showError(ex);
                                     }
-
-                                    if (colorPickerDisplayed) { // to prevent losing edit mode within a grid row while changing colorpicker values
-                                        triggerAutoSave = false;
-                                    }
-                                    if (triggerAutoSave) {
-                                        this.saveRow($control, $tr);
-                                    }
-                                } catch (ex) {
-                                    FwFunc.showError(ex);
                                 }
                             });
                     }

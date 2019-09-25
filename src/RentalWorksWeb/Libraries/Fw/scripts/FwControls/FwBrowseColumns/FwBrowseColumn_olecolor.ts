@@ -42,33 +42,24 @@
             $field.html(`<div class="color-wrapper" style="padding: 0 0 0 4px;"><div class="legendbox" style="border-radius:2px;float:left;cursor:pointer;background-color:${originalvalue};width:14px;height:20px;border:1px solid #777777;"></div><i style="float:right;color:${paletteColor};padding: 0;font-size: 1.5em;margin: auto 5px;box-sizing:border-box;cursor:pointer;" class="material-icons btncolorpicker">&#xE3B7;</i><div>`);
             const $wrapper = $field.find('div.color-wrapper');
             $wrapper
-                //.colpick({
-                //    layout: 'hex',
-                //    colorScheme: 'light',
-                //    color: 'ffffff',
-                //    showEvent: '',
-                //    onSubmit: function (hsb, hex, rgb, el) {
-                //        $field.attr('data-originalvalue', `#${hex}`).change();
-                //        $field.find('div.legendbox').css('background-color', `#${hex}`);
-                //        jQuery(el).colpickHide();
-                //    },
-                //    onHide: function () {
-                //        jQuery('body').find('.colpick').remove();
-                //    }
-                //})
                 .on('click', function (e: JQuery.Event) {
                     try {
+                        //$browse.attr('data-autosave', 'false');
+                        //const autoSave = $browse.attr('data-autosave');
                         if (editable) {
-                            jQuery('body').find('.colpick').remove();
                             $wrapper
                                 .colpick({
-                                    layout: 'hex',
+                                    layout: 'rgb',
                                     colorScheme: 'light',
                                     color: 'ffffff',
                                     onSubmit: function (hsb, hex, rgb, el) {
                                         $field.attr('data-originalvalue', `#${hex}`).change();
                                         $field.find('div.legendbox').css('background-color', `#${hex}`);
                                         jQuery(el).colpickHide();
+                                    }, onHide: function () {
+                                        $browse.attr('data-autosave', 'true');
+                                    }, onShow: function () {
+                                        $browse.attr('data-autosave', 'false');
                                     }
                                 })
                             jQuery(this).colpickShow(e);
