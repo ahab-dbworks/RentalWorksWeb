@@ -44,8 +44,6 @@
             $wrapper
                 .on('click', function (e: JQuery.Event) {
                     try {
-                        //$browse.attr('data-autosave', 'false');
-                        //const autoSave = $browse.attr('data-autosave');
                         if (editable) {
                             $wrapper
                                 .colpick({
@@ -59,7 +57,7 @@
                                     }, onHide: function () {
                                         $browse.attr('data-autosave', 'true');
                                     }, onShow: function () {
-                                        $browse.attr('data-autosave', 'false');
+                                        $browse.attr('data-autosave', 'false'); // Preventing autosave for the grid so that choosing a color with the colorpicker doesnt trigger the row save and remove edit mode
                                     }
                                 })
                             jQuery(this).colpickShow(e);

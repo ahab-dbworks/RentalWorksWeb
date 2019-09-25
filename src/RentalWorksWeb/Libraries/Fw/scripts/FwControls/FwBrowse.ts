@@ -2970,8 +2970,7 @@ class FwBrowseClass {
     }
     //---------------------------------------------------------------------------------
     setRowEditMode($control: JQuery, $tr: JQuery): void {
-        let me = this;
-        let rowIndex = $tr.index();
+        const rowIndex = $tr.index();
 
         if ($control.attr('data-multisave') == 'true') {
             $tr = $control.find('tbody tr').eq(rowIndex);
@@ -2982,32 +2981,29 @@ class FwBrowseClass {
                 //$control.find('.gridmenu .buttonbar div[data-type="EditButton"]').hide();
                 //$control.find('.gridmenu .buttonbar div[data-type="DeleteButton"]').hide();
 
-                var controller;
-                controller = $control.attr('data-controller');
-                if (typeof window[controller] === 'undefined') throw 'Missing javascript module: ' + controller;
-                if (typeof window[controller]['beforeRowEditMode'] === 'function') {
-                    window[controller]['beforeRowEditMode']($control, $tr);
+                const controller = $control.attr('data-controller');
+                if (typeof <any>window[controller] === 'undefined') throw `Missing javascript module: ${controller}`;
+                if (typeof <any>window[controller]['beforeRowEditMode'] === 'function') {
+                    <any>window[controller]['beforeRowEditMode']($control, $tr);
                 }
             }
 
-            $tr.find('> td > .field').each(function (index, element) {
-                var $field;
-                $field = jQuery(element);
+            $tr.find('> td > .field').each((index, element) => {
+                const $field = jQuery(element);
                 if ($field.attr('data-formreadonly') === 'true') {
-                    me.setFieldViewMode($control, $tr, $field);
+                    this.setFieldViewMode($control, $tr, $field);
                 } else {
-                    me.setFieldEditMode($control, $tr, $field);
+                    this.setFieldEditMode($control, $tr, $field);
                 }
             });
 
-            me.addMultiSaveAndCancelButtonToRow($control, $tr);
+            this.addMultiSaveAndCancelButtonToRow($control, $tr);
 
             if (($control.attr('data-type') == 'Grid') && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {
-                var controller;
-                controller = $control.attr('data-controller');
-                if (typeof window[controller] === 'undefined') throw 'Missing javascript module: ' + controller;
-                if (typeof window[controller]['afterRowEditMode'] === 'function') {
-                    window[controller]['afterRowEditMode']($control, $tr);
+               const  controller = $control.attr('data-controller');
+                if (typeof <any>window[controller] === 'undefined') throw `Missing javascript module: ${controller}`;
+                if (typeof <any>window[controller]['afterRowEditMode'] === 'function') {
+                    <any>window[controller]['afterRowEditMode']($control, $tr);
                 }
             }
 
@@ -3030,33 +3026,30 @@ class FwBrowseClass {
                         //$control.find('.gridmenu .buttonbar div[data-type="EditButton"]').hide();
                         //$control.find('.gridmenu .buttonbar div[data-type="DeleteButton"]').hide();
 
-                        var controller;
-                        controller = $control.attr('data-controller');
-                        if (typeof window[controller] === 'undefined') throw 'Missing javascript module: ' + controller;
-                        if (typeof window[controller]['beforeRowEditMode'] === 'function') {
-                            window[controller]['beforeRowEditMode']($control, $tr);
+                        const controller = $control.attr('data-controller');
+                        if (typeof <any>window[controller] === 'undefined') throw 'Missing javascript module: ' + controller;
+                        if (typeof <any>window[controller]['beforeRowEditMode'] === 'function') {
+                            <any>window[controller]['beforeRowEditMode']($control, $tr);
                         }
                     }
 
-                    $tr.find('> td > .field').each(function (index, element) {
-                        var $field;
-                        $field = jQuery(element);
+                    $tr.find('> td > .field').each((index, element) => {
+                        const $field = jQuery(element);
                         if ($field.attr('data-formreadonly') === 'true') {
-                            me.setFieldViewMode($control, $tr, $field);
+                            this.setFieldViewMode($control, $tr, $field);
                         } else {
-                            me.setFieldEditMode($control, $tr, $field);
+                            this.setFieldEditMode($control, $tr, $field);
                         }
                     });
 
                     //$control.attr('data-multisave') == 'true' ? me.addMultiSaveAndCancelButtonToRow($control, $tr) : me.addSaveAndCancelButtonToRow($control, $tr);
-                    me.addSaveAndCancelButtonToRow($control, $tr);
+                    this.addSaveAndCancelButtonToRow($control, $tr);
 
                     if (($control.attr('data-type') == 'Grid') && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {
-                        var controller;
-                        controller = $control.attr('data-controller');
-                        if (typeof window[controller] === 'undefined') throw 'Missing javascript module: ' + controller;
-                        if (typeof window[controller]['afterRowEditMode'] === 'function') {
-                            window[controller]['afterRowEditMode']($control, $tr);
+                        const controller = $control.attr('data-controller');
+                        if (typeof <any>window[controller] === 'undefined') throw `Missing javascript module: ${controller}`;
+                        if (typeof <any>window[controller]['afterRowEditMode'] === 'function') {
+                            <any>window[controller]['afterRowEditMode']($control, $tr);
                         }
                     }
 
