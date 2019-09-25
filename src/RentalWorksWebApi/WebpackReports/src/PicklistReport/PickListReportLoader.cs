@@ -383,6 +383,12 @@ namespace WebApi.Modules.Reports.PickListReport
         [FwSqlDataField(column: "pickno", modeltype: FwDataTypes.Text)]
         public string PickNumber { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "pickdate", modeltype: FwDataTypes.Date)]
+        public string PickDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "picktime", modeltype: FwDataTypes.Text)]
+        public string PickTime { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "phoneextension", modeltype: FwDataTypes.Text)]
         public string PhoneExtension { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -391,6 +397,12 @@ namespace WebApi.Modules.Reports.PickListReport
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "agentphoneext", modeltype: FwDataTypes.Text)]
         public string AgentPhoneExtension { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "projectmanager", modeltype: FwDataTypes.Text)]
+        public string ProjectManager { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "outsidesalesrep", modeltype: FwDataTypes.Text)]
+        public string OutsideSalesRepresentative { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "requestsentto", modeltype: FwDataTypes.Text)]
         public string RequestSentTo { get; set; }
