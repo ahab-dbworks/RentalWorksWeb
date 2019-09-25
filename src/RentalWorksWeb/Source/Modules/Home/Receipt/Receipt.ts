@@ -190,27 +190,23 @@ class Receipt {
         FwFormField.disable($form.find('div[data-datafield="PaymentBy"]'));
         FwFormField.disable($form.find('div[data-datafield="DealId"]'));
         FwFormField.disable($form.find('div[data-datafield="CustomerId"]'));
-
+        let observer;
         // Listen for DOM element creation for Overpayment workflow for new Receipts
         if ($form.attr('data-mode') === 'NEW') {
             const app = document.getElementById('application');
-            const config = { attributes: true, childList: true, subtree: true };
-            const listener = () => {
+            observer = new MutationObserver(() => {
                 const message = jQuery(app).find('.advisory .fwconfirmationbox .body .message').text();
                 if (message.startsWith("Amount to Apply exceeds the Invoice Amounts provided")) {
-                    observer.disconnect();
                     this.createOverPayment($form);
                 }
                 else if (message.startsWith("No Invoice Amounts have been provided")) {
-                    observer.disconnect(); 
                     this.createDepletingDeposit($form);
                 }
-            }
-            // Create an observer instance linked to the callback function
-            const observer = new MutationObserver(listener);
+            });
             // Start observing the target node for configured mutations
-            observer.observe(app, config);
+            observer.observe(app, { attributes: true, childList: true, subtree: true });
         }
+        setTimeout(() => { observer.disconnect(); }, 2000)
     }
     //----------------------------------------------------------------------------------------------
     renderGrids($form: JQuery): void {
@@ -571,7 +567,6 @@ class Receipt {
 
             FwAppData.apiMethod(true, 'POST', 'api/v1/receiptinvoice/browse', request, FwServices.defaultTimeout, res => {
                 const rows = res.Rows;
-                console.log('rows: ', rows)
                 const htmlRows: Array<string> = [];
                 if (rows.length) {
                     for (let i = 0; i < rows.length; i++) {
