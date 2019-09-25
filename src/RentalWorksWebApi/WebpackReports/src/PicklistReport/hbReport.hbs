@@ -5,7 +5,7 @@
     <span class="header-left"><span style="font-weight:600;">Warehouse:</span> {{Warehouse}}</span>
     <span class="header-left"><span style="font-weight:600;">Delivery Type:</span> {{DeliverType}}</span>
     <span class="header-left"><span style="font-weight:600;">Assigned To:</span> {{Agent}}</span>
-    <span class="header-left"><span style="font-weight:600;">Pick Date:</span> {{RequiredDateTime}}</span>
+    <span class="header-left"><span style="font-weight:600;">Pick Date:</span> {{PickDate}} {{PickTime}}</span>
   </div>
   <div class="rpt-flexcolumn">
     <span class="title">{{Report}}</span>
@@ -34,7 +34,7 @@
     <tr>
       <td class="header-left"></td>
       <td class="header-center">Deal: {{Deal}}</td>
-      <td class="header-right">Outside Sales Rep: {{OutsideSalesRep}}</td>
+      <td class="header-right">Outside Sales Rep: {{OutsideSalesRepresentative}}</td>
     </tr>
     <tr>
     <tr>
@@ -61,9 +61,9 @@
     </thead>
     <tbody>
       {{#each rows}}
-      <tr data-rowtype={{RowType}} data-itemclass="{{ItemClass}}">
+      <tr data-rowtype={{RowType}} data-itemclass="{{ItemClass}}" data-isbold="{{Bold}}">
         {{#ifEquals RowType "RecTypeDisplayheader"}}
-        <td colspan="8" style="text-decoration:underline; font-weight:bold;text-align:left;padding:11px 0px 5px 5px">{{RecTypeDisplay}}&nbsp;</td>
+        <td colspan="8" style="text-decoration:underline; font-weight:bold;text-align:left;">{{RecTypeDisplay}}&nbsp;</td>
         {{/ifEquals}}
         {{#ifEquals RowType "InventoryTypeheader"}}
         <td colspan="8" style="font-weight:bold;text-align:left;padding:11px 0px 5px 5px">{{InventoryType}}&nbsp;</td>
