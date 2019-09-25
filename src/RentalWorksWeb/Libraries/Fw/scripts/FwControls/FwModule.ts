@@ -433,6 +433,7 @@
                                             { value: '<>    ', text: 'Does Not Equal' },
                                         ];
 
+ 
                                         $menubarbutton.on('click', function (e) {
                                             controller = $browse.attr('data-controller');
                                             let maxZIndex;
@@ -448,7 +449,8 @@
                                                         findFields.push({
                                                             'value': response._Custom[j].FieldName,
                                                             'text': response._Custom[j].FieldName,
-                                                            'type': response._Custom[j].FieldType
+                                                            'type': response._Custom[j].FieldType,
+                                                            'filterval': (response._Custom[j].FieldName).toUpperCase()
                                                         })
                                                     }
 
@@ -456,7 +458,8 @@
                                                         findFields.push({
                                                             'value': response._Fields[i].Name,
                                                             'text': response._Fields[i].Name,
-                                                            'type': response._Fields[i].DataType
+                                                            'type': response._Fields[i].DataType,
+                                                            'filterval': (response._Fields[i].Name).toUpperCase()
                                                         })
                                                     }
                                                     findFields.sort(function (a, b) { return (a.text > b.text) ? 1 : ((b.text > a.text) ? -1 : 0); });
@@ -490,6 +493,41 @@
                                                                 break;
                                                         }
                                                     })
+                                                    
+                                                    if (chartFilters) {
+                                                        for (let i = 0; i < chartFilters.length; i++) {
+                                                            let valueField;
+                                                            const data = chartFilters[i];
+                                                            const field = data.datafield.toUpperCase();
+                                                            const type = data.type;
+                                                            const $queryRow = $browse.find('.query .queryrow:last');
+                                                            $queryRow.find(`[data-datafield="Datafield"] [data-filterval="${field}"]`).prop('selected', true).change();
+
+                                                            const $comparisionField = $queryRow.find(`[data-datafield="DatafieldComparison"]`);
+                                                            switch (type) {
+                                                                case 'field':
+                                                                    FwFormField.setValue2($comparisionField, '=');
+                                                                    valueField = 'DatafieldQuery';
+                                                                    break;
+                                                                case 'fromdate':
+                                                                    FwFormField.setValue2($comparisionField, '>=');
+                                                                    valueField = 'DateFieldQuery';
+                                                                    break;
+                                                                case 'todate':
+                                                                    FwFormField.setValue2($comparisionField, '<=');
+                                                                    valueField = 'DateFieldQuery';
+                                                                    break;
+                                                            }
+
+                                                            FwFormField.setValue2($queryRow.find(`[data-datafield="${valueField}"]`), data.value);
+                                                            if ((i + 1) < chartFilters.length) {
+                                                                $queryRow.find('.add-query').click();
+                                                            }
+                                                        }
+                                                        $browse.find('.querysearch').click();
+                                                        sessionStorage.removeItem('chartfilter');
+                                                    }
+
                                                 }, function onError(response) {
                                                     FwFunc.showError(response);
                                                 }, null);
@@ -512,6 +550,9 @@
                                                 });
                                             }
                                         });
+
+                                        var chartFilters = JSON.parse(sessionStorage.getItem('chartfilter'));
+                                        if (chartFilters) $menubarbutton.click();
 
                                         $browse.find('.add-query').on('click', function cloneRow() {
                                             let $newRow = jQuery(this).closest('.queryrow').clone();

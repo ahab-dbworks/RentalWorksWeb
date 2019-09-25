@@ -19,24 +19,26 @@ class Order extends OrderBase {
 
             // Dashboard search
             if (typeof filter !== 'undefined') {
-                let parsedSearch;
-                if (filter.datafield === 'agent') {
-                    parsedSearch = filter.search.split('%20').reverse().join(', ');
-                } else {
-                    parsedSearch = filter.search.replace(/%20/g, " ").replace(/%2f/g, '/');
-                }
+                //$browse.find('[data-type="FindMenuBarButton"]').click();
+   
+                //let parsedSearch;
+                //if (filter.datafield === 'agent') {
+                //    parsedSearch = filter.search.split('%20').reverse().join(', ');
+                //} else {
+                //    parsedSearch = filter.search.replace(/%20/g, " ").replace(/%2f/g, '/');
+                //}
 
-                const datafields = filter.datafield.split('%20');
-                for (let i = 0; i < datafields.length; i++) {
-                    datafields[i] = datafields[i].charAt(0).toUpperCase() + datafields[i].substr(1);
-                }
-                filter.datafield = datafields.join('');
+                //const datafields = filter.datafield.split('%20');
+                //for (let i = 0; i < datafields.length; i++) {
+                //    datafields[i] = datafields[i].charAt(0).toUpperCase() + datafields[i].substr(1);
+                //}
+                //filter.datafield = datafields.join('');
 
-                $browse.find(`div[data-browsedatafield="${filter.datafield}"]`).find('input').val(parsedSearch);
+                //$browse.find(`div[data-browsedatafield="${filter.datafield}"]`).find('input').val(parsedSearch);
+            } else {
+                FwBrowse.databind($browse);
+                FwBrowse.screenload($browse);
             }
-
-            FwBrowse.databind($browse);
-            FwBrowse.screenload($browse);
         };
         screen.unload = function () {
             FwBrowse.screenunload($browse);

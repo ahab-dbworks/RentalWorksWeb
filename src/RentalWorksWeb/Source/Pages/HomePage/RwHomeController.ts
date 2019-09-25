@@ -336,13 +336,15 @@
             try {
                 widgetcanvas.siblings('.officebar').text(response.locationCodes);
                 let titleArray = [];
+                let fromDate = moment(response.fromDate).format('l');
+                let toDate = moment(response.toDate).format('l');
                 titleArray.push(response.options.title.text);
-                if (response.fromDate !== undefined && response.fromDate === response.toDate) {
-                    titleArray.push(moment(response.fromDate).format('l'));
-                } else if (response.fromDate !== undefined && response.fromDate !== response.toDate && widgetData.dateBehaviorId === 'SINGLEDATESPECIFICDATE') {
-                    titleArray.push(moment(response.fromDate).format('l'));
-                } else if (response.fromDate !== undefined && response.fromDate !== response.toDate) {
-                    titleArray.push(moment(response.fromDate).format('l') + ' - ' + moment(response.toDate).format('l'));
+                if (fromDate !== undefined && fromDate === toDate) {
+                    titleArray.push(toDate);
+                } else if (fromDate !== undefined && fromDate !== toDate && widgetData.dateBehaviorId === 'SINGLEDATESPECIFICDATE') {
+                    titleArray.push(fromDate);
+                } else if (fromDate !== undefined && fromDate !== toDate) {
+                    titleArray.push(fromDate + ' - ' + toDate);
                 }
 
                 if (response.dateBehaviorId === 'NONE' || response.dateBehaviorId === undefined) {
@@ -368,15 +370,47 @@
                 })
 
                 var chart = new Chart(widgetcanvas, response);
-                jQuery(widgetcanvas).on('click', function (evt) {
+                jQuery(widgetcanvas).off('click').on('click', function (evt) {
                     var activePoint = chart.getElementAtEvent(evt)[0];
                     if (activePoint) {
-                        var data = activePoint._chart.data;
-                        var datasetIndex = activePoint._datasetIndex;
-                        var label = data.labels[activePoint._index];
-                        var value = data.datasets[datasetIndex].data[activePoint._index];
+                        var data = activePoint._chart.data; 
+                        //var datasetIndex = activePoint._datasetIndex;
+                        //var value = data.datasets[datasetIndex].data[activePoint._index];
+                        var datefield = widgetData.dateField;
+                        var labelfield1 = chart.config["label1FieldName"].toUpperCase();
+                        var labelvalue = data.datasets[activePoint._datasetIndex].label;
+                        if (labelvalue === null) {
+                            labelvalue = data.labels[activePoint._index]
+                        }
+                        //var labelfield2 = chart.config["label2FieldName"].toUpperCase();
 
-                        program.getModule(widgetData.clickpath + label.replace(/ /g, '%20').replace(/\//g, '%2F'));
+                        let chartFilters: any = [];
+                        if (labelvalue != '') {
+                            chartFilters.push({
+                                'datafield': labelfield1,
+                                'value': labelvalue,
+                                'type': 'field'
+                            });
+                        };
+                        if (response.dateBehaviorId != 'NONE' || response.dateBehaviorId != undefined) {
+                            chartFilters.push({
+                                'datafield': datefield,
+                                'value': fromDate,
+                                'type': 'fromdate'
+                            });
+                            chartFilters.push({
+                                'datafield': datefield,
+                                'value': toDate,
+                                'type': 'todate'
+                            });
+                        };
+                      
+                        if (chartFilters.length > 0) {
+                            chartFilters = JSON.stringify(chartFilters);
+                            sessionStorage.setItem('chartfilter', chartFilters);
+                        };
+
+                        program.getModule(widgetData.clickpath + labelvalue.replace(/ /g, '%20').replace(/\//g, '%2F'));
                     }
                 });
             } catch (ex) {
