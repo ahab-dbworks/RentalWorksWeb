@@ -52,6 +52,7 @@ class CustomForm {
         if (mode == 'NEW') {
             FwFormField.enable($form.find('[data-datafield="BaseForm"]'));
             $form.find('.userGrid, .groupGrid').hide();
+            FwFormField.setValue($form, 'div[data-datafield="Active"]', true);
         }
 
         //removes field propagation

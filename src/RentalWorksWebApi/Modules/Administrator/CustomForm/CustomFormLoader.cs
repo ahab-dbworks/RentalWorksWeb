@@ -3,9 +3,6 @@ using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-using System.Collections.Generic;
-using System;
-using WebLibrary;
 namespace WebApi.Modules.Administrator.CustomForm
 {
     [FwSqlTable("webformview")]
@@ -32,6 +29,9 @@ namespace WebApi.Modules.Administrator.CustomForm
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "active", modeltype: FwDataTypes.Boolean)]
         public bool? Active { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
+        public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "assignto", modeltype: FwDataTypes.Text)]
         public string AssignTo { get; set; }
