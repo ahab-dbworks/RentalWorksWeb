@@ -2145,6 +2145,7 @@ namespace WebApi.Modules.Settings.OrderType
                 if (LaborShowToDate == true) { showFields.Add("ToDate"); }
                 if (LaborShowToTime == true) { showFields.Add("ToTime"); }
                 if (LaborShowBillablePeriods == true) { showFields.Add("BillablePeriods"); }
+                if (LaborShowHours == true) { showFields.Add("Hours"); }
                 if (LaborShowSubQuantity == true) { showFields.Add("SubQuantity"); }
                 if (LaborShowUnit == true) { showFields.Add("Unit"); }
                 if (LaborShowRate == true) { showFields.Add("Rate"); }

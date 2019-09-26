@@ -75,6 +75,15 @@
   <div class="column" data-width="40px" data-visible="true">
     <div class="field template" data-caption="Consign" data-datafield="ConsignQuantity" data-datatype="number" data-sort="none" data-mappedfield="ConsignQuantity"></div>
   </div>
+  <div class="column" data-width="50px" data-visible="true">
+    <div class="field template" data-caption="Hours" data-datafield="Hours" data-datatype="number" data-sort="none" data-mappedfield="Hours"></div>
+  </div>
+  <div class="column" data-width="50px" data-visible="true">
+    <div class="field template" data-caption="OT" data-datafield="HoursOvertime" data-datatype="number" data-sort="none" data-mappedfield="Hours"></div>
+  </div>
+  <div class="column" data-width="50px" data-visible="true">
+    <div class="field template" data-caption="DT" data-datafield="HoursDoubletime" data-datatype="number" data-sort="none" data-mappedfield="Hours"></div>
+  </div>
   <div class="column" data-width="40px" data-visible="true">
     <div class="field" data-caption="Reserved" data-datafield="ReservedItemQuantity" data-datatype="number" data-sort="none" data-formreadonly="true" data-mappedfield="ReservedItemQuantity"></div>
   </div>
@@ -97,7 +106,8 @@
     <div class="field" data-caption="C-Conflict" data-datafield="ConflictDateConsignment" data-datatype="text" data-sort="none" data-formreadonly="true" data-mappedfield="ConflictDateConsignment"></div>
   </div>
   <div class="column" data-width="45px" data-visible="true">
-    <div class="field template" data-caption="Unit" data-datafield="Unit" data-datatype="text" data-sort="none" data-formreadonly="true" data-mappedfield="Unit"></div>
+    <!--<div class="field template" data-caption="Unit" data-datafield="Unit" data-datatype="text" data-sort="none" data-formreadonly="true" data-mappedfield="Unit"></div>-->
+    <div class="field template" data-caption="Unit" data-datafield="UnitId" data-browsedisplayfield="Unit" data-datatype="validation" data-validationname="UnitValidation" data-sort="none" data-mappedfield="Unit"></div>
   </div>
   <div class="column" data-width="50px" data-visible="true">
     <div class="field template" data-caption="Unit Cost" data-datafield="UnitCost" data-datatype="money" data-sort="none" data-formreadonly="true" data-mappedfield="UnitCost"></div>
