@@ -16,6 +16,9 @@ namespace WebApi.Modules.Utilities.QuikActivity
         [FwLogicProperty(Id: "SGrnWiB0jbk")]
         public string ActivityDate { get; set; }
 
+        [FwLogicProperty(Id: "jgDEOKQa2Dxst")]
+        public string ActivityTime { get; set; }
+
         [FwLogicProperty(Id: "32SGrnWiB0jbk")]
         public string ActivityDescription { get; set; }
 

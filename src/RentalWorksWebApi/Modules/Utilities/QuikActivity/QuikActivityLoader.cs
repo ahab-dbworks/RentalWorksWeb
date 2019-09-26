@@ -14,8 +14,11 @@ namespace WebApi.Modules.Utilities.QuikActivity
     public class QuikActivityLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "activitydate", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "activitydate", modeltype: FwDataTypes.Date)]
         public string ActivityDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "activitytime", modeltype: FwDataTypes.Text)]
+        public string ActivityTime { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "activitydesc", modeltype: FwDataTypes.Text)]
         public string ActivityDescription { get; set; }
