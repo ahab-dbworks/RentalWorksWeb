@@ -276,13 +276,13 @@ class Receipt {
             paymentTypeType === 'CREDIT CARD' ? $form.find('.braintree-row').show() : $form.find('.braintree-row').hide();
 
 
-            const paymentType = FwFormField.getTextByDataField($form, 'PaymentTypeId');
             let isOverDepletingMemo = false;
-            if (paymentType === 'DEPLETING DEPOSIT' || paymentType === 'CREDIT MEMO' || paymentType === 'OVERPAYMENT') {
+            if (paymentTypeType === 'DEPLETING DEPOSIT' || paymentTypeType === 'CREDIT MEMO' || paymentTypeType === 'OVERPAYMENT') {
                 isOverDepletingMemo = true;
             }
-            this.spendPaymentTypes($form, paymentType, isOverDepletingMemo);
+            this.spendPaymentTypes($form, paymentTypeType, isOverDepletingMemo);
         });
+        // ------
         $form.find('div.credits-tab').on('click', e => {
             //Disable clicking  tab w/o a Deal / Customer
             const paymentBy = FwFormField.getValueByDataField($form, 'PaymentBy');
@@ -302,6 +302,12 @@ class Receipt {
     spendPaymentTypes($form, paymentType, isOverDepleting) {
         $form.find('div[data-datafield="CheckNumber"]').hide();
         $form.find('div[data-datafield="CheckNumber"]').attr('data-required', 'false');
+        $form.find('div[data-datafield="PaymentTypeId"]').show();
+        $form.find('div[data-datafield="PaymentTypeId"]').attr('data-required', 'false');
+
+        $form.find('div[data-datafield="OverPaymentId"]').show();
+        $form.find('div[data-datafield="OverPaymentId"]').attr('data-required', 'true');
+
         $form.find('div[data-datafield="AmountRemaining"]').show();
         $form.find('div[data-datafield="AmountRemaining"]').attr('data-required', 'true');
 
@@ -314,18 +320,25 @@ class Receipt {
                 // show / hide fields
                 // change captions
                 // adjust required attr accordingly
-                $form.find('div[data-datafield="AmountRemaining"]').attr('data-caption', 'Deposit Reference');
+                $form.find('div[data-datafield="OverPaymentId"]').attr('data-caption', 'Deposit Reference');
             }
             if (paymentType === 'CREDIT MEMO') {
-                $form.find('div[data-datafield="AmountRemaining"]').attr('data-caption', 'Credit Reference');
+                $form.find('div[data-datafield="OverPaymentId"]').attr('data-caption', 'Credit Reference');
             }
             if (paymentType === 'OVERPAYMENT') {
-                $form.find('div[data-datafield="AmountRemaining"]').attr('data-caption', 'Overpayment Reference');
+                $form.find('div[data-datafield="OverPaymentId"]').attr('data-caption', 'Overpayment Reference');
             }
         }
         else {
             $form.find('div[data-datafield="CheckNumber"]').show();
             $form.find('div[data-datafield="CheckNumber"]').attr('data-required', 'true');
+
+            $form.find('div[data-datafield="PaymentTypeId"]').show();
+            $form.find('div[data-datafield="PaymentTypeId"]').attr('data-required', 'true');
+
+            $form.find('div[data-datafield="OverPaymentId"]').hide();
+            $form.find('div[data-datafield="OverPaymentId"]').attr('data-required', 'false');
+
             $form.find('div[data-datafield="AmountRemaining"]').hide();
             $form.find('div[data-datafield="AmountRemaining"]').attr('data-required', 'false');
         }
@@ -341,7 +354,7 @@ class Receipt {
         const html: Array<string> = [];
         html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
         html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-        html.push(`    <div>Save this Receipt with ${unappliedTotal} Overpayment?</div>`);
+        html.push(`    <div>Create Overpayment of ${unappliedTotal}?</div>`);
         html.push('  </div>');
         html.push('</div>');
 
@@ -368,7 +381,7 @@ class Receipt {
         const html: Array<string> = [];
         html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
         html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-        html.push(`    <div>Save this Receipt with ${unappliedTotal} Depleting Deposit?</div>`);
+        html.push(`    <div>Create Depleting Deposit of ${unappliedTotal}?</div>`);
         html.push('  </div>');
         html.push('</div>');
         FwConfirmation.addControls($confirmation, html.join(''));
