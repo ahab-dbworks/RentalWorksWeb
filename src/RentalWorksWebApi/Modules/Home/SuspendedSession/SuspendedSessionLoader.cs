@@ -33,6 +33,9 @@ namespace WebApi.Modules.Home.SuspendedSession
         [FwSqlDataField(column: "orderid", modeltype: FwDataTypes.Text)]
         public string OrderId { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "poid", modeltype: FwDataTypes.Text)]
+        public string PurchaseOrderId { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "username", modeltype: FwDataTypes.Text)]
         public string UserName { get; set; }
         //------------------------------------------------------------------------------------ 
