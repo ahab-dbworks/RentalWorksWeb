@@ -672,7 +672,7 @@ export class Invoice extends HomeModule {
             InvoiceNumber: "|NOTEMPTY|",
             Deal: "|NOTEMPTY|",
             RateType: "|NOTEMPTY|",
-            InvoiceDescription: this.newRecordsToCreate[0].record.Description.toUpperCase(),
+            InvoiceDescription: this.newRecordsToCreate[0].record.InvoiceDescription.toUpperCase(),
             Agent: "GlobalScope.User~ME.Name",
             ProjectManager: "GlobalScope.User~ME.Name",
         }
