@@ -116,7 +116,7 @@ export class MediumRegressionTest extends BaseTest {
                                 test(testName, async () => {
                                     let recordCount = await module.browseSeek(rec.seekObject).then().catch(err => this.LogError(testName, err));
                                     expect(recordCount).toBe(1);
-                                }, module.browseOpenTimeout);
+                                }, module.browseSeekTimeout);
 
                                 if (rec.recordToExpect) {
                                     testName = `Open the newly-created ${module.moduleCaption} record, compare values with expected`;

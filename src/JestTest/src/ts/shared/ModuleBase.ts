@@ -45,6 +45,7 @@ export class ModuleBase {
     moduleId: string;
     moduleCaption: string;
     browseOpenTimeout: number = 30000; // 30 seconds
+    browseSeekTimeout: number = 60000; // 60 seconds
     deleteTimeout: number = 30000; // 30 seconds
     formOpenTimeout: number = 30000; // 30 seconds
     formSaveTimeout: number = 30000; // 30 seconds
@@ -178,7 +179,7 @@ export class ModuleBase {
                 await page.waitFor(() => document.querySelector('.pleasewait'), { timeout: 3000 });
             } catch (error) { } // assume that we missed the Please Wait dialog
 
-            await page.waitFor(() => !document.querySelector('.pleasewait'));
+            await page.waitFor(() => !document.querySelector('.pleasewait'), { timeout: this.browseSeekTimeout;});
             Logging.logInfo(`Finished waiting for the Please Wait dialog.`);
         }
         await ModuleBase.wait(300); // let the rows render
