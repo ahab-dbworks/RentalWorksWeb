@@ -361,6 +361,13 @@ class User {
             <div class="tabpages">
               <div data-type="tabpage" id="usertabpage" class="tabpage" data-tabid="usertab">
                 <div class="flexpage">
+                  <!--09/26/2019 Justin Hoffman
+                      I have added hidden PrimaryDepartment and Name fields below to be able to harvest these values via Puppeteer
+                   -->
+                  <div class="flexrow" style="display:none;">
+                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="PrimaryDepartment" data-datafield="PrimaryDepartment"></div>
+                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Name" data-datafield="Name"></div>
+                  </div>
                   <div class="flexrow">
                     <div class="flexcolumn" style="flex:0 1 550px;">
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="User">
