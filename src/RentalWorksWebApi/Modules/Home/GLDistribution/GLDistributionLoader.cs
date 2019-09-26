@@ -51,7 +51,7 @@ namespace WebApi.Modules.Home.GLDistribution
             }
             else if (!receiptId.Equals(string.Empty))
             {
-                OverrideTableName = "dbo.funcarglweb(@ar)";
+                OverrideTableName = "dbo.funcarglweb(@arid)";
             }
             else if (!vendorInvoiceId.Equals(string.Empty))
             {
