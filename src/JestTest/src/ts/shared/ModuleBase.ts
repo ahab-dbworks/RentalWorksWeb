@@ -173,7 +173,13 @@ export class ModuleBase {
             await elementHandle.click();
             await page.keyboard.sendCharacter(seekValue);
             await page.keyboard.press('Enter');
-            await page.waitForFunction(() => document.querySelector('.pleasewait'), { polling: 'mutation' });
+            //await page.waitForFunction(() => document.querySelector('.pleasewait'), { polling: 'mutation' });
+            try {
+                await page.waitFor(() => document.querySelector('.pleasewait'), { timeout: 3000 });
+            } catch (error) { } // assume that we missed the Please Wait dialog
+
+            await page.waitFor(() => !document.querySelector('.pleasewait'));
+            Logging.logInfo(`Finished waiting for the Please Wait dialog.`);
         }
         await ModuleBase.wait(300); // let the rows render
         let records = await page.$$eval(`.fwbrowse tbody tr`, (e: any) => { return e; });
@@ -347,7 +353,8 @@ export class ModuleBase {
         let openFormCount = await this.countOpenForms();
         if (openFormCount > 0) {
 
-            let tabSelector = `div .fwform .fwtabs .tab`;
+            //let tabSelector = `div .fwform .fwtabs .tab`;
+            let tabSelector = `:not(#designerContent) > .fwform > .fwform-body > .fwtabs > .tabs > .tabcontainer > .tab`;  // thanks Jason
             const tabs = await page.$$(tabSelector);
             clickAllTabsResponse.tabCount = tabs.length;
 
@@ -442,7 +449,9 @@ export class ModuleBase {
     }
     //---------------------------------------------------------------------------------------
     async countOpenForms(): Promise<number> {
-        let formSelector = `.fwform .fwform-body`;
+        //let formSelector = `.fwform .fwform-body`;
+        //let formSelector = `.fwform .fwform-body:not(#designerContent .fwform .fwform-body)`;
+        let formSelector = `:not(#designerContent) > .fwform > .fwform-body`;  // thanks Jason
         let forms = await page.$$eval(formSelector, (e: any) => { return e; });
         var formCount;
         if (forms == undefined) {
@@ -451,7 +460,7 @@ export class ModuleBase {
         else {
             formCount = forms.length;
         }
-        //Logging.logInfo(`Open Form Count: ${formCount}`);
+        Logging.logInfo(`Open Form Count: ${formCount}`);
         return formCount;
     }
     //---------------------------------------------------------------------------------------
