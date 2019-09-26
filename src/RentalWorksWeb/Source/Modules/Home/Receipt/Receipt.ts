@@ -274,6 +274,14 @@ class Receipt {
             FwFormField.setValue($form, 'div[data-datafield="PaymentTypeType"]', $tr.find('.field[data-formdatafield="PaymentTypeType"]').attr('data-originalvalue'));
             const paymentTypeType = FwFormField.getValueByDataField($form, 'PaymentTypeType');
             paymentTypeType === 'CREDIT CARD' ? $form.find('.braintree-row').show() : $form.find('.braintree-row').hide();
+
+
+            const paymentType = FwFormField.getTextByDataField($form, 'PaymentTypeId');
+            let isOverDepletingMemo = false;
+            if (paymentType === 'DEPLETING DEPOSIT' || paymentType === 'CREDIT MEMO' || paymentType === 'OVERPAYMENT') {
+                isOverDepletingMemo = true;
+            }
+            this.spendPaymentTypes($form, paymentType, isOverDepletingMemo);
         });
         $form.find('div.credits-tab').on('click', e => {
             //Disable clicking  tab w/o a Deal / Customer
@@ -289,7 +297,38 @@ class Receipt {
                 FwNotification.renderNotification('WARNING', 'Select a Deal or Customer first.')
             }
         });
+    }
+    //----------------------------------------------------------------------------------------------
+    spendPaymentTypes($form, paymentType, isOverDepleting) {
+        $form.find('div[data-datafield="CheckNumber"]').hide();
+        $form.find('div[data-datafield="CheckNumber"]').attr('data-required', 'false');
+        $form.find('div[data-datafield="AmountRemaining"]').show();
+        $form.find('div[data-datafield="AmountRemaining"]').attr('data-required', 'true');
 
+        if (isOverDepleting) {
+            if (paymentType === 'DEPLETING DEPOSIT') {
+                //The "Check Number" field should be replaced with a validation field to let the user select a specific Depleting Deposit to use.
+                //The "Amount to Apply" field should be replaced with a read - only "Amount Remaining" field to display the amount of funds remaining on their selected Deposit.
+
+
+                // show / hide fields
+                // change captions
+                // adjust required attr accordingly
+                $form.find('div[data-datafield="AmountRemaining"]').attr('data-caption', 'Deposit Reference');
+            }
+            if (paymentType === 'CREDIT MEMO') {
+                $form.find('div[data-datafield="AmountRemaining"]').attr('data-caption', 'Credit Reference');
+            }
+            if (paymentType === 'OVERPAYMENT') {
+                $form.find('div[data-datafield="AmountRemaining"]').attr('data-caption', 'Overpayment Reference');
+            }
+        }
+        else {
+            $form.find('div[data-datafield="CheckNumber"]').show();
+            $form.find('div[data-datafield="CheckNumber"]').attr('data-required', 'true');
+            $form.find('div[data-datafield="AmountRemaining"]').hide();
+            $form.find('div[data-datafield="AmountRemaining"]').attr('data-required', 'false');
+        }
     }
     //----------------------------------------------------------------------------------------------
     createOverPayment($form) {
