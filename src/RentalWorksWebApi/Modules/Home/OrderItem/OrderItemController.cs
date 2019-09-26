@@ -50,10 +50,6 @@ namespace WebApi.Modules.Home.OrderItem
             return await DoPostAsync<OrderItemLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
-
-
-        //justin 03/04/2019 experimental
-        //------------------------------------------------------------------------------------ 
         // POST api/v1/orderitem/many
         [HttpPost("many")]
         [FwControllerMethod(Id: "MqUlSwrmvxSAK")]
@@ -63,9 +59,6 @@ namespace WebApi.Modules.Home.OrderItem
             l2.AddRange(l);
             return await DoPostAsync<OrderItemLogic>(l2);
         }
-        //------------------------------------------------------------------------------------ 
-
-
         //------------------------------------------------------------------------------------ 
         // DELETE api/v1/orderitem/A0000001
         [HttpDelete("{id}")]
