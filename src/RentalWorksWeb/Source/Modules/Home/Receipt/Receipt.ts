@@ -300,18 +300,20 @@ class Receipt {
     }
     //----------------------------------------------------------------------------------------------
     spendPaymentTypes($form, paymentType, isOverDepleting) {
-        $form.find('div[data-datafield="CheckNumber"]').hide();
-        $form.find('div[data-datafield="CheckNumber"]').attr('data-required', 'false');
-        $form.find('div[data-datafield="PaymentTypeId"]').show();
-        $form.find('div[data-datafield="PaymentTypeId"]').attr('data-required', 'false');
-
-        $form.find('div[data-datafield="OverPaymentId"]').show();
-        $form.find('div[data-datafield="OverPaymentId"]').attr('data-required', 'true');
-
-        $form.find('div[data-datafield="AmountRemaining"]').show();
-        $form.find('div[data-datafield="AmountRemaining"]').attr('data-required', 'true');
 
         if (isOverDepleting) {
+            $form.find('div[data-datafield="CheckNumber"]').hide();
+            $form.find('div[data-datafield="CheckNumber"]').attr('data-required', 'false');
+
+            $form.find('div[data-datafield="PaymentTypeId"]').hide();
+            $form.find('div[data-datafield="PaymentTypeId"]').attr('data-required', 'false');
+
+            $form.find('div[data-datafield="OverPaymentId"]').show();
+            $form.find('div[data-datafield="OverPaymentId"]').attr('data-required', 'true');
+
+            $form.find('div[data-datafield="AmountRemaining"]').show();
+            $form.find('div[data-datafield="AmountRemaining"]').attr('data-required', 'true');
+
             if (paymentType === 'DEPLETING DEPOSIT') {
                 //The "Check Number" field should be replaced with a validation field to let the user select a specific Depleting Deposit to use.
                 //The "Amount to Apply" field should be replaced with a read - only "Amount Remaining" field to display the amount of funds remaining on their selected Deposit.
@@ -354,7 +356,7 @@ class Receipt {
         const html: Array<string> = [];
         html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
         html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-        html.push(`    <div>Create Overpayment of ${unappliedTotal}?</div>`);
+        html.push(`    <div>Save this Receipt with ${unappliedTotal} Overpayment?</div>`);
         html.push('  </div>');
         html.push('</div>');
 
