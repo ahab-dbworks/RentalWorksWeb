@@ -305,44 +305,34 @@ class Receipt {
             $form.find('div[data-datafield="CheckNumber"]').hide();
             $form.find('div[data-datafield="CheckNumber"]').attr('data-required', 'false');
 
-            $form.find('div[data-datafield="PaymentTypeId"]').hide();
-            $form.find('div[data-datafield="PaymentTypeId"]').attr('data-required', 'false');
-
             $form.find('div[data-datafield="OverPaymentId"]').show();
             $form.find('div[data-datafield="OverPaymentId"]').attr('data-required', 'true');
 
             $form.find('div[data-datafield="AmountRemaining"]').show();
             $form.find('div[data-datafield="AmountRemaining"]').attr('data-required', 'true');
+            $form.find('div[data-datafield="PaymentAmount"]').hide();
 
             if (paymentType === 'DEPLETING DEPOSIT') {
-                //The "Check Number" field should be replaced with a validation field to let the user select a specific Depleting Deposit to use.
-                //The "Amount to Apply" field should be replaced with a read - only "Amount Remaining" field to display the amount of funds remaining on their selected Deposit.
-
-
-                // show / hide fields
-                // change captions
-                // adjust required attr accordingly
-                $form.find('div[data-datafield="OverPaymentId"]').attr('data-caption', 'Deposit Reference');
+                $form.find('div[data-datafield="OverPaymentId"] .fwformfield-caption').text('Deposit Reference');
             }
             if (paymentType === 'CREDIT MEMO') {
-                $form.find('div[data-datafield="OverPaymentId"]').attr('data-caption', 'Credit Reference');
+                $form.find('div[data-datafield="OverPaymentId"] .fwformfield-caption').text('Credit Reference');
             }
             if (paymentType === 'OVERPAYMENT') {
-                $form.find('div[data-datafield="OverPaymentId"]').attr('data-caption', 'Overpayment Reference');
+                $form.find('div[data-datafield="OverPaymentId"] .fwformfield-caption').text('Overpayment Reference');
             }
         }
         else {
             $form.find('div[data-datafield="CheckNumber"]').show();
             $form.find('div[data-datafield="CheckNumber"]').attr('data-required', 'true');
 
-            $form.find('div[data-datafield="PaymentTypeId"]').show();
-            $form.find('div[data-datafield="PaymentTypeId"]').attr('data-required', 'true');
-
             $form.find('div[data-datafield="OverPaymentId"]').hide();
             $form.find('div[data-datafield="OverPaymentId"]').attr('data-required', 'false');
 
             $form.find('div[data-datafield="AmountRemaining"]').hide();
             $form.find('div[data-datafield="AmountRemaining"]').attr('data-required', 'false');
+
+            $form.find('div[data-datafield="PaymentAmount"]').show();
         }
     }
     //----------------------------------------------------------------------------------------------
