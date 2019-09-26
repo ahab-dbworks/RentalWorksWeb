@@ -648,7 +648,7 @@ export class Invoice extends HomeModule {
 
         this.defaultNewRecordToExpect = {
             InvoiceNumber: "",
-            Description: "",
+            InvoiceDescription: "",
             Department: "GlobalScope.User~ME.PrimaryDepartment",
             OfficeLocation: "GlobalScope.User~ME.OfficeLocation",
             Agent: "GlobalScope.User~ME.Name",
@@ -659,7 +659,7 @@ export class Invoice extends HomeModule {
         this.newRecordsToCreate = [
             {
                 record: {
-                    Description: `${TestUtils.randomProductName()} GlobalScope.TestToken~1.TestToken`,
+                    InvoiceDescription: `${TestUtils.randomProductName()} GlobalScope.TestToken~1.TestToken`,
                     DealId: 2,
                     RateType: 1,
                 },
@@ -672,7 +672,7 @@ export class Invoice extends HomeModule {
             InvoiceNumber: "|NOTEMPTY|",
             Deal: "|NOTEMPTY|",
             RateType: "|NOTEMPTY|",
-            Description: this.newRecordsToCreate[0].record.Description.toUpperCase(),
+            InvoiceDescription: this.newRecordsToCreate[0].record.Description.toUpperCase(),
             Agent: "GlobalScope.User~ME.Name",
             ProjectManager: "GlobalScope.User~ME.Name",
         }
