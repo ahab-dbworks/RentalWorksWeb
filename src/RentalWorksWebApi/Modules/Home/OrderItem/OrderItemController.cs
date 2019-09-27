@@ -8,6 +8,7 @@ using WebApi.Controllers;
 using System.Threading.Tasks;
 using System;
 using FwStandard.BusinessLogic;
+using WebApi.Logic;
 
 namespace WebApi.Modules.Home.OrderItem
 {
@@ -148,11 +149,10 @@ namespace WebApi.Modules.Home.OrderItem
             }
         }
         //------------------------------------------------------------------------------------ 
-
         // POST api/v1/orderitem/sort
         [HttpPost("sort")]
         [FwControllerMethod(Id: "4enRLJuJAEjeO")]
-        public async Task<ActionResult<SortOrderItemsResponse>> SortOrderItemsAsync([FromBody]SortOrderItemsRequest request)
+        public async Task<ActionResult<SortItemsResponse>> SortOrderItemsAsync([FromBody]SortOrderItemsRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -168,6 +168,5 @@ namespace WebApi.Modules.Home.OrderItem
             }
         }
         //------------------------------------------------------------------------------------ 
-
     }
 }

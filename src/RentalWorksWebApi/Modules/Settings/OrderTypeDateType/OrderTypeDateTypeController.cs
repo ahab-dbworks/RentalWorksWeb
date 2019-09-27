@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options; 
 using WebApi.Controllers; 
 using System.Threading.Tasks;
+using WebApi.Logic;
+using System;
+
 namespace WebApi.Modules.Settings.OrderTypeDateType
 {
     [Route("api/v1/[controller]")]
@@ -61,6 +64,25 @@ namespace WebApi.Modules.Settings.OrderTypeDateType
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<OrderTypeDateTypeLogic>(id);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/ordertypedatetype/sort
+        [HttpPost("sort")]
+        [FwControllerMethod(Id: "gapf9m1VDrVRm")]
+        public async Task<ActionResult<SortItemsResponse>> SortOrderTypeDateTypesAsync([FromBody]SortOrderTypeDateTypesRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                return await OrderTypeDateTypeFunc.SortOrderTypeDateTypes(AppConfig, UserSession, request);
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
         }
         //------------------------------------------------------------------------------------ 
     }

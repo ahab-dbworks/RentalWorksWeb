@@ -1,57 +1,39 @@
 ﻿using FwStandard.Models;
-using FwStandard.SqlServer;
 using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Text;
 using System.Threading.Tasks;
 using WebApi.Logic;
 using WebLibrary;
 
 namespace WebApi.Modules.Home.OrderItem
 {
-
-
     public class SortOrderItemsRequest
     {
         public string OrderId { get; set; }
         public int? StartAtIndex { get; set; }
         public List<string> OrderItemIds { get; set; } = new List<string>();
     }
-    public class SortOrderItemsResponse : TSpStatusResponse
-    {
-    }
-
 
     public static class OrderItemFunc
     {
-
         //-------------------------------------------------------------------------------------------------------
-        public static async Task<SortOrderItemsResponse> SortOrderItems(FwApplicationConfig appConfig, FwUserSession userSession, SortOrderItemsRequest request)
+        public static async Task<SortItemsResponse> SortOrderItems(FwApplicationConfig appConfig, FwUserSession userSession, SortOrderItemsRequest request)
         {
-            SortOrderItemsResponse response = new SortOrderItemsResponse();
-            if (string.IsNullOrEmpty(request.OrderId))
-            {
-                response.msg = "OrderId is required.";
+            SortItemsRequest r2 = new SortItemsRequest();
+            r2.TableName = "masteritem";
+            r2.IdFieldNames.Add("orderid");
+            r2.IdFieldNames.Add("masteritemid");
+            r2.RowNumberFieldName = "itemorder";
+            r2.StartAtIndex = request.StartAtIndex;
+            r2.RowNumberDigits = 6;
+
+            foreach (string orderItemId in request.OrderItemIds) {
+                List<string> idCombo = new List<string>();
+                idCombo.Add(request.OrderId);
+                idCombo.Add(orderItemId);
+                r2.Ids.Add(idCombo);
             }
-            else
-            {
-                using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
-                {
-                    FwSqlCommand qry = new FwSqlCommand(conn, "sortmasteritems", appConfig.DatabaseSettings.QueryTimeout);
-                    qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, request.OrderId);
-                    qry.AddParameter("@startatindex", SqlDbType.Int, ParameterDirection.Input, request.StartAtIndex.GetValueOrDefault(1));
-                    qry.AddParameter("@masteritemids", SqlDbType.NVarChar, ParameterDirection.Input, string.Join(",", request.OrderItemIds));
-                    qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
-                    qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
-                    qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
-                    await qry.ExecuteNonQueryAsync();
-                    //response.ContractId = qry.GetParameter("@contractid").ToString();
-                    response.status = qry.GetParameter("@status").ToInt32();
-                    response.success = (response.status == 0);
-                    response.msg = qry.GetParameter("@msg").ToString();
-                }
-            }
+            SortItemsResponse response = await AppFunc.SortItems(appConfig, userSession, r2);
             return response;
         }
     }

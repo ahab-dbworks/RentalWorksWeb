@@ -18,6 +18,23 @@ namespace WebApi.Logic
         public string msg = "";
     }
 
+    public class SortItemsRequest
+    {
+        public string TableName { get; set; } = "";
+        public string RowNumberFieldName { get; set; } = "";
+        public List<List<string>> Ids { get; set; } = new List<List<string>>();
+        /*
+               @ids varchar(max),   --// ids are comma-separated.                  example: A1234567,A2345678,A3456789
+                                    --// multi-key field are separated with tilde. example: A1234567~A2345678,B3456789~B6658005,C6806308~C6806329
+
+        */
+        public List<string> IdFieldNames { get; set; } = new List<string>();
+        public int? StartAtIndex { get; set; } = 1;
+        public int? RowNumberDigits { get; set; } = 4;
+    }
+
+    public class SortItemsResponse : TSpStatusResponse { }
+
     public static class AppFunc
     {
 
@@ -314,16 +331,16 @@ namespace WebApi.Logic
             return isDbWorks;
         }
         //-------------------------------------------------------------------------------------------------------
-        public static string GetOrderTypeDescription (string orderType)
+        public static string GetOrderTypeDescription(string orderType)
         {
             string orderTypeDescription = orderType;
             switch (orderType)
             {
                 case RwConstants.ORDER_TYPE_QUOTE:
-                    orderTypeDescription = RwConstants.ORDER_TYPE_DESCRIPTION_QUOTE; 
+                    orderTypeDescription = RwConstants.ORDER_TYPE_DESCRIPTION_QUOTE;
                     break;
                 case RwConstants.ORDER_TYPE_ORDER:
-                    orderTypeDescription = RwConstants.ORDER_TYPE_DESCRIPTION_ORDER; 
+                    orderTypeDescription = RwConstants.ORDER_TYPE_DESCRIPTION_ORDER;
                     break;
                 case RwConstants.ORDER_TYPE_PROJECT:
                     orderTypeDescription = RwConstants.ORDER_TYPE_DESCRIPTION_PROJECT;
@@ -468,7 +485,7 @@ namespace WebApi.Logic
                     break;
                 case RwConstants.RECEIPT_RECTYPE_CREDIT_MEMO:
                     recTypeColor = RwGlobals.RECEIPT_RECTYPE_CREDIT_MEMO_COLOR;
-                    break; 
+                    break;
             }
             return recTypeColor;
         }
@@ -779,5 +796,44 @@ namespace WebApi.Logic
             }
         }
         //-------------------------------------------------------------------------------------------------------
+        public static async Task<SortItemsResponse> SortItems(FwApplicationConfig appConfig, FwUserSession userSession, SortItemsRequest request)
+        {
+            SortItemsResponse response = new SortItemsResponse();
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                /*
+                       @ids varchar(max),   --// ids are comma-separated.                  example: A1234567,A2345678,A3456789
+                                            --// multi-key field are separated with tilde. example: A1234567~A2345678,B3456789~B6658005,C6806308~C6806329
+
+                */
+                StringBuilder ids = new StringBuilder();
+                foreach (List<string> idSet in request.Ids)
+                {
+                    if (ids.Length > 0)
+                    {
+                        ids.Append(",");
+                    }
+                    string id = string.Join('~', idSet);
+                    ids.Append(id);
+                }
+
+                FwSqlCommand qry = new FwSqlCommand(conn, "sortitemsweb", appConfig.DatabaseSettings.QueryTimeout);
+                qry.AddParameter("@tablename", SqlDbType.NVarChar, ParameterDirection.Input, request.TableName);
+                qry.AddParameter("@rownumberfieldname", SqlDbType.NVarChar, ParameterDirection.Input, request.RowNumberFieldName);
+                qry.AddParameter("@ids", SqlDbType.NVarChar, ParameterDirection.Input, ids.ToString());
+                qry.AddParameter("@idfieldnames", SqlDbType.NVarChar, ParameterDirection.Input, string.Join(',', request.IdFieldNames));
+                qry.AddParameter("@startatindex", SqlDbType.Int, ParameterDirection.Input, request.StartAtIndex);
+                qry.AddParameter("@rownumberdigits", SqlDbType.Int, ParameterDirection.Input, request.RowNumberDigits);
+                qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+                qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
+                qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
+                await qry.ExecuteNonQueryAsync();
+                response.status = qry.GetParameter("@status").ToInt32();
+                response.success = (response.status == 0);
+                response.msg = qry.GetParameter("@msg").ToString();
+            }
+            return response;
+        }
     }
+    //-------------------------------------------------------------------------------------------------------    
 }
