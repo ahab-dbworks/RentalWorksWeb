@@ -1048,6 +1048,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
                 qry.Add("                     '" + RwConstants.TRANSFER_STATUS_CLOSED + "'  ,                    ");
                 qry.Add("                     '" + RwConstants.TRANSFER_STATUS_COMPLETE + "'  ,                  ");
                 qry.Add("                     '" + RwConstants.ORDER_STATUS_CANCELLED + "'  ,                    ");
+                qry.Add("                     '" + RwConstants.ORDER_STATUS_SNAPSHOT + "'  ,                     ");
                 qry.Add("                     '" + RwConstants.ORDER_STATUS_COMPLETE + "'  ,                     ");
                 qry.Add("                     '" + RwConstants.ORDER_STATUS_CLOSED + "'                          ");
                 qry.Add("                        )                                                               ");
