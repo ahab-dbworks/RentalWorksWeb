@@ -54,5 +54,11 @@ namespace WebApi.Modules.Home.Receipt
         [FwSqlDataField(column: "locdefaultcurrencyid", modeltype: FwDataTypes.Text)]
         public string OfficeLocationDefaultCurrencyId { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "depositid", modeltype: FwDataTypes.Text)]
+        public string DepositId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "depositcheckno", modeltype: FwDataTypes.Text)]
+        public string DepositCheckNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
     }
 }
