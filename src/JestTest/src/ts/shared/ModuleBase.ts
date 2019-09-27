@@ -179,7 +179,7 @@ export class ModuleBase {
                 await page.waitFor(() => document.querySelector('.pleasewait'), { timeout: 3000 });
             } catch (error) { } // assume that we missed the Please Wait dialog
 
-            await page.waitFor(() => !document.querySelector('.pleasewait'), { timeout: this.browseSeekTimeout;});
+            await page.waitFor(() => !document.querySelector('.pleasewait'), { timeout: this.browseSeekTimeout });
             Logging.logInfo(`Finished waiting for the Please Wait dialog.`);
         }
         await ModuleBase.wait(300); // let the rows render
@@ -649,8 +649,7 @@ export class ModuleBase {
                     case 'checkbox':
                         value = false;
                         const elementHandle = await page.$(`div[data-datafield="${dataField}"] input:checked`);
-                        if (elementHandle != null)
-                        {
+                        if (elementHandle != null) {
                             value = true;
                         }
                         record[dataField] = value;
