@@ -92,7 +92,7 @@ class Receipt {
         // Hidden fields used for Overpayment and Depleting Deposit actions in NEW Records ( this.createDepletingDeposit, etc. )
         FwFormField.setValueByDataField($form, 'CreateOverpayment', false);
         FwFormField.setValueByDataField($form, 'CreateDepletingDeposit', false);
-
+        FwFormField.disable($form.find('div[data-datafield="PaymentBy"]'));
         if (mode === 'NEW') {
             const location = JSON.parse(sessionStorage.getItem('location'));
             FwFormField.setValueByDataField($form, 'LocationId', location.locationid, location.location);
@@ -168,7 +168,11 @@ class Receipt {
             //let $popup = FwPopup.renderPopup(jQuery(braintreeScipt), { ismodal: true });
             //FwPopup.showPopup($popup);
         })
-
+        // toggle buttons receipt tab
+        FwFormField.loadItems($form.find('div[data-datafield="PaymentBy"]'), [
+            { value: 'CUSTOMER', caption: 'Customer'},
+            { value: 'DEAL', caption: 'Deal' },
+        ]);
         // Adds receipt invoice datatable to request
         $form.data('beforesave', request => {
             request.InvoiceDataList = this.getFormTableData($form);
@@ -299,9 +303,9 @@ class Receipt {
         });
     }
     //----------------------------------------------------------------------------------------------
-    spendPaymentTypes($form, paymentType, isOverDepleting) {
+    spendPaymentTypes($form, paymentTypeType, isOverDepletingMemo) {
 
-        if (isOverDepleting) {
+        if (isOverDepletingMemo) {
             $form.find('div[data-datafield="CheckNumber"]').hide();
             $form.find('div[data-datafield="CheckNumber"]').attr('data-required', 'false');
 
@@ -312,13 +316,13 @@ class Receipt {
             $form.find('div[data-datafield="AmountRemaining"]').attr('data-required', 'true');
             $form.find('div[data-datafield="PaymentAmount"]').hide();
 
-            if (paymentType === 'DEPLETING DEPOSIT') {
+            if (paymentTypeType === 'DEPLETING DEPOSIT') {
                 $form.find('div[data-datafield="OverPaymentId"] .fwformfield-caption').text('Deposit Reference');
             }
-            if (paymentType === 'CREDIT MEMO') {
+            if (paymentTypeType === 'CREDIT MEMO') {
                 $form.find('div[data-datafield="OverPaymentId"] .fwformfield-caption').text('Credit Reference');
             }
-            if (paymentType === 'OVERPAYMENT') {
+            if (paymentTypeType === 'OVERPAYMENT') {
                 $form.find('div[data-datafield="OverPaymentId"] .fwformfield-caption').text('Overpayment Reference');
             }
         }
