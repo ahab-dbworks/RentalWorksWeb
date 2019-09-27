@@ -92,7 +92,7 @@ class Receipt {
         // Hidden fields used for Overpayment and Depleting Deposit actions in NEW Records ( this.createDepletingDeposit, etc. )
         FwFormField.setValueByDataField($form, 'CreateOverpayment', false);
         FwFormField.setValueByDataField($form, 'CreateDepletingDeposit', false);
-        FwFormField.disable($form.find('div[data-datafield="PaymentBy"]'));
+
         if (mode === 'NEW') {
             const location = JSON.parse(sessionStorage.getItem('location'));
             FwFormField.setValueByDataField($form, 'LocationId', location.locationid, location.location);
@@ -171,7 +171,7 @@ class Receipt {
         // toggle buttons receipt tab
         FwFormField.loadItems($form.find('div[data-datafield="PaymentBy"]'), [
             { value: 'CUSTOMER', caption: 'Customer'},
-            { value: 'DEAL', caption: 'Deal' },
+            { value: 'DEAL', caption: 'Deal', checked: true },
         ]);
         // Adds receipt invoice datatable to request
         $form.data('beforesave', request => {
@@ -304,13 +304,18 @@ class Receipt {
     }
     //----------------------------------------------------------------------------------------------
     spendPaymentTypes($form, paymentTypeType, isOverDepletingMemo) {
-
+        const paymentBy = FwFormField.getValueByDataField($form, 'PaymentBy'); // this must have a value before below can run -- disable payment type till deal or customer is selected?
+ 
         if (isOverDepletingMemo) {
             $form.find('div[data-datafield="CheckNumber"]').hide();
             $form.find('div[data-datafield="CheckNumber"]').attr('data-required', 'false');
-
-            $form.find('div[data-datafield="OverPaymentId"]').show();
-            $form.find('div[data-datafield="OverPaymentId"]').attr('data-required', 'true');
+            if (paymentBy === 'DEAL') {
+                $form.find('div[data-validationname="DealCreditValidation"]').show();
+                $form.find('div[data-validationname="DealCreditValidation"]').attr('data-required', 'true');
+            } else {
+                $form.find('div[data-validationname="CustomerCreditValidation"]').show();
+                $form.find('div[data-validationname="CustomerCreditValidation"]').attr('data-required', 'true');
+            }
 
             $form.find('div[data-datafield="AmountRemaining"]').show();
             $form.find('div[data-datafield="AmountRemaining"]').attr('data-required', 'true');
@@ -331,7 +336,7 @@ class Receipt {
             $form.find('div[data-datafield="CheckNumber"]').attr('data-required', 'true');
 
             $form.find('div[data-datafield="OverPaymentId"]').hide();
-            $form.find('div[data-datafield="OverPaymentId"]').attr('data-required', 'false');
+            $form.find('div[data-datafield="OverPaymentId"]').attr('data-required', 'false'); // if datafield remains same, no need to differentiate
 
             $form.find('div[data-datafield="AmountRemaining"]').hide();
             $form.find('div[data-datafield="AmountRemaining"]').attr('data-required', 'false');
