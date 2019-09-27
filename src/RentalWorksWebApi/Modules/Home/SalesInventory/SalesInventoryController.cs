@@ -47,9 +47,9 @@ namespace WebApi.Modules.Home.SalesInventory
         {
             Dictionary<string, string> legend = new Dictionary<string, string>();
             legend.Add("Reserved", RwGlobals.AVAILABILITY_COLOR_RESERVED);
+            legend.Add("Sub Sale", RwGlobals.SUB_COLOR);
             legend.Add("Staged", RwGlobals.STAGED_COLOR);
             legend.Add("Out", RwGlobals.OUT_COLOR);
-            //legend.Add("Late", RwGlobals.AVAILABILITY_COLOR_LATE);
             legend.Add("In Transit", RwGlobals.IN_TRANSIT_COLOR);
             legend.Add("In Repair", RwGlobals.IN_REPAIR_COLOR);
             await Task.CompletedTask; // get rid of the no async call warning

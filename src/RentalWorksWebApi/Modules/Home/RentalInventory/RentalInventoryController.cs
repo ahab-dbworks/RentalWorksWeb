@@ -48,6 +48,7 @@ namespace WebApi.Modules.Home.RentalInventory
         {
             Dictionary<string, string> legend = new Dictionary<string, string>();
             legend.Add("Reserved", RwGlobals.AVAILABILITY_COLOR_RESERVED);
+            legend.Add("Sub Rent", RwGlobals.SUB_COLOR);
             legend.Add("Staged", RwGlobals.STAGED_COLOR);
             legend.Add("Out", RwGlobals.OUT_COLOR);
             legend.Add("Late", RwGlobals.AVAILABILITY_COLOR_LATE);
