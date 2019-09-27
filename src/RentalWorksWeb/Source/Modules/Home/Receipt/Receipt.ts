@@ -304,11 +304,11 @@ class Receipt {
     }
     //----------------------------------------------------------------------------------------------
     spendPaymentTypes($form, paymentTypeType, isOverDepletingMemo) {
-        const paymentBy = FwFormField.getValueByDataField($form, 'PaymentBy'); // this must have a value before below can run -- disable payment type till deal or customer is selected?
+        const paymentBy = FwFormField.getValueByDataField($form, 'PaymentBy');                       // this must have a value before below can run -- disable payment type till deal or customer is selected?
  
         if (isOverDepletingMemo) {
             $form.find('div[data-datafield="CheckNumber"]').hide();
-            $form.find('div[data-datafield="CheckNumber"]').attr('data-required', 'false');
+            $form.find('div[data-datafield="CheckNumber"]').attr('data-required', 'false');          // ? if user changes deal to customer after this has been initiated
             if (paymentBy === 'DEAL') {
                 $form.find('div[data-validationname="DealCreditValidation"]').show();
                 $form.find('div[data-validationname="DealCreditValidation"]').attr('data-required', 'true');
@@ -335,8 +335,8 @@ class Receipt {
             $form.find('div[data-datafield="CheckNumber"]').show();
             $form.find('div[data-datafield="CheckNumber"]').attr('data-required', 'true');
 
-            $form.find('div[data-datafield="OverPaymentId"]').hide();
-            $form.find('div[data-datafield="OverPaymentId"]').attr('data-required', 'false'); // if datafield remains same, no need to differentiate
+            $form.find('div[data-datafield="DepositId"]').hide();
+            $form.find('div[data-datafield="DepositId"]').attr('data-required', 'false');
 
             $form.find('div[data-datafield="AmountRemaining"]').hide();
             $form.find('div[data-datafield="AmountRemaining"]').attr('data-required', 'false');
