@@ -3,30 +3,30 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Settings.OrderTypeDateType
+namespace WebApi.Modules.Home.InventoryPackageInventory
 {
-    public class SortOrderTypeDateTypesRequest
+    public class SortInventoryPackageInventorysRequest
     {
-        public string OrderTypeId { get; set; }
+        public string PackageId { get; set; }
         public int? StartAtIndex { get; set; }
-        public List<string> OrderTypeDateTypeIds { get; set; } = new List<string>();
+        public List<string> InventoryPackageInventoryIds { get; set; } = new List<string>();
     }
 
-    public static class OrderTypeDateTypeFunc
+    public static class InventoryPackageInventoryFunc
     {
         //-------------------------------------------------------------------------------------------------------
-        public static async Task<SortItemsResponse> SortOrderTypeDateTypes(FwApplicationConfig appConfig, FwUserSession userSession, SortOrderTypeDateTypesRequest request)
+        public static async Task<SortItemsResponse> SortInventoryPackageInventorys(FwApplicationConfig appConfig, FwUserSession userSession, SortInventoryPackageInventorysRequest request)
         {
             SortItemsRequest r2 = new SortItemsRequest();
-            r2.TableName = "ordertypedatetype";
-            r2.IdFieldNames.Add("ordertypeid");
-            r2.IdFieldNames.Add("ordertypedatetypeid");
+            r2.TableName = "packageitem";
+            r2.IdFieldNames.Add("packageid");
+            r2.IdFieldNames.Add("packageitemid");
             r2.RowNumberFieldName = "orderby";
             r2.StartAtIndex = request.StartAtIndex;
 
-            foreach (string itemId in request.OrderTypeDateTypeIds) {
+            foreach (string itemId in request.InventoryPackageInventoryIds) {
                 List<string> idCombo = new List<string>();
-                idCombo.Add(request.OrderTypeId);
+                idCombo.Add(request.PackageId);
                 idCombo.Add(itemId);
                 r2.Ids.Add(idCombo);
             }

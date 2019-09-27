@@ -27,10 +27,10 @@ namespace WebApi.Modules.Home.OrderItem
             r2.StartAtIndex = request.StartAtIndex;
             r2.RowNumberDigits = 6;
 
-            foreach (string orderItemId in request.OrderItemIds) {
+            foreach (string itemId in request.OrderItemIds) {
                 List<string> idCombo = new List<string>();
                 idCombo.Add(request.OrderId);
-                idCombo.Add(orderItemId);
+                idCombo.Add(itemId);
                 r2.Ids.Add(idCombo);
             }
             SortItemsResponse response = await AppFunc.SortItems(appConfig, userSession, r2);
