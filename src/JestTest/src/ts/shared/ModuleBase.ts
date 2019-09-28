@@ -44,11 +44,11 @@ export class ModuleBase {
     moduleName: string;
     moduleId: string;
     moduleCaption: string;
-    browseOpenTimeout: number = 30000; // 30 seconds
-    browseSeekTimeout: number = 60000; // 60 seconds
-    deleteTimeout: number = 30000; // 30 seconds
-    formOpenTimeout: number = 30000; // 30 seconds
-    formSaveTimeout: number = 30000; // 30 seconds
+    browseOpenTimeout: number = 120000; // 120 seconds
+    browseSeekTimeout: number = 120000; // 120 seconds
+    deleteTimeout: number = 120000; // 120 seconds
+    formOpenTimeout: number = 120000; // 120 seconds
+    formSaveTimeout: number = 120000; // 120 seconds
 
     canNew: boolean = true;
     canView: boolean = true;

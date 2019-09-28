@@ -645,6 +645,7 @@ export class Invoice extends HomeModule {
         this.moduleName = 'Invoice';
         this.moduleId = '9B79D7D8-08A1-4F6B-AC0A-028DFA9FE10F';
         this.moduleCaption = 'Invoice';
+        this.canDelete = false;
 
         this.defaultNewRecordToExpect = {
             InvoiceNumber: "",
@@ -664,7 +665,7 @@ export class Invoice extends HomeModule {
                     RateType: 1,
                 },
                 seekObject: {
-                    Description: "GlobalScope.TestToken~1.TestToken",
+                    InvoiceDescription: "GlobalScope.TestToken~1.TestToken",
                 },
             }
         ];

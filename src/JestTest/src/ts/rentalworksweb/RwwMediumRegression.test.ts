@@ -240,7 +240,7 @@ export class MediumRegressionTest extends BaseTest {
         this.MediumRegressionOnModule(new Invoice());
         this.MediumRegressionOnModule(new Receipt());
         this.MediumRegressionOnModule(new VendorInvoice());
-
+        
         //Settings
         this.MediumRegressionOnModule(new AccountingSettings());
         this.MediumRegressionOnModule(new GlAccount());

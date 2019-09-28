@@ -174,7 +174,7 @@ export class SettingsModule extends ModuleBase {
         }
 
         let moduleLegendBarSelector = `.panel-group[id="${this.moduleName}"] .legend`;
-        await page.waitForSelector(moduleLegendBarSelector, { timeout: 1000 });
+        await page.waitForSelector(moduleLegendBarSelector);
 
         let recordSelector = `.panel-group[id="${this.moduleName}"] .panel-primary .panel-collapse .panel-body .panel-record:not(.inactive-panel)`;
         //let recordSelector = `.panel-group[id="${this.moduleName}"] .panel-primary .panel-collapse .panel-body .panel-record:not(.inactive-panel) .panel-info .row-heading:not(.inactive-panel)`;
@@ -532,7 +532,7 @@ export class SettingsModule extends ModuleBase {
         }
 
         let moduleLegendBarSelector = `.panel-group[id="${this.moduleName}"] .legend`;
-        await page.waitForSelector(moduleLegendBarSelector, { timeout: 1000 });
+        await page.waitForSelector(moduleLegendBarSelector);
 
         let openFormCountBefore = await this.countOpenForms();
 
@@ -649,8 +649,17 @@ export class SettingsModule extends ModuleBase {
                         Logging.logInfo(`Clicked the "Yes" button.`);
                     })
                 await page.waitFor(() => !document.querySelector('.advisory'));
-                await page.waitFor(() => document.querySelector('.pleasewait'));
+                //await page.waitFor(() => document.querySelector('.pleasewait'));
+                //await page.waitFor(() => !document.querySelector('.pleasewait'));
+
+
+                try {
+                    await page.waitFor(() => document.querySelector('.pleasewait'), { timeout: 3000 });
+                } catch (error) { } // assume that we missed the Please Wait dialog
+
                 await page.waitFor(() => !document.querySelector('.pleasewait'));
+                Logging.logInfo(`Finished waiting for the Please Wait dialog.`);
+
 
                 //make the "record deleted" toaster message go away
                 await page.waitForSelector('.advisory .messageclose');
