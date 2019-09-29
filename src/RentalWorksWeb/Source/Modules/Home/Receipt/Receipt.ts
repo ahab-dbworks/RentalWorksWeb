@@ -345,6 +345,26 @@ class Receipt {
         }
     }
     //----------------------------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------
+    beforeValidate($browse, $form, request) {
+        const validationName = request.module;
+        const recType = FwFormField.getValueByDataField($form, 'RecType');
+        request.uniqueids = {};
+
+        switch (validationName) {
+            case 'DealCreditValidation':
+                if (recType !== "") {
+                    request.uniqueids.RecType = recType;
+                }
+                break;
+            case 'CustomerCreditValidation':
+                if (recType !== "") {
+                    request.uniqueids.RecType = recType;
+                }
+                break;
+        };
+    };
+    //----------------------------------------------------------------------------------------------
     createOverPayment($form) {
         jQuery('#application').find('.advisory .fwconfirmationbox .fwconfirmation-button').click();
 
