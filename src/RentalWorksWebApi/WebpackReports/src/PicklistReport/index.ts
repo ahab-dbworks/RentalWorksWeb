@@ -23,6 +23,9 @@ export class PickListReport extends WebpackReport {
                     data.Report = 'PICK LIST';
                     data.System = 'RENTALWORKS';
                     data.Company = parameters.companyName;
+                    data.NewPagePerType = parameters.NewPagePerType;
+                    data.rows[1].IsFirstInventoryTypeHeader = true;
+                    console.log(data);
                     this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;

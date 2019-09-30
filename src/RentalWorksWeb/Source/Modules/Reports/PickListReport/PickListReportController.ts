@@ -19,6 +19,9 @@ const pickListTemplate = `
                     <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                       <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Pick List" data-savesetting="false" data-datafield="PickListId" data-displayfield="PickListNumber" data-validationname="PickListValidation" style="float:left;max-width:300px;"></div>
                     </div>
+                    <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                      <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="New Page for each Inventory Type" data-datafield="NewPagePerType"></div>
+                    </div>
                   </div>
                 </div>
               </div>
