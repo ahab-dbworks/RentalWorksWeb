@@ -458,18 +458,13 @@ export class ModuleBase {
             await page.waitFor(() => !document.querySelector('.pleasewait'));
             Logging.logInfo(`Finished waiting for the Please Wait dialog.`);
 
-            const afterDeleteMsg = await page.$eval('.advisory', el => el.textContent);
-            if ((afterDeleteMsg.includes('deleted')) && (!afterDeleteMsg.includes('Error'))) {
-                Logging.logInfo(`${this.moduleCaption} Record deleted: ${afterDeleteMsg}`);
+            let afterDeleteMsg: string = "";
+            try {
+                await page.waitFor(() => document.querySelector('.advisory'), { timeout: 500 });
+                afterDeleteMsg = await page.$eval('.advisory', el => el.textContent);
+            } catch (error) { } // assume that no error occurred
 
-                //make the "record deleted" toaster message go away
-                await page.waitForSelector('.advisory .messageclose');
-                await page.click(`.advisory .messageclose`);
-                await page.waitFor(() => !document.querySelector('.advisory'));  // wait for toaster to go away
-
-                response.deleted = true;
-                response.errorMessage = "";
-            } else if (afterDeleteMsg.includes('Error')) {
+            if (afterDeleteMsg.includes('Error')) {
                 Logging.logInfo(`${this.moduleCaption} Record not deleted: ${afterDeleteMsg}`);
                 response.deleted = false;
                 response.errorMessage = afterDeleteMsg;
@@ -488,9 +483,17 @@ export class ModuleBase {
                         await page.waitFor(() => !document.querySelector('.advisory'));
                     }
                 }
+            } else {
+                Logging.logInfo(`${this.moduleCaption} Record deleted: ${afterDeleteMsg}`);
+
+                //make the "record deleted" toaster message go away
+                //await page.waitForSelector('.advisory .messageclose');
+                //await page.click(`.advisory .messageclose`);
+                //await page.waitFor(() => !document.querySelector('.advisory'));  // wait for toaster to go away
+
+                response.deleted = true;
+                response.errorMessage = "";
             }
-
-
         }
         Logging.logInfo(`Record deleted.`);
 
