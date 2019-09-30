@@ -437,7 +437,9 @@ class FwBrowseClass {
             })
             .on('click', '.runtime .pager div.btn-manualsort', function (e: JQuery.Event) {
                 try {
-                    $control.find('td.manual-sort').show();
+                    if ($control.attr('data-enabled') != 'false') {
+                        $control.find('td.manual-sort').show();
+                    }
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }
