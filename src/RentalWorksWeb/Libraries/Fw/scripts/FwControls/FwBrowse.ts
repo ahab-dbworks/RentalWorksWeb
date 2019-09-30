@@ -3195,7 +3195,6 @@ class FwBrowseClass {
     //---------------------------------------------------------------------------------
     addManualSorting($control) {
         //adds button to apply changes in sorting
-        //const $pagingControls = $control.find('.pager').children().children();
         const $applyChangesBtn = jQuery('<div data-type="button" class="fwformcontrol sorting"><i class="material-icons" style="position:relative; top:5px;">&#xE161;</i>Apply</div>');
         const $gridMenu = $control.find('[data-control="FwMenu"]');
         $applyChangesBtn.on('click', e => {
@@ -3225,9 +3224,11 @@ class FwBrowseClass {
                 let apiurl = (<any>window[controller]).apiurl;
                 FwAppData.apiMethod(true, 'POST', `${apiurl}/sort`, request, FwServices.defaultTimeout,
                     response => {
+                        if (!response.success) {
+                            FwNotification.renderNotification('ERROR', response.msg);
+                        };
                         FwBrowse.search($control);
                         $control.find('td.manual-sort').hide();
-                        //$pagingControls.show();
                         $gridMenu.find('.sorting').hide();
                         $gridMenu.find('.buttonbar').show();
                     },
@@ -3241,7 +3242,6 @@ class FwBrowseClass {
         const $cancelBtn = jQuery('<div data-type="button" class="fwformcontrol sorting" style="margin-left:10px;">Cancel</div>');
         $cancelBtn.on('click', e => {
             FwBrowse.search($control); //refresh grid to reset to original sorting order
-            //$pagingControls.show();
             $control.find('td.manual-sort').hide();
             $gridMenu.find('.sorting').hide();
             $gridMenu.find('.buttonbar').show();
