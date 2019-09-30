@@ -435,6 +435,13 @@ class FwBrowseClass {
                     FwFunc.showError(ex);
                 }
             })
+            .on('click', '.runtime .pager div.btn-manualsort', function (e: JQuery.Event) {
+                try {
+                    $control.find('td.manual-sort').show();
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            })
         //.on('click', 'tbody .browsecontextmenu', function () {
         //    try {
         //        let $browse = jQuery(this).closest('.fwbrowse');
@@ -1199,8 +1206,8 @@ class FwBrowseClass {
                 // header row
                 html.push('<tr class="fieldnames">');
                 if (($control.attr('data-type') === 'Grid') || (($control.attr('data-type') === 'Browse') && ($control.attr('data-hasmultirowselect') === 'true'))) {
-                    if ($control.attr('data-hasmanualsorting') === 'true') {
-                        html.push(`<td class="column manual-sort"></td>`);
+                    if ($control.attr('data-manualsorting') === 'true') {
+                        html.push(`<td class="column manual-sort" style="display:none;"></td>`);
                     }
                     let cbuniqueId = FwApplication.prototype.uniqueId(10);
                     if ($control.attr('data-hasmultirowselect') !== 'false') {
@@ -1377,6 +1384,9 @@ class FwBrowseClass {
                         htmlPager.push('</div>');
                         break;
                     case 'Grid':
+                        if ($control.attr('data-manualsorting') === 'true') {
+                            htmlPager.push('  <div class="btn-manualsort" title="Sort" tabindex="0"><i class="material-icons">sort</i></div>');
+                        }
                         if ($control.attr('data-paging') == 'true') {
                             htmlPager.push('<div class="col1" style="width:33%;overflow:hidden;float:left;">');
                             htmlPager.push('  <div class="btnRefresh" title="Refresh" tabindex="0"><i class="material-icons">&#xE5D5;</i></div>');
@@ -2428,7 +2438,7 @@ class FwBrowseClass {
             }
 
             if ($control.attr('data-type') === 'Grid') {
-                if ($control.attr('data-hasmanualsorting') === 'true') {
+                if ($control.attr('data-manualsorting') === 'true') {
                     this.addManualSorting($control);
                 }
                 var $trs = $control.find('tbody tr');
@@ -2744,7 +2754,7 @@ class FwBrowseClass {
         }
 
         if ($control.attr('data-type') === 'Grid') {
-            if ($control.attr('data-hasmanualsorting') === 'true') {
+            if ($control.attr('data-manualsorting') === 'true') {
                 $tr.find('.manual-sort').append(`<i style="vertical-align:-webkit-baseline-middle; cursor:grab;" class="material-icons drag-handle">drag_handle</i>`);
             }
             let cbuniqueId = FwApplication.prototype.uniqueId(10);
@@ -3183,12 +3193,11 @@ class FwBrowseClass {
     //---------------------------------------------------------------------------------
     addManualSorting($control) {
         //adds button to apply changes in sorting
-        const $pagingControls = $control.find('.pager').children().children();
+        //const $pagingControls = $control.find('.pager').children().children();
         const $applyChangesBtn = jQuery('<div data-type="button" class="fwformcontrol sorting"><i class="material-icons" style="position:relative; top:5px;">&#xE161;</i>Apply</div>');
         const $gridMenu = $control.find('[data-control="FwMenu"]');
         $applyChangesBtn.on('click', e => {
             try {
-                const $form = $control.closest('.fwform');
                 const controller = $control.attr('data-controller');
                 const $trs = $control.find('tbody  tr');
                 const isFirstPage = $control.attr('data-pageno') === "1";
@@ -3205,12 +3214,9 @@ class FwBrowseClass {
                     ids.push(id[Object.keys(id)[0]]);
                 }
 
-                // get datafield for form's uniqueid
-                const formUniqueIdField = $form.find('[data-type="key"][data-isuniqueid="true"]').attr('data-datafield');
+  
                 const request: any = {};
-                // get grid's uniqueid fieldname
                 const gridUniqueIdField = $control.find('thead [data-isuniqueid="true"]').attr('data-browsedatafield');
-                request[formUniqueIdField] = FwFormField.getValueByDataField($form, formUniqueIdField);
                 request[`${gridUniqueIdField}s`] = ids;
                 request.pageno = parseInt($control.attr('data-pageno'));
                 if (startAtIndex != '') request.StartAtIndex = startAtIndex;
@@ -3218,7 +3224,8 @@ class FwBrowseClass {
                 FwAppData.apiMethod(true, 'POST', `${apiurl}/sort`, request, FwServices.defaultTimeout,
                     response => {
                         FwBrowse.search($control);
-                        $pagingControls.show();
+                        $control.find('td.manual-sort').hide();
+                        //$pagingControls.show();
                         $gridMenu.find('.sorting').hide();
                         $gridMenu.find('.buttonbar').show();
                     },
@@ -3232,7 +3239,8 @@ class FwBrowseClass {
         const $cancelBtn = jQuery('<div data-type="button" class="fwformcontrol sorting" style="margin-left:10px;">Cancel</div>');
         $cancelBtn.on('click', e => {
             FwBrowse.search($control); //refresh grid to reset to original sorting order
-            $pagingControls.show();
+            //$pagingControls.show();
+            $control.find('td.manual-sort').hide();
             $gridMenu.find('.sorting').hide();
             $gridMenu.find('.buttonbar').show();
         });

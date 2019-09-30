@@ -40,8 +40,9 @@ html.theme-material .fwbrowse table tbody input.cbselectrow:not(:checked) + labe
 html.theme-material .fwbrowse table input.cbselectrow:checked + label:before {top: 2px;left: 1px;width: 8px;height: 13px;border-top: 2px solid transparent;border-left: 2px solid transparent;border-right: 2px solid #fff;border-bottom: 2px solid #fff;-webkit-transform: rotateZ(37deg);transform: rotateZ(37deg);-webkit-transform-origin: 100% 100%;transform-origin: 100% 100%;}
 html.theme-material .fwbrowse table input.cbselectrow:checked + label:after {top:0px;width: 20px;height: 20px;z-index: 0;border: 2px solid #4caf50; background-color: #4caf50;}
 
-html.theme-material .fwbrowse[data-type="Grid"] .pager {border-top: 1px solid #BDBDBD;background-color: #efefef;overflow: hidden;}
-html.theme-material .fwbrowse[data-type="Grid"] .pager div.btnRefresh {cursor:pointer;float:left;height:24px;line-height:24px;padding:4px;}
+html.theme-material .fwbrowse[data-type="Grid"] .pager {border-top: 1px solid #BDBDBD;background-color: #efefef;overflow: hidden; display:flex;}
+html.theme-material .fwbrowse[data-type="Grid"] .pager div.btnRefresh,
+html.theme-material .fwbrowse[data-type="Grid"] .pager div.btn-manualsort {cursor:pointer;float:left;height:24px;line-height:24px;padding:4px;}
 html.theme-material .fwbrowse[data-type="Grid"] .pager div.buttons {display:inline-block;}
 html.theme-material .fwbrowse[data-type="Grid"] .pager div.buttons .button {cursor:pointer;float:left;height:24px;line-height:24px;padding:4px;}
 html.theme-material .fwbrowse[data-type="Grid"] .pager div.buttons .button[data-enabled="false"] {opacity:.6;cursor:default;}
