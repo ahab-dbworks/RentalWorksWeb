@@ -33,6 +33,9 @@ namespace WebApi.Modules.Home.InventorySearch
         [FwSqlDataField(column: "master", modeltype: FwDataTypes.Text)]
         public string Description { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "partnumber", modeltype: FwDataTypes.Text)]
+        public string ManufacturerPartNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "mastercolor", modeltype: FwDataTypes.OleToHtmlColor)]
         public string DescriptionColor { get; set; }
         //------------------------------------------------------------------------------------
