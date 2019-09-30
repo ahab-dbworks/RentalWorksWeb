@@ -5,6 +5,7 @@ using FwStandard.SqlServer;
 using System.Collections.Generic;
 using System.Reflection;
 using WebApi.Logic;
+using WebApi.Modules.Home.DepositPayment;
 using WebApi.Modules.Home.Invoice;
 using WebApi.Modules.Home.InvoiceReceipt;
 using WebLibrary;
@@ -490,6 +491,7 @@ namespace WebApi.Modules.Home.Receipt
 
         //Here we want to first ask the database for the previous list of Invoices and Amounts related to this Receipt.  
         //We then compare that list with the list provided by the user and perform updates back to the database.
+        //If inserting a new record with DepositId supplied, then we insert the ardepositpmt record
         //All of this is done within the same databas transaction as the insert/update of the Receipt.  Any failures will rollback everything
         public void OnAfterSave(object sender, AfterSaveEventArgs e)
         {
@@ -604,6 +606,22 @@ namespace WebApi.Modules.Home.Receipt
                     // should never get here
                 }
             }
+
+
+            if (e.SaveMode.Equals(TDataRecordSaveMode.smInsert))
+            {
+                if (!string.IsNullOrEmpty(DepositId))
+                {
+                    DepositPaymentLogic dp = new DepositPaymentLogic();
+                    dp.SetDependencies(AppConfig, UserSession);
+                    dp.DepositId = DepositId;
+                    dp.PaymentId = ReceiptId;
+                    dp.Applied = paymentAmount;
+                    int i1 = dp.SaveAsync(null, conn: e.SqlConnection).Result;
+                }
+                paymentAmount = PaymentAmount.GetValueOrDefault(0);
+            }
+
 
             //explicitly delete and insert any G/L transactions related to this Receipt
             bool b = ReceiptFunc.PostGlForReceipt(AppConfig, UserSession, ReceiptId, conn: e.SqlConnection).Result;
