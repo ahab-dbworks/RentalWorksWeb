@@ -1,6 +1,7 @@
 ﻿using FwStandard.Utilities;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 
 namespace FwStandard.SqlServer
@@ -653,6 +654,19 @@ namespace FwStandard.SqlServer
             zip = sb.ToString();
 
             return zip;
+        }
+        //---------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Converts a text string to title case.  For example, "we like to program" becomes "We Like To Program".
+        /// "MiXed CasE" values are converted as "Mixed Case"
+        /// "lower case" values are converted as "Lower Case"
+        /// ALL CAPS values are not converted
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        public static string ToTitleCase(string str)
+        {
+            return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(str);
         }
         //---------------------------------------------------------------------------------------------
     }
