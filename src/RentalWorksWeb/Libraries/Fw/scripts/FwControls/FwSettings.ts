@@ -499,7 +499,7 @@ class FwSettingsClass {
             newRowHtml.push('    <div class="panel panel-info container-fluid">');
             newRowHtml.push('      <div class="new-row-heading">');
             newRowHtml.push('        <label style="width:100%">New Record</label>');
-            newRowHtml.push('        <div class="pull-right close-new-row" style="padding-right:20px;"><i class="material-icons">clear</i>Cancel</div>');
+            newRowHtml.push('        <div class="pull-right close-new-row" style="padding-right:20px;"><i class="material-icons cancel">clear</i>Cancel</div>');
             newRowHtml.push('      </div>');
             newRowHtml.push('    </div>');
             newRowHtml.push('  </div>');
