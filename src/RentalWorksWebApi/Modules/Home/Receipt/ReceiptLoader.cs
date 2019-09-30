@@ -5,7 +5,7 @@ using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 namespace WebApi.Modules.Home.Receipt
 {
-    [FwSqlTable("arview")]
+    [FwSqlTable("arwebview")]
     public class ReceiptLoader : ReceiptBrowseLoader
     {
         //------------------------------------------------------------------------------------ 

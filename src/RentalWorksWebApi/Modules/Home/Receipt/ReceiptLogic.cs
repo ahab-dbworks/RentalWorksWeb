@@ -31,6 +31,7 @@ namespace WebApi.Modules.Home.Receipt
             dataRecords.Add(receipt);
             dataLoader = receiptLoader;
             browseLoader = receiptBrowseLoader;
+            BeforeValidate += OnBeforeValidate;
             BeforeSave += OnBeforeSave;
             AfterSave += OnAfterSave;
             ForceSave = true;
@@ -136,8 +137,25 @@ namespace WebApi.Modules.Home.Receipt
         [FwLogicProperty(Id: "frwPI795LU3yb")]
         public bool? CreateDepletingDeposit { get; set; }
 
+        [FwLogicProperty(Id: "5OG1N21B7HVQg")]
+        public string DepositId { get; set; }
+
+        [FwLogicProperty(Id: "NEx3xvlRzCtvg")]
+        public string DepositCheckNumber { get; set; }
+
 
         //------------------------------------------------------------------------------------ 
+        private void OnBeforeValidate(object sender, BeforeValidateEventArgs e)
+        {
+            if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
+            {
+                if ((!string.IsNullOrEmpty(DepositId)) && (string.IsNullOrEmpty(CheckNumber)))
+                {
+                    CheckNumber = DepositCheckNumber;
+                }
+            }
+        }
+        //------------------------------------------------------------------------------------
         protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
         {
             ReceiptLogic orig = null;
@@ -245,6 +263,59 @@ namespace WebApi.Modules.Home.Receipt
 
             if (isValid)
             {
+                if (saveMode.Equals(TDataRecordSaveMode.smUpdate))
+                {
+                    if (DepositId != null)
+                    {
+                        if (!DepositId.Equals(orig.DepositId))
+                        {
+                            isValid = false;
+                            validateMsg = $"Cannot modify the Deposit related to this {BusinessLogicModuleName}.";
+                        }
+                    }
+                }
+            }
+
+
+            if (isValid)
+            {
+                if (saveMode.Equals(TDataRecordSaveMode.smUpdate))
+                {
+                    string depId = DepositId ?? orig.DepositId;
+                    if (!string.IsNullOrEmpty(depId))
+                    {
+                        if (PaymentAmount != null)
+                        {
+                            if (!PaymentAmount.Equals(orig.PaymentAmount))
+                            {
+                                isValid = false;
+                                validateMsg = $"Cannot modify the Amount of this {BusinessLogicModuleName} because it is related to a Deposit/Overpayment/Credit.";
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (isValid)
+            {
+                if (saveMode.Equals(TDataRecordSaveMode.smUpdate))
+                {
+                    if (!string.IsNullOrEmpty(orig.OverPaymentId))
+                    {
+                        if (PaymentAmount != null)
+                        {
+                            if (!PaymentAmount.Equals(orig.PaymentAmount))
+                            {
+                                isValid = false;
+                                validateMsg = $"Cannot modify the Amount of this {BusinessLogicModuleName} because an Overpayment was created.";
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (isValid)
+            {
                 if (saveMode.Equals(TDataRecordSaveMode.smInsert))
                 {
                     paymentAmount = PaymentAmount.GetValueOrDefault(0);
@@ -283,19 +354,6 @@ namespace WebApi.Modules.Home.Receipt
                 }
             }
 
-            //if (isValid)
-            //{
-            //    foreach (ReceiptInvoice i in InvoiceDataList)
-            //    {
-            //        invoiceAmountTotal += i.Amount;
-            //    }
-            //    if (invoiceAmountTotal != paymentAmount)
-            //    {
-            //        isValid = false;
-            //        validateMsg = "Amount to Apply does not match Invoice Amounts provided.";
-            //    }
-            //}
-
             if (isValid)
             {
                 if (InvoiceDataList != null)
@@ -325,7 +383,7 @@ namespace WebApi.Modules.Home.Receipt
                     }
                     else
                     {
-                        if (paymentAmount > invoiceAmountTotal)
+                        if ((paymentAmount > invoiceAmountTotal) && (string.IsNullOrEmpty(DepositId)))
                         {
                             if ((saveMode.Equals(TDataRecordSaveMode.smInsert)) && CreateOverpayment.GetValueOrDefault(false))
                             {
@@ -342,6 +400,17 @@ namespace WebApi.Modules.Home.Receipt
                             isValid = false;
                             validateMsg = "Amount to Apply is less than the Invoice Amounts provided.";
                         }
+                    }
+                }
+            }
+
+            if (isValid)
+            {
+                if (saveMode.Equals(TDataRecordSaveMode.smInsert))
+                {
+                    if (!string.IsNullOrEmpty(DepositId))
+                    {
+                        PaymentAmount = invoiceAmountTotal;
                     }
                 }
             }
@@ -508,7 +577,7 @@ namespace WebApi.Modules.Home.Receipt
                 }
             }
 
-            if ((e.SaveMode.Equals(TDataRecordSaveMode.smInsert)) && (paymentAmount > invoiceAmountTotal))
+            if ((e.SaveMode.Equals(TDataRecordSaveMode.smInsert)) && (paymentAmount > invoiceAmountTotal) && (string.IsNullOrEmpty(DepositId)))
             {
                 if ((invoiceAmountTotal == 0) && CreateDepletingDeposit.GetValueOrDefault(false))
                 {
