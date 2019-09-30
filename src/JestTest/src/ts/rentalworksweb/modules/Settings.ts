@@ -332,7 +332,6 @@ export class Currency extends SettingsModule {
             Currency: "",
             CurrencyCode: "",
             CurrencySymbol: "",
-            Inactive: false,
         }
 
         this.newRecordsToCreate = [
@@ -438,11 +437,11 @@ export class CustomerStatus extends SettingsModule {
         this.newRecordsToCreate = [
             {
                 record: {
-                    CustomerStatus: "GlobalScope.TestToken~1.TestToken",
+                    CustomerStatus: "GlobalScope.TestToken~1.ShortTestToken",
                     StatusType: "H",
                 },
                 seekObject: {
-                    CustomerStatus: "GlobalScope.TestToken~1.TestToken",
+                    CustomerStatus: "GlobalScope.TestToken~1.ShortTestToken",
                 }
             }
         ];
