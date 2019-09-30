@@ -38,7 +38,7 @@
     <RootNamespace>Web</RootNamespace>
     <AssemblyName>Web</AssemblyName>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
-    <UseIISExpress>true</UseIISExpress>
+    <UseIISExpress>false</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -990,8 +990,8 @@
     <TypeScriptCompile Include="Source\Pages\HomePage\RwHomeController.ts" />
     <Content Include="Source\Validations\AssetValidation\AssetValidationBrowse.htm" />
     <Content Include="Source\Validations\ContactDealValidation\ContactDealValidationBrowse.htm" />
+    <Content Include="Source\Validations\CustomerCreditValidation\CustomerCreditValidationBrowse.htm" />
     <Content Include="Source\Validations\CustomFormValidation\CustomFormValidationBrowse.htm" />
-    <Content Include="Source\Validations\CustomerCreditValidation\DealCreditValidationBrowse.htm" />
     <Content Include="Source\Validations\DealCreditValidation\DealCreditValidationBrowse.htm" />
     <Content Include="Source\Validations\POApprovalStatusValidation\POApprovalStatusValidationBrowse.htm" />
     <Content Include="Source\Validations\ProjectValidation\ProjectValidationBrowse.htm" />
