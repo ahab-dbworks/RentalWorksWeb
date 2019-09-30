@@ -95,8 +95,8 @@ export class Country extends SettingsModule {
             }
         ];
         this.newRecordsToCreate[0].recordToExpect = {
-            Country: this.newRecordsToCreate[0].record.Country,
-            CountryCode: this.newRecordsToCreate[0].record.CountryCode,
+            Country: this.newRecordsToCreate[0].record.Country.toUpperCase(),
+            CountryCode: this.newRecordsToCreate[0].record.CountryCode.toUpperCase(),
             IsUSA: true,
             Metric: false,
             Inactive: false,
@@ -113,6 +113,28 @@ export class State extends SettingsModule {
         this.moduleName = 'State';
         this.moduleId = 'B70B4B88-51EB-4635-971B-1F676243B810';
         this.moduleCaption = 'State/Province';
+
+        this.defaultNewRecordToExpect = {
+            StateCode: "",
+            State: "",
+        }
+
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    StateCode: "GlobalScope.TestToken~1.TinyTestToken",
+                    State: "GlobalScope.TestToken~1.TestToken",
+                },
+                seekObject: {
+                    State: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            StateCode: this.newRecordsToCreate[0].record.StateCode.toUpperCase(),
+            State: this.newRecordsToCreate[0].record.State.toUpperCase(),
+        }
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -124,6 +146,32 @@ export class BillingCycle extends SettingsModule {
         this.moduleName = 'BillingCycle';
         this.moduleId = '5736D549-CEA7-4FCF-86DA-0BCD4C87FA04';
         this.moduleCaption = 'Billing Cycle';
+
+        this.defaultNewRecordToExpect = {
+            BillingCycle: "",
+            Inactive: false,
+            BillingCycleType: "WEEKLY",
+            BillOnPeriodStartOrEnd: "END",
+            ProrateMonthly: false
+        }
+
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    BillingCycle: "GlobalScope.TestToken~1.MediumTestToken",
+                    BillingCycleType: "MONTHLY",
+
+                },
+                seekObject: {
+                    BillingCycle: "GlobalScope.TestToken~1.MediumTestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            BillingCycle: this.newRecordsToCreate[0].record.BillingCycle.toUpperCase(),
+            BillingCycleType: this.newRecordsToCreate[0].record.BillingCycleType.toUpperCase(),
+        }
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -135,6 +183,39 @@ export class Department extends SettingsModule {
         this.moduleName = 'Department';
         this.moduleId = 'A6CC5F50-F9DE-4158-B627-6FDC1044C22A';
         this.moduleCaption = 'Company Department';
+
+
+        this.defaultNewRecordToExpect = {
+            Department: "",
+            DepartmentCode: "",
+            DivisionCode: "",
+            Inactive: false,
+            DisableEditingRentalRate: false,
+            DisableEditingSalesRate: false,
+            DisableEditingMiscellaneousRate: false,
+            DisableEditingLaborRate: false,
+            DisableEditingUsedSaleRate: false,
+            DisableEditingLossAndDamageRate: false,
+            //SalesBillingRule: "BILLINGDATE",
+            LockLineItemsWhenCustomDiscountUsed: false,
+        }
+
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    Department: "GlobalScope.TestToken~1.TestToken",
+                    DepartmentCode: "GlobalScope.TestToken~1.ShortTestToken",
+                },
+                seekObject: {
+                    Department: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            Department: this.newRecordsToCreate[0].record.Department.toUpperCase(),
+            DepartmentCode: this.newRecordsToCreate[0].record.DepartmentCode.toUpperCase(),
+        }
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -146,6 +227,29 @@ export class ContactEvent extends SettingsModule {
         this.moduleName = 'ContactEvent';
         this.moduleId = '25ad258e-db9d-4e94-a500-0382e7a2024a';
         this.moduleCaption = 'Contact Event';
+
+        this.defaultNewRecordToExpect = {
+            ContactEvent: "",
+            Inactive: false,
+            Recurring: false,
+        }
+
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    ContactEvent: "GlobalScope.TestToken~1.TestToken",
+                    Recurring: true,
+                },
+                seekObject: {
+                    ContactEvent: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            ContactEvent: this.newRecordsToCreate[0].record.ContactEvent.toUpperCase(),
+            Recurring: this.newRecordsToCreate[0].record.Recurring,
+        }
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -157,6 +261,30 @@ export class ContactTitle extends SettingsModule {
         this.moduleName = 'ContactTitle';
         this.moduleId = '1b9183b2-add9-416d-a5e1-59fe68104e4a';
         this.moduleCaption = 'Contact Title';
+
+        this.defaultNewRecordToExpect = {
+            ContactTitle: "",
+            Inactive: false,
+            AccountsPayable: false,
+            AccountsReceivable: false,
+        }
+
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    ContactTitle: "GlobalScope.TestToken~1.TestToken",
+                    AccountsReceivable: true,
+                },
+                seekObject: {
+                    ContactTitle: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            ContactTitle: this.newRecordsToCreate[0].record.ContactTitle.toUpperCase(),
+            AccountsReceivable: this.newRecordsToCreate[0].record.AccountsReceivable,
+        }
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -168,6 +296,26 @@ export class MailList extends SettingsModule {
         this.moduleName = 'MailList';
         this.moduleId = '255ceb68-fb87-4248-ab99-37c18a192300';
         this.moduleCaption = 'Mail List';
+
+
+        this.defaultNewRecordToExpect = {
+            MailList: "",
+            Inactive: false,
+        }
+
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    MailList: "GlobalScope.TestToken~1.MediumTestToken",
+                },
+                seekObject: {
+                    MailList: "GlobalScope.TestToken~1.MediumTestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            MailList: this.newRecordsToCreate[0].record.MailList.toUpperCase(),
+        }
     }
     //---------------------------------------------------------------------------------------
 }
@@ -179,6 +327,31 @@ export class Currency extends SettingsModule {
         this.moduleName = 'Currency';
         this.moduleId = '672145d0-9b37-4f6f-a216-9ae1e7728168';
         this.moduleCaption = 'Currency';
+
+        this.defaultNewRecordToExpect = {
+            Currency: "",
+            CurrencyCode: "",
+            CurrencySymbol: "",
+            Inactive: false,
+        }
+
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    Currency: "GlobalScope.TestToken~1.MediumTestToken",
+                    CurrencyCode: "GlobalScope.TestToken~1.TinyTestToken",
+                    CurrencySymbol: "GlobalScope.TestToken~1.LastCharTestToken",
+                },
+                seekObject: {
+                    Currency: "GlobalScope.TestToken~1.MediumTestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            Currency: this.newRecordsToCreate[0].record.Currency.toUpperCase(),
+            CurrencyCode: this.newRecordsToCreate[0].record.CurrencyCode.toUpperCase(),
+            CurrencySymbol: this.newRecordsToCreate[0].record.CurrencySymbol.toUpperCase(),
+        }
     }
     //---------------------------------------------------------------------------------------
 }
@@ -190,6 +363,28 @@ export class CreditStatus extends SettingsModule {
         this.moduleName = 'CreditStatus';
         this.moduleId = 'A28D0CC9-B922-4259-BA4A-A5DE474ADFA4';
         this.moduleCaption = 'Credit Status';
+
+        this.defaultNewRecordToExpect = {
+            CreditStatus: "",
+            CreateContractAllowed: false,
+            Inactive: false,
+        }
+
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    CreditStatus: "GlobalScope.TestToken~1.TestToken",
+                    CreateContractAllowed: true
+                },
+                seekObject: {
+                    CreditStatus: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            CreditStatus: this.newRecordsToCreate[0].record.CreditStatus.toUpperCase(),
+            CreateContractAllowed: this.newRecordsToCreate[0].record.CreateContractAllowed
+        }
     }
     //---------------------------------------------------------------------------------------
 }
@@ -201,6 +396,26 @@ export class CustomerCategory extends SettingsModule {
         this.moduleName = 'CustomerCategory';
         this.moduleId = '8FB6C746-AB6E-4CA5-9BD4-4E9AD88A3BC5';
         this.moduleCaption = 'Customer Category';
+
+        this.defaultNewRecordToExpect = {
+            CustomerCategory: "",
+            Inactive: false,
+        }
+
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    CustomerCategory: "GlobalScope.TestToken~1.TestToken",
+                },
+                seekObject: {
+                    CustomerCategory: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            CustomerCategory: this.newRecordsToCreate[0].record.CustomerCategory.toUpperCase(),
+        }
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -212,6 +427,31 @@ export class CustomerStatus extends SettingsModule {
         this.moduleName = 'CustomerStatus';
         this.moduleId = 'B689A0AA-9FCC-450B-AF0F-AD85483531FA';
         this.moduleCaption = 'Customer Status';
+
+        this.defaultNewRecordToExpect = {
+            CustomerStatus: "",
+            CreditStatusId: "",
+            StatusType: "O",
+            Inactive: false,
+        }
+
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    CustomerStatus: "GlobalScope.TestToken~1.TestToken",
+                    StatusType: "H",
+                },
+                seekObject: {
+                    CustomerStatus: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            CustomerStatus: this.newRecordsToCreate[0].record.CustomerStatus.toUpperCase(),
+            CreditStatusId: "",
+            StatusType: this.newRecordsToCreate[0].record.StatusType.toUpperCase(),
+        }
+
     }
     //---------------------------------------------------------------------------------------
 }

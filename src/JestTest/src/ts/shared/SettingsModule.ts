@@ -1,4 +1,4 @@
-import { ModuleBase } from '../shared/ModuleBase';
+import { ModuleBase, DeleteResponse } from '../shared/ModuleBase';
 import { Logging } from '../shared/Logging';
 import { TestUtils } from './TestUtils';
 import { SaveResponse, OpenBrowseResponse, OpenRecordResponse, CreateNewResponse } from '../shared/ModuleBase';
@@ -24,21 +24,18 @@ export class SettingsModule extends ModuleBase {
         return `.panel-group[id="${this.moduleName}"] i.material-icons.new-row-menu`;
     }
     //---------------------------------------------------------------------------------------
-    async openBrowse(timeout?: number, sleepafteropening?: number): Promise<OpenBrowseResponse> {
+    async openBrowse(sleepafteropening?: number): Promise<OpenBrowseResponse> {
         let openBrowseResponse: OpenBrowseResponse = new OpenBrowseResponse();
         openBrowseResponse.opened = false;
         openBrowseResponse.recordCount = 0;
         openBrowseResponse.errorMessage = "browse not opened";
-        if (!timeout) {
-            timeout = 3000;  //if we can't find the settings module header bar on the Settings Page within 3 seconds, then timeout the test
-        }
 
         let settingsGearSelector = `i.material-icons.dashboard.systembarcontrol[title="Settings"]`;
         await page.waitForSelector(settingsGearSelector);
         await page.click(settingsGearSelector);
 
         let moduleHeadingSelector = `.panel-group[id="${this.moduleName}"]`;
-        await page.waitForSelector(moduleHeadingSelector, { timeout: timeout });
+        await page.waitForSelector(moduleHeadingSelector);
         await page.click(moduleHeadingSelector);
 
         // wait for the module to try to open, then check for errors
@@ -218,8 +215,7 @@ export class SettingsModule extends ModuleBase {
                     }
                 }
             }
-            if (recordToClick != null)
-            {
+            if (recordToClick != null) {
                 await recordToClick.click(); // click the row
                 clickRecordResponse.clicked = true;
             }
@@ -579,58 +575,48 @@ export class SettingsModule extends ModuleBase {
         Logging.logInfo(`Record closed.`);
     }
     //---------------------------------------------------------------------------------------
-    async deleteRecord(index?: number, sleepAfterDeleting?: number): Promise<void> {
+    async closeModifiedRecordWithoutSaving(): Promise<void> {
+        Logging.logInfo(`about to close form without saving`);
+
+        let cancelSelector = `.panel-group[id="${this.moduleName}"] i.material-icons.cancel`;
+        let cancelButtonFound: boolean = false;
+        try {
+            //await page.waitFor(() => document.querySelector(`.panel-group[id="${this.moduleName}"] i.material-icons.cancel`), { timeout: 1000 });
+            await page.waitForSelector(cancelSelector, { timeout: 1000 });
+            cancelButtonFound = true;
+        } catch (error) { } // there is no Cancel button, so it must not be a NEW record
+
+        if (cancelButtonFound) {
+            Logging.logInfo(`new record "cancel" button found`);
+            await page.click(cancelSelector);
+            //const popupText = await page.$eval('.advisory', el => el.textContent);
+            //if (popupText.includes('save your changes')) {
+            //    Logging.logInfo(`Close tab, save changes prompt detected.`);
+
+            //    const options = await page.$$('.advisory .fwconfirmation-button');
+            //    await options[1].click() // clicks "Don't Save" option
+            //        .then(() => {
+            //            Logging.logInfo(`Clicked the "Don't Save" button.`);
+            //        })
+            //    await page.waitFor(() => !document.querySelector('.advisory'));
+            //}
+            Logging.logInfo(`Record closed without saving.`);
+        }
+        else {
+            Logging.logInfo(`new record "cancel" button NOT found`);
+            this.closeRecord();
+        }
+    }
+    //---------------------------------------------------------------------------------------
+    async deleteRecord(index?: number, closeUnexpectedErrors: boolean = false): Promise<DeleteResponse> {
+        let response: DeleteResponse = new DeleteResponse();
+        response.deleted = false;
+        response.errorMessage = "record not deleted";
+
+
         if (index == undefined) {
             index = 1;
         }
-
-        //let recordSelector = `.panel-group[id="${this.moduleName}"] .panel-primary .panel-collapse .panel-body .panel-record:not(.inactive-panel)`;
-        //const records = await page.$$(recordSelector);
-
-        //if (records !== undefined) {
-        //    for (let record of records) {
-        //        let styleAttributeValue: string = await page.evaluate(el => el.getAttribute('style'), record);
-        //        if ((styleAttributeValue === undefined) || (styleAttributeValue == null)) {
-        //            styleAttributeValue = "";
-        //        }
-        //        let recordId: string = await page.evaluate(el => el.getAttribute('id'), record);
-        //        if (!styleAttributeValue.replace(' ', '').includes("display:none")) {
-        //            await record.click(); // click the row
-
-        //            let deleteButtonSelector = `div .panel-record[id="${recordId}"] .btn-delete[data-type="DeleteMenuBarButton"]`;
-        //            await page.waitForSelector(deleteButtonSelector);
-        //            await page.click(deleteButtonSelector, { clickCount: 1 });  // click the delete button
-
-        //            const popupText = await page.$eval('.advisory', el => el.textContent);
-        //            if (popupText.includes('delete this record')) {
-        //                Logging.logInfo(`Delete record, confirmation prompt detected.`);
-
-        //                const options = await page.$$('.advisory .fwconfirmation-button');
-        //                await options[0].click() // click "Yes" option
-        //                    .then(() => {
-        //                        Logging.logInfo(`Clicked the "Yes" button.`);
-        //                    })
-        //                await page.waitFor(() => !document.querySelector('.advisory'));
-        //                await page.waitFor(() => document.querySelector('.pleasewait'));
-        //                await page.waitFor(() => !document.querySelector('.pleasewait'));
-
-        //                //make the "record deleted" toaster message go away
-        //                await page.waitForSelector('.advisory .messageclose');
-        //                await page.click(`.advisory .messageclose`);
-        //                await page.waitFor(() => !document.querySelector('.advisory'));  // wait for toaster to go away
-
-        //            }
-        //            Logging.logInfo(`Record deleted.`);
-
-        //            if (sleepAfterDeleting > 0) {
-        //                await ModuleBase.wait(sleepAfterDeleting);
-        //            }
-        //            break;
-        //        }
-        //    }
-        //}
-
-
 
         let clickRecordResponse: ClickRecordResponse = await this.clickRecord(index);
         if (clickRecordResponse.clicked) {
@@ -649,9 +635,6 @@ export class SettingsModule extends ModuleBase {
                         Logging.logInfo(`Clicked the "Yes" button.`);
                     })
                 await page.waitFor(() => !document.querySelector('.advisory'));
-                //await page.waitFor(() => document.querySelector('.pleasewait'));
-                //await page.waitFor(() => !document.querySelector('.pleasewait'));
-
 
                 try {
                     await page.waitFor(() => document.querySelector('.pleasewait'), { timeout: 3000 });
@@ -660,22 +643,48 @@ export class SettingsModule extends ModuleBase {
                 await page.waitFor(() => !document.querySelector('.pleasewait'));
                 Logging.logInfo(`Finished waiting for the Please Wait dialog.`);
 
+                const afterDeleteMsg = await page.$eval('.advisory', el => el.textContent);
+                if ((afterDeleteMsg.includes('deleted')) && (!afterDeleteMsg.includes('Error'))) {
+                    Logging.logInfo(`${this.moduleCaption} Record deleted: ${afterDeleteMsg}`);
 
-                //make the "record deleted" toaster message go away
-                await page.waitForSelector('.advisory .messageclose');
-                await page.click(`.advisory .messageclose`);
-                await page.waitFor(() => !document.querySelector('.advisory'));  // wait for toaster to go away
+                    //make the "record deleted" toaster message go away
+                    await page.waitForSelector('.advisory .messageclose');
+                    await page.click(`.advisory .messageclose`);
+                    await page.waitFor(() => !document.querySelector('.advisory'));  // wait for toaster to go away
+
+                    response.deleted = true;
+                    response.errorMessage = "";
+                } else if (afterDeleteMsg.includes('Error')) {
+                    Logging.logInfo(`${this.moduleCaption} Record not deleted: ${afterDeleteMsg}`);
+                    response.deleted = false;
+                    response.errorMessage = afterDeleteMsg;
+
+                    if (closeUnexpectedErrors) {
+                        //check for any error message pop-ups and click them to make error messages go away
+                        Logging.logInfo(`About to check for error prompt and close it`);
+                        let selector = '.advisory .fwconfirmation-button';
+                        const elementHandle = await page.$(selector);
+                        if (elementHandle != null) {
+                            //await page.waitForSelector('.advisory .fwconfirmation-button');
+                            Logging.logInfo(`Found button on prompt, about to click`);
+                            //await page.waitForSelector(selector);
+                            //await page.click(selector);
+                            await elementHandle.click();
+                            await page.waitFor(() => !document.querySelector('.advisory'));
+                        }
+                    }
+                }
 
 
             }
             Logging.logInfo(`Record deleted.`);
 
-            if (sleepAfterDeleting > 0) {
-                await ModuleBase.wait(sleepAfterDeleting);
-            }
+            //if (sleepAfterDeleting > 0) {
+            //    await ModuleBase.wait(sleepAfterDeleting);
+            //}
         }
 
-
+        return response;
     }
     //---------------------------------------------------------------------------------------
 }

@@ -123,7 +123,8 @@ export class TestUtils {
         const hours = theDate.getHours().toString();
         const minutes = theDate.getMinutes().toString();
         const seconds = theDate.getSeconds().toString();
-        const dateTimeToken = year.padStart(4, '0') + month.padStart(2, '0') + date.padStart(2, '0') + hours.padStart(2, '0') + minutes.padStart(2, '0') + seconds.padStart(2, '0');;
+        const random1 = this.randomAlphanumeric(1).toUpperCase();
+        const dateTimeToken = year.padStart(4, '0') + month.padStart(2, '0') + date.padStart(2, '0') + hours.padStart(2, '0') + minutes.padStart(2, '0') + seconds.padStart(2, '0') + random1;
         return dateTimeToken;
     }
     //-----------------------------------------------------------------------------------------------------------------

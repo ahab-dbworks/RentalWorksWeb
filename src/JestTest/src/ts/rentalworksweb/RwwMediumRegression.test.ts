@@ -161,9 +161,17 @@ export class MediumRegressionTest extends BaseTest {
                                 if (module.canDelete) {
                                     testName = `Delete the ${module.moduleCaption} record`;
                                     test(testName, async () => {
+                                        let successfulDelete: boolean = false;
+                                        let deleteError: string = "";
                                         let rowCountBefore = await module.browseGetRowsDisplayed();
-                                        await module.deleteRecord();
+                                        await module.deleteRecord(1, true)
+                                            .then(deleteResponse => {
+                                                successfulDelete = deleteResponse.deleted;
+                                                deleteError = deleteResponse.errorMessage;
+                                            });
                                         let rowCountAfter = await module.browseGetRowsDisplayed();
+                                        expect(deleteError).toBe("");
+                                        expect(successfulDelete).toBe(true);
                                         expect(rowCountAfter).toBe(rowCountBefore - 1);
                                     }, module.deleteTimeout);
                                 }
@@ -204,7 +212,7 @@ export class MediumRegressionTest extends BaseTest {
         let warehouseToSeek: any = {
             Warehouse: "GlobalScope.User~ME.Warehouse",
         }
-        this.OpenSpecificRecord(new Warehouse(), warehouseToSeek, true, "ME");
+        this.OpenSpecificRecord(new Warehouse(), warehouseToSeek, true, "MINE");
 
         //Home - Agent
         this.MediumRegressionOnModule(new Contact());
@@ -240,22 +248,22 @@ export class MediumRegressionTest extends BaseTest {
         this.MediumRegressionOnModule(new Invoice());
         this.MediumRegressionOnModule(new Receipt());
         this.MediumRegressionOnModule(new VendorInvoice());
-        
+
         //Settings
         this.MediumRegressionOnModule(new AccountingSettings());
         this.MediumRegressionOnModule(new GlAccount());
         this.MediumRegressionOnModule(new GlDistribution());
         this.MediumRegressionOnModule(new Country());
-        //this.MediumRegressionOnModule(new State());
-        //this.MediumRegressionOnModule(new BillingCycle());
-        //this.MediumRegressionOnModule(new Department());
-        //this.MediumRegressionOnModule(new ContactEvent());
-        //this.MediumRegressionOnModule(new ContactTitle());
-        //this.MediumRegressionOnModule(new MailList());
-        //this.MediumRegressionOnModule(new Currency());
-        //this.MediumRegressionOnModule(new CreditStatus());
-        //this.MediumRegressionOnModule(new CustomerCategory());
-        //this.MediumRegressionOnModule(new CustomerStatus());
+        this.MediumRegressionOnModule(new State());
+        this.MediumRegressionOnModule(new BillingCycle());
+        this.MediumRegressionOnModule(new Department());
+        this.MediumRegressionOnModule(new ContactEvent());
+        this.MediumRegressionOnModule(new ContactTitle());
+        this.MediumRegressionOnModule(new MailList());
+        this.MediumRegressionOnModule(new Currency());
+        this.MediumRegressionOnModule(new CreditStatus());
+        this.MediumRegressionOnModule(new CustomerCategory());
+        this.MediumRegressionOnModule(new CustomerStatus());
         //this.MediumRegressionOnModule(new CustomerType());
         //this.MediumRegressionOnModule(new DealClassification());
         //this.MediumRegressionOnModule(new DealType());

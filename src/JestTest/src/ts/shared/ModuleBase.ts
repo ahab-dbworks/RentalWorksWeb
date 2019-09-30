@@ -39,6 +39,11 @@ export class NewRecordToCreate {
     recordToExpect?: any;
 }
 
+export class DeleteResponse {
+    deleted: boolean;
+    errorMessage: string;
+}
+
 //---------------------------------------------------------------------------------------
 export class ModuleBase {
     moduleName: string;
@@ -83,16 +88,14 @@ export class ModuleBase {
         await page.waitFor(milliseconds)
     }
     //---------------------------------------------------------------------------------------
-    async openBrowse(timeout?: number, sleepafteropening?: number): Promise<OpenBrowseResponse> {
+    async openBrowse(sleepafteropening?: number): Promise<OpenBrowseResponse> {
         let openBrowseResponse: OpenBrowseResponse = new OpenBrowseResponse();
         openBrowseResponse.opened = false;
         openBrowseResponse.recordCount = 0;
         openBrowseResponse.errorMessage = "browse not opened";
-        if (!timeout) {
-            timeout = 2000;  //if we can't find the button on the main menu within 2 seconds, then timeout the test
-        }
+
         let mainMenuSelector = `.appmenu`;
-        await page.waitForSelector(mainMenuSelector, { timeout: timeout });
+        await page.waitForSelector(mainMenuSelector);
         await page.click(mainMenuSelector);
         let menuButtonId = '#btnModule' + this.moduleId;
         await expect(page).toClick(menuButtonId);
@@ -420,7 +423,11 @@ export class ModuleBase {
         return foundDeleteButton;
     }
     //---------------------------------------------------------------------------------------
-    async deleteRecord(index?: number, sleepAfterDeleting?: number): Promise<void> {
+    async deleteRecord(index?: number, closeUnexpectedErrors: boolean = false): Promise<DeleteResponse> {
+        let response: DeleteResponse = new DeleteResponse();
+        response.deleted = false;
+        response.errorMessage = "record not deleted";
+
         if (index == undefined) {
             index = 1;
         }
@@ -439,14 +446,59 @@ export class ModuleBase {
                     Logging.logInfo(`Clicked the "Yes" button.`);
                 })
             await page.waitFor(() => !document.querySelector('.advisory'));
-            await page.waitFor(() => document.querySelector('.pleasewait'));
+            //await page.waitFor(() => document.querySelector('.pleasewait'));
+            //await page.waitFor(() => !document.querySelector('.pleasewait'));
+
+
+
+            try {
+                await page.waitFor(() => document.querySelector('.pleasewait'), { timeout: 3000 });
+            } catch (error) { } // assume that we missed the Please Wait dialog
+
             await page.waitFor(() => !document.querySelector('.pleasewait'));
+            Logging.logInfo(`Finished waiting for the Please Wait dialog.`);
+
+            const afterDeleteMsg = await page.$eval('.advisory', el => el.textContent);
+            if ((afterDeleteMsg.includes('deleted')) && (!afterDeleteMsg.includes('Error'))) {
+                Logging.logInfo(`${this.moduleCaption} Record deleted: ${afterDeleteMsg}`);
+
+                //make the "record deleted" toaster message go away
+                await page.waitForSelector('.advisory .messageclose');
+                await page.click(`.advisory .messageclose`);
+                await page.waitFor(() => !document.querySelector('.advisory'));  // wait for toaster to go away
+
+                response.deleted = true;
+                response.errorMessage = "";
+            } else if (afterDeleteMsg.includes('Error')) {
+                Logging.logInfo(`${this.moduleCaption} Record not deleted: ${afterDeleteMsg}`);
+                response.deleted = false;
+                response.errorMessage = afterDeleteMsg;
+
+                if (closeUnexpectedErrors) {
+                    //check for any error message pop-ups and click them to make error messages go away
+                    Logging.logInfo(`About to check for error prompt and close it`);
+                    let selector = '.advisory .fwconfirmation-button';
+                    const elementHandle = await page.$(selector);
+                    if (elementHandle != null) {
+                        //await page.waitForSelector('.advisory .fwconfirmation-button');
+                        Logging.logInfo(`Found button on prompt, about to click`);
+                        //await page.waitForSelector(selector);
+                        //await page.click(selector);
+                        await elementHandle.click();
+                        await page.waitFor(() => !document.querySelector('.advisory'));
+                    }
+                }
+            }
+
+
         }
         Logging.logInfo(`Record deleted.`);
 
-        if (sleepAfterDeleting > 0) {
-            await ModuleBase.wait(sleepAfterDeleting);
-        }
+        //if (sleepAfterDeleting > 0) {
+        //    await ModuleBase.wait(sleepAfterDeleting);
+        //}
+
+        return response;
     }
     //---------------------------------------------------------------------------------------
     async countOpenForms(): Promise<number> {
@@ -838,7 +890,8 @@ export class ModuleBase {
         let savingObject = await this.getFormRecord();
         Logging.logInfo(`About to try to save ${this.moduleCaption} Record: ${JSON.stringify(savingObject)}`);
 
-        await page.click('.btn[data-type="SaveMenuBarButton"]');
+        let saveButtonSelector = `.btn[data-type="SaveMenuBarButton"]`;
+        await page.click(saveButtonSelector);
         await page.waitForSelector('.advisory');
         await page.waitForFunction(() => document.querySelector('.advisory'), { polling: 'mutation' })
             .then(async done => {
@@ -862,12 +915,15 @@ export class ModuleBase {
 
                     if (closeUnexpectedErrors) {
                         //check for any error message pop-ups and click them to make error messages go away
+                        Logging.logInfo(`About to check for error prompt and close it`);
                         selector = '.advisory .fwconfirmation-button';
                         const elementHandle = await page.$(selector);
                         if (elementHandle != null) {
                             //await page.waitForSelector('.advisory .fwconfirmation-button');
-                            await page.waitForSelector(selector);
-                            await page.click(`.fwconfirmation-button`);
+                            Logging.logInfo(`Found button on prompt, about to click`);
+                            //await page.waitForSelector(selector);
+                            //await page.click(selector);
+                            await elementHandle.click();
                             await page.waitFor(() => !document.querySelector('.advisory'));
                         }
                     }
@@ -876,8 +932,9 @@ export class ModuleBase {
                     selector = `.advisory .messageclose`;
                     const elementHandle = await page.$(selector);
                     if (elementHandle != null) {
-                        await page.waitForSelector(selector);
-                        await page.click(selector);
+                        //await page.waitForSelector(selector);
+                        //await page.click(selector);
+                        await elementHandle.click();
                         await page.waitFor(() => !document.querySelector('.advisory'));  // wait for toaster to go away
                     }
 

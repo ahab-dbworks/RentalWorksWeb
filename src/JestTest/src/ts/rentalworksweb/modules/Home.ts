@@ -528,7 +528,7 @@ export class PhysicalInventory extends HomeModule {
         this.newRecordsToCreate = [
             {
                 record: {
-                    Description: `${TestUtils.randomProductName()} GlobalScope.TestToken~1.TestToken`,
+                    Description: `${TestUtils.randomProductName().substring(0, 20)} GlobalScope.TestToken~1.TestToken`,
                     InventoryTypeId: 2,
                 },
                 seekObject: {
@@ -608,7 +608,7 @@ export class TransferOrder extends HomeModule {
             {
                 record: {
                     Description: `${TestUtils.randomProductName()} GlobalScope.TestToken~1.TestToken`,
-                    FromWarehouseCode: "GlobalScope.Warehouse~ME.WarehouseCode",
+                    FromWarehouseCode: "GlobalScope.Warehouse~MINE.WarehouseCode",
                     ToWarehouseId: 2,
                 },
                 seekObject: {

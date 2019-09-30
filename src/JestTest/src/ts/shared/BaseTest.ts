@@ -42,6 +42,8 @@ export abstract class BaseTest {
                     TestToken: this.testToken,
                     MediumTestToken: this.testToken.substring(this.testToken.length - 8), // not guaranteed to be unique
                     ShortTestToken: this.testToken.substring(this.testToken.length - 3), // not guaranteed to be unique
+                    TinyTestToken: this.testToken.substring(this.testToken.length - 2), // not guaranteed to be unique
+                    LastCharTestToken: this.testToken.substring(this.testToken.length - 1), // not guaranteed to be unique
                 };
             }, this.testTimeout);
             //---------------------------------------------------------------------------------------
