@@ -21,7 +21,7 @@ namespace WebLibrary.Security.Tree.RentalWorksWeb.Grids
 
             //options
             tree.AddDownloadExcelSubMenuItem("{AE2C816F-BF52-4DD5-A579-9A8B91DAC1BA}", nodeBrowseOptions.Id);
-            tree.AddSubMenuItem("Manual Sorting", "{AD3FB369-5A40-4984-8A65-46E683851E52}", nodeBrowseOptions.Id);
+            //tree.AddSubMenuItem("Manual Sorting", "{AD3FB369-5A40-4984-8A65-46E683851E52}", nodeBrowseOptions.Id);
             tree.AddSubMenuItem("Copy Template", "{B6B68464-B95C-4A4C-BAF2-6AA59B871468}", nodeBrowseOptions.Id);
             //tree.AddSubMenuItem("Search Inventory", "{77E511EC-5463-43A0-9C5D-B54407C97B15}", nodeBrowseOptions.Id, true);  // search is now avaialable in the Order header bar
             tree.AddSubMenuItem("Copy Line-Items", "{01EB96CB-6C62-4D5C-9224-8B6F45AD9F63}", nodeBrowseOptions.Id);

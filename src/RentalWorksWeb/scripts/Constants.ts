@@ -361,7 +361,7 @@
         OrderItemGrid: {
             menuItems: {
                 SummaryView: { id: '{D27AD4E7-E924-47D1-AF6E-992B92F5A647}' },
-                ManualSorting: { id: '{AD3FB369-5A40-4984-8A65-46E683851E52}' },
+                //ManualSorting: { id: '{AD3FB369-5A40-4984-8A65-46E683851E52}' },
                 CopyTemplate: { id: '{B6B68464-B95C-4A4C-BAF2-6AA59B871468}' },
                 Search: { id: '{77E511EC-5463-43A0-9C5D-B54407C97B15}' },
                 CopyLineItems: { id: '{01EB96CB-6C62-4D5C-9224-8B6F45AD9F63}' },
