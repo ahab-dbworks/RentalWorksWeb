@@ -1199,6 +1199,9 @@ class FwBrowseClass {
                 // header row
                 html.push('<tr class="fieldnames">');
                 if (($control.attr('data-type') === 'Grid') || (($control.attr('data-type') === 'Browse') && ($control.attr('data-hasmultirowselect') === 'true'))) {
+                    if ($control.attr('data-hasmanualsorting') === 'true') {
+                        html.push(`<td class="column manual-sort"></td>`);
+                    }
                     let cbuniqueId = FwApplication.prototype.uniqueId(10);
                     if ($control.attr('data-hasmultirowselect') !== 'false') {
                         html.push(`<td class="column tdselectrow" style="width:20px;"><div class="divselectrow"><input id="${cbuniqueId}" type="checkbox" class="cbselectrow"/><label for="${cbuniqueId}" class="lblselectrow"></label></div></td>`);
@@ -2425,6 +2428,9 @@ class FwBrowseClass {
             }
 
             if ($control.attr('data-type') === 'Grid') {
+                if ($control.attr('data-hasmanualsorting') === 'true') {
+                    this.addManualSorting($control);
+                }
                 var $trs = $control.find('tbody tr');
                 //$trs.on('blur', '.value', function (event) {
                 //    try {
@@ -2738,8 +2744,10 @@ class FwBrowseClass {
         }
 
         if ($control.attr('data-type') === 'Grid') {
+            if ($control.attr('data-hasmanualsorting') === 'true') {
+                $tr.find('.manual-sort').append(`<i style="vertical-align:-webkit-baseline-middle; cursor:grab;" class="material-icons drag-handle">drag_handle</i>`);
+            }
             let cbuniqueId = FwApplication.prototype.uniqueId(10);
-
             if ($control.attr('data-hasmultirowselect') !== 'false') {
                 $tr.find('.tdselectrow').append(`<div class="divselectrow"><input id="${cbuniqueId}" type="checkbox" class="cbselectrow" /><label for="${cbuniqueId}" class="lblselect"></label><div>`);
             }
@@ -3171,6 +3179,77 @@ class FwBrowseClass {
         } catch (ex) {
             FwFunc.showError(ex);
         }
+    }
+    //---------------------------------------------------------------------------------
+    addManualSorting($control) {
+        //adds button to apply changes in sorting
+        const $pagingControls = $control.find('.pager').children().children();
+        const $applyChangesBtn = jQuery('<div data-type="button" class="fwformcontrol sorting"><i class="material-icons" style="position:relative; top:5px;">&#xE161;</i>Apply</div>');
+        const $gridMenu = $control.find('[data-control="FwMenu"]');
+        $applyChangesBtn.on('click', e => {
+            try {
+                const $form = $control.closest('.fwform');
+                const controller = $control.attr('data-controller');
+                const $trs = $control.find('tbody  tr');
+                const isFirstPage = $control.attr('data-pageno') === "1";
+                let startAtIndex = '';
+
+                let ids: any = [];
+                for (let i = 0; i < $trs.length; i++) {
+                    const $tr = jQuery($trs[i]);
+                    let id = FwBrowse.getRowBrowseUniqueIds($control, $tr);
+                    //get index of first row if not on first page of the grid
+                    if (i === 0 && !isFirstPage) {
+                        startAtIndex = $tr.find('[data-browsedatafield="RowNumber"]').attr('data-originalvalue');
+                    }
+                    ids.push(id[Object.keys(id)[0]]);
+                }
+
+                // get datafield for form's uniqueid
+                const formUniqueIdField = $form.find('[data-type="key"][data-isuniqueid="true"]').attr('data-datafield');
+                const request: any = {};
+                // get grid's uniqueid fieldname
+                const gridUniqueIdField = $control.find('thead [data-isuniqueid="true"]').attr('data-browsedatafield');
+                request[formUniqueIdField] = FwFormField.getValueByDataField($form, formUniqueIdField);
+                request[`${gridUniqueIdField}s`] = ids;
+                request.pageno = parseInt($control.attr('data-pageno'));
+                if (startAtIndex != '') request.StartAtIndex = startAtIndex;
+                let apiurl = (<any>window[controller]).apiurl;
+                FwAppData.apiMethod(true, 'POST', `${apiurl}/sort`, request, FwServices.defaultTimeout,
+                    response => {
+                        FwBrowse.search($control);
+                        $pagingControls.show();
+                        $gridMenu.find('.sorting').hide();
+                        $gridMenu.find('.buttonbar').show();
+                    },
+                    ex => FwFunc.showError(ex), $control);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+
+        //cancel sorting button
+        const $cancelBtn = jQuery('<div data-type="button" class="fwformcontrol sorting" style="margin-left:10px;">Cancel</div>');
+        $cancelBtn.on('click', e => {
+            FwBrowse.search($control); //refresh grid to reset to original sorting order
+            $pagingControls.show();
+            $gridMenu.find('.sorting').hide();
+            $gridMenu.find('.buttonbar').show();
+        });
+
+        //initialize Sortable
+        Sortable.create($control.find('tbody').get(0), {
+            handle: 'i.drag-handle',
+            onEnd: function (evt) {
+                //toggle displayed buttons
+                $gridMenu.find('.buttonbar').hide();
+                if ($gridMenu.find('.sorting').length < 1) {
+                    $gridMenu.append($applyChangesBtn, $cancelBtn);
+                } else {
+                    $gridMenu.find('.sorting').show();
+                }
+            }
+        });
     }
     //---------------------------------------------------------------------------------
     getRowBrowseUniqueIds($control: JQuery, $tr: JQuery) {
