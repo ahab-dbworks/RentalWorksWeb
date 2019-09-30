@@ -170,7 +170,7 @@ class Receipt {
         })
         // toggle buttons receipt tab
         FwFormField.loadItems($form.find('div[data-datafield="PaymentBy"]'), [
-            { value: 'CUSTOMER', caption: 'Customer'},
+            { value: 'CUSTOMER', caption: 'Customer' },
             { value: 'DEAL', caption: 'Deal', checked: true },
         ]);
         // Adds receipt invoice datatable to request
@@ -305,16 +305,16 @@ class Receipt {
     //----------------------------------------------------------------------------------------------
     spendPaymentTypes($form, paymentTypeType, isOverDepletingMemo) {
         const paymentBy = FwFormField.getValueByDataField($form, 'PaymentBy');                       // this must have a value before below can run -- disable payment type till deal or customer is selected?
- 
+
         if (isOverDepletingMemo) {
             $form.find('div[data-datafield="CheckNumber"]').hide();
             $form.find('div[data-datafield="CheckNumber"]').attr('data-required', 'false');          // ? if user changes deal to customer after this has been initiated
-            if (paymentBy === 'DEAL') {
-                $form.find('div[data-validationname="DealCreditValidation"]').show();
-                $form.find('div[data-validationname="DealCreditValidation"]').attr('data-required', 'true');
+            $form.find('div[data-datafield="DepositId"]').show();
+            $form.find('div[data-datafield="DepositId"]').attr('data-required', 'true'); 
+            if (paymentBy === 'CUSTOMER') {
+                $form.find('div[data-datafield="DepositId"]').attr('data-validationname', 'CustomerCreditValidation');
             } else {
-                $form.find('div[data-validationname="CustomerCreditValidation"]').show();
-                $form.find('div[data-validationname="CustomerCreditValidation"]').attr('data-required', 'true');
+                $form.find('div[data-datafield="DepositId"]').attr('data-validationname', 'DealCreditValidation');
             }
 
             $form.find('div[data-datafield="AmountRemaining"]').show();
