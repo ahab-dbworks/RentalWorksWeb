@@ -317,9 +317,8 @@ class Receipt {
                 $form.find('div[data-datafield="DepositId"]').attr('data-validationname', 'DealCreditValidation');
             }
 
-            $form.find('div[data-datafield="AmountRemaining"]').show();
-            $form.find('div[data-datafield="AmountRemaining"]').attr('data-required', 'true');
-            $form.find('div[data-datafield="PaymentAmount"]').hide();
+            $form.find('div[data-datafield="PaymentAmount"] .fwformfield-caption').text('Amount Remaining');
+            FwFormField.disable($form.find('div[data-datafield="PaymentAmount"]'));
 
             if (paymentTypeType === 'DEPLETING DEPOSIT') {
                 $form.find('div[data-datafield="OverPaymentId"] .fwformfield-caption').text('Deposit Reference');
@@ -332,34 +331,47 @@ class Receipt {
             }
         }
         else {
+            $form.find('div[data-datafield="DepositId"]').hide();
+            $form.find('div[data-datafield="DepositId"]').attr('data-required', 'false');
             $form.find('div[data-datafield="CheckNumber"]').show();
             $form.find('div[data-datafield="CheckNumber"]').attr('data-required', 'true');
 
-            $form.find('div[data-datafield="DepositId"]').hide();
-            $form.find('div[data-datafield="DepositId"]').attr('data-required', 'false');
-
-            $form.find('div[data-datafield="AmountRemaining"]').hide();
-            $form.find('div[data-datafield="AmountRemaining"]').attr('data-required', 'false');
-
-            $form.find('div[data-datafield="PaymentAmount"]').show();
+            $form.find('div[data-datafield="PaymentAmount"] .fwformfield-caption').text('Amount To Apply');
+            FwFormField.enable($form.find('div[data-datafield="PaymentAmount"]'));
         }
+        // Adust Amount Remaining field value for chosen receipt value
+        $form.find('div[data-datafield="DepositId"]').data('onchange', $tr => {
+            FwFormField.setValue($form, 'div[data-datafield="PaymentAmount"]', $tr.find('.field[data-formdatafield="Remaining"]').attr('data-originalvalue'));
+            this.loadReceiptInvoiceGrid($form);
+        });
     }
     //----------------------------------------------------------------------------------------------
     //----------------------------------------------------------------------------------------------
     beforeValidate($browse, $form, request) {
         const validationName = request.module;
-        const recType = FwFormField.getValueByDataField($form, 'RecType');
+        const paymentTypeType = FwFormField.getValueByDataField($form, 'PaymentTypeType');
+
+        let payType;
+        if (paymentTypeType === 'DEPLETING DEPOSIT') {
+            payType = 'D';
+        }
+        if (paymentTypeType === 'CREDIT MEMO') {
+            payType = 'C';
+        }
+        if (paymentTypeType === 'OVERPAYMENT') {
+            payType = 'O';
+        }
         request.uniqueids = {};
 
         switch (validationName) {
             case 'DealCreditValidation':
-                if (recType !== "") {
-                    request.uniqueids.RecType = recType;
+                if (payType !== "") {
+                    request.uniqueids.RecType = payType;
                 }
                 break;
             case 'CustomerCreditValidation':
-                if (recType !== "") {
-                    request.uniqueids.RecType = recType;
+                if (payType !== "") {
+                    request.uniqueids.RecType = payType;
                 }
                 break;
         };
