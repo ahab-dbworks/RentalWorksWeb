@@ -40,11 +40,27 @@ class RwAsset {
             request.activeviewfields = this.ActiveViewFields;
         });
 
-        FwAppData.apiMethod(true, 'GET', "api/v1/inventorystatus", null, FwServices.defaultTimeout, function onSuccess(response) {
-            for (let i = 0; i < response.length; i++) {
-                FwBrowse.addLegend($browse, response[i].InventoryStatus, response[i].Color);
-            }
-        }, null, $browse);
+        //FwAppData.apiMethod(true, 'GET', "api/v1/inventorystatus", null, FwServices.defaultTimeout, function onSuccess(response) {
+        //    for (let i = 0; i < response.length; i++) {
+        //        FwBrowse.addLegend($browse, response[i].InventoryStatus, response[i].Color);
+        //    }
+        //}, null, $browse);
+
+
+        try {
+            FwAppData.apiMethod(true, 'GET', `${this.apiurl}/legend`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                for (let key in response) {
+                    FwBrowse.addLegend($browse, key, response[key]);
+                }
+            }, function onError(response) {
+                FwFunc.showError(response);
+            }, $browse)
+        } catch (ex) {
+            FwFunc.showError(ex);
+        }
+
+
+
 
         return $browse;
     };
@@ -200,7 +216,7 @@ class RwAsset {
             <div class="field" data-isuniqueid="true" data-datafield="ItemId" data-browsedatatype="key"></div>
           </div>
           <div class="column flexcolumn" max-width="250px" data-visible="true">
-            <div class="field" data-caption="Bar Code" data-datafield="BarCode" data-browsedatatype="text" data-sort="asc"></div>
+            <div class="field" data-caption="Bar Code" data-datafield="BarCode" data-cellcolor="BarCodeColor" data-browsedatatype="text" data-sort="asc"></div>
           </div>
           <div class="column flexcolumn" max-width="250px" data-visible="true">
             <div class="field" data-caption="Serial Number" data-datafield="SerialNumber" data-browsedatatype="text" data-sort="asc"></div>
@@ -209,7 +225,7 @@ class RwAsset {
             <div class="field" data-caption="I-Code" data-datafield="ICode" data-browsedatatype="text" data-sort="off"></div>
           </div>
           <div class="column flexcolumn" max-width="450px" data-visible="true">
-            <div class="field" data-caption="Description" data-datafield="Description" data-browsedatatype="text" data-sort="off"></div>
+            <div class="field" data-caption="Description" data-datafield="Description" data-cellcolor="DescriptionColor" data-browsedatatype="text" data-sort="off"></div>
           </div>
           <div class="column flexcolumn" max-width="125px" data-visible="true">
             <div class="field" data-caption="Status" data-datafield="InventoryStatus" data-cellcolor="Color" data-browsedatatype="text" data-sort="off"></div>

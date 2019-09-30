@@ -325,6 +325,8 @@
         public const string ORDERTRAN_ITEMSTATUS_OUT = "O";
         public const string ORDERTRAN_ITEMSTATUS_IN = "I";
 
+        //CONTRACT
+        public const int SUSPENDED_CONTRACT_COLOR = 10485760;
 
 
         //ADDRESSES
@@ -375,6 +377,10 @@
         public const string DATA_EXPORT_SETTINGS_TYPE_VENDOR_INVOICE_DETAIL = "VENDOR INVOICE DETAIL";
         public const string DATA_EXPORT_SETTINGS_TYPE_VENDOR_INVOICE_GL_SUMMARY = "VENDOR INVOICE G/L SUMMARY";
         public const string DATA_EXPORT_SETTINGS_TYPE_VENDOR_INVOICE_TAX = "VENDOR INVOICE TAX";
+
+
+        //INVENTORY
+        public const int QC_REQUIRED_COLOR = 33023;
 
         //AVAILABILITY
         public const string NO_AVAILABILITY_CAPTION = "No Availability";

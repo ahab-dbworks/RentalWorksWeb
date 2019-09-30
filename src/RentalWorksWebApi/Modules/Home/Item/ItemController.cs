@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using WebApi.Controllers;
 using System.Threading.Tasks;
+using WebLibrary;
+using WebApi.Modules.Settings.InventoryStatus;
 
 namespace WebApi.Modules.Home.Item
 {
@@ -22,6 +24,26 @@ namespace WebApi.Modules.Home.Item
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // GET api/v1/item/legend 
+        [HttpGet("legend")]
+        [FwControllerMethod(Id: "g02Y2myXv8pqI")]
+        public async Task<ActionResult<Dictionary<string, string>>> GetLegend()
+        {
+            InventoryStatusLogic s = new InventoryStatusLogic();
+            s.SetDependencies(AppConfig, UserSession);
+            GetManyResponse<InventoryStatusLogic> r = await s.GetManyAsync<InventoryStatusLogic>(new GetManyRequest());
+
+            Dictionary<string, string> legend = new Dictionary<string, string>();
+            foreach (InventoryStatusLogic l in r.Items)
+            {
+               legend.Add(FwConvert.ToTitleCase(l.InventoryStatus.ToLower()), l.Color);
+            }
+            legend.Add("QC Required", RwGlobals.QC_REQUIRED_COLOR);
+            legend.Add("Suspended", RwGlobals.SUSPEND_COLOR);
+            //await Task.CompletedTask; // get rid of the no async call warning
+            return new OkObjectResult(legend);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 

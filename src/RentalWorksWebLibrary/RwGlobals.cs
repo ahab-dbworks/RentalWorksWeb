@@ -18,6 +18,8 @@ namespace WebLibrary
         public static string CONTAINER_COLOR { get; set; }
         public static string SUB_COLOR { get; set; }
         public static string CONSIGNMENT_COLOR { get; set; }
+        public static string QC_REQUIRED_COLOR { get; set; }
+        public static string SUSPEND_COLOR { get; set; }
 
 
         //AVAILABILITY
@@ -145,7 +147,8 @@ namespace WebLibrary
                 consignmentColorInt = FwConvert.ToInt32(FwSqlCommand.GetDataAsync(conn, databaseSettings.QueryTimeout, "syscontrol", "controlid", RwConstants.CONTROL_ID, "consignmentcolor").Result.ToString().TrimEnd());
             }
             CONSIGNMENT_COLOR = FwConvert.OleColorToHtmlColor(consignmentColorInt);
-
+            QC_REQUIRED_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.QC_REQUIRED_COLOR);
+            SUSPEND_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.SUSPENDED_CONTRACT_COLOR);
 
             QUOTE_ORDER_LOCKED_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.QUOTE_ORDER_LOCKED_COLOR);
             QUOTE_ORDER_ON_HOLD_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.QUOTE_ORDER_ON_HOLD_COLOR);

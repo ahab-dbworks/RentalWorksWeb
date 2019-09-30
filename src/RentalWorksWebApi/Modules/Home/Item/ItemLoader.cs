@@ -2,7 +2,7 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes; 
 namespace WebApi.Modules.Home.Item
 {
-    [FwSqlTable("rentalitemview")]
+    [FwSqlTable("rentalitemwebview")]
     public class ItemLoader : ItemBrowseLoader
     {
         //------------------------------------------------------------------------------------ 
@@ -272,9 +272,6 @@ namespace WebApi.Modules.Home.Item
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "repairno", modeltype: FwDataTypes.Text)]
         public string RepairNumber { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "qcrequired", modeltype: FwDataTypes.Boolean)]
-        public bool? QcRequired { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "widthft", modeltype: FwDataTypes.Integer)]
         public int? WidthFt { get; set; }

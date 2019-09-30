@@ -4,11 +4,18 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data; 
 using System.Collections.Generic;
+using WebLibrary;
+
 namespace WebApi.Modules.Home.Item
 {
-    [FwSqlTable("rentalitemview")]
+    [FwSqlTable("rentalitemwebbrowseview")]
     public class ItemBrowseLoader : AppDataLoadRecord
     {
+        //------------------------------------------------------------------------------------ 
+        public ItemBrowseLoader()
+        {
+            AfterBrowse += OnAfterBrowse;
+        }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rentalitemid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
         public virtual string ItemId { get; set; }
@@ -22,6 +29,13 @@ namespace WebApi.Modules.Home.Item
         [FwSqlDataField(column: "master", modeltype: FwDataTypes.Text)]
         public string Description { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string DescriptionColor
+        {
+            get { return getDescriptionColor(QcRequired); }
+            set { }
+        }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "statusdate", modeltype: FwDataTypes.Date)]
         public string StatusDate { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -37,6 +51,13 @@ namespace WebApi.Modules.Home.Item
         [FwSqlDataField(column: "barcode", modeltype: FwDataTypes.Text)]
         public string BarCode { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string BarCodeColor
+        {
+            get { return getBarCodeColor(IsSuspend); }
+            set { }
+        }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "mfgserial", modeltype: FwDataTypes.Text)]
         public string SerialNumber { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -55,6 +76,12 @@ namespace WebApi.Modules.Home.Item
         [FwSqlDataField(column: "currentlocation", modeltype: FwDataTypes.Text)]
         public string CurrentLocation { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "qcrequired", modeltype: FwDataTypes.Boolean)]
+        public bool? QcRequired { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "lastcontractsuspend", modeltype: FwDataTypes.Boolean)]
+        public bool? IsSuspend { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -70,6 +97,42 @@ namespace WebApi.Modules.Home.Item
             AddActiveViewFieldToSelect("WarehouseId", "warehouseid", select, request);
             AddActiveViewFieldToSelect("TrackedBy", "trackedby", select, request);
 
+        }
+        //------------------------------------------------------------------------------------ 
+        public void OnAfterBrowse(object sender, AfterBrowseEventArgs e)
+        {
+            if (e.DataTable != null)
+            {
+                FwJsonDataTable dt = e.DataTable;
+                if (dt.Rows.Count > 0)
+                {
+                    foreach (List<object> row in dt.Rows)
+                    {
+                        row[dt.GetColumnNo("BarCodeColor")] = getBarCodeColor(FwConvert.ToBoolean(row[dt.GetColumnNo("IsSuspend")].ToString()));
+                        row[dt.GetColumnNo("DescriptionColor")] = getDescriptionColor(FwConvert.ToBoolean(row[dt.GetColumnNo("QcRequired")].ToString()));
+                    }
+                }
+            }
+        }
+        //------------------------------------------------------------------------------------       
+        private string getDescriptionColor(bool? qcRequired)
+        {
+            string descriptionColor = null;
+            if (qcRequired.GetValueOrDefault(false))
+            {
+                descriptionColor = RwGlobals.QC_REQUIRED_COLOR;
+            }
+            return descriptionColor;
+        }
+        //------------------------------------------------------------------------------------ 
+        private string getBarCodeColor(bool? isSuspend)
+        {
+            string barCodeColor = null;
+            if (isSuspend.GetValueOrDefault(false))
+            {
+                barCodeColor = RwGlobals.SUSPEND_COLOR;
+            }
+            return barCodeColor;
         }
         //------------------------------------------------------------------------------------ 
     }
