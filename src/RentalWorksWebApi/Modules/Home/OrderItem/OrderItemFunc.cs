@@ -9,7 +9,6 @@ namespace WebApi.Modules.Home.OrderItem
 {
     public class SortOrderItemsRequest
     {
-        public string OrderId { get; set; }
         public int? StartAtIndex { get; set; }
         public List<string> OrderItemIds { get; set; } = new List<string>();
     }
@@ -21,7 +20,6 @@ namespace WebApi.Modules.Home.OrderItem
         {
             SortItemsRequest r2 = new SortItemsRequest();
             r2.TableName = "masteritem";
-            r2.IdFieldNames.Add("orderid");
             r2.IdFieldNames.Add("masteritemid");
             r2.RowNumberFieldName = "itemorder";
             r2.StartAtIndex = request.StartAtIndex;
@@ -29,7 +27,6 @@ namespace WebApi.Modules.Home.OrderItem
 
             foreach (string itemId in request.OrderItemIds) {
                 List<string> idCombo = new List<string>();
-                idCombo.Add(request.OrderId);
                 idCombo.Add(itemId);
                 r2.Ids.Add(idCombo);
             }

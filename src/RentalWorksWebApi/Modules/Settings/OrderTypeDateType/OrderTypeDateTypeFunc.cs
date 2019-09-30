@@ -7,7 +7,6 @@ namespace WebApi.Modules.Settings.OrderTypeDateType
 {
     public class SortOrderTypeDateTypesRequest
     {
-        public string OrderTypeId { get; set; }
         public int? StartAtIndex { get; set; }
         public List<string> OrderTypeDateTypeIds { get; set; } = new List<string>();
     }
@@ -19,14 +18,12 @@ namespace WebApi.Modules.Settings.OrderTypeDateType
         {
             SortItemsRequest r2 = new SortItemsRequest();
             r2.TableName = "ordertypedatetype";
-            r2.IdFieldNames.Add("ordertypeid");
             r2.IdFieldNames.Add("ordertypedatetypeid");
             r2.RowNumberFieldName = "orderby";
             r2.StartAtIndex = request.StartAtIndex;
 
             foreach (string itemId in request.OrderTypeDateTypeIds) {
                 List<string> idCombo = new List<string>();
-                idCombo.Add(request.OrderTypeId);
                 idCombo.Add(itemId);
                 r2.Ids.Add(idCombo);
             }
