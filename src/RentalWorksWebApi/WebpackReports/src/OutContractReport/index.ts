@@ -6,8 +6,8 @@ import { HandlebarsHelpers } from '../../lib/FwReportLibrary/src/scripts/Handleb
 import * as moment from 'moment';
 import '../../lib/FwReportLibrary/src/theme/webpackReports.scss';
 import './index.scss';
-const hbReport = require("./hbReport.hbs"); 
-const hbFooter = require("./hbFooter.hbs"); 
+const hbReport = require("./hbReport.hbs");
+const hbFooter = require("./hbFooter.hbs");
 
 export class OutContractReport extends WebpackReport {
     contract: OutContract = null;
@@ -20,27 +20,40 @@ export class OutContractReport extends WebpackReport {
             Ajax.get<DataTable>(`${apiUrl}/api/v1/logosettings/1`, authorizationHeader)
                 .then((response: DataTable) => {
                     const logoObject: any = response;
-            Ajax.get<OutContract>(`${apiUrl}/api/v1/outcontractreport/${parameters.ContractId}`, authorizationHeader)
-                .then((response: OutContract) => {
-                    const data: any = response;
-                    data.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
-                    data.System = 'RENTALWORKS';
-                    data.Company = parameters.companyName;
-                    data.Report = 'OUT CONTRACT';
-                    if (logoObject.LogoImage != '') {
-                        data.Logosrc = logoObject.LogoImage;
-                    } 
-                    this.renderFooterHtml(data);
-                    if (this.action === 'Preview' || this.action === 'PrintHtml') {
-                        document.getElementById('pageFooter').innerHTML = this.footerHtml;
-                    }
-                    document.getElementById('pageBody').innerHTML = hbReport(data);
-                    
-                    this.onRenderReportCompleted();
-                })
-                .catch((ex) => {
-                    this.onRenderReportFailed(ex);
-                });
+                    //Ajax.get<OutContract>(`${apiUrl}/api/v1/outcontractreport/${parameters.ContractId}`, authorizationHeader)
+                    Ajax.post<OutContract>(`${apiUrl}/api/v1/outcontractreport/runreport`, authorizationHeader, parameters)
+                        .then((response: OutContract) => {
+                            const data: any = response;
+                            data.Items = DataTable.toObjectList(response.Items);
+                            data.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
+                            data.System = 'RENTALWORKS';
+                            //data.Company = parameters.companyName;
+                            data.Report = 'OUT CONTRACT';
+                            if (logoObject.LogoImage != '') {
+                                data.Logosrc = logoObject.LogoImage;
+                            }
+                            this.renderFooterHtml(data);
+                            if (this.action === 'Preview' || this.action === 'PrintHtml') {
+                                document.getElementById('pageFooter').innerHTML = this.footerHtml;
+                            }
+                            document.getElementById('pageBody').innerHTML = hbReport(data);
+
+                            // want to add
+                            //if (data.TermsAndConditions !== null || data.TermsAndConditions !== '') {
+                            //    const termEl = document.getElementById('terms');
+                            //    termEl.innerHTML = data.TermsAndConditions;
+                            //    if (data.TermsAndConditionsNewPage) {
+                            //        const termsRow = document.getElementById('termsRow');
+                            //        termsRow.style.cssText = "page-break-before:always;";
+                            //    }
+                            //}
+
+
+                            this.onRenderReportCompleted();
+                        })
+                        .catch((ex) => {
+                            this.onRenderReportFailed(ex);
+                        });
                 })
                 .catch((ex) => {
                     console.log('exception: ', ex)
@@ -50,7 +63,7 @@ export class OutContractReport extends WebpackReport {
         }
     }
 
-    renderFooterHtml(model: OutContract) : string {
+    renderFooterHtml(model: OutContract): string {
         this.footerHtml = hbFooter(model);
         return this.footerHtml;
     }
@@ -60,58 +73,81 @@ export class OutContractReport extends WebpackReport {
 
 class OutContract {
     _Custom = new Array<CustomField>();
-    ContractId = '';
-    ContractNumber = '';
-    ContractType = '';
-    ContractDate = '';
-    LocationId = '';
-    LocationCode = '';
-    Location = '';
-    WarehouseId = '';
-    WarehouseCode = '';
-    Warehouse = '';
-    CustomerId = '';
-    DealId = '';
-    Deal = '';
-    DepartmentId = '';
-    Department = '';
-    PurchaseOrderId = '';
-    PurchaseOrderNumber = '';
-    RequisitionNumber = '';
-    VendorId = '';
-    Vendor = '';
-    Migrated = false;
-    NeedReconcile = false;
-    PendingExchange = false;
-    ExchangeContractId = '';
-    Rental = false;
-    Sales = false;
-    InputByUserId = '';
-    InputByUser = '';
-    DealInactive = false;
-    Truck = false;
-    BillingDate = '';
-    BillingDateAdjusted = false;
-    HasVoid = false;
-    SessionId = '';
-    OrderDescription = '';
-    DateStamp = '';
-    RecordTitle = '';
-    RentalItems = new Array<OutContractItem>();
-    SalesItems = new Array<OutContractItem>();
-    PrintTime = '';
+    RowType: string;
+    ContractId: string;
+    ContractNumber: string;
+    ContractDate: string;
+    ContractTime: string;
+    ContractDateAndTime: string;
+    ContractType: string;
+    HasPendingExchange: true;
+    InputByUserId: string;
+    BillingDate: string;
+    Warehouse: string;
+    WarehouseAddress1: string;
+    WarehouseAddress2: string;
+    WarehouseCityStateZipCode: string;
+    WarehouseCityStateZipCodeCountry: string;
+    WarehousePhone: string;
+    WarehouseFax: string;
+    DealId: string;
+    Deal: string;
+    DealNumber: string;
+    DealNumberAndDeal: string;
+    OrderId: string;
+    OrderNumber: string;
+    OrderDate: string;
+    OrderPoNumber: string;
+    OrderType: string;
+    OrderDescription: string;
+    OrderNumberAndDescription: string;
+    ContainerBarCode: string;
+    UsageDates: string;
+    BillingDates: true;
+    BillingCycle: string;
+    OrderLocation: string;
+    PaymentTerms: string;
+    Agent: string;
+    AgentPhoneAndExtension: string;
+    AgentFax: string;
+    Department: string;
+    Vendor: string;
+    VendorAddress1: string;
+    VendorAddress2: string;
+    VendorCity: string;
+    VendorState: string;
+    VendorZipCode: string;
+    VendorPhone: string;
+    VendorFax: string;
+    VendorContact: string;
+    PurchaseOrderId: string;
+    PurchaseOrderNumber: string;
+    DeliveryContact: string;
+    DeliveryLocation: string;
+    DeliveryAddress1: string;
+    DeliveryAddress2: string;
+    DeliveryCityStateZipCode: string;
+    DeliveryCountry: string;
+    DeliveryContactPhone: string;
+    TermsAndConditionsId: string;
+    TermsAndConditionsFileName: string;
+    TermsAndConditionsNewPage: true;
+    ResponsiblePersonId: string;
+    ResponsiblePerson: string;
+    Items: any;
+    PrintTime: string;
 }
 
-class OutContractItem {
-    "ICode": string;
-    "ICodeColor": string;
-    "Description": string;
-    "DescriptionColor": string;
-    "QuantityOrdered": string;
-    "QuantityOut": string;
-    "TotalOut": string;
-    "ItemClass": string;
-    "Notes": string;
-    "Barcode": string;
-}
+//class OutContractItem {
+//    "ICode": string;
+//    "ICodeColor": string;
+//    "Description": string;
+//    "DescriptionColor": string;
+//    "QuantityOrdered": string;
+//    "QuantityOut": string;
+//    "TotalOut": string;
+//    "ItemClass": string;
+//    "Notes": string;
+//    "Barcode": string;
+//}
 
