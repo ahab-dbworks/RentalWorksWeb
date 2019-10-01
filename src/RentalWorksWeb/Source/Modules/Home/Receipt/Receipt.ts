@@ -304,13 +304,13 @@ class Receipt {
     }
     //----------------------------------------------------------------------------------------------
     spendPaymentTypes($form, paymentTypeType, isOverDepletingMemo) {
-        const paymentBy = FwFormField.getValueByDataField($form, 'PaymentBy');                       // this must have a value before below can run -- disable payment type till deal or customer is selected?
+        const paymentBy = FwFormField.getValueByDataField($form, 'PaymentBy');
 
         if (isOverDepletingMemo) {
             $form.find('div[data-datafield="CheckNumber"]').hide();
             $form.find('div[data-datafield="CheckNumber"]').attr('data-required', 'false');          // ? if user changes deal to customer after this has been initiated
             $form.find('div[data-datafield="DepositId"]').show();
-            $form.find('div[data-datafield="DepositId"]').attr('data-required', 'true'); 
+            $form.find('div[data-datafield="DepositId"]').attr('data-required', 'true');
             if (paymentBy === 'CUSTOMER') {
                 $form.find('div[data-datafield="DepositId"]').attr('data-validationname', 'CustomerCreditValidation');
             } else {
@@ -346,7 +346,6 @@ class Receipt {
         });
     }
     //----------------------------------------------------------------------------------------------
-    //----------------------------------------------------------------------------------------------
     beforeValidate($browse, $form, request) {
         const validationName = request.module;
         const paymentTypeType = FwFormField.getValueByDataField($form, 'PaymentTypeType');
@@ -362,7 +361,7 @@ class Receipt {
             payType = 'O';
         }
         request.uniqueids = {};
-
+        request.uniqueids.RemainingOnly = true;
         switch (validationName) {
             case 'DealCreditValidation':
                 if (payType !== "") {
