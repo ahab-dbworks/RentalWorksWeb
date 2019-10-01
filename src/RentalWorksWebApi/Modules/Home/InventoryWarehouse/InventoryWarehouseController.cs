@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using WebApi.Controllers;
 using System.Threading.Tasks;
+using FwStandard.BusinessLogic;
 
 namespace WebApi.Modules.Home.InventoryWarehouse
 {
@@ -56,6 +57,16 @@ namespace WebApi.Modules.Home.InventoryWarehouse
             return await DoPostAsync<InventoryWarehouseLogic>(l);
         }
         //------------------------------------------------------------------------------------
+        // POST api/v1/inventorywarehouse/many
+        [HttpPost("many")]
+        [FwControllerMethod(Id: "LfWmFc9AxLtzg")]
+        public async Task<List<ActionResult<InventoryWarehouseLogic>>> PostAsync([FromBody]List<InventoryWarehouseLogic> l)
+        {
+            FwBusinessLogicList l2 = new FwBusinessLogicList();
+            l2.AddRange(l);
+            return await DoPostAsync<InventoryWarehouseLogic>(l2);
+        }
+        //------------------------------------------------------------------------------------ 
         // DELETE api/v1/inventorywarehouse/A0000001
         [HttpDelete("{id}")]
         [FwControllerMethod(Id:"qS1qlnW5sxyS")]
