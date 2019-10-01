@@ -39,11 +39,11 @@ export abstract class BaseTest {
                 expect(this.testToken).not.toBe("");
                 //GlobalScope.TestToken~1.TestToken
                 this.globalScopeRef["TestToken~1"] = {
-                    TestToken: this.testToken,
-                    MediumTestToken: this.testToken.substring(this.testToken.length - 8), // not guaranteed to be unique
-                    ShortTestToken: this.testToken.substring(this.testToken.length - 3), // not guaranteed to be unique
-                    TinyTestToken: this.testToken.substring(this.testToken.length - 2), // not guaranteed to be unique
-                    LastCharTestToken: this.testToken.substring(this.testToken.length - 1), // not guaranteed to be unique
+                    TestToken: this.testToken,                                                     // 16 characters
+                    MediumTestToken: this.testToken.substring(this.testToken.length - 8),          //  8 characters - not guaranteed to be unique
+                    ShortTestToken: this.testToken.substring(this.testToken.length - 3),           //  3 characters - not guaranteed to be unique
+                    TinyTestToken: this.testToken.substring(this.testToken.length - 2),            //  2 characters - not guaranteed to be unique
+                    LastCharTestToken: this.testToken.substring(this.testToken.length - 1),        //  1 character  - not guaranteed to be unique
                 };
             }, this.testTimeout);
             //---------------------------------------------------------------------------------------
@@ -83,7 +83,7 @@ export abstract class BaseTest {
         });
     }
     //---------------------------------------------------------------------------------------
-    async OpenSpecificRecord(module: ModuleBase, seekObject?: any, registerGlobal?: boolean, globalKeyValue?: string) {
+    async OpenSpecificRecord(module: ModuleBase, seekObject?: any, registerGlobal?: boolean, globalKeyValue?: string, closeRecordWhenDone?: boolean) {
         let testName: string = "";
         const testCollectionName = `Open a specific ${module.moduleCaption}`;// + registerGlobal ? `, register global values` : ``;
         describe(testCollectionName, () => {
@@ -126,6 +126,9 @@ export abstract class BaseTest {
                             this.globalScopeRef[globalKey] = openRecordResponse.record;
                         }
                     });
+                if (closeRecordWhenDone) {
+                    await module.closeRecord();
+                }
             }, this.testTimeout);
             //---------------------------------------------------------------------------------------
         });
@@ -135,7 +138,49 @@ export abstract class BaseTest {
         var findUserInputs: any = {
             LoginName: process.env.RW_LOGIN
         }
-        await this.OpenSpecificRecord(userModule, findUserInputs, true, "ME");
+        await this.OpenSpecificRecord(userModule, findUserInputs, true, "ME", true);
+    }
+    //---------------------------------------------------------------------------------------
+    async CopyMyUserRegisterGlobal(userModule: ModuleBase) {
+        var findUserInputs: any = {
+            LoginName: "GlobalScope.TestToken~1.TestToken"
+        }
+
+        let testName: string = "";
+        const testCollectionName = `Copy User to create a new Test User`;
+        describe(testCollectionName, () => {
+            testName = `Copy User to create a new Test User`;
+            test(testName, async () => {
+                let me: any = this.globalScopeRef["User~ME"];
+                let newMe: any = {};
+                newMe.FirstName = TestUtils.randomFirstName();
+                newMe.LastName = TestUtils.randomLastName();
+                newMe.LoginName = "GlobalScope.TestToken~1.TestToken";
+                let newPassword: string = TestUtils.randomAlphanumeric(20);
+                newMe.Password = newPassword;
+                newMe.GroupName = me.GroupName;
+                newMe.UserTitle = me.UserTitle;
+                newMe.Email = "GlobalScope.TestToken~1.MediumTestToken_" + me.Email;
+                newMe.OfficeLocation = me.OfficeLocation;
+                newMe.Warehouse = me.Warehouse;
+                newMe.DefaultDepartmentType = me.DefaultDepartmentType;
+                newMe.RentalDepartment = me.RentalDepartment;
+                newMe.SalesDepartment = me.SalesDepartment;
+                newMe.MiscDepartment = me.MiscDepartment;
+                newMe.LaborDepartment = me.LaborDepartment;
+
+                await userModule.createNewRecord();
+                await userModule.populateFormWithRecord(newMe);
+                await userModule.saveRecord(true);
+                await userModule.openBrowse();
+                await userModule.browseSeek(findUserInputs);
+                await userModule.openRecord()
+                    .then(openRecordResponse => {
+                        openRecordResponse.record.Password = newPassword;
+                        this.globalScopeRef["User~ME"] = openRecordResponse.record;
+                    });
+            }, this.testTimeout);
+        });
     }
     //---------------------------------------------------------------------------------------
     async ValidateUserAndEnvironment() {
@@ -167,166 +212,6 @@ export abstract class BaseTest {
             //---------------------------------------------------------------------------------------
         });
     }
-    //---------------------------------------------------------------------------------------
-    //async TestModuleDefaultsOnNewForm(module: ModuleBase, expectedObject: any) {
-    //    let testName: string = "";
-    //    const testCollectionName = `Start new ${module.moduleCaption}, check form for expected default values`;
-    //    describe(testCollectionName, () => {
-    //        //---------------------------------------------------------------------------------------
-    //        if (this.continueTest) {
-    //            testName = `Open ${module.moduleCaption} browse`;
-    //            test(testName, async () => {
-    //                //let openBrowseResponse: OpenBrowseResponse | void = await module.openBrowse().then().catch(err => this.LogError(testName, err));
-    //                //let strictOpenBrowseResponse = openBrowseResponse as OpenBrowseResponse;
-    //                //expect(strictOpenBrowseResponse.errorMessage).toBe("");
-    //                //expect(strictOpenBrowseResponse.opened).toBeTruthy();
-    //                await module.openBrowse()
-    //                    .then((openBrowseResponse) => {
-    //                        expect(openBrowseResponse.errorMessage).toBe("");
-    //                        expect(openBrowseResponse.opened).toBeTruthy();
-    //                    });
-    //            }, this.testTimeout);
-    //        }
-    //        //---------------------------------------------------------------------------------------
-    //        if (this.continueTest) {
-    //            testName = `Open ${module.moduleCaption} form in new mode`;
-    //            test(testName, async () => {
-    //                await module.createNewRecord().then().catch(err => this.LogError(testName, err));
-    //            }, this.testTimeout);
-    //        }
-    //        //---------------------------------------------------------------------------------------
-    //        if (this.continueTest) {
-    //            testName = `Validate default values on new ${module.moduleCaption} form, compare with expected values`;
-    //            test(testName, async () => {
-    //                let defaultObject = await module.getFormRecord().then().catch(err => this.LogError(testName, err));
-    //                Logging.logInfo(`Form Record: ${JSON.stringify(defaultObject)}`);
-
-    //                for (let key in expectedObject) {
-    //                    console.log(`Comparing: ${key}\n     Expecting: "${expectedObject[key]}"\n     Found:     "${defaultObject[key]}"`);
-
-    //                    //if (expectedObject[key].toString().startsWith("GlobalScope")) {
-    //                    //    //example: "GlobalScope.DefaultSettings~1.DefaultUnit",
-    //                    //    let globalScopeKey = expectedObject[key].toString().split('.');
-    //                    //    expectedObject[key] = this.globalScopeRef[globalScopeKey[1].toString()][globalScopeKey[2].toString()];
-    //                    //    //console.log(`Comparing: ${key}\n     Expecting: "${expectedObject[key]}"\n     Found:     "${defaultObject[key]}"`);
-    //                    //}
-
-    //                    if (expectedObject[key].toString().toUpperCase().includes("GLOBALSCOPE.")) {
-    //                        expectedObject[key] = TestUtils.getGlobalScopeValue(expectedObject[key], this.globalScopeRef);
-    //                    }
-
-
-    //                    if (expectedObject[key] === "|NOTEMPTY|") {
-    //                        expect(defaultObject[key]).not.toBe("");
-    //                    }
-    //                    else {
-    //                        expect(defaultObject[key]).not.toBeUndefined();
-    //                        expect(defaultObject[key]).toBe(expectedObject[key]);
-    //                    }
-    //                }
-    //            }, this.testTimeout);
-    //        }
-    //        //---------------------------------------------------------------------------------------
-    //        if (this.continueTest) {
-    //            testName = `Close new ${module.moduleCaption} form without saving`;
-    //            test(testName, async () => {
-    //                await module.closeModifiedRecordWithoutSaving().then().catch(err => this.LogError(testName, err));
-    //            }, this.testTimeout);
-    //        }
-    //        //---------------------------------------------------------------------------------------
-    //    });
-    //}
-    //---------------------------------------------------------------------------------------
-    //async TestModuleCreateNewRecord(module: ModuleBase, inputObject: any, expectedObject: any) {
-    //    let testName: string = "";
-    //    const testCollectionName = `Create new ${module.moduleCaption}, fill out form, save record`;
-    //    describe(testCollectionName, () => {
-    //        //---------------------------------------------------------------------------------------
-    //        if (this.continueTest) {
-    //            testName = `Open ${module.moduleCaption} browse`;
-    //            test(testName, async () => {
-    //                //let openBrowseResponse: OpenBrowseResponse | void = await module.openBrowse().then().catch(err => this.LogError(testName, err));
-    //                //let strictOpenBrowseResponse = openBrowseResponse as OpenBrowseResponse;
-    //                //expect(strictOpenBrowseResponse.errorMessage).toBe("");
-    //                //expect(strictOpenBrowseResponse.opened).toBeTruthy();
-    //                await module.openBrowse()
-    //                    .then((openBrowseResponse) => {
-    //                        expect(openBrowseResponse.errorMessage).toBe("");
-    //                        expect(openBrowseResponse.opened).toBeTruthy();
-    //                    });
-    //            }, this.testTimeout);
-    //        }
-    //        //---------------------------------------------------------------------------------------
-    //        if (this.continueTest) {
-    //            testName = `Open ${module.moduleCaption} form in new mode`;
-    //            test(testName, async () => {
-    //                await module.createNewRecord().then().catch(err => this.LogError(testName, err));
-    //            }, this.testTimeout);
-    //        }
-    //        //---------------------------------------------------------------------------------------
-    //        if (this.continueTest) {
-    //            testName = `Fill in ${module.moduleCaption} form data`;
-    //            test(testName, async () => {
-    //                await module.populateFormWithRecord(inputObject).then().catch(err => this.LogError(testName, err));
-    //            }, this.testTimeout);
-    //        }
-    //        //---------------------------------------------------------------------------------------
-    //        if (this.continueTest) {
-    //            testName = `Save new ${module.moduleCaption}`;
-    //            test(testName, async () => {
-    //                //let saveResponse: SaveResponse | void = await module.saveRecord(true).then().catch(err => this.LogError(testName, err));
-    //                //let strictSaveResponse = saveResponse as SaveResponse;
-    //                //this.continueTest = strictSaveResponse.saved;
-    //                //expect(strictSaveResponse.errorMessage).toBe("");
-    //                //expect(strictSaveResponse.saved).toBe(true);
-    //                await module.saveRecord(true)
-    //                    .then(saveResponse => {
-    //                        expect(saveResponse.errorMessage).toBe("");
-    //                        expect(saveResponse.saved).toBe(true);
-    //                    });
-    //            }, this.testTimeout);
-    //        }
-    //        //---------------------------------------------------------------------------------------
-    //        if (this.continueTest) {
-    //            testName = `Validate all values on saved ${module.moduleCaption}, compare with expected values`;
-    //            test(testName, async () => {
-    //                let savedObject = await module.getFormRecord().then().catch(err => this.LogError(testName, err));
-    //                Logging.logInfo(`Form Record: ${JSON.stringify(savedObject)}`);
-    //                for (let key in expectedObject) {
-    //                    console.log(`Comparing: ${key}\n     Expecting: "${expectedObject[key]}"\n     Found:     "${savedObject[key]}"`);
-
-    //                    //if (expectedObject[key].toString().startsWith("GlobalScope")) {
-    //                    //    //example: "GlobalScope.DefaultSettings~1.DefaultUnit",
-    //                    //    let globalScopeKey = expectedObject[key].toString().split('.');
-    //                    //    expectedObject[key] = this.globalScopeRef[globalScopeKey[1].toString()][globalScopeKey[2].toString()];
-    //                    //    console.log(`Comparing: ${key}\n     Expecting: "${expectedObject[key]}"\n     Found:     "${savedObject[key]}"`);
-    //                    //}
-
-    //                    if (expectedObject[key].toString().toUpperCase().includes("GLOBALSCOPE.")) {
-    //                        expectedObject[key] = TestUtils.getGlobalScopeValue(expectedObject[key], this.globalScopeRef);
-    //                    }
-
-
-    //                    if (expectedObject[key] === "|NOTEMPTY|") {
-    //                        expect(savedObject[key]).not.toBe("");
-    //                    }
-    //                    else {
-    //                        expect(savedObject[key]).not.toBeUndefined();
-    //                        expect(savedObject[key]).toBe(expectedObject[key]);
-    //                    }
-    //                }
-    //            }, this.testTimeout);
-    //        }
-    //        //---------------------------------------------------------------------------------------
-    //        if (this.continueTest) {
-    //            testName = `Close ${module.moduleCaption} record`;
-    //            test(testName, async () => {
-    //                await module.closeRecord().then().catch(err => this.LogError(testName, err));
-    //            }, this.testTimeout);
-    //        }
-    //        //---------------------------------------------------------------------------------------
-    //    });
-    //}
     //---------------------------------------------------------------------------------------
     async TestModulePreventDuplicate(module: ModuleBase, inputObject: any, duplicatedFieldsForTestName: string = "") {
         let testName: string = "";
@@ -488,6 +373,9 @@ export abstract class BaseTest {
     //    });
     //}
     //---------------------------------------------------------------------------------------
+    // this method can be overridden to implement copying your User as a new login for to run this test
+    async RelogAsCopyOfUser() { }
+    //---------------------------------------------------------------------------------------
     // this method can be overridden in sub classes for each test collection we want to perform
     async ValidateEnvironment() { }
     //---------------------------------------------------------------------------------------
@@ -500,6 +388,7 @@ export abstract class BaseTest {
             this.VerifyTestToken();
             this.CheckDependencies();
             this.DoLogin()
+            this.RelogAsCopyOfUser();
             this.ValidateEnvironment();
             this.PerformTests();
             this.DoLogoff();

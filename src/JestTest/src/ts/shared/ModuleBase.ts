@@ -606,63 +606,67 @@ export class ModuleBase {
             let fieldToPopulate = key;
             let valueToPopulate = record[key];
 
-            if (valueToPopulate.toString().toUpperCase().includes("GLOBALSCOPE.")) {
-                valueToPopulate = TestUtils.getGlobalScopeValue(valueToPopulate, this.globalScopeRef);
-            }
-            Logging.logInfo(`About to populate ${fieldToPopulate} with ${valueToPopulate}`);
-
-            let displayfield;
-            const datatype = await this.getDataType(fieldToPopulate);
-            if (datatype === 'displayfield') {
-                displayfield = fieldToPopulate;
-                fieldToPopulate = await page.$eval(`.fwformfield[data-displayfield="${fieldToPopulate}"]`, el => el.getAttribute('data-datafield'));
+            if (valueToPopulate != undefined) {
+                if (valueToPopulate.toString().toUpperCase().includes("GLOBALSCOPE.")) {
+                    valueToPopulate = TestUtils.getGlobalScopeValue(valueToPopulate, this.globalScopeRef);
+                }
                 Logging.logInfo(`About to populate ${fieldToPopulate} with ${valueToPopulate}`);
-            }
-            const tabId = await page.$eval(`.fwformfield[data-datafield="${fieldToPopulate}"]`, el => el.closest('[data-type="tabpage"]').getAttribute('data-tabid'));
-            //Logging.logInfo(`Found ${key} field on tab ${tabId}`);
-            const tabIsActive = await page.$eval(`#${tabId}`, el => el.classList.contains('active'));
-            if (!tabIsActive) {
-                Logging.logInfo(`Clicking tab ${tabId}`);
-                await page.click(`#${tabId}`);
-            }
-            switch (datatype) {
-                case 'phone':
-                case 'email':
-                case 'zipcode':
-                case 'text':
-                    currentValue = await this.getDataFieldValue(fieldToPopulate);
-                    if (currentValue != "") {
-                        await this.clearInputField(fieldToPopulate);
-                    }
-                    await this.populateTextField(fieldToPopulate, valueToPopulate);
-                    break;
-                case 'textarea':
-                    currentValue = await this.getDataFieldValue(fieldToPopulate);
-                    if (currentValue != "") {
-                        await this.clearInputField(fieldToPopulate);
-                    }
-                    await this.populateTextAreaField(fieldToPopulate, valueToPopulate);
-                    break;
-                case 'checkbox':
-                    await this.populateCheckboxField(fieldToPopulate, valueToPopulate);
-                    break;
-                case 'radio':
-                    await this.populateRadioGroupField(fieldToPopulate, valueToPopulate);
-                    break;
-                case 'validation':
-                    const validationname = await page.$eval(`.fwformfield[data-datafield="${fieldToPopulate}"]`, el => el.getAttribute('data-validationname'));
-                    await this.populateValidationField(fieldToPopulate, validationname, valueToPopulate);
-                    break;
-                case 'displayfield':
-                    currentValue = await this.getDataFieldText(fieldToPopulate);
-                    if (currentValue != "") {
-                        await this.clearInputField(fieldToPopulate);
-                    }
-                    await this.populateValidationTextField(fieldToPopulate, valueToPopulate);
-                    await ModuleBase.wait(750);  // allow "after validate" methods to finish
-                    break;
-                default:
-                    break;
+
+                let displayfield;
+                const datatype = await this.getDataType(fieldToPopulate);
+                if (datatype === 'displayfield') {
+                    displayfield = fieldToPopulate;
+                    fieldToPopulate = await page.$eval(`.fwformfield[data-displayfield="${fieldToPopulate}"]`, el => el.getAttribute('data-datafield'));
+                    Logging.logInfo(`About to populate ${fieldToPopulate} with ${valueToPopulate}`);
+                }
+                const tabId = await page.$eval(`.fwformfield[data-datafield="${fieldToPopulate}"]`, el => el.closest('[data-type="tabpage"]').getAttribute('data-tabid'));
+                //Logging.logInfo(`Found ${key} field on tab ${tabId}`);
+                const tabIsActive = await page.$eval(`#${tabId}`, el => el.classList.contains('active'));
+                if (!tabIsActive) {
+                    Logging.logInfo(`Clicking tab ${tabId}`);
+                    await page.click(`#${tabId}`);
+                }
+                switch (datatype) {
+                    case 'phone':
+                    case 'email':
+                    case 'zipcode':
+                    case 'percent':
+                    case 'password':
+                    case 'text':
+                        currentValue = await this.getDataFieldValue(fieldToPopulate);
+                        if (currentValue != "") {
+                            await this.clearInputField(fieldToPopulate);
+                        }
+                        await this.populateTextField(fieldToPopulate, valueToPopulate);
+                        break;
+                    case 'textarea':
+                        currentValue = await this.getDataFieldValue(fieldToPopulate);
+                        if (currentValue != "") {
+                            await this.clearInputField(fieldToPopulate);
+                        }
+                        await this.populateTextAreaField(fieldToPopulate, valueToPopulate);
+                        break;
+                    case 'checkbox':
+                        await this.populateCheckboxField(fieldToPopulate, valueToPopulate);
+                        break;
+                    case 'radio':
+                        await this.populateRadioGroupField(fieldToPopulate, valueToPopulate);
+                        break;
+                    case 'validation':
+                        const validationname = await page.$eval(`.fwformfield[data-datafield="${fieldToPopulate}"]`, el => el.getAttribute('data-validationname'));
+                        await this.populateValidationField(fieldToPopulate, validationname, valueToPopulate);
+                        break;
+                    case 'displayfield':
+                        currentValue = await this.getDataFieldText(fieldToPopulate);
+                        if (currentValue != "") {
+                            await this.clearInputField(fieldToPopulate);
+                        }
+                        await this.populateValidationTextField(fieldToPopulate, valueToPopulate);
+                        await ModuleBase.wait(750);  // allow "after validate" methods to finish
+                        break;
+                    default:
+                        break;
+                }
             }
         }
         await ModuleBase.wait(500);
@@ -697,6 +701,8 @@ export class ModuleBase {
                     case 'zipcode':
                     case 'text':
                     case 'textarea':
+                    case 'percent':
+                    case 'password':
                     case 'key':
                         value = await this.getDataFieldValue(dataField);
                         record[dataField] = value;
@@ -739,6 +745,7 @@ export class ModuleBase {
     }
     //---------------------------------------------------------------------------------------
     async clearInputField(dataField: string): Promise<void> {
+        //Logging.logInfo(`About to clear out the ${dataField} field.`);
         const elementHandle = await page.$(`.fwformfield[data-datafield="${dataField}"] input`);
         await elementHandle.click();
         await elementHandle.focus();

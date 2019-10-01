@@ -462,6 +462,36 @@ export class CustomerType extends SettingsModule {
         this.moduleName = 'CustomerType';
         this.moduleId = '314EDC6F-478A-40E2-B17E-349886A85EA0';
         this.moduleCaption = 'Customer Type';
+
+
+        this.defaultNewRecordToExpect = {
+            CustomerType: "",
+            Inactive: false,
+            DefaultRentalDiscountPercent: "",
+            DefaultSalesDiscountPercent: "",
+            DefaultFacilitiesDiscountPercent: "",
+        }
+
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    CustomerType: "GlobalScope.TestToken~1.TestToken",
+                    DefaultRentalDiscountPercent: "10",
+                    DefaultSalesDiscountPercent: "20",
+                    DefaultFacilitiesDiscountPercent: "30.33",
+                },
+                seekObject: {
+                    CustomerType: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            CustomerType: this.newRecordsToCreate[0].record.CustomerType.toUpperCase(),
+            DefaultRentalDiscountPercent: this.newRecordsToCreate[0].record.DefaultRentalDiscountPercent + " %",
+            DefaultSalesDiscountPercent: this.newRecordsToCreate[0].record.DefaultSalesDiscountPercent + " %",
+            DefaultFacilitiesDiscountPercent: this.newRecordsToCreate[0].record.DefaultFacilitiesDiscountPercent + " %",
+            Inactive: false,
+        }
     }
     //---------------------------------------------------------------------------------------
 }
@@ -473,6 +503,27 @@ export class DealClassification extends SettingsModule {
         this.moduleName = 'DealClassification';
         this.moduleId = 'D1035FCC-D92B-4A3A-B985-C7E02CBE3DFD';
         this.moduleCaption = 'Deal Classification';
+
+
+        this.defaultNewRecordToExpect = {
+            DealClassification: "",
+            Inactive: false,
+        }
+
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    DealClassification: "GlobalScope.TestToken~1.TestToken",
+                },
+                seekObject: {
+                    DealClassification: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            DealClassification: this.newRecordsToCreate[0].record.DealClassification.toUpperCase(),
+            Inactive: false,
+        }
     }
     //---------------------------------------------------------------------------------------
 }

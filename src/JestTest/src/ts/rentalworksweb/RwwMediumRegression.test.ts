@@ -203,10 +203,18 @@ export class MediumRegressionTest extends BaseTest {
         });
     }
     //---------------------------------------------------------------------------------------
+    async RelogAsCopyOfUser() {
+        let userModule: User = new User();
+        this.LoadMyUserGlobal(userModule);
+        this.CopyMyUserRegisterGlobal(userModule);
+        this.DoLogoff();
+        this.DoLogin();  // uses new login account
+    }
+    //---------------------------------------------------------------------------------------
     async PerformTests() {
-
         //prerequisites
-        this.LoadMyUserGlobal(new User());
+
+        //this.LoadMyUserGlobal(new User());  //uncomment this if not using the above RelogAsCopyOfUser method
         this.OpenSpecificRecord(new DefaultSettings(), null, true);
 
         let warehouseToSeek: any = {
@@ -264,8 +272,8 @@ export class MediumRegressionTest extends BaseTest {
         this.MediumRegressionOnModule(new CreditStatus());
         this.MediumRegressionOnModule(new CustomerCategory());
         this.MediumRegressionOnModule(new CustomerStatus());
-        //this.MediumRegressionOnModule(new CustomerType());
-        //this.MediumRegressionOnModule(new DealClassification());
+        this.MediumRegressionOnModule(new CustomerType());
+        this.MediumRegressionOnModule(new DealClassification());
         //this.MediumRegressionOnModule(new DealType());
         //this.MediumRegressionOnModule(new DealStatus());
         //this.MediumRegressionOnModule(new ProductionType());

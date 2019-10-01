@@ -12,31 +12,47 @@ export class LogoutResponse {
 }
 
 export class TestUtils {
-
+    static globalScopeRef = GlobalScope;
     //-----------------------------------------------------------------------------------------------------------------
     static async authenticate(): Promise<LoginResponse> {
         let loginReponse: LoginResponse = new LoginResponse();
         loginReponse.success = false;
         loginReponse.errorMessage = "could not login";
-
+        let myAccount: any = TestUtils.globalScopeRef["User~ME"];  // check GlobalScope for myAccount to use (can be used to re-log during the middle of a test)
         let baseUrl: string = process.env.RW_URL;  //ie http://localhost/rentalworksweb
         let login = process.env.RW_LOGIN;
         let password = process.env.RW_PASSWORD;
 
-        await page.goto(`${baseUrl}/#/login`);
-        await page.waitForNavigation();
+        if (myAccount != undefined) {  // if myAccount was established, then use it
+            login = myAccount.LoginName;
+            password = myAccount.Password;
+        }
+        else {
+            await page.goto(`${baseUrl}/#/login`);
+            await page.waitForNavigation();
+        }
 
         let selector = `.btnLogin`;
         await page.waitForSelector(selector, { visible: true });
         await page.click(selector);
 
         selector = `#email`;
-        await page.waitForSelector('#email', { visible: true });
-        await page.type('#email', <string>login);
+        let loginFieldHandle = await page.$(selector);
+        await loginFieldHandle.click();
+        await loginFieldHandle.focus();
+        // click three times to select all
+        await loginFieldHandle.click({ clickCount: 3 });
+        await loginFieldHandle.press('Backspace');
+        await page.keyboard.sendCharacter(<string>login);
 
         selector = `#password`;
-        await page.click(selector);
-        await page.type(selector, <string>password);
+        let passwordFieldHandle = await page.$(selector);
+        await passwordFieldHandle.click();
+        await passwordFieldHandle.focus();
+        // click three times to select all
+        await passwordFieldHandle.click({ clickCount: 3 });
+        await passwordFieldHandle.press('Backspace');
+        await page.keyboard.sendCharacter(<string>password);
 
         selector = `.btnLogin`;
         await page.waitForSelector(selector, { visible: true });
@@ -144,7 +160,10 @@ export class TestUtils {
             let globalScopeKeyString = "";
             let rightOfGlobalScopeKeyString = valueIn.substring(valueIn.toUpperCase().indexOf("GLOBALSCOPE."));
             let endOfOfGlobalScopeKeyString = rightOfGlobalScopeKeyString.indexOf(" ");
-            if (endOfOfGlobalScopeKeyString >= 0) {   // string contains a space after the GlobalScope key
+            if (endOfOfGlobalScopeKeyString < 0) {
+                endOfOfGlobalScopeKeyString = rightOfGlobalScopeKeyString.indexOf("_");
+            }
+            if (endOfOfGlobalScopeKeyString >= 0) {   // string contains a space or underscore after the GlobalScope key
                 globalScopeKeyString = valueIn.substring(valueIn.toUpperCase().indexOf("GLOBALSCOPE."), valueIn.toUpperCase().indexOf("GLOBALSCOPE.") + endOfOfGlobalScopeKeyString);
             }
             else {
