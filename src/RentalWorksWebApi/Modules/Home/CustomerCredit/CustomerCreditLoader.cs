@@ -77,6 +77,11 @@ namespace WebApi.Modules.Home.CustomerCredit
             select.AddWhere("paymentby = '" + RwConstants.RECEIPT_PAYMENT_BY_CUSTOMER + "'");
 
             addFilterToSelect("CustomerId", "customerid", select, request);
+            addFilterToSelect("RecType", "rectype", select, request);
+            addFilterToSelect("LocationId", "locationid", select, request);
+
+            bool? remainingOnly = GetUniqueIdAsBoolean("RemainingOnly", request);
+
             AddActiveViewFieldToSelect("LocationId", "locationid", select, request);
             AddActiveViewFieldToSelect("RecType", "rectype", select, request);
 
@@ -92,10 +97,16 @@ namespace WebApi.Modules.Home.CustomerCredit
                         string value = values[0];
                         if (value.ToUpper().Equals("R"))
                         {
-                            select.AddWhere("(remaining <> 0)");
+                            //select.AddWhere("(remaining <> 0)");
+                            remainingOnly = true;
                         }
                     }
                 }
+            }
+
+            if (remainingOnly.GetValueOrDefault(false))
+            {
+                select.AddWhere("(remaining <> 0)");
             }
 
         }
