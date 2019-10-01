@@ -70,7 +70,7 @@ class SearchInterface {
                                       <i class="material-icons optionsbutton">settings</i>
                                       <div class="optionsmenu">
                                         <div class="flexcolumn">
-                                          <div data-datafield="Columns" data-control="FwFormField" data-type="checkboxlist" class="fwcontrol fwformfield columnOrder" data-caption="Select columns to display in Results" data-sortable="true" data-orderby="true" style="max-height:400px; margin-top: 10px;"></div>
+                                          <div data-datafield="Columns" data-control="FwFormField" data-type="checkboxlist" class="fwcontrol fwformfield columnOrder" data-caption="Select columns to display in Results" data-sortable="true" data-orderby="true" style="max-height:450px; margin-top: 10px;"></div>
                                           <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield fwformcontrol toggleAccessories" data-caption="Disable Auto-Expansion of Complete/Kit Accessories" data-datafield="DisableAccessoryAutoExpand"></div>
                                           <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield fwformcontrol" data-caption="Hide Inventory with Zero Quantity" data-datafield="HideZeroQuantity"></div>
                                           <div>
@@ -90,6 +90,8 @@ class SearchInterface {
                                       <div class="columnorder showOnSearch" data-column="Type">Type</div> 
                                       <div class="columnorder showOnSearch" data-column="Category">Category</div>
                                       <div class="columnorder showOnSearch" data-column="SubCategory">Sub Category</div>
+                                      <div class="columnorder hideColumns" data-column="ICode">I-Code</div>
+                                      <div class="columnorder hideColumns" data-column="PartNumber">Part Number</div>
                                       <div class="columnorder hideColumns" data-column="Available">Available</div>
                                       <div class="columnorder hideColumns" data-column="ConflictDate">Conflict Date</div>
                                       <div class="columnorder hideColumns" data-column="AllWh">All Warehouse</div>
@@ -544,7 +546,9 @@ class SearchInterface {
             categoryIndex             = response.ColumnIndex.Category,
             subCategoryIndex          = response.ColumnIndex.SubCategory,
             availabilityStateIndex    = response.ColumnIndex.AvailabilityState,
-            qtyIsStaleIndex           = response.ColumnIndex.QuantityAvailableIsStale;
+            qtyIsStaleIndex           = response.ColumnIndex.QuantityAvailableIsStale,
+            icode                     = response.ColumnIndex.ICode,
+            partNumber                = response.ColumnIndex.ManufacturerPartNumber;
 
         $inventoryContainer.empty();
         $popup.find('.refresh-availability').hide();
@@ -568,6 +572,8 @@ class SearchInterface {
                                 <div data-column="Category" class="columnorder showOnSearch">${response.Rows[i][categoryIndex]}</div>
                                 <div data-column="SubCategory" class="columnorder showOnSearch">${response.Rows[i][subCategoryIndex]}</div>
                                 <div data-column="Available" class="columnorder hideColumns"><div class="gridcaption">Available</div><div class="available-color value">${response.Rows[i][quantityAvailable]}</div></div>
+                                <div data-column="ICode" class="columnorder hideColumns"><div class="gridcaption">I-Code</div><div class="value">${response.Rows[i][icode]}</div></div>
+                                <div data-column="PartNumber" class="columnorder hideColumns"><div class="gridcaption">Part Number</div><div class="value">${response.Rows[i][partNumber]}</div></div>
                                 <div data-column="ConflictDate" class="columnorder hideColumns"><div class="gridcaption">Conflict</div><div class="value">${conflictdate}</div></div>
                                 <div data-column="AllWh" class="columnorder hideColumns">&#160;</div>
                                 <div data-column="In" class="columnorder hideColumns"><div class="gridcaption">In</div><div class="value">${response.Rows[i][quantityIn]}</div></div>
@@ -634,18 +640,20 @@ class SearchInterface {
     //----------------------------------------------------------------------------------------------
     setDefaultViewSettings($popup) {
         FwFormField.loadItems($popup.find('div[data-datafield="Columns"]'), [
-            { value: 'Description',  text: 'Description',                         selected: 'T' },
-            { value: 'Tags',         text: 'Tags',                                selected: 'T' },
-            { value: 'Quantity',     text: 'Quantity',                            selected: 'T' },
-            { value: 'Type',         text: 'Type',                                selected: 'F' },
-            { value: 'Category',     text: 'Category',                            selected: 'F' },
-            { value: 'SubCategory',  text: 'Sub Category',                        selected: 'F' },
-            { value: 'Available',    text: 'Available Quantity',                  selected: 'T' },
-            { value: 'ConflictDate', text: 'Conflict Date',                       selected: 'T' },
-            { value: 'AllWh',        text: 'Available Quantity (All Warehouses)', selected: 'T' },
-            { value: 'In',           text: 'In Quantity',                         selected: 'T' },
-            { value: 'QC',           text: 'QC Required Quantity',                selected: 'T' },
-            { value: 'Rate',         text: 'Rate',                                selected: 'T' }
+            { value: 'Description',            text: 'Description',                         selected: 'T' },
+            { value: 'Tags',                   text: 'Tags',                                selected: 'T' },
+            { value: 'Quantity',               text: 'Quantity',                            selected: 'T' },
+            { value: 'Type',                   text: 'Type',                                selected: 'F' },
+            { value: 'Category',               text: 'Category',                            selected: 'F' },
+            { value: 'SubCategory',            text: 'Sub Category',                        selected: 'F' },
+            { value: 'ICode',                  text: 'I-Code',                              selected: 'F' },
+            { value: 'PartNumber',             text: 'Part Number',                         selected: 'F' },
+            { value: 'Available',              text: 'Available Quantity',                  selected: 'T' },
+            { value: 'ConflictDate',           text: 'Conflict Date',                       selected: 'T' },
+            { value: 'AllWh',                  text: 'Available Quantity (All Warehouses)', selected: 'T' },
+            { value: 'In',                     text: 'In Quantity',                         selected: 'T' },
+            { value: 'QC',                     text: 'QC Required Quantity',                selected: 'T' },
+            { value: 'Rate',                   text: 'Rate',                                selected: 'T' },
         ]);
     
         FwFormField.setValueByDataField($popup, 'DisableAccessoryAutoExpand', false);
@@ -1361,6 +1369,8 @@ class SearchInterface {
                                            <div class="columnorder showOnSearch" data-column="Type"></div> 
                                            <div class="columnorder showOnSearch" data-column="Category"></div>
                                            <div class="columnorder showOnSearch" data-column="SubCategory"></div>
+                                           <div class="columnorder hideColumns" data-column="ICode">I-Code</div>
+                                           <div class="columnorder hideColumns" data-column="PartNumber">Part Number</div>
                                            <div class="columnorder hideColumns" data-column="Available">Available</div>
                                            <div class="columnorder hideColumns" data-column="ConflictDate">Conflict <div>Date</div></div>
                                            <div class="columnorder hideColumns" data-column="AllWh"></div>
@@ -1396,6 +1406,8 @@ class SearchInterface {
             const availabilityStateIndex         = response.ColumnIndex.AvailabilityState;
             const isOptionIndex                  = response.ColumnIndex.IsOption;
             const defaultQuantityIndex           = response.ColumnIndex.DefaultQuantity;
+            const icodeIndex                     = response.ColumnIndex.ICode;
+            const partNumberIndex                = response.ColumnIndex.ManufacturerPartNumber;
 
             for (var i = 0; i < response.Rows.length; i++) {
                 let imageThumbnail = response.Rows[i][thumbnail]  ? response.Rows[i][thumbnail]  : './theme/images/no-image.jpg';
@@ -1413,6 +1425,8 @@ class SearchInterface {
                                            <button class="incrementQuantity" tabindex="-1" style="padding: 5px 0px; float:left; width:25%; border:none;">+</button>
                                          </div>
                                        </div>
+                                       <div class="columnorder hideColumns" data-column="ICode">${response.Rows[i][icodeIndex]}</div>
+                                       <div class="columnorder hideColumns" data-column="PartNumber">${response.Rows[i][partNumberIndex]}</div>
                                        <div class="columnorder hideColumns" data-column="Available"><div class="available-color">${response.Rows[i][qtyAvailIndex]}</div></div>
                                        <div class="columnorder hideColumns" data-column="ConflictDate">${conflictdate}</div>
                                        <div class="hideColumns columnorder" data-column="In">${response.Rows[i][qtyInIndex]}</div>

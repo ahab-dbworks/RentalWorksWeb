@@ -417,6 +417,9 @@ Form tables
 #itemsearch #itemlist[data-view="GRID"] div[data-column="Quantity"] {display:flex;align-items:center;}
 #itemsearch #itemlist[data-view="GRID"] div[data-column="Available"] {display: flex;align-items:center;}
 #itemsearch #itemlist[data-view="GRID"] div[data-column="Available"] .available-color {text-align:right;}
+#itemsearch #itemlist[data-view="GRID"] div[data-column="ICode"] {display: flex;}
+#itemsearch #itemlist[data-view="GRID"] div[data-column="PartNumber"] {display: flex;}
+#itemsearch #itemlist[data-view="GRID"] div[data-column="PartNumber"] .value {display: flex; text-align:right;}
 #itemsearch #itemlist[data-view="GRID"] div[data-column="ConflictDate"] {display: flex;}
 #itemsearch #itemlist[data-view="GRID"] div[data-column="In"] {display: flex;}
 #itemsearch #itemlist[data-view="GRID"] div[data-column="QC"] {display: flex;}
@@ -440,6 +443,8 @@ Form tables
 #itemsearch #itemlist[data-view="LIST"] div[data-column="Type"] {flex:1 0 100px;margin-right:10px;}
 #itemsearch #itemlist[data-view="LIST"] div[data-column="Category"] {flex:1 0 100px;margin-right:10px;}
 #itemsearch #itemlist[data-view="LIST"] div[data-column="SubCategory"] {flex:1 0 110px;margin-right:10px;}
+#itemsearch #itemlist[data-view="LIST"] div[data-column="ICode"] {flex:0 0 100px;margin-right:10px;}
+#itemsearch #itemlist[data-view="LIST"] div[data-column="PartNumber"] {flex:0 0 175px;margin-right:10px;}
 #itemsearch #itemlist[data-view="LIST"] div[data-column="Available"] {flex:0 0 100px;margin-right:10px;text-align:right;}
 #itemsearch #itemlist[data-view="LIST"] div[data-column="AllWh"] {flex:0 0 120px;margin-right:10px;text-align:right;}
 #itemsearch #itemlist[data-view="LIST"] div[data-column="ConflictDate"] {flex:0 0 120px;margin-right:10px;text-align:right;}
@@ -464,6 +469,8 @@ Form tables
 #itemsearch #itemlist[data-view="HYBRID"] div[data-column="Category"] {flex:1 0 100px;margin-right:10px;}
 #itemsearch #itemlist[data-view="HYBRID"] div[data-column="SubCategory"] {flex:1 0 110px;margin-right:10px;}
 #itemsearch #itemlist[data-view="HYBRID"] div[data-column="Available"] {flex:0 0 100px;margin-right:10px;text-align:right;}
+#itemsearch #itemlist[data-view="HYBRID"] div[data-column="ICode"] {flex:0 0 100px;margin-right:10px;}
+#itemsearch #itemlist[data-view="HYBRID"] div[data-column="PartNumber"] {flex:0 0 175px;margin-right:10px;}
 #itemsearch #itemlist[data-view="HYBRID"] div[data-column="AllWh"] {flex:0 0 120px;margin-right:10px;text-align:right;}
 #itemsearch #itemlist[data-view="HYBRID"] div[data-column="ConflictDate"] {flex:0 0 120px;margin-right:10px;text-align:right;}
 #itemsearch #itemlist[data-view="HYBRID"] div[data-column="In"] {flex:0 0 60px;margin-right:10px;text-align:right;}
