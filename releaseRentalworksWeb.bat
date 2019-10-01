@@ -4,7 +4,7 @@ rem Purpose:
 rem This batch file will produce a new build of RentalWorksWeb in the "build" directory.
 rem --------------------------------------------------------------------------
 rem Author:        Justin Hoffman
-rem Last modified: 08/26/2019
+rem Last modified: 10/01/2019
 rem --------------------------------------------------------------------------
 rem
 rem
@@ -22,15 +22,19 @@ rem --------------------------------------------------------------------------
 rem --------------------------------------------------------------------------
 rem --------------------------------------------------------------------------
 IF "%DwRentalWorksWebPath%"=="" ECHO Environment Variable DwRentalWorksWebPath is NOT defined
+IF "%DwRentalWorksWebPath%"=="" set /p=Hit ENTER to exit
 IF "%DwRentalWorksWebPath%"=="" exit /B
 
 IF "%DwFtpUploadUser%"=="" ECHO Environment Variable DwFtpUploadUser is NOT defined
+IF "%DwFtpUploadUser%"=="" set /p=Hit ENTER to exit
 IF "%DwFtpUploadUser%"=="" exit /B
 
 IF "%DwFtpUploadPassword%"=="" ECHO Environment Variable DwFtpUploadPassword is NOT defined
+IF "%DwFtpUploadPassword%"=="" set /p=Hit ENTER to exit
 IF "%DwFtpUploadPassword%"=="" exit /B
 
 if not exist "c:\Program Files\7-Zip\7z.exe" ECHO 7-Zip is not installed
+if not exist "c:\Program Files\7-Zip\7z.exe" set /p=Hit ENTER to exit
 if not exist "c:\Program Files\7-Zip\7z.exe" exit /B
 
 rem Get the Build number from the user

@@ -7,7 +7,7 @@ rem Usagw:
 rem upgradeRentalWorksWeb <version>
 rem --------------------------------------------------------------------------
 rem Author:        Justin Hoffman
-rem Last modified: 08/26/2019
+rem Last modified: 10/01/2019
 rem --------------------------------------------------------------------------
 rem
 rem
@@ -32,25 +32,28 @@ set updatesfilename=updates.txt
 set ftpcommandfilename=ftp.txt
 
 if not exist "c:\Program Files\7-Zip\7z.exe" ECHO 7-Zip is not installed
+if not exist "c:\Program Files\7-Zip\7z.exe" set /p=Hit ENTER to exit
 if not exist "c:\Program Files\7-Zip\7z.exe" exit /B
 
 if %apppoolname%==XXAppPoolNameHereXX ECHO Need to configure the name of the Application Pool
+if %apppoolname%==XXAppPoolNameHereXX set /p=Hit ENTER to exit
 if %apppoolname%==XXAppPoolNameHereXX exit /B
 
 if %webpath%==C:\Temp\xxxweb ECHO Need to configure install location for Web
+if %webpath%==C:\Temp\xxxweb set /p=Hit ENTER to exit
 if %webpath%==C:\Temp\xxxweb exit /B
 
 if %apipath%==C:\Temp\xxxapi ECHO Need to configure install location for API
+if %apipath%==C:\Temp\xxxapi set /p=Hit ENTER to exit
 if %apipath%==C:\Temp\xxxapi exit /B
 
 if not exist %apipath%\ ECHO Cannot find install location for API -- %apipath%
+if not exist %apipath%\ set /p=Hit ENTER to exit
 if not exist %apipath%\ exit /B
 
 if not exist %webpath%\ ECHO Cannot find install location for Web -- %webpath%
+if not exist %webpath%\ set /p=Hit ENTER to exit
 if not exist %webpath%\ exit /B
-
-if not exist %apipath%\ ECHO Cannot find install location for API -- %apipath%
-if not exist %apipath%\ exit /B
 
 rem Determine the version number to upgrade to
 setlocal
@@ -107,6 +110,10 @@ echo quit>>%ftpcommandfilename%
 rem Run the FTP command using the command file created above, delete the command file
 ftp -s:%ftpcommandfilename% -v
 del %ftpcommandfilename%
+
+if not exist %zipfilename% ECHO Could not download %zipfilename%
+if not exist %zipfilename% set /p=Hit ENTER to exit
+if not exist %zipfilename% exit /B
 
 rem use 7-zip to extract the contents of the ZIP file, delete the ZIP file
 "c:\Program Files\7-Zip\7z.exe" x %zipfilename%
