@@ -3215,7 +3215,6 @@ class FwBrowseClass {
                     ids.push(id[Object.keys(id)[0]]);
                 }
 
-  
                 const request: any = {};
                 const gridUniqueIdField = $control.find('thead [data-isuniqueid="true"]').attr('data-browsedatafield');
                 request[`${gridUniqueIdField}s`] = ids;
@@ -3224,13 +3223,14 @@ class FwBrowseClass {
                 let apiurl = (<any>window[controller]).apiurl;
                 FwAppData.apiMethod(true, 'POST', `${apiurl}/sort`, request, FwServices.defaultTimeout,
                     response => {
-                        if (!response.success) {
+                        if (response.success) {
+                            FwBrowse.search($control);
+                            $control.find('td.manual-sort').hide();
+                            $gridMenu.find('.sorting').hide();
+                            $gridMenu.find('.buttonbar').show();
+                        } else {
                             FwNotification.renderNotification('ERROR', response.msg);
                         };
-                        FwBrowse.search($control);
-                        $control.find('td.manual-sort').hide();
-                        $gridMenu.find('.sorting').hide();
-                        $gridMenu.find('.buttonbar').show();
                     },
                     ex => FwFunc.showError(ex), $control);
             } catch (ex) {
