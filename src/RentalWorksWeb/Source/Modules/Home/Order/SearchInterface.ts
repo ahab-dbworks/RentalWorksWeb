@@ -90,8 +90,8 @@ class SearchInterface {
                                       <div class="columnorder showOnSearch" data-column="Type">Type</div> 
                                       <div class="columnorder showOnSearch" data-column="Category">Category</div>
                                       <div class="columnorder showOnSearch" data-column="SubCategory">Sub Category</div>
-                                      <div class="columnorder hideColumns" data-column="ICode">I-Code</div>
-                                      <div class="columnorder hideColumns" data-column="PartNumber">Part Number</div>
+                                      <div class="columnorder" style="display:none;" data-column="ICode">I-Code</div>
+                                      <div class="columnorder" style="display:none;" data-column="PartNumber">Part Number</div>
                                       <div class="columnorder hideColumns" data-column="Available">Available</div>
                                       <div class="columnorder hideColumns" data-column="ConflictDate">Conflict Date</div>
                                       <div class="columnorder hideColumns" data-column="AllWh">All Warehouse</div>
@@ -566,14 +566,14 @@ class SearchInterface {
             let itemhtml = `<div class="item-container" data-classification=="${response.Rows[i][classificationIndex]}">
                               <div class="item-info" data-inventoryid="${response.Rows[i][inventoryId]}">
                                 <div data-column="ItemImage"><img src="${imageThumbnail}" data-value="${imageId}" alt="Image" class="image"></div>
-                                <div data-column="Description" class="columnorder"><div class="descriptionrow"><div class="description">${response.Rows[i][descriptionIndex]}</div></div></div>
+                                <div data-column="Description" class="columnorder"><div class="descriptionrow"><div class="description">${response.Rows[i][descriptionIndex]}<div class="opentab">TEST</div></div></div></div>
                                 <div data-column="Tags" class="columnorder"></div>
                                 <div data-column="Type" class="columnorder showOnSearch">${response.Rows[i][typeIndex]}</div>
                                 <div data-column="Category" class="columnorder showOnSearch">${response.Rows[i][categoryIndex]}</div>
                                 <div data-column="SubCategory" class="columnorder showOnSearch">${response.Rows[i][subCategoryIndex]}</div>
                                 <div data-column="Available" class="columnorder hideColumns"><div class="gridcaption">Available</div><div class="available-color value">${response.Rows[i][quantityAvailable]}</div></div>
-                                <div data-column="ICode" class="columnorder hideColumns"><div class="gridcaption">I-Code</div><div class="value">${response.Rows[i][icode]}</div></div>
-                                <div data-column="PartNumber" class="columnorder hideColumns"><div class="gridcaption">Part Number</div><div class="value">${response.Rows[i][partNumber]}</div></div>
+                                <div data-column="ICode" class="columnorder"><div class="gridcaption">I-Code</div><div class="value">${response.Rows[i][icode]}</div></div>
+                                <div data-column="PartNumber" class="columnorder"><div class="gridcaption">Part Number</div><div class="value">${response.Rows[i][partNumber]}</div></div>
                                 <div data-column="ConflictDate" class="columnorder hideColumns"><div class="gridcaption">Conflict</div><div class="value">${conflictdate}</div></div>
                                 <div data-column="AllWh" class="columnorder hideColumns">&#160;</div>
                                 <div data-column="In" class="columnorder hideColumns"><div class="gridcaption">In</div><div class="value">${response.Rows[i][quantityIn]}</div></div>
@@ -1369,8 +1369,8 @@ class SearchInterface {
                                            <div class="columnorder showOnSearch" data-column="Type"></div> 
                                            <div class="columnorder showOnSearch" data-column="Category"></div>
                                            <div class="columnorder showOnSearch" data-column="SubCategory"></div>
-                                           <div class="columnorder hideColumns" data-column="ICode">I-Code</div>
-                                           <div class="columnorder hideColumns" data-column="PartNumber">Part Number</div>
+                                           <div class="columnorder" data-column="ICode">I-Code</div>
+                                           <div class="columnorder" data-column="PartNumber">Part Number</div>
                                            <div class="columnorder hideColumns" data-column="Available">Available</div>
                                            <div class="columnorder hideColumns" data-column="ConflictDate">Conflict <div>Date</div></div>
                                            <div class="columnorder hideColumns" data-column="AllWh"></div>
@@ -1425,8 +1425,8 @@ class SearchInterface {
                                            <button class="incrementQuantity" tabindex="-1" style="padding: 5px 0px; float:left; width:25%; border:none;">+</button>
                                          </div>
                                        </div>
-                                       <div class="columnorder hideColumns" data-column="ICode">${response.Rows[i][icodeIndex]}</div>
-                                       <div class="columnorder hideColumns" data-column="PartNumber">${response.Rows[i][partNumberIndex]}</div>
+                                       <div class="columnorder" data-column="ICode">${response.Rows[i][icodeIndex]}</div>
+                                       <div class="columnorder" data-column="PartNumber">${response.Rows[i][partNumberIndex]}</div>
                                        <div class="columnorder hideColumns" data-column="Available"><div class="available-color">${response.Rows[i][qtyAvailIndex]}</div></div>
                                        <div class="columnorder hideColumns" data-column="ConflictDate">${conflictdate}</div>
                                        <div class="hideColumns columnorder" data-column="In">${response.Rows[i][qtyInIndex]}</div>
