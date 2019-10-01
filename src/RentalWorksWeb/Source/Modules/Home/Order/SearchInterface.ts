@@ -566,7 +566,7 @@ class SearchInterface {
             let itemhtml = `<div class="item-container" data-classification=="${response.Rows[i][classificationIndex]}">
                               <div class="item-info" data-inventoryid="${response.Rows[i][inventoryId]}">
                                 <div data-column="ItemImage"><img src="${imageThumbnail}" data-value="${imageId}" alt="Image" class="image"></div>
-                                <div data-column="Description" class="columnorder"><div class="descriptionrow"><div class="description">${response.Rows[i][descriptionIndex]}<div class="opentab">TEST</div></div></div></div>
+                                <div data-column="Description" class="columnorder"><div class="descriptionrow"><div class="description">${response.Rows[i][descriptionIndex]}</div></div></div>
                                 <div data-column="Tags" class="columnorder"></div>
                                 <div data-column="Type" class="columnorder showOnSearch">${response.Rows[i][typeIndex]}</div>
                                 <div data-column="Category" class="columnorder showOnSearch">${response.Rows[i][categoryIndex]}</div>
