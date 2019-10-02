@@ -433,7 +433,7 @@
                                             { value: '<>    ', text: 'Does Not Equal' },
                                         ];
 
- 
+
                                         $menubarbutton.on('click', function (e) {
                                             controller = $browse.attr('data-controller');
                                             let maxZIndex;
@@ -493,7 +493,7 @@
                                                                 break;
                                                         }
                                                     })
-                                                    
+
                                                     if (chartFilters) {
                                                         for (let i = 0; i < chartFilters.length; i++) {
                                                             let valueField;

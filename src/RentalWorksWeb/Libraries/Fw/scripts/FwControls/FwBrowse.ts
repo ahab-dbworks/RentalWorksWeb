@@ -3020,7 +3020,7 @@ class FwBrowseClass {
             this.addMultiSaveAndCancelButtonToRow($control, $tr);
 
             if (($control.attr('data-type') == 'Grid') && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {
-               const  controller = $control.attr('data-controller');
+                const controller = $control.attr('data-controller');
                 if (typeof <any>window[controller] === 'undefined') throw `Missing javascript module: ${controller}`;
                 if (typeof <any>window[controller]['afterRowEditMode'] === 'function') {
                     <any>window[controller]['afterRowEditMode']($control, $tr);
