@@ -111,6 +111,7 @@ class Receipt {
                 this.loadReceiptInvoiceGrid($form);
                 const $submoduleCreditBrowse = this.openCreditBrowse($form);
                 $form.find('.credits-page').html($submoduleCreditBrowse);
+                FwFormField.enable($form.find('div[data-datafield="PaymentTypeId"]'));
             });
 
             $form.find('div[data-datafield="PaymentBy"]').change(() => {
@@ -210,7 +211,7 @@ class Receipt {
             // Start observing the target node for configured mutations
             observer.observe(app, { attributes: true, childList: true, subtree: true });
         }
-        setTimeout(() => { observer.disconnect(); }, 2000)
+        setTimeout(() => { observer.disconnect(); }, 2500)
     }
     //----------------------------------------------------------------------------------------------
     renderGrids($form: JQuery): void {
@@ -234,7 +235,7 @@ class Receipt {
             FwModule.setFormReadOnly($form);
             $form.find('.invoice-row').hide();
         }
-        // Click Event on tabs to load grids/browses
+
         $form.on('click', '[data-type="tab"]', e => {
             const tabname = jQuery(e.currentTarget).attr('id');
             const lastIndexOfTab = tabname.lastIndexOf('tab');
@@ -263,6 +264,13 @@ class Receipt {
         } else {
             $form.find('.braintree-row').hide();
         }
+
+        if (paymentTypeType === 'DEPLETING DEPOSIT' || paymentTypeType === 'CREDIT MEMO' || paymentTypeType === 'OVERPAYMENT') {
+            FwFormField.disable($form.find('div[data-datafield="PaymentTypeId"]'));
+            FwFormField.disable($form.find('div[data-datafield="DepositId"]'));
+            FwFormField.disable($form.find('div[data-datafield="PaymentAmount"]'));
+        }
+        // Click Event on tabs to load grids/browses
         this.paymentByRadioBehavior($form);
         this.loadReceiptInvoiceGrid($form);
         this.events($form);
@@ -278,7 +286,6 @@ class Receipt {
             FwFormField.setValue($form, 'div[data-datafield="PaymentTypeType"]', $tr.find('.field[data-formdatafield="PaymentTypeType"]').attr('data-originalvalue'));
             const paymentTypeType = FwFormField.getValueByDataField($form, 'PaymentTypeType');
             paymentTypeType === 'CREDIT CARD' ? $form.find('.braintree-row').show() : $form.find('.braintree-row').hide();
-
 
             let isOverDepletingMemo = false;
             if (paymentTypeType === 'DEPLETING DEPOSIT' || paymentTypeType === 'CREDIT MEMO' || paymentTypeType === 'OVERPAYMENT') {
@@ -310,7 +317,7 @@ class Receipt {
             $form.find('div[data-datafield="CheckNumber"]').hide();
             $form.find('div[data-datafield="CheckNumber"]').attr('data-required', 'false');          // ? if user changes deal to customer after this has been initiated
             $form.find('div[data-datafield="DepositId"]').show();
-            $form.find('div[data-datafield="DepositId"]').attr('data-required', 'true');
+            $form.find('div[data-datafield="DepositId"]').attr('data-required', 'true').attr('data-enabled', 'true')
             if (paymentBy === 'CUSTOMER') {
                 $form.find('div[data-datafield="DepositId"]').attr('data-validationname', 'CustomerCreditValidation');
             } else {
@@ -349,31 +356,34 @@ class Receipt {
     beforeValidate($browse, $form, request) {
         const validationName = request.module;
         const paymentTypeType = FwFormField.getValueByDataField($form, 'PaymentTypeType');
+        const dealId = FwFormField.getValueByDataField($form, 'DealId');
 
-        let payType;
-        if (paymentTypeType === 'DEPLETING DEPOSIT') {
-            payType = 'D';
-        }
-        if (paymentTypeType === 'CREDIT MEMO') {
-            payType = 'C';
-        }
-        if (paymentTypeType === 'OVERPAYMENT') {
-            payType = 'O';
-        }
-        request.uniqueids = {};
-        request.uniqueids.RemainingOnly = true;
-        switch (validationName) {
-            case 'DealCreditValidation':
-                if (payType !== "") {
-                    request.uniqueids.RecType = payType;
-                }
-                break;
-            case 'CustomerCreditValidation':
-                if (payType !== "") {
-                    request.uniqueids.RecType = payType;
-                }
-                break;
-        };
+            let payType;
+            if (paymentTypeType === 'DEPLETING DEPOSIT') {
+                payType = 'D';
+            }
+            if (paymentTypeType === 'CREDIT MEMO') {
+                payType = 'C';
+            }
+            if (paymentTypeType === 'OVERPAYMENT') {
+                payType = 'O';
+            }
+            request.uniqueids = {
+                RemainingOnly: true,
+                DealId: dealId,
+            };
+            switch (validationName) {
+                case 'DealCreditValidation':
+                    if (payType !== "") {
+                        request.uniqueids.RecType = payType;
+                    }
+                    break;
+                case 'CustomerCreditValidation':
+                    if (payType !== "") {
+                        request.uniqueids.RecType = payType;
+                    }
+                    break;
+            };
     };
     //----------------------------------------------------------------------------------------------
     createOverPayment($form) {
@@ -609,6 +619,10 @@ class Receipt {
                         let due = dueLineTotal.toFixed(2);
                         due = due.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
                         $dueFields.eq(i).text(due);
+
+                        console.log('amount', amountInput, i)
+                        console.log('due', due)
+                        console.log('applied', applied)
                         recurse = true;
                         break;
                     }
@@ -701,17 +715,7 @@ class Receipt {
                         $form.data('payAmountOnFocus', val);
                         console.log('payAmountOnFocus', $form.data('payAmountOnFocus'))
                     });
-                    // Store intial amount value for calculations after change
-                    $form.find('.pay-amount input').on('focus', ev => {
-                        ev.stopPropagation();
-                        const el = jQuery(ev.currentTarget);
-                        let val = el.val();
-                        if (val === '') {
-                            val = '0.00'
-                        }
-                        $form.data('payAmountOnFocus', val);
-                        console.log('payAmountOnFocus', $form.data('payAmountOnFocus'))
-                    });
+
                     $form.find('.apply-btn').click((ev: JQuery.ClickEvent) => {
                         calculateInvoiceTotals($form, ev);
                     });
