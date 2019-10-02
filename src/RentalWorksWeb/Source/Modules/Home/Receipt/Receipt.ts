@@ -116,7 +116,6 @@ class Receipt {
             });
 
             $form.find('div[data-datafield="PaymentBy"]').change(() => {
-                FwFormField.setValue($form, '.deal-cust-validate', '');
 
                 this.paymentByRadioBehavior($form);
                 if (FwFormField.getValueByDataField($form, 'DealId') !== '' && FwFormField.getValueByDataField($form, 'CustomerId') !== '') {
@@ -793,7 +792,8 @@ class Receipt {
             FwFormField.setValueByDataField($form, 'CustomerId', '');
             $form.find('div[data-datafield="DealId"]').show();
             $form.find('div[data-datafield="DealId"]').attr('data-required', 'true');
-            if (isOverDepletingMemo) {
+            if (isOverDepletingMemo && ($form.attr('data-mode') === 'NEW')) {
+                FwFormField.setValue($form, '.deal-cust-validate', '');
                 $form.find('div[data-validationname="DealCreditValidation"]').show();
                 $form.find('div[data-validationname="DealCreditValidation"]').attr('data-required', 'true').attr('data-enabled', 'true');
                 $form.find('div[data-validationname="CustomerCreditValidation"]').hide();
@@ -806,7 +806,8 @@ class Receipt {
             FwFormField.setValueByDataField($form, 'DealId', '');
             $form.find('div[data-datafield="CustomerId"]').show();
             $form.find('div[data-datafield="CustomerId"]').attr('data-required', 'true');
-            if (isOverDepletingMemo) {
+            if (isOverDepletingMemo && ($form.attr('data-mode') === 'NEW')) {
+                FwFormField.setValue($form, '.deal-cust-validate', '');
                 $form.find('div[data-validationname="CustomerCreditValidation"]').show();
                 $form.find('div[data-validationname="CustomerCreditValidation"]').attr('data-required', 'true').attr('data-enabled', 'true');
                 $form.find('div[data-validationname="DealCreditValidation"]').hide();
