@@ -1,4 +1,5 @@
 class SearchInterface {
+    DefaultColumns: any = [];
     //----------------------------------------------------------------------------------------------
     renderSearchPopup($form, id, type, gridInventoryType?) {
         let html: any = [];
@@ -162,6 +163,23 @@ class SearchInterface {
             }
         }
         FwFormField.loadItems($popup.find('div[data-datafield="InventoryType"]'), inventoryTypes);
+
+        this.DefaultColumns = [
+            { value: 'Description', text: 'Description', selected: 'T' },
+            { value: 'Tags', text: 'Tags', selected: 'T' },
+            { value: 'Quantity', text: 'Quantity', selected: 'T' },
+            { value: 'Type', text: 'Type', selected: 'F' },
+            { value: 'Category', text: 'Category', selected: 'F' },
+            { value: 'SubCategory', text: 'Sub Category', selected: 'F' },
+            { value: 'ICode', text: 'I-Code', selected: 'F' },
+            { value: 'PartNumber', text: 'Part Number', selected: 'F' },
+            { value: 'Available', text: 'Available Quantity', selected: 'T' },
+            { value: 'ConflictDate', text: 'Conflict Date', selected: 'T' },
+            { value: 'AllWh', text: 'Available Quantity (All Warehouses)', selected: 'T' },
+            { value: 'In', text: 'In Quantity', selected: 'T' },
+            { value: 'QC', text: 'QC Required Quantity', selected: 'T' },
+            { value: 'Rate', text: 'Rate', selected: 'T' },
+        ];
 
         let startDate;
         let stopDate;
@@ -639,22 +657,7 @@ class SearchInterface {
     }
     //----------------------------------------------------------------------------------------------
     setDefaultViewSettings($popup) {
-        FwFormField.loadItems($popup.find('div[data-datafield="Columns"]'), [
-            { value: 'Description',            text: 'Description',                         selected: 'T' },
-            { value: 'Tags',                   text: 'Tags',                                selected: 'T' },
-            { value: 'Quantity',               text: 'Quantity',                            selected: 'T' },
-            { value: 'Type',                   text: 'Type',                                selected: 'F' },
-            { value: 'Category',               text: 'Category',                            selected: 'F' },
-            { value: 'SubCategory',            text: 'Sub Category',                        selected: 'F' },
-            { value: 'ICode',                  text: 'I-Code',                              selected: 'F' },
-            { value: 'PartNumber',             text: 'Part Number',                         selected: 'F' },
-            { value: 'Available',              text: 'Available Quantity',                  selected: 'T' },
-            { value: 'ConflictDate',           text: 'Conflict Date',                       selected: 'T' },
-            { value: 'AllWh',                  text: 'Available Quantity (All Warehouses)', selected: 'T' },
-            { value: 'In',                     text: 'In Quantity',                         selected: 'T' },
-            { value: 'QC',                     text: 'QC Required Quantity',                selected: 'T' },
-            { value: 'Rate',                   text: 'Rate',                                selected: 'T' },
-        ]);
+        FwFormField.loadItems($popup.find('div[data-datafield="Columns"]'), this.DefaultColumns);
     
         FwFormField.setValueByDataField($popup, 'DisableAccessoryAutoExpand', false);
         FwFormField.setValueByDataField($popup, 'HideZeroQuantity', false);
@@ -712,15 +715,23 @@ class SearchInterface {
     }
     //----------------------------------------------------------------------------------------------
     setViewSettings($popup, response) {
-        let columns = JSON.parse(response.ResultFields);
-        FwFormField.loadItems($popup.find('div[data-datafield="Columns"]'), columns);
+        let savedColumns = JSON.parse(response.ResultFields);
+        //compares to the default options and adds missing values for cases where we add new options
+        if (savedColumns.length != this.DefaultColumns.length) {
+            let columnsToAdd = this.DefaultColumns.filter(cols => {
+                return !savedColumns.find(e => {
+                    return e.value == cols.value;
+                });
+            });
+            savedColumns = savedColumns.concat(columnsToAdd);
+        }
+        FwFormField.loadItems($popup.find('div[data-datafield="Columns"]'), savedColumns);
 
         let columnsToHide = [];
         let columnOrder   = [];
-        for (let i = 0; i < columns.length; i++) {
-            let $this = columns[i];
+        for (let i = 0; i < savedColumns.length; i++) {
+            let $this = savedColumns[i];
             columnOrder.push($this.value);
-
             if ($this.selected == 'F') {
                 columnsToHide.push($this.value);
             }
