@@ -1215,6 +1215,8 @@ namespace WebApi.Modules.Home.Order
         [FwLogicProperty(Id: "a4M3WLLCuQor", IsReadOnly: true)]
         public bool? HasNotes { get; set; }
 
+        [FwLogicProperty(Id: "Y20WXdv5U5cV0", IsReadOnly: true)]
+        public decimal? TotalReplacementCost { get; set; }
 
 
         [FwLogicProperty(Id: "HmfP8Yd1BuDm", IsRecordTitle: true, IsReadOnly: true)]
@@ -1431,7 +1433,7 @@ namespace WebApi.Modules.Home.Order
                 newEstimatedStartDate = EstimatedStartDate ?? orig.EstimatedStartDate;
                 newEstimatedStartTime = EstimatedStartTime ?? orig.EstimatedStartTime;
                 newEstimatedStopDate = EstimatedStopDate ?? orig.EstimatedStopDate;
-                newEstimatedStopTime = EstimatedStopDate ?? orig.EstimatedStopDate;
+                newEstimatedStopTime = EstimatedStopTime ?? orig.EstimatedStopTime;
             }
 
 

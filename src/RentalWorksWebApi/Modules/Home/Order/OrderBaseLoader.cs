@@ -101,9 +101,6 @@ namespace WebApi.Modules.Home.Order
 
 
         //------------------------------------------------------------------------------------
-        //[FwSqlDataField(column: "maxcumulativediscount", modeltype: FwDataTypes.Decimal)]
-        //public decimal? MaximumCumulativeDiscount { get; set; }
-        ////------------------------------------------------------------------------------------
         [FwSqlDataField(column: "poapprovalstatusid", modeltype: FwDataTypes.Text)]
         public string PoApprovalStatusId { get; set; }
         //------------------------------------------------------------------------------------
@@ -919,6 +916,10 @@ namespace WebApi.Modules.Home.Order
         [FwSqlDataField(column: "hasnotes", modeltype: FwDataTypes.Boolean)]
         public bool? HasNotes { get; set; }
         //------------------------------------------------------------------------------------ 
+
+        [FwSqlDataField(column: "totalreplacementcost", modeltype: FwDataTypes.Decimal)]
+        public decimal? TotalReplacementCost { get; set; }
+        //------------------------------------------------------------------------------------
 
 
         [FwSqlDataField(column: "quoteordertitle", modeltype: FwDataTypes.Text)]
