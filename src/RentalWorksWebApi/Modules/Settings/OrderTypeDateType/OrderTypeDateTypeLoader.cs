@@ -28,6 +28,9 @@ namespace WebApi.Modules.Settings.OrderTypeDateType
         [FwSqlDataField(column: "descriptiondisplay", modeltype: FwDataTypes.Text)]
         public string DescriptionDisplay { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "activitytype", modeltype: FwDataTypes.Text)]
+        public string ActivityType { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "systemtype", modeltype: FwDataTypes.Boolean)]
         public bool? SystemType { get; set; }
         //------------------------------------------------------------------------------------ 

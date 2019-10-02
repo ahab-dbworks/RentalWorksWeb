@@ -114,6 +114,17 @@
         public const string QUOTE_ORDER_DATE_TYPE_ORDER_DATE = "ORDER_DATE";
         public const string QUOTE_ORDER_DATE_TYPE_ESTIMATED_START_DATE = "ESTIMATED_START_DATE";
 
+        public const string ACTIVITY_TYPE_OUT = "OUT";
+        public const string ACTIVITY_TYPE_IN = "IN";
+        public const string ACTIVITY_TYPE_LOADIN = "LOADIN";
+        public const string ACTIVITY_TYPE_PICK = "PICK";
+        public const string ACTIVITY_TYPE_PICKUP = "PICKUP";
+        public const string ACTIVITY_TYPE_PREP = "PREP";
+        public const string ACTIVITY_TYPE_RECEIVE = "RECEIVE";
+        public const string ACTIVITY_TYPE_RETURN = "RETURN";
+        public const string ACTIVITY_TYPE_STRIKE = "STRIKE";
+        public const string ACTIVITY_TYPE_TEST = "TEST";
+        public const string ACTIVITY_TYPE_REPAIRDUE = "REPAIRDUE";
 
         //QUOTE/ORDER LINE-ITEMS
         public const string RECTYPE_RENTAL = "R";

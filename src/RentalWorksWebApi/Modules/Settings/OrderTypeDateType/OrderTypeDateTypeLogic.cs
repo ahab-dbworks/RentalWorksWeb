@@ -33,6 +33,9 @@ namespace WebApi.Modules.Settings.OrderTypeDateType
         [FwLogicProperty(Id:"Px6pMD5fAU6m", IsReadOnly:true)]
         public string DescriptionDisplay { get; set; }
 
+        [FwLogicProperty(Id: "mEnkjmCynL71C", IsReadOnly: true)]
+        public string ActivityType { get; set; }
+
         [JsonIgnore]
         [FwLogicProperty(Id:"3fztsYVeD2A")]
         public bool? SystemType { get { return orderTypeDateType.SystemType; } set { orderTypeDateType.SystemType = value; } }

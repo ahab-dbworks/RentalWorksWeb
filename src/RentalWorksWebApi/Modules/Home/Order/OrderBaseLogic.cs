@@ -16,6 +16,7 @@ using WebApi.Modules.Home.Deal;
 using System.Collections.Generic;
 using WebApi.Modules.Home.OrderDates;
 using WebApi.Modules.Settings.DefaultSettings;
+using WebApi.Modules.Settings.OrderTypeDateType;
 
 namespace WebApi.Modules.Home.Order
 {
@@ -1412,6 +1413,7 @@ namespace WebApi.Modules.Home.Order
         //------------------------------------------------------------------------------------
         public void OnAfterSave(object sender, AfterSaveEventArgs e)
         {
+            string newPickDate = "", newEstimatedStartDate = "", newEstimatedStopDate = "", newPickTime = "", newEstimatedStartTime = "", newEstimatedStopTime = "";
             if (e.SaveMode.Equals(TDataRecordSaveMode.smInsert))
             {
                 // this is a new Quote/Order.  OutDeliveryId, InDeliveryId, and TaxId were not known at time of insert.  Need to re-update the data with the known ID's
@@ -1420,40 +1422,18 @@ namespace WebApi.Modules.Home.Order
                 dealOrder.TaxId = tax.TaxId;
                 int i = dealOrder.SaveAsync(null, e.SqlConnection).Result;
             }
-            else
+            else // updating
             {
-                // this is a modfied Quote/Order
-                if (e.Original != null)
-                {
-                    OrderBaseLogic orig = ((OrderBaseLogic)e.Original);
+                OrderBaseLogic orig = ((OrderBaseLogic)e.Original);
 
-                    if (
-                        ((PickDate != null) && (PickDate != orig.PickDate)) ||
-                        ((PickTime != null) && (PickTime != orig.PickTime)) ||
-                        ((EstimatedStartDate != null) && (EstimatedStartDate != orig.EstimatedStartDate)) ||
-                        ((EstimatedStartTime != null) && (EstimatedStartTime != orig.EstimatedStartTime)) ||
-                        ((EstimatedStopDate != null) && (EstimatedStopDate != orig.EstimatedStopDate)) ||
-                        ((EstimatedStopTime != null) && (EstimatedStopTime != orig.EstimatedStopTime))
-                        )
-                    {
-                        OrderDatesAndTimesChange change = new OrderDatesAndTimesChange();
-                        change.OrderId = this.GetPrimaryKeys()[0].ToString();
-                        change.OldPickDate = orig.PickDate;
-                        change.NewPickDate = PickDate ?? orig.PickDate;
-                        change.OldPickTime = orig.PickTime;
-                        change.NewPickTime = PickTime ?? orig.PickTime;
-                        change.OldEstimatedStartDate = orig.EstimatedStartDate;
-                        change.NewEstimatedStartDate = EstimatedStartDate ?? orig.EstimatedStartDate;
-                        change.OldEstimatedStartTime = orig.EstimatedStartTime;
-                        change.NewEstimatedStartTime = EstimatedStartTime ?? orig.EstimatedStartTime;
-                        change.OldEstimatedStopDate = orig.EstimatedStopDate;
-                        change.NewEstimatedStopDate = EstimatedStopDate ?? orig.EstimatedStopDate;
-                        change.OldEstimatedStopTime = orig.EstimatedStopTime;
-                        change.NewEstimatedStopTime = EstimatedStopTime ?? orig.EstimatedStopTime;
-                        bool b = OrderFunc.UpdateOrderItemDatesAndTimes(AppConfig, UserSession, change, e.SqlConnection).Result;
-                    }
-                }
+                newPickDate = PickDate ?? orig.PickDate;
+                newPickTime = PickTime ?? orig.PickTime;
+                newEstimatedStartDate = EstimatedStartDate ?? orig.EstimatedStartDate;
+                newEstimatedStartTime = EstimatedStartTime ?? orig.EstimatedStartTime;
+                newEstimatedStopDate = EstimatedStopDate ?? orig.EstimatedStopDate;
+                newEstimatedStopTime = EstimatedStopDate ?? orig.EstimatedStopDate;
             }
+
 
             if (ActivityDatesAndTimes.Count > 0)
             {
@@ -1463,6 +1443,13 @@ namespace WebApi.Modules.Home.Order
                 {
                     OrderDateAndTime dt = new OrderDateAndTime();
                     dt.OrderTypeDateTypeId = d.OrderTypeDateTypeId;
+
+                    //get the Activity Type from the true source: OrderTypeDateType
+                    OrderTypeDateTypeLogic otdt = new OrderTypeDateTypeLogic();
+                    otdt.SetDependencies(AppConfig, UserSession);
+                    otdt.OrderTypeDateTypeId = dt.OrderTypeDateTypeId;
+                    bool b = otdt.LoadAsync<OrderTypeDateTypeLogic>(e.SqlConnection).Result;
+
                     if (!string.IsNullOrEmpty(d.Date))
                     {
                         dt.Date = FwConvert.ToDateTime(d.Date);
@@ -1471,9 +1458,56 @@ namespace WebApi.Modules.Home.Order
                     dt.IsMilestone = d.IsMilestone;
                     dt.IsProductionActivity = d.IsProductionActivity;
                     request.DatesAndTimes.Add(dt);
+                    if (otdt.ActivityType.Equals(RwConstants.ACTIVITY_TYPE_PICK))
+                    {
+                        newPickDate = d.Date;
+                        newPickTime = d.Time;
+                    }
+                    else if (otdt.ActivityType.Equals(RwConstants.ACTIVITY_TYPE_OUT))
+                    {
+                        newEstimatedStartDate = d.Date;
+                        newEstimatedStartTime = d.Time;
+                    }
+                    else if (otdt.ActivityType.Equals(RwConstants.ACTIVITY_TYPE_IN))
+                    {
+                        newEstimatedStopDate = d.Date;
+                        newEstimatedStopTime = d.Time;
+                    }
                 }
                 ApplyOrderDatesAndTimesResponse response = OrderFunc.ApplyOrderDatesAndTimes(AppConfig, UserSession, request, e.SqlConnection).Result;
             }
+
+            if (e.SaveMode.Equals(TDataRecordSaveMode.smUpdate))
+            {
+                OrderBaseLogic orig = ((OrderBaseLogic)e.Original);
+
+                if (((newPickDate != orig.PickDate)) ||
+                    ((newPickTime != orig.PickTime)) ||
+                    ((newEstimatedStartDate != orig.EstimatedStartDate)) ||
+                    ((newEstimatedStartTime != orig.EstimatedStartTime)) ||
+                    ((newEstimatedStopDate != orig.EstimatedStopDate)) ||
+                    ((newEstimatedStopTime != orig.EstimatedStopTime))
+                    )
+                {
+                    OrderDatesAndTimesChange change = new OrderDatesAndTimesChange();
+                    change.OrderId = this.GetPrimaryKeys()[0].ToString();
+                    change.OldPickDate = orig.PickDate;
+                    change.NewPickDate = newPickDate;
+                    change.OldPickTime = orig.PickTime;
+                    change.NewPickTime = newPickTime;
+                    change.OldEstimatedStartDate = orig.EstimatedStartDate;
+                    change.NewEstimatedStartDate = newEstimatedStartDate;
+                    change.OldEstimatedStartTime = orig.EstimatedStartTime;
+                    change.NewEstimatedStartTime = newEstimatedStartTime;
+                    change.OldEstimatedStopDate = orig.EstimatedStopDate;
+                    change.NewEstimatedStopDate = newEstimatedStopDate;
+                    change.OldEstimatedStopTime = orig.EstimatedStopTime;
+                    change.NewEstimatedStopTime = newEstimatedStopTime;
+                    bool b = OrderFunc.UpdateOrderItemDatesAndTimes(AppConfig, UserSession, change, e.SqlConnection).Result;
+                }
+
+            }
+
         }
         //------------------------------------------------------------------------------------
 
