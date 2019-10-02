@@ -79,9 +79,10 @@ class QuikActivityCalendar {
                 const startOfMonth = moment(request.start.value).format('MM/DD/YYYY');
                 const endOfMonth = moment(request.start.value).add(request.days, 'd').format('MM/DD/YYYY');
                 const warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
-                const apiURL = `api/v1/quikactivity/calendardata?WarehouseId=${warehouseId}&FromDate=${startOfMonth}&ToDate=${endOfMonth}`;
-                const activityType = activityTypes != "" ? `&ActivityType=${activityTypes}` : '';
-                FwAppData.apiMethod(true, 'GET', `${apiURL}${activityType}`, null, FwServices.defaultTimeout, response => {
+                let apiURL = `api/v1/quikactivity/calendardata?WarehouseId=${warehouseId}&FromDate=${startOfMonth}&ToDate=${endOfMonth}`;
+                apiURL += activityTypes != '' ? `&ActivityType=${activityTypes}` : '';
+                apiURL += request.mode === 'Day' || request.mode === 'Week' ? '&IncludeTimes=true' : '';
+                FwAppData.apiMethod(true, 'GET', apiURL, null, FwServices.defaultTimeout, response => {
                     const calendarEvents = response.QuikActivityCalendarEvents;
                     this.SessionId = response.SessionId;
                     //FwScheduler.loadYearEventsCallback($calendar, [{ id: '1', name: '' }], calendarEvents);

@@ -409,6 +409,7 @@ class FwSchedulerClass {
         dpcalendar.eventClickHandling = 'Disabled';
         dpcalendar.eventMoveHandling = 'Disabled';
         dpcalendar.eventResizeHandling = 'Disabled';
+        dpcalendar.heightSpec = 'Full';
         dpcalendar.weekStarts = 0;
         dpcalendar.businessBeginsHour = 0;
         dpcalendar.businessEndsHour = 11;
