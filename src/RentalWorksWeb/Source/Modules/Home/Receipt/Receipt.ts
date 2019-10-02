@@ -112,9 +112,12 @@ class Receipt {
                 const $submoduleCreditBrowse = this.openCreditBrowse($form);
                 $form.find('.credits-page').html($submoduleCreditBrowse);
                 FwFormField.enable($form.find('div[data-datafield="PaymentTypeId"]'));
+                FwFormField.setValue($form, '.deal-cust-validate', '');
             });
 
             $form.find('div[data-datafield="PaymentBy"]').change(() => {
+                FwFormField.setValue($form, '.deal-cust-validate', '');
+
                 this.paymentByRadioBehavior($form);
                 if (FwFormField.getValueByDataField($form, 'DealId') !== '' && FwFormField.getValueByDataField($form, 'CustomerId') !== '') {
                     this.loadReceiptInvoiceGrid($form);
@@ -211,7 +214,9 @@ class Receipt {
             // Start observing the target node for configured mutations
             observer.observe(app, { attributes: true, childList: true, subtree: true });
         }
-        setTimeout(() => { observer.disconnect(); }, 2500)
+        if (observer) {
+            setTimeout(() => { observer.disconnect(); }, 2500)
+        }
     }
     //----------------------------------------------------------------------------------------------
     renderGrids($form: JQuery): void {
@@ -266,9 +271,17 @@ class Receipt {
         }
 
         if (paymentTypeType === 'DEPLETING DEPOSIT' || paymentTypeType === 'CREDIT MEMO' || paymentTypeType === 'OVERPAYMENT') {
+            const paymentBy = FwFormField.getValueByDataField($form, 'PaymentBy');
             FwFormField.disable($form.find('div[data-datafield="PaymentTypeId"]'));
-            FwFormField.disable($form.find('div[data-datafield="DepositId"]'));
             FwFormField.disable($form.find('div[data-datafield="PaymentAmount"]'));
+            $form.find('div[data-datafield="CheckNumber"]').hide();
+            if (paymentBy === 'DEAL') {
+                FwFormField.disable($form.find('div[data-validationname="DealCreditValidation"]'));
+                $form.find('div[data-validationname="DealCreditValidation"]').show();
+            } else {
+                FwFormField.disable($form.find('div[data-validationname="CustomerCreditValidation"]'));
+                $form.find('div[data-validationname="CustomerCreditValidation"]').show();
+            }
         }
         // Click Event on tabs to load grids/browses
         this.paymentByRadioBehavior($form);
@@ -315,13 +328,18 @@ class Receipt {
 
         if (isOverDepletingMemo) {
             $form.find('div[data-datafield="CheckNumber"]').hide();
-            $form.find('div[data-datafield="CheckNumber"]').attr('data-required', 'false');          // ? if user changes deal to customer after this has been initiated
-            $form.find('div[data-datafield="DepositId"]').show();
-            $form.find('div[data-datafield="DepositId"]').attr('data-required', 'true').attr('data-enabled', 'true')
-            if (paymentBy === 'CUSTOMER') {
-                $form.find('div[data-datafield="DepositId"]').attr('data-validationname', 'CustomerCreditValidation');
+            $form.find('div[data-datafield="CheckNumber"]').attr('data-required', 'false');
+
+            if (paymentBy === 'DEAL') {
+                $form.find('div[data-validationname="DealCreditValidation"]').show();
+                $form.find('div[data-validationname="DealCreditValidation"]').attr('data-required', 'true').attr('data-enabled', 'true');
+                $form.find('div[data-validationname="CustomerCreditValidation"]').hide();
+                $form.find('div[data-validationname="CustomerCreditValidation"]').attr('data-required', 'false').attr('data-enabled', 'false');
             } else {
-                $form.find('div[data-datafield="DepositId"]').attr('data-validationname', 'DealCreditValidation');
+                $form.find('div[data-validationname="CustomerCreditValidation"]').show();
+                $form.find('div[data-validationname="CustomerCreditValidation"]').attr('data-required', 'true').attr('data-enabled', 'true');
+                $form.find('div[data-validationname="DealCreditValidation"]').hide();
+                $form.find('div[data-validationname="DealCreditValidation"]').attr('data-required', 'false').attr('data-enabled', 'false');
             }
 
             $form.find('div[data-datafield="PaymentAmount"] .fwformfield-caption').text('Amount Remaining');
@@ -338,8 +356,9 @@ class Receipt {
             }
         }
         else {
-            $form.find('div[data-datafield="DepositId"]').hide();
-            $form.find('div[data-datafield="DepositId"]').attr('data-required', 'false');
+            $form.find('.deal-cust-validate').hide();
+            $form.find('.deal-cust-validate').attr('data-required', 'false');
+            $form.find('.deal-cust-validate').attr('data-enabled', 'false');
             $form.find('div[data-datafield="CheckNumber"]').show();
             $form.find('div[data-datafield="CheckNumber"]').attr('data-required', 'true');
 
@@ -347,7 +366,7 @@ class Receipt {
             FwFormField.enable($form.find('div[data-datafield="PaymentAmount"]'));
         }
         // Adust Amount Remaining field value for chosen receipt value
-        $form.find('div[data-datafield="DepositId"]').data('onchange', $tr => {
+        $form.find('.deal-cust-validate').data('onchange', $tr => {
             FwFormField.setValue($form, 'div[data-datafield="PaymentAmount"]', $tr.find('.field[data-formdatafield="Remaining"]').attr('data-originalvalue'));
             this.loadReceiptInvoiceGrid($form);
         });
@@ -357,33 +376,38 @@ class Receipt {
         const validationName = request.module;
         const paymentTypeType = FwFormField.getValueByDataField($form, 'PaymentTypeType');
         const dealId = FwFormField.getValueByDataField($form, 'DealId');
+        const customerId = FwFormField.getValueByDataField($form, 'CustomerId');
+        let payType;
+        if (paymentTypeType === 'DEPLETING DEPOSIT') {
+            payType = 'D';
+        }
+        if (paymentTypeType === 'CREDIT MEMO') {
+            payType = 'C';
+        }
+        if (paymentTypeType === 'OVERPAYMENT') {
+            payType = 'O';
+        }
 
-            let payType;
-            if (paymentTypeType === 'DEPLETING DEPOSIT') {
-                payType = 'D';
-            }
-            if (paymentTypeType === 'CREDIT MEMO') {
-                payType = 'C';
-            }
-            if (paymentTypeType === 'OVERPAYMENT') {
-                payType = 'O';
-            }
-            request.uniqueids = {
-                RemainingOnly: true,
-                DealId: dealId,
-            };
-            switch (validationName) {
-                case 'DealCreditValidation':
-                    if (payType !== "") {
-                        request.uniqueids.RecType = payType;
-                    }
-                    break;
-                case 'CustomerCreditValidation':
-                    if (payType !== "") {
-                        request.uniqueids.RecType = payType;
-                    }
-                    break;
-            };
+        request.uniqueids = { RemainingOnly: true };
+
+        switch (validationName) {
+            case 'DealCreditValidation':
+                if (payType !== "") {
+                    request.uniqueids.RecType = payType;
+                }
+                if (dealId !== '') {
+                    request.uniqueids.DealId = dealId;
+                }
+                break;
+            case 'CustomerCreditValidation':
+                if (payType !== "") {
+                    request.uniqueids.RecType = payType;
+                }
+                if (customerId !== '') {
+                    request.uniqueids.CustomerId = customerId;
+                }
+                break;
+        };
     };
     //----------------------------------------------------------------------------------------------
     createOverPayment($form) {
@@ -757,16 +781,37 @@ class Receipt {
     }
     //----------------------------------------------------------------------------------------------
     paymentByRadioBehavior($form: JQuery): void {
+        const paymentTypeType = FwFormField.getValueByDataField($form, 'PaymentTypeType');
+
+        let isOverDepletingMemo = false;
+        if (paymentTypeType === 'DEPLETING DEPOSIT' || paymentTypeType === 'CREDIT MEMO' || paymentTypeType === 'OVERPAYMENT') {
+            isOverDepletingMemo = true;
+        }
         if (FwFormField.getValueByDataField($form, 'PaymentBy') === 'DEAL') {
             $form.find('div[data-datafield="CustomerId"]').hide();
             $form.find('div[data-datafield="CustomerId"]').attr('data-required', 'false');
+            FwFormField.setValueByDataField($form, 'CustomerId', '');
             $form.find('div[data-datafield="DealId"]').show();
             $form.find('div[data-datafield="DealId"]').attr('data-required', 'true');
+            if (isOverDepletingMemo) {
+                $form.find('div[data-validationname="DealCreditValidation"]').show();
+                $form.find('div[data-validationname="DealCreditValidation"]').attr('data-required', 'true').attr('data-enabled', 'true');
+                $form.find('div[data-validationname="CustomerCreditValidation"]').hide();
+                $form.find('div[data-validationname="CustomerCreditValidation"]').attr('data-required', 'false').attr('data-enabled', 'false');
+            }
+
         } else {
             $form.find('div[data-datafield="DealId"]').hide();
             $form.find('div[data-datafield="DealId"]').attr('data-required', 'false');
+            FwFormField.setValueByDataField($form, 'DealId', '');
             $form.find('div[data-datafield="CustomerId"]').show();
             $form.find('div[data-datafield="CustomerId"]').attr('data-required', 'true');
+            if (isOverDepletingMemo) {
+                $form.find('div[data-validationname="CustomerCreditValidation"]').show();
+                $form.find('div[data-validationname="CustomerCreditValidation"]').attr('data-required', 'true').attr('data-enabled', 'true');
+                $form.find('div[data-validationname="DealCreditValidation"]').hide();
+                $form.find('div[data-validationname="DealCreditValidation"]').attr('data-required', 'false').attr('data-enabled', 'false');
+            }
         }
     }
     //----------------------------------------------------------------------------------------------
