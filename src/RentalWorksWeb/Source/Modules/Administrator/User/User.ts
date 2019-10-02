@@ -147,6 +147,11 @@ class User {
         const $defaultHomePage = $form.find('.default-home-page');
         FwFormField.loadItems($defaultHomePage, allModules, true);
 
+
+        if (mode === 'NEW') {
+            FwFormField.setValue2($browsedefaultrows, '25', '25');
+        }
+
         this.events($form);
         return $form;
     }
