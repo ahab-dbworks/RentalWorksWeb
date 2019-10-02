@@ -70,6 +70,9 @@ namespace WebApi.Modules.Administrator.User
         [FwLogicProperty(Id: "FXQ5AbMN8T")]
         public bool? PasswordChanged { get { return passwordChanged; } }
 
+        [FwLogicProperty(Id: "eRVx8rBVyIpoI")]
+        public string BarCode { get { return user.BarCode; } set { user.BarCode = value; } }
+
         [FwLogicProperty(Id: "o6LbAuCaLD")]
         public string GroupId { get { return user.GroupId; } set { user.GroupId = value; } }
 

@@ -386,7 +386,7 @@ class User {
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Username" data-datafield="LoginName" style="flex:1 1 125px;" data-allcaps="false"></div>
                           <div data-control="FwFormField" data-type="password" class="fwcontrol fwformfield" data-caption="Password" data-datafield="Password" data-required="true" style="flex:1 1 125px;" data-allcaps="false"></div>
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Barcode No" data-datafield="" style="flex:1 1 125px;"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Barcode No" data-datafield="BarCode" style="flex:1 1 125px;"></div>
                         </div>
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Group" data-datafield="GroupId" data-validationname="GroupValidation" data-displayfield="GroupName" style="flex:1 1 125px;" data-required="true"></div>
