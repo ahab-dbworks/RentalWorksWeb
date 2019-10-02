@@ -28,7 +28,7 @@ namespace WebApi.Modules.Utilities.QuikActivity
             public List<TQuikActivityCalendarEvent> QuikActivityCalendarEvents { get; set; } = new List<TQuikActivityCalendarEvent>();
         }
         //-------------------------------------------------------------------------------------------------------
-        public static async Task<TQuikActivityCalendarResponse> GetQuikActivityCalendarData(FwApplicationConfig appConfig, FwUserSession userSession, string WarehouseId, DateTime FromDate, DateTime ToDate, string ActivityType)
+        public static async Task<TQuikActivityCalendarResponse> GetQuikActivityCalendarData(FwApplicationConfig appConfig, FwUserSession userSession, string WarehouseId, DateTime FromDate, DateTime ToDate, bool IncludeTimes, string ActivityType)
         {
             TQuikActivityCalendarResponse response = new TQuikActivityCalendarResponse();
             string sessionId = AppFunc.GetNextIdAsync(appConfig).Result;
@@ -40,6 +40,7 @@ namespace WebApi.Modules.Utilities.QuikActivity
                     qry.AddParameter("@warehouseid", SqlDbType.NVarChar, ParameterDirection.Input, WarehouseId);
                     qry.AddParameter("@fromdate", SqlDbType.DateTime, ParameterDirection.Input, FromDate);
                     qry.AddParameter("@todate", SqlDbType.DateTime, ParameterDirection.Input, ToDate);
+                    qry.AddParameter("@includetimes", SqlDbType.NVarChar, ParameterDirection.Input, IncludeTimes);
                     qry.AddParameter("@activitytype", SqlDbType.NVarChar, ParameterDirection.Input, ActivityType);
                     FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync(true);
 
@@ -47,8 +48,8 @@ namespace WebApi.Modules.Utilities.QuikActivity
                     {
                         TQuikActivityCalendarEvent ev = new TQuikActivityCalendarEvent();
                         ev.id = row[dt.GetColumnNo("id")].ToString();
-                        ev.start = FwConvert.ToDateTime(row[dt.GetColumnNo("fromdate")].ToString()).ToString("yyyy-MM-ddTHH:mm:ss tt");
-                        ev.end = FwConvert.ToDateTime(row[dt.GetColumnNo("todate")].ToString()).ToString("yyyy-MM-ddTHH:mm:ss tt");
+                        ev.start = FwConvert.ToDateTime(row[dt.GetColumnNo("fromdatetime")].ToString()).ToString("yyyy-MM-ddTHH:mm:ss tt");
+                        ev.end = FwConvert.ToDateTime(row[dt.GetColumnNo("todatetime")].ToString()).ToString("yyyy-MM-ddTHH:mm:ss tt");
                         ev.text = row[dt.GetColumnNo("description")].ToString();
                         ev.backColor = FwConvert.OleColorToHtmlColor(FwConvert.ToInt32(row[dt.GetColumnNo("color")]));
                         ev.textColor = FwConvert.OleColorToHtmlColor(FwConvert.ToInt32(row[dt.GetColumnNo("textcolor")]));
