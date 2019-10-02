@@ -54,11 +54,23 @@ namespace WebApi.Modules.Home.Receipt
         [FwSqlDataField(column: "locdefaultcurrencyid", modeltype: FwDataTypes.Text)]
         public string OfficeLocationDefaultCurrencyId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "depositid", modeltype: FwDataTypes.Text)]
-        public string DepositId { get; set; }
+        //[FwSqlDataField(column: "depositid", modeltype: FwDataTypes.Text)]
+        //public string DepositId { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "depositcheckno", modeltype: FwDataTypes.Text)]
+        //public string DepositCheckNumber { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "dealdepositid", modeltype: FwDataTypes.Text)]
+        public string DealDepositId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "depositcheckno", modeltype: FwDataTypes.Text)]
-        public string DepositCheckNumber { get; set; }
+        [FwSqlDataField(column: "dealdepositcheckno", modeltype: FwDataTypes.Text)]
+        public string DealDepositCheckNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "customerdepositid", modeltype: FwDataTypes.Text)]
+        public string CustomerDepositId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "customerdepositcheckno", modeltype: FwDataTypes.Text)]
+        public string CustomerDepositCheckNumber { get; set; }
         //------------------------------------------------------------------------------------ 
     }
 }

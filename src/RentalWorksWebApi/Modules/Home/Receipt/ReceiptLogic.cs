@@ -138,11 +138,23 @@ namespace WebApi.Modules.Home.Receipt
         [FwLogicProperty(Id: "frwPI795LU3yb")]
         public bool? CreateDepletingDeposit { get; set; }
 
-        [FwLogicProperty(Id: "5OG1N21B7HVQg")]
-        public string DepositId { get; set; }
+        //[FwLogicProperty(Id: "5OG1N21B7HVQg")]
+        //public string DepositId { get; set; }
 
-        [FwLogicProperty(Id: "NEx3xvlRzCtvg")]
-        public string DepositCheckNumber { get; set; }
+        //[FwLogicProperty(Id: "NEx3xvlRzCtvg")]
+        //public string DepositCheckNumber { get; set; }
+
+        [FwLogicProperty(Id: "tTMXircHBVgvy")]
+        public string DealDepositId { get; set; }
+
+        [FwLogicProperty(Id: "iNueJbp4otiSs")]
+        public string DealDepositCheckNumber { get; set; }
+
+        [FwLogicProperty(Id: "JeLwt2Wdz7hc6")]
+        public string CustomerDepositId { get; set; }
+
+        [FwLogicProperty(Id: "3gacIXqCngz3T")]
+        public string CustomerDepositCheckNumber { get; set; }
 
 
         //------------------------------------------------------------------------------------ 
@@ -150,9 +162,13 @@ namespace WebApi.Modules.Home.Receipt
         {
             if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
             {
-                if ((!string.IsNullOrEmpty(DepositId)) && (string.IsNullOrEmpty(CheckNumber)))
+                if ((!string.IsNullOrEmpty(DealDepositId)) && (string.IsNullOrEmpty(CheckNumber)))
                 {
-                    CheckNumber = DepositCheckNumber;
+                    CheckNumber = DealDepositCheckNumber;
+                }
+                else if ((!string.IsNullOrEmpty(CustomerDepositId)) && (string.IsNullOrEmpty(CheckNumber)))
+                {
+                    CheckNumber = CustomerDepositCheckNumber;
                 }
             }
         }
@@ -266,13 +282,11 @@ namespace WebApi.Modules.Home.Receipt
             {
                 if (saveMode.Equals(TDataRecordSaveMode.smUpdate))
                 {
-                    if (DepositId != null)
+                    if (((DealDepositId != null) && (!DealDepositId.Equals(orig.DealDepositId))) ||
+                        ((CustomerDepositId != null) && (!CustomerDepositId.Equals(orig.CustomerDepositId))))
                     {
-                        if (!DepositId.Equals(orig.DepositId))
-                        {
-                            isValid = false;
-                            validateMsg = $"Cannot modify the Deposit related to this {BusinessLogicModuleName}.";
-                        }
+                        isValid = false;
+                        validateMsg = $"Cannot modify the Deposit related to this {BusinessLogicModuleName}.";
                     }
                 }
             }
@@ -282,7 +296,7 @@ namespace WebApi.Modules.Home.Receipt
             {
                 if (saveMode.Equals(TDataRecordSaveMode.smUpdate))
                 {
-                    string depId = DepositId ?? orig.DepositId;
+                    string depId = DealDepositId ?? orig.DealDepositId ?? CustomerDepositId ?? orig.CustomerDepositId;
                     if (!string.IsNullOrEmpty(depId))
                     {
                         if (PaymentAmount != null)
@@ -384,7 +398,7 @@ namespace WebApi.Modules.Home.Receipt
                     }
                     else
                     {
-                        if ((paymentAmount > invoiceAmountTotal) && (string.IsNullOrEmpty(DepositId)))
+                        if ((paymentAmount > invoiceAmountTotal) && (string.IsNullOrEmpty(DealDepositId)) && (string.IsNullOrEmpty(CustomerDepositId)))
                         {
                             if ((saveMode.Equals(TDataRecordSaveMode.smInsert)) && CreateOverpayment.GetValueOrDefault(false))
                             {
@@ -409,7 +423,7 @@ namespace WebApi.Modules.Home.Receipt
             {
                 if (saveMode.Equals(TDataRecordSaveMode.smInsert))
                 {
-                    if (!string.IsNullOrEmpty(DepositId))
+                    if ((!string.IsNullOrEmpty(DealDepositId)) || (!string.IsNullOrEmpty(CustomerDepositId)))
                     {
                         PaymentAmount = invoiceAmountTotal;
                     }
@@ -579,7 +593,7 @@ namespace WebApi.Modules.Home.Receipt
                 }
             }
 
-            if ((e.SaveMode.Equals(TDataRecordSaveMode.smInsert)) && (paymentAmount > invoiceAmountTotal) && (string.IsNullOrEmpty(DepositId)))
+            if ((e.SaveMode.Equals(TDataRecordSaveMode.smInsert)) && (paymentAmount > invoiceAmountTotal) && (string.IsNullOrEmpty(DealDepositId)) && (string.IsNullOrEmpty(CustomerDepositId)))
             {
                 if ((invoiceAmountTotal == 0) && CreateDepletingDeposit.GetValueOrDefault(false))
                 {
@@ -610,11 +624,12 @@ namespace WebApi.Modules.Home.Receipt
 
             if (e.SaveMode.Equals(TDataRecordSaveMode.smInsert))
             {
-                if (!string.IsNullOrEmpty(DepositId))
+                string depId = DealDepositId ?? CustomerDepositId;
+                if (!string.IsNullOrEmpty(depId))
                 {
                     DepositPaymentLogic dp = new DepositPaymentLogic();
                     dp.SetDependencies(AppConfig, UserSession);
-                    dp.DepositId = DepositId;
+                    dp.DepositId = depId;
                     dp.PaymentId = ReceiptId;
                     dp.Applied = paymentAmount;
                     int i1 = dp.SaveAsync(null, conn: e.SqlConnection).Result;
