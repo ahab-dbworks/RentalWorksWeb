@@ -408,7 +408,7 @@ Form tables
 #itemsearch #itemlist[data-view="GRID"] .item-info {padding:20px;position:relative;border: 1px solid #E0E0E0;}
 #itemsearch #itemlist[data-view="GRID"] div[data-column="ItemImage"] {width:8em;height:8em;position:relative;margin:0 auto;}
 #itemsearch #itemlist[data-view="GRID"] div[data-column="ItemImage"] img {max-height:100%;max-width:100%;position:absolute;top:0;bottom:0;left:0;right:0;margin:auto;cursor:pointer;}
-#itemsearch #itemlist[data-view="GRID"] div[data-column="Description"] {height:4em;}
+#itemsearch #itemlist[data-view="GRID"] div[data-column="Description"] {height:4em; user-select:text;}
 #itemsearch #itemlist[data-view="GRID"] div[data-column="Description"] .description {font-weight:bold;}
 #itemsearch #itemlist[data-view="GRID"] div[data-column="Description"] .toggleaccessories {display:none;}
 #itemsearch #itemlist[data-view="GRID"] div[data-column="Tags"] {display:flex;height:25px;}
@@ -433,7 +433,7 @@ Form tables
 #itemsearch #itemlist[data-view="LIST"] .columnDescriptions {display:flex;align-items:center;padding:5px 20px 5px 5px;background-color:#e0e0e0;color:#464646;border-bottom:1px solid #BDBDBD;font-weight:bold;}
 #itemsearch #itemlist[data-view="LIST"] .item-info {display:flex;align-items:center;padding:5px;position:relative;border-bottom: 1px solid #BDBDBD;}
 #itemsearch #itemlist[data-view="LIST"] div[data-column="ItemImage"] {display:none;}
-#itemsearch #itemlist[data-view="LIST"] div[data-column="Description"] {flex:1 0 250px;margin:0 10px;}
+#itemsearch #itemlist[data-view="LIST"] div[data-column="Description"] {flex:1 0 250px;margin:0 10px;user-select:text;}
 #itemsearch #itemlist[data-view="LIST"] div[data-column="Description"] .descriptionrow {display:flex;align-items:center;}
 #itemsearch #itemlist[data-view="LIST"] div[data-column="Tags"] {flex:1 0 100px;margin:0 10px;}
 #itemsearch #itemlist[data-view="LIST"] div[data-column="Tags"] .tag {display:inline-block;border-radius: 4px;padding: 2px 4px;color: white;text-transform: lowercase;font-weight: 500;box-shadow: inset 0 -1px 0 rgba(27,31,35,.12);}
@@ -458,7 +458,7 @@ Form tables
 #itemsearch #itemlist[data-view="HYBRID"] div[data-column="ItemImage"] {width:4em;margin-right:10px;}
 #itemsearch #itemlist[data-view="HYBRID"] .item-info div[data-column="ItemImage"] {height:4em;}
 #itemsearch #itemlist[data-view="HYBRID"] div[data-column="ItemImage"] img {max-height:100%;max-width:100%;cursor:pointer;}
-#itemsearch #itemlist[data-view="HYBRID"] div[data-column="Description"] {flex:1 0 250px;margin-right:10px;}
+#itemsearch #itemlist[data-view="HYBRID"] div[data-column="Description"] {flex:1 0 250px;margin-right:10px;user-select:text;}
 #itemsearch #itemlist[data-view="HYBRID"] div[data-column="Description"] .descriptionrow {display:flex;align-items:center;}
 #itemsearch #itemlist[data-view="HYBRID"] div[data-column="Tags"] {flex:1 0 100px;margin-right:10px;}
 #itemsearch #itemlist[data-view="HYBRID"] div[data-column="Tags"] .tag {display:inline-block;border-radius: 4px;padding: 2px 4px;color: white;text-transform: lowercase;font-weight: 500;box-shadow: inset 0 -1px 0 rgba(27,31,35,.12);}
