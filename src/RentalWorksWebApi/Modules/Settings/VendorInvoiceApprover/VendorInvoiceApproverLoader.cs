@@ -29,7 +29,7 @@ namespace WebApi.Modules.Settings.VendorInvoiceApprover
         public string UsersId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "username", modeltype: FwDataTypes.Text)]
-        public string UserName { get; set; }
+        public string Username { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rental", modeltype: FwDataTypes.Boolean)]
         public bool? Rental { get; set; }
