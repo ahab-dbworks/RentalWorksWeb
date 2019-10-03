@@ -727,6 +727,21 @@ class Receipt {
                         $form.data('payAmountOnFocus', val);
                         console.log('payAmountOnFocusChange', $form.data('payAmountOnFocus'))
                     });
+                    // Amount to Apply listener
+                    $form.find('.amount-to-apply input').on('change', ev => {
+                        ev.stopPropagation();
+                        //const el = jQuery(ev.currentTarget);
+                        //let val = el.val();
+                        //if (el.hasClass('decimal')) {
+                        //    if (val === '0.00' || val === '') {
+                        //        el.css('background-color', 'white');
+                        //        val = '0.00';
+                        //    } else {
+                        //        el.css('background-color', '#F4FFCC');
+                        //    }
+                        //}
+                        calculateInvoiceTotals($form);
+                    });
                     // Store intial amount value for calculations after change
                     $form.find('.pay-amount input').on('focus', ev => {
                         ev.stopPropagation();
