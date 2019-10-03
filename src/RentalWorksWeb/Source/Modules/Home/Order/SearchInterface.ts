@@ -584,7 +584,7 @@ class SearchInterface {
             let itemhtml = `<div class="item-container" data-classification=="${response.Rows[i][classificationIndex]}">
                               <div class="item-info" data-inventoryid="${response.Rows[i][inventoryId]}">
                                 <div data-column="ItemImage"><img src="${imageThumbnail}" data-value="${imageId}" alt="Image" class="image"></div>
-                                <div data-column="Description" class="columnorder"><div class="descriptionrow"><div class="description">${response.Rows[i][descriptionIndex]}</div></div></div>
+                                <div data-column="Description" class="columnorder"><div class="descriptionrow"><div class="description">${response.Rows[i][descriptionIndex]}<i class="material-icons opentab" style="margin-left:10px">open_in_new</i></div></div></div>
                                 <div data-column="Tags" class="columnorder"></div>
                                 <div data-column="Type" class="columnorder showOnSearch">${response.Rows[i][typeIndex]}</div>
                                 <div data-column="Category" class="columnorder showOnSearch">${response.Rows[i][categoryIndex]}</div>
@@ -1246,6 +1246,30 @@ class SearchInterface {
                 }
             }
             $button.parent().find("input").val(newVal).change();
+        });
+
+        $popup.on('click', '.opentab', e => {
+            const type = FwFormField.getValueByDataField($popup, 'InventoryType');
+            let module;
+            switch (type) {
+                case 'R':
+                    module = 'RentalInventory';
+                    break;
+                case 'S':
+                    module = 'SalesInventory';
+                    break;
+                case 'L':
+                    module = 'LaborRate';
+                    break;
+                case 'M':
+                    module = 'MiscRate';
+                    break;
+            }
+            const uniqueids = {
+                InventoryId: jQuery(e.currentTarget).closest('.item-info').attr('data-inventoryid')
+            };
+            const $newTab = (<any>window)[`${module}Controller`].loadForm(uniqueids);
+            FwModule.openFormTab($popup, $newTab, 'Loading..', true, 'FORM', true);
         });
 
         if (jQuery('html').hasClass('desktop')) {
