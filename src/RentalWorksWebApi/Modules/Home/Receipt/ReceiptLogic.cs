@@ -303,8 +303,7 @@ namespace WebApi.Modules.Home.Receipt
                         recType.Equals(RwConstants.RECEIPT_RECTYPE_OVERPAYMENT) ||
                         recType.Equals(RwConstants.RECEIPT_RECTYPE_DEPLETING_DEPOSIT) ||
                         recType.Equals(RwConstants.RECEIPT_RECTYPE_CREDIT_MEMO) ||
-                        recType.Equals(RwConstants.RECEIPT_RECTYPE_REFUND) ||
-                        recType.Equals(RwConstants.RECEIPT_RECTYPE_WRITE_OFF)
+                        recType.Equals(RwConstants.RECEIPT_RECTYPE_REFUND)
                        )
                     {
                         isValid = false;
