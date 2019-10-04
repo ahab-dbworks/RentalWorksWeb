@@ -36,6 +36,7 @@ namespace WebApi.Modules.Home.Receipt
             BeforeValidate += OnBeforeValidate;
             BeforeSave += OnBeforeSave;
             AfterSave += OnAfterSave;
+            BeforeDelete += OnBeforeDelete;
             ForceSave = true;
             UseTransactionToSave = true;
         }
@@ -365,6 +366,18 @@ namespace WebApi.Modules.Home.Receipt
 
             if (isValid)
             {
+                if (saveMode.Equals(TDataRecordSaveMode.smUpdate))
+                {
+                    if (!string.IsNullOrEmpty(orig.ChargeBatchId))
+                    {
+                        isValid = false;
+                        validateMsg = $"Cannot modify this Receipt because it has already been exported.";
+                    }
+                }
+            }
+
+            if (isValid)
+            {
                 if (saveMode.Equals(TDataRecordSaveMode.smInsert))
                 {
                     paymentAmount = PaymentAmount.GetValueOrDefault(0);
@@ -675,6 +688,15 @@ namespace WebApi.Modules.Home.Receipt
             //explicitly delete and insert any G/L transactions related to this Receipt
             bool b = ReceiptFunc.PostGlForReceipt(AppConfig, UserSession, ReceiptId, conn: e.SqlConnection).Result;
 
+        }
+        //------------------------------------------------------------------------------------
+        public void OnBeforeDelete(object sender, BeforeDeleteEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(ChargeBatchId))
+            {
+                e.PerformDelete = false;
+                e.ErrorMessage = $"Cannot delete this Receipt because it has already been exported.";
+            }
         }
         //------------------------------------------------------------------------------------
     }
