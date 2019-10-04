@@ -1258,23 +1258,26 @@ class SearchInterface {
         $popup.on('click', '.opentab', e => {
             const type = FwFormField.getValueByDataField($popup, 'InventoryType');
             let module;
+            const uniqueids: any = {};
+            const inventoryId = jQuery(e.currentTarget).closest('.item-info').attr('data-inventoryid');
             switch (type) {
                 case 'R':
                     module = 'RentalInventory';
+                    uniqueids.InventoryId = inventoryId;
                     break;
                 case 'S':
                     module = 'SalesInventory';
+                    uniqueids.InventoryId = inventoryId;
                     break;
                 case 'L':
                     module = 'LaborRate';
+                    uniqueids.RateId = inventoryId;
                     break;
                 case 'M':
                     module = 'MiscRate';
+                    uniqueids.RateId = inventoryId;
                     break;
             }
-            const uniqueids = {
-                InventoryId: jQuery(e.currentTarget).closest('.item-info').attr('data-inventoryid')
-            };
             const title = jQuery(e.currentTarget).siblings().text().trim();
             const $popupForm = (<any>window)[`${module}Controller`].loadForm(uniqueids);
             FwPopup.showPopup(FwPopup.renderPopup($popupForm, undefined, title));
