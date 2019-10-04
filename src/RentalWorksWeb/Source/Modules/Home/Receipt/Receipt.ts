@@ -585,12 +585,12 @@ class Receipt {
                             unappliedTotalPriorDecimal = unappliedTotalPriorDecimal.plus(unappliedTotalPrior);
                             let amountVal;
 
-                            console.log('unappliedTotalPrior', unappliedTotalPrior)
-                            console.log('amountInput', amountInput)
-                            console.log('amountTotal', amountTotal)
-                            console.log('dueValOnLine', dueValOnLine)
-                            console.log('dueTotal', dueTotal)
-                            console.log('unappliedTotalPriorDecimal', unappliedTotalPriorDecimal)
+                            //console.log('unappliedTotalPrior', unappliedTotalPrior)
+                            //console.log('amountInput', amountInput)
+                            //console.log('amountTotal', amountTotal)
+                            //console.log('dueValOnLine', dueValOnLine)
+                            //console.log('dueTotal', dueTotal)
+                            //console.log('unappliedTotalPriorDecimal', unappliedTotalPriorDecimal)
 
                             // If Unapplied Amount >= "Due"  increase the "Amount" value by the "Due" value on the line
                             if (unappliedTotalPriorDecimal.greaterThanOrEqualTo(dueTotal)) {
@@ -644,9 +644,9 @@ class Receipt {
                         due = due.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
                         $dueFields.eq(i).text(due);
 
-                        console.log('amount', amountInput, i)
-                        console.log('due', due)
-                        console.log('applied', applied)
+                        //console.log('amount', amountInput, i)
+                        //console.log('due', due)
+                        //console.log('applied', applied)
                         recurse = true;
                         break;
                     }
@@ -725,7 +725,8 @@ class Receipt {
                             }
                         }
                         calculateInvoiceTotals($form, ev);
-                        console.log('payAmountOnFocusChange', el.data('payAmountOnFocus'))
+                        el.data('payAmountOnFocus', val);
+                        console.log('payAmountOnChange', el.data('payAmountOnFocus'))
                     });
                     // Store intial amount value for calculations after change
                     $form.find('.pay-amount input').on('focus', ev => {
