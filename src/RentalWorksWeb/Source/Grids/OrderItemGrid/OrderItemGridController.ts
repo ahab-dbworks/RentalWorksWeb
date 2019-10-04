@@ -115,12 +115,12 @@
                 if ($tr.find('.order-item-rowsrolledup').text() === 'true') {
                     $tr.css('font-style', "italic");
                 }
-                
+
                 const availabilityState = FwBrowse.getValueByDataField($control, $generatedtr, 'AvailabilityState');
                 $generatedtr.find('[data-browsedatafield="AvailableQuantity"]').attr('data-state', availabilityState);
             });
 
-           
+
             FwBrowse.setAfterRenderFieldCallback($control, ($tr: JQuery, $td: JQuery, $field: JQuery, dt: FwJsonDataTable, rowIndex: number, colIndex: number) => {
                 // Lock Fields
                 if ($tr.find('.order-item-lock').text() === 'true') {
@@ -504,29 +504,29 @@
         orderId = $browse.find('.selected [data-browsedatafield="OrderId"]').attr('data-originalvalue');
         $selectedCheckBoxes = $browse.find('.cbselectrow:checked');
 
-        for (let i = 0; i < $selectedCheckBoxes.length; i++) {
-            let order: any = {};
-            let orderItemId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderItemId"]').attr('data-originalvalue');
-            let orderId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderId"]').attr('data-originalvalue');
-            let description = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="Description"]').attr('data-originalvalue');
-            let quantityOrdered = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="QuantityOrdered"]').attr('data-originalvalue');
-            let recType = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="RecType"]').attr('data-originalvalue');
+        if (orderId != null) {
+            for (let i = 0; i < $selectedCheckBoxes.length; i++) {
+                let orderItem: any = {};
+                let orderItemId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderItemId"]').attr('data-originalvalue');
+                let orderId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderId"]').attr('data-originalvalue');
+                let description = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="Description"]').attr('data-originalvalue');
+                let quantityOrdered = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="QuantityOrdered"]').attr('data-originalvalue');
+                let recType = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="RecType"]').attr('data-originalvalue');
+                let rowsRolledUp = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="RowsRolledUp"]').attr('data-originalvalue');
 
-            order.OrderItemId = orderItemId
-            order.OrderId = orderId;
-            order.Description = description;
-            order.QuantityOrdered = quantityOrdered;
-            order.RecType = recType;
+                orderItem.OrderItemId = orderItemId
+                orderItem.OrderId = orderId;
+                orderItem.Description = description;
+                orderItem.QuantityOrdered = quantityOrdered;
+                orderItem.RecType = recType;
+                orderItem.RowsRolledUp = rowsRolledUp;
 
-            if (orderId != null) {
                 if ($selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="Bold"]').attr('data-originalvalue') === 'true') {
-                    order.Bold = false;
-                    boldItems.push(order);
+                    orderItem.Bold = false;
                 } else {
-                    order.Bold = true;
-                    boldItems.push(order);
-
+                    orderItem.Bold = true;
                 }
+                boldItems.push(orderItem);
             }
         }
 
@@ -545,33 +545,32 @@
     //----------------------------------------------------------------------------------------------
     orderItemGridLockUnlock($browse: any, event: any): void {
         let orderId, $selectedCheckBoxes, lockedItems = [];
-
         orderId = $browse.find('.selected [data-browsedatafield="OrderId"]').attr('data-originalvalue');
         $selectedCheckBoxes = $browse.find('.cbselectrow:checked');
 
-        for (let i = 0; i < $selectedCheckBoxes.length; i++) {
-            let order: any = {};
-            let orderItemId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderItemId"]').attr('data-originalvalue');
-            let orderId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderId"]').attr('data-originalvalue');
-            let description = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="Description"]').attr('data-originalvalue');
-            let quantityOrdered = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="QuantityOrdered"]').attr('data-originalvalue');
-            let recType = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="RecType"]').attr('data-originalvalue');
+        if (orderId != null) {
+            for (let i = 0; i < $selectedCheckBoxes.length; i++) {
+                let orderItem: any = {};
+                let orderItemId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderItemId"]').attr('data-originalvalue');
+                let orderId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderId"]').attr('data-originalvalue');
+                let description = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="Description"]').attr('data-originalvalue');
+                let quantityOrdered = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="QuantityOrdered"]').attr('data-originalvalue');
+                let recType = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="RecType"]').attr('data-originalvalue');
+                let rowsRolledUp = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="RowsRolledUp"]').attr('data-originalvalue');
 
-            order.OrderItemId = orderItemId
-            order.OrderId = orderId;
-            order.Description = description;
-            order.QuantityOrdered = quantityOrdered;
-            order.RecType = recType;
+                orderItem.OrderItemId = orderItemId
+                orderItem.OrderId = orderId;
+                orderItem.Description = description;
+                orderItem.QuantityOrdered = quantityOrdered;
+                orderItem.RecType = recType;
+                orderItem.RowsRolledUp = rowsRolledUp;
 
-            if (orderId != null) {
                 if ($selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="Locked"]').attr('data-originalvalue') === 'true') {
-                    order.Locked = false;
-                    lockedItems.push(order);
+                    orderItem.Locked = false;
                 } else {
-                    order.Locked = true;
-                    lockedItems.push(order);
-
+                    orderItem.Locked = true;
                 }
+                lockedItems.push(orderItem);
             }
         }
 

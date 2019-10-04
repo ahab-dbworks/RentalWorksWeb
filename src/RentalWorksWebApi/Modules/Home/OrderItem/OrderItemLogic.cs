@@ -1150,6 +1150,49 @@ namespace WebApi.Modules.Home.OrderItem
         //------------------------------------------------------------------------------------
         public void SaveRolledUpRow(object sender, InsteadOfSaveEventArgs e)
         {
+
+            void copyFieldsToSave(OrderItemLogic oiFrom, OrderItemLogic oiTo)
+            {
+                oiTo.RecType = oiFrom.RecType;
+                oiTo.InventoryId = oiFrom.InventoryId;
+                oiTo.Description = oiFrom.Description;
+                oiTo.PickDate = oiFrom.PickDate;
+                oiTo.PickTime = oiFrom.PickTime;
+                oiTo.FromDate = oiFrom.FromDate;
+                oiTo.FromTime = oiFrom.FromTime;
+                oiTo.ToDate = oiFrom.ToDate;
+                oiTo.ToTime = oiFrom.ToTime;
+                //oiTo.QuantityOrdered = oiFrom.QuantityOrdered;
+                //oiTo.SubQuantity = oiFrom.SubQuantity;
+                //oiTo.ConsignQuantity = oiFrom.ConsignQuantity;
+                oiTo.UnitId = oiFrom.UnitId;
+                oiTo.UnitCost = oiFrom.UnitCost;
+                oiTo.MarginPercent = oiFrom.MarginPercent;
+                oiTo.MarkupPercent = oiFrom.MarkupPercent;
+                oiTo.PremiumPercent = oiFrom.PremiumPercent;
+                oiTo.CrewContactId = oiFrom.CrewContactId;
+                oiTo.Hours = oiFrom.Hours;
+                oiTo.HoursOvertime = oiFrom.HoursOvertime;
+                oiTo.HoursDoubletime = oiFrom.HoursDoubletime;
+                oiTo.Price = oiFrom.Price;
+                oiTo.Price2 = oiFrom.Price2;
+                oiTo.Price3 = oiFrom.Price3;
+                oiTo.Price4 = oiFrom.Price4;
+                oiTo.Price5 = oiFrom.Price5;
+                oiTo.DaysPerWeek = oiFrom.DaysPerWeek;
+                oiTo.DiscountPercent = oiFrom.DiscountPercent;
+                oiTo.Bold = oiFrom.Bold;
+                oiTo.Locked = oiFrom.Locked;
+                oiTo.Taxable = oiFrom.Taxable;
+                oiTo.WarehouseId = oiFrom.WarehouseId;
+                oiTo.ReturnToWarehouseId = oiFrom.ReturnToWarehouseId;
+                oiTo.ParentId = oiFrom.ParentId;
+                oiTo.ItemClass = oiFrom.ItemClass;
+                oiTo.RetiredReasonId = oiFrom.RetiredReasonId;
+                oiTo.ItemId = oiFrom.ItemId;
+                oiTo.ManufacturerPartNumber = oiFrom.ManufacturerPartNumber;
+            }
+
             OrderItemLogic orig = (OrderItemLogic)e.Original;
             List<OrderItemLogic> rolledUpItems = new List<OrderItemLogic>();
             int rowsSaved = 0;
@@ -1176,6 +1219,7 @@ namespace WebApi.Modules.Home.OrderItem
                 oiNew.OrderId = oi.OrderId;
                 oiNew.OrderItemId = oi.OrderItemId;
                 oiNew.Taxable = Taxable;
+                copyFieldsToSave(this, oiNew);
                 rowsSaved += oiNew.SaveAsync(oi, e.SqlConnection).Result;
             }
 
