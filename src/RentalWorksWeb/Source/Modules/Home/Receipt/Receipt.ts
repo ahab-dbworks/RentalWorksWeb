@@ -531,10 +531,14 @@ class Receipt {
             $form.find('.table-rows').html('<tr class="empty-row" style="height:33px;"><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>');
         }
         const calculateInvoiceTotals = ($form, event?) => {
-            let amountValBefore = $form.data('payAmountOnFocus');
-            if (amountValBefore) {
-                amountValBefore = amountValBefore.replace(/,/g, '');
-                console.log('amountValBeforeinTOTAL', amountValBefore)
+            let amountValBefore;
+            if (event != undefined) {
+                const $this = jQuery(event.currentTarget);
+                amountValBefore = $this.data('payAmountOnFocus');
+                if (amountValBefore) {
+                    amountValBefore = amountValBefore.replace(/,/g, '');
+                    console.log('amountValBeforeinTOTAL', amountValBefore)
+                }
             }
             let totalTotal = new Decimal(0);
             let appliedTotal = new Decimal(0);
@@ -587,8 +591,6 @@ class Receipt {
                             console.log('dueValOnLine', dueValOnLine)
                             console.log('dueTotal', dueTotal)
                             console.log('unappliedTotalPriorDecimal', unappliedTotalPriorDecimal)
-
-
 
                             // If Unapplied Amount >= "Due"  increase the "Amount" value by the "Due" value on the line
                             if (unappliedTotalPriorDecimal.greaterThanOrEqualTo(dueTotal)) {
@@ -723,8 +725,7 @@ class Receipt {
                             }
                         }
                         calculateInvoiceTotals($form, ev);
-                        //$form.data('payAmountOnFocus', val);
-                        console.log('payAmountOnFocusChange', $form.data('payAmountOnFocus'))
+                        console.log('payAmountOnFocusChange', el.data('payAmountOnFocus'))
                     });
                     // Store intial amount value for calculations after change
                     $form.find('.pay-amount input').on('focus', ev => {
@@ -734,22 +735,12 @@ class Receipt {
                         if (val === '') {
                             val = '0.00'
                         }
-                        $form.data('payAmountOnFocus', val);
-                        console.log('payAmountOnFocus', $form.data('payAmountOnFocus'))
+                        el.data('payAmountOnFocus', val);
+                        console.log('payAmountOnFocusOUTSIDE', el.data('payAmountOnFocus'))
                     });
                     // Amount to Apply listener
                     $form.find('.amount-to-apply input').on('change', ev => {
                         ev.stopPropagation();
-                        //const el = jQuery(ev.currentTarget);
-                        //let val = el.val();
-                        //if (el.hasClass('decimal')) {
-                        //    if (val === '0.00' || val === '') {
-                        //        el.css('background-color', 'white');
-                        //        val = '0.00';
-                        //    } else {
-                        //        el.css('background-color', '#F4FFCC');
-                        //    }
-                        //}
                         calculateInvoiceTotals($form);
                     });
 
