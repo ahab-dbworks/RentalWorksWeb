@@ -8,7 +8,7 @@ using WebApi.Logic;
 
 namespace WebApi.Modules.Home.Receipt
 {
-    [FwSqlTable("arview")]
+    [FwSqlTable("arwebview")]
     public class ReceiptBrowseLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 

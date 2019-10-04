@@ -8,6 +8,7 @@ using WebApi.Logic;
 using WebApi.Modules.Home.DepositPayment;
 using WebApi.Modules.Home.Invoice;
 using WebApi.Modules.Home.InvoiceReceipt;
+using WebApi.Modules.Settings.PaymentType;
 using WebLibrary;
 
 namespace WebApi.Modules.Home.Receipt
@@ -138,12 +139,6 @@ namespace WebApi.Modules.Home.Receipt
         [FwLogicProperty(Id: "frwPI795LU3yb")]
         public bool? CreateDepletingDeposit { get; set; }
 
-        //[FwLogicProperty(Id: "5OG1N21B7HVQg")]
-        //public string DepositId { get; set; }
-
-        //[FwLogicProperty(Id: "NEx3xvlRzCtvg")]
-        //public string DepositCheckNumber { get; set; }
-
         [FwLogicProperty(Id: "tTMXircHBVgvy")]
         public string DealDepositId { get; set; }
 
@@ -236,6 +231,42 @@ namespace WebApi.Modules.Home.Receipt
                         validateMsg = $"Cannot change the RecType on this {BusinessLogicModuleName}.";
                     }
                 }
+
+                if (PaymentTypeId != null)
+                {
+                    if (orig.PaymentTypeId == null)
+                    {
+                        orig.PaymentTypeId = "";
+                        orig.PaymentTypeType = "";
+                    }
+
+                    PaymentTypeLogic ptl = new PaymentTypeLogic();
+                    ptl.SetDependencies(AppConfig, UserSession);
+                    ptl.PaymentTypeId = PaymentTypeId;
+                    bool b = ptl.LoadAsync<PaymentTypeLogic>().Result;
+
+                    if (!ptl.PaymentTypeType.Equals(orig.PaymentTypeType))
+                    {
+                        isValid = false;
+                        validateMsg = $"Cannot change the Payment Type on this {BusinessLogicModuleName}.";
+                    }
+                }
+            }
+
+
+            if (isValid)
+            {
+                if (saveMode.Equals(TDataRecordSaveMode.smInsert))
+                {
+                    PaymentTypeLogic ptl = new PaymentTypeLogic();
+                    ptl.SetDependencies(AppConfig, UserSession);
+                    ptl.PaymentTypeId = PaymentTypeId;
+                    bool b = ptl.LoadAsync<PaymentTypeLogic>().Result;
+                    if (ptl.PaymentTypeType.Equals(RwConstants.PAYMENT_TYPE_TYPE_WRITE_OFF))
+                    {
+                        RecType = RwConstants.RECEIPT_RECTYPE_WRITE_OFF;
+                    }
+                }
             }
 
             if (isValid)
@@ -267,10 +298,13 @@ namespace WebApi.Modules.Home.Receipt
             {
                 if (saveMode.Equals(TDataRecordSaveMode.smUpdate))
                 {
-                    if (recType.Equals(RwConstants.RECEIPT_RECTYPE_OVERPAYMENT) ||
+                    if (
+                        recType.Equals(RwConstants.RECEIPT_RECTYPE_OVERPAYMENT) ||
                         recType.Equals(RwConstants.RECEIPT_RECTYPE_DEPLETING_DEPOSIT) ||
                         recType.Equals(RwConstants.RECEIPT_RECTYPE_CREDIT_MEMO) ||
-                        recType.Equals(RwConstants.RECEIPT_RECTYPE_REFUND))
+                        recType.Equals(RwConstants.RECEIPT_RECTYPE_REFUND) ||
+                        recType.Equals(RwConstants.RECEIPT_RECTYPE_WRITE_OFF)
+                       )
                     {
                         isValid = false;
                         validateMsg = $"Cannot modify this {BusinessLogicModuleName} because of its RecType.";
