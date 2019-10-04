@@ -408,7 +408,7 @@ Form tables
 #itemsearch #itemlist[data-view="GRID"] .item-info {padding:20px;position:relative;border: 1px solid #E0E0E0;}
 #itemsearch #itemlist[data-view="GRID"] div[data-column="ItemImage"] {width:8em;height:8em;position:relative;margin:0 auto;}
 #itemsearch #itemlist[data-view="GRID"] div[data-column="ItemImage"] img {max-height:100%;max-width:100%;position:absolute;top:0;bottom:0;left:0;right:0;margin:auto;cursor:pointer;}
-#itemsearch #itemlist[data-view="GRID"] div[data-column="Description"] {height:4em; user-select:text;}
+#itemsearch #itemlist[data-view="GRID"] div[data-column="Description"] {height:4em; user-select:text; text-align:center;}
 #itemsearch #itemlist[data-view="GRID"] div[data-column="Description"] .description {font-weight:bold;}
 #itemsearch #itemlist[data-view="GRID"] div[data-column="Description"] .toggleaccessories {display:none;}
 #itemsearch #itemlist[data-view="GRID"] div[data-column="Tags"] {display:flex;height:25px;}
@@ -478,6 +478,7 @@ Form tables
 #itemsearch #itemlist[data-view="HYBRID"] .gridcaption {display:none;}
 #itemsearch #itemlist[data-view="HYBRID"] .item-accessories .accColumns {display:none;}
 
+#inventory .item-container .item-info .opentab {margin-left:auto;cursor:pointer;}
 #inventory .item-container .item-info .toggleaccessories {font-weight: bold;color: #1E88E5;display:inline-block;cursor:pointer;}
 #inventory .item-container .item-info .toggleaccessories:hover {text-decoration:underline;}
 

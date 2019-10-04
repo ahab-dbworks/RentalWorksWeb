@@ -584,7 +584,14 @@ class SearchInterface {
             let itemhtml = `<div class="item-container" data-classification=="${response.Rows[i][classificationIndex]}">
                               <div class="item-info" data-inventoryid="${response.Rows[i][inventoryId]}">
                                 <div data-column="ItemImage"><img src="${imageThumbnail}" data-value="${imageId}" alt="Image" class="image"></div>
-                                <div data-column="Description" class="columnorder"><div class="descriptionrow"><div class="description">${response.Rows[i][descriptionIndex]}<i class="material-icons opentab" style="margin-left:10px">open_in_new</i></div></div></div>
+                                <div data-column="Description" class="columnorder">
+                                    <div class="descriptionrow">
+                                        <div class="description">
+                                            ${response.Rows[i][descriptionIndex]}
+                                        </div>
+                                        <i class="material-icons opentab">more_horiz</i>
+                                    </div>
+                                </div>
                                 <div data-column="Tags" class="columnorder"></div>
                                 <div data-column="Type" class="columnorder showOnSearch">${response.Rows[i][typeIndex]}</div>
                                 <div data-column="Category" class="columnorder showOnSearch">${response.Rows[i][categoryIndex]}</div>
@@ -1268,8 +1275,15 @@ class SearchInterface {
             const uniqueids = {
                 InventoryId: jQuery(e.currentTarget).closest('.item-info').attr('data-inventoryid')
             };
-            const $newTab = (<any>window)[`${module}Controller`].loadForm(uniqueids);
-            FwModule.openFormTab($popup, $newTab, 'Loading..', true, 'FORM', true);
+            const title = jQuery(e.currentTarget).siblings().text().trim();
+            const $popupForm = (<any>window)[`${module}Controller`].loadForm(uniqueids);
+            FwPopup.showPopup(FwPopup.renderPopup($popupForm, undefined, title));
+            let $fwcontrols = $popupForm.find('.fwcontrol');
+            FwControl.loadControls($fwcontrols);
+            $popupForm.find('.btnpeek').remove();
+            $popupForm.css({ 'background-color': 'white', 'box-shadow': '0 25px 44px rgba(0, 0, 0, 0.30), 0 20px 15px rgba(0, 0, 0, 0.22)', 'width': '75vw', 'height': '75vh', 'overflow': 'scroll', 'position': 'relative' });
+
+            //FwModule.openFormTab($popup, $newTab, 'Loading..', true, 'FORM', true);
         });
 
         if (jQuery('html').hasClass('desktop')) {
