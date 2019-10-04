@@ -222,6 +222,7 @@ export class MediumRegressionTest extends BaseTest {
         }
         this.OpenSpecificRecord(new Warehouse(), warehouseToSeek, true, "MINE");
 
+        /*
         //Home - Agent
         this.MediumRegressionOnModule(new Contact());
         this.MediumRegressionOnModule(new Customer());
@@ -274,11 +275,12 @@ export class MediumRegressionTest extends BaseTest {
         this.MediumRegressionOnModule(new CustomerStatus());
         this.MediumRegressionOnModule(new CustomerType());
         this.MediumRegressionOnModule(new DealClassification());
-        //this.MediumRegressionOnModule(new DealType());
-        //this.MediumRegressionOnModule(new DealStatus());
-        //this.MediumRegressionOnModule(new ProductionType());
-        //this.MediumRegressionOnModule(new ScheduleType());
-        //this.MediumRegressionOnModule(new DiscountTemplate());
+        */
+        this.MediumRegressionOnModule(new DealType());
+        this.MediumRegressionOnModule(new DealStatus());
+        this.MediumRegressionOnModule(new ProductionType());
+        this.MediumRegressionOnModule(new ScheduleType());
+        this.MediumRegressionOnModule(new DiscountTemplate());
         //this.MediumRegressionOnModule(new DocumentType());
         //this.MediumRegressionOnModule(new CoverLetter());
         //this.MediumRegressionOnModule(new TermsConditions());

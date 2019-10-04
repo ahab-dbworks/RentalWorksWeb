@@ -535,6 +535,31 @@ export class DealType extends SettingsModule {
         this.moduleName = 'DealType';
         this.moduleId = 'A021AE67-0F33-4C97-9149-4CD5560EE10A';
         this.moduleCaption = 'Deal Type';
+
+        this.defaultNewRecordToExpect = {
+            DealType: "",
+            Inactive: false,
+            WhiteText: false
+        }
+
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    DealType: "GlobalScope.TestToken~1.TestToken",
+                    WhiteText: true
+                },
+                seekObject: {
+                    DealType: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            DealType: this.newRecordsToCreate[0].record.DealType.toUpperCase(),
+            Inactive: false,
+            WhiteText: this.newRecordsToCreate[0].record.WhiteText,
+        }
+
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -546,6 +571,30 @@ export class DealStatus extends SettingsModule {
         this.moduleName = 'DealStatus';
         this.moduleId = '543F8F83-20AB-4001-8283-1E73A9D795DF';
         this.moduleCaption = 'Deal Status';
+
+        this.defaultNewRecordToExpect = {
+            DealStatus: "",
+            Inactive: false,
+            StatusType: "O",
+        }
+
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    DealStatus: "GlobalScope.TestToken~1.MediumTestToken",
+                    StatusType: "H",
+                },
+                seekObject: {
+                    DealStatus: "GlobalScope.TestToken~1.MediumTestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            DealStatus: this.newRecordsToCreate[0].record.DealStatus.toUpperCase(),
+            StatusType: this.newRecordsToCreate[0].record.StatusType.toUpperCase(),
+            Inactive: false,
+        }
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -557,6 +606,30 @@ export class ProductionType extends SettingsModule {
         this.moduleName = 'ProductionType';
         this.moduleId = '993EBF0C-EDF0-47A2-8507-51492502088B';
         this.moduleCaption = 'Production Type';
+
+        this.defaultNewRecordToExpect = {
+            ProductionType: "",
+            ProductionTypeCode: "",
+            Inactive: false,
+        }
+
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    ProductionType: "GlobalScope.TestToken~1.TestToken",
+                    ProductionTypeCode: "GlobalScope.TestToken~1.MediumTestToken",
+                },
+                seekObject: {
+                    ProductionType: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            ProductionType: this.newRecordsToCreate[0].record.ProductionType.toUpperCase(),
+            ProductionTypeCode: this.newRecordsToCreate[0].record.ProductionTypeCode.toUpperCase(),
+            Inactive: false,
+        }
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -568,6 +641,27 @@ export class ScheduleType extends SettingsModule {
         this.moduleName = 'ScheduleType';
         this.moduleId = '8646d7bb-9676-4fdd-b9ea-db98045390f4';
         this.moduleCaption = 'Schedule Type';
+
+        this.defaultNewRecordToExpect = {
+            ScheduleType: "",
+            Inactive: false,
+        }
+
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    ScheduleType: "GlobalScope.TestToken~1.MediumTestToken",
+                },
+                seekObject: {
+                    ScheduleType: "GlobalScope.TestToken~1.MediumTestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            ScheduleType: this.newRecordsToCreate[0].record.ScheduleType.toUpperCase(),
+            Inactive: false,
+        }
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -579,6 +673,55 @@ export class DiscountTemplate extends SettingsModule {
         this.moduleName = 'DiscountTemplate';
         this.moduleId = '258D920E-7024-4F68-BF1F-F07F3613829C';
         this.moduleCaption = 'Discount Template';
+
+        this.defaultNewRecordToExpect = {
+            DiscountTemplate: "",
+            OfficeLocation: "GlobalScope.User~ME.OfficeLocation",
+            Inactive: false,
+            Rental: false,
+            Sales: false,
+            Labor: false,
+            Misc: false,
+            RentalDiscountPercent: "",
+            SalesDiscountPercent: "",
+            SpaceDiscountPercent: "",
+            RentalDaysPerWeek: "",
+            SpaceDaysPerWeek: "",
+        }
+
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    DiscountTemplate: "GlobalScope.TestToken~1.TestToken",
+                    Rental: false,
+                    Sales: true,
+                    Labor: false,
+                    Misc: true,
+                    RentalDiscountPercent: "10",
+                    SalesDiscountPercent: "20",
+                    SpaceDiscountPercent: "30",
+                    RentalDaysPerWeek: "1.25",
+                    SpaceDaysPerWeek: "3.45",
+                },
+                seekObject: {
+                    DiscountTemplate: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            DiscountTemplate: this.newRecordsToCreate[0].record.DiscountTemplate.toUpperCase(),
+            OfficeLocation: "GlobalScope.User~ME.OfficeLocation",
+            Inactive: false,
+            Rental: this.newRecordsToCreate[0].record.Rental,
+            Sales: this.newRecordsToCreate[0].record.Sales,
+            Labor: this.newRecordsToCreate[0].record.Labor,
+            Misc: this.newRecordsToCreate[0].record.Misc,
+            RentalDiscountPercent: this.newRecordsToCreate[0].record.RentalDiscountPercent + " %",
+            SalesDiscountPercent: this.newRecordsToCreate[0].record.SalesDiscountPercent + " %",
+            SpaceDiscountPercent: this.newRecordsToCreate[0].record.SpaceDiscountPercent + " %",
+            RentalDaysPerWeek: this.newRecordsToCreate[0].record.RentalDaysPerWeek,
+            SpaceDaysPerWeek: this.newRecordsToCreate[0].record.SpaceDaysPerWeek,
+        }
     }
     //---------------------------------------------------------------------------------------
 }

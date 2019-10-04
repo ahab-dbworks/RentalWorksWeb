@@ -631,6 +631,7 @@ export class ModuleBase {
                     case 'email':
                     case 'zipcode':
                     case 'percent':
+                    case 'number':
                     case 'password':
                     case 'text':
                         currentValue = await this.getDataFieldValue(fieldToPopulate);
@@ -702,6 +703,7 @@ export class ModuleBase {
                     case 'text':
                     case 'textarea':
                     case 'percent':
+                    case 'number':
                     case 'password':
                     case 'key':
                         value = await this.getDataFieldValue(dataField);
