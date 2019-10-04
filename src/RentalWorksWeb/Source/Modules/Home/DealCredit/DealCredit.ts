@@ -39,7 +39,7 @@ class DealCredit {
 
         FwBrowse.addLegend($browse, 'Credit Memo', '#ABABD6');
         FwBrowse.addLegend($browse, 'Depleting Deposit', '#37D303');
-        FwBrowse.addLegend($browse, 'Overpayment', '#FFFFFF');
+        FwBrowse.addLegend($browse, 'Overpayment', '#FFFF80');
         FwBrowse.addLegend($browse, 'Refund Check', '#6F6FFF');
 
         return $browse;
