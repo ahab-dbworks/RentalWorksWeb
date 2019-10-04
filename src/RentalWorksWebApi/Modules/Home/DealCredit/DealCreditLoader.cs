@@ -82,7 +82,10 @@ namespace WebApi.Modules.Home.DealCredit
             select.Parse();
             select.AddWhere("paymentby = '" + RwConstants.RECEIPT_PAYMENT_BY_DEAL + "'");
 
-            addFilterToSelect("DealId", "dealid", select, request);
+            //addFilterToSelect("DealId", "dealid", select, request);
+            string dealId = GetUniqueIdAsString("DealId", request) ?? "xx~xx~xx";
+            select.AddWhere("dealid = @dealid");
+            select.AddParameter("@dealid", dealId);
             addFilterToSelect("RecType", "rectype", select, request);
             addFilterToSelect("LocationId", "locationid", select, request);
 

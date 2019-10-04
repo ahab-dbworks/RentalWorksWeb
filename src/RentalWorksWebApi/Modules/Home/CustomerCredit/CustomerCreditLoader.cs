@@ -76,7 +76,12 @@ namespace WebApi.Modules.Home.CustomerCredit
             select.Parse();
             select.AddWhere("paymentby = '" + RwConstants.RECEIPT_PAYMENT_BY_CUSTOMER + "'");
 
-            addFilterToSelect("CustomerId", "customerid", select, request);
+            //addFilterToSelect("CustomerId", "customerid", select, request);
+            string customerId = GetUniqueIdAsString("CustomerId", request) ?? "xx~xx~xx";
+            select.AddWhere("customerid = @customerid");
+            select.AddParameter("@customerid", customerId);
+
+
             addFilterToSelect("RecType", "rectype", select, request);
             addFilterToSelect("LocationId", "locationid", select, request);
 
