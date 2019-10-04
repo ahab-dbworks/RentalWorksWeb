@@ -111,7 +111,6 @@ class Receipt {
                 this.loadReceiptInvoiceGrid($form);
                 const $submoduleCreditBrowse = this.openCreditBrowse($form);
                 $form.find('.credits-page').html($submoduleCreditBrowse);
-                FwFormField.enable($form.find('div[data-datafield="PaymentTypeId"]'));
                 FwFormField.setValue($form, '.deal-cust-validate', '');
             });
 
@@ -535,7 +534,7 @@ class Receipt {
             let amountValBefore = $form.data('payAmountOnFocus');
             if (amountValBefore) {
                 amountValBefore = amountValBefore.replace(/,/g, '');
-                console.log('amountValBefore', amountValBefore)
+                console.log('amountValBeforeinTOTAL', amountValBefore)
             }
             let totalTotal = new Decimal(0);
             let appliedTotal = new Decimal(0);
@@ -724,8 +723,19 @@ class Receipt {
                             }
                         }
                         calculateInvoiceTotals($form, ev);
-                        $form.data('payAmountOnFocus', val);
+                        //$form.data('payAmountOnFocus', val);
                         console.log('payAmountOnFocusChange', $form.data('payAmountOnFocus'))
+                    });
+                    // Store intial amount value for calculations after change
+                    $form.find('.pay-amount input').on('focus', ev => {
+                        ev.stopPropagation();
+                        const el = jQuery(ev.currentTarget);
+                        let val = el.val();
+                        if (val === '') {
+                            val = '0.00'
+                        }
+                        $form.data('payAmountOnFocus', val);
+                        console.log('payAmountOnFocus', $form.data('payAmountOnFocus'))
                     });
                     // Amount to Apply listener
                     $form.find('.amount-to-apply input').on('change', ev => {
@@ -741,17 +751,6 @@ class Receipt {
                         //    }
                         //}
                         calculateInvoiceTotals($form);
-                    });
-                    // Store intial amount value for calculations after change
-                    $form.find('.pay-amount input').on('focus', ev => {
-                        ev.stopPropagation();
-                        const el = jQuery(ev.currentTarget);
-                        let val = el.val();
-                        if (val === '') {
-                            val = '0.00'
-                        }
-                        $form.data('payAmountOnFocus', val);
-                        console.log('payAmountOnFocus', $form.data('payAmountOnFocus'))
                     });
 
                     $form.find('.apply-btn').click((ev: JQuery.ClickEvent) => {
