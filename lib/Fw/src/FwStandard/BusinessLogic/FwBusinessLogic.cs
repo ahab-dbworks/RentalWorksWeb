@@ -86,6 +86,7 @@ namespace FwStandard.BusinessLogic
     public class BeforeDeleteEventArgs : EventArgs
     {
         public bool PerformDelete { get; set; } = true;
+        public string ErrorMessage { get; set; } = "";
     }
 
     public class AfterDeleteEventArgs : EventArgs { }
@@ -1328,6 +1329,13 @@ namespace FwStandard.BusinessLogic
                     await AlertFunc.ProcessAlertsAsync(this.AppConfig, this.UserSession, this.BusinessLogicModuleName, this, null, null);
                 });
 
+            }
+            else  // PerformDelete = false
+            {
+                if (!string.IsNullOrEmpty(beforeDeleteArgs.ErrorMessage))
+                {
+                    throw new Exception(beforeDeleteArgs.ErrorMessage);
+                }
             }
             return success;
         }
