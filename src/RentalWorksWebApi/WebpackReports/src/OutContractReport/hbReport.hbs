@@ -30,7 +30,7 @@
     <div class="meta-header"><span>Issued To:</span></div>
     <div class="meta-address">
       <span class="header-left">{{OrderIssuedToCompany}}</span>
-      {{#if BillToAttention}}
+      {{#if OrderIssuedToAttentionTo1}}
       <span class="header-left">c/o {{OrderIssuedToAttentionTo1}}</span>
       {{/if}}
       <span class="header-left">{{OrderIssuedToAddress1}}</span>
@@ -104,21 +104,21 @@
     {{#ifEquals RowType "RecTypeDisplayheader"}}
     <thead data-rowtype="{{RowType}}">
       <tr>
-        <td colspan="8" class="section-header">{{RecTypeDisplay}}&nbsp;</td>
+        <td colspan="6" class="section-header">{{RecTypeDisplay}}&nbsp;</td>
       </tr>
       <tr>
         <td></td>
         <th>I-Code</th>
         <th>Description</th>
-        <th class="number">Quantity Ordered</th>
+        <th class="number">Ordered</th>
         <th class="number">Out</th>
         <th class="number">Total Out</th>
       </tr>
     </thead>
-    {{/ifEquals}}
-    {{#ifEquals RowType "detail"}}
     <tbody>
-      <tr data-rowtype="{{RowType}}">
+      {{/ifEquals}}
+      {{#ifEquals RowType "detail"}}
+      <tr data-rowtype="{{RowType}}" class="description-row">
         <td></td>
         <td>{{ICode}}</td>
         <td>{{Description}}</td>
@@ -126,9 +126,24 @@
         <td class="number">{{QuantityOut}}</td>
         <td class="number">{{TotalOut}}</td>
       </tr>
+      <tr data-rowtype="{{RowType}}" class="barcode-row">
+        <td></td>
+        <td></td>
+        <td>
+          {{#if BarCodes}}
+          <b>Bar Codes:</b> {{BarCodes}}
+          {{/if}}
+        </td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td colspan="6"></td>
+      </tr>
+      {{/ifEquals}}
+      {{/each}}
     </tbody>
-    {{/ifEquals}}
-    {{/each}}
   </table>
 </div>
 <div class="rpt-flexrow" style="margin-top:25px;">

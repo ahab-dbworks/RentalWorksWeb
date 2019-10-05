@@ -53,9 +53,15 @@ namespace WebApi.Modules.Reports.OutContractReport
         //[FwSqlDataField(column: "notes", modeltype: FwDataTypes.Text)]
         //public string Notes { get; set; }
         ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "barcode", modeltype: FwDataTypes.Text)]
-        //public string BarCode { get; set; }
-        ////------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "barcode", modeltype: FwDataTypes.Text)]
+        public string BarCodes { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "mfgserial", modeltype: FwDataTypes.Text)]
+        public string SerialNumbers { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "rfid", modeltype: FwDataTypes.Text)]
+        public string Rfids { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "itemorder", modeltype: FwDataTypes.Text)]
         public string ItemOrder { get; set; }
         //------------------------------------------------------------------------------------ 
