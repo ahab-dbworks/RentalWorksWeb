@@ -279,11 +279,13 @@ export class MediumRegressionTest extends BaseTest {
         this.MediumRegressionOnModule(new ProductionType());
         this.MediumRegressionOnModule(new ScheduleType());
         this.MediumRegressionOnModule(new DiscountTemplate());
-        //this.MediumRegressionOnModule(new DocumentType());
-        //this.MediumRegressionOnModule(new CoverLetter());
-        //this.MediumRegressionOnModule(new TermsConditions());
-        //this.MediumRegressionOnModule(new EventCategory());
-        //this.MediumRegressionOnModule(new EventType());
+        this.MediumRegressionOnModule(new DocumentType());
+        this.MediumRegressionOnModule(new CoverLetter());
+        this.MediumRegressionOnModule(new TermsConditions());
+        this.MediumRegressionOnModule(new EventCategory());
+        this.MediumRegressionOnModule(new EventType());
+    /*
+    */
         //this.MediumRegressionOnModule(new PersonnelType());
         //this.MediumRegressionOnModule(new PhotographyType());
         //this.MediumRegressionOnModule(new Building());

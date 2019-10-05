@@ -733,6 +733,27 @@ export class DocumentType extends SettingsModule {
         this.moduleName = 'DocumentType';
         this.moduleId = '358fbe63-83a7-4ab4-973b-1a5520573674';
         this.moduleCaption = 'Document Type';
+
+
+        this.defaultNewRecordToExpect = {
+            DocumentType: "",
+            Inactive: false,
+        }
+
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    DocumentType: "GlobalScope.TestToken~1.TestToken",
+                },
+                seekObject: {
+                    DocumentType: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            DocumentType: this.newRecordsToCreate[0].record.DocumentType.toUpperCase(),
+            Inactive: false,
+        }
     }
     //---------------------------------------------------------------------------------------
 }
@@ -744,6 +765,27 @@ export class CoverLetter extends SettingsModule {
         this.moduleName = 'CoverLetter';
         this.moduleId = 'BE13DA09-E3AA-4520-A16C-F43F1A207EA5';
         this.moduleCaption = 'Cover Letter';
+
+
+        this.defaultNewRecordToExpect = {
+            Description: "",
+            Inactive: false,
+        }
+
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    Description: "GlobalScope.TestToken~1.TestToken",
+                },
+                seekObject: {
+                    Description: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            Description: this.newRecordsToCreate[0].record.Description.toUpperCase(),
+            Inactive: false,
+        }
     }
     //---------------------------------------------------------------------------------------
 }
@@ -755,6 +797,30 @@ export class TermsConditions extends SettingsModule {
         this.moduleName = 'TermsConditions';
         this.moduleId = '5C09A4C3-4272-458A-80DA-A5DF6B098D02';
         this.moduleCaption = 'Terms & Conditions';
+
+
+        this.defaultNewRecordToExpect = {
+            Description: "",
+            StartOnNewPage: false,
+            Inactive: false,
+        }
+
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    Description: "GlobalScope.TestToken~1.TestToken",
+                    StartOnNewPage: true,
+                },
+                seekObject: {
+                    Description: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            Description: this.newRecordsToCreate[0].record.Description.toUpperCase(),
+            StartOnNewPage: this.newRecordsToCreate[0].record.StartOnNewPage,
+            Inactive: false,
+        }
     }
     //---------------------------------------------------------------------------------------
 }
@@ -766,6 +832,29 @@ export class EventCategory extends SettingsModule {
         this.moduleName = 'EventCategory';
         this.moduleId = '3912b3cc-b35f-434d-aeeb-c45fed537e29';
         this.moduleCaption = 'Event Category';
+
+        this.defaultNewRecordToExpect = {
+            EventCategory: "",
+            EventCategoryCode: "",
+            Inactive: false,
+        }
+
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    EventCategory: "GlobalScope.TestToken~1.TestToken",
+                    EventCategoryCode: "GlobalScope.TestToken~1.MediumTestToken",
+                },
+                seekObject: {
+                    EventCategory: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            EventCategory: this.newRecordsToCreate[0].record.EventCategory.toUpperCase(),
+            EventCategoryCode: this.newRecordsToCreate[0].record.EventCategoryCode.toUpperCase(),
+            Inactive: false,
+        }
     }
     //---------------------------------------------------------------------------------------
 }
@@ -777,6 +866,27 @@ export class EventType extends SettingsModule {
         this.moduleName = 'EventType';
         this.moduleId = 'FE501F99-95D4-444C-A7B6-EA20ACE88879';
         this.moduleCaption = 'Event Type';
+
+
+        this.defaultNewRecordToExpect = {
+            EventType: "",
+            Inactive: false,
+        }
+
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    EventType: "GlobalScope.TestToken~1.TestToken",
+                },
+                seekObject: {
+                    EventType: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            EventType: this.newRecordsToCreate[0].record.EventType.toUpperCase(),
+            Inactive: false,
+        }
     }
     //---------------------------------------------------------------------------------------
 }
