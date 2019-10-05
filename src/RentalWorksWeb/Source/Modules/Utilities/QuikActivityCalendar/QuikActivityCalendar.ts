@@ -106,6 +106,20 @@ class QuikActivityCalendar {
                     FwFunc.showError(ex);
                 }
             })
+            .data('onheaderclick', event => {
+                const date = event.header.name;
+                const summary = FwFormField.getValueByDataField($form, 'Summary');
+                $quikActivityGridControl.data('ondatabind', request => {
+                    request.uniqueids = {
+                        WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId')
+                        , FromDate: date
+                        , ToDate: date
+                        , Summary: summary
+                        , SessionId: this.SessionId
+                    };
+                });
+                FwBrowse.search($quikActivityGridControl);
+            })
             .data('ontimerangeselect', event => {
                 try {
                     const fromDate = moment(event.start.value).format('MM/DD/YYYY');

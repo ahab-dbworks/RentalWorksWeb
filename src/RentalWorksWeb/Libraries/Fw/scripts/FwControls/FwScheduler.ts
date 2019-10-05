@@ -423,6 +423,7 @@ class FwSchedulerClass {
                 FwFunc.showError(ex);
             }
         };
+        if (typeof $control.data('onheaderclick') === 'function') dpcalendar.onHeaderClick = $control.data('onheaderclick');
         dpcalendar.init();
     };
     //---------------------------------------------------------------------------------
