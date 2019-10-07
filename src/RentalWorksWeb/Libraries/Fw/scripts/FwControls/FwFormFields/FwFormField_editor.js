@@ -1,7 +1,7 @@
 class FwFormField_editorClass {
     renderDesignerHtml($control, html) {
         html.push(FwControl.generateDesignerHandle($control.attr('data-type'), $control.attr('id')));
-        html.push('<div class="fwformfield-caption">' + $control.attr('data-caption') + '</div>');
+        html.push(`<div class="fwformfield-caption">${$control.attr('data-caption')}</div>`);
         html.push('<div class="fwformfield-control">');
         html.push('<textarea class="fwformfield-value"');
         if ($control.attr('data-enabled') === 'false') {
@@ -12,7 +12,7 @@ class FwFormField_editorClass {
         $control.html(html.join(''));
     }
     renderRuntimeHtml($control, html) {
-        html.push('<div class="fwformfield-caption">' + $control.attr('data-caption') + '</div>');
+        html.push(`<div class="fwformfield-caption">${$control.attr('data-caption')}</div>`);
         html.push('<div class="fwformfield-control">');
         html.push('<textarea name= editor1 class="fwformfield-value"');
         if ($control.attr('data-enabled') === 'false') {
@@ -21,6 +21,9 @@ class FwFormField_editorClass {
         html.push('></textarea>');
         html.push('</div>');
         $control.html(html.join(''));
+        const editorElement = $control.find('.fwformfield-value');
+        const editor = editorElement.ckeditor();
+        editorElement.data('editor', editor);
     }
     loadItems($control, items, hideEmptyItem) {
     }

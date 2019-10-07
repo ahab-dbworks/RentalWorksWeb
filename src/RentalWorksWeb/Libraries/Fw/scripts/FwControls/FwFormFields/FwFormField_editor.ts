@@ -2,7 +2,7 @@
     //---------------------------------------------------------------------------------
     renderDesignerHtml($control: JQuery<HTMLElement>, html: string[]): void {
         html.push(FwControl.generateDesignerHandle($control.attr('data-type'), $control.attr('id')));
-        html.push('<div class="fwformfield-caption">' + $control.attr('data-caption') + '</div>');
+        html.push(`<div class="fwformfield-caption">${$control.attr('data-caption')}</div>`);
         html.push('<div class="fwformfield-control">');
         html.push('<textarea class="fwformfield-value"');
         if ($control.attr('data-enabled') === 'false') {
@@ -14,7 +14,7 @@
     }
     //---------------------------------------------------------------------------------
     renderRuntimeHtml($control: JQuery<HTMLElement>, html: string[]): void {
-        html.push('<div class="fwformfield-caption">' + $control.attr('data-caption') + '</div>');
+        html.push(`<div class="fwformfield-caption">${$control.attr('data-caption')}</div>`);
         html.push('<div class="fwformfield-control">');
         html.push('<textarea name= editor1 class="fwformfield-value"');
         if ($control.attr('data-enabled') === 'false') {
@@ -23,16 +23,20 @@
         html.push('></textarea>');
         html.push('</div>');
         $control.html(html.join(''));
-        //var editor = $control.find('.fwformfield-value').ckeditor().editor;
-        //$control.data('editor', editor);
 
-        //editor.on('change', function () {
+        const editorElement = $control.find('.fwformfield-value');
+        const editor = editorElement.ckeditor();
+
+        editorElement.data('editor', editor);
+
+        //editor.ckeditorGet().on('change', function () {
         //    try {
-        //        $control.find('.fwformfield-value').change();
+        //        editorElement.change();
         //    } catch (ex) {
         //        FwFunc.showError(ex);
         //    }
         //});
+
         //editor.on('instanceReady', function () {
         //    try {
         //        this.dataProcessor.writer.setRules('p', {
