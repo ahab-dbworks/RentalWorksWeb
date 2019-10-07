@@ -22,6 +22,9 @@ namespace WebApi.Modules.Settings.SystemSettings
         [FwSqlDataField(column: "dbversion", modeltype: FwDataTypes.Text)]
         public string DatabaseVersion { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "sharedeals", modeltype: FwDataTypes.Boolean)]
+        public bool? ShareDealsAcrossOfficeLocations { get; set; }
+        //------------------------------------------------------------------------------------ 
 
         /*
         [FwSqlDataField(column: "maxrows", modeltype: FwDataTypes.Integer)]
@@ -107,9 +110,6 @@ namespace WebApi.Modules.Settings.SystemSettings
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "changedicoderetiredreasonid", modeltype: FwDataTypes.Text)]
         public string ChangedicoderetiredreasonId { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "sharedeals", modeltype: FwDataTypes.Boolean)]
-        public bool? Sharedeals { get; set; }
         //------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "allowdecreaseorderwhenstaged", modeltype: FwDataTypes.Boolean)]
         //public bool? Allowdecreaseorderwhenstaged { get; set; }

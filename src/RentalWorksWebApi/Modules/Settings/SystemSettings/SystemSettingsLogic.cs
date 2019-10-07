@@ -10,19 +10,21 @@ namespace WebApi.Modules.Settings.SystemSettings
     {
         //------------------------------------------------------------------------------------ 
         ControlRecord control = new ControlRecord();
+        SysControlRecord sysControl = new SysControlRecord();
         SystemSettingsLoader systemSettingsLoader = new SystemSettingsLoader();
 
         //------------------------------------------------------------------------------------ 
         public SystemSettingsLogic()
         {
             dataRecords.Add(control);
+            dataRecords.Add(sysControl);
             dataLoader = systemSettingsLoader;
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "bb0kgMEmdIsAz", IsPrimaryKey: true)]
-        public string SystemSettingsId { get { return control.ControlId; } set { control.ControlId = value; } }
+        public string SystemSettingsId { get { return control.ControlId; } set { control.ControlId = value;  sysControl.ControlId = value; } }
 
-        [FwLogicProperty(Id: "xxxxxxxxxxxxxxx", IsRecordTitle: true)]
+        [FwLogicProperty(Id: "MjkpoXIHIgjh4", IsRecordTitle: true)]
         public string SystemSettingsName { get { return "System Settings"; } }
 
         [FwLogicProperty(Id: "AnIwydk6lUHGC")]
@@ -33,6 +35,10 @@ namespace WebApi.Modules.Settings.SystemSettings
 
         [FwLogicProperty(Id: "mjQeIXHL6lIKJ")]
         public string DatabaseVersion { get { return control.Dbversion; } set { control.Dbversion = value; } }
+
+        [FwLogicProperty(Id: "R1FCd2eL0sjEO")]
+        public bool? ShareDealsAcrossOfficeLocations { get { return sysControl.ShareDealsAcrossOfficeLocations; } set { sysControl.ShareDealsAcrossOfficeLocations = value; } }
+
 
         /*
         //[FwLogicProperty(Id:"3RwUcgRBA7gxg")]
@@ -122,8 +128,6 @@ namespace WebApi.Modules.Settings.SystemSettings
         //[FwLogicProperty(Id:"NPycQpsd2JJb0")]
         //public string ChangedicoderetiredreasonId { get { return sysControl.ChangedicoderetiredreasonId; } set { sysControl.ChangedicoderetiredreasonId = value; } }
 
-        //[FwLogicProperty(Id:"hKPSTpdF2vEOf")]
-        //public bool? Sharedeals { get { return sysControl.Sharedeals; } set { sysControl.Sharedeals = value; } }
 
         //[FwLogicProperty(Id:"chejcaizCPapA")]
         //public bool? Allowdecreaseorderwhenstaged { get { return sysControl.Allowdecreaseorderwhenstaged; } set { sysControl.Allowdecreaseorderwhenstaged = value; } }

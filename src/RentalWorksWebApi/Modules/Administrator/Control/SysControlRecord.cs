@@ -69,7 +69,7 @@ namespace WebApi.Modules.Administrator.Control
         public string ChangedicoderetiredreasonId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "sharedeals", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool? Sharedeals { get; set; }
+        public bool? ShareDealsAcrossOfficeLocations { get; set; }
         //------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "allowdecreaseorderwhenstaged", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         //public bool? Allowdecreaseorderwhenstaged { get; set; }
