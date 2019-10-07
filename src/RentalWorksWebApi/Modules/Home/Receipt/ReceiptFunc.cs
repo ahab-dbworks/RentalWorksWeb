@@ -63,13 +63,13 @@ namespace WebApi.Modules.Home.Receipt
             qry.AddParameter("@customerid", SqlDbType.NVarChar, ParameterDirection.Input, request.CustomerId);
             qry.AddParameter("@dealid", SqlDbType.NVarChar, ParameterDirection.Input, request.DealId);
             qry.AddParameter("@locationid", SqlDbType.NVarChar, ParameterDirection.Input, request.OfficeLocationId);
-            qry.AddParameter("@deposits", SqlDbType.Decimal, ParameterDirection.Output);
-            qry.AddParameter("@credits", SqlDbType.Decimal, ParameterDirection.Output);
-            qry.AddParameter("@overpayments", SqlDbType.Decimal, ParameterDirection.Output);
+            qry.AddParameter("@deposits", SqlDbType.Money, ParameterDirection.Output);
+            qry.AddParameter("@credits", SqlDbType.Money, ParameterDirection.Output);
+            qry.AddParameter("@overpayments", SqlDbType.Money, ParameterDirection.Output);
             await qry.ExecuteNonQueryAsync();
-            response.DepletingDeposits = FwConvert.ToDecimal(qry.GetParameter("@deposits").ToString());
-            response.CreditMemos = FwConvert.ToDecimal(qry.GetParameter("@credits").ToString());
-            response.Overpayments = FwConvert.ToDecimal(qry.GetParameter("@overpayments").ToString());
+            response.DepletingDeposits = qry.GetParameter("@deposits").ToDecimal();
+            response.CreditMemos = qry.GetParameter("@credits").ToDecimal();
+            response.Overpayments = qry.GetParameter("@overpayments").ToDecimal();
 
             response.DepletingDepositsFormatted = FwConvert.ToCurrencyStringNoDollarSign(response.DepletingDeposits);
             response.CreditMemosFormatted = FwConvert.ToCurrencyStringNoDollarSign(response.CreditMemos);
