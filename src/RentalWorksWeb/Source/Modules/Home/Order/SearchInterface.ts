@@ -71,7 +71,7 @@ class SearchInterface {
                                       <i class="material-icons optionsbutton">settings</i>
                                       <div class="optionsmenu">
                                         <div class="flexcolumn">
-                                          <div data-datafield="Columns" data-control="FwFormField" data-type="checkboxlist" class="fwcontrol fwformfield columnOrder" data-caption="Select columns to display in Results" data-sortable="true" data-orderby="true" style="max-height:450px; margin-top: 10px;"></div>
+                                          <div data-datafield="Columns" data-control="FwFormField" data-type="checkboxlist" class="fwcontrol fwformfield columnOrder" data-caption="Select columns to display in Results" data-sortable="true" data-orderby="true" style="max-height:475px; margin-top: 10px;"></div>
                                           <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield fwformcontrol toggleAccessories" data-caption="Disable Auto-Expansion of Complete/Kit Accessories" data-datafield="DisableAccessoryAutoExpand"></div>
                                           <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield fwformcontrol" data-caption="Hide Inventory with Zero Quantity" data-datafield="HideZeroQuantity"></div>
                                           <div>
@@ -98,6 +98,7 @@ class SearchInterface {
                                       <div class="columnorder hideColumns" data-column="AllWh">All Warehouse</div>
                                       <div class="columnorder hideColumns" data-column="In">In</div>
                                       <div class="columnorder hideColumns" data-column="QC">QC</div>
+                                      <div class="columnorder" data-column="Note">Note</div>
                                       <div class="columnorder" data-column="Rate">Rate</div>
                                     </div>
                                     <div id="inventory"></div>
@@ -179,6 +180,7 @@ class SearchInterface {
             { value: 'In', text: 'In Quantity', selected: 'T' },
             { value: 'QC', text: 'QC Required Quantity', selected: 'T' },
             { value: 'Rate', text: 'Rate', selected: 'T' },
+            { value: 'Note', text: 'Note', selected: 'T' }
         ];
 
         let startDate;
@@ -566,7 +568,8 @@ class SearchInterface {
             availabilityStateIndex    = response.ColumnIndex.AvailabilityState,
             qtyIsStaleIndex           = response.ColumnIndex.QuantityAvailableIsStale,
             icode                     = response.ColumnIndex.ICode,
-            partNumber                = response.ColumnIndex.ManufacturerPartNumber;
+            partNumber                = response.ColumnIndex.ManufacturerPartNumber,
+            note                      = response.ColumnIndex.Note;
 
         $inventoryContainer.empty();
         $popup.find('.refresh-availability').hide();
@@ -603,6 +606,7 @@ class SearchInterface {
                                 <div data-column="AllWh" class="columnorder hideColumns">&#160;</div>
                                 <div data-column="In" class="columnorder hideColumns"><div class="gridcaption">In</div><div class="value">${response.Rows[i][quantityIn]}</div></div>
                                 <div data-column="QC" class="columnorder hideColumns"><div class="gridcaption">QC</div><div class="value">${response.Rows[i][quantityQcRequired]}</div></div>
+                                <div data-column="Note" class="columnorder note-button"><div class="gridcaption">Note</div><textarea class="value">${response.Rows[i][note]}</textarea><i class="material-icons">insert_drive_file</i></div>
                                 <div data-column="Rate" class="columnorder rate"><div class="gridcaption">Rate</div><div class="value">${rate}</div> </div>
                                 <div data-column="Quantity" class="columnorder">
                                   <div class="gridcaption">Qty</div>
@@ -1285,8 +1289,25 @@ class SearchInterface {
             FwControl.loadControls($fwcontrols);
             $popupForm.find('.btnpeek').remove();
             $popupForm.css({ 'background-color': 'white', 'box-shadow': '0 25px 44px rgba(0, 0, 0, 0.30), 0 20px 15px rgba(0, 0, 0, 0.22)', 'width': '75vw', 'height': '75vh', 'overflow': 'scroll', 'position': 'relative' });
+        });
 
-            //FwModule.openFormTab($popup, $newTab, 'Loading..', true, 'FORM', true);
+        $popup.on('click', '.note-button', e => {
+            e.stopPropagation();
+            let $confirmation, controlhtml;
+            let $notes = jQuery(e.currentTarget).find('textarea').text();
+            $confirmation = FwConfirmation.renderConfirmation('Note', '');
+            FwConfirmation.addButton($confirmation, 'Close', true);
+            controlhtml = [];
+            controlhtml.push('<div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield note" data-caption="Note" data-enabled="false" data-datafield=""></div>');
+            FwConfirmation.addControls($confirmation, controlhtml.join('\n'));
+            FwFormField.setValue($confirmation, '.note', $notes);
+            $confirmation.find('.note textarea')
+                .css({
+                    'width': '500px',
+                    'max-width': '500px',
+                    'height': '400px',
+                    'resize': 'both'
+                });
         });
 
         if (jQuery('html').hasClass('desktop')) {
@@ -1428,6 +1449,7 @@ class SearchInterface {
                                            <div class="columnorder hideColumns" data-column="AllWh"></div>
                                            <div class="columnorder hideColumns" data-column="In">In</div>
                                            <div class="columnorder hideColumns" data-column="QC"></div>
+                                           <div class="columnorder note-button" data-column="Note"></div>
                                            <div class="columnorder" data-column="Rate"></div>
                                          </div>`;
             accessoryContainer.append(jQuery(accessorycolumnshtml));
@@ -1460,6 +1482,7 @@ class SearchInterface {
             const defaultQuantityIndex           = response.ColumnIndex.DefaultQuantity;
             const icodeIndex                     = response.ColumnIndex.ICode;
             const partNumberIndex                = response.ColumnIndex.ManufacturerPartNumber;
+            const note                           = response.ColumnIndex.Note;
 
             for (var i = 0; i < response.Rows.length; i++) {
                 let imageThumbnail = response.Rows[i][thumbnail]  ? response.Rows[i][thumbnail]  : './theme/images/no-image.jpg';
@@ -1485,6 +1508,7 @@ class SearchInterface {
                                        <div class="columnorder" data-column="Type"></div>
                                        <div class="columnorder" data-column="Category"></div>
                                        <div class="columnorder" data-column="SubCategory"></div>
+                                       <div class="columnorder note-button" data-column="Note"><textarea class="value">${response.Rows[i][note]}</textarea><i class="material-icons">insert_drive_file</i></div>
                                        <div class="columnorder" data-column="Rate"></div>
                                        <div class="columnorder" data-column="QC"></div>
                                        <div class="columnorder" data-column="AllWh"></div>

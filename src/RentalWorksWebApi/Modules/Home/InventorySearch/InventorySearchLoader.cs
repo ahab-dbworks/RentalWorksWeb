@@ -132,6 +132,10 @@ namespace WebApi.Modules.Home.InventorySearch
         [FwSqlDataField(column: "defaultqty", modeltype: FwDataTypes.Decimal)]
         public decimal? DefaultQuantity { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "note", modeltype: FwDataTypes.Text)]
+        public string Note { get; set; }
+        //------------------------------------------------------------------------------------ 
+
 
         //------------------------------------------------------------------------------------ 
         private async Task<FwJsonDataTable> AddAvailabilityData(FwJsonDataTable dt, bool showAvailability, DateTime? fromDate, DateTime? toDate, string sessionId/*, bool refreshAvailability*/)
