@@ -1,30 +1,16 @@
 # How to Release RentalWorksWeb
 
-Last Updated 08/15/2019
+Last Updated 10/07/2019
+
+## Prerequisites
+- npm i -g md-to-pdf
+- npm install github-release-notes -g
 
 ## Build a Release
 - GitKraken: confirm that you are on local\develop branch
 - Stash any unstaged changes
 - Navigate to the solution root directory: %DwRentalWorksWebPath%
 - run the releaseRentalworksWeb.bat file
-- Stage, Commit, and Push assembly/version files, provide Description similar to "web: v2019.1.1.X"
-
-## Create a Release Tag in GitHub
-- Navigate to the repo on github.com
-- Click on Code -> Releases
-- [RentalWorksWeb Releases](https://github.com/DatabaseWorks/RentalWorksWeb/releases)
-- Click "Draft a new Release"
-- Input a Tag version: ie. web/v2019.1.1.24
-- Input a Release title: RentalWorksWeb 2019.1.1.24
-
-   ![Tag name and Description](release.png)
-- Drag-and-Drop the Zip file in the Release
-
-   ![Drag-and-Drop the Zip file in the Release](releasefiles.png)
-- Click the Publish Release button
-
-   ![Publish Release](publishrelease.png)
-
 
 ## Deployment Server info:
 ### 4Wall:

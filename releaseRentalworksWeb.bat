@@ -88,8 +88,9 @@ cd %DwRentalWorksWebPath%\build
 call gren changelog --token=4f42c7ba6af985f6ac6a6c9eba45d8f25388ef58 --username=databaseworks --repo=rentalworksweb --generate --override --changelog-filename=v%buildno%.md -t web/v%buildno% -c ..\config.grenrc
 start v%buildno%.md
 
-rem I really want to automate this, but haven't figured it out yet
-set /p=Manually create the %buildno%.pdf file, then hit ENTER to continue...
+rem produce a PDF of the MD file
+cd %DwRentalWorksWebPath%
+call md-to-pdf build\v%buildno%.md
 
 rem Need to use curl to publish the PDF file to ZenDesk as a new "article"
 rem curl https://dbworks.zendesk.com/api/v2/help_center/sections/{id}/articles.json \
