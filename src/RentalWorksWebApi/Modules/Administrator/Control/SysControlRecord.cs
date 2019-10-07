@@ -201,7 +201,7 @@ namespace WebApi.Modules.Administrator.Control
         public int? Availconflictlogdays { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "allowdeletebatchedreceipt", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool? Allowdeletebatchedreceipt { get; set; }
+        public bool? AllowDeleteExportedBeceipts { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "posecondapprovalwithoutfirst", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool? Posecondapprovalwithoutfirst { get; set; }

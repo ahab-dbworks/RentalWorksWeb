@@ -39,6 +39,9 @@ namespace WebApi.Modules.Settings.SystemSettings
         [FwLogicProperty(Id: "R1FCd2eL0sjEO")]
         public bool? ShareDealsAcrossOfficeLocations { get { return sysControl.ShareDealsAcrossOfficeLocations; } set { sysControl.ShareDealsAcrossOfficeLocations = value; } }
 
+        [FwLogicProperty(Id: "mxRFY4F28GOiA")]
+        public bool? AllowDeleteExportedBeceipts { get { return sysControl.AllowDeleteExportedBeceipts; } set { sysControl.AllowDeleteExportedBeceipts = value; } }
+
 
         /*
         //[FwLogicProperty(Id:"3RwUcgRBA7gxg")]
@@ -260,9 +263,6 @@ namespace WebApi.Modules.Settings.SystemSettings
 
         //[FwLogicProperty(Id:"b10uwgeURoRej")]
         //public int? Availconflictlogdays { get { return sysControl.Availconflictlogdays; } set { sysControl.Availconflictlogdays = value; } }
-
-        //[FwLogicProperty(Id:"d4eQnaJ5riiZo")]
-        //public bool? Allowdeletebatchedreceipt { get { return sysControl.Allowdeletebatchedreceipt; } set { sysControl.Allowdeletebatchedreceipt = value; } }
 
         //[FwLogicProperty(Id:"u2xBSKT7By478")]
         //public bool? Posecondapprovalwithoutfirst { get { return sysControl.Posecondapprovalwithoutfirst; } set { sysControl.Posecondapprovalwithoutfirst = value; } }

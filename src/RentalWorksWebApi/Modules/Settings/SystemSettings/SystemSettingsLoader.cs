@@ -25,6 +25,9 @@ namespace WebApi.Modules.Settings.SystemSettings
         [FwSqlDataField(column: "sharedeals", modeltype: FwDataTypes.Boolean)]
         public bool? ShareDealsAcrossOfficeLocations { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "allowdeletebatchedreceipt", modeltype: FwDataTypes.Boolean)]
+        public bool? AllowDeleteExportedBeceipts { get; set; }
+        //------------------------------------------------------------------------------------ 
 
         /*
         [FwSqlDataField(column: "maxrows", modeltype: FwDataTypes.Integer)]
@@ -245,9 +248,6 @@ namespace WebApi.Modules.Settings.SystemSettings
         ////------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "availconflictlogdays", modeltype: FwDataTypes.Integer)]
         public int? Availconflictlogdays { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "allowdeletebatchedreceipt", modeltype: FwDataTypes.Boolean)]
-        public bool? Allowdeletebatchedreceipt { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "posecondapprovalwithoutfirst", modeltype: FwDataTypes.Boolean)]
         public bool? Posecondapprovalwithoutfirst { get; set; }

@@ -9,6 +9,7 @@ using WebApi.Modules.Home.DepositPayment;
 using WebApi.Modules.Home.Invoice;
 using WebApi.Modules.Home.InvoiceReceipt;
 using WebApi.Modules.Settings.PaymentType;
+using WebApi.Modules.Settings.SystemSettings;
 using WebLibrary;
 
 namespace WebApi.Modules.Home.Receipt
@@ -693,8 +694,22 @@ namespace WebApi.Modules.Home.Receipt
         {
             if (!string.IsNullOrEmpty(ChargeBatchId))
             {
-                e.PerformDelete = false;
-                e.ErrorMessage = $"Cannot delete this Receipt because it has already been exported.";
+                SystemSettingsLogic s = new SystemSettingsLogic();
+                s.SetDependencies(AppConfig, UserSession);
+                s.SystemSettingsId = RwConstants.CONTROL_ID;
+                bool b = s.LoadAsync<SystemSettingsLogic>().Result;
+                if (s.AllowDeleteExportedBeceipts.GetValueOrDefault(false)) {
+                    e.PerformDelete = false;
+                    e.ErrorMessage = $"Receipt has already been exported.  Are you sure you want to delete?";
+                    //GH #1097
+                    //when this happens, the pop-up that the user sees should  have some sort of Yes/No buttons to override and force the delete to go through
+                }
+                else
+                {
+                    e.PerformDelete = false;
+                    e.ErrorMessage = $"Cannot delete this Receipt because it has already been exported.";
+                }
+
             }
         }
         //------------------------------------------------------------------------------------
