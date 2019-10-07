@@ -57,18 +57,37 @@ namespace WebApi.Modules.Settings.Department
         //[FwSqlDataField(column: "wardrobe", modeltype: FwDataTypes.Boolean)]
         //public bool? Wardrobe { get; set; }
         ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "activityrental", modeltype: FwDataTypes.Boolean)]
-        //public bool? Activityrental { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "activitysales", modeltype: FwDataTypes.Boolean)]
-        //public bool? Activitysales { get; set; }
-        ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "divisionid", modeltype: FwDataTypes.Text)]
         //public string DivisionId { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "division", modeltype: FwDataTypes.Text)]
         //public string Division { get; set; }
         ////------------------------------------------------------------------------------------ 
+
+
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "activityrental", modeltype: FwDataTypes.Boolean)]
+        public bool? DefaultActivityRental { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "activitysales", modeltype: FwDataTypes.Boolean)]
+        public bool? DefaultActivitySales { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "activitylabor", modeltype: FwDataTypes.Boolean)]
+        public bool? DefaultActivityLabor { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "activitymisc", modeltype: FwDataTypes.Boolean)]
+        public bool? DefaultActivityMiscellaneous { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "activityspace", modeltype: FwDataTypes.Boolean)]
+        public bool? DefaultActivityFacilities { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "activityvehicle", modeltype: FwDataTypes.Boolean)]
+        public bool? DefaultActivityTransportation { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "activityrentalsale", modeltype: FwDataTypes.Boolean)]
+        public bool? DefaultActivityUsedSale { get; set; }
+        //------------------------------------------------------------------------------------ 
+
 
         [FwSqlDataField(column: "disableeditraterental", modeltype: FwDataTypes.Boolean)]
         public bool? DisableEditingRentalRate { get; set; }

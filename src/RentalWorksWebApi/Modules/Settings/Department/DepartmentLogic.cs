@@ -31,6 +31,21 @@ namespace WebApi.Modules.Settings.Department
         [FwLogicProperty(Id: "8xfpTZtshYL2")]
         public string DivisionCode { get { return department.DivisionCode; } set { department.DivisionCode = value; } }
 
+        [FwLogicProperty(Id: "jD0jeiea5Zgoq")]
+        public bool? DefaultActivityRental { get { return department.DefaultActivityRental; } set { department.DefaultActivityRental = value; } }
+        [FwLogicProperty(Id: "QuHtFA6mjHfuL")]
+        public bool? DefaultActivitySales { get { return department.DefaultActivitySales; } set { department.DefaultActivitySales = value; } }
+        [FwLogicProperty(Id: "IcBY6EA1rxLzl")]
+        public bool? DefaultActivityLabor { get { return department.DefaultActivityLabor; } set { department.DefaultActivityLabor = value; } }
+        [FwLogicProperty(Id: "cjHuFUcmaOFon")]
+        public bool? DefaultActivityMiscellaneous { get { return department.DefaultActivityMiscellaneous; } set { department.DefaultActivityMiscellaneous = value; } }
+        [FwLogicProperty(Id: "alQGWOl8Vesa6")]
+        public bool? DefaultActivityFacilities { get { return department.DefaultActivityFacilities; } set { department.DefaultActivityFacilities = value; } }
+        [FwLogicProperty(Id: "wqrIzZBXbmDyf")]
+        public bool? DefaultActivityTransportation { get { return department.DefaultActivityTransportation; } set { department.DefaultActivityTransportation = value; } }
+        [FwLogicProperty(Id: "CfeaaBjWJdA1u")]
+        public bool? DefaultActivityUsedSale { get { return department.DefaultActivityUsedSale; } set { department.DefaultActivityUsedSale = value; } }
+
         [FwLogicProperty(Id: "ZvZeip9cKpPa")]
         public bool? DisableEditingRentalRate { get { return department.DisableEditingRentalRate; } set { department.DisableEditingRentalRate = value; } }
 

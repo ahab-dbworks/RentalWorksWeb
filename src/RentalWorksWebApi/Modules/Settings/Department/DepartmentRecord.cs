@@ -20,6 +20,27 @@ namespace WebApi.Modules.Settings.Department
         [FwSqlDataField(column: "divisioncode", modeltype: FwDataTypes.Text, maxlength: 20)]
         public string DivisionCode { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "activityrental", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
+        public bool? DefaultActivityRental { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "activitysales", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
+        public bool? DefaultActivitySales { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "activitylabor", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
+        public bool? DefaultActivityLabor { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "activitymisc", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
+        public bool? DefaultActivityMiscellaneous { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "activityspace", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
+        public bool? DefaultActivityFacilities { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "activityvehicle", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
+        public bool? DefaultActivityTransportation { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "activityrentalsale", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
+        public bool? DefaultActivityUsedSale { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "disableeditraterental", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
         public bool? DisableEditingRentalRate { get; set; }
         //------------------------------------------------------------------------------------ 
