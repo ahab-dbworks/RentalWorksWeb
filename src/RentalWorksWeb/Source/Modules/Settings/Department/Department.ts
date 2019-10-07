@@ -44,7 +44,9 @@
         $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 
-        // if New, SalesBillingRule s/b BILLINGDATE
+        if (mode === 'NEW') {
+            FwFormField.setValueByDataField($form, 'SalesBillingRule', 'BILLINGDATE');
+        }
 
         return $form;
     }
