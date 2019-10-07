@@ -100,8 +100,6 @@
                 },
                 form: {
                     menuItems: {
-                        //AddLossAndDamage: { id: '{427FCDFE-7E42-4081-A388-150D3D7FAE36}' },
-                        //RetireLossAndDamage: { id: '{77E354ED-06B6-4A1B-B4E9-EB7B5B407E96}' },
                         Search: { id: '{B2D127C6-A1C2-4697-8F3B-9A678F3EAEEE}' },
                         CopyOrder: { id: '{E25CB084-7E7F-4336-9512-36B7271AC151}' },
                         PrintOrder: { id: '{F2FD2F4C-1AB7-4627-9DD5-1C8DB96C5509}' },

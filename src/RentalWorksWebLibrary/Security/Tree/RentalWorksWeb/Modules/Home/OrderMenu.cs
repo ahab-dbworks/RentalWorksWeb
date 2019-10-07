@@ -26,8 +26,7 @@ namespace WebLibrary.Security.Tree.RentalWorksWeb.Modules
             var nodeFormSubMenu = tree.AddSubMenu("{FA642E0C-D1DC-42C7-B52B-C966A631FDE5}", nodeFormMenuBar.Id);
             var nodeFormOptions = tree.AddSubMenuGroup("Options", "{F1DE9D9F-5311-4AA3-B477-B1F6A144F8D4}", nodeFormSubMenu.Id);
             tree.AddSaveMenuBarButton("{CEC1871C-DA65-418E-AF7E-C3DA25CA41A5}", nodeFormMenuBar.Id);
-            tree.AddSubMenuItem("Add Loss & Damage", "'{427FCDFE-7E42-4081-A388-150D3D7FAE36}", nodeFormOptions.Id);
-            tree.AddSubMenuItem("Retire Loss & Damage", "{77E354ED-06B6-4A1B-B4E9-EB7B5B407E96}", nodeFormOptions.Id);
+
             tree.AddSubMenuItem("Search Inventory", "{B2D127C6-A1C2-4697-8F3B-9A678F3EAEEE}", nodeFormOptions.Id);
             tree.AddSubMenuItem("Copy Order", "{E25CB084-7E7F-4336-9512-36B7271AC151}", nodeFormOptions.Id);
             tree.AddSubMenuItem("Print Order", "{F2FD2F4C-1AB7-4627-9DD5-1C8DB96C5509}", nodeFormOptions.Id);

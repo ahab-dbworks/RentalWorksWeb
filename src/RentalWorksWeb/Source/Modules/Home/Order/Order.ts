@@ -1860,35 +1860,35 @@ class Order extends OrderBase {
     //----------------------------------------------------------------------------------------------
 };
 //---------------------------------------------------------------------------------
-FwApplicationTree.clickEvents[Constants.Modules.Home.Order.form.menuItems.AddLossAndDamage.id] = function (event: JQuery.ClickEvent) {
-    try {
-        const $form = jQuery(this).closest('.fwform');
-        if ($form.attr('data-mode') !== 'NEW') {
-            OrderController.addLossDamage($form, event);
-        } else {
-            FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
-        }
-    }
-    catch (ex) {
-        FwFunc.showError(ex);
-    }
-};
+//FwApplicationTree.clickEvents[Constants.Modules.Home.Order.form.menuItems.AddLossAndDamage.id] = function (event: JQuery.ClickEvent) {
+//    try {
+//        const $form = jQuery(this).closest('.fwform');
+//        if ($form.attr('data-mode') !== 'NEW') {
+//            OrderController.addLossDamage($form, event);
+//        } else {
+//            FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
+//        }
+//    }
+//    catch (ex) {
+//        FwFunc.showError(ex);
+//    }
+//};
+//////---------------------------------------------------------------------------------
+//FwApplicationTree.clickEvents[Constants.Modules.Home.Order.form.menuItems.RetireLossAndDamage.id] = function (event: JQuery.ClickEvent) {
+//    try {
+//        const $form = jQuery(this).closest('.fwform');
+//        if ($form.attr('data-mode') !== 'NEW') {
+//            let $form = jQuery(this).closest('.fwform');
+//            OrderController.retireLossDamage($form);
+//        } else {
+//            FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
+//        }
+//    }
+//    catch (ex) {
+//        FwFunc.showError(ex);
+//    }
+//};
 ////---------------------------------------------------------------------------------
-FwApplicationTree.clickEvents[Constants.Modules.Home.Order.form.menuItems.RetireLossAndDamage.id] = function (event: JQuery.ClickEvent) {
-    try {
-        const $form = jQuery(this).closest('.fwform');
-        if ($form.attr('data-mode') !== 'NEW') {
-            let $form = jQuery(this).closest('.fwform');
-            OrderController.retireLossDamage($form);
-        } else {
-            FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
-        }
-    }
-    catch (ex) {
-        FwFunc.showError(ex);
-    }
-};
-//---------------------------------------------------------------------------------
 FwApplicationTree.clickEvents[Constants.Modules.Home.Order.form.menuItems.CreateSnapshot.id] = function (event: JQuery.ClickEvent) {
     try {
         const $form = jQuery(this).closest('.fwform');

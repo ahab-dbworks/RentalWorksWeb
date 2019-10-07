@@ -1095,5 +1095,33 @@ FwApplicationTree.clickEvents[Constants.Grids.OrderItemGrid.menuItems.SplitDetai
     jQuery(document).trigger('click');
 }
 //---------------------------------------------------------------------------------
-
+FwApplicationTree.clickEvents[Constants.Grids.OrderItemGrid.menuItems.AddLossAndDamageItems.id] = function (event: JQuery.ClickEvent) {
+    try {
+        const $form = jQuery(this).closest('.fwform');
+        if ($form.attr('data-mode') !== 'NEW') {
+            OrderController.addLossDamage($form, event);
+        } else {
+            FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
+        }
+    }
+    catch (ex) {
+        FwFunc.showError(ex);
+    }
+};
+//---------------------------------------------------------------------------------
+FwApplicationTree.clickEvents[Constants.Grids.OrderItemGrid.menuItems.RetireLossAndDamageItems.id] = function (event: JQuery.ClickEvent) {
+    try {
+        const $form = jQuery(this).closest('.fwform');
+        if ($form.attr('data-mode') !== 'NEW') {
+            let $form = jQuery(this).closest('.fwform');
+            OrderController.retireLossDamage($form);
+        } else {
+            FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
+        }
+    }
+    catch (ex) {
+        FwFunc.showError(ex);
+    }
+};
+//---------------------------------------------------------------------------------
 var OrderItemGridController = new OrderItemGrid();
