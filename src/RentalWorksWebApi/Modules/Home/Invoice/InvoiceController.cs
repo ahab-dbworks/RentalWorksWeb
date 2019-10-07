@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using WebApi.Logic;
 using System;
 using Microsoft.AspNetCore.Http;
+using WebLibrary;
 
 namespace WebApi.Modules.Home.Invoice
 {
@@ -25,6 +26,26 @@ namespace WebApi.Modules.Home.Invoice
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // GET api/v1/invoice/legend 
+        [HttpGet("legend")]
+        [FwControllerMethod(Id: "pBCVhSqQIGNnS")]
+        public async Task<ActionResult<Dictionary<string, string>>> GetLegend()
+        {
+            Dictionary<string, string> legend = new Dictionary<string, string>();
+            legend.Add("Locked", RwGlobals.INVOICE_LOCKED_COLOR);
+            legend.Add("No Charge", RwGlobals.INVOICE_NO_CHARGE_COLOR);
+            legend.Add("Adjusted", RwGlobals.INVOICE_ADJUSTED_COLOR);
+            legend.Add("Hiatus", RwGlobals.INVOICE_HIATUS_COLOR);
+            legend.Add("Flat PO", RwGlobals.INVOICE_FLAT_PO_COLOR);
+            legend.Add("Credit", RwGlobals.INVOICE_CREDIT_COLOR);
+            legend.Add("Altered Dates", RwGlobals.INVOICE_ALTERED_DATES_COLOR);
+            legend.Add("Repair", RwGlobals.INVOICE_REPAIR_COLOR);
+            legend.Add("Estimate", RwGlobals.INVOICE_ESTIMATE_COLOR);
+            legend.Add("Loss & Damage", RwGlobals.INVOICE_LOSS_AND_DAMAGE_COLOR);
+            await Task.CompletedTask; // get rid of the no async call warning
+            return new OkObjectResult(legend);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/invoice/exportexcelxlsx/filedownloadname 

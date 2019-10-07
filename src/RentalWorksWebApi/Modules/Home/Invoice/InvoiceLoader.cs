@@ -2,15 +2,12 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 namespace WebApi.Modules.Home.Invoice
 {
-    [FwSqlTable("invoicewebview")]
+    [FwSqlTable("invoicewebview2")]
     public class InvoiceLoader : InvoiceBrowseLoader
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "invoiceduedate", modeltype: FwDataTypes.Date)]
         public string InvoiceDueDate { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "invoicetype", modeltype: FwDataTypes.Text)]
-        public string InvoiceType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderdesc", modeltype: FwDataTypes.Text)]
         public string OrderDescription { get; set; }

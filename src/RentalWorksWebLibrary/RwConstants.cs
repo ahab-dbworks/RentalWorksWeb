@@ -201,6 +201,16 @@
         public const string INVOICE_TYPE_WORKSHEET = "WORKSHEET";
         public const string INVOICE_TYPE_PREVIEW = "PREVIEW";
 
+        public const int INVOICE_LOCKED_COLOR = 767;              // red
+        public const int INVOICE_NO_CHARGE_COLOR = 7303167;       // light red
+        public const int INVOICE_ADJUSTED_COLOR = 16744703;       // light purple
+        public const int INVOICE_HIATUS_COLOR = 6076420;          // green
+        public const int INVOICE_FLAT_PO_COLOR = 16746633;        // blue
+        public const int INVOICE_CREDIT_COLOR = 16768221;         // lighter purple
+        public const int INVOICE_ALTERED_DATES_COLOR = 8453892;   // light green
+        public const int INVOICE_REPAIR_COLOR = 11447902;         // darkish green
+        public const int INVOICE_ESTIMATE_COLOR = 98559;          // orange 
+        public const int INVOICE_LOSS_AND_DAMAGE_COLOR = 4194368; // dark purple
 
         //BATCH PROCESSING
         public const string BATCH_TYPE_INVOICE = "INVOICE";

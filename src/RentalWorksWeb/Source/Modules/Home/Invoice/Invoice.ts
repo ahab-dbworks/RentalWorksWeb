@@ -50,16 +50,18 @@ class Invoice {
                 $tr.css('color', '#aaaaaa');
             }
         });
-        FwBrowse.addLegend($browse, 'Locked', '#FF0200');
-        FwBrowse.addLegend($browse, 'No Charge', '#FF6F6F');
-        FwBrowse.addLegend($browse, 'Adjusted', '#FF80FF');
-        FwBrowse.addLegend($browse, 'Hiatus', '#04B85C');
-        FwBrowse.addLegend($browse, 'Flat PO', '#8988FF');
-        FwBrowse.addLegend($browse, 'Credit', '#DDDCFF');
-        FwBrowse.addLegend($browse, 'Altered Dates', '#04FF80');
-        FwBrowse.addLegend($browse, 'Repair', '#5EAEAE');
-        FwBrowse.addLegend($browse, 'Estimate', '#FF8001');
-        FwBrowse.addLegend($browse, 'L&D', '#400040');
+
+        try {
+            FwAppData.apiMethod(true, 'GET', `${this.apiurl}/legend`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                for (let key in response) {
+                    FwBrowse.addLegend($browse, key, response[key]);
+                }
+            }, function onError(response) {
+                FwFunc.showError(response);
+            }, $browse)
+        } catch (ex) {
+            FwFunc.showError(ex);
+        }
 
         return $browse;
     };

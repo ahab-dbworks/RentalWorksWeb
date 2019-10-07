@@ -39,6 +39,18 @@ namespace WebLibrary
         public static string ORDER_REPAIR_COLOR { get; set; }
         public static string ORDER_LOSS_AND_DAMAGE_COLOR { get; set; }
 
+        //INVOICE
+        public static string INVOICE_LOCKED_COLOR { get; set; }
+        public static string INVOICE_NO_CHARGE_COLOR { get; set; }
+        public static string INVOICE_ADJUSTED_COLOR { get; set; }
+        public static string INVOICE_HIATUS_COLOR { get; set; }
+        public static string INVOICE_FLAT_PO_COLOR { get; set; }
+        public static string INVOICE_CREDIT_COLOR { get; set; }
+        public static string INVOICE_ALTERED_DATES_COLOR { get; set; }
+        public static string INVOICE_REPAIR_COLOR { get; set; }
+        public static string INVOICE_ESTIMATE_COLOR { get; set; }
+        public static string INVOICE_LOSS_AND_DAMAGE_COLOR { get; set; }
+
         //RECEIPT
         public static string RECEIPT_RECTYPE_OVERPAYMENT_COLOR { get; set; }
         public static string RECEIPT_RECTYPE_DEPLETING_DEPOSIT_COLOR { get; set; }
@@ -159,6 +171,18 @@ namespace WebLibrary
             ORDER_LATE_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.ORDER_LATE_COLOR);
             ORDER_REPAIR_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.ORDER_REPAIR_COLOR);
             ORDER_LOSS_AND_DAMAGE_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.ORDER_LOSS_AND_DAMAGE_COLOR);
+
+
+            INVOICE_LOCKED_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.INVOICE_LOCKED_COLOR);
+            INVOICE_NO_CHARGE_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.INVOICE_NO_CHARGE_COLOR);
+            INVOICE_ADJUSTED_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.INVOICE_ADJUSTED_COLOR);
+            INVOICE_HIATUS_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.INVOICE_HIATUS_COLOR);
+            INVOICE_FLAT_PO_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.INVOICE_FLAT_PO_COLOR);
+            INVOICE_CREDIT_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.INVOICE_CREDIT_COLOR);
+            INVOICE_ALTERED_DATES_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.INVOICE_ALTERED_DATES_COLOR);
+            INVOICE_REPAIR_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.INVOICE_REPAIR_COLOR);
+            INVOICE_ESTIMATE_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.INVOICE_ESTIMATE_COLOR);
+            INVOICE_LOSS_AND_DAMAGE_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.INVOICE_LOSS_AND_DAMAGE_COLOR);
 
 
 

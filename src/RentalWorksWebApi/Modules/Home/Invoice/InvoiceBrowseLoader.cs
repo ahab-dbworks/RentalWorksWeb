@@ -8,10 +8,15 @@ using System;
 using WebLibrary;
 namespace WebApi.Modules.Home.Invoice
 {
-    [FwSqlTable("invoicewebbrowseview")]
+    [FwSqlTable("invoicewebbrowseview2")]
     public class InvoiceBrowseLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
+        public InvoiceBrowseLoader()
+        {
+            AfterBrowse += OnAfterBrowse;
+        }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "invoiceid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
         public string InvoiceId { get; set; } = "";
         //------------------------------------------------------------------------------------ 
@@ -20,6 +25,9 @@ namespace WebApi.Modules.Home.Invoice
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "invoicedate", modeltype: FwDataTypes.Date)]
         public string InvoiceDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "invoicetype", modeltype: FwDataTypes.Text)]
+        public string InvoiceType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "billingstart", modeltype: FwDataTypes.Date)]
         public string BillingStartDate { get; set; }
@@ -53,9 +61,6 @@ namespace WebApi.Modules.Home.Invoice
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "pono", modeltype: FwDataTypes.Text)]
         public string PurchaseOrderNumber { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "ponocolor", modeltype: FwDataTypes.OleToHtmlColor)]
-        public string PurchaseOrderNumberColor { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "status", modeltype: FwDataTypes.Text)]
         public string Status { get; set; }
@@ -102,27 +107,77 @@ namespace WebApi.Modules.Home.Invoice
         [FwSqlDataField(column: "invoicebatchid", modeltype: FwDataTypes.Text)]
         public string InvoiceCreationBatchId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "invoicenocolor", modeltype: FwDataTypes.OleToHtmlColor)]
-        public string InvoiceNumberColor { get; set; }
+        [FwSqlDataField(column: "orderhaslockedtotal", modeltype: FwDataTypes.Boolean)]
+        public bool? OrderHasLockedTotal { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "statuscolor", modeltype: FwDataTypes.OleToHtmlColor)]
-        public string StatusColor { get; set; }
+        [FwSqlDataField(column: "billedhiatus", modeltype: FwDataTypes.Boolean)]
+        public bool? BilledHiatus { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "ordernocolor", modeltype: FwDataTypes.OleToHtmlColor)]
-        public string OrderNumberColor { get; set; }
+        [FwSqlDataField(column: "hasrepairitem", modeltype: FwDataTypes.Boolean)]
+        public bool? HasRepairItem { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "dealcolor", modeltype: FwDataTypes.OleToHtmlColor)]
-        public string DealColor { get; set; }
+        [FwSqlDataField(column: "haslditem", modeltype: FwDataTypes.Boolean)]
+        public bool? HasLossAndDamageItem { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "invoicedesccolor", modeltype: FwDataTypes.OleToHtmlColor)]
-        public string DescriptionColor { get; set; }
+        [FwSqlDataField(column: "isflatpo", modeltype: FwDataTypes.Boolean)]
+        public bool? IsFlatPo { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "billingstartdatecolor", modeltype: FwDataTypes.OleToHtmlColor)]
-        public string BillingStartDateColor { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "invoicetotalcolor", modeltype: FwDataTypes.OleToHtmlColor)]
-        public string InvoiceTotalColor { get; set; }
-        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string PurchaseOrderNumberColor
+        {
+            get { return getPurchaseOrderNumberColor(IsFlatPo.GetValueOrDefault(false)); }
+            set { }
+        }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string InvoiceNumberColor
+        {
+            get { return getInvoiceNumberColor(InvoiceType, IsAdjusted.GetValueOrDefault(false)); }
+            set { }
+        }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string StatusColor
+        {
+            get { return getStatusColor(InvoiceType); }
+            set { }
+        }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string OrderNumberColor
+        {
+            get { return getOrderNumberColor(OrderHasLockedTotal.GetValueOrDefault(false)); }
+            set { }
+        }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string DealColor
+        {
+            get { return getDealColor(BilledHiatus.GetValueOrDefault(false)); }
+            set { }
+        }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string DescriptionColor
+        {
+            get { return getDescriptionColor(HasRepairItem.GetValueOrDefault(false), HasLossAndDamageItem.GetValueOrDefault(false)); }
+            set { }
+        }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string BillingStartDateColor
+        {
+            get { return getBillingStartDateColor(IsAlteredDates.GetValueOrDefault(false)); }
+            set { }
+        }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string InvoiceTotalColor
+        {
+            get { return getInvoiceTotalColor(IsNoCharge.GetValueOrDefault(false)); }
+            set { }
+        }
+        //------------------------------------------------------------------------------------
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
             base.SetBaseSelectQuery(select, qry, customFields, request);
@@ -156,6 +211,118 @@ namespace WebApi.Modules.Home.Invoice
 
 
         }
+        //------------------------------------------------------------------------------------    
+        private string getPurchaseOrderNumberColor(bool isFlatPo)
+        {
+            string color = null;
+            if (isFlatPo)
+            {
+                color = RwGlobals.INVOICE_FLAT_PO_COLOR;
+            }
+            return color;
+        }
+        //------------------------------------------------------------------------------------    
+        private string getInvoiceNumberColor(string invoiceType, bool adjusted)
+        {
+            string color = null;
+            if (invoiceType.Equals(RwConstants.INVOICE_TYPE_CREDIT))
+            {
+                color = RwGlobals.INVOICE_CREDIT_COLOR;
+            }
+            else if (adjusted)
+            {
+                color = RwGlobals.INVOICE_ADJUSTED_COLOR;
+            }
+            return color;
+        }
+        //------------------------------------------------------------------------------------    
+        private string getStatusColor(string invoiceType)
+        {
+            string color = null;
+            if (invoiceType.Equals(RwConstants.INVOICE_TYPE_ESTIMATE))
+            {
+                color = RwGlobals.INVOICE_ESTIMATE_COLOR;
+            }
+            return color;
+        }
+        //------------------------------------------------------------------------------------    
+        private string getOrderNumberColor(bool orderHasLockedTotal)
+        {
+            string color = null;
+            if (orderHasLockedTotal)
+            {
+                color = RwGlobals.INVOICE_LOCKED_COLOR;
+            }
+            return color;
+        }
+        //------------------------------------------------------------------------------------    
+        private string getDealColor(bool billedHiatus)
+        {
+            string color = null;
+            if (billedHiatus)
+            {
+                color = RwGlobals.INVOICE_HIATUS_COLOR;
+            }
+            return color;
+        }
+        //------------------------------------------------------------------------------------    
+        private string getDescriptionColor(bool hasRepairItem, bool hasLdItem)
+        {
+            string color = null;
+            if (hasRepairItem)
+            {
+                color = RwGlobals.INVOICE_REPAIR_COLOR;
+            }
+            else if (hasLdItem)
+            {
+                color = RwGlobals.INVOICE_LOSS_AND_DAMAGE_COLOR;
+            }
+            return color;
+        }
+        //------------------------------------------------------------------------------------    
+        private string getBillingStartDateColor(bool alteredDates)
+        {
+            string color = null;
+            if (alteredDates)
+            {
+                color = RwGlobals.INVOICE_ALTERED_DATES_COLOR;
+            }
+            return color;
+        }
+        //------------------------------------------------------------------------------------    
+        private string getInvoiceTotalColor(bool noCharge)
+        {
+            string color = null;
+            if (noCharge)
+            {
+                color = RwGlobals.INVOICE_NO_CHARGE_COLOR;
+            }
+            return color;
+        }
+        //------------------------------------------------------------------------------------    
+        public void OnAfterBrowse(object sender, AfterBrowseEventArgs e)
+        {
+            if (e.DataTable != null)
+            {
+                FwJsonDataTable dt = e.DataTable;
+                if (dt.Rows.Count > 0)
+                {
+                    foreach (List<object> row in dt.Rows)
+                    {
+                        //row[dt.GetColumnNo("NumberColor")] = getNumberColor(row[dt.GetColumnNo("Type")].ToString(), row[dt.GetColumnNo("Status")].ToString(), row[dt.GetColumnNo("EstimatedStopDate")].ToString());
+                        //row[dt.GetColumnNo("WarehouseColor")] = getWarehouseColor(FwConvert.ToBoolean(row[dt.GetColumnNo("IsMultiWarehouse")].ToString()));
+                        row[dt.GetColumnNo("PurchaseOrderNumberColor")] = getPurchaseOrderNumberColor(FwConvert.ToBoolean(row[dt.GetColumnNo("IsFlatPo")].ToString()));
+                        row[dt.GetColumnNo("InvoiceNumberColor")] = getInvoiceNumberColor(row[dt.GetColumnNo("InvoiceType")].ToString(), FwConvert.ToBoolean(row[dt.GetColumnNo("IsAdjusted")].ToString()));
+                        row[dt.GetColumnNo("StatusColor")] = getStatusColor(row[dt.GetColumnNo("InvoiceType")].ToString());
+                        row[dt.GetColumnNo("OrderNumberColor")] = getOrderNumberColor(FwConvert.ToBoolean(row[dt.GetColumnNo("OrderHasLockedTotal")].ToString()));
+                        row[dt.GetColumnNo("DealColor")] = getDealColor(FwConvert.ToBoolean(row[dt.GetColumnNo("BilledHiatus")].ToString()));
+                        row[dt.GetColumnNo("DescriptionColor")] = getDescriptionColor(FwConvert.ToBoolean(row[dt.GetColumnNo("HasRepairItem")].ToString()), FwConvert.ToBoolean(row[dt.GetColumnNo("HasLossAndDamageItem")].ToString()));
+                        row[dt.GetColumnNo("BillingStartDateColor")] = getBillingStartDateColor(FwConvert.ToBoolean(row[dt.GetColumnNo("IsAlteredDates")].ToString()));
+                        row[dt.GetColumnNo("InvoiceTotalColor")] = getInvoiceTotalColor(FwConvert.ToBoolean(row[dt.GetColumnNo("IsNoCharge")].ToString()));
+                    }
+                }
+            }
+        }
+        //------------------------------------------------------------------------------------    
     }
-    //------------------------------------------------------------------------------------    
 }
