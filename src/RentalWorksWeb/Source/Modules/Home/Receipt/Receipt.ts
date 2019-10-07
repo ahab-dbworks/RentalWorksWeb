@@ -622,7 +622,7 @@ class Receipt {
                             break;
                         }
                     }
-                    // Amount field
+                    // Amount input field
                     const currentAmountField = $amountFields.eq(i);
                     if (element.is(currentAmountField)) {
                         let amountInput = $amountFields.eq(i).val().replace(/,/g, '');
@@ -643,10 +643,6 @@ class Receipt {
                         let due = dueLineTotal.toFixed(2);
                         due = due.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
                         $dueFields.eq(i).text(due);
-
-                        //console.log('amount', amountInput, i)
-                        //console.log('due', due)
-                        //console.log('applied', applied)
                         recurse = true;
                         break;
                     }
@@ -725,7 +721,7 @@ class Receipt {
                             }
                         }
                         calculateInvoiceTotals($form, ev);
-                        el.data('payAmountOnFocus', val);
+                        el.data('payAmountOnFocus', val); // reset line before total in case user doesnt leave input and changes again
                         console.log('payAmountOnChange', el.data('payAmountOnFocus'))
                     });
                     // Store intial amount value for calculations after change
