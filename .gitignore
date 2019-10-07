@@ -187,3 +187,4 @@
 /src/JestTest/**/*.js
 /src/JestTest/**/*.map
 /src/JestTest/*.html
+/src/JestTest/*.pdf

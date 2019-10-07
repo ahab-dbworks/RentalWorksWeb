@@ -23,24 +23,28 @@ rem --------------------------------------------------------------------------
 rem --------------------------------------------------------------------------
 
 IF "%DwRentalWorksWebPath%"=="" ECHO Environment Variable DwRentalWorksWebPath is NOT defined
+IF "%DwRentalWorksWebPath%"=="" set /p=Hit ENTER to exit
 IF "%DwRentalWorksWebPath%"=="" exit /B
 
 cd %DwRentalWorksWebPath%\src\JestTest
 
 if exist test-report.html (del test-report.html)
-if exist test-report-LoginLogout.html (del test-report-LoginLogout.html)
+if exist RentalWorksWeb_TestReport_LoginLogout.pdf (del RentalWorksWeb_TestReport_LoginLogout.pdf)
 call npm run test-rentalworksweb -t LoginLogout
-ren test-report.html test-report-LoginLogout.html
-start test-report-LoginLogout.html
+"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" --headless --disable-gpu --print-to-pdf=%DwRentalWorksWebPath%\build\RentalWorksWeb_TestReport_LoginLogout.pdf %DwRentalWorksWebPath%\src\JestTest\test-report.html
+start RentalWorksWeb_TestReport_LoginLogout.pdf
+if exist test-report.html (del test-report.html)
 
 if exist test-report.html (del test-report.html)
-if exist test-report-RwwShallowRegression.html (del test-report-RwwShallowRegression.html)
+if exist RentalWorksWeb_TestReport_ShallowRegression.pdf (del RentalWorksWeb_TestReport_ShallowRegression.pdf)
 call npm run test-rentalworksweb -t RwwShallowRegression
-ren test-report.html test-report-RwwShallowRegression.html
-start test-report-RwwShallowRegression.html
+"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" --headless --disable-gpu --print-to-pdf=%DwRentalWorksWebPath%\build\RentalWorksWeb_TestReport_ShallowRegression.pdf %DwRentalWorksWebPath%\src\JestTest\test-report.html
+start RentalWorksWeb_TestReport_ShallowRegression.pdf
+if exist test-report.html (del test-report.html)
 
 if exist test-report.html (del test-report.html)
-if exist test-report-RwwMediumRegression.html (del test-report-RwwMediumRegression.html)
+if exist RentalWorksWeb_TestReport_MediumRegression.pdf (del RentalWorksWeb_TestReport_MediumRegression.pdf)
 call npm run test-rentalworksweb -t RwwMediumRegression
-ren test-report.html test-report-RwwMediumRegression.html
-start test-report-RwwMediumRegression.html
+"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" --headless --disable-gpu --print-to-pdf=%DwRentalWorksWebPath%\build\RentalWorksWeb_TestReport_MediumRegression.pdf %DwRentalWorksWebPath%\src\JestTest\test-report.html
+start RentalWorksWeb_TestReport_MediumRegression.pdf
+if exist test-report.html (del test-report.html)
