@@ -229,6 +229,7 @@ class Base {
                                             , defaultunitid: responseGetDefaultSettings.DefaultUnitId
                                             , defaultunit: responseGetDefaultSettings.DefaultUnit
                                             , defaulticodemask: responseGetInventorySettings.ICodeMask
+                                            , sharedealsacrossofficelocations: responseGetSystemSettings.ShareDealsAcrossOfficeLocations
                                             , systemname: responseGetSystemSettings.SystemName
                                             , companyname: responseGetSystemSettings.CompanyName
                                         }

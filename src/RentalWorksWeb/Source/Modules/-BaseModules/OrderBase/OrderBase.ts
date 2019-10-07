@@ -887,9 +887,12 @@ class OrderBase {
     };
     beforeValidateDeal($browse: any, $grid: any, request: any) {
         let $form = $grid.closest('.fwform');
-        var officeLocationId = FwFormField.getValueByDataField($form, 'OfficeLocationId');
-        request.uniqueids = {
-            LocationId: officeLocationId
+        const shareDealsAcrossOfficeLocations = JSON.parse(sessionStorage.getItem('controldefaults')).sharedealsacrossofficelocations;
+        if (!shareDealsAcrossOfficeLocations) {
+            const officeLocationId = FwFormField.getValueByDataField($form, 'OfficeLocationId');
+            request.uniqueids = {
+                LocationId: officeLocationId
+            }
         }
     };
     beforeValidateMarketSegment($browse: any, $grid: any, request: any) {
