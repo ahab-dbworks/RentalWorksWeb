@@ -1685,7 +1685,6 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.Quote.form.menuItems.Create
 
         //if (status === 'ACTIVE') {
         if ((status === 'ACTIVE') || (status === 'RESERVED')) {
-            const $quoteTab = jQuery(`#${$form.closest('.tabpage').attr('data-tabid')}`);
             const quoteNumber = FwFormField.getValueByDataField($form, 'QuoteNumber');
             const $confirmation = FwConfirmation.renderConfirmation('Create Order', `<div>Create Order for Quote ${quoteNumber}?</div>`);
             const $yes = FwConfirmation.addButton($confirmation, 'Create Order', false);
@@ -1693,8 +1692,11 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.Quote.form.menuItems.Create
 
             $yes.on('click', function () {
                 const quoteId = FwFormField.getValueByDataField($form, 'QuoteId');
-                FwAppData.apiMethod(true, 'POST', "api/v1/quote/createorder/" + quoteId, null, FwServices.defaultTimeout, function onSuccess(response) {
+                const topLayer = '<div class="top-layer" data-controller="none" style="background-color: transparent;z-index:1"></div>';
+                const realConfirm = jQuery($confirmation.find('.fwconfirmationbox')).prepend(topLayer);
+                FwAppData.apiMethod(true, 'POST', `api/v1/quote/createorder/${quoteId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
                     FwConfirmation.destroyConfirmation($confirmation);
+                    const $quoteTab = jQuery(`#${$form.closest('.tabpage').attr('data-tabid')}`);
                     FwTabs.removeTab($quoteTab);
                     const uniqueids: any = {
                         OrderId: response.OrderId
@@ -1702,7 +1704,7 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.Quote.form.menuItems.Create
                     const $orderform = OrderController.loadForm(uniqueids);
                     FwModule.openModuleTab($orderform, "", true, 'FORM', true);
                     FwNotification.renderNotification('SUCCESS', 'Order Successfully Created.');
-                }, null, $confirmation);
+                }, null, realConfirm);
             });
         } else {
             FwNotification.renderNotification('WARNING', 'Can only convert an "ACTIVE" or "RESERVED" Quote to an Order.');
