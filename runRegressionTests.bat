@@ -32,6 +32,7 @@ if exist test-report.html (del test-report.html)
 if exist RentalWorksWeb_TestReport_LoginLogout.pdf (del RentalWorksWeb_TestReport_LoginLogout.pdf)
 call npm run test-rentalworksweb -t LoginLogout
 "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" --headless --disable-gpu --print-to-pdf=%DwRentalWorksWebPath%\build\RentalWorksWeb_TestReport_LoginLogout.pdf %DwRentalWorksWebPath%\src\JestTest\test-report.html
+timeout 3 
 start RentalWorksWeb_TestReport_LoginLogout.pdf
 if exist test-report.html (del test-report.html)
 
@@ -39,6 +40,7 @@ if exist test-report.html (del test-report.html)
 if exist RentalWorksWeb_TestReport_ShallowRegression.pdf (del RentalWorksWeb_TestReport_ShallowRegression.pdf)
 call npm run test-rentalworksweb -t RwwShallowRegression
 "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" --headless --disable-gpu --print-to-pdf=%DwRentalWorksWebPath%\build\RentalWorksWeb_TestReport_ShallowRegression.pdf %DwRentalWorksWebPath%\src\JestTest\test-report.html
+timeout 3 
 start RentalWorksWeb_TestReport_ShallowRegression.pdf
 if exist test-report.html (del test-report.html)
 
@@ -46,5 +48,6 @@ if exist test-report.html (del test-report.html)
 if exist RentalWorksWeb_TestReport_MediumRegression.pdf (del RentalWorksWeb_TestReport_MediumRegression.pdf)
 call npm run test-rentalworksweb -t RwwMediumRegression
 "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" --headless --disable-gpu --print-to-pdf=%DwRentalWorksWebPath%\build\RentalWorksWeb_TestReport_MediumRegression.pdf %DwRentalWorksWebPath%\src\JestTest\test-report.html
+timeout 3 
 start RentalWorksWeb_TestReport_MediumRegression.pdf
 if exist test-report.html (del test-report.html)
