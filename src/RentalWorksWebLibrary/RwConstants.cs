@@ -525,6 +525,8 @@
 
         //SCHEDULE STATUS
         public const string SCHEDULE_STATUS_TYPE_VEHICLE = "V";
+        public const string SCHEDULE_STATUS_TYPE_CREW = "C";
+        public const string SCHEDULE_STATUS_TYPE_FACILITY = "S";
 
         //RESOURCE STATUS
         public const string RESOURCE_STATUS_TYPE_VEHICLE = "V";

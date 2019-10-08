@@ -3,6 +3,7 @@ using FwStandard.AppManager;
 using Newtonsoft.Json;
 using WebApi.Logic;
 using WebApi.Modules.Settings.ScheduleStatus;
+using WebLibrary;
 
 namespace WebApi.Modules.Settings.CrewScheduleStatus
 {
@@ -16,7 +17,7 @@ namespace WebApi.Modules.Settings.CrewScheduleStatus
         {
             dataRecords.Add(scheduleStatus);
             dataLoader = scheduleStatusLoader;
-            BeforeSave += OnBeforeSave;
+            RecType = RwConstants.SCHEDULE_STATUS_TYPE_CREW;
         }
         //------------------------------------------------------------------------------------
         [FwLogicProperty(Id:"y5GA0110zuk5", IsPrimaryKey:true)]
@@ -43,14 +44,6 @@ namespace WebApi.Modules.Settings.CrewScheduleStatus
 
         [FwLogicProperty(Id:"kO1SkuiIG8Ff")]
         public string DateStamp { get { return scheduleStatus.DateStamp; } set { scheduleStatus.DateStamp = value; } }
-
         //------------------------------------------------------------------------------------
-        public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
-        {
-            RecType = "C";
-        }
-        //------------------------------------------------------------------------------------
-
     }
-
 }

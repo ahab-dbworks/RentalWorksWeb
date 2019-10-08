@@ -3,6 +3,7 @@ using FwStandard.AppManager;
 using Newtonsoft.Json;
 using WebApi.Logic;
 using WebApi.Modules.Settings.ScheduleStatus;
+using WebLibrary;
 
 namespace WebApi.Modules.Settings.FacilityScheduleStatus
 {
@@ -16,7 +17,7 @@ namespace WebApi.Modules.Settings.FacilityScheduleStatus
         {
             dataRecords.Add(scheduleStatus);
             dataLoader = scheduleStatusLoader;
-            BeforeSave += OnBeforeSave;
+            RecType = RwConstants.SCHEDULE_STATUS_TYPE_FACILITY;
         }
         //------------------------------------------------------------------------------------
         [FwLogicProperty(Id:"e9OkKUNeJg8", IsPrimaryKey:true)]
@@ -43,14 +44,6 @@ namespace WebApi.Modules.Settings.FacilityScheduleStatus
 
         [FwLogicProperty(Id:"LCIuCJh0pc0G")]
         public string DateStamp { get { return scheduleStatus.DateStamp; } set { scheduleStatus.DateStamp = value; } }
-
         //------------------------------------------------------------------------------------
-        public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
-        {
-            RecType = "S";
-        }
-        //------------------------------------------------------------------------------------
-
     }
-
 }
