@@ -1551,7 +1551,7 @@ class Quote extends OrderBase {
                 FwFormField.enable($confirmation.find('.fwformfield'));
                 FwFormField.enable($yes);
                 FwModule.refreshForm($form, QuoteController);
-                }, realConfirm);
+            }, realConfirm);
         };
     }
     //-----------------------------------------------------------------------------------------------------
@@ -1683,7 +1683,8 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.Quote.form.menuItems.Create
         const $form = jQuery(this).closest('.fwform');
         const status = FwFormField.getValueByDataField($form, 'Status');
 
-        if (status === 'ACTIVE') {
+        //if (status === 'ACTIVE') {
+        if ((status === 'ACTIVE') || (status === 'RESERVED')) {
             const $quoteTab = jQuery(`#${$form.closest('.tabpage').attr('data-tabid')}`);
             const quoteNumber = FwFormField.getValueByDataField($form, 'QuoteNumber');
             const $confirmation = FwConfirmation.renderConfirmation('Create Order', `<div>Create Order for Quote ${quoteNumber}?</div>`);
@@ -1704,7 +1705,7 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.Quote.form.menuItems.Create
                 }, null, $confirmation);
             });
         } else {
-            FwNotification.renderNotification('WARNING', 'Can only convert an "ACTIVE" quote to an order.');
+            FwNotification.renderNotification('WARNING', 'Can only convert an "ACTIVE" or "RESERVED" Quote to an Order.');
         }
     } catch (ex) {
         FwFunc.showError(ex);
