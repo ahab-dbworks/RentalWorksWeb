@@ -441,6 +441,25 @@ namespace WebApi.Modules.Home.Inventory
         {
             base.OnAfterSave(sender, e);
 
+            if (e.SaveMode.Equals(TDataRecordSaveMode.smInsert))
+            {
+                // this is a new Inventory.  PrimaryDimensionUniqueId and SecondaryDimensionUniqueId were not known at time of insert.  Need to re-update the data with the known ID's
+                master.PrimaryDimensionId = primaryDimension.UniqueId;
+                master.SecondayDimensionId = secondaryDimension.UniqueId;
+                int i = master.SaveAsync(null, e.SqlConnection).Result;
+            }
+            else if (e.SaveMode.Equals(TDataRecordSaveMode.smUpdate))
+            {
+                // this is a modified Inventory.  Check to see if PrimaryDimensionUniqueId and SecondaryDimensionUniqueId were valid before save.  If not, need to re-update the data with the known ID's
+                if (string.IsNullOrEmpty(master.PrimaryDimensionId) || string.IsNullOrEmpty(master.SecondayDimensionId))
+                {
+                    master.PrimaryDimensionId = primaryDimension.UniqueId;
+                    master.SecondayDimensionId = secondaryDimension.UniqueId;
+                    int i = master.SaveAsync(null, e.SqlConnection).Result;
+                }
+            }
+
+
             bool doSaveWardrobeDescription = false;
             bool doSaveWebDescription = false;
             if (e.SaveMode.Equals(TDataRecordSaveMode.smInsert))
