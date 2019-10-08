@@ -4,6 +4,7 @@
     <div class="tabs">
       <div data-type="tab" id="generaltab" class="tab" data-tabpageid="generaltabpage" data-caption="General"></div>
       <div data-type="tab" id="rulestab" class="tab" data-tabpageid="rulestabpage" data-caption="Rules"></div>
+      <div data-type="tab" id="defaultstab" class="tab" data-tabpageid="defaultstabpage" data-caption="Defaults"></div>
       <div data-type="tab" id="exporttab" class="tab" data-tabpageid="exporttabpage" data-caption="Export"></div>
     </div>
     <div class="tabpages">
@@ -41,6 +42,29 @@
             </div>
             <div class="flexrow">
               <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Lock Line-Item with Custom Discount Percentage, D/W and Rates by default" data-datafield="LockLineItemsWhenCustomDiscountUsed"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-type="tabpage" id="defaultstabpage" class="tabpage" data-tabid="defaultstab">
+        <div class="formpage">
+          <div class="flexrow">
+            <div class="flexcolumn" style="flex:0 1 775px;">
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Default Quote/Order Activity">
+                <div class="flexrow">
+                  <div class="flexcolumn" style="flex:1 1 250px;">
+                    <div class="flexrow">
+                      <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Rental" data-datafield="DefaultActivityRental" style="flex:1 1 100px;"></div>
+                      <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Sales" data-datafield="DefaultActivitySales" style="flex:1 1 100px;"></div>
+                      <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Crew" data-datafield="DefaultActivityLabor" style="flex:1 1 100px;"></div>
+                      <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Misc" data-datafield="DefaultActivityMiscellaneous" style="flex:1 1 100px;"></div>
+                      <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Used Sale" data-datafield="DefaultActivityUsedSale" style="flex:1 1 100px;"></div>
+                      <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Facilities" data-datafield="DefaultActivityFacilities" style="flex:1 1 100px;"></div>
+                      <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Transportation" data-datafield="DefaultActivityTransportation" style="flex:1 1 100px;"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

@@ -287,7 +287,7 @@ class OrderBase {
         const department = JSON.parse(sessionStorage.getItem('department'));;
         const location = JSON.parse(sessionStorage.getItem('location'));;
 
-        FwAppData.apiMethod(true, 'GET', 'api/v1/departmentlocation/' + department.departmentid + '~' + location.locationid, null, FwServices.defaultTimeout, response => {
+        FwAppData.apiMethod(true, 'GET', `api/v1/departmentlocation/${department.departmentid}~${location.locationid}`, null, FwServices.defaultTimeout, response => {
             this.DefaultOrderType = response.DefaultOrderType;
             this.DefaultOrderTypeId = response.DefaultOrderTypeId;
 
@@ -342,10 +342,11 @@ class OrderBase {
             FwFormField.setValue($form, 'div[data-datafield="CoverLetterId"]', this.DefaultCoverLetterId, this.DefaultCoverLetter);
 
             FwFormField.setValue($form, 'div[data-datafield="PendingPo"]', true);
-            FwFormField.setValue($form, 'div[data-datafield="Rental"]', true);
-            FwFormField.setValue($form, 'div[data-datafield="Sales"]', true);
-            FwFormField.setValue($form, 'div[data-datafield="Miscellaneous"]', true);
-            FwFormField.setValue($form, 'div[data-datafield="Labor"]', true);
+            // Dynamic set value for user's dpt default activities
+            const defaultActivities = department.activities;
+            for (let i = 0; i < defaultActivities.length; i++) {
+                FwFormField.setValueByDataField($form, `${defaultActivities[i]}`, true);
+            }
 
             FwFormField.disable($form.find('[data-datafield="RentalSale"]'));
             $form.find('[data-type="tab"][data-caption="Used Sale"]').hide();
@@ -887,12 +888,9 @@ class OrderBase {
     };
     beforeValidateDeal($browse: any, $grid: any, request: any) {
         let $form = $grid.closest('.fwform');
-        const shareDealsAcrossOfficeLocations = JSON.parse(sessionStorage.getItem('controldefaults')).sharedealsacrossofficelocations;
-        if (!shareDealsAcrossOfficeLocations) {
-            const officeLocationId = FwFormField.getValueByDataField($form, 'OfficeLocationId');
-            request.uniqueids = {
-                LocationId: officeLocationId
-            }
+        var officeLocationId = FwFormField.getValueByDataField($form, 'OfficeLocationId');
+        request.uniqueids = {
+            LocationId: officeLocationId
         }
     };
     beforeValidateMarketSegment($browse: any, $grid: any, request: any) {
@@ -1052,6 +1050,17 @@ class OrderBase {
             FwFormField.setValue($form, 'div[data-datafield="DisableEditingMiscellaneousRate"]', JSON.parse($tr.find('.field[data-browsedatafield="DisableEditingMiscellaneousRate"]').attr('data-originalvalue')));
             FwFormField.setValue($form, 'div[data-datafield="DisableEditingUsedSaleRate"]', JSON.parse($tr.find('.field[data-browsedatafield="DisableEditingUsedSaleRate"]').attr('data-originalvalue')));
             FwFormField.setValue($form, 'div[data-datafield="DisableEditingLossAndDamageRate"]', JSON.parse($tr.find('.field[data-browsedatafield="DisableEditingLossAndDamageRate"]').attr('data-originalvalue')));
+            if ($form.attr('data-mode') === 'NEW') {
+                const defaultActivities: any = {};
+                defaultActivities['Rental'] = $tr.find('.field[data-browsedatafield="DefaultActivityRental"]').attr('data-originalvalue');
+                defaultActivities['Sales'] = $tr.find('.field[data-browsedatafield="DefaultActivitySales"]').attr('data-originalvalue');
+                defaultActivities['Labor'] = $tr.find('.field[data-browsedatafield="DefaultActivityLabor"]').attr('data-originalvalue');
+                defaultActivities['Miscellaneous'] = $tr.find('.field[data-browsedatafield="DefaultActivityMiscellaneous"]').attr('data-originalvalue');
+
+                for (let key in defaultActivities) {
+                    FwFormField.setValueByDataField($form, `${key}`, defaultActivities[key] === 'true');
+                }
+            }
         });
         // ----------
         $form.find('.copy').on('click', e => {

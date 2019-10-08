@@ -155,6 +155,11 @@ class Base {
                                     url: `${applicationConfig.apiurl}api/v1/user/${responseSessionInfo.webUser.usersid}`,
                                     $elementToBlock: $loginWindow
                                 });
+                                const promiseGetDepartment = FwAjax.callWebApi<any, any>({
+                                    httpMethod: 'GET',
+                                    url: `${applicationConfig.apiurl}api/v1/department/${responseSessionInfo.department.departmentid}`,
+                                    $elementToBlock: $loginWindow
+                                });
 
 
                                 // wait for all the queries to finish
@@ -166,6 +171,7 @@ class Base {
                                     promiseGetInventorySettings, // 04
                                     promiseGetSystemSettings,    // 05
                                     promiseGetUser,              // 06
+                                    promiseGetDepartment,        // 07
                                 ])
                                     .then((values: any) => {
                                         const responseGetUserSettings = values[0];
@@ -175,6 +181,7 @@ class Base {
                                         const responseGetInventorySettings = values[4];
                                         const responseGetSystemSettings = values[5];
                                         const responseGetUser = values[6];
+                                        const responseGetDepartment = values[7];
 
                                         let sounds: any = {}, homePage: any = {}, toolbar: any = {};
                                         sounds.successSoundFileName = responseGetUserSettings.SuccessSoundFileName;
@@ -195,6 +202,17 @@ class Base {
                                             userid.webadministrator = 'false';
                                         }
                                         sessionStorage.setItem('userid', JSON.stringify(userid));
+
+                                        // Include department's default activity selection in sessionStorage for use in Quote / Order
+                                        const department = JSON.parse(sessionStorage.getItem('department'));
+                                        let defaultActivities: Array<string> = [];
+                                        for (let key in responseGetDepartment) {
+                                            if (key.startsWith('DefaultActivity') && responseGetDepartment[key] === true) {
+                                                defaultActivities.push(key.slice(15));
+                                            }
+                                        }
+                                        department.activities = defaultActivities;
+                                        sessionStorage.setItem('department', JSON.stringify(department));
 
                                         const customFields = [];
                                         for (let i = 0; i < responseGetCustomFields.length; i++) {
