@@ -393,16 +393,20 @@
                             });
                         };
                         if (response.dateBehaviorId != 'NONE' || response.dateBehaviorId != undefined) {
-                            chartFilters.push({
-                                'datafield': datefield,
-                                'value': fromDate,
-                                'type': 'fromdate'
-                            });
-                            chartFilters.push({
-                                'datafield': datefield,
-                                'value': toDate,
-                                'type': 'todate'
-                            });
+                            if (fromDate != 'Invalid date') {
+                                chartFilters.push({
+                                    'datafield': datefield,
+                                    'value': fromDate,
+                                    'type': 'fromdate'
+                                });
+                            }
+                            if (toDate != 'Invalid date') {
+                                chartFilters.push({
+                                    'datafield': datefield,
+                                    'value': toDate,
+                                    'type': 'todate'
+                                });
+                            }
                         };
                       
                         if (chartFilters.length > 0) {
