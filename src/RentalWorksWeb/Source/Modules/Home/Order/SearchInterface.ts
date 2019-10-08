@@ -98,7 +98,7 @@ class SearchInterface {
                                       <div class="columnorder hideColumns" data-column="AllWh">All Warehouse</div>
                                       <div class="columnorder hideColumns" data-column="In">In</div>
                                       <div class="columnorder hideColumns" data-column="QC">QC</div>
-                                      <div class="columnorder" data-column="Note">Note</div>
+                                      <div class="columnorder" style="display:none;" data-column="Note">Note</div>
                                       <div class="columnorder" data-column="Rate">Rate</div>
                                     </div>
                                     <div id="inventory"></div>
@@ -180,7 +180,7 @@ class SearchInterface {
             { value: 'In', text: 'In Quantity', selected: 'T' },
             { value: 'QC', text: 'QC Required Quantity', selected: 'T' },
             { value: 'Rate', text: 'Rate', selected: 'T' },
-            { value: 'Note', text: 'Note', selected: 'T' }
+            { value: 'Note', text: 'Note', selected: 'F' }
         ];
 
         let startDate;
@@ -584,6 +584,7 @@ class SearchInterface {
             let rate           = Number(response.Rows[i][dailyRate]).toFixed(2);
             let conflictdate   = response.Rows[i][conflictDate] ? moment(response.Rows[i][conflictDate]).format('L') : "";
 
+
             let itemhtml = `<div class="item-container" data-classification=="${response.Rows[i][classificationIndex]}">
                               <div class="item-info" data-inventoryid="${response.Rows[i][inventoryId]}">
                                 <div data-column="ItemImage"><img src="${imageThumbnail}" data-value="${imageId}" alt="Image" class="image"></div>
@@ -606,7 +607,7 @@ class SearchInterface {
                                 <div data-column="AllWh" class="columnorder hideColumns">&#160;</div>
                                 <div data-column="In" class="columnorder hideColumns"><div class="gridcaption">In</div><div class="value">${response.Rows[i][quantityIn]}</div></div>
                                 <div data-column="QC" class="columnorder hideColumns"><div class="gridcaption">QC</div><div class="value">${response.Rows[i][quantityQcRequired]}</div></div>
-                                <div data-column="Note" class="columnorder note-button"><div class="gridcaption">Note</div><textarea class="value">${response.Rows[i][note]}</textarea><i class="material-icons">insert_drive_file</i></div>
+                                <div data-column="Note" class="columnorder note-button" style="display:none;"><div class="gridcaption">Note</div><textarea class="value">${response.Rows[i][note]}</textarea>${response.Rows[i][note].length > 0 ? '<i class="material-icons">insert_drive_file</i>' : ''}</div>
                                 <div data-column="Rate" class="columnorder rate"><div class="gridcaption">Rate</div><div class="value">${rate}</div> </div>
                                 <div data-column="Quantity" class="columnorder">
                                   <div class="gridcaption">Qty</div>
@@ -1449,7 +1450,7 @@ class SearchInterface {
                                            <div class="columnorder hideColumns" data-column="AllWh"></div>
                                            <div class="columnorder hideColumns" data-column="In">In</div>
                                            <div class="columnorder hideColumns" data-column="QC"></div>
-                                           <div class="columnorder note-button" data-column="Note"></div>
+                                           <div class="columnorder note-button" style="display:none;" data-column="Note"></div>
                                            <div class="columnorder" data-column="Rate"></div>
                                          </div>`;
             accessoryContainer.append(jQuery(accessorycolumnshtml));
@@ -1508,7 +1509,7 @@ class SearchInterface {
                                        <div class="columnorder" data-column="Type"></div>
                                        <div class="columnorder" data-column="Category"></div>
                                        <div class="columnorder" data-column="SubCategory"></div>
-                                       <div class="columnorder note-button" data-column="Note"><textarea class="value">${response.Rows[i][note]}</textarea><i class="material-icons">insert_drive_file</i></div>
+                                       <div class="columnorder note-button" data-column="Note"><textarea class="value">${response.Rows[i][note]}</textarea>${response.Rows[i][note].length > 0 ? '<i class="material-icons">insert_drive_file</i>' : ''}</div>
                                        <div class="columnorder" data-column="Rate"></div>
                                        <div class="columnorder" data-column="QC"></div>
                                        <div class="columnorder" data-column="AllWh"></div>
