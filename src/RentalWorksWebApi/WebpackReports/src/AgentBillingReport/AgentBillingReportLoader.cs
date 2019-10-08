@@ -141,7 +141,6 @@ namespace WebApi.Modules.Reports.AgentBillingReport
                 select.UseOptionRecompile = true;
                 using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.ReportTimeout))
                 {
-
                     if (request.IsSummary.GetValueOrDefault(false))
                     {
                         StringBuilder sb = new StringBuilder();

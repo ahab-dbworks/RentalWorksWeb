@@ -1,10 +1,10 @@
 ﻿<!--Agent Billing Report-->
-      <!--SUMMARY VIEW TABLE-->
-  {{#ifEquals IsSummary true}}
-<div class="rpt-flexrow"">
+<!--SUMMARY VIEW TABLE-->
+{{#ifEquals IsSummary true}}
+<div class="rpt-flexrow" ">
   <style type="text/css">
-        tr[data-rowtype="Agentfooter"]:nth-child(odd) {
-        background-color: #DCDCDC;
+    tr[data-rowtype="Agentfooter"]:nth-child(odd) {
+      background-color: #DCDCDC;
     }
   </style>
   <div class="rpt-flexcolumn">
@@ -19,7 +19,7 @@
   </div>
 </div>
 <div class="rpt-flexrow" style="margin-top:40px;">
-   <table>
+  <table>
     <thead>
       <tr>
         <th>Agent</th>
@@ -37,7 +37,7 @@
     <tbody>
       {{#each this}}
       <tr data-rowtype={{RowType}}>
-         {{#ifEquals RowType "detail"}}
+        {{#ifEquals RowType "detail"}}
         <td data-value="{{Agent}}"></td>
         <td class="number" data-value="{{RentalTotal}}"></td>
         <td class="number" data-value="{{SalesTotal}}"></td>
@@ -65,11 +65,11 @@
       {{/each}}
     </tbody>
   </table>
-  </div>
-  {{/ifEquals}}
-    <!--DETAIL VIEW TABLE-->
-  {{#ifEquals IsSummary false}}
-  <div class="rpt-flexrow" style="width:1555px;">
+</div>
+{{/ifEquals}}
+<!--DETAIL VIEW TABLE-->
+{{#ifEquals IsSummary false}}
+<div class="rpt-flexrow" style="width:1555px;">
   <style type="text/css" media="print">
     @page {
       size: landscape;
@@ -160,4 +160,4 @@
     </tbody>
   </table>
 </div>
-    {{/ifEquals}}
+{{/ifEquals}}

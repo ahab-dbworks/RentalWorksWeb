@@ -3,6 +3,7 @@ using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 using WebLibrary;
 using System.Threading.Tasks;
+using System.Text;
 
 namespace WebApi.Modules.Reports.ProjectManagerBillingReport
 {
@@ -137,10 +138,34 @@ namespace WebApi.Modules.Reports.ProjectManagerBillingReport
             {
                 FwSqlSelect select = new FwSqlSelect();
                 select.EnablePaging = false;
-				select.UseOptionRecompile = true;
+                select.UseOptionRecompile = true;
                 using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.ReportTimeout))
                 {
-                    SetBaseSelectQuery(select, qry);
+                    if (request.IsSummary.GetValueOrDefault(false))
+                    {
+                        StringBuilder sb = new StringBuilder();
+                        sb.Append("select     [" + TableAlias + "].[rowtype]                as [RowType],                 ");
+                        sb.Append("           [" + TableAlias + "].[projectmanager]         as [ProjectManager],          ");
+                        sb.Append("           [" + TableAlias + "].[projectmanagerid]       as [ProjectManagerId],        ");
+                        sb.Append("       sum([" + TableAlias + "].[rentaltotal] )          as [RentalTotal],             ");
+                        sb.Append("       sum([" + TableAlias + "].[metertotal]  )          as [MeterTotal],              ");
+                        sb.Append("       sum([" + TableAlias + "].[salestotal]  )          as [SalesTotal],              ");
+                        sb.Append("       sum([" + TableAlias + "].[spacetotal]  )          as [FacilitiesTotal],         ");
+                        sb.Append("       sum([" + TableAlias + "].[misctotal]   )          as [MiscellaneousTotal],      ");
+                        sb.Append("       sum([" + TableAlias + "].[labortotal]  )          as [LaborTotal],              ");
+                        sb.Append("       sum([" + TableAlias + "].[partstotal]  )          as [PartsTotal],              ");
+                        sb.Append("       sum([" + TableAlias + "].[assettotal]  )          as [AssetTotal],              ");
+                        sb.Append("       sum([" + TableAlias + "].[invoicetax]  )          as [InvoiceTax],              ");
+                        sb.Append("       sum([" + TableAlias + "].[invoicetotal])          as [InvoiceTotal]             ");
+                        sb.Append("from " + TableName + " [" + TableAlias + "] with (nolock)                              ");
+                        select.Add(sb.ToString());
+                        AddPropertiesAsQueryColumns(qry);
+                    }
+                    else
+                    {
+                        SetBaseSelectQuery(select, qry);
+                    }
+
                     select.Parse();
                     select.AddWhere("(projectmanagerid > '')");
                     select.AddWhereIn("locationid", request.OfficeLocationId);
@@ -160,7 +185,16 @@ namespace WebApi.Modules.Reports.ProjectManagerBillingReport
                     {
                         select.AddWhere("nocharge <> 'T'");
                     }
-                    select.AddOrderBy("projectmanager,location,department,deal,orderno,invoicedate");
+
+                    if (request.IsSummary.GetValueOrDefault(false))
+                    {
+                        select.AddWhere("", "group by rowtype, projectmanagerid, projectmanager");  //#jhtodo: need to be able to do select.AddGroupBy
+                        select.AddOrderBy("projectmanager");
+                    }
+                    else
+                    {
+                        select.AddOrderBy("projectmanager,location,department,deal,orderno,invoicedate");
+                    }
 
                     dt = await qry.QueryToFwJsonTableAsync(select, false);
                 }
@@ -170,7 +204,10 @@ namespace WebApi.Modules.Reports.ProjectManagerBillingReport
             {
                 dt.Columns[dt.GetColumnNo("RowType")].IsVisible = true;
                 string[] totalFields = new string[] { "RentalTotal", "MeterTotal", "SalesTotal", "FacilitiesTotal", "MiscellaneousTotal", "LaborTotal", "PartsTotal", "AssetTotal", "InvoiceTax", "InvoiceTotal" };
-                dt.InsertSubTotalRows("ProjectManager", "RowType", totalFields);
+                if (!request.IsSummary.GetValueOrDefault(false))
+                {
+                    dt.InsertSubTotalRows("ProjectManager", "RowType", totalFields);
+                }
                 dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
             }
 

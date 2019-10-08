@@ -6,7 +6,7 @@ import * as moment from 'moment';
 import '../../lib/FwReportLibrary/src/theme/webpackReports.scss';
 import './index.scss';
 const hbReport = require("./hbReport.hbs");
-const hbFooter = require("./hbFooter.hbs"); 
+const hbFooter = require("./hbFooter.hbs");
 
 export class ProjectManagerBillingReport extends WebpackReport {
 
@@ -24,6 +24,12 @@ export class ProjectManagerBillingReport extends WebpackReport {
                     data.Report = 'Project Manager Billing Report';
                     data.System = 'RENTALWORKS';
                     data.Company = parameters.companyName;
+                    // Determine Summary or Detail View
+                    if (parameters.IsSummary === 'true') {
+                        data.IsSummary = true;
+                    } else {
+                        data.IsSummary = false;
+                    }
                     this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
@@ -40,7 +46,7 @@ export class ProjectManagerBillingReport extends WebpackReport {
         }
     }
 
-    renderFooterHtml(model: DataTable) : string {
+    renderFooterHtml(model: DataTable): string {
         this.footerHtml = hbFooter(model);
         return this.footerHtml;
     }

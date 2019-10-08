@@ -34,7 +34,7 @@ namespace WebApi.Modules.Reports.ProjectManagerBillingReport
 
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
-    [FwController(Id:"lTDdAGi63jRVL")]
+    [FwController(Id: "lTDdAGi63jRVL")]
     public class ProjectManagerBillingReportController : AppReportController
     {
         //------------------------------------------------------------------------------------ 
@@ -60,7 +60,7 @@ namespace WebApi.Modules.Reports.ProjectManagerBillingReport
         //------------------------------------------------------------------------------------ 
         // POST api/v1/projectmanagerbillingreport/render 
         [HttpPost("render")]
-        [FwControllerMethod(Id:"fS9GiroGDzpgI")]
+        [FwControllerMethod(Id: "fS9GiroGDzpgI")]
         public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody]FwReportRenderRequest request)
         {
             if (!this.ModelState.IsValid) return BadRequest();
@@ -80,7 +80,7 @@ namespace WebApi.Modules.Reports.ProjectManagerBillingReport
         //------------------------------------------------------------------------------------
         // POST api/v1/projectmanagerbillingreport/runreport 
         [HttpPost("runreport")]
-        [FwControllerMethod(Id:"zhzqeRxcjE0oa")]
+        [FwControllerMethod(Id: "zhzqeRxcjE0oa")]
         public async Task<ActionResult<FwJsonDataTable>> RunReportAsync([FromBody]ProjectManagerBillingReportRequest request)
         {
             if (!ModelState.IsValid)

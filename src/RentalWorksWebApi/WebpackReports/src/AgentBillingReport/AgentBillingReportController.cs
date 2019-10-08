@@ -19,7 +19,6 @@ namespace WebApi.Modules.Reports.AgentBillingReport
     {
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }
-        //public bool? IsSummary { get; set; }
         public string DateType { get; set; }
         public bool? IncludeNoCharge { get; set; }
         public string OfficeLocationId { get; set; }
@@ -31,7 +30,7 @@ namespace WebApi.Modules.Reports.AgentBillingReport
 
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
-    [FwController(Id:"qx65UNbCoUW")]
+    [FwController(Id: "qx65UNbCoUW")]
     public class AgentBillingReportController : AppReportController
     {
         //------------------------------------------------------------------------------------ 
@@ -57,7 +56,7 @@ namespace WebApi.Modules.Reports.AgentBillingReport
         //------------------------------------------------------------------------------------ 
         // POST api/v1/agentbillingreport/render 
         [HttpPost("render")]
-        [FwControllerMethod(Id:"yqDo5F7UR9W")]
+        [FwControllerMethod(Id: "yqDo5F7UR9W")]
         public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody]FwReportRenderRequest request)
         {
             if (!this.ModelState.IsValid) return BadRequest();
@@ -77,7 +76,7 @@ namespace WebApi.Modules.Reports.AgentBillingReport
         //------------------------------------------------------------------------------------
         // POST api/v1/agentbillingreport/runreport 
         [HttpPost("runreport")]
-        [FwControllerMethod(Id:"nktKkyriCyF")]
+        [FwControllerMethod(Id: "nktKkyriCyF")]
         public async Task<ActionResult<FwJsonDataTable>> RunReportAsync([FromBody]AgentBillingReportRequest request)
         {
             if (!ModelState.IsValid)
