@@ -284,18 +284,20 @@ export class MediumRegressionTest extends BaseTest {
         this.MediumRegressionOnModule(new TermsConditions());
         this.MediumRegressionOnModule(new EventCategory());
         this.MediumRegressionOnModule(new EventType());
+        this.MediumRegressionOnModule(new PersonnelType());
+        this.MediumRegressionOnModule(new PhotographyType());
+        this.MediumRegressionOnModule(new Building());
+        this.MediumRegressionOnModule(new FacilityType());
+        this.MediumRegressionOnModule(new FacilityRate());
+        this.MediumRegressionOnModule(new FacilityScheduleStatus());
+        this.MediumRegressionOnModule(new FacilityStatus());
+        this.MediumRegressionOnModule(new FacilityCategory());
+        this.MediumRegressionOnModule(new SpaceType());
+        //this.MediumRegressionOnModule(new FiscalYear());  // this module is untestable because of a problem with saving the expected Year value
+
+
     /*
     */
-        //this.MediumRegressionOnModule(new PersonnelType());
-        //this.MediumRegressionOnModule(new PhotographyType());
-        //this.MediumRegressionOnModule(new Building());
-        //this.MediumRegressionOnModule(new FacilityType());
-        //this.MediumRegressionOnModule(new FacilityRate());
-        //this.MediumRegressionOnModule(new FacilityScheduleStatus());
-        //this.MediumRegressionOnModule(new FacilityStatus());
-        //this.MediumRegressionOnModule(new FacilityCategory());
-        //this.MediumRegressionOnModule(new SpaceType());
-        //this.MediumRegressionOnModule(new FiscalYear());
         //this.MediumRegressionOnModule(new GeneratorFuelType());
         //this.MediumRegressionOnModule(new GeneratorMake());
         //this.MediumRegressionOnModule(new GeneratorRating());

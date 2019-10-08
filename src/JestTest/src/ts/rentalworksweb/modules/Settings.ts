@@ -1,4 +1,5 @@
 import { SettingsModule } from "../../shared/SettingsModule";
+import { TestUtils } from "../../shared/TestUtils";
 
 //---------------------------------------------------------------------------------------
 export class AccountingSettings extends SettingsModule {
@@ -898,6 +899,26 @@ export class PersonnelType extends SettingsModule {
         this.moduleName = 'PersonnelType';
         this.moduleId = '46339c9c-c663-4041-aeb4-a7f85783996f';
         this.moduleCaption = 'Personnel Type';
+
+        this.defaultNewRecordToExpect = {
+            PersonnelType: "",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    PersonnelType: "GlobalScope.TestToken~1.TestToken",
+                },
+                seekObject: {
+                    PersonnelType: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            PersonnelType: this.newRecordsToCreate[0].record.PersonnelType.toUpperCase(),
+            Inactive: false,
+        }
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -909,6 +930,26 @@ export class PhotographyType extends SettingsModule {
         this.moduleName = 'PhotographyType';
         this.moduleId = '66bff7f0-8bca-4d32-bd94-6b5f13623bec';
         this.moduleCaption = 'Photography Type';
+
+        this.defaultNewRecordToExpect = {
+            PhotographyType: "",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    PhotographyType: "GlobalScope.TestToken~1.TestToken",
+                },
+                seekObject: {
+                    PhotographyType: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            PhotographyType: this.newRecordsToCreate[0].record.PhotographyType.toUpperCase(),
+            Inactive: false,
+        }
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -920,6 +961,31 @@ export class Building extends SettingsModule {
         this.moduleName = 'Building';
         this.moduleId = '2D344845-7E77-40C9-BB9D-04A930D352EB';
         this.moduleCaption = 'Building';
+
+        this.defaultNewRecordToExpect = {
+            Building: "",
+            BuildingCode: "",
+            OfficeLocation: "GlobalScope.User~ME.OfficeLocation",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    Building: "GlobalScope.TestToken~1.TestToken",
+                    BuildingCode: "GlobalScope.TestToken~1.MediumTestToken",
+                },
+                seekObject: {
+                    Building: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            Building: this.newRecordsToCreate[0].record.Building.toUpperCase(),
+            BuildingCode: this.newRecordsToCreate[0].record.BuildingCode.toUpperCase(),
+            OfficeLocation: "GlobalScope.User~ME.OfficeLocation",
+            Inactive: false,
+        }
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -931,6 +997,26 @@ export class FacilityType extends SettingsModule {
         this.moduleName = 'FacilityType';
         this.moduleId = '197BBE51-28A8-4D00-BD0C-098C0F88DD0E';
         this.moduleCaption = 'Facility Type';
+
+        this.defaultNewRecordToExpect = {
+            FacilityType: "",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    FacilityType: "GlobalScope.TestToken~1.TestToken",
+                },
+                seekObject: {
+                    FacilityType: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            FacilityType: this.newRecordsToCreate[0].record.FacilityType.toUpperCase(),
+            Inactive: false,
+        }
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -942,6 +1028,41 @@ export class FacilityRate extends SettingsModule {
         this.moduleName = 'FacilityRate';
         this.moduleId = '5D49FC0B-F1BA-4FE4-889D-3C52B6202ACD';
         this.moduleCaption = 'Facility Rate';
+
+        this.defaultNewRecordToExpect = {
+            FacilityType: "",
+            Category: "",
+            ICode: "",
+            Description: "",
+            Unit: "",
+            NonDiscountable: false,
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    FacilityTypeId: 1,
+                    CategoryId: 1,
+                    ICode: TestUtils.randomAlphanumeric(8),
+                    Description: "GlobalScope.TestToken~1.TestToken",
+                    UnitId: 1,
+                    NonDiscountable: true,
+                },
+                seekObject: {
+                    Description: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            FacilityType: "|NOTEMPTY|",
+            Category: "|NOTEMPTY|",
+            ICode: this.newRecordsToCreate[0].record.ICode.toUpperCase(),
+            Description: this.newRecordsToCreate[0].record.Description.toUpperCase(),
+            Unit: "|NOTEMPTY|",
+            NonDiscountable: true,
+            Inactive: false,
+        }
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -953,6 +1074,29 @@ export class FacilityScheduleStatus extends SettingsModule {
         this.moduleName = 'FacilityScheduleStatus';
         this.moduleId = 'A693C2F7-DF16-4492-9DE5-FC672375C44E';
         this.moduleCaption = 'Facility Schedule Status';
+
+        this.defaultNewRecordToExpect = {
+            ScheduleStatus: "",
+            StatusAction: "QUIKHOLD",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    ScheduleStatus: "GlobalScope.TestToken~1.MediumTestToken",
+                    StatusAction: "HOLD",
+                },
+                seekObject: {
+                    ScheduleStatus: "GlobalScope.TestToken~1.MediumTestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            ScheduleStatus: this.newRecordsToCreate[0].record.ScheduleStatus.toUpperCase(),
+            StatusAction: this.newRecordsToCreate[0].record.StatusAction.toUpperCase(),
+            Inactive: false,
+        }
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -964,6 +1108,26 @@ export class FacilityStatus extends SettingsModule {
         this.moduleName = 'FacilityStatus';
         this.moduleId = 'DB2C8448-9287-4885-952F-BE3D0E4BFEF1';
         this.moduleCaption = 'Facility Status';
+
+        this.defaultNewRecordToExpect = {
+            FacilityStatus: "",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    FacilityStatus: "GlobalScope.TestToken~1.TestToken",
+                },
+                seekObject: {
+                    FacilityStatus: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            FacilityStatus: this.newRecordsToCreate[0].record.FacilityStatus.toUpperCase(),
+            Inactive: false,
+        }
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -975,6 +1139,29 @@ export class FacilityCategory extends SettingsModule {
         this.moduleName = 'FacilityCategory';
         this.moduleId = '67A9BEC5-4865-409C-9327-B2B8714DDAA8';
         this.moduleCaption = 'Facility Category';
+
+        this.defaultNewRecordToExpect = {
+            FacilityType: "",
+            Category: "",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    FacilityTypeId: 1,
+                    Category: "GlobalScope.TestToken~1.TestToken",
+                },
+                seekObject: {
+                    Category: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            FacilityType: "|NOTEMPTY|",
+            Category: this.newRecordsToCreate[0].record.Category.toUpperCase(),
+            Inactive: false,
+        }
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -986,6 +1173,46 @@ export class SpaceType extends SettingsModule {
         this.moduleName = 'SpaceType';
         this.moduleId = 'EDF05CFB-9F6B-4771-88EB-6FD254CFE6C6';
         this.moduleCaption = 'Space Type / Activity';
+
+
+        this.defaultNewRecordToExpect = {
+            FacilityType: "",
+            SpaceType: "",
+            ForReportsOnly: false,
+            NonBillable: false,
+            AddToDescription: false,
+            Inactive: false,
+            SpaceTypeClassification: "SPACE TYPE",
+            RateICode: "",
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    FacilityTypeId: 1,
+                    SpaceType: "GlobalScope.TestToken~1.MediumTestToken",
+                    ForReportsOnly: false,
+                    NonBillable: false,
+                    AddToDescription: true,
+                    SpaceTypeClassification: "ACTIVITY",
+                    RateId: 1,
+                },
+                seekObject: {
+                    SpaceType: "GlobalScope.TestToken~1.MediumTestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            FacilityType: "|NOTEMPTY|",
+            SpaceType: this.newRecordsToCreate[0].record.SpaceType.toUpperCase(),
+            ForReportsOnly: this.newRecordsToCreate[0].record.ForReportsOnly,
+            NonBillable: this.newRecordsToCreate[0].record.NonBillable,
+            AddToDescription: this.newRecordsToCreate[0].record.AddToDescription,
+            SpaceTypeClassification: this.newRecordsToCreate[0].record.SpaceTypeClassification.toUpperCase(),
+            RateICode: "|NOTEMPTY|",
+            Inactive: false,
+        }
+
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -997,6 +1224,24 @@ export class FiscalYear extends SettingsModule {
         this.moduleName = 'FiscalYear';
         this.moduleId = '6F87E62B-F17A-48CB-B673-16D12B6DFFB9';
         this.moduleCaption = 'Fiscal Year';
+
+        this.defaultNewRecordToExpect = {
+            Year: "",
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    Year: TestUtils.randomIntegerBetween(2050, 2099).toString(),
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].seekObject = {
+            Year: this.newRecordsToCreate[0].record.Year,
+        };
+        this.newRecordsToCreate[0].recordToExpect = {
+            Year: this.newRecordsToCreate[0].record.Year,
+        }
+
     }
     //---------------------------------------------------------------------------------------
 }

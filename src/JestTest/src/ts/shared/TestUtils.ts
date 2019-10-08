@@ -195,6 +195,10 @@ export class TestUtils {
         return faker.helpers.replaceSymbolWithNumber(format, symbol);
     }
     //-----------------------------------------------------------------------------------------------------------------
+    static randomIntegerBetween(minValue: number, maxValue: number): number {
+        return faker.random.number({ min: minValue, max: maxValue });
+    }
+    //-----------------------------------------------------------------------------------------------------------------
     static randomFirstName(): string {
         return faker.name.firstName();
     }
