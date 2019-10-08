@@ -31,6 +31,21 @@ namespace WebApi.Modules.Utilities.QuikActivity
         [FwLogicProperty(Id: "DKYiaPmxnoahF")]
         public string OrderDescription { get; set; }
 
+        [FwLogicProperty(Id: "uSWgAkcqC8s2n")]
+        public string DealId { get; set; }
+
+        [FwLogicProperty(Id: "TPfRpUvb5HH5r")]
+        public string Deal { get; set; }
+
+        [FwLogicProperty(Id: "gIwtkn5K0vFax")]
+        public string VendorId { get; set; }
+
+        [FwLogicProperty(Id: "Qtxe7PJA7sYK9")]
+        public string Vendor { get; set; }
+
+        [FwLogicProperty(Id: "InxHNuWcFEprd")]
+        public string InventoryId { get; set; }
+
         [FwLogicProperty(Id: "yeBNfnVdmT6IS")]
         public string ICode { get; set; }
 
