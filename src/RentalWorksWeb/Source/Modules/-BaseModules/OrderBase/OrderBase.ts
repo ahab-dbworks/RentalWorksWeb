@@ -345,6 +345,7 @@ class OrderBase {
             // Dynamic set value for user's dpt default activities
             const defaultActivities = department.activities;
             for (let i = 0; i < defaultActivities.length; i++) {
+                if (defaultActivities[i] === 'Rental' || defaultActivities[i] === 'Sales' || defaultActivities[i] === 'Labor' || defaultActivities[i] === 'Miscellaneous')
                 FwFormField.setValueByDataField($form, `${defaultActivities[i]}`, true);
             }
 
@@ -887,10 +888,13 @@ class OrderBase {
         }
     };
     beforeValidateDeal($browse: any, $grid: any, request: any) {
-        let $form = $grid.closest('.fwform');
-        var officeLocationId = FwFormField.getValueByDataField($form, 'OfficeLocationId');
-        request.uniqueids = {
-            LocationId: officeLocationId
+        const $form = $grid.closest('.fwform');
+        const shareDealsAcrossOfficeLocations = JSON.parse(sessionStorage.getItem('controldefaults')).sharedealsacrossofficelocations;
+        if (!shareDealsAcrossOfficeLocations) {
+            const officeLocationId = FwFormField.getValueByDataField($form, 'OfficeLocationId');
+            request.uniqueids = {
+                LocationId: officeLocationId
+            }
         }
     };
     beforeValidateMarketSegment($browse: any, $grid: any, request: any) {
