@@ -61,9 +61,9 @@ html.theme-material .fwbrowse[data-type="Validation"] .pager div.buttons {displa
 html.theme-material .fwbrowse[data-type="Validation"] .pager div.buttons .button {cursor:pointer;float:left;padding:4px;}
 html.theme-material .fwbrowse[data-type="Validation"] .pager div.buttons .button[data-enabled="false"] {opacity:.6;}
 html.theme-material .fwbrowse[data-type="Validation"] .pager div.count {float:right;height:16px;line-height:16px;margin:0 2px;font-size:10px;}
+html.theme-material .fwbrowse[data-type="Validation"] .pager div.show-all {float:right;height:16px;line-height:16px;margin:0 2px;clear:right;font-size:.9em;color:#0D47A1;cursor:pointer;}
 html.theme-material .fwbrowse[data-type="Validation"] .pager .activeinactiveview {margin:1px 5px 0 0;}
 html.theme-material .fwbrowse[data-type="Validation"] .validationbuttons {padding:4px;}
-
 
 html.theme-material .fwbrowse table {width:100%;border-collapse:collapse;border-spacing:0;/*font-size:.7em;*/}
 /*html.theme-material .fwbrowse[data-type="Browse"] table {font-size:12px;}
@@ -353,6 +353,7 @@ html.theme-material .fwbrowse[data-type="Validation"] table tbody tr td.column {
 html.theme-material .fwbrowse[data-type="Validation"] tfoot tr.pagerrow .pager div.buttons .button[data-enabled="true"]:hover {background-color:rgba(0,0,0,.2);}
 html.theme-material .fwbrowse[data-type="Validation"] tfoot tr.pagerrow .pager div.count {color:#000000;}
 html.theme-material .fwbrowse[data-type="Validation"] .validationbuttons {/*background-color:#9e9e9e;*/padding:.3rem;}
+html.theme-material .fwbrowse.show-all[data-type="Validation"] table {overflow:auto;height:500px;display:block;}
 
 html.theme-material .fwbrowse table thead tr td:nth-child(2) .field .fieldcaption {border-left:0;}
 html.theme-material .fwbrowse table thead tr td:last-of-type:not([style="display: none"]) .field .fieldcaption {border-right:0;}

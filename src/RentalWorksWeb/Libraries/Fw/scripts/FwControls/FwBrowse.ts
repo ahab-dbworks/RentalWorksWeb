@@ -565,6 +565,17 @@ class FwBrowseClass {
                 }
             });
         $control
+            .on('click', '.runtime .pager div.show-all', function (e: JQuery.Event) {
+                try {
+                    e.stopPropagation();
+                    $control.attr('data-pagesize', 9999);
+                    $control.addClass('show-all');
+                    me.databind($control);
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            });
+        $control
             .on('change', '.runtime .pager select.activeinactiveview', function () {
                 var $selectActiveInactiveView, view;
                 try {
@@ -1453,6 +1464,7 @@ class FwBrowseClass {
                         htmlPager.push('  <div class="button btnLastPage" disabled="disabled" data-enabled="false" title="Last" alt="Last"><i class="material-icons">&#xE5DD;</i></div>');
                         htmlPager.push('</div>');
                         htmlPager.push('<div class="count">0 row(s)</div>');
+                        htmlPager.push('<div class="show-all">Show All</div>');
                         if ((controlType === 'Grid') && (typeof $control.attr('data-activeinactiveview') === 'string') && (FwSecurity.isUser())) {
                             htmlPager.push('<div class="activeinactiveview" style="float:right;">');
                             htmlPager.push('  <select class="activeinactiveview">');
@@ -2681,6 +2693,11 @@ class FwBrowseClass {
                     break;
                 case 'Validation':
                     $control.find('.pager .count').text(dt.TotalRows + ' row(s)');
+                    if (dt.TotalPages == 1) {
+                        $control.find('.pager .show-all').hide();
+                    } else {
+                        $control.find('.pager .show-all').show();
+                    }
                     break;
             }
 
