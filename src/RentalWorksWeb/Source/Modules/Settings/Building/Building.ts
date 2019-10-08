@@ -41,6 +41,8 @@ class RwBuilding {
 
         if (mode === 'NEW') {
             FwFormField.enable($form.find('.ifnew'))
+            const office = JSON.parse(sessionStorage.getItem('location'));
+            FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', office.locationid, office.location);
         } else {
             FwFormField.disable($form.find('.ifnew'))
         }
