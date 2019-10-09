@@ -24,6 +24,9 @@ namespace WebApi.Modules.Settings.Widget
         [FwLogicProperty(Id: "bzC9gd3ruF2Ck", IsRecordTitle: true)]
         public string Widget { get { return widget.Widget; } set { widget.Widget = value; } }
 
+        [FwLogicProperty(Id: "yMhqb0DauaG")]
+        public string ModuleName { get { return widget.ModuleName; } set { widget.ModuleName = value; } }
+
         [FwLogicProperty(Id: "FuQOXtzL8B9")]
         public string ApiName { get { return widget.ApiName; } set { widget.ApiName = value; } }
 
