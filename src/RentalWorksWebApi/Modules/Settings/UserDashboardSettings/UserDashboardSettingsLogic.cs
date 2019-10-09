@@ -34,6 +34,9 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
             [FwLogicProperty(Id: "PetDFdwX7FQS")]
             public string apiname { get; set; }
 
+            [FwLogicProperty(Id: "bWL2OfqVzNK")]
+            public string modulename { get; set; }
+
             [FwLogicProperty(Id: "DJ6nwgtnXfty")]
             public string clickpath { get; set; }
 
@@ -234,6 +237,7 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
             qry.AddColumn("defaultstacked");                //37
             qry.AddColumn("stacked");                       //38
             qry.AddColumn("orderby");                       //39
+            qry.AddColumn("modulename");                    //40
             qry.AddParameter("@webusersid", UserId);
             FwJsonDataTable table = await qry.QueryToFwJsonTableAsync(true);
             for (int r = 0; r < table.Rows.Count; r++)
@@ -294,7 +298,7 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
                 string locationcode = table.Rows[r][36].ToString();
                 bool defaultStacked = FwConvert.ToBoolean(table.Rows[r][37].ToString());
                 bool stacked = FwConvert.ToBoolean(table.Rows[r][38].ToString());
-
+                string modulename = table.Rows[r][40].ToString();
                 w.userWidgetId = UserWidgetId;
                 w.value = widgetId;
                 w.text = widgetName;
@@ -335,7 +339,7 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
                 w.officeLocationCode = locationcode;
                 w.defaultStacked = defaultStacked;
                 w.stacked = stacked;
-
+                w.modulename = modulename;
                 UserWidgets.Add(w);
                 loaded = true;
             }
