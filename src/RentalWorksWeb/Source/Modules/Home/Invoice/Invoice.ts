@@ -756,48 +756,71 @@ class Invoice {
     creditInvoice($form) {
         const status = FwFormField.getValueByDataField($form, 'Status');
         if (status === 'PROCESSED' || status === 'CLOSED') {
-            let $popup = jQuery(`
-                <div class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" style="background-color:white; padding:0px 0px 10px 0px; border:2px solid gray; min-width:350px;">
-                  <div style="background-color:#2196F3;height:60px;width:412px;color:white;"><span style="position:absolute;top:5px;padding:15px;font-size:1.1em">Credit Invoice</span> <div class="close-modal" style="position:absolute; right:5px; top:5px; cursor:pointer;"><i class="material-icons">clear</i></div></div>
-                  <div class="flexpage">
-                    <div class="flexrow">
-                      <div class="flexcolumn">
-                        <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" >
-                     <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield ifnew" data-caption="Field Type" data-datafield="CustomTableName" data-allcaps="false" style="float:left;width:150px;">
-                        <div data-caption="Text" data-value="customvaluesstring"></div>
-                        <div data-caption="Integer" data-value="customvaluesint"></div>
-                        <div data-caption="Float" data-value="customvaluesnumeric">HERE is some text</div>
-                        <div data-caption="Date" data-value="customvaluesdatetime"></div>
-                        <div data-caption="True/False" data-value="customvaluesboolean"></div>
-                      </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="flexrow">
-                      <div data-type="button" class="fwformcontrol create-invoice-btn" style="flex:0 0 175px; margin:auto;">Create Credit Invoice</div>
-                    </div>
-                  </div>
-                </div>`);
-            FwControl.renderRuntimeControls($popup.find('.fwcontrol'));
-            $popup = FwPopup.renderPopup($popup, { 'ismodal': true });
-            FwFormField.setValueByDataField($popup, 'ShowOrdersWithPendingPO', "T");
-            FwPopup.showPopup($popup);
+            const $confirmation = FwConfirmation.renderConfirmation('Credit Invoice', '');
+            $confirmation.find('.fwconfirmationbox').css('width', '550px');
+            const html: Array<string> = [];
+            html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+            html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+            html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="FULL - Every line of the Invoice will be credited 100%" data-datafield="" style="float:left;width:100px;"></div>`);
+            html.push('  </div>');
+            html.push(' <div class="formrow" style="width:100%;display:flex;align-content:flex-start;align-items:center;padding-bottom:13px;">');
+            html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+            html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="" data-datafield="" style="float:left;width:30px;"></div>`);
+            html.push('  </div>');
+            html.push('  <span style="margin:18px 0px 0px 0px;">PARTIAL - Every Line of the Invoice will be credited</span>');
+            html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow" style="margin:0px 0px 0px 0px;">');
+            html.push('    <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="" data-datafield="" style="width:45px;float:left;margin:0px 0px 0px 0px;"></div>');
+            html.push('  </div>');
+            html.push('  <span style="margin:18px 0px 0px 0px;">%</span>');
+            html.push(' </div>');
+            html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+            html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="MANUAL - Items must be credited manually" data-datafield="" style="float:left;width:100px;"></div>`);
+            html.push('  </div>');
+            html.push(' <div class="formrow" style="width:100%;display:flex;align-content:flex-start;align-items:center;padding-bottom:13px;">');
+            html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+            html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="" data-datafield="" style="float:left;width:30px;"></div>`);
+            html.push('  </div>');
+            html.push('  <span style="margin:18px 0px 0px 0px;">FLAT AMT - Credit a flat amount</span>');
+            html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow" style="margin:0px 0px 0px 0px;">');
+            html.push('    <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="" data-datafield="" style="width:45px;float:left;margin:0px 0px 0px 0px;"></div>');
+            html.push('  </div>');
+            html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+            html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Allocate Across All Items" data-datafield="" style="float:left;width:100px;"></div>`);
+            html.push('  </div>');
+            html.push(' </div>');
+            html.push(' <div class="formrow" style="width:100%;display:flex;align-content:flex-start;align-items:center;padding-bottom:13px;">');
+            html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+            html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="" data-datafield="" style="float:left;width:30px;"></div>`);
+            html.push('  </div>');
+            html.push('  <span style="margin:18px 0px 0px 0px;">USAGE DAYS - Cedit a number of Usage Days</span>');
+            html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow" style="margin:0px 0px 0px 0px;">');
+            html.push('    <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="" data-datafield="" style="width:45px;float:left;margin:0px 0px 0px 0px;"></div>');
+            html.push('  </div>');
+            html.push(' </div>');
+            html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+            html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="TAX ONLY - Credit the Sales Tax Only" data-datafield="" style="float:left;width:100px;"></div>`);
+            html.push('  </div>');
+            html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+            html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Adjust Cost of Subs" data-datafield="" style="float:left;width:100px;"></div>`);
+            html.push('  </div>');
+            html.push('</div>');
 
-            $popup.data('fields', $popup.find('.fwformfield'));
+            FwConfirmation.addControls($confirmation, html.join(''));
+            const $yes = FwConfirmation.addButton($confirmation, 'Create', false);
+            const $no = FwConfirmation.addButton($confirmation, 'Cancel');
 
-            $popup.on('click', 'div.create-invoice-btn', e => {
+
+            $yes.on('click', () => {
                 const request: any = {};
 
                 FwAppData.apiMethod(true, 'POST', `api/v1/billing/populate`, request, FwServices.defaultTimeout, response => {
                    
                 }, ex => FwFunc.showError(ex), $form);
 
-                $popup.hide();
+                FwConfirmation.destroyConfirmation($confirmation);
+                FwNotification.renderNotification('INFO', 'Creating Credit Invoice...');
             });
 
-            $popup.on('click', 'div.close-modal', e => {
-                $popup.hide();
-            });
 
 
 
