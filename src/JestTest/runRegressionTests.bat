@@ -33,22 +33,22 @@ if exist test-report.html (del test-report.html)
 if exist %DwRentalWorksWebPath%\build\RentalWorksWeb_TestReport_LoginLogout.pdf (del %DwRentalWorksWebPath%\build\RentalWorksWeb_TestReport_LoginLogout.pdf)
 call npm run test-rentalworksweb -t LoginLogout
 "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" --headless --disable-gpu --print-to-pdf=%DwRentalWorksWebPath%\build\RentalWorksWeb_TestReport_LoginLogout.pdf %DwRentalWorksWebPath%\src\JestTest\test-report.html
-start %DwRentalWorksWebPath%\build\RentalWorksWeb_TestReport_LoginLogout.pdf
 if exist test-report.html (del test-report.html)
+IF "%DwRegressionTestEmail%"=="" start %DwRentalWorksWebPath%\build\RentalWorksWeb_TestReport_LoginLogout.pdf
 IF not "%DwRegressionTestEmail%"=="" call powershell.exe -file %DwRentalWorksWebPath%\src\JestTest\emailtestresults.ps1 -subject "LoginLogout Regression Test Results" -attachment %DwRentalWorksWebPath%\build\RentalWorksWeb_TestReport_LoginLogout.pdf
 
 if exist test-report.html (del test-report.html)
 if exist %DwRentalWorksWebPath%\build\RentalWorksWeb_TestReport_ShallowRegression.pdf (del %DwRentalWorksWebPath%\build\RentalWorksWeb_TestReport_ShallowRegression.pdf)
 call npm run test-rentalworksweb -t RwwShallowRegression
 "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" --headless --disable-gpu --print-to-pdf=%DwRentalWorksWebPath%\build\RentalWorksWeb_TestReport_ShallowRegression.pdf %DwRentalWorksWebPath%\src\JestTest\test-report.html
-start %DwRentalWorksWebPath%\build\RentalWorksWeb_TestReport_ShallowRegression.pdf
 if exist test-report.html (del test-report.html)
+IF "%DwRegressionTestEmail%"=="" start %DwRentalWorksWebPath%\build\RentalWorksWeb_TestReport_ShallowRegression.pdf
 IF not "%DwRegressionTestEmail%"=="" call powershell.exe -file %DwRentalWorksWebPath%\src\JestTest\emailtestresults.ps1 -subject "Shallow Regression Test Results" -attachment %DwRentalWorksWebPath%\build\RentalWorksWeb_TestReport_ShallowRegression.pdf
 
 if exist test-report.html (del test-report.html)
 if exist %DwRentalWorksWebPath%\build\RentalWorksWeb_TestReport_MediumRegression.pdf (del %DwRentalWorksWebPath%\build\RentalWorksWeb_TestReport_MediumRegression.pdf)
 call npm run test-rentalworksweb -t RwwMediumRegression
 "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" --headless --disable-gpu --print-to-pdf=%DwRentalWorksWebPath%\build\RentalWorksWeb_TestReport_MediumRegression.pdf %DwRentalWorksWebPath%\src\JestTest\test-report.html
-start %DwRentalWorksWebPath%\build\RentalWorksWeb_TestReport_MediumRegression.pdf
 if exist test-report.html (del test-report.html)
+IF "%DwRegressionTestEmail%"=="" start %DwRentalWorksWebPath%\build\RentalWorksWeb_TestReport_MediumRegression.pdf
 IF not "%DwRegressionTestEmail%"=="" call powershell.exe -file %DwRentalWorksWebPath%\src\JestTest\emailtestresults.ps1 -subject "Medium Regression Test Results" -attachment %DwRentalWorksWebPath%\build\RentalWorksWeb_TestReport_MediumRegression.pdf
