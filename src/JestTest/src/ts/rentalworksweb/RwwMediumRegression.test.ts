@@ -216,6 +216,7 @@ export class MediumRegressionTest extends BaseTest {
 
         //this.LoadMyUserGlobal(new User());  //uncomment this if not using the above RelogAsCopyOfUser method
         this.OpenSpecificRecord(new DefaultSettings(), null, true);
+        this.OpenSpecificRecord(new InventorySettings(), null, true);
 
         let warehouseToSeek: any = {
             Warehouse: "GlobalScope.User~ME.Warehouse",

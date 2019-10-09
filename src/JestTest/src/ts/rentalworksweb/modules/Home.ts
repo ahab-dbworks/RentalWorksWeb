@@ -408,6 +408,10 @@ export class RentalInventory extends HomeModule {
                 },
             }
         ];
+
+        // need to implement this icode mask in evaluating the resulting record
+        //ICodeMask: "GlobalScope.InventorySettings~1.ICodeMask",   // ie. "aaaaa-"  or "aaaaa-aa"
+
         this.newRecordsToCreate[0].recordToExpect = {
             ICode: this.newRecordsToCreate[0].record.ICode.toUpperCase().substr(0, 5) + '-' + this.newRecordsToCreate[0].record.ICode.toUpperCase().substr(5),
             Description: this.newRecordsToCreate[0].record.Description.toUpperCase(),
