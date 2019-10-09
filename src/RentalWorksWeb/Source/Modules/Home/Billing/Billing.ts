@@ -18,7 +18,7 @@ class Billing {
         screen.load = () => {
             FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
             this.renderBrowseFilterPopup($browse);
-            //FwBrowse.screenload($browse);
+            FwBrowse.screenload($browse);
         };
         screen.unload = function () {
             FwBrowse.screenunload($browse);
@@ -57,6 +57,8 @@ class Billing {
         $popup = FwPopup.renderPopup($popup, { 'ismodal': true });
         FwFormField.setValueByDataField($popup, 'ShowOrdersWithPendingPO', "T");
         FwPopup.showPopup($popup);
+
+        $browse.data('onscreenunload', () => { FwPopup.destroyPopup($popup); });
 
         $popup.data('fields', $popup.find('.fwformfield'));
 
