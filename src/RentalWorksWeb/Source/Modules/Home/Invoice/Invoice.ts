@@ -7,7 +7,7 @@ class Invoice {
     ActiveViewFields: any = {};
     ActiveViewFieldsId: string;
     //----------------------------------------------------------------------------------------------
-    getModuleScreen(filter?: { datafield: string, search: string }) {
+    getModuleScreen() {
         const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
@@ -20,19 +20,6 @@ class Invoice {
                 FwBrowse.databind($browse);
                 FwBrowse.screenload($browse);
             }
-            //// Dashboard search
-            //if (typeof filter !== 'undefined') {
-            //    const datafields = filter.datafield.split('%20');
-            //    for (let i = 0; i < datafields.length; i++) {
-            //        datafields[i] = datafields[i].charAt(0).toUpperCase() + datafields[i].substr(1);
-            //    };
-            //    filter.datafield = datafields.join('')
-            //    const parsedSearch = filter.search.replace(/%20/g, " ").replace(/%2f/g, '/');
-            //    $browse.find(`div[data-browsedatafield="${filter.datafield}"]`).find('input').val(parsedSearch);
-            //}
-
-            //FwBrowse.databind($browse);
-            //FwBrowse.screenload($browse);
         };
         screen.unload = function () {
             FwBrowse.screenunload($browse);

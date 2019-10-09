@@ -14,7 +14,7 @@ class PurchaseOrder {
     ActiveViewFieldsId: string;
     CachedPurchaseOrderTypes: any = {};
     //----------------------------------------------------------------------------------------------
-    getModuleScreen(filter?: any) {
+    getModuleScreen() {
         const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
@@ -22,18 +22,11 @@ class PurchaseOrder {
         const $browse = this.openBrowse();
         screen.load = () => {
             FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
-
-            if (typeof filter !== 'undefined' && filter.datafield === 'agent') {
-                filter.search = filter.search.split('%20').reverse().join(', ');
+            const chartFilters = JSON.parse(sessionStorage.getItem('chartfilter'));
+            if (!chartFilters) {
+                FwBrowse.databind($browse);
+                FwBrowse.screenload($browse);
             }
-
-            if (typeof filter !== 'undefined') {
-                filter.datafield = filter.datafield.charAt(0).toUpperCase() + filter.datafield.slice(1);
-                $browse.find(`div[data-browsedatafield="${filter.datafield}"]`).find('input').val(filter.search);
-            }
-
-            FwBrowse.databind($browse);
-            FwBrowse.screenload($browse);
         };
         screen.unload = function () {
             FwBrowse.screenunload($browse);

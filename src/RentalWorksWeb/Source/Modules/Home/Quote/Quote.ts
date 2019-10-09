@@ -9,7 +9,7 @@ class Quote extends OrderBase {
     nav: string = Constants.Modules.Home.Quote.nav;
     id: string = Constants.Modules.Home.Quote.id;
     //----------------------------------------------------------------------------------------------
-    getModuleScreen(filter?: { datafield: string, search: string }) {
+    getModuleScreen() {
         const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
@@ -24,18 +24,6 @@ class Quote extends OrderBase {
                 FwBrowse.databind($browse);
                 FwBrowse.screenload($browse);
             }
-            //if (typeof filter !== 'undefined') {
-            //    filter.search = filter.search.replace(/%20/, ' ');
-            //    var datafields = filter.datafield.split('%20');
-            //    for (let i = 0; i < datafields.length; i++) {
-            //        datafields[i] = datafields[i].charAt(0).toUpperCase() + datafields[i].substr(1);
-            //    }
-            //    filter.datafield = datafields.join('')
-            //    $browse.find(`div[data-browsedatafield="${filter.datafield}"]`).find('input').val(filter.search);
-            //}
-
-            //FwBrowse.databind($browse);
-            //FwBrowse.screenload($browse);
         };
 
         screen.unload = function () {
