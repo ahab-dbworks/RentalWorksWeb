@@ -2,8 +2,8 @@ class Invoice {
     Module: string = 'Invoice';
     apiurl: string = 'api/v1/invoice';
     caption: string = Constants.Modules.Home.Invoice.caption;
-	nav: string = Constants.Modules.Home.Invoice.nav;$
-	id: string = Constants.Modules.Home.Invoice.id;
+    nav: string = Constants.Modules.Home.Invoice.nav; $
+    id: string = Constants.Modules.Home.Invoice.id;
     ActiveViewFields: any = {};
     ActiveViewFieldsId: string;
     //----------------------------------------------------------------------------------------------
@@ -544,7 +544,7 @@ class Invoice {
 
         this.dynamicColumns($form);
     };
-   
+
     //----------------------------------------------------------------------------------------------
     dynamicColumns($form: JQuery): void {
         const $rentalGrid = $form.find('.rentalgrid [data-name="InvoiceItemGrid"]');
@@ -557,7 +557,7 @@ class Invoice {
             }
         }
         // ----------
-        const rentalShowFields: Array <string> = ["OrderNumber", "ICode", "Description", "Quantity", "FromDate", "ToDate", "Days", "Rate", "Cost", "DaysPerWeek", "DiscountPercent", "DiscountAmount", "Extended", "Taxable"];
+        const rentalShowFields: Array<string> = ["OrderNumber", "ICode", "Description", "Quantity", "FromDate", "ToDate", "Days", "Rate", "Cost", "DaysPerWeek", "DiscountPercent", "DiscountAmount", "Extended", "Taxable"];
         const hiddenRentals: Array<string> = fieldNames.filter(function (field) {
             return !this.has(field)
         }, new Set(rentalShowFields))
@@ -565,7 +565,7 @@ class Invoice {
             jQuery($rentalGrid.find(`[data-mappedfield="${hiddenRentals[i]}"]`)).parent().hide();
         }
         // ----------
-        const salesShowFields: Array <string> = ["OrderNumber", "ICode", "Description", "Quantity", "Unit", "Cost", "Rate", "DiscountPercent", "DiscountAmount", "Extended", "Taxable"];
+        const salesShowFields: Array<string> = ["OrderNumber", "ICode", "Description", "Quantity", "Unit", "Cost", "Rate", "DiscountPercent", "DiscountAmount", "Extended", "Taxable"];
         const hiddenSales = fieldNames.filter(function (field) {
             return !this.has(field)
         }, new Set(salesShowFields))
@@ -574,7 +574,7 @@ class Invoice {
             jQuery($salesGrid.find(`[data-mappedfield="${hiddenSales[i]}"]`)).parent().hide();
         }
         // ----------
-        const laborShowFields: Array <string> = ["OrderNumber", "ICode", "Description", "Quantity", "FromDate", "FromTime", "ToDate", "ToTime", "Days", "Unit", "Rate", "Cost", "DiscountAmount", "Extended", "Taxable"];
+        const laborShowFields: Array<string> = ["OrderNumber", "ICode", "Description", "Quantity", "FromDate", "FromTime", "ToDate", "ToTime", "Days", "Unit", "Rate", "Cost", "DiscountAmount", "Extended", "Taxable"];
         const hiddenLabor = fieldNames.filter(function (field) {
             return !this.has(field)
         }, new Set(laborShowFields))
@@ -583,7 +583,7 @@ class Invoice {
             jQuery($laborGrid.find(`[data-mappedfield="${hiddenLabor[i]}"]`)).parent().hide();
         }
         // ----------
-        const miscShowFields: Array <string> = ["OrderNumber", "ICode", "Description", "Quantity", "FromDate", "ToDate", "Unit", "Days", "Rate", "Cost", "DiscountPercent", "DiscountAmount", "Extended", "Taxable"];
+        const miscShowFields: Array<string> = ["OrderNumber", "ICode", "Description", "Quantity", "FromDate", "ToDate", "Unit", "Days", "Rate", "Cost", "DiscountPercent", "DiscountAmount", "Extended", "Taxable"];
         const hiddenMisc = fieldNames.filter(function (field) {
             return !this.has(field)
         }, new Set(miscShowFields))
@@ -752,6 +752,64 @@ class Invoice {
             FwFunc.showError(ex);
         }
     }
+    //----------------------------------------------------------------------------------------------
+    creditInvoice($form) {
+        const status = FwFormField.getValueByDataField($form, 'Status');
+        if (status === 'PROCESSED' || status === 'CLOSED') {
+            let $popup = jQuery(`
+                <div class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" style="background-color:white; padding:0px 0px 10px 0px; border:2px solid gray; min-width:350px;">
+                  <div style="background-color:#2196F3;height:60px;width:412px;color:white;"><span style="position:absolute;top:5px;padding:15px;font-size:1.1em">Credit Invoice</span> <div class="close-modal" style="position:absolute; right:5px; top:5px; cursor:pointer;"><i class="material-icons">clear</i></div></div>
+                  <div class="flexpage">
+                    <div class="flexrow">
+                      <div class="flexcolumn">
+                        <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" >
+                     <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield ifnew" data-caption="Field Type" data-datafield="CustomTableName" data-allcaps="false" style="float:left;width:150px;">
+                        <div data-caption="Text" data-value="customvaluesstring"></div>
+                        <div data-caption="Integer" data-value="customvaluesint"></div>
+                        <div data-caption="Float" data-value="customvaluesnumeric">HERE is some text</div>
+                        <div data-caption="Date" data-value="customvaluesdatetime"></div>
+                        <div data-caption="True/False" data-value="customvaluesboolean"></div>
+                      </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="flexrow">
+                      <div data-type="button" class="fwformcontrol create-invoice-btn" style="flex:0 0 175px; margin:auto;">Create Credit Invoice</div>
+                    </div>
+                  </div>
+                </div>`);
+            FwControl.renderRuntimeControls($popup.find('.fwcontrol'));
+            $popup = FwPopup.renderPopup($popup, { 'ismodal': true });
+            FwFormField.setValueByDataField($popup, 'ShowOrdersWithPendingPO', "T");
+            FwPopup.showPopup($popup);
+
+            $popup.data('fields', $popup.find('.fwformfield'));
+
+            $popup.on('click', 'div.create-invoice-btn', e => {
+                const request: any = {};
+
+                FwAppData.apiMethod(true, 'POST', `api/v1/billing/populate`, request, FwServices.defaultTimeout, response => {
+                   
+                }, ex => FwFunc.showError(ex), $form);
+
+                $popup.hide();
+            });
+
+            $popup.on('click', 'div.close-modal', e => {
+                $popup.hide();
+            });
+
+
+
+
+
+
+
+
+
+        } else
+            FwNotification.renderNotification('WARNING', 'This feature is only available for PROCESSED or CLOSED Invoices.')
+    }
 };
 
 //----------------------------------------------------------------------------------------------
@@ -774,7 +832,7 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.Invoice.browse.menuItems.Vo
         if (invoiceId != null) {
             const $confirmation = FwConfirmation.renderConfirmation('Void', '');
             $confirmation.find('.fwconfirmationbox').css('width', '450px');
-            const html: Array<string> =[];
+            const html: Array<string> = [];
             html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
             html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
             html.push('    <div>Void Invoice?</div>');
@@ -855,6 +913,16 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.Invoice.form.menuItems.Unap
                 FwNotification.renderNotification('WARNING', response.msg);
             }
         }, null, $form);
+    } catch (ex) {
+        FwFunc.showError(ex);
+    }
+};
+//----------------------------------------------------------------------------------------------
+//form credit invoice
+FwApplicationTree.clickEvents[Constants.Modules.Home.Invoice.form.menuItems.CreditInvoice.id] = function (event: JQuery.ClickEvent) {
+    try {
+        const $form = jQuery(this).closest('.fwform');
+        InvoiceController.creditInvoice($form);
     } catch (ex) {
         FwFunc.showError(ex);
     }

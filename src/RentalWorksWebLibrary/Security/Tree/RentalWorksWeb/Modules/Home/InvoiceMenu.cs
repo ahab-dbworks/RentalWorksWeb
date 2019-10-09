@@ -4,7 +4,7 @@ namespace WebLibrary.Security.Tree.RentalWorksWeb.Modules.Settings
 {
     public class InvoiceMenu : FwSecurityTreeBranch
     {
-      //---------------------------------------------------------------------------------------------
+        //---------------------------------------------------------------------------------------------
         public InvoiceMenu() : base("{9B79D7D8-08A1-4F6B-AC0A-028DFA9FE10F}") { }
         //---------------------------------------------------------------------------------------------
         public override void BuildBranch(FwSecurityTree tree)
@@ -32,6 +32,7 @@ namespace WebLibrary.Security.Tree.RentalWorksWeb.Modules.Settings
             tree.AddSubMenuItem("Print Invoice", "{3A693D4E-3B9B-4749-A9B6-C8302F1EDE6A}", nodeFormOptions.Id);
             tree.AddSubMenuItem("Approve", "{117CCDFA-FFC3-49CE-B41B-0F6CE9A69518}", nodeFormOptions.Id);
             tree.AddSubMenuItem("Unapprove", "{F8C5F06C-4B9D-4495-B589-B44B02AE7915}", nodeFormOptions.Id);
+            tree.AddSubMenuItem("Credit Invoice", "{CC80D0FC-2E28-4C3D-83EB-C8B5EE0CB4B5}", nodeFormOptions.Id);
         }
         //---------------------------------------------------------------------------------------------
     }

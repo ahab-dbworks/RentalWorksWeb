@@ -79,7 +79,8 @@
                         Void: { id: '{DF6B0708-EC5A-475F-8EFB-B52E30BACAA3}' },
                         PrintInvoice: { id: '{3A693D4E-3B9B-4749-A9B6-C8302F1EDE6A}' },
                         Approve: { id: '{117CCDFA-FFC3-49CE-B41B-0F6CE9A69518}' },
-                        Unapprove: { id: '{F8C5F06C-4B9D-4495-B589-B44B02AE7915}' }
+                        Unapprove: { id: '{F8C5F06C-4B9D-4495-B589-B44B02AE7915}' },
+                        CreditInvoice: { id: '{CC80D0FC-2E28-4C3D-83EB-C8B5EE0CB4B5}' }
                     }
                 }
             },
