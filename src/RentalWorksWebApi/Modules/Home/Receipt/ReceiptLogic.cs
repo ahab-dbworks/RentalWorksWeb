@@ -701,8 +701,6 @@ namespace WebApi.Modules.Home.Receipt
                 if (s.AllowDeleteExportedBeceipts.GetValueOrDefault(false)) {
                     e.PerformDelete = false;
                     e.ErrorMessage = $"Receipt has already been exported.  Are you sure you want to delete?";
-                    //GH #1097
-                    //when this happens, the pop-up that the user sees should  have some sort of Yes/No buttons to override and force the delete to go through
                 }
                 else
                 {

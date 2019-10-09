@@ -82,6 +82,14 @@ namespace WebApi.Modules.Home.Receipt
             return await DoDeleteAsync<ReceiptLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
+        // DELETE api/v1/receipt/overridedelete/A0000001 
+        [HttpDelete("overridedelete/{id}")]
+        [FwControllerMethod(Id: "kXttDhRjrgZ")]
+        public async Task<ActionResult<bool>> OverrideDelete([FromRoute]string id)
+        {
+            return await ReceiptFunc.DeleteReceipt(AppConfig, UserSession, id);
+        }
+        //------------------------------------------------------------------------------------ 
         // GET api/v1/receipt/remainingdepositamounts
         [HttpGet("remainingdepositamounts")]
         [FwControllerMethod(Id: "rewXg7ccffYIe")]
