@@ -168,10 +168,16 @@ export abstract class BaseTest {
                 newMe.SalesDepartment = me.SalesDepartment;
                 newMe.MiscDepartment = me.MiscDepartment;
                 newMe.LaborDepartment = me.LaborDepartment;
-
                 await userModule.createNewRecord();
                 await userModule.populateFormWithRecord(newMe);
                 await userModule.saveRecord(true);
+
+                // this is done to bypass the potential chrome prompt to save password
+                await ModuleBase.wait(10000);
+                let selector = `div.systembarcontrol[data-id="username"]`;
+                await page.waitForSelector(selector);
+                await page.click(selector);
+
                 await userModule.openBrowse();
                 await userModule.browseSeek(findUserInputs);
                 await userModule.openRecord()
