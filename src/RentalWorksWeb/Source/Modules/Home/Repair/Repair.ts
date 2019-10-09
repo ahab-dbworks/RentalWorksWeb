@@ -953,8 +953,18 @@ class Repair {
 
             const repairId = FwFormField.getValueByDataField($form, 'RepairId');
             FwAppData.apiMethod(true, 'POST', `api/v1/repair/void/${repairId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
-                FwNotification.renderNotification('SUCCESS', 'Repair Order Successfully Voided');
-                FwConfirmation.destroyConfirmation($confirmation);
+                if (response.success) {
+                    FwNotification.renderNotification('SUCCESS', 'Repair Order Successfully Voided');
+                    FwConfirmation.destroyConfirmation($confirmation);
+                    FwModule.refreshForm($form, RepairController);
+                }
+                else {
+                    $yes.on('click', makeVoid);
+                    $yes.text('Void');
+                    FwFunc.showError(response.msg);
+                    FwFormField.enable($confirmation.find('.fwformfield'));
+                    FwFormField.enable($yes);
+                }
             }, function onError(response) {
                 $yes.on('click', makeVoid);
                 $yes.text('Void');
