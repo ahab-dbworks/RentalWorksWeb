@@ -414,7 +414,8 @@
                             sessionStorage.setItem('chartfilter', chartFilters);
                         };
 
-                        program.getModule(widgetData.clickpath + labelvalue.replace(/ /g, '%20').replace(/\//g, '%2F'));
+                        //program.getModule(widgetData.clickpath + labelvalue.replace(/ /g, '%20').replace(/\//g, '%2F'));
+                        program.getModule(`module/${widgetData.modulename}`); // Jason H 10/09/2019 We should be able to remove the filter routes in program.ts now
                     }
                 });
             } catch (ex) {
