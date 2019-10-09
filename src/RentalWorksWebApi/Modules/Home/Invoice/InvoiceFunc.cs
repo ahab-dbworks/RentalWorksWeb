@@ -6,6 +6,15 @@ using WebApi.Logic;
 
 namespace WebApi.Modules.Home.Invoice
 {
+    public class CreditInvoiceRequest
+    {
+        public string InvoiceId { get; set; }
+        public string CreditMethod { get; set; }
+        public decimal? CreditPercent { get; set; }
+        // and other parameters here...
+    }
+
+
     public class ToggleInvoiceApprovedResponse : TSpStatusResponse
     {
     }

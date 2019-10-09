@@ -126,10 +126,10 @@ namespace WebApi.Modules.Home.Invoice
             }
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/invoice/A0000001/creditinvoice
-        [HttpPost("{id}/creditinvoice")]
+        // POST api/v1/invoice/creditinvoice
+        [HttpPost("creditinvoice")]
         [FwControllerMethod(Id: "zs0EWzzJYFMop")]
-        public async Task<ActionResult<InvoiceLogic>> CreditInvoice([FromRoute]string id)
+        public async Task<ActionResult<InvoiceLogic>> CreditInvoice([FromBody]CreditInvoiceRequest request)   // the body of your request should be an object that matches the CreditInvoiceRequest class definiton (see InvoiceFunc.cs for the class)
         {
             if (!ModelState.IsValid)
             {
@@ -137,12 +137,13 @@ namespace WebApi.Modules.Home.Invoice
             }
             try
             {
+                string id = ""; //temporary placeholder to allow compile
                 string[] ids = id.Split('~');
                 InvoiceLogic l = new InvoiceLogic();
                 l.SetDependencies(AppConfig, UserSession);
                 if (await l.LoadAsync<InvoiceLogic>(ids))
                 {
-                    TSpStatusResponse response = await l.CreditInvoice();
+                    TSpStatusResponse response = await l.CreditInvoice();  // pass the "request" object into this method and you will be able to access all of the fields to map their values to the stored procedure
                     if (response.success)
                     {
                         await l.LoadAsync<InvoiceLogic>(ids);
