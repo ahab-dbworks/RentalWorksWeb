@@ -19,19 +19,23 @@ class Quote extends OrderBase {
 
         screen.load = function () {
             FwModule.openModuleTab($browse, 'Quote', false, 'BROWSE', true);
-
-            if (typeof filter !== 'undefined') {
-                filter.search = filter.search.replace(/%20/, ' ');
-                var datafields = filter.datafield.split('%20');
-                for (let i = 0; i < datafields.length; i++) {
-                    datafields[i] = datafields[i].charAt(0).toUpperCase() + datafields[i].substr(1);
-                }
-                filter.datafield = datafields.join('')
-                $browse.find(`div[data-browsedatafield="${filter.datafield}"]`).find('input').val(filter.search);
+            const chartFilters = JSON.parse(sessionStorage.getItem('chartfilter'));
+            if (!chartFilters) {
+                FwBrowse.databind($browse);
+                FwBrowse.screenload($browse);
             }
+            //if (typeof filter !== 'undefined') {
+            //    filter.search = filter.search.replace(/%20/, ' ');
+            //    var datafields = filter.datafield.split('%20');
+            //    for (let i = 0; i < datafields.length; i++) {
+            //        datafields[i] = datafields[i].charAt(0).toUpperCase() + datafields[i].substr(1);
+            //    }
+            //    filter.datafield = datafields.join('')
+            //    $browse.find(`div[data-browsedatafield="${filter.datafield}"]`).find('input').val(filter.search);
+            //}
 
-            FwBrowse.databind($browse);
-            FwBrowse.screenload($browse);
+            //FwBrowse.databind($browse);
+            //FwBrowse.screenload($browse);
         };
 
         screen.unload = function () {

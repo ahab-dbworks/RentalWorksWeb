@@ -8,7 +8,7 @@ class Order extends OrderBase {
     successSoundFileName: string;
     errorSoundFileName: string;
     //-----------------------------------------------------------------------------------------------
-    getModuleScreen(filter?: any) {
+    getModuleScreen() {
         const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
@@ -16,26 +16,8 @@ class Order extends OrderBase {
         const $browse = this.openBrowse();
         screen.load = function () {
             FwModule.openModuleTab($browse, 'Order', false, 'BROWSE', true);
-
-            // Dashboard search
-            if (typeof filter !== 'undefined') {
-                //$browse.find('[data-type="FindMenuBarButton"]').click();
-   
-                //let parsedSearch;
-                //if (filter.datafield === 'agent') {
-                //    parsedSearch = filter.search.split('%20').reverse().join(', ');
-                //} else {
-                //    parsedSearch = filter.search.replace(/%20/g, " ").replace(/%2f/g, '/');
-                //}
-
-                //const datafields = filter.datafield.split('%20');
-                //for (let i = 0; i < datafields.length; i++) {
-                //    datafields[i] = datafields[i].charAt(0).toUpperCase() + datafields[i].substr(1);
-                //}
-                //filter.datafield = datafields.join('');
-
-                //$browse.find(`div[data-browsedatafield="${filter.datafield}"]`).find('input').val(parsedSearch);
-            } else {
+            const chartFilters = JSON.parse(sessionStorage.getItem('chartfilter'));
+            if (!chartFilters) {
                 FwBrowse.databind($browse);
                 FwBrowse.screenload($browse);
             }

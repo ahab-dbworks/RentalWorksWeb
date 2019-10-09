@@ -21,23 +21,30 @@ class Receipt {
 
         screen.load = () => {
             FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
-
-            if (typeof filter !== 'undefined') {
-                const datafields = filter.datafield.split('%20');
-                for (let i = 0; i < datafields.length; i++) {
-                    datafields[i] = datafields[i].charAt(0).toUpperCase() + datafields[i].substr(1);
-                }
-                filter.datafield = datafields.join('')
-                $browse.find(`div[data-browsedatafield="${filter.datafield}"]`).find('input').val(filter.search);
-            } else {
-                // if no filter passed in, default view to today's date
+            const chartFilters = JSON.parse(sessionStorage.getItem('chartfilter'));
+            if (!chartFilters) {
                 const today = FwFunc.getDate();
                 $browse.find('div[data-browsedatafield="ReceiptDate"]').find('input').val(today);
                 $browse.find('div[data-browsedatafield="ReceiptDate"]').find('input').change();
+                FwBrowse.databind($browse);
+                FwBrowse.screenload($browse);
             }
+            //if (typeof filter !== 'undefined') {
+            //    const datafields = filter.datafield.split('%20');
+            //    for (let i = 0; i < datafields.length; i++) {
+            //        datafields[i] = datafields[i].charAt(0).toUpperCase() + datafields[i].substr(1);
+            //    }
+            //    filter.datafield = datafields.join('')
+            //    $browse.find(`div[data-browsedatafield="${filter.datafield}"]`).find('input').val(filter.search);
+            //} else {
+            //    // if no filter passed in, default view to today's date
+            //    const today = FwFunc.getDate();
+            //    $browse.find('div[data-browsedatafield="ReceiptDate"]').find('input').val(today);
+            //    $browse.find('div[data-browsedatafield="ReceiptDate"]').find('input').change();
+            //}
 
-            FwBrowse.databind($browse);
-            FwBrowse.screenload($browse);
+            //FwBrowse.databind($browse);
+            //FwBrowse.screenload($browse);
         };
         screen.unload = function () {
             FwBrowse.screenunload($browse);

@@ -15,20 +15,24 @@ class Invoice {
         const $browse = this.openBrowse();
         screen.load = () => {
             FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
-
-            // Dashboard search
-            if (typeof filter !== 'undefined') {
-                const datafields = filter.datafield.split('%20');
-                for (let i = 0; i < datafields.length; i++) {
-                    datafields[i] = datafields[i].charAt(0).toUpperCase() + datafields[i].substr(1);
-                };
-                filter.datafield = datafields.join('')
-                const parsedSearch = filter.search.replace(/%20/g, " ").replace(/%2f/g, '/');
-                $browse.find(`div[data-browsedatafield="${filter.datafield}"]`).find('input').val(parsedSearch);
+            const chartFilters = JSON.parse(sessionStorage.getItem('chartfilter'));
+            if (!chartFilters) {
+                FwBrowse.databind($browse);
+                FwBrowse.screenload($browse);
             }
+            //// Dashboard search
+            //if (typeof filter !== 'undefined') {
+            //    const datafields = filter.datafield.split('%20');
+            //    for (let i = 0; i < datafields.length; i++) {
+            //        datafields[i] = datafields[i].charAt(0).toUpperCase() + datafields[i].substr(1);
+            //    };
+            //    filter.datafield = datafields.join('')
+            //    const parsedSearch = filter.search.replace(/%20/g, " ").replace(/%2f/g, '/');
+            //    $browse.find(`div[data-browsedatafield="${filter.datafield}"]`).find('input').val(parsedSearch);
+            //}
 
-            FwBrowse.databind($browse);
-            FwBrowse.screenload($browse);
+            //FwBrowse.databind($browse);
+            //FwBrowse.screenload($browse);
         };
         screen.unload = function () {
             FwBrowse.screenunload($browse);
