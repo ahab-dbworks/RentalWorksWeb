@@ -5,7 +5,7 @@ class Deal {
     nav: string = Constants.Modules.Home.Deal.nav;
     id: string = Constants.Modules.Home.Deal.id;
     //----------------------------------------------------------------------------------------------
-    getModuleScreen(filter?: { datafield: string, search: string }) {
+    getModuleScreen() {
         const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
@@ -15,18 +15,11 @@ class Deal {
 
         screen.load = () => {
             FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
-
-            if (typeof filter !== 'undefined') {
-                const datafields = filter.datafield.split('%20');
-                for (let i = 0; i < datafields.length; i++) {
-                    datafields[i] = datafields[i].charAt(0).toUpperCase() + datafields[i].substr(1);
-                }
-                filter.datafield = datafields.join('')
-                $browse.find(`div[data-browsedatafield="${filter.datafield}"]`).find('input').val(filter.search);
+            const chartFilters = JSON.parse(sessionStorage.getItem('chartfilter'));
+            if (!chartFilters) {
+                FwBrowse.databind($browse);
+                FwBrowse.screenload($browse);
             }
-
-            FwBrowse.databind($browse);
-            FwBrowse.screenload($browse);
         };
         screen.unload = function () {
             FwBrowse.screenunload($browse);

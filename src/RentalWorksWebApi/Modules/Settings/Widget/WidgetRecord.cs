@@ -14,6 +14,9 @@ namespace WebApi.Modules.Settings.Widget
         [FwSqlDataField(column: "widget", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255, required: true)]
         public string Widget { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "modulename", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255, required: true)]
+        public string ModuleName { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "apiname", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255, required: true)]
         public string ApiName { get; set; }
         //------------------------------------------------------------------------------------ 

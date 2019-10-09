@@ -1,4 +1,4 @@
-﻿class RwHome {
+class RwHome {
 
     Module: string = 'RwHome';
     charts: any = [];
@@ -414,7 +414,7 @@
                             sessionStorage.setItem('chartfilter', chartFilters);
                         };
 
-                        program.getModule(widgetData.clickpath + labelvalue.replace(/ /g, '%20').replace(/\//g, '%2F'));
+                        program.getModule(`module/${widgetData.modulename}`);
                     }
                 });
             } catch (ex) {
