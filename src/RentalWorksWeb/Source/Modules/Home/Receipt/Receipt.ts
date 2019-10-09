@@ -217,6 +217,21 @@ class Receipt {
         }
     }
     //----------------------------------------------------------------------------------------------
+    deleteRecord($browse): void {
+        FwModule.deleteRecord(this.Module, $browse);
+        let observer;
+        const app = document.getElementById('application');
+        observer = new MutationObserver(() => {
+            const message = jQuery(app).find('.advisory .fwconfirmationbox .body .message').text();
+            if (message.startsWith("Receipt has already been exported.  Are you sure you want to delete?")) {
+                this.overrideDelete($browse);
+            }
+        });
+        observer.observe(app, { attributes: true, childList: true, subtree: true });
+
+        $browse.data('onscreenunload',  () => { observer.disconnect(); }); 
+    }
+    //----------------------------------------------------------------------------------------------
     renderGrids($form: JQuery): void {
         const $glDistributionGrid = $form.find('div[data-grid="GlDistributionGrid"]');
         const $glDistributionGridControl = FwBrowse.loadGridFromTemplate('GlDistributionGrid');
@@ -816,6 +831,35 @@ class Receipt {
                 $form.find('div[data-validationname="DealCreditValidation"]').attr('data-required', 'false').attr('data-enabled', 'false');
             }
         }
+    }
+    //----------------------------------------------------------------------------------------------
+    overrideDelete($browse) {
+        jQuery('#application').find('.advisory .fwconfirmationbox .fwconfirmation-button').click();
+
+        const $confirmation = FwConfirmation.renderConfirmation(`Delete Receipt`, '');
+        $confirmation.find('.fwconfirmationbox').css('width', '490px');
+
+        const html: Array<string> = [];
+        html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+        html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+        html.push(`    <div>Receipt has already been exported.  Are you sure you want to delete?</div>`);
+        html.push('  </div>');
+        html.push('</div>');
+        FwConfirmation.addControls($confirmation, html.join(''));
+        const $yes = FwConfirmation.addButton($confirmation, 'Save', false);
+        FwConfirmation.addButton($confirmation, 'Cancel');
+        $yes.focus();
+        $yes.on('click', () => {
+            FwConfirmation.destroyConfirmation($confirmation);
+            //delete 
+            const selectedRow = FwBrowse.getSelectedRow($browse);
+            const id = FwBrowse.getRowBrowseUniqueIds($browse, selectedRow);
+            FwAppData.apiMethod(true, 'DELETE', `api/v1/receipt/overridedelete/${id.ReceiptId}`, null, FwServices.defaultTimeout,
+                res => {
+                    FwBrowse.databind($browse);
+                }
+                , ex => FwFunc.showError(ex), $browse);
+        });
     }
     //----------------------------------------------------------------------------------------------
 }
