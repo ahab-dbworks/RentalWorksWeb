@@ -213,7 +213,7 @@ class Receipt {
             observer.observe(app, { attributes: true, childList: true, subtree: true });
         }
         if (observer) {
-            setTimeout(() => { observer.disconnect(); }, 2500)
+            setTimeout(() => { observer.disconnect(); }, 3000)
         }
     }
     //----------------------------------------------------------------------------------------------
