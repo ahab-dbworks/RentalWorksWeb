@@ -846,7 +846,7 @@ class Receipt {
         html.push('  </div>');
         html.push('</div>');
         FwConfirmation.addControls($confirmation, html.join(''));
-        const $yes = FwConfirmation.addButton($confirmation, 'Save', false);
+        const $yes = FwConfirmation.addButton($confirmation, 'Delete', false);
         FwConfirmation.addButton($confirmation, 'Cancel');
         $yes.focus();
         $yes.on('click', () => {
