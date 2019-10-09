@@ -761,47 +761,52 @@ class Invoice {
             const html: Array<string> = [];
             html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
             html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-            html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="FULL - Every line of the Invoice will be credited 100%" data-datafield="" style="float:left;width:100px;"></div>`);
+            html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="FULL - Every line of the Invoice will be credited 100%" data-invoicefield="Full" style="float:left;width:100px;"></div>`);
             html.push('  </div>');
             html.push(' <div class="formrow" style="width:100%;display:flex;align-content:flex-start;align-items:center;padding-bottom:13px;">');
             html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-            html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="" data-datafield="" style="float:left;width:30px;"></div>`);
+            html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="" data-invoicefield="Partial" style="float:left;width:30px;"></div>`);
             html.push('  </div>');
             html.push('  <span style="margin:18px 0px 0px 0px;">PARTIAL - Every Line of the Invoice will be credited</span>');
             html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow" style="margin:0px 0px 0px 0px;">');
-            html.push('    <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="" data-datafield="" style="width:45px;float:left;margin:0px 0px 0px 0px;"></div>');
+            html.push('    <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="" data-invoicefield="PartialInput" style="width:45px;float:left;margin:0px 0px 0px 0px;"></div>');
             html.push('  </div>');
             html.push('  <span style="margin:18px 0px 0px 0px;">%</span>');
             html.push(' </div>');
             html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-            html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="MANUAL - Items must be credited manually" data-datafield="" style="float:left;width:100px;"></div>`);
+            html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="MANUAL - Items must be credited manually" data-invoicefield="Manual" style="float:left;width:100px;"></div>`);
             html.push('  </div>');
-            html.push(' <div class="formrow" style="width:100%;display:flex;align-content:flex-start;align-items:center;padding-bottom:13px;">');
+            html.push(' <div class="formrow" style="width:100%;display:flex;align-content:flex-start;align-items:center;">');
             html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-            html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="" data-datafield="" style="float:left;width:30px;"></div>`);
+            html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="" data-invoicefield="FlatAmount" style="float:left;width:30px;"></div>`);
             html.push('  </div>');
             html.push('  <span style="margin:18px 0px 0px 0px;">FLAT AMT - Credit a flat amount</span>');
             html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow" style="margin:0px 0px 0px 0px;">');
-            html.push('    <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="" data-datafield="" style="width:45px;float:left;margin:0px 0px 0px 0px;"></div>');
-            html.push('  </div>');
-            html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-            html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Allocate Across All Items" data-datafield="" style="float:left;width:100px;"></div>`);
+            html.push('    <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="" data-invoicefield="FlatAmountInput" style="width:45px;float:left;margin:0px 0px 0px 0px;"></div>');
             html.push('  </div>');
             html.push(' </div>');
+            html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow" style="margin-bottom: 0;">');
+            html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Allocate Across All Items" data-invoicefield="AllocateAllItems" style="float:left;width:100px;padding: 0 0 0 30px;"></div>`);
+            html.push('  </div>');
             html.push(' <div class="formrow" style="width:100%;display:flex;align-content:flex-start;align-items:center;padding-bottom:13px;">');
             html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-            html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="" data-datafield="" style="float:left;width:30px;"></div>`);
+            html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="" data-invoicefield="UsageDays" style="float:left;width:30px;"></div>`);
             html.push('  </div>');
             html.push('  <span style="margin:18px 0px 0px 0px;">USAGE DAYS - Cedit a number of Usage Days</span>');
             html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow" style="margin:0px 0px 0px 0px;">');
-            html.push('    <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="" data-datafield="" style="width:45px;float:left;margin:0px 0px 0px 0px;"></div>');
+            html.push('    <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="" data-invoicefield="UsageDaysInput" style="width:45px;float:left;margin:0px 0px 0px 0px;"></div>');
             html.push('  </div>');
             html.push(' </div>');
             html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-            html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="TAX ONLY - Credit the Sales Tax Only" data-datafield="" style="float:left;width:100px;"></div>`);
+            html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="TAX ONLY - Credit the Sales Tax Only" data-invoicefield="TaxOnly" style="float:left;width:100px;"></div>`);
             html.push('  </div>');
             html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-            html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Adjust Cost of Subs" data-datafield="" style="float:left;width:100px;"></div>`);
+            html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Adjust Cost of Subs" data-invoicefield="AdjustSubs" checked="checked" style="float:left;width:100px;"></div>`);
+            html.push('  </div>');
+            html.push('  <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Credit Note">');
+            html.push(`    <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">`);
+            html.push('      <div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield" data-caption="" data-invoicefield="CreditNote"></div>');
+            html.push('    </div>');
             html.push('  </div>');
             html.push('</div>');
 
@@ -814,22 +819,107 @@ class Invoice {
                 const request: any = {};
 
                 FwAppData.apiMethod(true, 'POST', `api/v1/billing/populate`, request, FwServices.defaultTimeout, response => {
-                   
+
                 }, ex => FwFunc.showError(ex), $form);
 
                 FwConfirmation.destroyConfirmation($confirmation);
                 FwNotification.renderNotification('INFO', 'Creating Credit Invoice...');
             });
 
+            const full = $confirmation.find('div[data-invoicefield="Full"] input');
+            const partial = $confirmation.find('div[data-invoicefield="Partial"] input');
+            const partialInput = $confirmation.find('div[data-invoicefield="PartialInput"]');
+            const manual = $confirmation.find('div[data-invoicefield="Manual"] input');
+            const flatAmount = $confirmation.find('div[data-invoicefield="FlatAmount"] input');
+            const flatAmountInput = $confirmation.find('div[data-invoicefield="FlatAmountInput"]');
+            const allocateAllItems = $confirmation.find('div[data-invoicefield="AllocateAllItems"] input');
+            const usageDays = $confirmation.find('div[data-invoicefield="UsageDays"] input');
+            const usageDaysInput = $confirmation.find('div[data-invoicefield="UsageDaysInput"]');
+            const taxOnly = $confirmation.find('div[data-invoicefield="TaxOnly"] input');
 
-
-
-
-
-
-
-
-
+            full.on('change', e => {
+                if (jQuery(e.currentTarget).prop('checked')) {
+                    partial.prop('checked', false);
+                    manual.prop('checked', false);
+                    flatAmount.prop('checked', false);
+                    allocateAllItems.prop('checked', false);
+                    usageDays.prop('checked', false);
+                    taxOnly.prop('checked', false);
+                    FwFormField.disable(partialInput);
+                    FwFormField.disable(flatAmountInput);
+                    FwFormField.disable($confirmation.find('div[data-invoicefield="AllocateAllItems"]'));
+                    FwFormField.disable(usageDaysInput);
+                }
+            });
+            partial.on('change', e => {
+                if (jQuery(e.currentTarget).prop('checked')) {
+                    full.prop('checked', false);
+                    manual.prop('checked', false);
+                    flatAmount.prop('checked', false);
+                    allocateAllItems.prop('checked', false);
+                    usageDays.prop('checked', false);
+                    taxOnly.prop('checked', false);
+                    FwFormField.disable($confirmation.find('div[data-invoicefield="AllocateAllItems"]'));
+                    FwFormField.enable(partialInput);
+                    FwFormField.disable(flatAmountInput);
+                    FwFormField.disable(usageDaysInput);
+                }
+            });
+            manual.on('change', e => {
+                if (jQuery(e.currentTarget).prop('checked')) {
+                    full.prop('checked', false);
+                    partial.prop('checked', false);
+                    flatAmount.prop('checked', false);
+                    allocateAllItems.prop('checked', false);
+                    usageDays.prop('checked', false);
+                    taxOnly.prop('checked', false);
+                    FwFormField.disable($confirmation.find('div[data-invoicefield="AllocateAllItems"]'));
+                    FwFormField.disable(partialInput);
+                    FwFormField.disable(flatAmountInput);
+                    FwFormField.disable(usageDaysInput);
+                }
+            });
+            flatAmount.on('change', e => {
+                if (jQuery(e.currentTarget).prop('checked')) {
+                    full.prop('checked', false);
+                    partial.prop('checked', false);
+                    manual.prop('checked', false);
+                    usageDays.prop('checked', false);
+                    taxOnly.prop('checked', false);
+                    FwFormField.enable(flatAmountInput);
+                    FwFormField.enable($confirmation.find('div[data-invoicefield="AllocateAllItems"]'));
+                    FwFormField.disable(partialInput);
+                    FwFormField.disable(usageDaysInput);
+                }
+            });
+            usageDays.on('change', e => {
+                if (jQuery(e.currentTarget).prop('checked')) {
+                    full.prop('checked', false);
+                    partial.prop('checked', false);
+                    manual.prop('checked', false);
+                    flatAmount.prop('checked', false);
+                    allocateAllItems.prop('checked', false);
+                    taxOnly.prop('checked', false);
+                    FwFormField.disable($confirmation.find('div[data-invoicefield="AllocateAllItems"]'));
+                    FwFormField.enable(usageDaysInput);
+                    FwFormField.disable(partialInput);
+                    FwFormField.disable(flatAmountInput);
+                }
+            });
+            taxOnly.on('change', e => {
+                if (jQuery(e.currentTarget).prop('checked')) {
+                    full.prop('checked', false);
+                    partial.prop('checked', false);
+                    manual.prop('checked', false);
+                    flatAmount.prop('checked', false);
+                    allocateAllItems.prop('checked', false);
+                    usageDays.prop('checked', false);
+                    FwFormField.disable($confirmation.find('div[data-invoicefield="AllocateAllItems"]'));
+                    FwFormField.disable(partialInput);
+                    FwFormField.disable(flatAmountInput);
+                    FwFormField.disable(usageDaysInput);
+                }
+            });
         } else
             FwNotification.renderNotification('WARNING', 'This feature is only available for PROCESSED or CLOSED Invoices.')
     }
