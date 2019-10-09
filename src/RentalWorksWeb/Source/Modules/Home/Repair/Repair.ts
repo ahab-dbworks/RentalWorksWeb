@@ -787,9 +787,18 @@ class Repair {
 
             const RepairId = FwFormField.getValueByDataField($form, 'RepairId');
             FwAppData.apiMethod(true, 'POST', `api/v1/repair/estimate/${RepairId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
-                FwNotification.renderNotification('SUCCESS', 'Repair Order Successfully Estimated');
-                FwConfirmation.destroyConfirmation($confirmation);
-                FwModule.refreshForm($form, RepairController);
+                if (response.success) {
+                    FwNotification.renderNotification('SUCCESS', 'Repair Order Successfully Estimated');
+                    FwConfirmation.destroyConfirmation($confirmation);
+                    FwModule.refreshForm($form, RepairController);
+                }
+                else {
+                    $yes.on('click', makeEstimate);
+                    $yes.text('Estimate');
+                    FwFunc.showError(response.msg);
+                    FwFormField.enable($confirmation.find('.fwformfield'));
+                    FwFormField.enable($yes);
+                }
             }, function onError(response) {
                 $yes.on('click', makeEstimate);
                 $yes.text('Estimate');
@@ -812,9 +821,18 @@ class Repair {
             const blockConfirmation = jQuery($confirmation.find('.fwconfirmationbox')).prepend(topLayer);
             const RepairId = FwFormField.getValueByDataField($form, 'RepairId');
             FwAppData.apiMethod(true, 'POST', `api/v1/repair/estimate/${RepairId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
-                FwNotification.renderNotification('SUCCESS', 'Estimate Successfully Cancelled');
-                FwConfirmation.destroyConfirmation($confirmation);
-                FwModule.refreshForm($form, RepairController);
+                if (response.success) {
+                    FwNotification.renderNotification('SUCCESS', 'Estimate Successfully Cancelled');
+                    FwConfirmation.destroyConfirmation($confirmation);
+                    FwModule.refreshForm($form, RepairController);
+                }
+                else {
+                    $yes.on('click', cancelEstimate);
+                    $yes.text('Cancel Estimate');
+                    FwFunc.showError(response.msg);
+                    FwFormField.enable($confirmation.find('.fwformfield'));
+                    FwFormField.enable($yes);
+                }
             }, function onError(response) {
                 $yes.on('click', cancelEstimate);
                 $yes.text('Cancel Estimate');
@@ -877,10 +895,19 @@ class Repair {
 
             const RepairId = FwFormField.getValueByDataField($form, 'RepairId');
             FwAppData.apiMethod(true, 'POST', `api/v1/repair/complete/${RepairId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
-                FwNotification.renderNotification('SUCCESS', 'Repair Order Successfully Completed');
-                FwConfirmation.destroyConfirmation($confirmation);
-                FwModule.refreshForm($form, RepairController);
-                $form.data('hasCompleted', true);
+                if (response.success) {
+                    FwNotification.renderNotification('SUCCESS', 'Repair Order Successfully Completed');
+                    FwConfirmation.destroyConfirmation($confirmation);
+                    FwModule.refreshForm($form, RepairController);
+                    $form.data('hasCompleted', true);
+                }
+                else {
+                    $yes.on('click', makeComplete);
+                    $yes.text('Complete');
+                    FwFunc.showError(response.msg);
+                    FwFormField.enable($confirmation.find('.fwformfield'));
+                    FwFormField.enable($yes);
+                }
             }, function onError(response) {
                 $yes.on('click', makeComplete);
                 $yes.text('Complete');
@@ -928,7 +955,6 @@ class Repair {
             FwAppData.apiMethod(true, 'POST', `api/v1/repair/void/${repairId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
                 FwNotification.renderNotification('SUCCESS', 'Repair Order Successfully Voided');
                 FwConfirmation.destroyConfirmation($confirmation);
-                FwModule.refreshForm($form, RepairController);
             }, function onError(response) {
                 $yes.on('click', makeVoid);
                 $yes.text('Void');

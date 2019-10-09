@@ -62,7 +62,7 @@ namespace WebApi.Modules.Home.Repair
         // POST api/v1/repair/estimate/A0000001
         [HttpPost("estimate/{id}")]
         [FwControllerMethod(Id:"V6R1MLai1R7Fw")]
-        public async Task<ActionResult<RepairLogic>> Estimate([FromRoute]string id)
+        public async Task<ActionResult<ToggleRepairEstimateResponse>> Estimate([FromRoute]string id)
         {
             if (!ModelState.IsValid)
             {
@@ -75,17 +75,13 @@ namespace WebApi.Modules.Home.Repair
                 l.SetDependencies(AppConfig, UserSession);
                 if (await l.LoadAsync<RepairLogic>(ids))
                 {
-                    TSpStatusResponse response = await l.ToggleEstimate();
+                    ToggleRepairEstimateResponse response = await l.ToggleEstimate();
                     if (response.success)
                     {
                         await l.LoadAsync<RepairLogic>(ids);
-                        return new OkObjectResult(l);
+                        response.repair = l;
                     }
-                    else
-                    {
-                        throw new Exception(response.msg);
-                    }
-
+                    return new OkObjectResult(response);
                 }
                 else
                 {
@@ -94,18 +90,14 @@ namespace WebApi.Modules.Home.Repair
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------        
         // POST api/v1/repair/complete/A0000001
         [HttpPost("complete/{id}")]
         [FwControllerMethod(Id:"PgeX6is7sKrYI")]
-        public async Task<ActionResult<RepairLogic>> Complete([FromRoute]string id)
+        public async Task<ActionResult<ToggleRepairCompleteResponse>> Complete([FromRoute]string id)
         {
             if (!ModelState.IsValid)
             {
@@ -118,17 +110,13 @@ namespace WebApi.Modules.Home.Repair
                 l.SetDependencies(AppConfig, UserSession);
                 if (await l.LoadAsync<RepairLogic>(ids))
                 {
-                    TSpStatusResponse response = await l.ToggleComplete();
+                    ToggleRepairCompleteResponse response = await l.ToggleComplete();
                     if (response.success)
                     {
                         await l.LoadAsync<RepairLogic>(ids);
-                        return new OkObjectResult(l);
+                        response.repair = l;
                     }
-                    else
-                    {
-                        throw new Exception(response.msg);
-                    }
-
+                    return new OkObjectResult(response);
                 }
                 else
                 {
@@ -137,18 +125,14 @@ namespace WebApi.Modules.Home.Repair
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------        
         // POST api/v1/repair/releaseitems/A0000001/4
         [HttpPost("releaseitems/{id}/{quantity}")]
         [FwControllerMethod(Id:"PpSdBovye5sNv")]
-        public async Task<ActionResult<RepairLogic>> ReleaseItems([FromRoute] string id, [FromRoute] int quantity)
+        public async Task<ActionResult<RepairReleaseItemsResponse>> ReleaseItems([FromRoute] string id, [FromRoute] int quantity)
         {
             if (!ModelState.IsValid)
             {
@@ -161,17 +145,13 @@ namespace WebApi.Modules.Home.Repair
                 l.SetDependencies(AppConfig, UserSession);
                 if (await l.LoadAsync<RepairLogic>(ids))
                 {
-                    TSpStatusResponse response = await l.ReleaseItems(quantity);
+                    RepairReleaseItemsResponse response = await l.ReleaseItems(quantity);
                     if (response.success)
                     {
                         await l.LoadAsync<RepairLogic>(ids);
-                        return new OkObjectResult(l);
+                        response.repair = l;
                     }
-                    else
-                    {
-                        throw new Exception(response.msg);
-                    }
-
+                    return new OkObjectResult(response);
                 }
                 else
                 {
@@ -180,18 +160,14 @@ namespace WebApi.Modules.Home.Repair
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------        
         // POST api/v1/repair/void/A0000001
         [HttpPost("void/{id}")]
         [FwControllerMethod(Id:"AxRbFcXeLZS0a")]
-        public async Task<ActionResult<RepairLogic>> Void([FromRoute]string id)
+        public async Task<ActionResult<VoidRepairResponse>> Void([FromRoute]string id)
         {
             if (!ModelState.IsValid)
             {
@@ -204,17 +180,13 @@ namespace WebApi.Modules.Home.Repair
                 l.SetDependencies(AppConfig, UserSession);
                 if (await l.LoadAsync<RepairLogic>(ids))
                 {
-                    TSpStatusResponse response = await l.Void();
+                    VoidRepairResponse response = await l.Void();
                     if (response.success)
                     {
                         await l.LoadAsync<RepairLogic>(ids);
-                        return new OkObjectResult(l);
+                        response.repair = l;
                     }
-                    else
-                    {
-                        throw new Exception(response.msg);
-                    }
-
+                    return new OkObjectResult(response);
                 }
                 else
                 {
@@ -223,11 +195,7 @@ namespace WebApi.Modules.Home.Repair
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------        
