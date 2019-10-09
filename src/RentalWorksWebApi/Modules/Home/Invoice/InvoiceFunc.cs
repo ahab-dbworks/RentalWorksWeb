@@ -32,6 +32,26 @@ namespace WebApi.Modules.Home.Invoice
             return response;
         }
         //-------------------------------------------------------------------------------------------------------
+        public static async Task<TSpStatusResponse> CreateCreditInvoice(FwApplicationConfig appConfig, FwUserSession userSession, string invoiceId)
+        {
+            TSpStatusResponse response = new TSpStatusResponse();
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                FwSqlCommand qry = new FwSqlCommand(conn, "createinvoicecredit", appConfig.DatabaseSettings.QueryTimeout);
+                qry.AddParameter("@invoiceid", SqlDbType.NVarChar, ParameterDirection.Input, invoiceId);
+                qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+                qry.AddParameter("@void", SqlDbType.NVarChar, ParameterDirection.Input, "T");
+                //qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
+                //qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
+                await qry.ExecuteNonQueryAsync();
+                response.success = true;
+                response.msg = "";
+                //response.success = (qry.GetParameter("@status").ToInt32() == 0);
+                //response.msg = qry.GetParameter("@msg").ToString();
+            }
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------
         public static async Task<ToggleInvoiceApprovedResponse> ToggleInvoiceApproved(FwApplicationConfig appConfig, FwUserSession userSession, string invoiceId)
         {
             ToggleInvoiceApprovedResponse response = new ToggleInvoiceApprovedResponse();

@@ -10,7 +10,7 @@ using WebLibrary;
 
 namespace WebApi.Modules.Home.Invoice
 {
-    [FwLogic(Id:"MIXP71vrgfdz")]
+    [FwLogic(Id: "MIXP71vrgfdz")]
     public class InvoiceLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
@@ -35,118 +35,118 @@ namespace WebApi.Modules.Home.Invoice
 
         }
         //------------------------------------------------------------------------------------ 
-        [FwLogicProperty(Id:"oPBmsLfmVQDA", IsPrimaryKey:true)]
+        [FwLogicProperty(Id: "oPBmsLfmVQDA", IsPrimaryKey: true)]
         public string InvoiceId { get { return invoice.InvoiceId; } set { invoice.InvoiceId = value; } }
 
-        [FwLogicProperty(Id:"Eg8VdZEbbo25", IsRecordTitle:true, DisableDirectAssign: true, DisableDirectModify: true)]
+        [FwLogicProperty(Id: "Eg8VdZEbbo25", IsRecordTitle: true, DisableDirectAssign: true, DisableDirectModify: true)]
         public string InvoiceNumber { get { return invoice.InvoiceNumber; } set { invoice.InvoiceNumber = value; } }
 
-        [FwLogicProperty(Id:"muDfynMff7Hy")]
+        [FwLogicProperty(Id: "muDfynMff7Hy")]
         public string InvoiceDate { get { return invoice.InvoiceDate; } set { invoice.InvoiceDate = value; } }
 
-        [FwLogicProperty(Id:"pyloqM7YJynM", IsReadOnly:true)]
+        [FwLogicProperty(Id: "pyloqM7YJynM", IsReadOnly: true)]
         public string InvoiceDueDate { get; set; }
 
-        [FwLogicProperty(Id:"xSvVrp2IR3db", DisableDirectModify: true)]
+        [FwLogicProperty(Id: "xSvVrp2IR3db", DisableDirectModify: true)]
         public string InvoiceType { get { return invoice.InvoiceType; } set { invoice.InvoiceType = value; } }
 
-        [FwLogicProperty(Id:"jqgSo9AZFl3s")]
+        [FwLogicProperty(Id: "jqgSo9AZFl3s")]
         public string BillingStartDate { get { return invoice.BillingStartDate; } set { invoice.BillingStartDate = value; } }
 
-        [FwLogicProperty(Id:"QDeUxAJnHIsp")]
+        [FwLogicProperty(Id: "QDeUxAJnHIsp")]
         public string BillingEndDate { get { return invoice.BillingEndDate; } set { invoice.BillingEndDate = value; } }
 
-        [FwLogicProperty(Id:"qs381b0OIlKQ", IsReadOnly:true)]
+        [FwLogicProperty(Id: "qs381b0OIlKQ", IsReadOnly: true)]
         public string OrderId { get; set; }
 
-        [FwLogicProperty(Id:"AP9ydaPNTwYK")]
+        [FwLogicProperty(Id: "AP9ydaPNTwYK")]
         public string OrderNumber { get { return invoice.OrderNumber; } set { invoice.OrderNumber = value; } }
 
-        [FwLogicProperty(Id:"dNnsl6xvv9PA", IsReadOnly:true)]
+        [FwLogicProperty(Id: "dNnsl6xvv9PA", IsReadOnly: true)]
         public string OrderDescription { get; set; }
 
-        [FwLogicProperty(Id:"CRyT47QVHJNV", IsReadOnly:true)]
+        [FwLogicProperty(Id: "CRyT47QVHJNV", IsReadOnly: true)]
         public string OrderDate { get; set; }
 
-        [FwLogicProperty(Id:"mJcmx3jBfu70", IsReadOnly:true)]
+        [FwLogicProperty(Id: "mJcmx3jBfu70", IsReadOnly: true)]
         public string OrderLocation { get; set; }
 
-        [FwLogicProperty(Id:"cabRRQZhTyk7")]
+        [FwLogicProperty(Id: "cabRRQZhTyk7")]
         public string InvoiceDescription { get { return invoice.InvoiceDescription; } set { invoice.InvoiceDescription = value; } }
 
-        [FwLogicProperty(Id:"HuB25hwx1f59", IsReadOnly:true)]
+        [FwLogicProperty(Id: "HuB25hwx1f59", IsReadOnly: true)]
         public string CustomerId { get; set; }
 
-        [FwLogicProperty(Id:"HuB25hwx1f59", IsReadOnly:true)]
+        [FwLogicProperty(Id: "HuB25hwx1f59", IsReadOnly: true)]
         public string Customer { get; set; }
 
-        [FwLogicProperty(Id:"HuB25hwx1f59", IsReadOnly:true)]
+        [FwLogicProperty(Id: "HuB25hwx1f59", IsReadOnly: true)]
         public string CustomerTypeId { get; set; }
 
-        [FwLogicProperty(Id:"HuB25hwx1f59", IsReadOnly:true)]
+        [FwLogicProperty(Id: "HuB25hwx1f59", IsReadOnly: true)]
         public string CustomerType { get; set; }
 
-        [FwLogicProperty(Id:"GU5MIIzd35ms")]
+        [FwLogicProperty(Id: "GU5MIIzd35ms")]
         public string DealId { get { return invoice.DealId; } set { invoice.DealId = value; } }
 
-        [FwLogicProperty(Id:"GtCFbX8VwcwR", IsReadOnly:true)]
+        [FwLogicProperty(Id: "GtCFbX8VwcwR", IsReadOnly: true)]
         public string Deal { get; set; }
 
-        [FwLogicProperty(Id:"GtCFbX8VwcwR", IsReadOnly:true)]
+        [FwLogicProperty(Id: "GtCFbX8VwcwR", IsReadOnly: true)]
         public string DealNumber { get; set; }
 
-        [FwLogicProperty(Id:"GtCFbX8VwcwR", IsReadOnly:true)]
+        [FwLogicProperty(Id: "GtCFbX8VwcwR", IsReadOnly: true)]
         public string DealTypeId { get; set; }
 
-        [FwLogicProperty(Id:"eL7L3SkraiWs")]
+        [FwLogicProperty(Id: "eL7L3SkraiWs")]
         public string DepartmentId { get { return invoice.DepartmentId; } set { invoice.DepartmentId = value; } }
 
-        [FwLogicProperty(Id:"BJSzUIhOGU8g", IsReadOnly:true)]
+        [FwLogicProperty(Id: "BJSzUIhOGU8g", IsReadOnly: true)]
         public string Department { get; set; }
 
-        [FwLogicProperty(Id:"cBPz3uC1iBKO", IsReadOnly:true)]
+        [FwLogicProperty(Id: "cBPz3uC1iBKO", IsReadOnly: true)]
         public string PurchaseOrderNumber { get; set; }
 
-        [FwLogicProperty(Id:"gbjEsq2kr1wh")]
+        [FwLogicProperty(Id: "gbjEsq2kr1wh")]
         public string WorkAuthorizationNumber { get { return invoice.WorkAuthorizationNumber; } set { invoice.WorkAuthorizationNumber = value; } }
 
-        [FwLogicProperty(Id:"ru1fRazQa3dV", DisableDirectModify: true)]
+        [FwLogicProperty(Id: "ru1fRazQa3dV", DisableDirectModify: true)]
         public string Status { get { return invoice.Status; } set { invoice.Status = value; } }
 
-        [FwLogicProperty(Id:"9TmbcT4DPrUQ")]
+        [FwLogicProperty(Id: "9TmbcT4DPrUQ")]
         public string StatusDate { get { return invoice.StatusDate; } set { invoice.StatusDate = value; } }
 
-        [FwLogicProperty(Id:"i38jKJ7b09W4")]
+        [FwLogicProperty(Id: "i38jKJ7b09W4")]
         public bool? IsNoCharge { get { return invoice.IsNoCharge; } set { invoice.IsNoCharge = value; } }
 
-        [FwLogicProperty(Id:"bGLsWvCXZubg")]
+        [FwLogicProperty(Id: "bGLsWvCXZubg")]
         public bool? IsAdjusted { get { return invoice.IsAdjusted; } set { invoice.IsAdjusted = value; } }
 
-        [FwLogicProperty(Id:"UKCgcI6SiWls", IsReadOnly:true)]
+        [FwLogicProperty(Id: "UKCgcI6SiWls", IsReadOnly: true)]
         public bool? IsBilledHiatus { get; set; }
 
-        [FwLogicProperty(Id:"t1C6S1q6N1Ab", IsReadOnly:true)]
+        [FwLogicProperty(Id: "t1C6S1q6N1Ab", IsReadOnly: true)]
         public int? EpisodeNumber { get; set; }
 
-        [FwLogicProperty(Id:"x3yurVlbYVjj", IsReadOnly:true)]
+        [FwLogicProperty(Id: "x3yurVlbYVjj", IsReadOnly: true)]
         public bool? HasLockedTotal { get; set; }
 
-        [FwLogicProperty(Id:"F39EfTR3DvBi")]
+        [FwLogicProperty(Id: "F39EfTR3DvBi")]
         public bool? IsAlteredDates { get { return invoice.IsAlteredDates; } set { invoice.IsAlteredDates = value; } }
 
-        [FwLogicProperty(Id:"5uyCk2Eh4fGp", DisableDirectModify: true)]
+        [FwLogicProperty(Id: "5uyCk2Eh4fGp", DisableDirectModify: true)]
         public string OfficeLocationId { get { return invoice.OfficeLocationId; } set { invoice.OfficeLocationId = value; } }
 
         [FwLogicProperty(Id: "TPUmaObMXlUMH", IsReadOnly: true)]
         public string OfficeLocation { get; set; }
 
-        [FwLogicProperty(Id:"aPWbnng5uQaH", DisableDirectAssign: true, DisableDirectModify: true)]
+        [FwLogicProperty(Id: "aPWbnng5uQaH", DisableDirectAssign: true, DisableDirectModify: true)]
         public string InvoiceCreationBatchId { get { return invoice.InvoiceCreationBatchId; } set { invoice.InvoiceCreationBatchId = value; } }
 
-        [FwLogicProperty(Id:"eRMKEC7W0NQK", IsReadOnly: true)]
+        [FwLogicProperty(Id: "eRMKEC7W0NQK", IsReadOnly: true)]
         public int? InvoiceCreationBatchNumber { get; set; }
 
-        [FwLogicProperty(Id:"jvaNK3ANoOZL")]
+        [FwLogicProperty(Id: "jvaNK3ANoOZL")]
         public string InvoiceGroupNumber { get { return invoice.InvoiceGroupNumber; } set { invoice.InvoiceGroupNumber = value; } }
 
         //[FwLogicProperty(Id:"6XEQxe6oZmFD", IsReadOnly:true)]
@@ -155,107 +155,107 @@ namespace WebApi.Modules.Home.Invoice
         //[FwLogicProperty(Id:"xMuGtBD6Yqjn", IsReadOnly:true)]
         //public int? Crfno { get; set; }
 
-        [FwLogicProperty(Id:"uT0rueH1NWux", IsReadOnly:true)]
+        [FwLogicProperty(Id: "uT0rueH1NWux", IsReadOnly: true)]
         public bool? RentalSale { get; set; }
 
-        [FwLogicProperty(Id:"gHP8XSc6A4UJ", IsReadOnly:true)]
+        [FwLogicProperty(Id: "gHP8XSc6A4UJ", IsReadOnly: true)]
         public bool? LossAndDamage { get; set; }
 
-        [FwLogicProperty(Id:"Tdr6b6T9HgRF", IsReadOnly:true)]
+        [FwLogicProperty(Id: "Tdr6b6T9HgRF", IsReadOnly: true)]
         public bool? Repair { get; set; }
 
-        [FwLogicProperty(Id:"VdCAabLP2ymk", IsReadOnly:true)]
+        [FwLogicProperty(Id: "VdCAabLP2ymk", IsReadOnly: true)]
         public string InputByUserId { get; set; }
 
-        [FwLogicProperty(Id:"CABj1uFI2Cig", IsReadOnly:true)]
+        [FwLogicProperty(Id: "CABj1uFI2Cig", IsReadOnly: true)]
         public string FlatPoId { get; set; }
 
-        [FwLogicProperty(Id:"6ax2siVrPUzS", IsReadOnly:true)]
+        [FwLogicProperty(Id: "6ax2siVrPUzS", IsReadOnly: true)]
         public string OrderType { get; set; }
 
-        [FwLogicProperty(Id:"PhVvkTmLMq7w")]
+        [FwLogicProperty(Id: "PhVvkTmLMq7w")]
         public string RebateCustomerId { get { return invoice.RebateCustomerId; } set { invoice.RebateCustomerId = value; } }
 
-        [FwLogicProperty(Id:"HGROzIjDqyxL", IsReadOnly:true)]
+        [FwLogicProperty(Id: "HGROzIjDqyxL", IsReadOnly: true)]
         public string Orbitsapchgmajor { get { return invoice.Orbitsapchgmajor; } set { invoice.Orbitsapchgmajor = value; } }
 
-        [FwLogicProperty(Id:"qhmIdfWPdLn1")]
+        [FwLogicProperty(Id: "qhmIdfWPdLn1")]
         public string Orbitsapchgsub { get { return invoice.Orbitsapchgsub; } set { invoice.Orbitsapchgsub = value; } }
 
-        [FwLogicProperty(Id:"LCKvW0kbc9iN")]
+        [FwLogicProperty(Id: "LCKvW0kbc9iN")]
         public string Orbitsapchgdetail { get { return invoice.Orbitsapchgdetail; } set { invoice.Orbitsapchgdetail = value; } }
 
-        [FwLogicProperty(Id:"gfb8fC8M08Wg")]
+        [FwLogicProperty(Id: "gfb8fC8M08Wg")]
         public string Orbitsapchgdeal { get { return invoice.Orbitsapchgdeal; } set { invoice.Orbitsapchgdeal = value; } }
 
-        [FwLogicProperty(Id:"0tDc8RxUdFS2")]
+        [FwLogicProperty(Id: "0tDc8RxUdFS2")]
         public string Orbitsapchgset { get { return invoice.Orbitsapchgset; } set { invoice.Orbitsapchgset = value; } }
 
-        [FwLogicProperty(Id:"klbXixbJTsi8", IsReadOnly:true)]
+        [FwLogicProperty(Id: "klbXixbJTsi8", IsReadOnly: true)]
         public bool? ExcludeFromFlatPo { get; set; }
 
-        [FwLogicProperty(Id:"gFOBHPhPDEAL")]
+        [FwLogicProperty(Id: "gFOBHPhPDEAL")]
         public bool? IsSplitRental { get { return invoice.IsSplitRental; } set { invoice.IsSplitRental = value; } }
 
-        [FwLogicProperty(Id:"fK0WeMOwsyzt")]
+        [FwLogicProperty(Id: "fK0WeMOwsyzt")]
         public bool? IsRebateRental { get { return invoice.IsRebateRental; } set { invoice.IsRebateRental = value; } }
 
-        [FwLogicProperty(Id:"PxC2tdasLl1N", IsReadOnly:true)]
+        [FwLogicProperty(Id: "PxC2tdasLl1N", IsReadOnly: true)]
         public decimal? InvoiceListTotal { get; set; }
 
-        [FwLogicProperty(Id:"Kv6NSLZJgsyo")]
+        [FwLogicProperty(Id: "Kv6NSLZJgsyo")]
         public decimal? InvoiceGrossTotal { get { return invoice.InvoiceGrossTotal; } set { invoice.InvoiceGrossTotal = value; } }
 
-        [FwLogicProperty(Id:"LKJYNS6kRKsh", IsReadOnly:true)]
+        [FwLogicProperty(Id: "LKJYNS6kRKsh", IsReadOnly: true)]
         public decimal? InvoiceDiscountTotal { get; set; }
 
-        [FwLogicProperty(Id:"eZ0Q5npyGVQj")]
+        [FwLogicProperty(Id: "eZ0Q5npyGVQj")]
         public decimal? InvoiceDaysPerWeekDiscountTotal { get; set; }
 
-        [FwLogicProperty(Id:"Ze6wuKQob0z7")]
+        [FwLogicProperty(Id: "Ze6wuKQob0z7")]
         public string ReferenceNumber { get { return invoice.ReferenceNumber; } set { invoice.ReferenceNumber = value; } }
 
-        [FwLogicProperty(Id:"aT8g3bEcJU5E")]
+        [FwLogicProperty(Id: "aT8g3bEcJU5E")]
         public string AgentId { get { return invoice.AgentId; } set { invoice.AgentId = value; } }
 
-        [FwLogicProperty(Id:"kBsuVk91SWtt", IsReadOnly:true)]
+        [FwLogicProperty(Id: "kBsuVk91SWtt", IsReadOnly: true)]
         public string Agent { get; set; }
 
-        [FwLogicProperty(Id:"8IxDwNywbP8m")]
+        [FwLogicProperty(Id: "8IxDwNywbP8m")]
         public string ProjectManagerId { get { return invoice.ProjectManagerId; } set { invoice.ProjectManagerId = value; } }
 
-        [FwLogicProperty(Id:"c4xIVabX4i3E", IsReadOnly:true)]
+        [FwLogicProperty(Id: "c4xIVabX4i3E", IsReadOnly: true)]
         public string ProjectManager { get; set; }
 
-        [FwLogicProperty(Id:"tZyOANDHo8Fw", IsReadOnly:true)]
+        [FwLogicProperty(Id: "tZyOANDHo8Fw", IsReadOnly: true)]
         public string BillToAddress1 { get; set; }
 
-        [FwLogicProperty(Id:"2uZH5Xexi9KV", IsReadOnly:true)]
+        [FwLogicProperty(Id: "2uZH5Xexi9KV", IsReadOnly: true)]
         public string BillToAddress2 { get; set; }
 
-        [FwLogicProperty(Id:"OEpfI9ylzesb", IsReadOnly:true)]
+        [FwLogicProperty(Id: "OEpfI9ylzesb", IsReadOnly: true)]
         public string BillToCity { get; set; }
 
-        [FwLogicProperty(Id:"AtPsKGTs1ivW", IsReadOnly:true)]
+        [FwLogicProperty(Id: "AtPsKGTs1ivW", IsReadOnly: true)]
         public string BillToState { get; set; }
 
-        [FwLogicProperty(Id:"vQBGjZOT0vJN", IsReadOnly:true)]
+        [FwLogicProperty(Id: "vQBGjZOT0vJN", IsReadOnly: true)]
         public string BillToZipCode { get; set; }
 
-        [FwLogicProperty(Id:"x0nfCbNXPBcM", IsReadOnly:true)]
+        [FwLogicProperty(Id: "x0nfCbNXPBcM", IsReadOnly: true)]
         public string BillToCountry { get; set; }
 
-        [FwLogicProperty(Id:"cN4PoCg3Tjbq")]
+        [FwLogicProperty(Id: "cN4PoCg3Tjbq")]
         public string InvoiceClass { get { return invoice.InvoiceClass; } set { invoice.InvoiceClass = value; } }
 
-        [FwLogicProperty(Id:"0nKdiFtH7Atq", IsReadOnly:true)]
+        [FwLogicProperty(Id: "0nKdiFtH7Atq", IsReadOnly: true)]
         public string PrintNotes { get; set; }
 
 
         [FwLogicProperty(Id: "fMBviWLkZudRV")]
         public string PaymentTermsId { get { return invoice.PaymentTermsId; } set { invoice.PaymentTermsId = value; } }
 
-        [FwLogicProperty(Id:"Hr94ZKAyt5CP", IsReadOnly:true)]
+        [FwLogicProperty(Id: "Hr94ZKAyt5CP", IsReadOnly: true)]
         public string PaymentTerms { get; set; }
 
 
@@ -266,10 +266,10 @@ namespace WebApi.Modules.Home.Invoice
         public string PaymentType { get; set; }
 
 
-        [FwLogicProperty(Id:"578Sa5Ns8Ute", DisableDirectAssign: true, DisableDirectModify: true)]
+        [FwLogicProperty(Id: "578Sa5Ns8Ute", DisableDirectAssign: true, DisableDirectModify: true)]
         public string TaxId { get { return invoice.TaxId; } set { invoice.TaxId = value; tax.TaxId = value; } }
 
-        [FwLogicProperty(Id:"H0RhmRE6Y7u7", IsReadOnly:true)]
+        [FwLogicProperty(Id: "H0RhmRE6Y7u7", IsReadOnly: true)]
         public string TaxOptionId { get { return tax.TaxOptionId; } set { tax.TaxOptionId = value; } }
 
         [FwLogicProperty(Id: "H0RhmRE6Y7u7", IsReadOnly: true)]
@@ -293,62 +293,62 @@ namespace WebApi.Modules.Home.Invoice
         [FwLogicProperty(Id: "vhWuApLqB1CI")]
         public decimal? LaborTaxRate2 { get { return tax.LaborTaxRate2; } set { tax.LaborTaxRate2 = value; } }
 
-        [FwLogicProperty(Id:"ctLo1B1EWVjy", IsReadOnly:true)]
+        [FwLogicProperty(Id: "ctLo1B1EWVjy", IsReadOnly: true)]
         public string TaxItemCode { get; set; }
 
-        [FwLogicProperty(Id:"QbXgDeRDw2GH", IsReadOnly:true)]
+        [FwLogicProperty(Id: "QbXgDeRDw2GH", IsReadOnly: true)]
         public string TaxVendor { get; set; }
 
 
-        [FwLogicProperty(Id:"gvf0dR5AH7Pq", IsReadOnly:true)]
+        [FwLogicProperty(Id: "gvf0dR5AH7Pq", IsReadOnly: true)]
         public string TaxCountry { get; set; }
 
-        [FwLogicProperty(Id:"bTah1r8n4OuH", IsReadOnly:true)]
+        [FwLogicProperty(Id: "bTah1r8n4OuH", IsReadOnly: true)]
         public string ChargeBatchId { get; set; }
 
-        [FwLogicProperty(Id:"t4QXvKBgq89m", IsReadOnly:true)]
+        [FwLogicProperty(Id: "t4QXvKBgq89m", IsReadOnly: true)]
         public string ChargeBatchNumber { get; set; }
 
-        [FwLogicProperty(Id:"55310YPPvz33")]
+        [FwLogicProperty(Id: "55310YPPvz33")]
         public bool? QuikPayDiscount { get { return invoice.QuikPayDiscount; } set { invoice.QuikPayDiscount = value; } }
 
-        [FwLogicProperty(Id:"4ga8qCHEMpxr")]
+        [FwLogicProperty(Id: "4ga8qCHEMpxr")]
         public decimal? QuikPayRentalTotal { get { return invoice.QuikPayRentalTotal; } set { invoice.QuikPayRentalTotal = value; } }
 
-        [FwLogicProperty(Id:"dRP18MAYRgvC", IsReadOnly:true)]
+        [FwLogicProperty(Id: "dRP18MAYRgvC", IsReadOnly: true)]
         public decimal? QuikPayTotal { get; set; }
 
-        [FwLogicProperty(Id:"BR8x92QjOdSu", IsReadOnly:true)]
+        [FwLogicProperty(Id: "BR8x92QjOdSu", IsReadOnly: true)]
         public decimal? ReceivedTotal { get; set; }
 
-        [FwLogicProperty(Id:"ZL3CQzMcFzAy")]
+        [FwLogicProperty(Id: "ZL3CQzMcFzAy")]
         public string RateType { get { return invoice.RateType; } set { invoice.RateType = value; } }
 
-        [FwLogicProperty(Id:"e53oRLjbH0kI", IsReadOnly:true)]
+        [FwLogicProperty(Id: "e53oRLjbH0kI", IsReadOnly: true)]
         public decimal? ConsignmentRevenue { get; set; }
 
-        [FwLogicProperty(Id:"4RgJud7SP30a")]
+        [FwLogicProperty(Id: "4RgJud7SP30a")]
         public bool? IsNonBillable { get { return invoice.IsNonBillable; } set { invoice.IsNonBillable = value; } }
 
-        [FwLogicProperty(Id:"9OnrVe14Xe2p")]
+        [FwLogicProperty(Id: "9OnrVe14Xe2p")]
         public string CurrencyId { get { return invoice.CurrencyId; } set { invoice.CurrencyId = value; } }
 
-        [FwLogicProperty(Id:"sCSkPb8mzrS6", IsReadOnly:true)]
+        [FwLogicProperty(Id: "sCSkPb8mzrS6", IsReadOnly: true)]
         public string CurrencyCode { get; set; }
 
-        [FwLogicProperty(Id:"kAQAfXxTyZSQ", IsReadOnly:true)]
+        [FwLogicProperty(Id: "kAQAfXxTyZSQ", IsReadOnly: true)]
         public string OfficeLocationDefaultCurrencyId { get; set; }
 
-        [FwLogicProperty(Id:"3shH1jnmPobf", IsReadOnly:true)]
+        [FwLogicProperty(Id: "3shH1jnmPobf", IsReadOnly: true)]
         public string DivisionId { get; set; }
 
-        [FwLogicProperty(Id:"pQSPf1IVWSUE")]
+        [FwLogicProperty(Id: "pQSPf1IVWSUE")]
         public string OutsideSalesRepresentativeId { get { return invoice.OutsideSalesRepresentativeId; } set { invoice.OutsideSalesRepresentativeId = value; } }
 
-        [FwLogicProperty(Id:"KsHaI2nIYPiW", IsReadOnly:true)]
+        [FwLogicProperty(Id: "KsHaI2nIYPiW", IsReadOnly: true)]
         public string OutsideSalesRepresentative { get; set; }
 
-        [FwLogicProperty(Id:"4up8AiiVxTmC", IsReadOnly:true)]
+        [FwLogicProperty(Id: "4up8AiiVxTmC", IsReadOnly: true)]
         public bool? ExportTaxAsLineItem { get; set; }
 
 
@@ -370,31 +370,31 @@ namespace WebApi.Modules.Home.Invoice
         public string DescriptionColor { get; set; }
 
 
-        [FwLogicProperty(Id:"I9x7KeH1tdg0")]
+        [FwLogicProperty(Id: "I9x7KeH1tdg0")]
         public bool? HasRentalItem { get; set; }
 
-        [FwLogicProperty(Id:"2s2ztIgPdMGc")]
+        [FwLogicProperty(Id: "2s2ztIgPdMGc")]
         public bool? HasMeterItem { get; set; }
 
-        [FwLogicProperty(Id:"xA4EgNsUGEd6")]
+        [FwLogicProperty(Id: "xA4EgNsUGEd6")]
         public bool? HasSalesItem { get; set; }
 
-        [FwLogicProperty(Id:"C3A9FKk5dbhi")]
+        [FwLogicProperty(Id: "C3A9FKk5dbhi")]
         public bool? HasLaborItem { get; set; }
 
-        [FwLogicProperty(Id:"F4nrbSw599zf")]
+        [FwLogicProperty(Id: "F4nrbSw599zf")]
         public bool? HasMiscellaneousItem { get; set; }
 
-        [FwLogicProperty(Id:"pBK9fqYEPiDN")]
+        [FwLogicProperty(Id: "pBK9fqYEPiDN")]
         public bool? HasFacilityItem { get; set; }
 
-        [FwLogicProperty(Id:"nfop0YO1T9vk")]
+        [FwLogicProperty(Id: "nfop0YO1T9vk")]
         public bool? HasTransportationItem { get; set; }
 
-        [FwLogicProperty(Id:"uT0rueH1NWux", IsReadOnly:true)]
+        [FwLogicProperty(Id: "uT0rueH1NWux", IsReadOnly: true)]
         public bool? HasRentalSaleItem { get; set; }
 
-              
+
 
         [FwLogicProperty(Id: "4NGkESxWvfM5c")]
         public decimal? RentalTotal { get { return invoice.RentalTotal; } set { invoice.RentalTotal = value; } }
@@ -532,6 +532,12 @@ namespace WebApi.Modules.Home.Invoice
         public async Task<TSpStatusResponse> Void()
         {
             return await invoice.Void();
+        }
+        //------------------------------------------------------------------------------------ 
+
+        public async Task<TSpStatusResponse> CreditInvoice()
+        {
+            return await invoice.CreditInvoice();
         }
         //------------------------------------------------------------------------------------ 
         public async Task<ToggleInvoiceApprovedResponse> Approve()

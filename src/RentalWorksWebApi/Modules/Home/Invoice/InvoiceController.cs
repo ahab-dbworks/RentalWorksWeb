@@ -114,7 +114,44 @@ namespace WebApi.Modules.Home.Invoice
                     {
                         throw new Exception(response.msg);
                     }
-
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/invoice/A0000001/creditinvoice
+        [HttpPost("{id}/creditinvoice")]
+        [FwControllerMethod(Id: "zs0EWzzJYFMop")]
+        public async Task<ActionResult<InvoiceLogic>> CreditInvoice([FromRoute]string id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                string[] ids = id.Split('~');
+                InvoiceLogic l = new InvoiceLogic();
+                l.SetDependencies(AppConfig, UserSession);
+                if (await l.LoadAsync<InvoiceLogic>(ids))
+                {
+                    TSpStatusResponse response = await l.CreditInvoice();
+                    if (response.success)
+                    {
+                        await l.LoadAsync<InvoiceLogic>(ids);
+                        return new OkObjectResult(l);
+                    }
+                    else
+                    {
+                        throw new Exception(response.msg);
+                    }
                 }
                 else
                 {

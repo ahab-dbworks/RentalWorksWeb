@@ -816,10 +816,9 @@ class Invoice {
 
 
             $yes.on('click', () => {
-                const request: any = {};
-
-                FwAppData.apiMethod(true, 'POST', `api/v1/billing/populate`, request, FwServices.defaultTimeout, response => {
-
+                const invoiceId = FwFormField.getValueByDataField($form, 'InvoiceId');
+                FwAppData.apiMethod(true, 'POST', `api/v1/invoice/${invoiceId}/creditinvoice`, null, FwServices.defaultTimeout, response => {
+                // capture the "@creditid" output parameter and open the Credit Invoice using that ID so the user can see newly-created Credit Invoice Form.
                 }, ex => FwFunc.showError(ex), $form);
 
                 FwConfirmation.destroyConfirmation($confirmation);
