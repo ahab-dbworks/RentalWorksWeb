@@ -2446,6 +2446,8 @@ export class OfficeLocation extends SettingsModule {
         this.moduleName = 'OfficeLocation';
         this.moduleId = '8A8EE5CC-458E-4E4B-BA09-9C514588D3BD';
         this.moduleCaption = 'Office Location';
+        this.canNew = false;
+        this.canDelete = false;
     }
     //---------------------------------------------------------------------------------------
 }
@@ -2457,6 +2459,26 @@ export class OrderType extends SettingsModule {
         this.moduleName = 'OrderType';
         this.moduleId = 'CF3E22CB-F836-4277-9589-998B0BEC3500';
         this.moduleCaption = 'Order Type';
+
+        this.defaultNewRecordToExpect = {
+            OrderType: "",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    OrderType: "GlobalScope.TestToken~1.MediumTestToken",
+                },
+                seekObject: {
+                    OrderType: "GlobalScope.TestToken~1.MediumTestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            OrderType: this.newRecordsToCreate[0].record.OrderType.toUpperCase(),
+            Inactive: false,
+        }
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -2468,6 +2490,27 @@ export class DiscountReason extends SettingsModule {
         this.moduleName = 'DiscountReason';
         this.moduleId = 'CBBBFA51-DE2D-4A24-A50E-F7F4774016F6';
         this.moduleCaption = 'Discount Reason';
+
+        this.defaultNewRecordToExpect = {
+            DiscountReason: "",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    DiscountReason: "GlobalScope.TestToken~1.TestToken",
+                },
+                seekObject: {
+                    DiscountReason: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            DiscountReason: this.newRecordsToCreate[0].record.DiscountReason.toUpperCase(),
+            Inactive: false,
+        }
+
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -2479,6 +2522,30 @@ export class MarketSegment extends SettingsModule {
         this.moduleName = 'MarketSegment';
         this.moduleId = '53B627BE-6AC8-4C1F-BEF4-E8B0A5422E14';
         this.moduleCaption = 'Market Segment';
+
+        this.defaultNewRecordToExpect = {
+            MarketType: "",
+            MarketSegment: "",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    MarketTypeId: 1,
+                    MarketSegment: "GlobalScope.TestToken~1.TestToken",
+                },
+                seekObject: {
+                    MarketSegment: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            MarketType: "|NOTEMPTY|",
+            MarketSegment: this.newRecordsToCreate[0].record.MarketSegment.toUpperCase(),
+            Inactive: false,
+        }
+
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -2490,6 +2557,26 @@ export class MarketType extends SettingsModule {
         this.moduleName = 'MarketType';
         this.moduleId = '77D7FD11-EBD2-40A2-A40D-C82D32528A01';
         this.moduleCaption = 'Market Type';
+
+        this.defaultNewRecordToExpect = {
+            MarketType: "",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    MarketType: "GlobalScope.TestToken~1.TestToken",
+                },
+                seekObject: {
+                    MarketType: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            MarketType: this.newRecordsToCreate[0].record.MarketType.toUpperCase(),
+            Inactive: false,
+        }
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -2501,6 +2588,29 @@ export class OrderSetNo extends SettingsModule {
         this.moduleName = 'OrderSetNo';
         this.moduleId = '4960D9A7-D1E0-4558-B571-DF1CE1BB8245';
         this.moduleCaption = 'Order Set No.';
+
+        this.defaultNewRecordToExpect = {
+            OrderSetNo: "",
+            Description: "",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    OrderSetNo: "GlobalScope.TestToken~1.MediumTestToken",
+                    Description: "GlobalScope.TestToken~1.TestToken",
+                },
+                seekObject: {
+                    Description: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            OrderSetNo: this.newRecordsToCreate[0].record.OrderSetNo.toUpperCase(),
+            Description: this.newRecordsToCreate[0].record.Description.toUpperCase(),
+            Inactive: false,
+        }
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -2512,6 +2622,29 @@ export class OrderLocation extends SettingsModule {
         this.moduleName = 'OrderLocation';
         this.moduleId = 'CF58D8C9-95EE-4617-97B9-CAFE200719CC';
         this.moduleCaption = 'Order Location';
+
+        this.defaultNewRecordToExpect = {
+            Location: "",
+            Description: "",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    Location: "GlobalScope.User~ME.OfficeLocation",
+                    Description: "GlobalScope.TestToken~1.TestToken",
+                },
+                seekObject: {
+                    Description: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            Description: this.newRecordsToCreate[0].record.Description.toUpperCase(),
+            Inactive: false,
+        }
+
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -2523,6 +2656,33 @@ export class PaymentTerms extends SettingsModule {
         this.moduleName = 'PaymentTerms';
         this.moduleId = '44FD799A-1572-4B34-9943-D94FFBEF89D4';
         this.moduleCaption = 'Payment Terms';
+
+        this.defaultNewRecordToExpect = {
+            PaymentTerms: "",
+            PaymentTermsCode: "",
+            DueInDays: "",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    PaymentTerms: "GlobalScope.TestToken~1.MediumTestToken",
+                    PaymentTermsCode: "GlobalScope.TestToken~1.MediumTestToken",
+                    DueInDays: TestUtils.randomIntegerBetween(1, 100).toString(),
+                },
+                seekObject: {
+                    PaymentTerms: "GlobalScope.TestToken~1.MediumTestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            PaymentTerms: this.newRecordsToCreate[0].record.PaymentTerms.toUpperCase(),
+            PaymentTermsCode: this.newRecordsToCreate[0].record.PaymentTermsCode.toUpperCase(),
+            DueInDays: this.newRecordsToCreate[0].record.DueInDays,
+            Inactive: false,
+        }
+
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -2534,6 +2694,34 @@ export class PaymentType extends SettingsModule {
         this.moduleName = 'PaymentType';
         this.moduleId = 'E88C4957-3A3E-4258-8677-EB6FB61F9BA3';
         this.moduleCaption = 'Payment Type';
+
+
+        this.defaultNewRecordToExpect = {
+            PaymentType: "",
+            ShortName: "",
+            PaymentTypeType: "CASH",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    PaymentType: "GlobalScope.TestToken~1.TestToken",
+                    ShortName: "GlobalScope.TestToken~1.MediumTestToken",
+                    PaymentTypeType: "CHECK",
+                },
+                seekObject: {
+                    PaymentType: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            PaymentType: this.newRecordsToCreate[0].record.PaymentType.toUpperCase(),
+            ShortName: this.newRecordsToCreate[0].record.ShortName.toUpperCase(),
+            PaymentTypeType: this.newRecordsToCreate[0].record.PaymentTypeType.toUpperCase(),
+            Inactive: false,
+        }
+
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -2545,6 +2733,31 @@ export class POApprovalStatus extends SettingsModule {
         this.moduleName = 'POApprovalStatus';
         this.moduleId = '22EF1328-FBB1-44D0-A965-4E96675B96CD';
         this.moduleCaption = 'PO Approval Status';
+
+
+        this.defaultNewRecordToExpect = {
+            PoApprovalStatus: "",
+            PoApprovalStatusType: "SUBMITTED_FOR_APPROVAL",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    PoApprovalStatus: "GlobalScope.TestToken~1.TestToken",
+                    PoApprovalStatusType: "SECOND_APPROVAL",
+                },
+                seekObject: {
+                    PoApprovalStatus: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            PoApprovalStatus: this.newRecordsToCreate[0].record.PoApprovalStatus.toUpperCase(),
+            PoApprovalStatusType: this.newRecordsToCreate[0].record.PoApprovalStatusType.toUpperCase(),
+            Inactive: false,
+        }
+
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -2556,6 +2769,30 @@ export class POApproverRole extends SettingsModule {
         this.moduleName = 'POApproverRole';
         this.moduleId = '992314B6-A24F-468C-A8B6-5EAC8F14BE16';
         this.moduleCaption = 'PO Approver Role';
+
+        this.defaultNewRecordToExpect = {
+            PoApproverRole: "",
+            PoApproverType: "1",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    PoApproverRole: "GlobalScope.TestToken~1.TestToken",
+                    PoApproverType: "2",
+                },
+                seekObject: {
+                    PoApproverRole: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            PoApproverRole: this.newRecordsToCreate[0].record.PoApproverRole.toUpperCase(),
+            PoApproverType: this.newRecordsToCreate[0].record.PoApproverType.toUpperCase(),
+            Inactive: false,
+        }
+
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -2567,6 +2804,26 @@ export class POClassification extends SettingsModule {
         this.moduleName = 'POClassification';
         this.moduleId = '58ef51c5-a97b-43c6-9298-08b064a84a48';
         this.moduleCaption = 'PO Classification';
+
+        this.defaultNewRecordToExpect = {
+            PoClassification: "",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    PoClassification: "GlobalScope.TestToken~1.TestToken",
+                },
+                seekObject: {
+                    PoClassification: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            PoClassification: this.newRecordsToCreate[0].record.PoClassification.toUpperCase(),
+            Inactive: false,
+        }
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -2578,6 +2835,26 @@ export class POImportance extends SettingsModule {
         this.moduleName = 'POImportance';
         this.moduleId = '82BF3B3E-0EF8-4A6E-8577-33F23EA9C4FB';
         this.moduleCaption = 'PO Importance';
+
+        this.defaultNewRecordToExpect = {
+            PoImportance: "",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    PoImportance: "GlobalScope.TestToken~1.TestToken",
+                },
+                seekObject: {
+                    PoImportance: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            PoImportance: this.newRecordsToCreate[0].record.PoImportance.toUpperCase(),
+            Inactive: false,
+        }
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -2589,6 +2866,27 @@ export class PORejectReason extends SettingsModule {
         this.moduleName = 'PORejectReason';
         this.moduleId = '2C6910A8-51BC-421E-898F-C23938B624B4';
         this.moduleCaption = 'PO Reject Reason';
+
+        this.defaultNewRecordToExpect = {
+            PoRejectReason: "",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    PoRejectReason: "GlobalScope.TestToken~1.TestToken",
+                },
+                seekObject: {
+                    PoRejectReason: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            PoRejectReason: this.newRecordsToCreate[0].record.PoRejectReason.toUpperCase(),
+            Inactive: false,
+        }
+
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -2600,6 +2898,27 @@ export class POType extends SettingsModule {
         this.moduleName = 'POType';
         this.moduleId = 'BB8D68B3-012A-4B05-BE7F-844EB5C96896';
         this.moduleCaption = 'PO Type';
+
+
+        this.defaultNewRecordToExpect = {
+            PoType: "",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    PoType: "GlobalScope.TestToken~1.TestToken",
+                },
+                seekObject: {
+                    PoType: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            PoType: this.newRecordsToCreate[0].record.PoType.toUpperCase(),
+            Inactive: false,
+        }
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -2611,6 +2930,44 @@ export class POApprover extends SettingsModule {
         this.moduleName = 'POApprover';
         this.moduleId = '237B99DC-252D-4197-AB4A-01E795076447';
         this.moduleCaption = 'PO Approver';
+
+
+        this.defaultNewRecordToExpect = {
+            Location: "",
+            Department: "",
+            UserName: "",
+            AppRole: "",
+            IsBackup: false,
+            Limit: false,
+            LimitRental: "$ 0.00",
+            LimitSales: "$ 0.00",
+            LimitParts: "$ 0.00",
+            LimitMisc: "$ 0.00",
+            LimitLabor: "$ 0.00",
+            LimitVehicle: "$ 0.00",
+            LimitSubRent: "$ 0.00",
+            LimitSubSale: "$ 0.00",
+            LimitSubMisc: "$ 0.00",
+            LimitSubLabor: "$ 0.00",
+            LimitSubVehicle: "$ 0.00",
+            LimitRepair: "$ 0.00",
+        }
+        //this.newRecordsToCreate = [
+        //    {
+        //        record: {
+        //            PoType: "GlobalScope.TestToken~1.TestToken",
+        //        },
+        //        seekObject: {
+        //            PoType: "GlobalScope.TestToken~1.TestToken",
+        //        }
+        //    }
+        //];
+        //this.newRecordsToCreate[0].recordToExpect = {
+        //    PoType: this.newRecordsToCreate[0].record.PoType.toUpperCase(),
+        //    Inactive: false,
+        //}
+
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -2648,6 +3005,27 @@ export class PresentationLayer extends SettingsModule {
         this.moduleName = 'PresentationLayer';
         this.moduleId = 'BBEF0AFD-B46A-46B0-8046-113834736060';
         this.moduleCaption = 'Presentation Layer';
+
+
+        this.defaultNewRecordToExpect = {
+            PresentationLayer: "",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    PresentationLayer: "GlobalScope.TestToken~1.TestToken",
+                },
+                seekObject: {
+                    PresentationLayer: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            PresentationLayer: this.newRecordsToCreate[0].record.PresentationLayer.toUpperCase(),
+            Inactive: false,
+        }
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -2659,6 +3037,27 @@ export class ProjectAsBuild extends SettingsModule {
         this.moduleName = 'ProjectAsBuild';
         this.moduleId = 'A3BFF1F7-0951-4F3A-A6DE-1A62BEDF45E6';
         this.moduleCaption = 'As Build';
+
+        this.defaultNewRecordToExpect = {
+            ProjectAsBuild: "",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    ProjectAsBuild: "GlobalScope.TestToken~1.TestToken",
+                },
+                seekObject: {
+                    ProjectAsBuild: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            ProjectAsBuild: this.newRecordsToCreate[0].record.ProjectAsBuild.toUpperCase(),
+            Inactive: false,
+        }
+
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -2670,6 +3069,27 @@ export class ProjectCommissioning extends SettingsModule {
         this.moduleName = 'ProjectCommissioning';
         this.moduleId = '0EFE9BBA-0685-4046-A7D6-EC3D34AD01AA';
         this.moduleCaption = 'Commissioning';
+
+        this.defaultNewRecordToExpect = {
+            ProjectCommissioning: "",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    ProjectCommissioning: "GlobalScope.TestToken~1.TestToken",
+                },
+                seekObject: {
+                    ProjectCommissioning: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            ProjectCommissioning: this.newRecordsToCreate[0].record.ProjectCommissioning.toUpperCase(),
+            Inactive: false,
+        }
+
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -2681,6 +3101,28 @@ export class ProjectDeposit extends SettingsModule {
         this.moduleName = 'ProjectDeposit';
         this.moduleId = '24E6F284-7457-4E75-B77D-25B3A6BE6A4D';
         this.moduleCaption = 'Deposit';
+
+
+        this.defaultNewRecordToExpect = {
+            ProjectDeposit: "",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    ProjectDeposit: "GlobalScope.TestToken~1.TestToken",
+                },
+                seekObject: {
+                    ProjectDeposit: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            ProjectDeposit: this.newRecordsToCreate[0].record.ProjectDeposit.toUpperCase(),
+            Inactive: false,
+        }
+
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -2692,6 +3134,26 @@ export class ProjectDrawings extends SettingsModule {
         this.moduleName = 'ProjectDrawings';
         this.moduleId = '7486859D-243F-4817-8177-6DCB81392C36';
         this.moduleCaption = 'Drawings';
+
+
+        this.defaultNewRecordToExpect = {
+            ProjectDrawings: "",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    ProjectDrawings: "GlobalScope.TestToken~1.TestToken",
+                },
+                seekObject: {
+                    ProjectDrawings: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            ProjectDrawings: this.newRecordsToCreate[0].record.ProjectDrawings.toUpperCase(),
+            Inactive: false,
+        }
     }
     //---------------------------------------------------------------------------------------
 }
@@ -2703,6 +3165,26 @@ export class ProjectDropShipItems extends SettingsModule {
         this.moduleName = 'ProjectDropShipItems';
         this.moduleId = '20CD34E6-7E35-4EAF-B4D3-587870412C85';
         this.moduleCaption = 'Drop Ship Items';
+
+
+        this.defaultNewRecordToExpect = {
+            ProjectDropShipItems: "",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    ProjectDropShipItems: "GlobalScope.TestToken~1.TestToken",
+                },
+                seekObject: {
+                    ProjectDropShipItems: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            ProjectDropShipItems: this.newRecordsToCreate[0].record.ProjectDropShipItems.toUpperCase(),
+            Inactive: false,
+        }
     }
     //---------------------------------------------------------------------------------------
 }
@@ -2714,6 +3196,27 @@ export class ProjectItemsOrdered extends SettingsModule {
         this.moduleName = 'ProjectItemsOrdered';
         this.moduleId = '25507FAD-E140-4A19-8FED-2C381DA653D9';
         this.moduleCaption = 'Items Ordered';
+
+
+        this.defaultNewRecordToExpect = {
+            ProjectItemsOrdered: "",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    ProjectItemsOrdered: "GlobalScope.TestToken~1.TestToken",
+                },
+                seekObject: {
+                    ProjectItemsOrdered: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            ProjectItemsOrdered: this.newRecordsToCreate[0].record.ProjectItemsOrdered.toUpperCase(),
+            Inactive: false,
+        }
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -2725,6 +3228,26 @@ export class PropsCondition extends SettingsModule {
         this.moduleName = 'PropsCondition';
         this.moduleId = '86C769E8-F8E6-4C59-BC0B-8F2D563C698F';
         this.moduleCaption = 'Props Condition';
+
+
+        this.defaultNewRecordToExpect = {
+            PropsCondition: "",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    PropsCondition: "GlobalScope.TestToken~1.TestToken",
+                },
+                seekObject: {
+                    PropsCondition: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            PropsCondition: this.newRecordsToCreate[0].record.PropsCondition.toUpperCase(),
+            Inactive: false,
+        }
     }
     //---------------------------------------------------------------------------------------
 }
@@ -2736,6 +3259,27 @@ export class Region extends SettingsModule {
         this.moduleName = 'Region';
         this.moduleId = 'A50C7F59-AF91-44D5-8253-5C4A4D5DFB8B';
         this.moduleCaption = 'Region';
+
+
+        this.defaultNewRecordToExpect = {
+            Region: "",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    Region: "GlobalScope.TestToken~1.TestToken",
+                },
+                seekObject: {
+                    Region: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            Region: this.newRecordsToCreate[0].record.Region.toUpperCase(),
+            Inactive: false,
+        }
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -2747,6 +3291,27 @@ export class RepairItemStatus extends SettingsModule {
         this.moduleName = 'RepairItemStatus';
         this.moduleId = 'D952672A-DCF6-47C8-9B99-47561C79B3F8';
         this.moduleCaption = 'Repair Item Status';
+
+
+        this.defaultNewRecordToExpect = {
+            RepairItemStatus: "",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    RepairItemStatus: "GlobalScope.TestToken~1.TestToken",
+                },
+                seekObject: {
+                    RepairItemStatus: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            RepairItemStatus: this.newRecordsToCreate[0].record.RepairItemStatus.toUpperCase(),
+            Inactive: false,
+        }
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -2758,6 +3323,25 @@ export class SetCondition extends SettingsModule {
         this.moduleName = 'SetCondition';
         this.moduleId = '0FFC8940-C060-49E4-BC24-688E25250C5F';
         this.moduleCaption = 'Set Condition';
+
+        this.defaultNewRecordToExpect = {
+            SetCondition: "",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    SetCondition: "GlobalScope.TestToken~1.TestToken",
+                },
+                seekObject: {
+                    SetCondition: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            SetCondition: this.newRecordsToCreate[0].record.SetCondition.toUpperCase(),
+            Inactive: false,
+        }
     }
     //---------------------------------------------------------------------------------------
 }
@@ -2769,6 +3353,25 @@ export class SetSurface extends SettingsModule {
         this.moduleName = 'SetSurface';
         this.moduleId = 'EC55E743-0CB1-4A74-9D10-6C4C6045AAAB';
         this.moduleCaption = 'Set Surface';
+
+        this.defaultNewRecordToExpect = {
+            SetSurface: "",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    SetSurface: "GlobalScope.TestToken~1.TestToken",
+                },
+                seekObject: {
+                    SetSurface: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            SetSurface: this.newRecordsToCreate[0].record.SetSurface.toUpperCase(),
+            Inactive: false,
+        }
     }
     //---------------------------------------------------------------------------------------
 }
@@ -2780,6 +3383,28 @@ export class SetOpening extends SettingsModule {
         this.moduleName = 'SetOpening';
         this.moduleId = '15E52CA3-475D-4BDA-B940-525E5EEAF8CD';
         this.moduleCaption = 'Set Opening';
+
+
+        this.defaultNewRecordToExpect = {
+            SetOpening: "",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    SetOpening: "GlobalScope.TestToken~1.TestToken",
+                },
+                seekObject: {
+                    SetOpening: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            SetOpening: this.newRecordsToCreate[0].record.SetOpening.toUpperCase(),
+            Inactive: false,
+        }
+
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -2791,6 +3416,27 @@ export class WallDescription extends SettingsModule {
         this.moduleName = 'WallDescription';
         this.moduleId = 'F34F1A9B-53C6-447C-B52B-7FF5BAE38AB5';
         this.moduleCaption = 'Wall Description';
+
+
+        this.defaultNewRecordToExpect = {
+            WallDescription: "",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    WallDescription: "GlobalScope.TestToken~1.TestToken",
+                },
+                seekObject: {
+                    WallDescription: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            WallDescription: this.newRecordsToCreate[0].record.WallDescription.toUpperCase(),
+            Inactive: false,
+        }
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -2802,6 +3448,27 @@ export class WallType extends SettingsModule {
         this.moduleName = 'WallType';
         this.moduleId = '4C9D2D20-D129-461D-9589-ABC896DD9BC6';
         this.moduleCaption = 'Wall Type';
+
+
+        this.defaultNewRecordToExpect = {
+            WallType: "",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    WallType: "GlobalScope.TestToken~1.TestToken",
+                },
+                seekObject: {
+                    WallType: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            WallType: this.newRecordsToCreate[0].record.WallType.toUpperCase(),
+            Inactive: false,
+        }
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -2813,6 +3480,30 @@ export class ShipVia extends SettingsModule {
         this.moduleName = 'ShipVia';
         this.moduleId = 'F9E01296-D240-4E16-B267-898787B29509';
         this.moduleCaption = 'Ship Via';
+
+
+        this.defaultNewRecordToExpect = {
+            Vendor: "",
+            ShipVia: "",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    VendorId: 1,
+                    ShipVia: "GlobalScope.TestToken~1.TestToken",
+                },
+                seekObject: {
+                    ShipVia: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            Vendor: "|NOTEMPTY|",
+            ShipVia: this.newRecordsToCreate[0].record.ShipVia.toUpperCase(),
+            Inactive: false,
+        }
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -2824,6 +3515,29 @@ export class Source extends SettingsModule {
         this.moduleName = 'Source';
         this.moduleId = '6D6165D1-51F2-4616-A67C-DCC803B549AF';
         this.moduleCaption = 'Source';
+
+        this.defaultNewRecordToExpect = {
+            Description: "",
+            SourceType: "",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    Description: "GlobalScope.TestToken~1.TestToken",
+                    SourceType: "FTP",
+                },
+                seekObject: {
+                    Description: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            Description: this.newRecordsToCreate[0].record.Description.toUpperCase(),
+            SourceType: this.newRecordsToCreate[0].record.SourceType.toUpperCase(),
+            Inactive: false,
+        }
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -2835,6 +3549,8 @@ export class AvailabilitySettings extends SettingsModule {
         this.moduleName = 'AvailabilitySettings';
         this.moduleId = 'E1C62A69-05B0-4657-AAF0-703F8BDEBC5C';
         this.moduleCaption = 'Availability Settings';
+        this.canNew = false;
+        this.canDelete = false;
     }
     //---------------------------------------------------------------------------------------
 }
@@ -2859,6 +3575,8 @@ export class EmailSettings extends SettingsModule {
         this.moduleName = 'EmailSettings';
         this.moduleId = '8C9613E0-E7E5-4242-9DF6-4F57F59CE2B9';
         this.moduleCaption = 'Email Settings';
+        this.canNew = false;
+        this.canDelete = false;
     }
     //---------------------------------------------------------------------------------------
 }
@@ -2870,6 +3588,8 @@ export class InventorySettings extends SettingsModule {
         this.moduleName = 'InventorySettings';
         this.moduleId = '5C7D5BFA-3EA3-42C5-B90A-27A9EA5EA9FC';
         this.moduleCaption = 'Inventory Settings';
+        this.canNew = false;
+        this.canDelete = false;
     }
     //---------------------------------------------------------------------------------------
 }
@@ -2881,6 +3601,8 @@ export class LogoSettings extends SettingsModule {
         this.moduleName = 'LogoSettings';
         this.moduleId = 'B3ADDF49-64EB-4740-AB41-4327E6E56242';
         this.moduleCaption = 'Logo Settings';
+        this.canNew = false;
+        this.canDelete = false;
     }
     //---------------------------------------------------------------------------------------
 }
@@ -2892,6 +3614,8 @@ export class SystemSettings extends SettingsModule {
         this.moduleName = 'SystemSettings';
         this.moduleId = '6EFC3A8C-E83E-4FE3-BAC8-8E04EBD7F204';
         this.moduleCaption = 'System Settings';
+        this.canNew = false;
+        this.canDelete = false;
     }
     //---------------------------------------------------------------------------------------
 }
@@ -2903,6 +3627,27 @@ export class TaxOption extends SettingsModule {
         this.moduleName = 'TaxOption';
         this.moduleId = '5895CA39-5EF8-405B-9E97-2FEB83939EE5';
         this.moduleCaption = 'Tax Option';
+
+
+        this.defaultNewRecordToExpect = {
+            TaxOption: "",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    TaxOption: "GlobalScope.TestToken~1.MediumTestToken",
+                },
+                seekObject: {
+                    TaxOption: "GlobalScope.TestToken~1.MediumTestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            TaxOption: this.newRecordsToCreate[0].record.TaxOption.toUpperCase(),
+            Inactive: false,
+        }
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -2914,6 +3659,29 @@ export class Template extends SettingsModule {
         this.moduleName = 'Template';
         this.moduleId = 'BDDB1439-F128-4AB7-9657-B1CDFFA12721';
         this.moduleCaption = 'Template';
+
+        this.defaultNewRecordToExpect = {
+            Description: "",
+            Warehouse: "",
+            RateType: "",
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    Description: "GlobalScope.TestToken~1.TestToken",
+                    Warehouse: "GlobalScope.User~ME.Warehouse",
+                    RateType: 1,
+                },
+                seekObject: {
+                    Description: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            Description: this.newRecordsToCreate[0].record.Description.toUpperCase(),
+            Warehouse: this.newRecordsToCreate[0].record.Warehouse.toUpperCase(),
+            RateType: "|NOTEMPTY|",
+        }
     }
     //---------------------------------------------------------------------------------------
 }
@@ -2925,6 +3693,27 @@ export class UserStatus extends SettingsModule {
         this.moduleName = 'UserStatus';
         this.moduleId = 'E19916C6-A844-4BD1-A338-FAB0F278122C';
         this.moduleCaption = 'User Status';
+
+
+        this.defaultNewRecordToExpect = {
+            UserStatus: "",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    UserStatus: "GlobalScope.TestToken~1.TestToken",
+                },
+                seekObject: {
+                    UserStatus: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            UserStatus: this.newRecordsToCreate[0].record.UserStatus.toUpperCase(),
+            Inactive: false,
+        }
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -2936,6 +3725,24 @@ export class Sound extends SettingsModule {
         this.moduleName = 'Sound';
         this.moduleId = '29C327DD-7734-4039-9CE2-B25D7CD6F9CB';
         this.moduleCaption = 'Sounds';
+
+
+        this.defaultNewRecordToExpect = {
+            Sound: "",
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    Sound: "GlobalScope.TestToken~1.TestToken",
+                },
+                seekObject: {
+                    Sound: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            Sound: this.newRecordsToCreate[0].record.Sound.toUpperCase(),
+        }
     }
     //---------------------------------------------------------------------------------------
 }
@@ -2947,6 +3754,33 @@ export class LicenseClass extends SettingsModule {
         this.moduleName = 'LicenseClass';
         this.moduleId = '422F777F-B57F-43DF-8485-F12F3F7BF662';
         this.moduleCaption = 'License Class';
+
+
+        this.defaultNewRecordToExpect = {
+            LicenseClass: "",
+            Description: "",
+            Regulated: false,
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    LicenseClass: "GlobalScope.TestToken~1.ShortTestToken",
+                    Description: "GlobalScope.TestToken~1.TestToken",
+                    Regulated: true,
+                },
+                seekObject: {
+                    Description: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            LicenseClass: this.newRecordsToCreate[0].record.LicenseClass.toUpperCase(),
+            Description: this.newRecordsToCreate[0].record.Description.toUpperCase(),
+            Regulated: this.newRecordsToCreate[0].record.Regulated,
+            Inactive: false,
+        }
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -2958,6 +3792,26 @@ export class VehicleColor extends SettingsModule {
         this.moduleName = 'VehicleColor';
         this.moduleId = 'F7A34B70-509A-422F-BFD1-5F30BE2C8186';
         this.moduleCaption = 'Vehicle Color';
+
+
+        this.defaultNewRecordToExpect = {
+            VehicleColor: "",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    VehicleColor: "GlobalScope.TestToken~1.MediumTestToken",
+                },
+                seekObject: {
+                    VehicleColor: "GlobalScope.TestToken~1.MediumTestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            VehicleColor: this.newRecordsToCreate[0].record.VehicleColor.toUpperCase(),
+            Inactive: false,
+        }
     }
     //---------------------------------------------------------------------------------------
 }
@@ -2969,6 +3823,28 @@ export class VehicleFuelType extends SettingsModule {
         this.moduleName = 'VehicleFuelType';
         this.moduleId = 'D9140FB3-084D-4615-8E7A-95731670E682';
         this.moduleCaption = 'Vehicle Fuel Type';
+
+
+        this.defaultNewRecordToExpect = {
+            VehicleFuelType: "",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    VehicleFuelType: "GlobalScope.TestToken~1.MediumTestToken",
+                },
+                seekObject: {
+                    VehicleFuelType: "GlobalScope.TestToken~1.MediumTestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            VehicleFuelType: this.newRecordsToCreate[0].record.VehicleFuelType.toUpperCase(),
+            Inactive: false,
+        }
+
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -2980,6 +3856,27 @@ export class VehicleMake extends SettingsModule {
         this.moduleName = 'VehicleMake';
         this.moduleId = '299DECA3-B427-49ED-B6AC-2E11F6AA1C4D';
         this.moduleCaption = 'Vehicle Make';
+
+
+        this.defaultNewRecordToExpect = {
+            VehicleMake: "",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    VehicleMake: "GlobalScope.TestToken~1.MediumTestToken",
+                },
+                seekObject: {
+                    VehicleMake: "GlobalScope.TestToken~1.MediumTestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            VehicleMake: this.newRecordsToCreate[0].record.VehicleMake.toUpperCase(),
+            Inactive: false,
+        }
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -2991,6 +3888,29 @@ export class VehicleScheduleStatus extends SettingsModule {
         this.moduleName = 'VehicleScheduleStatus';
         this.moduleId = 'A001473B-1FB4-4E85-8093-37A92057CD93';
         this.moduleCaption = 'Vehicle Schedule Status';
+
+        this.defaultNewRecordToExpect = {
+            ScheduleStatus: "",
+            StatusAction: "QUIKHOLD",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    ScheduleStatus: "GlobalScope.TestToken~1.MediumTestToken",
+                    StatusAction: "HOLD",
+                },
+                seekObject: {
+                    ScheduleStatus: "GlobalScope.TestToken~1.MediumTestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            ScheduleStatus: this.newRecordsToCreate[0].record.ScheduleStatus.toUpperCase(),
+            StatusAction: this.newRecordsToCreate[0].record.StatusAction.toUpperCase(),
+            Inactive: false,
+        }
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -3002,6 +3922,27 @@ export class VehicleStatus extends SettingsModule {
         this.moduleName = 'VehicleStatus';
         this.moduleId = 'FB12061D-E6AF-4C09-95A0-8647930C289A';
         this.moduleCaption = 'Vehicle Status';
+
+
+        this.defaultNewRecordToExpect = {
+            VehicleStatus: "",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    VehicleStatus: "GlobalScope.TestToken~1.TestToken",
+                },
+                seekObject: {
+                    VehicleStatus: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            VehicleStatus: this.newRecordsToCreate[0].record.VehicleStatus.toUpperCase(),
+            Inactive: false,
+        }
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -3013,6 +3954,36 @@ export class VehicleType extends SettingsModule {
         this.moduleName = 'VehicleType';
         this.moduleId = '60187072-8990-40BA-8D80-43B451E5BC8B';
         this.moduleCaption = 'Vehicle Type';
+
+        this.defaultNewRecordToExpect = {
+            InventoryType: "",
+            VehicleType: "",
+            LicenseClass: "",
+            Unit: "",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    InventoryTypeId: 1,
+                    VehicleType: "GlobalScope.TestToken~1.TestToken",
+                    LicenseClassId: 1,
+                    UnitId: 1,
+                },
+                seekObject: {
+                    VehicleType: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            InventoryType: "|NOTEMPTY|",
+            VehicleType: this.newRecordsToCreate[0].record.VehicleType.toUpperCase(),
+            LicenseClass: "|NOTEMPTY|",
+            Unit: "|NOTEMPTY|",
+            Inactive: false,
+        }
+
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -3024,6 +3995,31 @@ export class OrganizationType extends SettingsModule {
         this.moduleName = 'OrganizationType';
         this.moduleId = 'fe3a764c-ab55-4ce5-8d7f-bfc86f174c11';
         this.moduleCaption = 'Organization Type';
+
+
+        this.defaultNewRecordToExpect = {
+            OrganizationType: "",
+            OrganizationTypeCode: "",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    OrganizationType: "GlobalScope.TestToken~1.TestToken",
+                    OrganizationTypeCode: "GlobalScope.TestToken~1.ShortTestToken",
+                },
+                seekObject: {
+                    OrganizationType: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            OrganizationType: this.newRecordsToCreate[0].record.OrganizationType.toUpperCase(),
+            OrganizationTypeCode: this.newRecordsToCreate[0].record.OrganizationTypeCode.toUpperCase(),
+            Inactive: false,
+        }
+
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -3035,6 +4031,33 @@ export class VendorCatalog extends SettingsModule {
         this.moduleName = 'VendorCatalog';
         this.moduleId = 'BDA5E2DC-0FD2-4227-B80F-8414F3F912B8';
         this.moduleCaption = 'Vendor Catalog';
+
+
+        this.defaultNewRecordToExpect = {
+            VendorCatalog: "",
+            CatalogType: "SALES",
+            InventoryType: "",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    VendorCatalog: "GlobalScope.TestToken~1.TestToken",
+                    CatalogType: "RENTAL",
+                    InventoryTypeId: 1,
+                },
+                seekObject: {
+                    VendorCatalog: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            VendorCatalog: this.newRecordsToCreate[0].record.VendorCatalog.toUpperCase(),
+            CatalogType: this.newRecordsToCreate[0].record.Type.toUpperCase(),
+            InventoryType: "|NOTEMPTY|",
+            Inactive: false,
+        }
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -3046,6 +4069,26 @@ export class VendorClass extends SettingsModule {
         this.moduleName = 'VendorClass';
         this.moduleId = '8B2C9EE3-AE87-483F-A651-8BA633E6C439';
         this.moduleCaption = 'Vendor Class';
+
+
+        this.defaultNewRecordToExpect = {
+            VendorClass: "",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    VendorClass: "GlobalScope.TestToken~1.TestToken",
+                },
+                seekObject: {
+                    VendorClass: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            VendorClass: this.newRecordsToCreate[0].record.VendorClass.toUpperCase(),
+            Inactive: false,
+        }
     }
     //---------------------------------------------------------------------------------------
 }
@@ -3057,6 +4100,8 @@ export class SapVendorInvoiceStatus extends SettingsModule {
         this.moduleName = 'SapVendorInvoiceStatus';
         this.moduleId = '1C8E14A3-73A8-4BB6-9B33-65D827B3ED0C';
         this.moduleCaption = 'SAP Vendor Invoice Status';
+        this.canNew = false;
+        this.canDelete = false;
     }
     //---------------------------------------------------------------------------------------
 }
@@ -3068,6 +4113,27 @@ export class WardrobeCare extends SettingsModule {
         this.moduleName = 'WardrobeCare';
         this.moduleId = 'BE6E4F7C-5D81-4437-A343-8F4933DD6545';
         this.moduleCaption = 'Wardrobe Care';
+
+
+        this.defaultNewRecordToExpect = {
+            WardrobeCare: "",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    WardrobeCare: "GlobalScope.TestToken~1.TestToken",
+                },
+                seekObject: {
+                    WardrobeCare: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            WardrobeCare: this.newRecordsToCreate[0].record.WardrobeCare.toUpperCase(),
+            Inactive: false,
+        }
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -3079,6 +4145,26 @@ export class WardrobeColor extends SettingsModule {
         this.moduleName = 'WardrobeColor';
         this.moduleId = '32238B26-3635-4637-AFE0-0D5B12CAAEE4';
         this.moduleCaption = 'Wardrobe Color';
+
+        this.defaultNewRecordToExpect = {
+            WardrobeColor: "",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    WardrobeColor: "GlobalScope.TestToken~1.TestToken",
+                },
+                seekObject: {
+                    WardrobeColor: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            WardrobeColor: this.newRecordsToCreate[0].record.WardrobeColor.toUpperCase(),
+            Inactive: false,
+        }
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -3090,6 +4176,26 @@ export class WardrobeCondition extends SettingsModule {
         this.moduleName = 'WardrobeCondition';
         this.moduleId = '4EEBE71C-139A-4D09-B589-59DA576C83FD';
         this.moduleCaption = 'Wardrobe Condition';
+
+        this.defaultNewRecordToExpect = {
+            WardrobeCondition: "",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    WardrobeCondition: "GlobalScope.TestToken~1.TestToken",
+                },
+                seekObject: {
+                    WardrobeCondition: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            WardrobeCondition: this.newRecordsToCreate[0].record.WardrobeCondition.toUpperCase(),
+            Inactive: false,
+        }
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -3101,6 +4207,26 @@ export class WardrobeGender extends SettingsModule {
         this.moduleName = 'WardrobeGender';
         this.moduleId = '28574D17-D2FF-41A0-8117-5F252013E7B1';
         this.moduleCaption = 'Wardrobe Gender';
+
+        this.defaultNewRecordToExpect = {
+            WardrobeGender: "",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    WardrobeGender: "GlobalScope.TestToken~1.TestToken",
+                },
+                seekObject: {
+                    WardrobeGender: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            WardrobeGender: this.newRecordsToCreate[0].record.WardrobeGender.toUpperCase(),
+            Inactive: false,
+        }
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -3112,6 +4238,26 @@ export class WardrobeLabel extends SettingsModule {
         this.moduleName = 'WardrobeLabel';
         this.moduleId = '9C1B5157-C983-44EE-817F-171B4448401A';
         this.moduleCaption = 'Wardrobe Label';
+
+        this.defaultNewRecordToExpect = {
+            WardrobeLabel: "",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    WardrobeLabel: "GlobalScope.TestToken~1.TestToken",
+                },
+                seekObject: {
+                    WardrobeLabel: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            WardrobeLabel: this.newRecordsToCreate[0].record.WardrobeLabel.toUpperCase(),
+            Inactive: false,
+        }
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -3123,6 +4269,26 @@ export class WardrobeMaterial extends SettingsModule {
         this.moduleName = 'WardrobeMaterial';
         this.moduleId = '25895901-C700-4618-9ADA-00A7CB4B83B9';
         this.moduleCaption = 'Wardrobe Material';
+
+        this.defaultNewRecordToExpect = {
+            WardrobeMaterial: "",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    WardrobeMaterial: "GlobalScope.TestToken~1.TestToken",
+                },
+                seekObject: {
+                    WardrobeMaterial: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            WardrobeMaterial: this.newRecordsToCreate[0].record.WardrobeMaterial.toUpperCase(),
+            Inactive: false,
+        }
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -3134,6 +4300,26 @@ export class WardrobePattern extends SettingsModule {
         this.moduleName = 'WardrobePattern';
         this.moduleId = '2BE7072A-5588-4205-8DCD-0FFE6F0C48F7';
         this.moduleCaption = 'Wardrobe Pattern';
+
+        this.defaultNewRecordToExpect = {
+            WardrobePattern: "",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    WardrobePattern: "GlobalScope.TestToken~1.TestToken",
+                },
+                seekObject: {
+                    WardrobePattern: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            WardrobePattern: this.newRecordsToCreate[0].record.WardrobePattern.toUpperCase(),
+            Inactive: false,
+        }
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -3145,6 +4331,26 @@ export class WardrobePeriod extends SettingsModule {
         this.moduleName = 'WardrobePeriod';
         this.moduleId = 'BF51623D-ABA6-471A-BC00-4729067C64CF';
         this.moduleCaption = 'Wardrobe Period';
+
+        this.defaultNewRecordToExpect = {
+            WardrobePeriod: "",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    WardrobePeriod: "GlobalScope.TestToken~1.TestToken",
+                },
+                seekObject: {
+                    WardrobePeriod: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            WardrobePeriod: this.newRecordsToCreate[0].record.WardrobePeriod.toUpperCase(),
+            Inactive: false,
+        }
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -3156,6 +4362,26 @@ export class WardrobeSource extends SettingsModule {
         this.moduleName = 'WardrobeSource';
         this.moduleId = '6709D1A1-3319-435C-BF0E-15D2602575B0';
         this.moduleCaption = 'Wardrobe Source';
+
+        this.defaultNewRecordToExpect = {
+            WardrobeSource: "",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    WardrobeSource: "GlobalScope.TestToken~1.TestToken",
+                },
+                seekObject: {
+                    WardrobeSource: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            WardrobeSource: this.newRecordsToCreate[0].record.WardrobeSource.toUpperCase(),
+            Inactive: false,
+        }
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -3167,6 +4393,8 @@ export class Warehouse extends SettingsModule {
         this.moduleName = 'Warehouse';
         this.moduleId = '931D3E75-68CB-4280-B12F-9A955444AA0C';
         this.moduleCaption = 'Warehouse';
+        this.canNew = false;
+        this.canDelete = false;
     }
     //---------------------------------------------------------------------------------------
 }
@@ -3178,6 +4406,8 @@ export class Widget extends SettingsModule {
         this.moduleName = 'Widget';
         this.moduleId = '0CAF7264-D1FB-46EC-96B9-68D242985812';
         this.moduleCaption = 'Widget';
+        this.canNew = false;
+        this.canDelete = false;
     }
     //---------------------------------------------------------------------------------------
 }

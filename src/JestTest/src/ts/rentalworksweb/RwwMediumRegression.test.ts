@@ -217,7 +217,6 @@ export class MediumRegressionTest extends BaseTest {
         //prerequisites
 
         //this.LoadMyUserGlobal(new User());  //uncomment this if not using the above RelogAsCopyOfUser method
-
         this.OpenSpecificRecord(new DefaultSettings(), null, true);
         this.OpenSpecificRecord(new InventorySettings(), null, true);
 
@@ -310,7 +309,7 @@ export class MediumRegressionTest extends BaseTest {
         this.MediumRegressionOnModule(new Attribute());
         this.MediumRegressionOnModule(new InventoryCondition());
         this.MediumRegressionOnModule(new InventoryGroup());
-        //this.MediumRegressionOnModule(new InventoryRank());  // module cannot be tested because there is no unique field that can be searched to delete the record
+        //this.MediumRegressionOnModule(new InventoryRank());  // module cannot be tested because there is no unique field that can be searched to validate or delete the record
         //this.MediumRegressionOnModule(new InventoryStatus());  // module cannot be tested because of unique index on the "statustype" field. no adds allowed
         this.MediumRegressionOnModule(new InventoryType());
         this.MediumRegressionOnModule(new PartsCategory());
@@ -330,74 +329,74 @@ export class MediumRegressionTest extends BaseTest {
         this.MediumRegressionOnModule(new MiscRate());
         this.MediumRegressionOnModule(new MiscType());
         this.MediumRegressionOnModule(new MiscCategory());
-        //this.MediumRegressionOnModule(new OfficeLocation());
-        //this.MediumRegressionOnModule(new OrderType());
-        //this.MediumRegressionOnModule(new DiscountReason());
-        //this.MediumRegressionOnModule(new MarketSegment());
-        //this.MediumRegressionOnModule(new MarketType());
-        //this.MediumRegressionOnModule(new OrderSetNo());
-        //this.MediumRegressionOnModule(new OrderLocation());
-        //this.MediumRegressionOnModule(new PaymentTerms());
-        //this.MediumRegressionOnModule(new PaymentType());
-        //this.MediumRegressionOnModule(new POApprovalStatus());
-        //this.MediumRegressionOnModule(new POApproverRole());
-        //this.MediumRegressionOnModule(new POClassification());
-        //this.MediumRegressionOnModule(new POImportance());
-        //this.MediumRegressionOnModule(new PORejectReason());
-        //this.MediumRegressionOnModule(new POType());
-        //this.MediumRegressionOnModule(new POApprover());
-        //this.MediumRegressionOnModule(new VendorInvoiceApprover());
-        //this.MediumRegressionOnModule(new FormDesign());
-        //this.MediumRegressionOnModule(new PresentationLayer());
-        //this.MediumRegressionOnModule(new ProjectAsBuild());
-        //this.MediumRegressionOnModule(new ProjectCommissioning());
-        //this.MediumRegressionOnModule(new ProjectDeposit());
-        //this.MediumRegressionOnModule(new ProjectDrawings());
-        //this.MediumRegressionOnModule(new ProjectDropShipItems());
-        //this.MediumRegressionOnModule(new ProjectItemsOrdered());
-        //this.MediumRegressionOnModule(new PropsCondition());
-        //this.MediumRegressionOnModule(new Region());
-        //this.MediumRegressionOnModule(new RepairItemStatus());
-        //this.MediumRegressionOnModule(new SetCondition());
-        //this.MediumRegressionOnModule(new SetSurface());
-        //this.MediumRegressionOnModule(new SetOpening());
-        //this.MediumRegressionOnModule(new WallDescription());
-        //this.MediumRegressionOnModule(new WallType());
-        //this.MediumRegressionOnModule(new ShipVia());
-        //this.MediumRegressionOnModule(new Source());
-        //this.MediumRegressionOnModule(new AvailabilitySettings());
-        //this.MediumRegressionOnModule(new DefaultSettings());
-        //this.MediumRegressionOnModule(new EmailSettings());
-        //this.MediumRegressionOnModule(new InventorySettings());
-        //this.MediumRegressionOnModule(new LogoSettings());
-        //this.MediumRegressionOnModule(new SystemSettings());
-        //this.MediumRegressionOnModule(new TaxOption());
-        //this.MediumRegressionOnModule(new Template());
-        //this.MediumRegressionOnModule(new UserStatus());
-        //this.MediumRegressionOnModule(new Sound());
-        //this.MediumRegressionOnModule(new LicenseClass());
-        //this.MediumRegressionOnModule(new VehicleColor());
-        //this.MediumRegressionOnModule(new VehicleFuelType());
-        //this.MediumRegressionOnModule(new VehicleMake());
-        //this.MediumRegressionOnModule(new VehicleScheduleStatus());
-        //this.MediumRegressionOnModule(new VehicleStatus());
-        //this.MediumRegressionOnModule(new VehicleType());
-        //this.MediumRegressionOnModule(new OrganizationType());
-        //this.MediumRegressionOnModule(new VendorCatalog());
-        //this.MediumRegressionOnModule(new VendorClass());
-        //this.MediumRegressionOnModule(new SapVendorInvoiceStatus());
-        //this.MediumRegressionOnModule(new WardrobeCare());
-        //this.MediumRegressionOnModule(new WardrobeColor());
-        //this.MediumRegressionOnModule(new WardrobeCondition());
-        //this.MediumRegressionOnModule(new WardrobeGender());
-        //this.MediumRegressionOnModule(new WardrobeLabel());
-        //this.MediumRegressionOnModule(new WardrobeMaterial());
-        //this.MediumRegressionOnModule(new WardrobePattern());
-        //this.MediumRegressionOnModule(new WardrobePeriod());
-        //this.MediumRegressionOnModule(new WardrobeSource());
-        //this.MediumRegressionOnModule(new Warehouse());
-        //this.MediumRegressionOnModule(new Widget());
-        //this.MediumRegressionOnModule(new WorkWeek());
+        this.MediumRegressionOnModule(new OfficeLocation());
+        this.MediumRegressionOnModule(new OrderType());
+        this.MediumRegressionOnModule(new DiscountReason());
+        this.MediumRegressionOnModule(new MarketSegment());
+        this.MediumRegressionOnModule(new MarketType());
+        this.MediumRegressionOnModule(new OrderSetNo());
+        this.MediumRegressionOnModule(new OrderLocation());
+        this.MediumRegressionOnModule(new PaymentTerms());
+        this.MediumRegressionOnModule(new PaymentType());
+        this.MediumRegressionOnModule(new POApprovalStatus());
+        this.MediumRegressionOnModule(new POApproverRole());
+        this.MediumRegressionOnModule(new POClassification());
+        this.MediumRegressionOnModule(new POImportance());
+        this.MediumRegressionOnModule(new PORejectReason());
+        this.MediumRegressionOnModule(new POType());
+        //this.MediumRegressionOnModule(new POApprover());                // module cannot be tested because there is no unique field that can be searched to validate or delete the record
+        //this.MediumRegressionOnModule(new VendorInvoiceApprover());     // module cannot be tested because there is no unique field that can be searched to validate or delete the record
+        this.MediumRegressionOnModule(new FormDesign());
+        this.MediumRegressionOnModule(new PresentationLayer());
+        this.MediumRegressionOnModule(new ProjectAsBuild());
+        this.MediumRegressionOnModule(new ProjectCommissioning());
+        this.MediumRegressionOnModule(new ProjectDeposit());
+        this.MediumRegressionOnModule(new ProjectDrawings());
+        this.MediumRegressionOnModule(new ProjectDropShipItems());
+        this.MediumRegressionOnModule(new ProjectItemsOrdered());
+        this.MediumRegressionOnModule(new PropsCondition());
+        this.MediumRegressionOnModule(new Region());
+        this.MediumRegressionOnModule(new RepairItemStatus());
+        this.MediumRegressionOnModule(new SetCondition());
+        this.MediumRegressionOnModule(new SetSurface());
+        this.MediumRegressionOnModule(new SetOpening());
+        this.MediumRegressionOnModule(new WallDescription());
+        this.MediumRegressionOnModule(new WallType());
+        this.MediumRegressionOnModule(new ShipVia());
+        //this.MediumRegressionOnModule(new Source());  // cannot test this module because it has a select/combobox which can't be set with our code yet
+        this.MediumRegressionOnModule(new AvailabilitySettings());
+        this.MediumRegressionOnModule(new DefaultSettings());
+        this.MediumRegressionOnModule(new EmailSettings());
+        this.MediumRegressionOnModule(new InventorySettings());
+        this.MediumRegressionOnModule(new LogoSettings());
+        this.MediumRegressionOnModule(new SystemSettings());
+        this.MediumRegressionOnModule(new TaxOption());
+        this.MediumRegressionOnModule(new Template());
+        this.MediumRegressionOnModule(new UserStatus());
+        this.MediumRegressionOnModule(new Sound());
+        this.MediumRegressionOnModule(new LicenseClass());
+        this.MediumRegressionOnModule(new VehicleColor());
+        this.MediumRegressionOnModule(new VehicleFuelType());
+        this.MediumRegressionOnModule(new VehicleMake());
+        this.MediumRegressionOnModule(new VehicleScheduleStatus());
+        this.MediumRegressionOnModule(new VehicleStatus());
+        this.MediumRegressionOnModule(new VehicleType());
+        this.MediumRegressionOnModule(new OrganizationType());
+        this.MediumRegressionOnModule(new VendorCatalog());
+        this.MediumRegressionOnModule(new VendorClass());
+        this.MediumRegressionOnModule(new SapVendorInvoiceStatus());
+        this.MediumRegressionOnModule(new WardrobeCare());
+        this.MediumRegressionOnModule(new WardrobeColor());
+        this.MediumRegressionOnModule(new WardrobeCondition());
+        this.MediumRegressionOnModule(new WardrobeGender());
+        this.MediumRegressionOnModule(new WardrobeLabel());
+        this.MediumRegressionOnModule(new WardrobeMaterial());
+        this.MediumRegressionOnModule(new WardrobePattern());
+        this.MediumRegressionOnModule(new WardrobePeriod());
+        this.MediumRegressionOnModule(new WardrobeSource());
+        this.MediumRegressionOnModule(new Warehouse());
+        this.MediumRegressionOnModule(new Widget());
+        //this.MediumRegressionOnModule(new WorkWeek());     // module cannot be tested because there is no unique field that can be searched to validate or delete the record
 
         ////Administrator
         //this.MediumRegressionOnModule(new Alert());

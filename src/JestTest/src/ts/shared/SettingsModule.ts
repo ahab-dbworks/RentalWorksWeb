@@ -538,7 +538,7 @@ export class SettingsModule extends ModuleBase {
         await page.click(this.getNewButtonSelector(), { clickCount: count });
 
         let formSelector = `.fwform`;
-        await page.waitForSelector(formSelector, { timeout: 5000 })
+        await page.waitForSelector(formSelector, { timeout: 10000 })
             .then(async done => {
                 let openFormCountAfter = await this.countOpenForms();
 
