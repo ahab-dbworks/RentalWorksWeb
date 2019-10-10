@@ -126,35 +126,6 @@
         const $form = this.openForm('EDIT', uniqueids);
         $form.find('div.fwformfield[data-datafield="InventoryId"] input').val(uniqueids.InventoryId);
         FwModule.loadForm(this.Module, $form);
-        let schddate;
-        const $calendar = $form.find('.calendar');
-        if ($calendar.length > 0) {
-            setTimeout(function () {
-                schddate = FwScheduler.getTodaysDate();
-                FwScheduler.navigate($calendar, schddate);
-                FwScheduler.refresh($calendar);
-            }, 1);
-        }
-
-        const $realScheduler = $form.find('.realscheduler');
-        if ($realScheduler.length > 0) {
-            setTimeout(function () {
-                schddate = FwSchedulerDetailed.getTodaysDate();
-                FwSchedulerDetailed.navigate($realScheduler, schddate, 35);
-                FwSchedulerDetailed.refresh($realScheduler);
-            }, 1);
-        }
-
-        const controller = $form.attr('data-controller');
-        if (controller == "SalesInventoryController" || controller == "RentalInventoryController") {
-            let $submoduleRepairOrderBrowse = this.openRepairOrderBrowse($form);
-            $form.find('.repairOrderSubModule').append($submoduleRepairOrderBrowse);
-        }
-
-        $form.find('.order-submodule').append(this.openSubModuleBrowse($form, 'Order'));
-        $form.find('.invoice-submodule').append(this.openSubModuleBrowse($form, 'Invoice'));
-        $form.find('.transfer-submodule').append(this.openSubModuleBrowse($form, 'TransferOrder'));
-        $form.find('.subpurchaseorder-submodule').append(this.openSubModuleBrowse($form, 'PurchaseOrder'));
 
         return $form;
     }
@@ -370,19 +341,6 @@
         //dp.update();
     }
     //----------------------------------------------------------------------------------------------
-    openRepairOrderBrowse($form) {
-        const inventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
-        const $browse = RepairController.openBrowse();
-        $browse.data('ondatabind', function (request) {
-            request.activeviewfields = RepairController.ActiveViewFields;
-            request.uniqueids = {
-                InventoryId: inventoryId
-            };
-        });
-        jQuery($browse).find('.ddviewbtn-caption:contains("Show:")').siblings('.ddviewbtn-select').find('.ddviewbtn-dropdown-btn:contains("All")').click();
-        return $browse;
-    }
-    //----------------------------------------------------------------------------------------------
     events($form: any): void {
         $form.find('[data-datafield="OverrideProfitAndLossCategory"] .fwformfield-value').on('change', function () {
             const $this = jQuery(this);
@@ -475,8 +433,42 @@
             FwFormField.setValue($form, 'div[data-datafield="CostOfGoodsRentedExpenseAccountDescription"]', $tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
         });
 
+        //Load Availability Calender when the tab is clicked
+        $form.find('[data-type="tab"][data-caption="Availability Calendar"]').on('click', e => {
+            let schddate;
+            const $calendar = $form.find('.calendar');
+            if ($calendar.length > 0) {
+                schddate = FwScheduler.getTodaysDate();
+                FwScheduler.navigate($calendar, schddate);
+                //FwScheduler.refresh($calendar);
+            }
 
+            const $realScheduler = $form.find('.realscheduler');
+            if ($realScheduler.length > 0) {
+                schddate = FwSchedulerDetailed.getTodaysDate();
+                FwSchedulerDetailed.navigate($realScheduler, schddate, 35);
+                //FwSchedulerDetailed.refresh($realScheduler);
+            }
 
+            // Legend for Avail Calendar
+            const availSchedControl = $form.find('.cal-sched')
+            try {
+                FwAppData.apiMethod(true, 'GET', `${this.apiurl}/availabilitylegend`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                    for (let key in response) {
+                        FwBrowse.addLegend(availSchedControl, key, response[key]);
+                    }
+                }, function onError(response) {
+                    FwFunc.showError(response);
+                }, availSchedControl)
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+
+            $form.on('change', '.warehousefilter', e => {
+                FwScheduler.refresh($calendar);
+                FwSchedulerDetailed.refresh($realScheduler);
+            });
+        });
     }
     //----------------------------------------------------------------------------------------------
     //jh 08/19/2019 obsolete
@@ -737,11 +729,36 @@
                     }
                 }
 
-                const $browseControls = $form.find(`#${tabPageId} [data-type="Browse"]`);
-                if (($tab.hasClass('tabGridsLoaded') === false) && $browseControls.length > 0) {
-                    for (let i = 0; i < $browseControls.length; i++) {
-                        const $browseControl = jQuery($browseControls[i]);
-                        FwBrowse.search($browseControl);
+                if ($tab.hasClass('tabGridsLoaded') === false) {
+                    const submoduleName = $tab.attr('data-submodulename');
+                    const controller = $form.attr('data-controller');
+                    let $browseControl = this.openSubModuleBrowse($form, submoduleName);
+                    const $tabpage = $form.find(`#${tabPageId}`);
+                    switch (submoduleName) {
+                        case 'Asset':
+                        case 'Repair':
+                            if (controller == "SalesInventoryController" || controller == "RentalInventoryController") {
+                                $tabpage.append($browseControl);
+                                FwBrowse.search($browseControl);
+                                //jQuery($browse).find('.ddviewbtn-caption:contains("Show:")').siblings('.ddviewbtn-select').find('.ddviewbtn-dropdown-btn:contains("All")').click();
+                            }
+                            break;
+                        case 'Order':
+                        case 'Invoice':
+                        case 'TransferOrder':
+                        case 'PurchaseOrder':
+                            $tabpage.append($browseControl);
+                            FwBrowse.search($browseControl);
+                            break;
+                        default:
+                            let $browseControls = $form.find(`#${tabPageId} [data-type="Browse"]`);
+                            if ($browseControls.length > 0) {
+                                for (let i = 0; i < $browseControls.length; i++) {
+                                    const $browseControl = jQuery($browseControls[i]);
+                                    FwBrowse.search($browseControl);
+                                }
+                            }
+                            break;
                     }
                 }
             }

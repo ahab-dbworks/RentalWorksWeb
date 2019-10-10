@@ -6,47 +6,6 @@ class SalesInventory extends InventoryBase {
 	id: string = Constants.Modules.Home.SalesInventory.id;
     AvailableFor: string = "S";
     //----------------------------------------------------------------------------------------------
-    openFormInventory($form: any) {
-        //FwFormField.loadItems($form.find('.lamps'), [
-        //    { value: '0', text: '0' },
-        //    { value: '1', text: '1' },
-        //    { value: '2', text: '2' },
-        //    { value: '3', text: '3' },
-        //    { value: '4', text: '4' }
-        //], true);
-
-        //$form.find('div[data-datafield="ContainerScannableInventoryId"]').data('onchange', $tr => {
-        //    FwFormField.setValue($form, 'div[data-datafield="ContainerScannableDescription"]', $tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
-        //});
-
-        // Legend for Avail Calendar
-        const availSchedControl = $form.find('.cal-sched')
-        //FwBrowse.addLegend(availSchedControl, 'OUT', '#1900fa');
-        //FwBrowse.addLegend(availSchedControl, 'IN REPAIR', '#EA300F');
-        //FwBrowse.addLegend(availSchedControl, 'IN TRANSIT', '#ff01ff');
-        //FwBrowse.addLegend(availSchedControl, 'STAGED', '#01ff40');
-        //FwBrowse.addLegend(availSchedControl, 'ON TRUCK', '#ffff00');
-        //FwBrowse.addLegend(availSchedControl, 'IN CONTAINER', '#b330b2');
-        try {
-            FwAppData.apiMethod(true, 'GET', `${this.apiurl}/availabilitylegend`, null, FwServices.defaultTimeout, function onSuccess(response) {
-                for (let key in response) {
-                    FwBrowse.addLegend(availSchedControl, key, response[key]);
-                }
-            }, function onError(response) {
-                FwFunc.showError(response);
-            }, availSchedControl)
-        } catch (ex) {
-            FwFunc.showError(ex);
-        }
-
-        const $calendar = $form.find('.calendar');
-        const $realscheduler = $form.find('.realscheduler');
-        $form.on('change', '.warehousefilter', e => {
-            FwScheduler.refresh($calendar);
-            FwSchedulerDetailed.refresh($realscheduler);
-        });
-    };
-    //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         // ----------
@@ -344,7 +303,15 @@ class SalesInventory extends InventoryBase {
         FwBrowse.search($salesInventoryWarehousePricingGrid);
 
         this.afterLoadSetClassification($form);
-        this.addAssetTab($form);
+
+        const classificationValue = FwFormField.getValueByDataField($form, 'Classification');
+        const trackedByValue = FwFormField.getValueByDataField($form, 'TrackedBy');
+
+        if (classificationValue === 'I' || classificationValue === 'A') {
+            if (trackedByValue !== 'QUANTITY') {
+                $form.find('.tab.asset').show();
+            }
+        }
 
         if ($form.find('[data-datafield="OverrideProfitAndLossCategory"] .fwformfield-value').prop('checked')) {
             FwFormField.enable($form.find('[data-datafield="ProfitAndLossCategoryId"]'))
@@ -362,33 +329,6 @@ class SalesInventory extends InventoryBase {
             FwFormField.disable($form.find('.subcategory'));
         }
 
-    };
-    //----------------------------------------------------------------------------------------------
-    addAssetTab($form: any): void {
-        const classificationValue = FwFormField.getValueByDataField($form, 'Classification');
-        const trackedByValue = FwFormField.getValueByDataField($form, 'TrackedBy');
-
-        if (classificationValue === 'I' || classificationValue === 'A') {
-            if (trackedByValue !== 'QUANTITY') {
-                $form.find('.tab.asset').show();
-                const $submoduleAssetBrowse = this.openAssetBrowse($form);
-                $form.find('.tabpage.asset').html($submoduleAssetBrowse);
-            }
-        }
-    };
-    //----------------------------------------------------------------------------------------------
-    openAssetBrowse($form: any) {
-        const $browse = AssetController.openBrowse();
-        const inventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
-
-        $browse.data('ondatabind', request => {
-            request.activiewfields = AssetController.ActiveViewFields;
-            request.uniqueids = {
-                InventoryId: inventoryId
-            }
-        });
-
-        return $browse;
     };
     //----------------------------------------------------------------------------------------------
     beforeValidate($browse, $grid, request) {

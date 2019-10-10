@@ -24,7 +24,7 @@
   <div data-type="tab" id="documentstab" class="tab" data-tabpageid="documentstabpage" data-caption="> Documents"></div>
   <div data-type="tab" id="glaccountstab" class="tab" data-tabpageid="glaccountstabpage" data-caption="> G/L Accounts"></div>-->
       <div data-type="tab" id="availabilitycalendartab" class="tab" data-tabpageid="availabilitycalendartabpage" data-caption="Availability Calendar"></div>
-      <div data-type="tab" id="assettab" class="tab asset submodule" data-tabpageid="assettabpage" data-caption="Asset" style="display:none;"></div>
+      <div data-type="tab" id="assettab" data-submodulename="Asset" class="tab asset submodule" data-tabpageid="assettabpage" data-caption="Asset" style="display:none;"></div>
       <div data-type="tab" id="consignmenttab" class="tab" data-tabpageid="consignmenttabpage" data-caption="Consignment"></div>
       <div data-type="tab" id="wardrobetab" class="wardrobetab tab" data-tabpageid="wardrobetabpage" data-caption="Wardrobe" style="display:none;"></div>
       <div data-type="tab" id="availabilitytab" class="tab" data-tabpageid="availabilitytabpage" data-caption="Availability"></div>
@@ -38,10 +38,10 @@
       <div data-type="tab" id="prepqctab" class="tab" data-tabpageid="prepqctabpage" data-caption="Prep / QC"></div>
       <div data-type="tab" id="attributesusagetab" class="tab" data-tabpageid="attributesusagetabpage" data-caption="Attribute / Usage"></div>
       <div data-type="tab" id="taxtab" class="tab" data-tabpageid="taxtabpage" data-caption="Tax"></div>
-      <div data-type="tab" id="ordertab" class="tab" data-tabpageid="ordertabpage" data-caption="Orders"></div>
-      <div data-type="tab" id="invoicetab" class="tab" data-tabpageid="invoicetabpage" data-caption="Invoices"></div>
-      <div data-type="tab" id="transfertab" class="tab" data-tabpageid="transfertabpage" data-caption="Transfers"></div>
-      <div data-type="tab" id="subpurchaseordertab" class="tab" data-tabpageid="subpurchaseordertabpage" data-caption="Sub POs"></div>
+      <div data-type="tab" id="ordertab" class="tab" data-submodulename="Order" data-tabpageid="ordertabpage" data-caption="Orders"></div>
+      <div data-type="tab" id="invoicetab" class="tab" data-submodulename="Invoice" data-tabpageid="invoicetabpage" data-caption="Invoices"></div>
+      <div data-type="tab" id="transfertab" class="tab" data-submodulename="TransferOrder" data-tabpageid="transfertabpage" data-caption="Transfers"></div>
+      <div data-type="tab" id="subpurchaseordertab" class="tab" data-submodulename="PurchaseOrder" data-tabpageid="subpurchaseordertabpage" data-caption="Sub POs"></div>
       <div data-type="tab" id="repairordertab" class="tab submodule repairTab" data-tabpageid="repairordertabpage" data-caption="Repair Orders"></div>
       <div data-type="tab" id="notestab" class="tab" data-tabpageid="notestabpage" data-caption="Notes"></div>
       <!--<div data-type="tab" id="accesstab" class="tab" data-tabpageid="accesstabpage" data-caption="Access"></div>-->
@@ -213,13 +213,13 @@
         </div>
       </div>
       <!-- ORDER SUBMODULE-->
-      <div data-type="tabpage" id="ordertabpage" class="tabpage order-submodule submodule" data-tabid="ordertab"></div>
+      <div data-type="tabpage" id="ordertabpage" class="tabpage submodule" data-tabid="ordertab"></div>
       <!-- INVOICE SUBMODULE-->
-      <div data-type="tabpage" id="invoicetabpage" class="tabpage invoice-submodule submodule" data-tabid="invoicetab"></div>
+      <div data-type="tabpage" id="invoicetabpage" class="tabpage submodule" data-tabid="invoicetab"></div>
       <!-- TRANSFER SUBMODULE-->
-      <div data-type="tabpage" id="transfertabpage" class="tabpage transfer-submodule submodule" data-tabid="transfertab"></div>
+      <div data-type="tabpage" id="transfertabpage" class="tabpage submodule" data-tabid="transfertab"></div>
       <!-- SUB PURCHASEORDER SUBMODULE-->
-      <div data-type="tabpage" id="subpurchaseordertabpage" class="tabpage subpurchaseorder-submodule submodule" data-tabid="subpurchaseordertab"></div>
+      <div data-type="tabpage" id="subpurchaseordertabpage" class="tabpage submodule" data-tabid="subpurchaseordertab"></div>
 
       <!-- Order History tab -->
       <!--<div data-type="tabpage" id="orderhistorytabpage" class="tabpage" data-tabid="orderhistorytab">

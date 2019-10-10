@@ -18,34 +18,6 @@ class RentalInventory extends InventoryBase {
         $form.find('div[data-datafield="ContainerScannableInventoryId"]').data('onchange', $tr => {
             FwFormField.setValue($form, 'div[data-datafield="ContainerScannableDescription"]', $tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
         });
-
-        // Legend for Avail Calendar
-        const availSchedControl = $form.find('.cal-sched')
-        //FwBrowse.addLegend(availSchedControl, 'OUT', '#1900fa');
-        //FwBrowse.addLegend(availSchedControl, 'IN REPAIR', '#EA300F');
-        //FwBrowse.addLegend(availSchedControl, 'IN TRANSIT', '#ff01ff');
-        //FwBrowse.addLegend(availSchedControl, 'STAGED', '#01ff40');
-        //FwBrowse.addLegend(availSchedControl, 'ON TRUCK', '#ffff00');
-        //FwBrowse.addLegend(availSchedControl, 'IN CONTAINER', '#b330b2');
-
-        try {
-            FwAppData.apiMethod(true, 'GET', `${this.apiurl}/availabilitylegend`, null, FwServices.defaultTimeout, function onSuccess(response) {
-                for (let key in response) {
-                    FwBrowse.addLegend(availSchedControl, key, response[key]);
-                }
-            }, function onError(response) {
-                FwFunc.showError(response);
-            }, availSchedControl)
-        } catch (ex) {
-            FwFunc.showError(ex);
-        }
-
-        const $calendar = $form.find('.calendar');
-        const $realscheduler = $form.find('.realscheduler');
-        $form.on('change', '.warehousefilter', e => {
-            FwScheduler.refresh($calendar);
-            FwSchedulerDetailed.refresh($realscheduler);
-        });
     };
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
@@ -466,11 +438,28 @@ class RentalInventory extends InventoryBase {
         //FwBrowse.search($wardrobeInventoryMaterialGrid);
 
         this.afterLoadSetClassification($form);
-        this.addAssetTab($form);
 
-        const classificationType = FwFormField.getValueByDataField($form, 'Classification');
+        const classificationValue = FwFormField.getValueByDataField($form, 'Classification');
+        const trackedByValue = FwFormField.getValueByDataField($form, 'TrackedBy');
+        if (classificationValue === 'I' || classificationValue === 'A') {
+            if (trackedByValue !== 'QUANTITY') {
+                $form.find('.tab.asset').show();
+                //$submoduleAssetBrowse.find('div.btn[data-type="NewMenuBarButton"]').off('click');
+                //$submoduleAssetBrowse.find('div.btn[data-type="NewMenuBarButton"]').on('click', function () {
+                //    var $assetForm, controller, $browse, assetFormData: any = {};
+                //    $browse = jQuery(this).closest('.fwbrowse');
+                //    controller = $browse.attr('data-controller');
+                //    assetFormData.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
+                //    if (typeof window[controller] !== 'object') throw 'Missing javascript module: ' + controller;
+                //    if (typeof window[controller]['openForm'] !== 'function') throw 'Missing javascript function: ' + controller + '.openForm';
+                //    $assetForm = window[controller]['openForm']('NEW', assetFormData);
+                //    FwModule.openSubModuleTab($browse, $assetForm);
+                //});
+            }
+        }
+
         //Change the grid on primary to tab when classification is container
-        if (classificationType == 'N') {
+        if (classificationValue == 'N') {
             $form.find('[data-grid="RentalInventoryWarehouseGrid"]').hide();
             $form.find('[data-grid="ContainerWarehouseGrid"]').show();
             FwBrowse.search($containerWarehouseGrid);
@@ -482,8 +471,6 @@ class RentalInventory extends InventoryBase {
 
             //Show settings tab
             $form.find('.settingstab').show();
-        } else {
-            FwBrowse.search($rentalInventoryWarehouseGrid);
         }
 
         if ($form.find('[data-datafield="OverrideProfitAndLossCategory"] .fwformfield-value').prop('checked')) {
@@ -521,43 +508,6 @@ class RentalInventory extends InventoryBase {
         FwBrowse.databind($browse);
         return $browse;
     }
-    //----------------------------------------------------------------------------------------------
-    addAssetTab($form: any): void {
-        const classificationValue = FwFormField.getValueByDataField($form, 'Classification');
-        const trackedByValue = FwFormField.getValueByDataField($form, 'TrackedBy');
-
-        if (classificationValue === 'I' || classificationValue === 'A') {
-            if (trackedByValue !== 'QUANTITY') {
-                $form.find('.tab.asset').show();
-                const $submoduleAssetBrowse = this.openAssetBrowse($form);
-                $form.find('.tabpage.asset').html($submoduleAssetBrowse);
-                $submoduleAssetBrowse.find('div.btn[data-type="NewMenuBarButton"]').off('click');
-                $submoduleAssetBrowse.find('div.btn[data-type="NewMenuBarButton"]').on('click', function () {
-                    var $assetForm, controller, $browse, assetFormData: any = {};
-                    $browse = jQuery(this).closest('.fwbrowse');
-                    controller = $browse.attr('data-controller');
-                    assetFormData.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
-                    if (typeof window[controller] !== 'object') throw 'Missing javascript module: ' + controller;
-                    if (typeof window[controller]['openForm'] !== 'function') throw 'Missing javascript function: ' + controller + '.openForm';
-                    $assetForm = window[controller]['openForm']('NEW', assetFormData);
-                    FwModule.openSubModuleTab($browse, $assetForm);
-                });
-            }
-        }
-    };
-    //----------------------------------------------------------------------------------------------
-    openAssetBrowse($form: any) {
-        const $browse = AssetController.openBrowse();
-        const inventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
-
-        $browse.data('ondatabind', request => {
-            request.activeviewfields = AssetController.ActiveViewFields;
-            request.uniqueids = {
-                InventoryId: inventoryId
-            }
-        });
-        return $browse;
-    };
     //----------------------------------------------------------------------------------------------
     beforeValidate($browse, $grid, request) {
         const validationName = request.module;
