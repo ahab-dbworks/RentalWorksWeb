@@ -2367,13 +2367,13 @@ class OrderBase {
         // color the Rental Sale tab if RentalSaleItems exist
         const hasRentalSaleItem = FwFormField.getValueByDataField($form, 'HasRentalSaleItem');
         if (hasRentalSaleItem) {
-            FwTabs.setTabColor($form.find('.labortab'), '#FFFF8d');
+            FwTabs.setTabColor($form.find('.usedsaletab'), '#FFFF8d');
         }
 
         // color the Loss and Damage tab if LossDamageItems exist
         let hasLossAndDamageItem = FwFormField.getValueByDataField($form, 'HasLossAndDamageItem');
         if (hasLossAndDamageItem) {
-            FwTabs.setTabColor($form.find('.labortab'), '#FFFF8d');
+            FwTabs.setTabColor($form.find('.lossdamagetab'), '#FFFF8d');
         }
 
         //Click Event on tabs to load grids/browses
