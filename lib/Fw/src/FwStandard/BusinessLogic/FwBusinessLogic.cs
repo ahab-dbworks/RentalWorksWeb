@@ -824,10 +824,29 @@ namespace FwStandard.BusinessLogic
                                         }
 
 
-                                        if ((!string.IsNullOrWhiteSpace(valueToCompare.ToString())) || (considerBlanks))
+                                        //if ((!string.IsNullOrWhiteSpace(valueToCompare.ToString())) || (considerBlanks))
+                                        //{
+                                        //    searchFieldVals.Add(valueToCompare.ToString());
+                                        //    searchOperators.Add("=");
+                                        //}
+
+                                        if (!string.IsNullOrWhiteSpace(valueToCompare.ToString()))
                                         {
                                             searchFieldVals.Add(valueToCompare.ToString());
                                             searchOperators.Add("=");
+                                        }
+                                        else  // (valueToCompare is blank)
+                                        {
+                                            if (considerBlanks)
+                                            {
+                                                searchFieldVals.Add(valueToCompare.ToString());
+                                                searchOperators.Add("=");
+                                            }
+                                            else
+                                            {
+                                                searchFieldVals.Add(valueToCompare.ToString());
+                                                searchOperators.Add(">");
+                                            }
                                         }
 
 
@@ -1105,7 +1124,7 @@ namespace FwStandard.BusinessLogic
             //BeforeValidate?.Invoke(this, args);
             await BeforeValidateAsync(args);
 
-            // validate not assignig any prohibited properties on New or Edit
+            // validate not assigning any prohibited properties on New or Edit
             if (result.IsValid)
             {
                 var validateMsg = result.ValidateMsg;
