@@ -8,8 +8,8 @@ namespace WebApi.Modules.Settings.WorkWeek
     public class WorkWeekRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "workweekid", modeltype: FwDataTypes.Text, sqltype: "int", isPrimaryKey: true)]
-        public string WorkWeekId { get; set; } = "";
+        [FwSqlDataField(column: "workweekid", modeltype: FwDataTypes.Integer, sqltype: "int", isPrimaryKey: true, identity: true)]
+        public int? WorkWeekId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "fromdate", modeltype: FwDataTypes.Date, sqltype: "datetime")]
         public string FromDate { get; set; }

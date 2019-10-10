@@ -15,7 +15,7 @@ namespace WebApi.Modules.Settings.WorkWeek
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id:"Jd3j3NeUb2LKP", IsPrimaryKey:true)]
-        public string WorkWeekId { get { return workWeek.WorkWeekId; } set { workWeek.WorkWeekId = value; } }
+        public int? WorkWeekId { get { return workWeek.WorkWeekId; } set { workWeek.WorkWeekId = value; } }
 
         [FwLogicProperty(Id:"Jd3j3NeUb2LKP", IsRecordTitle:true, IsReadOnly:true)]
         public string WorkWeek { get; set; }

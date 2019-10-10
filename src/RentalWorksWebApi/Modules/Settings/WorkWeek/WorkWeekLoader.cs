@@ -10,8 +10,8 @@ namespace WebApi.Modules.Settings.WorkWeek
     public class WorkWeekLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "workweekid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
-        public string WorkWeekId { get; set; } = "";
+        [FwSqlDataField(column: "workweekid", modeltype: FwDataTypes.Integer, isPrimaryKey: true)]
+        public int? WorkWeekId { get; set; } 
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "workweek", modeltype: FwDataTypes.Text)]
         public string WorkWeek { get; set; }
