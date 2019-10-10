@@ -215,6 +215,7 @@ export class MediumRegressionTest extends BaseTest {
         //prerequisites
 
         //this.LoadMyUserGlobal(new User());  //uncomment this if not using the above RelogAsCopyOfUser method
+
         this.OpenSpecificRecord(new DefaultSettings(), null, true);
         this.OpenSpecificRecord(new InventorySettings(), null, true);
 
@@ -294,34 +295,32 @@ export class MediumRegressionTest extends BaseTest {
         this.MediumRegressionOnModule(new FacilityStatus());
         this.MediumRegressionOnModule(new FacilityCategory());
         this.MediumRegressionOnModule(new SpaceType());
-        //this.MediumRegressionOnModule(new FiscalYear());  // this module is untestable because of a problem with saving the expected Year value
-
-
-    /*
+        this.MediumRegressionOnModule(new FiscalYear());  
+        this.MediumRegressionOnModule(new GeneratorFuelType());
+        this.MediumRegressionOnModule(new GeneratorMake());
+        this.MediumRegressionOnModule(new GeneratorRating());
+        this.MediumRegressionOnModule(new GeneratorWatts());
+        this.MediumRegressionOnModule(new GeneratorType());
+        //this.MediumRegressionOnModule(new Holiday()); // module cannot be tested becuase data fields repeat and become invisible based on holiday.Type
+        this.MediumRegressionOnModule(new BlackoutStatus());
+        this.MediumRegressionOnModule(new BarCodeRange());
+        this.MediumRegressionOnModule(new InventoryAdjustmentReason());
+        this.MediumRegressionOnModule(new Attribute());
+        this.MediumRegressionOnModule(new InventoryCondition());
+        this.MediumRegressionOnModule(new InventoryGroup());
+        //this.MediumRegressionOnModule(new InventoryRank());  // module cannot be tested because there is no unique field that can be searched to delete the record
+        //this.MediumRegressionOnModule(new InventoryStatus());  // module cannot be tested because of unique index on the "statustype" field. no adds allowed
+        this.MediumRegressionOnModule(new InventoryType());
+        this.MediumRegressionOnModule(new PartsCategory());
+        this.MediumRegressionOnModule(new RentalCategory());
+        this.MediumRegressionOnModule(new RetiredReason());
+        this.MediumRegressionOnModule(new SalesCategory());
+        this.MediumRegressionOnModule(new Unit());
+        this.MediumRegressionOnModule(new UnretiredReason());
+        this.MediumRegressionOnModule(new WarehouseCatalog());
+        //this.MediumRegressionOnModule(new Crew());  // module is broken. Cannot save new records because of usersid and missing required fields on the user table
+/*
     */
-        //this.MediumRegressionOnModule(new GeneratorFuelType());
-        //this.MediumRegressionOnModule(new GeneratorMake());
-        //this.MediumRegressionOnModule(new GeneratorRating());
-        //this.MediumRegressionOnModule(new GeneratorWatts());
-        //this.MediumRegressionOnModule(new GeneratorType());
-        //this.MediumRegressionOnModule(new Holiday());
-        //this.MediumRegressionOnModule(new BlackoutStatus());
-        //this.MediumRegressionOnModule(new BarCodeRange());
-        //this.MediumRegressionOnModule(new InventoryAdjustmentReason());
-        //this.MediumRegressionOnModule(new Attribute());
-        //this.MediumRegressionOnModule(new InventoryCondition());
-        //this.MediumRegressionOnModule(new InventoryGroup());
-        //this.MediumRegressionOnModule(new InventoryRank());
-        //this.MediumRegressionOnModule(new InventoryStatus());
-        //this.MediumRegressionOnModule(new InventoryType());
-        //this.MediumRegressionOnModule(new PartsCategory());
-        //this.MediumRegressionOnModule(new RentalCategory());
-        //this.MediumRegressionOnModule(new RetiredReason());
-        //this.MediumRegressionOnModule(new SalesCategory());
-        //this.MediumRegressionOnModule(new Unit());
-        //this.MediumRegressionOnModule(new UnretiredReason());
-        //this.MediumRegressionOnModule(new WarehouseCatalog());
-        //this.MediumRegressionOnModule(new Crew());
         //this.MediumRegressionOnModule(new LaborRate());
         //this.MediumRegressionOnModule(new LaborPosition());
         //this.MediumRegressionOnModule(new LaborType());

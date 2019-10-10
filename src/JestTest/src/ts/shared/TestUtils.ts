@@ -297,4 +297,8 @@ export class TestUtils {
         return faker.lorem.words(wordCount)
     }
     //-----------------------------------------------------------------------------------------------------------------
+    static randomRecentDate(days?: number): string {
+        return faker.date.recent(days).toDateString();
+    }
+    //-----------------------------------------------------------------------------------------------------------------
 }

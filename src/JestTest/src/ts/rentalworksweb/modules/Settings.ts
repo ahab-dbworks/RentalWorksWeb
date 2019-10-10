@@ -1253,6 +1253,27 @@ export class GeneratorFuelType extends SettingsModule {
         this.moduleName = 'GeneratorFuelType';
         this.moduleId = '8A331FE0-B92A-4DD2-8A59-29E4E6D6EA4F';
         this.moduleCaption = 'Generator Fuel Type';
+
+        this.defaultNewRecordToExpect = {
+            GeneratorFuelType: "",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    GeneratorFuelType: "GlobalScope.TestToken~1.MediumTestToken",
+                },
+                seekObject: {
+                    GeneratorFuelType: "GlobalScope.TestToken~1.MediumTestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            GeneratorFuelType: this.newRecordsToCreate[0].record.GeneratorFuelType.toUpperCase(),
+            Inactive: false,
+        }
+
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -1264,6 +1285,27 @@ export class GeneratorMake extends SettingsModule {
         this.moduleName = 'GeneratorMake';
         this.moduleId = 'D7C38A54-A198-4304-8EC2-CE8038D3BE9C';
         this.moduleCaption = 'Generator Make';
+
+        this.defaultNewRecordToExpect = {
+            GeneratorMake: "",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    GeneratorMake: "GlobalScope.TestToken~1.MediumTestToken",
+                },
+                seekObject: {
+                    GeneratorMake: "GlobalScope.TestToken~1.MediumTestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            GeneratorMake: this.newRecordsToCreate[0].record.GeneratorMake.toUpperCase(),
+            Inactive: false,
+        }
+
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -1275,6 +1317,27 @@ export class GeneratorRating extends SettingsModule {
         this.moduleName = 'GeneratorRating';
         this.moduleId = '140E6997-1BA9-49B7-AA79-CD5EF6444C72';
         this.moduleCaption = 'Generator Rating';
+
+        this.defaultNewRecordToExpect = {
+            GeneratorRating: "",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    GeneratorRating: "GlobalScope.TestToken~1.MediumTestToken",
+                },
+                seekObject: {
+                    GeneratorRating: "GlobalScope.TestToken~1.MediumTestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            GeneratorRating: this.newRecordsToCreate[0].record.GeneratorRating.toUpperCase(),
+            Inactive: false,
+        }
+
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -1286,6 +1349,26 @@ export class GeneratorWatts extends SettingsModule {
         this.moduleName = 'GeneratorWatts';
         this.moduleId = '503349D6-711A-4F45-8891-4B3203008441';
         this.moduleCaption = 'Generator Watts';
+
+        this.defaultNewRecordToExpect = {
+            GeneratorWatts: "",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    GeneratorWatts: "GlobalScope.TestToken~1.MediumTestToken",
+                },
+                seekObject: {
+                    GeneratorWatts: "GlobalScope.TestToken~1.MediumTestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            GeneratorWatts: this.newRecordsToCreate[0].record.GeneratorWatts.toUpperCase(),
+            Inactive: false,
+        }
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -1297,6 +1380,32 @@ export class GeneratorType extends SettingsModule {
         this.moduleName = 'GeneratorType';
         this.moduleId = '95D9D422-DCEB-4150-BCC2-79573B87AC4D';
         this.moduleCaption = 'Generator Type';
+
+        this.defaultNewRecordToExpect = {
+            InventoryType: "",
+            GeneratorType: "",
+            Unit: "",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    InventoryTypeId: 1,
+                    GeneratorType: "GlobalScope.TestToken~1.TestToken",
+                    UnitId: 1,
+                },
+                seekObject: {
+                    GeneratorType: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            InventoryType: "|NOTEMPTY|",
+            GeneratorType: this.newRecordsToCreate[0].record.GeneratorType.toUpperCase(),
+            Unit: "|NOTEMPTY|",
+            Inactive: false,
+        }
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -1308,6 +1417,38 @@ export class Holiday extends SettingsModule {
         this.moduleName = 'Holiday';
         this.moduleId = 'CFFEFF09-A083-478E-913C-945184B5DE94';
         this.moduleCaption = 'Holiday';
+
+        this.defaultNewRecordToExpect = {
+            Holiday: "",
+            Observed: false,
+            Country: "",
+            Type: "F",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    Holiday: "GlobalScope.TestToken~1.TestToken",
+                    Observed: true,
+                    CountryId: 1,
+                    Type: "O",
+                    Adjustment: "2",
+                    OffsetHolidayId: 1,
+                },
+                seekObject: {
+                    Holiday: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            Holiday: this.newRecordsToCreate[0].record.Holiday.toUpperCase(),
+            Observed: this.newRecordsToCreate[0].record.Observed,
+            Country: "|NOTEMPTY|",
+            Type: this.newRecordsToCreate[0].record.Type.toUpperCase(),
+            Adjustment: this.newRecordsToCreate[0].record.Adjustment.toUpperCase(),
+            OffsetHoliday: "|NOTEMPTY|",
+            Inactive: false,
+        }
     }
     //---------------------------------------------------------------------------------------
 }
@@ -1319,6 +1460,26 @@ export class BlackoutStatus extends SettingsModule {
         this.moduleName = 'BlackoutStatus';
         this.moduleId = '43D7C88D-8D8C-424E-94D3-A2C537F0C76E';
         this.moduleCaption = 'Blackout Status';
+
+        this.defaultNewRecordToExpect = {
+            BlackoutStatus: "",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    BlackoutStatus: "GlobalScope.TestToken~1.TestToken",
+                },
+                seekObject: {
+                    BlackoutStatus: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            BlackoutStatus: this.newRecordsToCreate[0].record.BlackoutStatus.toUpperCase(),
+            Inactive: false,
+        }
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -1330,6 +1491,30 @@ export class BarCodeRange extends SettingsModule {
         this.moduleName = 'BarCodeRange';
         this.moduleId = '9A52C5B8-98AB-49A0-A392-69DB0873F943';
         this.moduleCaption = 'Bar Code Range';
+
+        this.defaultNewRecordToExpect = {
+            Prefix: "",
+            BarcodeFrom: "",
+            BarcodeTo: "",
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    Prefix: "GlobalScope.TestToken~1.TinyTestToken",
+                    BarcodeFrom: TestUtils.randomIntegerBetween(6000000, 7000000).toString(),
+                    BarcodeTo: TestUtils.randomIntegerBetween(8000000, 9000000).toString(),
+                },
+                seekObject: {
+                    Prefix: "GlobalScope.TestToken~1.TinyTestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            Prefix: this.newRecordsToCreate[0].record.Prefix.toUpperCase(),
+            BarcodeFrom: this.newRecordsToCreate[0].record.BarcodeFrom,
+            BarcodeTo: this.newRecordsToCreate[0].record.BarcodeTo,
+        }
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -1341,6 +1526,26 @@ export class InventoryAdjustmentReason extends SettingsModule {
         this.moduleName = 'InventoryAdjustmentReason';
         this.moduleId = 'B3156707-4D41-481C-A66E-8951E5233CDA';
         this.moduleCaption = 'Inventory Adjustment Reason';
+
+        this.defaultNewRecordToExpect = {
+            InventoryAdjustmentReason: "",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    InventoryAdjustmentReason: "GlobalScope.TestToken~1.TestToken",
+                },
+                seekObject: {
+                    InventoryAdjustmentReason: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            InventoryAdjustmentReason: this.newRecordsToCreate[0].record.InventoryAdjustmentReason.toUpperCase(),
+            Inactive: false,
+        }
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -1352,6 +1557,28 @@ export class Attribute extends SettingsModule {
         this.moduleName = 'Attribute';
         this.moduleId = '2777dd37-daca-47ff-aa44-29677b302745';
         this.moduleCaption = 'Inventory Attribute';
+
+        this.defaultNewRecordToExpect = {
+            InventoryType: "",
+            Attribute: "",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    Attribute: "GlobalScope.TestToken~1.TestToken",
+                },
+                seekObject: {
+                    Attribute: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            InventoryType: "(ALL)",
+            Attribute: this.newRecordsToCreate[0].record.Attribute.toUpperCase(),
+            Inactive: false,
+        }
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -1363,6 +1590,27 @@ export class InventoryCondition extends SettingsModule {
         this.moduleName = 'InventoryCondition';
         this.moduleId = 'BF711CAC-1E69-4C92-B509-4CBFA29FAED3';
         this.moduleCaption = 'Inventory Condition';
+
+        this.defaultNewRecordToExpect = {
+            InventoryCondition: "",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    InventoryCondition: "GlobalScope.TestToken~1.TestToken",
+                },
+                seekObject: {
+                    InventoryCondition: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            InventoryCondition: this.newRecordsToCreate[0].record.InventoryCondition.toUpperCase(),
+            Inactive: false,
+        }
+
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -1374,6 +1622,31 @@ export class InventoryGroup extends SettingsModule {
         this.moduleName = 'InventoryGroup';
         this.moduleId = '43AF2FBA-69FB-46A8-8E5A-2712486B66F3';
         this.moduleCaption = 'Inventory Group';
+
+
+        this.defaultNewRecordToExpect = {
+            InventoryGroup: "",
+            RecType: "R",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    InventoryGroup: "GlobalScope.TestToken~1.TestToken",
+                    RecType: "S",
+                },
+                seekObject: {
+                    InventoryGroup: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            InventoryGroup: this.newRecordsToCreate[0].record.InventoryGroup.toUpperCase(),
+            RecType: this.newRecordsToCreate[0].record.RecType.toUpperCase(),
+            Inactive: false,
+        }
+
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -1407,6 +1680,51 @@ export class InventoryType extends SettingsModule {
         this.moduleName = 'InventoryType';
         this.moduleId = 'D62E0D20-AFF4-46A7-A767-FF32F6EC4617';
         this.moduleCaption = 'Inventory Type';
+
+        this.defaultNewRecordToExpect = {
+            InventoryType: "",
+            LowAvailabilityPercent: "",
+            Rental: false,
+            Sales: false,
+            Parts: false,
+            Wardrobe: false,
+            Props: false,
+            Sets: false,
+            Transportation: false,
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    InventoryType: "GlobalScope.TestToken~1.TestToken",
+                    LowAvailabilityPercent: TestUtils.randomIntegerBetween(1, 30).toString(),
+                    Rental: true,
+                    Sales: false,
+                    Parts: true,
+                    Wardrobe: false,
+                    Props: false,
+                    Sets: false,
+                    Transportation: false,
+                },
+                seekObject: {
+                    InventoryType: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            InventoryType: this.newRecordsToCreate[0].record.InventoryType.toUpperCase(),
+            LowAvailabilityPercent: this.newRecordsToCreate[0].record.LowAvailabilityPercent.toUpperCase() + " %",
+            Rental: this.newRecordsToCreate[0].record.Rental,
+            Sales: this.newRecordsToCreate[0].record.Sales,
+            Parts: this.newRecordsToCreate[0].record.Parts,
+            Wardrobe: this.newRecordsToCreate[0].record.Wardrobe,
+            Props: this.newRecordsToCreate[0].record.Props,
+            Sets: this.newRecordsToCreate[0].record.Sets,
+            Transportation: this.newRecordsToCreate[0].record.Transportation,
+            Inactive: false,
+        }
+
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -1418,6 +1736,29 @@ export class PartsCategory extends SettingsModule {
         this.moduleName = 'PartsCategory';
         this.moduleId = '4750DFBD-6C60-41EF-83FE-49C8340D6062';
         this.moduleCaption = 'Parts Category';
+
+        this.defaultNewRecordToExpect = {
+            InventoryType: "",
+            Category: "",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    InventoryTypeId: 1,
+                    Category: "GlobalScope.TestToken~1.TestToken",
+                },
+                seekObject: {
+                    Category: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            InventoryType: "|NOTEMPTY|",
+            Category: this.newRecordsToCreate[0].record.Category.toUpperCase(),
+            Inactive: false,
+        }
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -1429,6 +1770,30 @@ export class RentalCategory extends SettingsModule {
         this.moduleName = 'RentalCategory';
         this.moduleId = '91079439-A188-4637-B733-A7EF9A9DFC22';
         this.moduleCaption = 'Rental Category';
+
+        this.defaultNewRecordToExpect = {
+            InventoryType: "",
+            Category: "",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    InventoryTypeId: 1,
+                    Category: "GlobalScope.TestToken~1.TestToken",
+                },
+                seekObject: {
+                    Category: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            InventoryType: "|NOTEMPTY|",
+            Category: this.newRecordsToCreate[0].record.Category.toUpperCase(),
+            Inactive: false,
+        }
+
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -1440,6 +1805,30 @@ export class RetiredReason extends SettingsModule {
         this.moduleName = 'RetiredReason';
         this.moduleId = '1DE1DD87-47FD-4079-B7D8-B5DE61FCB280';
         this.moduleCaption = 'Retired Reason';
+
+        this.defaultNewRecordToExpect = {
+            RetiredReason: "",
+            ReasonType: "SOLD",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    RetiredReason: "GlobalScope.TestToken~1.TestToken",
+                    ReasonType: "DONATED",
+                },
+                seekObject: {
+                    RetiredReason: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            RetiredReason: this.newRecordsToCreate[0].record.RetiredReason.toUpperCase(),
+            ReasonType: this.newRecordsToCreate[0].record.ReasonType.toUpperCase(),
+            Inactive: false,
+        }
+
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -1451,6 +1840,30 @@ export class SalesCategory extends SettingsModule {
         this.moduleName = 'SalesCategory';
         this.moduleId = '428619B5-ABDE-48C4-9B2F-CF6D2A3AC574';
         this.moduleCaption = 'Sales Category';
+
+
+        this.defaultNewRecordToExpect = {
+            InventoryType: "",
+            Category: "",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    InventoryTypeId: 1,
+                    Category: "GlobalScope.TestToken~1.TestToken",
+                },
+                seekObject: {
+                    Category: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            InventoryType: "|NOTEMPTY|",
+            Category: this.newRecordsToCreate[0].record.Category.toUpperCase(),
+            Inactive: false,
+        }
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -1462,6 +1875,33 @@ export class Unit extends SettingsModule {
         this.moduleName = 'Unit';
         this.moduleId = 'EE9F1081-BD9F-4004-A0CA-3813E2360642';
         this.moduleCaption = 'Unit of Measure';
+
+        this.defaultNewRecordToExpect = {
+            Unit: "",
+            Description: "",
+            UnitType: "HOURLY",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    Unit: "GlobalScope.TestToken~1.ShortTestToken",
+                    Description: "GlobalScope.TestToken~1.TestToken",
+                    UnitType: "WEEKLY",
+                },
+                seekObject: {
+                    Description: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            Unit: this.newRecordsToCreate[0].record.Unit.toUpperCase(),
+            Description: this.newRecordsToCreate[0].record.Description.toUpperCase(),
+            UnitType: this.newRecordsToCreate[0].record.UnitType.toUpperCase(),
+            Inactive: false,
+        }
+
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -1473,6 +1913,29 @@ export class UnretiredReason extends SettingsModule {
         this.moduleName = 'UnretiredReason';
         this.moduleId = 'C8E7F77B-52BC-435C-9971-331CF99284A0';
         this.moduleCaption = 'Unretired Reason';
+
+        this.defaultNewRecordToExpect = {
+            UnretiredReason: "",
+            ReasonType: "OTHER",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    UnretiredReason: "GlobalScope.TestToken~1.TestToken",
+                    ReasonType: "OTHER",
+                },
+                seekObject: {
+                    UnretiredReason: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            UnretiredReason: this.newRecordsToCreate[0].record.UnretiredReason.toUpperCase(),
+            ReasonType: this.newRecordsToCreate[0].record.ReasonType.toUpperCase(),
+            Inactive: false,
+        }
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -1484,6 +1947,29 @@ export class WarehouseCatalog extends SettingsModule {
         this.moduleName = 'WarehouseCatalog';
         this.moduleId = '9045B118-A790-44FB-9867-3E8035EFEE69';
         this.moduleCaption = 'Warehouse Catalog';
+
+        this.defaultNewRecordToExpect = {
+            WarehouseCatalog: "",
+            CatalogType: "RENTAL",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    WarehouseCatalog: "GlobalScope.TestToken~1.TestToken",
+                    CatalogType: "SALES",
+                },
+                seekObject: {
+                    WarehouseCatalog: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            WarehouseCatalog: this.newRecordsToCreate[0].record.WarehouseCatalog.toUpperCase(),
+            CatalogType: this.newRecordsToCreate[0].record.CatalogType.toUpperCase(),
+            Inactive: false,
+        }
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -1495,6 +1981,114 @@ export class Crew extends SettingsModule {
         this.moduleName = 'Crew';
         this.moduleId = 'FF4C0AF2-0984-48FD-A108-68D93CB8FFE6';
         this.moduleCaption = 'Crew';
+
+        this.defaultNewRecordToExpect = {
+            Salutation: "",
+            FirstName: "",
+            MiddleInitial: "",
+            LastName: "",
+            ActiveDate: "",
+            ContactTitle: "",
+            Address1: "",
+            Address2: "",
+            City: "",
+            State: "",
+            Country: "",
+            ZipCode: "",
+            OfficePhone: "",
+            OfficeExtension: "",
+            DirectPhone: "",
+            DirectExtension: "",
+            Fax: "",
+            FaxExtension: "",
+            Pager: "",
+            PagerPin: "",
+            MobilePhone: "",
+            HomePhone: "",
+            Email: "",
+            WebAccess: false,
+            LockAccount: false,
+            WebAdministrator: false,
+            ChangePasswordAtNextLogin: false,
+            ExpirePassword: false,
+            ExpireDays: "",
+            PasswordLastUpdated: "",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    Salutation: "",
+                    FirstName: TestUtils.randomFirstName(),
+                    MiddleInitial: TestUtils.randomAlphanumeric(1),
+                    LastName: "GlobalScope.TestToken~1.TestToken",
+                    ActiveDate: TestUtils.randomRecentDate(100),
+                    ContactTitleId: 1,
+                    Address1: TestUtils.randomAddress1(),
+                    Address2: TestUtils.randomAddress2(),
+                    City: TestUtils.randomCity(),
+                    State: TestUtils.randomStateCode(),
+                    CountryId: 1,
+                    ZipCode: TestUtils.randomZipCode5(),
+                    OfficePhone: TestUtils.randomPhone(),
+                    OfficeExtension: TestUtils.randomPhoneExtension(),
+                    DirectPhone: TestUtils.randomPhone(),
+                    DirectExtension: TestUtils.randomPhoneExtension(),
+                    Fax: TestUtils.randomPhone(),
+                    FaxExtension: TestUtils.randomPhoneExtension(),
+                    Pager: TestUtils.randomPhone(),
+                    PagerPin: TestUtils.randomPhoneExtension(),
+                    MobilePhone: TestUtils.randomPhone(),
+                    HomePhone: TestUtils.randomPhone(),
+                    Email: TestUtils.randomEmail(),
+                    WebAccess: false,
+                    LockAccount: false,
+                    WebAdministrator: true,
+                    ChangePasswordAtNextLogin: false,
+                    ExpirePassword: true,
+                    ExpireDays: TestUtils.randomIntegerBetween(1, 60).toString(),
+                },
+                seekObject: {
+                    LastName: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            Salutation: this.newRecordsToCreate[0].record.Salutation.toUpperCase(),
+            FirstName: this.newRecordsToCreate[0].record.FirstName.toUpperCase(),
+            MiddleInitial: this.newRecordsToCreate[0].record.MiddleInitial.toUpperCase(),
+            LastName: this.newRecordsToCreate[0].record.LastName.toUpperCase(),
+            ActiveDate: this.newRecordsToCreate[0].record.ActiveDate,
+            ContactTitle: "|NOTEMPTY|",
+            Address1: this.newRecordsToCreate[0].record.Address1.toUpperCase(),
+            Address2: this.newRecordsToCreate[0].record.Address2.toUpperCase(),
+            City: this.newRecordsToCreate[0].record.City.toUpperCase(),
+            State: this.newRecordsToCreate[0].record.State.toUpperCase(),
+            Country: "|NOTEMPTY|",
+            ZipCode: this.newRecordsToCreate[0].record.ZipCode.toUpperCase(),
+            OfficePhone: TestUtils.formattedPhone(this.newRecordsToCreate[0].record.OfficePhone),
+            OfficeExtension: this.newRecordsToCreate[0].record.OfficeExtension.toUpperCase(),
+            DirectPhone: TestUtils.formattedPhone(this.newRecordsToCreate[0].record.DirectPhone),
+            DirectExtension: this.newRecordsToCreate[0].record.DirectExtension.toUpperCase(),
+            Fax: TestUtils.formattedPhone(this.newRecordsToCreate[0].record.Fax),
+            FaxExtension: this.newRecordsToCreate[0].record.FaxExtension.toUpperCase(),
+            Pager: TestUtils.formattedPhone(this.newRecordsToCreate[0].record.Pager),
+            PagerPin: this.newRecordsToCreate[0].record.PagerPin.toUpperCase(),
+            MobilePhone: TestUtils.formattedPhone(this.newRecordsToCreate[0].record.MobilePhone),
+            HomePhone: TestUtils.formattedPhone(this.newRecordsToCreate[0].record.HomePhone),
+            Email: this.newRecordsToCreate[0].record.Email,
+            WebAccess: this.newRecordsToCreate[0].record.WebAccess,
+            LockAccount: this.newRecordsToCreate[0].record.LockAccount,
+            WebAdministrator: this.newRecordsToCreate[0].record.WebAdministrator,
+            ChangePasswordAtNextLogin: this.newRecordsToCreate[0].record.ChangePasswordAtNextLogin,
+            ExpirePassword: this.newRecordsToCreate[0].record.ExpirePassword,
+            ExpireDays: this.newRecordsToCreate[0].record.ExpireDays,
+            Inactive: false,
+        }
+
+
+
+
     }
     //---------------------------------------------------------------------------------------
 }
