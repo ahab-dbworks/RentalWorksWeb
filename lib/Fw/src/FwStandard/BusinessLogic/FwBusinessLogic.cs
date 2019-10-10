@@ -211,6 +211,9 @@ namespace FwStandard.BusinessLogic
         [JsonIgnore]
         protected bool UseTransactionToSave { get; set; } = false;
 
+        [JsonIgnore]
+        public bool DeleteRecordsInReverseSequence { get; set; } = false;
+
         //static Mutex CustomFieldMutex = new Mutex(false, "LoadCustomFields");
         static Mutex CustomFieldMutex = new Mutex();
 
@@ -1317,9 +1320,19 @@ namespace FwStandard.BusinessLogic
             await BeforeDeleteAsync(beforeDeleteArgs);
             if (beforeDeleteArgs.PerformDelete)
             {
-                foreach (FwDataReadWriteRecord rec in dataRecords)
+                if (DeleteRecordsInReverseSequence)
                 {
-                    success &= await rec.DeleteAsync();
+                    foreach (FwDataReadWriteRecord rec in dataRecords.Reverse<FwDataReadWriteRecord>())
+                    {
+                        success &= await rec.DeleteAsync();
+                    }
+                }
+                else
+                {
+                    foreach (FwDataReadWriteRecord rec in dataRecords)
+                    {
+                        success &= await rec.DeleteAsync();
+                    }
                 }
                 await AfterDeleteAsync(afterDeleteArgs);
 
