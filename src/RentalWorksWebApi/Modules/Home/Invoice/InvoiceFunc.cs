@@ -1,5 +1,6 @@
 ﻿using FwStandard.Models;
 using FwStandard.SqlServer;
+using System;
 using System.Data;
 using System.Threading.Tasks;
 using WebApi.Logic;
@@ -9,11 +10,17 @@ namespace WebApi.Modules.Home.Invoice
     public class CreditInvoiceRequest
     {
         public string InvoiceId { get; set; }
+        public decimal? PartialInput { get; set; }
+        public decimal? FlatAmountInput { get; set; }
+        public bool? AllocateAllItems { get; set; }
+        public decimal? UsageDays { get; set; }
+        public string CreditNote { get; set; }
+        public bool? TaxOnly { get; set; }
+        public DateTime FromDate { get; set; }
+        public DateTime ToDate { get; set; }
         public string CreditMethod { get; set; }
-        public decimal? CreditPercent { get; set; }
-        // and other parameters here...
+        public bool? AdjustCost { get; set; }
     }
-
 
     public class ToggleInvoiceApprovedResponse : TSpStatusResponse
     {
@@ -41,22 +48,28 @@ namespace WebApi.Modules.Home.Invoice
             return response;
         }
         //-------------------------------------------------------------------------------------------------------
-        public static async Task<TSpStatusResponse> CreateCreditInvoice(FwApplicationConfig appConfig, FwUserSession userSession, string invoiceId)
+        public static async Task<TSpStatusResponse> CreateInvoiceCredit(FwApplicationConfig appConfig, FwUserSession userSession, CreditInvoiceRequest request)
         {
             TSpStatusResponse response = new TSpStatusResponse();
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
             {
                 FwSqlCommand qry = new FwSqlCommand(conn, "createinvoicecredit", appConfig.DatabaseSettings.QueryTimeout);
-                qry.AddParameter("@invoiceid", SqlDbType.NVarChar, ParameterDirection.Input, invoiceId);
+                qry.AddParameter("@invoiceid", SqlDbType.NVarChar, ParameterDirection.Input, request.InvoiceId);
                 qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
-                qry.AddParameter("@void", SqlDbType.NVarChar, ParameterDirection.Input, "T");
-                //qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
-                //qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
+                qry.AddParameter("@percent", SqlDbType.NVarChar, ParameterDirection.Input, request.PartialInput);
+                qry.AddParameter("@amount", SqlDbType.NVarChar, ParameterDirection.Input, request.FlatAmountInput);
+                qry.AddParameter("@allocate", SqlDbType.NVarChar, ParameterDirection.Input, request.AllocateAllItems);
+                qry.AddParameter("@usagedays", SqlDbType.NVarChar, ParameterDirection.Input, request.UsageDays);
+                qry.AddParameter("@notes", SqlDbType.NVarChar, ParameterDirection.Input, request.CreditNote);
+                qry.AddParameter("@taxonly", SqlDbType.NVarChar, ParameterDirection.Input, request.TaxOnly);
+                qry.AddParameter("@creditfromdate", SqlDbType.NVarChar, ParameterDirection.Input, request.FromDate);
+                qry.AddParameter("@credittodate", SqlDbType.NVarChar, ParameterDirection.Input, request.ToDate);
+                qry.AddParameter("@creditmethod", SqlDbType.NVarChar, ParameterDirection.Input, request.CreditMethod);
+                qry.AddParameter("@adjustcost", SqlDbType.NVarChar, ParameterDirection.Input, request.AdjustCost);
+
                 await qry.ExecuteNonQueryAsync();
                 response.success = true;
                 response.msg = "";
-                //response.success = (qry.GetParameter("@status").ToInt32() == 0);
-                //response.msg = qry.GetParameter("@msg").ToString();
             }
             return response;
         }

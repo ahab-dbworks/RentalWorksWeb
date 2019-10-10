@@ -333,9 +333,9 @@ namespace WebApi.Modules.Home.Invoice
             return await InvoiceFunc.VoidInvoice(AppConfig, UserSession, InvoiceId);
         }
         //-------------------------------------------------------------------------------------------------------
-        public async Task<TSpStatusResponse> CreditInvoice()
+        public async Task<TSpStatusResponse> CreditInvoice(CreditInvoiceRequest request)
         {
-            return await InvoiceFunc.CreateCreditInvoice(AppConfig, UserSession, InvoiceId);
+            return await InvoiceFunc.CreateInvoiceCredit(AppConfig, UserSession, request);
         }
         //------------------------------------------------------------------------------------ 
         public async Task<ToggleInvoiceApprovedResponse> Approve()

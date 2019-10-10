@@ -143,7 +143,7 @@ namespace WebApi.Modules.Home.Invoice
                 l.SetDependencies(AppConfig, UserSession);
                 if (await l.LoadAsync<InvoiceLogic>(ids))
                 {
-                    TSpStatusResponse response = await l.CreditInvoice();  // pass the "request" object into this method and you will be able to access all of the fields to map their values to the stored procedure
+                    TSpStatusResponse response = await l.CreditInvoice(request);  // pass the "request" object into this method and you will be able to access all of the fields to map their values to the stored procedure
                     if (response.success)
                     {
                         await l.LoadAsync<InvoiceLogic>(ids);

@@ -792,7 +792,7 @@ class Invoice {
             html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="TAX ONLY - Credit the Sales Tax Only" data-invoicefield="TaxOnly" style="float:left;width:100px;"></div>`);
             html.push('  </div>');
             html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-            html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Adjust Cost of Subs" data-invoicefield="AdjustSubs" checked="checked" style="float:left;width:100px;"></div>`);
+            html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Adjust Cost of Subs" data-invoicefield="AdjustCost" checked="checked" style="float:left;width:100px;"></div>`);
             html.push('  </div>');
             html.push('  <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Credit Note">');
             html.push(`    <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">`);
@@ -805,16 +805,6 @@ class Invoice {
             const $yes = FwConfirmation.addButton($confirmation, 'Create', false);
             const $no = FwConfirmation.addButton($confirmation, 'Cancel');
 
-
-            $yes.on('click', () => {
-                const invoiceId = FwFormField.getValueByDataField($form, 'InvoiceId');
-                FwAppData.apiMethod(true, 'POST', `api/v1/invoice/${invoiceId}/creditinvoice`, null, FwServices.defaultTimeout, response => {
-                // capture the "@creditid" output parameter and open the Credit Invoice using that ID so the user can see newly-created Credit Invoice Form.
-                }, ex => FwFunc.showError(ex), $form);
-
-                FwConfirmation.destroyConfirmation($confirmation);
-                FwNotification.renderNotification('INFO', 'Creating Credit Invoice...');
-            });
 
             const full = $confirmation.find('div[data-invoicefield="Full"] input');
             const partial = $confirmation.find('div[data-invoicefield="Partial"] input');
@@ -909,6 +899,37 @@ class Invoice {
                     FwFormField.disable(flatAmountInput);
                     FwFormField.disable(usageDaysInput);
                 }
+            });
+
+            $yes.on('click', () => {
+                const request: any = {};
+
+                if (full.prop('checked', true)) {
+                    request.CreditMethod = 'FULL';
+                }
+                if (partial.prop('checked', true)) {
+                    request.CreditMethod = 'PARTIAL';
+                }
+                if (manual.prop('checked', true)) {
+                    request.CreditMethod = 'MANUAL';
+                }
+                if (flatAmount.prop('checked', true)) {
+                    request.CreditMethod = 'FLAT_AMOUNT';
+                }
+                if (usageDays.prop('checked', true)) {
+                    request.CreditMethod = 'USAGE_DAYS';
+                }
+                if (taxOnly.prop('checked', true)) {
+                    request.CreditMethod = 'TAX_ONLY';
+                }
+                request.InvoiceId = FwFormField.getValueByDataField($form, 'InvoiceId');
+
+                FwAppData.apiMethod(true, 'POST', `api/v1/invoice/creditinvoice`, request, FwServices.defaultTimeout, response => {
+                // capture the "@creditid" output parameter and open the Credit Invoice using that ID so the user can see newly-created Credit Invoice Form.
+                }, ex => FwFunc.showError(ex), $form);
+
+                FwConfirmation.destroyConfirmation($confirmation);
+                FwNotification.renderNotification('INFO', 'Creating Credit Invoice...');
             });
         } else
             FwNotification.renderNotification('WARNING', 'This feature is only available for PROCESSED or CLOSED Invoices.')
