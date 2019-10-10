@@ -268,9 +268,16 @@ class OrderBase {
             }
         });
 
-        $browse.data('ondatabind', request => {
-            request.activeviewfields = this.ActiveViewFields;
-        });
+        const chartFilters = JSON.parse(sessionStorage.getItem('chartfilter'));
+        if (!chartFilters) {
+            $browse.data('ondatabind', request => {
+                request.activeviewfields = this.ActiveViewFields;
+            });
+        } else {
+            $browse.data('ondatabind', request => {
+                request.activeviewfields = '';
+            });
+        }
 
         try {
             FwAppData.apiMethod(true, 'GET', `${this.apiurl}/legend`, null, FwServices.defaultTimeout, function onSuccess(response) {

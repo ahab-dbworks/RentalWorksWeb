@@ -24,7 +24,6 @@ class Receipt {
             if (!chartFilters) {
                 const today = FwFunc.getDate();
                 $browse.find('div[data-browsedatafield="ReceiptDate"]').find('input').val(today);
-                $browse.find('div[data-browsedatafield="ReceiptDate"]').find('input').change();
                 FwBrowse.databind($browse);
                 FwBrowse.screenload($browse);
             }
@@ -40,9 +39,16 @@ class Receipt {
         let $browse: any = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
 
-        $browse.data('ondatabind', request => {
-            request.activeviewfields = this.ActiveViewFields;
-        });
+        const chartFilters = JSON.parse(sessionStorage.getItem('chartfilter'));
+        if (!chartFilters) {
+            $browse.data('ondatabind', request => {
+                request.activeviewfields = this.ActiveViewFields;
+            });
+        } else {
+            $browse.data('ondatabind', request => {
+                request.activeviewfields = '';
+            });
+        }
 
         try {
             FwAppData.apiMethod(true, 'GET', `${this.apiurl}/legend`, null, FwServices.defaultTimeout, function onSuccess(response) {

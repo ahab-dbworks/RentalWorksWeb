@@ -31,9 +31,16 @@ class Invoice {
         let $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
 
-        $browse.data('ondatabind', request => {
-            request.activeviewfields = this.ActiveViewFields;
-        });
+        const chartFilters = JSON.parse(sessionStorage.getItem('chartfilter'));
+        if (!chartFilters) {
+            $browse.data('ondatabind', request => {
+                request.activeviewfields = this.ActiveViewFields;
+            });
+        } else {
+            $browse.data('ondatabind', request => {
+                request.activeviewfields = '';
+            });
+        }
 
         // Changes text color to light gray if void
         FwBrowse.setAfterRenderRowCallback($browse, function ($tr, dt, rowIndex) {
