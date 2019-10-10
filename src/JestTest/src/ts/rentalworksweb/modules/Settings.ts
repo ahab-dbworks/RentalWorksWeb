@@ -2022,7 +2022,7 @@ export class Crew extends SettingsModule {
                     FirstName: TestUtils.randomFirstName(),
                     MiddleInitial: TestUtils.randomAlphanumeric(1),
                     LastName: "GlobalScope.TestToken~1.TestToken",
-                    ActiveDate: TestUtils.randomRecentDate(100),
+                    //ActiveDate: TestUtils.randomRecentDate(100),
                     ContactTitleId: 1,
                     Address1: TestUtils.randomAddress1(),
                     Address2: TestUtils.randomAddress2(),
@@ -2058,7 +2058,7 @@ export class Crew extends SettingsModule {
             FirstName: this.newRecordsToCreate[0].record.FirstName.toUpperCase(),
             MiddleInitial: this.newRecordsToCreate[0].record.MiddleInitial.toUpperCase(),
             LastName: this.newRecordsToCreate[0].record.LastName.toUpperCase(),
-            ActiveDate: this.newRecordsToCreate[0].record.ActiveDate,
+            //ActiveDate: this.newRecordsToCreate[0].record.ActiveDate,
             ContactTitle: "|NOTEMPTY|",
             Address1: this.newRecordsToCreate[0].record.Address1.toUpperCase(),
             Address2: this.newRecordsToCreate[0].record.Address2.toUpperCase(),
@@ -2100,6 +2100,42 @@ export class LaborRate extends SettingsModule {
         this.moduleName = 'LaborRate';
         this.moduleId = '650305EC-0A53-490B-A8FB-E1AF636DA89B';
         this.moduleCaption = 'Labor Rate';
+
+        this.defaultNewRecordToExpect = {
+            LaborType: "",
+            Category: "",
+            ICode: "",
+            Description: "",
+            Unit: "",
+            RateType: "SINGLE",
+            NonDiscountable: false,
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    LaborTypeId: 1,
+                    CategoryId: 1,
+                    Description: "GlobalScope.TestToken~1.TestToken",
+                    UnitId: 1,
+                    NonDiscountable: true,
+                },
+                seekObject: {
+                    Description: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            LaborType: "|NOTEMPTY|",
+            Category: "|NOTEMPTY|",
+            ICode: "|NOTEMPTY|",
+            Description: this.newRecordsToCreate[0].record.Description.toUpperCase(),
+            Unit: "|NOTEMPTY|",
+            NonDiscountable: this.newRecordsToCreate[0].record.NonDiscountable,
+            Inactive: false,
+        }
+
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -2111,6 +2147,41 @@ export class LaborPosition extends SettingsModule {
         this.moduleName = 'LaborPosition';
         this.moduleId = '6D3B3D4F-2DD8-436F-8942-8FF68B73F3B6';
         this.moduleCaption = 'Position';
+
+
+        this.defaultNewRecordToExpect = {
+            LaborType: "",
+            Category: "",
+            ICode: "",
+            Description: "",
+            Unit: "",
+            NonDiscountable: false,
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    LaborTypeId: 1,
+                    CategoryId: 1,
+                    Description: "GlobalScope.TestToken~1.TestToken",
+                    UnitId: 1,
+                    NonDiscountable: true,
+                },
+                seekObject: {
+                    Description: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            LaborType: "|NOTEMPTY|",
+            Category: "|NOTEMPTY|",
+            ICode: "|NOTEMPTY|",
+            Description: this.newRecordsToCreate[0].record.Description.toUpperCase(),
+            Unit: "|NOTEMPTY|",
+            NonDiscountable: this.newRecordsToCreate[0].record.NonDiscountable,
+            Inactive: false,
+        }
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -2122,6 +2193,27 @@ export class LaborType extends SettingsModule {
         this.moduleName = 'LaborType';
         this.moduleId = '6757DFC2-360A-450A-B2E8-0B8232E87D6A';
         this.moduleCaption = 'Labor Type';
+
+
+        this.defaultNewRecordToExpect = {
+            LaborType: "",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    LaborType: "GlobalScope.TestToken~1.TestToken",
+                },
+                seekObject: {
+                    LaborType: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            LaborType: this.newRecordsToCreate[0].record.LaborType.toUpperCase(),
+            Inactive: false,
+        }
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -2133,6 +2225,32 @@ export class LaborCategory extends SettingsModule {
         this.moduleName = 'LaborCategory';
         this.moduleId = '2A5190B9-B0E8-4B93-897B-C91FC4807FA6';
         this.moduleCaption = 'Labor Category';
+
+
+        this.defaultNewRecordToExpect = {
+            LaborType: "",
+            Category: "",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    LaborTypeId: 1,
+                    Category: "GlobalScope.TestToken~1.TestToken",
+                },
+                seekObject: {
+                    Category: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            LaborType: "|NOTEMPTY|",
+            Category: this.newRecordsToCreate[0].record.Category.toUpperCase(),
+            Inactive: false,
+        }
+
+
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -2144,6 +2262,30 @@ export class CrewScheduleStatus extends SettingsModule {
         this.moduleName = 'CrewScheduleStatus';
         this.moduleId = 'E4E11656-0783-4327-A374-161BCFDF0F24';
         this.moduleCaption = 'Crew Schedule Status';
+
+        this.defaultNewRecordToExpect = {
+            ScheduleStatus: "",
+            StatusAction: "QUIKHOLD",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    ScheduleStatus: "GlobalScope.TestToken~1.MediumTestToken",
+                    StatusAction: "HOLD",
+                },
+                seekObject: {
+                    ScheduleStatus: "GlobalScope.TestToken~1.MediumTestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            ScheduleStatus: this.newRecordsToCreate[0].record.ScheduleStatus.toUpperCase(),
+            StatusAction: this.newRecordsToCreate[0].record.StatusAction.toUpperCase(),
+            Inactive: false,
+        }
+
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -2155,6 +2297,28 @@ export class CrewStatus extends SettingsModule {
         this.moduleName = 'CrewStatus';
         this.moduleId = '73A6D9E3-E3BE-4B7A-BB3B-0AFE571C944E';
         this.moduleCaption = 'Crew Status';
+
+
+        this.defaultNewRecordToExpect = {
+            CrewStatus: "",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    CrewStatus: "GlobalScope.TestToken~1.MediumTestToken",
+                },
+                seekObject: {
+                    CrewStatus: "GlobalScope.TestToken~1.MediumTestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            CrewStatus: this.newRecordsToCreate[0].record.CrewStatus.toUpperCase(),
+            Inactive: false,
+        }
+
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -2166,6 +2330,42 @@ export class MiscRate extends SettingsModule {
         this.moduleName = 'MiscRate';
         this.moduleId = '15B5AA83-4C3A-4136-B74B-574BDC0141B2';
         this.moduleCaption = 'Misc Rate';
+
+        this.defaultNewRecordToExpect = {
+            MiscType: "",
+            Category: "",
+            ICode: "",
+            Description: "",
+            Unit: "",
+            RateType: "SINGLE",
+            NonDiscountable: false,
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    MiscTypeId: 1,
+                    CategoryId: 1,
+                    Description: "GlobalScope.TestToken~1.TestToken",
+                    UnitId: 1,
+                    NonDiscountable: true,
+                },
+                seekObject: {
+                    Description: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            MiscType: "|NOTEMPTY|",
+            Category: "|NOTEMPTY|",
+            ICode: "|NOTEMPTY|",
+            Description: this.newRecordsToCreate[0].record.Description.toUpperCase(),
+            Unit: "|NOTEMPTY|",
+            NonDiscountable: this.newRecordsToCreate[0].record.NonDiscountable,
+            Inactive: false,
+        }
+
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -2177,6 +2377,28 @@ export class MiscType extends SettingsModule {
         this.moduleName = 'MiscType';
         this.moduleId = 'EAFEE5C7-84BB-419E-905A-3AE86E18DFAB';
         this.moduleCaption = 'Misc Type';
+
+        this.defaultNewRecordToExpect = {
+            MiscType: "",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    MiscType: "GlobalScope.TestToken~1.TestToken",
+                },
+                seekObject: {
+                    MiscType: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            MiscType: this.newRecordsToCreate[0].record.MiscType.toUpperCase(),
+            Inactive: false,
+        }
+
+
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -2188,6 +2410,31 @@ export class MiscCategory extends SettingsModule {
         this.moduleName = 'MiscCategory';
         this.moduleId = 'D5318A2F-ECB8-498A-9D9A-0846F4B9E4DF';
         this.moduleCaption = 'Misc Category';
+
+        this.defaultNewRecordToExpect = {
+            MiscType: "",
+            Category: "",
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    MiscTypeId: 1,
+                    Category: "GlobalScope.TestToken~1.TestToken",
+                },
+                seekObject: {
+                    Category: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            MiscType: "|NOTEMPTY|",
+            Category: this.newRecordsToCreate[0].record.Category.toUpperCase(),
+            Inactive: false,
+        }
+
+
+
     }
     //---------------------------------------------------------------------------------------
 }

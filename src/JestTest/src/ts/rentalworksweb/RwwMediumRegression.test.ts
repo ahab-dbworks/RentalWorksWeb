@@ -204,11 +204,13 @@ export class MediumRegressionTest extends BaseTest {
     }
     //---------------------------------------------------------------------------------------
     async RelogAsCopyOfUser() {
+
         let userModule: User = new User();
         this.LoadMyUserGlobal(userModule);
         this.CopyMyUserRegisterGlobal(userModule);
         this.DoLogoff();
         this.DoLogin();  // uses new login account
+
     }
     //---------------------------------------------------------------------------------------
     async PerformTests() {
@@ -318,18 +320,16 @@ export class MediumRegressionTest extends BaseTest {
         this.MediumRegressionOnModule(new Unit());
         this.MediumRegressionOnModule(new UnretiredReason());
         this.MediumRegressionOnModule(new WarehouseCatalog());
-        //this.MediumRegressionOnModule(new Crew());  // module is broken. Cannot save new records because of usersid and missing required fields on the user table
-/*
-    */
-        //this.MediumRegressionOnModule(new LaborRate());
-        //this.MediumRegressionOnModule(new LaborPosition());
-        //this.MediumRegressionOnModule(new LaborType());
-        //this.MediumRegressionOnModule(new LaborCategory());
-        //this.MediumRegressionOnModule(new CrewScheduleStatus());
-        //this.MediumRegressionOnModule(new CrewStatus());
-        //this.MediumRegressionOnModule(new MiscRate());
-        //this.MediumRegressionOnModule(new MiscType());
-        //this.MediumRegressionOnModule(new MiscCategory());
+        this.MediumRegressionOnModule(new Crew());
+        this.MediumRegressionOnModule(new LaborRate());
+        this.MediumRegressionOnModule(new LaborPosition());
+        this.MediumRegressionOnModule(new LaborType());
+        this.MediumRegressionOnModule(new LaborCategory());
+        this.MediumRegressionOnModule(new CrewScheduleStatus());
+        this.MediumRegressionOnModule(new CrewStatus());
+        this.MediumRegressionOnModule(new MiscRate());
+        this.MediumRegressionOnModule(new MiscType());
+        this.MediumRegressionOnModule(new MiscCategory());
         //this.MediumRegressionOnModule(new OfficeLocation());
         //this.MediumRegressionOnModule(new OrderType());
         //this.MediumRegressionOnModule(new DiscountReason());
