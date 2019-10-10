@@ -3,6 +3,7 @@ using FwStandard.BusinessLogic;
 using Newtonsoft.Json;
 using WebApi.Logic;
 using WebApi.Modules.Home.DealOrder;
+using WebLibrary;
 
 namespace WebApi.Modules.Settings.Template
 {
@@ -16,7 +17,11 @@ namespace WebApi.Modules.Settings.Template
         {
             dataRecords.Add(template);
             dataLoader = templateLoader;
-            BeforeSave += OnBeforeSave;
+            Type = RwConstants.ORDER_TYPE_TEMPLATE;
+
+            BeforeValidate += OnBeforeValidateTemplate;
+            BeforeSave += OnBeforeSaveTemplate;
+
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id:"NlbMiAuYAHlv4", IsPrimaryKey:true)]
@@ -30,6 +35,9 @@ namespace WebApi.Modules.Settings.Template
 
         [FwLogicProperty(Id:"8MvC3YjXBm1VG", IsReadOnly:true)]
         public string Department { get; set; }
+
+        [FwLogicProperty(Id: "x1LAc7QekCIOK")]
+        public string OfficeLocationId { get { return template.OfficeLocationId; } set { template.OfficeLocationId = value; } }
 
         [FwLogicProperty(Id:"LNLBhYWa4Qr5")]
         public string WarehouseId { get { return template.WarehouseId; } set { template.WarehouseId = value; } }
@@ -69,9 +77,22 @@ namespace WebApi.Modules.Settings.Template
         public string DateStamp { get { return template.DateStamp; } set { template.DateStamp = value; } }
 
         //------------------------------------------------------------------------------------ 
-        public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
+        private void OnBeforeValidateTemplate(object sender, BeforeValidateEventArgs e)
         {
-            Type = "M";
+            if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
+            {
+                //fields are required for a order - tempoarary
+                OfficeLocationId = "X";
+            }
+        }
+        //------------------------------------------------------------------------------------ 
+        public void OnBeforeSaveTemplate(object sender, BeforeSaveEventArgs e)
+        {
+            if ((e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert) && (OfficeLocationId.Equals("X")))
+            {
+                //fields are required for a order - tempoarary
+                OfficeLocationId = "";
+            }
         }
         //------------------------------------------------------------------------------------
     }

@@ -53,6 +53,7 @@
         public const string ORDER_TYPE_TRANSFER = "T";
         public const string ORDER_TYPE_CONTAINER = "N";
         public const string ORDER_TYPE_REPAIR = "R";
+        public const string ORDER_TYPE_TEMPLATE = "M";
 
         public const string ORDER_TYPE_DESCRIPTION_QUOTE = "QUOTE";
         public const string ORDER_TYPE_DESCRIPTION_ORDER = "ORDER";
