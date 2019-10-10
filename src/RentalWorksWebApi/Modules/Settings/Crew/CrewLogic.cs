@@ -2,9 +2,11 @@ using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
 using FwStandard.SqlServer;
 using Newtonsoft.Json;
+using System;
 using WebApi.Logic;
 using WebApi.Modules.Administrator.User;
 using WebApi.Modules.Home.Contact;
+using WebLibrary;
 using static FwStandard.Data.FwDataReadWriteRecord;
 
 namespace WebApi.Modules.Settings.Crew
@@ -13,67 +15,77 @@ namespace WebApi.Modules.Settings.Crew
     public class CrewLogic : AppBusinessLogic //ContactLogic
     {
         //------------------------------------------------------------------------------------ 
-        ContactRecord crew = new ContactRecord();
+        ContactRecord contact = new ContactRecord();
         WebUserRecord webUser = new WebUserRecord();
+        UserRecord user = new UserRecord();
+        CrewRecord crew = new CrewRecord();
+
         CrewLoader crewLoader = new CrewLoader();
+        private string newUserId = string.Empty;
 
         public CrewLogic()
         {
-            dataRecords.Add(crew);
+            dataRecords.Add(contact);
+            dataRecords.Add(user);
             dataRecords.Add(webUser);
+            dataRecords.Add(crew);
             dataLoader = crewLoader;
+            BeforeValidate += BeforeValidateCrew;
             BeforeSave += OnBeforeSaveCrewLogic;
-            crew.AfterSave += Crew_AfterSave;
+            contact.AfterSave += Contact_AfterSave;
+            user.AfterSave += User_AfterSave;
+            user.AssignPrimaryKeys += User_AssignNewId;
+            crew.AssignPrimaryKeys += Crew_AssignNewId;
             webUser.AfterSave += WebUser_AfterSave;
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id:"qd8DYZeJmeq6", IsPrimaryKey:true)]
-        public string CrewId { get { return crew.ContactId; } set { crew.ContactId = value; } }
+        public string CrewId { get { return contact.ContactId; } set { contact.ContactId = value; webUser.ContactId = value; crew.CrewId = value; } }
 
         [FwLogicProperty(Id:"N7mXaf2k5JRi", IsReadOnly:true)]
-        public string UserId { get; set; }
+        public string UserId { get { return webUser.UserId; } set { webUser.UserId = value; user.UserId = value; } }
 
         [FwLogicProperty(Id:"OuCDvIXIi8Kt", IsReadOnly:true)]
         public bool? IsUser { get; set; }
 
         [FwLogicProperty(Id:"NmzepeZnGuP1")]
-        public string Salutation { get { return crew.Salutation; } set { crew.Salutation = value; } }
+        public string Salutation { get { return contact.Salutation; } set { contact.Salutation = value; } }
 
         [FwLogicProperty(Id:"nQvOChIHQIBX")]
-        public string NameFirstMiddleLast { get { return crew.NameFirstMiddleLast; } set { crew.NameFirstMiddleLast = value; } }
+        public string NameFirstMiddleLast { get { return contact.NameFirstMiddleLast; } set { contact.NameFirstMiddleLast = value; } }
 
         [FwLogicProperty(Id:"n15EIEZ2lpgh", IsRecordTitle:true)]
-        public string Person { get { return crew.Person; } set { crew.Person = value; } }
+        public string Person { get { return contact.Person; } set { contact.Person = value; } }
 
         [FwLogicProperty(Id:"ZBeKrFgUa6FJ")]
-        public string LastName { get { return crew.LastName; } set { crew.LastName = value; } }
+        public string LastName { get { return contact.LastName; } set { contact.LastName = value; } }
 
         [FwLogicProperty(Id:"QtO9zNC23AaL")]
-        public string FirstName { get { return crew.FirstName; } set { crew.FirstName = value; } }
+        public string FirstName { get { return contact.FirstName; } set { contact.FirstName = value; } }
 
         [FwLogicProperty(Id:"gaNhuODG90ZW")]
-        public string Address1 { get { return crew.Address1; } set { crew.Address1 = value; } }
+        public string Address1 { get { return contact.Address1; } set { contact.Address1 = value; } }
 
         [FwLogicProperty(Id:"7nXnNJLHSJ9D")]
-        public string Address2 { get { return crew.Address2; } set { crew.Address2 = value; } }
+        public string Address2 { get { return contact.Address2; } set { contact.Address2 = value; } }
 
         [FwLogicProperty(Id:"MqbrjKwKFeWh")]
-        public string City { get { return crew.City; } set { crew.City = value; } }
+        public string City { get { return contact.City; } set { contact.City = value; } }
 
         [FwLogicProperty(Id:"aBnSn0iE1vkt")]
-        public string State { get { return crew.State; } set { crew.State = value; } }
+        public string State { get { return contact.State; } set { contact.State = value; } }
 
         [FwLogicProperty(Id:"dYIzocDzvxOF")]
-        public string CountryId { get { return crew.CountryId; } set { crew.CountryId = value; } }
+        public string CountryId { get { return contact.CountryId; } set { contact.CountryId = value; } }
 
         [FwLogicProperty(Id:"yDQLF5TcsEQ5", IsReadOnly:true)]
         public string Country { get; set; }
 
         [FwLogicProperty(Id:"zMfJwSd550yC")]
-        public string ZipCode { get { return crew.ZipCode; } set { crew.ZipCode = value; } }
+        public string ZipCode { get { return contact.ZipCode; } set { contact.ZipCode = value; } }
 
         [FwLogicProperty(Id:"6ZjkVHLt9DS4")]
-        public string MiddleInitial { get { return crew.MiddleInitial; } set { crew.MiddleInitial = value; } }
+        public string MiddleInitial { get { return contact.MiddleInitial; } set { contact.MiddleInitial = value; } }
 
         [FwLogicProperty(Id:"5lfkp8DmNkCE", IsReadOnly:true)]
         public string Location { get; set; }
@@ -82,59 +94,59 @@ namespace WebApi.Modules.Settings.Crew
         public string Position { get; set; }
 
         [FwLogicProperty(Id:"rLObVSC2JE2g")]
-        public string OfficePhone { get { return crew.OfficePhone; } set { crew.OfficePhone = value; } }
+        public string OfficePhone { get { return contact.OfficePhone; } set { contact.OfficePhone = value; } }
 
         [FwLogicProperty(Id:"KSOvG8SGSA3O")]
-        public string OfficeExtension { get { return crew.OfficeExtension; } set { crew.OfficeExtension = value; } }
+        public string OfficeExtension { get { return contact.OfficeExtension; } set { contact.OfficeExtension = value; } }
 
         [FwLogicProperty(Id:"8vJqYenSZgrh")]
-        public string DirectPhone { get { return crew.DirectPhone; } set { crew.DirectPhone = value; } }
+        public string DirectPhone { get { return contact.DirectPhone; } set { contact.DirectPhone = value; } }
 
         [FwLogicProperty(Id:"ZwlxyZPAeQu0")]
-        public string DirectExtension { get { return crew.DirectExtension; } set { crew.DirectExtension = value; } }
+        public string DirectExtension { get { return contact.DirectExtension; } set { contact.DirectExtension = value; } }
 
         [FwLogicProperty(Id:"mnsxA75M2BWJ")]
-        public string Fax { get { return crew.Fax; } set { crew.Fax = value; } }
+        public string Fax { get { return contact.Fax; } set { contact.Fax = value; } }
 
         [FwLogicProperty(Id:"GXmazhvMuvjE")]
-        public string FaxExtension { get { return crew.FaxExtension; } set { crew.FaxExtension = value; } }
+        public string FaxExtension { get { return contact.FaxExtension; } set { contact.FaxExtension = value; } }
 
         [FwLogicProperty(Id:"sHwIcFN0Izzp")]
-        public string Pager { get { return crew.Pager; } set { crew.Pager = value; } }
+        public string Pager { get { return contact.Pager; } set { contact.Pager = value; } }
 
         [FwLogicProperty(Id:"hxd92OgzfsSI")]
-        public string PagerPin { get { return crew.PagerPin; } set { crew.PagerPin = value; } }
+        public string PagerPin { get { return contact.PagerPin; } set { contact.PagerPin = value; } }
 
         [FwLogicProperty(Id:"xgnOUppfOOzb")]
-        public string MobilePhone { get { return crew.MobilePhone; } set { crew.MobilePhone = value; } }
+        public string MobilePhone { get { return contact.MobilePhone; } set { contact.MobilePhone = value; } }
 
         [FwLogicProperty(Id:"MgwpxC9fOCUP")]
-        public string HomePhone { get { return crew.HomePhone; } set { crew.HomePhone = value; } }
+        public string HomePhone { get { return contact.HomePhone; } set { contact.HomePhone = value; } }
 
         [FwLogicProperty(Id:"CHmpm9lMj2LD")]
-        public string Email { get { return crew.Email; } set { crew.Email = value; } }
+        public string Email { get { return contact.Email; } set { contact.Email = value; } }
 
         [FwLogicProperty(Id:"5Nfjm2HnnsKk")]
-        public string ContactTitleId { get { return crew.ContactTitleId; } set { crew.ContactTitleId = value; } }
+        public string ContactTitleId { get { return contact.ContactTitleId; } set { contact.ContactTitleId = value; } }
 
         [FwLogicProperty(Id:"GXHOcxkWT2nG", IsReadOnly:true)]
         public string ContactTitle { get; set; }
 
         [FwLogicProperty(Id:"687xxXRijBvL")]
-        public string ActiveDate { get { return crew.ActiveDate; } set { crew.ActiveDate = value; } }
+        public string ActiveDate { get { return contact.ActiveDate; } set { contact.ActiveDate = value; } }
 
         [FwLogicProperty(Id:"VrwqC5ECLaMh")]
-        public string InactiveDate { get { return crew.InactiveDate; } set { crew.InactiveDate = value; } }
+        public string InactiveDate { get { return contact.InactiveDate; } set { contact.InactiveDate = value; } }
 
         [FwLogicProperty(Id:"acuD8SCRcN2c", IsReadOnly:true)]
         public bool? ContractEmployee { get; set; }
 
         [JsonIgnore]
         [FwLogicProperty(Id:"CMwVGdDhcw3P")]
-        public string ContactRecordType { get { return crew.ContactRecordType; } set { crew.ContactRecordType = value; } }
+        public string ContactRecordType { get { return contact.ContactRecordType; } set { contact.ContactRecordType = value; } }
 
         [FwLogicProperty(Id:"iiUjR4lCfKQr")]
-        public bool? Inactive { get { return crew.Inactive; } set { crew.Inactive = value; } }
+        public bool? Inactive { get { return contact.Inactive; } set { contact.Inactive = value; } }
 
 
 
@@ -171,22 +183,58 @@ namespace WebApi.Modules.Settings.Crew
 
 
         [FwLogicProperty(Id:"WE16jfKSepIU")]
-        public string DateStamp { get { return crew.DateStamp; } set { crew.DateStamp = value; } }
+        public string DateStamp { get { return contact.DateStamp; } set { contact.DateStamp = value; } }
 
+        //------------------------------------------------------------------------------------ 
+        private void BeforeValidateCrew(object sender, BeforeValidateEventArgs e)
+        {
+            if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
+            {
+                //fields are required for a user - tempoarary
+                user.FirstName = "X";
+                user.LastName = "X";
+                user.LoginName = "X";
+                user.OfficeLocationId = "X";
+                user.WarehouseId = "X";
+                user.GroupId = "X";
+                user.DefaultDepartmentType = RwConstants.DEPARTMENT_TYPE_RENTAL;
+                user.RentalDepartmentId = "X";
+            }
+        }
         //------------------------------------------------------------------------------------ 
         public void OnBeforeSaveCrewLogic(object sender, BeforeSaveEventArgs e)
         {
             //base.BeforeSave(saveMode);
             ContactRecordType = "CREW";
+
+            if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
+            {
+                newUserId = AppFunc.GetNextIdAsync(AppConfig, e.SqlConnection).Result;
+                //fields are required for a user
+                user.FirstName = string.Empty;
+                user.LastName = newUserId;
+                user.LoginName = newUserId; 
+                user.OfficeLocationId = string.Empty;
+                user.WarehouseId = string.Empty;
+                user.PrimaryOfficeLocationId = string.Empty;
+                user.PrimaryWarehouseId = string.Empty;
+                user.GroupId = string.Empty;
+                user.DefaultDepartmentType = string.Empty;
+                user.RentalDepartmentId = string.Empty;
+            }
+
         }
         //------------------------------------------------------------------------------------
-
-        private void Crew_AfterSave(object sender, AfterSaveDataRecordEventArgs e)
+        private void Contact_AfterSave(object sender, AfterSaveDataRecordEventArgs e)
         {
-            if ((e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate) && (string.IsNullOrEmpty(webUser.WebUserId)))
+            if (e.SaveMode.Equals(TDataRecordSaveMode.smInsert))
+            {
+                webUser.ContactId = contact.ContactId;
+            }
+            else if ((e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate) && (string.IsNullOrEmpty(webUser.WebUserId)))
             {
                 CrewLogic crew2 = new CrewLogic();
-                crew2.AppConfig = this.crew.AppConfig;
+                crew2.AppConfig = this.contact.AppConfig;
                 object[] pk = GetPrimaryKeys();
                 bool b = crew2.LoadAsync<CrewLogic>(pk).Result;
                 using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
@@ -197,9 +245,26 @@ namespace WebApi.Modules.Settings.Crew
             }
         }
         //------------------------------------------------------------------------------------
+        public void User_AssignNewId(object sender, EventArgs e)
+        {
+            ((UserRecord)sender).UserId = newUserId;
+        }
+        //------------------------------------------------------------------------------------ 
+        public void Crew_AssignNewId(object sender, EventArgs e)
+        {
+            ((CrewRecord)sender).CrewId = contact.ContactId;
+        }
+        //------------------------------------------------------------------------------------ 
+        private void User_AfterSave(object sender, AfterSaveDataRecordEventArgs e)
+        {
+            if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
+            {
+                this.webUser.UserId = user.UserId;
+            }
+        }
+        //------------------------------------------------------------------------------------
         private void WebUser_AfterSave(object sender, AfterSaveDataRecordEventArgs e)
         {
-
             if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
             {
                 this.WebUserId = webUser.WebUserId;
