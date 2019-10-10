@@ -87,6 +87,14 @@ class RwLaborPosition {
         FwModule.saveForm(this.Module, $form, parameters);
     }
 
+    beforeValidate = function ($browse, $grid, request) {
+        var LaborTypeValue = jQuery($grid.find('[data-validationname="LaborTypeValidation"] input')).val();
+
+        request.uniqueids = {
+            LaborTypeId: LaborTypeValue
+        };
+    }
+
     renderGrids($form: any) {
         const $rateLocationTaxGrid = $form.find('div[data-grid="RateLocationTaxGrid"]');
         const $rateLocationTaxGridControl = FwBrowse.loadGridFromTemplate('RateLocationTaxGrid');
