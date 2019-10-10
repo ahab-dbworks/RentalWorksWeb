@@ -18,6 +18,7 @@ namespace WebApi.Modules.Settings.VehicleType
         {
             dataRecords.Add(inventoryCategory);
             dataRecords.Add(masterRecord);
+            DeleteRecordsInReverseSequence = true;
             masterRecord.AssignPrimaryKeys += MasterAssignPrimaryKeys;
             BeforeSave += OnBeforeSave;
         }
