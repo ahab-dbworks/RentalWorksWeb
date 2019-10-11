@@ -1231,7 +1231,7 @@ export class FiscalYear extends SettingsModule {
         this.newRecordsToCreate = [
             {
                 record: {
-                    Year: TestUtils.randomIntegerBetween(2050, 2099).toString(),
+                    Year: TestUtils.randomIntegerBetween(2051, 2080).toString(),
                 }
             }
         ];
@@ -3662,15 +3662,12 @@ export class Template extends SettingsModule {
 
         this.defaultNewRecordToExpect = {
             Description: "",
-            Warehouse: "",
-            RateType: "",
+            Warehouse: "GlobalScope.User~ME.Warehouse",
         }
         this.newRecordsToCreate = [
             {
                 record: {
                     Description: "GlobalScope.TestToken~1.TestToken",
-                    Warehouse: "GlobalScope.User~ME.Warehouse",
-                    RateType: 1,
                 },
                 seekObject: {
                     Description: "GlobalScope.TestToken~1.TestToken",
@@ -3679,7 +3676,7 @@ export class Template extends SettingsModule {
         ];
         this.newRecordsToCreate[0].recordToExpect = {
             Description: this.newRecordsToCreate[0].record.Description.toUpperCase(),
-            Warehouse: this.newRecordsToCreate[0].record.Warehouse.toUpperCase(),
+            Warehouse: "GlobalScope.User~ME.Warehouse",
             RateType: "|NOTEMPTY|",
         }
     }
@@ -4053,7 +4050,7 @@ export class VendorCatalog extends SettingsModule {
         ];
         this.newRecordsToCreate[0].recordToExpect = {
             VendorCatalog: this.newRecordsToCreate[0].record.VendorCatalog.toUpperCase(),
-            CatalogType: this.newRecordsToCreate[0].record.Type.toUpperCase(),
+            CatalogType: this.newRecordsToCreate[0].record.CatalogType.toUpperCase(),
             InventoryType: "|NOTEMPTY|",
             Inactive: false,
         }

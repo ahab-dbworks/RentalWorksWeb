@@ -1,4 +1,5 @@
 ﻿import { AdminModule } from "../../shared/AdminModule";
+import { TestUtils } from "../../shared/TestUtils";
 
 //---------------------------------------------------------------------------------------
 export class Alert extends AdminModule {
@@ -66,6 +67,25 @@ export class Group extends AdminModule {
         this.moduleName = 'Group';
         this.moduleId = '9BE101B6-B406-4253-B2C6-D0571C7E5916';
         this.moduleCaption = 'Group';
+
+        this.defaultNewRecordToExpect = {
+            Name: "",
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    Name: "GlobalScope.TestToken~1.TestToken",
+                },
+                seekObject: {
+                    Name: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            Name: this.newRecordsToCreate[0].record.Name.toUpperCase(),
+        }
+
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -91,6 +111,48 @@ export class User extends AdminModule {
         this.moduleName = 'User';
         this.moduleId = '79E93B21-8638-483C-B377-3F4D561F1243';
         this.moduleCaption = 'User';
+
+        this.defaultNewRecordToExpect = {
+            FirstName: "",
+            LastName: "",
+            GroupName: "",
+            Email: "",
+            OfficeLocation: "",
+            Warehouse: "",
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    FirstName: TestUtils.randomFirstName(),
+                    LastName: TestUtils.randomLastName(),
+                    LoginName: "GlobalScope.TestToken~1.TestToken",
+                    Password: TestUtils.randomAlphanumeric(20),
+                    Email: TestUtils.randomEmail(),
+                    GroupId: 1,
+                    OfficeLocation: "GlobalScope.User~ME.OfficeLocation",
+                    Warehouse: "GlobalScope.User~ME.Warehouse",
+                    DefaultDepartmentType: "GlobalScope.User~ME.DefaultDepartmentType",
+                    RentalDepartment: "GlobalScope.User~ME.RentalDepartment",
+                    SalesDepartment: "GlobalScope.User~ME.SalesDepartment",
+                    MiscDepartment: "GlobalScope.User~ME.MiscDepartment",
+                    LaborDepartment: "GlobalScope.User~ME.LaborDepartment",
+                },
+                seekObject: {
+                    LoginName: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            FirstName: this.newRecordsToCreate[0].record.FirstName.toUpperCase(),
+            LastName: this.newRecordsToCreate[0].record.LastName.toUpperCase(),
+            LoginName: this.newRecordsToCreate[0].record.LoginName.toUpperCase(),
+            GroupName: "|NOTEMPTY|",
+            Email: this.newRecordsToCreate[0].record.Email,
+            OfficeLocation: this.newRecordsToCreate[0].record.OfficeLocation.toUpperCase(),
+            Warehouse: this.newRecordsToCreate[0].record.Warehouse.toUpperCase(),
+        }
+
+
     }
     //---------------------------------------------------------------------------------------
 }

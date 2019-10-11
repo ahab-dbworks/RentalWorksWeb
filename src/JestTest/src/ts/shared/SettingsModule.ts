@@ -534,7 +534,7 @@ export class SettingsModule extends ModuleBase {
 
         //let newButtonSelector = `.panel-group[id="${this.moduleName}"] i.material-icons.new-row-menu`;
 
-        await page.waitForSelector(this.getNewButtonSelector(), { timeout: 1000 });
+        await page.waitForSelector(this.getNewButtonSelector(), { timeout: 10000 });
         await page.click(this.getNewButtonSelector(), { clickCount: count });
 
         let formSelector = `.fwform`;
@@ -625,6 +625,7 @@ export class SettingsModule extends ModuleBase {
             await page.waitForSelector(deleteButtonSelector);
             await page.click(deleteButtonSelector, { clickCount: 1 });  // click the delete button
 
+            await page.waitFor(() => document.querySelector('.advisory'));
             const popupText = await page.$eval('.advisory', el => el.textContent);
             if (popupText.includes('Delete this record')) {
                 Logging.logInfo(`Delete record, confirmation prompt detected.`);

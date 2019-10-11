@@ -503,6 +503,7 @@ export class Asset extends HomeModule {
         this.moduleName = 'Asset';
         this.moduleId = '1C45299E-F8DB-4AE4-966F-BE142295E3D6';
         this.moduleCaption = 'Asset';
+        this.canNew = false;
         this.canDelete = false;
     }
     //---------------------------------------------------------------------------------------
@@ -556,6 +557,7 @@ export class PickList extends HomeModule {
         this.moduleName = 'PickList';
         this.moduleId = '7B04E5D4-D079-4F3A-9CB0-844F293569ED';
         this.moduleCaption = 'Pick List';
+        this.canNew = false;
     }
     //---------------------------------------------------------------------------------------
 }

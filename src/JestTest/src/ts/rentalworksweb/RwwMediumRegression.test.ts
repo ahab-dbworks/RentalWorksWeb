@@ -1,4 +1,4 @@
-﻿import { BaseTest } from '../shared/BaseTest';
+import { BaseTest } from '../shared/BaseTest';
 import { ModuleBase, OpenRecordResponse } from '../shared/ModuleBase';
 import { Logging } from '../shared/Logging';
 import { TestUtils } from '../shared/TestUtils';
@@ -236,24 +236,24 @@ export class MediumRegressionTest extends BaseTest {
         this.MediumRegressionOnModule(new Vendor());
 
         //Home - Inventory
-        //this.MediumRegressionOnModule(new Asset());
+        this.MediumRegressionOnModule(new Asset());
         this.MediumRegressionOnModule(new PartsInventory());
         this.MediumRegressionOnModule(new PhysicalInventory());
         this.MediumRegressionOnModule(new RentalInventory());
-        //this.MediumRegressionOnModule(new RepairOrder());
+        //this.MediumRegressionOnModule(new RepairOrder());    // this module cannot be tested because we cannot search on a unique field. also the bar code validation allows all statuses, so we can't be sure that a record we pick there will be allowable in repair
         this.MediumRegressionOnModule(new SalesInventory());
 
         //Home - Warehouse
-        //this.MediumRegressionOnModule(new Contract());
-        //this.MediumRegressionOnModule(new PickList());
+        this.MediumRegressionOnModule(new Contract());
+        this.MediumRegressionOnModule(new PickList());
 
         //Home - Container
-        //this.MediumRegressionOnModule(new Container());
+        this.MediumRegressionOnModule(new Container());
 
         //Home - Transfer
-        //this.MediumRegressionOnModule(new Manifest());
+        this.MediumRegressionOnModule(new Manifest());
         this.MediumRegressionOnModule(new TransferOrder());
-        //this.MediumRegressionOnModule(new TransferReceipt());
+        this.MediumRegressionOnModule(new TransferReceipt());
 
         //Home - Billing
         this.MediumRegressionOnModule(new Invoice());
@@ -398,15 +398,15 @@ export class MediumRegressionTest extends BaseTest {
         this.MediumRegressionOnModule(new Widget());
         //this.MediumRegressionOnModule(new WorkWeek());     // module cannot be tested because there is no unique field that can be searched to validate or delete the record
 
-        ////Administrator
-        //this.MediumRegressionOnModule(new Alert());
-        //this.MediumRegressionOnModule(new CustomField());
-        //this.MediumRegressionOnModule(new CustomForm());
-        //this.MediumRegressionOnModule(new DuplicateRule());
-        //this.MediumRegressionOnModule(new EmailHistory());
-        //this.MediumRegressionOnModule(new Group());
-        //this.MediumRegressionOnModule(new Hotfix());
-        //this.MediumRegressionOnModule(new User());
+        //Administrator
+        //this.MediumRegressionOnModule(new Alert());           // cannot test this module because it has a select/combobox which can't be set with our code yet
+        //this.MediumRegressionOnModule(new CustomField());     // cannot test this module because it has a select/combobox which can't be set with our code yet
+        //this.MediumRegressionOnModule(new CustomForm());      // cannot test this module because it has a select/combobox which can't be set with our code yet
+        //this.MediumRegressionOnModule(new DuplicateRule());   // cannot test this module because it has a select/combobox which can't be set with our code yet
+        this.MediumRegressionOnModule(new EmailHistory());
+        this.MediumRegressionOnModule(new Group());
+        this.MediumRegressionOnModule(new Hotfix());
+        this.MediumRegressionOnModule(new User());
 
     }
     //---------------------------------------------------------------------------------------
