@@ -33,6 +33,12 @@
         let $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 
+        if (mode === 'NEW') {
+            const office = JSON.parse(sessionStorage.getItem('location'));
+            const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+            FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
+            FwFormField.setValueByDataField($form, 'RateType', office.ratetype, office.ratetype);
+        }
         return $form;
     }
     //----------------------------------------------------------------------------------------------
