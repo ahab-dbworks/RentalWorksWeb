@@ -63,7 +63,7 @@ namespace WebApi.Modules.Utilities.InvoiceProcessBatch
                 //    exportSettings = await qry.QueryToFwJsonTableAsync(true, 0);
                 //    exportString = exportSettings.Rows[0][0].ToString();
                 //}
-                
+
                 //this is just a simpler way to grab a single field from a single table
                 string exportString = await AppFunc.GetStringDataAsync(appConfig, "dataexportsetting", "settingname", RwConstants.DATA_EXPORT_SETTINGS_TYPE_DEAL_INVOICE_GL_SUMMARY, "exportstring");  //hard-coded for 4Wall
 
@@ -88,10 +88,11 @@ namespace WebApi.Modules.Utilities.InvoiceProcessBatch
                     {
                         qry.AddParameter("@invoiceid", SqlDbType.NVarChar, ParameterDirection.Input, dt.Rows[i][0]);
                         dt2 = await qry.QueryToFwJsonTableAsync(true, 0);
-                        string lineText = exportString;
+                        string lineText = string.Empty;
                         for (int j = 0; j <= dt2.Rows.Count - 1; j++)
                         {
-                            char[] delimiterChars = { ' ', ','};
+                            lineText = exportString;
+                            char[] delimiterChars = { ' ', ',' };
                             string[] fields = lineText.Split(delimiterChars);
                             string fieldName = "";
                             foreach (string s in fields)

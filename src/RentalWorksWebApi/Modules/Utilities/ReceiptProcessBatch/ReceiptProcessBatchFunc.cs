@@ -101,9 +101,10 @@ namespace WebApi.Modules.Utilities.ReceiptProcessBatch
                     {
                         qry.AddParameter("@arid", SqlDbType.NVarChar, ParameterDirection.Input, dt.Rows[i][0]);
                         dt2 = await qry.QueryToFwJsonTableAsync(true, 0);
-                        string lineText = exportString;
+                        string lineText = string.Empty;
                         for (int j = 0; j <= dt2.Rows.Count - 1; j++)
                         {
+                            lineText = exportString;
                             char[] delimiterChars = { ' ', ',' };
                             string[] fields = lineText.Split(delimiterChars);
                             string fieldName = "";
