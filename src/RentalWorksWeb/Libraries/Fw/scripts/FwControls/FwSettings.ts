@@ -961,14 +961,41 @@ class FwSettingsClass {
                     if (jQuery(e.currentTarget).closest('.panel-group').attr('data-showEdit') === 'false') {
                         FwModule.setFormReadOnly($form);
                     }
-                }
 
-                if ($form.find('.fwappimage')[0]) {
-                    FwAppImage.getAppImages($form.find('.fwappimage'))
-                }
+                    if ($form.find('.fwappimage')[0]) {
+                        FwAppImage.getAppImages($form.find('.fwappimage'))
+                    }
 
-                if (typeof window[moduleName + 'Controller']['afterLoad'] === 'function') {
-                    window[moduleName + 'Controller']['afterLoad']($form);
+                    if (typeof window[moduleName + 'Controller']['afterLoad'] === 'function') {
+                        window[moduleName + 'Controller']['afterLoad']($form);
+                    }
+
+                    $form.data('afterLoadCustomFields', () => {
+                        for (let key in recordData) {
+                            let value;
+                            for (let i = 0; i < this.filter.length; i++) {
+                                if (this.filter[i] === key) {
+                                    $form.find(`[data-datafield="${key}"]`).find('.fwformfield-caption').css({ 'background': 'yellow' });
+                                }
+                            };
+                            if (key === '_Custom') {
+                                value = recordData[key][0]['FieldValue'];
+                                key = recordData[key][0]['FieldName'];
+                            } else {
+                                value = recordData[key];
+                            }
+                            const $field = $form.find(`[data-datafield="${key}"]`);
+                            const displayfield = $field.attr('data-displayfield');
+                            if ($field.length > 0) {
+                                if (typeof displayfield !== 'undefined' && typeof recordData[displayfield] !== 'undefined') {
+                                    const text = recordData[displayfield];
+                                    FwFormField.setValue($form, `[data-datafield="${key}"]`, value, text);
+                                } else {
+                                    FwFormField.setValue($form, `[data-datafield="${key}"]`, value);
+                                }
+                            }
+                        }
+                    });
                 }
 
                 if ($rowBody.css('display') === 'none' || $rowBody.css('display') === undefined) {
@@ -978,33 +1005,6 @@ class FwSettingsClass {
                     $rowBody.parent().find('.record-selector').html('keyboard_arrow_down');
                     $rowBody.hide("fast");
                 }
-
-                $form.data('afterLoadCustomFields', () => {
-                    for (let key in recordData) {
-                        let value;
-                        for (let i = 0; i < this.filter.length; i++) {
-                            if (this.filter[i] === key) {
-                                $form.find(`[data-datafield="${key}"]`).find('.fwformfield-caption').css({ 'background': 'yellow' });
-                            }
-                        };
-                        if (key === '_Custom') {
-                            value = recordData[key][0]['FieldValue'];
-                            key = recordData[key][0]['FieldName'];
-                        } else {
-                            value = recordData[key];
-                        }
-                        const $field = $form.find(`[data-datafield="${key}"]`);
-                        const displayfield = $field.attr('data-displayfield');
-                        if ($field.length > 0) {
-                            if (typeof displayfield !== 'undefined' && typeof recordData[displayfield] !== 'undefined') {
-                                const text = recordData[displayfield];
-                                FwFormField.setValue($form, `[data-datafield="${key}"]`, value, text);
-                            } else {
-                                FwFormField.setValue($form, `[data-datafield="${key}"]`, value);
-                            }
-                        }
-                    }
-                });
             })
             .on('click', '.btn[data-type="SaveMenuBarButton"]', e => {
                 const browsedata = jQuery(e.currentTarget).closest('.panel-record').data('browsedata');
