@@ -412,7 +412,7 @@
                                     <div class="formpage">
                                         <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Group">
                                             <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                                                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Name" data-noduplicate="true" data-datafield="Name"></div>
+                                                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Name" data-datafield="Name" data-required="true"></div>
                                             </div>
                                         <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                                             <div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield" data-caption="Notes" data-datafield="Memo"></div>
