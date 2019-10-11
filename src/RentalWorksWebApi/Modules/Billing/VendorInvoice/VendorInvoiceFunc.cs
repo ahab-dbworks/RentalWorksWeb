@@ -1,13 +1,11 @@
 ﻿using FwStandard.Models;
 using FwStandard.SqlServer;
-using System.ComponentModel.DataAnnotations;
 using System;
 using System.Data;
 using System.Threading.Tasks;
 using WebApi.Logic;
-using WebLibrary;
 
-namespace WebApi.Modules.Home.VendorInvoice
+namespace WebApi.Modules.Billing.VendorInvoice
 {
 
     public class UpdateVendorInvoiceItemsRequest

@@ -1,17 +1,16 @@
 using FwStandard.AppManager;
-using FwStandard.SqlServer;
-using System.Collections.Generic;
 using FwStandard.Models;
+using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using WebApi.Controllers;
-using System.Threading.Tasks;
-using WebApi.Logic;
 using System;
-using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using WebApi.Controllers;
+using WebApi.Logic;
 using WebLibrary;
 
-namespace WebApi.Modules.Home.Invoice
+namespace WebApi.Modules.Billing.Invoice
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
@@ -59,7 +58,7 @@ namespace WebApi.Modules.Home.Invoice
         // GET api/v1/invoice 
         [HttpGet]
         [FwControllerMethod(Id: "IRyboGiUWku1")]
-        public async Task<ActionResult<IEnumerable<InvoiceLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        public async Task<ActionResult<IEnumerable<Invoice.InvoiceLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<InvoiceLogic>(pageno, pagesize, sort);
         }

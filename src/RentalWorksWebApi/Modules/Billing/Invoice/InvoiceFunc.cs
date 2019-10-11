@@ -5,7 +5,7 @@ using System.Data;
 using System.Threading.Tasks;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Home.Invoice
+namespace WebApi.Modules.Billing.Invoice
 {
     public class CreditInvoiceRequest
     {

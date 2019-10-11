@@ -2,7 +2,8 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using System.Threading.Tasks;
 using WebApi.Data;
-namespace WebApi.Modules.Home.VendorInvoice
+
+namespace WebApi.Modules.Billing.VendorInvoice
 {
     [FwSqlTable("vendorinvoice")]
     public class VendorInvoiceRecord : AppDataReadWriteRecord

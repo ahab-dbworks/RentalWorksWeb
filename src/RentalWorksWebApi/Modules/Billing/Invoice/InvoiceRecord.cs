@@ -1,4 +1,3 @@
-using FwStandard.BusinessLogic;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using System.Threading.Tasks;
@@ -6,7 +5,7 @@ using WebApi.Data;
 using WebApi.Logic;
 using WebLibrary;
 
-namespace WebApi.Modules.Home.Invoice
+namespace WebApi.Modules.Billing.Invoice
 {
     [FwSqlTable("invoice")]
     public class InvoiceRecord : AppDataReadWriteRecord

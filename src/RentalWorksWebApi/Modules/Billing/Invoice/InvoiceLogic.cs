@@ -8,7 +8,7 @@ using WebApi.Logic;
 using WebApi.Modules.Home.Tax;
 using WebLibrary;
 
-namespace WebApi.Modules.Home.Invoice
+namespace WebApi.Modules.Billing.Invoice
 {
     [FwLogic(Id: "MIXP71vrgfdz")]
     public class InvoiceLogic : AppBusinessLogic

@@ -5,14 +5,14 @@ using FwStandard.SqlServer;
 using System.Collections.Generic;
 using System.Reflection;
 using WebApi.Logic;
+using WebApi.Modules.Billing.Invoice;
 using WebApi.Modules.Home.DepositPayment;
-using WebApi.Modules.Home.Invoice;
 using WebApi.Modules.Home.InvoiceReceipt;
 using WebApi.Modules.Settings.PaymentType;
 using WebApi.Modules.Settings.SystemSettings;
 using WebLibrary;
 
-namespace WebApi.Modules.Home.Receipt
+namespace WebApi.Modules.Billing.Receipt
 {
     public class ReceiptInvoice
     {

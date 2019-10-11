@@ -1,15 +1,15 @@
 using FwStandard.AppManager;
 using FwStandard.Models;
+using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using WebApi.Controllers;
-using System.Threading.Tasks;
-using FwStandard.SqlServer;
-using System.Collections.Generic;
-using WebLibrary;
 using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using WebApi.Controllers;
+using WebLibrary;
 
-namespace WebApi.Modules.Home.Receipt
+namespace WebApi.Modules.Billing.Receipt
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]

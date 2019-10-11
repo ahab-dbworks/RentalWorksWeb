@@ -2,7 +2,8 @@ using FwStandard.BusinessLogic;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-namespace WebApi.Modules.Home.Receipt
+
+namespace WebApi.Modules.Billing.Receipt
 {
     [FwSqlTable("ar")]
     public class ReceiptRecord : AppDataReadWriteRecord

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using WebApi.Data;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Home.Receipt
+namespace WebApi.Modules.Billing.Receipt
 {
     [FwSqlTable("arwebview")]
     public class ReceiptBrowseLoader : AppDataLoadRecord

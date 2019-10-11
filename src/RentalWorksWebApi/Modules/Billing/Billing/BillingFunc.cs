@@ -4,9 +4,8 @@ using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
 using WebApi.Logic;
-using WebLibrary;
 
-namespace WebApi.Modules.Home.Billing
+namespace WebApi.Modules.Billing.Billing
 {
 
     public class CreateInvoicesRequest

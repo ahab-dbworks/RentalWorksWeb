@@ -1,7 +1,6 @@
 using FwStandard.AppManager;
 using FwStandard.Models;
 using FwStandard.SqlServer;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System;
@@ -9,7 +8,7 @@ using System.Threading.Tasks;
 using WebApi.Controllers;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Home.Billing
+namespace WebApi.Modules.Billing.Billing
 {
     public class PopulateBillingRequest
     {

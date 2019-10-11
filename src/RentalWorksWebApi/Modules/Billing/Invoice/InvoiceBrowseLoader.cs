@@ -2,11 +2,11 @@ using FwStandard.Data;
 using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using WebApi.Data;
 using System.Collections.Generic;
-using System;
+using WebApi.Data;
 using WebLibrary;
-namespace WebApi.Modules.Home.Invoice
+
+namespace WebApi.Modules.Billing.Invoice
 {
     [FwSqlTable("invoicewebbrowseview2")]
     public class InvoiceBrowseLoader : AppDataLoadRecord

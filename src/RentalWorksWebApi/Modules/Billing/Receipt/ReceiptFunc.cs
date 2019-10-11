@@ -3,7 +3,7 @@ using FwStandard.SqlServer;
 using System.Data;
 using System.Threading.Tasks;
 
-namespace WebApi.Modules.Home.Receipt
+namespace WebApi.Modules.Billing.Receipt
 {
     public class RemainingDepositAmountsRequest
     {

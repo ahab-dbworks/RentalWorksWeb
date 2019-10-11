@@ -2,14 +2,9 @@ using FwStandard.Data;
 using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Threading.Tasks;
 using WebApi.Data;
-using WebApi.Logic;
 
-namespace WebApi.Modules.Home.Billing
+namespace WebApi.Modules.Billing.Billing
 {
     [FwSqlTable("dbo.funcbilling(@sessionid)")]
     public class BillingLoader : AppDataLoadRecord

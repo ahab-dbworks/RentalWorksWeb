@@ -5,7 +5,7 @@ using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 using WebLibrary;
 
-namespace WebApi.Modules.Home.VendorInvoice
+namespace WebApi.Modules.Billing.VendorInvoice
 {
     [FwSqlTable("vendorinvoicewebbrowseview")]
     public class VendorInvoiceBrowseLoader : AppDataLoadRecord
