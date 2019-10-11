@@ -386,7 +386,8 @@ Form tables
 
 #itemsearch .options {position:relative;}
 #itemsearch .options .optionsmenu {display: none;position: absolute;top: 100%;right: 2px;padding: 0.0625em;-moz-box-shadow: 3px 3px 5px 1px rgba(0,0,0,.3);-webkit-box-shadow: 3px 3px 5px 1px rgba(0,0,0,.3);box-shadow: 3px 3px 5px 1px rgba(0,0,0,.3);white-space: nowrap;min-width: 170px;background-color: white;}
-#itemsearch .options.active .optionsmenu {display:block;}
+#itemsearch .options.active .optionsmenu {display:block;overflow:auto;height:55vh;}
+#itemsearch .options.active [data-datafield="Columns"] {overflow:hidden;max-height:475px; margin-top: 10px;}
 
 #itemsearch #categorycolumns {border-top: 1px solid #BDBDBD;border-right: 1px solid #BDBDBD;overflow-y: auto;position: absolute;top: 0;left: 0;right: 0;bottom: 0;}
 #itemsearch #categorycolumns > div {margin-bottom:6px;}
