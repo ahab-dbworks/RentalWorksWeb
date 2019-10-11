@@ -38,6 +38,9 @@ namespace WebApi.Data.Settings
         [FwSqlDataField(column: "rwnetcaption", modeltype: FwDataTypes.Text, maxlength: 20)]
         public string RentalWorksNetCaption { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "color", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string Color { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------

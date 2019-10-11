@@ -53,6 +53,9 @@ namespace WebApi.Modules.Settings.PaymentType
         [FwLogicProperty(Id:"u6HqO3Z683DF")]
         public string RentalWorksNetCaption { get { return paymentType.RentalWorksNetCaption; } set { paymentType.RentalWorksNetCaption = value; } }
 
+        [FwLogicProperty(Id: "xxxxxxxxxx")]
+        public string Color { get { return paymentType.Color; } set { paymentType.Color = value; } }
+
         [FwLogicProperty(Id:"Pd9IDWpCOmzM")]
         public bool? Inactive { get { return paymentType.Inactive; } set { paymentType.Inactive = value; } }
 
