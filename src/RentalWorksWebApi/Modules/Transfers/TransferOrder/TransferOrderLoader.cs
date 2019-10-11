@@ -1,6 +1,7 @@
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-namespace WebApi.Modules.Home.TransferOrder
+
+namespace WebApi.Modules.Transfers.TransferOrder
 {
     [FwSqlTable("transferwebview")]
     public class TransferOrderLoader : TransferOrderBrowseLoader

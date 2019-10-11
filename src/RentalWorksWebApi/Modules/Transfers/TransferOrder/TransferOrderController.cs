@@ -9,7 +9,7 @@ using FwStandard.AppManager;
 using Microsoft.AspNetCore.Http;
 using System;
 
-namespace WebApi.Modules.Home.TransferOrder
+namespace WebApi.Modules.Transfers.TransferOrder
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]

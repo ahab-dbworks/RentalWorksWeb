@@ -7,7 +7,7 @@ using System.Text;
 using WebApi.Data;
 using WebLibrary;
 
-namespace WebApi.Modules.Home.TransferOrder
+namespace WebApi.Modules.Transfers.TransferOrder
 {
     [FwSqlTable("transferwebbrowseview")]
     public class TransferOrderBrowseLoader : AppDataLoadRecord

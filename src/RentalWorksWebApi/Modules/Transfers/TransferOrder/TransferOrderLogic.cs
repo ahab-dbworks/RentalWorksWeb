@@ -10,7 +10,7 @@ using WebApi.Modules.Home.DealOrderDetail;
 using WebApi.Modules.Home.Delivery;
 using WebLibrary;
 
-namespace WebApi.Modules.Home.TransferOrder
+namespace WebApi.Modules.Transfers.TransferOrder
 {
     [FwLogic(Id: "Fm4cDJJBjdhw")]
     public class TransferOrderLogic : AppBusinessLogic
