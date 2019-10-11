@@ -732,12 +732,13 @@
                 if ($tab.hasClass('tabGridsLoaded') === false) {
                     const submoduleName = $tab.attr('data-submodulename');
                     const controller = $form.attr('data-controller');
-                    let $browseControl = this.openSubModuleBrowse($form, submoduleName);
+                    let $browseControl;
                     const $tabpage = $form.find(`#${tabPageId}`);
                     switch (submoduleName) {
                         case 'Asset':
                         case 'Repair':
                             if (controller == "SalesInventoryController" || controller == "RentalInventoryController") {
+                                $browseControl = this.openSubModuleBrowse($form, submoduleName);
                                 $tabpage.append($browseControl);
                                 FwBrowse.search($browseControl);
                                 //jQuery($browse).find('.ddviewbtn-caption:contains("Show:")').siblings('.ddviewbtn-select').find('.ddviewbtn-dropdown-btn:contains("All")').click();
@@ -747,6 +748,7 @@
                         case 'Invoice':
                         case 'TransferOrder':
                         case 'PurchaseOrder':
+                            $browseControl = this.openSubModuleBrowse($form, submoduleName);
                             $tabpage.append($browseControl);
                             FwBrowse.search($browseControl);
                             break;
