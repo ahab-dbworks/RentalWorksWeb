@@ -1,12 +1,13 @@
 using FwStandard.AppManager;
+using FwStandard.Models;
 using FwStandard.SqlServer;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using System.Collections.Generic;
-using FwStandard.Models; 
-using Microsoft.AspNetCore.Mvc; 
-using Microsoft.Extensions.Options; 
-using WebApi.Controllers; 
 using System.Threading.Tasks;
-namespace WebApi.Modules.Home.PickList
+using WebApi.Controllers;
+
+namespace WebApi.Modules.Warehouse.PickList
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]

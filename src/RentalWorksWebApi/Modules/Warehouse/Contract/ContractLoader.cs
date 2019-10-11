@@ -1,6 +1,7 @@
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-namespace WebApi.Modules.Home.Contract
+
+namespace WebApi.Modules.Warehouse.Contract
 {
     [FwSqlTable("contractwebview")]
     public class ContractLoader : ContractBrowseLoader

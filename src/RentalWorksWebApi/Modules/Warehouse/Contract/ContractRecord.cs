@@ -1,11 +1,10 @@
-using FwStandard.BusinessLogic;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using System.Threading.Tasks;
 using WebApi.Data;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Home.Contract
+namespace WebApi.Modules.Warehouse.Contract
 {
     [FwSqlTable("contract")]
     public class ContractRecord : AppDataReadWriteRecord

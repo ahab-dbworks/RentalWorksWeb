@@ -1,18 +1,16 @@
 using FwStandard.AppManager;
 using FwStandard.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using WebApi.Controllers;
-using System.Threading.Tasks;
-using FwStandard.SqlServer;
 using System;
-using Microsoft.AspNetCore.Http;
-//using WebApi.Home.Exchange;
+using System.Threading.Tasks;
+using WebApi.Controllers;
 using WebApi.Logic;
-using WebApi.Modules.Home.Contract;
+using WebApi.Modules.Warehouse.Contract;
 using WebLibrary;
 
-namespace WebApi.Modules.Home.Exchange
+namespace WebApi.Modules.Warehouse.Exchange
 {
 
     //------------------------------------------------------------------------------------ 

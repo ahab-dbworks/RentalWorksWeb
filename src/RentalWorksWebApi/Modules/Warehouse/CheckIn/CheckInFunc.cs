@@ -3,10 +3,9 @@ using FwStandard.SqlServer;
 using System.Data;
 using System.Threading.Tasks;
 using WebApi.Logic;
-//using WebApi.Modules.Home.CheckIn;
 using WebLibrary;
 
-namespace WebApi.Modules.Home.CheckIn
+namespace WebApi.Modules.Warehouse.CheckIn
 {
 
     public class CheckInContractRequest

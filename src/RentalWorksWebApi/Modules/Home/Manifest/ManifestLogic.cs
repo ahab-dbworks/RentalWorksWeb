@@ -1,6 +1,6 @@
-using WebApi.Logic;
 using FwStandard.AppManager;
-using WebApi.Modules.Home.Contract;
+using WebApi.Logic;
+using WebApi.Modules.Warehouse.Contract;
 
 namespace WebApi.Modules.Home.Manifest
 {

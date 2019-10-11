@@ -4,7 +4,7 @@ using FwStandard.SqlServer;
 using WebApi.Logic;
 using WebApi.Modules.Home.Delivery;
 
-namespace WebApi.Modules.Home.Contract
+namespace WebApi.Modules.Warehouse.Contract
 {
     [FwLogic(Id: "EHxKFjXfUroP")]
     public class ContractLogic : AppBusinessLogic

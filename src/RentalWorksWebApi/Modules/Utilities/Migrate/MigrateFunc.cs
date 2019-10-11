@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Threading.Tasks;
 using WebApi.Logic;
-using WebApi.Modules.Home.Contract;
+using WebApi.Modules.Warehouse.Contract;
 using WebLibrary;
 
 namespace WebApi.Modules.Utilities.Migrate
@@ -183,7 +183,7 @@ namespace WebApi.Modules.Utilities.Migrate
 
                     if (response.success)
                     {
-                        response.Contracts = new List<Home.Contract.ContractLogic>();
+                        response.Contracts = new List<ContractLogic>();
 
                         FwSqlCommand qryContract = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
                         qryContract.Add("select c.contractid             ");

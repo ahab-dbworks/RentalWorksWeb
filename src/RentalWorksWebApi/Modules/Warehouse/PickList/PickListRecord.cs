@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using WebApi.Data;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Home.PickList
+namespace WebApi.Modules.Warehouse.PickList
 {
     [FwSqlTable("picklist")]
     public class PickListRecord : AppDataReadWriteRecord

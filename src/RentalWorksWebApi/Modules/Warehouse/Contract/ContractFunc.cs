@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using WebApi.Logic;
 using WebApi.Modules.Agent.PurchaseOrder;
 
-namespace WebApi.Modules.Home.Contract
+namespace WebApi.Modules.Warehouse.Contract
 {
     public class CancelContractRequest
     {

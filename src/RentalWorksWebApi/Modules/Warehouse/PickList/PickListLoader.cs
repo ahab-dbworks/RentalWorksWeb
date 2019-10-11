@@ -1,10 +1,7 @@
-using FwStandard.Data; 
-using FwStandard.Models; 
-using FwStandard.SqlServer; 
-using FwStandard.SqlServer.Attributes; 
-using WebApi.Data; 
-using System.Collections.Generic;
-namespace WebApi.Modules.Home.PickList
+using FwStandard.SqlServer;
+using FwStandard.SqlServer.Attributes;
+
+namespace WebApi.Modules.Warehouse.PickList
 {
     [FwSqlTable("picklistview")]
     public class PickListLoader : PickListBrowseLoader

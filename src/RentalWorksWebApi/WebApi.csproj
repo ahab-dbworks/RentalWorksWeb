@@ -82,7 +82,6 @@
     <Folder Include="Modules\Containers\" />
     <Folder Include="Modules\SharedControls\" />
     <Folder Include="Modules\Transfers\" />
-    <Folder Include="Modules\Warehouse\" />
     <Folder Include="WebpackReports\src\BillingStatementReport\" />
     <Folder Include="wwwroot\temp\downloads\" />
     <Folder Include="wwwroot\Reports\" />

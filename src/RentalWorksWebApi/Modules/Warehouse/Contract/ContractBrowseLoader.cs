@@ -2,11 +2,11 @@ using FwStandard.Data;
 using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using WebApi.Data;
 using System.Collections.Generic;
+using WebApi.Data;
 using WebLibrary;
 
-namespace WebApi.Modules.Home.Contract
+namespace WebApi.Modules.Warehouse.Contract
 {
     [FwSqlTable("contractwebbrowseview")]
     public class ContractBrowseLoader : AppDataLoadRecord

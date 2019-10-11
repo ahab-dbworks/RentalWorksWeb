@@ -1,15 +1,15 @@
 using FwStandard.AppManager;
-using FwStandard.Models; 
-using Microsoft.AspNetCore.Mvc; 
-using Microsoft.Extensions.Options; 
-using WebApi.Controllers; 
-using System.Threading.Tasks;
+using FwStandard.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using System;
+using System.Threading.Tasks;
+using WebApi.Controllers;
 using WebApi.Logic;
-using WebApi.Modules.Home.Contract;
+using WebApi.Modules.Warehouse.Contract;
 using WebLibrary;
 
-namespace WebApi.Modules.Home.CheckIn
+namespace WebApi.Modules.Warehouse.CheckIn
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
