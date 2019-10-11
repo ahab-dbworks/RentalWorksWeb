@@ -4,7 +4,7 @@ using FwStandard.BusinessLogic;
 using WebLibrary;
 using System.Reflection;
 
-namespace WebApi.Modules.Home.PhysicalInventory
+namespace WebApi.Modules.Inventory.PhysicalInventory
 {
     [FwLogic(Id: "ksaooIMphDnPC")]
     public class PhysicalInventoryLogic : AppBusinessLogic

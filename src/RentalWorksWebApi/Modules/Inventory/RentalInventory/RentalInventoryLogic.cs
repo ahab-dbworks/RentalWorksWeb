@@ -3,13 +3,12 @@ using FwStandard.BusinessLogic;
 using FwStandard.Models;
 using FwStandard.SqlServer;
 using System.Collections.Generic;
-using WebApi.Logic;
 using WebApi.Modules.Home.Container;
 using WebApi.Modules.Home.ContainerItem;
 using WebApi.Modules.Home.Inventory;
 using WebLibrary;
 
-namespace WebApi.Modules.Home.RentalInventory
+namespace WebApi.Modules.Inventory.RentalInventory
 {
     public class RentalInventoryLogic : InventoryLogic
     {

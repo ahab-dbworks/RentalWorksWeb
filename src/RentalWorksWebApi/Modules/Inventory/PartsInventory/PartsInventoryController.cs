@@ -8,7 +8,7 @@ using WebApi.Controllers;
 using System.Threading.Tasks;
 using WebLibrary;
 
-namespace WebApi.Modules.Home.PartsInventory
+namespace WebApi.Modules.Inventory.PartsInventory
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]

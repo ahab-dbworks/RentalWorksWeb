@@ -1,7 +1,7 @@
 using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
 using WebApi.Logic;
-using WebApi.Modules.Home.Repair;
+using WebApi.Modules.Inventory.Repair;
 using WebLibrary;
 
 namespace WebApi.Modules.Home.RepairPart

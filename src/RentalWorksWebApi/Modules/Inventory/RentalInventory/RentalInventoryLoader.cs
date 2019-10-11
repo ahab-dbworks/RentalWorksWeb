@@ -1,14 +1,11 @@
-using FwStandard.Data; 
-using FwStandard.Models; 
-using FwStandard.SqlServer; 
-using FwStandard.SqlServer.Attributes; 
-using WebApi.Data;
-using WebApi.Modules.Home.Master;
+using FwStandard.Data;
+using FwStandard.Models;
+using FwStandard.SqlServer;
+using FwStandard.SqlServer.Attributes;
 using WebApi.Modules.Home.Inventory;
-using System.Collections.Generic;
 using WebLibrary;
 
-namespace WebApi.Modules.Home.RentalInventory
+namespace WebApi.Modules.Inventory.RentalInventory
 {
     [FwSqlTable("inventoryview")]
     public class RentalInventoryLoader : InventoryLoader

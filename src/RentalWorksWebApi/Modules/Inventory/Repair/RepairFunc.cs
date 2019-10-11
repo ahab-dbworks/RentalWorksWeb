@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using WebApi.Logic;
 using WebApi.Modules.Home.RepairPart;
 
-namespace WebApi.Modules.Home.Repair
+namespace WebApi.Modules.Inventory.Repair
 {
     public class ToggleRepairEstimateResponse : TSpStatusResponse
     {

@@ -3,7 +3,8 @@ using FwStandard.SqlServer.Attributes;
 using System.Data;
 using System.Threading.Tasks;
 using WebApi.Data;
-namespace WebApi.Modules.Home.PhysicalInventory
+
+namespace WebApi.Modules.Inventory.PhysicalInventory
 {
     [FwSqlTable("physical")]
     public class PhysicalInventoryRecord : AppDataReadWriteRecord

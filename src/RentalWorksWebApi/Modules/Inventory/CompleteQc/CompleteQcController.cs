@@ -1,13 +1,13 @@
 using FwStandard.AppManager;
 using FwStandard.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using WebApi.Controllers;
-using System.Threading.Tasks;
 using System;
-using Microsoft.AspNetCore.Http;
+using System.Threading.Tasks;
+using WebApi.Controllers;
 
-namespace WebApi.Modules.Home.CompleteQc
+namespace WebApi.Modules.Inventory.CompleteQc
 {
 
     public class CompleteQcItemRequest

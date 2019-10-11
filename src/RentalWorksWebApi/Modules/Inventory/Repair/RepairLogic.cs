@@ -8,7 +8,7 @@ using WebApi.Modules.Home.RepairItem;
 using WebApi.Modules.Home.Tax;
 using WebLibrary;
 
-namespace WebApi.Modules.Home.Repair
+namespace WebApi.Modules.Inventory.Repair
 {
     [FwLogic(Id: "eQEPZrRi01LzW")]
     public class RepairLogic : AppBusinessLogic

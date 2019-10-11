@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using WebApi.Logic;
 using WebLibrary;
 
-namespace WebApi.Modules.Home.PhysicalInventory
+namespace WebApi.Modules.Inventory.PhysicalInventory
 {
     //-------------------------------------------------------------------------------------------------------
     public class PhysicalInventoryUpdateICodesRequest

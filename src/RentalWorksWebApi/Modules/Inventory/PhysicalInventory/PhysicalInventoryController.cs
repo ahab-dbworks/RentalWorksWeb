@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using FwStandard.AppManager;
 using System;
 
-namespace WebApi.Modules.Home.PhysicalInventory
+namespace WebApi.Modules.Inventory.PhysicalInventory
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
