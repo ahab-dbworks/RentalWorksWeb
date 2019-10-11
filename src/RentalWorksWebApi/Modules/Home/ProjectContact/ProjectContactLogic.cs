@@ -1,8 +1,8 @@
 using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
 using WebApi.Logic;
+using WebApi.Modules.Agent.Contact;
 using WebApi.Modules.Home.CompanyContact;
-using WebApi.Modules.Home.Contact;
 using WebApi.Modules.Home.OrderContact;
 
 namespace WebApi.Modules.Home.ProjectContact

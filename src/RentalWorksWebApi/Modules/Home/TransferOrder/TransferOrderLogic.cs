@@ -1,14 +1,14 @@
-using WebApi.Logic;
 using FwStandard.AppManager;
+using FwStandard.BusinessLogic;
+using FwStandard.SqlServer;
+using Newtonsoft.Json;
+using System;
+using WebApi.Logic;
+using WebApi.Modules.Agent.Order;
 using WebApi.Modules.Home.DealOrder;
 using WebApi.Modules.Home.DealOrderDetail;
 using WebApi.Modules.Home.Delivery;
-using FwStandard.BusinessLogic;
 using WebLibrary;
-using System;
-using FwStandard.SqlServer;
-using Newtonsoft.Json;
-using WebApi.Modules.Home.Order;
 
 namespace WebApi.Modules.Home.TransferOrder
 {

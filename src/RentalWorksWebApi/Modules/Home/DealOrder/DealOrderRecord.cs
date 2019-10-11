@@ -5,9 +5,9 @@ using System.Data;
 using System.Threading.Tasks;
 using WebApi.Data;
 using WebApi.Logic;
-using WebApi.Modules.Home.Order;
-using WebApi.Modules.Home.PurchaseOrder;
-using WebApi.Modules.Home.Quote;
+using WebApi.Modules.Agent.Order;
+using WebApi.Modules.Agent.PurchaseOrder;
+using WebApi.Modules.Agent.Quote;
 using WebLibrary;
 
 namespace WebApi.Modules.Home.DealOrder
