@@ -9,6 +9,38 @@ export class Alert extends AdminModule {
         this.moduleName = 'Alert';
         this.moduleId = '6E5F47FB-1F18-443E-B464-9D2351857361';
         this.moduleCaption = 'Alert';
+
+        this.defaultNewRecordToExpect = {
+            ModuleName: "",
+            AlertName: "",
+            ActionNew: false,
+            ActionEdit: false,
+            ActionDelete: false,
+            Inactive: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    ModuleName: 1,  // want to be able to provide an integer value here OR a text string with the desired value
+                    AlertName: "GlobalScope.TestToken~1.TestToken",
+                    ActionNew: true,
+                    ActionEdit: true,
+                    ActionDelete: false,
+                },
+                seekObject: {
+                    AlertName: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            ModuleName: this.newRecordsToCreate[0].record.ModuleName,
+            AlertName: this.newRecordsToCreate[0].record.AlertName,
+            ActionNew: this.newRecordsToCreate[0].record.ActionNew,
+            ActionEdit: this.newRecordsToCreate[0].record.ActionEdit,
+            ActionDelete: this.newRecordsToCreate[0].record.ActionDelete,
+            Inactive: false
+        }
+
     }
     //---------------------------------------------------------------------------------------
 }

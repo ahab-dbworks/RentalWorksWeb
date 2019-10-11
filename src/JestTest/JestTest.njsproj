@@ -67,6 +67,7 @@
     <TypeScriptCompile Include="src\ts\rentalworksweb\modules\Settings.ts" />
     <TypeScriptCompile Include="src\ts\rentalworksweb\RwwLoginLogout.test.ts" />
     <TypeScriptCompile Include="src\ts\rentalworksweb\Rww944.test.ts" />
+    <TypeScriptCompile Include="src\ts\rentalworksweb\Rww1141.test.ts" />
     <TypeScriptCompile Include="src\ts\rentalworksweb\RwwMediumRegression.test.ts" />
     <TypeScriptCompile Include="src\ts\rentalworksweb\RwwShallowRegression.test.ts" />
     <TypeScriptCompile Include="src\ts\rentalworksweb\RwwFullRegression.test.ts" />
