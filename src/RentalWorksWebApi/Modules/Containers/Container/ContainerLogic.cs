@@ -4,7 +4,7 @@ using WebApi.Logic;
 using WebApi.Modules.Home.DealOrder;
 using WebLibrary;
 
-namespace WebApi.Modules.Home.Container
+namespace WebApi.Modules.Containers.Container
 {
     [FwLogic(Id: "qAUJdNPdSkY")]
     public class ContainerLogic : AppBusinessLogic

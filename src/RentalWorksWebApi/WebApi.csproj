@@ -79,7 +79,6 @@
   <ItemGroup>
     <Folder Include="Modules\Administrator\Designer\Services\" />
     <Folder Include="Modules\Billing\" />
-    <Folder Include="Modules\Containers\" />
     <Folder Include="Modules\SharedControls\" />
     <Folder Include="Modules\Transfers\" />
     <Folder Include="WebpackReports\src\BillingStatementReport\" />

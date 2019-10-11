@@ -9,7 +9,7 @@ using FwStandard.AppManager;
 using Microsoft.AspNetCore.Http;
 using System;
 
-namespace WebApi.Modules.Home.Container
+namespace WebApi.Modules.Containers.Container
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
