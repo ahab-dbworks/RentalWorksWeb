@@ -43,7 +43,7 @@ class RwMiscRate {
         $form = FwModule.openForm($form, mode);
 
         if (mode === 'NEW') {
-            $form.find('.ifnew').attr('data-enabled', 'true')
+            FwFormField.enable($form.find('.ifnew'));
         }
 
         $form.find('[data-datafield="OverrideProfitAndLossCategory"] .fwformfield-value').on('change', function () {
