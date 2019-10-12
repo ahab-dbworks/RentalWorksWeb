@@ -36,7 +36,9 @@
         if (mode === 'NEW') {
             const office = JSON.parse(sessionStorage.getItem('location'));
             const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+            const department = JSON.parse(sessionStorage.getItem('department'));
             FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
+            FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid, department.department);
             FwFormField.setValueByDataField($form, 'RateType', office.ratetype, office.ratetype);
         }
         return $form;

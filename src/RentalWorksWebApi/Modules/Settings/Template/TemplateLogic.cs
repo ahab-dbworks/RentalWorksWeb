@@ -45,6 +45,9 @@ namespace WebApi.Modules.Settings.Template
         [FwLogicProperty(Id:"piEJEGPoMeQQo", IsReadOnly:true)]
         public string Warehouse { get; set; }
 
+        [FwLogicProperty(Id: "bJfJnuZYFULHs", IsReadOnly: true)]
+        public string WarehouseCode { get; set; }
+
         [FwLogicProperty(Id:"KXyBqUhWOqFl")]
         public string RateType { get { return template.RateType; } set { template.RateType = value; } }
 
