@@ -1231,7 +1231,7 @@ export class FiscalYear extends SettingsModule {
         this.newRecordsToCreate = [
             {
                 record: {
-                    Year: TestUtils.randomIntegerBetween(2051, 2080).toString(),
+                    Year: TestUtils.randomIntegerBetween(2051, 2078).toString(),
                 }
             }
         ];
