@@ -386,21 +386,21 @@ export class ModuleBase {
                         var popUp;
                         try {
                             popUp = await page.waitForSelector('.advisory', { timeout: 300 });
+
+                            if (popUp !== undefined) {
+                                let errorMessage = await page.$eval('.advisory', el => el.textContent);
+                                clickAllTabsResponse.errorMessage = errorMessage;
+                                errorFound = true;
+
+                                Logging.logError(`Error clicking ${tab} tab: ` + errorMessage);
+
+                                const options = await page.$$('.advisory .fwconfirmation-button');
+                                await options[0].click() // click "OK" option
+                                    .then(() => {
+                                        Logging.logInfo(`Clicked the "OK" button.`);
+                                    })
+                            }
                         } catch (error) { } // no error pop-up
-
-                        if (popUp !== undefined) {
-                            errorFound = true;
-                            let errorMessage = await page.$eval('.advisory', el => el.textContent);
-                            clickAllTabsResponse.errorMessage = errorMessage;
-
-                            Logging.logError(`Error clicking ${tab} tab: ` + errorMessage);
-
-                            const options = await page.$$('.advisory .fwconfirmation-button');
-                            await options[0].click() // click "OK" option
-                                .then(() => {
-                                    Logging.logInfo(`Clicked the "OK" button.`);
-                                })
-                        }
                     }
                 }
             }

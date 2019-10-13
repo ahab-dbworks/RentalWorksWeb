@@ -157,7 +157,7 @@ export class User extends AdminModule {
                 record: {
                     FirstName: TestUtils.randomFirstName(),
                     LastName: TestUtils.randomLastName(),
-                    LoginName: "GlobalScope.TestToken~1.TestToken",
+                    LoginName: "GlobalScope.TestToken~1.TestToken"+"_X",  // must be unique
                     Password: TestUtils.randomAlphanumeric(20),
                     Email: TestUtils.randomEmail(),
                     GroupId: 1,
@@ -170,7 +170,7 @@ export class User extends AdminModule {
                     LaborDepartment: "GlobalScope.User~ME.LaborDepartment",
                 },
                 seekObject: {
-                    LoginName: "GlobalScope.TestToken~1.TestToken",
+                    LoginName: "GlobalScope.TestToken~1.TestToken"+"_X",  // must be unique
                 }
             }
         ];
