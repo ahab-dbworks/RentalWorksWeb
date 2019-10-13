@@ -1,5 +1,6 @@
 ﻿import { HomeModule } from "../../shared/HomeModule";
 import { TestUtils } from "../../shared/TestUtils";
+import { Logging } from '../../shared/Logging';
 
 //---------------------------------------------------------------------------------------
 export class Quote extends HomeModule {
@@ -386,14 +387,17 @@ export class RentalInventory extends HomeModule {
         this.moduleName = 'RentalInventory';
         this.moduleId = 'FCDB4C86-20E7-489B-A8B7-D22EE6F85C06';
         this.moduleCaption = 'Rental Inventory';
-        this.defaultNewRecordToExpect = {
+        
+		this.defaultNewRecordToExpect = {
+			ICode: "",
+			Description: "",
             Unit: "GlobalScope.DefaultSettings~1.DefaultUnit",   // ie. "EA"
         }
 
         this.newRecordsToCreate = [
             {
                 record: {
-                    ICode: TestUtils.randomAlphanumeric(7),
+                    ICode: "GlobalScope.RentalInventory~NEWICODE.newICode",
                     Description: `${TestUtils.randomProductName()} GlobalScope.TestToken~1.TestToken`,
                     InventoryTypeId: 1,
                     CategoryId: 1,
@@ -409,11 +413,8 @@ export class RentalInventory extends HomeModule {
             }
         ];
 
-        // need to implement this icode mask in evaluating the resulting record
-        //ICodeMask: "GlobalScope.InventorySettings~1.ICodeMask",   // ie. "aaaaa-"  or "aaaaa-aa"
-
         this.newRecordsToCreate[0].recordToExpect = {
-            ICode: this.newRecordsToCreate[0].record.ICode.toUpperCase().substr(0, 5) + '-' + this.newRecordsToCreate[0].record.ICode.toUpperCase().substr(5),
+            ICode: "GlobalScope.RentalInventory~NEWICODE.maskedICode",
             Description: this.newRecordsToCreate[0].record.Description.toUpperCase(),
             ManufacturerPartNumber: this.newRecordsToCreate[0].record.ManufacturerPartNumber.toUpperCase(),
             TrackedBy: this.newRecordsToCreate[0].record.TrackedBy.toUpperCase(),

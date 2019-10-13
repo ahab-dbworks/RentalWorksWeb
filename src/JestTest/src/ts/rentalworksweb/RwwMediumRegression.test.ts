@@ -220,6 +220,34 @@ export class MediumRegressionTest extends BaseTest {
         this.OpenSpecificRecord(new DefaultSettings(), null, true);
         this.OpenSpecificRecord(new InventorySettings(), null, true);
 
+        describe('setup new rental i-codes', () => {
+            //---------------------------------------------------------------------------------------
+            let testName: string = 'setup new rental i-codes';
+            test(testName, async () => {
+				
+				let iCodeMask: string = this.globalScopeRef["InventorySettings~1"].ICodeMask;  // ie. "aaaaa-"  or "aaaaa-aa"
+				let newICode: string = TestUtils.randomAlphanumeric((iCodeMask.split("a").length - 1)); // count the a's
+				iCodeMask = iCodeMask.trim();
+				let maskedICode: string = newICode;
+				
+				if ((iCodeMask.includes("-")) && (!iCodeMask.endsWith("-"))) {
+					let hyphenIndex: number = iCodeMask.indexOf("-");
+					let iCodeStart: string = newICode.toUpperCase().substr(0, hyphenIndex-1);
+					let iCodeEnd: string = newICode.toUpperCase().substr(hyphenIndex);
+				    maskedICode = iCodeStart + '-' + iCodeEnd;
+				}
+				
+				
+				let newICodeObject: any = {};
+               newICodeObject.newICode = newICode.toUpperCase();
+               newICodeObject.maskedICode = maskedICode.toUpperCase();
+               this.globalScopeRef["RentalInventory~NEWICODE"] = newICodeObject;
+
+			   expect(1).toBe(1);
+            }, this.testTimeout);
+        });
+
+
         let warehouseToSeek: any = {
             Warehouse: "GlobalScope.User~ME.Warehouse",
         }
@@ -407,7 +435,6 @@ export class MediumRegressionTest extends BaseTest {
         this.MediumRegressionOnModule(new Group());
         this.MediumRegressionOnModule(new Hotfix());
         this.MediumRegressionOnModule(new User());
-
     }
     //---------------------------------------------------------------------------------------
 }
