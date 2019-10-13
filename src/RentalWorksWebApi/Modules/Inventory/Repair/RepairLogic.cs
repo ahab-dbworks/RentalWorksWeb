@@ -130,7 +130,7 @@ namespace WebApi.Modules.Inventory.Repair
         public string ICodeColor { get; set; }
 
         [FwLogicProperty(Id: "pxcaM2UGEmS7s", IsReadOnly: true)]
-        public string ItemDescription { get; set; }
+        public string ItemDescription { get { return repair.ItemDescription; } set { repair.ItemDescription = value; } }
 
         [FwLogicProperty(Id: "cujeKfMv8h88", DisableDirectModify: true)]
         public int? Quantity { get { return repair.Quantity; } set { repair.Quantity = value; } }
