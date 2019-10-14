@@ -742,11 +742,16 @@ export class ModuleBase {
                         record[displayFieldName] = value;
                         break;
                     case 'select':
-                        value = await page.$eval(`div[data-datafield="${dataField}"] select option:checked`, (e: any) => {
-                            return e.value
-                        });
-
-
+                        const expectedType = typeof this.newRecordsToCreate[0].record[dataField];
+                        if (expectedType === 'number') {
+                            value = await page.$eval(`div[data-datafield="${dataField}"] select option:checked`, (e: any) => {
+                                return e.index + 1
+                            });
+                        } else if (expectedType === 'string') {
+                            value = await page.$eval(`div[data-datafield="${dataField}"] select option:checked`, (e: any) => {
+                                return e.value
+                            });
+                        }
                         record[dataField] = value;
                         break;
                     case 'togglebuttons':

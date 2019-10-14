@@ -11,7 +11,7 @@ export class Alert extends AdminModule {
         this.moduleCaption = 'Alert';
 
         this.defaultNewRecordToExpect = {
-            ModuleName: "",
+            ModuleName: 1,
             AlertName: "",
             ActionNew: false,
             ActionEdit: false,
