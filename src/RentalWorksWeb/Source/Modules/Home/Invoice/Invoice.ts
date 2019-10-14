@@ -780,7 +780,7 @@ class Invoice {
             html.push('  </div>');
             html.push('  <span style="margin:18px 0px 0px 0px;">FLAT AMT - Credit a flat amount</span>');
             html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow" style="margin:0px 0px 0px 0px;">');
-            html.push('    <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield input-field" data-caption="" data-enabled="false" data-invoicefield="FlatAmountInput" style="width:45px;float:left;margin:0px 0px 0px 0px;"></div>');
+            html.push('    <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield input-field" data-caption="" data-enabled="false" data-invoicefield="FlatAmountInput" style="width:115px;float:left;margin:0px 0px 0px 0px;"></div>');
             html.push('  </div>');
             html.push(' </div>');
             html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow" style="margin-bottom: 0;">');
@@ -944,10 +944,15 @@ class Invoice {
 
                 FwAppData.apiMethod(true, 'POST', `api/v1/invoice/creditinvoice`, request, FwServices.defaultTimeout, response => {
                     // capture the "@creditid" output parameter and open the Credit Invoice using that ID so the user can see newly-created Credit Invoice Form.
+                    FwNotification.renderNotification('INFO', 'Creating Credit Invoice...');
+                    const uniqueids: any = {};
+                    uniqueids.InvoiceId = response.CreditId;
+                    const InvoiceForm = InvoiceController.loadForm(uniqueids);
+
+                    FwModule.openModuleTab(InvoiceForm, "", true, 'FORM', true);
                 }, ex => FwFunc.showError(ex), $form);
 
                 FwConfirmation.destroyConfirmation($confirmation);
-                FwNotification.renderNotification('INFO', 'Creating Credit Invoice...');
             });
         } else
             FwNotification.renderNotification('WARNING', 'This feature is only available for PROCESSED or CLOSED Invoices.')
