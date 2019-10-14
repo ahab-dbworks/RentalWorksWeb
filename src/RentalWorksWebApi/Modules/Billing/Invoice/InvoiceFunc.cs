@@ -10,14 +10,14 @@ namespace WebApi.Modules.Billing.Invoice
     public class CreditInvoiceRequest
     {
         public string InvoiceId { get; set; }
-        public decimal? PartialInput { get; set; }
-        public decimal? FlatAmountInput { get; set; }
-        public bool? AllocateAllItems { get; set; }
+        public decimal? Percent { get; set; }
+        public decimal? Amount { get; set; }
+        public bool? Allocate { get; set; }
         public decimal? UsageDays { get; set; }
-        public string CreditNote { get; set; }
+        public string Notes { get; set; }
         public bool? TaxOnly { get; set; }
-        public DateTime FromDate { get; set; }
-        public DateTime ToDate { get; set; }
+        public DateTime CreditFromDate { get; set; }
+        public DateTime CreditToDate { get; set; }
         public string CreditMethod { get; set; }
         public bool? AdjustCost { get; set; }
     }
@@ -56,14 +56,14 @@ namespace WebApi.Modules.Billing.Invoice
                 FwSqlCommand qry = new FwSqlCommand(conn, "createinvoicecredit", appConfig.DatabaseSettings.QueryTimeout);
                 qry.AddParameter("@invoiceid", SqlDbType.NVarChar, ParameterDirection.Input, request.InvoiceId);
                 qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
-                qry.AddParameter("@percent", SqlDbType.NVarChar, ParameterDirection.Input, request.PartialInput);
-                qry.AddParameter("@amount", SqlDbType.NVarChar, ParameterDirection.Input, request.FlatAmountInput);
-                qry.AddParameter("@allocate", SqlDbType.NVarChar, ParameterDirection.Input, request.AllocateAllItems);
+                qry.AddParameter("@percent", SqlDbType.NVarChar, ParameterDirection.Input, request.Percent);
+                qry.AddParameter("@amount", SqlDbType.NVarChar, ParameterDirection.Input, request.Amount);
+                qry.AddParameter("@allocate", SqlDbType.NVarChar, ParameterDirection.Input, request.Allocate);
                 qry.AddParameter("@usagedays", SqlDbType.NVarChar, ParameterDirection.Input, request.UsageDays);
-                qry.AddParameter("@notes", SqlDbType.NVarChar, ParameterDirection.Input, request.CreditNote);
+                qry.AddParameter("@notes", SqlDbType.NVarChar, ParameterDirection.Input, request.Notes);
                 qry.AddParameter("@taxonly", SqlDbType.NVarChar, ParameterDirection.Input, request.TaxOnly);
-                qry.AddParameter("@creditfromdate", SqlDbType.NVarChar, ParameterDirection.Input, request.FromDate);
-                qry.AddParameter("@credittodate", SqlDbType.NVarChar, ParameterDirection.Input, request.ToDate);
+                qry.AddParameter("@creditfromdate", SqlDbType.NVarChar, ParameterDirection.Input, request.CreditFromDate);
+                qry.AddParameter("@credittodate", SqlDbType.NVarChar, ParameterDirection.Input, request.CreditToDate);
                 qry.AddParameter("@creditmethod", SqlDbType.NVarChar, ParameterDirection.Input, request.CreditMethod);
                 qry.AddParameter("@adjustcost", SqlDbType.NVarChar, ParameterDirection.Input, request.AdjustCost);
 
