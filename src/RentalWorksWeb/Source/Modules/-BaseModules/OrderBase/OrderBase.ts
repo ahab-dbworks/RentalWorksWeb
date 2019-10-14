@@ -175,18 +175,21 @@ class OrderBase {
         const $orderItemGridUsedSale = $form.find('.usedsalegrid div[data-grid="OrderItemGrid"]');
         const $orderItemGridUsedSaleControl = FwBrowse.loadGridFromTemplate('OrderItemGrid');
         $orderItemGridUsedSale.empty().append($orderItemGridUsedSaleControl);
-        $orderItemGridUsedSale.addClass('RS');
+        $orderItemGridUsedSale.addClass('F');
 
         $orderItemGridUsedSaleControl.data('ondatabind', request => {
             request.uniqueids = {
                 OrderId: FwFormField.getValueByDataField($form, `${this.Module}Id`),
-                RecType: 'RS'
+                RecType: 'F'
             };
             request.totalfields = this.totalFields;
         });
         $orderItemGridUsedSaleControl.data('beforesave', request => {
             request.OrderId = FwFormField.getValueByDataField($form, `${this.Module}Id`);
-            request.RecType = 'RS';
+            request.RecType = 'F';
+        });
+        FwBrowse.addEventHandler($orderItemGridUsedSaleControl, 'afterdatabindcallback', ($control, dt) => {
+            this.calculateOrderItemGridTotals($form, 'usedsale', dt.Totals);
         });
         FwBrowse.init($orderItemGridUsedSaleControl);
         FwBrowse.renderRuntimeHtml($orderItemGridUsedSaleControl);

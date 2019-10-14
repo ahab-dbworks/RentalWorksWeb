@@ -36,6 +36,9 @@
         } else if ($grid.hasClass('P')) {
             FwBrowse.setFieldValue($grid, $tr, 'RecType', { value: 'P' });
             inventoryType = 'Parts';
+        }   else if ($grid.hasClass('F')) {
+            FwBrowse.setFieldValue($grid, $tr, 'RecType', { value: 'F' });
+            inventoryType = 'UsedSale';
         }
 
         if ($form[0].dataset.controller !== "TemplateController" && $form[0].dataset.controller !== "PurchaseOrderController") {
