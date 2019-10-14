@@ -21,7 +21,7 @@ export class Alert extends AdminModule {
         this.newRecordsToCreate = [
             {
                 record: {
-                    ModuleName: 1,  // want to be able to provide an integer value here OR a text string with the desired value
+                    ModuleName: 2, // want to be able to provide an integer value here OR a text string with the desired value
                     AlertName: "GlobalScope.TestToken~1.TestToken",
                     ActionNew: true,
                     ActionEdit: true,

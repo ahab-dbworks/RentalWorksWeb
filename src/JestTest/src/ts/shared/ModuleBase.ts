@@ -664,6 +664,9 @@ export class ModuleBase {
                         const validationname = await page.$eval(`.fwformfield[data-datafield="${fieldToPopulate}"]`, el => el.getAttribute('data-validationname'));
                         await this.populateValidationField(fieldToPopulate, validationname, valueToPopulate);
                         break;
+                    case 'select':
+                        await this.populateSelectField(fieldToPopulate, valueToPopulate);
+                        break;
                     case 'displayfield':
                         currentValue = await this.getDataFieldText(fieldToPopulate);
                         if (currentValue != "") {
@@ -738,6 +741,14 @@ export class ModuleBase {
                         record[dataField] = displayValue;
                         record[displayFieldName] = value;
                         break;
+                    case 'select':
+                        value = await page.$eval(`div[data-datafield="${dataField}"] select option:checked`, (e: any) => {
+                            return e.value
+                        });
+
+
+                        record[dataField] = value;
+                        break;
                     case 'togglebuttons':
                         value = ""; // un-handled field type
                         record[dataField] = value;
@@ -795,6 +806,20 @@ export class ModuleBase {
         const isChecked = await (await elementHandle.getProperty('checked')).jsonValue();
         if (isChecked != value) {
             await (await page.$(`.fwformfield[data-datafield="${dataField}"] label`)).click(); //clicking the input element doesn't seem to work, but the label does.
+        }
+    }
+    //---------------------------------------------------------------------------------------
+    async populateSelectField(dataField: string, value: any): Promise<void> {
+        if (typeof value === 'number') {
+            const selector = `.fwformfield[data-datafield="${dataField}"] select option:nth-child(${value})`;
+            await page.$(selector);
+            const val = await page.$eval(selector, (e: any) => {
+                return e.value
+            })
+            await page.select(`.fwformfield[data-datafield="${dataField}"] select`, val);
+        } else if (typeof value === 'string') {
+            await page.$(`.fwformfield[data-datafield="${dataField}"] select option[value="${value}"]`);
+            await page.select(`.fwformfield[data-datafield="${dataField}"] select`, value);
         }
     }
     //---------------------------------------------------------------------------------------
