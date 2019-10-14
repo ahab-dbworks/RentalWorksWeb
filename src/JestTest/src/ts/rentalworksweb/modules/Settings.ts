@@ -39,9 +39,25 @@ export class GlAccount extends SettingsModule {
                 },
                 seekObject: {
                     GlAccountNo: "GlobalScope.TestToken~1.TestToken",
-                }
-
-            }
+                },
+                attemptDuplicate: true,
+            },
+            {
+                record: {
+                    GlAccountNo: "",
+                    GlAccountDescription: "GlobalScope.TestToken~1.TestToken",
+                    GlAccountType: "INCOME",
+                },
+                expectedErrorFields: ["GlAccountNo"]
+            },
+            {
+                record: {
+                    GlAccountNo: "GlobalScope.TestToken~1.TestToken",
+                    GlAccountDescription: "",
+                    GlAccountType: "INCOME",
+                },
+                expectedErrorFields: ["GlAccountDescription"]
+            },
         ];
         this.newRecordsToCreate[0].recordToExpect = {
             GlAccountNo: this.newRecordsToCreate[0].record.GlAccountNo.toUpperCase(),

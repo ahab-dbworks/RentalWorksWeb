@@ -30,13 +30,15 @@ export class ClickAllTabsResponse {
 export class SaveResponse {
     saved: boolean;
     errorMessage: string;
-    errorFields: any;
+    errorFields: string[];
 }
 
 export class NewRecordToCreate {
     record: any;
     seekObject?: any;
+    expectedErrorFields?: string[];
     recordToExpect?: any;
+    attemptDuplicate?: boolean = false;
 }
 
 export class DeleteResponse {
@@ -174,6 +176,11 @@ export class ModuleBase {
             let selector = `.fwbrowse .field[data-browsedatafield="${key}"] .search input`;
             await page.waitForSelector(selector);
             let elementHandle = await page.$(selector);
+
+            // clear out any text before sending new text
+            await elementHandle.click({ clickCount: 3 });
+            await elementHandle.press('Backspace');
+
             await elementHandle.click();
             await page.keyboard.sendCharacter(seekValue);
             await page.keyboard.press('Enter');
@@ -898,6 +905,7 @@ export class ModuleBase {
         let response = new SaveResponse();
         response.saved = false;
         response.errorMessage = "not saved";
+        response.errorFields = new Array<string>();
 
         let savingObject = await this.getFormRecord();
         Logging.logInfo(`About to try to save ${this.moduleCaption} Record: ${JSON.stringify(savingObject)}`);
@@ -956,18 +964,18 @@ export class ModuleBase {
         return response;
     }
     //---------------------------------------------------------------------------------------
-    async checkForDuplicatePrompt(): Promise<void> {
-        await page.waitForSelector('.advisory .message');
-        const popupText = await page.$eval('.advisory', el => el.textContent);
-        expect(popupText).toContain('Duplicate Rule');
-    }
-    //---------------------------------------------------------------------------------------
-    async closeDuplicatePrompt(): Promise<void> {
-        await page.waitForSelector('.advisory .fwconfirmation-button');
-        await page.click(`.fwconfirmation-button`);
-        await page.waitFor(() => !document.querySelector('.advisory'));
-    }
-    //---------------------------------------------------------------------------------------
+    //async checkForDuplicatePrompt(): Promise<void> {
+    //    await page.waitForSelector('.advisory .message');
+    //    const popupText = await page.$eval('.advisory', el => el.textContent);
+    //    expect(popupText).toContain('Duplicate Rule');
+    //}
+    ////---------------------------------------------------------------------------------------
+    //async closeDuplicatePrompt(): Promise<void> {
+    //    await page.waitForSelector('.advisory .fwconfirmation-button');
+    //    await page.click(`.fwconfirmation-button`);
+    //    await page.waitFor(() => !document.querySelector('.advisory'));
+    //}
+    ////---------------------------------------------------------------------------------------
     async closeRecord(): Promise<void> {
         Logging.logInfo(`about to close form tab`);
         await page.click('div.delete');
