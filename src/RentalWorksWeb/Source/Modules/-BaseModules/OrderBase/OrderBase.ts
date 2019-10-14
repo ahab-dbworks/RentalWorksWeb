@@ -576,8 +576,8 @@ class OrderBase {
                     }
                 })
 
-                const totalTaxVal = parseFloat(FwFormField.getValue2($form.find('[data-framedatafield="TotalTax"]')));
-                totalTaxVal == 0 ? $form.find('.salestax-pl').hide() : $form.find('.salestax-pl').show();
+                //const totalTaxVal = parseFloat(FwFormField.getValue2($form.find('[data-framedatafield="TotalTax"]')));
+                //totalTaxVal == 0 ? $form.find('.salestax-pl').hide() : $form.find('.salestax-pl').show();
 
             }, null, $form);
             $form.find(".frame .add-on").children().hide();
