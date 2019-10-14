@@ -98,6 +98,7 @@ class Receipt {
             FwFormField.enable($form.find('div[data-datafield="PaymentBy"]'));
             FwFormField.enable($form.find('div[data-datafield="DealId"]'));
             FwFormField.enable($form.find('div[data-datafield="CustomerId"]'));
+            FwFormField.enable($form.find('div[data-datafield="ReceiptDate"]'));
             const usersid = sessionStorage.getItem('usersid');  // J. Pace 7/09/18  C4E0E7F6-3B1C-4037-A50C-9825EDB47F44
             const name = sessionStorage.getItem('name');
             FwFormField.setValue($form, 'div[data-datafield="AppliedById"]', usersid, name);
