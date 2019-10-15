@@ -314,6 +314,10 @@ class Receipt {
             if (paymentTypeType === 'DEPLETING DEPOSIT' || paymentTypeType === 'CREDIT MEMO' || paymentTypeType === 'OVERPAYMENT') {
                 isOverDepletingMemo = true;
             }
+            if (paymentTypeType === 'REFUND CHECK') {
+                this.refundCheck($form);
+            }
+
             this.spendPaymentTypes($form, paymentTypeType, isOverDepletingMemo);
         });
         // ------
@@ -380,6 +384,12 @@ class Receipt {
             FwFormField.setValue($form, 'div[data-datafield="PaymentAmount"]', $tr.find('.field[data-formdatafield="Remaining"]').attr('data-originalvalue'));
             this.loadReceiptInvoiceGrid($form);
         });
+    }
+    //----------------------------------------------------------------------------------------------
+    refundCheck($form: jQuery) {
+        // hide invoice grid - disable algo
+        // show credits grid
+        // after save or if not NEW, disable credit grid
     }
     //----------------------------------------------------------------------------------------------
     beforeValidate($browse, $form, request) {
