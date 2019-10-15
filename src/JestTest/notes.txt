@@ -1,5 +1,0 @@
-to test RentalWorksWeb:
-npm run test-rentalworksweb
-
-per Mike, we should be able to pass the test name in the command like this, but I can't get this to work yet.
-npm run test-rentalworksweb -- -t=RWWDEMO
