@@ -38,7 +38,7 @@
             inventoryType = 'Parts';
         }   else if ($grid.hasClass('F')) {
             FwBrowse.setFieldValue($grid, $tr, 'RecType', { value: 'F' });
-            inventoryType = 'UsedSale';
+            inventoryType = 'LossAndDamage';
         }
 
         if ($form[0].dataset.controller !== "TemplateController" && $form[0].dataset.controller !== "PurchaseOrderController") {

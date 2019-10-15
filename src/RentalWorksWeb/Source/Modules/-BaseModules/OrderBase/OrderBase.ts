@@ -175,18 +175,18 @@ class OrderBase {
         const $orderItemGridUsedSale = $form.find('.usedsalegrid div[data-grid="OrderItemGrid"]');
         const $orderItemGridUsedSaleControl = FwBrowse.loadGridFromTemplate('OrderItemGrid');
         $orderItemGridUsedSale.empty().append($orderItemGridUsedSaleControl);
-        $orderItemGridUsedSale.addClass('F');
+        $orderItemGridUsedSale.addClass('RS');
 
         $orderItemGridUsedSaleControl.data('ondatabind', request => {
             request.uniqueids = {
                 OrderId: FwFormField.getValueByDataField($form, `${this.Module}Id`),
-                RecType: 'F'
+                RecType: 'RS'
             };
             request.totalfields = this.totalFields;
         });
         $orderItemGridUsedSaleControl.data('beforesave', request => {
             request.OrderId = FwFormField.getValueByDataField($form, `${this.Module}Id`);
-            request.RecType = 'F';
+            request.RecType = 'RS';
         });
         FwBrowse.addEventHandler($orderItemGridUsedSaleControl, 'afterdatabindcallback', ($control, dt) => {
             this.calculateOrderItemGridTotals($form, 'usedsale', dt.Totals);
@@ -1331,6 +1331,11 @@ class OrderBase {
             $orderItemGrid = $form.find('.lossdamagegrid [data-name="OrderItemGrid"]');
             FwFormField.setValueByDataField($form, 'LossAndDamageTotal', '');
             FwFormField.disable($form.find('div[data-datafield="LossAndDamageTotalIncludesTax"]'));
+        }
+        if (recType === 'RS') {
+            $orderItemGrid = $form.find('.usedsalegrid [data-name="OrderItemGrid"]');
+            FwFormField.setValueByDataField($form, 'UsedSaleTotal', '');
+            FwFormField.disable($form.find('div[data-datafield="UsedSaleTotalIncludesTax"]'));
         }
         if (recType === '') {
             $orderItemGrid = $form.find('.combinedgrid [data-name="OrderItemGrid"]');
