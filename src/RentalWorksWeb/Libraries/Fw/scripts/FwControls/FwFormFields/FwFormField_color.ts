@@ -38,9 +38,6 @@
                     jQuery(el).siblings('.fwformfield-value').val(`#${hex}`).change();
                     jQuery(el).find('.fwformfield-color').css('background-color', `#${hex}`);
                     jQuery(el).colpickHide();
-                },
-                onHide: function () {
-                    jQuery('body').find('.colpick').remove();
                 }
             })
             .on('click', function (e: JQuery.Event) {
