@@ -126,11 +126,11 @@ class User {
         const modules = mainModules.concat(settingsModules);
         const allModules = [];
         for (let i = 0; i < modules.length; i++) {
-            const moduleNav = modules[i].properties.modulenav;
             const moduleGUID = modules[i].id;
             const moduleCaption = modules[i].properties.caption;
             const moduleController = modules[i].properties.controller;
             if (typeof window[moduleController] !== 'undefined') {
+                const moduleNav = (<any>window)[moduleController].nav;
                 allModules.push({ value: moduleGUID, text: moduleCaption, apiurl: moduleNav });
             }
         };
@@ -377,9 +377,9 @@ class User {
                     <div class="flexcolumn" style="flex:0 1 550px;">
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="User">
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="First Name" data-datafield="FirstName" style="flex:1 1 125px;"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="First Name" data-datafield="FirstName" data-required="true" style="flex:1 1 125px;"></div>
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="MI" data-datafield="MiddleInitial" style="flex:1 1 25px;"></div>
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Last Name" data-datafield="LastName" style="flex:1 1 125px;"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Last Name" data-datafield="LastName" data-required="true" style="flex:1 1 125px;"></div>
                           <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Inactive" data-datafield="Inactive" style="flex:1 1 50px;"></div>
                         </div>
                       </div>
