@@ -705,6 +705,7 @@ export class ModuleBase {
             if (dataField != '') {
                 //Logging.logInfo(`About to gather field "${dataField}"`);
                 let value;
+                let expectedType;
                 const datatype = await this.getDataType(dataField);
                 switch (datatype) {
                     case 'phone':
@@ -742,7 +743,7 @@ export class ModuleBase {
                         record[displayFieldName] = value;
                         break;
                     case 'select':
-                        const expectedType = typeof this.newRecordsToCreate[0].record[dataField];
+                        expectedType = typeof this.newRecordsToCreate[0].record[dataField];
                         if (expectedType === 'number') {
                             value = await page.$eval(`div[data-datafield="${dataField}"] select option:checked`, (e: any) => {
                                 return e.index + 1
