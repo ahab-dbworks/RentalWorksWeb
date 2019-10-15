@@ -23,7 +23,7 @@ class Receipt {
             const chartFilters = JSON.parse(sessionStorage.getItem('chartfilter'));
             if (!chartFilters) {
                 const today = FwFunc.getDate();
-                $browse.find('div[data-browsedatafield="ReceiptDate"]').find('input').val(today);
+                $browse.find('div[data-browsedatafield="ReceiptDate"]').find('input').val(today).change();
                 FwBrowse.databind($browse);
                 FwBrowse.screenload($browse);
             }
