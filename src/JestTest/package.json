@@ -30,7 +30,7 @@
     "typescript": "3.5.2"
   },
   "devDependencies": {
-    "jest-html-reporter": "^2.5.0"
+    "jest-html-reporter": "^2.6.2"
   },
   "scripts": {
     "test-rentalworksapi": "jest --config=jest.rentalworksapi.config.js",
