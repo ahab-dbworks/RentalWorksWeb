@@ -749,9 +749,13 @@ export class ModuleBase {
                         //        return e.index + 1
                         //    });
                         //} else if (expectedType === 'string') {
+							value = "";
+							try {
                             value = await page.$eval(`div[data-datafield="${dataField}"] select option:checked`, (e: any) => {
                                 return e.value
                             });
+							}
+							catch (error) {value="";}
                         //}
                         record[dataField] = value;
                         break;
