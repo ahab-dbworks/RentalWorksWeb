@@ -699,13 +699,12 @@ export class ModuleBase {
     async getFormRecord(): Promise<any> {
         let record: any = {};
         //Logging.logInfo(`About to gather form record for : ${this.moduleName}`);
-        const datafields = await page.$$eval(`.fwform .fwformfield`, fields => fields.map((field) => field.getAttribute('data-datafield')));
+        const datafields = await page.$$eval(`.fwform .fwformfield:not(.find-field)`, fields => fields.map((field) => field.getAttribute('data-datafield')));
         for (let i = 0; i < datafields.length; i++) {
             let dataField = datafields[i];
             if (dataField != '') {
                 //Logging.logInfo(`About to gather field "${dataField}"`);
                 let value;
-                let expectedType;
                 const datatype = await this.getDataType(dataField);
                 switch (datatype) {
                     case 'phone':
@@ -743,16 +742,17 @@ export class ModuleBase {
                         record[displayFieldName] = value;
                         break;
                     case 'select':
-                        expectedType = typeof this.newRecordsToCreate[0].record[dataField];
-                        if (expectedType === 'number') {
-                            value = await page.$eval(`div[data-datafield="${dataField}"] select option:checked`, (e: any) => {
-                                return e.index + 1
-                            });
-                        } else if (expectedType === 'string') {
+                        //let expectedType;
+                        //expectedType = typeof this.newRecordsToCreate[0].record[dataField];
+                        //if (expectedType === 'number') {
+                        //    value = await page.$eval(`div[data-datafield="${dataField}"] select option:checked`, (e: any) => {
+                        //        return e.index + 1
+                        //    });
+                        //} else if (expectedType === 'string') {
                             value = await page.$eval(`div[data-datafield="${dataField}"] select option:checked`, (e: any) => {
                                 return e.value
                             });
-                        }
+                        //}
                         record[dataField] = value;
                         break;
                     case 'togglebuttons':
