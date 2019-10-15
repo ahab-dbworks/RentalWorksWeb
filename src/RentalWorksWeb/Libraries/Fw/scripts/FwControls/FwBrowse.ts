@@ -1945,13 +1945,13 @@ class FwBrowseClass {
     //---------------------------------------------------------------------------------
     screenload($control) {
         if (typeof $control.data('onscreenload') === 'function') {
-            $control.data('onscreenload')(); 
+            $control.data('onscreenload')();
         }
     }
     //---------------------------------------------------------------------------------
     screenunload($control) {
         if (typeof $control.data('onscreenunload') === 'function') {
-            $control.data('onscreenunload')(); 
+            $control.data('onscreenunload')();
         }
     }
     //---------------------------------------------------------------------------------

@@ -23,12 +23,12 @@ class FwFormField_selectClass {
         $control.html(html.join(''));
     }
     loadItems($control, items, hideEmptyItem) {
-        var html, previousoptgroup, optgroup, selected;
-        html = [];
+        var optgroup, selected;
+        const html = [];
         if (!hideEmptyItem) {
             html.push('<option value=""></option>');
         }
-        previousoptgroup = null;
+        let previousoptgroup = null;
         optgroup = '';
         if ((typeof items !== 'undefined') && (items !== null)) {
             for (var i = 0; i < items.length; i++) {

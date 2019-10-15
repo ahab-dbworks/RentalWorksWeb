@@ -195,8 +195,8 @@ class Widget {
             }
         }
 
-        window['FwFormField_select'].loadItems(dateSelectField, selectArray, true);
-        window['FwFormField_select'].setValue(dateSelectField, dateSelected);
+        <any>window['FwFormField_select'].loadItems(dateSelectField, selectArray, true);
+        <any>window['FwFormField_select'].setValue(dateSelectField, dateSelected);
 
         //shows/hides "Assign To" grids
         const assignTo = FwFormField.getValueByDataField($form, 'AssignTo');
