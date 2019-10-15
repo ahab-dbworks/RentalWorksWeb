@@ -41,7 +41,7 @@ class RwHome {
                 }
                 window.firstLoadCompleted = true;
             }
-            
+
             var redirectPath = sessionStorage.getItem('redirectPath');
             if (typeof redirectPath === 'string' && redirectPath.length > 0) {
                 setTimeout(() => {
@@ -57,7 +57,7 @@ class RwHome {
 
         return screen;
     };
-
+    //----------------------------------------------------------------------------------------------
     buildWidgetSettings($chartSettings, userWidgetId) {
         var self = this;
         $chartSettings.off('click').on('click', function () {
@@ -68,7 +68,7 @@ class RwHome {
                     let $cancel = FwConfirmation.addButton($confirmation, 'Cancel', true);
                     FwConfirmation.addControls($confirmation, self.getSettingsHtml());
                     self.loadSettingsFields($confirmation, response);
-                    
+
                     $select.on('click', function () {
                         try {
                             var request: any = {};
@@ -111,7 +111,7 @@ class RwHome {
         return $chartSettings
 
     }
-
+    //----------------------------------------------------------------------------------------------
     loadSettings($control) {
         var self = this;
         var $dashboard = $control.find('.programlogo');
@@ -136,7 +136,7 @@ class RwHome {
             }
         }, null, $control);
     }
-
+    //----------------------------------------------------------------------------------------------
     renderWidget($control, widgetData) {
         let self = this;
         let refresh = '<i id="' + widgetData.userWidgetId + 'refresh" class="chart-refresh material-icons">refresh</i>';
@@ -156,13 +156,15 @@ class RwHome {
                 try {
                     widgetcanvas.siblings('.officebar').text(response.locationCodes);
                     let titleArray = [];
+                    let fromDate = moment(response.fromDate).format('l');
+                    let toDate = moment(response.toDate).format('l');
                     titleArray.push(response.options.title.text);
-                    if (response.fromDate !== undefined && response.fromDate === response.toDate) {
-                        titleArray.push(moment(response.fromDate).format('l'));
-                    } else if (response.fromDate !== undefined && response.fromDate !== response.toDate && widgetData.dateBehaviorId === 'SINGLEDATESPECIFICDATE') {
-                        titleArray.push(moment(response.fromDate).format('l'));
-                    } else if (response.fromDate !== undefined && response.fromDate !== response.toDate) {
-                        titleArray.push(moment(response.fromDate).format('l') + ' - ' + moment(response.toDate).format('l'));
+                    if (fromDate !== undefined && fromDate === toDate) {
+                        titleArray.push(toDate);
+                    } else if (fromDate !== undefined && fromDate !== toDate && widgetData.dateBehaviorId === 'SINGLEDATESPECIFICDATE') {
+                        titleArray.push(fromDate);
+                    } else if (fromDate !== undefined && fromDate !== toDate) {
+                        titleArray.push(fromDate + ' - ' + toDate);
                     }
 
                     if (response.dateBehaviorId === 'NONE' || response.dateBehaviorId === undefined) {
@@ -190,12 +192,46 @@ class RwHome {
                     var chart = new Chart(widgetcanvas, response);
                     jQuery(widgetcanvas).on('click', function (evt) {
                         var activePoint = chart.getElementAtEvent(evt)[0];
-                        var data = activePoint._chart.data;
-                        var datasetIndex = activePoint._datasetIndex;
-                        var label = data.labels[activePoint._index];
-                        var value = data.datasets[datasetIndex].data[activePoint._index];
+                        if (activePoint) {
+                            var data = activePoint._chart.data;
+                            var datefield = widgetData.dateField;
+                            var labelfield1 = chart.config["label1FieldName"].toUpperCase();
+                            var labelvalue = data.datasets[activePoint._datasetIndex].label;
+                            if (labelvalue === null) {
+                                labelvalue = data.labels[activePoint._index]
+                            }
 
-                        program.getModule(widgetData.clickpath + label.replace(/ /g, '%20').replace(/\//g, '%2F'));
+                            let chartFilters: any = [];
+                            if (labelvalue != '') {
+                                chartFilters.push({
+                                    'datafield': labelfield1,
+                                    'value': labelvalue,
+                                    'type': 'field'
+                                });
+                            };
+                            if (response.dateBehaviorId != 'NONE' || response.dateBehaviorId != undefined) {
+                                if (fromDate != 'Invalid date') {
+                                    chartFilters.push({
+                                        'datafield': datefield,
+                                        'value': fromDate,
+                                        'type': 'fromdate'
+                                    });
+                                }
+                                if (toDate != 'Invalid date') {
+                                    chartFilters.push({
+                                        'datafield': datefield,
+                                        'value': toDate,
+                                        'type': 'todate'
+                                    });
+                                }
+                            };
+
+                            if (chartFilters.length > 0) {
+                                chartFilters = JSON.stringify(chartFilters);
+                                sessionStorage.setItem('chartfilter', chartFilters);
+                            };
+                            program.getModule(`module/${widgetData.modulename}`);
+                        }
                     });
                 } catch (ex) {
                     FwFunc.showError(ex);
@@ -235,13 +271,15 @@ class RwHome {
                         try {
                             $confirmation.find('.fullscreenofficebar').text(response.locationCodes);
                             let titleArray = [];
+                            let fromDate = moment(response.fromDate).format('l');
+                            let toDate = moment(response.toDate).format('l');
                             titleArray.push(response.options.title.text);
-                            if (response.fromDate !== undefined && response.fromDate === response.toDate) {
-                                titleArray.push(moment(response.fromDate).format('l'));
-                            } else if (response.fromDate !== undefined && response.fromDate !== response.toDate && fullscreenDateBehaviorId === 'SINGLEDATESPECIFICDATE') {
-                                titleArray.push(moment(response.fromDate).format('l'));
-                            } else if (response.fromDate !== undefined && response.fromDate !== response.toDate) {
-                                titleArray.push(moment(response.fromDate).format('l') + ' - ' + moment(response.toDate).format('l'));
+                            if (fromDate !== undefined && fromDate === toDate) {
+                                titleArray.push(toDate);
+                            } else if (fromDate !== undefined && fromDate !== toDate && fullscreenDateBehaviorId === 'SINGLEDATESPECIFICDATE') {
+                                titleArray.push(fromDate);
+                            } else if (fromDate !== undefined && fromDate !== toDate) {
+                                titleArray.push(fromDate + ' - ' + toDate);
                             }
 
                             if (response.dateBehaviorId === 'NONE' || response.dateBehaviorId === undefined) {
@@ -264,17 +302,52 @@ class RwHome {
                             var chart = new Chart(widgetfullscreen, response);
                             jQuery(widgetfullscreen).on('click', function (evt) {
                                 var activePoint = chart.getElementAtEvent(evt)[0];
-                                var data = activePoint._chart.data;
-                                var datasetIndex = activePoint._datasetIndex;
-                                var label = data.labels[activePoint._index];
-                                var value = data.datasets[datasetIndex].data[activePoint._index];
-                                FwConfirmation.destroyConfirmation($confirmation);
-                                program.getModule(widgetData.clickpath + label.replace(/ /g, '%20').replace(/\//g, '%2F'));
+                                if (activePoint) {
+                                    var data = activePoint._chart.data;
+                                    var datefield = widgetData.dateField;
+                                    var labelfield1 = chart.config["label1FieldName"].toUpperCase();
+                                    var labelvalue = data.datasets[activePoint._datasetIndex].label;
+                                    if (labelvalue === null) {
+                                        labelvalue = data.labels[activePoint._index]
+                                    }
+
+                                    let chartFilters: any = [];
+                                    if (labelvalue != '') {
+                                        chartFilters.push({
+                                            'datafield': labelfield1,
+                                            'value': labelvalue,
+                                            'type': 'field'
+                                        });
+                                    };
+                                    if (response.dateBehaviorId != 'NONE' || response.dateBehaviorId != undefined) {
+                                        if (fromDate != 'Invalid date') {
+                                            chartFilters.push({
+                                                'datafield': datefield,
+                                                'value': fromDate,
+                                                'type': 'fromdate'
+                                            });
+                                        }
+                                        if (toDate != 'Invalid date') {
+                                            chartFilters.push({
+                                                'datafield': datefield,
+                                                'value': toDate,
+                                                'type': 'todate'
+                                            });
+                                        }
+                                    };
+
+                                    if (chartFilters.length > 0) {
+                                        chartFilters = JSON.stringify(chartFilters);
+                                        sessionStorage.setItem('chartfilter', chartFilters);
+                                    };
+                                    FwConfirmation.destroyConfirmation($confirmation);
+                                    program.getModule(`module/${widgetData.modulename}`);
+                                }
                             });
                         } catch (ex) {
                             FwFunc.showError(ex);
                         }
-                    }, null, jQuery(widgetfullscreen).parent());                
+                    }, null, jQuery(widgetfullscreen).parent());
 
                 }
                 $confirmation.find('.apply-fullscreen').on('change', () => {
@@ -290,14 +363,17 @@ class RwHome {
                     try {
                         widgetfullscreen.siblings('.officebar').text(response.locationCodes);
                         let titleArray = [];
+                        let fromDate = moment(response.fromDate).format('l');
+                        let toDate = moment(response.toDate).format('l');
                         titleArray.push(response.options.title.text);
-                        if (response.fromDate !== undefined && response.fromDate === response.toDate) {
-                            titleArray.push(moment(response.fromDate).format('l'));
-                        } else if (response.fromDate !== undefined && response.fromDate !== response.toDate && widgetData.dateBehaviorId === 'SINGLEDATESPECIFICDATE') {
-                            titleArray.push(moment(response.fromDate).format('l'));
-                        } else if (response.fromDate !== undefined && response.fromDate !== response.toDate) {
-                            titleArray.push(moment(response.fromDate).format('l') + ' - ' + moment(response.toDate).format('l'));
+                        if (fromDate !== undefined && fromDate === toDate) {
+                            titleArray.push(toDate);
+                        } else if (fromDate !== undefined && fromDate !== toDate && widgetData.dateBehaviorId === 'SINGLEDATESPECIFICDATE') {
+                            titleArray.push(fromDate);
+                        } else if (fromDate !== undefined && fromDate !== toDate) {
+                            titleArray.push(fromDate + ' - ' + toDate);
                         }
+
 
                         if (response.dateBehaviorId === 'NONE' || response.dateBehaviorId === undefined) {
                             titleArray.pop();
@@ -315,12 +391,47 @@ class RwHome {
                         var chart = new Chart(widgetfullscreen, response);
                         jQuery(widgetfullscreen).on('click', function (evt) {
                             var activePoint = chart.getElementAtEvent(evt)[0];
-                            var data = activePoint._chart.data;
-                            var datasetIndex = activePoint._datasetIndex;
-                            var label = data.labels[activePoint._index];
-                            var value = data.datasets[datasetIndex].data[activePoint._index];
-                            FwConfirmation.destroyConfirmation($confirmation);
-                            program.getModule(widgetData.clickpath + label.replace(/ /g, '%20').replace(/\//g, '%2F'));
+                            if (activePoint) {
+                                var data = activePoint._chart.data;
+                                var datefield = widgetData.dateField;
+                                var labelfield1 = chart.config["label1FieldName"].toUpperCase();
+                                var labelvalue = data.datasets[activePoint._datasetIndex].label;
+                                if (labelvalue === null) {
+                                    labelvalue = data.labels[activePoint._index]
+                                }
+
+                                let chartFilters: any = [];
+                                if (labelvalue != '') {
+                                    chartFilters.push({
+                                        'datafield': labelfield1,
+                                        'value': labelvalue,
+                                        'type': 'field'
+                                    });
+                                };
+                                if (response.dateBehaviorId != 'NONE' || response.dateBehaviorId != undefined) {
+                                    if (fromDate != 'Invalid date') {
+                                        chartFilters.push({
+                                            'datafield': datefield,
+                                            'value': fromDate,
+                                            'type': 'fromdate'
+                                        });
+                                    }
+                                    if (toDate != 'Invalid date') {
+                                        chartFilters.push({
+                                            'datafield': datefield,
+                                            'value': toDate,
+                                            'type': 'todate'
+                                        });
+                                    }
+                                };
+
+                                if (chartFilters.length > 0) {
+                                    chartFilters = JSON.stringify(chartFilters);
+                                    sessionStorage.setItem('chartfilter', chartFilters);
+                                };
+                                FwConfirmation.destroyConfirmation($confirmation);
+                                program.getModule(`module/${widgetData.modulename}`);
+                            }
                         });
                     } catch (ex) {
                         FwFunc.showError(ex);
@@ -373,16 +484,13 @@ class RwHome {
                 jQuery(widgetcanvas).off('click').on('click', function (evt) {
                     var activePoint = chart.getElementAtEvent(evt)[0];
                     if (activePoint) {
-                        var data = activePoint._chart.data; 
-                        //var datasetIndex = activePoint._datasetIndex;
-                        //var value = data.datasets[datasetIndex].data[activePoint._index];
+                        var data = activePoint._chart.data;
                         var datefield = widgetData.dateField;
                         var labelfield1 = chart.config["label1FieldName"].toUpperCase();
                         var labelvalue = data.datasets[activePoint._datasetIndex].label;
                         if (labelvalue === null) {
                             labelvalue = data.labels[activePoint._index]
                         }
-                        //var labelfield2 = chart.config["label2FieldName"].toUpperCase();
 
                         let chartFilters: any = [];
                         if (labelvalue != '') {
@@ -408,7 +516,7 @@ class RwHome {
                                 });
                             }
                         };
-                      
+
                         if (chartFilters.length > 0) {
                             chartFilters = JSON.stringify(chartFilters);
                             sessionStorage.setItem('chartfilter', chartFilters);
