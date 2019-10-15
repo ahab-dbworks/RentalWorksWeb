@@ -108,7 +108,7 @@ html.theme-material .fwbrowse table thead tr td .field .search input {box-sizing
 html.theme-material .fwbrowse table thead tr td .field .search input:hover,
 html.theme-material .fwbrowse table thead tr td .field .search input:focus {outline:0;-webkit-box-shadow:0 2px 6px rgba(0,0,0,.2), 0 2px 3px rgba(0,0,0,.05);box-shadow:0 2px 6px rgba(0,0,0,.2), 0 2px 3px rgba(0,0,0,.05);}
 
-html.theme-material .fwbrowse table thead tr td .field .search .searchclear {display:none;cursor:pointer;position:absolute;top:50%;right:0;color:#717171;height:1em;width:1em;font-size:16px;margin-right:8px;transform:translateY(-50%);}
+html.theme-material .fwbrowse table thead tr td .field .search .searchclear {display:none;cursor:pointer;position:absolute;top:47%;right:0;color:#717171;height:1em;width:1em;font-size:16px;margin-right:8px;transform:translateY(-50%);}
 html.theme-material .fwbrowse table thead tr td .field .search .searchclear.visible {display:block;}
 html.theme-material .fwbrowse table thead tr td .field .search .searchclear i {font-size:inherit;}
 
