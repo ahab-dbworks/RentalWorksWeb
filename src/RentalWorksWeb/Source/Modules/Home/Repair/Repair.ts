@@ -142,7 +142,7 @@ class Repair {
 
             // BarCode, SN, RFID Validation
             $form.find('div[data-datafield="ItemId"]').data('onchange', $tr => {
-                FwFormField.setValue($form, 'div[data-datafield="ItemDescription"]', $tr.find('.field[data-formdatafield="Description"]').attr('data-originalvalue'));
+                FwFormField.setValue($form, 'div[data-datafield="ItemDescription"]:visible', $tr.find('.field[data-formdatafield="Description"]').attr('data-originalvalue'));
                 FwFormField.setValue($form, 'div[data-displayfield="BarCode"]', $tr.find('.field[data-formdatafield="ItemId"]').attr('data-originalvalue'), $tr.find('.field[data-formdatafield="BarCode"]').attr('data-originalvalue'));
                 FwFormField.setValue($form, 'div[data-displayfield="ICode"]', $tr.find('.field[data-formdatafield="InventoryId"]').attr('data-originalvalue'), $tr.find('.field[data-formdatafield="ICode"]').attr('data-originalvalue'));
                 FwFormField.setValue($form, 'div[data-displayfield="SerialNumber"] ', $tr.find('.field[data-formdatafield="ItemId"]').attr('data-originalvalue'), $tr.find('.field[data-formdatafield="SerialNumber"]').attr('data-originalvalue'));
@@ -152,7 +152,7 @@ class Repair {
 
             // ICode Validation
             $form.find('div[data-datafield="InventoryId"]').data('onchange', $tr => {
-                FwFormField.setValue($form, 'div[data-datafield="ItemDescription"]', $tr.find('.field[data-formdatafield="Description"]').attr('data-originalvalue'));
+                FwFormField.setValue($form, 'div[data-datafield="ItemDescription"]:visible', $tr.find('.field[data-formdatafield="Description"]').attr('data-originalvalue'));
                 FwFormField.enable($form.find('div[data-datafield="Quantity"]'));
                 FwFormField.disable($form.find('div[data-displayfield="BarCode"]'));
                 FwFormField.disable($form.find('div[data-displayfield="SerialNumber"]'));
@@ -190,11 +190,22 @@ class Repair {
             $form.find('.repairtyperadio').on('change', $tr => {
                 if (FwFormField.getValueByDataField($form, 'RepairType') === 'OUTSIDE') {
                     $form.find('.itemid').hide();
+                    $form.find('.icode').hide();
+                    $form.find('.not-owned').show();
+                    FwFormField.enable($form.find('.not-owned'));
                     FwFormField.disable($form.find('div[data-datafield="AvailFor"]'));
-                }
-                else {
+                } else {
                     $form.find('.itemid').show();
+                    $form.find('.not-owned').hide();
                     FwFormField.enable($form.find('div[data-datafield="AvailFor"]'));
+                    FwFormField.disable($form.find('.not-owned'));
+                    if (FwFormField.getValue($form, '.repairavailforradio') === 'S') {
+                        $form.find('.icodesales').show();
+                        $form.find('.icoderental').hide();
+                    }else {
+                        $form.find('.icodesales').hide();
+                        $form.find('.icoderental').show();
+                    }
                 }
             });
 
@@ -340,6 +351,27 @@ class Repair {
         FwFormField.disable($form.find('div[data-datafield="AvailFor"]'));
         FwFormField.disable($form.find('div[data-datafield="RepairType"]'));
         FwFormField.disable($form.find('div[data-datafield="PendingRepair"]'));
+
+ 
+        if (FwFormField.getValueByDataField($form, 'RepairType') === 'OUTSIDE') {
+            $form.find('.itemid').hide();
+            $form.find('.icode').hide();
+            $form.find('.not-owned').show();
+            FwFormField.enable($form.find('.not-owned'));
+            FwFormField.disable($form.find('div[data-datafield="AvailFor"]'));
+        } else {
+            $form.find('.itemid').show();
+            $form.find('.not-owned').hide();
+            FwFormField.enable($form.find('div[data-datafield="AvailFor"]'));
+            FwFormField.disable($form.find('.not-owned'));
+            if (FwFormField.getValue($form, '.repairavailforradio') === 'S') {
+                $form.find('.icodesales').show();
+                $form.find('.icoderental').hide();
+            } else {
+                $form.find('.icodesales').hide();
+                $form.find('.icoderental').show();
+            }
+        }
     };
     //----------------------------------------------------------------------------------------------
     getBrowseTemplate(): string {
@@ -440,8 +472,9 @@ class Repair {
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield icoderental icode" data-caption="I-Code" data-datafield="InventoryId" data-displayfield="ICode" data-enabled="false" data-formbeforevalidate="beforeValidate" data-validationpeek="true" data-validationname="RentalInventoryValidation" style="flex:1 1 115px;"></div>
                           <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield icodesales icode" data-caption="I-Code" data-datafield="InventoryId" data-displayfield="ICode" data-enabled="false" data-formbeforevalidate="beforeValidate" data-validationpeek="true" data-validationname="SalesInventoryValidation" style="flex:1 1 115px;"></div>
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Item Description" data-datafield="ItemDescription" data-enabled="false" style="flex:1 1 300px;"></div>
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Quantity" data-datafield="Quantity" data-enabled="false" style="flex:1 1 50px;"></div>
+                          <div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield not-owned" data-caption="Item Description" data-datafield="ItemDescription" data-enabled="false" style="flex:1 1 300px; display:none;"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield itemid" data-caption="Item Description" data-datafield="ItemDescription" data-enabled="false" style="flex:1 1 300px;"></div>                       
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield itemid" data-caption="Quantity" data-datafield="Quantity" data-enabled="false" style="flex:1 1 50px;"></div>
                         </div>
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield itemid" data-caption="Bar Code" data-datafield="ItemId" data-displayfield="BarCode" data-enabled="false" data-formbeforevalidate="beforeValidate" data-validationpeek="true" data-validationname="AssetValidation" style="flex:1 1 150px;"></div>
