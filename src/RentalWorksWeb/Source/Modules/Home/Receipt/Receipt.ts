@@ -386,7 +386,7 @@ class Receipt {
         });
     }
     //----------------------------------------------------------------------------------------------
-    refundCheck($form) {
+    refundCheck($form: JQuery) {
         // hide invoice grid - disable algo
         // show credits grid
         // after save or if not NEW, disable credit grid
