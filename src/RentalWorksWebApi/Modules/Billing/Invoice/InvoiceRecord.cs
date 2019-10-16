@@ -332,7 +332,7 @@ namespace WebApi.Modules.Billing.Invoice
             return await InvoiceFunc.VoidInvoice(AppConfig, UserSession, InvoiceId);
         }
         //-------------------------------------------------------------------------------------------------------
-        public async Task<TSpStatusResponse> CreditInvoice(CreditInvoiceRequest request)
+        public async Task<CreditInvoiceReponse> CreditInvoice(CreditInvoiceRequest request)
         {
             return await InvoiceFunc.CreateInvoiceCredit(AppConfig, UserSession, request);
         }

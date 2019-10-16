@@ -955,7 +955,7 @@ class Invoice {
                 FwConfirmation.destroyConfirmation($confirmation);
             });
         } else
-            FwNotification.renderNotification('WARNING', 'This feature is only available for PROCESSED or CLOSED Invoices.')
+            FwNotification.renderNotification('WARNING', `Cannot credit a ${status} Invoice.  Invoice must be PROCESSED or CLOSED.`)
     }
 };
 

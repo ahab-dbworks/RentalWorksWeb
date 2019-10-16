@@ -22,6 +22,12 @@ namespace WebApi.Modules.Billing.Invoice
         public bool? AdjustCost { get; set; }
     }
 
+    public class CreditInvoiceReponse : TSpStatusResponse
+    {
+        public string CreditId { get; set; }
+        public InvoiceLogic credit { get; set; }
+    }
+
     public class ToggleInvoiceApprovedResponse : TSpStatusResponse
     {
     }
@@ -48,9 +54,9 @@ namespace WebApi.Modules.Billing.Invoice
             return response;
         }
         //-------------------------------------------------------------------------------------------------------
-        public static async Task<TSpStatusResponse> CreateInvoiceCredit(FwApplicationConfig appConfig, FwUserSession userSession, CreditInvoiceRequest request)
+        public static async Task<CreditInvoiceReponse> CreateInvoiceCredit(FwApplicationConfig appConfig, FwUserSession userSession, CreditInvoiceRequest request)
         {
-            TSpStatusResponse response = new TSpStatusResponse();
+            CreditInvoiceReponse response = new CreditInvoiceReponse();
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
             {
                 FwSqlCommand qry = new FwSqlCommand(conn, "createinvoicecredit", appConfig.DatabaseSettings.QueryTimeout);
@@ -66,10 +72,11 @@ namespace WebApi.Modules.Billing.Invoice
                 qry.AddParameter("@credittodate", SqlDbType.NVarChar, ParameterDirection.Input, request.CreditToDate);
                 qry.AddParameter("@creditmethod", SqlDbType.NVarChar, ParameterDirection.Input, request.CreditMethod);
                 qry.AddParameter("@adjustcost", SqlDbType.NVarChar, ParameterDirection.Input, request.AdjustCost);
-
+                qry.AddParameter("@creditid", SqlDbType.NVarChar, ParameterDirection.Output);
                 await qry.ExecuteNonQueryAsync();
                 response.success = true;
                 response.msg = "";
+                response.CreditId = qry.GetParameter("@creditid").ToString();
             }
             return response;
         }

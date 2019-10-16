@@ -128,7 +128,7 @@ namespace WebApi.Modules.Billing.Invoice
         // POST api/v1/invoice/creditinvoice
         [HttpPost("creditinvoice")]
         [FwControllerMethod(Id: "zs0EWzzJYFMop")]
-        public async Task<ActionResult<InvoiceLogic>> CreditInvoice([FromBody]CreditInvoiceRequest request)   // the body of your request should be an object that matches the CreditInvoiceRequest class definiton (see InvoiceFunc.cs for the class)
+        public async Task<ActionResult<CreditInvoiceReponse>> CreditInvoice([FromBody]CreditInvoiceRequest request)  
         {
             if (!ModelState.IsValid)
             {
@@ -136,22 +136,24 @@ namespace WebApi.Modules.Billing.Invoice
             }
             try
             {
-                string id = ""; //temporary placeholder to allow compile
-                string[] ids = id.Split('~');
                 InvoiceLogic l = new InvoiceLogic();
                 l.SetDependencies(AppConfig, UserSession);
-                if (await l.LoadAsync<InvoiceLogic>(ids))
+                l.InvoiceId = request.InvoiceId;
+                if (await l.LoadAsync<InvoiceLogic>())
                 {
-                    TSpStatusResponse response = await l.CreditInvoice(request);  // pass the "request" object into this method and you will be able to access all of the fields to map their values to the stored procedure
+                    CreditInvoiceReponse response = await l.CreditInvoice(request); 
                     if (response.success)
                     {
-                        await l.LoadAsync<InvoiceLogic>(ids);
-                        return new OkObjectResult(l);
+                        if (!string.IsNullOrEmpty(response.CreditId))
+                        {
+                            response.credit = new InvoiceLogic();
+                            response.credit.SetDependencies(AppConfig, UserSession);
+                            response.credit.InvoiceId = response.CreditId;
+                            bool b = await response.credit.LoadAsync<InvoiceLogic>();
+                        }
+
                     }
-                    else
-                    {
-                        throw new Exception(response.msg);
-                    }
+                    return new OkObjectResult(response);
                 }
                 else
                 {

@@ -535,7 +535,7 @@ namespace WebApi.Modules.Billing.Invoice
         }
         //------------------------------------------------------------------------------------ 
 
-        public async Task<TSpStatusResponse> CreditInvoice(CreditInvoiceRequest request)
+        public async Task<CreditInvoiceReponse> CreditInvoice(CreditInvoiceRequest request)
         {
             return await invoice.CreditInvoice(request);
         }
