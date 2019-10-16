@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using FwStandard.Models; 
 using Microsoft.AspNetCore.Mvc; 
 using Microsoft.Extensions.Options; 
-using WebApi.Controllers; 
 using System.Threading.Tasks;
 using FwStandard.Security;
 using FwCore.Modules.Administrator.Group;
@@ -16,7 +15,7 @@ namespace WebApi.Modules.Administrator.Group
     [FwController(Id: "0vP4rXxgGL1M")]
     public class GroupController : FwGroupController
     {
-        public GroupController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(FwGroupLogic); }
+        public GroupController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(GroupLogic); }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/group/browse 
         [HttpPost("browse")]
@@ -37,25 +36,25 @@ namespace WebApi.Modules.Administrator.Group
         // GET api/v1/group 
         [HttpGet]
         [FwControllerMethod(Id:"LcoN7EcCzk43")]
-        public async Task<ActionResult<IEnumerable<FwGroupLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        public async Task<ActionResult<IEnumerable<GroupLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<FwGroupLogic>(pageno, pagesize, sort);
+            return await DoGetAsync<GroupLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/group/A0000001 
         [HttpGet("{id}")]
         [FwControllerMethod(Id:"mFGVa0Lnwe4c")]
-        public async Task<ActionResult<FwGroupLogic>> GetOneAsync([FromRoute]string id)
+        public async Task<ActionResult<GroupLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<FwGroupLogic>(id);
+            return await DoGetAsync<GroupLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/group 
         [HttpPost]
         [FwControllerMethod(Id:"omZs9dySCrG7")]
-        public async Task<ActionResult<FwGroupLogic>> PostAsync([FromBody]FwGroupLogic l)
+        public async Task<ActionResult<GroupLogic>> PostAsync([FromBody]GroupLogic l)
         {
-            return await DoPostAsync<FwGroupLogic>(l);
+            return await DoPostAsync<GroupLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
         // DELETE api/v1/group/A0000001 
@@ -63,7 +62,7 @@ namespace WebApi.Modules.Administrator.Group
         [FwControllerMethod(Id:"jxY9aeG4nl9e")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync<FwGroupLogic>(id);
+            return await DoDeleteAsync<GroupLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
 
