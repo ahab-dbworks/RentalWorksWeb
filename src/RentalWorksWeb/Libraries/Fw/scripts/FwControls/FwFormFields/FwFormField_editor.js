@@ -14,29 +14,48 @@ class FwFormField_editorClass {
     renderRuntimeHtml($control, html) {
         html.push(`<div class="fwformfield-caption">${$control.attr('data-caption')}</div>`);
         html.push('<div class="fwformfield-control">');
-        html.push('<textarea name= editor1 class="fwformfield-value"');
+        html.push('<textarea name="editor1" id="editor1" class="fwformfield-value"');
         if ($control.attr('data-enabled') === 'false') {
             html.push(' disabled="disabled"');
         }
         html.push('></textarea>');
         html.push('</div>');
         $control.html(html.join(''));
-        const editorElement = $control.find('.fwformfield-value');
-        const editor = editorElement.ckeditor();
-        editorElement.data('editor', editor);
+        const editor = $control.find('.fwformfield-value').ckeditor().editor;
+        $control.data('editor', editor);
+        editor.on('change', function () {
+            try {
+                $control.find('.fwformfield-value').change();
+            }
+            catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+        editor.on('instanceReady', function () {
+            try {
+                this.dataProcessor.writer.setRules('p', {
+                    indent: false,
+                    breakBeforeOpen: false,
+                    breakAfterOpen: false,
+                    breakBeforeClose: false,
+                    breakAfterClose: false
+                });
+            }
+            catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
     }
     loadItems($control, items, hideEmptyItem) {
     }
     loadForm($fwformfield, table, field, value, text) {
-        var editor = $fwformfield.find('.fwformfield-value').ckeditor();
-        $fwformfield.data('editor', editor);
         $fwformfield
             .attr('data-originalvalue', value)
             .find('.fwformfield-value')
             .val(value);
-        editor.ckeditorGet().on('change', function () {
+        $fwformfield.data('editor').on('instanceReady', function () {
             try {
-                $fwformfield.find('.fwformfield-value').change();
+                CKEDITOR.instances[$fwformfield.data('editor').name].setData(value);
             }
             catch (ex) {
                 FwFunc.showError(ex);
@@ -48,17 +67,18 @@ class FwFormField_editorClass {
     enable($control) {
     }
     getValue2($fwformfield) {
-        var value = $fwformfield.find('.fwformfield-value').val();
+        const value = $fwformfield.find('.fwformfield-value').val();
         return value;
     }
     setValue($fwformfield, value, text, firechangeevent) {
-        var $inputvalue = $fwformfield.find('.fwformfield-value');
+        const $inputvalue = $fwformfield.find('.fwformfield-value');
         $inputvalue.val(value);
         if (firechangeevent)
             $inputvalue.change();
     }
     onRemove($fwformfield) {
-        $fwformfield.find('.fwformfield-value').remove();
+        const editor = $fwformfield.data('editor');
+        editor.destroy();
     }
 }
 var FwFormField_editor = new FwFormField_editorClass();
