@@ -70,6 +70,15 @@ class RwLaborPosition {
             }
         });
 
+        $form.find('div[data-datafield="CategoryId"]').data('onchange', function ($tr) {
+            FwFormField.disable($form.find('.subcategory'));
+            if ($tr.find('.field[data-browsedatafield="SubCategoryCount"]').attr('data-originalvalue') > 0) {
+                FwFormField.enable($form.find('.subcategory'));
+            } else {
+                FwFormField.setValueByDataField($form, 'SubCategoryId', '')
+            }
+        });
+
         return $form;
     }
 
@@ -85,14 +94,6 @@ class RwLaborPosition {
 
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
-    }
-
-    beforeValidate = function ($browse, $grid, request) {
-        var LaborTypeValue = jQuery($grid.find('[data-validationname="LaborTypeValidation"] input')).val();
-
-        request.uniqueids = {
-            LaborTypeId: LaborTypeValue
-        };
     }
 
     renderGrids($form: any) {
@@ -133,7 +134,44 @@ class RwLaborPosition {
             FwFormField.disable($form.find('.category [data-type="validation"]'))
             FwFormField.enable($form.find('[data-datafield="ProfitAndLossCategory"]'))
         }
+
+        if ($form.find('[data-datafield="SubCategoryCount"] .fwformfield-value').val() > 0) {
+            FwFormField.enable($form.find('.subcategory'));
+        } else {
+            FwFormField.disable($form.find('.subcategory'));
+        }
+
+
     }
+
+
+    beforeValidateType = function ($browse, $grid, request) {
+        request.uniqueids = {
+            HasCategories: true,
+        };
+    }
+    //----------------------------------------------------------------------------------------------
+    beforeValidateCategory = function ($browse, $grid, request) {
+        const $form = $grid.closest('.fwform');
+        const laborTypeId = FwFormField.getValueByDataField($form, 'LaborTypeId');
+
+        request.uniqueids = {
+            LaborTypeId: laborTypeId,
+        };
+    }
+    //----------------------------------------------------------------------------------------------
+    beforeValidateSubCategory = function ($browse, $grid, request) {
+        const $form = $grid.closest('.fwform');
+        const laborTypeId = FwFormField.getValueByDataField($form, 'LaborTypeId');
+        const categoryId = FwFormField.getValueByDataField($form, 'CategoryId');
+
+        request.uniqueids = {
+            LaborTypeId: laborTypeId,
+            CategoryId: categoryId,
+        };
+    }
+    //----------------------------------------------------------------------------------------------
+
 }
 
 var LaborPositionController = new RwLaborPosition();

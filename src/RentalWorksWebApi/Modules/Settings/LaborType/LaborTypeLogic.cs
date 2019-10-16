@@ -30,6 +30,9 @@ namespace WebApi.Modules.Settings.LaborType
         [FwLogicProperty(Id:"c1YnVuoyZAP")]
         public bool? GroupProfitLoss { get { return inventoryType.GroupProfitLoss; } set { inventoryType.GroupProfitLoss = value; } }
 
+        [FwLogicProperty(Id: "QGImrzeiV7OLC", IsReadOnly: true)]
+        public int? CategoryCount { get; set; }
+
         [FwLogicProperty(Id:"AYF0kY32D9u")]
         public bool? Inactive { get { return inventoryType.Inactive; } set { inventoryType.Inactive = value; } }
 

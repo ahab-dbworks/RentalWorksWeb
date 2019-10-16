@@ -186,13 +186,32 @@ class RwMiscRate {
     };
 
     //----------------------------------------------------------------------------------------------
-    beforeValidate = function ($browse, $grid, request) {
-        var MiscTypeValue = jQuery($grid.find('[data-validationname="MiscTypeValidation"] input')).val();
-
+    beforeValidateType = function ($browse, $grid, request) {
         request.uniqueids = {
-            MiscTypeId: MiscTypeValue
+            HasCategories: true,
         };
     }
+    //----------------------------------------------------------------------------------------------
+    beforeValidateCategory = function ($browse, $grid, request) {
+        const $form = $grid.closest('.fwform');
+        const miscTypeId = FwFormField.getValueByDataField($form, 'MiscTypeId');
+
+        request.uniqueids = {
+            MiscTypeId: miscTypeId,
+        };
+    }
+    //----------------------------------------------------------------------------------------------
+    beforeValidateSubCategory = function ($browse, $grid, request) {
+        const $form = $grid.closest('.fwform');
+        const miscTypeId = FwFormField.getValueByDataField($form, 'MiscTypeId');
+        const categoryId = FwFormField.getValueByDataField($form, 'CategoryId');
+
+        request.uniqueids = {
+            MiscTypeId: miscTypeId,
+            CategoryId: categoryId,
+        };
+    }
+    //----------------------------------------------------------------------------------------------
 }
 
 //----------------------------------------------------------------------------------------------

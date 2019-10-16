@@ -3,10 +3,11 @@ using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
+using WebLibrary;
 
 namespace WebApi.Modules.Settings.LaborType
 {
-    [FwSqlTable("inventorydepartment")]
+    [FwSqlTable("dbo.funcinventorytype(@rectype)")]
     public class LaborTypeLoader: AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------
@@ -22,6 +23,9 @@ namespace WebApi.Modules.Settings.LaborType
         [FwSqlDataField(column: "profitlossgroup", modeltype: FwDataTypes.Boolean)]
         public bool? GroupProfitLoss { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "categorycount", modeltype: FwDataTypes.Integer)]
+        public int? CategoryCount { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------
@@ -30,9 +34,20 @@ namespace WebApi.Modules.Settings.LaborType
         //------------------------------------------------------------------------------------
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
+            useWithNoLock = false;
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
+
+            string recType = GetUniqueIdAsString("RecType", request) ?? RwConstants.RECTYPE_LABOR;
+            select.AddParameter("@rectype", recType);
+
             select.AddWhere("(labor='T')");
+
+            if (GetUniqueIdAsBoolean("HasCategories", request).GetValueOrDefault(false))
+            {
+                select.AddWhere("(categorycount > 0)");
+            }
+
         }
         //------------------------------------------------------------------------------------
     }
