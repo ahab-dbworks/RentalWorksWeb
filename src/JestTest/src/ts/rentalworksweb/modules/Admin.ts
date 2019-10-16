@@ -11,7 +11,7 @@ export class Alert extends AdminModule {
         this.moduleCaption = 'Alert';
 
         this.defaultNewRecordToExpect = {
-            ModuleName: 1,
+            ModuleName: "",
             AlertName: "",
             ActionNew: false,
             ActionEdit: false,
@@ -21,7 +21,7 @@ export class Alert extends AdminModule {
         this.newRecordsToCreate = [
             {
                 record: {
-                    ModuleName: 2, // want to be able to provide an integer value here OR a text string with the desired value
+                    ModuleName: TestUtils.randomIntegerBetween(1,20), 
                     AlertName: "GlobalScope.TestToken~1.TestToken",
                     ActionNew: true,
                     ActionEdit: true,
@@ -33,7 +33,7 @@ export class Alert extends AdminModule {
             }
         ];
         this.newRecordsToCreate[0].recordToExpect = {
-            ModuleName: this.newRecordsToCreate[0].record.ModuleName,
+            ModuleName: "|NOTEMPTY|",
             AlertName: this.newRecordsToCreate[0].record.AlertName,
             ActionNew: this.newRecordsToCreate[0].record.ActionNew,
             ActionEdit: this.newRecordsToCreate[0].record.ActionEdit,
@@ -52,6 +52,30 @@ export class CustomField extends AdminModule {
         this.moduleName = 'CustomField';
         this.moduleId = 'C98C4CB4-2036-4D70-BC29-8F5A2874B178';
         this.moduleCaption = 'Custom Field';
+
+        this.defaultNewRecordToExpect = {
+            ModuleName: "",
+            FieldName: "",
+            CustomTableName: "customvaluesstring",
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    ModuleName: TestUtils.randomIntegerBetween(1, 20), 
+                    FieldName: "GlobalScope.TestToken~1.TestToken",
+                    CustomTableName: "customvaluesdatetime",
+                },
+                seekObject: {
+                    FieldName: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            ModuleName: "|NOTEMPTY|",
+            FieldName: this.newRecordsToCreate[0].record.FieldName,
+            CustomTableName: this.newRecordsToCreate[0].record.CustomTableName,
+        }
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -63,6 +87,30 @@ export class CustomForm extends AdminModule {
         this.moduleName = 'CustomForm';
         this.moduleId = 'CB2EF8FF-2E8D-4AD0-B880-07037B839C5E';
         this.moduleCaption = 'Custom Form';
+
+        this.defaultNewRecordToExpect = {
+            BaseForm: "",
+            Description: "",
+            Active: true,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    BaseForm: TestUtils.randomIntegerBetween(1, 20),
+                    Description: "GlobalScope.TestToken~1.TestToken",
+                },
+                seekObject: {
+                    Description: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            BaseForm: "|NOTEMPTY|",
+            Description: this.newRecordsToCreate[0].record.Description.toUpperCase(),
+            Active: true,
+        }
+
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -74,6 +122,31 @@ export class DuplicateRule extends AdminModule {
         this.moduleName = 'DuplicateRule';
         this.moduleId = '2E0EA479-AC02-43B1-87FA-CCE2ABA6E934';
         this.moduleCaption = 'Duplicate Rule';
+
+        this.defaultNewRecordToExpect = {
+            ModuleName: "",
+            RuleName: "",
+            ConsiderBlanks: false,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    RuleName: "GlobalScope.TestToken~1.TestToken",
+                    ConsiderBlanks: true,
+                    ModuleName: TestUtils.randomIntegerBetween(1, 20),  // must be last
+                },
+                seekObject: {
+                    RuleName: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            ModuleName: "|NOTEMPTY|",
+            RuleName: this.newRecordsToCreate[0].record.RuleName,
+            ConsiderBlanks: this.newRecordsToCreate[0].record.ConsiderBlanks,
+        }
+
+
     }
     //---------------------------------------------------------------------------------------
 }

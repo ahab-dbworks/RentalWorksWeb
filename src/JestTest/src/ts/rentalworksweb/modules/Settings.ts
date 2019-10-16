@@ -3550,7 +3550,7 @@ export class Source extends SettingsModule {
         ];
         this.newRecordsToCreate[0].recordToExpect = {
             Description: this.newRecordsToCreate[0].record.Description.toUpperCase(),
-            SourceType: this.newRecordsToCreate[0].record.SourceType.toUpperCase(),
+            SourceType: "FTP",
             Inactive: false,
         }
 

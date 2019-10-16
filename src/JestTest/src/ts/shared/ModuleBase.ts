@@ -186,7 +186,7 @@ export class ModuleBase {
             await page.keyboard.press('Enter');
             //await page.waitForFunction(() => document.querySelector('.pleasewait'), { polling: 'mutation' });
             try {
-                await page.waitFor(() => document.querySelector('.pleasewait'), { timeout: 3000 });
+                await page.waitFor(() => document.querySelector('.pleasewait'), { timeout: 2000 });
             } catch (error) { } // assume that we missed the Please Wait dialog
 
             await page.waitFor(() => !document.querySelector('.pleasewait'), { timeout: this.browseSeekTimeout });

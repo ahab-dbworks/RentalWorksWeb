@@ -274,9 +274,24 @@ export class MediumRegressionTest extends BaseTest {
         this.OpenSpecificRecord(new DefaultSettings(), null, true);
         this.OpenSpecificRecord(new InventorySettings(), null, true);
 
-        describe('setup new rental i-codes', () => {
+        let warehouseToSeek: any = {
+            Warehouse: "GlobalScope.User~ME.Warehouse",
+        }
+        this.OpenSpecificRecord(new Warehouse(), warehouseToSeek, true, "MINE");
+
+        //Home - Agent
+        this.MediumRegressionOnModule(new Contact());
+        this.MediumRegressionOnModule(new Customer());
+        this.MediumRegressionOnModule(new Deal());
+        this.MediumRegressionOnModule(new Order());
+        this.MediumRegressionOnModule(new Project());
+        this.MediumRegressionOnModule(new PurchaseOrder());
+        this.MediumRegressionOnModule(new Quote());
+        this.MediumRegressionOnModule(new Vendor());
+
+        describe('Setup new Rental I-Codes', () => {
             //---------------------------------------------------------------------------------------
-            let testName: string = 'setup new rental i-codes';
+            let testName: string = 'Create new Rental I-Code using i-Code mask, if any';
             test(testName, async () => {
 
                 let iCodeMask: string = this.globalScopeRef["InventorySettings~1"].ICodeMask;  // ie. "aaaaa-"  or "aaaaa-aa"
@@ -299,21 +314,6 @@ export class MediumRegressionTest extends BaseTest {
                 expect(1).toBe(1);
             }, this.testTimeout);
         });
-
-        let warehouseToSeek: any = {
-            Warehouse: "GlobalScope.User~ME.Warehouse",
-        }
-        this.OpenSpecificRecord(new Warehouse(), warehouseToSeek, true, "MINE");
-
-        //Home - Agent
-        this.MediumRegressionOnModule(new Contact());
-        this.MediumRegressionOnModule(new Customer());
-        this.MediumRegressionOnModule(new Deal());
-        this.MediumRegressionOnModule(new Order());
-        this.MediumRegressionOnModule(new Project());
-        this.MediumRegressionOnModule(new PurchaseOrder());
-        this.MediumRegressionOnModule(new Quote());
-        this.MediumRegressionOnModule(new Vendor());
 
         //Home - Inventory
         this.MediumRegressionOnModule(new Asset());
@@ -443,7 +443,7 @@ export class MediumRegressionTest extends BaseTest {
         this.MediumRegressionOnModule(new WallDescription());
         this.MediumRegressionOnModule(new WallType());
         this.MediumRegressionOnModule(new ShipVia());
-        //this.MediumRegressionOnModule(new Source());  // cannot test this module because it has a select/combobox which can't be set with our code yet
+        this.MediumRegressionOnModule(new Source());
         this.MediumRegressionOnModule(new AvailabilitySettings());
         this.MediumRegressionOnModule(new DefaultSettings());
         this.MediumRegressionOnModule(new EmailSettings());
@@ -479,15 +479,14 @@ export class MediumRegressionTest extends BaseTest {
         //this.MediumRegressionOnModule(new WorkWeek());     // module cannot be tested because there is no unique field that can be searched to validate or delete the record
 
         //Administrator
-        //this.MediumRegressionOnModule(new Alert());           // cannot test this module because it has a select/combobox which can't be set with our code yet
-        //this.MediumRegressionOnModule(new CustomField());     // cannot test this module because it has a select/combobox which can't be set with our code yet
-        //this.MediumRegressionOnModule(new CustomForm());      // cannot test this module because it has a select/combobox which can't be set with our code yet
-        //this.MediumRegressionOnModule(new DuplicateRule());   // cannot test this module because it has a select/combobox which can't be set with our code yet
+        this.MediumRegressionOnModule(new Alert());        
+        this.MediumRegressionOnModule(new CustomField());    
+        this.MediumRegressionOnModule(new CustomForm());
+        this.MediumRegressionOnModule(new DuplicateRule()); 
         this.MediumRegressionOnModule(new EmailHistory());
         this.MediumRegressionOnModule(new Group());
         this.MediumRegressionOnModule(new Hotfix());
         this.MediumRegressionOnModule(new User());
-
     }
     //---------------------------------------------------------------------------------------
 }
