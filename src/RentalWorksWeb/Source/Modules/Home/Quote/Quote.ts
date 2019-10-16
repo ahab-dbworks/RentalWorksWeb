@@ -886,42 +886,30 @@ class Quote extends OrderBase {
                   <div class="flexcolumn usedsaletotals usedsaleadjustments summarySection" style="flex:0 0 200px;padding-right:10px;">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Used Sales Totals">
                       <div class="flexrow usedsaletotals">
-                        <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Gross Total" data-datafield="" data-enabled="false" data-totalfield="GrossTotal" style="flex:2 1 100px;"></div>
+                        <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Gross Total" data-datafield="" data-enabled="false" data-totalfield="GrossTotal" style="flex:2 1 175px;"></div>
                       </div>
                       <div class="flexrow usedsaletotals">
-                        <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Discount" data-datafield="" data-enabled="false" data-totalfield="Discount" style="flex:1 1 100px;"></div>
+                        <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Discount" data-datafield="" data-enabled="false" data-totalfield="Discount" style="flex:1 1 175px;"></div>
                       </div>
                       <div class="flexrow usedsaletotals">
-                        <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Sub-Total" data-datafield="" data-enabled="false" data-totalfield="SubTotal" style="flex:2 1 100px;"></div>
+                        <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Sub-Total" data-datafield="" data-enabled="false" data-totalfield="SubTotal" style="flex:2 1 175px;"></div>
                       </div>
                       <div class="flexrow usedsaletotals">
-                        <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Tax" data-datafield="" data-enabled="false" data-totalfield="Tax" style="flex:1 1 75px;"></div>
+                        <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Tax" data-datafield="" data-enabled="false" data-totalfield="Tax" style="flex:1 1 175px;"></div>
                       </div>
                       <div class="flexrow usedsaletotals">
-                        <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Total" data-datafield="" data-enabled="false" data-totalfield="Total" style="flex:2 1 100px;"></div>
+                        <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Total" data-datafield="" data-enabled="false" data-totalfield="Total" style="flex:2 1 175px;"></div>
                       </div>
                     </div>
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Used Sales Adjustments">
-                      <div class="flexrow usedsaleAdjustments">
-                        <div data-control="FwFormField" data-type="percent" class="fwcontrol fwformfield totals bottom_line_discount" data-caption="Disc. %" data-rectype="L" data-datafield="UsedSaleDiscountPercent" style="flex:1 1 50px;"></div>
+                      <div class="flexrow">
+                        <div data-control="FwFormField" data-type="percent" class="fwcontrol fwformfield totals bottom_line_discount" data-caption="Disc. %" data-rectype="RS" data-datafield="UsedSaleDiscountPercent" style="flex:1 1 175px;"></div>
                       </div>
-                      <div class="flexrow usedsaleAdjustments">
-                        <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals usedSaleOrderItemTotal bottom_line_total_tax laborAdjustmentsPeriod" data-caption="Total" data-rectype="L" data-datafield="PeriodUsedSaleTotal" style="flex:1 1 100px;"></div>
+                      <div class="flexrow">
+                        <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals lossOrderItemTotal bottom_line_total_tax" data-caption="Total" data-rectype="RS" data-datafield="UsedSaleTotal" style="flex:1 1 175px;"></div>
                       </div>
-                      <div class="flexrow usedsaleAdjustments">
-                        <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield usedSaleTotalWithTax bottom_line_total_tax laborAdjustmentsPeriod" data-caption="Include Tax in Total" data-rectype="L" data-datafield="PeriodUsedSaleTotalIncludesTax" style="flex:1 1 75px;margin-top:10px;"></div>
-                      </div>
-                      <div class="flexrow usedsaleAdjustments">
-                        <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals usedSaleOrderItemTotal bottom_line_total_tax laborAdjustmentsWeekly" data-caption="Total" data-rectype="L" data-datafield="WeeklyUsedSaleTotal" style="flex:1 1 100px; display:none;"></div>
-                      </div>
-                      <div class="flexrow usedsaleAdjustments">
-                        <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield usedSaleTotalWithTax bottom_line_total_tax laborAdjustmentsWeekly" data-caption="Include Tax in Total" data-rectype="L" data-datafield="WeeklyUsedSaleTotalIncludesTax" style="flex:1 1 75px;margin-top:10px; display:none;"></div>
-                      </div>
-                      <div class="flexrow usedsaleAdjustments">
-                        <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals usedSaleOrderItemTotal bottom_line_total_tax laborAdjustmentsMonthly" data-caption="Total" data-rectype="L" data-datafield="MonthlyUsedSaleTotal" style="flex:1 1 100px; display:none;"></div>
-                      </div>
-                      <div class="flexrow usedsaleAdjustments">
-                        <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield usedSaleTotalWithTax bottom_line_total_tax laborAdjustmentsMonthly" data-caption="Include Tax in Total" data-rectype="L" data-datafield="MonthlyUsedSaleTotalIncludesTax" style="flex:1 1 75px;margin-top:10px; display:none;"></div>
+                      <div class="flexrow">
+                        <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield lossTotalWithTax bottom_line_total_tax" data-caption="Include Tax in Total" data-rectype="RS" data-datafield="UsedSaleTotalIncludesTax" style="flex:1 1 175px;margin-top:10px;"></div>
                       </div>
                     </div>
                   </div>
