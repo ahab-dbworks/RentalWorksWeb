@@ -74,6 +74,8 @@ class SearchInterface {
                                           <div data-datafield="Columns" data-control="FwFormField" data-type="checkboxlist" class="fwcontrol fwformfield columnOrder" data-caption="Select columns to display in Results" data-sortable="true" data-orderby="true"></div>
                                           <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield fwformcontrol toggleAccessories" data-caption="Disable Auto-Expansion of Complete/Kit Accessories" data-datafield="DisableAccessoryAutoExpand"></div>
                                           <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield fwformcontrol" data-caption="Hide Inventory with Zero Quantity" data-datafield="HideZeroQuantity"></div>
+                                          <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield fwformcontrol" data-caption="Default Select" data-datafield="DefaultSelect"></div>
+                                          <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield fwformcontrol" data-caption="Default Sort By" data-datafield="DefaultSortBy"></div>
                                           <div>
                                             <div data-type="button" class="fwformcontrol restoreDefaults" style="width:45px; float:left; margin:10px;">Reset</div>
                                             <div data-type="button" class="fwformcontrol applyOptions" style="width:45px; float:right; margin:10px;">Apply</div>
@@ -130,7 +132,8 @@ class SearchInterface {
         FwControl.renderRuntimeControls($popup.find('#searchpopup .fwcontrol'));
 
         FwFormField.loadItems($popup.find('div[data-datafield="Select"]'), [
-            { value: '',   text: 'All' },
+            { value: '', text: 'All' },
+            { value: 'CKN', text: 'Complete/Kit/Container', selected: true },
             { value: 'CK', text: 'Complete/Kit' },
             { value: 'N',  text: 'Container' },
             { value: 'I',  text: 'Item' },
@@ -138,7 +141,7 @@ class SearchInterface {
         ], true);
 
         FwFormField.loadItems($popup.find('div[data-datafield="SortBy"]'), [
-            { value: 'INVENTORY',   text: 'Type / Category / Sub-Category' },
+            { value: 'INVENTORY', text: 'Type / Category / Sub-Category', selected: true },
             { value: 'ICODE',       text: 'I-Code' },
             { value: 'DESCRIPTION', text: 'Description' },
             { value: 'PARTNO',      text: 'Part No.' }
@@ -676,6 +679,22 @@ class SearchInterface {
 
         $popup.find('#itemlist').attr('data-view', 'GRID');
 
+        FwFormField.loadItems($popup.find('div[data-datafield="DefaultSelect"]'), [
+            { value: '', text: 'All' },
+            { value: 'CKN', text: 'Complete/Kit/Container', selected: true },
+            { value: 'CK', text: 'Complete/Kit' },
+            { value: 'N', text: 'Container' },
+            { value: 'I', text: 'Item' },
+            { value: 'A', text: 'Accessory' }
+        ], true);
+
+        FwFormField.loadItems($popup.find('div[data-datafield="DefaultSortBy"]'), [
+            { value: 'INVENTORY', text: 'Type / Category / Sub-Category', selected: true },
+            { value: 'ICODE', text: 'I-Code' },
+            { value: 'DESCRIPTION', text: 'Description' },
+            { value: 'PARTNO', text: 'Part No.' }
+        ], true);
+
         this.saveViewSettings($popup);
     }
     //----------------------------------------------------------------------------------------------
@@ -714,6 +733,8 @@ class SearchInterface {
             WebUserId:                   JSON.parse(sessionStorage.getItem('userid')).webusersid,
             DisableAccessoryAutoExpand:  FwFormField.getValue2($popup.find('[data-datafield="DisableAccessoryAutoExpand"]')) == "T" ? true : false,
             HideZeroQuantity:            FwFormField.getValue2($popup.find('[data-datafield="HideZeroQuantity"]')) == "T" ? true : false,
+            DefaultSelect:               FwFormField.getValue2($popup.find('[data-datafield="DefaultSelect"]')),
+            DefaultSortBy:               FwFormField.getValue2($popup.find('[data-datafield="DefaultSortBy"]')),
             Mode:                        $popup.find('#itemlist').attr('data-view')
         };
     
@@ -751,8 +772,28 @@ class SearchInterface {
         $popup.find('#itemsearch').data('columnorder', columnOrder);
         $popup.find('#itemsearch').data('columnstohide', columnsToHide);
 
+        FwFormField.loadItems($popup.find('div[data-datafield="DefaultSelect"]'), [
+            { value: '', text: 'All' },
+            { value: 'CKN', text: 'Complete/Kit/Container', selected: true },
+            { value: 'CK', text: 'Complete/Kit' },
+            { value: 'N', text: 'Container' },
+            { value: 'I', text: 'Item' },
+            { value: 'A', text: 'Accessory' }
+        ], true);
+
+        FwFormField.loadItems($popup.find('div[data-datafield="DefaultSortBy"]'), [
+            { value: 'INVENTORY', text: 'Type / Category / Sub-Category', selected: true },
+            { value: 'ICODE', text: 'I-Code' },
+            { value: 'DESCRIPTION', text: 'Description' },
+            { value: 'PARTNO', text: 'Part No.' }
+        ], true);
+
         FwFormField.setValueByDataField($popup, 'DisableAccessoryAutoExpand', response.DisableAccessoryAutoExpand);
         FwFormField.setValueByDataField($popup, 'HideZeroQuantity', response.HideZeroQuantity);
+        FwFormField.setValueByDataField($popup, 'DefaultSelect', response.DefaultSelect);
+        FwFormField.setValueByDataField($popup, 'DefaultSortBy', response.DefaultSortBy);
+        FwFormField.setValueByDataField($popup, 'Select', response.DefaultSelect);
+        FwFormField.setValueByDataField($popup, 'SortBy', response.DefaultSortBy);
 
         $popup.find('#itemlist').attr('data-view', response.Mode);
         this.listGridView($popup);
