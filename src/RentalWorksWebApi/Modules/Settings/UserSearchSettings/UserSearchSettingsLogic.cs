@@ -33,6 +33,11 @@ namespace WebApi.Modules.Settings.UserSearchSettings
         [FwLogicProperty(Id: "aK8led2lcYrKC")]
         public bool? HideZeroQuantity { get { return userSearchSettings.HideZeroQuantity; } set { userSearchSettings.HideZeroQuantity = value; } }
 
+        [FwLogicProperty(Id: "E0QJcw2RCCQ")]
+        public string DefaultSelect { get { return userSearchSettings.DefaultSelect; } set { userSearchSettings.DefaultSelect = value; } }
+
+        [FwLogicProperty(Id: "0gaC3ghKasB")]
+        public string DefaultSortBy { get { return userSearchSettings.DefaultSortBy; } set { userSearchSettings.DefaultSortBy = value; } }
 
         //------------------------------------------------------------------------------------
         protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
