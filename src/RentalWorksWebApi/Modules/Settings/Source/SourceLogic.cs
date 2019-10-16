@@ -63,7 +63,7 @@ namespace WebApi.Modules.Settings.Source
         public string TemporaryFtpFileName { get { return source.TemporaryFtpFileName; } set { source.TemporaryFtpFileName = value; } }
 
         [FwLogicProperty(Id:"wJTUrlCDZpWB")]
-        public bool? Disabled { get { return source.Disabled; } set { source.Disabled = value; } }
+        public bool? Inactive { get { return source.Inactive; } set { source.Inactive = value; } }
 
         [FwLogicProperty(Id:"U0ISABi18vUX")]
         public bool? SystemSource { get { return source.SystemSource; } set { source.SystemSource = value; } }

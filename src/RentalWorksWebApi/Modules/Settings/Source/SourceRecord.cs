@@ -57,7 +57,7 @@ namespace WebApi.Modules.Settings.Source
         public bool? FtpSsl { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "disabled", modeltype: FwDataTypes.Boolean)]
-        public bool? Disabled { get; set; }
+        public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "systemsource", modeltype: FwDataTypes.Boolean)]
         public bool? SystemSource { get; set; }
