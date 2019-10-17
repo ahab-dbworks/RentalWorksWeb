@@ -1,8 +1,9 @@
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
@@ -37,7 +38,7 @@ class FwGridClass {
     }
     init($grid, options) {
         var me = this;
-        options = Object.assign({}, me.options, options);
+        options = Object.assign(Object.assign({}, me.options), options);
         if (options.title) {
             this._renderTitle($grid, options);
         }
@@ -723,7 +724,7 @@ class FwGridClass {
         request.orderby = this._getOrderBy($grid);
         request.filterfields = this._getFilters($grid);
         if (options.filter) {
-            request.filterfields = Object.assign({}, request.filterfields, options.filter($grid));
+            request.filterfields = Object.assign(Object.assign({}, request.filterfields), options.filter($grid));
         }
         if (options.filterable !== false) {
             var filterable = options.filterable;
