@@ -753,7 +753,8 @@ class Invoice {
     //----------------------------------------------------------------------------------------------
     creditInvoice($form) {
         const status = FwFormField.getValueByDataField($form, 'Status');
-        if (status === 'PROCESSED' || status === 'CLOSED') {
+        const invoiceType = FwFormField.getValueByDataField($form, 'InvoiceType');
+        if ((invoiceType === 'BILLING') && (status === 'PROCESSED' || status === 'CLOSED')) {
             const $confirmation = FwConfirmation.renderConfirmation('Credit Invoice', '');
             $confirmation.find('.fwconfirmationbox').css('width', '550px');
             const html: Array<string> = [];
@@ -943,7 +944,7 @@ class Invoice {
                 request.TaxOnly = taxOnly.prop('checked');
 
                 FwAppData.apiMethod(true, 'POST', `api/v1/invoice/creditinvoice`, request, FwServices.defaultTimeout, response => {
-                    if (response.success === true && (response.CreditId !== null || response.CreditId !== '')) {
+                    if ((response.success === true) && (response.CreditId !== null || response.CreditId !== '')) {
                         FwNotification.renderNotification('INFO', 'Creating Credit Invoice...');
                         const uniqueids: any = {};
                         uniqueids.InvoiceId = response.CreditId;
@@ -951,14 +952,20 @@ class Invoice {
 
                         FwModule.openModuleTab(InvoiceForm, "", true, 'FORM', true);
                         FwConfirmation.destroyConfirmation($confirmation);
-                    } else if (response.success === false) {
+                    } else /*if (response.success === false)*/ {
                         FwFunc.showError({ 'message': response.msg });
                     }
                 }, ex => FwFunc.showError(ex), $form);
 
             });
-        } else
-            FwNotification.renderNotification('WARNING', `Cannot credit a ${status} Invoice.  Invoice must be PROCESSED or CLOSED.`)
+        } else {
+            if (invoiceType !== 'BILLING') {
+                FwNotification.renderNotification('WARNING', `Cannot credit a ${invoiceType} Invoice.`)
+            }
+            else if ((status !== 'PROCESSED' && status !== 'CLOSED')) {
+                FwNotification.renderNotification('WARNING', `Cannot credit a ${status} Invoice.  Invoice must be PROCESSED or CLOSED.`)
+            }
+        }
     }
 };
 //----------------------------------------------------------------------------------------------
