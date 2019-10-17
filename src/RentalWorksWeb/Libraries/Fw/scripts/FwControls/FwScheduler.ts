@@ -657,6 +657,9 @@ class FwSchedulerClass {
         $control.find('.schedulercontainer').hide();
         $control.find('.calendarcontainer').show();
         $control.find('.yearcontainer').hide();
+        if ($control.attr('data-shownav') === 'false') {
+            $control.find('.navcalendarcontainer').hide();
+        }
         $control.find('.changeview').attr('data-selected', 'false');
         $control.find('.btnDay').attr('data-selected', 'true');
         if ($control.next().data('dpscheduler') !== undefined) {
@@ -682,6 +685,9 @@ class FwSchedulerClass {
         $control.find('.schedulercontainer').hide();
         $control.find('.calendarcontainer').show();
         $control.find('.yearcontainer').hide();
+        if ($control.attr('data-shownav') === 'false') {
+            $control.find('.navcalendarcontainer').hide();
+        }
         $control.find('.changeview').attr('data-selected', 'false');
         $control.find('.btnWeek').attr('data-selected', 'true');
         if ($control.next().data('dpscheduler') !== undefined) {
@@ -704,6 +710,9 @@ class FwSchedulerClass {
         $control.find('.schedulercontainer').hide();
         $control.find('.monthcontainer').hide();
         $control.find('.yearcontainer').hide();
+        if ($control.attr('data-shownav') === 'false') {
+            $control.find('.nav5weekcontainer').hide(); 
+        }
         $control.find('.changeview').attr('data-selected', 'false');
         $control.find('.btn5Week').attr('data-selected', 'true');
         if ($control.next().data('dpscheduler') !== undefined) {
@@ -729,6 +738,9 @@ class FwSchedulerClass {
         $control.find('.schedulercontainer').hide();
         $control.find('.monthcontainer').show();
         $control.find('.yearcontainer').hide();
+        if ($control.attr('data-shownav') === 'false') {
+            $control.find('.navmonthcontainer').hide();
+        }
         $control.find('.changeview').attr('data-selected', 'false');
         $control.find('.btnMonth').attr('data-selected', 'true');
         if ($control.next().data('dpscheduler') !== undefined) {
