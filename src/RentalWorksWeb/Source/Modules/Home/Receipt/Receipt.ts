@@ -314,11 +314,13 @@ class Receipt {
             if (paymentTypeType === 'DEPLETING DEPOSIT' || paymentTypeType === 'CREDIT MEMO' || paymentTypeType === 'OVERPAYMENT') {
                 isOverDepletingMemo = true;
             }
+            this.spendPaymentTypes($form, paymentTypeType, isOverDepletingMemo);
             if (paymentTypeType === 'REFUND CHECK') {
-                this.refundCheck($form);
+                this.loadReceiptCreditGrid($form);
+            } else {
+                this.loadReceiptInvoiceGrid($form);
             }
 
-            this.spendPaymentTypes($form, paymentTypeType, isOverDepletingMemo);
         });
         // ------
         $form.find('div.credits-tab').on('click', e => {
@@ -549,6 +551,8 @@ class Receipt {
     }
     //----------------------------------------------------------------------------------------------
     loadReceiptInvoiceGrid($form: JQuery): void {
+        $form.find('.invoice-row').show();
+        $form.find('.credits-row').hide();
         if ($form.attr('data-mode') === 'NEW') {
             $form.find('.table-rows').html('<tr class="empty-row" style="height:33px;"><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>');
         }
@@ -789,6 +793,250 @@ class Receipt {
         const InvoiceDataList: any = [];
         for (let i = 0; i < $invoiceIdFields.length; i++) {
             const invoiceId = $invoiceIdFields.eq(i).text();
+            const invoiceReceiptId = $invoiceReceiptIds.eq(i).text();
+            let amount: any = $amountFields.eq(i).val();
+            amount = amount.replace(/,/g, '');
+
+            const fields: any = {}
+            fields.InvoiceReceiptId = invoiceReceiptId;
+            fields.InvoiceId = invoiceId;
+            fields.Amount = +amount;
+            InvoiceDataList.push(fields);
+        }
+
+        return InvoiceDataList;
+    }
+    //----------------------------------------------------------------------------------------------
+    loadReceiptCreditGrid($form: JQuery): void {
+        $form.find('.invoice-row').hide();
+        $form.find('.credits-row').show();
+
+        if ($form.attr('data-mode') === 'NEW') {
+            $form.find('.credit-table-rows').html('<tr class="credit-empty-row" style="height:33px;"><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>');
+        }
+        const calculateInvoiceCreditTotals = ($form, event?) => {
+            let amountValBefore;
+            if (event != undefined) {
+                const $this = jQuery(event.currentTarget);
+                amountValBefore = $this.data('payAmountOnFocus');
+                if (amountValBefore) {
+                    amountValBefore = amountValBefore.replace(/,/g, '');
+                    console.log('amountValBeforeinTOTAL', amountValBefore)
+                }
+            }
+
+            let remainingTotal = new Decimal(0);
+            let amountTotal = new Decimal(0);
+            let recurse = false;
+
+            const $remainingFields = $form.find('td[data-creditfield="CreditRemaining"]');
+            const $amountFields = $form.find('td[data-creditfield="CreditAmount"] input');
+            const amountToApply = FwFormField.getValueByDataField($form, 'PaymentAmount').replace(/,/g, '');
+            let unappliedTotalPrior = $form.find(`div[data-totalfield="UnappliedCreditTotal"] input`).val().replace(/[$ ,]+/g, "").trim();
+            if (unappliedTotalPrior === '') { unappliedTotalPrior = '0.00'; }
+            for (let i = 0; i < $amountFields.length; i++) {
+                // ----- Bottom line totaling
+                let amountValOnLine = $amountFields.eq(i).val().replace(/,/g, '');
+                if (amountValOnLine === '') { amountValOnLine = '0.00'; } // possibly unecessary
+                // Amount Column
+                amountTotal = amountTotal.plus(amountValOnLine);
+                // Remaining Column
+                let remainingValOnLine = $remainingFields.eq(i).text().replace(/,/g, '');
+                remainingTotal = remainingTotal.plus(remainingValOnLine);
+
+                // ----- Line Totaling for Applied and Due fields
+                if (event) {
+                    const element = jQuery(event.currentTarget);
+                    // Button
+                    if (element.attr('data-type') === 'button') {
+                        if (+(element.attr('row-index')) === i) {
+                            let amountInput = $amountFields.eq(i).val().replace(/,/g, '');
+                            if (amountInput === '') { amountInput = '0.00'; }
+                            let amountTotal = new Decimal(0);
+                            amountTotal = amountTotal.plus(amountInput);
+                            let remainingTotal = new Decimal(0);
+                            const remainingValOnLine = $remainingFields.eq(i).text().replace(/,/g, '');
+                            remainingTotal = remainingTotal.plus(remainingValOnLine);
+                            let unappliedTotalPriorDecimal = new Decimal(0);
+                            unappliedTotalPriorDecimal = unappliedTotalPriorDecimal.plus(unappliedTotalPrior);
+                            let amountVal;
+
+                            //console.log('unappliedTotalPrior', unappliedTotalPrior)
+                            //console.log('amountInput', amountInput)
+                            //console.log('amountTotal', amountTotal)
+                            //console.log('remainingValOnLine', remainingValOnLine)
+                            //console.log('remainingTotal', remainingTotal)
+                            //console.log('unappliedTotalPriorDecimal', unappliedTotalPriorDecimal)
+
+                            // If Unapplied Amount >= "Due"  increase the "Amount" value by the "Due" value on the line
+                            if (unappliedTotalPriorDecimal.greaterThanOrEqualTo(remainingTotal)) {
+                                amountVal = remainingTotal.plus(amountTotal);
+                                console.log('amountVal', amountVal);
+
+                                $amountFields.eq(i).val(amountVal.toFixed(2));
+                            }
+                            // If Unapplied Amount < "Due"  increase the "Amount" value by the Unapplied Amount value on the line
+                            if (unappliedTotalPriorDecimal.lessThan(remainingTotal)) {
+                                amountVal = amountTotal.plus(unappliedTotalPriorDecimal);
+                                console.log('amountVal', amountVal);
+
+                                $amountFields.eq(i).val(amountVal.toFixed(2));
+                            }
+                            let amountDifference = new Decimal(0);
+                            amountDifference = amountVal.minus(amountTotal);
+                    
+                            let remainingLineTotal = new Decimal(0);
+                            remainingLineTotal = remainingLineTotal.plus(remainingValOnLine).minus(amountDifference);
+
+                            let remaining = remainingLineTotal.toFixed(2);
+                            remaining = remaining.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+                            $remainingFields.eq(i).text(remaining);
+                            recurse = true;
+                            break;
+                        }
+                    }
+                    // Amount input field
+                    const currentAmountField = $amountFields.eq(i);
+                    if (element.is(currentAmountField)) {
+                        let amountInput = $amountFields.eq(i).val().replace(/,/g, '');
+                        if (amountInput === '') {
+                            amountInput = '0.00';
+                        }
+                        let amountTotal = new Decimal(0);
+                        amountTotal = amountTotal.plus(amountInput);
+                        let amountDifference = new Decimal(0);
+                        amountDifference = amountTotal.minus(amountValBefore)
+                      
+                        let remainingLineTotal = new Decimal(0);
+                        remainingLineTotal = remainingLineTotal.plus(remainingValOnLine).minus(amountDifference);
+                        let remaining = remainingLineTotal.toFixed(2);
+                        remaining = remaining.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+                        $remainingFields.eq(i).text(remaining);
+                        recurse = true;
+                        break;
+                    }
+                }
+            }
+            if (recurse) {
+                calculateInvoiceCreditTotals($form);
+                return;
+            }
+            const amount: any = amountTotal.toFixed(2);
+            const unappliedTotal = amountToApply - amount;
+
+            $form.find(`div[data-totalfield="UnappliedCreditTotal"] input`).val(unappliedTotal);
+            $form.find(`div[data-totalfield="CreditAmountTotal"] input`).val(amount);
+        }
+        const getInvoiceCreditData = ($form) => {
+            const request: any = {};
+            const officeLocationId = JSON.parse(sessionStorage.getItem('location')).locationid;
+            const receiptId = FwFormField.getValueByDataField($form, 'ReceiptId');
+            const receiptDate = FwFormField.getValueByDataField($form, 'ReceiptDate');
+
+            const paymentBy = FwFormField.getValueByDataField($form, 'PaymentBy');
+            let url;
+            if (paymentBy === 'DEAL') {
+                //request.uniqueids.DealId = FwFormField.getValueByDataField($form, 'DealId');
+                url = 'dealcredit';
+                request.DealId = FwFormField.getValueByDataField($form, 'DealId');
+            } else if (paymentBy === 'CUSTOMER') {
+                //request.uniqueids.CustomerId = FwFormField.getValueByDataField($form, 'CustomerId');
+                url = 'customercredit';
+                request.CustomerId = FwFormField.getValueByDataField($form, 'CustomerId');
+            }
+            //request.uniqueids = {
+            //    OfficeLocationId: officeLocationId,
+            //    ReceiptId: receiptId,
+            //    ReceiptDate: receiptDate,
+            //}
+            //request.orderby = 'InvoiceDate'
+
+            FwAppData.apiMethod(true, 'POST', `api/v1/${url}/browse`, request, FwServices.defaultTimeout, res => {
+
+                const rows = res.Rows;
+                console.log('ROWS', rows)
+                const htmlRows: Array<string> = [];
+                if (rows.length) {
+                    for (let i = 0; i < rows.length; i++) {
+                        htmlRows.push(`<tr class="row"><td data-validationname="Deal" data-fieldname="DealId" data-datafield="${rows[i][res.ColumnIndex.DealId]}" data-displayfield="${rows[i][res.ColumnIndex.Deal]}" class="text">${rows[i][res.ColumnIndex.Deal]}<i class="material-icons btnpeek">more_horiz</i></td><td class="text InvoiceId" style="display:none;">${rows[i][res.ColumnIndex.ReceiptId]}</td><td data-validationname="PaymentType" data-fieldname="PaymentTypeId" data-datafield="${rows[i][res.ColumnIndex.PaymentTypeId]}" data-displayfield="${rows[i][res.ColumnIndex.PaymentType]}" class="text">${rows[i][res.ColumnIndex.PaymentType]}<i class="material-icons btnpeek">more_horiz</i></td><td data-validationname="CheckNumber" data-fieldname="CheckNumberId" data-datafield="${rows[i][res.ColumnIndex.CheckNumberId]}" data-displayfield="${rows[i][res.ColumnIndex.CheckNumber]}" class="text">${rows[i][res.ColumnIndex.CheckNumber]}<i class="material-icons btnpeek">more_horiz</i></td><td style="text-align:right;" data-creditfield="CreditRemaining" class="decimal credit-static-amount">${rows[i][res.ColumnIndex.Remaining]}</td><td data-enabled="true" data-isuniqueid="false" data-datafield="CreditAmount" data-creditfield="CreditAmount" class="decimal fwformfield credit-pay-amount credit-amount"><input class="decimal fwformfield fwformfield-value" style="font-size:inherit;" type="text" autocapitalize="none" row-index="${i}" value="${rows[i][res.ColumnIndex.Amount]}"></td><td><div class="fwformcontrol credit-apply-btn" row-index="${i}" data-type="button" style="height:27px;padding:.3rem;line-height:13px;font-size:14px;">Apply All</div></td></tr>`);
+                    }
+                    $form.find('.credit-table-rows').html('');
+                    $form.find('.credit-table-rows').html(htmlRows.join(''));
+                    $form.find('.credit-amount input').inputmask({ alias: "currency", prefix: '' });
+                    $form.find('.credit-static-amount:not(input)').inputmask({ alias: "currency", prefix: '' });
+
+                    (function () {
+                        const $amountFields = $form.find('.credit-amount input');
+                        for (let i = 0; i < $amountFields.length; i++) {
+                            const amount: any = $amountFields.eq(i).val();
+                            if (amount === '0.00' || amount === '') {
+                                $amountFields.eq(i).css('background-color', 'white');
+                            } else {
+                                $amountFields.eq(i).css('background-color', '#F4FFCC');
+                            }
+                        }
+                        calculateInvoiceCreditTotals($form);
+                    })();
+                    // Amount column listener
+                    $form.find('.credit-pay-amount input').on('change', ev => {
+                        ev.stopPropagation();
+                        const el = jQuery(ev.currentTarget);
+                        let val = el.val();
+                        if (el.hasClass('decimal')) {
+                            if (val === '0.00' || val === '') {
+                                el.css('background-color', 'white');
+                                val = '0.00';
+                            } else {
+                                el.css('background-color', '#F4FFCC');
+                            }
+                        }
+                        calculateInvoiceCreditTotals($form, ev);
+                        el.data('payAmountOnFocus', val); // reset line before total in case user doesnt leave input and changes again
+                        console.log('payAmountOnChange', el.data('payAmountOnFocus'))
+                    });
+                    // Store intial amount value for calculations after change
+                    $form.find('.credit-pay-amount input').on('focus', ev => {
+                        ev.stopPropagation();
+                        const el = jQuery(ev.currentTarget);
+                        let val = el.val();
+                        if (val === '') {
+                            val = '0.00'
+                        }
+                        el.data('payAmountOnFocus', val);
+                        console.log('payAmountOnFocusOUTSIDE', el.data('payAmountOnFocus'))
+                    });
+                    // Amount to Apply listener
+                    $form.find('.amount-to-apply input').on('change', ev => {
+                        ev.stopPropagation();
+                        calculateInvoiceCreditTotals($form);
+                    });
+
+                    $form.find('.credit-apply-btn').click((ev: JQuery.ClickEvent) => {
+                        calculateInvoiceCreditTotals($form, ev);
+                    });
+                    // btnpeek
+                    $form.find('tbody tr .btnpeek').on('click', function (e: JQuery.Event) {
+                        try {
+                            const $td = jQuery(this).parent();
+                            FwValidation.validationPeek($form, $td.attr('data-validationname'), $td.attr('data-datafield'), $td.attr('data-datafield'), $form, $td.attr('data-displayfield'));
+                        } catch (ex) {
+                            FwFunc.showError(ex)
+                        }
+                        e.stopPropagation();
+                    });
+                }
+            }, null, $form);
+        }
+        getInvoiceCreditData($form);
+    }
+    //----------------------------------------------------------------------------------------------
+    getCreditFormTableData($form: JQuery): any {
+        const $receiptIdFields = $form.find('.ReceiptId');
+        const $invoiceReceiptIds = $form.find('.InvoiceReceiptId');
+        const $amountFields = $form.find('.credit-amount input');
+        const InvoiceDataList: any = [];
+        for (let i = 0; i < $receiptIdFields.length; i++) {
+            const invoiceId = $receiptIdFields.eq(i).text();
             const invoiceReceiptId = $invoiceReceiptIds.eq(i).text();
             let amount: any = $amountFields.eq(i).val();
             amount = amount.replace(/,/g, '');
