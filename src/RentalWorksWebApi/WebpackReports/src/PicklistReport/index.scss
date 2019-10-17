@@ -19,8 +19,13 @@ tbody {
     }
 }
 
+.qrcode {
+    height: 75px;
+    width: 100px;
+}
+
 .picked-by {
-    border-bottom:2px solid black;
+    border-bottom: 2px solid black;
 }
 
 .boxcol {
@@ -49,20 +54,24 @@ tbody {
     align-self: flex-start;
     font-size: 17px;
 }
+
 .sub-header {
     background-color: #DCDCDC;
 }
+
 .sub-header tr > td {
     border: 1.5px solid black;
-    border-collapse:collapse;
+    border-collapse: collapse;
 }
 
 .sub-header-left {
     align-self: flex-start;
 }
+
 .sub-header-center {
     align-self: center;
 }
+
 .sub-header-right {
     align-self: flex-end;
 }

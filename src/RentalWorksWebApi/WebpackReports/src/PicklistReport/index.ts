@@ -2,6 +2,7 @@
 import { DataTable } from '../../lib/FwReportLibrary/src/scripts/Browse';
 import { Ajax } from '../../lib/FwReportLibrary/src/scripts/Ajax';
 import { HandlebarsHelpers } from '../../lib/FwReportLibrary/src/scripts/HandlebarsHelpers';
+import * as QrCodeGen from '../../lib/FwReportLibrary/src/scripts/QrCodeGen';
 import * as moment from 'moment';
 import '../../lib/FwReportLibrary/src/theme/webpackReports.scss';
 import './index.scss';
@@ -12,7 +13,6 @@ export class PickListReport extends WebpackReport {
     renderReport(apiUrl: string, authorizationHeader: string, parameters: any): void {
         try {
             super.renderReport(apiUrl, authorizationHeader, parameters);
-
             HandlebarsHelpers.registerHelpers();
 
             Ajax.post<DataTable>(`${apiUrl}/api/v1/picklistreport/runreport`, authorizationHeader, parameters)
@@ -25,7 +25,12 @@ export class PickListReport extends WebpackReport {
                     data.Company = parameters.companyName;
                     data.NewPagePerType = parameters.NewPagePerType;
                     data.rows[1].IsFirstInventoryTypeHeader = true;
+
+                    const qr = QrCodeGen.QrCode.encodeText(data.OrderNumber, QrCodeGen.Ecc.MEDIUM);
+                    const svg = qr.toSvgString(4);
+                    data.QrCode = svg;
                     console.log(data);
+
                     this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
