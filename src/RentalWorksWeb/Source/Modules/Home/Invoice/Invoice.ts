@@ -944,13 +944,16 @@ class Invoice {
 
                 FwAppData.apiMethod(true, 'POST', `api/v1/invoice/creditinvoice`, request, FwServices.defaultTimeout, response => {
                     // capture the "@creditid" output parameter and open the Credit Invoice using that ID so the user can see newly-created Credit Invoice Form.
+
+                    // Josh, please add some error handling here.  I updated the api and database such that if an error occurs, it will be returned as (response.success = false) and (response.msg = "some error here")
+
                     FwNotification.renderNotification('INFO', 'Creating Credit Invoice...');
                     const uniqueids: any = {};
-                    uniqueids.InvoiceId = response.CreditId;
+                    uniqueids.InvoiceId = response.CreditId;  //Josh, please validate that response.CreditId is not empty here before proceeding
                     const InvoiceForm = InvoiceController.loadForm(uniqueids);
 
                     FwModule.openModuleTab(InvoiceForm, "", true, 'FORM', true);
-                }, ex => FwFunc.showError(ex), $form);
+                }, ex => FwFunc.showError(ex), $form);  // you should only get to this error if there is a network outage or some other catastrophic API error
 
                 FwConfirmation.destroyConfirmation($confirmation);
             });

@@ -59,7 +59,7 @@ namespace WebApi.Modules.Billing.Invoice
             CreditInvoiceReponse response = new CreditInvoiceReponse();
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
             {
-                FwSqlCommand qry = new FwSqlCommand(conn, "createinvoicecredit", appConfig.DatabaseSettings.QueryTimeout);
+                FwSqlCommand qry = new FwSqlCommand(conn, "createinvoicecreditweb", appConfig.DatabaseSettings.QueryTimeout);
                 qry.AddParameter("@invoiceid", SqlDbType.NVarChar, ParameterDirection.Input, request.InvoiceId);
                 qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
                 qry.AddParameter("@percent", SqlDbType.NVarChar, ParameterDirection.Input, request.Percent);
@@ -73,10 +73,13 @@ namespace WebApi.Modules.Billing.Invoice
                 qry.AddParameter("@creditmethod", SqlDbType.NVarChar, ParameterDirection.Input, request.CreditMethod);
                 qry.AddParameter("@adjustcost", SqlDbType.NVarChar, ParameterDirection.Input, request.AdjustCost);
                 qry.AddParameter("@creditid", SqlDbType.NVarChar, ParameterDirection.Output);
+                qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
+                qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
                 await qry.ExecuteNonQueryAsync();
-                response.success = true;
-                response.msg = "";
                 response.CreditId = qry.GetParameter("@creditid").ToString();
+                response.status = qry.GetParameter("@status").ToInt32();
+                response.success = (response.status == 0);
+                response.msg = qry.GetParameter("@msg").ToString();
             }
             return response;
         }
