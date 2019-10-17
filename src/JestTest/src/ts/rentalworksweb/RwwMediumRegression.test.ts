@@ -363,8 +363,8 @@ export class MediumRegressionTest extends BaseTest {
         this.MediumRegressionOnModule(new ScheduleType());
         this.MediumRegressionOnModule(new DiscountTemplate());
         this.MediumRegressionOnModule(new DocumentType());
-        //this.MediumRegressionOnModule(new CoverLetter());       // editor control is broken on New records
-        //this.MediumRegressionOnModule(new TermsConditions());   // editor control is broken on New records
+        this.MediumRegressionOnModule(new CoverLetter());
+        this.MediumRegressionOnModule(new TermsConditions());
         this.MediumRegressionOnModule(new EventCategory());
         this.MediumRegressionOnModule(new EventType());
         this.MediumRegressionOnModule(new PersonnelType());
@@ -479,10 +479,10 @@ export class MediumRegressionTest extends BaseTest {
         //this.MediumRegressionOnModule(new WorkWeek());     // module cannot be tested because there is no unique field that can be searched to validate or delete the record
 
         //Administrator
-        this.MediumRegressionOnModule(new Alert());        
-        this.MediumRegressionOnModule(new CustomField());    
+        this.MediumRegressionOnModule(new Alert());
+        this.MediumRegressionOnModule(new CustomField());
         this.MediumRegressionOnModule(new CustomForm());
-        this.MediumRegressionOnModule(new DuplicateRule()); 
+        this.MediumRegressionOnModule(new DuplicateRule());
         this.MediumRegressionOnModule(new EmailHistory());
         this.MediumRegressionOnModule(new Group());
         this.MediumRegressionOnModule(new Hotfix());
