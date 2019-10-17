@@ -943,25 +943,24 @@ class Invoice {
                 request.TaxOnly = taxOnly.prop('checked');
 
                 FwAppData.apiMethod(true, 'POST', `api/v1/invoice/creditinvoice`, request, FwServices.defaultTimeout, response => {
-                    // capture the "@creditid" output parameter and open the Credit Invoice using that ID so the user can see newly-created Credit Invoice Form.
+                    if (response.success === true && (response.CreditId !== null || response.CreditId !== '')) {
+                        FwNotification.renderNotification('INFO', 'Creating Credit Invoice...');
+                        const uniqueids: any = {};
+                        uniqueids.InvoiceId = response.CreditId;
+                        const InvoiceForm = InvoiceController.loadForm(uniqueids);
 
-                    // Josh, please add some error handling here.  I updated the api and database such that if an error occurs, it will be returned as (response.success = false) and (response.msg = "some error here")
+                        FwModule.openModuleTab(InvoiceForm, "", true, 'FORM', true);
+                        FwConfirmation.destroyConfirmation($confirmation);
+                    } else if (response.success === false) {
+                        FwFunc.showError({ 'message': response.msg });
+                    }
+                }, ex => FwFunc.showError(ex), $form);
 
-                    FwNotification.renderNotification('INFO', 'Creating Credit Invoice...');
-                    const uniqueids: any = {};
-                    uniqueids.InvoiceId = response.CreditId;  //Josh, please validate that response.CreditId is not empty here before proceeding
-                    const InvoiceForm = InvoiceController.loadForm(uniqueids);
-
-                    FwModule.openModuleTab(InvoiceForm, "", true, 'FORM', true);
-                }, ex => FwFunc.showError(ex), $form);  // you should only get to this error if there is a network outage or some other catastrophic API error
-
-                FwConfirmation.destroyConfirmation($confirmation);
             });
         } else
             FwNotification.renderNotification('WARNING', `Cannot credit a ${status} Invoice.  Invoice must be PROCESSED or CLOSED.`)
     }
 };
-
 //----------------------------------------------------------------------------------------------
 // Void Invoice - Form
 FwApplicationTree.clickEvents[Constants.Modules.Home.Invoice.form.menuItems.Void.id] = function (e: JQuery.ClickEvent) {
