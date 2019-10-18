@@ -970,24 +970,21 @@ public string DateStamp { get; set; }
         }
 
         //------------------------------------------------------------------------------------
-        public async Task<bool> SavePoASync(string PoNumber, decimal? PoAmount, FwSqlConnection conn = null)
+        public async Task<bool> SavePoASync(string origPoNumber, string PoNumber, decimal? PoAmount, FwSqlConnection conn = null)
         {
             bool saved = false;
-            if ((PoNumber != null) && (PoAmount != null))  // temporary: actual solution is to force the PO number and Amount with the post
+            if (conn == null)
             {
-                if (conn == null)
-                {
-                    conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString);
-                }
-                FwSqlCommand qry = new FwSqlCommand(conn, "setorderpo", this.AppConfig.DatabaseSettings.QueryTimeout);
-                qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
-                qry.AddParameter("@orgpono", SqlDbType.NVarChar, ParameterDirection.Input, "");
-                qry.AddParameter("@newpono", SqlDbType.NVarChar, ParameterDirection.Input, PoNumber);
-                qry.AddParameter("@poamount", SqlDbType.Decimal, ParameterDirection.Input, PoAmount);
-                qry.AddParameter("@insertnew", SqlDbType.NVarChar, ParameterDirection.Input, false);
-                await qry.ExecuteNonQueryAsync();
-                saved = true;
+                conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString);
             }
+            FwSqlCommand qry = new FwSqlCommand(conn, "setorderpo", this.AppConfig.DatabaseSettings.QueryTimeout);
+            qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
+            qry.AddParameter("@orgpono", SqlDbType.NVarChar, ParameterDirection.Input, origPoNumber);
+            qry.AddParameter("@newpono", SqlDbType.NVarChar, ParameterDirection.Input, PoNumber);
+            qry.AddParameter("@poamount", SqlDbType.Decimal, ParameterDirection.Input, PoAmount);
+            qry.AddParameter("@insertnew", SqlDbType.NVarChar, ParameterDirection.Input, string.IsNullOrEmpty(origPoNumber));
+            await qry.ExecuteNonQueryAsync();
+            saved = true;
             return saved;
         }
         //-------------------------------------------------------------------------------------------------------

@@ -1240,7 +1240,7 @@ namespace WebApi.Modules.Agent.Order
 
             OrderBaseLogic lOrig = null;
 
-            if (saveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
+            if (saveMode.Equals(TDataRecordSaveMode.smInsert))
             {
                 rental = Rental.GetValueOrDefault(false);
                 sales = Sales.GetValueOrDefault(false);
@@ -1510,6 +1510,34 @@ namespace WebApi.Modules.Agent.Order
 
             }
 
+
+            //saving PO Number and Amount
+            {
+                string origPoNumber = "";
+                string poNumber = "";
+                decimal? poAmount = 0;
+                bool savePo = true;
+                if (e.SaveMode.Equals(TDataRecordSaveMode.smInsert))
+                {
+                    poNumber = PoNumber ?? "";
+                    poAmount = PoAmount ?? 0;
+                }
+                else // updating
+                {
+                    OrderBaseLogic orig = ((OrderBaseLogic)e.Original);
+                    origPoNumber = orig.PoNumber;
+                    poNumber = PoNumber ?? orig.PoNumber;
+                    poAmount = PoAmount ?? orig.PoAmount;
+                    savePo = ((!poNumber.Equals(orig.PoNumber)) || (!poAmount.Equals(orig.PoAmount)));
+                }
+                if (savePo)
+                {
+                    bool b = dealOrder.SavePoASync(origPoNumber, poNumber, poAmount, e.SqlConnection).Result;
+                }
+            }
+
+
+
         }
         //------------------------------------------------------------------------------------
 
@@ -1520,7 +1548,7 @@ namespace WebApi.Modules.Agent.Order
         //------------------------------------------------------------------------------------
         public void OnBeforeSaveDealOrder(object sender, BeforeSaveDataRecordEventArgs e)
         {
-            if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
+            if (e.SaveMode.Equals(TDataRecordSaveMode.smInsert))
             {
                 bool x = dealOrder.SetNumber(e.SqlConnection).Result;
                 StatusDate = FwConvert.ToString(DateTime.Today);
@@ -1533,11 +1561,9 @@ namespace WebApi.Modules.Agent.Order
         //------------------------------------------------------------------------------------
         public virtual void OnAfterSaveDealOrder(object sender, AfterSaveDataRecordEventArgs e)
         {
-            bool saved = false;
             billToAddress.UniqueId1 = dealOrder.OrderId;
-            saved = dealOrder.SavePoASync(PoNumber, PoAmount, e.SqlConnection).Result;
 
-            if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate)
+            if (e.SaveMode.Equals(TDataRecordSaveMode.smUpdate))
             {
                 if ((TaxOptionId != null) && (!TaxOptionId.Equals(string.Empty)))
                 {
