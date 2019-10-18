@@ -98,6 +98,9 @@ export class ModuleBase {
 
         let mainMenuSelector = `.appmenu`;
         await page.waitForSelector(mainMenuSelector);
+		
+		ModuleBase.wait(1000); // wait for menu option to get its click event
+		
         await page.click(mainMenuSelector);
         let menuButtonId = '#btnModule' + this.moduleId;
         await expect(page).toClick(menuButtonId);
@@ -105,7 +108,7 @@ export class ModuleBase {
 
         // wait for the data to come in
         await page.waitFor(() => document.querySelector('.pleasewait'));
-        await page.waitFor(() => !document.querySelector('.pleasewait'));
+        await page.waitFor(() => !document.querySelector('.pleasewait'), { timeout: this.browseOpenTimeout });
 
         // find the browse tab
         let browseTabSelector = `div.tab.active[data-tabtype="BROWSE"]`;
@@ -300,6 +303,9 @@ export class ModuleBase {
         else {
             selector += `:nth-child(1)`;
             await page.waitForSelector(selector);
+			
+			ModuleBase.wait(1000); // wait for the record(s) to get their click events
+			
             Logging.logInfo(`About to double-click the first row.`);
             await page.click(selector, { clickCount: 2 });
             //await page.waitFor(() => document.querySelector('.pleasewait'));
@@ -386,7 +392,7 @@ export class ModuleBase {
 
                         // if Please Wait dialog found, wait for it to go away
                         if (pleaseWaitDialog !== undefined) {
-                            await page.waitFor(() => !document.querySelector('.pleasewait'));
+                            await page.waitFor(() => !document.querySelector('.pleasewait'), { timeout: this.formOpenTimeout });
                         }
 
                         // wait 300 milliseconds, then check for any errors
@@ -421,10 +427,10 @@ export class ModuleBase {
     //---------------------------------------------------------------------------------------
     async findDeleteButton(): Promise<boolean> {
         let foundDeleteButton: boolean = false;
-        await page.waitForSelector(this.getBrowseSelector(), { timeout: 1000 });
+        await page.waitForSelector(this.getBrowseSelector(), { timeout: 10000 });
         var newButton;
         try {
-            newButton = await page.waitForSelector(this.getDeleteButtonSelector(), { timeout: 1000 });
+            newButton = await page.waitForSelector(this.getDeleteButtonSelector(), { timeout: 10000 });
         } catch (error) { } // not found
         foundDeleteButton = (newButton !== undefined);
         return foundDeleteButton;
@@ -529,10 +535,10 @@ export class ModuleBase {
     //---------------------------------------------------------------------------------------
     async findNewButton(): Promise<boolean> {
         let foundNewButton: boolean = false;
-        await page.waitForSelector(this.getBrowseSelector(), { timeout: 1000 });
+        await page.waitForSelector(this.getBrowseSelector(), { timeout: 10000 });
         var newButton;
         try {
-            newButton = await page.waitForSelector(this.getNewButtonSelector(), { timeout: 1000 });
+            newButton = await page.waitForSelector(this.getNewButtonSelector(), { timeout: 10000 });
         } catch (error) { } // not found
         foundNewButton = (newButton !== undefined);
         return foundNewButton;
@@ -547,7 +553,7 @@ export class ModuleBase {
             count = 1;
         }
 
-        await page.waitForSelector(this.getBrowseSelector(), { timeout: 1000 });
+        await page.waitForSelector(this.getBrowseSelector(), { timeout: 10000 });
 
         let openFormCountBefore = await this.countOpenForms();
 
@@ -558,7 +564,7 @@ export class ModuleBase {
         }
 
         let formSelector = `.fwform`;
-        await page.waitForSelector(formSelector, { timeout: 5000 })
+        await page.waitForSelector(formSelector, { timeout: 10000 })
             .then(async done => {
                 let openFormCountAfter = await this.countOpenForms();
 
@@ -956,8 +962,11 @@ export class ModuleBase {
 
                     //make the "record saved" toaster message go away
                     await page.waitForSelector('.advisory .messageclose');
+                    Logging.logInfo(`found "record saved" toaster`);
                     await page.click(`.advisory .messageclose`);
+                    Logging.logInfo(`clicked "X" on "record saved" toaster`);
                     await page.waitFor(() => !document.querySelector('.advisory'));  // wait for toaster to go away
+                    Logging.logInfo(`"record saved" toaster is now gone`);
 
                     response.saved = true;
                     response.errorMessage = "";
@@ -996,6 +1005,7 @@ export class ModuleBase {
 
                 }
             })
+        Logging.logInfo(`end of save record method`);
         return response;
     }
     //---------------------------------------------------------------------------------------

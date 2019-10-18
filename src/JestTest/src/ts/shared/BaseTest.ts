@@ -7,7 +7,7 @@ import { GlobalScope } from '../shared/GlobalScope';
 
 export abstract class BaseTest {
     continueTest: boolean | void = true;
-    testTimeout: number = 30000; // 30 seconds
+    testTimeout: number = 120000; // 120 seconds
     testToken = TestUtils.getTestToken();
     globalScopeRef = GlobalScope;
     //---------------------------------------------------------------------------------------
@@ -135,10 +135,31 @@ export abstract class BaseTest {
     }
     //---------------------------------------------------------------------------------------
     async LoadMyUserGlobal(userModule: ModuleBase) {
-        var findUserInputs: any = {
-            LoginName: process.env.RW_LOGIN
-        }
-        await this.OpenSpecificRecord(userModule, findUserInputs, true, "ME", true);
+        let testName: string = `Load my User account data into global scope`;
+        const testCollectionName = `Load my User account data into global scope`;
+        describe(testCollectionName, () => {
+            test(testName, async () => {
+
+                var findUserInputs: any = {
+                    LoginName: process.env.RW_LOGIN
+                }
+		        
+		        let myAccount: any = this.globalScopeRef["User~ME"];  // check GlobalScope for myAccount to use (can be used to re-log during the middle of a test)
+                if (myAccount != undefined) {  // if myAccount was established, then use it
+                    findUserInputs.LoginName = myAccount.LoginName;
+                }
+                
+		        //await this.OpenSpecificRecord(userModule, findUserInputs, true, "ME", true);
+                await userModule.openBrowse();
+                await userModule.browseSeek(findUserInputs);
+                await userModule.openRecord()
+                    .then(openRecordResponse => {
+                            this.globalScopeRef["User~ME"] = openRecordResponse.record;
+                    //    }
+                    });
+                await userModule.closeRecord();
+            }, this.testTimeout);
+        });
     }
     //---------------------------------------------------------------------------------------
     async CopyMyUserRegisterGlobal(userModule: ModuleBase) {
@@ -155,7 +176,8 @@ export abstract class BaseTest {
                 let newMe: any = {};
                 newMe.FirstName = TestUtils.randomFirstName();
                 newMe.LastName = TestUtils.randomLastName();
-                newMe.LoginName = "GlobalScope.TestToken~1.TestToken";
+                //newMe.LoginName = "GlobalScope.TestToken~1.TestToken";
+                newMe.LoginName = this.globalScopeRef["TestToken~1"].TestToken;
                 let newPassword: string = TestUtils.randomAlphanumeric(20);
                 newMe.Password = newPassword;
                 newMe.GroupName = me.GroupName;
@@ -173,18 +195,35 @@ export abstract class BaseTest {
                 await userModule.saveRecord(true);
 
                 // this is done to bypass the potential chrome prompt to save password
-                await ModuleBase.wait(10000);
-                let selector = `div.systembarcontrol[data-id="username"]`;
-                await page.waitForSelector(selector);
-                await page.click(selector);
+                //await ModuleBase.wait(2000);
+                //let selector = `div.systembarcontrol[data-id="username"]`;
+                //await page.waitForSelector(selector);
+                //await page.click(selector);
 
-                await userModule.openBrowse();
-                await userModule.browseSeek(findUserInputs);
-                await userModule.openRecord()
-                    .then(openRecordResponse => {
-                        openRecordResponse.record.Password = newPassword;
-                        this.globalScopeRef["User~ME"] = openRecordResponse.record;
-                    });
+                //Logging.logInfo(`about to try to find "home" logo`);
+                ////click back to "home"
+                //let homeSelector = `div .logo`;
+                //await page.waitForSelector(homeSelector);
+                //Logging.logInfo(`"home" logo found`);
+                //await page.click(homeSelector);
+                //Logging.logInfo(`clicked on "home" logo`);
+
+                //await userModule.openBrowse();
+                //Logging.logInfo(`user browse opened`);
+                
+				//await userModule.browseSeek(findUserInputs);
+                //Logging.logInfo(`user browse seeked upon`);
+
+                //await userModule.openRecord()
+                //    .then(openRecordResponse => {
+                //        openRecordResponse.record.Password = newPassword;
+                //        this.globalScopeRef["User~ME"] = openRecordResponse.record;
+                //    });
+				
+                this.globalScopeRef["User~ME"] = newMe;
+
+                Logging.logInfo(`end of CopyMyUserRegisterGlobal`);
+
             }, this.testTimeout);
         });
     }

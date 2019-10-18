@@ -25,7 +25,7 @@
     "jest": "24.8.0",
     "jest-puppeteer": "4.2.0",
     "jquery": "3.4.1",
-    "puppeteer": "1.18.1",
+    "puppeteer": "^1.18.1",
     "ts-jest": "24.0.2",
     "typescript": "3.5.2"
   },

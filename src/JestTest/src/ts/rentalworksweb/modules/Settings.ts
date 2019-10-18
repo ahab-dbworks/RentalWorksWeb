@@ -1520,11 +1520,11 @@ export class BarCodeRange extends SettingsModule {
                     BarcodeFrom: TestUtils.randomIntegerBetween(6000000, 7000000).toString(),
                     BarcodeTo: TestUtils.randomIntegerBetween(8000000, 9000000).toString(),
                 },
-                seekObject: {
-                    Prefix: "GlobalScope.TestToken~1.TinyTestToken",
-                }
             }
         ];
+        this.newRecordsToCreate[0].seekObject = {
+            BarcodeFrom: this.newRecordsToCreate[0].record.BarcodeFrom,
+        }
         this.newRecordsToCreate[0].recordToExpect = {
             Prefix: this.newRecordsToCreate[0].record.Prefix.toUpperCase(),
             BarcodeFrom: this.newRecordsToCreate[0].record.BarcodeFrom,

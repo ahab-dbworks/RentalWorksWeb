@@ -31,11 +31,11 @@ export class SettingsModule extends ModuleBase {
         openBrowseResponse.errorMessage = "browse not opened";
 
         let settingsGearSelector = `i.material-icons.dashboard.systembarcontrol[title="Settings"]`;
-        await page.waitForSelector(settingsGearSelector);
+        await page.waitForSelector(settingsGearSelector, { visible: true });
         await page.click(settingsGearSelector);
 
         let moduleHeadingSelector = `.panel-group[id="${this.moduleName}"]`;
-        await page.waitForSelector(moduleHeadingSelector);
+        await page.waitForSelector(moduleHeadingSelector, { visible: true });
         await page.click(moduleHeadingSelector);
 
         // wait for the module to try to open, then check for errors
@@ -80,7 +80,7 @@ export class SettingsModule extends ModuleBase {
     }
     //---------------------------------------------------------------------------------------
     async browseGetRowsDisplayed(): Promise<number> {
-        await page.waitForSelector(this.getBrowseSelector());
+        await page.waitForSelector(this.getBrowseSelector(), { visible: true });
 
         let recordSelector = `.panel-group[id="${this.moduleName}"] .panel-primary .panel-collapse .panel-body .panel-record:not(.inactive-panel)`;
         const records = await page.$$(recordSelector);
@@ -119,32 +119,26 @@ export class SettingsModule extends ModuleBase {
     }
     //---------------------------------------------------------------------------------------
     async browseSeek(seekObject: any): Promise<number> {
-        await page.waitForSelector(this.getBrowseSelector());
+        await page.waitForSelector(this.getBrowseSelector(), { visible: true });
 
         let refreshButtonSelector = `.panel-group[id="${this.moduleName}"] .refresh`;
-        await page.waitForSelector(refreshButtonSelector);
+        await page.waitForSelector(refreshButtonSelector, { visible: true });
         await page.click(refreshButtonSelector);
+        await ModuleBase.wait(1000); // let the refresh occur, or at least start
 
         let searchFieldSelector = `.panel-group[id="${this.moduleName}"] input`;
-        await page.waitForSelector(searchFieldSelector);
+        await page.waitForSelector(searchFieldSelector, { visible: true });
 
         let keyField = "";
         for (var key in seekObject) {
-            keyField = key;  // get the first key field name
+            keyField = key;  // For "Settings" modules, there is only one Search field on the page.  Here we just get the first key field name to search by
             break;
         }
 
         let seekValue = seekObject[keyField];
-        //if (seekValue.toString().startsWith("GlobalScope")) {
-        //    //example: "GlobalScope.DefaultSettings~1.DefaultUnit",
-        //    let globalScopeKey = seekValue.toString().split('.');
-        //    seekValue = this.globalScopeRef[globalScopeKey[1].toString()][globalScopeKey[2].toString()];
-        //}
-
         if (seekValue.toString().toUpperCase().includes("GLOBALSCOPE.")) {
             seekValue = TestUtils.getGlobalScopeValue(seekValue, this.globalScopeRef);
         }
-
 
         Logging.logInfo(`About to add search for ${seekValue}`);
 
@@ -152,7 +146,7 @@ export class SettingsModule extends ModuleBase {
         await elementHandle.click();
         await page.keyboard.sendCharacter(seekValue);
         await page.keyboard.press('Enter');
-        await ModuleBase.wait(1000); // let the rows render
+        await ModuleBase.wait(2000); // let the rows render
 
         let recordCount = await this.browseGetRowsDisplayed();
 
@@ -218,6 +212,7 @@ export class SettingsModule extends ModuleBase {
             if (recordToClick != null) {
                 await recordToClick.click(); // click the row
                 clickRecordResponse.clicked = true;
+                await ModuleBase.wait(1500); // let the form render or collapse
             }
 
         }
@@ -237,83 +232,6 @@ export class SettingsModule extends ModuleBase {
             index = 1;
         }
 
-        //<tr tabindex="0" class="viewmode selected" > <td class="column" data - visible="false" style = "display:none;" > <div class="field" data - isuniqueid="true" data - browsedatatype="key" data - sort="off" data - formreadonly="true" data - browsedatafield="DealId" data - formdatafield="DealId" data - cssclass="DealId" data - originalvalue="F003RPX5" > F003RPX5 < /div></td > <td class="column" data - visible="true" style = "" > <div class="field" data - caption="Deal" data - browsedatatype="text" data - sort="asc" data - isuniqueid="false" data - formreadonly="true" data - browsedatafield="Deal" data - formdatafield="Deal" data - cssclass="Deal" data - originalvalue="02 CREATIVE SOLUTONS" > 02 CREATIVE SOLUTONS < /div></td > <td class="column" data - visible="true" style = "" > <div class="field" data - caption="Deal Number" data - browsedatatype="text" data - sort="off" data - isuniqueid="false" data - formreadonly="true" data - browsedatafield="DealNumber" data - formdatafield="DealNumber" data - cssclass="DealNumber" data - originalvalue="L12309" > L12309 < /div></td > <td class="column" data - visible="true" style = "" > <div class="field" data - caption="Deal Type" data - browsedatatype="text" data - sort="off" data - isuniqueid="false" data - formreadonly="true" data - browsedatafield="DealType" data - formdatafield="DealType" data - cssclass="DealType" data - originalvalue="INDUSTRIAL/PROD" > INDUSTRIAL / PROD < /div></td > <td class="column" data - visible="true" style = "" > <div class="field" data - caption="Deal Status" data - browsedatatype="text" data - sort="off" data - isuniqueid="false" data - formreadonly="true" data - browsedatafield="DealStatus" data - formdatafield="DealStatus" data - cssclass="DealStatus" data - originalvalue="OPEN" > OPEN < /div></td > <td class="column" data - visible="true" style = "" > <div class="field" data - caption="Customer" data - browsedatatype="text" data - sort="off" data - isuniqueid="false" data - formreadonly="true" data - browsedatafield="Customer" data - formdatafield="Customer" data - cssclass="Customer" data - originalvalue="02 CREATIVE SOLUTONS" > 02 CREATIVE SOLUTONS < /div></td > <td class="column" data - visible="true" style = "" > </td></tr >
-        //await page.waitForSelector(`.fwbrowse tbody tr.viewmode:nth-child(${index})`);
-
-        //<div class="panel-record" id = "C0016A6Z" > <div class="panel panel-info container-fluid" > <div class="row-heading" > <i class="material-icons record-selector" > keyboard_arrow_down < /i>      <div style="width:100%;padding-left: inherit;">        <div class="fwcontrol fwcontainer fwform-fieldrow" data-type="fieldrow">          <label style="font-weight:800;">Ship Via</label > </div>    <div class="fwcontrol fwcontainer fwform-fieldrow" data-type="fieldrow">    <label data-datafield="ShipVia" style="color:#31708f">1ST PRIORITY OVN</label > </div>      </div > <div style="width:100%;padding-left: inherit;" > <div class="fwcontrol fwcontainer fwform-fieldrow" data - type="fieldrow" > <label style="font-weight:800;" > Carrier < /label>        </div > <div class="fwcontrol fwcontainer fwform-fieldrow" data - type="fieldrow" > <label data - datafield="Vendor" style = "color:#31708f" > FEDERAL EXPRESS < /label>        </div > </div>    </div > </div>  <div class="panel-body data-panel" style="display:none;" id="C0016A6Z" data-type="settings-row"></div > </div>
-        //await page.waitForSelector(`.panel-group[id="${this.moduleName}"].panel-primary.panel-collapse.panel-body.panel-record:nth-child(${index})`);
-
-        //let records = await page.$$eval(`.panel-group[id="${this.moduleName}"] .panel-primary .panel-collapse .panel-body .panel-record`, (e: any) => { return e.children; });
-        //let records = await page.$$eval(`.panel-group[id="${this.moduleName}"] .panel-primary .panel-collapse .panel-body`, (e: any) => { return e.children; });
-        //Logging.logInfo(`records: ${JSON.stringify(records)}`);
-        //let elementHandle = records[0];
-        //await page.click(elementHandle, { clickCount: 1 });
-
-        //let selector = `.panel-group[id="${this.moduleName}"] .panel-primary .panel-collapse .panel-body .panel-record`;
-        //let selector = `.panel-group[id="${this.moduleName}"] .panel-primary .panel-collapse .panel-body .panel-record .row-heading:not(.inactive-panel)`;
-
-        //let records = await page.$$eval(selector, (e: any) => { return e; });
-        //var recordCount;
-        //if (records == undefined) {
-        //    recordCount = 0;
-        //}
-        //else {
-        //    recordCount = records.length;
-        //}
-
-        //if (recordCount == 0) {
-        //    openRecordResponse.opened = true;
-        //    openRecordResponse.record = null;
-        //    openRecordResponse.errorMessage = "";
-        //}
-        //else {
-        //    await page.waitForSelector(selector);
-        //    Logging.logInfo(`About to click the first row.`);
-        //    await page.click(selector);
-
-        //    try {
-        //        await page.waitFor(() => document.querySelector('.pleasewait'), { timeout: 3000 });
-        //    } catch (error) { } // assume that we missed the Please Wait dialog
-
-        //    await page.waitFor(() => !document.querySelector('.pleasewait'));
-        //    Logging.logInfo(`Finished waiting for the Please Wait dialog.`);
-
-
-        //    var popUp;
-        //    try {
-        //        popUp = await page.waitForSelector('.advisory', { timeout: 500 });
-        //    } catch (error) { } // no error pop-up
-
-        //    if (popUp !== undefined) {
-        //        let errorMessage = await page.$eval('.advisory', el => el.textContent);
-        //        openRecordResponse.opened = false;
-        //        openRecordResponse.record = null;
-        //        openRecordResponse.errorMessage = errorMessage;
-
-        //        Logging.logError(`Error opening ${this.moduleCaption} form: ` + errorMessage);
-
-        //        const options = await page.$$('.advisory .fwconfirmation-button');
-        //        await options[0].click() // click "OK" option
-        //            .then(() => {
-        //                Logging.logInfo(`Clicked the "OK" button.`);
-        //            })
-        //    }
-        //    else {
-
-        //        let formCountAfter = await this.countOpenForms();
-        //        if (formCountAfter == formCountBefore + 1) {
-
-        //            openRecordResponse.opened = true;
-        //            openRecordResponse.errorMessage = "";
-        //            openRecordResponse.record = await this.getFormRecord();
-        //            openRecordResponse.keys = await this.getFormKeys();
-
-        //            if (sleepAfterOpening > 0) {
-        //                await ModuleBase.wait(sleepAfterOpening);
-        //            }
-        //        }
-        //    }
-        //}
 
         let clickRecordResponse: ClickRecordResponse = await this.clickRecord(index);
 
@@ -379,79 +297,6 @@ export class SettingsModule extends ModuleBase {
         openRecordResponse.errorMessage = "form not opened";
 
         let formCountBefore = await this.countOpenForms();
-
-        ////let selector = `.panel-group[id="${this.moduleName}"] .panel-primary .panel-collapse .panel-body .panel-record .row-heading`;
-        //let selector = `.panel-group[id="${this.moduleName}"] .panel-primary .panel-collapse .panel-body .panel-record .row-heading:not(.inactive-panel)`;
-        //var records;
-        //var recordCount;
-        //try {
-        //    Logging.logInfo(`About to check for records in the ${this.moduleName} module`);
-        //    records = await page.$$eval(selector, (e: any) => { return e; });
-        //} catch (error) { } // no records found
-
-        //if (records == undefined) {
-        //    recordCount = 0;
-        //}
-        //else {
-        //    recordCount = records.length;
-        //}
-        //Logging.logInfo(`Record Count: ${recordCount}`);
-
-        //if (recordCount == 0) {
-        //    openRecordResponse.opened = true;
-        //    openRecordResponse.record = null;
-        //    openRecordResponse.errorMessage = "";
-        //}
-        //else {
-        //    //selector += `:nth-child(1)`;
-        //    //await page.waitForSelector(`.fwbrowse tbody tr.viewmode:nth-child(1)`);
-        //    await page.waitForSelector(selector);
-        //    Logging.logInfo(`About to click the first row.`);
-        //    await page.click(selector);
-
-        //    try {
-        //        await page.waitFor(() => document.querySelector('.pleasewait'), { timeout: 3000 });
-        //    } catch (error) { } // assume that we missed the Please Wait dialog
-
-        //    await page.waitFor(() => !document.querySelector('.pleasewait'));
-        //    Logging.logInfo(`Finished waiting for the Please Wait dialog.`);
-
-
-        //    var popUp;
-        //    try {
-        //        popUp = await page.waitForSelector('.advisory', { timeout: 500 });
-        //    } catch (error) { } // no error pop-up
-
-        //    if (popUp !== undefined) {
-        //        let errorMessage = await page.$eval('.advisory', el => el.textContent);
-        //        openRecordResponse.opened = false;
-        //        openRecordResponse.record = null;
-        //        openRecordResponse.errorMessage = errorMessage;
-
-        //        Logging.logError(`Error opening ${this.moduleCaption} form: ` + errorMessage);
-
-        //        const options = await page.$$('.advisory .fwconfirmation-button');
-        //        await options[0].click() // click "OK" option
-        //            .then(() => {
-        //                Logging.logInfo(`Clicked the "OK" button.`);
-        //            })
-        //    }
-        //    else {
-
-        //        let formCountAfter = await this.countOpenForms();
-        //        if (formCountAfter == formCountBefore + 1) {
-
-        //            openRecordResponse.opened = true;
-        //            openRecordResponse.errorMessage = "";
-        //            openRecordResponse.record = await this.getFormRecord();
-        //            openRecordResponse.keys = await this.getFormKeys();
-
-        //            if (sleepAfterOpening > 0) {
-        //                await ModuleBase.wait(sleepAfterOpening);
-        //            }
-        //        }
-        //    }
-        //}
 
         let clickRecordResponse: ClickRecordResponse = await this.clickRecord();
 
@@ -534,11 +379,11 @@ export class SettingsModule extends ModuleBase {
 
         //let newButtonSelector = `.panel-group[id="${this.moduleName}"] i.material-icons.new-row-menu`;
 
-        await page.waitForSelector(this.getNewButtonSelector(), { timeout: 10000 });
+        await page.waitForSelector(this.getNewButtonSelector(), { visible: true , timeout: 10000 });
         await page.click(this.getNewButtonSelector(), { clickCount: count });
 
         let formSelector = `.fwform`;
-        await page.waitForSelector(formSelector, { timeout: 10000 })
+        await page.waitForSelector(formSelector, { visible: true, timeout: 10000 })
             .then(async done => {
                 let openFormCountAfter = await this.countOpenForms();
 
@@ -582,7 +427,7 @@ export class SettingsModule extends ModuleBase {
         let cancelButtonFound: boolean = false;
         try {
             //await page.waitFor(() => document.querySelector(`.panel-group[id="${this.moduleName}"] i.material-icons.cancel`), { timeout: 1000 });
-            await page.waitForSelector(cancelSelector, { timeout: 1000 });
+            await page.waitForSelector(cancelSelector, { visible: true, timeout: 1000 });
             cancelButtonFound = true;
         } catch (error) { } // there is no Cancel button, so it must not be a NEW record
 
@@ -622,7 +467,7 @@ export class SettingsModule extends ModuleBase {
         if (clickRecordResponse.clicked) {
 
             let deleteButtonSelector = `div .panel-record[id="${clickRecordResponse.recordId}"] .btn-delete[data-type="DeleteMenuBarButton"]`;
-            await page.waitForSelector(deleteButtonSelector);
+            await page.waitForSelector(deleteButtonSelector, { visible: true });
             await page.click(deleteButtonSelector, { clickCount: 1 });  // click the delete button
 
             await page.waitFor(() => document.querySelector('.advisory'));

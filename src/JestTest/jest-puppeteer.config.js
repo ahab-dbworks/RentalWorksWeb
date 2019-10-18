@@ -6,9 +6,10 @@ module.exports = {
         args: 
 		[
 		`--window-size=${1600},${1080}`, 
-		`--disable-save-password-bubble`,
-		`--enable-automation`,
-		`--disable-infobars`
+		//`--disable-save-password-bubble`,
+		//`--enable-automation`,
+		//`--disable-infobars`,
+		//`--incognito`
 		]
     },
     browserContext: 'default'

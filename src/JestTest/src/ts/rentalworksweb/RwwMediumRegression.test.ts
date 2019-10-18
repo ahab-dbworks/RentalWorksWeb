@@ -259,9 +259,8 @@ export class MediumRegressionTest extends BaseTest {
     //---------------------------------------------------------------------------------------
     async RelogAsCopyOfUser() {
 
-        let userModule: User = new User();
-        this.LoadMyUserGlobal(userModule);
-        this.CopyMyUserRegisterGlobal(userModule);
+        this.LoadMyUserGlobal(new User());
+        this.CopyMyUserRegisterGlobal(new User());
         this.DoLogoff();
         this.DoLogin();  // uses new login account
 
@@ -270,7 +269,7 @@ export class MediumRegressionTest extends BaseTest {
     async PerformTests() {
         //prerequisites
 
-        //this.LoadMyUserGlobal(new User());  //uncomment this if not using the above RelogAsCopyOfUser method
+        this.LoadMyUserGlobal(new User());  
         this.OpenSpecificRecord(new DefaultSettings(), null, true);
         this.OpenSpecificRecord(new InventorySettings(), null, true);
 

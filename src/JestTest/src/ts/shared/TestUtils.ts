@@ -29,7 +29,7 @@ export class TestUtils {
         }
         else {
             await page.goto(`${baseUrl}/#/login`);
-            await page.waitForNavigation();
+            await page.waitForNavigation({timeout: 120000});
         }
 
         let selector = `.btnLogin`;
@@ -59,9 +59,9 @@ export class TestUtils {
         await page.click(selector);
 
         selector = `div.fwoverlay`;
-        await page.waitForSelector(selector, { visible: true, timeout: 20000 });
+        await page.waitForSelector(selector, { visible: true, timeout: 120000 });
 
-        await page.waitForFunction(() => !document.querySelector(`div.fwoverlay`), { polling: 'mutation' })
+        await page.waitForFunction(() => !document.querySelector(`div.fwoverlay`), { polling: 'mutation', timeout: 120000 })
             .then(async done => {
                 const errorMessage = await page.evaluate(() => {
                     const errorMessageText = jQuery('body').find('.errormessage').text();
@@ -75,7 +75,7 @@ export class TestUtils {
                 } else if (errorMessage === '') {
                     Logging.logInfo(`Successful authentication for user ${login}`);
 
-                    await page.waitForSelector('.appmenu', { visible: true, timeout: 20000 }) // Upper left 'hamburger menu'
+                    await page.waitForSelector('.appmenu', { visible: true, timeout: 120000 }) // Upper left 'hamburger menu'
                         .then(done => {
                             if (done) {
                                 Logging.logInfo(`Successful login process for user ${login}`);
@@ -104,15 +104,15 @@ export class TestUtils {
         logoutResponse.success = false;
 
         let selector = `.usermenu`;
-        await page.waitForSelector(selector, { timeout: 1000 });
+        await page.waitForSelector(selector, { visible: true });
         await page.click(selector);
 
         selector = `#master-header > div > div.user-controls > div > div.user-dropdown > div.menuitems > div:nth-child(2)`;
-        await page.waitForSelector(selector, { timeout: 1000 });
+        await page.waitForSelector(selector, { visible: true });
         await page.click(selector);
 
         selector = `.programlogo`;
-        await page.waitForSelector(selector);
+        await page.waitForSelector(selector, { visible: true });
 
         logoutResponse.success = true;
 
