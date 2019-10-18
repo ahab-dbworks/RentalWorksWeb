@@ -760,7 +760,7 @@ class Invoice {
             const html: Array<string> = [];
             html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
             html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-            html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="FULL - Every line of the Invoice will be credited 100%" data-invoicefield="FULL" style="float:left;width:100px;"></div>`);
+            html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="FULL - Every line of the Invoice will be credited 100%" checked data-invoicefield="FULL" style="float:left;width:100px;"></div>`);
             html.push('  </div>');
             html.push(' <div class="formrow" style="width:100%;display:flex;align-content:flex-start;align-items:center;padding-bottom:13px;">');
             html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
@@ -773,7 +773,7 @@ class Invoice {
             html.push('  <span style="margin:18px 0px 0px 0px;">%</span>');
             html.push(' </div>');
             html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-            html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="MANUAL - Items must be credited manually" data-invoicefield="Manual" style="float:left;width:100px;"></div>`);
+            html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="MANUAL - Items must be credited manually" data-invoicefield="MANUAL" style="float:left;width:100px;"></div>`);
             html.push('  </div>');
             html.push(' <div class="formrow" style="width:100%;display:flex;align-content:flex-start;align-items:center;">');
             html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
@@ -810,6 +810,7 @@ class Invoice {
             html.push('</div>');
 
             FwConfirmation.addControls($confirmation, html.join(''));
+            FwFormField.disable($confirmation.find('div[data-invoicefield="AllocateAllItems"]'));
             const $yes = FwConfirmation.addButton($confirmation, 'Create', false);
             const $no = FwConfirmation.addButton($confirmation, 'Cancel');
 
@@ -853,6 +854,9 @@ class Invoice {
                     FwFormField.enable(partialInput);
                     FwFormField.disable(flatAmountInput);
                     FwFormField.disable(usageDaysInput);
+                } else {
+                    FwFormField.disable(partialInput);
+                    $confirmation.find('.input-field input').val('');
                 }
             });
             manual.on('change', e => {
@@ -882,6 +886,11 @@ class Invoice {
                     FwFormField.enable($confirmation.find('div[data-invoicefield="AllocateAllItems"]'));
                     FwFormField.disable(partialInput);
                     FwFormField.disable(usageDaysInput);
+                } else {
+                    $confirmation.find('.input-field input').val('');
+                    FwFormField.disable($confirmation.find('div[data-invoicefield="AllocateAllItems"]'));
+                    allocateAllItems.prop('checked', false);
+                    FwFormField.disable(flatAmountInput);
                 }
             });
             usageDays.on('change', e => {
@@ -897,6 +906,9 @@ class Invoice {
                     FwFormField.enable(usageDaysInput);
                     FwFormField.disable(partialInput);
                     FwFormField.disable(flatAmountInput);
+                } else {
+                    FwFormField.disable(usageDaysInput);
+                    $confirmation.find('.input-field input').val('');
                 }
             });
             taxOnly.on('change', e => {
@@ -943,20 +955,23 @@ class Invoice {
                 request.AdjustCost = $confirmation.find('div[data-invoicefield="AdjustCost"] input').prop('checked');
                 request.TaxOnly = taxOnly.prop('checked');
 
-                FwAppData.apiMethod(true, 'POST', `api/v1/invoice/creditinvoice`, request, FwServices.defaultTimeout, response => {
-                    if ((response.success === true) && (response.CreditId !== null || response.CreditId !== '')) {
-                        FwNotification.renderNotification('INFO', 'Creating Credit Invoice...');
-                        const uniqueids: any = {};
-                        uniqueids.InvoiceId = response.CreditId;
-                        const InvoiceForm = InvoiceController.loadForm(uniqueids);
+                if (request.CreditMethod) {
+                    FwAppData.apiMethod(true, 'POST', `api/v1/invoice/creditinvoice`, request, FwServices.defaultTimeout, response => {
+                        if ((response.success === true) && (response.CreditId !== null || response.CreditId !== '')) {
+                            FwNotification.renderNotification('INFO', 'Creating Credit Invoice...');
+                            const uniqueids: any = {};
+                            uniqueids.InvoiceId = response.CreditId;
+                            const InvoiceForm = InvoiceController.loadForm(uniqueids);
 
-                        FwModule.openModuleTab(InvoiceForm, "", true, 'FORM', true);
-                        FwConfirmation.destroyConfirmation($confirmation);
-                    } else /*if (response.success === false)*/ {
-                        FwFunc.showError({ 'message': response.msg });
-                    }
-                }, ex => FwFunc.showError(ex), $form);
-
+                            FwModule.openModuleTab(InvoiceForm, "", true, 'FORM', true);
+                            FwConfirmation.destroyConfirmation($confirmation);
+                        } else /*if (response.success === false)*/ {
+                            FwFunc.showError({ 'message': response.msg });
+                        }
+                    }, ex => FwFunc.showError(ex), $form);
+                } else {
+                    FwNotification.renderNotification('WARNING', 'Select a Credit Method first.')
+                }
             });
         } else {
             if (invoiceType !== 'BILLING') {
