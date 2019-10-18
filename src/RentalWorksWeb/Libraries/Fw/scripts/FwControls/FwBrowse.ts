@@ -1464,7 +1464,9 @@ class FwBrowseClass {
                         htmlPager.push('  <div class="button btnLastPage" disabled="disabled" data-enabled="false" title="Last" alt="Last"><i class="material-icons">&#xE5DD;</i></div>');
                         htmlPager.push('</div>');
                         htmlPager.push('<div class="count">0 row(s)</div>');
-                        htmlPager.push('<div class="show-all">Show All</div>');
+                        if (controlType === 'Validation') {
+                            htmlPager.push('<div class="show-all">Show All</div>');
+                        }
                         if ((controlType === 'Grid') && (typeof $control.attr('data-activeinactiveview') === 'string') && (FwSecurity.isUser())) {
                             htmlPager.push('<div class="activeinactiveview" style="float:right;">');
                             htmlPager.push('  <select class="activeinactiveview">');
