@@ -57,29 +57,38 @@ namespace WebApi.Modules.Billing.Invoice
         public static async Task<CreditInvoiceReponse> CreateInvoiceCredit(FwApplicationConfig appConfig, FwUserSession userSession, CreditInvoiceRequest request)
         {
             CreditInvoiceReponse response = new CreditInvoiceReponse();
-            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+
+            if (string.IsNullOrEmpty(request.CreditMethod))
             {
-                FwSqlCommand qry = new FwSqlCommand(conn, "createinvoicecreditweb", appConfig.DatabaseSettings.QueryTimeout);
-                qry.AddParameter("@invoiceid", SqlDbType.NVarChar, ParameterDirection.Input, request.InvoiceId);
-                qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
-                qry.AddParameter("@percent", SqlDbType.NVarChar, ParameterDirection.Input, request.Percent);
-                qry.AddParameter("@amount", SqlDbType.NVarChar, ParameterDirection.Input, request.Amount);
-                qry.AddParameter("@allocate", SqlDbType.NVarChar, ParameterDirection.Input, request.Allocate);
-                qry.AddParameter("@usagedays", SqlDbType.NVarChar, ParameterDirection.Input, request.UsageDays);
-                qry.AddParameter("@notes", SqlDbType.NVarChar, ParameterDirection.Input, request.Notes);
-                qry.AddParameter("@taxonly", SqlDbType.NVarChar, ParameterDirection.Input, request.TaxOnly);
-                qry.AddParameter("@creditfromdate", SqlDbType.NVarChar, ParameterDirection.Input, request.CreditFromDate);
-                qry.AddParameter("@credittodate", SqlDbType.NVarChar, ParameterDirection.Input, request.CreditToDate);
-                qry.AddParameter("@creditmethod", SqlDbType.NVarChar, ParameterDirection.Input, request.CreditMethod);
-                qry.AddParameter("@adjustcost", SqlDbType.NVarChar, ParameterDirection.Input, request.AdjustCost);
-                qry.AddParameter("@creditid", SqlDbType.NVarChar, ParameterDirection.Output);
-                qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
-                qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
-                await qry.ExecuteNonQueryAsync();
-                response.CreditId = qry.GetParameter("@creditid").ToString();
-                response.status = qry.GetParameter("@status").ToInt32();
-                response.success = (response.status == 0);
-                response.msg = qry.GetParameter("@msg").ToString();
+                response.success = false;
+                response.msg = "No Credit Method indicated.";
+            }
+            else
+            {
+                using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+                {
+                    FwSqlCommand qry = new FwSqlCommand(conn, "createinvoicecreditweb", appConfig.DatabaseSettings.QueryTimeout);
+                    qry.AddParameter("@invoiceid", SqlDbType.NVarChar, ParameterDirection.Input, request.InvoiceId);
+                    qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+                    qry.AddParameter("@percent", SqlDbType.NVarChar, ParameterDirection.Input, request.Percent);
+                    qry.AddParameter("@amount", SqlDbType.NVarChar, ParameterDirection.Input, request.Amount);
+                    qry.AddParameter("@allocate", SqlDbType.NVarChar, ParameterDirection.Input, request.Allocate);
+                    qry.AddParameter("@usagedays", SqlDbType.NVarChar, ParameterDirection.Input, request.UsageDays);
+                    qry.AddParameter("@notes", SqlDbType.NVarChar, ParameterDirection.Input, request.Notes);
+                    qry.AddParameter("@taxonly", SqlDbType.NVarChar, ParameterDirection.Input, request.TaxOnly);
+                    qry.AddParameter("@creditfromdate", SqlDbType.NVarChar, ParameterDirection.Input, request.CreditFromDate);
+                    qry.AddParameter("@credittodate", SqlDbType.NVarChar, ParameterDirection.Input, request.CreditToDate);
+                    qry.AddParameter("@creditmethod", SqlDbType.NVarChar, ParameterDirection.Input, request.CreditMethod);
+                    qry.AddParameter("@adjustcost", SqlDbType.NVarChar, ParameterDirection.Input, request.AdjustCost);
+                    qry.AddParameter("@creditid", SqlDbType.NVarChar, ParameterDirection.Output);
+                    qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
+                    qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
+                    await qry.ExecuteNonQueryAsync();
+                    response.CreditId = qry.GetParameter("@creditid").ToString();
+                    response.status = qry.GetParameter("@status").ToInt32();
+                    response.success = (response.status == 0);
+                    response.msg = qry.GetParameter("@msg").ToString();
+                }
             }
             return response;
         }

@@ -955,20 +955,22 @@ class Invoice {
                 request.AdjustCost = $confirmation.find('div[data-invoicefield="AdjustCost"] input').prop('checked');
                 request.TaxOnly = taxOnly.prop('checked');
 
+                const topLayer = '<div class="top-layer" data-controller="none" style="background-color: transparent;z-index:1"></div>';
+                const realConfirm = jQuery($confirmation.find('.fwconfirmationbox')).prepend(topLayer);
+
                 if (request.CreditMethod) {
                     FwAppData.apiMethod(true, 'POST', `api/v1/invoice/creditinvoice`, request, FwServices.defaultTimeout, response => {
                         if ((response.success === true) && (response.CreditId !== null || response.CreditId !== '')) {
-                            FwNotification.renderNotification('INFO', 'Creating Credit Invoice...');
                             const uniqueids: any = {};
                             uniqueids.InvoiceId = response.CreditId;
                             const InvoiceForm = InvoiceController.loadForm(uniqueids);
 
                             FwModule.openModuleTab(InvoiceForm, "", true, 'FORM', true);
                             FwConfirmation.destroyConfirmation($confirmation);
-                        } else /*if (response.success === false)*/ {
+                        } else {
                             FwFunc.showError({ 'message': response.msg });
                         }
-                    }, ex => FwFunc.showError(ex), $form);
+                    }, ex => FwFunc.showError(ex), realConfirm);
                 } else {
                     FwNotification.renderNotification('WARNING', 'Select a Credit Method first.')
                 }
