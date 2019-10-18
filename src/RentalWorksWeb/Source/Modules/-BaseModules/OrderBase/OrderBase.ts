@@ -356,8 +356,18 @@ class OrderBase {
             const defaultActivities = department.activities;
             for (let i = 0; i < defaultActivities.length; i++) {
                 if (defaultActivities[i] === 'Rental' || defaultActivities[i] === 'Sales' || defaultActivities[i] === 'Labor' || defaultActivities[i] === 'Miscellaneous')
-                FwFormField.setValueByDataField($form, `${defaultActivities[i]}`, true);
+                    FwFormField.setValueByDataField($form, `${defaultActivities[i]}`, true);
             }
+
+            // show/hide tabs based on Activity boxes checked
+            const $rentalTab = $form.find('[data-type="tab"][data-caption="Rental"]');
+            $form.find('[data-datafield="Rental"] input').prop('checked') ? $rentalTab.show() : $rentalTab.hide();
+            const $salesTab = $form.find('[data-type="tab"][data-caption="Sales"]');
+            $form.find('[data-datafield="Sales"] input').prop('checked') ? $salesTab.show() : $salesTab.hide();
+            const $miscTab = $form.find('[data-type="tab"][data-caption="Miscellaneous"]');
+            $form.find('[data-datafield="Miscellaneous"] input').prop('checked') ? $miscTab.show() : $miscTab.hide();
+            const $laborTab = $form.find('[data-type="tab"][data-caption="Labor"]');
+            $form.find('[data-datafield="Labor"] input').prop('checked') ? $laborTab.show() : $laborTab.hide();
 
             FwFormField.disable($form.find('[data-datafield="RentalSale"]'));
             $form.find('[data-type="tab"][data-caption="Used Sale"]').hide();
@@ -690,7 +700,6 @@ class OrderBase {
                     "rentalEnabled": rentalEnabled,
                     "rentalSalesEnabled": rentalSalesEnabled
                 });
-                console.log('checkbox val in click: ', $form.data('antiLD'))
             }
         });
         $form.find('[data-datafield="Labor"] input').on('change', e => {
@@ -2134,8 +2143,8 @@ class OrderBase {
         }
 
         function applyOrderTypeToColumns($form, orderTypeData) {
-            const $lossDamageTab = $form.find('[data-type="tab"][data-caption="Loss & Damage"]');
             $form.find('[data-datafield="CombineActivity"] input').val(orderTypeData.CombineActivityTabs);
+            const $lossDamageTab = $form.find('[data-type="tab"][data-caption="Loss & Damage"]');
 
             if (orderTypeData.CombineActivityTabs === true) {
                 $form.find('.notcombined').css('display', 'none');

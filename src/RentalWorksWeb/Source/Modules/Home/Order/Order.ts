@@ -51,7 +51,7 @@ class Order extends OrderBase {
             this.ActiveViewFields.LocationId = [location.locationid];
         }
 
-        let viewLocation: Array<JQuery> = [];
+        const viewLocation: Array<JQuery> = [];
         viewLocation.push($userLocation, $allLocations);
         FwMenu.addViewBtn($menuObject, 'Location', viewLocation, true, "LocationId");
         return $menuObject;
@@ -62,7 +62,7 @@ class Order extends OrderBase {
         let $form = super.openForm(mode, parentModuleInfo);
 
         if (mode === 'NEW') {
-            $form.find('[data-type="tab"][data-caption="Loss and Damage"]').hide();
+            $form.find('[data-type="tab"][data-caption="Loss & Damage"]').hide();
             FwFormField.disable($form.find('[data-datafield="LossAndDamage"]'));
         };
 
