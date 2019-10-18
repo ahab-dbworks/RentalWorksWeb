@@ -602,7 +602,7 @@ class OrderBase {
             , salesTab = $form.find('[data-type="tab"][data-caption="Sales"]')
             , miscTab = $form.find('[data-type="tab"][data-caption="Miscellaneous"]')
             , laborTab = $form.find('[data-type="tab"][data-caption="Labor"]')
-            , lossDamageTab = $form.find('[data-type="tab"][data-caption="Loss and Damage"]')
+            , lossDamageTab = $form.find('[data-type="tab"][data-caption="Loss & Damage"]')
             , usedSaleTab = $form.find('[data-type="tab"][data-caption="Used Sale"]');
 
         $form.find('[data-datafield="Rental"] input').on('change', e => {
