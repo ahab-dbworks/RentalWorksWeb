@@ -286,5 +286,11 @@ namespace WebApi.Modules.Billing.Invoice
         [FwSqlDataField(column: "ismisc", modeltype: FwDataTypes.Boolean)]
         public bool? IsStandAloneInvoice { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "creditinginvoiceid", modeltype: FwDataTypes.Text)]
+        public string CreditingInvoiceId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "creditinginvoiceno", modeltype: FwDataTypes.Text)]
+        public string CreditingInvoiceNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
     }
 }
