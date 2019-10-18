@@ -34,8 +34,8 @@ namespace WebApi.Modules.Home.OrderItem
         [FwSqlDataField(column: "rolledupids", modeltype: FwDataTypes.Text)]
         public string RolledUpIds { get; set; }
         //------------------------------------------------------------------------------------ 
-        //this field is called PrimaryKey only to allow the FrameWork to pass it from the Logic to this Loader.  Allows developer to foce the detail row to be loaded when desired
-        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Boolean, isPrimaryKey: true, isPrimaryKeyOptional: true)]
+        //this field is called isPrimaryKeyOptional only to allow the FrameWork to pass it from the Logic to this Loader.  Allows developer to foce the detail row to be loaded when desired
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Boolean, isPrimaryKeyOptional: true)]
         public bool? DetailOnly { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rectype", modeltype: FwDataTypes.Text)]

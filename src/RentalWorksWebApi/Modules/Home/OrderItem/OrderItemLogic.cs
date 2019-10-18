@@ -41,9 +41,9 @@ namespace WebApi.Modules.Home.OrderItem
         [FwLogicProperty(Id: "OeNeaMjQUYmLH")]
         public string RolledUpIds { get; set; }
 
-        //this field is called PrimaryKey only to allow the FrameWork to pass it to the Loader.  Allows developer to foce the detail row to be loaded when desired
+        //this field is called IsPrimaryKeyOptional only to allow the FrameWork to pass it to the Loader.  Allows developer to foce the detail row to be loaded when desired
         [JsonIgnore]
-        [FwLogicProperty(Id: "ovkYGK5CTBmcX", IsReadOnly: true, IsPrimaryKey: true, IsPrimaryKeyOptional: true)]
+        [FwLogicProperty(Id: "ovkYGK5CTBmcX", IsReadOnly: true, IsPrimaryKeyOptional: true)]
         public bool? DetailOnly { get; set; }
 
         [FwLogicProperty(Id: "6sOCOcNV2gVV")]
