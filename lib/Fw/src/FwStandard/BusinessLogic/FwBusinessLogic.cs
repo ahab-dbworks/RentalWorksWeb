@@ -550,7 +550,7 @@ namespace FwStandard.BusinessLogic
             return await LoadAsync<T>(GetPrimaryKeys(), conn);
         }
         //------------------------------------------------------------------------------------
-        protected virtual List<PropertyInfo> GetPrimaryKeyProperties()
+        protected virtual List<PropertyInfo> GetPrimaryKeyProperties(bool includeOptional = true)
         {
             List<PropertyInfo> primaryKeyProperties = new List<PropertyInfo>();
             PropertyInfo[] properties = this.GetType().GetProperties();
@@ -563,9 +563,19 @@ namespace FwStandard.BusinessLogic
                         if (attribute.GetType() == typeof(FwLogicPropertyAttribute))
                         {
                             FwLogicPropertyAttribute businessLogicFieldAttribute = (FwLogicPropertyAttribute)attribute;
-                            if ((businessLogicFieldAttribute.IsPrimaryKey) || (businessLogicFieldAttribute.IsPrimaryKeyOptional))
+                            if (includeOptional) 
                             {
-                                primaryKeyProperties.Add(property);
+                                if ((businessLogicFieldAttribute.IsPrimaryKey) || (businessLogicFieldAttribute.IsPrimaryKeyOptional))
+                                {
+                                    primaryKeyProperties.Add(property);
+                                }
+                            }
+                            else 
+                            {
+                                if (businessLogicFieldAttribute.IsPrimaryKey)
+                                {
+                                    primaryKeyProperties.Add(property);
+                                }
                             }
                         }
                     }
@@ -639,6 +649,16 @@ namespace FwStandard.BusinessLogic
         public virtual void SetPrimaryKeys(object[] ids)
         {
             List<PropertyInfo> pkProperties = GetPrimaryKeyProperties();
+
+            if (!pkProperties.Count.Equals(ids.Length))
+            {
+                pkProperties = GetPrimaryKeyProperties(false);
+            }
+
+            if (!pkProperties.Count.Equals(ids.Length))
+            {
+                throw new Exception("Invalid number of primary key values provided.  Expected " + pkProperties.Count.ToString() + ", Received " + ids.Length.ToString() + ". [FwBusinessLogic.SetPrimaryKeys]");
+            }
 
             for (int i = 0; i < pkProperties.Count; i++)
             {
