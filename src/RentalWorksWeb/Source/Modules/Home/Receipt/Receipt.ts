@@ -928,21 +928,21 @@ class Receipt {
             $form.find(`div[data-totalfield="CreditAmountTotal"] input`).val(amount);
         }
         const getInvoiceCreditData = ($form) => {
-            const request: any = {};
+            const request: any = { uniqueids: {} };
             const officeLocationId = JSON.parse(sessionStorage.getItem('location')).locationid;
             const receiptId = FwFormField.getValueByDataField($form, 'ReceiptId');
             const receiptDate = FwFormField.getValueByDataField($form, 'ReceiptDate');
 
             const paymentBy = FwFormField.getValueByDataField($form, 'PaymentBy');
-            let url;
+            let url, validationName;
             if (paymentBy === 'DEAL') {
-                //request.uniqueids.DealId = FwFormField.getValueByDataField($form, 'DealId');
+                request.uniqueids.DealId = FwFormField.getValueByDataField($form, 'DealId');
                 url = 'dealcredit';
-                request.DealId = FwFormField.getValueByDataField($form, 'DealId');
+                validationName = 'DealCredit';
             } else if (paymentBy === 'CUSTOMER') {
-                //request.uniqueids.CustomerId = FwFormField.getValueByDataField($form, 'CustomerId');
+                request.uniqueids.CustomerId = FwFormField.getValueByDataField($form, 'CustomerId');
                 url = 'customercredit';
-                request.CustomerId = FwFormField.getValueByDataField($form, 'CustomerId');
+                validationName = 'CustomerCredit';
             }
             //request.uniqueids = {
             //    OfficeLocationId: officeLocationId,
@@ -958,7 +958,7 @@ class Receipt {
                 const htmlRows: Array<string> = [];
                 if (rows.length) {
                     for (let i = 0; i < rows.length; i++) {
-                        htmlRows.push(`<tr class="row"><td data-validationname="Deal" data-fieldname="DealId" data-datafield="${rows[i][res.ColumnIndex.DealId]}" data-displayfield="${rows[i][res.ColumnIndex.Deal]}" class="text">${rows[i][res.ColumnIndex.Deal]}<i class="material-icons btnpeek">more_horiz</i></td><td class="text InvoiceId" style="display:none;">${rows[i][res.ColumnIndex.ReceiptId]}</td><td data-validationname="PaymentType" data-fieldname="PaymentTypeId" data-datafield="${rows[i][res.ColumnIndex.PaymentTypeId]}" data-displayfield="${rows[i][res.ColumnIndex.PaymentType]}" class="text">${rows[i][res.ColumnIndex.PaymentType]}<i class="material-icons btnpeek">more_horiz</i></td><td data-validationname="CheckNumber" data-fieldname="CheckNumberId" data-datafield="${rows[i][res.ColumnIndex.CheckNumberId]}" data-displayfield="${rows[i][res.ColumnIndex.CheckNumber]}" class="text">${rows[i][res.ColumnIndex.CheckNumber]}<i class="material-icons btnpeek">more_horiz</i></td><td style="text-align:right;" data-creditfield="CreditRemaining" class="decimal credit-static-amount">${rows[i][res.ColumnIndex.Remaining]}</td><td data-enabled="true" data-isuniqueid="false" data-datafield="CreditAmount" data-creditfield="CreditAmount" class="decimal fwformfield credit-pay-amount credit-amount"><input class="decimal fwformfield fwformfield-value" style="font-size:inherit;" type="text" autocapitalize="none" row-index="${i}" value="${rows[i][res.ColumnIndex.Amount]}"></td><td><div class="fwformcontrol credit-apply-btn" row-index="${i}" data-type="button" style="height:27px;padding:.3rem;line-height:13px;font-size:14px;">Apply All</div></td></tr>`);
+                        htmlRows.push(`<tr class="row"><td class="text">${rows[i][res.ColumnIndex.ReceiptDate]}</td><td data-validationname="Deal" data-fieldname="DealId" data-datafield="${rows[i][res.ColumnIndex.DealId]}" data-displayfield="${rows[i][res.ColumnIndex.Deal]}" class="text">${rows[i][res.ColumnIndex.Deal]}<i class="material-icons btnpeek">more_horiz</i></td><td class="text InvoiceId" style="display:none;">${rows[i][res.ColumnIndex.ReceiptId]}</td><td data-validationname="PaymentType" data-fieldname="PaymentTypeId" data-datafield="${rows[i][res.ColumnIndex.PaymentTypeId]}" data-displayfield="${rows[i][res.ColumnIndex.PaymentType]}" class="text">${rows[i][res.ColumnIndex.PaymentType]}<i class="material-icons btnpeek">more_horiz</i></td><td data-validationname="${validationName}" data-fieldname="CheckNumberId" data-datafield="${rows[i][res.ColumnIndex.CheckNumberId]}" data-displayfield="${rows[i][res.ColumnIndex.CheckNumber]}" class="text">${rows[i][res.ColumnIndex.CheckNumber]}<i class="material-icons btnpeek">more_horiz</i></td><td style="text-align:right;" data-creditfield="CreditRemaining" class="decimal credit-static-amount">${rows[i][res.ColumnIndex.Remaining]}</td><td data-enabled="true" data-isuniqueid="false" data-datafield="CreditAmount" data-creditfield="CreditAmount" class="decimal fwformfield credit-pay-amount credit-amount"><input class="decimal fwformfield fwformfield-value" style="font-size:inherit;" type="text" autocapitalize="none" row-index="${i}" value="${rows[i][res.ColumnIndex.Amount]}"></td><td><div class="fwformcontrol credit-apply-btn" row-index="${i}" data-type="button" style="height:27px;padding:.3rem;line-height:13px;font-size:14px;">Apply All</div></td></tr>`);
                     }
                     $form.find('.credit-table-rows').html('');
                     $form.find('.credit-table-rows').html(htmlRows.join(''));
