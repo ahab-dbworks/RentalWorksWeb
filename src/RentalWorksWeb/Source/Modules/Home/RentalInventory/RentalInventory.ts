@@ -555,7 +555,14 @@ class RentalInventory extends InventoryBase {
             }
         }
         //let wildcardMask = inputmasksplit.join('');
-        let wildcardMask = '[' + inputmasksplit.join('') + ']';  //justin 04/16/2019 optional digits are converted to blanks instead of '_' on blur
+        //let wildcardMask = '[' + inputmasksplit.join('') + ']';  //justin 04/16/2019 optional digits are converted to blanks instead of '_' on blur
+
+        //justin 10/18/2019 #1155
+        let wildcardMask = inputmasksplit.join('');
+        while (wildcardMask.length < 12) {
+            wildcardMask += '*';
+        }
+        wildcardMask = '[' + wildcardMask + ']'
         $form.find('[data-datafield="ICode"] input').inputmask({ mask: wildcardMask });
     }
     //----------------------------------------------------------------------------------------------
