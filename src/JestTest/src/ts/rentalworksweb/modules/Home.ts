@@ -281,12 +281,23 @@ export class Contact extends HomeModule {
                     MobilePhone: TestUtils.randomPhone(),
                     HomePhone: TestUtils.randomPhone(),
                     Fax: TestUtils.randomPhone(),
-
-
                 },
                 seekObject: {
                     LastName: "GlobalScope.TestToken~1.TestToken",
                 },
+            }
+        ];
+        this.newRecordsToCreate[0].grids = [
+            {
+                gridName: "ContactCompanyGrid",
+                newRecordsToCreate: [
+                    {
+                        record: {
+                            CompanyId: "JB/SPARK",
+                            ContactTitleId: "AGENT",
+                        }
+                    }
+                ]
             }
         ];
         this.newRecordsToCreate[0].recordToExpect = {
@@ -387,10 +398,10 @@ export class RentalInventory extends HomeModule {
         this.moduleName = 'RentalInventory';
         this.moduleId = 'FCDB4C86-20E7-489B-A8B7-D22EE6F85C06';
         this.moduleCaption = 'Rental Inventory';
-        
-		this.defaultNewRecordToExpect = {
-			ICode: "",
-			Description: "",
+
+        this.defaultNewRecordToExpect = {
+            ICode: "",
+            Description: "",
             Unit: "GlobalScope.DefaultSettings~1.DefaultUnit",   // ie. "EA"
         }
 

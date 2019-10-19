@@ -1,6 +1,7 @@
 import { Logging } from '../shared/Logging';
 import { TestUtils } from './TestUtils';
 import { GlobalScope } from '../shared/GlobalScope';
+import { GridBase } from './GridBase';
 
 export class OpenBrowseResponse {
     opened: boolean;
@@ -39,6 +40,7 @@ export class NewRecordToCreate {
     expectedErrorFields?: string[];
     recordToExpect?: any;
     attemptDuplicate?: boolean = false;
+    grids?: GridBase[];
 }
 
 export class DeleteResponse {
@@ -98,9 +100,9 @@ export class ModuleBase {
 
         let mainMenuSelector = `.appmenu`;
         await page.waitForSelector(mainMenuSelector);
-		
-		ModuleBase.wait(1000); // wait for menu option to get its click event
-		
+
+        ModuleBase.wait(1000); // wait for menu option to get its click event
+
         await page.click(mainMenuSelector);
         let menuButtonId = '#btnModule' + this.moduleId;
         await expect(page).toClick(menuButtonId);
@@ -303,9 +305,9 @@ export class ModuleBase {
         else {
             selector += `:nth-child(1)`;
             await page.waitForSelector(selector);
-			
-			ModuleBase.wait(1000); // wait for the record(s) to get their click events
-			
+
+            ModuleBase.wait(1000); // wait for the record(s) to get their click events
+
             Logging.logInfo(`About to double-click the first row.`);
             await page.click(selector, { clickCount: 2 });
             //await page.waitFor(() => document.querySelector('.pleasewait'));
@@ -755,13 +757,13 @@ export class ModuleBase {
                         //        return e.index + 1
                         //    });
                         //} else if (expectedType === 'string') {
-							value = "";
-							try {
+                        value = "";
+                        try {
                             value = await page.$eval(`div[data-datafield="${dataField}"] select option:checked`, (e: any) => {
                                 return e.value
                             });
-							}
-							catch (error) {value="";}
+                        }
+                        catch (error) { value = ""; }
                         //}
                         record[dataField] = value;
                         break;
@@ -892,53 +894,59 @@ export class ModuleBase {
         return value;
     }
     //---------------------------------------------------------------------------------------
-    async addGridRow(gridController: string, className?: string, numberOfRows?: number, fieldObject?: any) {
-        if (numberOfRows === undefined) {
-            numberOfRows = 1;
-        }
-        // fieldobject is object of datafields and values to fill in
-        let grid;
+    async addGridRow(gridName: string, className?: string, record?: any) {
+        let gridSelector = "";
         if (className) {
-            grid = `div[data-grid="${gridController}"].${className}`;
+            gridSelector = `div[data-grid="${gridName}"].${className}`;
         } else {
-            grid = `div[data-grid="${gridController}"]`;
+            gridSelector = `div[data-grid="${gridName}"]`;
         }
 
-        await page.waitForSelector(`${grid} .buttonbar [data-type="NewButton"] i`);
+        const tabId = await page.$eval(gridSelector, el => el.closest('[data-type="tabpage"]').getAttribute('data-tabid'));
+        const tabIsActive = await page.$eval(`#${tabId}`, el => el.classList.contains('active'));
+        if (!tabIsActive) {
+            Logging.logInfo(`Clicking tab ${tabId}`);
+            await page.click(`#${tabId}`);
+        }
+
+        let gridNewButtonSelector = `${gridSelector} .buttonbar [data-type="NewButton"] i`;
+        await page.waitForSelector(gridNewButtonSelector, { visible: true });
         await ModuleBase.wait(1000);
-        await page.click(`${grid} .buttonbar [data-type="NewButton"] i`); // add new row
-        await page.waitForSelector(`${grid} tbody tr`);
-        async function fillValues() {
-            if (fieldObject !== null && (typeof fieldObject === 'object' && !Array.isArray(fieldObject))) {
+        await page.click(gridNewButtonSelector);
 
-                for (let key in fieldObject) {
-                    console.log(`Adding to grid: `, `FieldName: "${key}"   Value: "${fieldObject[key]}"`);
-                    const gridLineSelector = `${grid} .tablewrapper table tbody tr td div[data-browsedatafield="${key}"] input`;
-                    const fieldValue = await page.$eval(gridLineSelector, (e: any) => e.value);
-                    if (fieldValue != '') {
-                        // clear out existing value
-                        const elementHandle = await page.$(gridLineSelector);
-                        await elementHandle.click();
-                        await elementHandle.focus();
-                        await elementHandle.click({ clickCount: 3 });
-                        await elementHandle.press('Backspace');
-                        // assign value
-                        page.type(gridLineSelector, fieldObject[key]);
-                    } else {
-                        page.type(gridLineSelector, fieldObject[key]);
-                    }
-                    await ModuleBase.wait(3000);
-                    await page.keyboard.press('Enter');
-                }
-                await ModuleBase.wait(1500);
+        let gridNewRowSelector = `${gridSelector} tbody tr`;
+        await page.waitForSelector(gridNewRowSelector);
 
-                await page.keyboard.press('Enter');
-                await ModuleBase.wait(1000);
-                await page.click(`${grid} .tablewrapper table tbody tr td div.divsaverow i`);
-                await ModuleBase.wait(3000);
+        for (let key in record) {
+            Logging.logInfo(`Adding to grid: FieldName: "${key}"   Value: "${record[key]}"`);
+            const gridFieldSelector = `${gridSelector} .tablewrapper table tbody tr td div[data-browsedatafield="${key}"] input`;
+            const fieldValue = await page.$eval(gridFieldSelector, (e: any) => e.value);
+            if (fieldValue != '') {
+                // clear out existing value
+                const elementHandle = await page.$(gridFieldSelector);
+                await elementHandle.click();
+                await elementHandle.focus();
+                await elementHandle.click({ clickCount: 3 });
+                await elementHandle.press('Backspace');
             }
+
+            //currently only supports typing text.  need to add support for integers on validations 
+            await page.keyboard.sendCharacter(record[key]);
+            await page.keyboard.press('Tab');
+            await ModuleBase.wait(1500);  // wait for blur/validation events to finish
         }
-        await fillValues();
+        let gridRowSaveButtonSelector = `${gridSelector} .tablewrapper table tbody tr td div.divsaverow i`;
+        await page.click(gridRowSaveButtonSelector);
+
+        try {
+            await page.waitFor(() => document.querySelector('.pleasewait'), { timeout: 3000 });
+        } catch (error) { } // assume that we missed the Please Wait dialog
+
+        await page.waitFor(() => !document.querySelector('.pleasewait'));
+        Logging.logInfo(`Finished waiting for the Please Wait dialog.`);
+
+        // check for errors
+
     }
     //---------------------------------------------------------------------------------------
     async saveRecord(closeUnexpectedErrors: boolean = false): Promise<SaveResponse> {

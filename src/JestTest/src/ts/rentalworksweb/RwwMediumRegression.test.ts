@@ -161,6 +161,16 @@ export class MediumRegressionTest extends BaseTest {
                                             });
                                     }, module.formOpenTimeout);
 
+                                    if (rec.grids) {
+                                        for (let grid of rec.grids) {
+                                            testName = `Grid ${grid.gridName}`;
+                                            test(testName, async () => {
+                                                await module.addGridRow(grid.gridName, '', grid.newRecordsToCreate[0].record)
+                                                expect(1).toBe(1);
+                                            }, module.formOpenTimeout);
+                                        }
+                                    }
+
                                     testName = `Close the ${module.moduleCaption} record`;
                                     test(testName, async () => {
                                         await module.closeRecord();  //close the form
@@ -269,7 +279,7 @@ export class MediumRegressionTest extends BaseTest {
     async PerformTests() {
         //prerequisites
 
-        this.LoadMyUserGlobal(new User());  
+        this.LoadMyUserGlobal(new User());
         this.OpenSpecificRecord(new DefaultSettings(), null, true);
         this.OpenSpecificRecord(new InventorySettings(), null, true);
 
