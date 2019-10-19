@@ -124,7 +124,7 @@ export class SettingsModule extends ModuleBase {
         let refreshButtonSelector = `.panel-group[id="${this.moduleName}"] .refresh`;
         await page.waitForSelector(refreshButtonSelector, { visible: true });
         await page.click(refreshButtonSelector);
-        await ModuleBase.wait(1000); // let the refresh occur, or at least start
+        await ModuleBase.wait(500); // let the refresh occur, or at least start
 
         let searchFieldSelector = `.panel-group[id="${this.moduleName}"] input`;
         await page.waitForSelector(searchFieldSelector, { visible: true });
@@ -146,7 +146,7 @@ export class SettingsModule extends ModuleBase {
         await elementHandle.click();
         await page.keyboard.sendCharacter(seekValue);
         await page.keyboard.press('Enter');
-        await ModuleBase.wait(2000); // let the rows render
+        await ModuleBase.wait(500); // let the rows render  // #stresstest s/b 2000+
 
         let recordCount = await this.browseGetRowsDisplayed();
 
@@ -212,7 +212,7 @@ export class SettingsModule extends ModuleBase {
             if (recordToClick != null) {
                 await recordToClick.click(); // click the row
                 clickRecordResponse.clicked = true;
-                await ModuleBase.wait(1500); // let the form render or collapse
+                await ModuleBase.wait(500); // let the form render or collapse  // #stresstest s/b 1500+
             }
 
         }

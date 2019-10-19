@@ -101,7 +101,7 @@ export class ModuleBase {
         let mainMenuSelector = `.appmenu`;
         await page.waitForSelector(mainMenuSelector);
 
-        ModuleBase.wait(1000); // wait for menu option to get its click event
+        ModuleBase.wait(500); // wait for menu option to get its click event // #stresstest s/b 1000+
 
         await page.click(mainMenuSelector);
         let menuButtonId = '#btnModule' + this.moduleId;
@@ -306,7 +306,7 @@ export class ModuleBase {
             selector += `:nth-child(1)`;
             await page.waitForSelector(selector);
 
-            ModuleBase.wait(1000); // wait for the record(s) to get their click events
+            ModuleBase.wait(500); // wait for the record(s) to get their click events  // #stresstest s/b 1000+
 
             Logging.logInfo(`About to double-click the first row.`);
             await page.click(selector, { clickCount: 2 });
@@ -911,7 +911,7 @@ export class ModuleBase {
 
         let gridNewButtonSelector = `${gridSelector} .buttonbar [data-type="NewButton"] i`;
         await page.waitForSelector(gridNewButtonSelector, { visible: true });
-        await ModuleBase.wait(1000);
+        //await ModuleBase.wait(1500);
         await page.click(gridNewButtonSelector);
 
         let gridNewRowSelector = `${gridSelector} tbody tr`;
