@@ -224,7 +224,6 @@ class Contact {
       <div data-name="Contact" data-control="FwBrowse" data-type="Browse" class="fwcontrol fwbrowse" data-controller="ContactController" data-hasinactive="true">
       <div class="column" data-width="0" data-visible="false">
           <div class="field" data-isuniqueid="true" data-datafield="ContactId" data-browsedatatype="key" ></div>
-          <div class="field" data-isuniqueid="true" data-datafield="CompanyContactId" data-browsedatatype="key" ></div>
       </div>
       <div class="column" data-width="0" data-visible="false">
           <div class="field" data-datafield="Inactive" data-browsedatatype="text"  data-visible="false"></div>
