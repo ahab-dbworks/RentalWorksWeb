@@ -21,6 +21,13 @@ namespace WebApi.Modules.Billing.Receipt
         public decimal Amount { get; set; }
     }
 
+    public class ReceiptCredit
+    {
+        public int? CreditReceiptId { get; set; }
+        public string CreditId { get; set; }
+        public decimal Amount { get; set; }
+    }
+
     [FwLogic(Id: "5XIpJJ8C7Ywx")]
     public class ReceiptLogic : AppBusinessLogic
     {
@@ -132,6 +139,10 @@ namespace WebApi.Modules.Billing.Receipt
         // this field accepts the requested Invoices and Amounts from the user when saving a new or modified Receipt
         [FwLogicProperty(Id: "BD8n6SDR8Rn6y", IsNotAudited: true)]
         public List<ReceiptInvoice> InvoiceDataList { get; set; }
+
+        // this field accepts the requested Credits and Amounts from the user when saving a new Refund Check
+        [FwLogicProperty(Id: "DyE4LuDuuJghH", IsNotAudited: true)]
+        public List<ReceiptCredit> CreditDataList { get; set; }
 
         // if saving a New Receipt, and this value is true, then any amounts over the Invoice Amounts should be saved as a separate Overpayment Receipt
         [FwLogicProperty(Id: "2wv5LlhqpmDdU")]
