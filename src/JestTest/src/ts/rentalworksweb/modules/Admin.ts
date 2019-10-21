@@ -21,7 +21,7 @@ export class Alert extends AdminModule {
         this.newRecordsToCreate = [
             {
                 record: {
-                    ModuleName: TestUtils.randomIntegerBetween(2,20), 
+                    ModuleName: TestUtils.randomIntegerBetween(5,10), 
                     AlertName: "GlobalScope.TestToken~1.TestToken",
                     ActionNew: true,
                     ActionEdit: true,
@@ -61,7 +61,7 @@ export class CustomField extends AdminModule {
         this.newRecordsToCreate = [
             {
                 record: {
-                    ModuleName: TestUtils.randomIntegerBetween(2, 20), 
+                    ModuleName: TestUtils.randomIntegerBetween(5,10), 
                     FieldName: "GlobalScope.TestToken~1.TestToken",
                     CustomTableName: "customvaluesdatetime",
                 },
@@ -96,7 +96,7 @@ export class CustomForm extends AdminModule {
         this.newRecordsToCreate = [
             {
                 record: {
-                    BaseForm: TestUtils.randomIntegerBetween(2, 20),
+                    BaseForm: TestUtils.randomIntegerBetween(5, 10),
                     Description: "GlobalScope.TestToken~1.TestToken",
                 },
                 seekObject: {
@@ -133,7 +133,7 @@ export class DuplicateRule extends AdminModule {
                 record: {
                     RuleName: "GlobalScope.TestToken~1.TestToken",
                     ConsiderBlanks: true,
-                    ModuleName: TestUtils.randomIntegerBetween(2, 20),  // must be last
+                    ModuleName: TestUtils.randomIntegerBetween(5,10),  // must be last
                 },
                 seekObject: {
                     RuleName: "GlobalScope.TestToken~1.TestToken",
