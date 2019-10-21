@@ -34,13 +34,29 @@ export class SaveResponse {
     errorFields: string[];
 }
 
+export class AddGridRowResponse {
+    saved: boolean;
+    errorMessage: string;
+    errorFields: string[];
+}
+
+export class DeleteGridRowResponse {
+    deleted: boolean;
+    errorMessage: string;
+}
+
+export class GridRecordToCreate {
+    gridSelector: string;
+    recordToCreate: NewRecordToCreate;
+}
+
 export class NewRecordToCreate {
     record: any;
     seekObject?: any;
     expectedErrorFields?: string[];
     recordToExpect?: any;
     attemptDuplicate?: boolean = false;
-    grids?: GridBase[];
+    gridRecords?: GridRecordToCreate[];
 }
 
 export class DeleteResponse {
@@ -58,6 +74,7 @@ export class ModuleBase {
     deleteTimeout: number = 120000; // 120 seconds
     formOpenTimeout: number = 120000; // 120 seconds
     formSaveTimeout: number = 120000; // 120 seconds
+    grids?: GridBase[];
 
     canNew: boolean = true;
     canView: boolean = true;
@@ -74,6 +91,7 @@ export class ModuleBase {
         this.moduleName = 'UnknownModule';
         this.moduleId = '99999999-9999-9999-9999-999999999999';
         this.moduleCaption = 'UnknownModule';
+        this.grids = new Array();
     }
     //---------------------------------------------------------------------------------------
     getBrowseSelector(): string {
@@ -860,11 +878,20 @@ export class ModuleBase {
             recordToSelect = 1;
         }
         await page.click(`.fwformfield[data-datafield="${dataField}"] i.btnvalidate`);
-        //await page.waitFor(500);
-        await ModuleBase.wait(500);
+        await ModuleBase.wait(500);  // wait for validation to open
         await page.waitForSelector(`div[data-name="${validationName}"] tr.viewmode:nth-child(1)`, { visible: true });
         await page.click(`div[data-name="${validationName}"] tr.viewmode:nth-child(${recordToSelect})`, { clickCount: 2 });
         await ModuleBase.wait(750);  // allow "after validate" methods to finish
+    }
+    //---------------------------------------------------------------------------------------
+    async populateGridValidationField(gridSelector: string, dataField: string, validationName: string, recordToSelect?: number): Promise<void> {
+        if (recordToSelect === undefined) {
+            recordToSelect = 1;
+        }
+        await page.click(`${gridSelector} .tablewrapper table tbody tr td div[data-browsedatafield="${dataField}"] .btnvalidate`);
+        await ModuleBase.wait(500);  // wait for validation to open
+        await page.waitForSelector(`div[data-name="${validationName}"] tr.viewmode:nth-child(1)`, { visible: true });
+        await page.click(`div[data-name="${validationName}"] tr.viewmode:nth-child(${recordToSelect})`, { clickCount: 2 });
     }
     //---------------------------------------------------------------------------------------
     async getDataFieldValue(dataField: string): Promise<string> {
@@ -894,7 +921,32 @@ export class ModuleBase {
         return value;
     }
     //---------------------------------------------------------------------------------------
-    async addGridRow(gridName: string, className?: string, record?: any) {
+    async getGridDataType(gridSelector: string, fieldName: string): Promise<string> {
+        let datatype;
+        let gridFieldSelector = `${gridSelector} .tablewrapper table tbody tr td div[data-browsedatafield="${fieldName}"]`;
+        const field = await page.$(gridFieldSelector);
+        if (field != null) {
+            datatype = await page.$eval(gridFieldSelector, el => el.getAttribute('data-browsedatatype'));
+        } else {
+            gridFieldSelector = `${gridSelector} .tablewrapper table tbody tr td div[data-browsedisplayfield="${fieldName}"]`;
+            const isDisplayField = await page.$(gridFieldSelector);
+            if (isDisplayField != null) {
+                datatype = 'displayfield';
+            }
+        }
+        Logging.logInfo(`${fieldName} datatype is ${datatype}`);
+        return datatype;
+    }
+    //---------------------------------------------------------------------------------------
+    async addGridRow(gridName: string, className?: string, record?: any, closeUnexpectedErrors: boolean = false): Promise<AddGridRowResponse> {
+
+        let response = new AddGridRowResponse();
+        response.saved = false;
+        response.errorMessage = "not saved";
+        response.errorFields = new Array<string>();
+
+
+        Logging.logInfo(`About to add a new row to grid: ${gridName}`);
         let gridSelector = "";
         if (className) {
             gridSelector = `div[data-grid="${gridName}"].${className}`;
@@ -911,28 +963,78 @@ export class ModuleBase {
 
         let gridNewButtonSelector = `${gridSelector} .buttonbar [data-type="NewButton"] i`;
         await page.waitForSelector(gridNewButtonSelector, { visible: true });
-        //await ModuleBase.wait(1500);
         await page.click(gridNewButtonSelector);
+        Logging.logInfo(`clicked New button on grid: ${gridName}`);
 
         let gridNewRowSelector = `${gridSelector} tbody tr`;
         await page.waitForSelector(gridNewRowSelector);
+        Logging.logInfo(`found new row on grid: ${gridName}`);
 
         for (let key in record) {
-            Logging.logInfo(`Adding to grid: FieldName: "${key}"   Value: "${record[key]}"`);
-            const gridFieldSelector = `${gridSelector} .tablewrapper table tbody tr td div[data-browsedatafield="${key}"] input`;
-            const fieldValue = await page.$eval(gridFieldSelector, (e: any) => e.value);
-            if (fieldValue != '') {
-                // clear out existing value
-                const elementHandle = await page.$(gridFieldSelector);
-                await elementHandle.click();
-                await elementHandle.focus();
-                await elementHandle.click({ clickCount: 3 });
-                await elementHandle.press('Backspace');
+            let fieldToPopulate = key;
+            let valueToPopulate = record[key];
+
+            if (valueToPopulate.toString().toUpperCase().includes("GLOBALSCOPE.")) {
+                valueToPopulate = TestUtils.getGlobalScopeValue(valueToPopulate, this.globalScopeRef);
+            }
+            Logging.logInfo(`About to populate grid FieldName: "${fieldToPopulate}"   Value: "${valueToPopulate}"`);
+
+            const datatype = await this.getGridDataType(gridSelector, fieldToPopulate);
+            if (datatype === 'displayfield') {
+                let displayfield = fieldToPopulate;
+                fieldToPopulate = await page.$eval(`${gridSelector} .tablewrapper table tbody tr td div[data-browsedisplayfield="${displayfield}"]`, el => el.getAttribute('data-browsedatafield'));
+                Logging.logInfo(`About to populate grid FieldName: "${fieldToPopulate}"   Value: "${valueToPopulate}"`);
             }
 
-            //currently only supports typing text.  need to add support for integers on validations 
-            await page.keyboard.sendCharacter(record[key]);
-            await page.keyboard.press('Tab');
+            var currentValue = "";
+            let gridFieldSelector: string = "";
+            switch (datatype) {
+                case 'phone':
+                case 'email':
+                case 'zipcode':
+                case 'percent':
+                case 'number':
+                case 'password':
+                case 'text':
+                    gridFieldSelector = `${gridSelector} .tablewrapper table tbody tr td div[data-browsedatafield="${fieldToPopulate}"] input`;
+                    currentValue = await page.$eval(gridFieldSelector, (e: any) => e.value);
+                    const elementHandle = await page.$(gridFieldSelector);
+                    await elementHandle.click();
+                    await elementHandle.focus();
+                    if (currentValue != '') {
+                        await elementHandle.click({ clickCount: 3 });
+                        await elementHandle.press('Backspace');
+                    }
+                    await page.keyboard.sendCharacter(valueToPopulate);
+                    await page.keyboard.press('Tab');
+                    break;
+                case 'checkbox':
+                    break;
+                case 'radio':
+                    break;
+                case 'validation':
+                    const validationname = await page.$eval(`${gridSelector} .tablewrapper table tbody tr td div[data-browsedatafield="${fieldToPopulate}"]`, el => el.getAttribute('data-validationname'));
+                    await this.populateGridValidationField(gridSelector, fieldToPopulate, validationname, valueToPopulate);
+                    break;
+                case 'select':
+                    break;
+                case 'displayfield':
+                    gridFieldSelector = `${gridSelector} .tablewrapper table tbody tr td div[data-browsedatafield="${fieldToPopulate}"] input`;
+                    currentValue = await page.$eval(gridFieldSelector, (e: any) => e.value);
+                    if (currentValue != "") {
+                        // clear out existing value
+                        const elementHandle = await page.$(gridFieldSelector);
+                        await elementHandle.click();
+                        await elementHandle.focus();
+                        await elementHandle.click({ clickCount: 3 });
+                        await elementHandle.press('Backspace');
+                    }
+                    await page.keyboard.sendCharacter(valueToPopulate);
+                    await page.keyboard.press('Tab');
+                    break;
+                default:
+                    break;
+            }
             await ModuleBase.wait(1500);  // wait for blur/validation events to finish
         }
         let gridRowSaveButtonSelector = `${gridSelector} .tablewrapper table tbody tr td div.divsaverow i`;
@@ -945,8 +1047,152 @@ export class ModuleBase {
         await page.waitFor(() => !document.querySelector('.pleasewait'));
         Logging.logInfo(`Finished waiting for the Please Wait dialog.`);
 
-        // check for errors
+        response.saved = true;
+        response.errorMessage = "";
 
+
+        // check for errors - wip
+        //await page.waitForSelector('.advisory');
+        //await page.waitForFunction(() => document.querySelector('.advisory'), { polling: 'mutation' })
+        //    .then(async done => {
+        //        const afterSaveMsg = await page.$eval('.advisory', el => el.textContent);
+        //        if ((afterSaveMsg.includes('saved')) && (!afterSaveMsg.includes('Error'))) {
+        //            Logging.logInfo(`${this.moduleCaption} Record saved: ${afterSaveMsg}`);
+
+        //            //make the "record saved" toaster message go away
+        //            await page.waitForSelector('.advisory .messageclose');
+        //            Logging.logInfo(`found "record saved" toaster`);
+        //            await page.click(`.advisory .messageclose`);
+        //            Logging.logInfo(`clicked "X" on "record saved" toaster`);
+        //            await page.waitFor(() => !document.querySelector('.advisory'));  // wait for toaster to go away
+        //            Logging.logInfo(`"record saved" toaster is now gone`);
+
+        //            response.saved = true;
+        //            response.errorMessage = "";
+        //        } else if (afterSaveMsg.includes('Error') || afterSaveMsg.includes('resolve')) {
+        //            Logging.logInfo(`${this.moduleCaption} Record not saved: ${afterSaveMsg}`);
+        //            response.saved = false;
+        //            response.errorMessage = afterSaveMsg;
+        //            response.errorFields = await page.$$eval(`.fwformfield.error`, fields => fields.map((field) => field.getAttribute('data-datafield')));
+        //            Logging.logInfo(`Error Fields: ${JSON.stringify(response.errorFields)}`);
+
+        //            if (closeUnexpectedErrors) {
+        //                //check for any error message pop-ups and click them to make error messages go away
+        //                Logging.logInfo(`About to check for error prompt and close it`);
+        //                selector = '.advisory .fwconfirmation-button';
+        //                const elementHandle = await page.$(selector);
+        //                if (elementHandle != null) {
+        //                    //await page.waitForSelector('.advisory .fwconfirmation-button');
+        //                    Logging.logInfo(`Found button on prompt, about to click`);
+        //                    //await page.waitForSelector(selector);
+        //                    //await page.click(selector);
+        //                    await elementHandle.click();
+        //                    await page.waitFor(() => !document.querySelector('.advisory'));
+        //                }
+        //            }
+
+        //            //check for the "record not saved" toaster message and make it go away
+        //            selector = `.advisory .messageclose`;
+        //            const elementHandle = await page.$(selector);
+        //            if (elementHandle != null) {
+        //                //await page.waitForSelector(selector);
+        //                //await page.click(selector);
+        //                await elementHandle.click();
+        //                await page.waitFor(() => !document.querySelector('.advisory'));  // wait for toaster to go away
+        //            }
+
+
+        //        }
+        //    })
+
+        return response;
+    }
+    //---------------------------------------------------------------------------------------
+    async deleteGridRow(gridName: string, className?: string, rowToDelete?: number, closeUnexpectedErrors?: boolean): Promise<DeleteGridRowResponse> {
+        let response = new DeleteGridRowResponse();
+        response.deleted = false;
+        response.errorMessage = "record not deleted";
+
+        Logging.logInfo(`About to delete row from grid: ${gridName}`);
+        let gridSelector = "";
+        if (className) {
+            gridSelector = `div[data-grid="${gridName}"].${className}`;
+        } else {
+            gridSelector = `div[data-grid="${gridName}"]`;
+        }
+
+        const tabId = await page.$eval(gridSelector, el => el.closest('[data-type="tabpage"]').getAttribute('data-tabid'));
+        const tabIsActive = await page.$eval(`#${tabId}`, el => el.classList.contains('active'));
+        if (!tabIsActive) {
+            Logging.logInfo(`Clicking tab ${tabId}`);
+            await page.click(`#${tabId}`);
+        }
+
+        let gridContextMenuSelector = `${gridSelector} .tablewrapper table tbody tr .browsecontextmenu`;
+        await page.waitForSelector(gridContextMenuSelector, { visible: true });
+        await page.click(gridContextMenuSelector);
+
+        let gridContextMenuDeleteOptionSelector = `${gridSelector} .tablewrapper table tbody tr .browsecontextmenu .responsive`;
+        await page.waitForSelector(gridContextMenuDeleteOptionSelector, { visible: true });
+        await page.click(gridContextMenuDeleteOptionSelector);
+
+
+
+
+        const popupText = await page.$eval('.advisory', el => el.textContent);
+        if (popupText.includes('Delete Record')) {
+            Logging.logInfo(`Delete record, confirmation prompt detected.`);
+
+            const options = await page.$$('.advisory .fwconfirmation-button');
+            await options[0].click() // click "Yes" option
+                .then(() => {
+                    Logging.logInfo(`Clicked the "Yes" button.`);
+                })
+            await page.waitFor(() => !document.querySelector('.advisory'));
+            //await page.waitFor(() => document.querySelector('.pleasewait'));
+            //await page.waitFor(() => !document.querySelector('.pleasewait'));
+
+
+
+            try {
+                await page.waitFor(() => document.querySelector('.pleasewait'), { timeout: 3000 });
+            } catch (error) { } // assume that we missed the Please Wait dialog
+
+            await page.waitFor(() => !document.querySelector('.pleasewait'));
+            Logging.logInfo(`Finished waiting for the Please Wait dialog.`);
+
+            let afterDeleteMsg: string = "";
+            try {
+                await page.waitFor(() => document.querySelector('.advisory'), { timeout: 500 });
+                afterDeleteMsg = await page.$eval('.advisory', el => el.textContent);
+            } catch (error) { } // assume that no error occurred
+
+            if (afterDeleteMsg.includes('Error')) {
+                Logging.logInfo(`${this.moduleCaption} Record not deleted: ${afterDeleteMsg}`);
+                response.deleted = false;
+                response.errorMessage = afterDeleteMsg;
+
+                if (closeUnexpectedErrors) {
+                    //check for any error message pop-ups and click them to make error messages go away
+                    Logging.logInfo(`About to check for error prompt and close it`);
+                    let selector = '.advisory .fwconfirmation-button';
+                    const elementHandle = await page.$(selector);
+                    if (elementHandle != null) {
+                        //await page.waitForSelector('.advisory .fwconfirmation-button');
+                        Logging.logInfo(`Found button on prompt, about to click`);
+                        //await page.waitForSelector(selector);
+                        //await page.click(selector);
+                        await elementHandle.click();
+                        await page.waitFor(() => !document.querySelector('.advisory'));
+                    }
+                }
+            } else {
+                Logging.logInfo(`${this.moduleCaption} Record deleted: ${afterDeleteMsg}`);
+                response.deleted = true;
+                response.errorMessage = "";
+            }
+        }
+        return response;
     }
     //---------------------------------------------------------------------------------------
     async saveRecord(closeUnexpectedErrors: boolean = false): Promise<SaveResponse> {

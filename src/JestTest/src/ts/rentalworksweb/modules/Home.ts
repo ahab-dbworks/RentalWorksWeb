@@ -1,6 +1,7 @@
 ﻿import { HomeModule } from "../../shared/HomeModule";
 import { TestUtils } from "../../shared/TestUtils";
 import { Logging } from '../../shared/Logging';
+import { GridBase } from "../../shared/GridBase";
 
 //---------------------------------------------------------------------------------------
 export class Quote extends HomeModule {
@@ -264,6 +265,9 @@ export class Contact extends HomeModule {
         this.moduleName = 'Contact';
         this.moduleId = '3F803517-618A-41C0-9F0B-2C96B8BDAFC4';
         this.moduleCaption = 'Contact';
+        this.grids.push(new GridBase("ContactCompanyGrid"));
+        this.grids.push(new GridBase("ContactNoteGrid"));
+
         this.newRecordsToCreate = [
             {
                 record: {
@@ -287,18 +291,25 @@ export class Contact extends HomeModule {
                 },
             }
         ];
-        this.newRecordsToCreate[0].grids = [
+        this.newRecordsToCreate[0].gridRecords = [
             {
-                gridName: "ContactCompanyGrid",
-                newRecordsToCreate: [
-                    {
-                        record: {
-                            CompanyId: "JB/SPARK",
-                            ContactTitleId: "AGENT",
-                        }
+                gridSelector: "ContactCompanyGrid",
+                recordToCreate: {
+                    record: {
+                        CompanyId: 5,
+                        ContactTitleId: 4,
+                        OfficePhone: TestUtils.randomPhone(),
                     }
-                ]
-            }
+                }
+            },
+            {
+                gridSelector: "ContactNoteGrid",
+                recordToCreate: {
+                    record: {
+                        Description: "GlobalScope.TestToken~1.TestToken",
+                    }
+                }
+            },
         ];
         this.newRecordsToCreate[0].recordToExpect = {
             FirstName: this.newRecordsToCreate[0].record.FirstName.toUpperCase(),

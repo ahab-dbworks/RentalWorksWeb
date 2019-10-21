@@ -161,13 +161,33 @@ export class MediumRegressionTest extends BaseTest {
                                             });
                                     }, module.formOpenTimeout);
 
-                                    if (rec.grids) {
-                                        for (let grid of rec.grids) {
-                                            testName = `Grid ${grid.gridName}`;
-                                            test(testName, async () => {
-                                                await module.addGridRow(grid.gridName, '', grid.newRecordsToCreate[0].record)
-                                                expect(1).toBe(1);
-                                            }, module.formOpenTimeout);
+                                    if (module.grids) {
+                                        for (let grid of module.grids) {
+                                            for (let gridRecord of rec.gridRecords) {
+                                                if (gridRecord.gridSelector === grid.gridName) {
+                                                    if (grid.canNew) {
+                                                        testName = `Add row to Grid: ${grid.gridName}`;
+                                                        test(testName, async () => {
+                                                            await module.addGridRow(grid.gridName, '', gridRecord.recordToCreate.record, true)
+                                                                .then(saveResponse => {
+                                                                    expect(saveResponse.errorMessage).toBe("");
+                                                                    expect(saveResponse.saved).toBeTruthy();
+                                                                });
+                                                        }, grid.saveTimeout);
+                                                    }
+
+                                                    if (grid.canDelete) {
+                                                        testName = `Delete row from Grid: ${grid.gridName}`;
+                                                        test(testName, async () => {
+                                                            await module.deleteGridRow(grid.gridName, '', 1, true)
+                                                                .then(deleteResponse => {
+                                                                    expect(deleteResponse.errorMessage).toBe("");
+                                                                    expect(deleteResponse.deleted).toBeTruthy();
+                                                                });
+                                                        }, grid.deleteTimeout);
+                                                    }
+                                                }
+                                            }
                                         }
                                     }
 
