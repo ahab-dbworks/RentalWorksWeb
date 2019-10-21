@@ -23,7 +23,7 @@ namespace WebApi.Modules.Billing.Receipt
 
     public class ReceiptCredit
     {
-        public int? CreditReceiptId { get; set; }
+        public string CreditReceiptId { get; set; }         // this was an int? but was giving me issues below
         public string CreditId { get; set; }
         public decimal Amount { get; set; }
     }
@@ -650,6 +650,64 @@ namespace WebApi.Modules.Billing.Receipt
                     invoiceAmountTotal += ri.Amount;
                 }
             }
+
+
+
+
+
+
+
+
+
+            //----- CREDIT DATA LIST
+            // iterate through the PREVIOUS list.  compare each entry with the ones provided by the user.  If the amount is changed, we need to save the modifications to the database
+            if (CreditDataList != null)
+            {
+                foreach (InvoiceReceiptLogic irPrev in previousIrData)
+                {
+                    foreach (ReceiptCredit riNew in CreditDataList)  // iterate through the list provided by the user
+                    {
+                        if (irPrev.InvoiceReceiptId.ToString().Equals(riNew.CreditReceiptId)) // find the record that matches this CreditReceiptId
+                        {
+                            if (!irPrev.Amount.Equals(riNew.Amount))
+                            {
+                                InvoiceReceiptLogic irNew = irPrev.MakeCopy<InvoiceReceiptLogic>();
+                                irNew.Amount = riNew.Amount;
+                                irNew.SetDependencies(AppConfig, UserSession);
+                                int saveCount = irNew.SaveAsync(irPrev, conn: e.SqlConnection).Result;
+                            }
+                        }
+                    }
+                }
+            }
+
+            // iterate through the NEW list.  anything without an CreditReceiptId is new, we need to save these
+            //if (CreditDataList != null)
+            //{
+            //    foreach (ReceiptCredit ri in CreditDataList)
+            //    {
+            //        if ((string.IsNullOrEmpty(ri.CreditReceiptId)) && (ri.Amount != 0))
+            //        {
+            //            InvoiceReceiptLogic irNew = new InvoiceReceiptLogic();
+            //            irNew.SetDependencies(AppConfig, UserSession);
+            //            irNew.ReceiptId = ReceiptId;
+            //            irNew.CreditId = ri.CreditId;
+            //            irNew.Amount = ri.Amount;
+            //            irNew.SetDependencies(AppConfig, UserSession);
+            //            int saveCount = irNew.SaveAsync(null, conn: e.SqlConnection).Result;
+            //            ri.CreditReceiptId = irNew.CreditReceiptId.ToString();                                                                                    //commented becquse this requires a separate logic file that i dont have or that the credit particular fields are not present within InvoiceReceiptLogic
+            //        }
+            //        invoiceAmountTotal += ri.Amount;
+            //    }
+            //}
+
+
+
+
+
+
+
+
 
             if ((e.SaveMode.Equals(TDataRecordSaveMode.smInsert)) && (paymentAmount > invoiceAmountTotal) && (string.IsNullOrEmpty(DealDepositId)) && (string.IsNullOrEmpty(CustomerDepositId)))
             {
