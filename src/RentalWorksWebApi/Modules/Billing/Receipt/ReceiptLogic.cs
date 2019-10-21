@@ -23,7 +23,7 @@ namespace WebApi.Modules.Billing.Receipt
 
     public class ReceiptCredit
     {
-        public int? CreditReceiptId { get; set; }    
+        public decimal? CreditReceiptId { get; set; }    
         public string CreditId { get; set; }
         public decimal Amount { get; set; }
     }

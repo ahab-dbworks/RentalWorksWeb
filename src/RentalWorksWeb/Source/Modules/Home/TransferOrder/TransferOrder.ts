@@ -206,7 +206,6 @@ class TransferOrder {
         $form.find('.submodule').show();
         const status = FwFormField.getValueByDataField($form, 'Status');
 
-
         if (status === 'CONFIRMED') {
             $form.find('div[data-securityid="A35F0AAD-81B5-4A0C-8970-D448A67D5A82"] .caption').text('Un-confirm');
         } else if (status !== 'NEW') {

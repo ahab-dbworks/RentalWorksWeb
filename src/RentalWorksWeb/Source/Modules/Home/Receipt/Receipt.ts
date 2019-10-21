@@ -180,7 +180,7 @@ class Receipt {
             if (invoiceRowHtml.attr('data-visible') === 'true') {
                 request.InvoiceDataList = this.getFormTableData($form);
             } else if (creditRowHtml.attr('data-visible') === 'true') {
-            request.CreditDataList = this.getCreditFormTableData($form);
+                request.CreditDataList = this.getCreditFormTableData($form);
             }
         });
 
@@ -302,7 +302,11 @@ class Receipt {
         }
         // Click Event on tabs to load grids/browses
         this.paymentByRadioBehavior($form);
-        this.loadReceiptInvoiceGrid($form);
+        if (paymentTypeType === 'REFUND CHECK') {
+            this.loadReceiptCreditGrid($form);
+        } else {
+            this.loadReceiptInvoiceGrid($form);
+        }
         this.events($form);
         // Credit submodule
         setTimeout(() => {
