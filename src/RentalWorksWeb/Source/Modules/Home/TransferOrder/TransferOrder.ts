@@ -380,12 +380,15 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.TransferOrder.form.menuItem
         FwConfirmation.addButton($confirmation, 'Cancel');
 
         $yes.on('click', e => {
+            const topLayer = '<div class="top-layer" data-controller="none" style="background-color: transparent;z-index:1"></div>';
+            const realConfirm = jQuery($confirmation.find('.fwconfirmationbox')).prepend(topLayer);
+
             const transferId = FwFormField.getValueByDataField($form, 'TransferId');
             FwAppData.apiMethod(true, 'POST', `api/v1/transferorder/confirm/${transferId}`, null, FwServices.defaultTimeout, response => {
                 FwNotification.renderNotification('SUCCESS', `Transfer Order Successfully ${action}ed.`);
                 FwConfirmation.destroyConfirmation($confirmation);
                 FwModule.refreshForm($form, TransferOrderController);
-            }, null, $confirmation);
+            }, null, realConfirm);
         });
     }
     catch (ex) {
