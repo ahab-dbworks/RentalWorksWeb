@@ -108,8 +108,23 @@ export class Country extends SettingsModule {
                 },
                 seekObject: {
                     Country: "GlobalScope.TestToken~1.TestToken",
-                }
-            }
+                },
+				attemptDuplicate: true,
+            },
+            {
+                record: {
+                    Country: "",
+                    CountryCode: "GlobalScope.TestToken~1.ShortTestToken",
+                },
+                expectedErrorFields: ["Country"]
+            },
+            {
+                record: {
+                    Country: "GlobalScope.TestToken~1.TestToken",
+                    CountryCode: "",
+                },
+                expectedErrorFields: ["CountryCode"]
+            },
         ];
         this.newRecordsToCreate[0].recordToExpect = {
             Country: this.newRecordsToCreate[0].record.Country.toUpperCase(),
@@ -144,8 +159,23 @@ export class State extends SettingsModule {
                 },
                 seekObject: {
                     State: "GlobalScope.TestToken~1.TestToken",
-                }
-            }
+                },
+				attemptDuplicate: true,
+            },
+            {
+                record: {
+                    StateCode: "",
+                    State: "GlobalScope.TestToken~1.TestToken",
+                },
+                expectedErrorFields: ["StateCode"]
+            },
+            {
+                record: {
+                    StateCode: "GlobalScope.TestToken~1.TinyTestToken",
+                    State: "",
+                },
+                expectedErrorFields: ["State"]
+            },
         ];
         this.newRecordsToCreate[0].recordToExpect = {
             StateCode: this.newRecordsToCreate[0].record.StateCode.toUpperCase(),
@@ -181,8 +211,16 @@ export class BillingCycle extends SettingsModule {
                 },
                 seekObject: {
                     BillingCycle: "GlobalScope.TestToken~1.MediumTestToken",
-                }
-            }
+                },
+				attemptDuplicate: true,
+            },
+            {
+                record: {
+                    BillingCycle: "",
+                    BillingCycleType: "MONTHLY",
+                },
+                expectedErrorFields: ["BillingCycle"]
+            },
         ];
         this.newRecordsToCreate[0].recordToExpect = {
             BillingCycle: this.newRecordsToCreate[0].record.BillingCycle.toUpperCase(),
@@ -225,8 +263,16 @@ export class Department extends SettingsModule {
                 },
                 seekObject: {
                     Department: "GlobalScope.TestToken~1.TestToken",
-                }
-            }
+                },
+				attemptDuplicate: true,
+            },
+            {
+                record: {
+                    Department: "",
+                    DepartmentCode: "GlobalScope.TestToken~1.ShortTestToken",
+                },
+                expectedErrorFields: ["Department"]
+            },
         ];
         this.newRecordsToCreate[0].recordToExpect = {
             Department: this.newRecordsToCreate[0].record.Department.toUpperCase(),

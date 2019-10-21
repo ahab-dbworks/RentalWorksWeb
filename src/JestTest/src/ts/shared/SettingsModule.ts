@@ -212,7 +212,7 @@ export class SettingsModule extends ModuleBase {
             if (recordToClick != null) {
                 await recordToClick.click(); // click the row
                 clickRecordResponse.clicked = true;
-                await ModuleBase.wait(500); // let the form render or collapse  // #stresstest s/b 1500+
+                await ModuleBase.wait(1000); // let the form render or collapse  // #stresstest s/b 1500+
             }
 
         }
