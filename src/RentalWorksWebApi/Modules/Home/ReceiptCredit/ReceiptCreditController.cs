@@ -7,31 +7,30 @@ using FwStandard.SqlServer;
 using System.Collections.Generic;
 using FwStandard.AppManager;
 
-namespace WebApi.Modules.Home.ReceiptInvoice
+namespace WebApi.Modules.Home.ReceiptCredit
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
-    [FwController(Id: "VNl76Q0KpJk31")]
-    public class ReceiptInvoiceController : AppDataController
+    [FwController(Id: "NUrTXlXrPpZHZ")]
+    public class ReceiptCreditController : AppDataController
     {
-        public ReceiptInvoiceController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(ReceiptInvoiceLogic); }
+        public ReceiptCreditController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(ReceiptCreditLogic); }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/receiptinvoice/browse 
+        // POST api/v1/receiptcredit/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id: "FQKNknibRlh")]
+        [FwControllerMethod(Id: "l32UVfhkcJ50N")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/receiptinvoice/exportexcelxlsx/filedownloadname 
+        // POST api/v1/receiptcredit/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
-        [FwControllerMethod(Id: "TxHBxvExNQV")]
+        [FwControllerMethod(Id: "xVJRTR3frhJfJ")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-
     }
 }
