@@ -19,6 +19,7 @@ class QuikActivityCalendar {
             FwModule.openModuleTab($form, this.caption, false, 'FORM', true);
         };
         screen.unload = function () {
+            FwBrowse.screenunload($form);
         };
 
         return screen;
@@ -72,18 +73,67 @@ class QuikActivityCalendar {
         const $calendar = $form.find('.calendar');
         let activityTypes = '';
 
+        let $popup = jQuery(`
+                <div id="quikActivityPopup" class="fwform fwcontrol fwcontainer"  data-control="FwContainer" data-type="form" style="background-color:white; padding:10px; border:2px solid gray; min-width:350px;">
+                    <div class="close-modal"><i class="material-icons">clear</i><div class="btn-text">Close</div></div>
+                    <div class="flexcolumn" style="max-width:none;">
+                      <div class="flexrow" style="max-width:none;">
+                         <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="View">
+                            <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield" data-caption="" data-datafield="Summary"></div>
+                        </div>
+                      </div>
+                      <div class="flexrow" style="max-width:none;">
+                        <div data-control="FwGrid" data-grid="QuikActivityGrid" data-securitycaption="QuikActivity"></div>
+                      </div>
+                    </div>
+                </div>`);
+        FwControl.renderRuntimeControls($popup.find('.fwcontrol'));
+        $popup = FwPopup.renderPopup($popup, { ismodal: true });
         //render QuikActivity grid
-        const $quikActivityGrid = $form.find('div[data-grid="QuikActivityGrid"]');
+        const $quikActivityGrid = $popup.find('div[data-grid="QuikActivityGrid"]');
         const $quikActivityGridControl = FwBrowse.loadGridFromTemplate('QuikActivityGrid');
         $quikActivityGrid.empty().append($quikActivityGridControl);
         FwBrowse.init($quikActivityGridControl);
         FwBrowse.renderRuntimeHtml($quikActivityGridControl);
+        FwFormField.loadItems($popup.find('div[data-datafield="Summary"]'), [
+            { value: 'true', caption: 'Summary', selected: true },
+            { value: 'false', caption: 'Detail' }
+        ]);
+        FwFormField.setValueByDataField($popup, 'Summary', 'true');
+
+        $form.data('onscreenunload', () => { FwPopup.destroyPopup($popup); });
+
+        $popup.find('.close-modal').on('click', function (e) {
+            FwPopup.detachPopup($popup);
+            //$popup.hide();
+        });
+
+        $popup.find('[data-datafield="Summary"]').on('change', e => {
+            const isSummary = FwFormField.getValueByDataField($popup, 'Summary');
+            const $detailColumns = $quikActivityGrid
+                .find('[data-browsedatafield="ICode"], [data-browsedatafield="Description"], [data-browsedatafield="Quantity"]')
+                .parents('.column');
+            if (isSummary == 'true') {
+                $detailColumns.hide();
+            } else {
+                $detailColumns.show();
+            }
+            const $quikActivityGridControl = $quikActivityGrid.find('[data-type="Grid"]');
+            const onDataBind = $quikActivityGridControl.data('ondatabind');
+            if (typeof onDataBind == 'function') {
+                $quikActivityGridControl.data('ondatabind', request => {
+                    onDataBind(request);
+                    request.uniqueids.Summary = isSummary;
+                });
+            }
+            FwBrowse.search($quikActivityGridControl);
+        });
 
         $calendar
             .data('ongetevents', request => {
                 const startOfMonth = moment(request.start.value).format('MM/DD/YYYY');
                 const endOfMonth = moment(request.start.value).add(request.days, 'd').format('MM/DD/YYYY');
-                const summary = FwFormField.getValueByDataField($form, 'Summary');
+                const summary = FwFormField.getValueByDataField($popup, 'Summary');
                 let warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
                 if (FwFormField.getValueByDataField($form, 'AllWarehouses') === 'T') {
                     warehouseId = '';
@@ -114,7 +164,6 @@ class QuikActivityCalendar {
                     });
                     FwBrowse.search($quikActivityGridControl);
 
-
                 }, ex => {
                     FwFunc.showError(ex);
                 }, $calendar)
@@ -130,8 +179,9 @@ class QuikActivityCalendar {
                 }
             })
             .data('onheaderclick', event => {
+                FwPopup.showPopup($popup);
                 const date = event.header.name;
-                const summary = FwFormField.getValueByDataField($form, 'Summary');
+                const summary = FwFormField.getValueByDataField($popup, 'Summary');
                 let warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
                 if (FwFormField.getValueByDataField($form, 'AllWarehouses') === 'T') {
                     warehouseId = '';
@@ -149,9 +199,10 @@ class QuikActivityCalendar {
             })
             .data('ontimerangeselect', event => {
                 try {
+                    FwPopup.showPopup($popup);
                     const fromDate = moment(event.start.value).format('MM/DD/YYYY');
                     const toDate = moment(event.start.value).format('MM/DD/YYYY');
-                    const summary = FwFormField.getValueByDataField($form, 'Summary');
+                    const summary = FwFormField.getValueByDataField($popup, 'Summary');
                     let warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
                     if (FwFormField.getValueByDataField($form, 'AllWarehouses') === 'T') {
                         warehouseId = '';
@@ -171,11 +222,12 @@ class QuikActivityCalendar {
                 }
             })
             .data('oneventclick', e => {
+                FwPopup.showPopup($popup);
                 const data = e.e.data;
                 const fromDate = moment(data.start.value).format('MM/DD/YYYY');
                 const toDate = moment(data.end.value).format('MM/DD/YYYY');
                 const activityType = data.activityType;
-                const summary = FwFormField.getValueByDataField($form, 'Summary');
+                const summary = FwFormField.getValueByDataField($popup, 'Summary');
                 let warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
                 if (FwFormField.getValueByDataField($form, 'AllWarehouses') === 'T') {
                     warehouseId = '';
@@ -233,27 +285,72 @@ class QuikActivityCalendar {
             FwScheduler.refresh($calendar);
         });
 
-        const $quikActivityGrid = $form.find('div[data-grid="QuikActivityGrid"]');
+        //Save settings
+        const id = JSON.parse(sessionStorage.getItem('userid')).webusersid;
+        $form.find('.save-settings').on('click', e => {
+            const request: any = {};
+            request.WebUsersId = id;
+            request.Description = FwFormField.getValueByDataField($form, 'Description');
 
-        $form.find('[data-datafield="Summary"]').on('change', e => {
-            const isSummary = FwFormField.getValueByDataField($form, 'Summary');
-            const $detailColumns = $quikActivityGrid
-                .find('[data-browsedatafield="ICode"], [data-browsedatafield="Description"], [data-browsedatafield="Quantity"]')
-                .parents('.column');
-            if (isSummary == 'true') {
-                $detailColumns.hide();
-            } else {
-                $detailColumns.show();
+            const $settingsControls = $form.find('.fwformfield[data-savesetting!="false"]');
+            let $settingsObj: any = [];
+            if ($settingsControls.length > 0) {
+                for (let i = 0; i < $settingsControls.length; i++) {
+                    let $this = jQuery($settingsControls[i]);
+                    const datafield = $this.attr('data-datafield')
+                    const type = $this.attr('data-type');
+                    $settingsObj.push({
+                        DataField: datafield
+                        , DataType: type
+                        , Value: FwFormField.getValue2($this)
+                        , Text: FwFormField.getText2($this)
+                    });
+                }
             }
-            const $quikActivityGridControl = $quikActivityGrid.find('[data-type="Grid"]');
-            const onDataBind = $quikActivityGridControl.data('ondatabind');
-            if (typeof onDataBind == 'function') {
-                $quikActivityGridControl.data('ondatabind', request => {
-                    onDataBind(request);
-                    request.uniqueids.Summary = isSummary;
-                });
+            request.Settings = JSON.stringify($settingsObj);
+            FwAppData.apiMethod(true, 'POST', `api/v1/quikactivitysettings/`, request, FwServices.defaultTimeout, response => {
+            }, ex => {
+                FwFunc.showError(ex);
+            }, $calendar);
+        });
+
+        //Initial settings load
+        const $loadSettings = $form.find('[data-datafield="Load"]');
+        const request: any = {};
+        request.WebUsersId = id;
+        FwAppData.apiMethod(true, 'GET', `api/v1/quikactivitysettings/`, request, FwServices.defaultTimeout, response => {
+            let settingsObj: any = [];
+            $loadSettings.data('settings', response);
+            for (let i = 0; i < response.length; i++) {
+                let $this = response[i];
+                const setting = {
+                    text: $this.Description,
+                    value: $this.Id
+                }
+                settingsObj.push(setting);
             }
-            FwBrowse.search($quikActivityGridControl);
+            FwFormField.loadItems($loadSettings, settingsObj);
+        }, ex => {
+            FwFunc.showError(ex);
+        }, $calendar);
+
+        //Load settings
+        $form.find('[data-datafield="Load"]').on('change', e => {
+            let settingId = jQuery(e.target).val();
+            let settings = $loadSettings.data('settings');
+            settings = settings.filter(obj => { return obj.Id == settingId });
+            if (settings.length > 0) {
+                let savedSettings = JSON.parse(settings[0].Settings);
+                for (let i = 0; i < savedSettings.length; i++) {
+                    let item = savedSettings[i];
+                    if (item.DataType === 'checkbox') {
+                        item.Value == "T" ? item.Value = true : item.Value = false;
+                    }
+                    FwFormField.setValueByDataField($form, item.DataField, item.Value, item.Text);
+                }
+                FwNotification.renderNotification('SUCCESS', 'Settings Successfully Loaded.');
+                FwScheduler.refresh($calendar);
+            }
         });
 
     };
@@ -267,31 +364,23 @@ class QuikActivityCalendar {
                         <div class="fwcontrol fwcontainer fwform-section activities" data-control="FwContainer" data-type="section" data-caption="Activities"></div>
                       </div>
                       <div class="flexrow">
-                        <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Warehouse"></div>
+                        <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Warehouse">
+                            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Filter Warehouse" data-datafield="WarehouseId" data-validationname="WarehouseValidation" data-displayfield="WarehouseCode" style="max-width:250px;"></div>
+                            <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="All Warehouses" data-datafield="AllWarehouses" style="min-width:150px;max-width:150px;"></div>
+                        </div>
                       </div>
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Filter Warehouse" data-datafield="WarehouseId" data-validationname="WarehouseValidation" data-displayfield="WarehouseCode" style="max-width:250px;"></div>
-                      </div>
-                      <div class="flexrow">
-                        <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="All Warehouses" data-datafield="AllWarehouses" style="min-width:150px;max-width:150px;"></div>
+                        <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Settings">
+                            <div class="flexrow">                            
+                                <div data-control="FwFormField" data-type="text" data-savesetting="false" class="fwcontrol fwformfield" data-caption="Save QuikActivity Settings as" data-datafield="Description" style="max-width:200px;"></div>
+                                <i class="material-icons save-settings" style="max-width:25px; margin:25px 0px;">save</i>
+                            </div>
+                            <div data-control="FwFormField" data-type="select" data-savesetting="false" class="fwcontrol fwformfield" data-caption="Load QuikActivity Settings" data-datafield="Load" style="max-width:250px;"></div>
+                        </div>
                       </div>
                     </div>
                     <div class="flexcolumn" style="min-width:1210px;max-width:1210px;">
                       <div data-control="FwScheduler" class="fwcontrol fwscheduler calendar" data-shownav="false"></div>
-                    </div>
-                    <div class="flexcolumn" style="max-width:none;">
-                      <div class="flexrow" style="max-width:none;">
-                        <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="View"></div>
-                      </div>
-                      <div class="flexrow">
-                        <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="" data-datafield="Summary">
-                          <div data-value="true" data-caption="Summary"></div>
-                          <div data-value="false" data-caption="Detail"></div>
-                        </div>
-                      </div>
-                      <div class="flexrow" style="max-width:none;">
-                        <div data-control="FwGrid" data-grid="QuikActivityGrid" data-securitycaption="QuikActivity"></div>
-                      </div>
                     </div>
                   </div>
 `;
