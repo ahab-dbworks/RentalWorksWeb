@@ -35,7 +35,6 @@ class QuikActivityCalendar {
         FwFormField.setValueByDataField($form, 'WarehouseId', warehouse.warehouseid, warehouse.warehouse);
 
         FwFormField.setValueByDataField($form, `AllWarehouses`, false);
-        FwFormField.setValueByDataField($form, `AllActivities`, false);
 
         this.populateCheckboxes($form);
         this.calendarEvents($form);
@@ -234,16 +233,6 @@ class QuikActivityCalendar {
             FwScheduler.refresh($calendar);
         });
 
-        $form.find('[data-datafield="AllActivities"] .fwformfield-value').on('change', function () {
-            let $this = jQuery(this);
-            if ($this.prop('checked') === true) {
-                $form.find('.activitieslist').show();
-            } else {
-                $form.find('.activitieslist').hide();
-            }
-        });
-
-
         const $quikActivityGrid = $form.find('div[data-grid="QuikActivityGrid"]');
 
         $form.find('[data-datafield="Summary"]').on('change', e => {
@@ -273,38 +262,39 @@ class QuikActivityCalendar {
         return `
                 <div id="quikactivitycalendarform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-caption="QuikActivity Calendar" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="QuikActivityCalendarController">
                   <div class="flexrow" style="max-width:none;">
-                    <div class="flexcolumn" style="min-width:1210px;max-width:1210px;">
-                      <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Filters">
-                        <div class="flexrow">
-                          <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Filter Warehouse" data-datafield="WarehouseId" data-validationname="WarehouseValidation" data-displayfield="WarehouseCode" style="max-width:250px;"></div>
-                          <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="All Warehouses" data-datafield="AllWarehouses" style="min-width:150px;max-width:150px;"></div>
-                          <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Show Activities Filter" data-datafield="AllActivities" style="min-width:200px;max-width:200px;"></div>
-                        </div>
+                    <div class="flexcolumn activitieslist" style="max-width:250px">
+                      <div class="flexrow">
+                        <div class="fwcontrol fwcontainer fwform-section activities" data-control="FwContainer" data-type="section" data-caption="Activities"></div>
                       </div>
-                    </div>
-                    <div class="flexcolumn" style="max-width:none;">
-                      <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="View">
-                        <div class="flexrow">
-                          <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="" data-datafield="Summary">
-                            <div data-value="true" data-caption="Summary"></div>
-                            <div data-value="false" data-caption="Detail"></div>
-                          </div>
-                        </div>
+                      <div class="flexrow">
+                        <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Warehouse"></div>
                       </div>
-                    </div>
-                  </div>
-                  <div class="flexrow" style="max-width:none;">
-                    <div class="flexcolumn activitieslist" style="max-width:250px;display:none">
-                      <div class="fwcontrol fwcontainer fwform-section activities" data-control="FwContainer" data-type="section" data-caption="Activities"></div>
+                      <div class="flexrow">
+                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Filter Warehouse" data-datafield="WarehouseId" data-validationname="WarehouseValidation" data-displayfield="WarehouseCode" style="max-width:250px;"></div>
+                      </div>
+                      <div class="flexrow">
+                        <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="All Warehouses" data-datafield="AllWarehouses" style="min-width:150px;max-width:150px;"></div>
+                      </div>
                     </div>
                     <div class="flexcolumn" style="min-width:1210px;max-width:1210px;">
                       <div data-control="FwScheduler" class="fwcontrol fwscheduler calendar" data-shownav="false"></div>
                     </div>
                     <div class="flexcolumn" style="max-width:none;">
-                      <div data-control="FwGrid" data-grid="QuikActivityGrid" data-securitycaption="QuikActivity"></div>
+                      <div class="flexrow" style="max-width:none;">
+                        <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="View"></div>
+                      </div>
+                      <div class="flexrow">
+                        <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="" data-datafield="Summary">
+                          <div data-value="true" data-caption="Summary"></div>
+                          <div data-value="false" data-caption="Detail"></div>
+                        </div>
+                      </div>
+                      <div class="flexrow" style="max-width:none;">
+                        <div data-control="FwGrid" data-grid="QuikActivityGrid" data-securitycaption="QuikActivity"></div>
+                      </div>
                     </div>
                   </div>
-                </div>`;
+`;
     }
 }
 var QuikActivityCalendarController = new QuikActivityCalendar();
