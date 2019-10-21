@@ -23,7 +23,7 @@ namespace WebApi.Modules.Billing.Receipt
 
     public class ReceiptCredit
     {
-        public string CreditReceiptId { get; set; }         // this was an int? but was giving me issues below
+        public int? CreditReceiptId { get; set; }    
         public string CreditId { get; set; }
         public decimal Amount { get; set; }
     }
@@ -661,25 +661,25 @@ namespace WebApi.Modules.Billing.Receipt
 
             //----- CREDIT DATA LIST
             // iterate through the PREVIOUS list.  compare each entry with the ones provided by the user.  If the amount is changed, we need to save the modifications to the database
-            if (CreditDataList != null)
-            {
-                foreach (InvoiceReceiptLogic irPrev in previousIrData)
-                {
-                    foreach (ReceiptCredit riNew in CreditDataList)  // iterate through the list provided by the user
-                    {
-                        if (irPrev.InvoiceReceiptId.ToString().Equals(riNew.CreditReceiptId)) // find the record that matches this CreditReceiptId
-                        {
-                            if (!irPrev.Amount.Equals(riNew.Amount))
-                            {
-                                InvoiceReceiptLogic irNew = irPrev.MakeCopy<InvoiceReceiptLogic>();
-                                irNew.Amount = riNew.Amount;
-                                irNew.SetDependencies(AppConfig, UserSession);
-                                int saveCount = irNew.SaveAsync(irPrev, conn: e.SqlConnection).Result;
-                            }
-                        }
-                    }
-                }
-            }
+            //if (CreditDataList != null)
+            //{
+            //    foreach (InvoiceReceiptLogic irPrev in previousIrData)
+            //    {
+            //        foreach (ReceiptCredit riNew in CreditDataList)  // iterate through the list provided by the user
+            //        {
+            //            if (irPrev.InvoiceReceiptId.ToString().Equals(riNew.CreditReceiptId)) // find the record that matches this CreditReceiptId
+            //            {
+            //                if (!irPrev.Amount.Equals(riNew.Amount))
+            //                {
+            //                    InvoiceReceiptLogic irNew = irPrev.MakeCopy<InvoiceReceiptLogic>();
+            //                    irNew.Amount = riNew.Amount;
+            //                    irNew.SetDependencies(AppConfig, UserSession);
+            //                    int saveCount = irNew.SaveAsync(irPrev, conn: e.SqlConnection).Result;
+            //                }
+            //            }
+            //        }
+            //    }
+            //}
 
             // iterate through the NEW list.  anything without an CreditReceiptId is new, we need to save these
             //if (CreditDataList != null)

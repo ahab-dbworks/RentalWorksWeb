@@ -172,9 +172,16 @@ class Receipt {
             { value: 'CUSTOMER', caption: 'Customer' },
             { value: 'DEAL', caption: 'Deal', checked: true },
         ]);
-        // Adds receipt invoice datatable to request
+        // Adds receipt invoice or credit datatable to request
         $form.data('beforesave', request => {
-            request.InvoiceDataList = this.getFormTableData($form);
+            const invoiceRowHtml = $form.find('.invoice-row');
+            const creditRowHtml = $form.find('.credits-row');
+
+            if (invoiceRowHtml.attr('data-visible') === 'true') {
+                request.InvoiceDataList = this.getFormTableData($form);
+            } else if (creditRowHtml.attr('data-visible') === 'true') {
+            request.CreditDataList = this.getCreditFormTableData($form);
+            }
         });
 
         return $form;
@@ -551,8 +558,11 @@ class Receipt {
     }
     //----------------------------------------------------------------------------------------------
     loadReceiptInvoiceGrid($form: JQuery): void {
-        $form.find('.invoice-row').show();
         $form.find('.credits-row').hide();
+        $form.find('.credits-row').attr('data-visible', 'false');
+        $form.find('.invoice-row').show();
+        $form.find('.invoice-row').attr('data-visible', 'true');
+
         if ($form.attr('data-mode') === 'NEW') {
             $form.find('.table-rows').html('<tr class="empty-row" style="height:33px;"><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>');
         }
@@ -787,6 +797,10 @@ class Receipt {
     }
     //----------------------------------------------------------------------------------------------
     getFormTableData($form: JQuery): any {
+        const invoiceRowHtml = $form.find('.invoice-row');
+        if (invoiceRowHtml.attr('data-visible') === 'true') {
+
+        }
         const $invoiceIdFields = $form.find('.InvoiceId');
         const $invoiceReceiptIds = $form.find('.InvoiceReceiptId');
         const $amountFields = $form.find('.invoice-amount input');
@@ -809,7 +823,9 @@ class Receipt {
     //----------------------------------------------------------------------------------------------
     loadReceiptCreditGrid($form: JQuery): void {
         $form.find('.invoice-row').hide();
+        $form.find('.invoice-row').attr('data-visible', 'false');
         $form.find('.credits-row').show();
+        $form.find('.credits-row').attr('data-visible', 'true');
 
         if ($form.attr('data-mode') === 'NEW') {
             $form.find('.credit-table-rows').html('<tr class="credit-empty-row" style="height:33px;"><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>');
@@ -928,30 +944,26 @@ class Receipt {
             $form.find(`div[data-totalfield="CreditAmountTotal"] input`).val(amount);
         }
         const getInvoiceCreditData = ($form) => {
-            const request: any = { uniqueids: {} };
+            const request: any = {};
             const officeLocationId = JSON.parse(sessionStorage.getItem('location')).locationid;
             const receiptId = FwFormField.getValueByDataField($form, 'ReceiptId');
-            const receiptDate = FwFormField.getValueByDataField($form, 'ReceiptDate');
+            request.uniqueids = {
+                LocationId: officeLocationId,
+                ReceiptId: receiptId,
+            }
 
             const paymentBy = FwFormField.getValueByDataField($form, 'PaymentBy');
-            let url, validationName;
+            let validationName;
             if (paymentBy === 'DEAL') {
                 request.uniqueids.DealId = FwFormField.getValueByDataField($form, 'DealId');
-                url = 'dealcredit';
                 validationName = 'DealCredit';
             } else if (paymentBy === 'CUSTOMER') {
                 request.uniqueids.CustomerId = FwFormField.getValueByDataField($form, 'CustomerId');
-                url = 'customercredit';
                 validationName = 'CustomerCredit';
             }
-            //request.uniqueids = {
-            //    OfficeLocationId: officeLocationId,
-            //    ReceiptId: receiptId,
-            //    ReceiptDate: receiptDate,
-            //}
             //request.orderby = 'InvoiceDate'
 
-            FwAppData.apiMethod(true, 'POST', `api/v1/${url}/browse`, request, FwServices.defaultTimeout, res => {
+            FwAppData.apiMethod(true, 'POST', `api/v1/receiptcredit/browse`, request, FwServices.defaultTimeout, res => {
 
                 const rows = res.Rows;
                 console.log('ROWS', rows)
@@ -968,17 +980,17 @@ class Receipt {
                         else if (isWebAdmin === 'false') {
                             buttonPeek = '';
                         }
-                        htmlRows.push(`<tr class="row"><td class="text">${rows[i][res.ColumnIndex.ReceiptDate]}</td><td data-validationname="Deal" data-datafield="${rows[i][res.ColumnIndex.DealId]}" data-displayfield="${rows[i][res.ColumnIndex.Deal]}" class="text">${rows[i][res.ColumnIndex.Deal]}<i class="material-icons btnpeek">more_horiz</i></td><td class="text InvoiceId" style="display:none;">${rows[i][res.ColumnIndex.ReceiptId]}</td><td data-validationname="PaymentType" data-datafield="${rows[i][res.ColumnIndex.PaymentTypeId]}" data-displayfield="${rows[i][res.ColumnIndex.PaymentType]}" class="text">${rows[i][res.ColumnIndex.PaymentType]}${buttonPeek}</td><td data-validationname="${validationName}" data-datafield="${rows[i][res.ColumnIndex.ReceiptId]}" data-displayfield="${rows[i][res.ColumnIndex.CheckNumber]}" class="text"><span style="padding: 0px 2px 1px 2px;border:1px solid black;border-radius:2px;background-color:${rows[i][res.ColumnIndex.RecTypeColor]};">${rows[i][res.ColumnIndex.CheckNumber]}</span><i class="material-icons btnpeek">more_horiz</i></td><td style="text-align:right;" data-creditfield="CreditRemaining" class="decimal credit-static-amount">${rows[i][res.ColumnIndex.Remaining]}</td><td data-enabled="true" data-isuniqueid="false" data-datafield="CreditAmount" data-creditfield="CreditAmount" class="decimal fwformfield credit-pay-amount credit-amount"><input class="decimal fwformfield fwformfield-value" style="font-size:inherit;" type="text" autocapitalize="none" row-index="${i}" value="0.00"></td><td><div class="fwformcontrol credit-apply-btn" row-index="${i}" data-type="button" style="height:27px;padding:.3rem;line-height:13px;font-size:14px;">Apply All</div></td></tr>`);
+                        htmlRows.push(`<tr class="row"><td class="text">${rows[i][res.ColumnIndex.ReceiptDate]}</td><td data-validationname="Deal" data-datafield="${rows[i][res.ColumnIndex.DealId]}" data-displayfield="${rows[i][res.ColumnIndex.Deal]}" class="text">${rows[i][res.ColumnIndex.Deal]}<i class="material-icons btnpeek">more_horiz</i></td><td class="text line-CreditId" style="display:none;">${rows[i][res.ColumnIndex.ReceiptId]}</td><td data-validationname="PaymentType" data-datafield="${rows[i][res.ColumnIndex.PaymentTypeId]}" data-displayfield="${rows[i][res.ColumnIndex.PaymentType]}" class="text">${rows[i][res.ColumnIndex.PaymentType]}${buttonPeek}</td><td data-validationname="${validationName}" data-datafield="${rows[i][res.ColumnIndex.ReceiptId]}" data-displayfield="${rows[i][res.ColumnIndex.CheckNumber]}" class="text"><span style="padding: 0px 2px 1px 2px;border:1px solid black;border-radius:2px;background-color:${rows[i][res.ColumnIndex.RecTypeColor]};">${rows[i][res.ColumnIndex.CheckNumber]}</span><i class="material-icons btnpeek">more_horiz</i></td><td style="text-align:right;" data-creditfield="CreditRemaining" class="decimal">${rows[i][res.ColumnIndex.Remaining]}</td><td data-enabled="true" data-isuniqueid="false" data-datafield="CreditAmount" data-creditfield="CreditAmount" class="decimal fwformfield"><input class="decimal fwformfield fwformfield-value" style="font-size:inherit;" type="text" autocapitalize="none" row-index="${i}" value="0.00"></td><td><div class="fwformcontrol credit-apply-btn" row-index="${i}" data-type="button" style="height:27px;padding:.3rem;line-height:13px;font-size:14px;">Apply All</div></td></tr>`);
                     }
 
 
                     $form.find('.credit-table-rows').html('');
                     $form.find('.credit-table-rows').html(htmlRows.join(''));
-                    $form.find('.credit-amount input').inputmask({ alias: "currency", prefix: '' });
-                    $form.find('.credit-static-amount:not(input)').inputmask({ alias: "currency", prefix: '' });
+                    $form.find('[data-creditfield="CreditAmount"] input').inputmask({ alias: "currency", prefix: '' });
+                    $form.find('[data-creditfield="CreditRemaining"]:not(input)').inputmask({ alias: "currency", prefix: '' });
 
                     (function () {
-                        const $amountFields = $form.find('.credit-amount input');
+                        const $amountFields = $form.find('[data-creditfield="CreditAmount"] input');
                         for (let i = 0; i < $amountFields.length; i++) {
                             const amount: any = $amountFields.eq(i).val();
                             if (amount === '0.00' || amount === '') {
@@ -990,7 +1002,7 @@ class Receipt {
                         calculateInvoiceCreditTotals($form);
                     })();
                     // Amount column listener
-                    $form.find('.credit-pay-amount input').on('change', ev => {
+                    $form.find('[data-creditfield="CreditAmount"] input').on('change', ev => {
                         ev.stopPropagation();
                         const el = jQuery(ev.currentTarget);
                         let val = el.val();
@@ -1007,7 +1019,7 @@ class Receipt {
                         console.log('payAmountOnChange', el.data('payAmountOnFocus'))
                     });
                     // Store intial amount value for calculations after change
-                    $form.find('.credit-pay-amount input').on('focus', ev => {
+                    $form.find('[data-creditfield="CreditAmount"] input').on('focus', ev => {
                         ev.stopPropagation();
                         const el = jQuery(ev.currentTarget);
                         let val = el.val();
@@ -1043,24 +1055,23 @@ class Receipt {
     }
     //----------------------------------------------------------------------------------------------
     getCreditFormTableData($form: JQuery): any {
-        const $receiptIdFields = $form.find('.ReceiptId');
-        const $invoiceReceiptIds = $form.find('.InvoiceReceiptId');
-        const $amountFields = $form.find('.credit-amount input');
-        const InvoiceDataList: any = [];
-        for (let i = 0; i < $receiptIdFields.length; i++) {
-            const invoiceId = $receiptIdFields.eq(i).text();
-            const invoiceReceiptId = $invoiceReceiptIds.eq(i).text();
+        const $creditReceiptIds = $form.find('.line-CreditId');
+        const $amountFields = $form.find('[data-creditfield="CreditAmount"] input');
+        const CreditDataList: any = [];
+        const amountToApply = FwFormField.getValueByDataField($form, 'PaymentAmount');
+        for (let i = 0; i < $creditReceiptIds.length; i++) {
+            const creditId = $creditReceiptIds.eq(i).text();
             let amount: any = $amountFields.eq(i).val();
             amount = amount.replace(/,/g, '');
 
             const fields: any = {}
-            fields.InvoiceReceiptId = invoiceReceiptId;
-            fields.InvoiceId = invoiceId;
+            fields.CreditReceiptId = +amountToApply;
+            fields.CreditId = creditId;
             fields.Amount = +amount;
-            InvoiceDataList.push(fields);
+            CreditDataList.push(fields);
         }
 
-        return InvoiceDataList;
+        return CreditDataList;
     }
     //----------------------------------------------------------------------------------------------
     paymentByRadioBehavior($form: JQuery): void {
