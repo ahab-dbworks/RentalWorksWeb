@@ -268,7 +268,9 @@ class QuikActivityCalendar {
     }
     //----------------------------------------------------------------------------------------------
     events($form: any) {
-        $form.find('.calendarmenu').css('border-left', '1px solid #a9a9a9');
+        $form.find('.calendarmenu').css({
+            'border-left': '1px solid #a9a9a9',
+            'border-right': '1px solid #a9a9a9'});
 
         const $calendar = $form.find('.calendar');
         $form.on('change', '[data-datafield="WarehouseId"]', e => {
@@ -379,7 +381,7 @@ class QuikActivityCalendar {
                         </div>
                       </div>
                     </div>
-                    <div class="flexcolumn" style="min-width:1210px;max-width:1210px;">
+                    <div class="flexcolumn" style="margin:30px 0px 0px 50px; min-width:1210px;max-width:1210px;">
                       <div data-control="FwScheduler" class="fwcontrol fwscheduler calendar" data-shownav="false"></div>
                     </div>
                   </div>

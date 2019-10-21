@@ -5,7 +5,7 @@ html.theme-material .fwscheduler .changeview {float:left;cursor:pointer;padding:
 html.theme-material .fwscheduler .topnavigation {float:left;overflow:hidden;margin:0 0 0 10px;}
 html.theme-material .fwscheduler .datecallout {float:left;margin:0 0 0 10px;font-weight:bold;cursor:default;line-height:40px;}
 
-html.theme-material .fwscheduler > .content {min-width:1400px;padding:10px;}
+html.theme-material .fwscheduler > .content {min-width:1400px;padding-top:10px;}
 html.theme-material .fwscheduler .navcalendarcontainer {float:left;width:145px;}
 html.theme-material .fwscheduler .calendarcontainer {overflow:hidden;}
 html.theme-material .fwscheduler .dpcalendarcontainer {float:left;width:1200px;}
