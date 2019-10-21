@@ -524,6 +524,9 @@ namespace WebApi.Modules.Administrator.Control
         [FwSqlDataField(column: "capslock", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool? CapsLock { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "documentbarcodestyle", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 30)]
+        public string DocumentBarCodeStyle { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 

@@ -536,6 +536,11 @@
         public const string DEFAULT_SOUND_FILE_NAME = "./THEME/AUDIO/APPOINTED.MP3";
 
 
+        //BAR CODE STYLE
+        public const string BAR_CODE_STYLE_1D = "1D";
+        public const string BAR_CODE_STYLE_2D = "2D";
+
+
     }
 
     public class QuoteOrderCopyRequest
