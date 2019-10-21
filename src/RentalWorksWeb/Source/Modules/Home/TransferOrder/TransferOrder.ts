@@ -10,7 +10,7 @@ class TransferOrder {
     ActiveViewFieldsId: string;
     //----------------------------------------------------------------------------------------------
     getModuleScreen(filter?: any) {
-        var screen: any = {};
+        const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
@@ -204,6 +204,14 @@ class TransferOrder {
     //----------------------------------------------------------------------------------------------
     afterLoad($form: JQuery) {
         $form.find('.submodule').show();
+        const status = FwFormField.getValueByDataField($form, 'Status');
+        
+        if (status === 'CONFIRMED') {
+            $form.find('div[data-securityid="A35F0AAD-81B5-4A0C-8970-D448A67D5A82"] .caption').text('Un-confirm');
+        } else if (status === 'COMPLETE') {
+            $form.find('div[data-securityid="A35F0AAD-81B5-4A0C-8970-D448A67D5A82"] .caption').text('Un-confirm');
+            $form.find('div[data-securityid="A35F0AAD-81B5-4A0C-8970-D448A67D5A82"]').css({ 'pointer-events': 'none', 'background-color': '#E0E0E0', 'border-radius': '3px' });
+        }
 
         const $orderItemRentalGrid = $form.find('.rentalItemGrid [data-name="TransferOrderItemGrid"]');
         FwBrowse.search($orderItemRentalGrid);
@@ -353,22 +361,28 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.TransferOrder.form.menuItem
 FwApplicationTree.clickEvents[Constants.Modules.Home.TransferOrder.form.menuItems.Confirm.id] = (e: JQuery.ClickEvent) => {
     try {
         const $form = jQuery(e.currentTarget).closest('.fwform');
+        const status = FwFormField.getValueByDataField($form, 'Status');
+        let action = 'Confirm';
+        if (status === 'CONFIRMED') {
+            action = 'Un-confirm';
+        }
+
         const transferNumber = FwFormField.getValueByDataField($form, `TransferNumber`);
-        const $confirmation = FwConfirmation.renderConfirmation('Confirm Transfer', '');
+        const $confirmation = FwConfirmation.renderConfirmation(`${action} Transfer`, '');
         $confirmation.find('.fwconfirmationbox').css('width', '450px');
         const html = `<div class="fwform" data-controller="none" style="background-color: transparent;">
                         <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                            <div>Confirm Transfer Number ${transferNumber}?</div>
+                            <div>${action} Transfer Number ${transferNumber}?</div>
                         </div>
                       </div>`;
         FwConfirmation.addControls($confirmation, html);
-        const $yes = FwConfirmation.addButton($confirmation, 'Confirm Transfer', false);
+        const $yes = FwConfirmation.addButton($confirmation, `${action}`, false);
         FwConfirmation.addButton($confirmation, 'Cancel');
 
         $yes.on('click', e => {
             const transferId = FwFormField.getValueByDataField($form, 'TransferId');
             FwAppData.apiMethod(true, 'POST', `api/v1/transferorder/confirm/${transferId}`, null, FwServices.defaultTimeout, response => {
-                FwNotification.renderNotification('SUCCESS', 'Transfer Order Successfully Confirmed.');
+                FwNotification.renderNotification('SUCCESS', `Transfer Order Successfully ${action}ed.`);
                 FwConfirmation.destroyConfirmation($confirmation);
                 FwModule.refreshForm($form, TransferOrderController);
             }, null, $confirmation);

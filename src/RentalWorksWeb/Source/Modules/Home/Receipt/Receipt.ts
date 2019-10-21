@@ -958,19 +958,7 @@ class Receipt {
                 const htmlRows: Array<string> = [];
                 if (rows.length) {
                     for (let i = 0; i < rows.length; i++) {
-                        //let typeColor;
-                        //if (rows[i][res.ColumnIndex.RecType] === 'O') {
-                        //    typeColor = '#FFFF80';
-                        //}
-                        //else if (rows[i][res.ColumnIndex.RecType] === 'C') {
-                        //    typeColor = '#ABABD6';
-                        //}
-                        //else if (rows[i][res.ColumnIndex.RecType] === 'D') {
-                        //    typeColor = '#37D303';
-                        //}
-                        //else {
-                        //    typeColor = '#ffffff';
-                        //}
+
                         let buttonPeek;
                         const isWebAdmin = JSON.parse(sessionStorage.getItem('userid')).webadministrator;
                         const isHomeModule = (FwValidation.homeModules.indexOf('PaymentType') > -1); // could be used later on to be more exact for other peek in the "grid"
