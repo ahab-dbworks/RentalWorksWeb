@@ -370,7 +370,7 @@ class Contact {
                       <div class="flexrow">
                         <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Personal Events">
                           <div class="flexrow">
-                            <div data-control="FwGrid" data-grid="ContactPersonalEventGrid" data-securitycaption="Contact Notes"></div>
+                            <div data-control="FwGrid" data-grid="ContactPersonalEventGrid" data-securitycaption="Contact Personal Events"></div>
                           </div>
                         </div>
                       </div>
