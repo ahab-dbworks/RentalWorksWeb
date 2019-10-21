@@ -205,12 +205,12 @@ class TransferOrder {
     afterLoad($form: JQuery) {
         $form.find('.submodule').show();
         const status = FwFormField.getValueByDataField($form, 'Status');
-        
+
+
         if (status === 'CONFIRMED') {
             $form.find('div[data-securityid="A35F0AAD-81B5-4A0C-8970-D448A67D5A82"] .caption').text('Un-confirm');
-        } else if (status === 'COMPLETE') {
-            $form.find('div[data-securityid="A35F0AAD-81B5-4A0C-8970-D448A67D5A82"] .caption').text('Un-confirm');
-            $form.find('div[data-securityid="A35F0AAD-81B5-4A0C-8970-D448A67D5A82"]').css({ 'pointer-events': 'none', 'background-color': '#E0E0E0', 'border-radius': '3px' });
+        } else if (status !== 'NEW') {
+            $form.find('div[data-securityid="A35F0AAD-81B5-4A0C-8970-D448A67D5A82"]').css({ 'pointer-events': 'none', 'color': '#E0E0E0' });
         }
 
         const $orderItemRentalGrid = $form.find('.rentalItemGrid [data-name="TransferOrderItemGrid"]');
