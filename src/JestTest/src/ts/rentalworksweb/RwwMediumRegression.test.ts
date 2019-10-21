@@ -164,11 +164,11 @@ export class MediumRegressionTest extends BaseTest {
                                     if (module.grids) {
                                         for (let grid of module.grids) {
                                             for (let gridRecord of rec.gridRecords) {
-                                                if (gridRecord.gridSelector === grid.gridName) {
+                                                if (gridRecord.grid === grid) {
                                                     if (grid.canNew) {
                                                         testName = `Add row to Grid: ${grid.gridName}`;
                                                         test(testName, async () => {
-                                                            await module.addGridRow(grid.gridName, '', gridRecord.recordToCreate.record, true)
+                                                            await module.addGridRow(grid.gridName, grid.gridClass, gridRecord.recordToCreate.record, true)
                                                                 .then(saveResponse => {
                                                                     expect(saveResponse.errorMessage).toBe("");
                                                                     expect(saveResponse.saved).toBeTruthy();
@@ -179,7 +179,7 @@ export class MediumRegressionTest extends BaseTest {
                                                     if (grid.canDelete) {
                                                         testName = `Delete row from Grid: ${grid.gridName}`;
                                                         test(testName, async () => {
-                                                            await module.deleteGridRow(grid.gridName, '', 1, true)
+                                                            await module.deleteGridRow(grid.gridName, grid.gridClass, 1, true)
                                                                 .then(deleteResponse => {
                                                                     expect(deleteResponse.errorMessage).toBe("");
                                                                     expect(deleteResponse.deleted).toBeTruthy();

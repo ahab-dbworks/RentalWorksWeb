@@ -46,7 +46,7 @@ export class DeleteGridRowResponse {
 }
 
 export class GridRecordToCreate {
-    gridSelector: string;
+    grid: GridBase;
     recordToCreate: NewRecordToCreate;
 }
 
@@ -938,7 +938,7 @@ export class ModuleBase {
         return datatype;
     }
     //---------------------------------------------------------------------------------------
-    async addGridRow(gridName: string, className?: string, record?: any, closeUnexpectedErrors: boolean = false): Promise<AddGridRowResponse> {
+    async addGridRow(gridName: string, gridClass?: string[], record?: any, closeUnexpectedErrors: boolean = false): Promise<AddGridRowResponse> {
 
         let response = new AddGridRowResponse();
         response.saved = false;
@@ -947,11 +947,11 @@ export class ModuleBase {
 
 
         Logging.logInfo(`About to add a new row to grid: ${gridName}`);
-        let gridSelector = "";
-        if (className) {
-            gridSelector = `div[data-grid="${gridName}"].${className}`;
-        } else {
-            gridSelector = `div[data-grid="${gridName}"]`;
+        let gridSelector = `div[data-grid="${gridName}"]`;
+        if (gridClass) {
+            for (let cl of gridClass) {
+                gridSelector += `.${cl}`;
+            }
         }
 
         const tabId = await page.$eval(gridSelector, el => el.closest('[data-type="tabpage"]').getAttribute('data-tabid'));
@@ -959,12 +959,14 @@ export class ModuleBase {
         if (!tabIsActive) {
             Logging.logInfo(`Clicking tab ${tabId}`);
             await page.click(`#${tabId}`);
+            ModuleBase.wait(1500); // wait for the grid to refresh if any
         }
 
         let gridNewButtonSelector = `${gridSelector} .buttonbar [data-type="NewButton"] i`;
         await page.waitForSelector(gridNewButtonSelector, { visible: true });
         await page.click(gridNewButtonSelector);
         Logging.logInfo(`clicked New button on grid: ${gridName}`);
+        
 
         let gridNewRowSelector = `${gridSelector} tbody tr`;
         await page.waitForSelector(gridNewRowSelector);
@@ -1108,17 +1110,17 @@ export class ModuleBase {
         return response;
     }
     //---------------------------------------------------------------------------------------
-    async deleteGridRow(gridName: string, className?: string, rowToDelete?: number, closeUnexpectedErrors?: boolean): Promise<DeleteGridRowResponse> {
+    async deleteGridRow(gridName: string, gridClass?: string[], rowToDelete?: number, closeUnexpectedErrors?: boolean): Promise<DeleteGridRowResponse> {
         let response = new DeleteGridRowResponse();
         response.deleted = false;
         response.errorMessage = "record not deleted";
 
         Logging.logInfo(`About to delete row from grid: ${gridName}`);
-        let gridSelector = "";
-        if (className) {
-            gridSelector = `div[data-grid="${gridName}"].${className}`;
-        } else {
-            gridSelector = `div[data-grid="${gridName}"]`;
+        let gridSelector = `div[data-grid="${gridName}"]`;
+        if (gridClass) {
+            for (let cl of gridClass) {
+                gridSelector += `.${cl}`;
+            }
         }
 
         const tabId = await page.$eval(gridSelector, el => el.closest('[data-type="tabpage"]').getAttribute('data-tabid'));
@@ -1129,14 +1131,16 @@ export class ModuleBase {
         }
 
         let gridContextMenuSelector = `${gridSelector} .tablewrapper table tbody tr .browsecontextmenu`;
+        Logging.logInfo(`About to wait for row context menu: ${gridContextMenuSelector}`);
         await page.waitForSelector(gridContextMenuSelector, { visible: true });
-        await page.click(gridContextMenuSelector);
+        await page.click(gridContextMenuSelector);     // here is where the problem is for #1188.  If there is a checkbox column in the grid, the context menu button is unclickable.  Z-index?
+        Logging.logInfo(`clicked the row context menu`);   
 
-        let gridContextMenuDeleteOptionSelector = `${gridSelector} .tablewrapper table tbody tr .browsecontextmenu .responsive`;
+        let gridContextMenuDeleteOptionSelector = `${gridSelector} .tablewrapper table tbody tr .browsecontextmenu .responsive`;  // add "deleteoption" class (or similar) here for #1187
+        Logging.logInfo(`About to wait for delete option: ${gridContextMenuDeleteOptionSelector}`);
         await page.waitForSelector(gridContextMenuDeleteOptionSelector, { visible: true });
         await page.click(gridContextMenuDeleteOptionSelector);
-
-
+        Logging.logInfo(`clicked the delete option`);
 
 
         const popupText = await page.$eval('.advisory', el => el.textContent);

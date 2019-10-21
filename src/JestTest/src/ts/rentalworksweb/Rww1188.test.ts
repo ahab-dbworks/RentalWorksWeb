@@ -2,10 +2,9 @@ import { BaseTest } from '../shared/BaseTest';
 import { ModuleBase } from '../shared/ModuleBase';
 import { Logging } from '../shared/Logging';
 import { TestUtils } from '../shared/TestUtils';
-import { Alert } from './modules/AllModules';
-import { SettingsModule } from '../shared/SettingsModule';
+import { Contact, Order, DefaultSettings, User } from './modules/AllModules';
 
-export class Issue1141Test extends BaseTest {
+export class IssueRww1188Test extends BaseTest {
     //---------------------------------------------------------------------------------------
 
     async MediumRegressionOnModule(module: ModuleBase) {
@@ -63,18 +62,27 @@ export class Issue1141Test extends BaseTest {
                             }
 
                             testName = `Populate new ${module.moduleCaption}`;
+                            if (rec.expectedErrorFields) {
+                                testName += ` with missing required fields ${JSON.stringify(rec.expectedErrorFields)}`;
+                            }
                             test(testName, async () => {
                                 await module.populateFormWithRecord(rec.record);
                             }, module.formOpenTimeout);
 
                             testName = `Save new ${module.moduleCaption}`;
+                            if (rec.expectedErrorFields) {
+                                testName = `Attempt to save new ${module.moduleCaption}, expect missing required field error`;
+                            }
                             test(testName, async () => {
                                 let successfulSave: boolean = false;
                                 let saveError: string = "";
+                                let errorFields: string[] = new Array<string>();
+
                                 await module.saveRecord(true)
                                     .then(saveResponse => {
                                         successfulSave = saveResponse.saved;
                                         saveError = saveResponse.errorMessage;
+                                        errorFields = saveResponse.errorFields;
                                     });
                                 if (successfulSave) {
                                     await module.closeRecord();  //close the form
@@ -82,8 +90,17 @@ export class Issue1141Test extends BaseTest {
                                 else {
                                     await module.closeModifiedRecordWithoutSaving();  //close the form without saving
                                 }
-                                expect(saveError).toBe("");
-                                expect(successfulSave).toBe(true);
+
+                                if (rec.expectedErrorFields) {
+                                    expect(errorFields.length).toBeGreaterThan(0);
+                                    expect(errorFields.length).toBe(rec.expectedErrorFields.length);
+                                    expect(successfulSave).toBe(false);
+                                }
+                                else {
+                                    expect(saveError).toBe("");
+                                    expect(errorFields.length).toBe(0);
+                                    expect(successfulSave).toBe(true);
+                                }
 
                             }, module.formSaveTimeout);
 
@@ -119,22 +136,88 @@ export class Issue1141Test extends BaseTest {
                                             });
                                     }, module.formOpenTimeout);
 
-                                    if ((module instanceof SettingsModule)) {
-                                        testName = `Seek to the newly-created ${module.moduleCaption} record`;
-                                        test(testName, async () => {
-                                            let recordCount = await module.browseSeek(rec.seekObject).then().catch(err => this.LogError(testName, err));
-                                            expect(recordCount).toBe(1);
-                                        }, module.browseOpenTimeout);
+                                    if (module.grids) {
+                                        for (let grid of module.grids) {
+                                            for (let gridRecord of rec.gridRecords) {
+                                                if (gridRecord.grid === grid) {
+                                                    if (grid.canNew) {
+                                                        testName = `Add row to Grid: ${grid.gridName}`;
+                                                        test(testName, async () => {
+                                                            await module.addGridRow(grid.gridName, grid.gridClass, gridRecord.recordToCreate.record, true)
+                                                                .then(saveResponse => {
+                                                                    expect(saveResponse.errorMessage).toBe("");
+                                                                    expect(saveResponse.saved).toBeTruthy();
+                                                                });
+                                                        }, grid.saveTimeout);
+                                                    }
+
+                                                    if (grid.canDelete) {
+                                                        testName = `Delete row from Grid: ${grid.gridName}`;
+                                                        test(testName, async () => {
+                                                            await module.deleteGridRow(grid.gridName, grid.gridClass, 1, true)
+                                                                .then(deleteResponse => {
+                                                                    expect(deleteResponse.errorMessage).toBe("");
+                                                                    expect(deleteResponse.deleted).toBeTruthy();
+                                                                });
+                                                        }, grid.deleteTimeout);
+                                                    }
+                                                }
+                                            }
+                                        }
                                     }
-                                    else {
-                                        testName = `Close the ${module.moduleCaption} record`;
-                                        test(testName, async () => {
+
+                                    testName = `Close the ${module.moduleCaption} record`;
+                                    test(testName, async () => {
+                                        await module.closeRecord();  //close the form
+                                    }, module.formOpenTimeout);
+                                }
+
+                                if (rec.attemptDuplicate) {
+                                    testName = `Attempt to create duplicate new ${module.moduleCaption}`;
+                                    test(testName, async () => {
+                                        await module.createNewRecord()
+                                            .then(createNewResponse => {
+                                                expect(createNewResponse.errorMessage).toBe("");
+                                                expect(createNewResponse.success).toBeTruthy();
+                                            });
+                                    }, module.formOpenTimeout);
+
+                                    testName = `Populate duplicate new ${module.moduleCaption}`;
+                                    test(testName, async () => {
+                                        await module.populateFormWithRecord(rec.record);
+                                    }, module.formOpenTimeout);
+
+                                    testName = `Attempt to save duplicate ${module.moduleCaption}, expect duplicate error`;
+                                    test(testName, async () => {
+                                        let successfulSave: boolean = false;
+                                        let saveError: string = "";
+
+                                        await module.saveRecord(true)
+                                            .then(saveResponse => {
+                                                successfulSave = saveResponse.saved;
+                                                saveError = saveResponse.errorMessage;
+                                            });
+
+                                        if (successfulSave) {
                                             await module.closeRecord();  //close the form
-                                        }, module.formOpenTimeout);
-                                    }
+                                        }
+                                        else {
+                                            await module.closeModifiedRecordWithoutSaving();  //close the form without saving
+                                        }
+
+                                        expect(saveError).toContain('Duplicate Rule');
+                                        expect(successfulSave).toBe(false);
+
+                                    }, module.formSaveTimeout);
                                 }
 
                                 if (module.canDelete) {
+                                    testName = `Seek to the newly-created ${module.moduleCaption} record`;
+                                    test(testName, async () => {
+                                        let recordCount = await module.browseSeek(rec.seekObject).then().catch(err => this.LogError(testName, err));
+                                        expect(recordCount).toBe(1);
+                                    }, module.browseSeekTimeout);
+
                                     testName = `Delete the ${module.moduleCaption} record`;
                                     test(testName, async () => {
                                         let successfulDelete: boolean = false;
@@ -179,9 +262,22 @@ export class Issue1141Test extends BaseTest {
         });
     }
     //---------------------------------------------------------------------------------------
+    async RelogAsCopyOfUser() {
+
+        this.LoadMyUserGlobal(new User());
+        this.CopyMyUserRegisterGlobal(new User());
+        this.DoLogoff();
+        this.DoLogin();  // uses new login account
+
+    }
+    //---------------------------------------------------------------------------------------
     async PerformTests() {
-        this.MediumRegressionOnModule(new Alert());
+        this.LoadMyUserGlobal(new User());
+        this.OpenSpecificRecord(new DefaultSettings(), null, true);
+        this.MediumRegressionOnModule(new Contact());
+        this.MediumRegressionOnModule(new Order());
     }
     //---------------------------------------------------------------------------------------
 }
-new Issue1141Test().Run();
+
+new IssueRww1188Test().Run();

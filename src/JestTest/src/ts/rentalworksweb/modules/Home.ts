@@ -67,6 +67,10 @@ export class Order extends HomeModule {
         this.moduleId = '64C46F51-5E00-48FA-94B6-FC4EF53FEA20';
         this.moduleCaption = 'Order';
         this.canDelete = false;
+        let rentalGrid: GridBase = new GridBase("OrderItemGrid", ["R"]);
+        let salesGrid: GridBase = new GridBase("OrderItemGrid", ["S"]);
+        this.grids.push(rentalGrid);
+        this.grids.push(salesGrid);
 
 
         this.defaultNewRecordToExpect = {
@@ -86,7 +90,7 @@ export class Order extends HomeModule {
                     //Deal: dealInputs.Deal,
                     DealId: 1,
                     Location: TestUtils.randomStreetName(),
-                    ReferenceNumber: TestUtils.randomAlphanumeric(8)
+                    ReferenceNumber: TestUtils.randomAlphanumeric(8),
                 },
                 seekObject: {
                     Description: "GlobalScope.TestToken~1.TestToken",
@@ -94,6 +98,26 @@ export class Order extends HomeModule {
 
             }
         ];
+
+        this.newRecordsToCreate[0].gridRecords = [
+            {
+                grid: rentalGrid,
+                recordToCreate: {
+                    record: {
+                        InventoryId: 4,
+                    }
+                }
+            },
+            {
+                grid: salesGrid,
+                recordToCreate: {
+                    record: {
+                        InventoryId: 3,
+                    }
+                }
+            },
+        ];
+
 
         this.newRecordsToCreate[0].recordToExpect = {
             OrderNumber: "|NOTEMPTY|",
@@ -265,8 +289,10 @@ export class Contact extends HomeModule {
         this.moduleName = 'Contact';
         this.moduleId = '3F803517-618A-41C0-9F0B-2C96B8BDAFC4';
         this.moduleCaption = 'Contact';
-        this.grids.push(new GridBase("ContactCompanyGrid"));
-        this.grids.push(new GridBase("ContactNoteGrid"));
+        let companyGrid: GridBase = new GridBase("ContactCompanyGrid");
+        let noteGrid: GridBase = new GridBase("ContactNoteGrid");
+        this.grids.push(companyGrid);
+        this.grids.push(noteGrid);
 
         this.newRecordsToCreate = [
             {
@@ -293,7 +319,7 @@ export class Contact extends HomeModule {
         ];
         this.newRecordsToCreate[0].gridRecords = [
             {
-                gridSelector: "ContactCompanyGrid",
+                grid: companyGrid,
                 recordToCreate: {
                     record: {
                         CompanyId: 5,
@@ -303,7 +329,7 @@ export class Contact extends HomeModule {
                 }
             },
             {
-                gridSelector: "ContactNoteGrid",
+                grid: noteGrid,
                 recordToCreate: {
                     record: {
                         Description: "GlobalScope.TestToken~1.TestToken",
