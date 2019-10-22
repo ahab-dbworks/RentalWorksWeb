@@ -13,8 +13,9 @@ Last Updated 08/12/2019
 - This can be done by right-clicking the 'JestTest' root directory in Visual Studio, choosing 'Add', then 'New Item'. Disregard file type options, name it '.env', and click 'Add'.
 - Copy and paste the code below into the file, substituting 'youremail' and 'yourpassword' with your actual username and password used to sign into RWW (or a test account).
 ```
-RW_EMAIL=youremail
+RW_LOGIN=youremail
 RW_PASSWORD=yourpassword
+RW_URL=http://localhost/rentalworksweb
 ```
 
 ## Jest HTML Reporting Tool
