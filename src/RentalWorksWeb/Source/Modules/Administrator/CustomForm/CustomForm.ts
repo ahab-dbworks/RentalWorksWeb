@@ -312,10 +312,10 @@ class CustomForm {
             let formNodePosition = moduleChildren.map(function (x) { return x.properties.nodetype; }).indexOf('Form');
             if (browseNodePosition != -1) {
                 addModulesToList(modules[i], 'Browse');
+                if (formNodePosition != -1) {
+                    addModulesToList(modules[i], 'Form');
+                };
             }
-            if (formNodePosition != -1) {
-                addModulesToList(modules[i], 'Form');
-            };
         }
 
         //Traverse security tree to find all grids
