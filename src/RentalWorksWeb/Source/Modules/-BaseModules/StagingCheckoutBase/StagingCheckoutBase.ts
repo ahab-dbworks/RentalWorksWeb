@@ -1507,7 +1507,11 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.StagingCheckout.form.menuIt
 FwApplicationTree.clickEvents[Constants.Grids.StagedItemGrid.menuItems.UnstageItems.id] = function (event: JQuery.ClickEvent) {
     try {
         let $form = jQuery(this).closest('.fwform');
-        StagingCheckoutController.unstageItems($form, event);
+        if ($form.attr('data-controller') === 'TransferOutController') {
+            TransferOutController.unstageItems($form, event);
+        } else {
+            StagingCheckoutController.unstageItems($form, event);
+        }
     }
     catch (ex) {
         FwFunc.showError(ex);
@@ -1517,7 +1521,11 @@ FwApplicationTree.clickEvents[Constants.Grids.StagedItemGrid.menuItems.UnstageIt
 FwApplicationTree.clickEvents[Constants.Grids.StagedQuantityItemGrid.menuItems.UnstageItems.id] = function (event: JQuery.ClickEvent) {
     try {
         let $form = jQuery(this).closest('.fwform');
-        StagingCheckoutController.unstageItems($form, event);
+        if ($form.attr('data-controller') === 'TransferOutController') {
+            TransferOutController.unstageItems($form, event);
+        } else {
+            StagingCheckoutController.unstageItems($form, event);
+        }
     }
     catch (ex) {
         FwFunc.showError(ex);
