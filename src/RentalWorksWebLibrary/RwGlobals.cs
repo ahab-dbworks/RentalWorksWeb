@@ -85,6 +85,9 @@ namespace WebLibrary
         public static string STAGING_PENDING_ITEMS_MISSING_COLOR { get; set; }
 
 
+        //CONTACT 
+        public static string CONTACT_TYPE_CREW_COLOR { get; set; }
+
         //CONTAINER
         public static string CONTAINER_READY_COLOR { get; set; }
         public static string CONTAINER_INCOMPLETE_COLOR { get; set; }
@@ -222,6 +225,8 @@ namespace WebLibrary
             CONTRACT_ITEM_VOIDED_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.CONTRACT_ITEM_VOIDED_COLOR);
             CONTRACT_BILLING_DATE_ADJUSTED_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.CONTRACT_BILLING_DATE_ADJUSTED_COLOR);
             CONTRACT_MIGRATED_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.CONTRACT_MIGRATED_COLOR);
+
+            CONTACT_TYPE_CREW_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.CONTACT_TYPE_CREW_COLOR);
 
         }
         //---------------------------------------------------------------------------

@@ -2,13 +2,20 @@
 using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
+using System.Collections.Generic;
 using WebApi.Data;
+using WebLibrary;
 
 namespace WebApi.Modules.Agent.Contact
 {
     [FwSqlTable("webcontactview2")]
     public class ContactLoader : AppDataLoadRecord
     {
+        //------------------------------------------------------------------------------------ 
+        public ContactLoader()
+        {
+            AfterBrowse += OnAfterBrowse;
+        }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "contactid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
         public string ContactId { get; set; }
@@ -27,6 +34,13 @@ namespace WebApi.Modules.Agent.Contact
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "fname", modeltype: FwDataTypes.Text)]
         public string FirstName { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "0", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string FirstNameColor
+        {
+            get { return getFirstNameColor(ContactRecordType); }
+            set { }
+        }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "mi", modeltype: FwDataTypes.Text)]
         public string MiddleInitial { get; set; }
@@ -187,5 +201,31 @@ namespace WebApi.Modules.Agent.Contact
             select.Parse();
         }
         //------------------------------------------------------------------------------------ 
+        private string getFirstNameColor(string contactRecordType)
+        {
+            string firstNameColor = null;
+            if (contactRecordType.Equals(RwConstants.CONTACT_RECORD_TYPE_CREW))
+            {
+                firstNameColor = RwGlobals.CONTACT_TYPE_CREW_COLOR;
+            }
+            return firstNameColor;
+        }
+        //------------------------------------------------------------------------------------ 
+        public void OnAfterBrowse(object sender, AfterBrowseEventArgs e)
+        {
+            if (e.DataTable != null)
+            {
+                FwJsonDataTable dt = e.DataTable;
+                if (dt.Rows.Count > 0)
+                {
+                    foreach (List<object> row in dt.Rows)
+                    {
+                        string contactRecordType = row[dt.GetColumnNo("ContactRecordType")].ToString();
+                       row[dt.GetColumnNo("FirstNameColor")] = getFirstNameColor(contactRecordType);
+                    }
+                }
+            }
+        }
+        //------------------------------------------------------------------------------------
     }
 }

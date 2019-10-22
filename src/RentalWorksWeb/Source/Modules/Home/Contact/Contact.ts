@@ -36,6 +36,20 @@ class Contact {
         let $browse = jQuery(this.getBrowseTemplate());
         $browse = FwModule.openBrowse($browse);
 
+
+        try {
+            FwAppData.apiMethod(true, 'GET', `${this.apiurl}/legend`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                for (let key in response) {
+                    FwBrowse.addLegend($browse, key, response[key]);
+                }
+            }, function onError(response) {
+                FwFunc.showError(response);
+            }, $browse)
+        } catch (ex) {
+            FwFunc.showError(ex);
+        }
+
+
         return $browse;
     };
     //----------------------------------------------------------------------------------------------
@@ -228,14 +242,11 @@ class Contact {
       <div class="column" data-width="0" data-visible="false">
           <div class="field" data-datafield="Inactive" data-browsedatatype="text"  data-visible="false"></div>
       </div>
-      <div class="column" data-width="0" data-visible="false">
-          <div class="field" data-isuniqueid="false" data-datafield="ContactRecordTypeColor" data-browsedatatype="rowbackgroundcolor" data-formdatafield="" data-formdatatype="rowbackgroundcolor"></div>
-      </div>
       <div class="column" data-width="150px">
           <div class="field" data-caption="Last Name" data-isuniqueid="false" data-datafield="LastName" data-browsedatatype="text" data-sort="asc"></div>
       </div>
       <div class="column" data-width="150px">
-          <div class="field" data-caption="First Name" data-isuniqueid="false" data-datafield="FirstName" data-browsedatatype="text" data-sort="off"></div>
+          <div class="field" data-caption="First Name" data-isuniqueid="false" data-datafield="FirstName" data-cellcolor="FirstNameColor" data-browsedatatype="text" data-sort="off"></div>
       </div>
       <div class="column" data-width="150px">
           <div class="field" data-caption="Middle Initial" data-isuniqueid="false" data-datafield="MiddleInitial" data-browsedatatype="text" data-sort="off"></div>

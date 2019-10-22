@@ -7,6 +7,7 @@ using Swashbuckle.AspNetCore.Annotations;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebApi.Controllers;
+using WebLibrary;
 
 namespace WebApi.Modules.Agent.Contact
 {
@@ -33,6 +34,17 @@ namespace WebApi.Modules.Agent.Contact
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // GET api/v1/contact/legend 
+        [HttpGet("legend")]
+        [FwControllerMethod(Id: "wfyh5bTW7cCuO")]
+        public async Task<ActionResult<Dictionary<string, string>>> GetLegend()
+        {
+            Dictionary<string, string> legend = new Dictionary<string, string>();
+            legend.Add("Crew", RwGlobals.CONTACT_TYPE_CREW_COLOR);
+            await Task.CompletedTask; // get rid of the no async call warning
+            return new OkObjectResult(legend);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/contact/exportexcelxlsx/filedownloadname 

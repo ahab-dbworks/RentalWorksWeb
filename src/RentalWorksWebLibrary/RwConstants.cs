@@ -451,6 +451,10 @@
         public const int COMPANY_TYPE_DEAL_COLOR = 253498;           //green;
         public const int COMPANY_TYPE_VENDOR_COLOR = 16758576;       //light blue
 
+        //CONTACT
+        public const string CONTACT_RECORD_TYPE_CREW = "CREW";
+        public const int CONTACT_TYPE_CREW_COLOR = 8454143;            // yellow
+
 
         //GLOBAL
         public const int NEGATIVE_VARIANCE_COLOR = 262399;             // red
@@ -541,7 +545,6 @@
         //BAR CODE STYLE
         public const string BAR_CODE_STYLE_1D = "1D";
         public const string BAR_CODE_STYLE_2D = "2D";
-
 
     }
 

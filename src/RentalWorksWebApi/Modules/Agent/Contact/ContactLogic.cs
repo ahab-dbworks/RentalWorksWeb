@@ -90,6 +90,9 @@ namespace WebApi.Modules.Agent.Contact
         [FwLogicProperty(Id:"P3HQXIdsM8TH")]
         public string FirstName { get { return contact.FirstName; } set { contact.FirstName = value; } }
 
+        [FwLogicProperty(Id: "hoh6937ZHVo4v", IsReadOnly: true)]
+        public string FirstNameColor { get; set; }
+
         [FwLogicProperty(Id:"0srm8l16M5j2")]
         public string HomePhone { get { return contact.HomePhone; } set { contact.HomePhone = value; } }
 
