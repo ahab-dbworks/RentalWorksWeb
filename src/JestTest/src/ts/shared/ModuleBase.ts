@@ -1136,7 +1136,7 @@ export class ModuleBase {
         await page.click(gridContextMenuSelector);     // here is where the problem is for #1188.  If there is a checkbox column in the grid, the context menu button is unclickable.  Z-index?
         Logging.logInfo(`clicked the row context menu`);   
 
-        let gridContextMenuDeleteOptionSelector = `${gridSelector} .tablewrapper table tbody tr .browsecontextmenu .responsive`;  // add "deleteoption" class (or similar) here for #1187
+        let gridContextMenuDeleteOptionSelector = `${gridSelector} .tablewrapper table tbody tr .browsecontextmenu .deleteoption`;
         Logging.logInfo(`About to wait for delete option: ${gridContextMenuDeleteOptionSelector}`);
         await page.waitForSelector(gridContextMenuDeleteOptionSelector, { visible: true });
         await page.click(gridContextMenuDeleteOptionSelector);
