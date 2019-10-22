@@ -269,6 +269,7 @@
         public const string RECEIPT_RECTYPE_CREDIT_MEMO = "C";
 
         public const string PAYMENT_TYPE_TYPE_WRITE_OFF = "WRITE OFF";
+        public const string PAYMENT_TYPE_TYPE_REFUND_CHECK = "REFUND CHECK";
 
         public const int RECEIPT_RECTYPE_OVERPAYMENT_COLOR = 8454143;            // yellow
         public const int RECEIPT_RECTYPE_DEPLETING_DEPOSIT_COLOR = 250679;       // green

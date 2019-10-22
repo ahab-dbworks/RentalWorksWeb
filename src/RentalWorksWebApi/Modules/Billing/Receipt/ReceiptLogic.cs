@@ -280,6 +280,10 @@ namespace WebApi.Modules.Billing.Receipt
                     {
                         RecType = RwConstants.RECEIPT_RECTYPE_WRITE_OFF;
                     }
+                    else if (ptl.PaymentTypeType.Equals(RwConstants.PAYMENT_TYPE_TYPE_REFUND_CHECK))
+                    {
+                        RecType = RwConstants.RECEIPT_RECTYPE_REFUND;
+                    }
                 }
             }
 

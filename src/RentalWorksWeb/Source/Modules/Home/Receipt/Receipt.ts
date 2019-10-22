@@ -715,7 +715,7 @@ class Receipt {
                 ReceiptId: receiptId,
                 ReceiptDate: receiptDate,
             }
-            request.orderby = 'InvoiceDate'
+            request.orderby = 'InvoiceDate,InvoiceNumber'
             const paymentBy = FwFormField.getValueByDataField($form, 'PaymentBy');
             if (paymentBy === 'DEAL') {
                 request.uniqueids.DealId = FwFormField.getValueByDataField($form, 'DealId');
@@ -965,7 +965,7 @@ class Receipt {
                 request.uniqueids.CustomerId = FwFormField.getValueByDataField($form, 'CustomerId');
                 validationName = 'CustomerCredit';
             }
-            //request.orderby = 'InvoiceDate'
+            request.orderby = 'ReceiptDate,CheckNumber'
 
             FwAppData.apiMethod(true, 'POST', `api/v1/receiptcredit/browse`, request, FwServices.defaultTimeout, res => {
 
