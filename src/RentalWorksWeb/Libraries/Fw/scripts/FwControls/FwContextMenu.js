@@ -1,18 +1,18 @@
 class FwContextMenuClass {
     render(title, position, $appendto, event) {
-        let html = [], $control, viewPort, scrollTop, scrollLeft, topValue, leftValue, maxZIndex;
         if (typeof position !== 'string') {
             position = 'center';
         }
         if (typeof $appendto === 'undefined') {
             $appendto = jQuery('#application');
         }
+        const html = [];
         if (typeof event !== 'undefined' && event !== null) {
-            viewPort = document.querySelector('html');
-            scrollTop = viewPort.scrollTop;
-            scrollLeft = viewPort.scrollLeft;
-            topValue = event.pageY - scrollTop;
-            leftValue = event.pageX - scrollLeft - 105;
+            const viewPort = document.querySelector('html');
+            const scrollTop = viewPort.scrollTop;
+            const scrollLeft = viewPort.scrollLeft;
+            const topValue = event.pageY - scrollTop;
+            const leftValue = event.pageX - scrollLeft - 105;
             html.push(`<div style="top:${topValue}px;left:${leftValue}px;" class="fwcontextmenu" data-position="${position}">`);
         }
         else {
@@ -20,14 +20,14 @@ class FwContextMenuClass {
         }
         html.push(`  <div class="fwcontextmenubox">`);
         if ((typeof title === 'string') && (title.length > 0)) {
-            html.push('    <div class="fwcontextmenutitle">' + title + '</div>');
+            html.push(`    <div class="fwcontextmenutitle">${title}</div>`);
         }
         html.push('    <div class="fwcontextmenuitems">');
         html.push('    </div>');
         html.push('  </div>');
         html.push('</div>');
-        $control = jQuery(html.join('\n'));
-        maxZIndex = FwFunc.getMaxZ('*');
+        const $control = jQuery(html.join('\n'));
+        const maxZIndex = FwFunc.getMaxZ('*');
         $control.css('z-index', maxZIndex);
         $appendto.append($control);
         $control.on('click', function (event) {
@@ -71,7 +71,13 @@ class FwContextMenuClass {
     }
     addMenuItem($control, text, onclick) {
         let $menuitem;
-        $menuitem = jQuery(`<div class="responsive fwcontextmenuitem">${text}</div>`);
+        if (text && typeof text === 'string') {
+            const textClass = `${text.toLowerCase().replace(/\s/g, '')}option`;
+            $menuitem = jQuery(`<div class="responsive fwcontextmenuitem ${textClass}">${text}</div>`);
+        }
+        else {
+            $menuitem = jQuery(`<div class="responsive fwcontextmenuitem">${text}</div>`);
+        }
         $control.find('.fwcontextmenuitems').append($menuitem);
         if (typeof onclick === 'function') {
             $menuitem.on('click', onclick);
