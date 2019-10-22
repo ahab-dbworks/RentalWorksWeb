@@ -187,6 +187,7 @@ namespace WebApi.Modules.Billing.Receipt
             ReceiptLogic orig = null;
             bool isValid = true;
             decimal invoiceAmountTotal = 0;
+            decimal creditAmountTotal = 0;
             decimal paymentAmount = 0;
             string recType = RecType;
 
@@ -319,8 +320,7 @@ namespace WebApi.Modules.Billing.Receipt
                     if (
                         recType.Equals(RwConstants.RECEIPT_RECTYPE_OVERPAYMENT) ||
                         recType.Equals(RwConstants.RECEIPT_RECTYPE_DEPLETING_DEPOSIT) ||
-                        recType.Equals(RwConstants.RECEIPT_RECTYPE_CREDIT_MEMO) ||
-                        recType.Equals(RwConstants.RECEIPT_RECTYPE_REFUND)
+                        recType.Equals(RwConstants.RECEIPT_RECTYPE_CREDIT_MEMO)
                        )
                     {
                         isValid = false;
@@ -387,7 +387,7 @@ namespace WebApi.Modules.Billing.Receipt
                     if (!string.IsNullOrEmpty(orig.ChargeBatchId))
                     {
                         isValid = false;
-                        validateMsg = $"Cannot modify this Receipt because it has already been exported.";
+                        validateMsg = $"Cannot modify this {BusinessLogicModuleName} because it has already been exported.";
                     }
                 }
             }
@@ -434,8 +434,20 @@ namespace WebApi.Modules.Billing.Receipt
 
             if (isValid)
             {
-                if (CreditDataList == null)
+                if ((CreditDataList != null) && (InvoiceDataList != null))
                 {
+                    isValid = false;
+                    validateMsg = $"Cannot save this {BusinessLogicModuleName} because both Credits and Invoices have been supplied.  Can only supply one or the other.";
+                }
+            }
+
+            // validate the data in the InvoiceDataList
+            if (isValid)
+            {
+                if (InvoiceDataList != null)
+                {
+                    invoiceAmountTotal = 0;
+
                     if (InvoiceDataList != null)
                     {
                         foreach (ReceiptInvoice i in InvoiceDataList)
@@ -484,6 +496,36 @@ namespace WebApi.Modules.Billing.Receipt
                     }
                 }
             }
+
+            // validate the data in the CreditDataList
+            if (isValid)
+            {
+                if (CreditDataList != null)
+                {
+                    creditAmountTotal = 0;
+
+                    if (CreditDataList != null)
+                    {
+                        foreach (ReceiptCredit c in CreditDataList)
+                        {
+                            creditAmountTotal += c.Amount;
+                        }
+                    }
+
+                    if (paymentAmount > creditAmountTotal)
+                    {
+                        isValid = false;
+                        validateMsg = "Amount to Apply exceeds the Credit Amounts provided.";
+                    }
+                    else if (paymentAmount < creditAmountTotal)
+                    {
+                        isValid = false;
+                        validateMsg = "Amount to Apply is less than the Credit Amounts provided.";
+                    }
+                }
+            }
+
+            // here we are overriding the PaymentAmount when the user supplies a DepositId so the PaymentAmount will equal the sum of the Invoices being paid
             if (isValid)
             {
                 if (saveMode.Equals(TDataRecordSaveMode.smInsert))
@@ -495,7 +537,7 @@ namespace WebApi.Modules.Billing.Receipt
                 }
             }
 
-
+            // validate that no Invoice is being overpaid here
             if (isValid)
             {
                 if (InvoiceDataList != null)
@@ -535,6 +577,51 @@ namespace WebApi.Modules.Billing.Receipt
                         {
                             isValid = false;
                             validateMsg = "Cannot apply more than the Invoice Total for Invoice " + iL.InvoiceNumber + " (" + iL.InvoiceDescription + ").";
+                        }
+                    }
+                }
+            }
+
+            // validate that no Credit is being overrefunded here
+            if (isValid)
+            {
+                if (CreditDataList != null)
+                {
+                    foreach (ReceiptCredit c in CreditDataList)
+                    {
+                        decimal creditTotal = 0;
+                        ReceiptLogic rL = new ReceiptLogic();
+                        rL.SetDependencies(AppConfig, UserSession);
+                        rL.ReceiptId = c.CreditId;
+                        bool b = rL.LoadAsync<ReceiptLogic>().Result;
+                        creditTotal = rL.PaymentAmount.GetValueOrDefault(0);
+
+                        BrowseRequest br = new BrowseRequest();
+                        br.uniqueids = new Dictionary<string, object>();
+                        br.uniqueids.Add("DepositId", c.CreditId);
+                        DepositPaymentLogic dpl = new DepositPaymentLogic();
+                        dpl.SetDependencies(AppConfig, UserSession);
+                        FwJsonDataTable dt = dpl.BrowseAsync(br).Result;
+
+                        //determine the total payments/refunds applied against this credit so far, not counting this current Receipt
+                        decimal totalPayments = 0;
+                        foreach (List<object> row in dt.Rows)
+                        {
+                            string paymentId = row[dt.GetColumnNo("PaymentId")].ToString();
+                            decimal amount = FwConvert.ToDecimal(row[dt.GetColumnNo("Applied")].ToString());
+                            if (!paymentId.Equals(ReceiptId))  // exclude this current Receipt
+                            {
+                                totalPayments += amount;
+                            }
+                        }
+
+                        //add the amount of this current Receipt
+                        totalPayments += c.Amount;
+
+                        if (totalPayments > creditTotal)
+                        {
+                            isValid = false;
+                            validateMsg = "Cannot refund more than the Remaining amount for Credit " + rL.CheckNumber + ".";
                         }
                     }
                 }
