@@ -305,8 +305,15 @@ export class ContactEvent extends SettingsModule {
                 },
                 seekObject: {
                     ContactEvent: "GlobalScope.TestToken~1.TestToken",
-                }
-            }
+                },
+				attemptDuplicate: true,
+            },
+            {
+                record: {
+                    ContactEvent: "",
+                },
+                expectedErrorFields: ["ContactEvent"]
+            },
         ];
         this.newRecordsToCreate[0].recordToExpect = {
             ContactEvent: this.newRecordsToCreate[0].record.ContactEvent.toUpperCase(),
@@ -340,8 +347,16 @@ export class ContactTitle extends SettingsModule {
                 },
                 seekObject: {
                     ContactTitle: "GlobalScope.TestToken~1.TestToken",
-                }
-            }
+                },
+				attemptDuplicate: true,
+            },
+            {
+                record: {
+                    ContactTitle: "",
+                    AccountsReceivable: true,
+                },
+                expectedErrorFields: ["ContactTitle"]
+            },
         ];
         this.newRecordsToCreate[0].recordToExpect = {
             ContactTitle: this.newRecordsToCreate[0].record.ContactTitle.toUpperCase(),
@@ -373,8 +388,15 @@ export class MailList extends SettingsModule {
                 },
                 seekObject: {
                     MailList: "GlobalScope.TestToken~1.MediumTestToken",
-                }
-            }
+                },
+				attemptDuplicate: true,
+            },
+            {
+                record: {
+                    MailList: "",
+                },
+                expectedErrorFields: ["MailList"]
+            },
         ];
         this.newRecordsToCreate[0].recordToExpect = {
             MailList: this.newRecordsToCreate[0].record.MailList.toUpperCase(),
@@ -406,8 +428,33 @@ export class Currency extends SettingsModule {
                 },
                 seekObject: {
                     Currency: "GlobalScope.TestToken~1.MediumTestToken",
-                }
-            }
+                },
+				attemptDuplicate: true,
+            },
+            {
+                record: {
+                    Currency: "",
+                    CurrencyCode: "GlobalScope.TestToken~1.TinyTestToken",
+                    CurrencySymbol: "GlobalScope.TestToken~1.LastCharTestToken",
+                },
+                expectedErrorFields: ["Currency"]
+            },
+            {
+                record: {
+                    Currency: "GlobalScope.TestToken~1.MediumTestToken",
+                    CurrencyCode: "",
+                    CurrencySymbol: "GlobalScope.TestToken~1.LastCharTestToken",
+                },
+                expectedErrorFields: ["CurrencyCode"]
+            },
+            {
+                record: {
+                    Currency: "GlobalScope.TestToken~1.MediumTestToken",
+                    CurrencyCode: "GlobalScope.TestToken~1.TinyTestToken",
+                    CurrencySymbol: "",
+                },
+                expectedErrorFields: ["CurrencySymbol"]
+            },
         ];
         this.newRecordsToCreate[0].recordToExpect = {
             Currency: this.newRecordsToCreate[0].record.Currency.toUpperCase(),
@@ -440,8 +487,16 @@ export class CreditStatus extends SettingsModule {
                 },
                 seekObject: {
                     CreditStatus: "GlobalScope.TestToken~1.TestToken",
-                }
-            }
+                },
+				attemptDuplicate: true,
+            },
+            {
+                record: {
+                    CreditStatus: "",
+                    CreateContractAllowed: true
+                },
+                expectedErrorFields: ["CreditStatus"]
+            },
         ];
         this.newRecordsToCreate[0].recordToExpect = {
             CreditStatus: this.newRecordsToCreate[0].record.CreditStatus.toUpperCase(),
