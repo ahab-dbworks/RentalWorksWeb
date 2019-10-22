@@ -8,6 +8,7 @@ using WebApi.Logic;
 using WebApi.Modules.Billing.Invoice;
 using WebApi.Modules.Home.DepositPayment;
 using WebApi.Modules.Home.InvoiceReceipt;
+using WebApi.Modules.Home.ReceiptCredit;
 using WebApi.Modules.Settings.PaymentType;
 using WebApi.Modules.Settings.SystemSettings;
 using WebLibrary;
@@ -25,7 +26,7 @@ namespace WebApi.Modules.Billing.Receipt
     {
         public string CreditReceiptId { get; set; }
         public string CreditId { get; set; }
-        public decimal Amount { get; set; }
+        public decimal? Amount { get; set; }
     }
 
     [FwLogic(Id: "5XIpJJ8C7Ywx")]
@@ -429,54 +430,56 @@ namespace WebApi.Modules.Billing.Receipt
 
             if (isValid)
             {
-                if (InvoiceDataList != null)
+                if (CreditDataList == null)
                 {
-                    foreach (ReceiptInvoice i in InvoiceDataList)
+                    if (InvoiceDataList != null)
                     {
-                        invoiceAmountTotal += i.Amount;
+                        foreach (ReceiptInvoice i in InvoiceDataList)
+                        {
+                            invoiceAmountTotal += i.Amount;
+                        }
                     }
-                }
 
-                if (recType.Equals(RwConstants.RECEIPT_RECTYPE_PAYMENT))
-                {
-                    if ((paymentAmount != 0) && (invoiceAmountTotal == 0))
+                    if (recType.Equals(RwConstants.RECEIPT_RECTYPE_PAYMENT))
                     {
-                        if (paymentAmount > invoiceAmountTotal)
+                        if ((paymentAmount != 0) && (invoiceAmountTotal == 0))
                         {
-                            if ((saveMode.Equals(TDataRecordSaveMode.smInsert)) && CreateDepletingDeposit.GetValueOrDefault(false))
+                            if (paymentAmount > invoiceAmountTotal)
                             {
-                                // user is creating a New Receipt and has indicated to create a Depleting Deposit with this amount
-                            }
-                            else
-                            {
-                                isValid = false;
-                                validateMsg = "No Invoice Amounts have been provided.";
+                                if ((saveMode.Equals(TDataRecordSaveMode.smInsert)) && CreateDepletingDeposit.GetValueOrDefault(false))
+                                {
+                                    // user is creating a New Receipt and has indicated to create a Depleting Deposit with this amount
+                                }
+                                else
+                                {
+                                    isValid = false;
+                                    validateMsg = "No Invoice Amounts have been provided.";
+                                }
                             }
                         }
-                    }
-                    else
-                    {
-                        if ((paymentAmount > invoiceAmountTotal) && (string.IsNullOrEmpty(DealDepositId)) && (string.IsNullOrEmpty(CustomerDepositId)))
+                        else
                         {
-                            if ((saveMode.Equals(TDataRecordSaveMode.smInsert)) && CreateOverpayment.GetValueOrDefault(false))
+                            if ((paymentAmount > invoiceAmountTotal) && (string.IsNullOrEmpty(DealDepositId)) && (string.IsNullOrEmpty(CustomerDepositId)))
                             {
-                                // user is creating a New Receipt and has indicated to create an Overpayment with the left-over amount
+                                if ((saveMode.Equals(TDataRecordSaveMode.smInsert)) && CreateOverpayment.GetValueOrDefault(false))
+                                {
+                                    // user is creating a New Receipt and has indicated to create an Overpayment with the left-over amount
+                                }
+                                else
+                                {
+                                    isValid = false;
+                                    validateMsg = "Amount to Apply exceeds the Invoice Amounts provided.";
+                                }
                             }
-                            else
+                            else if (paymentAmount < invoiceAmountTotal)
                             {
                                 isValid = false;
-                                validateMsg = "Amount to Apply exceeds the Invoice Amounts provided.";
+                                validateMsg = "Amount to Apply is less than the Invoice Amounts provided.";
                             }
-                        }
-                        else if (paymentAmount < invoiceAmountTotal)
-                        {
-                            isValid = false;
-                            validateMsg = "Amount to Apply is less than the Invoice Amounts provided.";
                         }
                     }
                 }
             }
-
             if (isValid)
             {
                 if (saveMode.Equals(TDataRecordSaveMode.smInsert))
