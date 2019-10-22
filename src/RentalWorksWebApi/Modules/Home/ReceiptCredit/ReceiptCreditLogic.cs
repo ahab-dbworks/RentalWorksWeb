@@ -11,6 +11,8 @@ namespace WebApi.Modules.Home.ReceiptCredit
             dataLoader = receiptCreditLoader;
         }
         //------------------------------------------------------------------------------------ 
+        [FwLogicProperty(Id: "2upfwjjG6NvGM", IsPrimaryKey: true)]
+        public string CreditReceiptId { get; set; }
         [FwLogicProperty(Id: "nMOdxMgk9oZIC", IsReadOnly: true)]
         public string ReceiptId { get; set; }
         [FwLogicProperty(Id: "bvlcCDAieORew", IsReadOnly: true)]

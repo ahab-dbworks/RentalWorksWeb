@@ -23,7 +23,7 @@ namespace WebApi.Modules.Billing.Receipt
 
     public class ReceiptCredit
     {
-        public decimal? CreditReceiptId { get; set; }    
+        public string CreditReceiptId { get; set; }
         public string CreditId { get; set; }
         public decimal Amount { get; set; }
     }
@@ -593,121 +593,124 @@ namespace WebApi.Modules.Billing.Receipt
             }
 
 
-
-            List<InvoiceReceiptLogic> previousIrData = new List<InvoiceReceiptLogic>();
-
-            if (e.SaveMode.Equals(TDataRecordSaveMode.smUpdate))
             {
-                // ask the database for the previous list of Invoices and Amounts related to this Receipt
-                InvoiceReceiptLogic irLoader = new InvoiceReceiptLogic();
-                irLoader.SetDependencies(AppConfig, UserSession);
-                irLoader.ReceiptId = ReceiptId;
-                BrowseRequest request = new BrowseRequest();
-                IDictionary<string, object> uniqueIds = ((IDictionary<string, object>)request.uniqueids);
-                uniqueIds.Add("ReceiptId", ReceiptId);
-                request.uniqueids = uniqueIds;
-                previousIrData = irLoader.SelectAsync<InvoiceReceiptLogic>(request).Result;  // here is the list with the previous data
-            }
+                // here we are applying the receipt amount to indicated Invoices
+                List<InvoiceReceiptLogic> previousIrData = new List<InvoiceReceiptLogic>();
 
-
-            // iterate through the PREVIOUS list.  compare each entry with the ones provided by the user.  If the amount is changed, we need to save the modifications to the database
-            if (InvoiceDataList != null)
-            {
-                foreach (InvoiceReceiptLogic irPrev in previousIrData)
+                if (e.SaveMode.Equals(TDataRecordSaveMode.smUpdate))
                 {
-                    foreach (ReceiptInvoice riNew in InvoiceDataList)  // iterate through the list provided by the user
+                    // ask the database for the previous list of Invoices and Amounts related to this Receipt
+                    InvoiceReceiptLogic irLoader = new InvoiceReceiptLogic();
+                    irLoader.SetDependencies(AppConfig, UserSession);
+                    irLoader.ReceiptId = ReceiptId;
+                    BrowseRequest request = new BrowseRequest();
+                    IDictionary<string, object> uniqueIds = ((IDictionary<string, object>)request.uniqueids);
+                    uniqueIds.Add("ReceiptId", ReceiptId);
+                    request.uniqueids = uniqueIds;
+                    previousIrData = irLoader.SelectAsync<InvoiceReceiptLogic>(request).Result;  // here is the list with the previous data
+                }
+
+
+                // iterate through the PREVIOUS list.  compare each entry with the ones provided by the user.  If the amount is changed, we need to save the modifications to the database
+                if (InvoiceDataList != null)
+                {
+                    foreach (InvoiceReceiptLogic irPrev in previousIrData)
                     {
-                        if (irPrev.InvoiceReceiptId.ToString().Equals(riNew.InvoiceReceiptId)) // find the record that matches this InvoiceReceiptId
+                        foreach (ReceiptInvoice riNew in InvoiceDataList)  // iterate through the list provided by the user
                         {
-                            if (!irPrev.Amount.Equals(riNew.Amount))
+                            if (irPrev.InvoiceReceiptId.ToString().Equals(riNew.InvoiceReceiptId)) // find the record that matches this InvoiceReceiptId
                             {
-                                InvoiceReceiptLogic irNew = irPrev.MakeCopy<InvoiceReceiptLogic>();
-                                irNew.Amount = riNew.Amount;
-                                irNew.SetDependencies(AppConfig, UserSession);
-                                int saveCount = irNew.SaveAsync(irPrev, conn: e.SqlConnection).Result;
+                                if (!irPrev.Amount.Equals(riNew.Amount))
+                                {
+                                    InvoiceReceiptLogic irNew = irPrev.MakeCopy<InvoiceReceiptLogic>();
+                                    irNew.Amount = riNew.Amount;
+                                    irNew.SetDependencies(AppConfig, UserSession);
+                                    int saveCount = irNew.SaveAsync(irPrev, conn: e.SqlConnection).Result;
+                                }
                             }
                         }
                     }
                 }
-            }
 
-            // iterate through the NEW list.  anything without an InvoiceReceiptId is new, we need to save these
-            if (InvoiceDataList != null)
-            {
-                foreach (ReceiptInvoice ri in InvoiceDataList)
+                // iterate through the NEW list.  anything without an InvoiceReceiptId is new, we need to save these
+                if (InvoiceDataList != null)
                 {
-                    if ((string.IsNullOrEmpty(ri.InvoiceReceiptId)) && (ri.Amount != 0))
+                    foreach (ReceiptInvoice ri in InvoiceDataList)
                     {
-                        InvoiceReceiptLogic irNew = new InvoiceReceiptLogic();
-                        irNew.SetDependencies(AppConfig, UserSession);
-                        irNew.ReceiptId = ReceiptId;
-                        irNew.InvoiceId = ri.InvoiceId;
-                        irNew.Amount = ri.Amount;
-                        irNew.SetDependencies(AppConfig, UserSession);
-                        int saveCount = irNew.SaveAsync(null, conn: e.SqlConnection).Result;
-                        ri.InvoiceReceiptId = irNew.InvoiceReceiptId.ToString(); //jh 03/19/2019 provide the ID of the new payment record back with the response
+                        if ((string.IsNullOrEmpty(ri.InvoiceReceiptId)) && (ri.Amount != 0))
+                        {
+                            InvoiceReceiptLogic irNew = new InvoiceReceiptLogic();
+                            irNew.SetDependencies(AppConfig, UserSession);
+                            irNew.ReceiptId = ReceiptId;
+                            irNew.InvoiceId = ri.InvoiceId;
+                            irNew.Amount = ri.Amount;
+                            irNew.SetDependencies(AppConfig, UserSession);
+                            int saveCount = irNew.SaveAsync(null, conn: e.SqlConnection).Result;
+                            ri.InvoiceReceiptId = irNew.InvoiceReceiptId.ToString(); //jh 03/19/2019 provide the ID of the new payment record back with the response
+                        }
+                        invoiceAmountTotal += ri.Amount;
                     }
-                    invoiceAmountTotal += ri.Amount;
                 }
             }
 
+            {
+                // here we are applying the refund amount to indicated Credits
+                List<DepositPaymentLogic> previousDpData = new List<DepositPaymentLogic>();
 
+                if (e.SaveMode.Equals(TDataRecordSaveMode.smUpdate))
+                {
+                    // ask the database for the previous list of Credits and Amounts related to this Receipt
+                    DepositPaymentLogic dpLoader = new DepositPaymentLogic();
+                    dpLoader.SetDependencies(AppConfig, UserSession);
+                    dpLoader.PaymentId = ReceiptId;
+                    BrowseRequest request = new BrowseRequest();
+                    IDictionary<string, object> uniqueIds = ((IDictionary<string, object>)request.uniqueids);
+                    uniqueIds.Add("Payment", ReceiptId);
+                    request.uniqueids = uniqueIds;
+                    previousDpData = dpLoader.SelectAsync<DepositPaymentLogic>(request).Result;  // here is the list with the previous data
+                }
 
+                // iterate through the PREVIOUS list.compare each entry with the ones provided by the user.  If the amount is changed, we need to save the modifications to the database
+                if (CreditDataList != null)
+                {
+                    foreach (DepositPaymentLogic dpPrev in previousDpData)
+                    {
+                        foreach (ReceiptCredit rcNew in CreditDataList)  // iterate through the list provided by the user
+                        {
+                            if (dpPrev.Id.ToString().Equals(rcNew.CreditReceiptId)) // find the record that matches this CreditReceiptId
+                            {
+                                if (!dpPrev.Applied.Equals(rcNew.Amount))
+                                {
+                                    DepositPaymentLogic dpNew = dpPrev.MakeCopy<DepositPaymentLogic>();
+                                    dpNew.Applied = rcNew.Amount;
+                                    dpNew.SetDependencies(AppConfig, UserSession);
+                                    int saveCount = dpNew.SaveAsync(dpPrev, conn: e.SqlConnection).Result;
+                                }
+                            }
+                        }
+                    }
+                }
 
-
-
-
-
-
-            //----- CREDIT DATA LIST
-            // iterate through the PREVIOUS list.  compare each entry with the ones provided by the user.  If the amount is changed, we need to save the modifications to the database
-            //if (CreditDataList != null)
-            //{
-            //    foreach (InvoiceReceiptLogic irPrev in previousIrData)
-            //    {
-            //        foreach (ReceiptCredit riNew in CreditDataList)  // iterate through the list provided by the user
-            //        {
-            //            if (irPrev.InvoiceReceiptId.ToString().Equals(riNew.CreditReceiptId)) // find the record that matches this CreditReceiptId
-            //            {
-            //                if (!irPrev.Amount.Equals(riNew.Amount))
-            //                {
-            //                    InvoiceReceiptLogic irNew = irPrev.MakeCopy<InvoiceReceiptLogic>();
-            //                    irNew.Amount = riNew.Amount;
-            //                    irNew.SetDependencies(AppConfig, UserSession);
-            //                    int saveCount = irNew.SaveAsync(irPrev, conn: e.SqlConnection).Result;
-            //                }
-            //            }
-            //        }
-            //    }
-            //}
-
-            // iterate through the NEW list.  anything without an CreditReceiptId is new, we need to save these
-            //if (CreditDataList != null)
-            //{
-            //    foreach (ReceiptCredit ri in CreditDataList)
-            //    {
-            //        if ((string.IsNullOrEmpty(ri.CreditReceiptId)) && (ri.Amount != 0))
-            //        {
-            //            InvoiceReceiptLogic irNew = new InvoiceReceiptLogic();
-            //            irNew.SetDependencies(AppConfig, UserSession);
-            //            irNew.ReceiptId = ReceiptId;
-            //            irNew.CreditId = ri.CreditId;
-            //            irNew.Amount = ri.Amount;
-            //            irNew.SetDependencies(AppConfig, UserSession);
-            //            int saveCount = irNew.SaveAsync(null, conn: e.SqlConnection).Result;
-            //            ri.CreditReceiptId = irNew.CreditReceiptId.ToString();                                                                                    //commented becquse this requires a separate logic file that i dont have or that the credit particular fields are not present within InvoiceReceiptLogic
-            //        }
-            //        invoiceAmountTotal += ri.Amount;
-            //    }
-            //}
-
-
-
-
-
-
-
-
+                //   iterate through the NEW list.anything without an CreditReceiptId is new, we need to save these
+                if (CreditDataList != null)
+                {
+                    foreach (ReceiptCredit rcNew in CreditDataList)
+                    {
+                        if ((string.IsNullOrEmpty(rcNew.CreditReceiptId)) && (rcNew.Amount != 0))
+                        {
+                            DepositPaymentLogic dpNew = new DepositPaymentLogic();
+                            dpNew.SetDependencies(AppConfig, UserSession);
+                            dpNew.PaymentId = ReceiptId;
+                            dpNew.DepositId = rcNew.CreditId;
+                            dpNew.Applied = rcNew.Amount;
+                            dpNew.SetDependencies(AppConfig, UserSession);
+                            int saveCount = dpNew.SaveAsync(null, conn: e.SqlConnection).Result;
+                            rcNew.CreditReceiptId = dpNew.Id.ToString();  
+                        }
+                        invoiceAmountTotal += rcNew.Amount;
+                    }
+                }
+            }
 
             if ((e.SaveMode.Equals(TDataRecordSaveMode.smInsert)) && (paymentAmount > invoiceAmountTotal) && (string.IsNullOrEmpty(DealDepositId)) && (string.IsNullOrEmpty(CustomerDepositId)))
             {
@@ -767,7 +770,8 @@ namespace WebApi.Modules.Billing.Receipt
                 s.SetDependencies(AppConfig, UserSession);
                 s.SystemSettingsId = RwConstants.CONTROL_ID;
                 bool b = s.LoadAsync<SystemSettingsLogic>().Result;
-                if (s.AllowDeleteExportedBeceipts.GetValueOrDefault(false)) {
+                if (s.AllowDeleteExportedBeceipts.GetValueOrDefault(false))
+                {
                     e.PerformDelete = false;
                     e.ErrorMessage = $"Receipt has already been exported.  Are you sure you want to delete?";
                 }
