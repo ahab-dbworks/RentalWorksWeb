@@ -26,7 +26,7 @@ namespace WebApi.Modules.Billing.Receipt
     {
         public string CreditReceiptId { get; set; }
         public string CreditId { get; set; }
-        public decimal? Amount { get; set; }
+        public decimal Amount { get; set; }
     }
 
     [FwLogic(Id: "5XIpJJ8C7Ywx")]
