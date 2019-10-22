@@ -93,8 +93,8 @@ namespace WebApi.Modules.Utilities.QuikActivity
             {
                 foreach (List<object> row in dt.Rows)
                 {
-                    string orderType = row[dt.GetColumnNo("OrderType")].ToString();
-                    row[dt.GetColumnNo("OrderTypeController")] = AppFunc.GetOrderTypeFronEndControllerName(orderType);
+                    string orderTypeDescription = row[dt.GetColumnNo("OrderType")].ToString();
+                    row[dt.GetColumnNo("OrderTypeController")] = AppFunc.GetOrderTypeDescriptionFronEndControllerName(orderTypeDescription);
                 }
             }
 

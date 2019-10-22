@@ -361,30 +361,30 @@ namespace WebApi.Logic
             return orderTypeDescription;
         }
         //-------------------------------------------------------------------------------------------------------
-        public static string GetOrderTypeFronEndControllerName(string orderType)
+        public static string GetOrderTypeDescriptionFronEndControllerName(string orderTypeDescription)
         {
             string frontEndControllerName = "Unknown";
-            switch (orderType)
+            switch (orderTypeDescription)
             {
-                case RwConstants.ORDER_TYPE_QUOTE:
+                case RwConstants.ORDER_TYPE_DESCRIPTION_RESERVED:
                     frontEndControllerName = "Quote";
                     break;
-                case RwConstants.ORDER_TYPE_ORDER:
+                case RwConstants.ORDER_TYPE_DESCRIPTION_ORDER:
                     frontEndControllerName = "Order";
                     break;
-                case RwConstants.ORDER_TYPE_PROJECT:
+                case RwConstants.ORDER_TYPE_DESCRIPTION_PROJECT:
                     frontEndControllerName = "Project";
                     break;
-                case RwConstants.ORDER_TYPE_PURCHASE_ORDER:
+                case RwConstants.ORDER_TYPE_DESCRIPTION_PURCHASE_ORDER:
                     frontEndControllerName = "PurchaseOrder";
                     break;
-                case RwConstants.ORDER_TYPE_TRANSFER:
+                case RwConstants.ORDER_TYPE_DESCRIPTION_TRANSFER:
                     frontEndControllerName = "TransferOrder";
                     break;
-                case RwConstants.ORDER_TYPE_CONTAINER:
+                case RwConstants.ORDER_TYPE_DESCRIPTION_CONTAINER:
                     frontEndControllerName = "Container";
                     break;
-                case RwConstants.ORDER_TYPE_REPAIR:
+                case RwConstants.ORDER_TYPE_DESCRIPTION_REPAIR:
                     frontEndControllerName = "Repair";
                     break;
             }
