@@ -361,6 +361,36 @@ namespace WebApi.Logic
             return orderTypeDescription;
         }
         //-------------------------------------------------------------------------------------------------------
+        public static string GetOrderTypeFronEndControllerName(string orderType)
+        {
+            string frontEndControllerName = "Unknown";
+            switch (orderType)
+            {
+                case RwConstants.ORDER_TYPE_QUOTE:
+                    frontEndControllerName = "Quote";
+                    break;
+                case RwConstants.ORDER_TYPE_ORDER:
+                    frontEndControllerName = "Order";
+                    break;
+                case RwConstants.ORDER_TYPE_PROJECT:
+                    frontEndControllerName = "Project";
+                    break;
+                case RwConstants.ORDER_TYPE_PURCHASE_ORDER:
+                    frontEndControllerName = "PurchaseOrder";
+                    break;
+                case RwConstants.ORDER_TYPE_TRANSFER:
+                    frontEndControllerName = "TransferOrder";
+                    break;
+                case RwConstants.ORDER_TYPE_CONTAINER:
+                    frontEndControllerName = "Container";
+                    break;
+                case RwConstants.ORDER_TYPE_REPAIR:
+                    frontEndControllerName = "Repair";
+                    break;
+            }
+            return frontEndControllerName;
+        }
+        //-------------------------------------------------------------------------------------------------------
         public static string GetCompanyTypeColor(string companyType)
         {
             string companyTypeColor = null;

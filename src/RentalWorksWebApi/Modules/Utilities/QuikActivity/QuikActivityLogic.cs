@@ -28,6 +28,12 @@ namespace WebApi.Modules.Utilities.QuikActivity
         [FwLogicProperty(Id: "WLkc5TblFXg8U")]
         public string OrderNumber { get; set; }
 
+        [FwLogicProperty(Id: "WuIniVBRJR6IT")]
+        public string OrderType { get; set; }
+
+        [FwLogicProperty(Id: "0lhZ515LxrDGl")]
+        public string OrderTypeController { get; set; }
+
         [FwLogicProperty(Id: "DKYiaPmxnoahF")]
         public string OrderDescription { get; set; }
 

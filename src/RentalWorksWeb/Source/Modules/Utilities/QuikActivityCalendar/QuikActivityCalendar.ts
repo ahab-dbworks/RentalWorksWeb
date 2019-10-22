@@ -83,7 +83,7 @@ class QuikActivityCalendar {
                         </div>
                       </div>
                       <div class="flexrow">
-                        <div data-control="FwGrid" data-grid="QuikActivityGrid" data-securitycaption="QuikActivity" style="overflow:auto;max-height:70vh;"></div>
+                        <div data-control="FwGrid" data-grid="QuikActivityGrid" data-securitycaption="QuikActivity" style="overflow:auto;max-height:80vh;"></div>
                       </div>
                     </div>
                 </div>`);

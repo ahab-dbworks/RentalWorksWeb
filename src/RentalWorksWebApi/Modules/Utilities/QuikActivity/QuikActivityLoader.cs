@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Reflection;
 using System.Data;
 using System;
+using WebApi.Logic;
 
 namespace WebApi.Modules.Utilities.QuikActivity
 {
@@ -25,6 +26,12 @@ namespace WebApi.Modules.Utilities.QuikActivity
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderid", modeltype: FwDataTypes.Text)]
         public string OrderId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "ordertype", modeltype: FwDataTypes.Text)]
+        public string OrderType { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "", modeltype: FwDataTypes.Text)]
+        public string OrderTypeController { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderno", modeltype: FwDataTypes.Text)]
         public string OrderNumber { get; set; }
@@ -81,6 +88,16 @@ namespace WebApi.Modules.Utilities.QuikActivity
                     dt = await qry.QueryToFwJsonTableAsync(false, 0);
                 }
             }
+
+            if (dt.Rows.Count > 0)
+            {
+                foreach (List<object> row in dt.Rows)
+                {
+                    string orderType = row[dt.GetColumnNo("OrderType")].ToString();
+                    row[dt.GetColumnNo("OrderTypeController")] = AppFunc.GetOrderTypeFronEndControllerName(orderType);
+                }
+            }
+
             return dt;
         }
         //------------------------------------------------------------------------------------
