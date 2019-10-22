@@ -74,7 +74,7 @@ class QuikActivityCalendar {
         let activityTypes = '';
 
         let $popup = jQuery(`
-                <div id="quikActivityPopup" class="fwform fwcontrol fwcontainer"  data-control="FwContainer" data-type="form" style="max-height:85vh;min-width:56vw;background-color:white; padding:10px; border:2px solid gray;">
+                <div id="quikActivityPopup" class="fwform fwcontrol fwcontainer"  data-control="FwContainer" data-type="form" style="max-height:90vh;max-width:90vw;background-color:white; padding:10px; border:2px solid gray;">
                     <div class="close-modal"><i class="material-icons">clear</i><div class="btn-text">Close</div></div>
                     <div class="flexcolumn">
                       <div class="flexrow">
@@ -111,7 +111,7 @@ class QuikActivityCalendar {
         $popup.find('[data-datafield="Summary"]').on('change', e => {
             const isSummary = FwFormField.getValueByDataField($popup, 'Summary');
             const $detailColumns = $quikActivityGrid
-                .find('[data-browsedatafield="ICode"], [data-browsedatafield="Description"], [data-browsedatafield="Quantity"]')
+                .find('[data-browsedatafield="ICode"], [data-browsedatafield="Description"]')
                 .parents('.column');
             if (isSummary == 'true') {
                 $detailColumns.hide();
