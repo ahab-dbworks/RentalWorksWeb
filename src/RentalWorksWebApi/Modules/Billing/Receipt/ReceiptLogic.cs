@@ -708,9 +708,9 @@ namespace WebApi.Modules.Billing.Receipt
                             dpNew.Applied = rcNew.Amount;
                             dpNew.SetDependencies(AppConfig, UserSession);
                             int saveCount = dpNew.SaveAsync(null, conn: e.SqlConnection).Result;
-                            rcNew.CreditReceiptId = dpNew.Id.ToString();  
+                            rcNew.CreditReceiptId = dpNew.Id.ToString();
                         }
-                        invoiceAmountTotal += rcNew.Amount;
+                        invoiceAmountTotal += (decimal)rcNew.Amount;
                     }
                 }
             }

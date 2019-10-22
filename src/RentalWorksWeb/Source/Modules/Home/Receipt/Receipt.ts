@@ -577,7 +577,7 @@ class Receipt {
                 amountValBefore = $this.data('payAmountOnFocus');
                 if (amountValBefore) {
                     amountValBefore = amountValBefore.replace(/,/g, '');
-                    console.log('amountValBeforeinTOTAL', amountValBefore)
+                    //console.log('amountValBeforeinTOTAL', amountValBefore)
                 }
             }
             let totalTotal = new Decimal(0);
@@ -635,14 +635,14 @@ class Receipt {
                             // If Unapplied Amount >= "Due"  increase the "Amount" value by the "Due" value on the line
                             if (unappliedTotalPriorDecimal.greaterThanOrEqualTo(dueTotal)) {
                                 amountVal = dueTotal.plus(amountTotal);
-                                console.log('amountVal', amountVal)
+                              //  console.log('amountVal', amountVal)
 
                                 $amountFields.eq(i).val(amountVal.toFixed(2));
                             }
                             // If Unapplied Amount < "Due"  increase the "Amount" value by the Unapplied Amount value on the line
                             if (unappliedTotalPriorDecimal.lessThan(dueTotal)) {
                                 amountVal = amountTotal.plus(unappliedTotalPriorDecimal)
-                                console.log('amountVal', amountVal)
+                               // console.log('amountVal', amountVal)
 
                                 $amountFields.eq(i).val(amountVal.toFixed(2));
                             }
@@ -762,7 +762,7 @@ class Receipt {
                         }
                         calculateInvoiceTotals($form, ev);
                         el.data('payAmountOnFocus', val); // reset line before total in case user doesnt leave input and changes again
-                        console.log('payAmountOnChange', el.data('payAmountOnFocus'))
+                       // console.log('payAmountOnChange', el.data('payAmountOnFocus'))
                     });
                     // Store intial amount value for calculations after change
                     $form.find('.pay-amount input').on('focus', ev => {
@@ -773,7 +773,7 @@ class Receipt {
                             val = '0.00'
                         }
                         el.data('payAmountOnFocus', val);
-                        console.log('payAmountOnFocusOUTSIDE', el.data('payAmountOnFocus'))
+                        //console.log('payAmountOnFocusOUTSIDE', el.data('payAmountOnFocus'))
                     });
                     // Amount to Apply listener
                     $form.find('.amount-to-apply input').on('change', ev => {
@@ -841,7 +841,7 @@ class Receipt {
                 amountValBefore = $this.data('payAmountOnFocus');
                 if (amountValBefore) {
                     amountValBefore = amountValBefore.replace(/,/g, '');
-                    console.log('amountValBeforeinTOTAL', amountValBefore)
+                    //console.log('amountValBeforeinTOTAL', amountValBefore)
                 }
             }
 
@@ -891,14 +891,14 @@ class Receipt {
                             // If Unapplied Amount >= "Due"  increase the "Amount" value by the "Due" value on the line
                             if (unappliedTotalPriorDecimal.greaterThanOrEqualTo(remainingTotal)) {
                                 amountVal = remainingTotal.plus(amountTotal);
-                                console.log('amountVal', amountVal);
+                                //console.log('amountVal', amountVal);
 
                                 $amountFields.eq(i).val(amountVal.toFixed(2));
                             }
                             // If Unapplied Amount < "Due"  increase the "Amount" value by the Unapplied Amount value on the line
                             if (unappliedTotalPriorDecimal.lessThan(remainingTotal)) {
                                 amountVal = amountTotal.plus(unappliedTotalPriorDecimal);
-                                console.log('amountVal', amountVal);
+                                //console.log('amountVal', amountVal);
 
                                 $amountFields.eq(i).val(amountVal.toFixed(2));
                             }
@@ -984,7 +984,7 @@ class Receipt {
                         else if (isWebAdmin === 'false') {
                             buttonPeek = '';
                         }
-                        htmlRows.push(`<tr class="row"><td class="text">${rows[i][res.ColumnIndex.ReceiptDate]}</td><td data-validationname="Deal" data-datafield="${rows[i][res.ColumnIndex.DealId]}" data-displayfield="${rows[i][res.ColumnIndex.Deal]}" class="text">${rows[i][res.ColumnIndex.Deal]}<i class="material-icons btnpeek">more_horiz</i></td><td class="text line-CreditId" style="display:none;">${rows[i][res.ColumnIndex.ReceiptId]}</td><td data-validationname="PaymentType" data-datafield="${rows[i][res.ColumnIndex.PaymentTypeId]}" data-displayfield="${rows[i][res.ColumnIndex.PaymentType]}" class="text">${rows[i][res.ColumnIndex.PaymentType]}${buttonPeek}</td><td data-validationname="${validationName}" data-datafield="${rows[i][res.ColumnIndex.ReceiptId]}" data-displayfield="${rows[i][res.ColumnIndex.CheckNumber]}" class="text"><span style="padding: 0px 2px 1px 2px;border:1px solid black;border-radius:2px;background-color:${rows[i][res.ColumnIndex.RecTypeColor]};">${rows[i][res.ColumnIndex.CheckNumber]}</span><i class="material-icons btnpeek">more_horiz</i></td><td style="text-align:right;" data-creditfield="CreditRemaining" class="decimal">${rows[i][res.ColumnIndex.Remaining]}</td><td data-enabled="true" data-isuniqueid="false" data-datafield="CreditAmount" data-creditfield="CreditAmount" class="decimal fwformfield"><input class="decimal fwformfield fwformfield-value" style="font-size:inherit;" type="text" autocapitalize="none" row-index="${i}" value="0.00"></td><td><div class="fwformcontrol credit-apply-btn" row-index="${i}" data-type="button" style="height:27px;padding:.3rem;line-height:13px;font-size:14px;">Apply All</div></td></tr>`);
+                        htmlRows.push(`<tr class="row"><td class="text">${rows[i][res.ColumnIndex.ReceiptDate]}</td><td data-validationname="Deal" data-datafield="${rows[i][res.ColumnIndex.DealId]}" data-displayfield="${rows[i][res.ColumnIndex.Deal]}" class="text">${rows[i][res.ColumnIndex.Deal]}<i class="material-icons btnpeek">more_horiz</i></td><td class="text" data-creditfield="ReceiptId" style="display:none;">${rows[i][res.ColumnIndex.ReceiptId]}</td><td class="text" data-creditfield="CreditReceiptId" style="display:none;">${rows[i][res.ColumnIndex.CreditReceiptId]}</td><td data-validationname="PaymentType" data-datafield="${rows[i][res.ColumnIndex.PaymentTypeId]}" data-displayfield="${rows[i][res.ColumnIndex.PaymentType]}" class="text">${rows[i][res.ColumnIndex.PaymentType]}${buttonPeek}</td><td data-validationname="${validationName}" data-datafield="${rows[i][res.ColumnIndex.ReceiptId]}" data-displayfield="${rows[i][res.ColumnIndex.CheckNumber]}" class="text"><span style="padding: 0px 2px 1px 2px;border:1px solid black;border-radius:2px;background-color:${rows[i][res.ColumnIndex.RecTypeColor]};">${rows[i][res.ColumnIndex.CheckNumber]}</span><i class="material-icons btnpeek">more_horiz</i></td><td style="text-align:right;" data-creditfield="CreditRemaining" class="decimal">${rows[i][res.ColumnIndex.Remaining]}</td><td data-enabled="true" data-isuniqueid="false" data-datafield="CreditAmount" data-creditfield="CreditAmount" class="decimal fwformfield"><input class="decimal fwformfield fwformfield-value" style="font-size:inherit;" type="text" autocapitalize="none" row-index="${i}" value="0.00"></td><td><div class="fwformcontrol credit-apply-btn" row-index="${i}" data-type="button" style="height:27px;padding:.3rem;line-height:13px;font-size:14px;">Apply All</div></td></tr>`);
                     }
 
 
@@ -1020,7 +1020,7 @@ class Receipt {
                         }
                         calculateInvoiceCreditTotals($form, ev);
                         el.data('payAmountOnFocus', val); // reset line before total in case user doesnt leave input and changes again
-                        console.log('payAmountOnChange', el.data('payAmountOnFocus'))
+                        //console.log('payAmountOnChange', el.data('payAmountOnFocus'))
                     });
                     // Store intial amount value for calculations after change
                     $form.find('[data-creditfield="CreditAmount"] input').on('focus', ev => {
@@ -1031,7 +1031,7 @@ class Receipt {
                             val = '0.00'
                         }
                         el.data('payAmountOnFocus', val);
-                        console.log('payAmountOnFocusOUTSIDE', el.data('payAmountOnFocus'))
+                        //console.log('payAmountOnFocusOUTSIDE', el.data('payAmountOnFocus'))
                     });
                     // Amount to Apply listener
                     $form.find('.amount-to-apply input').on('change', ev => {
@@ -1059,17 +1059,21 @@ class Receipt {
     }
     //----------------------------------------------------------------------------------------------
     getCreditFormTableData($form: JQuery): any {
-        const $creditReceiptIds = $form.find('.line-CreditId');
+        const $creditReceiptIds = $form.find('[data-creditfield="CreditReceiptId"]');
+        const $receiptIds = $form.find('[data-creditfield="ReceiptId"]');
+
         const $amountFields = $form.find('[data-creditfield="CreditAmount"] input');
         const CreditDataList: any = [];
-        const amountToApply = FwFormField.getValueByDataField($form, 'PaymentAmount');
-        for (let i = 0; i < $creditReceiptIds.length; i++) {
-            const creditId = $creditReceiptIds.eq(i).text();
+        for (let i = 0; i < $receiptIds.length; i++) {
+            const creditId = $receiptIds.eq(i).text();
+            const receiptCreditId = $creditReceiptIds.eq(i).text();
             let amount: any = $amountFields.eq(i).val();
             amount = amount.replace(/,/g, '');
 
             const fields: any = {}
-            fields.CreditReceiptId = +amountToApply;
+            if (receiptCreditId !== '') {
+                fields.CreditReceiptId = receiptCreditId;
+            }
             fields.CreditId = creditId;
             fields.Amount = +amount;
             CreditDataList.push(fields);
