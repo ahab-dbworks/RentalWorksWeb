@@ -352,11 +352,13 @@ class OrderBase {
             FwFormField.setValue($form, 'div[data-datafield="CoverLetterId"]', this.DefaultCoverLetterId, this.DefaultCoverLetter);
 
             FwFormField.setValue($form, 'div[data-datafield="PendingPo"]', true);
-            // Dynamic set value for user's dpt default activities
+            // Dynamic set value for user's department default activities
             const defaultActivities = department.activities;
-            for (let i = 0; i < defaultActivities.length; i++) {
-                if (defaultActivities[i] === 'Rental' || defaultActivities[i] === 'Sales' || defaultActivities[i] === 'Labor' || defaultActivities[i] === 'Miscellaneous')
-                    FwFormField.setValueByDataField($form, `${defaultActivities[i]}`, true);
+            if (defaultActivities) {
+                for (let i = 0; i < defaultActivities.length; i++) {
+                    if (defaultActivities[i] === 'Rental' || defaultActivities[i] === 'Sales' || defaultActivities[i] === 'Labor' || defaultActivities[i] === 'Miscellaneous')
+                        FwFormField.setValueByDataField($form, `${defaultActivities[i]}`, true);
+                }
             }
 
             // show/hide tabs based on Activity boxes checked
