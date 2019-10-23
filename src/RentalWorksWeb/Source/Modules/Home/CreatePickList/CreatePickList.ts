@@ -129,6 +129,9 @@ class CreatePickList {
                         FwModule.openSubModuleTab($form, $report);
                         FwModule.closeFormTab($tab);
                         FwFormField.setValueByDataField($report, 'PickListId', response.PickListId, response.PickListNumber);
+                        if (this.Type === 'Transfer') {
+                            FwFormField.setValueByDataField($report, 'OrderType', 'T');
+                        }
                         const $tabPage = FwTabs.getTabPageByElement($report);
                         const $reporttab = FwTabs.getTabByElement(jQuery($tabPage));
                         $reporttab.find('.caption').html('Print Pick List');

@@ -22,6 +22,7 @@ const pickListTemplate = `
                     <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                       <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="New Page for each Inventory Type" data-datafield="NewPagePerType"></div>
                     </div>
+                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="OrderType" data-savesetting="false" style="display:none;"></div>
                   </div>
                 </div>
               </div>
@@ -55,6 +56,11 @@ class PickListReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     openForm() {
         const $form = this.getFrontEnd();
+
+        $form.find('div[data-datafield="PickListId"]').data('onchange', $tr => {
+            FwFormField.setValue($form, 'div[data-datafield="OrderType"]', $tr.find('.field[data-formdatafield="OrderType"]').attr('data-originalvalue'));
+        });
+
         return $form;
     }
     //----------------------------------------------------------------------------------------------

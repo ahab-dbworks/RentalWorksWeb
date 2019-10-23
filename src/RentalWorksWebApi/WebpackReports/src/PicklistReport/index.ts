@@ -20,15 +20,17 @@ export class PickListReport extends WebpackReport {
                     const data: any = response;
                     data.rows = DataTable.toObjectList(response.Items);
                     data.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
-                    data.Report = 'PICK LIST';
                     data.System = 'RENTALWORKS';
                     data.Company = parameters.companyName;
                     data.NewPagePerType = parameters.NewPagePerType;
                     data.rows[1].IsFirstInventoryTypeHeader = true;
 
+                    parameters.OrderType === 'T' ? data.Report = 'TRANSFER PICK LIST' : data.Report = 'PICK LIST';
+
                     const qr = QrCodeGen.QrCode.encodeText(data.OrderNumber, QrCodeGen.Ecc.MEDIUM);
                     const svg = qr.toSvgString(4);
                     data.QrCode = svg;
+
                     console.log(data);
 
                     this.renderFooterHtml(data);
