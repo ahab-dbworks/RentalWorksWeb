@@ -35,7 +35,7 @@ export class MediumRegressionTest extends BaseTest {
     async MediumRegressionOnModule(module: ModuleBase) {
         let testName: string = "";
         describe(module.moduleCaption, () => {
-            const testCollectionName = `Open browse, create new (if allowed), save, seek, open, validate, close, seek, delete (if allowed)`;
+            const testCollectionName = `Medium Regression`;
             describe(testCollectionName, () => {
                 //---------------------------------------------------------------------------------------
                 testName = `Open ${module.moduleCaption} browse`;

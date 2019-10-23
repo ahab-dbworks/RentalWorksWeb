@@ -31,10 +31,10 @@ export abstract class BaseTest {
     //---------------------------------------------------------------------------------------
     async VerifyTestToken() {
         let testName: string = "";
-        const testCollectionName = `Verify Test Token`;
+        const testCollectionName = `Test Token`;
         describe(testCollectionName, () => {
             //---------------------------------------------------------------------------------------
-            testName = `Verify Test Token ${this.testToken}`;
+            testName = `Test Token ${this.testToken}`;
             test(testName, async () => {
                 expect(this.testToken).not.toBe("");
                 //GlobalScope.TestToken~1.TestToken

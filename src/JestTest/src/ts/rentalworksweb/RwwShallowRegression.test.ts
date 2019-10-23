@@ -33,7 +33,7 @@ export class ShallowRegressionTest extends BaseTest {
     async ShallowRegressionOnModule(module: ModuleBase, registerGlobal?: boolean) {
         let testName: string = "";
         describe(module.moduleCaption, () => {
-            const testCollectionName = `Open browse and first form (if any), click all tabs`;
+            const testCollectionName = `Shallow Regression`;
             describe(testCollectionName, () => {
                 //---------------------------------------------------------------------------------------
                 testName = `Open ${module.moduleCaption} browse`;
