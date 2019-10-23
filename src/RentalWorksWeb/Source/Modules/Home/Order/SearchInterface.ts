@@ -42,8 +42,9 @@ class SearchInterface {
                               <div class="fwmenu default"></div>
                               <div style="display:flex;flex:0 0 auto;align-items:center;">
                                 <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield" data-caption="" data-datafield="InventoryType"></div>
-                                <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield fwformcontrol" data-caption="Est. Start" data-datafield="FromDate" style="flex: 0 1 135px;"></div>
-                                <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield fwformcontrol" data-caption="Est. Stop" data-datafield="ToDate" style="flex: 0 1 135px;"></div>
+                                <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield fwformcontrol" data-caption="Pick Date" data-datafield="PickDate" style="flex: 0 1 135px;"></div>                                
+                                <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield fwformcontrol" data-caption="From Date" data-datafield="FromDate" style="flex: 0 1 135px;"></div>
+                                <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield fwformcontrol" data-caption="To Date" data-datafield="ToDate" style="flex: 0 1 135px;"></div>
                                 <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield fwformcontrol" data-caption="Select" data-datafield="Select" style="flex: 0 1 150px;"></div>
                                 <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield fwformcontrol" data-caption="Sort By" data-datafield="SortBy" style="flex: 0 1 255px;"></div>
                                 <div data-type="button" class="fwformcontrol addToOrder">Add to ${buttonCaption}</div>
@@ -188,6 +189,7 @@ class SearchInterface {
 
         let startDate;
         let stopDate;
+        let pickDate;
         switch (type) {
             case 'Main':
                 const department = JSON.parse(sessionStorage.getItem('department')); 
@@ -212,17 +214,20 @@ class SearchInterface {
                 break;
             case 'Order':
             case 'Quote':
+                pickDate = FwFormField.getValueByDataField($form, 'PickDate');
                 startDate = FwFormField.getValueByDataField($form, 'EstimatedStartDate');
                 stopDate = FwFormField.getValueByDataField($form, 'EstimatedStopDate');
                 FwFormField.setValueByDataField($popup, 'FromDate', startDate);
                 FwFormField.setValueByDataField($popup, 'ToDate', stopDate);
+                FwFormField.setValueByDataField($popup, 'PickDate', pickDate);
                 break;
             case 'PurchaseOrder':
+                $popup.find('[data-datafield="PickDate"]').hide();
                 startDate = FwFormField.getValueByDataField($form, 'PurchaseOrderDate');
                 FwFormField.setValueByDataField($popup, 'FromDate', startDate);
                 break;
             case 'Transfer':
-                let pickDate = FwFormField.getValueByDataField($form, 'PickDate');
+                pickDate = FwFormField.getValueByDataField($form, 'PickDate');
                 let shipDate = FwFormField.getValueByDataField($form, 'ShipDate');
                 if (new Date(pickDate).getTime() == new Date(shipDate).getTime()) {
                     startDate = pickDate;
@@ -232,6 +237,7 @@ class SearchInterface {
                     startDate = pickDate;
                 }
                 FwFormField.setValueByDataField($popup, 'FromDate', startDate);
+                FwFormField.setValueByDataField($popup, 'PickDate', pickDate);
                 break;
         }
 
