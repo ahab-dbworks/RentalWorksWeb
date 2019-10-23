@@ -526,8 +526,15 @@ export class CustomerCategory extends SettingsModule {
                 },
                 seekObject: {
                     CustomerCategory: "GlobalScope.TestToken~1.TestToken",
-                }
-            }
+                },
+				attemptDuplicate: true,
+            },
+            {
+                record: {
+                    CustomerCategory: "",
+                },
+                expectedErrorFields: ["CustomerCategory"]
+            },
         ];
         this.newRecordsToCreate[0].recordToExpect = {
             CustomerCategory: this.newRecordsToCreate[0].record.CustomerCategory.toUpperCase(),
@@ -560,8 +567,16 @@ export class CustomerStatus extends SettingsModule {
                 },
                 seekObject: {
                     CustomerStatus: "GlobalScope.TestToken~1.ShortTestToken",
-                }
-            }
+                },
+				attemptDuplicate: true,
+            },
+            {
+                record: {
+                    CustomerStatus: "",
+                    StatusType: "H",
+                },
+                expectedErrorFields: ["CustomerStatus"]
+            },
         ];
         this.newRecordsToCreate[0].recordToExpect = {
             CustomerStatus: this.newRecordsToCreate[0].record.CustomerStatus.toUpperCase(),
@@ -600,8 +615,15 @@ export class CustomerType extends SettingsModule {
                 },
                 seekObject: {
                     CustomerType: "GlobalScope.TestToken~1.TestToken",
-                }
-            }
+                },
+				attemptDuplicate: true,
+            },
+            {
+                record: {
+                    CustomerType: "",
+                },
+                expectedErrorFields: ["CustomerType"],
+            },
         ];
         this.newRecordsToCreate[0].recordToExpect = {
             CustomerType: this.newRecordsToCreate[0].record.CustomerType.toUpperCase(),
@@ -635,8 +657,15 @@ export class DealClassification extends SettingsModule {
                 },
                 seekObject: {
                     DealClassification: "GlobalScope.TestToken~1.TestToken",
-                }
-            }
+                },
+				attemptDuplicate: true,
+            },
+            {
+                record: {
+                    DealClassification: "",
+                },
+                expectedErrorFields: ["DealClassification"],
+            },
         ];
         this.newRecordsToCreate[0].recordToExpect = {
             DealClassification: this.newRecordsToCreate[0].record.DealClassification.toUpperCase(),
@@ -664,12 +693,20 @@ export class DealType extends SettingsModule {
             {
                 record: {
                     DealType: "GlobalScope.TestToken~1.TestToken",
-                    WhiteText: true
+                    WhiteText: true,
                 },
                 seekObject: {
                     DealType: "GlobalScope.TestToken~1.TestToken",
-                }
-            }
+                },
+				attemptDuplicate: true,
+            },
+            {
+                record: {
+                    DealType: "",
+                    WhiteText: true
+                },
+				expectedErrorFields: ["DealType"]
+            },
         ];
         this.newRecordsToCreate[0].recordToExpect = {
             DealType: this.newRecordsToCreate[0].record.DealType.toUpperCase(),
@@ -704,8 +741,16 @@ export class DealStatus extends SettingsModule {
                 },
                 seekObject: {
                     DealStatus: "GlobalScope.TestToken~1.MediumTestToken",
-                }
-            }
+                },
+				attemptDuplicate: true,
+            },
+            {
+                record: {
+                    DealStatus: "",
+                    StatusType: "H",
+                },
+				expectedErrorFields: ["DealStatus"]
+            },
         ];
         this.newRecordsToCreate[0].recordToExpect = {
             DealStatus: this.newRecordsToCreate[0].record.DealStatus.toUpperCase(),
@@ -739,8 +784,16 @@ export class ProductionType extends SettingsModule {
                 },
                 seekObject: {
                     ProductionType: "GlobalScope.TestToken~1.TestToken",
-                }
-            }
+                },
+				attemptDuplicate: true,
+            },
+            {
+                record: {
+                    ProductionType: "",
+                    ProductionTypeCode: "GlobalScope.TestToken~1.MediumTestToken",
+                },
+				expectedErrorFields: ["ProductionType"]
+            },
         ];
         this.newRecordsToCreate[0].recordToExpect = {
             ProductionType: this.newRecordsToCreate[0].record.ProductionType.toUpperCase(),

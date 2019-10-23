@@ -665,6 +665,7 @@ export class ModuleBase {
                     case 'zipcode':
                     case 'percent':
                     case 'number':
+                    case 'date':
                     case 'password':
                     case 'text':
                         currentValue = await this.getDataFieldValue(fieldToPopulate);
@@ -740,6 +741,7 @@ export class ModuleBase {
                     case 'textarea':
                     case 'percent':
                     case 'number':
+                    case 'date':
                     case 'password':
                     case 'key':
                         value = await this.getDataFieldValue(dataField);
@@ -997,6 +999,7 @@ export class ModuleBase {
                 case 'percent':
                 case 'number':
                 case 'password':
+                case 'date':
                 case 'text':
                     gridFieldSelector = `${gridSelector} .tablewrapper table tbody tr td div[data-browsedatafield="${fieldToPopulate}"] input`;
                     currentValue = await page.$eval(gridFieldSelector, (e: any) => e.value);

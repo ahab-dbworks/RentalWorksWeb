@@ -297,8 +297,13 @@ export class TestUtils {
         return faker.lorem.words(wordCount)
     }
     //-----------------------------------------------------------------------------------------------------------------
-    static randomRecentDate(days?: number): string {
-        return faker.date.recent(days).toDateString();
+    static randomRecentDateMDY(recentDays?: number, separator: string = "/"): string {
+        let randomDate = faker.date.recent(recentDays);
+        const year = randomDate.getFullYear().toString();
+        const month = (randomDate.getMonth() + 1).toString();
+        const date = randomDate.getDate().toString();
+        const randomDateStr = month.padStart(2, '0') + separator + date.padStart(2, '0') + separator + year.padStart(4, '0');
+        return randomDateStr;
     }
     //-----------------------------------------------------------------------------------------------------------------
 }

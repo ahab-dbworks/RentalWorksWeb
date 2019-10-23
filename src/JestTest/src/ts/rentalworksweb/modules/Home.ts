@@ -290,8 +290,10 @@ export class Contact extends HomeModule {
         this.moduleId = '3F803517-618A-41C0-9F0B-2C96B8BDAFC4';
         this.moduleCaption = 'Contact';
         let companyGrid: GridBase = new GridBase("ContactCompanyGrid");
+        let eventGrid: GridBase = new GridBase("ContactPersonalEventGrid");
         let noteGrid: GridBase = new GridBase("ContactNoteGrid");
         this.grids.push(companyGrid);
+        this.grids.push(eventGrid);
         this.grids.push(noteGrid);
 
         this.newRecordsToCreate = [
@@ -325,6 +327,15 @@ export class Contact extends HomeModule {
                         CompanyId: 5,
                         ContactTitleId: 4,
                         OfficePhone: TestUtils.randomPhone(),
+                    }
+                }
+            },
+            {
+                grid: eventGrid,
+                recordToCreate: {
+                    record: {
+                        ContactEventId: 1,
+						EventDate: TestUtils.randomRecentDateMDY(30, ""),
                     }
                 }
             },
