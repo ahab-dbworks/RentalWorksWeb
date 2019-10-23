@@ -1130,7 +1130,7 @@ export class ModuleBase {
             await page.click(`#${tabId}`);
         }
 
-        let gridContextMenuSelector = `${gridSelector} .tablewrapper table tbody tr .browsecontextmenu`;
+        let gridContextMenuSelector = `${gridSelector} .tablewrapper table tbody tr .browsecontextmenu i`;
         Logging.logInfo(`About to wait for row context menu: ${gridContextMenuSelector}`);
         await page.waitForSelector(gridContextMenuSelector, { visible: true });
         await page.click(gridContextMenuSelector);     // here is where the problem is for #1188.  If there is a checkbox column in the grid, the context menu button is unclickable.  Z-index?
