@@ -89,6 +89,13 @@ class Contract {
             { value: 'SHIP', text: 'Ship to Customer' },
             { value: 'PICK UP', text: 'Customer Pick Up' }
         ], true);
+        //Toggle Buttons - SubRental tab - Sub-Rental totals
+        FwFormField.loadItems($form.find('div[data-datafield="DeliveryAddressType"]'), [
+            { value: 'DEAL', caption: 'Deal' },
+            { value: 'VENUE', caption: 'Venue' },
+            { value: 'WAREHOUSE', caption: 'Warehouse' },
+            { value: 'OTHER', caption: 'Other'}
+        ]);
         this.events($form);
         return $form;
     }
@@ -487,7 +494,7 @@ class Contract {
                     <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Rental" data-datafield="Rental" style="float:left;width:250px;display:none;"></div>
                     <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Exchange" data-datafield="Exchange" style="float:left;width:250px;display:none;"></div>
                     <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="BillingDateAdjusted" data-datafield="BillingDateAdjusted" style="float:left;width:250px;display:none;"></div>
-                    <div data-control="FwFormField" data-type="validation" data-validationname="DealValidation" data-displayfield="Deal" class="fwcontrol fwformfield" data-caption="Department" data-datafield="DealId" style="float:left;width:250px;display:none;" data-enabled="false"></div>
+                    <div data-control="FwFormField" data-type="validation" data-validationname="DealValidation" data-displayfield="Deal" class="fwcontrol fwformfield" data-caption="Deal" data-datafield="DealId" style="float:left;width:250px;display:none;" data-enabled="false"></div>
                     <div class="print fwformcontrol" data-type="button" style="flex:1 1 50px;margin:15px 0 0 10px;">Print</div>
                   </div>
                 </div>
@@ -550,15 +557,10 @@ class Contract {
                       </div>
                     </div>
                     <div class="flexrow">
-                      <div class="flexcolumn" style="width:25%;flex:0 1 auto;">
-                        <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="Address" data-datafield="DeliveryAddressType">
-                          <div data-value="DEAL" data-caption="Deal"></div>
-                          <div data-value="OTHER" data-caption="Other"></div>
-                          <div data-value="VENUE" data-caption="Venue"></div>
-                          <div data-value="WAREHOUSE" data-caption="Warehouse"></div>
-                        </div>
-                      </div>
                       <div class="flexcolumn" style="width:75%;">
+                        <div class="flexrow">
+                          <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield" data-caption="Address" data-datafield="DeliveryAddressType" style="flex:1 1 275px;"></div>
+                        </div>
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Location" data-datafield="DeliveryToLocation"></div>
                         </div>
