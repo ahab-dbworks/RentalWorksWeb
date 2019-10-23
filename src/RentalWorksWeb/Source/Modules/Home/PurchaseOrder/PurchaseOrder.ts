@@ -565,8 +565,8 @@ class PurchaseOrder {
         // get the PurchaseOrderTypeId from the form
         let purchaseOrderTypeId = FwFormField.getValueByDataField($form, 'PoTypeId');
 
-        if (self.CachedPurchaseOrderTypes[purchaseOrderTypeId] !== undefined) {
-            applyPurchaseOrderTypeToColumns($form, self.CachedPurchaseOrderTypes[purchaseOrderTypeId]);
+        if (this.CachedPurchaseOrderTypes[purchaseOrderTypeId] !== undefined) {
+            applyPurchaseOrderTypeToColumns($form, this.CachedPurchaseOrderTypes[purchaseOrderTypeId]);
         } else {
             let fields = jQuery($subRentalGrid).find('thead tr.fieldnames > td.column > div.field');
             let fieldNames = [];
@@ -717,10 +717,9 @@ class PurchaseOrder {
     };
     //----------------------------------------------------------------------------------------------
     afterLoad($form: JQuery): void {
-        const status = FwFormField.getValueByDataField($form, 'Status');
-
         this.applyPurchaseOrderTypeAndRateTypeToForm($form);
 
+        const status = FwFormField.getValueByDataField($form, 'Status');
         if (status === 'VOID' || status === 'CLOSED' || status === 'SNAPSHOT') {
             FwModule.setFormReadOnly($form);
             $form.find('.btn[data-securityid="searchbtn"]').addClass('disabled');
@@ -782,12 +781,6 @@ class PurchaseOrder {
             }
             $tab.addClass('tabGridsLoaded');
         });
-        // Display D/W field in subrental tab
-        if (FwFormField.getValueByDataField($form, 'RateType') === 'DAILY') {
-            $form.find(".subRentalDaysPerWeek").show();
-        } else {
-            $form.find(".subRentalDaysPerWeek").hide();
-        }
 
         const $orderItemGridRental = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
         const $orderItemGridSales = $form.find('.salesgrid [data-name="OrderItemGrid"]');
@@ -819,6 +812,24 @@ class PurchaseOrder {
         $orderItemGridSubSales.find('.buttonbar').hide();
         $orderItemGridSubLabor.find('.buttonbar').hide();
         $orderItemGridSubMisc.find('.buttonbar').hide();
+
+        const rateType = FwFormField.getValueByDataField($form, 'RateType');
+        // Display D/W field in subrental tab
+        if (rateType === 'DAILY') {
+            $form.find(".subRentalDaysPerWeek").show();
+        } else {
+            $form.find(".subRentalDaysPerWeek").hide();
+        }
+        // responsible for weekly, monthly toggle button on sub-rental tab
+        if (rateType === 'MONTHLY') {
+            $form.find('.togglebutton-item input[value="W"]').parent().hide();
+            $form.find('.togglebutton-item input[value="M"]').parent().show();
+        } else {
+            $form.find('.togglebutton-item input[value="W"]').parent().show();
+            $form.find('.togglebutton-item input[value="M"]').parent().hide();
+        }
+        //resets back to period summary frames
+        $form.find('.togglebutton-item input[value="P"]').click();
 
         // this.dynamicColumns($form);
         this.disableCheckboxesOnLoad($form);
@@ -1304,28 +1315,16 @@ class PurchaseOrder {
     };
     //----------------------------------------------------------------------------------------------
     events($form: any): void {
-        let weeklyType = $form.find(".weeklyType");
-        let monthlyType = $form.find(".monthlyType");
-        let subRentalDaysPerWeek = $form.find(".subRentalDaysPerWeek");
-        let billingMonths = $form.find(".BillingMonths");
-        let billingWeeks = $form.find(".BillingWeeks");
-
-        $form.find(".weeklyType").show();
-        $form.find(".monthlyType").hide();
-        $form.find(".periodType input").prop('checked', true);
-
         $form.find('div[data-datafield="VendorId"]').data('onchange', $tr => {
             FwFormField.setValue($form, 'div[data-datafield="RateType"]', $tr.find('.field[data-formdatafield="DefaultRate"]').attr('data-originalvalue'), $tr.find('.field[data-formdatafield="DefaultRate"]').attr('data-originalvalue'));
             FwFormField.setValue($form, 'div[data-datafield="BillingCycleId"]', $tr.find('.field[data-browsedatafield="BillingCycleId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="BillingCycle"]').attr('data-originalvalue'));
         });
-
         //Populate tax info fields with validation
         $form.find('div[data-datafield="TaxOptionId"]').data('onchange', $tr => {
             FwFormField.setValue($form, 'div[data-datafield="RentalTaxRate1"]', $tr.find('.field[data-browsedatafield="RentalTaxRate1"]').attr('data-originalvalue'));
             FwFormField.setValue($form, 'div[data-datafield="SalesTaxRate1"]', $tr.find('.field[data-browsedatafield="SalesTaxRate1"]').attr('data-originalvalue'));
             FwFormField.setValue($form, 'div[data-datafield="LaborTaxRate1"]', $tr.find('.field[data-browsedatafield="LaborTaxRate1"]').attr('data-originalvalue'));
         });
-
         //Hides Search option for sub item grids
         $form.find('[data-issubgrid="true"] .submenu-btn[data-securityid="77E511EC-5463-43A0-9C5D-B54407C97B15"]').hide();
         // Bottom Line Total with Tax
@@ -1338,7 +1337,7 @@ class PurchaseOrder {
         });
         // SubRentalDaysPerWeek for Sub-Rental OrderItemGrid
         $form.find('div[data-datafield="SubRentalDaysPerWeek"]').on('change', '.fwformfield-text, .fwformfield-value', event => {
-            let request: any = {},
+            const request: any = {},
                 $orderItemGridRental = $form.find('.subrentalgrid [data-name="OrderItemGrid"]'),
                 purchaseOrderId = FwFormField.getValueByDataField($form, `${this.Module}Id`),
                 daysperweek = FwFormField.getValueByDataField($form, 'SubRentalDaysPerWeek');
@@ -1354,14 +1353,36 @@ class PurchaseOrder {
                 FwFunc.showError(response);
             }, $form);
         });
+        let weeklyType = $form.find(".weeklyType");
+        let monthlyType = $form.find(".monthlyType");
+        const subRentalDaysPerWeek = $form.find('div[data-datafield="SubRentalDaysPerWeek"]');
+        let billingMonths = $form.find(".BillingMonths");
+        let billingWeeks = $form.find(".BillingWeeks");
 
-        $form.find(".totalType input").on('change', e => {
+        $form.find(".weeklyType").show();
+        $form.find(".monthlyType").hide();
+        $form.find(".periodType input").prop('checked', true);
+        //Hide/Show summary buttons based on rate type
+        $form.find('[data-datafield="RateType"] input').on('change', e => {
+            const rateType = FwFormField.getValueByDataField($form, 'RateType');
+            if (rateType === 'MONTHLY') {
+                $form.find('.togglebutton-item input[value="W"]').parent().hide();
+                $form.find('.togglebutton-item input[value="M"]').parent().show();
+            } else {
+                $form.find('.togglebutton-item input[value="W"]').parent().show();
+                $form.find('.togglebutton-item input[value="M"]').parent().hide();
+            }
+            //resets back to period summary frames
+            $form.find('.togglebutton-item input[value="P"]').click();
+        });
+        // total type radio on sub-rental tab
+        $form.find(`[data-datafield="totalTypeSubRental"] input`).on('change', e => {
             let $target = jQuery(e.currentTarget),
-                gridType = $target.parents('.totalType').attr('data-gridtype'),
+                gridType = $target.parents('[data-datafield="totalTypeSubRental"]').attr('data-gridtype'),
                 rateType = $target.val(),
-                adjustmentsPeriod = $form.find('.' + gridType + 'AdjustmentsPeriod'),
-                adjustmentsWeekly = $form.find('.' + gridType + 'AdjustmentsWeekly'),
-                adjustmentsMonthly = $form.find('.' + gridType + 'AdjustmentsMonthly');
+                adjustmentsPeriod = $form.find(`.${gridType}AdjustmentsPeriod`),
+                adjustmentsWeekly = $form.find(`.${ gridType }AdjustmentsWeekly`),
+                adjustmentsMonthly = $form.find(`.${gridType}AdjustmentsMonthly`);
             switch (rateType) {
                 case 'W':
                     adjustmentsPeriod.hide();
@@ -1377,16 +1398,17 @@ class PurchaseOrder {
                     adjustmentsPeriod.show();
                     break;
             }
-            let total = FwFormField.getValue($form, '.' + gridType + '-total:visible');
+            const total = FwFormField.getValue($form, `.${gridType}-total:visible`);
             if (total === '0.00') {
-                FwFormField.disable($form.find('.' + gridType + '-total-wtax:visible'));
+                FwFormField.disable($form.find(`.${gridType}-total-wtax:visible`));
             } else {
-                FwFormField.enable($form.find('.' + gridType + '-total-wtax:visible'));
+                FwFormField.enable($form.find(`.${gridType}-total-wtax:visible`));
             }
             this.calculateOrderItemGridTotals($form, gridType);
         });
 
         $form.find('.RateType').on('change', $tr => {
+
             let rateType = FwFormField.getValueByDataField($form, 'RateType');
             switch (rateType) {
                 case 'DAILY':
@@ -1440,12 +1462,11 @@ class PurchaseOrder {
 //----------------------------------------------------------------------------------------------
 FwApplicationTree.clickEvents[Constants.Modules.Home.PurchaseOrder.form.menuItems.ReceiveFromVendor.id] = function (e: JQuery.ClickEvent) {
     try {
-        let $form = jQuery(this).closest('.fwform');
-        let mode = 'EDIT';
-        let purchaseOrderInfo: any = {};
+        const $form = jQuery(this).closest('.fwform');
+        const purchaseOrderInfo: any = {};
         purchaseOrderInfo.PurchaseOrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
         purchaseOrderInfo.PurchaseOrderNumber = FwFormField.getValueByDataField($form, 'PurchaseOrderNumber');
-        let $receiveFromVendorForm = ReceiveFromVendorController.openForm(mode, purchaseOrderInfo);
+        let $receiveFromVendorForm = ReceiveFromVendorController.openForm('EDIT', purchaseOrderInfo);
         FwModule.openSubModuleTab($form, $receiveFromVendorForm);
         jQuery('.tab.submodule.active').find('.caption').html('Receive From Vendor');
     }
@@ -1456,12 +1477,11 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.PurchaseOrder.form.menuItem
 //----------------------------------------------------------------------------------------------
 FwApplicationTree.clickEvents[Constants.Modules.Home.PurchaseOrder.form.menuItems.ReturnToVendor.id] = function (e: JQuery.ClickEvent) {
     try {
-        let $form = jQuery(this).closest('.fwform');
-        let mode = 'EDIT';
-        let purchaseOrderInfo: any = {};
+        const $form = jQuery(this).closest('.fwform');
+        const purchaseOrderInfo: any = {};
         purchaseOrderInfo.PurchaseOrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
         purchaseOrderInfo.PurchaseOrderNumber = FwFormField.getValueByDataField($form, 'PurchaseOrderNumber');
-        let $returnToVendorForm = ReturnToVendorController.openForm(mode, purchaseOrderInfo);
+        let $returnToVendorForm = ReturnToVendorController.openForm('EDIT', purchaseOrderInfo);
         FwModule.openSubModuleTab($form, $returnToVendorForm);
         jQuery('.tab.submodule.active').find('.caption').html('Return To Vendor');
     }
@@ -1482,14 +1502,14 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.PurchaseOrder.form.menuItem
 //----------------------------------------------------------------------------------------------
 FwApplicationTree.clickEvents[Constants.Modules.Home.PurchaseOrder.form.menuItems.Search.id] = function (e: JQuery.ClickEvent) {
     try {
-        let $form = jQuery(this).closest('.fwform');
-        let orderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
+        const $form = jQuery(this).closest('.fwform');
+        const orderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
 
         if (orderId == "") {
             FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
         } else {
-            let search = new SearchInterface();
-            let $popup = search.renderSearchPopup($form, orderId, 'PurchaseOrder');
+            const search = new SearchInterface();
+            const $popup = search.renderSearchPopup($form, orderId, 'PurchaseOrder');
         }
     }
     catch (ex) {
@@ -1501,11 +1521,10 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.PurchaseOrder.form.menuItem
 FwApplicationTree.clickEvents[Constants.Modules.Home.PurchaseOrder.form.menuItems.AssignBarCodes.id] = function (e: JQuery.ClickEvent) {
     try {
         const $form = jQuery(this).closest('.fwform');
-        const mode = 'EDIT';
-        let purchaseOrderInfo: any = {};
+        const purchaseOrderInfo: any = {};
         purchaseOrderInfo.PurchaseOrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
         purchaseOrderInfo.PurchaseOrderNumber = FwFormField.getValueByDataField($form, 'PurchaseOrderNumber');
-        const $assignBarCodesForm = AssignBarCodesController.openForm(mode, purchaseOrderInfo);
+        const $assignBarCodesForm = AssignBarCodesController.openForm('EDIT', purchaseOrderInfo);
         FwModule.openSubModuleTab($form, $assignBarCodesForm);
         jQuery('.tab.submodule.active').find('.caption').html('Assign Bar Codes');
     }
