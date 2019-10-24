@@ -80,7 +80,7 @@ class RwMaster extends WebMaster {
             };
             //jh 07/31/2019 #790: I just discovered that in v2019, we removed the "Container" application option.  Module is available for all sites now.
             //if ((applicationOptions.container != undefined) && (applicationOptions.container.enabled != null) && (applicationOptions.container.enabled)) {
-                this.navigation.push(menuContainer);
+            this.navigation.push(menuContainer);
             //}
             // Transfers Menu
             const menuTransfers = {
@@ -233,12 +233,9 @@ class RwMaster extends WebMaster {
         // navigation header location icon
         $officelocation.on('click', function () {
             try {
-                var userlocation = JSON.parse(sessionStorage.getItem('location'));
-                var userwarehouse = JSON.parse(sessionStorage.getItem('warehouse'));
-                var userdepartment = JSON.parse(sessionStorage.getItem('department'));
-                var $confirmation = FwConfirmation.renderConfirmation('Select an Office Location', '');
+                const $confirmation = FwConfirmation.renderConfirmation('Select an Office Location', '');
                 const $select = FwConfirmation.addButton($confirmation, 'Select', false);
-                var $cancel = FwConfirmation.addButton($confirmation, 'Cancel', true);
+                const $cancel = FwConfirmation.addButton($confirmation, 'Cancel', true);
 
                 FwConfirmation.addControls($confirmation, `<div class="fwform" data-controller="UserController" style="background-color: transparent;">
                                                              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
@@ -252,8 +249,11 @@ class RwMaster extends WebMaster {
                                                              </div>
                                                            </div>`);
 
+                const userlocation = JSON.parse(sessionStorage.getItem('location'));
                 FwFormField.setValueByDataField($confirmation, 'OfficeLocationId', userlocation.locationid, userlocation.location);
+                const userwarehouse = JSON.parse(sessionStorage.getItem('warehouse'));
                 FwFormField.setValueByDataField($confirmation, 'WarehouseId', userwarehouse.warehouseid, userwarehouse.warehouse);
+                const userdepartment = JSON.parse(sessionStorage.getItem('department'));
                 FwFormField.setValueByDataField($confirmation, 'DepartmentId', userdepartment.departmentid, userdepartment.department);
 
                 $confirmation.find('[data-datafield="OfficeLocationId"]').data('onchange', e => {
@@ -269,17 +269,42 @@ class RwMaster extends WebMaster {
                             const departmentid = FwFormField.getValueByDataField($confirmation, 'DepartmentId');
 
                             // Ajax: Get Office Location Info
-                            const responseGetOfficeLocationInfo = await FwAjax.callWebApi<any, any>({
+                            const promiseGetOfficeLocationInfo = await FwAjax.callWebApi<any, any>({
                                 httpMethod: 'GET',
                                 url: `${applicationConfig.apiurl}api/v1/account/officelocation?locationid=${locationid}&warehouseid=${warehouseid}&departmentid=${departmentid}`,
                                 $elementToBlock: $confirmation
                             });
+                            const promiseGetDepartment = FwAjax.callWebApi<any, any>({
+                                httpMethod: 'GET',
+                                url: `${applicationConfig.apiurl}api/v1/department/${departmentid}`,
+                                $elementToBlock: $confirmation
+                            });
 
-                            sessionStorage.setItem('location', JSON.stringify(responseGetOfficeLocationInfo.location));
-                            sessionStorage.setItem('warehouse', JSON.stringify(responseGetOfficeLocationInfo.warehouse));
-                            sessionStorage.setItem('department', JSON.stringify(responseGetOfficeLocationInfo.department));
-                            FwConfirmation.destroyConfirmation($confirmation);
-                            window.location.reload(false);
+                            await Promise.all([
+                                promiseGetOfficeLocationInfo,     // 00
+                                promiseGetDepartment,             // 01
+                            ])
+                                .then((values: any) => {
+                                    const responseGetOfficeLocationInfo = values[0];
+                                    const responseGetDepartment = values[1];
+
+                                    sessionStorage.setItem('location', JSON.stringify(responseGetOfficeLocationInfo.location));
+                                    sessionStorage.setItem('warehouse', JSON.stringify(responseGetOfficeLocationInfo.warehouse));
+
+                                    // Include department's default activity selection in sessionStorage for use in Quote / Order
+                                    const department = responseGetOfficeLocationInfo.department;
+                                    const defaultActivities: Array<string> = [];
+                                    for (let key in responseGetDepartment) {
+                                        if (key.startsWith('DefaultActivity') && responseGetDepartment[key] === true) {
+                                            defaultActivities.push(key.slice(15));
+                                        }
+                                    }
+                                    department.activities = defaultActivities;
+                                    sessionStorage.setItem('department', JSON.stringify(department));
+
+                                    FwConfirmation.destroyConfirmation($confirmation);
+                                    window.location.reload(false);
+                                })
                         }
                     } catch (ex) {
                         FwFunc.showError(ex);

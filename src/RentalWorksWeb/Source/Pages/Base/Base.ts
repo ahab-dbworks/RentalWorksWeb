@@ -213,7 +213,7 @@ class Base {
 
                                         // Include department's default activity selection in sessionStorage for use in Quote / Order
                                         const department = JSON.parse(sessionStorage.getItem('department'));
-                                        let defaultActivities: Array<string> = [];
+                                        const defaultActivities: Array<string> = [];
                                         for (let key in responseGetDepartment) {
                                             if (key.startsWith('DefaultActivity') && responseGetDepartment[key] === true) {
                                                 defaultActivities.push(key.slice(15));
