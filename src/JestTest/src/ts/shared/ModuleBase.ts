@@ -968,7 +968,7 @@ export class ModuleBase {
         await page.waitForSelector(gridNewButtonSelector, { visible: true });
         await page.click(gridNewButtonSelector);
         Logging.logInfo(`clicked New button on grid: ${gridName}`);
-        
+
 
         let gridNewRowSelector = `${gridSelector} tbody tr`;
         await page.waitForSelector(gridNewRowSelector);
@@ -1136,8 +1136,8 @@ export class ModuleBase {
         let gridContextMenuSelector = `${gridSelector} .tablewrapper table tbody tr .browsecontextmenu i`;
         Logging.logInfo(`About to wait for row context menu: ${gridContextMenuSelector}`);
         await page.waitForSelector(gridContextMenuSelector, { visible: true });
-        await page.click(gridContextMenuSelector);     // here is where the problem is for #1188.  If there is a checkbox column in the grid, the context menu button is unclickable.  Z-index?
-        Logging.logInfo(`clicked the row context menu`);   
+        await page.click(gridContextMenuSelector);
+        Logging.logInfo(`clicked the row context menu`);
 
         let gridContextMenuDeleteOptionSelector = `${gridSelector} .tablewrapper table tbody tr .browsecontextmenu .deleteoption`;
         Logging.logInfo(`About to wait for delete option: ${gridContextMenuDeleteOptionSelector}`);
