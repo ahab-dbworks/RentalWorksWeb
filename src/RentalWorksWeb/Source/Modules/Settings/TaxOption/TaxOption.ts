@@ -3,30 +3,26 @@
     apiurl: string = 'api/v1/taxoption';
 
     constructor() {
-        var self = this;
-
         //Sends confirmation for forcing tax rate
-        FwApplicationTree.clickEvents[Constants.Modules.Settings.TaxOption.form.menuItems.ForceTaxRates.id] = function (e) {
+        FwApplicationTree.clickEvents[Constants.Modules.Settings.TaxOption.form.menuItems.ForceTaxRates.id] = e => {
             var $form, taxOptionId;
             try {
-                $form = jQuery(this).closest('.fwform');
-                taxOptionId = $form.find('div.fwformfield[data-datafield="TaxOptionId"] input').val();
-                self.forceTaxRates(taxOptionId);
+                const $form = jQuery(this).closest('.fwform');
+                const taxOptionId = $form.find('div.fwformfield[data-datafield="TaxOptionId"] input').val();
+                this.forceTaxRates(taxOptionId);
             } catch (ex) {
                 FwFunc.showError(ex);
             }
         };
     }
-
+    //----------------------------------------------------------------------------------------------
     getModuleScreen() {
-        var screen, $browse;
-
-        screen = {};
+        const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
-        $browse = this.openBrowse();
+        const $browse = this.openBrowse();
 
         screen.load = function () {
             FwModule.openModuleTab($browse, 'Tax Option', false, 'BROWSE', true);
@@ -39,74 +35,19 @@
 
         return screen;
     }
-
-    events($form: JQuery): void {
-        $form.on('change', '.countryradio input[type="radio"]:checked', (e) => {
-            this.canadaOnlyConfiguration($form, jQuery(e.currentTarget).val().toString());
-        });
-
-        $form.on('change', '.exempttype', (e) => {
-            var isChecked = jQuery(e.currentTarget).find('input[type="checkbox"]').is(':checked'),
-                exemptTypeClass = jQuery(e.currentTarget).data('exempttypetxtclass');
-
-            this.toggleDisableUSTaxRates($form, isChecked, exemptTypeClass);
-        });
-    }
-
-    canadaOnlyConfiguration($form: JQuery, country: string): void {
-        if (country == 'U') {
-            $form.find('.canadatab, .canadataxratespanel, .canadataxrulespanel').hide();
-            $form.find('.ustaxratespanel').show();
-        } else {
-            $form.find('.ustaxratespanel').hide();
-            $form.find('.canadatab, .canadataxratespanel, .canadataxrulespanel').show();
-        }
-    }
-
-    toggleDisableUSTaxRates($form: JQuery, isChecked: boolean, exemptTypeClass: string): void {
-        if (!isChecked) {
-            $form.find('.' + exemptTypeClass)
-                .attr('data-enabled', 'true')
-                .find('input[type="text"]')
-                .prop('disabled', false);
-        } else {
-            $form.find('.' + exemptTypeClass)
-                .attr('data-enabled', 'false')
-                .find('input[type="text"]')
-                .prop('disabled', true);
-        }
-    }
-
-    markFieldsNotRequired($form: JQuery): void {
-        $form.find('.gstexportcodetxt, .pstexporttxt').attr('data-required', 'false');
-
-        $form.find('.canadataxratespanel, .ustaxratespanel').find('.fwformfield').attr('data-required', 'false');
-
-        $form.find('.desc').attr('data-required', 'false');
-
-        $form.find('.notrequired').attr('data-required', 'false');
-    }
-
+    //----------------------------------------------------------------------------------------------
     openBrowse() {
-        var $browse;
-
-        $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
+        let $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
 
         return $browse;
     }
-
+    //----------------------------------------------------------------------------------------------
     openForm(mode: string) {
-        var $form;
-
-        $form = FwModule.loadFormFromTemplate(this.Module);
+        let $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 
-        this.events($form);
-
-        this.markFieldsNotRequired($form);
-
-        if (mode == 'NEW') {
+        if (mode === 'NEW') {
             this.canadaOnlyConfiguration($form, 'U');
             this.markFieldsNotRequired($form);
             FwFormField.setValueByDataField($form, 'RentalTaxRate1', 0);
@@ -129,49 +70,106 @@
             FwFormField.setValue($form, 'div[data-datafield="TaxOnTaxAccountDescription"]', $tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
         });
 
+        this.events($form);
+
+        this.markFieldsNotRequired($form);
         return $form;
     }
-
+    //----------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
-        var $form;
-
-        $form = this.openForm('EDIT');
+        const $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="TaxOptionId"] input').val(uniqueids.TaxOptionId);
         FwModule.loadForm(this.Module, $form);
 
         return $form;
     }
-
+    //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
     }
-
+    //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
-        var country = $form.find('.countryradio input[type="radio"]:checked').val();
+        const country = $form.find('[data-datafield="TaxCountry"] input[type="radio"]:checked').val();
 
         this.canadaOnlyConfiguration($form, country);
+        this.configureTaxOnTax($form);
 
         $form.find('.exempttype').each((i, e) => {
             this.toggleDisableUSTaxRates($form, jQuery(e).find('input[type="checkbox"]').is(':checked'), jQuery(e).data('exempttypetxtclass'));
         });
     }
+    //----------------------------------------------------------------------------------------------
+    events($form: JQuery): void {
+        $form.on('change', '[data-datafield="TaxCountry"] input[type="radio"]:checked', (e) => {
+            this.canadaOnlyConfiguration($form, jQuery(e.currentTarget).val().toString());
+        });
 
+        $form.on('change', '.exempttype', (e) => {
+            var isChecked = jQuery(e.currentTarget).find('input[type="checkbox"]').is(':checked'),
+                exemptTypeClass = jQuery(e.currentTarget).data('exempttypetxtclass');
+
+            this.toggleDisableUSTaxRates($form, isChecked, exemptTypeClass);
+        });
+        $form.find('div[data-datafield="TaxOnTax"]').change(e => {
+            this.configureTaxOnTax($form);
+        })
+    }
+    configureTaxOnTax($form: JQuery) {
+        const taxOnTax = FwFormField.getValueByDataField($form, 'TaxOnTax');
+        if (taxOnTax === true) {
+            FwFormField.enable($form.find('.taxontax'));
+        } else {
+            FwFormField.disable($form.find('.taxontax'));
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    canadaOnlyConfiguration($form: JQuery, country: string): void {
+        if (country === 'U') {
+            $form.find('.canadatab, .canadataxratespanel, .canadataxrulespanel').hide();
+            $form.find('.ustaxratespanel').show();
+        } else {
+            $form.find('.ustaxratespanel').hide();
+            $form.find('.canadatab, .canadataxratespanel, .canadataxrulespanel').show();
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    toggleDisableUSTaxRates($form: JQuery, isChecked: boolean, exemptTypeClass: string): void {
+        if (!isChecked) {
+            $form.find('.' + exemptTypeClass)
+                .attr('data-enabled', 'true')
+                .find('input[type="text"]')
+                .prop('disabled', false);
+        } else {
+            $form.find('.' + exemptTypeClass)
+                .attr('data-enabled', 'false')
+                .find('input[type="text"]')
+                .prop('disabled', true);
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    markFieldsNotRequired($form: JQuery): void {
+        $form.find('.gstexportcodetxt, .pstexporttxt').attr('data-required', 'false');
+
+        $form.find('.canadataxratespanel, .ustaxratespanel').find('.fwformfield').attr('data-required', 'false');
+
+        $form.find('.desc').attr('data-required', 'false');
+
+        $form.find('.notrequired').attr('data-required', 'false');
+    }
+    //----------------------------------------------------------------------------------------------
     forceTaxRates(id: any) {
-        var $confirmation, $yes, $no, self;
-
-        self = this;
-        $confirmation = FwConfirmation.renderConfirmation('Force Tax Rates', '<div style="white-space:pre;">This will update all of the following records with the tax rates: \n' +
+        const $confirmation = FwConfirmation.renderConfirmation('Force Tax Rates', '<div style="white-space:pre;">This will update all of the following records with the tax rates: \n' +
             '------------------------------------------------------------------------------------------------- \n' +
             'Prospect and Active Quotes \n' +
             'Confirmed, Active, and Complete Orders \n' +
             'New, Open, Received, and Completed Purchase Orders \n' +
             'New and Estimated Repair Orders that have not yet been billed \n \n' +
             'Are you sure you want to force these Tax Rates? This cannot be undone.</div>');
-        $yes = FwConfirmation.addButton($confirmation, 'Yes', false);
-        $no = FwConfirmation.addButton($confirmation, 'No');
+        const $yes = FwConfirmation.addButton($confirmation, 'Yes', false);
+        const $no = FwConfirmation.addButton($confirmation, 'No');
 
-        $yes.on('click', function () {
-            FwAppData.apiMethod(true, 'POST', `${self.apiurl}/${id}/forcerates`, {}, FwServices.defaultTimeout, function onSuccess(response) {
+        $yes.on('click', () => {
+            FwAppData.apiMethod(true, 'POST', `${this.apiurl}/${id}/forcerates`, {}, FwServices.defaultTimeout, function onSuccess(response) {
                 try {
                     FwNotification.renderNotification('SUCCESS', 'Tax Rates Forced');
                     FwConfirmation.destroyConfirmation($confirmation);

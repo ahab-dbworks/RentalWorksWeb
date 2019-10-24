@@ -19,7 +19,7 @@
               </div>
               <div class="flexcolumn" style="flex:1 1 300px;">
                 <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Country">
-                  <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield countryradio" data-caption="Country" data-datafield="TaxCountry" style="flex:1 1 150px;">
+                  <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="Country" data-datafield="TaxCountry" style="flex:1 1 150px;">
                     <div data-value="U" data-caption="US"></div>
                     <div data-value="C" data-caption="Canada"></div>
                   </div>
@@ -124,26 +124,32 @@
       <!--GL ACCOUNTS PAGE-->
       <div data-type="tabpage" id="glaccountstabpage" class="tabpage" data-tabid="glaccountstab">
         <div class="formpage">
-              <div class="flexrow" style="flex:1 1 630px;">
-          <div class="flexcolumn">
-            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="GST G/L Account (Canada)">
-              <div class="flexrow" style="flex:1 1 610px;">
-                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="G/L No" data-datafield="TaxAccountId1" data-displayfield="TaxAccountNo1" data-validationname="GlAccountValidation" style="flex:1 1 300px;"></div>
-                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield desc" data-caption="Desc" data-datafield="TaxAccountDescription1" data-enabled="false" style="flex:1 1 300px;"></div>
+          <div class="flexrow" style="flex:1 1 630px;">
+            <div class="flexcolumn">
+              <div class="fwcontrol fwcontainer fwform-section canadataxrulespanel" data-control="FwContainer" data-type="section" data-caption="GST G/L Account (Canada)" style="display:none;">
+                <div class="flexrow" style="flex:1 1 610px;">
+                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="G/L No" data-datafield="TaxAccountId1" data-displayfield="TaxAccountNo1" data-validationname="GlAccountValidation" style="flex:1 1 300px;"></div>
+                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield desc" data-caption="Description" data-datafield="TaxAccountDescription1" data-enabled="false" style="flex:1 1 300px;"></div>
+                </div>
               </div>
-            </div>
-            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="PST G/L Account (Canada)">
-              <div class="flexrow">
-                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="G/L No" data-datafield="TaxAccountId2" data-displayfield="TaxAccountNo2" data-validationname="GlAccountValidation" style="flex:1 1 300px;"></div>
-                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield desc" data-caption="Desc" data-datafield="TaxAccountDescription2" data-enabled="false" style="flex:1 1 300px;"></div>
+              <div class="fwcontrol fwcontainer fwform-section ustaxratespanel" data-control="FwContainer" data-type="section" data-caption="GST G/L Account">
+                <div class="flexrow" style="flex:1 1 610px;">
+                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="G/L No" data-datafield="TaxAccountId1" data-displayfield="TaxAccountNo1" data-validationname="GlAccountValidation" style="flex:1 1 300px;"></div>
+                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield desc" data-caption="Description" data-datafield="TaxAccountDescription1" data-enabled="false" style="flex:1 1 300px;"></div>
+                </div>
               </div>
-            </div>
-            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Tax on Tax G/L Account">
-              <div class="flexrow">
-                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="G/L No" data-datafield="TaxOnTaxAccountId" data-displayfield="TaxOnTaxAccountNo" data-validationname="GlAccountValidation" style="flex:1 1 300px;"></div>
-                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield desc" data-caption="Desc" data-datafield="TaxOnTaxAccountDescription" data-enabled="false" style="flex:1 1 300px;"></div>
+              <div class="fwcontrol fwcontainer fwform-section canadataxrulespanel" data-control="FwContainer" data-type="section" data-caption="PST G/L Account (Canada)" style="display:none;">
+                <div class="flexrow">
+                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="G/L No" data-datafield="TaxAccountId2" data-displayfield="TaxAccountNo2" data-validationname="GlAccountValidation" style="flex:1 1 300px;"></div>
+                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield desc" data-caption="Description" data-datafield="TaxAccountDescription2" data-enabled="false" style="flex:1 1 300px;"></div>
+                </div>
               </div>
-            </div>
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Tax on Tax G/L Account">
+                <div class="flexrow">
+                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield taxontax" data-caption="G/L No" data-datafield="TaxOnTaxAccountId" data-displayfield="TaxOnTaxAccountNo" data-validationname="GlAccountValidation" style="flex:1 1 300px;"></div>
+                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield desc" data-caption="Description" data-datafield="TaxOnTaxAccountDescription" data-enabled="false" style="flex:1 1 300px;"></div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -151,24 +157,24 @@
       <!--QUICKBOOKS PAGE-->
       <div data-type="tabpage" id="quicktabpage" class="tabpage" data-tabid="quicktab">
         <div class="formpage">
-               <div class="flexrow" style="flex:1 1 910px;">
-          <div class="flexcolumn">
-            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="QuickBooks Export Fields">
-              <div class="flexrow" style="flex:1 1 910px;">
-                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield notrequired" data-caption="Tax Item Code" data-datafield="QuickBooksTaxItemCode" style="flex:1 1 300px;"></div>
-                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield notrequired" data-caption="Tax Item Description" data-datafield="QuickBooksTaxItemDescription" style="flex:1 1 300px;"></div>
-                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield notrequired" data-caption="Tax Vendor Name" data-datafield="QuickBooksTaxVendor" style="flex:1 1 300px;"></div>
+          <div class="flexrow" style="flex:1 1 910px;">
+            <div class="flexcolumn">
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="QuickBooks Export Fields">
+                <div class="flexrow" style="flex:1 1 910px;">
+                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield notrequired" data-caption="Tax Item Code" data-datafield="QuickBooksTaxItemCode" style="flex:1 1 300px;"></div>
+                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield notrequired" data-caption="Tax Item Description" data-datafield="QuickBooksTaxItemDescription" style="flex:1 1 300px;"></div>
+                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield notrequired" data-caption="Tax Vendor Name" data-datafield="QuickBooksTaxVendor" style="flex:1 1 300px;"></div>
+                </div>
+              </div>
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="QuickBooks Tax Group">
+                <div class="flexrow" style="flex:1 1 200px;">
+                  <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield notrequired" data-caption="QuickBooks Tax Group" data-datafield="QuickBooksTaxGroup" style="flex:1 1 300px;"></div>
+                </div>
+                <div class="formrow">
+                  <div data-control="FwGrid" data-grid="ContactCompany" data-securitycaption="Contact Company"></div>
+                </div>
               </div>
             </div>
-            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="QuickBooks Tax Group">
-              <div class="flexrow" style="flex:1 1 200px;">
-                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield notrequired" data-caption="QuickBooks Tax Group" data-datafield="QuickBooksTaxGroup" style="flex:1 1 300px;"></div>
-              </div>
-              <div class="formrow">
-                <div data-control="FwGrid" data-grid="ContactCompany" data-securitycaption="Contact Company"></div>
-              </div>
-            </div>
-          </div>
           </div>
         </div>
       </div>
