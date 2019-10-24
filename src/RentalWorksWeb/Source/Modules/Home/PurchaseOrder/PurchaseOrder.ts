@@ -663,60 +663,11 @@ class PurchaseOrder {
             } else if (purchaseOrderTypeData.hiddenSubRentals.indexOf('WeeklyExtended') === -1 && rateType !== '3WEEK') {
                 $subRentalGrid.find('.weekextended').parent().show();
             }
-
-            let weeklyType = $form.find(".weeklyType");
-            let monthlyType = $form.find(".monthlyType");
-            let rentalDaysPerWeek = $form.find(".RentalDaysPerWeek");
-            let billingMonths = $form.find(".BillingMonths");
-            let billingWeeks = $form.find(".BillingWeeks");
-
-
-            switch (rateType) {
-                case 'DAILY':
-                    weeklyType.show();
-                    monthlyType.hide();
-                    rentalDaysPerWeek.show();
-                    billingMonths.hide();
-                    billingWeeks.show();
-                    //$form.find('.combinedgrid [data-name="OrderItemGrid"]').parent().show();
-                    //$form.find('.rentalgrid [data-name="OrderItemGrid"]').parent().show();
-                    //$form.find('.salesgrid [data-name="OrderItemGrid"]').parent().show();
-                    //$form.find('.laborgrid [data-name="OrderItemGrid"]').parent().show();
-                    //$form.find('.miscgrid [data-name="OrderItemGrid"]').parent().show();
-                    break;
-                case 'WEEKLY':
-                    weeklyType.show();
-                    monthlyType.hide();
-                    rentalDaysPerWeek.hide();
-                    billingMonths.hide();
-                    billingWeeks.show();
-                    break;
-                case '3WEEK':
-                    weeklyType.show();
-                    monthlyType.hide();
-                    rentalDaysPerWeek.hide();
-                    billingMonths.hide();
-                    billingWeeks.show();
-                    break;
-                case 'MONTHLY':
-                    weeklyType.hide();
-                    monthlyType.show();
-                    rentalDaysPerWeek.hide();
-                    billingWeeks.hide();
-                    billingMonths.show();
-                    break;
-                default:
-                    weeklyType.show();
-                    monthlyType.hide();
-                    rentalDaysPerWeek.show();
-                    billingMonths.hide();
-                    billingWeeks.show();
-                    break;
-            }
         }
     };
     //----------------------------------------------------------------------------------------------
     afterLoad($form: JQuery): void {
+        this.applyRateType($form);
         this.applyPurchaseOrderTypeAndRateTypeToForm($form);
 
         const status = FwFormField.getValueByDataField($form, 'Status');
@@ -813,25 +764,37 @@ class PurchaseOrder {
         $orderItemGridSubLabor.find('.buttonbar').hide();
         $orderItemGridSubMisc.find('.buttonbar').hide();
 
-        const rateType = FwFormField.getValueByDataField($form, 'RateType');
-        // Display D/W field in subrental tab
-        if (rateType === 'DAILY') {
-            $form.find(".subRentalDaysPerWeek").show();
-        } else {
-            $form.find(".subRentalDaysPerWeek").hide();
-        }
-        // responsible for weekly, monthly toggle button on sub-rental tab
-        if (rateType === 'MONTHLY') {
-            $form.find('.togglebutton-item input[value="W"]').parent().hide();
-            $form.find('.togglebutton-item input[value="M"]').parent().show();
-        } else {
-            $form.find('.togglebutton-item input[value="W"]').parent().show();
-            $form.find('.togglebutton-item input[value="M"]').parent().hide();
-        }
-        //resets back to period summary frames
-        $form.find('.togglebutton-item input[value="P"]').click();
-
-        // this.dynamicColumns($form);
+        // total type radio on sub-rental tab
+        $form.find(`[data-datafield="totalTypeSubRental"]`).on('change', e => { // required in afterLoad since subrental grid is not allowed on NEW and fields are not visible yet in openForm
+            const $target = jQuery(e.currentTarget);
+            const gridType = 'subrental';
+            const adjustmentsPeriod = $form.find(`.${gridType}AdjustmentsPeriod`);
+            const adjustmentsWeekly = $form.find(`.${gridType}AdjustmentsWeekly`);
+            const adjustmentsMonthly = $form.find(`.${gridType}AdjustmentsMonthly`);
+            const totalTypeSubRental = FwFormField.getValueByDataField($form, 'totalTypeSubRental');
+            switch (totalTypeSubRental) {
+                case 'W':
+                    adjustmentsPeriod.hide();
+                    adjustmentsWeekly.show();
+                    break;
+                case 'M':
+                    adjustmentsPeriod.hide();
+                    adjustmentsMonthly.show();
+                    break;
+                case 'P':
+                    adjustmentsWeekly.hide();
+                    adjustmentsMonthly.hide();
+                    adjustmentsPeriod.show();
+                    break;
+            }
+            const total = FwFormField.getValue($form, `.${gridType}-total:visible`);
+            if (total === '0.00') {
+                FwFormField.disable($form.find(`.${gridType}-total-wtax:visible`));
+            } else {
+                FwFormField.enable($form.find(`.${gridType}-total-wtax:visible`));
+            }
+            this.calculateOrderItemGridTotals($form, gridType);
+        });
         this.disableCheckboxesOnLoad($form);
     };
     //----------------------------------------------------------------------------------------------
@@ -1314,6 +1277,48 @@ class PurchaseOrder {
         $form.find(`.${gridType}-totals [data-totalfield="Total"] input`).val(total);
     };
     //----------------------------------------------------------------------------------------------
+    applyRateType($form: JQuery) {
+        const subRentalDaysPerWeek = $form.find('div[data-datafield="SubRentalDaysPerWeek"]');
+        const rateType = FwFormField.getValueByDataField($form, 'RateType');
+        const weeklyType = $form.find('.togglebutton-item input[value="W"]').parent();
+        const monthlyType = $form.find('.togglebutton-item input[value="M"]').parent();
+
+        switch (rateType) {
+            case 'DAILY':
+                weeklyType.show();
+                monthlyType.hide();
+                subRentalDaysPerWeek.show();
+                $form.find('.combinedgrid [data-name="OrderItemGrid"]').parent().show();
+                $form.find('.rentalgrid [data-name="OrderItemGrid"]').parent().show();
+                $form.find('.salesgrid [data-name="OrderItemGrid"]').parent().show();
+                $form.find('.laborgrid [data-name="OrderItemGrid"]').parent().show();
+                $form.find('.miscgrid [data-name="OrderItemGrid"]').parent().show();
+                break;
+            case 'WEEKLY':
+                weeklyType.show();
+                monthlyType.hide();
+                subRentalDaysPerWeek.hide();
+                break;
+            case '3WEEK':
+                weeklyType.show();
+                monthlyType.hide();
+                subRentalDaysPerWeek.hide();
+                break;
+            case 'MONTHLY':
+                weeklyType.hide();
+                monthlyType.show();
+                subRentalDaysPerWeek.hide();
+                break;
+            default:
+                weeklyType.show();
+                monthlyType.hide();
+                subRentalDaysPerWeek.show();
+                break;
+        }
+        //resets back to period summary frames
+        $form.find('.togglebutton-item input[value="P"]').click();
+    }
+    //----------------------------------------------------------------------------------------------
     events($form: any): void {
         $form.find('div[data-datafield="VendorId"]').data('onchange', $tr => {
             FwFormField.setValue($form, 'div[data-datafield="RateType"]', $tr.find('.field[data-formdatafield="DefaultRate"]').attr('data-originalvalue'), $tr.find('.field[data-formdatafield="DefaultRate"]').attr('data-originalvalue'));
@@ -1353,106 +1358,13 @@ class PurchaseOrder {
                 FwFunc.showError(response);
             }, $form);
         });
-        let weeklyType = $form.find(".weeklyType");
-        let monthlyType = $form.find(".monthlyType");
-        const subRentalDaysPerWeek = $form.find('div[data-datafield="SubRentalDaysPerWeek"]');
-        let billingMonths = $form.find(".BillingMonths");
-        let billingWeeks = $form.find(".BillingWeeks");
 
-        $form.find(".weeklyType").show();
-        $form.find(".monthlyType").hide();
-        $form.find(".periodType input").prop('checked', true);
+
         //Hide/Show summary buttons based on rate type
-        $form.find('[data-datafield="RateType"] input').on('change', e => {
-            const rateType = FwFormField.getValueByDataField($form, 'RateType');
-            if (rateType === 'MONTHLY') {
-                $form.find('.togglebutton-item input[value="W"]').parent().hide();
-                $form.find('.togglebutton-item input[value="M"]').parent().show();
-            } else {
-                $form.find('.togglebutton-item input[value="W"]').parent().show();
-                $form.find('.togglebutton-item input[value="M"]').parent().hide();
-            }
-            //resets back to period summary frames
-            $form.find('.togglebutton-item input[value="P"]').click();
-        });
-        // total type radio on sub-rental tab
-        $form.find(`[data-datafield="totalTypeSubRental"] input`).on('change', e => {
-            let $target = jQuery(e.currentTarget),
-                gridType = $target.parents('[data-datafield="totalTypeSubRental"]').attr('data-gridtype'),
-                rateType = $target.val(),
-                adjustmentsPeriod = $form.find(`.${gridType}AdjustmentsPeriod`),
-                adjustmentsWeekly = $form.find(`.${ gridType }AdjustmentsWeekly`),
-                adjustmentsMonthly = $form.find(`.${gridType}AdjustmentsMonthly`);
-            switch (rateType) {
-                case 'W':
-                    adjustmentsPeriod.hide();
-                    adjustmentsWeekly.show();
-                    break;
-                case 'M':
-                    adjustmentsPeriod.hide();
-                    adjustmentsMonthly.show();
-                    break;
-                case 'P':
-                    adjustmentsWeekly.hide();
-                    adjustmentsMonthly.hide();
-                    adjustmentsPeriod.show();
-                    break;
-            }
-            const total = FwFormField.getValue($form, `.${gridType}-total:visible`);
-            if (total === '0.00') {
-                FwFormField.disable($form.find(`.${gridType}-total-wtax:visible`));
-            } else {
-                FwFormField.enable($form.find(`.${gridType}-total-wtax:visible`));
-            }
-            this.calculateOrderItemGridTotals($form, gridType);
+        $form.find('[data-datafield="RateType"]').data('onchange', e => {
+            this.applyRateType($form);
         });
 
-        $form.find('.RateType').on('change', $tr => {
-
-            let rateType = FwFormField.getValueByDataField($form, 'RateType');
-            switch (rateType) {
-                case 'DAILY':
-                    weeklyType.show();
-                    monthlyType.hide();
-                    subRentalDaysPerWeek.show();
-                    billingMonths.hide();
-                    billingWeeks.show();
-                    $form.find('.combinedgrid [data-name="OrderItemGrid"]').parent().show();
-                    $form.find('.rentalgrid [data-name="OrderItemGrid"]').parent().show();
-                    $form.find('.salesgrid [data-name="OrderItemGrid"]').parent().show();
-                    $form.find('.laborgrid [data-name="OrderItemGrid"]').parent().show();
-                    $form.find('.miscgrid [data-name="OrderItemGrid"]').parent().show();
-                    break;
-                case 'WEEKLY':
-                    weeklyType.show();
-                    monthlyType.hide();
-                    subRentalDaysPerWeek.hide();
-                    billingMonths.hide();
-                    billingWeeks.show();
-                    break;
-                case '3WEEK':
-                    weeklyType.show();
-                    monthlyType.hide();
-                    subRentalDaysPerWeek.hide();
-                    billingMonths.hide();
-                    billingWeeks.show();
-                    break;
-                case 'MONTHLY':
-                    weeklyType.hide();
-                    monthlyType.show();
-                    subRentalDaysPerWeek.hide();
-                    billingWeeks.hide();
-                    billingMonths.show();
-                    break;
-                default:
-                    weeklyType.show();
-                    monthlyType.hide();
-                    subRentalDaysPerWeek.show();
-                    billingMonths.hide();
-                    billingWeeks.show();
-                    break;
-            }
-        });
     };
     //----------------------------------------------------------------------------------------------
     afterSave($form) { };
