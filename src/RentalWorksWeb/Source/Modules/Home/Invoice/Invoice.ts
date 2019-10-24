@@ -539,7 +539,7 @@ class Invoice {
         $invoiceItemGridSales.find('.buttonbar').hide();
         $invoiceItemGridLabor.find('.buttonbar').hide();
         $invoiceItemGridRentalSale.find('.buttonbar').hide();
-
+        this.InvoiceCredit($form);
         this.dynamicColumns($form);
     };
 
@@ -613,6 +613,14 @@ class Invoice {
             jQuery($partsAdjustmentGrid.find(`[data-mappedfield="${hiddenAdjustment[i]}"]`)).parent().hide();
         }
     };
+    //----------------------------------------------------------------------------------------------
+    InvoiceCredit($form: JQuery) {
+        const invoiceType = FwFormField.getValueByDataField($form, 'InvoiceType');
+
+        if (invoiceType === 'CREDIT') {
+            $form.find('div[data-datafield="InvoiceCreationBatchId"]').show();
+        }
+    }
     //----------------------------------------------------------------------------------------------
     calculateInvoiceItemGridTotals($form: JQuery, gridType: string, totals?, isAdjustment?: boolean): void {
         if (isAdjustment) {
