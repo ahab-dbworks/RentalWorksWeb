@@ -161,17 +161,24 @@ class Base {
                                     $elementToBlock: $loginWindow
                                 });
 
+                                const promiseGetDocumentBarCodeSettings = FwAjax.callWebApi<any, any>({
+                                    httpMethod: 'GET',
+                                    url: `${applicationConfig.apiurl}api/v1/documentbarcodesettings/1`,
+                                    $elementToBlock: $loginWindow
+                                });
+
 
                                 // wait for all the queries to finish
                                 await Promise.all([
-                                    promiseGetUserSettings,      // 00
-                                    promiseGetCustomFields,      // 01
-                                    promiseGetCustomForms,       // 02
-                                    promiseGetDefaultSettings,   // 03
-                                    promiseGetInventorySettings, // 04
-                                    promiseGetSystemSettings,    // 05
-                                    promiseGetUser,              // 06
-                                    promiseGetDepartment,        // 07
+                                    promiseGetUserSettings,             // 00
+                                    promiseGetCustomFields,             // 01
+                                    promiseGetCustomForms,              // 02
+                                    promiseGetDefaultSettings,          // 03
+                                    promiseGetInventorySettings,        // 04
+                                    promiseGetSystemSettings,           // 05
+                                    promiseGetUser,                     // 06
+                                    promiseGetDepartment,               // 07
+                                    promiseGetDocumentBarCodeSettings,  // 08
                                 ])
                                     .then((values: any) => {
                                         const responseGetUserSettings = values[0];
@@ -182,6 +189,7 @@ class Base {
                                         const responseGetSystemSettings = values[5];
                                         const responseGetUser = values[6];
                                         const responseGetDepartment = values[7];
+                                        const responseGetDocumentBarCodeSettings = values[8];
 
                                         let sounds: any = {}, homePage: any = {}, toolbar: any = {};
                                         sounds.successSoundFileName = responseGetUserSettings.SuccessSoundFileName;
@@ -250,9 +258,9 @@ class Base {
                                             , sharedealsacrossofficelocations: responseGetSystemSettings.ShareDealsAcrossOfficeLocations
                                             , systemname: responseGetSystemSettings.SystemName
                                             , companyname: responseGetSystemSettings.CompanyName
+                                            , documentbarcodestyle: responseGetDocumentBarCodeSettings.DocumentBarCodeStyle
                                         }
                                         sessionStorage.setItem('controldefaults', JSON.stringify(controlDefaults));
-
 
                                         // set redirectPath to navigate user to default home page, still need to go to the home page to run startup code if the user refreshes the browser
                                         let homePagePath = JSON.parse(sessionStorage.getItem('homePage')).path;

@@ -25,7 +25,7 @@ jQuery(function () {
                         loadApp();
                     }
                 }, 250);
-            } while ($templates.length > 0) 
+            } while ($templates.length > 0)
         } else {
             loadApp();
         }
@@ -36,7 +36,7 @@ jQuery(function () {
         }, 1000);
     } else {
         start();
- 
+
     }
 });
 //---------------------------------------------------------------------------------
@@ -128,6 +128,7 @@ routes.push({ pattern: /^module\/productiontype$/, action: function (match: RegE
 routes.push({ pattern: /^module\/officelocation$/, action: function (match: RegExpExecArray) { return OfficeLocationController.getModuleScreen(); } });
 
 //Settings Modules
+routes.push({ pattern: /^module\/documentbarcodesettings$/, action: function (match: RegExpExecArray) { return DocumentBarCodeSettingsController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/documenttype$/, action: function (match: RegExpExecArray) { return DocumentTypeController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/setsurface$/, action: function (match: RegExpExecArray) { return SetSurfaceController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/building$/, action: function (match: RegExpExecArray) { return BuildingController.getModuleScreen(); } });

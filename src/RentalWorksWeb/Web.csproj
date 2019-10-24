@@ -632,6 +632,7 @@
     <TypeScriptCompile Include="Source\Modules\Reports\OutContract\OutContractReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\AvailabilitySettings\AvailabilitySettings.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\AccountingSettings\AccountingSettings.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\DocumentBarCodeSettings\DocumentBarCodeSettings.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\DefaultSettings\DefaultSettings.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\InventorySettings\InventorySettings.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\LogoSettings\LogoSettings.ts" />
@@ -669,6 +670,8 @@
     <Content Include="Source\Modules\Settings\AvailabilitySettings\AvailabilitySettingsBrowse.htm" />
     <Content Include="Source\Modules\Settings\AvailabilitySettings\AvailabilitySettingsForm.htm" />
     <Content Include="Source\Modules\Settings\AccountingSettings\AccountingSettingsForm.htm" />
+    <Content Include="Source\Modules\Settings\DocumentBarCodeSettings\DocumentBarCodeSettingsBrowse.htm" />
+    <Content Include="Source\Modules\Settings\DocumentBarCodeSettings\DocumentBarCodeSettingsForm.htm" />
     <Content Include="Source\Modules\Settings\DefaultSettings\DefaultSettingsBrowse.htm" />
     <Content Include="Source\Modules\Settings\DefaultSettings\DefaultSettingsForm.htm" />
     <Content Include="Source\Modules\Settings\InventorySettings\InventorySettingsBrowse.htm" />
@@ -1227,6 +1230,7 @@
     <Content Include="theme\images\icons\integration\placeholder.png" />
     <Content Include="theme\images\icons\utilities\placeholder.png" />
     <Content Include="theme\images\no-image.jpg" />
+    <Content Include="theme\images\qrcodesample.jpg" />
     <Content Include="theme\images\rentalworkslogo.png" />
     <Content Include="theme\rentalworks.css" />
     <Content Include="version.txt" />
