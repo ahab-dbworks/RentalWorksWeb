@@ -155,6 +155,8 @@ class PurchaseOrder {
         this.events($form);
         this.activityCheckboxEvents($form, mode);
         this.renderSearchButton($form);
+        this.applyRateType($form);
+
         return $form;
     };
     //----------------------------------------------------------------------------------------------
@@ -539,7 +541,7 @@ class PurchaseOrder {
     };
     //----------------------------------------------------------------------------------------------
 
-    applyPurchaseOrderTypeAndRateTypeToForm($form) {
+    applyPurchaseOrderTypeToForm($form) {
         let self = this;
 
         // find all the tabs on the form
@@ -667,8 +669,7 @@ class PurchaseOrder {
     };
     //----------------------------------------------------------------------------------------------
     afterLoad($form: JQuery): void {
-        this.applyRateType($form);
-        this.applyPurchaseOrderTypeAndRateTypeToForm($form);
+        this.applyPurchaseOrderTypeToForm($form);
 
         const status = FwFormField.getValueByDataField($form, 'Status');
         if (status === 'VOID' || status === 'CLOSED' || status === 'SNAPSHOT') {
