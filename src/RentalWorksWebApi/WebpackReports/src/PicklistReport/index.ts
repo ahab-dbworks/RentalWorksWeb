@@ -25,7 +25,14 @@ export class PickListReport extends WebpackReport {
                     data.NewPagePerType = parameters.NewPagePerType;
                     data.rows[1].IsFirstInventoryTypeHeader = true;
 
-                    parameters.OrderType === 'T' ? data.Report = 'TRANSFER PICK LIST' : data.Report = 'PICK LIST';
+                    if (parameters.OrderType === 'T') {
+                        data.Report = 'TRANSFER PICK LIST';
+                        data.Type = 'Transfer';
+                    } else {
+                        ;
+                        data.Report = 'PICK LIST';
+                        data.Type = 'Order';
+                    }
 
                     const qr = QrCodeGen.QrCode.encodeText(data.OrderNumber, QrCodeGen.Ecc.MEDIUM);
                     const svg = qr.toSvgString(4);

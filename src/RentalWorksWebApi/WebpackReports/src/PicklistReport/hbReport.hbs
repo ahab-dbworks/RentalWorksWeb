@@ -16,7 +16,7 @@
   <div class="rpt-flexcolumn">
     <span class="header-right" style="font-size:20px;">Pick Number: </span>
     <span class="header-right" style="font-size:20px;border:1.25px solid black;padding:2px;">{{PickNumber}}</span>
-    <span class="header-right" style="font-size:20px;">Order Number: </span>
+    <span class="header-right" style="font-size:20px;">{{Type}} Number: </span>
     <span class="header-right" style="font-family:'Libre Barcode 39 Text', serif; font-size:50px;">*{{OrderNumber}}*</span> <!-- We need to wrap this in * so that the barcode works -->
     <span class="header-right qrcode">{{{QrCode}}}</span>
   </div>
@@ -24,7 +24,7 @@
 <div class="rpt-flexrow" style="margin-top:30px;">
   <table class="sub-header">
     <tr>
-      <td class="header-left">Order: {{OrderNumber}}</td>
+      <td class="header-left">{{Type}}: {{OrderNumber}}</td>
       <td class="header-center">Description: <span style="font-weight:600;">{{OrderDescription}}</span></td>
       <td class="header-right">PO No: {{PoNumber}}</td>
     </tr>
@@ -50,7 +50,7 @@
   <table>
     <thead>
       <tr>
-        <th>Order No.</th>
+        <th>{{Type}} No.</th>
         <th>I-Code</th>
         <th>Description</th>
         <th>Aisle/Shelf</th>
@@ -125,7 +125,7 @@
   <div class="rpt-flexcolumn">
     <span class="header-right" style="font-size:20px;">Pick Number: </span>
     <span class="header-right" style="font-size:20px;border:1.25px solid black;padding:2px;">{{../PickNumber}}</span>
-    <span class="header-right" style="font-size:20px;">Order Number: </span>
+    <span class="header-right" style="font-size:20px;">{{../Type}} Number: </span>
     <span class="header-right" style="font-family:'Libre Barcode 39 Text', serif; font-size:50px;">*{{../OrderNumber}}*</span>
     <span class="header-right qrcode">{{{../QrCode}}}</span>
   </div>
@@ -133,7 +133,7 @@
 <div class="rpt-flexrow" style="margin-top:30px;">
   <table class="sub-header">
     <tr>
-      <td class="header-left">Order: {{../OrderNumber}}</td>
+      <td class="header-left">{{../Type}}: {{../OrderNumber}}</td>
       <td class="header-center">Description: <span style="font-weight:600;">{{../OrderDescription}}</span></td>
       <td class="header-right">PO No: {{../PoNumber}}</td>
     </tr>
@@ -158,7 +158,7 @@
   <table>
     <thead>
       <tr>
-        <th>Order No.</th>
+        <th>{{../Type}} No.</th>
         <th>I-Code</th>
         <th>Description</th>
         <th>Aisle/Shelf</th>
