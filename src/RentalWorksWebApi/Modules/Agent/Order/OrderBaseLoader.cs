@@ -912,6 +912,21 @@ namespace WebApi.Modules.Agent.Order
         public bool? DisableEditingLossAndDamageRate { get; set; }
         //------------------------------------------------------------------------------------ 
 
+        [FwSqlDataField(column: "rentalextended", modeltype: FwDataTypes.Decimal)]
+        public decimal? RentalExtendedTotal { get; set; }
+        [FwSqlDataField(column: "salesextended", modeltype: FwDataTypes.Decimal)]
+        public decimal? SalesExtendedTotal { get; set; }
+        [FwSqlDataField(column: "laborextended", modeltype: FwDataTypes.Decimal)]
+        public decimal? LaborExtendedTotal { get; set; }
+        [FwSqlDataField(column: "miscextended", modeltype: FwDataTypes.Decimal)]
+        public decimal? MiscellaneousExtendedTotal { get; set; }
+        [FwSqlDataField(column: "rentalsaleextended", modeltype: FwDataTypes.Decimal)]
+        public decimal? UsedSaleExtendedTotal { get; set; }
+        [FwSqlDataField(column: "ldextended", modeltype: FwDataTypes.Decimal)]
+        public decimal? LossAndDamageExtendedTotal { get; set; }
+
+
+
         [FwSqlDataField(column: "hasnotes", modeltype: FwDataTypes.Boolean)]
         public bool? HasNotes { get; set; }
         //------------------------------------------------------------------------------------ 

@@ -188,70 +188,6 @@ namespace WebApi.Modules.Agent.Order
 
         //------------------------------------------------------------------------------------ 
 
-        [FwLogicProperty(Id: "E5CwOveaxcBVx", IsReadOnly: true)]
-        public string DatesAndTimes
-        {
-
-            //WIP
-
-            get
-            {
-                ////build up the dates and times strings here
-                //StringBuilder sb = new StringBuilder();
-
-                ////pick date and time
-                //if (!string.IsNullOrEmpty(PickDate))
-                //{
-                //    sb.Append("Pick: ");
-                //    sb.Append(PickDate);
-                //    if (!string.IsNullOrEmpty(PickTime))
-                //    {
-                //        sb.Append(" ");
-                //        sb.Append(PickTime);
-                //    }
-                //}
-
-                ////estimated start and stop dates
-                //if (!string.IsNullOrEmpty(EstimatedStartDate))
-                //{
-                //    if (sb.Length > 0)
-                //    {
-                //        sb.Append(" ");
-                //    }
-                //    sb.Append("Start: ");
-                //    sb.Append(EstimatedStartDate);
-                //    if (!string.IsNullOrEmpty(EstimatedStartTime))
-                //    {
-                //        sb.Append(" ");
-                //        sb.Append(EstimatedStartTime);
-                //    }
-                //}
-
-                //if (!string.IsNullOrEmpty(EstimatedStopDate))
-                //{
-                //    if (sb.Length > 0)
-                //    {
-                //        sb.Append(" ");
-                //    }
-                //    sb.Append("Stop: ");
-                //    sb.Append(EstimatedStopDate);
-                //    if (!string.IsNullOrEmpty(EstimatedStopTime))
-                //    {
-                //        sb.Append(" ");
-                //        sb.Append(EstimatedStopTime);
-                //    }
-                //}
-
-                ////other dates
-
-                //return sb.ToString();
-
-                return "NOTHING HERE";
-            }
-        }
-
-        //------------------------------------------------------------------------------------ 
-
         [FwLogicProperty(Id: "y4trOTswSEcP3", IsNotAudited: true)]
         public List<OrderDatesLogic> ActivityDatesAndTimes { get; set; } = new List<OrderDatesLogic>();
 
@@ -1210,7 +1146,19 @@ namespace WebApi.Modules.Agent.Order
 
         //------------------------------------------------------------------------------------ 
 
-
+        [FwLogicProperty(Id: "md8wyK3iLVu19", IsReadOnly: true)]
+        public decimal? RentalExtendedTotal { get; set; }
+        [FwLogicProperty(Id: "t69atepngfmcn", IsReadOnly: true)]
+        public decimal? SalesExtendedTotal { get; set; }
+        [FwLogicProperty(Id: "GSTvpXg6jPQm2", IsReadOnly: true)]
+        public decimal? LaborExtendedTotal { get; set; }
+        [FwLogicProperty(Id: "Vm9BEBQZ1Wt9D", IsReadOnly: true)]
+        public decimal? MiscellaneousExtendedTotal { get; set; }
+        [FwLogicProperty(Id: "OwPNPM2xfi30C", IsReadOnly: true)]
+        public decimal? UsedSaleExtendedTotal { get; set; }
+        [FwLogicProperty(Id: "Nv6r2tREyvp1p", IsReadOnly: true)]
+        public decimal? LossAndDamageExtendedTotal { get; set; }
+        
 
         [FwLogicProperty(Id: "a4M3WLLCuQor", IsReadOnly: true)]
         public bool? HasNotes { get; set; }
