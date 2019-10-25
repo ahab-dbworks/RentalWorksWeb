@@ -74,6 +74,11 @@ namespace WebApi.Modules.Billing.Invoice
         [FwLogicProperty(Id: "cabRRQZhTyk7")]
         public string InvoiceDescription { get { return invoice.InvoiceDescription; } set { invoice.InvoiceDescription = value; } }
 
+        [FwLogicProperty(Id: "7fYCeGvDGDRCS", IsReadOnly: true)]
+        public string CreditingInvoiceId { get; set; }
+        [FwLogicProperty(Id: "VH9tmyDATY2HP", IsReadOnly: true)]
+        public string CreditingInvoiceNumber { get; set; }
+
         [FwLogicProperty(Id: "HuB25hwx1f59", IsReadOnly: true)]
         public string CustomerId { get; set; }
 

@@ -161,7 +161,7 @@ class Invoice {
         $invoiceItemGridRental.empty().append($invoiceItemGridRentalControl);
         $invoiceItemGridRentalControl.data('isSummary', false);
         $invoiceItemGridRental.addClass('R');
-        $invoiceItemGridRentalControl.attr('data-enabled', 'false');
+        //$invoiceItemGridRentalControl.attr('data-enabled', 'false');
         $invoiceItemGridRentalControl.find('div[data-datafield="Rate"]').attr('data-caption', 'Unit Rate');
 
         $invoiceItemGridRentalControl.data('ondatabind', request => {
@@ -545,6 +545,8 @@ class Invoice {
 
     //----------------------------------------------------------------------------------------------
     dynamicColumns($form: JQuery): void {
+        const invoiceType = FwFormField.getValueByDataField($form, 'InvoiceType');
+
         const $rentalGrid = $form.find('.rentalgrid [data-name="InvoiceItemGrid"]');
         const fields = jQuery($rentalGrid).find('thead tr.fieldnames > td.column > div.field');
         const fieldNames = [];
@@ -556,6 +558,7 @@ class Invoice {
         }
         // ----------
         const rentalShowFields: Array<string> = ["OrderNumber", "ICode", "Description", "Quantity", "FromDate", "ToDate", "Days", "Rate", "Cost", "DaysPerWeek", "DiscountPercent", "DiscountAmount", "Extended", "Taxable"];
+        if (invoiceType === 'CREDIT') { rentalShowFields.push('Adjustment'); }
         const hiddenRentals: Array<string> = fieldNames.filter(function (field) {
             return !this.has(field)
         }, new Set(rentalShowFields))
@@ -564,6 +567,7 @@ class Invoice {
         }
         // ----------
         const salesShowFields: Array<string> = ["OrderNumber", "ICode", "Description", "Quantity", "Unit", "Cost", "Rate", "DiscountPercent", "DiscountAmount", "Extended", "Taxable"];
+        if (invoiceType === 'CREDIT') { salesShowFields.push('Adjustment'); }
         const hiddenSales = fieldNames.filter(function (field) {
             return !this.has(field)
         }, new Set(salesShowFields))
@@ -573,6 +577,7 @@ class Invoice {
         }
         // ----------
         const laborShowFields: Array<string> = ["OrderNumber", "ICode", "Description", "Quantity", "FromDate", "FromTime", "ToDate", "ToTime", "Days", "Unit", "Rate", "Cost", "DiscountAmount", "Extended", "Taxable"];
+        if (invoiceType === 'CREDIT') { laborShowFields.push('Adjustment'); }
         const hiddenLabor = fieldNames.filter(function (field) {
             return !this.has(field)
         }, new Set(laborShowFields))
@@ -591,6 +596,7 @@ class Invoice {
         }
         // ----------
         const rentalSaleShowFields: Array<string> = ["OrderNumber", "SerialNumber", "BarCode", "ICode", "Description", "Quantity", "Cost", "Unit", "Rate", "DiscountAmount", "Extended", "Taxable"];
+        if (invoiceType === 'CREDIT') { rentalSaleShowFields.push('Adjustment'); }
         const hiddenRentalSale = fieldNames.filter(function (field) {
             return !this.has(field)
         }, new Set(rentalSaleShowFields))
@@ -618,7 +624,7 @@ class Invoice {
         const invoiceType = FwFormField.getValueByDataField($form, 'InvoiceType');
 
         if (invoiceType === 'CREDIT') {
-            $form.find('div[data-datafield="InvoiceCreationBatchId"]').show();
+            $form.find('div[data-datafield="CreditingInvoiceId"]').show();
         }
     }
     //----------------------------------------------------------------------------------------------
