@@ -34,6 +34,8 @@ export class PickListReport extends WebpackReport {
                         data.Type = 'Order';
                     }
 
+                    data.BarCodeStyle = parameters.BarCodeStyle;
+
                     const qr = QrCodeGen.QrCode.encodeText(data.OrderNumber, QrCodeGen.Ecc.MEDIUM);
                     const svg = qr.toSvgString(4);
                     data.QrCode = svg;

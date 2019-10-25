@@ -17,8 +17,12 @@
     <span class="header-right" style="font-size:20px;">Pick Number: </span>
     <span class="header-right" style="font-size:20px;border:1.25px solid black;padding:2px;">{{PickNumber}}</span>
     <span class="header-right" style="font-size:20px;">{{Type}} Number: </span>
+    {{#ifEquals BarCodeStyle "1D"}}
     <span class="header-right" style="font-family:'Libre Barcode 39 Text', serif; font-size:50px;">*{{OrderNumber}}*</span> <!-- We need to wrap this in * so that the barcode works -->
+    {{/ifEquals}}
+    {{#ifEquals BarCodeStyle "2D"}}
     <span class="header-right qrcode">{{{QrCode}}}</span>
+    {{/ifEquals}}
   </div>
 </div>
 <div class="rpt-flexrow" style="margin-top:30px;">
@@ -126,8 +130,12 @@
     <span class="header-right" style="font-size:20px;">Pick Number: </span>
     <span class="header-right" style="font-size:20px;border:1.25px solid black;padding:2px;">{{../PickNumber}}</span>
     <span class="header-right" style="font-size:20px;">{{../Type}} Number: </span>
+    {{#ifEquals ../BarCodeStyle "1D"}}
     <span class="header-right" style="font-family:'Libre Barcode 39 Text', serif; font-size:50px;">*{{../OrderNumber}}*</span>
+    {{/ifEquals}}
+    {{#ifEquals ../BarCodeStyle "2D"}}
     <span class="header-right qrcode">{{{../QrCode}}}</span>
+    {{/ifEquals}}
   </div>
 </div>
 <div class="rpt-flexrow" style="margin-top:30px;">

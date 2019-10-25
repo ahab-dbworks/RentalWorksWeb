@@ -23,6 +23,7 @@ const pickListTemplate = `
                       <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="New Page for each Inventory Type" data-datafield="NewPagePerType"></div>
                     </div>
                     <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="OrderType" data-savesetting="false" style="display:none;"></div>
+                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="BarCodeStyle" data-savesetting="false" style="display:none;"></div>
                   </div>
                 </div>
               </div>
@@ -66,6 +67,9 @@ class PickListReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     onLoadForm($form) {
         this.load($form, this.reportOptions);
+
+        const barCodeStyle = JSON.parse(sessionStorage.getItem('controldefaults')).documentbarcodestyle;
+        FwFormField.setValue($form, 'div[data-datafield="BarCodeStyle"]', barCodeStyle);
     }
     //----------------------------------------------------------------------------------------------
     convertParameters(parameters: any) {
