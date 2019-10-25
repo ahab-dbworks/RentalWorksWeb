@@ -3832,7 +3832,17 @@ class FwBrowseClass {
     }
     //----------------------------------------------------------------------------------------------
     disableGrid($control: JQuery) {
-        $control.attr('data-enabled', 'false');
+        //$control.attr('data-enabled', 'false');
+        $control.find('.buttonbar').hide();
+        const $columns = $control.find('.column');
+        jQuery.each($columns, (i, el) => {
+            const $field = jQuery(el).find('.field');
+            if ($field) {
+                if ($field.attr('data-preventformreadonly') != 'true') {
+                    $field.attr('data-formreadonly', 'true');
+                }
+            }
+        })
     }
     //----------------------------------------------------------------------------------------------
     enableGrid($control: JQuery) {
