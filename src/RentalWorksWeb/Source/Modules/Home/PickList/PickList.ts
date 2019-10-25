@@ -2,8 +2,8 @@
     Module: string = 'PickList';
     apiurl: string = 'api/v1/picklist';
     caption: string = Constants.Modules.Home.PickList.caption;
-	nav: string = Constants.Modules.Home.PickList.nav;
-	id: string = Constants.Modules.Home.PickList.id;
+    nav: string = Constants.Modules.Home.PickList.nav;
+    id: string = Constants.Modules.Home.PickList.id;
     ActiveViewFields: any = {};
     ActiveViewFieldsId: string;
     //----------------------------------------------------------------------------------------------
@@ -213,7 +213,7 @@
                 <div class="flexpage">
                   <div class="flexrow">
                     <div class="flexcolumn" style="flex:1 1 900px;">
-                      <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Order">
+                      <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Pick List">
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Pick List No." data-datafield="PickListNumber" data-enabled="false" style="flex:0 1 125px;"></div>
                           <!--<div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Order No." data-datafield="OrderNumber" data-enabled="false" style="flex:1 1 150px;"></div>-->
