@@ -508,7 +508,7 @@
               <div data-type="tabpage" id="contactstabpage" class="tabpage" data-tabid="contactstab">
                 <div class="flexpage">
                   <div class="flexrow">
-                    <div data-control="FwGrid" data-grid="CompanyContactGrid" data-securitycaption="Vendor Contacts"></div>
+                    <div data-control="FwGrid" data-grid="CompanyContactGrid" data-securitycaption="Customer Contacts"></div>
                   </div>
                 </div>
               </div>
