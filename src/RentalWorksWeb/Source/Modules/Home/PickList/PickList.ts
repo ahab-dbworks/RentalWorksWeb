@@ -75,14 +75,7 @@
     events($form) {
         $form.on('click', '.printpicklist', e => {
             try {
-                const $form = jQuery(e.currentTarget).closest('.fwform');
-                const pickListNumber = FwFormField.getValueByDataField($form, 'PickListNumber');
-                const pickListId = FwFormField.getValueByDataField($form, 'PickListId');
-                const $report = PickListReportController.openForm();
-                FwModule.openSubModuleTab($form, $report);
-                FwFormField.setValueByDataField($report, 'PickListId', pickListId, pickListNumber);
-                //jQuery('.tab.submodule.active').find('.caption').html('Print Pick List');
-                jQuery('.tab.submodule.active[data-tabtype="FORM"]').find('.caption').html('Print Pick List');  //justin 09/16/2019 added data-tabtype="FORM" to target the top-level form tab, not the tab page on the Order form
+                this.printPickList($form);
             }
             catch (ex) {
                 FwFunc.showError(ex);
@@ -90,6 +83,18 @@
         });
     }
     //----------------------------------------------------------------------------------------------
+    printPickList($form) {
+        const pickListNumber = FwFormField.getValueByDataField($form, 'PickListNumber');
+        const pickListId = FwFormField.getValueByDataField($form, 'PickListId');
+        const orderType = FwFormField.getValueByDataField($form, 'OrderType');
+        const $report = PickListReportController.openForm();
+        FwModule.openSubModuleTab($form, $report);
+        FwFormField.setValueByDataField($report, 'PickListId', pickListId, pickListNumber);
+        FwFormField.setValueByDataField($report, 'OrderType', orderType);
+        //jQuery('.tab.submodule.active').find('.caption').html('Print Pick List');
+        jQuery('.tab.submodule.active[data-tabtype="FORM"]').find('.caption').html('Print Pick List');  //justin 09/16/2019 added data-tabtype="FORM" to target the top-level form tab, not the tab page on the Order form
+    }
+        //----------------------------------------------------------------------------------------------
     openEmailHistoryBrowse($form) {
         var $browse;
 
@@ -166,6 +171,9 @@
           <div class="column" data-width="0" data-visible="false">
             <div class="field" data-datafield="OrderId" data-browsedatatype="key"></div>
           </div>
+          <div class="column" data-width="125px" data-visible="false">
+            <div class="field" data-caption="Order Type" data-datafield="OrderType" data-browsedatatype="text" data-sort="off"></div>
+          </div>
           <div class="column" data-width="125px" data-visible="true">
             <div class="field" data-caption="Pick No." data-datafield="PickListNumber" data-browsedatatype="text" data-sort="desc" data-sortsequence="3" ></div>
           </div>
@@ -219,6 +227,7 @@
                           <!--<div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Order No." data-datafield="OrderNumber" data-enabled="false" style="flex:1 1 150px;"></div>-->
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="OrderDescription" data-enabled="false" style="flex:1 1 325px;"></div>
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Deal" data-datafield="Deal" data-enabled="false" style="flex:1 1 325px;"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Order Type" data-datafield="OrderType" data-enabled="false" style="display:none;"></div>
                           <div class="fwformcontrol printpicklist" data-type="button" style="flex:0 1 auto;margin:15px;">Print</div>
                         </div>
                         <div class="flexrow">
@@ -271,14 +280,7 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.PickList.form.menuItems.Can
 FwApplicationTree.clickEvents[Constants.Modules.Home.PickList.form.menuItems.PrintPickList.id] = (e: JQuery.ClickEvent) => {
     try {
         const $form = jQuery(e.currentTarget).closest('.fwform');
-        const pickListNumber = FwFormField.getValueByDataField($form, 'PickListNumber');
-        const pickListId = FwFormField.getValueByDataField($form, 'PickListId');
-        const $report = PickListReportController.openForm();
-        FwModule.openSubModuleTab($form, $report);
-        FwFormField.setValueByDataField($report, 'PickListId', pickListId, pickListNumber);
-        const $tabPage = FwTabs.getTabPageByElement($report);
-        const $tab = FwTabs.getTabByElement(jQuery($tabPage));
-        $tab.find('.caption').html('Print Pick List');
+        PickListController.printPickList($form);
     }
     catch (ex) {
         FwFunc.showError(ex);
@@ -291,11 +293,12 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.PickList.browse.menuItems.P
         let $browse = jQuery(this).closest('.fwbrowse');
         let pickListNumber = $browse.find('.selected [data-browsedatafield="PickListNumber"]').attr('data-originalvalue');
         let pickListId = $browse.find('.selected [data-browsedatafield="PickListId"]').attr('data-originalvalue');
+        const orderType = $browse.find('.selected [data-browsedatafield="OrderType"]').attr('data-originalvalue');
         if (pickListId != null) {
-            $browse = PickListReportController.openForm();
-            FwModule.openModuleTab($browse, 'Pick List Report for ' + pickListNumber, true, 'REPORT', true);
-            $browse.find('div.fwformfield[data-datafield="PickListId"] input').val(pickListId);
-            $browse.find('div.fwformfield[data-datafield="PickListId"] .fwformfield-text').val(pickListNumber);
+            let $report = PickListReportController.openForm();
+            FwModule.openModuleTab($report, 'Pick List Report for ' + pickListNumber, true, 'REPORT', true);
+            FwFormField.setValueByDataField($report, 'PickListId', pickListId, pickListNumber);
+            FwFormField.setValueByDataField($report, 'OrderType', orderType);
         } else {
             FwNotification.renderNotification('WARNING', 'Select a Picklist to print.');
         }
