@@ -4,7 +4,7 @@ rem Purpose:
 rem This batch file will produce a new build of RentalWorksWeb in the "build" directory.
 rem --------------------------------------------------------------------------
 rem Author:        Justin Hoffman
-rem Last modified: 10/20/2019
+rem Last modified: 10/25/2019
 rem --------------------------------------------------------------------------
 rem
 rem
@@ -47,9 +47,9 @@ set zipfilename=RentalWorksWeb_%buildnoforzip%.zip
 
 rem Update the Build number in the version.txt files
 echo | set /p buildnumber=>%DwRentalWorksWebPath%\src\RentalWorksWeb\version.txt
-echo | set /p buildnumber=%buildno%>>%DwRentalWorksWebPath%\src\RentalWorksWeb\version.txt
-echo | set /p buildnumber=%buildno%> %DwRentalWorksWebPath%\src\RentalWorksWebApi\version.txt
-echo | set /p buildnumber=%buildno%> %DwRentalWorksWebPath%\src\RentalWorksWeb\version-RentalWorksWeb.txt
+echo | set /p buildnumber="%buildno%">>%DwRentalWorksWebPath%\src\RentalWorksWeb\version.txt
+echo | set /p buildnumber="%buildno%"> %DwRentalWorksWebPath%\src\RentalWorksWebApi\version.txt
+echo | set /p buildnumber="%buildno%"> %DwRentalWorksWebPath%\src\RentalWorksWeb\version-RentalWorksWeb.txt
 
 rem update AssemblyInfo.cs
 cmd /c exit 91
