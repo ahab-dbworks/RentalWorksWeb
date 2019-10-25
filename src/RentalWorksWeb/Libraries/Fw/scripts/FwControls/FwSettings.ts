@@ -277,8 +277,9 @@ class FwSettingsClass {
             const keys = $browse.find('.field');
             const rowId = jQuery(keys[0]).attr('data-browsedatafield');
 
-            $body.append('<div class="legend"><span class="input-group-addon search"><i class="material-icons">search</i></span><input type="text" id="recordSearch" class="form-control" placeholder="Record Search" autofocus></div>');
-
+            if ($body.find('.legend').length <= 0) {
+                $body.append('<div class="legend"><span class="input-group-addon search"><i class="material-icons">search</i></span><input type="text" id="recordSearch" class="form-control" placeholder="Record Search" autofocus></div>');
+            }
             //append legend
             if ($browse.find('.legend').length > 0) {
                 $body.append($browse.find('.legend'));
@@ -509,8 +510,9 @@ class FwSettingsClass {
             $form = (<any>window[controller]).openForm('NEW');
             $body.prepend($form);
             $body.prepend(jQuery(newRowHtml.join('')));
-            const legend = $body.find('.legend');
-            $body.prepend(legend);
+            $body.find('.legend').remove()
+            $body.prepend('<div class="legend"><span class="input-group-addon search"><i class="material-icons">search</i></span><input type="text" id="recordSearch" class="form-control" placeholder="Record Search" autofocus></div>');
+            //$body.prepend(legend);
         }
 
         $body.on('click', '.close-new-row', e => {
@@ -654,7 +656,7 @@ class FwSettingsClass {
 
         $settingsPageModules
             .on('click', '.panel-heading', function (e) {
-                var browseData = [], browseKeys = [], $form, colors = [];
+                var browseData = [], browseKeys = [], $form;
 
                 const $this = jQuery(this);
                 const moduleName = $this.closest('.panel-group').attr('id');
@@ -668,7 +670,9 @@ class FwSettingsClass {
                 if ($body.is(':empty')) {
 
                     //append legend
-                    $body.append('<div class="legend"><span class="input-group-addon search"><i class="material-icons">search</i></span><input type="text" id="recordSearch" class="form-control" placeholder="Record Search" autofocus></div>');
+                    if ($body.find('.legend').length <= 0) {
+                        $body.append('<div class="legend"><span class="input-group-addon search"><i class="material-icons">search</i></span><input type="text" id="recordSearch" class="form-control" placeholder="Record Search" autofocus></div>');
+                    }
                     if ($browse.find('.legend').length > 0) {
                         $body.append($browse.find('.legend'));
                     }
