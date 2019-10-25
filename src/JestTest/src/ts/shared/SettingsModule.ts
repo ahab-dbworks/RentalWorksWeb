@@ -380,6 +380,7 @@ export class SettingsModule extends ModuleBase {
         //let newButtonSelector = `.panel-group[id="${this.moduleName}"] i.material-icons.new-row-menu`;
 
         await page.waitForSelector(this.getNewButtonSelector(), { visible: true , timeout: 10000 });
+        await ModuleBase.wait(500); // let the events get associated to the new button
         await page.click(this.getNewButtonSelector(), { clickCount: count });
 
         let formSelector = `.fwform`;
