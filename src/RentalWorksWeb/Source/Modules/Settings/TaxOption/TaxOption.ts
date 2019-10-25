@@ -49,7 +49,6 @@
 
         if (mode === 'NEW') {
             this.canadaOnlyConfiguration($form, 'U');
-            this.markFieldsNotRequired($form);
             FwFormField.setValueByDataField($form, 'RentalTaxRate1', 0);
             FwFormField.setValueByDataField($form, 'SalesTaxRate1', 0);
             FwFormField.setValueByDataField($form, 'LaborTaxRate1', 0);
@@ -72,7 +71,6 @@
 
         this.events($form);
 
-        this.markFieldsNotRequired($form);
         return $form;
     }
     //----------------------------------------------------------------------------------------------
@@ -89,8 +87,7 @@
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
-        const country = $form.find('[data-datafield="TaxCountry"] input[type="radio"]:checked').val();
-
+        const country = FwFormField.getValueByDataField($form, 'TaxCountry');
         this.canadaOnlyConfiguration($form, country);
         this.configureTaxOnTax($form);
 
@@ -114,18 +111,20 @@
             this.configureTaxOnTax($form);
         })
     }
+    //----------------------------------------------------------------------------------------------
     configureTaxOnTax($form: JQuery) {
         const taxOnTax = FwFormField.getValueByDataField($form, 'TaxOnTax');
         if (taxOnTax === true) {
-            FwFormField.enable($form.find('.taxontax'));
+            FwFormField.enable($form.find('div[data-datafield="TaxOnTaxAccountId"]'));
         } else {
-            FwFormField.disable($form.find('.taxontax'));
+            FwFormField.disable($form.find('div[data-datafield="TaxOnTaxAccountId"]'));
         }
     }
     //----------------------------------------------------------------------------------------------
     canadaOnlyConfiguration($form: JQuery, country: string): void {
         if (country === 'U') {
             $form.find('.canadatab, .canadataxratespanel, .canadataxrulespanel').hide();
+            FwFormField.setValueByDataField($form, 'TaxAccountId2', '');
             $form.find('.ustaxratespanel').show();
         } else {
             $form.find('.ustaxratespanel').hide();
@@ -135,26 +134,16 @@
     //----------------------------------------------------------------------------------------------
     toggleDisableUSTaxRates($form: JQuery, isChecked: boolean, exemptTypeClass: string): void {
         if (!isChecked) {
-            $form.find('.' + exemptTypeClass)
+            $form.find(`.${exemptTypeClass}`)
                 .attr('data-enabled', 'true')
                 .find('input[type="text"]')
                 .prop('disabled', false);
         } else {
-            $form.find('.' + exemptTypeClass)
+            $form.find(`.${exemptTypeClass}`)
                 .attr('data-enabled', 'false')
                 .find('input[type="text"]')
                 .prop('disabled', true);
         }
-    }
-    //----------------------------------------------------------------------------------------------
-    markFieldsNotRequired($form: JQuery): void {
-        $form.find('.gstexportcodetxt, .pstexporttxt').attr('data-required', 'false');
-
-        $form.find('.canadataxratespanel, .ustaxratespanel').find('.fwformfield').attr('data-required', 'false');
-
-        $form.find('.desc').attr('data-required', 'false');
-
-        $form.find('.notrequired').attr('data-required', 'false');
     }
     //----------------------------------------------------------------------------------------------
     forceTaxRates(id: any) {
