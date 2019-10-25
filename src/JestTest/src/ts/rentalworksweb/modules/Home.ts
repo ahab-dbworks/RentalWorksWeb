@@ -12,6 +12,18 @@ export class Quote extends HomeModule {
         this.moduleId = '4D785844-BE8A-4C00-B1FA-2AA5B05183E5';
         this.moduleCaption = 'Quote';
         this.canDelete = false;
+        let rentalGrid: GridBase = new GridBase("OrderItemGrid", ["R"]);
+        let salesGrid: GridBase = new GridBase("OrderItemGrid", ["S"]);
+        let miscGrid: GridBase = new GridBase("OrderItemGrid", ["M"]);
+        let laborGrid: GridBase = new GridBase("OrderItemGrid", ["L"]);
+        let contactGrid: GridBase = new GridBase("OrderContactGrid");
+        let noteGrid: GridBase = new GridBase("OrderNoteGrid");
+        this.grids.push(rentalGrid);
+        this.grids.push(salesGrid);
+        this.grids.push(miscGrid);
+        this.grids.push(laborGrid);
+        this.grids.push(contactGrid);
+        this.grids.push(noteGrid);
 
         this.defaultNewRecordToExpect = {
             QuoteNumber: "",
@@ -30,14 +42,70 @@ export class Quote extends HomeModule {
                     //Deal: dealInputs.Deal,
                     DealId: 1,
                     Location: TestUtils.randomStreetName(),
-                    ReferenceNumber: TestUtils.randomAlphanumeric(8)
+                    ReferenceNumber: TestUtils.randomAlphanumeric(8),
+					Rental: true,
+					Sales: true,
+					Miscellaneous: true,
+					Labor: true,
                 },
                 seekObject: {
                     Description: "GlobalScope.TestToken~1.TestToken",
-                }
-
+                },
             }
         ];
+
+        this.newRecordsToCreate[0].gridRecords = [
+            {
+                grid: rentalGrid,
+                recordToCreate: {
+                    record: {
+                        InventoryId: 4,
+                    }
+                }
+            },
+            {
+                grid: salesGrid,
+                recordToCreate: {
+                    record: {
+                        InventoryId: 3,
+                    }
+                }
+            },
+            {
+                grid: miscGrid,
+                recordToCreate: {
+                    record: {
+                        InventoryId: 1,
+                    }
+                }
+            },
+            {
+                grid: laborGrid,
+                recordToCreate: {
+                    record: {
+                        InventoryId: 1,
+                    }
+                }
+            },
+            {
+                grid: contactGrid,
+                recordToCreate: {
+                    record: {
+                        ContactId: 1,
+						ContactTitleId: 1,
+                    }
+                }
+            },
+            {
+                grid: noteGrid,
+                recordToCreate: {
+                    record: {
+                        NotesDescription: "GlobalScope.TestToken~1.TestToken",
+                    }
+                }
+            },
+        ];
+
 
         this.newRecordsToCreate[0].recordToExpect = {
             QuoteNumber: "|NOTEMPTY|",
@@ -69,8 +137,16 @@ export class Order extends HomeModule {
         this.canDelete = false;
         let rentalGrid: GridBase = new GridBase("OrderItemGrid", ["R"]);
         let salesGrid: GridBase = new GridBase("OrderItemGrid", ["S"]);
+        let miscGrid: GridBase = new GridBase("OrderItemGrid", ["M"]);
+        let laborGrid: GridBase = new GridBase("OrderItemGrid", ["L"]);
+        let contactGrid: GridBase = new GridBase("OrderContactGrid");
+        let noteGrid: GridBase = new GridBase("OrderNoteGrid");
         this.grids.push(rentalGrid);
         this.grids.push(salesGrid);
+        this.grids.push(miscGrid);
+        this.grids.push(laborGrid);
+        this.grids.push(contactGrid);
+        this.grids.push(noteGrid);
 
 
         this.defaultNewRecordToExpect = {
@@ -91,6 +167,10 @@ export class Order extends HomeModule {
                     DealId: 1,
                     Location: TestUtils.randomStreetName(),
                     ReferenceNumber: TestUtils.randomAlphanumeric(8),
+					Rental: true,
+					Sales: true,
+					Miscellaneous: true,
+					Labor: true,
                 },
                 seekObject: {
                     Description: "GlobalScope.TestToken~1.TestToken",
@@ -113,6 +193,39 @@ export class Order extends HomeModule {
                 recordToCreate: {
                     record: {
                         InventoryId: 3,
+                    }
+                }
+            },
+            {
+                grid: miscGrid,
+                recordToCreate: {
+                    record: {
+                        InventoryId: 1,
+                    }
+                }
+            },
+            {
+                grid: laborGrid,
+                recordToCreate: {
+                    record: {
+                        InventoryId: 1,
+                    }
+                }
+            },
+            {
+                grid: contactGrid,
+                recordToCreate: {
+                    record: {
+                        ContactId: 1,
+						ContactTitleId: 1,
+                    }
+                }
+            },
+            {
+                grid: noteGrid,
+                recordToCreate: {
+                    record: {
+                        NotesDescription: "GlobalScope.TestToken~1.TestToken",
                     }
                 }
             },
@@ -143,6 +256,14 @@ export class Customer extends HomeModule {
         this.moduleName = 'Customer';
         this.moduleId = '214C6242-AA91-4498-A4CC-E0F3DCCCE71E';
         this.moduleCaption = 'Customer';
+        let contactGrid: GridBase = new GridBase("CompanyContactGrid");
+        let resaleGrid: GridBase = new GridBase("CompanyResaleGrid");
+        let noteGrid: GridBase = new GridBase("CustomerNoteGrid");
+        this.grids.push(contactGrid);
+        this.grids.push(resaleGrid);
+        this.grids.push(noteGrid);
+
+
         this.newRecordsToCreate = [
             {
                 record: {
@@ -164,6 +285,35 @@ export class Customer extends HomeModule {
                 }
 
             }
+        ];
+
+        this.newRecordsToCreate[0].gridRecords = [
+            {
+                grid: contactGrid,
+                recordToCreate: {
+                    record: {
+                        ContactId: 1,
+						ContactTitleId: 1,
+                    }
+                }
+            },
+            {
+                grid: resaleGrid,
+                recordToCreate: {
+                    record: {
+                        StateId: 1,
+						ResaleNumber: "GlobalScope.TestToken~1.TestToken",
+                    }
+                }
+            },
+            {
+                grid: noteGrid,
+                recordToCreate: {
+                    record: {
+                        Description: "GlobalScope.TestToken~1.TestToken",
+                    }
+                }
+            },
         ];
 
         this.newRecordsToCreate[0].recordToExpect = {
@@ -189,6 +339,14 @@ export class Deal extends HomeModule {
         this.moduleName = 'Deal';
         this.moduleId = 'C67AD425-5273-4F80-A452-146B2008B41C';
         this.moduleCaption = 'Deal';
+        let contactGrid: GridBase = new GridBase("CompanyContactGrid");
+        let resaleGrid: GridBase = new GridBase("CompanyResaleGrid");
+        let shipperGrid: GridBase = new GridBase("DealShipperGrid");
+        let noteGrid: GridBase = new GridBase("DealNoteGrid");
+        this.grids.push(contactGrid);
+        this.grids.push(resaleGrid);
+        this.grids.push(shipperGrid);
+        this.grids.push(noteGrid);
 
         this.defaultNewRecordToExpect = {
             OfficeLocation: "GlobalScope.User~ME.OfficeLocation",                  // ie. "LAS VEGAS"
@@ -204,13 +362,53 @@ export class Deal extends HomeModule {
                     CustomerId: 1,
                     Address2: TestUtils.randomAddress2(),
                     Fax: TestUtils.randomPhone(),
-                    DealTypeId: 1
+                    DealTypeId: 1,
+					UseCustomerTax: false
                 },
                 seekObject: {
                     Deal: "GlobalScope.TestToken~1.TestToken",
                 }
 
             }
+        ];
+
+        this.newRecordsToCreate[0].gridRecords = [
+            {
+                grid: contactGrid,
+                recordToCreate: {
+                    record: {
+                        ContactId: 1,
+						ContactTitleId: 1,
+                    }
+                }
+            },
+            {
+                grid: resaleGrid,
+                recordToCreate: {
+                    record: {
+                        StateId: 1,
+						ResaleNumber: "GlobalScope.TestToken~1.TestToken",
+                    }
+                }
+            },
+            {
+                grid: shipperGrid,
+                recordToCreate: {
+                    record: {
+						CarrierId: 1,
+						ShipViaId: 1,
+                        ShipperAcct: "GlobalScope.TestToken~1.MediumTestToken",
+                    }
+                }
+            },
+            {
+                grid: noteGrid,
+                recordToCreate: {
+                    record: {
+                        Description: "GlobalScope.TestToken~1.TestToken",
+                    }
+                }
+            },
         ];
 
         this.newRecordsToCreate[0].recordToExpect = {
