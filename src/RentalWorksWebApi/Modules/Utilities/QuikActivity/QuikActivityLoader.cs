@@ -51,6 +51,15 @@ namespace WebApi.Modules.Utilities.QuikActivity
         [FwSqlDataField(column: "vendor", modeltype: FwDataTypes.Text)]
         public string Vendor { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "warehouseid", modeltype: FwDataTypes.Text)]
+        public string WarehouseId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "whcode", modeltype: FwDataTypes.Text)]
+        public string WarehouseCode { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "warehouse", modeltype: FwDataTypes.Text)]
+        public string Warehouse { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "masterid", modeltype: FwDataTypes.Text)]
         public string InventoryId { get; set; }
         //------------------------------------------------------------------------------------ 
