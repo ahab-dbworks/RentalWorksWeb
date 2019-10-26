@@ -1,4 +1,4 @@
-﻿﻿class InvoiceItemGrid {
+﻿class InvoiceItemGrid {
     Module: string = 'InvoiceItemGrid';
     apiurl: string = 'api/v1/invoiceitem';
 
@@ -26,28 +26,28 @@
         }
 
     }
-        beforeValidateItem = function ($browse, $grid, request, datafield, $tr) {
-            const recType = $tr.find('div[data-browsedatafield="RecType"] input.value').val();
-            if (recType !== null) {
-                switch (recType) {
-                    case 'R':
-                        request.uniqueIds = {
-                            AvailFor: 'R'
-                        };
-                        break;
-                    case 'S':
-                        request.uniqueIds = {
-                            AvailFor: 'S'
-                        };
-                        break;
-                    case 'P':
-                        request.uniqueIds = {
-                            AvailFor: 'P'
-                        };
-                        break;
-                }
+    beforeValidateItem = function ($browse, $grid, request, datafield, $tr) {
+        const recType = $tr.find('div[data-browsedatafield="RecType"] input.value').val();
+        if (recType !== null) {
+            switch (recType) {
+                case 'R':
+                    request.uniqueIds = {
+                        AvailFor: 'R'
+                    };
+                    break;
+                case 'S':
+                    request.uniqueIds = {
+                        AvailFor: 'S'
+                    };
+                    break;
+                case 'P':
+                    request.uniqueIds = {
+                        AvailFor: 'P'
+                    };
+                    break;
             }
-        };
+        }
+    };
 
     generateRow($control, $generatedtr) {
         const $form = $control.closest('.fwform');
@@ -62,13 +62,13 @@
             //const rowQty = $tr.find('.field[data-browsedatafield="Quantity"]').attr('data-originalvalue');
             $generatedtr.find('.field[data-browsedatafield="Description"] input').val($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
             //if (rowQty === '' || rowQty === undefined) {
-                $generatedtr.find('.field[data-browsedatafield="Quantity"] input').val("1");
+            $generatedtr.find('.field[data-browsedatafield="Quantity"] input').val("1");
             //}
-            });
+        });
 
-       
+
         if ($generatedtr.hasClass("newmode")) { }
-        
+
         //if ($form.attr('data-controller') === 'TemplateController') {
         //    $generatedtr.find('div[data-browsedatafield="InventoryId"]').data('onchange', function ($tr) {
         //        var warehouse = FwFormField.getTextByDataField($form, 'WarehouseId');

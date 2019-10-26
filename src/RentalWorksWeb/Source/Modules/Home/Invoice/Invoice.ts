@@ -530,10 +530,10 @@ class Invoice {
         $invoiceItemGridLabor.find('.submenu-btn').filter('[data-securityid="27053421-85CC-46F4-ADB3-85CEC8A8090B"]').hide();
         $invoiceItemGridRentalSale.find('.submenu-btn').filter('[data-securityid="27053421-85CC-46F4-ADB3-85CEC8A8090B"]').hide();
         // Hides grid row DELETE button
-        $invoiceItemGridRental.find('.browsecontextmenucell').hide();
-        $invoiceItemGridSales.find('.browsecontextmenucell').hide();
-        $invoiceItemGridLabor.find('.browsecontextmenucell').hide();
-        $invoiceItemGridRentalSale.find('.browsecontextmenucell').hide();
+        $invoiceItemGridRental.find('.browsecontextmenucell').css('pointer-events', 'none');
+        $invoiceItemGridSales.find('.browsecontextmenucell').css('pointer-events', 'none');
+        $invoiceItemGridLabor.find('.browsecontextmenucell').css('pointer-events', 'none');
+        $invoiceItemGridRentalSale.find('.browsecontextmenucell').css('pointer-events', 'none');
         // Hides grid ADD button
         $invoiceItemGridRental.find('.buttonbar').hide();
         $invoiceItemGridSales.find('.buttonbar').hide();
