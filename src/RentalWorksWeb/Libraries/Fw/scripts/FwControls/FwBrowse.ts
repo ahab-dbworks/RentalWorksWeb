@@ -3840,6 +3840,9 @@ class FwBrowseClass {
             if ($field) {
                 if ($field.attr('data-preventformreadonly') != 'true') {
                     $field.attr('data-formreadonly', 'true');
+                    if ($field.attr('data-browsedatatype') === 'checkbox') {
+                        $field.css('pointer-events', 'none');
+                    }
                 }
             }
         })
