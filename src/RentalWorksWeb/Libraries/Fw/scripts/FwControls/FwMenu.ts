@@ -240,8 +240,13 @@ class FwMenuClass {
                     //check all checkboxes if "ALL" is checked & set caption & update ActiveViewFields
                     let indexOfAll = fields.indexOf("ALL");
                     if (isSelectAllFilters) {
+                        const $filterOptions = jQuery($this).siblings().find('input[type="checkbox"]');
                         if (isChecked) {
-                            jQuery($this).siblings().find('input[type="checkbox"]').prop('checked', true);
+                            if ($filterOptions.length === 1) { //if there is only one other option
+                                $filterOptions.prop('checked', false);
+                            } else {
+                                $filterOptions.prop('checked', true);
+                            }
                             selectedFilterValues = ["All"];
                             fields = ["ALL"];
                             caption = "All";
@@ -326,7 +331,11 @@ class FwMenuClass {
                 const caption = $ddbtn.find(`.ddviewbtn-dropdown-btn-caption`).html();
                 if ($this == 'ALL') {
                     $ddbtn.addClass('select-all-filters');
-                    $btn.find('input').prop('checked', true);
+                    if ($btn.find('input').length === 2) {
+                        $btn.find(`div[data-value="${$this}"] input`).prop('checked', true);
+                    } else {
+                        $btn.find('input').prop('checked', true);
+                    }
                     selectedFilterValues = ["All"];
                 } else {
                     $ddbtn.find('input').prop('checked', true);
