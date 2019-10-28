@@ -1025,7 +1025,7 @@ class FwSettingsClass {
                         if (tempSaveResponse) {
                             this.getPanelForNew($control, $form, moduleName, tempSaveResponse);
                         }
-                    }, 500)
+                    }, 750)
                 }
                 // existing record with a save event
                 if (typeof browsedata !== 'undefined') {
