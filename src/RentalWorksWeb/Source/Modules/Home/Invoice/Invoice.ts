@@ -161,6 +161,7 @@ class Invoice {
         $invoiceItemGridRental.empty().append($invoiceItemGridRentalControl);
         $invoiceItemGridRentalControl.data('isSummary', false);
         $invoiceItemGridRental.addClass('R');
+        FwBrowse.disableGrid($invoiceItemGridRental);
         //$invoiceItemGridRentalControl.attr('data-enabled', 'false');
         $invoiceItemGridRentalControl.find('div[data-datafield="Rate"]').attr('data-caption', 'Unit Rate');
 
@@ -186,7 +187,7 @@ class Invoice {
         const $invoiceItemGridSalesControl = FwBrowse.loadGridFromTemplate('InvoiceItemGrid');
         $invoiceItemGridSales.empty().append($invoiceItemGridSalesControl);
         $invoiceItemGridSales.addClass('S');
-        $invoiceItemGridSalesControl.attr('data-enabled', 'false');
+        FwBrowse.disableGrid($invoiceItemGridSales);
         $invoiceItemGridSalesControl.data('isSummary', false);
         $invoiceItemGridSalesControl.find('div[data-datafield="Rate"]').attr('data-caption', 'Unit Price');
 
@@ -217,6 +218,7 @@ class Invoice {
         $invoiceItemGridLabor.find('div[data-datafield="Taxable"]').attr('data-formreadonly', 'true');
         $invoiceItemGridLaborControl.find('div[data-datafield="Rate"]').attr('data-caption', 'Unit Rate');
         $invoiceItemGridLaborControl.find('div[data-datafield="InventoryId"]').attr('data-caption', 'Item No.');
+        FwBrowse.disableGrid($invoiceItemGridLabor);
 
         $invoiceItemGridLaborControl.data('isSummary', false);
 
@@ -267,7 +269,7 @@ class Invoice {
         const $invoiceItemGridRentalSaleControl = FwBrowse.loadGridFromTemplate('InvoiceItemGrid');
         $invoiceItemGridRentalSale.empty().append($invoiceItemGridRentalSaleControl);
         $invoiceItemGridRentalSale.addClass('RS');
-        $invoiceItemGridRentalSaleControl.attr('data-enabled', 'false');
+        FwBrowse.disableGrid($invoiceItemGridRentalSale);
         $invoiceItemGridRentalSaleControl.data('isSummary', false);
         $invoiceItemGridRentalSaleControl.find('div[data-datafield="Rate"]').attr('data-caption', 'Unit Price');
 
