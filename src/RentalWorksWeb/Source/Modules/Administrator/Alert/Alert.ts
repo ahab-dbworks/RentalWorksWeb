@@ -292,12 +292,11 @@ class Alert {
                         fieldsList = jQuery.merge(oldVal, newVal);
                     }
 
-                    fieldsList.push(
+                    fieldsList = fieldsList.sort(this.compare);
+                    fieldsList.unshift(
                         { 'value': 'DATACHANGEDBYUSERNAME', 'text': 'Data Changed by User Name', 'datatype': 'Text' }
                         , { 'value': 'DATACHANGEDATETIME', 'text': 'Data Change Date/Time', 'datatype': 'Date' }
                     )
-
-                    fieldsList = fieldsList.sort(this.compare);
                     this.datafields = fieldsList;
                     const $fieldListSection = $form.find('.field-list');
                     $fieldListSection.empty();
