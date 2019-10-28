@@ -966,6 +966,7 @@ export class ModuleBase {
 
         let gridNewButtonSelector = `${gridSelector} .buttonbar [data-type="NewButton"] i`;
         await page.waitForSelector(gridNewButtonSelector, { visible: true });
+        ModuleBase.wait(1000); // wait for the New button to get its events
         await page.click(gridNewButtonSelector);
         Logging.logInfo(`clicked New button on grid: ${gridName}`);
 
