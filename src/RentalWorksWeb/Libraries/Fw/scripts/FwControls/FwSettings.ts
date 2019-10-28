@@ -273,17 +273,16 @@ class FwSettingsClass {
             let duplicateDatafields = {};
             let withoutDuplicates = [];
 
-            let $form = jQuery(jQuery('#tmpl-modules-' + moduleName + 'Form').html());
+            let $form = jQuery(jQuery(`#tmpl-modules-${moduleName}Form`).html());
             const keys = $browse.find('.field');
             const rowId = jQuery(keys[0]).attr('data-browsedatafield');
-
-            if ($body.find('.legend').length <= 0) {
-                $body.append('<div class="legend"><span class="input-group-addon search"><i class="material-icons">search</i></span><input type="text" id="recordSearch" class="form-control" placeholder="Record Search" autofocus></div>');
+            if ($body.find('.legend').length <= 1) {
+                $body.prepend('<div class="legend"><span class="input-group-addon search"><i class="material-icons">search</i></span><input type="text" id="recordSearch" class="form-control" placeholder="Record Search" autofocus></div>');
             }
             //append legend
-            if ($browse.find('.legend').length > 0) {
-                $body.append($browse.find('.legend'));
-            }
+            //if ($browse.find('.legend').length > 0) {
+            //    $body.append($browse.find('.legend'));
+            //}
 
             for (var i = 1; i < keys.length; i++) {
                 let Key;
@@ -510,8 +509,9 @@ class FwSettingsClass {
             $form = (<any>window[controller]).openForm('NEW');
             $body.prepend($form);
             $body.prepend(jQuery(newRowHtml.join('')));
-            $body.find('.legend').remove()
-            $body.prepend('<div class="legend"><span class="input-group-addon search"><i class="material-icons">search</i></span><input type="text" id="recordSearch" class="form-control" placeholder="Record Search" autofocus></div>');
+            // $body.find('.legend').remove();
+            $body.prepend($body.find('.legend'));
+            // $body.prepend('<div class="legend"><span class="input-group-addon search"><i class="material-icons">search</i></span><input type="text" id="recordSearch" class="form-control" placeholder="Record Search" autofocus></div>');
             //$body.prepend(legend);
         }
 
@@ -522,6 +522,7 @@ class FwSettingsClass {
             newRow.remove();
             $form.remove();
         });
+
     }
     //----------------------------------------------------------------------------------------------
     renderModuleHtml($control, title, moduleName, description, menu, menuCaption, moduleId) {
