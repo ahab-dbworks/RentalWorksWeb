@@ -3,6 +3,9 @@ import { TestUtils } from "../../shared/TestUtils";
 import { Logging } from '../../shared/Logging';
 import { GridBase } from "../../shared/GridBase";
 
+//todo: 
+//    purchase order grids - uncomment in v49
+
 //---------------------------------------------------------------------------------------
 export class Quote extends HomeModule {
     //---------------------------------------------------------------------------------------
@@ -540,10 +543,14 @@ export class Vendor extends HomeModule {
         this.moduleName = 'Vendor';
         this.moduleId = 'AE4884F4-CB21-4D10-A0B5-306BD0883F19';
         this.moduleCaption = 'Vendor';
+        let contactGrid: GridBase = new GridBase("CompanyContactGrid");
+        let noteGrid: GridBase = new GridBase("VendorNoteGrid");
+        this.grids.push(contactGrid);
+        this.grids.push(noteGrid);
 
         this.defaultNewRecordToExpect = {
             OfficeLocation: "GlobalScope.User~ME.OfficeLocation",                  // ie. "LAS VEGAS"
-        }
+        };
 
         this.newRecordsToCreate = [
             {
@@ -565,6 +572,26 @@ export class Vendor extends HomeModule {
                 }
 
             }
+        ];
+
+        this.newRecordsToCreate[0].gridRecords = [
+            {
+                grid: contactGrid,
+                recordToCreate: {
+                    record: {
+                        ContactId: 1,
+                        ContactTitleId: 1,
+                    }
+                }
+            },
+            {
+                grid: noteGrid,
+                recordToCreate: {
+                    record: {
+                        Description: "GlobalScope.TestToken~1.TestToken",
+                    }
+                }
+            },
         ];
 
         this.newRecordsToCreate[0].recordToExpect = {
@@ -679,13 +706,32 @@ export class PurchaseOrder extends HomeModule {
         this.moduleId = '67D8C8BB-CF55-4231-B4A2-BB308ADF18F0';
         this.moduleCaption = 'Purchase Order';
         this.canDelete = false;
+        //let rentalGrid: GridBase = new GridBase("OrderItemGrid", ["R", "purchase"]);
+        //let salesGrid: GridBase = new GridBase("OrderItemGrid", ["S", "purchase"]);
+        //let partsGrid: GridBase = new GridBase("OrderItemGrid", ["P", "purchase"]);
+        //let miscGrid: GridBase = new GridBase("OrderItemGrid", ["M", "purchase"]);
+        //let laborGrid: GridBase = new GridBase("OrderItemGrid", ["L", "purchase"]);
+        //let contactGrid: GridBase = new GridBase("OrderContactGrid");
+        let noteGrid: GridBase = new GridBase("OrderNoteGrid");
+        //this.grids.push(rentalGrid);
+        //this.grids.push(salesGrid);
+        //this.grids.push(partsGrid);
+        //this.grids.push(miscGrid);
+        //this.grids.push(laborGrid);
+        //this.grids.push(contactGrid);
+        this.grids.push(noteGrid);
 
         this.newRecordsToCreate = [
             {
                 record: {
                     VendorId: 2,
                     Description: `${TestUtils.randomJobTitle().substring(0, 25)} GlobalScope.TestToken~1.TestToken`,
-                    ReferenceNumber: TestUtils.randomAlphanumeric(8)
+                    ReferenceNumber: TestUtils.randomAlphanumeric(8),
+                    Rental: true,
+                    Sales: true,
+					Parts: true,
+                    Miscellaneous: true,
+                    Labor: true,
                 },
                 seekObject: {
                     Description: "GlobalScope.TestToken~1.TestToken",
@@ -693,6 +739,69 @@ export class PurchaseOrder extends HomeModule {
 
             }
         ];
+
+        this.newRecordsToCreate[0].gridRecords = [
+            //{
+            //    grid: rentalGrid,
+            //    recordToCreate: {
+            //        record: {
+            //            InventoryId: 4,
+            //        }
+            //    }
+            //},
+            //{
+            //    grid: salesGrid,
+            //    recordToCreate: {
+            //        record: {
+            //            InventoryId: 3,
+            //        }
+            //    }
+            //},
+            //{
+            //    grid: partsGrid,
+            //    recordToCreate: {
+            //        record: {
+            //            InventoryId: 3,
+            //        }
+            //    }
+            //},
+            //{
+            //    grid: miscGrid,
+            //    recordToCreate: {
+            //        record: {
+            //            InventoryId: 1,
+            //        }
+            //    }
+            //},
+            //{
+            //    grid: laborGrid,
+            //    recordToCreate: {
+            //        record: {
+            //            InventoryId: 1,
+            //        }
+            //    }
+            //},
+			/*
+            {
+                grid: contactGrid,
+                recordToCreate: {
+                    record: {
+                        ContactId: 1,
+                        ContactTitleId: 1,
+                    }
+                }
+            },
+			*/
+            {
+                grid: noteGrid,
+                recordToCreate: {
+                    record: {
+                        NotesDescription: "GlobalScope.TestToken~1.TestToken",
+                    }
+                }
+            },
+        ];
+
 
         this.newRecordsToCreate[0].recordToExpect = {
             Description: this.newRecordsToCreate[0].record.Description.toUpperCase(),
@@ -713,7 +822,12 @@ export class Project extends HomeModule {
         this.moduleId = 'C6C8167A-C3B5-4915-8290-4520AF7EDB35';
         this.moduleCaption = 'Project';
         this.canDelete = false;
-
+        let contactGrid: GridBase = new GridBase("ProjectContactGrid");
+        let poApproverGrid: GridBase = new GridBase("POApproverGrid");
+        let noteGrid: GridBase = new GridBase("ProjectNoteGrid");
+        this.grids.push(contactGrid);
+        this.grids.push(poApproverGrid);
+        this.grids.push(noteGrid);
 
         this.newRecordsToCreate = [
             {
@@ -728,6 +842,35 @@ export class Project extends HomeModule {
                 }
 
             }
+        ];
+
+        this.newRecordsToCreate[0].gridRecords = [
+            {
+                grid: contactGrid,
+                recordToCreate: {
+                    record: {
+                        ContactId: 1,
+                        ContactTitleId: 1,
+                    }
+                }
+            },
+            {
+                grid: poApproverGrid,
+                recordToCreate: {
+                    record: {
+                        UsersId: 1,
+                        AppRoleId: 1,
+                    }
+                }
+            },
+            {
+                grid: noteGrid,
+                recordToCreate: {
+                    record: {
+                        NotesDescription: "GlobalScope.TestToken~1.TestToken",
+                    }
+                }
+            },
         ];
 
         this.newRecordsToCreate[0].recordToExpect = {

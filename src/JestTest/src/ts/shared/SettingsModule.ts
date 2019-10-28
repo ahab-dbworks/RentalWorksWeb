@@ -469,7 +469,7 @@ export class SettingsModule extends ModuleBase {
 
             let deleteButtonSelector = `div .panel-record[id="${clickRecordResponse.recordId}"] .btn-delete[data-type="DeleteMenuBarButton"]`;
             await page.waitForSelector(deleteButtonSelector, { visible: true });
-            ModuleBase.wait(500); // wait for the button to get its events
+            ModuleBase.wait(750); // wait for the button to get its events
          	await page.click(deleteButtonSelector, { clickCount: 1 });  // click the delete button
 
             await page.waitFor(() => document.querySelector('.advisory'));

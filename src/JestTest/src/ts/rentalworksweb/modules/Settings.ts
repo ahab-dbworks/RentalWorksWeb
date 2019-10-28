@@ -3,22 +3,11 @@ import { TestUtils } from "../../shared/TestUtils";
 import { GridBase } from "../../shared/GridBase";
 
 //todo: 
+//    presentation layer grid - uncomment in v49
+//    attempt duplicate on ordersetno - uncomment in v49
 //    building space and rate grids (required records to persist in "parent" grids)
-//    discount template grids
-//    event type grids
-//    order type grids
-//    po type grids
-//    generator make - model grid
-//    vehicle make - model grid
-//    inventory group grid
-//    all Category forms - sub category grid
-//    market segment - market job grid
-//    template grids
-//    duplicate Labor Rate
-//    duplicate Labor Position
-//    duplicate Misc Rate
-//    order set no
-
+//    event type - activity grid - records are created by default, want to selectively delete only our "new" record
+//    template grids - need to add "rectype" classes to the OrderItemGrids to differentiate them
 
 //---------------------------------------------------------------------------------------
 export class AccountingSettings extends SettingsModule {
@@ -870,6 +859,14 @@ export class DiscountTemplate extends SettingsModule {
         this.moduleName = 'DiscountTemplate';
         this.moduleId = '258D920E-7024-4F68-BF1F-F07F3613829C';
         this.moduleCaption = 'Discount Template';
+        let rentalGrid: GridBase = new GridBase("DiscountItemRentalGrid");
+        let salesGrid: GridBase = new GridBase("DiscountItemSalesGrid");
+        let laborGrid: GridBase = new GridBase("DiscountItemLaborGrid");
+        let miscGrid: GridBase = new GridBase("DiscountItemMiscGrid");
+        this.grids.push(rentalGrid);
+        this.grids.push(salesGrid);
+        this.grids.push(laborGrid);
+        this.grids.push(miscGrid);
 
         this.defaultNewRecordToExpect = {
             DiscountTemplate: "",
@@ -884,15 +881,15 @@ export class DiscountTemplate extends SettingsModule {
             SpaceDiscountPercent: "",
             RentalDaysPerWeek: "",
             SpaceDaysPerWeek: "",
-        }
+        };
 
         this.newRecordsToCreate = [
             {
                 record: {
                     DiscountTemplate: "GlobalScope.TestToken~1.TestToken",
-                    Rental: false,
+                    Rental: true,
                     Sales: true,
-                    Labor: false,
+                    Labor: true,
                     Misc: true,
                     RentalDiscountPercent: "10",
                     SalesDiscountPercent: "20",
@@ -921,6 +918,47 @@ export class DiscountTemplate extends SettingsModule {
                 expectedErrorFields: ["DiscountTemplate"],
             },
         ];
+		
+		this.newRecordsToCreate[0].gridRecords = [
+            {
+                grid: rentalGrid,
+                recordToCreate: {
+                    record: {
+                        DiscountPercent: TestUtils.randomIntegerBetween(10, 90).toString(),
+                        InventoryTypeId: 1,
+                    }
+                }
+            },
+            {
+                grid: salesGrid,
+                recordToCreate: {
+                    record: {
+                        DiscountPercent: TestUtils.randomIntegerBetween(10, 90).toString(),
+                        InventoryTypeId: 1,
+                    }
+                }
+            },
+            {
+                grid: laborGrid,
+                recordToCreate: {
+                    record: {
+                        DiscountPercent: TestUtils.randomIntegerBetween(10, 90).toString(),
+                        InventoryTypeId: 1,
+                    }
+                }
+            },
+            {
+                grid: miscGrid,
+                recordToCreate: {
+                    record: {
+                        DiscountPercent: TestUtils.randomIntegerBetween(10, 90).toString(),
+                        InventoryTypeId: 1,
+                    }
+                }
+            },
+        ];
+
+
 
         this.newRecordsToCreate[0].recordToExpect = {
             DiscountTemplate: this.newRecordsToCreate[0].record.DiscountTemplate.toUpperCase(),
@@ -1111,12 +1149,13 @@ export class EventType extends SettingsModule {
         this.moduleName = 'EventType';
         this.moduleId = 'FE501F99-95D4-444C-A7B6-EA20ACE88879';
         this.moduleCaption = 'Event Type';
-
+        let personnelTypeGrid: GridBase = new GridBase("EventTypePersonnelTypeGrid");
+        this.grids.push(personnelTypeGrid);
 
         this.defaultNewRecordToExpect = {
             EventType: "",
             Inactive: false,
-        }
+        };
 
         this.newRecordsToCreate = [
             {
@@ -1133,6 +1172,17 @@ export class EventType extends SettingsModule {
                     EventType: "",
                 },
                 expectedErrorFields: ["EventType"],
+            },
+        ];
+
+        this.newRecordsToCreate[0].gridRecords = [
+            {
+                grid: personnelTypeGrid,
+                recordToCreate: {
+                    record: {
+                        PersonnelTypeId: 1,
+                    }
+                }
             },
         ];
 
@@ -1706,11 +1756,14 @@ export class GeneratorMake extends SettingsModule {
         this.moduleName = 'GeneratorMake';
         this.moduleId = 'D7C38A54-A198-4304-8EC2-CE8038D3BE9C';
         this.moduleCaption = 'Generator Make';
+        let generatorMakeGrid: GridBase = new GridBase("GeneratorMakeModelGrid");
+        this.grids.push(generatorMakeGrid);
 
         this.defaultNewRecordToExpect = {
             GeneratorMake: "",
             Inactive: false,
-        }
+        };
+		
         this.newRecordsToCreate = [
             {
                 record: {
@@ -1728,6 +1781,18 @@ export class GeneratorMake extends SettingsModule {
                 expectedErrorFields: ["GeneratorMake"],
             },
         ];
+
+        this.newRecordsToCreate[0].gridRecords = [
+            {
+                grid: generatorMakeGrid,
+                recordToCreate: {
+                    record: {
+                        GeneratorModel: "GlobalScope.TestToken~1.MediumTestToken",
+                    }
+                }
+            },
+        ];
+
         this.newRecordsToCreate[0].recordToExpect = {
             GeneratorMake: this.newRecordsToCreate[0].record.GeneratorMake.toUpperCase(),
             Inactive: false,
@@ -2159,13 +2224,15 @@ export class InventoryGroup extends SettingsModule {
         this.moduleName = 'InventoryGroup';
         this.moduleId = '43AF2FBA-69FB-46A8-8E5A-2712486B66F3';
         this.moduleCaption = 'Inventory Group';
-
+        let invGrid: GridBase = new GridBase("InventoryGroupInvGrid");
+        this.grids.push(invGrid);
 
         this.defaultNewRecordToExpect = {
             InventoryGroup: "",
             RecType: "R",
             Inactive: false,
-        }
+        };
+		
         this.newRecordsToCreate = [
             {
                 record: {
@@ -2185,6 +2252,18 @@ export class InventoryGroup extends SettingsModule {
                 expectedErrorFields: ["InventoryGroup"],
             },
         ];
+		
+        this.newRecordsToCreate[0].gridRecords = [
+            {
+                grid: invGrid,
+                recordToCreate: {
+                    record: {
+                        InventoryId: 1,
+                    }
+                }
+            },
+        ];
+
         this.newRecordsToCreate[0].recordToExpect = {
             InventoryGroup: this.newRecordsToCreate[0].record.InventoryGroup.toUpperCase(),
             RecType: this.newRecordsToCreate[0].record.RecType.toUpperCase(),
@@ -2296,12 +2375,15 @@ export class PartsCategory extends SettingsModule {
         this.moduleName = 'PartsCategory';
         this.moduleId = '4750DFBD-6C60-41EF-83FE-49C8340D6062';
         this.moduleCaption = 'Parts Category';
+        let subCategoryGrid: GridBase = new GridBase("SubCategoryGrid");
+        this.grids.push(subCategoryGrid);
 
         this.defaultNewRecordToExpect = {
             InventoryType: "",
             Category: "",
             Inactive: false,
-        }
+        };
+		
         this.newRecordsToCreate = [
             {
                 record: {
@@ -2327,6 +2409,18 @@ export class PartsCategory extends SettingsModule {
                 expectedErrorFields: ["Category"],
             },
         ];
+		
+        this.newRecordsToCreate[0].gridRecords = [
+            {
+                grid: subCategoryGrid,
+                recordToCreate: {
+                    record: {
+                        SubCategory: "GlobalScope.TestToken~1.TestToken",
+                    }
+                }
+            },
+        ];
+		
         this.newRecordsToCreate[0].recordToExpect = {
             InventoryType: "|NOTEMPTY|",
             Category: this.newRecordsToCreate[0].record.Category.toUpperCase(),
@@ -2344,12 +2438,15 @@ export class RentalCategory extends SettingsModule {
         this.moduleName = 'RentalCategory';
         this.moduleId = '91079439-A188-4637-B733-A7EF9A9DFC22';
         this.moduleCaption = 'Rental Category';
+        let subCategoryGrid: GridBase = new GridBase("SubCategoryGrid");
+        this.grids.push(subCategoryGrid);
 
         this.defaultNewRecordToExpect = {
             InventoryType: "",
             Category: "",
             Inactive: false,
-        }
+        };
+		
         this.newRecordsToCreate = [
             {
                 record: {
@@ -2375,6 +2472,18 @@ export class RentalCategory extends SettingsModule {
                 expectedErrorFields: ["Category"],
             },
         ];
+		
+        this.newRecordsToCreate[0].gridRecords = [
+            {
+                grid: subCategoryGrid,
+                recordToCreate: {
+                    record: {
+                        SubCategory: "GlobalScope.TestToken~1.TestToken",
+                    }
+                }
+            },
+        ];
+		
         this.newRecordsToCreate[0].recordToExpect = {
             InventoryType: "|NOTEMPTY|",
             Category: this.newRecordsToCreate[0].record.Category.toUpperCase(),
@@ -2436,13 +2545,15 @@ export class SalesCategory extends SettingsModule {
         this.moduleName = 'SalesCategory';
         this.moduleId = '428619B5-ABDE-48C4-9B2F-CF6D2A3AC574';
         this.moduleCaption = 'Sales Category';
-
+        let subCategoryGrid: GridBase = new GridBase("SubCategoryGrid");
+        this.grids.push(subCategoryGrid);
 
         this.defaultNewRecordToExpect = {
             InventoryType: "",
             Category: "",
             Inactive: false,
-        }
+        };
+		
         this.newRecordsToCreate = [
             {
                 record: {
@@ -2468,6 +2579,18 @@ export class SalesCategory extends SettingsModule {
                 expectedErrorFields: ["Category"],
             },
         ];
+		
+        this.newRecordsToCreate[0].gridRecords = [
+            {
+                grid: subCategoryGrid,
+                recordToCreate: {
+                    record: {
+                        SubCategory: "GlobalScope.TestToken~1.TestToken",
+                    }
+                }
+            },
+        ];
+		
         this.newRecordsToCreate[0].recordToExpect = {
             InventoryType: "|NOTEMPTY|",
             Category: this.newRecordsToCreate[0].record.Category.toUpperCase(),
@@ -2802,7 +2925,7 @@ export class LaborRate extends SettingsModule {
                 seekObject: {
                     Description: "GlobalScope.TestToken~1.TestToken",
                 },
-                //attemptDuplicate: true,
+                //attemptDuplicate: true,  (duplicate labor desciptions are allowed)
             },
             {
                 record: {
@@ -2878,6 +3001,7 @@ export class LaborPosition extends SettingsModule {
                 seekObject: {
                     Description: "GlobalScope.TestToken~1.TestToken",
                 },
+				attemptDuplicate: false,  // (duplicate crew position descriptions are allowed)
             },
             {
                 record: {
@@ -2968,13 +3092,16 @@ export class LaborCategory extends SettingsModule {
         this.moduleName = 'LaborCategory';
         this.moduleId = '2A5190B9-B0E8-4B93-897B-C91FC4807FA6';
         this.moduleCaption = 'Labor Category';
+        let subCategoryGrid: GridBase = new GridBase("SubCategoryGrid");
+        this.grids.push(subCategoryGrid);
 
 
         this.defaultNewRecordToExpect = {
             LaborType: "",
             Category: "",
             Inactive: false,
-        }
+        };
+		
         this.newRecordsToCreate = [
             {
                 record: {
@@ -3000,6 +3127,19 @@ export class LaborCategory extends SettingsModule {
                 expectedErrorFields: ["Category"],
             },
         ];
+		
+        this.newRecordsToCreate[0].gridRecords = [
+            {
+                grid: subCategoryGrid,
+                recordToCreate: {
+                    record: {
+                        SubCategory: "GlobalScope.TestToken~1.TestToken",
+                    }
+                }
+            },
+        ];
+		
+		
         this.newRecordsToCreate[0].recordToExpect = {
             LaborType: "|NOTEMPTY|",
             Category: this.newRecordsToCreate[0].record.Category.toUpperCase(),
@@ -3125,7 +3265,7 @@ export class MiscRate extends SettingsModule {
                 seekObject: {
                     Description: "GlobalScope.TestToken~1.TestToken",
                 },
-                //attemptDuplicate: true,
+                //attemptDuplicate: true,  (duplicate misc rate descriptions are allowed)
             },
             {
                 record: {
@@ -3218,12 +3358,15 @@ export class MiscCategory extends SettingsModule {
         this.moduleName = 'MiscCategory';
         this.moduleId = 'D5318A2F-ECB8-498A-9D9A-0846F4B9E4DF';
         this.moduleCaption = 'Misc Category';
+        let subCategoryGrid: GridBase = new GridBase("SubCategoryGrid");
+        this.grids.push(subCategoryGrid);
 
         this.defaultNewRecordToExpect = {
             MiscType: "",
             Category: "",
             Inactive: false,
-        }
+        };
+		
         this.newRecordsToCreate = [
             {
                 record: {
@@ -3249,6 +3392,18 @@ export class MiscCategory extends SettingsModule {
                 expectedErrorFields: ["Category"],
             },
         ];
+		
+        this.newRecordsToCreate[0].gridRecords = [
+            {
+                grid: subCategoryGrid,
+                recordToCreate: {
+                    record: {
+                        SubCategory: "GlobalScope.TestToken~1.TestToken",
+                    }
+                }
+            },
+        ];
+		
         this.newRecordsToCreate[0].recordToExpect = {
             MiscType: "|NOTEMPTY|",
             Category: this.newRecordsToCreate[0].record.Category.toUpperCase(),
@@ -3281,11 +3436,16 @@ export class OrderType extends SettingsModule {
         this.moduleName = 'OrderType';
         this.moduleId = 'CF3E22CB-F836-4277-9589-998B0BEC3500';
         this.moduleCaption = 'Order Type';
+        let contactTitleGrid: GridBase = new GridBase("OrderTypeContactTitleGrid");
+        let noteGrid: GridBase = new GridBase("OrderTypeNoteGrid");
+        this.grids.push(contactTitleGrid);
+        this.grids.push(noteGrid);
 
         this.defaultNewRecordToExpect = {
             OrderType: "",
             Inactive: false,
-        }
+        };
+		
         this.newRecordsToCreate = [
             {
                 record: {
@@ -3303,6 +3463,26 @@ export class OrderType extends SettingsModule {
                 expectedErrorFields: ["OrderType"],
             },
         ];
+		
+        this.newRecordsToCreate[0].gridRecords = [
+            {
+                grid: contactTitleGrid,
+                recordToCreate: {
+                    record: {
+                        ContactTitleId: 1,
+                    }
+                }
+            },
+            {
+                grid: noteGrid,
+                recordToCreate: {
+                    record: {
+                        Description: "GlobalScope.TestToken~1.TestToken",
+                    }
+                }
+            },
+        ];
+		
         this.newRecordsToCreate[0].recordToExpect = {
             OrderType: this.newRecordsToCreate[0].record.OrderType.toUpperCase(),
             Inactive: false,
@@ -3358,12 +3538,15 @@ export class MarketSegment extends SettingsModule {
         this.moduleName = 'MarketSegment';
         this.moduleId = '53B627BE-6AC8-4C1F-BEF4-E8B0A5422E14';
         this.moduleCaption = 'Market Segment';
-
+        let jobGrid: GridBase = new GridBase("MarketSegmentJobGrid");
+        this.grids.push(jobGrid);
+		
         this.defaultNewRecordToExpect = {
             MarketType: "",
             MarketSegment: "",
             Inactive: false,
-        }
+        };
+		
         this.newRecordsToCreate = [
             {
                 record: {
@@ -3389,6 +3572,18 @@ export class MarketSegment extends SettingsModule {
                 expectedErrorFields: ["MarketSegment"],
             },
         ];
+		
+        this.newRecordsToCreate[0].gridRecords = [
+            {
+                grid: jobGrid,
+                recordToCreate: {
+                    record: {
+						MarketSegmentJob: "GlobalScope.TestToken~1.TestToken",
+                    }
+                }
+            },
+        ];
+		
         this.newRecordsToCreate[0].recordToExpect = {
             MarketType: "|NOTEMPTY|",
             MarketSegment: this.newRecordsToCreate[0].record.MarketSegment.toUpperCase(),
@@ -3970,10 +4165,9 @@ export class PresentationLayer extends SettingsModule {
         this.moduleName = 'PresentationLayer';
         this.moduleId = 'BBEF0AFD-B46A-46B0-8046-113834736060';
         this.moduleCaption = 'Presentation Layer';
-        let activityGrid: GridBase = new GridBase("PresentationLayerActivityGrid");
+        //let activityGrid: GridBase = new GridBase("PresentationLayerActivityGrid");
         let activityOverrideGrid: GridBase = new GridBase("PresentationLayerActivityOverrideGrid");
-        //let xxxxGrid: GridBase = new GridBase("PresentationLayerFormGrid");
-        this.grids.push(activityGrid);
+        //this.grids.push(activityGrid);
         this.grids.push(activityOverrideGrid);
 
         this.defaultNewRecordToExpect = {
@@ -3999,14 +4193,14 @@ export class PresentationLayer extends SettingsModule {
         ];
 
         this.newRecordsToCreate[0].gridRecords = [
-            {
-                grid: activityGrid,
-                recordToCreate: {
-                    record: {
-                        Activity: "GlobalScope.TestToken~1.TestToken",
-                    }
-                }
-            },
+            //{
+            //    grid: activityGrid,
+            //    recordToCreate: {
+            //        record: {
+            //            Activity: "GlobalScope.TestToken~1.TestToken",
+            //        }
+            //    }
+            //},
             {
                 grid: activityOverrideGrid,
                 recordToCreate: {
@@ -4787,11 +4981,16 @@ export class Template extends SettingsModule {
         this.defaultNewRecordToExpect = {
             Description: "",
             Warehouse: "GlobalScope.User~ME.Warehouse",
-        }
+        };
+		
         this.newRecordsToCreate = [
             {
                 record: {
                     Description: "GlobalScope.TestToken~1.TestToken",
+                    Rental: true,
+                    Sales: true,
+                    Labor: true,
+                    Miscellaneous: true,
                 },
                 seekObject: {
                     Description: "GlobalScope.TestToken~1.TestToken",
@@ -4805,7 +5004,8 @@ export class Template extends SettingsModule {
                 expectedErrorFields: ["Description"],
             },
         ];
-        this.newRecordsToCreate[0].recordToExpect = {
+        
+		this.newRecordsToCreate[0].recordToExpect = {
             Description: this.newRecordsToCreate[0].record.Description.toUpperCase(),
             Warehouse: "GlobalScope.User~ME.Warehouse",
             RateType: "|NOTEMPTY|",
@@ -5027,12 +5227,14 @@ export class VehicleMake extends SettingsModule {
         this.moduleName = 'VehicleMake';
         this.moduleId = '299DECA3-B427-49ED-B6AC-2E11F6AA1C4D';
         this.moduleCaption = 'Vehicle Make';
-
+        let vehicleMakeGrid: GridBase = new GridBase("VehicleMakeModelGrid");
+        this.grids.push(vehicleMakeGrid);
 
         this.defaultNewRecordToExpect = {
             VehicleMake: "",
             Inactive: false,
-        }
+        };
+		
         this.newRecordsToCreate = [
             {
                 record: {
@@ -5050,6 +5252,18 @@ export class VehicleMake extends SettingsModule {
                 expectedErrorFields: ["VehicleMake"],
             },
         ];
+
+        this.newRecordsToCreate[0].gridRecords = [
+            {
+                grid: vehicleMakeGrid,
+                recordToCreate: {
+                    record: {
+                        VehicleModel: "GlobalScope.TestToken~1.MediumTestToken",
+                    }
+                }
+            },
+        ];
+
         this.newRecordsToCreate[0].recordToExpect = {
             VehicleMake: this.newRecordsToCreate[0].record.VehicleMake.toUpperCase(),
             Inactive: false,

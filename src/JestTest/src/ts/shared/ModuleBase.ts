@@ -690,10 +690,9 @@ export class ModuleBase {
                     case 'validation':
                         currentValue = await this.getDataFieldText(fieldToPopulate);
                         if (currentValue != "") {
-                            await this.clearInputField(fieldToPopulate);
+                            await this.populateValidationTextField(fieldToPopulate, "");
                         }
-                        if (valueToPopulate !== 0) { }
-                        else {
+                        if (valueToPopulate !== 0) { 
                             const validationname = await page.$eval(`.fwformfield[data-datafield="${fieldToPopulate}"]`, el => el.getAttribute('data-validationname'));
                             await this.populateValidationField(fieldToPopulate, validationname, valueToPopulate);
                         }
@@ -704,7 +703,7 @@ export class ModuleBase {
                     case 'displayfield':
                         currentValue = await this.getDataFieldText(fieldToPopulate);
                         if (currentValue != "") {
-                            await this.clearInputField(fieldToPopulate);
+                            await this.populateValidationTextField(fieldToPopulate, "");
                         }
                         await this.populateValidationTextField(fieldToPopulate, valueToPopulate);
                         await ModuleBase.wait(750);  // allow "after validate" methods to finish
@@ -878,8 +877,14 @@ export class ModuleBase {
         //await page.keyboard.press('Enter');
         const elementHandle = await page.$(`.fwformfield[data-datafield="${dataField}"] .fwformfield-text`);
         await elementHandle.click();
-        await page.keyboard.sendCharacter(value);
-        await page.keyboard.press('Enter');
+        if (value === '') {
+            await elementHandle.click({ clickCount: 3 });
+            await elementHandle.press('Backspace');
+        }
+        else {
+            await page.keyboard.sendCharacter(value);
+            await page.keyboard.press('Enter');
+		}
     }
     //---------------------------------------------------------------------------------------
     async populateValidationField(dataField: string, validationName: string, recordToSelect?: number): Promise<void> {
