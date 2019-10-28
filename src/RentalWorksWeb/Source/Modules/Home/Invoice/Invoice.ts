@@ -162,7 +162,7 @@ class Invoice {
         $invoiceItemGridRentalControl.data('isSummary', false);
         $invoiceItemGridRental.addClass('R');
         FwBrowse.disableGrid($invoiceItemGridRental);
-        //$invoiceItemGridRentalControl.attr('data-enabled', 'false');
+        $invoiceItemGridRentalControl.attr('data-deleteoption', 'false');
         $invoiceItemGridRentalControl.find('div[data-datafield="Rate"]').attr('data-caption', 'Unit Rate');
 
         $invoiceItemGridRentalControl.data('ondatabind', request => {
@@ -188,6 +188,7 @@ class Invoice {
         $invoiceItemGridSales.empty().append($invoiceItemGridSalesControl);
         $invoiceItemGridSales.addClass('S');
         FwBrowse.disableGrid($invoiceItemGridSales);
+        $invoiceItemGridSalesControl.attr('data-deleteoption', 'false');
         $invoiceItemGridSalesControl.data('isSummary', false);
         $invoiceItemGridSalesControl.find('div[data-datafield="Rate"]').attr('data-caption', 'Unit Price');
 
@@ -219,6 +220,7 @@ class Invoice {
         $invoiceItemGridLaborControl.find('div[data-datafield="Rate"]').attr('data-caption', 'Unit Rate');
         $invoiceItemGridLaborControl.find('div[data-datafield="InventoryId"]').attr('data-caption', 'Item No.');
         FwBrowse.disableGrid($invoiceItemGridLabor);
+        $invoiceItemGridLaborControl.attr('data-deleteoption', 'false');
 
         $invoiceItemGridLaborControl.data('isSummary', false);
 
@@ -270,6 +272,7 @@ class Invoice {
         $invoiceItemGridRentalSale.empty().append($invoiceItemGridRentalSaleControl);
         $invoiceItemGridRentalSale.addClass('RS');
         FwBrowse.disableGrid($invoiceItemGridRentalSale);
+        $invoiceItemGridRentalSaleControl.attr('data-deleteoption', 'false');
         $invoiceItemGridRentalSaleControl.data('isSummary', false);
         $invoiceItemGridRentalSaleControl.find('div[data-datafield="Rate"]').attr('data-caption', 'Unit Price');
 
@@ -532,10 +535,10 @@ class Invoice {
         $invoiceItemGridLabor.find('.submenu-btn').filter('[data-securityid="27053421-85CC-46F4-ADB3-85CEC8A8090B"]').hide();
         $invoiceItemGridRentalSale.find('.submenu-btn').filter('[data-securityid="27053421-85CC-46F4-ADB3-85CEC8A8090B"]').hide();
         // Hides grid row DELETE button
-        $invoiceItemGridRental.find('.browsecontextmenucell').css('pointer-events', 'none');
-        $invoiceItemGridSales.find('.browsecontextmenucell').css('pointer-events', 'none');
-        $invoiceItemGridLabor.find('.browsecontextmenucell').css('pointer-events', 'none');
-        $invoiceItemGridRentalSale.find('.browsecontextmenucell').css('pointer-events', 'none');
+        //$invoiceItemGridRental.find('.browsecontextmenucell').css('pointer-events', 'none');
+        //$invoiceItemGridSales.find('.browsecontextmenucell').css('pointer-events', 'none');
+        //$invoiceItemGridLabor.find('.browsecontextmenucell').css('pointer-events', 'none');
+        //$invoiceItemGridRentalSale.find('.browsecontextmenucell').css('pointer-events', 'none');
         // Hides grid ADD button
         $invoiceItemGridRental.find('.buttonbar').hide();
         $invoiceItemGridSales.find('.buttonbar').hide();
@@ -543,6 +546,13 @@ class Invoice {
         $invoiceItemGridRentalSale.find('.buttonbar').hide();
         this.InvoiceCredit($form);
         this.dynamicColumns($form);
+
+        $form.find('.browsecontextmenu i').click(e => {
+            const $this = jQuery(e.currentTarget);
+            if ($this.parents().attr('data-grid') === 'InvoiceItemGrid') {
+                $this.find('div.fwcontextmenu fwcontextmenubox .deleteoption').css('pointer-events', 'none');
+            }
+        })
     };
 
     //----------------------------------------------------------------------------------------------
