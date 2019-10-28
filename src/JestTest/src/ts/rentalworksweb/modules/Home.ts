@@ -43,10 +43,10 @@ export class Quote extends HomeModule {
                     DealId: 1,
                     Location: TestUtils.randomStreetName(),
                     ReferenceNumber: TestUtils.randomAlphanumeric(8),
-					Rental: true,
-					Sales: true,
-					Miscellaneous: true,
-					Labor: true,
+                    Rental: true,
+                    Sales: true,
+                    Miscellaneous: true,
+                    Labor: true,
                 },
                 seekObject: {
                     Description: "GlobalScope.TestToken~1.TestToken",
@@ -92,7 +92,7 @@ export class Quote extends HomeModule {
                 recordToCreate: {
                     record: {
                         ContactId: 1,
-						ContactTitleId: 1,
+                        ContactTitleId: 1,
                     }
                 }
             },
@@ -167,10 +167,10 @@ export class Order extends HomeModule {
                     DealId: 1,
                     Location: TestUtils.randomStreetName(),
                     ReferenceNumber: TestUtils.randomAlphanumeric(8),
-					Rental: true,
-					Sales: true,
-					Miscellaneous: true,
-					Labor: true,
+                    Rental: true,
+                    Sales: true,
+                    Miscellaneous: true,
+                    Labor: true,
                 },
                 seekObject: {
                     Description: "GlobalScope.TestToken~1.TestToken",
@@ -217,7 +217,7 @@ export class Order extends HomeModule {
                 recordToCreate: {
                     record: {
                         ContactId: 1,
-						ContactTitleId: 1,
+                        ContactTitleId: 1,
                     }
                 }
             },
@@ -323,7 +323,7 @@ export class Customer extends HomeModule {
                 record: {
                     Customer: TestUtils.randomCompanyName() + " GlobalScope.TestToken~1.TestToken",
                     CustomerNumber: "GlobalScope.TestToken~1.TestToken",
-					OfficeLocation: "",
+                    OfficeLocationId: 0,
                     Address1: TestUtils.randomAddress1(),
                     Address2: TestUtils.randomAddress2(),
                     City: TestUtils.randomCity(),
@@ -341,7 +341,7 @@ export class Customer extends HomeModule {
                 record: {
                     Customer: TestUtils.randomCompanyName() + " GlobalScope.TestToken~1.TestToken",
                     CustomerNumber: "GlobalScope.TestToken~1.TestToken",
-					CustomerStatus: "",
+                    CustomerStatus: "",
                     Address1: TestUtils.randomAddress1(),
                     Address2: TestUtils.randomAddress2(),
                     City: TestUtils.randomCity(),
@@ -397,7 +397,7 @@ export class Customer extends HomeModule {
                 recordToCreate: {
                     record: {
                         ContactId: 1,
-						ContactTitleId: 1,
+                        ContactTitleId: 1,
                     }
                 }
             },
@@ -406,7 +406,7 @@ export class Customer extends HomeModule {
                 recordToCreate: {
                     record: {
                         StateId: 1,
-						ResaleNumber: "GlobalScope.TestToken~1.TestToken",
+                        ResaleNumber: "GlobalScope.TestToken~1.TestToken",
                     }
                 }
             },
@@ -467,7 +467,7 @@ export class Deal extends HomeModule {
                     Address2: TestUtils.randomAddress2(),
                     Fax: TestUtils.randomPhone(),
                     DealTypeId: 1,
-					UseCustomerTax: false
+                    UseCustomerTax: false
                 },
                 seekObject: {
                     Deal: "GlobalScope.TestToken~1.TestToken",
@@ -482,7 +482,7 @@ export class Deal extends HomeModule {
                 recordToCreate: {
                     record: {
                         ContactId: 1,
-						ContactTitleId: 1,
+                        ContactTitleId: 1,
                     }
                 }
             },
@@ -491,7 +491,7 @@ export class Deal extends HomeModule {
                 recordToCreate: {
                     record: {
                         StateId: 1,
-						ResaleNumber: "GlobalScope.TestToken~1.TestToken",
+                        ResaleNumber: "GlobalScope.TestToken~1.TestToken",
                     }
                 }
             },
@@ -499,8 +499,8 @@ export class Deal extends HomeModule {
                 grid: shipperGrid,
                 recordToCreate: {
                     record: {
-						CarrierId: 1,
-						ShipViaId: 1,
+                        CarrierId: 1,
+                        ShipViaId: 1,
                         ShipperAcct: "GlobalScope.TestToken~1.MediumTestToken",
                     }
                 }
@@ -637,7 +637,7 @@ export class Contact extends HomeModule {
                 recordToCreate: {
                     record: {
                         ContactEventId: 1,
-						EventDate: TestUtils.randomRecentDateMDY(30, ""),
+                        EventDate: TestUtils.randomRecentDateMDY(30, ""),
                     }
                 }
             },

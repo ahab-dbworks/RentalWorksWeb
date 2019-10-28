@@ -688,8 +688,15 @@ export class ModuleBase {
                         await this.populateRadioGroupField(fieldToPopulate, valueToPopulate);
                         break;
                     case 'validation':
-                        const validationname = await page.$eval(`.fwformfield[data-datafield="${fieldToPopulate}"]`, el => el.getAttribute('data-validationname'));
-                        await this.populateValidationField(fieldToPopulate, validationname, valueToPopulate);
+                        currentValue = await this.getDataFieldText(fieldToPopulate);
+                        if (currentValue != "") {
+                            await this.clearInputField(fieldToPopulate);
+                        }
+                        if (valueToPopulate !== 0) { }
+                        else {
+                            const validationname = await page.$eval(`.fwformfield[data-datafield="${fieldToPopulate}"]`, el => el.getAttribute('data-validationname'));
+                            await this.populateValidationField(fieldToPopulate, validationname, valueToPopulate);
+                        }
                         break;
                     case 'select':
                         await this.populateSelectField(fieldToPopulate, valueToPopulate);
