@@ -546,6 +546,10 @@
         public const string BAR_CODE_STYLE_1D = "1D";
         public const string BAR_CODE_STYLE_2D = "2D";
 
+        //PRESENTATION LAYER
+        public const string PRESENTATION_LAYER_ACTIVITY_REC_TYPE_USER_DEFINED = "UD";
+
+
     }
 
     public class QuoteOrderCopyRequest

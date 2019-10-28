@@ -1,5 +1,8 @@
 using FwStandard.AppManager;
+using FwStandard.BusinessLogic;
 using WebApi.Logic;
+using WebLibrary;
+
 namespace WebApi.Modules.Settings.PresentationLayerActivity
 {
     [FwLogic(Id:"Zbmz7vbdw2N57")]
@@ -12,6 +15,7 @@ namespace WebApi.Modules.Settings.PresentationLayerActivity
         {
             dataRecords.Add(presentationLayerActivity);
             dataLoader = presentationLayerActivityLoader;
+            BeforeValidate += OnBeforeValidate;
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id:"WkTnKDo8j7nKS", IsPrimaryKey:true)]
@@ -42,5 +46,16 @@ namespace WebApi.Modules.Settings.PresentationLayerActivity
         public string DateStamp { get { return presentationLayerActivity.DateStamp; } set { presentationLayerActivity.DateStamp = value; } }
 
         //------------------------------------------------------------------------------------ 
+        private void OnBeforeValidate(object sender, BeforeValidateEventArgs e)
+        {
+            if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
+            {
+                if (string.IsNullOrEmpty(RecType))
+                {
+                    RecType = RwConstants.PRESENTATION_LAYER_ACTIVITY_REC_TYPE_USER_DEFINED;
+                }
+            }
+        }
+        //------------------------------------------------------------------------------------
     }
 }
