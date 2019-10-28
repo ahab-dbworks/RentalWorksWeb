@@ -3975,8 +3975,15 @@ export class ProjectAsBuild extends SettingsModule {
                 },
                 seekObject: {
                     ProjectAsBuild: "GlobalScope.TestToken~1.TestToken",
-                }
-            }
+                },
+                attemptDuplicate: true,
+            },
+            {
+                record: {
+                    ProjectAsBuild: "",
+                },
+                expectedErrorFields: ["ProjectAsBuild"],
+            },
         ];
         this.newRecordsToCreate[0].recordToExpect = {
             ProjectAsBuild: this.newRecordsToCreate[0].record.ProjectAsBuild.toUpperCase(),
@@ -4007,8 +4014,15 @@ export class ProjectCommissioning extends SettingsModule {
                 },
                 seekObject: {
                     ProjectCommissioning: "GlobalScope.TestToken~1.TestToken",
-                }
-            }
+                },
+                attemptDuplicate: true,
+            },
+            {
+                record: {
+                    ProjectCommissioning: "",
+                },
+                expectedErrorFields: ["ProjectCommissioning"],
+            },
         ];
         this.newRecordsToCreate[0].recordToExpect = {
             ProjectCommissioning: this.newRecordsToCreate[0].record.ProjectCommissioning.toUpperCase(),
@@ -4040,8 +4054,15 @@ export class ProjectDeposit extends SettingsModule {
                 },
                 seekObject: {
                     ProjectDeposit: "GlobalScope.TestToken~1.TestToken",
-                }
-            }
+                },
+                attemptDuplicate: true,
+            },
+            {
+                record: {
+                    ProjectDeposit: "",
+                },
+                expectedErrorFields: ["ProjectDeposit"],
+            },
         ];
         this.newRecordsToCreate[0].recordToExpect = {
             ProjectDeposit: this.newRecordsToCreate[0].record.ProjectDeposit.toUpperCase(),
@@ -4073,8 +4094,15 @@ export class ProjectDrawings extends SettingsModule {
                 },
                 seekObject: {
                     ProjectDrawings: "GlobalScope.TestToken~1.TestToken",
-                }
-            }
+                },
+                attemptDuplicate: true,
+            },
+            {
+                record: {
+                    ProjectDrawings: "",
+                },
+                expectedErrorFields: ["ProjectDrawings"],
+            },
         ];
         this.newRecordsToCreate[0].recordToExpect = {
             ProjectDrawings: this.newRecordsToCreate[0].record.ProjectDrawings.toUpperCase(),
@@ -4104,8 +4132,15 @@ export class ProjectDropShipItems extends SettingsModule {
                 },
                 seekObject: {
                     ProjectDropShipItems: "GlobalScope.TestToken~1.TestToken",
-                }
-            }
+                },
+                attemptDuplicate: true,
+            },
+            {
+                record: {
+                    ProjectDropShipItems: "",
+                },
+                expectedErrorFields: ["ProjectDropShipItems"],
+            },
         ];
         this.newRecordsToCreate[0].recordToExpect = {
             ProjectDropShipItems: this.newRecordsToCreate[0].record.ProjectDropShipItems.toUpperCase(),
@@ -4135,8 +4170,15 @@ export class ProjectItemsOrdered extends SettingsModule {
                 },
                 seekObject: {
                     ProjectItemsOrdered: "GlobalScope.TestToken~1.TestToken",
-                }
-            }
+                },
+                attemptDuplicate: true,
+            },
+            {
+                record: {
+                    ProjectItemsOrdered: "",
+                },
+                expectedErrorFields: ["ProjectItemsOrdered"],
+            },
         ];
         this.newRecordsToCreate[0].recordToExpect = {
             ProjectItemsOrdered: this.newRecordsToCreate[0].record.ProjectItemsOrdered.toUpperCase(),
@@ -4167,8 +4209,15 @@ export class PropsCondition extends SettingsModule {
                 },
                 seekObject: {
                     PropsCondition: "GlobalScope.TestToken~1.TestToken",
-                }
-            }
+                },
+                attemptDuplicate: true,
+            },
+            {
+                record: {
+                    PropsCondition: "",
+                },
+                expectedErrorFields: ["PropsCondition"],
+            },
         ];
         this.newRecordsToCreate[0].recordToExpect = {
             PropsCondition: this.newRecordsToCreate[0].record.PropsCondition.toUpperCase(),
@@ -4198,8 +4247,15 @@ export class Region extends SettingsModule {
                 },
                 seekObject: {
                     Region: "GlobalScope.TestToken~1.TestToken",
-                }
-            }
+                },
+                attemptDuplicate: true,
+            },
+            {
+                record: {
+                    Region: "",
+                },
+                expectedErrorFields: ["Region"],
+            },
         ];
         this.newRecordsToCreate[0].recordToExpect = {
             Region: this.newRecordsToCreate[0].record.Region.toUpperCase(),
@@ -4230,8 +4286,15 @@ export class RepairItemStatus extends SettingsModule {
                 },
                 seekObject: {
                     RepairItemStatus: "GlobalScope.TestToken~1.TestToken",
-                }
-            }
+                },
+                attemptDuplicate: true,
+            },
+            {
+                record: {
+                    RepairItemStatus: "",
+                },
+                expectedErrorFields: ["RepairItemStatus"],
+            },
         ];
         this.newRecordsToCreate[0].recordToExpect = {
             RepairItemStatus: this.newRecordsToCreate[0].record.RepairItemStatus.toUpperCase(),
@@ -4261,8 +4324,15 @@ export class SetCondition extends SettingsModule {
                 },
                 seekObject: {
                     SetCondition: "GlobalScope.TestToken~1.TestToken",
-                }
-            }
+                },
+                attemptDuplicate: true,
+            },
+            {
+                record: {
+                    SetCondition: "",
+                },
+                expectedErrorFields: ["SetCondition"],
+            },
         ];
         this.newRecordsToCreate[0].recordToExpect = {
             SetCondition: this.newRecordsToCreate[0].record.SetCondition.toUpperCase(),
@@ -4291,8 +4361,15 @@ export class SetSurface extends SettingsModule {
                 },
                 seekObject: {
                     SetSurface: "GlobalScope.TestToken~1.TestToken",
-                }
-            }
+                },
+                attemptDuplicate: true,
+            },
+            {
+                record: {
+                    SetSurface: "",
+                },
+                expectedErrorFields: ["SetSurface"],
+            },
         ];
         this.newRecordsToCreate[0].recordToExpect = {
             SetSurface: this.newRecordsToCreate[0].record.SetSurface.toUpperCase(),
@@ -4322,8 +4399,15 @@ export class SetOpening extends SettingsModule {
                 },
                 seekObject: {
                     SetOpening: "GlobalScope.TestToken~1.TestToken",
-                }
-            }
+                },
+                attemptDuplicate: true,
+            },
+            {
+                record: {
+                    SetOpening: "",
+                },
+                expectedErrorFields: ["SetOpening"],
+            },
         ];
         this.newRecordsToCreate[0].recordToExpect = {
             SetOpening: this.newRecordsToCreate[0].record.SetOpening.toUpperCase(),
@@ -4355,8 +4439,15 @@ export class WallDescription extends SettingsModule {
                 },
                 seekObject: {
                     WallDescription: "GlobalScope.TestToken~1.TestToken",
-                }
-            }
+                },
+                attemptDuplicate: true,
+            },
+            {
+                record: {
+                    WallDescription: "",
+                },
+                expectedErrorFields: ["WallDescription"],
+            },
         ];
         this.newRecordsToCreate[0].recordToExpect = {
             WallDescription: this.newRecordsToCreate[0].record.WallDescription.toUpperCase(),
@@ -4387,8 +4478,15 @@ export class WallType extends SettingsModule {
                 },
                 seekObject: {
                     WallType: "GlobalScope.TestToken~1.TestToken",
-                }
-            }
+                },
+                attemptDuplicate: true,
+            },
+            {
+                record: {
+                    WallType: "",
+                },
+                expectedErrorFields: ["WallType"],
+            },
         ];
         this.newRecordsToCreate[0].recordToExpect = {
             WallType: this.newRecordsToCreate[0].record.WallType.toUpperCase(),
@@ -4421,8 +4519,22 @@ export class ShipVia extends SettingsModule {
                 },
                 seekObject: {
                     ShipVia: "GlobalScope.TestToken~1.TestToken",
-                }
-            }
+                },
+                attemptDuplicate: true,
+            },
+            {
+                record: {
+                    ShipVia: "GlobalScope.TestToken~1.TestToken",
+                },
+                expectedErrorFields: ["VendorId"],
+            },
+            {
+                record: {
+                    VendorId: 1,
+                    ShipVia: "",
+                },
+                expectedErrorFields: ["ShipVia"],
+            },
         ];
         this.newRecordsToCreate[0].recordToExpect = {
             Vendor: "|NOTEMPTY|",
@@ -4455,8 +4567,16 @@ export class Source extends SettingsModule {
                 },
                 seekObject: {
                     Description: "GlobalScope.TestToken~1.TestToken",
-                }
-            }
+                },
+                attemptDuplicate: true,
+            },
+            {
+                record: {
+                    Description: "",
+                    SourceType: "FTP",
+                },
+                expectedErrorFields: ["Description"],
+            },
         ];
         this.newRecordsToCreate[0].recordToExpect = {
             Description: this.newRecordsToCreate[0].record.Description.toUpperCase(),
@@ -4566,8 +4686,15 @@ export class TaxOption extends SettingsModule {
                 },
                 seekObject: {
                     TaxOption: "GlobalScope.TestToken~1.MediumTestToken",
-                }
-            }
+                },
+                attemptDuplicate: true,
+            },
+            {
+                record: {
+                    TaxOption: "",
+                },
+                expectedErrorFields: ["TaxOption"],
+            },
         ];
         this.newRecordsToCreate[0].recordToExpect = {
             TaxOption: this.newRecordsToCreate[0].record.TaxOption.toUpperCase(),
@@ -4597,8 +4724,15 @@ export class Template extends SettingsModule {
                 },
                 seekObject: {
                     Description: "GlobalScope.TestToken~1.TestToken",
-                }
-            }
+                },
+                attemptDuplicate: true,
+            },
+            {
+                record: {
+                    Description: "",
+                },
+                expectedErrorFields: ["Description"],
+            },
         ];
         this.newRecordsToCreate[0].recordToExpect = {
             Description: this.newRecordsToCreate[0].record.Description.toUpperCase(),
@@ -4629,8 +4763,15 @@ export class UserStatus extends SettingsModule {
                 },
                 seekObject: {
                     UserStatus: "GlobalScope.TestToken~1.TestToken",
-                }
-            }
+                },
+                attemptDuplicate: true,
+            },
+            {
+                record: {
+                    UserStatus: "",
+                },
+                expectedErrorFields: ["UserStatus"],
+            },
         ];
         this.newRecordsToCreate[0].recordToExpect = {
             UserStatus: this.newRecordsToCreate[0].record.UserStatus.toUpperCase(),
@@ -4660,8 +4801,15 @@ export class Sound extends SettingsModule {
                 },
                 seekObject: {
                     Sound: "GlobalScope.TestToken~1.TestToken",
-                }
-            }
+                },
+                attemptDuplicate: true,
+            },
+            {
+                record: {
+                    Sound: "",
+                },
+                expectedErrorFields: ["Sound"],
+            },
         ];
         this.newRecordsToCreate[0].recordToExpect = {
             Sound: this.newRecordsToCreate[0].record.Sound.toUpperCase(),
@@ -4694,8 +4842,23 @@ export class LicenseClass extends SettingsModule {
                 },
                 seekObject: {
                     Description: "GlobalScope.TestToken~1.TestToken",
-                }
-            }
+                },
+                attemptDuplicate: true,
+            },
+            {
+                record: {
+                    LicenseClass: "",
+                    Description: "GlobalScope.TestToken~1.TestToken",
+                },
+                expectedErrorFields: ["LicenseClass"],
+            },
+            {
+                record: {
+                    LicenseClass: "GlobalScope.TestToken~1.ShortTestToken",
+                    Description: "",
+                },
+                expectedErrorFields: ["Description"],
+            },
         ];
         this.newRecordsToCreate[0].recordToExpect = {
             LicenseClass: this.newRecordsToCreate[0].record.LicenseClass.toUpperCase(),
@@ -4728,8 +4891,15 @@ export class VehicleColor extends SettingsModule {
                 },
                 seekObject: {
                     VehicleColor: "GlobalScope.TestToken~1.MediumTestToken",
-                }
-            }
+                },
+                attemptDuplicate: true,
+            },
+            {
+                record: {
+                    VehicleColor: "",
+                },
+                expectedErrorFields: ["VehicleColor"],
+            },
         ];
         this.newRecordsToCreate[0].recordToExpect = {
             VehicleColor: this.newRecordsToCreate[0].record.VehicleColor.toUpperCase(),
@@ -4759,8 +4929,15 @@ export class VehicleFuelType extends SettingsModule {
                 },
                 seekObject: {
                     VehicleFuelType: "GlobalScope.TestToken~1.MediumTestToken",
-                }
-            }
+                },
+                attemptDuplicate: true,
+            },
+            {
+                record: {
+                    VehicleFuelType: "",
+                },
+                expectedErrorFields: ["VehicleFuelType"],
+            },
         ];
         this.newRecordsToCreate[0].recordToExpect = {
             VehicleFuelType: this.newRecordsToCreate[0].record.VehicleFuelType.toUpperCase(),
@@ -4792,8 +4969,15 @@ export class VehicleMake extends SettingsModule {
                 },
                 seekObject: {
                     VehicleMake: "GlobalScope.TestToken~1.MediumTestToken",
-                }
-            }
+                },
+                attemptDuplicate: true,
+            },
+            {
+                record: {
+                    VehicleMake: "",
+                },
+                expectedErrorFields: ["VehicleMake"],
+            },
         ];
         this.newRecordsToCreate[0].recordToExpect = {
             VehicleMake: this.newRecordsToCreate[0].record.VehicleMake.toUpperCase(),
@@ -4825,8 +5009,16 @@ export class VehicleScheduleStatus extends SettingsModule {
                 },
                 seekObject: {
                     ScheduleStatus: "GlobalScope.TestToken~1.MediumTestToken",
-                }
-            }
+                },
+                attemptDuplicate: true,
+            },
+            {
+                record: {
+                    ScheduleStatus: "",
+                    StatusAction: "HOLD",
+                },
+                expectedErrorFields: ["ScheduleStatus"],
+            },
         ];
         this.newRecordsToCreate[0].recordToExpect = {
             ScheduleStatus: this.newRecordsToCreate[0].record.ScheduleStatus.toUpperCase(),
@@ -4858,8 +5050,15 @@ export class VehicleStatus extends SettingsModule {
                 },
                 seekObject: {
                     VehicleStatus: "GlobalScope.TestToken~1.TestToken",
-                }
-            }
+                },
+                attemptDuplicate: true,
+            },
+            {
+                record: {
+                    VehicleStatus: "",
+                },
+                expectedErrorFields: ["VehicleStatus"],
+            },
         ];
         this.newRecordsToCreate[0].recordToExpect = {
             VehicleStatus: this.newRecordsToCreate[0].record.VehicleStatus.toUpperCase(),
@@ -4895,8 +5094,42 @@ export class VehicleType extends SettingsModule {
                 },
                 seekObject: {
                     VehicleType: "GlobalScope.TestToken~1.TestToken",
-                }
-            }
+                },
+                attemptDuplicate: true,
+            },
+            {
+                record: {
+                    VehicleType: "GlobalScope.TestToken~1.TestToken",
+                    LicenseClassId: 1,
+                    UnitId: 1,
+                },
+                expectedErrorFields: ["InventoryTypeId"],
+            },
+            {
+                record: {
+                    InventoryTypeId: 1,
+                    VehicleType: "",
+                    LicenseClassId: 1,
+                    UnitId: 1,
+                },
+                expectedErrorFields: ["VehicleType"],
+            },
+            {
+                record: {
+                    InventoryTypeId: 1,
+                    VehicleType: "GlobalScope.TestToken~1.TestToken",
+                    UnitId: 1,
+                },
+                expectedErrorFields: ["LicenseClassId"],
+            },
+            {
+                record: {
+                    InventoryTypeId: 1,
+                    VehicleType: "GlobalScope.TestToken~1.TestToken",
+                    LicenseClassId: 1,
+                },
+                expectedErrorFields: ["UnitId"],
+            },
         ];
         this.newRecordsToCreate[0].recordToExpect = {
             InventoryType: "|NOTEMPTY|",
@@ -4933,8 +5166,23 @@ export class OrganizationType extends SettingsModule {
                 },
                 seekObject: {
                     OrganizationType: "GlobalScope.TestToken~1.TestToken",
-                }
-            }
+                },
+                attemptDuplicate: true,
+            },
+            {
+                record: {
+                    OrganizationType: "",
+                    OrganizationTypeCode: "GlobalScope.TestToken~1.ShortTestToken",
+                },
+                expectedErrorFields: ["OrganizationType"],
+            },
+            {
+                record: {
+                    OrganizationType: "GlobalScope.TestToken~1.TestToken",
+                    OrganizationTypeCode: "",
+                },
+                expectedErrorFields: ["OrganizationTypeCode"],
+            },
         ];
         this.newRecordsToCreate[0].recordToExpect = {
             OrganizationType: this.newRecordsToCreate[0].record.OrganizationType.toUpperCase(),
@@ -4971,8 +5219,24 @@ export class VendorCatalog extends SettingsModule {
                 },
                 seekObject: {
                     VendorCatalog: "GlobalScope.TestToken~1.TestToken",
-                }
-            }
+                },
+                attemptDuplicate: true,
+            },
+            {
+                record: {
+                    VendorCatalog: "",
+                    CatalogType: "RENTAL",
+                    InventoryTypeId: 1,
+                },
+                expectedErrorFields: ["VendorCatalog"],
+            },
+            {
+                record: {
+                    VendorCatalog: "GlobalScope.TestToken~1.TestToken",
+                    CatalogType: "RENTAL",
+                },
+                expectedErrorFields: ["InventoryTypeId"],
+            },
         ];
         this.newRecordsToCreate[0].recordToExpect = {
             VendorCatalog: this.newRecordsToCreate[0].record.VendorCatalog.toUpperCase(),
@@ -5005,8 +5269,15 @@ export class VendorClass extends SettingsModule {
                 },
                 seekObject: {
                     VendorClass: "GlobalScope.TestToken~1.TestToken",
-                }
-            }
+                },
+                attemptDuplicate: true,
+            },
+            {
+                record: {
+                    VendorClass: "",
+                },
+                expectedErrorFields: ["VendorClass"],
+            },
         ];
         this.newRecordsToCreate[0].recordToExpect = {
             VendorClass: this.newRecordsToCreate[0].record.VendorClass.toUpperCase(),
@@ -5049,8 +5320,15 @@ export class WardrobeCare extends SettingsModule {
                 },
                 seekObject: {
                     WardrobeCare: "GlobalScope.TestToken~1.TestToken",
-                }
-            }
+                },
+                attemptDuplicate: true,
+            },
+            {
+                record: {
+                    WardrobeCare: "",
+                },
+                expectedErrorFields: ["WardrobeCare"],
+            },
         ];
         this.newRecordsToCreate[0].recordToExpect = {
             WardrobeCare: this.newRecordsToCreate[0].record.WardrobeCare.toUpperCase(),
@@ -5080,8 +5358,15 @@ export class WardrobeColor extends SettingsModule {
                 },
                 seekObject: {
                     WardrobeColor: "GlobalScope.TestToken~1.TestToken",
-                }
-            }
+                },
+                attemptDuplicate: true,
+            },
+            {
+                record: {
+                    WardrobeColor: "",
+                },
+                expectedErrorFields: ["WardrobeColor"],
+            },
         ];
         this.newRecordsToCreate[0].recordToExpect = {
             WardrobeColor: this.newRecordsToCreate[0].record.WardrobeColor.toUpperCase(),
@@ -5111,8 +5396,15 @@ export class WardrobeCondition extends SettingsModule {
                 },
                 seekObject: {
                     WardrobeCondition: "GlobalScope.TestToken~1.TestToken",
-                }
-            }
+                },
+                attemptDuplicate: true,
+            },
+            {
+                record: {
+                    WardrobeCondition: "",
+                },
+                expectedErrorFields: ["WardrobeCondition"],
+            },
         ];
         this.newRecordsToCreate[0].recordToExpect = {
             WardrobeCondition: this.newRecordsToCreate[0].record.WardrobeCondition.toUpperCase(),
@@ -5142,8 +5434,15 @@ export class WardrobeGender extends SettingsModule {
                 },
                 seekObject: {
                     WardrobeGender: "GlobalScope.TestToken~1.TestToken",
-                }
-            }
+                },
+                attemptDuplicate: true,
+            },
+            {
+                record: {
+                    WardrobeGender: "",
+                },
+                expectedErrorFields: ["WardrobeGender"],
+            },
         ];
         this.newRecordsToCreate[0].recordToExpect = {
             WardrobeGender: this.newRecordsToCreate[0].record.WardrobeGender.toUpperCase(),
@@ -5173,8 +5472,15 @@ export class WardrobeLabel extends SettingsModule {
                 },
                 seekObject: {
                     WardrobeLabel: "GlobalScope.TestToken~1.TestToken",
-                }
-            }
+                },
+                attemptDuplicate: true,
+            },
+            {
+                record: {
+                    WardrobeLabel: "",
+                },
+                expectedErrorFields: ["WardrobeLabel"],
+            },
         ];
         this.newRecordsToCreate[0].recordToExpect = {
             WardrobeLabel: this.newRecordsToCreate[0].record.WardrobeLabel.toUpperCase(),
@@ -5204,8 +5510,15 @@ export class WardrobeMaterial extends SettingsModule {
                 },
                 seekObject: {
                     WardrobeMaterial: "GlobalScope.TestToken~1.TestToken",
-                }
-            }
+                },
+                attemptDuplicate: true,
+            },
+            {
+                record: {
+                    WardrobeMaterial: "",
+                },
+                expectedErrorFields: ["WardrobeMaterial"],
+            },
         ];
         this.newRecordsToCreate[0].recordToExpect = {
             WardrobeMaterial: this.newRecordsToCreate[0].record.WardrobeMaterial.toUpperCase(),
@@ -5235,8 +5548,15 @@ export class WardrobePattern extends SettingsModule {
                 },
                 seekObject: {
                     WardrobePattern: "GlobalScope.TestToken~1.TestToken",
-                }
-            }
+                },
+                attemptDuplicate: true,
+            },
+            {
+                record: {
+                    WardrobePattern: "",
+                },
+                expectedErrorFields: ["WardrobePattern"],
+            },
         ];
         this.newRecordsToCreate[0].recordToExpect = {
             WardrobePattern: this.newRecordsToCreate[0].record.WardrobePattern.toUpperCase(),
@@ -5266,8 +5586,15 @@ export class WardrobePeriod extends SettingsModule {
                 },
                 seekObject: {
                     WardrobePeriod: "GlobalScope.TestToken~1.TestToken",
-                }
-            }
+                },
+                attemptDuplicate: true,
+            },
+            {
+                record: {
+                    WardrobePeriod: "",
+                },
+                expectedErrorFields: ["WardrobePeriod"],
+            },
         ];
         this.newRecordsToCreate[0].recordToExpect = {
             WardrobePeriod: this.newRecordsToCreate[0].record.WardrobePeriod.toUpperCase(),
@@ -5297,8 +5624,15 @@ export class WardrobeSource extends SettingsModule {
                 },
                 seekObject: {
                     WardrobeSource: "GlobalScope.TestToken~1.TestToken",
-                }
-            }
+                },
+                attemptDuplicate: true,
+            },
+            {
+                record: {
+                    WardrobeSource: "",
+                },
+                expectedErrorFields: ["WardrobeSource"],
+            },
         ];
         this.newRecordsToCreate[0].recordToExpect = {
             WardrobeSource: this.newRecordsToCreate[0].record.WardrobeSource.toUpperCase(),
