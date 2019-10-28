@@ -267,6 +267,7 @@ class PurchaseOrder {
 
         $orderItemGridRental.empty().append($orderItemGridRentalControl);
         $orderItemGridRental.addClass('R');
+        $orderItemGridRental.addClass('purchase');
 
         $orderItemGridRentalControl.data('ondatabind', request => {
             request.uniqueids = {
@@ -295,6 +296,7 @@ class PurchaseOrder {
         $orderItemGridSalesControl.find('div[data-datafield="PeriodExtended"]').attr('data-caption', 'Extended');
         $orderItemGridSales.empty().append($orderItemGridSalesControl);
         $orderItemGridSales.addClass('S');
+        $orderItemGridSales.addClass('purchase');
 
         $orderItemGridSalesControl.data('ondatabind', request => {
             request.uniqueids = {
@@ -322,6 +324,7 @@ class PurchaseOrder {
         $orderItemGridPartControl.find('div[data-datafield="PeriodExtended"]').attr('data-caption', 'Extended');
         $orderItemGridPart.empty().append($orderItemGridPartControl);
         $orderItemGridPart.addClass('P');
+        $orderItemGridPart.addClass('purchase');
 
         $orderItemGridPartControl.data('ondatabind', request => {
             request.uniqueids = {
@@ -350,6 +353,7 @@ class PurchaseOrder {
         $orderItemGridLaborControl.find('div[data-datafield="PeriodExtended"]').attr('data-caption', 'Extended');
         $orderItemGridLabor.empty().append($orderItemGridLaborControl);
         $orderItemGridLabor.addClass('L');
+        $orderItemGridLabor.addClass('purchase');
 
         $orderItemGridLaborControl.data('ondatabind', request => {
             request.uniqueids = {
@@ -378,6 +382,7 @@ class PurchaseOrder {
         $orderItemGridMiscControl.find('div[data-datafield="PeriodExtended"]').attr('data-caption', 'Extended');
         $orderItemGridMisc.empty().append($orderItemGridMiscControl);
         $orderItemGridMisc.addClass('M');
+        $orderItemGridMisc.addClass('purchase');
 
         $orderItemGridMiscControl.data('ondatabind', request => {
             request.uniqueids = {
@@ -406,6 +411,7 @@ class PurchaseOrder {
         $orderItemGridSubRentControl.find('div[data-datafield="PeriodExtended"]').attr('data-caption', 'Extended');
         $orderItemGridSubRent.empty().append($orderItemGridSubRentControl);
         $orderItemGridSubRent.addClass('R');
+        $orderItemGridSubRent.addClass('sub');
 
         $orderItemGridSubRentControl.data('ondatabind', request => {
             request.uniqueids = {
@@ -436,6 +442,7 @@ class PurchaseOrder {
         $oderItemGridSubSalesControl.find('div[data-datafield="PeriodExtended"]').attr('data-caption', 'Extended');
         $oderItemGridSubSales.empty().append($oderItemGridSubSalesControl);
         $oderItemGridSubSales.addClass('S');
+        $oderItemGridSubSales.addClass('sub');
 
         $oderItemGridSubSalesControl.data('ondatabind', request => {
             request.uniqueids = {
@@ -467,6 +474,7 @@ class PurchaseOrder {
         $orderItemGridSubLaborControl.find('div[data-datafield="PeriodExtended"]').attr('data-caption', 'Extended');
         $orderItemGridSubLabor.empty().append($orderItemGridSubLaborControl);
         $orderItemGridSubLabor.addClass('L');
+        $orderItemGridSubLabor.addClass('sub');
 
         $orderItemGridSubLaborControl.data('ondatabind', request => {
             request.uniqueids = {
@@ -497,7 +505,8 @@ class PurchaseOrder {
         $orderItemGridSubMiscControl.find('div[data-datafield="PeriodDiscountAmount"]').attr('data-caption', 'Discount Amount');
         $orderItemGridSubMiscControl.find('div[data-datafield="PeriodExtended"]').attr('data-caption', 'Extended');
         $orderItemGridSubMisc.empty().append($orderItemGridSubMiscControl);
-        $orderItemGridSubMisc.addClass('R');
+        $orderItemGridSubMisc.addClass('M');
+        $orderItemGridSubMisc.addClass('sub');
 
         $orderItemGridSubMiscControl.data('ondatabind', request => {
             request.uniqueids = {
