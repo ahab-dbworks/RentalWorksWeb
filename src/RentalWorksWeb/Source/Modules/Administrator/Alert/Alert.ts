@@ -265,6 +265,39 @@ class Alert {
             const $messageBody = $form.find('[data-datafield="AlertBody"] textarea');
             $messageBody.val(jQuery($messageBody).val() + textToInject);
         });
+
+        //default alert body
+        $form.on('click', '.default-alert-body', e => {
+            const actionNew = FwFormField.getValueByDataField($form, 'ActionNew');
+            const actionEdit = FwFormField.getValueByDataField($form, 'ActionEdit');
+            const actionDelete = FwFormField.getValueByDataField($form, 'ActionDelete');
+            let defaultBody: any = [];
+            const alertName = FwFormField.getValueByDataField($form, 'AlertName');
+
+            defaultBody.push('<table>');
+            defaultBody.push('<tr style="font-weight:bold;">');
+            defaultBody.push(`<td>${alertName}</td>`);
+            defaultBody.push('</tr>');
+            defaultBody.push('<tr style="font-weight:bold; background-color:#DCDCDC;">');
+            defaultBody.push('<td>Field Name</td>');
+            if (actionDelete || actionEdit) defaultBody.push('<td>Old Value</td>');
+            if (actionNew || actionEdit) defaultBody.push('<td>New Value</td>');
+            defaultBody.push('</tr>');
+            defaultBody.push('<tr><td>Data Changed by User Name</td><td>[Data Changed by User Name]</td></tr>');
+            defaultBody.push('<tr><td>Data Change Date/Time</td><td>[Data Change Date/Time]</td></tr>');
+
+            const fields = $form.find('.field-list').data('fieldsNoDupes');
+            for (let i = 0; i < fields.length; i++) {
+                defaultBody.push('<tr>');
+                defaultBody.push(`<td>${fields[i]}</td>`);
+                if (actionDelete || actionEdit) defaultBody.push(`<td>[${fields[i]} - Old Value]</td>`);
+                if (actionNew || actionEdit) defaultBody.push(`<td>[${fields[i]} - New Value]</td>`);
+                defaultBody.push('</tr>');
+            }
+            defaultBody.push('</table>');
+            $form.find('[data-datafield="AlertBody"] textarea').text(defaultBody.join(''));
+            //$form.find('.body').text(defaultBody.join(''));
+        });
     }
     //----------------------------------------------------------------------------------------------
     getFields($form: JQuery): void {
@@ -272,7 +305,9 @@ class Alert {
             const moduleUrl = jQuery(e.currentTarget).find(':selected').attr('data-apiurl');
             FwAppData.apiMethod(true, 'GET', `${moduleUrl}/emptyobject`, null, FwServices.defaultTimeout,
                 response => {
+                    let fieldsNoDupes: any = [];
                     let fieldsList = response._Fields.filter(obj => { return obj.Name != 'DateStamp' });
+                    fieldsNoDupes = fieldsList.map(obj => obj.Name);
                     const oldVal = fieldsList.map(obj => {
                         return { 'value': `${obj.Name}___OldValue`, 'text': `${obj.Name} - Old Value`, 'datatype': obj.DataType }
                     });
@@ -281,6 +316,8 @@ class Alert {
                             return { 'value': `${obj.Name}___NewValue`, 'text': `${obj.Name} - New Value`, 'datatype': obj.DataType }
                         });
                     if (response._Custom.length > 0) {
+                        let customNoDupes: any = [];
+                        customNoDupes = response._Custom.map(obj => obj.FieldName);
                         const customOldVal = response._Custom.map(obj => {
                             return { 'value': `${obj.FieldName}___OldValue`, 'text': `${obj.FieldName} - Old Value`, 'datatype': obj.FieldType }
                         });
@@ -288,10 +325,14 @@ class Alert {
                             return { 'value': `${obj.FieldName}___NewValue`, 'text': `${obj.FieldName} - New Value`, 'datatype': obj.FieldType }
                         });
                         fieldsList = oldVal.concat(newVal).concat(customOldVal).concat(customNewVal);
+                        fieldsNoDupes = fieldsNoDupes.concat(customNoDupes);
                     } else {
                         fieldsList = jQuery.merge(oldVal, newVal);
                     }
 
+                    fieldsNoDupes = fieldsNoDupes.sort();
+                    $form.find('.field-list').data('fieldsNoDupes', fieldsNoDupes);
+                    
                     fieldsList = fieldsList.sort(this.compare);
                     fieldsList.unshift(
                         { 'value': 'DATACHANGEDBYUSERNAME', 'text': 'Data Changed by User Name', 'datatype': 'Text' }
