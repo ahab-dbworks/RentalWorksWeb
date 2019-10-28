@@ -77,12 +77,12 @@ class QuikActivityCalendar {
                 <div id="quikActivityPopup" class="fwform fwcontrol fwcontainer"  data-control="FwContainer" data-type="form" style="max-height:90vh;max-width:90vw;background-color:white; padding:10px; border:2px solid gray;">
                     <div class="close-modal"><i class="material-icons">clear</i><div class="btn-text">Close</div></div>
                     <div class="flexcolumn">
-                      <div class="flexrow">
+                      <div class="flexrow" style="max-width:inherit;">
                          <div class="fwcontrol fwcontainer fwform-section activities-header" data-control="FwContainer" data-type="section" data-caption="Activities">
                             <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield" data-caption="" data-datafield="Summary"></div>
                         </div>
                       </div>
-                      <div class="flexrow">
+                      <div class="flexrow" style="max-width:inherit;">
                         <div data-control="FwGrid" data-grid="QuikActivityGrid" data-securitycaption="QuikActivity" style="overflow:auto;max-height:80vh;"></div>
                       </div>
                     </div>
