@@ -2526,7 +2526,7 @@ class FwBrowseClass {
                             throw 'Attribute data-controller is not defined on Browse control.'
                         }
                         // Delete menu option
-                        if ($browse.attr('data-enabled') !== 'false') {
+                        if ($browse.attr('data-enabled') !== 'false' && $browse.attr('data-deleteoption') !== 'false') {
                             const nodeController = FwApplicationTree.getNodeByController(controller);
                             if (nodeController !== null) {
                                 const deleteActions = FwApplicationTree.getChildrenByType(nodeController, 'DeleteMenuBarButton');
