@@ -1487,8 +1487,10 @@ namespace WebApi.Modules.Agent.Order
                 }
             }
 
-
-
+            //after save - do work in the database
+            {
+                TSpStatusResponse r = OrderFunc.AfterSaveQuoteOrder(AppConfig, UserSession, this.GetPrimaryKeys()[0].ToString(), e.SqlConnection).Result;
+            }
         }
         //------------------------------------------------------------------------------------
 

@@ -142,10 +142,10 @@ namespace WebApi.Modules.Agent.Order
 
     public class ChangeOrderOfficeLocationRequest
     {
-        public string OfficeLocationId { get; set; } 
+        public string OfficeLocationId { get; set; }
         public string WarehouseId { get; set; }
     }
-    public class ChangeOrderOfficeLocationResponse: TSpStatusResponse
+    public class ChangeOrderOfficeLocationResponse : TSpStatusResponse
     {
         public OrderBaseLogic quoteOrOrder { get; set; }
     }
@@ -507,5 +507,28 @@ namespace WebApi.Modules.Agent.Order
             return response;
         }
         //-------------------------------------------------------------------------------------------------------    
+        public static async Task<TSpStatusResponse> AfterSaveQuoteOrder(FwApplicationConfig appConfig, FwUserSession userSession, string id, FwSqlConnection conn = null)
+        {
+            TSpStatusResponse response = new TSpStatusResponse();
+
+            if (conn == null)
+            {
+                conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString);
+            }
+
+            using (FwSqlCommand qry = new FwSqlCommand(conn, "aftersavequoteorderweb", appConfig.DatabaseSettings.QueryTimeout))
+            {
+                qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, id);
+                qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+                qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
+                qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
+                await qry.ExecuteNonQueryAsync();
+                response.status = qry.GetParameter("@status").ToInt32();
+                response.success = (response.status == 0);
+                response.msg = qry.GetParameter("@msg").ToString();
+            }
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------
     }
 }
