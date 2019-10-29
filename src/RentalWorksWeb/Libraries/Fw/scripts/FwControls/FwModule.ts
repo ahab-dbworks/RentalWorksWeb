@@ -900,7 +900,6 @@
                 });
         }
 
-
         $form
             .on('change keyup', '.fwformfield[data-enabled="true"]:not([data-isuniqueid="true"][data-datafield=""])', function (event) {
                 var fields, $tab, $tabpage;
@@ -1481,7 +1480,7 @@
                 $save = FwConfirmation.addButton($confirmation, 'Save');
                 $dontsave = FwConfirmation.addButton($confirmation, 'Don\'t Save');
                 if ($form.parent().data('type') !== 'settings-row') { $cancel = FwConfirmation.addButton($confirmation, 'Cancel'); }
-
+                $save.focus();
                 $save.on('click', function () {
                     var controller, isvalid;
                     controller = $form.attr('data-controller');
