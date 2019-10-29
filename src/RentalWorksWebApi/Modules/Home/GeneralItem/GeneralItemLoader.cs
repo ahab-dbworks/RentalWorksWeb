@@ -58,6 +58,9 @@ namespace WebApi.Modules.Home.GeneralItem
         [FwSqlDataField(column: "unittype", modeltype: FwDataTypes.Text)]
         public string UnitType { get; set; }
         //------------------------------------------------------------------------------------         
+        [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
+        public bool? Inactive { get; set; }
+        //------------------------------------------------------------------------------------         
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
             base.SetBaseSelectQuery(select, qry, customFields, request);
