@@ -110,12 +110,10 @@ class FwMenuClass {
     };
     //---------------------------------------------------------------------------------
     addSubMenuColumn($control) {
-        var html, $column;
-
-        html = [];
+        const html: Array<string> = [];
         html.push('<div class="submenu-column"></div>');
 
-        $column = jQuery(html.join(''));
+        const $column = jQuery(html.join(''));
 
         $control.find('.submenu').append($column);
 
@@ -123,16 +121,14 @@ class FwMenuClass {
     };
     //---------------------------------------------------------------------------------
     addSubMenuGroup($control, groupcaption, securityid) {
-        var html, $group;
-
         securityid = (typeof securityid === 'string') ? securityid : '';
-        html = [];
+        const html: Array<string> = [];
         html.push('<div class="submenu-group" data-securityid="' + securityid + '">');
         html.push('<div class="caption">' + groupcaption + '</div>');
         html.push('<div class="body"></div>');
         html.push('</div>');
 
-        $group = jQuery(html.join(''));
+        const $group = jQuery(html.join(''));
 
         $control.append($group);
 
@@ -140,15 +136,13 @@ class FwMenuClass {
     };
     //---------------------------------------------------------------------------------
     addSubMenuBtn($group, caption, securityid) {
-        var html, $btn;
-
         securityid = (typeof securityid === 'string') ? securityid : '';
-        html = [];
+        const html: Array<string> = [];
         html.push('<div class="submenu-btn" data-securityid="' + securityid + '">');
         html.push('<div class="caption">' + caption + '</div>');
         html.push('</div>');
 
-        $btn = jQuery(html.join(''));
+        const $btn = jQuery(html.join(''));
 
         $group.find('.body').append($btn);
 
@@ -156,14 +150,13 @@ class FwMenuClass {
     };
     //---------------------------------------------------------------------------------
     addStandardBtn($control, caption, securityid) {
-        var $btn, btnHtml, btnId, id;
-        $btn = jQuery();
+        let $btn = jQuery();
         if ((caption !== '') && (typeof caption !== 'undefined')) {
             try {
-                id = program.uniqueId(8);
-                btnId = 'btn' + id;
+                const id = program.uniqueId(8);
+                const btnId = 'btn' + id;
                 securityid = (typeof securityid === 'string') ? securityid : '';
-                btnHtml = [];
+                const btnHtml: Array<string> = [];
                 btnHtml.push('<div id="' + btnId + '" class="btn" tabindex="0" data-securityid="' + securityid + '">');
                 if ($control.hasClass('default')) {
                     switch (caption) {
@@ -171,6 +164,7 @@ class FwMenuClass {
                         case 'Edit': btnHtml.push('<i class="material-icons">&#xE254;</i>'); break; //mode_edit
                         case 'Delete': btnHtml.push('<i class="material-icons">&#xE872;</i>'); break; //delete
                         case 'Save': btnHtml.push('<i class="material-icons">&#xE161;</i>'); break; //save
+                        case 'Refresh': btnHtml.push('<i class="material-icons">refresh</i>'); break; //find
                         case 'Find': btnHtml.push('<i class="material-icons">search</i>'); break; //find
                     }
                 }

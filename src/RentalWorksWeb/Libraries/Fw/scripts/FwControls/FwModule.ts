@@ -913,10 +913,12 @@
                     $tab.find('.modified').html('*');
                     $form.attr('data-modified', 'true');
                     $form.find('.btn[data-type="SaveMenuBarButton"]').removeClass('disabled');
+                    $form.find('.btn[data-type="RefreshMenuBarButton"]').addClass('disabled');
                 } else {
                     $tab.find('.modified').html('');
                     $form.attr('data-modified', 'false');
                     $form.find('.btn[data-type="SaveMenuBarButton"]').addClass('disabled');
+                    $form.find('.btn[data-type="RefreshMenuBarButton"]').removeClass('disabled');
                 }
             })
             .on('change', '.fwformfield[data-noduplicate="true"]', function () {
@@ -1162,6 +1164,7 @@
                         $tab.find('.caption').html(tabname);
                         $tab.find('.modified').html('');
                         $form.find('.btn[data-type="SaveMenuBarButton"]').addClass('disabled');
+                        $form.find('.btn[data-type="RefreshMenuBarButton"]').removeClass('disabled');
                         if ($form.attr('data-mode') === 'NEW') {
                             $form.attr('data-mode', 'EDIT');
                             $formfields = jQuery().add($form.data('uniqueids')).add($form.data('fields'));
@@ -1210,6 +1213,7 @@
                         $tab.find('.caption').html(response.tabname);
                         $tab.find('.modified').html('');
                         $form.find('.btn[data-type="SaveMenuBarButton"]').addClass('disabled');
+                        $form.find('.btn[data-type="RefreshMenuBarButton"]').removeClass('disabled');
 
                         if ($form.attr('data-mode') === 'NEW') {
                             $form.attr('data-mode', 'EDIT');
@@ -1315,7 +1319,7 @@
                 if (nodeFormMenuBar !== null) {
                     if (nodeFormMenuBar.properties.visible === 'T') {
                         $form.find('.fwform-menu').append($menu);
-                        for (var menubaritemno = 0; menubaritemno < nodeFormMenuBar.children.length; menubaritemno++) {
+                        for (let menubaritemno = 0; menubaritemno < nodeFormMenuBar.children.length; menubaritemno++) {
                             var nodeMenuBarItem = nodeFormMenuBar.children[menubaritemno];
                             if (nodeMenuBarItem.properties.visible === 'T') {
                                 nodetype = FwApplicationTree.getNodeType(nodeMenuBarItem);
@@ -1324,12 +1328,12 @@
                                         nodeFormSubMenu = nodeMenuBarItem;
                                         if (nodeFormSubMenu !== null) {
                                             $submenubtn = FwMenu.addSubMenu($menu);
-                                            for (var submenuoptionno = 0; submenuoptionno < nodeFormSubMenu.children.length; submenuoptionno++) {
+                                            for (let submenuoptionno = 0; submenuoptionno < nodeFormSubMenu.children.length; submenuoptionno++) {
                                                 nodeSubMenuGroup = nodeFormSubMenu.children[submenuoptionno];
                                                 if (nodeSubMenuGroup.properties.visible === 'T') {
                                                     $submenucolumn = FwMenu.addSubMenuColumn($submenubtn)
                                                     $submenugroup = FwMenu.addSubMenuGroup($submenucolumn, nodeSubMenuGroup.properties.caption, nodeSubMenuGroup.id);
-                                                    for (var submenuitemno = 0; submenuitemno < nodeSubMenuGroup.children.length; submenuitemno++) {
+                                                    for (let submenuitemno = 0; submenuitemno < nodeSubMenuGroup.children.length; submenuitemno++) {
                                                         nodeSubMenuItem = nodeSubMenuGroup.children[submenuitemno];
                                                         if (nodeSubMenuItem.properties.visible === 'T') {
                                                             $submenuitem = FwMenu.addSubMenuBtn($submenugroup, nodeSubMenuItem.properties.caption, nodeSubMenuItem.id);
@@ -1356,10 +1360,9 @@
                                             $menubarbutton.attr('data-type', 'SaveMenuBarButton');
                                             $menubarbutton.addClass('disabled');
                                             $menubarbutton.on('click', function (event) {
-                                                var method, ismodified;
                                                 try {
-                                                    method = 'saveForm';
-                                                    ismodified = $form.attr('data-modified');
+                                                    const method = 'saveForm';
+                                                    const ismodified = $form.attr('data-modified');
                                                     if (ismodified === 'true') {
                                                         if (typeof window[controller] === 'undefined') throw 'Missing javascript module: ' + controller;
                                                         if (typeof window[controller][method] === 'function') {
@@ -1376,14 +1379,13 @@
                                         break;
                                     case 'PrevMenuBarButton':
                                         if (nodeMenuBarItem.properties.visible === 'T') {
-                                            var $prev = FwMenu.addStandardBtn($menu, '<', nodeMenuBarItem.id);
+                                            const $prev = FwMenu.addStandardBtn($menu, '<', nodeMenuBarItem.id);
                                             $prev.attr('data-type', 'PrevButton');
                                             $prev.on('click', function () {
-                                                var $this, $browse, $tab, $selectedrow;
                                                 try {
-                                                    $this = jQuery(this);
-                                                    $browse = $this.closest('.tabpages').find('[data-tabtype="BROWSE"] .fwbrowse');
-                                                    $tab = FwTabs.getTabByElement($this);
+                                                    const $this = jQuery(this);
+                                                    const $browse = $this.closest('.tabpages').find('[data-tabtype="BROWSE"] .fwbrowse');
+                                                    const $tab = FwTabs.getTabByElement($this);
                                                     FwBrowse.openPrevRow($browse, $tab, $form);
                                                 } catch (ex) {
                                                     FwFunc.showError(ex);
@@ -1393,14 +1395,13 @@
                                         break;
                                     case 'NextMenuBarButton':
                                         if (nodeMenuBarItem.properties.visible === 'T') {
-                                            var $next = FwMenu.addStandardBtn($menu, '>', nodeMenuBarItem.id);
+                                            const $next = FwMenu.addStandardBtn($menu, '>', nodeMenuBarItem.id);
                                             $next.attr('data-type', 'NextButton');
                                             $next.on('click', function () {
-                                                var $this, $browse, $tab, $selectedrow;
                                                 try {
-                                                    $this = jQuery(this);
-                                                    $browse = $this.closest('.tabpages').find('[data-tabtype="BROWSE"] .fwbrowse');
-                                                    $tab = FwTabs.getTabByElement($this);
+                                                    const $this = jQuery(this);
+                                                    const $browse = $this.closest('.tabpages').find('[data-tabtype="BROWSE"] .fwbrowse');
+                                                    const $tab = FwTabs.getTabByElement($this);
                                                     FwBrowse.openNextRow($browse, $tab, $form);
                                                 } catch (ex) {
                                                     FwFunc.showError(ex);
@@ -1411,12 +1412,30 @@
                                 }
                             }
                         }
+                        // Refresh form button
+                        const $refreshmenubarbutton = FwMenu.addStandardBtn($menu, 'Refresh');
+                        $refreshmenubarbutton.attr('data-type', 'RefreshMenuBarButton');
+                        if ($form.attr('data-mode') === 'NEW') {
+                            $refreshmenubarbutton.addClass('disabled');
+                        } else {
+                            $refreshmenubarbutton.removeClass('disabled');
+                        }
+                        $refreshmenubarbutton.on('click', function (event) {
+                            try {
+                                const ismodified = $form.attr('data-modified');
+                                if (ismodified !== 'true' && $form.attr('data-mode') !== 'NEW') {
+                                    FwModule.refreshForm($form, controller)
+                                }
+                            } catch (ex) {
+                                FwFunc.showError(ex);
+                            }
+                        });
                     }
                 }
             }
         }
         if ((typeof $form.attr('data-controller') != 'undefined') && (typeof window[$form.attr('data-controller')]['addFormMenuItems'] === 'function')) {
-            var $menuobj = window[$form.attr('data-controller')]['addFormMenuItems']($menu, $form);
+            const $menuobj = window[$form.attr('data-controller')]['addFormMenuItems']($menu, $form);
             if (typeof $menuobj !== 'undefined') {
                 $menu = $menuobj;
             }
@@ -1847,18 +1866,16 @@
     }
     //----------------------------------------------------------------------------------------------
     static setFormReadOnly($form: JQuery) {
-        var $fwformfields, $grids, $save;
-
         $form.attr('data-mode', 'READONLY');
-        $fwformfields = $form.data('fields');
+        const $fwformfields = $form.data('fields');
         FwFormField.disable($fwformfields);
-        $grids = $form.data('grids');
+        const $grids = $form.data('grids');
         $grids.each(function (index, element) {
-            var $grid = jQuery(element).find('div[data-control="FwBrowse"][data-type="Grid"]');
+            const $grid = jQuery(element).find('div[data-control="FwBrowse"][data-type="Grid"]');
             FwBrowse.disableGrid($grid);
         });
 
-        $save = $form.find('div.btn[data-type="SaveMenuBarButton"]');
+        const $save = $form.find('div.btn[data-type="SaveMenuBarButton"]');
         $save.addClass('disabled');
         $save.off('click');
     }
@@ -1870,13 +1887,13 @@
     //----------------------------------------------------------------------------------------------
     static refreshForm($form: JQuery, controller: any) {
         const uniqueIds = FwModule.getFormUniqueIds($form);
-        let newUniqueIds = {};
+        const newUniqueIds: any = {};
         setTimeout(() => {
             for (let key in uniqueIds) {
                 newUniqueIds[key] = uniqueIds[key].value
-                const $newForm = controller.loadForm(newUniqueIds);
-                $form.parent().empty().append($newForm);
             }
+            const $newForm = (<any>window[controller]).loadForm(newUniqueIds);
+            $form.parent().empty().append($newForm);
         }, 0)
     };
     //----------------------------------------------------------------------------------------------
