@@ -316,7 +316,13 @@ class Alert {
     </tr>
     ${html}
 </table>`;
-            
+
+            const useTemplate = () => {
+                $form.attr('data-modified', true);
+                $form.find('.btn[data-type="SaveMenuBarButton"]').removeClass('disabled');
+                $form.find('[data-datafield="AlertBody"] textarea').val(defaultBody);
+            }
+
             if (alertBody.length > 0) {
                 const $confirmation = FwConfirmation.renderConfirmation('Use Default Alert Template?', '<div style="white-space:pre;">\n' +
                     'Clear the Body field and use the default Alert template?</div>');
@@ -324,10 +330,10 @@ class Alert {
                 FwConfirmation.addButton($confirmation, 'No');
                 $yes.on('click', function () {
                     FwConfirmation.destroyConfirmation($confirmation);
-                    $form.find('[data-datafield="AlertBody"] textarea').val(defaultBody);
+                    useTemplate();
                 });
             } else {
-                $form.find('[data-datafield="AlertBody"] textarea').val(defaultBody);
+                useTemplate();
             }
         });
     }
