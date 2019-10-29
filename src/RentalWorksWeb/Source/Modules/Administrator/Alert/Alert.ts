@@ -268,34 +268,12 @@ class Alert {
 
         //default alert body
         $form.on('click', '.default-alert-body', e => {
+            const alertBody = FwFormField.getValueByDataField($form, 'AlertBody');
             const actionNew = FwFormField.getValueByDataField($form, 'ActionNew');
             const actionEdit = FwFormField.getValueByDataField($form, 'ActionEdit');
             const actionDelete = FwFormField.getValueByDataField($form, 'ActionDelete');
             let defaultBody: any = [];
             const alertName = FwFormField.getValueByDataField($form, 'AlertName');
-
-            //defaultBody.push('<table>');
-            //defaultBody.push('<tr style="font-weight:bold;">');
-            //defaultBody.push(`<td>${alertName}</td>`);
-            //defaultBody.push('</tr>');
-            //defaultBody.push('<tr style="font-weight:bold; background-color:#DCDCDC;">');
-            //defaultBody.push('<td>Field Name</td>');
-            //if (actionDelete || actionEdit) defaultBody.push('<td>Old Value</td>');
-            //if (actionNew || actionEdit) defaultBody.push('<td>New Value</td>');
-            //defaultBody.push('</tr>');
-            //defaultBody.push('<tr><td>Data Changed by User Name</td><td>[Data Changed by User Name]</td></tr>');
-            //defaultBody.push('<tr><td>Data Change Date/Time</td><td>[Data Change Date/Time]</td></tr>');
-
-            //const fields = $form.find('.field-list').data('fieldsNoDupes');
-            //for (let i = 0; i < fields.length; i++) {
-            //    defaultBody.push('<tr>');
-            //    defaultBody.push(`<td>${fields[i]}</td>`);
-            //    if (actionDelete || actionEdit) defaultBody.push(`<td>[${fields[i]} - Old Value]</td>`);
-            //    if (actionNew || actionEdit) defaultBody.push(`<td>[${fields[i]} - New Value]</td>`);
-            //    defaultBody.push('</tr>');
-            //}
-            //defaultBody.push('</table>');
-
 
             const fields = $form.find('.field-list').data('fieldsNoDupes');
             let html = '';
@@ -311,7 +289,7 @@ class Alert {
 
             defaultBody =`<table>
     <tr style="font-weight:bold;">
-        <td>
+        <td colspan="${actionEdit ? '3' : '2'}">
             ${alertName}
         </td>
     </tr>
@@ -328,11 +306,29 @@ class Alert {
             [Data Changed by User Name]
         </td>
     </tr>
+    <tr>
+        <td>
+            Data Change Date/Time
+        </td>
+        <td>
+            [Data Change Date/Time]
+        </td>
+    </tr>
     ${html}
 </table>`;
-
-            $form.find('[data-datafield="AlertBody"] textarea').text(defaultBody);
-            //$form.find('.body').text(defaultBody.join(''));
+            
+            if (alertBody.length > 0) {
+                const $confirmation = FwConfirmation.renderConfirmation('Use Default Alert Template?', '<div style="white-space:pre;">\n' +
+                    'Clear the Body field and use the default Alert template?</div>');
+                const $yes = FwConfirmation.addButton($confirmation, 'Yes', false);
+                FwConfirmation.addButton($confirmation, 'No');
+                $yes.on('click', function () {
+                    FwConfirmation.destroyConfirmation($confirmation);
+                    $form.find('[data-datafield="AlertBody"] textarea').val(defaultBody);
+                });
+            } else {
+                $form.find('[data-datafield="AlertBody"] textarea').val(defaultBody);
+            }
         });
     }
     //----------------------------------------------------------------------------------------------
