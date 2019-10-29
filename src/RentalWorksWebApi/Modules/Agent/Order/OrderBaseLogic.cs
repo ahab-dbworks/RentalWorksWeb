@@ -186,6 +186,9 @@ namespace WebApi.Modules.Agent.Order
         [FwLogicProperty(Id: "ifAssZW9zbEu", IsReadOnly: true)]
         public bool? HasRentalSaleItem { get; set; }
 
+        [FwLogicProperty(Id: "LAPj0iaAyE0Jl", IsReadOnly: true)]
+        public bool? HasRepair { get; set; }
+
         //------------------------------------------------------------------------------------ 
 
         [FwLogicProperty(Id: "y4trOTswSEcP3", IsNotAudited: true)]

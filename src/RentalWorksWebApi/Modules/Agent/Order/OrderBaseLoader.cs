@@ -10,6 +10,7 @@ namespace WebApi.Modules.Agent.Order
     [FwSqlTable("orderwebview")]
     public abstract class OrderBaseLoader : OrderBaseBrowseLoader
     {
+        //------------------------------------------------------------------------------------
         public OrderBaseLoader()
         {
             AfterLoad += OnAfterLoad;
@@ -56,6 +57,9 @@ namespace WebApi.Modules.Agent.Order
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "hasrentalsaleitem", modeltype: FwDataTypes.Boolean)]
         public bool? HasRentalSaleItem { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "hasrepair", modeltype: FwDataTypes.Boolean)]
+        public bool? HasRepair { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ordertypecombineactivitytabs", modeltype: FwDataTypes.Boolean)]
         public bool? OrderTypeCombineActivityTabs { get; set; }
