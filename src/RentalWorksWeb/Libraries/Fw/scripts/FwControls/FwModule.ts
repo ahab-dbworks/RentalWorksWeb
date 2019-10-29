@@ -1412,23 +1412,25 @@
                             }
                         }
                         // Refresh form button
-                        const $refreshmenubarbutton = FwMenu.addStandardBtn($menu, 'Refresh');
-                        $refreshmenubarbutton.attr('data-type', 'RefreshMenuBarButton');
-                        if ($form.attr('data-mode') === 'NEW') {
-                            $refreshmenubarbutton.addClass('disabled');
-                        } else {
-                            $refreshmenubarbutton.removeClass('disabled');
-                        }
-                        $refreshmenubarbutton.on('click', function (event) {
-                            try {
-                                const ismodified = $form.attr('data-modified');
-                                if (ismodified !== 'true' && $form.attr('data-mode') !== 'NEW') {
-                                    FwModule.refreshForm($form, controller)
-                                }
-                            } catch (ex) {
-                                FwFunc.showError(ex);
+                        if (typeof window[controller]['loadForm'] === 'function') {
+                            const $refreshmenubarbutton = FwMenu.addStandardBtn($menu, 'Refresh');
+                            $refreshmenubarbutton.attr('data-type', 'RefreshMenuBarButton');
+                            if ($form.attr('data-mode') === 'NEW') {
+                                $refreshmenubarbutton.addClass('disabled');
+                            } else {
+                                $refreshmenubarbutton.removeClass('disabled');
                             }
-                        });
+                            $refreshmenubarbutton.on('click', function (event) {
+                                try {
+                                    const ismodified = $form.attr('data-modified');
+                                    if (ismodified !== 'true' && $form.attr('data-mode') !== 'NEW') {
+                                        FwModule.refreshForm($form, controller)
+                                    }
+                                } catch (ex) {
+                                    FwFunc.showError(ex);
+                                }
+                            });
+                        }
                     }
                 }
             }
@@ -1891,8 +1893,10 @@
             for (let key in uniqueIds) {
                 newUniqueIds[key] = uniqueIds[key].value
             }
-            const $newForm = (<any>window[controller]).loadForm(newUniqueIds);
-            $form.parent().empty().append($newForm);
+            if (controller) {
+                const $newForm = (<any>window[controller]).loadForm(newUniqueIds);
+                $form.parent().empty().append($newForm);
+            }
         }, 0)
     };
     //----------------------------------------------------------------------------------------------
