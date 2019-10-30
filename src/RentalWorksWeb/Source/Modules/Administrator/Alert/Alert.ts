@@ -258,6 +258,7 @@ class Alert {
             $tab.find('.modified').html('*');
             $form.attr('data-modified', 'true');
             $form.find('.btn[data-type="SaveMenuBarButton"]').removeClass('disabled');
+            $form.find('.btn[data-type="RefreshMenuBarButton"]').addClass('disabled');
         });
 
         $form.on('click', '.field-name', e => {
@@ -320,6 +321,7 @@ class Alert {
             const useTemplate = () => {
                 $form.attr('data-modified', true);
                 $form.find('.btn[data-type="SaveMenuBarButton"]').removeClass('disabled');
+                $form.find('.btn[data-type="RefreshMenuBarButton"]').addClass('disabled');
                 $form.find('[data-datafield="AlertBody"] textarea').val(defaultBody);
             }
 
@@ -522,6 +524,7 @@ class Alert {
         $tab.find('.modified').html('');
         $form.attr('data-modified', 'false');
         $form.find('.btn[data-type="SaveMenuBarButton"]').addClass('disabled');
+        $form.find('.btn[data-type="RefreshMenuBarButton"]').addClass('disabled');
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
@@ -533,6 +536,7 @@ class Alert {
         $tab.find('.modified').html('');
         $form.attr('data-modified', 'false');
         $form.find('.btn[data-type="SaveMenuBarButton"]').addClass('disabled');
+        $form.find('.btn[data-type="RefreshMenuBarButton"]').addClass('disabled');
 
         const $alertWebUsersGrid = $form.find('[data-name="AlertWebUsersGrid"]');
         FwBrowse.search($alertWebUsersGrid);
