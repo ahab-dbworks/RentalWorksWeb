@@ -1895,7 +1895,7 @@
                 newUniqueIds[key] = uniqueIds[key].value
             }
             const controller = $form.data('controller');
-            if (controller) {
+            if (typeof window[controller]['loadForm'] === 'function') {
                 const $newForm = (<any>window[controller]).loadForm(newUniqueIds);
                 $form.parent().empty().append($newForm);
             }
