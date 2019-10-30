@@ -67,10 +67,10 @@ namespace WebApi.Modules.Agent.Project
             return await DoDeleteAsync<ProjectLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/project/createquote/A0000001
-        [HttpPost("createquote/{id}")]
+        // POST api/v1/project/createquote
+        [HttpPost("createquote")]
         [FwControllerMethod(Id:"X5qRQcu9TBn8Z")]
-        public async Task<ActionResult<QuoteLogic>> CreateQuote([FromRoute]string id)
+        public async Task<ActionResult<CreateQuoteFromProjectResponse>> CreateQuote([FromBody]CreateQuoteFromProjectRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -78,13 +78,13 @@ namespace WebApi.Modules.Agent.Project
             }
             try
             {
-                string[] ids = id.Split('~');
                 ProjectLogic l = new ProjectLogic();
                 l.SetDependencies(AppConfig, UserSession);
-                if (await l.LoadAsync<ProjectLogic>(ids))
+                l.ProjectId = request.ProjectId;
+                if (await l.LoadAsync<ProjectLogic>())
                 {
-                    QuoteLogic lCopy = await l.CreateQuoteAsync();
-                    return new OkObjectResult(lCopy);
+                    CreateQuoteFromProjectResponse response = ProjectFunc.CreateQuoteFromProject(AppConfig, UserSession, request).Result;
+                    return new OkObjectResult(response);
                 }
                 else
                 {
@@ -93,11 +93,7 @@ namespace WebApi.Modules.Agent.Project
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------      

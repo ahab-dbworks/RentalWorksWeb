@@ -5,8 +5,8 @@ class Project {
     Module: string = 'Project';
     apiurl: string = 'api/v1/project';
     caption: string = Constants.Modules.Home.Project.caption;
-	nav: string = Constants.Modules.Home.Project.nav;
-	id: string = Constants.Modules.Home.Project.id;
+    nav: string = Constants.Modules.Home.Project.nav;
+    id: string = Constants.Modules.Home.Project.id;
     ActiveViewFields: any = {};
     ActiveViewFieldsId: string;
 
@@ -187,6 +187,9 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.Project.form.menuItems.Crea
     try {
         const $form = jQuery(this).closest('.fwform');
         const projectId = FwFormField.getValueByDataField($form, 'ProjectId');
+        const location = JSON.parse(sessionStorage.getItem('location'));
+        const projectNumber = FwFormField.getValueByDataField($form, 'ProjectNumber');
+        const projectName = FwFormField.getValueByDataField($form, 'Project');
 
         if (projectId == "") {
             FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
@@ -195,12 +198,12 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.Project.form.menuItems.Crea
 
             $confirmation = FwConfirmation.renderConfirmation('Create Quote', '');
             $confirmation.find('.fwconfirmationbox').css('width', '450px');
-            var html = [];
-            html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
-            html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-            html.push('    <div>Create a Quote?</div>');
-            html.push('  </div>');
-            html.push('</div>');
+            const html: Array<string> = [];
+            html.push(`<div class="fwform" data-controller="none" style="background-color: transparent;">`);
+            html.push(`  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">`);
+            html.push(`    <div>Create a new Quote for Project ${projectNumber} ${projectName}?</div>`);
+            html.push(`  </div>`);
+            html.push(`</div>`);
 
             FwConfirmation.addControls($confirmation, html.join(''));
 
@@ -208,21 +211,38 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.Project.form.menuItems.Crea
             $no = FwConfirmation.addButton($confirmation, 'Cancel');
 
             $yes.on('click', createQuote);
-            var $confirmationbox = jQuery('.fwconfirmationbox');
             function createQuote() {
-                FwAppData.apiMethod(true, 'POST', "api/v1/project/createquote/" + projectId, null, FwServices.defaultTimeout, function onSuccess(response) {
-                    FwNotification.renderNotification('SUCCESS', 'Quote Successfully Created.');
-                    FwConfirmation.destroyConfirmation($confirmation);
-                    let uniqueids: any = {};
-                    uniqueids.QuoteId = response.QuoteId;
-                    var $quoteform = QuoteController.loadForm(uniqueids);
-                    FwModule.openModuleTab($quoteform, "", true, 'FORM', true);
+                FwFormField.disable($yes);
+                $yes.text('Creating Quote...');
+                $yes.off('click');
 
-                    FwModule.refreshForm($form, ProjectController);
-                }, null, $confirmationbox);
+                let request: any = {};
+                request.ProjectId = projectId;
+                request.OfficeLocationId = location.locationid;
+
+                const topLayer = '<div class="top-layer" data-controller="none" style="background-color: transparent;z-index:1"></div>';
+                const realConfirm = jQuery($confirmation.find('.fwconfirmationbox')).prepend(topLayer);
+
+                FwAppData.apiMethod(true, 'POST', "api/v1/project/createquote", request, FwServices.defaultTimeout, function onSuccess(response) {
+                    if (response.success) {
+                        FwNotification.renderNotification('SUCCESS', 'Quote Successfully Created.');
+                        FwConfirmation.destroyConfirmation($confirmation);
+                        let uniqueids: any = {};
+                        uniqueids.QuoteId = response.QuoteId;
+                        var $quoteform = QuoteController.loadForm(uniqueids);
+                        FwModule.openModuleTab($quoteform, "", true, 'FORM', true);
+                        FwModule.refreshForm($form, ProjectController);
+                    }
+                    else { }
+                }, function onError(response) {
+                    $yes.on('click', createQuote);
+                    $yes.text('Create Quote');
+                    FwFormField.enable($yes);
+                    FwFunc.showError(response);
+                }, realConfirm);
             }
         }
-    } 
+    }
     catch (ex) {
         FwFunc.showError(ex);
     }

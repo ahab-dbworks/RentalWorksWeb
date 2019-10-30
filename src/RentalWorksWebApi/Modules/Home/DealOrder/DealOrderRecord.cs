@@ -1333,24 +1333,6 @@ public string DateStamp { get; set; }
             return newId;
         }
         //-------------------------------------------------------------------------------------------------------
-        public async Task<string> CreateQuoteFromProject()
-        {
-            string newId = "";
-            if ((OrderId != null) && (Type.Equals(RwConstants.ORDER_TYPE_PROJECT)))
-            {
-                using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
-                {
-                    FwSqlCommand qry = new FwSqlCommand(conn, "leadtoquote", this.AppConfig.DatabaseSettings.QueryTimeout);
-                    qry.AddParameter("@leadid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
-                    qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, UserSession.UsersId);
-                    qry.AddParameter("@quoteid", SqlDbType.NVarChar, ParameterDirection.Output);
-                    await qry.ExecuteNonQueryAsync();
-                    newId = qry.GetParameter("@quoteid").ToString();
-                }
-            }
-            return newId;
-        }
-        //-------------------------------------------------------------------------------------------------------
         public async Task<string> CreateReceiveContract()
         {
             string contractId = "";

@@ -215,18 +215,5 @@ namespace WebApi.Modules.Agent.Project
 
         }
         //------------------------------------------------------------------------------------        
-        public async Task<QuoteLogic> CreateQuoteAsync()
-        {
-            string newQuoteId = await project.CreateQuoteFromProject();
-            string[] keys = { newQuoteId };
-
-            QuoteLogic q = new QuoteLogic();
-            q.AppConfig = AppConfig;
-            q.UserSession = UserSession;
-            bool x = await q.LoadAsync<QuoteLogic>(keys);
-            return q;
-
-        }
-        //------------------------------------------------------------------------------------
     }
 }
