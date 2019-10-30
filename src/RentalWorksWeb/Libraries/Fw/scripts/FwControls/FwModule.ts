@@ -1420,10 +1420,11 @@
                             } else {
                                 $refreshmenubarbutton.removeClass('disabled');
                             }
-                            $refreshmenubarbutton.on('click', function (event) {
+                            $refreshmenubarbutton.on('click', e => {
                                 try {
+                                    const $this = jQuery(e.currentTarget);
                                     const ismodified = $form.attr('data-modified');
-                                    if (ismodified !== 'true' && $form.attr('data-mode') !== 'NEW') {
+                                    if (ismodified !== 'true' && $form.attr('data-mode') !== 'NEW' && !$this.hasClass('disabled')) {
                                         FwModule.refreshForm($form, controller)
                                     }
                                 } catch (ex) {
