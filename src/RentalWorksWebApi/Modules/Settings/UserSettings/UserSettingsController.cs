@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options; 
 using WebApi.Controllers; 
 using System.Threading.Tasks;
+using System;
 
 namespace WebApi.Modules.Settings.UserSettings
 {
@@ -24,10 +25,18 @@ namespace WebApi.Modules.Settings.UserSettings
         //------------------------------------------------------------------------------------ 
         // POST api/v1/usersettings 
         [HttpPost]
-        [FwControllerMethod(Id:"nuWsJOCX1jpvm")]
+        [FwControllerMethod(Id: "nuWsJOCX1jpvm")]
         public async Task<ActionResult<UserSettingsLogic>> PostAsync([FromBody]UserSettingsLogic l)
         {
-            return await DoPostAsync<UserSettingsLogic>(l);
+            //return await DoPostAsync<UserSettingsLogic>(l);
+            if (l.UserId.Equals(UserSession.WebUsersId)) 
+            {
+                return await DoPostAsync<UserSettingsLogic>(l);
+            }
+            else
+            {
+                return GetApiExceptionResult(new Exception("User can only modify own settings here."));
+            }
         }
         //------------------------------------------------------------------------------------ 
     }
