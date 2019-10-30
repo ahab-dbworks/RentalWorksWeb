@@ -337,13 +337,7 @@ Form tables
     position: relative;
 }
 
-.popup .close-modal {
-    display: flex;
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    cursor: pointer;
-}
+.close-modal {display: flex;position: absolute;top: 10px;right: 15px;cursor: pointer;}
 
 /*#region Search Interface*/
 #searchpopup {
@@ -353,14 +347,6 @@ Form tables
     height: 85vh;
     overflow: hidden;
     position: relative;
-}
-
-#searchpopup .close-modal {
-    display: flex;
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    cursor: pointer;
 }
 
 #searchpopup #searchTabs {position:absolute;left:0;right:0;top:0;bottom:0;display: flex;flex-direction: column;}
@@ -637,5 +623,3 @@ html.theme-material [data-name="AuditHistoryGrid"] tbody tr.selected td ul:not(.
   border-bottom: 1px solid #BDBDBD;
   margin: 0px 10px 0px 10px;
 }
-
-#quikActivityPopup .close-modal{display: flex;position: absolute;top: 10px;right: 15px;cursor: pointer;}

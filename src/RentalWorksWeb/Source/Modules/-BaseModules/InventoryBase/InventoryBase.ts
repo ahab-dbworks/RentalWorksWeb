@@ -155,7 +155,12 @@
             .data('ongetevents', calendarRequest => {
                 startOfMonth = moment(calendarRequest.start.value).format('MM/DD/YYYY');
                 endOfMonth = moment(calendarRequest.start.value).add(calendarRequest.days, 'd').format('MM/DD/YYYY');
-                const warehouseId = FwFormField.getValue($form, '.warehousefilter');   //justin 11/11/2018 fixing build error
+                let warehouseId;
+                if ($form.is('tr')) {
+                    warehouseId = FwBrowse.getValueByDataField($control, $form, 'WarehouseId');
+                } else {
+                    warehouseId = FwFormField.getValue($form, '.warehousefilter');   //justin 11/11/2018 fixing build error
+                }
                 if (inventoryId === null || inventoryId === '') {
                     inventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
                 }
@@ -206,7 +211,13 @@
             .data('ongetevents', function (request) {
                 const start = moment(request.start.value).format('MM/DD/YYYY');
                 const end = moment(request.start.value).add(31, 'days').format('MM/DD/YYYY')
-                const warehouseId = FwFormField.getValue($form, '.warehousefilter');
+
+                let warehouseId;
+                if ($form.is('tr')) {
+                    warehouseId = FwBrowse.getValueByDataField($control, $form, 'WarehouseId');
+                } else {
+                    warehouseId = FwFormField.getValue($form, '.warehousefilter');
+                }
                 if (inventoryId === null || inventoryId === '') {
                     inventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
                 }
