@@ -41,6 +41,7 @@
 
         //disables asterisk and save prompt
         $form.off('change keyup', '.fwformfield[data-enabled="true"]:not([data-isuniqueid="true"][data-datafield=""])');
+        $form.find('[data-type="RefreshMenuBarButton"]').remove(); // remove refresh btn
 
         $form.find('.partial-contract').hide();
         $form.find('.pending-item-grid').hide();
