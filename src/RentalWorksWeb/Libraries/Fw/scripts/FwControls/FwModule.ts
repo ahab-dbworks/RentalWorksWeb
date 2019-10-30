@@ -1412,7 +1412,7 @@
                             }
                         }
                         // Refresh form button
-                        if (typeof window[controller]['loadForm'] === 'function') {
+                        if (typeof (<any>window[controller])['loadForm'] === 'function') {
                             const $refreshmenubarbutton = FwMenu.addStandardBtn($menu, 'Refresh');
                             $refreshmenubarbutton.attr('data-type', 'RefreshMenuBarButton');
                             if ($form.attr('data-mode') === 'NEW') {
@@ -1425,7 +1425,7 @@
                                     const $this = jQuery(e.currentTarget);
                                     const ismodified = $form.attr('data-modified');
                                     if (ismodified !== 'true' && $form.attr('data-mode') !== 'NEW' && !$this.hasClass('disabled')) {
-                                        FwModule.refreshForm($form, controller)
+                                        FwModule.refreshForm($form)
                                     }
                                 } catch (ex) {
                                     FwFunc.showError(ex);
@@ -1887,13 +1887,14 @@
         return $control;
     }
     //----------------------------------------------------------------------------------------------
-    static refreshForm($form: JQuery, controller: any) {
+    static refreshForm($form: JQuery) {
         const uniqueIds = FwModule.getFormUniqueIds($form);
         const newUniqueIds: any = {};
         setTimeout(() => {
             for (let key in uniqueIds) {
                 newUniqueIds[key] = uniqueIds[key].value
             }
+            const controller = $form.data('controller');
             if (controller) {
                 const $newForm = (<any>window[controller]).loadForm(newUniqueIds);
                 $form.parent().empty().append($newForm);
