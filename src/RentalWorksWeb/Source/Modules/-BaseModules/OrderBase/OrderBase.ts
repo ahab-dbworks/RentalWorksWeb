@@ -1894,11 +1894,10 @@ class OrderBase {
     }
     //----------------------------------------------------------------------------------------------
     cancelUncancelOrder($form: any) {
-        let $confirmation, $yes, $no, id, orderStatus, self, module;
-        self = this;
-        module = this.Module;
-        id = FwFormField.getValueByDataField($form, `${module}Id`);
-        orderStatus = FwFormField.getValueByDataField($form, 'Status');
+        let $confirmation, $yes, $no;
+        const module = this.Module;
+        const id = FwFormField.getValueByDataField($form, `${module}Id`);
+        const orderStatus = FwFormField.getValueByDataField($form, 'Status');
 
         if (id != null) {
             if (orderStatus === "CANCELLED") {
@@ -1953,14 +1952,14 @@ class OrderBase {
             FwAppData.apiMethod(true, 'POST', `api/v1/${module}/cancel/${id}`, request, FwServices.defaultTimeout, function onSuccess(response) {
                 FwNotification.renderNotification('SUCCESS', `${module} Successfully Cancelled`);
                 FwConfirmation.destroyConfirmation($confirmation);
-                FwModule.refreshForm($form, self);
+                FwModule.refreshForm($form);
             }, function onError(response) {
                 $yes.on('click', cancelOrder);
                 $yes.text('Cancel');
                 FwFunc.showError(response);
                 FwFormField.enable($confirmation.find('.fwformfield'));
                 FwFormField.enable($yes);
-                FwModule.refreshForm($form, self);
+                FwModule.refreshForm($form);
             }, $form);
         };
 
@@ -1975,29 +1974,27 @@ class OrderBase {
             FwAppData.apiMethod(true, 'POST', `api/v1/${module}/uncancel/${id}`, request, FwServices.defaultTimeout, function onSuccess(response) {
                 FwNotification.renderNotification('SUCCESS', `${module} Successfully Retrieved`);
                 FwConfirmation.destroyConfirmation($confirmation);
-                FwModule.refreshForm($form, self);
+                FwModule.refreshForm($form);
             }, function onError(response) {
                 $yes.on('click', uncancelOrder);
                 $yes.text('Cancel');
                 FwFunc.showError(response);
                 FwFormField.enable($confirmation.find('.fwformfield'));
                 FwFormField.enable($yes);
-                FwModule.refreshForm($form, self);
+                FwModule.refreshForm($form);
             }, $form);
         };
     };
     //----------------------------------------------------------------------------------------------
     changeOfficeLocation($form: any) {
-        let $confirmation, $yes, $no, id, self, module, controller;
-        self = this;
-        module = this.Module;
-        controller = $form.attr('data-controller');
-        id = FwFormField.getValueByDataField($form, `${module}Id`);
-
+        const module = this.Module;
+        const controller = $form.attr('data-controller');
+        const id = FwFormField.getValueByDataField($form, `${module}Id`);
+        let $confirmation, $yes, $no;
         if (id != null) {
             $confirmation = FwConfirmation.renderConfirmation('Change Office Location / Warehouse', '');
             $confirmation.find('.fwconfirmationbox').css('width', '450px');
-            let html = [];
+            const html: Array<string> = [];
             html.push(`<div class="fwform" data-controller="${controller}" style="background-color: transparent;">`);
             html.push(`  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">`);
             html.push(`    <div>Change Office Location / Warehouse for this ${module}:</div>`);
@@ -2028,12 +2025,11 @@ class OrderBase {
         }
 
         function changeOffice() {
-            let valid = FwModule.validateForm($confirmation);
+            const valid = FwModule.validateForm($confirmation);
             if (valid) {
-                let request: any = {};
                 const locationid = FwFormField.getValueByDataField($confirmation, 'OfficeLocationId');
                 const warehouseid = FwFormField.getValueByDataField($confirmation, 'WarehouseId');
-                request = {
+                const request: any = {
                     OfficeLocationId: locationid,
                     Warehouseid: warehouseid
                 };
@@ -2049,7 +2045,7 @@ class OrderBase {
 
                         FwNotification.renderNotification('SUCCESS', `${module} Successfully Changed`);
                         FwConfirmation.destroyConfirmation($confirmation);
-                        FwModule.refreshForm($form, self);
+                        FwModule.refreshForm($form);
                     }
                     else {
                         $yes.on('click', changeOffice);
@@ -2064,7 +2060,7 @@ class OrderBase {
                     FwFunc.showError(response);
                     FwFormField.enable($confirmation.find('.fwformfield'));
                     FwFormField.enable($yes);
-                    FwModule.refreshForm($form, self);
+                    FwModule.refreshForm($form);
                 }, realConfirm);
             }
         };

@@ -1716,7 +1716,7 @@ class Order extends OrderBase {
                     FwConfirmation.destroyConfirmation($confirmation);
                     const $contractForm = ContractController.loadForm(uniqueids);
                     FwModule.openModuleTab($contractForm, "", true, 'FORM', true)
-                    FwModule.refreshForm($form, OrderController);
+                    FwModule.refreshForm($form);
                 }
             }, function onError(response) {
                 $yes.on('click', retireLD);
@@ -1724,7 +1724,7 @@ class Order extends OrderBase {
                 FwFunc.showError(response);
                 FwFormField.enable($confirmation.find('.fwformfield'));
                 FwFormField.enable($yes);
-                FwModule.refreshForm($form, OrderController);
+                FwModule.refreshForm($form);
             }, $form);
         }
     }
@@ -1819,7 +1819,7 @@ class Order extends OrderBase {
                     } else {
                         FwNotification.renderNotification('SUCCESS', 'Order Is Now On Hold');
                     }
-                    FwModule.refreshForm($form, OrderController)
+                    FwModule.refreshForm($form)
                 } else if (response.success === false) {
                     FwNotification.renderNotification('ERROR', `${response.msg}`);
                 }

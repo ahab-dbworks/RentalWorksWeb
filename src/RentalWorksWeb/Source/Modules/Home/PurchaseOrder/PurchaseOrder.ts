@@ -1177,14 +1177,14 @@ class PurchaseOrder {
                 FwAppData.apiMethod(true, 'POST', `api/v1/purchaseorder/void/${purchaseOrderId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
                     FwNotification.renderNotification('SUCCESS', 'Purchase Order Successfully Voided');
                     FwConfirmation.destroyConfirmation($confirmation);
-                    FwModule.refreshForm($form, PurchaseOrderController);
+                    FwModule.refreshForm($form);
                 }, function onError(response) {
                     $yes.on('click', makeVoid);
                     $yes.text('Void');
                     FwFunc.showError(response);
                     FwFormField.enable($confirmation.find('.fwformfield'));
                     FwFormField.enable($yes);
-                    FwModule.refreshForm($form, PurchaseOrderController);
+                    FwModule.refreshForm($form);
                 }, $form);
             };
         } else {

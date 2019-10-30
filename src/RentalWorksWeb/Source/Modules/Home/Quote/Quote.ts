@@ -1461,7 +1461,7 @@ class Quote extends OrderBase {
                 var $quoteform = QuoteController.loadForm(uniqueids);
                 FwModule.openModuleTab($quoteform, "", true, 'FORM', true);
 
-                FwModule.refreshForm($form, QuoteController);
+                FwModule.refreshForm($form);
             }, null, $confirmationbox);
         }
     };
@@ -1523,14 +1523,14 @@ class Quote extends OrderBase {
             FwAppData.apiMethod(true, 'POST', `api/v1/quote/reserve/${quoteId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
                 FwNotification.renderNotification('SUCCESS', 'Operation Completed');
                 FwConfirmation.destroyConfirmation($confirmation);
-                FwModule.refreshForm($form, QuoteController);
+                FwModule.refreshForm($form);
             }, function onError(response) {
                 $yes.on('click', reserve);
                 $yes.text('Complete');
                 FwFunc.showError(response);
                 FwFormField.enable($confirmation.find('.fwformfield'));
                 FwFormField.enable($yes);
-                FwModule.refreshForm($form, QuoteController);
+                FwModule.refreshForm($form);
             }, realConfirm);
         };
     }
@@ -1615,7 +1615,7 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.Quote.form.menuItems.MakeQu
                 response => {
                     FwNotification.renderNotification('SUCCESS', 'Quote Status Successfully Changed to Active.');
                     FwConfirmation.destroyConfirmation($confirmation);
-                    FwModule.refreshForm($form, QuoteController);
+                    FwModule.refreshForm($form);
                 },
                 ex => FwFunc.showError(ex), realConfirm);
         });

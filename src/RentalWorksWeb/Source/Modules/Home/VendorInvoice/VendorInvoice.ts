@@ -4,8 +4,8 @@ class VendorInvoice {
     Module: string = 'VendorInvoice';
     apiurl: string = 'api/v1/vendorinvoice';
     caption: string = Constants.Modules.Home.VendorInvoice.caption;
-	nav: string = Constants.Modules.Home.VendorInvoice.nav;
-	id: string = Constants.Modules.Home.VendorInvoice.id;
+    nav: string = Constants.Modules.Home.VendorInvoice.nav;
+    id: string = Constants.Modules.Home.VendorInvoice.id;
     ActiveViewFields: any = {};
     ActiveViewFieldsId: string;
     //----------------------------------------------------------------------------------------------
@@ -309,7 +309,7 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.VendorInvoice.form.menuItem
     vendorInvoiceId = FwFormField.getValueByDataField($form, 'VendorInvoiceId');
     FwAppData.apiMethod(true, 'POST', `api/v1/vendorinvoice/toggleapproved/${vendorInvoiceId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
         if (response.success === true) {
-            FwModule.refreshForm($form, VendorInvoiceController);
+            FwModule.refreshForm($form);
         } else {
             FwNotification.renderNotification('WARNING', response.msg);
         }
@@ -323,7 +323,7 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.VendorInvoice.form.menuItem
     vendorInvoiceId = FwFormField.getValueByDataField($form, 'VendorInvoiceId');
     FwAppData.apiMethod(true, 'POST', `api/v1/vendorinvoice/toggleapproved/${vendorInvoiceId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
         if (response.success === true) {
-            FwModule.refreshForm($form, VendorInvoiceController);
+            FwModule.refreshForm($form);
         } else {
             FwNotification.renderNotification('WARNING', response.msg);
         }

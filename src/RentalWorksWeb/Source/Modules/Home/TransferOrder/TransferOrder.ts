@@ -386,7 +386,7 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.TransferOrder.form.menuItem
             FwAppData.apiMethod(true, 'POST', `api/v1/transferorder/confirm/${transferId}`, null, FwServices.defaultTimeout, response => {
                 FwNotification.renderNotification('SUCCESS', `Transfer Order Successfully ${action}ed.`);
                 FwConfirmation.destroyConfirmation($confirmation);
-                FwModule.refreshForm($form, TransferOrderController);
+                FwModule.refreshForm($form);
             }, null, realConfirm);
         });
     }

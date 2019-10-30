@@ -231,7 +231,7 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.Project.form.menuItems.Crea
                         uniqueids.QuoteId = response.QuoteId;
                         var $quoteform = QuoteController.loadForm(uniqueids);
                         FwModule.openModuleTab($quoteform, "", true, 'FORM', true);
-                        FwModule.refreshForm($form, ProjectController);
+                        FwModule.refreshForm($form);
                     }
                     else { }
                 }, function onError(response) {

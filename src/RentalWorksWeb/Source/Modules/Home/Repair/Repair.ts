@@ -202,7 +202,7 @@ class Repair {
                     if (FwFormField.getValue($form, '.repairavailforradio') === 'S') {
                         $form.find('.icodesales').show();
                         $form.find('.icoderental').hide();
-                    }else {
+                    } else {
                         $form.find('.icodesales').hide();
                         $form.find('.icoderental').show();
                     }
@@ -352,7 +352,7 @@ class Repair {
         FwFormField.disable($form.find('div[data-datafield="RepairType"]'));
         FwFormField.disable($form.find('div[data-datafield="PendingRepair"]'));
 
- 
+
         if (FwFormField.getValueByDataField($form, 'RepairType') === 'OUTSIDE') {
             $form.find('.itemid').hide();
             $form.find('.icode').hide();
@@ -823,7 +823,7 @@ class Repair {
                 if (response.success) {
                     FwNotification.renderNotification('SUCCESS', 'Repair Order Successfully Estimated');
                     FwConfirmation.destroyConfirmation($confirmation);
-                    FwModule.refreshForm($form, RepairController);
+                    FwModule.refreshForm($form);
                 }
                 else {
                     $yes.on('click', makeEstimate);
@@ -838,7 +838,7 @@ class Repair {
                 FwFunc.showError(response);
                 FwFormField.enable($confirmation.find('.fwformfield'));
                 FwFormField.enable($yes);
-                FwModule.refreshForm($form, RepairController);
+                FwModule.refreshForm($form);
             }, blockConfirmation);
         };
         // ----------
@@ -857,7 +857,7 @@ class Repair {
                 if (response.success) {
                     FwNotification.renderNotification('SUCCESS', 'Estimate Successfully Cancelled');
                     FwConfirmation.destroyConfirmation($confirmation);
-                    FwModule.refreshForm($form, RepairController);
+                    FwModule.refreshForm($form);
                 }
                 else {
                     $yes.on('click', cancelEstimate);
@@ -872,7 +872,7 @@ class Repair {
                 FwFunc.showError(response);
                 FwFormField.enable($confirmation.find('.fwformfield'));
                 FwFormField.enable($yes);
-                FwModule.refreshForm($form, RepairController);
+                FwModule.refreshForm($form);
             }, blockConfirmation);
         };
     };
@@ -931,7 +931,7 @@ class Repair {
                 if (response.success) {
                     FwNotification.renderNotification('SUCCESS', 'Repair Order Successfully Completed');
                     FwConfirmation.destroyConfirmation($confirmation);
-                    FwModule.refreshForm($form, RepairController);
+                    FwModule.refreshForm($form);
                     $form.data('hasCompleted', true);
                 }
                 else {
@@ -947,7 +947,7 @@ class Repair {
                 FwFunc.showError(response);
                 FwFormField.enable($confirmation.find('.fwformfield'));
                 FwFormField.enable($yes);
-                FwModule.refreshForm($form, RepairController);
+                FwModule.refreshForm($form);
                 $form.data('hasCompleted', true);
             }, blockConfirmation);
         };
@@ -989,7 +989,7 @@ class Repair {
                 if (response.success) {
                     FwNotification.renderNotification('SUCCESS', 'Repair Order Successfully Voided');
                     FwConfirmation.destroyConfirmation($confirmation);
-                    FwModule.refreshForm($form, RepairController);
+                    FwModule.refreshForm($form);
                 }
                 else {
                     $yes.on('click', makeVoid);
@@ -1004,7 +1004,7 @@ class Repair {
                 FwFunc.showError(response);
                 FwFormField.enable($confirmation.find('.fwformfield'));
                 FwFormField.enable($yes);
-                FwModule.refreshForm($form, RepairController);
+                FwModule.refreshForm($form);
             }, blockConfirmation);
         };
     };
@@ -1080,7 +1080,7 @@ class Repair {
                 FwAppData.apiMethod(true, 'POST', `api/v1/repair/releaseitems/${RepairId}/${releasedQuantityConfirmation}`, null, FwServices.defaultTimeout, function onSuccess(response) {
                     FwNotification.renderNotification('SUCCESS', 'Items Successfully Released');
                     FwConfirmation.destroyConfirmation($confirmation);
-                    FwModule.refreshForm($form, RepairController);
+                    FwModule.refreshForm($form);
                 }, function onError(response) {
                     $yes.on('click', release);
                     $yes.text('Release');

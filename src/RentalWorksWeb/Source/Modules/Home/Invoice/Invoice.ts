@@ -762,14 +762,14 @@ class Invoice {
                 FwAppData.apiMethod(true, 'POST', `api/v1/invoice/${invoiceId}/void`, null, FwServices.defaultTimeout, function onSuccess(response) {
                     FwNotification.renderNotification('SUCCESS', 'Invoice Successfully Voided');
                     FwConfirmation.destroyConfirmation($confirmation);
-                    FwModule.refreshForm($form, InvoiceController);
+                    FwModule.refreshForm($form);
                 }, function onError(response) {
                     $yes.on('click', makeVoid);
                     $yes.text('Void');
                     FwFunc.showError(response);
                     FwFormField.enable($confirmation.find('.fwformfield'));
                     FwFormField.enable($yes);
-                    FwModule.refreshForm($form, InvoiceController);
+                    FwModule.refreshForm($form);
                 }, $form);
             }
         } catch (ex) {
@@ -1090,7 +1090,7 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.Invoice.form.menuItems.Appr
         const invoiceId = FwFormField.getValueByDataField($form, 'InvoiceId');
         FwAppData.apiMethod(true, 'POST', `api/v1/invoice/${invoiceId}/approve`, null, FwServices.defaultTimeout, function onSuccess(response) {
             if (response.success === true) {
-                FwModule.refreshForm($form, InvoiceController);
+                FwModule.refreshForm($form);
             } else {
                 FwNotification.renderNotification('WARNING', response.msg);
             }
@@ -1107,7 +1107,7 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.Invoice.form.menuItems.Unap
         const invoiceId = FwFormField.getValueByDataField($form, 'InvoiceId');
         FwAppData.apiMethod(true, 'POST', `api/v1/invoice/${invoiceId}/unapprove`, null, FwServices.defaultTimeout, function onSuccess(response) {
             if (response.success === true) {
-                FwModule.refreshForm($form, InvoiceController);
+                FwModule.refreshForm($form);
             } else {
                 FwNotification.renderNotification('WARNING', response.msg);
             }
