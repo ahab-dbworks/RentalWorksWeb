@@ -3,9 +3,11 @@ using FwStandard.Models;
 using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebApi.Controllers;
+using WebApi.Logic;
 using WebLibrary;
 
 namespace WebApi.Modules.Settings.PresentationLayerActivity
@@ -74,6 +76,25 @@ namespace WebApi.Modules.Settings.PresentationLayerActivity
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<PresentationLayerActivityLogic>(id);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/presentationlayeractivity/sort
+        [HttpPost("sort")]
+        [FwControllerMethod(Id: "dtcaGBj3TaF")]
+        public async Task<ActionResult<SortItemsResponse>> SortActivitiesAsync([FromBody]SortActivitiesRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                return await PresentationLayerActivityFunc.SortActivities(AppConfig, UserSession, request);
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
         }
         //------------------------------------------------------------------------------------ 
     }
