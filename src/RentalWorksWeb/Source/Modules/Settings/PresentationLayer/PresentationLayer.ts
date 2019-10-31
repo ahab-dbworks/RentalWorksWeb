@@ -112,6 +112,21 @@ class PresentationLayer {
         const $presentationLayerFormGrid = $form.find('[data-name="PresentationLayerFormGrid"]');
         FwBrowse.search($presentationLayerFormGrid);
     }
+    addLegend($form: any) {
+        const $presentationLayerActivityGrid = $form.find('[data-name="PresentationLayerActivityGrid"]');
+        try {
+            FwAppData.apiMethod(true, 'GET', `api/v1/presentationlayeractivity/legend`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                for (var key in response) {
+                    FwBrowse.addLegend($presentationLayerActivityGrid, key, response[key]);
+                }
+            }, function onError(response) {
+                FwFunc.showError(response);
+            }, $presentationLayerActivityGrid)
+
+        } catch (ex) {
+            FwFunc.showError(ex);
+        }
+    }
 }
 
 var PresentationLayerController = new PresentationLayer();

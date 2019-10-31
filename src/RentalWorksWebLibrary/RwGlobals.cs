@@ -97,6 +97,9 @@ namespace WebLibrary
         public static string CONTRACT_BILLING_DATE_ADJUSTED_COLOR { get; set; }
         public static string CONTRACT_MIGRATED_COLOR { get; set; }
 
+        //PRESENTATION LAYER
+        public static string PRESENTATION_LAYER_ACTIVITY_REC_TYPE_USER_DEFINED_COLOR { get; set; }
+
         //GLOBAL
         public static string NEGATIVE_VARIANCE_COLOR { get; set; }
 
@@ -227,6 +230,8 @@ namespace WebLibrary
             CONTRACT_MIGRATED_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.CONTRACT_MIGRATED_COLOR);
 
             CONTACT_TYPE_CREW_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.CONTACT_TYPE_CREW_COLOR);
+
+            PRESENTATION_LAYER_ACTIVITY_REC_TYPE_USER_DEFINED_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.PRESENTATION_LAYER_ACTIVITY_REC_TYPE_USER_DEFINED_COLOR);
 
         }
         //---------------------------------------------------------------------------
