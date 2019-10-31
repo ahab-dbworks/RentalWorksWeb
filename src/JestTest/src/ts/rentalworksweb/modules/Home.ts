@@ -3,9 +3,6 @@ import { TestUtils } from "../../shared/TestUtils";
 import { Logging } from '../../shared/Logging';
 import { GridBase } from "../../shared/GridBase";
 
-//todo: 
-//    purchase order grids - uncomment in v49
-
 //---------------------------------------------------------------------------------------
 export class Quote extends HomeModule {
     //---------------------------------------------------------------------------------------
@@ -15,12 +12,12 @@ export class Quote extends HomeModule {
         this.moduleId = '4D785844-BE8A-4C00-B1FA-2AA5B05183E5';
         this.moduleCaption = 'Quote';
         this.canDelete = false;
-        let rentalGrid: GridBase = new GridBase("OrderItemGrid", ["R"]);
-        let salesGrid: GridBase = new GridBase("OrderItemGrid", ["S"]);
-        let miscGrid: GridBase = new GridBase("OrderItemGrid", ["M"]);
-        let laborGrid: GridBase = new GridBase("OrderItemGrid", ["L"]);
-        let contactGrid: GridBase = new GridBase("OrderContactGrid");
-        let noteGrid: GridBase = new GridBase("OrderNoteGrid");
+        let rentalGrid: GridBase = new GridBase("Rental Item Grid", "OrderItemGrid", ["R"]);
+        let salesGrid: GridBase = new GridBase("Sales Item Grid", "OrderItemGrid", ["S"]);
+        let miscGrid: GridBase = new GridBase("Miscellaneous Item Grid", "OrderItemGrid", ["M"]);
+        let laborGrid: GridBase = new GridBase("Labor Item Grid", "OrderItemGrid", ["L"]);
+        let contactGrid: GridBase = new GridBase("Contact Grid", "OrderContactGrid");
+        let noteGrid: GridBase = new GridBase("Note Grid", "OrderNoteGrid");
         this.grids.push(rentalGrid);
         this.grids.push(salesGrid);
         this.grids.push(miscGrid);
@@ -138,12 +135,12 @@ export class Order extends HomeModule {
         this.moduleId = '64C46F51-5E00-48FA-94B6-FC4EF53FEA20';
         this.moduleCaption = 'Order';
         this.canDelete = false;
-        let rentalGrid: GridBase = new GridBase("OrderItemGrid", ["R"]);
-        let salesGrid: GridBase = new GridBase("OrderItemGrid", ["S"]);
-        let miscGrid: GridBase = new GridBase("OrderItemGrid", ["M"]);
-        let laborGrid: GridBase = new GridBase("OrderItemGrid", ["L"]);
-        let contactGrid: GridBase = new GridBase("OrderContactGrid");
-        let noteGrid: GridBase = new GridBase("OrderNoteGrid");
+        let rentalGrid: GridBase = new GridBase("Rental Item Grid", "OrderItemGrid", ["R"]);
+        let salesGrid: GridBase = new GridBase("Sales Item Grid", "OrderItemGrid", ["S"]);
+        let miscGrid: GridBase = new GridBase("Miscellaneous Item Grid", "OrderItemGrid", ["M"]);
+        let laborGrid: GridBase = new GridBase("Labor Item Grid", "OrderItemGrid", ["L"]);
+        let contactGrid: GridBase = new GridBase("Contact Grid", "OrderContactGrid");
+        let noteGrid: GridBase = new GridBase("Note Grid", "OrderNoteGrid");
         this.grids.push(rentalGrid);
         this.grids.push(salesGrid);
         this.grids.push(miscGrid);
@@ -259,9 +256,9 @@ export class Customer extends HomeModule {
         this.moduleName = 'Customer';
         this.moduleId = '214C6242-AA91-4498-A4CC-E0F3DCCCE71E';
         this.moduleCaption = 'Customer';
-        let contactGrid: GridBase = new GridBase("CompanyContactGrid");
-        let resaleGrid: GridBase = new GridBase("CompanyResaleGrid");
-        let noteGrid: GridBase = new GridBase("CustomerNoteGrid");
+        let contactGrid: GridBase = new GridBase("Contact Grid", "CompanyContactGrid");
+        let resaleGrid: GridBase = new GridBase("Resale Grid", "CompanyResaleGrid");
+        let noteGrid: GridBase = new GridBase("Note Grid", "CustomerNoteGrid");
         this.grids.push(contactGrid);
         this.grids.push(resaleGrid);
         this.grids.push(noteGrid);
@@ -286,111 +283,113 @@ export class Customer extends HomeModule {
                 seekObject: {
                     Customer: "GlobalScope.TestToken~1.TestToken",
                 },
-                attemptDuplicate: true,
-            },
-            {
-                record: {
-                    Customer: "",
-                    CustomerNumber: "GlobalScope.TestToken~1.TestToken",
-                    Address1: TestUtils.randomAddress1(),
-                    Address2: TestUtils.randomAddress2(),
-                    City: TestUtils.randomCity(),
-                    State: TestUtils.randomState(),
-                    ZipCode: TestUtils.randomZipCode(),
-                    Phone: TestUtils.randomPhone(),
-                    Fax: TestUtils.randomPhone(),
-                    WebAddress: TestUtils.randomUrl(),
-                    CustomerTypeId: 1,
-                    CreditStatusId: 1
-                },
-                expectedErrorFields: ["Customer"],
-            },
-            {
-                record: {
-                    Customer: TestUtils.randomCompanyName() + " GlobalScope.TestToken~1.TestToken",
-                    CustomerNumber: "",
-                    Address1: TestUtils.randomAddress1(),
-                    Address2: TestUtils.randomAddress2(),
-                    City: TestUtils.randomCity(),
-                    State: TestUtils.randomState(),
-                    ZipCode: TestUtils.randomZipCode(),
-                    Phone: TestUtils.randomPhone(),
-                    Fax: TestUtils.randomPhone(),
-                    WebAddress: TestUtils.randomUrl(),
-                    CustomerTypeId: 1,
-                    CreditStatusId: 1
-                },
-                expectedErrorFields: ["CustomerNumber"],
-            },
-            {
-                record: {
-                    Customer: TestUtils.randomCompanyName() + " GlobalScope.TestToken~1.TestToken",
-                    CustomerNumber: "GlobalScope.TestToken~1.TestToken",
-                    OfficeLocationId: 0,
-                    Address1: TestUtils.randomAddress1(),
-                    Address2: TestUtils.randomAddress2(),
-                    City: TestUtils.randomCity(),
-                    State: TestUtils.randomState(),
-                    ZipCode: TestUtils.randomZipCode(),
-                    Phone: TestUtils.randomPhone(),
-                    Fax: TestUtils.randomPhone(),
-                    WebAddress: TestUtils.randomUrl(),
-                    CustomerTypeId: 1,
-                    CreditStatusId: 1
-                },
-                expectedErrorFields: ["OfficeLocationId"],
-            },
-            {
-                record: {
-                    Customer: TestUtils.randomCompanyName() + " GlobalScope.TestToken~1.TestToken",
-                    CustomerNumber: "GlobalScope.TestToken~1.TestToken",
-                    CustomerStatus: "",
-                    Address1: TestUtils.randomAddress1(),
-                    Address2: TestUtils.randomAddress2(),
-                    City: TestUtils.randomCity(),
-                    State: TestUtils.randomState(),
-                    ZipCode: TestUtils.randomZipCode(),
-                    Phone: TestUtils.randomPhone(),
-                    Fax: TestUtils.randomPhone(),
-                    WebAddress: TestUtils.randomUrl(),
-                    CustomerTypeId: 1,
-                    CreditStatusId: 1
-                },
-                expectedErrorFields: ["CustomerStatusId"],
-            },
-            {
-                record: {
-                    Customer: TestUtils.randomCompanyName() + " GlobalScope.TestToken~1.TestToken",
-                    CustomerNumber: "GlobalScope.TestToken~1.TestToken",
-                    Address1: TestUtils.randomAddress1(),
-                    Address2: TestUtils.randomAddress2(),
-                    City: TestUtils.randomCity(),
-                    State: TestUtils.randomState(),
-                    ZipCode: TestUtils.randomZipCode(),
-                    Phone: TestUtils.randomPhone(),
-                    Fax: TestUtils.randomPhone(),
-                    WebAddress: TestUtils.randomUrl(),
-                    CustomerType: "",
-                    CreditStatusId: 1
-                },
-                expectedErrorFields: ["CustomerTypeId"],
-            },
-            {
-                record: {
-                    Customer: TestUtils.randomCompanyName() + " GlobalScope.TestToken~1.TestToken",
-                    CustomerNumber: "GlobalScope.TestToken~1.TestToken",
-                    Address1: TestUtils.randomAddress1(),
-                    Address2: TestUtils.randomAddress2(),
-                    City: TestUtils.randomCity(),
-                    State: TestUtils.randomState(),
-                    ZipCode: TestUtils.randomZipCode(),
-                    Phone: TestUtils.randomPhone(),
-                    Fax: TestUtils.randomPhone(),
-                    WebAddress: TestUtils.randomUrl(),
-                    CustomerTypeId: 1,
-                    CreditStatus: "",
-                },
-                expectedErrorFields: ["CreditStatusId"],
+                /*
+                                attemptDuplicate: true,
+                            },
+                            {
+                                record: {
+                                    Customer: "",
+                                    CustomerNumber: "GlobalScope.TestToken~1.TestToken",
+                                    Address1: TestUtils.randomAddress1(),
+                                    Address2: TestUtils.randomAddress2(),
+                                    City: TestUtils.randomCity(),
+                                    State: TestUtils.randomState(),
+                                    ZipCode: TestUtils.randomZipCode(),
+                                    Phone: TestUtils.randomPhone(),
+                                    Fax: TestUtils.randomPhone(),
+                                    WebAddress: TestUtils.randomUrl(),
+                                    CustomerTypeId: 1,
+                                    CreditStatusId: 1
+                                },
+                                expectedErrorFields: ["Customer"],
+                            },
+                            {
+                                record: {
+                                    Customer: TestUtils.randomCompanyName() + " GlobalScope.TestToken~1.TestToken",
+                                    CustomerNumber: "",
+                                    Address1: TestUtils.randomAddress1(),
+                                    Address2: TestUtils.randomAddress2(),
+                                    City: TestUtils.randomCity(),
+                                    State: TestUtils.randomState(),
+                                    ZipCode: TestUtils.randomZipCode(),
+                                    Phone: TestUtils.randomPhone(),
+                                    Fax: TestUtils.randomPhone(),
+                                    WebAddress: TestUtils.randomUrl(),
+                                    CustomerTypeId: 1,
+                                    CreditStatusId: 1
+                                },
+                                expectedErrorFields: ["CustomerNumber"],
+                            },
+                            {
+                                record: {
+                                    Customer: TestUtils.randomCompanyName() + " GlobalScope.TestToken~1.TestToken",
+                                    CustomerNumber: "GlobalScope.TestToken~1.TestToken",
+                                    OfficeLocationId: 0,
+                                    Address1: TestUtils.randomAddress1(),
+                                    Address2: TestUtils.randomAddress2(),
+                                    City: TestUtils.randomCity(),
+                                    State: TestUtils.randomState(),
+                                    ZipCode: TestUtils.randomZipCode(),
+                                    Phone: TestUtils.randomPhone(),
+                                    Fax: TestUtils.randomPhone(),
+                                    WebAddress: TestUtils.randomUrl(),
+                                    CustomerTypeId: 1,
+                                    CreditStatusId: 1
+                                },
+                                expectedErrorFields: ["OfficeLocationId"],
+                            },
+                            {
+                                record: {
+                                    Customer: TestUtils.randomCompanyName() + " GlobalScope.TestToken~1.TestToken",
+                                    CustomerNumber: "GlobalScope.TestToken~1.TestToken",
+                                    CustomerStatus: "",
+                                    Address1: TestUtils.randomAddress1(),
+                                    Address2: TestUtils.randomAddress2(),
+                                    City: TestUtils.randomCity(),
+                                    State: TestUtils.randomState(),
+                                    ZipCode: TestUtils.randomZipCode(),
+                                    Phone: TestUtils.randomPhone(),
+                                    Fax: TestUtils.randomPhone(),
+                                    WebAddress: TestUtils.randomUrl(),
+                                    CustomerTypeId: 1,
+                                    CreditStatusId: 1
+                                },
+                                expectedErrorFields: ["CustomerStatusId"],
+                            },
+                            {
+                                record: {
+                                    Customer: TestUtils.randomCompanyName() + " GlobalScope.TestToken~1.TestToken",
+                                    CustomerNumber: "GlobalScope.TestToken~1.TestToken",
+                                    Address1: TestUtils.randomAddress1(),
+                                    Address2: TestUtils.randomAddress2(),
+                                    City: TestUtils.randomCity(),
+                                    State: TestUtils.randomState(),
+                                    ZipCode: TestUtils.randomZipCode(),
+                                    Phone: TestUtils.randomPhone(),
+                                    Fax: TestUtils.randomPhone(),
+                                    WebAddress: TestUtils.randomUrl(),
+                                    CustomerType: "",
+                                    CreditStatusId: 1
+                                },
+                                expectedErrorFields: ["CustomerTypeId"],
+                            },
+                            {
+                                record: {
+                                    Customer: TestUtils.randomCompanyName() + " GlobalScope.TestToken~1.TestToken",
+                                    CustomerNumber: "GlobalScope.TestToken~1.TestToken",
+                                    Address1: TestUtils.randomAddress1(),
+                                    Address2: TestUtils.randomAddress2(),
+                                    City: TestUtils.randomCity(),
+                                    State: TestUtils.randomState(),
+                                    ZipCode: TestUtils.randomZipCode(),
+                                    Phone: TestUtils.randomPhone(),
+                                    Fax: TestUtils.randomPhone(),
+                                    WebAddress: TestUtils.randomUrl(),
+                                    CustomerTypeId: 1,
+                                    CreditStatus: "",
+                                },
+                                expectedErrorFields: ["CreditStatusId"],
+                */
             },
         ];
 
@@ -405,13 +404,32 @@ export class Customer extends HomeModule {
                 }
             },
             {
+                grid: contactGrid,
+                recordToCreate: {
+                    record: {
+                        ContactId: 1,
+                        ContactTitleId: 0,
+                    },
+                    expectedErrorFields: ["ContactTitleId"],
+                }
+            },
+            {
                 grid: resaleGrid,
                 recordToCreate: {
                     record: {
                         StateId: 1,
                         ResaleNumber: "GlobalScope.TestToken~1.TestToken",
                     }
-                }
+                },
+            },
+            {
+                grid: resaleGrid,
+                recordToCreate: {
+                    record: {
+                        ResaleNumber: "GlobalScope.TestToken~1.TestToken",
+                    },
+                    expectedErrorFields: ["StateId"],
+                },
             },
             {
                 grid: noteGrid,
@@ -446,10 +464,10 @@ export class Deal extends HomeModule {
         this.moduleName = 'Deal';
         this.moduleId = 'C67AD425-5273-4F80-A452-146B2008B41C';
         this.moduleCaption = 'Deal';
-        let contactGrid: GridBase = new GridBase("CompanyContactGrid");
-        let resaleGrid: GridBase = new GridBase("CompanyResaleGrid");
-        let shipperGrid: GridBase = new GridBase("DealShipperGrid");
-        let noteGrid: GridBase = new GridBase("DealNoteGrid");
+        let contactGrid: GridBase = new GridBase("Contact Grid", "CompanyContactGrid");
+        let resaleGrid: GridBase = new GridBase("Resale Grid", "CompanyResaleGrid");
+        let shipperGrid: GridBase = new GridBase("Shipper Grid", "DealShipperGrid");
+        let noteGrid: GridBase = new GridBase("Note Grid", "DealNoteGrid");
         this.grids.push(contactGrid);
         this.grids.push(resaleGrid);
         this.grids.push(shipperGrid);
@@ -543,8 +561,8 @@ export class Vendor extends HomeModule {
         this.moduleName = 'Vendor';
         this.moduleId = 'AE4884F4-CB21-4D10-A0B5-306BD0883F19';
         this.moduleCaption = 'Vendor';
-        let contactGrid: GridBase = new GridBase("CompanyContactGrid");
-        let noteGrid: GridBase = new GridBase("VendorNoteGrid");
+        let contactGrid: GridBase = new GridBase("Contact Grid", "CompanyContactGrid");
+        let noteGrid: GridBase = new GridBase("Note Grid", "VendorNoteGrid");
         this.grids.push(contactGrid);
         this.grids.push(noteGrid);
 
@@ -618,9 +636,9 @@ export class Contact extends HomeModule {
         this.moduleName = 'Contact';
         this.moduleId = '3F803517-618A-41C0-9F0B-2C96B8BDAFC4';
         this.moduleCaption = 'Contact';
-        let companyGrid: GridBase = new GridBase("ContactCompanyGrid");
-        let eventGrid: GridBase = new GridBase("ContactPersonalEventGrid");
-        let noteGrid: GridBase = new GridBase("ContactNoteGrid");
+        let companyGrid: GridBase = new GridBase("Company Grid", "ContactCompanyGrid");
+        let eventGrid: GridBase = new GridBase("Personal Event Grid", "ContactPersonalEventGrid");
+        let noteGrid: GridBase = new GridBase("Note Grid", "ContactNoteGrid");
         this.grids.push(companyGrid);
         this.grids.push(eventGrid);
         this.grids.push(noteGrid);
@@ -657,6 +675,17 @@ export class Contact extends HomeModule {
                         ContactTitleId: 4,
                         OfficePhone: TestUtils.randomPhone(),
                     }
+                }
+            },
+            {
+                grid: companyGrid,
+                recordToCreate: {
+                    record: {
+                        CompanyId: 5,
+                        ContactTitleId: 0,
+                        OfficePhone: TestUtils.randomPhone(),
+                    },
+                    expectedErrorFields: ["ContactTitleId"],
                 }
             },
             {
@@ -706,18 +735,18 @@ export class PurchaseOrder extends HomeModule {
         this.moduleId = '67D8C8BB-CF55-4231-B4A2-BB308ADF18F0';
         this.moduleCaption = 'Purchase Order';
         this.canDelete = false;
-        //let rentalGrid: GridBase = new GridBase("OrderItemGrid", ["R", "purchase"]);
-        //let salesGrid: GridBase = new GridBase("OrderItemGrid", ["S", "purchase"]);
-        //let partsGrid: GridBase = new GridBase("OrderItemGrid", ["P", "purchase"]);
-        //let miscGrid: GridBase = new GridBase("OrderItemGrid", ["M", "purchase"]);
-        //let laborGrid: GridBase = new GridBase("OrderItemGrid", ["L", "purchase"]);
+        let rentalGrid: GridBase = new GridBase("Rental Inventory Grid", "OrderItemGrid", ["R", "purchase"]);
+        let salesGrid: GridBase = new GridBase("Sales Inventory Grid", "OrderItemGrid", ["S", "purchase"]);
+        let partsGrid: GridBase = new GridBase("Parts Inventory Grid", "OrderItemGrid", ["P", "purchase"]);
+        let miscGrid: GridBase = new GridBase("Miscellaneous Items Grid", "OrderItemGrid", ["M", "purchase"]);
+        let laborGrid: GridBase = new GridBase("Labor Items Grid", "OrderItemGrid", ["L", "purchase"]);
         //let contactGrid: GridBase = new GridBase("OrderContactGrid");
-        let noteGrid: GridBase = new GridBase("OrderNoteGrid");
-        //this.grids.push(rentalGrid);
-        //this.grids.push(salesGrid);
-        //this.grids.push(partsGrid);
-        //this.grids.push(miscGrid);
-        //this.grids.push(laborGrid);
+        let noteGrid: GridBase = new GridBase("Note Grid", "OrderNoteGrid");
+        this.grids.push(rentalGrid);
+        this.grids.push(salesGrid);
+        this.grids.push(partsGrid);
+        this.grids.push(miscGrid);
+        this.grids.push(laborGrid);
         //this.grids.push(contactGrid);
         this.grids.push(noteGrid);
 
@@ -729,7 +758,7 @@ export class PurchaseOrder extends HomeModule {
                     ReferenceNumber: TestUtils.randomAlphanumeric(8),
                     Rental: true,
                     Sales: true,
-					Parts: true,
+                    Parts: true,
                     Miscellaneous: true,
                     Labor: true,
                 },
@@ -741,46 +770,46 @@ export class PurchaseOrder extends HomeModule {
         ];
 
         this.newRecordsToCreate[0].gridRecords = [
-            //{
-            //    grid: rentalGrid,
-            //    recordToCreate: {
-            //        record: {
-            //            InventoryId: 4,
-            //        }
-            //    }
-            //},
-            //{
-            //    grid: salesGrid,
-            //    recordToCreate: {
-            //        record: {
-            //            InventoryId: 3,
-            //        }
-            //    }
-            //},
-            //{
-            //    grid: partsGrid,
-            //    recordToCreate: {
-            //        record: {
-            //            InventoryId: 3,
-            //        }
-            //    }
-            //},
-            //{
-            //    grid: miscGrid,
-            //    recordToCreate: {
-            //        record: {
-            //            InventoryId: 1,
-            //        }
-            //    }
-            //},
-            //{
-            //    grid: laborGrid,
-            //    recordToCreate: {
-            //        record: {
-            //            InventoryId: 1,
-            //        }
-            //    }
-            //},
+            {
+                grid: rentalGrid,
+                recordToCreate: {
+                    record: {
+                        InventoryId: 4,
+                    }
+                }
+            },
+            {
+                grid: salesGrid,
+                recordToCreate: {
+                    record: {
+                        InventoryId: 3,
+                    }
+                }
+            },
+            {
+                grid: partsGrid,
+                recordToCreate: {
+                    record: {
+                        InventoryId: 3,
+                    }
+                }
+            },
+            {
+                grid: miscGrid,
+                recordToCreate: {
+                    record: {
+                        InventoryId: 1,
+                    }
+                }
+            },
+            {
+                grid: laborGrid,
+                recordToCreate: {
+                    record: {
+                        InventoryId: 1,
+                    }
+                }
+            },
 			/*
             {
                 grid: contactGrid,
@@ -822,9 +851,9 @@ export class Project extends HomeModule {
         this.moduleId = 'C6C8167A-C3B5-4915-8290-4520AF7EDB35';
         this.moduleCaption = 'Project';
         this.canDelete = false;
-        let contactGrid: GridBase = new GridBase("ProjectContactGrid");
-        let poApproverGrid: GridBase = new GridBase("POApproverGrid");
-        let noteGrid: GridBase = new GridBase("ProjectNoteGrid");
+        let contactGrid: GridBase = new GridBase("Contact Grid", "ProjectContactGrid");
+        let poApproverGrid: GridBase = new GridBase("PO Approver Grid", "POApproverGrid");
+        let noteGrid: GridBase = new GridBase("Note Grid", "ProjectNoteGrid");
         this.grids.push(contactGrid);
         this.grids.push(poApproverGrid);
         this.grids.push(noteGrid);

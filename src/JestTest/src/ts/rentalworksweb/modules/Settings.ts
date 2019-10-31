@@ -3,11 +3,8 @@ import { TestUtils } from "../../shared/TestUtils";
 import { GridBase } from "../../shared/GridBase";
 
 //todo: 
-//    presentation layer grid - uncomment in v49
-//    attempt duplicate on ordersetno - uncomment in v49
 //    building space and rate grids (required records to persist in "parent" grids)
 //    event type - activity grid - records are created by default, want to selectively delete only our "new" record
-//    template grids - need to add "rectype" classes to the OrderItemGrids to differentiate them
 
 //---------------------------------------------------------------------------------------
 export class AccountingSettings extends SettingsModule {
@@ -859,10 +856,10 @@ export class DiscountTemplate extends SettingsModule {
         this.moduleName = 'DiscountTemplate';
         this.moduleId = '258D920E-7024-4F68-BF1F-F07F3613829C';
         this.moduleCaption = 'Discount Template';
-        let rentalGrid: GridBase = new GridBase("DiscountItemRentalGrid");
-        let salesGrid: GridBase = new GridBase("DiscountItemSalesGrid");
-        let laborGrid: GridBase = new GridBase("DiscountItemLaborGrid");
-        let miscGrid: GridBase = new GridBase("DiscountItemMiscGrid");
+        let rentalGrid: GridBase = new GridBase("Rental Item Grid", "DiscountItemRentalGrid");
+        let salesGrid: GridBase = new GridBase("Sales Item Grid", "DiscountItemSalesGrid");
+        let laborGrid: GridBase = new GridBase("Labor Item Grid", "DiscountItemLaborGrid");
+        let miscGrid: GridBase = new GridBase("Miscellaneous Item Grid", "DiscountItemMiscGrid");
         this.grids.push(rentalGrid);
         this.grids.push(salesGrid);
         this.grids.push(laborGrid);
@@ -1149,7 +1146,7 @@ export class EventType extends SettingsModule {
         this.moduleName = 'EventType';
         this.moduleId = 'FE501F99-95D4-444C-A7B6-EA20ACE88879';
         this.moduleCaption = 'Event Type';
-        let personnelTypeGrid: GridBase = new GridBase("EventTypePersonnelTypeGrid");
+        let personnelTypeGrid: GridBase = new GridBase("Personnel Type Grid", "EventTypePersonnelTypeGrid");
         this.grids.push(personnelTypeGrid);
 
         this.defaultNewRecordToExpect = {
@@ -1278,7 +1275,7 @@ export class Building extends SettingsModule {
         this.moduleName = 'Building';
         this.moduleId = '2D344845-7E77-40C9-BB9D-04A930D352EB';
         this.moduleCaption = 'Building';
-        let floorGrid: GridBase = new GridBase("FloorGrid");
+        let floorGrid: GridBase = new GridBase("Floor Grid", "FloorGrid");
         this.grids.push(floorGrid);
 
         this.defaultNewRecordToExpect = {
@@ -1756,7 +1753,7 @@ export class GeneratorMake extends SettingsModule {
         this.moduleName = 'GeneratorMake';
         this.moduleId = 'D7C38A54-A198-4304-8EC2-CE8038D3BE9C';
         this.moduleCaption = 'Generator Make';
-        let generatorMakeGrid: GridBase = new GridBase("GeneratorMakeModelGrid");
+        let generatorMakeGrid: GridBase = new GridBase("Geneator Model Grid", "GeneratorMakeModelGrid");
         this.grids.push(generatorMakeGrid);
 
         this.defaultNewRecordToExpect = {
@@ -2129,7 +2126,7 @@ export class Attribute extends SettingsModule {
         this.moduleName = 'Attribute';
         this.moduleId = '2777dd37-daca-47ff-aa44-29677b302745';
         this.moduleCaption = 'Inventory Attribute';
-        let valueGrid: GridBase = new GridBase("AttributeValueGrid");
+        let valueGrid: GridBase = new GridBase("Attribute Value Grid",  "AttributeValueGrid");
         this.grids.push(valueGrid);
 
 
@@ -2224,7 +2221,7 @@ export class InventoryGroup extends SettingsModule {
         this.moduleName = 'InventoryGroup';
         this.moduleId = '43AF2FBA-69FB-46A8-8E5A-2712486B66F3';
         this.moduleCaption = 'Inventory Group';
-        let invGrid: GridBase = new GridBase("InventoryGroupInvGrid");
+        let invGrid: GridBase = new GridBase("Inventory Grid", "InventoryGroupInvGrid");
         this.grids.push(invGrid);
 
         this.defaultNewRecordToExpect = {
@@ -2375,7 +2372,7 @@ export class PartsCategory extends SettingsModule {
         this.moduleName = 'PartsCategory';
         this.moduleId = '4750DFBD-6C60-41EF-83FE-49C8340D6062';
         this.moduleCaption = 'Parts Category';
-        let subCategoryGrid: GridBase = new GridBase("SubCategoryGrid");
+        let subCategoryGrid: GridBase = new GridBase("Sub Category Grid", "SubCategoryGrid");
         this.grids.push(subCategoryGrid);
 
         this.defaultNewRecordToExpect = {
@@ -2438,7 +2435,7 @@ export class RentalCategory extends SettingsModule {
         this.moduleName = 'RentalCategory';
         this.moduleId = '91079439-A188-4637-B733-A7EF9A9DFC22';
         this.moduleCaption = 'Rental Category';
-        let subCategoryGrid: GridBase = new GridBase("SubCategoryGrid");
+        let subCategoryGrid: GridBase = new GridBase("Sub Category Grid", "SubCategoryGrid");
         this.grids.push(subCategoryGrid);
 
         this.defaultNewRecordToExpect = {
@@ -2545,7 +2542,7 @@ export class SalesCategory extends SettingsModule {
         this.moduleName = 'SalesCategory';
         this.moduleId = '428619B5-ABDE-48C4-9B2F-CF6D2A3AC574';
         this.moduleCaption = 'Sales Category';
-        let subCategoryGrid: GridBase = new GridBase("SubCategoryGrid");
+        let subCategoryGrid: GridBase = new GridBase("Sub Category Grid", "SubCategoryGrid");
         this.grids.push(subCategoryGrid);
 
         this.defaultNewRecordToExpect = {
@@ -2747,9 +2744,9 @@ export class Crew extends SettingsModule {
         this.moduleName = 'Crew';
         this.moduleId = 'FF4C0AF2-0984-48FD-A108-68D93CB8FFE6';
         this.moduleCaption = 'Crew';
-        let positionGrid: GridBase = new GridBase("CrewPositionGrid");
-        let locationGrid: GridBase = new GridBase("CrewLocationGrid");
-        let noteGrid: GridBase = new GridBase("ContactNoteGrid");
+        let positionGrid: GridBase = new GridBase("Position Grid", "CrewPositionGrid");
+        let locationGrid: GridBase = new GridBase("Location Grid", "CrewLocationGrid");
+        let noteGrid: GridBase = new GridBase("Note Grid", "ContactNoteGrid");
         this.grids.push(positionGrid);
         this.grids.push(locationGrid);
         this.grids.push(noteGrid);
@@ -3092,7 +3089,7 @@ export class LaborCategory extends SettingsModule {
         this.moduleName = 'LaborCategory';
         this.moduleId = '2A5190B9-B0E8-4B93-897B-C91FC4807FA6';
         this.moduleCaption = 'Labor Category';
-        let subCategoryGrid: GridBase = new GridBase("SubCategoryGrid");
+        let subCategoryGrid: GridBase = new GridBase("Sub Category Grid", "SubCategoryGrid");
         this.grids.push(subCategoryGrid);
 
 
@@ -3358,7 +3355,7 @@ export class MiscCategory extends SettingsModule {
         this.moduleName = 'MiscCategory';
         this.moduleId = 'D5318A2F-ECB8-498A-9D9A-0846F4B9E4DF';
         this.moduleCaption = 'Misc Category';
-        let subCategoryGrid: GridBase = new GridBase("SubCategoryGrid");
+        let subCategoryGrid: GridBase = new GridBase("Sub Category Grid", "SubCategoryGrid");
         this.grids.push(subCategoryGrid);
 
         this.defaultNewRecordToExpect = {
@@ -3436,8 +3433,8 @@ export class OrderType extends SettingsModule {
         this.moduleName = 'OrderType';
         this.moduleId = 'CF3E22CB-F836-4277-9589-998B0BEC3500';
         this.moduleCaption = 'Order Type';
-        let contactTitleGrid: GridBase = new GridBase("OrderTypeContactTitleGrid");
-        let noteGrid: GridBase = new GridBase("OrderTypeNoteGrid");
+        let contactTitleGrid: GridBase = new GridBase("Contact Title Grid", "OrderTypeContactTitleGrid");
+        let noteGrid: GridBase = new GridBase("Note Grid", "OrderTypeNoteGrid");
         this.grids.push(contactTitleGrid);
         this.grids.push(noteGrid);
 
@@ -3538,7 +3535,7 @@ export class MarketSegment extends SettingsModule {
         this.moduleName = 'MarketSegment';
         this.moduleId = '53B627BE-6AC8-4C1F-BEF4-E8B0A5422E14';
         this.moduleCaption = 'Market Segment';
-        let jobGrid: GridBase = new GridBase("MarketSegmentJobGrid");
+        let jobGrid: GridBase = new GridBase("Market Segment Job Grid", "MarketSegmentJobGrid");
         this.grids.push(jobGrid);
 		
         this.defaultNewRecordToExpect = {
@@ -3655,7 +3652,7 @@ export class OrderSetNo extends SettingsModule {
                 seekObject: {
                     Description: "GlobalScope.TestToken~1.TestToken",
                 },
-                //attemptDuplicate: true,
+                attemptDuplicate: true,
             },
             {
                 record: {
@@ -4165,8 +4162,8 @@ export class PresentationLayer extends SettingsModule {
         this.moduleName = 'PresentationLayer';
         this.moduleId = 'BBEF0AFD-B46A-46B0-8046-113834736060';
         this.moduleCaption = 'Presentation Layer';
-        //let activityGrid: GridBase = new GridBase("PresentationLayerActivityGrid");
-        let activityOverrideGrid: GridBase = new GridBase("PresentationLayerActivityOverrideGrid");
+        //let activityGrid: GridBase = new GridBase("Activity Grid", "PresentationLayerActivityGrid");
+        let activityOverrideGrid: GridBase = new GridBase("Activity Override Grid", "PresentationLayerActivityOverrideGrid");
         //this.grids.push(activityGrid);
         this.grids.push(activityOverrideGrid);
 
@@ -4918,6 +4915,19 @@ export class LogoSettings extends SettingsModule {
     //---------------------------------------------------------------------------------------
 }
 //---------------------------------------------------------------------------------------
+export class DocumentBarCodeSettings extends SettingsModule {
+    //---------------------------------------------------------------------------------------
+    constructor() {
+        super();
+        this.moduleName = 'DocumentBarCodeSettings';
+        this.moduleId = 'FA203471-A8BA-4607-AE29-B211995D276F';
+        this.moduleCaption = 'Document Bar Code Settings';
+        this.canNew = false;
+        this.canDelete = false;
+    }
+    //---------------------------------------------------------------------------------------
+}
+//---------------------------------------------------------------------------------------
 export class SystemSettings extends SettingsModule {
     //---------------------------------------------------------------------------------------
     constructor() {
@@ -4977,6 +4987,10 @@ export class Template extends SettingsModule {
         this.moduleName = 'Template';
         this.moduleId = 'BDDB1439-F128-4AB7-9657-B1CDFFA12721';
         this.moduleCaption = 'Template';
+        let rentalGrid: GridBase = new GridBase("Rental Item Grid", "OrderItemGrid", ["R"]);
+        let salesGrid: GridBase = new GridBase("Sales Item Grid", "OrderItemGrid", ["S"]);
+        let miscGrid: GridBase = new GridBase("Miscellaneous Item Grid", "OrderItemGrid", ["M"]);
+        let laborGrid: GridBase = new GridBase("Labor Item Grid", "OrderItemGrid", ["L"]);
 
         this.defaultNewRecordToExpect = {
             Description: "",
@@ -5002,6 +5016,41 @@ export class Template extends SettingsModule {
                     Description: "",
                 },
                 expectedErrorFields: ["Description"],
+            },
+        ];
+
+        this.newRecordsToCreate[0].gridRecords = [
+            {
+                grid: rentalGrid,
+                recordToCreate: {
+                    record: {
+                        InventoryId: 4,
+                    }
+                }
+            },
+            {
+                grid: salesGrid,
+                recordToCreate: {
+                    record: {
+                        InventoryId: 3,
+                    }
+                }
+            },
+            {
+                grid: miscGrid,
+                recordToCreate: {
+                    record: {
+                        InventoryId: 1,
+                    }
+                }
+            },
+            {
+                grid: laborGrid,
+                recordToCreate: {
+                    record: {
+                        InventoryId: 1,
+                    }
+                }
             },
         ];
         
@@ -5227,7 +5276,7 @@ export class VehicleMake extends SettingsModule {
         this.moduleName = 'VehicleMake';
         this.moduleId = '299DECA3-B427-49ED-B6AC-2E11F6AA1C4D';
         this.moduleCaption = 'Vehicle Make';
-        let vehicleMakeGrid: GridBase = new GridBase("VehicleMakeModelGrid");
+        let vehicleMakeGrid: GridBase = new GridBase("Vehicle Model Grid", "VehicleMakeModelGrid");
         this.grids.push(vehicleMakeGrid);
 
         this.defaultNewRecordToExpect = {

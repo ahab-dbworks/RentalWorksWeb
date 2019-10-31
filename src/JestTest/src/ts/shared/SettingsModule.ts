@@ -434,6 +434,7 @@ export class SettingsModule extends ModuleBase {
 
         if (cancelButtonFound) {
             Logging.logInfo(`new record "cancel" button found`);
+			ModuleBase.wait(500);  // wait for the cancel button to get its events
             await page.click(cancelSelector);
             //const popupText = await page.$eval('.advisory', el => el.textContent);
             //if (popupText.includes('save your changes')) {

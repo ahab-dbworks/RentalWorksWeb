@@ -20,7 +20,7 @@ import {
     OrderLocation, PaymentTerms, PaymentType, POApprovalStatus, POApproverRole, POClassification, POImportance, PORejectReason, POType, POApprover, VendorInvoiceApprover,
     FormDesign, PresentationLayer, ProjectAsBuild, ProjectCommissioning, ProjectDeposit, ProjectDrawings, ProjectDropShipItems, ProjectItemsOrdered, PropsCondition,
     Region, RepairItemStatus, SetCondition, SetSurface, SetOpening, WallDescription, WallType, ShipVia, Source, AvailabilitySettings, DefaultSettings, EmailSettings,
-    InventorySettings, LogoSettings, SystemSettings, TaxOption, Template, UserStatus, Sound, LicenseClass, VehicleColor, VehicleFuelType, VehicleMake, VehicleScheduleStatus, VehicleStatus,
+    InventorySettings, LogoSettings, DocumentBarCodeSettings, SystemSettings, TaxOption, Template, UserStatus, Sound, LicenseClass, VehicleColor, VehicleFuelType, VehicleMake, VehicleScheduleStatus, VehicleStatus,
     VehicleType, OrganizationType, VendorCatalog, VendorClass, SapVendorInvoiceStatus, WardrobeCare, WardrobeColor, WardrobeCondition, WardrobeGender, WardrobeLabel,
     WardrobeMaterial, WardrobePattern, WardrobePeriod, WardrobeSource, Warehouse, Widget, WorkWeek,
 
@@ -132,7 +132,7 @@ export class MediumRegressionTest extends BaseTest {
                             if (rec.seekObject) {
                                 testName = `Seek to the newly-created ${module.moduleCaption} record`;
                                 test(testName, async () => {
-                                    let recordCount = await module.browseSeek(rec.seekObject).then().catch(err => this.LogError(testName, err));
+                                    let recordCount = await module.browseSeek(rec.seekObject);//.then().catch(err => this.LogError(testName, err));
                                     expect(recordCount).toBe(1);
                                 }, module.browseSeekTimeout);
 
@@ -163,31 +163,83 @@ export class MediumRegressionTest extends BaseTest {
 
                                     if (module.grids) {
                                         for (let grid of module.grids) {
-                                            for (let gridRecord of rec.gridRecords) {
-                                                if (gridRecord.grid === grid) {
-                                                    if (grid.canNew) {
-                                                        testName = `Add row to Grid: ${grid.gridName}`;
+                                            if (grid.canNew) {
+                                                for (let gridRecord of rec.gridRecords) {
+                                                    if (gridRecord.grid === grid) {
+                                                        testName = `Add row to Grid: ${grid.gridDisplayName}`;
+                                                        if (gridRecord.recordToCreate.expectedErrorFields) {
+                                                            testName += ` with missing required fields ${JSON.stringify(gridRecord.recordToCreate.expectedErrorFields)}`;
+                                                        }
                                                         test(testName, async () => {
-                                                            await module.addGridRow(grid.gridName, grid.gridClass, gridRecord.recordToCreate.record, true)
+                                                            await grid.addGridRow(gridRecord.recordToCreate.record, true)
                                                                 .then(saveResponse => {
-                                                                    expect(saveResponse.errorMessage).toBe("");
-                                                                    expect(saveResponse.saved).toBeTruthy();
+                                                                    if (gridRecord.recordToCreate.expectedErrorFields) {
+                                                                        expect(saveResponse.errorFields.length).toBeGreaterThan(0);
+                                                                        expect(saveResponse.errorFields.length).toBe(gridRecord.recordToCreate.expectedErrorFields.length);
+                                                                        expect(saveResponse.saved).toBeFalsy();
+                                                                    }
+                                                                    else {
+                                                                        expect(saveResponse.errorMessage).toBe("");
+                                                                        expect(saveResponse.saved).toBeTruthy();
+                                                                    }
                                                                 });
                                                         }, grid.saveTimeout);
-                                                    }
 
-                                                    if (grid.canDelete) {
-                                                        testName = `Delete row from Grid: ${grid.gridName}`;
-                                                        test(testName, async () => {
-                                                            await module.deleteGridRow(grid.gridName, grid.gridClass, 1, true)
-                                                                .then(deleteResponse => {
-                                                                    expect(deleteResponse.errorMessage).toBe("");
-                                                                    expect(deleteResponse.deleted).toBeTruthy();
-                                                                });
-                                                        }, grid.deleteTimeout);
+                                                        if (gridRecord.recordToCreate.attemptDuplicate) {
+                                                            testName = `Attempt to add duplicate row to Grid: ${grid.gridDisplayName}, expect duplicate error`;
+                                                            test(testName, async () => {
+                                                                await grid.addGridRow(gridRecord.recordToCreate.record, true)
+                                                                    .then(saveResponse => {
+                                                                        expect(saveResponse.errorMessage).toContain('Duplicate Rule');
+                                                                        expect(saveResponse.saved).toBe(false);
+                                                                    });
+                                                            }, grid.saveTimeout);
+                                                        }
+
+                                                        if (!gridRecord.recordToCreate.expectedErrorFields) {
+                                                            if (grid.canDelete) {
+                                                                testName = `Confirm that rows exist in the Grid: ${grid.gridDisplayName}`;
+                                                                test(testName, async () => {
+                                                                    await grid.getRecordCount()
+                                                                        .then(gridRowCount => {
+                                                                            expect(gridRowCount).toBeGreaterThan(0);
+                                                                        });
+                                                                }, grid.deleteTimeout);
+
+                                                                testName = `Delete row from Grid: ${grid.gridDisplayName}`;
+                                                                test(testName, async () => {
+                                                                    await grid.deleteGridRow(1, true)
+                                                                        .then(deleteResponse => {
+                                                                            expect(deleteResponse.errorMessage).toBe("");
+                                                                            expect(deleteResponse.deleted).toBeTruthy();
+                                                                        });
+                                                                }, grid.deleteTimeout);
+                                                            }
+                                                        }
                                                     }
                                                 }
                                             }
+                                            else {
+                                                //  test to make sure grid New button not accessible
+                                            }
+
+                                            if (!grid.canEdit) {
+                                                //  test to make sure no grid Edit operation 
+                                            }
+
+                                            if (!grid.canDelete) {
+                                                //  test to make sure no grid Delete option 
+                                            }
+
+                                            if ((!grid.canNew) && (grid.canEdit)) {
+                                                //  test Edit behavior
+                                            }
+
+                                            if ((!grid.canNew) && (grid.canDelete)) {   // unusual, but possible I guess
+                                                //  test delete behavior 
+                                            }
+
+
                                         }
                                     }
 
@@ -239,7 +291,7 @@ export class MediumRegressionTest extends BaseTest {
                                 if (module.canDelete) {
                                     testName = `Seek to the newly-created ${module.moduleCaption} record`;
                                     test(testName, async () => {
-                                        let recordCount = await module.browseSeek(rec.seekObject).then().catch(err => this.LogError(testName, err));
+                                        let recordCount = await module.browseSeek(rec.seekObject);//.then().catch(err => this.LogError(testName, err));
                                         expect(recordCount).toBe(1);
                                     }, module.browseSeekTimeout);
 
@@ -478,6 +530,7 @@ export class MediumRegressionTest extends BaseTest {
         this.MediumRegressionOnModule(new EmailSettings());
         this.MediumRegressionOnModule(new InventorySettings());
         this.MediumRegressionOnModule(new LogoSettings());
+        this.MediumRegressionOnModule(new DocumentBarCodeSettings());
         this.MediumRegressionOnModule(new SystemSettings());
         this.MediumRegressionOnModule(new TaxOption());
         this.MediumRegressionOnModule(new Template());
