@@ -17,15 +17,15 @@ namespace WebApi.Modules.Home.InventoryAvailability
         private const int SECONDS_PER_MINUTE = 60;
 
         //minute timer
-        private Timer minuteTimer;
+        private System.Timers.Timer minuteTimer;
         private int lastHourRan = -1;
         private int lastDateRan = -1;
 
         //check need recalc
-        private Timer checkNeedRecalcTimer;
+        private System.Timers.Timer checkNeedRecalcTimer;
 
         //keep fresh
-        private Timer keepFreshTimer;
+        private System.Timers.Timer keepFreshTimer;
 
         //-------------------------------------------------------------------------------------------------------
         public AvailabilityService(IOptions<FwApplicationConfig> appConfig)
@@ -46,79 +46,105 @@ namespace WebApi.Modules.Home.InventoryAvailability
             b = availSettings.LoadAsync<AvailabilitySettingsLogic>().Result;
 
             //timer ticks every 60 seconds in order to detect change in Hours or Days
-            minuteTimer = new Timer(EveryMinute, null, TimeSpan.FromSeconds(TIMER_DELAY_START), TimeSpan.FromSeconds(SECONDS_PER_MINUTE));
+            //minuteTimer = new Timer(EveryMinute, null, TimeSpan.FromSeconds(TIMER_DELAY_START), TimeSpan.FromSeconds(SECONDS_PER_MINUTE));
+            minuteTimer = new System.Timers.Timer(1000 * 60);
+            minuteTimer.Elapsed += MinuteTimer_Elapsed;
+            minuteTimer.Start();
 
             //timer tickes every 3 seconds to detect changes to Inventory caused by other systems (QuikScan, desktop EXE, database triggers, etc)
-            checkNeedRecalcTimer = new Timer(CheckNeedRecalc, null, TimeSpan.FromSeconds(TIMER_DELAY_START), TimeSpan.FromSeconds(availSettings.PollForStaleAvailabilitySeconds.GetValueOrDefault(0)));
+            checkNeedRecalcTimer = new System.Timers.Timer(1000 * availSettings.PollForStaleAvailabilitySeconds.GetValueOrDefault(0));
+            checkNeedRecalcTimer.Elapsed += CheckNeedRecalcTimer_Elapsed;
+            checkNeedRecalcTimer.Start();
 
             //if enabled, this timer will tick ever XX seconds and attempt to keep the availability cache current
             if ((availSettings.KeepAvailabilityCacheCurrent.GetValueOrDefault(false)) && (availSettings.KeepCurrentSeconds.GetValueOrDefault(0) > 0))
             {
-                keepFreshTimer = new Timer(KeepFresh, null, TimeSpan.FromSeconds(TIMER_DELAY_START), TimeSpan.FromSeconds(availSettings.KeepCurrentSeconds.GetValueOrDefault(0)));
+                keepFreshTimer = new System.Timers.Timer(1000 * availSettings.KeepCurrentSeconds.GetValueOrDefault(0));
+                keepFreshTimer.Elapsed += KeepFreshTimer_Elapsed;
+                keepFreshTimer.Start();
             }
             return Task.CompletedTask;
         }
         //-------------------------------------------------------------------------------------------------------
         private void DisableMinuteTimer()
         {
-            minuteTimer?.Change(Timeout.Infinite, 0);
+            minuteTimer?.Stop();
         }
         //-------------------------------------------------------------------------------------------------------
         private void DisableKeepFreshTimer()
         {
-            keepFreshTimer?.Change(Timeout.Infinite, 0);
+            keepFreshTimer?.Stop();
         }
         //-------------------------------------------------------------------------------------------------------
         private void DisableCheckNeedRecalcTimer()
         {
-            checkNeedRecalcTimer?.Change(Timeout.Infinite, 0);
+            checkNeedRecalcTimer?.Stop();
         }
         //-------------------------------------------------------------------------------------------------------
         private void EnableMinuteTimer()
         {
-            minuteTimer?.Change(TimeSpan.FromSeconds(SECONDS_PER_MINUTE), TimeSpan.FromSeconds(SECONDS_PER_MINUTE));
+            minuteTimer?.Start();
         }
         //-------------------------------------------------------------------------------------------------------
         private void EnableKeepFreshTimer()
         {
-            keepFreshTimer?.Change(TimeSpan.FromSeconds(availSettings.KeepCurrentSeconds.GetValueOrDefault(0)), TimeSpan.FromSeconds(availSettings.KeepCurrentSeconds.GetValueOrDefault(0)));
+            keepFreshTimer.Interval = 1000 * availSettings.KeepCurrentSeconds.GetValueOrDefault(0);
+            keepFreshTimer?.Start();
         }
         //-------------------------------------------------------------------------------------------------------
         private void EnableCheckNeedRecalcTimer()
         {
-            checkNeedRecalcTimer?.Change(TimeSpan.FromSeconds(availSettings.PollForStaleAvailabilitySeconds.GetValueOrDefault(0)), TimeSpan.FromSeconds(availSettings.PollForStaleAvailabilitySeconds.GetValueOrDefault(0)));
+            checkNeedRecalcTimer.Interval = 1000 * availSettings.PollForStaleAvailabilitySeconds.GetValueOrDefault(0);
+            checkNeedRecalcTimer?.Start();
         }
         //-------------------------------------------------------------------------------------------------------
-        private void CheckNeedRecalc(object state)
+        private void MinuteTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
-            DisableCheckNeedRecalcTimer();
-            bool b = InventoryAvailabilityFunc.CheckNeedRecalc(appConfig).Result;
-            EnableCheckNeedRecalcTimer();
-        }
-        //-------------------------------------------------------------------------------------------------------
-        private void KeepFresh(object state)
-        {
-            DisableKeepFreshTimer();
-            bool b = InventoryAvailabilityFunc.KeepAvailabilityCacheFresh(appConfig).Result;
-            EnableKeepFreshTimer();
-        }
-        //-------------------------------------------------------------------------------------------------------
-        private void EveryMinute(object state)
-        {
-            DisableMinuteTimer();
-
-            if (DateTime.Now.Hour != lastHourRan)
+            try
             {
-                lastHourRan = DateTime.Now.Hour;
-                InvalidateHourly();
+                DisableMinuteTimer();
+                if (DateTime.Now.Hour != lastHourRan)
+                {
+                    lastHourRan = DateTime.Now.Hour;
+                    InvalidateHourly();
+                }
+                if (DateTime.Now.Day != lastDateRan)
+                {
+                    lastDateRan = DateTime.Now.Day;
+                    InvalidateDaily();
+                }
             }
-            if (DateTime.Now.Day != lastDateRan)
+            finally
             {
-                lastDateRan = DateTime.Now.Day;
-                InvalidateDaily();
+                EnableMinuteTimer();
             }
+        }
+        //-------------------------------------------------------------------------------------------------------
+        private void KeepFreshTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            try
+            {
+                DisableKeepFreshTimer();
+                bool b = InventoryAvailabilityFunc.KeepAvailabilityCacheFresh(appConfig).Result;
+            }
+            finally
 
-            EnableMinuteTimer();
+            {
+                EnableKeepFreshTimer();
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------
+        private void CheckNeedRecalcTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            try
+            {
+                DisableCheckNeedRecalcTimer(); 
+                bool b = InventoryAvailabilityFunc.CheckNeedRecalc(appConfig).Result;
+            }
+            finally
+            {
+                EnableCheckNeedRecalcTimer();
+            }
         }
         //-------------------------------------------------------------------------------------------------------
         private void InvalidateHourly()
