@@ -1485,14 +1485,27 @@
                 if ($form.parent().data('type') !== 'settings-row') { $cancel = FwConfirmation.addButton($confirmation, 'Cancel'); }
                 $save.focus();
                 $save.on('click', function () {
-                    var controller, isvalid;
-                    controller = $form.attr('data-controller');
+                    const controller = $form.attr('data-controller');
                     if (typeof window[controller] === 'undefined') throw 'Missing javascript module controller: ' + controller;
                     if (typeof window[controller]['saveForm'] === 'function') {
                         window[controller]['saveForm']($form, { closetab: true, navigationpath: navigationpath, closeparent: closeParent, afterCloseForm: afterCloseForm, refreshRootTab: true });
                     }
                 });
-                $dontsave.on('click', function () {
+                // hotkey support for confirmation buttons
+                $confirmation.on('keyup', e => {
+                    if (e.which === 78) { // 'n'
+                        $dontsave.click();
+                        e.preventDefault();
+                    }
+                    if (e.which === 67) { // 'c'
+                        if ($cancel) {
+                            $cancel.click();
+                        }
+                        e.preventDefault();
+                    }
+                })
+
+                $dontsave.on('click', e => {
                     FwModule.beforeCloseForm($form);
                     FwModule.closeFormTab($tab, false);
                     if (typeof afterCloseForm === 'function') {
