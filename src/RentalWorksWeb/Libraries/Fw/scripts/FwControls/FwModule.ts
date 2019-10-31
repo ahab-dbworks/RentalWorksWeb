@@ -1493,15 +1493,17 @@
                 });
                 // hotkey support for confirmation buttons
                 $confirmation.on('keyup', e => {
-                    if (e.which === 78) { // 'n'
+                    e.preventDefault();
+                    if (e.which === 83) { // 's'
+                        $save.click();
+                    }
+                    if (e.which === 78 || e.which === 68) { // 'n'(78) or 'd'(68)
                         $dontsave.click();
-                        e.preventDefault();
                     }
                     if (e.which === 67) { // 'c'
                         if ($cancel) {
                             $cancel.click();
                         }
-                        e.preventDefault();
                     }
                 })
 
