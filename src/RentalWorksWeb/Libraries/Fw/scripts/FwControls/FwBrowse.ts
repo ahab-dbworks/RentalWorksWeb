@@ -3115,7 +3115,8 @@ class FwBrowseClass {
             try {
                 var $this = jQuery(this);
                 var $tr = $this.closest('tr');
-                let saveRowPromise = me.saveRow($control, $tr);
+                //let saveRowPromise = me.saveRow($control, $tr);
+                me.saveRow($control, $tr); //justin 10/31/2019 RWW#1240 - prevent blank error pop-up when saving a row with missing required fields.
             } catch (ex) {
                 FwFunc.showError(ex);
             }
@@ -3561,7 +3562,8 @@ class FwBrowseClass {
                         }
                     });
                 } else {
-                    reject();
+                    //reject();
+                    resolve();  //justin 10/31/2019 RWW#1240 - prevent blank error pop-up when saving a row with missing required fields.
                 }
             } else {
                 this.cancelEditMode($control, $tr);
