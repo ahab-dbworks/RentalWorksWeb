@@ -12,8 +12,7 @@ class FwFormField_timepickerClass {
         $control.html(html.join(''));
     }
     renderRuntimeHtml($control, html) {
-        var timepickerTimeFormat, inputmaskTimeFormat;
-        html.push('<div class="fwformfield-caption">' + $control.attr('data-caption') + '</div>');
+        html.push(`<div class="fwformfield-caption">${$control.attr('data-caption')}</div>`);
         html.push('<div class="fwformfield-control">');
         html.push('<input class="fwformfield-value" type="text" autocapitalize="none"');
         if ($control.attr('data-enabled') === 'false') {
@@ -31,6 +30,32 @@ class FwFormField_timepickerClass {
                 $control.find('input').focus();
             }
         }).off();
+        $control.find('.fwformfield-value').change(e => {
+            const $this = jQuery(e.currentTarget);
+            let val = $this.val();
+            val = val.toString().toUpperCase().trim();
+            let meridiem;
+            if (val.endsWith('PM') || val.endsWith('AM')) {
+                meridiem = val.substring(val.length - 2);
+                val = val.substring(0, val.length - 2);
+            }
+            val = val.replace(/\D/g, '');
+            if (val.length > 4 || val.length < 3) {
+                val = '00:00';
+                return $this.val('00:00');
+            }
+            let start, end;
+            if (val.length === 3) {
+                start = val.substring(0, 1);
+                end = val.substring(1);
+            }
+            else {
+                start = val.substring(0, 2);
+                end = val.substring(2);
+            }
+            val = `${start}:${end}${meridiem ? meridiem : ''}`;
+            $this.val(val);
+        });
         $control.on('click', '.btntime', function (e) {
             if ($control.attr('data-enabled') === 'true') {
                 e.stopPropagation();
@@ -51,11 +76,11 @@ class FwFormField_timepickerClass {
     enable($control) {
     }
     getValue2($fwformfield) {
-        var value = $fwformfield.find('.fwformfield-value').val();
+        const value = $fwformfield.find('.fwformfield-value').val();
         return value;
     }
     setValue($fwformfield, value, text, firechangeevent) {
-        var $inputvalue = $fwformfield.find('.fwformfield-value');
+        const $inputvalue = $fwformfield.find('.fwformfield-value');
         $inputvalue.val(value);
         if (firechangeevent)
             $inputvalue.change();
