@@ -1,6 +1,6 @@
 class FwMenuClass {
     //---------------------------------------------------------------------------------
-    upgrade($control) {
+    upgrade($control: JQuery): void {
         var properties, i, data_type;
         //sync properties
         data_type = $control.attr('data-type');
@@ -12,12 +12,11 @@ class FwMenuClass {
         }
     }
     //---------------------------------------------------------------------------------
-    init($control) {
-        FwMenu.upgrade($control);
-
+    init($control: JQuery): void {
+        //FwMenu.upgrade($control);
     };
     //---------------------------------------------------------------------------------
-    getDesignerProperties(data_type) {
+    getDesignerProperties(data_type: string): any[] {
         var properties = [], propId, propClass, propDataControl, propDataType, propRenderMode, propDataVersion, propDataCaption, propDataEnabled, propDataOriginalValue, propDataImageUrl, propDataField, propDataFieldCount, propFieldCount;
         propId = { caption: 'ID', datatype: 'string', attribute: 'id', defaultvalue: FwControl.generateControlId('tabs'), visible: true, enabled: true };
         propClass = { caption: 'CSS Class', datatype: 'string', attribute: 'class', defaultvalue: 'fwcontrol fwmenu', visible: false, enabled: false };
@@ -31,31 +30,31 @@ class FwMenuClass {
         return properties;
     };
     //---------------------------------------------------------------------------------
-    renderDesignerHtml($control) {
+    renderDesignerHtml($control: JQuery): void {
         var data_type, data_rendermode, html;
         data_type = $control.attr('data-type');
         data_rendermode = $control.attr('data-rendermode');
         $control.attr('data-rendermode', 'designer');
     };
     //---------------------------------------------------------------------------------
-    renderRuntimeHtml($control) {
+    renderRuntimeHtml($control: JQuery): void {
         var html, $usercontrolChildren;
 
         $control.attr('data-rendermode', 'runtime');
     };
     //---------------------------------------------------------------------------------
-    renderTemplateHtml($control) {
+    renderTemplateHtml($control: JQuery): void {
         var data_type, data_rendermode, html;
         data_type = $control.attr('data-type');
         data_rendermode = $control.attr('data-rendermode');
         $control.attr('data-rendermode', 'template');
     };
     //---------------------------------------------------------------------------------
-    getMenuControl(controltype) {
+    getMenuControl(controltype: string): JQuery {
         var html, $menuObject;
 
         html = [];
-        html.push('<div class="fwcontrol fwmenu ' + controltype + '" data-control="FwMenu">');
+        html.push('<div class="fwcontrol fwmenu ' + controltype + '" data-control="FwMenu" data-visible="true">');
         html.push('<div class="buttonbar"></div>');
         html.push('</div>');
         $menuObject = jQuery(html.join(''));
@@ -63,11 +62,11 @@ class FwMenuClass {
         return $menuObject;
     };
     //---------------------------------------------------------------------------------
-    addSubMenu($control) {
+    addSubMenu($control: JQuery): JQuery {
         var $btn, html;
 
         html = [];
-        html.push('<div class="submenubutton">');
+        html.push('<div class="submenubutton" data-visible="true">');
         html.push('<div class="icon"><i class="material-icons">&#xE5D2;</i></div>'); //menu
         html.push('<div class="submenu"></div>');
         html.push('</div>');
@@ -109,55 +108,68 @@ class FwMenuClass {
         return $btn;
     };
     //---------------------------------------------------------------------------------
-    addSubMenuColumn($control) {
-        const html: Array<string> = [];
-        html.push('<div class="submenu-column"></div>');
+    addSubMenuColumn($control: JQuery): JQuery {
+        var html, $column;
 
-        const $column = jQuery(html.join(''));
+        html = [];
+        html.push('<div class="submenu-column" data-visible="true"></div>');
+
+        $column = jQuery(html.join(''));
 
         $control.find('.submenu').append($column);
 
         return $column;
     };
     //---------------------------------------------------------------------------------
-    addSubMenuGroup($control, groupcaption, securityid) {
+    addSubMenuGroup($control: JQuery, groupcaption: string, securityid?: string): JQuery {
+        var html, $group;
+
         securityid = (typeof securityid === 'string') ? securityid : '';
-        const html: Array<string> = [];
-        html.push('<div class="submenu-group" data-securityid="' + securityid + '">');
+        html = [];
+        html.push('<div class="submenu-group" data-securityid="' + securityid + '" data-visible="true">');
         html.push('<div class="caption">' + groupcaption + '</div>');
         html.push('<div class="body"></div>');
         html.push('</div>');
 
-        const $group = jQuery(html.join(''));
+        $group = jQuery(html.join(''));
 
         $control.append($group);
 
         return $group;
     };
     //---------------------------------------------------------------------------------
-    addSubMenuBtn($group, caption, securityid) {
+    addSubMenuBtn($group: JQuery, caption: string, securityid?: string): JQuery {
+        var html, $btn;
+
         securityid = (typeof securityid === 'string') ? securityid : '';
-        const html: Array<string> = [];
-        html.push('<div class="submenu-btn" data-securityid="' + securityid + '">');
+        html = [];
+        html.push('<div class="submenu-btn" data-securityid="' + securityid + '" data-visible="true">');
         html.push('<div class="caption">' + caption + '</div>');
         html.push('</div>');
 
-        const $btn = jQuery(html.join(''));
+        $btn = jQuery(html.join(''));
 
         $group.find('.body').append($btn);
 
         return $btn;
     };
     //---------------------------------------------------------------------------------
+    addSubMenuItem($group: JQuery, caption: string, securityid: string, onclick: (event: JQuery.ClickEvent) => void): JQuery {
+        const $btn = this.addSubMenuBtn($group, caption, securityid);
+        $btn.on('click', onclick);
+        return $btn;
+    };
+    //---------------------------------------------------------------------------------
     addStandardBtn($control, caption, securityid) {
-        let $btn = jQuery();
+        var $btn, btnHtml, btnId, id;
+        $btn = jQuery();
         if ((caption !== '') && (typeof caption !== 'undefined')) {
             try {
-                const id = program.uniqueId(8);
-                const btnId = 'btn' + id;
+                id = program.uniqueId(8);
+                btnId = 'btn' + id;
                 securityid = (typeof securityid === 'string') ? securityid : '';
-                const btnHtml: Array<string> = [];
-                btnHtml.push('<div id="' + btnId + '" class="btn" tabindex="0" data-securityid="' + securityid + '">');
+                btnHtml = [];
+                btnHtml.push('<div id="' + btnId + '" class="btn" tabindex="0" data-securityid="' + securityid + '" data-visible="true">');
                 if ($control.hasClass('default')) {
                     switch (caption) {
                         case 'New': btnHtml.push('<i class="material-icons">&#xE145;</i>'); break; //add
@@ -183,12 +195,12 @@ class FwMenuClass {
         return $btn;
     };
     //---------------------------------------------------------------------------------
-    addViewBtn($control, caption, subitems, allowMultiple?: boolean, filterField?: string) {
-        var $btn, btnHtml, btnId, id, $ddBtn;
+    addViewBtn($control: JQuery, caption: string, subitems: JQuery[], allowMultiple?: boolean, filterField?: string): JQuery {
+        var $btn, btnHtml, btnId, id;
         id = program.uniqueId(8);
         btnId = 'btn' + id;
         btnHtml = [];
-        btnHtml.push(`<div id="${btnId}" class="ddviewbtn">`);
+        btnHtml.push(`<div id="${btnId}" class="ddviewbtn" data-visible="true">`);
         btnHtml.push(`  <div class="ddviewbtn-caption">${caption}:</div>`);
         btnHtml.push(`  <div class="ddviewbtn-select ${allowMultiple ? ' multifilter' : ''}" tabindex="0">`);
         btnHtml.push('    <div class="ddviewbtn-select-value"></div>');
@@ -202,7 +214,7 @@ class FwMenuClass {
         const controller = $control.closest('.fwbrowse').attr('data-controller');
         let selectedFilterValues: Array<string> = [];
         for (var i = 0; i < subitems.length; i++) {
-            $ddBtn = subitems[i];
+            let $ddBtn = subitems[i];
             if (allowMultiple) {
                 $ddBtn.prepend(`<input type="checkbox">`);
 
@@ -376,7 +388,7 @@ class FwMenuClass {
         return $btn;
     };
     //---------------------------------------------------------------------------------
-    generateDropDownViewBtn(caption, active, value?) {
+    generateDropDownViewBtn(caption: string, active: boolean, value?: string): JQuery {
         var btnHtml, $ddBtn;
         btnHtml = [];
         if (typeof value !== 'undefined') {
@@ -392,7 +404,7 @@ class FwMenuClass {
         return $ddBtn
     };
     //---------------------------------------------------------------------------------
-    addVerticleSeparator($control) {
+    addVerticleSeparator($control: JQuery): void {
         var html, $vr;
         html = [];
         html.push('<div class="vr"></div>');
@@ -400,11 +412,11 @@ class FwMenuClass {
         $control.find('.buttonbar').append($vr);
     };
     //---------------------------------------------------------------------------------
-    addCustomContent($control, $content) {
+    addCustomContent($control: JQuery, $content: JQuery): void {
         $control.find('.buttonbar').append($content);
     };
     //---------------------------------------------------------------------------------
-    generateButtonMenuOption(caption) {
+    generateButtonMenuOption(caption: string): JQuery {
         let $btnMenuOption, html;
         html = [];
         html.push(`<div class="btnmenuoption" data-type="btnmenuoption">${caption}</div>`);
@@ -412,7 +424,7 @@ class FwMenuClass {
         return $btnMenuOption;
     };
     //----------------------------------------------------------------------------------------------
-    addButtonMenuOptions($control, menuOptions) {
+    addButtonMenuOptions($control: JQuery, menuOptions: JQuery[]): JQuery {
         const caption = $control.attr('data-caption');
         const html = [];
         html.push(`<div class="fwformcontrol btnmenu">${caption}</div>`);

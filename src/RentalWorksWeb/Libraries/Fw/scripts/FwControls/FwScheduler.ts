@@ -627,7 +627,7 @@ class FwSchedulerClass {
             case 'Day':
             case 'Week':
                 navcalendar = $control.data('navcalendar');
-                navcalendar.select(date);   
+                navcalendar.select(date);
                 break;
             case '5 Week':
                 nav5week = $control.data('nav5week');
@@ -715,7 +715,7 @@ class FwSchedulerClass {
         $control.find('.monthcontainer').hide();
         $control.find('.yearcontainer').hide();
         if ($control.attr('data-shownav') === 'false') {
-            $control.find('.nav5weekcontainer').hide(); 
+            $control.find('.nav5weekcontainer').hide();
         }
         $control.find('.changeview').attr('data-selected', 'false');
         $control.find('.btn5Week').attr('data-selected', 'true');

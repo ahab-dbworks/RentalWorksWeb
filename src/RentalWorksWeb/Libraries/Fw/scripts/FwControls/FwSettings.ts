@@ -426,7 +426,7 @@ class FwSettingsClass {
                 $body.append($moduleRows);
                 $body.find('#recordSearch').focus();
             }
-            // ----------
+
             $body.find('#recordSearch').on('keypress', function (e) {
                 if (e.which === 13) {
                     let dataKeys = [];
@@ -451,7 +451,7 @@ class FwSettingsClass {
                     }
                 }
             })
-            // ----------
+
             $control
                 .on('click', '.row-heading', function (e) {
                     e.stopPropagation();
@@ -516,7 +516,7 @@ class FwSettingsClass {
             // $body.prepend('<div class="legend"><span class="input-group-addon search"><i class="material-icons">search</i></span><input type="text" id="recordSearch" class="form-control" placeholder="Record Search" autofocus></div>');
             //$body.prepend(legend);
         }
-        // ----------
+
         $body.on('click', '.close-new-row', e => {
             e.stopPropagation();
             const newRow = $body.find('.new-row');
@@ -603,7 +603,7 @@ class FwSettingsClass {
         $settingsPageModules = jQuery(html.join(''));
 
         $control.find('.well').append($settingsPageModules);
-        // ----------
+
         $settingsPageModules.on('click', '.new-row-menu', e => {
             e.stopPropagation();
             const $this = jQuery(e.currentTarget);
@@ -617,7 +617,7 @@ class FwSettingsClass {
             $body = $control.find(`#${moduleName}.panel-body`);
             this.newRow($body, $control, apiurl, $modulecontainer, moduleName, $settingsPageModules);
         });
-        // ----------
+
         $settingsPageModules.on('click', '.show-inactive', e => {
             e.stopPropagation();
             const $this = jQuery(e.currentTarget);
@@ -632,7 +632,7 @@ class FwSettingsClass {
                 $this.closest('.panel-title').find('.show-inactive').hide();
             }
         });
-        // ----------
+
         $settingsPageModules.on('click', '.hide-inactive', e => {
             e.stopPropagation();
             const $this = jQuery(e.currentTarget);
@@ -647,7 +647,7 @@ class FwSettingsClass {
                 $this.closest('.panel-title').find('.show-inactive').show();
             }
         });
-        // ----------
+
         $settingsPageModules.on('click', '.pop-out', e => {
             e.stopPropagation();
             const $this = jQuery(e.currentTarget);
@@ -656,7 +656,7 @@ class FwSettingsClass {
             }
             program.popOutTab('#/module/' + moduleName);
         });
-        // ----------
+
         $settingsPageModules
             .on('click', '.panel-heading', function (e) {
                 var browseData = [], browseKeys = [], $form;
@@ -829,7 +829,7 @@ class FwSettingsClass {
                             $body.append($moduleRows);
                             $body.find('#recordSearch').focus();
                         }
-                        // ----------
+
                         $body.find('#recordSearch').on('keypress', function (e) {
                             if (e.which === 13) {
                                 let dataKeys = [];
@@ -905,7 +905,7 @@ class FwSettingsClass {
                     $settingsPageModules.find('.panel-collapse').show("fast");
                 }
             });
-        // ----------
+
         $control
             .unbind().on('click', '.row-heading', e => {
                 e.stopPropagation();
@@ -920,7 +920,6 @@ class FwSettingsClass {
 
                 if ($rowBody.is(':empty')) {
                     $form = (<any>window[controller]).openForm('EDIT');
-
                     $form.find('[data-type="RefreshMenuBarButton"]').remove(); // remove refresh btn
                     $rowBody.append($form);
                     const $formSections = $form.find('.fwform-section-title');
@@ -1063,14 +1062,13 @@ class FwSettingsClass {
                     }
                 }
             })
-        // ----------
+
         $control.on('click', '.input-group-clear', function (e) {
             let event = jQuery.Event('keypress');
             event.which = 13;
             jQuery(this).parent().find('#settingsSearch').val('').trigger(event).focus();
             jQuery(this).find('.clear-search').css('visibility', 'hidden');
         })
-        // ----------
         $control.on('keypress', '#settingsSearch', function (e) {
             if (e.which === 13) {
                 var $settings, val, $module, $settingsTitles, $settingsDescriptions, filter, customFilter, sectionFilter;
@@ -1185,8 +1183,8 @@ class FwSettingsClass {
                     }
                 }
             }
-        })
-        // ----------
+        });
+
         $control.on('click', '.appmenu', function (e) {
             let searchInput = $control.find('#settingsSearch');
             if (searchInput.val() !== '') {
@@ -1195,8 +1193,8 @@ class FwSettingsClass {
                 searchInput.val('');
                 searchInput.trigger(event);
             }
-        })
-        // ----------
+        });
+
         $control.on('click', '.btn-delete', function (e) {
             let $form = jQuery(this).closest('.panel-record').find('.fwform');
             let ids: any = {};
@@ -1462,7 +1460,6 @@ class FwSettingsClass {
         } else {
             throw `FwSettings.generateDropDownModuleBtn: ${securityid} caption is not defined in translation`;
         }
-        // ----------
         $modulebtn
             .on('click', e => {
                 try {
@@ -1519,7 +1516,7 @@ class FwSettingsClass {
         } else {
             throw `FwSettings.generateStandardModuleBtn: ${caption} caption is not defined in translation`;
         }
-        // ----------
+
         $modulebtn
             .on('click', e => {
                 try {

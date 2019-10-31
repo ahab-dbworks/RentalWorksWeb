@@ -1,4 +1,4 @@
-﻿class FwModule {
+class FwModule {
     //----------------------------------------------------------------------------------------------
     static getModuleControl(moduleControllerName: string) {
         var html, $view, $actionView;
@@ -899,6 +899,7 @@
                     };
                 });
         }
+
 
         $form
             .on('change keyup', '.fwformfield[data-enabled="true"]:not([data-isuniqueid="true"][data-datafield=""])', function (event) {
