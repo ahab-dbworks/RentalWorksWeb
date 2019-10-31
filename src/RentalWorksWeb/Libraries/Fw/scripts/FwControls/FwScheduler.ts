@@ -447,7 +447,9 @@ class FwSchedulerClass {
             dpmonth.clearSelection();
             dpmonth.update();
         };
+
         if (typeof $control.data('ontimerangedoubleclicked') === 'function') dpmonth.onTimeRangeDoubleClicked = $control.data('ontimerangedoubleclicked');
+        if (typeof $control.data('oneventdoubleclick') === 'function') dpmonth.onEventDoubleClick = $control.data('oneventdoubleclick');
         if (typeof $control.data('oneventclick') === 'function') dpmonth.onEventClick = $control.data('oneventclick');
         if (typeof $control.data('ontimerangeselect') === 'function') dpmonth.onTimeRangeSelect = $control.data('ontimerangeselect');
         dpmonth.onBeforeCellRender = function (args) {
@@ -508,7 +510,9 @@ class FwSchedulerClass {
             dp5week.clearSelection();
             dp5week.update();
         };
+
         if (typeof $control.data('ontimerangedoubleclicked') === 'function') dp5week.onTimeRangeDoubleClicked = $control.data('ontimerangedoubleclicked');
+        if (typeof $control.data('oneventdoubleclick') === 'function') dp5week.onEventDoubleClick = $control.data('oneventdoubleclick');
         if (typeof $control.data('oneventclick') === 'function') dp5week.onEventClick = $control.data('oneventclick');
         if (typeof $control.data('ontimerangeselect') === 'function') dp5week.onTimeRangeSelect = $control.data('ontimerangeselect');
 

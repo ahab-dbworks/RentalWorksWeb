@@ -170,10 +170,13 @@ class QuikActivityCalendar {
             })
             .data('ontimerangedoubleclicked', event => {
                 try {
-                    const date = event.start.toString('MM/dd/yyyy');
-                    FwScheduler.setSelectedDay($calendar, date);
-                    $form.find('div[data-type="Browse"][data-name="Schedule"] .browseDate .fwformfield-value').val(date).change();
-                    $form.find('div.tab.schedule').click();
+                    //const date = event.start.toString('MM/dd/yyyy');
+                    //FwScheduler.setSelectedDay($calendar, date);
+                    //$form.find('div[data-type="Browse"][data-name="Schedule"] .browseDate .fwformfield-value').val(date).change();
+                    //$form.find('div.tab.schedule').click();
+                    if (typeof $calendar.data('ontimerangeselect') === 'function') {
+                        $calendar.data('ontimerangeselect')(event);
+                    }
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }
@@ -259,6 +262,11 @@ class QuikActivityCalendar {
                     FwOverlay.hideOverlay($overlay);
                 } catch (ex) {
                     FwFunc.showError(ex);
+                }
+            })
+            .data('oneventdoubleclick', event => {
+                if (typeof $calendar.data('oneventclick') === 'function') {
+                    $calendar.data('oneventclick')(event);
                 }
             });
 
