@@ -43,6 +43,16 @@ export class NewRecordToCreate {
     gridRecords?: GridRecordToCreate[];
 }
 
+//export class RecordToEdit {
+//    record: any;
+//    seekObject?: any;
+//    expectedErrorFields?: string[];
+//    recordToExpect?: any;
+//    attemptDuplicate?: boolean = false;
+//    gridRecords?: GridRecordToCreate[];
+//}
+
+
 export class DeleteResponse {
     deleted: boolean;
     errorMessage: string;

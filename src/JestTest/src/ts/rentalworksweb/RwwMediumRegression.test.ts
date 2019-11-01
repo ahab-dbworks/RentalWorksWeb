@@ -251,6 +251,22 @@ export class MediumRegressionTest extends BaseTest {
 
                                             if ((!grid.canNew) && (grid.canDelete)) {   // unusual, but possible I guess
                                                 //  test delete behavior 
+                                                testName = `Confirm that rows exist in the Grid: ${grid.gridDisplayName}`;
+                                                test(testName, async () => {
+                                                    await grid.getRecordCount()
+                                                        .then(gridRowCount => {
+                                                            expect(gridRowCount).toBeGreaterThan(0);
+                                                        });
+                                                }, grid.deleteTimeout);
+
+                                                testName = `Delete row from Grid: ${grid.gridDisplayName}`;
+                                                test(testName, async () => {
+                                                    await grid.deleteGridRow(1, true)
+                                                        .then(deleteResponse => {
+                                                            expect(deleteResponse.errorMessage).toBe("");
+                                                            expect(deleteResponse.deleted).toBeTruthy();
+                                                        });
+                                                }, grid.deleteTimeout);
                                             }
 
 

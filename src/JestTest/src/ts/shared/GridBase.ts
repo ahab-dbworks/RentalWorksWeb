@@ -19,6 +19,11 @@ export class GridRecordToCreate {
     recordToCreate: NewRecordToCreate;
 }
 
+//export class GridRecordToEdit {
+//    grid: GridBase;
+//    recordToEdit: RecordToEdit;
+//}
+
 //---------------------------------------------------------------------------------------
 export class GridBase {
     gridDisplayName: string;

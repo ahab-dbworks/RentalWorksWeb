@@ -221,7 +221,7 @@ export class BillingCycle extends SettingsModule {
             {
                 record: {
                     BillingCycle: "GlobalScope.TestToken~1.MediumTestToken",
-                    BillingCycleType: "MONTHLY",
+                    BillingCycleType: "EVENTS",  // has to be EVENTS to make the eventsGrid accessible
 
                 },
                 seekObject: {
@@ -232,7 +232,7 @@ export class BillingCycle extends SettingsModule {
             {
                 record: {
                     BillingCycle: "",
-                    BillingCycleType: "MONTHLY",
+                    BillingCycleType: "EVENTS",
                 },
                 expectedErrorFields: ["BillingCycle"]
             },
@@ -3524,6 +3524,15 @@ export class OrderType extends SettingsModule {
                     }
                 }
             },
+            //{
+            //    grid: tcGrid,
+            //    recordToEdit: {
+            //        index: 1,
+            //        record: {
+            //            TermsConditionsId: 1,
+            //        }
+            //    }
+            //},
             {
                 grid: noteGrid,
                 recordToCreate: {
