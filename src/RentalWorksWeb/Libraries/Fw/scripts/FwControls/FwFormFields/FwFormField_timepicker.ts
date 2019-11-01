@@ -34,32 +34,26 @@
             }
         }).off(); //Suppresses the time picker from opening on focus.
 
+        // time formatting for 24HR
         $control.find('.fwformfield-value').change(e => {
             const $this = jQuery(e.currentTarget);
-            let val = $this.val();
-            val = val.toString().toUpperCase().trim();
-            let meridiem;
-            if (val.endsWith('PM') || val.endsWith('AM')) {
-                meridiem = val.substring(val.length - 2);
-                val = val.substring(0, val.length - 2); // wghat if more than pm or am, or amm or pmm
-            }
-            val = val.replace(/\D/g, ''); // lose all extra char : letters, symbols
-            if (val.length > 4 || val.length < 3) {
-                val = '00:00'
-                return $this.val('00:00'); // or now
-            }
-            let start, end;
-            if (val.length === 3) {
-                start = val.substring(0, 1);
-                end = val.substring(1);
-            } else {
-                start = val.substring(0, 2);
-                end = val.substring(2);
+            const val = $this.val().toString().replace(/\D/g, ''); // lose all extra char : letters, symbols, spaces
+            if (val.length !== 4) {
+                return $this.val('00:00');
             }
 
-            // check if start or end is meaningful
-            val = `${start}:${end}${meridiem ? meridiem : ''}`;
-            $this.val(val);
+            const start = val.substring(0, 2);
+            const startDecimal = new Decimal(start);
+            if (startDecimal.greaterThan(24)) {
+                return $this.val('00:00');
+            }
+            const end = val.substring(2);
+            const endDecimal = new Decimal(end);
+            if (endDecimal.greaterThan(59)) {
+                return $this.val('00:00');
+            }
+
+            $this.val(`${start}:${end}`);
         })
 
         $control.on('click', '.btntime', function (e) {

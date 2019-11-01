@@ -32,29 +32,21 @@ class FwFormField_timepickerClass {
         }).off();
         $control.find('.fwformfield-value').change(e => {
             const $this = jQuery(e.currentTarget);
-            let val = $this.val();
-            val = val.toString().toUpperCase().trim();
-            let meridiem;
-            if (val.endsWith('PM') || val.endsWith('AM')) {
-                meridiem = val.substring(val.length - 2);
-                val = val.substring(0, val.length - 2);
-            }
-            val = val.replace(/\D/g, '');
-            if (val.length > 4 || val.length < 3) {
-                val = '00:00';
+            const val = $this.val().toString().replace(/\D/g, '');
+            if (val.length !== 4) {
                 return $this.val('00:00');
             }
-            let start, end;
-            if (val.length === 3) {
-                start = val.substring(0, 1);
-                end = val.substring(1);
+            const start = val.substring(0, 2);
+            const startDecimal = new Decimal(start);
+            if (startDecimal.greaterThan(24)) {
+                return $this.val('00:00');
             }
-            else {
-                start = val.substring(0, 2);
-                end = val.substring(2);
+            const end = val.substring(2);
+            const endDecimal = new Decimal(end);
+            if (endDecimal.greaterThan(59)) {
+                return $this.val('00:00');
             }
-            val = `${start}:${end}${meridiem ? meridiem : ''}`;
-            $this.val(val);
+            $this.val(`${start}:${end}`);
         });
         $control.on('click', '.btntime', function (e) {
             if ($control.attr('data-enabled') === 'true') {
