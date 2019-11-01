@@ -1,4 +1,4 @@
-﻿import { WebpackReport } from '../../lib/FwReportLibrary/src/scripts/WebpackReport';
+import { WebpackReport } from '../../lib/FwReportLibrary/src/scripts/WebpackReport';
 import { DataTable } from '../../lib/FwReportLibrary/src/scripts/Browse';
 import { Ajax } from '../../lib/FwReportLibrary/src/scripts/Ajax';
 import { HandlebarsHelpers } from '../../lib/FwReportLibrary/src/scripts/HandlebarsHelpers';
@@ -34,6 +34,7 @@ export class PickListReport extends WebpackReport {
                         data.Type = 'Order';
                     }
 
+                    if (parameters.BarCodeStyle != '1D') parameters.BarCodeStyle = '2D';
                     data.BarCodeStyle = parameters.BarCodeStyle;
 
                     const qr = QrCodeGen.QrCode.encodeText(data.OrderNumber, QrCodeGen.Ecc.MEDIUM);
