@@ -114,12 +114,18 @@
     }
     //---------------------------------------------------------------------------------
     addSubMenuBtn($group, caption, securityid) {
-        var html, $btn;
+        var html, $btn, btnClass;
 
         securityid = (typeof securityid === 'string') ? securityid : '';
         html = [];
         html.push('<div class="submenu-btn" data-securityid="' + securityid + '">');
-        html.push('<div class="caption">' + caption + '</div>');
+        //html.push('<div class="caption">' + caption + '</div>');
+        //justin hoffman 11/01/2019 - need the "deleteoption" class added here for automated testing
+        btnClass = "caption";
+        if (caption === 'Delete Selected') {
+            btnClass += " deleteoption";
+        }
+        html.push(`<div class="${btnClass}">${caption}</div>`);
         html.push('</div>');
 
         $btn = jQuery(html.join(''));
