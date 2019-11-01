@@ -121,6 +121,55 @@ export class GridBase {
 
     }
     //---------------------------------------------------------------------------------------
+    async checkForNewButton(): Promise<boolean> {
+        let buttonExists: boolean = false;
+        Logging.logInfo(`About to check for new button on grid: ${this.gridName}`);
+
+        const tabId = await page.$eval(this.gridSelector, el => el.closest('[data-type="tabpage"]').getAttribute('data-tabid'));
+        const tabIsActive = await page.$eval(`#${tabId}`, el => el.classList.contains('active'));
+        if (!tabIsActive) {
+            Logging.logInfo(`Clicking tab ${tabId} in addGridRow`);
+            await page.click(`#${tabId}`);
+            await ModuleBase.wait(500); // wait for the grid to refresh if any
+        }
+
+        let gridNewButtonSelector = `${this.gridSelector} .buttonbar [data-type="NewButton"] i`;
+        var newButton;
+        try {
+            newButton = await page.waitForSelector(gridNewButtonSelector, { timeout: 1000 });
+        } catch (error) { } // not found
+        buttonExists = (newButton !== undefined);
+        return buttonExists;
+    }
+    //---------------------------------------------------------------------------------------
+    async checkForDeleteOption(): Promise<boolean> {
+        let deleteExists: boolean = false;
+        Logging.logInfo(`About to check for delete option on grid: ${this.gridName}`);
+
+        const tabId = await page.$eval(this.gridSelector, el => el.closest('[data-type="tabpage"]').getAttribute('data-tabid'));
+        const tabIsActive = await page.$eval(`#${tabId}`, el => el.classList.contains('active'));
+        if (!tabIsActive) {
+            Logging.logInfo(`Clicking tab ${tabId} in addGridRow`);
+            await page.click(`#${tabId}`);
+            await ModuleBase.wait(500); // wait for the grid to refresh if any
+        }
+
+        let gridMenuSelector = `${this.gridSelector} .submenubutton i`;
+        await page.waitForSelector(gridMenuSelector, { visible: true });
+        await ModuleBase.wait(200); // wait for the grid hamburger to get its events
+        await page.click(gridMenuSelector);
+        Logging.logInfo(`clicked grid menu button on grid: ${this.gridName}`);
+
+
+        let deleteOptionSelector = `${this.gridSelector} .submenu-btn .deleteoption`;  // need to add "delete" class to this menu option
+        var deleteOption;
+        try {
+            deleteOption = await page.waitForSelector(deleteOptionSelector, { timeout: 1000 });
+        } catch (error) { } // not found
+        deleteExists = (deleteOption !== undefined);
+        return deleteExists;
+    }
+    //---------------------------------------------------------------------------------------
     async addGridRow(record: any, closeUnexpectedErrors: boolean = false): Promise<AddGridRowResponse> {
 
         let response = new AddGridRowResponse();

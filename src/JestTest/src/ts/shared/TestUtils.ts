@@ -89,7 +89,7 @@ export class TestUtils {
                             //browser.close();
                             //justin 09/12/2019 - I would like to avoid browser.close() here because it kills the test without producing a report
                         })
-                    await TestUtils.sleepAsync(750);
+                    await TestUtils.sleepAsync(1250);  // wait for the menu items to get built and get click all events 
                 }
             })
             .catch(ex => {
@@ -120,15 +120,16 @@ export class TestUtils {
     }
     //-----------------------------------------------------------------------------------------------------------------
     static async sleepAsync(timeout: number): Promise<void> {
-        return new Promise<void>((resolve, reject) => {
-            try {
-                setTimeout(() => {
-                    resolve();
-                }, timeout);
-            } catch (ex) {
-                reject(ex);
-            }
-        });
+        //return new Promise<void>((resolve, reject) => {
+        //    try {
+        //        setTimeout(() => {
+        //            resolve();
+        //        }, timeout);
+        //    } catch (ex) {
+        //        reject(ex);
+        //    }
+        //});
+        await page.waitFor(timeout);
     }
     //-----------------------------------------------------------------------------------------------------------------
     static getDateTimeToken(): string {

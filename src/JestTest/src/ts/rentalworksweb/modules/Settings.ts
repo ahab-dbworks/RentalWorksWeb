@@ -5,6 +5,12 @@ import { GridBase } from "../../shared/GridBase";
 //todo: 
 //    building space and rate grids (required records to persist in "parent" grids)
 //    event type - activity grid - records are created by default, want to selectively delete only our "new" record
+//    presentation layer - activity grid - records are created by default, want to selectively delete only our "new" record
+//    facility rate - single/recurring grids
+//    labor rate - single/recurring grids
+//    misc rate - single/recurring grids
+//    warehouse grids - cannot add warehouse records to test the grids
+//    widget - groups/users grids
 
 //---------------------------------------------------------------------------------------
 export class AccountingSettings extends SettingsModule {
@@ -198,6 +204,10 @@ export class BillingCycle extends SettingsModule {
         this.moduleName = 'BillingCycle';
         this.moduleId = '5736D549-CEA7-4FCF-86DA-0BCD4C87FA04';
         this.moduleCaption = 'Billing Cycle';
+        let eventsGrid: GridBase = new GridBase("Billing Cycle Events Grid", "BillingCycleEventsGrid");
+        eventsGrid.canNew = false;
+        eventsGrid.canDelete = false;
+        this.grids.push(eventsGrid);
 
         this.defaultNewRecordToExpect = {
             BillingCycle: "",
@@ -915,8 +925,8 @@ export class DiscountTemplate extends SettingsModule {
                 expectedErrorFields: ["DiscountTemplate"],
             },
         ];
-		
-		this.newRecordsToCreate[0].gridRecords = [
+
+        this.newRecordsToCreate[0].gridRecords = [
             {
                 grid: rentalGrid,
                 recordToCreate: {
@@ -1374,6 +1384,10 @@ export class FacilityRate extends SettingsModule {
         this.moduleName = 'FacilityRate';
         this.moduleId = '5D49FC0B-F1BA-4FE4-889D-3C52B6202ACD';
         this.moduleCaption = 'Facility Rate';
+        let taxGrid: GridBase = new GridBase("Tax Grid", "RateLocationTaxGrid");
+        taxGrid.canNew = false;
+        taxGrid.canDelete = false;
+        this.grids.push(taxGrid);
 
         this.defaultNewRecordToExpect = {
             FacilityType: "",
@@ -1592,7 +1606,12 @@ export class SpaceType extends SettingsModule {
         this.moduleName = 'SpaceType';
         this.moduleId = 'EDF05CFB-9F6B-4771-88EB-6FD254CFE6C6';
         this.moduleCaption = 'Space Type / Activity';
+        let ratesGrid: GridBase = new GridBase("Rates Grid", "SpaceWarehouseRateGrid");
+        ratesGrid.canNew = false;
+        ratesGrid.canDelete = false;
+        this.grids.push(ratesGrid);
 
+        
 
         this.defaultNewRecordToExpect = {
             FacilityType: "",
@@ -1760,7 +1779,7 @@ export class GeneratorMake extends SettingsModule {
             GeneratorMake: "",
             Inactive: false,
         };
-		
+
         this.newRecordsToCreate = [
             {
                 record: {
@@ -2126,7 +2145,7 @@ export class Attribute extends SettingsModule {
         this.moduleName = 'Attribute';
         this.moduleId = '2777dd37-daca-47ff-aa44-29677b302745';
         this.moduleCaption = 'Inventory Attribute';
-        let valueGrid: GridBase = new GridBase("Attribute Value Grid",  "AttributeValueGrid");
+        let valueGrid: GridBase = new GridBase("Attribute Value Grid", "AttributeValueGrid");
         this.grids.push(valueGrid);
 
 
@@ -2229,7 +2248,7 @@ export class InventoryGroup extends SettingsModule {
             RecType: "R",
             Inactive: false,
         };
-		
+
         this.newRecordsToCreate = [
             {
                 record: {
@@ -2249,7 +2268,7 @@ export class InventoryGroup extends SettingsModule {
                 expectedErrorFields: ["InventoryGroup"],
             },
         ];
-		
+
         this.newRecordsToCreate[0].gridRecords = [
             {
                 grid: invGrid,
@@ -2380,7 +2399,7 @@ export class PartsCategory extends SettingsModule {
             Category: "",
             Inactive: false,
         };
-		
+
         this.newRecordsToCreate = [
             {
                 record: {
@@ -2406,7 +2425,7 @@ export class PartsCategory extends SettingsModule {
                 expectedErrorFields: ["Category"],
             },
         ];
-		
+
         this.newRecordsToCreate[0].gridRecords = [
             {
                 grid: subCategoryGrid,
@@ -2417,7 +2436,7 @@ export class PartsCategory extends SettingsModule {
                 }
             },
         ];
-		
+
         this.newRecordsToCreate[0].recordToExpect = {
             InventoryType: "|NOTEMPTY|",
             Category: this.newRecordsToCreate[0].record.Category.toUpperCase(),
@@ -2443,7 +2462,7 @@ export class RentalCategory extends SettingsModule {
             Category: "",
             Inactive: false,
         };
-		
+
         this.newRecordsToCreate = [
             {
                 record: {
@@ -2469,7 +2488,7 @@ export class RentalCategory extends SettingsModule {
                 expectedErrorFields: ["Category"],
             },
         ];
-		
+
         this.newRecordsToCreate[0].gridRecords = [
             {
                 grid: subCategoryGrid,
@@ -2480,7 +2499,7 @@ export class RentalCategory extends SettingsModule {
                 }
             },
         ];
-		
+
         this.newRecordsToCreate[0].recordToExpect = {
             InventoryType: "|NOTEMPTY|",
             Category: this.newRecordsToCreate[0].record.Category.toUpperCase(),
@@ -2550,7 +2569,7 @@ export class SalesCategory extends SettingsModule {
             Category: "",
             Inactive: false,
         };
-		
+
         this.newRecordsToCreate = [
             {
                 record: {
@@ -2576,7 +2595,7 @@ export class SalesCategory extends SettingsModule {
                 expectedErrorFields: ["Category"],
             },
         ];
-		
+
         this.newRecordsToCreate[0].gridRecords = [
             {
                 grid: subCategoryGrid,
@@ -2587,7 +2606,7 @@ export class SalesCategory extends SettingsModule {
                 }
             },
         ];
-		
+
         this.newRecordsToCreate[0].recordToExpect = {
             InventoryType: "|NOTEMPTY|",
             Category: this.newRecordsToCreate[0].record.Category.toUpperCase(),
@@ -2899,6 +2918,10 @@ export class LaborRate extends SettingsModule {
         this.moduleName = 'LaborRate';
         this.moduleId = '650305EC-0A53-490B-A8FB-E1AF636DA89B';
         this.moduleCaption = 'Labor Rate';
+        let taxGrid: GridBase = new GridBase("Tax Grid", "RateLocationTaxGrid");
+        taxGrid.canNew = false;
+        taxGrid.canDelete = false;
+        this.grids.push(taxGrid);
 
         this.defaultNewRecordToExpect = {
             LaborType: "",
@@ -2975,6 +2998,14 @@ export class LaborPosition extends SettingsModule {
         this.moduleName = 'LaborPosition';
         this.moduleId = '6D3B3D4F-2DD8-436F-8942-8FF68B73F3B6';
         this.moduleCaption = 'Position';
+        let ratesGrid: GridBase = new GridBase("Recurring Rates Grid", "RateWarehouseGrid");
+        ratesGrid.canNew = false;
+        ratesGrid.canDelete = false;
+        this.grids.push(ratesGrid);
+        let taxGrid: GridBase = new GridBase("Tax Grid", "RateLocationTaxGrid");
+        taxGrid.canNew = false;
+        taxGrid.canDelete = false;
+        this.grids.push(taxGrid);
 
 
         this.defaultNewRecordToExpect = {
@@ -2998,7 +3029,7 @@ export class LaborPosition extends SettingsModule {
                 seekObject: {
                     Description: "GlobalScope.TestToken~1.TestToken",
                 },
-				attemptDuplicate: false,  // (duplicate crew position descriptions are allowed)
+                attemptDuplicate: false,  // (duplicate crew position descriptions are allowed)
             },
             {
                 record: {
@@ -3098,7 +3129,7 @@ export class LaborCategory extends SettingsModule {
             Category: "",
             Inactive: false,
         };
-		
+
         this.newRecordsToCreate = [
             {
                 record: {
@@ -3124,7 +3155,7 @@ export class LaborCategory extends SettingsModule {
                 expectedErrorFields: ["Category"],
             },
         ];
-		
+
         this.newRecordsToCreate[0].gridRecords = [
             {
                 grid: subCategoryGrid,
@@ -3135,8 +3166,8 @@ export class LaborCategory extends SettingsModule {
                 }
             },
         ];
-		
-		
+
+
         this.newRecordsToCreate[0].recordToExpect = {
             LaborType: "|NOTEMPTY|",
             Category: this.newRecordsToCreate[0].record.Category.toUpperCase(),
@@ -3239,6 +3270,10 @@ export class MiscRate extends SettingsModule {
         this.moduleName = 'MiscRate';
         this.moduleId = '15B5AA83-4C3A-4136-B74B-574BDC0141B2';
         this.moduleCaption = 'Misc Rate';
+        let taxGrid: GridBase = new GridBase("Tax Grid", "RateLocationTaxGrid");
+        taxGrid.canNew = false;
+        taxGrid.canDelete = false;
+        this.grids.push(taxGrid);
 
         this.defaultNewRecordToExpect = {
             MiscType: "",
@@ -3363,7 +3398,7 @@ export class MiscCategory extends SettingsModule {
             Category: "",
             Inactive: false,
         };
-		
+
         this.newRecordsToCreate = [
             {
                 record: {
@@ -3389,7 +3424,7 @@ export class MiscCategory extends SettingsModule {
                 expectedErrorFields: ["Category"],
             },
         ];
-		
+
         this.newRecordsToCreate[0].gridRecords = [
             {
                 grid: subCategoryGrid,
@@ -3400,7 +3435,7 @@ export class MiscCategory extends SettingsModule {
                 }
             },
         ];
-		
+
         this.newRecordsToCreate[0].recordToExpect = {
             MiscType: "|NOTEMPTY|",
             Category: this.newRecordsToCreate[0].record.Category.toUpperCase(),
@@ -3433,16 +3468,35 @@ export class OrderType extends SettingsModule {
         this.moduleName = 'OrderType';
         this.moduleId = 'CF3E22CB-F836-4277-9589-998B0BEC3500';
         this.moduleCaption = 'Order Type';
+        this.waitAfterClickingToOpenBrowseBeforeCheckingForErrors = 1500;
+        this.waitAfterClickingToOpenRecordBeforeCheckingForErrors = 1500;
+
+        let invoiceExportGrid: GridBase = new GridBase("Invoice Export Grid", "OrderTypeInvoiceExportGrid");
+        invoiceExportGrid.canNew = false;
+        invoiceExportGrid.canDelete = false;
+
+        let tcGrid: GridBase = new GridBase("Terms and Conditions Grid", "OrderTypeTermsAndConditionsGrid");
+        tcGrid.canNew = false;
+        tcGrid.canDelete = false;
+
         let contactTitleGrid: GridBase = new GridBase("Contact Title Grid", "OrderTypeContactTitleGrid");
         let noteGrid: GridBase = new GridBase("Note Grid", "OrderTypeNoteGrid");
+
+        let clGrid: GridBase = new GridBase("Cover Letter Grid", "OrderTypeCoverLetterGrid");
+        clGrid.canNew = false;
+        clGrid.canDelete = false;
+
+        this.grids.push(invoiceExportGrid);
+        this.grids.push(tcGrid);
         this.grids.push(contactTitleGrid);
         this.grids.push(noteGrid);
+        this.grids.push(clGrid);
 
         this.defaultNewRecordToExpect = {
             OrderType: "",
             Inactive: false,
         };
-		
+
         this.newRecordsToCreate = [
             {
                 record: {
@@ -3460,7 +3514,7 @@ export class OrderType extends SettingsModule {
                 expectedErrorFields: ["OrderType"],
             },
         ];
-		
+
         this.newRecordsToCreate[0].gridRecords = [
             {
                 grid: contactTitleGrid,
@@ -3479,7 +3533,7 @@ export class OrderType extends SettingsModule {
                 }
             },
         ];
-		
+
         this.newRecordsToCreate[0].recordToExpect = {
             OrderType: this.newRecordsToCreate[0].record.OrderType.toUpperCase(),
             Inactive: false,
@@ -3537,13 +3591,13 @@ export class MarketSegment extends SettingsModule {
         this.moduleCaption = 'Market Segment';
         let jobGrid: GridBase = new GridBase("Market Segment Job Grid", "MarketSegmentJobGrid");
         this.grids.push(jobGrid);
-		
+
         this.defaultNewRecordToExpect = {
             MarketType: "",
             MarketSegment: "",
             Inactive: false,
         };
-		
+
         this.newRecordsToCreate = [
             {
                 record: {
@@ -3569,18 +3623,18 @@ export class MarketSegment extends SettingsModule {
                 expectedErrorFields: ["MarketSegment"],
             },
         ];
-		
+
         this.newRecordsToCreate[0].gridRecords = [
             {
                 grid: jobGrid,
                 recordToCreate: {
                     record: {
-						MarketSegmentJob: "GlobalScope.TestToken~1.TestToken",
+                        MarketSegmentJob: "GlobalScope.TestToken~1.TestToken",
                     }
                 }
             },
         ];
-		
+
         this.newRecordsToCreate[0].recordToExpect = {
             MarketType: "|NOTEMPTY|",
             MarketSegment: this.newRecordsToCreate[0].record.MarketSegment.toUpperCase(),
@@ -4048,7 +4102,19 @@ export class POType extends SettingsModule {
         this.moduleName = 'POType';
         this.moduleId = 'BB8D68B3-012A-4B05-BE7F-844EB5C96896';
         this.moduleCaption = 'PO Type';
+        this.waitAfterClickingToOpenBrowseBeforeCheckingForErrors = 1500;
+        this.waitAfterClickingToOpenRecordBeforeCheckingForErrors = 1500;
 
+        let tcGrid: GridBase = new GridBase("Terms and Conditions Grid", "OrderTypeTermsAndConditionsGrid");
+        tcGrid.canNew = false;
+        tcGrid.canDelete = false;
+
+        let clGrid: GridBase = new GridBase("Cover Letter Grid", "OrderTypeCoverLetterGrid");
+        clGrid.canNew = false;
+        clGrid.canDelete = false;
+
+        this.grids.push(tcGrid);
+        this.grids.push(clGrid);
 
         this.defaultNewRecordToExpect = {
             PoType: "",
@@ -4164,9 +4230,13 @@ export class PresentationLayer extends SettingsModule {
         this.moduleCaption = 'Presentation Layer';
         //let activityGrid: GridBase = new GridBase("Activity Grid", "PresentationLayerActivityGrid");
         let activityOverrideGrid: GridBase = new GridBase("Activity Override Grid", "PresentationLayerActivityOverrideGrid");
+        let formGrid: GridBase = new GridBase("Form Grid", "PresentationLayerFormGrid");
+        formGrid.canNew = false;
+        formGrid.canDelete = false;
         //this.grids.push(activityGrid);
         this.grids.push(activityOverrideGrid);
-
+        this.grids.push(formGrid);
+        
         this.defaultNewRecordToExpect = {
             PresentationLayer: "",
             Inactive: false,
@@ -4859,6 +4929,11 @@ export class AvailabilitySettings extends SettingsModule {
         this.moduleCaption = 'Availability Settings';
         this.canNew = false;
         this.canDelete = false;
+        let historyGrid: GridBase = new GridBase("Availability History Grid", "AvailabilityHistoryGrid");
+        historyGrid.canNew = false;
+        historyGrid.canEdit = false;
+        historyGrid.canDelete = false;
+        this.grids.push(historyGrid);
     }
     //---------------------------------------------------------------------------------------
 }
@@ -4996,7 +5071,7 @@ export class Template extends SettingsModule {
             Description: "",
             Warehouse: "GlobalScope.User~ME.Warehouse",
         };
-		
+
         this.newRecordsToCreate = [
             {
                 record: {
@@ -5053,8 +5128,8 @@ export class Template extends SettingsModule {
                 }
             },
         ];
-        
-		this.newRecordsToCreate[0].recordToExpect = {
+
+        this.newRecordsToCreate[0].recordToExpect = {
             Description: this.newRecordsToCreate[0].record.Description.toUpperCase(),
             Warehouse: "GlobalScope.User~ME.Warehouse",
             RateType: "|NOTEMPTY|",
@@ -5283,7 +5358,7 @@ export class VehicleMake extends SettingsModule {
             VehicleMake: "",
             Inactive: false,
         };
-		
+
         this.newRecordsToCreate = [
             {
                 record: {
@@ -5986,6 +6061,22 @@ export class Warehouse extends SettingsModule {
         this.moduleCaption = 'Warehouse';
         this.canNew = false;
         this.canDelete = false;
+        this.waitAfterClickingToOpenRecordBeforeCheckingForErrors = 1500;
+
+        let locationGrid: GridBase = new GridBase("Office Location Grid", "WarehouseOfficeLocationGrid");
+        let availHoursGrid: GridBase = new GridBase("Availability Hours Grid", "WarehouseAvailabilityHourGrid");
+        let qlApproverGrid: GridBase = new GridBase("QuikLocate Approver Grid", "WarehouseQuikLocateApproverGrid");
+
+        let tranferRequestGrid: GridBase = new GridBase("Default Send Inventory Requests To Grid", "WarehouseDepartmentUserGrid");
+        tranferRequestGrid.canNew = false;
+        tranferRequestGrid.canDelete = false;
+
+        this.grids.push(locationGrid);
+        this.grids.push(availHoursGrid);
+        this.grids.push(qlApproverGrid);
+        this.grids.push(tranferRequestGrid);
+
+
     }
     //---------------------------------------------------------------------------------------
 }

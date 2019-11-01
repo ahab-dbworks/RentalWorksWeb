@@ -59,6 +59,12 @@ export class ModuleBase {
     formOpenTimeout: number = 120000; // 120 seconds
     formSaveTimeout: number = 120000; // 120 seconds
     grids?: GridBase[];
+    waitForRecordsToGetEvents: number = 300;
+    waitAfterClickingToOpenBrowseToAllowOtherQueries: number = 0;
+    waitAfterClickingToOpenFormToAllowOtherQueries: number = 0;
+    waitAfterHittingEnterToSearch: number = 200;
+    waitForErrorAfterClickingTab: number = 300;
+    waitAfterEachValidationFieldIsPopulated: number = 500;
 
     canNew: boolean = true;
     canView: boolean = true;
@@ -91,10 +97,10 @@ export class ModuleBase {
     }
     //---------------------------------------------------------------------------------------
     static async wait(milliseconds: number): Promise<void> {
-        await page.waitFor(milliseconds)
+        await page.waitFor(milliseconds);
     }
     //---------------------------------------------------------------------------------------
-    async openBrowse(sleepafteropening?: number): Promise<OpenBrowseResponse> {
+    async openBrowse(): Promise<OpenBrowseResponse> {
         let openBrowseResponse: OpenBrowseResponse = new OpenBrowseResponse();
         openBrowseResponse.opened = false;
         openBrowseResponse.recordCount = 0;
@@ -103,7 +109,7 @@ export class ModuleBase {
         let mainMenuSelector = `.appmenu`;
         await page.waitForSelector(mainMenuSelector);
 
-        await ModuleBase.wait(500); // wait for menu option to get its click event // #stresstest s/b 1000+
+        //await ModuleBase.wait(500); // wait for menu option to get its click event // #stresstest s/b 1000+
 
         await page.click(mainMenuSelector);
         let menuButtonId = '#btnModule' + this.moduleId;
@@ -155,8 +161,8 @@ export class ModuleBase {
             openBrowseResponse.recordCount = rowCount;
             openBrowseResponse.errorMessage = "";
 
-            if (sleepafteropening > 0) {
-                await TestUtils.sleepAsync(sleepafteropening);  // wait x seconds to allow other queries to complete
+            if (this.waitAfterClickingToOpenBrowseToAllowOtherQueries > 0) {
+                await ModuleBase.wait(this.waitAfterClickingToOpenBrowseToAllowOtherQueries);
             }
         }
         return openBrowseResponse;
@@ -199,7 +205,7 @@ export class ModuleBase {
             await page.waitFor(() => !document.querySelector('.pleasewait'), { timeout: this.browseSeekTimeout });
             Logging.logInfo(`Finished waiting for the Please Wait dialog.`);
         }
-        await ModuleBase.wait(300); // let the rows render
+        await ModuleBase.wait(this.waitAfterHittingEnterToSearch); // let the rows render
         let records = await page.$$eval(`.fwbrowse tbody tr`, (e: any) => { return e; });
         let recordCount = records.length;
         Logging.logInfo(`Record Count: ${recordCount}`);
@@ -207,7 +213,7 @@ export class ModuleBase {
 
     }
     //---------------------------------------------------------------------------------------
-    async openRecord(index?: number, sleepAfterOpening?: number): Promise<OpenRecordResponse> {
+    async openRecord(index?: number): Promise<OpenRecordResponse> {
         let openRecordResponse: OpenRecordResponse = new OpenRecordResponse();
         openRecordResponse.opened = false;
         openRecordResponse.record = null;
@@ -264,8 +270,8 @@ export class ModuleBase {
                 Logging.logInfo(`Form Record: ${JSON.stringify(openRecordResponse.record)}`);
                 Logging.logInfo(`Form Keys: ${JSON.stringify(openRecordResponse.keys)}`);
 
-                if (sleepAfterOpening > 0) {
-                    await ModuleBase.wait(sleepAfterOpening);
+                if (this.waitAfterClickingToOpenFormToAllowOtherQueries > 0) {
+                    await ModuleBase.wait(this.waitAfterClickingToOpenFormToAllowOtherQueries);
                 }
             }
             else {
@@ -276,7 +282,7 @@ export class ModuleBase {
         return openRecordResponse;
     }
     //---------------------------------------------------------------------------------------
-    async openFirstRecordIfAny(sleepAfterOpening?: number): Promise<OpenRecordResponse> {
+    async openFirstRecordIfAny(): Promise<OpenRecordResponse> {
         let openRecordResponse: OpenRecordResponse = new OpenRecordResponse();
         openRecordResponse.opened = false;
         openRecordResponse.record = null;
@@ -308,7 +314,9 @@ export class ModuleBase {
             selector += `:nth-child(1)`;
             await page.waitForSelector(selector);
 
-            await ModuleBase.wait(500); // wait for the record(s) to get their click events  // #stresstest s/b 1000+
+            //await ModuleBase.wait(500); // wait for the record(s) to get their click events  // #stresstest s/b 1000+
+            await ModuleBase.wait(this.waitForRecordsToGetEvents); // wait for the record(s) to get their click events  // #stresstest s/b 1000+
+
 
             Logging.logInfo(`About to double-click the first row.`);
             await page.click(selector, { clickCount: 2 });
@@ -351,8 +359,8 @@ export class ModuleBase {
                     Logging.logInfo(`Form Record: ${JSON.stringify(openRecordResponse.record)}`);
                     Logging.logInfo(`Form Keys: ${JSON.stringify(openRecordResponse.keys)}`);
 
-                    if (sleepAfterOpening > 0) {
-                        await ModuleBase.wait(sleepAfterOpening);
+                    if (this.waitAfterClickingToOpenFormToAllowOtherQueries > 0) {
+                        await ModuleBase.wait(this.waitAfterClickingToOpenFormToAllowOtherQueries);
                     }
                 }
                 else {
@@ -402,7 +410,7 @@ export class ModuleBase {
                         // wait 300 milliseconds, then check for any errors
                         var popUp;
                         try {
-                            popUp = await page.waitForSelector('.advisory', { timeout: 300 });
+                            popUp = await page.waitForSelector('.advisory', { timeout: this.waitForErrorAfterClickingTab });
 
                             if (popUp !== undefined) {
                                 let errorMessage = await page.$eval('.advisory', el => el.textContent);
@@ -690,14 +698,13 @@ export class ModuleBase {
                             await this.populateValidationTextField(fieldToPopulate, "");
                         }
                         await this.populateValidationTextField(fieldToPopulate, valueToPopulate);
-                        await ModuleBase.wait(750);  // allow "after validate" methods to finish
                         break;
                     default:
                         break;
                 }
             }
         }
-        await ModuleBase.wait(750);
+        //await ModuleBase.wait(750);
     }
     //---------------------------------------------------------------------------------------
     async getFormKeys(): Promise<any> {
@@ -869,6 +876,7 @@ export class ModuleBase {
             await page.keyboard.sendCharacter(value);
             await page.keyboard.press('Enter');
         }
+        await ModuleBase.wait(this.waitAfterEachValidationFieldIsPopulated);  // allow "after validate" methods to finish
     }
     //---------------------------------------------------------------------------------------
     async populateValidationField(dataField: string, validationName: string, recordToSelect?: number): Promise<void> {
@@ -879,7 +887,8 @@ export class ModuleBase {
         await ModuleBase.wait(500);  // wait for validation to open
         await page.waitForSelector(`div[data-name="${validationName}"] tr.viewmode:nth-child(1)`, { visible: true });
         await page.click(`div[data-name="${validationName}"] tr.viewmode:nth-child(${recordToSelect})`, { clickCount: 2 });
-        await ModuleBase.wait(750);  // allow "after validate" methods to finish
+        //await ModuleBase.wait(750);  // allow "after validate" methods to finish
+        await ModuleBase.wait(this.waitAfterEachValidationFieldIsPopulated);  // allow "after validate" methods to finish
     }
     //---------------------------------------------------------------------------------------
     async getDataFieldValue(dataField: string): Promise<string> {

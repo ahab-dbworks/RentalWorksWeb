@@ -220,7 +220,14 @@ export class MediumRegressionTest extends BaseTest {
                                                 }
                                             }
                                             else {
-                                                //  test to make sure grid New button not accessible
+                                                //test to make sure grid New button not accessible
+                                                testName = `Confirm no NEW option for Grid: ${grid.gridDisplayName}`;
+                                                test(testName, async () => {
+                                                    await grid.checkForNewButton()
+                                                        .then(optionExists => {
+                                                            expect(optionExists).toBeFalsy();
+                                                        });
+                                                }, grid.deleteTimeout);
                                             }
 
                                             if (!grid.canEdit) {
@@ -229,6 +236,13 @@ export class MediumRegressionTest extends BaseTest {
 
                                             if (!grid.canDelete) {
                                                 //  test to make sure no grid Delete option 
+                                                testName = `Confirm no DELETE option for Grid: ${grid.gridDisplayName}`;
+                                                test(testName, async () => {
+                                                    await grid.checkForDeleteOption()
+                                                        .then(optionExists => {
+                                                            expect(optionExists).toBeFalsy();
+                                                        });
+                                                }, grid.deleteTimeout);
                                             }
 
                                             if ((!grid.canNew) && (grid.canEdit)) {

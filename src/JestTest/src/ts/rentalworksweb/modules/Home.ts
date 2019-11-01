@@ -63,6 +63,14 @@ export class Quote extends HomeModule {
                     }
                 }
             },
+            //{
+            //    grid: rentalGrid,
+            //    recordToCreate: {
+            //        record: {
+            //        },
+            //        expectedErrorFields: ["InventoryId"],
+            //    }
+            //},
             {
                 grid: salesGrid,
                 recordToCreate: {
@@ -71,6 +79,14 @@ export class Quote extends HomeModule {
                     }
                 }
             },
+            //{
+            //    grid: salesGrid,
+            //    recordToCreate: {
+            //        record: {
+            //        },
+            //        expectedErrorFields: ["InventoryId"],
+            //    }
+            //},
             {
                 grid: miscGrid,
                 recordToCreate: {
@@ -79,6 +95,14 @@ export class Quote extends HomeModule {
                     }
                 }
             },
+            //{
+            //    grid: miscGrid,
+            //    recordToCreate: {
+            //        record: {
+            //        },
+            //        expectedErrorFields: ["InventoryId"],
+            //    }
+            //},
             {
                 grid: laborGrid,
                 recordToCreate: {
@@ -87,6 +111,14 @@ export class Quote extends HomeModule {
                     }
                 }
             },
+            //{
+            //    grid: laborGrid,
+            //    recordToCreate: {
+            //        record: {
+            //        },
+            //        expectedErrorFields: ["InventoryId"],
+            //    }
+            //},
             {
                 grid: contactGrid,
                 recordToCreate: {
@@ -283,113 +315,111 @@ export class Customer extends HomeModule {
                 seekObject: {
                     Customer: "GlobalScope.TestToken~1.TestToken",
                 },
-                /*
-                                attemptDuplicate: true,
-                            },
-                            {
-                                record: {
-                                    Customer: "",
-                                    CustomerNumber: "GlobalScope.TestToken~1.TestToken",
-                                    Address1: TestUtils.randomAddress1(),
-                                    Address2: TestUtils.randomAddress2(),
-                                    City: TestUtils.randomCity(),
-                                    State: TestUtils.randomState(),
-                                    ZipCode: TestUtils.randomZipCode(),
-                                    Phone: TestUtils.randomPhone(),
-                                    Fax: TestUtils.randomPhone(),
-                                    WebAddress: TestUtils.randomUrl(),
-                                    CustomerTypeId: 1,
-                                    CreditStatusId: 1
-                                },
-                                expectedErrorFields: ["Customer"],
-                            },
-                            {
-                                record: {
-                                    Customer: TestUtils.randomCompanyName() + " GlobalScope.TestToken~1.TestToken",
-                                    CustomerNumber: "",
-                                    Address1: TestUtils.randomAddress1(),
-                                    Address2: TestUtils.randomAddress2(),
-                                    City: TestUtils.randomCity(),
-                                    State: TestUtils.randomState(),
-                                    ZipCode: TestUtils.randomZipCode(),
-                                    Phone: TestUtils.randomPhone(),
-                                    Fax: TestUtils.randomPhone(),
-                                    WebAddress: TestUtils.randomUrl(),
-                                    CustomerTypeId: 1,
-                                    CreditStatusId: 1
-                                },
-                                expectedErrorFields: ["CustomerNumber"],
-                            },
-                            {
-                                record: {
-                                    Customer: TestUtils.randomCompanyName() + " GlobalScope.TestToken~1.TestToken",
-                                    CustomerNumber: "GlobalScope.TestToken~1.TestToken",
-                                    OfficeLocationId: 0,
-                                    Address1: TestUtils.randomAddress1(),
-                                    Address2: TestUtils.randomAddress2(),
-                                    City: TestUtils.randomCity(),
-                                    State: TestUtils.randomState(),
-                                    ZipCode: TestUtils.randomZipCode(),
-                                    Phone: TestUtils.randomPhone(),
-                                    Fax: TestUtils.randomPhone(),
-                                    WebAddress: TestUtils.randomUrl(),
-                                    CustomerTypeId: 1,
-                                    CreditStatusId: 1
-                                },
-                                expectedErrorFields: ["OfficeLocationId"],
-                            },
-                            {
-                                record: {
-                                    Customer: TestUtils.randomCompanyName() + " GlobalScope.TestToken~1.TestToken",
-                                    CustomerNumber: "GlobalScope.TestToken~1.TestToken",
-                                    CustomerStatus: "",
-                                    Address1: TestUtils.randomAddress1(),
-                                    Address2: TestUtils.randomAddress2(),
-                                    City: TestUtils.randomCity(),
-                                    State: TestUtils.randomState(),
-                                    ZipCode: TestUtils.randomZipCode(),
-                                    Phone: TestUtils.randomPhone(),
-                                    Fax: TestUtils.randomPhone(),
-                                    WebAddress: TestUtils.randomUrl(),
-                                    CustomerTypeId: 1,
-                                    CreditStatusId: 1
-                                },
-                                expectedErrorFields: ["CustomerStatusId"],
-                            },
-                            {
-                                record: {
-                                    Customer: TestUtils.randomCompanyName() + " GlobalScope.TestToken~1.TestToken",
-                                    CustomerNumber: "GlobalScope.TestToken~1.TestToken",
-                                    Address1: TestUtils.randomAddress1(),
-                                    Address2: TestUtils.randomAddress2(),
-                                    City: TestUtils.randomCity(),
-                                    State: TestUtils.randomState(),
-                                    ZipCode: TestUtils.randomZipCode(),
-                                    Phone: TestUtils.randomPhone(),
-                                    Fax: TestUtils.randomPhone(),
-                                    WebAddress: TestUtils.randomUrl(),
-                                    CustomerType: "",
-                                    CreditStatusId: 1
-                                },
-                                expectedErrorFields: ["CustomerTypeId"],
-                            },
-                            {
-                                record: {
-                                    Customer: TestUtils.randomCompanyName() + " GlobalScope.TestToken~1.TestToken",
-                                    CustomerNumber: "GlobalScope.TestToken~1.TestToken",
-                                    Address1: TestUtils.randomAddress1(),
-                                    Address2: TestUtils.randomAddress2(),
-                                    City: TestUtils.randomCity(),
-                                    State: TestUtils.randomState(),
-                                    ZipCode: TestUtils.randomZipCode(),
-                                    Phone: TestUtils.randomPhone(),
-                                    Fax: TestUtils.randomPhone(),
-                                    WebAddress: TestUtils.randomUrl(),
-                                    CustomerTypeId: 1,
-                                    CreditStatus: "",
-                                },
-                                expectedErrorFields: ["CreditStatusId"],
-                */
+                attemptDuplicate: true,
+            },
+            {
+                record: {
+                    Customer: "",
+                    CustomerNumber: "GlobalScope.TestToken~1.TestToken",
+                    Address1: TestUtils.randomAddress1(),
+                    Address2: TestUtils.randomAddress2(),
+                    City: TestUtils.randomCity(),
+                    State: TestUtils.randomState(),
+                    ZipCode: TestUtils.randomZipCode(),
+                    Phone: TestUtils.randomPhone(),
+                    Fax: TestUtils.randomPhone(),
+                    WebAddress: TestUtils.randomUrl(),
+                    CustomerTypeId: 1,
+                    CreditStatusId: 1
+                },
+                expectedErrorFields: ["Customer"],
+            },
+            {
+                record: {
+                    Customer: TestUtils.randomCompanyName() + " GlobalScope.TestToken~1.TestToken",
+                    CustomerNumber: "",
+                    Address1: TestUtils.randomAddress1(),
+                    Address2: TestUtils.randomAddress2(),
+                    City: TestUtils.randomCity(),
+                    State: TestUtils.randomState(),
+                    ZipCode: TestUtils.randomZipCode(),
+                    Phone: TestUtils.randomPhone(),
+                    Fax: TestUtils.randomPhone(),
+                    WebAddress: TestUtils.randomUrl(),
+                    CustomerTypeId: 1,
+                    CreditStatusId: 1
+                },
+                expectedErrorFields: ["CustomerNumber"],
+            },
+            {
+                record: {
+                    Customer: TestUtils.randomCompanyName() + " GlobalScope.TestToken~1.TestToken",
+                    CustomerNumber: "GlobalScope.TestToken~1.TestToken",
+                    OfficeLocationId: 0,
+                    Address1: TestUtils.randomAddress1(),
+                    Address2: TestUtils.randomAddress2(),
+                    City: TestUtils.randomCity(),
+                    State: TestUtils.randomState(),
+                    ZipCode: TestUtils.randomZipCode(),
+                    Phone: TestUtils.randomPhone(),
+                    Fax: TestUtils.randomPhone(),
+                    WebAddress: TestUtils.randomUrl(),
+                    CustomerTypeId: 1,
+                    CreditStatusId: 1
+                },
+                expectedErrorFields: ["OfficeLocationId"],
+            },
+            {
+                record: {
+                    Customer: TestUtils.randomCompanyName() + " GlobalScope.TestToken~1.TestToken",
+                    CustomerNumber: "GlobalScope.TestToken~1.TestToken",
+                    CustomerStatus: "",
+                    Address1: TestUtils.randomAddress1(),
+                    Address2: TestUtils.randomAddress2(),
+                    City: TestUtils.randomCity(),
+                    State: TestUtils.randomState(),
+                    ZipCode: TestUtils.randomZipCode(),
+                    Phone: TestUtils.randomPhone(),
+                    Fax: TestUtils.randomPhone(),
+                    WebAddress: TestUtils.randomUrl(),
+                    CustomerTypeId: 1,
+                    CreditStatusId: 1
+                },
+                expectedErrorFields: ["CustomerStatusId"],
+            },
+            {
+                record: {
+                    Customer: TestUtils.randomCompanyName() + " GlobalScope.TestToken~1.TestToken",
+                    CustomerNumber: "GlobalScope.TestToken~1.TestToken",
+                    Address1: TestUtils.randomAddress1(),
+                    Address2: TestUtils.randomAddress2(),
+                    City: TestUtils.randomCity(),
+                    State: TestUtils.randomState(),
+                    ZipCode: TestUtils.randomZipCode(),
+                    Phone: TestUtils.randomPhone(),
+                    Fax: TestUtils.randomPhone(),
+                    WebAddress: TestUtils.randomUrl(),
+                    CustomerType: "",
+                    CreditStatusId: 1
+                },
+                expectedErrorFields: ["CustomerTypeId"],
+            },
+            {
+                record: {
+                    Customer: TestUtils.randomCompanyName() + " GlobalScope.TestToken~1.TestToken",
+                    CustomerNumber: "GlobalScope.TestToken~1.TestToken",
+                    Address1: TestUtils.randomAddress1(),
+                    Address2: TestUtils.randomAddress2(),
+                    City: TestUtils.randomCity(),
+                    State: TestUtils.randomState(),
+                    ZipCode: TestUtils.randomZipCode(),
+                    Phone: TestUtils.randomPhone(),
+                    Fax: TestUtils.randomPhone(),
+                    WebAddress: TestUtils.randomUrl(),
+                    CustomerTypeId: 1,
+                    CreditStatus: "",
+                },
+                expectedErrorFields: ["CreditStatusId"],
             },
         ];
 

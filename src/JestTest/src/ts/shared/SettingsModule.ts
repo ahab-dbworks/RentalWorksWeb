@@ -11,6 +11,9 @@ export class ClickRecordResponse {
 
 //---------------------------------------------------------------------------------------
 export class SettingsModule extends ModuleBase {
+    waitAfterClickingToOpenBrowseBeforeCheckingForErrors: number = 300;
+    waitAfterClickingToOpenRecordBeforeCheckingForErrors: number = 300;
+    waitForButtonToGetEvents: number = 500;
     //---------------------------------------------------------------------------------------
     constructor() {
         super();
@@ -24,7 +27,7 @@ export class SettingsModule extends ModuleBase {
         return `.panel-group[id="${this.moduleName}"] i.material-icons.new-row-menu`;
     }
     //---------------------------------------------------------------------------------------
-    async openBrowse(sleepafteropening?: number): Promise<OpenBrowseResponse> {
+    async openBrowse(): Promise<OpenBrowseResponse> {
         let openBrowseResponse: OpenBrowseResponse = new OpenBrowseResponse();
         openBrowseResponse.opened = false;
         openBrowseResponse.recordCount = 0;
@@ -41,7 +44,7 @@ export class SettingsModule extends ModuleBase {
         // wait for the module to try to open, then check for errors
         var popUp;
         try {
-            popUp = await page.waitForSelector('.advisory', { timeout: 500 });
+            popUp = await page.waitForSelector('.advisory', { timeout: this.waitAfterClickingToOpenBrowseBeforeCheckingForErrors });
         } catch (error) { } // no error pop-up
 
         if (popUp !== undefined) {
@@ -63,7 +66,7 @@ export class SettingsModule extends ModuleBase {
             await page.waitForSelector(moduleLegendBarSelector)
                 .then(async done => {
                     Logging.logInfo(`Opened ${this.moduleCaption} module`);
-                    await ModuleBase.wait(200); // let the rows render, if any
+                    //await ModuleBase.wait(200); // let the rows render, if any
                 })
 
             //let rowCount: number | void = this.browseGetRowsDisplayed() as unknown as number;
@@ -72,8 +75,8 @@ export class SettingsModule extends ModuleBase {
             openBrowseResponse.errorMessage = "";
 
 
-            if (sleepafteropening > 0) {
-                await TestUtils.sleepAsync(sleepafteropening);  // wait x seconds to allow other queries to complete
+            if (this.waitAfterClickingToOpenBrowseToAllowOtherQueries > 0) {
+                await ModuleBase.wait(this.waitAfterClickingToOpenBrowseToAllowOtherQueries);
             }
         }
         return openBrowseResponse;
@@ -124,7 +127,7 @@ export class SettingsModule extends ModuleBase {
         let refreshButtonSelector = `.panel-group[id="${this.moduleName}"] .refresh`;
         await page.waitForSelector(refreshButtonSelector, { visible: true });
         await page.click(refreshButtonSelector);
-        await ModuleBase.wait(500); // let the refresh occur, or at least start
+        await ModuleBase.wait(this.waitAfterClickingToOpenBrowseBeforeCheckingForErrors); // let the refresh occur, or at least start
 
         let searchFieldSelector = `.panel-group[id="${this.moduleName}"] input`;
         await page.waitForSelector(searchFieldSelector, { visible: true });
@@ -146,7 +149,7 @@ export class SettingsModule extends ModuleBase {
         await elementHandle.click();
         await page.keyboard.sendCharacter(seekValue);
         await page.keyboard.press('Enter');
-        await ModuleBase.wait(500); // let the rows render  // #stresstest s/b 2000+
+        await ModuleBase.wait(this.waitAfterHittingEnterToSearch); // let the rows render  // #stresstest s/b 2000+
 
         let recordCount = await this.browseGetRowsDisplayed();
 
@@ -212,7 +215,8 @@ export class SettingsModule extends ModuleBase {
             if (recordToClick != null) {
                 await recordToClick.click(); // click the row
                 clickRecordResponse.clicked = true;
-                await ModuleBase.wait(1000); // let the form render or collapse  // #stresstest s/b 1500+
+                //await ModuleBase.wait(1000); // let the form render or collapse  // #stresstest s/b 1500+
+                await ModuleBase.wait(this.waitAfterClickingToOpenRecordBeforeCheckingForErrors); // let the form render or collapse  // #stresstest s/b 1500+
             }
 
         }
@@ -220,7 +224,7 @@ export class SettingsModule extends ModuleBase {
         return clickRecordResponse;
     }
     //---------------------------------------------------------------------------------------
-    async openRecord(index?: number, sleepAfterOpening?: number): Promise<OpenRecordResponse> {
+    async openRecord(index?: number): Promise<OpenRecordResponse> {
         let openRecordResponse: OpenRecordResponse = new OpenRecordResponse();
         openRecordResponse.opened = false;
         openRecordResponse.record = null;
@@ -275,8 +279,8 @@ export class SettingsModule extends ModuleBase {
                     Logging.logInfo(`Form Record: ${JSON.stringify(openRecordResponse.record)}`);
                     Logging.logInfo(`Form Keys: ${JSON.stringify(openRecordResponse.keys)}`);
 
-                    if (sleepAfterOpening > 0) {
-                        await ModuleBase.wait(sleepAfterOpening);
+                    if (this.waitAfterClickingToOpenFormToAllowOtherQueries > 0) {
+                        await ModuleBase.wait(this.waitAfterClickingToOpenFormToAllowOtherQueries);
                     }
                 }
                 else {
@@ -289,7 +293,7 @@ export class SettingsModule extends ModuleBase {
 
     }
     //---------------------------------------------------------------------------------------
-    async openFirstRecordIfAny(sleepAfterOpening?: number): Promise<OpenRecordResponse> {
+    async openFirstRecordIfAny(): Promise<OpenRecordResponse> {
 
         let openRecordResponse: OpenRecordResponse = new OpenRecordResponse();
         openRecordResponse.opened = false;
@@ -348,8 +352,8 @@ export class SettingsModule extends ModuleBase {
                         Logging.logInfo(`Form Record: ${JSON.stringify(openRecordResponse.record)}`);
                         Logging.logInfo(`Form Keys: ${JSON.stringify(openRecordResponse.keys)}`);
 
-                        if (sleepAfterOpening > 0) {
-                            await ModuleBase.wait(sleepAfterOpening);
+                        if (this.waitAfterClickingToOpenFormToAllowOtherQueries > 0) {
+                            await ModuleBase.wait(this.waitAfterClickingToOpenFormToAllowOtherQueries);
                         }
                     }
                     else {
@@ -379,8 +383,8 @@ export class SettingsModule extends ModuleBase {
 
         //let newButtonSelector = `.panel-group[id="${this.moduleName}"] i.material-icons.new-row-menu`;
 
-        await page.waitForSelector(this.getNewButtonSelector(), { visible: true , timeout: 10000 });
-        await ModuleBase.wait(500); // let the events get associated to the new button
+        await page.waitForSelector(this.getNewButtonSelector(), { visible: true, timeout: 10000 });
+        await ModuleBase.wait(this.waitForButtonToGetEvents); // let the events get associated to the new button
         await page.click(this.getNewButtonSelector(), { clickCount: count });
 
         let formSelector = `.fwform`;
@@ -434,7 +438,7 @@ export class SettingsModule extends ModuleBase {
 
         if (cancelButtonFound) {
             Logging.logInfo(`new record "cancel" button found`);
-			ModuleBase.wait(500);  // wait for the cancel button to get its events
+            ModuleBase.wait(this.waitForButtonToGetEvents);  // wait for the cancel button to get its events
             await page.click(cancelSelector);
             //const popupText = await page.$eval('.advisory', el => el.textContent);
             //if (popupText.includes('save your changes')) {
@@ -470,8 +474,8 @@ export class SettingsModule extends ModuleBase {
 
             let deleteButtonSelector = `div .panel-record[id="${clickRecordResponse.recordId}"] .btn-delete[data-type="DeleteMenuBarButton"]`;
             await page.waitForSelector(deleteButtonSelector, { visible: true });
-            ModuleBase.wait(750); // wait for the button to get its events
-         	await page.click(deleteButtonSelector, { clickCount: 1 });  // click the delete button
+            ModuleBase.wait(this.waitForButtonToGetEvents); // wait for the button to get its events
+            await page.click(deleteButtonSelector, { clickCount: 1 });  // click the delete button
 
             await page.waitFor(() => document.querySelector('.advisory'));
             const popupText = await page.$eval('.advisory', el => el.textContent);
