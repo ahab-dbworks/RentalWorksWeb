@@ -38,7 +38,7 @@ class FwFormField_timepickerClass {
             }
             const start = val.substring(0, 2);
             const startDecimal = new Decimal(start);
-            if (startDecimal.greaterThan(24)) {
+            if (startDecimal.greaterThan(23)) {
                 return $this.val('00:00');
             }
             const end = val.substring(2);
