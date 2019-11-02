@@ -26,8 +26,7 @@ class Order extends OrderBase {
             FwBrowse.screenunload($browse);
         };
         return screen;
-    };
-
+    }
     //----------------------------------------------------------------------------------------------
     addBrowseMenuItems($menuObject) {
         const $all = FwMenu.generateDropDownViewBtn('All', true, "ALL");
@@ -55,8 +54,7 @@ class Order extends OrderBase {
         viewLocation.push($userLocation, $allLocations);
         FwMenu.addViewBtn($menuObject, 'Location', viewLocation, true, "LocationId");
         return $menuObject;
-    };
-
+    }
     //----------------------------------------------------------------------------------------------
     openForm(mode: string, parentModuleInfo?: any) {
         let $form = super.openForm(mode, parentModuleInfo);
@@ -81,7 +79,7 @@ class Order extends OrderBase {
         this.getSoundUrls($form);
 
         return $form;
-    };
+    }
     //----------------------------------------------------------------------------------------------
     openSubModuleBrowse($form, module: string) {
         let $browse = null;
@@ -103,7 +101,7 @@ class Order extends OrderBase {
         FwModule.loadForm(this.Module, $form);
 
         return $form;
-    };
+    }
     //---------------------------------------------------------------------------------------------
     renderGrids($form) {
         super.renderGrids($form);
@@ -163,22 +161,35 @@ class Order extends OrderBase {
         FwBrowse.renderRuntimeHtml($orderItemGridLossDamageControl);
 
 
-    };
+    }
     //----------------------------------------------------------------------------------------------
     afterLoad($form, response) {
         super.afterLoad($form, response);
-        let lossDamageTab = $form.find('[data-type="tab"][data-caption="Loss and Damage"]');
+        const lossDamageTab = $form.find('[data-type="tab"][data-caption="Loss and Damage"]');
 
-        if ($form.find('[data-datafield="CombineActivity"] input').val() === 'false') {
+        if (!FwFormField.getValueByDataField($form, 'CombineActivity')) {
             // show / hide tabs
             if (!FwFormField.getValueByDataField($form, 'LossAndDamage')) { lossDamageTab.hide(), FwFormField.disable($form.find('[data-datafield="Rental"]')); }
         }
 
         if (FwFormField.getValueByDataField($form, 'HasLossAndDamageItem')) {
             FwFormField.disable(FwFormField.getDataField($form, 'LossAndDamage'));
+        } else {
+            FwFormField.enable(FwFormField.getDataField($form, 'LossAndDamage'));
         }
-        if (!FwFormField.getValueByDataField($form, 'LossAndDamage')) { $form.find('[data-type="tab"][data-caption="Loss And Damage"]').hide() }
-    };
+
+        if (!FwFormField.getValueByDataField($form, 'LossAndDamage')) {
+            lossDamageTab.hide();
+        } else {
+            lossDamageTab.show();
+        }
+
+        if (!FwFormField.getValueByDataField($form, 'HasRepair')) {
+            $form.find('[data-type="tab"][data-caption="Repair"]').hide();
+        } else {
+            $form.find('[data-type="tab"][data-caption="Repair"]').show();
+        }
+    }
     //----------------------------------------------------------------------------------------------
     getBrowseTemplate(): string {
         return `
@@ -1558,7 +1569,7 @@ class Order extends OrderBase {
                 }
             });
             return $browse;
-        }
+        };
 
         const startLDSession = (): void => {
             let $browse = jQuery($popup).children().find('.fwbrowse');
@@ -1603,7 +1614,7 @@ class Order extends OrderBase {
             } else {
                 FwNotification.renderNotification('WARNING', 'Select rows in order to perform this function.');
             }
-        }
+        };
         const events = () => {
             let $orderItemGridLossDamage = $form.find('.lossdamagegrid [data-name="OrderItemGrid"]');
             // Starts LD session
