@@ -59,9 +59,6 @@ class RwAsset {
             FwFunc.showError(ex);
         }
 
-
-
-
         return $browse;
     };
     //---------------------------------------------------------------------------------------------
@@ -94,7 +91,7 @@ class RwAsset {
         // var $form = FwModule.loadFormFromTemplate(this.Module);
         let $form = jQuery(this.getFormTemplate());
         $form = FwModule.openForm($form, mode);
-        
+
         return $form;
     };
     //---------------------------------------------------------------------------------------------
@@ -122,7 +119,7 @@ class RwAsset {
         jQuery($browse).find('.ddviewbtn-caption:contains("Show:")').siblings('.ddviewbtn-select').find('.ddviewbtn-dropdown-btn:contains("All")').click();
         return $browse;
     }
-   //---------------------------------------------------------------------------------------------
+    //---------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
     };

@@ -746,6 +746,7 @@
                 FwConfirmation.addControls($confirmation, html);
                 const $yes = FwConfirmation.addButton($confirmation, 'Create Contract', false);
                 FwConfirmation.addButton($confirmation, 'Cancel');
+                $yes.focus();
 
                 $yes.on('click', e => {
                     checkout();

@@ -347,6 +347,7 @@ class Order extends OrderBase {
                           <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="HasRentalSaleItem" data-datafield="HasRentalSaleItem" style="flex:1 1 100px;"></div>
                           <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="HasLossAndDamageItem" data-datafield="HasLossAndDamageItem" style="flex:1 1 125px;"></div>
                           <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="HasNotes" data-datafield="HasNotes" style="flex:1 1 100px;"></div>
+                          <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="HasRepair" data-datafield="HasRepair" style="flex:1 1 100px;"></div>
                         </div>
                       </div>
                     </div>
