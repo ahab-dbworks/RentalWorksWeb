@@ -30,6 +30,9 @@ namespace WebApi.Modules.Settings.Attribute
         [FwLogicProperty(Id:"M7AtUoU0ARAD")]
         public bool? NumericOnly { get { return attribute.NumericOnly; } set { attribute.NumericOnly = value; } }
 
+        [FwLogicProperty(Id: "TQx32QxokWaXd", IsReadOnly: true)]
+        public int? ValueCount { get; set;}
+
         [FwLogicProperty(Id:"EYun1oi3qPF7")]
         public bool? Inactive { get { return attribute.Inactive; } set { attribute.Inactive = value; } }
 
