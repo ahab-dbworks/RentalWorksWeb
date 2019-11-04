@@ -9,9 +9,6 @@ namespace WebApi.Modules.Home.Item
         [FwSqlDataField(column: "itemdesc", modeltype: FwDataTypes.Text)]
         public string ItemDescription { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "trackedby", modeltype: FwDataTypes.Text)]
-        public string TrackedBy { get; set; }
-        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "availfor", modeltype: FwDataTypes.Text)]
         public string AvailFor { get; set; }
         //------------------------------------------------------------------------------------ 
