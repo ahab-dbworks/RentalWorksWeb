@@ -3,16 +3,13 @@ using FwStandard.Models;
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data; 
-using System.Collections.Generic;
-using Newtonsoft.Json;
+using WebApi.Logic;
 
 namespace WebApi.Modules.Home.InventorySubstitute
 {
-    [FwSqlTable("substituteview")]
+    [FwSqlTable("dbo.funcsubstitute(@masterid, @warehouseid)")]
     public class InventorySubstituteLoader : AppDataLoadRecord
     {
-        private string inventoryId;
-        private string warehouseId;
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "mastersubstituteid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
         public string InventorySubstituteId { get; set; } = "";
@@ -41,37 +38,30 @@ namespace WebApi.Modules.Home.InventorySubstitute
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
-        [JsonIgnore]
-        public override string TableName
-        {
-            get
-            {
-                return "dbo.funcsubstitute('" + inventoryId + "', '" + warehouseId + "')";
-            }
-        }
-        //------------------------------------------------------------------------------------
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
-
-
             useWithNoLock = false;
-            if ((request != null) && (request.uniqueids != null))
-            {
-                inventoryId = "";
-                warehouseId = "";
-                IDictionary<string, object> uniqueIds = ((IDictionary<string, object>)request.uniqueids);
-                if (uniqueIds.ContainsKey("InventoryId"))
-                {
-                    inventoryId = uniqueIds["InventoryId"].ToString();
-                }
-                if (uniqueIds.ContainsKey("WarehouseId"))
-                {
-                    warehouseId = uniqueIds["WarehouseId"].ToString();
-                }
-            }
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
-            addFilterToSelect("InventoryId", "masterid", select, request);
+            string inventoryId = InventoryId;
+            string warehouseId = GetUniqueIdAsString("WarehouseId", request) ?? ""; 
+
+            if (string.IsNullOrEmpty(inventoryId))
+            {
+                inventoryId = GetUniqueIdAsString("InventoryId", request) ?? "";
+            }
+
+            if (string.IsNullOrEmpty(inventoryId))
+            {
+                if (!string.IsNullOrEmpty(InventorySubstituteId))
+                {
+                    string[] values = AppFunc.GetStringDataAsync(AppConfig, "substitute", new string[] { "mastersubstituteid" }, new string[] { InventorySubstituteId }, new string[] { "masterid" }).Result;
+                    inventoryId = values[0];
+                }
+            }
+
+            select.AddParameter("@masterid", inventoryId);
+            select.AddParameter("@warehouseid", warehouseId);
         }
         //------------------------------------------------------------------------------------    
     }
