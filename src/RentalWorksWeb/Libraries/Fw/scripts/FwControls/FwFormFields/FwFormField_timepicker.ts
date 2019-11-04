@@ -2,7 +2,7 @@
     //---------------------------------------------------------------------------------
     renderDesignerHtml($control: JQuery<HTMLElement>, html: string[]): void {
         html.push(FwControl.generateDesignerHandle($control.attr('data-type'), $control.attr('id')));
-        html.push('<div class="fwformfield-caption">' + $control.attr('data-caption') + '</div>');
+        html.push(`<div class="fwformfield-caption">${$control.attr('data-caption')}</div>`);
         html.push('<div class="fwformfield-control">');
         html.push('<input class="fwformfield-value" type="text"');
         if ($control.attr('data-enabled') === 'false') {
@@ -34,26 +34,36 @@
             }
         }).off(); //Suppresses the time picker from opening on focus.
 
-        // time formatting for 24HR
+        // time formatting for 24HR only
         $control.find('.fwformfield-value').change(e => {
             const $this = jQuery(e.currentTarget);
+            const field = $this.closest('div[data-type="timepicker"]');
+            field.removeClass('error');
             const val = $this.val().toString().replace(/\D/g, ''); // lose all extra char : letters, symbols, spaces
-            if (val.length !== 4) {
-                return $this.val('00:00');
-            }
+            if (val != '') {
+                if (val.length !== 4) {
+                    field.addClass('error');
+                    FwNotification.renderNotification('WARNING', "You've entered a non-standard time format.");
+                    return;
+                }
 
-            const start = val.substring(0, 2);
-            const startDecimal = new Decimal(start);
-            if (startDecimal.greaterThan(23)) {
-                return $this.val('00:00');
-            }
-            const end = val.substring(2);
-            const endDecimal = new Decimal(end);
-            if (endDecimal.greaterThan(59)) {
-                return $this.val('00:00');
-            }
+                const start = val.substring(0, 2);
+                const startDecimal = new Decimal(start);
+                if (startDecimal.greaterThan(23)) {
+                    field.addClass('error');
+                    FwNotification.renderNotification('WARNING', "You've entered a non-standard time format.");
+                    return;
+                }
+                const end = val.substring(2);
+                const endDecimal = new Decimal(end);
+                if (endDecimal.greaterThan(59)) {
+                    field.addClass('error');
+                    FwNotification.renderNotification('WARNING', "You've entered a non-standard time format.");
+                    return;
+                }
 
-            $this.val(`${start}:${end}`);
+                $this.val(`${start}:${end}`);
+            }
         })
 
         $control.on('click', '.btntime', function (e) {
