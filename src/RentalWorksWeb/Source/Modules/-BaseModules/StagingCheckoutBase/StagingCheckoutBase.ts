@@ -728,8 +728,6 @@
     };
     //----------------------------------------------------------------------------------------------
     createContract($form: JQuery, event): void {
-        const $grid = $form.find('[data-name="CheckOutPendingItemGrid"]');
-        FwBrowse.search($grid);
         const type = this.Type;
         const errorMsg = $form.find('.error-msg:not(.qty)');
         errorMsg.html('');
@@ -738,8 +736,9 @@
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         const request: any = {};
 
-        setTimeout(() => {
-            if (this.Module === 'StagingCheckout' && warehouse.promptforcheckoutexceptions == true) {
+        if (this.Module === 'StagingCheckout' && warehouse.promptforcheckoutexceptions == true) {
+            const $grid = $form.find('[data-name="CheckOutPendingItemGrid"]');
+            FwBrowse.search($grid).then(() => {
                 if ($grid.find('tbody tr').length > 0) {
                     FwFormField.setValueByDataField($form, 'GridView', 'PENDING')
                     $form.find('.grid-view-radio input').change();
@@ -757,10 +756,10 @@
                 } else {
                     checkout();
                 }
-            } else {
-                checkout();
-            }
-        }, 1000)
+            })
+        } else {
+            checkout();
+        }
 
         function checkout() {
             if (orderId != '') {
