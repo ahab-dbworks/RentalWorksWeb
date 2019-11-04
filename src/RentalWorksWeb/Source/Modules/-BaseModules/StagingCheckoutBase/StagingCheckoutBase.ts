@@ -180,7 +180,7 @@
                 case 'FillContainer':
                     apiUrl = `api/v1/checkout/containersuspendedsessionsexist?warehouseId=${warehouse.warehouseid}`;
                     sessionType = 'FILL';
-                    //orderType = 'N';
+                //orderType = 'N';
             }
             FwAppData.apiMethod(true, 'GET', apiUrl, null, FwServices.defaultTimeout,
                 response => {
@@ -507,6 +507,17 @@
                     if (responseCount === $selectedCheckBoxes.length) {
                         setTimeout(() => {
                             FwBrowse.search($grid);
+                            // Determine tabs to render
+                            const warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
+                            FwAppData.apiMethod(true, 'GET', `api/v1/checkout/stagingtabs?OrderId=${orderId}&WarehouseId=${warehouseId}`, null, FwServices.defaultTimeout, res => {
+                                res.QuantityTab === true ? $form.find('.quantity-items-tab').show() : $form.find('.quantity-items-tab').hide();
+                                res.HoldingTab === true ? $form.find('.holding-items-tab').show() : $form.find('.holding-items-tab').hide();
+                                res.SerialTab === true ? $form.find('.serial-items-tab').show() : $form.find('.serial-items-tab').hide();
+                                //res.UsageTab === true ? $form.find('.usage-tab').show() : $form.find('.usage-tab').hide();
+                                res.ConsignmentTab === true ? $form.find('.consignment-tab').show() : $form.find('.consignment-tab').hide();
+                            }, ex => {
+                                FwFunc.showError(ex)
+                            }, $form);
                         }, 0);
                     }
                 }, function onError(response) {
