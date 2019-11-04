@@ -208,7 +208,17 @@ export class MediumRegressionTest extends BaseTest {
 
                                                                 testName = `Delete row from Grid: ${grid.gridDisplayName}`;
                                                                 test(testName, async () => {
-                                                                    await grid.deleteGridRow(1, true)
+                                                                    let rowIndex: number = 1;
+
+                                                                    if (gridRecord.recordToCreate.seekObject) {
+                                                                        await grid.getRecordRowIndex(gridRecord.recordToCreate.seekObject)
+                                                                            .then(i => {
+                                                                                rowIndex = i;
+                                                                            });
+                                                                        expect(rowIndex).toBeGreaterThan(0);
+                                                                    }
+
+                                                                    await grid.deleteGridRow(rowIndex, true)
                                                                         .then(deleteResponse => {
                                                                             expect(deleteResponse.errorMessage).toBe("");
                                                                             expect(deleteResponse.deleted).toBeTruthy();

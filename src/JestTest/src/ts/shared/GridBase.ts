@@ -66,6 +66,16 @@ export class GridBase {
         this.globalScopeRef = GlobalScope;
     }
     //---------------------------------------------------------------------------------------
+    async clickGridTab() {
+        const tabId = await page.$eval(this.gridSelector, el => el.closest('[data-type="tabpage"]').getAttribute('data-tabid'));
+        const tabIsActive = await page.$eval(`#${tabId}`, el => el.classList.contains('active'));
+        if (!tabIsActive) {
+            Logging.logInfo(`Clicking tab ${tabId}`);
+            await page.click(`#${tabId}`);
+            await ModuleBase.wait(1500); // wait for the grid to refresh if any
+        }
+    }
+    //---------------------------------------------------------------------------------------
     async getGridDataType(fieldName: string): Promise<string> {
         let datatype;
         let gridFieldSelector = `${this.gridSelector} .tablewrapper table tbody tr td div[data-browsedatafield="${fieldName}"]`;
@@ -360,6 +370,10 @@ export class GridBase {
         response.deleted = false;
         response.errorMessage = "record not deleted";
 
+        if (rowToDelete === undefined) {
+            rowToDelete = 1;
+        }
+
         Logging.logInfo(`About to delete row from grid: ${this.gridName}`);
 
         const tabId = await page.$eval(this.gridSelector, el => el.closest('[data-type="tabpage"]').getAttribute('data-tabid'));
@@ -369,13 +383,13 @@ export class GridBase {
             await page.click(`#${tabId}`);
         }
 
-        let gridContextMenuSelector = `${this.gridSelector} .tablewrapper table tbody tr .browsecontextmenu i`;
+        let gridContextMenuSelector = `${this.gridSelector} .tablewrapper table tbody tr:nth-child(${rowToDelete}) .browsecontextmenu i`;
         Logging.logInfo(`About to wait for row context menu: ${gridContextMenuSelector}`);
         await page.waitForSelector(gridContextMenuSelector, { visible: true });
         await page.click(gridContextMenuSelector);
         Logging.logInfo(`clicked the row context menu`);
 
-        let gridContextMenuDeleteOptionSelector = `${this.gridSelector} .tablewrapper table tbody tr .browsecontextmenu .deleteoption`;
+        let gridContextMenuDeleteOptionSelector = `${this.gridSelector} .tablewrapper table tbody tr:nth-child(${rowToDelete}) .browsecontextmenu .deleteoption`;
         Logging.logInfo(`About to wait for delete option: ${gridContextMenuDeleteOptionSelector}`);
         await page.waitForSelector(gridContextMenuDeleteOptionSelector, { visible: true });
         await page.click(gridContextMenuDeleteOptionSelector);
@@ -406,7 +420,7 @@ export class GridBase {
                 afterDeleteMsg = await page.$eval('.advisory', el => el.textContent);
             } catch (error) { } // assume that no error occurred
 
-            if (afterDeleteMsg.includes('Error')) {
+            if (afterDeleteMsg.includes('Error') || afterDeleteMsg.includes('Not Found')) {
                 Logging.logInfo(`${this.gridDisplayName} Record not deleted: ${afterDeleteMsg}`);
                 response.deleted = false;
                 response.errorMessage = afterDeleteMsg;
@@ -429,6 +443,72 @@ export class GridBase {
             }
         }
         return response;
+    }
+    //---------------------------------------------------------------------------------------
+    async getRecordRowIndex(record: any): Promise<number> {
+        let rowIndex: number = 0;
+
+        Logging.logInfo(`About to try to find row for object: ${JSON.stringify(record)}`);
+
+        await this.clickGridTab();
+
+        Logging.logInfo(`About to wait for grid: ${this.gridSelector}`);
+        await page.waitForSelector(this.gridSelector, { visible: true, timeout: 10000 });
+
+        // if there are more records in the grid than shown, increase the rowcount 
+
+        let rowSelector = this.gridSelector + ` tr.viewmode`;
+        const rows = await page.$$(rowSelector);
+        let rowCount = rows.length;
+        Logging.logInfo(`Found ${rowCount} rows in grid: ${this.gridSelector}`);
+
+        let recordFound: boolean = false;
+        for (let r = 1; r <= rowCount; r++) {
+            let rowSelector = this.gridSelector + ` tr.viewmode:nth-child(${r})`;
+
+            for (let key in record) {
+                let fieldToFind = key;
+                let valueToFind = record[key];
+                if (valueToFind.toString().toUpperCase().includes("GLOBALSCOPE.")) {
+                    valueToFind = TestUtils.getGlobalScopeValue(valueToFind, this.globalScopeRef);
+                }
+
+                const datatype = await this.getGridDataType(fieldToFind);
+                Logging.logInfo(`Looking for value of ${valueToFind} in field ${fieldToFind} in grid: ${this.gridSelector}`);
+
+                let cellSelector = "";
+                var cellValue = "";
+                switch (datatype) {
+                    case 'checkbox':
+                        //cellSelector = rowSelector + ` td.column .field[data-browsedatafield="${fieldToFind}"] input`;
+                        //cellValue = await page.$eval(cellSelector, (e: any) => e.value);
+                        break;
+                    default:
+                        cellSelector = rowSelector + ` td.column .field[data-browsedatafield=\'${fieldToFind}\']`;
+                        cellValue = await page.$eval(cellSelector, (e: any) => e.textContent);
+                        break;
+                }
+                Logging.logInfo(`Found value of ${cellValue} in field ${fieldToFind} in grid: ${this.gridSelector}`);
+
+                if (cellValue == valueToFind) {
+                    recordFound = true;
+                }
+                else {
+                    recordFound = false;
+                    break;  // exit the column loop
+                }
+            }
+
+            if (recordFound) {
+            }
+
+            if (recordFound) {
+                rowIndex = r;
+                break;  // exit the row loop
+            }
+        }
+       
+        return rowIndex;
     }
     //---------------------------------------------------------------------------------------
 }

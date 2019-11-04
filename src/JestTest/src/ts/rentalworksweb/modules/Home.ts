@@ -1031,6 +1031,27 @@ export class PartsInventory extends HomeModule {
         this.moduleId = '351B8A09-7778-4F06-A6A2-ED0920A5C360';
         this.moduleCaption = 'Parts Inventory';
 
+        let whInvGrid: GridBase = new GridBase("Warehouse Inventory Grid", "PartsInventoryWarehouseGrid");
+        whInvGrid.canNew = false;
+        whInvGrid.canDelete = false;
+
+        let akaGrid: GridBase = new GridBase("AKA Grid", "AlternativeDescriptionGrid");
+
+        let completeKitGrid: GridBase = new GridBase("Complete/Kit Grid", "InventoryCompleteKitGrid");
+        completeKitGrid.canNew = false;
+        completeKitGrid.canEdit = false;
+        completeKitGrid.canDelete = false;
+
+        let substituteGrid: GridBase = new GridBase("Substitute Grid", "PartsInventorySubstituteGrid");
+        let compatibilityGrid: GridBase = new GridBase("Compatibility Grid", "InventoryCompatibilityGrid");
+        
+
+        this.grids.push(whInvGrid);
+        this.grids.push(akaGrid);
+        this.grids.push(completeKitGrid);
+        this.grids.push(substituteGrid);
+        this.grids.push(compatibilityGrid);
+
         this.defaultNewRecordToExpect = {
             Unit: "GlobalScope.DefaultSettings~1.DefaultUnit",   // ie. "EA"
         }
@@ -1051,6 +1072,52 @@ export class PartsInventory extends HomeModule {
                 },
             }
         ];
+
+        this.newRecordsToCreate[0].gridRecords = [
+            {
+                grid: akaGrid,
+                recordToCreate: {
+                    record: {
+                        Description: "GlobalScope.TestToken~1.TestToken",
+                    },
+                    seekObject: {
+                        Description: "GlobalScope.TestToken~1.TestToken",
+                    },
+                    attemptDuplicate: true,
+                },
+            },
+            {
+                grid: substituteGrid,
+                recordToCreate: {
+                    record: {
+                        SubstituteInventoryId: 1,
+                    },
+                },
+            },
+            // can't test this scenario because the grid save is cancelled when all fields are blank
+            //{
+            //    grid: substituteGrid,
+            //    recordToCreate: {
+            //        record: {
+            //        },
+            //        expectedErrorFields: ["SubstituteInventoryId"],
+            //    },
+            //},
+            {
+                grid: compatibilityGrid,
+                recordToCreate: {
+                    record: {
+                        CompatibleWithInventoryId: 1,
+                    },
+                },
+            },
+        ];
+
+
+        //aka grid - Description field
+
+        //
+
         this.newRecordsToCreate[0].recordToExpect = {
             ICode: this.newRecordsToCreate[0].record.ICode.toUpperCase(),
             Description: this.newRecordsToCreate[0].record.Description.toUpperCase(),

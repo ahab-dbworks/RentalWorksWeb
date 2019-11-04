@@ -40,6 +40,7 @@ export class NewRecordToCreate {
     expectedErrorFields?: string[];
     recordToExpect?: any;
     attemptDuplicate?: boolean = false;
+    //persistData?: boolean = false;
     gridRecords?: GridRecordToCreate[];
 }
 
