@@ -1,12 +1,12 @@
 ﻿<div data-name="VendorInvoiceNoteGrid" data-control="FwBrowse" data-type="Grid" class="fwcontrol fwbrowse flexbox" data-caption="Vendor Invoice Note" data-rendermode="template" data-showsearch="false" data-controller="VendorInvoiceNoteGridController">
   <div class="column" data-width="0" data-visible="false">
-    <div class="field" data-datafield="VendorInvoiceNoteId" data-datatype="key" data-formreadonly="true" data-sort="off"></div>
+    <div class="field" data-isuniqueid="true" data-datafield="VendorInvoiceNoteId" data-datatype="key" data-formreadonly="true" data-sort="off"></div>
   </div>
   <div class="column" data-width="auto" data-visible="true">
     <div class="field" data-caption="Date" data-datafield="NoteDate" data-datatype="date" data-sort="desc"></div>
   </div>
   <div class="column" data-width="auto" data-visible="true">
-    <div class="field" data-caption="By" data-datafield="UsersId" data-datatype="validation" data-browsedisplayfield="Name" data-sort="off"></div>
+    <div class="field" data-caption="By" data-datafield="UsersId" data-datatype="validation" data-validationname="UserValidation" data-browsedisplayfield="Name" data-sort="off"></div>
   </div>
   <div class="column" data-width="auto" data-visible="true">
     <div class="field" data-caption="Description" data-datafield="NoteDescription" data-datatype="text" data-sort="off"></div>

@@ -148,6 +148,9 @@ class VendorInvoice {
                 UniqueId1: FwFormField.getValueByDataField($form, 'VendorInvoiceId')
             };
         });
+        $vendorInvoiceNoteGridControl.data('beforesave', function (request) {
+            request.UniqueId1 = $form.find('div.fwformfield[data-datafield="VendorInvoiceId"] input').val()
+        });
         FwBrowse.init($vendorInvoiceNoteGridControl);
         FwBrowse.renderRuntimeHtml($vendorInvoiceNoteGridControl);
         // ----------
