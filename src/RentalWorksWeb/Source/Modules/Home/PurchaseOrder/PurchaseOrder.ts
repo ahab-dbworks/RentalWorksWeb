@@ -549,25 +549,16 @@ class PurchaseOrder {
         FwModule.loadAudit($form, uniqueid);
     };
     //----------------------------------------------------------------------------------------------
-
     applyPurchaseOrderTypeToForm($form) {
         let self = this;
-
-        // find all the tabs on the form
-        let $rentalTab = $form.find('[data-type="tab"][data-caption="Rental"]');
-        let $salesTab = $form.find('[data-type="tab"][data-caption="Sales"]');
-        let $miscTab = $form.find('[data-type="tab"][data-caption="Miscellaneous"]');
-        let $laborTab = $form.find('[data-type="tab"][data-caption="Labor"]');
-        let $usedSaleTab = $form.find('[data-type="tab"][data-caption="Used Sale"]');
-
         // find all the grids on the form
         let $rentalGrid = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
         let $salesGrid = $form.find('.salesgrid [data-name="OrderItemGrid"]');
         let $partsGrid = $form.find('.partsgrid [data-name="OrderItemGrid"]');
-        let $subRentalGrid = $form.find('.subrentalgrid [data-name="OrderItemGrid"]');
-        let $subSalesGrid = $form.find('.subsalesgrid [data-name="OrderItemGrid"]');
         let $laborGrid = $form.find('.laborgrid [data-name="OrderItemGrid"]');
         let $miscGrid = $form.find('.miscgrid [data-name="OrderItemGrid"]');
+        let $subRentalGrid = $form.find('.subrentalgrid [data-name="OrderItemGrid"]');
+        let $subSalesGrid = $form.find('.subsalesgrid [data-name="OrderItemGrid"]');
         let $usedSaleGrid = $form.find('.purchasegrid [data-name="OrderItemGrid"]');
         let $subLaborGrid = $form.find('.sublaborgrid [data-name="OrderItemGrid"]');
         let $subMiscGrid = $form.find('.submiscgrid [data-name="OrderItemGrid"]');
@@ -744,35 +735,29 @@ class PurchaseOrder {
         });
 
         const $orderItemGridRental = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
+        $orderItemGridRental.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"], [data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"], [data-securityid="78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412"]').hide();
         const $orderItemGridSales = $form.find('.salesgrid [data-name="OrderItemGrid"]');
+        $orderItemGridSales.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"], [data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"], [data-securityid="78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412"]').hide();
         const $orderItemGridPart = $form.find('.partsgrid [data-name="OrderItemGrid"]');
+        $orderItemGridPart.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"], [data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"], [data-securityid="78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412"]').hide();
         const $orderItemGridLabor = $form.find('.laborgrid [data-name="OrderItemGrid"]');
+        $orderItemGridLabor.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"], [data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"], [data-securityid="78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412"]').hide();
         const $orderItemGridMisc = $form.find('.miscgrid [data-name="OrderItemGrid"]');
+        $orderItemGridMisc.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"], [data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"], [data-securityid="78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412"]').hide();
         const $orderItemGridSubRent = $form.find('.subrentalgrid [data-name="OrderItemGrid"]');
+        $orderItemGridSubRent.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"], [data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"], [data-securityid="78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412"]').hide();
         const $orderItemGridSubSales = $form.find('.subsalesgrid [data-name="OrderItemGrid"]');
+        $orderItemGridSubSales.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"], [data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"], [data-securityid="78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412"]').hide();
         const $orderItemGridSubLabor = $form.find('.sublaborgrid [data-name="OrderItemGrid"]');
+        $orderItemGridSubLabor.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"], [data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"], [data-securityid="78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412"]').hide();
         const $orderItemGridSubMisc = $form.find('.submiscgrid [data-name="OrderItemGrid"]');
-
-        $orderItemGridRental.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"], [data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"]').hide();
-        $orderItemGridSales.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"], [data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"]').hide();
-        $orderItemGridPart.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"], [data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"]').hide();
-        $orderItemGridLabor.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"], [data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"]').hide();
-        $orderItemGridMisc.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"], [data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"]').hide();
-        $orderItemGridSubRent.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"], [data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"], [data-securityid="89AD5560-637A-4ECF-B7EA-33A462F6B137"]').hide();
-        $orderItemGridSubSales.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"], [data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"], [data-securityid="89AD5560-637A-4ECF-B7EA-33A462F6B137"]').hide();
-        $orderItemGridSubLabor.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"], [data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"], [data-securityid="89AD5560-637A-4ECF-B7EA-33A462F6B137"]').hide();
-        $orderItemGridSubMisc.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"], [data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"], [data-securityid="89AD5560-637A-4ECF-B7EA-33A462F6B137"]').hide();
+        $orderItemGridSubMisc.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"], [data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"], [data-securityid="78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412"]').hide();
 
         //these are the "Search" options, which is now available in the PO header bar
         //$orderItemGridSubRent.find('.submenu-btn[data-securityid="77E511EC-5463-43A0-9C5D-B54407C97B15"]').hide();
         //$orderItemGridSubSales.find('.submenu-btn[data-securityid="77E511EC-5463-43A0-9C5D-B54407C97B15"]').hide();
         //$orderItemGridSubLabor.find('.submenu-btn[data-securityid="77E511EC-5463-43A0-9C5D-B54407C97B15"]').hide();
         //$orderItemGridSubMisc.find('.submenu-btn[data-securityid="77E511EC-5463-43A0-9C5D-B54407C97B15"]').hide();
-
-        $orderItemGridSubRent.find('.buttonbar').hide();
-        $orderItemGridSubSales.find('.buttonbar').hide();
-        $orderItemGridSubLabor.find('.buttonbar').hide();
-        $orderItemGridSubMisc.find('.buttonbar').hide();
 
         // total type radio on sub-rental tab
         $form.find(`[data-datafield="totalTypeSubRental"]`).on('change', e => { // required in afterLoad since subrental grid is not allowed on NEW and fields are not visible yet in openForm
