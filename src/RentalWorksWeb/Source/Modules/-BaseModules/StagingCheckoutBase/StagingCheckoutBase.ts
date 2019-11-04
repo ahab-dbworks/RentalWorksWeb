@@ -728,6 +728,8 @@
     };
     //----------------------------------------------------------------------------------------------
     createContract($form: JQuery, event): void {
+        const $grid = $form.find('[data-name="CheckOutPendingItemGrid"]');
+        FwBrowse.search($grid);
         const type = this.Type;
         const errorMsg = $form.find('.error-msg:not(.qty)');
         errorMsg.html('');
@@ -735,29 +737,30 @@
         const orderId = FwFormField.getValueByDataField($form, `${type}Id`);
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         const request: any = {};
-        if (this.Module === 'StagingCheckout' && warehouse.promptforcheckoutexceptions == true) {
-            const $grid = $form.find('[data-name="CheckOutPendingItemGrid"]');
-            FwBrowse.search($grid);
-            if ($grid.find('tbody tr').length > 0) {
-                FwFormField.setValueByDataField($form, 'GridView', 'PENDING')
-                $form.find('.grid-view-radio input').change();
-                const $confirmation = FwConfirmation.renderConfirmation(`Confirm?`, '');
-                const html = `<div class="flexrow">Pending items exist. Continue with Contract?</div>`;
-                FwConfirmation.addControls($confirmation, html);
-                const $yes = FwConfirmation.addButton($confirmation, 'Create Contract', false);
-                FwConfirmation.addButton($confirmation, 'Cancel');
-                $yes.focus();
 
-                $yes.on('click', e => {
+        setTimeout(() => {
+            if (this.Module === 'StagingCheckout' && warehouse.promptforcheckoutexceptions == true) {
+                if ($grid.find('tbody tr').length > 0) {
+                    FwFormField.setValueByDataField($form, 'GridView', 'PENDING')
+                    $form.find('.grid-view-radio input').change();
+                    const $confirmation = FwConfirmation.renderConfirmation(`Confirm?`, '');
+                    const html = `<div class="flexrow">Pending items exist. Continue with Contract?</div>`;
+                    FwConfirmation.addControls($confirmation, html);
+                    const $yes = FwConfirmation.addButton($confirmation, 'Create Contract', false);
+                    FwConfirmation.addButton($confirmation, 'Cancel');
+                    $yes.focus();
+
+                    $yes.on('click', e => {
+                        checkout();
+                        FwConfirmation.destroyConfirmation($confirmation);
+                    });
+                } else {
                     checkout();
-                    FwConfirmation.destroyConfirmation($confirmation);
-                });
+                }
             } else {
                 checkout();
             }
-        } else {
-            checkout();
-        }
+        }, 1000)
 
         function checkout() {
             if (orderId != '') {
