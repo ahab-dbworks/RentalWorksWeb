@@ -419,6 +419,8 @@ namespace WebLibrary.Security
             AddGrid("Customer Note",                          "{50EB024E-6D9A-440A-8161-458A2E89EFB8}", lv1menuGrids.Id, "CustomerNoteGridController");
             AddGrid("Custom Form Group",                      "{2D12FA3B-2BC3-4838-9B79-05303F7D3120}", lv1menuGrids.Id, "CustomFormGroupGridController");
             AddGrid("Custom Form User",                       "{FAAAE8F2-F68F-4B26-97E3-D143A80D1C18}", lv1menuGrids.Id, "CustomFormUserGridController");
+            AddGrid("Custom Report Layout Group",             "{05CE64FC-9293-4013-A941-529B9CD21B87}", lv1menuGrids.Id, "CustomReportLayoutGroupGridController");
+            AddGrid("Custom Report Layout User",              "{BA97DD0B-C7A1-47C7-BA8B-6F5087F900BB}", lv1menuGrids.Id, "CustomReportLayoutUserGridController");
             AddGrid("Company Resale",                         "{571F090C-D7EC-4D95-BA7B-84D09B609F39}", lv1menuGrids.Id, "CompanyResaleGridController");
             AddGrid("Deal Notes",                             "{562D88B4-7CFB-4239-B445-C30BE8F8BAC9}", lv1menuGrids.Id, "DealNoteGridController");
             AddGrid("Deal Shipper",                           "{032CBF05-9924-4244-AB5A-B5298E6F7498}", lv1menuGrids.Id, "DealShipperGridController");
