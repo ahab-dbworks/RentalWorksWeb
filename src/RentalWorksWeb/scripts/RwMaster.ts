@@ -136,7 +136,7 @@ class RwMaster extends WebMaster {
                     Constants.Modules.Administrator.Alert,
                     Constants.Modules.Administrator.CustomField,
                     Constants.Modules.Administrator.CustomForm,
-                    Constants.Modules.Administrator.CustomReportLayout,
+                    //Constants.Modules.Administrator.CustomReportLayout,
                     Constants.Modules.Administrator.DuplicateRule,
                     Constants.Modules.Administrator.EmailHistory,
                     Constants.Modules.Administrator.Group,
