@@ -13,12 +13,12 @@ namespace FwStandard.SqlServer
     {
         //---------------------------------------------------------------------------------------------
         public Dictionary<string, int> ColumnIndex;
-        public List<FwJsonDataTableColumn> Columns {get; set;}
-        public List<List<object>> Rows {get; set;}
-        public int PageNo {get; set;}
-        public int PageSize {get; set;}
-        public int TotalPages {get; set;}
-        public int TotalRows {get; set;}
+        public List<FwJsonDataTableColumn> Columns { get; set; }
+        public List<List<object>> Rows { get; set; }
+        public int PageNo { get; set; }
+        public int PageSize { get; set; }
+        public int TotalPages { get; set; }
+        public int TotalRows { get; set; }
         public Dictionary<string, decimal> Totals = new Dictionary<string, decimal>();
         public Dictionary<int, string> ColumnNameByIndex
         {
@@ -26,8 +26,8 @@ namespace FwStandard.SqlServer
             {
                 Dictionary<int, string> reverseColumnIndex;
 
-                reverseColumnIndex = new Dictionary<int,string>();
-                foreach(KeyValuePair<string,int> item in this.ColumnIndex)
+                reverseColumnIndex = new Dictionary<int, string>();
+                foreach (KeyValuePair<string, int> item in this.ColumnIndex)
                 {
                     reverseColumnIndex[item.Value] = item.Key;
                 }
@@ -38,7 +38,7 @@ namespace FwStandard.SqlServer
         //---------------------------------------------------------------------------------------------
         public FwJsonDataTable() : base()
         {
-            ColumnIndex = new Dictionary<string,int>();
+            ColumnIndex = new Dictionary<string, int>();
             Columns = new List<FwJsonDataTableColumn>();
             Rows = new List<List<object>>();
             PageNo = 0;
@@ -49,10 +49,10 @@ namespace FwStandard.SqlServer
         //---------------------------------------------------------------------------------------------
         public FwJsonDataTable(int pageNo, int pageSize, int totalRows, List<FwJsonDataTableColumn> columns) : this()
         {
-            PageNo    = pageNo;
-            PageSize  = pageSize;
+            PageNo = pageNo;
+            PageSize = pageSize;
             TotalRows = totalRows;
-            Columns   = columns;
+            Columns = columns;
         }
         //---------------------------------------------------------------------------------------------
         public void SetValue(int rowno, string columnname, object value)
@@ -139,7 +139,7 @@ namespace FwStandard.SqlServer
                     col = this.Columns[colno];
                     if ((!col.IsUniqueId) && (col.IsVisible))
                     {
-                       if (col.DataType == FwDataTypes.JpgDataUrl)
+                        if (col.DataType == FwDataTypes.JpgDataUrl)
                         {
                             string base64img = this.GetValue(rowno, colno).ToString().Replace("data:image/jpg;base64,", "");
                             if (!string.IsNullOrEmpty(base64img))
@@ -151,17 +151,17 @@ namespace FwStandard.SqlServer
                                     ExcelPicture excelImage = null;
                                     if (image != null)
                                     {
-                                        imageWidth             = image.Width  / 4;
-                                        imageHeight            = image.Height / 4;
-                                        excelImage             = worksheet.Drawings.AddPicture(Guid.NewGuid().ToString(), image);
+                                        imageWidth = image.Width / 4;
+                                        imageHeight = image.Height / 4;
+                                        excelImage = worksheet.Drawings.AddPicture(Guid.NewGuid().ToString(), image);
                                         excelImage.From.Column = colno - 2;
-                                        excelImage.From.Row    = rowno + 1;
+                                        excelImage.From.Row = rowno + 1;
                                         excelImage.SetSize(imageWidth, imageHeight);
 
-                                        maxRowHeight                         = (maxRowHeight   < imageHeight) ? imageHeight : maxRowHeight;
-                                        maxColumnWidth                       = (maxColumnWidth < imageWidth)  ? imageWidth  : maxColumnWidth;
-                                        worksheet.Row(rowno + 2).Height      = maxRowHeight;
-                                        worksheet.Column(colno - 1).Width    = maxColumnWidth;
+                                        maxRowHeight = (maxRowHeight < imageHeight) ? imageHeight : maxRowHeight;
+                                        maxColumnWidth = (maxColumnWidth < imageWidth) ? imageWidth : maxColumnWidth;
+                                        worksheet.Row(rowno + 2).Height = maxRowHeight;
+                                        worksheet.Column(colno - 1).Width = maxColumnWidth;
 
                                         excelImage.SetPosition(rowno + 1, 1, colno - 2, 1);
                                     }
@@ -188,7 +188,14 @@ namespace FwStandard.SqlServer
                             else if (col.DataType == FwDataTypes.Date)
                             {
                                 worksheet.Cells[rowno + 2, worksheetcol].Style.Numberformat.Format = CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern;
-                                worksheet.Cells[rowno + 2, worksheetcol].Value = this.GetValue(rowno, colno).ToDateTime();
+                                if (worksheet.Cells[rowno + 2, worksheetcol].Value != null)
+                                {
+                                    worksheet.Cells[rowno + 2, worksheetcol].Value = this.GetValue(rowno, colno).ToDateTime();
+                                }
+                                else
+                                {
+                                    worksheet.Cells[rowno + 2, worksheetcol].Value = string.Empty;
+                                }
                                 worksheetcol++;
                             }
                             else
@@ -207,7 +214,7 @@ namespace FwStandard.SqlServer
         {
             object[] rowArray;
             List<object> row;
-                        
+
             rowArray = new object[this.Columns.Count];
             row = new List<object>(rowArray);
 
@@ -432,14 +439,14 @@ namespace FwStandard.SqlServer
             List<object> row;
 
             indexRowTypeColumn = this.ColumnIndex[nameRowTypeColumn];
-            indexSumColumns    = new int[nameSumColumns.Length];
-            totals             = new decimal[nameSumColumns.Length];
+            indexSumColumns = new int[nameSumColumns.Length];
+            totals = new decimal[nameSumColumns.Length];
             for (int sumcolno = 0; sumcolno < nameSumColumns.Length; sumcolno++)
             {
                 indexSumColumns[sumcolno] = this.ColumnIndex[nameSumColumns[sumcolno]];
-                totals[sumcolno]  = 0;
+                totals[sumcolno] = 0;
             }
-            rowcount  = this.Rows.Count;
+            rowcount = this.Rows.Count;
             for (int rowno = 0; rowno < rowcount; rowno++)
             {
                 if (rowTypeFilter == Rows[rowno][indexRowTypeColumn].ToString())
@@ -470,7 +477,7 @@ namespace FwStandard.SqlServer
                         }
                         else
                         {
-                            throw new Exception("Invalid type: " + cellvalueobj.GetType().FullName + " for column: " + nameSumColumns[sumcolno] + " [index: " + sumcolno.ToString() + "] row: " + rowno.ToString()); 
+                            throw new Exception("Invalid type: " + cellvalueobj.GetType().FullName + " for column: " + nameSumColumns[sumcolno] + " [index: " + sumcolno.ToString() + "] row: " + rowno.ToString());
                         }
                         totals[sumcolno] += cellvalue;
                     }
@@ -523,12 +530,12 @@ namespace FwStandard.SqlServer
         {
             int colno;
             object cell;
-            
+
             colno = this.ColumnIndex[columnName];
             for (int rowno = 0; rowno < this.Rows.Count; rowno++)
             {
                 cell = this.Rows[rowno][colno];
-                switch(dataType)
+                switch (dataType)
                 {
                     case FwDataTypes.CurrencyString:
                         this.Rows[rowno][colno] = FwConvert.ToCurrencyString(new FwDatabaseField(cell).ToDecimal());
