@@ -2,7 +2,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const fs = require('fs');
-const srcReportDir = 'WebpackReports/src';
+const srcReportDir = 'WebpackReports/src/Reports';
 const distReportDir = 'wwwroot/Reports';
 
 class WebpackReportsCompiler {
@@ -17,45 +17,31 @@ class WebpackReportsCompiler {
         // generate an entry and HtmlWebpackPlugin for each directory
         let entries = {};
         let plugins = [];
-        const reportSourceDirectories = this.getDirectories(path.resolve(__dirname, srcReportDir));
+        const reportCategoryDirs = this.getDirectories(path.resolve(__dirname, srcReportDir));
         let reportsArray = reports.toLowerCase().split(',');
-        for (let dirPath of reportSourceDirectories) {
-            dirPath = dirPath.replace(/\\/g, '/'); // convert Windows backslash to forward slash so paths are the same format as Mac/Linux
-            const dirName = dirPath.substring(dirPath.lastIndexOf('/') + 1, dirPath.length);
-            if (reportsArray.includes('all') || reportsArray.includes(dirName.toLowerCase())) {
-                const tsFilePath = path.resolve(__dirname, `${srcReportDir}/${dirName}/index.ts`).replace(/\\/g, '/');
-                if (fs.existsSync(tsFilePath)) {
-                    console.log('Found Report at:', tsFilePath);
-                    entries[dirName] = `./${srcReportDir}/${dirName}/index.ts`;
-                    plugins.push(new HtmlWebpackPlugin({
-                        title: dirName,
-                        filename: `${dirName}/index.html`,
-                        template: `./${srcReportDir}/${dirName}/index.html`,
-                        hash: true,
-                        chunks: [dirName]
-                    }));
+        for (let reportCategoryDir of reportCategoryDirs) {
+            reportCategoryDir = reportCategoryDir.replace(/\\/g, '/'); // convert Windows backslash to forward slash so paths are the same format as Mac/Linux
+            const reportCategoryName = reportCategoryDir.substring(reportCategoryDir.lastIndexOf('/') + 1, reportCategoryDir.length);
+            const reportDirs = this.getDirectories(reportCategoryDir);
+            for (let reportDir of reportDirs) {
+                reportDir = reportDir.replace(/\\/g, '/'); // convert Windows backslash to forward slash so paths are the same format as Mac/Linux
+                const reportName = reportDir.substring(reportDir.lastIndexOf('/') + 1, reportDir.length);
+                if (reportsArray.includes('all') || reportsArray.includes(reportDir.toLowerCase())) {
+                    const tsFilePath = path.resolve(__dirname, `${srcReportDir}/${reportCategoryName}/${reportName}/index.ts`).replace(/\\/g, '/');
+                    if (fs.existsSync(tsFilePath)) {
+                        console.log('Found Report at:', tsFilePath);
+                        entries[reportName] = `./${srcReportDir}/${reportCategoryName}/${reportName}/index.ts`;
+                        plugins.push(new HtmlWebpackPlugin({
+                            title: reportName,
+                            filename: `${reportName}/index.html`,
+                            template: `./${srcReportDir}/${reportCategoryName}/${reportName}/index.html`,
+                            hash: true,
+                            chunks: [reportName]
+                        }));
+                    }
                 }
             }
         }
-        //reportSourceDirectories.forEach((dirPath, index, array) => {
-        //    dirPath = dirPath.replace(/\\/g, '/'); // convert Windows backslash to forward slash so paths are the same format as Mac/Linux
-        //    const dirName = dirPath.substring(dirPath.lastIndexOf('/') + 1, dirPath.length);
-        //    if (reports === 'all' || reports === dirName) {
-        //        const tsFilePath = path.resolve(__dirname, `${srcReportDir}/${dirName}/index.ts`).replace(/\\/g, '/');
-        //        if (fs.existsSync(tsFilePath)) {
-        //            console.log('Found Report at:', tsFilePath);
-        //            entries[dirName] = `./${srcReportDir}/${dirName}/index.ts`;
-        //            plugins.push(new HtmlWebpackPlugin({
-        //                title: dirName,
-        //                filename: `${dirName}/index.html`,
-        //                template: `./${srcReportDir}/${dirName}/index.html`,
-        //                hash: true,
-        //                chunks: [dirName]
-        //            }));
-        //        }
-        //        break;
-        //    }
-        //});
         this.compiler = webpack({
             mode: mode,
             entry: entries,
