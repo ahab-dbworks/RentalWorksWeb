@@ -486,7 +486,8 @@
         }
 
         let responseCount = 0;
-        let errorMessages: Array<string> = new Array();
+        //let errorMessages: Array<string> = new Array();
+        const errorMessages: Array<string> = [];
         for (let i = 0; i < $selectedCheckBoxes.length; i++) {
             const orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
             const orderItemId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderItemId"]').attr('data-originalvalue');
