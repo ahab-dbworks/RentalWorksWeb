@@ -11,6 +11,7 @@ using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Http;
 using FwStandard.AppManager;
 using WebApi.Data;
+using static FwCore.Controllers.FwDataController;
 
 namespace WebApi.Modules.Reports.VendorInvoiceSummaryReport
 {
@@ -66,6 +67,16 @@ namespace WebApi.Modules.Reports.VendorInvoiceSummaryReport
             return new OkObjectResult(response);
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/vendorinvoicesummaryreport/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        [FwControllerMethod(Id: "Q96WIEe2tcR0b")]
+        public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]VendorInvoiceSummaryReportRequest request)
+        {
+            ActionResult<FwJsonDataTable> actionResult = await RunReportAsync(request);
+            FwJsonDataTable dt = (FwJsonDataTable)((OkObjectResult)(actionResult.Result)).Value;
+            return await DoExportExcelXlsxFileAsync(dt, includeIdColumns: request.IncludeIdColumns);
+        }
+        //------------------------------------------------------------------------------------
         // POST api/v1/vendorinvoicesummaryreport/runreport 
         [HttpPost("runreport")]
         [FwControllerMethod(Id: "hw6dFHhZCFQa")]

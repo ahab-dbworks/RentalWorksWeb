@@ -3,7 +3,6 @@
         return VendorInvoiceSummaryReportController.getModuleScreen();
     }
 });
-
 const vendorInvoiceSummaryTemplate = `
 <div class="fwcontrol fwcontainer fwform fwreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Vendor Invoice Summary" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="VendorInvoiceSummaryReportController">
   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
@@ -90,7 +89,6 @@ class VendorInvoiceSummaryReport extends FwWebApiReport {
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
-
         const $form = this.openForm();
 
         screen.load = function () {
