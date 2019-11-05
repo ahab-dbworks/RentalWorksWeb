@@ -550,7 +550,7 @@
     orderItemGridBoldUnbold($browse: any, event: any): void {
         let orderId, $selectedCheckBoxes, boldItems = [];
         orderId = $browse.find('.selected [data-browsedatafield="OrderId"]').attr('data-originalvalue');
-        $selectedCheckBoxes = $browse.find('.cbselectrow:checked');
+        $selectedCheckBoxes = $browse.find('tbody .cbselectrow:checked');
 
         if (orderId != null) {
             for (let i = 0; i < $selectedCheckBoxes.length; i++) {
@@ -594,7 +594,7 @@
     orderItemGridLockUnlock($browse: any, event: any): void {
         let orderId, $selectedCheckBoxes, lockedItems = [];
         orderId = $browse.find('.selected [data-browsedatafield="OrderId"]').attr('data-originalvalue');
-        $selectedCheckBoxes = $browse.find('.cbselectrow:checked');
+        $selectedCheckBoxes = $browse.find('tbody .cbselectrow:checked');
 
         if (orderId != null) {
             for (let i = 0; i < $selectedCheckBoxes.length; i++) {

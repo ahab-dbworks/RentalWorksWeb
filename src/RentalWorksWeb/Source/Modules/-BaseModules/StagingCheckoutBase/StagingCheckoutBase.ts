@@ -478,52 +478,84 @@
         $form.find('[data-datafield="Code"] input').focus();
     }
     //----------------------------------------------------------------------------------------------
-    unstageItems($form: JQuery, event): void {
+    async unstageSelectedItems($form, $selectedCheckBoxes): Promise<Array<string>> {
+
+
+        function delay(ms: number) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        let responseCount = 0;
+        let errorMessages: Array<string> = new Array();
+        for (let i = 0; i < $selectedCheckBoxes.length; i++) {
+            const orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
+            const orderItemId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderItemId"]').attr('data-originalvalue');
+            const vendorId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="VendorId"]').attr('data-originalvalue');
+            const barCode = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="BarCode"]').attr('data-originalvalue');
+            const iCode = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="ICode"]').attr('data-originalvalue');
+            const quantity = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="Quantity"]').attr('data-originalvalue');
+            const quantityStaged = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="QuantityStaged"]').attr('data-originalvalue');
+
+            const request = {
+                OrderId: orderId,
+                OrderItemId: orderItemId,
+                Code: barCode ? barCode : iCode,
+                Quantity: quantity ? quantity : quantityStaged,
+                VendorId: vendorId
+            }
+
+            FwAppData.apiMethod(true, 'POST', `api/v1/checkout/unstageitem`, request, FwServices.defaultTimeout, response => {
+                responseCount++;
+                if (!response.success) {
+                    errorMessages.push(response.msg);  // gather all errors into the errorMessages array
+                }
+            }, function onError(response) {
+                FwFunc.showError(response);
+            }, $form);
+        }
+
+        while (responseCount < $selectedCheckBoxes.length) {
+            await delay(1000);
+        }
+
+        return errorMessages;
+    }
+    //----------------------------------------------------------------------------------------------
+    async unstageItems($form: JQuery, event): Promise<any> {
         const $element = jQuery(event.currentTarget);
         const $grid = jQuery($element.closest('[data-type="Grid"]'));
-        const $selectedCheckBoxes = $grid.find('.cbselectrow:checked');
+        const $selectedCheckBoxes = $grid.find('tbody .cbselectrow:checked');
+
+        const errorSound = new Audio(this.errorSoundFileName);
+        const successSound = new Audio(this.successSoundFileName);
+        const errorMsg = $form.find('.error-msg:not(.qty)');
 
         if ($selectedCheckBoxes.length !== 0) {
-            let responseCount = 0;
-            for (let i = 0; i < $selectedCheckBoxes.length; i++) {
+            await this.unstageSelectedItems($form, $selectedCheckBoxes).then(errorMessages => {
+                FwBrowse.search($grid);
+                // Determine tabs to render
                 const orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
-                const orderItemId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderItemId"]').attr('data-originalvalue');
-                const vendorId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="VendorId"]').attr('data-originalvalue');
-                const barCode = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="BarCode"]').attr('data-originalvalue');
-                const iCode = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="ICode"]').attr('data-originalvalue');
-                const quantity = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="Quantity"]').attr('data-originalvalue');
-                const quantityStaged = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="QuantityStaged"]').attr('data-originalvalue');
+                const warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
+                FwAppData.apiMethod(true, 'GET', `api/v1/checkout/stagingtabs?OrderId=${orderId}&WarehouseId=${warehouseId}`, null, FwServices.defaultTimeout, res => {
+                    res.QuantityTab === true ? $form.find('.quantity-items-tab').show() : $form.find('.quantity-items-tab').hide();
+                    res.HoldingTab === true ? $form.find('.holding-items-tab').show() : $form.find('.holding-items-tab').hide();
+                    res.SerialTab === true ? $form.find('.serial-items-tab').show() : $form.find('.serial-items-tab').hide();
+                    //res.UsageTab === true ? $form.find('.usage-tab').show() : $form.find('.usage-tab').hide();
+                    res.ConsignmentTab === true ? $form.find('.consignment-tab').show() : $form.find('.consignment-tab').hide();
+                }, ex => {
+                    FwFunc.showError(ex)
+                }, $form);
 
-                const request = {
-                    OrderId: orderId,
-                    OrderItemId: orderItemId,
-                    Code: barCode ? barCode : iCode,
-                    Quantity: quantity ? quantity : quantityStaged,
-                    VendorId: vendorId
+                if (errorMessages.length == 0) {
+                    errorMsg.html('');
+                    successSound.play();
                 }
+                else {
+                    errorSound.play();
+                    errorMsg.html(`<div><span>${errorMessages.join('<br>')}</span></div>`);
+                }
+            });
 
-                FwAppData.apiMethod(true, 'POST', `api/v1/checkout/unstageitem`, request, FwServices.defaultTimeout, response => {
-                    responseCount++;
-                    if (responseCount === $selectedCheckBoxes.length) {
-                        setTimeout(() => {
-                            FwBrowse.search($grid);
-                            // Determine tabs to render
-                            const warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
-                            FwAppData.apiMethod(true, 'GET', `api/v1/checkout/stagingtabs?OrderId=${orderId}&WarehouseId=${warehouseId}`, null, FwServices.defaultTimeout, res => {
-                                res.QuantityTab === true ? $form.find('.quantity-items-tab').show() : $form.find('.quantity-items-tab').hide();
-                                res.HoldingTab === true ? $form.find('.holding-items-tab').show() : $form.find('.holding-items-tab').hide();
-                                res.SerialTab === true ? $form.find('.serial-items-tab').show() : $form.find('.serial-items-tab').hide();
-                                //res.UsageTab === true ? $form.find('.usage-tab').show() : $form.find('.usage-tab').hide();
-                                res.ConsignmentTab === true ? $form.find('.consignment-tab').show() : $form.find('.consignment-tab').hide();
-                            }, ex => {
-                                FwFunc.showError(ex)
-                            }, $form);
-                        }, 0);
-                    }
-                }, function onError(response) {
-                    FwFunc.showError(response);
-                }, null);
-            }
         } else {
             FwNotification.renderNotification('WARNING', 'Select rows to unstage in order to perform this function.');
         }
@@ -535,7 +567,7 @@
         const errorSound = new Audio(this.errorSoundFileName);
         const $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
         const $checkedOutItemGrid = $form.find('[data-name="CheckedOutItemGrid"]');
-        const $selectedCheckBoxes = $stagedItemGrid.find('.cbselectrow:checked');
+        const $selectedCheckBoxes = $stagedItemGrid.find('tbody .cbselectrow:checked');
         const barCodeFieldValue = $form.find('.partial-contract-barcode input').val();
         const quantityFieldValue = $form.find('.partial-contract-quantity input').val();
         const orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
@@ -622,7 +654,7 @@
         const errorSound = new Audio(this.errorSoundFileName);
         const $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
         const $checkedOutItemGrid = $form.find('[data-name="CheckedOutItemGrid"]');
-        const $selectedCheckBoxes = $checkedOutItemGrid.find('.cbselectrow:checked');
+        const $selectedCheckBoxes = $checkedOutItemGrid.find('tbody .cbselectrow:checked');
         const barCodeFieldValue = $form.find('.partial-contract-barcode input').val();
         const quantityFieldValue = $form.find('.partial-contract-quantity input').val();
         const orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);

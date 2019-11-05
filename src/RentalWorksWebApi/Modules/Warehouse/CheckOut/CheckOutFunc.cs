@@ -216,7 +216,7 @@ namespace WebApi.Modules.Warehouse.CheckOut
                         qry.AddParameter("@qty", SqlDbType.Int, ParameterDirection.Input, request.Quantity);
                     }
                     qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
-                    qry.AddParameter("@contractid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.ContactId);
+                    //qry.AddParameter("@contractid", SqlDbType.NVarChar, ParameterDirection.Input, request.ContractId);
                     qry.AddParameter("@masterid", SqlDbType.NVarChar, ParameterDirection.Output);
                     qry.AddParameter("@rentalitemid", SqlDbType.NVarChar, ParameterDirection.Output);
                     qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);

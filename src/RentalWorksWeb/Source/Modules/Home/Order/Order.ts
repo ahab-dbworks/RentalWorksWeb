@@ -1483,7 +1483,7 @@ class Order extends OrderBase {
         let $orderForm, $selectedCheckBoxes, $orderSnapshotGrid, snapshotId, orderNumber;
 
         $orderSnapshotGrid = $form.find(`[data-name="OrderSnapshotGrid"]`);
-        $selectedCheckBoxes = $orderSnapshotGrid.find('.cbselectrow:checked');
+        $selectedCheckBoxes = $orderSnapshotGrid.find('tbody .cbselectrow:checked');
 
         try {
             if ($selectedCheckBoxes.length !== 0) {
@@ -1575,7 +1575,7 @@ class Order extends OrderBase {
         const startLDSession = (): void => {
             let $browse = jQuery($popup).children().find('.fwbrowse');
             let orderId, $selectedCheckBoxes: any, orderIds: string = '';
-            $selectedCheckBoxes = $browse.find('.cbselectrow:checked');
+            $selectedCheckBoxes = $browse.find('tbody .cbselectrow:checked');
             if ($selectedCheckBoxes.length !== 0) {
                 for (let i = 0; i < $selectedCheckBoxes.length; i++) {
                     orderId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderId"]').attr('data-originalvalue');

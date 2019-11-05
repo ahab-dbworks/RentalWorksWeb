@@ -9,7 +9,7 @@ FwApplicationTree.clickEvents[Constants.Grids.OrderSnapshotGrid.menuItems.ViewSn
 
     $form = jQuery(this).closest('.fwform');
     $orderSnapshotGrid = $form.find(`[data-name="OrderSnapshotGrid"]`);
-    $selectedCheckBoxes = $orderSnapshotGrid.find('.cbselectrow:checked');
+    $selectedCheckBoxes = $orderSnapshotGrid.find('tbody .cbselectrow:checked');
 
     try {
         if ($selectedCheckBoxes.length !== 0) {
