@@ -236,6 +236,7 @@ export class GridBase {
                 case 'email':
                 case 'zipcode':
                 case 'percent':
+                case 'money':
                 case 'number':
                 case 'password':
                 case 'date':

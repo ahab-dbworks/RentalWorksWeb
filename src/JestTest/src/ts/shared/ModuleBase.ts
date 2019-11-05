@@ -667,6 +667,7 @@ export class ModuleBase {
                     case 'email':
                     case 'zipcode':
                     case 'percent':
+                    case 'money':
                     case 'number':
                     case 'date':
                     case 'password':
@@ -748,6 +749,7 @@ export class ModuleBase {
                     case 'text':
                     case 'textarea':
                     case 'percent':
+                    case 'money':
                     case 'number':
                     case 'date':
                     case 'password':

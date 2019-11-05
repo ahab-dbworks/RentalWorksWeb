@@ -1,5 +1,6 @@
 ﻿import { AdminModule } from "../../shared/AdminModule";
 import { TestUtils } from "../../shared/TestUtils";
+import { GridBase } from "../../shared/GridBase";
 
 //---------------------------------------------------------------------------------------
 export class Alert extends AdminModule {
@@ -9,6 +10,8 @@ export class Alert extends AdminModule {
         this.moduleName = 'Alert';
         this.moduleId = '6E5F47FB-1F18-443E-B464-9D2351857361';
         this.moduleCaption = 'Alert';
+
+        let recipientGrid: GridBase = new GridBase("Recipients Grid", "AlertWebUsersGrid");
 
         this.defaultNewRecordToExpect = {
             ModuleName: "",
@@ -32,6 +35,18 @@ export class Alert extends AdminModule {
                 }
             }
         ];
+
+        this.newRecordsToCreate[0].gridRecords = [
+            {
+                grid: recipientGrid,
+                recordToCreate: {
+                    record: {
+                        UserId: 1,
+                    },
+                },
+            },
+        ];
+
         this.newRecordsToCreate[0].recordToExpect = {
             ModuleName: "|NOTEMPTY|",
             AlertName: this.newRecordsToCreate[0].record.AlertName,
