@@ -2,7 +2,7 @@ using WebApi.Logic;
 using FwStandard.AppManager;
 namespace WebApi.Modules.Administrator.CustomReportLayoutGroup
 {
-    [FwLogic(Id: "cl5jfGLO4bZa")]
+    [FwLogic(Id: "sDAxvkztP8gZR")]
     public class CustomReportLayoutGroupLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
@@ -14,17 +14,17 @@ namespace WebApi.Modules.Administrator.CustomReportLayoutGroup
             dataLoader = customReportLayoutGroupLoader;
         }
         //------------------------------------------------------------------------------------ 
-        [FwLogicProperty(Id: "2rfy7JGCrc95", IsPrimaryKey: true)]
+        [FwLogicProperty(Id: "Stv5BmlxVS2ep", IsPrimaryKey: true)]
         public string CustomReportLayoutGroupId { get { return customReportLayoutGroup.CustomReportLayoutGroupId; } set { customReportLayoutGroup.CustomReportLayoutGroupId = value; } }
-        [FwLogicProperty(Id: "T9zbm3p5hHX3k")]
+        [FwLogicProperty(Id: "PWfbhCSG5AjiV")]
         public string CustomReportLayoutId { get { return customReportLayoutGroup.CustomReportLayoutId; } set { customReportLayoutGroup.CustomReportLayoutId = value; } }
-        [FwLogicProperty(Id: "ntqeYZ0zfGQ18", IsReadOnly: true)]
+        [FwLogicProperty(Id: "DEtKyDv5ZaCet", IsReadOnly: true)]
         public string CustomReportLayoutDescription { get; set; }
-        [FwLogicProperty(Id: "ZYvbWN0CfHK8")]
+        [FwLogicProperty(Id: "ATXNwspovuT0V")]
         public string GroupId { get { return customReportLayoutGroup.GroupId; } set { customReportLayoutGroup.GroupId = value; } }
-        [FwLogicProperty(Id: "F1qyq3GGTP9OI", IsReadOnly: true)]
+        [FwLogicProperty(Id: "glttdyCtaWT9K", IsReadOnly: true)]
         public string GroupName { get; set; }
-        [FwLogicProperty(Id: "4zborH1PKXIw1")]
+        [FwLogicProperty(Id: "nOo9ang55eqxw")]
         public string DateStamp { get { return customReportLayoutGroup.DateStamp; } set { customReportLayoutGroup.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
         //protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg) 

@@ -6,7 +6,7 @@ using WebLibrary;
 
 namespace WebApi.Modules.Administrator.CustomReportLayout
 {
-    [FwLogic(Id:"SgSLHzluaM9Kz")]
+    [FwLogic(Id:"wycGKfM5VXXCv")]
     public class CustomReportLayoutLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
@@ -18,34 +18,34 @@ namespace WebApi.Modules.Administrator.CustomReportLayout
             dataLoader = customReportLayoutLoader;
         }
         //------------------------------------------------------------------------------------ 
-        [FwLogicProperty(Id:"JzEbZ2oG8xCLp", IsPrimaryKey:true)]
+        [FwLogicProperty(Id:"jWPE2jVafgEyB", IsPrimaryKey:true)]
         public string CustomReportLayoutId { get { return customReportLayout.CustomReportLayoutId; } set { customReportLayout.CustomReportLayoutId = value; } }
 
-        [FwLogicProperty(Id:"UgrDO8vhpTr6M")]
+        [FwLogicProperty(Id:"puRIgLHFC52Jx")]
         public string WebUserId { get { return customReportLayout.WebUserId; } set { customReportLayout.WebUserId = value; } }
 
-        [FwLogicProperty(Id:"WmTWaHooAIaid", IsReadOnly:true)]
+        [FwLogicProperty(Id:"7FXIG2wWIyxd0", IsReadOnly:true)]
         public string UserName { get; set; }
 
-        [FwLogicProperty(Id:"rZU4UlSZ4eStr")]
+        [FwLogicProperty(Id:"1QP8Mpzey3DHx")]
         public string BaseReport { get { return customReportLayout.BaseReport; } set { customReportLayout.BaseReport = value; } }
 
-        [FwLogicProperty(Id:"uaeGQnhd8KAnX", IsRecordTitle:true)]
+        [FwLogicProperty(Id:"ctoqEXGQaaGk8", IsRecordTitle:true)]
         public string Description { get { return customReportLayout.Description; } set { customReportLayout.Description= value; } }
 
-        [FwLogicProperty(Id:"tjhXQPdX2TXn6")]
+        [FwLogicProperty(Id:"i9YrNY5DDc4Fg")]
         public string Html { get { return customReportLayout.Html; } set { customReportLayout.Html = value; } }
 
-        [FwLogicProperty(Id:"c6F1RZmuMJWBa")]
+        [FwLogicProperty(Id:"qE9s7XZ0Lv10P")]
         public bool? Active { get { return customReportLayout.Active; } set { customReportLayout.Active = value; } }
 
-        [FwLogicProperty(Id: "CDj7UVNVa9ZWl", IsReadOnly: true)]
+        [FwLogicProperty(Id: "Dme8OvAsVCCbQ", IsReadOnly: true)]
         public bool? Inactive { get; set; }
 
-        [FwLogicProperty(Id: "175LODTpQS8xn")]
+        [FwLogicProperty(Id: "J2daipnWohu9X")]
         public string AssignTo { get { return customReportLayout.AssignTo; } set { customReportLayout.AssignTo = value; } }
 
-        [FwLogicProperty(Id:"RV8DGIfZ7ITeu")]
+        [FwLogicProperty(Id:"Xr30bQgjbWBFB")]
         public string DateStamp { get { return customReportLayout.DateStamp; } set { customReportLayout.DateStamp = value; } }
 
         //------------------------------------------------------------------------------------ 

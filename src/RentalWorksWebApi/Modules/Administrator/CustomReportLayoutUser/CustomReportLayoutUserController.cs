@@ -10,14 +10,14 @@ namespace WebApi.Modules.Administrator.CustomReportLayoutUser
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "administrator-v1")]
-    [FwController(Id: "nHNdXDBX6m6cp")]
+    [FwController(Id: "JjgsAURBr00RK")]
     public class CustomReportLayoutUserController : AppDataController
     {
         public CustomReportLayoutUserController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(CustomReportLayoutUserLogic); }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/customreportlayoutuser/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id: "NsKm1SwS3Mjo")]
+        [FwControllerMethod(Id: "OKNDtI1hzzqUy")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
@@ -25,7 +25,7 @@ namespace WebApi.Modules.Administrator.CustomReportLayoutUser
         //------------------------------------------------------------------------------------ 
         // POST api/v1/customreportlayoutuser/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
-        [FwControllerMethod(Id: "B5l2KgRvlVnz")]
+        [FwControllerMethod(Id: "9UBxb5wbqpCpb")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -33,7 +33,7 @@ namespace WebApi.Modules.Administrator.CustomReportLayoutUser
         //------------------------------------------------------------------------------------ 
         // GET api/v1/customreportlayoutuser 
         [HttpGet]
-        [FwControllerMethod(Id: "XMW4mqgFmyK2p")]
+        [FwControllerMethod(Id: "62LgNhS0XJfLG")]
         public async Task<ActionResult<IEnumerable<CustomReportLayoutUserLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<CustomReportLayoutUserLogic>(pageno, pagesize, sort);
@@ -41,7 +41,7 @@ namespace WebApi.Modules.Administrator.CustomReportLayoutUser
         //------------------------------------------------------------------------------------ 
         // GET api/v1/customreportlayoutuser/A0000001 
         [HttpGet("{id}")]
-        [FwControllerMethod(Id: "fW60ZtXxzQsf")]
+        [FwControllerMethod(Id: "TN68b8dgR8ZkR")]
         public async Task<ActionResult<CustomReportLayoutUserLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<CustomReportLayoutUserLogic>(id);
@@ -49,7 +49,7 @@ namespace WebApi.Modules.Administrator.CustomReportLayoutUser
         //------------------------------------------------------------------------------------ 
         // POST api/v1/customreportlayoutuser 
         [HttpPost]
-        [FwControllerMethod(Id: "GEwAjdPQd4kS")]
+        [FwControllerMethod(Id: "gQA0onWYAnQtv")]
         public async Task<ActionResult<CustomReportLayoutUserLogic>> PostAsync([FromBody]CustomReportLayoutUserLogic l)
         {
             return await DoPostAsync<CustomReportLayoutUserLogic>(l);
@@ -57,7 +57,7 @@ namespace WebApi.Modules.Administrator.CustomReportLayoutUser
         //------------------------------------------------------------------------------------ 
         // DELETE api/v1/customreportlayoutuser/A0000001 
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id: "IQZscu9OBtw9")]
+        [FwControllerMethod(Id: "ipRy905cZR12T")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<CustomReportLayoutUserLogic>(id);
