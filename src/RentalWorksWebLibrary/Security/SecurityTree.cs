@@ -370,23 +370,24 @@ namespace WebLibrary.Security
             AddModule("Refresh G/L History",           "{8F036E39-78D3-4FB9-A98E-BD33A5DB7FDA}", lv1menuUtilities.Id, "RefreshGLHistoryController");
 
             // Add Administrator 
-            AddModule("Alert",               "{6E5F47FB-1F18-443E-B464-9D2351857361}", lv1menuAdministrator.Id, "AlertController");
-            AddModule("Custom Field",        "{C98C4CB4-2036-4D70-BC29-8F5A2874B178}", lv1menuAdministrator.Id, "CustomFieldController");
-            AddModule("Custom Form",         "{CB2EF8FF-2E8D-4AD0-B880-07037B839C5E}", lv1menuAdministrator.Id, "CustomFormController");
-            AddModule("Duplicate Rule",      "{2E0EA479-AC02-43B1-87FA-CCE2ABA6E934}", lv1menuAdministrator.Id, "DuplicateRuleController");
-            AddModule("Email History",       "{3F44AC27-CE34-46BA-B4FB-A8AEBB214167}", lv1menuAdministrator.Id, "EmailHistoryController");
-            AddModule("Group",               "{9BE101B6-B406-4253-B2C6-D0571C7E5916}", lv1menuAdministrator.Id, "GroupController",           "USER");
-            AddModule("Hotfix",              "{9D29A5D9-744F-40CE-AE3B-09219611A680}", lv1menuAdministrator.Id, "HotfixController");
-            //AddModule("Integration",         "{518B038E-F22A-4B23-AA47-F4F56709ADC3}", lv1menuAdministrator.Id, "IntegrationController", "quickbooks", "USER");
-            AddModule("Settings",            "{57150967-486A-42DE-978D-A2B0F843341A}", lv1menuAdministrator.Id, "SettingsController");
-            AddModule("Reports",             "{3C5C7603-9E7B-47AB-A722-B29CA09B3B8C}", lv1menuAdministrator.Id, "ReportsController");
-            AddModule("User",                "{79E93B21-8638-483C-B377-3F4D561F1243}", lv1menuAdministrator.Id, "UserController", "USER");
-            // Add Submodules
-            AddModule("Customer Credit",     "{CCFCD376-FC2B-49F4-BAE0-3FB1F0258F66}", lv1menuSubModules.Id, "CustomerCreditController");
-            AddModule("Deal Credit",         "{3DD1BA32-0213-472E-ADA8-E54D531464CC}", lv1menuSubModules.Id, "DealCreditController");
-            AddSubModule("User Settings",    "{A6704904-01E1-4C6B-B75A-C1D3FCB50C01}", lv1menuSubModules.Id, "UserSettingsController");
-            AddSubModule("SubWorksheet",     "{F24BDA2F-B37C-45C1-B08E-588D02D50B7C}", lv1menuSubModules.Id, "SubWorksheetController");
-
+            AddModule("Alert",                "{6E5F47FB-1F18-443E-B464-9D2351857361}", lv1menuAdministrator.Id, "AlertController");
+            AddModule("Custom Field",         "{C98C4CB4-2036-4D70-BC29-8F5A2874B178}", lv1menuAdministrator.Id, "CustomFieldController");
+            AddModule("Custom Form",          "{CB2EF8FF-2E8D-4AD0-B880-07037B839C5E}", lv1menuAdministrator.Id, "CustomFormController");
+            AddModule("Custom Report Layout", "{B89CDAF3-53B2-4FE8-97C6-39DC98E98DBA}", lv1menuAdministrator.Id, "CustomReportLayoutController");
+            AddModule("Duplicate Rule",       "{2E0EA479-AC02-43B1-87FA-CCE2ABA6E934}", lv1menuAdministrator.Id, "DuplicateRuleController");
+            AddModule("Email History",        "{3F44AC27-CE34-46BA-B4FB-A8AEBB214167}", lv1menuAdministrator.Id, "EmailHistoryController");
+            AddModule("Group",                "{9BE101B6-B406-4253-B2C6-D0571C7E5916}", lv1menuAdministrator.Id, "GroupController",           "USER");
+            AddModule("Hotfix",               "{9D29A5D9-744F-40CE-AE3B-09219611A680}", lv1menuAdministrator.Id, "HotfixController");
+            //AddModule("Integration",          "{518B038E-F22A-4B23-AA47-F4F56709ADC3}", lv1menuAdministrator.Id, "IntegrationController", "quickbooks", "USER");
+            AddModule("Settings",             "{57150967-486A-42DE-978D-A2B0F843341A}", lv1menuAdministrator.Id, "SettingsController");
+            AddModule("Reports",              "{3C5C7603-9E7B-47AB-A722-B29CA09B3B8C}", lv1menuAdministrator.Id, "ReportsController");
+            AddModule("User",                 "{79E93B21-8638-483C-B377-3F4D561F1243}", lv1menuAdministrator.Id, "UserController", "USER");
+            // Add Submodules                 
+            AddModule("Customer Credit",      "{CCFCD376-FC2B-49F4-BAE0-3FB1F0258F66}", lv1menuSubModules.Id, "CustomerCreditController");
+            AddModule("Deal Credit",          "{3DD1BA32-0213-472E-ADA8-E54D531464CC}", lv1menuSubModules.Id, "DealCreditController");
+            AddSubModule("User Settings",     "{A6704904-01E1-4C6B-B75A-C1D3FCB50C01}", lv1menuSubModules.Id, "UserSettingsController");
+            AddSubModule("SubWorksheet",      "{F24BDA2F-B37C-45C1-B08E-588D02D50B7C}", lv1menuSubModules.Id, "SubWorksheetController");
+                                              
             // Add Grids
             AddGrid("Additional Items",                       "{C9AAA0E7-466E-47F1-973D-61555FFCA6B8}", lv1menuGrids.Id, "AdditionalItemsGridController");
             AddGrid("Alert Web Users",                        "{774142FC-246D-453C-8B62-66FE5FFC1A8B}", lv1menuGrids.Id, "AlertWebUsersGridController");
