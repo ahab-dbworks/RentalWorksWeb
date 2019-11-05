@@ -32,15 +32,19 @@
   <ItemGroup>
     <Compile Remove="WebpackReports\lib\FwReportLibrary\dist\**" />
     <Compile Remove="WebpackReports\lib\FwReportLibrary\dist\**" />
+    <Compile Remove="WebpackReports\src\BillingStatementReport\**" />
     <Compile Remove="wwwroot\lib\**" />
     <Content Remove="WebpackReports\lib\FwReportLibrary\dist\**" />
     <Content Remove="WebpackReports\lib\FwReportLibrary\dist\**" />
+    <Content Remove="WebpackReports\src\BillingStatementReport\**" />
     <Content Remove="wwwroot\lib\**" />
     <EmbeddedResource Remove="WebpackReports\lib\FwReportLibrary\dist\**" />
     <EmbeddedResource Remove="WebpackReports\lib\FwReportLibrary\dist\**" />
+    <EmbeddedResource Remove="WebpackReports\src\BillingStatementReport\**" />
     <EmbeddedResource Remove="wwwroot\lib\**" />
     <None Remove="WebpackReports\lib\FwReportLibrary\dist\**" />
     <None Remove="WebpackReports\lib\FwReportLibrary\dist\**" />
+    <None Remove="WebpackReports\src\BillingStatementReport\**" />
     <None Remove="wwwroot\lib\**" />
   </ItemGroup>
 
@@ -78,7 +82,6 @@
 
   <ItemGroup>
     <Folder Include="Modules\SharedControls\" />
-    <Folder Include="WebpackReports\src\BillingStatementReport\" />
     <Folder Include="wwwroot\temp\downloads\" />
     <Folder Include="wwwroot\Reports\" />
   </ItemGroup>
