@@ -569,7 +569,8 @@ namespace FwStandard.Data
                         }
                         //string parameterName = "@" + columns[request.searchfields[i]].Replace('.', '_');
                         //string parameterName = "@" + columns[request.searchfields[i]].Replace('.', '_').Replace("[", "").Replace("]", ""); // remove square brackets to work with custom fields
-                        string parameterName = "@" + columns[request.searchfields[i]].Replace('.', '_').Replace("[", "").Replace("]", "") + i.ToString(); // remove square brackets to work with custom fields
+                        //string parameterName = "@" + columns[request.searchfields[i]].Replace('.', '_').Replace("[", "").Replace("]", "") + i.ToString(); // remove square brackets to work with custom fields
+                        string parameterName = "@" + request.searchfields[i].Replace('.', '_').Replace("[", "").Replace("]", "") + i.ToString(); // remove square brackets to work with custom fields
 
                         bool doUpper = true;
                         string searchField = columns[request.searchfields[i]];
