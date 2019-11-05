@@ -89,6 +89,7 @@ class CheckIn {
                 }, ex => FwFunc.showError(ex), $form);
 
             $form.on('click', '.suspendedsession', e => {
+                SuspendedSessionController.sessionType = sessionType;
                 const $browse = SuspendedSessionController.openBrowse();
                 const $popup = FwPopup.renderPopup($browse, { ismodal: true }, 'Suspended Sessions');
                 FwPopup.showPopup($popup);
