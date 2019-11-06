@@ -89,8 +89,9 @@ class FwSchedulerDetailedClass {
                 FwFunc.showError(ex);
             }
         });
-        $control.on('onactivatetab', function () {
-            if ($control.attr('data-refreshonactivatetab') !== 'false') {
+        $control.on('onactivatetab', () => {
+            const $form = $control.closest('.fwform');
+            if ($control.attr('data-refreshonactivatetab') !== 'false' && $form.attr('data-mode') !== 'NEW') {
                 FwSchedulerDetailed.refresh($control);
             }
         });
