@@ -466,6 +466,8 @@ abstract class FwWebApiReport {
         FwControl.renderRuntimeControls($settingsPage.find('.fwcontrol'));
         $settingsTabPage.append($settingsPage);
 
+        const reportName = $form.attr('data-reportname');
+
         //render grid
         const $reportSettingsGrid = $form.find('div[data-grid="ReportSettingsGrid"]');
         const $reportSettingsGridControl = FwBrowse.loadGridFromTemplate('ReportSettingsGrid');
@@ -473,11 +475,18 @@ abstract class FwWebApiReport {
         $reportSettingsGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
                 WebUserId: JSON.parse(sessionStorage.getItem('userid')).webusersid
-                , ReportName: $form.attr('data-reportname')
+                , ReportName: reportName
             }
         })
         FwBrowse.init($reportSettingsGridControl);
         FwBrowse.renderRuntimeHtml($reportSettingsGridControl);
+
+        const $reportLayoutValidation = $form.find('[data-datafield="CustomReportLayoutId"]');
+        $reportLayoutValidation.data('beforevalidate', ($form, $reportLayoutValidation, request) => {
+            request.uniqueids = {
+                'BaseReport' : reportName
+            }
+        });
 
         //load default settings
         let loadDefaults: boolean = true;
@@ -610,6 +619,9 @@ abstract class FwWebApiReport {
                         <i class="material-icons" style="padding-top:5px; margin:0px -10px;">save</i>
                         <span style="float:right; padding-left:10px;">Save</span>
                     </div>
+                </div>
+                <div class="flexrow">
+                    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Report Layout" data-datafield="CustomReportLayoutId" data-validationname="CustomReportLayoutValidation" style="flex:0 1 575px; margin:10px;"></div>
                 </div>
                 <div class="flexrow settings-grid">
                     <div data-control="FwGrid" data-grid="ReportSettingsGrid"></div>
