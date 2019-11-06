@@ -1434,7 +1434,7 @@ class SearchInterface {
             AvailableFor:                  FwFormField.getValueByDataField($popup, 'InventoryType'),
             HideInventoryWithZeroQuantity: FwFormField.getValueByDataField($popup, 'HideZeroQuantity') == "T" ? true : false,
             WarehouseId:                   $popup.find('#itemsearch').data('warehouseid'),
-            FromDate:                      FwFormField.getValueByDataField($popup, 'FromDate') || undefined,
+            FromDate:                      FwFormField.getValueByDataField($popup, 'PickDate') || FwFormField.getValueByDataField($popup, 'FromDate') || undefined,
             ToDate:                        FwFormField.getValueByDataField($popup, 'ToDate') || undefined,
             InventoryTypeId:               $popup.find('#itemsearch').attr('data-inventorytypeid') || undefined,
             CategoryId:                    $popup.find('#itemsearch').attr('data-categoryid') || undefined,
@@ -1473,7 +1473,7 @@ class SearchInterface {
             WarehouseId:      warehouseId,
             ShowAvailability: $popup.find('[data-datafield="Columns"] li[data-value="Available"]').attr('data-selected') === 'T' ? true : false,
             ShowImages:       true,
-            FromDate:         FwFormField.getValueByDataField($popup, 'FromDate') || undefined,
+            FromDate:         FwFormField.getValueByDataField($popup, 'PickDate') || FwFormField.getValueByDataField($popup, 'FromDate') || undefined,
             ToDate:           FwFormField.getValueByDataField($popup, 'ToDate') || undefined
         }
 
