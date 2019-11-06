@@ -1001,6 +1001,7 @@
     <Content Include="Source\Validations\AssetValidation\AssetValidationBrowse.htm" />
     <Content Include="Source\Validations\ContactDealValidation\ContactDealValidationBrowse.htm" />
     <Content Include="Source\Validations\CustomerCreditValidation\CustomerCreditValidationBrowse.htm" />
+    <Content Include="Source\Validations\CustomReportLayoutValidation\CustomReportLayoutValidationBrowse.htm" />
     <Content Include="Source\Validations\CustomFormValidation\CustomFormValidationBrowse.htm" />
     <Content Include="Source\Validations\DealCreditValidation\DealCreditValidationBrowse.htm" />
     <Content Include="Source\Validations\POApprovalStatusValidation\POApprovalStatusValidationBrowse.htm" />
