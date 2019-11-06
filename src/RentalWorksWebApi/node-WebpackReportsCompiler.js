@@ -26,7 +26,7 @@ class WebpackReportsCompiler {
             for (let reportDir of reportDirs) {
                 reportDir = reportDir.replace(/\\/g, '/'); // convert Windows backslash to forward slash so paths are the same format as Mac/Linux
                 const reportName = reportDir.substring(reportDir.lastIndexOf('/') + 1, reportDir.length);
-                if (reportsArray.includes('all') || reportsArray.includes(reportDir.toLowerCase())) {
+                if (reportsArray.includes('all') || reportsArray.includes(reportName.toLowerCase())) {
                     const tsFilePath = path.resolve(__dirname, `${srcReportDir}/${reportCategoryName}/${reportName}/index.ts`).replace(/\\/g, '/');
                     if (fs.existsSync(tsFilePath)) {
                         console.log('Found Report at:', tsFilePath);
