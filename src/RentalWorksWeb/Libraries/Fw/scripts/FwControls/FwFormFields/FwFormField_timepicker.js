@@ -27,7 +27,7 @@ class FwFormField_timepickerClass {
             twelvehour: ($control.attr('data-timeformat') !== '24') ? true : false,
             donetext: 'Done',
             afterDone: function () {
-                $control.find('input').focus();
+                $control.find('input').change().focus();
             }
         }).off();
         $control.find('.fwformfield-value').change(e => {

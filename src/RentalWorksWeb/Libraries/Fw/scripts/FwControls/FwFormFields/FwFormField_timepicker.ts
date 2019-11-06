@@ -30,7 +30,7 @@
             twelvehour: ($control.attr('data-timeformat') !== '24') ? true : false,
             donetext: 'Done',
             afterDone: function () {
-                $control.find('input').focus();
+                $control.find('input').change().focus();
             }
         }).off(); //Suppresses the time picker from opening on focus.
 
