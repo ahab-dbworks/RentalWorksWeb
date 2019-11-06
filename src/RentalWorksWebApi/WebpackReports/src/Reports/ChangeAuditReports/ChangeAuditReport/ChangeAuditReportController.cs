@@ -56,7 +56,7 @@ namespace WebApi.Modules.Reports.ChangeAuditReports.ChangeAuditReport
             return new OkObjectResult(response);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/changeauditreport/exportexcelxlsx/filedownloadname 
+        // POST api/v1/changeauditreport/exportexcelxlsx
         [HttpPost("exportexcelxlsx")]
         [FwControllerMethod(Id: "O6cK89TJOP8cs")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]ChangeAuditReportRequest request)

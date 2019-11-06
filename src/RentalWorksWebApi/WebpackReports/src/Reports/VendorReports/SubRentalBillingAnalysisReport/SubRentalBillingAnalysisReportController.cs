@@ -62,7 +62,7 @@ namespace WebApi.Modules.Reports.VendorReports.SubRentalBillingAnalysisReport
             return new OkObjectResult(response);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/subrentalbillinganalysisreport/exportexcelxlsx/filedownloadname 
+        // POST api/v1/subrentalbillinganalysisreport/exportexcelxlsx
         [HttpPost("exportexcelxlsx")]
         [FwControllerMethod(Id: "pIeArCKE037N ")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]SubRentalBillingAnalysisReportRequest request)

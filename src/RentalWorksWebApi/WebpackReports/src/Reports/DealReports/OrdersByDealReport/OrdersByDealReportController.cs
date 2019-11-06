@@ -74,7 +74,7 @@ namespace WebApi.Modules.Reports.DealReports.OrdersByDealReport
             return new OkObjectResult(response);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/ordersbydealreport/exportexcelxlsx/filedownloadname 
+        // POST api/v1/ordersbydealreport/exportexcelxlsx
         [HttpPost("exportexcelxlsx")]
         [FwControllerMethod(Id: "Vg9UDtqFo6N0y")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]OrdersByDealReportRequest request)

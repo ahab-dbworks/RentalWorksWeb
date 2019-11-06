@@ -57,7 +57,7 @@ namespace WebApi.Modules.Reports.PartsInventoryReports.PartsInventoryReorderRepo
             return new OkObjectResult(response);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        // POST api/v1/modulename/exportexcelxlsx
         [HttpPost("exportexcelxlsx")]
         [FwControllerMethod(Id: "R9j1KyRyWgug")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]PartsInventoryReorderReportRequest request)

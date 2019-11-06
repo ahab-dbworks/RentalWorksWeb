@@ -3814,7 +3814,7 @@ class FwBrowseClass {
 
                 const timeout = 7200; // 2 hour timeout for the ajax request
 
-                FwAppData.apiMethod(true, 'POST', `${apiurl}/exportexcelxlsx/${module}`, request, timeout, function (response) {
+                FwAppData.apiMethod(true, 'POST', `${apiurl}/exportexcelxlsx`, request, timeout, function (response) {
                     try {
                         const $iframe = jQuery(`<iframe src="${applicationConfig.apiurl}${response.downloadUrl}" style="display:none;"></iframe>`);
                         jQuery('#application').append($iframe);

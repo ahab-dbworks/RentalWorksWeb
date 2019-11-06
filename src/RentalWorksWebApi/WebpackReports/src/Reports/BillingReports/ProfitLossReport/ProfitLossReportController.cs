@@ -62,7 +62,7 @@ namespace WebApi.Modules.Reports.Billing.ProfitLossReport
             return new OkObjectResult(response);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/profitlossreport/exportexcelxlsx/filedownloadname 
+        // POST api/v1/profitlossreport/exportexcelxlsx
         [HttpPost("exportexcelxlsx")]
         [FwControllerMethod(Id: "BtgZM4Agdfnxn")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]ProfitLossReportRequest request)

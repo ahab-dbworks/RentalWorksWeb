@@ -56,7 +56,7 @@ namespace WebApi.Modules.Reports.ChargeProcessingReports.ReceiptBatchReport
             return new OkObjectResult(response);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/receiptbatchreport/exportexcelxlsx/filedownloadname 
+        // POST api/v1/receiptbatchreport/exportexcelxlsx
         [HttpPost("exportexcelxlsx")]
         [FwControllerMethod(Id: "trPTReKnJmWm4")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]ReceiptBatchReportRequest request)

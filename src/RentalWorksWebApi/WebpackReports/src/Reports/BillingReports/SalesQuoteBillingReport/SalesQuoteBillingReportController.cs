@@ -58,7 +58,7 @@ namespace WebApi.Modules.Reports.Billing.SalesQuoteBillingReport
             return new OkObjectResult(response);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/salesquotebillingreport/exportexcelxlsx/filedownloadname 
+        // POST api/v1/salesquotebillingreport/exportexcelxlsx
         [HttpPost("exportexcelxlsx")]
         [FwControllerMethod(Id: "2NEM7GWEq4Usj")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]SalesQuoteBillingReportRequest request)

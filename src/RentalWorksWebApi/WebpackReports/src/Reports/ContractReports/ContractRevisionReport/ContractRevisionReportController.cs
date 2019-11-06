@@ -61,7 +61,7 @@ namespace WebApi.Modules.Reports.ContractReports.ContractRevisionReport
             return new OkObjectResult(response);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/contractrevisionreport/exportexcelxlsx/filedownloadname 
+        // POST api/v1/contractrevisionreport/exportexcelxlsx
         [HttpPost("exportexcelxlsx")]
         [FwControllerMethod(Id: "djxSsykTZZTCi")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]ContractRevisionReportRequest request)

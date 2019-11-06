@@ -69,7 +69,7 @@ namespace WebApi.Modules.Reports.OrderReports.OrderConflictReport
             return new OkObjectResult(response);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/orderconflictreport/exportexcelxlsx/filedownloadname 
+        // POST api/v1/orderconflictreport/exportexcelxlsx
         [HttpPost("exportexcelxlsx")]
         [FwControllerMethod(Id: "FpysRrKAADtmx")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]OrderConflictReportRequest request)

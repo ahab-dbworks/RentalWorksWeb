@@ -184,7 +184,7 @@ abstract class FwWebApiReport {
                             let includeIdColumns: boolean;
                             $confirmation.find('.ID-col input').prop('checked') === true ? includeIdColumns = true : includeIdColumns = false;
                             request.IncludeIdColumns = includeIdColumns;
-                            FwAppData.apiMethod(true, 'POST', `${this.apiurl}/exportexcelxlsx/${this.reportName}`, request, timeout,
+                            FwAppData.apiMethod(true, 'POST', `${this.apiurl}/exportexcelxlsx`, request, timeout,
                                 (successResponse) => {
                                     try {
                                         const $iframe = jQuery(`<iframe src="${applicationConfig.apiurl}${successResponse.downloadUrl}" style="display:none;"></iframe>`);
@@ -484,7 +484,7 @@ abstract class FwWebApiReport {
         const $reportLayoutValidation = $form.find('[data-datafield="CustomReportLayoutId"]');
         $reportLayoutValidation.data('beforevalidate', ($form, $reportLayoutValidation, request) => {
             request.uniqueids = {
-                'BaseReport' : reportName
+                'BaseReport': reportName
             }
         });
 

@@ -64,7 +64,7 @@ namespace WebApi.Modules.Reports.VendorReports.SubItemStatusReport
             return new OkObjectResult(response);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/subitemstatusreport/exportexcelxlsx/filedownloadname 
+        // POST api/v1/subitemstatusreport/exportexcelxlsx
         [HttpPost("exportexcelxlsx")]
         [FwControllerMethod(Id: "oTSxp23T4Ubij")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]SubItemStatusReportRequest request)

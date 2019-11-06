@@ -65,7 +65,7 @@ namespace WebApi.Modules.Reports.SalesInventoryReports.SalesHistoryReport
             return new OkObjectResult(response);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/saleshistoryreport/exportexcelxlsx/filedownloadname 
+        // POST api/v1/saleshistoryreport/exportexcelxlsx
         [HttpPost("exportexcelxlsx")]
         [FwControllerMethod(Id: "CvzEDfhX6TXt")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]SalesHistoryReportRequest request)

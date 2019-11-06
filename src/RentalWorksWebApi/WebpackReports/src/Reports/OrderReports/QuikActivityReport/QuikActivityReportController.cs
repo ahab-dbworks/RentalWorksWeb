@@ -62,7 +62,7 @@ namespace WebApi.Modules.Reports.OrderReports.QuikActivityReport
             return new OkObjectResult(response);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/quikactivityreport/exportexcelxlsx/filedownloadname 
+        // POST api/v1/quikactivityreport/exportexcelxlsx
         [HttpPost("exportexcelxlsx")]
         [FwControllerMethod(Id: "wx2pWrULyPZA ")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]QuikActivityReportRequest request)

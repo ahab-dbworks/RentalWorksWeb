@@ -59,7 +59,7 @@ namespace WebApi.Modules.Reports.RepairOrderReports.RentalEquipmentRepairHistory
             return new OkObjectResult(response);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/rentalequipmentrepairhistoryreport/exportexcelxlsx/filedownloadname 
+        // POST api/v1/rentalequipmentrepairhistoryreport/exportexcelxlsx
         [HttpPost("exportexcelxlsx")]
         [FwControllerMethod(Id: "3qlDXhlAW05F ")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]RentalEquipmentRepairHistoryReportRequest request)

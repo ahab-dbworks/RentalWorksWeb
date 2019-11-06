@@ -72,7 +72,7 @@ namespace WebApi.Modules.Reports.RepairOrderReports.RepairOrderStatusReport
             return new OkObjectResult(response);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/repairorderstatusreport/exportexcelxlsx/filedownloadname 
+        // POST api/v1/repairorderstatusreport/exportexcelxlsx
         [HttpPost("exportexcelxlsx")]
         [FwControllerMethod(Id: "y3F1LE5C4DX2Y")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]RepairOrderStatusReportRequest request)

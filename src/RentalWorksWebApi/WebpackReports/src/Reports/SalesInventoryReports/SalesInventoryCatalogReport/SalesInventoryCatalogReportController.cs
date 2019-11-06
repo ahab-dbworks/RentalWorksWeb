@@ -48,7 +48,7 @@ namespace WebApi.Modules.Reports.SalesInventoryReports.SalesInventoryCatalogRepo
             return new OkObjectResult(response);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/salesinventorycatalogreport/exportexcelxlsx/filedownloadname 
+        // POST api/v1/salesinventorycatalogreport/exportexcelxlsx
         [HttpPost("exportexcelxlsx")]
         [FwControllerMethod(Id: "ekIlpjg2SEwv")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]InventoryCatalogReportRequest request)

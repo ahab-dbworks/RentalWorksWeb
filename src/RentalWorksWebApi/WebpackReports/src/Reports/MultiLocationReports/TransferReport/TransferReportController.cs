@@ -65,7 +65,7 @@ namespace WebApi.Modules.Reports.MultiLocationReports.TransferReport
             return new OkObjectResult(response);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/transferreport/exportexcelxlsx/filedownloadname 
+        // POST api/v1/transferreport/exportexcelxlsx
         [HttpPost("exportexcelxlsx")]
         [FwControllerMethod(Id: "nJseaqNBzpjcq")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]TransferReportRequest request)

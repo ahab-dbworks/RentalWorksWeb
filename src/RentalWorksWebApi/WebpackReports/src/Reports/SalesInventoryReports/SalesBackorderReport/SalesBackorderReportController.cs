@@ -57,7 +57,7 @@ namespace WebApi.Modules.Reports.SalesInventoryReports.SalesBackorderReport
             return new OkObjectResult(response);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/salesbackorderreport/exportexcelxlsx/filedownloadname 
+        // POST api/v1/salesbackorderreport/exportexcelxlsx
         [HttpPost("exportexcelxlsx")]
         [FwControllerMethod(Id: "cUnoYEMA7McmG")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]SalesBackorderReportRequest request)

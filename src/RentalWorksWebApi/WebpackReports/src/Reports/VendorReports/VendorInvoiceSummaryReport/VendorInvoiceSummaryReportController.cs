@@ -67,7 +67,7 @@ namespace WebApi.Modules.Reports.VendorReports.VendorInvoiceSummaryReport
             return new OkObjectResult(response);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/vendorinvoicesummaryreport/exportexcelxlsx/filedownloadname 
+        // POST api/v1/vendorinvoicesummaryreport/exportexcelxlsx
         [HttpPost("exportexcelxlsx")]
         [FwControllerMethod(Id: "Q96WIEe2tcR0b")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]VendorInvoiceSummaryReportRequest request)

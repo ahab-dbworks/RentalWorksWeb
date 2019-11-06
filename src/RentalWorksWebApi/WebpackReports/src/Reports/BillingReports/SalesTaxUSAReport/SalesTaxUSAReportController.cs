@@ -47,7 +47,7 @@ namespace WebApi.Modules.Reports.Billing.SalesTaxUSAReport
             return new OkObjectResult(response);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/salestaxusareport/exportexcelxlsx/filedownloadname 
+        // POST api/v1/salestaxusareport/exportexcelxlsx
         [HttpPost("exportexcelxlsx")]
         [FwControllerMethod(Id: "FIX9utWXrEhYH")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]SalesTaxReportRequest request)

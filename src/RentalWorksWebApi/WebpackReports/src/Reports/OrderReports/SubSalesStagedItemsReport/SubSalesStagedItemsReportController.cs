@@ -68,7 +68,7 @@ namespace WebApi.Modules.Reports.OrderReports.SubSalesStagedItemsReport
             return new OkObjectResult(response);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/subsalesstageditemsreport/exportexcelxlsx/filedownloadname 
+        // POST api/v1/subsalesstageditemsreport/exportexcelxlsx
         [HttpPost("exportexcelxlsx")]
         [FwControllerMethod(Id: "tfyI9vNfqQ77 ")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]SubSalesStagedItemsReportRequest request)

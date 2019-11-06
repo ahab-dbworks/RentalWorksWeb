@@ -59,7 +59,7 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.ValueOfOutRentalInventor
             return new OkObjectResult(response);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/valueofoutrentalinventoryreport/exportexcelxlsx/filedownloadname 
+        // POST api/v1/valueofoutrentalinventoryreport/exportexcelxlsx
         [HttpPost("exportexcelxlsx")]
         [FwControllerMethod(Id: "7YKbGZFVUWKh")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]ValueOfOutRentalInventoryReportRequest request)

@@ -58,7 +58,7 @@ namespace WebApi.Modules.Reports.VendorReports.PurchaseOrderReport
             return new OkObjectResult(response);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/purchaseorderreport/exportexcelxlsx/filedownloadname 
+        // POST api/v1/purchaseorderreport/exportexcelxlsx
         [HttpPost("exportexcelxlsx")]
         [FwControllerMethod(Id: "UI4h7OwUWj3W ")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]PurchaseOrderReportRequest request)

@@ -56,7 +56,7 @@ namespace WebApi.Modules.Reports.ChargeProcessingReports.VendorInvoiceBatchRepor
             return new OkObjectResult(response);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/vendorinvoicebatchreport/exportexcelxlsx/filedownloadname 
+        // POST api/v1/vendorinvoicebatchreport/exportexcelxlsx
         [HttpPost("exportexcelxlsx")]
         [FwControllerMethod(Id: "kl6Z9PDkVHBxL")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]VendorInvoiceBatchReportRequest request)

@@ -64,7 +64,7 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.RentalLostAndDamagedBill
             return new OkObjectResult(response);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/rentallostanddamagedbillinghistoryreport/exportexcelxlsx/filedownloadname 
+        // POST api/v1/rentallostanddamagedbillinghistoryreport/exportexcelxlsx
         [HttpPost("exportexcelxlsx")]
         [FwControllerMethod(Id: "XhQ9o7CGN4Yj")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]RentalLostAndDamagedBillingHistoryReportRequest request)

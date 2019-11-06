@@ -65,7 +65,7 @@ namespace WebApi.Modules.Reports.OrderReports.QuoteOrderMasterReport
             return new OkObjectResult(response);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/quoteordermasterreport/exportexcelxlsx/filedownloadname 
+        // POST api/v1/quoteordermasterreport/exportexcelxlsx
         [HttpPost("exportexcelxlsx")]
         [FwControllerMethod(Id: "4NoUSaRwcZhby")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]QuoteOrderMasterReportRequest request)

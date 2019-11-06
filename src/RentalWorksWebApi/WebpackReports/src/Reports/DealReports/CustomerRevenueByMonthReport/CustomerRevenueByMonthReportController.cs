@@ -63,7 +63,7 @@ namespace WebApi.Modules.Reports.DealReports.CustomerRevenueByMonthReport
             return new OkObjectResult(response);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/customerrevenuebymonthreport/exportexcelxlsx/filedownloadname 
+        // POST api/v1/customerrevenuebymonthreport/exportexcelxlsx
         [HttpPost("exportexcelxlsx")]
         [FwControllerMethod(Id: "watIKCwBjv70t")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]CustomerRevenueByMonthReportRequest request)

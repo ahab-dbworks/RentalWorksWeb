@@ -61,7 +61,7 @@ namespace WebApi.Modules.Reports.DealReports.ReturnReceiptReport
             return new OkObjectResult(response);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/returnreceiptreport/exportexcelxlsx/filedownloadname 
+        // POST api/v1/returnreceiptreport/exportexcelxlsx
         [HttpPost("exportexcelxlsx")]
         [FwControllerMethod(Id: "im8OUqHSoyaxE")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]ReturnReceiptReportRequest request)

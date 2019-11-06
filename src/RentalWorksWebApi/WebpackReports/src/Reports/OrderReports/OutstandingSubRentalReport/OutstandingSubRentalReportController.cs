@@ -59,7 +59,7 @@ namespace WebApi.Modules.Reports.OrderReports.OutstandingSubRentalReport
             return new OkObjectResult(response);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/outstandingsubrentalreport/exportexcelxlsx/filedownloadname 
+        // POST api/v1/outstandingsubrentalreport/exportexcelxlsx
         [HttpPost("exportexcelxlsx")]
         [FwControllerMethod(Id: "zpWStxucwvSn ")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]OutstandingSubRentalReportRequest request)

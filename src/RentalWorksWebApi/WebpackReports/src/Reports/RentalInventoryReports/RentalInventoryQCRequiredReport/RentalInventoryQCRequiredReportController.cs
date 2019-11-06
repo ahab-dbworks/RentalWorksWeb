@@ -57,7 +57,7 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.RentalInventoryQCRequire
             return new OkObjectResult(response);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/rentalinventoryqcrequiredreport/exportexcelxlsx/filedownloadname 
+        // POST api/v1/rentalinventoryqcrequiredreport/exportexcelxlsx
         [HttpPost("exportexcelxlsx")]
         [FwControllerMethod(Id: "850xRfjA6VGXL")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]RentalInventoryQCRequiredReportRequest request)
