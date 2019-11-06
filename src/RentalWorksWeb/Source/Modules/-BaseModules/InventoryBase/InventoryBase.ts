@@ -89,6 +89,10 @@
             if (this.Module === 'RentalInventory') {
                 RentalInventoryController.iCodeMask($form);
             }
+            // Disables 'Create Complete' menu option for any new Inventory
+            $form.find('.submenu-btn').filter(function () {
+                return jQuery(this).text() === 'Create Complete';
+            }).css({ 'pointer-events': 'none', 'color': '#E0E0E0' });
         }
 
         let inventoryId;
@@ -583,7 +587,7 @@
         FwFormField.enable($form.find('[data-datafield="Classification"]'));
 
         $form.find('div[data-datafield="Classification"] .fwformfield-value').on('change', function () {
-            var $this = jQuery(this);
+            const $this = jQuery(this);
 
             $form.find('.completeskitstab').show();
             $form.find('.containertab').hide();
