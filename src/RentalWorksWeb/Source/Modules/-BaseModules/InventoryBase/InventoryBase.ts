@@ -416,15 +416,6 @@
                 FwFormField.disable($form.find('[data-datafield="PackageRevenueCalculationFormula"]'));
             }
         });
-        // Block Availability Calendar tab for new, unsaved records
-        $form.find('div[data-type="tab"][data-caption="Availability Calendar"]').click(e => {
-            if ($form.attr('data-mode') === 'NEW') {
-                e.stopPropagation();
-                FwNotification.renderNotification('WARNING', 'Save Record first.');
-            }
-        })
-
-
         // G/L Accounts
         $form.find('div[data-datafield="AssetAccountId"]').data('onchange', function ($tr) {
             FwFormField.setValue($form, 'div[data-datafield="AssetAccountDescription"]', $tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
@@ -450,39 +441,44 @@
 
         //Load Availability Calender when the tab is clicked
         $form.find('[data-type="tab"][data-caption="Availability Calendar"]').on('click', e => {
-            let schddate;
-            const $calendar = $form.find('.calendar');
-            if ($calendar.length > 0) {
-                schddate = FwScheduler.getTodaysDate();
-                FwScheduler.navigate($calendar, schddate);
-                //FwScheduler.refresh($calendar);
-            }
+            if ($form.attr('data-mode') !== 'NEW') {
+                let schddate;
+                const $calendar = $form.find('.calendar');
+                if ($calendar.length > 0) {
+                    schddate = FwScheduler.getTodaysDate();
+                    FwScheduler.navigate($calendar, schddate);
+                    //FwScheduler.refresh($calendar);
+                }
 
-            const $realScheduler = $form.find('.realscheduler');
-            if ($realScheduler.length > 0) {
-                schddate = FwSchedulerDetailed.getTodaysDate();
-                FwSchedulerDetailed.navigate($realScheduler, schddate, 35);
-                //FwSchedulerDetailed.refresh($realScheduler);
-            }
+                const $realScheduler = $form.find('.realscheduler');
+                if ($realScheduler.length > 0) {
+                    schddate = FwSchedulerDetailed.getTodaysDate();
+                    FwSchedulerDetailed.navigate($realScheduler, schddate, 35);
+                    //FwSchedulerDetailed.refresh($realScheduler);
+                }
 
-            // Legend for Avail Calendar
-            const availSchedControl = $form.find('.cal-sched')
-            try {
-                FwAppData.apiMethod(true, 'GET', `${this.apiurl}/availabilitylegend`, null, FwServices.defaultTimeout, function onSuccess(response) {
-                    for (let key in response) {
-                        FwBrowse.addLegend(availSchedControl, key, response[key]);
-                    }
-                }, function onError(response) {
-                    FwFunc.showError(response);
-                }, availSchedControl)
-            } catch (ex) {
-                FwFunc.showError(ex);
-            }
+                // Legend for Avail Calendar
+                const availSchedControl = $form.find('.cal-sched')
+                try {
+                    FwAppData.apiMethod(true, 'GET', `${this.apiurl}/availabilitylegend`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                        for (let key in response) {
+                            FwBrowse.addLegend(availSchedControl, key, response[key]);
+                        }
+                    }, function onError(response) {
+                        FwFunc.showError(response);
+                    }, availSchedControl)
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
 
-            $form.on('change', '.warehousefilter', e => {
-                FwScheduler.refresh($calendar);
-                FwSchedulerDetailed.refresh($realScheduler);
-            });
+                $form.on('change', '.warehousefilter', e => {
+                    FwScheduler.refresh($calendar);
+                    FwSchedulerDetailed.refresh($realScheduler);
+                });
+            } else {
+                e.stopImmediatePropagation();
+                FwNotification.renderNotification('WARNING', 'Save Record first.');
+            }
         });
     }
     //----------------------------------------------------------------------------------------------
