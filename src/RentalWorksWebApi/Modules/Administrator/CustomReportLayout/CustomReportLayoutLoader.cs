@@ -13,7 +13,7 @@ namespace WebApi.Modules.Administrator.CustomReportLayout
         public string CustomReportLayoutId { get; set; } = "";
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "basereport", modeltype: FwDataTypes.Text)]
-        public string BaseForm { get; set; }
+        public string BaseReport { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "webusersid", modeltype: FwDataTypes.Text)]
         public string WebUserId { get; set; }

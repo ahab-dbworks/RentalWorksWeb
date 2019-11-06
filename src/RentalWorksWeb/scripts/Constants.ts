@@ -13,7 +13,7 @@
             Alert: { id: '6E5F47FB-1F18-443E-B464-9D2351857361', caption: 'Alert', nav: 'module/alert' },
             CustomField: { id: 'C98C4CB4-2036-4D70-BC29-8F5A2874B178', caption: 'Custom Field', nav: 'module/customfield' },
             CustomForm: { id: 'CB2EF8FF-2E8D-4AD0-B880-07037B839C5E', caption: 'Custom Form', nav: 'module/customform' },
-            //CustomReportLayout: { id: 'B89CDAF3-53B2-4FE8-97C6-39DC98E98DBA', caption: 'Custom Report Layout', nav: 'module/customreportlayout' },
+            CustomReportLayout: { id: 'B89CDAF3-53B2-4FE8-97C6-39DC98E98DBA', caption: 'Custom Report Layout', nav: 'module/customreportlayout' },
             DuplicateRule: { id: '2E0EA479-AC02-43B1-87FA-CCE2ABA6E934', caption: 'Duplicate Rule', nav: 'module/duplicaterule' },
             EmailHistory: { id: '3F44AC27-CE34-46BA-B4FB-A8AEBB214167', caption: 'Email History', nav: 'module/emailhistory' },
             Group: { id: '9BE101B6-B406-4253-B2C6-D0571C7E5916', caption: 'Group', nav: 'module/group' },
