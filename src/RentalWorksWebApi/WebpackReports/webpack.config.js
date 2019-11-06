@@ -47,7 +47,17 @@ module.exports = {
                 ]
             },
             { test: /\.hbs$/, loader: "handlebars-loader" },
-            { test: /\.ts$/, loader: "ts-loader" }
+            { test: /\.ts$/, loader: "ts-loader" },
+            { 
+                test: /\.(html)$/,
+                use: {
+                    loader: 'html-loader',
+                    options: {
+                        attrs: false,
+                        minimize: true
+                    }
+                }
+}
         ]
     },
     resolve: {
