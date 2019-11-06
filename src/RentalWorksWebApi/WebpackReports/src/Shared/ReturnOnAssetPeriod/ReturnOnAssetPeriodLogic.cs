@@ -1,6 +1,6 @@
 using WebApi.Logic;
 using FwStandard.AppManager;
-namespace WebApi.Modules.Reports.ReturnOnAssetPeriod
+namespace WebApi.Modules.Reports.Shared.ReturnOnAssetPeriod
 {
     [FwLogic(Id: "CvPLX7T86t1v")]
     public class ReturnOnAssetPeriodLogic : AppBusinessLogic

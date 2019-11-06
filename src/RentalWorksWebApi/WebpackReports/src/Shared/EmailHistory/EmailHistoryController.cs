@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 using FwStandard.SqlServer;
 using System.Collections.Generic;
 using FwStandard.AppManager;
-namespace WebApi.Modules.Reports.EmailHistory
+
+namespace WebApi.Modules.Reports.Shared.EmailHistory
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]

@@ -1,6 +1,6 @@
 using WebApi.Logic;
 using FwStandard.AppManager;
-namespace WebApi.Modules.Reports.ReportSettings
+namespace WebApi.Modules.Reports.Shared.ReportSettings
 {
     [FwLogic(Id: "7yuAvAv1q8k5")]
     public class ReportSettingsLogic : AppBusinessLogic

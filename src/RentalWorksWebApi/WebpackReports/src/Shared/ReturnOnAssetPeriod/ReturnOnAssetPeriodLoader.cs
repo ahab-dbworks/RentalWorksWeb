@@ -3,14 +3,20 @@ using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-namespace WebApi.Modules.Reports.ReturnOnAssetYear
+namespace WebApi.Modules.Reports.Shared.ReturnOnAssetPeriod
 {
-    [FwSqlTable("dbo.dwreturnonassetyear()")]
-    public class ReturnOnAssetYearLoader : AppDataLoadRecord
+    [FwSqlTable("dbo.dwreturnonassetperiod()")]
+    public class ReturnOnAssetPeriodLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "Year", modeltype: FwDataTypes.Integer)]
-        public int? Year { get; set; }
+        [FwSqlDataField(column: "Period", modeltype: FwDataTypes.Text)]
+        public string Period { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "Label", modeltype: FwDataTypes.Text)]
+        public string Label { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "OrderNbr", modeltype: FwDataTypes.Integer)]
+        public int? OrderBy { get; set; }
         //------------------------------------------------------------------------------------ 
         public override FwSqlConnection GetDatabaseConnection()
         {

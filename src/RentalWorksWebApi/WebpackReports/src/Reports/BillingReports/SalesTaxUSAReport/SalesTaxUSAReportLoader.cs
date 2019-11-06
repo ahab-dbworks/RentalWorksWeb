@@ -1,4 +1,4 @@
-using WebApi.Modules.Reports.Billing.SalesTaxReport;
+using WebApi.Modules.Reports.Shared.SalesTaxReport;
 using WebLibrary;
 
 namespace WebApi.Modules.Reports.Billing.SalesTaxUSAReport

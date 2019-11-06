@@ -3,20 +3,14 @@ using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-namespace WebApi.Modules.Reports.ReturnOnAssetPeriod
+namespace WebApi.Modules.Reports.Shared.InventoryChangeTransactionType
 {
-    [FwSqlTable("dbo.dwreturnonassetperiod()")]
-    public class ReturnOnAssetPeriodLoader : AppDataLoadRecord
+    [FwSqlTable("dbo.dwinventorychangetype()")]
+    public class InventoryChangeTransactionTypeLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "Period", modeltype: FwDataTypes.Text)]
-        public string Period { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "Label", modeltype: FwDataTypes.Text)]
-        public string Label { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "OrderNbr", modeltype: FwDataTypes.Integer)]
-        public int? OrderBy { get; set; }
+        [FwSqlDataField(column: "TransactionType", modeltype: FwDataTypes.Text)]
+        public string TransactionType { get; set; }
         //------------------------------------------------------------------------------------ 
         public override FwSqlConnection GetDatabaseConnection()
         {

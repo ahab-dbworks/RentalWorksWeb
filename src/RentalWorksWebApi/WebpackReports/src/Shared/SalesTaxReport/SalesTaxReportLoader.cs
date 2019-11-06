@@ -8,7 +8,7 @@ using WebApi.Controllers;
 using System;
 using FwStandard.Models;
 
-namespace WebApi.Modules.Reports.Billing.SalesTaxReport
+namespace WebApi.Modules.Reports.Shared.SalesTaxReport
 {
 
 

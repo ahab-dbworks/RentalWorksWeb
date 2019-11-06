@@ -6,26 +6,26 @@ using System.Threading.Tasks;
 using FwStandard.SqlServer;
 using System.Collections.Generic;
 using FwStandard.AppManager;
-namespace WebApi.Modules.Reports.ReturnOnAssetYear
+namespace WebApi.Modules.Reports.Shared.ReturnOnAssetPeriod
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
-    [FwController(Id: "Udgb5ZYgGpFvl")]
-    public class ReturnOnAssetYearController : AppDataController
+    [FwController(Id: "7GRHZMC4iFV0")]
+    public class ReturnOnAssetPeriodController : AppDataController
     {
-        public ReturnOnAssetYearController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(ReturnOnAssetYearLogic); }
+        public ReturnOnAssetPeriodController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(ReturnOnAssetPeriodLogic); }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/returnonassetyear/browse 
+        // POST api/v1/returnonassetperiod/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id: "vv3us5MMvKeT")]
+        [FwControllerMethod(Id: "Us1Igvm4W9As")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/returnonassetyear/exportexcelxlsx/filedownloadname 
+        // POST api/v1/returnonassetperiod/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
-        [FwControllerMethod(Id: "qEYHCvlGeklG")]
+        [FwControllerMethod(Id: "twIbejgMs1ff")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);

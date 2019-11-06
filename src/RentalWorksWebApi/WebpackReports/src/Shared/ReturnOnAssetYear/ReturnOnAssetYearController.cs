@@ -6,26 +6,26 @@ using System.Threading.Tasks;
 using FwStandard.SqlServer;
 using System.Collections.Generic;
 using FwStandard.AppManager;
-namespace WebApi.Modules.Reports.InventoryChangeTransactionType
+namespace WebApi.Modules.Reports.Shared.ReturnOnAssetYear
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
-    [FwController(Id: "ouvRAXhgm8fGQ")]
-    public class InventoryChangeTransactionTypeController : AppDataController
+    [FwController(Id: "Udgb5ZYgGpFvl")]
+    public class ReturnOnAssetYearController : AppDataController
     {
-        public InventoryChangeTransactionTypeController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(InventoryChangeTransactionTypeLogic); }
+        public ReturnOnAssetYearController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(ReturnOnAssetYearLogic); }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/inventorychangetransactiontype/browse 
+        // POST api/v1/returnonassetyear/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id: "TIJqaehByFLaG")]
+        [FwControllerMethod(Id: "vv3us5MMvKeT")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/inventorychangetransactiontype/exportexcelxlsx/filedownloadname 
+        // POST api/v1/returnonassetyear/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
-        [FwControllerMethod(Id: "s6JfJuHjCWMRe")]
+        [FwControllerMethod(Id: "qEYHCvlGeklG")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);

@@ -3,14 +3,14 @@ using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-namespace WebApi.Modules.Reports.InventoryChangeTransactionType
+namespace WebApi.Modules.Reports.Shared.ReturnOnAssetYear
 {
-    [FwSqlTable("dbo.dwinventorychangetype()")]
-    public class InventoryChangeTransactionTypeLoader : AppDataLoadRecord
+    [FwSqlTable("dbo.dwreturnonassetyear()")]
+    public class ReturnOnAssetYearLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "TransactionType", modeltype: FwDataTypes.Text)]
-        public string TransactionType { get; set; }
+        [FwSqlDataField(column: "Year", modeltype: FwDataTypes.Integer)]
+        public int? Year { get; set; }
         //------------------------------------------------------------------------------------ 
         public override FwSqlConnection GetDatabaseConnection()
         {

@@ -8,7 +8,7 @@ using PuppeteerSharp;
 using System;
 using System.Threading.Tasks;
 using WebApi.Controllers;
-using WebApi.Modules.Reports.Billing.SalesTaxReport;
+using WebApi.Modules.Reports.Shared.SalesTaxReport;
 using static FwCore.Controllers.FwDataController;
 
 namespace WebApi.Modules.Reports.Billing.SalesTaxUSAReport

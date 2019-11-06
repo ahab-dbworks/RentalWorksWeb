@@ -1,6 +1,6 @@
 using WebApi.Logic;
 using FwStandard.AppManager;
-namespace WebApi.Modules.Reports.ReturnOnAssetYear
+namespace WebApi.Modules.Reports.Shared.ReturnOnAssetYear
 {
     [FwLogic(Id: "e3n9kRxbz47S")]
     public class ReturnOnAssetYearLogic : AppBusinessLogic

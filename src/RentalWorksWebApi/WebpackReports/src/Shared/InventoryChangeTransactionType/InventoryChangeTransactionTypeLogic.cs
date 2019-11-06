@@ -1,6 +1,6 @@
 using WebApi.Logic;
 using FwStandard.AppManager;
-namespace WebApi.Modules.Reports.InventoryChangeTransactionType
+namespace WebApi.Modules.Reports.Shared.InventoryChangeTransactionType
 {
     [FwLogic(Id: "TnVI2E0MuBgcP")]
     public class InventoryChangeTransactionTypeLogic : AppBusinessLogic

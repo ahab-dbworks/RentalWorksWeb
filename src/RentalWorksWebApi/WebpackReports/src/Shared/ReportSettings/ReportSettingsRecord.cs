@@ -3,7 +3,7 @@ using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-namespace WebApi.Modules.Reports.ReportSettings
+namespace WebApi.Modules.Reports.Shared.ReportSettings
 {
     [FwSqlTable("webreportsettings")]
     public class ReportSettingsRecord : AppDataReadWriteRecord
