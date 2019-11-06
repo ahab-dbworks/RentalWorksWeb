@@ -1,11 +1,7 @@
-using FwStandard.Data;
-using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 using System.Threading.Tasks;
-using System.Data;
-using System.Reflection;
 using WebLibrary;
 
 namespace WebApi.Modules.Reports.VendorReports.VendorInvoiceSummaryReport
@@ -156,7 +152,7 @@ namespace WebApi.Modules.Reports.VendorReports.VendorInvoiceSummaryReport
             {
                 FwSqlSelect select = new FwSqlSelect();
                 select.EnablePaging = false;
-				select.UseOptionRecompile = true;
+                select.UseOptionRecompile = true;
                 using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.ReportTimeout))
                 {
                     SetBaseSelectQuery(select, qry);
@@ -198,17 +194,20 @@ namespace WebApi.Modules.Reports.VendorReports.VendorInvoiceSummaryReport
                         select.AddWhere("invno <> '" + RwConstants.VENDOR_INVOICE_NUMBER_ACCRUAL + "'");
                     }
 
-
                     select.AddOrderBy("location, department, vendor, pono");
                     dt = await qry.QueryToFwJsonTableAsync(select, false);
                 }
             }
-            string[] totalFields = new string[] { "InvoiceTotal" };
-            dt.InsertSubTotalRows("OfficeLocation", "RowType", totalFields);
-            dt.InsertSubTotalRows("Department", "RowType", totalFields);
-            dt.InsertSubTotalRows("Vendor", "RowType", totalFields);
-            dt.InsertSubTotalRows("PurchaseOrderNumber", "RowType", totalFields);
-            dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
+            if (request.IncludeSubHeadingsAndSubTotals)
+            {
+                dt.Columns[dt.GetColumnNo("RowType")].IsVisible = true;
+                string[] totalFields = new string[] { "InvoiceTotal" };
+                dt.InsertSubTotalRows("OfficeLocation", "RowType", totalFields);
+                dt.InsertSubTotalRows("Department", "RowType", totalFields);
+                dt.InsertSubTotalRows("Vendor", "RowType", totalFields);
+                dt.InsertSubTotalRows("PurchaseOrderNumber", "RowType", totalFields);
+                dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
+            }
             return dt;
         }
         //------------------------------------------------------------------------------------ 
