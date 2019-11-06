@@ -1913,7 +1913,8 @@ class FwModule {
             const controller = $form.data('controller');
             if (typeof window[controller]['loadForm'] === 'function') {
                 const $newForm = (<any>window[controller]).loadForm(newUniqueIds);
-                $form.parent().empty().append($newForm);
+                $form.html($newForm);
+                //$form.parent().empty().append($newForm);        J.Pace - changed because the popout container was being lost when refreshing a peek $form
             }
         }, 0)
     };
