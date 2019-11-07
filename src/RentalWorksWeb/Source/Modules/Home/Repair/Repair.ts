@@ -158,7 +158,7 @@ class Repair {
                 FwFormField.disable($form.find('div[data-displayfield="SerialNumber"]'));
                 FwFormField.disable($form.find('div[data-displayfield="RfId"]'));
 
-                if (FwFormField.getValue($form, '.repairavailforradio') === 'S') {
+                if (FwFormField.getValueByDataField($form, 'AvailFor') === 'S') {
                     FwFormField.setValue($form, '.icoderental', $tr.find('.field[data-formdatafield="InventoryId"]').attr('data-originalvalue'));
                 }
                 else {
@@ -172,22 +172,8 @@ class Repair {
                 FwFormField.setValue($form, 'div[data-datafield="DamageDeal"]', $tr.find('.field[data-formdatafield="Deal"]').attr('data-originalvalue'));
             });
 
-            // Sales or Rent Order
-            $form.find('.repairavailforradio').on('change', $tr => {
-                if (FwFormField.getValueByDataField($form, 'RepairType') === 'OWNED') {
-                    if (FwFormField.getValue($form, '.repairavailforradio') === 'S') {
-                        $form.find('.icodesales').show();
-                        $form.find('.icoderental').hide();
-                    }
-                    else {
-                        $form.find('.icodesales').hide();
-                        $form.find('.icoderental').show();
-                    }
-                }
-            });
-
             // Repair Type Change
-            $form.find('.repairtyperadio').on('change', $tr => {
+            $form.find('div[data-datafield="RepairType"]').on('change', $tr => {
                 if (FwFormField.getValueByDataField($form, 'RepairType') === 'OUTSIDE') {
                     $form.find('.itemid').hide();
                     $form.find('.icode').hide();
@@ -199,7 +185,7 @@ class Repair {
                     $form.find('.not-owned').hide();
                     FwFormField.enable($form.find('div[data-datafield="AvailFor"]'));
                     FwFormField.disable($form.find('.not-owned'));
-                    if (FwFormField.getValue($form, '.repairavailforradio') === 'S') {
+                    if (FwFormField.getValueByDataField($form, 'AvailFor') === 'S') {
                         $form.find('.icodesales').show();
                         $form.find('.icoderental').hide();
                     } else {
@@ -364,7 +350,7 @@ class Repair {
             $form.find('.not-owned').hide();
             FwFormField.enable($form.find('div[data-datafield="AvailFor"]'));
             FwFormField.disable($form.find('.not-owned'));
-            if (FwFormField.getValue($form, '.repairavailforradio') === 'S') {
+            if (FwFormField.getValueByDataField($form, 'AvailFor') === 'S') {
                 $form.find('.icodesales').show();
                 $form.find('.icoderental').hide();
             } else {
@@ -443,6 +429,7 @@ class Repair {
               <div data-type="tab" id="costtab" class="tab" data-tabpageid="costtabpage" data-caption="Costs"></div>
               <div data-type="tab" id="partstab" class="tab" data-tabpageid="partstabpage" data-caption="Parts"></div>
               <div data-type="tab" id="chargetab" class="tab" data-tabpageid="chargetabpage" data-caption="Charge"></div>
+              <div data-type="tab" id="qctab" class="tab" data-tabpageid="qctabpage" data-caption="QC"></div>
               <div data-type="tab" id="notestab" class="tab" data-tabpageid="notestabpage" data-caption="Notes"></div>
             </div>
             <div class="tabpages">
@@ -456,11 +443,11 @@ class Repair {
                           <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Date" data-datafield="RepairDate"  data-enabled="false"             style="flex:1 1 115px;"></div>
                         </div>
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield repairavailforradio" data-caption="Available For" data-datafield="AvailFor" data-enabled="false" style="flex:1 1 115px;">
+                          <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="Available For" data-datafield="AvailFor" data-enabled="false" style="flex:1 1 115px;">
                             <div data-value="R" data-caption="Rent"></div>
                             <div data-value="S" data-caption="Sell"></div>
                           </div>
-                          <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield repairtyperadio" data-caption="Type" data-datafield="RepairType" data-enabled="false" style="flex:1 1 115px;">
+                          <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="Type" data-datafield="RepairType" data-enabled="false" style="flex:1 1 115px;">
                             <div data-value="OWNED" data-caption="Owned"></div>
                             <div data-value="OUTSIDE" data-caption="Not Owned"></div>
                           </div>
@@ -519,7 +506,7 @@ class Repair {
                    </div>
                    <div class="flexcolumn" style="flex:1 1 125px;">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Priority">
-                      <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield repairtyperadio" data-caption="" data-datafield="Priority">
+                      <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="" data-datafield="Priority">
                         <div data-value="HIG" data-caption="High"></div>
                         <div data-value="MED" data-caption="Medium"></div>
                         <div data-value="LOW" data-caption="Low"></div>
@@ -727,6 +714,26 @@ class Repair {
                   </div>
               </div>
             </div>
+           <!--QC Tab-->
+            <div data-type="tabpage" id="qctabpage" class="tabpage" data-tabid="qctab">
+              <div class="flexpage">
+                <div class="flexrow">
+                  <div class="flexcolumn">
+                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="QC">
+                      <div class="flexrow">
+                        <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Automatically Complete QC for Items Completed or Released from Repair" data-datafield="AutoQC" style="flex:1 1 125px;"></div>
+                       </div>
+                       <div class="flexrow">
+                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield qc-related" data-caption="Condition" data-datafield="QCCondition" data-enabled="true" style="flex:1 1 125px;"></div>
+                       </div>
+                      <div class="flexrow">
+                        <div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield qc-related" data-caption="Note" data-datafield="QCNote" data-height="500px"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
             <!--Notes Tab-->
             <div data-type="tabpage" id="notestabpage" class="tabpage" data-tabid="notestab">
               <div class="flexpage">
@@ -748,9 +755,9 @@ class Repair {
     //----------------------------------------------------------------------------------------------
     events($form: JQuery): void {
         // Sales or Rent Order
-        $form.find('.repairavailforradio').on('change', $tr => {
+        $form.find('div[data-datafield="AvailFor"]').on('change', $tr => {
             if (FwFormField.getValueByDataField($form, 'RepairType') === 'OWNED') {
-                if (FwFormField.getValue($form, '.repairavailforradio') === 'S') {
+                if (FwFormField.getValueByDataField($form, 'AvailFor') === 'S') {
                     $form.find('.icodesales').show();
                     $form.find('.icoderental').hide();
                 }
@@ -760,6 +767,15 @@ class Repair {
                 }
             }
         });
+        // Auto QC on QC tab
+        $form.find('div[data-datafield="AutoQC"]').change(e => {
+            const autoQC = FwFormField.getValueByDataField($form, 'AutoQC');
+            if (autoQC === 'true') {
+                FwFormField.enable($form.find('.qc-related'));
+            } else {
+                FwFormField.disable($form.find('.qc-related'));
+            }
+        })
     };
     //----------------------------------------------------------------------------------------------
     estimateOrder($form: JQuery): void {
@@ -806,6 +822,7 @@ class Repair {
 
             $yes.on('click', makeEstimate);
         }
+        $yes.focus();
         // ----------
         function makeEstimate() {
             $form.data('hasEstimated', true);
@@ -917,6 +934,7 @@ class Repair {
 
             $yes.on('click', makeComplete);
         }
+        $yes.focus();
         // ----------
         function makeComplete() {
             FwFormField.disable($confirmation.find('.fwformfield'));
@@ -969,7 +987,7 @@ class Repair {
             FwConfirmation.addControls($confirmation, html.join(''));
             $yes = FwConfirmation.addButton($confirmation, 'Void', false);
             $no = FwConfirmation.addButton($confirmation, 'Cancel');
-
+            $yes.focus();
             $yes.on('click', makeVoid);
         } else if (status === 'COMPLETE') {
             FwNotification.renderNotification('WARNING', 'COMPLETE Repair Orders cannot be VOIDED.');
@@ -1065,6 +1083,7 @@ class Repair {
 
             $no = FwConfirmation.addButton($confirmation, 'OK');
         }
+        $yes.focus();
         // ----------
         function release() {
             const releasedQuantityConfirmation = +FwFormField.getValueByDataField($confirmation, 'ReleasedQuantity');
@@ -1178,7 +1197,7 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.Repair.browse.menuItems.Voi
             FwConfirmation.addControls($confirmation, html.join(''));
             const $yes = FwConfirmation.addButton($confirmation, 'Void', false);
             const $no = FwConfirmation.addButton($confirmation, 'Cancel');
-
+            $yes.focus();
             $yes.on('click', makeVoid);
             // ----------
             function makeVoid() {
