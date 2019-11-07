@@ -86,12 +86,11 @@
         if (mode === 'NEW') {
             const controlDefaults = JSON.parse(sessionStorage.getItem('controldefaults'));
             FwFormField.setValue($form, 'div[data-datafield="UnitId"]', controlDefaults.defaultunitid, controlDefaults.defaultunit); // 2 condition blocks of same eval?
-            FwFormField.setValue($form, 'div[data-datafield="Rank"]', controlDefaults.defaultrank, controlDefaults.defaultrank); 
             if (this.Module === 'RentalInventory') {
                 RentalInventoryController.iCodeMask($form);
             }
             // Disables 'Create Complete' menu option for any new Inventory
-            $form.find('.submenu-btn').filter(function () {
+            $form.find('.submenu-btn').filter(() => {
                 return jQuery(this).text() === 'Create Complete';
             }).css({ 'pointer-events': 'none', 'color': '#E0E0E0' });
         }

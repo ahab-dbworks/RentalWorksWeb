@@ -898,7 +898,8 @@
                         successSound.play();
                         this.addItemFieldValues($form, response);
                         const gridView = FwFormField.getValueByDataField($form, 'GridView');
-                        setTimeout(() => {
+                     
+                        const refreshGrid = (view: string): void => {
                             if (gridView === 'STAGE') {
                                 const $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
                                 FwBrowse.search($stagedItemGrid);
@@ -906,7 +907,8 @@
                                 const $checkOutPendingItemGrid = $form.find('[data-name="CheckOutPendingItemGrid"]');
                                 FwBrowse.search($checkOutPendingItemGrid);
                             }
-                        }, 750)
+                        };
+                        FwFunc.debounce(refreshGrid, 1000, false); 
                         $form.find('[data-datafield="Code"] input').select();
                     } if (response.status === 107) {
                         successSound.play();
@@ -962,7 +964,7 @@
                             this.addItemFieldValues($form, response);
 
                             const gridView = FwFormField.getValueByDataField($form, 'GridView');
-                            setTimeout(() => {
+                            const refreshGrid = (view: string): void => {
                                 if (gridView === 'STAGE') {
                                     const $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
                                     FwBrowse.search($stagedItemGrid);
@@ -970,7 +972,8 @@
                                     const $checkOutPendingItemGrid = $form.find('[data-name="CheckOutPendingItemGrid"]');
                                     FwBrowse.search($checkOutPendingItemGrid);
                                 }
-                            }, 750)
+                            };
+                            FwFunc.debounce(refreshGrid, 1000, false);
                             FwFormField.setValueByDataField($form, 'Quantity', 0)
                             $form.find('[data-datafield="Code"] input').select();
                         } if (response.ShowAddItemToOrder === true) {
