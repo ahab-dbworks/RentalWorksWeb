@@ -71,8 +71,8 @@ class CustomReportLayout {
         return $form;
     }
     //----------------------------------------------------------------------------------------------
-    //saveForm($form: any, parameters: any) {
-    //    $form.find('#codeEditor').change();
+    saveForm($form: any, parameters: any) {
+        $form.find('#codeEditor').change();
         //const $customForm = $form.find(`#designerContent`);
         //const $fields = $customForm.find('.fwformfield');
         //let hasDuplicates: boolean = false;
@@ -93,7 +93,8 @@ class CustomReportLayout {
         //})
 
         //if (!hasDuplicates) FwModule.saveForm(this.Module, $form, parameters);
-    //}
+        FwModule.saveForm(this.Module, $form, parameters);
+    }
     //----------------------------------------------------------------------------------------------
     afterSave($form: any) {
         FwFormField.disable($form.find('[data-datafield="BaseReport"]'));
@@ -132,7 +133,7 @@ class CustomReportLayout {
         }
         //let controller: any = FwFormField.getValueByDataField($form, 'BaseReport');
         //this.addValidFields($form, controller);
-        //this.renderTab($form, 'Designer');
+        this.renderTab($form, 'Designer');
 
         //Sets form to modified upon changing code in editor
         this.codeMirror.on('change', function (codeMirror, change) {
