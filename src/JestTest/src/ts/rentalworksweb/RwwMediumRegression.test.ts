@@ -240,9 +240,16 @@ export class MediumRegressionTest extends BaseTest {
                                                 }, grid.deleteTimeout);
                                             }
 
-                                            if (!grid.canEdit) {
-                                                //  test to make sure no grid Edit operation 
-                                            }
+                                            //if ((grid.canNew) && (!grid.canEdit)) {  // not really a valid scenario.  But to test this, we first need to add a record, then try to edit it
+                                            //    //  test to make sure no grid Edit operation 
+                                            //    testName = `Confirm no Edit option for Grid: ${grid.gridDisplayName}`;
+                                            //    test(testName, async () => {
+                                            //        await grid.checkForEditAbility()
+                                            //            .then(optionExists => {
+                                            //                expect(optionExists).toBeFalsy();
+                                            //            });
+                                            //    }, grid.deleteTimeout);
+                                            //}
 
                                             if (!grid.canDelete) {
                                                 //  test to make sure no grid Delete option 
@@ -256,27 +263,39 @@ export class MediumRegressionTest extends BaseTest {
                                             }
 
                                             if ((!grid.canNew) && (grid.canEdit)) {
-                                                //  test Edit behavior
+                                                //  check to make sure at least one row exists  // doing this because there is now way to check for grid editability of there is not already a row in the grid
+                                                testName = `Confirm that a row exists in the Grid, and that EDIT option exists: ${grid.gridDisplayName}`;
+                                                test(testName, async () => {
+                                                    await grid.getRecordCount()
+                                                        .then(async gridRowCount => {
+                                                            expect(gridRowCount).toBeGreaterThan(0);
+
+                                                            await grid.checkForEditAbility()
+                                                                .then(optionExists => {
+                                                                    expect(optionExists).toBeTruthy();
+                                                                });
+
+                                                        });
+                                                }, grid.editTimeout);
                                             }
 
                                             if ((!grid.canNew) && (grid.canDelete)) {   // unusual, but possible I guess
-                                                //  test delete behavior 
-                                                testName = `Confirm that rows exist in the Grid: ${grid.gridDisplayName}`;
+                                                //  check to make sure at least one row exists
+                                                testName = `Confirm that a row exists in the Grid, and that data can be deleted: ${grid.gridDisplayName}`;
                                                 test(testName, async () => {
                                                     await grid.getRecordCount()
-                                                        .then(gridRowCount => {
+                                                        .then(async gridRowCount => {
                                                             expect(gridRowCount).toBeGreaterThan(0);
+
+                                                            await grid.deleteGridRow(1, true)
+                                                                .then(deleteResponse => {
+                                                                    expect(deleteResponse.errorMessage).toBe("");
+                                                                    expect(deleteResponse.deleted).toBeTruthy();
+                                                                });
+
                                                         });
                                                 }, grid.deleteTimeout);
 
-                                                testName = `Delete row from Grid: ${grid.gridDisplayName}`;
-                                                test(testName, async () => {
-                                                    await grid.deleteGridRow(1, true)
-                                                        .then(deleteResponse => {
-                                                            expect(deleteResponse.errorMessage).toBe("");
-                                                            expect(deleteResponse.deleted).toBeTruthy();
-                                                        });
-                                                }, grid.deleteTimeout);
                                             }
 
 
