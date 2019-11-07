@@ -527,6 +527,9 @@ namespace WebApi.Modules.Administrator.Control
         [FwSqlDataField(column: "documentbarcodestyle", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 30)]
         public string DocumentBarCodeStyle { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "defaultrank", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 1)]
+        public string DefaultRank { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 

@@ -64,6 +64,9 @@ namespace WebApi.Modules.Settings.DefaultSettings
         [FwLogicProperty(Id: "lx3wWmc9AU4Yy")]
         public string DefaultContactGroupName { get; set; }
 
+        [FwLogicProperty(Id: "mF1eIKmVivq6K")]
+        public string DefaultRank { get { return sysControl.DefaultRank; } set { sysControl.DefaultRank = value; } }
+
         [FwLogicProperty(Id: "mKkvlk6jTcylT")]
         public string DateStamp { get { return sysControl.DateStamp; } set { sysControl.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 

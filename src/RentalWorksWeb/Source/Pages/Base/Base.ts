@@ -254,6 +254,7 @@ class Base {
                                             , defaultdealbillingcycle: responseGetDefaultSettings.DefaultDealBillingCycle
                                             , defaultunitid: responseGetDefaultSettings.DefaultUnitId
                                             , defaultunit: responseGetDefaultSettings.DefaultUnit
+                                            , defaultrank: responseGetDefaultSettings.DefaultRank
                                             , defaulticodemask: responseGetInventorySettings.ICodeMask
                                             , sharedealsacrossofficelocations: responseGetSystemSettings.ShareDealsAcrossOfficeLocations
                                             , systemname: responseGetSystemSettings.SystemName

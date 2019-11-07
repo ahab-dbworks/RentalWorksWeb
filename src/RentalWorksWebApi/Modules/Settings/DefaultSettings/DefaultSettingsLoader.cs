@@ -52,6 +52,9 @@ namespace WebApi.Modules.Settings.DefaultSettings
         [FwSqlDataField(column: "defaultcontactgroupname", modeltype: FwDataTypes.Text)]
         public string DefaultContactGroupName { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "defaultrank", modeltype: FwDataTypes.Text)]
+        public string DefaultRank { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
