@@ -897,9 +897,9 @@
                     if (response.success === true && response.status != 107) {
                         successSound.play();
                         this.addItemFieldValues($form, response);
-                        const gridView = FwFormField.getValueByDataField($form, 'GridView');
                      
-                        const refreshGrid = (view: string): void => {
+                        const refreshGrid = (): void => {
+                            const gridView = FwFormField.getValueByDataField($form, 'GridView');
                             if (gridView === 'STAGE') {
                                 const $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
                                 FwBrowse.search($stagedItemGrid);
@@ -963,8 +963,8 @@
                             successSound.play();
                             this.addItemFieldValues($form, response);
 
+                            const refreshGrid = (): void => {
                             const gridView = FwFormField.getValueByDataField($form, 'GridView');
-                            const refreshGrid = (view: string): void => {
                                 if (gridView === 'STAGE') {
                                     const $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
                                     FwBrowse.search($stagedItemGrid);
