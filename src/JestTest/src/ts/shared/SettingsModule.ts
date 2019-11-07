@@ -13,7 +13,7 @@ export class ClickRecordResponse {
 export class SettingsModule extends ModuleBase {
     waitAfterClickingToOpenBrowseBeforeCheckingForErrors: number = 300;
     waitAfterClickingToOpenRecordBeforeCheckingForErrors: number = 300;
-    waitForButtonToGetEvents: number = 750;
+    waitForButtonToGetEvents: number = 1000;
     //---------------------------------------------------------------------------------------
     constructor() {
         super();
@@ -129,7 +129,7 @@ export class SettingsModule extends ModuleBase {
         await page.click(refreshButtonSelector);
         await ModuleBase.wait(this.waitAfterClickingToOpenBrowseBeforeCheckingForErrors); // let the refresh occur, or at least start
 
-        let searchFieldSelector = `.panel-group[id="${this.moduleName}"] input`;
+        let searchFieldSelector = `.panel-group[id="${this.moduleName}"] input#recordSearch`;
         await page.waitForSelector(searchFieldSelector, { visible: true });
 
         let keyField = "";

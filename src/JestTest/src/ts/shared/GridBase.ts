@@ -37,6 +37,8 @@ export class GridBase {
     canEdit: boolean;
     canDelete: boolean;
 
+    waitAfterSavingToReloadGrid: number = 0;
+
     defaultNewRecordToExpect?: any;
     newRecordsToCreate?: NewRecordToCreate[];
 
@@ -363,6 +365,12 @@ export class GridBase {
             response.saved = true;
             response.errorMessage = "";
         }
+
+        if (this.waitAfterSavingToReloadGrid > 0) {
+            await ModuleBase.wait(this.waitAfterSavingToReloadGrid);
+        }
+
+
         return response;
     }
     //---------------------------------------------------------------------------------------
@@ -382,6 +390,7 @@ export class GridBase {
         if (!tabIsActive) {
             Logging.logInfo(`Clicking tab ${tabId} in deleteGridRow`);
             await page.click(`#${tabId}`);
+            await ModuleBase.wait(1500);  // wait for the grid to load
         }
 
         let gridContextMenuSelector = `${this.gridSelector} .tablewrapper table tbody tr:nth-child(${rowToDelete}) .browsecontextmenu i`;
@@ -390,12 +399,12 @@ export class GridBase {
         await page.click(gridContextMenuSelector);
         Logging.logInfo(`clicked the row context menu`);
 
+        await ModuleBase.wait(250);  // wait for the grid sub menu to open
         let gridContextMenuDeleteOptionSelector = `${this.gridSelector} .tablewrapper table tbody tr:nth-child(${rowToDelete}) .browsecontextmenu .deleteoption`;
         Logging.logInfo(`About to wait for delete option: ${gridContextMenuDeleteOptionSelector}`);
         await page.waitForSelector(gridContextMenuDeleteOptionSelector, { visible: true });
         await page.click(gridContextMenuDeleteOptionSelector);
         Logging.logInfo(`clicked the delete option`);
-
 
         const popupText = await page.$eval('.advisory', el => el.textContent);
         if (popupText.includes('Delete Record')) {
@@ -508,7 +517,7 @@ export class GridBase {
                 break;  // exit the row loop
             }
         }
-       
+
         return rowIndex;
     }
     //---------------------------------------------------------------------------------------

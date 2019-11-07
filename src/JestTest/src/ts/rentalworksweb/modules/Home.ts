@@ -15,9 +15,13 @@ export class Quote extends HomeModule {
         this.moduleCaption = 'Quote';
         this.canDelete = false;
         let rentalGrid: GridBase = new GridBase("Rental Item Grid", "OrderItemGrid", ["R"]);
+        rentalGrid.waitAfterSavingToReloadGrid = 1500;
         let salesGrid: GridBase = new GridBase("Sales Item Grid", "OrderItemGrid", ["S"]);
+        salesGrid.waitAfterSavingToReloadGrid = 1500;
         let miscGrid: GridBase = new GridBase("Miscellaneous Item Grid", "OrderItemGrid", ["M"]);
+        miscGrid.waitAfterSavingToReloadGrid = 1500;
         let laborGrid: GridBase = new GridBase("Labor Item Grid", "OrderItemGrid", ["L"]);
+        laborGrid.waitAfterSavingToReloadGrid = 1500;
         let contactGrid: GridBase = new GridBase("Contact Grid", "OrderContactGrid");
         let noteGrid: GridBase = new GridBase("Note Grid", "OrderNoteGrid");
         this.grids.push(rentalGrid);
@@ -170,9 +174,13 @@ export class Order extends HomeModule {
         this.moduleCaption = 'Order';
         this.canDelete = false;
         let rentalGrid: GridBase = new GridBase("Rental Item Grid", "OrderItemGrid", ["R"]);
+        rentalGrid.waitAfterSavingToReloadGrid = 1500;
         let salesGrid: GridBase = new GridBase("Sales Item Grid", "OrderItemGrid", ["S"]);
+        salesGrid.waitAfterSavingToReloadGrid = 1500;
         let miscGrid: GridBase = new GridBase("Miscellaneous Item Grid", "OrderItemGrid", ["M"]);
+        miscGrid.waitAfterSavingToReloadGrid = 1500;
         let laborGrid: GridBase = new GridBase("Labor Item Grid", "OrderItemGrid", ["L"]);
+        laborGrid.waitAfterSavingToReloadGrid = 1500;
         let contactGrid: GridBase = new GridBase("Contact Grid", "OrderContactGrid");
         let noteGrid: GridBase = new GridBase("Note Grid", "OrderNoteGrid");
         this.grids.push(rentalGrid);
@@ -768,10 +776,15 @@ export class PurchaseOrder extends HomeModule {
         this.moduleCaption = 'Purchase Order';
         this.canDelete = false;
         let rentalGrid: GridBase = new GridBase("Rental Inventory Grid", "OrderItemGrid", ["R", "purchase"]);
+        rentalGrid.waitAfterSavingToReloadGrid = 1500;
         let salesGrid: GridBase = new GridBase("Sales Inventory Grid", "OrderItemGrid", ["S", "purchase"]);
+        salesGrid.waitAfterSavingToReloadGrid = 1500;
         let partsGrid: GridBase = new GridBase("Parts Inventory Grid", "OrderItemGrid", ["P", "purchase"]);
+        partsGrid.waitAfterSavingToReloadGrid = 1500;
         let miscGrid: GridBase = new GridBase("Miscellaneous Items Grid", "OrderItemGrid", ["M", "purchase"]);
+        miscGrid.waitAfterSavingToReloadGrid = 1500;
         let laborGrid: GridBase = new GridBase("Labor Items Grid", "OrderItemGrid", ["L", "purchase"]);
+        laborGrid.waitAfterSavingToReloadGrid = 1500;
         //let contactGrid: GridBase = new GridBase("OrderContactGrid");
         let noteGrid: GridBase = new GridBase("Note Grid", "OrderNoteGrid");
         this.grids.push(rentalGrid);
@@ -1103,7 +1116,7 @@ export class SalesInventory extends HomeModule {
         completeKitGrid.canDelete = false;
 
         let substituteGrid: GridBase = new GridBase("Substitute Grid", "SalesInventorySubstituteGrid");
-        let compatibilityGrid: GridBase = new GridBase("Compatibility Grid", "InventoryCompatibilityGrid");
+        let compatibilityGrid: GridBase = new GridBase("Compatibility Grid", "SalesInventoryCompatibilityGrid");
 
         let purchaseVendorGrid: GridBase = new GridBase("Purchase Vendor Grid", "PurchaseVendorGrid");
         purchaseVendorGrid.canNew = false;
@@ -1235,7 +1248,7 @@ export class PartsInventory extends HomeModule {
         completeKitGrid.canDelete = false;
 
         let substituteGrid: GridBase = new GridBase("Substitute Grid", "PartsInventorySubstituteGrid");
-        let compatibilityGrid: GridBase = new GridBase("Compatibility Grid", "InventoryCompatibilityGrid");
+        let compatibilityGrid: GridBase = new GridBase("Compatibility Grid", "PartsInventoryCompatibilityGrid");
 
         let purchaseVendorGrid: GridBase = new GridBase("Purchase Vendor Grid", "PurchaseVendorGrid");
         purchaseVendorGrid.canNew = false;
@@ -1470,7 +1483,9 @@ export class TransferOrder extends HomeModule {
         this.canDelete = false;
 
         let rentalItemGrid: GridBase = new GridBase("Rental Item Grid", "TransferOrderItemGrid", ["R"]);
+        rentalItemGrid.waitAfterSavingToReloadGrid = 1500;
         let salesItemGrid: GridBase = new GridBase("Sales Item Grid", "TransferOrderItemGrid", ["S"]);
+        salesItemGrid.waitAfterSavingToReloadGrid = 1500;
 
         this.newRecordsToCreate = [
             {

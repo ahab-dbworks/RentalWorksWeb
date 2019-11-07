@@ -73,7 +73,7 @@ export class ModuleBase {
     waitForRecordsToGetEvents: number = 300;
     waitAfterClickingToOpenBrowseToAllowOtherQueries: number = 0;
     waitAfterClickingToOpenFormToAllowOtherQueries: number = 0;
-    waitAfterHittingEnterToSearch: number = 200;
+    waitAfterHittingEnterToSearch: number = 400;
     waitForErrorAfterClickingTab: number = 300;
     waitAfterEachValidationFieldIsPopulated: number = 500;
 
