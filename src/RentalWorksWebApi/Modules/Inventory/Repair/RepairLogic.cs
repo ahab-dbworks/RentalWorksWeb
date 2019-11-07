@@ -259,7 +259,6 @@ namespace WebApi.Modules.Inventory.Repair
         [FwLogicProperty(Id: "QlQrje6jVNpI")]
         public string PriorityColor { get; set; }
 
-
         [FwLogicProperty(Id: "Y4eEMAM9iP2S")]
         public string RepairType { get { return repair.RepairType; } set { repair.RepairType = value; } }
 
@@ -335,12 +334,26 @@ namespace WebApi.Modules.Inventory.Repair
         [FwLogicProperty(Id: "hUwDMUDvHLNnC", IsReadOnly: true)]
         public string CurrencyColor { get; set; }
 
-
         [FwLogicProperty(Id: "I70kSMt2dxPB")]
         public string Notes { get { return repair.Notes; } set { repair.Notes = value; } }
 
         [FwLogicProperty(Id: "oIvhtpVN4x8oz", IsReadOnly: true)]
         public bool? Inactive { get; set; }
+
+        [FwLogicProperty(Id: "P9UwssvixT0jy", IsReadOnly: true)]
+        public bool? QcRequired { get; set; }
+
+        [FwLogicProperty(Id: "7SiSsbDi7VSzK", IsReadOnly: true)]
+        public bool? AutoCompleteQC { get { return repair.AutoCompleteQC; } set { repair.AutoCompleteQC = value; } }
+
+        [FwLogicProperty(Id: "krgHtYtSB2cdU")]
+        public string QcNote { get { return repair.QcNote; } set { repair.QcNote = value; } }
+
+        [FwLogicProperty(Id: "z2dVlxktieYcV")]
+        public string ConditionId { get { return repair.ConditionId; } set { repair.ConditionId = value; } }
+
+        [FwLogicProperty(Id: "9k7XCxykxQHoI", IsReadOnly: true)]
+        public string Condition { get; set; }
 
         [FwLogicProperty(Id: "UuN9hsMjftqY")]
         public string DateStamp { get { return repair.DateStamp; } set { repair.DateStamp = value; } }

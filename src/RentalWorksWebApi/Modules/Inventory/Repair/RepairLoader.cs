@@ -217,5 +217,20 @@ namespace WebApi.Modules.Inventory.Repair
         [FwSqlDataField(column: "notes", modeltype: FwDataTypes.Text)]
         public string Notes { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "repairautocompleteqc", modeltype: FwDataTypes.Boolean)]
+        public bool? AutoCompleteQC { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "qcrequired", modeltype: FwDataTypes.Boolean)]
+        public bool? QcRequired { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "qcnote", modeltype: FwDataTypes.Text)]
+        public string QcNote { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "condition", modeltype: FwDataTypes.Text)]
+        public string Condition { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "conditionid", modeltype: FwDataTypes.Text)]
+        public string ConditionId { get; set; }
+        //------------------------------------------------------------------------------------ 
     }
 }

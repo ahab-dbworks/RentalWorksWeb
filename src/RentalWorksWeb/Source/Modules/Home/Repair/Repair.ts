@@ -84,10 +84,11 @@ class Repair {
         let $form = jQuery(this.getFormTemplate());
         $form = FwModule.openForm($form, mode);
 
-        $form.find('.warehouseid').hide();
-        $form.find('.locationid').hide();
-        $form.find('.inputbyuserid').hide();
         $form.find('.icodesales').hide();
+        const qcRequired = FwFormField.getValueByDataField($form, 'QcRequired');
+        if (qcRequired) {
+            $form.find('[data-type="tab"][data-caption="QC"]').show();
+        }
 
         // Tax Option Validation
         $form.find('div[data-datafield="TaxOptionId"]').data('onchange', $tr => {
@@ -328,6 +329,13 @@ class Repair {
         else {
             FwFormField.enable($form.find('div[data-datafield="PoNumber"]'));
         }
+        // QC tab
+        const autoCompleteQC = FwFormField.getValueByDataField($form, 'AutoCompleteQC');
+        if (autoCompleteQC === true) {
+            FwFormField.enable($form.find('.qc-related'));
+        } else {
+            FwFormField.disable($form.find('.qc-related'));
+        }
 
         FwFormField.disable($form.find('div[data-displayfield="BarCode"]'));
         FwFormField.disable($form.find('div[data-displayfield="SerialNumber"]'));
@@ -429,7 +437,7 @@ class Repair {
               <div data-type="tab" id="costtab" class="tab" data-tabpageid="costtabpage" data-caption="Costs"></div>
               <div data-type="tab" id="partstab" class="tab" data-tabpageid="partstabpage" data-caption="Parts"></div>
               <div data-type="tab" id="chargetab" class="tab" data-tabpageid="chargetabpage" data-caption="Charge"></div>
-              <div data-type="tab" id="qctab" class="tab" data-tabpageid="qctabpage" data-caption="QC"></div>
+              <div data-type="tab" id="qctab" class="tab" data-tabpageid="qctabpage" data-caption="QC" style="display:none;"></div>
               <div data-type="tab" id="notestab" class="tab" data-tabpageid="notestabpage" data-caption="Notes"></div>
             </div>
             <div class="tabpages">
@@ -439,8 +447,8 @@ class Repair {
                     <div class="flexcolumn" style="flex:1 1 250px;">
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Repair Ticket">
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Repair Number" data-datafield="RepairNumber" data-enabled="false"  style="flex:1 1 115px;"></div>
-                          <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Date" data-datafield="RepairDate"  data-enabled="false"             style="flex:1 1 115px;"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Repair Number" data-datafield="RepairNumber" data-enabled="false" style="flex:1 1 115px;"></div>
+                          <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Date" data-datafield="RepairDate"  data-enabled="false" style="flex:1 1 115px;"></div>
                         </div>
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="Available For" data-datafield="AvailFor" data-enabled="false" style="flex:1 1 115px;">
@@ -491,9 +499,10 @@ class Repair {
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Office" data-datafield="Location" data-enabled="false"       style="flex:1 1 200px;"></div>
                           <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Department" data-datafield="DepartmentId" data-displayfield="Department" data-validationname="DepartmentValidation" style="flex:1 1 200px;"></div>
                           <!--Hidden Fields-->
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield locationid" data-caption="" data-datafield="LocationId" data-enabled="false" data-visible="false" style="float:left;width:0px;"></div>
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield warehouseid" data-caption="" data-datafield="BillingWarehouseId" data-enabled="false" data-visible="false" style="float:left;width:0px;"></div>
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield inputbyuserid" data-caption="" data-datafield="InputByUserId" data-enabled="false" data-visible="false" style="float:left;width:0px;"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="LocationId" data-enabled="false" data-visible="false" style="float:left;width:0px;display:none;"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="BillingWarehouseId" data-enabled="false" data-visible="false" style="float:left;width:0px;display:none;"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="InputByUserId" data-enabled="false" data-visible="false" style="float:left;width:0px;display:none;"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="QcRequired" data-enabled="false" style="float:left;width:0px;display:none;"></div>
                         </div>
                      </div>
                    </div>
@@ -717,17 +726,17 @@ class Repair {
            <!--QC Tab-->
             <div data-type="tabpage" id="qctabpage" class="tabpage" data-tabid="qctab">
               <div class="flexpage">
-                <div class="flexrow">
+                <div class="flexrow" style="max-width:525px;">
                   <div class="flexcolumn">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="QC">
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Automatically Complete QC for Items Completed or Released from Repair" data-datafield="AutoQC" style="flex:1 1 125px;"></div>
+                        <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Automatically Complete QC for Items Completed or Released from Repair" data-datafield="AutoCompleteQC" style="flex:1 1 125px;"></div>
                        </div>
                        <div class="flexrow">
-                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield qc-related" data-caption="Condition" data-datafield="QCCondition" data-enabled="true" style="flex:1 1 125px;"></div>
+                          <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield qc-related" data-caption="Condition" data-datafield="ConditionId" data-displayfield="Condition" data-validationname="InventoryConditionValidation" style="float:left;max-width:150px;"></div>
                        </div>
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield qc-related" data-caption="Note" data-datafield="QCNote" data-height="500px"></div>
+                        <div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield qc-related" data-caption="Note" data-datafield="QcNote" data-height="500px"></div>
                       </div>
                     </div>
                   </div>
@@ -768,9 +777,9 @@ class Repair {
             }
         });
         // Auto QC on QC tab
-        $form.find('div[data-datafield="AutoQC"]').change(e => {
-            const autoQC = FwFormField.getValueByDataField($form, 'AutoQC');
-            if (autoQC === 'true') {
+        $form.find('div[data-datafield="AutoCompleteQC"]').change(e => {
+            const autoCompleteQC = FwFormField.getValueByDataField($form, 'AutoCompleteQC');
+            if (autoCompleteQC === true) {
                 FwFormField.enable($form.find('.qc-related'));
             } else {
                 FwFormField.disable($form.find('.qc-related'));

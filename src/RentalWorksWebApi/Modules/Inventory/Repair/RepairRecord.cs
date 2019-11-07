@@ -135,15 +135,6 @@ namespace WebApi.Modules.Inventory.Repair
         [FwSqlDataField(column: "taxid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string TaxId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "repairautocompleteqc", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool? AutomaticallyCompleteQc { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "conditionid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
-        public string ConditionId { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "qcnote", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255)]
-        public string QcNote { get; set; }
-        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "softwareversion", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 20)]
         public string SoftwareVersion { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -158,6 +149,18 @@ namespace WebApi.Modules.Inventory.Repair
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }
+        //------------------------------------------------------------------------------------  
+        [FwSqlDataField(column: "qcrequired", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool? QcRequired { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "qcnote", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255)]
+        public string QcNote { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "repairautocompleteqc", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool? AutoCompleteQC { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "conditionid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        public string ConditionId { get; set; }
         //------------------------------------------------------------------------------------ 
         public async Task<ToggleRepairEstimateResponse> ToggleEstimate()
         {
