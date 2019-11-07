@@ -9,7 +9,7 @@ class CustomReportLayout {
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen, $browse;
-
+       
         screen = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
@@ -146,7 +146,7 @@ class CustomReportLayout {
         let textArea = $form.find('#codeEditor').get(0);
         var codeMirror = CodeMirror.fromTextArea(textArea,
             {
-                mode: { name: "handlebars", base: "text/html" }
+                mode: "xml"
                 , lineNumbers: true
                 , foldGutter: true
                 , gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"]
@@ -156,32 +156,17 @@ class CustomReportLayout {
         //Select module event
         $form.find('div.modules').on('change', e => {
             let $this = $form.find('[data-datafield="BaseReport"] option:selected');
-            let controller: any = $this.val();
             let modulehtml;
-
-            //get the html from the template and set it as codemirror's value
-            modulehtml = `<div>{{InvoiceNumber}} Test</div>`; //placeholder
-            //switch (type) {
-            //    case 'Browse':
-            //        typeof (<any>window)[controller].getBrowseTemplate == "function" ? modulehtml = (<any>window)[controller].getBrowseTemplate() : modulehtml = jQuery(`#tmpl-modules-${moduleName}`).html();
-            //        break;
-            //    case 'Form':
-            //        typeof (<any>window)[controller].getFormTemplate == "function" ? modulehtml = (<any>window)[controller].getFormTemplate() : modulehtml = jQuery(`#tmpl-modules-${moduleName}`).html();
-            //        break;
-            //    case 'Grid':
-            //        modulehtml = jQuery(`#tmpl-grids-${moduleName}`).html();
-            //        break;
-            //}
-
-            if (typeof modulehtml !== "undefined") {
-                codeMirror.setValue(modulehtml);
-            }
-            //else {
-            //    codeMirror.setValue(`There is no ${type} available for this selection.`);
-            //}
-
+            FwAppData.apiMethod(true, 'GET', `api/v1/customreportlayout/template/${$this.val()}`, null, FwServices.defaultTimeout,
+                response => {
+                    //get the html from the template and set it as codemirror's value
+                    modulehtml = response.ReportTemplate;
+                    if (typeof modulehtml !== "undefined") {
+                        codeMirror.setValue(modulehtml);
+                    }
+                    this.renderTab($form, 'Designer');
+                }, ex => FwFunc.showError(ex), $form);
             //this.addValidFields($form, controller);
-            this.renderTab($form, 'Designer');
         });
 
         //Updates value for form fields
@@ -190,7 +175,6 @@ class CustomReportLayout {
             let html = $form.find('textarea#codeEditor').val();
             FwFormField.setValueByDataField($form, 'Html', html);
         });
-
     }
     //----------------------------------------------------------------------------------------------
     //addValidFields($form, controller) {

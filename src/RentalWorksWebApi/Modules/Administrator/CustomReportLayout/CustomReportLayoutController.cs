@@ -1,11 +1,14 @@
 using FwStandard.AppManager;
-using FwStandard.SqlServer;
-using System.Collections.Generic;
 using FwStandard.Models;
+using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using WebApi.Controllers;
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using WebApi.Controllers;
+using static WebApi.Modules.Administrator.CustomReportLayout.CustomReportLayoutFunc;
+
 namespace WebApi.Modules.Administrator.CustomReportLayout
 {
     [Route("api/v1/[controller]")]
@@ -62,6 +65,22 @@ namespace WebApi.Modules.Administrator.CustomReportLayout
         {
             return await DoDeleteAsync<CustomReportLayoutLogic>(id);
         }
-        //------------------------------------------------------------------------------------ 
+        //------------------------------------------------------------------------------------
+        // GET api/v1/customreportlayout/template/report
+        [HttpGet("template/{report}")]
+        [FwControllerMethod(Id: "OjYnsJSoA0p")]
+        public ActionResult<CustomReportLayoutResponse> GetTemplate([FromRoute]string report)
+        {
+            try
+            {
+                CustomReportLayoutResponse response = GetReportTemplate(report);
+                return new OkObjectResult(response);
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------
     }
 }
