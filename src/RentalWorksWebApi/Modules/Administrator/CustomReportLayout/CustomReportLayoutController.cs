@@ -1,13 +1,14 @@
 using FwStandard.AppManager;
 using FwStandard.Models;
 using FwStandard.SqlServer;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using WebApi.Controllers;
-using static WebApi.Modules.Administrator.CustomReportLayout.CustomReportLayoutFunc;
 
 namespace WebApi.Modules.Administrator.CustomReportLayout
 {
@@ -16,7 +17,16 @@ namespace WebApi.Modules.Administrator.CustomReportLayout
     [FwController(Id:"EtrF5NHJ7dRg6")]
     public class CustomReportLayoutController : AppDataController
     {
-        public CustomReportLayoutController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(CustomReportLayoutLogic); }
+        private readonly IHostingEnvironment _hostingEnvironment;
+        public CustomReportLayoutController(IOptions<FwApplicationConfig> appConfig, IHostingEnvironment hostingEnvironment) : base(appConfig)
+        { 
+            logicType = typeof(CustomReportLayoutLogic);
+            _hostingEnvironment = hostingEnvironment;
+        }
+        public class CustomReportLayoutResponse
+        {
+            public string ReportTemplate { get; set; } = "";
+        }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/customreportlayout/browse 
         [HttpPost("browse")]
@@ -73,8 +83,10 @@ namespace WebApi.Modules.Administrator.CustomReportLayout
         {
             try
             {
-                CustomReportLayoutResponse response = GetReportTemplate(report);
-                return new OkObjectResult(response);
+                CustomReportLayoutResponse response = new CustomReportLayoutResponse();
+                var path = Path.Combine(_hostingEnvironment.WebRootPath, "Reports", report, "hbReport.hbs");
+                response.ReportTemplate = System.IO.File.ReadAllText(path);
+                return response;
             }
             catch (Exception ex)
             {

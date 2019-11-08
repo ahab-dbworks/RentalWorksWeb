@@ -1,6 +1,7 @@
-﻿const webpack = require('webpack');
+const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 const fs = require('fs');
 const srcReportDir = 'WebpackReports/src/Reports';
 const distReportDir = 'wwwroot/Reports';
@@ -38,6 +39,9 @@ class WebpackReportsCompiler {
                             hash: true,
                             chunks: [reportName]
                         }));
+                        plugins.push(new CopyPlugin([
+                            { from: `./${srcReportDir}/${reportCategoryName}/${reportName}/hbReport.hbs`, to: `${reportName}/hbReport.hbs` }
+                        ]));
                     }
                 }
             }
