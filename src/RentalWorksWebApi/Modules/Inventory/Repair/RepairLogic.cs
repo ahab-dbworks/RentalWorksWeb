@@ -343,7 +343,7 @@ namespace WebApi.Modules.Inventory.Repair
         [FwLogicProperty(Id: "P9UwssvixT0jy", IsReadOnly: true)]
         public bool? QcRequired { get; set; }
 
-        [FwLogicProperty(Id: "7SiSsbDi7VSzK", IsReadOnly: true)]
+        [FwLogicProperty(Id: "7SiSsbDi7VSzK")]
         public bool? AutoCompleteQC { get { return repair.AutoCompleteQC; } set { repair.AutoCompleteQC = value; } }
 
         [FwLogicProperty(Id: "krgHtYtSB2cdU")]
