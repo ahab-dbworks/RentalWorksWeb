@@ -10,6 +10,7 @@
     contractId: string;
     isPendingItemGridView: boolean = false;
     Type: string;
+    scanningFlag: boolean = true;
     //----------------------------------------------------------------------------------------------
     getModuleScreen = () => {
         const screen: any = {};
@@ -843,6 +844,26 @@
         FwFormField.setValueByDataField($form, 'QuantityRemaining', response.InventoryStatus.QuantityRemaining);
     };
     //----------------------------------------------------------------------------------------------
+    refreshGridForScanning($form: JQuery): void {
+        if (this.scanningFlag) {
+            const gridView = FwFormField.getValueByDataField($form, 'GridView');
+            if (gridView === 'STAGE') {
+                const $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
+                FwBrowse.search($stagedItemGrid);
+            } else {
+                const $checkOutPendingItemGrid = $form.find('[data-name="CheckOutPendingItemGrid"]');
+                FwBrowse.search($checkOutPendingItemGrid);
+            }
+        }
+        this.scanningFlag = false;
+    };
+    //----------------------------------------------------------------------------------------------
+    reverseScanningFlag(wait: number): void {
+        setTimeout(() => {
+            this.scanningFlag = true;
+        }, wait);
+    }
+    //----------------------------------------------------------------------------------------------
     events($form: any): void {
         const errorSound = new Audio(this.errorSoundFileName);
         const successSound = new Audio(this.successSoundFileName);
@@ -888,7 +909,7 @@
                 $form.find('div.AddItemToOrder').html('');
                 const orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
                 const code = FwFormField.getValueByDataField($form, 'Code');
-                const request = {
+                const request: any = {
                     OrderId: orderId,
                     Code: code
                 }
@@ -897,18 +918,9 @@
                     if (response.success === true && response.status != 107) {
                         successSound.play();
                         this.addItemFieldValues($form, response);
-                     
-                        const refreshGrid = (): void => {
-                            const gridView = FwFormField.getValueByDataField($form, 'GridView');
-                            if (gridView === 'STAGE') {
-                                const $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
-                                FwBrowse.search($stagedItemGrid);
-                            } else {
-                                const $checkOutPendingItemGrid = $form.find('[data-name="CheckOutPendingItemGrid"]');
-                                FwBrowse.search($checkOutPendingItemGrid);
-                            }
-                        };
-                        FwFunc.debounce(refreshGrid, 1000, false); 
+                        this.refreshGridForScanning($form);
+                        this.reverseScanningFlag(2500);
+
                         $form.find('[data-datafield="Code"] input').select();
                     } if (response.status === 107) {
                         successSound.play();
@@ -962,18 +974,8 @@
                         if (response.success === true) {
                             successSound.play();
                             this.addItemFieldValues($form, response);
-
-                            const refreshGrid = (): void => {
-                            const gridView = FwFormField.getValueByDataField($form, 'GridView');
-                                if (gridView === 'STAGE') {
-                                    const $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
-                                    FwBrowse.search($stagedItemGrid);
-                                } else {
-                                    const $checkOutPendingItemGrid = $form.find('[data-name="CheckOutPendingItemGrid"]');
-                                    FwBrowse.search($checkOutPendingItemGrid);
-                                }
-                            };
-                            FwFunc.debounce(refreshGrid, 1000, false);
+                            this.refreshGridForScanning($form);
+                            this.reverseScanningFlag(2500);
                             FwFormField.setValueByDataField($form, 'Quantity', 0)
                             $form.find('[data-datafield="Code"] input').select();
                         } if (response.ShowAddItemToOrder === true) {
@@ -1262,14 +1264,7 @@
 
         FwAppData.apiMethod(true, 'POST', `api/v1/checkout/stageitem`, request, FwServices.defaultTimeout, response => {
             try {
-                const gridView = FwFormField.getValueByDataField($form, 'GridView');
-                if (gridView === 'STAGE') {
-                    const $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
-                    FwBrowse.search($stagedItemGrid);
-                } else {
-                    const $checkOutPendingItemGrid = $form.find('[data-name="CheckOutPendingItemGrid"]');
-                    FwBrowse.search($checkOutPendingItemGrid);
-                }
+                this.refreshGridForScanning($form);
                 $form.find('.error-msg:not(.qty)').html('');
                 $form.find('div.AddItemToOrder').html('');
                 const successSound = new Audio(this.successSoundFileName);
