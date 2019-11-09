@@ -187,6 +187,11 @@ export class GridBase {
         try {
             editRow = await page.waitForSelector(editableCellSelector, { timeout: 3000 });
             Logging.logInfo(`found row in EDIT mode on grid: ${this.gridName}`);
+
+            let cancelEditModeButtonSelector = `${this.gridSelector} .tablewrapper table tbody tr.editrow .divcancelsaverow i`;
+            await page.waitForSelector(cancelEditModeButtonSelector);
+            await page.click(cancelEditModeButtonSelector);
+
         } catch (error) { } // not found
         canEdit = (editRow !== undefined);
         return canEdit;
@@ -218,6 +223,14 @@ export class GridBase {
             deleteOption = await page.waitForSelector(deleteOptionSelector, { timeout: 1000 });
         } catch (error) { } // not found
         deleteExists = (deleteOption !== undefined);
+
+
+        await page.waitForSelector(gridMenuSelector, { visible: true });
+        await page.click(gridMenuSelector);
+        await ModuleBase.wait(200); // wait for the grid hamburger to get its events
+        Logging.logInfo(`clicked grid menu button to close menu on grid: ${this.gridName}`);
+
+
         return deleteExists;
     }
     //---------------------------------------------------------------------------------------
