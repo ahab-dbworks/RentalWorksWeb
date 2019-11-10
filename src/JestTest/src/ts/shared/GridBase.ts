@@ -442,13 +442,14 @@ export class GridBase {
         //}
         await this.clickGridTab();
 
+        await ModuleBase.wait(250);  // wait for the grid sub menu to get its events
         let gridContextMenuSelector = `${this.gridSelector} .tablewrapper table tbody tr:nth-child(${rowToDelete}) .browsecontextmenu i`;
         Logging.logInfo(`About to wait for row context menu: ${gridContextMenuSelector}`);
         await page.waitForSelector(gridContextMenuSelector, { visible: true });
         await page.click(gridContextMenuSelector);
         Logging.logInfo(`clicked the row context menu`);
 
-        await ModuleBase.wait(250);  // wait for the grid sub menu to open
+        //await ModuleBase.wait(250);  // wait for the grid sub menu to open
         let gridContextMenuDeleteOptionSelector = `${this.gridSelector} .tablewrapper table tbody tr:nth-child(${rowToDelete}) .browsecontextmenu .deleteoption`;
         Logging.logInfo(`About to wait for delete option: ${gridContextMenuDeleteOptionSelector}`);
         await page.waitForSelector(gridContextMenuDeleteOptionSelector, { visible: true });
