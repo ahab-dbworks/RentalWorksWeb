@@ -268,28 +268,24 @@ namespace WebApi.Modules.Settings.Widget
 
                         for (int r = 0; r < table.Rows.Count; r++)
                         {
-
                             datalabel = table.Rows[r][label1FieldIndex].ToString();
                             datalabel2 = table.Rows[r][label2FieldIndex].ToString();
-
                             if ((datalabel.Equals(label)) && (datalabel2.Equals(label2)))
                             {
-
                                 value = Convert.ToDecimal(table.Rows[r][counterFieldIndex]);
                                 colorInt = Convert.ToInt32(table.Rows[r][backgroundColorFieldIndex]);
-                                colorStr = FwConvert.OleColorToHtmlColor(colorInt, opacity);
-
                                 borderColorInt = Convert.ToInt32(table.Rows[r][borderColorFieldIndex]);
-                                borderColorStr = FwConvert.OleColorToHtmlColor(borderColorInt, 1);
-
-                                dataList.Add(value);
-                                backgroundColor.Add(colorStr);
-                                borderColor.Add(borderColorStr);
-
+                                break;
                             }
-                            loaded = true;
                         }
+                        colorStr = FwConvert.OleColorToHtmlColor(colorInt, opacity);
+                        borderColorStr = FwConvert.OleColorToHtmlColor(borderColorInt, 1);
 
+                        dataList.Add(value);
+                        backgroundColor.Add(colorStr);
+                        borderColor.Add(borderColorStr);
+
+                        loaded = true;
                     }
 
                     WidgetDataSet wds = new WidgetDataSet();
