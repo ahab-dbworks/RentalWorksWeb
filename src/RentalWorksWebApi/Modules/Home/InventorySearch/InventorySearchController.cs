@@ -48,6 +48,7 @@ namespace WebApi.Modules.Home.InventorySearch
         public string SessionId;
         public string OrderId;
         public string ParentId;
+        public string GrandParentId;
         public string WarehouseId;
         public bool? ShowAvailability;
         //public bool? RefreshAvailability;

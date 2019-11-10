@@ -40,6 +40,9 @@ namespace WebApi.Modules.Home.InventorySearch
         [FwLogicProperty(Id:"s66OgVvyAPW4")]
         public string ParentId { get { return inventorySearch.ParentId; } set { inventorySearch.ParentId = value; } }
 
+        [FwLogicProperty(Id: "7Iz1MCtA40NsH")]
+        public string GrandParentId { get { return inventorySearch.GrandParentId; } set { inventorySearch.GrandParentId = value; } }
+
         [FwLogicProperty(Id:"UG7rknSx0rbh")]
         public decimal? Quantity { get { return inventorySearch.Quantity; } set { inventorySearch.Quantity = value; } }
 

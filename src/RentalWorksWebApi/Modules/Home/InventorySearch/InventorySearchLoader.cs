@@ -252,6 +252,7 @@ namespace WebApi.Modules.Home.InventorySearch
                     qry.AddParameter("@sessionid", SqlDbType.NVarChar, ParameterDirection.Input, request.SessionId);
                     qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, request.OrderId);
                     qry.AddParameter("@parentid", SqlDbType.NVarChar, ParameterDirection.Input, request.ParentId);
+                    qry.AddParameter("@grandparentid", SqlDbType.NVarChar, ParameterDirection.Input, request.GrandParentId);
                     qry.AddParameter("@warehouseid", SqlDbType.NVarChar, ParameterDirection.Input, request.WarehouseId);
                     if ((request.FromDate != null) && (request.FromDate > DateTime.MinValue))
                     {

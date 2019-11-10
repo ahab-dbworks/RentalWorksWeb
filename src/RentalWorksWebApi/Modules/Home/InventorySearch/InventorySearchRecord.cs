@@ -31,6 +31,9 @@ namespace WebApi.Modules.Home.InventorySearch
         [FwSqlDataField(column: "parentid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string ParentId { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "grandparentid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        public string GrandParentId { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "qty", modeltype: FwDataTypes.Integer, sqltype: "numeric", precision: 12, scale: 2)]
         public decimal? Quantity { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -46,6 +49,7 @@ namespace WebApi.Modules.Home.InventorySearch
                 FwSqlCommand qry = new FwSqlCommand(conn, "savetmpsearchsession", this.AppConfig.DatabaseSettings.QueryTimeout);
                 qry.AddParameter("@sessionid", SqlDbType.NVarChar, ParameterDirection.Input, SessionId);
                 qry.AddParameter("@parentid", SqlDbType.NVarChar, ParameterDirection.Input, ParentId);
+                qry.AddParameter("@grandparentid", SqlDbType.NVarChar, ParameterDirection.Input, GrandParentId);
                 qry.AddParameter("@masterid", SqlDbType.NVarChar, ParameterDirection.Input, InventoryId);
                 qry.AddParameter("@warehouseid", SqlDbType.NVarChar, ParameterDirection.Input, WarehouseId);
                 qry.AddParameter("@qty", SqlDbType.Float, ParameterDirection.Input, Quantity);
