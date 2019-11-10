@@ -101,19 +101,19 @@
         FwBrowse.init($warehouseInventoryTypeGridControl);
         FwBrowse.renderRuntimeHtml($warehouseInventoryTypeGridControl);
         // ----------
-        const $warehouseAvailabilityHourGrid = $form.find('div[data-grid="WarehouseAvailabilityHourGrid"]');
-        const $warehouseAvailabilityHourGridControl = FwBrowse.loadGridFromTemplate('WarehouseAvailabilityHourGrid');
-        $warehouseAvailabilityHourGrid.empty().append($warehouseAvailabilityHourGridControl);
-        $warehouseAvailabilityHourGridControl.data('ondatabind', request => {
-            request.uniqueids = {
-                WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId')
-            };
-        });
-        $warehouseAvailabilityHourGridControl.data('beforesave', request => {
-            request.WarehouseId = FwFormField.getValueByDataField($form, 'WarehouseId')
-        });
-        FwBrowse.init($warehouseAvailabilityHourGridControl);
-        FwBrowse.renderRuntimeHtml($warehouseAvailabilityHourGridControl);
+        //const $warehouseAvailabilityHourGrid = $form.find('div[data-grid="WarehouseAvailabilityHourGrid"]');
+        //const $warehouseAvailabilityHourGridControl = FwBrowse.loadGridFromTemplate('WarehouseAvailabilityHourGrid');
+        //$warehouseAvailabilityHourGrid.empty().append($warehouseAvailabilityHourGridControl);
+        //$warehouseAvailabilityHourGridControl.data('ondatabind', request => {
+        //    request.uniqueids = {
+        //        WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId')
+        //    };
+        //});
+        //$warehouseAvailabilityHourGridControl.data('beforesave', request => {
+        //    request.WarehouseId = FwFormField.getValueByDataField($form, 'WarehouseId')
+        //});
+        //FwBrowse.init($warehouseAvailabilityHourGridControl);
+        //FwBrowse.renderRuntimeHtml($warehouseAvailabilityHourGridControl);
         // ----------
         const $warehouseDepartmentUserGrid = $form.find('div[data-grid="WarehouseDepartmentUserGrid"]');
         const $warehouseDepartmentUserGridControl = FwBrowse.loadGridFromTemplate('WarehouseDepartmentUserGrid');
