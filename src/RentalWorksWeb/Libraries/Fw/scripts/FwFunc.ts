@@ -213,9 +213,9 @@
         return objects;
     }
     //---------------------------------------------------------------------------------
-    static debounce(func: any, wait: number, immediate: boolean): any {
+    static debounce(func: any, wait: number, immediate?: boolean): any {
         // Returns a function, that, as long as it continues to be invoked, will not be triggered. The function will be called after it stops being called for
-        // N milliseconds. If `immediate` is passed, trigger the function on the leading edge, instead of the trailing.
+        // N milliseconds. If `immediate` is passed, trigger the function on the leading edge, instead of the trailing. Returned function must be invoked.
         let timeout;
         return function () {
             const context = this, args = arguments;
