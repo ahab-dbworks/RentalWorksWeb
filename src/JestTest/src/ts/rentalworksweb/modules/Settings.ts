@@ -1190,6 +1190,9 @@ export class EventType extends SettingsModule {
         this.moduleName = 'EventType';
         this.moduleId = 'FE501F99-95D4-444C-A7B6-EA20ACE88879';
         this.moduleCaption = 'Event Type';
+        this.waitAfterClickingToOpenBrowseBeforeCheckingForErrors = 1500;
+        this.waitAfterClickingToOpenRecordBeforeCheckingForErrors = 1500;
+        this.waitAfterClickingToOpenFormToAllowOtherQueries = 2000;
 
         let activityDatesGrid: GridBase = new GridBase("Activity Dates Grid", "OrderTypeActivityDatesGrid");
         let personnelTypeGrid: GridBase = new GridBase("Personnel Type Grid", "EventTypePersonnelTypeGrid");
@@ -1272,7 +1275,7 @@ export class PersonnelType extends SettingsModule {
                 seekObject: {
                     PersonnelType: "GlobalScope.TestToken~1.TestToken",
                 },
-                attemptDuplicate: true,
+                attemptDuplicate: false,  // duplicates should be allowed here
             },
             {
                 record: {
@@ -3534,6 +3537,7 @@ export class OrderType extends SettingsModule {
         this.moduleCaption = 'Order Type';
         this.waitAfterClickingToOpenBrowseBeforeCheckingForErrors = 1500;
         this.waitAfterClickingToOpenRecordBeforeCheckingForErrors = 1500;
+        this.waitAfterClickingToOpenFormToAllowOtherQueries = 2000;
 
         let activityDatesGrid: GridBase = new GridBase("Activity Dates Grid", "OrderTypeActivityDatesGrid");
 
@@ -4193,6 +4197,7 @@ export class POType extends SettingsModule {
         this.moduleCaption = 'PO Type';
         this.waitAfterClickingToOpenBrowseBeforeCheckingForErrors = 1500;
         this.waitAfterClickingToOpenRecordBeforeCheckingForErrors = 1500;
+        this.waitAfterClickingToOpenFormToAllowOtherQueries = 2000;
 
         let activityDatesGrid: GridBase = new GridBase("Activity Dates Grid", "OrderTypeActivityDatesGrid");
 
