@@ -301,6 +301,9 @@
             FwFormField.enable($form.find('div[data-datafield="CreditLimit"]'));
         }
 
+        this.toggleOptionsTabIfExcludeQuote($form, FwFormField.getValueByDataField($form, 'DisableQuoteOrderActivity'));
+
+
         //Click Event on tabs to load grids/browses
         $form.on('click', '[data-type="tab"]', e => {
             const tabname = jQuery(e.currentTarget).attr('id');
@@ -358,6 +361,10 @@
             FwFormField.setValueByDataField($form, 'InsuranceCompanyFax', $tr.find('.field[data-formdatafield="Fax"]').attr('data-originalvalue'));
             FwFormField.setValueByDataField($form, 'InsuranceCompanyPhone', $tr.find('.field[data-formdatafield="Phone"]').attr('data-originalvalue'));
             FwFormField.setValue($form, 'div[data-datafield="InsuranceCompanyCountryId"]', $tr.find('.field[data-formdatafield="CountryId"]').attr('data-originalvalue'), $tr.find('.field[data-formdatafield="Country"]').attr('data-originalvalue'));
+        });
+        $form.on('change', '.exlude_quote input[type=checkbox]', e => {
+            const isChecked = jQuery(e.currentTarget).is(':checked');
+            this.toggleOptionsTabIfExcludeQuote($form, isChecked);
         });
     }
     //----------------------------------------------------------------------------------------------
@@ -753,78 +760,78 @@
 
               <!-- OPTIONS TAB -->
               <div data-type="tabpage" id="optionstabpage" class="tabpage" data-tabid="optionstab">
-                <div class="flexpage">
+                <div class="formpage">
                   <div class="flexrow">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Quote / Order Activity" style="flex:0 1 375px;">
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Exclude Quote / Order Activity" data-datafield="" data-enabled="true" style="flex:1 1 250px;"></div>
+                        <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield exlude_quote" data-caption="Exclude Quote / Order Activity" data-datafield="DisableQuoteOrderActivity" data-enabled="true" style="flex:1 1 250px;"></div>
                       </div>
                       <div class="flexrow" style="border-top:1px solid silver;border-bottom:1px solid silver;">
                         <div class="flexcolumn">
                           <div class="flexrow">
-                            <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Rental" data-datafield="" data-enabled="false" style="flex:1 1 225px;margin-left:18px;"></div>
+                            <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Rental" data-datafield="DisableRental" data-enabled="false" style="flex:1 1 225px;margin-left:18px;"></div>
                           </div>
                         </div>
                         <div class="flexcolumn">
                           <div class="flexrow">
-                            <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Sub-Rental" data-datafield="" data-enabled="false" style="flex:1 1 225px;margin-left:18px;"></div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="flexrow" style="border-bottom:1px solid silver;">
-                        <div class="flexcolumn">
-                          <div class="flexrow">
-                            <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Sales" data-datafield="" data-enabled="false" style="flex:1 1 225px;margin-left:18px;"></div>
-                          </div>
-                        </div>
-                        <div class="flexcolumn">
-                          <div class="flexrow">
-                            <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Sub-Sales" data-datafield="" data-enabled="false" style="flex:1 1 225px;margin-left:18px;"></div>
+                            <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Sub-Rental" data-datafield="DisableSubRental" data-enabled="false" style="flex:1 1 225px;margin-left:18px;"></div>
                           </div>
                         </div>
                       </div>
                       <div class="flexrow" style="border-bottom:1px solid silver;">
                         <div class="flexcolumn">
                           <div class="flexrow">
-                            <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Facilities" data-datafield="" data-enabled="false" style="flex:1 1 225px;margin-left:18px;"></div>
+                            <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Sales" data-datafield="DisableSales" data-enabled="false" style="flex:1 1 225px;margin-left:18px;"></div>
+                          </div>
+                        </div>
+                        <div class="flexcolumn">
+                          <div class="flexrow">
+                            <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Sub-Sales" data-datafield="DisableSubSale" data-enabled="false" style="flex:1 1 225px;margin-left:18px;"></div>
                           </div>
                         </div>
                       </div>
                       <div class="flexrow" style="border-bottom:1px solid silver;">
                         <div class="flexcolumn">
                           <div class="flexrow">
-                            <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Transportation" data-datafield="" data-enabled="false" style="flex:1 1 225px;margin-left:18px;"></div>
+                            <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Facilities" data-datafield="DisableFacilities" data-enabled="false" style="flex:1 1 225px;margin-left:18px;"></div>
                           </div>
                         </div>
                       </div>
                       <div class="flexrow" style="border-bottom:1px solid silver;">
                         <div class="flexcolumn">
                           <div class="flexrow">
-                            <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Crew" data-datafield="" data-enabled="false" style="flex:1 1 225px;margin-left:18px;"></div>
-                          </div>
-                        </div>
-                        <div class="flexcolumn">
-                          <div class="flexrow">
-                            <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Sub-Crew" data-datafield="" data-enabled="false" style="flex:1 1 225px;margin-left:18px;"></div>
+                            <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Transportation" data-datafield="DisableTransportation" data-enabled="false" style="flex:1 1 225px;margin-left:18px;"></div>
                           </div>
                         </div>
                       </div>
                       <div class="flexrow" style="border-bottom:1px solid silver;">
                         <div class="flexcolumn">
                           <div class="flexrow">
-                            <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Miscellaneous" data-datafield="" data-enabled="false" style="flex:1 1 225px;margin-left:18px;"></div>
+                            <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Crew" data-datafield="DisableLabor" data-enabled="false" style="flex:1 1 225px;margin-left:18px;"></div>
                           </div>
                         </div>
                         <div class="flexcolumn">
                           <div class="flexrow">
-                            <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Sub-Miscellaneous" data-datafield="" data-enabled="false" style="flex:1 1 225px;margin-left:18px;"></div>
+                            <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Sub-Crew" data-datafield="DisableSubLabor" data-enabled="false" style="flex:1 1 225px;margin-left:18px;"></div>
                           </div>
                         </div>
                       </div>
                       <div class="flexrow" style="border-bottom:1px solid silver;">
                         <div class="flexcolumn">
                           <div class="flexrow">
-                            <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Used Sale" data-datafield="" data-enabled="false" style="flex:1 1 225px;margin-left:18px;"></div>
+                            <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Miscellaneous" data-datafield="DisableMisc" data-enabled="false" style="flex:1 1 225px;margin-left:18px;"></div>
+                          </div>
+                        </div>
+                        <div class="flexcolumn">
+                          <div class="flexrow">
+                            <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Sub-Miscellaneous" data-datafield="DisableSubMisc" data-enabled="false" style="flex:1 1 225px;margin-left:18px;"></div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="flexrow" style="border-bottom:1px solid silver;">
+                        <div class="flexcolumn">
+                          <div class="flexrow">
+                            <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Used Sale" data-datafield="DisableRentalSale" data-enabled="false" style="flex:1 1 225px;margin-left:18px;"></div>
                           </div>
                         </div>
                       </div>
@@ -933,6 +940,30 @@
         if (FwFormField.getValue($form, '.shipping_address_type') === 'OTHER') {
             FwFormField.enable($form.find('.shippingaddress'));
         };
+    }
+    //----------------------------------------------------------------------------------------------
+    disableFields($form: JQuery, fields: string[]): void {
+        fields.forEach((e, i) => { FwFormField.disable($form.find(`[data-datafield="${e}"]`)); });
+    }
+    //----------------------------------------------------------------------------------------------
+    enableFields($form: JQuery, fields: string[]): void {
+        fields.forEach((e, i) => { FwFormField.enable($form.find(`[data-datafield="${e}"]`)); });
+    }
+    //----------------------------------------------------------------------------------------------
+    toggleOptionsTabIfExcludeQuote($form: JQuery, isExcluded: boolean): void {
+        const list = ['DisableRental',
+            'DisableSales',
+            'DisableFacilities',
+            'DisableTransportation',
+            'DisableLabor',
+            'DisableMisc',
+            'DisableRentalSale',
+            'DisableSubRental',
+            'DisableSubSale',
+            'DisableSubLabor',
+            'DisableSubMisc'];
+
+        isExcluded ? this.enableFields($form, list) : this.disableFields($form, list);
     }
     //----------------------------------------------------------------------------------------------
     openDealBrowse($form) {
