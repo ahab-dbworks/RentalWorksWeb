@@ -845,7 +845,7 @@
     };
     //----------------------------------------------------------------------------------------------
     refreshGridForScanning($form: JQuery): void {
-        if (this.scanningFlag) {
+        //if (this.scanningFlag) {
             const gridView = FwFormField.getValueByDataField($form, 'GridView');
             if (gridView === 'STAGE') {
                 const $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
@@ -854,7 +854,7 @@
                 const $checkOutPendingItemGrid = $form.find('[data-name="CheckOutPendingItemGrid"]');
                 FwBrowse.search($checkOutPendingItemGrid);
             }
-        }
+       // }
         this.scanningFlag = false;
     };
     //----------------------------------------------------------------------------------------------
@@ -921,7 +921,7 @@
                         successSound.play();
                         this.addItemFieldValues($form, response);
                         this.refreshGridForScanning($form);
-                        this.reverseScanningFlag(2500);
+                       // this.reverseScanningFlag(2500);
 
                         $form.find('[data-datafield="Code"] input').select();
                     } if (response.status === 107) {
@@ -979,7 +979,7 @@
                             successSound.play();
                             this.addItemFieldValues($form, response);
                             this.refreshGridForScanning($form);
-                            this.reverseScanningFlag(2500);
+                           // this.reverseScanningFlag(2500);
                             FwFormField.setValueByDataField($form, 'Quantity', 0)
                             $form.find('[data-datafield="Code"] input').select();
                         } if (response.ShowAddItemToOrder === true) {
