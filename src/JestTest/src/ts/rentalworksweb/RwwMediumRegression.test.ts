@@ -441,7 +441,7 @@ export class MediumRegressionTest extends BaseTest {
 
                 if ((iCodeMask.includes("-")) && (!iCodeMask.endsWith("-"))) {
                     let hyphenIndex: number = iCodeMask.indexOf("-");
-                    let iCodeStart: string = newICode.toUpperCase().substr(0, hyphenIndex - 1);
+                    let iCodeStart: string = newICode.toUpperCase().substr(0, hyphenIndex);
                     let iCodeEnd: string = newICode.toUpperCase().substr(hyphenIndex);
                     maskedICode = iCodeStart + '-' + iCodeEnd;
                 }
