@@ -85,10 +85,7 @@ class Repair {
         $form = FwModule.openForm($form, mode);
 
         $form.find('.icodesales').hide();
-        const qcRequired = FwFormField.getValueByDataField($form, 'QcRequired');
-        if (qcRequired) {
-            $form.find('[data-type="tab"][data-caption="QC"]').show();
-        }
+
 
         // Tax Option Validation
         $form.find('div[data-datafield="TaxOptionId"]').data('onchange', $tr => {
@@ -216,11 +213,17 @@ class Repair {
         return $form;
     }
     //----------------------------------------------------------------------------------------------
-    loadForm = (uniqueids: any) => {
+    loadForm(uniqueids: any) {
         let $form: JQuery = this.openForm('EDIT');
         $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="RepairId"] input').val(uniqueids.RepairId);
         FwModule.loadForm(this.Module, $form);
+        setTimeout(() => {
+            const qcRequired = FwFormField.getValueByDataField($form, 'QcRequired');
+            if (qcRequired !== false) {
+                $form.find('[data-type="tab"][data-caption="QC"]').show();
+            }
+        }, 0);
 
         $form.find('[data-datafield="PoPending"] .fwformfield-value').on('change', function () {
             const $this = jQuery(this);
@@ -502,7 +505,7 @@ class Repair {
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="LocationId" data-enabled="false" data-visible="false" style="float:left;width:0px;display:none;"></div>
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="BillingWarehouseId" data-enabled="false" data-visible="false" style="float:left;width:0px;display:none;"></div>
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="InputByUserId" data-enabled="false" data-visible="false" style="float:left;width:0px;display:none;"></div>
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="QcRequired" data-enabled="false" style="float:left;width:0px;display:none;"></div>
+                          <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="" data-datafield="QcRequired" style="float:left;width:0px;display:none;"></div>
                         </div>
                      </div>
                    </div>
