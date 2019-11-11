@@ -854,7 +854,7 @@
                 const $checkOutPendingItemGrid = $form.find('[data-name="CheckOutPendingItemGrid"]');
                 FwBrowse.search($checkOutPendingItemGrid);
             }
-       // }
+       //// }
         this.scanningFlag = false;
     };
     //----------------------------------------------------------------------------------------------
@@ -862,6 +862,22 @@
         setTimeout(() => {
             this.scanningFlag = true;
         }, wait);
+    }
+    debounce(func: any, wait: number, immediate?: boolean): any {
+        // Returns a function, that, as long as it continues to be invoked, will not be triggered. The function will be called after it stops being called for
+        // N milliseconds. If `immediate` is passed, trigger the function on the leading edge, instead of the trailing.
+        let timeout;
+        return function () {
+            var context = this, args = arguments;
+            var later = function () {
+                timeout = null;
+                if (!immediate) func.apply(context, args);
+            };
+            var callNow = immediate && !timeout;
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+            if (callNow) func.apply(context, args);
+        };
     }
     //----------------------------------------------------------------------------------------------
     events($form: any): void {
@@ -920,9 +936,20 @@
                     if (response.success === true && response.status != 107) {
                         successSound.play();
                         this.addItemFieldValues($form, response);
-                        this.refreshGridForScanning($form);
+                        //this.refreshGridForScanning($form);
                        // this.reverseScanningFlag(2500);
+                        const debouncer = FwFunc.debounce(function () {
+                            const gridView = FwFormField.getValueByDataField($form, 'GridView');
+                            if (gridView === 'STAGE') {
+                                const $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
+                                FwBrowse.search($stagedItemGrid);
+                            } else {
+                                const $checkOutPendingItemGrid = $form.find('[data-name="CheckOutPendingItemGrid"]');
+                                FwBrowse.search($checkOutPendingItemGrid);
+                            }
 
+                        }, 2000, false)
+                        debouncer();
                         $form.find('[data-datafield="Code"] input').select();
                     } if (response.status === 107) {
                         successSound.play();
@@ -980,6 +1007,18 @@
                             this.addItemFieldValues($form, response);
                             this.refreshGridForScanning($form);
                            // this.reverseScanningFlag(2500);
+                            const debouncer = FwFunc.debounce(function () {
+                                const gridView = FwFormField.getValueByDataField($form, 'GridView');
+                                if (gridView === 'STAGE') {
+                                    const $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
+                                    FwBrowse.search($stagedItemGrid);
+                                } else {
+                                    const $checkOutPendingItemGrid = $form.find('[data-name="CheckOutPendingItemGrid"]');
+                                    FwBrowse.search($checkOutPendingItemGrid);
+                                }
+
+                            }, 2000, false)
+                            debouncer();
                             FwFormField.setValueByDataField($form, 'Quantity', 0)
                             $form.find('[data-datafield="Code"] input').select();
                         } if (response.ShowAddItemToOrder === true) {
