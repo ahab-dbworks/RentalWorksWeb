@@ -1207,6 +1207,7 @@ class FwSettingsClass {
             let $confirmation = FwConfirmation.renderConfirmation('Delete Record', 'Delete this record?');
             let $yes = FwConfirmation.addButton($confirmation, 'Yes');
             FwConfirmation.addButton($confirmation, 'No');
+            $yes.focus();
             $yes.on('click', function () {
                 const controller = $form.data('controller');
                 ids = FwModule.getFormUniqueIds($form);
