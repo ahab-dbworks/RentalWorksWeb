@@ -15,6 +15,7 @@ namespace WebApi.Modules.Warehouse.CheckOut
         public string OrderItemId { get; set; }
         public string VendorId { get; set; }
         public string Code { get; set; }
+        public string WarehouseId { get; set; }  // this field is optional.  If ommitted, RWW will use the user's default Warehouse
         public int? Quantity { get; set; }
         public bool? UnstageItem { get; set; }
         public bool? AddItemToOrder { get; set; }
@@ -140,6 +141,7 @@ namespace WebApi.Modules.Warehouse.CheckOut
                     qry.AddParameter("@addcompletetoorder", SqlDbType.NVarChar, ParameterDirection.Input, (request.AddCompleteToOrder.GetValueOrDefault(false) ? "T" : "F"));
                     qry.AddParameter("@unstage", SqlDbType.NVarChar, ParameterDirection.Input, (request.UnstageItem.GetValueOrDefault(false) ? "T" : "F"));
                     qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+                    qry.AddParameter("@userwarehouseid", SqlDbType.NVarChar, ParameterDirection.Input, request.WarehouseId);
                     qry.AddParameter("@masterid", SqlDbType.NVarChar, ParameterDirection.Output);
                     //qry.AddParameter("@qtystaged", SqlDbType.Int, ParameterDirection.Output);
 

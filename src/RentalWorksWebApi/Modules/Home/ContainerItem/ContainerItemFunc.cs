@@ -11,6 +11,7 @@ namespace WebApi.Modules.Home.ContainerItem
     {
         public string ContainerId { get; set; }
         public string ItemId { get; set; }
+        public string WarehouseId { get; set; }  // this field is optional.  If ommitted, RWW will use the user's default Warehouse
     }
 
     public class InstantiateContainerItemResponse : TSpStatusResponse
@@ -72,6 +73,7 @@ namespace WebApi.Modules.Home.ContainerItem
                     //qry.AddParameter("@autostageacc", SqlDbType.NVarChar, ParameterDirection.Input, "F");
                     qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
                     //qry.AddParameter("@fromcheckin", SqlDbType.NVarChar, ParameterDirection.Input, "F");
+                    qry.AddParameter("@userwarehouseid", SqlDbType.NVarChar, ParameterDirection.Input, request.WarehouseId);
                     qry.AddParameter("@containeritemid", SqlDbType.NVarChar, ParameterDirection.Output);
                     qry.AddParameter("@contractid", SqlDbType.NVarChar, ParameterDirection.Output);
                     //qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);

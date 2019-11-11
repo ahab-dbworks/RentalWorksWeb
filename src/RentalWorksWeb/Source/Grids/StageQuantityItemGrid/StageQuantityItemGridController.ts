@@ -64,6 +64,7 @@
                 };
 
                 $quantityColumn.on('change', '.fieldvalue', e => {
+                    const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
                     const type = $grid.attr('data-moduletype');
 
                     let request: any = {},
@@ -77,6 +78,7 @@
                     request = {
                         OrderId: orderId,
                         Code: code,
+                        WarehouseId: warehouse.warehouseid,
                         Quantity: quantity,
                         OrderItemId: orderItemId
                     }
@@ -93,6 +95,7 @@
                                 this.addItemRequest = {
                                     OrderId: orderId,
                                     Code: code,
+                                    WarehouseId: warehouse.warehouseid,
                                     Quantity: quantity,
                                     AddItemToOrder: true
                                 }

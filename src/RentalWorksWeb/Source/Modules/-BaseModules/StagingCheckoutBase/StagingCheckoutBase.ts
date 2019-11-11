@@ -907,11 +907,13 @@
             if (e.which == 9 || e.which == 13) {
                 errorMsg.html('');
                 $form.find('div.AddItemToOrder').html('');
+                const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
                 const orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
                 const code = FwFormField.getValueByDataField($form, 'Code');
                 const request: any = {
                     OrderId: orderId,
-                    Code: code
+                    Code: code,
+                    WarehouseId: warehouse.warehouseid,
                 }
 
                 FwAppData.apiMethod(true, 'POST', `api/v1/checkout/stageitem`, request, FwServices.defaultTimeout, response => {
@@ -962,13 +964,15 @@
                     errorMsg.html('');
                     $form.find('div.AddItemToOrder').html('');
 
+                    const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
                     const orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
                     const code = FwFormField.getValueByDataField($form, 'Code');
                     const quantity = +FwFormField.getValueByDataField($form, 'Quantity');
                     const request = {
                         OrderId: orderId,
                         Code: code,
-                        Quantity: quantity
+                        WarehouseId: warehouse.warehouseid,
+                        Quantity: quantity,
                     }
                     FwAppData.apiMethod(true, 'POST', `api/v1/checkout/stageitem`, request, FwServices.defaultTimeout, response => {
                         if (response.success === true) {
@@ -1189,6 +1193,7 @@
         this.showAddItemToOrder = false;
         const $element = jQuery(element);
         const $form = jQuery($element).closest('.fwform');
+        const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         const orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
         const code = FwFormField.getValueByDataField($form, 'Code');
         const quantity = +FwFormField.getValueByDataField($form, 'Quantity');
@@ -1199,6 +1204,7 @@
                 request = {
                     OrderId: orderId,
                     Code: code,
+                    Warehouse: warehouse.warehouseid,
                     AddCompleteToOrder: true,
                     Quantity: quantity
                 }
@@ -1206,6 +1212,7 @@
                 request = {
                     OrderId: orderId,
                     Code: code,
+                    Warehouse: warehouse.warehouseid,
                     AddCompleteToOrder: true
                 }
             }
@@ -1214,6 +1221,7 @@
                 request = {
                     OrderId: orderId,
                     Code: code,
+                    Warehouse: warehouse.warehouseid,
                     AddItemToOrder: true,
                     Quantity: quantity
                 }
@@ -1221,6 +1229,7 @@
                 request = {
                     OrderId: orderId,
                     Code: code,
+                    Warehouse: warehouse.warehouseid,
                     AddItemToOrder: true
                 }
             }
@@ -1254,11 +1263,13 @@
         const $form = jQuery($element).closest('.fwform');
 
         let request: any = {};
+        const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         const orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
         const code = FwFormField.getValueByDataField($form, 'Code');
         request = {
             OrderId: orderId,
             Code: code,
+            Warehouse: warehouse.warehouseid,
             UnstageItem: true,
         }
 

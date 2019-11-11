@@ -92,9 +92,11 @@ class FillContainer extends StagingCheckoutBase {
                                 });
 
                                 $createContainer.on('click', e => {
+                                    const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
                                     const request: any = {};
                                     request.ContainerId = FwFormField.getValueByDataField($confirmation, 'ContainerId');
                                     request.ItemId = itemId;
+                                    request.WarehouseId = warehouse.warehouseid;
                                     FwAppData.apiMethod(true, 'POST', `api/v1/containeritem/instantiatecontainer`, request, FwServices.defaultTimeout,
                                         response => {
                                             if (response.success) {
