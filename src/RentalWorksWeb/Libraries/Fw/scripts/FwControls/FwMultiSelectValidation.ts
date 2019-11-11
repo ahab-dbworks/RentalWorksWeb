@@ -71,7 +71,7 @@
                 if ((<string>$searchfield.val()).length === 0) {
                     $valuefield.val('');
                 } else {
-                    FwMultiSelectValidation.validate(validationName, $valuefield, $searchfield, $btnvalidate, $popup, $browse, true);
+                    FwMultiSelectValidation.validate($control, validationName, $valuefield, $searchfield, $btnvalidate, $popup, $browse, true);
                 }
             } catch (ex) {
                 FwFunc.showError(ex);
@@ -82,7 +82,7 @@
             try {
                 if (code === 13) { //Enter Key
                     e.preventDefault();
-                    FwMultiSelectValidation.validate(validationName, $valuefield, $searchfield, $btnvalidate, $popup, $browse, true);
+                    FwMultiSelectValidation.validate($control, validationName, $valuefield, $searchfield, $btnvalidate, $popup, $browse, true);
                     return false;
                 }
             } catch (ex) {
@@ -94,10 +94,10 @@
             try {
                 if ((typeof $control.attr('data-enabled') !== 'undefined') && ($control.attr('data-enabled') !== 'false')) {
                     if ((<string>$searchfield.val()).length > 0) {
-                        FwMultiSelectValidation.validate(validationName, $valuefield, $searchfield, $btnvalidate, $popup, $browse, true);
+                        FwMultiSelectValidation.validate($control, validationName, $valuefield, $searchfield, $btnvalidate, $popup, $browse, true);
                         FwBrowse.selectRowByIndex($browse, 0);
                     } else {
-                        FwMultiSelectValidation.validate(validationName, $valuefield, $searchfield, $btnvalidate, $popup, $browse, false);
+                        FwMultiSelectValidation.validate($control, validationName, $valuefield, $searchfield, $btnvalidate, $popup, $browse, false);
                         focusValidationSearchBox($browse);
                     }
                 }
@@ -187,7 +187,7 @@
                     if (code === 13) { //Enter Key
                         e.preventDefault();
                         $searchfield = jQuery(e.currentTarget);
-                        FwMultiSelectValidation.validate(validationName, $valuefield, $searchfield, $btnvalidate, $popup, $browse, false);
+                        FwMultiSelectValidation.validate($control, validationName, $valuefield, $searchfield, $btnvalidate, $popup, $browse, false);
                     }
                 } catch (ex) {
                     FwFunc.showError(ex);
@@ -294,7 +294,7 @@
                             const $input = $container.find('span.addItem');
                             const value = $input.text();
                             $searchfield.val(value);
-                            this.validate(validationName, $valuefield, $searchfield, $btnvalidate, $popup, $browse, true);
+                            this.validate($control, validationName, $valuefield, $searchfield, $btnvalidate, $popup, $browse, true);
                             if (value.length === 0) {
                                 focusValidationSearchBox($browse);
                             } else {
@@ -327,15 +327,56 @@
         };
     }
     //---------------------------------------------------------------------------------
-    validate(validationName: string, $valuefield: JQuery, $searchfield: JQuery, $btnvalidate: JQuery, $popup: JQuery, $browse: JQuery, useSearchFieldValue: boolean): void {
-        var $validationSearchbox;
-        $validationSearchbox = $browse.find('thead .field[data-validationdisplayfield="true"] > .search > input');
+    validate($control, validationName: string, $valuefield: JQuery, $searchfield: JQuery, $btnvalidate: JQuery, $popup: JQuery, $browse: JQuery, useSearchFieldValue: boolean): void {
+        const $validationSearchbox = $browse.find('thead .field[data-validationdisplayfield="true"] > .search > input');
         if (useSearchFieldValue && ((<string>$searchfield.val()).length > 0)) {
             if ($validationSearchbox.length == 1) {
                 $validationSearchbox.val($searchfield.val());
             } else {
                 throw 'FwMultiSelectValidation: Validation is not setup correctly. Missing validation display field.';
             }
+        }
+
+        if ($control.attr('data-showinactive') === 'true') {
+            const fwBrowseMenu = jQuery(`<div class="fwbrowse-menu"><div class="fwcontrol fwmenu default" data-control="FwMenu" data-visible="true" data-rendermode="runtime"><div class="buttonbar"></div></div></div>`);
+            $browse.find('.runtime .browsecaption').after(fwBrowseMenu);
+            const $activeView = FwMenu.generateDropDownViewBtn(FwLanguages.translate('Active'), true);
+            $activeView.on('click', function () {
+                try {
+                    const $fwbrowse = jQuery(this).closest('.fwbrowse');
+                    $fwbrowse.attr('data-activeinactiveview', 'active');
+                    FwBrowse.search($fwbrowse);
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            });
+            const $inactiveView = FwMenu.generateDropDownViewBtn(FwLanguages.translate('Inactive'), false);
+            $inactiveView.on('click', function () {
+                try {
+                    const $fwbrowse = jQuery(this).closest('.fwbrowse');
+                    $fwbrowse.attr('data-activeinactiveview', 'inactive');
+                    FwBrowse.search($fwbrowse);
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            });
+            const $allView = FwMenu.generateDropDownViewBtn(FwLanguages.translate('All'), false);
+            $allView.on('click', function () {
+                try {
+                    const $fwbrowse = jQuery(this).closest('.fwbrowse');
+                    $fwbrowse.attr('data-activeinactiveview', 'all');
+                    FwBrowse.search($fwbrowse);
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            });
+            const viewitems: Array<string> = [];
+            viewitems.push($activeView, $inactiveView, $allView);
+            const $menu = FwMenu.getMenuControl('default');
+            const $show = FwMenu.addViewBtn($menu, FwLanguages.translate('Show'), viewitems);
+            $browse.find('.fwbrowse-menu .buttonbar').html($show);
+
+            let here;
         }
 
         $browse.data('$btnvalidate', $btnvalidate);
@@ -519,8 +560,7 @@
     };
     //---------------------------------------------------------------------------------
     newValidation($control, validationName, $this, $valuefield, $btnvalidate, $popup, title) {
-        var $popupForm;
-        var $validationbrowse = $this.closest('div[data-control="FwBrowse"][data-type="Validation"]');
+        let $popupForm;
 
         try {
             if (jQuery('#tmpl-modules-' + validationName + 'Form').html() === undefined) {
@@ -532,8 +572,9 @@
             $popupForm.find('.btnpeek').remove();
             $popupForm.css({ 'background-color': 'white', 'box-shadow': '0 25px 44px rgba(0, 0, 0, 0.30), 0 20px 15px rgba(0, 0, 0, 0.22)', 'width': '60vw', 'height': '60vh', 'overflow': 'scroll', 'position': 'relative' });
 
+            const $validationbrowse = $this.closest('div[data-control="FwBrowse"][data-type="Validation"]');
             $popupForm.data('afterSaveNewValidation', function () {
-                FwMultiSelectValidation.validate(validationName, $valuefield, null, $btnvalidate, $popup, $validationbrowse, false);
+                FwMultiSelectValidation.validate($control, validationName, $valuefield, null, $btnvalidate, $popup, $validationbrowse, false);
             })
 
             FwPopup.showPopup(FwPopup.renderPopup($popupForm, undefined, 'New ' + title));
@@ -550,7 +591,7 @@
             });
 
             jQuery(document).on('keydown', function (e) {
-                var code = e.keyCode || e.which;
+                const code = e.keyCode || e.which;
                 if (code === 27) { //ESC Key  
                     try {
                         FwPopup.destroyPopup(jQuery(document).find('.fwpopup'));
@@ -577,13 +618,12 @@
     };
     //---------------------------------------------------------------------------------
     setCaret($control) {
-        let element = $control.find('div.multiselectitems');
-        let range = document.createRange();
-        let node;
-        node = element.find('span.addItem').get(0);
+        const element = $control.find('div.multiselectitems');
+        const node = element.find('span.addItem').get(0);
+        const range = document.createRange();
         range.setStartAfter(node);
-        let sel = window.getSelection();
         range.collapse(true);
+        const sel = window.getSelection();
         sel.removeAllRanges();
         sel.addRange(range);
         element.focus();
