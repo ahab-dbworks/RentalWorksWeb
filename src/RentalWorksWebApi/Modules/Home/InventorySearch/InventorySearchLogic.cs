@@ -69,15 +69,15 @@ namespace WebApi.Modules.Home.InventorySearch
             return dt;
         }
         //------------------------------------------------------------------------------------
-        public async Task<InventorySearchGetTotalResponse> GetTotalAsync(InventorySearchGetTotalRequest request)
-        {
-            return await inventorySearch.GetTotalAsync(request);
-        }
-        //------------------------------------------------------------------------------------
-        public async Task<bool> AddToAsync(InventorySearchAddToRequest request)
-        {
-            return await inventorySearch.AddToAsync(request);
-        }
-        //------------------------------------------------------------------------------------
+        //public async Task<InventorySearchGetTotalResponse> GetTotalAsync(InventorySearchGetTotalRequest request)
+        //{
+        //    return await inventorySearch.GetTotalAsync(request);
+        //}
+        ////------------------------------------------------------------------------------------
+        //public async Task<bool> AddToAsync(InventorySearchAddToRequest request)
+        //{
+        //    return await inventorySearch.AddToAsync(request);
+        //}
+        ////------------------------------------------------------------------------------------
     }
 }

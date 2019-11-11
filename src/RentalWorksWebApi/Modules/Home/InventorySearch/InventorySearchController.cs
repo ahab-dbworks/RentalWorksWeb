@@ -5,7 +5,7 @@ using Microsoft.Extensions.Options;
 using WebApi.Controllers;
 using System.Threading.Tasks;
 using System;
-using Microsoft.AspNetCore.Http;
+//using Microsoft.AspNetCore.Http;
 using FwStandard.SqlServer;
 using WebApi.Logic;
 
@@ -137,12 +137,16 @@ namespace WebApi.Modules.Home.InventorySearch
             }
             try
             {
-                InventorySearchGetTotalRequest request = new InventorySearchGetTotalRequest();
-                request.SessionId = sessionId;
-                InventorySearchLogic l = new InventorySearchLogic();
-                l.SetDependencies(this.AppConfig, this.UserSession);
-                InventorySearchGetTotalResponse response = await l.GetTotalAsync(request);
+                //InventorySearchGetTotalRequest request = new InventorySearchGetTotalRequest();
+                //request.SessionId = sessionId;
+                //InventorySearchLogic l = new InventorySearchLogic();
+                //l.SetDependencies(this.AppConfig, this.UserSession);
+                //InventorySearchGetTotalResponse response = await l.GetTotalAsync(request);
+                //return new OkObjectResult(response);
+
+                InventorySearchGetTotalResponse response = await InventorySearchFunc.GetTotalAsync(AppConfig, UserSession, sessionId);
                 return new OkObjectResult(response);
+
             }
             catch (Exception ex)
             {
@@ -153,7 +157,7 @@ namespace WebApi.Modules.Home.InventorySearch
         // POST api/v1/inventorysearch/addto 
         [HttpPost("addto")]
         [FwControllerMethod(Id:"bB1lEAjR2sZy")]
-        public async Task<ActionResult<bool>> AddTo([FromBody]InventorySearchAddToRequest processRequest)
+        public async Task<ActionResult<bool>> AddTo([FromBody]InventorySearchAddToRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -161,9 +165,11 @@ namespace WebApi.Modules.Home.InventorySearch
             }
             try
             {
-                InventorySearchLogic l = new InventorySearchLogic();
-                l.SetDependencies(this.AppConfig, this.UserSession);
-                bool b = await l.AddToAsync(processRequest);
+                //InventorySearchLogic l = new InventorySearchLogic();
+                //l.SetDependencies(this.AppConfig, this.UserSession);
+                //bool b = await l.AddToAsync(processRequest);
+                //return new OkObjectResult(b);
+                bool b = await InventorySearchFunc.AddToAsync(AppConfig, UserSession, request);
                 return new OkObjectResult(b);
             }
             catch (Exception ex)
