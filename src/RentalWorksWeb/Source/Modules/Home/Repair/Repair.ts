@@ -218,16 +218,15 @@ class Repair {
         $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="RepairId"] input').val(uniqueids.RepairId);
         FwModule.loadForm(this.Module, $form);
-        setTimeout(() => {
-            const qcRequired = FwFormField.getValueByDataField($form, 'QcRequired');
-            if (qcRequired !== false) {
-                $form.find('[data-type="tab"][data-caption="QC"]').show();
-            }
-        }, 0);
 
-        $form.find('[data-datafield="PoPending"] .fwformfield-value').on('change', function () {
-            const $this = jQuery(this);
-            if ($this.prop('checked') === true) {
+        const qcRequired = FwFormField.getValueByDataField($form, 'QcRequired');
+        if (qcRequired !== false) {
+            $form.find('[data-type="tab"][data-caption="QC"]').show();
+        }
+
+        $form.find('[data-datafield="PoPending"] .fwformfield-value').on('change', e => {
+            const poPending = FwFormField.getValueByDataField($form, 'PoPending');
+            if (poPending === true) {
                 FwFormField.disable($form.find('div[data-datafield="PoNumber"]'));
             }
             else {
