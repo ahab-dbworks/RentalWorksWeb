@@ -628,14 +628,14 @@ abstract class FwWebApiReport {
         return `
             <div style="width:700px;">
                 <div class="flexrow">
+                    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Report Layout" data-datafield="CustomReportLayoutId" data-validationname="CustomReportLayoutValidation" style="flex:0 1 575px; margin:10px;"></div>
+                </div>
+                <div class="flexrow">
                     <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Save current report settings as:" data-datafield="Description" style="max-width:600px; margin:10px;"></div>
                     <div class="fwformcontrol save-settings" data-type="button" style="max-width:60px; margin-top:20px; margin-left:10px;">
                         <i class="material-icons" style="padding-top:5px; margin:0px -10px;">save</i>
                         <span style="float:right; padding-left:10px;">Save</span>
                     </div>
-                </div>
-                <div class="flexrow">
-                    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Report Layout" data-datafield="CustomReportLayoutId" data-validationname="CustomReportLayoutValidation" style="flex:0 1 575px; margin:10px;"></div>
                 </div>
                 <div class="flexrow settings-grid">
                     <div data-control="FwGrid" data-grid="ReportSettingsGrid"></div>
