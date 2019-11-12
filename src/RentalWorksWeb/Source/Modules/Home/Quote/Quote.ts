@@ -1514,19 +1514,19 @@ class Quote extends OrderBase {
 
             FwFormField.disable($confirmation.find('.fwformfield'));
             FwFormField.disable($yes);
-            $yes.text('Completing...');
+            $yes.text('Reserving...');
             $yes.off('click');
             const topLayer = '<div class="top-layer" data-controller="none" style="background-color: transparent;z-index:1"></div>';
             const realConfirm = jQuery($confirmation.find('.fwconfirmationbox')).prepend(topLayer);
 
             const quoteId = FwFormField.getValueByDataField($form, 'QuoteId');
             FwAppData.apiMethod(true, 'POST', `api/v1/quote/reserve/${quoteId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
-                FwNotification.renderNotification('SUCCESS', 'Operation Completed');
+                FwNotification.renderNotification('SUCCESS', 'Quote Reserved Successfully');
                 FwConfirmation.destroyConfirmation($confirmation);
                 FwModule.refreshForm($form);
             }, function onError(response) {
                 $yes.on('click', reserve);
-                $yes.text('Complete');
+                $yes.text('Reserve');
                 FwFunc.showError(response);
                 FwFormField.enable($confirmation.find('.fwformfield'));
                 FwFormField.enable($yes);
