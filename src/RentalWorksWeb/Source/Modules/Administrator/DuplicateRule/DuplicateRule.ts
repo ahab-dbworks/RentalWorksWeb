@@ -113,7 +113,7 @@ class DuplicateRule {
             return 0;
         }
         allModules.sort(compare);
-
+        allModules.filter((el, index) => { return index === 0 || el.text !== allModules[index - 1].text })
         const $moduleSelect = $form.find('.modules');
         FwFormField.loadItems($moduleSelect, allModules);
 
