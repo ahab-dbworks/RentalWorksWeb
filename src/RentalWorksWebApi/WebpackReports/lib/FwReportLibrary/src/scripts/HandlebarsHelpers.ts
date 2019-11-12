@@ -1,4 +1,4 @@
-﻿import * as Handlebars from 'handlebars/runtime';
+﻿import * as Handlebars from 'handlebars/dist/cjs/handlebars';
 
 export class HandlebarsHelpers {
     static registerHelpers() {

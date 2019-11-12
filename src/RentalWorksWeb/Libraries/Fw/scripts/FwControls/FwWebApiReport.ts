@@ -79,7 +79,7 @@ abstract class FwWebApiReport {
         if ((typeof reportOptions.HasExportHtml === 'undefined') || (reportOptions.HasExportHtml === true)) {
             const $btnPreview = FwMenu.addStandardBtn($menuObject, 'Preview');
             FwMenu.addVerticleSeparator($menuObject);
-            $btnPreview.on('click', (event: JQuery.Event) => {
+            $btnPreview.on('click', async (event: JQuery.Event) => {
                 try {
                     const isValid = FwModule.validateForm($form);
                     if (isValid) {
@@ -88,6 +88,20 @@ abstract class FwWebApiReport {
                         request.parameters = this.convertParameters(this.getParameters($form));
                         request.parameters.companyName = companyName;
                         request.parameters.action = 'Preview';
+
+                        if (request.parameters.CustomReportLayoutId != "") {
+                            const customReportLayout = FwAjax.callWebApi<any, any>({
+                                httpMethod: 'GET',
+                                url: `${applicationConfig.apiurl}api/v1/customreportlayout/${request.parameters.CustomReportLayoutId}`,
+                                $elementToBlock: $form
+                            });
+
+                            await customReportLayout
+                                .then((values: any) => {
+                                    request.parameters.ReportTemplate = values.Html;
+                                });
+                        }
+
                         const reportPageMessage = new ReportPageMessage();
                         reportPageMessage.action = 'Preview';
                         reportPageMessage.apiUrl = apiUrl;
