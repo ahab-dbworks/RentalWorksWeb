@@ -1465,7 +1465,7 @@ class FwBrowseClass {
                         htmlPager.push('</div>');
                         htmlPager.push('<div class="count">0 row(s)</div>');
                         if (controlType === 'Validation') {
-                            htmlPager.push('<div class="show-all">Show All</div>');
+                            htmlPager.push(`<div class="show-all">Show All</div>`);
                         }
                         if ((controlType === 'Grid') && (typeof $control.attr('data-activeinactiveview') === 'string') && (FwSecurity.isUser())) {
                             htmlPager.push('<div class="activeinactiveview" style="float:right;">');
@@ -2698,8 +2698,10 @@ class FwBrowseClass {
                     }
                     break;
                 case 'Validation':
-                    $control.find('.pager .count').text(dt.TotalRows + ' row(s)');
-                    if (dt.TotalPages == 1) {
+                    $control.find('.pager .count').hide();
+                    $control.find('.pager .show-all').text(`Show All ${dt.TotalRows} rows`);
+
+                    if (dt.TotalPages <= 1) {
                         $control.find('.pager .show-all').hide();
                     } else {
                         $control.find('.pager .show-all').show();

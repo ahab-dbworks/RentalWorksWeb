@@ -195,8 +195,8 @@
             });;
 
         $browse.data('onrowdblclick', e => {
-            let $tr, selectedRows, $keyfields, compositekey;
-            $tr = jQuery(e.currentTarget);
+            let selectedRows, $keyfields, compositekey;
+            const $tr = jQuery(e.currentTarget);
             try {
                 if (typeof $browse.data('selectedrows') === 'undefined') {
                     $browse.data('selectedrows', {});
@@ -219,11 +219,11 @@
         });
 
         $browse.data('afterdatabindcallback', function () {
-            var $trs, $tr, selectedrows, uniqueids;
+            let $tr, uniqueids;
             if (typeof $browse.data('selectedrows') !== 'undefined') {
-                selectedrows = $browse.data('selectedrows');
+                const selectedrows = $browse.data('selectedrows');
                 $browse.find('tr.selected').removeClass('selected');
-                $trs = $browse.find('tbody > tr');
+                const $trs = $browse.find('tbody > tr');
                 $trs.each(function (index, element) {
                     $tr = jQuery(element);
                     uniqueids = FwMultiSelectValidation.getUniqueIds($tr);
@@ -237,10 +237,10 @@
         $control
             //remove item
             .on('click', '.multiselectitems i', e => {
-                let $this = jQuery(e.currentTarget);
                 try {
                     const $selectedRows = $browse.data('selectedrows');
                     const selectedRowUniqueIds = $browse.data('selectedrowsuniqueids');
+                    const $this = jQuery(e.currentTarget);
                     const $item = $this.parent('div.multiitem');
                     //removes item from values
                     const itemValue = $item.attr('data-multivalue');
@@ -271,7 +271,7 @@
                         if (typeof $selectedRows[itemValue] !== 'undefined') {
                             delete $selectedRows[itemValue];
                         }
-                        let index = selectedRowUniqueIds.indexOf(itemValue);
+                        const index = selectedRowUniqueIds.indexOf(itemValue);
                         if (index != -1) {
                             selectedRowUniqueIds.splice(index, 1);
                         }
@@ -281,7 +281,7 @@
                 }
             })
             .on('keydown', 'div[contenteditable="true"]', e => {
-                let code = e.keyCode || e.which;
+                const code = e.keyCode || e.which;
                 try {
                     switch (code) {
                         case 9: //TAB key
@@ -319,16 +319,19 @@
                 }
             });
 
-        var focusValidationSearchBox = function ($browse) {
-            setTimeout(function () {
-                var $searchBox = $browse.find('.search input:visible');
+        const focusValidationSearchBox = function ($browse) {
+            setTimeout(() => {
+                const $searchBox = $browse.find('.search input:visible');
                 $searchBox.eq(0).focus();
             }, 1000);
         };
     }
     //---------------------------------------------------------------------------------
-    validate($control, validationName: string, $valuefield: JQuery, $searchfield: JQuery, $btnvalidate: JQuery, $popup: JQuery, $browse: JQuery, useSearchFieldValue: boolean): void {
-        const $validationSearchbox = $browse.find('thead .field[data-validationdisplayfield="true"] > .search > input');
+    validate($control: JQuery, validationName: string, $valuefield: JQuery, $searchfield: JQuery, $btnvalidate: JQuery, $popup: JQuery, $validationbrowse: JQuery, useSearchFieldValue: boolean): void {
+        if ($validationbrowse.length === 0) {
+            throw `Missing validation template for: ${validationName}`;
+        }
+        const $validationSearchbox = $validationbrowse.find('thead .field[data-validationdisplayfield="true"] > .search > input');
         if (useSearchFieldValue && ((<string>$searchfield.val()).length > 0)) {
             if ($validationSearchbox.length == 1) {
                 $validationSearchbox.val($searchfield.val());
@@ -337,52 +340,14 @@
             }
         }
 
-        if ($control.attr('data-showinactive') === 'true') {
-            const fwBrowseMenu = jQuery(`<div class="fwbrowse-menu"><div class="fwcontrol fwmenu default" data-control="FwMenu" data-visible="true" data-rendermode="runtime"><div class="buttonbar"></div></div></div>`);
-            $browse.find('.runtime .browsecaption').after(fwBrowseMenu);
-            const $activeView = FwMenu.generateDropDownViewBtn(FwLanguages.translate('Active'), true);
-            $activeView.on('click', function () {
-                try {
-                    const $fwbrowse = jQuery(this).closest('.fwbrowse');
-                    $fwbrowse.attr('data-activeinactiveview', 'active');
-                    FwBrowse.search($fwbrowse);
-                } catch (ex) {
-                    FwFunc.showError(ex);
-                }
-            });
-            const $inactiveView = FwMenu.generateDropDownViewBtn(FwLanguages.translate('Inactive'), false);
-            $inactiveView.on('click', function () {
-                try {
-                    const $fwbrowse = jQuery(this).closest('.fwbrowse');
-                    $fwbrowse.attr('data-activeinactiveview', 'inactive');
-                    FwBrowse.search($fwbrowse);
-                } catch (ex) {
-                    FwFunc.showError(ex);
-                }
-            });
-            const $allView = FwMenu.generateDropDownViewBtn(FwLanguages.translate('All'), false);
-            $allView.on('click', function () {
-                try {
-                    const $fwbrowse = jQuery(this).closest('.fwbrowse');
-                    $fwbrowse.attr('data-activeinactiveview', 'all');
-                    FwBrowse.search($fwbrowse);
-                } catch (ex) {
-                    FwFunc.showError(ex);
-                }
-            });
-            const viewitems: Array<string> = [];
-            viewitems.push($activeView, $inactiveView, $allView);
-            const $menu = FwMenu.getMenuControl('default');
-            const $show = FwMenu.addViewBtn($menu, FwLanguages.translate('Show'), viewitems);
-            $browse.find('.fwbrowse-menu .buttonbar').html($show);
-
-            let here;
+        if ($control.attr('data-showinactivemenu') === 'true') {
+            this.addInactiveMenu($validationbrowse);
         }
 
-        $browse.data('$btnvalidate', $btnvalidate);
+        $validationbrowse.data('$btnvalidate', $btnvalidate);
         $btnvalidate.hide();
-        $browse.data('$control').find('.validation-loader').show();
-        FwBrowse.search($browse);
+        $validationbrowse.data('$control').find('.validation-loader').show();
+        FwBrowse.search($validationbrowse);
     };
     //---------------------------------------------------------------------------------
     getUniqueIds($tr: JQuery): Array<string> {
@@ -627,6 +592,48 @@
         sel.removeAllRanges();
         sel.addRange(range);
         element.focus();
+    }
+    //---------------------------------------------------------------------------------
+    addInactiveMenu($validationbrowse: JQuery) {
+        $validationbrowse.find('.runtime .fwbrowse-menu').remove();
+        $validationbrowse.closest('[data-control="FwBrowse"]').attr('data-activeinactiveview', 'active');
+        $validationbrowse.find('.runtime .browsecaption').after(`<div class="fwbrowse-menu"><div class="fwcontrol fwmenu default" data-control="FwMenu" data-visible="true" data-rendermode="runtime"><div class="buttonbar"></div></div></div></div>`);
+        const $activeView = FwMenu.generateDropDownViewBtn(FwLanguages.translate('Active'), true);
+        $activeView.on('click', e => {
+            try {
+                const $fwbrowse = jQuery(e.currentTarget).closest('.fwbrowse');
+                $fwbrowse.attr('data-activeinactiveview', 'active');
+                FwBrowse.search($fwbrowse);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+        const $inactiveView = FwMenu.generateDropDownViewBtn(FwLanguages.translate('Inactive'), false);
+        $inactiveView.on('click', e => {
+            try {
+                const $fwbrowse = jQuery(e.currentTarget).closest('.fwbrowse');
+                $fwbrowse.attr('data-activeinactiveview', 'inactive');
+                FwBrowse.search($fwbrowse);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+        const $allView = FwMenu.generateDropDownViewBtn(FwLanguages.translate('All'), false);
+        $allView.on('click', e => {
+            try {
+                const $fwbrowse = jQuery(e.currentTarget).closest('.fwbrowse');
+                $fwbrowse.attr('data-activeinactiveview', 'all');
+                FwBrowse.search($fwbrowse);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+        const viewitems: Array<string> = [];
+        viewitems.push($activeView, $inactiveView, $allView);
+        const $menu = FwMenu.getMenuControl('default');
+        const $show = FwMenu.addViewBtn($menu, FwLanguages.translate('Show'), viewitems);
+        $validationbrowse.find('.fwbrowse-menu .buttonbar').html($show);
+        $validationbrowse.find('.fwbrowse-menu .buttonbar .ddviewbtn').css('margin-left', 'auto');
     }
     //---------------------------------------------------------------------------------
 }
