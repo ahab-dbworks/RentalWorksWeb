@@ -129,14 +129,14 @@ class ReceiveFromVendor {
 
                     $receiveItemsGridControl = $form.find('div[data-name="POReceiveItemGrid"]');
                     FwBrowse.search($receiveItemsGridControl);
-                }, null, null);
+                }, null, $form);
 
                 FwAppData.apiMethod(true, 'GET', `api/v1/purchaseorder/${purchaseOrderId}`, request, FwServices.defaultTimeout, function onSuccess(response) {
                     if ((response.SubRent == false) && (response.SubSale == false)) {
                         FwFormField.disable($form.find('[data-datafield="AutomaticallyCreateCheckOut"]'));
                         $form.find('[data-datafield="AutomaticallyCreateCheckOut"] input').prop('checked', false);
                     }
-                }, null, null);
+                }, null, $form);
             }
         });
     }
