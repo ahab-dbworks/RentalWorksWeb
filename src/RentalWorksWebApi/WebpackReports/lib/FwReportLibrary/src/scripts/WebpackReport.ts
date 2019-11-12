@@ -1,5 +1,6 @@
 ﻿import { Ajax } from './Ajax';
-
+import * as Handlebars from 'handlebars/dist/cjs/handlebars';
+import { HandlebarsHelpers } from './HandlebarsHelpers';
 export abstract class WebpackReport {
     renderReportCompleted: boolean = false;
     renderReportFailed: boolean = false;
@@ -46,6 +47,12 @@ export abstract class WebpackReport {
             htmlElements[0].classList.add('preview');
         } else {
             htmlElements[0].classList.add('pdf');
+        }
+
+        parameters.isCustomReport = parameters.ReportTemplate != undefined;
+        HandlebarsHelpers.registerHelpers(parameters.isCustomReport);
+        if (parameters.isCustomReport) {
+            parameters.CustomReport = Handlebars.compile(parameters.ReportTemplate);
         }
     }
 
