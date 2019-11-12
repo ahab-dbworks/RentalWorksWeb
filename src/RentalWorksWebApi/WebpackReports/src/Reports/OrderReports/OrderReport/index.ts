@@ -2,7 +2,6 @@
 import { CustomField } from '../../../../lib/FwReportLibrary/src/scripts/CustomField';
 import { DataTable } from '../../../../lib/FwReportLibrary/src/scripts/Browse';
 import { Ajax } from '../../../../lib/FwReportLibrary/src/scripts/Ajax';
-import { HandlebarsHelpers } from '../../../../lib/FwReportLibrary/src/scripts/HandlebarsHelpers';
 import * as moment from 'moment';
 import '../../../../lib/FwReportLibrary/src/theme/webpackReports.scss';
 import './index.scss';
@@ -14,8 +13,6 @@ export class OrderReport extends WebpackReport {
     renderReport(apiUrl: string, authorizationHeader: string, parameters: any): void {
         try {
             super.renderReport(apiUrl, authorizationHeader, parameters);
-            HandlebarsHelpers.registerHelpers();
-
             // Report rendering and Logo
             Ajax.get<DataTable>(`${apiUrl}/api/v1/logosettings/1`, authorizationHeader)
                 .then((response: DataTable) => {
@@ -41,7 +38,11 @@ export class OrderReport extends WebpackReport {
                                 document.getElementById('pageFooter').innerHTML = this.footerHtml;
                             }
 
-                            document.getElementById('pageBody').innerHTML = hbReport(data);
+                            if (parameters.isCustomReport) {
+                                document.getElementById('pageBody').innerHTML = parameters.CustomReport(data);
+                            } else {
+                                document.getElementById('pageBody').innerHTML = hbReport(data);
+                            }
                             if (data.TermsAndConditions !== null || data.TermsAndConditions !== '') {
                                 const termEl = document.getElementById('terms');
                                 termEl.innerHTML = data.TermsAndConditions;
