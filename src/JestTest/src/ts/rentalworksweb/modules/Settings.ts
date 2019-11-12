@@ -6183,6 +6183,7 @@ export class Warehouse extends SettingsModule {
         this.moduleCaption = 'Warehouse';
         this.canNew = false;
         this.canDelete = false;
+        this.waitAfterClickingToOpenBrowseBeforeCheckingForErrors = 2000;
         this.waitAfterClickingToOpenRecordBeforeCheckingForErrors = 1500;
 
         let locationGrid: GridBase = new GridBase("Office Location Grid", "WarehouseOfficeLocationGrid");

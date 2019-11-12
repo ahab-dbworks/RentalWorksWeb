@@ -57,6 +57,7 @@
     <Folder Include="src\ts\shared\" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="src\ts\rentalworksweb\modules\FrontEnds.ts" />
     <TypeScriptCompile Include="src\ts\rentalworksweb\modules\Admin.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
@@ -66,7 +67,7 @@
     </TypeScriptCompile>
     <TypeScriptCompile Include="src\ts\rentalworksweb\modules\Settings.ts" />
     <TypeScriptCompile Include="src\ts\rentalworksweb\RwwLoginLogout.test.ts" />
-    <TypeScriptCompile Include="src\ts\rentalworksweb\Rww1188.test.ts" />
+    <TypeScriptCompile Include="src\ts\rentalworksweb\RwwAvailability.test.ts" />
     <TypeScriptCompile Include="src\ts\rentalworksweb\RwwMediumRegression.test.ts" />
     <TypeScriptCompile Include="src\ts\rentalworksweb\RwwShallowRegression.test.ts" />
     <TypeScriptCompile Include="src\ts\rentalworksweb\RwwFullRegression.test.ts" />
@@ -79,7 +80,9 @@
     <TypeScriptCompile Include="src\ts\shared\AdminModule.ts" />
     <TypeScriptCompile Include="src\ts\shared\Ajax.ts" />
     <TypeScriptCompile Include="src\ts\shared\GlobalScope.ts" />
+    <TypeScriptCompile Include="src\ts\shared\FrontEndModule.ts" />
     <TypeScriptCompile Include="src\ts\shared\HomeModule.ts" />
+    <TypeScriptCompile Include="src\ts\shared\FrontEndBase.ts" />
     <TypeScriptCompile Include="src\ts\shared\SettingsModule.ts" />
     <TypeScriptCompile Include="src\ts\shared\ModuleBase.ts" />
     <TypeScriptCompile Include="src\ts\shared\Logging.ts" />

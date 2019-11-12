@@ -21,6 +21,8 @@ export { SalesInventory } from '../modules/Home';
 //Home - Warehouse
 export { Contract } from '../modules/Home';
 export { PickList } from '../modules/Home';
+export { Staging } from '../modules/FrontEnds';
+export { ReceiveFromVendor } from '../modules/FrontEnds';
 
 //Home - Container
 export { Container } from '../modules/Home';

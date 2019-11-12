@@ -298,13 +298,58 @@ export class TestUtils {
         return faker.lorem.words(wordCount)
     }
     //-----------------------------------------------------------------------------------------------------------------
-    static randomRecentDateMDY(recentDays?: number, separator: string = "/"): string {
-        let randomDate = faker.date.recent(recentDays);
-        const year = randomDate.getFullYear().toString();
-        const month = (randomDate.getMonth() + 1).toString();
-        const date = randomDate.getDate().toString();
-        const randomDateStr = month.padStart(2, '0') + separator + date.padStart(2, '0') + separator + year.padStart(4, '0');
-        return randomDateStr;
+    static dateMDY(theDate: Date, separator: string = "/"): string {
+        const year = theDate.getFullYear().toString();
+        const month = (theDate.getMonth() + 1).toString();
+        const date = theDate.getDate().toString();
+        const recentDateStr = month.padStart(2, '0') + separator + date.padStart(2, '0') + separator + year.padStart(4, '0');
+        return recentDateStr;
+    }
+    //-----------------------------------------------------------------------------------------------------------------
+    static randomRecentDateMDY(withinNumberOfDays?: number, separator: string = "/"): string {
+        let recentDate = faker.date.recent(withinNumberOfDays);
+        //const year = recentDate.getFullYear().toString();
+        //const month = (recentDate.getMonth() + 1).toString();
+        //const date = recentDate.getDate().toString();
+        //const recentDateStr = month.padStart(2, '0') + separator + date.padStart(2, '0') + separator + year.padStart(4, '0');
+        //return recentDateStr;
+        return TestUtils.dateMDY(recentDate, separator);
+    }
+    //-----------------------------------------------------------------------------------------------------------------
+    static randomFutureDateMDY(withinNumberOfDays?: number, separator: string = "/"): string {
+        let minusOne: number = -1;
+        let daysAhead: number = (withinNumberOfDays * minusOne);
+        let futureDate = faker.date.recent(daysAhead);
+        //const year = futureDate.getFullYear().toString();
+        //const month = (futureDate.getMonth() + 1).toString();
+        //const date = futureDate.getDate().toString();
+        //const futureDateStr = month.padStart(2, '0') + separator + date.padStart(2, '0') + separator + year.padStart(4, '0');
+        //return futureDateStr;
+        return TestUtils.dateMDY(futureDate, separator);
+    }
+    //-----------------------------------------------------------------------------------------------------------------
+    static futureDateMDY(numberOfDays: number = 0, separator: string = "/"): string {
+        let today: Date = new Date();
+        let futureDate: Date = new Date(today.getTime() + (numberOfDays * 1000 * 60 * 60 * 24));
+        //const year = futureDate.getFullYear().toString();
+        //const month = (futureDate.getMonth() + 1).toString();
+        //const date = futureDate.getDate().toString();
+        //const futureDateStr = month.padStart(2, '0') + separator + date.padStart(2, '0') + separator + year.padStart(4, '0');
+        //return futureDateStr;
+        return TestUtils.dateMDY(futureDate, separator);
+    }
+    //-----------------------------------------------------------------------------------------------------------------
+    static pastDateMDY(numberOfDays: number = 0, separator: string = "/"): string {
+        let today: Date = new Date();
+        let minusOne: number = -1;
+        let daysPast: number = (numberOfDays * minusOne);
+        let pastDate: Date = new Date(today.getTime() + (daysPast * 1000 * 60 * 60 * 24));
+        //const year = futureDate.getFullYear().toString();
+        //const month = (futureDate.getMonth() + 1).toString();
+        //const date = futureDate.getDate().toString();
+        //const futureDateStr = month.padStart(2, '0') + separator + date.padStart(2, '0') + separator + year.padStart(4, '0');
+        //return futureDateStr;
+        return TestUtils.dateMDY(pastDate, separator);
     }
     //-----------------------------------------------------------------------------------------------------------------
 }

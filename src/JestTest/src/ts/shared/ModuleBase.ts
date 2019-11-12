@@ -103,6 +103,10 @@ export class ModuleBase {
         return `.addnewtab i.material-icons`;
     }
     //---------------------------------------------------------------------------------------
+    getFormMenuSelector(): string {
+        return `div .fwform-menu .submenubutton i`;
+    }
+    //---------------------------------------------------------------------------------------
     getDeleteButtonSelector(): string {
         return `.btn[data-type="DeleteMenuBarButton"]`;
     }
@@ -224,7 +228,7 @@ export class ModuleBase {
 
     }
     //---------------------------------------------------------------------------------------
-    async openRecord(index?: number): Promise<OpenRecordResponse> {
+    async openRecord(index?: number, registerGlobal?: boolean, globalKeyValue?: string): Promise<OpenRecordResponse> {
         let openRecordResponse: OpenRecordResponse = new OpenRecordResponse();
         openRecordResponse.opened = false;
         openRecordResponse.record = null;
@@ -281,6 +285,19 @@ export class ModuleBase {
                 Logging.logInfo(`Form Record: ${JSON.stringify(openRecordResponse.record)}`);
                 Logging.logInfo(`Form Keys: ${JSON.stringify(openRecordResponse.keys)}`);
 
+                if (registerGlobal) {
+                    let globalKey = this.moduleName;
+                    if (globalKeyValue === undefined) {
+                        for (var key in openRecordResponse.keys) {
+                            globalKey = globalKey + "~" + openRecordResponse.keys[key];
+                        }
+                    }
+                    else {
+                        globalKey = globalKey + "~" + globalKeyValue;
+                    }
+                    this.globalScopeRef[globalKey] = openRecordResponse.record;
+                }
+
                 if (this.waitAfterClickingToOpenFormToAllowOtherQueries > 0) {
                     await ModuleBase.wait(this.waitAfterClickingToOpenFormToAllowOtherQueries);
                 }
@@ -293,7 +310,7 @@ export class ModuleBase {
         return openRecordResponse;
     }
     //---------------------------------------------------------------------------------------
-    async openFirstRecordIfAny(): Promise<OpenRecordResponse> {
+    async openFirstRecordIfAny(registerGlobal?: boolean, globalKeyValue?: string): Promise<OpenRecordResponse> {
         let openRecordResponse: OpenRecordResponse = new OpenRecordResponse();
         openRecordResponse.opened = false;
         openRecordResponse.record = null;
@@ -369,6 +386,20 @@ export class ModuleBase {
 
                     Logging.logInfo(`Form Record: ${JSON.stringify(openRecordResponse.record)}`);
                     Logging.logInfo(`Form Keys: ${JSON.stringify(openRecordResponse.keys)}`);
+
+                    if (registerGlobal) {
+                        let globalKey = this.moduleName;
+                        if (globalKeyValue === undefined) {
+                            for (var key in openRecordResponse.keys) {
+                                globalKey = globalKey + "~" + openRecordResponse.keys[key];
+                            }
+                        }
+                        else {
+                            globalKey = globalKey + "~" + globalKeyValue;
+                        }
+                        this.globalScopeRef[globalKey] = openRecordResponse.record;
+                    }
+
 
                     if (this.waitAfterClickingToOpenFormToAllowOtherQueries > 0) {
                         await ModuleBase.wait(this.waitAfterClickingToOpenFormToAllowOtherQueries);
