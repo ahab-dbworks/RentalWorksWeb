@@ -438,7 +438,7 @@ class FwBrowseClass {
             .on('click', '.runtime .pager div.btn-manualsort', function (e: JQuery.Event) {
                 try {
                     if ($control.attr('data-enabled') != 'false') {
-                        $control.find('td.manual-sort').show();
+                        $control.find('td.manual-sort').toggle();
                     }
                 } catch (ex) {
                     FwFunc.showError(ex);
@@ -3223,6 +3223,7 @@ class FwBrowseClass {
         //adds button to apply changes in sorting
         const $applyChangesBtn = jQuery('<div data-type="button" class="fwformcontrol sorting"><i class="material-icons" style="position:relative; top:5px;">&#xE161;</i>Apply</div>');
         const $gridMenu = $control.find('[data-control="FwMenu"]');
+
         $applyChangesBtn.on('click', e => {
             try {
                 const controller = $control.attr('data-controller');
@@ -3254,6 +3255,7 @@ class FwBrowseClass {
                             $control.find('td.manual-sort').hide();
                             $gridMenu.find('.sorting').hide();
                             $gridMenu.find('.buttonbar').show();
+                            $control.find('.btn-manualsort').show();
                         } else {
                             FwNotification.renderNotification('ERROR', response.msg);
                         };
@@ -3271,6 +3273,7 @@ class FwBrowseClass {
             $control.find('td.manual-sort').hide();
             $gridMenu.find('.sorting').hide();
             $gridMenu.find('.buttonbar').show();
+            $control.find('.btn-manualsort').show();
         });
 
         //initialize Sortable
@@ -3284,6 +3287,7 @@ class FwBrowseClass {
                 } else {
                     $gridMenu.find('.sorting').show();
                 }
+                $control.find('.btn-manualsort').hide();
             }
         });
     }
