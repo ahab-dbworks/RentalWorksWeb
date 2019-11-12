@@ -30,7 +30,7 @@ const changeAuditReportTemplate = `
                   <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield modules" data-caption="Module" data-datafield="ModuleName" style="min-width:400px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="User" data-datafield="WebUsersId" data-displayfield="UserName" data-validationname="WebUserValidation" style="float:left;min-width:400px;"></div>
+                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="User" data-datafield="WebUsersId" data-displayfield="UserName" data-validationname="WebUserValidation" data-showinactivemenu="true" style="float:left;min-width:400px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Keyword, field name, value" data-datafield="Keyword"></div>
