@@ -41,6 +41,9 @@ export class GridBase {
     newButtonSelector: string = "";
 
     waitAfterSavingToReloadGrid: number = 0;
+    waitAfterInputtingEachCellValueOnNewRow: number = 500;
+    waitBeforeClickingSaveButtonOnNewRow: number = 1000;
+    waitForGridSubMenuToGetEvents: number = 250;
 
     defaultNewRecordToExpect?: any;
     newRecordsToCreate?: NewRecordToCreate[];
@@ -343,7 +346,13 @@ export class GridBase {
                 default:
                     break;
             }
-            await ModuleBase.wait(1500);  // wait for blur/validation events to finish
+            if (this.waitAfterInputtingEachCellValueOnNewRow > 0) {
+                await ModuleBase.wait(this.waitAfterInputtingEachCellValueOnNewRow);
+            }
+        }
+
+        if (this.waitBeforeClickingSaveButtonOnNewRow > 0) {
+            await ModuleBase.wait(this.waitBeforeClickingSaveButtonOnNewRow); 
         }
 
         Logging.logInfo(`about to find the Save button on grid: ${this.gridName}`);
@@ -442,7 +451,7 @@ export class GridBase {
         //}
         await this.clickGridTab();
 
-        await ModuleBase.wait(250);  // wait for the grid sub menu to get its events
+        await ModuleBase.wait(this.waitForGridSubMenuToGetEvents);  // wait for the grid sub menu to get its events
         let gridContextMenuSelector = `${this.gridSelector} .tablewrapper table tbody tr:nth-child(${rowToDelete}) .browsecontextmenu i`;
         Logging.logInfo(`About to wait for row context menu: ${gridContextMenuSelector}`);
         await page.waitForSelector(gridContextMenuSelector, { visible: true });

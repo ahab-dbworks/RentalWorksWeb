@@ -1195,6 +1195,8 @@ export class EventType extends SettingsModule {
         this.waitAfterClickingToOpenFormToAllowOtherQueries = 2000;
 
         let activityDatesGrid: GridBase = new GridBase("Activity Dates Grid", "OrderTypeActivityDatesGrid");
+        activityDatesGrid.waitForGridSubMenuToGetEvents = 1000;
+
         let personnelTypeGrid: GridBase = new GridBase("Personnel Type Grid", "EventTypePersonnelTypeGrid");
 
         this.grids.push(activityDatesGrid);
@@ -3540,6 +3542,7 @@ export class OrderType extends SettingsModule {
         this.waitAfterClickingToOpenFormToAllowOtherQueries = 2000;
 
         let activityDatesGrid: GridBase = new GridBase("Activity Dates Grid", "OrderTypeActivityDatesGrid");
+        activityDatesGrid.waitForGridSubMenuToGetEvents = 1000;
 
 
         let invoiceExportGrid: GridBase = new GridBase("Invoice Export Grid", "OrderTypeInvoiceExportGrid");
@@ -4200,6 +4203,7 @@ export class POType extends SettingsModule {
         this.waitAfterClickingToOpenFormToAllowOtherQueries = 2000;
 
         let activityDatesGrid: GridBase = new GridBase("Activity Dates Grid", "OrderTypeActivityDatesGrid");
+        activityDatesGrid.waitForGridSubMenuToGetEvents = 1000;
 
         let tcGrid: GridBase = new GridBase("Terms and Conditions Grid", "OrderTypeTermsAndConditionsGrid");
         tcGrid.canNew = false;
