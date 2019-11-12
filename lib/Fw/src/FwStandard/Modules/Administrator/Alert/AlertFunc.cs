@@ -303,6 +303,9 @@ namespace FwStandard.Modules.Administrator.Alert
                                         if (value != null)
                                         {
                                             alertBody = alertBody.Replace("[" + field + "]", value.ToString());
+                                        } else
+                                        {
+                                            alertBody = alertBody.Replace("[" + field + "]", "");
                                         }
                                     }
 
