@@ -1948,6 +1948,8 @@ class OrderBase {
             FwFormField.disable($yes);
             $yes.text('Canceling...');
             $yes.off('click');
+            const topLayer = '<div class="top-layer" data-controller="none" style="background-color: transparent;z-index:1"></div>';
+            const realConfirm = jQuery($confirmation.find('.fwconfirmationbox')).prepend(topLayer);
 
             FwAppData.apiMethod(true, 'POST', `api/v1/${module}/cancel/${id}`, request, FwServices.defaultTimeout, function onSuccess(response) {
                 FwNotification.renderNotification('SUCCESS', `${module} Successfully Cancelled`);
@@ -1960,7 +1962,7 @@ class OrderBase {
                 FwFormField.enable($confirmation.find('.fwformfield'));
                 FwFormField.enable($yes);
                 FwModule.refreshForm($form);
-            }, $form);
+            }, realConfirm);
         };
 
         function uncancelOrder() {
