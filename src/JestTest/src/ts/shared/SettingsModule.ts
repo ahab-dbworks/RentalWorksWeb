@@ -13,7 +13,7 @@ export class ClickRecordResponse {
 export class SettingsModule extends ModuleBase {
     waitAfterClickingToOpenBrowseBeforeCheckingForErrors: number = 300;
     waitAfterClickingToOpenRecordBeforeCheckingForErrors: number = 300;
-    waitForButtonToGetEvents: number = 1250;
+    waitForButtonToGetEvents: number = 1500;
     //---------------------------------------------------------------------------------------
     constructor() {
         super();

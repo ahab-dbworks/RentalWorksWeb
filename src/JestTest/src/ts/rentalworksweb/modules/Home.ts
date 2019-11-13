@@ -3,8 +3,6 @@ import { TestUtils } from "../../shared/TestUtils";
 import { Logging } from '../../shared/Logging';
 import { GridBase } from "../../shared/GridBase";
 
-// Inventory - should prevent duplicate AKA's
-
 //---------------------------------------------------------------------------------------
 export class Quote extends HomeModule {
     //---------------------------------------------------------------------------------------
@@ -1036,7 +1034,7 @@ export class RentalInventory extends HomeModule {
                     seekObject: {
                         AKA: "GlobalScope.TestToken~1.TestToken",
                     },
-                    //attemptDuplicate: true,
+                    attemptDuplicate: true,
                 },
             },
             {
@@ -1170,7 +1168,7 @@ export class SalesInventory extends HomeModule {
                     seekObject: {
                         AKA: "GlobalScope.TestToken~1.TestToken",
                     },
-                    //attemptDuplicate: true,
+                    attemptDuplicate: true,
                 },
             },
             {
@@ -1302,7 +1300,7 @@ export class PartsInventory extends HomeModule {
                     seekObject: {
                         AKA: "GlobalScope.TestToken~1.TestToken",
                     },
-                    //attemptDuplicate: true,
+                    attemptDuplicate: true,
                 },
             },
             {
