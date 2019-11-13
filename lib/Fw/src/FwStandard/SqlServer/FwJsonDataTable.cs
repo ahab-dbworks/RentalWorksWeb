@@ -177,6 +177,7 @@ namespace FwStandard.SqlServer
                             {
                                 const decimal V = 100;
                                 decimal value = FwConvert.ToDecimal(this.GetValue(rowno, colno).ToString().Replace('%', ' ')) / V;
+                                worksheet.Cells[rowno + 2, worksheetcol].Style.Numberformat.Format = "#,###.0000%"; 
                                 worksheet.Cells[rowno + 2, worksheetcol].Value = value;
                                 worksheetcol++;
                             }
