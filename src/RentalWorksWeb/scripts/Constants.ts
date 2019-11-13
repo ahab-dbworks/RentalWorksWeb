@@ -66,6 +66,7 @@
                 }
             },
             FillContainer: { id: '0F1050FB-48DF-41D7-A969-37300B81B7B5', caption: 'Fill Container', nav: 'module/fillcontainer' },
+            InventoryPurchaseUtility: { id: '5EEED3A9-40FF-4038-B53D-DB6E777FAC7C', caption: 'Inventory Purchase Utility', nav: 'module/inventorypurchaseutility' },
             Invoice: {
                 id: '9B79D7D8-08A1-4F6B-AC0A-028DFA9FE10F', caption: 'Invoice', nav: 'module/invoice',
                 browse: {

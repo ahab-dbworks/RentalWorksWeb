@@ -53,15 +53,16 @@ namespace WebLibrary.Security
             AddModule("Purchase Order",   "{67D8C8BB-CF55-4231-B4A2-BB308ADF18F0}", lv1menuAgent.Id, "PurchaseOrderController");
             AddModule("Project",          "{C6C8167A-C3B5-4915-8290-4520AF7EDB35}", lv1menuAgent.Id, "ProjectController");
             // Inventory
-            AddModule("Rental Inventory",       "{FCDB4C86-20E7-489B-A8B7-D22EE6F85C06}", lv1menuInventory.Id, "RentalInventoryController");
-            AddModule("Sales Inventory",        "{B0CF2E66-CDF8-4E58-8006-49CA68AE38C2}", lv1menuInventory.Id, "SalesInventoryController");
-            AddModule("Parts Inventory",        "{351B8A09-7778-4F06-A6A2-ED0920A5C360}", lv1menuInventory.Id, "PartsInventoryController");
-            AddModule("Asset",                  "{1C45299E-F8DB-4AE4-966F-BE142295E3D6}", lv1menuInventory.Id, "AssetController");
-            AddModule("Repair Order",           "{2BD0DC82-270E-4B86-A9AA-DD0461A0186A}", lv1menuInventory.Id, "RepairController");
-            AddModule("Complete Qc",            "{3F20813A-CC21-49D8-A5F8-9930B7F05404}", lv1menuInventory.Id, "CompleteQcController");
-            AddModule("Physical Inventory",     "{BABFE80E-8A52-49D4-81D9-6B6EBB518E89}", lv1menuInventory.Id, "PhysicalInventoryController");
-            AddModule("Count Quantity Inventory", "{0A02B28D-C025-4579-993B-860832F8837F}", lv1menuInventory.Id, "CountQuantityInventoryController");
-            AddModule("Availability Conflicts", "{DF2859D1-3834-42DA-A367-85B168850ED9}", lv1menuInventory.Id, "AvailabilityConflictsController");
+            AddModule("Rental Inventory",           "{FCDB4C86-20E7-489B-A8B7-D22EE6F85C06}", lv1menuInventory.Id, "RentalInventoryController");
+            AddModule("Sales Inventory",            "{B0CF2E66-CDF8-4E58-8006-49CA68AE38C2}", lv1menuInventory.Id, "SalesInventoryController");
+            AddModule("Parts Inventory",            "{351B8A09-7778-4F06-A6A2-ED0920A5C360}", lv1menuInventory.Id, "PartsInventoryController");
+            AddModule("Asset",                      "{1C45299E-F8DB-4AE4-966F-BE142295E3D6}", lv1menuInventory.Id, "AssetController");
+            AddModule("Repair Order",               "{2BD0DC82-270E-4B86-A9AA-DD0461A0186A}", lv1menuInventory.Id, "RepairController");
+            AddModule("Complete Qc",                "{3F20813A-CC21-49D8-A5F8-9930B7F05404}", lv1menuInventory.Id, "CompleteQcController");
+            AddModule("Physical Inventory",         "{BABFE80E-8A52-49D4-81D9-6B6EBB518E89}", lv1menuInventory.Id, "PhysicalInventoryController");
+            AddModule("Count Quantity Inventory",   "{0A02B28D-C025-4579-993B-860832F8837F}", lv1menuInventory.Id, "CountQuantityInventoryController");
+            AddModule("Availability Conflicts",     "{DF2859D1-3834-42DA-A367-85B168850ED9}", lv1menuInventory.Id, "AvailabilityConflictsController");
+            AddModule("Inventory Purchase Utility", "{5EEED3A9-40FF-4038-B53D-DB6E777FAC7C}", lv1menuInventory.Id, "InventoryPurchaseUtilityController");
             //Warehouse
             AddModule("Order Status",        "{F6AE5BC1-865D-467B-A201-95C93F8E8D0B}", lv1menuWarehouse.Id, "OrderStatusController");
             AddModule("Pick List",           "{7B04E5D4-D079-4F3A-9CB0-844F293569ED}", lv1menuWarehouse.Id, "PickListController");
@@ -450,6 +451,7 @@ namespace WebLibrary.Security
             AddGrid("Inventory Container Item",               "{494F7DD0-0D32-4FE0-B84A-BC7CD71CE9EC}", lv1menuGrids.Id, "InventoryContainerItemGridController");
             AddGrid("Inventory Kit",                          "{989C0F67-5F4D-4BC2-832F-D8009256AF0F}", lv1menuGrids.Id, "InventoryKitGridController");
             AddGrid("Inventory Prep",                         "{338934FD-CA10-48F4-9498-2D5250F4E6FA}", lv1menuGrids.Id, "InventoryPrepGridController");
+            AddGrid("Inventory Purchase Item",                "{5B55AF96-8267-4CE1-A4FB-4B050CC6E218}", lv1menuGrids.Id, "InventoryPurchaseItemGridController");
             AddGrid("Inventory Qc",                           "{C1EE89A8-2C6C-4709-AB0C-2BBC062160B5}", lv1menuGrids.Id, "InventoryQcGridController");
             AddGrid("Inventory Substitute",                   "{B715DFB4-5700-48DE-878A-F8D93F99ECA3}", lv1menuGrids.Id, "InventorySubstituteGridController");
             AddGrid("Inventory Vendor",                       "{C68281F9-0FC9-4FFE-8931-A5E501577AC3}", lv1menuGrids.Id, "InventoryVendorGridController");

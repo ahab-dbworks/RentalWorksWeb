@@ -183,6 +183,7 @@
     <Content Include="Source\Grids\CustomReportLayoutUserGrid\CustomReportLayoutUserGridBrowse.htm" />
     <Content Include="Source\Grids\CustomReportLayoutGroupGrid\CustomReportLayoutGroupGridBrowse.htm" />
     <Content Include="Source\Grids\ManualGlTransactionsGrid\ManualGlTransactionsGridBrowse.htm" />
+    <Content Include="Source\Grids\InventoryPurchaseItemGrid\InventoryPurchaseItemGridBrowse.htm" />
     <Content Include="Source\Grids\PurchaseVendorGrid\PurchaseVendorGridBrowse.htm" />
     <Content Include="Source\Grids\PhysicalInventoryCycleInventoryGrid\PhysicalInventoryCycleInventoryGridBrowse.htm" />
     <Content Include="Source\Grids\PhysicalInventoryInventoryGrid\PhysicalInventoryInventoryGridBrowse.htm" />
@@ -340,6 +341,7 @@
     <TypeScriptCompile Include="Source\Grids\CustomReportLayoutUserGrid\CustomReportLayoutUserGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\CustomReportLayoutGroupGrid\CustomReportLayoutGroupGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\ManualGlTransactionsGrid\ManualGlTransactionsGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\InventoryPurchaseItemGrid\InventoryPurchaseItemGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\PurchaseVendorGrid\PurchaseVendorGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\PhysicalInventoryCycleInventoryGrid\PhysicalInventoryCycleInventoryGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\PhysicalInventoryInventoryGrid\PhysicalInventoryInventoryGridController.ts" />
@@ -517,6 +519,7 @@
     <TypeScriptCompile Include="Source\Modules\Administrator\Hotfix\Hotfix.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\Reports\ReportsController.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\EmailHistory\EmailHistory.ts" />
+    <TypeScriptCompile Include="Source\Modules\Home\InventoryPurchaseUtility\InventoryPurchaseUtility.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\CountQuantityInventory\CountQuantityInventory.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\ScanBarCodes\ScanBarCodes.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Billing\BillingMessage.ts" />
@@ -654,6 +657,7 @@
     <TypeScriptCompile Include="Source\Modules\Home\Quote\Quote.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Repair\Repair.ts" />
     <Content Include="Source\Modules\Home\AvailabilityConflicts\AvailabilityConflictsForm.htm" />
+    <Content Include="Source\Modules\Home\InventoryPurchaseUtility\InventoryPurchaseUtilityForm.htm" />
     <Content Include="Source\Modules\Home\CompleteQc\CompleteQcForm.htm" />
     <Content Include="Source\Modules\Home\PhysicalInventory\PhysicalInventoryBrowse.htm" />
     <Content Include="Source\Modules\Home\PhysicalInventory\PhysicalInventoryForm.htm" />

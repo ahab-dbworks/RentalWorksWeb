@@ -41,6 +41,7 @@ class RwMaster extends WebMaster {
                     Constants.Modules.Home.Asset,
                     Constants.Modules.Home.AvailabilityConflicts,
                     Constants.Modules.Home.CompleteQc,
+                    Constants.Modules.Home.InventoryPurchaseUtility,
                     Constants.Modules.Home.PartsInventory,
                     Constants.Modules.Home.PhysicalInventory,
                     Constants.Modules.Home.RentalInventory,
