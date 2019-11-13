@@ -46,7 +46,13 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.ReturnOnAssetReport
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "CurrentOwnedQty", modeltype: FwDataTypes.Integer)]
         public int? CurrentOwnedQuantity { get; set; }
-        //------------------------------------------------------------------------------------ 
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "FromDateOwnedQty", modeltype: FwDataTypes.Integer)]
+        public int? FromDateOwnedQty { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "ToDateOwnedQty", modeltype: FwDataTypes.Integer)]
+        public int? ToDateOwnedQty { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "AverageOwnedQty", modeltype: FwDataTypes.Decimal)]
         public decimal? AverageOwnedQuantity { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -107,8 +113,41 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.ReturnOnAssetReport
         [FwSqlDataField(column: "DaysOut", modeltype: FwDataTypes.Integer)]
         public int? DaysOut { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "DailyRate", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public decimal? DailyRate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "WeeklyRate", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public decimal? WeeklyRate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "MonthlyRate", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public decimal? MonthlyRate { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "MaxDailyRate", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? MaxDailyRate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "MaxWeeklyRate", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public decimal? MaxWeeklyRate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "MaxMonthlyRate", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public decimal? MaxMonthlyRate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "RevenuePerDailyRate", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public decimal? RevenuePerDailyRate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "RevenuePerWeeklyRate", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public decimal? RevenuePerWeeklyRate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "RevenuePerMonthlyRate", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public decimal? RevenuePerMonthlyRate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "LTDRevenuePerDailyRate", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public decimal? LTDRevenuePerDailyRate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "LTDRevenuePerWeeklyRate", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public decimal? LTDRevenuePerWeeklyRate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "LTDRevenuePerMonthlyRate", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public decimal? LTDRevenuePerMonthlyRate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "DaysOwned", modeltype: FwDataTypes.Integer)]
         public int? DaysOwned { get; set; }
