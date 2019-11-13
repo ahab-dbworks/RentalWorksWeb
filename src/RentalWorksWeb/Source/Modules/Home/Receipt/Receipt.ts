@@ -22,8 +22,8 @@ class Receipt {
             FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
             const chartFilters = JSON.parse(sessionStorage.getItem('chartfilter'));
             if (!chartFilters) {
-                const today = FwFunc.getDate();
-                $browse.find('div[data-browsedatafield="ReceiptDate"]').find('input').val(today).change();
+                //const today = FwFunc.getDate();
+                //$browse.find('div[data-browsedatafield="ReceiptDate"]').find('input').val(today).change();
                 FwBrowse.databind($browse);
                 FwBrowse.screenload($browse);
             }
