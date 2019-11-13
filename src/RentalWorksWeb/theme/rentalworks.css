@@ -475,13 +475,12 @@ Form tables
 #itemsearch #itemlist[data-view="HYBRID"] .item-accessories .accColumns {display:none;}
 
 #inventory .item-container .item-info .opentab {margin-left:auto;cursor:pointer;}
-#inventory .item-container .item-info .toggleaccessories {font-weight: bold;color: #1E88E5;display:inline-block;cursor:pointer;}
-#inventory .item-container .item-info .toggleaccessories:hover {text-decoration:underline;}
+#inventory .item-container .toggleaccessories {font-weight: bold;color: #1E88E5;display:inline-block;cursor:pointer;}
+#inventory .item-container .toggleaccessories:hover {text-decoration:underline;}
 
 .item-info .incrementQuantity, .item-info .decrementQuantity {padding: 5px 0px;float: left;width: 25%;border: none;cursor:pointer;}
 
 .item-container .lightBlue {background-color: #c5eefb;}
-
 .item-container .available-color {padding:4px 8px;border-radius:4px;display:inline-block;min-width: 36px;border: 1px solid rgba(0, 40, 100, 0.12);}
 .item-container div[data-column="Available"][data-state="enough"] .available-color {background-color:#009933;color:#ffffff;}
 .item-container div[data-column="Available"][data-state="negative"] .available-color {background-color:#f44336;color:#ffffff;}
@@ -492,6 +491,7 @@ Form tables
 
 .item-container .item-accessories {}
 .item-container .item-accessories .item-accessory-info {display:flex;align-items:center;padding:5px;position:relative;border-bottom: 1px solid #BDBDBD;background-color:#EEEEEE;}
+.item-container .item-accessories .item-accessory-info .toggleaccessories {text-indent:1em;}
 
 #previewHtml {height:100%;}
 #previewHtml div[data-browsedatafield="QuantityAvailable"] .fieldvalue {padding:4px 8px;border-radius:4px;display:inline-block;min-width: 36px;border: 1px solid rgba(0, 40, 100, 0.12);}

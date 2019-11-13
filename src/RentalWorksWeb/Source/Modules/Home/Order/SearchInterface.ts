@@ -1050,14 +1050,24 @@ class SearchInterface {
         });
 
         $popup.on('click', '.toggleaccessories', e => {
-            let $iteminfo           = jQuery(e.currentTarget).closest('.item-info');
-            let $accessoryContainer = $iteminfo.siblings('.item-accessories');
-
+            let $el = jQuery(e.currentTarget);
+            let $iteminfo;
+            let $accessoryContainer;
+            let inventoryId;
+            if ($el.attr('data-isaccessory') === 'true') {
+                $iteminfo = $el.closest('.item-accessory-info');
+                inventoryId = $iteminfo.attr('data-inventoryid');
+                $accessoryContainer = $iteminfo.siblings(`.nested-accessories[data-parentid="${inventoryId}"]`);
+            } else {
+                $iteminfo = $el.closest('.item-info');
+                inventoryId = $iteminfo.attr('data-inventoryid');
+                $accessoryContainer = $iteminfo.siblings('.item-accessories');
+            }
+            
             if ($accessoryContainer.is(":visible")) {
                 jQuery(e.currentTarget).text('Show Accessories');
             } else {
                 jQuery(e.currentTarget).text('Hide Accessories');
-                let inventoryId = $iteminfo.attr('data-inventoryid');
                 self.refreshAccessoryQuantity($popup, id, warehouseId, inventoryId, e);
             }
 
@@ -1111,15 +1121,20 @@ class SearchInterface {
             })
             .on('change', '.item-accessory-info [data-column="Quantity"] input', e => {
                 const element = jQuery(e.currentTarget);
-
                 let accRequest: any = {
                     SessionId:   id,
-                    ParentId:    element.parents('.item-container').find('.item-info').attr('data-inventoryid'),
                     InventoryId: element.parents('.item-accessory-info').attr('data-inventoryid'),
                     WarehouseId: warehouseId,
                     Quantity:    element.val()
                 };
 
+                if (element.parents('.nested-accessories').length > 0) {
+                    accRequest.ParentId = element.parents('.nested-accessories').attr('data-parentid');
+                    accRequest.GrandParentId = element.parents('.item-container').find('.item-info').attr('data-inventoryid');
+                } else {
+                    accRequest.ParentId = element.parents('.item-container').find('.item-info').attr('data-inventoryid'); 
+                }
+               
                 accRequest.Quantity != "0" ? element.addClass('lightBlue') : element.removeClass('lightBlue');
 
                 FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch", accRequest, FwServices.defaultTimeout, function onSuccess(response) {
@@ -1465,7 +1480,16 @@ class SearchInterface {
     }
     //----------------------------------------------------------------------------------------------
     refreshAccessoryQuantity($popup, id, warehouseId, inventoryId, e) {
-        let accessoryContainer = jQuery(e.currentTarget).parents('.item-container').find('.item-accessories');
+        let accessoryContainer;
+        let $el = jQuery(e.currentTarget);
+        const isAccessory = $el.attr('data-isaccessory') === 'true';
+        if (isAccessory) {
+            const parentId = $el.parents('.item-accessory-info').attr('data-inventoryid');
+            accessoryContainer = $el.parents('.item-accessory-info').siblings(`.nested-accessories[data-parentid="${parentId}"]`);
+        } else {
+            accessoryContainer = $el.parents('.item-container').find('.item-accessories');
+        }
+      
         let request: any = {
             SessionId:        id,
             OrderId:          id,
@@ -1510,8 +1534,8 @@ class SearchInterface {
             $popup.find('.accColumns').css('display', 'none');
         }
 
-        FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/accessories", request, FwServices.defaultTimeout, function onSuccess(response) {
-            jQuery(e.currentTarget).parents('.item-container').find('.item-accessories .item-accessory-info').remove();
+        FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/accessories", request, FwServices.defaultTimeout,
+            response => {
             const descriptionIndex               = response.ColumnIndex.Description;
             const qtyIndex                       = response.ColumnIndex.Quantity;
             const qtyInIndex                     = response.ColumnIndex.QuantityIn;
@@ -1531,7 +1555,11 @@ class SearchInterface {
             const icodeIndex                     = response.ColumnIndex.ICode;
             const partNumberIndex                = response.ColumnIndex.ManufacturerPartNumber;
             const note                           = response.ColumnIndex.Note;
-
+                if (isAccessory) {
+                    accessoryContainer.find(`.item-accessory-info`).remove();
+                } else {
+                    $el.parents('.item-container').find('.item-accessories .item-accessory-info').remove();
+                }
             for (var i = 0; i < response.Rows.length; i++) {
                 let imageThumbnail = response.Rows[i][thumbnail]  ? response.Rows[i][thumbnail]  : './theme/images/no-image.jpg';
                 let imageId        = response.Rows[i][appImageId] ? response.Rows[i][appImageId] : '';
@@ -1575,6 +1603,9 @@ class SearchInterface {
                                               .html(response.Rows[i][classificationDescriptionIndex])
                                               .css({ 'background-color': response.Rows[i][classificationColorIndex] });
                     $itemaccessoryinfo.find('div[data-column="Tags"]').append($tag);
+
+                    $itemaccessoryinfo.find('div[data-column="Description"]').append('<div class="toggleaccessories" data-isaccessory="true">Show Accessories</div>');
+                    $itemaccessoryinfo.after(`<div class="nested-accessories" data-classification="${response.Rows[i][classificationIndex]}" style="display:none; text-indent:1em;" data-parentid="${response.Rows[i][inventoryIdIndex]}"></div>`);
                 }
 
                 if (response.Rows[i][isOptionIndex] === true) {
