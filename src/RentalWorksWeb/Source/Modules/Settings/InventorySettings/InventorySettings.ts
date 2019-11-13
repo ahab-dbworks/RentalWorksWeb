@@ -37,13 +37,7 @@ class InventorySettings {
     openForm(mode: string) {
         let $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
-
-        if (mode === 'NEW') {
-            FwFormField.enable($form.find('.ifnew'))
-        } else {
-            FwFormField.disable($form.find('.ifnew'))
-        }
-
+        this.events($form);
         return $form;
     }
     //----------------------------------------------------------------------------------------------
@@ -55,12 +49,35 @@ class InventorySettings {
         return $form;
     }
     //----------------------------------------------------------------------------------------------
+    afterLoad($form: any) {
+        const userAssignedICodes = FwFormField.getValueByDataField($form, 'UserAssignedICodes');
+        if (userAssignedICodes) {
+            FwFormField.disable($form.find('[data-datafield="NextICode"]'));
+            FwFormField.disable($form.find('[data-datafield="ICodePrefix"]'));
+        }
+        else {
+            FwFormField.enable($form.find('[data-datafield="NextICode"]'));
+            FwFormField.enable($form.find('[data-datafield="ICodePrefix"]'));
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    events($form: any) {
+        $form.find('[data-datafield="UserAssignedICodes"] input').on('change', e => {
+            if (jQuery(e.currentTarget).prop('checked')) {
+                FwFormField.disable($form.find('[data-datafield="NextICode"]'));
+                FwFormField.disable($form.find('[data-datafield="ICodePrefix"]'));
+            }
+            else {
+                FwFormField.enable($form.find('[data-datafield="NextICode"]'));
+                FwFormField.enable($form.find('[data-datafield="ICodePrefix"]'));
+            }
+        });
+    }
+    //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
     }
     //----------------------------------------------------------------------------------------------
-    afterLoad($form: any) {
-    }
 }
 //----------------------------------------------------------------------------------------------
 var InventorySettingsController = new InventorySettings();

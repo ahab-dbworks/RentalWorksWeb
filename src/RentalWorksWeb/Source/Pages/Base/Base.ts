@@ -256,6 +256,7 @@ class Base {
                                             , defaultunit: responseGetDefaultSettings.DefaultUnit
                                             , defaultrank: responseGetDefaultSettings.DefaultRank
                                             , defaulticodemask: responseGetInventorySettings.ICodeMask
+                                            , userassignedicodes: responseGetInventorySettings.UserAssignedICodes
                                             , sharedealsacrossofficelocations: responseGetSystemSettings.ShareDealsAcrossOfficeLocations
                                             , systemname: responseGetSystemSettings.SystemName
                                             , companyname: responseGetSystemSettings.CompanyName

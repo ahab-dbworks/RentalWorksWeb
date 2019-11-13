@@ -118,6 +118,17 @@
             this.setupNewMode($form);
         }
 
+        let userassignedicodes = JSON.parse(sessionStorage.getItem('controldefaults')).userassignedicodes;
+        if (userassignedicodes) {
+            FwFormField.enable($form.find('[data-datafield="ICode"]'));
+            $form.find('[data-datafield="ICode"]').attr(`data-required`, `true`);
+        }
+        else {
+            FwFormField.disable($form.find('[data-datafield="ICode"]'));
+            $form.find('[data-datafield="ICode"]').attr(`data-required`, `false`);
+        }
+
+
         const controller = $form.attr('data-controller');
         if (typeof window[controller]['openFormInventory'] === 'function') {
             window[controller]['openFormInventory']($form);
