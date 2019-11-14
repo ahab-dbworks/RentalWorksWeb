@@ -32,6 +32,9 @@ namespace WebApi.Modules.Reports.Billing.BillingProgressReport
         [FwSqlDataField(column: "status", modeltype: FwDataTypes.Text)]
         public string Status { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "pono", modeltype: FwDataTypes.Text)]
+        public string PoNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "agent", modeltype: FwDataTypes.Text)]
         public string Agent { get; set; }
         //------------------------------------------------------------------------------------ 

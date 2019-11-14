@@ -15,9 +15,10 @@
   <table>
     <thead>
       <tr>
-        <th >Customer</th>
-        <th  >Order No.</th>
+        <th>Customer</th>
+        <th>Order No.</th>
         <th>Description</th>
+        <th>PO Number</th>
         <th>Status</th>
         <th class="number">Total</th>
         <th class="number">Billed</th>
@@ -29,15 +30,16 @@
       {{#each this}}
       <tr data-rowtype="{{RowType}}">
         {{#ifEquals RowType "OfficeLocationheader"}}
-        <td colspan="12" class="header-row">Office Location: {{OfficeLocation}}</td>
+        <td colspan="9" class="header-row">Office Location: {{OfficeLocation}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "Dealheader"}}
-        <td colspan="12" class="lower header-row">Deal: {{Deal}}</td>
+        <td colspan="9" class="lower header-row">Deal: {{Deal}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "detail"}}
         <td>{{Customer}}</td>
         <td>{{OrderNumber}}</td>
         <td>{{OrderDescription}}</td>
+        <td>{{PoNumber}}</td>
         <td>{{Status}}</td>
         <td class="number">{{OrderTotal}}</td>
         <td class="number">{{Billed}}</td>
@@ -45,22 +47,25 @@
         <td class="number">{{BilledPercent}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "Dealfooter"}}
-        <td colspan="4" class="total-name">{{Deal}}</td>
+        <td colspan="5" class="total-name">{{Deal}}</td>
         <td class="total-val" data-value="{{OrderTotal}}"></td>
         <td class="total-val" data-value="{{Billed}}"></td>
         <td class="total-val" data-value="{{Remaining}}"></td>
+        <td></td>
         {{/ifEquals}}
         {{#ifEquals RowType "OfficeLocationfooter"}}
-        <td colspan="4" class="total-name">{{OfficeLocation}}</td>
+        <td colspan="5" class="total-name">{{OfficeLocation}}</td>
         <td class="total-val" data-value="{{OrderTotal}}"></td>
         <td class="total-val" data-value="{{Billed}}"></td>
         <td class="total-val" data-value="{{Remaining}}"></td>
+        <td></td>
         {{/ifEquals}}
         {{#ifEquals RowType "grandtotal"}}
-        <td colspan="4" class="total-name">Grand Total:&nbsp;</td>
+        <td colspan="5" class="total-name">Grand Total:&nbsp;</td>
         <td class="total-val" data-value="{{OrderTotal}}"></td>
         <td class="total-val" data-value="{{Billed}}"></td>
         <td class="total-val" data-value="{{Remaining}}"></td>
+        <td></td>
         {{/ifEquals}}
       </tr>
       {{/each}}
