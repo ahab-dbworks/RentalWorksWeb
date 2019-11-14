@@ -19,6 +19,7 @@ namespace WebApi.Modules.Settings.RateWarehouse
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
             select.AddWhere("(availfor in ('M', 'L', 'SP'))");
+            select.AddWhere("warehouseinactive <> 'T'");
             addFilterToSelect("RateId", "masterid", select, request);
             addFilterToSelect("WarehouseId", "warehouseid", select, request);
         }

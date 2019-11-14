@@ -19,6 +19,7 @@ namespace WebApi.Modules.Settings.VehicleTypeWarehouse
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
             select.AddWhere("(availfor='V')");
+            select.AddWhere("warehouseinactive <> 'T'");
             addFilterToSelect("VehicleTypeId", "masterid", select, request);
             addFilterToSelect("WarehouseId", "warehouseid", select, request);
         }

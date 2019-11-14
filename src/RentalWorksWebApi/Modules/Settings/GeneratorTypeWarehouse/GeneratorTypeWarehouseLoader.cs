@@ -19,6 +19,7 @@ namespace WebApi.Modules.Settings.GeneratorTypeWarehouse
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
             select.AddWhere("(availfor='V')");
+            select.AddWhere("warehouseinactive <> 'T'");
             addFilterToSelect("GeneratorTypeId", "masterid", select, request);
             addFilterToSelect("WarehouseId", "warehouseid", select, request);
         }
