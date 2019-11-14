@@ -4,6 +4,7 @@ using FwStandard.SqlServer;
 using System;
 using System.Threading.Tasks;
 using WebApi.Logic;
+using WebApi.Modules.Home.InventoryAvailability;
 using WebApi.Modules.Home.RepairItem;
 using WebApi.Modules.Home.Tax;
 using WebLibrary;
@@ -469,6 +470,12 @@ namespace WebApi.Modules.Inventory.Repair
                     }
                 }
             }
+
+            if ((InventoryId != null) && (WarehouseId != null))
+            {
+                InventoryAvailabilityFunc.RequestRecalc(InventoryId, WarehouseId, "");  // #jhtodo: classification?
+            }
+
         }
         //------------------------------------------------------------------------------------
         public void OnAfterSaveTax(object sender, AfterSaveDataRecordEventArgs e)
