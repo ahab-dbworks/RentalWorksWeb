@@ -207,7 +207,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
     {
         public string WarehouseId { get; set; }
         public string ReturnToWarehouseId { get; set; }
-        public string OrderId { get; set; }
+        public string OrderId { get; set; }  // can also be a RepairId
         public string OrderItemId { get; set; }
         public string OrderType { get; set; }
         public string OrderTypeDescription { get { return AppFunc.GetOrderTypeDescription(OrderType); } }
@@ -1077,19 +1077,19 @@ namespace WebApi.Modules.Home.InventoryAvailability
                 qry.Add("          or                                                                            ");
                 qry.Add("        ((a.ordertype = '" + RwConstants.ORDER_TYPE_QUOTE + "') and ");
                 qry.Add("         (a.orderstatus = '" + RwConstants.QUOTE_STATUS_RESERVED + "')))");
-                qry.Add(" and   a.orderstatus not in (                                                           ");
-                qry.Add("                     '" + RwConstants.QUOTE_STATUS_CANCELLED + "'  ,                    ");
-                qry.Add("                     '" + RwConstants.QUOTE_STATUS_CLOSED + "'  ,                       ");
-                qry.Add("                     '" + RwConstants.QUOTE_STATUS_ORDERED + "'  ,                      ");
-                qry.Add("                     '" + RwConstants.TRANSFER_STATUS_NEW + "'  ,                       ");
-                qry.Add("                     '" + RwConstants.TRANSFER_STATUS_CANCELLED + "'  ,                 ");
-                qry.Add("                     '" + RwConstants.TRANSFER_STATUS_CLOSED + "'  ,                    ");
-                qry.Add("                     '" + RwConstants.TRANSFER_STATUS_COMPLETE + "'  ,                  ");
-                qry.Add("                     '" + RwConstants.ORDER_STATUS_CANCELLED + "'  ,                    ");
-                qry.Add("                     '" + RwConstants.ORDER_STATUS_SNAPSHOT + "'  ,                     ");
-                qry.Add("                     '" + RwConstants.ORDER_STATUS_COMPLETE + "'  ,                     ");
-                qry.Add("                     '" + RwConstants.ORDER_STATUS_CLOSED + "'                          ");
-                qry.Add("                        )                                                               ");
+                //qry.Add(" and   a.orderstatus not in (                                                           ");
+                //qry.Add("                     '" + RwConstants.QUOTE_STATUS_CANCELLED + "'  ,                    ");
+                //qry.Add("                     '" + RwConstants.QUOTE_STATUS_CLOSED + "'  ,                       ");
+                //qry.Add("                     '" + RwConstants.QUOTE_STATUS_ORDERED + "'  ,                      ");
+                //qry.Add("                     '" + RwConstants.TRANSFER_STATUS_NEW + "'  ,                       ");
+                //qry.Add("                     '" + RwConstants.TRANSFER_STATUS_CANCELLED + "'  ,                 ");
+                //qry.Add("                     '" + RwConstants.TRANSFER_STATUS_CLOSED + "'  ,                    ");
+                //qry.Add("                     '" + RwConstants.TRANSFER_STATUS_COMPLETE + "'  ,                  ");
+                //qry.Add("                     '" + RwConstants.ORDER_STATUS_CANCELLED + "'  ,                    ");
+                //qry.Add("                     '" + RwConstants.ORDER_STATUS_SNAPSHOT + "'  ,                     ");
+                //qry.Add("                     '" + RwConstants.ORDER_STATUS_COMPLETE + "'  ,                     ");
+                //qry.Add("                     '" + RwConstants.ORDER_STATUS_CLOSED + "'                          ");
+                //qry.Add("                        )                                                               ");
                 qry.AddParameter("@sessionid", sessionId);
                 FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync();
 
@@ -1117,7 +1117,14 @@ namespace WebApi.Modules.Home.InventoryAvailability
                         reservation.DealId = row[dt.GetColumnNo("dealid")].ToString();
                         reservation.Deal = row[dt.GetColumnNo("deal")].ToString();
                         reservation.FromDateTime = FwConvert.ToDateTime(row[dt.GetColumnNo("availfromdatetime")].ToString());
-                        reservation.ToDateTime = FwConvert.ToDateTime(row[dt.GetColumnNo("availtodatetime")].ToString());
+                        if (string.IsNullOrEmpty(row[dt.GetColumnNo("availtodatetime")].ToString()))
+                        {
+                            reservation.ToDateTime = InventoryAvailabilityFunc.LateDateTime;
+                        }
+                        else
+                        {
+                            reservation.ToDateTime = FwConvert.ToDateTime(row[dt.GetColumnNo("availtodatetime")].ToString());
+                        }
 
                         // item is being transferred out, should show as out indefinitely
                         if (reservation.IsTransfer)
@@ -1164,7 +1171,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
                         if (reservation.OrderType.Equals(RwConstants.ORDER_TYPE_ORDER) || reservation.OrderType.Equals(RwConstants.ORDER_TYPE_TRANSFER) || ((reservation.OrderType.Equals(RwConstants.ORDER_TYPE_QUOTE) && (reservation.OrderStatus.Equals(RwConstants.QUOTE_STATUS_RESERVED)))))
                         {
                             reservation.QuantityReserved.Owned = (reservation.QuantityOrdered - reservation.QuantitySub - reservation.QuantityConsigned - reservation.QuantityStaged.Owned - reservation.QuantityOut.Owned - reservation.QuantityIn.Owned);
-                            reservation.QuantityReserved.Subbed = (reservation.QuantitySub - reservation.QuantityStaged.Subbed- reservation.QuantityOut.Subbed - reservation.QuantityIn.Subbed);
+                            reservation.QuantityReserved.Subbed = (reservation.QuantitySub - reservation.QuantityStaged.Subbed - reservation.QuantityOut.Subbed - reservation.QuantityIn.Subbed);
                             reservation.QuantityReserved.Consigned = (reservation.QuantityConsigned - reservation.QuantityStaged.Consigned - reservation.QuantityOut.Consigned - reservation.QuantityIn.Consigned);
                         }
                         else if (reservation.OrderType.Equals(RwConstants.ORDER_TYPE_REPAIR))
@@ -1211,19 +1218,19 @@ namespace WebApi.Modules.Home.InventoryAvailability
                 qry.Add("          or                                                                            ");
                 qry.Add("        ((a.ordertype = '" + RwConstants.ORDER_TYPE_QUOTE + "') and ");
                 qry.Add("         (a.orderstatus = '" + RwConstants.QUOTE_STATUS_RESERVED + "')))");
-                qry.Add(" and   a.orderstatus not in (                                                           ");
-                qry.Add("                     '" + RwConstants.QUOTE_STATUS_CANCELLED + "'  ,                    ");
-                qry.Add("                     '" + RwConstants.QUOTE_STATUS_CLOSED + "'  ,                       ");
-                qry.Add("                     '" + RwConstants.QUOTE_STATUS_ORDERED + "'  ,                      ");
-                qry.Add("                     '" + RwConstants.TRANSFER_STATUS_NEW + "'  ,                       ");
-                qry.Add("                     '" + RwConstants.TRANSFER_STATUS_CANCELLED + "'  ,                 ");
-                qry.Add("                     '" + RwConstants.TRANSFER_STATUS_CLOSED + "'  ,                    ");
-                qry.Add("                     '" + RwConstants.TRANSFER_STATUS_COMPLETE + "'  ,                  ");
-                qry.Add("                     '" + RwConstants.ORDER_STATUS_CANCELLED + "'  ,                    ");
-                qry.Add("                     '" + RwConstants.ORDER_STATUS_SNAPSHOT + "'  ,                     ");
-                qry.Add("                     '" + RwConstants.ORDER_STATUS_COMPLETE + "'  ,                     ");
-                qry.Add("                     '" + RwConstants.ORDER_STATUS_CLOSED + "'                          ");
-                qry.Add("                        )                                                               ");
+                //qry.Add(" and   a.orderstatus not in (                                                           ");
+                //qry.Add("                     '" + RwConstants.QUOTE_STATUS_CANCELLED + "'  ,                    ");
+                //qry.Add("                     '" + RwConstants.QUOTE_STATUS_CLOSED + "'  ,                       ");
+                //qry.Add("                     '" + RwConstants.QUOTE_STATUS_ORDERED + "'  ,                      ");
+                //qry.Add("                     '" + RwConstants.TRANSFER_STATUS_NEW + "'  ,                       ");
+                //qry.Add("                     '" + RwConstants.TRANSFER_STATUS_CANCELLED + "'  ,                 ");
+                //qry.Add("                     '" + RwConstants.TRANSFER_STATUS_CLOSED + "'  ,                    ");
+                //qry.Add("                     '" + RwConstants.TRANSFER_STATUS_COMPLETE + "'  ,                  ");
+                //qry.Add("                     '" + RwConstants.ORDER_STATUS_CANCELLED + "'  ,                    ");
+                //qry.Add("                     '" + RwConstants.ORDER_STATUS_SNAPSHOT + "'  ,                     ");
+                //qry.Add("                     '" + RwConstants.ORDER_STATUS_COMPLETE + "'  ,                     ");
+                //qry.Add("                     '" + RwConstants.ORDER_STATUS_CLOSED + "'                          ");
+                //qry.Add("                        )                                                               ");
                 qry.AddParameter("@sessionid", sessionId);
                 FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync();
 
@@ -1251,7 +1258,14 @@ namespace WebApi.Modules.Home.InventoryAvailability
                         reservation.DealId = row[dt.GetColumnNo("dealid")].ToString();
                         reservation.Deal = row[dt.GetColumnNo("deal")].ToString();
                         reservation.FromDateTime = FwConvert.ToDateTime(row[dt.GetColumnNo("availfromdatetime")].ToString());
-                        reservation.ToDateTime = FwConvert.ToDateTime(row[dt.GetColumnNo("availtodatetime")].ToString());
+                        if (string.IsNullOrEmpty(row[dt.GetColumnNo("availtodatetime")].ToString()))
+                        {
+                            reservation.ToDateTime = InventoryAvailabilityFunc.LateDateTime;
+                        }
+                        else
+                        {
+                            reservation.ToDateTime = FwConvert.ToDateTime(row[dt.GetColumnNo("availtodatetime")].ToString());
+                        }
 
                         if (!availData.InventoryWarehouse.HourlyAvailability)
                         {

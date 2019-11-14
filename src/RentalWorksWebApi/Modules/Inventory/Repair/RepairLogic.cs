@@ -471,9 +471,23 @@ namespace WebApi.Modules.Inventory.Repair
                 }
             }
 
-            if ((InventoryId != null) && (WarehouseId != null))
+            string invId = InventoryId;
+            string whId = WarehouseId;
+            if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate)
             {
-                InventoryAvailabilityFunc.RequestRecalc(InventoryId, WarehouseId, "");  // #jhtodo: classification?
+                RepairRecord orig = (RepairRecord)e.Original;
+                if (invId == null)
+                {
+                    invId = orig.InventoryId;
+                }
+                if (whId == null)
+                {
+                    whId = orig.WarehouseId;
+                }
+            }
+            if (!string.IsNullOrEmpty(InventoryId) && !string.IsNullOrEmpty(WarehouseId))
+            {
+                InventoryAvailabilityFunc.RequestRecalc(invId, whId, "");  // #jhtodo: classification?
             }
 
         }

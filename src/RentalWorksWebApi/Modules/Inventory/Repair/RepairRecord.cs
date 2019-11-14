@@ -2,6 +2,7 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using System.Threading.Tasks;
 using WebApi.Data;
+using WebApi.Modules.Home.InventoryAvailability;
 
 namespace WebApi.Modules.Inventory.Repair
 {
@@ -169,17 +170,41 @@ namespace WebApi.Modules.Inventory.Repair
         //------------------------------------------------------------------------------------ 
         public async Task<ToggleRepairCompleteResponse> ToggleComplete()
         {
-            return await RepairFunc.ToggleRepairComplete(AppConfig, UserSession, RepairId);
+            ToggleRepairCompleteResponse response = await RepairFunc.ToggleRepairComplete(AppConfig, UserSession, RepairId);
+            if (response.success)
+            {
+                if (!string.IsNullOrEmpty(InventoryId) && !string.IsNullOrEmpty(WarehouseId))
+                {
+                    InventoryAvailabilityFunc.RequestRecalc(InventoryId, WarehouseId, "");  // #jhtodo: classification?
+                }
+            }
+            return response;
         }
         //------------------------------------------------------------------------------------ 
         public async Task<RepairReleaseItemsResponse> ReleaseItems(int quantity)
         {
-            return await RepairFunc.ReleaseRepairItems(AppConfig, UserSession, RepairId, quantity);
+            RepairReleaseItemsResponse response = await RepairFunc.ReleaseRepairItems(AppConfig, UserSession, RepairId, quantity);
+            if (response.success)
+            {
+                if (!string.IsNullOrEmpty(InventoryId) && !string.IsNullOrEmpty(WarehouseId))
+                {
+                    InventoryAvailabilityFunc.RequestRecalc(InventoryId, WarehouseId, "");  // #jhtodo: classification?
+                }
+            }
+            return response;
         }
         //------------------------------------------------------------------------------------ 
         public async Task<VoidRepairResponse> Void()
         {
-            return await RepairFunc.VoidRepair(AppConfig, UserSession, RepairId);
+            VoidRepairResponse response = await RepairFunc.VoidRepair(AppConfig, UserSession, RepairId);
+            if (response.success)
+            {
+                if (!string.IsNullOrEmpty(InventoryId) && !string.IsNullOrEmpty(WarehouseId))
+                {
+                    InventoryAvailabilityFunc.RequestRecalc(InventoryId, WarehouseId, "");  // #jhtodo: classification?
+                }
+            }
+            return response;
         }
         //------------------------------------------------------------------------------------ 
     }
