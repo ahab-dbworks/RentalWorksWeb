@@ -341,7 +341,7 @@
         }
 
         if ($control.attr('data-showinactivemenu') === 'true') {
-            this.addInactiveMenu($validationbrowse);
+            FwValidation.addInactiveMenu($validationbrowse);
         }
 
         $validationbrowse.data('$btnvalidate', $btnvalidate);
@@ -592,48 +592,6 @@
         sel.removeAllRanges();
         sel.addRange(range);
         element.focus();
-    }
-    //---------------------------------------------------------------------------------
-    addInactiveMenu($validationbrowse: JQuery) {
-        $validationbrowse.find('.runtime .fwbrowse-menu').remove();
-        $validationbrowse.closest('[data-control="FwBrowse"]').attr('data-activeinactiveview', 'active');
-        $validationbrowse.find('.runtime .browsecaption').after(`<div class="fwbrowse-menu"><div class="fwcontrol fwmenu default" data-control="FwMenu" data-visible="true" data-rendermode="runtime"><div class="buttonbar"></div></div></div></div>`);
-        const $activeView = FwMenu.generateDropDownViewBtn(FwLanguages.translate('Active'), true);
-        $activeView.on('click', e => {
-            try {
-                const $fwbrowse = jQuery(e.currentTarget).closest('.fwbrowse');
-                $fwbrowse.attr('data-activeinactiveview', 'active');
-                FwBrowse.search($fwbrowse);
-            } catch (ex) {
-                FwFunc.showError(ex);
-            }
-        });
-        const $inactiveView = FwMenu.generateDropDownViewBtn(FwLanguages.translate('Inactive'), false);
-        $inactiveView.on('click', e => {
-            try {
-                const $fwbrowse = jQuery(e.currentTarget).closest('.fwbrowse');
-                $fwbrowse.attr('data-activeinactiveview', 'inactive');
-                FwBrowse.search($fwbrowse);
-            } catch (ex) {
-                FwFunc.showError(ex);
-            }
-        });
-        const $allView = FwMenu.generateDropDownViewBtn(FwLanguages.translate('All'), false);
-        $allView.on('click', e => {
-            try {
-                const $fwbrowse = jQuery(e.currentTarget).closest('.fwbrowse');
-                $fwbrowse.attr('data-activeinactiveview', 'all');
-                FwBrowse.search($fwbrowse);
-            } catch (ex) {
-                FwFunc.showError(ex);
-            }
-        });
-        const viewitems: Array<string> = [];
-        viewitems.push($activeView, $inactiveView, $allView);
-        const $menu = FwMenu.getMenuControl('default');
-        const $show = FwMenu.addViewBtn($menu, FwLanguages.translate('Show'), viewitems);
-        $validationbrowse.find('.fwbrowse-menu .buttonbar').html($show);
-        $validationbrowse.find('.fwbrowse-menu .buttonbar .ddviewbtn').css('margin-left', 'auto');
     }
     //---------------------------------------------------------------------------------
 }
