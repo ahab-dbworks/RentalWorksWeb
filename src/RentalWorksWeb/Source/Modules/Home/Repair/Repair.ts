@@ -737,7 +737,7 @@ class Repair {
                         <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Automatically Complete QC for Items Completed or Released from Repair" data-datafield="AutoCompleteQC" style="flex:1 1 125px;"></div>
                        </div>
                        <div class="flexrow">
-                          <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield qc-related" data-caption="Condition" data-datafield="ConditionId" data-displayfield="Condition" data-validationname="InventoryConditionValidation" style="float:left;max-width:150px;"></div>
+                          <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield qc-related" data-caption="Condition" data-datafield="ConditionId" data-displayfield="Condition" data-validationname="InventoryConditionValidation" style="float:left;max-width:500px;"></div>
                        </div>
                       <div class="flexrow">
                         <div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield qc-related" data-caption="Note" data-datafield="QcNote" data-height="500px"></div>
