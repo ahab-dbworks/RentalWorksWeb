@@ -48,7 +48,10 @@ export class FrontEndBase {
         await expect(page).toClick(menuButtonId);
 
         // wait for the module to open and load
-        await page.waitFor(() => document.querySelector('.pleasewait'));
+        //await page.waitFor(() => document.querySelector('.pleasewait'));
+        try {
+            await page.waitFor(() => document.querySelector('.pleasewait'), { timeout: 5000 });
+        } catch (error) { } // assume that we missed the Please Wait dialog
         await page.waitFor(() => !document.querySelector('.pleasewait'), { timeout: this.moduleOpenTimeout });
 
         // find the browse tab

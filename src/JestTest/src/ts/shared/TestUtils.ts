@@ -308,11 +308,6 @@ export class TestUtils {
     //-----------------------------------------------------------------------------------------------------------------
     static randomRecentDateMDY(withinNumberOfDays?: number, separator: string = "/"): string {
         let recentDate = faker.date.recent(withinNumberOfDays);
-        //const year = recentDate.getFullYear().toString();
-        //const month = (recentDate.getMonth() + 1).toString();
-        //const date = recentDate.getDate().toString();
-        //const recentDateStr = month.padStart(2, '0') + separator + date.padStart(2, '0') + separator + year.padStart(4, '0');
-        //return recentDateStr;
         return TestUtils.dateMDY(recentDate, separator);
     }
     //-----------------------------------------------------------------------------------------------------------------
@@ -320,23 +315,25 @@ export class TestUtils {
         let minusOne: number = -1;
         let daysAhead: number = (withinNumberOfDays * minusOne);
         let futureDate = faker.date.recent(daysAhead);
-        //const year = futureDate.getFullYear().toString();
-        //const month = (futureDate.getMonth() + 1).toString();
-        //const date = futureDate.getDate().toString();
-        //const futureDateStr = month.padStart(2, '0') + separator + date.padStart(2, '0') + separator + year.padStart(4, '0');
-        //return futureDateStr;
         return TestUtils.dateMDY(futureDate, separator);
     }
     //-----------------------------------------------------------------------------------------------------------------
-    static futureDateMDY(numberOfDays: number = 0, separator: string = "/"): string {
+    static futureDate(numberOfDays: number = 0): Date {
         let today: Date = new Date();
         let futureDate: Date = new Date(today.getTime() + (numberOfDays * 1000 * 60 * 60 * 24));
-        //const year = futureDate.getFullYear().toString();
-        //const month = (futureDate.getMonth() + 1).toString();
-        //const date = futureDate.getDate().toString();
-        //const futureDateStr = month.padStart(2, '0') + separator + date.padStart(2, '0') + separator + year.padStart(4, '0');
-        //return futureDateStr;
-        return TestUtils.dateMDY(futureDate, separator);
+        return futureDate;
+    }
+    //-----------------------------------------------------------------------------------------------------------------
+    static futureDateMDY(numberOfDays: number = 0, separator: string = "/"): string {
+        return TestUtils.dateMDY(TestUtils.futureDate(numberOfDays), separator);
+    }
+    //-----------------------------------------------------------------------------------------------------------------
+    static pastDate(numberOfDays: number = 0): Date {
+        let today: Date = new Date();
+        let minusOne: number = -1;
+        let daysPast: number = (numberOfDays * minusOne);
+        let pastDate: Date = new Date(today.getTime() + (daysPast * 1000 * 60 * 60 * 24));
+        return pastDate;
     }
     //-----------------------------------------------------------------------------------------------------------------
     static pastDateMDY(numberOfDays: number = 0, separator: string = "/"): string {
@@ -344,12 +341,7 @@ export class TestUtils {
         let minusOne: number = -1;
         let daysPast: number = (numberOfDays * minusOne);
         let pastDate: Date = new Date(today.getTime() + (daysPast * 1000 * 60 * 60 * 24));
-        //const year = futureDate.getFullYear().toString();
-        //const month = (futureDate.getMonth() + 1).toString();
-        //const date = futureDate.getDate().toString();
-        //const futureDateStr = month.padStart(2, '0') + separator + date.padStart(2, '0') + separator + year.padStart(4, '0');
-        //return futureDateStr;
-        return TestUtils.dateMDY(pastDate, separator);
+        return TestUtils.dateMDY(TestUtils.pastDate(numberOfDays), separator);
     }
     //-----------------------------------------------------------------------------------------------------------------
 }
