@@ -844,13 +844,17 @@
     };
     //----------------------------------------------------------------------------------------------
     refreshGridForScanning($form: JQuery): void {
-        const gridView = FwFormField.getValueByDataField($form, 'GridView');
-        if (gridView === 'STAGE') {
-            const $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
-            FwBrowse.search($stagedItemGrid);
-        } else {
-            const $checkOutPendingItemGrid = $form.find('[data-name="CheckOutPendingItemGrid"]');
-            FwBrowse.search($checkOutPendingItemGrid);
+        const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+        const orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
+        if (orderId && warehouse) {
+            const gridView = FwFormField.getValueByDataField($form, 'GridView');
+            if (gridView === 'STAGE') {
+                const $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
+                FwBrowse.search($stagedItemGrid);
+            } else {
+                const $checkOutPendingItemGrid = $form.find('[data-name="CheckOutPendingItemGrid"]');
+                FwBrowse.search($checkOutPendingItemGrid);
+            }
         }
     };
     //----------------------------------------------------------------------------------------------
