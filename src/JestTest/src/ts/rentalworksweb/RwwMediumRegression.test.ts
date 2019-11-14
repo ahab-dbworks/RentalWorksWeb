@@ -435,7 +435,8 @@ export class MediumRegressionTest extends BaseTest {
             test(testName, async () => {
 
                 let iCodeMask: string = this.globalScopeRef["InventorySettings~1"].ICodeMask;  // ie. "aaaaa-"  or "aaaaa-aa"
-                let newICode: string = TestUtils.randomAlphanumeric((iCodeMask.split("a").length - 1)); // count the a's
+                iCodeMask = iCodeMask.toUpperCase();
+                let newICode: string = TestUtils.randomAlphanumeric((iCodeMask.split("A").length - 1)); // count the A's
                 iCodeMask = iCodeMask.trim();
                 let maskedICode: string = newICode;
 
