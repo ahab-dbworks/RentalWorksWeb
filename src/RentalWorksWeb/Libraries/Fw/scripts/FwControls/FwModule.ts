@@ -1162,6 +1162,7 @@ class FwModule {
                         }
                         var tabname = (typeof response.tabname === 'string') ? response.tabname : (typeof response.RecordTitle === 'string') ? response.RecordTitle : 'Unknown';
                         $tab.find('.caption').html(tabname);
+                        $form.closest('.fwpopupbox').find('.popuptitle').html(tabname); // If popout
                         $tab.find('.modified').html('');
                         $form.find('.btn[data-type="SaveMenuBarButton"]').addClass('disabled');
                         $form.find('.btn[data-type="RefreshMenuBarButton"]').removeClass('disabled');
