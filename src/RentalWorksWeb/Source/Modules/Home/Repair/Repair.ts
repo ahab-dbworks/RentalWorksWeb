@@ -219,11 +219,6 @@ class Repair {
         $form.find('div.fwformfield[data-datafield="RepairId"] input').val(uniqueids.RepairId);
         FwModule.loadForm(this.Module, $form);
 
-        const qcRequired = FwFormField.getValueByDataField($form, 'QcRequired');
-        if (qcRequired !== false) {
-            $form.find('[data-type="tab"][data-caption="QC"]').show();
-        }
-
         $form.find('[data-datafield="PoPending"] .fwformfield-value').on('change', e => {
             const poPending = FwFormField.getValueByDataField($form, 'PoPending');
             if (poPending === true) {
@@ -305,6 +300,13 @@ class Repair {
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form: JQuery): void {
+        const qcRequired = FwFormField.getValueByDataField($form, 'QcRequired');
+        if (qcRequired === false) {
+            $form.find('[data-type="tab"][data-caption="QC"]').hide();
+        } else {
+            $form.find('[data-type="tab"][data-caption="QC"]').show();
+        }
+
         let $repairCostGrid: any = $form.find('[data-name="RepairCostGrid"]');
         FwBrowse.search($repairCostGrid);
         let $repairPartGrid: any = $form.find('[data-name="RepairPartGrid"]');
@@ -439,7 +441,7 @@ class Repair {
               <div data-type="tab" id="costtab" class="tab" data-tabpageid="costtabpage" data-caption="Costs"></div>
               <div data-type="tab" id="partstab" class="tab" data-tabpageid="partstabpage" data-caption="Parts"></div>
               <div data-type="tab" id="chargetab" class="tab" data-tabpageid="chargetabpage" data-caption="Charge"></div>
-              <div data-type="tab" id="qctab" class="tab" data-tabpageid="qctabpage" data-caption="QC" style="display:none;"></div>
+              <div data-type="tab" id="qctab" class="tab" data-tabpageid="qctabpage" data-caption="QC"></div>
               <div data-type="tab" id="notestab" class="tab" data-tabpageid="notestabpage" data-caption="Notes"></div>
             </div>
             <div class="tabpages">
@@ -787,6 +789,13 @@ class Repair {
                 FwFormField.disable($form.find('.qc-related'));
             }
         })
+        //
+        $form.find('[data-type="tab"][data-caption="QC"]').on('click', e => {
+            if ($form.attr('data-mode') === 'NEW') {
+                e.stopImmediatePropagation();
+                FwNotification.renderNotification('WARNING', 'Save Record first.');
+            }
+        });
     };
     //----------------------------------------------------------------------------------------------
     estimateOrder($form: JQuery): void {
