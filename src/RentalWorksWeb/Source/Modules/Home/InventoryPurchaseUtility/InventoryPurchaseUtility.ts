@@ -24,11 +24,16 @@ class InventoryPurchaseUtility {
         let $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 
+        //disables asterisk and save prompt
+        $form.off('change keyup', '.fwformfield[data-enabled="true"]:not([data-isuniqueid="true"][data-datafield=""])');
+
         this.events($form);
         return $form;
     };
     //----------------------------------------------------------------------------------------------
     events($form) {
+        const $itemGridControl = $form.find('[data-name="InventoryPurchaseItemGrid"]');
+
         $form.find('[data-datafield="InventoryId"]').data('onchange', $tr => {
             const trackedBy = $tr.find('[data-browsedatafield="TrackedBy"]').attr('data-originalvalue');
             if (trackedBy === 'QUANTITY') {
@@ -38,7 +43,46 @@ class InventoryPurchaseUtility {
             }
 
             //default unit cost
+            const unitVal = $tr.find('[data-browsedatafield="UnitValue"]').attr('data-originalvalue');
+            FwFormField.setValueByDataField($form, 'UnitCost', unitVal);
         });
+
+        //Add items button
+        //$form.find('.additems').on('click', e => {
+        //    let request: any = {};
+        //    request = {
+        //        PurchaseOrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId')
+        //        , ContractId: FwFormField.getValueByDataField($form, 'ContractId')
+        //    }
+        //    FwAppData.apiMethod(true, 'POST', 'api/v1/purchaseorder/receivebarcodeadditems', request, FwServices.defaultTimeout,
+        //        response => {
+        //        if (response.success) {
+        //            FwNotification.renderNotification('SUCCESS', `${response.ItemsAdded} items added.`);
+        //            FwFormField.setValueByDataField($form, 'PurchaseOrderId', '', '');
+        //            FwFormField.setValueByDataField($form, 'ContractId', '', '');
+        //            FwFormField.setValueByDataField($form, 'PODate', '');
+        //            FwFormField.setValueByDataField($form, 'VendorId', '', '');
+        //            FwFormField.setValueByDataField($form, 'Description', '');
+        //            FwFormField.setValueByDataField($form, 'ContractDate', '');
+        //            FwFormField.enable($form.find('[data-datafield="PurchaseOrderId"]'));
+        //            FwFormField.enable($form.find('[data-datafield="ContractId"]'));
+        //            $itemGridControl.find('tbody').empty();
+        //        }
+        //    }, ex => FwFunc.showError(ex), $form);
+        //});
+
+        //Assign Bar Codes button
+        //$form.find('.assignbarcodes').on('click', e => {
+        //    let request: any = {};
+        //    request = {
+        //        PurchaseOrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId')
+        //        , ContractId: FwFormField.getValueByDataField($form, 'ContractId')
+        //    }
+        //    FwAppData.apiMethod(true, 'POST', 'api/v1/purchaseorder/assignbarcodesfromreceive', request, FwServices.defaultTimeout,
+        //        response => {
+        //        FwBrowse.search($itemGridControl);
+        //    }, ex => FwFunc.showError(ex), $form);
+        //});
     }
     //----------------------------------------------------------------------------------------------
     renderGrids($form) {
