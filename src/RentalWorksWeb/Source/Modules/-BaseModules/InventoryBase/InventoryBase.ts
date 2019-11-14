@@ -241,19 +241,15 @@
                     const schedulerEvents = response.InventoryAvailabilityScheduleEvents;
                     for (let i = 0; i < schedulerEvents.length; i++) {
                         if (schedulerEvents[i].isWarehouseTotal === true) {
-                            schedulerEvents[i].html = `<div style="color:${schedulerEvents[i].textColor};text-align:center;">${schedulerEvents[i].text}</div>`
+                            schedulerEvents[i].html = `<div class="warehouse" style="color:${schedulerEvents[i].textColor};text-align:center;">${schedulerEvents[i].text}</div>`
                         } else {
                             //schedulerEvents[i].html = `<div style="color:${schedulerEvents[i].textColor};text-align:left;"><span style="font-weight:700;padding:0 5px 0 0;">${schedulerEvents[i].total}</span>${schedulerEvents[i].text}</div>`
                             let html: string = "";
-                            html += `<div `;
-                            html += `style="`;
+                            html += `<div class="order" style="`;
                             if (schedulerEvents[i].backColor) {
                                 html += `background-color:${schedulerEvents[i].backColor};`;
                             }
-                            html += `color:${schedulerEvents[i].textColor};text-align:left;">`;
-                            html += `<span style="font-weight:700;padding:0 5px 0 0;">${schedulerEvents[i].total}</span>`;
-                            html += `${schedulerEvents[i].text}`;
-                            html += `</div>`;
+                            html += `color:${schedulerEvents[i].textColor};text-align:left;"><span style="font-weight:700;padding:0 5px 0 0;">${schedulerEvents[i].total}</span>${schedulerEvents[i].text}</div>`;
                             schedulerEvents[i].html = html;
                         }
                     }
