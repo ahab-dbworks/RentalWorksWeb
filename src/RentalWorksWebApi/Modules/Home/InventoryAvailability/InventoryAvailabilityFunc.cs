@@ -206,7 +206,11 @@ namespace WebApi.Modules.Home.InventoryAvailability
     public class TInventoryWarehouseAvailabilityReservation
     {
         public string WarehouseId { get; set; }
+        public string WarehouseCode { get; set; }
+        public string Warehouse { get; set; }
         public string ReturnToWarehouseId { get; set; }
+        public string ReturnToWarehouseCode { get; set; }
+        public string ReturnToWarehouse { get; set; }
         public string OrderId { get; set; }  // can also be a RepairId
         public string OrderItemId { get; set; }
         public string OrderType { get; set; }
@@ -242,7 +246,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
             {
                 bool isTran = false;
 
-                if ((OrderType.Equals(RwConstants.ORDER_TYPE_TRANSFER)) || (!ReturnToWarehouseId.Equals(WarehouseId)))
+                if ((OrderType.Equals(RwConstants.ORDER_TYPE_TRANSFER)) || ((!string.IsNullOrEmpty(ReturnToWarehouseId)) && (!ReturnToWarehouseId.Equals(WarehouseId))))
                 {
                     isTran = true;
                 }
@@ -275,6 +279,14 @@ namespace WebApi.Modules.Home.InventoryAvailability
                 {
                     sb.Append(" (");
                     sb.Append(Deal);
+                    sb.Append(")");
+                }
+                if (IsTransfer)
+                {
+                    sb.Append(" (");
+                    sb.Append(WarehouseCode);
+                    sb.Append(" > ");
+                    sb.Append(ReturnToWarehouseCode);
                     sb.Append(")");
                 }
                 return sb.ToString();
@@ -1045,7 +1057,9 @@ namespace WebApi.Modules.Home.InventoryAvailability
 
             {
                 FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
-                qry.Add("select a.masterid, a.warehouseid, a.returntowarehouseid,                               ");
+                qry.Add("select a.masterid,                                                                     ");
+                qry.Add("       a.warehouseid, a.whcode, a.warehouse,                                           ");
+                qry.Add("       a.returntowarehouseid, a.returntowhcode, a.returntowarehouse,                   ");
                 qry.Add("       a.orderid, a.masteritemid, a.availfromdatetime, a.availtodatetime,              ");
                 qry.Add("       a.ordertype, a.orderno, a.orderdesc, a.orderstatus, a.dealid, a.deal,           ");
                 qry.Add("       a.departmentid, a.department,                                                   ");
@@ -1077,19 +1091,6 @@ namespace WebApi.Modules.Home.InventoryAvailability
                 qry.Add("          or                                                                            ");
                 qry.Add("        ((a.ordertype = '" + RwConstants.ORDER_TYPE_QUOTE + "') and ");
                 qry.Add("         (a.orderstatus = '" + RwConstants.QUOTE_STATUS_RESERVED + "')))");
-                //qry.Add(" and   a.orderstatus not in (                                                           ");
-                //qry.Add("                     '" + RwConstants.QUOTE_STATUS_CANCELLED + "'  ,                    ");
-                //qry.Add("                     '" + RwConstants.QUOTE_STATUS_CLOSED + "'  ,                       ");
-                //qry.Add("                     '" + RwConstants.QUOTE_STATUS_ORDERED + "'  ,                      ");
-                //qry.Add("                     '" + RwConstants.TRANSFER_STATUS_NEW + "'  ,                       ");
-                //qry.Add("                     '" + RwConstants.TRANSFER_STATUS_CANCELLED + "'  ,                 ");
-                //qry.Add("                     '" + RwConstants.TRANSFER_STATUS_CLOSED + "'  ,                    ");
-                //qry.Add("                     '" + RwConstants.TRANSFER_STATUS_COMPLETE + "'  ,                  ");
-                //qry.Add("                     '" + RwConstants.ORDER_STATUS_CANCELLED + "'  ,                    ");
-                //qry.Add("                     '" + RwConstants.ORDER_STATUS_SNAPSHOT + "'  ,                     ");
-                //qry.Add("                     '" + RwConstants.ORDER_STATUS_COMPLETE + "'  ,                     ");
-                //qry.Add("                     '" + RwConstants.ORDER_STATUS_CLOSED + "'                          ");
-                //qry.Add("                        )                                                               ");
                 qry.AddParameter("@sessionid", sessionId);
                 FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync();
 
@@ -1105,7 +1106,11 @@ namespace WebApi.Modules.Home.InventoryAvailability
                     {
                         TInventoryWarehouseAvailabilityReservation reservation = new TInventoryWarehouseAvailabilityReservation();
                         reservation.WarehouseId = row[dt.GetColumnNo("warehouseid")].ToString();
+                        reservation.WarehouseCode = row[dt.GetColumnNo("whcode")].ToString();
+                        reservation.Warehouse = row[dt.GetColumnNo("warehouse")].ToString();
                         reservation.ReturnToWarehouseId = row[dt.GetColumnNo("returntowarehouseid")].ToString();
+                        reservation.ReturnToWarehouseCode = row[dt.GetColumnNo("returntowhcode")].ToString();
+                        reservation.ReturnToWarehouse = row[dt.GetColumnNo("returntowarehouse")].ToString();
                         reservation.OrderId = row[dt.GetColumnNo("orderid")].ToString();
                         reservation.OrderItemId = row[dt.GetColumnNo("masteritemid")].ToString();
                         reservation.OrderType = row[dt.GetColumnNo("ordertype")].ToString();
@@ -1186,7 +1191,9 @@ namespace WebApi.Modules.Home.InventoryAvailability
             //incoming transfers, increase availability
             {
                 FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
-                qry.Add("select a.masterid, a.warehouseid, a.returntowarehouseid,                               ");
+                qry.Add("select a.masterid,                                                                     ");
+                qry.Add("       a.warehouseid, a.whcode, a.warehouse,                                           ");
+                qry.Add("       a.returntowarehouseid, a.returntowhcode, a.returntowarehouse,                   ");
                 qry.Add("       a.orderid, a.masteritemid, a.availfromdatetime, a.availtodatetime,              ");
                 qry.Add("       a.ordertype, a.orderno, a.orderdesc, a.orderstatus, a.dealid, a.deal,           ");
                 qry.Add("       a.departmentid, a.department,                                                   ");
@@ -1218,19 +1225,6 @@ namespace WebApi.Modules.Home.InventoryAvailability
                 qry.Add("          or                                                                            ");
                 qry.Add("        ((a.ordertype = '" + RwConstants.ORDER_TYPE_QUOTE + "') and ");
                 qry.Add("         (a.orderstatus = '" + RwConstants.QUOTE_STATUS_RESERVED + "')))");
-                //qry.Add(" and   a.orderstatus not in (                                                           ");
-                //qry.Add("                     '" + RwConstants.QUOTE_STATUS_CANCELLED + "'  ,                    ");
-                //qry.Add("                     '" + RwConstants.QUOTE_STATUS_CLOSED + "'  ,                       ");
-                //qry.Add("                     '" + RwConstants.QUOTE_STATUS_ORDERED + "'  ,                      ");
-                //qry.Add("                     '" + RwConstants.TRANSFER_STATUS_NEW + "'  ,                       ");
-                //qry.Add("                     '" + RwConstants.TRANSFER_STATUS_CANCELLED + "'  ,                 ");
-                //qry.Add("                     '" + RwConstants.TRANSFER_STATUS_CLOSED + "'  ,                    ");
-                //qry.Add("                     '" + RwConstants.TRANSFER_STATUS_COMPLETE + "'  ,                  ");
-                //qry.Add("                     '" + RwConstants.ORDER_STATUS_CANCELLED + "'  ,                    ");
-                //qry.Add("                     '" + RwConstants.ORDER_STATUS_SNAPSHOT + "'  ,                     ");
-                //qry.Add("                     '" + RwConstants.ORDER_STATUS_COMPLETE + "'  ,                     ");
-                //qry.Add("                     '" + RwConstants.ORDER_STATUS_CLOSED + "'                          ");
-                //qry.Add("                        )                                                               ");
                 qry.AddParameter("@sessionid", sessionId);
                 FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync();
 
@@ -1246,7 +1240,11 @@ namespace WebApi.Modules.Home.InventoryAvailability
                     {
                         TInventoryWarehouseAvailabilityReservation reservation = new TInventoryWarehouseAvailabilityReservation();
                         reservation.WarehouseId = row[dt.GetColumnNo("warehouseid")].ToString();
+                        reservation.WarehouseCode = row[dt.GetColumnNo("whcode")].ToString();
+                        reservation.Warehouse = row[dt.GetColumnNo("warehouse")].ToString();
                         reservation.ReturnToWarehouseId = row[dt.GetColumnNo("returntowarehouseid")].ToString();
+                        reservation.ReturnToWarehouseCode = row[dt.GetColumnNo("returntowhcode")].ToString();
+                        reservation.ReturnToWarehouse = row[dt.GetColumnNo("returntowarehouse")].ToString();
                         reservation.OrderId = row[dt.GetColumnNo("orderid")].ToString();
                         reservation.OrderItemId = row[dt.GetColumnNo("masteritemid")].ToString();
                         reservation.OrderType = row[dt.GetColumnNo("ordertype")].ToString();
@@ -2021,7 +2019,16 @@ namespace WebApi.Modules.Home.InventoryAvailability
                             availScheduleEvent.orderNumber = reservation.OrderNumber;
                             availScheduleEvent.orderStatus = reservation.OrderStatus;
                             availScheduleEvent.deal = reservation.Deal;
-                            availScheduleEvent.barColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_RESERVED);
+                            //availScheduleEvent.barColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_RESERVED);
+                            if (reservation.IsTransfer)
+                            {
+                                availScheduleEvent.barColor = RwGlobals.IN_TRANSIT_COLOR;
+                            }
+                            else
+                            {
+                                availScheduleEvent.barColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_RESERVED);
+                            }
+
                             if (reservation.QuantitySub > 0)
                             {
                                 availScheduleEvent.backColor = FwConvert.OleColorToHtmlColor(RwConstants.SUB_COLOR);
