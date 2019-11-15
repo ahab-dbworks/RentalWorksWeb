@@ -161,21 +161,12 @@ namespace WebApi.Modules.Home.StagedItem
         //------------------------------------------------------------------------------------    
         public override async Task<FwJsonDataTable> BrowseAsync(BrowseRequest request, FwCustomFields customFields = null)
         {
+            string orderId = GetUniqueIdAsString("OrderId", request) ?? "";
+            string warehouseId = GetUniqueIdAsString("WarehouseId", request) ?? "";
             bool orderByItemOrder = false;
+            bool summary = false; // hard-coded for now
             if (request != null)
             {
-                if (request.uniqueids != null)
-                {
-                    IDictionary<string, object> uniqueIds = ((IDictionary<string, object>)request.uniqueids);
-                    if (uniqueIds.ContainsKey("OrderId"))
-                    {
-                        OrderId = uniqueIds["OrderId"].ToString();
-                    }
-                    if (uniqueIds.ContainsKey("WarehouseId"))
-                    {
-                        WarehouseId = uniqueIds["WarehouseId"].ToString();
-                    }
-                }
                 if (request.orderby.Equals("ItemOrder"))
                 {
                     orderByItemOrder = true;
@@ -183,14 +174,13 @@ namespace WebApi.Modules.Home.StagedItem
             }
 
             FwJsonDataTable dt = null;
-
             using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
             {
                 using (FwSqlCommand qry = new FwSqlCommand(conn, "getstagedscanned", this.AppConfig.DatabaseSettings.QueryTimeout))
                 {
-                    qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
-                    qry.AddParameter("@warehouseid", SqlDbType.NVarChar, ParameterDirection.Input, WarehouseId);
-                    qry.AddParameter("@summary", SqlDbType.NVarChar, ParameterDirection.Input, (false ? "T" : "F"));
+                    qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, orderId);
+                    qry.AddParameter("@warehouseid", SqlDbType.NVarChar, ParameterDirection.Input, warehouseId);
+                    qry.AddParameter("@summary", SqlDbType.NVarChar, ParameterDirection.Input, summary);
                     if (orderByItemOrder)
                     {
                         qry.AddParameter("@orderby", SqlDbType.NVarChar, ParameterDirection.Input, "itemorder");
@@ -206,11 +196,7 @@ namespace WebApi.Modules.Home.StagedItem
                 row[dt.GetColumnNo("DescriptionColor")] = getDescriptionColor(row[dt.GetColumnNo("ItemClass")].ToString());
                 row[dt.GetColumnNo("RecTypeColor")] = determineRecTypeColor(row[dt.GetColumnNo("RecType")].ToString());
             }
-
-
             return dt;
-
-
         }
         //------------------------------------------------------------------------------------
     }
