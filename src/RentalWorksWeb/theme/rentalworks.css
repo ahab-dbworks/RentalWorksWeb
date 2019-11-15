@@ -446,7 +446,9 @@ Form tables
 #itemsearch #itemlist[data-view="LIST"] .gridcaption {display:none;}
 #itemsearch #itemlist[data-view="LIST"] .item-accessories .accColumns {display:none;}
 #itemsearch #itemlist[data-view="LIST"] .item-accessories .item-accessory-info > div[data-column="Description"] {margin:0em -2em 0em 3em;}
+#itemsearch #itemlist[data-view="LIST"] .item-accessories .item-accessory-info > div[data-column="Description"] .descriptionrow {margin-right:1em;}
 #itemsearch #itemlist[data-view="LIST"] .item-accessories .nested-accessories div[data-column="Description"] {margin:0em -5em 0em 6em;}
+#itemsearch #itemlist[data-view="LIST"] .item-accessories .nested-accessories div[data-column="Description"] .descriptionrow {margin-right:5em;}
 
 #itemsearch #itemlist[data-view="HYBRID"] .columnDescriptions {display:flex;align-items:center;padding:5px 20px 5px 5px;background-color:#e0e0e0;color:#464646;border-bottom:1px solid #BDBDBD;font-weight:bold;}
 #itemsearch #itemlist[data-view="HYBRID"] .item-info {display:flex;align-items:center;padding:5px;position:relative;border-bottom: 1px solid #BDBDBD;}
@@ -478,7 +480,7 @@ Form tables
 #itemsearch #itemlist[data-view="HYBRID"] .item-accessories .item-accessory-info div[data-column="Description"] {margin-left:5em;margin-right:0em;}
 #itemsearch #itemlist[data-view="HYBRID"] .item-accessories .item-accessory-info div[data-column="ItemImage"] {float:left;}
 #itemsearch #itemlist[data-view="HYBRID"] .item-accessories .nested-accessories div[data-column="Description"] {margin-left:10em;margin-right:-5em;}
-/*#itemsearch #itemlist[data-view="HYBRID"] .item-accessories .nested-accessories div[data-column="ItemImage"] {float:left;}*/
+#itemsearch #itemlist[data-view="HYBRID"] .item-accessories .nested-accessories div[data-column="Description"] .descriptionrow {margin-right:6em;}
 
 #inventory .item-container .item-info .opentab {margin-left:auto;cursor:pointer;}
 #inventory .item-container .toggleaccessories {font-weight: bold;color: #1E88E5;display:inline-block;cursor:pointer;}
