@@ -10,6 +10,7 @@
     contractId: string;
     isPendingItemGridView: boolean = false;
     Type: string;
+    screenLoaded: boolean = true;
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         const screen: any = {};
@@ -22,7 +23,9 @@
         screen.load = () => {
             FwModule.openModuleTab($form, this.caption, false, 'FORM', true);
         };
-        screen.unload = function () { };
+        screen.unload = function () {
+            this.screenLoaded = false;
+        };
 
         return screen;
     };
@@ -840,8 +843,7 @@
     };
     //----------------------------------------------------------------------------------------------
     refreshGridForScanning($form: JQuery): void {
-        const orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
-        if (orderId) {
+        if (this.screenLoaded) {
             const gridView = FwFormField.getValueByDataField($form, 'GridView');
             if (gridView === 'STAGE') {
                 const $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
@@ -860,8 +862,7 @@
         const errorMsgQty = $form.find('.error-msg.qty');
 
         const debouncedRefreshGrid = FwFunc.debounce(() => {
-            const orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
-            if (orderId) {
+            if (this.screenLoaded) {
                 const gridView = FwFormField.getValueByDataField($form, 'GridView');
                 if (gridView === 'STAGE') {
                     const $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
