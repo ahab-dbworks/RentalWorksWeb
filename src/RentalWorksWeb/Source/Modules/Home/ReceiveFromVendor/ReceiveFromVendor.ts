@@ -352,7 +352,7 @@ class ReceiveFromVendor {
                     <div class="selectall fwformcontrol" data-type="button" style="float:left; margin-left:10px;">Select All</div>
                     <div class="selectnone fwformcontrol" data-type="button" style="float:left; margin-left:10px;">Select None</div>
                     <div class="createcontract fwformcontrol" data-type="button" style="float:right;">Create Contract</div>
-                    <div class="createcontract fwformcontrol" data-type="btnmenu" style="display:none; float:right;" data-caption="Create Contract"></div>
+                    <div class="createcontract fwformcontrol" data-type="btnmenu" style="display:none; float:right;min-width:205px;" data-caption="Create Contract"></div>
                 </div>
                 </div>
             </div>
