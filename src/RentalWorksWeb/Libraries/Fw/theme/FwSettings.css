@@ -42,7 +42,7 @@
 .fwsettings div.well div.panel-group div.panel-primary div.panel-body { padding: 15px; border-top: 1px solid #ddd; border-top-color: #428bca;}
 
 .fwsettings div.well div.panel-group div.panel-primary div.panel-body { padding: 15px; border-top: 1px solid #ddd; border-top-color: #428bca;} 
-.fwsettings div.well div.panel-group div.panel-primary div.panel-body div.legend {padding:2px;overflow:hidden;background-color:#efefef;/*margin-bottom:20px;*/}
+.fwsettings div.well div.panel-group div.panel-primary div.panel-body div.legend {padding:2px;overflow:hidden;background-color:#efefef;margin-bottom:20px;}
 .fwsettings div.well div.panel-group div.panel-primary div.panel-body div.legend input{ display: block; float:right; padding: 0.3rem 0.5rem; font-size: 1rem; line-height: 1.25; color: #495057; background-color: #fff; background-image: none; background-clip: padding-box; border: 1px solid rgba(0, 0, 0, 0.15); border-radius: 0.25rem; transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s; border-right:0; border-top-right-radius:0; border-bottom-right-radius:0; }
 .fwsettings div.well div.panel-group div.panel-primary div.panel-body div.legend span.search { padding: 0.1em 0.5em; float:right; font-size: 14px; font-weight: 400; line-height: 1; color: #555; text-align: center; background-color: #fff; border: 1px solid #ccc; border-radius: 4px; white-space: nowrap; vertical-align: middle; display: table-cell;border-left: 0; border-top-left-radius:0;border-bottom-left-radius:0;}
 .fwsettings div.well div.panel-group div.panel-primary div.panel-body div.legend div.legenditem {float:left;margin:0 5px 0 5px;}
