@@ -84,6 +84,9 @@ namespace WebLibrary
         //STAGING / CHECK-OUT
         public static string STAGING_PENDING_ITEMS_MISSING_COLOR { get; set; }
 
+        //EXCHANGE
+        public static string PENDING_EXCHANGE_COLOR { get; set; }
+
 
         //CONTACT 
         public static string CONTACT_TYPE_CREW_COLOR { get; set; }
@@ -220,6 +223,7 @@ namespace WebLibrary
             NEGATIVE_VARIANCE_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.NEGATIVE_VARIANCE_COLOR);
 
             STAGING_PENDING_ITEMS_MISSING_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.STAGING_PENDING_ITEMS_MISSING_COLOR);
+            PENDING_EXCHANGE_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.PENDING_EXCHANGE_COLOR);
 
 
             AVAILABILITY_COLOR_RESERVED = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_RESERVED);

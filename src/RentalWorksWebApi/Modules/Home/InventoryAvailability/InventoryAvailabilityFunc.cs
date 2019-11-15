@@ -255,6 +255,14 @@ namespace WebApi.Modules.Home.InventoryAvailability
             }
         }
         [JsonIgnore]
+        public bool IsPendingExchange
+        {
+            get
+            {
+                return (OrderType.Equals(RwConstants.ORDER_TYPE_PENDING_EXCHANGE));
+            }
+        }
+        [JsonIgnore]
         public string ScheduleResourceDescription
         {
             get
@@ -1086,7 +1094,8 @@ namespace WebApi.Modules.Home.InventoryAvailability
                 qry.Add(" and   (a.ordertype in (                                                                ");
                 qry.Add("                     '" + RwConstants.ORDER_TYPE_ORDER + "'  ,                          ");
                 qry.Add("                     '" + RwConstants.ORDER_TYPE_TRANSFER + "'  ,                       ");
-                qry.Add("                     '" + RwConstants.ORDER_TYPE_REPAIR + "'                            ");
+                qry.Add("                     '" + RwConstants.ORDER_TYPE_REPAIR + "' ,                          ");
+                qry.Add("                     '" + RwConstants.ORDER_TYPE_PENDING_EXCHANGE + "'                  ");
                 qry.Add("                        )                                                               ");
                 qry.Add("          or                                                                            ");
                 qry.Add("        ((a.ordertype = '" + RwConstants.ORDER_TYPE_QUOTE + "') and ");
@@ -2131,7 +2140,11 @@ namespace WebApi.Modules.Home.InventoryAvailability
                             availScheduleEvent.orderStatus = reservation.OrderStatus;
                             availScheduleEvent.deal = reservation.Deal;
                             //availScheduleEvent.barColor = RwGlobals.OUT_COLOR;
-                            if (reservation.IsTransfer)
+                            if (reservation.IsPendingExchange)
+                            {
+                                availScheduleEvent.barColor = RwGlobals.PENDING_EXCHANGE_COLOR;
+                            }
+                            else if (reservation.IsTransfer)
                             {
                                 availScheduleEvent.barColor = RwGlobals.IN_TRANSIT_COLOR;
                             }

@@ -54,6 +54,7 @@ namespace WebApi.Modules.Inventory.RentalInventory
             legend.Add("Late", RwGlobals.AVAILABILITY_COLOR_LATE);
             legend.Add("In Transit", RwGlobals.IN_TRANSIT_COLOR);
             legend.Add("In Repair", RwGlobals.IN_REPAIR_COLOR);
+            legend.Add("Pending Exchange", RwGlobals.PENDING_EXCHANGE_COLOR);
             await Task.CompletedTask; // get rid of the no async call warning
             return new OkObjectResult(legend);
         }

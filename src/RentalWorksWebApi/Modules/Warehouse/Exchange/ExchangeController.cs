@@ -189,17 +189,17 @@ namespace WebApi.Modules.Warehouse.Exchange
             {
                 ExchangeItemOutResponse response = new ExchangeItemOutResponse();
 
-                if (string.IsNullOrEmpty(request.OutCode))
+                if (string.IsNullOrEmpty(request.OutCode)) // temporary.  completing a pending exchange should allow a blank Out Bar Code
                 {
                     response.success = false;
                     response.msg = "Must supply an \"Out\" Code.";
                 }
-                // temporary.  pending exchanges need to allow a blank InCode
-                else if (string.IsNullOrEmpty(request.InCode))
-                {
-                    response.success = false;
-                    response.msg = "Must supply an \"In\" Code.";
-                }
+                //// temporary.  pending exchanges need to allow a blank InCode
+                //else if (string.IsNullOrEmpty(request.InCode))
+                //{
+                //    response.success = false;
+                //    response.msg = "Must supply an \"In\" Code.";
+                //}
                 else
                 {
 

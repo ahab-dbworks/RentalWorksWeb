@@ -54,6 +54,7 @@
         public const string ORDER_TYPE_CONTAINER = "N";
         public const string ORDER_TYPE_REPAIR = "R";
         public const string ORDER_TYPE_TEMPLATE = "M";
+        public const string ORDER_TYPE_PENDING_EXCHANGE = "PENDING";
 
         public const string ORDER_TYPE_DESCRIPTION_QUOTE = "QUOTE";
         public const string ORDER_TYPE_DESCRIPTION_RESERVED = "RESERVED";
@@ -63,6 +64,7 @@
         public const string ORDER_TYPE_DESCRIPTION_TRANSFER = "TRANSFER";
         public const string ORDER_TYPE_DESCRIPTION_CONTAINER = "CONTAINER";
         public const string ORDER_TYPE_DESCRIPTION_REPAIR = "REPAIR";
+        public const string ORDER_TYPE_DESCRIPTION_PENDING_EXCHANGE = "PENDING EXCHANGE";
 
         public const string QUOTE_STATUS_NEW = "NEW";
         public const string QUOTE_STATUS_PROSPECT = "PROSPECT";
@@ -462,6 +464,9 @@
 
         //STAGING / CHECK-OUT
         public const int STAGING_PENDING_ITEMS_MISSING_COLOR = 262399; // red
+
+        //EXCHANGE
+        public const int PENDING_EXCHANGE_COLOR = 8454143; // yellow
 
 
         //CUSTOM FORM
