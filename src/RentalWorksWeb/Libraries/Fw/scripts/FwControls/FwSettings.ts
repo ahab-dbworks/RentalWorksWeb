@@ -146,7 +146,7 @@ class FwSettingsClass {
     //                        controller['afterSave']($form);
     //                    }
     //                } else if (closetab) {
-    //                    FwModule.closeFormTab($tab);
+    //                    FwModule.closeFormTab($tab, $form);
     //                    if ((typeof navigationpath !== 'undefined') && (navigationpath !== '')) {
     //                        program.getModule(navigationpath);
     //                    }
@@ -184,7 +184,7 @@ class FwSettingsClass {
     //                        controller['afterSave']($form);
     //                    }
     //                } else if (closetab) {
-    //                    FwModule.closeFormTab($tab);
+    //                    FwModule.closeFormTab($tab, $form);
     //                    if ((typeof navigationpath !== 'undefined') && (navigationpath !== '')) {
     //                        program.getModule(navigationpath);
     //                    }
@@ -493,13 +493,14 @@ class FwSettingsClass {
             $modules.find('.panel-collapse').show("fast");
         }
 
+        const caption = $control.find(`#${moduleName}`).attr('data-caption');
         const newRowHtml: Array<string> = [];
         if ($body.find('.new-row').length === 0) {
             newRowHtml.push('<div class="new-row">');
             newRowHtml.push('  <div class="panel-record">');
             newRowHtml.push('    <div class="panel panel-info container-fluid">');
             newRowHtml.push('      <div class="new-row-heading">');
-            newRowHtml.push('        <label style="width:100%">New Record</label>');
+            newRowHtml.push(`        <label style="width:100%">New ${caption}</label>`);
             newRowHtml.push('        <div class="pull-right close-new-row" style="padding-right:20px;"><i class="material-icons cancel">clear</i>Cancel</div>');
             newRowHtml.push('      </div>');
             newRowHtml.push('    </div>');
@@ -509,18 +510,20 @@ class FwSettingsClass {
             const controller = $form.data('controller');
             $form = (<any>window[controller]).openForm('NEW');
             $form.find('[data-type="RefreshMenuBarButton"]').remove();
-            $body.prepend($form);
+            $form.data('caption', caption)
+            const $wrappedForm = jQuery(`<div data-type="settings-row"></div>`);
+
+            $wrappedForm.prepend($form)
+            $body.prepend($wrappedForm);
             $body.prepend(jQuery(newRowHtml.join('')));
-            // $body.find('.legend').remove();
             $body.prepend($body.find('.legend'));
-            // $body.prepend('<div class="legend"><span class="input-group-addon search"><i class="material-icons">search</i></span><input type="text" id="recordSearch" class="form-control" placeholder="Record Search" autofocus></div>');
-            //$body.prepend(legend);
         }
 
         $body.on('click', '.close-new-row', e => {
+            const $this = jQuery(e.currentTarget);
             e.stopPropagation();
             const newRow = $body.find('.new-row');
-            const $form = newRow.next('.fwform');
+            const $form = newRow.next('div[data-type=settings-row]');
             newRow.remove();
             $form.remove();
         });
@@ -538,6 +541,7 @@ class FwSettingsClass {
         $body = $control.find('#' + moduleName + '.panel-body');
 
         let tree = FwApplicationTree.getNodeByController(moduleName + 'Controller');
+        const caption = tree.properties.caption;
         for (var i = 0; i < tree.children.length; i++) {
             if (tree.children[i].properties.caption === 'Browse' && tree.children[i].children[0].properties.nodetype === 'MenuBar') {
                 for (var j = 0; j < tree.children[i].children[0].children.length; j++) {
@@ -554,7 +558,7 @@ class FwSettingsClass {
             }
         }
 
-        html.push(`<div class="panel-group" id="${moduleName}" data-id="${moduleId}" data-navigation="${menuCaption}" data-showDelete=${showDelete.toString()} data-showEdit="${showEdit.toString()}">`);
+        html.push(`<div class="panel-group" id="${moduleName}" data-id="${moduleId}" data-navigation="${menuCaption}" data-caption="${caption}" data-showDelete=${showDelete.toString()} data-showEdit="${showEdit.toString()}">`);
         html.push('  <div class="panel panel-primary">');
         html.push(`    <div data-toggle="collapse" data-target="${moduleName}" href="${moduleName}" class="panel-heading">`);
         html.push('      <div class="flexrow" style="max-width:none;">');
@@ -564,7 +568,7 @@ class FwSettingsClass {
         html.push('        <div id="myDropdown" class="dropdown-content">');
         html.push('        <div class="flexcolumn">');
         if (showNew) {
-            html.push('         <div class="flexrow new-row-menu"><i class="material-icons">add</i>New Item</div>');
+            html.push(`         <div class="flexrow new-row-menu" data-caption="${caption}"><i class="material-icons">add</i>New Item</div>`);
         }
         html.push('          <div class="show-inactive flexrow"><i class="material-icons">visibility</i>Show Inactive</div>');
         html.push('          <div class="hide-inactive flexrow" style="display:none;"><i class="material-icons">visibility_off</i>Hide Inactive</div>');

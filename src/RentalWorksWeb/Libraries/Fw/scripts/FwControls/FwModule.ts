@@ -1188,7 +1188,7 @@ class FwModule {
                             $parenttab = jQuery('#' + $tab.data('parenttabid'));
                         }
                         FwModule.beforeCloseForm($form);
-                        FwModule.closeFormTab($tab, parameters.refreshRootTab);
+                        FwModule.closeFormTab($tab, $form, parameters.refreshRootTab);
                         if (typeof parameters.afterCloseForm === 'function') {
                             parameters.afterCloseForm();
                         }
@@ -1237,7 +1237,7 @@ class FwModule {
                             $parenttab = jQuery('#' + $tab.data('parenttabid'));
                         }
                         FwModule.beforeCloseForm($form);
-                        FwModule.closeFormTab($tab, parameters.refreshRootTab);
+                        FwModule.closeFormTab($tab, $form, parameters.refreshRootTab);
                         if (typeof parameters.afterCloseForm === 'function') {
                             parameters.afterCloseForm();
                         }
@@ -1281,7 +1281,7 @@ class FwModule {
                         const $form = FwModule.getFormByUniqueIds(ids);
                         if ((typeof $form != 'undefined') && ($form.length > 0)) {
                             const $tab = jQuery(`#${$form.closest('div.tabpage').attr('data-tabid')}`);
-                            FwModule.closeFormTab($tab, true);
+                            FwModule.closeFormTab($tab, $form, true);
                         }
                         FwBrowse.databind($browse);
                     });
@@ -1458,9 +1458,8 @@ class FwModule {
     }
     //----------------------------------------------------------------------------------------------
     static closeForm($form: JQuery, $tab: JQuery, navigationpath?: string, afterCloseForm?: Function, closeParent?: boolean) {
-        var $tabcontrol, ismodified, hassubmodule, issubmodule, $confirmation, $save, $dontsave, $cancel, tabname, $parenttab;
-        $tabcontrol = $tab.closest('.fwtabs');
-        ismodified = $form.attr('data-modified');
+        var hassubmodule, issubmodule, $confirmation, $save, $dontsave, $cancel, tabname, $parenttab;
+        const ismodified = $form.attr('data-modified');
         hassubmodule = (typeof $tab.data('subtabids') !== 'undefined') && ($tab.data('subtabids').length > 0);
         issubmodule = $tab.hasClass('submodule')
 
@@ -1484,7 +1483,8 @@ class FwModule {
                 $confirmation = FwConfirmation.renderConfirmation('Close Tab', 'Want to save your changes to "' + tabname + '"?');
                 $save = FwConfirmation.addButton($confirmation, 'Save');
                 $dontsave = FwConfirmation.addButton($confirmation, 'Don\'t Save');
-                if ($form.parent().data('type') !== 'settings-row') { $cancel = FwConfirmation.addButton($confirmation, 'Cancel'); }
+                //if ($form.parent().data('type') !== 'settings-row') { $cancel = FwConfirmation.addButton($confirmation, 'Cancel'); }
+                $cancel = FwConfirmation.addButton($confirmation, 'Cancel');
                 $save.focus();
                 $save.on('click', function () {
                     const controller = $form.attr('data-controller');
@@ -1511,7 +1511,7 @@ class FwModule {
 
                 $dontsave.on('click', e => {
                     FwModule.beforeCloseForm($form);
-                    FwModule.closeFormTab($tab, false);
+                    FwModule.closeFormTab($tab, $form, false);
                     if (typeof afterCloseForm === 'function') {
                         afterCloseForm();
                     }
@@ -1525,7 +1525,7 @@ class FwModule {
                 });
             } else {
                 FwModule.beforeCloseForm($form);
-                FwModule.closeFormTab($tab, false);
+                FwModule.closeFormTab($tab, $form, false);
                 if (typeof afterCloseForm === 'function') {
                     afterCloseForm();
                 }
@@ -1536,35 +1536,38 @@ class FwModule {
         }
     }
     //----------------------------------------------------------------------------------------------
-    static closeFormTab($tab: JQuery, refreshRootTab?: boolean) {
-        var $browse, $newTab, newTabType, tabIsActive, $tabcontrol, $tabpage, isSubModule;
-        $tabcontrol = $tab.closest('.fwtabs');
-        $tabpage = $tabcontrol.find('#' + $tab.attr('data-tabpageid'));
-        isSubModule = $tab.hasClass('submodule');
+    static closeFormTab($tab: JQuery, $form: JQuery, refreshRootTab?: boolean) {
+        if ($form.parent().data('type') === 'settings-row') {
+            $form.attr('data-modified', 'false')
+        } else {
+            const $tabcontrol = $tab.closest('.fwtabs');
+            let $tabpage = $tabcontrol.find('#' + $tab.attr('data-tabpageid'));
 
-        if (isSubModule) {
-            var $parenttab, subtabids;
-            $parenttab = jQuery(`#${$tab.data('parenttabid')}`);
-            if ($parenttab.length > 0) {
-                subtabids = $parenttab.data('subtabids');
-                subtabids = jQuery.grep(subtabids, function (value) {
-                    return value != $tab.attr('id');
-                });
-                $parenttab.data('subtabids', subtabids);
+            const isSubModule = $tab.hasClass('submodule');
+            if (isSubModule) {
+                var $parenttab, subtabids;
+                $parenttab = jQuery(`#${$tab.data('parenttabid')}`);
+                if ($parenttab.length > 0) {
+                    subtabids = $parenttab.data('subtabids');
+                    subtabids = jQuery.grep(subtabids, function (value) {
+                        return value != $tab.attr('id');
+                    });
+                    $parenttab.data('subtabids', subtabids);
+                }
             }
-        }
 
-        $newTab = (($tab.next().length > 0) ? $tab.next() : $tab.prev());
-        tabIsActive = $tab.hasClass('active');
-        FwTabs.removeTab($tab);
-        if (tabIsActive) {
-            FwTabs.setActiveTab($tabcontrol, $newTab);
-            newTabType = $newTab.attr('data-tabtype');
-            if (newTabType === 'BROWSE') {
-                $tabpage = $tabcontrol.find(`#${$newTab.attr('data-tabpageid')}`);
-                $browse = $tabpage.find('.fwbrowse[data-type="Browse"]');
-                if (refreshRootTab) {
-                    FwBrowse.databind($browse);
+            const $newTab = (($tab.next().length > 0) ? $tab.next() : $tab.prev());
+            const tabIsActive = $tab.hasClass('active');
+            FwTabs.removeTab($tab);
+            if (tabIsActive) {
+                FwTabs.setActiveTab($tabcontrol, $newTab);
+                const newTabType = $newTab.attr('data-tabtype');
+                if (newTabType === 'BROWSE') {
+                    $tabpage = $tabcontrol.find(`#${$newTab.attr('data-tabpageid')}`);
+                    const $browse = $tabpage.find('.fwbrowse[data-type="Browse"]');
+                    if (refreshRootTab) {
+                        FwBrowse.databind($browse);
+                    }
                 }
             }
         }
