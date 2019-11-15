@@ -127,7 +127,7 @@ class CreatePickList {
                     try {
                         const $report = PickListReportController.openForm();
                         FwModule.openSubModuleTab($form, $report);
-                        FwModule.closeFormTab($tab);
+                        FwModule.closeFormTab($tab, $form);
                         FwFormField.setValueByDataField($report, 'PickListId', response.PickListId, response.PickListNumber);
                         if (this.Type === 'Transfer') {
                             FwFormField.setValueByDataField($report, 'OrderType', 'T');
