@@ -11,7 +11,7 @@
     isPendingItemGridView: boolean = false;
     Type: string;
     //----------------------------------------------------------------------------------------------
-    getModuleScreen = () => {
+    getModuleScreen() {
         const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
@@ -148,13 +148,10 @@
     afterLoad($form: any): void {
         const $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
         FwBrowse.search($stagedItemGrid);
-        //----------------------------------------------------------------------------------------------
         const $stageHoldingItemGrid = $form.find('[data-name="StageHoldingItemGrid"]');
         FwBrowse.search($stageHoldingItemGrid);
-        //----------------------------------------------------------------------------------------------
         const $stageQuantityItemGrid = $form.find('[data-name="StageQuantityItemGrid"]');
         FwBrowse.search($stageQuantityItemGrid);
-        //----------------------------------------------------------------------------------------------
         const $checkOutPendingItemGrid = $form.find('[data-name="CheckOutPendingItemGrid"]');
         FwBrowse.search($checkOutPendingItemGrid);
     };
@@ -481,7 +478,6 @@
     //----------------------------------------------------------------------------------------------
     async unstageSelectedItems($form, $selectedCheckBoxes): Promise<Array<string>> {
 
-
         function delay(ms: number) {
             return new Promise(resolve => setTimeout(resolve, ms));
         }
@@ -794,7 +790,7 @@
         } else {
             checkout();
         }
-
+        // ----------
         function checkout() {
             if (orderId != '') {
                 request.OrderId = orderId;
@@ -844,9 +840,8 @@
     };
     //----------------------------------------------------------------------------------------------
     refreshGridForScanning($form: JQuery): void {
-        const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         const orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
-        if (orderId && warehouse) {
+        if (orderId) {
             const gridView = FwFormField.getValueByDataField($form, 'GridView');
             if (gridView === 'STAGE') {
                 const $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
@@ -864,19 +859,21 @@
         const errorMsg = $form.find('.error-msg:not(.qty)');
         const errorMsgQty = $form.find('.error-msg.qty');
 
-        const debouncedRefreshGrid = FwFunc.debounce(function () {
-            const gridView = FwFormField.getValueByDataField($form, 'GridView');
-            if (gridView === 'STAGE') {
-                const $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
-                FwBrowse.search($stagedItemGrid);
-            } else {
-                const $checkOutPendingItemGrid = $form.find('[data-name="CheckOutPendingItemGrid"]');
-                FwBrowse.search($checkOutPendingItemGrid);
+        const debouncedRefreshGrid = FwFunc.debounce(() => {
+            const orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
+            if (orderId) {
+                const gridView = FwFormField.getValueByDataField($form, 'GridView');
+                if (gridView === 'STAGE') {
+                    const $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
+                    FwBrowse.search($stagedItemGrid);
+                } else {
+                    const $checkOutPendingItemGrid = $form.find('[data-name="CheckOutPendingItemGrid"]');
+                    FwBrowse.search($checkOutPendingItemGrid);
+                }
             }
         }, 2000, false);
-
+        //Disable clicking Quantity Items tab w/o an OrderId
         $form.find('div.quantity-items-tab').on('click', e => {
-            //Disable clicking Quantity Items tab w/o an OrderId
             const orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
             if (orderId !== '') {
                 const $stageQuantityItemGrid = $form.find('[data-name="StageQuantityItemGrid"]');
@@ -886,8 +883,8 @@
                 FwNotification.renderNotification('WARNING', 'Select an Order.')
             }
         });
+        //Disable clicking Quantity Items tab w/o an OrderId
         $form.find('div.holding-items-tab').on('click', e => {
-            //Disable clicking Quantity Items tab w/o an OrderId
             const orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
             if (orderId !== '') {
                 const $stageHoldingItemGrid = $form.find('[data-name="StageHoldingItemGrid"]');
@@ -925,7 +922,6 @@
                     if (response.success === true && response.status != 107) {
                         successSound.play();
                         this.addItemFieldValues($form, response);
-
                         debouncedRefreshGrid();
                         $form.find('[data-datafield="Code"] input').select();
                     } if (response.status === 107) {
@@ -960,7 +956,6 @@
                 }, $form);
             }
         });
-
         //Quantity change
         $form.find('[data-datafield="Quantity"] input').on('keydown', e => {
             if (this.showAddItemToOrder != true) {
@@ -1069,7 +1064,6 @@
         });
         // Grid view toggle
         $form.find('div[data-datafield="GridView"]').on('change', e => {
-            const $target = jQuery(e.currentTarget);
             const gridView = FwFormField.getValueByDataField($form, 'GridView');
             const stagedItemGridContainer = $form.find('.staged-item-grid');
             const checkOutPendingItemGridContainier = $form.find('.pending-item-grid');
@@ -1120,7 +1114,7 @@
 
             $yes.on('click', () => {
                 FwConfirmation.destroyConfirmation($confirmation);
-                let request: any = {};
+                const request: any = {};
                 const orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
                 request.OrderId = orderId;
                 FwAppData.apiMethod(true, 'POST', `api/v1/stagequantityitem/selectnone`, request, FwServices.defaultTimeout, response => {
@@ -1140,7 +1134,7 @@
         });
         // Select All
         $form.find('.selectall').on('click', e => {
-            let request: any = {};
+            const request: any = {};
             $form.find('.option-list').show();
             FwFormField.setValueByDataField($form, 'IncludeZeroRemaining', true);
             const orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
