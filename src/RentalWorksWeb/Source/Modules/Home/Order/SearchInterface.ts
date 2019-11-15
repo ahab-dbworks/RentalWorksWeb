@@ -798,7 +798,7 @@ class SearchInterface {
         FwFormField.setValueByDataField($popup, 'HideZeroQuantity', response.HideZeroQuantity);
         FwFormField.setValueByDataField($popup, 'DefaultSelect', response.DefaultSelect);
         FwFormField.setValueByDataField($popup, 'DefaultSortBy', response.DefaultSortBy);
-        FwFormField.setValueByDataField($popup, 'Select', response.DefaultSelect);
+        FwFormField.setValueByDataField($popup, 'Select', response.DefaultSelect, null, true);
         FwFormField.setValueByDataField($popup, 'SortBy', response.DefaultSortBy);
 
         $popup.find('#itemlist').attr('data-view', response.Mode);
