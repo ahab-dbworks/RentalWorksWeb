@@ -2,15 +2,35 @@ import { BaseTest } from '../shared/BaseTest';
 import { ModuleBase, OpenRecordResponse, NewRecordToCreate } from '../shared/ModuleBase';
 import { Logging } from '../shared/Logging';
 import { TestUtils } from '../shared/TestUtils';
-import { RentalInventory, PurchaseOrder, User, DefaultSettings, InventorySettings, Warehouse, Quote, Order, Staging, ReceiveFromVendor } from './modules/AllModules';
+import { RentalInventory, PurchaseOrder, User, DefaultSettings, InventorySettings, Warehouse, Quote, Order, RepairOrder, Staging, ReceiveFromVendor } from './modules/AllModules';
 import { SettingsModule } from '../shared/SettingsModule';
 
-export class AvailabilityData {
+//---------------------------------------------------------------------------------------
+export class AvailabilityDate {
     theDate: Date;
     availableQuantity: number;
+    constructor(d: Date, qty: number) {
+        this.theDate = d;
+        this.availableQuantity = qty;
+    }
 }
+//---------------------------------------------------------------------------------------
 
-
+export class AvailabilityData {
+    qtyTotal: number;
+    qtyIn: number;
+    qtyQcRequired: number;
+    qtyInContainer: number;
+    qtyStaged: number;
+    qtyOut: number;
+    qtyInRepair: number;
+    qtyInTransit: number;
+    dates: AvailabilityDate[];
+    constructor() {
+        this.dates = new Array();
+    }
+}
+//---------------------------------------------------------------------------------------
 export class AvailabilityTest extends BaseTest {
     //---------------------------------------------------------------------------------------
     async RelogAsCopyOfUser() {
@@ -53,8 +73,8 @@ export class AvailabilityTest extends BaseTest {
 
     }
     //---------------------------------------------------------------------------------------
-    async getAvailability(rentalInventoryModule: RentalInventory): Promise<AvailabilityData[]> {
-        let availData: AvailabilityData[] = new Array(); 
+    async getAvailability(rentalInventoryModule: RentalInventory): Promise<AvailabilityData> {
+        let availData: AvailabilityData = new AvailabilityData();
 
         let record: NewRecordToCreate = rentalInventoryModule.newRecordsToCreate[0];
         await rentalInventoryModule.openBrowse();
@@ -64,26 +84,89 @@ export class AvailabilityTest extends BaseTest {
         let availabilityTabSelector = `div[data-type="tab"]#availabilitycalendartab1 .caption`;
         await page.waitForSelector(availabilityTabSelector);
         await page.click(availabilityTabSelector);
-        await page.waitFor(() => document.querySelector('.pleasewait'));
-        await page.waitFor(() => !document.querySelector('.pleasewait'));
+        await TestUtils.waitForPleaseWait();
+
+        async function getQty(qtyType: string): Promise<number> {
+            let qty: number = 0;
+            let qtyFieldSelector = `div .fwformfield.totals[data-caption="${qtyType}"] input`;
+            let qtyString = await page.$eval(qtyFieldSelector, (e: any) => { return e.value })
+            qty = +qtyString;
+            return qty;
+        }
+        availData.qtyTotal = await getQty("Total");
+        availData.qtyIn = await getQty("In");
+        availData.qtyQcRequired = await getQty("QC  Req'd");
+        availData.qtyInContainer = await getQty("In Container");
+        availData.qtyStaged = await getQty("Staged");
+        availData.qtyOut = await getQty("Out");
+        availData.qtyInRepair = await getQty("In Repair");
+        availData.qtyInTransit = await getQty("In Transit");
+
+
 
         let availDaysSelector = `div[data-control="FwSchedulerDetailed"] .scheduler_default_matrix .scheduler_default_event_line0`;
-        //const availDays = await page.$$(availDaysSelector);
-        //for (let d = 1; d <= availDays.length; d++) {
         for (let d = 1; d <= 25; d++) {
             let theDate: Date = TestUtils.futureDate(d - 1);
             let availDaySelector = availDaysSelector + `:nth-child(${d})`;
             let availQty = await page.$eval(availDaySelector, el => el.textContent);
             Logging.logInfo(`day=${d}, availQty=${availQty}`);
-
-            let a: AvailabilityData = new AvailabilityData();
-            a.theDate = theDate;
-            a.availableQuantity = +availQty;
-            availData.push(a);
+            availData.dates.push(new AvailabilityDate(theDate, +availQty));
         }
 
         return availData;
 
+    }
+    //---------------------------------------------------------------------------------------
+    async TestAvailability(rentalInventoryModule: RentalInventory, expectedAvailData: AvailabilityData) {
+        await this.getAvailability(rentalInventoryModule)
+            .then(actualAvailData => {
+
+                let expectedStr: string = "";
+                let actualStr: string = "";
+
+                actualStr = `Total Qty: ${actualAvailData.qtyTotal.toString()}`; 
+                expectedStr = `Total Qty: ${expectedAvailData.qtyTotal.toString()}`;
+                expect(actualStr).toBe(expectedStr);
+
+                actualStr = `In Qty: ${actualAvailData.qtyIn.toString()}`;
+                expectedStr = `In Qty: ${expectedAvailData.qtyIn.toString()}`;
+                expect(actualStr).toBe(expectedStr);
+
+                actualStr = `QC Required Qty: ${actualAvailData.qtyQcRequired.toString()}`;
+                expectedStr = `QC Required Qty: ${expectedAvailData.qtyQcRequired.toString()}`;
+                expect(actualStr).toBe(expectedStr);
+
+                actualStr = `In Container Qty: ${actualAvailData.qtyInContainer.toString()}`;
+                expectedStr = `In Container Qty: ${expectedAvailData.qtyInContainer.toString()}`;
+                expect(actualStr).toBe(expectedStr);
+
+                actualStr = `Staged Qty: ${actualAvailData.qtyStaged.toString()}`;
+                expectedStr = `Staged Qty: ${expectedAvailData.qtyStaged.toString()}`;
+                expect(actualStr).toBe(expectedStr);
+
+                actualStr = `Out Qty: ${actualAvailData.qtyOut.toString()}`;
+                expectedStr = `Out Qty: ${expectedAvailData.qtyOut.toString()}`;
+                expect(actualStr).toBe(expectedStr);
+
+                actualStr = `In Repair Qty: ${actualAvailData.qtyInRepair.toString()}`;
+                expectedStr = `In Repair Qty: ${expectedAvailData.qtyInRepair.toString()}`;
+                expect(actualStr).toBe(expectedStr);
+
+                actualStr = `In Transit Qty: ${actualAvailData.qtyInTransit.toString()}`;
+                expectedStr = `In Transit Qty: ${expectedAvailData.qtyInTransit.toString()}`;
+                expect(actualStr).toBe(expectedStr);
+
+                Logging.logInfo(`about to check availability array length, ${actualAvailData.dates.length.toString()} vs ${expectedAvailData.dates.length.toString()}`);
+                expect(actualAvailData.dates.length).toBe(expectedAvailData.dates.length);
+                for (let q = 0; q < actualAvailData.dates.length; q++) {
+                    Logging.logInfo(`about to check availability quantity, ${actualAvailData.dates[q].availableQuantity.toString()} vs ${expectedAvailData.dates[q].availableQuantity.toString()}`);
+
+                    actualStr = `Available ${TestUtils.dateMDY(actualAvailData.dates[q].theDate)}: ${actualAvailData.dates[q].availableQuantity.toString()}`;
+                    expectedStr = `Available ${TestUtils.dateMDY(expectedAvailData.dates[q].theDate)}: ${expectedAvailData.dates[q].availableQuantity.toString()}`;
+                    expect(actualStr).toBe(expectedStr);
+
+                }
+            });
     }
     //---------------------------------------------------------------------------------------
     async PerformTests() {
@@ -99,7 +182,7 @@ export class AvailabilityTest extends BaseTest {
         this.OpenSpecificRecord(new Warehouse(), warehouseToSeek, true, "MINE");
 
         this.testTimeout = 600000;
-        
+
         let qtyToPurchase: number = 20;
         let qtyToReserve: number = 3;
         let qtyToPutOnActiveQuote: number = 50;
@@ -110,6 +193,7 @@ export class AvailabilityTest extends BaseTest {
         let qtyToStage1: number = 1;
         let qtyToOrder2: number = 6;
         let qtyToOrder3: number = 10;
+        let qtyToRepair: number = 2;
 
         //---------------------------------------------------------------------------------------
         describe('Setup new Rental I-Codes', () => {
@@ -410,6 +494,21 @@ export class AvailabilityTest extends BaseTest {
             },
         ];
         //---------------------------------------------------------------------------------------
+        let repairModule: RepairOrder = new RepairOrder();
+        repairModule.newRecordsToCreate = [
+            {
+                record: {
+                    ICode: "GlobalScope.RentalInventory~NEWICODE.newICode",
+                    Quantity: qtyToRepair.toString(),
+                    DueDate: TestUtils.futureDateMDY(8),
+                },
+                seekObject: {
+                    ICode: "GlobalScope.RentalInventory~NEWICODE.newICode",
+                    Quantity: qtyToRepair.toString(),
+                },
+            }
+        ];
+        //---------------------------------------------------------------------------------------
         let stagingModule: Staging = new Staging();
         //---------------------------------------------------------------------------------------
         let receiveFromVendorModule: ReceiveFromVendor = new ReceiveFromVendor();
@@ -422,6 +521,49 @@ export class AvailabilityTest extends BaseTest {
                 let record: NewRecordToCreate = rentalInventoryModule.newRecordsToCreate[0];
                 let recordKey: string = "RENTALINVENTORY1";
                 await this.createModuleRecord(rentalInventoryModule, record, recordKey);
+            }, this.testTimeout);
+            //---------------------------------------------------------------------------------------
+            testName = "Check Availability";
+            test(testName, async () => {
+                let expectedAvailData: AvailabilityData = new AvailabilityData();
+
+                expectedAvailData.qtyTotal = 0;
+                expectedAvailData.qtyIn = 0;
+                expectedAvailData.qtyQcRequired = 0;
+                expectedAvailData.qtyInContainer = 0;
+                expectedAvailData.qtyStaged = 0;
+                expectedAvailData.qtyOut = 0;
+                expectedAvailData.qtyInRepair = 0;
+                expectedAvailData.qtyInTransit = 0;
+
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(0), 0));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(1), 0));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(2), 0));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(3), 0));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(4), 0));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(5), 0));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(6), 0));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(7), 0));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(8), 0));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(9), 0));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(10), 0));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(11), 0));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(12), 0));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(13), 0));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(14), 0));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(15), 0));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(16), 0));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(17), 0));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(18), 0));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(19), 0));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(20), 0));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(21), 0));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(22), 0));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(23), 0));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(24), 0));
+
+                await this.TestAvailability(rentalInventoryModule, expectedAvailData);
+
             }, this.testTimeout);
             //---------------------------------------------------------------------------------------
             testName = "Create new Purchase Order";
@@ -446,8 +588,7 @@ export class AvailabilityTest extends BaseTest {
                     await page.waitForSelector('.advisory');
                     const options = await page.$$('.advisory .fwconfirmation-button');
                     await options[0].click(); // click "Reserve" option
-                    await page.waitFor(() => document.querySelector('.pleasewait'));
-                    await page.waitFor(() => !document.querySelector('.pleasewait'));
+                    await TestUtils.waitForPleaseWait();
                 }
 
                 await this.createModuleRecord(quoteModule, record, recordKey, reserveQuote);
@@ -493,8 +634,7 @@ export class AvailabilityTest extends BaseTest {
                     await page.waitForSelector('.advisory');
                     const options = await page.$$('.advisory .fwconfirmation-button');
                     await options[0].click(); // click "Cancel" option
-                    await page.waitFor(() => document.querySelector('.pleasewait'));
-                    await page.waitFor(() => !document.querySelector('.pleasewait'));
+                    await TestUtils.waitForPleaseWait();
                 }
 
                 await this.createModuleRecord(quoteModule, record, recordKey, cancelQuote);
@@ -534,8 +674,7 @@ export class AvailabilityTest extends BaseTest {
                 await poNumberElementHandle.click();
                 await page.keyboard.sendCharacter(po.PurchaseOrderNumber);
                 await page.keyboard.press('Enter');
-                await page.waitFor(() => document.querySelector('.pleasewait'));
-                await page.waitFor(() => !document.querySelector('.pleasewait'), { timeout: 60000 });
+                await TestUtils.waitForPleaseWait(60000);
 
 
                 // find I-Code Quantity in the grid (first row)
@@ -551,62 +690,51 @@ export class AvailabilityTest extends BaseTest {
                 // create contract
                 const createContractElementHandle = await page.$(`div .fwformcontrol.createcontract[data-type="button"]`);
                 await createContractElementHandle.click();
-                await page.waitFor(() => document.querySelector('.pleasewait'));
-                await page.waitFor(() => !document.querySelector('.pleasewait'), { timeout: 60000 });
+                await TestUtils.waitForPleaseWait(60000);
 
             }, this.testTimeout);
             //---------------------------------------------------------------------------------------
-            testName = "Check Availabilty 01";
+            testName = "Check Availability";
             test(testName, async () => {
+                let expectedAvailData: AvailabilityData = new AvailabilityData();
 
-                await this.getAvailability(rentalInventoryModule)
-                    .then(actualAvailQuantities => {
+                expectedAvailData.qtyTotal = 20;
+                expectedAvailData.qtyIn = 20;
+                expectedAvailData.qtyQcRequired = 0;
+                expectedAvailData.qtyInContainer = 0;
+                expectedAvailData.qtyStaged = 0;
+                expectedAvailData.qtyOut = 0;
+                expectedAvailData.qtyInRepair = 0;
+                expectedAvailData.qtyInTransit = 0;
 
-                        let expectedAvailQuantities: number[] = new Array();
-                        expectedAvailQuantities.push(20);    //00
-                        expectedAvailQuantities.push(8);     //01
-                        expectedAvailQuantities.push(8);     //02
-                        expectedAvailQuantities.push(5);     //03
-                        expectedAvailQuantities.push(-5);    //04
-                        expectedAvailQuantities.push(-5);    //05
-                        expectedAvailQuantities.push(-5);    //06
-                        expectedAvailQuantities.push(5);     //07
-                        expectedAvailQuantities.push(5);     //08
-                        expectedAvailQuantities.push(5);     //09
-                        expectedAvailQuantities.push(11);    //10
-                        expectedAvailQuantities.push(14);    //11
-                        expectedAvailQuantities.push(14);    //12
-                        expectedAvailQuantities.push(14);    //13
-                        expectedAvailQuantities.push(20);    //14
-                        expectedAvailQuantities.push(20);    //15
-                        expectedAvailQuantities.push(20);    //16
-                        expectedAvailQuantities.push(20);    //17
-                        expectedAvailQuantities.push(20);    //18
-                        expectedAvailQuantities.push(20);    //19
-                        expectedAvailQuantities.push(20);    //20
-                        expectedAvailQuantities.push(20);    //21
-                        expectedAvailQuantities.push(20);    //22
-                        expectedAvailQuantities.push(20);    //23
-                        expectedAvailQuantities.push(20);    //24
-                        //expectedAvailQuantities.push(20);    //25
-                        //expectedAvailQuantities.push(20);    //26
-                        //expectedAvailQuantities.push(20);    //27
-                        //expectedAvailQuantities.push(20);    //28
-                        //expectedAvailQuantities.push(20);    //29
-                        //expectedAvailQuantities.push(20);    //30
-                        //expectedAvailQuantities.push(20);    //31
-                        //expectedAvailQuantities.push(20);    //32
-                        //expectedAvailQuantities.push(20);    //33
-                        //expectedAvailQuantities.push(20);    //34
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(0), 20));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(1), 8));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(2), 8));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(3), 5));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(4), -5));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(5), -5));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(6), -5));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(7), 5));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(8), 5));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(9), 5));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(10), 11));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(11), 14));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(12), 14));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(13), 14));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(14), 20));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(15), 20));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(16), 20));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(17), 20));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(18), 20));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(19), 20));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(20), 20));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(21), 20));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(22), 20));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(23), 20));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(24), 20));
 
-                        Logging.logInfo(`about to check availability array length, ${actualAvailQuantities.length.toString()} vs ${expectedAvailQuantities.length.toString()}`);
-                        expect(actualAvailQuantities.length).toBe(expectedAvailQuantities.length);
-                        for (let q = 0; q < actualAvailQuantities.length; q++) {
-                            Logging.logInfo(`about to check availability quantity, ${actualAvailQuantities[q].availableQuantity.toString()} vs ${expectedAvailQuantities[q].toString()}`);
-                            expect(actualAvailQuantities[q].availableQuantity).toEqual(expectedAvailQuantities[q]);
-                        }
+                await this.TestAvailability(rentalInventoryModule, expectedAvailData);
 
-                    });
 
             }, this.testTimeout);
             //---------------------------------------------------------------------------------------
@@ -622,8 +750,7 @@ export class AvailabilityTest extends BaseTest {
                 await orderNumberElementHandle.click();
                 await page.keyboard.sendCharacter(order.OrderNumber);
                 await page.keyboard.press('Enter');
-                await page.waitFor(() => document.querySelector('.pleasewait'));
-                await page.waitFor(() => !document.querySelector('.pleasewait'));
+                await TestUtils.waitForPleaseWait();
 
 
                 // input I-Code
@@ -634,8 +761,7 @@ export class AvailabilityTest extends BaseTest {
                 await iCodeElementHandle.press('Backspace');
                 await page.keyboard.sendCharacter(rentalInv.ICode);
                 await page.keyboard.press('Enter');
-                await page.waitFor(() => document.querySelector('.pleasewait'));
-                await page.waitFor(() => !document.querySelector('.pleasewait'));
+                await TestUtils.waitForPleaseWait();
 
 
                 // input Quantity
@@ -646,8 +772,8 @@ export class AvailabilityTest extends BaseTest {
                 await qtyElementHandle.press('Backspace');
                 await page.keyboard.sendCharacter(qtyToCheckOut1.toString());
                 await page.keyboard.press('Enter');
-                await page.waitFor(() => document.querySelector('.pleasewait'));
-                await page.waitFor(() => !document.querySelector('.pleasewait'));
+                await TestUtils.waitForPleaseWait();
+                await ModuleBase.wait(5000); // temporary
 
                 // create contract
                 const createContractElementHandle = await page.$(`div .createcontract .btnmenu`);
@@ -657,8 +783,7 @@ export class AvailabilityTest extends BaseTest {
                 await page.waitForSelector('.advisory');
                 const options = await page.$$('.advisory .fwconfirmation-button');
                 await options[0].click(); // click "Continue" option
-                await page.waitFor(() => document.querySelector('.pleasewait'));
-                await page.waitFor(() => !document.querySelector('.pleasewait'), { timeout: 60000 });
+                await TestUtils.waitForPleaseWait(60000);
 
             }, this.testTimeout);
             //---------------------------------------------------------------------------------------
@@ -674,8 +799,7 @@ export class AvailabilityTest extends BaseTest {
                 await orderNumberElementHandle.click();
                 await page.keyboard.sendCharacter(order.OrderNumber);
                 await page.keyboard.press('Enter');
-                await page.waitFor(() => document.querySelector('.pleasewait'));
-                await page.waitFor(() => !document.querySelector('.pleasewait'));
+                await TestUtils.waitForPleaseWait();
 
 
                 // input I-Code
@@ -686,8 +810,7 @@ export class AvailabilityTest extends BaseTest {
                 await iCodeElementHandle.press('Backspace');
                 await page.keyboard.sendCharacter(rentalInv.ICode);
                 await page.keyboard.press('Enter');
-                await page.waitFor(() => document.querySelector('.pleasewait'));
-                await page.waitFor(() => !document.querySelector('.pleasewait'));
+                await TestUtils.waitForPleaseWait();
 
 
                 // input Quantity
@@ -698,12 +821,104 @@ export class AvailabilityTest extends BaseTest {
                 await qtyElementHandle.press('Backspace');
                 await page.keyboard.sendCharacter(qtyToStage1.toString());
                 await page.keyboard.press('Enter');
-                await page.waitFor(() => document.querySelector('.pleasewait'));
-                await page.waitFor(() => !document.querySelector('.pleasewait'));
+                await TestUtils.waitForPleaseWait();
+                await ModuleBase.wait(5000); // temporary
 
             }, this.testTimeout);
             //---------------------------------------------------------------------------------------
+            testName = "Check Availability";
+            test(testName, async () => {
+                let expectedAvailData: AvailabilityData = new AvailabilityData();
 
+                expectedAvailData.qtyTotal = 20;
+                expectedAvailData.qtyIn = 15;
+                expectedAvailData.qtyQcRequired = 0;
+                expectedAvailData.qtyInContainer = 0;
+                expectedAvailData.qtyStaged = 1;
+                expectedAvailData.qtyOut = 4;
+                expectedAvailData.qtyInRepair = 0;
+                expectedAvailData.qtyInTransit = 0;
+
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(0), 14));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(1), 8));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(2), 8));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(3), 5));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(4), -5));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(5), -5));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(6), -5));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(7), 5));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(8), 5));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(9), 5));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(10), 11));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(11), 14));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(12), 14));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(13), 14));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(14), 20));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(15), 20));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(16), 20));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(17), 20));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(18), 20));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(19), 20));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(20), 20));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(21), 20));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(22), 20));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(23), 20));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(24), 20));
+
+                await this.TestAvailability(rentalInventoryModule, expectedAvailData);
+
+            }, this.testTimeout);
+            //---------------------------------------------------------------------------------------
+            testName = "Create new Repair Order";
+            test(testName, async () => {
+                let record: NewRecordToCreate = repairModule.newRecordsToCreate[0];
+                let recordKey: string = "REPAIRORDER1";
+                await this.createModuleRecord(repairModule, record, recordKey);
+            }, this.testTimeout);
+            //---------------------------------------------------------------------------------------
+            testName = "Check Availability";
+            test(testName, async () => {
+                let expectedAvailData: AvailabilityData = new AvailabilityData();
+
+                expectedAvailData.qtyTotal = 20;
+                expectedAvailData.qtyIn = 13;
+                expectedAvailData.qtyQcRequired = 0;
+                expectedAvailData.qtyInContainer = 0;
+                expectedAvailData.qtyStaged = 1;
+                expectedAvailData.qtyOut = 4;
+                expectedAvailData.qtyInRepair = 2;
+                expectedAvailData.qtyInTransit = 0;
+
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(0), 12));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(1), 6));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(2), 6));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(3), 3));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(4), -7));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(5), -7));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(6), -7));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(7), 3));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(8), 5));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(9), 5));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(10), 11));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(11), 14));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(12), 14));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(13), 14));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(14), 20));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(15), 20));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(16), 20));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(17), 20));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(18), 20));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(19), 20));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(20), 20));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(21), 20));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(22), 20));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(23), 20));
+                expectedAvailData.dates.push(new AvailabilityDate(TestUtils.futureDate(24), 20));
+
+                await this.TestAvailability(rentalInventoryModule, expectedAvailData);
+
+            }, this.testTimeout);
+            //---------------------------------------------------------------------------------------
         });
     }
     //---------------------------------------------------------------------------------------

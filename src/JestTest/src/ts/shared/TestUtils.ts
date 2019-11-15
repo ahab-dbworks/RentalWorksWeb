@@ -186,6 +186,17 @@ export class TestUtils {
         return valueOut;
     }
     //---------------------------------------------------------------------------------------
+    static async waitForPleaseWait(timeout?: number) {
+        if (timeout == undefined) {
+            timeout = 30000;
+        }
+
+        try {
+            await page.waitFor(() => document.querySelector('.pleasewait'), { timeout: 5000 });
+        } catch (error) { } // assume that we missed the Please Wait dialog
+        await page.waitFor(() => !document.querySelector('.pleasewait'), { timeout: timeout });
+    }
+    //---------------------------------------------------------------------------------------
     static randomAlphanumeric(length: number): string {
         return faker.random.alphaNumeric(length);
     }

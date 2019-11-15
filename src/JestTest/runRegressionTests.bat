@@ -41,8 +41,8 @@ cd %testrootpath%
 call :getversion
 call :runtest "LoginLogout" "Login Logout"
 call :runtest "RwwShallowRegression" "Shallow Regression"
-call :runtest "RwwAvailability" "Availability Regression"
 call :runtest "RwwMediumRegression" "Medium Regression"
+call :runtest "RwwAvailability" "Availability Regression"
 
 set "file=%testrootpath%\jest.rentalworksweb%testnumber%.config.js"
 if exist %file% (del %file%)
