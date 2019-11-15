@@ -174,34 +174,40 @@ namespace FwStandard.Data
             return rowsAffected;
         }
         //------------------------------------------------------------------------------------
-        public virtual async Task<bool> DeleteAsync()
+        /// <summary>
+        /// Deletes the record from the table.
+        /// </summary>
+        /// <param name="conn">Specify an existing SqlConnection if desired.  Can be used for multi-statement transactions. If null, then a new Connection will be established.</param>
+        public virtual async Task<bool> DeleteAsync(FwSqlConnection conn = null)
         {
             bool success = false;
             InsteadOfDataRecordDeleteEventArgs insteadOfDeleteArgs = new InsteadOfDataRecordDeleteEventArgs();
             BeforeDeleteEventArgs beforeDeleteArgs = new BeforeDeleteEventArgs();
             AfterDeleteEventArgs afterDeleteArgs = new AfterDeleteEventArgs();
             //BeforeDelete?.Invoke(this, beforeDeleteArgs);
-            await BeforeDeleteAsync(beforeDeleteArgs);
+            await BeforeDeleteAsync(beforeDeleteArgs);  // may need to send the "conn" here someday
             if (beforeDeleteArgs.PerformDelete)
             {
-                using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
+                if (conn == null)
                 {
-                    if (InsteadOfDelete != null)
-                    {
-                        InsteadOfDelete(this, insteadOfDeleteArgs);
-                        success = insteadOfDeleteArgs.Success;
-                    }
-                    else
-                    {
-                        using (FwSqlCommand cmd = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout))
-                        {
-                            int rowcount = await cmd.DeleteAsync(TableName, this);
-                            success = (rowcount > 0);
-                        }
-                    }
-                    //AfterDelete?.Invoke(this, afterDeleteArgs);
-                    await AfterDeleteAsync(afterDeleteArgs);
+                    conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString);
                 }
+
+                if (InsteadOfDelete != null)
+                {
+                    InsteadOfDelete(this, insteadOfDeleteArgs);  // may need to send the "conn" here someday
+                    success = insteadOfDeleteArgs.Success;
+                }
+                else
+                {
+                    using (FwSqlCommand cmd = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout))
+                    {
+                        int rowcount = await cmd.DeleteAsync(TableName, this);
+                        success = (rowcount > 0);
+                    }
+                }
+                //AfterDelete?.Invoke(this, afterDeleteArgs);
+                await AfterDeleteAsync(afterDeleteArgs);   // may need to send the "conn" here someday
             }
             return success;
         }
