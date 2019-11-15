@@ -35,6 +35,8 @@ namespace WebApi.Modules.Transfers.TransferOrder
             Type = RwConstants.ORDER_TYPE_TRANSFER;
 
             transferOrder.BeforeSave += OnBeforeSaveTransferOrder;
+            transferOrder.AfterSave += OnAfterSaveTransferOrder;
+            transferOrderDetail.AssignPrimaryKeys += TransferDetailAssignPrimaryKeys;
 
             BeforeSave += OnBeforeSave;
             AfterSave += OnAfterSave;
@@ -476,11 +478,6 @@ namespace WebApi.Modules.Transfers.TransferOrder
         [FwLogicProperty(Id: "crH6wTINbMj9z")]
         public string DateStamp { get { return transferOrder.DateStamp; } set { transferOrder.DateStamp = value; transferOrderDetail.DateStamp = value; } }
         //------------------------------------------------------------------------------------
-
-
-
-
-        //------------------------------------------------------------------------------------ 
         //protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg) 
         //{                   
         //    //override this method on a derived class to implement custom validation logic 
@@ -488,7 +485,6 @@ namespace WebApi.Modules.Transfers.TransferOrder
         //    return isValid; 
         //}                    
         //-------------------- ---------------------------------------------------------------- 
-
         public void OnBeforeSaveTransferOrder(object sender, BeforeSaveDataRecordEventArgs e)
         {
             if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
@@ -500,8 +496,25 @@ namespace WebApi.Modules.Transfers.TransferOrder
             }
         }
         //------------------------------------------------------------------------------------
-
-
+        public void OnAfterSaveTransferOrder(object sender, AfterSaveDataRecordEventArgs e)
+        {
+            // justin hoffman 11/15/2019 #1307
+            // this is really stupid
+            // I am deleting the record that dbwIU_dealorder is giving us, so I can add my own and avoid a unique index error
+            if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
+            {
+                DealOrderDetailRecord detailRec = new DealOrderDetailRecord();
+                detailRec.SetDependencies(AppConfig, UserSession);
+                detailRec.OrderId = TransferId;
+                bool b = detailRec.DeleteAsync(e.SqlConnection).Result;
+            }
+        }
+        //------------------------------------------------------------------------------------
+        public void TransferDetailAssignPrimaryKeys(object sender, EventArgs e)
+        {
+            ((DealOrderDetailRecord)sender).OrderId = TransferId;
+        }
+        //------------------------------------------------------------------------------------ 
         public virtual void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {
             if (e.SaveMode == TDataRecordSaveMode.smInsert)

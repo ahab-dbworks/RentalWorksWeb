@@ -1,3 +1,4 @@
+using FwStandard.BusinessLogic;
 using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
@@ -12,6 +13,11 @@ namespace WebApi.Modules.Warehouse.PickList
     [FwSqlTable("picklist")]
     public class PickListRecord : AppDataReadWriteRecord
     {
+        //------------------------------------------------------------------------------------ 
+        public PickListRecord()
+        {
+            InsteadOfDelete += OnInsteadOfDelete;
+        }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "picklistid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)]
         public string PickListId { get; set; } = "";
@@ -144,17 +150,20 @@ namespace WebApi.Modules.Warehouse.PickList
             return await AppFunc.SaveNoteAsync(AppConfig, UserSession, PickListId, "", "", Note);
         }
         //-------------------------------------------------------------------------------------------------------
-        public override async Task<bool> DeleteAsync()
+        public void OnInsteadOfDelete(object sender, InsteadOfDataRecordDeleteEventArgs e)
         {
-            bool success = false;
+            e.Success = false;
             using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
             {
                 FwSqlCommand qry = new FwSqlCommand(conn, "deletepicklist", this.AppConfig.DatabaseSettings.QueryTimeout);
                 qry.AddParameter("@picklistid", SqlDbType.NVarChar, ParameterDirection.Input, PickListId);
-                await qry.ExecuteNonQueryAsync();
+                int i = qry.ExecuteNonQueryAsync().Result;
+                if (i > 0)
+                {
+                    e.Success = true;
+                }
             }
-            return success;
         }
-        //------------------------------------------------------------------------------------    }
+        //------------------------------------------------------------------------------------    
     }
 }
