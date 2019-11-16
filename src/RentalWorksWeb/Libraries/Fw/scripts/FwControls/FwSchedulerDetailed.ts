@@ -110,7 +110,8 @@ class FwSchedulerDetailedClass {
         dpscheduler.headerHeight = 25;
 
         // view
-        dpscheduler.startDate = moment().format('YYYY-MM-DD');  // or just dpscheduler.startDate = "2013-03-25";
+        //dpscheduler.startDate = moment().format('YYYY-MM-DD');  // or just dpscheduler.startDate = "2013-03-25";
+        dpscheduler.startDate = FwScheduler.getTodaysDate();    //#1305 11/15/2019 justin hoffman.  Without this, the calandar advances to the next day when viewing the calendar after 4pm on your machine.
         dpscheduler.days = 35;
         dpscheduler.scale = "Day";
         dpscheduler.timeHeaders = [
@@ -134,9 +135,10 @@ class FwSchedulerDetailedClass {
     };
     //---------------------------------------------------------------------------------
     navigate($control, date, days?) {
-        if (typeof date === 'string') {
-            date = DayPilot.Date(new Date(date).toISOString(), true).getDatePart();
-        }
+        //if (typeof date === 'string') {
+        //    date = DayPilot.Date(new Date(date).toISOString(), true).getDatePart();
+        //}
+        //#1305 11/15/2019 justin hoffman.  commented above.  With that code, the calandar advances to the next day when viewing the calendar after 4pm on your machine.
         FwSchedulerDetailed.setSelectedDay($control, date);
         const dpscheduler = $control.data('dpscheduler');
         if (date.d.getDate() === 31 || date.d.getDate() === 30) {
@@ -253,7 +255,10 @@ class FwSchedulerDetailedClass {
     };
     //---------------------------------------------------------------------------------
     getTodaysDate() {
-        return new DayPilot.Date(new Date().toISOString());
+        //return new DayPilot.Date(new Date().toISOString());
+        let dateStr = moment().format('YYYY-MM-DD');
+        let timeStr = moment().format('HH:mm:ss');
+        return new DayPilot.Date(dateStr + 'T' + timeStr);   //#1305 11/15/2019 justin hoffman.  Without this, the calandar advances to the next day when viewing the calendar after 4pm on your machine.
     }
     //---------------------------------------------------------------------------------
 }

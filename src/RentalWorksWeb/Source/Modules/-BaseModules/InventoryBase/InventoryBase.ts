@@ -269,7 +269,8 @@
         dp.headerHeight = 25;
 
         // view
-        dp.startDate = moment().format('YYYY-MM-DD');  // or just dp.startDate = "2013-03-25";
+        //dp.startDate = moment().format('YYYY-MM-DD');  // or just dp.startDate = "2013-03-25";
+        dp.startDate = FwSchedulerDetailed.getTodaysDate();  //#1305 11/15/2019 justin hoffman.  Without this, the calandar advances to the next day when viewing the calendar after 4pm on your machine.
         dp.days = 31;
         dp.scale = "Day";
         dp.timeHeaders = [
