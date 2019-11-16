@@ -132,6 +132,9 @@ namespace WebApi.Modules.Home.ExchangeItem
         [FwLogicProperty(Id:"GP92XSP6xZS1")]
         public string ConsignorAgreementId { get; set; }
 
+        [FwLogicProperty(Id: "cZjY35cvcqk8f", IsReadOnly: true)]
+        public string BarCodeColor { get; set; }
+
         //------------------------------------------------------------------------------------ 
     }
 }
