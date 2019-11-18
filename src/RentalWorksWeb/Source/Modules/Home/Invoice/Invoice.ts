@@ -96,12 +96,6 @@ class Invoice {
         let $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 
-        FwFormField.disable($form.find('[data-datafield="SubRent"]'));
-        FwFormField.disable($form.find('[data-datafield="SubSale"]'));
-        FwFormField.disable($form.find('[data-datafield="SubLabor"]'));
-        FwFormField.disable($form.find('[data-datafield="SubMiscellaneous"]'));
-        FwFormField.disable($form.find('[data-datafield="SubVehicle"]'));
-
         const $emailHistorySubModuleBrowse = this.openEmailHistoryBrowse($form);
         $form.find('.emailhistory-page').append($emailHistorySubModuleBrowse);
 
