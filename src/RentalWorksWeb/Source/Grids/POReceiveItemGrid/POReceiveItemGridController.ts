@@ -9,7 +9,7 @@
     generateRow($control, $generatedtr) {
         let $form, errorSound, successSound, $quantityColumn;
         $form = $control.closest('.fwform'),
-            $quantityColumn = $generatedtr.find('.quantity');
+            $quantityColumn = $generatedtr.find('[data-browsedatatype="numericupdown"]');
         this.successSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).successSoundFileName;
         this.errorSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).errorSoundFileName;
         this.notificationSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).notificationSoundFileName;
@@ -18,23 +18,13 @@
         errorSound = new Audio(this.errorSoundFileName);
         successSound = new Audio(this.successSoundFileName);
         FwBrowse.setAfterRenderRowCallback($control, ($tr: JQuery, dt: FwJsonDataTable, rowIndex: number) => {
-            let originalquantity = $tr.find('[data-browsedatafield="Quantity"]').attr('data-originalvalue');
             let quantityColorIndex = dt.ColumnIndex.QuantityColor;
             let color = dt.Rows[rowIndex][quantityColorIndex];
             if (color == "") {
                 color = 'transparent';
             }
             let $grid = $tr.parents('[data-grid="POReceiveItemGrid"]');
-            let $oldElement = $quantityColumn.find('div');
-            let html: any = [];
-            html.push('<button class="decrementQuantity" tabindex="-1" style="padding: 5px 0px; float:left; width:25%; border:none;">-</button>');
-            html.push('<div style="position:relative">');
-            html.push('     <div class="cellcolor" style="pointer-events:none"></div>');
-            html.push('     <input class="fieldvalue" type="number" style="height:1.5em; width:40px; text-align:center;" value="' + originalquantity + '">');
-            html.push('</div>');
-            html.push('<button class="incrementQuantity" tabindex="-1" style="padding: 5px 0px; float:left; width:25%; border:none;">+</button>');
-            jQuery($oldElement).replaceWith(html.join(''));
-
+           
             let cellToColor = $generatedtr.find('.cellcolor');
             cellToColor.css({
                 'border-left': '20px solid',
@@ -48,42 +38,8 @@
                 'right': '0px',
                 'border-left-color': color
             });
-
-            $quantityColumn.data({
-                interval: {},
-                increment: function () {
-                    var $value = $quantityColumn.find('.fieldvalue');
-                    var oldval = jQuery.isNumeric(parseFloat($value.val())) ? parseFloat($value.val()) : 0;
-                    if ((typeof $quantityColumn.attr('data-maxvalue') !== 'undefined') && ($quantityColumn.attr('data-maxvalue') <= oldval)) {
-                    } else {
-                        $value.val(++oldval);
-                    }
-                },
-                decrement: function () {
-                    var $value = $quantityColumn.find('.fieldvalue');
-                    var oldval = jQuery.isNumeric(parseFloat($value.val())) ? parseFloat($value.val()) : 0;
-                    if ((typeof $quantityColumn.attr('data-minvalue') !== 'undefined') && ($quantityColumn.attr('data-minvalue') >= oldval)) {
-                    } else {
-                        if (oldval > 0) {
-                            $value.val(--oldval);
-                        }
-                    }
-                }
-            });
-
-            if (jQuery('html').hasClass('desktop')) {
-                $quantityColumn
-                    .on('click', '.incrementQuantity', function () {
-                        $quantityColumn.data('increment')();
-                        $quantityColumn.find('.fieldvalue').change();
-                    })
-                    .on('click', '.decrementQuantity', function () {
-                        $quantityColumn.data('decrement')();
-                        $quantityColumn.find('.fieldvalue').change();
-                    });
-            };
-
-            $quantityColumn.on('change', '.fieldvalue', e => {
+          
+            $quantityColumn.on('change', '.value', e => {
                 let request: any = {},
                     contractId = $tr.find('[data-browsedatafield="ContractId"]').attr('data-originalvalue'),
                     itemId = $tr.find('[data-browsedatafield="PurchaseOrderItemId"]').attr('data-originalvalue'),
