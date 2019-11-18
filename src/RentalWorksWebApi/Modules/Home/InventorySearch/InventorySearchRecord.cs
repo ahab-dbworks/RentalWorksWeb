@@ -43,29 +43,36 @@ namespace WebApi.Modules.Home.InventorySearch
         //------------------------------------------------------------------------------------ 
         public void OnBeforeSaveInventorySearch(object sender, BeforeSaveDataRecordEventArgs e)
         {
-            using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
+            if (Quantity < 0)
             {
-                TSpStatusResponse response = new TSpStatusResponse();
-
-                FwSqlCommand qry = new FwSqlCommand(conn, "savetmpsearchsession", this.AppConfig.DatabaseSettings.QueryTimeout);
-                qry.AddParameter("@sessionid", SqlDbType.NVarChar, ParameterDirection.Input, SessionId);
-                qry.AddParameter("@parentid", SqlDbType.NVarChar, ParameterDirection.Input, ParentId);
-                qry.AddParameter("@grandparentid", SqlDbType.NVarChar, ParameterDirection.Input, GrandParentId);
-                qry.AddParameter("@masterid", SqlDbType.NVarChar, ParameterDirection.Input, InventoryId);
-                qry.AddParameter("@warehouseid", SqlDbType.NVarChar, ParameterDirection.Input, WarehouseId);
-                qry.AddParameter("@qty", SqlDbType.Float, ParameterDirection.Input, Quantity);
-                qry.AddParameter("@totalqtyinsession", SqlDbType.Float, ParameterDirection.Output);
-                qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
-                qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
-                int i = qry.ExecuteNonQueryAsync().Result;
-                TotalQuantityInSession = qry.GetParameter("@totalqtyinsession").ToDecimal();
-                response.status = qry.GetParameter("@status").ToInt32();
-                response.success = (response.status == 0);
-                response.msg = qry.GetParameter("@msg").ToString();
-
-                if (!response.success)
+                throw new System.Exception("Quantity cannot be negative.");
+            }
+            else
+            {
+                using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
                 {
-                    throw new System.Exception("Cannot save search quantity: " + response.msg);
+                    TSpStatusResponse response = new TSpStatusResponse();
+
+                    FwSqlCommand qry = new FwSqlCommand(conn, "savetmpsearchsession", this.AppConfig.DatabaseSettings.QueryTimeout);
+                    qry.AddParameter("@sessionid", SqlDbType.NVarChar, ParameterDirection.Input, SessionId);
+                    qry.AddParameter("@parentid", SqlDbType.NVarChar, ParameterDirection.Input, ParentId);
+                    qry.AddParameter("@grandparentid", SqlDbType.NVarChar, ParameterDirection.Input, GrandParentId);
+                    qry.AddParameter("@masterid", SqlDbType.NVarChar, ParameterDirection.Input, InventoryId);
+                    qry.AddParameter("@warehouseid", SqlDbType.NVarChar, ParameterDirection.Input, WarehouseId);
+                    qry.AddParameter("@qty", SqlDbType.Float, ParameterDirection.Input, Quantity);
+                    qry.AddParameter("@totalqtyinsession", SqlDbType.Float, ParameterDirection.Output);
+                    qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
+                    qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
+                    int i = qry.ExecuteNonQueryAsync().Result;
+                    TotalQuantityInSession = qry.GetParameter("@totalqtyinsession").ToDecimal();
+                    response.status = qry.GetParameter("@status").ToInt32();
+                    response.success = (response.status == 0);
+                    response.msg = qry.GetParameter("@msg").ToString();
+
+                    if (!response.success)
+                    {
+                        throw new System.Exception("Cannot save search quantity: " + response.msg);
+                    }
                 }
             }
             e.PerformSave = false;
