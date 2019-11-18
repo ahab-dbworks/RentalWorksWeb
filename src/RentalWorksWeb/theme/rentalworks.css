@@ -256,12 +256,6 @@ Form tables
     -moz-appearance: textfield;
 }
 
-.fwbrowse table tbody tr input[type="number"].fieldvalue::-webkit-outer-spin-button,
-.fwbrowse table tbody tr input[type="number"].fieldvalue::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-
 /* Styling for play buttons */
 .play-button {
     outline: none;

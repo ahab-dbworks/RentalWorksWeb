@@ -216,7 +216,9 @@ html.theme-material .fwbrowse table tbody tr.editrow .field[data-formdatatype="d
 
 html.theme-material .fwbrowse table tbody tr.editrow .field[data-formdatatype="phone"] input.value {box-sizing:border-box;display:block;border:0;padding: 0 .3em;width:100%;height:100%;}
 
-html.theme-material .fwbrowse table tbody tr .field[data-browsedatatype="number"] .fieldvalue {flex:1 1 0;text-align:right;}
+html.theme-material .fwbrowse table tbody tr .field[data-browsedatatype="numericupdown"] .value {flex:1 1 0;text-align:right;}
+html.theme-material .fwbrowse table tbody tr input[type="number"].value::-webkit-outer-spin-button,
+html.theme-material .fwbrowse table tbody tr input[type="number"].value::-webkit-inner-spin-button {-webkit-appearance: none; margin: 0;}
 html.theme-material .fwbrowse table tbody tr.editrow .field[data-formdatatype="number"] input.value {box-sizing:border-box;display:block;border:0;padding: 0 .3em;height:100%;width:100%;border:0;text-align:right;}
 
 html.theme-material .fwbrowse table tbody tr .field[data-browsedatatype="money"] .fieldvalue {flex:1 1 0;text-align:right;}
@@ -389,7 +391,7 @@ html.theme-material .fwbrowse table tbody tr.editrow td .field[data-formreadonly
 html.theme-material .fwbrowse table tbody tr.editrow td .field[data-formreadonly="false"][data-formdatatype="utcdate"] {border:1px solid #bdbdbd;}
 html.theme-material .fwbrowse table tbody tr.editrow td .field[data-formreadonly="false"][data-formdatatype="phone"] {border:1px solid #bdbdbd;}
 html.theme-material .fwbrowse table tbody tr.editrow td .field[data-formreadonly="false"][data-formdatatype="number"] {border:1px solid #bdbdbd;}
-html.theme-material .fwbrowse table tbody tr.editrow td .field[data-formreadonly="false"][data-formdatatype="money"] {border:1px solid #bdbdbd;}
+html.theme-material .fwbrowse table tbody tr.editrow td .field[data-formreadonly="false"][data-formdatatype="numericupdown"] {border:1px solid #bdbdbd;}
 html.theme-material .fwbrowse table tbody tr.editrow td .field[data-formreadonly="false"][data-formdatatype="validation"] {border:1px solid #bdbdbd;}
 html.theme-material .fwbrowse table tbody tr.editrow td .field[data-formreadonly="false"][data-formdatatype="combobox"] {border:1px solid #bdbdbd;}
 
@@ -398,6 +400,7 @@ html.theme-material .fwbrowse[data-enabled="false"] table tbody tr:not(.selected
 html.theme-material .fwbrowse[data-enabled="false"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="utcdate"] {background-color:transparent;}
 html.theme-material .fwbrowse[data-enabled="false"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="phone"] {background-color:transparent;}
 html.theme-material .fwbrowse[data-enabled="false"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="number"] {background-color:transparent;}
+html.theme-material .fwbrowse[data-enabled="false"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="numericupdown"] {background-color:transparent;}
 html.theme-material .fwbrowse[data-enabled="false"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="money"] {background-color:transparent;}
 html.theme-material .fwbrowse[data-enabled="false"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="validation"] {background-color:transparent;}
 html.theme-material .fwbrowse[data-enabled="false"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="combobox"] {background-color:transparent;}
@@ -409,6 +412,7 @@ html.theme-material .fwbrowse[data-type="Grid"] table tbody tr:not(.selected) .f
 html.theme-material .fwbrowse[data-type="Grid"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="utcdate"] {background-color: #F5F5F5;}
 html.theme-material .fwbrowse[data-type="Grid"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="phone"] {background-color: #F5F5F5;}
 html.theme-material .fwbrowse[data-type="Grid"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="number"] {background-color: #F5F5F5;}
+html.theme-material .fwbrowse[data-type="Grid"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="numericupdown"] {background-color: #F5F5F5;}
 html.theme-material .fwbrowse[data-type="Grid"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="money"] {background-color: #F5F5F5;}
 html.theme-material .fwbrowse[data-type="Grid"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="validation"] {background-color: #F5F5F5;}
 html.theme-material .fwbrowse[data-type="Grid"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="combobox"] {background-color: #F5F5F5;}
@@ -421,6 +425,7 @@ html.theme-material .fwbrowse table tbody tr.editrow td .field[data-formreadonly
 html.theme-material .fwbrowse table tbody tr.editrow td .field[data-formreadonly="true"][data-formdatatype="utcdate"] {padding: 0 10px;}
 html.theme-material .fwbrowse table tbody tr.editrow td .field[data-formreadonly="true"][data-formdatatype="phone"] {padding: 0 10px;}
 html.theme-material .fwbrowse table tbody tr.editrow td .field[data-formreadonly="true"][data-formdatatype="number"] {padding: 0 10px;}
+html.theme-material .fwbrowse table tbody tr.editrow td .field[data-formreadonly="true"][data-formdatatype="numericupdown"] {padding: 0 10px;}
 html.theme-material .fwbrowse table tbody tr.editrow td .field[data-formreadonly="true"][data-formdatatype="money"] {padding: 0 10px;}
 html.theme-material .fwbrowse table tbody tr.editrow td .field[data-formreadonly="true"][data-formdatatype="validation"] {padding: 0 10px;}
 html.theme-material .fwbrowse table tbody tr.editrow td .field[data-formreadonly="true"][data-formdatatype="combobox"] {padding: 0 10px;}
