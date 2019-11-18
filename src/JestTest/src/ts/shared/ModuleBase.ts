@@ -397,6 +397,8 @@ export class ModuleBase {
                         else {
                             globalKey = globalKey + "~" + globalKeyValue;
                         }
+                        Logging.logInfo(`Registering Global Value:    key=${globalKey}     value=${JSON.stringify(openRecordResponse.record)}`);
+
                         this.globalScopeRef[globalKey] = openRecordResponse.record;
                     }
 

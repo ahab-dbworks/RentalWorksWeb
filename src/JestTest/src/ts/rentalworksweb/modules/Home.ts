@@ -1485,6 +1485,10 @@ export class TransferOrder extends HomeModule {
         let salesItemGrid: GridBase = new GridBase("Sales Item Grid", "TransferOrderItemGrid", ["S"]);
         salesItemGrid.waitAfterSavingToReloadGrid = 1500;
 
+        this.grids.push(rentalItemGrid);
+        this.grids.push(salesItemGrid);
+
+
         this.newRecordsToCreate = [
             {
                 record: {

@@ -174,6 +174,10 @@ export class TestUtils {
             const placeHolderString = '!x!x!x!x!x!';
             valueIn = valueIn.replace(globalScopeKeyString, placeHolderString);
             let globalScopeKey = globalScopeKeyString.toString().split('.');
+
+            Logging.logInfo(`Looking in global scope for key: ${globalScopeKey}`);
+
+
             let globalScopeKeyPart1 = globalScopeKey[1].toString();
             let globalScopeKeyPart2 = globalScopeKey[2].toString();
 
@@ -182,6 +186,9 @@ export class TestUtils {
             let globalScopeObject = globalScope[Object.keys(globalScope).find(key => key.toLowerCase() === globalScopeKeyPart1.toLowerCase())];
             let globalScopeValue = globalScopeObject[Object.keys(globalScopeObject).find(key => key.toLowerCase() === globalScopeKeyPart2.toLowerCase())];
             valueOut = valueIn.replace(placeHolderString, globalScopeValue);
+
+            Logging.logInfo(`Found global scope value: ${valueOut}`);
+
         }
         return valueOut;
     }
@@ -192,7 +199,7 @@ export class TestUtils {
         }
 
         try {
-            await page.waitFor(() => document.querySelector('.pleasewait'), { timeout: 5000 });
+            await page.waitFor(() => document.querySelector('.pleasewait'), { timeout: 3000 });
         } catch (error) { } // assume that we missed the Please Wait dialog
         await page.waitFor(() => !document.querySelector('.pleasewait'), { timeout: timeout });
     }

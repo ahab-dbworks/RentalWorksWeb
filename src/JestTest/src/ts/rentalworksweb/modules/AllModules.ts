@@ -19,10 +19,11 @@ export { RepairOrder } from '../modules/Home';
 export { SalesInventory } from '../modules/Home';
 
 //Home - Warehouse
+export { AssignBarCodes } from '../modules/FrontEnds';
 export { Contract } from '../modules/Home';
 export { PickList } from '../modules/Home';
-export { Staging } from '../modules/FrontEnds';
 export { ReceiveFromVendor } from '../modules/FrontEnds';
+export { Staging } from '../modules/FrontEnds';
 
 //Home - Container
 export { Container } from '../modules/Home';

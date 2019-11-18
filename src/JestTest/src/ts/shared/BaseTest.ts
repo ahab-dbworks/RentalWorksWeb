@@ -143,19 +143,19 @@ export abstract class BaseTest {
                 var findUserInputs: any = {
                     LoginName: process.env.RW_LOGIN
                 }
-		        
-		        let myAccount: any = this.globalScopeRef["User~ME"];  // check GlobalScope for myAccount to use (can be used to re-log during the middle of a test)
+
+                let myAccount: any = this.globalScopeRef["User~ME"];  // check GlobalScope for myAccount to use (can be used to re-log during the middle of a test)
                 if (myAccount != undefined) {  // if myAccount was established, then use it
                     findUserInputs.LoginName = myAccount.LoginName;
                 }
-                
-		        //await this.OpenSpecificRecord(userModule, findUserInputs, true, "ME", true);
+
+                //await this.OpenSpecificRecord(userModule, findUserInputs, true, "ME", true);
                 await userModule.openBrowse();
                 await userModule.browseSeek(findUserInputs);
                 await userModule.openRecord()
                     .then(openRecordResponse => {
-                            this.globalScopeRef["User~ME"] = openRecordResponse.record;
-                    //    }
+                        this.globalScopeRef["User~ME"] = openRecordResponse.record;
+                        //    }
                     });
                 await userModule.closeRecord();
             }, this.testTimeout);
