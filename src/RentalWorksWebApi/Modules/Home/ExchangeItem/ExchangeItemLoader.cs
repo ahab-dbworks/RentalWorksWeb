@@ -4,6 +4,8 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 using System.Collections.Generic;
+using WebLibrary;
+
 namespace WebApi.Modules.Home.ExchangeItem
 {
     [FwSqlTable("dbo.funcgetexchangedata2line(@exchangecontractid,'F')")]
@@ -34,8 +36,8 @@ namespace WebApi.Modules.Home.ExchangeItem
         [FwSqlDataField(column: "internalchar", modeltype: FwDataTypes.Boolean)]
         public bool? InternalChar { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "itemstatus", modeltype: FwDataTypes.Boolean)]
-        public bool? ItemStatus { get; set; }
+        [FwSqlDataField(column: "itemstatus", modeltype: FwDataTypes.Text)]
+        public string ItemStatus { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "contractid", modeltype: FwDataTypes.Text)]
         public string OutContractId { get; set; }
@@ -130,6 +132,9 @@ namespace WebApi.Modules.Home.ExchangeItem
         [FwSqlDataField(column: "consignoragreementid", modeltype: FwDataTypes.Text)]
         public string ConsignorAgreementId { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "barcodecolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string BarCodeColor { get; set; }
+        //------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
             useWithNoLock = false;
@@ -152,6 +157,32 @@ namespace WebApi.Modules.Home.ExchangeItem
             //addFilterToSelect("UniqueId", "uniqueid", select, request); 
 
             select.AddParameter("@exchangecontractid", ContractId);
+        }
+        //------------------------------------------------------------------------------------ 
+        private string getBarCodeColor(string exchangeItemStatus)
+        {
+            string barCodeColor = null;
+            if (exchangeItemStatus.Equals(RwConstants.EXCHANGE_PENDING_ITEM_STATUS))
+            {
+                barCodeColor = RwGlobals.PENDING_EXCHANGE_COLOR;
+            }
+            return barCodeColor;
+        }
+        //------------------------------------------------------------------------------------ 
+        public void OnAfterBrowse(object sender, AfterBrowseEventArgs e)
+        {
+            if (e.DataTable != null)
+            {
+                FwJsonDataTable dt = e.DataTable;
+                if (dt.Rows.Count > 0)
+                {
+                    foreach (List<object> row in dt.Rows)
+                    {
+                        string exchangeItemStatus = row[dt.GetColumnNo("ItemStatus")].ToString();
+                        row[dt.GetColumnNo("BarCodeColor")] = getBarCodeColor(exchangeItemStatus);
+                    }
+                }
+            }
         }
         //------------------------------------------------------------------------------------ 
     }

@@ -467,7 +467,7 @@
 
         //EXCHANGE
         public const int PENDING_EXCHANGE_COLOR = 8454143; // yellow
-
+        public const string EXCHANGE_PENDING_ITEM_STATUS = "P";
 
         //CUSTOM FORM
         public const string CUSTOM_FORM_ASSIGN_TO_ALL = "ALL";
