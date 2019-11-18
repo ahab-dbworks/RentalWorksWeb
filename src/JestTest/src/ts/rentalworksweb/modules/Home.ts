@@ -758,6 +758,12 @@ export class Contact extends HomeModule {
 }
 //---------------------------------------------------------------------------------------
 export class PurchaseOrder extends HomeModule {
+    rentalGrid: GridBase;
+    salesGrid: GridBase;
+    partsGrid: GridBase;
+    miscGrid: GridBase;
+    laborGrid: GridBase;
+    noteGrid: GridBase;
     //---------------------------------------------------------------------------------------
     constructor() {
         super();
@@ -765,20 +771,25 @@ export class PurchaseOrder extends HomeModule {
         this.moduleId = '9a0xOMvBM7Uh9';
         this.moduleCaption = 'Purchase Order';
         this.canDelete = false;
-        let rentalGrid: GridBase = new GridBase("Rental Inventory Grid", "OrderItemGrid", ["R", "purchase"]);
-        let salesGrid: GridBase = new GridBase("Sales Inventory Grid", "OrderItemGrid", ["S", "purchase"]);
-        let partsGrid: GridBase = new GridBase("Parts Inventory Grid", "OrderItemGrid", ["P", "purchase"]);
-        let miscGrid: GridBase = new GridBase("Miscellaneous Items Grid", "OrderItemGrid", ["M", "purchase"]);
-        let laborGrid: GridBase = new GridBase("Labor Items Grid", "OrderItemGrid", ["L", "purchase"]);
+        this.rentalGrid = new GridBase("Rental Inventory Grid", "OrderItemGrid", ["R", "purchase"]);
+        this.rentalGrid.waitAfterSavingToReloadGrid = 1500;
+        this.salesGrid = new GridBase("Sales Inventory Grid", "OrderItemGrid", ["S", "purchase"]);
+        this.salesGrid.waitAfterSavingToReloadGrid = 1500;
+        this.partsGrid = new GridBase("Parts Inventory Grid", "OrderItemGrid", ["P", "purchase"]);
+        this.partsGrid.waitAfterSavingToReloadGrid = 1500;
+        this.miscGrid = new GridBase("Miscellaneous Items Grid", "OrderItemGrid", ["M", "purchase"]);
+        this.miscGrid.waitAfterSavingToReloadGrid = 1500;
+        this.laborGrid = new GridBase("Labor Items Grid", "OrderItemGrid", ["L", "purchase"]);
+        this.laborGrid.waitAfterSavingToReloadGrid = 1500;
         //let contactGrid: GridBase = new GridBase("OrderContactGrid");
-        let noteGrid: GridBase = new GridBase("Note Grid", "OrderNoteGrid");
-        this.grids.push(rentalGrid);
-        this.grids.push(salesGrid);
-        this.grids.push(partsGrid);
-        this.grids.push(miscGrid);
-        this.grids.push(laborGrid);
+        this.noteGrid= new GridBase("Note Grid", "OrderNoteGrid");
+        this.grids.push(this.rentalGrid);
+        this.grids.push(this.salesGrid);
+        this.grids.push(this.partsGrid);
+        this.grids.push(this.miscGrid);
+        this.grids.push(this.laborGrid);
         //this.grids.push(contactGrid);
-        this.grids.push(noteGrid);
+        this.grids.push(this.noteGrid);
 
         this.newRecordsToCreate = [
             {
@@ -801,7 +812,7 @@ export class PurchaseOrder extends HomeModule {
 
         this.newRecordsToCreate[0].gridRecords = [
             {
-                grid: rentalGrid,
+                grid: this.rentalGrid,
                 recordToCreate: {
                     record: {
                         InventoryId: 4,
@@ -809,7 +820,7 @@ export class PurchaseOrder extends HomeModule {
                 }
             },
             {
-                grid: salesGrid,
+                grid: this.salesGrid,
                 recordToCreate: {
                     record: {
                         InventoryId: 3,
@@ -817,7 +828,7 @@ export class PurchaseOrder extends HomeModule {
                 }
             },
             {
-                grid: partsGrid,
+                grid: this.partsGrid,
                 recordToCreate: {
                     record: {
                         InventoryId: 3,
@@ -825,7 +836,7 @@ export class PurchaseOrder extends HomeModule {
                 }
             },
             {
-                grid: miscGrid,
+                grid: this.miscGrid,
                 recordToCreate: {
                     record: {
                         InventoryId: 1,
@@ -833,7 +844,7 @@ export class PurchaseOrder extends HomeModule {
                 }
             },
             {
-                grid: laborGrid,
+                grid: this.laborGrid,
                 recordToCreate: {
                     record: {
                         InventoryId: 1,
@@ -852,7 +863,7 @@ export class PurchaseOrder extends HomeModule {
             },
 			*/
             {
-                grid: noteGrid,
+                grid: this.noteGrid,
                 recordToCreate: {
                     record: {
                         NotesDescription: "GlobalScope.TestToken~1.TestToken",
@@ -1122,6 +1133,14 @@ export class PickList extends HomeModule {
         this.moduleId = 'bggVQOivrIgi';
         this.moduleCaption = 'Pick List';
         this.canNew = false;
+
+        let itemsGrid: GridBase = new GridBase("Items Grid", "PickListItemGrid");
+        itemsGrid.canNew = false;
+
+        this.grids.push(itemsGrid);
+
+
+
     }
     //---------------------------------------------------------------------------------------
 }

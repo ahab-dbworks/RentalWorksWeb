@@ -20,6 +20,7 @@ export { SalesInventory } from '../modules/Home';
 
 //Home - Warehouse
 export { Contract } from '../modules/Home';
+export { Exchange } from '../modules/FrontEnds';
 export { PickList } from '../modules/Home';
 
 //Home - Container
