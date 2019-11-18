@@ -23,8 +23,8 @@ namespace WebApi.Modules.Home.BillingWorksheet
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/billingworksheet/exportexcelxlsx/filedownloadname 
-        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        // POST api/v1/billingworksheet/exportexcelxlsx 
+        [HttpPost("exportexcelxlsx")]
         [FwControllerMethod(Id: "2DhrshWnhf5qO")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
