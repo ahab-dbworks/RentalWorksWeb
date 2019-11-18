@@ -63,3 +63,5 @@ FwFormField.getDataField($form, 'OfficeLocationId').data('getapiurl', () => 'api
 
 ## RentalWorks Color Codes
 - Purple: `#6a3aaf;`
+
+## 2019.1.1 stable branch
