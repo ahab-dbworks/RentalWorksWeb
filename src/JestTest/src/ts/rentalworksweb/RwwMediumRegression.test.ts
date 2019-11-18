@@ -25,7 +25,7 @@ import {
     WardrobeMaterial, WardrobePattern, WardrobePeriod, WardrobeSource, Warehouse, Widget, WorkWeek,
 
     //administrator
-    Alert, CustomField, CustomForm, DuplicateRule, EmailHistory, Group, Hotfix, User,
+    Alert, CustomField, CustomForm, CustomReportLayout, DuplicateRule, EmailHistory, Group, Hotfix, User,
 } from './modules/AllModules';
 import { SettingsModule } from '../shared/SettingsModule';
 
@@ -624,6 +624,7 @@ export class MediumRegressionTest extends BaseTest {
         this.MediumRegressionOnModule(new Alert());
         this.MediumRegressionOnModule(new CustomField());
         this.MediumRegressionOnModule(new CustomForm());
+        this.MediumRegressionOnModule(new CustomReportLayout());
         this.MediumRegressionOnModule(new DuplicateRule());
         this.MediumRegressionOnModule(new EmailHistory());
         this.MediumRegressionOnModule(new Group());
