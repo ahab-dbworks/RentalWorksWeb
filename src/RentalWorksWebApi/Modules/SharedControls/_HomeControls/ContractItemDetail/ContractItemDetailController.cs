@@ -40,7 +40,7 @@ namespace WebApi.Modules.HomeControls.ContractItemDetail
             return new OkObjectResult(legend);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/contractitemdetail/exportexcelxlsx/filedownloadname 
+        // POST api/v1/contractitemdetail/exportexcelxlsx 
         [HttpPost("exportexcelxlsx")]
         [FwControllerMethod(Id: "YAvXaedfvmus", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)

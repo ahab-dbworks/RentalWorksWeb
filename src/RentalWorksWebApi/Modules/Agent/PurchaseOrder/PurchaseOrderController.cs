@@ -45,7 +45,7 @@ namespace WebApi.Modules.Agent.PurchaseOrder
             return new OkObjectResult(legend);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/purchaseorder/exportexcelxlsx/filedownloadname 
+        // POST api/v1/purchaseorder/exportexcelxlsx 
         [HttpPost("exportexcelxlsx")]
         [FwControllerMethod(Id: "UoKvbRlRbt1bF", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)

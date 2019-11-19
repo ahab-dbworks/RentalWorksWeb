@@ -35,7 +35,7 @@ namespace WebApi.Modules.Inventory.PhysicalInventory
             return new OkObjectResult(legend);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/physicalinventory/exportexcelxlsx/filedownloadname 
+        // POST api/v1/physicalinventory/exportexcelxlsx 
         [HttpPost("exportexcelxlsx")]
         [FwControllerMethod(Id: "v62RNrqrfIF1", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)

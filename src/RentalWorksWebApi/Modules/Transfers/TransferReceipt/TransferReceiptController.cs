@@ -47,8 +47,8 @@ namespace WebApi.Modules.Transfers.TransferReceipt
             return new OkObjectResult(legend);
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/transferreceipt/exportexcelxlsx/filedownloadname
-        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        // POST api/v1/transferreceipt/exportexcelxlsx
+        [HttpPost("exportexcelxlsx")]
         [FwControllerMethod(Id: "BLpKFW1ozkAp", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {

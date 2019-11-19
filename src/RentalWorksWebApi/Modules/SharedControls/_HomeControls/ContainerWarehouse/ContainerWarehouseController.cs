@@ -23,7 +23,7 @@ namespace WebApi.Modules.HomeControls.ContainerWarehouse
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/containerwarehouse/exportexcelxlsx/filedownloadname 
+        // POST api/v1/containerwarehouse/exportexcelxlsx 
         [HttpPost("exportexcelxlsx")]
         [FwControllerMethod(Id:"UVZTgtNlkKHe", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)

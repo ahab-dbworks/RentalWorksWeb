@@ -23,7 +23,7 @@ namespace WebApi.Modules.HomeControls.PurchaseOrderReturnBarCode
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/purchaseorderreceivebarcode/exportexcelxlsx/filedownloadname 
+        // POST api/v1/purchaseorderreceivebarcode/exportexcelxlsx 
         [HttpPost("exportexcelxlsx")]
         [FwControllerMethod(Id:"DPl3TW16tsVTk", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)

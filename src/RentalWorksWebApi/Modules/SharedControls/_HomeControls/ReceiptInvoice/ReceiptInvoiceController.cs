@@ -24,7 +24,7 @@ namespace WebApi.Modules.HomeControls.ReceiptInvoice
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/receiptinvoice/exportexcelxlsx/filedownloadname 
+        // POST api/v1/receiptinvoice/exportexcelxlsx 
         [HttpPost("exportexcelxlsx")]
         [FwControllerMethod(Id: "TxHBxvExNQV")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)

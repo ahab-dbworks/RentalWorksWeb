@@ -23,7 +23,7 @@ namespace WebApi.Modules.HomeControls.CustomerCredit
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/customercredit/exportexcelxlsx/filedownloadname 
+        // POST api/v1/customercredit/exportexcelxlsx 
         [HttpPost("exportexcelxlsx")]
         [FwControllerMethod(Id: "yTRQbrcORbDa", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)

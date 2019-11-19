@@ -23,7 +23,7 @@ namespace WebApi.Modules.HomeControls.PhysicalInventoryInventory
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/physicalinventoryinventory/exportexcelxlsx/filedownloadname 
+        // POST api/v1/physicalinventoryinventory/exportexcelxlsx 
         [HttpPost("exportexcelxlsx")]
         [FwControllerMethod(Id: "31kDu5tRgsaYj", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)

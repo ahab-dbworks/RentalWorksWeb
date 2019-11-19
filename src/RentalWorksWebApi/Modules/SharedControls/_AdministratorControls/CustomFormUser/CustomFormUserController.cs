@@ -23,7 +23,7 @@ namespace WebApi.Modules.AdministratorControls.CustomFormUser
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/customformuser/exportexcelxlsx/filedownloadname 
+        // POST api/v1/customformuser/exportexcelxlsx 
         [HttpPost("exportexcelxlsx")]
         [FwControllerMethod(Id: "B5l2KgRvlVnz", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
