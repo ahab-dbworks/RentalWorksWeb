@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic;
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data;
-namespace WebApi.Modules.Settings.ProjectDrawings
+namespace WebApi.Modules.Settings.ProjectSettings.ProjectDrawings
 {
     [FwSqlTable("drawing")]
     public class ProjectDrawingsRecord : AppDataReadWriteRecord

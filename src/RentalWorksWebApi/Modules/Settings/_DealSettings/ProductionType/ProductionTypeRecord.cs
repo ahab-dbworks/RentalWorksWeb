@@ -2,7 +2,7 @@
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 
-namespace WebApi.Modules.Settings.ProductionType
+namespace WebApi.Modules.Settings.DealSettings.ProductionType
 {
     [FwSqlTable("prodtype")]
     public class ProductionTypeRecord : AppDataReadWriteRecord

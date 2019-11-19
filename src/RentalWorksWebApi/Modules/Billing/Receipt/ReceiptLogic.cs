@@ -8,9 +8,8 @@ using WebApi.Logic;
 using WebApi.Modules.Billing.Invoice;
 using WebApi.Modules.Home.DepositPayment;
 using WebApi.Modules.Home.InvoiceReceipt;
-using WebApi.Modules.Home.ReceiptCredit;
-using WebApi.Modules.Settings.PaymentType;
-using WebApi.Modules.Settings.SystemSettings;
+using WebApi.Modules.Settings.PaymentSettings.PaymentType;
+using WebApi.Modules.Settings.SystemSettings.SystemSettings;
 using WebLibrary;
 
 namespace WebApi.Modules.Billing.Receipt

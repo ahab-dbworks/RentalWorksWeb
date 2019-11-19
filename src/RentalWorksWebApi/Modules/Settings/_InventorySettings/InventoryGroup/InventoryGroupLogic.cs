@@ -1,6 +1,6 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
-namespace WebApi.Modules.Settings.InventoryGroup
+namespace WebApi.Modules.Settings.InventorySettings.InventoryGroup
 {
     [FwLogic(Id:"aZsueakG1nqK")]
     public class InventoryGroupLogic : AppBusinessLogic

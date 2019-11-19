@@ -1,9 +1,9 @@
 using FwStandard.AppManager;
-﻿using FwStandard.BusinessLogic;
+using FwStandard.BusinessLogic;
 using WebApi.Logic;
-using WebApi.Modules.Settings.InventoryType;
+using WebApi.Modules.Settings.InventorySettings.InventoryType;
 
-namespace WebApi.Modules.Settings.FacilityType
+namespace WebApi.Modules.Settings.FacilitySettings.FacilityType
 {
     [FwLogic(Id:"nAwu7gO72LKR")]
     public class FacilityTypeLogic : AppBusinessLogic

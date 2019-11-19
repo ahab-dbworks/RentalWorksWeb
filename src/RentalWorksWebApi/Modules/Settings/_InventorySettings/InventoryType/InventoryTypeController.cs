@@ -7,7 +7,7 @@ using Microsoft.Extensions.Options;
 using WebApi.Controllers;
 using System.Threading.Tasks;
 
-namespace WebApi.Modules.Settings.InventoryType
+namespace WebApi.Modules.Settings.InventorySettings.InventoryType
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "settings-v1")]

@@ -2,7 +2,7 @@
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 
-namespace WebApi.Modules.Settings.RepairItemStatus
+namespace WebApi.Modules.Settings.RepairSettings.RepairItemStatus
 {
     [FwSqlTable("repairitemstatus")]
     public class RepairItemStatusRecord : AppDataReadWriteRecord

@@ -1,7 +1,7 @@
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-namespace WebApi.Modules.Settings.Crew
+namespace WebApi.Modules.Settings.LaborSettings.Crew
 {
     [FwSqlTable("crew")]
     public class CrewRecord : AppDataReadWriteRecord

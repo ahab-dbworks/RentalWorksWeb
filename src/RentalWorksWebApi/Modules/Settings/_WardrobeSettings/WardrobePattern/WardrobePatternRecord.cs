@@ -2,7 +2,7 @@
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 
-namespace WebApi.Modules.Settings.WardrobePattern
+namespace WebApi.Modules.Settings.WardrobeSettings.WardrobePattern
 {
     [FwSqlTable("pattern")]
     public class WardrobePatternRecord : AppDataReadWriteRecord

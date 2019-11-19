@@ -1,7 +1,7 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Settings.WardrobeLabel
+namespace WebApi.Modules.Settings.WardrobeSettings.WardrobeLabel
 {
     [FwLogic(Id:"GlWN2vYS19sn6")]
     public class WardrobeLabelLogic : AppBusinessLogic

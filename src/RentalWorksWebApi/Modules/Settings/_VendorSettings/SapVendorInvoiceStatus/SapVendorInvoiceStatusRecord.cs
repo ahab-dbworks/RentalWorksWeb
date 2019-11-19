@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic;
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data;
-namespace WebApi.Modules.Settings.SapVendorInvoiceStatus
+namespace WebApi.Modules.Settings.VendorSettings.SapVendorInvoiceStatus
 {
     [FwSqlTable("sapvendorinvoicestatus")]
     public class SapVendorInvoiceStatusRecord : AppDataReadWriteRecord

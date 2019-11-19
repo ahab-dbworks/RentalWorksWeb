@@ -1,7 +1,7 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Settings.RepairItemStatus
+namespace WebApi.Modules.Settings.RepairSettings.RepairItemStatus
 {
     [FwLogic(Id:"XEtUv1jy9erwN")]
     public class RepairItemStatusLogic : AppBusinessLogic

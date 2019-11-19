@@ -8,7 +8,7 @@ using Microsoft.Extensions.Options;
 using WebApi.Controllers;
 using System.Threading.Tasks;
 
-namespace WebApi.Modules.Settings.CustomerType
+namespace WebApi.Modules.Settings.CustomerSettings.CustomerType
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "settings-v1")]

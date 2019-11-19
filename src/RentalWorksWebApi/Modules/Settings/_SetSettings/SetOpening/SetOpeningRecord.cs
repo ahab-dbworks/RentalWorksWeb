@@ -2,7 +2,7 @@
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 
-namespace WebApi.Modules.Settings.SetOpening
+namespace WebApi.Modules.Settings.SetSettings.SetOpening
 {
     [FwSqlTable("opening")]
     public class SetOpeningRecord : AppDataReadWriteRecord

@@ -1,6 +1,6 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
-namespace WebApi.Modules.Settings.ProjectDeposit
+namespace WebApi.Modules.Settings.ProjectSettings.ProjectDeposit
 {
     [FwLogic(Id:"u0Ho1ODhdCb8w")]
     public class ProjectDepositLogic : AppBusinessLogic

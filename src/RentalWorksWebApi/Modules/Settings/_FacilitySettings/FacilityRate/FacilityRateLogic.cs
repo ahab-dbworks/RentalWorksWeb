@@ -6,7 +6,7 @@ using WebApi.Modules.Home.Inventory;
 using WebApi.Modules.Settings.Rate;
 using WebLibrary;
 
-namespace WebApi.Modules.Settings.FacilityRate
+namespace WebApi.Modules.Settings.FacilitySettings.FacilityRate
 {
     public class FacilityRateLogic : RateLogic 
     {

@@ -5,7 +5,7 @@ using WebApi.Logic;
 using WebApi.Modules.Settings.ScheduleStatus;
 using WebLibrary;
 
-namespace WebApi.Modules.Settings.CrewScheduleStatus
+namespace WebApi.Modules.Settings.LaborSettings.CrewScheduleStatus
 {
     [FwLogic(Id:"gOnirA1oE6Mb")]
     public class CrewScheduleStatusLogic : AppBusinessLogic

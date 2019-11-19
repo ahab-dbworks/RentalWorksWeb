@@ -2,7 +2,7 @@
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 
-namespace WebApi.Modules.Settings.EventCategory
+namespace WebApi.Modules.Settings.EventSettings.EventCategory
 {
     [FwSqlTable("eventcategory")]
     public class EventCategoryRecord : AppDataReadWriteRecord

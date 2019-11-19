@@ -1,6 +1,6 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
-namespace WebApi.Modules.Settings.WorkWeek
+namespace WebApi.Modules.Settings.WorkWeekSettings.WorkWeek
 {
     [FwLogic(Id:"XrtjxvANp9VCI")]
     public class WorkWeekLogic : AppBusinessLogic

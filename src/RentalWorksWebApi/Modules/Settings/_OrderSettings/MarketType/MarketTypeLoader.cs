@@ -4,7 +4,7 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data; 
 using System.Collections.Generic;
-namespace WebApi.Modules.Settings.MarketType
+namespace WebApi.Modules.Settings.OrderSettings.MarketType
 {
     [FwSqlTable("markettypeview")]
     public class MarketTypeLoader : AppDataLoadRecord

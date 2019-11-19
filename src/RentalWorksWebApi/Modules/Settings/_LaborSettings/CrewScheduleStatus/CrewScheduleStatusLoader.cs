@@ -2,7 +2,7 @@
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 
-namespace WebApi.Modules.Settings.CrewScheduleStatus
+namespace WebApi.Modules.Settings.LaborSettings.CrewScheduleStatus
 {
     [FwSqlTable("crewschedulestatusview")]
     public class CrewScheduleStatusLoader: AppDataLoadRecord

@@ -4,7 +4,7 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 
-namespace WebApi.Modules.Settings.PropsCondition
+namespace WebApi.Modules.Settings.PropsSettings.PropsCondition
 {
     [FwSqlTable("condition")]
     public class PropsConditionLoader : AppDataLoadRecord

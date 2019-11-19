@@ -6,7 +6,7 @@ using WebApi.Modules.Home.Inventory;
 using WebApi.Modules.Settings.Rate;
 using WebLibrary;
 
-namespace WebApi.Modules.Settings.LaborRate
+namespace WebApi.Modules.Settings.LaborSettings.LaborRate
 {
     public class LaborRateLogic : RateLogic 
     {

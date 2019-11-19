@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic;
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data;
-namespace WebApi.Modules.Settings.WardrobeMaterial
+namespace WebApi.Modules.Settings.WardrobeSettings.WardrobeMaterial
 {
     [FwSqlTable("material")]
     public class WardrobeMaterialRecord : AppDataReadWriteRecord

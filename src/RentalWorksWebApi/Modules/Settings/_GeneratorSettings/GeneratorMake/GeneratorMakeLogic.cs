@@ -1,11 +1,10 @@
 using FwStandard.AppManager;
-﻿using FwStandard.BusinessLogic;
 using Newtonsoft.Json;
 using WebApi.Logic;
-using WebApi.Modules.Settings.VehicleMake;
+using WebApi.Modules.Settings.VehicleSettings.VehicleMake;
 using WebLibrary;
 
-namespace WebApi.Modules.Settings.GeneratorMake
+namespace WebApi.Modules.Settings.GeneratorSettings.GeneratorMake
 {
     [FwLogic(Id:"xTZqu0tXcxTA")]
     public class GeneratorMakeLogic : AppBusinessLogic

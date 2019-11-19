@@ -8,7 +8,7 @@ using WebApi.Modules.Home.Inventory;
 using WebApi.Modules.Settings.Rate;
 using System.Collections.Generic;
 
-namespace WebApi.Modules.Settings.Position
+namespace WebApi.Modules.Settings.LaborSettings.Position
 {
     public class PositionLoader : RateLoader
     {

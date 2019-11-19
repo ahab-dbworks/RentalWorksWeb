@@ -2,7 +2,7 @@
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 
-namespace WebApi.Modules.Settings.UserStatus
+namespace WebApi.Modules.Settings.UserSettings.UserStatus
 {
     [FwSqlTable("userresourcestatusview")]
     public class UserStatusLoader: AppDataLoadRecord

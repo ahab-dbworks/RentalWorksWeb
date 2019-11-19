@@ -1,6 +1,6 @@
 ﻿using FwStandard.Models;
 
-namespace WebApi.Modules.Settings.OfficeLocation
+namespace WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation
 {
     //------------------------------------------------------------------------------------
     public class GetManyOfficeLocationRequest : GetManyRequest

@@ -1,7 +1,7 @@
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data;
-namespace WebApi.Modules.Settings.PoRejectReason
+namespace WebApi.Modules.Settings.PoSettings.PoRejectReason
 {
     [FwSqlTable("porejectreason")]
     public class PoRejectReasonRecord : AppDataReadWriteRecord

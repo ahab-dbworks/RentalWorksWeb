@@ -1,7 +1,7 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Settings.OfficeLocation
+namespace WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation
 {
     [FwLogic(Id:"SsvsPskrsl1v")]
     public class OfficeLocationLogic : AppBusinessLogic

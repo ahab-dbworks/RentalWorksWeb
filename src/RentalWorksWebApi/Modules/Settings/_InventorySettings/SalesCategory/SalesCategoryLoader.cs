@@ -5,7 +5,7 @@ using FwStandard.SqlServer.Attributes;
 using WebApi.Modules.Settings.Category;
 using WebLibrary;
 
-namespace WebApi.Modules.Settings.SalesCategory
+namespace WebApi.Modules.Settings.InventorySettings.SalesCategory
 {
     public class SalesCategoryLoader: CategoryLoader
     {

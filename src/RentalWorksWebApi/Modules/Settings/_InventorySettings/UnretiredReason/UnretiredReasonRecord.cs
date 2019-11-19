@@ -2,7 +2,7 @@
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 
-namespace WebApi.Modules.Settings.UnretiredReason
+namespace WebApi.Modules.Settings.InventorySettings.UnretiredReason
 {
     [FwSqlTable("unretiredreason")]
     public class UnretiredReasonRecord : AppDataReadWriteRecord

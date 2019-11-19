@@ -1,5 +1,5 @@
 using FwStandard.AppManager;
-using WebApi.Modules.Home.Item;
+using WebApi.Modules.Inventory.Item;
 
 namespace WebApi.Modules.Home.ContainerItem
 {

@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebApi.Controllers;
 
-namespace WebApi.Modules.Settings.CustomerStatus
+namespace WebApi.Modules.Settings.CustomerSettings.CustomerStatus
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "settings-v1")]

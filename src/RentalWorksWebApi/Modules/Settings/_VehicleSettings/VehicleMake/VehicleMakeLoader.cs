@@ -2,7 +2,7 @@
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 
-namespace WebApi.Modules.Settings.VehicleMake
+namespace WebApi.Modules.Settings.VehicleSettings.VehicleMake
 {
     [FwSqlTable("vehiclemakeview")]
     public class VehicleMakeLoader: AppDataLoadRecord

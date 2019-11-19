@@ -4,7 +4,7 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 
-namespace WebApi.Modules.Settings.Attribute
+namespace WebApi.Modules.Settings.InventorySettings.Attribute
 {
     [FwSqlTable("attributeview")]
     public class AttributeLoader : AppDataLoadRecord

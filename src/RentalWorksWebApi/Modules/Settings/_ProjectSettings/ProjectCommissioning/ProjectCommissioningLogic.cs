@@ -1,6 +1,6 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
-namespace WebApi.Modules.Settings.ProjectCommissioning
+namespace WebApi.Modules.Settings.ProjectSettings.ProjectCommissioning
 {
     [FwLogic(Id:"qpj0egEFyvLP5")]
     public class ProjectCommissioningLogic : AppBusinessLogic

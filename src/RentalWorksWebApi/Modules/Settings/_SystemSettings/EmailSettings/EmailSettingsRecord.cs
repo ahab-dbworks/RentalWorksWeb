@@ -1,7 +1,7 @@
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-namespace WebApi.Modules.Settings.EmailSettings
+namespace WebApi.Modules.Settings.SystemSettings.EmailSettings
 {
     [FwSqlTable("emailreportcontrol")]
     public class EmailSettingsRecord : AppDataReadWriteRecord

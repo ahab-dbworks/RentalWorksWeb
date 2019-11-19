@@ -2,7 +2,7 @@
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 
-namespace WebApi.Modules.Settings.CreditStatus
+namespace WebApi.Modules.Settings.CustomerSettings.CreditStatus
 {
     [FwSqlTable("creditstatus")]
     public class CreditStatusRecord : AppDataReadWriteRecord

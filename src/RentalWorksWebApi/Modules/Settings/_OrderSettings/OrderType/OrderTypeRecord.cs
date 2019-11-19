@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic;
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data;
-namespace WebApi.Modules.Settings.OrderType
+namespace WebApi.Modules.Settings.OrderSettings.OrderType
 {
     [FwSqlTable("ordertype")]
     public class OrderTypeRecord : AppDataReadWriteRecord

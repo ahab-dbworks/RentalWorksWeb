@@ -2,7 +2,7 @@ using FwStandard.AppManager;
 ﻿using FwStandard.BusinessLogic;
 using WebApi.Modules.Settings.Category;
 
-namespace WebApi.Modules.Settings.PartsCategory
+namespace WebApi.Modules.Settings.InventorySettings.PartsCategory
 {
     public class PartsCategoryLogic : CategoryLogic
     {

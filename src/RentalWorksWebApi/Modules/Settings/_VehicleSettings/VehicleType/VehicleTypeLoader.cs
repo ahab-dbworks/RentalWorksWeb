@@ -5,7 +5,7 @@ using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 using WebLibrary;
 
-namespace WebApi.Modules.Settings.VehicleType
+namespace WebApi.Modules.Settings.VehicleSettings.VehicleType
 {
     public class VehicleTypeLoader : VehicleTypeBaseLoader 
     {

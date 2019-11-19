@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 using WebApi.Logic;
 using WebApi.Modules.Settings.ResourceStatus;
 
-namespace WebApi.Modules.Settings.CrewStatus
+namespace WebApi.Modules.Settings.LaborSettings.CrewStatus
 {
     [FwLogic(Id:"Zs6srGWv6D8i")]
     public class CrewStatusLogic : AppBusinessLogic

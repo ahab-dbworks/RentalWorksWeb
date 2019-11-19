@@ -1,7 +1,7 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Settings.ProductionType
+namespace WebApi.Modules.Settings.DealSettings.ProductionType
 {
     [FwLogic(Id:"MKT1DNQpoiJ1g")]
     public class ProductionTypeLogic : AppBusinessLogic

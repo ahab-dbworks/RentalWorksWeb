@@ -4,7 +4,7 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data; 
 using System.Collections.Generic;
-namespace WebApi.Modules.Settings.VendorInvoiceApprover
+namespace WebApi.Modules.Settings.PoSettings.VendorInvoiceApprover
 {
     [FwSqlTable("vendorinvoiceapproverview")]
     public class VendorInvoiceApproverLoader : AppDataLoadRecord

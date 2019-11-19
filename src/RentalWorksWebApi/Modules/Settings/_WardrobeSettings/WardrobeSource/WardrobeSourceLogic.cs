@@ -1,7 +1,7 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Settings.WardrobeSource
+namespace WebApi.Modules.Settings.WardrobeSettings.WardrobeSource
 {
     [FwLogic(Id:"jCgJHslAe9pvn")]
     public class WardrobeSourceLogic : AppBusinessLogic

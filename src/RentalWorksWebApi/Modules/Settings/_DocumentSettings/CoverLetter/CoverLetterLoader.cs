@@ -4,7 +4,7 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 using System.Collections.Generic;
-namespace WebApi.Modules.Settings.CoverLetter
+namespace WebApi.Modules.Settings.DocumentSettings.CoverLetter
 {
     [FwSqlTable("coverletterview")]
     public class CoverLetterLoader : AppDataLoadRecord

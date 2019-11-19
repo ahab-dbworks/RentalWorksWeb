@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic;
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data;
-namespace WebApi.Modules.Settings.WallDescription
+namespace WebApi.Modules.Settings.SetSettings.WallDescription
 {
     [FwSqlTable("walldescription")]
     public class WallDescriptionRecord : AppDataReadWriteRecord

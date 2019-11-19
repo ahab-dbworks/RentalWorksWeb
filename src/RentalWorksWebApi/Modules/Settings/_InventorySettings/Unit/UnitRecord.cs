@@ -2,7 +2,7 @@
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 
-namespace WebApi.Modules.Settings.Unit
+namespace WebApi.Modules.Settings.InventorySettings.Unit
 {
     [FwSqlTable("unit")]
     public class UnitRecord : AppDataReadWriteRecord

@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic;
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data;
-namespace WebApi.Modules.Settings.ProjectDeposit
+namespace WebApi.Modules.Settings.ProjectSettings.ProjectDeposit
 {
     [FwSqlTable("deposit")]
     public class ProjectDepositRecord : AppDataReadWriteRecord

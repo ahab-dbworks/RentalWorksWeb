@@ -1,6 +1,6 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
-namespace WebApi.Modules.Settings.OrderLocation
+namespace WebApi.Modules.Settings.OrderSettings.OrderLocation
 {
     [FwLogic(Id:"s1JjHpmTfUF1")]
     public class OrderLocationLogic : AppBusinessLogic

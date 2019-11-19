@@ -9,7 +9,7 @@ using WebApi.Modules.Settings.Rate;
 using System.Collections.Generic;
 using WebLibrary;
 
-namespace WebApi.Modules.Settings.MiscRate
+namespace WebApi.Modules.Settings.MiscellenousSettings.MiscRate
 {
     public class MiscRateLoader : RateLoader
     {

@@ -2,7 +2,7 @@
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 
-namespace WebApi.Modules.Settings.Department
+namespace WebApi.Modules.Settings.CompanyDepartmentSettings.Department
 {
     [FwSqlTable("department")]
     public class DepartmentRecord : AppDataReadWriteRecord

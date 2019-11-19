@@ -2,7 +2,7 @@
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 
-namespace WebApi.Modules.Settings.LicenseClass
+namespace WebApi.Modules.Settings.VehicleSettings.LicenseClass
 {
     [FwSqlTable("licclass")]
     public class LicenseClassRecord : AppDataReadWriteRecord

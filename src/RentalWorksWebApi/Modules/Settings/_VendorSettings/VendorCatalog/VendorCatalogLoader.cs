@@ -5,7 +5,7 @@ using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 using System.Collections.Generic;
 
-namespace WebApi.Modules.Settings.VendorCatalog
+namespace WebApi.Modules.Settings.VendorSettings.VendorCatalog
 {
     [FwSqlTable("vendorcatalogview")]
     public class VendorCatalogLoader : AppDataLoadRecord

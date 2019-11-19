@@ -1,6 +1,6 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
-namespace WebApi.Modules.Settings.WallDescription
+namespace WebApi.Modules.Settings.SetSettings.WallDescription
 {
     [FwLogic(Id:"8MlOQD5RvFlci")]
     public class WallDescriptionLogic : AppBusinessLogic

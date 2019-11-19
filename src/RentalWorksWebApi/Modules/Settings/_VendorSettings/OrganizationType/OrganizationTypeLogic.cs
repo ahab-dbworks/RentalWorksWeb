@@ -1,7 +1,7 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Settings.OrganizationType
+namespace WebApi.Modules.Settings.VendorSettings.OrganizationType
 {
     [FwLogic(Id:"XMZKLuAYCa0a")]
     public class OrganizationTypeLogic : AppBusinessLogic

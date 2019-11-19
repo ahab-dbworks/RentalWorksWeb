@@ -2,7 +2,7 @@
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 
-namespace WebApi.Modules.Settings.DiscountReason
+namespace WebApi.Modules.Settings.OrderSettings.DiscountReason
 {
     [FwSqlTable("invoicediscountreason")]
     public class DiscountReasonRecord : AppDataReadWriteRecord

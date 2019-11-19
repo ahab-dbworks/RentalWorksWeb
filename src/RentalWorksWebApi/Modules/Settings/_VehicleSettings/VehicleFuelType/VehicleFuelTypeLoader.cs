@@ -2,7 +2,7 @@
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 
-namespace WebApi.Modules.Settings.VehicleFuelType
+namespace WebApi.Modules.Settings.VehicleSettings.VehicleFuelType
 {
     [FwSqlTable("vehiclefueltypeview")]
     public class VehicleFuelTypeLoader: AppDataLoadRecord

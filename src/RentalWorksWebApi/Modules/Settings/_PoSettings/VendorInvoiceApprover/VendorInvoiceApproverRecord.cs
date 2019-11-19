@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic;
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data;
-namespace WebApi.Modules.Settings.VendorInvoiceApprover
+namespace WebApi.Modules.Settings.PoSettings.VendorInvoiceApprover
 {
     [FwSqlTable("vendorinvoiceapprover")]
     public class VendorInvoiceApproverRecord : AppDataReadWriteRecord

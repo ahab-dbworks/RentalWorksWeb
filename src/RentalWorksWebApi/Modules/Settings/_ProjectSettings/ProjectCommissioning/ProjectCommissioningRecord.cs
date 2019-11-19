@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic;
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data;
-namespace WebApi.Modules.Settings.ProjectCommissioning
+namespace WebApi.Modules.Settings.ProjectSettings.ProjectCommissioning
 {
     [FwSqlTable("commissioning")]
     public class ProjectCommissioningRecord : AppDataReadWriteRecord

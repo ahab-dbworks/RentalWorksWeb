@@ -1,10 +1,10 @@
 using FwStandard.AppManager;
-﻿using FwStandard.BusinessLogic;
+using FwStandard.BusinessLogic;
 using Newtonsoft.Json;
 using WebApi.Logic;
-using WebApi.Modules.Settings.InventoryCondition;
+using WebApi.Modules.Settings.InventorySettings.InventoryCondition;
 
-namespace WebApi.Modules.Settings.SetCondition
+namespace WebApi.Modules.Settings.SetSettings.SetCondition
 {
     [FwLogic(Id:"Q01xHN3xqyv3T")]
     public class SetConditionLogic : AppBusinessLogic

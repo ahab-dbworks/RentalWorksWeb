@@ -1,6 +1,6 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
-namespace WebApi.Modules.Settings.Sound
+namespace WebApi.Modules.Settings.UserSettings.Sound
 {
     [FwLogic(Id:"BaBkE3l3wT0PS")]
     public class SoundLogic : AppBusinessLogic

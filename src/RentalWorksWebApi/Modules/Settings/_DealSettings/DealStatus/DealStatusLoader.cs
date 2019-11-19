@@ -2,7 +2,7 @@
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 
-namespace WebApi.Modules.Settings.DealStatus
+namespace WebApi.Modules.Settings.DealSettings.DealStatus
 {
     [FwSqlTable("dealstatusview")]
     public class DealStatusLoader : AppDataLoadRecord

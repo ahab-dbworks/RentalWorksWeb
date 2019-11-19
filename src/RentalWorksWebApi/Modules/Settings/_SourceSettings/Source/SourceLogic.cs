@@ -2,7 +2,7 @@ using FwStandard.AppManager;
 using FwStandard.SqlServer;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Settings.Source
+namespace WebApi.Modules.Settings.SourceSettings.Source
 {
     [FwLogic(Id:"hCeEranysDNMc")]
     public class SourceLogic : AppBusinessLogic

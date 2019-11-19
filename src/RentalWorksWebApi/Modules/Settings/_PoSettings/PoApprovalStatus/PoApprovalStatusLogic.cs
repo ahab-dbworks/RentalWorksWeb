@@ -1,6 +1,6 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
-namespace WebApi.Modules.Settings.PoApprovalStatus
+namespace WebApi.Modules.Settings.PoSettings.PoApprovalStatus
 {
     [FwLogic(Id:"iM7o82nMTHn3")]
     public class PoApprovalStatusLogic : AppBusinessLogic

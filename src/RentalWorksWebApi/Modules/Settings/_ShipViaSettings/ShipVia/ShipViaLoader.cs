@@ -5,7 +5,7 @@ using FwStandard.SqlServer.Attributes;
 using System;
 using System.Collections.Generic;
 
-namespace WebApi.Data.Settings
+namespace WebApi.Data.Settings.ShipViaSettings.ShipVia
 {
     [FwSqlTable("shipviaview")]
     public class ShipViaLoader : AppDataLoadRecord

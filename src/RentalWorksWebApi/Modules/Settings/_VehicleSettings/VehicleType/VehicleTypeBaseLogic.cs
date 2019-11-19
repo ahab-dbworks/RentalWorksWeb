@@ -6,7 +6,7 @@ using WebApi.Logic;
 using WebApi.Modules.Home.Master;
 using WebApi.Modules.Settings.Category;
 
-namespace WebApi.Modules.Settings.VehicleType
+namespace WebApi.Modules.Settings.VehicleSettings.VehicleType
 {
     [FwLogic(Id:"YPhuIYmoOkt")]
     public abstract class VehicleTypeBaseLogic: AppBusinessLogic

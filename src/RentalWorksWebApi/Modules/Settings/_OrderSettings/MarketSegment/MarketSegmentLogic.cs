@@ -1,6 +1,6 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
-namespace WebApi.Modules.Settings.MarketSegment
+namespace WebApi.Modules.Settings.OrderSettings.MarketSegment
 {
     [FwLogic(Id:"BQnbLso07yfx")]
     public class MarketSegmentLogic : AppBusinessLogic

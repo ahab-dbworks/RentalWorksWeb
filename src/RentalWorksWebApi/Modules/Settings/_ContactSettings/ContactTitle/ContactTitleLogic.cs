@@ -1,7 +1,7 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Settings.ContactTitle
+namespace WebApi.Modules.Settings.ContactSettings.ContactTitle
 {
     [FwLogic(Id:"DpcIACJfpPVp")]
     public class ContactTitleLogic : AppBusinessLogic

@@ -4,7 +4,7 @@ using System.Data;
 using System.Threading.Tasks;
 using WebApi.Data;
 
-namespace WebApi.Modules.Settings.CoverLetter
+namespace WebApi.Modules.Settings.DocumentSettings.CoverLetter
 {
     [FwSqlTable("coverletter")]
     public class CoverLetterRecord : AppDataReadWriteRecord

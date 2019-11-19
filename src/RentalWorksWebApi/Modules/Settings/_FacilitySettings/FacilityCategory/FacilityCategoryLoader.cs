@@ -4,7 +4,7 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Modules.Settings.Category;
 
-namespace WebApi.Modules.Settings.FacilityCategory
+namespace WebApi.Modules.Settings.FacilitySettings.FacilityCategory
 {
     public class FacilityCategoryLoader: CategoryLoader
     {

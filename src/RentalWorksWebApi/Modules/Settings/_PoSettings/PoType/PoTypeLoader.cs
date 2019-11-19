@@ -1,12 +1,11 @@
-using FwStandard.Data; 
-using FwStandard.Models; 
-using FwStandard.SqlServer; 
-using FwStandard.SqlServer.Attributes; 
-using WebApi.Data;
-using WebApi.Modules.Settings.OrderType;
+using FwStandard.Data;
+using FwStandard.Models;
+using FwStandard.SqlServer;
+using FwStandard.SqlServer.Attributes;
 using System.Collections.Generic;
+using WebApi.Modules.Settings.OrderSettings.OrderType;
 
-namespace WebApi.Modules.Settings.PoType
+namespace WebApi.Modules.Settings.PoSettings.PoType
 {
     public class PoTypeLoader : OrderTypeBaseLoader
     {

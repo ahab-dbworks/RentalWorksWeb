@@ -1,6 +1,6 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
-namespace WebApi.Modules.Settings.WallType
+namespace WebApi.Modules.Settings.SetSettings.WallType
 {
     [FwLogic(Id:"pXisPynEBhkPA")]
     public class WallTypeLogic : AppBusinessLogic

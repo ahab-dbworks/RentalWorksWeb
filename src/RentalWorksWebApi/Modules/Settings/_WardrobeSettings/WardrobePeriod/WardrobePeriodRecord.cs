@@ -2,7 +2,7 @@
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 
-namespace WebApi.Modules.Settings.WardrobePeriod
+namespace WebApi.Modules.Settings.WardrobeSettings.WardrobePeriod
 {
     [FwSqlTable("period")]
     public class WardrobePeriodRecord : AppDataReadWriteRecord

@@ -1,6 +1,6 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
-using RRentalWorksWebApi.Modules.Settings.PaymentTerms;
+using RRentalWorksWebApi.Modules.Settings.PaymentSettings.PaymentTerms;
 
 namespace WebApi.Modules.Settings.PaymentTerms
 {

@@ -1,7 +1,7 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Settings.UnretiredReason
+namespace WebApi.Modules.Settings.InventorySettings.UnretiredReason
 {
     [FwLogic(Id:"QmwZR9CsWL70j")]
     public class UnretiredReasonLogic : AppBusinessLogic

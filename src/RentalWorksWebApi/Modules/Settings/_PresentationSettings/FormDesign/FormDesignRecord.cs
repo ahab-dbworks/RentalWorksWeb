@@ -2,7 +2,7 @@
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 
-namespace WebApi.Modules.Settings.FormDesign
+namespace WebApi.Modules.Settings.PresentationSettings.FormDesign
 {
     [FwSqlTable("formdesign")]
     public class FormDesignRecord : AppDataReadWriteRecord

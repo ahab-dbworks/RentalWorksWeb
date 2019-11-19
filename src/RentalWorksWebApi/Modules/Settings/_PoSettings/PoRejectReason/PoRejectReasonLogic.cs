@@ -1,6 +1,6 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
-namespace WebApi.Modules.Settings.PoRejectReason
+namespace WebApi.Modules.Settings.PoSettings.PoRejectReason
 {
     [FwLogic(Id:"vlJ3478DbYlS")]
     public class PoRejectReasonLogic : AppBusinessLogic

@@ -2,7 +2,7 @@
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 
-namespace WebApi.Modules.Settings.State
+namespace WebApi.Modules.Settings.AddressSettings.State
 {
     [FwSqlTable("state")]
     public class StateRecord : AppDataReadWriteRecord

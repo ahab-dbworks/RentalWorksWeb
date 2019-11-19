@@ -1,8 +1,8 @@
 using FwStandard.AppManager;
-using WebApi.Data.Settings;
+using WebApi.Data.Settings.PaymentSettings.PaymentType;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Settings.PaymentType
+namespace WebApi.Modules.Settings.PaymentSettings.PaymentType
 {
     [FwLogic(Id:"vjb0v4uLTk6O")]
     public class PaymentTypeLogic : AppBusinessLogic

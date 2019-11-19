@@ -1,6 +1,6 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
-namespace WebApi.Modules.Settings.GlDistributionRule
+namespace WebApi.Modules.Settings.AccountingSettings.GlDistributionRule
 {
     [FwLogic(Id:"VaIT9Ka9gJHt")]
     public class GlDistributionRuleLogic : AppBusinessLogic

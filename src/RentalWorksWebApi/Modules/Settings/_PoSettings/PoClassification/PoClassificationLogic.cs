@@ -1,7 +1,7 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Settings.PoClassification
+namespace WebApi.Modules.Settings.PoSettings.PoClassification
 {
     [FwLogic(Id:"aVOcxqvHYF0n")]
     public class PoClassificationLogic : AppBusinessLogic

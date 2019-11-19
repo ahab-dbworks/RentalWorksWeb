@@ -5,7 +5,7 @@ using WebApi.Logic;
 using WebApi.Modules.Home.DealOrder;
 using WebLibrary;
 
-namespace WebApi.Modules.Settings.Template
+namespace WebApi.Modules.Settings.TemplateSettings.Template
 {
     [FwLogic(Id:"8TDUl9uGziWvw")]
     public class TemplateLogic : AppBusinessLogic

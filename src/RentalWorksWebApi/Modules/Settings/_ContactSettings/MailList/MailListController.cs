@@ -7,7 +7,7 @@ using WebApi.Controllers;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
-namespace WebApi.Modules.Settings.MailList
+namespace WebApi.Modules.Settings.ContactSettings.MailList
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "settings-v1")]

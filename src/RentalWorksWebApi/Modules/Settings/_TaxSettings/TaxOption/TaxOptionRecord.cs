@@ -4,7 +4,7 @@ using WebApi.Data;
 using System.Data;
 using System.Threading.Tasks;
 
-namespace WebApi.Modules.Settings.TaxOption
+namespace WebApi.Modules.Settings.TaxSettings.TaxOption
 {
     [FwSqlTable("taxoption")]
     public class TaxOptionRecord : AppDataReadWriteRecord

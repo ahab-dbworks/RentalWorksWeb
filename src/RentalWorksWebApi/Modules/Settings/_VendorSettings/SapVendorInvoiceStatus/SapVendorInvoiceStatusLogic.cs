@@ -1,6 +1,6 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
-namespace WebApi.Modules.Settings.SapVendorInvoiceStatus
+namespace WebApi.Modules.Settings.VendorSettings.SapVendorInvoiceStatus
 {
     [FwLogic(Id:"kQJc1t5kB5Ult")]
     public class SapVendorInvoiceStatusLogic : AppBusinessLogic

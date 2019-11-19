@@ -1,10 +1,9 @@
 using FwStandard.AppManager;
-﻿using FwStandard.BusinessLogic;
 using Newtonsoft.Json;
 using WebApi.Logic;
 using WebApi.Modules.Settings.ResourceStatus;
 
-namespace WebApi.Modules.Settings.FacilityStatus
+namespace WebApi.Modules.Settings.FacilitySettings.FacilityStatus
 {
     [FwLogic(Id:"NMgY3ZJk2Tl")]
     public class FacilityStatusLogic : AppBusinessLogic

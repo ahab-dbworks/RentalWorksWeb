@@ -2,7 +2,7 @@ using FwStandard.AppManager;
 ﻿using FwStandard.BusinessLogic;
 using WebApi.Modules.Settings.Category;
 
-namespace WebApi.Modules.Settings.LaborCategory
+namespace WebApi.Modules.Settings.LaborSettings.LaborCategory
 {
     public class LaborCategoryLogic : CategoryLogic
     {

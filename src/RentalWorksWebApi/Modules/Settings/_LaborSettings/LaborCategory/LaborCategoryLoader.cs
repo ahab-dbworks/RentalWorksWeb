@@ -4,7 +4,7 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Modules.Settings.Category;
 
-namespace WebApi.Modules.Settings.LaborCategory
+namespace WebApi.Modules.Settings.LaborSettings.LaborCategory
 {
     public class LaborCategoryLoader: CategoryLoader
     {

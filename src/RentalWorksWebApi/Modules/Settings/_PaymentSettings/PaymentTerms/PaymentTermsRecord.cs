@@ -2,7 +2,7 @@
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 
-namespace RRentalWorksWebApi.Modules.Settings.PaymentTerms
+namespace RRentalWorksWebApi.Modules.Settings.PaymentSettings.PaymentTerms
 {
     [FwSqlTable("payterms")]
     public class PaymentTermsRecord : AppDataReadWriteRecord

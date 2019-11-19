@@ -10,7 +10,7 @@ using System;
 using Microsoft.AspNetCore.Http;
 using System.Text;
 
-namespace WebApi.Modules.Settings.OrderType
+namespace WebApi.Modules.Settings.OrderSettings.OrderType
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "settings-v1")]

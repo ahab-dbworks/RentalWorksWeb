@@ -1,7 +1,7 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Settings.SetSurface
+namespace WebApi.Modules.Settings.SetSettings.SetSurface
 {
     [FwLogic(Id:"6Obd1B41X0Ypg")]
     public class SetSurfaceLogic : AppBusinessLogic

@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 using WebApi.Logic;
 using WebApi.Modules.Settings.VehicleModel;
 
-namespace WebApi.Modules.Settings.GeneratorModel
+namespace WebApi.Modules.Settings.GeneratorSettings.GeneratorModel
 {
     [FwLogic(Id:"vEXoCFBfuq7j")]
     public class GeneratorModelLogic : AppBusinessLogic

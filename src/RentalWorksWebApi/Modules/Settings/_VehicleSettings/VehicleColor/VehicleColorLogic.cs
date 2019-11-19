@@ -4,7 +4,7 @@ using WebApi.Logic;
 using WebApi.Modules.Settings.Color;
 using WebLibrary;
 
-namespace WebApi.Modules.Settings.VehicleColor
+namespace WebApi.Modules.Settings.VehicleSettings.VehicleColor
 {
     [FwLogic(Id:"7joFkxCytT54u")]
     public class VehicleColorLogic : AppBusinessLogic

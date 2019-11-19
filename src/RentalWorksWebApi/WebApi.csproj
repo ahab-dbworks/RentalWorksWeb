@@ -82,7 +82,6 @@
 
   <ItemGroup>
     <Folder Include="Modules\Reports\" />
-    <Folder Include="Modules\SharedControls\" />
     <Folder Include="wwwroot\temp\downloads\" />
     <Folder Include="wwwroot\Reports\" />
   </ItemGroup>

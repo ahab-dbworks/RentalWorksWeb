@@ -6,7 +6,7 @@ using WebApi.Modules.Home.Inventory;
 using WebApi.Modules.Settings.Rate;
 using WebLibrary;
 
-namespace WebApi.Modules.Settings.MiscRate
+namespace WebApi.Modules.Settings.MiscellenousSettings.MiscRate
 {
     public class MiscRateLogic : RateLogic 
     {

@@ -1,6 +1,6 @@
 using WebApi.Logic;
 using FwStandard.AppManager;
-namespace WebApi.Modules.Settings.AccountingSettings
+namespace WebApi.Modules.Settings.AccountingSettings.AccountingSettings
 {
     [FwLogic(Id: "wiM02oPASbPis")]
     public class AccountingSettingsLogic : AppBusinessLogic

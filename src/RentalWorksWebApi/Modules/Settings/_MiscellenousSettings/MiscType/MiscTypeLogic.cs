@@ -1,9 +1,9 @@
 using FwStandard.AppManager;
-﻿using FwStandard.BusinessLogic;
+using FwStandard.BusinessLogic;
 using WebApi.Logic;
-using WebApi.Modules.Settings.InventoryType;
+using WebApi.Modules.Settings.InventorySettings.InventoryType;
 
-namespace WebApi.Modules.Settings.MiscType
+namespace WebApi.Modules.Settings.MiscellenousSettings.MiscType
 {
     [FwLogic(Id:"BYBJEtQsBtKE")]
     public class MiscTypeLogic : AppBusinessLogic

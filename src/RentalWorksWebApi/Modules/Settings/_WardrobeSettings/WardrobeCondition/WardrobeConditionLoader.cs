@@ -4,7 +4,7 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 
-namespace WebApi.Modules.Settings.WardrobeCondition
+namespace WebApi.Modules.Settings.WardrobeSettings.WardrobeCondition
 {
     [FwSqlTable("condition")]
     public class WardrobeConditionLoader : AppDataLoadRecord

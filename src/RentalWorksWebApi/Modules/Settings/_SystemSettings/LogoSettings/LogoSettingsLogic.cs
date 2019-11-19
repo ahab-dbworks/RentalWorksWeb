@@ -3,7 +3,7 @@ using FwStandard.BusinessLogic;
 using WebApi.Logic;
 using WebApi.Modules.Administrator.Control;
 
-namespace WebApi.Modules.Settings.LogoSettings
+namespace WebApi.Modules.Settings.SystemSettings.LogoSettings
 {
     [FwLogic(Id: "MntRC6TY09126")]
     public class LogoSettingsLogic : AppBusinessLogic

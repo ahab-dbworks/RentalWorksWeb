@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic;
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data;
-namespace WebApi.Modules.Settings.ProjectDropShipItems
+namespace WebApi.Modules.Settings.ProjectSettings.ProjectDropShipItems
 {
     [FwSqlTable("dropship")]
     public class ProjectDropShipItemsRecord : AppDataReadWriteRecord

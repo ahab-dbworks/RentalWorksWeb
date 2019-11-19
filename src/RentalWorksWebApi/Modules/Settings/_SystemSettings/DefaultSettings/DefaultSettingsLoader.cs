@@ -4,7 +4,7 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data;
 
-namespace WebApi.Modules.Settings.DefaultSettings
+namespace WebApi.Modules.Settings.SystemSettings.DefaultSettings
 {
     [FwSqlTable("controlview")]
     public class DefaultSettingsLoader : AppDataLoadRecord

@@ -4,7 +4,7 @@ using WebApi.Logic;
 using WebApi.Modules.Settings.ResourceStatus;
 using WebLibrary;
 
-namespace WebApi.Modules.Settings.VehicleStatus
+namespace WebApi.Modules.Settings.VehicleSettings.VehicleStatus
 {
     [FwLogic(Id:"DbukR2TY1PMGl")]
     public class VehicleStatusLogic : AppBusinessLogic

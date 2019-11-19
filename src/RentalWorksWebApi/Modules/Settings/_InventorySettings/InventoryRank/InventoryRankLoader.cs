@@ -4,7 +4,7 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data; 
 using System.Collections.Generic;
-namespace WebApi.Modules.Settings.InventoryRank
+namespace WebApi.Modules.Settings.InventorySettings.InventoryRank
 {
     [FwSqlTable("rankview")]
     public class InventoryRankLoader : AppDataLoadRecord

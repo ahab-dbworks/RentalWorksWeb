@@ -4,7 +4,7 @@ using System.Reflection;
 using WebApi.Logic;
 using WebLibrary;
 
-namespace WebApi.Modules.Settings.GlAccount
+namespace WebApi.Modules.Settings.AccountingSettings.GlAccount
 {
     [FwLogic(Id:"rWByCGXkw3aP")]
     public class GlAccountLogic : AppBusinessLogic

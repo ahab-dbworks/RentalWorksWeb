@@ -2,7 +2,7 @@
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 
-namespace WebApi.Modules.Settings.BillingCycle
+namespace WebApi.Modules.Settings.BillingCycleSettings.BillingCycle
 {
     [FwSqlTable("billingcycleview")]
     public class BillingCycleLoader : AppDataLoadRecord

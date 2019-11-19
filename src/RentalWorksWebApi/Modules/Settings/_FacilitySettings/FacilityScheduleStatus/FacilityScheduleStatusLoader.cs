@@ -2,7 +2,7 @@
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 
-namespace WebApi.Modules.Settings.FacilityScheduleStatus
+namespace WebApi.Modules.Settings.FacilitySettings.FacilityScheduleStatus
 {
     [FwSqlTable("facilityschedulestatusview")]
     public class FacilityScheduleStatusLoader: AppDataLoadRecord

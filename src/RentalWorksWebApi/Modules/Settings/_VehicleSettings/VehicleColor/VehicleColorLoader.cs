@@ -2,7 +2,7 @@
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 
-namespace WebApi.Modules.Settings.VehicleColor
+namespace WebApi.Modules.Settings.VehicleSettings.VehicleColor
 {
     [FwSqlTable("vehiclecolorview")]
     public class VehicleColorLoader: AppDataLoadRecord

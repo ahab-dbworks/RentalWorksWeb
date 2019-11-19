@@ -1,7 +1,7 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Settings.ContactEvent
+namespace WebApi.Modules.Settings.ContactSettings.ContactEvent
 {
     [FwLogic(Id:"C603FDXMTng1")]
     public class ContactEventLogic : AppBusinessLogic

@@ -2,7 +2,7 @@
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 
-namespace WebApi.Modules.Settings.GeneratorRating
+namespace WebApi.Modules.Settings.GeneratorSettings.GeneratorRating
 {
     [FwSqlTable("generatorratingview")]
     public class GeneratorRatingLoader: AppDataLoadRecord

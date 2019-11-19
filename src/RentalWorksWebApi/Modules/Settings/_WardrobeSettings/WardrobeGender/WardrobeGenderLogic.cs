@@ -1,7 +1,7 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Settings.WardrobeGender
+namespace WebApi.Modules.Settings.WardrobeSettings.WardrobeGender
 {
     [FwLogic(Id:"26gtbpqV1ejf6")]
     public class WardrobeGenderLogic : AppBusinessLogic

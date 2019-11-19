@@ -1,10 +1,10 @@
 using FwStandard.AppManager;
-﻿using FwStandard.BusinessLogic;
+using FwStandard.BusinessLogic;
 using Newtonsoft.Json;
 using WebApi.Logic;
-using WebApi.Modules.Settings.AppRole;
+using WebApi.Modules.Settings.PoSettings.AppRole;
 
-namespace WebApi.Modules.Settings.PoApproverRole
+namespace WebApi.Modules.Settings.PoSettings.PoApproverRole
 {
     [FwLogic(Id:"PZV7Ig6amENH")]
     public class PoApproverRoleLogic : AppBusinessLogic

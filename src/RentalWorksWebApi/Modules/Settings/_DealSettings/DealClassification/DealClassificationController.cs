@@ -8,7 +8,7 @@ using WebApi.Controllers;
 using System.Threading.Tasks;
 using FwStandard.SqlServer;
 
-namespace WebApi.Modules.Settings.DealClassification
+namespace WebApi.Modules.Settings.DealSettings.DealClassification
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "settings-v1")]

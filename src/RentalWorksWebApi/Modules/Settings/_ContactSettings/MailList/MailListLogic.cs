@@ -1,8 +1,8 @@
 using FwStandard.AppManager;
-using WebApi.Data.Settings;
+using WebApi.Data.Settings.ContactSettings.MailList;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Settings.MailList
+namespace WebApi.Modules.Settings.ContactSettings.MailList
 {
     [FwLogic(Id:"2CB6bfXITDyX")]
     public class MailListLogic : AppBusinessLogic

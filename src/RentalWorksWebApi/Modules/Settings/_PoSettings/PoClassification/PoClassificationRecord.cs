@@ -2,7 +2,7 @@
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 
-namespace WebApi.Modules.Settings.PoClassification
+namespace WebApi.Modules.Settings.PoSettings.PoClassification
 {
     [FwSqlTable("poclassification")]
     public class PoClassificationRecord : AppDataReadWriteRecord

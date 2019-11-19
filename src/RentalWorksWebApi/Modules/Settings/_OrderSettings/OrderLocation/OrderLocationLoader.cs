@@ -4,7 +4,7 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data; 
 using System.Collections.Generic;
-namespace WebApi.Modules.Settings.OrderLocation
+namespace WebApi.Modules.Settings.OrderSettings.OrderLocation
 {
     [FwSqlTable("dealorderlocationview")]
     public class OrderLocationLoader : AppDataLoadRecord

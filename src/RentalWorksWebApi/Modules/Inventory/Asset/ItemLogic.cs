@@ -4,7 +4,7 @@ using WebApi.Logic;
 using WebApi.Modules.Home.Purchase;
 using static FwStandard.Data.FwDataReadWriteRecord;
 
-namespace WebApi.Modules.Home.Item
+namespace WebApi.Modules.Inventory.Item
 {
     [FwLogic(Id:"5A523YbmjOwd")]
     public class ItemLogic : AppBusinessLogic

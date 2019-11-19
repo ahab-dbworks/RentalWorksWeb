@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic;
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data;
-namespace WebApi.Modules.Settings.OrderSetNo
+namespace WebApi.Modules.Settings.OrderSettings.OrderSetNo
 {
     [FwSqlTable("setno")]
     public class OrderSetNoRecord : AppDataReadWriteRecord

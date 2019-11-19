@@ -4,7 +4,7 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 using System.Collections.Generic;
-namespace WebApi.Modules.Settings.TermsConditions
+namespace WebApi.Modules.Settings.DocumentSettings.TermsConditions
 {
     [FwSqlTable("termsconditionsview")]
     public class TermsConditionsLoader : AppDataLoadRecord

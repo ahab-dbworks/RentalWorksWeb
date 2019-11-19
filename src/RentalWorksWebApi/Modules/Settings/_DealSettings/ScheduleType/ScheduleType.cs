@@ -2,7 +2,7 @@
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 
-namespace WebApi.Modules.Settings.ScheduleType
+namespace WebApi.Modules.Settings.DealSettings.ScheduleType
 {
     [FwSqlTable("scheduletype")]
     public class ScheduleTypeRecord : AppDataReadWriteRecord

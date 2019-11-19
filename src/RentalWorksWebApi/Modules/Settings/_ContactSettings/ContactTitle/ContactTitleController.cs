@@ -7,7 +7,7 @@ using Microsoft.Extensions.Options;
 using WebApi.Controllers;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-namespace WebApi.Modules.Settings.ContactTitle
+namespace WebApi.Modules.Settings.ContactSettings.ContactTitle
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "settings-v1")]

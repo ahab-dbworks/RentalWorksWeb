@@ -1,6 +1,6 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
-namespace WebApi.Modules.Settings.VendorInvoiceApprover
+namespace WebApi.Modules.Settings.PoSettings.VendorInvoiceApprover
 {
     [FwLogic(Id:"ygHVXqCX1oRho")]
     public class VendorInvoiceApproverLogic : AppBusinessLogic

@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic;
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data;
-namespace WebApi.Modules.Settings.InventoryGroup
+namespace WebApi.Modules.Settings.InventorySettings.InventoryGroup
 {
     [FwSqlTable("inventorygroup")]
     public class InventoryGroupRecord : AppDataReadWriteRecord

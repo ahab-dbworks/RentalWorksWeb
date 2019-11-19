@@ -2,7 +2,7 @@
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 
-namespace WebApi.Modules.Settings.Region
+namespace WebApi.Modules.Settings.RegionSettings.Region
 {
     [FwSqlTable("region")]
     public class RegionRecord : AppDataReadWriteRecord

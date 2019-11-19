@@ -1,7 +1,7 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Settings.Country
+namespace WebApi.Modules.Settings.AddressSettings.Country
 {
     [FwLogic(Id:"s366HPMxvrtP")]
     public class CountryLogic : AppBusinessLogic

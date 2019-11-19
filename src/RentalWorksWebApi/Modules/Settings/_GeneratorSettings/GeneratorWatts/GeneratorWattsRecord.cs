@@ -2,7 +2,7 @@
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 
-namespace WebApi.Modules.Settings.GeneratorWatts
+namespace WebApi.Modules.Settings.GeneratorSettings.GeneratorWatts
 {
     [FwSqlTable("watts")]
     public class GeneratorWattsRecord : AppDataReadWriteRecord

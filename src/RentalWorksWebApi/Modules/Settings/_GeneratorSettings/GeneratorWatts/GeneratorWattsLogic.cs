@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 using WebApi.Logic;
 using WebLibrary;
 
-namespace WebApi.Modules.Settings.GeneratorWatts
+namespace WebApi.Modules.Settings.GeneratorSettings.GeneratorWatts
 {
     [FwLogic(Id:"P4vLftwZDYW2")]
     public class GeneratorWattsLogic : AppBusinessLogic

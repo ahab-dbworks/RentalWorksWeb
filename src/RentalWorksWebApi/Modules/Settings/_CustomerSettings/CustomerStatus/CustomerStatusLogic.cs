@@ -4,7 +4,7 @@ using System.Reflection;
 using WebApi.Logic;
 using WebLibrary;
 
-namespace WebApi.Modules.Settings.CustomerStatus
+namespace WebApi.Modules.Settings.CustomerSettings.CustomerStatus
 {
     [FwLogic(Id: "B1jmkkVoHzEo")]
     public class CustomerStatusLogic : AppBusinessLogic

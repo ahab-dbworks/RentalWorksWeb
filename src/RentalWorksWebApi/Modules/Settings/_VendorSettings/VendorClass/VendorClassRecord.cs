@@ -2,7 +2,7 @@
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 
-namespace WebApi.Modules.Settings.VendorClass
+namespace WebApi.Modules.Settings.VendorSettings.VendorClass
 {
     [FwSqlTable("vendorclass")]
     public class VendorClassRecord : AppDataReadWriteRecord

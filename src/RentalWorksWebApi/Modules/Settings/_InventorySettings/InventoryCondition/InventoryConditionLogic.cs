@@ -3,7 +3,7 @@ using FwStandard.AppManager;
 using Newtonsoft.Json;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Settings.InventoryCondition
+namespace WebApi.Modules.Settings.InventorySettings.InventoryCondition
 {
     [FwLogic(Id:"TyGETIqJDgBJ")]
     public class InventoryConditionLogic : AppBusinessLogic

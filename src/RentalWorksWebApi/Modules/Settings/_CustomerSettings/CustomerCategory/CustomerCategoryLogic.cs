@@ -1,7 +1,7 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Settings.CustomerCategory
+namespace WebApi.Modules.Settings.CustomerSettings.CustomerCategory
 {
     [FwLogic(Id:"eyMpRjUk88li")]
     public class CustomerCategoryLogic : AppBusinessLogic

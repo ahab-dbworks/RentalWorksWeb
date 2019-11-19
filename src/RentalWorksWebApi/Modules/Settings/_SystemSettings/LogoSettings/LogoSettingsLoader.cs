@@ -4,7 +4,7 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data;
 
-namespace WebApi.Modules.Settings.LogoSettings
+namespace WebApi.Modules.Settings.SystemSettings.LogoSettings
 {
     [FwSqlTable("controlview")]
     public class LogoSettingsLoader : AppDataLoadRecord

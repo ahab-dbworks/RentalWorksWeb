@@ -4,7 +4,7 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 
-namespace WebApi.Modules.Settings.GlAccount
+namespace WebApi.Modules.Settings.AccountingSettings.GlAccount
 {
     [FwSqlTable("glaccount")]
     public class GlAccountRecord : AppDataReadWriteRecord

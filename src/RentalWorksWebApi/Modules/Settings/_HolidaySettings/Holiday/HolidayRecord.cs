@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic;
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data;
-namespace WebApi.Modules.Settings.Holiday
+namespace WebApi.Modules.Settings.HolidaySettings.Holiday
 {
     [FwSqlTable("holidaydefinition")]
     public class HolidayRecord : AppDataReadWriteRecord

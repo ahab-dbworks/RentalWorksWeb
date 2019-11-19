@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic;
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data;
-namespace WebApi.Modules.Settings.Building
+namespace WebApi.Modules.Settings.FacilitySettings.Building
 {
     [FwSqlTable("building")]
     public class BuildingRecord : AppDataReadWriteRecord

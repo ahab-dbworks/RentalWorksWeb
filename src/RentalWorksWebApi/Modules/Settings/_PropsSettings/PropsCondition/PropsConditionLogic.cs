@@ -1,10 +1,10 @@
 using FwStandard.AppManager;
-﻿using FwStandard.BusinessLogic;
+using FwStandard.BusinessLogic;
 using Newtonsoft.Json;
 using WebApi.Logic;
-using WebApi.Modules.Settings.InventoryCondition;
+using WebApi.Modules.Settings.InventorySettings.InventoryCondition;
 
-namespace WebApi.Modules.Settings.PropsCondition
+namespace WebApi.Modules.Settings.PropsSettings.PropsCondition
 {
     [FwLogic(Id:"5XfXG4pMV2H43")]
     public class PropsConditionLogic : AppBusinessLogic

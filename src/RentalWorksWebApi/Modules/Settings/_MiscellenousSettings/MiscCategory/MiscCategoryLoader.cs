@@ -4,7 +4,7 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Modules.Settings.Category;
 
-namespace WebApi.Modules.Settings.MiscCategory
+namespace WebApi.Modules.Settings.MiscellenousSettings.MiscCategory
 {
     public class MiscCategoryLoader: CategoryLoader
     {

@@ -8,7 +8,7 @@ using WebApi.Controllers;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
-namespace WebApi.Modules.Settings.DocumentType
+namespace WebApi.Modules.Settings.DocumentSettings.DocumentType
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "settings-v1")]

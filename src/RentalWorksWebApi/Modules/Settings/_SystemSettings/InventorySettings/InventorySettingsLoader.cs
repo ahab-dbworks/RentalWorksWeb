@@ -4,7 +4,7 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data;
 
-namespace WebApi.Modules.Settings.InventorySettings
+namespace WebApi.Modules.Settings.SystemSettings.InventorySettings
 {
     [FwSqlTable("controlview")]
     public class InventorySettingsLoader : AppDataLoadRecord

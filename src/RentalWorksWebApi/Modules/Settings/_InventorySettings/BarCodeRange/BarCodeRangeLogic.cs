@@ -1,6 +1,6 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
-namespace WebApi.Modules.Settings.BarCodeRange
+namespace WebApi.Modules.Settings.InventorySettings.BarCodeRange
 {
     [FwLogic(Id:"8sHokpTjH77")]
     public class BarCodeRangeLogic : AppBusinessLogic

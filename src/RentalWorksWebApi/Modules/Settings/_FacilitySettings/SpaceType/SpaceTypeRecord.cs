@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic;
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data;
-namespace WebApi.Modules.Settings.SpaceType
+namespace WebApi.Modules.Settings.FacilitySettings.SpaceType
 {
     [FwSqlTable("spacetype")]
     public class SpaceTypeRecord : AppDataReadWriteRecord

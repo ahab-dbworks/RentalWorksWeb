@@ -1,7 +1,7 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Settings.DiscountReason
+namespace WebApi.Modules.Settings.OrderSettings.DiscountReason
 {
     [FwLogic(Id:"EiUUjsQrVEop")]
     public class DiscountReasonLogic : AppBusinessLogic

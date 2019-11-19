@@ -7,7 +7,7 @@ using Microsoft.Extensions.Options;
 using WebApi.Controllers; 
 using System.Threading.Tasks;
 
-namespace WebApi.Modules.Settings.MiscRate
+namespace WebApi.Modules.Settings.MiscellenousSettings.MiscRate
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "settings-v1")]

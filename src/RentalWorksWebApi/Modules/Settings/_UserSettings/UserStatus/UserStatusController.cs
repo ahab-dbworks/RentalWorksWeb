@@ -1,13 +1,13 @@
 using FwStandard.AppManager;
-﻿using FwStandard.SqlServer;
-using System.Collections.Generic;
 using FwStandard.Models;
+using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using WebApi.Controllers;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using WebApi.Controllers;
 
-namespace WebApi.Modules.Settings.UserStatus
+namespace WebApi.Modules.Settings.UserSettings.UserStatus
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "settings-v1")]

@@ -1,10 +1,10 @@
 using FwStandard.AppManager;
-﻿using FwStandard.BusinessLogic;
+using FwStandard.BusinessLogic;
 using Newtonsoft.Json;
 using WebApi.Logic;
-using WebApi.Modules.Settings.InventoryCondition;
+using WebApi.Modules.Settings.InventorySettings.InventoryCondition;
 
-namespace WebApi.Modules.Settings.WardrobeCondition
+namespace WebApi.Modules.Settings.WardrobeSettings.WardrobeCondition
 {
     [FwLogic(Id:"4HBV4H0ofi8RU")]
     public class WardrobeConditionLogic : AppBusinessLogic

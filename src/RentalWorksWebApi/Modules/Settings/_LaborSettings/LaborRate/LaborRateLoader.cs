@@ -9,7 +9,7 @@ using WebApi.Modules.Settings.Rate;
 using System.Collections.Generic;
 using WebLibrary;
 
-namespace WebApi.Modules.Settings.LaborRate
+namespace WebApi.Modules.Settings.LaborSettings.LaborRate
 {
     public class LaborRateLoader : RateLoader
     {

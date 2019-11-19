@@ -5,7 +5,7 @@ using System.Reflection;
 using WebLibrary;
 using WebApi.Modules.Home.InventoryAvailability;
 
-namespace WebApi.Modules.Settings.AvailabilitySettings
+namespace WebApi.Modules.Settings.SystemSettings.AvailabilitySettings
 {
     [FwLogic(Id: "Z6m6LSSDjZQoO")]
     public class AvailabilitySettingsLogic : AppBusinessLogic

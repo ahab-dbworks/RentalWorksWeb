@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic;
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data;
-namespace WebApi.Modules.Settings.DiscountTemplate
+namespace WebApi.Modules.Settings.DiscountTemplateSettings.DiscountTemplate
 {
     [FwSqlTable("discounttemplate")]
     public class DiscountTemplateRecord : AppDataReadWriteRecord

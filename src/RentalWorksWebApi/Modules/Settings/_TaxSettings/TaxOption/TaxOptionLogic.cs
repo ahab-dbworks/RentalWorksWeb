@@ -6,7 +6,7 @@ using FwStandard.BusinessLogic;
 using System.Reflection;
 using WebLibrary;
 
-namespace WebApi.Modules.Settings.TaxOption
+namespace WebApi.Modules.Settings.TaxSettings.TaxOption
 {
     [FwLogic(Id:"4yhNNN27osykE")]
     public class TaxOptionLogic : AppBusinessLogic

@@ -4,7 +4,7 @@ using System.Data;
 using System.Threading.Tasks;
 using WebApi.Data;
 
-namespace WebApi.Modules.Settings.TermsConditions
+namespace WebApi.Modules.Settings.DocumentSettings.TermsConditions
 {
     [FwSqlTable("termsconditions")]
     public class TermsConditionsRecord : AppDataReadWriteRecord

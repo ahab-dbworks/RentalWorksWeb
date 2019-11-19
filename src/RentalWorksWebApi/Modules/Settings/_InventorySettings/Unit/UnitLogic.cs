@@ -1,7 +1,7 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Settings.Unit
+namespace WebApi.Modules.Settings.InventorySettings.Unit
 {
     [FwLogic(Id:"vgk2OGUGHsbeL")]
     public class UnitLogic : AppBusinessLogic

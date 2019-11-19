@@ -4,7 +4,7 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data; 
 using System.Collections.Generic;
-namespace WebApi.Modules.Settings.Crew
+namespace WebApi.Modules.Settings.LaborSettings.Crew
 {
     [FwSqlTable("crewview")]
     public class CrewLoader : AppDataLoadRecord

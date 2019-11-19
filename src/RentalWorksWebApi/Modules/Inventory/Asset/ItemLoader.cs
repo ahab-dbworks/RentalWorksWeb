@@ -1,6 +1,6 @@
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
-namespace WebApi.Modules.Home.Item
+namespace WebApi.Modules.Inventory.Item
 {
     [FwSqlTable("rentalitemwebview")]
     public class ItemLoader : ItemBrowseLoader

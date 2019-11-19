@@ -4,7 +4,7 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data; 
 using System.Collections.Generic;
-namespace WebApi.Modules.Settings.GlDistributionRule
+namespace WebApi.Modules.Settings.AccountingSettings.GlDistributionRule
 {
     [FwSqlTable("gldistributionview")]
     public class GlDistributionRuleLoader : AppDataLoadRecord

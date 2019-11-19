@@ -1,6 +1,6 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
-namespace WebApi.Modules.Settings.ProjectAsBuild
+namespace WebApi.Modules.Settings.ProjectSettings.ProjectAsBuild
 {
     [FwLogic(Id:"Mj6JHlcmlnoaU")]
     public class ProjectAsBuildLogic : AppBusinessLogic

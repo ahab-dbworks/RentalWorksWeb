@@ -4,7 +4,7 @@ using FwStandard.Models;
 using System.Reflection;
 using System.Threading.Tasks;
 using WebApi.Logic;
-using WebApi.Modules.Settings.OfficeLocation;
+using WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation;
 using WebLibrary;
 
 namespace WebApi.Modules.Agent.Customer

@@ -2,7 +2,7 @@ using FwStandard.AppManager;
 ﻿using FwStandard.BusinessLogic;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Settings.CoverLetter
+namespace WebApi.Modules.Settings.DocumentSettings.CoverLetter
 {
     [FwLogic(Id:"jlFDLeOUXuYO")]
     public class CoverLetterLogic : AppBusinessLogic

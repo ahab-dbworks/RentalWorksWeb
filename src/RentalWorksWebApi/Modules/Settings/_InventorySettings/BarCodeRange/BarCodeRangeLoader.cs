@@ -4,7 +4,7 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data; 
 using System.Collections.Generic;
-namespace WebApi.Modules.Settings.BarCodeRange
+namespace WebApi.Modules.Settings.InventorySettings.BarCodeRange
 {
     [FwSqlTable("barcoderangeview")]
     public class BarCodeRangeLoader : AppDataLoadRecord

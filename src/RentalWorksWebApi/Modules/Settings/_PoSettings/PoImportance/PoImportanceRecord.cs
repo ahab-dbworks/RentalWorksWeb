@@ -2,7 +2,7 @@
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 
-namespace WebApi.Modules.Settings.PoImportance
+namespace WebApi.Modules.Settings.PoSettings.PoImportance
 {
     [FwSqlTable("poimportance")]
     public class PoImportanceRecord : AppDataReadWriteRecord

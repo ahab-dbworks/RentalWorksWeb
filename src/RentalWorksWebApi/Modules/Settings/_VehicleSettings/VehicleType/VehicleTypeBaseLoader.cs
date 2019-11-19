@@ -4,7 +4,7 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 
-namespace WebApi.Modules.Settings.VehicleType
+namespace WebApi.Modules.Settings.VehicleSettings.VehicleType
 {
     [FwSqlTable("webvehicletypeview")]
     public abstract class VehicleTypeBaseLoader : AppDataLoadRecord

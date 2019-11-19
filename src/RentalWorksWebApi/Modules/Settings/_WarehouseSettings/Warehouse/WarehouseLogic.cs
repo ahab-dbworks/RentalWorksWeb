@@ -1,6 +1,6 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
-namespace WebApi.Modules.Settings.Warehouse
+namespace WebApi.Modules.Settings.WarehouseSettings.Warehouse
 {
     [FwLogic(Id:"KXduciqmVEuD4")]
     public class WarehouseLogic : AppBusinessLogic

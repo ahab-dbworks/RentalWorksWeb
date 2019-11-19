@@ -4,7 +4,7 @@ using System.Reflection;
 using WebApi.Logic;
 using WebLibrary;
 
-namespace WebApi.Modules.Settings.DealStatus
+namespace WebApi.Modules.Settings.DealSettings.DealStatus
 {
     [FwLogic(Id:"RItIXWi2BNLw")]
     public class DealStatusLogic : AppBusinessLogic

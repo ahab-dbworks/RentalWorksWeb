@@ -1,7 +1,7 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Settings.PoImportance
+namespace WebApi.Modules.Settings.PoSettings.PoImportance
 {
     [FwLogic(Id:"OTcwYvs2jOTb")]
     public class PoImportanceLogic : AppBusinessLogic

@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 using WebApi.Logic;
 using WebLibrary;
 
-namespace WebApi.Modules.Settings.VehicleMake
+namespace WebApi.Modules.Settings.VehicleSettings.VehicleMake
 {
     [FwLogic(Id:"MHET6iyz5fgcM")]
     public class VehicleMakeLogic : AppBusinessLogic

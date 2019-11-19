@@ -1,7 +1,7 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Settings.SetOpening
+namespace WebApi.Modules.Settings.SetSettings.SetOpening
 {
     [FwLogic(Id:"2m4MQpNQoImRH")]
     public class SetOpeningLogic : AppBusinessLogic

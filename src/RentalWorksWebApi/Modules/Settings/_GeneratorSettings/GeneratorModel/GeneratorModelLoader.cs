@@ -5,7 +5,7 @@ using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 using System.Collections.Generic;
 
-namespace WebApi.Modules.Settings.GeneratorModel
+namespace WebApi.Modules.Settings.GeneratorSettings.GeneratorModel
 {
     [FwSqlTable("generatormodelview")]
     public class GeneratorModelLoader : AppDataLoadRecord

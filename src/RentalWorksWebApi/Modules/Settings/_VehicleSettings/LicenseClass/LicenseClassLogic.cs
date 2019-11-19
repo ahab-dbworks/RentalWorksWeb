@@ -1,7 +1,7 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Settings.LicenseClass
+namespace WebApi.Modules.Settings.VehicleSettings.LicenseClass
 {
     [FwLogic(Id:"uJNJ7jNfJekd")]
     public class LicenseClassLogic : AppBusinessLogic

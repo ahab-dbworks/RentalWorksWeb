@@ -2,7 +2,7 @@
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 
-namespace WebApi.Modules.Settings.OfficeLocation
+namespace WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation
 {
     [FwSqlTable("location")]
     public class OfficeLocationRecord : AppDataReadWriteRecord

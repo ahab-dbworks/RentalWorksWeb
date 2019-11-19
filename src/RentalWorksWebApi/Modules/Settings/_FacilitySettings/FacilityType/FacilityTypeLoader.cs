@@ -4,7 +4,7 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 
-namespace WebApi.Modules.Settings.FacilityType
+namespace WebApi.Modules.Settings.FacilitySettings.FacilityType
 {
     [FwSqlTable("inventorydepartment")]
     public class FacilityTypeLoader: AppDataLoadRecord

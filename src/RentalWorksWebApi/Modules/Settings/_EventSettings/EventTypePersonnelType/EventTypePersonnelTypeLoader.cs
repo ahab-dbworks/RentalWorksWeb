@@ -4,7 +4,7 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data; 
 using System.Collections.Generic;
-namespace WebApi.Modules.Settings.EventTypePersonnelType
+namespace WebApi.Modules.Settings.EventSettings.EventTypePersonnelType
 {
     [FwSqlTable("ordertypepersonneltypeview")]
     public class EventTypePersonnelTypeLoader : AppDataLoadRecord

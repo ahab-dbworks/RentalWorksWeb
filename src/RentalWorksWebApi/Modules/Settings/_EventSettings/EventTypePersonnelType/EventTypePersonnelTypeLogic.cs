@@ -2,7 +2,7 @@ using FwStandard.AppManager;
 using WebApi.Logic;
 using WebApi.Modules.Settings.OrderTypePersonnelType;
 
-namespace WebApi.Modules.Settings.EventTypePersonnelType
+namespace WebApi.Modules.Settings.EventSettings.EventTypePersonnelType
 {
     [FwLogic(Id:"g66pvx1B7Gi")]
     public class EventTypePersonnelTypeLogic : AppBusinessLogic

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using FwStandard.SqlServer;
 
-namespace WebApi.Modules.Settings.State
+namespace WebApi.Modules.Settings.AddressSettings.State
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "settings-v1")]

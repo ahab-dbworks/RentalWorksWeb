@@ -2,7 +2,7 @@ using FwStandard.AppManager;
 ﻿using FwStandard.BusinessLogic;
 using WebApi.Modules.Settings.Category;
 
-namespace WebApi.Modules.Settings.RentalCategory
+namespace WebApi.Modules.Settings.InventorySettings.RentalCategory
 {
     public class RentalCategoryLogic : CategoryLogic
     {

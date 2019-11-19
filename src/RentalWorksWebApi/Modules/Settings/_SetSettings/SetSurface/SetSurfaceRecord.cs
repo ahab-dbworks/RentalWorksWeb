@@ -2,7 +2,7 @@
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 
-namespace WebApi.Modules.Settings.SetSurface
+namespace WebApi.Modules.Settings.SetSettings.SetSurface
 {
     [FwSqlTable("surface")]
     public class SetSurfaceRecord : AppDataReadWriteRecord

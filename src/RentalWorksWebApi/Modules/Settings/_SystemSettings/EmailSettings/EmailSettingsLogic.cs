@@ -3,7 +3,7 @@ using FwStandard.AppManager;
 using FwStandard.Modules.Administrator.Alert;
 using FwStandard.BusinessLogic;
 
-namespace WebApi.Modules.Settings.EmailSettings
+namespace WebApi.Modules.Settings.SystemSettings.EmailSettings
 {
     [FwLogic(Id: "K33XTFCoSEq6")]
     public class EmailSettingsLogic : AppBusinessLogic

@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic;
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data;
-namespace WebApi.Modules.Settings.PoApprovalStatus
+namespace WebApi.Modules.Settings.PoSettings.PoApprovalStatus
 {
     [FwSqlTable("poapprovalstatus")]
     public class PoApprovalStatusRecord : AppDataReadWriteRecord

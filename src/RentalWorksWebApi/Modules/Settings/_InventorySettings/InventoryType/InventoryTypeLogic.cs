@@ -2,7 +2,7 @@ using FwStandard.AppManager;
 ﻿using FwStandard.BusinessLogic;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Settings.InventoryType
+namespace WebApi.Modules.Settings.InventorySettings.InventoryType
 {
     [FwLogic(Id:"4Wwwk5wRJyO2")]
     public class InventoryTypeLogic : AppBusinessLogic

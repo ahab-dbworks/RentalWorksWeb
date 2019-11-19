@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebApi.Controllers;
 
-namespace WebApi.Modules.Settings.BillingCycle
+namespace WebApi.Modules.Settings.BillingCycleSettings.BillingCycle
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "settings-v1")]

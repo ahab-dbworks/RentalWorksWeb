@@ -1,6 +1,6 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
-namespace WebApi.Modules.Settings.Holiday
+namespace WebApi.Modules.Settings.HolidaySettings.Holiday
 {
     [FwLogic(Id:"w18TUTvl2Xwf")]
     public class HolidayLogic : AppBusinessLogic

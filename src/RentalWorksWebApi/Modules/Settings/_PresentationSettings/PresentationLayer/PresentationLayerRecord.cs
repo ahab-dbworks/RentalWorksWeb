@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic;
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data;
-namespace WebApi.Modules.Settings.PresentationLayer
+namespace WebApi.Modules.Settings.PresentationSettings.PresentationLayer
 {
     [FwSqlTable("presentationlayer")]
     public class PresentationLayerRecord : AppDataReadWriteRecord

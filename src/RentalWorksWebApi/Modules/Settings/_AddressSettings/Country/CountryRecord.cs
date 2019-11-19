@@ -2,7 +2,7 @@
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 
-namespace WebApi.Modules.Settings.Country
+namespace WebApi.Modules.Settings.AddressSettings.Country
 {
     [FwSqlTable("country")]
     public class CountryRecord : AppDataReadWriteRecord

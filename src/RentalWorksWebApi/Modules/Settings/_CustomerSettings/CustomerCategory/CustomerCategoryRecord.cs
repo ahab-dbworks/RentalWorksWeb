@@ -2,7 +2,7 @@
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 
-namespace WebApi.Modules.Settings.CustomerCategory
+namespace WebApi.Modules.Settings.CustomerSettings.CustomerCategory
 {
     [FwSqlTable("custcat")]
     public class CustomerCategoryRecord : AppDataReadWriteRecord

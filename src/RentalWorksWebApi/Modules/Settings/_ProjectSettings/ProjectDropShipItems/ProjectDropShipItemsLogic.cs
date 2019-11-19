@@ -1,6 +1,6 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
-namespace WebApi.Modules.Settings.ProjectDropShipItems
+namespace WebApi.Modules.Settings.ProjectSettings.ProjectDropShipItems
 {
     [FwLogic(Id:"oqUi44jNq91eq")]
     public class ProjectDropShipItemsLogic : AppBusinessLogic

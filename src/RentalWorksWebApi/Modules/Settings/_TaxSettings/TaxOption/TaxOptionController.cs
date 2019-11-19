@@ -10,7 +10,7 @@ using System;
 using System.Threading.Tasks;
 using WebApi.Controllers;
 
-namespace WebApi.Modules.Settings.TaxOption
+namespace WebApi.Modules.Settings.TaxSettings.TaxOption
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "settings-v1")]

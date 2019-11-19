@@ -14,8 +14,8 @@ using WebApi.Modules.Home.DealOrderDetail;
 using WebApi.Modules.Home.Delivery;
 using WebApi.Modules.Home.OrderDates;
 using WebApi.Modules.Home.Tax;
-using WebApi.Modules.Settings.DefaultSettings;
 using WebApi.Modules.Settings.OrderTypeDateType;
+using WebApi.Modules.Settings.SystemSettings.DefaultSettings;
 using WebLibrary;
 
 namespace WebApi.Modules.Agent.Order

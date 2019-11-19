@@ -3,7 +3,7 @@ using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-namespace WebApi.Modules.Settings.AccountingSettings
+namespace WebApi.Modules.Settings.AccountingSettings.AccountingSettings
 {
     [FwSqlTable("glcontrolview")]
     public class AccountingSettingsLoader : AppDataLoadRecord

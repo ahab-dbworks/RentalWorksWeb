@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic;
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data;
-namespace WebApi.Modules.Settings.ProjectItemsOrdered
+namespace WebApi.Modules.Settings.ProjectSettings.ProjectItemsOrdered
 {
     [FwSqlTable("itemordered")]
     public class ProjectItemsOrderedRecord : AppDataReadWriteRecord

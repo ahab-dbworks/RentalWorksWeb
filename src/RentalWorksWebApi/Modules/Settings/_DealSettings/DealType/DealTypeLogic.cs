@@ -1,7 +1,7 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Settings.DealType
+namespace WebApi.Modules.Settings.DealSettings.DealType
 {
     [FwLogic(Id:"CutJroZ4lNKc")]
     public class DealTypeLogic : AppBusinessLogic

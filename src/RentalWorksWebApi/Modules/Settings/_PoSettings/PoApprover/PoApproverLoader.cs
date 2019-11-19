@@ -4,7 +4,7 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data; 
 using System.Collections.Generic;
-namespace WebApi.Modules.Settings.PoApprover
+namespace WebApi.Modules.Settings.PoSettings.PoApprover
 {
     [FwSqlTable("poapproverview")]
     public class PoApproverLoader : AppDataLoadRecord

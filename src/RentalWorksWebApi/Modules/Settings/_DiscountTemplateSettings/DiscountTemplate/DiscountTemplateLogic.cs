@@ -1,6 +1,6 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
-namespace WebApi.Modules.Settings.DiscountTemplate
+namespace WebApi.Modules.Settings.DiscountTemplateSettings.DiscountTemplate
 {
     [FwLogic(Id:"RNWyfHOA9ZF0")]
     public class DiscountTemplateLogic : AppBusinessLogic

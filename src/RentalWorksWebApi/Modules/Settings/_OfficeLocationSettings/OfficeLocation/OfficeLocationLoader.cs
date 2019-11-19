@@ -3,7 +3,7 @@ using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-namespace WebApi.Modules.Settings.OfficeLocation
+namespace WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation
 {
     [FwSqlTable("locationview")]
     public class OfficeLocationLoader : AppDataLoadRecord

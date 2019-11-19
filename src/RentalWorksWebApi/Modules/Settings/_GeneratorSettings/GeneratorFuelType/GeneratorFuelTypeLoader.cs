@@ -2,7 +2,7 @@
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 
-namespace WebApi.Modules.Settings.GeneratorFuelType
+namespace WebApi.Modules.Settings.GeneratorSettings.GeneratorFuelType
 {
     [FwSqlTable("generatorfueltypeview")]
     public class GeneratorFuelTypeLoader: AppDataLoadRecord

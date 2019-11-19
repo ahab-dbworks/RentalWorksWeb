@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-namespace WebApi.Modules.Settings.WorkWeek
+namespace WebApi.Modules.Settings.WorkWeekSettings.WorkWeek
 {
     [FwSqlTable("workweek")]
     public class WorkWeekRecord : AppDataReadWriteRecord

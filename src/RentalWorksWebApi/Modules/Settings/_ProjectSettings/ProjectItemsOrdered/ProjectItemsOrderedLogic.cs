@@ -1,6 +1,6 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
-namespace WebApi.Modules.Settings.ProjectItemsOrdered
+namespace WebApi.Modules.Settings.ProjectSettings.ProjectItemsOrdered
 {
     [FwLogic(Id:"G68bAi6lbvzfq")]
     public class ProjectItemsOrderedLogic : AppBusinessLogic

@@ -1,7 +1,7 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Settings.CreditStatus
+namespace WebApi.Modules.Settings.CustomerSettings.CreditStatus
 {
     [FwLogic(Id:"LkEGdUJMMDql")]
     public class CreditStatusLogic : AppBusinessLogic

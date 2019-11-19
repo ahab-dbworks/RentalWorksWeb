@@ -2,7 +2,7 @@
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 
-namespace WebApi.Modules.Settings.WardrobeColor
+namespace WebApi.Modules.Settings.WardrobeSettings.WardrobeColor
 {
     [FwSqlTable("wardrobecolorview")]
     public class WardrobeColorLoader: AppDataLoadRecord

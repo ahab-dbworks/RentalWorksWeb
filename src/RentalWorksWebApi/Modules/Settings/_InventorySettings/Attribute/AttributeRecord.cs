@@ -2,7 +2,7 @@
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 
-namespace WebApi.Modules.Settings.Attribute
+namespace WebApi.Modules.Settings.InventorySettings.Attribute
 {
     [FwSqlTable("attribute")]
     public class AttributeRecord : AppDataReadWriteRecord

@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-namespace WebApi.Modules.Settings.Sound
+namespace WebApi.Modules.Settings.UserSettings.Sound
 {
     [FwSqlTable("sound")]
     public class SoundRecord : AppDataReadWriteRecord

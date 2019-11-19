@@ -1,7 +1,7 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Settings.VendorCatalog
+namespace WebApi.Modules.Settings.VendorSettings.VendorCatalog
 {
     [FwLogic(Id:"tmww2BzIhyrJW")]
     public class VendorCatalogLogic : AppBusinessLogic

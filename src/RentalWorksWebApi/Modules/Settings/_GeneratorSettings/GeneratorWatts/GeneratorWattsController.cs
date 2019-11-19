@@ -8,7 +8,7 @@ using WebApi.Controllers;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
-namespace WebApi.Modules.Settings.GeneratorWatts
+namespace WebApi.Modules.Settings.GeneratorSettings.GeneratorWatts
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "settings-v1")]

@@ -9,7 +9,7 @@ using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
-namespace WebApi.Modules.Settings.ContactEvent
+namespace WebApi.Modules.Settings.ContactSettings.ContactEvent
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "settings-v1")]

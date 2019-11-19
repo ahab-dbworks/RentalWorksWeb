@@ -4,7 +4,7 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Modules.Settings.Category;
 
-namespace WebApi.Modules.Settings.PartsCategory
+namespace WebApi.Modules.Settings.InventorySettings.PartsCategory
 {
     public class PartsCategoryLoader: CategoryLoader
     {

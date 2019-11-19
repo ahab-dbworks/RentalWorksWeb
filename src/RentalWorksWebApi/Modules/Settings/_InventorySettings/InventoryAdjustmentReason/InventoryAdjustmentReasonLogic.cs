@@ -1,7 +1,7 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Settings.InventoryAdjustmentReason
+namespace WebApi.Modules.Settings.InventorySettings.InventoryAdjustmentReason
 {
     [FwLogic(Id:"bp52rBlHYWEL")]
     public class InventoryAdjustmentReasonLogic : AppBusinessLogic

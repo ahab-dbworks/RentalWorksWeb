@@ -1,6 +1,6 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
-namespace WebApi.Modules.Settings.PresentationLayer
+namespace WebApi.Modules.Settings.PresentationSettings.PresentationLayer
 {
     [FwLogic(Id:"3EY8IbeYdEU9q")]
     public class PresentationLayerLogic : AppBusinessLogic

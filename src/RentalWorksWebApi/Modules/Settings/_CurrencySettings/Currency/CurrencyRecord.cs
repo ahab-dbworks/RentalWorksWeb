@@ -2,7 +2,7 @@
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 
-namespace WebApi.Modules.Settings.Currency
+namespace WebApi.Modules.Settings.CurrencySettings.Currency
 {
     [FwSqlTable("currency")]
     public class CurrencyRecord : AppDataReadWriteRecord

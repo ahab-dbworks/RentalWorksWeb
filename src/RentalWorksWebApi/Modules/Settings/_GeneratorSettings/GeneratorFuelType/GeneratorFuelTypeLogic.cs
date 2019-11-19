@@ -5,7 +5,7 @@ using WebApi.Logic;
 using WebApi.Modules.Settings.FuelType;
 using WebLibrary;
 
-namespace WebApi.Modules.Settings.GeneratorFuelType
+namespace WebApi.Modules.Settings.GeneratorSettings.GeneratorFuelType
 {
     [FwLogic(Id:"1cUb9tSvxnwU")]
     public class GeneratorFuelTypeLogic : AppBusinessLogic

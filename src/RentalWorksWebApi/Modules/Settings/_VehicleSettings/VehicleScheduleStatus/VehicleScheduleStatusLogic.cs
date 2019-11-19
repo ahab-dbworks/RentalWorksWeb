@@ -4,7 +4,7 @@ using WebApi.Logic;
 using WebApi.Modules.Settings.ScheduleStatus;
 using WebLibrary;
 
-namespace WebApi.Modules.Settings.VehicleScheduleStatus
+namespace WebApi.Modules.Settings.VehicleSettings.VehicleScheduleStatus
 {
     [FwLogic(Id:"6XWydFQkG3fSZ")]
     public class VehicleScheduleStatusLogic : AppBusinessLogic

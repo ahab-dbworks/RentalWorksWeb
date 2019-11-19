@@ -4,7 +4,7 @@ using FwStandard.SqlServer;
 using WebApi.Logic;
 using WebLibrary;
 
-namespace WebApi.Modules.Settings.InventoryStatus
+namespace WebApi.Modules.Settings.InventorySettings.InventoryStatus
 {
     [FwLogic(Id: "HALAz3U1K9yq")]
     public class InventoryStatusLogic : AppBusinessLogic

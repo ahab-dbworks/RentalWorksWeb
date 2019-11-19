@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic;
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data;
-namespace WebApi.Modules.Settings.WallType
+namespace WebApi.Modules.Settings.SetSettings.WallType
 {
     [FwSqlTable("walltype")]
     public class WallTypeRecord : AppDataReadWriteRecord

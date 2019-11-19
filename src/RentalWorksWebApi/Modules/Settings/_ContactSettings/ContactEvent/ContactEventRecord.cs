@@ -2,7 +2,7 @@
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 
-namespace WebApi.Modules.Settings.ContactEvent
+namespace WebApi.Modules.Settings.ContactSettings.ContactEvent
 {
     [FwSqlTable("contactevent")]
     public class ContactEventRecord : AppDataReadWriteRecord

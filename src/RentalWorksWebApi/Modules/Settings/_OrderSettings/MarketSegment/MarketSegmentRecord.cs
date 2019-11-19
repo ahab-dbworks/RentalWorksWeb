@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-namespace WebApi.Modules.Settings.MarketSegment
+namespace WebApi.Modules.Settings.OrderSettings.MarketSegment
 {
     [FwSqlTable("marketsegment")]
     public class MarketSegmentRecord : AppDataReadWriteRecord

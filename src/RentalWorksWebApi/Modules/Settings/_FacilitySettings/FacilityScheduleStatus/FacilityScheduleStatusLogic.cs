@@ -5,7 +5,7 @@ using WebApi.Logic;
 using WebApi.Modules.Settings.ScheduleStatus;
 using WebLibrary;
 
-namespace WebApi.Modules.Settings.FacilityScheduleStatus
+namespace WebApi.Modules.Settings.FacilitySettings.FacilityScheduleStatus
 {
     [FwLogic(Id:"Fbnjl7MYUu7")]
     public class FacilityScheduleStatusLogic : AppBusinessLogic

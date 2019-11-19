@@ -2,7 +2,7 @@
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 
-namespace WebApi.Modules.Settings.PhotographyType
+namespace WebApi.Modules.Settings.EventSettings.PhotographyType
 {
     [FwSqlTable("photographytype")]
     public class PhotographyTypeRecord : AppDataReadWriteRecord

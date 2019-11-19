@@ -1,7 +1,7 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Settings.ScheduleType
+namespace WebApi.Modules.Settings.DealSettings.ScheduleType
 {
     [FwLogic(Id:"fji5ac5mq8j4m")]
     public class ScheduleTypeLogic : AppBusinessLogic

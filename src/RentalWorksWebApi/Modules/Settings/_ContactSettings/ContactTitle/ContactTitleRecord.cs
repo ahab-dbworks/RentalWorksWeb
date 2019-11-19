@@ -2,7 +2,7 @@
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 
-namespace WebApi.Modules.Settings.ContactTitle
+namespace WebApi.Modules.Settings.ContactSettings.ContactTitle
 {
     [FwSqlTable("contacttitle")]
     public class ContactTitleRecord : AppDataReadWriteRecord

@@ -10,7 +10,7 @@ using System;
 using Microsoft.AspNetCore.Http;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Settings.Widget
+namespace WebApi.Modules.Settings.WidgetSettings.Widget
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "settings-v1")]

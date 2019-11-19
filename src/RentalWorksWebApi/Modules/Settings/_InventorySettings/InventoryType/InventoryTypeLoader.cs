@@ -4,7 +4,7 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 
-namespace WebApi.Modules.Settings.InventoryType
+namespace WebApi.Modules.Settings.InventorySettings.InventoryType
 {
     [FwSqlTable("dbo.funcinventorytype(@rectype)")]
     public class InventoryTypeLoader: AppDataLoadRecord

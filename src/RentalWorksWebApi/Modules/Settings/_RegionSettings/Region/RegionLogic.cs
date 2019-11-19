@@ -1,7 +1,7 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Settings.Region
+namespace WebApi.Modules.Settings.RegionSettings.Region
 {
     [FwLogic(Id:"SV7CVgc2K0JeX")]
     public class RegionLogic : AppBusinessLogic

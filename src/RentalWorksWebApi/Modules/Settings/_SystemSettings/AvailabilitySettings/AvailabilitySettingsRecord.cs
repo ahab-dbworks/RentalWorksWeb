@@ -1,7 +1,7 @@
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-namespace WebApi.Modules.Settings.AvailabilitySettings
+namespace WebApi.Modules.Settings.SystemSettings.AvailabilitySettings
 {
     [FwSqlTable("availabilitycontrol")]
     public class AvailabilitySettingsRecord : AppDataReadWriteRecord

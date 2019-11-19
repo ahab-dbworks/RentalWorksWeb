@@ -4,7 +4,7 @@ using Microsoft.Extensions.Options;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using WebApi.Modules.Settings.AvailabilitySettings;
+using WebApi.Modules.Settings.SystemSettings.AvailabilitySettings;
 using WebLibrary;
 
 namespace WebApi.Modules.Home.InventoryAvailability

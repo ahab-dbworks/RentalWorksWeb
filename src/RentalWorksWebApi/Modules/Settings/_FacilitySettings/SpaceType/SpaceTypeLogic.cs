@@ -1,6 +1,6 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
-namespace WebApi.Modules.Settings.SpaceType
+namespace WebApi.Modules.Settings.FacilitySettings.SpaceType
 {
     [FwLogic(Id:"91xWWU1Ykt3G5")]
     public class SpaceTypeLogic : AppBusinessLogic

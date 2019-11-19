@@ -1,7 +1,7 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Settings.Attribute
+namespace WebApi.Modules.Settings.InventorySettings.Attribute
 {
     [FwLogic(Id:"jZX9RL41g3A")]
     public class AttributeLogic : AppBusinessLogic

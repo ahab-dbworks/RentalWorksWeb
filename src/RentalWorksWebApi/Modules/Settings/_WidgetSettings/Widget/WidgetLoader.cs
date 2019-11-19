@@ -4,7 +4,7 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data; 
 using System.Collections.Generic;
-namespace WebApi.Modules.Settings.Widget
+namespace WebApi.Modules.Settings.WidgetSettings.Widget
 {
     [FwSqlTable("widgetview")]
     public class WidgetLoader : AppDataLoadRecord

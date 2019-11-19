@@ -1,8 +1,9 @@
 using FwStandard.AppManager;
 using WebApi.Data.Settings;
+using WebApi.Data.Settings.ShipViaSettings.ShipVia;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Settings.ShipVia
+namespace WebApi.Modules.Settings.ShipViaSettings.ShipVia
 {
     [FwLogic(Id:"tc6S14B8Je4yD")]
     public class ShipViaLogic : AppBusinessLogic

@@ -5,7 +5,7 @@ using WebApi.Logic;
 using WebApi.Modules.Settings.VehicleRating;
 using WebLibrary;
 
-namespace WebApi.Modules.Settings.GeneratorRating
+namespace WebApi.Modules.Settings.GeneratorSettings.GeneratorRating
 {
     [FwLogic(Id:"6Xt8fc9bXFCo")]
     public class GeneratorRatingLogic : AppBusinessLogic

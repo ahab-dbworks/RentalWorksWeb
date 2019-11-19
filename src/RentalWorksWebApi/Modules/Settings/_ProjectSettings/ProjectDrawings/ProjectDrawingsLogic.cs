@@ -1,6 +1,6 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
-namespace WebApi.Modules.Settings.ProjectDrawings
+namespace WebApi.Modules.Settings.ProjectSettings.ProjectDrawings
 {
     [FwLogic(Id:"ywwlGkGhMp8pq")]
     public class ProjectDrawingsLogic : AppBusinessLogic

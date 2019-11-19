@@ -3,11 +3,10 @@ using FwStandard.BusinessLogic;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using WebApi.Logic;
-using WebApi.Modules.Settings.OrderType;
+using WebApi.Modules.Settings.OrderSettings.OrderType;
 using WebApi.Modules.Settings.OrderTypeFields;
-using static FwStandard.Data.FwDataReadWriteRecord;
 
-namespace WebApi.Modules.Settings.PoType
+namespace WebApi.Modules.Settings.PoSettings.PoType
 {
     [FwLogic(Id:"ZDZ8gE8Nvt4sA")]
     public class PoTypeLogic : AppBusinessLogic

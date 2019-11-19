@@ -4,7 +4,7 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 using System.Collections.Generic;
-namespace WebApi.Modules.Settings.WorkWeek
+namespace WebApi.Modules.Settings.WorkWeekSettings.WorkWeek
 {
     [FwSqlTable("workweekview")]
     public class WorkWeekLoader : AppDataLoadRecord

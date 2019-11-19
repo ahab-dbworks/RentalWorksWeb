@@ -1,7 +1,7 @@
 ﻿using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 
-namespace WebApi.Data.Settings
+namespace WebApi.Data.Settings.ContactSettings.MailList
 {
     [FwSqlTable("maillist")]
     public class MailListRecord : AppDataReadWriteRecord

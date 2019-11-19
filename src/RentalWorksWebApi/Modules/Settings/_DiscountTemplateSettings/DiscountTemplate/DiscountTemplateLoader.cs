@@ -4,7 +4,7 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data; 
 using System.Collections.Generic;
-namespace WebApi.Modules.Settings.DiscountTemplate
+namespace WebApi.Modules.Settings.DiscountTemplateSettings.DiscountTemplate
 {
     [FwSqlTable("discounttemplateview")]
     public class DiscountTemplateLoader : AppDataLoadRecord

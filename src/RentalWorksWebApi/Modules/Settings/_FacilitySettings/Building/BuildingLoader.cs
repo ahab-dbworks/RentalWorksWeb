@@ -4,7 +4,7 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data; 
 using System.Collections.Generic;
-namespace WebApi.Modules.Settings.Building
+namespace WebApi.Modules.Settings.FacilitySettings.Building
 {
     [FwSqlTable("buildingview")]
     public class BuildingLoader : AppDataLoadRecord

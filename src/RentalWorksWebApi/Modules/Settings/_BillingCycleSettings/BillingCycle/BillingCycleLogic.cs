@@ -5,7 +5,7 @@ using WebApi.Logic;
 using WebApi.Modules.Settings.BillPeriod;
 using WebLibrary;
 
-namespace WebApi.Modules.Settings.BillingCycle
+namespace WebApi.Modules.Settings.BillingCycleSettings.BillingCycle
 {
     [FwLogic(Id: "v8jnO0G7ekh")]
     public class BillingCycleLogic : AppBusinessLogic

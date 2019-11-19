@@ -1,7 +1,7 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Settings.DocumentType
+namespace WebApi.Modules.Settings.DocumentSettings.DocumentType
 {
     [FwLogic(Id:"92OpQBW9eHuJ")]
     public class DocumentTypeLogic : AppBusinessLogic

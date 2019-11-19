@@ -1,7 +1,7 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Settings.Currency
+namespace WebApi.Modules.Settings.CurrencySettings.Currency
 {
     [FwLogic(Id:"osF6u7SxopZX")]
     public class CurrencyLogic : AppBusinessLogic

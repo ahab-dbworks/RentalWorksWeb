@@ -5,7 +5,7 @@ using FwStandard.SqlServer.Attributes;
 using System.Threading.Tasks;
 using WebApi.Data;
 
-namespace WebApi.Modules.Settings.CustomerType
+namespace WebApi.Modules.Settings.CustomerSettings.CustomerType
 {
     [FwSqlTable("custtype")]
     public class CustomerTypeRecord : AppDataReadWriteRecord

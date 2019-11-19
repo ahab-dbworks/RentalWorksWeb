@@ -8,7 +8,7 @@ using WebApi.Modules.Administrator.User;
 using WebApi.Modules.Agent.Contact;
 using WebLibrary;
 
-namespace WebApi.Modules.Settings.Crew
+namespace WebApi.Modules.Settings.LaborSettings.Crew
 {
     [FwLogic(Id:"d4ihNOoBjoRH")]
     public class CrewLogic : AppBusinessLogic //ContactLogic

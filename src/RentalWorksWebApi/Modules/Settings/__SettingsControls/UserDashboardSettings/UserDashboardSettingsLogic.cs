@@ -10,7 +10,6 @@ using WebApi.Logic;
 using WebApi.Modules.Administrator.User;
 using WebApi.Modules.Settings.AvailableWidget;
 using WebApi.Modules.Settings.WebUserWidget;
-using WebApi.Modules.Settings.Widget;
 
 namespace WebApi.Modules.Settings.UserDashboardSettings
 {

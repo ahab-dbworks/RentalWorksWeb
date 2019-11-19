@@ -1,6 +1,6 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
-namespace WebApi.Modules.Settings.InventoryRank
+namespace WebApi.Modules.Settings.InventorySettings.InventoryRank
 {
     [FwLogic(Id:"lrM957aDB56f")]
     public class InventoryRankLogic : AppBusinessLogic

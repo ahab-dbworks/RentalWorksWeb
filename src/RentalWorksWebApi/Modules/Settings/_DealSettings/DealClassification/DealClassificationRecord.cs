@@ -2,7 +2,7 @@
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 
-namespace WebApi.Modules.Settings.DealClassification
+namespace WebApi.Modules.Settings.DealSettings.DealClassification
 {
     [FwSqlTable("dealclassification")]
     public class DealClassificationRecord : AppDataReadWriteRecord

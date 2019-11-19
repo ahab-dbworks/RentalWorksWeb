@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic;
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data;
-namespace WebApi.Modules.Settings.Warehouse
+namespace WebApi.Modules.Settings.WarehouseSettings.Warehouse
 {
     [FwSqlTable("warehouse")]
     public class WarehouseRecord : AppDataReadWriteRecord

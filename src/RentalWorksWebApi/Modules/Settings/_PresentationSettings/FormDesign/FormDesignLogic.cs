@@ -1,7 +1,7 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Settings.FormDesign
+namespace WebApi.Modules.Settings.PresentationSettings.FormDesign
 {
     [FwLogic(Id:"U7wX3Pt1ZYYh")]
     public class FormDesignLogic : AppBusinessLogic

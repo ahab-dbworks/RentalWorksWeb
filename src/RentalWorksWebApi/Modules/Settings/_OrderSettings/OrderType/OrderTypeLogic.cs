@@ -6,7 +6,7 @@ using WebApi.Logic;
 using WebApi.Modules.Settings.OrderTypeFields;
 using static FwStandard.Data.FwDataReadWriteRecord;
 
-namespace WebApi.Modules.Settings.OrderType
+namespace WebApi.Modules.Settings.OrderSettings.OrderType
 {
     [FwLogic(Id:"j6CoqCXopPET")]
     public class OrderTypeLogic : AppBusinessLogic

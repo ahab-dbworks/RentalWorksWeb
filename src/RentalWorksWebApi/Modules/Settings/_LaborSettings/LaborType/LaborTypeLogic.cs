@@ -1,9 +1,9 @@
 using FwStandard.AppManager;
-﻿using FwStandard.BusinessLogic;
+using FwStandard.BusinessLogic;
 using WebApi.Logic;
-using WebApi.Modules.Settings.InventoryType;
+using WebApi.Modules.Settings.InventorySettings.InventoryType;
 
-namespace WebApi.Modules.Settings.LaborType
+namespace WebApi.Modules.Settings.LaborSettings.LaborType
 {
     [FwLogic(Id:"F68RQiFdeT8C")]
     public class LaborTypeLogic : AppBusinessLogic

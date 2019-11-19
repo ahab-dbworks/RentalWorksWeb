@@ -1,12 +1,10 @@
-using FwStandard.Data; 
-using FwStandard.Models; 
-using FwStandard.SqlServer; 
-using FwStandard.SqlServer.Attributes; 
-using WebApi.Data;
-using WebApi.Modules.Settings.OrderType;
-using System.Collections.Generic;
+using FwStandard.Data;
+using FwStandard.Models;
+using FwStandard.SqlServer;
+using FwStandard.SqlServer.Attributes;
+using WebApi.Modules.Settings.OrderSettings.OrderType;
 
-namespace WebApi.Modules.Settings.EventType
+namespace WebApi.Modules.Settings.EventSettings.EventType
 {
     public class EventTypeBrowseLoader : OrderTypeBaseBrowseLoader
     {

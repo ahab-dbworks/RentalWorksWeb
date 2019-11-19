@@ -3,7 +3,7 @@ using FwStandard.BusinessLogic;
 using WebApi.Logic;
 using WebApi.Modules.Administrator.Control;
 
-namespace WebApi.Modules.Settings.DefaultSettings
+namespace WebApi.Modules.Settings.SystemSettings.DefaultSettings
 {
     [FwLogic(Id: "OVIuyEMyfRxya")]
     public class DefaultSettingsLogic : AppBusinessLogic

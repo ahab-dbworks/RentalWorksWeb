@@ -4,7 +4,7 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data; 
 using System.Collections.Generic;
-namespace WebApi.Modules.Settings.Holiday
+namespace WebApi.Modules.Settings.HolidaySettings.Holiday
 {
     [FwSqlTable("holidaydefinitionview")]
     public class HolidayLoader : AppDataLoadRecord

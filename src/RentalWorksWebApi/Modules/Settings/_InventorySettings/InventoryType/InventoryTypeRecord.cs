@@ -2,7 +2,7 @@
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 
-namespace WebApi.Modules.Settings.InventoryType
+namespace WebApi.Modules.Settings.InventorySettings.InventoryType
 {
     [FwSqlTable("inventorydepartment")]
     public class InventoryTypeRecord : AppDataReadWriteRecord

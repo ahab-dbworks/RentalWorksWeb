@@ -4,7 +4,7 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data; 
 using System.Collections.Generic;
-namespace WebApi.Modules.Settings.SpaceType
+namespace WebApi.Modules.Settings.FacilitySettings.SpaceType
 {
     [FwSqlTable("spacetypeview")]
     public class SpaceTypeLoader : AppDataLoadRecord

@@ -7,7 +7,7 @@ using Microsoft.Extensions.Options;
 using WebApi.Controllers;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-namespace WebApi.Modules.Settings.Currency
+namespace WebApi.Modules.Settings.CurrencySettings.Currency
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "settings-v1")]

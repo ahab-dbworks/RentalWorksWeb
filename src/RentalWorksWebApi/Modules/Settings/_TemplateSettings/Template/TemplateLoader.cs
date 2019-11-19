@@ -4,7 +4,7 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data; 
 using System.Collections.Generic;
-namespace WebApi.Modules.Settings.Template
+namespace WebApi.Modules.Settings.TemplateSettings.Template
 {
     [FwSqlTable("templateview")]
     public class TemplateLoader : AppDataLoadRecord

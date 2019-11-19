@@ -2,7 +2,7 @@ using FwStandard.AppManager;
 ﻿using FwStandard.BusinessLogic;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Settings.TermsConditions
+namespace WebApi.Modules.Settings.DocumentSettings.TermsConditions
 {
     [FwLogic(Id:"03fdCmk9Chp0M")]
     public class TermsConditionsLogic : AppBusinessLogic

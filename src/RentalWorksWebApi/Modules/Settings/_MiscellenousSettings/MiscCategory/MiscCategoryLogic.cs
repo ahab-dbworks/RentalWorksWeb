@@ -2,7 +2,7 @@ using FwStandard.AppManager;
 ﻿using FwStandard.BusinessLogic;
 using WebApi.Modules.Settings.Category;
 
-namespace WebApi.Modules.Settings.MiscCategory
+namespace WebApi.Modules.Settings.MiscellenousSettings.MiscCategory
 {
     public class MiscCategoryLogic : CategoryLogic
     {

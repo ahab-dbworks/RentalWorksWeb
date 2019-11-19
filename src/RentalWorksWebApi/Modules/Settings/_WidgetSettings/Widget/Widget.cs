@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using FwStandard.SqlServer;
 using System;
 
-namespace WebApi.Modules.Settings.Widget
+namespace WebApi.Modules.Settings.WidgetSettings.Widget
 {
 
     //------------------------------------------------------------------------------------

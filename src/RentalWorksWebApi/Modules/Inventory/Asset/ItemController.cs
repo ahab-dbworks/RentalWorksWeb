@@ -1,15 +1,15 @@
 using FwStandard.AppManager;
-using FwStandard.SqlServer;
-using System.Collections.Generic;
 using FwStandard.Models;
+using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using WebApi.Controllers;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using WebApi.Controllers;
+using WebApi.Modules.Settings.InventorySettings.InventoryStatus;
 using WebLibrary;
-using WebApi.Modules.Settings.InventoryStatus;
 
-namespace WebApi.Modules.Home.Item
+namespace WebApi.Modules.Inventory.Item
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]

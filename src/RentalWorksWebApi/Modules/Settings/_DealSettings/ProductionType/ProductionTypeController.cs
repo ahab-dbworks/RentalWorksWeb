@@ -7,7 +7,7 @@ using WebApi.Controllers;
 using System.Threading.Tasks;
 using FwStandard.SqlServer;
 
-namespace WebApi.Modules.Settings.ProductionType
+namespace WebApi.Modules.Settings.DealSettings.ProductionType
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "settings-v1")]

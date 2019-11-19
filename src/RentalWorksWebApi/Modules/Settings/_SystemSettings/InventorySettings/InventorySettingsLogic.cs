@@ -3,7 +3,7 @@ using FwStandard.BusinessLogic;
 using WebApi.Logic;
 using WebApi.Modules.Administrator.Control;
 
-namespace WebApi.Modules.Settings.InventorySettings
+namespace WebApi.Modules.Settings.SystemSettings.InventorySettings
 {
     [FwLogic(Id: "9tcMsqDFxmN11")]
     public class InventorySettingsLogic : AppBusinessLogic

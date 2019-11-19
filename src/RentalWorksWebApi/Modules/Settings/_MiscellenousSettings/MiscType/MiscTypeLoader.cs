@@ -5,7 +5,7 @@ using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 using WebLibrary;
 
-namespace WebApi.Modules.Settings.MiscType
+namespace WebApi.Modules.Settings.MiscellenousSettings.MiscType
 {
     [FwSqlTable("dbo.funcinventorytype(@rectype)")]
     public class MiscTypeLoader: AppDataLoadRecord

@@ -5,7 +5,7 @@ using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 using WebLibrary;
 
-namespace WebApi.Modules.Settings.LaborType
+namespace WebApi.Modules.Settings.LaborSettings.LaborType
 {
     [FwSqlTable("dbo.funcinventorytype(@rectype)")]
     public class LaborTypeLoader: AppDataLoadRecord

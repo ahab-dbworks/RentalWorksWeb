@@ -1,10 +1,9 @@
 using FwStandard.AppManager;
-﻿using FwStandard.BusinessLogic;
 using Newtonsoft.Json;
 using WebApi.Logic;
 using WebApi.Modules.Settings.ResourceStatus;
 
-namespace WebApi.Modules.Settings.UserStatus
+namespace WebApi.Modules.Settings.UserSettings.UserStatus
 {
     [FwLogic(Id:"TKvt6VYodyXnf")]
     public class UserStatusLogic : AppBusinessLogic

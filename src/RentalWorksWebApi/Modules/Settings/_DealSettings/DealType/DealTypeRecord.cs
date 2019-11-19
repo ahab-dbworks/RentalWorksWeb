@@ -2,7 +2,7 @@
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 
-namespace WebApi.Modules.Settings.DealType
+namespace WebApi.Modules.Settings.DealSettings.DealType
 {
     [FwSqlTable("dealtype")]
     public class DealTypeRecord : AppDataReadWriteRecord

@@ -2,7 +2,7 @@
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 
-namespace WebApi.Modules.Settings.BlackoutStatus
+namespace WebApi.Modules.Settings.HolidaySettings.BlackoutStatus
 {
     [FwSqlTable("blackoutstatusview")]
     public class BlackoutStatusLoader: AppDataLoadRecord

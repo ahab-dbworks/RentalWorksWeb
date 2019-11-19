@@ -4,7 +4,7 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 using System.Collections.Generic;
-namespace WebApi.Modules.Settings.Sound
+namespace WebApi.Modules.Settings.UserSettings.Sound
 {
     [FwSqlTable("soundview")]
     public class SoundLoader : AppDataLoadRecord

@@ -4,7 +4,7 @@ using WebApi.Logic;
 using WebApi.Modules.Settings.Color;
 using WebLibrary;
 
-namespace WebApi.Modules.Settings.WardrobeColor
+namespace WebApi.Modules.Settings.WardrobeSettings.WardrobeColor
 {
     [FwLogic(Id:"Zi11fAucSuwI0")]
     public class WardrobeColorLogic : AppBusinessLogic

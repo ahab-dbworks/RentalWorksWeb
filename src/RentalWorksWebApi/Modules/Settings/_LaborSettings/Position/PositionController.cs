@@ -7,7 +7,7 @@ using Microsoft.Extensions.Options;
 using WebApi.Controllers; 
 using System.Threading.Tasks;
 
-namespace WebApi.Modules.Settings.Position
+namespace WebApi.Modules.Settings.LaborSettings.Position
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "settings-v1")]

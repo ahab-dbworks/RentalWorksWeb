@@ -7,7 +7,7 @@ using Microsoft.Extensions.Options;
 using System;
 using System.Threading.Tasks;
 using WebApi.Controllers;
-using WebApi.Modules.Settings.OfficeLocation;
+using WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation;
 
 namespace WebApi.Modules.Agent.Customer
 {

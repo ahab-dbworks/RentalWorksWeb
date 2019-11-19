@@ -2,7 +2,7 @@
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 
-namespace WebApi.Modules.Settings.TaxOption
+namespace WebApi.Modules.Settings.TaxSettings.TaxOption
 {
     [FwSqlTable("taxoptionview")]
     public class TaxOptionLoader : AppDataLoadRecord

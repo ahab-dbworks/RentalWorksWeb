@@ -2,7 +2,7 @@ using FwStandard.AppManager;
 ﻿using FwStandard.BusinessLogic;
 using WebLibrary;
 
-namespace WebApi.Modules.Settings.VehicleType
+namespace WebApi.Modules.Settings.VehicleSettings.VehicleType
 {
     public class VehicleTypeLogic: VehicleTypeBaseLogic
     {

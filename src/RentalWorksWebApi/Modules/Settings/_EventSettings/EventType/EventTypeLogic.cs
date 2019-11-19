@@ -2,11 +2,10 @@ using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
 using Newtonsoft.Json;
 using WebApi.Logic;
-using WebApi.Modules.Settings.OrderType;
+using WebApi.Modules.Settings.OrderSettings.OrderType;
 using WebApi.Modules.Settings.OrderTypeFields;
-using static FwStandard.Data.FwDataReadWriteRecord;
 
-namespace WebApi.Modules.Settings.EventType
+namespace WebApi.Modules.Settings.EventSettings.EventType
 {
     [FwLogic(Id:"IXvJH6dRpXWS")]
     public class EventTypeLogic : AppBusinessLogic

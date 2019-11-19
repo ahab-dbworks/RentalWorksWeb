@@ -1,6 +1,6 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
-namespace WebApi.Modules.Settings.PoApprover
+namespace WebApi.Modules.Settings.PoSettings.PoApprover
 {
     [FwLogic(Id:"tEa2pO7Q7ipu")]
     public class PoApproverLogic : AppBusinessLogic

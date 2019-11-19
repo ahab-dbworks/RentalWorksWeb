@@ -2,7 +2,7 @@
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 
-namespace WebApi.Modules.Settings.WardrobeGender
+namespace WebApi.Modules.Settings.WardrobeSettings.WardrobeGender
 {
     [FwSqlTable("gender")]
     public class WardrobeGenderRecord : AppDataReadWriteRecord

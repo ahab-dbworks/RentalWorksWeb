@@ -1,7 +1,7 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Settings.EventCategory
+namespace WebApi.Modules.Settings.EventSettings.EventCategory
 {
     [FwLogic(Id:"7acWvB8D61Gl")]
     public class EventCategoryLogic : AppBusinessLogic

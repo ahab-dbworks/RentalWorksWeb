@@ -2,7 +2,7 @@
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 
-namespace WebApi.Modules.Settings.OrganizationType
+namespace WebApi.Modules.Settings.VendorSettings.OrganizationType
 {
     [FwSqlTable("organizationtype")]
     public class OrganizationTypeRecord : AppDataReadWriteRecord

@@ -2,7 +2,7 @@ using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
 using Newtonsoft.Json;
 using WebApi.Logic;
-namespace WebApi.Modules.Settings.Building
+namespace WebApi.Modules.Settings.FacilitySettings.Building
 {
     [FwLogic(Id:"XxD1nl5CkAe")]
     public class BuildingLogic : AppBusinessLogic

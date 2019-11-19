@@ -2,7 +2,7 @@
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 
-namespace WebApi.Modules.Settings.InventoryAdjustmentReason
+namespace WebApi.Modules.Settings.InventorySettings.InventoryAdjustmentReason
 {
     [FwSqlTable("adjreason")]
     public class InventoryAdjustmentReasonRecord : AppDataReadWriteRecord

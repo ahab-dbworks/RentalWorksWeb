@@ -2,7 +2,7 @@
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 
-namespace WebApi.Modules.Settings.GeneratorMake
+namespace WebApi.Modules.Settings.GeneratorSettings.GeneratorMake
 {
     [FwSqlTable("generatormakeview")]
     public class GeneratorMakeLoader: AppDataLoadRecord

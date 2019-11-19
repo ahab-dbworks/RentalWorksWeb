@@ -2,7 +2,7 @@
 using FwStandard.SqlServer.Attributes;
 using System;
 
-namespace WebApi.Data.Settings
+namespace WebApi.Data.Settings.ShipViaSettings.ShipVia
 {
     [FwSqlTable("shipvia")]
     public class ShipViaRecord : AppDataReadWriteRecord

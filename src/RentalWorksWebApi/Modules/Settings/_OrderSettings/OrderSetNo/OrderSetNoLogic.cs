@@ -1,6 +1,6 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
-namespace WebApi.Modules.Settings.OrderSetNo
+namespace WebApi.Modules.Settings.OrderSettings.OrderSetNo
 {
     [FwLogic(Id:"HOYjOo2vzeUO")]
     public class OrderSetNoLogic : AppBusinessLogic

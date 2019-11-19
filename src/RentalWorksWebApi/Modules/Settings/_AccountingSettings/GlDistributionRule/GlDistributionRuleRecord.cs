@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic;
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data;
-namespace WebApi.Modules.Settings.GlDistributionRule
+namespace WebApi.Modules.Settings.AccountingSettings.GlDistributionRule
 {
     [FwSqlTable("gldistribution")]
     public class GlDistributionRuleRecord : AppDataReadWriteRecord

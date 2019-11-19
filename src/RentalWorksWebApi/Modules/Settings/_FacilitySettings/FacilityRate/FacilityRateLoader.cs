@@ -8,7 +8,7 @@ using WebApi.Modules.Home.Inventory;
 using WebApi.Modules.Settings.Rate;
 using System.Collections.Generic;
 
-namespace WebApi.Modules.Settings.FacilityRate
+namespace WebApi.Modules.Settings.FacilitySettings.FacilityRate
 {
     public class FacilityRateLoader : RateLoader
     {

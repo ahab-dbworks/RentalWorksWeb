@@ -4,7 +4,7 @@ using System.Reflection;
 using WebApi.Logic;
 using WebLibrary;
 
-namespace WebApi.Modules.Settings.Widget
+namespace WebApi.Modules.Settings.WidgetSettings.Widget
 {
     [FwLogic(Id: "eh62kos81TRJh")]
     public class WidgetLogic : AppBusinessLogic

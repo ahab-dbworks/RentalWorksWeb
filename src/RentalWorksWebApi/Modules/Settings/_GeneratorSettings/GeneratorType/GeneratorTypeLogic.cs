@@ -1,9 +1,9 @@
 using FwStandard.AppManager;
-﻿using FwStandard.BusinessLogic;
-using WebApi.Modules.Settings.VehicleType;
+using FwStandard.BusinessLogic;
+using WebApi.Modules.Settings.VehicleSettings.VehicleType;
 using WebLibrary;
 
-namespace WebApi.Modules.Settings.GeneratorType
+namespace WebApi.Modules.Settings.GeneratorSettings.GeneratorType
 {
     public class GeneratorTypeLogic: VehicleTypeBaseLogic
     {

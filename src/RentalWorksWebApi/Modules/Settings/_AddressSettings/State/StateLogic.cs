@@ -1,7 +1,7 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Settings.State
+namespace WebApi.Modules.Settings.AddressSettings.State
 {
     [FwLogic(Id:"0lLdn9T6WPhng")]
     public class StateLogic : AppBusinessLogic

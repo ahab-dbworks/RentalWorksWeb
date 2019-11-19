@@ -4,7 +4,7 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using System.Threading.Tasks;
 using WebApi.Data;
-namespace WebApi.Modules.Settings.WarehouseCatalog
+namespace WebApi.Modules.Settings.InventorySettings.WarehouseCatalog
 {
     [FwSqlTable("whcatalog")]
     public class WarehouseCatalogRecord : AppDataReadWriteRecord

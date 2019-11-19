@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-namespace WebApi.Modules.Settings.Widget
+namespace WebApi.Modules.Settings.WidgetSettings.Widget
 {
     [FwSqlTable("widget")]
     public class WidgetRecord : AppDataReadWriteRecord

@@ -2,7 +2,7 @@
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 
-namespace WebApi.Modules.Settings.Source
+namespace WebApi.Modules.Settings.SourceSettings.Source
 {
     [FwSqlTable("source")]
     public class SourceRecord : AppDataReadWriteRecord

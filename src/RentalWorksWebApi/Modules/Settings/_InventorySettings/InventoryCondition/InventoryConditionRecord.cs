@@ -4,7 +4,7 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 
-namespace WebApi.Modules.Settings.InventoryCondition
+namespace WebApi.Modules.Settings.InventorySettings.InventoryCondition
 {
     [FwSqlTable("condition")]
     public class InventoryConditionRecord : AppDataReadWriteRecord

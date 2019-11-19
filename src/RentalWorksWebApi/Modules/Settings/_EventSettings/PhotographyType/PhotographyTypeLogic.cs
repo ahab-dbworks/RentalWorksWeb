@@ -1,7 +1,7 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Settings.PhotographyType
+namespace WebApi.Modules.Settings.EventSettings.PhotographyType
 {
     [FwLogic(Id:"pSgs7Z6fOEkW")]
     public class PhotographyTypeLogic : AppBusinessLogic

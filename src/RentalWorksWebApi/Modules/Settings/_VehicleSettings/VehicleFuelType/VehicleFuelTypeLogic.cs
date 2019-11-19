@@ -5,7 +5,7 @@ using WebApi.Logic;
 using WebApi.Modules.Settings.FuelType;
 using WebLibrary;
 
-namespace WebApi.Modules.Settings.VehicleFuelType
+namespace WebApi.Modules.Settings.VehicleSettings.VehicleFuelType
 {
     [FwLogic(Id:"stcY3m37vMxwA")]
     public class VehicleFuelTypeLogic : AppBusinessLogic

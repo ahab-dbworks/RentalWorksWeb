@@ -2,7 +2,7 @@
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 
-namespace WebApi.Modules.Settings.DocumentType
+namespace WebApi.Modules.Settings.DocumentSettings.DocumentType
 {
     [FwSqlTable("documenttype")]
     public class DocumentTypeRecord : AppDataReadWriteRecord
