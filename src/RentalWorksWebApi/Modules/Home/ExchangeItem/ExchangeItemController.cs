@@ -39,7 +39,7 @@ namespace WebApi.Modules.Home.ExchangeItem
         public async Task<ActionResult<Dictionary<string, string>>> GetLegend()
         {
             Dictionary<string, string> legend = new Dictionary<string, string>();
-            legend.Add("Crew", RwGlobals.PENDING_EXCHANGE_COLOR);
+            legend.Add("Pending Exchange", RwGlobals.PENDING_EXCHANGE_COLOR);
             await Task.CompletedTask; // get rid of the no async call warning
             return new OkObjectResult(legend);
         }
