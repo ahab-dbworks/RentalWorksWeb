@@ -81,13 +81,13 @@ git add "src/RentalWorksWeb/version-RentalWorksWeb.txt"
 git add "src/RentalWorksWeb/Properties/AssemblyInfo.cs"
 git commit -m "web: %buildno%"
 git push
-git tag web/v%buildno%
-git push origin web/v%buildno%
+//git tag web/v%buildno%
+//git push origin web/v%buildno%
 
 rem command-line gren make Build Release Document
-cd %DwRentalWorksWebPath%\build
-call gren changelog --token=4f42c7ba6af985f6ac6a6c9eba45d8f25388ef58 --username=databaseworks --repo=rentalworksweb --generate --override --changelog-filename=v%buildno%.md -t web/v%buildno% -c ..\config.grenrc
-start v%buildno%.md
+//cd %DwRentalWorksWebPath%\build
+//call gren changelog --token=4f42c7ba6af985f6ac6a6c9eba45d8f25388ef58 --username=databaseworks --repo=rentalworksweb --generate --override --changelog-filename=v%buildno%.md -t web/v%buildno% -c ..\config.grenrc
+//start v%buildno%.md
 
 rem produce a PDF of the MD file
 cd %DwRentalWorksWebPath%
