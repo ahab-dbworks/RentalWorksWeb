@@ -1,18 +1,23 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "noImplicitAny": true,
+    "noImplicitAny": false,
     "noEmitOnError": true,
     "removeComments": true,
     "sourceMap": true,
     "allowSyntheticDefaultImports": true,
     "moduleResolution": "node",
-    "target": "es2015"
+    "target": "es2015",
+    "typeRoots": [
+      "../node_modules/@types",
+      "../@types"
+    ]
   },
   "files": [
     "../node_modules/moment/moment.d.ts"
   ],
   "include": [
+    "../@types",
     "src/**/*.ts"
   ]
 }
