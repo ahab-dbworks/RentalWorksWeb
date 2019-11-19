@@ -222,7 +222,7 @@ class SearchInterface {
                 FwFormField.setValueByDataField($popup, 'PickDate', pickDate);
                 break;
             case 'PurchaseOrder':
-                $popup.find('[data-datafield="PickDate"]').hide();
+                $popup.find('[data-datafield="PickDate"], [data-datafield="FromDate"], [data-datafield="ToDate"]').hide();
                 startDate = FwFormField.getValueByDataField($form, 'PurchaseOrderDate');
                 FwFormField.setValueByDataField($popup, 'FromDate', startDate);
                 break;
@@ -258,6 +258,7 @@ class SearchInterface {
             request.ToDate           = FwFormField.getValueByDataField($popup, 'ToDate');
             request.ShowImages       = true;
         });
+
         FwBrowse.init($previewGridControl);
         FwBrowse.renderRuntimeHtml($previewGridControl);
         FwBrowse.addEventHandler($previewGridControl, 'afterdatabindcallback', () => {
@@ -668,6 +669,11 @@ class SearchInterface {
             $popup.find('.columnDescriptions .columnorder, .item-info .columnorder').css('display', '');
             for (let i = 0; i < columnsToHide.length; i++) {
                 $popup.find(`.columnDescriptions [data-column="${columnsToHide[i]}"], .item-info [data-column="${columnsToHide[i]}"]`).hide();
+            }
+
+            let type = $popup.find('#itemsearch').attr('data-moduletype');
+            if (type === 'PurchaseOrder' || type === 'Template') {
+                $popup.find('.hideColumns').css('display', 'none');
             }
 
             let columnOrder = $popup.find('#itemsearch').data('columnorder');
@@ -1456,7 +1462,12 @@ class SearchInterface {
             SubCategoryId:                 $popup.find('#itemsearch').attr('data-subcategoryid') || undefined,
             SearchText:                    FwFormField.getValueByDataField($popup, 'SearchBox') || undefined,
             //RefreshAvailability:           refreshAvailability
-        }
+         }
+
+         let type = $popup.find('#itemsearch').attr('data-moduletype');
+         if (type === 'PurchaseOrder') {
+             request.ShowAvailability = false;
+         }
 
         FwAppData.apiMethod(true, 'POST', 'api/v1/inventorysearch/search', request, FwServices.defaultTimeout, function onSuccess(response) {
             self.renderInventory($popup, response);
@@ -1472,6 +1483,12 @@ class SearchInterface {
             FromDate:         FwFormField.getValueByDataField($popup, 'FromDate'),
             ToDate:           FwFormField.getValueByDataField($popup, 'ToDate')
         };
+
+        let type = $popup.find('#itemsearch').attr('data-moduletype');
+        if (type === 'PurchaseOrder') {
+            previewrequest.ShowAvailability = false;
+        }
+
         FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearchpreview/browse", previewrequest, FwServices.defaultTimeout, function onSuccess(response) {
             let $grid = $popup.find('[data-name="SearchPreviewGrid"]');
             //FwBrowse.databindcallback($grid, response);
@@ -1499,6 +1516,11 @@ class SearchInterface {
             ShowImages:       true,
             FromDate:         FwFormField.getValueByDataField($popup, 'PickDate') || FwFormField.getValueByDataField($popup, 'FromDate') || undefined,
             ToDate:           FwFormField.getValueByDataField($popup, 'ToDate') || undefined
+        }
+
+        let type = $popup.find('#itemsearch').attr('data-moduletype');
+        if (type === 'PurchaseOrder') {
+            request.ShowAvailability = false;
         }
 
         if ($popup.data('refreshaccessories') == true) {
