@@ -24,7 +24,7 @@ namespace WebApi.Modules.Agent.Deal
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx 
+        // POST api/v1/modulename/exportexcelxlsx
         [HttpPost("exportexcelxlsx")]
         [FwControllerMethod(Id:"FHXGMbYmyiFG", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)

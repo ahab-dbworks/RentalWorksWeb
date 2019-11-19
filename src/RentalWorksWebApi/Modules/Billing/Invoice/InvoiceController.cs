@@ -47,7 +47,7 @@ namespace WebApi.Modules.Billing.Invoice
             return new OkObjectResult(legend);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/invoice/exportexcelxlsx 
+        // POST api/v1/invoice/exportexcelxlsx
         [HttpPost("exportexcelxlsx")]
         [FwControllerMethod(Id: "uWXaeVXku2ry", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)

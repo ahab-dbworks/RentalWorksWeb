@@ -24,7 +24,7 @@ namespace WebApi.Modules.Utilities.GLDistribution
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/gldistribution/exportexcelxlsx 
+        // POST api/v1/gldistribution/exportexcelxlsx
         [HttpPost("exportexcelxlsx")]
         [FwControllerMethod(Id: "vTgh32ZRwrxO", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)

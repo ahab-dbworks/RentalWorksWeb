@@ -26,7 +26,7 @@ namespace WebApi.Modules.Settings.OrderTypeDateType
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx 
+        // POST api/v1/modulename/exportexcelxlsx
         [HttpPost("exportexcelxlsx")]
         [FwControllerMethod(Id:"SFdEn4RSWwfz", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)

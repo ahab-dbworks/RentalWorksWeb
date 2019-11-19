@@ -23,7 +23,7 @@ namespace WebApi.Modules.HomeControls.InvoiceOrder
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/invoiceorder/exportexcelxlsx 
+        // POST api/v1/invoiceorder/exportexcelxlsx
         [HttpPost("exportexcelxlsx")]
         [FwControllerMethod(Id: "e0SLz9kAYzg0", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)

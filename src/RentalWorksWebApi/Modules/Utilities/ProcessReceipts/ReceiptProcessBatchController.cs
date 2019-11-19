@@ -74,7 +74,7 @@ namespace WebApi.Modules.Utilities.ReceiptProcessBatch
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/receiptprocessbatch/exportexcelxlsx 
+        // POST api/v1/receiptprocessbatch/exportexcelxlsx
         [HttpPost("exportexcelxlsx")]
         [FwControllerMethod(Id: "QVqljKwnnW5j0", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)

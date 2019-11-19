@@ -22,7 +22,7 @@ namespace WebApi.Modules.HomeControls.LossAndDamageItem
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/lossanddamageitem/exportexcelxlsx 
+        // POST api/v1/lossanddamageitem/exportexcelxlsx
         [HttpPost("exportexcelxlsx")]
         [FwControllerMethod(Id:"ZpMO62JkDN92", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)

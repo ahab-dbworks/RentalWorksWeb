@@ -25,7 +25,7 @@ namespace WebApi.Modules.AdministratorControls.AlertCondition
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/alertcondition/exportexcelxlsx 
+        // POST api/v1/alertcondition/exportexcelxlsx
         [HttpPost("exportexcelxlsx")]
         [FwControllerMethod(Id: "mPSsPp76B0q5M", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)

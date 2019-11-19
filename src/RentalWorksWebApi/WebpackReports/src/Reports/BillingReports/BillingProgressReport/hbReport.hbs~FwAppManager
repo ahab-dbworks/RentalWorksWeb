@@ -1,0 +1,69 @@
+﻿<!--Billing Progress Report-->
+<div class="rpt-flexrow">
+  <div class="rpt-flexcolumn">
+    <span class="rpt-header-left">{{System}}</span>
+  </div>
+  <div class="rpt-flexcolumn">
+    <span class="rpt-title">{{Report}}</span>
+    <span class="rpt-header-center">As of {{AsOfDate}}</span>
+  </div>
+  <div class="rpt-flexcolumn">
+    <span class="rpt-header-right">{{Company}}</span>
+  </div>
+</div>
+<div class="rpt-flexrow" style="margin-top:40px;">
+  <table>
+    <thead>
+      <tr>
+        <th >Customer</th>
+        <th  >Order No.</th>
+        <th>Description</th>
+        <th>Status</th>
+        <th class="number">Total</th>
+        <th class="number">Billed</th>
+        <th class="number">Remaining</th>
+        <th class="number">% Billed</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each this}}
+      <tr data-rowtype="{{RowType}}">
+        {{#ifEquals RowType "OfficeLocationheader"}}
+        <td colspan="12" class="header-row">Office Location: {{OfficeLocation}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "Dealheader"}}
+        <td colspan="12" class="lower header-row">Deal: {{Deal}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "detail"}}
+        <td>{{Customer}}</td>
+        <td>{{OrderNumber}}</td>
+        <td>{{OrderDescription}}</td>
+        <td>{{Status}}</td>
+        <td class="number">{{OrderTotal}}</td>
+        <td class="number">{{Billed}}</td>
+        <td class="number">{{Remaining}}</td>
+        <td class="number">{{BilledPercent}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "Dealfooter"}}
+        <td colspan="4" class="total-name">{{Deal}}</td>
+        <td class="total-val" data-value="{{OrderTotal}}"></td>
+        <td class="total-val" data-value="{{Billed}}"></td>
+        <td class="total-val" data-value="{{Remaining}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "OfficeLocationfooter"}}
+        <td colspan="4" class="total-name">{{OfficeLocation}}</td>
+        <td class="total-val" data-value="{{OrderTotal}}"></td>
+        <td class="total-val" data-value="{{Billed}}"></td>
+        <td class="total-val" data-value="{{Remaining}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "grandtotal"}}
+        <td colspan="4" class="total-name">Grand Total:&nbsp;</td>
+        <td class="total-val" data-value="{{OrderTotal}}"></td>
+        <td class="total-val" data-value="{{Billed}}"></td>
+        <td class="total-val" data-value="{{Remaining}}"></td>
+        {{/ifEquals}}
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>

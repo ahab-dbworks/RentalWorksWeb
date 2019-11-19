@@ -23,7 +23,7 @@ namespace WebApi.Modules.UtilitiesControls.QuikActivitySettings
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/quikactivitysettings/exportexcelxlsx 
+        // POST api/v1/quikactivitysettings/exportexcelxlsx
         [HttpPost("exportexcelxlsx")]
         [FwControllerMethod(Id: "36L9jQuAKWMn", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
