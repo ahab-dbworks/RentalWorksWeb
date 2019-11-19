@@ -24,7 +24,7 @@ namespace WebApi.Modules.Settings.SystemSettings.SystemSettings
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/systemsettings/exportexcelxlsx/filedownloadname 
+        // POST api/v1/systemsettings/exportexcelxlsx
         [HttpPost("exportexcelxlsx")]
         [FwControllerMethod(Id: "wXsbIRUU1uD52", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
