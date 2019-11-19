@@ -184,7 +184,7 @@ namespace WebApi.Modules.Home.InventorySearch
                             if (availCache.TryGetValue(new TInventoryWarehouseAvailabilityKey(inventoryId, warehouseId), out availData))
                             {
                                 TInventoryWarehouseAvailabilityMinimum minAvail = availData.GetMinimumAvailableQuantity(fromDateTime, toDateTime, qty);
-                                qtyAvailable = minAvail.MinimumAvailable.Total;
+                                qtyAvailable = minAvail.MinimumAvailable.OwnedAndConsigned;
                                 conflictDate = minAvail.FirstConfict;
                                 isStale = minAvail.IsStale;
                                 availabilityState = minAvail.AvailabilityState;

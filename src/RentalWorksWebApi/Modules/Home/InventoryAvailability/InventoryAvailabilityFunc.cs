@@ -235,6 +235,10 @@ namespace WebApi.Modules.Home.InventoryAvailability
         public TInventoryWarehouseAvailabilityQuantity QuantityLate { get; set; } = new TInventoryWarehouseAvailabilityQuantity();
         public bool IsPositiveConflict { get; set; } = false;
         public bool IsNegativeConflict { get; set; } = false;
+        public string SubPurchaseOrderId { get; set; }
+        public string SubPurchaseOrderNumber { get; set; }
+        public string SubPurchaseOrderDescription { get; set; }
+        public string SubPurchaseOrderVendor { get; set; }
         [JsonIgnore]
         public bool countedReserved = false;  // used only while calculating future availability
         [JsonIgnore]
@@ -296,6 +300,17 @@ namespace WebApi.Modules.Home.InventoryAvailability
                     sb.Append(" > ");
                     sb.Append(ReturnToWarehouseCode);
                     sb.Append(")");
+                }
+                if (!string.IsNullOrEmpty(SubPurchaseOrderId))
+                {
+                    sb.Append(" - PO ");
+                    sb.Append(SubPurchaseOrderNumber);
+                    if (!string.IsNullOrEmpty(SubPurchaseOrderVendor))
+                    {
+                        sb.Append(" (");
+                        sb.Append(SubPurchaseOrderVendor);
+                        sb.Append(")");
+                    }
                 }
                 return sb.ToString();
             }
@@ -546,9 +561,9 @@ namespace WebApi.Modules.Home.InventoryAvailability
                             firstDateFound = true;
                             minAvail.MinimumAvailable = avail;
                         }
-                        minAvail.MinimumAvailable = (minAvail.MinimumAvailable.Total < avail.Total) ? minAvail.MinimumAvailable : avail;
+                        minAvail.MinimumAvailable = (minAvail.MinimumAvailable.OwnedAndConsigned < avail.OwnedAndConsigned) ? minAvail.MinimumAvailable : avail;
 
-                        if ((minAvail.FirstConfict == null) && (minAvail.MinimumAvailable.Total < 0))
+                        if ((minAvail.FirstConfict == null) && (minAvail.MinimumAvailable.OwnedAndConsigned < 0))
                         {
                             minAvail.FirstConfict = theDateTime;
                         }
@@ -584,21 +599,21 @@ namespace WebApi.Modules.Home.InventoryAvailability
                     minAvail.Color = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_NEEDRECALC);
                     minAvail.TextColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_TEXT_COLOR_NEEDRECALC);
                 }
-                else if (minAvail.MinimumAvailable.Total < 0)
+                else if (minAvail.MinimumAvailable.OwnedAndConsigned < 0)
                 {
                     minAvail.AvailabilityState = RwConstants.AVAILABILITY_STATE_NEGATIVE;
                     minAvail.Color = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_NEGATIVE);
                     minAvail.TextColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_TEXT_COLOR_NEGATIVE);
                 }
-                else if (minAvail.MinimumAvailable.Total == 0)
+                else if (minAvail.MinimumAvailable.OwnedAndConsigned == 0)
                 {
                     minAvail.AvailabilityState = RwConstants.AVAILABILITY_STATE_ZERO;
                 }
-                else if ((minAvail.MinimumAvailable.Total >= 0) && (InventoryWarehouse.LowAvailabilityPercent != 0) && (minAvail.MinimumAvailable.Total <= InventoryWarehouse.LowAvailabilityQuantity))
+                else if ((minAvail.MinimumAvailable.OwnedAndConsigned >= 0) && (InventoryWarehouse.LowAvailabilityPercent != 0) && (minAvail.MinimumAvailable.OwnedAndConsigned <= InventoryWarehouse.LowAvailabilityQuantity))
                 {
                     minAvail.AvailabilityState = RwConstants.AVAILABILITY_STATE_LOW;
                 }
-                else if (minAvail.MinimumAvailable.Total > 0)
+                else if (minAvail.MinimumAvailable.OwnedAndConsigned > 0)
                 {
                     minAvail.AvailabilityState = RwConstants.AVAILABILITY_STATE_ENOUGH;
                 }
@@ -660,6 +675,8 @@ namespace WebApi.Modules.Home.InventoryAvailability
         public string orderNumber { get; set; }
         public string orderStatus { get; set; }
         public string deal { get; set; }
+        public string subPoNumber { get; set; }
+        public string subPoVendor { get; set; }
         public bool isWarehouseTotal { get; set; } = false;
         public bool isGrandTotal { get; set; } = false;
     }
@@ -1074,6 +1091,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
                 qry.Add("       a.qtyordered, a.qtystagedowned, a.qtyoutowned, a.qtyinowned,                    ");
                 qry.Add("       a.subqty, a.qtystagedsub, a.qtyoutsub, a.qtyinsub,                              ");
                 qry.Add("       a.qtyinrepairowned, a.qtyinrepairconsigned,                                     ");
+                qry.Add("       a.poid, a.pono, a.podesc, a.povendor,                                           ");
                 if (hasConsignment)
                 {
                     //jh 02/28/2019 this is a bottleneck as the query must join in ordertranextended to get the consignorid.  Consider moving consignorid to the ordetran table
@@ -1155,6 +1173,10 @@ namespace WebApi.Modules.Home.InventoryAvailability
                         reservation.QuantityOrdered = FwConvert.ToDecimal(row[dt.GetColumnNo("qtyordered")].ToString());
                         reservation.QuantitySub = FwConvert.ToDecimal(row[dt.GetColumnNo("subqty")].ToString());
                         reservation.QuantityConsigned = FwConvert.ToDecimal(row[dt.GetColumnNo("consignqty")].ToString());
+                        reservation.SubPurchaseOrderId= row[dt.GetColumnNo("poid")].ToString();
+                        reservation.SubPurchaseOrderNumber= row[dt.GetColumnNo("pono")].ToString();
+                        reservation.SubPurchaseOrderDescription= row[dt.GetColumnNo("podesc")].ToString();
+                        reservation.SubPurchaseOrderVendor= row[dt.GetColumnNo("povendor")].ToString();
 
                         TInventoryWarehouseAvailabilityQuantity reservationStaged = new TInventoryWarehouseAvailabilityQuantity();
                         TInventoryWarehouseAvailabilityQuantity reservationOut = new TInventoryWarehouseAvailabilityQuantity();
@@ -1209,6 +1231,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
                 qry.Add("       a.qtyordered, a.qtystagedowned, a.qtyoutowned, a.qtyinowned,                    ");
                 qry.Add("       a.subqty, a.qtystagedsub, a.qtyoutsub, a.qtyinsub,                              ");
                 qry.Add("       a.qtyinrepairowned, a.qtyinrepairconsigned,                                     ");
+                qry.Add("       a.poid, a.pono, a.podesc, a.povendor,                                           ");
                 if (hasConsignment)
                 {
                     //jh 02/28/2019 this is a bottleneck as the query must join in ordertranextended to get the consignorid.  Consider moving consignorid to the ordetran table
@@ -1287,6 +1310,10 @@ namespace WebApi.Modules.Home.InventoryAvailability
                             reservation.QuantityOrdered = FwConvert.ToDecimal(row[dt.GetColumnNo("qtyordered")].ToString());
                             reservation.QuantitySub = FwConvert.ToDecimal(row[dt.GetColumnNo("subqty")].ToString());
                             reservation.QuantityConsigned = FwConvert.ToDecimal(row[dt.GetColumnNo("consignqty")].ToString());
+                            reservation.SubPurchaseOrderId = row[dt.GetColumnNo("poid")].ToString();
+                            reservation.SubPurchaseOrderNumber = row[dt.GetColumnNo("pono")].ToString();
+                            reservation.SubPurchaseOrderDescription = row[dt.GetColumnNo("podesc")].ToString();
+                            reservation.SubPurchaseOrderVendor = row[dt.GetColumnNo("povendor")].ToString();
 
                             TInventoryWarehouseAvailabilityQuantity reservationStaged = new TInventoryWarehouseAvailabilityQuantity();
                             TInventoryWarehouseAvailabilityQuantity reservationOut = new TInventoryWarehouseAvailabilityQuantity();
@@ -1987,15 +2014,14 @@ namespace WebApi.Modules.Home.InventoryAvailability
 
                 foreach (TInventoryWarehouseAvailabilityReservation reservation in availData.Reservations)
                 {
-                    //reserved
-                    if (reservation.QuantityReserved.Total != 0)
+                    //reserved (owned and consigned)
+                    if (reservation.QuantityReserved.OwnedAndConsigned != 0)
                     {
                         if ((reservation.FromDateTime <= ToDate) && (reservation.ToDateTime >= FromDate))
                         {
                             resourceId++;
                             TInventoryAvailabilityScheduleResource resource = new TInventoryAvailabilityScheduleResource();
                             resource.id = resourceId.ToString();
-                            //resource.name = reservation.OrderNumber;
                             resource.name = reservation.ScheduleResourceDescription;
                             response.InventoryAvailabilityScheduleResources.Add(resource);
 
@@ -2024,7 +2050,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
                             }
 
                             availScheduleEvent.text = reservation.ReservationDescription;
-                            availScheduleEvent.total = AvailabilityNumberToString(reservation.QuantityReserved.Total);
+                            availScheduleEvent.total = AvailabilityNumberToString(reservation.QuantityReserved.OwnedAndConsigned);
                             availScheduleEvent.orderNumber = reservation.OrderNumber;
                             availScheduleEvent.orderStatus = reservation.OrderStatus;
                             availScheduleEvent.deal = reservation.Deal;
@@ -2037,18 +2063,69 @@ namespace WebApi.Modules.Home.InventoryAvailability
                             {
                                 availScheduleEvent.barColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_RESERVED);
                             }
-
-                            if (reservation.QuantitySub > 0)
-                            {
-                                availScheduleEvent.backColor = FwConvert.OleColorToHtmlColor(RwConstants.SUB_COLOR);
-                            }
                             availScheduleEvent.textColor = FwConvert.OleColorToHtmlColor(0); //black 
                             response.InventoryAvailabilityScheduleEvents.Add(availScheduleEvent);
                         }
                     }
 
-                    //staged
-                    if (reservation.QuantityStaged.Total != 0)
+                    //reserved (subbed)
+                    if (reservation.QuantityReserved.Subbed != 0)
+                    {
+                        if ((reservation.FromDateTime <= ToDate) && (reservation.ToDateTime >= FromDate))
+                        {
+                            resourceId++;
+                            TInventoryAvailabilityScheduleResource resource = new TInventoryAvailabilityScheduleResource();
+                            resource.id = resourceId.ToString();
+                            resource.name = reservation.ScheduleResourceDescription;
+                            response.InventoryAvailabilityScheduleResources.Add(resource);
+
+                            DateTime reservationFromDateTime = reservation.FromDateTime;
+                            DateTime reservationToDateTime = reservation.ToDateTime;
+
+                            if (reservationToDateTime.Hour.Equals(0) && reservationToDateTime.Minute.Equals(0) && reservationToDateTime.Second.Equals(0))
+                            {
+                                reservationToDateTime = reservationToDateTime.AddDays(1).AddSeconds(-1);
+                            }
+
+                            eventId++;
+                            TInventoryAvailabilityScheduleEvent availScheduleEvent = new TInventoryAvailabilityScheduleEvent();
+                            availScheduleEvent.id = eventId.ToString();
+                            availScheduleEvent.resource = resourceId.ToString();
+                            availScheduleEvent.start = reservationFromDateTime.ToString("yyyy-MM-ddTHH:mm:ss tt");   //"2019-02-28 12:00:00 AM"
+                            availScheduleEvent.end = reservationToDateTime.ToString("yyyy-MM-ddTHH:mm:ss tt");
+
+                            if (reservation.ToDateTime.Equals(InventoryAvailabilityFunc.LateDateTime))
+                            {
+                                availScheduleEvent.enddisplay = "No End Date";
+                            }
+                            else
+                            {
+                                availScheduleEvent.enddisplay = reservationToDateTime.ToString();
+                            }
+
+                            availScheduleEvent.text = reservation.ReservationDescription;
+                            availScheduleEvent.total = AvailabilityNumberToString(reservation.QuantityReserved.Subbed);
+                            availScheduleEvent.orderNumber = reservation.OrderNumber;
+                            availScheduleEvent.orderStatus = reservation.OrderStatus;
+                            availScheduleEvent.deal = reservation.Deal;
+                            availScheduleEvent.subPoNumber = reservation.SubPurchaseOrderNumber;
+                            availScheduleEvent.subPoVendor = reservation.SubPurchaseOrderVendor;
+                            if (reservation.IsTransfer)
+                            {
+                                availScheduleEvent.barColor = RwGlobals.IN_TRANSIT_COLOR;
+                            }
+                            else
+                            {
+                                availScheduleEvent.barColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_RESERVED);
+                            }
+                            availScheduleEvent.backColor = FwConvert.OleColorToHtmlColor(RwConstants.SUB_COLOR);
+                            availScheduleEvent.textColor = FwConvert.OleColorToHtmlColor(0); //black 
+                            response.InventoryAvailabilityScheduleEvents.Add(availScheduleEvent);
+                        }
+                    }
+
+                    //staged (owned and consigned)
+                    if (reservation.QuantityStaged.OwnedAndConsigned != 0)
                     {
                         if ((reservation.FromDateTime <= ToDate) && (reservation.ToDateTime >= FromDate))
                         {
@@ -2084,22 +2161,18 @@ namespace WebApi.Modules.Home.InventoryAvailability
                             }
 
                             availScheduleEvent.text = reservation.ReservationDescription;
-                            availScheduleEvent.total = AvailabilityNumberToString(reservation.QuantityStaged.Total);
+                            availScheduleEvent.total = AvailabilityNumberToString(reservation.QuantityStaged.OwnedAndConsigned);
                             availScheduleEvent.orderNumber = reservation.OrderNumber;
                             availScheduleEvent.orderStatus = reservation.OrderStatus;
                             availScheduleEvent.deal = reservation.Deal;
                             availScheduleEvent.barColor = RwGlobals.STAGED_COLOR;
-                            if (reservation.QuantitySub > 0)
-                            {
-                                availScheduleEvent.backColor = FwConvert.OleColorToHtmlColor(RwConstants.SUB_COLOR);
-                            }
                             availScheduleEvent.textColor = FwConvert.OleColorToHtmlColor(0); //black 
                             response.InventoryAvailabilityScheduleEvents.Add(availScheduleEvent);
                         }
                     }
 
-                    //out
-                    if (reservation.QuantityOut.Total != 0)
+                    //staged (subbed)
+                    if (reservation.QuantityStaged.Subbed != 0)
                     {
                         if ((reservation.FromDateTime <= ToDate) && (reservation.ToDateTime >= FromDate))
                         {
@@ -2135,7 +2208,57 @@ namespace WebApi.Modules.Home.InventoryAvailability
                             }
 
                             availScheduleEvent.text = reservation.ReservationDescription;
-                            availScheduleEvent.total = AvailabilityNumberToString(reservation.QuantityOut.Total);
+                            availScheduleEvent.total = AvailabilityNumberToString(reservation.QuantityStaged.Subbed);
+                            availScheduleEvent.orderNumber = reservation.OrderNumber;
+                            availScheduleEvent.orderStatus = reservation.OrderStatus;
+                            availScheduleEvent.deal = reservation.Deal;
+                            availScheduleEvent.subPoNumber = reservation.SubPurchaseOrderNumber;
+                            availScheduleEvent.subPoVendor = reservation.SubPurchaseOrderVendor;
+                            availScheduleEvent.barColor = RwGlobals.STAGED_COLOR;
+                            availScheduleEvent.backColor = FwConvert.OleColorToHtmlColor(RwConstants.SUB_COLOR);
+                            availScheduleEvent.textColor = FwConvert.OleColorToHtmlColor(0); //black 
+                            response.InventoryAvailabilityScheduleEvents.Add(availScheduleEvent);
+                        }
+                    }
+
+                    //out (owned and consigned)
+                    if (reservation.QuantityOut.OwnedAndConsigned != 0)
+                    {
+                        if ((reservation.FromDateTime <= ToDate) && (reservation.ToDateTime >= FromDate))
+                        {
+                            resourceId++;
+                            TInventoryAvailabilityScheduleResource resource = new TInventoryAvailabilityScheduleResource();
+                            resource.id = resourceId.ToString();
+                            //resource.name = reservation.OrderNumber;
+                            resource.name = reservation.ScheduleResourceDescription;
+                            response.InventoryAvailabilityScheduleResources.Add(resource);
+
+                            DateTime reservationFromDateTime = reservation.FromDateTime;
+                            DateTime reservationToDateTime = reservation.ToDateTime;
+
+                            if (reservationToDateTime.Hour.Equals(0) && reservationToDateTime.Minute.Equals(0) && reservationToDateTime.Second.Equals(0))
+                            {
+                                reservationToDateTime = reservationToDateTime.AddDays(1).AddSeconds(-1);
+                            }
+
+                            eventId++;
+                            TInventoryAvailabilityScheduleEvent availScheduleEvent = new TInventoryAvailabilityScheduleEvent();
+                            availScheduleEvent.id = eventId.ToString();
+                            availScheduleEvent.resource = resourceId.ToString();
+                            availScheduleEvent.start = reservationFromDateTime.ToString("yyyy-MM-ddTHH:mm:ss tt");   //"2019-02-28 12:00:00 AM"
+                            availScheduleEvent.end = reservationToDateTime.ToString("yyyy-MM-ddTHH:mm:ss tt");
+
+                            if (reservation.ToDateTime.Equals(InventoryAvailabilityFunc.LateDateTime))
+                            {
+                                availScheduleEvent.enddisplay = "No End Date";
+                            }
+                            else
+                            {
+                                availScheduleEvent.enddisplay = reservationToDateTime.ToString();
+                            }
+
+                            availScheduleEvent.text = reservation.ReservationDescription;
+                            availScheduleEvent.total = AvailabilityNumberToString(reservation.QuantityOut.OwnedAndConsigned);
                             availScheduleEvent.orderNumber = reservation.OrderNumber;
                             availScheduleEvent.orderStatus = reservation.OrderStatus;
                             availScheduleEvent.deal = reservation.Deal;
@@ -2152,10 +2275,68 @@ namespace WebApi.Modules.Home.InventoryAvailability
                             {
                                 availScheduleEvent.barColor = RwGlobals.OUT_COLOR;
                             }
-                            if (reservation.QuantitySub > 0)
+                            availScheduleEvent.textColor = FwConvert.OleColorToHtmlColor(0); //black 
+                            response.InventoryAvailabilityScheduleEvents.Add(availScheduleEvent);
+                        }
+                    }
+
+                    //out (subbed)
+                    if (reservation.QuantityOut.Subbed != 0)
+                    {
+                        if ((reservation.FromDateTime <= ToDate) && (reservation.ToDateTime >= FromDate))
+                        {
+                            resourceId++;
+                            TInventoryAvailabilityScheduleResource resource = new TInventoryAvailabilityScheduleResource();
+                            resource.id = resourceId.ToString();
+                            //resource.name = reservation.OrderNumber;
+                            resource.name = reservation.ScheduleResourceDescription;
+                            response.InventoryAvailabilityScheduleResources.Add(resource);
+
+                            DateTime reservationFromDateTime = reservation.FromDateTime;
+                            DateTime reservationToDateTime = reservation.ToDateTime;
+
+                            if (reservationToDateTime.Hour.Equals(0) && reservationToDateTime.Minute.Equals(0) && reservationToDateTime.Second.Equals(0))
                             {
-                                availScheduleEvent.backColor = FwConvert.OleColorToHtmlColor(RwConstants.SUB_COLOR);
+                                reservationToDateTime = reservationToDateTime.AddDays(1).AddSeconds(-1);
                             }
+
+                            eventId++;
+                            TInventoryAvailabilityScheduleEvent availScheduleEvent = new TInventoryAvailabilityScheduleEvent();
+                            availScheduleEvent.id = eventId.ToString();
+                            availScheduleEvent.resource = resourceId.ToString();
+                            availScheduleEvent.start = reservationFromDateTime.ToString("yyyy-MM-ddTHH:mm:ss tt");   //"2019-02-28 12:00:00 AM"
+                            availScheduleEvent.end = reservationToDateTime.ToString("yyyy-MM-ddTHH:mm:ss tt");
+
+                            if (reservation.ToDateTime.Equals(InventoryAvailabilityFunc.LateDateTime))
+                            {
+                                availScheduleEvent.enddisplay = "No End Date";
+                            }
+                            else
+                            {
+                                availScheduleEvent.enddisplay = reservationToDateTime.ToString();
+                            }
+
+                            availScheduleEvent.text = reservation.ReservationDescription;
+                            availScheduleEvent.total = AvailabilityNumberToString(reservation.QuantityOut.Subbed);
+                            availScheduleEvent.orderNumber = reservation.OrderNumber;
+                            availScheduleEvent.orderStatus = reservation.OrderStatus;
+                            availScheduleEvent.deal = reservation.Deal;
+                            availScheduleEvent.subPoNumber = reservation.SubPurchaseOrderNumber;
+                            availScheduleEvent.subPoVendor = reservation.SubPurchaseOrderVendor;
+                            //availScheduleEvent.barColor = RwGlobals.OUT_COLOR;
+                            if (reservation.IsPendingExchange)
+                            {
+                                availScheduleEvent.barColor = RwGlobals.PENDING_EXCHANGE_COLOR;
+                            }
+                            else if (reservation.IsTransfer)
+                            {
+                                availScheduleEvent.barColor = RwGlobals.IN_TRANSIT_COLOR;
+                            }
+                            else
+                            {
+                                availScheduleEvent.barColor = RwGlobals.OUT_COLOR;
+                            }
+                            availScheduleEvent.backColor = FwConvert.OleColorToHtmlColor(RwConstants.SUB_COLOR);
                             availScheduleEvent.textColor = FwConvert.OleColorToHtmlColor(0); //black 
                             response.InventoryAvailabilityScheduleEvents.Add(availScheduleEvent);
                         }

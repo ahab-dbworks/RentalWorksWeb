@@ -876,7 +876,7 @@ namespace WebApi.Modules.Home.OrderItem
                         {
                             TInventoryWarehouseAvailabilityMinimum minAvail = availData.GetMinimumAvailableQuantity(availFromDateTime, availToDateTime);
 
-                            qtyAvailable = minAvail.MinimumAvailable.Total;
+                            qtyAvailable = minAvail.MinimumAvailable.OwnedAndConsigned;
                             conflictDate = minAvail.FirstConfict;
                             isStale = minAvail.IsStale;
                             availColor = minAvail.Color;

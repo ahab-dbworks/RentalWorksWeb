@@ -86,7 +86,7 @@
         if (mode === 'NEW') {
             const controlDefaults = JSON.parse(sessionStorage.getItem('controldefaults'));
             FwFormField.setValue($form, 'div[data-datafield="UnitId"]', controlDefaults.defaultunitid, controlDefaults.defaultunit); // 2 condition blocks of same eval?
-            FwFormField.setValue($form, 'div[data-datafield="Rank"]', controlDefaults.defaultrank, controlDefaults.defaultrank); 
+            FwFormField.setValue($form, 'div[data-datafield="Rank"]', controlDefaults.defaultrank, controlDefaults.defaultrank);
             if (this.Module === 'RentalInventory') {
                 RentalInventoryController.iCodeMask($form);
             }
@@ -280,77 +280,22 @@
         dp.treeEnabled = true;
         dp.resources = resources;
         dp.events.list = events;
-        //dp.resources = [
-        //    {
-        //        name: "200002-024", id: "A", expanded: true, children: [
-        //            { name: "A", id: "A.1" },
-        //            { name: "B", id: "A.2" }
-        //        ]
-        //    },
-        //    { name: "L300044", id: "B" },
-        //    { name: "L300230", id: "C" },
-        //    { name: "L300962", id: "D" }
-        //];
-        //dp.events.list = [
-        //    {
-        //        start: "2018-11-30T00:00:00",
-        //        end: "2018-12-10T00:00:00",
-        //        id: "1",
-        //        resource: "A",
-        //        text: "200002-024 PENDING EXCHANGE (DED RENTALS)",
-        //        orderNumber: "200002-024",
-        //        orderStatus: "CONFIRMED",
-        //        deal: "Testing"
-        //    },
-        //    {
-        //        start: "2018-12-13T00:00:00",
-        //        end: "2018-12-27T00:00:00",
-        //        id: "6",
-        //        resource: "A",
-        //        text: "200002-024 PENDING EXCHANGE (DED RENTALS)",
-        //        orderNumber: "200002-024",
-        //        orderStatus: "CONFIRMED",
-        //        deal: "Testing"
-        //    },
-        //    {
-        //        start: "2018-11-30T00:00:00",
-        //        end: "2018-12-27T00:00:00",
-        //        id: "2",
-        //        resource: "B",
-        //        text: "L300044 SUB-RENTAL REPORT - SUBS (THE MOVIE HOUSE - 2014 RENTALS)",
-        //        orderNumber: "L300044",
-        //        orderStatus: "CONFIRMED",
-        //        deal: "Testing"
-        //    },
-        //    {
-        //        start: "2018-11-30T00:00:00",
-        //        end: "2018-12-27T00:00:00",
-        //        id: "2",
-        //        resource: "C",
-        //        text: "L300230 CROSS I-CODE EXCHANGE TEST (FELD RENTALS)",
-        //        orderNumber: "L300230",
-        //        orderStatus: "CONFIRMED",
-        //        deal: "Testing"
-        //    },
-        //    {
-        //        start: "2018-11-30T00:00:00",
-        //        end: "2018-12-27T00:00:00",
-        //        id: "2",
-        //        resource: "D",
-        //        text: "L300962 ORDER FOR STAGING A CONTAINER (ENDLESS3)",
-        //        orderNumber: "L300962",
-        //        orderStatus: "CONFIRMED",
-        //        deal: "Testing"
-        //    }
-        //];
+
         dp.bubble = new DayPilot.Bubble({
             cssClassPrefix: "bubble_default",
             onLoad: function (args) {
                 var ev = args.source;
                 args.async = true;  // notify manually using .loaded()
 
-                // simulating slow server-side load
-                args.html = "<div style='font-weight:bold'>" + ev.text() + "</div><div>Order Number: " + ev.data.orderNumber + "</div><div>Order Status: " + ev.data.orderStatus + "</div><div>Deal: " + ev.data.deal + "</div><div>Start: " + ev.start().toString("MM/dd/yyyy HH:mm") + "</div><div>End: " + ev.end().toString("MM/dd/yyyy HH:mm") + "</div><div>Id: " + ev.id() + "</div>";
+                //args.html = "<div style='font-weight:bold'>" + ev.text() + "</div><div>Order Number: " + ev.data.orderNumber + "</div><div>Order Status: " + ev.data.orderStatus + "</div><div>Deal: " + ev.data.deal + "</div><div>Start: " + ev.start().toString("MM/dd/yyyy HH:mm") + "</div><div>End: " + ev.end().toString("MM/dd/yyyy HH:mm") + "</div><div>Id: " + ev.id() + "</div>";
+                args.html = ``;
+                args.html += `<div style='font-weight:bold'>${ev.text()}</div><div>Order Number: ${ev.data.orderNumber}</div><div>Order Status: ${ev.data.orderStatus}</div><div>Deal: ${ev.data.deal}</div><div>Start: ${ev.start().toString("MM/dd/yyyy HH:mm")}</div><div>End: ${ev.end().toString("MM/dd/yyyy HH:mm")}</div><div>Id: ${ev.id()}</div>`;
+                if (ev.data.subPoNumber) {
+                    args.html += `<div>Sub PO Number: ${ev.data.subPoNumber}</div>`;
+                    if (ev.data.subPoVendor) {
+                        args.html += `<div>Vendor: ${ev.data.subPoVendor}</div>`;
+                    }
+                }
                 args.loaded();
 
             }

@@ -264,7 +264,7 @@ namespace WebApi.Modules.Reports.OrderReports.OrderConflictReport
                                         conflictRow[dt.GetColumnNo("QuantitySub")] = reservation.QuantitySub;
                                         conflictRow[dt.GetColumnNo("QuantityReserved")] = reservation.QuantityReserved.Total;
                                         TInventoryWarehouseAvailabilityMinimum minAvail = availData.GetMinimumAvailableQuantity(reservation.FromDateTime, reservation.ToDateTime);
-                                        conflictRow[dt.GetColumnNo("QuantityAvailable")] = minAvail.MinimumAvailable.Total;
+                                        conflictRow[dt.GetColumnNo("QuantityAvailable")] = minAvail.MinimumAvailable.OwnedAndConsigned;
                                         conflictRow[dt.GetColumnNo("QuantityInRepair")] = availData.InRepair.Total;
                                         conflictRow[dt.GetColumnNo("ConflictType")] = (reservation.IsNegativeConflict ? RwConstants.INVENTORY_CONFLICT_TYPE_NEGATIVE_DESCRIPTION : reservation.IsPositiveConflict ? RwConstants.INVENTORY_CONFLICT_TYPE_POSITIVE_DESCRIPTION : "");
                                         conflictRows.Add(conflictRow);
