@@ -28,6 +28,24 @@
             AssignBarCodes: { id: '4B9C17DE-7FC0-4C33-B953-26FC90F32EA0', caption: 'Assign Bar Codes', nav: 'module/assignbarcodes' },
             AvailabilityConflicts: { id: 'DF2859D1-3834-42DA-A367-85B168850ED9', caption: 'Availability Conflicts', nav: 'module/availabilityconflicts' },
             Billing: { id: '34E0472E-9057-4C66-8CC2-1938B3222569', caption: 'Billing', nav: 'module/billing' },
+            BillingWorksheet: {
+                id: 'F178308F-ECEF-4810-9EBF-5CA118051061', caption: 'Billing Worksheet', nav: 'module/billingworksheet',
+                browse: {
+                    menuItems: {
+                        Void: { id: '{123DC979-2CA0-4C02-9BD1-94A16BEC89AF}' },
+                        Approve: { id: '{259F747F-9B40-4484-9DDA-84B427DBB9D3}' },
+                        Unapprove: { id: '{7FA7E8A9-A81D-4AE4-AFD3-F92C3F57186E}' }
+                    }
+                },
+                form: {
+                    menuItems: {
+                        Void: { id: '{86057E2F-6F23-4F36-A27E-13995DB22938}' },
+                        PrintWorksheet: { id: '{39E81BF9-671C-47E7-A6C4-4DD880B0B145}' },
+                        Approve: { id: '{A4451EF0-92BC-4535-AB63-36341F194BF4}' },
+                        Unapprove: { id: '{86723D8A-E4AA-40EA-8902-09F5F3DA7E5C}' },
+                    }
+                }
+            },
             BillingMessage: { id: 'B232DF4D-462A-4810-952D-73F8DE66800C', caption: 'Billing Message', nav: 'module/billingmessage' },
             CheckIn: {
                 id: '77317E53-25A2-4C12-8DAD-7541F9A09436', caption: 'Check-In', nav: 'module/checkin',
