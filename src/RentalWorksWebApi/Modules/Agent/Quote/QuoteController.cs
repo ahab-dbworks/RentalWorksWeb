@@ -11,7 +11,7 @@ using WebApi.Controllers;
 using WebApi.Logic;
 using WebApi.Modules.Agent.Order;
 using WebLibrary;
-using static WebApi.Modules.Home.DealOrder.DealOrderRecord;
+using static WebApi.Modules.HomeControls.DealOrder.DealOrderRecord;
 
 namespace WebApi.Modules.Agent.Quote
 {
@@ -24,7 +24,7 @@ namespace WebApi.Modules.Agent.Quote
         //------------------------------------------------------------------------------------
         // POST api/v1/quote/browse
         [HttpPost("browse")]
-        [FwControllerMethod(Id: "5aghkpZ8BLC68")]
+        [FwControllerMethod(Id: "ITsUfVj2zTAH", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             if (!await AppFunc.ValidateBrowseRequestActiveViewDealId(this.AppConfig, this.UserSession, browseRequest))
@@ -36,7 +36,7 @@ namespace WebApi.Modules.Agent.Quote
         //------------------------------------------------------------------------------------ 
         // GET api/v1/quote/legend 
         [HttpGet("legend")]
-        [FwControllerMethod(Id: "bV65XBHFpqRzf")]
+        [FwControllerMethod(Id: "bV65XBHFpqRzf", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<Dictionary<string, string>>> GetLegend()
         {
             Dictionary<string, string> legend = new Dictionary<string, string>();
@@ -51,9 +51,9 @@ namespace WebApi.Modules.Agent.Quote
             return new OkObjectResult(legend);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id: "5aghkpZ8BLC68")]
+        [FwControllerMethod(Id: "5aghkpZ8BLC68", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -61,7 +61,7 @@ namespace WebApi.Modules.Agent.Quote
         //------------------------------------------------------------------------------------
         // POST api/v1/quote/copytoquote/A0000001
         [HttpPost("copytoquote/{id}")]
-        [FwControllerMethod(Id: "8eK9AJhpOq8c4")]
+        [FwControllerMethod(Id: "xH1RcWMEbgxE", ActionType: FwControllerActionTypes.Option, Caption: "Copy to Quote")]
         public async Task<ActionResult<QuoteLogic>> CopyToQuote([FromRoute]string id, [FromBody] QuoteOrderCopyRequest copyRequest)
         {
             if (!ModelState.IsValid)
@@ -95,7 +95,7 @@ namespace WebApi.Modules.Agent.Quote
         //------------------------------------------------------------------------------------        
         // POST api/v1/quote/copytoorder/A0000001
         [HttpPost("copytoorder/{id}")]
-        [FwControllerMethod(Id: "8eK9AJhpOq8c4")]
+        [FwControllerMethod(Id: "8eK9AJhpOq8c4", ActionType: FwControllerActionTypes.Option, Caption: "Copy to Order")]
         public async Task<ActionResult<OrderLogic>> CopyToOrder([FromRoute]string id, [FromBody] QuoteOrderCopyRequest copyRequest)
         {
             if (!ModelState.IsValid)
@@ -129,7 +129,7 @@ namespace WebApi.Modules.Agent.Quote
         //------------------------------------------------------------------------------------        
         // POST api/v1/quote/createorder/A0000001
         [HttpPost("createorder/{id}")]
-        [FwControllerMethod(Id: "jzLmFvzdy5hE1")]
+        [FwControllerMethod(Id: "jzLmFvzdy5hE1", ActionType: FwControllerActionTypes.Option, Caption: "Create Order")]
         public async Task<ActionResult<OrderLogic>> CreateOrder([FromRoute]string id)
         {
             if (!ModelState.IsValid)
@@ -163,7 +163,7 @@ namespace WebApi.Modules.Agent.Quote
         //------------------------------------------------------------------------------------        
         // POST api/v1/quote/reserve/A0000001
         [HttpPost("reserve/{id}")]
-        [FwControllerMethod(Id: "1oBE7m2rBjxhm")]
+        [FwControllerMethod(Id: "1oBE7m2rBjxhm", ActionType: FwControllerActionTypes.Option, Caption: "Reserve")]
         public async Task<ActionResult<QuoteLogic>> Reserve([FromRoute]string id)
         {
             if (!ModelState.IsValid)
@@ -207,7 +207,7 @@ namespace WebApi.Modules.Agent.Quote
         //------------------------------------------------------------------------------------        
         // POST api/v1/quote/createnewversion/A0000001
         [HttpPost("createnewversion/{id}")]
-        [FwControllerMethod(Id: "6KMadUFDT4cX4")]
+        [FwControllerMethod(Id: "6KMadUFDT4cX4", ActionType: FwControllerActionTypes.Option, Caption: "Create New Version")]
         public async Task<ActionResult<QuoteLogic>> CreateNewVersion([FromRoute]string id)
         {
             if (!ModelState.IsValid)
@@ -241,7 +241,7 @@ namespace WebApi.Modules.Agent.Quote
         //------------------------------------------------------------------------------------        
         // POST api/v1/quote/makequoteactive/A0000001
         [HttpPost("makequoteactive/{id}")]
-        [FwControllerMethod(Id: "7mrZ4Q8ShsJ")]
+        [FwControllerMethod(Id: "7mrZ4Q8ShsJ", ActionType: FwControllerActionTypes.Option, Caption: "Make Quote Active")]
         public async Task<ActionResult<TSpStatusResponse>> MakeQuoteActive([FromRoute]string id)
         {
             if (!ModelState.IsValid)
@@ -282,7 +282,7 @@ namespace WebApi.Modules.Agent.Quote
         //------------------------------------------------------------------------------------        
         // POST api/v1/quote/cancel/A0000001
         [HttpPost("cancel/{id}")]
-        [FwControllerMethod(Id: "dpH0uCuEp3E89")]
+        [FwControllerMethod(Id: "dpH0uCuEp3E89", ActionType: FwControllerActionTypes.Option, Caption: "Cancel Quote")]
         public async Task<ActionResult<QuoteLogic>> CancelQuote([FromRoute]string id)
         {
             if (!ModelState.IsValid)
@@ -316,7 +316,7 @@ namespace WebApi.Modules.Agent.Quote
         //------------------------------------------------------------------------------------       
         // POST api/v1/quote/uncancel/A0000001
         [HttpPost("uncancel/{id}")]
-        [FwControllerMethod(Id: "i3Lb6rWQdXHSm")]
+        [FwControllerMethod(Id: "i3Lb6rWQdXHSm", ActionType: FwControllerActionTypes.Option, Caption: "Uncancel Quote")]
         public async Task<ActionResult<QuoteLogic>> UncancelQuote([FromRoute]string id)
         {
             if (!ModelState.IsValid)
@@ -350,7 +350,7 @@ namespace WebApi.Modules.Agent.Quote
         //------------------------------------------------------------------------------------       
         // POST api/v1/order/applybottomlinedaysperweek
         [HttpPost("applybottomlinedaysperweek")]
-        [FwControllerMethod(Id: "B5zs0jNJlYt9k")]
+        [FwControllerMethod(Id: "B5zs0jNJlYt9k", ActionType: FwControllerActionTypes.Edit, Caption: "Apply Bottom Line Days Per Week")]
         public async Task<ActionResult<bool>> ApplyBottomLineDaysPerWeek([FromBody] ApplyBottomLineDaysPerWeekRequest request)
         {
             if (!ModelState.IsValid)
@@ -385,7 +385,7 @@ namespace WebApi.Modules.Agent.Quote
         //------------------------------------------------------------------------------------
         // POST api/v1/order/applybottomlinediscountpercent
         [HttpPost("applybottomlinediscountpercent")]
-        [FwControllerMethod(Id: "U6LMoC2hxtR8w")]
+        [FwControllerMethod(Id: "U6LMoC2hxtR8w", ActionType: FwControllerActionTypes.Edit, Caption: "Apply Bottom Line Discount Percent")]
         public async Task<ActionResult<bool>> ApplyBottomLineDiscountPercent([FromBody] ApplyBottomLineDiscountPercentRequest request)
         {
             if (!ModelState.IsValid)
@@ -420,7 +420,7 @@ namespace WebApi.Modules.Agent.Quote
         //------------------------------------------------------------------------------------
         // POST api/v1/order/applybottomlinetotal
         [HttpPost("applybottomlinetotal")]
-        [FwControllerMethod(Id: "IyKyL5lOiP6pU")]
+        [FwControllerMethod(Id: "IyKyL5lOiP6pU", ActionType: FwControllerActionTypes.Edit, Caption: "Apply Bottom Line Total")]
         public async Task<ActionResult<bool>> ApplyBottomLineTotal([FromBody] ApplyBottomLineTotalRequest request)
         {
             if (!ModelState.IsValid)
@@ -456,7 +456,7 @@ namespace WebApi.Modules.Agent.Quote
 
         // POST api/v1/quote/changeofficelocation/A0000001
         [HttpPost("changeofficelocation/{id}")]
-        [FwControllerMethod(Id: "eu2FcQiK9adgk")]
+        [FwControllerMethod(Id: "eu2FcQiK9adgk", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<ChangeOrderOfficeLocationResponse>> ChangeOfficeLocation([FromRoute]string id, [FromBody] ChangeOrderOfficeLocationRequest request)
         {
             if (!ModelState.IsValid)
@@ -487,7 +487,7 @@ namespace WebApi.Modules.Agent.Quote
 
         // GET api/v1/quote
         [HttpGet]
-        [FwControllerMethod(Id: "pGYcsCb0FxCEC")]
+        [FwControllerMethod(Id: "pGYcsCb0FxCEC", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<QuoteLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<QuoteLogic>(pageno, pagesize, sort);
@@ -495,7 +495,7 @@ namespace WebApi.Modules.Agent.Quote
         //------------------------------------------------------------------------------------
         // GET api/v1/quote/A0000001
         [HttpGet("{id}")]
-        [FwControllerMethod(Id: "R5IFp8DPp3PHh")]
+        [FwControllerMethod(Id: "R5IFp8DPp3PHh", ActionType: FwControllerActionTypes.View)]
         public async Task<ActionResult<QuoteLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<QuoteLogic>(id);
@@ -503,15 +503,23 @@ namespace WebApi.Modules.Agent.Quote
         //------------------------------------------------------------------------------------
         // POST api/v1/quote
         [HttpPost]
-        [FwControllerMethod(Id: "kw5bRMvEGkPWY")]
-        public async Task<ActionResult<QuoteLogic>> PostAsync([FromBody]QuoteLogic l)
+        [FwControllerMethod(Id: "kw5bRMvEGkPWY", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<QuoteLogic>> NewAsync([FromBody]QuoteLogic l)
         {
-            return await DoPostAsync<QuoteLogic>(l);
+            return await DoNewAsync<QuoteLogic>(l);
+        }
+        //------------------------------------------------------------------------------------       
+        // PUT api/v1/quot/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "JS8b45qWSjLpI", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<QuoteLogic>> EditAsync([FromRoute] string id, [FromBody]QuoteLogic l)
+        {
+            return await DoEditAsync<QuoteLogic>(l);
         }
         //------------------------------------------------------------------------------------       
         // POST api/v1/quote/submit/A0000001
         [HttpPost("submit/{id}")]
-        [FwControllerMethod(Id: "85YP7Omvhhmh")]
+        [FwControllerMethod(Id: "85YP7Omvhhmh", ActionType: FwControllerActionTypes.Option, Caption: "Submit Quote")]
         public async Task<ActionResult<QuoteLogic>> SubmitQuote([FromRoute]string id)
         {
             if (!ModelState.IsValid)
@@ -545,7 +553,7 @@ namespace WebApi.Modules.Agent.Quote
         //------------------------------------------------------------------------------------
         // POST api/v1/quote/activatequoterequest/A0000001
         [HttpPost("activatequoterequest/{id}")]
-        [FwControllerMethod(Id: "IAxyDXaKQVQt")]
+        [FwControllerMethod(Id: "IAxyDXaKQVQt", ActionType: FwControllerActionTypes.Option, Caption: "Activate Quote Request")]
         public async Task<ActionResult<QuoteLogic>> ActivateQuoteRequest([FromRoute]string id)
         {
             if (!ModelState.IsValid)

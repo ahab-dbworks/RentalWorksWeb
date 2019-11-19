@@ -1,6 +1,6 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
-namespace WebApi.Modules.Home.ContractItemDetail
+namespace WebApi.Modules.HomeControls.ContractItemDetail
 {
     [FwLogic(Id:"h3uewaeFBSqh")]
     public class ContractItemDetailLogic : AppBusinessLogic

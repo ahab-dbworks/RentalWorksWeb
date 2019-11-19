@@ -11,7 +11,7 @@ using WebApi.Controllers;
 using WebApi.Logic;
 using WebApi.Modules.Agent.PurchaseOrder;
 
-namespace WebApi.Modules.Home.PurchaseOrderReturnItem
+namespace WebApi.Modules.HomeControls.PurchaseOrderReturnItem
 {
     public class ReturnItemRequest
     {
@@ -61,15 +61,15 @@ namespace WebApi.Modules.Home.PurchaseOrderReturnItem
         //------------------------------------------------------------------------------------ 
         // POST api/v1/purchaseorderreturnitem/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"Q9Vkiqy0kpc9j")]
+        [FwControllerMethod(Id:"Q9Vkiqy0kpc9j", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/purchaseorderreturnitem/exportexcelxlsx
+        // POST api/v1/purchaseorderreturnitem/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"ZXQmTbT88kNtY")]
+        [FwControllerMethod(Id:"ZXQmTbT88kNtY", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -77,7 +77,7 @@ namespace WebApi.Modules.Home.PurchaseOrderReturnItem
         //------------------------------------------------------------------------------------ 
         // POST api/v1/purchaseorderreturnitem/returnitems
         [HttpPost("returnitems")]
-        [FwControllerMethod(Id:"Qq7dEVLcAm4vQ")]
+        [FwControllerMethod(Id:"Qq7dEVLcAm4vQ", ActionType: FwControllerActionTypes.Option)]
         public async Task<ActionResult<ReturnItemResponse>> ReturnItems([FromBody] ReturnItemRequest request)
         {
             if (!ModelState.IsValid)
@@ -113,7 +113,7 @@ namespace WebApi.Modules.Home.PurchaseOrderReturnItem
         //------------------------------------------------------------------------------------        
         // POST api/v1/purchaseorderreturnitem/selectall
         [HttpPost("selectall")]
-        [FwControllerMethod(Id:"x7iB3kcAYOOuH")]
+        [FwControllerMethod(Id:"DbE8sDn09QI1", ActionType: FwControllerActionTypes.Option)]
         public async Task<ActionResult<SelectAllNoneReturnItemResponse>> SelectAll([FromBody] SelectAllNoneReturnItemRequest request)
         {
             if (!ModelState.IsValid)
@@ -138,7 +138,7 @@ namespace WebApi.Modules.Home.PurchaseOrderReturnItem
 
         // POST api/v1/purchaseorderreturnitem/selectnone
         [HttpPost("selectnone")]
-        [FwControllerMethod(Id:"x7iB3kcAYOOuH")]
+        [FwControllerMethod(Id:"x7iB3kcAYOOuH", ActionType: FwControllerActionTypes.Option)]
         public async Task<ActionResult<SelectAllNoneReturnItemResponse>> SelectNone([FromBody] SelectAllNoneReturnItemRequest request)
         {
             if (!ModelState.IsValid)

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options; 
 using WebApi.Controllers; 
 using System.Threading.Tasks;
-namespace WebApi.Modules.Home.ItemAttributeValue
+namespace WebApi.Modules.HomeControls.ItemAttributeValue
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
@@ -17,15 +17,15 @@ namespace WebApi.Modules.Home.ItemAttributeValue
         //------------------------------------------------------------------------------------ 
         // POST api/v1/itemattributevalue/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"gtfsNtPMKteH")]
+        [FwControllerMethod(Id:"gtfsNtPMKteH", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"ThqZWUbchzDX")]
+        [FwControllerMethod(Id:"ThqZWUbchzDX", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -33,7 +33,7 @@ namespace WebApi.Modules.Home.ItemAttributeValue
         //------------------------------------------------------------------------------------ 
         // GET api/v1/itemattributevalue 
         [HttpGet]
-        [FwControllerMethod(Id:"X6zAgQxhG0RZ")]
+        [FwControllerMethod(Id:"X6zAgQxhG0RZ", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<ItemAttributeValueLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<ItemAttributeValueLogic>(pageno, pagesize, sort);
@@ -41,7 +41,7 @@ namespace WebApi.Modules.Home.ItemAttributeValue
         //------------------------------------------------------------------------------------ 
         // GET api/v1/itemattributevalue/A0000001 
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"h9VMJrFaxxfE")]
+        [FwControllerMethod(Id:"h9VMJrFaxxfE", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<ItemAttributeValueLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<ItemAttributeValueLogic>(id);
@@ -49,15 +49,23 @@ namespace WebApi.Modules.Home.ItemAttributeValue
         //------------------------------------------------------------------------------------ 
         // POST api/v1/itemattributevalue 
         [HttpPost]
-        [FwControllerMethod(Id:"KM22ukR1dGhR")]
-        public async Task<ActionResult<ItemAttributeValueLogic>> PostAsync([FromBody]ItemAttributeValueLogic l)
+        [FwControllerMethod(Id:"KM22ukR1dGhR", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<ItemAttributeValueLogic>> NewAsync([FromBody]ItemAttributeValueLogic l)
         {
-            return await DoPostAsync<ItemAttributeValueLogic>(l);
+            return await DoNewAsync<ItemAttributeValueLogic>(l);
+        }
+        //------------------------------------------------------------------------------------ 
+        // PUT api/v1/itemattributevalue/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "sLP438DDYgUhz", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<ItemAttributeValueLogic>> EditAsync([FromRoute] string id, [FromBody]ItemAttributeValueLogic l)
+        {
+            return await DoEditAsync<ItemAttributeValueLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
         // DELETE api/v1/itemattributevalue/A0000001 
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id:"aTs8XwiiT3SJ")]
+        [FwControllerMethod(Id:"aTs8XwiiT3SJ", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<ItemAttributeValueLogic>(id);

@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic;
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data;
-namespace WebApi.Modules.Home.MasterLocation
+namespace WebApi.Modules.HomeControls.MasterLocation
 {
     [FwSqlTable("masterlocation")]
     public class MasterLocationRecord : AppDataReadWriteRecord

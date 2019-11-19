@@ -3,7 +3,7 @@ using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-namespace WebApi.Modules.Administrator.WidgetGroup
+namespace WebApi.Modules.Settings.WidgetGroup
 {
     [FwSqlTable("widgetgroupsview")]
     public class WidgetGroupLoader : AppDataLoadRecord

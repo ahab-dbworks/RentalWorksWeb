@@ -2,7 +2,7 @@ using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
 using Newtonsoft.Json;
 using WebApi.Logic;
-using WebApi.Modules.Home.DealOrder;
+using WebApi.Modules.HomeControls.DealOrder;
 using WebLibrary;
 
 namespace WebApi.Modules.Settings.TemplateSettings.Template

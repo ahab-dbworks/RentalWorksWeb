@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using WebApi.Controllers;
 using System.Threading.Tasks;
-namespace WebApi.Modules.Home.StagedItem
+namespace WebApi.Modules.HomeControls.StagedItem
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
@@ -17,15 +17,15 @@ namespace WebApi.Modules.Home.StagedItem
         //------------------------------------------------------------------------------------ 
         // POST api/v1/stageditem/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"X8W7xZqggzBPV")]
+        [FwControllerMethod(Id:"X8W7xZqggzBPV", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/stageditem/exportexcelxlsx
+        // POST api/v1/stageditem/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"zTXjesBwbBX9F")]
+        [FwControllerMethod(Id:"zTXjesBwbBX9F", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);

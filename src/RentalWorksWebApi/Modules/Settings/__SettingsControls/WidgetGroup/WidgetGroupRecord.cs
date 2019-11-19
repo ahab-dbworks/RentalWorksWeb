@@ -1,7 +1,8 @@
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-namespace WebApi.Modules.Administrator.WidgetGroup
+
+namespace WebApi.Modules.Settings.WidgetGroup
 {
     [FwSqlTable("widgetgroups")]
     public class WidgetGroupRecord : AppDataReadWriteRecord

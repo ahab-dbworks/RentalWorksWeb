@@ -6,7 +6,7 @@ using System.Data;
 using System.Threading.Tasks;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Utilities.BrowseActiveViewFields
+namespace WebApi.Modules.UtilitiesControls.BrowseActiveViewFields
 {
     public static class BrowseActiveViewFieldsFunc
     {

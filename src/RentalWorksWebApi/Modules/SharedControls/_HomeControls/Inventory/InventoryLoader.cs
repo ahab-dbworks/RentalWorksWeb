@@ -1,8 +1,8 @@
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
-using WebApi.Modules.Home.Master;
+using WebApi.Modules.HomeControls.Master;
 
-namespace WebApi.Modules.Home.Inventory
+namespace WebApi.Modules.HomeControls.Inventory
 {
     public abstract class InventoryLoader : MasterLoader
     {

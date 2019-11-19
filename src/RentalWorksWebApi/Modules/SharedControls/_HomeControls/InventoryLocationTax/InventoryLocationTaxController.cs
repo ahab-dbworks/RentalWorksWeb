@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options; 
 using WebApi.Controllers; 
 using System.Threading.Tasks;
-namespace WebApi.Modules.Home.InventoryLocationTax
+namespace WebApi.Modules.HomeControls.InventoryLocationTax
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
@@ -17,15 +17,15 @@ namespace WebApi.Modules.Home.InventoryLocationTax
         //------------------------------------------------------------------------------------ 
         // POST api/v1/inventorylocationtax/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"GNQxSIJYaT1C")]
+        [FwControllerMethod(Id:"GNQxSIJYaT1C", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"Be4XkpKdpS6Q")]
+        [FwControllerMethod(Id:"Be4XkpKdpS6Q", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -33,7 +33,7 @@ namespace WebApi.Modules.Home.InventoryLocationTax
         //------------------------------------------------------------------------------------ 
         // GET api/v1/inventorylocationtax 
         [HttpGet]
-        [FwControllerMethod(Id:"NgjytzWxWlSg")]
+        [FwControllerMethod(Id:"NgjytzWxWlSg", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<InventoryLocationTaxLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<InventoryLocationTaxLogic>(pageno, pagesize, sort);
@@ -41,7 +41,7 @@ namespace WebApi.Modules.Home.InventoryLocationTax
         //------------------------------------------------------------------------------------ 
         // GET api/v1/inventorylocationtax/A0000001 
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"jlWSyNVtC9nn")]
+        [FwControllerMethod(Id:"jlWSyNVtC9nn", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<InventoryLocationTaxLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<InventoryLocationTaxLogic>(id);
@@ -49,15 +49,23 @@ namespace WebApi.Modules.Home.InventoryLocationTax
         //------------------------------------------------------------------------------------ 
         // POST api/v1/inventorylocationtax 
         [HttpPost]
-        [FwControllerMethod(Id:"sfZ7Tlqb7TVM")]
-        public async Task<ActionResult<InventoryLocationTaxLogic>> PostAsync([FromBody]InventoryLocationTaxLogic l)
+        [FwControllerMethod(Id:"sfZ7Tlqb7TVM", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<InventoryLocationTaxLogic>> NewAsync([FromBody]InventoryLocationTaxLogic l)
         {
-            return await DoPostAsync<InventoryLocationTaxLogic>(l);
+            return await DoNewAsync<InventoryLocationTaxLogic>(l);
+        }
+        //------------------------------------------------------------------------------------ 
+        // PUT api/v1/inventorylocationtax/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "06fTM0WNIToJG", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<InventoryLocationTaxLogic>> EditAsync([FromRoute] string id, [FromBody]InventoryLocationTaxLogic l)
+        {
+            return await DoEditAsync<InventoryLocationTaxLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
         // DELETE api/v1/inventorylocationtax/A0000001 
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id:"hvrSMK5zNq46")]
+        [FwControllerMethod(Id:"hvrSMK5zNq46", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<InventoryLocationTaxLogic>(id);

@@ -6,12 +6,12 @@ using System;
 using System.Threading.Tasks;
 using WebApi.Logic;
 using WebApi.Modules.Agent.Vendor;
-using WebApi.Modules.Home.DealOrder;
-using WebApi.Modules.Home.DealOrderDetail;
-using WebApi.Modules.Home.Tax;
+using WebApi.Modules.HomeControls.DealOrder;
+using WebApi.Modules.HomeControls.DealOrderDetail;
+using WebApi.Modules.HomeControls.Tax;
 using WebApi.Modules.Settings.SystemSettings.DefaultSettings;
 using WebLibrary;
-using static WebApi.Modules.Home.DealOrder.DealOrderRecord;
+using static WebApi.Modules.HomeControls.DealOrder.DealOrderRecord;
 
 namespace WebApi.Modules.Agent.PurchaseOrder
 {

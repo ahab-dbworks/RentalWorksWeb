@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Http;
 //this is a test
 // gitkraken speed test 2
 
-namespace WebApi.Modules.Administrator.Test
+namespace WebApi.Modules.AdministratorControls.Test
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "administrator-v1")]

@@ -36,7 +36,7 @@ namespace WebApi.Modules.Inventory.CompleteQc
         //------------------------------------------------------------------------------------ 
         // POST api/v1/completeqc/completeqcitem
         [HttpPost("completeqcitem")]
-        [FwControllerMethod(Id: "xzYWo1xclDpJ")]
+        [FwControllerMethod(Id: "xzYWo1xclDpJ", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<CompleteQcItemResponse>> CompleteQcItem([FromBody]CompleteQcItemRequest request)
         {
             if (!ModelState.IsValid)
@@ -61,8 +61,8 @@ namespace WebApi.Modules.Inventory.CompleteQc
         //------------------------------------------------------------------------------------ 
         // POST api/v1/completeqc/updateqcitem
         [HttpPost("updateqcitem")]
-        [FwControllerMethod(Id: "ge5Y42NIEBGE")]
-        public async Task<ActionResult<UpdateQcItemResponse>> StageItem([FromBody]UpdateQcItemRequest request)
+        [FwControllerMethod(Id: "ge5Y42NIEBGE", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<UpdateQcItemResponse>> UpdateQcItem([FromBody]UpdateQcItemRequest request)
         {
             if (!ModelState.IsValid)
             {

@@ -17,7 +17,7 @@ namespace WebApi.Modules.Settings.DiscountItem
         //------------------------------------------------------------------------------------ 
         // POST api/v1/discountitem/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"Y3jAcjLkbnIv")]
+        [FwControllerMethod(Id:"Y3jAcjLkbnIv", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
@@ -25,7 +25,7 @@ namespace WebApi.Modules.Settings.DiscountItem
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"7VW0H7awipPK")]
+        [FwControllerMethod(Id:"7VW0H7awipPK", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -33,7 +33,7 @@ namespace WebApi.Modules.Settings.DiscountItem
         //------------------------------------------------------------------------------------ 
         // GET api/v1/discountitem 
         [HttpGet]
-        [FwControllerMethod(Id:"fsU23r6XoB39")]
+        [FwControllerMethod(Id:"fsU23r6XoB39", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<DiscountItemLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<DiscountItemLogic>(pageno, pagesize, sort);
@@ -41,7 +41,7 @@ namespace WebApi.Modules.Settings.DiscountItem
         //------------------------------------------------------------------------------------ 
         // GET api/v1/discountitem/A0000001 
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"trLqZAVvntAU")]
+        [FwControllerMethod(Id:"trLqZAVvntAU", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DiscountItemLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<DiscountItemLogic>(id);
@@ -49,15 +49,23 @@ namespace WebApi.Modules.Settings.DiscountItem
         //------------------------------------------------------------------------------------ 
         // POST api/v1/discountitem 
         [HttpPost]
-        [FwControllerMethod(Id:"pP0RhTPKpzHq")]
-        public async Task<ActionResult<DiscountItemLogic>> PostAsync([FromBody]DiscountItemLogic l)
+        [FwControllerMethod(Id:"pP0RhTPKpzHq", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<DiscountItemLogic>> NewAsync([FromBody]DiscountItemLogic l)
         {
-            return await DoPostAsync<DiscountItemLogic>(l);
+            return await DoNewAsync<DiscountItemLogic>(l);
+        }
+        //------------------------------------------------------------------------------------ 
+        // PUT api/v1/discountitem/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "vDxzf6nSwtiJA", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<DiscountItemLogic>> EditAsync([FromRoute] string id, [FromBody]DiscountItemLogic l)
+        {
+            return await DoEditAsync<DiscountItemLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
         // DELETE api/v1/discountitem/A0000001 
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id:"SPkaYZTVB6Tl")]
+        [FwControllerMethod(Id:"SPkaYZTVB6Tl", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<DiscountItemLogic>(id);

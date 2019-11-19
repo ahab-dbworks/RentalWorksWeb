@@ -1,6 +1,6 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
-namespace WebApi.Modules.Home.SubPurchaseOrderItem
+namespace WebApi.Modules.HomeControls.SubPurchaseOrderItem
 {
     [FwLogic(Id:"KmFrofZhOs5nE")]
     public class SubPurchaseOrderItemLogic : AppBusinessLogic

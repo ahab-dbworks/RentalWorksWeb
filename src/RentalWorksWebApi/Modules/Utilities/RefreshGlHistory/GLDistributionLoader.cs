@@ -2,10 +2,9 @@ using FwStandard.Data;
 using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using System.Data;
-using System.Threading.Tasks;
 using WebApi.Data;
-namespace WebApi.Modules.Home.GLDistribution
+
+namespace WebApi.Modules.Utilities.GLDistribution
 {
     [FwSqlTable("dbo.funcvendorinvoiceglweb(@vendorinvoiceid)")]
     public class GLDistributionLoader : AppDataLoadRecord

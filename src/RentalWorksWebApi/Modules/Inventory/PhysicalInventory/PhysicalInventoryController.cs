@@ -19,15 +19,25 @@ namespace WebApi.Modules.Inventory.PhysicalInventory
         //------------------------------------------------------------------------------------ 
         // POST api/v1/physicalinventory/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id: "t9au78IU5hbv")]
+        [FwControllerMethod(Id: "t9au78IU5hbv", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/physicalinventory/exportexcelxlsx
+        // GET api/v1/physicalinventory/legend 
+        [HttpGet("legend")]
+        [FwControllerMethod(Id: "7txlWh4HRblX", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<Dictionary<string, string>>> GetLegend()
+        {
+            Dictionary<string, string> legend = new Dictionary<string, string>();
+            await Task.CompletedTask; // get rid of the no async call warning
+            return new OkObjectResult(legend);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/physicalinventory/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id: "v62RNrqrfIF1")]
+        [FwControllerMethod(Id: "v62RNrqrfIF1", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -35,7 +45,7 @@ namespace WebApi.Modules.Inventory.PhysicalInventory
         //------------------------------------------------------------------------------------ 
         // GET api/v1/physicalinventory 
         [HttpGet]
-        [FwControllerMethod(Id: "YlG1W5e9sS0d")]
+        [FwControllerMethod(Id: "YlG1W5e9sS0d", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<PhysicalInventoryLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<PhysicalInventoryLogic>(pageno, pagesize, sort);
@@ -43,7 +53,7 @@ namespace WebApi.Modules.Inventory.PhysicalInventory
         //------------------------------------------------------------------------------------ 
         // GET api/v1/physicalinventory/A0000001 
         [HttpGet("{id}")]
-        [FwControllerMethod(Id: "TBXTq4dEa6wL")]
+        [FwControllerMethod(Id: "TBXTq4dEa6wL", ActionType: FwControllerActionTypes.View)]
         public async Task<ActionResult<PhysicalInventoryLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<PhysicalInventoryLogic>(id);
@@ -51,15 +61,23 @@ namespace WebApi.Modules.Inventory.PhysicalInventory
         //------------------------------------------------------------------------------------ 
         // POST api/v1/physicalinventory 
         [HttpPost]
-        [FwControllerMethod(Id: "Tz9oHvrpRNNt")]
-        public async Task<ActionResult<PhysicalInventoryLogic>> PostAsync([FromBody]PhysicalInventoryLogic l)
+        [FwControllerMethod(Id: "Tz9oHvrpRNNt", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<PhysicalInventoryLogic>> NewAsync([FromBody]PhysicalInventoryLogic l)
         {
-            return await DoPostAsync<PhysicalInventoryLogic>(l);
+            return await DoNewAsync<PhysicalInventoryLogic>(l);
+        }
+        //------------------------------------------------------------------------------------ 
+        // PUT api/v1/physicalinventory/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "IMDtwV9kygIKG", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<PhysicalInventoryLogic>> EditAsync([FromRoute] string id, [FromBody]PhysicalInventoryLogic l)
+        {
+            return await DoEditAsync<PhysicalInventoryLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/physicalinventory/updateicodes 
         [HttpPost("updateicodes")]
-        [FwControllerMethod(Id: "VCVEpGsZmrSWt")]
+        [FwControllerMethod(Id: "VCVEpGsZmrSWt", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<PhysicalInventoryUpdateICodesResponse>> UpdateICodes([FromBody]PhysicalInventoryUpdateICodesRequest request)
         {
             if (!ModelState.IsValid)
@@ -89,7 +107,7 @@ namespace WebApi.Modules.Inventory.PhysicalInventory
         //------------------------------------------------------------------------------------ 
         // POST api/v1/physicalinventory/prescan
         [HttpPost("prescan")]
-        [FwControllerMethod(Id: "Pxn9KhE4LOVRv")]
+        [FwControllerMethod(Id: "Pxn9KhE4LOVRv", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<PhysicalInventoryPrescanResponse>> Prescan([FromBody]PhysicalInventoryPrescanRequest request)
         {
             if (!ModelState.IsValid)
@@ -119,7 +137,7 @@ namespace WebApi.Modules.Inventory.PhysicalInventory
         //------------------------------------------------------------------------------------ 
         // POST api/v1/physicalinventory/initiate
         [HttpPost("initiate")]
-        [FwControllerMethod(Id: "CVr2bgh4JCuBL")]
+        [FwControllerMethod(Id: "CVr2bgh4JCuBL", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<PhysicalInventoryInitiateResponse>> Initiate([FromBody]PhysicalInventoryInitiateRequest request)
         {
             if (!ModelState.IsValid)
@@ -149,7 +167,7 @@ namespace WebApi.Modules.Inventory.PhysicalInventory
         //------------------------------------------------------------------------------------ 
         // POST api/v1/physicalinventory/A0000001/updatestep/printcountsheet
         [HttpPost("{id}/updatestep/{stepname}")]
-        [FwControllerMethod(Id: "oKpeX6tpLVHXq")]
+        [FwControllerMethod(Id: "oKpeX6tpLVHXq", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<PhysicalInventoryLogic>> UpdateStep([FromRoute]string id, [FromRoute]string stepname)
         {
             if (!ModelState.IsValid)
@@ -195,7 +213,7 @@ namespace WebApi.Modules.Inventory.PhysicalInventory
         //------------------------------------------------------------------------------------ 
         // POST api/v1/physicalinventory/countbarcode 
         [HttpPost("countbarcode")]
-        [FwControllerMethod(Id: "CsBdv9lRxfqhd")]
+        [FwControllerMethod(Id: "CsBdv9lRxfqhd", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<PhysicalInventoryCountBarCodeResponse>> CountBarCode([FromBody]PhysicalInventoryCountBarCodeRequest request)
         {
             if (!ModelState.IsValid)
@@ -225,7 +243,7 @@ namespace WebApi.Modules.Inventory.PhysicalInventory
         //------------------------------------------------------------------------------------ 
         // POST api/v1/physicalinventory/countquantity 
         [HttpPost("countquantity")]
-        [FwControllerMethod(Id: "PqV4CZyzk6jtb")]
+        [FwControllerMethod(Id: "PqV4CZyzk6jtb", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<PhysicalInventoryCountBarCodeResponse>> CountQuantity([FromBody]PhysicalInventoryCountQuantityRequest request)
         {
             if (!ModelState.IsValid)
@@ -255,7 +273,7 @@ namespace WebApi.Modules.Inventory.PhysicalInventory
         //------------------------------------------------------------------------------------ 
         // POST api/v1/physicalinventory/approve
         [HttpPost("approve")]
-        [FwControllerMethod(Id: "OS4eFb7OULch4")]
+        [FwControllerMethod(Id: "OS4eFb7OULch4", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<PhysicalInventoryApproveResponse>> Approve([FromBody]PhysicalInventoryApproveRequest request)
         {
             if (!ModelState.IsValid)
@@ -285,7 +303,7 @@ namespace WebApi.Modules.Inventory.PhysicalInventory
         //------------------------------------------------------------------------------------ 
         // POST api/v1/physicalinventory/close
         [HttpPost("close")]
-        [FwControllerMethod(Id: "cwtTFcSUMUkSf")]
+        [FwControllerMethod(Id: "cwtTFcSUMUkSf", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<PhysicalInventoryCloseResponse>> Close([FromBody]PhysicalInventoryCloseRequest request)
         {
             if (!ModelState.IsValid)
@@ -315,7 +333,7 @@ namespace WebApi.Modules.Inventory.PhysicalInventory
         //------------------------------------------------------------------------------------ 
         //// DELETE api/v1/physicalinventory/A0000001 
         //[HttpDelete("{id}")]
-        //[FwControllerMethod(Id: "xryKgL6RDOYa")]
+        //[FwControllerMethod(Id: "xryKgL6RDOYa", ActionType: FwControllerActionTypes.Delete)]
         //public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         //{
         //    return await <PhysicalInventoryLogic>DoDeleteAsync(id);

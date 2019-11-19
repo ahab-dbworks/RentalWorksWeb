@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using System.Data;
 using System.Reflection;
 
-namespace WebApi.Modules.Home.CheckInQuantityItem
+namespace WebApi.Modules.HomeControls.CheckInQuantityItem
 {
     public class CheckInQuantityItemLoader : AppDataLoadRecord
     {

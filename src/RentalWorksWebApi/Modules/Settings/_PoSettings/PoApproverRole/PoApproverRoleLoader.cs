@@ -1,6 +1,4 @@
-﻿using FwStandard.Data;
-using FwStandard.Models;
-using FwStandard.SqlServer;
+﻿using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 

@@ -5,13 +5,13 @@ using System.Threading.Tasks;
 using System.Data;
 using System.Reflection;
 using System;
-using static WebApi.Modules.Home.InventorySearchPreview.InventorySearchPreviewController;
-using WebApi.Modules.Home.InventoryAvailability;
+using static WebApi.Modules.HomeControls.InventorySearchPreview.InventorySearchPreviewController;
+using WebApi.Modules.HomeControls.InventoryAvailability;
 using System.Collections.Generic;
 using WebLibrary;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Home.InventorySearchPreview
+namespace WebApi.Modules.HomeControls.InventorySearchPreview
 {
     [FwSqlTable("inventoryview")]
     public class InventorySearchPreviewLoader : AppDataLoadRecord

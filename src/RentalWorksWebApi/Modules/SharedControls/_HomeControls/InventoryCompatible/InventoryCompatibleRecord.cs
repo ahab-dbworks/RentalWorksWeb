@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic;
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data;
-namespace WebApi.Modules.Home.InventoryCompatible
+namespace WebApi.Modules.HomeControls.InventoryCompatible
 {
     [FwSqlTable("mastercompatible")]
     public class InventoryCompatibleRecord : AppDataReadWriteRecord

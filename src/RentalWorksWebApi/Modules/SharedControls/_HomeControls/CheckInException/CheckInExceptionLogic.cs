@@ -1,6 +1,6 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
-namespace WebApi.Modules.Home.CheckInException
+namespace WebApi.Modules.HomeControls.CheckInException
 {
     [FwLogic(Id:"C9kbK8ewnVnj")]
     public class CheckInExceptionLogic : AppBusinessLogic

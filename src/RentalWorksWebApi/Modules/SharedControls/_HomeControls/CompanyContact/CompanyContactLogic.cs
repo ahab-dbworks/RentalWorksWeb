@@ -1,6 +1,6 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
-namespace WebApi.Modules.Home.CompanyContact
+namespace WebApi.Modules.HomeControls.CompanyContact
 {
     [FwLogic(Id:"RSZfoQ7Cc9GJ")]
     public class CompanyContactLogic : AppBusinessLogic

@@ -8,7 +8,7 @@ using System;
 using WebLibrary;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Home.CheckOutPendingItem
+namespace WebApi.Modules.HomeControls.CheckOutPendingItem
 {
     [FwSqlTable("dbo.funccheckoutexception2(@orderid, @warehouseid, @contractid)")]
     public class CheckOutPendingItemLoader : AppDataLoadRecord

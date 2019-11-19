@@ -4,7 +4,7 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 using System.Collections.Generic;
-namespace WebApi.Modules.Home.ExchangeItem
+namespace WebApi.Modules.HomeControls.ExchangeItem
 {
     [FwSqlTable("dbo.funcgetexchangedata2line(@exchangecontractid,'F')")]
     public class ExchangeItemLoader : AppDataLoadRecord

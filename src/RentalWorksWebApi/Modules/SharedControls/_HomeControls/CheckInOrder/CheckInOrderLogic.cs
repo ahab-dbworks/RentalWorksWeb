@@ -1,6 +1,6 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
-namespace WebApi.Modules.Home.CheckInOrder
+namespace WebApi.Modules.HomeControls.CheckInOrder
 {
     [FwLogic(Id:"kggWpyZEEdbV")]
     public class CheckInOrderLogic : AppBusinessLogic

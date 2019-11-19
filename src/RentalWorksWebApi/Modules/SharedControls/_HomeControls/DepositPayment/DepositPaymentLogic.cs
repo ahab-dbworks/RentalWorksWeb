@@ -1,6 +1,6 @@
 using WebApi.Logic;
 using FwStandard.AppManager;
-namespace WebApi.Modules.Home.DepositPayment
+namespace WebApi.Modules.HomeControls.DepositPayment
 {
     [FwLogic(Id: "0eQ5P0fWWbPQQ")]
     public class DepositPaymentLogic : AppBusinessLogic

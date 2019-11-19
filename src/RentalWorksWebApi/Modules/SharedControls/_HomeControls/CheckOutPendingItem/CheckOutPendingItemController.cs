@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using WebApi.Controllers;
 using System.Threading.Tasks;
-namespace WebApi.Modules.Home.CheckOutPendingItem
+namespace WebApi.Modules.HomeControls.CheckOutPendingItem
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
@@ -16,15 +16,15 @@ namespace WebApi.Modules.Home.CheckOutPendingItem
         //------------------------------------------------------------------------------------ 
         // POST api/v1/checkoutpendingitem/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"LqZGfvZBNvS")]
+        [FwControllerMethod(Id:"LqZGfvZBNvS", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/checkoutpendingitem/exportexcelxlsx
+        // POST api/v1/checkoutpendingitem/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"ado6dYU78nf")]
+        [FwControllerMethod(Id:"ado6dYU78nf", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);

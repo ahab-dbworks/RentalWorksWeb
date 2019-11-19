@@ -3,7 +3,7 @@ using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-namespace WebApi.Modules.Home.DepositPayment
+namespace WebApi.Modules.HomeControls.DepositPayment
 {
     [FwSqlTable("ardepositpmt")]
     public class DepositPaymentRecord : AppDataReadWriteRecord

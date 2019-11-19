@@ -1,6 +1,6 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
-namespace WebApi.Modules.Home.DealShipper
+namespace WebApi.Modules.HomeControls.DealShipper
 {
     [FwLogic(Id: "Fto5kQYOglEN")]
     public class DealShipperLogic : AppBusinessLogic

@@ -3,7 +3,7 @@ using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-namespace WebApi.Modules.Administrator.CustomReportLayoutGroup
+namespace WebApi.Modules.AdministratorControls.CustomReportLayoutGroup
 {
     [FwSqlTable("webreportlayoutgroupsview")]
     public class CustomReportLayoutGroupLoader : AppDataLoadRecord

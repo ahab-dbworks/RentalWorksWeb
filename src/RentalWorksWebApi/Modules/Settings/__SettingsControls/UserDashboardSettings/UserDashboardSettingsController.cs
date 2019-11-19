@@ -18,7 +18,7 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
         //------------------------------------------------------------------------------------
         // GET api/v1/userdashboardsettings/A0000001
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"c79UfgZ1Jat5a")]
+        [FwControllerMethod(Id:"c79UfgZ1Jat5a", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<UserDashboardSettingsLogic>> GetOneAsync([FromRoute]string id)
         {
             if (!ModelState.IsValid)
@@ -40,8 +40,17 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
         //------------------------------------------------------------------------------------
         // POST api/v1/userdashboardsettings 
         [HttpPost]
-        [FwControllerMethod(Id:"c9DKCtKZ05H2T")]
-        public async Task<ActionResult<UserDashboardSettingsLogic>> PostAsync([FromBody]UserDashboardSettingsLogic l)
+        [FwControllerMethod(Id:"c9DKCtKZ05H2T", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<UserDashboardSettingsLogic>> NewAsync([FromBody]UserDashboardSettingsLogic l)
+        {
+            l.SetDependencies(this.AppConfig, this.UserSession);
+            return await DoPostAsync<UserDashboardSettingsLogic>(l);
+        }
+        //------------------------------------------------------------------------------------
+        // PUT api/v1/userdashboardsettings/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "vtZr1OXg1Dtcl", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<UserDashboardSettingsLogic>> EditAsync([FromRoute] string id, [FromBody]UserDashboardSettingsLogic l)
         {
             l.SetDependencies(this.AppConfig, this.UserSession);
             return await DoPostAsync<UserDashboardSettingsLogic>(l);

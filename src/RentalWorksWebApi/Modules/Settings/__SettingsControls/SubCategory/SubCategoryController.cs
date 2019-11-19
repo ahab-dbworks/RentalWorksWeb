@@ -18,15 +18,15 @@ namespace WebApi.Modules.Settings.SubCategory
         //------------------------------------------------------------------------------------
         // POST api/v1/subcategory/browse
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"SXbG6Anbjbfya")]
+        [FwControllerMethod(Id:"SXbG6Anbjbfya", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"cTj9UaQwZutRw")]
+        [FwControllerMethod(Id:"cTj9UaQwZutRw", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -34,7 +34,7 @@ namespace WebApi.Modules.Settings.SubCategory
         //------------------------------------------------------------------------------------
         // GET api/v1/subcategory
         [HttpGet]
-        [FwControllerMethod(Id:"RJqmzcSQKDakA")]
+        [FwControllerMethod(Id:"RJqmzcSQKDakA", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<SubCategoryLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<SubCategoryLogic>(pageno, pagesize, sort);
@@ -42,7 +42,7 @@ namespace WebApi.Modules.Settings.SubCategory
         //------------------------------------------------------------------------------------
         // GET api/v1/subcategory/A0000001
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"9leA68QQUlABO")]
+        [FwControllerMethod(Id:"9leA68QQUlABO", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<SubCategoryLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<SubCategoryLogic>(id);
@@ -50,15 +50,23 @@ namespace WebApi.Modules.Settings.SubCategory
         //------------------------------------------------------------------------------------
         // POST api/v1/subcategory
         [HttpPost]
-        [FwControllerMethod(Id:"y0L69N4AOKpl8")]
-        public async Task<ActionResult<SubCategoryLogic>> PostAsync([FromBody]SubCategoryLogic l)
+        [FwControllerMethod(Id:"y0L69N4AOKpl8", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<SubCategoryLogic>> NewAsync([FromBody]SubCategoryLogic l)
         {
-            return await DoPostAsync<SubCategoryLogic>(l);
+            return await DoNewAsync<SubCategoryLogic>(l);
+        }
+        //------------------------------------------------------------------------------------
+        // PUT api/v1/subcategor/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "PyC6wciBq95I0", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<SubCategoryLogic>> EditAsync([FromRoute] string id, [FromBody]SubCategoryLogic l)
+        {
+            return await DoEditAsync<SubCategoryLogic>(l);
         }
         //------------------------------------------------------------------------------------
         // DELETE api/v1/subcategory/A0000001
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id:"8uXzlXqS43vGI")]
+        [FwControllerMethod(Id:"8uXzlXqS43vGI", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<SubCategoryLogic>(id);

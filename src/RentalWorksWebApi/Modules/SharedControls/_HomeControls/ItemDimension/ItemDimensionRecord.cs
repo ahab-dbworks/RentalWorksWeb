@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic;
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data;
-namespace WebApi.Modules.Home.ItemDimension
+namespace WebApi.Modules.HomeControls.ItemDimension
 {
     [FwSqlTable("itemdimension")]
     public class ItemDimensionRecord : AppDataReadWriteRecord

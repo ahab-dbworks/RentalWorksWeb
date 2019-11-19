@@ -1,9 +1,9 @@
 using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
 using WebApi.Logic;
-using WebApi.Modules.Home.OrderNote;
+using WebApi.Modules.HomeControls.OrderNote;
 
-namespace WebApi.Modules.Home.ProjectNote
+namespace WebApi.Modules.HomeControls.ProjectNote
 {
     [FwLogic(Id:"uTPuKRxiRNO7l")]
     public class ProjectNoteLogic : AppBusinessLogic

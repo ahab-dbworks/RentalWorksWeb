@@ -8,7 +8,7 @@ using WebLibrary;
 using WebApi.Logic;
 using System.Text;
 
-namespace WebApi.Modules.Home.OrderStatusDetail
+namespace WebApi.Modules.HomeControls.OrderStatusDetail
 {
     [FwSqlTable("dbo.funcgetorderstatusdetail(@orderid,'ORDER')")]
     public class OrderStatusDetailLoader : AppDataLoadRecord

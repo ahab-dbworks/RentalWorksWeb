@@ -5,7 +5,7 @@ using WebApi.Logic;
 using WebLibrary;
 using static FwStandard.Data.FwDataReadWriteRecord;
 
-namespace WebApi.Modules.Home.Master
+namespace WebApi.Modules.HomeControls.Master
 {
     [FwLogic(Id: "eNvZYaWdjRpb")]
     public abstract class MasterLogic : AppBusinessLogic

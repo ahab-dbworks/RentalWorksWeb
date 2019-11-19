@@ -7,8 +7,8 @@ using System.Reflection;
 using System.Threading.Tasks;
 using WebApi.Logic;
 using WebApi.Modules.Agent.Quote;
-using WebApi.Modules.Home.DealOrder;
-using WebApi.Modules.Home.DealOrderDetail;
+using WebApi.Modules.HomeControls.DealOrder;
+using WebApi.Modules.HomeControls.DealOrderDetail;
 using WebLibrary;
 
 namespace WebApi.Modules.Agent.Project

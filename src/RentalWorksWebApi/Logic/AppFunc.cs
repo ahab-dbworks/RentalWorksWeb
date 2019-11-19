@@ -1,4 +1,4 @@
-﻿using FwStandard.Models;
+using FwStandard.Models;
 using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -632,6 +632,7 @@ namespace WebApi.Logic
             public string warehouse { get; set; } = string.Empty;
             public string departmentid { get; set; } = string.Empty;
             public string department { get; set; } = string.Empty;
+            public bool webadministrator { get; set; } = false;
 
         }
         public static async Task<SessionUser> GetSessionUserAsync(FwApplicationConfig appConfig, FwUserSession userSession)
@@ -641,7 +642,7 @@ namespace WebApi.Logic
             {
                 using (FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout))
                 {
-                    qry.Add("select webusersid, usersid, contactid, usertype, email, fullname, name, browsedefaultrows, applicationtheme, locationid, location, warehouseid, warehouse, departmentid, department");
+                    qry.Add("select webusersid, usersid, contactid, usertype, email, fullname, name, browsedefaultrows, applicationtheme, locationid, location, warehouseid, warehouse, departmentid, department, webadministrator");
                     qry.Add("from webusersview with (nolock)");
                     qry.Add("where webusersid = @webusersid");
                     qry.AddParameter("@webusersid", userSession.WebUsersId);

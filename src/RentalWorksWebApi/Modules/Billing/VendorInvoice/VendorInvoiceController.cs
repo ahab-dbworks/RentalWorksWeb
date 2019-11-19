@@ -20,7 +20,7 @@ namespace WebApi.Modules.Billing.VendorInvoice
         //------------------------------------------------------------------------------------ 
         // POST api/v1/vendorinvoice/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"nRYgEuIU5vz")]
+        [FwControllerMethod(Id:"nRYgEuIU5vz", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
@@ -28,7 +28,7 @@ namespace WebApi.Modules.Billing.VendorInvoice
         //------------------------------------------------------------------------------------ 
         // POST api/v1/vendorinvoice/exportexcelxlsx
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"t8MkQaaK0jc")]
+        [FwControllerMethod(Id:"t8MkQaaK0jc", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -36,7 +36,7 @@ namespace WebApi.Modules.Billing.VendorInvoice
         //------------------------------------------------------------------------------------ 
         // GET api/v1/vendorinvoice 
         [HttpGet]
-        [FwControllerMethod(Id:"bHw4Sqclw45")]
+        [FwControllerMethod(Id:"bHw4Sqclw45", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<VendorInvoiceLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<VendorInvoiceLogic>(pageno, pagesize, sort);
@@ -44,7 +44,7 @@ namespace WebApi.Modules.Billing.VendorInvoice
         //------------------------------------------------------------------------------------ 
         // GET api/v1/vendorinvoice/A0000001 
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"GNbOCZjjNmu")]
+        [FwControllerMethod(Id:"GNbOCZjjNmu", ActionType: FwControllerActionTypes.View)]
         public async Task<ActionResult<VendorInvoiceLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<VendorInvoiceLogic>(id);
@@ -52,15 +52,23 @@ namespace WebApi.Modules.Billing.VendorInvoice
         //------------------------------------------------------------------------------------ 
         // POST api/v1/vendorinvoice 
         [HttpPost]
-        [FwControllerMethod(Id:"NeM52Pf9TK6")]
-        public async Task<ActionResult<VendorInvoiceLogic>> PostAsync([FromBody]VendorInvoiceLogic l)
+        [FwControllerMethod(Id:"NeM52Pf9TK6", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<VendorInvoiceLogic>> NewAsync([FromBody]VendorInvoiceLogic l)
         {
-            return await DoPostAsync<VendorInvoiceLogic>(l);
+            return await DoNewAsync<VendorInvoiceLogic>(l);
+        }
+        //------------------------------------------------------------------------------------ 
+        // PUT api/v1/vendorinvoice/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "CEVtssdgL5Ubf", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<VendorInvoiceLogic>> EditAsync([FromRoute] string id, [FromBody]VendorInvoiceLogic l)
+        {
+            return await DoEditAsync<VendorInvoiceLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
         // DELETE api/v1/vendorinvoice/A0000001 
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id:"tm4l8YxIUK5")]
+        [FwControllerMethod(Id:"tm4l8YxIUK5", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<VendorInvoiceLogic>(id);
@@ -68,7 +76,7 @@ namespace WebApi.Modules.Billing.VendorInvoice
         //------------------------------------------------------------------------------------ 
         // POST api/v1/vendorinvoice/toggleapproved/A0000001
         [HttpPost("toggleapproved/{id}")]
-        [FwControllerMethod(Id: "qGQ28sAtqVz4")]
+        [FwControllerMethod(Id: "qGQ28sAtqVz4", ActionType: FwControllerActionTypes.Option, Caption: "Toggle Approved")]
         public async Task<ActionResult<ToggleVendorInvoiceApprovedResponse>> ToggleApproved([FromRoute]string id)
         {
             if (!ModelState.IsValid)
@@ -92,11 +100,7 @@ namespace WebApi.Modules.Billing.VendorInvoice
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------

@@ -18,15 +18,15 @@ namespace WebApi.Modules.Settings.SystemSettings.InventorySettings
         //------------------------------------------------------------------------------------ 
         // POST api/v1/inventorysettings/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id: "3FyjvWTl50w3v")]
+        [FwControllerMethod(Id: "3FyjvWTl50w3v", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/inventorysettings/exportexcelxlsx
+        // POST api/v1/inventorysettings/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id: "mrtsAFG6nhFFh")]
+        [FwControllerMethod(Id: "mrtsAFG6nhFFh", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -34,7 +34,7 @@ namespace WebApi.Modules.Settings.SystemSettings.InventorySettings
         //------------------------------------------------------------------------------------ 
         // GET api/v1/inventorysettings 
         [HttpGet]
-        [FwControllerMethod(Id: "7XP2z9LnG9Mj4")]
+        [FwControllerMethod(Id: "7XP2z9LnG9Mj4", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<InventorySettingsLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<InventorySettingsLogic>(pageno, pagesize, sort);
@@ -42,7 +42,7 @@ namespace WebApi.Modules.Settings.SystemSettings.InventorySettings
         //------------------------------------------------------------------------------------ 
         // GET api/v1/inventorysettings/A0000001 
         [HttpGet("{id}")]
-        [FwControllerMethod(Id: "eNVRBUAAQxKcG")]
+        [FwControllerMethod(Id: "eNVRBUAAQxKcG", ActionType: FwControllerActionTypes.View, ValidateSecurityGroup: false)]
         public async Task<ActionResult<InventorySettingsLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<InventorySettingsLogic>(id);
@@ -50,10 +50,18 @@ namespace WebApi.Modules.Settings.SystemSettings.InventorySettings
         //------------------------------------------------------------------------------------ 
         // POST api/v1/inventorysettings 
         [HttpPost]
-        [FwControllerMethod(Id: "DczWhwgZsHeZZ")]
-        public async Task<ActionResult<InventorySettingsLogic>> PostAsync([FromBody]InventorySettingsLogic l)
+        [FwControllerMethod(Id: "DczWhwgZsHeZZ", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<InventorySettingsLogic>> NewAsync([FromBody]InventorySettingsLogic l)
         {
-            return await DoPostAsync<InventorySettingsLogic>(l);
+            return await DoNewAsync<InventorySettingsLogic>(l);
+        }
+        //------------------------------------------------------------------------------------ 
+        // PUT api/v1/inventorysettings/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "7tmVpTkFC1y3j", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<InventorySettingsLogic>> EditAsync([FromRoute] string id, [FromBody]InventorySettingsLogic l)
+        {
+            return await DoEditAsync<InventorySettingsLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
     }

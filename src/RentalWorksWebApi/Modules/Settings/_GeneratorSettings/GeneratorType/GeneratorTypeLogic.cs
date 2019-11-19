@@ -1,5 +1,5 @@
 using FwStandard.AppManager;
-using FwStandard.BusinessLogic;
+﻿using FwStandard.BusinessLogic;
 using WebApi.Modules.Settings.VehicleSettings.VehicleType;
 using WebLibrary;
 

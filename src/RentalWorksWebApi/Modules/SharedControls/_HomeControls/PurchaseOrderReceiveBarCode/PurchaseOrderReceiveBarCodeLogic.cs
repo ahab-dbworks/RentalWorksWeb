@@ -1,8 +1,8 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
-using WebApi.Modules.Home.BarCodeHolding;
+using WebApi.Modules.HomeControls.BarCodeHolding;
 
-namespace WebApi.Modules.Home.PurchaseOrderReceiveBarCode
+namespace WebApi.Modules.HomeControls.PurchaseOrderReceiveBarCode
 {
     [FwLogic(Id:"d4Cc2GVnfJPfP")]
     public class PurchaseOrderReceiveBarCodeLogic : AppBusinessLogic

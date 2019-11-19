@@ -19,15 +19,15 @@ namespace WebApi.Modules.Settings.LaborSettings.CrewStatus
         //------------------------------------------------------------------------------------
         // POST api/v1/crewstatus/browse
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"jytxyhG31DQI")]
+        [FwControllerMethod(Id:"jytxyhG31DQI", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"cpAG3T8cl9SM")]
+        [FwControllerMethod(Id:"cpAG3T8cl9SM", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -35,7 +35,7 @@ namespace WebApi.Modules.Settings.LaborSettings.CrewStatus
         //------------------------------------------------------------------------------------
         // GET api/v1/crewstatus
         [HttpGet]
-        [FwControllerMethod(Id:"9mz0YTiM9Okm")]
+        [FwControllerMethod(Id:"9mz0YTiM9Okm", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<CrewStatusLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<CrewStatusLogic>(pageno, pagesize, sort);
@@ -43,7 +43,7 @@ namespace WebApi.Modules.Settings.LaborSettings.CrewStatus
         //------------------------------------------------------------------------------------
         // GET api/v1/crewstatus/A0000001
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"AixVcuKCOKHy")]
+        [FwControllerMethod(Id:"AixVcuKCOKHy", ActionType: FwControllerActionTypes.View)]
         public async Task<ActionResult<CrewStatusLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<CrewStatusLogic>(id);
@@ -51,15 +51,23 @@ namespace WebApi.Modules.Settings.LaborSettings.CrewStatus
         //------------------------------------------------------------------------------------
         // POST api/v1/crewstatus
         [HttpPost]
-        [FwControllerMethod(Id:"zCrvul9cmmdC")]
-        public async Task<ActionResult<CrewStatusLogic>> PostAsync([FromBody]CrewStatusLogic l)
+        [FwControllerMethod(Id:"zCrvul9cmmdC", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<CrewStatusLogic>> NewAsync([FromBody]CrewStatusLogic l)
         {
-            return await DoPostAsync<CrewStatusLogic>(l);
+            return await DoNewAsync<CrewStatusLogic>(l);
+        }
+        //------------------------------------------------------------------------------------
+        // PUT api/v1/crewstatu/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "fZIqMI65pDf8c", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<CrewStatusLogic>> EditAsync([FromRoute] string id, [FromBody]CrewStatusLogic l)
+        {
+            return await DoEditAsync<CrewStatusLogic>(l);
         }
         //------------------------------------------------------------------------------------
         // DELETE api/v1/crewstatus/A0000001
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id:"qCpoTdJ5J4TX")]
+        [FwControllerMethod(Id:"qCpoTdJ5J4TX", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<CrewStatusLogic>(id);

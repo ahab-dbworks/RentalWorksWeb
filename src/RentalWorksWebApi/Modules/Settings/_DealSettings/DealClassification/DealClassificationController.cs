@@ -19,15 +19,15 @@ namespace WebApi.Modules.Settings.DealSettings.DealClassification
         //------------------------------------------------------------------------------------
         // POST api/v1/customerstatus/browse
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"Bh9TCucDdD2j")]
+        [FwControllerMethod(Id:"BblIMzPw4fd6", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"Bh9TCucDdD2j")]
+        [FwControllerMethod(Id:"Bh9TCucDdD2j", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -35,7 +35,7 @@ namespace WebApi.Modules.Settings.DealSettings.DealClassification
         //------------------------------------------------------------------------------------
         // GET api/v1/customerstatus
         [HttpGet]
-        [FwControllerMethod(Id:"Piop2aqmqaFp")]
+        [FwControllerMethod(Id:"Piop2aqmqaFp", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<DealClassificationLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<DealClassificationLogic>(pageno, pagesize, sort);
@@ -43,7 +43,7 @@ namespace WebApi.Modules.Settings.DealSettings.DealClassification
         //------------------------------------------------------------------------------------
         // GET api/v1/customerstatus/A0000001
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"rume2d50A8jn")]
+        [FwControllerMethod(Id:"rume2d50A8jn", ActionType: FwControllerActionTypes.View)]
         public async Task<ActionResult<DealClassificationLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<DealClassificationLogic>(id);
@@ -51,15 +51,23 @@ namespace WebApi.Modules.Settings.DealSettings.DealClassification
         //------------------------------------------------------------------------------------
         // POST api/v1/customerstatus
         [HttpPost]
-        [FwControllerMethod(Id:"UyaSmH7pDVXH")]
-        public async Task<ActionResult<DealClassificationLogic>> PostAsync([FromBody]DealClassificationLogic l)
+        [FwControllerMethod(Id:"UyaSmH7pDVXH", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<DealClassificationLogic>> NewAsync([FromBody]DealClassificationLogic l)
         {
-            return await DoPostAsync<DealClassificationLogic>(l);
+            return await DoNewAsync<DealClassificationLogic>(l);
+        }
+        //------------------------------------------------------------------------------------
+        // PUT api/v1/customerstatu/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "E5fLrPSfglN8V", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<DealClassificationLogic>> EditAsync([FromRoute] string id, [FromBody]DealClassificationLogic l)
+        {
+            return await DoEditAsync<DealClassificationLogic>(l);
         }
         //------------------------------------------------------------------------------------
         // DELETE api/v1/customerstatus/A0000001
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id:"K3nKF8nTFIEe")]
+        [FwControllerMethod(Id:"K3nKF8nTFIEe", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<DealClassificationLogic>(id);

@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic;
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data;
-namespace WebApi.Modules.Home.ItemQc
+namespace WebApi.Modules.HomeControls.ItemQc
 {
     [FwSqlTable("rentalitemqc")]
     public class ItemQcRecord : AppDataReadWriteRecord

@@ -3,7 +3,7 @@ using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-namespace WebApi.Modules.Home.PhysicalInventoryQuantityInventory
+namespace WebApi.Modules.HomeControls.PhysicalInventoryQuantityInventory
 {
     [FwSqlTable("dbo.funcphysicalcountquantity(@physicalid)")]
     public class PhysicalInventoryQuantityInventoryLoader : AppDataLoadRecord

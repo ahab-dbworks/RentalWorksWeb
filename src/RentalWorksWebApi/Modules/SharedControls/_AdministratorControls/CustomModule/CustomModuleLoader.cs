@@ -5,7 +5,7 @@ using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 using System.Collections.Generic;
 
-namespace WebApi.Modules.Administrator.CustomModule
+namespace WebApi.Modules.AdministratorControls.CustomModule
 {
     [FwSqlTable("custommoduleview")]
     public class CustomModuleLoader : AppDataLoadRecord

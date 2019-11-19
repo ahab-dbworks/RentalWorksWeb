@@ -1,14 +1,15 @@
 using FwStandard.AppManager;
+using FwStandard.Models;
 using FwStandard.SqlServer;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using System.Collections.Generic;
-using FwStandard.Models; 
-using Microsoft.AspNetCore.Mvc; 
-using Microsoft.Extensions.Options; 
-using WebApi.Controllers; 
 using System.Threading.Tasks;
+using WebApi.Controllers;
+using WebApi.Modules.Settings.ContactSettings.ContactTitle;
 using WebLibrary;
 
-namespace WebApi.Modules.Home.CompanyContact
+namespace WebApi.Modules.HomeControls.CompanyContact
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
@@ -19,7 +20,7 @@ namespace WebApi.Modules.Home.CompanyContact
         //------------------------------------------------------------------------------------ 
         // POST api/v1/companycontact/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"Yux8wA5C7NXE")]
+        [FwControllerMethod(Id:"Yux8wA5C7NXE", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
@@ -27,7 +28,7 @@ namespace WebApi.Modules.Home.CompanyContact
         //------------------------------------------------------------------------------------ 
         // GET api/v1/companycontact/legend
         [HttpGet("legend")]
-        [FwControllerMethod(Id: "2h1Al5QkdiMuk")]
+        [FwControllerMethod(Id: "2h1Al5QkdiMuk", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<Dictionary<string, string>>> GetLegend()
         {
             Dictionary<string, string> legend = new Dictionary<string, string>();
@@ -40,9 +41,9 @@ namespace WebApi.Modules.Home.CompanyContact
             return new OkObjectResult(legend);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"oEuuwLalyvow")]
+        [FwControllerMethod(Id:"oEuuwLalyvow", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -50,7 +51,7 @@ namespace WebApi.Modules.Home.CompanyContact
         //------------------------------------------------------------------------------------ 
         // GET api/v1/companycontact 
         [HttpGet]
-        [FwControllerMethod(Id:"owToh3dDUn1R")]
+        [FwControllerMethod(Id:"owToh3dDUn1R", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<CompanyContactLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<CompanyContactLogic>(pageno, pagesize, sort);
@@ -58,7 +59,7 @@ namespace WebApi.Modules.Home.CompanyContact
         //------------------------------------------------------------------------------------ 
         // GET api/v1/companycontact/A0000001 
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"1U64Otc5kr1T")]
+        [FwControllerMethod(Id:"1U64Otc5kr1T", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<CompanyContactLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<CompanyContactLogic>(id);
@@ -66,19 +67,35 @@ namespace WebApi.Modules.Home.CompanyContact
         //------------------------------------------------------------------------------------ 
         // POST api/v1/companycontact 
         [HttpPost]
-        [FwControllerMethod(Id:"v6r4EgZmO4Qf")]
-        public async Task<ActionResult<CompanyContactLogic>> PostAsync([FromBody]CompanyContactLogic l)
+        [FwControllerMethod(Id:"v6r4EgZmO4Qf", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<CompanyContactLogic>> NewAsync([FromBody]CompanyContactLogic l)
         {
-            return await DoPostAsync<CompanyContactLogic>(l);
+            return await DoNewAsync<CompanyContactLogic>(l);
+        }
+        //------------------------------------------------------------------------------------ 
+        // PUT api/v1/companycontact/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "7YmpN2f65tigL", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<CompanyContactLogic>> EditAsync([FromRoute] string id, [FromBody]CompanyContactLogic l)
+        {
+            return await DoEditAsync<CompanyContactLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
         // DELETE api/v1/companycontact/A0000001 
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id:"859kQDas1ois")]
+        [FwControllerMethod(Id:"859kQDas1ois", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<CompanyContactLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/companycontact/validatecontacttitle/browse
+        [HttpPost("validatecontacttitle/browse")]
+        [FwControllerMethod(Id:"IYtoTwLT0GXB", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateContactTitleBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<ContactTitleLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
     }
 }

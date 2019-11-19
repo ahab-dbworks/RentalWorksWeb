@@ -1,6 +1,7 @@
 using WebApi.Logic;
 using FwStandard.AppManager;
-namespace WebApi.Modules.Reports.Shared.EmailHistory
+
+namespace WebApi.Modules.Administrator.EmailHistory
 {
     [FwLogic(Id: "uSzhCxnn4Th2")]
     public class EmailHistoryLogic : AppBusinessLogic

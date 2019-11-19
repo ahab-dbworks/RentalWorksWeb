@@ -4,7 +4,7 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data; 
 using System.Collections.Generic;
-namespace WebApi.Modules.Home.PickListItem
+namespace WebApi.Modules.HomeControls.PickListItem
 {
     [FwSqlTable("picklistitemview")]
     public class PickListItemLoader : AppDataLoadRecord

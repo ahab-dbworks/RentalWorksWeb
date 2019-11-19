@@ -6,7 +6,7 @@ using WebApi.Data;
 using System.Collections.Generic;
 using System;
 using WebLibrary;
-namespace WebApi.Modules.Home.CheckInException
+namespace WebApi.Modules.HomeControls.CheckInException
 {
     [FwSqlTable("dbo.funccheckinexception(@contractid, @rectype, @containeritemid, @showall)")]
     public class CheckInExceptionLoader : AppDataLoadRecord

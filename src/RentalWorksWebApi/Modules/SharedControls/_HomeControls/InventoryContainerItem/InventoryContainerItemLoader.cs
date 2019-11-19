@@ -4,7 +4,7 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data; 
 using System.Collections.Generic;
-namespace WebApi.Modules.Home.InventoryContainerItem
+namespace WebApi.Modules.HomeControls.InventoryContainerItem
 {
     [FwSqlTable("containeritemviewwithprice")]
     public class InventoryContainerItemLoader : AppDataLoadRecord

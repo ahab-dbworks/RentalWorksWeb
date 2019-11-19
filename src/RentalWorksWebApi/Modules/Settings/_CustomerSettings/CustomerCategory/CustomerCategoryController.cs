@@ -19,15 +19,15 @@ namespace WebApi.Modules.Settings.CustomerSettings.CustomerCategory
         //------------------------------------------------------------------------------------
         // POST api/v1/CustomerCategory/browse
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"u6qC8PTeZOah")]
+        [FwControllerMethod(Id:"u6qC8PTeZOah", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"vqorqYAdwvwo")]
+        [FwControllerMethod(Id:"vqorqYAdwvwo", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -35,7 +35,7 @@ namespace WebApi.Modules.Settings.CustomerSettings.CustomerCategory
         //------------------------------------------------------------------------------------
         // GET api/v1/CustomerCategory
         [HttpGet]
-        [FwControllerMethod(Id:"7UihvqInYfBA")]
+        [FwControllerMethod(Id:"7UihvqInYfBA", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<CustomerCategoryLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<CustomerCategoryLogic>(pageno, pagesize, sort);
@@ -43,7 +43,7 @@ namespace WebApi.Modules.Settings.CustomerSettings.CustomerCategory
         //------------------------------------------------------------------------------------
         // GET api/v1/CustomerCategory/A0000001
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"MA2bPlOhFORN")]
+        [FwControllerMethod(Id:"MA2bPlOhFORN", ActionType: FwControllerActionTypes.View)]
         public async Task<ActionResult<CustomerCategoryLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<CustomerCategoryLogic>(id);
@@ -51,15 +51,23 @@ namespace WebApi.Modules.Settings.CustomerSettings.CustomerCategory
         //------------------------------------------------------------------------------------
         // POST api/v1/CustomerCategory
         [HttpPost]
-        [FwControllerMethod(Id:"5gVFRyFJVL0D")]
-        public async Task<ActionResult<CustomerCategoryLogic>> PostAsync([FromBody]CustomerCategoryLogic l)
+        [FwControllerMethod(Id:"5gVFRyFJVL0D", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<CustomerCategoryLogic>> NewAsync([FromBody]CustomerCategoryLogic l)
         {
-            return await DoPostAsync<CustomerCategoryLogic>(l);
+            return await DoNewAsync<CustomerCategoryLogic>(l);
+        }
+        //------------------------------------------------------------------------------------
+        // PUT api/v1/CustomerCategor/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "2M7AAA4b7q3pz", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<CustomerCategoryLogic>> EditAsync([FromRoute] string id, [FromBody]CustomerCategoryLogic l)
+        {
+            return await DoEditAsync<CustomerCategoryLogic>(l);
         }
         //------------------------------------------------------------------------------------
         // DELETE api/v1/CustomerCategory/A0000001
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id:"SPtVH2HGBgMe")]
+        [FwControllerMethod(Id:"SPtVH2HGBgMe", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<CustomerCategoryLogic>(id);

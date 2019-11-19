@@ -20,7 +20,7 @@ namespace WebApi.Modules.Warehouse.CheckOut
         //------------------------------------------------------------------------------------ 
         // GET api/v1/checkout/suspendedsessionsexist
         [HttpGet("suspendedsessionsexist")]
-        [FwControllerMethod(Id: "bcGmOQgVzeDpc")]
+        [FwControllerMethod(Id: "bcGmOQgVzeDpc", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<bool>> SuspendedSessionsExist(string warehouseId)
         {
             if (!ModelState.IsValid)
@@ -39,7 +39,7 @@ namespace WebApi.Modules.Warehouse.CheckOut
         //------------------------------------------------------------------------------------ 
         // GET api/v1/checkout/transfersuspendedsessionsexist
         [HttpGet("transfersuspendedsessionsexist")]
-        [FwControllerMethod(Id: "enHr6q0s4X9")]
+        [FwControllerMethod(Id: "enHr6q0s4X9", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<bool>> TransferSuspendedSessionsExist(string warehouseId)
         {
             if (!ModelState.IsValid)
@@ -58,7 +58,7 @@ namespace WebApi.Modules.Warehouse.CheckOut
         //------------------------------------------------------------------------------------ 
         // GET api/v1/checkout/containersuspendedsessionsexist
         [HttpGet("containersuspendedsessionsexist")]
-        [FwControllerMethod(Id: "QnA31soyCzm")]
+        [FwControllerMethod(Id: "QnA31soyCzm", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<bool>> ContainerSuspendedSessionsExist(string warehouseId)
         {
             if (!ModelState.IsValid)
@@ -77,7 +77,7 @@ namespace WebApi.Modules.Warehouse.CheckOut
         //------------------------------------------------------------------------------------ 
         // GET api/v1/checkout/stagingtabs?OrderId&WarehouseId
         [HttpGet("stagingtabs")]
-        [FwControllerMethod(Id: "2EfNs9npvIhkL")]
+        [FwControllerMethod(Id: "2EfNs9npvIhkL", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<StagingTabsResponse>> GetStagingTabs(string OrderId, string WarehouseId)
         {
             if (!ModelState.IsValid)
@@ -97,7 +97,7 @@ namespace WebApi.Modules.Warehouse.CheckOut
         //------------------------------------------------------------------------------------       
         // POST api/v1/checkout/stageitem
         [HttpPost("stageitem")]
-        [FwControllerMethod(Id: "cjSZS0HLutCV")]
+        [FwControllerMethod(Id: "cjSZS0HLutCV", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<StageItemResponse>> StageItem([FromBody]StageItemRequest request)
         {
             if (!ModelState.IsValid)
@@ -118,7 +118,7 @@ namespace WebApi.Modules.Warehouse.CheckOut
         //------------------------------------------------------------------------------------ 
         // POST api/v1/checkout/unstageitem
         [HttpPost("unstageitem")]
-        [FwControllerMethod(Id: "clTIdJRRV1jEy")]
+        [FwControllerMethod(Id: "clTIdJRRV1jEy", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<UnstageItemResponse>> UnstageItem([FromBody]UnstageItemRequest request)
         {
             if (!ModelState.IsValid)
@@ -139,7 +139,7 @@ namespace WebApi.Modules.Warehouse.CheckOut
         //------------------------------------------------------------------------------------ 
         // POST api/v1/checkout/checkoutallstaged
         [HttpPost("checkoutallstaged")]
-        [FwControllerMethod(Id: "3Ocr6r5He3xF")]
+        [FwControllerMethod(Id: "3Ocr6r5He3xF", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<CheckOutAllStagedResponse>> CheckOutAllStaged([FromBody]CheckOutAllStagedRequest request)
         {
             if (!ModelState.IsValid)
@@ -160,7 +160,7 @@ namespace WebApi.Modules.Warehouse.CheckOut
         //------------------------------------------------------------------------------------ 
         // POST api/v1/checkout/startcheckoutcontract
         [HttpPost("startcheckoutcontract")]
-        [FwControllerMethod(Id: "O6ibb6WOwzzg")]
+        [FwControllerMethod(Id: "O6ibb6WOwzzg", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<CreateOutContractResponse>> StartCheckOutContract([FromBody]CreateOutContractRequest request)
         {
             if (!ModelState.IsValid)
@@ -181,7 +181,7 @@ namespace WebApi.Modules.Warehouse.CheckOut
         //------------------------------------------------------------------------------------ 
         // POST api/v1/checkout/movestageditemtoout
         [HttpPost("movestageditemtoout")]
-        [FwControllerMethod(Id: "fbWJYkPbqpBE")]
+        [FwControllerMethod(Id: "fbWJYkPbqpBE", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<MoveStagedItemResponse>> MoveStagedItemToOut([FromBody]MoveStagedItemRequest request)
         {
             if (!ModelState.IsValid)
@@ -201,7 +201,7 @@ namespace WebApi.Modules.Warehouse.CheckOut
         //------------------------------------------------------------------------------------ 
         // POST api/v1/checkout/moveoutitemtostaged
         [HttpPost("moveoutitemtostaged")]
-        [FwControllerMethod(Id: "b705dpUOY3rJ")]
+        [FwControllerMethod(Id: "b705dpUOY3rJ", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<MoveStagedItemResponse>> MoveOutItemToStaged([FromBody]MoveStagedItemRequest request)
         {
             if (!ModelState.IsValid)
@@ -221,7 +221,7 @@ namespace WebApi.Modules.Warehouse.CheckOut
         //------------------------------------------------------------------------------------ 
         // POST api/v1/checkout/completecheckoutcontract/A0000001
         [HttpPost("completecheckoutcontract/{id}")]
-        [FwControllerMethod(Id: "b1UmILugTF0F")]
+        [FwControllerMethod(Id: "b1UmILugTF0F", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<ContractLogic>> CompleteCheckOutContractAsync([FromRoute]string id)
         {
             if (!ModelState.IsValid)

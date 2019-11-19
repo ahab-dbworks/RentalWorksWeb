@@ -1,6 +1,6 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
-namespace WebApi.Modules.Home.OrderSnapshot
+namespace WebApi.Modules.HomeControls.OrderSnapshot
 {
     [FwLogic(Id:"9wiaAZUoRsKs")]
     public class OrderSnapshotLogic : AppBusinessLogic

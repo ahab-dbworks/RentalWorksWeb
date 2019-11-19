@@ -1,6 +1,6 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
-namespace WebApi.Modules.Home.StagedItem
+namespace WebApi.Modules.HomeControls.StagedItem
 {
     [FwLogic(Id:"smLpcnXJTXfAd")]
     public class StagedItemLogic : AppBusinessLogic

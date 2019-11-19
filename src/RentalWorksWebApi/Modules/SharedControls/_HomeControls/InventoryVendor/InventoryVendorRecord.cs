@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic;
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data;
-namespace WebApi.Modules.Home.InventoryVendor
+namespace WebApi.Modules.HomeControls.InventoryVendor
 {
     [FwSqlTable("mastervendor")]
     public class InventoryVendorRecord : AppDataReadWriteRecord

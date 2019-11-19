@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic;
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data;
-namespace WebApi.Modules.Home.InventorySubstitute
+namespace WebApi.Modules.HomeControls.InventorySubstitute
 {
     [FwSqlTable("substitute")]
     public class InventorySubstituteRecord : AppDataReadWriteRecord

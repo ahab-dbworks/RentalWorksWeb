@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using WebApi.Logic;
 using WebApi.Modules.Settings.OrderSettings.OrderType;
 using WebApi.Modules.Settings.OrderTypeFields;
+using static FwStandard.Data.FwDataReadWriteRecord;
 
 namespace WebApi.Modules.Settings.EventSettings.EventType
 {

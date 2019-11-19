@@ -1,6 +1,7 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
-namespace WebApi.Modules.Home.ReceiptCredit
+
+namespace WebApi.Modules.HomeControls.ReceiptCredit
 {
     public class ReceiptCreditLogic : AppBusinessLogic
     {

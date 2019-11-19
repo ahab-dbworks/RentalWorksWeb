@@ -10,6 +10,7 @@ using WebApi.Logic;
 using WebApi.Modules.Administrator.User;
 using WebApi.Modules.Settings.AvailableWidget;
 using WebApi.Modules.Settings.WebUserWidget;
+using WebApi.Modules.Settings.WidgetSettings.Widget;
 
 namespace WebApi.Modules.Settings.UserDashboardSettings
 {
@@ -345,7 +346,7 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
             return loaded;
         }
         //------------------------------------------------------------------------------------
-        public override async Task<int> SaveAsync(FwBusinessLogic original, FwSqlConnection conn = null)
+        public override async Task<int> SaveAsync(FwBusinessLogic original, FwSqlConnection conn = null, TDataRecordSaveMode saveMode = TDataRecordSaveMode.Auto)
         {
             int savedCount = 0;
             UserDashboardSettingsLogic orig = new UserDashboardSettingsLogic();

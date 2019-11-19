@@ -1,6 +1,6 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
-namespace WebApi.Modules.Home.MasterLocation
+namespace WebApi.Modules.HomeControls.MasterLocation
 {
     [FwLogic(Id:"Wiu8IkYwlo1m")]
     public abstract class MasterLocationLogic : AppBusinessLogic

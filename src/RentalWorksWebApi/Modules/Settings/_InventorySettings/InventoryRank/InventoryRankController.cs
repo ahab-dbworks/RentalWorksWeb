@@ -17,15 +17,15 @@ namespace WebApi.Modules.Settings.InventorySettings.InventoryRank
         //------------------------------------------------------------------------------------ 
         // POST api/v1/inventoryrank/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"lKvnchXC8OUn")]
+        [FwControllerMethod(Id:"lKvnchXC8OUn", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"FAwONeudHbyN")]
+        [FwControllerMethod(Id:"FAwONeudHbyN", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -33,7 +33,7 @@ namespace WebApi.Modules.Settings.InventorySettings.InventoryRank
         //------------------------------------------------------------------------------------ 
         // GET api/v1/inventoryrank 
         [HttpGet]
-        [FwControllerMethod(Id:"FHs5gPJJ1v6H")]
+        [FwControllerMethod(Id:"FHs5gPJJ1v6H", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<InventoryRankLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<InventoryRankLogic>(pageno, pagesize, sort);
@@ -41,7 +41,7 @@ namespace WebApi.Modules.Settings.InventorySettings.InventoryRank
         //------------------------------------------------------------------------------------ 
         // GET api/v1/inventoryrank/A0000001 
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"dg11oj8gp9Xh")]
+        [FwControllerMethod(Id:"dg11oj8gp9Xh", ActionType: FwControllerActionTypes.View)]
         public async Task<ActionResult<InventoryRankLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<InventoryRankLogic>(id);
@@ -49,15 +49,23 @@ namespace WebApi.Modules.Settings.InventorySettings.InventoryRank
         //------------------------------------------------------------------------------------ 
         // POST api/v1/inventoryrank 
         [HttpPost]
-        [FwControllerMethod(Id:"mNm8c55bonsm")]
-        public async Task<ActionResult<InventoryRankLogic>> PostAsync([FromBody]InventoryRankLogic l)
+        [FwControllerMethod(Id:"mNm8c55bonsm", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<InventoryRankLogic>> NewAsync([FromBody]InventoryRankLogic l)
         {
-            return await DoPostAsync<InventoryRankLogic>(l);
+            return await DoNewAsync<InventoryRankLogic>(l);
+        }
+        //------------------------------------------------------------------------------------ 
+        // PUT api/v1/inventoryrank/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "cGtvtoUjBTvzN", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<InventoryRankLogic>> EditAsync([FromRoute] string id, [FromBody]InventoryRankLogic l)
+        {
+            return await DoEditAsync<InventoryRankLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
         // DELETE api/v1/inventoryrank/A0000001 
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id:"I0eetYvV8SZl")]
+        [FwControllerMethod(Id:"I0eetYvV8SZl", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<InventoryRankLogic>(id);

@@ -1,7 +1,7 @@
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-namespace WebApi.Modules.Home.InvoiceReceipt
+namespace WebApi.Modules.HomeControls.InvoiceReceipt
 {
     [FwSqlTable("arpayment")]
     public class InvoiceReceiptRecord : AppDataReadWriteRecord

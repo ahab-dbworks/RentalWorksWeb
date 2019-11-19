@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using WebApi.Data;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Home.ReceiptCredit
+namespace WebApi.Modules.HomeControls.ReceiptCredit
 {
     [FwSqlTable("dbo.funcreceiptcreditweb(@locationid, @customerid, @dealid, @arid)")]
     public class ReceiptCreditLoader : AppDataLoadRecord

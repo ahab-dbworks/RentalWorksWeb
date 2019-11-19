@@ -1,6 +1,6 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
-namespace WebApi.Modules.Home.CheckOutPendingItem
+namespace WebApi.Modules.HomeControls.CheckOutPendingItem
 {
     [FwLogic(Id:"JWGuz56ob7O")]
     public class CheckOutPendingItemLogic : AppBusinessLogic

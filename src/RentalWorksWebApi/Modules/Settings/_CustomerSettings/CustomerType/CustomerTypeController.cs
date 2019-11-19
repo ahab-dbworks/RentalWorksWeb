@@ -19,15 +19,15 @@ namespace WebApi.Modules.Settings.CustomerSettings.CustomerType
         //------------------------------------------------------------------------------------
         // POST api/v1/customertype/browse
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"T4NFxZgWKzDb")]
+        [FwControllerMethod(Id:"T4NFxZgWKzDb", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"ESGfnn1oZwtu")]
+        [FwControllerMethod(Id:"ESGfnn1oZwtu", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -35,7 +35,7 @@ namespace WebApi.Modules.Settings.CustomerSettings.CustomerType
         //------------------------------------------------------------------------------------
         // GET api/v1/customertype
         [HttpGet]
-        [FwControllerMethod(Id:"EfVwCDSOP4sz")]
+        [FwControllerMethod(Id:"EfVwCDSOP4sz", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<CustomerTypeLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<CustomerTypeLogic>(pageno, pagesize, sort);
@@ -43,7 +43,7 @@ namespace WebApi.Modules.Settings.CustomerSettings.CustomerType
         //------------------------------------------------------------------------------------
         // GET api/v1/customertype/A0000001
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"royFJSgqPzMH")]
+        [FwControllerMethod(Id:"royFJSgqPzMH", ActionType: FwControllerActionTypes.View)]
         public async Task<ActionResult<CustomerTypeLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<CustomerTypeLogic>(id);
@@ -51,15 +51,23 @@ namespace WebApi.Modules.Settings.CustomerSettings.CustomerType
         //------------------------------------------------------------------------------------
         // POST api/v1/customertype
         [HttpPost]
-        [FwControllerMethod(Id:"YToToJqHPCsa")]
-        public async Task<ActionResult<CustomerTypeLogic>> PostAsync([FromBody]CustomerTypeLogic l)
+        [FwControllerMethod(Id:"YToToJqHPCsa", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<CustomerTypeLogic>> NewAsync([FromBody]CustomerTypeLogic l)
         {
-            return await DoPostAsync<CustomerTypeLogic>(l);
+            return await DoNewAsync<CustomerTypeLogic>(l);
+        }
+        //------------------------------------------------------------------------------------
+        // PUT api/v1/customertyp/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "0rxS7504AzDNS", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<CustomerTypeLogic>> EditAsync([FromRoute] string id, [FromBody]CustomerTypeLogic l)
+        {
+            return await DoEditAsync<CustomerTypeLogic>(l);
         }
         //------------------------------------------------------------------------------------
         // DELETE api/v1/customertype/A0000001
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id:"GY9LNmcNp57E")]
+        [FwControllerMethod(Id:"GY9LNmcNp57E", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<CustomerTypeLogic>(id);

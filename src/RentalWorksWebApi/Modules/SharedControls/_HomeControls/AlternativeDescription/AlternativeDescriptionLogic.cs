@@ -1,6 +1,6 @@
 using WebApi.Logic;
 using FwStandard.AppManager;
-namespace WebApi.Modules.Home.AlternativeDescription
+namespace WebApi.Modules.HomeControls.AlternativeDescription
 {
     [FwLogic(Id: "2HTGoYck1Gql")]
     public class AlternativeDescriptionLogic : AppBusinessLogic

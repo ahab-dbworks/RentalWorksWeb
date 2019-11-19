@@ -3,7 +3,7 @@ using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-namespace WebApi.Modules.Administrator.CustomFormGroup
+namespace WebApi.Modules.AdministratorControls.CustomFormGroup
 {
     [FwSqlTable("webformgroupsview")]
     public class CustomFormGroupLoader : AppDataLoadRecord

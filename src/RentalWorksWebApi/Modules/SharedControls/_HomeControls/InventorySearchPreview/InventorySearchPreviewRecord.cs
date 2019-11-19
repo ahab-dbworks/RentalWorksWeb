@@ -5,7 +5,7 @@ using System.Data;
 using System.Threading.Tasks;
 using WebApi.Data;
 
-namespace WebApi.Modules.Home.InventorySearchPreview
+namespace WebApi.Modules.HomeControls.InventorySearchPreview
 {
     [FwSqlTable("tmpsearchsession")]
     public class InventorySearchPreviewRecord : AppDataReadWriteRecord

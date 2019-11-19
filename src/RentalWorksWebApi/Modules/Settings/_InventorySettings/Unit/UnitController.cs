@@ -18,15 +18,15 @@ namespace WebApi.Modules.Settings.InventorySettings.Unit
         //------------------------------------------------------------------------------------
         // POST api/v1/unit/browse
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"mRQNnrFEq4sC4")]
+        [FwControllerMethod(Id:"mRQNnrFEq4sC4", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"WaKzXrTxgfJ9K")]
+        [FwControllerMethod(Id:"WaKzXrTxgfJ9K", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -34,7 +34,7 @@ namespace WebApi.Modules.Settings.InventorySettings.Unit
         //------------------------------------------------------------------------------------
         // GET api/v1/unit
         [HttpGet]
-        [FwControllerMethod(Id:"Dko4aH3yyIQbp")]
+        [FwControllerMethod(Id:"Dko4aH3yyIQbp", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<UnitLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<UnitLogic>(pageno, pagesize, sort);
@@ -42,7 +42,7 @@ namespace WebApi.Modules.Settings.InventorySettings.Unit
         //------------------------------------------------------------------------------------
         // GET api/v1/unit/A0000001
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"d0c7DHG6ilZ8j")]
+        [FwControllerMethod(Id:"d0c7DHG6ilZ8j", ActionType: FwControllerActionTypes.View)]
         public async Task<ActionResult<UnitLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<UnitLogic>(id);
@@ -50,15 +50,23 @@ namespace WebApi.Modules.Settings.InventorySettings.Unit
         //------------------------------------------------------------------------------------
         // POST api/v1/unit
         [HttpPost]
-        [FwControllerMethod(Id:"TvJNFm1HMDXcU")]
-        public async Task<ActionResult<UnitLogic>> PostAsync([FromBody]UnitLogic l)
+        [FwControllerMethod(Id:"TvJNFm1HMDXcU", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<UnitLogic>> NewAsync([FromBody]UnitLogic l)
         {
-            return await DoPostAsync<UnitLogic>(l);
+            return await DoNewAsync<UnitLogic>(l);
+        }
+        //------------------------------------------------------------------------------------
+        // PUT api/v1/uni/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "nFbuCqDu2KS1n", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<UnitLogic>> EditAsync([FromRoute] string id, [FromBody]UnitLogic l)
+        {
+            return await DoEditAsync<UnitLogic>(l);
         }
         //------------------------------------------------------------------------------------
         // DELETE api/v1/unit/A0000001
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id:"0VQksUQtkYg9X")]
+        [FwControllerMethod(Id:"0VQksUQtkYg9X", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<UnitLogic>(id);

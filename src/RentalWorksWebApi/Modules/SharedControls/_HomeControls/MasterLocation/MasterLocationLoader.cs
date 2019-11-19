@@ -4,7 +4,7 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data; 
 using System.Collections.Generic;
-namespace WebApi.Modules.Home.MasterLocation
+namespace WebApi.Modules.HomeControls.MasterLocation
 {
     [FwSqlTable("masterlocationview")]
     public abstract class MasterLocationLoader : AppDataLoadRecord

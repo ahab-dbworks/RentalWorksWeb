@@ -17,15 +17,15 @@ namespace WebApi.Modules.Settings.Rank
         //------------------------------------------------------------------------------------ 
         // POST api/v1/rank/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"yKcjz5ZQvIpRE")]
+        [FwControllerMethod(Id:"yKcjz5ZQvIpRE", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"xzNEfOWU1xrgA")]
+        [FwControllerMethod(Id:"xzNEfOWU1xrgA", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -33,7 +33,7 @@ namespace WebApi.Modules.Settings.Rank
         //------------------------------------------------------------------------------------ 
         // GET api/v1/rank 
         [HttpGet]
-        [FwControllerMethod(Id:"b0lKRAfG3cwMi")]
+        [FwControllerMethod(Id:"b0lKRAfG3cwMi", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<RankLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<RankLogic>(pageno, pagesize, sort);
@@ -41,7 +41,7 @@ namespace WebApi.Modules.Settings.Rank
         //------------------------------------------------------------------------------------ 
         // GET api/v1/rank/A0000001 
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"7AFhRn6SUvJ6s")]
+        [FwControllerMethod(Id:"7AFhRn6SUvJ6s", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<RankLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<RankLogic>(id);

@@ -1,6 +1,6 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
-namespace WebApi.Modules.Home.InventoryMaterial
+namespace WebApi.Modules.HomeControls.InventoryMaterial
 {
     [FwLogic(Id:"v5boASkjV3te")]
     public class InventoryMaterialLogic : AppBusinessLogic

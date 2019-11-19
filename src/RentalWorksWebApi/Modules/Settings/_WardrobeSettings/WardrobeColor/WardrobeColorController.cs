@@ -18,15 +18,15 @@ namespace WebApi.Modules.Settings.WardrobeSettings.WardrobeColor
         //------------------------------------------------------------------------------------
         // POST api/v1/wardrobecolor/browse
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"FCCugQbzWWdIV")]
+        [FwControllerMethod(Id:"FCCugQbzWWdIV", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"IK2bgXjSg2HEl")]
+        [FwControllerMethod(Id:"IK2bgXjSg2HEl", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -34,7 +34,7 @@ namespace WebApi.Modules.Settings.WardrobeSettings.WardrobeColor
         //------------------------------------------------------------------------------------
         // GET api/v1/wardrobecolor
         [HttpGet]
-        [FwControllerMethod(Id:"MhDjti6lUxLc1")]
+        [FwControllerMethod(Id:"MhDjti6lUxLc1", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<WardrobeColorLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<WardrobeColorLogic>(pageno, pagesize, sort);
@@ -42,7 +42,7 @@ namespace WebApi.Modules.Settings.WardrobeSettings.WardrobeColor
         //------------------------------------------------------------------------------------
         // GET api/v1/wardrobecolor/A0000001
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"7ggdyMax75deO")]
+        [FwControllerMethod(Id:"7ggdyMax75deO", ActionType: FwControllerActionTypes.View)]
         public async Task<ActionResult<WardrobeColorLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<WardrobeColorLogic>(id);
@@ -50,15 +50,23 @@ namespace WebApi.Modules.Settings.WardrobeSettings.WardrobeColor
         //------------------------------------------------------------------------------------
         // POST api/v1/wardrobecolor
         [HttpPost]
-        [FwControllerMethod(Id:"P4eQpbWzy9QlR")]
-        public async Task<ActionResult<WardrobeColorLogic>> PostAsync([FromBody]WardrobeColorLogic l)
+        [FwControllerMethod(Id:"P4eQpbWzy9QlR", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<WardrobeColorLogic>> NewAsync([FromBody]WardrobeColorLogic l)
         {
-            return await DoPostAsync<WardrobeColorLogic>(l);
+            return await DoNewAsync<WardrobeColorLogic>(l);
+        }
+        //------------------------------------------------------------------------------------
+        // PUT api/v1/wardrobecolo/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "ZaQagA7blIbgx", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<WardrobeColorLogic>> EditAsync([FromRoute] string id, [FromBody]WardrobeColorLogic l)
+        {
+            return await DoEditAsync<WardrobeColorLogic>(l);
         }
         //------------------------------------------------------------------------------------
         // DELETE api/v1/wardrobecolor/A0000001
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id:"OovUuyOuWClQV")]
+        [FwControllerMethod(Id:"OovUuyOuWClQV", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<WardrobeColorLogic>(id);

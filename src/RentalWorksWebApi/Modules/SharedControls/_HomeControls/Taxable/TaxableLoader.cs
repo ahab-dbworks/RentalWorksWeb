@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System;
 
-namespace WebApi.Modules.Home.Taxable
+namespace WebApi.Modules.HomeControls.Taxable
 {
     [FwSqlTable("masterlocationview")]
     public class TaxableLoader : AppDataLoadRecord

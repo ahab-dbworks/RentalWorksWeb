@@ -4,7 +4,7 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 using System.Collections.Generic;
-namespace WebApi.Modules.Home.RepairCost
+namespace WebApi.Modules.HomeControls.RepairCost
 {
     [FwSqlTable("repaircostview")]
     public class RepairCostLoader : AppDataLoadRecord

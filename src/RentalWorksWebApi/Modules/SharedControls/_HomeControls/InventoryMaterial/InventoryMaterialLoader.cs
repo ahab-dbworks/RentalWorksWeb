@@ -4,7 +4,7 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data; 
 using System.Collections.Generic;
-namespace WebApi.Modules.Home.InventoryMaterial
+namespace WebApi.Modules.HomeControls.InventoryMaterial
 {
     [FwSqlTable("mastermaterialview")]
     public class InventoryMaterialLoader : AppDataLoadRecord

@@ -20,7 +20,7 @@ namespace WebApi.Modules.Billing.Receipt
         //------------------------------------------------------------------------------------ 
         // POST api/v1/receipt/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"UQfZi78fIik")]
+        [FwControllerMethod(Id:"UQfZi78fIik", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
@@ -28,7 +28,7 @@ namespace WebApi.Modules.Billing.Receipt
         //------------------------------------------------------------------------------------ 
         // GET api/v1/receipt/legend 
         [HttpGet("legend")]
-        [FwControllerMethod(Id: "5dkaEowIuuvj3")]
+        [FwControllerMethod(Id: "5dkaEowIuuvj3", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<Dictionary<string, string>>> GetLegend()
         {
             Dictionary<string, string> legend = new Dictionary<string, string>();
@@ -42,9 +42,9 @@ namespace WebApi.Modules.Billing.Receipt
             return new OkObjectResult(legend);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/receipt/exportexcelxlsx
+        // POST api/v1/receipt/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"cD0i6Lu7l6y")]
+        [FwControllerMethod(Id:"cD0i6Lu7l6y", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -52,7 +52,7 @@ namespace WebApi.Modules.Billing.Receipt
         //------------------------------------------------------------------------------------ 
         // GET api/v1/receipt 
         [HttpGet]
-        [FwControllerMethod(Id:"WXqdiCvvthD")]
+        [FwControllerMethod(Id:"WXqdiCvvthD", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<ReceiptLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<ReceiptLogic>(pageno, pagesize, sort);
@@ -60,7 +60,7 @@ namespace WebApi.Modules.Billing.Receipt
         //------------------------------------------------------------------------------------ 
         // GET api/v1/receipt/A0000001 
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"n5V9FG9rUry")]
+        [FwControllerMethod(Id:"n5V9FG9rUry", ActionType: FwControllerActionTypes.View)]
         public async Task<ActionResult<ReceiptLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<ReceiptLogic>(id);
@@ -68,15 +68,23 @@ namespace WebApi.Modules.Billing.Receipt
         //------------------------------------------------------------------------------------ 
         // POST api/v1/receipt 
         [HttpPost]
-        [FwControllerMethod(Id:"JdkHwTtfSOq")]
-        public async Task<ActionResult<ReceiptLogic>> PostAsync([FromBody]ReceiptLogic l)
+        [FwControllerMethod(Id:"JdkHwTtfSOq", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<ReceiptLogic>> NewAsync([FromBody]ReceiptLogic l)
         {
-            return await DoPostAsync<ReceiptLogic>(l);
+            return await DoNewAsync<ReceiptLogic>(l);
+        }
+        //------------------------------------------------------------------------------------ 
+        // PUT api/v1/receipt/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "AUWHk7opHV0Vv", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<ReceiptLogic>> EditAsync([FromRoute] string id, [FromBody]ReceiptLogic l)
+        {
+            return await DoEditAsync<ReceiptLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
         // DELETE api/v1/receipt/A0000001 
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id:"RZg83sSIUEo")]
+        [FwControllerMethod(Id:"RZg83sSIUEo", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<ReceiptLogic>(id);
@@ -84,7 +92,7 @@ namespace WebApi.Modules.Billing.Receipt
         //------------------------------------------------------------------------------------ 
         // DELETE api/v1/receipt/overridedelete/A0000001 
         [HttpDelete("overridedelete/{id}")]
-        [FwControllerMethod(Id: "kXttDhRjrgZ")]
+        [FwControllerMethod(Id: "kXttDhRjrgZ", ActionType: FwControllerActionTypes.Option, Caption: "Override Delete")]
         public async Task<ActionResult<bool>> OverrideDelete([FromRoute]string id)
         {
             return await ReceiptFunc.DeleteReceipt(AppConfig, UserSession, id);
@@ -92,7 +100,7 @@ namespace WebApi.Modules.Billing.Receipt
         //------------------------------------------------------------------------------------ 
         // GET api/v1/receipt/remainingdepositamounts
         [HttpGet("remainingdepositamounts")]
-        [FwControllerMethod(Id: "rewXg7ccffYIe")]
+        [FwControllerMethod(Id: "rewXg7ccffYIe", ActionType: FwControllerActionTypes.Option, Caption: "Get Remaining Deposit Amounts")]
         public async Task<ActionResult<RemainingDepositAmountsResponse>> GetRemainingDepositAmounts([FromRoute] string CustomerId, string DealId, string OfficeLocationId)
         {
             if (!ModelState.IsValid)

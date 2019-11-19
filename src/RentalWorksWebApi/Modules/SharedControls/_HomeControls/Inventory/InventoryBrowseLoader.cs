@@ -3,11 +3,11 @@ using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-using WebApi.Modules.Home.Master;
+using WebApi.Modules.HomeControls.Master;
 using System.Collections.Generic;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Home.Inventory
+namespace WebApi.Modules.HomeControls.Inventory
 {
     [FwSqlTable("inventoryview")]
     public class InventoryBrowseLoader : AppDataLoadRecord

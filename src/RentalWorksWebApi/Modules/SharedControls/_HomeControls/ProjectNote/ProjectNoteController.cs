@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options; 
 using WebApi.Controllers; 
 using System.Threading.Tasks;
-namespace WebApi.Modules.Home.ProjectNote
+namespace WebApi.Modules.HomeControls.ProjectNote
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
@@ -17,15 +17,15 @@ namespace WebApi.Modules.Home.ProjectNote
         //------------------------------------------------------------------------------------ 
         // POST api/v1/projectnote/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"HEdjwSofRHntv")]
+        [FwControllerMethod(Id:"HEdjwSofRHntv", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"1axc1alQaCGzb")]
+        [FwControllerMethod(Id:"1axc1alQaCGzb", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -33,7 +33,7 @@ namespace WebApi.Modules.Home.ProjectNote
         //------------------------------------------------------------------------------------ 
         // GET api/v1/projectnote 
         [HttpGet]
-        [FwControllerMethod(Id:"RbubmqKBKoYjM")]
+        [FwControllerMethod(Id:"RbubmqKBKoYjM", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<ProjectNoteLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<ProjectNoteLogic>(pageno, pagesize, sort);
@@ -41,7 +41,7 @@ namespace WebApi.Modules.Home.ProjectNote
         //------------------------------------------------------------------------------------ 
         // GET api/v1/projectnote/A0000001
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"KRiE0myEU4TCb")]
+        [FwControllerMethod(Id:"KRiE0myEU4TCb", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<ProjectNoteLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<ProjectNoteLogic>(id);
@@ -49,15 +49,23 @@ namespace WebApi.Modules.Home.ProjectNote
         //------------------------------------------------------------------------------------ 
         // POST api/v1/projectnote 
         [HttpPost]
-        [FwControllerMethod(Id:"gcu7B3GMMDxeI")]
-        public async Task<ActionResult<ProjectNoteLogic>> PostAsync([FromBody]ProjectNoteLogic l)
+        [FwControllerMethod(Id:"gcu7B3GMMDxeI", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<ProjectNoteLogic>> NewAsync([FromBody]ProjectNoteLogic l)
         {
-            return await DoPostAsync<ProjectNoteLogic>(l);
+            return await DoNewAsync<ProjectNoteLogic>(l);
+        }
+        //------------------------------------------------------------------------------------ 
+        // PUT api/v1/projectnote/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "M8lw4CVBz9cQs", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<ProjectNoteLogic>> EditAsync([FromRoute] string id, [FromBody]ProjectNoteLogic l)
+        {
+            return await DoEditAsync<ProjectNoteLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
         // DELETE api/v1/projectnote/A0000001
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id:"tzzdkC2n8TiFa")]
+        [FwControllerMethod(Id:"tzzdkC2n8TiFa", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<ProjectNoteLogic>(id);

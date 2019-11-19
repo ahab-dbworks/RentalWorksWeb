@@ -18,15 +18,15 @@ namespace WebApi.Modules.Settings.VehicleSettings.VehicleStatus
         //------------------------------------------------------------------------------------
         // POST api/v1/vehiclestatus/browse
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"g5d3m9MhpFGuH")]
+        [FwControllerMethod(Id:"g5d3m9MhpFGuH", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"qthghboErBBZs")]
+        [FwControllerMethod(Id:"qthghboErBBZs", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -34,7 +34,7 @@ namespace WebApi.Modules.Settings.VehicleSettings.VehicleStatus
         //------------------------------------------------------------------------------------
         // GET api/v1/vehiclestatus
         [HttpGet]
-        [FwControllerMethod(Id:"2LpUKmMIUdYAi")]
+        [FwControllerMethod(Id:"2LpUKmMIUdYAi", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<VehicleStatusLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<VehicleStatusLogic>(pageno, pagesize, sort);
@@ -42,7 +42,7 @@ namespace WebApi.Modules.Settings.VehicleSettings.VehicleStatus
         //------------------------------------------------------------------------------------
         // GET api/v1/vehiclestatus/A0000001
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"8D0h9eHATDW2w")]
+        [FwControllerMethod(Id:"8D0h9eHATDW2w", ActionType: FwControllerActionTypes.View)]
         public async Task<ActionResult<VehicleStatusLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<VehicleStatusLogic>(id);
@@ -50,15 +50,23 @@ namespace WebApi.Modules.Settings.VehicleSettings.VehicleStatus
         //------------------------------------------------------------------------------------
         // POST api/v1/vehiclestatus
         [HttpPost]
-        [FwControllerMethod(Id:"hm6lah1DHwRbj")]
-        public async Task<ActionResult<VehicleStatusLogic>> PostAsync([FromBody]VehicleStatusLogic l)
+        [FwControllerMethod(Id:"hm6lah1DHwRbj", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<VehicleStatusLogic>> NewAsync([FromBody]VehicleStatusLogic l)
         {
-            return await DoPostAsync<VehicleStatusLogic>(l);
+            return await DoNewAsync<VehicleStatusLogic>(l);
+        }
+        //------------------------------------------------------------------------------------
+        // PUT api/v1/vehiclestatu/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "IyG9K8Y3bjxqS", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<VehicleStatusLogic>> EditAsync([FromRoute] string id, [FromBody]VehicleStatusLogic l)
+        {
+            return await DoEditAsync<VehicleStatusLogic>(l);
         }
         //------------------------------------------------------------------------------------
         // DELETE api/v1/vehiclestatus/A0000001
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id:"Gp565Hg6tcC6Z")]
+        [FwControllerMethod(Id:"Gp565Hg6tcC6Z", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<VehicleStatusLogic>(id);

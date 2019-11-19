@@ -4,7 +4,7 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data; 
 using System.Collections.Generic;
-namespace WebApi.Modules.Home.InventoryConsignor
+namespace WebApi.Modules.HomeControls.InventoryConsignor
 {
     [FwSqlTable("masterconsignoragreementview")]
     public class InventoryConsignorLoader : AppDataLoadRecord

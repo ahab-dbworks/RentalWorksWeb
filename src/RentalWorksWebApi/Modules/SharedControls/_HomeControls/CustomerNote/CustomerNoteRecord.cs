@@ -5,7 +5,7 @@ using System.Data;
 using System.Threading.Tasks;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Home.CustomerNote
+namespace WebApi.Modules.HomeControls.CustomerNote
 {
     [FwSqlTable("custnote")]
     public class CustomerNoteRecord : AppDataReadWriteRecord

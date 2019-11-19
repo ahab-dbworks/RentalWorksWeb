@@ -21,15 +21,15 @@ namespace WebApi.Modules.Settings.TaxSettings.TaxOption
         //------------------------------------------------------------------------------------
         // POST api/v1/taxoption/browse
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"8n3uk1wkv7Aty")]
+        [FwControllerMethod(Id:"8n3uk1wkv7Aty", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"W00ccjH8tXymw")]
+        [FwControllerMethod(Id:"W00ccjH8tXymw", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -37,7 +37,7 @@ namespace WebApi.Modules.Settings.TaxSettings.TaxOption
         //------------------------------------------------------------------------------------
         // GET api/v1/taxoption
         [HttpGet]
-        [FwControllerMethod(Id:"HVUYo1siIIJDq")]
+        [FwControllerMethod(Id:"HVUYo1siIIJDq", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<TaxOptionLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<TaxOptionLogic>(pageno, pagesize, sort);
@@ -45,7 +45,7 @@ namespace WebApi.Modules.Settings.TaxSettings.TaxOption
         //------------------------------------------------------------------------------------
         // GET api/v1/taxoption/A0000001
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"uGhPTfsN06ODS")]
+        [FwControllerMethod(Id:"uGhPTfsN06ODS", ActionType: FwControllerActionTypes.View)]
         public async Task<ActionResult<TaxOptionLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<TaxOptionLogic>(id);
@@ -53,15 +53,23 @@ namespace WebApi.Modules.Settings.TaxSettings.TaxOption
         //------------------------------------------------------------------------------------
         // POST api/v1/taxoption
         [HttpPost]
-        [FwControllerMethod(Id:"C7hnOuTsEeLr1")]
-        public async Task<ActionResult<TaxOptionLogic>> PostAsync([FromBody]TaxOptionLogic l)
+        [FwControllerMethod(Id:"C7hnOuTsEeLr1", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<TaxOptionLogic>> NewAsync([FromBody]TaxOptionLogic l)
         {
-            return await DoPostAsync<TaxOptionLogic>(l);
+            return await DoNewAsync<TaxOptionLogic>(l);
+        }
+        //------------------------------------------------------------------------------------
+        // PUT api/v1/taxoptio/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "wsCyHjJAgTZdS", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<TaxOptionLogic>> EditAsync([FromRoute] string id, [FromBody]TaxOptionLogic l)
+        {
+            return await DoEditAsync<TaxOptionLogic>(l);
         }
         //------------------------------------------------------------------------------------
         // DELETE api/v1/taxoption/A0000001
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id:"lE3Ob6a7tDCKi")]
+        [FwControllerMethod(Id:"lE3Ob6a7tDCKi", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<TaxOptionLogic>(id);
@@ -70,7 +78,7 @@ namespace WebApi.Modules.Settings.TaxSettings.TaxOption
         //------------------------------------------------------------------------------------
         // POST api/v1/taxoption/A0000001/forcerates
         [HttpPost("{id}/forcerates")]
-        [FwControllerMethod(Id:"lfZiNgs8GOJBE")]
+        [FwControllerMethod(Id:"lfZiNgs8GOJBE", ActionType: FwControllerActionTypes.Option)]
         public async Task<ActionResult<bool>> ForceRatesAsync([FromRoute]string id)
         {
             try

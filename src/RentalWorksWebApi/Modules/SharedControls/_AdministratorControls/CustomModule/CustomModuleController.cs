@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options; 
 using WebApi.Controllers; 
 using System.Threading.Tasks;
-namespace WebApi.Modules.Administrator.CustomModule
+namespace WebApi.Modules.AdministratorControls.CustomModule
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "administrator-v1")]
@@ -17,15 +17,15 @@ namespace WebApi.Modules.Administrator.CustomModule
         //------------------------------------------------------------------------------------ 
         // POST api/v1/custommodule/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"rrWnLZJuBzz6")]
+        [FwControllerMethod(Id:"rrWnLZJuBzz6", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"sowZerXs07Fd")]
+        [FwControllerMethod(Id:"sowZerXs07Fd", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -33,7 +33,7 @@ namespace WebApi.Modules.Administrator.CustomModule
         //------------------------------------------------------------------------------------ 
         // GET api/v1/custommodule 
         [HttpGet]
-        [FwControllerMethod(Id:"pRYk66IzPbRK")]
+        [FwControllerMethod(Id:"pRYk66IzPbRK", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<CustomModuleLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<CustomModuleLogic>(pageno, pagesize, sort);

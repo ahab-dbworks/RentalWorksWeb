@@ -18,15 +18,15 @@ namespace WebApi.Modules.Settings.WardrobeSettings.WardrobeLabel
         //------------------------------------------------------------------------------------
         // POST api/v1/wardrobelabel/browse
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"lENznjqLW88vI")]
+        [FwControllerMethod(Id:"lENznjqLW88vI", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"CKCvFeYxOG82y")]
+        [FwControllerMethod(Id:"CKCvFeYxOG82y", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -34,7 +34,7 @@ namespace WebApi.Modules.Settings.WardrobeSettings.WardrobeLabel
         //------------------------------------------------------------------------------------
         // GET api/v1/wardrobelabel
         [HttpGet]
-        [FwControllerMethod(Id:"vWrCRFPxnzsX2")]
+        [FwControllerMethod(Id:"vWrCRFPxnzsX2", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<WardrobeLabelLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<WardrobeLabelLogic>(pageno, pagesize, sort);
@@ -42,7 +42,7 @@ namespace WebApi.Modules.Settings.WardrobeSettings.WardrobeLabel
         //------------------------------------------------------------------------------------
         // GET api/v1/wardrobelabel/A0000001
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"FEJBdLL93B8l4")]
+        [FwControllerMethod(Id:"FEJBdLL93B8l4", ActionType: FwControllerActionTypes.View)]
         public async Task<ActionResult<WardrobeLabelLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<WardrobeLabelLogic>(id);
@@ -50,15 +50,23 @@ namespace WebApi.Modules.Settings.WardrobeSettings.WardrobeLabel
         //------------------------------------------------------------------------------------
         // POST api/v1/wardrobelabel
         [HttpPost]
-        [FwControllerMethod(Id:"kBUwj59nhzUvk")]
-        public async Task<ActionResult<WardrobeLabelLogic>> PostAsync([FromBody]WardrobeLabelLogic l)
+        [FwControllerMethod(Id:"kBUwj59nhzUvk", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<WardrobeLabelLogic>> NewAsync([FromBody]WardrobeLabelLogic l)
         {
-            return await DoPostAsync<WardrobeLabelLogic>(l);
+            return await DoNewAsync<WardrobeLabelLogic>(l);
+        }
+        //------------------------------------------------------------------------------------
+        // PUT api/v1/wardrobelabe/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "BYSCNBDRD2vVc", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<WardrobeLabelLogic>> EditAsync([FromRoute] string id, [FromBody]WardrobeLabelLogic l)
+        {
+            return await DoEditAsync<WardrobeLabelLogic>(l);
         }
         //------------------------------------------------------------------------------------
         // DELETE api/v1/wardrobelabel/A0000001
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id:"hv7dRtjzh5020")]
+        [FwControllerMethod(Id:"hv7dRtjzh5020", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<WardrobeLabelLogic>(id);

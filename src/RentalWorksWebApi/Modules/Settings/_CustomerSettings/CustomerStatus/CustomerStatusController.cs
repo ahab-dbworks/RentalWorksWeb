@@ -22,15 +22,15 @@ namespace WebApi.Modules.Settings.CustomerSettings.CustomerStatus
         //------------------------------------------------------------------------------------
         // POST api/v1/customerstatus/browse
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"15HQTKcymqtl")]
+        [FwControllerMethod(Id:"KzgjpvIVGI1U", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"15HQTKcymqtl")]
+        [FwControllerMethod(Id:"15HQTKcymqtl", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -38,7 +38,7 @@ namespace WebApi.Modules.Settings.CustomerSettings.CustomerStatus
         //------------------------------------------------------------------------------------
         // GET api/v1/customerstatus
         [HttpGet]
-        [FwControllerMethod(Id:"Im04uc86spWS")]
+        [FwControllerMethod(Id:"Im04uc86spWS", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<CustomerStatusLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<CustomerStatusLogic>(pageno, pagesize, sort);
@@ -48,7 +48,7 @@ namespace WebApi.Modules.Settings.CustomerSettings.CustomerStatus
         [HttpGet("{id}")]
         [Produces(typeof(CustomerStatusLogic))]
         [SwaggerResponse(200, Type = typeof(CustomerStatusLogic))]
-        [FwControllerMethod(Id:"YcelqqpvPUE9")]
+        [FwControllerMethod(Id:"YcelqqpvPUE9", ActionType: FwControllerActionTypes.View)]
         public async Task<ActionResult<CustomerStatusLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<CustomerStatusLogic>(id);
@@ -56,15 +56,23 @@ namespace WebApi.Modules.Settings.CustomerSettings.CustomerStatus
         //------------------------------------------------------------------------------------
         // POST api/v1/customerstatus
         [HttpPost]
-        [FwControllerMethod(Id:"H9LlejpZEsrD")]
-        public async Task<ActionResult<CustomerStatusLogic>> PostAsync([FromBody]CustomerStatusLogic l)
+        [FwControllerMethod(Id:"H9LlejpZEsrD", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<CustomerStatusLogic>> NewAsync([FromBody]CustomerStatusLogic l)
         {
-            return await DoPostAsync<CustomerStatusLogic>(l);
+            return await DoNewAsync<CustomerStatusLogic>(l);
+        }
+        //------------------------------------------------------------------------------------
+        // PUT api/v1/customerstatu/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "tBlMr8XiJfknN", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<CustomerStatusLogic>> EditAsync([FromRoute] string id, [FromBody]CustomerStatusLogic l)
+        {
+            return await DoEditAsync<CustomerStatusLogic>(l);
         }
         //------------------------------------------------------------------------------------
         // DELETE api/v1/customerstatus/A0000001
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id:"2g1IOr0BjKFm")]
+        [FwControllerMethod(Id:"2g1IOr0BjKFm", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<CustomerStatusLogic>(id);

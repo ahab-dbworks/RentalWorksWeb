@@ -1,6 +1,6 @@
 using WebApi.Logic;
 using FwStandard.AppManager;
-namespace WebApi.Modules.Home.PhysicalInventoryInventory
+namespace WebApi.Modules.HomeControls.PhysicalInventoryInventory
 {
     [FwLogic(Id: "LBOBUD1WoqZ9M")]
     public class PhysicalInventoryInventoryLogic : AppBusinessLogic

@@ -1,6 +1,6 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
-namespace WebApi.Modules.Home.MasterWarehouse
+namespace WebApi.Modules.HomeControls.MasterWarehouse
 {
     [FwLogic(Id:"xeta3vkEWo3O")]
     public abstract class MasterWarehouseLogic : AppBusinessLogic

@@ -1,6 +1,7 @@
-using WebApi.Logic;
 using FwStandard.AppManager;
-namespace WebApi.Modules.Home.GLDistribution
+using WebApi.Logic;
+
+namespace WebApi.Modules.Utilities.GLDistribution
 {
     [FwLogic(Id: "rYvsDEoouvOa")]
     public class GLDistributionLogic : AppBusinessLogic

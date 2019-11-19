@@ -17,7 +17,7 @@ namespace WebApi.Modules.Settings.AvailableWidget
         //------------------------------------------------------------------------------------ 
         // POST api/v1/availablewidget/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id: "Tp2E3Tyyl1xwz")]
+        [FwControllerMethod(Id: "Tp2E3Tyyl1xwz", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
@@ -25,7 +25,7 @@ namespace WebApi.Modules.Settings.AvailableWidget
         //------------------------------------------------------------------------------------ 
         // POST api/v1/availablewidget/exportexcelxlsx
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id: "B1GQ3pvfPjzGn")]
+        [FwControllerMethod(Id: "B1GQ3pvfPjzGn", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);

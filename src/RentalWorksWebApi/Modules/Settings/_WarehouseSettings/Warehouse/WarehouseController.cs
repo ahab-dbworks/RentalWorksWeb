@@ -18,15 +18,15 @@ namespace WebApi.Modules.Settings.WarehouseSettings.Warehouse
         //------------------------------------------------------------------------------------
         // POST api/v1/customertype/browse
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"ddZHw4KQLyUAf")]
+        [FwControllerMethod(Id:"ddZHw4KQLyUAf", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"ppVJpliuTuIgs")]
+        [FwControllerMethod(Id:"ppVJpliuTuIgs", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -34,7 +34,7 @@ namespace WebApi.Modules.Settings.WarehouseSettings.Warehouse
         //------------------------------------------------------------------------------------
         // GET api/v1/customertype
         [HttpGet]
-        [FwControllerMethod(Id:"C6JqXCViTUJ3g")]
+        [FwControllerMethod(Id:"C6JqXCViTUJ3g", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<WarehouseLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<WarehouseLogic>(pageno, pagesize, sort);
@@ -42,7 +42,7 @@ namespace WebApi.Modules.Settings.WarehouseSettings.Warehouse
         //------------------------------------------------------------------------------------
         // GET api/v1/customertype/A0000001
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"3XXkOAC0PQtRD")]
+        [FwControllerMethod(Id:"3XXkOAC0PQtRD", ActionType: FwControllerActionTypes.View)]
         public async Task<ActionResult<WarehouseLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<WarehouseLogic>(id);
@@ -50,15 +50,23 @@ namespace WebApi.Modules.Settings.WarehouseSettings.Warehouse
         //------------------------------------------------------------------------------------
         // POST api/v1/customertype
         [HttpPost]
-        [FwControllerMethod(Id:"o3XDtND7MjAJM")]
-        public async Task<ActionResult<WarehouseLogic>> PostAsync([FromBody]WarehouseLogic l)
+        [FwControllerMethod(Id:"o3XDtND7MjAJM", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<WarehouseLogic>> NewAsync([FromBody]WarehouseLogic l)
         {
-            return await DoPostAsync<WarehouseLogic>(l);
+            return await DoNewAsync<WarehouseLogic>(l);
+        }
+        //------------------------------------------------------------------------------------
+        // PUT api/v1/customertyp/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "h1Ih7WjKGX8gY", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<WarehouseLogic>> EditAsync([FromRoute] string id, [FromBody]WarehouseLogic l)
+        {
+            return await DoEditAsync<WarehouseLogic>(l);
         }
         //------------------------------------------------------------------------------------
         // DELETE api/v1/customertype/A0000001
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id:"bZyYMoAKPXwtF")]
+        [FwControllerMethod(Id:"bZyYMoAKPXwtF", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<WarehouseLogic>(id);

@@ -6,7 +6,7 @@ using WebApi.Data;
 using System.Collections.Generic;
 using System;
 using WebLibrary;
-namespace WebApi.Modules.Home.CheckedOutItem
+namespace WebApi.Modules.HomeControls.CheckedOutItem
 {
     [FwSqlTable("dbo.funccheckedout(@contractid)")]
     public class CheckedOutItemLoader : AppDataLoadRecord

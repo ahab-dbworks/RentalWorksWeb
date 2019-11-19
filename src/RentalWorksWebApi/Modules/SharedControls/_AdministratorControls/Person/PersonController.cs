@@ -6,7 +6,7 @@ using Microsoft.Extensions.Options;
 using WebApi.Controllers; 
 using System.Threading.Tasks;
 
-namespace WebApi.Modules.Administrator.Person
+namespace WebApi.Modules.AdministratorControls.Person
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "administrator-v1")]
@@ -17,15 +17,15 @@ namespace WebApi.Modules.Administrator.Person
         //------------------------------------------------------------------------------------ 
         // POST api/v1/person/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"P8raQCMIUKFK")]
+        [FwControllerMethod(Id:"P8raQCMIUKFK", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"dwJPzkosTBv2")]
+        [FwControllerMethod(Id:"dwJPzkosTBv2", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);

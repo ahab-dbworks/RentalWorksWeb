@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic;
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data;
-namespace WebApi.Modules.Home.InventoryMaterial
+namespace WebApi.Modules.HomeControls.InventoryMaterial
 {
     [FwSqlTable("mastermaterial")]
     public class InventoryMaterialRecord : AppDataReadWriteRecord

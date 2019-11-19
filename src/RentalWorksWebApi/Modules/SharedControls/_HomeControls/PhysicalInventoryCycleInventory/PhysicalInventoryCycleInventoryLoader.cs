@@ -3,7 +3,7 @@ using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-namespace WebApi.Modules.Home.PhysicalInventoryCycleInventory
+namespace WebApi.Modules.HomeControls.PhysicalInventoryCycleInventory
 {
     [FwSqlTable("cyclemasterview")]
     public class PhysicalInventoryCycleInventoryLoader : AppDataLoadRecord

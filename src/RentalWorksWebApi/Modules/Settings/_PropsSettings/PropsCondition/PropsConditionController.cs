@@ -19,15 +19,15 @@ namespace WebApi.Modules.Settings.PropsSettings.PropsCondition
         //------------------------------------------------------------------------------------
         // POST api/v1/propscondition/browse
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"mOgcPIhDCvu4H")]
+        [FwControllerMethod(Id:"mOgcPIhDCvu4H", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"adrQ18nFTZNwH")]
+        [FwControllerMethod(Id:"adrQ18nFTZNwH", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -35,7 +35,7 @@ namespace WebApi.Modules.Settings.PropsSettings.PropsCondition
         //------------------------------------------------------------------------------------
         // GET api/v1/propscondition
         [HttpGet]
-        [FwControllerMethod(Id:"Jma4qYYgFZ7UU")]
+        [FwControllerMethod(Id:"Jma4qYYgFZ7UU", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<PropsConditionLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<PropsConditionLogic>(pageno, pagesize, sort);
@@ -43,7 +43,7 @@ namespace WebApi.Modules.Settings.PropsSettings.PropsCondition
         //------------------------------------------------------------------------------------
         // GET api/v1/propscondition/A0000001
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"fr6IyRlPGYGDq")]
+        [FwControllerMethod(Id:"fr6IyRlPGYGDq", ActionType: FwControllerActionTypes.View)]
         public async Task<ActionResult<PropsConditionLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<PropsConditionLogic>(id);
@@ -51,15 +51,23 @@ namespace WebApi.Modules.Settings.PropsSettings.PropsCondition
         //------------------------------------------------------------------------------------
         // POST api/v1/propscondition
         [HttpPost]
-        [FwControllerMethod(Id:"OEKOYtGFcvmiA")]
-        public async Task<ActionResult<PropsConditionLogic>> PostAsync([FromBody]PropsConditionLogic l)
+        [FwControllerMethod(Id:"OEKOYtGFcvmiA", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<PropsConditionLogic>> NewAsync([FromBody]PropsConditionLogic l)
         {
-            return await DoPostAsync<PropsConditionLogic>(l);
+            return await DoNewAsync<PropsConditionLogic>(l);
+        }
+        //------------------------------------------------------------------------------------
+        // PUT api/v1/propsconditio/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "dBGnnPthQCN95", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<PropsConditionLogic>> EditAsync([FromRoute] string id, [FromBody]PropsConditionLogic l)
+        {
+            return await DoEditAsync<PropsConditionLogic>(l);
         }
         //------------------------------------------------------------------------------------
         // DELETE api/v1/propscondition/A0000001
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id:"ScuWFNRmSp2vz")]
+        [FwControllerMethod(Id:"ScuWFNRmSp2vz", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<PropsConditionLogic>(id);

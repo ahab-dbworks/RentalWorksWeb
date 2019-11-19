@@ -1,11 +1,11 @@
 using FwStandard.AppManager;
 using Newtonsoft.Json;
 using WebApi.Logic;
-using WebApi.Modules.Home.Master;
+using WebApi.Modules.HomeControls.Master;
 using WebApi.Modules.Settings.Category;
 using System;
 using static FwStandard.Data.FwDataReadWriteRecord;
-using WebApi.Modules.Home.MasterWarehouse;
+using WebApi.Modules.HomeControls.MasterWarehouse;
 
 namespace WebApi.Modules.Settings.VehicleTypeWarehouse
 {

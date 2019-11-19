@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic;
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data;
-namespace WebApi.Modules.Home.InventoryColor
+namespace WebApi.Modules.HomeControls.InventoryColor
 {
     [FwSqlTable("mastercolor")]
     public class InventoryColorRecord : AppDataReadWriteRecord

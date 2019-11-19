@@ -18,15 +18,15 @@ namespace WebApi.Modules.Settings.RateWarehouse
         //------------------------------------------------------------------------------------
         // POST api/v1/ratewarehouse/browse
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"a22Sl9rz3eXKn")]
+        [FwControllerMethod(Id:"a22Sl9rz3eXKn", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"tbt6zgBI6nRxG")]
+        [FwControllerMethod(Id:"tbt6zgBI6nRxG", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -34,7 +34,7 @@ namespace WebApi.Modules.Settings.RateWarehouse
         //------------------------------------------------------------------------------------
         // GET api/v1/ratewarehouse
         [HttpGet]
-        [FwControllerMethod(Id:"uVLT1npYgaSeZ")]
+        [FwControllerMethod(Id:"uVLT1npYgaSeZ", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<RateWarehouseLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<RateWarehouseLogic>(pageno, pagesize, sort);
@@ -42,7 +42,7 @@ namespace WebApi.Modules.Settings.RateWarehouse
         //------------------------------------------------------------------------------------
         // GET api/v1/ratewarehouse/A0000001
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"BOd2qFMIjxe0i")]
+        [FwControllerMethod(Id:"BOd2qFMIjxe0i", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<RateWarehouseLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<RateWarehouseLogic>(id);
@@ -50,15 +50,23 @@ namespace WebApi.Modules.Settings.RateWarehouse
         //------------------------------------------------------------------------------------
         // POST api/v1/ratewarehouse
         [HttpPost]
-        [FwControllerMethod(Id:"Q9JwcijHM4IUt")]
-        public async Task<ActionResult<RateWarehouseLogic>> PostAsync([FromBody]RateWarehouseLogic l)
+        [FwControllerMethod(Id:"Q9JwcijHM4IUt", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<RateWarehouseLogic>> NewAsync([FromBody]RateWarehouseLogic l)
         {
-            return await DoPostAsync<RateWarehouseLogic>(l);
+            return await DoNewAsync<RateWarehouseLogic>(l);
+        }
+        //------------------------------------------------------------------------------------
+        // PUT api/v1/ratewarehous/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "EtSUIYlsNAXvY", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<RateWarehouseLogic>> EditAsync([FromRoute] string id, [FromBody]RateWarehouseLogic l)
+        {
+            return await DoEditAsync<RateWarehouseLogic>(l);
         }
         //------------------------------------------------------------------------------------
         // DELETE api/v1/ratewarehouse/A0000001
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id:"lEuhw27ObIwK4")]
+        [FwControllerMethod(Id:"lEuhw27ObIwK4", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<RateWarehouseLogic>(id);

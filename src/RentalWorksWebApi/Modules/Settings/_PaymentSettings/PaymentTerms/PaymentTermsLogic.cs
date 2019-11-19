@@ -2,7 +2,7 @@ using FwStandard.AppManager;
 using WebApi.Logic;
 using RRentalWorksWebApi.Modules.Settings.PaymentSettings.PaymentTerms;
 
-namespace WebApi.Modules.Settings.PaymentTerms
+namespace WebApi.Modules.Settings.PaymentSettings.PaymentTerms
 {
     [FwLogic(Id:"qGnQQLpuZ0M4")]
     public class PaymentTermsLogic : AppBusinessLogic

@@ -7,7 +7,7 @@ using FwStandard.SqlServer;
 using FwStandard.AppManager;
 using System;
 
-namespace WebApi.Modules.Home.OrderDates
+namespace WebApi.Modules.HomeControls.OrderDates
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
@@ -18,15 +18,15 @@ namespace WebApi.Modules.Home.OrderDates
         //------------------------------------------------------------------------------------ 
         // POST api/v1/orderdates/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id: "aKeanAcrHBMex")]
+        [FwControllerMethod(Id: "aKeanAcrHBMex", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/orderdates/exportexcelxlsx
+        // POST api/v1/orderdates/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id: "w6iY0joBv0qCa")]
+        [FwControllerMethod(Id: "w6iY0joBv0qCa", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -34,7 +34,7 @@ namespace WebApi.Modules.Home.OrderDates
         //------------------------------------------------------------------------------------        
         //// POST api/v1/orderdates/apply
         //[HttpPost("apply")]
-        //[FwControllerMethod(Id: "YrL7I5AgzKGdI")]
+        //[FwControllerMethod(Id: "YrL7I5AgzKGdI", ActionType: FwControllerActionTypes.Option)]
         //public async Task<ActionResult<ApplyOrderDatesAndTimesResponse>> ApplyOrderDatesAndTimes([FromBody] ApplyOrderDatesAndTimesRequest request)
         //{
         //    if (!ModelState.IsValid)

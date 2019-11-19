@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using WebApi.Controllers;
 using System.Threading.Tasks;
-namespace WebApi.Modules.Home.CheckInException
+namespace WebApi.Modules.HomeControls.CheckInException
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
@@ -16,15 +16,15 @@ namespace WebApi.Modules.Home.CheckInException
         //------------------------------------------------------------------------------------ 
         // POST api/v1/checkinexception/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"F3w26sQCXM6U")]
+        [FwControllerMethod(Id:"F3w26sQCXM6U", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/checkinexception/exportexcelxlsx
+        // POST api/v1/checkinexception/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"T7pgfEbUbR7H")]
+        [FwControllerMethod(Id:"T7pgfEbUbR7H", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);

@@ -1,6 +1,6 @@
 using WebApi.Logic;
 using FwStandard.AppManager;
-namespace WebApi.Modules.Utilities.ExportSettings
+namespace WebApi.Modules.UtilitiesControls.ExportSettings
 {
     [FwLogic(Id: "kfYpG41QiLDw")]
     public class ExportSettingsLogic : AppBusinessLogic

@@ -2,7 +2,6 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using System.Threading.Tasks;
 using WebApi.Data;
-using WebApi.Modules.Home.InventoryAvailability;
 
 namespace WebApi.Modules.Inventory.Repair
 {

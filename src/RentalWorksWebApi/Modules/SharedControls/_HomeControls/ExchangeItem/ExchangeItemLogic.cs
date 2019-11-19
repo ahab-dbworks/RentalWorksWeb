@@ -1,6 +1,6 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
-namespace WebApi.Modules.Home.ExchangeItem
+namespace WebApi.Modules.HomeControls.ExchangeItem
 {
     [FwLogic(Id:"qSc0F5FySu4")]
     public class ExchangeItemLogic : AppBusinessLogic

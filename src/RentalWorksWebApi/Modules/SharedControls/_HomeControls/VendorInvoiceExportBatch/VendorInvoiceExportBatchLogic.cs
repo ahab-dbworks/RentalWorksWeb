@@ -1,6 +1,6 @@
 using WebApi.Logic;
 using FwStandard.AppManager;
-namespace WebApi.Modules.Home.VendorInvoiceExportBatch
+namespace WebApi.Modules.HomeControls.VendorInvoiceExportBatch
 {
     [FwLogic(Id: "LfY2qEOeMOeB")]
     public class VendorInvoiceExportBatchLogic : AppBusinessLogic

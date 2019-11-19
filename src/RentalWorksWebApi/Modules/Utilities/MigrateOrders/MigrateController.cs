@@ -89,7 +89,7 @@ namespace WebApi.Modules.Utilities.Migrate
         //------------------------------------------------------------------------------------ 
         // POST api/v1/migrate/startsession
         [HttpPost("startsession")]
-        [FwControllerMethod(Id: "vuCrJ6PMa3n")]
+        [FwControllerMethod(Id: "vuCrJ6PMa3n", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<StartMigrateSessionResponse>> StartSession([FromBody]StartMigrateSessionRequest request)
         {
             if (!ModelState.IsValid)
@@ -125,7 +125,7 @@ namespace WebApi.Modules.Utilities.Migrate
         //------------------------------------------------------------------------------------ 
         // POST api/v1/migrate/updateitem
         [HttpPost("updateitem")]
-        [FwControllerMethod(Id: "H3vFKzK6VTZ")]
+        [FwControllerMethod(Id: "H3vFKzK6VTZ", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<UpdateMigrateItemResponse>> UpdateItem ([FromBody]UpdateMigrateItemRequest request)
         {
             if (!ModelState.IsValid)
@@ -166,7 +166,7 @@ namespace WebApi.Modules.Utilities.Migrate
         //------------------------------------------------------------------------------------ 
         // POST api/v1/migrate/selectall
         [HttpPost("selectall")]
-        [FwControllerMethod(Id: "6nxMKPPccQq")]
+        [FwControllerMethod(Id: "6nxMKPPccQq", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<SelectAllNoneMigrateItemResponse>> SelectAll([FromBody] SelectAllNoneMigrateItemRequest request)
         {
             if (!ModelState.IsValid)
@@ -186,7 +186,7 @@ namespace WebApi.Modules.Utilities.Migrate
         //------------------------------------------------------------------------------------        
         // POST api/v1/migrate/selectnone
         [HttpPost("selectnone")]
-        [FwControllerMethod(Id: "VvtDKiyfXyh")]
+        [FwControllerMethod(Id: "VvtDKiyfXyh", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<SelectAllNoneMigrateItemResponse>> SelectNone([FromBody] SelectAllNoneMigrateItemRequest request)
         {
             if (!ModelState.IsValid)
@@ -206,7 +206,7 @@ namespace WebApi.Modules.Utilities.Migrate
         //------------------------------------------------------------------------------------      
         // POST api/v1/migrate/completesession
         [HttpPost("completesession")]
-        [FwControllerMethod(Id: "PWJiNSDvo8Z")]
+        [FwControllerMethod(Id: "PWJiNSDvo8Z", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<CompleteMigrateSessionResponse>> CompleteSession([FromBody]CompleteMigrateSessionRequest request)
         {
             if (!ModelState.IsValid)

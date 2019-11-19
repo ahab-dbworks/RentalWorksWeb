@@ -1,6 +1,6 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
-using WebApi.Modules.Home.MasterLocation;
+using WebApi.Modules.HomeControls.MasterLocation;
 
 namespace WebApi.Modules.Settings.RateLocationTax
 {

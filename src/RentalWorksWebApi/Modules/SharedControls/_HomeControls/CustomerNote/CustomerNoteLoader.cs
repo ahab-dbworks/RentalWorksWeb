@@ -5,7 +5,7 @@ using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 using System.Collections.Generic;
 
-namespace WebApi.Modules.Home.CustomerNote
+namespace WebApi.Modules.HomeControls.CustomerNote
 {
     [FwSqlTable("customernoteview")]
     public class CustomerNoteLoader : AppDataLoadRecord

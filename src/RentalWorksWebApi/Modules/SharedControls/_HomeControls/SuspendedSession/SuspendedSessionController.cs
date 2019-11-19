@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using FwStandard.SqlServer;
 using System.Collections.Generic;
 using FwStandard.AppManager;
-namespace WebApi.Modules.Home.SuspendedSession
+namespace WebApi.Modules.HomeControls.SuspendedSession
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
@@ -17,7 +17,7 @@ namespace WebApi.Modules.Home.SuspendedSession
         //------------------------------------------------------------------------------------ 
         // GET api/v1/suspendedsession/A0000001 
         [HttpGet("{id}")]
-        [FwControllerMethod(Id: "kmJGmu1xRWcaT")]
+        [FwControllerMethod(Id: "kmJGmu1xRWcaT", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<SuspendedSessionLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<SuspendedSessionLogic>(id);
@@ -25,15 +25,15 @@ namespace WebApi.Modules.Home.SuspendedSession
         //------------------------------------------------------------------------------------ 
         // POST api/v1/suspendedsession/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id: "PuCNKwQS7OJ0")]
+        [FwControllerMethod(Id: "PuCNKwQS7OJ0", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/suspendedsession/exportexcelxlsx
+        // POST api/v1/suspendedsession/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id: "3rlkom7XymvVX")]
+        [FwControllerMethod(Id: "3rlkom7XymvVX", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);

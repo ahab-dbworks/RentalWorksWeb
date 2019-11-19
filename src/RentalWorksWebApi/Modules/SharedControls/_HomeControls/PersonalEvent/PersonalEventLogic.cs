@@ -1,6 +1,6 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
-namespace WebApi.Modules.Home.PersonalEvent
+namespace WebApi.Modules.HomeControls.PersonalEvent
 {
     [FwLogic(Id:"HWOH4PLDLfGn")]
     public class PersonalEventLogic : AppBusinessLogic

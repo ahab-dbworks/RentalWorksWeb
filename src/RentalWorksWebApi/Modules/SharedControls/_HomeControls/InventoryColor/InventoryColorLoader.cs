@@ -4,7 +4,7 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data; 
 using System.Collections.Generic;
-namespace WebApi.Modules.Home.InventoryColor
+namespace WebApi.Modules.HomeControls.InventoryColor
 {
     [FwSqlTable("mastercolorview")]
     public class InventoryColorLoader : AppDataLoadRecord

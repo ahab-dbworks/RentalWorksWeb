@@ -1,9 +1,9 @@
 using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
 using WebApi.Logic;
-using WebApi.Modules.Home.MasterWarehouse;
+using WebApi.Modules.HomeControls.MasterWarehouse;
 
-namespace WebApi.Modules.Home.ContainerWarehouse
+namespace WebApi.Modules.HomeControls.ContainerWarehouse
 {
     [FwLogic(Id:"l7jJA9WCoUEl")]
     public class ContainerWarehouseLogic : AppBusinessLogic

@@ -4,8 +4,8 @@ using FwStandard.Models;
 using FwStandard.SqlServer;
 using System.Collections.Generic;
 using WebApi.Modules.Containers.Container;
-using WebApi.Modules.Home.ContainerItem;
-using WebApi.Modules.Home.Inventory;
+using WebApi.Modules.HomeControls.ContainerItem;
+using WebApi.Modules.HomeControls.Inventory;
 using WebLibrary;
 
 namespace WebApi.Modules.Inventory.RentalInventory

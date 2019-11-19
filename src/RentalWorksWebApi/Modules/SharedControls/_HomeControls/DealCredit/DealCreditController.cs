@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using FwStandard.SqlServer;
 using System.Collections.Generic;
 using FwStandard.AppManager;
-namespace WebApi.Modules.Home.DealCredit
+namespace WebApi.Modules.HomeControls.DealCredit
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
@@ -17,15 +17,15 @@ namespace WebApi.Modules.Home.DealCredit
         //------------------------------------------------------------------------------------ 
         // POST api/v1/dealcredit/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id: "Mr3OFcb7XiKr")]
+        [FwControllerMethod(Id: "Mr3OFcb7XiKr", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/dealcredit/exportexcelxlsx
+        // POST api/v1/dealcredit/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id: "YYczHwYhGlho")]
+        [FwControllerMethod(Id: "YYczHwYhGlho", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);

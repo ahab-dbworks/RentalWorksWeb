@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using WebApi.Controllers;
 using System.Threading.Tasks;
-namespace WebApi.Modules.Home.OrderContact
+namespace WebApi.Modules.HomeControls.OrderContact
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
@@ -17,15 +17,15 @@ namespace WebApi.Modules.Home.OrderContact
         //------------------------------------------------------------------------------------ 
         // POST api/v1/ordercontact/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"nS6HRjeiLDiu")]
+        [FwControllerMethod(Id:"nS6HRjeiLDiu", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"YJhndz1jgfBZ")]
+        [FwControllerMethod(Id:"YJhndz1jgfBZ", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -33,7 +33,7 @@ namespace WebApi.Modules.Home.OrderContact
         //------------------------------------------------------------------------------------ 
         // GET api/v1/ordercontact 
         [HttpGet]
-        [FwControllerMethod(Id:"6tFFA6e3LDF2")]
+        [FwControllerMethod(Id:"6tFFA6e3LDF2", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<OrderContactLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<OrderContactLogic>(pageno, pagesize, sort);
@@ -41,7 +41,7 @@ namespace WebApi.Modules.Home.OrderContact
         //------------------------------------------------------------------------------------ 
         // GET api/v1/ordercontact/A0000001 
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"tfInR9PXZqvg")]
+        [FwControllerMethod(Id:"tfInR9PXZqvg", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<OrderContactLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<OrderContactLogic>(id);
@@ -49,15 +49,23 @@ namespace WebApi.Modules.Home.OrderContact
         //------------------------------------------------------------------------------------ 
         // POST api/v1/ordercontact 
         [HttpPost]
-        [FwControllerMethod(Id:"DOG6Gm2pVrkF")]
-        public async Task<ActionResult<OrderContactLogic>> PostAsync([FromBody]OrderContactLogic l)
+        [FwControllerMethod(Id:"DOG6Gm2pVrkF", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<OrderContactLogic>> NewAsync([FromBody]OrderContactLogic l)
         {
-            return await DoPostAsync<OrderContactLogic>(l);
+            return await DoNewAsync<OrderContactLogic>(l);
+        }
+        //------------------------------------------------------------------------------------ 
+        // PUT api/v1/ordercontact/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "9i8zqc18s1gxa", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<OrderContactLogic>> EditAsync([FromRoute] string id, [FromBody]OrderContactLogic l)
+        {
+            return await DoEditAsync<OrderContactLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
         // DELETE api/v1/ordercontact/A0000001 
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id:"mJJETd9WoD4a")]
+        [FwControllerMethod(Id:"mJJETd9WoD4a", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<OrderContactLogic>(id);

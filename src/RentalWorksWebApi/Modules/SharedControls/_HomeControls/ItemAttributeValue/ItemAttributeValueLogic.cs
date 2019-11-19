@@ -1,7 +1,7 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Home.ItemAttributeValue
+namespace WebApi.Modules.HomeControls.ItemAttributeValue
 {
     [FwLogic(Id:"JxbFFl07vDPS")]
     public class ItemAttributeValueLogic : AppBusinessLogic

@@ -17,15 +17,15 @@ namespace WebApi.Modules.Settings.AccountingSettings.AccountingSettings
         //------------------------------------------------------------------------------------ 
         // POST api/v1/accountingsettings/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id: "1rI3oLxBnav8w")]
+        [FwControllerMethod(Id: "1rI3oLxBnav8w", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/accountingsettings/exportexcelxlsx
+        // POST api/v1/accountingsettings/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id: "hdo78WqUx9RYf")]
+        [FwControllerMethod(Id: "hdo78WqUx9RYf", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -33,7 +33,7 @@ namespace WebApi.Modules.Settings.AccountingSettings.AccountingSettings
         //------------------------------------------------------------------------------------ 
         // GET api/v1/accountingsettings 
         [HttpGet]
-        [FwControllerMethod(Id: "FPyuoW6CYkO1G")]
+        [FwControllerMethod(Id: "FPyuoW6CYkO1G", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<AccountingSettingsLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<AccountingSettingsLogic>(pageno, pagesize, sort);
@@ -41,7 +41,7 @@ namespace WebApi.Modules.Settings.AccountingSettings.AccountingSettings
         //------------------------------------------------------------------------------------ 
         // GET api/v1/accountingsettings/A0000001 
         [HttpGet("{id}")]
-        [FwControllerMethod(Id: "acozmH5B1QtDD")]
+        [FwControllerMethod(Id: "acozmH5B1QtDD", ActionType: FwControllerActionTypes.View)]
         public async Task<ActionResult<AccountingSettingsLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<AccountingSettingsLogic>(id);
@@ -49,15 +49,23 @@ namespace WebApi.Modules.Settings.AccountingSettings.AccountingSettings
         //------------------------------------------------------------------------------------ 
         // POST api/v1/accountingsettings 
         [HttpPost]
-        [FwControllerMethod(Id: "eQZSAhX6sbAVc")]
-        public async Task<ActionResult<AccountingSettingsLogic>> PostAsync([FromBody]AccountingSettingsLogic l)
+        [FwControllerMethod(Id: "eQZSAhX6sbAVc", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<AccountingSettingsLogic>> NewAsync([FromBody]AccountingSettingsLogic l)
         {
-            return await DoPostAsync<AccountingSettingsLogic>(l);
+            return await DoNewAsync<AccountingSettingsLogic>(l);
+        }
+        //------------------------------------------------------------------------------------ 
+        // PUT api/v1/accountingsettings/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "2Q222zsdChQmF", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<AccountingSettingsLogic>> EditAsync([FromRoute] string id, [FromBody]AccountingSettingsLogic l)
+        {
+            return await DoEditAsync<AccountingSettingsLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
         //// DELETE api/v1/accountingsettings/A0000001 
         //[HttpDelete("{id}")]
-        //[FwControllerMethod(Id: "PKTZK0Lljf5rh")]
+        //[FwControllerMethod(Id: "PKTZK0Lljf5rh", ActionType: FwControllerActionTypes.Delete)]
         //public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         //{
         //    return await DoDeleteAsync<AccountingSettingsLogic>(id);

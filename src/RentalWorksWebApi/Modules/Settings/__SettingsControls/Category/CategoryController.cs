@@ -18,7 +18,7 @@ namespace WebApi.Modules.Settings.Category
         //------------------------------------------------------------------------------------
         // POST api/v1/category/browse
         [HttpPost("browse")]
-        [FwControllerMethod(Id: "qBtRVUMsxST2W")]
+        [FwControllerMethod(Id: "qBtRVUMsxST2W", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
@@ -26,7 +26,7 @@ namespace WebApi.Modules.Settings.Category
         //------------------------------------------------------------------------------------ 
         // POST api/v1/category/exportexcelxlsx
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id: "P6LxcR2INhGe4")]
+        [FwControllerMethod(Id: "P6LxcR2INhGe4", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -34,7 +34,7 @@ namespace WebApi.Modules.Settings.Category
         //------------------------------------------------------------------------------------
         //// GET api/v1/category
         //[HttpGet]
-        //[FwControllerMethod(Id: "xxxxxxxxxxxx")]
+        //[FwControllerMethod(Id: "xxxxxxxxxxxx", ActionType: FwControllerActionTypes.View)]
         //public async Task<ActionResult<IEnumerable<CategoryLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         //{
         //    return await DoGetAsync<CategoryLogic>(pageno, pagesize, sort);
@@ -42,7 +42,7 @@ namespace WebApi.Modules.Settings.Category
         ////------------------------------------------------------------------------------------
         //// GET api/v1/category/A0000001
         //[HttpGet("{id}")]
-        //[FwControllerMethod(Id: "xxxxxxxxxxxx")]
+        //[FwControllerMethod(Id: "xxxxxxxxxxxx", ActionType: FwControllerActionTypes.View)]
         //public async Task<ActionResult<CategoryLogic>> GetOneAsync([FromRoute]string id)
         //{
         //    return await DoGetAsync<CategoryLogic>(id);
@@ -50,7 +50,7 @@ namespace WebApi.Modules.Settings.Category
         ////------------------------------------------------------------------------------------
         //// POST api/v1/category
         //[HttpPost]
-        //[FwControllerMethod(Id: "xxxxxxxxxxxx")]
+        //[FwControllerMethod(Id: "xxxxxxxxxxxx", ActionType: FwControllerActionTypes.Edit)]
         //public async Task<ActionResult<CategoryLogic>> PostAsync([FromBody]CategoryLogic l)
         //{
         //    return await DoPostAsync<CategoryLogic>(l);
@@ -58,7 +58,7 @@ namespace WebApi.Modules.Settings.Category
         ////------------------------------------------------------------------------------------
         //// DELETE api/v1/category/A0000001
         //[HttpDelete("{id}")]
-        //[FwControllerMethod(Id:"FDQGC9RXy6eKi")]
+        //[FwControllerMethod(Id:"FDQGC9RXy6eKi", ActionType: FwControllerActionTypes.Delete)]
         //public async Task<ActionResult<"xxxxxxxxxxxx">> DeleteAsync([FromRoute]string id)
         //{
         //    return await DoDeleteAsync<CategoryLogic>(id);

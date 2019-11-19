@@ -1,8 +1,8 @@
-using FwStandard.SqlServer;
-using FwStandard.SqlServer.Attributes;
-using WebApi.Modules.Inventory.Item;
+using FwStandard.SqlServer; 
+using FwStandard.SqlServer.Attributes; 
+using WebApi.Modules.Inventory.Asset;
 
-namespace WebApi.Modules.Home.ContainerItem
+namespace WebApi.Modules.HomeControls.ContainerItem
 {
     public class ContainerItemLoader: ItemLoader
     {

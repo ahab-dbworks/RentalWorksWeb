@@ -4,11 +4,11 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using WebApi.Logic;
 using WebApi.Modules.Agent.Order;
-using WebApi.Modules.Home.InventoryAvailability;
-using WebApi.Modules.Home.MasterItem;
+using WebApi.Modules.HomeControls.InventoryAvailability;
+using WebApi.Modules.HomeControls.MasterItem;
 using WebLibrary;
 
-namespace WebApi.Modules.Home.OrderItem
+namespace WebApi.Modules.HomeControls.OrderItem
 {
     [FwLogic(Id: "N05EVbv5HL3y")]
     public class OrderItemLogic : AppBusinessLogic

@@ -6,7 +6,7 @@ using WebApi.Data;
 using System.Collections.Generic;
 using System;
 using WebLibrary;
-namespace WebApi.Modules.Home.PurchaseOrderReturnBarCode
+namespace WebApi.Modules.HomeControls.PurchaseOrderReturnBarCode
 {
     [FwSqlTable("barcodeholdingview")]
     public class PurchaseOrderReturnBarCodeLoader : AppDataLoadRecord

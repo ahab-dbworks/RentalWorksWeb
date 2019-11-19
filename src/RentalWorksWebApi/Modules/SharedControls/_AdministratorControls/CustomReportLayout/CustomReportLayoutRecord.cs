@@ -1,7 +1,7 @@
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-namespace WebApi.Modules.Administrator.CustomReportLayout
+namespace WebApi.Modules.AdministratorControls.CustomReportLayout
 {
     [FwSqlTable("webreportlayout")]
     public class CustomReportLayoutRecord : AppDataReadWriteRecord

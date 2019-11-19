@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Http;
 using FwStandard.BusinessLogic;
 
-namespace WebApi.Modules.Home.Taxable
+namespace WebApi.Modules.HomeControls.Taxable
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
@@ -21,15 +21,15 @@ namespace WebApi.Modules.Home.Taxable
         //------------------------------------------------------------------------------------ 
         // POST api/v1/taxable/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"OVemYhRwF0CIl")]
+        [FwControllerMethod(Id:"OVemYhRwF0CIl", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"NUf0RRGJgWeF8")]
+        [FwControllerMethod(Id:"NUf0RRGJgWeF8", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -37,7 +37,7 @@ namespace WebApi.Modules.Home.Taxable
         //------------------------------------------------------------------------------------ 
         // GET api/v1/taxable/B003MZ45/F01BQV9J   //masterid/locationid
         [HttpGet("{masterid}/{locationid}")]
-        [FwControllerMethod(Id:"jnrXZG5RaZ")]
+        [FwControllerMethod(Id:"jnrXZG5RaZ", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<TaxableLogic>>> GetManyAsync([FromRoute]string masterid, [FromRoute]string locationid)
         {
             return await DoSpecialGetAsync<TaxableLogic>(masterid, locationid);
@@ -45,7 +45,7 @@ namespace WebApi.Modules.Home.Taxable
         //------------------------------------------------------------------------------------ 
         // GET api/v1/taxable/B003MZ45   //masterid
         [HttpGet("{masterid}")]
-        [FwControllerMethod(Id:"1S0seem9px")]
+        [FwControllerMethod(Id:"1S0seem9px", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<TaxableLogic>>> GetManyAsync([FromRoute]string masterid)
         {
             return await DoSpecialGetAsync<TaxableLogic>(masterid, "");

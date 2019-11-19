@@ -3,7 +3,7 @@ using FwStandard.Models;
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data;
-namespace WebApi.Modules.Home.MasterWarehouse
+namespace WebApi.Modules.HomeControls.MasterWarehouse
 {
     [FwSqlTable("masterwhview")]
     public abstract class MasterWarehouseLoader : AppDataLoadRecord

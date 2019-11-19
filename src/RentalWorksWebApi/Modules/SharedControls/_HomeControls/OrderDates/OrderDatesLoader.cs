@@ -3,7 +3,7 @@ using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-namespace WebApi.Modules.Home.OrderDates
+namespace WebApi.Modules.HomeControls.OrderDates
 {
     [FwSqlTable("dbo.funcorderdates(@orderid, @ordertypeid)")]
     public class OrderDatesLoader : AppDataLoadRecord

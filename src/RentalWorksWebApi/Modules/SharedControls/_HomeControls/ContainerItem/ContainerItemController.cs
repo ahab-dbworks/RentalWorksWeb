@@ -11,7 +11,7 @@ using System;
 using Microsoft.AspNetCore.Http;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Home.ContainerItem
+namespace WebApi.Modules.HomeControls.ContainerItem
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
@@ -22,7 +22,7 @@ namespace WebApi.Modules.Home.ContainerItem
         //------------------------------------------------------------------------------------ 
         // POST api/v1/containeritem/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id: "iQeXRj8im3k2")]
+        [FwControllerMethod(Id: "iQeXRj8im3k2", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
@@ -30,7 +30,7 @@ namespace WebApi.Modules.Home.ContainerItem
         //------------------------------------------------------------------------------------ 
         // GET api/v1/containeritem/legend 
         [HttpGet("legend")]
-        [FwControllerMethod(Id: "28ypADGp8lJRl")]
+        [FwControllerMethod(Id: "28ypADGp8lJRl", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<Dictionary<string, string>>> GetLegend()
         {
             Dictionary<string, string> legend = new Dictionary<string, string>();
@@ -40,9 +40,9 @@ namespace WebApi.Modules.Home.ContainerItem
             return new OkObjectResult(legend);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/containeritem/exportexcelxlsx
+        // POST api/v1/containeritem/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id: "hq7a4e3uXtez")]
+        [FwControllerMethod(Id: "hq7a4e3uXtez", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -50,7 +50,7 @@ namespace WebApi.Modules.Home.ContainerItem
         //------------------------------------------------------------------------------------ 
         //// GET api/v1/containeritem 
         //[HttpGet]
-        //[FwControllerMethod(Id: "Yb3dL1hmjU37")]
+        //[FwControllerMethod(Id: "Yb3dL1hmjU37", ActionType: FwControllerActionTypes.View)]
         //public async Task<ActionResult<IEnumerable<ContainerItemLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         //{
         //    return await DoGetAsync<ContainerItemLogic>(pageno, pagesize, sort);
@@ -58,7 +58,7 @@ namespace WebApi.Modules.Home.ContainerItem
         ////------------------------------------------------------------------------------------ 
         // GET api/v1/containeritem/A0000001 
         [HttpGet("{id}")]
-        [FwControllerMethod(Id: "t1bsMSPUNPNx")]
+        [FwControllerMethod(Id: "t1bsMSPUNPNx", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<ContainerItemLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<ContainerItemLogic>(id);
@@ -66,10 +66,18 @@ namespace WebApi.Modules.Home.ContainerItem
         //------------------------------------------------------------------------------------ 
         // POST api/v1/containeritem 
         [HttpPost]
-        [FwControllerMethod(Id: "74qvuZNaDoEB")]
-        public async Task<ActionResult<ContainerItemLogic>> PostAsync([FromBody]ContainerItemLogic l)
+        [FwControllerMethod(Id: "74qvuZNaDoEB", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<ContainerItemLogic>> NewAsync([FromBody]ContainerItemLogic l)
         {
-            return await DoPostAsync<ContainerItemLogic>(l);
+            return await DoNewAsync<ContainerItemLogic>(l);
+        }
+        //------------------------------------------------------------------------------------ 
+        // PUT api/v1/containeritem/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "d53rmAOM2slgD", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<ContainerItemLogic>> EditAsync([FromRoute] string id, [FromBody]ContainerItemLogic l)
+        {
+            return await DoEditAsync<ContainerItemLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/containeritem/instantiatecontainer
@@ -148,7 +156,7 @@ namespace WebApi.Modules.Home.ContainerItem
         //------------------------------------------------------------------------------------ 
         //// DELETE api/v1/containeritem/A0000001 
         //[HttpDelete("{id}")]
-        //[FwControllerMethod(Id:"WhehdFIg4Y8a")]
+        //[FwControllerMethod(Id:"WhehdFIg4Y8a", ActionType: FwControllerActionTypes.Delete)]
         //public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         //{
         //    return await DoDeleteAsync<ContainerItemLogic>(id);

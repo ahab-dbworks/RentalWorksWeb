@@ -5,9 +5,9 @@ using Newtonsoft.Json;
 using System;
 using WebApi.Logic;
 using WebApi.Modules.Agent.Order;
-using WebApi.Modules.Home.DealOrder;
-using WebApi.Modules.Home.DealOrderDetail;
-using WebApi.Modules.Home.Delivery;
+using WebApi.Modules.HomeControls.DealOrder;
+using WebApi.Modules.HomeControls.DealOrderDetail;
+using WebApi.Modules.HomeControls.Delivery;
 using WebLibrary;
 
 namespace WebApi.Modules.Transfers.TransferOrder

@@ -1,7 +1,7 @@
 using FwStandard.AppManager;
 using System.Reflection;
 using WebApi.Logic;
-namespace WebApi.Modules.Home.Taxable
+namespace WebApi.Modules.HomeControls.Taxable
 {
     [FwLogic(Id:"a3ImrbPSMopw8")]
     public class TaxableLogic : AppBusinessLogic

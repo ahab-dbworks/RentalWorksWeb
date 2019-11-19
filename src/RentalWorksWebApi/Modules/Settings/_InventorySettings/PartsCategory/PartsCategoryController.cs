@@ -18,15 +18,15 @@ namespace WebApi.Modules.Settings.InventorySettings.PartsCategory
         //------------------------------------------------------------------------------------
         // POST api/v1/partscategory/browse
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"fFMSdQdz6EtM")]
+        [FwControllerMethod(Id:"fFMSdQdz6EtM", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"BufRgr9NF2vo")]
+        [FwControllerMethod(Id:"BufRgr9NF2vo", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -34,7 +34,7 @@ namespace WebApi.Modules.Settings.InventorySettings.PartsCategory
         //------------------------------------------------------------------------------------
         // GET api/v1/partscategory
         [HttpGet]
-        [FwControllerMethod(Id:"QreTs0Crs444")]
+        [FwControllerMethod(Id:"QreTs0Crs444", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<PartsCategoryLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<PartsCategoryLogic>(pageno, pagesize, sort);
@@ -42,7 +42,7 @@ namespace WebApi.Modules.Settings.InventorySettings.PartsCategory
         //------------------------------------------------------------------------------------
         // GET api/v1/partscategory/A0000001
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"gKXhXrk1zsd5")]
+        [FwControllerMethod(Id:"gKXhXrk1zsd5", ActionType: FwControllerActionTypes.View)]
         public async Task<ActionResult<PartsCategoryLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<PartsCategoryLogic>(id);
@@ -50,15 +50,23 @@ namespace WebApi.Modules.Settings.InventorySettings.PartsCategory
         //------------------------------------------------------------------------------------
         // POST api/v1/partscategory
         [HttpPost]
-        [FwControllerMethod(Id:"n1OeLEBGCTTv")]
-        public async Task<ActionResult<PartsCategoryLogic>> PostAsync([FromBody]PartsCategoryLogic l)
+        [FwControllerMethod(Id:"n1OeLEBGCTTv", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<PartsCategoryLogic>> NewAsync([FromBody]PartsCategoryLogic l)
         {
-            return await DoPostAsync<PartsCategoryLogic>(l);
+            return await DoNewAsync<PartsCategoryLogic>(l);
+        }
+        //------------------------------------------------------------------------------------
+        // PUT api/v1/partscategor/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "GFKWzKoiW7jKP", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<PartsCategoryLogic>> EditAsync([FromRoute] string id, [FromBody]PartsCategoryLogic l)
+        {
+            return await DoEditAsync<PartsCategoryLogic>(l);
         }
         //------------------------------------------------------------------------------------
         // DELETE api/v1/partscategory/A0000001
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id:"pzQKEksyLiEu")]
+        [FwControllerMethod(Id:"pzQKEksyLiEu", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<PartsCategoryLogic>(id);

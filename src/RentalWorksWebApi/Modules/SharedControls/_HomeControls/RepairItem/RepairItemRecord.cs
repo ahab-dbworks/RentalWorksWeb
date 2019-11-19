@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-namespace WebApi.Modules.Home.RepairItem
+namespace WebApi.Modules.HomeControls.RepairItem
 {
     [FwSqlTable("repairitem")]
     public class RepairItemRecord : AppDataReadWriteRecord

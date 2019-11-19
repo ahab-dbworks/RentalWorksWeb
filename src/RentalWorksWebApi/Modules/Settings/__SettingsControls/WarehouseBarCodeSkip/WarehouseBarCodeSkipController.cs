@@ -17,15 +17,15 @@ namespace WebApi.Modules.Settings.WarehouseBarCodeSkip
         //------------------------------------------------------------------------------------ 
         // POST api/v1/warehousebarcodeskip/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"qYitIFvZ6dOYy")]
+        [FwControllerMethod(Id:"qYitIFvZ6dOYy", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"3coBD9NkS0yeh")]
+        [FwControllerMethod(Id:"3coBD9NkS0yeh", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -33,7 +33,7 @@ namespace WebApi.Modules.Settings.WarehouseBarCodeSkip
         //------------------------------------------------------------------------------------ 
         // GET api/v1/warehousebarcodeskip 
         [HttpGet]
-        [FwControllerMethod(Id:"Jwr2X3DfTcE85")]
+        [FwControllerMethod(Id:"Jwr2X3DfTcE85", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<WarehouseBarCodeSkipLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<WarehouseBarCodeSkipLogic>(pageno, pagesize, sort);
@@ -41,7 +41,7 @@ namespace WebApi.Modules.Settings.WarehouseBarCodeSkip
         //------------------------------------------------------------------------------------ 
         // GET api/v1/warehousebarcodeskip/A0000001 
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"UIMbXMvHjeRhO")]
+        [FwControllerMethod(Id:"UIMbXMvHjeRhO", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<WarehouseBarCodeSkipLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<WarehouseBarCodeSkipLogic>(id);
@@ -49,15 +49,23 @@ namespace WebApi.Modules.Settings.WarehouseBarCodeSkip
         //------------------------------------------------------------------------------------ 
         // POST api/v1/warehousebarcodeskip 
         [HttpPost]
-        [FwControllerMethod(Id:"GoBjMr4iIcTgi")]
-        public async Task<ActionResult<WarehouseBarCodeSkipLogic>> PostAsync([FromBody]WarehouseBarCodeSkipLogic l)
+        [FwControllerMethod(Id:"GoBjMr4iIcTgi", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<WarehouseBarCodeSkipLogic>> NewAsync([FromBody]WarehouseBarCodeSkipLogic l)
         {
-            return await DoPostAsync<WarehouseBarCodeSkipLogic>(l);
+            return await DoNewAsync<WarehouseBarCodeSkipLogic>(l);
+        }
+        //------------------------------------------------------------------------------------ 
+        // PUT api/v1/warehousebarcodeskip/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "b8i9l0Z2XTI1Z", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<WarehouseBarCodeSkipLogic>> EditAsync([FromRoute] string id, [FromBody]WarehouseBarCodeSkipLogic l)
+        {
+            return await DoEditAsync<WarehouseBarCodeSkipLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
         // DELETE api/v1/warehousebarcodeskip/A0000001 
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id:"OGUaAxnmf1Xv4")]
+        [FwControllerMethod(Id:"OGUaAxnmf1Xv4", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<WarehouseBarCodeSkipLogic>(id);

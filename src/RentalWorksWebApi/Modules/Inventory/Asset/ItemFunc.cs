@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Inventory.Item
+namespace WebApi.Modules.Inventory.Asset
 {
 
     public class ItemByBarCodeResponse : TSpStatusResponse

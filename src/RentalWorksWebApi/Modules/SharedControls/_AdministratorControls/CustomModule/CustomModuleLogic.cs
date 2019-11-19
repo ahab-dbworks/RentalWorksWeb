@@ -1,7 +1,7 @@
 using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
 using WebApi.Logic;
-namespace WebApi.Modules.Administrator.CustomModule
+namespace WebApi.Modules.AdministratorControls.CustomModule
 {
     [FwLogic(Id:"sq2JvMWQ7Gku")]
     public class CustomModuleLogic : AppBusinessLogic

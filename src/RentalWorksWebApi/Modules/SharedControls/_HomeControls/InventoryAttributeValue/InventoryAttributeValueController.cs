@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options; 
 using WebApi.Controllers; 
 using System.Threading.Tasks;
-namespace WebApi.Modules.Home.InventoryAttributeValue
+namespace WebApi.Modules.HomeControls.InventoryAttributeValue
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
@@ -17,15 +17,15 @@ namespace WebApi.Modules.Home.InventoryAttributeValue
         //------------------------------------------------------------------------------------ 
         // POST api/v1/inventoryattributevalue/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"b5UF2WxLbYB8")]
+        [FwControllerMethod(Id:"b5UF2WxLbYB8", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"5kP4sYPGaQ7w")]
+        [FwControllerMethod(Id:"5kP4sYPGaQ7w", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -33,7 +33,7 @@ namespace WebApi.Modules.Home.InventoryAttributeValue
         //------------------------------------------------------------------------------------ 
         // GET api/v1/inventoryattributevalue 
         [HttpGet]
-        [FwControllerMethod(Id:"swtHPwwFbRLy")]
+        [FwControllerMethod(Id:"swtHPwwFbRLy", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<InventoryAttributeValueLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<InventoryAttributeValueLogic>(pageno, pagesize, sort);
@@ -41,7 +41,7 @@ namespace WebApi.Modules.Home.InventoryAttributeValue
         //------------------------------------------------------------------------------------ 
         // GET api/v1/inventoryattributevalue/A0000001 
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"wRDOzPLvwbMD")]
+        [FwControllerMethod(Id:"wRDOzPLvwbMD", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<InventoryAttributeValueLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<InventoryAttributeValueLogic>(id);
@@ -49,15 +49,23 @@ namespace WebApi.Modules.Home.InventoryAttributeValue
         //------------------------------------------------------------------------------------ 
         // POST api/v1/inventoryattributevalue 
         [HttpPost]
-        [FwControllerMethod(Id:"algeSS932VS0")]
-        public async Task<ActionResult<InventoryAttributeValueLogic>> PostAsync([FromBody]InventoryAttributeValueLogic l)
+        [FwControllerMethod(Id:"algeSS932VS0", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<InventoryAttributeValueLogic>> NewAsync([FromBody]InventoryAttributeValueLogic l)
         {
-            return await DoPostAsync<InventoryAttributeValueLogic>(l);
+            return await DoNewAsync<InventoryAttributeValueLogic>(l);
+        }
+        //------------------------------------------------------------------------------------ 
+        // PUT api/v1/inventoryattributevalue/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "wbGWXLXFlHOd4", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<InventoryAttributeValueLogic>> EditAsync([FromRoute] string id, [FromBody]InventoryAttributeValueLogic l)
+        {
+            return await DoEditAsync<InventoryAttributeValueLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
         // DELETE api/v1/inventoryattributevalue/A0000001 
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id:"Ra1n1jcOc9zk")]
+        [FwControllerMethod(Id:"Ra1n1jcOc9zk", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<InventoryAttributeValueLogic>(id);

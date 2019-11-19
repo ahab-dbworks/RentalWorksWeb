@@ -8,7 +8,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using WebApi.Data;
 
-namespace WebApi.Modules.Home.PickListUtilityItem
+namespace WebApi.Modules.HomeControls.PickListUtilityItem
 {
     [FwSqlTable("tmppicklistitemview")]
     public class PickListUtilityItemLoader : AppDataLoadRecord

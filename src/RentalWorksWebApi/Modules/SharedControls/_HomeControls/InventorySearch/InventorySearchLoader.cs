@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 using System.Data;
 using System.Reflection;
 using System;
-using WebApi.Modules.Home.InventoryAvailability;
+using WebApi.Modules.HomeControls.InventoryAvailability;
 using System.Collections.Generic;
 using WebLibrary;
 
-namespace WebApi.Modules.Home.InventorySearch
+namespace WebApi.Modules.HomeControls.InventorySearch
 {
     [FwSqlTable("inventoryview")]
     public class InventorySearchLoader : AppDataLoadRecord

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using FwStandard.SqlServer;
 using System.Collections.Generic;
 using FwStandard.AppManager;
-namespace WebApi.Modules.Home.AlternativeDescription
+namespace WebApi.Modules.HomeControls.AlternativeDescription
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
@@ -17,15 +17,15 @@ namespace WebApi.Modules.Home.AlternativeDescription
         //------------------------------------------------------------------------------------ 
         // POST api/v1/alternativedescription/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id: "2CG5lxPKl8p")]
+        [FwControllerMethod(Id: "2CG5lxPKl8p", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/alternativedescription/exportexcelxlsx
+        // POST api/v1/alternativedescription/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id: "2CYIfkx3Khqk")]
+        [FwControllerMethod(Id: "2CYIfkx3Khqk", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -33,7 +33,7 @@ namespace WebApi.Modules.Home.AlternativeDescription
         //------------------------------------------------------------------------------------ 
         // GET api/v1/alternativedescription 
         [HttpGet]
-        [FwControllerMethod(Id: "2dgCcqwYO3S")]
+        [FwControllerMethod(Id: "2dgCcqwYO3S", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<AlternativeDescriptionLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<AlternativeDescriptionLogic>(pageno, pagesize, sort);
@@ -41,7 +41,7 @@ namespace WebApi.Modules.Home.AlternativeDescription
         //------------------------------------------------------------------------------------ 
         // GET api/v1/alternativedescription/A0000001 
         [HttpGet("{id}")]
-        [FwControllerMethod(Id: "2eV6NL90mo8t")]
+        [FwControllerMethod(Id: "2eV6NL90mo8t", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<AlternativeDescriptionLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<AlternativeDescriptionLogic>(id);
@@ -49,15 +49,23 @@ namespace WebApi.Modules.Home.AlternativeDescription
         //------------------------------------------------------------------------------------ 
         // POST api/v1/alternativedescription 
         [HttpPost]
-        [FwControllerMethod(Id: "2f900uBiUOVaw")]
-        public async Task<ActionResult<AlternativeDescriptionLogic>> PostAsync([FromBody]AlternativeDescriptionLogic l)
+        [FwControllerMethod(Id: "2f900uBiUOVaw", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<AlternativeDescriptionLogic>> NewAsync([FromBody]AlternativeDescriptionLogic l)
         {
-            return await DoPostAsync<AlternativeDescriptionLogic>(l);
+            return await DoNewAsync<AlternativeDescriptionLogic>(l);
+        }
+        //------------------------------------------------------------------------------------ 
+        // PUT api/v1/alternativedescription/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "eJonjZwW7rXSN", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<AlternativeDescriptionLogic>> EditAsync([FromRoute] string id, [FromBody]AlternativeDescriptionLogic l)
+        {
+            return await DoEditAsync<AlternativeDescriptionLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
         // DELETE api/v1/alternativedescription/A0000001 
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id: "2htGFRkQyiLj")]
+        [FwControllerMethod(Id: "2htGFRkQyiLj", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<AlternativeDescriptionLogic>(id);

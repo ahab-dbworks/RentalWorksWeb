@@ -19,15 +19,15 @@ namespace WebApi.Modules.Settings.EventSettings.EventCategory
         //------------------------------------------------------------------------------------
         // POST api/v1/eventcategory/browse
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"0rcuAndrKkyS")]
+        [FwControllerMethod(Id:"0rcuAndrKkyS", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"dhVCOgPphPQH")]
+        [FwControllerMethod(Id:"dhVCOgPphPQH", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -35,7 +35,7 @@ namespace WebApi.Modules.Settings.EventSettings.EventCategory
         //------------------------------------------------------------------------------------
         // GET api/v1/eventcategory
         [HttpGet]
-        [FwControllerMethod(Id:"1L3jI2UMPfPD")]
+        [FwControllerMethod(Id:"1L3jI2UMPfPD", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<EventCategoryLogic>>> GetManyAsync(int pageno, int pagesize, string sort)
         {
             return await DoGetAsync<EventCategoryLogic>(pageno, pagesize, sort);
@@ -43,7 +43,7 @@ namespace WebApi.Modules.Settings.EventSettings.EventCategory
         //------------------------------------------------------------------------------------
         // GET api/v1/eventcategory/A0000001
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"eGbk2XuxyPDh")]
+        [FwControllerMethod(Id:"eGbk2XuxyPDh", ActionType: FwControllerActionTypes.View)]
         public async Task<ActionResult<EventCategoryLogic>> GetOneAsync(string id)
         {
             return await DoGetAsync<EventCategoryLogic>(id);
@@ -51,15 +51,23 @@ namespace WebApi.Modules.Settings.EventSettings.EventCategory
         //------------------------------------------------------------------------------------
         // POST api/v1/eventcategory
         [HttpPost]
-        [FwControllerMethod(Id:"F2JDPwqxTNW0")]
-        public async Task<ActionResult<EventCategoryLogic>> PostAsync([FromBody]EventCategoryLogic l)
+        [FwControllerMethod(Id:"F2JDPwqxTNW0", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<EventCategoryLogic>> NewAsync([FromBody]EventCategoryLogic l)
         {
-            return await DoPostAsync<EventCategoryLogic>(l);
+            return await DoNewAsync<EventCategoryLogic>(l);
+        }
+        //------------------------------------------------------------------------------------
+        // PUT api/v1/eventcategor/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "8Jw6JKC60Llcy", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<EventCategoryLogic>> EditAsync([FromRoute] string id, [FromBody]EventCategoryLogic l)
+        {
+            return await DoEditAsync<EventCategoryLogic>(l);
         }
         //------------------------------------------------------------------------------------
         // DELETE api/v1/eventcategory/A0000001
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id:"FhOCF54yf6fS")]
+        [FwControllerMethod(Id:"FhOCF54yf6fS", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync(string id)
         {
             return await DoDeleteAsync<EventCategoryLogic>(id);

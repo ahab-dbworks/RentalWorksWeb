@@ -2,9 +2,9 @@ using WebApi.Logic;
 using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
 
-namespace WebApi.Modules.Administrator.CustomReportLayoutUser
+namespace WebApi.Modules.AdministratorControls.CustomReportLayoutUser
 {
-    [FwLogic(Id: "E1jhUJDMUTRYJ")]
+    [FwLogic(Id: "TmTQgoMDJ69p")]
     public class CustomReportLayoutUserLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
@@ -18,19 +18,19 @@ namespace WebApi.Modules.Administrator.CustomReportLayoutUser
             BeforeSave += OnBeforeSave;
         }
         //------------------------------------------------------------------------------------ 
-        [FwLogicProperty(Id: "Ma7NEp03BmRtV", IsPrimaryKey: true)]
+        [FwLogicProperty(Id: "Jp3PumFGkmWt", IsPrimaryKey: true)]
         public string CustomReportLayoutUserId { get { return customReportLayoutUser.CustomReportLayoutUserId; } set { customReportLayoutUser.CustomReportLayoutUserId = value; } }
-        [FwLogicProperty(Id: "rcMEdmP31JBXs")]
+        [FwLogicProperty(Id: "xnmLIcxFLFTHz")]
         public string CustomReportLayoutId { get { return customReportLayoutUser.CustomReportLayoutId; } set { customReportLayoutUser.CustomReportLayoutId = value; } }
-        [FwLogicProperty(Id: "pKwuoJTYtOL41", IsReadOnly: true)]
+        [FwLogicProperty(Id: "sX6UMCMUuMWs", IsReadOnly: true)]
         public string CustomReportLayoutDescription { get; set; }
-        [FwLogicProperty(Id: "g2NRUPvQDBAaP")]
+        [FwLogicProperty(Id: "O6jgQSSNeNfco")]
         public string WebUserId { get { return customReportLayoutUser.WebUserId; } set { customReportLayoutUser.WebUserId = value; } }
-        [FwLogicProperty(Id: "HSb4cHP6Wrfdx", IsReadOnly: true)]
+        [FwLogicProperty(Id: "GghtWW1kGvAch", IsReadOnly: true)]
         public string UserId { get; set; }
-        [FwLogicProperty(Id: "gGxENYdzvYMhs", IsReadOnly: true)]
+        [FwLogicProperty(Id: "hppO7YlvA6ni", IsReadOnly: true)]
         public string UserName { get; set; }
-        [FwLogicProperty(Id: "Dx2X2YPOTpfaj")]
+        [FwLogicProperty(Id: "tn2JDiAgkQFp")]
         public string DateStamp { get { return customReportLayoutUser.DateStamp; } set { customReportLayoutUser.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
         public virtual void OnBeforeSave(object sender, BeforeSaveEventArgs e)

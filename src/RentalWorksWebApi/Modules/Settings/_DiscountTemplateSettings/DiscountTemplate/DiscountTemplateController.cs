@@ -17,15 +17,15 @@ namespace WebApi.Modules.Settings.DiscountTemplateSettings.DiscountTemplate
         //------------------------------------------------------------------------------------ 
         // POST api/v1/discounttemplate/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"azdILZ8GLYzn")]
+        [FwControllerMethod(Id:"azdILZ8GLYzn", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"suRElv81n6kM")]
+        [FwControllerMethod(Id:"suRElv81n6kM", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -33,7 +33,7 @@ namespace WebApi.Modules.Settings.DiscountTemplateSettings.DiscountTemplate
         //------------------------------------------------------------------------------------ 
         // GET api/v1/discounttemplate 
         [HttpGet]
-        [FwControllerMethod(Id:"L2KuinkE2zeX")]
+        [FwControllerMethod(Id:"L2KuinkE2zeX", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<DiscountTemplateLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<DiscountTemplateLogic>(pageno, pagesize, sort);
@@ -41,7 +41,7 @@ namespace WebApi.Modules.Settings.DiscountTemplateSettings.DiscountTemplate
         //------------------------------------------------------------------------------------ 
         // GET api/v1/discounttemplate/A0000001 
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"We0SORgg2QeJ")]
+        [FwControllerMethod(Id:"We0SORgg2QeJ", ActionType: FwControllerActionTypes.View)]
         public async Task<ActionResult<DiscountTemplateLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<DiscountTemplateLogic>(id);
@@ -49,15 +49,23 @@ namespace WebApi.Modules.Settings.DiscountTemplateSettings.DiscountTemplate
         //------------------------------------------------------------------------------------ 
         // POST api/v1/discounttemplate 
         [HttpPost]
-        [FwControllerMethod(Id:"XUoIkpdiGBjB")]
-        public async Task<ActionResult<DiscountTemplateLogic>> PostAsync([FromBody]DiscountTemplateLogic l)
+        [FwControllerMethod(Id:"XUoIkpdiGBjB", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<DiscountTemplateLogic>> NewAsync([FromBody]DiscountTemplateLogic l)
         {
-            return await DoPostAsync<DiscountTemplateLogic>(l);
+            return await DoNewAsync<DiscountTemplateLogic>(l);
+        }
+        //------------------------------------------------------------------------------------ 
+        // PUT api/v1/discounttemplate/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "DVTvZQOnWO6TA", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<DiscountTemplateLogic>> EditAsync([FromRoute] string id, [FromBody]DiscountTemplateLogic l)
+        {
+            return await DoEditAsync<DiscountTemplateLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
         // DELETE api/v1/discounttemplate/A0000001 
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id:"gH1ia0r0zdXf")]
+        [FwControllerMethod(Id:"gH1ia0r0zdXf", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<DiscountTemplateLogic>(id);

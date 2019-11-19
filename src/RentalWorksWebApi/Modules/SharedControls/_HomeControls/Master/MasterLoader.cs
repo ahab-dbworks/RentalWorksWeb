@@ -6,7 +6,7 @@ using WebApi.Data;
 using System.Collections.Generic;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Home.Master
+namespace WebApi.Modules.HomeControls.Master
 {
     [FwSqlTable("inventoryview")]
     public class MasterLoader : AppDataLoadRecord

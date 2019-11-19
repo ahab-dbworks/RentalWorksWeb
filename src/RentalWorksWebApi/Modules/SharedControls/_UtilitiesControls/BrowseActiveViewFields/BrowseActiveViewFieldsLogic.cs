@@ -2,7 +2,7 @@ using WebApi.Logic;
 using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
 
-namespace WebApi.Modules.Utilities.BrowseActiveViewFields
+namespace WebApi.Modules.UtilitiesControls.BrowseActiveViewFields
 {
     [FwLogic(Id: "0gbWXsuKZuZHC")]
     public class BrowseActiveViewFieldsLogic : AppBusinessLogic

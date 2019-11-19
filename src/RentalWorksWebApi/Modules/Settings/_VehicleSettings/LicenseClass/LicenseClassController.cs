@@ -18,15 +18,15 @@ namespace WebApi.Modules.Settings.VehicleSettings.LicenseClass
         //------------------------------------------------------------------------------------
         // POST api/v1/licenseclass/browse
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"BlQ5wrGU6eNo")]
+        [FwControllerMethod(Id:"BlQ5wrGU6eNo", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"NXialy8NL91X")]
+        [FwControllerMethod(Id:"NXialy8NL91X", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -34,7 +34,7 @@ namespace WebApi.Modules.Settings.VehicleSettings.LicenseClass
         //------------------------------------------------------------------------------------
         // GET api/v1/licenseclass
         [HttpGet]
-        [FwControllerMethod(Id:"rRp6zNLGF5Ka")]
+        [FwControllerMethod(Id:"rRp6zNLGF5Ka", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<LicenseClassLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<LicenseClassLogic>(pageno, pagesize, sort);
@@ -42,7 +42,7 @@ namespace WebApi.Modules.Settings.VehicleSettings.LicenseClass
         //------------------------------------------------------------------------------------
         // GET api/v1/licenseclass/A0000001
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"Ra8AX63EGEkS")]
+        [FwControllerMethod(Id:"Ra8AX63EGEkS", ActionType: FwControllerActionTypes.View)]
         public async Task<ActionResult<LicenseClassLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<LicenseClassLogic>(id);
@@ -50,15 +50,23 @@ namespace WebApi.Modules.Settings.VehicleSettings.LicenseClass
         //------------------------------------------------------------------------------------
         // POST api/v1/licenseclass
         [HttpPost]
-        [FwControllerMethod(Id:"WzElPY4qUkRB")]
-        public async Task<ActionResult<LicenseClassLogic>> PostAsync([FromBody]LicenseClassLogic l)
+        [FwControllerMethod(Id:"WzElPY4qUkRB", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<LicenseClassLogic>> NewAsync([FromBody]LicenseClassLogic l)
         {
-            return await DoPostAsync<LicenseClassLogic>(l);
+            return await DoNewAsync<LicenseClassLogic>(l);
+        }
+        //------------------------------------------------------------------------------------
+        // PUT api/v1/licenseclas/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "FZpqohpsp9mR7", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<LicenseClassLogic>> EditAsync([FromRoute] string id, [FromBody]LicenseClassLogic l)
+        {
+            return await DoEditAsync<LicenseClassLogic>(l);
         }
         //------------------------------------------------------------------------------------
         // DELETE api/v1/licenseclass/A0000001
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id:"jrJaxkbnqTd7")]
+        [FwControllerMethod(Id:"jrJaxkbnqTd7", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<LicenseClassLogic>(id);

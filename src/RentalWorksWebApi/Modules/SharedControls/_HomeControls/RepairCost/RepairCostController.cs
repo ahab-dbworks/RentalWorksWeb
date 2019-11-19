@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System;
 using Microsoft.AspNetCore.Http;
 
-namespace WebApi.Modules.Home.RepairCost
+namespace WebApi.Modules.HomeControls.RepairCost
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
@@ -20,15 +20,15 @@ namespace WebApi.Modules.Home.RepairCost
         //------------------------------------------------------------------------------------ 
         // POST api/v1/repaircost/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"bvJN02i8BAtBW")]
+        [FwControllerMethod(Id:"bvJN02i8BAtBW", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"j0WCeNrd9125s")]
+        [FwControllerMethod(Id:"j0WCeNrd9125s", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -36,7 +36,7 @@ namespace WebApi.Modules.Home.RepairCost
         //------------------------------------------------------------------------------------ 
         // GET api/v1/repaircost 
         [HttpGet]
-        [FwControllerMethod(Id:"QCkZfb1A9s5ZD")]
+        [FwControllerMethod(Id:"QCkZfb1A9s5ZD", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<RepairCostLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<RepairCostLogic>(pageno, pagesize, sort);
@@ -44,7 +44,7 @@ namespace WebApi.Modules.Home.RepairCost
         //------------------------------------------------------------------------------------ 
         // GET api/v1/repaircost/A0000001 
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"KMVAo8xUiDJAp")]
+        [FwControllerMethod(Id:"KMVAo8xUiDJAp", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<RepairCostLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<RepairCostLogic>(id);
@@ -52,15 +52,23 @@ namespace WebApi.Modules.Home.RepairCost
         //------------------------------------------------------------------------------------ 
         // POST api/v1/repaircost 
         [HttpPost]
-        [FwControllerMethod(Id:"dHGscb5NY2Qqw")]
-        public async Task<ActionResult<RepairCostLogic>> PostAsync([FromBody]RepairCostLogic l)
+        [FwControllerMethod(Id:"dHGscb5NY2Qqw", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<RepairCostLogic>> NewAsync([FromBody]RepairCostLogic l)
         {
-            return await DoPostAsync<RepairCostLogic>(l);
+            return await DoNewAsync<RepairCostLogic>(l);
+        }
+        //------------------------------------------------------------------------------------ 
+        // PUT api/v1/repaircost/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "wphgf87owRw4p", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<RepairCostLogic>> EditAsync([FromRoute] string id, [FromBody]RepairCostLogic l)
+        {
+            return await DoEditAsync<RepairCostLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
         // DELETE api/v1/repaircost/A0000001 
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id:"nOCnLGjFNSakj")]
+        [FwControllerMethod(Id:"nOCnLGjFNSakj", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<RepairCostLogic>(id);
@@ -78,7 +86,7 @@ namespace WebApi.Modules.Home.RepairCost
 
         // GET api/v1/repaircost/calculateextended
         [HttpGet("calculateextended")]
-        [FwControllerMethod(Id:"KN0VmwWfYd4eE")]
+        [FwControllerMethod(Id:"KN0VmwWfYd4eE", ActionType: FwControllerActionTypes.Option)]
         public IActionResult CalculateExtended(Decimal? Quantity, Decimal? Rate, Decimal? DiscountAmount)
         {
             try

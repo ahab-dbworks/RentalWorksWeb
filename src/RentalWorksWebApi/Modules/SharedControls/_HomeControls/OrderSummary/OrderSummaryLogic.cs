@@ -2,7 +2,7 @@ using FwStandard.AppManager;
 using WebApi.Logic;
 using WebLibrary;
 
-namespace WebApi.Modules.Home.OrderSummary
+namespace WebApi.Modules.HomeControls.OrderSummary
 {
     [FwLogic(Id:"LQK47SJHMJB8")]
     public class OrderSummaryLogic : AppBusinessLogic

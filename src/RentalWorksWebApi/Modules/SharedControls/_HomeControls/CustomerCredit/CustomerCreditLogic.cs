@@ -1,6 +1,6 @@
 using WebApi.Logic;
 using FwStandard.AppManager;
-namespace WebApi.Modules.Home.CustomerCredit
+namespace WebApi.Modules.HomeControls.CustomerCredit
 {
     [FwLogic(Id: "iiJYCRStcCWY")]
     public class CustomerCreditLogic : AppBusinessLogic

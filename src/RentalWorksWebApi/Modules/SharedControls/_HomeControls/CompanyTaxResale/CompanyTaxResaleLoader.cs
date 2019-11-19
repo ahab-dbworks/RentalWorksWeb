@@ -5,7 +5,7 @@ using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 using System.Collections.Generic;
 
-namespace WebApi.Modules.Home.CompanyTaxResale
+namespace WebApi.Modules.HomeControls.CompanyTaxResale
 {
     [FwSqlTable("taxresaleview")]
     public class CompanyTaxResaleLoader : AppDataLoadRecord

@@ -4,7 +4,7 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data; 
 using System.Collections.Generic;
-namespace WebApi.Modules.Home.InventoryVendor
+namespace WebApi.Modules.HomeControls.InventoryVendor
 {
     [FwSqlTable("mastervendorgridview")]
     public class InventoryVendorLoader : AppDataLoadRecord

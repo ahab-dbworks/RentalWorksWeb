@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-namespace WebApi.Modules.Home.Address
+namespace WebApi.Modules.HomeControls.Address
 {
     [FwSqlTable("appaddress")]
     public class AddressRecord : AppDataReadWriteRecord

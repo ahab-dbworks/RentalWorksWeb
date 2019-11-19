@@ -1,6 +1,6 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
-namespace WebApi.Modules.Home.Address
+namespace WebApi.Modules.HomeControls.Address
 {
     [FwLogic(Id:"1i72El2vJT")]
     public class AddressLogic : AppBusinessLogic

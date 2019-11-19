@@ -11,7 +11,7 @@ using WebApi.Logic;
 using System.Net.Mail;
 using System.Net;
 
-namespace WebApi.Modules.Utilities.UtilityFunctions
+namespace WebApi.Modules.UtilitiesControls.UtilityFunctions
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "utilities-v1")]
@@ -45,7 +45,7 @@ namespace WebApi.Modules.Utilities.UtilityFunctions
 
         // POST api/v1/utilityfunctions/sendmail
         [HttpPost("sendmail")]
-        [FwControllerMethod(Id: "eBf4i3QqhOPAf")]
+        [FwControllerMethod(Id: "eBf4i3QqhOPAf", ActionType: FwControllerActionTypes.Option)]
         public async Task<ActionResult<bool>> SendEmailAsync(string from, string to, string cc, string subject, string body)
         {
             var message = new MailMessage(from, to, subject, body);

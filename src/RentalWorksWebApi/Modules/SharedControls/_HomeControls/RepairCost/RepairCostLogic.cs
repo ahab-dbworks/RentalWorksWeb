@@ -1,6 +1,6 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
-namespace WebApi.Modules.Home.RepairCost
+namespace WebApi.Modules.HomeControls.RepairCost
 {
     [FwLogic(Id:"fyLsarwsFgRh1")]
     public class RepairCostLogic : AppBusinessLogic

@@ -2,7 +2,7 @@ using WebApi.Logic;
 using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
 
-namespace WebApi.Modules.Administrator.WidgetUser
+namespace WebApi.Modules.Settings.WidgetUser
 {
     [FwLogic(Id: "2WNqxtENxB23P")]
     public class WidgetUserLogic : AppBusinessLogic

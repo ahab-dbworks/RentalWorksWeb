@@ -4,7 +4,7 @@ using WebApi.Logic;
 using WebApi.Modules.Administrator.User;
 using WebLibrary;
 
-namespace WebApi.Modules.Settings.UserSettings
+namespace WebApi.Modules.Settings.UserSettings.UserSettings
 {
     [FwLogic(Id:"40tMcvuPBfJpi")]
     public class UserSettingsLogic : AppBusinessLogic

@@ -7,7 +7,7 @@ using WebApi.Data;
 using WebApi.Logic;
 using WebLibrary;
 
-namespace WebApi.Modules.Home.CustomerCredit
+namespace WebApi.Modules.HomeControls.CustomerCredit
 {
     [FwSqlTable("customerdealcreditview")]
     public class CustomerCreditLoader : AppDataLoadRecord

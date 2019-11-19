@@ -9,7 +9,7 @@ using System;
 using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Http;
 
-namespace WebApi.Modules.Home.InventorySearchPreview
+namespace WebApi.Modules.HomeControls.InventorySearchPreview
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
@@ -32,7 +32,7 @@ namespace WebApi.Modules.Home.InventorySearchPreview
         //------------------------------------------------------------------------------------ 
         // POST api/v1/inventorysearchpreview/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"3WWbSkyMDadG")]
+        [FwControllerMethod(Id:"3WWbSkyMDadG", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]InventorySearchPreviewBrowseRequest browseRequest)
         {
             if (!ModelState.IsValid)
@@ -54,15 +54,23 @@ namespace WebApi.Modules.Home.InventorySearchPreview
         //------------------------------------------------------------------------------------ 
         // POST api/v1/inventorysearchpreview 
         [HttpPost]
-        [FwControllerMethod(Id:"dGL92Uyu642J")]
-        public async Task<ActionResult<InventorySearchPreviewLogic>> PostAsync([FromBody]InventorySearchPreviewLogic l)
+        [FwControllerMethod(Id:"dGL92Uyu642J", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<InventorySearchPreviewLogic>> NewAsync([FromBody]InventorySearchPreviewLogic l)
         {
-            return await DoPostAsync<InventorySearchPreviewLogic>(l);
+            return await DoNewAsync<InventorySearchPreviewLogic>(l);
+        }
+        //------------------------------------------------------------------------------------ 
+        // PUT api/v1/inventorysearchpreview/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "TqhqtvJrI4cvY", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<InventorySearchPreviewLogic>> EditAsync([FromRoute] string id, [FromBody]InventorySearchPreviewLogic l)
+        {
+            return await DoEditAsync<InventorySearchPreviewLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
         // DELETE api/v1/inventorysearchpreview/A0000001 
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id:"OkVc9qhIP2sl")]
+        [FwControllerMethod(Id:"OkVc9qhIP2sl", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<InventorySearchPreviewLogic>(id);

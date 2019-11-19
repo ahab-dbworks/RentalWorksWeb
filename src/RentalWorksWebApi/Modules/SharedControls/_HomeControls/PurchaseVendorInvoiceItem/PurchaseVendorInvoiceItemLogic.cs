@@ -1,6 +1,6 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
-namespace WebApi.Modules.Home.PurchaseVendorInvoiceItem
+namespace WebApi.Modules.HomeControls.PurchaseVendorInvoiceItem
 {
     [FwLogic(Id: "YZgwh5hpsw6B")]
     public class PurchaseVendorInvoiceItemLogic : AppBusinessLogic

@@ -1,6 +1,6 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
-namespace WebApi.Modules.Home.RepairRelease
+namespace WebApi.Modules.HomeControls.RepairRelease
 {
     [FwLogic(Id:"ne56IYSJA7rex")]
     public class RepairReleaseLogic : AppBusinessLogic

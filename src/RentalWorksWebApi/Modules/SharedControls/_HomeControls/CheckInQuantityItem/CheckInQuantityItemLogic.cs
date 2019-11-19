@@ -1,6 +1,6 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
-namespace WebApi.Modules.Home.CheckInQuantityItem
+namespace WebApi.Modules.HomeControls.CheckInQuantityItem
 {
     [FwLogic(Id:"3HUIkPIhnNS6")]
     public class CheckInQuantityItemLogic : AppBusinessLogic

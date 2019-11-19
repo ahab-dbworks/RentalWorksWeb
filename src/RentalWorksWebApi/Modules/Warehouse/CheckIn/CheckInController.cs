@@ -17,12 +17,10 @@ namespace WebApi.Modules.Warehouse.CheckIn
     public class CheckInController : AppDataController
     {
         public CheckInController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
-
         //------------------------------------------------------------------------------------ 
-
         // GET api/v1/checkin/suspendedsessionsexist
         [HttpGet("suspendedsessionsexist")]
-        [FwControllerMethod(Id: "gqnWo60RWZUkA")]
+        [FwControllerMethod(Id: "gqnWo60RWZUkA", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<bool>> SuspendedSessionsExist(string warehouseId)
         {
             if (!ModelState.IsValid)
@@ -41,7 +39,7 @@ namespace WebApi.Modules.Warehouse.CheckIn
         //------------------------------------------------------------------------------------ 
         // GET api/v1/checkin/transfersuspendedsessionsexist
         [HttpGet("transfersuspendedsessionsexist")]
-        [FwControllerMethod(Id: "nn5aXjSowjt")]
+        [FwControllerMethod(Id: "nn5aXjSowjt", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<bool>> TransferSuspendedSessionsExist(string warehouseId)
         {
             if (!ModelState.IsValid)
@@ -82,7 +80,7 @@ namespace WebApi.Modules.Warehouse.CheckIn
         //------------------------------------------------------------------------------------ 
         // POST api/v1/checkin/completecheckincontract
         [HttpPost("completecheckincontract/{id}")]
-        [FwControllerMethod(Id:"RAiuwADDxuoJ")]
+        [FwControllerMethod(Id:"RAiuwADDxuoJ", ActionType: FwControllerActionTypes.Browse, Caption: "Complete Check-In Contract")]
         public async Task<ActionResult<ContractLogic>> CompleteCheckInContractAsync([FromRoute]string id)
         {
             if (!ModelState.IsValid)
@@ -91,11 +89,9 @@ namespace WebApi.Modules.Warehouse.CheckIn
             }
             try
             {
-
                 TSpStatusResponse response = await ContractFunc.AssignContract(AppConfig, UserSession, id);
                 if (response.success)
                 {
-
                     ContractLogic contract = new ContractLogic();
                     contract.SetDependencies(AppConfig, UserSession);
                     contract.ContractId = id;
@@ -106,22 +102,16 @@ namespace WebApi.Modules.Warehouse.CheckIn
                 {
                     throw new Exception(response.msg);
                 }
-
             }
             catch (Exception ex)
             {
                 return GetApiExceptionResult(ex);
             }
         }
-        //------------------------------------------------------------------------------------       
-
-
-
-
         //------------------------------------------------------------------------------------ 
         // POST api/v1/checkin/checkinitem
         [HttpPost("checkinitem")]
-        [FwControllerMethod(Id:"H0hnbimbsrSh")]
+        [FwControllerMethod(Id:"H0hnbimbsrSh", ActionType: FwControllerActionTypes.Browse, Caption: "Check-In Item")]
         public async Task<ActionResult<TCheckInItemResponse>> CheckInItem([FromBody]CheckInItemRequest request)
         {
             if (!ModelState.IsValid)
@@ -142,12 +132,12 @@ namespace WebApi.Modules.Warehouse.CheckIn
                 }
 
                 return new OkObjectResult(checkInItemResponse);
-
             }
             catch (Exception ex)
             {
                 return GetApiExceptionResult(ex);
             }
         }
+        //------------------------------------------------------------------------------------
     }
 }

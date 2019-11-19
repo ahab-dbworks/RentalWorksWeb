@@ -3,7 +3,7 @@ using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-namespace WebApi.Modules.Utilities.BrowseActiveViewFields
+namespace WebApi.Modules.UtilitiesControls.BrowseActiveViewFields
 {
     [FwSqlTable("webbrowseactiveviewfields")]
     public class BrowseActiveViewFieldsRecord : AppDataReadWriteRecord

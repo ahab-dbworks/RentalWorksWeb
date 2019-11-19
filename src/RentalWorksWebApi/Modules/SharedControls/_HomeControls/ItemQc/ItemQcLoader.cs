@@ -4,7 +4,7 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data; 
 using System.Collections.Generic;
-namespace WebApi.Modules.Home.ItemQc
+namespace WebApi.Modules.HomeControls.ItemQc
 {
     [FwSqlTable("rentalitemqcview")]
     public class ItemQcLoader : AppDataLoadRecord

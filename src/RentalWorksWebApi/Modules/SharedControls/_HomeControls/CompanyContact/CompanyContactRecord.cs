@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic;
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data;
-namespace WebApi.Modules.Home.CompanyContact
+namespace WebApi.Modules.HomeControls.CompanyContact
 {
     [FwSqlTable("compcontact")]
     public class CompanyContactRecord : AppDataReadWriteRecord

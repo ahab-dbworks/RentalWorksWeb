@@ -1,4 +1,4 @@
-﻿using FwStandard.Models;
+using FwStandard.Models;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using System;
@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using WebApi.Modules.Settings.SystemSettings.AvailabilitySettings;
 using WebLibrary;
 
-namespace WebApi.Modules.Home.InventoryAvailability
+namespace WebApi.Modules.HomeControls.InventoryAvailability
 {
     internal class AvailabilityService : IHostedService, IDisposable
     {

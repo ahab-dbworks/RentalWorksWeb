@@ -12,15 +12,7 @@ using WebApi.Modules.Settings.AvailabilityKeepFreshLog;
 
 //#jhtodo: note, userSession is not used in this file, but is still part of many method signatures for future use
 
-//#jhtodo: these Warehouse settings need to be implemented:
-//       Late:        AvailabilityLateDays, AvailabilityLateHours
-//       Conflicts:   AvailabilityPreserveConflicts
-//       Consignment: AvailabilityExcludeConsigned, AvailabilityRequireConsignedReserved
-//       QC:          AvailabilityEnableQcDelay, AvailabilityQcDelayExcludeWeekend, AvailabilityQcDelayExcludeHoliday, AvailabilityQcDelayIndefinite
-
-
-
-namespace WebApi.Modules.Home.InventoryAvailability
+namespace WebApi.Modules.HomeControls.InventoryAvailability
 {
 
     //-------------------------------------------------------------------------------------------------------
@@ -246,7 +238,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
             {
                 bool isTran = false;
 
-                if ((OrderType.Equals(RwConstants.ORDER_TYPE_TRANSFER)) || ((!string.IsNullOrEmpty(ReturnToWarehouseId)) && (!ReturnToWarehouseId.Equals(WarehouseId))))
+                if ((OrderType.Equals(RwConstants.ORDER_TYPE_TRANSFER)) || (!ReturnToWarehouseId.Equals(WarehouseId)))
                 {
                     isTran = true;
                 }

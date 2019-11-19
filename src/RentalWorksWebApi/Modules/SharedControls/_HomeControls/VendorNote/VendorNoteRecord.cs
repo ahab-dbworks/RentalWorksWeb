@@ -5,7 +5,7 @@ using System.Data;
 using System.Threading.Tasks;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Home.VendorNote
+namespace WebApi.Modules.HomeControls.VendorNote
 {
     [FwSqlTable("vendnote")]
     public class VendorNoteRecord : AppDataReadWriteRecord

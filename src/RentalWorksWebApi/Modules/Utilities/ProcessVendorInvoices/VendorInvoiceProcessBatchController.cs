@@ -28,7 +28,7 @@ namespace WebApi.Modules.Utilities.VendorInvoiceProcessBatch
 
         // POST api/v1/vendorinvoiceprocessbatch/createbatch
         [HttpPost("createbatch")]
-        [FwControllerMethod(Id: "puxaS6Kno8j")]
+        [FwControllerMethod(Id: "puxaS6Kno8j", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<VendorInvoiceProcessBatchResponse>> CreateBatch([FromBody]VendorInvoiceProcessBatchRequest request)
         {
             if (!ModelState.IsValid)
@@ -52,15 +52,15 @@ namespace WebApi.Modules.Utilities.VendorInvoiceProcessBatch
         //------------------------------------------------------------------------------------ 
         // POST api/v1/vendorinvoiceprocessbatch/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id: "1EOaJNWMzCJJu")]
+        [FwControllerMethod(Id: "1EOaJNWMzCJJu", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/vendorinvoiceprocessbatch/exportexcelxlsx
+        // POST api/v1/vendorinvoiceprocessbatch/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id: "iKNPRwx4E2uA5")]
+        [FwControllerMethod(Id: "iKNPRwx4E2uA5", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);

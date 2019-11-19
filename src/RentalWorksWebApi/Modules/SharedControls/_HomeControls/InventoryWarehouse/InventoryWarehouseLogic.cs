@@ -1,7 +1,7 @@
 using FwStandard.AppManager;
-using WebApi.Modules.Home.MasterWarehouse;
+using WebApi.Modules.HomeControls.MasterWarehouse;
 
-namespace WebApi.Modules.Home.InventoryWarehouse
+namespace WebApi.Modules.HomeControls.InventoryWarehouse
 {
     public class InventoryWarehouseLogic : MasterWarehouseLogic
     {

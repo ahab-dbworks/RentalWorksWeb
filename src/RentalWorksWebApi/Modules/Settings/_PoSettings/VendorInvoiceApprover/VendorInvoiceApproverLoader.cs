@@ -1,9 +1,9 @@
-using FwStandard.Data; 
-using FwStandard.Models; 
-using FwStandard.SqlServer; 
-using FwStandard.SqlServer.Attributes; 
-using WebApi.Data; 
-using System.Collections.Generic;
+using FwStandard.Data;
+using FwStandard.Models;
+using FwStandard.SqlServer;
+using FwStandard.SqlServer.Attributes;
+using WebApi.Data;
+
 namespace WebApi.Modules.Settings.PoSettings.VendorInvoiceApprover
 {
     [FwSqlTable("vendorinvoiceapproverview")]

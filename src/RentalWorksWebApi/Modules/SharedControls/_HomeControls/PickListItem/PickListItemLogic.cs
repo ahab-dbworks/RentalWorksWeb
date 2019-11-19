@@ -1,6 +1,6 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
-namespace WebApi.Modules.Home.PickListItem
+namespace WebApi.Modules.HomeControls.PickListItem
 {
     [FwLogic(Id:"5IEgQCxlN6li")]
     public class PickListItemLogic : AppBusinessLogic

@@ -9,7 +9,7 @@ using System.Reflection;
 using System.Data;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Home.StagedItem
+namespace WebApi.Modules.HomeControls.StagedItem
 {
     [FwSqlTable("masteritem")]
     public class StagedItemLoader : AppDataLoadRecord

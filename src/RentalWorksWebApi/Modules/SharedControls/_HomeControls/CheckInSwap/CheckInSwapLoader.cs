@@ -6,7 +6,7 @@ using WebApi.Data;
 using System.Collections.Generic;
 using System;
 using WebLibrary;
-namespace WebApi.Modules.Home.CheckInSwap
+namespace WebApi.Modules.HomeControls.CheckInSwap
 {
     [FwSqlTable("dbo.funccheckinswaps(@contractid)")]
     public class CheckInSwapLoader : AppDataLoadRecord

@@ -20,15 +20,15 @@ namespace WebApi.Modules.Settings.OrderTypeDateType
         //------------------------------------------------------------------------------------ 
         // POST api/v1/ordertypedatetype/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"oQU3jzFAOEJ7")]
+        [FwControllerMethod(Id:"oQU3jzFAOEJ7", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"SFdEn4RSWwfz")]
+        [FwControllerMethod(Id:"SFdEn4RSWwfz", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -36,7 +36,7 @@ namespace WebApi.Modules.Settings.OrderTypeDateType
         //------------------------------------------------------------------------------------ 
         // GET api/v1/ordertypedatetype 
         [HttpGet]
-        [FwControllerMethod(Id:"HhVQpCNtKIRD")]
+        [FwControllerMethod(Id:"HhVQpCNtKIRD", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<OrderTypeDateTypeLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<OrderTypeDateTypeLogic>(pageno, pagesize, sort);
@@ -44,7 +44,7 @@ namespace WebApi.Modules.Settings.OrderTypeDateType
         //------------------------------------------------------------------------------------ 
         // GET api/v1/ordertypedatetype/A0000001 
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"RYewhcaLuwnS")]
+        [FwControllerMethod(Id:"RYewhcaLuwnS", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<OrderTypeDateTypeLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<OrderTypeDateTypeLogic>(id);
@@ -52,15 +52,23 @@ namespace WebApi.Modules.Settings.OrderTypeDateType
         //------------------------------------------------------------------------------------ 
         // POST api/v1/ordertypedatetype 
         [HttpPost]
-        [FwControllerMethod(Id:"L8bm7Hv94svZ")]
-        public async Task<ActionResult<OrderTypeDateTypeLogic>> PostAsync([FromBody]OrderTypeDateTypeLogic l)
+        [FwControllerMethod(Id:"L8bm7Hv94svZ", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<OrderTypeDateTypeLogic>> NewAsync([FromBody]OrderTypeDateTypeLogic l)
         {
-            return await DoPostAsync<OrderTypeDateTypeLogic>(l);
+            return await DoNewAsync<OrderTypeDateTypeLogic>(l);
+        }
+        //------------------------------------------------------------------------------------ 
+        // PUT api/v1/ordertypedatetype/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "BO8kc8PfsKCTW", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<OrderTypeDateTypeLogic>> EditAsync([FromRoute] string id, [FromBody]OrderTypeDateTypeLogic l)
+        {
+            return await DoEditAsync<OrderTypeDateTypeLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
         // DELETE api/v1/ordertypedatetype/A0000001 
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id:"XNnIjGRAojxz")]
+        [FwControllerMethod(Id:"XNnIjGRAojxz", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<OrderTypeDateTypeLogic>(id);
@@ -68,7 +76,7 @@ namespace WebApi.Modules.Settings.OrderTypeDateType
         //------------------------------------------------------------------------------------ 
         // POST api/v1/ordertypedatetype/sort
         [HttpPost("sort")]
-        [FwControllerMethod(Id: "gapf9m1VDrVRm")]
+        [FwControllerMethod(Id: "gapf9m1VDrVRm", ActionType: FwControllerActionTypes.Option)]
         public async Task<ActionResult<SortItemsResponse>> SortOrderTypeDateTypesAsync([FromBody]SortOrderTypeDateTypesRequest request)
         {
             if (!ModelState.IsValid)

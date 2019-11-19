@@ -1,7 +1,7 @@
 using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
 using WebApi.Logic;
-namespace WebApi.Modules.Home.PurchaseOrderReceiveItem
+namespace WebApi.Modules.HomeControls.PurchaseOrderReceiveItem
 {
     [FwLogic(Id:"cveSVyb2hsFHg")]
     public class PurchaseOrderReceiveItemLogic : AppBusinessLogic

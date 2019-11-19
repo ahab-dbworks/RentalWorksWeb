@@ -12,7 +12,7 @@
     <FwApplicationDirectory>$(AppSolutionDir)\src\RentalWorksWebApi</FwApplicationDirectory>
     <AssemblyName>WebApi</AssemblyName>
     <RootNamespace>WebApi</RootNamespace>
-    <TypeScriptToolsVersion>3.3</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>3.6</TypeScriptToolsVersion>
     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
     <Company>Database Works, Inc</Company>
     <Product>RentalWorks WebApi</Product>
@@ -30,26 +30,31 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Modules\Administrator\Designer\**" />
+    <Compile Remove="Modules\Warehouse\ScanBarCodes\**" />
     <Compile Remove="WebpackReports\lib\FwReportLibrary\dist\**" />
     <Compile Remove="WebpackReports\lib\FwReportLibrary\dist\**" />
-    <Compile Remove="WebpackReports\src\BillingStatementReport\**" />
     <Compile Remove="wwwroot\lib\**" />
+    <Content Remove="Modules\Administrator\Designer\**" />
+    <Content Remove="Modules\Warehouse\ScanBarCodes\**" />
     <Content Remove="WebpackReports\lib\FwReportLibrary\dist\**" />
     <Content Remove="WebpackReports\lib\FwReportLibrary\dist\**" />
-    <Content Remove="WebpackReports\src\BillingStatementReport\**" />
     <Content Remove="wwwroot\lib\**" />
+    <EmbeddedResource Remove="Modules\Administrator\Designer\**" />
+    <EmbeddedResource Remove="Modules\Warehouse\ScanBarCodes\**" />
     <EmbeddedResource Remove="WebpackReports\lib\FwReportLibrary\dist\**" />
     <EmbeddedResource Remove="WebpackReports\lib\FwReportLibrary\dist\**" />
-    <EmbeddedResource Remove="WebpackReports\src\BillingStatementReport\**" />
     <EmbeddedResource Remove="wwwroot\lib\**" />
+    <None Remove="Modules\Administrator\Designer\**" />
+    <None Remove="Modules\Warehouse\ScanBarCodes\**" />
     <None Remove="WebpackReports\lib\FwReportLibrary\dist\**" />
     <None Remove="WebpackReports\lib\FwReportLibrary\dist\**" />
-    <None Remove="WebpackReports\src\BillingStatementReport\**" />
     <None Remove="wwwroot\lib\**" />
   </ItemGroup>
 
   <ItemGroup>
     <Compile Remove="ApplicationManager\ApplicationSecurity.cs" />
+    <Compile Remove="Modules\SharedControls\_AdministratorControls\Test\TestController.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -81,6 +86,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Modules\SharedControls\_AdministratorControls\Test\" />
+    <Folder Include="Modules\Containers\ContainerStatus\" />
+    <Folder Include="Modules\Containers\EmptyContainer\" />
+    <Folder Include="Modules\Containers\FillContainer\" />
+    <Folder Include="Modules\Containers\RemoveFromContainer\" />
     <Folder Include="Modules\Reports\" />
     <Folder Include="wwwroot\temp\downloads\" />
     <Folder Include="wwwroot\Reports\" />
@@ -131,4 +141,19 @@
     <RemoveDir Directories="$(MSBuildProjectDirectory)\bin" /> 
     <RemoveDir Directories="$(MSBuildProjectDirectory)\obj" /> 
   </Target>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <TypeScriptTarget>ES5</TypeScriptTarget>
+    <TypeScriptJSXEmit>React</TypeScriptJSXEmit>
+    <TypeScriptModuleKind />
+    <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
+    <TypeScriptNoImplicitAny>False</TypeScriptNoImplicitAny>
+    <TypeScriptRemoveComments>False</TypeScriptRemoveComments>
+    <TypeScriptOutFile />
+    <TypeScriptOutDir />
+    <TypeScriptGeneratesDeclarations>False</TypeScriptGeneratesDeclarations>
+    <TypeScriptNoEmitOnError>True</TypeScriptNoEmitOnError>
+    <TypeScriptSourceMap>True</TypeScriptSourceMap>
+    <TypeScriptMapRoot />
+    <TypeScriptSourceRoot />
+  </PropertyGroup>
 </Project>

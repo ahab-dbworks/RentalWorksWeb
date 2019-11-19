@@ -5,7 +5,7 @@ using System.Text;
 using WebApi.Logic;
 using WebLibrary;
 
-namespace WebApi.Modules.Home.Delivery
+namespace WebApi.Modules.HomeControls.Delivery
 {
     [FwLogic(Id:"SOiV5LvU6mHn")]
     public class DeliveryLogic : AppBusinessLogic

@@ -4,7 +4,7 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data; 
 using System.Collections.Generic;
-namespace WebApi.Modules.Home.OrderStatusHistory
+namespace WebApi.Modules.HomeControls.OrderStatusHistory
 {
     [FwSqlTable("orderstatushistoryview")]
     public class OrderStatusHistoryLoader : AppDataLoadRecord

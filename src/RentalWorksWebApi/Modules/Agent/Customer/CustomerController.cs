@@ -20,15 +20,15 @@ namespace WebApi.Modules.Agent.Customer
         //------------------------------------------------------------------------------------
         // POST api/v1/customer/browse
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"7MoaoXPK0VIP")]
+        [FwControllerMethod(Id:"7MoaoXPK0VIP", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"Pl5KjtaY6zH0")]
+        [FwControllerMethod(Id:"Pl5KjtaY6zH0", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -36,7 +36,7 @@ namespace WebApi.Modules.Agent.Customer
         //------------------------------------------------------------------------------------
         // GET api/v1/customer
         [HttpGet]
-        [FwControllerMethod(Id:"a48vy0bxduhl")]
+        [FwControllerMethod(Id:"a48vy0bxduhl", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<GetManyResponse<GetManyCustomerResponse>>> GetManyAsync([FromQuery]GetManyCustomerRequest request)
         {
             return await DoGetManyAsync<GetManyCustomerResponse>(request);
@@ -44,7 +44,7 @@ namespace WebApi.Modules.Agent.Customer
         //------------------------------------------------------------------------------------
         // GET api/v1/customer/A0000001
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"yTB8kNFPBPSr")]
+        [FwControllerMethod(Id:"yTB8kNFPBPSr", ActionType: FwControllerActionTypes.View)]
         public async Task<ActionResult<CustomerLogic>> GetOneAsync(string id)
         {
             return await DoGetAsync<CustomerLogic>(id);
@@ -52,15 +52,23 @@ namespace WebApi.Modules.Agent.Customer
         //------------------------------------------------------------------------------------
         // POST api/v1/customer
         [HttpPost]
-        [FwControllerMethod(Id:"toRko5a4O4n1")]
-        public async Task<ActionResult<CustomerLogic>> PostAsync([FromBody]CustomerLogic l)
+        [FwControllerMethod(Id:"toRko5a4O4n1", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<CustomerLogic>> NewAsync([FromBody]CustomerLogic l)
         {
-            return await DoPostAsync<CustomerLogic>(l);
+            return await DoNewAsync<CustomerLogic>(l);
+        }
+        //------------------------------------------------------------------------------------
+        // PUT api/v1/custome/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "4AjxLis1DklOK", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<CustomerLogic>> EditAsync([FromRoute] string id, [FromBody]CustomerLogic l)
+        {
+            return await DoEditAsync<CustomerLogic>(l);
         }
         //------------------------------------------------------------------------------------
         // DELETE api/v1/customer/A0000001
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id:"6p5DKezU9DgN")]
+        [FwControllerMethod(Id:"6p5DKezU9DgN", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync(string id)
         {
             return await DoDeleteAsync<CustomerLogic>(id);
@@ -68,7 +76,7 @@ namespace WebApi.Modules.Agent.Customer
         //------------------------------------------------------------------------------------
         // GET api/v1/customer/lookup/officelocations
         [HttpGet("lookup/officelocations")]
-        [FwControllerMethod(Id:"ydamcE1E1G9P")]
+        [FwControllerMethod(Id:"ydamcE1E1G9P", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<GetManyResponse<GetManyOfficeLocationModel>>> GetOfficeLocationsAsync([FromQuery]GetManyOfficeLocationRequest request)
         {
             //return await DoGetManyAsync<GetManyOfficeLocationModel>(request, typeof(OfficeLocationLogic));

@@ -17,15 +17,15 @@ namespace WebApi.Modules.Settings.Floor
         //------------------------------------------------------------------------------------ 
         // POST api/v1/floor/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"I5XCMOmSoDZ5")]
+        [FwControllerMethod(Id:"I5XCMOmSoDZ5", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"yK5WFt4LwLJi")]
+        [FwControllerMethod(Id:"yK5WFt4LwLJi", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -33,7 +33,7 @@ namespace WebApi.Modules.Settings.Floor
         //------------------------------------------------------------------------------------ 
         // GET api/v1/floor 
         [HttpGet]
-        [FwControllerMethod(Id:"eBU90uF94BeU")]
+        [FwControllerMethod(Id:"eBU90uF94BeU", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<FloorLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<FloorLogic>(pageno, pagesize, sort);
@@ -41,7 +41,7 @@ namespace WebApi.Modules.Settings.Floor
         //------------------------------------------------------------------------------------ 
         // GET api/v1/floor/A0000001 
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"tkeJBbqpX9ms")]
+        [FwControllerMethod(Id:"tkeJBbqpX9ms", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FloorLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<FloorLogic>(id);
@@ -49,15 +49,23 @@ namespace WebApi.Modules.Settings.Floor
         //------------------------------------------------------------------------------------ 
         // POST api/v1/floor 
         [HttpPost]
-        [FwControllerMethod(Id:"Oh83FN8lsl0D")]
-        public async Task<ActionResult<FloorLogic>> PostAsync([FromBody]FloorLogic l)
+        [FwControllerMethod(Id:"Oh83FN8lsl0D", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<FloorLogic>> NewAsync([FromBody]FloorLogic l)
         {
-            return await DoPostAsync<FloorLogic>(l);
+            return await DoNewAsync<FloorLogic>(l);
+        }
+        //------------------------------------------------------------------------------------ 
+        // PUT api/v1/floor/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "CtOAuShIlVKxp", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<FloorLogic>> EditAsync([FromRoute] string id, [FromBody]FloorLogic l)
+        {
+            return await DoEditAsync<FloorLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
         // DELETE api/v1/floor/A0000001 
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id:"WlKt8i6QIrfs")]
+        [FwControllerMethod(Id:"WlKt8i6QIrfs", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<FloorLogic>(id);

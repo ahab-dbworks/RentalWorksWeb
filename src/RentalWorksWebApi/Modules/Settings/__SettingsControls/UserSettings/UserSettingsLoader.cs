@@ -4,7 +4,7 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data; 
 
-namespace WebApi.Modules.Settings.UserSettings
+namespace WebApi.Modules.Settings.UserSettings.UserSettings
 {
     [FwSqlTable("webusersview")]
     public class UserSettingsLoader : AppDataLoadRecord

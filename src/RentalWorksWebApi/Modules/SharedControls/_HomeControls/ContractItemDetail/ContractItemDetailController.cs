@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using WebLibrary;
 
-namespace WebApi.Modules.Home.ContractItemDetail
+namespace WebApi.Modules.HomeControls.ContractItemDetail
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
@@ -22,7 +22,7 @@ namespace WebApi.Modules.Home.ContractItemDetail
         //------------------------------------------------------------------------------------ 
         // POST api/v1/contractitemdetail/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id: "xppzinq0cvq4")]
+        [FwControllerMethod(Id: "xppzinq0cvq4", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
@@ -30,7 +30,7 @@ namespace WebApi.Modules.Home.ContractItemDetail
         //------------------------------------------------------------------------------------ 
         // GET api/v1/contractitemdetail/legend 
         [HttpGet("legend")]
-        [FwControllerMethod(Id: "4AhDxfIX0or")]
+        [FwControllerMethod(Id: "4AhDxfIX0or", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<Dictionary<string, string>>> GetLegend()
         {
             Dictionary<string, string> legend = new Dictionary<string, string>();
@@ -40,9 +40,9 @@ namespace WebApi.Modules.Home.ContractItemDetail
             return new OkObjectResult(legend);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/contractitemdetail/exportexcelxlsx
+        // POST api/v1/contractitemdetail/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id: "YAvXaedfvmus")]
+        [FwControllerMethod(Id: "YAvXaedfvmus", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -50,8 +50,8 @@ namespace WebApi.Modules.Home.ContractItemDetail
         //------------------------------------------------------------------------------------ 
         // POST api/v1/contractitemdetail/voiditems
         [HttpPost("voiditems")]
-        [FwControllerMethod(Id: "pbZeqJ3pd8r")]
-        public async Task<ActionResult<TSpStatusResponse>> CancelContract([FromBody]VoidItemsRequest request)
+        [FwControllerMethod(Id: "pbZeqJ3pd8r", ActionType: FwControllerActionTypes.Option)]
+        public async Task<ActionResult<TSpStatusResponse>> VoidItems([FromBody]VoidItemsRequest request)
         {
             if (!ModelState.IsValid)
             {

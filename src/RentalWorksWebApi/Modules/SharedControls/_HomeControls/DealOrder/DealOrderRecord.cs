@@ -1,4 +1,4 @@
-﻿using FwStandard.SqlServer;
+using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using System;
 using System.Data;
@@ -10,7 +10,7 @@ using WebApi.Modules.Agent.PurchaseOrder;
 using WebApi.Modules.Agent.Quote;
 using WebLibrary;
 
-namespace WebApi.Modules.Home.DealOrder
+namespace WebApi.Modules.HomeControls.DealOrder
 {
     [FwSqlTable("dealorder")]
     public class DealOrderRecord : AppDataReadWriteRecord

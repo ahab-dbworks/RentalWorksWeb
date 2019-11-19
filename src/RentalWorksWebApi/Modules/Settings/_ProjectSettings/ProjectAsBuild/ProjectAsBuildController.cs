@@ -17,15 +17,15 @@ namespace WebApi.Modules.Settings.ProjectSettings.ProjectAsBuild
         //------------------------------------------------------------------------------------ 
         // POST api/v1/projectasbuild/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"QSfQBJ4CmTQNT")]
+        [FwControllerMethod(Id:"QSfQBJ4CmTQNT", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"a2FYmTzUZbQnd")]
+        [FwControllerMethod(Id:"a2FYmTzUZbQnd", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -33,7 +33,7 @@ namespace WebApi.Modules.Settings.ProjectSettings.ProjectAsBuild
         //------------------------------------------------------------------------------------ 
         // GET api/v1/projectasbuild 
         [HttpGet]
-        [FwControllerMethod(Id:"nYNarYMBZAAb0")]
+        [FwControllerMethod(Id:"nYNarYMBZAAb0", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<ProjectAsBuildLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<ProjectAsBuildLogic>(pageno, pagesize, sort);
@@ -41,7 +41,7 @@ namespace WebApi.Modules.Settings.ProjectSettings.ProjectAsBuild
         //------------------------------------------------------------------------------------ 
         // GET api/v1/projectasbuild/A0000001 
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"mDW7AdooZZWTj")]
+        [FwControllerMethod(Id:"mDW7AdooZZWTj", ActionType: FwControllerActionTypes.View)]
         public async Task<ActionResult<ProjectAsBuildLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<ProjectAsBuildLogic>(id);
@@ -49,15 +49,23 @@ namespace WebApi.Modules.Settings.ProjectSettings.ProjectAsBuild
         //------------------------------------------------------------------------------------ 
         // POST api/v1/projectasbuild 
         [HttpPost]
-        [FwControllerMethod(Id:"vrA7eTko8oJs8")]
-        public async Task<ActionResult<ProjectAsBuildLogic>> PostAsync([FromBody]ProjectAsBuildLogic l)
+        [FwControllerMethod(Id:"vrA7eTko8oJs8", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<ProjectAsBuildLogic>> NewAsync([FromBody]ProjectAsBuildLogic l)
         {
-            return await DoPostAsync<ProjectAsBuildLogic>(l);
+            return await DoNewAsync<ProjectAsBuildLogic>(l);
+        }
+        //------------------------------------------------------------------------------------ 
+        // PUT api/v1/projectasbuild/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "FAMyopTuOGbeG", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<ProjectAsBuildLogic>> EditAsync([FromRoute] string id, [FromBody]ProjectAsBuildLogic l)
+        {
+            return await DoEditAsync<ProjectAsBuildLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
         // DELETE api/v1/projectasbuild/A0000001 
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id:"EvBV2PpuYCwbn")]
+        [FwControllerMethod(Id:"EvBV2PpuYCwbn", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<ProjectAsBuildLogic>(id);

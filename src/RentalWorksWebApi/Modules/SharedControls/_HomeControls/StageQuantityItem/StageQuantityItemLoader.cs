@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Data;
 using System.Reflection;
 
-namespace WebApi.Modules.Home.StageQuantityItem
+namespace WebApi.Modules.HomeControls.StageQuantityItem
 {
     public class StageQuantityItemLoader : AppDataLoadRecord
     {

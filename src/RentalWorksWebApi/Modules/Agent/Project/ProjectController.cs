@@ -21,15 +21,15 @@ namespace WebApi.Modules.Agent.Project
         //------------------------------------------------------------------------------------ 
         // POST api/v1/project/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"4k50xVthJKNTW")]
+        [FwControllerMethod(Id:"4k50xVthJKNTW", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/project/exportexcelxlsx
+        // POST api/v1/project/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"74Hn2Rn76j6hj")]
+        [FwControllerMethod(Id:"74Hn2Rn76j6hj", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -37,7 +37,7 @@ namespace WebApi.Modules.Agent.Project
         //------------------------------------------------------------------------------------ 
         // GET api/v1/project 
         [HttpGet]
-        [FwControllerMethod(Id:"zNZ938we8yIyS")]
+        [FwControllerMethod(Id:"zNZ938we8yIyS", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<ProjectLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<ProjectLogic>(pageno, pagesize, sort);
@@ -45,7 +45,7 @@ namespace WebApi.Modules.Agent.Project
         //------------------------------------------------------------------------------------ 
         // GET api/v1/project/A0000001 
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"iOnfqHPsaizYm")]
+        [FwControllerMethod(Id:"iOnfqHPsaizYm", ActionType: FwControllerActionTypes.View)]
         public async Task<ActionResult<ProjectLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<ProjectLogic>(id);
@@ -53,15 +53,23 @@ namespace WebApi.Modules.Agent.Project
         //------------------------------------------------------------------------------------ 
         // POST api/v1/project 
         [HttpPost]
-        [FwControllerMethod(Id:"fFUzpeoiwQKIa")]
-        public async Task<ActionResult<ProjectLogic>> PostAsync([FromBody]ProjectLogic l)
+        [FwControllerMethod(Id:"fFUzpeoiwQKIa", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<ProjectLogic>> NewAsync([FromBody]ProjectLogic l)
         {
-            return await DoPostAsync<ProjectLogic>(l);
+            return await DoNewAsync<ProjectLogic>(l);
+        }
+        //------------------------------------------------------------------------------------ 
+        // PUT api/v1/project/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "3amC6YjsCScYW", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<ProjectLogic>> EditAsync([FromRoute] string id, [FromBody]ProjectLogic l)
+        {
+            return await DoEditAsync<ProjectLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
         // DELETE api/v1/project/A0000001 
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id:"uvLNiRZFF5gdy")]
+        [FwControllerMethod(Id:"uvLNiRZFF5gdy", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<ProjectLogic>(id);
@@ -69,7 +77,7 @@ namespace WebApi.Modules.Agent.Project
         //------------------------------------------------------------------------------------ 
         // POST api/v1/project/createquote
         [HttpPost("createquote")]
-        [FwControllerMethod(Id:"X5qRQcu9TBn8Z")]
+        [FwControllerMethod(Id:"X5qRQcu9TBn8Z", ActionType: FwControllerActionTypes.Option, Caption:"Create Quote")]
         public async Task<ActionResult<CreateQuoteFromProjectResponse>> CreateQuote([FromBody]CreateQuoteFromProjectRequest request)
         {
             if (!ModelState.IsValid)

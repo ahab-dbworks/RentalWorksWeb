@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Reflection;
 using System.Data;
 
-namespace WebApi.Modules.Home.CheckedInItem
+namespace WebApi.Modules.HomeControls.CheckedInItem
 {
     [FwSqlTable("masteritem")]
     public class CheckedInItemLoader : AppDataLoadRecord

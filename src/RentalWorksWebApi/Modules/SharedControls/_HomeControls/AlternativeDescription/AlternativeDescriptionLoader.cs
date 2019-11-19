@@ -3,7 +3,7 @@ using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-namespace WebApi.Modules.Home.AlternativeDescription
+namespace WebApi.Modules.HomeControls.AlternativeDescription
 {
     [FwSqlTable("masterakaview")]
     public class AlternativeDescriptionLoader : AppDataLoadRecord

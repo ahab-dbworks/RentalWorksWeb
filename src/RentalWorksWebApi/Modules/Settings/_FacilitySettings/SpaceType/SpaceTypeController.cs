@@ -17,15 +17,15 @@ namespace WebApi.Modules.Settings.FacilitySettings.SpaceType
         //------------------------------------------------------------------------------------ 
         // POST api/v1/spacetype/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"CTeDqQpVjmsg9")]
+        [FwControllerMethod(Id:"CTeDqQpVjmsg9", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"WBUZ2Cd1e1ryL")]
+        [FwControllerMethod(Id:"WBUZ2Cd1e1ryL", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -33,7 +33,7 @@ namespace WebApi.Modules.Settings.FacilitySettings.SpaceType
         //------------------------------------------------------------------------------------ 
         // GET api/v1/spacetype 
         [HttpGet]
-        [FwControllerMethod(Id:"YtTqGsmAHXcpV")]
+        [FwControllerMethod(Id:"YtTqGsmAHXcpV", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<SpaceTypeLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<SpaceTypeLogic>(pageno, pagesize, sort);
@@ -41,7 +41,7 @@ namespace WebApi.Modules.Settings.FacilitySettings.SpaceType
         //------------------------------------------------------------------------------------ 
         // GET api/v1/spacetype/A0000001 
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"M97cDbyZYJNFO")]
+        [FwControllerMethod(Id:"M97cDbyZYJNFO", ActionType: FwControllerActionTypes.View)]
         public async Task<ActionResult<SpaceTypeLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<SpaceTypeLogic>(id);
@@ -49,15 +49,23 @@ namespace WebApi.Modules.Settings.FacilitySettings.SpaceType
         //------------------------------------------------------------------------------------ 
         // POST api/v1/spacetype 
         [HttpPost]
-        [FwControllerMethod(Id:"PyC1VeiUw9bEo")]
-        public async Task<ActionResult<SpaceTypeLogic>> PostAsync([FromBody]SpaceTypeLogic l)
+        [FwControllerMethod(Id:"PyC1VeiUw9bEo", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<SpaceTypeLogic>> NewAsync([FromBody]SpaceTypeLogic l)
         {
-            return await DoPostAsync<SpaceTypeLogic>(l);
+            return await DoNewAsync<SpaceTypeLogic>(l);
+        }
+        //------------------------------------------------------------------------------------ 
+        // PUT api/v1/spacetype/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "FfL3XRYhe3yzs", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<SpaceTypeLogic>> EditAsync([FromRoute] string id, [FromBody]SpaceTypeLogic l)
+        {
+            return await DoEditAsync<SpaceTypeLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
         // DELETE api/v1/spacetype/A0000001 
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id:"JUMhAJCu2y14x")]
+        [FwControllerMethod(Id:"JUMhAJCu2y14x", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<SpaceTypeLogic>(id);

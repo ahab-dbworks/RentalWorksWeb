@@ -17,15 +17,15 @@ namespace WebApi.Modules.Settings.EventSettings.EventType
         //------------------------------------------------------------------------------------ 
         // POST api/v1/eventtype/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"VhQTPcr2nIPx")]
+        [FwControllerMethod(Id:"VhQTPcr2nIPx", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"3388KPzfFwT3")]
+        [FwControllerMethod(Id:"3388KPzfFwT3", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -33,7 +33,7 @@ namespace WebApi.Modules.Settings.EventSettings.EventType
         //------------------------------------------------------------------------------------ 
         // GET api/v1/eventtype 
         [HttpGet]
-        [FwControllerMethod(Id:"NU11TCmD5qpn")]
+        [FwControllerMethod(Id:"NU11TCmD5qpn", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<EventTypeLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<EventTypeLogic>(pageno, pagesize, sort);
@@ -41,7 +41,7 @@ namespace WebApi.Modules.Settings.EventSettings.EventType
         //------------------------------------------------------------------------------------ 
         // GET api/v1/eventtype/A0000001 
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"xczlCq8V19z4")]
+        [FwControllerMethod(Id:"xczlCq8V19z4", ActionType: FwControllerActionTypes.View)]
         public async Task<ActionResult<EventTypeLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<EventTypeLogic>(id);
@@ -49,15 +49,23 @@ namespace WebApi.Modules.Settings.EventSettings.EventType
         //------------------------------------------------------------------------------------ 
         // POST api/v1/eventtype 
         [HttpPost]
-        [FwControllerMethod(Id:"kqLxq9jdYnEC")]
-        public async Task<ActionResult<EventTypeLogic>> PostAsync([FromBody]EventTypeLogic l)
+        [FwControllerMethod(Id:"kqLxq9jdYnEC", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<EventTypeLogic>> NewAsync([FromBody]EventTypeLogic l)
         {
-            return await DoPostAsync<EventTypeLogic>(l);
+            return await DoNewAsync<EventTypeLogic>(l);
+        }
+        //------------------------------------------------------------------------------------ 
+        // PUT api/v1/eventtype/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "GmTTYOg8ixmmO", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<EventTypeLogic>> EditAsync([FromRoute] string id, [FromBody]EventTypeLogic l)
+        {
+            return await DoEditAsync<EventTypeLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
         // DELETE api/v1/eventtype/A0000001 
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id:"qW1IDgSIYrjp")]
+        [FwControllerMethod(Id:"qW1IDgSIYrjp", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<EventTypeLogic>(id);

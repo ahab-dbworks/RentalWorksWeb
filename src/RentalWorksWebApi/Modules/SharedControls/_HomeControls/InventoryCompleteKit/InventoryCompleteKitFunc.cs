@@ -4,7 +4,7 @@ using System.Data;
 using System.Threading.Tasks;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Home.InventoryCompleteKit
+namespace WebApi.Modules.HomeControls.InventoryCompleteKit
 {
     public class CreateCompleteResponse
     {

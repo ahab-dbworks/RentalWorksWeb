@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using WebApi.Controllers;
 using WebApi.Modules.Warehouse.PickList;
 
-namespace WebApi.Modules.Home.PickListUtilityItem
+namespace WebApi.Modules.HomeControls.PickListUtilityItem
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
@@ -21,15 +21,15 @@ namespace WebApi.Modules.Home.PickListUtilityItem
         //------------------------------------------------------------------------------------ 
         // POST api/v1/picklistutilityitem/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id: "odmnB0Sdaau0")]
+        [FwControllerMethod(Id: "odmnB0Sdaau0", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id: "O3BNoaLPlQXn")]
+        [FwControllerMethod(Id: "O3BNoaLPlQXn", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -37,10 +37,18 @@ namespace WebApi.Modules.Home.PickListUtilityItem
         //------------------------------------------------------------------------------------ 
         // POST api/v1/picklistutilityitem 
         [HttpPost]
-        [FwControllerMethod(Id: "DklEUpjtmhxA")]
-        public async Task<ActionResult<PickListUtilityItemLogic>> PostAsync([FromBody]PickListUtilityItemLogic l)
+        [FwControllerMethod(Id: "DklEUpjtmhxA", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<PickListUtilityItemLogic>> NewAsync([FromBody]PickListUtilityItemLogic l)
         {
-            return await DoPostAsync<PickListUtilityItemLogic>(l);
+            return await DoNewAsync<PickListUtilityItemLogic>(l);
+        }
+        //------------------------------------------------------------------------------------ 
+        // PUT api/v1/picklistutilityitem/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "7NCrlsSFN7mHF", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<PickListUtilityItemLogic>> EditAsync([FromRoute] string id, [FromBody]PickListUtilityItemLogic l)
+        {
+            return await DoEditAsync<PickListUtilityItemLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/picklistutilityitem/selectall
@@ -67,7 +75,7 @@ namespace WebApi.Modules.Home.PickListUtilityItem
         //------------------------------------------------------------------------------------ 
         // POST api/v1/picklistutilityitem/createpicklist
         [HttpPost("createpicklist")]
-        [FwControllerMethod(Id: "LzGhicy7Mgje")]
+        [FwControllerMethod(Id: "LzGhicy7Mgje", ActionType: FwControllerActionTypes.Option)]
         public async Task<ActionResult<PickListLogic>> CreatePickList([FromBody]BrowseRequest browseRequest)
         {
             if (!ModelState.IsValid)

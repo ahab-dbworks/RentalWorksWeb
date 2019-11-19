@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using FwStandard.SqlServer;
 using System.Collections.Generic;
 using FwStandard.AppManager;
-namespace WebApi.Modules.Home.VendorInvoiceExportBatch
+namespace WebApi.Modules.HomeControls.VendorInvoiceExportBatch
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
@@ -17,15 +17,15 @@ namespace WebApi.Modules.Home.VendorInvoiceExportBatch
         //------------------------------------------------------------------------------------ 
         // POST api/v1/vendorinvoiceexportbatch/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id: "ybf8DYKHJ4mX")]
+        [FwControllerMethod(Id: "ybf8DYKHJ4mX", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/vendorinvoiceexportbatch/exportexcelxlsx
+        // POST api/v1/vendorinvoiceexportbatch/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id: "yyQ0W8cSiVq9")]
+        [FwControllerMethod(Id: "yyQ0W8cSiVq9", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);

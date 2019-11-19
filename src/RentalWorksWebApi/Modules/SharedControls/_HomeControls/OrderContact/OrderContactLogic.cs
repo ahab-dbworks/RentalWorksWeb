@@ -2,9 +2,9 @@ using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
 using WebApi.Logic;
 using WebApi.Modules.Agent.Contact;
-using WebApi.Modules.Home.CompanyContact;
+using WebApi.Modules.HomeControls.CompanyContact;
 
-namespace WebApi.Modules.Home.OrderContact
+namespace WebApi.Modules.HomeControls.OrderContact
 {
     [FwLogic(Id:"WtDwr1IbNTRF")]
     public class OrderContactLogic : AppBusinessLogic

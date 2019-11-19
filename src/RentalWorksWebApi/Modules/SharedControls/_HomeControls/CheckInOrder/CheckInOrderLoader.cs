@@ -6,7 +6,7 @@ using WebApi.Data;
 using System.Collections.Generic;
 using System;
 using WebLibrary;
-namespace WebApi.Modules.Home.CheckInOrder
+namespace WebApi.Modules.HomeControls.CheckInOrder
 {
     [FwSqlTable("checkinorderpriorityview")]
     public class CheckInOrderLoader : AppDataLoadRecord

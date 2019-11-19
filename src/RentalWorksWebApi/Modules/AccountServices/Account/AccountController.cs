@@ -1,9 +1,7 @@
 using FwStandard.AppManager;
 using FwStandard.Models;
-using FwStandard.Security;
 using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
@@ -30,7 +28,7 @@ namespace WebApi.Modules.AccountServices.Account
             public AppFunc.SessionDepartment department { get; set; } = null;
             public AppFunc.SessionUser webUser { get; set; } = null;
             public AppFunc.SessionDeal deal { get; set; } = null;
-            public FwSecurityTreeNode applicationtree { get; set; } = null;
+            public FwAmSecurityTreeNode applicationtree { get; set; } = null;
             public dynamic applicationOptions { get; set; } = null;
             public string clientcode { get; set; } = string.Empty;
             public string serverVersion { get; set; } = string.Empty;
@@ -38,7 +36,7 @@ namespace WebApi.Modules.AccountServices.Account
 
         // GET api/v1/account/sessioninfo
         [HttpGet("session")]
-        [FwControllerMethod(Id: "hC5MXcjWFqjb")]
+        [FwControllerMethod(Id: "hC5MXcjWFqjb", ValidateSecurityGroup:false)]
         public async Task<ActionResult<GetSessionResponse>> GetSession([FromQuery]string applicationId)
         {
             var response = new GetSessionResponse();
@@ -59,7 +57,7 @@ namespace WebApi.Modules.AccountServices.Account
             waitList.Add(taskSessionDepartment);
             var taskClientCode = FwSqlData.GetClientCodeAsync(this.AppConfig.DatabaseSettings);
             waitList.Add(taskClientCode);
-            var taskApplicationTree = FwSecurityTree.Tree.GetGroupsTreeAsync(applicationId, this.UserSession.GroupsId, true);
+            var taskApplicationTree = FwAppManager.Tree.GetGroupsTreeAsync(this.UserSession.GroupsId, true);
             waitList.Add(taskApplicationTree);
             var taskApplicationOptions = FwSqlData.GetApplicationOptionsAsync(this.AppConfig.DatabaseSettings);
             waitList.Add(taskApplicationOptions);
@@ -83,7 +81,7 @@ namespace WebApi.Modules.AccountServices.Account
             response.warehouse = taskSessionWarehouse.Result;
             response.department = taskSessionDepartment.Result;
             response.clientcode = taskClientCode.Result;
-            response.applicationtree = taskApplicationTree.Result;
+            response.applicationtree = taskApplicationTree.Result.RootNode;
             response.applicationOptions = taskApplicationOptions.Result;
 
             // get the application version
@@ -120,7 +118,7 @@ namespace WebApi.Modules.AccountServices.Account
         
         // GET api/v1/account/locationinfo?locationid=value&warehouseid=value&departmentid=value
         [HttpGet("officelocation")]
-        [FwControllerMethod(Id: "d22TgeY4ersd")]
+        [FwControllerMethod(Id: "d22TgeY4ersd", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<GetOfficeLocationResponse>> GetOfficeLocation([FromQuery]string locationid, [FromQuery]string warehouseid, [FromQuery]string departmentid)
         {
             // run all the queries in parallel

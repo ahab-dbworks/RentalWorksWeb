@@ -2,10 +2,10 @@ using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
 using WebApi.Logic;
 using WebApi.Modules.Agent.Contact;
-using WebApi.Modules.Home.CompanyContact;
-using WebApi.Modules.Home.OrderContact;
+using WebApi.Modules.HomeControls.CompanyContact;
+using WebApi.Modules.HomeControls.OrderContact;
 
-namespace WebApi.Modules.Home.ProjectContact
+namespace WebApi.Modules.HomeControls.ProjectContact
 {
     [FwLogic(Id:"3iujjJFfwstQF")]
     public class ProjectContactLogic : AppBusinessLogic

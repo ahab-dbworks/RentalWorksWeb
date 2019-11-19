@@ -18,15 +18,15 @@ namespace WebApi.Modules.Settings.DealSettings.ProductionType
         //------------------------------------------------------------------------------------
         // POST api/v1/productiontype/browse
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"JIcxN44tLlofQ")]
+        [FwControllerMethod(Id:"4F0vLO8zAdmf", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"JIcxN44tLlofQ")]
+        [FwControllerMethod(Id:"JIcxN44tLlofQ", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -34,7 +34,7 @@ namespace WebApi.Modules.Settings.DealSettings.ProductionType
         //------------------------------------------------------------------------------------
         // GET api/v1/productiontype
         [HttpGet]
-        [FwControllerMethod(Id:"8xF9v8K5JxwwX")]
+        [FwControllerMethod(Id:"8xF9v8K5JxwwX", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<ProductionTypeLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<ProductionTypeLogic>(pageno, pagesize, sort);
@@ -42,7 +42,7 @@ namespace WebApi.Modules.Settings.DealSettings.ProductionType
         //------------------------------------------------------------------------------------
         // GET api/v1/productiontype/A0000001
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"mPZdwJkHjd0vW")]
+        [FwControllerMethod(Id:"mPZdwJkHjd0vW", ActionType: FwControllerActionTypes.View)]
         public async Task<ActionResult<ProductionTypeLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<ProductionTypeLogic>(id);
@@ -50,15 +50,23 @@ namespace WebApi.Modules.Settings.DealSettings.ProductionType
         //------------------------------------------------------------------------------------
         // POST api/v1/productiontype
         [HttpPost]
-        [FwControllerMethod(Id:"IDColiml86J2I")]
-        public async Task<ActionResult<ProductionTypeLogic>> PostAsync([FromBody]ProductionTypeLogic l)
+        [FwControllerMethod(Id:"IDColiml86J2I", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<ProductionTypeLogic>> NewAsync([FromBody]ProductionTypeLogic l)
         {
-            return await DoPostAsync<ProductionTypeLogic>(l);
+            return await DoNewAsync<ProductionTypeLogic>(l);
+        }
+        //------------------------------------------------------------------------------------
+        // PUT api/v1/productiontyp/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "lnfe0siBOgLtk", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<ProductionTypeLogic>> EditAsync([FromRoute] string id, [FromBody]ProductionTypeLogic l)
+        {
+            return await DoEditAsync<ProductionTypeLogic>(l);
         }
         //------------------------------------------------------------------------------------
         // DELETE api/v1/productiontype/A0000001
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id:"YEB6Xojl8VoEU")]
+        [FwControllerMethod(Id:"YEB6Xojl8VoEU", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<ProductionTypeLogic>(id);

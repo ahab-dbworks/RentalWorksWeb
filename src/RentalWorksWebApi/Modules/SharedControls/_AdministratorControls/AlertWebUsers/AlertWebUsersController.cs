@@ -7,7 +7,7 @@ using Microsoft.Extensions.Options;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebApi.Controllers;
-namespace WebApi.Modules.Administrator.AlertWebUsers
+namespace WebApi.Modules.AdministratorControls.AlertWebUsers
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "administrator-v1")]
@@ -18,15 +18,15 @@ namespace WebApi.Modules.Administrator.AlertWebUsers
         //------------------------------------------------------------------------------------ 
         // POST api/v1/alertwebusers/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id: "W8tc28TbRfbq")]
+        [FwControllerMethod(Id: "W8tc28TbRfbq", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/alertwebusers/exportexcelxlsx
+        // POST api/v1/alertwebusers/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id: "UyjhSZeRz0kiD")]
+        [FwControllerMethod(Id: "UyjhSZeRz0kiD", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -34,7 +34,7 @@ namespace WebApi.Modules.Administrator.AlertWebUsers
         //------------------------------------------------------------------------------------ 
         // GET api/v1/alertwebusers 
         [HttpGet]
-        [FwControllerMethod(Id: "BLt1TByqGEDu")]
+        [FwControllerMethod(Id: "BLt1TByqGEDu", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<AlertWebUsersLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<AlertWebUsersLogic>(pageno, pagesize, sort);
@@ -42,7 +42,7 @@ namespace WebApi.Modules.Administrator.AlertWebUsers
         //------------------------------------------------------------------------------------ 
         // GET api/v1/alertwebusers/A0000001 
         [HttpGet("{id}")]
-        [FwControllerMethod(Id: "6pbS1g4dEEHi")]
+        [FwControllerMethod(Id: "6pbS1g4dEEHi", ActionType: FwControllerActionTypes.View)]
         public async Task<ActionResult<AlertWebUsersLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<AlertWebUsersLogic>(id);
@@ -50,15 +50,23 @@ namespace WebApi.Modules.Administrator.AlertWebUsers
         //------------------------------------------------------------------------------------ 
         // POST api/v1/alertwebusers 
         [HttpPost]
-        [FwControllerMethod(Id: "dPxB8IbKkXnJx")]
-        public async Task<ActionResult<AlertWebUsersLogic>> PostAsync([FromBody]AlertWebUsersLogic l)
+        [FwControllerMethod(Id: "dPxB8IbKkXnJx", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<AlertWebUsersLogic>> NewAsync([FromBody]AlertWebUsersLogic l)
         {
-            return await DoPostAsync<AlertWebUsersLogic>(l);
+            return await DoNewAsync<AlertWebUsersLogic>(l);
+        }
+        //------------------------------------------------------------------------------------ 
+        // PUT api/v1/alertwebusers/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "DUleDE4IWs1L8", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<AlertWebUsersLogic>> EditAsync([FromRoute] string id, [FromBody]AlertWebUsersLogic l)
+        {
+            return await DoEditAsync<AlertWebUsersLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
         // DELETE api/v1/alertwebusers/A0000001 
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id: "B866tX0CwraC")]
+        [FwControllerMethod(Id: "B866tX0CwraC", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<AlertWebUsersLogic>(id);

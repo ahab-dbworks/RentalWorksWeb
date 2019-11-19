@@ -4,7 +4,7 @@ using WebApi.Logic;
 using WebApi.Modules.Inventory.Repair;
 using WebLibrary;
 
-namespace WebApi.Modules.Home.RepairPart
+namespace WebApi.Modules.HomeControls.RepairPart
 {
     [FwLogic(Id:"J1SmkGfOgm6YD")]
     public class RepairPartLogic : AppBusinessLogic

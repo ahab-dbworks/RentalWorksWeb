@@ -4,7 +4,7 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data; 
 using System.Collections.Generic;
-namespace WebApi.Modules.Home.ItemAttributeValue
+namespace WebApi.Modules.HomeControls.ItemAttributeValue
 {
     [FwSqlTable("itemattributeview")]
     public class ItemAttributeValueLoader : AppDataLoadRecord

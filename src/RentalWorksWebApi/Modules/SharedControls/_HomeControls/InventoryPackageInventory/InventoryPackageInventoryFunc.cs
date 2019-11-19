@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Home.InventoryPackageInventory
+namespace WebApi.Modules.HomeControls.InventoryPackageInventory
 {
     public class SortInventoryPackageInventorysRequest
     {

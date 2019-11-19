@@ -3,7 +3,7 @@ using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-namespace WebApi.Modules.Home.InvoiceStatusHistory
+namespace WebApi.Modules.HomeControls.InvoiceStatusHistory
 {
     [FwSqlTable("invoicestatushistoryview")]
     public class InvoiceStatusHistoryLoader : AppDataLoadRecord

@@ -6,7 +6,7 @@ using WebApi.Data;
 using System.Collections.Generic;
 using System;
 using WebLibrary;
-namespace WebApi.Modules.Home.ContainerWarehouse
+namespace WebApi.Modules.HomeControls.ContainerWarehouse
 {
     [FwSqlTable("dbo.funcmastercontainerdata(@masterid)")]
     public class ContainerWarehouseLoader : AppDataLoadRecord

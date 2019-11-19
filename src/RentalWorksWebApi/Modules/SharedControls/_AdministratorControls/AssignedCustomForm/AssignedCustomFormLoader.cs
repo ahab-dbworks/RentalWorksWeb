@@ -3,7 +3,7 @@ using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-namespace WebApi.Modules.Administrator.AssignedCustomForm
+namespace WebApi.Modules.AdministratorControls.AssignedCustomForm
 {
     [FwSqlTable("dbo.funcassignedwebform(@webusersid)")]
     public class AssignedCustomFormLoader : AppDataLoadRecord

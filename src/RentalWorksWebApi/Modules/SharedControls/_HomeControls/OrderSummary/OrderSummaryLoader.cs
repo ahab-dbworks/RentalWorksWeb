@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using WebApi.Data;
 using WebLibrary;
 
-namespace WebApi.Modules.Home.OrderSummary
+namespace WebApi.Modules.HomeControls.OrderSummary
 {
     public class OrderSummaryLoader : AppDataLoadRecord
     {

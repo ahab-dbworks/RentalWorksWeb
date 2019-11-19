@@ -17,15 +17,15 @@ namespace WebApi.Modules.Settings.PoSettings.PoApprover
         //------------------------------------------------------------------------------------ 
         // POST api/v1/poapprover/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"QhSyIviB2Xmn")]
+        [FwControllerMethod(Id:"QhSyIviB2Xmn", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"5PV59EQmvAf0")]
+        [FwControllerMethod(Id:"5PV59EQmvAf0", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -33,7 +33,7 @@ namespace WebApi.Modules.Settings.PoSettings.PoApprover
         //------------------------------------------------------------------------------------ 
         // GET api/v1/poapprover 
         [HttpGet]
-        [FwControllerMethod(Id:"1K60SzR2NbEx")]
+        [FwControllerMethod(Id:"1K60SzR2NbEx", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<PoApproverLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<PoApproverLogic>(pageno, pagesize, sort);
@@ -41,7 +41,7 @@ namespace WebApi.Modules.Settings.PoSettings.PoApprover
         //------------------------------------------------------------------------------------ 
         // GET api/v1/poapprover/A0000001 
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"F24bmvivCYf4")]
+        [FwControllerMethod(Id:"F24bmvivCYf4", ActionType: FwControllerActionTypes.View)]
         public async Task<ActionResult<PoApproverLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<PoApproverLogic>(id);
@@ -49,15 +49,23 @@ namespace WebApi.Modules.Settings.PoSettings.PoApprover
         //------------------------------------------------------------------------------------ 
         // POST api/v1/poapprover 
         [HttpPost]
-        [FwControllerMethod(Id:"NQQ7hDodlcRn")]
-        public async Task<ActionResult<PoApproverLogic>> PostAsync([FromBody]PoApproverLogic l)
+        [FwControllerMethod(Id:"NQQ7hDodlcRn", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<PoApproverLogic>> NewAsync([FromBody]PoApproverLogic l)
         {
-            return await DoPostAsync<PoApproverLogic>(l);
+            return await DoNewAsync<PoApproverLogic>(l);
+        }
+        //------------------------------------------------------------------------------------ 
+        // PUT api/v1/poapprover/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "72mM4GqknwNXq", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<PoApproverLogic>> EditAsync([FromRoute] string id, [FromBody]PoApproverLogic l)
+        {
+            return await DoEditAsync<PoApproverLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
         // DELETE api/v1/poapprover/A0000001 
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id:"AoMJdHYdcTVw")]
+        [FwControllerMethod(Id:"AoMJdHYdcTVw", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<PoApproverLogic>(id);

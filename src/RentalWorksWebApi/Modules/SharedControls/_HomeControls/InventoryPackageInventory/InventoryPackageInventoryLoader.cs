@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Home.InventoryPackageInventory
+namespace WebApi.Modules.HomeControls.InventoryPackageInventory
 {
     [FwSqlTable("dbo.funcpackageitem(@packageid, @warehouseid)")]
     public class InventoryPackageInventoryLoader : AppDataLoadRecord

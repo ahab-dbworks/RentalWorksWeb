@@ -1,6 +1,6 @@
 using WebApi.Logic;
 using FwStandard.AppManager;
-namespace WebApi.Modules.Home.InvoiceRevenue
+namespace WebApi.Modules.HomeControls.InvoiceRevenue
 {
     [FwLogic(Id: "TMlD2dhrkO20")]
     public class InvoiceRevenueLogic : AppBusinessLogic

@@ -19,15 +19,15 @@ namespace WebApi.Modules.Settings.FacilitySettings.FacilityScheduleStatus
         //------------------------------------------------------------------------------------
         // POST api/v1/facilityschedulestatus/browse
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"ssoioXCBXvv")]
+        [FwControllerMethod(Id:"ssoioXCBXvv", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"8diYlVvoxMJ")]
+        [FwControllerMethod(Id:"8diYlVvoxMJ", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -35,7 +35,7 @@ namespace WebApi.Modules.Settings.FacilitySettings.FacilityScheduleStatus
         //------------------------------------------------------------------------------------
         // GET api/v1/facilityschedulestatus
         [HttpGet]
-        [FwControllerMethod(Id:"FeVOPc3rVWl")]
+        [FwControllerMethod(Id:"FeVOPc3rVWl", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<FacilityScheduleStatusLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<FacilityScheduleStatusLogic>(pageno, pagesize, sort);
@@ -43,7 +43,7 @@ namespace WebApi.Modules.Settings.FacilitySettings.FacilityScheduleStatus
         //------------------------------------------------------------------------------------
         // GET api/v1/facilityschedulestatus/A0000001
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"4hMPg1cyEfR")]
+        [FwControllerMethod(Id:"4hMPg1cyEfR", ActionType: FwControllerActionTypes.View)]
         public async Task<ActionResult<FacilityScheduleStatusLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<FacilityScheduleStatusLogic>(id);
@@ -51,15 +51,23 @@ namespace WebApi.Modules.Settings.FacilitySettings.FacilityScheduleStatus
         //------------------------------------------------------------------------------------
         // POST api/v1/facilityschedulestatus
         [HttpPost]
-        [FwControllerMethod(Id:"aSfogjb33RJ")]
-        public async Task<ActionResult<FacilityScheduleStatusLogic>> PostAsync([FromBody]FacilityScheduleStatusLogic l)
+        [FwControllerMethod(Id:"aSfogjb33RJ", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<FacilityScheduleStatusLogic>> NewAsync([FromBody]FacilityScheduleStatusLogic l)
         {
-            return await DoPostAsync<FacilityScheduleStatusLogic>(l);
+            return await DoNewAsync<FacilityScheduleStatusLogic>(l);
+        }
+        //------------------------------------------------------------------------------------
+        // PUT api/v1/facilityschedulestatu/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "R0GYoXTlx6PmH", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<FacilityScheduleStatusLogic>> EditAsync([FromRoute] string id, [FromBody]FacilityScheduleStatusLogic l)
+        {
+            return await DoEditAsync<FacilityScheduleStatusLogic>(l);
         }
         //------------------------------------------------------------------------------------
         // DELETE api/v1/facilityschedulestatus/A0000001
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id:"kIqN9KW23ul")]
+        [FwControllerMethod(Id:"kIqN9KW23ul", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<FacilityScheduleStatusLogic>(id);

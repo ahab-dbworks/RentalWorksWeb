@@ -17,15 +17,15 @@ namespace WebApi.Modules.Settings.PresentationSettings.PresentationLayer
         //------------------------------------------------------------------------------------ 
         // POST api/v1/presentationlayer/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"XFSWBHZMLvK7I")]
+        [FwControllerMethod(Id:"XFSWBHZMLvK7I", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"Yx9RVf2qzpyVy")]
+        [FwControllerMethod(Id:"Yx9RVf2qzpyVy", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -33,7 +33,7 @@ namespace WebApi.Modules.Settings.PresentationSettings.PresentationLayer
         //------------------------------------------------------------------------------------ 
         // GET api/v1/presentationlayer 
         [HttpGet]
-        [FwControllerMethod(Id:"045SaetGaOLor")]
+        [FwControllerMethod(Id:"045SaetGaOLor", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<PresentationLayerLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<PresentationLayerLogic>(pageno, pagesize, sort);
@@ -41,7 +41,7 @@ namespace WebApi.Modules.Settings.PresentationSettings.PresentationLayer
         //------------------------------------------------------------------------------------ 
         // GET api/v1/presentationlayer/A0000001 
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"sXJKrdKGwAqIQ")]
+        [FwControllerMethod(Id:"sXJKrdKGwAqIQ", ActionType: FwControllerActionTypes.View)]
         public async Task<ActionResult<PresentationLayerLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<PresentationLayerLogic>(id);
@@ -49,15 +49,23 @@ namespace WebApi.Modules.Settings.PresentationSettings.PresentationLayer
         //------------------------------------------------------------------------------------ 
         // POST api/v1/presentationlayer 
         [HttpPost]
-        [FwControllerMethod(Id:"1jJxBZFURTBdL")]
-        public async Task<ActionResult<PresentationLayerLogic>> PostAsync([FromBody]PresentationLayerLogic l)
+        [FwControllerMethod(Id:"1jJxBZFURTBdL", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<PresentationLayerLogic>> NewAsync([FromBody]PresentationLayerLogic l)
         {
-            return await DoPostAsync<PresentationLayerLogic>(l);
+            return await DoNewAsync<PresentationLayerLogic>(l);
+        }
+        //------------------------------------------------------------------------------------ 
+        // PUT api/v1/presentationlayer/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "DjQsDmgvqDPas", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<PresentationLayerLogic>> EditAsync([FromRoute] string id, [FromBody]PresentationLayerLogic l)
+        {
+            return await DoEditAsync<PresentationLayerLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
         // DELETE api/v1/presentationlayer/A0000001 
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id:"FjecJyzrBwk1i")]
+        [FwControllerMethod(Id:"FjecJyzrBwk1i", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<PresentationLayerLogic>(id);

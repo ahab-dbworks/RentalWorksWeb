@@ -1,6 +1,6 @@
 using WebApi.Logic;
 using FwStandard.AppManager;
-namespace WebApi.Modules.Home.InvoiceStatusHistory
+namespace WebApi.Modules.HomeControls.InvoiceStatusHistory
 {
     [FwLogic(Id: "34PFkXHRufp2k")]
     public class InvoiceStatusHistoryLogic : AppBusinessLogic

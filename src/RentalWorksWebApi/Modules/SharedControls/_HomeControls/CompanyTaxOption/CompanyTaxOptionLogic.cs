@@ -1,7 +1,7 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Home.CompanyTaxOption
+namespace WebApi.Modules.HomeControls.CompanyTaxOption
 {
     [FwLogic(Id:"xRpX57VC8ejQ")]
     public class CompanyTaxOptionLogic : AppBusinessLogic

@@ -4,7 +4,7 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data; 
 using System.Collections.Generic;
-namespace WebApi.Modules.Home.DealShipper
+namespace WebApi.Modules.HomeControls.DealShipper
 {
     [FwSqlTable("dealshipperview")]
     public class DealShipperLoader : AppDataLoadRecord

@@ -20,15 +20,15 @@ namespace WebApi.Modules.Containers.Container
         //------------------------------------------------------------------------------------ 
         // POST api/v1/container/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id: "56QKEdqPBEc68")]
+        [FwControllerMethod(Id: "56QKEdqPBEc68", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/container/exportexcelxlsx
+        // POST api/v1/container/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id: "J4Ikgxw4b5gsl")]
+        [FwControllerMethod(Id: "J4Ikgxw4b5gsl", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -36,7 +36,7 @@ namespace WebApi.Modules.Containers.Container
         //------------------------------------------------------------------------------------     
         // GET api/v1/container 
         [HttpGet]
-        [FwControllerMethod(Id: "QjmyRCx5ZFM8w")]
+        [FwControllerMethod(Id: "QjmyRCx5ZFM8w", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<ContainerLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<ContainerLogic>(pageno, pagesize, sort);
@@ -44,7 +44,7 @@ namespace WebApi.Modules.Containers.Container
         //------------------------------------------------------------------------------------ 
         // GET api/v1/container/A0000001 
         [HttpGet("{id}")]
-        [FwControllerMethod(Id: "eCUUnp7FR3x0c")]
+        [FwControllerMethod(Id: "eCUUnp7FR3x0c", ActionType: FwControllerActionTypes.View)]
         public async Task<ActionResult<ContainerLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<ContainerLogic>(id);
@@ -52,7 +52,7 @@ namespace WebApi.Modules.Containers.Container
         //------------------------------------------------------------------------------------ 
         //// POST api/v1/container 
         //[HttpPost]
-        //[FwControllerMethod(Id: "xxxxxxx")]
+        //[FwControllerMethod(Id: "xxxxxxx", ActionType: FwControllerActionTypes.Edit)]
         //public async Task<ActionResult<ContainerLogic>> PostAsync([FromBody]ContainerLogic l)
         //{
         //    return await DoPostAsync<ContainerLogic>(l);
@@ -60,7 +60,7 @@ namespace WebApi.Modules.Containers.Container
         ////------------------------------------------------------------------------------------ 
         //// DELETE api/v1/container/A0000001 
         //[HttpDelete("{id}")]
-        //[FwControllerMethod(Id: "xxxxxxxxxxx")]
+        //[FwControllerMethod(Id: "xxxxxxxxxxx", ActionType: FwControllerActionTypes.Delete)]
         //public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         //{
         //    return await <ContainerLogic>DoDeleteAsync(id);

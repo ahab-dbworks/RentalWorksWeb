@@ -6,7 +6,7 @@ using Microsoft.Extensions.Options;
 using System.Threading.Tasks;
 using WebApi.Controllers;
 
-namespace WebApi.Modules.Home.StageHoldingItem
+namespace WebApi.Modules.HomeControls.StageHoldingItem
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
@@ -17,15 +17,15 @@ namespace WebApi.Modules.Home.StageHoldingItem
         //------------------------------------------------------------------------------------ 
         // POST api/v1/stageholdingitem/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id: "Tg1JfTktaINAN")]
+        [FwControllerMethod(Id: "Tg1JfTktaINAN", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/stageholdingitem/exportexcelxlsx
+        // POST api/v1/stageholdingitem/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id: "CBxkT6tcJWbKX")]
+        [FwControllerMethod(Id: "CBxkT6tcJWbKX", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -33,7 +33,7 @@ namespace WebApi.Modules.Home.StageHoldingItem
         //------------------------------------------------------------------------------------ 
         //// POST api/v1/stageholdingitem/selectall
         //[HttpPost("selectall")]
-        //[FwControllerMethod(Id:"khDDULtg1hwsQ")]
+        //[FwControllerMethod(Id:"lsOufDQo0Mew", ActionType: FwControllerActionTypes.Option)]
         //public async Task<ActionResult<SelectAllNoneStageHoldingItemResponse>> SelectAll([FromBody] SelectAllNoneStageHoldingItemRequest request)
         //{
         //    if (!ModelState.IsValid)
@@ -58,7 +58,7 @@ namespace WebApi.Modules.Home.StageHoldingItem
 
         //// POST api/v1/stageholdingitem/selectnone
         //[HttpPost("selectnone")]
-        //[FwControllerMethod(Id:"khDDULtg1hwsQ")]
+        //[FwControllerMethod(Id:"0nqu4VvVBAxY", ActionType: FwControllerActionTypes.Option)]
         //public async Task<ActionResult<SelectAllNoneStageHoldingItemResponse>> SelectNone([FromBody] SelectAllNoneStageHoldingItemRequest request)
         //{
         //    if (!ModelState.IsValid)

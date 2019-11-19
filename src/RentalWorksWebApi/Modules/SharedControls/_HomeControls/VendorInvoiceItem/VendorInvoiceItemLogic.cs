@@ -5,7 +5,7 @@ using System;
 using WebApi.Logic;
 using WebLibrary;
 
-namespace WebApi.Modules.Home.VendorInvoiceItem
+namespace WebApi.Modules.HomeControls.VendorInvoiceItem
 {
     [FwLogic(Id: "6LEAX0jUecG")]
     public class VendorInvoiceItemLogic : AppBusinessLogic

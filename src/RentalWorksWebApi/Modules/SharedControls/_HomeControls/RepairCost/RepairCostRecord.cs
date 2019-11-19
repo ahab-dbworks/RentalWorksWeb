@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-namespace WebApi.Modules.Home.RepairCost
+namespace WebApi.Modules.HomeControls.RepairCost
 {
     [FwSqlTable("repaircost")]
     public class RepairCostRecord : AppDataReadWriteRecord

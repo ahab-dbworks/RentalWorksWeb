@@ -3,7 +3,7 @@ using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-namespace WebApi.Modules.Home.GlManual
+namespace WebApi.Modules.HomeControls.GlManual
 {
     [FwSqlTable("glmanualview")]
     public class GlManualLoader : AppDataLoadRecord

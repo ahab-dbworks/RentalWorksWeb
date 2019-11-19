@@ -4,7 +4,7 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data; 
 using System.Collections.Generic;
-namespace WebApi.Modules.Home.InventoryCompleteKit
+namespace WebApi.Modules.HomeControls.InventoryCompleteKit
 {
     [FwSqlTable("mastercompletekitview")]
     public class InventoryCompleteKitLoader : AppDataLoadRecord

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using FwStandard.SqlServer;
 using System.Collections.Generic;
 using FwStandard.AppManager;
-namespace WebApi.Modules.Home.InvoiceStatusHistory
+namespace WebApi.Modules.HomeControls.InvoiceStatusHistory
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
@@ -17,15 +17,15 @@ namespace WebApi.Modules.Home.InvoiceStatusHistory
         //------------------------------------------------------------------------------------ 
         // POST api/v1/invoicestatushistory/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id: "ad7aGrlghjl5V")]
+        [FwControllerMethod(Id: "ad7aGrlghjl5V", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/invoicestatushistory/exportexcelxlsx
+        // POST api/v1/invoicestatushistory/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id: "79s0dJOdoaxR8")]
+        [FwControllerMethod(Id: "79s0dJOdoaxR8", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);

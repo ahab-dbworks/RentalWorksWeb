@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Data;
 using System.Reflection;
 
-namespace WebApi.Modules.Home.StageHoldingItem
+namespace WebApi.Modules.HomeControls.StageHoldingItem
 {
     public class StageHoldingItemLoader : AppDataLoadRecord
     {

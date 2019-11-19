@@ -1,8 +1,8 @@
 using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
 using WebApi.Logic;
-using WebApi.Modules.Home.Master;
-using WebApi.Modules.Home.Inventory;
+using WebApi.Modules.HomeControls.Master;
+using WebApi.Modules.HomeControls.Inventory;
 using WebApi.Modules.Settings.Rate;
 using WebLibrary;
 

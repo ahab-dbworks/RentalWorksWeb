@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic;
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data;
-namespace WebApi.Modules.Home.PickListItem
+namespace WebApi.Modules.HomeControls.PickListItem
 {
     [FwSqlTable("picklistitem")]
     public class PickListItemRecord : AppDataReadWriteRecord

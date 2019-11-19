@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using WebLibrary;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Home.OrderStatusSummary
+namespace WebApi.Modules.HomeControls.OrderStatusSummary
 {
     [FwSqlTable("dbo.getorderstatussummary(@orderid)")]
     public class OrderStatusSummaryLoader : AppDataLoadRecord

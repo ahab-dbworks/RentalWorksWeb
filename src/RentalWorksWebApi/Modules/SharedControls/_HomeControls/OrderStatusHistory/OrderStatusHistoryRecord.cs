@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic;
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data;
-namespace WebApi.Modules.Home.OrderStatusHistory
+namespace WebApi.Modules.HomeControls.OrderStatusHistory
 {
     [FwSqlTable("orderstatushistory")]
     public class OrderStatusHistoryRecord : AppDataReadWriteRecord

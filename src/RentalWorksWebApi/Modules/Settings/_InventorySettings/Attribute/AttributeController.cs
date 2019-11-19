@@ -18,15 +18,15 @@ namespace WebApi.Modules.Settings.InventorySettings.Attribute
         //------------------------------------------------------------------------------------
         // POST api/v1/attribute/browse
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"kA5a5jT22bQ")]
+        [FwControllerMethod(Id:"kA5a5jT22bQ", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"LBl422r7YkR")]
+        [FwControllerMethod(Id:"LBl422r7YkR", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -34,7 +34,7 @@ namespace WebApi.Modules.Settings.InventorySettings.Attribute
         //------------------------------------------------------------------------------------
         // GET api/v1/attribute
         [HttpGet]
-        [FwControllerMethod(Id:"Xm8esz2YyCa")]
+        [FwControllerMethod(Id:"Xm8esz2YyCa", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<AttributeLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<AttributeLogic>(pageno, pagesize, sort);
@@ -42,7 +42,7 @@ namespace WebApi.Modules.Settings.InventorySettings.Attribute
         //------------------------------------------------------------------------------------
         // GET api/v1/attribute/A0000001
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"Tmxx6Pgg5UK")]
+        [FwControllerMethod(Id:"Tmxx6Pgg5UK", ActionType: FwControllerActionTypes.View)]
         public async Task<ActionResult<AttributeLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<AttributeLogic>(id);
@@ -50,15 +50,23 @@ namespace WebApi.Modules.Settings.InventorySettings.Attribute
         //------------------------------------------------------------------------------------
         // POST api/v1/attribute
         [HttpPost]
-        [FwControllerMethod(Id:"4TmA2YCRAah")]
-        public async Task<ActionResult<AttributeLogic>> PostAsync([FromBody]AttributeLogic l)
+        [FwControllerMethod(Id:"4TmA2YCRAah", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<AttributeLogic>> NewAsync([FromBody]AttributeLogic l)
         {
-            return await DoPostAsync<AttributeLogic>(l);
+            return await DoNewAsync<AttributeLogic>(l);
+        }
+        //------------------------------------------------------------------------------------
+        // PUT api/v1/attribut/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "ip9WYDScZ6sXG", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<AttributeLogic>> EditAsync([FromRoute] string id, [FromBody]AttributeLogic l)
+        {
+            return await DoEditAsync<AttributeLogic>(l);
         }
         //------------------------------------------------------------------------------------
         // DELETE api/v1/attribute/A0000001
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id:"1pSGoEbLpZ3")]
+        [FwControllerMethod(Id:"1pSGoEbLpZ3", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<AttributeLogic>(id);

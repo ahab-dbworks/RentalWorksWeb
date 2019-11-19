@@ -7,7 +7,7 @@ using FwStandard.SqlServer;
 using System.Collections.Generic;
 using FwStandard.AppManager;
 
-namespace WebApi.Modules.Home.ReceiptCredit
+namespace WebApi.Modules.HomeControls.ReceiptCredit
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
@@ -24,7 +24,7 @@ namespace WebApi.Modules.Home.ReceiptCredit
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/receiptcredit/exportexcelxlsx
+        // POST api/v1/receiptcredit/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
         [FwControllerMethod(Id: "xVJRTR3frhJfJ")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)

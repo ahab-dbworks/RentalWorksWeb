@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using WebApi.Data;
 using WebLibrary;
 
-namespace WebApi.Modules.Home.Manifest
+namespace WebApi.Modules.HomeControls.Manifest
 {
     [FwSqlTable("manifestwebview")]
     public class ManifestLoader : AppDataLoadRecord

@@ -1,6 +1,6 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
-namespace WebApi.Modules.Home.LossAndDamageItem
+namespace WebApi.Modules.HomeControls.LossAndDamageItem
 {
     [FwLogic(Id:"JRRae5RkdESl")]
     public class LossAndDamageItemLogic : AppBusinessLogic

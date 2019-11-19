@@ -2,7 +2,7 @@
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 
-namespace WebApi.Modules.Home.CompanyTaxResale
+namespace WebApi.Modules.HomeControls.CompanyTaxResale
 {
     [FwSqlTable("dealtaxresale")]
     public class CompanyTaxResaleRecord : AppDataReadWriteRecord

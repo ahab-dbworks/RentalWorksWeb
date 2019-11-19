@@ -2,7 +2,7 @@ using FwStandard.AppManager;
 using Newtonsoft.Json;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Home.GeneralItem
+namespace WebApi.Modules.HomeControls.GeneralItem
 {
     [FwLogic(Id:"RjtQOZGRynn4")]
     public class GeneralItemLogic : AppBusinessLogic

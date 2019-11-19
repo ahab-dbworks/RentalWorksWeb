@@ -4,7 +4,7 @@ using FwStandard.Models;
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data;
-namespace WebApi.Modules.Administrator.DuplicateRuleField
+namespace WebApi.Modules.AdministratorControls.DuplicateRuleField
 {
     [FwSqlTable("duplicaterulefield")]
     public class DuplicateRuleFieldRecord : AppDataReadWriteRecord

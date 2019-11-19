@@ -19,7 +19,7 @@ namespace WebApi.Modules.Utilities.QuikActivity
         //------------------------------------------------------------------------------------ 
         // POST api/v1/quikactivity/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id: "U48xqYD5BCIsF")]
+        [FwControllerMethod(Id: "U48xqYD5BCIsF", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
@@ -27,7 +27,7 @@ namespace WebApi.Modules.Utilities.QuikActivity
         //------------------------------------------------------------------------------------ 
         // GET api/v1/quikactivity/calendardata 
         [HttpGet("calendardata")]
-        [FwControllerMethod(Id: "RhaSuoafWaVn0")]
+        [FwControllerMethod(Id: "RhaSuoafWaVn0", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<TQuikActivityCalendarResponse>> GetCalendarDataAsync(string WarehouseId, DateTime FromDate, DateTime ToDate, bool IncludeTimes, string ActivityType)
         {
             if (!ModelState.IsValid)

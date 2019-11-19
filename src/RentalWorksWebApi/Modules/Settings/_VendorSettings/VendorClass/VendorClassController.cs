@@ -18,15 +18,15 @@ namespace WebApi.Modules.Settings.VendorSettings.VendorClass
         //------------------------------------------------------------------------------------
         // POST api/v1/vendorclass/browse
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"XN29mz8bvy7rn")]
+        [FwControllerMethod(Id:"XN29mz8bvy7rn", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"f3c9aEevD6QKs")]
+        [FwControllerMethod(Id:"f3c9aEevD6QKs", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -34,7 +34,7 @@ namespace WebApi.Modules.Settings.VendorSettings.VendorClass
         //------------------------------------------------------------------------------------
         // GET api/v1/vendorclass
         [HttpGet]
-        [FwControllerMethod(Id:"B35mATR0Upp43")]
+        [FwControllerMethod(Id:"B35mATR0Upp43", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<VendorClassLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<VendorClassLogic>(pageno, pagesize, sort);
@@ -42,7 +42,7 @@ namespace WebApi.Modules.Settings.VendorSettings.VendorClass
         //------------------------------------------------------------------------------------
         // GET api/v1/vendorclass/A0000001
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"M82PBPwcsOJsZ")]
+        [FwControllerMethod(Id:"M82PBPwcsOJsZ", ActionType: FwControllerActionTypes.View)]
         public async Task<ActionResult<VendorClassLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<VendorClassLogic>(id);
@@ -50,15 +50,23 @@ namespace WebApi.Modules.Settings.VendorSettings.VendorClass
         //------------------------------------------------------------------------------------
         // POST api/v1/vendorclass
         [HttpPost]
-        [FwControllerMethod(Id:"bw6ImG4S2HDaa")]
-        public async Task<ActionResult<VendorClassLogic>> PostAsync([FromBody]VendorClassLogic l)
+        [FwControllerMethod(Id:"bw6ImG4S2HDaa", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<VendorClassLogic>> NewAsync([FromBody]VendorClassLogic l)
         {
-            return await DoPostAsync<VendorClassLogic>(l);
+            return await DoNewAsync<VendorClassLogic>(l);
+        }
+        //------------------------------------------------------------------------------------
+        // PUT api/v1/vendorclas/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "YLhX6L6hEETrF", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<VendorClassLogic>> EditAsync([FromRoute] string id, [FromBody]VendorClassLogic l)
+        {
+            return await DoEditAsync<VendorClassLogic>(l);
         }
         //------------------------------------------------------------------------------------
         // DELETE api/v1/vendorclass/A0000001
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id:"FoaTCvXdjlTAy")]
+        [FwControllerMethod(Id:"FoaTCvXdjlTAy", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<VendorClassLogic>(id);

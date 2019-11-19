@@ -4,7 +4,7 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data; 
 using System.Collections.Generic;
-namespace WebApi.Modules.Home.InventoryPrep
+namespace WebApi.Modules.HomeControls.InventoryPrep
 {
     [FwSqlTable("masterprepview")]
     public class InventoryPrepLoader : AppDataLoadRecord

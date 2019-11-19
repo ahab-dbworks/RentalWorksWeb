@@ -6,7 +6,7 @@ using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 using System.Collections.Generic;
 
-namespace WebApi.Modules.Home.VendorNote
+namespace WebApi.Modules.HomeControls.VendorNote
 {
     [FwSqlTable("vendnoteview")]
     public class VendorNoteLoader : AppDataReadWriteRecord

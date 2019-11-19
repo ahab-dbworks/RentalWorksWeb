@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-namespace WebApi.Modules.Home.Delivery
+namespace WebApi.Modules.HomeControls.Delivery
 {
     [FwSqlTable("delivery")]
     public class DeliveryRecord : AppDataReadWriteRecord

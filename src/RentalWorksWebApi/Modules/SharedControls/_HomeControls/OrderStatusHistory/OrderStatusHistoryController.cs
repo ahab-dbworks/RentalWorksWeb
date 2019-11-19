@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options; 
 using WebApi.Controllers; 
 using System.Threading.Tasks;
-namespace WebApi.Modules.Home.OrderStatusHistory
+namespace WebApi.Modules.HomeControls.OrderStatusHistory
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
@@ -17,15 +17,15 @@ namespace WebApi.Modules.Home.OrderStatusHistory
         //------------------------------------------------------------------------------------ 
         // POST api/v1/orderstatushistory/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"WVYLSaXhPl5z")]
+        [FwControllerMethod(Id:"WVYLSaXhPl5z", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"mHFfQsSaG4U3")]
+        [FwControllerMethod(Id:"mHFfQsSaG4U3", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -33,7 +33,7 @@ namespace WebApi.Modules.Home.OrderStatusHistory
         //------------------------------------------------------------------------------------ 
         // GET api/v1/orderstatushistory 
         [HttpGet]
-        [FwControllerMethod(Id:"ycPmB90d63wb")]
+        [FwControllerMethod(Id:"ycPmB90d63wb", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<OrderStatusHistoryLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<OrderStatusHistoryLogic>(pageno, pagesize, sort);
@@ -41,7 +41,7 @@ namespace WebApi.Modules.Home.OrderStatusHistory
         //------------------------------------------------------------------------------------ 
         // GET api/v1/orderstatushistory/A0000001 
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"g38Jc77WwV86")]
+        [FwControllerMethod(Id:"g38Jc77WwV86", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<OrderStatusHistoryLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<OrderStatusHistoryLogic>(id);

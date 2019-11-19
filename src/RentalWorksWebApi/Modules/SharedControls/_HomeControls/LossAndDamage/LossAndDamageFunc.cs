@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using WebApi.Logic;
 using WebLibrary;
 
-namespace WebApi.Modules.Home.LossAndDamage
+namespace WebApi.Modules.HomeControls.LossAndDamage
 {
 
 

@@ -7,10 +7,9 @@ using System.Data;
 using System.Threading.Tasks;
 using WebApi.Data;
 using WebApi.Logic;
-using WebApi.Modules.Home.InventoryPackageInventory;
-using WebLibrary;
+using WebApi.Modules.HomeControls.InventoryPackageInventory;
 
-namespace WebApi.Modules.Home.InventorySearch
+namespace WebApi.Modules.HomeControls.InventorySearch
 {
     [FwSqlTable("tmpsearchsession")]
     public class InventorySearchRecord : AppDataReadWriteRecord

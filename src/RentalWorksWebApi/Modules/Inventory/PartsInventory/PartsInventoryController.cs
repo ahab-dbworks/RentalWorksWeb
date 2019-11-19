@@ -19,7 +19,7 @@ namespace WebApi.Modules.Inventory.PartsInventory
         //------------------------------------------------------------------------------------ 
         // POST api/v1/partsinventory/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"0m6oe9mXIrXk")]
+        [FwControllerMethod(Id:"0m6oe9mXIrXk", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
@@ -27,7 +27,7 @@ namespace WebApi.Modules.Inventory.PartsInventory
         //------------------------------------------------------------------------------------ 
         // GET api/v1/partsinventory/legend 
         [HttpGet("legend")]
-        [FwControllerMethod(Id: "WXNUa4yQceOUW")]
+        [FwControllerMethod(Id: "WXNUa4yQceOUW", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<Dictionary<string, string>>> GetLegend()
         {
             Dictionary<string, string> legend = new Dictionary<string, string>();
@@ -42,7 +42,7 @@ namespace WebApi.Modules.Inventory.PartsInventory
         //------------------------------------------------------------------------------------ 
         // GET api/v1/partsinventory/availabilitylegend 
         [HttpGet("availabilitylegend")]
-        [FwControllerMethod(Id: "fVRcYkvYvzFNs")]
+        [FwControllerMethod(Id: "X3UGavanh3YP", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<Dictionary<string, string>>> GetAvailabilityLegend()
         {
             Dictionary<string, string> legend = new Dictionary<string, string>();
@@ -56,9 +56,9 @@ namespace WebApi.Modules.Inventory.PartsInventory
             return new OkObjectResult(legend);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"bE9Fkk0FGmdv")]
+        [FwControllerMethod(Id:"bE9Fkk0FGmdv", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -66,7 +66,7 @@ namespace WebApi.Modules.Inventory.PartsInventory
         //------------------------------------------------------------------------------------ 
         // GET api/v1/partsinventory 
         [HttpGet]
-        [FwControllerMethod(Id:"15qS30cmG6yl")]
+        [FwControllerMethod(Id:"15qS30cmG6yl", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<PartsInventoryLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<PartsInventoryLogic>(pageno, pagesize, sort);
@@ -74,7 +74,7 @@ namespace WebApi.Modules.Inventory.PartsInventory
         //------------------------------------------------------------------------------------ 
         // GET api/v1/partsinventory/A0000001 
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"3Zv1GUBp8NDH")]
+        [FwControllerMethod(Id:"3Zv1GUBp8NDH", ActionType: FwControllerActionTypes.View)]
         public async Task<ActionResult<PartsInventoryLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<PartsInventoryLogic>(id);
@@ -82,15 +82,23 @@ namespace WebApi.Modules.Inventory.PartsInventory
         //------------------------------------------------------------------------------------ 
         // POST api/v1/partsinventory 
         [HttpPost]
-        [FwControllerMethod(Id:"gaLAUtuam2Wf")]
-        public async Task<ActionResult<PartsInventoryLogic>> PostAsync([FromBody]PartsInventoryLogic l)
+        [FwControllerMethod(Id:"gaLAUtuam2Wf", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<PartsInventoryLogic>> NewAsync([FromBody]PartsInventoryLogic l)
         {
-            return await DoPostAsync<PartsInventoryLogic>(l);
+            return await DoNewAsync<PartsInventoryLogic>(l);
+        }
+        //------------------------------------------------------------------------------------ 
+        // PUT api/v1/partsinventory/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "xg78aYq5i7Orx", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<PartsInventoryLogic>> EditAsync([FromRoute] string id, [FromBody]PartsInventoryLogic l)
+        {
+            return await DoEditAsync<PartsInventoryLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
         // DELETE api/v1/partsinventory/A0000001 
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id:"hPUVWG4l9BLE")]
+        [FwControllerMethod(Id:"hPUVWG4l9BLE", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<PartsInventoryLogic>(id);

@@ -1,6 +1,6 @@
 using WebApi.Logic;
 using FwStandard.AppManager;
-namespace WebApi.Modules.Home.InvoiceOrder
+namespace WebApi.Modules.HomeControls.InvoiceOrder
 {
     [FwLogic(Id: "ecOHiUtFuiLS")]
     public class InvoiceOrderLogic : AppBusinessLogic

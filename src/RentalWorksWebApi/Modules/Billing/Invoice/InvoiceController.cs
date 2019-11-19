@@ -21,7 +21,7 @@ namespace WebApi.Modules.Billing.Invoice
         //------------------------------------------------------------------------------------ 
         // POST api/v1/invoice/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id: "QHbwnxEN2Ud9")]
+        [FwControllerMethod(Id: "QHbwnxEN2Ud9", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
@@ -29,7 +29,7 @@ namespace WebApi.Modules.Billing.Invoice
         //------------------------------------------------------------------------------------ 
         // GET api/v1/invoice/legend 
         [HttpGet("legend")]
-        [FwControllerMethod(Id: "pBCVhSqQIGNnS")]
+        [FwControllerMethod(Id: "pBCVhSqQIGNnS", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<Dictionary<string, string>>> GetLegend()
         {
             Dictionary<string, string> legend = new Dictionary<string, string>();
@@ -47,9 +47,9 @@ namespace WebApi.Modules.Billing.Invoice
             return new OkObjectResult(legend);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/invoice/exportexcelxlsx
+        // POST api/v1/invoice/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id: "uWXaeVXku2ry")]
+        [FwControllerMethod(Id: "uWXaeVXku2ry", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -57,7 +57,7 @@ namespace WebApi.Modules.Billing.Invoice
         //------------------------------------------------------------------------------------ 
         // GET api/v1/invoice 
         [HttpGet]
-        [FwControllerMethod(Id: "IRyboGiUWku1")]
+        [FwControllerMethod(Id: "IRyboGiUWku1", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<Invoice.InvoiceLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<InvoiceLogic>(pageno, pagesize, sort);
@@ -65,7 +65,7 @@ namespace WebApi.Modules.Billing.Invoice
         //------------------------------------------------------------------------------------ 
         // GET api/v1/invoice/A0000001 
         [HttpGet("{id}")]
-        [FwControllerMethod(Id: "o6y4PTxCqILC")]
+        [FwControllerMethod(Id: "o6y4PTxCqILC", ActionType: FwControllerActionTypes.View)]
         public async Task<ActionResult<InvoiceLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<InvoiceLogic>(id);
@@ -73,15 +73,23 @@ namespace WebApi.Modules.Billing.Invoice
         //------------------------------------------------------------------------------------ 
         // POST api/v1/invoice 
         [HttpPost]
-        [FwControllerMethod(Id: "bgrJjmFPGAtE")]
-        public async Task<ActionResult<InvoiceLogic>> PostAsync([FromBody]InvoiceLogic l)
+        [FwControllerMethod(Id: "bgrJjmFPGAtE", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<InvoiceLogic>> NewAsync([FromBody]InvoiceLogic l)
         {
-            return await DoPostAsync<InvoiceLogic>(l);
+            return await DoNewAsync<InvoiceLogic>(l);
+        }
+        //------------------------------------------------------------------------------------ 
+        // PUT api/v1/invoice/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "NL5JkSb3aNAgE", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<InvoiceLogic>> EditAsync([FromRoute] string id, [FromBody]InvoiceLogic l)
+        {
+            return await DoEditAsync<InvoiceLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
         //// DELETE api/v1/invoice/A0000001 
         //[HttpDelete("{id}")]
-        //[FwControllerMethod(Id:"TPgslKxFR6")]
+        //[FwControllerMethod(Id:"TPgslKxFR6", ActionType: FwControllerActionTypes.Delete)]
         //public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         //{
         //    return await <InvoiceLogic>DoDeleteAsync(id);
@@ -89,7 +97,7 @@ namespace WebApi.Modules.Billing.Invoice
         ////------------------------------------------------------------------------------------ 
         // POST api/v1/invoice/A0000001/void
         [HttpPost("{id}/void")]
-        [FwControllerMethod(Id: "xEo3YJ6FHSYE")]
+        [FwControllerMethod(Id: "xEo3YJ6FHSYE", FwControllerActionTypes.Option, Caption: "Void")]
         public async Task<ActionResult<InvoiceLogic>> Void([FromRoute]string id)
         {
             if (!ModelState.IsValid)
@@ -127,7 +135,7 @@ namespace WebApi.Modules.Billing.Invoice
         //------------------------------------------------------------------------------------
         // POST api/v1/invoice/creditinvoice
         [HttpPost("creditinvoice")]
-        [FwControllerMethod(Id: "zs0EWzzJYFMop")]
+        [FwControllerMethod(Id: "zs0EWzzJYFMop", FwControllerActionTypes.Option, Caption: "Credit Invoice")]
         public async Task<ActionResult<CreditInvoiceReponse>> CreditInvoice([FromBody]CreditInvoiceRequest request)  
         {
             if (!ModelState.IsValid)
@@ -168,7 +176,7 @@ namespace WebApi.Modules.Billing.Invoice
         //------------------------------------------------------------------------------------     
         // POST api/v1/invoice/A0000001/approve
         [HttpPost("{id}/approve")]
-        [FwControllerMethod(Id: "1OiRex9QtrM")]
+        [FwControllerMethod(Id: "1OiRex9QtrM", FwControllerActionTypes.Option, Caption: "Approve")]
         public async Task<ActionResult<ToggleInvoiceApprovedResponse>> Approve([FromRoute]string id)
         {
             if (!ModelState.IsValid)
@@ -198,7 +206,7 @@ namespace WebApi.Modules.Billing.Invoice
         //------------------------------------------------------------------------------------     
         // POST api/v1/invoice/A0000001/unapprove
         [HttpPost("{id}/unapprove")]
-        [FwControllerMethod(Id: "cbkHowiSy8and")]
+        [FwControllerMethod(Id: "cbkHowiSy8and", ActionType: FwControllerActionTypes.Option, Caption: "Unapprove")]
         public async Task<ActionResult<ToggleInvoiceApprovedResponse>> Unapprove([FromRoute]string id)
         {
             if (!ModelState.IsValid)

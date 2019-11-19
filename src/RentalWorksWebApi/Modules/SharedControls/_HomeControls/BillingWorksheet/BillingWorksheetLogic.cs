@@ -4,7 +4,7 @@ using WebApi.Modules.Billing.Invoice;
 using WebLibrary;
 using Newtonsoft.Json;
 
-namespace WebApi.Modules.Home.BillingWorksheet
+namespace WebApi.Modules.HomeControls.BillingWorksheet
 {
     [FwLogic(Id: "2hvbkSzqL6z7x")]
     public class BillingWorksheetLogic : AppBusinessLogic

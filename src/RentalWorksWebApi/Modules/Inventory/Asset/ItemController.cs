@@ -9,7 +9,7 @@ using WebApi.Controllers;
 using WebApi.Modules.Settings.InventorySettings.InventoryStatus;
 using WebLibrary;
 
-namespace WebApi.Modules.Inventory.Item
+namespace WebApi.Modules.Inventory.Asset
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
@@ -20,7 +20,7 @@ namespace WebApi.Modules.Inventory.Item
         //------------------------------------------------------------------------------------ 
         // POST api/v1/item/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id: "8EjRJqgdgpgQ")]
+        [FwControllerMethod(Id: "8EjRJqgdgpgQ", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
@@ -28,7 +28,7 @@ namespace WebApi.Modules.Inventory.Item
         //------------------------------------------------------------------------------------ 
         // GET api/v1/item/legend 
         [HttpGet("legend")]
-        [FwControllerMethod(Id: "g02Y2myXv8pqI")]
+        [FwControllerMethod(Id: "g02Y2myXv8pqI", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<Dictionary<string, string>>> GetLegend()
         {
             InventoryStatusLogic s = new InventoryStatusLogic();
@@ -46,9 +46,9 @@ namespace WebApi.Modules.Inventory.Item
             return new OkObjectResult(legend);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id: "Y5fE4iVc3UhZ")]
+        [FwControllerMethod(Id: "Y5fE4iVc3UhZ", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -56,7 +56,7 @@ namespace WebApi.Modules.Inventory.Item
         //------------------------------------------------------------------------------------ 
         // GET api/v1/item 
         [HttpGet]
-        [FwControllerMethod(Id: "EsvBT0cfnwU2")]
+        [FwControllerMethod(Id: "EsvBT0cfnwU2", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<ItemLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<ItemLogic>(pageno, pagesize, sort);
@@ -64,7 +64,7 @@ namespace WebApi.Modules.Inventory.Item
         //------------------------------------------------------------------------------------ 
         // GET api/v1/item/A0000001 
         [HttpGet("{id}")]
-        [FwControllerMethod(Id: "zjCQVTktDrdU")]
+        [FwControllerMethod(Id: "zjCQVTktDrdU", ActionType: FwControllerActionTypes.View)]
         public async Task<ActionResult<ItemLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<ItemLogic>(id);
@@ -72,7 +72,7 @@ namespace WebApi.Modules.Inventory.Item
         //------------------------------------------------------------------------------------ 
         // GET api/v1/item/bybarcode 
         [HttpGet("bybarcode")]
-        [FwControllerMethod(Id: "HtxHyTMbNpqOM")]
+        [FwControllerMethod(Id: "HtxHyTMbNpqOM", ActionType: FwControllerActionTypes.View)]
         public async Task<ActionResult<ItemByBarCodeResponse>> GetOneByBarCodeAsync(string barCode)
         {
             return await ItemFunc.GetByBarCode(AppConfig, UserSession, barCode);
@@ -80,15 +80,23 @@ namespace WebApi.Modules.Inventory.Item
         //------------------------------------------------------------------------------------ 
         // POST api/v1/item 
         [HttpPost]
-        [FwControllerMethod(Id: "vf0mEqWKxcv3")]
-        public async Task<ActionResult<ItemLogic>> PostAsync([FromBody]ItemLogic l)
+        [FwControllerMethod(Id: "vf0mEqWKxcv3", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<ItemLogic>> NewAsync([FromBody]ItemLogic l)
         {
-            return await DoPostAsync<ItemLogic>(l);
+            return await DoNewAsync<ItemLogic>(l);
+        }
+        //------------------------------------------------------------------------------------ 
+        // PUT api/v1/item/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "9oE9AHLNsB9kS", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<ItemLogic>> EditAsync([FromRoute] string id, [FromBody]ItemLogic l)
+        {
+            return await DoEditAsync<ItemLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
         //// DELETE api/v1/item/A0000001 
         //[HttpDelete("{id}")]
-        //[FwControllerMethod(Id:"NfaaIo4GI")]
+        //[FwControllerMethod(Id:"NfaaIo4GI", ActionType: FwControllerActionTypes.Delete)]
         //public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         //{
         //    return await <ItemLogic>DoDeleteAsync(id);

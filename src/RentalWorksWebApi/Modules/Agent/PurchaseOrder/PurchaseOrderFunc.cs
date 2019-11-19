@@ -5,8 +5,8 @@ using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
 using WebApi.Logic;
-using WebApi.Modules.Home.PurchaseOrderReceiveItem;
-using WebApi.Modules.Home.PurchaseOrderReturnItem;
+using WebApi.Modules.HomeControls.PurchaseOrderReceiveItem;
+using WebApi.Modules.HomeControls.PurchaseOrderReturnItem;
 using WebLibrary;
 
 namespace WebApi.Modules.Agent.PurchaseOrder

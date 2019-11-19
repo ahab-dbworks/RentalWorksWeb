@@ -1,6 +1,6 @@
 using WebApi.Logic;
 using FwStandard.AppManager;
-namespace WebApi.Modules.Home.OrderDates
+namespace WebApi.Modules.HomeControls.OrderDates
 {
     [FwLogic(Id: "flcHNd8WETF0M")]
     public class OrderDatesLogic : AppBusinessLogic

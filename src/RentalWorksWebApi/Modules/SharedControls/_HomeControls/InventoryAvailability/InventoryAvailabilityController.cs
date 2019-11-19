@@ -6,7 +6,7 @@ using WebApi.Controllers;
 using System.Threading.Tasks;
 using System;
 
-namespace WebApi.Modules.Home.InventoryAvailability
+namespace WebApi.Modules.HomeControls.InventoryAvailability
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
@@ -114,7 +114,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
 
         // POST api/v1/inventoryavailability/conflicts
         [HttpPost("conflicts")]
-        [FwControllerMethod(Id: "tU8RitXRpyZLw")]
+        [FwControllerMethod(Id: "tU8RitXRpyZLw", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<AvailabilityConflictResponse>> GetConflictsAsync([FromBody] AvailabilityConflictRequest request)
         {
             if (!ModelState.IsValid)

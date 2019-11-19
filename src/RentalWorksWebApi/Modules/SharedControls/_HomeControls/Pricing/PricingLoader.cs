@@ -5,7 +5,7 @@ using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 using System.Collections.Generic;
 
-namespace WebApi.Modules.Home.Pricing
+namespace WebApi.Modules.HomeControls.Pricing
 {
     [FwSqlTable("dbo.funcmasterwh2(@masterid, @warehouseid, @warehouseid, @currencyid, 'T', 'F')")]  // last 2 params are @getrates and @getcounts
     public class PricingLoader : AppDataLoadRecord

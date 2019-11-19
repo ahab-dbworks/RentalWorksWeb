@@ -18,15 +18,15 @@ namespace WebApi.Modules.Settings.VehicleSettings.VehicleFuelType
         //------------------------------------------------------------------------------------
         // POST api/v1/vehiclefueltype/browse
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"reYDaNlxVaKkr")]
+        [FwControllerMethod(Id:"reYDaNlxVaKkr", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"eOnGLAVCKtqIy")]
+        [FwControllerMethod(Id:"eOnGLAVCKtqIy", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -34,7 +34,7 @@ namespace WebApi.Modules.Settings.VehicleSettings.VehicleFuelType
         //------------------------------------------------------------------------------------
         // GET api/v1/vehiclefueltype
         [HttpGet]
-        [FwControllerMethod(Id:"pVUc6jYVRjEwV")]
+        [FwControllerMethod(Id:"pVUc6jYVRjEwV", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<VehicleFuelTypeLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<VehicleFuelTypeLogic>(pageno, pagesize, sort);
@@ -42,7 +42,7 @@ namespace WebApi.Modules.Settings.VehicleSettings.VehicleFuelType
         //------------------------------------------------------------------------------------
         // GET api/v1/vehiclefueltype/A0000001
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"PMCqRBUCsGSHd")]
+        [FwControllerMethod(Id:"PMCqRBUCsGSHd", ActionType: FwControllerActionTypes.View)]
         public async Task<ActionResult<VehicleFuelTypeLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<VehicleFuelTypeLogic>(id);
@@ -50,15 +50,23 @@ namespace WebApi.Modules.Settings.VehicleSettings.VehicleFuelType
         //------------------------------------------------------------------------------------
         // POST api/v1/vehiclefueltype
         [HttpPost]
-        [FwControllerMethod(Id:"zrzSmn5iLxHWT")]
-        public async Task<ActionResult<VehicleFuelTypeLogic>> PostAsync([FromBody]VehicleFuelTypeLogic l)
+        [FwControllerMethod(Id:"zrzSmn5iLxHWT", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<VehicleFuelTypeLogic>> NewAsync([FromBody]VehicleFuelTypeLogic l)
         {
-            return await DoPostAsync<VehicleFuelTypeLogic>(l);
+            return await DoNewAsync<VehicleFuelTypeLogic>(l);
+        }
+        //------------------------------------------------------------------------------------
+        // PUT api/v1/vehiclefueltyp/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "CILgFqXlSHoSp", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<VehicleFuelTypeLogic>> EditAsync([FromRoute] string id, [FromBody]VehicleFuelTypeLogic l)
+        {
+            return await DoEditAsync<VehicleFuelTypeLogic>(l);
         }
         //------------------------------------------------------------------------------------
         // DELETE api/v1/vehiclefueltype/A0000001
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id:"YPNimINgYh0Ey")]
+        [FwControllerMethod(Id:"YPNimINgYh0Ey", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<VehicleFuelTypeLogic>(id);

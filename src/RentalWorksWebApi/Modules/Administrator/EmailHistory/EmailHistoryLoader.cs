@@ -3,7 +3,8 @@ using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-namespace WebApi.Modules.Reports.Shared.EmailHistory
+
+namespace WebApi.Modules.Administrator.EmailHistory
 {
     [FwSqlTable("emailreportwebview")]
     public class EmailHistoryLoader : AppDataLoadRecord

@@ -5,7 +5,7 @@ using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 using System.Collections.Generic;
 
-namespace WebApi.Modules.Home.DealNote
+namespace WebApi.Modules.HomeControls.DealNote
 {
     [FwSqlTable("dealnoteview")]
     public class DealNoteLoader : AppDataLoadRecord

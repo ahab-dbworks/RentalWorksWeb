@@ -2,7 +2,7 @@ using WebApi.Logic;
 using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
 
-namespace WebApi.Modules.Administrator.CustomFormUser
+namespace WebApi.Modules.AdministratorControls.CustomFormUser
 {
     [FwLogic(Id: "TmTQgoMDJ69p")]
     public class CustomFormUserLogic : AppBusinessLogic

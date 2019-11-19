@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using WebLibrary;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Home.CompanyContact
+namespace WebApi.Modules.HomeControls.CompanyContact
 {
     [FwSqlTable("compcontactview")]
     public class CompanyContactLoader : AppDataLoadRecord

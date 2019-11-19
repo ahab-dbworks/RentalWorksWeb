@@ -1,10 +1,10 @@
-﻿using FwStandard.Models;
+using FwStandard.Models;
 using FwStandard.SqlServer;
 using System.Data;
 using System.Threading.Tasks;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Home.ContainerItem
+namespace WebApi.Modules.HomeControls.ContainerItem
 {
 
     public class InstantiateContainerRequest

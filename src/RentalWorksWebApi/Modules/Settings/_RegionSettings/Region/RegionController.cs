@@ -18,15 +18,15 @@ namespace WebApi.Modules.Settings.RegionSettings.Region
         //------------------------------------------------------------------------------------
         // POST api/v1/region/browse
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"bsNvNjCV5utAV")]
+        [FwControllerMethod(Id:"bsNvNjCV5utAV", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"nsCsCZqKGUFS0")]
+        [FwControllerMethod(Id:"nsCsCZqKGUFS0", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -34,7 +34,7 @@ namespace WebApi.Modules.Settings.RegionSettings.Region
         //------------------------------------------------------------------------------------
         // GET api/v1/region
         [HttpGet]
-        [FwControllerMethod(Id:"9oK4RFbswB")]
+        [FwControllerMethod(Id:"9oK4RFbswB", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<RegionLogic>>> GetManyAsync(int pageno, int pagesize, string sort)
         {
             return await DoGetAsync<RegionLogic>(pageno, pagesize, sort);
@@ -42,23 +42,31 @@ namespace WebApi.Modules.Settings.RegionSettings.Region
         //------------------------------------------------------------------------------------
         // GET api/v1/region/A0000001
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"uBaSNthlTnXun")]
-        public async Task<ActionResult<RegionLogic>> GetAsync(string id)
+        [FwControllerMethod(Id:"uBaSNthlTnXun", ActionType: FwControllerActionTypes.View)]
+        public async Task<ActionResult<RegionLogic>> GetOneAsync(string id)
         {
             return await DoGetAsync<RegionLogic>(id);
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/region
         [HttpPost]
-        [FwControllerMethod(Id:"G2csjVAM8rYnj")]
-        public async Task<ActionResult<RegionLogic>> PostAsync([FromBody]RegionLogic l)
+        [FwControllerMethod(Id:"G2csjVAM8rYnj", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<RegionLogic>> NewAsync([FromBody]RegionLogic l)
         {
-            return await DoPostAsync<RegionLogic>(l);
+            return await DoNewAsync<RegionLogic>(l);
+        }
+        //------------------------------------------------------------------------------------
+        // PUT api/v1/regio/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "G2HackW8Bqg1M", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<RegionLogic>> EditAsync([FromRoute] string id, [FromBody]RegionLogic l)
+        {
+            return await DoEditAsync<RegionLogic>(l);
         }
         //------------------------------------------------------------------------------------
         // DELETE api/v1/region/A0000001
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id:"y6aHyItQJkPWo")]
+        [FwControllerMethod(Id:"y6aHyItQJkPWo", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync(string id)
         {
             return await DoDeleteAsync<RegionLogic>(id);

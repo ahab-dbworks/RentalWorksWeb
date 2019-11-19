@@ -19,7 +19,7 @@ namespace WebApi.Modules.Settings.BillingCycleEvent
         //------------------------------------------------------------------------------------
         // POST api/v1/billingcycleevent/browse
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"OcZEhvLDQla")]
+        [FwControllerMethod(Id:"OcZEhvLDQla", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
@@ -27,7 +27,7 @@ namespace WebApi.Modules.Settings.BillingCycleEvent
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"AO0mFJ3eJXM")]
+        [FwControllerMethod(Id:"AO0mFJ3eJXM", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -35,7 +35,7 @@ namespace WebApi.Modules.Settings.BillingCycleEvent
         //------------------------------------------------------------------------------------
         // GET api/v1/billingcycleevent
         [HttpGet]
-        [FwControllerMethod(Id:"D5GGZ83FMXTn")]
+        [FwControllerMethod(Id:"D5GGZ83FMXTn", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<BillingCycleEventLogic>>> GetManyAsync(int pageno, int pagesize, string sort)
         {
             return await DoGetAsync<BillingCycleEventLogic>(pageno, pagesize, sort);
@@ -51,15 +51,23 @@ namespace WebApi.Modules.Settings.BillingCycleEvent
         //------------------------------------------------------------------------------------
         // POST api/v1/billingcycleevent
         [HttpPost]
-        [FwControllerMethod(Id:"vwBVU8bJcGQ")]
-        public async Task<ActionResult<BillingCycleEventLogic>> PostAsync([FromBody]BillingCycleEventLogic l)
+        [FwControllerMethod(Id:"vwBVU8bJcGQ", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<BillingCycleEventLogic>> NewAsync([FromBody]BillingCycleEventLogic l)
         {
-            return await DoPostAsync<BillingCycleEventLogic>(l);
+            return await DoNewAsync<BillingCycleEventLogic>(l);
+        }
+        //------------------------------------------------------------------------------------
+        // PUT api/v1/billingcycleeven/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "UPGnOt0wuaJ39", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<BillingCycleEventLogic>> EditAsync([FromRoute] string id, [FromBody]BillingCycleEventLogic l)
+        {
+            return await DoEditAsync<BillingCycleEventLogic>(l);
         }
         //------------------------------------------------------------------------------------
         // DELETE api/v1/billingcycleevent/A0000001
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id:"vV8MCrsWZXU")]
+        [FwControllerMethod(Id:"vV8MCrsWZXU", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync(string id)
         {
             return await DoDeleteAsync<BillingCycleEventLogic>(id);

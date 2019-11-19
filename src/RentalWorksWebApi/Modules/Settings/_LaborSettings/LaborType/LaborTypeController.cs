@@ -18,15 +18,15 @@ namespace WebApi.Modules.Settings.LaborSettings.LaborType
         //------------------------------------------------------------------------------------
         // POST api/v1/labortype/browse
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"ARyrZZLK2mFk")]
+        [FwControllerMethod(Id:"ARyrZZLK2mFk", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"r1Ko65pNImpp")]
+        [FwControllerMethod(Id:"r1Ko65pNImpp", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -34,7 +34,7 @@ namespace WebApi.Modules.Settings.LaborSettings.LaborType
         //------------------------------------------------------------------------------------
         // GET api/v1/labortype
         [HttpGet]
-        [FwControllerMethod(Id:"EqIh7gTYzmoR")]
+        [FwControllerMethod(Id:"EqIh7gTYzmoR", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<LaborTypeLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<LaborTypeLogic>(pageno, pagesize, sort);
@@ -42,7 +42,7 @@ namespace WebApi.Modules.Settings.LaborSettings.LaborType
         //------------------------------------------------------------------------------------
         // GET api/v1/labortype/A0000001
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"fH68oRcUBPBw")]
+        [FwControllerMethod(Id:"fH68oRcUBPBw", ActionType: FwControllerActionTypes.View)]
         public async Task<ActionResult<LaborTypeLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<LaborTypeLogic>(id);
@@ -50,15 +50,23 @@ namespace WebApi.Modules.Settings.LaborSettings.LaborType
         //------------------------------------------------------------------------------------
         // POST api/v1/labortype
         [HttpPost]
-        [FwControllerMethod(Id:"2QI5DhBIaoGe")]
-        public async Task<ActionResult<LaborTypeLogic>> PostAsync([FromBody]LaborTypeLogic l)
+        [FwControllerMethod(Id:"2QI5DhBIaoGe", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<LaborTypeLogic>> NewAsync([FromBody]LaborTypeLogic l)
         {
-            return await DoPostAsync<LaborTypeLogic>(l);
+            return await DoNewAsync<LaborTypeLogic>(l);
+        }
+        //------------------------------------------------------------------------------------
+        // PUT api/v1/labortyp/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "HlI6vJQxuuRr9", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<LaborTypeLogic>> EditAsync([FromRoute] string id, [FromBody]LaborTypeLogic l)
+        {
+            return await DoEditAsync<LaborTypeLogic>(l);
         }
         //------------------------------------------------------------------------------------
         // DELETE api/v1/labortype/A0000001
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id:"qQGw7LTbARvg")]
+        [FwControllerMethod(Id:"qQGw7LTbARvg", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<LaborTypeLogic>(id);

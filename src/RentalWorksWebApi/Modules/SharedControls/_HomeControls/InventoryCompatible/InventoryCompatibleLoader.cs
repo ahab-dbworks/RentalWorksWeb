@@ -4,7 +4,7 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data; 
 using System.Collections.Generic;
-namespace WebApi.Modules.Home.InventoryCompatible
+namespace WebApi.Modules.HomeControls.InventoryCompatible
 {
     [FwSqlTable("mastercompatibleview")]
     public class InventoryCompatibleLoader : AppDataLoadRecord

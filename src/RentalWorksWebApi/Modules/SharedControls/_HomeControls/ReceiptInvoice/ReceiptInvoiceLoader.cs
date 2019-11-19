@@ -4,7 +4,7 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using System;
 using WebApi.Data;
-namespace WebApi.Modules.Home.ReceiptInvoice
+namespace WebApi.Modules.HomeControls.ReceiptInvoice
 {
     [FwSqlTable("dbo.funcreceiptinvoiceweb(@locationid, @arid, @ardate)")]
     public class ReceiptInvoiceLoader : AppDataLoadRecord

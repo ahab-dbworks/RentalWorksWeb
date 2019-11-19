@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using WebApi.Data;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Home.MasterItem
+namespace WebApi.Modules.HomeControls.MasterItem
 {
     [FwSqlTable("masteritem")]
     public class MasterItemRecord : AppDataReadWriteRecord

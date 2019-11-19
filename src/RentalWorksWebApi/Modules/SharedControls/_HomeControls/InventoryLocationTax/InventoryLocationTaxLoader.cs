@@ -4,9 +4,9 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data; 
 using System.Collections.Generic;
-using WebApi.Modules.Home.MasterLocation;
+using WebApi.Modules.HomeControls.MasterLocation;
 
-namespace WebApi.Modules.Home.InventoryLocationTax
+namespace WebApi.Modules.HomeControls.InventoryLocationTax
 {
     public class InventoryLocationTaxLoader : MasterLocationLoader
     {

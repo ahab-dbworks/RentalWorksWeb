@@ -3,7 +3,7 @@ using FwStandard.AppManager;
 using Newtonsoft.Json;
 using System;
 using WebApi.Logic;
-using WebApi.Modules.Home.Master;
+using WebApi.Modules.HomeControls.Master;
 using WebApi.Modules.Settings.Category;
 
 namespace WebApi.Modules.Settings.VehicleSettings.VehicleType

@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic;
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data;
-namespace WebApi.Modules.Home.ItemAttributeValue
+namespace WebApi.Modules.HomeControls.ItemAttributeValue
 {
     [FwSqlTable("itemattribute")]
     public class ItemAttributeValueRecord : AppDataReadWriteRecord

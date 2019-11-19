@@ -4,7 +4,7 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 using System.Collections.Generic;
-namespace WebApi.Modules.Home.Delivery
+namespace WebApi.Modules.HomeControls.Delivery
 {
     [FwSqlTable("deliveryview")]
     public class DeliveryLoader : AppDataLoadRecord

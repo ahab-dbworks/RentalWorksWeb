@@ -19,18 +19,18 @@ namespace WebApi.Modules.Warehouse.Contract
     public class ContractController : AppDataController
     {
         public ContractController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(ContractLogic); }
-        //------------------------------------------------------------------------------------ 
-        // POST api/v1/contract/browse 
+        //------------------------------------------------------------------------------------
+        // POST api/v1/contract/browse
         [HttpPost("browse")]
-        [FwControllerMethod(Id: "aO0JWGjjIprZ")]
+        [FwControllerMethod(Id: "aO0JWGjjIprZ", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
-        //------------------------------------------------------------------------------------ 
-        // GET api/v1/contract/legend 
+        //------------------------------------------------------------------------------------
+        // GET api/v1/contract/legend
         [HttpGet("legend")]
-        [FwControllerMethod(Id: "d3Q7wt3ufSHTb")]
+        [FwControllerMethod(Id: "d3Q7wt3ufSHTb", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<Dictionary<string, string>>> GetLegend()
         {
             Dictionary<string, string> legend = new Dictionary<string, string>();
@@ -45,52 +45,59 @@ namespace WebApi.Modules.Warehouse.Contract
             return new OkObjectResult(legend);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id: "jCKeSS8CiNxw")]
+        [FwControllerMethod(Id: "jCKeSS8CiNxw", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
         }
-        //------------------------------------------------------------------------------------ 
-        // GET api/v1/contract 
+        //------------------------------------------------------------------------------------
+        // GET api/v1/contract
         [HttpGet]
-        [FwControllerMethod(Id: "Fm14zjtMVHLz")]
+        [FwControllerMethod(Id: "Fm14zjtMVHLz", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<ContractLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<ContractLogic>(pageno, pagesize, sort);
         }
-        //------------------------------------------------------------------------------------ 
-        // GET api/v1/contract/A0000001 
+        //------------------------------------------------------------------------------------
+        // GET api/v1/contract/A0000001
         [HttpGet("{id}")]
         [ProducesResponseType(200, Type = typeof(ContractLogic))]
         [ProducesResponseType(404)]
-        [FwControllerMethod(Id: "jAXbxwqepki6")]
+        [FwControllerMethod(Id: "jAXbxwqepki6", ActionType: FwControllerActionTypes.View)]
         public async Task<ActionResult<ContractLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<ContractLogic>(id);
         }
-
-        //------------------------------------------------------------------------------------ 
-        // POST api/v1/contract 
+        //------------------------------------------------------------------------------------
+        // POST api/v1/contract
         [HttpPost]
-        [FwControllerMethod(Id: "t3psI38R6AMl")]
-        public async Task<ActionResult<ContractLogic>> PostAsync([FromBody]ContractLogic l)
+        [FwControllerMethod(Id: "t3psI38R6AMl", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<ContractLogic>> NewAsync([FromBody]ContractLogic l)
         {
-            return await DoPostAsync<ContractLogic>(l);
+            return await DoNewAsync<ContractLogic>(l);
         }
-        //------------------------------------------------------------------------------------ 
-        // DELETE api/v1/contract/A0000001 
+        //------------------------------------------------------------------------------------
+        // PUT api/v1/contract/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "USyPHaSRd2U3l", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<ContractLogic>> EditAsync([FromRoute] string id, [FromBody]ContractLogic l)
+        {
+            return await DoEditAsync<ContractLogic>(l);
+        }
+        //------------------------------------------------------------------------------------
+        // DELETE api/v1/contract/A0000001
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id: "AeKHviMBg3XP")]
+        [FwControllerMethod(Id: "AeKHviMBg3XP", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<ContractLogic>(id);
         }
-        //------------------------------------------------------------------------------------ 
-        // POST api/v1/contract/cancelcontract 
+        //------------------------------------------------------------------------------------
+        // POST api/v1/contract/cancelcontract
         [HttpPost("cancelcontract")]
-        [FwControllerMethod(Id: "S8ybdjuN7MU")]
+        [FwControllerMethod(Id: "S8ybdjuN7MU", ActionType: FwControllerActionTypes.Option, Caption: "Cancel Contract")]
         public async Task<ActionResult<TSpStatusResponse>> CancelContract([FromBody]CancelContractRequest request)
         {
             if (!ModelState.IsValid)
@@ -112,10 +119,10 @@ namespace WebApi.Modules.Warehouse.Contract
                 return GetApiExceptionResult(ex);
             }
         }
-        //------------------------------------------------------------------------------------ 
-        // POST api/v1/contract/voidcontract 
+        //------------------------------------------------------------------------------------
+        // POST api/v1/contract/voidcontract
         [HttpPost("voidcontract")]
-        [FwControllerMethod(Id: "bwrnjBpQv1P")]
+        [FwControllerMethod(Id: "bwrnjBpQv1P", ActionType: FwControllerActionTypes.Option, Caption: "Void Contract")]
         public async Task<ActionResult<TSpStatusResponse>> VoidContractAsync([FromBody]VoidContractRequest request)
         {
             await Task.CompletedTask;
@@ -139,6 +146,6 @@ namespace WebApi.Modules.Warehouse.Contract
                 return GetApiExceptionResult(ex);
             }
         }
-        //------------------------------------------------------------------------------------ 
+        //------------------------------------------------------------------------------------
     }
 }

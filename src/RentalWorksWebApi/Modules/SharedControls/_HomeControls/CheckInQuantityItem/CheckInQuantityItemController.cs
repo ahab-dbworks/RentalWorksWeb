@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using WebApi.Controllers;
 using System.Threading.Tasks;
-namespace WebApi.Modules.Home.CheckInQuantityItem
+namespace WebApi.Modules.HomeControls.CheckInQuantityItem
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
@@ -16,15 +16,15 @@ namespace WebApi.Modules.Home.CheckInQuantityItem
         //------------------------------------------------------------------------------------ 
         // POST api/v1/checkinquantityitem/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"oUH7EjZjpJvE")]
+        [FwControllerMethod(Id:"oUH7EjZjpJvE", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/checkinquantityitem/exportexcelxlsx
+        // POST api/v1/checkinquantityitem/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"jLnJRXra2nwk")]
+        [FwControllerMethod(Id:"jLnJRXra2nwk", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);

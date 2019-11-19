@@ -1,13 +1,13 @@
 using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
-using WebApi.Modules.Home.ItemDimension;
-using WebApi.Modules.Home.Master;
+using WebApi.Modules.HomeControls.ItemDimension;
+using WebApi.Modules.HomeControls.Master;
 using WebApi.Logic;
 using static FwStandard.Data.FwDataReadWriteRecord;
 using System.Threading.Tasks;
 using FwStandard.SqlServer;
 
-namespace WebApi.Modules.Home.InventorySearch
+namespace WebApi.Modules.HomeControls.InventorySearch
 {
     [FwLogic(Id:"FBvu8xJVylI4")]
     public class InventorySearchLogic : AppBusinessLogic

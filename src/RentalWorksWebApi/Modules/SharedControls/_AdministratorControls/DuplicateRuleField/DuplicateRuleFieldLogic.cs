@@ -1,6 +1,6 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
-namespace WebApi.Modules.Administrator.DuplicateRuleField
+namespace WebApi.Modules.AdministratorControls.DuplicateRuleField
 {
     [FwLogic(Id:"BIJWmVKWZDNt")]
     public class DuplicateRuleFieldLogic : AppBusinessLogic

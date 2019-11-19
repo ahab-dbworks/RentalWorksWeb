@@ -17,15 +17,15 @@ namespace WebApi.Modules.Settings.OrderItemRecType
         //------------------------------------------------------------------------------------ 
         // POST api/v1/orderitemrectype/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"3hIMxbVAAxpp")]
+        [FwControllerMethod(Id:"3hIMxbVAAxpp", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"qMrWu7P28Ahe")]
+        [FwControllerMethod(Id:"qMrWu7P28Ahe", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -33,7 +33,7 @@ namespace WebApi.Modules.Settings.OrderItemRecType
         //------------------------------------------------------------------------------------ 
         // GET api/v1/orderitemrectype 
         [HttpGet]
-        [FwControllerMethod(Id:"93ykcqogCTpB")]
+        [FwControllerMethod(Id:"93ykcqogCTpB", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<OrderItemRecTypeLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<OrderItemRecTypeLogic>(pageno, pagesize, sort);
@@ -41,7 +41,7 @@ namespace WebApi.Modules.Settings.OrderItemRecType
         //------------------------------------------------------------------------------------ 
         // GET api/v1/orderitemrectype/A0000001 
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"QhsdVA9x1Bi5")]
+        [FwControllerMethod(Id:"QhsdVA9x1Bi5", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<OrderItemRecTypeLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<OrderItemRecTypeLogic>(id);

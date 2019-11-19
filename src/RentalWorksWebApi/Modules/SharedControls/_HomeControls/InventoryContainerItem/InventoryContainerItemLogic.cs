@@ -1,9 +1,9 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
-using WebApi.Modules.Home.MasterItem;
+using WebApi.Modules.HomeControls.MasterItem;
 using WebLibrary;
 
-namespace WebApi.Modules.Home.InventoryContainerItem
+namespace WebApi.Modules.HomeControls.InventoryContainerItem
 {
     [FwLogic(Id:"rUeTflFjXQNj")]
     public class InventoryContainerItemLogic : AppBusinessLogic

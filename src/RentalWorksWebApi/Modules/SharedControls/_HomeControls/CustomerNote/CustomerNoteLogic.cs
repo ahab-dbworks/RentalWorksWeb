@@ -3,7 +3,7 @@ using FwStandard.AppManager;
 using WebApi.Logic;
 using static FwStandard.Data.FwDataReadWriteRecord;
 
-namespace WebApi.Modules.Home.CustomerNote
+namespace WebApi.Modules.HomeControls.CustomerNote
 {
     [FwLogic(Id:"VP0oled6lBD6")]
     public class CustomerNoteLogic : AppBusinessLogic

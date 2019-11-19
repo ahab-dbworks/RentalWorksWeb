@@ -2,7 +2,7 @@
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 
-namespace WebApi.Modules.Home.CompanyTaxOption
+namespace WebApi.Modules.HomeControls.CompanyTaxOption
 {
     [FwSqlTable("deallocation")]
     public class DealLocationRecord : AppDataReadWriteRecord

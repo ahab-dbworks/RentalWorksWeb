@@ -6,7 +6,7 @@ using WebApi.Data;
 using System.Collections.Generic;
 using System;
 using WebLibrary;
-namespace WebApi.Modules.Home.InvoiceCreationBatch
+namespace WebApi.Modules.HomeControls.InvoiceCreationBatch
 {
     [FwSqlTable("invoicebatchview")]
     public class InvoiceCreationBatchLoader : AppDataLoadRecord

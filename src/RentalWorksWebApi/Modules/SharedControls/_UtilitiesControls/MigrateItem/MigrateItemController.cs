@@ -5,8 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using WebApi.Controllers;
 using System.Threading.Tasks;
+using WebApi.Modules.Utilities.MigrateItem;
 
-namespace WebApi.Modules.Utilities.MigrateItem
+namespace WebApi.Modules.UtilitiesControls.MigrateItem
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "utilities-v1")]
@@ -17,15 +18,15 @@ namespace WebApi.Modules.Utilities.MigrateItem
         //------------------------------------------------------------------------------------ 
         // POST api/v1/migrateitem/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id: "Fz8JHFOgRft")]
+        [FwControllerMethod(Id: "Fz8JHFOgRft", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/migrateitem/exportexcelxlsx
+        // POST api/v1/migrateitem/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id: "lYDGBWo1fzc")]
+        [FwControllerMethod(Id: "lYDGBWo1fzc", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);

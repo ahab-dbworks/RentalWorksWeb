@@ -3,7 +3,8 @@ using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-namespace WebApi.Modules.Administrator.WidgetUser
+
+namespace WebApi.Modules.Settings.WidgetUser
 {
     [FwSqlTable("widgetwebusersview")]
     public class WidgetUserLoader : AppDataLoadRecord

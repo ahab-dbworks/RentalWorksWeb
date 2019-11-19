@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using WebApi.Logic;
 using WebLibrary;
 
-namespace WebApi.Modules.Home.SubPurchaseOrderItem
+namespace WebApi.Modules.HomeControls.SubPurchaseOrderItem
 {
     [FwSqlTable("dbo.funcsubworksheetweb(@sessionid)")]
     public class SubPurchaseOrderItemLoader : AppDataLoadRecord

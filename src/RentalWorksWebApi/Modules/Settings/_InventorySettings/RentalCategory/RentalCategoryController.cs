@@ -18,15 +18,15 @@ namespace WebApi.Modules.Settings.InventorySettings.RentalCategory
         //------------------------------------------------------------------------------------
         // POST api/v1/rentalcategory/browse
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"f8RNwGI6wXDyf")]
+        [FwControllerMethod(Id:"f8RNwGI6wXDyf", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"SFOKmae3MqpMJ")]
+        [FwControllerMethod(Id:"SFOKmae3MqpMJ", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -34,7 +34,7 @@ namespace WebApi.Modules.Settings.InventorySettings.RentalCategory
         //------------------------------------------------------------------------------------
         // GET api/v1/rentalcategory
         [HttpGet]
-        [FwControllerMethod(Id:"r8i1dPqDT8ox9")]
+        [FwControllerMethod(Id:"r8i1dPqDT8ox9", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<RentalCategoryLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<RentalCategoryLogic>(pageno, pagesize, sort);
@@ -42,7 +42,7 @@ namespace WebApi.Modules.Settings.InventorySettings.RentalCategory
         //------------------------------------------------------------------------------------
         // GET api/v1/rentalcategory/A0000001
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"anPAUbeBwi8f0")]
+        [FwControllerMethod(Id:"anPAUbeBwi8f0", ActionType: FwControllerActionTypes.View)]
         public async Task<ActionResult<RentalCategoryLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<RentalCategoryLogic>(id);
@@ -50,15 +50,23 @@ namespace WebApi.Modules.Settings.InventorySettings.RentalCategory
         //------------------------------------------------------------------------------------
         // POST api/v1/rentalcategory
         [HttpPost]
-        [FwControllerMethod(Id:"eKNlff3tW3swN")]
-        public async Task<ActionResult<RentalCategoryLogic>> PostAsync([FromBody]RentalCategoryLogic l)
+        [FwControllerMethod(Id:"eKNlff3tW3swN", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<RentalCategoryLogic>> NewAsync([FromBody]RentalCategoryLogic l)
         {
-            return await DoPostAsync<RentalCategoryLogic>(l);
+            return await DoNewAsync<RentalCategoryLogic>(l);
+        }
+        //------------------------------------------------------------------------------------
+        // PUT api/v1/rentalcategor/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "VB80rXwpHgOXn", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<RentalCategoryLogic>> EditAsync([FromRoute] string id, [FromBody]RentalCategoryLogic l)
+        {
+            return await DoEditAsync<RentalCategoryLogic>(l);
         }
         //------------------------------------------------------------------------------------
         // DELETE api/v1/rentalcategory/A0000001
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id:"FDQGC9RXy6eKi")]
+        [FwControllerMethod(Id:"FDQGC9RXy6eKi", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<RentalCategoryLogic>(id);

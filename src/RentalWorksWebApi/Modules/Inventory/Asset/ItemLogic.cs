@@ -1,10 +1,10 @@
 using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
 using WebApi.Logic;
-using WebApi.Modules.Home.Purchase;
+using WebApi.Modules.HomeControls.Purchase;
 using static FwStandard.Data.FwDataReadWriteRecord;
 
-namespace WebApi.Modules.Inventory.Item
+namespace WebApi.Modules.Inventory.Asset
 {
     [FwLogic(Id:"5A523YbmjOwd")]
     public class ItemLogic : AppBusinessLogic

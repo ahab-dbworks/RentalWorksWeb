@@ -5,7 +5,7 @@ using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 using WebLibrary;
 
-namespace WebApi.Modules.Utilities.ExportSettings
+namespace WebApi.Modules.UtilitiesControls.ExportSettings
 {
     [FwSqlTable("dataexportsetting")]
     public class ExportSettingsRecord : AppDataReadWriteRecord

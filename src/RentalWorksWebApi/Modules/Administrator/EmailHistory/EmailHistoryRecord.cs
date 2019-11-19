@@ -1,9 +1,8 @@
-using FwStandard.Data;
-using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-namespace WebApi.Modules.Reports.Shared.EmailHistory
+
+namespace WebApi.Modules.Administrator.EmailHistory
 {
     [FwSqlTable("emailreport")]
     public class EmailHistoryRecord : AppDataReadWriteRecord
@@ -44,7 +43,7 @@ namespace WebApi.Modules.Reports.Shared.EmailHistory
         //------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "pdfattachment", modeltype: FwDataTypes.Unknown___varbinary, sqltype: "varbinary")]
         //public Unknown___varbinary PdfAttachment { get; set; }
-        ////------------------------------------------------------------------------------------ 
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 

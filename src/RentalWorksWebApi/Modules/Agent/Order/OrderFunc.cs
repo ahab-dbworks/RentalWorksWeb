@@ -5,8 +5,8 @@ using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
 using WebApi.Logic;
-using WebApi.Modules.Home.OrderItem;
-using WebApi.Modules.Home.SubPurchaseOrderItem;
+using WebApi.Modules.HomeControls.OrderItem;
+using WebApi.Modules.HomeControls.SubPurchaseOrderItem;
 using WebLibrary;
 
 namespace WebApi.Modules.Agent.Order

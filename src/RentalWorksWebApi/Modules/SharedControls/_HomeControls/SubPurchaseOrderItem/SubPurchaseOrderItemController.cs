@@ -13,7 +13,7 @@ using WebApi.Controllers;
 using WebApi.Logic;
 using WebApi.Modules.Agent.Order;
 
-namespace WebApi.Modules.Home.SubPurchaseOrderItem
+namespace WebApi.Modules.HomeControls.SubPurchaseOrderItem
 {
 
 
@@ -37,15 +37,15 @@ namespace WebApi.Modules.Home.SubPurchaseOrderItem
         //------------------------------------------------------------------------------------ 
         // POST api/v1/subpurchaseorderitem/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"Tr79QWBbuTtqg")]
+        [FwControllerMethod(Id:"Tr79QWBbuTtqg", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/subpurchaseorderitem/exportexcelxlsx
+        // POST api/v1/subpurchaseorderitem/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"Vu5rkrfYymlxu")]
+        [FwControllerMethod(Id:"Vu5rkrfYymlxu", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -53,7 +53,7 @@ namespace WebApi.Modules.Home.SubPurchaseOrderItem
         //------------------------------------------------------------------------------------ 
         // GET api/v1/subpurchaseorderitem/A0000001 
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"btVJZXfQs4fyC")]
+        [FwControllerMethod(Id:"btVJZXfQs4fyC", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<SubPurchaseOrderItemLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<SubPurchaseOrderItemLogic>(id);
@@ -61,10 +61,18 @@ namespace WebApi.Modules.Home.SubPurchaseOrderItem
         //------------------------------------------------------------------------------------ 
         // POST api/v1/subpurchaseorderitem 
         [HttpPost]
-        [FwControllerMethod(Id:"9rlJdMvepp8jr")]
-        public async Task<ActionResult<SubPurchaseOrderItemLogic>> PostAsync([FromBody]SubPurchaseOrderItemLogic l)
+        [FwControllerMethod(Id:"9rlJdMvepp8jr", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<SubPurchaseOrderItemLogic>> NewAsync([FromBody]SubPurchaseOrderItemLogic l)
         {
-            return await DoPostAsync<SubPurchaseOrderItemLogic>(l);
+            return await DoNewAsync<SubPurchaseOrderItemLogic>(l);
+        }
+        //------------------------------------------------------------------------------------ 
+        // PUT api/v1/subpurchaseorderitem/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "0YnX1QJTGA4qU", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<SubPurchaseOrderItemLogic>> EditAsync([FromRoute] string id, [FromBody]SubPurchaseOrderItemLogic l)
+        {
+            return await DoEditAsync<SubPurchaseOrderItemLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/subpurchaseorderitem/many
@@ -79,7 +87,7 @@ namespace WebApi.Modules.Home.SubPurchaseOrderItem
         //------------------------------------------------------------------------------------ 
         // DELETE api/v1/subpurchaseorderitem/A0000001 
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id:"Bhu77r9vju2F3")]
+        [FwControllerMethod(Id:"Bhu77r9vju2F3", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<SubPurchaseOrderItemLogic>(id);
@@ -87,7 +95,7 @@ namespace WebApi.Modules.Home.SubPurchaseOrderItem
         //------------------------------------------------------------------------------------ 
         // POST api/v1/subpurchaseorderitem/selectall
         [HttpPost("selectall")]
-        [FwControllerMethod(Id:"RscMcG0CkiBqJ")]
+        [FwControllerMethod(Id:"H4js7q9cNOXa", ActionType: FwControllerActionTypes.Option)]
         public async Task<ActionResult<SelectAllNonePoWorksheetItemResponse>> SelectAll([FromBody] SelectAllNonePoWorksheetItemRequest request)
         {
             if (!ModelState.IsValid)
@@ -111,7 +119,7 @@ namespace WebApi.Modules.Home.SubPurchaseOrderItem
         //------------------------------------------------------------------------------------        
         // POST api/v1/subpurchaseorderitem/selectnone
         [HttpPost("selectnone")]
-        [FwControllerMethod(Id:"RscMcG0CkiBqJ")]
+        [FwControllerMethod(Id:"RscMcG0CkiBqJ", ActionType: FwControllerActionTypes.Option)]
         public async Task<ActionResult<SelectAllNonePoWorksheetItemResponse>> SelectNone([FromBody] SelectAllNonePoWorksheetItemRequest request)
         {
             if (!ModelState.IsValid)

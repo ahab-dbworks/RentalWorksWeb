@@ -18,15 +18,15 @@ namespace WebApi.Modules.Settings.GeneratorSettings.GeneratorModel
         //------------------------------------------------------------------------------------
         // POST api/v1/generatormodel/browse
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"QGgKJnrEtcJG")]
+        [FwControllerMethod(Id:"QGgKJnrEtcJG", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"wYHXIwAUg6Kn")]
+        [FwControllerMethod(Id:"wYHXIwAUg6Kn", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -34,7 +34,7 @@ namespace WebApi.Modules.Settings.GeneratorSettings.GeneratorModel
         //------------------------------------------------------------------------------------
         // GET api/v1/generatormodel
         [HttpGet]
-        [FwControllerMethod(Id:"I2tbjC68Ti24")]
+        [FwControllerMethod(Id:"I2tbjC68Ti24", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<GeneratorModelLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<GeneratorModelLogic>(pageno, pagesize, sort);
@@ -42,7 +42,7 @@ namespace WebApi.Modules.Settings.GeneratorSettings.GeneratorModel
         //------------------------------------------------------------------------------------
         // GET api/v1/generatormodel/A0000001
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"EjsE8DuxLozX")]
+        [FwControllerMethod(Id:"EjsE8DuxLozX", ActionType: FwControllerActionTypes.View)]
         public async Task<ActionResult<GeneratorModelLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<GeneratorModelLogic>(id);
@@ -50,15 +50,23 @@ namespace WebApi.Modules.Settings.GeneratorSettings.GeneratorModel
         //------------------------------------------------------------------------------------
         // POST api/v1/generatormodel
         [HttpPost]
-        [FwControllerMethod(Id:"dLD3GBm4V0Uf")]
-        public async Task<ActionResult<GeneratorModelLogic>> PostAsync([FromBody]GeneratorModelLogic l)
+        [FwControllerMethod(Id:"dLD3GBm4V0Uf", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<GeneratorModelLogic>> NewAsync([FromBody]GeneratorModelLogic l)
         {
-            return await DoPostAsync<GeneratorModelLogic>(l);
+            return await DoNewAsync<GeneratorModelLogic>(l);
+        }
+        //------------------------------------------------------------------------------------
+        // PUT api/v1/generatormode/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "R4R6JvQVnFoTa", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<GeneratorModelLogic>> EditAsync([FromRoute] string id, [FromBody]GeneratorModelLogic l)
+        {
+            return await DoEditAsync<GeneratorModelLogic>(l);
         }
         //------------------------------------------------------------------------------------
         // DELETE api/v1/generatormodel/A0000001
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id:"8ragFDAQ17hW")]
+        [FwControllerMethod(Id:"8ragFDAQ17hW", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<GeneratorModelLogic>(id);

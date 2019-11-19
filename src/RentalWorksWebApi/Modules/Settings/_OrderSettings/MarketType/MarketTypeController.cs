@@ -17,15 +17,15 @@ namespace WebApi.Modules.Settings.OrderSettings.MarketType
         //------------------------------------------------------------------------------------ 
         // POST api/v1/markettype/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"h6mK4QUAFwq1")]
+        [FwControllerMethod(Id:"h6mK4QUAFwq1", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"vcTWWSKkglVu")]
+        [FwControllerMethod(Id:"vcTWWSKkglVu", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -33,7 +33,7 @@ namespace WebApi.Modules.Settings.OrderSettings.MarketType
         //------------------------------------------------------------------------------------ 
         // GET api/v1/markettype 
         [HttpGet]
-        [FwControllerMethod(Id:"CdaD3Y24xYwC")]
+        [FwControllerMethod(Id:"CdaD3Y24xYwC", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<MarketTypeLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<MarketTypeLogic>(pageno, pagesize, sort);
@@ -41,7 +41,7 @@ namespace WebApi.Modules.Settings.OrderSettings.MarketType
         //------------------------------------------------------------------------------------ 
         // GET api/v1/markettype/A0000001 
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"g25CgeLkHROf")]
+        [FwControllerMethod(Id:"g25CgeLkHROf", ActionType: FwControllerActionTypes.View)]
         public async Task<ActionResult<MarketTypeLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<MarketTypeLogic>(id);
@@ -49,15 +49,23 @@ namespace WebApi.Modules.Settings.OrderSettings.MarketType
         //------------------------------------------------------------------------------------ 
         // POST api/v1/markettype 
         [HttpPost]
-        [FwControllerMethod(Id:"NmTBhGAyxCx1")]
-        public async Task<ActionResult<MarketTypeLogic>> PostAsync([FromBody]MarketTypeLogic l)
+        [FwControllerMethod(Id:"NmTBhGAyxCx1", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<MarketTypeLogic>> NewAsync([FromBody]MarketTypeLogic l)
         {
-            return await DoPostAsync<MarketTypeLogic>(l);
+            return await DoNewAsync<MarketTypeLogic>(l);
+        }
+        //------------------------------------------------------------------------------------ 
+        // PUT api/v1/markettype/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "250K7jRqyjv6d", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<MarketTypeLogic>> EditAsync([FromRoute] string id, [FromBody]MarketTypeLogic l)
+        {
+            return await DoEditAsync<MarketTypeLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
         // DELETE api/v1/markettype/A0000001 
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id:"HHNAHIlSAEjg")]
+        [FwControllerMethod(Id:"HHNAHIlSAEjg", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<MarketTypeLogic>(id);

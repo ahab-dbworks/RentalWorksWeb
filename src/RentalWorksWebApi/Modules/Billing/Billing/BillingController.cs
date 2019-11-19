@@ -40,7 +40,7 @@ namespace WebApi.Modules.Billing.Billing
         //------------------------------------------------------------------------------------ 
         // POST api/v1/billing/populate 
         [HttpPost("populate")]
-        [FwControllerMethod(Id: "IkJY2GybFJCXf")]
+        [FwControllerMethod(Id: "IkJY2GybFJCXf", FwControllerActionTypes.Browse)]
         public async Task<ActionResult<PopulateBillingResponse>> Populate([FromBody]PopulateBillingRequest request)
         {
             if (!ModelState.IsValid)
@@ -61,15 +61,15 @@ namespace WebApi.Modules.Billing.Billing
         //------------------------------------------------------------------------------------ 
         // POST api/v1/billing/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id: "IailV9PQbfGc")]
+        [FwControllerMethod(Id: "IailV9PQbfGc", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/billing/exportexcelxlsx
+        // POST api/v1/billing/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id: "wkAGDeyykITiq")]
+        [FwControllerMethod(Id: "wkAGDeyykITiq", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -77,7 +77,7 @@ namespace WebApi.Modules.Billing.Billing
         //------------------------------------------------------------------------------------ 
         // GET api/v1/billing/A0000001
         [HttpGet("{id}")]
-        [FwControllerMethod(Id: "oUL3WodVBURC")]
+        [FwControllerMethod(Id: "oUL3WodVBURC", ActionType: FwControllerActionTypes.View)]
         public async Task<ActionResult<BillingLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<BillingLogic>(id);
@@ -85,7 +85,7 @@ namespace WebApi.Modules.Billing.Billing
         //------------------------------------------------------------------------------------
         // POST api/v1/billing/createinvoices 
         [HttpPost("createinvoices")]
-        [FwControllerMethod(Id: "wgZGAuKCJv4Y")]
+        [FwControllerMethod(Id: "wgZGAuKCJv4Y", ActionType: FwControllerActionTypes.Option, Caption: "Create Invoices")]
         public async Task<ActionResult<CreateInvoicesResponse>> CreateInvoices([FromBody]CreateInvoicesRequest request)
         {
             if (!ModelState.IsValid)

@@ -1,6 +1,6 @@
 using WebApi.Logic;
 using FwStandard.AppManager;
-namespace WebApi.Modules.Home.SuspendedSession
+namespace WebApi.Modules.HomeControls.SuspendedSession
 {
     [FwLogic(Id: "Z0Z5ZHwa7uSc")]
     public class SuspendedSessionLogic : AppBusinessLogic

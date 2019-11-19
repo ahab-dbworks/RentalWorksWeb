@@ -6,7 +6,7 @@ using WebApi.Data;
 using System.Collections.Generic;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Home.PurchaseOrderReceiveItem
+namespace WebApi.Modules.HomeControls.PurchaseOrderReceiveItem
 {
     [FwSqlTable("dbo.funcpoitemreceive(@poid, @receivecontractid)")]
     public class PurchaseOrderReceiveItemLoader : AppDataLoadRecord

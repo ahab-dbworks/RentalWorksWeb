@@ -19,7 +19,7 @@ namespace WebApi.Modules.Inventory.RentalInventory
         //------------------------------------------------------------------------------------ 
         // POST api/v1/rentalinventory/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id: "w0K9FrGmrnY4D")]
+        [FwControllerMethod(Id: "w0K9FrGmrnY4D", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
@@ -27,7 +27,7 @@ namespace WebApi.Modules.Inventory.RentalInventory
         //------------------------------------------------------------------------------------ 
         // GET api/v1/rentalinventory/legend 
         [HttpGet("legend")]
-        [FwControllerMethod(Id: "PwpKssPBV7EWV")]
+        [FwControllerMethod(Id: "LmaQ1Su1L3Wm", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<Dictionary<string, string>>> GetLegend()
         {
             Dictionary<string, string> legend = new Dictionary<string, string>();
@@ -43,7 +43,7 @@ namespace WebApi.Modules.Inventory.RentalInventory
         //------------------------------------------------------------------------------------ 
         // GET api/v1/rentalinventory/availabilitylegend 
         [HttpGet("availabilitylegend")]
-        [FwControllerMethod(Id: "QrAMF2SF1AZnJ")]
+        [FwControllerMethod(Id: "QrAMF2SF1AZnJ", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<Dictionary<string, string>>> GetAvailabilityLegend()
         {
             Dictionary<string, string> legend = new Dictionary<string, string>();
@@ -69,7 +69,7 @@ namespace WebApi.Modules.Inventory.RentalInventory
         //------------------------------------------------------------------------------------ 
         // GET api/v1/rentalinventory 
         [HttpGet]
-        [FwControllerMethod(Id: "ERrwz0n6TN23W")]
+        [FwControllerMethod(Id: "ERrwz0n6TN23W", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<RentalInventoryLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<RentalInventoryLogic>(pageno, pagesize, sort);
@@ -77,7 +77,7 @@ namespace WebApi.Modules.Inventory.RentalInventory
         //------------------------------------------------------------------------------------ 
         // GET api/v1/rentalinventory/A0000001 
         [HttpGet("{id}")]
-        [FwControllerMethod(Id: "li638sfgYrN5f")]
+        [FwControllerMethod(Id: "li638sfgYrN5f", ActionType: FwControllerActionTypes.View)]
         public async Task<ActionResult<RentalInventoryLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<RentalInventoryLogic>(id);
@@ -85,15 +85,23 @@ namespace WebApi.Modules.Inventory.RentalInventory
         //------------------------------------------------------------------------------------ 
         // POST api/v1/rentalinventory 
         [HttpPost]
-        [FwControllerMethod(Id: "ZUrTgW9ORQwDB")]
-        public async Task<ActionResult<RentalInventoryLogic>> PostAsync([FromBody]RentalInventoryLogic l)
+        [FwControllerMethod(Id: "ZUrTgW9ORQwDB", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<RentalInventoryLogic>> NewAsync([FromBody]RentalInventoryLogic l)
         {
-            return await DoPostAsync<RentalInventoryLogic>(l);
+            return await DoNewAsync<RentalInventoryLogic>(l);
+        }
+        //------------------------------------------------------------------------------------ 
+        // PUT api/v1/rentalinventory/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "TfAlL8bl6nTcI", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<RentalInventoryLogic>> EditAsync([FromRoute] string id, [FromBody]RentalInventoryLogic l)
+        {
+            return await DoEditAsync<RentalInventoryLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
         // DELETE api/v1/rentalinventory/A0000001 
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id: "S5rVXgAojEEtz")]
+        [FwControllerMethod(Id: "S5rVXgAojEEtz", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<RentalInventoryLogic>(id);

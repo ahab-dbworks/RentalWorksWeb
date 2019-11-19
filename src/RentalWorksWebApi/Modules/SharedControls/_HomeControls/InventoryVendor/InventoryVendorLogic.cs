@@ -1,6 +1,6 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
-namespace WebApi.Modules.Home.InventoryVendor
+namespace WebApi.Modules.HomeControls.InventoryVendor
 {
     [FwLogic(Id:"rHpgPjlZVIDz")]
     public class InventoryVendorLogic : AppBusinessLogic

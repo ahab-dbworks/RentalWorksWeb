@@ -18,15 +18,15 @@ namespace WebApi.Modules.Settings.SystemSettings.DefaultSettings
         //------------------------------------------------------------------------------------ 
         // POST api/v1/defaultsettings/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id: "EF5HatKXARnq0")]
+        [FwControllerMethod(Id: "EF5HatKXARnq0", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/defaultsettings/exportexcelxlsx
+        // POST api/v1/defaultsettings/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id: "l6KjAhDRXt3Dg")]
+        [FwControllerMethod(Id: "l6KjAhDRXt3Dg", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -34,7 +34,7 @@ namespace WebApi.Modules.Settings.SystemSettings.DefaultSettings
         //------------------------------------------------------------------------------------ 
         // GET api/v1/defaultsettings 
         [HttpGet]
-        [FwControllerMethod(Id: "2onkQXENye3oX")]
+        [FwControllerMethod(Id: "2onkQXENye3oX", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<DefaultSettingsLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<DefaultSettingsLogic>(pageno, pagesize, sort);
@@ -42,7 +42,7 @@ namespace WebApi.Modules.Settings.SystemSettings.DefaultSettings
         //------------------------------------------------------------------------------------ 
         // GET api/v1/defaultsettings/A0000001 
         [HttpGet("{id}")]
-        [FwControllerMethod(Id: "ICCNnubuyh036")]
+        [FwControllerMethod(Id: "ICCNnubuyh036", ActionType: FwControllerActionTypes.View, ValidateSecurityGroup: false)]
         public async Task<ActionResult<DefaultSettingsLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<DefaultSettingsLogic>(id);
@@ -50,10 +50,18 @@ namespace WebApi.Modules.Settings.SystemSettings.DefaultSettings
         //------------------------------------------------------------------------------------ 
         // POST api/v1/defaultsettings 
         [HttpPost]
-        [FwControllerMethod(Id: "XhVAJzkuyDeWy")]
-        public async Task<ActionResult<DefaultSettingsLogic>> PostAsync([FromBody]DefaultSettingsLogic l)
+        [FwControllerMethod(Id: "XhVAJzkuyDeWy", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<DefaultSettingsLogic>> NewAsync([FromBody]DefaultSettingsLogic l)
         {
-            return await DoPostAsync<DefaultSettingsLogic>(l);
+            return await DoNewAsync<DefaultSettingsLogic>(l);
+        }
+        //------------------------------------------------------------------------------------ 
+        // PUT api/v1/defaultsettings/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "10Lm04sc6C6Tb", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<DefaultSettingsLogic>> EditAsync([FromRoute] string id, [FromBody]DefaultSettingsLogic l)
+        {
+            return await DoEditAsync<DefaultSettingsLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
     }

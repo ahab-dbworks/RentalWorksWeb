@@ -3,7 +3,7 @@ using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-namespace WebApi.Modules.Home.InvoiceOrder
+namespace WebApi.Modules.HomeControls.InvoiceOrder
 {
     [FwSqlTable("orderinvoiceview")]
     public class InvoiceOrderLoader : AppDataLoadRecord

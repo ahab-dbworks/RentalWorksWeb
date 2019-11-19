@@ -17,15 +17,15 @@ namespace WebApi.Modules.Settings.OrderTypeLocation
         //------------------------------------------------------------------------------------ 
         // POST api/v1/ordertypelocation/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"w2G9A3OXHJXB")]
+        [FwControllerMethod(Id:"w2G9A3OXHJXB", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"11U1X0aOAkPX")]
+        [FwControllerMethod(Id:"11U1X0aOAkPX", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -33,7 +33,7 @@ namespace WebApi.Modules.Settings.OrderTypeLocation
         //------------------------------------------------------------------------------------ 
         // GET api/v1/ordertypelocation 
         [HttpGet]
-        [FwControllerMethod(Id:"McjfvmVDBgY6")]
+        [FwControllerMethod(Id:"McjfvmVDBgY6", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<OrderTypeLocationLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<OrderTypeLocationLogic>(pageno, pagesize, sort);
@@ -41,7 +41,7 @@ namespace WebApi.Modules.Settings.OrderTypeLocation
         //------------------------------------------------------------------------------------ 
         // GET api/v1/ordertypelocation/A0000001 
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"1Cfk7qV6R9NJ")]
+        [FwControllerMethod(Id:"1Cfk7qV6R9NJ", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<OrderTypeLocationLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<OrderTypeLocationLogic>(id);
@@ -49,15 +49,23 @@ namespace WebApi.Modules.Settings.OrderTypeLocation
         //------------------------------------------------------------------------------------ 
         // POST api/v1/ordertypelocation 
         [HttpPost]
-        [FwControllerMethod(Id:"ADARVuVZLCPo")]
-        public async Task<ActionResult<OrderTypeLocationLogic>> PostAsync([FromBody]OrderTypeLocationLogic l)
+        [FwControllerMethod(Id:"ADARVuVZLCPo", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<OrderTypeLocationLogic>> NewAsync([FromBody]OrderTypeLocationLogic l)
         {
-            return await DoPostAsync<OrderTypeLocationLogic>(l);
+            return await DoNewAsync<OrderTypeLocationLogic>(l);
+        }
+        //------------------------------------------------------------------------------------ 
+        // PUT api/v1/ordertypelocation/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "4PAT9fGmDJTHg", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<OrderTypeLocationLogic>> EditAsync([FromRoute] string id, [FromBody]OrderTypeLocationLogic l)
+        {
+            return await DoEditAsync<OrderTypeLocationLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
         // DELETE api/v1/ordertypelocation/A0000001 
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id:"qD6v2cKyOtiv")]
+        [FwControllerMethod(Id:"qD6v2cKyOtiv", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<OrderTypeLocationLogic>(id);

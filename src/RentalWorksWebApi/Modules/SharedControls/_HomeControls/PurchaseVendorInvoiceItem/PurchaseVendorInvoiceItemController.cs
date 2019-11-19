@@ -6,7 +6,7 @@ using Microsoft.Extensions.Options;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebApi.Controllers;
-namespace WebApi.Modules.Home.PurchaseVendorInvoiceItem
+namespace WebApi.Modules.HomeControls.PurchaseVendorInvoiceItem
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
@@ -17,15 +17,15 @@ namespace WebApi.Modules.Home.PurchaseVendorInvoiceItem
         //------------------------------------------------------------------------------------ 
         // POST api/v1/purchasevendorinvoiceitem/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id: "nr00NURO5iIY")]
+        [FwControllerMethod(Id: "nr00NURO5iIY", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/purchasevendorinvoiceitem/exportexcelxlsx
+        // POST api/v1/purchasevendorinvoiceitem/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id: "wkjXX3bTxP44")]
+        [FwControllerMethod(Id: "wkjXX3bTxP44", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -33,7 +33,7 @@ namespace WebApi.Modules.Home.PurchaseVendorInvoiceItem
         //------------------------------------------------------------------------------------ 
         // GET api/v1/purchasevendorinvoiceitem 
         [HttpGet]
-        [FwControllerMethod(Id: "XE66f1skGqzso")]
+        [FwControllerMethod(Id: "XE66f1skGqzso", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<PurchaseVendorInvoiceItemLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<PurchaseVendorInvoiceItemLogic>(pageno, pagesize, sort);
@@ -41,7 +41,7 @@ namespace WebApi.Modules.Home.PurchaseVendorInvoiceItem
         //------------------------------------------------------------------------------------ 
         // GET api/v1/purchasevendorinvoiceitem/A0000001 
         [HttpGet("{id}")]
-        [FwControllerMethod(Id: "bpK9l8JcaybLW")]
+        [FwControllerMethod(Id: "bpK9l8JcaybLW", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<PurchaseVendorInvoiceItemLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<PurchaseVendorInvoiceItemLogic>(id);
@@ -49,7 +49,7 @@ namespace WebApi.Modules.Home.PurchaseVendorInvoiceItem
         //------------------------------------------------------------------------------------ 
         //// POST api/v1/purchasevendorinvoiceitem 
         //[HttpPost]
-        //[FwControllerMethod(Id: "fLRniDeeCQzz")]
+        //[FwControllerMethod(Id: "fLRniDeeCQzz", ActionType: FwControllerActionTypes.Edit)]
         //public async Task<ActionResult<PurchaseVendorInvoiceItemLogic>> PostAsync([FromBody]PurchaseVendorInvoiceItemLogic l)
         //{
         //    return await DoPostAsync<PurchaseVendorInvoiceItemLogic>(l);
@@ -57,7 +57,7 @@ namespace WebApi.Modules.Home.PurchaseVendorInvoiceItem
         ////------------------------------------------------------------------------------------ 
         //// DELETE api/v1/purchasevendorinvoiceitem/A0000001 
         //[HttpDelete("{id}")]
-        //[FwControllerMethod(Id: "eJAHVCH4hZoU")]
+        //[FwControllerMethod(Id: "eJAHVCH4hZoU", ActionType: FwControllerActionTypes.Delete)]
         //public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         //{
         //    return await <PurchaseVendorInvoiceItemLogic>DoDeleteAsync(id);

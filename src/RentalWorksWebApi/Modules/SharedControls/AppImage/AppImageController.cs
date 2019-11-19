@@ -10,9 +10,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
-namespace WebApi.Controllers
+namespace WebApi.Controllers.SharedControls.AppImage
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "utilities-v1")]
+    //[FwController(Id: "9roLDBnwGjrG")]
     public class AppImageController : FwAppImageController
     {
         //------------------------------------------------------------------------------------
@@ -23,8 +25,7 @@ namespace WebApi.Controllers
         //------------------------------------------------------------------------------------
         // GET api/v1/appimage/getmany?&uniqueid1=value&uniqueid2=value&uniqueid3=value&description=value&rectype=value 
         [HttpGet("getimages")]
-        [FwControllerMethod(Id: "iMxGUJzMSzOQ")]
-        [AllowAnonymous]
+        [FwControllerMethod(Id: "iMxGUJzMSzOQ", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<List<FwAppImageModel>>> GetImagesAsync([FromQuery]string uniqueid1, [FromQuery]string uniqueid2, [FromQuery]string uniqueid3, [FromQuery]string description, [FromQuery]string rectype)
         {
             return await base.DoGetManyAsync(uniqueid1, uniqueid2, uniqueid3, description, rectype);
@@ -32,8 +33,7 @@ namespace WebApi.Controllers
         //------------------------------------------------------------------------------------
         // GET api/v1/appimage/getonebyid?&appimageid=value&thumbnail=value
         [HttpGet("getimage")]
-        [FwControllerMethod(Id: "6VM5MbZwucZi")]
-        [AllowAnonymous]
+        [FwControllerMethod(Id: "6VM5MbZwucZi", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<List<FwAppImageModel>>> GetImageAsync([FromQuery]string appimageid, [FromQuery]string thumbnail="")
         {
             return await base.DoGetOneAsync(appimageid, thumbnail, null, null, null, null);
@@ -41,8 +41,7 @@ namespace WebApi.Controllers
         //------------------------------------------------------------------------------------
         // GET api/v1/appimage?thumbnail=value&uniqueid1=value&uniqueid2=value&uniqueid3=value&orderby=value
         [HttpGet("getimagefor")]
-        [FwControllerMethod(Id: "2TvTfVEfur8c")]
-        [AllowAnonymous]
+        [FwControllerMethod(Id: "2TvTfVEfur8c", ValidateSecurityGroup: false)]
         public async Task<ActionResult<List<FwAppImageModel>>> GetImageForAsync([FromQuery]string thumbnail, [FromQuery]string uniqueid1, [FromQuery]string uniqueid2, [FromQuery]string uniqueid3, [FromQuery]string orderby)
         {
             return await base.DoGetOneAsync(null, thumbnail, uniqueid1, uniqueid2, uniqueid3, orderby);
@@ -74,19 +73,19 @@ namespace WebApi.Controllers
         }
         // POST api/v1/appimage 
         [HttpPost]
-        [FwControllerMethod(Id: "Ilka63gr9i15")]
+        [FwControllerMethod(Id: "Ilka63gr9i15", ValidateSecurityGroup: false)]
         public async Task<ActionResult> AddAsync([FromBody]AddAsyncRequest request)
         {
             return await base.DoAddAsync(request.Uniqueid1, request.Uniqueid2, request.Uniqueid3, request.Description, request.Extension, request.RecType, request.ImageDataUrl);
         }
-        //------------------------------------------------------------------------------------
+        //----------------------------------------------------------------------------------, ActionType: FwControllerActionTypes.Delete--
         public class DeleteAsyncRequest
         {
             public string AppImageId { get; set; }
         }
         // DELETE api/v1/appimage/A0000001 
         [HttpDelete]
-        [FwControllerMethod(Id: "DixsvcLqBocO")]
+        [FwControllerMethod(Id: "DixsvcLqBocO", ValidateSecurityGroup: false)]
         public async Task<ActionResult> DeleteAsync([FromBody]DeleteAsyncRequest request)
         {
             return await base.DoDeleteAsync(request.AppImageId);

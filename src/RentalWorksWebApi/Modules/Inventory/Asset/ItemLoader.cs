@@ -1,6 +1,6 @@
 using FwStandard.SqlServer; 
-using FwStandard.SqlServer.Attributes; 
-namespace WebApi.Modules.Inventory.Item
+using FwStandard.SqlServer.Attributes;
+namespace WebApi.Modules.Inventory.Asset
 {
     [FwSqlTable("rentalitemwebview")]
     public class ItemLoader : ItemBrowseLoader
@@ -8,6 +8,9 @@ namespace WebApi.Modules.Inventory.Item
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "itemdesc", modeltype: FwDataTypes.Text)]
         public string ItemDescription { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "trackedby", modeltype: FwDataTypes.Text)]
+        public string TrackedBy { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "availfor", modeltype: FwDataTypes.Text)]
         public string AvailFor { get; set; }

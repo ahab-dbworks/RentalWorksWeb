@@ -2,6 +2,7 @@
 using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
+using WebApi.Data;
 using WebApi.Modules.Settings.VehicleSettings.VehicleType;
 using WebLibrary;
 

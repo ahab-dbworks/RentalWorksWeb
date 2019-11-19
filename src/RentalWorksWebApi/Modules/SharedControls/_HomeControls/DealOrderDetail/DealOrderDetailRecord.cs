@@ -2,7 +2,7 @@
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 
-namespace WebApi.Modules.Home.DealOrderDetail
+namespace WebApi.Modules.HomeControls.DealOrderDetail
 {
     [FwSqlTable("dealorderdetail")]
     public class DealOrderDetailRecord : AppDataReadWriteRecord

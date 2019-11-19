@@ -2,7 +2,7 @@ using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
 using FwStandard.SqlServer;
 using WebApi.Logic;
-using WebApi.Modules.Home.Delivery;
+using WebApi.Modules.HomeControls.Delivery;
 
 namespace WebApi.Modules.Warehouse.Contract
 {

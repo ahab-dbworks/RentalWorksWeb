@@ -1,13 +1,13 @@
 using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
-using WebApi.Modules.Home.ItemDimension;
-using WebApi.Modules.Home.Master;
+using WebApi.Modules.HomeControls.ItemDimension;
+using WebApi.Modules.HomeControls.Master;
 //using WebApi.Logic;
 //using static FwStandard.Data.FwDataReadWriteRecord;
 using System.Reflection;
 using WebLibrary;
 
-namespace WebApi.Modules.Home.Inventory
+namespace WebApi.Modules.HomeControls.Inventory
 {
     public abstract class InventoryLogic : MasterLogic
     {

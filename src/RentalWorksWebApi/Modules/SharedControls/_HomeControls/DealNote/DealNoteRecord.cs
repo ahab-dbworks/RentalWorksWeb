@@ -5,7 +5,7 @@ using System.Data;
 using System.Threading.Tasks;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Home.DealNote
+namespace WebApi.Modules.HomeControls.DealNote
 {
     [FwSqlTable("dealnote")]
     public class DealNoteRecord : AppDataReadWriteRecord

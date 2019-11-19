@@ -1,7 +1,7 @@
 using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
 using WebApi.Logic;
-namespace WebApi.Modules.Administrator.Person
+namespace WebApi.Modules.AdministratorControls.Person
 {
     [FwLogic(Id:"2sjxVgcctkZR")]
     public class PersonLogic : AppBusinessLogic

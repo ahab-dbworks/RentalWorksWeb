@@ -18,7 +18,8 @@ namespace WebApi.Modules.Settings.DocumentBarCodeSettings
         //------------------------------------------------------------------------------------ 
         // POST api/v1/documentbarcodesettings/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id: "HmH02lzV7F7rI")]
+        [FwControllerMethod(Id: "HmH02lzV7F7rI", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
+
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
@@ -42,7 +43,7 @@ namespace WebApi.Modules.Settings.DocumentBarCodeSettings
         //------------------------------------------------------------------------------------ 
         // GET api/v1/documentbarcodesettings/A0000001 
         [HttpGet("{id}")]
-        [FwControllerMethod(Id: "LcXNRhaljL3zH")]
+        [FwControllerMethod(Id: "LcXNRhaljL3zH", ValidateSecurityGroup: false)]
         public async Task<ActionResult<DocumentBarCodeSettingsLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<DocumentBarCodeSettingsLogic>(id);

@@ -6,7 +6,7 @@ using WebApi.Controllers;
 using System.Threading.Tasks;
 using WebLibrary;
 
-namespace WebApi.Modules.Home.OrderSummary
+namespace WebApi.Modules.HomeControls.OrderSummary
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
@@ -17,7 +17,7 @@ namespace WebApi.Modules.Home.OrderSummary
         //------------------------------------------------------------------------------------
         // GET api/v1/ordersummary/A0000001~P
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"uS3uUEydAzRW")]
+        [FwControllerMethod(Id:"uS3uUEydAzRW", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<OrderSummaryLogic>> GetOneAsync([FromRoute]string id)
         {
             string[] ids = id.Split('~');

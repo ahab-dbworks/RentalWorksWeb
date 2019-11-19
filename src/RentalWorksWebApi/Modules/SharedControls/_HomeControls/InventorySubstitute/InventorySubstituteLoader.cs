@@ -5,7 +5,7 @@ using FwStandard.SqlServer.Attributes;
 using WebApi.Data; 
 using WebApi.Logic;
 
-namespace WebApi.Modules.Home.InventorySubstitute
+namespace WebApi.Modules.HomeControls.InventorySubstitute
 {
     [FwSqlTable("dbo.funcsubstitute(@masterid, @warehouseid)")]
     public class InventorySubstituteLoader : AppDataLoadRecord

@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using FwStandard.BusinessLogic;
 using Microsoft.AspNetCore.Http;
 
-namespace WebApi.Modules.Home.Pricing
+namespace WebApi.Modules.HomeControls.Pricing
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
@@ -21,15 +21,15 @@ namespace WebApi.Modules.Home.Pricing
         //------------------------------------------------------------------------------------ 
         // POST api/v1/pricing/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"lFLNXAovlTsff")]
+        [FwControllerMethod(Id:"lFLNXAovlTsff", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"f3UcfaNtMXPgv")]
+        [FwControllerMethod(Id:"f3UcfaNtMXPgv", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -37,7 +37,7 @@ namespace WebApi.Modules.Home.Pricing
         //------------------------------------------------------------------------------------ 
         // GET api/v1/pricing/D00BYU6Z/B0029AY5/A001TSXJ   //masterid/warehouseid/currencyid
         [HttpGet("{masterid}/{warehouseid}/{currencyid}")]
-        [FwControllerMethod(Id:"jQK0qxwBnK")]
+        [FwControllerMethod(Id:"jQK0qxwBnK", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<PricingLogic>>> GetManyByMasterIdAndWarehouseIdAndCurrencyIdAsync([FromRoute]string masterid, [FromRoute]string warehouseid, [FromRoute]string currencyid)
         {
             return await DoSpecialGetAsync<PricingLogic>(masterid, warehouseid, currencyid);
@@ -46,7 +46,7 @@ namespace WebApi.Modules.Home.Pricing
         //------------------------------------------------------------------------------------ 
         // GET api/v1/pricing/D00BYU6Z/B0029AY5   //masterid/warehouseid
         [HttpGet("{masterid}/{warehouseid}")]
-        [FwControllerMethod(Id:"07TSm1lM7e")]
+        [FwControllerMethod(Id:"07TSm1lM7e", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<PricingLogic>>> GetManyByMasterIdAndWarehouseIdAsync([FromRoute]string masterid, [FromRoute]string warehouseid)
         {
             return await DoSpecialGetAsync<PricingLogic>(masterid, warehouseid, "");
@@ -54,7 +54,7 @@ namespace WebApi.Modules.Home.Pricing
         //------------------------------------------------------------------------------------ 
         // GET api/v1/pricing/D00BYU6Z    //masterid
         [HttpGet("{masterid}")]
-        [FwControllerMethod(Id:"qyjbDa9I9W")]
+        [FwControllerMethod(Id:"qyjbDa9I9W", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<PricingLogic>>> GetManyByMasterIdAsync([FromRoute]string masterid)
         {
             return await DoSpecialGetAsync<PricingLogic>(masterid, "", "");

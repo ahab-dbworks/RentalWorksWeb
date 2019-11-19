@@ -17,15 +17,15 @@ namespace WebApi.Modules.Settings.PresentationLayerActivityOverride
         //------------------------------------------------------------------------------------ 
         // POST api/v1/presentationlayeractivityoverride/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"QQ4urqItSSUZr")]
+        [FwControllerMethod(Id:"QQ4urqItSSUZr", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"8Yv1SCYVPCvvu")]
+        [FwControllerMethod(Id:"8Yv1SCYVPCvvu", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -33,7 +33,7 @@ namespace WebApi.Modules.Settings.PresentationLayerActivityOverride
         //------------------------------------------------------------------------------------ 
         // GET api/v1/presentationlayeractivityoverride 
         [HttpGet]
-        [FwControllerMethod(Id:"sTW80cbSWsG2B")]
+        [FwControllerMethod(Id:"sTW80cbSWsG2B", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<PresentationLayerActivityOverrideLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<PresentationLayerActivityOverrideLogic>(pageno, pagesize, sort);
@@ -41,7 +41,7 @@ namespace WebApi.Modules.Settings.PresentationLayerActivityOverride
         //------------------------------------------------------------------------------------ 
         // GET api/v1/presentationlayeractivityoverride/A0000001 
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"unn07ckPnbffx")]
+        [FwControllerMethod(Id:"unn07ckPnbffx", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<PresentationLayerActivityOverrideLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<PresentationLayerActivityOverrideLogic>(id);
@@ -49,15 +49,23 @@ namespace WebApi.Modules.Settings.PresentationLayerActivityOverride
         //------------------------------------------------------------------------------------ 
         // POST api/v1/presentationlayeractivityoverride 
         [HttpPost]
-        [FwControllerMethod(Id:"NdQdtgeLlIeuU")]
-        public async Task<ActionResult<PresentationLayerActivityOverrideLogic>> PostAsync([FromBody]PresentationLayerActivityOverrideLogic l)
+        [FwControllerMethod(Id:"NdQdtgeLlIeuU", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<PresentationLayerActivityOverrideLogic>> NewAsync([FromBody]PresentationLayerActivityOverrideLogic l)
         {
-            return await DoPostAsync<PresentationLayerActivityOverrideLogic>(l);
+            return await DoNewAsync<PresentationLayerActivityOverrideLogic>(l);
+        }
+        //------------------------------------------------------------------------------------ 
+        // PUT api/v1/presentationlayeractivityoverride/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "OlnWQiwR1tCf5", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<PresentationLayerActivityOverrideLogic>> EditAsync([FromRoute] string id, [FromBody]PresentationLayerActivityOverrideLogic l)
+        {
+            return await DoEditAsync<PresentationLayerActivityOverrideLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
         // DELETE api/v1/presentationlayeractivityoverride/A0000001 
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id:"kxiO2Eoj2cdmk")]
+        [FwControllerMethod(Id:"kxiO2Eoj2cdmk", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<PresentationLayerActivityOverrideLogic>(id);

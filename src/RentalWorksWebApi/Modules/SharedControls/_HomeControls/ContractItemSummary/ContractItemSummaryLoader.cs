@@ -4,7 +4,7 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 using System.Collections.Generic;
-namespace WebApi.Modules.Home.ContractItemSummary
+namespace WebApi.Modules.HomeControls.ContractItemSummary
 {
     [FwSqlTable("dbo.funccontractitemsummary(@contractid)")]
     public class ContractItemSummaryLoader : AppDataLoadRecord

@@ -1,7 +1,7 @@
 using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
 using WebApi.Logic;
-namespace WebApi.Modules.Home.StageHoldingItem
+namespace WebApi.Modules.HomeControls.StageHoldingItem
 {
     [FwLogic(Id: "2MroCNVqkEAAb")]
     public class StageHoldingItemLogic : AppBusinessLogic

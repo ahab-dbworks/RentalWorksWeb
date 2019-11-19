@@ -1,7 +1,7 @@
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-namespace WebApi.Modules.Home.PurchaseVendorInvoiceItem
+namespace WebApi.Modules.HomeControls.PurchaseVendorInvoiceItem
 {
     [FwSqlTable("purchasevendorinvoiceitem")]
     public class PurchaseVendorInvoiceItemRecord : AppDataReadWriteRecord

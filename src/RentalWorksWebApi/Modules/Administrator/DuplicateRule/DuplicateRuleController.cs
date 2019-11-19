@@ -19,15 +19,15 @@ namespace WebApi.Modules.Administrator.DuplicateRule
         //------------------------------------------------------------------------------------ 
         // POST api/v1/duplicaterule/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"TNoZJqqWtCtX")]
+        [FwControllerMethod(Id:"TNoZJqqWtCtX", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"6pO4GGkY7kq5")]
+        [FwControllerMethod(Id:"6pO4GGkY7kq5", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -35,7 +35,7 @@ namespace WebApi.Modules.Administrator.DuplicateRule
         //------------------------------------------------------------------------------------ 
         // GET api/v1/duplicaterule 
         [HttpGet]
-        [FwControllerMethod(Id:"kbxYnSe1o9a6")]
+        [FwControllerMethod(Id:"kbxYnSe1o9a6", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<DuplicateRuleLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<DuplicateRuleLogic>(pageno, pagesize, sort);
@@ -43,7 +43,7 @@ namespace WebApi.Modules.Administrator.DuplicateRule
         //------------------------------------------------------------------------------------ 
         // GET api/v1/duplicaterule/A0000001 
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"DGrrSsT7QH96")]
+        [FwControllerMethod(Id:"DGrrSsT7QH96", ActionType: FwControllerActionTypes.View)]
         public async Task<ActionResult<DuplicateRuleLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<DuplicateRuleLogic>(id);
@@ -51,15 +51,23 @@ namespace WebApi.Modules.Administrator.DuplicateRule
         //------------------------------------------------------------------------------------ 
         // POST api/v1/duplicaterule 
         [HttpPost]
-        [FwControllerMethod(Id:"9r5DmjZNOwQK")]
-        public async Task<ActionResult<DuplicateRuleLogic>> PostAsync([FromBody]DuplicateRuleLogic l)
+        [FwControllerMethod(Id:"9r5DmjZNOwQK", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<DuplicateRuleLogic>> NewAsync([FromBody]DuplicateRuleLogic l)
         {
-            return await DoPostAsync<DuplicateRuleLogic>(l);
+            return await DoNewAsync<DuplicateRuleLogic>(l);
+        }
+        //------------------------------------------------------------------------------------ 
+        // PUT api/v1/duplicaterule/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "LKEFEoPvAIS4E", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<DuplicateRuleLogic>> EditAsync([FromRoute] string id, [FromBody]DuplicateRuleLogic l)
+        {
+            return await DoEditAsync<DuplicateRuleLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
         // DELETE api/v1/duplicaterule/A0000001 
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id:"odX2t317pvT1")]
+        [FwControllerMethod(Id:"odX2t317pvT1", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<DuplicateRuleLogic>(id);

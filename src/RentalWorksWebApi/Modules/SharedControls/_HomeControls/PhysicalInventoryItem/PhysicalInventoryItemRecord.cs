@@ -1,7 +1,7 @@
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-namespace WebApi.Modules.Home.PhysicalInventoryQuantityInventory
+namespace WebApi.Modules.HomeControls.PhysicalInventoryQuantityInventory
 {
     [FwSqlTable("physicalitem")]
     public class PhysicalInventoryQuantityInventoryRecord : AppDataReadWriteRecord

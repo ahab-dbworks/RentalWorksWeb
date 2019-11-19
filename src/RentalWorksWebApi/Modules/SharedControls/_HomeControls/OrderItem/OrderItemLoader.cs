@@ -6,11 +6,11 @@ using WebApi.Data;
 using WebApi.Logic;
 using System.Collections.Generic;
 using System.Text;
-using WebApi.Modules.Home.InventoryAvailability;
+using WebApi.Modules.HomeControls.InventoryAvailability;
 using System;
 using WebLibrary;
 
-namespace WebApi.Modules.Home.OrderItem
+namespace WebApi.Modules.HomeControls.OrderItem
 {
     [FwSqlTable("orderitemsummarywebview")]
     public class OrderItemLoader : AppDataLoadRecord

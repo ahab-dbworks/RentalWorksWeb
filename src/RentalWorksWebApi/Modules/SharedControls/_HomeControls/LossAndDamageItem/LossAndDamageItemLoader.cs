@@ -9,7 +9,7 @@ using WebLibrary;
 using System.Threading.Tasks;
 using System.Data;
 
-namespace WebApi.Modules.Home.LossAndDamageItem
+namespace WebApi.Modules.HomeControls.LossAndDamageItem
 {
     public class LossAndDamageItemLoader : AppDataLoadRecord
     {

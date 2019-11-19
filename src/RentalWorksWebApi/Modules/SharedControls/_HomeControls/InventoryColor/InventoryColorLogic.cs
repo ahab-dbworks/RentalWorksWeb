@@ -1,6 +1,6 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
-namespace WebApi.Modules.Home.InventoryColor
+namespace WebApi.Modules.HomeControls.InventoryColor
 {
     [FwLogic(Id:"p0SWxIjeGBV3")]
     public class InventoryColorLogic : AppBusinessLogic

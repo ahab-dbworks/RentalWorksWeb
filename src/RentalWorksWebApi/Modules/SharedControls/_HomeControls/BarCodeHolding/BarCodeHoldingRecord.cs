@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-namespace WebApi.Modules.Home.BarCodeHolding
+namespace WebApi.Modules.HomeControls.BarCodeHolding
 {
     [FwSqlTable("barcodeholding")]
     public class BarCodeHoldingRecord : AppDataReadWriteRecord

@@ -17,15 +17,15 @@ namespace WebApi.Modules.Settings.FiscalYear
         //------------------------------------------------------------------------------------ 
         // POST api/v1/fiscalyear/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"s0te36TXWzDj")]
+        [FwControllerMethod(Id:"s0te36TXWzDj", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"o4FKr6l5Daik")]
+        [FwControllerMethod(Id:"o4FKr6l5Daik", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -33,7 +33,7 @@ namespace WebApi.Modules.Settings.FiscalYear
         //------------------------------------------------------------------------------------ 
         // GET api/v1/fiscalyear 
         [HttpGet]
-        [FwControllerMethod(Id:"obaFRIxJcRQ3")]
+        [FwControllerMethod(Id:"obaFRIxJcRQ3", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<FiscalYearLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<FiscalYearLogic>(pageno, pagesize, sort);
@@ -41,7 +41,7 @@ namespace WebApi.Modules.Settings.FiscalYear
         //------------------------------------------------------------------------------------ 
         // GET api/v1/fiscalyear/A0000001 
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"KKByxrB6MzeB")]
+        [FwControllerMethod(Id:"KKByxrB6MzeB", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FiscalYearLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<FiscalYearLogic>(id);
@@ -49,15 +49,23 @@ namespace WebApi.Modules.Settings.FiscalYear
         //------------------------------------------------------------------------------------ 
         // POST api/v1/fiscalyear 
         [HttpPost]
-        [FwControllerMethod(Id:"6grLIwkg5c5F")]
-        public async Task<ActionResult<FiscalYearLogic>> PostAsync([FromBody]FiscalYearLogic l)
+        [FwControllerMethod(Id:"6grLIwkg5c5F", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<FiscalYearLogic>> NewAsync([FromBody]FiscalYearLogic l)
         {
-            return await DoPostAsync<FiscalYearLogic>(l);
+            return await DoNewAsync<FiscalYearLogic>(l);
+        }
+        //------------------------------------------------------------------------------------ 
+        // PUT api/v1/fiscalyear/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "d9CnTxNc2Cj6Z", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<FiscalYearLogic>> EditAsync([FromRoute] string id, [FromBody]FiscalYearLogic l)
+        {
+            return await DoEditAsync<FiscalYearLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
         // DELETE api/v1/fiscalyear/A0000001 
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id:"yP1syJGaLNaI")]
+        [FwControllerMethod(Id:"yP1syJGaLNaI", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<FiscalYearLogic>(id);

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using FwStandard.SqlServer;
 using System.Collections.Generic;
 using FwStandard.AppManager;
+
 namespace WebApi.Modules.Settings.WidgetDateBehavior
 {
     [Route("api/v1/[controller]")]
@@ -17,15 +18,15 @@ namespace WebApi.Modules.Settings.WidgetDateBehavior
         //------------------------------------------------------------------------------------ 
         // POST api/v1/widgetdatebehavior/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id: "I6NRcnLWzujs")]
+        [FwControllerMethod(Id: "I6NRcnLWzujs", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/widgetdatebehavior/exportexcelxlsx
+        // POST api/v1/widgetdatebehavior/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id: "tQeFrHtW1FzO")]
+        [FwControllerMethod(Id: "tQeFrHtW1FzO", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);

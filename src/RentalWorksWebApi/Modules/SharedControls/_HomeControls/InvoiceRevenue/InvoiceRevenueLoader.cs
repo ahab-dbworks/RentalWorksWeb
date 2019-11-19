@@ -3,7 +3,7 @@ using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-namespace WebApi.Modules.Home.InvoiceRevenue
+namespace WebApi.Modules.HomeControls.InvoiceRevenue
 {
     [FwSqlTable("revenueview")]
     public class InvoiceRevenueLoader : AppDataLoadRecord

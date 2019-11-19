@@ -7,7 +7,7 @@ using Microsoft.Extensions.Options;
 using WebApi.Controllers;
 using System.Threading.Tasks;
 
-namespace WebApi.Modules.Home.DealNote
+namespace WebApi.Modules.HomeControls.DealNote
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
@@ -18,15 +18,15 @@ namespace WebApi.Modules.Home.DealNote
         //------------------------------------------------------------------------------------
         // POST api/v1/dealnote/browse
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"6gsPqyJww0xO")]
+        [FwControllerMethod(Id:"6gsPqyJww0xO", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"p0qqo7jrqCwR")]
+        [FwControllerMethod(Id:"p0qqo7jrqCwR", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -34,7 +34,7 @@ namespace WebApi.Modules.Home.DealNote
         //------------------------------------------------------------------------------------
         // GET api/v1/dealnote
         [HttpGet]
-        [FwControllerMethod(Id:"MLijscwOz2fi")]
+        [FwControllerMethod(Id:"MLijscwOz2fi", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<DealNoteLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<DealNoteLogic>(pageno, pagesize, sort);
@@ -42,7 +42,7 @@ namespace WebApi.Modules.Home.DealNote
         //------------------------------------------------------------------------------------
         // GET api/v1/dealnote/A0000001
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"1gHJNuI6E7Rc")]
+        [FwControllerMethod(Id:"1gHJNuI6E7Rc", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DealNoteLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<DealNoteLogic>(id);
@@ -50,15 +50,23 @@ namespace WebApi.Modules.Home.DealNote
         //------------------------------------------------------------------------------------
         // POST api/v1/dealnote
         [HttpPost]
-        [FwControllerMethod(Id:"DXnjLoOeRIyh")]
-        public async Task<ActionResult<DealNoteLogic>> PostAsync([FromBody]DealNoteLogic l)
+        [FwControllerMethod(Id:"DXnjLoOeRIyh", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<DealNoteLogic>> NewAsync([FromBody]DealNoteLogic l)
         {
-            return await DoPostAsync<DealNoteLogic>(l);
+            return await DoNewAsync<DealNoteLogic>(l);
+        }
+        //------------------------------------------------------------------------------------
+        // PUT api/v1/dealnot/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "53VbEuIS8RKjO", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<DealNoteLogic>> EditAsync([FromRoute] string id, [FromBody]DealNoteLogic l)
+        {
+            return await DoEditAsync<DealNoteLogic>(l);
         }
         //------------------------------------------------------------------------------------
         // DELETE api/v1/dealnote/A0000001
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id:"d1OFeEn5KNCi")]
+        [FwControllerMethod(Id:"d1OFeEn5KNCi", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<DealNoteLogic>(id);

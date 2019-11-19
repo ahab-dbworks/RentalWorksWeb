@@ -1,6 +1,6 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
-namespace WebApi.Modules.Home.ReceiptInvoice
+namespace WebApi.Modules.HomeControls.ReceiptInvoice
 {
     public class ReceiptInvoiceLogic : AppBusinessLogic
     {

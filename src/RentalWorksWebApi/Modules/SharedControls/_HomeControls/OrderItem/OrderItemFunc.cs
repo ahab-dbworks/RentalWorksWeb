@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using WebApi.Logic;
 using WebLibrary;
 
-namespace WebApi.Modules.Home.OrderItem
+namespace WebApi.Modules.HomeControls.OrderItem
 {
     public class SortOrderItemsRequest
     {

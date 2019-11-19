@@ -17,15 +17,15 @@ namespace WebApi.Modules.Settings.VendorSettings.SapVendorInvoiceStatus
         //------------------------------------------------------------------------------------ 
         // POST api/v1/sapvendorinvoicestatus/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"alEHLkfvtnVuW")]
+        [FwControllerMethod(Id:"alEHLkfvtnVuW", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"0zr4A1UCSy8uq")]
+        [FwControllerMethod(Id:"0zr4A1UCSy8uq", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -33,7 +33,7 @@ namespace WebApi.Modules.Settings.VendorSettings.SapVendorInvoiceStatus
         //------------------------------------------------------------------------------------ 
         // GET api/v1/sapvendorinvoicestatus 
         [HttpGet]
-        [FwControllerMethod(Id:"IjqUwh9EfHltB")]
+        [FwControllerMethod(Id:"IjqUwh9EfHltB", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<SapVendorInvoiceStatusLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<SapVendorInvoiceStatusLogic>(pageno, pagesize, sort);
@@ -41,7 +41,7 @@ namespace WebApi.Modules.Settings.VendorSettings.SapVendorInvoiceStatus
         //------------------------------------------------------------------------------------ 
         // GET api/v1/sapvendorinvoicestatus/A0000001 
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"JUAAWnHr4nqne")]
+        [FwControllerMethod(Id:"JUAAWnHr4nqne", ActionType: FwControllerActionTypes.View)]
         public async Task<ActionResult<SapVendorInvoiceStatusLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<SapVendorInvoiceStatusLogic>(id);
@@ -49,15 +49,23 @@ namespace WebApi.Modules.Settings.VendorSettings.SapVendorInvoiceStatus
         //------------------------------------------------------------------------------------ 
         // POST api/v1/sapvendorinvoicestatus 
         [HttpPost]
-        [FwControllerMethod(Id:"CwP3nm1F8fwNB")]
-        public async Task<ActionResult<SapVendorInvoiceStatusLogic>> PostAsync([FromBody]SapVendorInvoiceStatusLogic l)
+        [FwControllerMethod(Id:"CwP3nm1F8fwNB", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<SapVendorInvoiceStatusLogic>> NewAsync([FromBody]SapVendorInvoiceStatusLogic l)
         {
-            return await DoPostAsync<SapVendorInvoiceStatusLogic>(l);
+            return await DoNewAsync<SapVendorInvoiceStatusLogic>(l);
+        }
+        //------------------------------------------------------------------------------------ 
+        // PUT api/v1/sapvendorinvoicestatus/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "oM8BoIovQVf83", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<SapVendorInvoiceStatusLogic>> EditAsync([FromRoute] string id, [FromBody]SapVendorInvoiceStatusLogic l)
+        {
+            return await DoEditAsync<SapVendorInvoiceStatusLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
         // DELETE api/v1/sapvendorinvoicestatus/A0000001 
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id:"W8Gpb0TJzWrGH")]
+        [FwControllerMethod(Id:"W8Gpb0TJzWrGH", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<SapVendorInvoiceStatusLogic>(id);

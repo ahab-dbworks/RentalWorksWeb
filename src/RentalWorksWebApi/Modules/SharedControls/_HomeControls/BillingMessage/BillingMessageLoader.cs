@@ -3,7 +3,7 @@ using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-namespace WebApi.Modules.Home.BillingMessage
+namespace WebApi.Modules.HomeControls.BillingMessage
 {
     [FwSqlTable("tmpbillingmsg")]
     public class BillingMessageLoader : AppDataLoadRecord

@@ -1,6 +1,6 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
-namespace WebApi.Modules.Home.ItemQc
+namespace WebApi.Modules.HomeControls.ItemQc
 {
     [FwLogic(Id:"tcgJS4ex1aKW")]
     public class ItemQcLogic : AppBusinessLogic

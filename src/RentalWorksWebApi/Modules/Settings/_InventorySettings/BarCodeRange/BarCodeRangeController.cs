@@ -17,15 +17,15 @@ namespace WebApi.Modules.Settings.InventorySettings.BarCodeRange
         //------------------------------------------------------------------------------------ 
         // POST api/v1/barcoderange/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"HbMs8bqVtYS")]
+        [FwControllerMethod(Id:"HbMs8bqVtYS", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"PWmqlX0X17R")]
+        [FwControllerMethod(Id:"PWmqlX0X17R", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -33,7 +33,7 @@ namespace WebApi.Modules.Settings.InventorySettings.BarCodeRange
         //------------------------------------------------------------------------------------ 
         // GET api/v1/barcoderange 
         [HttpGet]
-        [FwControllerMethod(Id:"mZCkgCdLlnd")]
+        [FwControllerMethod(Id:"mZCkgCdLlnd", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<BarCodeRangeLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<BarCodeRangeLogic>(pageno, pagesize, sort);
@@ -41,7 +41,7 @@ namespace WebApi.Modules.Settings.InventorySettings.BarCodeRange
         //------------------------------------------------------------------------------------ 
         // GET api/v1/barcoderange/A0000001 
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"NteLYEXr5ry")]
+        [FwControllerMethod(Id:"NteLYEXr5ry", ActionType: FwControllerActionTypes.View)]
         public async Task<ActionResult<BarCodeRangeLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<BarCodeRangeLogic>(id);
@@ -49,15 +49,23 @@ namespace WebApi.Modules.Settings.InventorySettings.BarCodeRange
         //------------------------------------------------------------------------------------ 
         // POST api/v1/barcoderange 
         [HttpPost]
-        [FwControllerMethod(Id:"QC04JbhltMY")]
-        public async Task<ActionResult<BarCodeRangeLogic>> PostAsync([FromBody]BarCodeRangeLogic l)
+        [FwControllerMethod(Id:"QC04JbhltMY", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<BarCodeRangeLogic>> NewAsync([FromBody]BarCodeRangeLogic l)
         {
-            return await DoPostAsync<BarCodeRangeLogic>(l);
+            return await DoNewAsync<BarCodeRangeLogic>(l);
+        }
+        //------------------------------------------------------------------------------------ 
+        // PUT api/v1/barcoderange/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "pXjm7weosRPhl", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<BarCodeRangeLogic>> EditAsync([FromRoute] string id, [FromBody]BarCodeRangeLogic l)
+        {
+            return await DoEditAsync<BarCodeRangeLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
         // DELETE api/v1/barcoderange/A0000001 
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id:"0r9ng0eQReC")]
+        [FwControllerMethod(Id:"0r9ng0eQReC", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<BarCodeRangeLogic>(id);

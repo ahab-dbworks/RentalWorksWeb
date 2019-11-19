@@ -18,15 +18,15 @@ namespace WebApi.Modules.Settings.GeneratorTypeWarehouse
         //------------------------------------------------------------------------------------
         // POST api/v1/generatortypewarehouse/browse
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"31c3Sz9pGBix")]
+        [FwControllerMethod(Id:"31c3Sz9pGBix", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"mps136kBu0Uc")]
+        [FwControllerMethod(Id:"mps136kBu0Uc", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -34,7 +34,7 @@ namespace WebApi.Modules.Settings.GeneratorTypeWarehouse
         //------------------------------------------------------------------------------------
         // GET api/v1/generatortypewarehouse
         [HttpGet]
-        [FwControllerMethod(Id:"sDAbu7Yn0loz")]
+        [FwControllerMethod(Id:"sDAbu7Yn0loz", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<GeneratorTypeWarehouseLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<GeneratorTypeWarehouseLogic>(pageno, pagesize, sort);
@@ -42,7 +42,7 @@ namespace WebApi.Modules.Settings.GeneratorTypeWarehouse
         //------------------------------------------------------------------------------------
         // GET api/v1/generatortypewarehouse/A0000001
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"2TJr8QaowTgD")]
+        [FwControllerMethod(Id:"2TJr8QaowTgD", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<GeneratorTypeWarehouseLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<GeneratorTypeWarehouseLogic>(id);
@@ -50,15 +50,23 @@ namespace WebApi.Modules.Settings.GeneratorTypeWarehouse
         //------------------------------------------------------------------------------------
         // POST api/v1/generatortypewarehouse
         [HttpPost]
-        [FwControllerMethod(Id:"RumpC6huxc1L")]
-        public async Task<ActionResult<GeneratorTypeWarehouseLogic>> PostAsync([FromBody]GeneratorTypeWarehouseLogic l)
+        [FwControllerMethod(Id:"RumpC6huxc1L", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<GeneratorTypeWarehouseLogic>> NewAsync([FromBody]GeneratorTypeWarehouseLogic l)
         {
-            return await DoPostAsync<GeneratorTypeWarehouseLogic>(l);
+            return await DoNewAsync<GeneratorTypeWarehouseLogic>(l);
+        }
+        //------------------------------------------------------------------------------------
+        // PUT api/v1/generatortypewarehous/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "vCZqyiivYV2hX", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<GeneratorTypeWarehouseLogic>> EditAsync([FromRoute] string id, [FromBody]GeneratorTypeWarehouseLogic l)
+        {
+            return await DoEditAsync<GeneratorTypeWarehouseLogic>(l);
         }
         //------------------------------------------------------------------------------------
         // DELETE api/v1/generatortypewarehouse/A0000001
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id:"hgOaB4W2hs9Z")]
+        [FwControllerMethod(Id:"hgOaB4W2hs9Z", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<GeneratorTypeWarehouseLogic>(id);

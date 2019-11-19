@@ -2,7 +2,7 @@ using FwStandard.AppManager;
 using WebApi.Logic;
 using WebApi.Modules.Warehouse.Contract;
 
-namespace WebApi.Modules.Home.Manifest
+namespace WebApi.Modules.HomeControls.Manifest
 {
     [FwLogic(Id: "6Roj1hKqs1bJL")]
     public class ManifestLogic : AppBusinessLogic

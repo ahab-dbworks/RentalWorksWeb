@@ -5,7 +5,7 @@ using System;
 using System.Reflection;
 using System.Threading.Tasks;
 using WebApi.Logic;
-using WebApi.Modules.Home.Tax;
+using WebApi.Modules.HomeControls.Tax;
 using WebLibrary;
 
 namespace WebApi.Modules.Billing.Invoice

@@ -1,8 +1,8 @@
 using FwStandard.AppManager;
 using Newtonsoft.Json;
 using WebApi.Logic;
-using WebApi.Modules.Home.ItemDimension;
-using WebApi.Modules.Home.Master;
+using WebApi.Modules.HomeControls.ItemDimension;
+using WebApi.Modules.HomeControls.Master;
 
 namespace WebApi.Modules.Settings.Space
 {

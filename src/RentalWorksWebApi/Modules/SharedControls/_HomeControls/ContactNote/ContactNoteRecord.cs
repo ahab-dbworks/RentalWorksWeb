@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic;
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data;
-namespace WebApi.Modules.Home.ContactNote
+namespace WebApi.Modules.HomeControls.ContactNote
 {
     [FwSqlTable("contactnote")]
     public class ContactNoteRecord : AppDataReadWriteRecord

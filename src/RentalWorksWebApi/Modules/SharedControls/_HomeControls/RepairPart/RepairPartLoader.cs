@@ -4,7 +4,7 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 using System.Collections.Generic;
-namespace WebApi.Modules.Home.RepairPart
+namespace WebApi.Modules.HomeControls.RepairPart
 {
     [FwSqlTable("repairpartview")]
     public class RepairPartLoader : AppDataLoadRecord

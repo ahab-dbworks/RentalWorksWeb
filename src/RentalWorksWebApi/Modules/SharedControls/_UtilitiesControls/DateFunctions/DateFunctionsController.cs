@@ -8,7 +8,7 @@ using FwStandard.SqlServer;
 using System;
 using Microsoft.AspNetCore.Http;
 
-namespace WebApi.Modules.Utilities.DateFunctions
+namespace WebApi.Modules.UtilitiesControls.DateFunctions
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "utilities-v1")]
@@ -19,7 +19,7 @@ namespace WebApi.Modules.Utilities.DateFunctions
         //------------------------------------------------------------------------------------ 
         // GET api/v1/datefunctions/adddays
         [HttpGet("adddays")]
-        [FwControllerMethod(Id:"lhlW1yhlcggq")]
+        [FwControllerMethod(Id:"lhlW1yhlcggq", ActionType: FwControllerActionTypes.Option)]
         public IActionResult AddDays(DateTime date, int Days)
         {
             try
@@ -40,7 +40,7 @@ namespace WebApi.Modules.Utilities.DateFunctions
         //------------------------------------------------------------------------------------ 
         // GET api/v1/datefunctions/addmonths 
         [HttpGet("addmonths")]
-        [FwControllerMethod(Id:"D22HgC7vhAKU")]
+        [FwControllerMethod(Id:"D22HgC7vhAKU", ActionType: FwControllerActionTypes.Option)]
         public IActionResult AddMonths(DateTime date, int Months)
         {
             try
@@ -61,7 +61,7 @@ namespace WebApi.Modules.Utilities.DateFunctions
         //------------------------------------------------------------------------------------ 
         // GET api/v1/datefunctions/numberofmonths 
         [HttpGet("numberofmonths")]
-        [FwControllerMethod(Id:"wNu87lSHEd8F")]
+        [FwControllerMethod(Id:"wNu87lSHEd8F", ActionType: FwControllerActionTypes.Browse)]
         public IActionResult NumberOfMonths(DateTime fromDate, DateTime toDate)
         {
             try

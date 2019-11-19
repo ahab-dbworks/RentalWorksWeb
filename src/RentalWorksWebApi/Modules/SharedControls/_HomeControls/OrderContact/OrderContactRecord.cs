@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-namespace WebApi.Modules.Home.OrderContact
+namespace WebApi.Modules.HomeControls.OrderContact
 {
     [FwSqlTable("ordercontact")]
     public class OrderContactRecord : AppDataReadWriteRecord

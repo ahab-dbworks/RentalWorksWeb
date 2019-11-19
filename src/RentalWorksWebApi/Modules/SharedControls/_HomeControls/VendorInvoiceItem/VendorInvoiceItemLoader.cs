@@ -3,7 +3,7 @@ using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-namespace WebApi.Modules.Home.VendorInvoiceItem
+namespace WebApi.Modules.HomeControls.VendorInvoiceItem
 {
     [FwSqlTable("vendorinvoiceitemwebview")]
     public class VendorInvoiceItemLoader : AppDataLoadRecord

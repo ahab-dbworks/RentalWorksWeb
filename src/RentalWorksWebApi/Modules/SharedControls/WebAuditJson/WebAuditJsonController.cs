@@ -8,7 +8,7 @@ using WebApi.Controllers;
 using System.Threading.Tasks;
 using FwStandard.Modules.Administrator.WebAuditJson;
 
-namespace WebApi.Modules.Administrator.WebAuditJson
+namespace WebApi.Modules.SharedControls.WebAuditJson
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "administrator-v1")]
@@ -19,15 +19,15 @@ namespace WebApi.Modules.Administrator.WebAuditJson
         //------------------------------------------------------------------------------------ 
         // POST api/v1/webauditjson/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"ougcPGZEIbe")]
+        [FwControllerMethod(Id:"ougcPGZEIbe", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/webauditjson/exportexcelxlsx
+        // POST api/v1/webauditjson/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"FO6taFjUx2L")]
+        [FwControllerMethod(Id:"FO6taFjUx2L", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -35,7 +35,7 @@ namespace WebApi.Modules.Administrator.WebAuditJson
         //------------------------------------------------------------------------------------ 
         // GET api/v1/webauditjson/12345 
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"x1umTxHzMDB")]
+        [FwControllerMethod(Id:"x1umTxHzMDB", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<WebAuditJsonLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<WebAuditJsonLogic>(id);

@@ -1,8 +1,8 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
-using WebApi.Modules.Home.ItemAttributeValue;
+using WebApi.Modules.HomeControls.ItemAttributeValue;
 
-namespace WebApi.Modules.Home.InventoryAttributeValue
+namespace WebApi.Modules.HomeControls.InventoryAttributeValue
 {
     [FwLogic(Id:"IuKD3Wr5bZVl")]
     public class InventoryAttributeValueLogic : AppBusinessLogic

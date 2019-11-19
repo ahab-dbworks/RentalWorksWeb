@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using WebApi.Data;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Home.OrderNote
+namespace WebApi.Modules.HomeControls.OrderNote
 {
     [FwSqlTable("ordernote")]
     public class OrderNoteRecord : AppDataReadWriteRecord

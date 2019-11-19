@@ -11,7 +11,7 @@ using WebApi.Controllers;
 using WebApi.Logic;
 using WebApi.Modules.Agent.PurchaseOrder;
 
-namespace WebApi.Modules.Home.PurchaseOrderReceiveItem
+namespace WebApi.Modules.HomeControls.PurchaseOrderReceiveItem
 {
     public class ReceiveItemRequest
     {
@@ -61,15 +61,15 @@ namespace WebApi.Modules.Home.PurchaseOrderReceiveItem
         //------------------------------------------------------------------------------------ 
         // POST api/v1/purchaseorderreceiveitem/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"ipaMsjq2IQtRe")]
+        [FwControllerMethod(Id:"ipaMsjq2IQtRe", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/purchaseorderreceiveitem/exportexcelxlsx
+        // POST api/v1/purchaseorderreceiveitem/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"sJYevoHYJaZTJ")]
+        [FwControllerMethod(Id:"sJYevoHYJaZTJ", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -77,7 +77,7 @@ namespace WebApi.Modules.Home.PurchaseOrderReceiveItem
         //------------------------------------------------------------------------------------ 
         // POST api/v1/purchaseorderreceiveitem/receiveitems
         [HttpPost("receiveitems")]
-        [FwControllerMethod(Id:"wfjNbUnPwmx3k")]
+        [FwControllerMethod(Id:"wfjNbUnPwmx3k", ActionType: FwControllerActionTypes.Option)]
         public async Task<ActionResult<ReceiveItemResponse>> ReceiveItems([FromBody] ReceiveItemRequest request)
         {
             if (!ModelState.IsValid)
@@ -108,7 +108,7 @@ namespace WebApi.Modules.Home.PurchaseOrderReceiveItem
         //------------------------------------------------------------------------------------        
         // POST api/v1/purchaseorderreceiveitem/selectall
         [HttpPost("selectall")]
-        [FwControllerMethod(Id:"MFcTZfrvaCGis")]
+        [FwControllerMethod(Id:"vdlG8WoddsbA", ActionType: FwControllerActionTypes.Option)]
         public async Task<ActionResult<SelectAllNoneReceiveItemResponse>> SelectAll([FromBody] SelectAllNoneReceiveItemRequest request)
         {
             if (!ModelState.IsValid)
@@ -133,7 +133,7 @@ namespace WebApi.Modules.Home.PurchaseOrderReceiveItem
 
         // POST api/v1/purchaseorderreceiveitem/selectnone
         [HttpPost("selectnone")]
-        [FwControllerMethod(Id:"MFcTZfrvaCGis")]
+        [FwControllerMethod(Id:"MFcTZfrvaCGis", ActionType: FwControllerActionTypes.Option)]
         public async Task<ActionResult<SelectAllNoneReceiveItemResponse>> SelectNone([FromBody] SelectAllNoneReceiveItemRequest request)
         {
             if (!ModelState.IsValid)

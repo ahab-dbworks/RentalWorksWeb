@@ -1,7 +1,7 @@
 using FwStandard.AppManager;
 using System.Reflection;
 using WebApi.Logic;
-namespace WebApi.Modules.Home.Pricing
+namespace WebApi.Modules.HomeControls.Pricing
 {
     [FwLogic(Id:"AulvGR01yVbOI")]
     public class PricingLogic : AppBusinessLogic

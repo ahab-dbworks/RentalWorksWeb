@@ -3,8 +3,8 @@ using FwStandard.Models;
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data;
-using WebApi.Modules.Home.Master;
-using WebApi.Modules.Home.Inventory;
+using WebApi.Modules.HomeControls.Master;
+using WebApi.Modules.HomeControls.Inventory;
 using WebApi.Modules.Settings.Rate;
 using System.Collections.Generic;
 

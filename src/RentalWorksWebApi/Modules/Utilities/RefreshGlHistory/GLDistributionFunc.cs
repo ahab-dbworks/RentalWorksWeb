@@ -5,7 +5,7 @@ using System.Data;
 using System.Threading.Tasks;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Home.GLDistribution
+namespace WebApi.Modules.Utilities.GLDistribution
 {
     public class RefreshGLHistoryRequest
     {

@@ -1,7 +1,7 @@
 using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
 using WebApi.Logic;
-namespace WebApi.Modules.Home.PurchaseOrderReturnItem
+namespace WebApi.Modules.HomeControls.PurchaseOrderReturnItem
 {
     [FwLogic(Id:"GD7v28tgnuVJb")]
     public class PurchaseOrderReturnItemLogic : AppBusinessLogic

@@ -17,15 +17,15 @@ namespace WebApi.Modules.Settings.RateType
         //------------------------------------------------------------------------------------ 
         // POST api/v1/ratetype/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"uyEBSFelDqPkR")]
+        [FwControllerMethod(Id:"uyEBSFelDqPkR", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"rvgwybWSzFBCo")]
+        [FwControllerMethod(Id:"rvgwybWSzFBCo", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -33,7 +33,7 @@ namespace WebApi.Modules.Settings.RateType
         //------------------------------------------------------------------------------------ 
         // GET api/v1/ratetype 
         [HttpGet]
-        [FwControllerMethod(Id:"RZ9uc9Sy7L9oT")]
+        [FwControllerMethod(Id:"RZ9uc9Sy7L9oT", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<RateTypeLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<RateTypeLogic>(pageno, pagesize, sort);
@@ -41,7 +41,7 @@ namespace WebApi.Modules.Settings.RateType
         //------------------------------------------------------------------------------------ 
         // GET api/v1/ratetype/A0000001 
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"bnveqiLMI4M9c")]
+        [FwControllerMethod(Id:"bnveqiLMI4M9c", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<RateTypeLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<RateTypeLogic>(id);

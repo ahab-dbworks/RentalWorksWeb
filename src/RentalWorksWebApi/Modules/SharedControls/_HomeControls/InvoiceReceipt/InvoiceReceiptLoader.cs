@@ -3,7 +3,7 @@ using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-namespace WebApi.Modules.Home.InvoiceReceipt
+namespace WebApi.Modules.HomeControls.InvoiceReceipt
 {
     [FwSqlTable("arpaymentview")]
     public class InvoiceReceiptLoader : AppDataLoadRecord

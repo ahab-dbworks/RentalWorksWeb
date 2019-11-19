@@ -3,7 +3,7 @@ using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-namespace WebApi.Modules.Administrator.CustomFormUser
+namespace WebApi.Modules.AdministratorControls.CustomFormUser
 {
     [FwSqlTable("webformwebusersview")]
     public class CustomFormUserLoader : AppDataLoadRecord

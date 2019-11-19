@@ -4,7 +4,7 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 using System.Collections.Generic;
-namespace WebApi.Modules.Home.OrderSnapshot
+namespace WebApi.Modules.HomeControls.OrderSnapshot
 {
     [FwSqlTable("snapshotview")]
     public class OrderSnapshotLoader : AppDataLoadRecord

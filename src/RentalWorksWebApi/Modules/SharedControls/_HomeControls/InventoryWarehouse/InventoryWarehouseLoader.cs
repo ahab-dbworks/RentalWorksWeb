@@ -2,10 +2,10 @@ using FwStandard.Data;
 using FwStandard.Models; 
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
-using WebApi.Modules.Home.MasterWarehouse;
+using WebApi.Modules.HomeControls.MasterWarehouse;
 using WebLibrary;
 
-namespace WebApi.Modules.Home.InventoryWarehouse
+namespace WebApi.Modules.HomeControls.InventoryWarehouse
 {
     public class InventoryWarehouseLoader : MasterWarehouseLoader 
     {

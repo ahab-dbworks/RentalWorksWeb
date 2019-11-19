@@ -1,7 +1,7 @@
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-namespace WebApi.Modules.Home.Purchase
+namespace WebApi.Modules.HomeControls.Purchase
 {
     [FwSqlTable("purchase")]
     public class PurchaseRecord : AppDataReadWriteRecord

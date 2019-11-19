@@ -11,7 +11,7 @@ using WebApi.Controllers;
 using WebApi.Logic;
 using WebApi.Modules.Warehouse.Contract;
 using WebLibrary;
-using static WebApi.Modules.Home.DealOrder.DealOrderRecord;
+using static WebApi.Modules.HomeControls.DealOrder.DealOrderRecord;
 
 namespace WebApi.Modules.Agent.PurchaseOrder
 {
@@ -24,7 +24,7 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         //------------------------------------------------------------------------------------ 
         // POST api/v1/purchaseorder/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id: "CT5m1NLaLhzuD")]
+        [FwControllerMethod(Id: "CT5m1NLaLhzuD", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
@@ -32,7 +32,7 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         //------------------------------------------------------------------------------------ 
         // GET api/v1/purchaseorder/legend 
         [HttpGet("legend")]
-        [FwControllerMethod(Id: "RuAxro4XLWdOW")]
+        [FwControllerMethod(Id: "RuAxro4XLWdOW", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<Dictionary<string, string>>> GetLegend()
         {
             Dictionary<string, string> legend = new Dictionary<string, string>();
@@ -45,9 +45,9 @@ namespace WebApi.Modules.Agent.PurchaseOrder
             return new OkObjectResult(legend);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/purchaseorder/exportexcelxlsx
+        // POST api/v1/purchaseorder/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id: "UoKvbRlRbt1bF")]
+        [FwControllerMethod(Id: "UoKvbRlRbt1bF", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -55,7 +55,7 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         //------------------------------------------------------------------------------------ 
         // GET api/v1/purchaseorder 
         [HttpGet]
-        [FwControllerMethod(Id: "LIKzNq6S5IzDy")]
+        [FwControllerMethod(Id: "LIKzNq6S5IzDy", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<PurchaseOrderLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<PurchaseOrderLogic>(pageno, pagesize, sort);
@@ -63,7 +63,7 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         //------------------------------------------------------------------------------------ 
         // GET api/v1/purchaseorder/A0000001 
         [HttpGet("{id}")]
-        [FwControllerMethod(Id: "RFk1UEbjNbkyG")]
+        [FwControllerMethod(Id: "RFk1UEbjNbkyG", ActionType: FwControllerActionTypes.View)]
         public async Task<ActionResult<PurchaseOrderLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<PurchaseOrderLogic>(id);
@@ -71,15 +71,23 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         //------------------------------------------------------------------------------------ 
         // POST api/v1/purchaseorder 
         [HttpPost]
-        [FwControllerMethod(Id: "IRGS1gIXKz13P")]
-        public async Task<ActionResult<PurchaseOrderLogic>> PostAsync([FromBody]PurchaseOrderLogic l)
+        [FwControllerMethod(Id: "IRGS1gIXKz13P", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<PurchaseOrderLogic>> NewAsync([FromBody]PurchaseOrderLogic l)
         {
-            return await DoPostAsync<PurchaseOrderLogic>(l);
+            return await DoNewAsync<PurchaseOrderLogic>(l);
+        }
+        //------------------------------------------------------------------------------------ 
+        // PUT api/v1/purchaseorder/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "Aq8oLVMYFv9GN", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<PurchaseOrderLogic>> EditAsync([FromRoute] string id, [FromBody]PurchaseOrderLogic l)
+        {
+            return await DoEditAsync<PurchaseOrderLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
         //// DELETE api/v1/purchaseorder/A0000001 
         //[HttpDelete("{id}")]
-        //[FwControllerMethod(Id:"slEQG9pj9a")]
+        //[FwControllerMethod(Id:"slEQG9pj9a", ActionType: FwControllerActionTypes.Delete)]
         //public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         //{
         //    return await <PurchaseOrderLogic>DoDeleteAsync(id);
@@ -89,7 +97,7 @@ namespace WebApi.Modules.Agent.PurchaseOrder
 
         // POST api/v1/purchaseorder/applybottomlinedaysperweek
         [HttpPost("applybottomlinedaysperweek")]
-        [FwControllerMethod(Id: "kS5BrDluy5bBu")]
+        [FwControllerMethod(Id: "kS5BrDluy5bBu", ActionType: FwControllerActionTypes.Edit, Caption: "Apply Bottom Line Days Per Week")]
         public async Task<ActionResult<bool>> ApplyBottomLineDaysPerWeek([FromBody] ApplyBottomLineDaysPerWeekRequest request)
         {
             if (!ModelState.IsValid)
@@ -124,7 +132,7 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         //------------------------------------------------------------------------------------
         // POST api/v1/purchaseorder/applybottomlinediscountpercent
         [HttpPost("applybottomlinediscountpercent")]
-        [FwControllerMethod(Id: "i9rBnq4qjg6HC")]
+        [FwControllerMethod(Id: "i9rBnq4qjg6HC", ActionType: FwControllerActionTypes.Edit, Caption: "Apply Bottom Line Discount Percent")]
         public async Task<ActionResult<bool>> ApplyBottomLineDiscountPercent([FromBody] ApplyBottomLineDiscountPercentRequest request)
         {
             if (!ModelState.IsValid)
@@ -159,7 +167,7 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         //------------------------------------------------------------------------------------
         // POST api/v1/purchaseorder/applybottomlinetotal
         [HttpPost("applybottomlinetotal")]
-        [FwControllerMethod(Id: "vV0pObeeL5y4K")]
+        [FwControllerMethod(Id: "vV0pObeeL5y4K", ActionType: FwControllerActionTypes.Edit, Caption: "Apply Bottom Line Total")]
         public async Task<ActionResult<bool>> ApplyBottomLineTotal([FromBody] ApplyBottomLineTotalRequest request)
         {
             if (!ModelState.IsValid)
@@ -197,8 +205,8 @@ namespace WebApi.Modules.Agent.PurchaseOrder
 
         // GET api/v1/purchaseorder/receivesuspendedsessionsexist
         [HttpGet("receivesuspendedsessionsexist")]
-        [FwControllerMethod(Id: "RyFgNYsAQk5p9")]
-        public async Task<ActionResult<bool>> RecevieSuspendedSessionsExist(string warehouseId)
+        [FwControllerMethod(Id: "RyFgNYsAQk5p9", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<bool>> ReceiveSuspendedSessionsExist(string warehouseId)
         {
             if (!ModelState.IsValid)
             {
@@ -222,7 +230,7 @@ namespace WebApi.Modules.Agent.PurchaseOrder
 
         // POST api/v1/purchaseorder/startreceivecontract
         [HttpPost("startreceivecontract")]
-        [FwControllerMethod(Id: "Xs4EV6zXN8jsa")]
+        [FwControllerMethod(Id: "Xs4EV6zXN8jsa", ActionType: FwControllerActionTypes.Edit, Caption: "Start Receive Contract")]
         public async Task<ActionResult<ReceiveContractResponse>> StartReceiveContractAsync([FromBody]ReceiveContractRequest request)
         {
             if (!ModelState.IsValid)
@@ -258,7 +266,7 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         //------------------------------------------------------------------------------------ 
         // POST api/v1/purchaseorder/completereceivecontract
         [HttpPost("completereceivecontract/{id}")]
-        [FwControllerMethod(Id: "SFnrq53IYU6HS")]
+        [FwControllerMethod(Id: "SFnrq53IYU6HS", ActionType: FwControllerActionTypes.Edit, Caption: "Complete Receive Contract")]
         public async Task<ActionResult<List<ContractLogic>>> CompleteReceiveContractAsync([FromRoute]string id, [FromBody] CompleteReceiveContractRequest request)
         {
             if (!ModelState.IsValid)
@@ -311,7 +319,7 @@ namespace WebApi.Modules.Agent.PurchaseOrder
 
         // GET api/v1/purchaseorder/returnsuspendedsessionsexist
         [HttpGet("returnsuspendedsessionsexist")]
-        [FwControllerMethod(Id: "zPuvlEmQXvmog")]
+        [FwControllerMethod(Id: "zPuvlEmQXvmog", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<bool>> ReturnSuspendedSessionsExist(string warehouseId)
         {
             if (!ModelState.IsValid)
@@ -337,7 +345,7 @@ namespace WebApi.Modules.Agent.PurchaseOrder
 
         // POST api/v1/purchaseorder/startreturncontract
         [HttpPost("startreturncontract")]
-        [FwControllerMethod(Id: "IHQC7YuIlyflM")]
+        [FwControllerMethod(Id: "IHQC7YuIlyflM", ActionType: FwControllerActionTypes.Edit, Caption: "Start Return Contract")]
         public async Task<ActionResult<ReturnContractResponse>> StartReturnContractAsync([FromBody]ReturnContractRequest request)
         {
             if (!ModelState.IsValid)
@@ -373,7 +381,7 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         //------------------------------------------------------------------------------------ 
         // POST api/v1/purchaseorder/completereturncontract
         [HttpPost("completereturncontract/{id}")]
-        [FwControllerMethod(Id: "Yu4sDt9BpjVrt")]
+        [FwControllerMethod(Id: "Yu4sDt9BpjVrt", ActionType: FwControllerActionTypes.Edit, Caption: "Complete Return Contract")]
         public async Task<ActionResult<ContractLogic>> CompleteReturnContractAsync([FromRoute]string id)
         {
             if (!ModelState.IsValid)
@@ -411,7 +419,7 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         //------------------------------------------------------------------------------------    
         // POST api/v1/purchaseorder/receivebarcodeadditems
         [HttpPost("receivebarcodeadditems")]
-        [FwControllerMethod(Id: "x7nZuntw3E0dk")]
+        [FwControllerMethod(Id: "x7nZuntw3E0dk", ActionType: FwControllerActionTypes.Edit, Caption: "Receive Bar Code Add Items")]
         public async Task<ActionResult<PurchaseOrderReceiveBarCodeAddItemsResponse>> ReceiveBarCodeAddItems([FromBody] PurchaseOrderReceiveBarCodeAddItemsRequest request)
         {
             if (!ModelState.IsValid)
@@ -436,7 +444,7 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         //------------------------------------------------------------------------------------       
         // POST api/v1/purchaseorder/assignbarcodesfromreceive
         [HttpPost("assignbarcodesfromreceive")]
-        [FwControllerMethod(Id: "RFMr1ZCHMVvo4")]
+        [FwControllerMethod(Id: "RFMr1ZCHMVvo4", ActionType: FwControllerActionTypes.Edit, Caption: "Assign Bar-Codes From Receive")]
         public async Task<ActionResult<PurchaseOrderReceiveAssignBarCodesResponse>> AssignBarCodesFromReceive([FromBody] PurchaseOrderReceiveAssignBarCodesRequest request)
         {
             if (!ModelState.IsValid)
@@ -461,7 +469,7 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         //------------------------------------------------------------------------------------        
         // POST api/v1/purchaseorder/void/A0000001
         [HttpPost("void/{id}")]
-        [FwControllerMethod(Id: "u5eAwyixomSFN")]
+        [FwControllerMethod(Id: "u5eAwyixomSFN", ActionType: FwControllerActionTypes.Option, Caption: "Void")]
         public async Task<ActionResult<PurchaseOrderLogic>> Void([FromRoute]string id)
         {
             if (!ModelState.IsValid)
@@ -505,7 +513,7 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         //------------------------------------------------------------------------------------       
         // GET api/v1/purchaseorder/nextvendorinvoicedefaultdates/A0000001
         [HttpGet("nextvendorinvoicedefaultdates/{PurchaseOrderId}")]
-        [FwControllerMethod(Id: "e4lReUTArJ5Kg")]
+        [FwControllerMethod(Id: "e4lReUTArJ5Kg", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<NextVendorInvoiceDefaultDatesResponse>> GetNextVendorInvoiceDefaultDates([FromRoute] string PurchaseOrderId)
         {
             if (!ModelState.IsValid)

@@ -1,11 +1,11 @@
 using FwStandard.AppManager;
-﻿using FwStandard.BusinessLogic;
 using Newtonsoft.Json;
 using WebApi.Logic;
 using WebApi.Modules.Settings.FuelType;
+using WebApi.Modules.Settings.GeneratorSettings.GeneratorFuelType;
 using WebLibrary;
 
-namespace WebApi.Modules.Settings.GeneratorSettings.GeneratorFuelType
+namespace WebApi.Modules.Settings.GeneratorFuelType
 {
     [FwLogic(Id:"1cUb9tSvxnwU")]
     public class GeneratorFuelTypeLogic : AppBusinessLogic

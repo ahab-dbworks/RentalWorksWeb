@@ -4,9 +4,9 @@ using FwStandard.SqlServer;
 using System;
 using System.Threading.Tasks;
 using WebApi.Logic;
-using WebApi.Modules.Home.DealOrder;
+using WebApi.Modules.HomeControls.DealOrder;
 using WebLibrary;
-using static WebApi.Modules.Home.DealOrder.DealOrderRecord;
+using static WebApi.Modules.HomeControls.DealOrder.DealOrderRecord;
 
 namespace WebApi.Modules.Agent.Order
 {

@@ -1,6 +1,6 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
-namespace WebApi.Modules.Home.CheckInSwap
+namespace WebApi.Modules.HomeControls.CheckInSwap
 {
     [FwLogic(Id:"2p0cIg8YiIgx")]
     public class CheckInSwapLogic : AppBusinessLogic

@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using WebApi.Controllers;
 using System.Threading.Tasks;
-namespace WebApi.Modules.Home.LossAndDamageItem
+namespace WebApi.Modules.HomeControls.LossAndDamageItem
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
@@ -16,15 +16,15 @@ namespace WebApi.Modules.Home.LossAndDamageItem
         //------------------------------------------------------------------------------------ 
         // POST api/v1/lossanddamageitem/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"dDavaElCOQgm")]
+        [FwControllerMethod(Id:"dDavaElCOQgm", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/lossanddamageitem/exportexcelxlsx
+        // POST api/v1/lossanddamageitem/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"ZpMO62JkDN92")]
+        [FwControllerMethod(Id:"ZpMO62JkDN92", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);

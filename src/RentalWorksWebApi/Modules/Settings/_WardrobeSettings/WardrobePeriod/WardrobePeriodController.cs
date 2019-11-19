@@ -18,15 +18,15 @@ namespace WebApi.Modules.Settings.WardrobeSettings.WardrobePeriod
         //------------------------------------------------------------------------------------
         // POST api/v1/wardrobeperiod/browse
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"RspO7C50vAeSe")]
+        [FwControllerMethod(Id:"RspO7C50vAeSe", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"CP68gyJjCAdLl")]
+        [FwControllerMethod(Id:"CP68gyJjCAdLl", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -34,7 +34,7 @@ namespace WebApi.Modules.Settings.WardrobeSettings.WardrobePeriod
         //------------------------------------------------------------------------------------
         // GET api/v1/wardrobeperiod
         [HttpGet]
-        [FwControllerMethod(Id:"AVigHeufytKFT")]
+        [FwControllerMethod(Id:"AVigHeufytKFT", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<WardrobePeriodLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<WardrobePeriodLogic>(pageno, pagesize, sort);
@@ -42,7 +42,7 @@ namespace WebApi.Modules.Settings.WardrobeSettings.WardrobePeriod
         //------------------------------------------------------------------------------------
         // GET api/v1/wardrobeperiod/A0000001
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"Q5UD7cTskO1hL")]
+        [FwControllerMethod(Id:"Q5UD7cTskO1hL", ActionType: FwControllerActionTypes.View)]
         public async Task<ActionResult<WardrobePeriodLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<WardrobePeriodLogic>(id);
@@ -50,15 +50,23 @@ namespace WebApi.Modules.Settings.WardrobeSettings.WardrobePeriod
         //------------------------------------------------------------------------------------
         // POST api/v1/wardrobeperiod
         [HttpPost]
-        [FwControllerMethod(Id:"0szM14cnMKjP7")]
-        public async Task<ActionResult<WardrobePeriodLogic>> PostAsync([FromBody]WardrobePeriodLogic l)
+        [FwControllerMethod(Id:"0szM14cnMKjP7", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<WardrobePeriodLogic>> NewAsync([FromBody]WardrobePeriodLogic l)
         {
-            return await DoPostAsync<WardrobePeriodLogic>(l);
+            return await DoNewAsync<WardrobePeriodLogic>(l);
+        }
+        //------------------------------------------------------------------------------------
+        // PUT api/v1/wardrobeperio/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "rLYncmtvklrP5", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<WardrobePeriodLogic>> EditAsync([FromRoute] string id, [FromBody]WardrobePeriodLogic l)
+        {
+            return await DoEditAsync<WardrobePeriodLogic>(l);
         }
         //------------------------------------------------------------------------------------
         // DELETE api/v1/wardrobeperiod/A0000001
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id:"fA7U1RLNyJpNv")]
+        [FwControllerMethod(Id:"fA7U1RLNyJpNv", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<WardrobePeriodLogic>(id);

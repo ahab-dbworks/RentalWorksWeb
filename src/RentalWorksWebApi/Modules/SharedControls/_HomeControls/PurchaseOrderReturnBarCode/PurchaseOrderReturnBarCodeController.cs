@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using WebApi.Controllers;
 using System.Threading.Tasks;
-namespace WebApi.Modules.Home.PurchaseOrderReturnBarCode
+namespace WebApi.Modules.HomeControls.PurchaseOrderReturnBarCode
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
@@ -17,15 +17,15 @@ namespace WebApi.Modules.Home.PurchaseOrderReturnBarCode
         //------------------------------------------------------------------------------------ 
         // POST api/v1/purchaseorderreceivebarcode/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"wr19b3MDUa0IB")]
+        [FwControllerMethod(Id:"wr19b3MDUa0IB", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/purchaseorderreceivebarcode/exportexcelxlsx
+        // POST api/v1/purchaseorderreceivebarcode/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"DPl3TW16tsVTk")]
+        [FwControllerMethod(Id:"DPl3TW16tsVTk", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -33,7 +33,7 @@ namespace WebApi.Modules.Home.PurchaseOrderReturnBarCode
         //------------------------------------------------------------------------------------ 
         // GET api/v1/purchaseorderreceivebarcode 
         [HttpGet]
-        [FwControllerMethod(Id:"Cd7MeD6DIgfCm")]
+        [FwControllerMethod(Id:"Cd7MeD6DIgfCm", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<PurchaseOrderReturnBarCodeLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<PurchaseOrderReturnBarCodeLogic>(pageno, pagesize, sort);
@@ -41,7 +41,7 @@ namespace WebApi.Modules.Home.PurchaseOrderReturnBarCode
         //------------------------------------------------------------------------------------ 
         // GET api/v1/purchaseorderreceivebarcode/A0000001 
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"Td095DqnZkar7")]
+        [FwControllerMethod(Id:"Td095DqnZkar7", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<PurchaseOrderReturnBarCodeLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<PurchaseOrderReturnBarCodeLogic>(id);

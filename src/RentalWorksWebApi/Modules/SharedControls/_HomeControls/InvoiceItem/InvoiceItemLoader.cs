@@ -8,7 +8,7 @@ using System;
 using WebLibrary;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Home.InvoiceItem
+namespace WebApi.Modules.HomeControls.InvoiceItem
 {
     [FwSqlTable("dbo.funcinvoiceitemgrid(@invoiceid,@rectype)")]
     public class InvoiceItemLoader : AppDataLoadRecord

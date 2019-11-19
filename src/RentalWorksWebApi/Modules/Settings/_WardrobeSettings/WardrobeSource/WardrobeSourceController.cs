@@ -18,15 +18,15 @@ namespace WebApi.Modules.Settings.WardrobeSettings.WardrobeSource
         //------------------------------------------------------------------------------------
         // POST api/v1/wardrobesource/browse
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"ICuq2QRVLRHo4")]
+        [FwControllerMethod(Id:"ICuq2QRVLRHo4", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"UbQeN6GlnQY3u")]
+        [FwControllerMethod(Id:"UbQeN6GlnQY3u", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -34,7 +34,7 @@ namespace WebApi.Modules.Settings.WardrobeSettings.WardrobeSource
         //------------------------------------------------------------------------------------
         // GET api/v1/wardrobesource
         [HttpGet]
-        [FwControllerMethod(Id:"13lAes6WX7Iqi")]
+        [FwControllerMethod(Id:"13lAes6WX7Iqi", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<WardrobeSourceLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<WardrobeSourceLogic>(pageno, pagesize, sort);
@@ -42,7 +42,7 @@ namespace WebApi.Modules.Settings.WardrobeSettings.WardrobeSource
         //------------------------------------------------------------------------------------
         // GET api/v1/wardrobesource/A0000001
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"4c6ccCxM1z9xO")]
+        [FwControllerMethod(Id:"4c6ccCxM1z9xO", ActionType: FwControllerActionTypes.View)]
         public async Task<ActionResult<WardrobeSourceLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<WardrobeSourceLogic>(id);
@@ -50,15 +50,23 @@ namespace WebApi.Modules.Settings.WardrobeSettings.WardrobeSource
         //------------------------------------------------------------------------------------
         // POST api/v1/wardrobesource
         [HttpPost]
-        [FwControllerMethod(Id:"CP1F2C61SyFpM")]
-        public async Task<ActionResult<WardrobeSourceLogic>> PostAsync([FromBody]WardrobeSourceLogic l)
+        [FwControllerMethod(Id:"CP1F2C61SyFpM", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<WardrobeSourceLogic>> NewAsync([FromBody]WardrobeSourceLogic l)
         {
-            return await DoPostAsync<WardrobeSourceLogic>(l);
+            return await DoNewAsync<WardrobeSourceLogic>(l);
+        }
+        //------------------------------------------------------------------------------------
+        // PUT api/v1/wardrobesourc/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "Hap92mGdSUXBh", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<WardrobeSourceLogic>> EditAsync([FromRoute] string id, [FromBody]WardrobeSourceLogic l)
+        {
+            return await DoEditAsync<WardrobeSourceLogic>(l);
         }
         //------------------------------------------------------------------------------------
         // DELETE api/v1/wardrobesource/A0000001
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id:"6gSRksMbuNxDC")]
+        [FwControllerMethod(Id:"6gSRksMbuNxDC", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<WardrobeSourceLogic>(id);

@@ -17,15 +17,15 @@ namespace WebApi.Modules.Settings.ProjectSettings.ProjectDeposit
         //------------------------------------------------------------------------------------ 
         // POST api/v1/projectdeposit/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"e29zbhEzFWy75")]
+        [FwControllerMethod(Id:"e29zbhEzFWy75", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"HInRJD33MFpU4")]
+        [FwControllerMethod(Id:"HInRJD33MFpU4", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -33,7 +33,7 @@ namespace WebApi.Modules.Settings.ProjectSettings.ProjectDeposit
         //------------------------------------------------------------------------------------ 
         // GET api/v1/projectdeposit 
         [HttpGet]
-        [FwControllerMethod(Id:"siZU7a1VIIto8")]
+        [FwControllerMethod(Id:"siZU7a1VIIto8", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<ProjectDepositLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<ProjectDepositLogic>(pageno, pagesize, sort);
@@ -41,7 +41,7 @@ namespace WebApi.Modules.Settings.ProjectSettings.ProjectDeposit
         //------------------------------------------------------------------------------------ 
         // GET api/v1/projectdeposit/A0000001 
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"ljBEAlapGgRZe")]
+        [FwControllerMethod(Id:"ljBEAlapGgRZe", ActionType: FwControllerActionTypes.View)]
         public async Task<ActionResult<ProjectDepositLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<ProjectDepositLogic>(id);
@@ -49,15 +49,23 @@ namespace WebApi.Modules.Settings.ProjectSettings.ProjectDeposit
         //------------------------------------------------------------------------------------ 
         // POST api/v1/projectdeposit 
         [HttpPost]
-        [FwControllerMethod(Id:"9mEuS4V9UwWMI")]
-        public async Task<ActionResult<ProjectDepositLogic>> PostAsync([FromBody]ProjectDepositLogic l)
+        [FwControllerMethod(Id:"9mEuS4V9UwWMI", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<ProjectDepositLogic>> NewAsync([FromBody]ProjectDepositLogic l)
         {
-            return await DoPostAsync<ProjectDepositLogic>(l);
+            return await DoNewAsync<ProjectDepositLogic>(l);
+        }
+        //------------------------------------------------------------------------------------ 
+        // PUT api/v1/projectdeposit/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "yRfIlg6zVGIfX", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<ProjectDepositLogic>> EditAsync([FromRoute] string id, [FromBody]ProjectDepositLogic l)
+        {
+            return await DoEditAsync<ProjectDepositLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
         // DELETE api/v1/projectdeposit/A0000001 
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id:"lvlU4iGwXIiUD")]
+        [FwControllerMethod(Id:"lvlU4iGwXIiUD", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<ProjectDepositLogic>(id);

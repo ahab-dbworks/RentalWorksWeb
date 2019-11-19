@@ -8,7 +8,7 @@ using WebApi.Logic;
 using System;
 using Microsoft.AspNetCore.Http;
 
-namespace WebApi.Modules.Home.LossAndDamage
+namespace WebApi.Modules.HomeControls.LossAndDamage
 {
 
     public class StartLossAndDamageSessionRequest
@@ -63,7 +63,7 @@ namespace WebApi.Modules.Home.LossAndDamage
         //------------------------------------------------------------------------------------ 
         // POST api/v1/lossanddamage/startsession
         [HttpPost("startsession")]
-        [FwControllerMethod(Id:"ZScJnowrNcdU")]
+        [FwControllerMethod(Id:"kGBfS3UNthp7")]
         public async Task<ActionResult<StartLossAndDamageSessionResponse>> StartSession([FromBody]StartLossAndDamageSessionRequest request)
         {
             if (!ModelState.IsValid)
@@ -217,7 +217,7 @@ namespace WebApi.Modules.Home.LossAndDamage
         //------------------------------------------------------------------------------------     
         // POST api/v1/lossanddamage/retire
         [HttpPost("retire")]
-        [FwControllerMethod(Id: "mEEALs7s4ruoY")]
+        [FwControllerMethod(Id: "mEEALs7s4ruoY", ActionType: FwControllerActionTypes.Option)]
         public async Task<ActionResult<RetireLossAndDamageItemResponse>> Retire([FromBody] RetireLossAndDamageItemRequest request)
         {
             if (!ModelState.IsValid)

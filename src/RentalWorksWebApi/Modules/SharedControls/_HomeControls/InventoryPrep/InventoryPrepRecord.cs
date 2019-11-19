@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic;
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data;
-namespace WebApi.Modules.Home.InventoryPrep
+namespace WebApi.Modules.HomeControls.InventoryPrep
 {
     [FwSqlTable("masterprep")]
     public class InventoryPrepRecord : AppDataReadWriteRecord

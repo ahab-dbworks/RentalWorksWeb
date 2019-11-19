@@ -17,15 +17,15 @@ namespace WebApi.Modules.Settings.AccountingSettings.GlDistributionRule
         //------------------------------------------------------------------------------------ 
         // POST api/v1/gldistributionrule/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"TGSUSEa1NH7q")]
+        [FwControllerMethod(Id:"TGSUSEa1NH7q", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"Hb2wHF2PK9v2")]
+        [FwControllerMethod(Id:"Hb2wHF2PK9v2", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -33,7 +33,7 @@ namespace WebApi.Modules.Settings.AccountingSettings.GlDistributionRule
         //------------------------------------------------------------------------------------ 
         // GET api/v1/gldistributionrule 
         [HttpGet]
-        [FwControllerMethod(Id:"creqXexG3apd")]
+        [FwControllerMethod(Id:"creqXexG3apd", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<GlDistributionRuleLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<GlDistributionRuleLogic>(pageno, pagesize, sort);
@@ -41,7 +41,7 @@ namespace WebApi.Modules.Settings.AccountingSettings.GlDistributionRule
         //------------------------------------------------------------------------------------ 
         // GET api/v1/gldistributionrule/A0000001 
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"BWIEKcNomzH7")]
+        [FwControllerMethod(Id:"BWIEKcNomzH7", ActionType: FwControllerActionTypes.View)]
         public async Task<ActionResult<GlDistributionRuleLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<GlDistributionRuleLogic>(id);
@@ -49,15 +49,23 @@ namespace WebApi.Modules.Settings.AccountingSettings.GlDistributionRule
         //------------------------------------------------------------------------------------ 
         // POST api/v1/gldistributionrule 
         [HttpPost]
-        [FwControllerMethod(Id:"nAF3lRel3dXS")]
-        public async Task<ActionResult<GlDistributionRuleLogic>> PostAsync([FromBody]GlDistributionRuleLogic l)
+        [FwControllerMethod(Id:"nAF3lRel3dXS", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<GlDistributionRuleLogic>> NewAsync([FromBody]GlDistributionRuleLogic l)
         {
-            return await DoPostAsync<GlDistributionRuleLogic>(l);
+            return await DoNewAsync<GlDistributionRuleLogic>(l);
+        }
+        //------------------------------------------------------------------------------------ 
+        // PUT api/v1/gldistributionrule/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "XBiXLUfo4NbOE", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<GlDistributionRuleLogic>> EditAsync([FromRoute] string id, [FromBody]GlDistributionRuleLogic l)
+        {
+            return await DoEditAsync<GlDistributionRuleLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
         // DELETE api/v1/gldistributionrule/A0000001 
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id:"olBYTapfO7Rm")]
+        [FwControllerMethod(Id:"olBYTapfO7Rm", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<GlDistributionRuleLogic>(id);

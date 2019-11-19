@@ -2,7 +2,7 @@ using FwStandard.Data;
 using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using WebApi.Modules.Home.Inventory;
+using WebApi.Modules.HomeControls.Inventory;
 using WebLibrary;
 
 namespace WebApi.Modules.Inventory.RentalInventory

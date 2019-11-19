@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic;
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data;
-namespace WebApi.Modules.Home.DealShipper
+namespace WebApi.Modules.HomeControls.DealShipper
 {
     [FwSqlTable("dealshipper")]
     public class DealShipperRecord : AppDataReadWriteRecord

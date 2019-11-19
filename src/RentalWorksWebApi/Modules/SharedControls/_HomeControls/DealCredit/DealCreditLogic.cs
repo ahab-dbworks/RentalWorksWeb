@@ -1,6 +1,6 @@
 using WebApi.Logic;
 using FwStandard.AppManager;
-namespace WebApi.Modules.Home.DealCredit
+namespace WebApi.Modules.HomeControls.DealCredit
 {
     [FwLogic(Id: "WripDzAneJek")]
     public class DealCreditLogic : AppBusinessLogic

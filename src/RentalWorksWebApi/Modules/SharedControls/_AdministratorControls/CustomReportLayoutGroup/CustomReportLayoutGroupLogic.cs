@@ -1,8 +1,8 @@
 using WebApi.Logic;
 using FwStandard.AppManager;
-namespace WebApi.Modules.Administrator.CustomReportLayoutGroup
+namespace WebApi.Modules.AdministratorControls.CustomReportLayoutGroup
 {
-    [FwLogic(Id: "sDAxvkztP8gZR")]
+    [FwLogic(Id: "cl5jfGLO4bZa")]
     public class CustomReportLayoutGroupLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
@@ -14,17 +14,17 @@ namespace WebApi.Modules.Administrator.CustomReportLayoutGroup
             dataLoader = customReportLayoutGroupLoader;
         }
         //------------------------------------------------------------------------------------ 
-        [FwLogicProperty(Id: "Stv5BmlxVS2ep", IsPrimaryKey: true)]
+        [FwLogicProperty(Id: "2rfy7JGCrc95", IsPrimaryKey: true)]
         public string CustomReportLayoutGroupId { get { return customReportLayoutGroup.CustomReportLayoutGroupId; } set { customReportLayoutGroup.CustomReportLayoutGroupId = value; } }
-        [FwLogicProperty(Id: "PWfbhCSG5AjiV")]
+        [FwLogicProperty(Id: "T9zbm3p5hHX3k")]
         public string CustomReportLayoutId { get { return customReportLayoutGroup.CustomReportLayoutId; } set { customReportLayoutGroup.CustomReportLayoutId = value; } }
-        [FwLogicProperty(Id: "DEtKyDv5ZaCet", IsReadOnly: true)]
+        [FwLogicProperty(Id: "ntqeYZ0zfGQ18", IsReadOnly: true)]
         public string CustomReportLayoutDescription { get; set; }
-        [FwLogicProperty(Id: "ATXNwspovuT0V")]
+        [FwLogicProperty(Id: "ZYvbWN0CfHK8")]
         public string GroupId { get { return customReportLayoutGroup.GroupId; } set { customReportLayoutGroup.GroupId = value; } }
-        [FwLogicProperty(Id: "glttdyCtaWT9K", IsReadOnly: true)]
+        [FwLogicProperty(Id: "F1qyq3GGTP9OI", IsReadOnly: true)]
         public string GroupName { get; set; }
-        [FwLogicProperty(Id: "nOo9ang55eqxw")]
+        [FwLogicProperty(Id: "4zborH1PKXIw1")]
         public string DateStamp { get { return customReportLayoutGroup.DateStamp; } set { customReportLayoutGroup.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
         //protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg) 

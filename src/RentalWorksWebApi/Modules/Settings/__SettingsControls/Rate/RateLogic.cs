@@ -1,7 +1,7 @@
 using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
 using WebApi.Logic;
-using WebApi.Modules.Home.Master;
+using WebApi.Modules.HomeControls.Master;
 using WebLibrary;
 
 namespace WebApi.Modules.Settings.Rate

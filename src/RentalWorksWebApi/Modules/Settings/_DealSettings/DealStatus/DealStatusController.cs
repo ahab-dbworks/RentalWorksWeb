@@ -19,15 +19,15 @@ namespace WebApi.Modules.Settings.DealSettings.DealStatus
         //------------------------------------------------------------------------------------
         // POST api/v1/dealstatus/browse
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"xe3Iuv5gJEBg")]
+        [FwControllerMethod(Id:"xe3Iuv5gJEBg", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"iClvZefyHEoF")]
+        [FwControllerMethod(Id:"iClvZefyHEoF", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -35,7 +35,7 @@ namespace WebApi.Modules.Settings.DealSettings.DealStatus
         //------------------------------------------------------------------------------------
         // GET api/v1/dealstatus
         [HttpGet]
-        [FwControllerMethod(Id:"XuLVm4no7I01")]
+        [FwControllerMethod(Id:"XuLVm4no7I01", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<DealStatusLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<DealStatusLogic>(pageno, pagesize, sort);
@@ -43,7 +43,7 @@ namespace WebApi.Modules.Settings.DealSettings.DealStatus
         //------------------------------------------------------------------------------------
         // GET api/v1/dealstatus/A0000001
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"M75TRmwTWZOg")]
+        [FwControllerMethod(Id:"M75TRmwTWZOg", ActionType: FwControllerActionTypes.View)]
         public async Task<ActionResult<DealStatusLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<DealStatusLogic>(id);
@@ -51,15 +51,23 @@ namespace WebApi.Modules.Settings.DealSettings.DealStatus
         //------------------------------------------------------------------------------------
         // POST api/v1/dealstatus
         [HttpPost]
-        [FwControllerMethod(Id:"k4ajzXtOBUUj")]
-        public async Task<ActionResult<DealStatusLogic>> PostAsync([FromBody]DealStatusLogic l)
+        [FwControllerMethod(Id:"k4ajzXtOBUUj", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<DealStatusLogic>> NewAsync([FromBody]DealStatusLogic l)
         {
-            return await DoPostAsync<DealStatusLogic>(l);
+            return await DoNewAsync<DealStatusLogic>(l);
+        }
+        //------------------------------------------------------------------------------------
+        // PUT api/v1/dealstatu/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "qiW7zEquMNjc7", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<DealStatusLogic>> EditAsync([FromRoute] string id, [FromBody]DealStatusLogic l)
+        {
+            return await DoEditAsync<DealStatusLogic>(l);
         }
         //------------------------------------------------------------------------------------
         // DELETE api/v1/dealstatus/A0000001
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id:"IA0YUXIK11X7")]
+        [FwControllerMethod(Id:"IA0YUXIK11X7", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<DealStatusLogic>(id);

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using FwStandard.SqlServer;
 using System.Collections.Generic;
 using FwStandard.AppManager;
-namespace WebApi.Modules.Administrator.CustomFormGroup
+namespace WebApi.Modules.AdministratorControls.CustomFormGroup
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "administrator-v1")]
@@ -17,15 +17,15 @@ namespace WebApi.Modules.Administrator.CustomFormGroup
         //------------------------------------------------------------------------------------ 
         // POST api/v1/customformgroup/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id: "EbgBVyEmJjb8")]
+        [FwControllerMethod(Id: "EbgBVyEmJjb8", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/customformgroup/exportexcelxlsx
+        // POST api/v1/customformgroup/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id: "BINtb1PjRFnuJ")]
+        [FwControllerMethod(Id: "BINtb1PjRFnuJ", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -33,7 +33,7 @@ namespace WebApi.Modules.Administrator.CustomFormGroup
         //------------------------------------------------------------------------------------ 
         // GET api/v1/customformgroup 
         [HttpGet]
-        [FwControllerMethod(Id: "ksm4EdpWEIlP")]
+        [FwControllerMethod(Id: "ksm4EdpWEIlP", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<CustomFormGroupLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<CustomFormGroupLogic>(pageno, pagesize, sort);
@@ -41,7 +41,7 @@ namespace WebApi.Modules.Administrator.CustomFormGroup
         //------------------------------------------------------------------------------------ 
         // GET api/v1/customformgroup/A0000001 
         [HttpGet("{id}")]
-        [FwControllerMethod(Id: "hEP97F7gZTtS")]
+        [FwControllerMethod(Id: "hEP97F7gZTtS", ActionType: FwControllerActionTypes.View)]
         public async Task<ActionResult<CustomFormGroupLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<CustomFormGroupLogic>(id);
@@ -49,15 +49,23 @@ namespace WebApi.Modules.Administrator.CustomFormGroup
         //------------------------------------------------------------------------------------ 
         // POST api/v1/customformgroup 
         [HttpPost]
-        [FwControllerMethod(Id: "ogvXUP6wJjkhh")]
-        public async Task<ActionResult<CustomFormGroupLogic>> PostAsync([FromBody]CustomFormGroupLogic l)
+        [FwControllerMethod(Id: "ogvXUP6wJjkhh", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<CustomFormGroupLogic>> NewAsync([FromBody]CustomFormGroupLogic l)
         {
-            return await DoPostAsync<CustomFormGroupLogic>(l);
+            return await DoNewAsync<CustomFormGroupLogic>(l);
+        }
+        //------------------------------------------------------------------------------------ 
+        // PUT api/v1/customformgroup/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "2zi6FOI8hH4hx", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<CustomFormGroupLogic>> EditAsync([FromRoute] string id, [FromBody]CustomFormGroupLogic l)
+        {
+            return await DoEditAsync<CustomFormGroupLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
         // DELETE api/v1/customformgroup/A0000001 
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id: "S5OEQ9jQgwsS")]
+        [FwControllerMethod(Id: "S5OEQ9jQgwsS", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<CustomFormGroupLogic>(id);

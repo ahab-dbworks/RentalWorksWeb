@@ -1,6 +1,6 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
-namespace WebApi.Modules.Home.ContactNote
+namespace WebApi.Modules.HomeControls.ContactNote
 {
     [FwLogic(Id:"AG3Me8bVnL39")]
     public class ContactNoteLogic : AppBusinessLogic

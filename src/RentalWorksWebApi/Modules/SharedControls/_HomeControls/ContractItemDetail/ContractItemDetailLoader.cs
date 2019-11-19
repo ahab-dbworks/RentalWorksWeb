@@ -4,7 +4,7 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 using System.Collections.Generic;
-namespace WebApi.Modules.Home.ContractItemDetail
+namespace WebApi.Modules.HomeControls.ContractItemDetail
 {
     [FwSqlTable("dbo.funccontractitemdetail(@contractid)")]
     public class ContractItemDetailLoader : AppDataLoadRecord

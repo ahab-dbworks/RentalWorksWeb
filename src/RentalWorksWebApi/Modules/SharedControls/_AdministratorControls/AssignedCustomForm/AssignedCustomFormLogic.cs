@@ -1,6 +1,6 @@
 using WebApi.Logic;
 using FwStandard.AppManager;
-namespace WebApi.Modules.Administrator.AssignedCustomForm
+namespace WebApi.Modules.AdministratorControls.AssignedCustomForm
 {
     [FwLogic(Id: "9fOOx8zYT2ZE")]
     public class AssignedCustomFormLogic : AppBusinessLogic

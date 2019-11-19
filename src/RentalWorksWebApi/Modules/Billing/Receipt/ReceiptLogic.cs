@@ -6,9 +6,10 @@ using System.Collections.Generic;
 using System.Reflection;
 using WebApi.Logic;
 using WebApi.Modules.Billing.Invoice;
-using WebApi.Modules.Home.DepositPayment;
-using WebApi.Modules.Home.InvoiceReceipt;
+using WebApi.Modules.HomeControls.DepositPayment;
+using WebApi.Modules.HomeControls.InvoiceReceipt;
 using WebApi.Modules.Settings.PaymentSettings.PaymentType;
+using WebApi.Modules.Settings.SystemSettings;
 using WebApi.Modules.Settings.SystemSettings.SystemSettings;
 using WebLibrary;
 

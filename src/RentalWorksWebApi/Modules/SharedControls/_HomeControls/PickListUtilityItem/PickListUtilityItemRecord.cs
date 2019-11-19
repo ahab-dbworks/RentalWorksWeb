@@ -5,7 +5,7 @@ using System;
 using System.Data;
 using System.Threading.Tasks;
 using WebApi.Data;
-namespace WebApi.Modules.Home.PickListUtilityItem
+namespace WebApi.Modules.HomeControls.PickListUtilityItem
 {
     [FwSqlTable("tmppicklistitem")]
     public class PickListUtilityItemRecord : AppDataReadWriteRecord

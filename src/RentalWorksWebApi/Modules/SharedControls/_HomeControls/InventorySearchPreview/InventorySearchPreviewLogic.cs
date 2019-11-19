@@ -2,9 +2,9 @@ using FwStandard.AppManager;
 using WebApi.Logic;
 using System.Threading.Tasks;
 using FwStandard.SqlServer;
-using static WebApi.Modules.Home.InventorySearchPreview.InventorySearchPreviewController;
+using static WebApi.Modules.HomeControls.InventorySearchPreview.InventorySearchPreviewController;
 
-namespace WebApi.Modules.Home.InventorySearchPreview
+namespace WebApi.Modules.HomeControls.InventorySearchPreview
 {
     [FwLogic(Id:"JInOSUX6vwnT")]
     public class InventorySearchPreviewLogic : AppBusinessLogic

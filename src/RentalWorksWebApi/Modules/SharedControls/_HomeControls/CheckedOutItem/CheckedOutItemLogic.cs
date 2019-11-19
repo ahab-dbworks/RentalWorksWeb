@@ -1,6 +1,6 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
-namespace WebApi.Modules.Home.CheckedOutItem
+namespace WebApi.Modules.HomeControls.CheckedOutItem
 {
     [FwLogic(Id:"vUvDyYlwWpaz")]
     public class CheckedOutItemLogic : AppBusinessLogic

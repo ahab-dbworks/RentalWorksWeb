@@ -6,7 +6,7 @@ using System.Data;
 using System.Threading.Tasks;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Inventory.Item
+namespace WebApi.Modules.Inventory.Asset
 {
     [FwSqlTable("rentalitem")]
     public class ItemRecord : AppDataReadWriteRecord

@@ -18,15 +18,15 @@ namespace WebApi.Modules.Settings.GeneratorSettings.GeneratorType
         //------------------------------------------------------------------------------------
         // POST api/v1/generatortype/browse
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"OOOyCPaiBCjj")]
+        [FwControllerMethod(Id:"OOOyCPaiBCjj", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"Wsb1kgC6QO2S")]
+        [FwControllerMethod(Id:"Wsb1kgC6QO2S", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -34,7 +34,7 @@ namespace WebApi.Modules.Settings.GeneratorSettings.GeneratorType
         //------------------------------------------------------------------------------------
         // GET api/v1/generatortype
         [HttpGet]
-        [FwControllerMethod(Id:"7LadFZQWdmNP")]
+        [FwControllerMethod(Id:"7LadFZQWdmNP", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<GeneratorTypeLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<GeneratorTypeLogic>(pageno, pagesize, sort);
@@ -42,7 +42,7 @@ namespace WebApi.Modules.Settings.GeneratorSettings.GeneratorType
         //------------------------------------------------------------------------------------
         // GET api/v1/generatortype/A0000001
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"DiLpR82Vl7Jz")]
+        [FwControllerMethod(Id:"DiLpR82Vl7Jz", ActionType: FwControllerActionTypes.View)]
         public async Task<ActionResult<GeneratorTypeLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<GeneratorTypeLogic>(id);
@@ -50,15 +50,23 @@ namespace WebApi.Modules.Settings.GeneratorSettings.GeneratorType
         //------------------------------------------------------------------------------------
         // POST api/v1/generatortype
         [HttpPost]
-        [FwControllerMethod(Id:"eX4udmt8J3hF")]
-        public async Task<ActionResult<GeneratorTypeLogic>> PostAsync([FromBody]GeneratorTypeLogic l)
+        [FwControllerMethod(Id:"eX4udmt8J3hF", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<GeneratorTypeLogic>> NewAsync([FromBody]GeneratorTypeLogic l)
         {
-            return await DoPostAsync<GeneratorTypeLogic>(l);
+            return await DoNewAsync<GeneratorTypeLogic>(l);
+        }
+        //------------------------------------------------------------------------------------
+        // PUT api/v1/generatortyp/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "sFt4r5sppLkZp", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<GeneratorTypeLogic>> EditAsync([FromRoute] string id, [FromBody]GeneratorTypeLogic l)
+        {
+            return await DoEditAsync<GeneratorTypeLogic>(l);
         }
         //------------------------------------------------------------------------------------
         // DELETE api/v1/generatortype/A0000001
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id:"3KwJCwQCGOPx")]
+        [FwControllerMethod(Id:"3KwJCwQCGOPx", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<GeneratorTypeLogic>(id);

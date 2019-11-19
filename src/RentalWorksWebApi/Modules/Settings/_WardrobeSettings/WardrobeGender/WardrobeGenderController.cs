@@ -18,15 +18,15 @@ namespace WebApi.Modules.Settings.WardrobeSettings.WardrobeGender
         //------------------------------------------------------------------------------------
         // POST api/v1/wardrobegender/browse
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"Qx1RJH8Wqm3iX")]
+        [FwControllerMethod(Id:"Qx1RJH8Wqm3iX", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"ufTfVfrVlGIFy")]
+        [FwControllerMethod(Id:"ufTfVfrVlGIFy", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -34,7 +34,7 @@ namespace WebApi.Modules.Settings.WardrobeSettings.WardrobeGender
         //------------------------------------------------------------------------------------
         // GET api/v1/wardrobegender
         [HttpGet]
-        [FwControllerMethod(Id:"oimyDIBwP1TID")]
+        [FwControllerMethod(Id:"oimyDIBwP1TID", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<WardrobeGenderLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<WardrobeGenderLogic>(pageno, pagesize, sort);
@@ -42,7 +42,7 @@ namespace WebApi.Modules.Settings.WardrobeSettings.WardrobeGender
         //------------------------------------------------------------------------------------
         // GET api/v1/wardrobegender/A0000001
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"FtNEx8boapOE4")]
+        [FwControllerMethod(Id:"FtNEx8boapOE4", ActionType: FwControllerActionTypes.View)]
         public async Task<ActionResult<WardrobeGenderLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<WardrobeGenderLogic>(id);
@@ -50,15 +50,23 @@ namespace WebApi.Modules.Settings.WardrobeSettings.WardrobeGender
         //------------------------------------------------------------------------------------
         // POST api/v1/wardrobegender
         [HttpPost]
-        [FwControllerMethod(Id:"udG3LMrle2Jx9")]
-        public async Task<ActionResult<WardrobeGenderLogic>> PostAsync([FromBody]WardrobeGenderLogic l)
+        [FwControllerMethod(Id:"udG3LMrle2Jx9", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<WardrobeGenderLogic>> NewAsync([FromBody]WardrobeGenderLogic l)
         {
-            return await DoPostAsync<WardrobeGenderLogic>(l);
+            return await DoNewAsync<WardrobeGenderLogic>(l);
+        }
+        //------------------------------------------------------------------------------------
+        // PUT api/v1/wardrobegende/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "kJ4yNCJ6MdMXc", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<WardrobeGenderLogic>> EditAsync([FromRoute] string id, [FromBody]WardrobeGenderLogic l)
+        {
+            return await DoEditAsync<WardrobeGenderLogic>(l);
         }
         //------------------------------------------------------------------------------------
         // DELETE api/v1/wardrobegender/A0000001
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id:"orst79gLXDlkX")]
+        [FwControllerMethod(Id:"orst79gLXDlkX", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<WardrobeGenderLogic>(id);

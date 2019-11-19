@@ -1,7 +1,7 @@
 using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
 using WebApi.Logic;
-namespace WebApi.Modules.Home.StageQuantityItem
+namespace WebApi.Modules.HomeControls.StageQuantityItem
 {
     [FwLogic(Id:"PKyncKiHT9Han")]
     public class StageQuantityItemLogic : AppBusinessLogic

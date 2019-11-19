@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-namespace WebApi.Modules.Home.InvoiceCreationBatch
+namespace WebApi.Modules.HomeControls.InvoiceCreationBatch
 {
     [FwSqlTable("invoicebatch")]
     public class InvoiceCreationBatchRecord : AppDataReadWriteRecord

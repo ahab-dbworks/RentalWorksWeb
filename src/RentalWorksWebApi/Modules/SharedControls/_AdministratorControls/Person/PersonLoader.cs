@@ -4,7 +4,7 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 using System.Collections.Generic;
-namespace WebApi.Modules.Administrator.Person
+namespace WebApi.Modules.AdministratorControls.Person
 {
     [FwSqlTable("webusersview")]
     public class PersonLoader : PersonBrowseLoader

@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-namespace WebApi.Modules.Home.SubPurchaseOrderItem
+namespace WebApi.Modules.HomeControls.SubPurchaseOrderItem
 {
     [FwSqlTable("tmppoitem")]
     public class SubPurchaseOrderItemRecord : AppDataReadWriteRecord

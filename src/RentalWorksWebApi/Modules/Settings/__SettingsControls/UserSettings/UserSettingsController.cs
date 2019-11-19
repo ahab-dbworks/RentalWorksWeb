@@ -6,7 +6,7 @@ using WebApi.Controllers;
 using System.Threading.Tasks;
 using System;
 
-namespace WebApi.Modules.Settings.UserSettings
+namespace WebApi.Modules.Settings.UserSettings.UserSettings
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "settings-v1")]
@@ -17,7 +17,7 @@ namespace WebApi.Modules.Settings.UserSettings
         //------------------------------------------------------------------------------------ 
         // GET api/v1/usersettings/A0000001 
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"dODYJZuvVxum5")]
+        [FwControllerMethod(Id:"dODYJZuvVxum5", ValidateSecurityGroup: false)]
         public async Task<ActionResult<UserSettingsLogic>> GetOneAsync([FromRoute]string id)  //id = webusersid
         {
             return await DoGetAsync<UserSettingsLogic>(id);
@@ -25,7 +25,7 @@ namespace WebApi.Modules.Settings.UserSettings
         //------------------------------------------------------------------------------------ 
         // POST api/v1/usersettings 
         [HttpPost]
-        [FwControllerMethod(Id: "nuWsJOCX1jpvm")]
+        [FwControllerMethod(Id: "nuWsJOCX1jpvm", ActionType: FwControllerActionTypes.Save)]
         public async Task<ActionResult<UserSettingsLogic>> PostAsync([FromBody]UserSettingsLogic l)
         {
             //return await DoPostAsync<UserSettingsLogic>(l);

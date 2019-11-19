@@ -18,7 +18,7 @@ namespace WebApi.Modules.Utilities.ReceiptProcessBatch
         //------------------------------------------------------------------------------------ 
         // POST api/v1/receiptprocessbatch/export
         [HttpPost("export")]
-        [FwControllerMethod(Id: "qJl9ySG3Dc4")]
+        [FwControllerMethod(Id: "qJl9ySG3Dc4", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<ExportReceiptResponse>> Export([FromBody]ExportReceiptRequest request)
         {
             if (!ModelState.IsValid)
@@ -48,7 +48,7 @@ namespace WebApi.Modules.Utilities.ReceiptProcessBatch
         //------------------------------------------------------------------------------------ 
         // POST api/v1/receiptprocessbatch/createbatch
         [HttpPost("createbatch")]
-        [FwControllerMethod(Id: "G7wMcVCbWQm")]
+        [FwControllerMethod(Id: "G7wMcVCbWQm", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<ReceiptProcessBatchResponse>> CreateBatch([FromBody]ReceiptProcessBatchRequest request)
         {
             if (!ModelState.IsValid)
@@ -68,15 +68,15 @@ namespace WebApi.Modules.Utilities.ReceiptProcessBatch
         //------------------------------------------------------------------------------------ 
         // POST api/v1/receiptprocessbatch/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id: "v95ShkNjcztCo")]
+        [FwControllerMethod(Id: "v95ShkNjcztCo", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/receiptprocessbatch/exportexcelxlsx
+        // POST api/v1/receiptprocessbatch/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id: "QVqljKwnnW5j0")]
+        [FwControllerMethod(Id: "QVqljKwnnW5j0", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);

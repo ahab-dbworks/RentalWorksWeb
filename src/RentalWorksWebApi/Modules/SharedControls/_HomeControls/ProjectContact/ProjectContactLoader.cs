@@ -6,7 +6,7 @@ using WebApi.Data;
 using System.Collections.Generic;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Home.ProjectContact
+namespace WebApi.Modules.HomeControls.ProjectContact
 {
     [FwSqlTable("dbo.funccompcontact2(@orderid,'F')")]
     public class ProjectContactLoader : AppDataLoadRecord

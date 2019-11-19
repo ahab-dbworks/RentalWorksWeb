@@ -6,7 +6,7 @@ using WebApi.Data;
 using System.Collections.Generic;
 using WebLibrary;
 
-namespace WebApi.Modules.Home.ContainerItem
+namespace WebApi.Modules.HomeControls.ContainerItem
 {
     [FwSqlTable("rentalitemview")]
     public class ContainerItemBrowseLoader : AppDataLoadRecord

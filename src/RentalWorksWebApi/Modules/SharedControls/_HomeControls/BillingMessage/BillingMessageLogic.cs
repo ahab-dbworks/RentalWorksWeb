@@ -1,6 +1,6 @@
 using WebApi.Logic;
 using FwStandard.AppManager;
-namespace WebApi.Modules.Home.BillingMessage
+namespace WebApi.Modules.HomeControls.BillingMessage
 {
     [FwLogic(Id: "m6waP15Dz9lvu")]
     public class BillingMessageLogic : AppBusinessLogic

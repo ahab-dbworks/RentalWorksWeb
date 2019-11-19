@@ -1,7 +1,7 @@
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-namespace WebApi.Modules.Utilities.QuikActivitySettings
+namespace WebApi.Modules.UtilitiesControls.QuikActivitySettings
 {
     [FwSqlTable("quikactivitysettings")]
     public class QuikActivitySettingsRecord : AppDataReadWriteRecord

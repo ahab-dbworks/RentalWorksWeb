@@ -3,7 +3,7 @@ using FwStandard.AppManager;
 using Newtonsoft.Json;
 using FwStandard.BusinessLogic;
 
-namespace WebApi.Modules.Home.GlManual
+namespace WebApi.Modules.HomeControls.GlManual
 {
     [FwLogic(Id: "04gQwzMY1sBKn")]
     public class GlManualLogic : AppBusinessLogic

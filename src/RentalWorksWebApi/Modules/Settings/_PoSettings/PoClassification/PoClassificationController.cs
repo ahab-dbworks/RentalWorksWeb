@@ -18,15 +18,15 @@ namespace WebApi.Modules.Settings.PoSettings.PoClassification
         //------------------------------------------------------------------------------------
         // POST api/v1/poclassification/browse
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"fqMhLYkM1KBl")]
+        [FwControllerMethod(Id:"fqMhLYkM1KBl", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"itu5iLGQqk67")]
+        [FwControllerMethod(Id:"itu5iLGQqk67", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -34,7 +34,7 @@ namespace WebApi.Modules.Settings.PoSettings.PoClassification
         //------------------------------------------------------------------------------------
         // GET api/v1/poclassification
         [HttpGet]
-        [FwControllerMethod(Id:"jKMau84rveOO")]
+        [FwControllerMethod(Id:"jKMau84rveOO", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<PoClassificationLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<PoClassificationLogic>(pageno, pagesize, sort);
@@ -42,7 +42,7 @@ namespace WebApi.Modules.Settings.PoSettings.PoClassification
         //------------------------------------------------------------------------------------
         // GET api/v1/poclassification/A0000001
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"pjDKtEbzIpd7")]
+        [FwControllerMethod(Id:"pjDKtEbzIpd7", ActionType: FwControllerActionTypes.View)]
         public async Task<ActionResult<PoClassificationLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<PoClassificationLogic>(id);
@@ -50,15 +50,23 @@ namespace WebApi.Modules.Settings.PoSettings.PoClassification
         //------------------------------------------------------------------------------------
         // POST api/v1/poclassification
         [HttpPost]
-        [FwControllerMethod(Id:"Q7ds8LumAMht")]
-        public async Task<ActionResult<PoClassificationLogic>> PostAsync([FromBody]PoClassificationLogic l)
+        [FwControllerMethod(Id:"Q7ds8LumAMht", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<PoClassificationLogic>> NewAsync([FromBody]PoClassificationLogic l)
         {
-            return await DoPostAsync<PoClassificationLogic>(l);
+            return await DoNewAsync<PoClassificationLogic>(l);
+        }
+        //------------------------------------------------------------------------------------
+        // PUT api/v1/poclassificatio/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "rdAUrYg4xb91u", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<PoClassificationLogic>> EditAsync([FromRoute] string id, [FromBody]PoClassificationLogic l)
+        {
+            return await DoEditAsync<PoClassificationLogic>(l);
         }
         //------------------------------------------------------------------------------------
         // DELETE api/v1/poclassification/A0000001
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id:"D5zOOZu0jl4C")]
+        [FwControllerMethod(Id:"D5zOOZu0jl4C", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<PoClassificationLogic>(id);

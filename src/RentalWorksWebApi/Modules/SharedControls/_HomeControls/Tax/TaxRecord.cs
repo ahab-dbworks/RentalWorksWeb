@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-namespace WebApi.Modules.Home.Tax
+namespace WebApi.Modules.HomeControls.Tax
 {
     [FwSqlTable("tax")]
     public class TaxRecord : AppDataReadWriteRecord

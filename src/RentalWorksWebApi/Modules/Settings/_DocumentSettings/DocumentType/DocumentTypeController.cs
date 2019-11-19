@@ -19,15 +19,15 @@ namespace WebApi.Modules.Settings.DocumentSettings.DocumentType
         //------------------------------------------------------------------------------------
         // POST api/v1/documenttype/browse
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"peQXVZYW7oXi")]
+        [FwControllerMethod(Id:"peQXVZYW7oXi", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"lVQW2HvK44cI")]
+        [FwControllerMethod(Id:"lVQW2HvK44cI", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -35,7 +35,7 @@ namespace WebApi.Modules.Settings.DocumentSettings.DocumentType
         //------------------------------------------------------------------------------------
         // GET api/v1/documenttype
         [HttpGet]
-        [FwControllerMethod(Id:"2KyXXsmQqtI1")]
+        [FwControllerMethod(Id:"2KyXXsmQqtI1", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<DocumentTypeLogic>>> GetManyAsync(int pageno, int pagesize, string sort)
         {
             return await DoGetAsync<DocumentTypeLogic>(pageno, pagesize, sort);
@@ -43,23 +43,31 @@ namespace WebApi.Modules.Settings.DocumentSettings.DocumentType
         //------------------------------------------------------------------------------------
         // GET api/v1/documenttype/A0000001
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"AzIIz1Voc5Kx")]
-        public async Task<ActionResult<DocumentTypeLogic>> GetAsync(string id)
+        [FwControllerMethod(Id:"AzIIz1Voc5Kx", ActionType: FwControllerActionTypes.View)]
+        public async Task<ActionResult<DocumentTypeLogic>> GetOneAsync(string id)
         {
             return await DoGetAsync<DocumentTypeLogic>(id);
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/documenttype
         [HttpPost]
-        [FwControllerMethod(Id:"4GWLUfRi90in")]
-        public async Task<ActionResult<DocumentTypeLogic>> PostAsync([FromBody]DocumentTypeLogic l)
+        [FwControllerMethod(Id:"4GWLUfRi90in", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<DocumentTypeLogic>> NewAsync([FromBody]DocumentTypeLogic l)
         {
-            return await DoPostAsync<DocumentTypeLogic>(l);
+            return await DoNewAsync<DocumentTypeLogic>(l);
+        }
+        //------------------------------------------------------------------------------------
+        // PUT api/v1/documenttyp/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "XHAVBgOP4zpFi", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<DocumentTypeLogic>> EditAsync([FromRoute] string id, [FromBody]DocumentTypeLogic l)
+        {
+            return await DoEditAsync<DocumentTypeLogic>(l);
         }
         //------------------------------------------------------------------------------------
         // DELETE api/v1/documenttype/A0000001
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id:"D53ZIX4E6pMx")]
+        [FwControllerMethod(Id:"D53ZIX4E6pMx", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync(string id)
         {
             return await DoDeleteAsync<DocumentTypeLogic>(id);

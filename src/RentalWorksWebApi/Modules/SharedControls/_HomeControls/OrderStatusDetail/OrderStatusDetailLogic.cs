@@ -1,6 +1,6 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
-namespace WebApi.Modules.Home.OrderStatusDetail
+namespace WebApi.Modules.HomeControls.OrderStatusDetail
 {
     [FwLogic(Id:"nROby0s3w029")]
     public class OrderStatusDetailLogic : AppBusinessLogic

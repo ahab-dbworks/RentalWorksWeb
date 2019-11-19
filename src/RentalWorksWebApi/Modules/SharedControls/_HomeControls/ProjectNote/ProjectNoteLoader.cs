@@ -4,7 +4,7 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data; 
 using System.Collections.Generic;
-namespace WebApi.Modules.Home.ProjectNote
+namespace WebApi.Modules.HomeControls.ProjectNote
 {
     [FwSqlTable("ordernoteview")]
     public class ProjectNoteLoader : AppDataLoadRecord

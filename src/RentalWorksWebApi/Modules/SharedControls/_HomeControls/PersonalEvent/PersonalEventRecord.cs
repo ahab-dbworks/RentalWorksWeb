@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-namespace WebApi.Modules.Home.PersonalEvent
+namespace WebApi.Modules.HomeControls.PersonalEvent
 {
     [FwSqlTable("personalevent")]
     public class PersonalEventRecord : AppDataReadWriteRecord

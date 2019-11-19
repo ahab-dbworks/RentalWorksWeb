@@ -4,9 +4,8 @@ using FwStandard.SqlServer;
 using System;
 using System.Threading.Tasks;
 using WebApi.Logic;
-using WebApi.Modules.Home.InventoryAvailability;
-using WebApi.Modules.Home.RepairItem;
-using WebApi.Modules.Home.Tax;
+using WebApi.Modules.HomeControls.RepairItem;
+using WebApi.Modules.HomeControls.Tax;
 using WebLibrary;
 
 namespace WebApi.Modules.Inventory.Repair

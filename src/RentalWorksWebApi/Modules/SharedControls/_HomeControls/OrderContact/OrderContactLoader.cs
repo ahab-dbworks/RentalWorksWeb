@@ -6,7 +6,7 @@ using WebApi.Data;
 using System.Collections.Generic;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Home.OrderContact
+namespace WebApi.Modules.HomeControls.OrderContact
 {
     [FwSqlTable("dbo.funccompcontact2(@orderid,'F')")]
     public class OrderContactLoader : AppDataLoadRecord

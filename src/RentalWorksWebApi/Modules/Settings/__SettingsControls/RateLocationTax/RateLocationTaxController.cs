@@ -17,15 +17,15 @@ namespace WebApi.Modules.Settings.RateLocationTax
         //------------------------------------------------------------------------------------ 
         // POST api/v1/ratelocationtax/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"aVeCL8xWSJD0e")]
+        [FwControllerMethod(Id:"aVeCL8xWSJD0e", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"Ttqpe6JUemjIp")]
+        [FwControllerMethod(Id:"Ttqpe6JUemjIp", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -33,7 +33,7 @@ namespace WebApi.Modules.Settings.RateLocationTax
         //------------------------------------------------------------------------------------ 
         // GET api/v1/ratelocationtax 
         [HttpGet]
-        [FwControllerMethod(Id:"R46ksUprfrt9l")]
+        [FwControllerMethod(Id:"R46ksUprfrt9l", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<RateLocationTaxLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<RateLocationTaxLogic>(pageno, pagesize, sort);
@@ -41,7 +41,7 @@ namespace WebApi.Modules.Settings.RateLocationTax
         //------------------------------------------------------------------------------------ 
         // GET api/v1/ratelocationtax/A0000001 
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"eT1x6IGk9vPS3")]
+        [FwControllerMethod(Id:"eT1x6IGk9vPS3", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<RateLocationTaxLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<RateLocationTaxLogic>(id);
@@ -49,15 +49,23 @@ namespace WebApi.Modules.Settings.RateLocationTax
         //------------------------------------------------------------------------------------ 
         // POST api/v1/ratelocationtax 
         [HttpPost]
-        [FwControllerMethod(Id:"bueQpYL0H3yj4")]
-        public async Task<ActionResult<RateLocationTaxLogic>> PostAsync([FromBody]RateLocationTaxLogic l)
+        [FwControllerMethod(Id:"bueQpYL0H3yj4", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<RateLocationTaxLogic>> NewAsync([FromBody]RateLocationTaxLogic l)
         {
-            return await DoPostAsync<RateLocationTaxLogic>(l);
+            return await DoNewAsync<RateLocationTaxLogic>(l);
+        }
+        //------------------------------------------------------------------------------------ 
+        // PUT api/v1/ratelocationtax/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "i1lpmiSrwQRkO", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<RateLocationTaxLogic>> EditAsync([FromRoute] string id, [FromBody]RateLocationTaxLogic l)
+        {
+            return await DoEditAsync<RateLocationTaxLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
         // DELETE api/v1/ratelocationtax/A0000001 
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id:"1mMPF6XDmwjr1")]
+        [FwControllerMethod(Id:"1mMPF6XDmwjr1", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<RateLocationTaxLogic>(id);

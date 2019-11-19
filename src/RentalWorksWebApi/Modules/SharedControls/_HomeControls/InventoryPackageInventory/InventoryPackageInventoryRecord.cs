@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic;
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data;
-namespace WebApi.Modules.Home.InventoryPackageInventory
+namespace WebApi.Modules.HomeControls.InventoryPackageInventory
 {
     [FwSqlTable("packageitem")]
     public class InventoryPackageInventoryRecord : AppDataReadWriteRecord

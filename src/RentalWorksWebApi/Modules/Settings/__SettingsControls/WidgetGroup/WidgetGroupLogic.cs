@@ -1,6 +1,7 @@
 using WebApi.Logic;
 using FwStandard.AppManager;
-namespace WebApi.Modules.Administrator.WidgetGroup
+
+namespace WebApi.Modules.Settings.WidgetGroup
 {
     [FwLogic(Id: "uGSQERBTeuNda")]
     public class WidgetGroupLogic : AppBusinessLogic

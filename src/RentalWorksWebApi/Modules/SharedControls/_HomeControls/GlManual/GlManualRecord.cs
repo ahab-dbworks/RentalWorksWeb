@@ -1,7 +1,7 @@
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-namespace WebApi.Modules.Home.GlManual
+namespace WebApi.Modules.HomeControls.GlManual
 {
     [FwSqlTable("gl")]
     public class GlManualRecord : AppDataReadWriteRecord

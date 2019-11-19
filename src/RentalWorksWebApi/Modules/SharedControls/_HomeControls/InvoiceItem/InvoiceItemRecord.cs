@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-namespace WebApi.Modules.Home.InvoiceItem
+namespace WebApi.Modules.HomeControls.InvoiceItem
 {
     [FwSqlTable("invoiceitem")]
     public class InvoiceItemRecord : AppDataReadWriteRecord

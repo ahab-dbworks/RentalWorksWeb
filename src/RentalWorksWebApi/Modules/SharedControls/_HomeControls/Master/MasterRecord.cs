@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using WebApi.Logic;
 using WebLibrary;
 
-namespace WebApi.Modules.Home.Master
+namespace WebApi.Modules.HomeControls.Master
 {
     [FwSqlTable("master")]
     public class MasterRecord : AppDataReadWriteRecord

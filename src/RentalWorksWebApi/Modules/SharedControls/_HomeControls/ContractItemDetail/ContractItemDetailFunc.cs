@@ -5,7 +5,7 @@ using System.Data;
 using System.Threading.Tasks;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Home.ContractItemDetail
+namespace WebApi.Modules.HomeControls.ContractItemDetail
 {
     public class ContractItem
     {

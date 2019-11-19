@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using WebApi.Data;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Home.InvoiceNote
+namespace WebApi.Modules.HomeControls.InvoiceNote
 {
     [FwSqlTable("invoicenote")]
     public class InvoiceNoteRecord : AppDataReadWriteRecord

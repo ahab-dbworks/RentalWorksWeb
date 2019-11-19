@@ -4,7 +4,7 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 using System.Collections.Generic;
-namespace WebApi.Modules.Home.Address
+namespace WebApi.Modules.HomeControls.Address
 {
     [FwSqlTable("appaddressview")]
     public class AddressLoader : AppDataLoadRecord

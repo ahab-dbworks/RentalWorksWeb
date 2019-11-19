@@ -3,7 +3,7 @@ using FwStandard.Models;
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data;
-using WebApi.Modules.Home.Master;
+using WebApi.Modules.HomeControls.Master;
 using System.Collections.Generic;
 
 namespace WebApi.Modules.Settings.Rate

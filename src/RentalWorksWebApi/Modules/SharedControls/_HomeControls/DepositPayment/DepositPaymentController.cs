@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using FwStandard.SqlServer;
 using System.Collections.Generic;
 using FwStandard.AppManager;
-namespace WebApi.Modules.Home.DepositPayment
+namespace WebApi.Modules.HomeControls.DepositPayment
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
@@ -17,15 +17,15 @@ namespace WebApi.Modules.Home.DepositPayment
         //------------------------------------------------------------------------------------ 
         // POST api/v1/depositpayment/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id: "0cSOu7mq6GLcJ")]
+        [FwControllerMethod(Id: "0cSOu7mq6GLcJ", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/depositpayment/exportexcelxlsx
+        // POST api/v1/depositpayment/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id: "0CvONqc5v5cVa")]
+        [FwControllerMethod(Id: "0CvONqc5v5cVa", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -33,7 +33,7 @@ namespace WebApi.Modules.Home.DepositPayment
         //------------------------------------------------------------------------------------ 
         // GET api/v1/depositpayment 
         [HttpGet]
-        [FwControllerMethod(Id: "0d3jWZ95dVRKU")]
+        [FwControllerMethod(Id: "0d3jWZ95dVRKU", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<IEnumerable<DepositPaymentLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<DepositPaymentLogic>(pageno, pagesize, sort);
@@ -41,7 +41,7 @@ namespace WebApi.Modules.Home.DepositPayment
         //------------------------------------------------------------------------------------ 
         // GET api/v1/depositpayment/A0000001 
         [HttpGet("{id}")]
-        [FwControllerMethod(Id: "0d5AK66T0yxc6")]
+        [FwControllerMethod(Id: "0d5AK66T0yxc6", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DepositPaymentLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<DepositPaymentLogic>(id);
@@ -49,7 +49,7 @@ namespace WebApi.Modules.Home.DepositPayment
         //------------------------------------------------------------------------------------ 
         //// POST api/v1/depositpayment 
         //[HttpPost] 
-        //[FwControllerMethod(Id: "0DgpwFZviclhB")] 
+        //[FwControllerMethod(Id: "0DgpwFZviclhB"), ActionType: FwControllerActionTypes.Edit] 
         //public async Task<ActionResult<DepositPaymentLogic>> PostAsync([FromBody]DepositPaymentLogic l) 
         //{ 
         //return await DoPostAsync<DepositPaymentLogic>(l); 
@@ -57,7 +57,7 @@ namespace WebApi.Modules.Home.DepositPayment
         ////------------------------------------------------------------------------------------ 
         //// DELETE api/v1/depositpayment/A0000001 
         //[HttpDelete("{id}")] 
-        //[FwControllerMethod(Id: "0EOu855g7XlyV")] 
+        //[FwControllerMethod(Id: "0EOu855g7XlyV"), ActionType: FwControllerActionTypes.Delete] 
         //public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id) 
         //{ 
         //return await DoDeleteAsync<DepositPaymentLogic>(id); 

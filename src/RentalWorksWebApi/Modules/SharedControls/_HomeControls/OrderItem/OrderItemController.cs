@@ -10,7 +10,7 @@ using System;
 using FwStandard.BusinessLogic;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Home.OrderItem
+namespace WebApi.Modules.HomeControls.OrderItem
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
@@ -21,15 +21,15 @@ namespace WebApi.Modules.Home.OrderItem
         //------------------------------------------------------------------------------------ 
         // POST api/v1/orderitem/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"Yx7zfT0uv9r4")]
+        [FwControllerMethod(Id:"Yx7zfT0uv9r4", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"1hyN9Ooa1Jzs")]
+        [FwControllerMethod(Id:"1hyN9Ooa1Jzs", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -37,7 +37,7 @@ namespace WebApi.Modules.Home.OrderItem
         //------------------------------------------------------------------------------------ 
         // GET api/v1/orderitem/A0000001
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"g4Z0ZkzW6VM7")]
+        [FwControllerMethod(Id:"g4Z0ZkzW6VM7", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<OrderItemLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<OrderItemLogic>(id);
@@ -45,10 +45,18 @@ namespace WebApi.Modules.Home.OrderItem
         //------------------------------------------------------------------------------------ 
         // POST api/v1/orderitem 
         [HttpPost]
-        [FwControllerMethod(Id:"DbB7badcbBLq")]
-        public async Task<ActionResult<OrderItemLogic>> PostAsync([FromBody]OrderItemLogic l)
+        [FwControllerMethod(Id:"DbB7badcbBLq", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<OrderItemLogic>> NewAsync([FromBody]OrderItemLogic l)
         {
-            return await DoPostAsync<OrderItemLogic>(l);
+            return await DoNewAsync<OrderItemLogic>(l);
+        }
+        //------------------------------------------------------------------------------------ 
+        // PUT api/v1/orderitem/A0000001
+        [HttpPut("{id}")]
+        [FwControllerMethod(Id: "pQX2uahR0foBi", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<OrderItemLogic>> EditAsync([FromRoute] string id, [FromBody]OrderItemLogic l)
+        {
+            return await DoEditAsync<OrderItemLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/orderitem/many
@@ -63,7 +71,7 @@ namespace WebApi.Modules.Home.OrderItem
         //------------------------------------------------------------------------------------ 
         // DELETE api/v1/orderitem/A0000001
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id:"042zT8NJ4EW8")]
+        [FwControllerMethod(Id:"042zT8NJ4EW8", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<OrderItemLogic>(id);
@@ -144,7 +152,7 @@ namespace WebApi.Modules.Home.OrderItem
         //------------------------------------------------------------------------------------ 
         // POST api/v1/orderitem/sort
         [HttpPost("sort")]
-        [FwControllerMethod(Id: "4enRLJuJAEjeO")]
+        [FwControllerMethod(Id: "4enRLJuJAEjeO", ActionType: FwControllerActionTypes.Option)]
         public async Task<ActionResult<SortItemsResponse>> SortOrderItemsAsync([FromBody]SortOrderItemsRequest request)
         {
             if (!ModelState.IsValid)

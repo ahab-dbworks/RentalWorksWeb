@@ -4,7 +4,7 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data; 
 using System.Collections.Generic;
-namespace WebApi.Modules.Home.ContactNote
+namespace WebApi.Modules.HomeControls.ContactNote
 {
     [FwSqlTable("contactnoteview")]
     public class ContactNoteLoader : AppDataLoadRecord

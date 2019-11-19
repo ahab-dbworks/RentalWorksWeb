@@ -6,7 +6,7 @@ using System.Data;
 using System.Threading.Tasks;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Home.OrderDates
+namespace WebApi.Modules.HomeControls.OrderDates
 {
 
     //public class OrderDatesAndTime
