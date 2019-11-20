@@ -414,13 +414,16 @@
                 // Legend for Avail Calendar
                 const availSchedControl = $form.find('.cal-sched')
                 try {
-                    FwAppData.apiMethod(true, 'GET', `${this.apiurl}/availabilitylegend`, null, FwServices.defaultTimeout, function onSuccess(response) {
-                        for (let key in response) {
-                            FwBrowse.addLegend(availSchedControl, key, response[key]);
-                        }
-                    }, function onError(response) {
-                        FwFunc.showError(response);
-                    }, availSchedControl)
+                    if (availSchedControl.hasClass('legend-loaded') === false) {
+                        FwAppData.apiMethod(true, 'GET', `${this.apiurl}/availabilitylegend`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                            for (let key in response) {
+                                FwBrowse.addLegend(availSchedControl, key, response[key]);
+                            }
+                            availSchedControl.addClass('legend-loaded');
+                        }, function onError(response) {
+                            FwFunc.showError(response);
+                        }, availSchedControl);
+                    }
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }
