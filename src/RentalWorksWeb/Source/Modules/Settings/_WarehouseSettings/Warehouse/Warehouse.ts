@@ -78,89 +78,101 @@
     }
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
-        const $warehouseDepartmentGrid = $form.find('div[data-grid="WarehouseDepartmentGrid"]');
-        const $warehouseDepartmentGridControl = FwBrowse.loadGridFromTemplate('WarehouseDepartmentGrid');
-        $warehouseDepartmentGrid.empty().append($warehouseDepartmentGridControl);
-        $warehouseDepartmentGridControl.data('ondatabind', request => {
-            request.uniqueids = {
-                WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId')
-            };
+        FwBrowse.renderGrid({
+            nameGrid: 'WarehouseDepartmentGrid',
+            gridSecurityId: 'BlB26FHHFsaQx',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId')
+                };
+            },
+            beforeSave: (request: any) => {
+                request.WarehouseId = FwFormField.getValueByDataField($form, 'WarehouseId')
+            }
         });
-        $warehouseDepartmentGridControl.data('beforesave', request => {
-            request.WarehouseId = FwFormField.getValueByDataField($form, 'WarehouseId')
-        });
-        FwBrowse.init($warehouseDepartmentGridControl);
-        FwBrowse.renderRuntimeHtml($warehouseDepartmentGridControl);
         // ----------
-        const $warehouseInventoryTypeGrid = $form.find('div[data-grid="WarehouseInventoryTypeGrid"]');
-        const $warehouseInventoryTypeGridControl = FwBrowse.loadGridFromTemplate('WarehouseInventoryTypeGrid');
-        $warehouseInventoryTypeGrid.empty().append($warehouseInventoryTypeGridControl);
-        $warehouseInventoryTypeGridControl.data('ondatabind', request => {
-            request.uniqueids = {
-                WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId')
-            };
+         FwBrowse.renderGrid({
+            nameGrid: 'WarehouseInventoryTypeGrid',
+            gridSecurityId: 'HRLS0W2gCu4lD',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId')
+                };
+            },
+            beforeSave: (request: any) => {
+                request.WarehouseId = FwFormField.getValueByDataField($form, 'WarehouseId')
+            }
         });
-        $warehouseInventoryTypeGridControl.data('beforesave', request => {
-            request.WarehouseId = FwFormField.getValueByDataField($form, 'WarehouseId')
-        });
-        FwBrowse.init($warehouseInventoryTypeGridControl);
-        FwBrowse.renderRuntimeHtml($warehouseInventoryTypeGridControl);
         // ----------
-        //const $warehouseAvailabilityHourGrid = $form.find('div[data-grid="WarehouseAvailabilityHourGrid"]');
-        //const $warehouseAvailabilityHourGridControl = FwBrowse.loadGridFromTemplate('WarehouseAvailabilityHourGrid');
-        //$warehouseAvailabilityHourGrid.empty().append($warehouseAvailabilityHourGridControl);
-        //$warehouseAvailabilityHourGridControl.data('ondatabind', request => {
-        //    request.uniqueids = {
-        //        WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId')
-        //    };
+        //FwBrowse.renderGrid({
+        //    nameGrid: 'WarehouseAvailabilityHourGrid',
+        //    gridSecurityId: '1iBtCdzhTkio4',
+        //    moduleSecurityId: this.id,
+        //    $form: $form,
+        //    pageSize: 10,
+        //    onDataBind: (request: any) => {
+        //        request.uniqueids = {
+        //            WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId')
+        //        };
+        //    },
+        //    beforeSave: (request: any) => {
+        //        request.WarehouseId = FwFormField.getValueByDataField($form, 'WarehouseId')
+        //    }
         //});
-        //$warehouseAvailabilityHourGridControl.data('beforesave', request => {
-        //    request.WarehouseId = FwFormField.getValueByDataField($form, 'WarehouseId')
-        //});
-        //FwBrowse.init($warehouseAvailabilityHourGridControl);
-        //FwBrowse.renderRuntimeHtml($warehouseAvailabilityHourGridControl);
         // ----------
-        const $warehouseDepartmentUserGrid = $form.find('div[data-grid="WarehouseDepartmentUserGrid"]');
-        const $warehouseDepartmentUserGridControl = FwBrowse.loadGridFromTemplate('WarehouseDepartmentUserGrid');
-        $warehouseDepartmentUserGrid.empty().append($warehouseDepartmentUserGridControl);
-        $warehouseDepartmentUserGridControl.data('ondatabind', request => {
-            request.uniqueids = {
+        FwBrowse.renderGrid({
+            nameGrid: 'WarehouseDepartmentUserGrid',
+            gridSecurityId: 'BlB26FHHFsaQx',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId')
+                };
+            },
+            beforeSave: (request: any) => {
+                request.WarehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
+            }
+        });
+        // ----------
+        FwBrowse.renderGrid({
+            nameGrid: 'WarehouseOfficeLocationGrid',
+            gridSecurityId: 'B1kMAlpwQNPLG',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId')
+                };
+            },
+            beforeSave: (request: any) => {
+                request.WarehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
+            }
+        });
+        // ----------
+        FwBrowse.renderGrid({
+            nameGrid: 'WarehouseQuikLocateApproverGrid',
+            gridSecurityId: 'IBGJoUXyFbKmm',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
                 WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId')
             };
+            },
+            beforeSave: (request: any) => {
+                request.WarehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
+            }
         });
-        $warehouseDepartmentUserGridControl.data('beforesave', request => {
-            request.WarehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
-        });
-        FwBrowse.init($warehouseDepartmentUserGridControl);
-        FwBrowse.renderRuntimeHtml($warehouseDepartmentUserGridControl);
-        // ----------
-        const $warehouseOfficeLocationGrid = $form.find('div[data-grid="WarehouseOfficeLocationGrid"]');
-        const $warehouseOfficeLocationGridControl = FwBrowse.loadGridFromTemplate('WarehouseOfficeLocationGrid');
-        $warehouseOfficeLocationGrid.empty().append($warehouseOfficeLocationGridControl);
-        $warehouseOfficeLocationGridControl.data('ondatabind', request => {
-            request.uniqueids = {
-                WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId')
-            };
-        });
-        $warehouseOfficeLocationGridControl.data('beforesave', request => {
-            request.WarehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
-        });
-        FwBrowse.init($warehouseOfficeLocationGridControl);
-        FwBrowse.renderRuntimeHtml($warehouseOfficeLocationGridControl);
-        // ----------
-        const $warehouseQuikLocateApproverGrid = $form.find('div[data-grid="WarehouseQuikLocateApproverGrid"]');
-        const $warehouseQuikLocateApproverGridControl = FwBrowse.loadGridFromTemplate('WarehouseQuikLocateApproverGrid');
-        $warehouseQuikLocateApproverGrid.empty().append($warehouseQuikLocateApproverGridControl);
-        $warehouseQuikLocateApproverGridControl.data('ondatabind', request => {
-            request.uniqueids = {
-                WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId')
-            };
-        });
-        $warehouseQuikLocateApproverGridControl.data('beforesave', request => {
-            request.WarehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
-        });
-        FwBrowse.init($warehouseQuikLocateApproverGridControl);
-        FwBrowse.renderRuntimeHtml($warehouseQuikLocateApproverGridControl);
         // ----------
     }
     //----------------------------------------------------------------------------------------------

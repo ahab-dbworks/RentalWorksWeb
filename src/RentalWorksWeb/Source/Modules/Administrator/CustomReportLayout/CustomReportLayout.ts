@@ -1,9 +1,9 @@
 class CustomReportLayout {
     Module: string = 'CustomReportLayout';
     apiurl: string = 'api/v1/customreportlayout';
-    caption: string = Constants.Modules.Administrator.CustomReportLayout.caption;
-    nav: string = Constants.Modules.Administrator.CustomReportLayout.nav;
-    id: string = Constants.Modules.Administrator.CustomReportLayout.id;
+    caption: string = Constants.Modules.Administrator.children.CustomReportLayout.caption;
+    nav: string = Constants.Modules.Administrator.children.CustomReportLayout.nav;
+    id: string = Constants.Modules.Administrator.children.CustomReportLayout.id;
     codeMirror: any;
     datafields: any;
     //----------------------------------------------------------------------------------------------

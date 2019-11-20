@@ -2,9 +2,9 @@ routes.push({ pattern: /^module\/inventorypurchaseutility$/, action: function (m
 //----------------------------------------------------------------------------------------------
 class InventoryPurchaseUtility {
     Module: string = 'InventoryPurchaseUtility';
-    caption: string = Constants.Modules.Home.InventoryPurchaseUtility.caption;
-    nav: string = Constants.Modules.Home.InventoryPurchaseUtility.nav;
-    id: string = Constants.Modules.Home.InventoryPurchaseUtility.id;
+    caption: string = Constants.Modules.Inventory.children.InventoryPurchaseUtility.caption;
+    nav: string = Constants.Modules.Inventory.children.InventoryPurchaseUtility.nav;
+    id: string = Constants.Modules.Inventory.children.InventoryPurchaseUtility.id;
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         const screen: any = {};
@@ -86,16 +86,18 @@ class InventoryPurchaseUtility {
     }
     //----------------------------------------------------------------------------------------------
     renderGrids($form) {
-        const $itemGrid = $form.find('div[data-grid="InventoryPurchaseItemGrid"]');
-        const $itemGridControl = FwBrowse.loadGridFromTemplate('InventoryPurchaseItemGrid');
-        $itemGrid.empty().append($itemGridControl);
-        $itemGridControl.data('ondatabind', request => {
-            request.uniqueids = {
-                PickListId: FwFormField.getValueByDataField($form, 'PickListId')
-            };
+        FwBrowse.renderGrid({
+            nameGrid: 'InventoryPurchaseItemGrid',
+            gridSecurityId: 'qH0cLrQVt9avI',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    PickListId: FwFormField.getValueByDataField($form, 'PickListId')
+                };
+            }
         });
-        FwBrowse.init($itemGridControl);
-        FwBrowse.renderRuntimeHtml($itemGridControl);
     }
     //----------------------------------------------------------------------------------------------
 };

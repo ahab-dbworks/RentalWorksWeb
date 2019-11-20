@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using WebApi.Controllers;
+using WebApi.Modules.AdministratorControls.CustomReportLayout;
 
 namespace WebApi.Modules.Administrator.CustomReportLayout
 {

@@ -4,7 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
-using WebApi.Modules.Home.InventoryPackageInventory;
+using WebApi.Modules.HomeControls.InventoryPackageInventory;
+using WebApi.Modules.HomeControls.InventorySearch;
 using WebLibrary;
 
 namespace WebApi.Modules.Home.InventorySearch

@@ -3,12 +3,29 @@ routes.push({ pattern: /^module\/receipt$/, action: function (match: RegExpExecA
 class Receipt {
     Module: string = 'Receipt';
     apiurl: string = 'api/v1/receipt';
-    caption: string = Constants.Modules.Home.Receipt.caption;
-    nav: string = Constants.Modules.Home.Receipt.nav;
-    id: string = Constants.Modules.Home.Receipt.id;
+    caption: string = Constants.Modules.Billing.children.Receipt.caption;
+    nav: string = Constants.Modules.Billing.children.Receipt.nav;
+    id: string = Constants.Modules.Billing.children.Receipt.id;
     ActiveViewFields: any = {};
     ActiveViewFieldsId: string;
     thisModule: Receipt;
+    //----------------------------------------------------------------------------------------------
+    addBrowseMenuItems(options: IAddBrowseMenuOptions): void {
+        FwMenu.addBrowseMenuButtons(options);
+
+        //Location Filter
+        const $allLocations = FwMenu.generateDropDownViewBtn('ALL Locations', false, "ALL");
+        const location = JSON.parse(sessionStorage.getItem('location'));
+        const $userLocation = FwMenu.generateDropDownViewBtn(location.location, true, location.locationid);
+
+        if (typeof this.ActiveViewFields["LocationId"] == 'undefined') {
+            this.ActiveViewFields.LocationId = [location.locationid];
+        }
+
+        const viewLocation = [];
+        viewLocation.push($userLocation, $allLocations);
+        FwMenu.addViewBtn(options.$menu, 'Location', viewLocation, true, "LocationId");
+    }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         const screen: any = {};
@@ -65,25 +82,10 @@ class Receipt {
         return $browse;
     }
     //----------------------------------------------------------------------------------------------
-    addBrowseMenuItems($menuObject) {
-        //Location Filter
-        const $allLocations = FwMenu.generateDropDownViewBtn('ALL Locations', false, "ALL");
-        const location = JSON.parse(sessionStorage.getItem('location'));
-        const $userLocation = FwMenu.generateDropDownViewBtn(location.location, true, location.locationid);
-
-        if (typeof this.ActiveViewFields["LocationId"] == 'undefined') {
-            this.ActiveViewFields.LocationId = [location.locationid];
-        }
-
-        const viewLocation = [];
-        viewLocation.push($userLocation, $allLocations);
-        FwMenu.addViewBtn($menuObject, 'Location', viewLocation, true, "LocationId");
-        return $menuObject;
-    };
-    //----------------------------------------------------------------------------------------------
     openForm(mode: string, parentModuleInfo?: any) {
         let $form: any = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
+
         $form.find(`.credit-amounts`).hide();
         // Hidden fields used for Overpayment and Depleting Deposit actions in NEW Records ( this.createDepletingDeposit, etc. )
         FwFormField.setValueByDataField($form, 'CreateOverpayment', false);
@@ -128,51 +130,51 @@ class Receipt {
         $form.find('div[data-datafield="PaymentAmount"] input').inputmask({ alias: "currency", prefix: '' }); // temp until we fix FW money prefix to render based on country
         this.events($form);
 
-        $form.find('.braintree-btn').click(() => {
-            let braintreeScipt = `<script>
-              let button = document.querySelector('#braintree-btn');
+        //$form.find('.braintree-btn').click(() => {
+        //    let braintreeScipt = `<script>
+        //      let button = document.querySelector('#braintree-btn');
 
-              braintree.dropin.create({
-                authorization: 'sandbox_bzjwnpg3_k3fb9p88pvbfjfg9',
-                container: '#dropin-container'
-              }, function (createErr, instance) {
-                button.addEventListener('click', function () {
-                  instance.requestPaymentMethod(function (requestPaymentMethodErr, payload) {
-                    // When the user clicks on the 'Submit payment' button this code will send the
-                    // encrypted payment information in a variable called a payment method nonce
-                    $.ajax({
-                      type: 'POST',
-                      url: '/checkout',
-                      data: {'paymentMethodNonce': payload.nonce}
-                    }).done(function(result) {
-                      // Tear down the Drop-in UI
-                      instance.teardown(function (teardownErr) {
-                        if (teardownErr) {
-                          console.error('Could not tear down Drop-in UI!');
-                        } else {
-                          console.info('Drop-in UI has been torn down!');
-                          // Remove the 'Submit payment' button
-                          button.remove();
-                        }
-                      });
+        //      braintree.dropin.create({
+        //        authorization: 'sandbox_bzjwnpg3_k3fb9p88pvbfjfg9',
+        //        container: '#dropin-container'
+        //      }, function (createErr, instance) {
+        //        button.addEventListener('click', function () {
+        //          instance.requestPaymentMethod(function (requestPaymentMethodErr, payload) {
+        //            // When the user clicks on the 'Submit payment' button this code will send the
+        //            // encrypted payment information in a variable called a payment method nonce
+        //            $.ajax({
+        //              type: 'POST',
+        //              url: '/checkout',
+        //              data: {'paymentMethodNonce': payload.nonce}
+        //            }).done(function(result) {
+        //              // Tear down the Drop-in UI
+        //              instance.teardown(function (teardownErr) {
+        //                if (teardownErr) {
+        //                  console.error('Could not tear down Drop-in UI!');
+        //                } else {
+        //                  console.info('Drop-in UI has been torn down!');
+        //                  // Remove the 'Submit payment' button
+        //                  button.remove();
+        //                }
+        //              });
 
-                      if (result.success) {
-                        $('#checkout-message').html('<h1>Success</h1><p>Your Drop-in UI is working! Check your <a href="https://sandbox.braintreegateway.com/login">sandbox Control Panel</a> for your test transactions.</p><p>Refresh to try another transaction.</p>');
-                      } else {
-                        console.log(result);
-                        $('#checkout-message').html('<h1>Error</h1><p>Check your console.</p>');
-                      }
-                    });
-                  });
-                });
-              });
-            </script>`;
+        //              if (result.success) {
+        //                $('#checkout-message').html('<h1>Success</h1><p>Your Drop-in UI is working! Check your <a href="https://sandbox.braintreegateway.com/login">sandbox Control Panel</a> for your test transactions.</p><p>Refresh to try another transaction.</p>');
+        //              } else {
+        //                console.log(result);
+        //                $('#checkout-message').html('<h1>Error</h1><p>Check your console.</p>');
+        //              }
+        //            });
+        //          });
+        //        });
+        //      });
+        //    </script>`;
 
-            //let braintreeScipt = `<script> let button = document.querySelector('#braintree-btn'); braintree.dropin.create({authorization: 'sandbox_bzjwnpg3_k3fb9p88pvbfjfg9',container: '#dropin-container'}, function (createErr, instance) {button.addEventListener('click', function () {instance.requestPaymentMethod(function (err, payload) {});});});</script>`;
-            $form.find('.braintree-row').prepend(braintreeScipt);
-            //let $popup = FwPopup.renderPopup(jQuery(braintreeScipt), { ismodal: true });
-            //FwPopup.showPopup($popup);
-        })
+        //    //let braintreeScipt = `<script> let button = document.querySelector('#braintree-btn'); braintree.dropin.create({authorization: 'sandbox_bzjwnpg3_k3fb9p88pvbfjfg9',container: '#dropin-container'}, function (createErr, instance) {button.addEventListener('click', function () {instance.requestPaymentMethod(function (err, payload) {});});});</script>`;
+        //    $form.find('.braintree-row').prepend(braintreeScipt);
+        //    //let $popup = FwPopup.renderPopup(jQuery(braintreeScipt), { ismodal: true });
+        //    //FwPopup.showPopup($popup);
+        //})
         // toggle buttons receipt tab
         FwFormField.loadItems($form.find('div[data-datafield="PaymentBy"]'), [
             { value: 'CUSTOMER', caption: 'Customer' },
@@ -191,7 +193,7 @@ class Receipt {
         });
 
         return $form;
-    };
+    }
     //----------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
         const $form: any = this.openForm('EDIT');
@@ -243,16 +245,33 @@ class Receipt {
     }
     //----------------------------------------------------------------------------------------------
     renderGrids($form: JQuery): void {
-        const $glDistributionGrid = $form.find('div[data-grid="GlDistributionGrid"]');
-        const $glDistributionGridControl = FwBrowse.loadGridFromTemplate('GlDistributionGrid');
-        $glDistributionGrid.empty().append($glDistributionGridControl);
-        $glDistributionGridControl.data('ondatabind', request => {
-            request.uniqueids = {
-                ReceiptId: FwFormField.getValueByDataField($form, 'ReceiptId')
-            };
+        //const $glDistributionGrid = $form.find('div[data-grid="GlDistributionGrid"]');
+        //const $glDistributionGridControl = FwBrowse.loadGridFromTemplate('GlDistributionGrid');
+        //$glDistributionGrid.empty().append($glDistributionGridControl);
+        //$glDistributionGridControl.data('ondatabind', request => {
+        //    request.uniqueids = {
+        //        ReceiptId: FwFormField.getValueByDataField($form, 'ReceiptId')
+        //    };
+        //});
+        //FwBrowse.init($glDistributionGridControl);
+        //FwBrowse.renderRuntimeHtml($glDistributionGridControl);
+        FwBrowse.renderGrid({
+            nameGrid: 'GlDistributionGrid',
+            gridSecurityId: '5xgHiF8dduf',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    ReceiptId: FwFormField.getValueByDataField($form, 'ReceiptId')
+                };
+                request.totalfields = ["Debit", "Credit"];
+            },
+            afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
+                //FwFormField.setValue2($form.find('.gldistribution-totals [data-totalfield="Debit"]'), dt.Totals.Debit);
+                //FwFormField.setValue2($form.find('.gldistribution-totals [data-totalfield="Credit"]'), dt.Totals.Credit);
+            },
         });
-        FwBrowse.init($glDistributionGridControl);
-        FwBrowse.renderRuntimeHtml($glDistributionGridControl);
         // ----------
     }
     //----------------------------------------------------------------------------------------------
@@ -413,7 +432,7 @@ class Receipt {
         // after save or if not NEW, disable credit grid
     }
     //----------------------------------------------------------------------------------------------
-    beforeValidate($browse, $form, request) {
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
         const validationName = request.module;
         const paymentTypeType = FwFormField.getValueByDataField($form, 'PaymentTypeType');
         const dealId = FwFormField.getValueByDataField($form, 'DealId');
@@ -449,7 +468,7 @@ class Receipt {
                 }
                 break;
         };
-    };
+    }
     //----------------------------------------------------------------------------------------------
     createOverPayment($form) {
         jQuery('#application').find('.advisory .fwconfirmationbox .fwconfirmation-button').click();
