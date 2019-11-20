@@ -5,8 +5,20 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="BusinessLogic\Attributes\FwBusinessLogicFieldAttribute.cs" />
+    <Compile Remove="AppManager\FwSecurityTreeBranch.cs" />
     <Compile Remove="FwColorTranslator - Copy.cs" />
+    <Compile Remove="Security\FwGroupSecurityNode.cs" />
+    <Compile Remove="Security\FwSecurityTree.cs" />
+    <Compile Remove="Security\FwSecurityTreeBranch.cs" />
+    <Compile Remove="Security\FwSecurityTreeNode.cs" />
+    <Compile Remove="Security\FwUserClaimsProvider.cs" />
+    <Compile Remove="Security\Tree\Grids\AccidentDocumentVersionMenu.cs" />
+    <Compile Remove="Security\Tree\Grids\AuditHistoryMenu.cs" />
+    <Compile Remove="Security\Tree\Grids\ContactCompanyMenu.cs" />
+    <Compile Remove="Security\Tree\Grids\ContactDocumentMenu.cs" />
+    <Compile Remove="Security\Tree\Grids\ContactEmailHistoryMenu.cs" />
+    <Compile Remove="Security\Tree\Grids\ContactNoteMenu.cs" />
+    <Compile Remove="Security\Tree\Grids\ContactPersonalEventMenu.cs" />
     <Compile Remove="SqlServer\FwCryptography.cs" />
     <Compile Remove="SqlServer\FwDatabases.cs" />
     <Compile Remove="SqlServer\FwSqlColumn.cs" />
@@ -30,7 +42,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="BusinessLogic\Attributes\" />
+    <Folder Include="Security\Tree\Grids\" />
   </ItemGroup>
 
   <Target Name="AfterClean">

@@ -1,14 +1,16 @@
-﻿using FwStandard.Models;
+﻿using FwCore.Api;
+using FwStandard.AppManager;
+using FwStandard.Models;
 using FwStandard.SqlServer;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace FwStandard.Security
+namespace FwCore.AppManager
 {
-    public class FwUserClaimsProvider
+    public class FwAmUserClaimsProvider
     {
         //---------------------------------------------------------------------------------------------
-        public static async Task<ClaimsIdentity> GetClaimsIdentityAsync(SqlServerConfig dbConfig, string username, string password)
+        internal static async Task<ClaimsIdentity> GetClaimsIdentity(SqlServerConfig dbConfig, string username, string password)
         {
             ClaimsIdentity identity = null;
             using (FwSqlConnection conn = new FwSqlConnection(dbConfig.ConnectionString))
@@ -31,24 +33,25 @@ namespace FwStandard.Security
                     string webpassword = qryEncrypt.GetField("value").ToString().TrimEnd();
 
                     string webUsersId = string.Empty, errmsg = string.Empty;
-                    int    errno = 0;
+                    int errno = 0;
 
-                    qryAuthenticate.AddParameter("@userlogin",         username);
+                    qryAuthenticate.AddParameter("@userlogin", username);
                     qryAuthenticate.AddParameter("@userloginpassword", webpassword);
-                    qryAuthenticate.AddParameter("@webusersid",        System.Data.SqlDbType.NVarChar, System.Data.ParameterDirection.Output);
-                    qryAuthenticate.AddParameter("@errno",             System.Data.SqlDbType.Int,      System.Data.ParameterDirection.Output);
-                    qryAuthenticate.AddParameter("@errmsg",            System.Data.SqlDbType.NVarChar, System.Data.ParameterDirection.Output);
+                    qryAuthenticate.AddParameter("@webusersid", System.Data.SqlDbType.NVarChar, System.Data.ParameterDirection.Output);
+                    qryAuthenticate.AddParameter("@errno", System.Data.SqlDbType.Int, System.Data.ParameterDirection.Output);
+                    qryAuthenticate.AddParameter("@errmsg", System.Data.SqlDbType.NVarChar, System.Data.ParameterDirection.Output);
                     await qryAuthenticate.ExecuteAsync();
                     webUsersId = qryAuthenticate.GetParameter("@webusersid").ToString().TrimEnd();
-                    errno      = qryAuthenticate.GetParameter("@errno").ToInt32();
-                    errmsg     = qryAuthenticate.GetParameter("@errmsg").ToString().TrimEnd();
+                    errno = qryAuthenticate.GetParameter("@errno").ToInt32();
+                    errmsg = qryAuthenticate.GetParameter("@errmsg").ToString().TrimEnd();
 
                     if (!string.IsNullOrEmpty(webUsersId) && (errno.Equals(0)))
                     {
                         using (FwSqlCommand qry = new FwSqlCommand(conn, dbConfig.QueryTimeout))
                         {
-                            qry.Add("select top 1 *");
-                            qry.Add("from webusersview with (nolock)");
+                            qry.Add("select top 1 wuv.*, groupsdatestamp = g.datestamp");
+                            qry.Add("from webusersview wuv with (nolock)");
+                            qry.Add("  join groups g  with (nolock) on (wuv.groupsid = g.groupsid)");
                             qry.Add("where webusersid = @webusersid");
                             qry.Add("order by usertype desc"); //2016-12-07 MY: This is a hack fix to make Usertype: user show up first. Need a better solution.
                             qry.AddParameter("@webusersid", webUsersId);
@@ -58,6 +61,7 @@ namespace FwStandard.Security
                             {
                                 //identity = new ClaimsIdentity(new GenericIdentity(username, "Token"));
                                 identity = new ClaimsIdentity();
+                                identity.AddClaim(new Claim(AuthenticationClaimsTypes.Version, FwProgram.ServerVersion));
                                 if (qry.FieldNames.Contains("webusersid"))
                                 {
                                     string webusersid = qry.GetField("webusersid").ToString().TrimEnd();
@@ -90,6 +94,14 @@ namespace FwStandard.Security
                                         identity.AddClaim(new Claim(AuthenticationClaimsTypes.GroupsId, groupsid));
                                     }
                                 }
+                                if (qry.FieldNames.Contains("groupsdatestamp"))
+                                {
+                                    string groupsdatestamp = qry.GetField("groupsdatestamp").ToString().TrimEnd();
+                                    if (!string.IsNullOrEmpty(groupsdatestamp))
+                                    {
+                                        identity.AddClaim(new Claim(AuthenticationClaimsTypes.GroupsDateStamp, groupsdatestamp));
+                                    }
+                                }
                                 if (qry.FieldNames.Contains("usertype"))
                                 {
                                     string usertype = qry.GetField("usertype").ToString().TrimEnd();
@@ -106,20 +118,21 @@ namespace FwStandard.Security
                                         identity.AddClaim(new Claim(AuthenticationClaimsTypes.PersonId, personid));
                                     }
                                 }
-                                if (qry.FieldNames.Contains("fullname"))
-                                {
-                                    string userName = qry.GetField("fullname").ToString().TrimEnd();
-                                    if (!string.IsNullOrEmpty(userName))
-                                    {
-                                        identity.AddClaim(new Claim(AuthenticationClaimsTypes.UserName, userName));
-                                    }
-                                }
+                                // mv 2019-08-27 - I don't accept this change.  This adds overhead to every web service call for something you can already determine via the webusersid.  Do a query instead.
+                                //if (qry.FieldNames.Contains("fullname"))
+                                //{
+                                //    string userName = qry.GetField("fullname").ToString().TrimEnd();
+                                //    if (!string.IsNullOrEmpty(userName))
+                                //    {
+                                //        identity.AddClaim(new Claim(AuthenticationClaimsTypes.UserName, userName));
+                                //    }
+                                //}
                                 if (qry.FieldNames.Contains("primarycampusid"))
                                 {
                                     string campusId = qry.GetField("primarycampusid").ToString().TrimEnd();
                                     if (!string.IsNullOrEmpty(campusId))
                                     {
-                                        identity.AddClaim(new Claim(AuthenticationClaimsTypes.CampusId, campusId));;
+                                        identity.AddClaim(new Claim(AuthenticationClaimsTypes.CampusId, campusId)); ;
                                     }
                                 }
                             }
@@ -130,19 +143,19 @@ namespace FwStandard.Security
             return identity;
         }
         //---------------------------------------------------------------------------------------------
-        public static async Task<ClaimsIdentity> GetIntegrationClaimsIdentity(SqlServerConfig dbConfig, string client_id, string client_secret)
+        internal static async Task<ClaimsIdentity> GetIntegrationClaimsIdentity(SqlServerConfig dbConfig, string client_id, string client_secret)
         {
             ClaimsIdentity identity = null;
             using (FwSqlConnection conn = new FwSqlConnection(dbConfig.ConnectionString))
             {
                 using (FwSqlCommand qryAuthenticate = new FwSqlCommand(conn, "appintegrationauthenticate", dbConfig.QueryTimeout))
                 {
-                    qryAuthenticate.AddParameter("@clientid",     client_id);
+                    qryAuthenticate.AddParameter("@clientid", client_id);
                     qryAuthenticate.AddParameter("@clientsecret", client_secret);
-                    qryAuthenticate.AddParameter("@dealid",       System.Data.SqlDbType.NVarChar, System.Data.ParameterDirection.Output);
-                    qryAuthenticate.AddParameter("@campusid",     System.Data.SqlDbType.NVarChar, System.Data.ParameterDirection.Output);
-                    qryAuthenticate.AddParameter("@errno",        System.Data.SqlDbType.Int,      System.Data.ParameterDirection.Output);
-                    qryAuthenticate.AddParameter("@errmsg",       System.Data.SqlDbType.NVarChar, System.Data.ParameterDirection.Output);
+                    qryAuthenticate.AddParameter("@dealid", System.Data.SqlDbType.NVarChar, System.Data.ParameterDirection.Output);
+                    qryAuthenticate.AddParameter("@campusid", System.Data.SqlDbType.NVarChar, System.Data.ParameterDirection.Output);
+                    qryAuthenticate.AddParameter("@errno", System.Data.SqlDbType.Int, System.Data.ParameterDirection.Output);
+                    qryAuthenticate.AddParameter("@errmsg", System.Data.SqlDbType.NVarChar, System.Data.ParameterDirection.Output);
                     await qryAuthenticate.ExecuteAsync();
 
                     if (qryAuthenticate.GetParameter("@errno").ToInt32().Equals(0))
@@ -165,19 +178,6 @@ namespace FwStandard.Security
             }
 
             return identity;
-        }
-        //---------------------------------------------------------------------------------------------
-        public static class AuthenticationClaimsTypes
-        {
-            public const string WebUsersId = "http://www.dbworks.com/claims/webusersid";
-            public const string UsersId    = "http://www.dbworks.com/claims/usersid";
-            public const string ContactId  = "http://www.dbworks.com/claims/contactid";
-            public const string GroupsId   = "http://www.dbworks.com/claims/groupsid";
-            public const string UserType   = "http://www.dbworks.com/claims/usertype";
-            public const string PersonId   = "http://www.dbworks.com/claims/personid";
-            public const string DealId     = "dealid";
-            public const string CampusId   = "campusid";
-            public const string UserName   = "username";
         }
         //---------------------------------------------------------------------------------------------
     }

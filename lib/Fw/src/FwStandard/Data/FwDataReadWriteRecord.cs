@@ -100,26 +100,43 @@ namespace FwStandard.Data
         /// </summary>
         /// <param name="original"></param>
         /// <param name="conn">Specify an existing SqlConnection if desired.  Can be used for multi-statement transactions. If null, then a new Connection will be established.</param>
-        public virtual async Task<int> SaveAsync(FwDataReadWriteRecord original, FwSqlConnection conn = null)
+        public virtual async Task<int> SaveAsync(FwDataReadWriteRecord original, FwSqlConnection conn = null, TDataRecordSaveMode saveMode = TDataRecordSaveMode.Auto)
         {
             int rowsAffected = 0;
 
             BeforeSaveDataRecordEventArgs beforeSaveArgs = new BeforeSaveDataRecordEventArgs();
             beforeSaveArgs.SaveMode = TDataRecordSaveMode.smInsert;
             beforeSaveArgs.Original = original;
-
-            if (NoPrimaryKeysHaveValues)
+            if (saveMode == TDataRecordSaveMode.Auto)
             {
-                beforeSaveArgs.SaveMode = TDataRecordSaveMode.smInsert;
+                if (NoPrimaryKeysHaveValues)
+                {
+                    saveMode = TDataRecordSaveMode.smInsert;
+                }
+                else if (AllPrimaryKeysHaveValues)
+                {
+                    saveMode = TDataRecordSaveMode.smUpdate;
+                }
+                else
+                {
+                    throw new Exception("Values were not supplied for all primary keys.");
+                }
             }
-            else if (AllPrimaryKeysHaveValues)
+            else if (saveMode == TDataRecordSaveMode.smInsert)
             {
-                beforeSaveArgs.SaveMode = TDataRecordSaveMode.smUpdate;
+                if (!NoPrimaryKeysHaveValues)
+                {
+                    throw new Exception("Primary key values must be blank.");
+                }
             }
-            else
+            else if (saveMode == TDataRecordSaveMode.smUpdate)
             {
-                throw new Exception("Values were not supplied for all primary keys.");
+                if (!AllPrimaryKeysHaveValues)
+                {
+                    throw new Exception("Values were not supplied for all primary keys.");
+                }
             }
+            beforeSaveArgs.SaveMode = saveMode;
 
             if (conn == null)
             {

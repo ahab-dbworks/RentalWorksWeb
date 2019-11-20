@@ -122,7 +122,7 @@ namespace FwStandard.Modules.Administrator.Alert
                     //iterate through the global alerts and get the ones that are for this module //#jhtodo: optimize with Dictionary
                     foreach (Alert alert in Alerts)
                     {
-                        if (alert.alert.ModuleName.Equals(moduleName))
+                        if (alert.alert.ModuleName.Equals(moduleName) && alert.alert.Inactive.Equals(false))
                         {
                             moduleAlerts.Add(alert);
                         }

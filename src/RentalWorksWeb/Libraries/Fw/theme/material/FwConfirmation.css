@@ -38,6 +38,7 @@ html.theme-material.flexbox .fwpopup {display:flex;justify-content:center;align-
 html.theme-material.no-flexbox .fwpopup .popuptitle {color:#fafafa;background-color: #2196f3;font-size: 1.1em;padding:.8em;}
 html.theme-material.flexbox .fwpopup .popuptitle {color:#fafafa;background-color: #2196f3;font-size: 1.1em;padding:.8em;}
 html.theme-material.no-flexbox .fwpopupbox {position:absolute;top:50%;left:50%;-webkit-transform:translate(-50%, -50%);transform:translate(-50%, -50%);}
+html.theme-material .fwpopupbox { position:relative;overflow:auto; }
 
 /*#region Default Theme*/
 html.theme-material .fwconfirmation .fwconfirmationbox {background-color:#ffffff;}

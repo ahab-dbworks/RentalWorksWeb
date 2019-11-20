@@ -1,5 +1,6 @@
-﻿using FwCore.Logic;
-using FwCore.Security;
+﻿using FwCore.AppManager;
+using FwCore.Logic;
+using FwStandard.AppManager;
 using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -10,7 +11,6 @@ using System.Dynamic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using static FwStandard.Security.FwUserClaimsProvider;
 
 namespace FwCore.Controllers
 {
@@ -44,7 +44,7 @@ namespace FwCore.Controllers
         protected virtual async Task<ActionResult<JwtResponseModel>> DoPost([FromBody] FwStandard.Models.FwApplicationUser user)
         {
             dynamic response = new ExpandoObject();
-            var identity = await UserClaimsProvider.GetClaimsIdentity(_appConfig.DatabaseSettings, user.UserName, user.Password);
+            var identity = await FwAmUserClaimsProvider.GetClaimsIdentity(_appConfig.DatabaseSettings, user.UserName, user.Password);
             if (identity == null)
             {
                 response.statuscode    = 401; //Unauthorized
@@ -89,7 +89,7 @@ namespace FwCore.Controllers
         protected virtual async Task<ActionResult<IntegrationResponseModel>> DoIntegrationPost([FromBody] FwStandard.Models.FwIntegration client)
         {
             dynamic response = new ExpandoObject();
-            var identity = await UserClaimsProvider.GetIntegrationClaimsIdentity(_appConfig.DatabaseSettings, client.client_id, client.client_secret);
+            var identity = await FwAmUserClaimsProvider.GetIntegrationClaimsIdentity(_appConfig.DatabaseSettings, client.client_id, client.client_secret);
             if (identity == null)
             {
                 response.statuscode    = 401; //Unauthorized

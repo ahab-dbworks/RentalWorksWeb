@@ -6,8 +6,11 @@ namespace FwCore.Api
 {
     public class FwProgram
     {
+        public static string ServerVersion = "";
+        //---------------------------------------------------------------------------------------------------------------------------
         public static IWebHostBuilder BuildWebHost(string[] args, Type startupType)
         {
+            FwProgram.ServerVersion = File.ReadAllText(Path.Combine(Environment.CurrentDirectory, "version.txt"));
             var host = new WebHostBuilder()
                 .UseKestrel()
                 .UseContentRoot(Directory.GetCurrentDirectory())
@@ -16,7 +19,16 @@ namespace FwCore.Api
                 .UseStartup(startupType)
                 .CaptureStartupErrors(true);
 
+            System.AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+
             return host;
         }
+        //---------------------------------------------------------------------------------------------------------------------------
+        private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            Exception ex = (Exception)e.ExceptionObject;
+            Console.Error.WriteLine(ex.Message + ex.StackTrace);
+        }
+        //---------------------------------------------------------------------------------------------------------------------------
     }
 }

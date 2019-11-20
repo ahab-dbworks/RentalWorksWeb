@@ -1,5 +1,6 @@
 ﻿using FwStandard.Models;
 using FwStandard.Utilities;
+using FwStandard.SqlServer;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -8,7 +9,7 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FwStandard.SqlServer
+namespace FwStandard.BusinessLogic
 {
     public class FwAppImageLogic
     {

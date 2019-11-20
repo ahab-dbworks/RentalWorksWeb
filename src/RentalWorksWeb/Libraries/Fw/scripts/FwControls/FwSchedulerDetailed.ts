@@ -126,7 +126,18 @@ class FwSchedulerDetailedClass {
                 args.async = true;  // notify manually using .loaded()
 
                 // simulating slow server-side load
-                args.html = `<div style='font-weight:bold'>${ev.text()}</div><div>Order Number: ${ev.data.orderNumber}</div><div>Order Status: ${ev.data.orderStatus}</div><div>Deal: ${ev.data.deal}</div><div>Start: ${ev.start().toString("MM/dd/yyyy HH:mm")}</div><div>End: ${ev.data.enddisplay}</div>`;
+                //args.html = `<div style='font-weight:bold'>${ev.text()}</div><div>Order Number: ${ev.data.orderNumber}</div><div>Order Status: ${ev.data.orderStatus}</div><div>Deal: ${ev.data.deal}</div><div>Start: ${ev.start().toString("MM/dd/yyyy HH:mm")}</div><div>End: ${ev.data.enddisplay}</div>`;
+
+                //justin hoffman 11/18/2019 why is this code here?  This is specific to RWW
+                args.html = ``;
+                args.html += `<div style='font-weight:bold'>${ev.text()}</div><div>Order Number: ${ev.data.orderNumber}</div><div>Order Status: ${ev.data.orderStatus}</div><div>Deal: ${ev.data.deal}</div><div>Start: ${ev.start().toString("MM/dd/yyyy HH:mm")}</div><div>End: ${ev.end().toString("MM/dd/yyyy HH:mm")}</div>`;
+                if (ev.data.subPoNumber) {
+                    args.html += `<div>Sub PO Number: ${ev.data.subPoNumber}</div>`;
+                    if (ev.data.subPoVendor) {
+                        args.html += `<div>Vendor: ${ev.data.subPoVendor}</div>`;
+                    }
+                }
+
                 args.loaded();
             }
         });

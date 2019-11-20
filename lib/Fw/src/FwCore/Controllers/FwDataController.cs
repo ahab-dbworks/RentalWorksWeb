@@ -1,4 +1,5 @@
-﻿using FwStandard.BusinessLogic;
+﻿using FwStandard.AppManager;
+using FwStandard.BusinessLogic;
 using FwStandard.Data;
 using FwStandard.Models;
 using FwStandard.Modules.Administrator.WebAuditJson;
@@ -223,6 +224,47 @@ namespace FwCore.Controllers
             }
         }
         //------------------------------------------------------------------------------------
+        protected virtual async Task<IActionResult> DoGetEmptyObjectAsync(Type type = null)
+        {
+            try
+            {
+                if (type == null)
+                {
+                    type = logicType;
+                }
+                FwBusinessLogic l = CreateBusinessLogic(type, this.AppConfig, this.UserSession);
+                l.IsEmptyObject = true;
+
+                if ((l._Custom.CustomFields != null) && (l._Custom.CustomFields.Count > 0))
+                {
+                    FwCustomValues customValues = new FwCustomValues();
+                    foreach (FwCustomField customField in l._Custom.CustomFields)
+                    {
+                        customValues.AddCustomValue(customField.FieldName, null, customField.FieldType);
+                    }
+                    l._Custom = customValues;
+                }
+                await Task.CompletedTask;
+                return new OkObjectResult(l);
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------
+        // GET api/v1/{module}/emptyobject
+        /// <summary>
+        /// Get an empty object
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("emptyobject")]
+        [FwControllerMethod("", FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
+        public virtual async Task<IActionResult> GetEmptyObjectAsync()
+        {
+            return await DoGetEmptyObjectAsync();
+        }
+        //------------------------------------------------------------------------------------
         protected virtual async Task<ActionResult<GetManyResponse<T>>> DoGetManyAsync<T>(GetManyRequest request, Type type = null)
         {
             if (!ModelState.IsValid)
@@ -304,6 +346,103 @@ namespace FwCore.Controllers
             }
         }
         //------------------------------------------------------------------------------------
+        protected virtual async Task<ActionResult<T>> DoNewAsync<T>(FwBusinessLogic l)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                FwBusinessLogic original = null;
+                TDataRecordSaveMode saveMode = TDataRecordSaveMode.smInsert;
+                l.AppConfig = this.AppConfig;
+                l.UserSession = this.UserSession;
+
+                var result = new FwValidateResult();
+                if (l.AllPrimaryKeysHaveValues)
+                {
+                    return BadRequest();
+                }
+                await l.ValidateBusinessLogicAsync(saveMode, original, result);
+
+                if (result.IsValid)
+                {
+                    int rowsAffected = await l.SaveAsync(original, saveMode: TDataRecordSaveMode.smInsert);
+
+                    if (l.ReloadOnSave)
+                    {
+                        await l.LoadAsync<T>();
+                    }
+                    return new OkObjectResult(l);
+                }
+                else
+                {
+                    throw new Exception(result.ValidateMsg);
+                }
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------
+        protected virtual async Task<ActionResult<T>> DoEditAsync<T>(FwBusinessLogic l)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                FwBusinessLogic original = null;
+                TDataRecordSaveMode saveMode = TDataRecordSaveMode.smInsert;
+                l.AppConfig = this.AppConfig;
+                l.UserSession = this.UserSession;
+
+                var result = new FwValidateResult();
+                if (!l.AllPrimaryKeysHaveValues)
+                {
+                    return BadRequest();
+                }
+                //updating
+                saveMode = TDataRecordSaveMode.smUpdate;
+
+                if (l.LoadOriginalBeforeSaving)
+                {
+                    //load the original record from the database
+                    original = FwBusinessLogic.CreateBusinessLogic(logicType, this.AppConfig, this.UserSession);
+                    original.SetPrimaryKeys(l.GetPrimaryKeys());
+                    bool exists = await original.LoadAsync<T>();
+                    //if (!exists)
+                    if ((!exists) && return404IfGetNotFound)
+                    {
+                        return NotFound();
+                    }
+                }
+ 
+                await l.ValidateBusinessLogicAsync(saveMode, original, result);
+
+                if (result.IsValid)
+                {
+                    int rowsAffected = await l.SaveAsync(original, saveMode: TDataRecordSaveMode.smUpdate);
+
+                    if (l.ReloadOnSave)
+                    {
+                        await l.LoadAsync<T>();
+                    }
+                    return new OkObjectResult(l);
+                }
+                else
+                {
+                    throw new Exception(result.ValidateMsg);
+                }
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
         //------------------------------------------------------------------------------------
 
         //justin 03/04/2019 experimental

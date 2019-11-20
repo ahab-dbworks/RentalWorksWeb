@@ -6,7 +6,22 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Security\**" />
+    <EmbeddedResource Remove="Security\**" />
+    <None Remove="Security\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Api\FwAppManagerAuthorizationHandler.cs" />
+    <Compile Remove="AppManager\excluded\FwAmAuthorizationHandler.cs" />
+    <Compile Remove="AppManager\excluded\FwAmAuthorizationProvider.cs" />
+    <Compile Remove="AppManager\excluded\FwAmAuthorizationRequirement.cs" />
+    <Compile Remove="AppManager\excluded\FwAppManagerAuthorizationAttribute.cs" />
+    <Compile Remove="AppManager\FwAmAuthorizationHandler.cs" />
+    <Compile Remove="AppManager\FwAmAuthorizationProvider.cs" />
+    <Compile Remove="AppManager\FwAmAuthorizationRequirement.cs" />
+    <Compile Remove="AppManager\FwAppManagerAuthorizationAttribute.cs" />
+    <Compile Remove="Logic\FwAppImageLogic.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -22,6 +37,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="AppManager\excluded\" />
     <Folder Include="Modules\" />
   </ItemGroup>
 

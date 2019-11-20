@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using FwStandard.AppManager;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
-using static FwStandard.Security.FwUserClaimsProvider;
 
 namespace FwStandard.Models
 {
@@ -35,15 +35,16 @@ namespace FwStandard.Models
             }
         }
         //------------------------------------------------------------------------------------
-        public string UsersName
-        {
-            get
-            {
-                var claim = this.User.Claims.FirstOrDefault(x => x.Type == AuthenticationClaimsTypes.UserName);
-                string userName = (claim != null) ? claim.Value : string.Empty;
-                return userName;
-            }
-        }
+        // mv 2019-08-27 - This is not an appropriate claim type, which is why I have remvoed this.  I see no purpose for the server to be using a UserName or for this information to be stored in the token.
+        //public string UsersName
+        //{
+        //    get
+        //    {
+        //        var claim = this.User.Claims.FirstOrDefault(x => x.Type == AuthenticationClaimsTypes.UserName);
+        //        string userName = (claim != null) ? claim.Value : string.Empty;
+        //        return userName;
+        //    }
+        //}
         //------------------------------------------------------------------------------------
         public string WebUsersId
         {

@@ -1234,7 +1234,7 @@ class FwBrowseClass {
                     }
                     let cbuniqueId = FwApplication.prototype.uniqueId(10);
                     if ($control.attr('data-hasmultirowselect') !== 'false') {
-                        html.push(`<td class="column tdselectrow" style="width:20px;"><div class="divselectrow"><input id="${cbuniqueId}" type="checkbox" class="cbselectrow"/><label for="${cbuniqueId}" class="lblselectrow"></label></div></td>`);
+                        html.push(`<td class="column tdselectrow" style="width:20px;"><div class="divselectrow"><input id="${cbuniqueId}" type="checkbox" tabindex="-1" class="cbselectrow"/><label for="${cbuniqueId}" class="lblselectrow"></label></div></td>`);
                     }
                 }
                 for (let colno = 0; colno < $columns.length; colno++) {
@@ -2798,7 +2798,7 @@ class FwBrowseClass {
             }
             let cbuniqueId = FwApplication.prototype.uniqueId(10);
             if ($control.attr('data-hasmultirowselect') !== 'false') {
-                $tr.find('.tdselectrow').append(`<div class="divselectrow"><input id="${cbuniqueId}" type="checkbox" class="cbselectrow" /><label for="${cbuniqueId}" class="lblselect"></label><div>`);
+                $tr.find('.tdselectrow').append(`<div class="divselectrow"><input id="${cbuniqueId}" type="checkbox" tabindex="-1" class="cbselectrow" /><label for="${cbuniqueId}" class="lblselect"></label><div>`);
             }
             $tr.find('.browsecontextmenucell').append('<div class="browsecontextmenu"><i class="material-icons">more_vert</i><div>');
         }

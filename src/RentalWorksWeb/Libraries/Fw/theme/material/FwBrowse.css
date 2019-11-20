@@ -55,16 +55,6 @@ html.theme-material .fwbrowse[data-type="Grid"] .pager div.pagesize .caption {li
 html.theme-material .fwbrowse[data-type="Grid"] .pager div.count {float:right;height:24px;line-height:24px;margin:0 2px;padding:4px 10px;font-size:14px;}
 html.theme-material .fwbrowse[data-type="Grid"] .pager .activeinactiveview {margin:1px 5px 0 0;}
 
-html.theme-material .fwbrowse[data-type="Validation"] .browsecaption {text-align:center;font-size:12px;line-height:24px;height:24px;vertical-align:middle;font-weight:bold;cursor:default;-webkit-touch-callout:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;}
-html.theme-material .fwbrowse[data-type="Validation"] .pager {border-bottom: 1px solid #BDBDBD;background-color: #efefef;overflow: hidden;}
-html.theme-material .fwbrowse[data-type="Validation"] .pager div.buttons {display:inline-block;}
-html.theme-material .fwbrowse[data-type="Validation"] .pager div.buttons .button {cursor:pointer;float:left;padding:4px;}
-html.theme-material .fwbrowse[data-type="Validation"] .pager div.buttons .button[data-enabled="false"] {opacity:.6;}
-html.theme-material .fwbrowse[data-type="Validation"] .pager div.count {float:right;height:16px;line-height:16px;margin:0 2px;font-size:10px;}
-html.theme-material .fwbrowse[data-type="Validation"] .pager div.show-all {float:right;height:16px;line-height:16px;margin:0 2px;clear:right;font-size:.9em;color:#0D47A1;cursor:pointer;}
-html.theme-material .fwbrowse[data-type="Validation"] .pager .activeinactiveview {margin:1px 5px 0 0;}
-html.theme-material .fwbrowse[data-type="Validation"] .validationbuttons {padding:4px;}
-
 html.theme-material .fwbrowse table {width:100%;border-collapse:collapse;border-spacing:0;/*font-size:.7em;*/}
 /*html.theme-material .fwbrowse[data-type="Browse"] table {font-size:12px;}
 html.theme-material .fwbrowse[data-type="Grid"] table {font-size:14px;}*/
@@ -169,10 +159,6 @@ html.theme-material .fwbrowse > .designer thead > tr > td > .addfield {backgroun
 html.theme-material .fwbrowse > .designer thead > tr > td > .field {cursor:move;}
 html.theme-material .fwbrowse > .designer thead > tr > td > .field > .deletefield {float:right;padding:0 4px;cursor:pointer;}
 
-/* FwBrowse Toolbar Button */
-html.theme-material .fwbrowse .fwbrowsebutton {border-radius:6px;display:inline-block;font-size:12px;font-weight:bold;margin:2px 2px;text-decoration:none;text-align:center;padding:5px 12px;}
-html.theme-material .fwbrowse .fwbrowsebutton:hover {cursor:pointer;}
-
 /* FwBrowse Fields*/
 html.theme-material .fwbrowse table tbody tr.editrow .field[data-formdatatype="text"] input.value {width:100%;box-sizing:border-box;height:100%;line-height:100%;border:0;}
 
@@ -216,7 +202,9 @@ html.theme-material .fwbrowse table tbody tr.editrow .field[data-formdatatype="d
 
 html.theme-material .fwbrowse table tbody tr.editrow .field[data-formdatatype="phone"] input.value {box-sizing:border-box;display:block;border:0;padding: 0 .3em;width:100%;height:100%;}
 
-html.theme-material .fwbrowse table tbody tr .field[data-browsedatatype="number"] .fieldvalue {flex:1 1 0;text-align:right;}
+html.theme-material .fwbrowse table tbody tr .field[data-browsedatatype="numericupdown"] .value {flex:1 1 0;text-align:right;}
+html.theme-material .fwbrowse table tbody tr input[type="number"].value::-webkit-outer-spin-button,
+html.theme-material .fwbrowse table tbody tr input[type="number"].value::-webkit-inner-spin-button {-webkit-appearance: none; margin: 0;}
 html.theme-material .fwbrowse table tbody tr.editrow .field[data-formdatatype="number"] input.value {box-sizing:border-box;display:block;border:0;padding: 0 .3em;height:100%;width:100%;border:0;text-align:right;}
 
 html.theme-material .fwbrowse table tbody tr .field[data-browsedatatype="money"] .fieldvalue {flex:1 1 0;text-align:right;}
@@ -352,8 +340,17 @@ html.theme-material .fwbrowse[data-type="Validation"] .browsecaption {color: #ff
 html.theme-material .fwbrowse[data-type="Validation"] table tbody tr td.column {border-bottom:1px solid #e0e0e0;height:32px;}
 html.theme-material .fwbrowse[data-type="Validation"] tfoot tr.pagerrow .pager div.buttons .button[data-enabled="true"]:hover {background-color:rgba(0,0,0,.2);}
 html.theme-material .fwbrowse[data-type="Validation"] tfoot tr.pagerrow .pager div.count {color:#000000;}
-html.theme-material .fwbrowse[data-type="Validation"] .validationbuttons {/*background-color:#9e9e9e;*/padding:.3rem;}
+html.theme-material .fwbrowse[data-type="Validation"] .validationbuttons {padding:.3rem;}
 html.theme-material .fwbrowse.show-all[data-type="Validation"] table {overflow:auto;height:500px;display:block;}
+
+html.theme-material .fwbrowse[data-type="Validation"] .browsecaption {text-align:center;font-size:12px;line-height:24px;height:24px;vertical-align:middle;font-weight:bold;cursor:default;-webkit-touch-callout:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;}
+html.theme-material .fwbrowse[data-type="Validation"] .pager {border-bottom: 1px solid #BDBDBD;background-color: #efefef;overflow: hidden;}
+html.theme-material .fwbrowse[data-type="Validation"] .pager div.buttons {display:inline-block;}
+html.theme-material .fwbrowse[data-type="Validation"] .pager div.buttons .button {cursor:pointer;float:left;padding:4px;}
+html.theme-material .fwbrowse[data-type="Validation"] .pager div.buttons .button[data-enabled="false"] {opacity:.6;}
+html.theme-material .fwbrowse[data-type="Validation"] .pager div.count {float:right;height:16px;line-height:16px;margin:0 2px;font-size:10px;}
+html.theme-material .fwbrowse[data-type="Validation"] .pager div.show-all {float:right;height:16px;line-height:16px;margin:0 2px;clear:right;font-size:.9em;color:#0D47A1;cursor:pointer;}
+html.theme-material .fwbrowse[data-type="Validation"] .pager .activeinactiveview {margin:1px 5px 0 0;}
 
 html.theme-material .fwbrowse table thead tr td:nth-child(2) .field .fieldcaption {border-left:0;}
 html.theme-material .fwbrowse table thead tr td:last-of-type:not([style="display: none"]) .field .fieldcaption {border-right:0;}
@@ -378,8 +375,9 @@ html.theme-material .fwbrowse[data-enabled="false"] table tfoot tr.spacerrow {ba
 html.theme-material .fwbrowse table tfoot .legendrow {border-top: 1px solid #BDBDBD;background-color: #efefef;}
 html.theme-material .fwbrowse table tfoot .legendrow .legenditem .color {border:1px solid #777777;}
 
-html.theme-material .fwbrowse .fwbrowsebutton {border:1px solid rgba(255,255,255,.2);background:#364F65;color:#ffffff;font-size:1rem;padding: .5rem 1.5rem;}
-html.theme-material .fwbrowse .fwbrowsebutton:hover {background:#527898;}
+/* FwBrowse Toolbar Button */
+html.theme-material .fwbrowse .fwbrowsebutton {border-radius:6px;display:inline-block;font-weight:bold;margin:2px 2px;text-decoration:none;text-align:center;border:1px solid rgba(255,255,255,.2);background:#364F65;color:#ffffff;font-size:1rem;padding: .5rem 1.5rem;}
+html.theme-material .fwbrowse .fwbrowsebutton:hover {cursor:pointer;{background:#527898;}
 html.theme-material .fwbrowse .fwbrowsebutton:active {background:#ffffff;color:#364F65;}
 
 html.theme-material .fwbrowse table tbody tr.editrow td .field[data-formreadonly="false"][data-formdatatype="text"] {border:1px solid #bdbdbd;}
@@ -389,7 +387,7 @@ html.theme-material .fwbrowse table tbody tr.editrow td .field[data-formreadonly
 html.theme-material .fwbrowse table tbody tr.editrow td .field[data-formreadonly="false"][data-formdatatype="utcdate"] {border:1px solid #bdbdbd;}
 html.theme-material .fwbrowse table tbody tr.editrow td .field[data-formreadonly="false"][data-formdatatype="phone"] {border:1px solid #bdbdbd;}
 html.theme-material .fwbrowse table tbody tr.editrow td .field[data-formreadonly="false"][data-formdatatype="number"] {border:1px solid #bdbdbd;}
-html.theme-material .fwbrowse table tbody tr.editrow td .field[data-formreadonly="false"][data-formdatatype="money"] {border:1px solid #bdbdbd;}
+html.theme-material .fwbrowse table tbody tr.editrow td .field[data-formreadonly="false"][data-formdatatype="numericupdown"] {border:1px solid #bdbdbd;}
 html.theme-material .fwbrowse table tbody tr.editrow td .field[data-formreadonly="false"][data-formdatatype="validation"] {border:1px solid #bdbdbd;}
 html.theme-material .fwbrowse table tbody tr.editrow td .field[data-formreadonly="false"][data-formdatatype="combobox"] {border:1px solid #bdbdbd;}
 
@@ -398,6 +396,7 @@ html.theme-material .fwbrowse[data-enabled="false"] table tbody tr:not(.selected
 html.theme-material .fwbrowse[data-enabled="false"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="utcdate"] {background-color:transparent;}
 html.theme-material .fwbrowse[data-enabled="false"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="phone"] {background-color:transparent;}
 html.theme-material .fwbrowse[data-enabled="false"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="number"] {background-color:transparent;}
+html.theme-material .fwbrowse[data-enabled="false"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="numericupdown"] {background-color:transparent;}
 html.theme-material .fwbrowse[data-enabled="false"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="money"] {background-color:transparent;}
 html.theme-material .fwbrowse[data-enabled="false"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="validation"] {background-color:transparent;}
 html.theme-material .fwbrowse[data-enabled="false"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="combobox"] {background-color:transparent;}
@@ -409,6 +408,7 @@ html.theme-material .fwbrowse[data-type="Grid"] table tbody tr:not(.selected) .f
 html.theme-material .fwbrowse[data-type="Grid"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="utcdate"] {background-color: #F5F5F5;}
 html.theme-material .fwbrowse[data-type="Grid"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="phone"] {background-color: #F5F5F5;}
 html.theme-material .fwbrowse[data-type="Grid"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="number"] {background-color: #F5F5F5;}
+html.theme-material .fwbrowse[data-type="Grid"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="numericupdown"] {background-color: #F5F5F5;}
 html.theme-material .fwbrowse[data-type="Grid"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="money"] {background-color: #F5F5F5;}
 html.theme-material .fwbrowse[data-type="Grid"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="validation"] {background-color: #F5F5F5;}
 html.theme-material .fwbrowse[data-type="Grid"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="combobox"] {background-color: #F5F5F5;}
@@ -421,6 +421,7 @@ html.theme-material .fwbrowse table tbody tr.editrow td .field[data-formreadonly
 html.theme-material .fwbrowse table tbody tr.editrow td .field[data-formreadonly="true"][data-formdatatype="utcdate"] {padding: 0 10px;}
 html.theme-material .fwbrowse table tbody tr.editrow td .field[data-formreadonly="true"][data-formdatatype="phone"] {padding: 0 10px;}
 html.theme-material .fwbrowse table tbody tr.editrow td .field[data-formreadonly="true"][data-formdatatype="number"] {padding: 0 10px;}
+html.theme-material .fwbrowse table tbody tr.editrow td .field[data-formreadonly="true"][data-formdatatype="numericupdown"] {padding: 0 10px;}
 html.theme-material .fwbrowse table tbody tr.editrow td .field[data-formreadonly="true"][data-formdatatype="money"] {padding: 0 10px;}
 html.theme-material .fwbrowse table tbody tr.editrow td .field[data-formreadonly="true"][data-formdatatype="validation"] {padding: 0 10px;}
 html.theme-material .fwbrowse table tbody tr.editrow td .field[data-formreadonly="true"][data-formdatatype="combobox"] {padding: 0 10px;}
@@ -435,8 +436,6 @@ html.theme-material .fwbrowse table tbody tr.selected.rowtextcolor {outline:2px 
 html.theme-material .fwbrowse[data-type="Validation"] table tbody tr.selected:not(.rowbackgroundcolor):not(.rowtextcolor) td {outline:2px solid #03A9F4;}*/
 html.theme-material .fwbrowse table tbody tr.selected:not(.rowbackgroundcolor):not(.rowtextcolor) td {background-color:#2196f3 !important;color:#ffffff !important;}
 html.theme-material .fwbrowse table tbody tr:hover td {background-color:#eeeeee;}
-
-
 /*------------------------------------------------------------------------------------------------*/
 /*Collapsible grid flex flow col*/
 @media only screen and (max-width: 1200px) {

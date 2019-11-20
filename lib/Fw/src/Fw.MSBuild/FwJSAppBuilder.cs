@@ -63,7 +63,7 @@ namespace Fw.MSBuildTasks
             FwApplicationSchema.Browse browse;
             FwApplicationSchema.FormTable table;
             FwApplicationSchema.Column column;
-            Dictionary<string, DatabaseConnection> databaseConnections;
+            Dictionary<string, DatabaseConnection> databaseConnections = null;
 
             // page and controls
             StringBuilder sbModules;
@@ -89,8 +89,11 @@ namespace Fw.MSBuildTasks
                     
                     config = (JSAppBuilderConfig)FwFuncMSBuild.LoadObject(typeof(JSAppBuilderConfig), configFilePath, solutionDir, this.Log);
                     
-                    applicationConfigPath = Path.Combine(Path.GetDirectoryName(configFilePath), "Application.config");
-                    databaseConnections = GetDatabaseConnections(applicationConfigPath);
+                    if (UpdateSchema)
+                    {
+                        applicationConfigPath = Path.Combine(Path.GetDirectoryName(configFilePath), "Application.config");
+                        databaseConnections = GetDatabaseConnections(applicationConfigPath);
+                    }
                     pathSite     = Path.GetDirectoryName(configFilePath);
 
                     for (int i = 0; i < config.Targets.Count; i++)

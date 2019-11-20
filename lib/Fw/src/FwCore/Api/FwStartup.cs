@@ -1,25 +1,20 @@
 using AutoMapper;
+using FwCore.AppManager;
 using FwCore.Middleware;
-using FwCore.Security;
 using FwStandard.Models;
 using FwStandard.Modules.Administrator.Alert;
-using FwStandard.Security;
 using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc.Authorization;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.DotNet.PlatformAbstractions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Serialization;
 using Swashbuckle.AspNetCore.Swagger;
-using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -71,7 +66,8 @@ namespace FwCore.Api
                         .RequireAuthenticatedUser()
                         //.AddRequirements(new IAuthorizationRequirement[] { new FwAppManagerAuthorizationRequirement() })
                         .Build();
-                    config.Filters.Add(new AuthorizeFilter(policy));
+                    //config.Filters.Add(new AuthorizeFilter(policy));
+                    config.Filters.Insert(0, new FwAmAuthorizationFilter());
                 })
                 // don't use the lowerCamelCase formatter
                 .AddJsonOptions(options =>
@@ -99,24 +95,25 @@ namespace FwCore.Api
                     .Build();
 
                 // add an authorization policy for every controller method in the WebApi security tree
-                FwSecurityTreeNode nodeCurrentApplication = FwSecurityTree.Tree.FindById(FwSecurityTree.CurrentApplicationId);
-                // loop over each api top level menu
-                foreach (var lv1menu in nodeCurrentApplication.Children)
-                {
-                    // loop over each controller
-                    foreach (var controller in lv1menu.Children)
-                    {
-                        // loop over each controller method
-                        foreach (var method in controller.Children)
-                        {
-                            // Adds a callback that will fire with each request on the controller method to validate whether the user has permission
-                            options.AddPolicy("{" + method.Id + "}", policy => policy.AddRequirements(new SecurityTreeAuthorizationRequirement(method.Id, true, false)));
-                        }
-                    }
-                }
+                //FwSecurityTreeNode nodeCurrentApplication = FwSecurityTree.Tree.FindById(FwSecurityTree.CurrentApplicationId);
+                //// loop over each api top level menu
+                //foreach (var lv1menu in nodeCurrentApplication.Children)
+                //{
+                //    // loop over each controller
+                //    foreach (var controller in lv1menu.Children)
+                //    {
+                //        // loop over each controller method
+                //        foreach (var method in controller.Children)
+                //        {
+                //            // Adds a callback that will fire with each request on the controller method to validate whether the user has permission
+                //            options.AddPolicy("{" + method.Id + "}", policy => policy.AddRequirements(new SecurityTreeAuthorizationRequirement(method.Id, true, false)));
+                //        }
+                //    }
+                //}
+
+                //options.AddPolicy("AppManager", policy => policy.AddRequirements(new FwAmAuthorizationRequirement("", true, false)));
             });
-            services.AddSingleton<IAuthorizationHandler, SecurityTreeAuthorizationHandler>();
-            //services.AddSingleton<IAuthorizationHandler, FwAppManagerAuthorizationHandler>();
+            //services.AddSingleton<IAuthorizationHandler, FwAmAuthorizationHandler>();
 
             // Configure JwtIssuerOptions for dependency injection
             if (string.IsNullOrEmpty(ApplicationConfig.JwtIssuerOptions.SecretKey))
@@ -180,6 +177,16 @@ namespace FwCore.Api
                 c.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>>
                 {
                     { "Bearer", new[] { "readAccess", "writeAccess" } }
+                });
+
+                // rename the models
+                c.CustomSchemaIds((type) => {
+                    string modelName = type.FullName;
+                    if (modelName.StartsWith("WebApi") && modelName.EndsWith("Logic"))
+                    {
+                        modelName = modelName.Substring(0, modelName.Length - 5) + "Model";
+                    }
+                    return modelName;
                 });
             });
 

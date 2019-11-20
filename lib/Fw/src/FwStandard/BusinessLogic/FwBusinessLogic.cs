@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace FwStandard.BusinessLogic
 {
-    public enum TDataRecordSaveMode { smInsert, smUpdate };
+    public enum TDataRecordSaveMode { Auto, smInsert, smUpdate };
 
     public class BeforeSaveEventArgs : EventArgs
     {
@@ -1183,11 +1183,14 @@ namespace FwStandard.BusinessLogic
             }
         }
         //------------------------------------------------------------------------------------
-        public virtual async Task<int> SaveAsync(FwBusinessLogic original, FwSqlConnection conn = null)
+        public virtual async Task<int> SaveAsync(FwBusinessLogic original, FwSqlConnection conn = null, TDataRecordSaveMode saveMode = TDataRecordSaveMode.Auto)
         {
             bool success = false;
             int rowsAffected = 0;
-            TDataRecordSaveMode saveMode = (AllPrimaryKeysHaveValues ? TDataRecordSaveMode.smUpdate : TDataRecordSaveMode.smInsert);
+            if (saveMode == TDataRecordSaveMode.Auto)
+            {
+                saveMode = (AllPrimaryKeysHaveValues ? TDataRecordSaveMode.smUpdate : TDataRecordSaveMode.smInsert);
+            }
             bool transactionInitializedHere = false;
             try
             {
