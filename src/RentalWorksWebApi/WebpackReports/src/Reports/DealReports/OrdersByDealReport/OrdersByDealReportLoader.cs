@@ -6,7 +6,7 @@ using WebApi.Data;
 using System.Threading.Tasks;
 using System.Data;
 using System.Reflection;
-using WebLibrary;
+using WebApi;
 using System.Text;
 
 namespace WebApi.Modules.Reports.DealReports.OrdersByDealReport

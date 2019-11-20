@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using WebApi.Logic;
 using WebApi.Modules.Agent.Order;
 using WebApi.Modules.HomeControls.DealOrder;
-using WebLibrary;
+using WebApi;
 using static WebApi.Modules.HomeControls.DealOrder.DealOrderRecord;
 
 namespace WebApi.Modules.Agent.Quote

@@ -7,7 +7,7 @@ using WebApi.Modules.HomeControls.Master;
 using WebApi.Modules.HomeControls.Inventory;
 using WebApi.Modules.Settings.Rate;
 using System.Collections.Generic;
-using WebLibrary;
+using WebApi;
 
 namespace WebApi.Modules.Settings.MiscellaneousSettings.MiscRate
 {

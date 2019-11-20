@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebApi.Controllers;
 using WebApi.Modules.Settings.ContactSettings.ContactTitle;
-using WebLibrary;
+using WebApi;
 
 namespace WebApi.Modules.HomeControls.CompanyContact
 {

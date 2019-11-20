@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using WebApi.Controllers;
 using WebApi.Logic;
 using WebApi.Modules.Agent.Order;
-using WebLibrary;
+using WebApi;
 using static WebApi.Modules.HomeControls.DealOrder.DealOrderRecord;
 using WebApi.Modules.Settings.CompanyDepartmentSettings.Department;
 using WebApi.Modules.Agent.Deal;

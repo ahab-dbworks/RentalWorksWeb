@@ -1,7 +1,7 @@
 ﻿using FwStandard.Models;
 using FwStandard.SqlServer;
 
-namespace WebLibrary
+namespace WebApi
 {
     public static class RwGlobals
     {

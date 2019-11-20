@@ -12,7 +12,7 @@ using WebApi.Modules.Settings.AddressSettings.Country;
 //using WebApi.Modules.HomeControls.CompanyContact;
 using WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation;
 using WebApi.Modules.Settings.WarehouseSettings.Warehouse;
-using WebLibrary;
+using WebApi;
 using WebApi.Modules.HomeControls.CompanyContact;
 
 namespace WebApi.Modules.Agent.Contact

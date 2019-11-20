@@ -8,7 +8,7 @@ using System;
 using static WebApi.Modules.HomeControls.InventorySearchPreview.InventorySearchPreviewController;
 using WebApi.Modules.HomeControls.InventoryAvailability;
 using System.Collections.Generic;
-using WebLibrary;
+using WebApi;
 using WebApi.Logic;
 
 namespace WebApi.Modules.HomeControls.InventorySearchPreview

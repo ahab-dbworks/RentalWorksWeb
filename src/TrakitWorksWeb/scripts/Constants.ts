@@ -10,16 +10,21 @@
     },
     Modules: {
         Administrator: {
-            Control: { id: '044829ED-579F-4AAD-B464-B4823FDB5A35', caption: 'Control', nav: 'module/control' },
-            CustomField: { id: '99D56DA6-5779-44A5-8BA6-E033F343C6D0', caption: 'Custom Fields', nav: 'module/customfield' },
-            CustomForm: { id: '2F07BFC4-A120-4C97-9D96-F16906CD1B88', caption: 'Custom Forms', nav: 'module/customform' },
-            DuplicateRule: { id: '8A1EA4A2-6019-4B9B-8324-6143BD7916A1', caption: 'Duplicate Rules', nav: 'module/duplicaterule' },
-            EmailHistory: { id: '34092164-500A-46BB-8F09-86BBE0FEA082', caption: 'Email History', nav: 'module/emailhistory' },
-            Group: { id: '849D2706-72EC-48C0-B41C-0890297BF24B', caption: 'Group', nav: 'module/group' },
-            Hotfix: { id: 'B7336B5E-4BA4-4A99-97D6-60385045238B', caption: 'Hotfix', nav: 'module/hotfix' },
-            Reports: { id: 'CEAFF154-60DF-4491-96D4-4D4685665E60', caption: 'Reports', nav: 'module/reports' },
-            Settings: { id: 'AD8656B4-F161-4568-9AFF-64C81A3680E6', caption: 'Settings', nav: 'module/settings' },
-            User: { id: 'CE9E187C-288F-44AB-A54A-27A8CFF6FF53', caption: 'User', nav: 'module/user' }
+            id: 'Administrator',
+            caption: 'Administrator',
+            nodetype: 'Category',
+            children: {
+                Control: { id: '044829ED-579F-4AAD-B464-B4823FDB5A35', caption: 'Control', nav: 'module/control' },
+                CustomField: { id: '99D56DA6-5779-44A5-8BA6-E033F343C6D0', caption: 'Custom Fields', nav: 'module/customfield' },
+                CustomForm: { id: '2F07BFC4-A120-4C97-9D96-F16906CD1B88', caption: 'Custom Forms', nav: 'module/customform' },
+                DuplicateRule: { id: '8A1EA4A2-6019-4B9B-8324-6143BD7916A1', caption: 'Duplicate Rules', nav: 'module/duplicaterule' },
+                EmailHistory: { id: '34092164-500A-46BB-8F09-86BBE0FEA082', caption: 'Email History', nav: 'module/emailhistory' },
+                Group: { id: '849D2706-72EC-48C0-B41C-0890297BF24B', caption: 'Group', nav: 'module/group' },
+                Hotfix: { id: 'B7336B5E-4BA4-4A99-97D6-60385045238B', caption: 'Hotfix', nav: 'module/hotfix' },
+                Reports: { id: 'CEAFF154-60DF-4491-96D4-4D4685665E60', caption: 'Reports', nav: 'module/reports' },
+                Settings: { id: 'AD8656B4-F161-4568-9AFF-64C81A3680E6', caption: 'Settings', nav: 'module/settings' },
+                User: { id: 'CE9E187C-288F-44AB-A54A-27A8CFF6FF53', caption: 'User', nav: 'module/user' }
+            }
         },
         Home: {
             Asset: { id: 'E1366299-0008-429C-93CC-B8ED8969B180', caption: 'Asset', nav: 'module/asset' },

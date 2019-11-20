@@ -11,7 +11,7 @@ using WebApi.Modules.HomeControls.InvoiceReceipt;
 using WebApi.Modules.Settings.PaymentSettings.PaymentType;
 using WebApi.Modules.Settings.SystemSettings;
 using WebApi.Modules.Settings.SystemSettings.SystemSettings;
-using WebLibrary;
+using WebApi;
 
 namespace WebApi.Modules.Billing.Receipt
 {

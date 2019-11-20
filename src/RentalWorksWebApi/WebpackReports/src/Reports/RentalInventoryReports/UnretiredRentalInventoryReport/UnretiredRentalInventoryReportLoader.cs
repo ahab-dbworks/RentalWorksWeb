@@ -3,7 +3,7 @@ using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 using System.Threading.Tasks;
 using System.Data;
-using WebLibrary;
+using WebApi;
 
 namespace WebApi.Modules.Reports.RentalInventoryReports.UnretiredRentalInventoryReport
 {

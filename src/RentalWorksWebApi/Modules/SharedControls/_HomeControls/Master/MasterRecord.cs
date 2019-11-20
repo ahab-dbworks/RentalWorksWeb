@@ -5,7 +5,7 @@ using WebApi.Data;
 using System.Data;
 using System.Threading.Tasks;
 using WebApi.Logic;
-using WebLibrary;
+using WebApi;
 
 namespace WebApi.Modules.HomeControls.Master
 {

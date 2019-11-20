@@ -1,7 +1,7 @@
 using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
 using WebApi.Logic;
-using WebLibrary;
+using WebApi;
 
 namespace WebApi.Modules.Settings.PresentationLayerActivity
 {

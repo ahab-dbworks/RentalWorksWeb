@@ -3,7 +3,7 @@ using FwStandard.AppManager;
 using Newtonsoft.Json;
 using WebApi.Logic;
 using WebApi.Modules.Settings.VehicleSettings.VehicleMake;
-using WebLibrary;
+using WebApi;
 
 namespace WebApi.Modules.Settings.GeneratorSettings.GeneratorMake
 {

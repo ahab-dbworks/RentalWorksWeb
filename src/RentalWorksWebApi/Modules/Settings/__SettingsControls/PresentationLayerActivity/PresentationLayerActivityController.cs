@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebApi.Controllers;
 using WebApi.Logic;
-using WebLibrary;
+using WebApi;
 
 namespace WebApi.Modules.Settings.PresentationLayerActivity
 {

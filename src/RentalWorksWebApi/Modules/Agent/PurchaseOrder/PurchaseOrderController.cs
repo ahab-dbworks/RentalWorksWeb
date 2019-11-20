@@ -18,7 +18,7 @@ using WebApi.Modules.Administrator.User;
 using WebApi.Modules.Settings.BillingCycleSettings.BillingCycle;
 using WebApi.Modules.Settings.CurrencySettings.Currency;
 using WebApi.Modules.Settings.TaxSettings.TaxOption;
-using WebLibrary;
+using WebApi;
 using static WebApi.Modules.HomeControls.DealOrder.DealOrderRecord;
 
 namespace WebApi.Modules.Agent.PurchaseOrder

@@ -4,7 +4,7 @@ using FwStandard.SqlServer;
 using System;
 using WebApi.Logic;
 using WebApi.Modules.Administrator.User;
-using WebLibrary;
+using WebApi;
 
 namespace WebApi.Modules.Agent.Contact
 {

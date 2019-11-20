@@ -1,7 +1,7 @@
 using FwStandard.AppManager;
 ﻿using FwStandard.BusinessLogic;
 using WebApi.Modules.Settings.VehicleSettings.VehicleType;
-using WebLibrary;
+using WebApi;
 
 namespace WebApi.Modules.Settings.GeneratorSettings.GeneratorType
 {

@@ -40,6 +40,10 @@ if not exist "c:\Program Files\7-Zip\7z.exe" exit /B
 rem Get the Build number from the user
 set /p buildno="Build Number (ie. 2019.1.2.X): "
 
+rem Prompt the user if they want to commit and deploy to ftp
+set /p commitandftp="Do you want to commit and FTP the build? (y/n default:n): "
+IF NOT "%commitandftp%"=="y" set commitandftp=n
+
 rem determine ZIP filename
 setlocal ENABLEDELAYEDEXPANSION
 set buildnoforzip=%buildno:.=_%
@@ -72,33 +76,35 @@ for /L %%i in (1,1,%count%) do (
    echo !array[%%i]!|find "AssemblyVersion" >nul
    if errorlevel 1 (echo !array[%%i]!>>%file%) else (call echo !newassemblyline!>>%file%))
 
-rem rem command-line Git push in the modified version and assemply files
-cd %DwRentalWorksWebPath%
-git config --global gc.auto 0
-git add "src/RentalWorksWeb/version.txt"
-git add "src/RentalWorksWebApi/version.txt"
-git add "src/RentalWorksWeb/version-RentalWorksWeb.txt"
-git add "src/RentalWorksWeb/Properties/AssemblyInfo.cs"
-git commit -m "web: %buildno%"
-git push
-rem git tag web/v%buildno%
-rem git push origin web/v%buildno%
-rem 
-rem rem command-line gren make Build Release Document
-rem cd %DwRentalWorksWebPath%\build
-rem call gren changelog --token=4f42c7ba6af985f6ac6a6c9eba45d8f25388ef58 --username=databaseworks --repo=rentalworksweb --generate --override --changelog-filename=v%buildno%.md -t web/v%buildno% -c ..\config.grenrc
-rem start v%buildno%.md
-rem 
-rem rem produce a PDF of the MD file
-rem cd %DwRentalWorksWebPath%
-rem call md-to-pdf build\v%buildno%.md
+IF "%commitandftp%"=="y" (
+    rem rem command-line Git push in the modified version and assemply files
+    cd %DwRentalWorksWebPath%
+    git config --global gc.auto 0
+    git add "src/RentalWorksWeb/version.txt"
+    git add "src/RentalWorksWebApi/version.txt"
+    git add "src/RentalWorksWeb/version-RentalWorksWeb.txt"
+    git add "src/RentalWorksWeb/Properties/AssemblyInfo.cs"
+    git commit -m "web: %buildno%"
+    git push
+    rem git tag web/v%buildno%
+    rem git push origin web/v%buildno%
+    rem 
+    rem rem command-line gren make Build Release Document
+    rem cd %DwRentalWorksWebPath%\build
+    rem call gren changelog --token=4f42c7ba6af985f6ac6a6c9eba45d8f25388ef58 --username=databaseworks --repo=rentalworksweb --generate --override --changelog-filename=v%buildno%.md -t web/v%buildno% -c ..\config.grenrc
+    rem start v%buildno%.md
+    rem 
+    rem rem produce a PDF of the MD file
+    rem cd %DwRentalWorksWebPath%
+    rem call md-to-pdf build\v%buildno%.md
 
-rem Need to use curl to publish the PDF file to ZenDesk as a new "article"
-rem curl https://dbworks.zendesk.com/api/v2/help_center/sections/{id}/articles.json \
-rem   -d '{"article": {"title": "RentalWorksWeb v2019.1.1.XX", "body": "RentalWorksWeb v2019.1.1.XX has been released", "locale": "en-us" }, "notify_subscribers": false}' \
-rem   -v -u {email_address}:{password} -X POST -H "Content-Type: application/json"
-rem Note: "section" will be something like RentalWorksWeb > Release Documents
-rem Note: need to research how to attach documents
+    rem Need to use curl to publish the PDF file to ZenDesk as a new "article"
+    rem curl https://dbworks.zendesk.com/api/v2/help_center/sections/{id}/articles.json \
+    rem   -d '{"article": {"title": "RentalWorksWeb v2019.1.1.XX", "body": "RentalWorksWeb v2019.1.1.XX has been released", "locale": "en-us" }, "notify_subscribers": false}' \
+    rem   -v -u {email_address}:{password} -X POST -H "Content-Type: application/json"
+    rem Note: "section" will be something like RentalWorksWeb > Release Documents
+    rem Note: need to research how to attach documents
+)
 
 rem delete any old build files
 cd %DwRentalWorksWebPath%\build
@@ -126,23 +132,24 @@ if exist RentalWorksWebApi\ (rmdir RentalWorksWebApi /S /Q)
 rem copy the ZIP delivable to "history" sub-directory
 copy %zipfilename% history
 
-rem Create FTP command file to upload the zip
-setlocal DISABLEDELAYEDEXPANSION
-cd %DwRentalWorksWebPath%\build
-set ftpcommandfilename=ftp.txt
-echo open ftp.dbworks.com>%ftpcommandfilename%
-echo %DwFtpUploadUser%>>%ftpcommandfilename%
-echo %DwFtpUploadPassword%>>%ftpcommandfilename%
-echo cd update>>%ftpcommandfilename%
-echo cd rentalworksweb>>%ftpcommandfilename%
-echo cd 2019.1.2>>%ftpcommandfilename%
-echo put %zipfilename%>>%ftpcommandfilename%
-echo put %buildno%.pdf>>%ftpcommandfilename%
-echo quit>>%ftpcommandfilename%
+IF "%commitandftp%"=="y" (
+    rem Create FTP command file to upload the zip
+    setlocal DISABLEDELAYEDEXPANSION
+    cd %DwRentalWorksWebPath%\build
+    set ftpcommandfilename=ftp.txt
+    echo open ftp.dbworks.com>%ftpcommandfilename%
+    echo %DwFtpUploadUser%>>%ftpcommandfilename%
+    echo %DwFtpUploadPassword%>>%ftpcommandfilename%
+    echo cd update>>%ftpcommandfilename%
+    echo cd rentalworksweb>>%ftpcommandfilename%
+    echo cd 2019.1.2>>%ftpcommandfilename%
+    echo put %zipfilename%>>%ftpcommandfilename%
+    echo put %buildno%.pdf>>%ftpcommandfilename%
+    echo quit>>%ftpcommandfilename%
 
-rem Run the FTP command using the command file created above, delete the command file
-ftp -s:%ftpcommandfilename% -v
-del %ftpcommandfilename%
-
+    rem Run the FTP command using the command file created above, delete the command file
+    ftp -s:%ftpcommandfilename% -v
+    del %ftpcommandfilename%
+)
 
 

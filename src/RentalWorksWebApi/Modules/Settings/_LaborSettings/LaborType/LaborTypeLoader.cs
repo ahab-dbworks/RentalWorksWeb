@@ -3,7 +3,7 @@ using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-using WebLibrary;
+using WebApi;
 
 namespace WebApi.Modules.Settings.LaborSettings.LaborType
 {

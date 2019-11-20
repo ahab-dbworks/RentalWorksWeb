@@ -5,7 +5,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using WebApi.Modules.Settings.SystemSettings.AvailabilitySettings;
-using WebLibrary;
+using WebApi;
 
 namespace WebApi.Modules.HomeControls.InventoryAvailability
 {

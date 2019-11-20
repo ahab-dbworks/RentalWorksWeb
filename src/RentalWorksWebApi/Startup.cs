@@ -6,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using WebApi.ApplicationManager;
 using WebApi.Modules.HomeControls.InventoryAvailability;
-using WebLibrary;
+using WebApi;
 
 namespace WebApi
 {

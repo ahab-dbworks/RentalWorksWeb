@@ -7,7 +7,7 @@ using System.Reflection;
 using System;
 using WebApi.Modules.HomeControls.InventoryAvailability;
 using System.Collections.Generic;
-using WebLibrary;
+using WebApi;
 
 namespace WebApi.Modules.HomeControls.InventorySearch
 {

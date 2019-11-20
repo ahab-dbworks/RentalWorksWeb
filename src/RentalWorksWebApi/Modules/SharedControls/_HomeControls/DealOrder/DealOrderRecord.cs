@@ -8,7 +8,7 @@ using WebApi.Logic;
 using WebApi.Modules.Agent.Order;
 using WebApi.Modules.Agent.PurchaseOrder;
 using WebApi.Modules.Agent.Quote;
-using WebLibrary;
+using WebApi;
 
 namespace WebApi.Modules.HomeControls.DealOrder
 {

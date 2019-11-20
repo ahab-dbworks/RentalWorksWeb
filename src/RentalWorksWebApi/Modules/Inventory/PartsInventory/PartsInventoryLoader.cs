@@ -6,7 +6,7 @@ using WebApi.Data;
 using WebApi.Modules.HomeControls.Master;
 using WebApi.Modules.HomeControls.Inventory;
 using System.Collections.Generic;
-using WebLibrary;
+using WebApi;
 
 namespace WebApi.Modules.Inventory.PartsInventory
 {

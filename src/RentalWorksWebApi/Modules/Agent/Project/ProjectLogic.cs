@@ -9,7 +9,7 @@ using WebApi.Logic;
 using WebApi.Modules.Agent.Quote;
 using WebApi.Modules.HomeControls.DealOrder;
 using WebApi.Modules.HomeControls.DealOrderDetail;
-using WebLibrary;
+using WebApi;
 
 namespace WebApi.Modules.Agent.Project
 {

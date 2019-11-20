@@ -6,7 +6,7 @@ using System.Data;
 using System.Threading.Tasks;
 using WebApi.Logic;
 using WebApi.Modules.Warehouse.Contract;
-using WebLibrary;
+using WebApi;
 
 namespace WebApi.Modules.Utilities.Migrate
 {

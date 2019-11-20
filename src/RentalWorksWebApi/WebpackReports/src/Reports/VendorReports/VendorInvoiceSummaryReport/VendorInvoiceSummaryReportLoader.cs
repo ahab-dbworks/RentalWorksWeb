@@ -2,7 +2,7 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 using System.Threading.Tasks;
-using WebLibrary;
+using WebApi;
 
 namespace WebApi.Modules.Reports.VendorReports.VendorInvoiceSummaryReport
 {

@@ -5,7 +5,7 @@ using FwStandard.SqlServer.Attributes;
 using System.Collections.Generic;
 using WebApi.Data;
 using WebApi.Logic;
-using WebLibrary;
+using WebApi;
 
 namespace WebApi.Modules.HomeControls.CustomerCredit
 {

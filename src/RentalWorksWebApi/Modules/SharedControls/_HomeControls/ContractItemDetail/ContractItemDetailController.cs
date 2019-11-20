@@ -9,7 +9,7 @@ using System;
 using WebApi.Logic;
 using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
-using WebLibrary;
+using WebApi;
 
 namespace WebApi.Modules.HomeControls.ContractItemDetail
 {

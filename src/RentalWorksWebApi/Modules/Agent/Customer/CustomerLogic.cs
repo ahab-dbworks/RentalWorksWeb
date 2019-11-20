@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using WebApi.Logic;
 using WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation;
-using WebLibrary;
+using WebApi;
 
 namespace WebApi.Modules.Agent.Customer
 {

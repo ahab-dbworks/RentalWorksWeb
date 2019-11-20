@@ -1,5 +1,5 @@
 using WebApi.Modules.Reports.Shared.InventoryPurchaseHistoryReport;
-using WebLibrary;
+using WebApi;
 
 namespace WebApi.Modules.Reports.PartsInventoryReports.PartsInventoryPurchaseHistoryReport
 {

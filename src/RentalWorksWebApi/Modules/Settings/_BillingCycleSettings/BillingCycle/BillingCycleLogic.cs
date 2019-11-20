@@ -3,7 +3,7 @@ using FwStandard.BusinessLogic;
 using System.Reflection;
 using WebApi.Logic;
 using WebApi.Modules.Settings.BillPeriod;
-using WebLibrary;
+using WebApi;
 
 namespace WebApi.Modules.Settings.BillingCycleSettings.BillingCycle
 {

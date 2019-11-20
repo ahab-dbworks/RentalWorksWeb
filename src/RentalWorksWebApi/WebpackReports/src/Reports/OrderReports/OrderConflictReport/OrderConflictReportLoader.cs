@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebApi.Data;
 using WebApi.Modules.HomeControls.InventoryAvailability;
-using WebLibrary;
+using WebApi;
 
 namespace WebApi.Modules.Reports.OrderReports.OrderConflictReport
 {

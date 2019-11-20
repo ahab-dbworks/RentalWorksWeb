@@ -1,4 +1,4 @@
-﻿namespace WebLibrary
+﻿namespace WebApi
 {
     public static class RwConstants
     {

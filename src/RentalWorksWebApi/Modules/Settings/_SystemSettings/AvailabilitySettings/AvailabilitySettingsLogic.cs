@@ -2,7 +2,7 @@ using WebApi.Logic;
 using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
 using System.Reflection;
-using WebLibrary;
+using WebApi;
 using WebApi.Modules.HomeControls.InventoryAvailability;
 
 namespace WebApi.Modules.Settings.SystemSettings.AvailabilitySettings

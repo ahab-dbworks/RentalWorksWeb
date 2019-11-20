@@ -4,7 +4,7 @@ using WebApi.Logic;
 using WebApi.Modules.HomeControls.Master;
 using WebApi.Modules.HomeControls.Inventory;
 using WebApi.Modules.Settings.Rate;
-using WebLibrary;
+using WebApi;
 
 namespace WebApi.Modules.Settings.LaborSettings.Position
 {

@@ -6,7 +6,7 @@ using System.Data;
 using System.Threading.Tasks;
 using WebApi.Modules.HomeControls.InventoryPackageInventory;
 using WebApi.Modules.HomeControls.InventorySearch;
-using WebLibrary;
+using WebApi;
 
 namespace WebApi.Modules.Home.InventorySearch
 {

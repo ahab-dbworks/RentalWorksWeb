@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using WebApi.Controllers;
 using System.Threading.Tasks;
-using WebLibrary;
+using WebApi;
 
 namespace WebApi.Modules.HomeControls.OrderSummary
 {

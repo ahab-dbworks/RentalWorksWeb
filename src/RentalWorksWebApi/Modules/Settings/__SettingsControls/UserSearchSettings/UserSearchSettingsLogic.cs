@@ -2,7 +2,7 @@ using FwStandard.AppManager;
 ﻿using FwStandard.BusinessLogic;
 using WebApi.Logic;
 using WebApi.Modules.Administrator.User;
-using WebLibrary;
+using WebApi;
 
 namespace WebApi.Modules.Settings.UserSearchSettings
 {

@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebApi.Controllers;
 using WebApi.Modules.Settings.InventorySettings.InventoryStatus;
-using WebLibrary;
+using WebApi;
 using WebApi.Modules.Settings.InventorySettings.InventoryCondition;
 using WebApi.Modules.Agent.Vendor;
 using WebApi.Modules.Settings.AddressSettings.Country;

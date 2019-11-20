@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using WebApi.Controllers;
 using WebApi.Logic;
 using WebApi.Modules.Warehouse.Contract;
-using WebLibrary;
+using WebApi;
 using WebApi.Modules.Agent.Order;
 using WebApi.Modules.Agent.Deal;
 

@@ -1,5 +1,5 @@
 using WebApi.Modules.Reports.Shared.InventoryAttributesReport;
-using WebLibrary;
+using WebApi;
 
 namespace WebApi.Modules.Reports.RentalInventoryReports.RentalInventoryAttributesReport
 {

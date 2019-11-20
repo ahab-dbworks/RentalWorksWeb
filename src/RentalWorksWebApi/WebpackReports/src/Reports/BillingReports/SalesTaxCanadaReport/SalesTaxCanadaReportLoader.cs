@@ -1,5 +1,5 @@
 using WebApi.Modules.Reports.Shared.SalesTaxReport;
-using WebLibrary;
+using WebApi;
 
 namespace WebApi.Modules.Reports.Billing.SalesTaxCanadaReport
 {

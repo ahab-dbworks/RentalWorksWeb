@@ -1,7 +1,7 @@
 using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
 using WebApi.Modules.HomeControls.Inventory;
-using WebLibrary;
+using WebApi;
 
 namespace WebApi.Modules.Inventory.PartsInventory
 {

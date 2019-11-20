@@ -1,7 +1,7 @@
 using FwStandard.AppManager;
 ﻿using FwStandard.BusinessLogic;
 using WebApi.Modules.Settings.Category;
-using WebLibrary;
+using WebApi;
 
 namespace WebApi.Modules.Settings.InventorySettings.SalesCategory
 {

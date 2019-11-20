@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebApi.Controllers;
-using WebLibrary;
+using WebApi;
 
 namespace WebApi.Modules.Billing.Receipt
 {

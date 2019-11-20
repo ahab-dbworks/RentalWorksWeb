@@ -1,7 +1,7 @@
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-using WebLibrary;
+using WebApi;
 using System.Threading.Tasks;
 
 namespace WebApi.Modules.Reports.Billing.SalesRepresentativeBillingReport

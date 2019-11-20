@@ -6,7 +6,7 @@ using System;
 using WebApi.Logic;
 using WebApi.Modules.Administrator.User;
 using WebApi.Modules.Agent.Contact;
-using WebLibrary;
+using WebApi;
 
 namespace WebApi.Modules.Settings.LaborSettings.Crew
 {

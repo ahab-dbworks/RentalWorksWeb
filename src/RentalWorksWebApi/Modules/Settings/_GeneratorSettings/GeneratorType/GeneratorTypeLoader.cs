@@ -4,7 +4,7 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 using WebApi.Modules.Settings.VehicleSettings.VehicleType;
-using WebLibrary;
+using WebApi;
 
 namespace WebApi.Modules.Settings.GeneratorSettings.GeneratorType
 {

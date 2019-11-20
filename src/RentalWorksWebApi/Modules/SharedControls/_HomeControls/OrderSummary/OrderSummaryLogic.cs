@@ -1,6 +1,6 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
-using WebLibrary;
+using WebApi;
 
 namespace WebApi.Modules.HomeControls.OrderSummary
 {

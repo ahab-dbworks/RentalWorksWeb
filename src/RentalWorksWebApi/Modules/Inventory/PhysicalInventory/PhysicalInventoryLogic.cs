@@ -1,7 +1,7 @@
 using WebApi.Logic;
 using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
-using WebLibrary;
+using WebApi;
 using System.Reflection;
 
 namespace WebApi.Modules.Inventory.PhysicalInventory

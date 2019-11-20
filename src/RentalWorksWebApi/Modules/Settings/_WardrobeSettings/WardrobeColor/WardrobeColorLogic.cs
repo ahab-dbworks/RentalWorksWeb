@@ -2,7 +2,7 @@ using FwStandard.AppManager;
 ﻿using FwStandard.BusinessLogic;
 using WebApi.Logic;
 using WebApi.Modules.Settings.Color;
-using WebLibrary;
+using WebApi;
 
 namespace WebApi.Modules.Settings.WardrobeSettings.WardrobeColor
 {

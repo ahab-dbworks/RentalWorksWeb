@@ -7,7 +7,7 @@ using WebApi.Logic;
 using WebApi.Modules.HomeControls.InventoryAvailability;
 using WebApi.Modules.HomeControls.RepairItem;
 using WebApi.Modules.HomeControls.Tax;
-using WebLibrary;
+using WebApi;
 
 namespace WebApi.Modules.Inventory.Repair
 {

@@ -4,7 +4,7 @@ using FwStandard.SqlServer.Attributes;
 using System.Data;
 using System.Threading.Tasks;
 using WebApi.Data;
-using WebLibrary;
+using WebApi;
 
 namespace WebApi.Modules.Reports.Billing.BillingAnalysisReport
 {

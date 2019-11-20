@@ -1,6 +1,6 @@
 using FwStandard.AppManager;
 ﻿using FwStandard.BusinessLogic;
-using WebLibrary;
+using WebApi;
 
 namespace WebApi.Modules.Settings.VehicleSettings.VehicleType
 {

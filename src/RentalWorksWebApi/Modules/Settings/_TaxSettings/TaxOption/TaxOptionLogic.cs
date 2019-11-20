@@ -4,7 +4,7 @@ using WebApi.Logic;
 using System.Threading.Tasks;
 using FwStandard.BusinessLogic;
 using System.Reflection;
-using WebLibrary;
+using WebApi;
 
 namespace WebApi.Modules.Settings.TaxSettings.TaxOption
 {
