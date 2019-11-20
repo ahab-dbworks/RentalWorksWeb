@@ -137,6 +137,7 @@ export class CustomReportLayout extends AdminModule {
         this.moduleName = 'CustomReportLayout';
         this.moduleId = 'B89CDAF3-53B2-4FE8-97C6-39DC98E98DBA';
         this.moduleCaption = 'Custom Report Layout';
+        this.waitBeforeClickingSave = 2000;
 
         this.defaultNewRecordToExpect = {
             BaseReport: "",

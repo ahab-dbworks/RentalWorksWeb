@@ -76,6 +76,7 @@ export class ModuleBase {
     waitAfterHittingEnterToSearch: number = 400;
     waitForErrorAfterClickingTab: number = 300;
     waitAfterEachValidationFieldIsPopulated: number = 500;
+    waitBeforeClickingSave: number = 0;
 
     canNew: boolean = true;
     canView: boolean = true;
@@ -973,6 +974,8 @@ export class ModuleBase {
 
         let savingObject = await this.getFormRecord();
         Logging.logInfo(`About to try to save ${this.moduleCaption} Record: ${JSON.stringify(savingObject)}`);
+
+        await ModuleBase.wait(this.waitBeforeClickingSave);  
 
         let saveButtonSelector = `.btn[data-type="SaveMenuBarButton"]`;
         await page.click(saveButtonSelector);
