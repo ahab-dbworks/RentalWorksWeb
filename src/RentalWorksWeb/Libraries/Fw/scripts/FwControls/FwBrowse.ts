@@ -2039,7 +2039,7 @@ class FwBrowseClass {
                     Field: `${browsedatafield} ${sort}`
                     , SortSequence: sortSequence
                 });
-            } else if (typeof sortSequence != 'undefined') {
+            } else if (typeof sortSequence != 'undefined' && sort != 'off') {
                 orderby.push({
                     Field: `${browsedatafield}`
                     , SortSequence: sortSequence
