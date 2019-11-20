@@ -38,7 +38,7 @@ if not exist "c:\Program Files\7-Zip\7z.exe" set /p=Hit ENTER to exit
 if not exist "c:\Program Files\7-Zip\7z.exe" exit /B
 
 rem Get the Build number from the user
-set /p buildno="Build Number (ie. 2019.1.1.15): "
+set /p buildno="Build Number (ie. 2019.1.2.X): "
 
 rem determine ZIP filename
 setlocal ENABLEDELAYEDEXPANSION
@@ -135,7 +135,7 @@ echo %DwFtpUploadUser%>>%ftpcommandfilename%
 echo %DwFtpUploadPassword%>>%ftpcommandfilename%
 echo cd update>>%ftpcommandfilename%
 echo cd rentalworksweb>>%ftpcommandfilename%
-echo cd 2019.1.1>>%ftpcommandfilename%
+echo cd 2019.1.2>>%ftpcommandfilename%
 echo put %zipfilename%>>%ftpcommandfilename%
 echo put %buildno%.pdf>>%ftpcommandfilename%
 echo quit>>%ftpcommandfilename%
