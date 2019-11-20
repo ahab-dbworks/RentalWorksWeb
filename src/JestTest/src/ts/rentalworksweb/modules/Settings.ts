@@ -4,8 +4,6 @@ import { GridBase } from "../../shared/GridBase";
 
 //todo: 
 //    building space and rate grids (required records to persist in "parent" grids)
-//    event type - activity grid - records are created by default, want to selectively delete only our "new" record
-//    presentation layer - activity grid - records are created by default, want to selectively delete only our "new" record
 //    facility rate - single/recurring grids
 //    labor rate - single/recurring grids
 //    misc rate - single/recurring grids
@@ -221,7 +219,7 @@ export class BillingCycle extends SettingsModule {
             {
                 record: {
                     BillingCycle: "GlobalScope.TestToken~1.MediumTestToken",
-                    BillingCycleType: "EVENTS",
+                    BillingCycleType: "EVENTS",  // has to be EVENTS to make the eventsGrid accessible
 
                 },
                 seekObject: {
@@ -933,8 +931,17 @@ export class DiscountTemplate extends SettingsModule {
                     record: {
                         DiscountPercent: TestUtils.randomIntegerBetween(10, 90).toString(),
                         InventoryTypeId: 1,
-                    }
-                }
+                    },
+                },
+            },
+            {
+                grid: rentalGrid,
+                recordToCreate: {
+                    record: {
+                        DiscountPercent: TestUtils.randomIntegerBetween(10, 90).toString(),
+                    },
+                    expectedErrorFields: ["InventoryTypeId"],
+                },
             },
             {
                 grid: salesGrid,
@@ -942,8 +949,17 @@ export class DiscountTemplate extends SettingsModule {
                     record: {
                         DiscountPercent: TestUtils.randomIntegerBetween(10, 90).toString(),
                         InventoryTypeId: 1,
-                    }
-                }
+                    },
+                },
+            },
+            {
+                grid: salesGrid,
+                recordToCreate: {
+                    record: {
+                        DiscountPercent: TestUtils.randomIntegerBetween(10, 90).toString(),
+                    },
+                    expectedErrorFields: ["InventoryTypeId"],
+                },
             },
             {
                 grid: laborGrid,
@@ -951,8 +967,17 @@ export class DiscountTemplate extends SettingsModule {
                     record: {
                         DiscountPercent: TestUtils.randomIntegerBetween(10, 90).toString(),
                         InventoryTypeId: 1,
-                    }
-                }
+                    },
+                },
+            },
+            {
+                grid: laborGrid,
+                recordToCreate: {
+                    record: {
+                        DiscountPercent: TestUtils.randomIntegerBetween(10, 90).toString(),
+                    },
+                    expectedErrorFields: ["InventoryTypeId"],
+                },
             },
             {
                 grid: miscGrid,
@@ -960,8 +985,17 @@ export class DiscountTemplate extends SettingsModule {
                     record: {
                         DiscountPercent: TestUtils.randomIntegerBetween(10, 90).toString(),
                         InventoryTypeId: 1,
-                    }
-                }
+                    },
+                },
+            },
+            {
+                grid: miscGrid,
+                recordToCreate: {
+                    record: {
+                        DiscountPercent: TestUtils.randomIntegerBetween(10, 90).toString(),
+                    },
+                    expectedErrorFields: ["InventoryTypeId"],
+                },
             },
         ];
 
@@ -1156,9 +1190,16 @@ export class EventType extends SettingsModule {
         this.moduleName = 'EventType';
         this.moduleId = 'FE501F99-95D4-444C-A7B6-EA20ACE88879';
         this.moduleCaption = 'Event Type';
-        this.waitAfterClickingToOpenBrowseBeforeCheckingForErrors = 2000;
-        this.waitAfterClickingToOpenRecordBeforeCheckingForErrors = 2000;
+        this.waitAfterClickingToOpenBrowseBeforeCheckingForErrors = 1500;
+        this.waitAfterClickingToOpenRecordBeforeCheckingForErrors = 1500;
+        this.waitAfterClickingToOpenFormToAllowOtherQueries = 2000;
+
+        let activityDatesGrid: GridBase = new GridBase("Activity Dates Grid", "OrderTypeActivityDatesGrid");
+        activityDatesGrid.waitForGridSubMenuToGetEvents = 1000;
+
         let personnelTypeGrid: GridBase = new GridBase("Personnel Type Grid", "EventTypePersonnelTypeGrid");
+
+        this.grids.push(activityDatesGrid);
         this.grids.push(personnelTypeGrid);
 
         this.defaultNewRecordToExpect = {
@@ -1186,12 +1227,25 @@ export class EventType extends SettingsModule {
 
         this.newRecordsToCreate[0].gridRecords = [
             {
+                grid: activityDatesGrid,
+                recordToCreate: {
+                    record: {
+                        Description: "GlobalScope.TestToken~1.TestToken",
+                    },
+                    seekObject: {
+                        Description: "GlobalScope.TestToken~1.TestToken",
+                    },
+                    attemptDuplicate: true,
+                },
+            },
+            {
                 grid: personnelTypeGrid,
                 recordToCreate: {
                     record: {
                         PersonnelTypeId: 1,
-                    }
-                }
+                    },
+                    attemptDuplicate: true,
+                },
             },
         ];
 
@@ -1223,7 +1277,7 @@ export class PersonnelType extends SettingsModule {
                 seekObject: {
                     PersonnelType: "GlobalScope.TestToken~1.TestToken",
                 },
-                attemptDuplicate: true,
+                attemptDuplicate: false,  // duplicates should be allowed here
             },
             {
                 record: {
@@ -1288,7 +1342,9 @@ export class Building extends SettingsModule {
         this.moduleId = '2D344845-7E77-40C9-BB9D-04A930D352EB';
         this.moduleCaption = 'Building';
         let floorGrid: GridBase = new GridBase("Floor Grid", "FloorGrid");
+        let spaceGrid: GridBase = new GridBase("Space Grid", "SpaceGrid");
         this.grids.push(floorGrid);
+        this.grids.push(spaceGrid);
 
         this.defaultNewRecordToExpect = {
             Building: "",
@@ -1323,9 +1379,20 @@ export class Building extends SettingsModule {
                 recordToCreate: {
                     record: {
                         Floor: "GlobalScope.TestToken~1.ShortTestToken",
-                    }
-                }
+                    },
+                    attemptDuplicate: true,
+                    //persistData: true,
+                },
             },
+            //{
+            //    grid: spaceGrid,
+            //    recordToCreate: {
+            //        record: {
+            //            Space: "GlobalScope.TestToken~1.TestToken",
+            //        },
+            //        attemptDuplicate: true,
+            //    },
+            //},
         ];
 
         this.newRecordsToCreate[0].recordToExpect = {
@@ -3470,8 +3537,13 @@ export class OrderType extends SettingsModule {
         this.moduleName = 'OrderType';
         this.moduleId = 'CF3E22CB-F836-4277-9589-998B0BEC3500';
         this.moduleCaption = 'Order Type';
-        this.waitAfterClickingToOpenBrowseBeforeCheckingForErrors = 2000;
-        this.waitAfterClickingToOpenRecordBeforeCheckingForErrors = 2000;
+        this.waitAfterClickingToOpenBrowseBeforeCheckingForErrors = 1500;
+        this.waitAfterClickingToOpenRecordBeforeCheckingForErrors = 1500;
+        this.waitAfterClickingToOpenFormToAllowOtherQueries = 2000;
+
+        let activityDatesGrid: GridBase = new GridBase("Activity Dates Grid", "OrderTypeActivityDatesGrid");
+        activityDatesGrid.waitForGridSubMenuToGetEvents = 1000;
+
 
         let invoiceExportGrid: GridBase = new GridBase("Invoice Export Grid", "OrderTypeInvoiceExportGrid");
         invoiceExportGrid.canNew = false;
@@ -3488,6 +3560,7 @@ export class OrderType extends SettingsModule {
         clGrid.canNew = false;
         clGrid.canDelete = false;
 
+        this.grids.push(activityDatesGrid);
         this.grids.push(invoiceExportGrid);
         this.grids.push(tcGrid);
         this.grids.push(contactTitleGrid);
@@ -3519,6 +3592,18 @@ export class OrderType extends SettingsModule {
 
         this.newRecordsToCreate[0].gridRecords = [
             {
+                grid: activityDatesGrid,
+                recordToCreate: {
+                    record: {
+                        Description: "GlobalScope.TestToken~1.TestToken",
+                    },
+                    seekObject: {
+                        Description: "GlobalScope.TestToken~1.TestToken",
+                    },
+                    attemptDuplicate: true,
+                },
+            },
+            {
                 grid: contactTitleGrid,
                 recordToCreate: {
                     record: {
@@ -3526,6 +3611,15 @@ export class OrderType extends SettingsModule {
                     }
                 }
             },
+            //{
+            //    grid: tcGrid,
+            //    recordToEdit: {
+            //        index: 1,
+            //        record: {
+            //            TermsConditionsId: 1,
+            //        }
+            //    }
+            //},
             {
                 grid: noteGrid,
                 recordToCreate: {
@@ -4104,8 +4198,12 @@ export class POType extends SettingsModule {
         this.moduleName = 'POType';
         this.moduleId = 'BB8D68B3-012A-4B05-BE7F-844EB5C96896';
         this.moduleCaption = 'PO Type';
-        this.waitAfterClickingToOpenBrowseBeforeCheckingForErrors = 2000;
-        this.waitAfterClickingToOpenRecordBeforeCheckingForErrors = 2000;
+        this.waitAfterClickingToOpenBrowseBeforeCheckingForErrors = 1500;
+        this.waitAfterClickingToOpenRecordBeforeCheckingForErrors = 1500;
+        this.waitAfterClickingToOpenFormToAllowOtherQueries = 2000;
+
+        let activityDatesGrid: GridBase = new GridBase("Activity Dates Grid", "OrderTypeActivityDatesGrid");
+        activityDatesGrid.waitForGridSubMenuToGetEvents = 1000;
 
         let tcGrid: GridBase = new GridBase("Terms and Conditions Grid", "OrderTypeTermsAndConditionsGrid");
         tcGrid.canNew = false;
@@ -4115,6 +4213,7 @@ export class POType extends SettingsModule {
         clGrid.canNew = false;
         clGrid.canDelete = false;
 
+        this.grids.push(activityDatesGrid);
         this.grids.push(tcGrid);
         this.grids.push(clGrid);
 
@@ -4139,6 +4238,23 @@ export class POType extends SettingsModule {
                 expectedErrorFields: ["PoType"],
             },
         ];
+
+        this.newRecordsToCreate[0].gridRecords = [
+            {
+                grid: activityDatesGrid,
+                recordToCreate: {
+                    record: {
+                        Description: "GlobalScope.TestToken~1.TestToken",
+                    },
+                    seekObject: {
+                        Description: "GlobalScope.TestToken~1.TestToken",
+                    },
+                    attemptDuplicate: true,
+                },
+            },
+        ];
+
+
         this.newRecordsToCreate[0].recordToExpect = {
             PoType: this.newRecordsToCreate[0].record.PoType.toUpperCase(),
             Inactive: false,
@@ -4230,12 +4346,12 @@ export class PresentationLayer extends SettingsModule {
         this.moduleName = 'PresentationLayer';
         this.moduleId = 'BBEF0AFD-B46A-46B0-8046-113834736060';
         this.moduleCaption = 'Presentation Layer';
-        //let activityGrid: GridBase = new GridBase("Activity Grid", "PresentationLayerActivityGrid");
+        let activityGrid: GridBase = new GridBase("Activity Grid", "PresentationLayerActivityGrid");
         let activityOverrideGrid: GridBase = new GridBase("Activity Override Grid", "PresentationLayerActivityOverrideGrid");
         let formGrid: GridBase = new GridBase("Form Grid", "PresentationLayerFormGrid");
         formGrid.canNew = false;
         formGrid.canDelete = false;
-        //this.grids.push(activityGrid);
+        this.grids.push(activityGrid);
         this.grids.push(activityOverrideGrid);
         this.grids.push(formGrid);
 
@@ -4262,14 +4378,18 @@ export class PresentationLayer extends SettingsModule {
         ];
 
         this.newRecordsToCreate[0].gridRecords = [
-            //{
-            //    grid: activityGrid,
-            //    recordToCreate: {
-            //        record: {
-            //            Activity: "GlobalScope.TestToken~1.TestToken",
-            //        }
-            //    }
-            //},
+            {
+                grid: activityGrid,
+                recordToCreate: {
+                    record: {
+                        Activity: "GlobalScope.TestToken~1.TestToken",
+                    },
+                    seekObject: {
+                        Activity: "GlobalScope.TestToken~1.TestToken",
+                    },
+                    attemptDuplicate: true,
+                },
+            },
             {
                 grid: activityOverrideGrid,
                 recordToCreate: {
@@ -6063,6 +6183,7 @@ export class Warehouse extends SettingsModule {
         this.moduleCaption = 'Warehouse';
         this.canNew = false;
         this.canDelete = false;
+        this.waitAfterClickingToOpenBrowseBeforeCheckingForErrors = 2000;
         this.waitAfterClickingToOpenRecordBeforeCheckingForErrors = 1500;
 
         let locationGrid: GridBase = new GridBase("Office Location Grid", "WarehouseOfficeLocationGrid");

@@ -208,7 +208,17 @@ export class MediumRegressionTest extends BaseTest {
 
                                                                 testName = `Delete row from Grid: ${grid.gridDisplayName}`;
                                                                 test(testName, async () => {
-                                                                    await grid.deleteGridRow(1, true)
+                                                                    let rowIndex: number = 1;
+
+                                                                    if (gridRecord.recordToCreate.seekObject) {
+                                                                        await grid.getRecordRowIndex(gridRecord.recordToCreate.seekObject)
+                                                                            .then(i => {
+                                                                                rowIndex = i;
+                                                                            });
+                                                                        expect(rowIndex).toBeGreaterThan(0);
+                                                                    }
+
+                                                                    await grid.deleteGridRow(rowIndex, true)
                                                                         .then(deleteResponse => {
                                                                             expect(deleteResponse.errorMessage).toBe("");
                                                                             expect(deleteResponse.deleted).toBeTruthy();
@@ -230,9 +240,16 @@ export class MediumRegressionTest extends BaseTest {
                                                 }, grid.deleteTimeout);
                                             }
 
-                                            if (!grid.canEdit) {
-                                                //  test to make sure no grid Edit operation 
-                                            }
+                                            //if ((grid.canNew) && (!grid.canEdit)) {  // not really a valid scenario.  But to test this, we first need to add a record, then try to edit it
+                                            //    //  test to make sure no grid Edit operation 
+                                            //    testName = `Confirm no Edit option for Grid: ${grid.gridDisplayName}`;
+                                            //    test(testName, async () => {
+                                            //        await grid.checkForEditAbility()
+                                            //            .then(optionExists => {
+                                            //                expect(optionExists).toBeFalsy();
+                                            //            });
+                                            //    }, grid.deleteTimeout);
+                                            //}
 
                                             if (!grid.canDelete) {
                                                 //  test to make sure no grid Delete option 
@@ -246,11 +263,39 @@ export class MediumRegressionTest extends BaseTest {
                                             }
 
                                             if ((!grid.canNew) && (grid.canEdit)) {
-                                                //  test Edit behavior
+                                                //  check to make sure at least one row exists  // doing this because there is now way to check for grid editability of there is not already a row in the grid
+                                                testName = `Confirm that a row exists in the Grid, and that EDIT option exists: ${grid.gridDisplayName}`;
+                                                test(testName, async () => {
+                                                    await grid.getRecordCount()
+                                                        .then(async gridRowCount => {
+                                                            expect(gridRowCount).toBeGreaterThan(0);
+
+                                                            await grid.checkForEditAbility()
+                                                                .then(optionExists => {
+                                                                    expect(optionExists).toBeTruthy();
+                                                                });
+
+                                                        });
+                                                }, grid.editTimeout);
                                             }
 
                                             if ((!grid.canNew) && (grid.canDelete)) {   // unusual, but possible I guess
-                                                //  test delete behavior 
+                                                //  check to make sure at least one row exists
+                                                testName = `Confirm that a row exists in the Grid, and that data can be deleted: ${grid.gridDisplayName}`;
+                                                test(testName, async () => {
+                                                    await grid.getRecordCount()
+                                                        .then(async gridRowCount => {
+                                                            expect(gridRowCount).toBeGreaterThan(0);
+
+                                                            await grid.deleteGridRow(1, true)
+                                                                .then(deleteResponse => {
+                                                                    expect(deleteResponse.errorMessage).toBe("");
+                                                                    expect(deleteResponse.deleted).toBeTruthy();
+                                                                });
+
+                                                        });
+                                                }, grid.deleteTimeout);
+
                                             }
 
 
@@ -390,7 +435,8 @@ export class MediumRegressionTest extends BaseTest {
             test(testName, async () => {
 
                 let iCodeMask: string = this.globalScopeRef["InventorySettings~1"].ICodeMask;  // ie. "aaaaa-"  or "aaaaa-aa"
-                let newICode: string = TestUtils.randomAlphanumeric((iCodeMask.split("a").length - 1)); // count the a's
+                iCodeMask = iCodeMask.toUpperCase();
+                let newICode: string = TestUtils.randomAlphanumeric((iCodeMask.split("A").length - 1)); // count the A's
                 iCodeMask = iCodeMask.trim();
                 let maskedICode: string = newICode;
 

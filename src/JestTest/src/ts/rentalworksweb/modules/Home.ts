@@ -1,4 +1,4 @@
-﻿import { HomeModule } from "../../shared/HomeModule";
+import { HomeModule } from "../../shared/HomeModule";
 import { TestUtils } from "../../shared/TestUtils";
 import { Logging } from '../../shared/Logging';
 import { GridBase } from "../../shared/GridBase";
@@ -13,9 +13,13 @@ export class Quote extends HomeModule {
         this.moduleCaption = 'Quote';
         this.canDelete = false;
         let rentalGrid: GridBase = new GridBase("Rental Item Grid", "OrderItemGrid", ["R"]);
+        rentalGrid.waitAfterSavingToReloadGrid = 1500;
         let salesGrid: GridBase = new GridBase("Sales Item Grid", "OrderItemGrid", ["S"]);
+        salesGrid.waitAfterSavingToReloadGrid = 1500;
         let miscGrid: GridBase = new GridBase("Miscellaneous Item Grid", "OrderItemGrid", ["M"]);
+        miscGrid.waitAfterSavingToReloadGrid = 1500;
         let laborGrid: GridBase = new GridBase("Labor Item Grid", "OrderItemGrid", ["L"]);
+        laborGrid.waitAfterSavingToReloadGrid = 1500;
         let contactGrid: GridBase = new GridBase("Contact Grid", "OrderContactGrid");
         let noteGrid: GridBase = new GridBase("Note Grid", "OrderNoteGrid");
         this.grids.push(rentalGrid);
@@ -168,9 +172,13 @@ export class Order extends HomeModule {
         this.moduleCaption = 'Order';
         this.canDelete = false;
         let rentalGrid: GridBase = new GridBase("Rental Item Grid", "OrderItemGrid", ["R"]);
+        rentalGrid.waitAfterSavingToReloadGrid = 1500;
         let salesGrid: GridBase = new GridBase("Sales Item Grid", "OrderItemGrid", ["S"]);
+        salesGrid.waitAfterSavingToReloadGrid = 1500;
         let miscGrid: GridBase = new GridBase("Miscellaneous Item Grid", "OrderItemGrid", ["M"]);
+        miscGrid.waitAfterSavingToReloadGrid = 1500;
         let laborGrid: GridBase = new GridBase("Labor Item Grid", "OrderItemGrid", ["L"]);
+        laborGrid.waitAfterSavingToReloadGrid = 1500;
         let contactGrid: GridBase = new GridBase("Contact Grid", "OrderContactGrid");
         let noteGrid: GridBase = new GridBase("Note Grid", "OrderNoteGrid");
         this.grids.push(rentalGrid);
@@ -961,6 +969,40 @@ export class RentalInventory extends HomeModule {
         this.moduleName = 'RentalInventory';
         this.moduleId = '3ICuf6pSeBh6G';
         this.moduleCaption = 'Rental Inventory';
+        let whInvGrid: GridBase = new GridBase("Warehouse Inventory Grid", "RentalInventoryWarehouseGrid");
+        whInvGrid.canNew = false;
+        whInvGrid.canDelete = false;
+
+        let akaGrid: GridBase = new GridBase("AKA Grid", "AlternativeDescriptionGrid");
+
+        let completeKitGrid: GridBase = new GridBase("Complete/Kit Grid", "InventoryCompleteKitGrid");
+        completeKitGrid.canNew = false;
+        completeKitGrid.canEdit = false;
+        completeKitGrid.canDelete = false;
+
+        let substituteGrid: GridBase = new GridBase("Substitute Grid", "InventorySubstituteGrid");
+        let compatibilityGrid: GridBase = new GridBase("Compatibility Grid", "InventoryCompatibilityGrid");
+
+        let purchaseVendorGrid: GridBase = new GridBase("Purchase Vendor Grid", "PurchaseVendorGrid");
+        purchaseVendorGrid.canNew = false;
+        purchaseVendorGrid.canEdit = false;
+        purchaseVendorGrid.canDelete = false;
+
+        let prepGrid: GridBase = new GridBase("Prep Grid", "InventoryPrepGrid");
+        let attributeGrid: GridBase = new GridBase("Attribute Grid", "InventoryAttributeValueGrid");
+        let taxGrid: GridBase = new GridBase("Tax Grid", "InventoryLocationTaxGrid");
+        taxGrid.canNew = false;
+        taxGrid.canDelete = false;
+
+        this.grids.push(whInvGrid);
+        this.grids.push(akaGrid);
+        this.grids.push(completeKitGrid);
+        this.grids.push(substituteGrid);
+        this.grids.push(compatibilityGrid);
+        this.grids.push(purchaseVendorGrid);
+        this.grids.push(prepGrid);
+        this.grids.push(attributeGrid);
+        this.grids.push(taxGrid);
 
         this.defaultNewRecordToExpect = {
             ICode: "",
@@ -987,6 +1029,66 @@ export class RentalInventory extends HomeModule {
             }
         ];
 
+
+        this.newRecordsToCreate[0].gridRecords = [
+            {
+                grid: akaGrid,
+                recordToCreate: {
+                    record: {
+                        AKA: "GlobalScope.TestToken~1.TestToken",
+                    },
+                    seekObject: {
+                        AKA: "GlobalScope.TestToken~1.TestToken",
+                    },
+                    attemptDuplicate: true,
+                },
+            },
+            {
+                grid: substituteGrid,
+                recordToCreate: {
+                    record: {
+                        SubstituteInventoryId: 1,
+                    },
+                },
+            },
+            // can't test this scenario because the grid save is cancelled when all fields are blank
+            //{
+            //    grid: substituteGrid,
+            //    recordToCreate: {
+            //        record: {
+            //        },
+            //        expectedErrorFields: ["SubstituteInventoryId"],
+            //    },
+            //},
+            {
+                grid: compatibilityGrid,
+                recordToCreate: {
+                    record: {
+                        CompatibleWithInventoryId: 1,
+                    },
+                },
+            },
+            {
+                grid: prepGrid,
+                recordToCreate: {
+                    record: {
+                        PrepRateId: 1,
+                        PrepRate: "25.25",
+                        PrepTime: "1",
+                    },
+                },
+            },
+            {
+                grid: attributeGrid,
+                recordToCreate: {
+                    record: {
+                        AttributeId: 1,
+                        AttributeValueId: 1,
+                    },
+                },
+            },
+        ];
+
         this.newRecordsToCreate[0].recordToExpect = {
             ICode: "GlobalScope.RentalInventory~NEWICODE.maskedICode",
             Description: this.newRecordsToCreate[0].record.Description.toUpperCase(),
@@ -1005,6 +1107,42 @@ export class SalesInventory extends HomeModule {
         this.moduleName = 'SalesInventory';
         this.moduleId = 'ShjGAzM2Pq3kk';
         this.moduleCaption = 'Sales Inventory';
+
+        let whInvGrid: GridBase = new GridBase("Warehouse Inventory Grid", "SalesInventoryWarehouseGrid");
+        whInvGrid.canNew = false;
+        whInvGrid.canDelete = false;
+
+        let akaGrid: GridBase = new GridBase("AKA Grid", "AlternativeDescriptionGrid");
+
+        let completeKitGrid: GridBase = new GridBase("Complete/Kit Grid", "InventoryCompleteKitGrid");
+        completeKitGrid.canNew = false;
+        completeKitGrid.canEdit = false;
+        completeKitGrid.canDelete = false;
+
+        let substituteGrid: GridBase = new GridBase("Substitute Grid", "SalesInventorySubstituteGrid");
+        let compatibilityGrid: GridBase = new GridBase("Compatibility Grid", "SalesInventoryCompatibilityGrid");
+
+        let purchaseVendorGrid: GridBase = new GridBase("Purchase Vendor Grid", "PurchaseVendorGrid");
+        purchaseVendorGrid.canNew = false;
+        purchaseVendorGrid.canEdit = false;
+        purchaseVendorGrid.canDelete = false;
+
+        let prepGrid: GridBase = new GridBase("Prep Grid", "InventoryPrepGrid");
+        let attributeGrid: GridBase = new GridBase("Attribute Grid", "InventoryAttributeValueGrid");
+        let taxGrid: GridBase = new GridBase("Tax Grid", "InventoryLocationTaxGrid");
+        taxGrid.canNew = false;
+        taxGrid.canDelete = false;
+
+        this.grids.push(whInvGrid);
+        this.grids.push(akaGrid);
+        this.grids.push(completeKitGrid);
+        this.grids.push(substituteGrid);
+        this.grids.push(compatibilityGrid);
+        this.grids.push(purchaseVendorGrid);
+        this.grids.push(prepGrid);
+        this.grids.push(attributeGrid);
+        this.grids.push(taxGrid);
+
         this.defaultNewRecordToExpect = {
             Unit: "GlobalScope.DefaultSettings~1.DefaultUnit",   // ie. "EA"
         }
@@ -1025,6 +1163,66 @@ export class SalesInventory extends HomeModule {
                 },
             }
         ];
+
+        this.newRecordsToCreate[0].gridRecords = [
+            {
+                grid: akaGrid,
+                recordToCreate: {
+                    record: {
+                        AKA: "GlobalScope.TestToken~1.TestToken",
+                    },
+                    seekObject: {
+                        AKA: "GlobalScope.TestToken~1.TestToken",
+                    },
+                    attemptDuplicate: true,
+                },
+            },
+            {
+                grid: substituteGrid,
+                recordToCreate: {
+                    record: {
+                        SubstituteInventoryId: 1,
+                    },
+                },
+            },
+            // can't test this scenario because the grid save is cancelled when all fields are blank
+            //{
+            //    grid: substituteGrid,
+            //    recordToCreate: {
+            //        record: {
+            //        },
+            //        expectedErrorFields: ["SubstituteInventoryId"],
+            //    },
+            //},
+            {
+                grid: compatibilityGrid,
+                recordToCreate: {
+                    record: {
+                        CompatibleWithInventoryId: 1,
+                    },
+                },
+            },
+            {
+                grid: prepGrid,
+                recordToCreate: {
+                    record: {
+                        PrepRateId: 1,
+                        PrepRate: "25.25",
+                        PrepTime: "1",
+                    },
+                },
+            },
+            {
+                grid: attributeGrid,
+                recordToCreate: {
+                    record: {
+                        AttributeId: 1,
+                        AttributeValueId: 1,
+                    },
+                },
+            },
+        ];
+
         this.newRecordsToCreate[0].recordToExpect = {
             ICode: this.newRecordsToCreate[0].record.ICode.toUpperCase(),
             Description: this.newRecordsToCreate[0].record.Description.toUpperCase(),
@@ -1042,6 +1240,41 @@ export class PartsInventory extends HomeModule {
         this.moduleId = '2WDCohbQV6GU';
         this.moduleCaption = 'Parts Inventory';
 
+        let whInvGrid: GridBase = new GridBase("Warehouse Inventory Grid", "PartsInventoryWarehouseGrid");
+        whInvGrid.canNew = false;
+        whInvGrid.canDelete = false;
+
+        let akaGrid: GridBase = new GridBase("AKA Grid", "AlternativeDescriptionGrid");
+
+        let completeKitGrid: GridBase = new GridBase("Complete/Kit Grid", "InventoryCompleteKitGrid");
+        completeKitGrid.canNew = false;
+        completeKitGrid.canEdit = false;
+        completeKitGrid.canDelete = false;
+
+        let substituteGrid: GridBase = new GridBase("Substitute Grid", "PartsInventorySubstituteGrid");
+        let compatibilityGrid: GridBase = new GridBase("Compatibility Grid", "PartsInventoryCompatibilityGrid");
+
+        let purchaseVendorGrid: GridBase = new GridBase("Purchase Vendor Grid", "PurchaseVendorGrid");
+        purchaseVendorGrid.canNew = false;
+        purchaseVendorGrid.canEdit = false;
+        purchaseVendorGrid.canDelete = false;
+
+        let prepGrid: GridBase = new GridBase("Prep Grid", "InventoryPrepGrid");
+        let attributeGrid: GridBase = new GridBase("Attribute Grid", "InventoryAttributeValueGrid");
+        let taxGrid: GridBase = new GridBase("Tax Grid", "InventoryLocationTaxGrid");
+        taxGrid.canNew = false;
+        taxGrid.canDelete = false;
+
+        this.grids.push(whInvGrid);
+        this.grids.push(akaGrid);
+        this.grids.push(completeKitGrid);
+        this.grids.push(substituteGrid);
+        this.grids.push(compatibilityGrid);
+        this.grids.push(purchaseVendorGrid);
+        this.grids.push(prepGrid);
+        this.grids.push(attributeGrid);
+        this.grids.push(taxGrid);
+
         this.defaultNewRecordToExpect = {
             Unit: "GlobalScope.DefaultSettings~1.DefaultUnit",   // ie. "EA"
         }
@@ -1062,6 +1295,66 @@ export class PartsInventory extends HomeModule {
                 },
             }
         ];
+
+        this.newRecordsToCreate[0].gridRecords = [
+            {
+                grid: akaGrid,
+                recordToCreate: {
+                    record: {
+                        AKA: "GlobalScope.TestToken~1.TestToken",
+                    },
+                    seekObject: {
+                        AKA: "GlobalScope.TestToken~1.TestToken",
+                    },
+                    attemptDuplicate: true,
+                },
+            },
+            {
+                grid: substituteGrid,
+                recordToCreate: {
+                    record: {
+                        SubstituteInventoryId: 1,
+                    },
+                },
+            },
+            // can't test this scenario because the grid save is cancelled when all fields are blank
+            //{
+            //    grid: substituteGrid,
+            //    recordToCreate: {
+            //        record: {
+            //        },
+            //        expectedErrorFields: ["SubstituteInventoryId"],
+            //    },
+            //},
+            {
+                grid: compatibilityGrid,
+                recordToCreate: {
+                    record: {
+                        CompatibleWithInventoryId: 1,
+                    },
+                },
+            },
+            {
+                grid: prepGrid,
+                recordToCreate: {
+                    record: {
+                        PrepRateId: 1,
+                        PrepRate: "25.25",
+                        PrepTime: "1",
+                    },
+                },
+            },
+            {
+                grid: attributeGrid,
+                recordToCreate: {
+                    record: {
+                        AttributeId: 1,
+                        AttributeValueId: 1,
+                    },
+                },
+            },
+        ];
+
         this.newRecordsToCreate[0].recordToExpect = {
             ICode: this.newRecordsToCreate[0].record.ICode.toUpperCase(),
             Description: this.newRecordsToCreate[0].record.Description.toUpperCase(),
@@ -1193,21 +1486,52 @@ export class TransferOrder extends HomeModule {
         this.moduleCaption = 'Transfer Order';
         this.canDelete = false;
 
+        let rentalItemGrid: GridBase = new GridBase("Rental Item Grid", "TransferOrderItemGrid", ["R"]);
+        rentalItemGrid.waitAfterSavingToReloadGrid = 1500;
+        let salesItemGrid: GridBase = new GridBase("Sales Item Grid", "TransferOrderItemGrid", ["S"]);
+        salesItemGrid.waitAfterSavingToReloadGrid = 1500;
+
+        this.grids.push(rentalItemGrid);
+        this.grids.push(salesItemGrid);
+
+
         this.newRecordsToCreate = [
             {
                 record: {
                     Description: `${TestUtils.randomProductName()} GlobalScope.TestToken~1.TestToken`,
                     FromWarehouseCode: "GlobalScope.Warehouse~MINE.WarehouseCode",
                     ToWarehouseId: 2,
+                    Rental: true,
+                    Sales: true,
                 },
                 seekObject: {
                     Description: "GlobalScope.TestToken~1.TestToken",
                 },
-            }
+            },
         ];
+
+        this.newRecordsToCreate[0].gridRecords = [
+            {
+                grid: rentalItemGrid,
+                recordToCreate: {
+                    record: {
+                        InventoryId: 1,
+                    },
+                },
+            },
+            {
+                grid: salesItemGrid,
+                recordToCreate: {
+                    record: {
+                        InventoryId: 1,
+                    },
+                },
+            },
+        ];
+
         this.newRecordsToCreate[0].recordToExpect = {
             Description: this.newRecordsToCreate[0].record.Description.toUpperCase(),
-        }
+        };
 
 
     }

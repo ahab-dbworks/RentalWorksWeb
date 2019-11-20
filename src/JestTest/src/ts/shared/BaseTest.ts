@@ -143,19 +143,19 @@ export abstract class BaseTest {
                 var findUserInputs: any = {
                     LoginName: process.env.RW_LOGIN
                 }
-		        
-		        let myAccount: any = this.globalScopeRef["User~ME"];  // check GlobalScope for myAccount to use (can be used to re-log during the middle of a test)
+
+                let myAccount: any = this.globalScopeRef["User~ME"];  // check GlobalScope for myAccount to use (can be used to re-log during the middle of a test)
                 if (myAccount != undefined) {  // if myAccount was established, then use it
                     findUserInputs.LoginName = myAccount.LoginName;
                 }
-                
-		        //await this.OpenSpecificRecord(userModule, findUserInputs, true, "ME", true);
+
+                //await this.OpenSpecificRecord(userModule, findUserInputs, true, "ME", true);
                 await userModule.openBrowse();
                 await userModule.browseSeek(findUserInputs);
                 await userModule.openRecord()
                     .then(openRecordResponse => {
-                            this.globalScopeRef["User~ME"] = openRecordResponse.record;
-                    //    }
+                        this.globalScopeRef["User~ME"] = openRecordResponse.record;
+                        //    }
                     });
                 await userModule.closeRecord();
             }, this.testTimeout);
@@ -163,9 +163,9 @@ export abstract class BaseTest {
     }
     //---------------------------------------------------------------------------------------
     async CopyMyUserRegisterGlobal(userModule: ModuleBase) {
-        var findUserInputs: any = {
-            LoginName: "GlobalScope.TestToken~1.TestToken"
-        }
+        //var findUserInputs: any = {
+        //    LoginName: "GlobalScope.TestToken~1.TestToken"
+        //}
 
         let testName: string = "";
         const testCollectionName = `Copy User to create a new Test User`;
@@ -176,7 +176,6 @@ export abstract class BaseTest {
                 let newMe: any = {};
                 newMe.FirstName = TestUtils.randomFirstName();
                 newMe.LastName = TestUtils.randomLastName();
-                //newMe.LoginName = "GlobalScope.TestToken~1.TestToken";
                 newMe.LoginName = this.globalScopeRef["TestToken~1"].TestToken;
                 let newPassword: string = TestUtils.randomAlphanumeric(20);
                 newMe.Password = newPassword;
@@ -194,32 +193,6 @@ export abstract class BaseTest {
                 await userModule.populateFormWithRecord(newMe);
                 await userModule.saveRecord(true);
 
-                // this is done to bypass the potential chrome prompt to save password
-                //await ModuleBase.wait(2000);
-                //let selector = `div.systembarcontrol[data-id="username"]`;
-                //await page.waitForSelector(selector);
-                //await page.click(selector);
-
-                //Logging.logInfo(`about to try to find "home" logo`);
-                ////click back to "home"
-                //let homeSelector = `div .logo`;
-                //await page.waitForSelector(homeSelector);
-                //Logging.logInfo(`"home" logo found`);
-                //await page.click(homeSelector);
-                //Logging.logInfo(`clicked on "home" logo`);
-
-                //await userModule.openBrowse();
-                //Logging.logInfo(`user browse opened`);
-                
-				//await userModule.browseSeek(findUserInputs);
-                //Logging.logInfo(`user browse seeked upon`);
-
-                //await userModule.openRecord()
-                //    .then(openRecordResponse => {
-                //        openRecordResponse.record.Password = newPassword;
-                //        this.globalScopeRef["User~ME"] = openRecordResponse.record;
-                //    });
-				
                 this.globalScopeRef["User~ME"] = newMe;
 
                 Logging.logInfo(`end of CopyMyUserRegisterGlobal`);

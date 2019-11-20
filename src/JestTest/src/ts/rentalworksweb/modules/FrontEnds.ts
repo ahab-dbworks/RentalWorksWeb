@@ -1,4 +1,4 @@
-﻿import { FrontEndModule } from "../../shared/FrontEndModule";
+import { FrontEndModule } from "../../shared/FrontEndModule";
 import { TestUtils } from "../../shared/TestUtils";
 import { GridBase } from "../../shared/GridBase";
 import { ModuleBase } from "../../shared/ModuleBase";

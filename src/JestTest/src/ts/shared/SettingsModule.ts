@@ -13,7 +13,7 @@ export class ClickRecordResponse {
 export class SettingsModule extends ModuleBase {
     waitAfterClickingToOpenBrowseBeforeCheckingForErrors: number = 300;
     waitAfterClickingToOpenRecordBeforeCheckingForErrors: number = 300;
-    waitForButtonToGetEvents: number = 500;
+    waitForButtonToGetEvents: number = 1500;
     //---------------------------------------------------------------------------------------
     constructor() {
         super();
@@ -426,12 +426,11 @@ export class SettingsModule extends ModuleBase {
     }
     //---------------------------------------------------------------------------------------
     async closeModifiedRecordWithoutSaving(): Promise<void> {
-        Logging.logInfo(`about to close form without saving`);
+        //Logging.logInfo(`about to close form without saving`);
 
         let cancelSelector = `.panel-group[id="${this.moduleName}"] i.material-icons.cancel`;
         let cancelButtonFound: boolean = false;
         try {
-            //await page.waitFor(() => document.querySelector(`.panel-group[id="${this.moduleName}"] i.material-icons.cancel`), { timeout: 1000 });
             await page.waitForSelector(cancelSelector, { visible: true, timeout: 1000 });
             cancelButtonFound = true;
         } catch (error) { } // there is no Cancel button, so it must not be a NEW record
@@ -440,23 +439,22 @@ export class SettingsModule extends ModuleBase {
             Logging.logInfo(`new record "cancel" button found`);
             ModuleBase.wait(this.waitForButtonToGetEvents);  // wait for the cancel button to get its events
             await page.click(cancelSelector);
-            //const popupText = await page.$eval('.advisory', el => el.textContent);
-            //if (popupText.includes('save your changes')) {
-            //    Logging.logInfo(`Close tab, save changes prompt detected.`);
-
-            //    const options = await page.$$('.advisory .fwconfirmation-button');
-            //    await options[1].click() // clicks "Don't Save" option
-            //        .then(() => {
-            //            Logging.logInfo(`Clicked the "Don't Save" button.`);
-            //        })
-            //    await page.waitFor(() => !document.querySelector('.advisory'));
-            //}
             Logging.logInfo(`Record closed without saving.`);
         }
         else {
             Logging.logInfo(`new record "cancel" button NOT found`);
             this.closeRecord();
         }
+
+        // temporary work-around to allow regression test to run while Settings "New" function is under construction
+
+        //Logging.logInfo(`about to refresh module`);
+        //let refreshButtonSelector = `.panel-group[id="${this.moduleName}"] .refresh`;
+        //await page.waitForSelector(refreshButtonSelector, { visible: true });
+        //await page.click(refreshButtonSelector);
+        //await ModuleBase.wait(this.waitAfterClickingToOpenBrowseBeforeCheckingForErrors); // let the refresh occur, or at least start
+
+
     }
     //---------------------------------------------------------------------------------------
     async deleteRecord(index?: number, closeUnexpectedErrors: boolean = false): Promise<DeleteResponse> {
