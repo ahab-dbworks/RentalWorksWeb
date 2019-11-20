@@ -218,6 +218,7 @@ class Contract {
         const $contractExchangeItemGrid = $form.find('[data-name="ContractExchangeItemGrid"]');
         FwBrowse.search($contractExchangeItemGrid);
 
+        $form.find('.print').hide(); //justin hoffman 11/20/2019 only show this button on OUT Contracts.  Need to add the others
         if (this.Module == 'Contract') {
             this.BillingDate = FwFormField.getValueByDataField($form, 'BillingDate');
             const type = FwFormField.getValueByDataField($form, 'ContractType');
@@ -229,6 +230,7 @@ class Contract {
                     break;
                 case 'OUT':
                     $billing.html('Billing Start');
+                    $form.find('.print').show(); //justin hoffman 11/20/2019 only show this button on OUT Contracts.  Need to add the others
                     break;
                 case 'IN':
                     $billing.html('Billing Stop');
