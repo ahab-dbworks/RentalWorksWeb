@@ -377,7 +377,7 @@ html.theme-material .fwbrowse table tfoot .legendrow .legenditem .color {border:
 
 /* FwBrowse Toolbar Button */
 html.theme-material .fwbrowse .fwbrowsebutton {border-radius:6px;display:inline-block;font-weight:bold;margin:2px 2px;text-decoration:none;text-align:center;border:1px solid rgba(255,255,255,.2);background:#364F65;color:#ffffff;font-size:1rem;padding: .5rem 1.5rem;}
-html.theme-material .fwbrowse .fwbrowsebutton:hover {cursor:pointer;{background:#527898;}
+html.theme-material .fwbrowse .fwbrowsebutton:hover {cursor:pointer;background:#527898;}
 html.theme-material .fwbrowse .fwbrowsebutton:active {background:#ffffff;color:#364F65;}
 
 html.theme-material .fwbrowse table tbody tr.editrow td .field[data-formreadonly="false"][data-formdatatype="text"] {border:1px solid #bdbdbd;}
