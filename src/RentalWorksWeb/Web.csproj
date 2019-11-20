@@ -1337,10 +1337,6 @@
       <Project>{bf70fe28-da24-40ec-aa7e-613803411e12}</Project>
       <Name>FwStandard</Name>
     </ProjectReference>
-    <ProjectReference Include="..\RentalWorksWebLibrary\WebLibrary.csproj">
-      <Project>{28ff8708-3b6c-4933-b35a-be80c879060f}</Project>
-      <Name>WebLibrary</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Temp\Downloads\" />

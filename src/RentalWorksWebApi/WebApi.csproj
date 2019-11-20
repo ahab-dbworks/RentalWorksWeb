@@ -120,7 +120,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\lib\Fw\src\FwCore\FwCore.csproj" />
     <ProjectReference Include="..\..\lib\Fw\src\FwStandard\FwStandard.csproj" />
-    <ProjectReference Include="..\RentalWorksWebLibrary\WebLibrary.csproj" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="node-build.js" />

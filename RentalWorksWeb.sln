@@ -30,11 +30,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FwStandard", "lib\Fw\src\Fw
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi", "src\RentalWorksWebApi\WebApi.csproj", "{8015A604-E732-481C-AB96-065C9E7E20B0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebLibrary", "src\RentalWorksWebLibrary\WebLibrary.csproj", "{28FF8708-3B6C-4933-B35A-BE80C879060F}"
-	ProjectSection(ProjectDependencies) = postProject
-		{727C09EB-27BD-4657-A43E-7CA436679403} = {727C09EB-27BD-4657-A43E-7CA436679403}
-	EndProjectSection
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FwCore", "lib\Fw\src\FwCore\FwCore.csproj", "{727C09EB-27BD-4657-A43E-7CA436679403}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrakitWorksWeb", "src\TrakitWorksWeb\TrakitWorksWeb.csproj", "{D56B7396-11E1-4E1B-8511-1F0838770F9A}"
@@ -232,30 +227,6 @@ Global
 		{8015A604-E732-481C-AB96-065C9E7E20B0}.Release Web|Any CPU.Build.0 = Release|Any CPU
 		{8015A604-E732-481C-AB96-065C9E7E20B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8015A604-E732-481C-AB96-065C9E7E20B0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{28FF8708-3B6C-4933-B35A-BE80C879060F}.Debug API|Any CPU.ActiveCfg = Debug|Any CPU
-		{28FF8708-3B6C-4933-B35A-BE80C879060F}.Debug API|Any CPU.Build.0 = Debug|Any CPU
-		{28FF8708-3B6C-4933-B35A-BE80C879060F}.Debug MiddleTier|Any CPU.ActiveCfg = Debug|Any CPU
-		{28FF8708-3B6C-4933-B35A-BE80C879060F}.Debug MiddleTier|Any CPU.Build.0 = Debug|Any CPU
-		{28FF8708-3B6C-4933-B35A-BE80C879060F}.Debug QuikScan Fast|Any CPU.ActiveCfg = Debug|Any CPU
-		{28FF8708-3B6C-4933-B35A-BE80C879060F}.Debug QuikScan Fast|Any CPU.Build.0 = Debug|Any CPU
-		{28FF8708-3B6C-4933-B35A-BE80C879060F}.Debug RentalWorksTest|Any CPU.ActiveCfg = Debug|Any CPU
-		{28FF8708-3B6C-4933-B35A-BE80C879060F}.Debug RentalWorksTest|Any CPU.Build.0 = Debug|Any CPU
-		{28FF8708-3B6C-4933-B35A-BE80C879060F}.Debug Web Fast|Any CPU.ActiveCfg = Debug|Any CPU
-		{28FF8708-3B6C-4933-B35A-BE80C879060F}.Debug Web Fast|Any CPU.Build.0 = Debug|Any CPU
-		{28FF8708-3B6C-4933-B35A-BE80C879060F}.Debug Web|Any CPU.ActiveCfg = Debug|Any CPU
-		{28FF8708-3B6C-4933-B35A-BE80C879060F}.Debug Web|Any CPU.Build.0 = Debug|Any CPU
-		{28FF8708-3B6C-4933-B35A-BE80C879060F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{28FF8708-3B6C-4933-B35A-BE80C879060F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{28FF8708-3B6C-4933-B35A-BE80C879060F}.Release API|Any CPU.ActiveCfg = Release|Any CPU
-		{28FF8708-3B6C-4933-B35A-BE80C879060F}.Release API|Any CPU.Build.0 = Release|Any CPU
-		{28FF8708-3B6C-4933-B35A-BE80C879060F}.Release MiddleTier|Any CPU.ActiveCfg = Release|Any CPU
-		{28FF8708-3B6C-4933-B35A-BE80C879060F}.Release MiddleTier|Any CPU.Build.0 = Release|Any CPU
-		{28FF8708-3B6C-4933-B35A-BE80C879060F}.Release QuikScan Fast|Any CPU.ActiveCfg = Release|Any CPU
-		{28FF8708-3B6C-4933-B35A-BE80C879060F}.Release QuikScan Fast|Any CPU.Build.0 = Release|Any CPU
-		{28FF8708-3B6C-4933-B35A-BE80C879060F}.Release Web|Any CPU.ActiveCfg = Release|Any CPU
-		{28FF8708-3B6C-4933-B35A-BE80C879060F}.Release Web|Any CPU.Build.0 = Release|Any CPU
-		{28FF8708-3B6C-4933-B35A-BE80C879060F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{28FF8708-3B6C-4933-B35A-BE80C879060F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{727C09EB-27BD-4657-A43E-7CA436679403}.Debug API|Any CPU.ActiveCfg = Debug|Any CPU
 		{727C09EB-27BD-4657-A43E-7CA436679403}.Debug API|Any CPU.Build.0 = Debug|Any CPU
 		{727C09EB-27BD-4657-A43E-7CA436679403}.Debug MiddleTier|Any CPU.ActiveCfg = Debug|Any CPU
