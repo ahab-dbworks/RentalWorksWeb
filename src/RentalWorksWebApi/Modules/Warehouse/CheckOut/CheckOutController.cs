@@ -1,5 +1,6 @@
 using FwStandard.AppManager;
 using FwStandard.Models;
+using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System;
@@ -8,6 +9,10 @@ using WebApi.Controllers;
 using WebApi.Logic;
 using WebApi.Modules.Warehouse.Contract;
 using WebLibrary;
+using WebApi.Modules.Transfers.TransferOrder;
+using WebApi.Modules.Agent.Order;
+using WebApi.Modules.HomeControls.ContainerItem;
+using WebApi.Modules.Containers.Container;
 
 namespace WebApi.Modules.Warehouse.CheckOut
 {
@@ -250,5 +255,38 @@ namespace WebApi.Modules.Warehouse.CheckOut
             }
         }
         //------------------------------------------------------------------------------------       
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/checkout/validateorder/browse 
+        [HttpPost("validateorder/browse")]
+        [FwControllerMethod(Id: "bbKYV7nAz5WO", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateWarehouseBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<OrderLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/checkout/validatetransfer/browse 
+        [HttpPost("validatetransfer/browse")]
+        [FwControllerMethod(Id: "dSDPhw8NbPIO", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateTransferBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<TransferOrderLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/checkout/validatecontaineritem/browse 
+        [HttpPost("validatecontaineritem/browse")]
+        [FwControllerMethod(Id: "zF66EFjFX0Gl", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateContainerItemBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<ContainerItemLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/checkout/validatecontainer/browse 
+        [HttpPost("validatecontainer/browse")]
+        [FwControllerMethod(Id: "j06Fok0NSyuW", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateContainerBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<ContainerLogic>(browseRequest);
+        }
+
     }
 }

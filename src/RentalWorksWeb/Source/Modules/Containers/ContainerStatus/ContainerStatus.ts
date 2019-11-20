@@ -8,5 +8,24 @@ class ContainerStatus extends OrderStatusBase {
     id:      string = Constants.Modules.Container.children.ContainerStatus.id;
     Type:    string = 'ContainerItem';
     //----------------------------------------------------------------------------------------------
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
+        switch (datafield) {
+            case 'ContainerItemId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecontaineritem`);
+                break;
+            case 'CategoryId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecategory`);
+                break;
+            case 'SubCategoryId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatesubcategory`);
+                break;
+            case 'WarehouseId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatewarehouse`);
+                break;
+            case 'InventoryTypeId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventorytype`);
+                break;
+        }
+    }
 }
 var ContainerStatusController = new ContainerStatus();

@@ -9,6 +9,10 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebApi.Controllers;
 using WebApi.Modules.Agent.Quote;
+using WebApi.Modules.Agent.Deal;
+using WebApi.Modules.Settings.CompanyDepartmentSettings.Department;
+using WebApi.Modules.Administrator.User;
+using WebApi.Modules.Agent.Contact;
 
 namespace WebApi.Modules.Agent.Project
 {
@@ -105,5 +109,44 @@ namespace WebApi.Modules.Agent.Project
             }
         }
         //------------------------------------------------------------------------------------      
+        // POST api/v1/project/validatedeal/browse
+        [HttpPost("validatedeal/browse")]
+        [FwControllerMethod(Id: "uymPkefBnT1F", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateDealBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<DealLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------      
+        // POST api/v1/project/validatedepartment/browse
+        [HttpPost("validatedepartment/browse")]
+        [FwControllerMethod(Id: "WEvNuu5Ucyfn", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateDepartmentBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<DepartmentLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------      
+        // POST api/v1/project/validateagent/browse
+        [HttpPost("validateagent/browse")]
+        [FwControllerMethod(Id: "y4ekIIQPdLv7", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateAgentBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<UserLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------      
+        // POST api/v1/project/validateprojectmanager/browse
+        [HttpPost("validateprojectmanager/browse")]
+        [FwControllerMethod(Id: "YsdazDF3nCOw", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateProjectManagerBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<UserLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------      
+        // POST api/v1/project/validatesalesrepresentative/browse
+        [HttpPost("validatesalesrepresentative/browse")]
+        [FwControllerMethod(Id: "ScLtAAC5s8rr", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateSalesRepresentativeBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<ContactLogic>(browseRequest);
+        }
     }
 }

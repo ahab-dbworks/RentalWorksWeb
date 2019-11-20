@@ -514,27 +514,26 @@
         }, null, null);
     }
     //----------------------------------------------------------------------------------------------
-    beforeValidateShipVia($browse: any, $grid: any, request: any) {
-        const validationName = request.module;
-        const deliveryCarrierId = jQuery($grid.find('[data-datafield="DeliveryCarrierId"] input')).val();
-        switch (validationName) {
-            case 'ShipViaValidation':
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
+        switch (datafield) {
+            case 'DeliveryCarrierId':
+                request.miscfields = {
+                    Freight: true
+                };
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedeliverycarrier`);
+                break;
+            case 'DeliveryShipViaId':
+                const deliveryCarrierId = jQuery($form.find('[data-datafield="DeliveryCarrierId"] input')).val();
                 request.uniqueids = {
                     VendorId: deliveryCarrierId
                 };
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateshipvia`);
+                break;
+            case 'DeliveryToCountryId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedeliverytocountry`);
                 break;
         }
-    }
-    //----------------------------------------------------------------------------------------------
-    beforeValidateCarrier($browse: any, $grid: any, request: any) {
-        const validationName = request.module;
-        switch (validationName) {
-            case 'VendorValidation':
-                request.uniqueids = {
-                    Freight: true
-                };
-                break;
-        }
+
     }
     //----------------------------------------------------------------------------------------------  
     getBrowseTemplate(): string {
@@ -668,8 +667,8 @@
                     </div>
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Ship Via">
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="validation" data-validationname="VendorValidation" class="fwcontrol fwformfield" data-caption="Carrier" data-datafield="DeliveryCarrierId" data-displayfield="DeliveryCarrier" data-formbeforevalidate="beforeValidateCarrier"></div>
-                        <div data-control="FwFormField" data-type="validation" data-validationname="ShipViaValidation" class="fwcontrol fwformfield" data-caption="Ship Via" data-datafield="DeliveryShipViaId" data-displayfield="DeliveryShipVia" data-formbeforevalidate="beforeValidateShipVia"></div>
+                        <div data-control="FwFormField" data-type="validation" data-validationname="VendorValidation" class="fwcontrol fwformfield" data-caption="Carrier" data-datafield="DeliveryCarrierId" data-displayfield="DeliveryCarrier"></div>
+                        <div data-control="FwFormField" data-type="validation" data-validationname="ShipViaValidation" class="fwcontrol fwformfield" data-caption="Ship Via" data-datafield="DeliveryShipViaId" data-displayfield="DeliveryShipVia"></div>
                       </div>
                       <div class="flexrow">
                         <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Tracking URL" data-datafield="DeliveryFreightTrackingUrl" data-allcaps="false" style="display:none;"></div>

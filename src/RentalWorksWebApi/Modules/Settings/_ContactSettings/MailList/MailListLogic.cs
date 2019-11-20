@@ -1,6 +1,7 @@
 using FwStandard.AppManager;
 using WebApi.Data.Settings.ContactSettings.MailList;
 using WebApi.Logic;
+using WebApi.Data.SettingsContactSettings.MailList;
 
 namespace WebApi.Modules.Settings.ContactSettings.MailList
 {

@@ -10,6 +10,9 @@ using WebLibrary;
 using System;
 using Microsoft.AspNetCore.Http;
 using WebApi.Logic;
+using WebApi.Modules.Settings.InventorySettings.InventoryCondition;
+using WebApi.Modules.Agent.Vendor;
+using WebApi.Modules.Settings.AddressSettings.Country;
 
 namespace WebApi.Modules.HomeControls.ContainerItem
 {
@@ -162,5 +165,37 @@ namespace WebApi.Modules.HomeControls.ContainerItem
         //    return await DoDeleteAsync<ContainerItemLogic>(id);
         //}
         ////------------------------------------------------------------------------------------ 
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/containeritem/validatecondition/browse 
+        [HttpPost("validatecondition/browse")]
+        [FwControllerMethod(Id: "nTGuINrwD5zr", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateConditionBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<InventoryConditionLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/containeritem/validateinspectionvendor/browse 
+        [HttpPost("validateinspectionvendor/browse")]
+        [FwControllerMethod(Id: "aq63Vs1nmtGs", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateInspectionVendorBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<VendorLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/validatemanufacturer/validatemanufacturer/browse 
+        [HttpPost("validatecontainer/browse")]
+        [FwControllerMethod(Id: "ADz0Y46bmlTU", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateManufacturerBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<VendorLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/containeritem/validatecountryoforigin/browse 
+        [HttpPost("validatecountryoforigin/browse")]
+        [FwControllerMethod(Id: "9X7kJlQoAOE8", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateCountryOfOriginBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<CountryLogic>(browseRequest);
+        }
     }
 }

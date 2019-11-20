@@ -106,6 +106,25 @@ class Container {
         FwModule.loadAudit($form, uniqueid);
     }
     //---------------------------------------------------------------------------------------------
+    //beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
+    //    switch (datafield) {
+    //        case 'ConditionId':
+    //            console.log('conditionid');
+    //            $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecondition`);
+    //            break;
+    //        case 'InspectionVendorId':
+    //            $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinspectionvendor`);
+    //            break;
+    //        case 'ManufacturerId':
+    //            $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatemanufacturer`);
+    //            break;
+    //        case 'CountryOfOriginId':
+    //            $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecountryoforigin`);
+    //            break;
+    //    }
+    //}
+    // - before validate not needed, once you pull up an item from container its using asset/item controller - JG 11-15
+    //---------------------------------------------------------------------------------------------
     getBrowseTemplate(): string {
         return `
            <div data-name="Container" data-control="FwBrowse" data-type="Browse" id="ContainerBrowse" class="fwcontrol fwbrowse" data-orderby="" data-controller="ContainerController">
