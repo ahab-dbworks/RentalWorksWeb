@@ -17,7 +17,8 @@ class Base {
                     FwFunc.showError(ex);
                 }
             })
-            .find('.programlogo').empty().html('<div class="bgothm">Rental<span class="rwpurple">Works<span style="font-size:14px;vertical-align:super;">&#174;</span></span></div>');
+            //.find('.programlogo').empty().html('<div class="bgothm">Rental<span class="rwpurple">Works<span style="font-size:14px;vertical-align:super;">&#174;</span></span></div>');
+            .find('.programlogo').empty().html('<div class="bgothm">Rental<span class="rwpurple">Works</span></div>');
 
         return screen;
     }
@@ -288,7 +289,8 @@ class Base {
                     FwFunc.showError(ex);
                 }
             })
-            .find('.programlogo').empty().html('<div class="bgothm">Rental<span class="rwpurple">Works<span style="font-size:14px;vertical-align:super;">&#174;</span></span></div>');
+            //.find('.programlogo').empty().html('<div class="bgothm">Rental<span class="rwpurple">Works<span style="font-size:14px;vertical-align:super;">&#174;</span></span></div>');
+            .find('.programlogo').empty().html('<div class="bgothm">Rental<span class="rwpurple">Works</span></div>');
 
         screen.load = function () {
             setTimeout(function () {
