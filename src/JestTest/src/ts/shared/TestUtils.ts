@@ -174,10 +174,6 @@ export class TestUtils {
             const placeHolderString = '!x!x!x!x!x!';
             valueIn = valueIn.replace(globalScopeKeyString, placeHolderString);
             let globalScopeKey = globalScopeKeyString.toString().split('.');
-
-            Logging.logInfo(`Looking in global scope for key: ${globalScopeKey}`);
-
-
             let globalScopeKeyPart1 = globalScopeKey[1].toString();
             let globalScopeKeyPart2 = globalScopeKey[2].toString();
 
@@ -186,22 +182,8 @@ export class TestUtils {
             let globalScopeObject = globalScope[Object.keys(globalScope).find(key => key.toLowerCase() === globalScopeKeyPart1.toLowerCase())];
             let globalScopeValue = globalScopeObject[Object.keys(globalScopeObject).find(key => key.toLowerCase() === globalScopeKeyPart2.toLowerCase())];
             valueOut = valueIn.replace(placeHolderString, globalScopeValue);
-
-            Logging.logInfo(`Found global scope value: ${valueOut}`);
-
         }
         return valueOut;
-    }
-    //---------------------------------------------------------------------------------------
-    static async waitForPleaseWait(timeout?: number) {
-        if (timeout == undefined) {
-            timeout = 30000;
-        }
-
-        try {
-            await page.waitFor(() => document.querySelector('.pleasewait'), { timeout: 3000 });
-        } catch (error) { } // assume that we missed the Please Wait dialog
-        await page.waitFor(() => !document.querySelector('.pleasewait'), { timeout: timeout });
     }
     //---------------------------------------------------------------------------------------
     static randomAlphanumeric(length: number): string {
@@ -316,50 +298,13 @@ export class TestUtils {
         return faker.lorem.words(wordCount)
     }
     //-----------------------------------------------------------------------------------------------------------------
-    static dateMDY(theDate: Date, separator: string = "/"): string {
-        const year = theDate.getFullYear().toString();
-        const month = (theDate.getMonth() + 1).toString();
-        const date = theDate.getDate().toString();
-        const recentDateStr = month.padStart(2, '0') + separator + date.padStart(2, '0') + separator + year.padStart(4, '0');
-        return recentDateStr;
-    }
-    //-----------------------------------------------------------------------------------------------------------------
-    static randomRecentDateMDY(withinNumberOfDays?: number, separator: string = "/"): string {
-        let recentDate = faker.date.recent(withinNumberOfDays);
-        return TestUtils.dateMDY(recentDate, separator);
-    }
-    //-----------------------------------------------------------------------------------------------------------------
-    static randomFutureDateMDY(withinNumberOfDays?: number, separator: string = "/"): string {
-        let minusOne: number = -1;
-        let daysAhead: number = (withinNumberOfDays * minusOne);
-        let futureDate = faker.date.recent(daysAhead);
-        return TestUtils.dateMDY(futureDate, separator);
-    }
-    //-----------------------------------------------------------------------------------------------------------------
-    static futureDate(numberOfDays: number = 0): Date {
-        let today: Date = new Date();
-        let futureDate: Date = new Date(today.getTime() + (numberOfDays * 1000 * 60 * 60 * 24));
-        return futureDate;
-    }
-    //-----------------------------------------------------------------------------------------------------------------
-    static futureDateMDY(numberOfDays: number = 0, separator: string = "/"): string {
-        return TestUtils.dateMDY(TestUtils.futureDate(numberOfDays), separator);
-    }
-    //-----------------------------------------------------------------------------------------------------------------
-    static pastDate(numberOfDays: number = 0): Date {
-        let today: Date = new Date();
-        let minusOne: number = -1;
-        let daysPast: number = (numberOfDays * minusOne);
-        let pastDate: Date = new Date(today.getTime() + (daysPast * 1000 * 60 * 60 * 24));
-        return pastDate;
-    }
-    //-----------------------------------------------------------------------------------------------------------------
-    static pastDateMDY(numberOfDays: number = 0, separator: string = "/"): string {
-        let today: Date = new Date();
-        let minusOne: number = -1;
-        let daysPast: number = (numberOfDays * minusOne);
-        let pastDate: Date = new Date(today.getTime() + (daysPast * 1000 * 60 * 60 * 24));
-        return TestUtils.dateMDY(TestUtils.pastDate(numberOfDays), separator);
+    static randomRecentDateMDY(recentDays?: number, separator: string = "/"): string {
+        let randomDate = faker.date.recent(recentDays);
+        const year = randomDate.getFullYear().toString();
+        const month = (randomDate.getMonth() + 1).toString();
+        const date = randomDate.getDate().toString();
+        const randomDateStr = month.padStart(2, '0') + separator + date.padStart(2, '0') + separator + year.padStart(4, '0');
+        return randomDateStr;
     }
     //-----------------------------------------------------------------------------------------------------------------
 }

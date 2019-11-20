@@ -9,17 +9,13 @@ export class Quote extends HomeModule {
     constructor() {
         super();
         this.moduleName = 'Quote';
-        this.moduleId = '4D785844-BE8A-4C00-B1FA-2AA5B05183E5';
+        this.moduleId = 'jFkSBEur1dluU';
         this.moduleCaption = 'Quote';
         this.canDelete = false;
         let rentalGrid: GridBase = new GridBase("Rental Item Grid", "OrderItemGrid", ["R"]);
-        rentalGrid.waitAfterSavingToReloadGrid = 1500;
         let salesGrid: GridBase = new GridBase("Sales Item Grid", "OrderItemGrid", ["S"]);
-        salesGrid.waitAfterSavingToReloadGrid = 1500;
         let miscGrid: GridBase = new GridBase("Miscellaneous Item Grid", "OrderItemGrid", ["M"]);
-        miscGrid.waitAfterSavingToReloadGrid = 1500;
         let laborGrid: GridBase = new GridBase("Labor Item Grid", "OrderItemGrid", ["L"]);
-        laborGrid.waitAfterSavingToReloadGrid = 1500;
         let contactGrid: GridBase = new GridBase("Contact Grid", "OrderContactGrid");
         let noteGrid: GridBase = new GridBase("Note Grid", "OrderNoteGrid");
         this.grids.push(rentalGrid);
@@ -168,17 +164,13 @@ export class Order extends HomeModule {
     constructor() {
         super();
         this.moduleName = 'Order';
-        this.moduleId = '64C46F51-5E00-48FA-94B6-FC4EF53FEA20';
+        this.moduleId = 'U8Zlahz3ke9i';
         this.moduleCaption = 'Order';
         this.canDelete = false;
         let rentalGrid: GridBase = new GridBase("Rental Item Grid", "OrderItemGrid", ["R"]);
-        rentalGrid.waitAfterSavingToReloadGrid = 1500;
         let salesGrid: GridBase = new GridBase("Sales Item Grid", "OrderItemGrid", ["S"]);
-        salesGrid.waitAfterSavingToReloadGrid = 1500;
         let miscGrid: GridBase = new GridBase("Miscellaneous Item Grid", "OrderItemGrid", ["M"]);
-        miscGrid.waitAfterSavingToReloadGrid = 1500;
         let laborGrid: GridBase = new GridBase("Labor Item Grid", "OrderItemGrid", ["L"]);
-        laborGrid.waitAfterSavingToReloadGrid = 1500;
         let contactGrid: GridBase = new GridBase("Contact Grid", "OrderContactGrid");
         let noteGrid: GridBase = new GridBase("Note Grid", "OrderNoteGrid");
         this.grids.push(rentalGrid);
@@ -294,7 +286,7 @@ export class Customer extends HomeModule {
     constructor() {
         super();
         this.moduleName = 'Customer';
-        this.moduleId = '214C6242-AA91-4498-A4CC-E0F3DCCCE71E';
+        this.moduleId = 'InSfo1f2lbFV';
         this.moduleCaption = 'Customer';
         let contactGrid: GridBase = new GridBase("Contact Grid", "CompanyContactGrid");
         let resaleGrid: GridBase = new GridBase("Resale Grid", "CompanyResaleGrid");
@@ -500,7 +492,7 @@ export class Deal extends HomeModule {
     constructor() {
         super();
         this.moduleName = 'Deal';
-        this.moduleId = 'C67AD425-5273-4F80-A452-146B2008B41C';
+        this.moduleId = '8WdRib388fFF';
         this.moduleCaption = 'Deal';
         let contactGrid: GridBase = new GridBase("Contact Grid", "CompanyContactGrid");
         let resaleGrid: GridBase = new GridBase("Resale Grid", "CompanyResaleGrid");
@@ -597,7 +589,7 @@ export class Vendor extends HomeModule {
     constructor() {
         super();
         this.moduleName = 'Vendor';
-        this.moduleId = 'AE4884F4-CB21-4D10-A0B5-306BD0883F19';
+        this.moduleId = 'cwytGLEcUzJdn';
         this.moduleCaption = 'Vendor';
         let contactGrid: GridBase = new GridBase("Contact Grid", "CompanyContactGrid");
         let noteGrid: GridBase = new GridBase("Note Grid", "VendorNoteGrid");
@@ -672,7 +664,7 @@ export class Contact extends HomeModule {
     constructor() {
         super();
         this.moduleName = 'Contact';
-        this.moduleId = '3F803517-618A-41C0-9F0B-2C96B8BDAFC4';
+        this.moduleId = '9ykTwUXTet46';
         this.moduleCaption = 'Contact';
         let companyGrid: GridBase = new GridBase("Company Grid", "ContactCompanyGrid");
         let eventGrid: GridBase = new GridBase("Personal Event Grid", "ContactPersonalEventGrid");
@@ -770,19 +762,14 @@ export class PurchaseOrder extends HomeModule {
     constructor() {
         super();
         this.moduleName = 'PurchaseOrder';
-        this.moduleId = '67D8C8BB-CF55-4231-B4A2-BB308ADF18F0';
+        this.moduleId = '9a0xOMvBM7Uh9';
         this.moduleCaption = 'Purchase Order';
         this.canDelete = false;
         let rentalGrid: GridBase = new GridBase("Rental Inventory Grid", "OrderItemGrid", ["R", "purchase"]);
-        rentalGrid.waitAfterSavingToReloadGrid = 1500;
         let salesGrid: GridBase = new GridBase("Sales Inventory Grid", "OrderItemGrid", ["S", "purchase"]);
-        salesGrid.waitAfterSavingToReloadGrid = 1500;
         let partsGrid: GridBase = new GridBase("Parts Inventory Grid", "OrderItemGrid", ["P", "purchase"]);
-        partsGrid.waitAfterSavingToReloadGrid = 1500;
         let miscGrid: GridBase = new GridBase("Miscellaneous Items Grid", "OrderItemGrid", ["M", "purchase"]);
-        miscGrid.waitAfterSavingToReloadGrid = 1500;
         let laborGrid: GridBase = new GridBase("Labor Items Grid", "OrderItemGrid", ["L", "purchase"]);
-        laborGrid.waitAfterSavingToReloadGrid = 1500;
         //let contactGrid: GridBase = new GridBase("OrderContactGrid");
         let noteGrid: GridBase = new GridBase("Note Grid", "OrderNoteGrid");
         this.grids.push(rentalGrid);
@@ -891,7 +878,7 @@ export class Project extends HomeModule {
     constructor() {
         super();
         this.moduleName = 'Project';
-        this.moduleId = 'C6C8167A-C3B5-4915-8290-4520AF7EDB35';
+        this.moduleId = 'k7bYJRoHkf9Jr';
         this.moduleCaption = 'Project';
         this.canDelete = false;
         let contactGrid: GridBase = new GridBase("Contact Grid", "ProjectContactGrid");
@@ -961,42 +948,8 @@ export class RentalInventory extends HomeModule {
     constructor() {
         super();
         this.moduleName = 'RentalInventory';
-        this.moduleId = 'FCDB4C86-20E7-489B-A8B7-D22EE6F85C06';
+        this.moduleId = '3ICuf6pSeBh6G';
         this.moduleCaption = 'Rental Inventory';
-        let whInvGrid: GridBase = new GridBase("Warehouse Inventory Grid", "RentalInventoryWarehouseGrid");
-        whInvGrid.canNew = false;
-        whInvGrid.canDelete = false;
-
-        let akaGrid: GridBase = new GridBase("AKA Grid", "AlternativeDescriptionGrid");
-
-        let completeKitGrid: GridBase = new GridBase("Complete/Kit Grid", "InventoryCompleteKitGrid");
-        completeKitGrid.canNew = false;
-        completeKitGrid.canEdit = false;
-        completeKitGrid.canDelete = false;
-
-        let substituteGrid: GridBase = new GridBase("Substitute Grid", "InventorySubstituteGrid");
-        let compatibilityGrid: GridBase = new GridBase("Compatibility Grid", "InventoryCompatibilityGrid");
-
-        let purchaseVendorGrid: GridBase = new GridBase("Purchase Vendor Grid", "PurchaseVendorGrid");
-        purchaseVendorGrid.canNew = false;
-        purchaseVendorGrid.canEdit = false;
-        purchaseVendorGrid.canDelete = false;
-
-        let prepGrid: GridBase = new GridBase("Prep Grid", "InventoryPrepGrid");
-        let attributeGrid: GridBase = new GridBase("Attribute Grid", "InventoryAttributeValueGrid");
-        let taxGrid: GridBase = new GridBase("Tax Grid", "InventoryLocationTaxGrid");
-        taxGrid.canNew = false;
-        taxGrid.canDelete = false;
-
-        this.grids.push(whInvGrid);
-        this.grids.push(akaGrid);
-        this.grids.push(completeKitGrid);
-        this.grids.push(substituteGrid);
-        this.grids.push(compatibilityGrid);
-        this.grids.push(purchaseVendorGrid);
-        this.grids.push(prepGrid);
-        this.grids.push(attributeGrid);
-        this.grids.push(taxGrid);
 
         this.defaultNewRecordToExpect = {
             ICode: "",
@@ -1023,66 +976,6 @@ export class RentalInventory extends HomeModule {
             }
         ];
 
-
-        this.newRecordsToCreate[0].gridRecords = [
-            {
-                grid: akaGrid,
-                recordToCreate: {
-                    record: {
-                        AKA: "GlobalScope.TestToken~1.TestToken",
-                    },
-                    seekObject: {
-                        AKA: "GlobalScope.TestToken~1.TestToken",
-                    },
-                    attemptDuplicate: true,
-                },
-            },
-            {
-                grid: substituteGrid,
-                recordToCreate: {
-                    record: {
-                        SubstituteInventoryId: 1,
-                    },
-                },
-            },
-            // can't test this scenario because the grid save is cancelled when all fields are blank
-            //{
-            //    grid: substituteGrid,
-            //    recordToCreate: {
-            //        record: {
-            //        },
-            //        expectedErrorFields: ["SubstituteInventoryId"],
-            //    },
-            //},
-            {
-                grid: compatibilityGrid,
-                recordToCreate: {
-                    record: {
-                        CompatibleWithInventoryId: 1,
-                    },
-                },
-            },
-            {
-                grid: prepGrid,
-                recordToCreate: {
-                    record: {
-                        PrepRateId: 1,
-                        PrepRate: "25.25",
-                        PrepTime: "1",
-                    },
-                },
-            },
-            {
-                grid: attributeGrid,
-                recordToCreate: {
-                    record: {
-                        AttributeId: 1,
-                        AttributeValueId: 1,
-                    },
-                },
-            },
-        ];
-
         this.newRecordsToCreate[0].recordToExpect = {
             ICode: "GlobalScope.RentalInventory~NEWICODE.maskedICode",
             Description: this.newRecordsToCreate[0].record.Description.toUpperCase(),
@@ -1099,44 +992,8 @@ export class SalesInventory extends HomeModule {
     constructor() {
         super();
         this.moduleName = 'SalesInventory';
-        this.moduleId = 'B0CF2E66-CDF8-4E58-8006-49CA68AE38C2';
+        this.moduleId = 'ShjGAzM2Pq3kk';
         this.moduleCaption = 'Sales Inventory';
-
-        let whInvGrid: GridBase = new GridBase("Warehouse Inventory Grid", "SalesInventoryWarehouseGrid");
-        whInvGrid.canNew = false;
-        whInvGrid.canDelete = false;
-
-        let akaGrid: GridBase = new GridBase("AKA Grid", "AlternativeDescriptionGrid");
-
-        let completeKitGrid: GridBase = new GridBase("Complete/Kit Grid", "InventoryCompleteKitGrid");
-        completeKitGrid.canNew = false;
-        completeKitGrid.canEdit = false;
-        completeKitGrid.canDelete = false;
-
-        let substituteGrid: GridBase = new GridBase("Substitute Grid", "SalesInventorySubstituteGrid");
-        let compatibilityGrid: GridBase = new GridBase("Compatibility Grid", "SalesInventoryCompatibilityGrid");
-
-        let purchaseVendorGrid: GridBase = new GridBase("Purchase Vendor Grid", "PurchaseVendorGrid");
-        purchaseVendorGrid.canNew = false;
-        purchaseVendorGrid.canEdit = false;
-        purchaseVendorGrid.canDelete = false;
-
-        let prepGrid: GridBase = new GridBase("Prep Grid", "InventoryPrepGrid");
-        let attributeGrid: GridBase = new GridBase("Attribute Grid", "InventoryAttributeValueGrid");
-        let taxGrid: GridBase = new GridBase("Tax Grid", "InventoryLocationTaxGrid");
-        taxGrid.canNew = false;
-        taxGrid.canDelete = false;
-
-        this.grids.push(whInvGrid);
-        this.grids.push(akaGrid);
-        this.grids.push(completeKitGrid);
-        this.grids.push(substituteGrid);
-        this.grids.push(compatibilityGrid);
-        this.grids.push(purchaseVendorGrid);
-        this.grids.push(prepGrid);
-        this.grids.push(attributeGrid);
-        this.grids.push(taxGrid);
-
         this.defaultNewRecordToExpect = {
             Unit: "GlobalScope.DefaultSettings~1.DefaultUnit",   // ie. "EA"
         }
@@ -1157,66 +1014,6 @@ export class SalesInventory extends HomeModule {
                 },
             }
         ];
-
-        this.newRecordsToCreate[0].gridRecords = [
-            {
-                grid: akaGrid,
-                recordToCreate: {
-                    record: {
-                        AKA: "GlobalScope.TestToken~1.TestToken",
-                    },
-                    seekObject: {
-                        AKA: "GlobalScope.TestToken~1.TestToken",
-                    },
-                    attemptDuplicate: true,
-                },
-            },
-            {
-                grid: substituteGrid,
-                recordToCreate: {
-                    record: {
-                        SubstituteInventoryId: 1,
-                    },
-                },
-            },
-            // can't test this scenario because the grid save is cancelled when all fields are blank
-            //{
-            //    grid: substituteGrid,
-            //    recordToCreate: {
-            //        record: {
-            //        },
-            //        expectedErrorFields: ["SubstituteInventoryId"],
-            //    },
-            //},
-            {
-                grid: compatibilityGrid,
-                recordToCreate: {
-                    record: {
-                        CompatibleWithInventoryId: 1,
-                    },
-                },
-            },
-            {
-                grid: prepGrid,
-                recordToCreate: {
-                    record: {
-                        PrepRateId: 1,
-                        PrepRate: "25.25",
-                        PrepTime: "1",
-                    },
-                },
-            },
-            {
-                grid: attributeGrid,
-                recordToCreate: {
-                    record: {
-                        AttributeId: 1,
-                        AttributeValueId: 1,
-                    },
-                },
-            },
-        ];
-
         this.newRecordsToCreate[0].recordToExpect = {
             ICode: this.newRecordsToCreate[0].record.ICode.toUpperCase(),
             Description: this.newRecordsToCreate[0].record.Description.toUpperCase(),
@@ -1231,43 +1028,8 @@ export class PartsInventory extends HomeModule {
     constructor() {
         super();
         this.moduleName = 'PartsInventory';
-        this.moduleId = '351B8A09-7778-4F06-A6A2-ED0920A5C360';
+        this.moduleId = '2WDCohbQV6GU';
         this.moduleCaption = 'Parts Inventory';
-
-        let whInvGrid: GridBase = new GridBase("Warehouse Inventory Grid", "PartsInventoryWarehouseGrid");
-        whInvGrid.canNew = false;
-        whInvGrid.canDelete = false;
-
-        let akaGrid: GridBase = new GridBase("AKA Grid", "AlternativeDescriptionGrid");
-
-        let completeKitGrid: GridBase = new GridBase("Complete/Kit Grid", "InventoryCompleteKitGrid");
-        completeKitGrid.canNew = false;
-        completeKitGrid.canEdit = false;
-        completeKitGrid.canDelete = false;
-
-        let substituteGrid: GridBase = new GridBase("Substitute Grid", "PartsInventorySubstituteGrid");
-        let compatibilityGrid: GridBase = new GridBase("Compatibility Grid", "PartsInventoryCompatibilityGrid");
-
-        let purchaseVendorGrid: GridBase = new GridBase("Purchase Vendor Grid", "PurchaseVendorGrid");
-        purchaseVendorGrid.canNew = false;
-        purchaseVendorGrid.canEdit = false;
-        purchaseVendorGrid.canDelete = false;
-
-        let prepGrid: GridBase = new GridBase("Prep Grid", "InventoryPrepGrid");
-        let attributeGrid: GridBase = new GridBase("Attribute Grid", "InventoryAttributeValueGrid");
-        let taxGrid: GridBase = new GridBase("Tax Grid", "InventoryLocationTaxGrid");
-        taxGrid.canNew = false;
-        taxGrid.canDelete = false;
-
-        this.grids.push(whInvGrid);
-        this.grids.push(akaGrid);
-        this.grids.push(completeKitGrid);
-        this.grids.push(substituteGrid);
-        this.grids.push(compatibilityGrid);
-        this.grids.push(purchaseVendorGrid);
-        this.grids.push(prepGrid);
-        this.grids.push(attributeGrid);
-        this.grids.push(taxGrid);
 
         this.defaultNewRecordToExpect = {
             Unit: "GlobalScope.DefaultSettings~1.DefaultUnit",   // ie. "EA"
@@ -1289,66 +1051,6 @@ export class PartsInventory extends HomeModule {
                 },
             }
         ];
-
-        this.newRecordsToCreate[0].gridRecords = [
-            {
-                grid: akaGrid,
-                recordToCreate: {
-                    record: {
-                        AKA: "GlobalScope.TestToken~1.TestToken",
-                    },
-                    seekObject: {
-                        AKA: "GlobalScope.TestToken~1.TestToken",
-                    },
-                    attemptDuplicate: true,
-                },
-            },
-            {
-                grid: substituteGrid,
-                recordToCreate: {
-                    record: {
-                        SubstituteInventoryId: 1,
-                    },
-                },
-            },
-            // can't test this scenario because the grid save is cancelled when all fields are blank
-            //{
-            //    grid: substituteGrid,
-            //    recordToCreate: {
-            //        record: {
-            //        },
-            //        expectedErrorFields: ["SubstituteInventoryId"],
-            //    },
-            //},
-            {
-                grid: compatibilityGrid,
-                recordToCreate: {
-                    record: {
-                        CompatibleWithInventoryId: 1,
-                    },
-                },
-            },
-            {
-                grid: prepGrid,
-                recordToCreate: {
-                    record: {
-                        PrepRateId: 1,
-                        PrepRate: "25.25",
-                        PrepTime: "1",
-                    },
-                },
-            },
-            {
-                grid: attributeGrid,
-                recordToCreate: {
-                    record: {
-                        AttributeId: 1,
-                        AttributeValueId: 1,
-                    },
-                },
-            },
-        ];
-
         this.newRecordsToCreate[0].recordToExpect = {
             ICode: this.newRecordsToCreate[0].record.ICode.toUpperCase(),
             Description: this.newRecordsToCreate[0].record.Description.toUpperCase(),
@@ -1363,7 +1065,7 @@ export class Asset extends HomeModule {
     constructor() {
         super();
         this.moduleName = 'Asset';
-        this.moduleId = '1C45299E-F8DB-4AE4-966F-BE142295E3D6';
+        this.moduleId = 'kSugPLvkuNsH';
         this.moduleCaption = 'Asset';
         this.canNew = false;
         this.canDelete = false;
@@ -1376,7 +1078,7 @@ export class RepairOrder extends HomeModule {
     constructor() {
         super();
         this.moduleName = 'Repair';
-        this.moduleId = '2BD0DC82-270E-4B86-A9AA-DD0461A0186A';
+        this.moduleId = 't4gfyzLkSZhyc';
         this.moduleCaption = 'Repair Order';
         this.canDelete = false;
     }
@@ -1388,7 +1090,7 @@ export class PhysicalInventory extends HomeModule {
     constructor() {
         super();
         this.moduleName = 'PhysicalInventory';
-        this.moduleId = 'BABFE80E-8A52-49D4-81D9-6B6EBB518E89';
+        this.moduleId = 'JIuxFUWTLDC6';
         this.moduleCaption = 'Physical Inventory';
         this.canDelete = false;
 
@@ -1417,17 +1119,9 @@ export class PickList extends HomeModule {
     constructor() {
         super();
         this.moduleName = 'PickList';
-        this.moduleId = '7B04E5D4-D079-4F3A-9CB0-844F293569ED';
+        this.moduleId = 'bggVQOivrIgi';
         this.moduleCaption = 'Pick List';
         this.canNew = false;
-
-        let itemsGrid: GridBase = new GridBase("Items Grid", "PickListItemGrid");
-        itemsGrid.canNew = false;
-
-        this.grids.push(itemsGrid);
-
-        
-
     }
     //---------------------------------------------------------------------------------------
 }
@@ -1437,7 +1131,7 @@ export class Contract extends HomeModule {
     constructor() {
         super();
         this.moduleName = 'Contract';
-        this.moduleId = '6BBB8A0A-53FA-4E1D-89B3-8B184B233DEA';
+        this.moduleId = 'Z8MlDQp7xOqu';
         this.moduleCaption = 'Contract';
         this.canNew = false;
         this.canDelete = false;
@@ -1450,7 +1144,7 @@ export class Container extends HomeModule {
     constructor() {
         super();
         this.moduleName = 'Container';
-        this.moduleId = '28A49328-FFBD-42D5-A492-EDF540DF7011';
+        this.moduleId = 'bSQsBVDvo86X1';
         this.moduleCaption = 'Container';
         this.canNew = false;
         this.canDelete = false;
@@ -1463,7 +1157,7 @@ export class Manifest extends HomeModule {
     constructor() {
         super();
         this.moduleName = 'Manifest';
-        this.moduleId = '1643B4CE-D368-4D64-8C05-6EF7C7D80336';
+        this.moduleId = 'tc2HgrtvGDJ5';
         this.moduleCaption = 'Transfer Manifest';
         this.canNew = false;
         this.canDelete = false;
@@ -1476,18 +1170,9 @@ export class TransferOrder extends HomeModule {
     constructor() {
         super();
         this.moduleName = 'TransferOrder';
-        this.moduleId = 'F089C9A9-554D-40BF-B1FA-015FEDE43591';
+        this.moduleId = 'tWkLbjsVHH6N';
         this.moduleCaption = 'Transfer Order';
         this.canDelete = false;
-
-        let rentalItemGrid: GridBase = new GridBase("Rental Item Grid", "TransferOrderItemGrid", ["R"]);
-        rentalItemGrid.waitAfterSavingToReloadGrid = 1500;
-        let salesItemGrid: GridBase = new GridBase("Sales Item Grid", "TransferOrderItemGrid", ["S"]);
-        salesItemGrid.waitAfterSavingToReloadGrid = 1500;
-
-        this.grids.push(rentalItemGrid);
-        this.grids.push(salesItemGrid);
-
 
         this.newRecordsToCreate = [
             {
@@ -1495,37 +1180,15 @@ export class TransferOrder extends HomeModule {
                     Description: `${TestUtils.randomProductName()} GlobalScope.TestToken~1.TestToken`,
                     FromWarehouseCode: "GlobalScope.Warehouse~MINE.WarehouseCode",
                     ToWarehouseId: 2,
-                    Rental: true,
-                    Sales: true,
                 },
                 seekObject: {
                     Description: "GlobalScope.TestToken~1.TestToken",
                 },
-            },
+            }
         ];
-
-        this.newRecordsToCreate[0].gridRecords = [
-            {
-                grid: rentalItemGrid,
-                recordToCreate: {
-                    record: {
-                        InventoryId: 1,
-                    },
-                },
-            },
-            {
-                grid: salesItemGrid,
-                recordToCreate: {
-                    record: {
-                        InventoryId: 1,
-                    },
-                },
-            },
-        ];
-
         this.newRecordsToCreate[0].recordToExpect = {
             Description: this.newRecordsToCreate[0].record.Description.toUpperCase(),
-        };
+        }
 
 
     }
@@ -1537,7 +1200,7 @@ export class TransferReceipt extends HomeModule {
     constructor() {
         super();
         this.moduleName = 'TransferReceipt';
-        this.moduleId = '2B60012B-ED6A-430B-B2CB-C1287FD4CE8B';
+        this.moduleId = 'VSn3weoOHqLc';
         this.moduleCaption = 'Transfer Receipt';
         this.canNew = false;
         this.canDelete = false;
@@ -1550,7 +1213,7 @@ export class Invoice extends HomeModule {
     constructor() {
         super();
         this.moduleName = 'Invoice';
-        this.moduleId = '9B79D7D8-08A1-4F6B-AC0A-028DFA9FE10F';
+        this.moduleId = 'cZ9Z8aGEiDDw';
         this.moduleCaption = 'Invoice';
         this.canDelete = false;
 
@@ -1596,7 +1259,7 @@ export class Receipt extends HomeModule {
     constructor() {
         super();
         this.moduleName = 'Receipt';
-        this.moduleId = '57E34535-1B9F-4223-AD82-981CA34A6DEC';
+        this.moduleId = 'q4PPGLusbFw';
         this.moduleCaption = 'Receipts';
     }
     //---------------------------------------------------------------------------------------
@@ -1607,7 +1270,7 @@ export class VendorInvoice extends HomeModule {
     constructor() {
         super();
         this.moduleName = 'VendorInvoice';
-        this.moduleId = '854B3C59-7040-47C4-A8A3-8A336FC970FE';
+        this.moduleId = 'Fq9aOe0yWfY';
         this.moduleCaption = 'Vendor Invoice';
     }
     //---------------------------------------------------------------------------------------

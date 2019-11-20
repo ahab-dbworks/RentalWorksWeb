@@ -1,6 +1,5 @@
 ﻿import { AdminModule } from "../../shared/AdminModule";
 import { TestUtils } from "../../shared/TestUtils";
-import { GridBase } from "../../shared/GridBase";
 
 //---------------------------------------------------------------------------------------
 export class Alert extends AdminModule {
@@ -8,10 +7,8 @@ export class Alert extends AdminModule {
     constructor() {
         super();
         this.moduleName = 'Alert';
-        this.moduleId = '6E5F47FB-1F18-443E-B464-9D2351857361';
+        this.moduleId = 'gFfpaR5mDAzX';
         this.moduleCaption = 'Alert';
-
-        let recipientGrid: GridBase = new GridBase("Recipients Grid", "AlertWebUsersGrid");
 
         this.defaultNewRecordToExpect = {
             ModuleName: "",
@@ -35,18 +32,6 @@ export class Alert extends AdminModule {
                 }
             }
         ];
-
-        this.newRecordsToCreate[0].gridRecords = [
-            {
-                grid: recipientGrid,
-                recordToCreate: {
-                    record: {
-                        UserId: 1,
-                    },
-                },
-            },
-        ];
-
         this.newRecordsToCreate[0].recordToExpect = {
             ModuleName: "|NOTEMPTY|",
             AlertName: this.newRecordsToCreate[0].record.AlertName,
@@ -65,7 +50,7 @@ export class CustomField extends AdminModule {
     constructor() {
         super();
         this.moduleName = 'CustomField';
-        this.moduleId = 'C98C4CB4-2036-4D70-BC29-8F5A2874B178';
+        this.moduleId = 'cZHPJQyBxolS';
         this.moduleCaption = 'Custom Field';
 
         this.defaultNewRecordToExpect = {
@@ -100,7 +85,7 @@ export class CustomForm extends AdminModule {
     constructor() {
         super();
         this.moduleName = 'CustomForm';
-        this.moduleId = 'CB2EF8FF-2E8D-4AD0-B880-07037B839C5E';
+        this.moduleId = '11txpzVKVGi2';
         this.moduleCaption = 'Custom Form';
 
         this.defaultNewRecordToExpect = {
@@ -135,7 +120,7 @@ export class DuplicateRule extends AdminModule {
     constructor() {
         super();
         this.moduleName = 'DuplicateRule';
-        this.moduleId = '2E0EA479-AC02-43B1-87FA-CCE2ABA6E934';
+        this.moduleId = 'v7oBspDLjli8';
         this.moduleCaption = 'Duplicate Rule';
 
         this.defaultNewRecordToExpect = {
@@ -171,7 +156,7 @@ export class EmailHistory extends AdminModule {
     constructor() {
         super();
         this.moduleName = 'EmailHistory';
-        this.moduleId = '3F44AC27-CE34-46BA-B4FB-A8AEBB214167';
+        this.moduleId = '3XHEm3Q8WSD8z';
         this.moduleCaption = 'Email History';
         this.canNew = false;
         this.canDelete = false;
@@ -185,7 +170,7 @@ export class Group extends AdminModule {
     constructor() {
         super();
         this.moduleName = 'Group';
-        this.moduleId = '9BE101B6-B406-4253-B2C6-D0571C7E5916';
+        this.moduleId = '0vP4rXxgGL1M';
         this.moduleCaption = 'Group';
 
         this.defaultNewRecordToExpect = {
@@ -215,7 +200,7 @@ export class Hotfix extends AdminModule {
     constructor() {
         super();
         this.moduleName = 'Hotfix';
-        this.moduleId = '9D29A5D9-744F-40CE-AE3B-09219611A680';
+        this.moduleId = 'yeqaGIUYfYNX';
         this.moduleCaption = 'Hotfix';
         this.canNew = false;
         this.canDelete = false;
@@ -229,7 +214,7 @@ export class User extends AdminModule {
     constructor() {
         super();
         this.moduleName = 'User';
-        this.moduleId = '79E93B21-8638-483C-B377-3F4D561F1243';
+        this.moduleId = 'r1fKvn1KaFd0u';
         this.moduleCaption = 'User';
 
         this.defaultNewRecordToExpect = {

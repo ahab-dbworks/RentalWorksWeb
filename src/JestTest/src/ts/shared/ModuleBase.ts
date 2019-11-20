@@ -40,19 +40,8 @@ export class NewRecordToCreate {
     expectedErrorFields?: string[];
     recordToExpect?: any;
     attemptDuplicate?: boolean = false;
-    //persistData?: boolean = false;
     gridRecords?: GridRecordToCreate[];
 }
-
-//export class RecordToEdit {
-//    record: any;
-//    seekObject?: any;
-//    expectedErrorFields?: string[];
-//    recordToExpect?: any;
-//    attemptDuplicate?: boolean = false;
-//    gridRecords?: GridRecordToCreate[];
-//}
-
 
 export class DeleteResponse {
     deleted: boolean;
@@ -73,7 +62,7 @@ export class ModuleBase {
     waitForRecordsToGetEvents: number = 300;
     waitAfterClickingToOpenBrowseToAllowOtherQueries: number = 0;
     waitAfterClickingToOpenFormToAllowOtherQueries: number = 0;
-    waitAfterHittingEnterToSearch: number = 400;
+    waitAfterHittingEnterToSearch: number = 200;
     waitForErrorAfterClickingTab: number = 300;
     waitAfterEachValidationFieldIsPopulated: number = 500;
 
@@ -101,10 +90,6 @@ export class ModuleBase {
     //---------------------------------------------------------------------------------------
     getNewButtonSelector(): string {
         return `.addnewtab i.material-icons`;
-    }
-    //---------------------------------------------------------------------------------------
-    getFormMenuSelector(): string {
-        return `div .fwform-menu .submenubutton i`;
     }
     //---------------------------------------------------------------------------------------
     getDeleteButtonSelector(): string {
@@ -228,7 +213,7 @@ export class ModuleBase {
 
     }
     //---------------------------------------------------------------------------------------
-    async openRecord(index?: number, registerGlobal?: boolean, globalKeyValue?: string): Promise<OpenRecordResponse> {
+    async openRecord(index?: number): Promise<OpenRecordResponse> {
         let openRecordResponse: OpenRecordResponse = new OpenRecordResponse();
         openRecordResponse.opened = false;
         openRecordResponse.record = null;
@@ -285,19 +270,6 @@ export class ModuleBase {
                 Logging.logInfo(`Form Record: ${JSON.stringify(openRecordResponse.record)}`);
                 Logging.logInfo(`Form Keys: ${JSON.stringify(openRecordResponse.keys)}`);
 
-                if (registerGlobal) {
-                    let globalKey = this.moduleName;
-                    if (globalKeyValue === undefined) {
-                        for (var key in openRecordResponse.keys) {
-                            globalKey = globalKey + "~" + openRecordResponse.keys[key];
-                        }
-                    }
-                    else {
-                        globalKey = globalKey + "~" + globalKeyValue;
-                    }
-                    this.globalScopeRef[globalKey] = openRecordResponse.record;
-                }
-
                 if (this.waitAfterClickingToOpenFormToAllowOtherQueries > 0) {
                     await ModuleBase.wait(this.waitAfterClickingToOpenFormToAllowOtherQueries);
                 }
@@ -310,7 +282,7 @@ export class ModuleBase {
         return openRecordResponse;
     }
     //---------------------------------------------------------------------------------------
-    async openFirstRecordIfAny(registerGlobal?: boolean, globalKeyValue?: string): Promise<OpenRecordResponse> {
+    async openFirstRecordIfAny(): Promise<OpenRecordResponse> {
         let openRecordResponse: OpenRecordResponse = new OpenRecordResponse();
         openRecordResponse.opened = false;
         openRecordResponse.record = null;
@@ -386,22 +358,6 @@ export class ModuleBase {
 
                     Logging.logInfo(`Form Record: ${JSON.stringify(openRecordResponse.record)}`);
                     Logging.logInfo(`Form Keys: ${JSON.stringify(openRecordResponse.keys)}`);
-
-                    if (registerGlobal) {
-                        let globalKey = this.moduleName;
-                        if (globalKeyValue === undefined) {
-                            for (var key in openRecordResponse.keys) {
-                                globalKey = globalKey + "~" + openRecordResponse.keys[key];
-                            }
-                        }
-                        else {
-                            globalKey = globalKey + "~" + globalKeyValue;
-                        }
-                        Logging.logInfo(`Registering Global Value:    key=${globalKey}     value=${JSON.stringify(openRecordResponse.record)}`);
-
-                        this.globalScopeRef[globalKey] = openRecordResponse.record;
-                    }
-
 
                     if (this.waitAfterClickingToOpenFormToAllowOtherQueries > 0) {
                         await ModuleBase.wait(this.waitAfterClickingToOpenFormToAllowOtherQueries);
@@ -486,7 +442,7 @@ export class ModuleBase {
         await page.waitForSelector(this.getBrowseSelector(), { timeout: 10000 });
         var newButton;
         try {
-            newButton = await page.waitForSelector(this.getDeleteButtonSelector(), { timeout: 1500 });
+            newButton = await page.waitForSelector(this.getDeleteButtonSelector(), { visible: true, timeout: 1500 });
         } catch (error) { } // not found
         foundDeleteButton = (newButton !== undefined);
         return foundDeleteButton;
@@ -594,7 +550,7 @@ export class ModuleBase {
         await page.waitForSelector(this.getBrowseSelector(), { timeout: 10000 });
         var newButton;
         try {
-            newButton = await page.waitForSelector(this.getNewButtonSelector(), { timeout: 1500 });
+            newButton = await page.waitForSelector(this.getNewButtonSelector(), { visible: true, timeout: 1500 });
         } catch (error) { } // not found
         foundNewButton = (newButton !== undefined);
         return foundNewButton;
@@ -700,7 +656,6 @@ export class ModuleBase {
                     case 'email':
                     case 'zipcode':
                     case 'percent':
-                    case 'money':
                     case 'number':
                     case 'date':
                     case 'password':
@@ -782,7 +737,6 @@ export class ModuleBase {
                     case 'text':
                     case 'textarea':
                     case 'percent':
-                    case 'money':
                     case 'number':
                     case 'date':
                     case 'password':
