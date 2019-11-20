@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 using FwStandard.SqlServer;
 using System.Collections.Generic;
 using FwStandard.AppManager;
+using WebLibrary;
+using System;
+
 namespace WebApi.Modules.Home.BillingWorksheet
 {
     [Route("api/v1/[controller]")]
@@ -62,6 +65,124 @@ namespace WebApi.Modules.Home.BillingWorksheet
         {
             return await DoDeleteAsync<BillingWorksheetLogic>(id);
         }
+        //------------------------------------------------------------------------------------ 
+        // GET api/v1/invoice/legend 
+        [HttpGet("legend")]
+        [FwControllerMethod(Id: "vgVJlEENk5rgB")]
+        public async Task<ActionResult<Dictionary<string, string>>> GetLegend()
+        {
+            Dictionary<string, string> legend = new Dictionary<string, string>();
+            legend.Add("Locked", RwGlobals.INVOICE_LOCKED_COLOR);
+            legend.Add("No Charge", RwGlobals.INVOICE_NO_CHARGE_COLOR);
+            legend.Add("Adjusted", RwGlobals.INVOICE_ADJUSTED_COLOR);
+            legend.Add("Hiatus", RwGlobals.INVOICE_HIATUS_COLOR);
+            legend.Add("Flat PO", RwGlobals.INVOICE_FLAT_PO_COLOR);
+            legend.Add("Credit", RwGlobals.INVOICE_CREDIT_COLOR);
+            legend.Add("Altered Dates", RwGlobals.INVOICE_ALTERED_DATES_COLOR);
+            legend.Add("Repair", RwGlobals.INVOICE_REPAIR_COLOR);
+            legend.Add("Estimate", RwGlobals.INVOICE_ESTIMATE_COLOR);
+            legend.Add("Loss & Damage", RwGlobals.INVOICE_LOSS_AND_DAMAGE_COLOR);
+            await Task.CompletedTask; // get rid of the no async call warning
+            return new OkObjectResult(legend);
+        }
+        ////------------------------------------------------------------------------------------ 
+        //// POST api/v1/invoice/A0000001/void
+        //[HttpPost("{id}/void")]
+        //[FwControllerMethod(Id: "ULOn03RyRluBz")]
+        //public async Task<ActionResult<BillingWorksheetLogic>> Void([FromRoute]string id)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
+        //    try
+        //    {
+        //        string[] ids = id.Split('~');
+        //        BillingWorksheetLogic l = new BillingWorksheetLogic();
+        //        l.SetDependencies(AppConfig, UserSession);
+        //        if (await l.LoadAsync<BillingWorksheetLogic>(ids))
+        //        {
+        //            TSpStatusResponse response = await l.Void();
+        //            if (response.success)
+        //            {
+        //                await l.LoadAsync<BillingWorksheetLogic>(ids);
+        //                return new OkObjectResult(l);
+        //            }
+        //            else
+        //            {
+        //                throw new Exception(response.msg);
+        //            }
+        //        }
+        //        else
+        //        {
+        //            return NotFound();
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return GetApiExceptionResult(ex);
+        //    }
+        //}
+        ////------------------------------------------------------------------------------------     
+        //// POST api/v1/invoice/A0000001/approve
+        //[HttpPost("{id}/approve")]
+        //[FwControllerMethod(Id: "eMYtyUHlOkUuo")]
+        //public async Task<ActionResult<ToggleInvoiceApprovedResponse>> Approve([FromRoute]string id)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
+        //    try
+        //    {
+        //        string[] ids = id.Split('~');
+        //        BillingWorksheetLogic l = new BillingWorksheetLogic();
+        //        l.SetDependencies(AppConfig, UserSession);
+        //        if (await l.LoadAsync<BillingWorksheetLogic>(ids))
+        //        {
+        //            ToggleInvoiceApprovedResponse response = await l.Approve();
+        //            return new OkObjectResult(response);
+        //        }
+        //        else
+        //        {
+        //            return NotFound();
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return GetApiExceptionResult(ex);
+        //    }
+        //}
+        ////------------------------------------------------------------------------------------     
+        //// POST api/v1/invoice/A0000001/unapprove
+        //[HttpPost("{id}/unapprove")]
+        //[FwControllerMethod(Id: "sJydlcSDO02Zs")]
+        //public async Task<ActionResult<ToggleInvoiceApprovedResponse>> Unapprove([FromRoute]string id)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
+        //    try
+        //    {
+        //        string[] ids = id.Split('~');
+        //        BillingWorksheetLogic l = new BillingWorksheetLogic();
+        //        l.SetDependencies(AppConfig, UserSession);
+        //        if (await l.LoadAsync<BillingWorksheetLogic>(ids))
+        //        {
+        //            ToggleInvoiceApprovedResponse response = await l.Unapprove();
+        //            return new OkObjectResult(response);
+        //        }
+        //        else
+        //        {
+        //            return NotFound();
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return GetApiExceptionResult(ex);
+        //    }
+        //}
         //------------------------------------------------------------------------------------ 
     }
 }

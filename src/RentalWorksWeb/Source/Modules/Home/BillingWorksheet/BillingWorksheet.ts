@@ -2,7 +2,7 @@ class BillingWorksheet {
     Module: string = 'BillingWorksheet';
     apiurl: string = 'api/v1/billingworksheet';
     caption: string = Constants.Modules.Home.BillingWorksheet.caption;
-    nav: string = Constants.Modules.Home.BillingWorksheet.nav; $
+    nav: string = Constants.Modules.Home.BillingWorksheet.nav; 
     id: string = Constants.Modules.Home.BillingWorksheet.id;
     ActiveViewFields: any = {};
     ActiveViewFieldsId: string;
@@ -136,7 +136,7 @@ class BillingWorksheet {
     //----------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
         const $form = this.openForm('EDIT');
-        $form.find('div.fwformfield[data-datafield="InvoiceId"] input').val(uniqueids.InvoiceId);
+        $form.find('div.fwformfield[data-datafield="BillingWorksheetId"] input').val(uniqueids.BillingWorksheetId);
         FwModule.loadForm(this.Module, $form);
 
         return $form;
@@ -682,7 +682,7 @@ class BillingWorksheet {
             this.checkBillingDateRange($form, event);
         });
         //Open Print Invoice Report
-        $form.find('.print-invoice').on('click', e => {
+        $form.find('.print-worksheet').on('click', e => {
             try {
                 const module = this.Module;
                 const recordTitle = jQuery('.tabs .active[data-tabtype="FORM"] .caption').text();
@@ -690,10 +690,10 @@ class BillingWorksheet {
 
                 FwModule.openSubModuleTab($form, $report);
 
-                const invoiceId = $form.find(`div.fwformfield[data-datafield="${module}Id"] input`).val();
-                $report.find(`div.fwformfield[data-datafield="${module}Id"] input`).val(invoiceId);
-                const invoiceNumber = $form.find(`div.fwformfield[data-datafield="${module}Number"] input`).val();
-                $report.find(`div.fwformfield[data-datafield="${module}Id"] .fwformfield-text`).val(invoiceNumber);
+                const worksheetId = $form.find(`div.fwformfield[data-datafield="${module}Id"] input`).val();
+                $report.find(`div.fwformfield[data-datafield="${module}Id"] input`).val(worksheetId);
+                const worksheetNumber = $form.find(`div.fwformfield[data-datafield="${module}Number"] input`).val();
+                $report.find(`div.fwformfield[data-datafield="${module}Id"] .fwformfield-text`).val(worksheetNumber);
                 jQuery('.tab.submodule.active').find('.caption').html(`Print ${module}`);
 
                 const printTab = jQuery('.tab.submodule.active');
@@ -729,7 +729,7 @@ class BillingWorksheet {
         }
     };
     //----------------------------------------------------------------------------------------------
-    voidInvoice($form: JQuery): void {
+    voidWorksheet($form: JQuery): void {
         try {
             const $confirmation = FwConfirmation.renderConfirmation('Void', '');
             $confirmation.find('.fwconfirmationbox').css('width', '450px');
@@ -752,9 +752,9 @@ class BillingWorksheet {
                 $yes.text('Voiding...');
                 $yes.off('click');
 
-                const invoiceId = FwFormField.getValueByDataField($form, 'InvoiceId');
-                FwAppData.apiMethod(true, 'POST', `api/v1/invoice/${invoiceId}/void`, null, FwServices.defaultTimeout, function onSuccess(response) {
-                    FwNotification.renderNotification('SUCCESS', 'Invoice Successfully Voided');
+                const worksheetId = FwFormField.getValueByDataField($form, 'BillingWorksheetId');
+                FwAppData.apiMethod(true, 'POST', `api/v1/worksheet/${worksheetId}/void`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                    FwNotification.renderNotification('SUCCESS', 'Worksheet Successfully Voided');
                     FwConfirmation.destroyConfirmation($confirmation);
                     FwModule.refreshForm($form);
                 }, function onError(response) {
@@ -770,265 +770,31 @@ class BillingWorksheet {
             FwFunc.showError(ex);
         }
     }
-    //----------------------------------------------------------------------------------------------
-    creditInvoice($form) {
-        const status = FwFormField.getValueByDataField($form, 'Status');
-        const invoiceType = FwFormField.getValueByDataField($form, 'InvoiceType');
-        if ((invoiceType === 'BILLING') && (status === 'PROCESSED' || status === 'CLOSED')) {
-            const $confirmation = FwConfirmation.renderConfirmation('Credit Invoice', '');
-            $confirmation.find('.fwconfirmationbox').css('width', '550px');
-            const html: Array<string> = [];
-            html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
-            html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-            html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="FULL - Every line of the Invoice will be credited 100%" checked data-invoicefield="FULL" style="float:left;width:100px;"></div>`);
-            html.push('  </div>');
-            html.push(' <div class="formrow" style="width:100%;display:flex;align-content:flex-start;align-items:center;padding-bottom:13px;">');
-            html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-            html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="" data-invoicefield="PARTIAL" style="float:left;width:30px;"></div>`);
-            html.push('  </div>');
-            html.push('  <span style="margin:18px 0px 0px 0px;">PARTIAL - Every Line of the Invoice will be credited</span>');
-            html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow" style="margin:0px 0px 0px 0px;">');
-            html.push('    <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield input-field" data-caption="" data-enabled="false" data-invoicefield="PartialInput" style="width:45px;float:left;margin:0px 0px 0px 0px;"></div>');
-            html.push('  </div>');
-            html.push('  <span style="margin:18px 0px 0px 0px;">%</span>');
-            html.push(' </div>');
-            html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-            html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="MANUAL - Items must be credited manually" data-invoicefield="MANUAL" style="float:left;width:100px;"></div>`);
-            html.push('  </div>');
-            html.push(' <div class="formrow" style="width:100%;display:flex;align-content:flex-start;align-items:center;">');
-            html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-            html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="" data-invoicefield="FLAT_AMOUNT" style="float:left;width:30px;"></div>`);
-            html.push('  </div>');
-            html.push('  <span style="margin:18px 0px 0px 0px;">FLAT AMT - Credit a flat amount</span>');
-            html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow" style="margin:0px 0px 0px 0px;">');
-            html.push('    <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield input-field" data-caption="" data-enabled="false" data-invoicefield="FlatAmountInput" style="width:115px;float:left;margin:0px 0px 0px 0px;"></div>');
-            html.push('  </div>');
-            html.push(' </div>');
-            html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow" style="margin-bottom: 0;">');
-            html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Allocate Across All Items" data-invoicefield="AllocateAllItems" style="float:left;width:100px;padding: 0 0 0 30px;"></div>`);
-            html.push('  </div>');
-            html.push(' <div class="formrow" style="width:100%;display:flex;align-content:flex-start;align-items:center;padding-bottom:13px;">');
-            html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-            html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="" data-invoicefield="USAGE_DAYS" style="float:left;width:30px;"></div>`);
-            html.push('  </div>');
-            html.push('  <span style="margin:18px 0px 0px 0px;">USAGE DAYS - Cedit a number of Usage Days</span>');
-            html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow" style="margin:0px 0px 0px 0px;">');
-            html.push('    <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield input-field" data-caption="" data-enabled="false" data-invoicefield="UsageDaysInput" style="width:45px;float:left;margin:0px 0px 0px 0px;"></div>');
-            html.push('  </div>');
-            html.push(' </div>');
-            html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-            html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="TAX ONLY - Credit the Sales Tax Only" data-invoicefield="TAX_ONLY" style="float:left;width:100px;"></div>`);
-            html.push('  </div>');
-            html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-            html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Adjust Cost of Subs" data-invoicefield="AdjustCost" checked="checked" style="float:left;width:100px;"></div>`);
-            html.push('  </div>');
-            html.push('  <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Credit Note">');
-            html.push(`    <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">`);
-            html.push('      <div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield" data-caption="" data-invoicefield="CreditNote"></div>');
-            html.push('    </div>');
-            html.push('  </div>');
-            html.push('</div>');
-
-            FwConfirmation.addControls($confirmation, html.join(''));
-            FwFormField.disable($confirmation.find('div[data-invoicefield="AllocateAllItems"]'));
-            const $yes = FwConfirmation.addButton($confirmation, 'Create', false);
-            const $no = FwConfirmation.addButton($confirmation, 'Cancel');
-
-
-            const full = $confirmation.find('div[data-invoicefield="FULL"] input');
-            const partial = $confirmation.find('div[data-invoicefield="PARTIAL"] input');
-            const partialInput = $confirmation.find('div[data-invoicefield="PartialInput"]');
-            const manual = $confirmation.find('div[data-invoicefield="MANUAL"] input');
-            const flatAmount = $confirmation.find('div[data-invoicefield="FLAT_AMOUNT"] input');
-            const flatAmountInput = $confirmation.find('div[data-invoicefield="FlatAmountInput"]');
-            const allocateAllItems = $confirmation.find('div[data-invoicefield="AllocateAllItems"] input');
-            const usageDays = $confirmation.find('div[data-invoicefield="USAGE_DAYS"] input');
-            const usageDaysInput = $confirmation.find('div[data-invoicefield="UsageDaysInput"]');
-            const taxOnly = $confirmation.find('div[data-invoicefield="TAX_ONLY"] input');
-
-            full.on('change', e => {
-                if (jQuery(e.currentTarget).prop('checked')) {
-                    partial.prop('checked', false);
-                    manual.prop('checked', false);
-                    flatAmount.prop('checked', false);
-                    allocateAllItems.prop('checked', false);
-                    usageDays.prop('checked', false);
-                    taxOnly.prop('checked', false);
-                    $confirmation.find('.input-field input').val('');
-                    FwFormField.disable(partialInput);
-                    FwFormField.disable(flatAmountInput);
-                    FwFormField.disable($confirmation.find('div[data-invoicefield="AllocateAllItems"]'));
-                    FwFormField.disable(usageDaysInput);
-                }
-            });
-            partial.on('change', e => {
-                if (jQuery(e.currentTarget).prop('checked')) {
-                    full.prop('checked', false);
-                    manual.prop('checked', false);
-                    flatAmount.prop('checked', false);
-                    allocateAllItems.prop('checked', false);
-                    usageDays.prop('checked', false);
-                    taxOnly.prop('checked', false);
-                    $confirmation.find('.input-field input').val('');
-                    FwFormField.disable($confirmation.find('div[data-invoicefield="AllocateAllItems"]'));
-                    FwFormField.enable(partialInput);
-                    FwFormField.disable(flatAmountInput);
-                    FwFormField.disable(usageDaysInput);
-                } else {
-                    FwFormField.disable(partialInput);
-                    $confirmation.find('.input-field input').val('');
-                }
-            });
-            manual.on('change', e => {
-                if (jQuery(e.currentTarget).prop('checked')) {
-                    full.prop('checked', false);
-                    partial.prop('checked', false);
-                    flatAmount.prop('checked', false);
-                    allocateAllItems.prop('checked', false);
-                    usageDays.prop('checked', false);
-                    taxOnly.prop('checked', false);
-                    $confirmation.find('.input-field input').val('');
-                    FwFormField.disable($confirmation.find('div[data-invoicefield="AllocateAllItems"]'));
-                    FwFormField.disable(partialInput);
-                    FwFormField.disable(flatAmountInput);
-                    FwFormField.disable(usageDaysInput);
-                }
-            });
-            flatAmount.on('change', e => {
-                if (jQuery(e.currentTarget).prop('checked')) {
-                    full.prop('checked', false);
-                    partial.prop('checked', false);
-                    manual.prop('checked', false);
-                    usageDays.prop('checked', false);
-                    taxOnly.prop('checked', false);
-                    $confirmation.find('.input-field input').val('');
-                    FwFormField.enable(flatAmountInput);
-                    FwFormField.enable($confirmation.find('div[data-invoicefield="AllocateAllItems"]'));
-                    FwFormField.disable(partialInput);
-                    FwFormField.disable(usageDaysInput);
-                } else {
-                    $confirmation.find('.input-field input').val('');
-                    FwFormField.disable($confirmation.find('div[data-invoicefield="AllocateAllItems"]'));
-                    allocateAllItems.prop('checked', false);
-                    FwFormField.disable(flatAmountInput);
-                }
-            });
-            usageDays.on('change', e => {
-                if (jQuery(e.currentTarget).prop('checked')) {
-                    full.prop('checked', false);
-                    partial.prop('checked', false);
-                    manual.prop('checked', false);
-                    flatAmount.prop('checked', false);
-                    allocateAllItems.prop('checked', false);
-                    taxOnly.prop('checked', false);
-                    $confirmation.find('.input-field input').val('');
-                    FwFormField.disable($confirmation.find('div[data-invoicefield="AllocateAllItems"]'));
-                    FwFormField.enable(usageDaysInput);
-                    FwFormField.disable(partialInput);
-                    FwFormField.disable(flatAmountInput);
-                } else {
-                    FwFormField.disable(usageDaysInput);
-                    $confirmation.find('.input-field input').val('');
-                }
-            });
-            taxOnly.on('change', e => {
-                if (jQuery(e.currentTarget).prop('checked')) {
-                    full.prop('checked', false);
-                    partial.prop('checked', false);
-                    manual.prop('checked', false);
-                    flatAmount.prop('checked', false);
-                    allocateAllItems.prop('checked', false);
-                    usageDays.prop('checked', false);
-                    $confirmation.find('.input-field input').val('');
-                    FwFormField.disable($confirmation.find('div[data-invoicefield="AllocateAllItems"]'));
-                    FwFormField.disable(partialInput);
-                    FwFormField.disable(flatAmountInput);
-                    FwFormField.disable(usageDaysInput);
-                }
-            });
-
-            $yes.on('click', () => {
-                const request: any = {};
-                const creditMethods = [full, partial, manual, flatAmount, usageDays, taxOnly];
-                for (let i = 0; i < creditMethods.length; i++) {
-                    if (creditMethods[i].prop('checked') === true) {
-                        request.CreditMethod = creditMethods[i].closest('[data-invoicefield]').attr('data-invoicefield');
-                        break;
-                    }
-                }
-
-                if (request.CreditMethod === 'PARTIAL') {
-                    request.Percent = partialInput.find('input').val();
-                }
-                if (request.CreditMethod === 'FLAT_AMOUNT') {
-                    request.Amount = flatAmountInput.find('input').val().replace(/[$ ,]+/g, "").trim();
-                    request.Allocate = allocateAllItems.prop('checked');
-                }
-                if (request.CreditMethod === 'USAGE_DAYS') {
-                    request.UsageDays = usageDaysInput.find('input').val();
-                }
-
-                request.InvoiceId = FwFormField.getValueByDataField($form, 'InvoiceId');
-                request.Notes = $confirmation.find('div[data-invoicefield="CreditNote"] textarea').val();
-                request.CreditFromDate = FwFormField.getValueByDataField($form, 'BillingStartDate');
-                request.CreditToDate = FwFormField.getValueByDataField($form, 'BillingEndDate');
-                request.AdjustCost = $confirmation.find('div[data-invoicefield="AdjustCost"] input').prop('checked');
-                request.TaxOnly = taxOnly.prop('checked');
-
-                const topLayer = '<div class="top-layer" data-controller="none" style="background-color: transparent;z-index:1"></div>';
-                const realConfirm = jQuery($confirmation.find('.fwconfirmationbox')).prepend(topLayer);
-
-                if (request.CreditMethod) {
-                    FwAppData.apiMethod(true, 'POST', `api/v1/invoice/creditinvoice`, request, FwServices.defaultTimeout, response => {
-                        if ((response.success === true) && (response.CreditId !== null || response.CreditId !== '')) {
-                            const uniqueids: any = {};
-                            uniqueids.InvoiceId = response.CreditId;
-                            const InvoiceForm = InvoiceController.loadForm(uniqueids);
-
-                            FwModule.openModuleTab(InvoiceForm, "", true, 'FORM', true);
-                            FwConfirmation.destroyConfirmation($confirmation);
-                        } else {
-                            FwFunc.showError({ 'message': response.msg });
-                        }
-                    }, ex => FwFunc.showError(ex), realConfirm);
-                } else {
-                    FwNotification.renderNotification('WARNING', 'Select a Credit Method first.')
-                }
-            });
-        } else {
-            if (invoiceType !== 'BILLING') {
-                FwNotification.renderNotification('WARNING', `Cannot credit a ${invoiceType} Invoice.`)
-            }
-            else if ((status !== 'PROCESSED' && status !== 'CLOSED')) {
-                FwNotification.renderNotification('WARNING', `Cannot credit a ${status} Invoice.  Invoice must be PROCESSED or CLOSED.`)
-            }
-        }
-    }
 };
 //----------------------------------------------------------------------------------------------
-// Void Invoice - Form
-FwApplicationTree.clickEvents[Constants.Modules.Home.Invoice.form.menuItems.Void.id] = function (e: JQuery.ClickEvent) {
+// Void Worksheet - Form
+FwApplicationTree.clickEvents[Constants.Modules.Home.BillingWorksheet.form.menuItems.Void.id] = function (e: JQuery.ClickEvent) {
     const $form = jQuery(this).closest('.fwform');
     try {
-        InvoiceController.voidInvoice($form);
+        BillingWorksheetController.voidWorksheet($form);
     }
     catch (ex) {
         FwFunc.showError(ex);
     }
 };
 //----------------------------------------------------------------------------------------------
-// Void Invoice - Browse
+// Void Worksheet - Browse
 FwApplicationTree.clickEvents[Constants.Modules.Home.BillingWorksheet.browse.menuItems.Void.id] = function (e: JQuery.ClickEvent) {
     try {
         const $browse = jQuery(this).closest('.fwbrowse');
-        const invoiceId = $browse.find('.selected [data-browsedatafield="InvoiceId"]').attr('data-originalvalue');
-        if (invoiceId != null) {
+        const billingWorksheetId = $browse.find('.selected [data-browsedatafield="BillingWorksheetId"]').attr('data-originalvalue');
+        if (billingWorksheetId != null) {
             const $confirmation = FwConfirmation.renderConfirmation('Void', '');
             $confirmation.find('.fwconfirmationbox').css('width', '450px');
             const html: Array<string> = [];
             html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
             html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-            html.push('    <div>Void Invoice?</div>');
+            html.push('    <div>Void Worksheet?</div>');
             html.push('  </div>');
             html.push('</div>');
 
@@ -1044,8 +810,8 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.BillingWorksheet.browse.men
                 $yes.text('Voiding...');
                 $yes.off('click');
 
-                FwAppData.apiMethod(true, 'POST', `api/v1/billingworksheet/${invoiceId}/void`, null, FwServices.defaultTimeout, function onSuccess(response) {
-                    FwNotification.renderNotification('SUCCESS', 'Invoice Successfully Voided');
+                FwAppData.apiMethod(true, 'POST', `api/v1/billingworksheet/${billingWorksheetId}/void`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                    FwNotification.renderNotification('SUCCESS', 'Worksheet Successfully Voided');
                     FwConfirmation.destroyConfirmation($confirmation);
                     FwBrowse.databind($browse);
                 }, function onError(response) {
@@ -1058,7 +824,7 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.BillingWorksheet.browse.men
                 }, $browse);
             };
         } else {
-            FwNotification.renderNotification('WARNING', 'Select an Worksheet to void.');
+            FwNotification.renderNotification('WARNING', 'Select a Worksheet to void.');
         }
     }
     catch (ex) {
@@ -1154,4 +920,4 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.BillingWorksheet.browse.men
 };
 //----------------------------------------------------------------------------------------------
 
-var BillingWorksheetBillingWorksheetController = new BillingWorksheet();
+var BillingWorksheetController = new BillingWorksheet();
