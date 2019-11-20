@@ -3,7 +3,8 @@
     isRentalWorks: true,
     appId: '0A5F2584-D239-480F-8312-7C2B552A30BA',
     appCaption: 'RentalWorks',
-    appTitle: 'Rental<span class="rwpurple">Works<span style="font-size:14px;vertical-align:super;">&#174;</span></span>',
+    //appTitle: 'Rental<span class="rwpurple">Works<span style="font-size:14px;vertical-align:super;">&#174;</span></span>',
+    appTitle: 'Rental<span class="rwpurple">Works</span>',
     MainMenu: {
         Reports: { id: '7FEC9D55-336E-44FE-AE01-96BF7B74074C' },
         Settings: { id: '730C9659-B33B-493E-8280-76A060A07DCE' }
