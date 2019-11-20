@@ -1,4 +1,4 @@
-﻿class FwBrowseColumn_textClass implements IFwBrowseColumn {
+class FwBrowseColumn_numericupdownClass implements IFwBrowseColumn {
     //---------------------------------------------------------------------------------
     databindfield($browse, $field, dt, dtRow, $tr): void {
 
@@ -34,38 +34,60 @@
     }
     //---------------------------------------------------------------------------------
     setFieldViewMode($browse, $tr, $field): void {
-        var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
-        $field.html(originalvalue);
+        let html = [];
         $field.data('autoselect', false);
-        // this only works if there is no spaces or other illegal css characters in the originalvalue
-        if (typeof $field.attr('data-rowclassmapping') !== 'undefined') {
-            var rowclassmapping = JSON.parse($field.attr('data-rowclassmapping'));
-            if (originalvalue in rowclassmapping === true) {
-                $tr.addClass(rowclassmapping[originalvalue]);
+        var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
+
+        html.push('<button class="decrementQuantity" tabindex="-1" style="padding: 5px 0px; float:left; width:25%; border:none;">-</button>');
+        html.push('<div style="position:relative">');
+        html.push(`     <input class="value" type="number" style="height:1.5em; width:40px; text-align:center;" value="${originalvalue}">`);
+        html.push('</div>');
+        html.push('<button class="incrementQuantity" tabindex="-1" style="padding: 5px 0px; float:left; width:25%; border:none;">+</button>');
+        $field.empty().append(jQuery(html.join('')));
+
+        $field.data({
+            interval: {},
+            increment: function () {
+                const $value = $field.find('.value');
+                let oldval = jQuery.isNumeric(parseFloat($value.val())) ? parseFloat($value.val()) : 0;
+                $value.val(++oldval);
+            },
+            decrement: function () {
+                const $value = $field.find('.value');
+                let oldval = jQuery.isNumeric(parseFloat($value.val())) ? parseFloat($value.val()) : 0;
+                if (oldval > 0) {
+                    $value.val(--oldval);
+                }
             }
-        }
-        $field.on('click', function () {
-            if ($field.attr('data-formreadonly') !== 'true') {
-                $field.data('autoselect', true);
-            }
+        });
+
+        if (jQuery('html').hasClass('desktop')) {
+            $field
+                .on('click', '.incrementQuantity', () => {
+                    $field.data('increment')();
+                    $field.find('.value').change();
+                })
+                .on('click', '.decrementQuantity', () => {
+                    $field.data('decrement')();
+                    $field.find('.value').change();
+                });
+        };
+
+        $field.find('.value').on('keydown', e => {
+            e.stopPropagation();
         });
     }
     //---------------------------------------------------------------------------------
     setFieldEditMode($browse, $tr, $field): void {
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
-        var formmaxlength = (typeof $field.attr('data-formmaxlength') === 'string') ? $field.attr('data-formmaxlength') : '';
         let html = [];
-        html.push('<input class="value" type="text"');
-        if (applicationConfig.allCaps && $field.attr('data-allcaps') !== 'false') {
-            html.push(' style="text-transform:uppercase"');
-        }
-        if ($browse.attr('data-enabled') === 'false') {
-            html.push(' disabled="disabled"');
-        }
-        if (formmaxlength != '') {
-            html.push(' maxlength="' + formmaxlength + '"');
-        }
-        html.push(' />');
+
+        html.push('<button class="decrementQuantity" tabindex="-1" style="padding: 5px 0px; float:left; width:25%; border:none;">-</button>');
+        html.push('<div style="position:relative">');
+        html.push(`     <input class="value" type="number" style="height:1.5em; width:40px; text-align:center;" value="${originalvalue}">`);
+        html.push('</div>');
+        html.push('<button class="incrementQuantity" tabindex="-1" style="padding: 5px 0px; float:left; width:25%; border:none;">+</button>');
+
         let htmlString = html.join('');
         $field.html(htmlString);
         this.setFieldValue($browse, $tr, $field, { value: originalvalue });
@@ -77,4 +99,4 @@
     //---------------------------------------------------------------------------------
 }
 
-var FwBrowseColumn_text = new FwBrowseColumn_textClass();
+var FwBrowseColumn_numericupdown = new FwBrowseColumn_numericupdownClass();

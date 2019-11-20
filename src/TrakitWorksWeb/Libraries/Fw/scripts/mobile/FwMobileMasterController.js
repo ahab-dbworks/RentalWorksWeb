@@ -82,12 +82,10 @@ FwMobileMasterController.getMasterView = function(viewModel, properties) {
 
     FwMobileMasterController.tabcontrols
         .on('click', '.tab', function() {
-            var $this, $tabs;
-            $this = jQuery(this);
-            $tabs = $this.siblings();
+            var $this = jQuery(this);
+            var $tabs = $this.siblings();
             $tabs.each(function(index, element) {
-                var $tab;
-                $tab = jQuery(element);
+                var $tab = jQuery(element);
                 $tab.removeClass('active');
             });
             $this.addClass('active');
@@ -112,27 +110,21 @@ FwMobileMasterController.getMasterView = function(viewModel, properties) {
 };
 //----------------------------------------------------------------------------------------------
 FwMobileMasterController.generateMenu = function() {
-    var html, $menu, systemname;
-    
-    html = [];
-
+    var html = [];
     html.push('<div class="menu">');
     html.push('  <div class="menu-body">');
     html.push('    <div class="menu-body-top">');
-    html.push('      <div class="apptitle center" style="padding-top:10px 0;background-color:rgba(0,0,0,.4);font-size:20px;">' + program.htmlname + '</div>');
-    html.push('      <div class="menu-top-controls" style="padding:5px;background-color:rgba(0,0,0,.4);overflow:auto;font-size:12px;">');
+    html.push('      <div class="apptitle center">' + program.htmlname + '</div>');
+    html.push('      <div class="menu-top-controls">');
     html.push('        <div class="username" style="overflow:auto;"><div class="caption" style="float:left;">User:</div><div class="value" style="float:left;margin-left:5px;">' + FwFunc.fixCaps(sessionStorage.getItem('fullname')) + '</div></div>');
-    if (program.name === 'GateWorks') {
-        html.push('        <div class="gate" style="float:right"><div class="caption" style="float:left;">Gate:</div><div class="value" style="float:left;margin-left:5px;">' + localStorage.getItem('gate') + '</div></div>');
-    }
     html.push('      </div>');
     html.push('    </div>');
     html.push('    <div class="menu-body-links"></div>');
-    html.push('    <div class="menu-body-footer center" style="font-size:10px;padding:5px 0;background-color:rgba(0,0,0,.4);width:100%;">' + program.name + ' v' + applicationConfig.version + '</div>');
+    html.push('    <div class="menu-body-footer center">' + program.name + ' v' + applicationConfig.version + '</div>');
     html.push('  </div>');
     html.push('  <div class="menu-close"></div>');
     html.push('</div>');
-    $menu = jQuery(html.join(''));
+    var $menu = jQuery(html.join(''));
 
     FwMobileMasterController.generateMenuLinks($menu);
 
@@ -257,14 +249,12 @@ FwMobileMasterController.generateMenuLinks = function($menu) {
 };
 //----------------------------------------------------------------------------------------------
 FwMobileMasterController.generateLink = function($menu, caption, imagesrc, nav) {
-    var html, $link;
-
-    html = [];
+    var html = [];
     html.push('<div class="menu-body-link">');
         html.push('<div class="menu-body-link-icon"><img src="' + applicationConfig.appbaseurl + applicationConfig.appvirtualdirectory + imagesrc + '" class="linkicon" /></div>');
         html.push('<div class="menu-body-link-caption">' + caption + '</div>');
     html.push('</div>');
-    $link = jQuery(html.join(''));
+    var $link = jQuery(html.join(''));
 
     $link.on('click', function(e) {
         try {
@@ -279,19 +269,16 @@ FwMobileMasterController.generateLink = function($menu, caption, imagesrc, nav) 
 };
 //----------------------------------------------------------------------------------------------
 FwMobileMasterController.generateLinkGroup = function(caption) {
-    var html, $linkgroup;
-
-    html = [];
+    var html = [];
     html.push('<div class="menu-body-linkgroup">');
         html.push('<div class="menu-body-linkgroupheader">' + caption + '</div>');
     html.push('</div>');
-    $linkgroup = jQuery(html.join(''));
+    var $linkgroup = jQuery(html.join(''));
 
     return $linkgroup;
 };
 //----------------------------------------------------------------------------------------------
 FwMobileMasterController.setTitle = function(object) {
-    var $title;
     if (typeof object === 'string') {
         if (object.length > 0) {
             object = jQuery('<div>' + object + '</div>');
@@ -300,7 +287,7 @@ FwMobileMasterController.setTitle = function(object) {
             return;
         }
     }
-    $title = jQuery('<div class="title"></div>');
+    var $title = jQuery('<div class="title"></div>');
     $title.append(object);
 
     jQuery('#master-header-row2').empty().append($title).show();

@@ -79,7 +79,7 @@ abstract class FwWebApiReport {
         if ((typeof reportOptions.HasExportHtml === 'undefined') || (reportOptions.HasExportHtml === true)) {
             const $btnPreview = FwMenu.addStandardBtn($menuObject, 'Preview');
             FwMenu.addVerticleSeparator($menuObject);
-            $btnPreview.on('click', (event: JQuery.Event) => {
+            $btnPreview.on('click', async (event: JQuery.Event) => {
                 try {
                     const isValid = FwModule.validateForm($form);
                     if (isValid) {
@@ -88,6 +88,20 @@ abstract class FwWebApiReport {
                         request.parameters = this.convertParameters(this.getParameters($form));
                         request.parameters.companyName = companyName;
                         request.parameters.action = 'Preview';
+
+                        if (request.parameters.CustomReportLayoutId != "") {
+                            const customReportLayout = FwAjax.callWebApi<any, any>({
+                                httpMethod: 'GET',
+                                url: `${applicationConfig.apiurl}api/v1/customreportlayout/${request.parameters.CustomReportLayoutId}`,
+                                $elementToBlock: $form
+                            });
+
+                            await customReportLayout
+                                .then((values: any) => {
+                                    request.parameters.ReportTemplate = values.Html;
+                                });
+                        }
+
                         const reportPageMessage = new ReportPageMessage();
                         reportPageMessage.action = 'Preview';
                         reportPageMessage.apiUrl = apiUrl;
@@ -184,7 +198,7 @@ abstract class FwWebApiReport {
                             let includeIdColumns: boolean;
                             $confirmation.find('.ID-col input').prop('checked') === true ? includeIdColumns = true : includeIdColumns = false;
                             request.IncludeIdColumns = includeIdColumns;
-                            FwAppData.apiMethod(true, 'POST', `${this.apiurl}/exportexcelxlsx/${this.reportName}`, request, timeout,
+                            FwAppData.apiMethod(true, 'POST', `${this.apiurl}/exportexcelxlsx`, request, timeout,
                                 (successResponse) => {
                                     try {
                                         const $iframe = jQuery(`<iframe src="${applicationConfig.apiurl}${successResponse.downloadUrl}" style="display:none;"></iframe>`);
@@ -466,6 +480,8 @@ abstract class FwWebApiReport {
         FwControl.renderRuntimeControls($settingsPage.find('.fwcontrol'));
         $settingsTabPage.append($settingsPage);
 
+        const reportName = $form.attr('data-reportname');
+
         //render grid
         const $reportSettingsGrid = $form.find('div[data-grid="ReportSettingsGrid"]');
         const $reportSettingsGridControl = FwBrowse.loadGridFromTemplate('ReportSettingsGrid');
@@ -473,11 +489,18 @@ abstract class FwWebApiReport {
         $reportSettingsGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
                 WebUserId: JSON.parse(sessionStorage.getItem('userid')).webusersid
-                , ReportName: $form.attr('data-reportname')
+                , ReportName: reportName
             }
         })
         FwBrowse.init($reportSettingsGridControl);
         FwBrowse.renderRuntimeHtml($reportSettingsGridControl);
+
+        const $reportLayoutValidation = $form.find('[data-datafield="CustomReportLayoutId"]');
+        $reportLayoutValidation.data('beforevalidate', ($form, $reportLayoutValidation, request) => {
+            request.uniqueids = {
+                'BaseReport': reportName
+            }
+        });
 
         //load default settings
         let loadDefaults: boolean = true;
@@ -604,6 +627,9 @@ abstract class FwWebApiReport {
     getSettingsTemplate() {
         return `
             <div style="width:700px;">
+                <div class="flexrow">
+                    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Report Layout" data-datafield="CustomReportLayoutId" data-validationname="CustomReportLayoutValidation" style="flex:0 1 575px; margin:10px;"></div>
+                </div>
                 <div class="flexrow">
                     <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Save current report settings as:" data-datafield="Description" style="max-width:600px; margin:10px;"></div>
                     <div class="fwformcontrol save-settings" data-type="button" style="max-width:60px; margin-top:20px; margin-left:10px;">

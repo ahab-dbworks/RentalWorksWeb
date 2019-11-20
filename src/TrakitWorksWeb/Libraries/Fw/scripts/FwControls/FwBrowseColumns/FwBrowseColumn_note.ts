@@ -56,6 +56,9 @@
         } else {
             $field.empty().append([$noteImage, $noteTextArea]);
         }
+        if ($browse.attr('data-type') == 'Grid' && $browse.attr('data-enabled') == 'false') {  //allows viewing notes on disabled grids
+            $field.attr('data-formreadonly', 'true');
+        }
         //if (originalvalue !== '') {
         //    $noteImage
         //        .hover(

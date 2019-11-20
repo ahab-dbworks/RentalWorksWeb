@@ -3,12 +3,9 @@
 class FwSchedulerDetailedClass {
     //---------------------------------------------------------------------------------
     renderRuntimeHtml($control) {
-        var html, dpschedulerid, viewCount, schedulerbtns,
-            $schedulerbtns, $calendarmenu, $menucontrol, $form, controller;
-
-        dpschedulerid = FwControl.generateControlId('dpscheduler');
+        const dpschedulerid = FwControl.generateControlId('dpscheduler');
         $control.attr('data-dpschedulerid', dpschedulerid);
-        html = [];
+        const html: Array<string> = [];
         html.push('<div class="calendarmenu">');
         html.push('</div>');
         html.push('<div class="content">');
@@ -18,13 +15,12 @@ class FwSchedulerDetailedClass {
         html.push('    </div>');
         html.push('  </div>');
         html.push('</div>');
-        html = html.join('\n');
-        $control.html(html);
+        $control.html(html.join('\n'));
 
-        $calendarmenu = $control.find('.calendarmenu');
-        $menucontrol = FwMenu.getMenuControl('default');
+        const $calendarmenu = $control.find('.calendarmenu');
+        const $menucontrol = FwMenu.getMenuControl('default');
         $calendarmenu.append($menucontrol);
-        schedulerbtns = [];
+        const schedulerbtns: Array<string> = [];
         schedulerbtns.push('<div class="schedulerbtns">');
         schedulerbtns.push('  <div class="toggleView">');
         schedulerbtns.push('    <div class="changeview btnSchedule">Schedule</div>');
@@ -34,16 +30,15 @@ class FwSchedulerDetailedClass {
         schedulerbtns.push('  </div>');
         schedulerbtns.push('  <div class="datecallout"></div>');
         schedulerbtns.push('</div>');
-        $schedulerbtns = schedulerbtns.join('\n');
-        FwMenu.addCustomContent($menucontrol, $schedulerbtns);
+        FwMenu.addCustomContent($menucontrol, jQuery(schedulerbtns.join('\n')));
 
-        $form = $control.closest('.fwform');
-        controller = window[$form.attr('data-controller')];
+        const $form = $control.closest('.fwform');
+        const controller = (<any>window)[$form.attr('data-controller')];
         if ((typeof controller !== 'undefined') && (typeof controller.addSchedulerMenuItems !== 'undefined')) {
             controller.addSchedulerMenuItems($menucontrol, $form);
         }
 
-        //viewCount = 0;
+        //let viewCount = 0;
         //if ($control.attr('data-hidedayview') != 'true') viewCount++;
         //if ($control.attr('data-hideweekview') != 'true') viewCount++;
         //if ($control.attr('data-hidemonthview') != 'true') viewCount++;
@@ -60,31 +55,28 @@ class FwSchedulerDetailedClass {
     //---------------------------------------------------------------------------------
     init($control) {
         $control.on('click', '.btnToday', function () {
-            var today;
             try {
-                today = new DayPilot.Date();
+                const today = new DayPilot.Date();
                 FwSchedulerDetailed.navigate($control, today);
             } catch (ex) {
                 FwFunc.showError(ex);
             }
         });
         $control.on('click', '.btnNext', function () {
-            var currentDay, nextMonth, navscheduler;
             try {
-                navscheduler = $control.data('dpscheduler');
-                currentDay = navscheduler.startDate;
-                nextMonth = currentDay.addMonths(1).firstDayOfMonth()
+                const navscheduler = $control.data('dpscheduler');
+                const currentDay = navscheduler.startDate;
+                const nextMonth = currentDay.addMonths(1).firstDayOfMonth()
                 FwSchedulerDetailed.navigate($control, nextMonth);
             } catch (ex) {
                 FwFunc.showError(ex);
             }
         });
         $control.on('click', '.btnPrev', function () {
-            var currentDay, previousMonth, navscheduler;
             try {
-                navscheduler = $control.data('dpscheduler');
-                currentDay = navscheduler.startDate;
-                previousMonth = currentDay.addMonths(-1).firstDayOfMonth();
+                const navscheduler = $control.data('dpscheduler');
+                const currentDay = navscheduler.startDate;
+                const previousMonth = currentDay.addMonths(-1).firstDayOfMonth();
                 FwSchedulerDetailed.navigate($control, previousMonth);
             } catch (ex) {
                 FwFunc.showError(ex);
@@ -97,8 +89,9 @@ class FwSchedulerDetailedClass {
                 FwFunc.showError(ex);
             }
         });
-        $control.on('onactivatetab', function () {
-            if ($control.attr('data-refreshonactivatetab') !== 'false') {
+        $control.on('onactivatetab', () => {
+            const $form = $control.closest('.fwform');
+            if ($control.attr('data-refreshonactivatetab') !== 'false' && $form.attr('data-mode') !== 'NEW') {
                 FwSchedulerDetailed.refresh($control);
             }
         });
@@ -109,8 +102,7 @@ class FwSchedulerDetailedClass {
     };
     //---------------------------------------------------------------------------------
     loadScheduler($control) {
-        var dpscheduler;
-        dpscheduler = new DayPilot.Scheduler($control.find('.content')[0]);
+        const dpscheduler = new DayPilot.Scheduler($control.find('.content')[0]);
         $control.data('dpscheduler', dpscheduler);
         // behavior and appearance
         dpscheduler.cellWidth = 50;
@@ -118,7 +110,8 @@ class FwSchedulerDetailedClass {
         dpscheduler.headerHeight = 25;
 
         // view
-        dpscheduler.startDate = moment().format('YYYY-MM-DD');  // or just dpscheduler.startDate = "2013-03-25";
+        //dpscheduler.startDate = moment().format('YYYY-MM-DD');  // or just dpscheduler.startDate = "2013-03-25";
+        dpscheduler.startDate = FwScheduler.getTodaysDate();    //#1305 11/15/2019 justin hoffman.  Without this, the calandar advances to the next day when viewing the calendar after 4pm on your machine.
         dpscheduler.days = 35;
         dpscheduler.scale = "Day";
         dpscheduler.timeHeaders = [
@@ -129,13 +122,23 @@ class FwSchedulerDetailedClass {
         dpscheduler.bubble = new DayPilot.Bubble({
             cssClassPrefix: "bubble_default",
             onLoad: function (args) {
-                var ev = args.source;
+                const ev = args.source;
                 args.async = true;  // notify manually using .loaded()
 
                 // simulating slow server-side load
-                args.html = "<div style='font-weight:bold'>" + ev.text() + "</div><div>Order Number: " + ev.data.orderNumber + "</div><div>Order Status: " + ev.data.orderStatus + "</div><div>Deal: " + ev.data.deal + "</div><div>Start: " + ev.start().toString("MM/dd/yyyy HH:mm") + "</div><div>End: " + ev.end().toString("MM/dd/yyyy HH:mm") + "</div>";
-                args.loaded();
+                //args.html = `<div style='font-weight:bold'>${ev.text()}</div><div>Order Number: ${ev.data.orderNumber}</div><div>Order Status: ${ev.data.orderStatus}</div><div>Deal: ${ev.data.deal}</div><div>Start: ${ev.start().toString("MM/dd/yyyy HH:mm")}</div><div>End: ${ev.data.enddisplay}</div>`;
 
+                //justin hoffman 11/18/2019 why is this code here?  This is specific to RWW
+                args.html = ``;
+                args.html += `<div style='font-weight:bold'>${ev.text()}</div><div>Order Number: ${ev.data.orderNumber}</div><div>Order Status: ${ev.data.orderStatus}</div><div>Deal: ${ev.data.deal}</div><div>Start: ${ev.start().toString("MM/dd/yyyy HH:mm")}</div><div>End: ${ev.end().toString("MM/dd/yyyy HH:mm")}</div>`;
+                if (ev.data.subPoNumber) {
+                    args.html += `<div>Sub PO Number: ${ev.data.subPoNumber}</div>`;
+                    if (ev.data.subPoVendor) {
+                        args.html += `<div>Vendor: ${ev.data.subPoVendor}</div>`;
+                    }
+                }
+
+                args.loaded();
             }
         });
         dpscheduler.eventMoveHandling = "Disabled";
@@ -143,13 +146,12 @@ class FwSchedulerDetailedClass {
     };
     //---------------------------------------------------------------------------------
     navigate($control, date, days?) {
-        var dpscheduler;
-
-        if (typeof date === 'string') {
-            date = DayPilot.Date(new Date(date).toISOString(), true).getDatePart();
-        }
+        //if (typeof date === 'string') {
+        //    date = DayPilot.Date(new Date(date).toISOString(), true).getDatePart();
+        //}
+        //#1305 11/15/2019 justin hoffman.  commented above.  With that code, the calandar advances to the next day when viewing the calendar after 4pm on your machine.
         FwSchedulerDetailed.setSelectedDay($control, date);
-        dpscheduler = $control.data('dpscheduler');
+        const dpscheduler = $control.data('dpscheduler');
         if (date.d.getDate() === 31 || date.d.getDate() === 30) {
             dpscheduler.days = date.daysInMonth();
         } else {
@@ -167,14 +169,12 @@ class FwSchedulerDetailedClass {
     };
     //---------------------------------------------------------------------------------
     loadEvents($control) {
-        var ongetevents, request, dpscheduler, start, days;
-        dpscheduler = $control.data('dpscheduler');
-
+        const dpscheduler = $control.data('dpscheduler');
         if (typeof $control.data('ongetevents') === 'function') {
-            ongetevents = $control.data('ongetevents');
+            const ongetevents = $control.data('ongetevents');
             //start       = dpmonth.startDate.addDays(-dpmonth.startDate.dayOfWeek()) // add the trailing days from the previous month that are visible
             //days        = dpmonth.days + dpmonth.startDate.dayOfWeek() + (6 - dpmonth.startDate.addDays(dpmonth.days).dayOfWeek()) // add the first few days from the next month that are visible
-            request = {
+            const request: any = {
                 start: dpscheduler.startDate,
                 mode: $control.find('div.changeview[data-selected="true"]').html()
             };
@@ -185,8 +185,7 @@ class FwSchedulerDetailedClass {
     };
     //---------------------------------------------------------------------------------
     loadEventsCallback($control, resources, events) {
-        var dpscheduler, start, end, request;
-        dpscheduler = $control.data('dpscheduler');
+        const dpscheduler = $control.data('dpscheduler');
 
         if (typeof dpscheduler !== 'undefined') {
             FwSchedulerDetailed.setDateCallout($control, dpscheduler.startDate);
@@ -200,25 +199,22 @@ class FwSchedulerDetailedClass {
     };
     //---------------------------------------------------------------------------------
     getSelectedTimeRange($control) {
-        var result, dpmonth;
-        result = {
+        const result: any = {
             start: $control.data('selectedstartdate'),
             end: $control.data('selectedenddate').addSeconds(-1)
         };
-        dpmonth = $control.data('dpmonth');
+        const dpmonth = $control.data('dpmonth');
         dpmonth.update();
         return result;
     };
     //---------------------------------------------------------------------------------
     getSelectedDay($control) {
-        var result;
-        result = $control.data('selectedstartdate');
+        const result = $control.data('selectedstartdate');
         return result;
     };
     //---------------------------------------------------------------------------------
     setSelectedTimeRange($control, start, end) {
-        var dpscheduler, e, action;
-        dpscheduler = $control.data('dpscheduler');
+        const dpscheduler = $control.data('dpscheduler');
         if (typeof start === 'string') {
             start = new DayPilot.Date(new Date(start).toISOString());
         }
@@ -231,7 +227,7 @@ class FwSchedulerDetailedClass {
     };
     //---------------------------------------------------------------------------------
     setSelectedDay($control, date) {
-        var start, end;
+        let start;
 
         if (typeof date === 'string') {
             start = new DayPilot.Date(new Date(date).toISOString());
@@ -239,29 +235,26 @@ class FwSchedulerDetailedClass {
             start = date.getDatePart();
         }
         //end = start.addDays(1).addSeconds(-1);
-        end = start;
+        const end = start;
         FwSchedulerDetailed.setSelectedTimeRange($control, start, end);
     };
     //---------------------------------------------------------------------------------
     setDateCallout($control, date) {
-        var $datecallout, monthnames, firstdayofweek, lastdayofweek;
-        monthnames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-        $datecallout = $control.find('.datecallout');
+        const monthnames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        const $datecallout = $control.find('.datecallout');
         $datecallout.html(monthnames[date.getMonth()] + ' ' + date.getYear());
     };
     //---------------------------------------------------------------------------------
     // see http://api.daypilot.org/daypilot-event-data/ for info on how to create the evt object
     addEvent($control, evt) {
-        var dpscheduler, e, action;
-        dpscheduler = $control.data('dpscheduler');
-        action = dpscheduler.events.add(evt);
+        const dpscheduler = $control.data('dpscheduler');
+        const action = dpscheduler.events.add(evt);
     }
     //---------------------------------------------------------------------------------
     addButtonMenuItem($control, classname, text, onclick) {
-        var $menu, $menuitem;
-        $menuitem = jQuery('<button class="buttonmenuitem ' + classname + '"><span class="text">' + text + '</span></button>');
+        const $menuitem = jQuery('<button class="buttonmenuitem ' + classname + '"><span class="text">' + text + '</span></button>');
         $control.on('click', '.' + classname, onclick);
-        $menu = $control.find('.menu');
+        const $menu = $control.find('.menu');
         $menu.append($menuitem);
     }
     //---------------------------------------------------------------------------------
@@ -273,7 +266,10 @@ class FwSchedulerDetailedClass {
     };
     //---------------------------------------------------------------------------------
     getTodaysDate() {
-        return new DayPilot.Date(new Date().toISOString());
+        //return new DayPilot.Date(new Date().toISOString());
+        let dateStr = moment().format('YYYY-MM-DD');
+        let timeStr = moment().format('HH:mm:ss');
+        return new DayPilot.Date(dateStr + 'T' + timeStr);   //#1305 11/15/2019 justin hoffman.  Without this, the calandar advances to the next day when viewing the calendar after 4pm on your machine.
     }
     //---------------------------------------------------------------------------------
 }

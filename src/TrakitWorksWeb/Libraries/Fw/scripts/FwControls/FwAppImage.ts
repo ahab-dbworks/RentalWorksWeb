@@ -1,4 +1,4 @@
-﻿class FwAppImageClass {
+class FwAppImageClass {
     blankDataUrl = 'data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==';
     //---------------------------------------------------------------------------------
     init = function ($control) {
@@ -624,7 +624,7 @@
                 html.push('<figure class="image' + (imageno + 1) + '">');
                 html.push($image);
                 html.push('</figure>');
-                thumbnails.push('<label for="image' + (imageno + 1) + '" class="thumb image' + (imageno + 1) + '" style="background-image:url(' + jQuery($image).find('img').attr('src') + '&thumbnail=true)"></label>');
+                thumbnails.push('<label for="image' + (imageno + 1) + '" data-appimageid="' + image.AppImageId + '" class="thumb image' + (imageno + 1) + '" style="background-image:url(' + jQuery($image).find('img').attr('src') + '&thumbnail=true)"></label>');
             }
             html.push('</div><div class="thumbnails">');
             html.push(thumbnails.join(''));
@@ -634,6 +634,33 @@
             if (typeof $control.data('recenterpopup') === 'function') {
                 $control.data('recenterpopup')();
             }
+
+            const $carousel = $control.find('.carousel');
+            Sortable.create($divimages.find('.thumbnails').get(0), {
+                onEnd: function (evt) {
+                    let imageToDisplay;
+                    const $item = jQuery(evt.item);
+                    const $thumbnails = $item.parents('.thumbnails').children();
+                    for (let i = 0; i < $thumbnails.length; i++) {
+                        const $thumb = jQuery($thumbnails[i]);
+                        if (i === 0) {
+                            imageToDisplay = $thumb.attr('for');
+                        }
+                        const request: any = {};
+                        request.AppImageId = $thumb.attr('data-appimageid');
+                        request.OrderBy = i + 1;
+                        FwAppData.apiMethod(true, 'POST', `api/v1/appimage/repositionimage`, request, applicationConfig.ajaxTimeoutSeconds,
+                            (response: any) => {
+                            },
+                            (error: any) => {
+                                FwFunc.showError(error);
+                            }, $control
+                        );
+                    }
+                    $carousel.find('input:checked').attr('checked', false);
+                    $carousel.find(`#${imageToDisplay}`).attr('checked', true);
+                }
+            });
         } catch (ex) {
             FwFunc.showError(ex);
         }

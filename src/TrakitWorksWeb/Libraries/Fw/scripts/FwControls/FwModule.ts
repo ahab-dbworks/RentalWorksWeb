@@ -1,4 +1,4 @@
-﻿class FwModule {
+class FwModule {
     //----------------------------------------------------------------------------------------------
     static getModuleControl(moduleControllerName: string) {
         var html, $view, $actionView;
@@ -223,456 +223,68 @@
     }
     //----------------------------------------------------------------------------------------------
     static openBrowse($browse: JQuery) {
-        let controller = $browse.attr('data-controller');
-
         if (sessionStorage.getItem('customForms') !== null) {
-            let customForms = JSON.parse(sessionStorage.getItem('customForms'));
-            var baseForm = controller.replace('Controller', 'Browse');
-            customForms = customForms.filter(a => a.BaseForm == baseForm);
+            const controller = $browse.attr('data-controller');
+            const baseForm = controller.replace('Controller', 'Browse');
+            const customForms = JSON.parse(sessionStorage.getItem('customForms')).filter(a => a.BaseForm == baseForm);
             if (customForms.length > 0) {
                 $browse = jQuery(jQuery(`#tmpl-custom-${baseForm}`)[0].innerHTML);
             }
         }
 
         FwControl.renderRuntimeControls($browse.find('.fwcontrol').addBack());
-        FwModule.addBrowseMenu($browse);
-
+        const options: IAddBrowseMenuOptions = this.getDefaultBrowseMenuOptions($browse);
+        FwModule.addBrowseMenu(options);
 
         return $browse;
     }
     //----------------------------------------------------------------------------------------------
-    static addBrowseMenu($browse: JQuery) {
-        var controller, $menu, $edit, $vr, $submenubtn, $submenucolumn, nodeModule, nodeBrowse, nodeBrowseMenuBar, nodeBrowseSubMenu, $submenubtn, $menubarbutton, nodeSubMenuGroup, $submenucolumn, $submenugroup, nodeSubMenuItem, hasClickEvent, $editbtn;
+    static getDefaultBrowseMenuOptions($browse: JQuery): IAddBrowseMenuOptions {
+        const $menu = FwMenu.getMenuControl('default');
+        $browse.find('.fwbrowse-menu').append($menu);
+        const $subMenu = FwMenu.addSubMenu($menu);
+        const $colOptions = FwMenu.addSubMenuColumn($subMenu);
+        const $groupOptions = FwMenu.addSubMenuGroup($colOptions, 'Options');
+        const $colExport = FwMenu.addSubMenuColumn($subMenu);
+        const $groupExport = FwMenu.addSubMenuGroup($colExport, 'Export');
+        const options: IAddBrowseMenuOptions = {
+            $browse,
+            $menu: $menu,
+            $subMenu: $subMenu,
+            $colOptions: $colOptions,
+            $groupOptions: $groupOptions,
+            $colExport: $colExport,
+            $groupExport: $groupExport,
+            hasNew: true,
+            hasEdit: true,
+            hasDelete: true,
+            hasFind: true,
+            hasDownloadExcel: true,
+            hasInactive: true
+        };
+        return options;
+    }
+    //----------------------------------------------------------------------------------------------
+    static addBrowseMenu(options: IAddBrowseMenuOptions) {
+        const controller = options.$browse.attr('data-controller');
 
-        controller = $browse.attr('data-controller');
-        $menu = FwMenu.getMenuControl('default');
-
-        nodeModule = FwApplicationTree.getNodeByController(controller);
-        if (nodeModule !== null) {
-            nodeBrowse = FwApplicationTree.getChildByType(nodeModule, 'Browse');
-            if (nodeBrowse !== null) {
-                nodeBrowseMenuBar = FwApplicationTree.getChildByType(nodeBrowse, 'MenuBar');
-                nodeBrowseMenuBar = this.addFindMenuButton($browse, nodeBrowseMenuBar);
-                if (nodeBrowseMenuBar !== null) {
-                    if (nodeBrowseMenuBar.properties.visible === 'T') {
-                        $browse.find('.fwbrowse-menu').append($menu);
-                        for (var menubaritemno = 0; menubaritemno < nodeBrowseMenuBar.children.length; menubaritemno++) {
-                            var nodeMenuBarItem = nodeBrowseMenuBar.children[menubaritemno];
-                            if (nodeMenuBarItem.properties.visible === 'T') {
-                                switch (FwApplicationTree.getNodeType(nodeMenuBarItem)) {
-                                    case 'SubMenu':
-                                        nodeBrowseSubMenu = nodeMenuBarItem;
-                                        $submenubtn = FwMenu.addSubMenu($menu);
-                                        for (let submenuoptionno = 0; submenuoptionno < nodeBrowseSubMenu.children.length; submenuoptionno++) {
-                                            nodeSubMenuGroup = nodeBrowseSubMenu.children[submenuoptionno];
-                                            if (nodeSubMenuGroup.properties.visible === 'T') {
-                                                $submenucolumn = FwMenu.addSubMenuColumn($submenubtn)
-                                                $submenugroup = FwMenu.addSubMenuGroup($submenucolumn, nodeSubMenuGroup.properties.caption, nodeSubMenuGroup.id);
-                                                for (let submenuitemno = 0; submenuitemno < nodeSubMenuGroup.children.length; submenuitemno++) {
-                                                    nodeSubMenuItem = nodeSubMenuGroup.children[submenuitemno];
-                                                    if (nodeSubMenuItem.properties.visible === 'T') {
-                                                        switch (FwApplicationTree.getNodeType(nodeSubMenuItem)) {
-                                                            case 'SubMenuItem':
-                                                                const $submenuitem = FwMenu.addSubMenuBtn($submenugroup, nodeSubMenuItem.properties.caption, nodeSubMenuItem.id);
-                                                                hasClickEvent = ((typeof controller === 'string') &&
-                                                                    (controller.length > 0) &&
-                                                                    (typeof FwApplicationTree.clickEvents !== 'undefined') &&
-                                                                    (typeof FwApplicationTree.clickEvents[`{${nodeSubMenuItem.id}}`] === 'function'));
-                                                                if (hasClickEvent) {
-                                                                    $submenuitem.on('click', FwApplicationTree.clickEvents[`{${nodeSubMenuItem.id}}`]);
-                                                                }
-                                                                break;
-                                                            case 'DownloadExcelSubMenuItem':
-                                                                const $excelSubMenuItem = FwMenu.addSubMenuBtn($submenugroup, nodeSubMenuItem.properties.caption, nodeSubMenuItem.id);
-                                                                $excelSubMenuItem.on('click', () => {
-                                                                    try {
-                                                                        FwBrowse.downloadExcelWorkbook($browse, controller);
-                                                                    } catch (ex) {
-                                                                        FwFunc.showError(ex);
-                                                                    }
-                                                                });
-                                                                break;
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                        break;
-                                    case 'MenuBarButton':
-                                        $menubarbutton = FwMenu.addStandardBtn($menu, nodeMenuBarItem.properties.caption);
-                                        $menubarbutton.on('click', FwApplicationTree.clickEvents['{' + nodeMenuBarItem.id + '}']);
-                                        break;
-                                    case 'NewMenuBarButton':
-                                        $browse.attr('data-newtab', 'true');
-                                        $menubarbutton = FwMenu.addStandardBtn($menu, nodeMenuBarItem.properties.caption);
-                                        $menubarbutton.attr('data-type', 'NewMenuBarButton');
-                                        $menubarbutton.on('click', function () {
-                                            var $form, controller, $browse, issubmodule;
-                                            try {
-                                                $browse = jQuery(this).closest('.fwbrowse');
-                                                $browse.attr('data-newtab', 'true');
-                                                controller = $browse.attr('data-controller');
-                                                issubmodule = $browse.closest('.tabpage').hasClass('submodule');
-                                                if (typeof window[controller] === 'undefined') throw 'Missing javascript module: ' + controller;
-                                                if (typeof (<any>window[controller]).openForm !== 'function') throw 'Missing javascript function: ' + controller + '.openForm';
-                                                $form = (<any>window[controller]).openForm('NEW');
-                                                if (!issubmodule) {
-                                                    FwModule.openModuleTab($form, 'New ' + $form.attr('data-caption'), true, 'FORM', true);
-                                                } else {
-                                                    FwModule.openSubModuleTab($browse, $form);
-                                                }
-                                            } catch (ex) {
-                                                FwFunc.showError(ex);
-                                            }
-                                        });
-                                        break;
-                                    case 'EditMenuBarButton':
-                                        $menubarbutton = FwMenu.addStandardBtn($menu, nodeMenuBarItem.properties.caption);
-                                        $menubarbutton.attr('data-type', 'EditMenuBarButton');
-                                        $menubarbutton.on('click', function (event) {
-                                            var $selectedRow, $browse;
-                                            try {
-                                                $browse = jQuery(this).closest('.fwbrowse');
-                                                $selectedRow = $browse.find('tr.selected');
-                                                if ($selectedRow.length > 0) {
-                                                    $selectedRow.dblclick();
-                                                } else {
-                                                    FwNotification.renderNotification('WARNING', 'Please select a row.');
-                                                }
-                                            } catch (ex) {
-                                                FwFunc.showError(ex);
-                                            }
-                                        });
-                                        break;
-                                    case 'ViewMenuBarButton':
-                                        $editbtn = FwApplicationTree.getChildByType(nodeBrowseMenuBar, 'EditMenuBarButton');
-                                        if ($editbtn === null) {
-                                            $menubarbutton = FwMenu.addStandardBtn($menu, nodeMenuBarItem.properties.caption);
-                                            $menubarbutton.attr('data-type', 'ViewMenuBarButton');
-                                            $menubarbutton.on('click', function (event) {
-                                                var $selectedRow, $browse;
-                                                try {
-                                                    $browse = jQuery(this).closest('.fwbrowse');
-                                                    $selectedRow = $browse.find('tr.selected');
-                                                    if ($selectedRow.length > 0) {
-                                                        $selectedRow.dblclick();
-                                                    } else {
-                                                        FwNotification.renderNotification('WARNING', 'Please select a row.');
-                                                    }
-                                                } catch (ex) {
-                                                    FwFunc.showError(ex);
-                                                }
-                                            });
-                                        }
-                                        break;
-                                    case 'DeleteMenuBarButton':
-                                        $menubarbutton = FwMenu.addStandardBtn($menu, nodeMenuBarItem.properties.caption);
-                                        $menubarbutton.attr('data-type', 'DeleteMenuBarButton');
-                                        $menubarbutton.on('click', function () {
-                                            var $browse;
-                                            $browse = jQuery(this).closest('.fwbrowse');
-                                            controller = $browse.attr('data-controller');
-                                            if (typeof window[controller] === 'undefined') throw 'Missing javascript module: ' + controller;
-                                            if (typeof window[controller]['deleteRecord'] === 'function') {
-                                                window[controller]['deleteRecord']($browse);
-                                            } else {
-                                                FwModule['deleteRecord']((<any>window[controller]).Module, $browse);
-                                            }
-                                        });
-                                        break;
-                                    case 'FindMenuBarButton':
-                                        let loaded = false;
-                                        $menubarbutton = FwMenu.addStandardBtn($menu, nodeMenuBarItem.properties.caption);
-                                        $browse = $menubarbutton.closest('.fwbrowse');
-
-                                        $menubarbutton.append(`
-                                        <div class="findbutton-dropdown">
-                                            <div class="query">
-                                                <div class="queryrow">
-                                                    <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield find-field andor" data-caption="" data-datafield="AndOr" style="flex:1 1 auto;"></div>
-                                                    <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield find-field datafieldselect" data-caption="Data Field" data-datafield="Datafield" style="flex:1 1 auto;"></div>
-                                                    <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield find-field datafieldcomparison" data-caption="" data-datafield="DatafieldComparison" style="flex:1 1 150px;"></div>
-                                                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield find-field textquery" data-caption="" data-datafield="DatafieldQuery" style="flex:1 1 200px;"></div>
-                                                    <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield find-field datequery" data-caption="" data-datafield="DateFieldQuery" style="flex:1 1 200px;display:none;"></div>
-                                                    <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield find-field booleanquery" data-caption="" data-datafield="BooleanFieldQuery" style="flex:1 1 200px;display:none;"></div>
-                                                    <i class="material-icons delete-query">delete_outline</i>
-                                                    <i class="material-icons add-query">add_circle_outline</i>
-                                                </div>
-                                            </div>
-                                            <div class="flexrow queryrow">
-                                                <div class="find fwformcontrol querysearch" data-type="button" style="flex:0 1 50px;margin:15px 15px 10px 10px;margin-left:auto;">Apply</div>
-                                            </div>
-                                        </div>`);
-                                        FwControl.renderRuntimeHtml($menubarbutton.find('.fwcontrol'));
-
-                                        $menubarbutton.attr('data-type', 'FindMenuBarButton');
-                                        let findFields = [];
-                                        let textComparisonFields = [
-                                            { value: 'like', text: 'Contains' },
-                                            { value: 'startswith', text: 'Starts With' },
-                                            { value: 'endswith', text: 'Ends With' },
-                                            { value: '=', text: 'Equals' },
-                                            { value: 'doesnotcontain', text: 'Does Not Contain' },
-                                            { value: '<>', text: 'Does Not Equal' }
-                                        ];
-                                        let numericComparisonFields = [
-                                            { value: '=', text: '=' },
-                                            { value: '>', text: '>' },
-                                            { value: '>=', text: '≥' },
-                                            { value: '<', text: '<' },
-                                            { value: '<=', text: '≤' },
-                                            { value: '<>', text: '≠' },
-                                        ];
-                                        let booleanComparisonFields = [
-                                            { value: '=', text: 'Equals' },
-                                            { value: '<>', text: 'Does Not Equal' }
-                                        ];
-                                        let dateComparisonFields = [
-                                            { value: '=', text: 'Equals' },
-                                            { value: '<', text: 'Prior To' },
-                                            { value: '<=', text: 'Prior To or Equals' },
-                                            { value: '>', text: 'Later Than' },
-                                            { value: '>=', text: 'Later Than or Equals' },
-                                            { value: '<>    ', text: 'Does Not Equal' },
-                                        ];
-
-                                        $menubarbutton.on('click', function (e) {
-                                            controller = $browse.attr('data-controller');
-                                            let maxZIndex;
-                                            let $this = jQuery(this);
-                                            e.preventDefault();
-                                            if (!loaded) {
-                                                FwAppData.apiMethod(true, 'GET', (<any>window[controller]).apiurl + '/emptyobject', null, FwServices.defaultTimeout, function onSuccess(response) {
-                                                    let dateField = $browse.find('.datequery');
-                                                    let textField = $browse.find('.textquery');
-                                                    let booleanField = $browse.find('.booleanquery');
-
-                                                    for (var j = 0; j < response._Custom.length; j++) {
-                                                        findFields.push({
-                                                            'value': response._Custom[j].FieldName,
-                                                            'text': response._Custom[j].FieldName,
-                                                            'type': response._Custom[j].FieldType
-                                                        })
-                                                    }
-
-                                                    for (var i = 0; i < response._Fields.length; i++) {
-                                                        findFields.push({
-                                                            'value': response._Fields[i].Name,
-                                                            'text': response._Fields[i].Name,
-                                                            'type': response._Fields[i].DataType
-                                                        })
-                                                    }
-                                                    findFields.sort(function (a, b) { return (a.text > b.text) ? 1 : ((b.text > a.text) ? -1 : 0); });
-                                                    window['FwFormField_select'].loadItems($browse.find('.datafieldselect'), findFields, false);
-                                                    window['FwFormField_select'].loadItems($browse.find('.andor'), [{ value: 'and', text: 'And' }, { value: 'or', text: 'Or' }], true);
-                                                    window['FwFormField_select'].loadItems(booleanField, [{ value: 'T', text: 'true' }, { value: 'F', text: 'false' }], true);
-                                                    $browse.find('.datafieldselect').on('change', function () {
-                                                        let datatype = jQuery(this).find(':selected').data('type');
-                                                        dateField.hide();
-                                                        textField.hide();
-                                                        booleanField.hide();
-                                                        switch (datatype) {
-                                                            case 'Text':
-                                                                textField.show();
-                                                                window['FwFormField_select'].loadItems(jQuery($browse.find('.datafieldcomparison')[0]), textComparisonFields, true);
-                                                                break;
-                                                            case 'Integer':
-                                                            case 'Decimal':
-                                                            case 'Float':
-                                                                textField.show();
-                                                                window['FwFormField_select'].loadItems(jQuery($browse.find('.datafieldcomparison')[0]), numericComparisonFields, true);
-                                                                break;
-                                                            case 'True/False':
-                                                            case 'Boolean':
-                                                                booleanField.show();
-                                                                window['FwFormField_select'].loadItems(jQuery($browse.find('.datafieldcomparison')[0]), booleanComparisonFields, true);
-                                                                break;
-                                                            case 'Date':
-                                                                dateField.show();
-                                                                window['FwFormField_select'].loadItems(jQuery($browse.find('.datafieldcomparison')[0]), dateComparisonFields, true);
-                                                                break;
-                                                        }
-                                                    })
-                                                }, function onError(response) {
-                                                    FwFunc.showError(response);
-                                                }, null);
-
-                                                loaded = true
-                                            }
-
-                                            if (!$this.hasClass('active')) {
-                                                maxZIndex = FwFunc.getMaxZ('*');
-                                                $this.find('.findbutton-dropdown').css('z-index', maxZIndex + 1);
-                                                $this.addClass('active');
-
-                                                jQuery(document).on('click', function closeMenu(e: any) {
-                                                    let target = jQuery(e.target);
-                                                    if ($menubarbutton.has(e.target).length === 0 && !jQuery(e.target).hasClass('delete-query') && target.parent().prop('tagName') !== 'TR' && !target.hasClass('year') && !target.hasClass('month') && jQuery(document.body).find('.datepicker').has(e.target).length === 0) {
-                                                        $this.removeClass('active');
-                                                        $this.find('.findbutton-dropdown').css('z-index', '0');
-                                                        jQuery(document).off('click');
-                                                    }
-                                                });
-                                            }
-                                        });
-
-                                        $browse.find('.add-query').on('click', function cloneRow() {
-                                            let $newRow = jQuery(this).closest('.queryrow').clone();
-                                            FwControl.renderRuntimeHtml($newRow.find('.fwcontrol'));
-                                            window['FwFormField_select'].loadItems($newRow.find('.datafieldselect'), findFields, false);
-                                            window['FwFormField_select'].loadItems($newRow.find('.andor'), [{ value: 'and', text: 'And' }, { value: 'or', text: 'Or' }], true);
-                                            window['FwFormField_select'].loadItems($newRow.find('.booleanquery'), [{ value: 'T', text: 'true' }, { value: 'F', text: 'false' }], true);
-                                            let dateField = $newRow.find('.datequery');
-                                            let textField = $newRow.find('.textquery');
-                                            let booleanField = $newRow.find('.booleanquery');
-
-                                            $newRow.find('.datafieldselect').on('change', function () {
-                                                let datatype = jQuery(this).find(':selected').data('type');
-                                                dateField.hide();
-                                                textField.hide();
-                                                booleanField.hide();
-                                                switch (datatype) {
-                                                    case 'Text':
-                                                        textField.show();
-                                                        window['FwFormField_select'].loadItems($newRow.find('.datafieldcomparison'), textComparisonFields, true);
-                                                        break;
-                                                    case 'Integer':
-                                                    case 'Decimal':
-                                                    case 'Float':
-                                                        textField.show();
-                                                        window['FwFormField_select'].loadItems($newRow.find('.datafieldcomparison'), numericComparisonFields, true);
-                                                        break;
-                                                    case 'True/False':
-                                                    case 'Boolean':
-                                                        booleanField.show();
-                                                        window['FwFormField_select'].loadItems($newRow.find('.datafieldcomparison'), booleanComparisonFields, true);
-                                                        break;
-                                                    case 'Date':
-                                                        dateField.show();
-                                                        window['FwFormField_select'].loadItems($newRow.find('.datafieldcomparison'), dateComparisonFields, true);
-                                                        break;
-                                                }
-                                            });
-                                            $newRow.find('.delete-query').on('click', function () {
-                                                if ($newRow.find('.add-query').css('visibility') === 'visible') {
-                                                    $newRow.prev().find('.add-query').css('visibility', 'visible');
-                                                }
-                                                if ($newRow.find('.andor').css('visibility') === 'hidden') {
-                                                    $newRow.next().find('.andor').css('visibility', 'hidden');
-                                                }
-                                                if ($browse.find('.query').find('.queryrow').length === 2 && $newRow.next().length !== 0) {
-                                                    $newRow.next().find('.delete-query').removeAttr('style').css('visibility', 'hidden');
-                                                }
-                                                if ($browse.find('.query').find('.queryrow').length === 2 && $newRow.prev().length !== 0) {
-                                                    $newRow.prev().find('.delete-query').removeAttr('style').css('visibility', 'hidden');
-                                                }
-                                                $newRow.remove();
-                                            }).css('visibility', 'visible');
-                                            $newRow.find('.andor').css('visibility', 'visible');
-                                            $newRow.find('.add-query').on('click', cloneRow);
-                                            $newRow.find('input').val('')
-                                            $newRow.appendTo($browse.find('.query'));
-                                            if ($browse.find('.query').find('.queryrow').length > 1) {
-                                                jQuery($browse.find('.query').find('.queryrow')[0]).find('.delete-query').on('click', function () {
-                                                    jQuery(this).closest('.queryrow').next().find('.andor').css('visibility', 'hidden');
-                                                    jQuery(this).closest('.queryrow').remove();
-                                                }).css('visibility', 'visible');
-                                            }
-                                            jQuery(this).css('cursor', 'default');
-                                            jQuery(this).css('visibility', 'hidden');
-                                        })
-
-                                        $browse.find('.querysearch').on('click', function (e) {
-                                            let request = FwBrowse.getRequest($browse);
-                                            let queryRows = $browse.find('.query').find('.queryrow');
-                                            let $find = jQuery(this).closest('.btn');
-                                            request.searchfieldoperators = [];
-                                            request.searchfieldtypes = [];
-                                            request.searchfields = [];
-                                            request.searchfieldvalues = [];
-                                            request.searchcondition = [];
-                                            request.searchseparators = [];
-                                            request.searchconjunctions = [];
-
-                                            for (var i = 0; i < queryRows.length; i++) {
-                                                let type = jQuery(queryRows[i]).find('.datafieldselect').find(':selected').data('type')
-                                                if (FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="Datafield"]')) !== '') {
-                                                    request.searchfieldtypes.unshift(jQuery(queryRows[i]).find('.datafieldselect').find(':selected').data('type'));
-                                                    request.searchfields.unshift(FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="Datafield"]')));
-                                                    switch (type) {
-                                                        case 'True/False':
-                                                        case 'Boolean':
-                                                            let bool = FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="BooleanFieldQuery"]'));
-                                                            let comp = FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="DatafieldComparison"]'));
-                                                            if (bool === 'F' && comp === '=') {
-                                                                request.searchfieldvalues.unshift('T');
-                                                                request.searchfieldoperators.unshift('<>');
-                                                            } else if (bool === 'F' && comp === '<>') {
-                                                                request.searchfieldvalues.unshift('T');
-                                                                request.searchfieldoperators.unshift('=');
-                                                            } else {
-                                                                request.searchfieldvalues.unshift(bool);
-                                                                request.searchfieldoperators.unshift(comp);
-                                                            }
-                                                            break;
-                                                        case 'Date':
-                                                            request.searchfieldvalues.unshift(FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="DateFieldQuery"]')));
-                                                            request.searchfieldoperators.unshift(FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="DatafieldComparison"]')));
-                                                            break;
-                                                        default:
-                                                            request.searchfieldvalues.unshift(FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="DatafieldQuery"]')));
-                                                            request.searchfieldoperators.unshift(FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="DatafieldComparison"]')));
-                                                            break;
-                                                    }
-                                                    request.searchseparators.unshift(',');
-                                                }
-                                                if (i === 0) {
-                                                    request.searchconjunctions.push(' ');
-                                                } else {
-                                                    request.searchconjunctions.push(FwFormField.getValue2(jQuery(queryRows[i]).find('.andor')));
-                                                }
-                                            }
-
-                                            FwServices.module.method(request, request.module, 'Browse', $browse, function (response) {
-                                                try {
-                                                    FwBrowse.beforeDataBindCallBack($browse, request, response);
-                                                } catch (ex) {
-                                                    FwFunc.showError(ex);
-                                                }
-                                            })
-
-                                            $find.removeClass('active');
-                                            $find.find('.findbutton-dropdown').css('z-index', '0');
-                                            jQuery(document).off('click');
-                                            $browse.data('advancedsearchrequest', request);
-                                            e.stopPropagation();
-                                        })
-
-
-                                        break;
-                                }
-                            }
-                        }
-                        nodeBrowseMenuBar.children.splice(nodeBrowseMenuBar.children.length - 1, 1);
-                    }
-                }
-            }
+        if ((typeof controller === 'string') && (controller.length > 0) && (typeof window[controller].addBrowseMenuItems === 'function')) {
+            window[controller].addBrowseMenuItems(options);
         }
-        if ((typeof controller === 'string') && (controller.length > 0) && (typeof window[controller]['addBrowseMenuItems'] === 'function')) {
-            var $menuobj = window[controller]['addBrowseMenuItems']($menu, $browse);
-            if (typeof $menuobj !== 'undefined') {
-                $menu = $menuobj;
-            }
+        else {
+            FwMenu.addBrowseMenuButtons(options);
         }
 
-        if ((typeof $browse.attr('data-hasinactive') === 'string') && ($browse.attr('data-hasinactive') === 'true')) {
-            if (typeof $browse.attr('data-activeinactiveview') === 'undefined') {
-                $browse.attr('data-activeinactiveview', 'active');
+        // add the Active/Inactive dropdown to the browse menu
+        //if ((typeof options.$browse !== null) && (typeof options.$browse.attr('data-hasinactive') === 'string') && (options.$browse.attr('data-hasinactive') === 'true')) {
+        if (options.hasInactive) {
+            if (typeof options.$browse.attr('data-activeinactiveview') === 'undefined') {
+                options.$browse.attr('data-activeinactiveview', 'active');
             }
-            if (!($browse.attr('data-activeinactiveview') === 'active' || $browse.attr('data-activeinactiveview') === 'inactive' || $browse.attr('data-activeinactiveview') === 'all')) {
+            if (!(options.$browse.attr('data-activeinactiveview') === 'active' || options.$browse.attr('data-activeinactiveview') === 'inactive' || options.$browse.attr('data-activeinactiveview') === 'all')) {
                 throw 'On the Browse template for ' + controller + ' the attribute data-activeinactiveview must be active, inactive, or all';
             }
-            FwMenu.addVerticleSeparator($menu);
+            FwMenu.addVerticleSeparator(options.$menu);
 
             const $activeView = FwMenu.generateDropDownViewBtn(FwLanguages.translate('Active'), true);
             $activeView.on('click', function () {
@@ -704,17 +316,22 @@
                     FwFunc.showError(ex);
                 }
             });
-            const viewitems: Array<string> = [];
+            let viewitems: JQuery[] = [];
             viewitems.push($activeView, $inactiveView, $allView);
-            const $show = FwMenu.addViewBtn($menu, FwLanguages.translate('Show'), viewitems);
+            const $show = FwMenu.addViewBtn(options.$menu, FwLanguages.translate('Show'), viewitems);
         }
-        FwControl.renderRuntimeControls($menu.find('.fwcontrol').addBack());
+
+        FwMenu.applyBrowseSecurity(options, (<any>window)[controller].id);
+        FwMenu.cleanupMenu(options.$menu);
+
+
+        FwControl.renderRuntimeControls(options.$menu.find('.fwcontrol').addBack());
     }
     //----------------------------------------------------------------------------------------------
     static openForm($form: JQuery, mode: string) {
         var $fwcontrols, formid, $formTabControl, auditTabIds, $auditControl, controller,
-            nodeModule, nodeForm, nodeTabs, nodeTab, $tabs, nodeField, $fields, nodeGrid, $grids, $tabcontrol, args;
-
+            nodeModule=null, nodeTabs, nodeTab, $tabs, nodeField, $fields, nodeControl, $grids, $tabcontrol, args;
+        
         controller = $form.attr('data-controller');
 
         if (sessionStorage.getItem('customForms') !== null) {
@@ -723,12 +340,15 @@
             customForms = customForms.filter(a => a.BaseForm == baseForm);
             if (customForms.length > 0) {
                 $form = jQuery(jQuery(`#tmpl-custom-${baseForm}`)[0].innerHTML);
+                $form.data('customformdata', customForms[0]);
             }
         }
 
-        nodeModule = FwApplicationTree.getNodeByController($form.attr('data-controller'));
+        //nodeModule = FwApplicationTree.getNodeByController($form.attr('data-controller'));
+        if (window[controller] !== null) {
+            nodeModule = FwApplicationTree.getNodeById(FwApplicationTree.tree, (<any>window)[controller].id);
+        }
         args = {};
-        nodeForm = FwApplicationTree.getChildByType(nodeModule, 'Form');
 
         if (typeof mode === 'string') {
             $form.attr('data-mode', mode);
@@ -759,61 +379,72 @@
             window[controller]['addButtonMenu']($form);
         }
 
-
-        //if (sessionStorage.getItem('customFields') !== null) {
-        //    let customFields = JSON.parse(sessionStorage.getItem('customFields'))
-        //    if (customFields !== null && typeof customFields.length === 'number' && customFields.length > 0) {
-        //        let hasCustomFields = false;
-        //        for (var i = 0; i < customFields.length; i++) {
-        //            if (controller.slice(0, -10) === customFields[i]) {
-        //                FwModule.loadCustomFields($form, customFields[i]);
-        //            }
-        //        }
-        //    }
-        //}   -- Jason Hoang 12/10/2018 removed custom fields tab
+        $formTabControl = $form.find('.fwtabs');
+        if (typeof $form.data('customformdata') !== 'undefined') {
+            //add custom form info tab
+            const customform = $form.data('customformdata');
+            const customformTabIds = FwTabs.addTab($formTabControl, 'Custom Form', false, 'CUSTOMFORM', false);
+            const $customformTab = $formTabControl.find(`#${customformTabIds.tabid}`);
+            FwTabs.setTabColor($customformTab, 'yellow');
+            let $customFormFields = jQuery(`
+                    <div class="flexpage">
+                        <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Custom Form" style="max-width:900px;">
+                              <div class="flexrow">
+                                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Base Form" data-datafield="CustomFormBaseForm" data-enabled="false" data-formreadonly="true" style="flex:1 1 200px;"></div>
+                                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Description" data-datafield="CustomFormId" data-displayfield="Description" data-validationname="CustomFormValidation" data-validationpeek="true" data-enabled="false" data-formreadonly="true" style="flex:1 1 300px;"></div>
+                              </div>
+                          </div>
+                    </div>`);
+            FwControl.renderRuntimeControls($customFormFields.find('.fwcontrol'));
+            $formTabControl.find(`#${customformTabIds.tabpageid}`).append($customFormFields);
+            FwFormField.setValueByDataField($form, 'CustomFormBaseForm', customform.BaseForm);
+            FwFormField.setValueByDataField($form, 'CustomFormId', customform.CustomFormId, customform.Description);
+        }
 
         //add Audit tab to all forms
-        let $keys = $form.find('.fwformfield[data-type="key"]');
-        if ($keys.length !== 0) {
-            $formTabControl = jQuery($form.find('.fwtabs'));
-            auditTabIds = FwTabs.addTab($formTabControl, 'Audit', false, 'AUDIT', false);
-            $auditControl = jQuery(FwBrowse.loadGridFromTemplate('AuditHistoryGrid'));
-            $auditControl.data('ondatabind', function (request) {
-                const apiurl = (<any>window[controller]).apiurl;
-                const sliceIndex = apiurl.lastIndexOf('/');
-                const moduleName = apiurl.slice(sliceIndex + 1);
-                request.uniqueids = {};
-                request.uniqueids.ModuleName = moduleName;
-                for (let i = 0; i < 2; i++) {
-                    let uniqueIdValue = jQuery($keys[i]).find('input').val();
-                    if (typeof uniqueIdValue !== 'undefined') {
-                        switch (i) {
-                            case 0:
-                                request.uniqueids.UniqueId1 = uniqueIdValue;
-                                break;
-                            case 1:
-                                request.uniqueids.UniqueId2 = uniqueIdValue;
-                                break;
-                            case 2:
-                                request.uniqueids.UniqueId3 = uniqueIdValue;
-                                break;
+        const nodeAuditGrid = FwApplicationTree.getNodeById(FwApplicationTree.tree, 'xepjGBf0rdL');
+        if (nodeAuditGrid !== null && nodeAuditGrid.properties.visible === 'T') {
+            let $keys = $form.find('.fwformfield[data-type="key"]');
+            if ($keys.length !== 0) {
+                auditTabIds = FwTabs.addTab($formTabControl, 'Audit', false, 'AUDIT', false);
+                $auditControl = jQuery(FwBrowse.loadGridFromTemplate('AuditHistoryGrid'));
+                $auditControl.data('ondatabind', function (request) {
+                    const apiurl = (<any>window[controller]).apiurl;
+                    const sliceIndex = apiurl.lastIndexOf('/');
+                    const moduleName = apiurl.slice(sliceIndex + 1);
+                    request.uniqueids = {};
+                    request.uniqueids.ModuleName = moduleName;
+                    for (let i = 0; i < 2; i++) {
+                        let uniqueIdValue = jQuery($keys[i]).find('input').val();
+                        if (typeof uniqueIdValue !== 'undefined') {
+                            switch (i) {
+                                case 0:
+                                    request.uniqueids.UniqueId1 = uniqueIdValue;
+                                    break;
+                                case 1:
+                                    request.uniqueids.UniqueId2 = uniqueIdValue;
+                                    break;
+                                case 2:
+                                    request.uniqueids.UniqueId3 = uniqueIdValue;
+                                    break;
+                            }
+                        } else {
+                            break;
                         }
-                    } else {
-                        break;
                     }
-                }
-            });
-            FwBrowse.init($auditControl);
-            FwBrowse.renderRuntimeHtml($auditControl);
-
-            $formTabControl.find('#' + auditTabIds.tabpageid).append($auditControl);
-            $formTabControl.find('#' + auditTabIds.tabid)
-                .addClass('audittab')
-                .on('click', e => {
-                    if ($form.attr('data-mode') !== 'NEW') {
-                        FwBrowse.search($auditControl);
-                    };
                 });
+                FwBrowse.init($auditControl);
+                FwBrowse.renderRuntimeHtml($auditControl);
+
+                $formTabControl.find('#' + auditTabIds.tabpageid).append($auditControl);
+                $formTabControl.find('#' + auditTabIds.tabid)
+                    .addClass('audittab')
+                    .on('click', e => {
+                        if ($form.attr('data-mode') !== 'NEW') {
+                            FwBrowse.search($auditControl);
+                        };
+                    });
+            }
         }
 
 
@@ -829,10 +460,12 @@
                     $tab.find('.modified').html('*');
                     $form.attr('data-modified', 'true');
                     $form.find('.btn[data-type="SaveMenuBarButton"]').removeClass('disabled');
+                    $form.find('.btn[data-type="RefreshMenuBarButton"]').addClass('disabled');
                 } else {
                     $tab.find('.modified').html('');
                     $form.attr('data-modified', 'false');
                     $form.find('.btn[data-type="SaveMenuBarButton"]').addClass('disabled');
+                    $form.find('.btn[data-type="RefreshMenuBarButton"]').removeClass('disabled');
                 }
             })
             .on('change', '.fwformfield[data-noduplicate="true"]', function () {
@@ -874,90 +507,125 @@
             $tabcontrol = $tabcontrol.eq(0);
         }
         $tabs = $tabcontrol.find('div[data-type="tab"]');
-        $tabs.each(function (index, element) {
-            var $tab, caption, args;
-            $tab = jQuery(element);
-            args = {};
-            args.caption = $tab.attr('data-caption');
-            nodeTab = FwApplicationTree.getNodeByFuncRecursive(nodeForm, args, function (node, args2) {
-                var istab, captionsmatch;
-                istab = (node.properties.nodetype === 'Tab');
-                captionsmatch = (node.properties.caption === args2.caption);
-                return (istab && captionsmatch);
-            });
-            if ((nodeTab !== null) && (nodeTab.properties.visible === 'F')) {
-                FwTabs.removeTab($tab);
-            }
-        });
+        //$tabs.each(function (index, element) {
+        //    var $tab, caption, args;
+        //    $tab = jQuery(element);
+        //    args = {};
+        //    args.caption = $tab.attr('data-caption');
+        //    nodeTab = FwApplicationTree.getNodeByFuncRecursive(nodeForm, args, function (node, args2) {
+        //        var istab, captionsmatch;
+        //        istab = (node.nodetype === 'Tab');
+        //        captionsmatch = (node.caption === args2.caption);
+        //        return (istab && captionsmatch);
+        //    });
+        //    if ((nodeTab !== null) && (nodeTab.properties.visible === 'F')) {
+        //        FwTabs.removeTab($tab);
+        //    }
+        //});
         $tabs = $tabcontrol.find('div[data-type="tab"]');
         if ($tabs.length > 0) {
             FwTabs.setActiveTab($tabcontrol, $tabs.eq(0));
         }
 
         // hide fields based on security tree
-        $fields = $form.find('div[data-datafield]');
-        $fields.each(function (index, element) {
-            var $field, args;
-            $field = jQuery(element);
-            args = {};
-            args.caption = $field.attr('data-caption');
-            args.datafield = $field.attr('data-datafield');
-            nodeField = FwApplicationTree.getNodeByFuncRecursive(nodeForm, args, function (node, args2) {
-                var isfield, captionsmatch, idsmatch;
-                isfield = (node.properties.nodetype === 'Field');
-                //captionsmatch = (node.properties.caption  === args2.caption);
-                idsmatch = false;
-                if ((typeof args2.caption === 'string') && (typeof args2.datafield === 'string')) {
-                    idsmatch = (node.id.indexOf('field-' + args2.caption.replace(/[^A-Za-z0-9]/g, '') + '-' + args2.datafield.replace(/[^A-Za-z0-9]/g, '')) !== -1);
-                    //console.log('---------');
-                    //console.log(node.id);
-                    //console.log('field-' + args2.caption.replace(/[^A-Za-z0-9]/g, '') + '-' + args2.datafield.replace(/[^A-Za-z0-9]/g, ''));
-                    //console.log(node.id.indexOf('field-' + args2.caption.replace(/[^A-Za-z0-9]/g, '') + '-' + args2.datafield.replace(/[^A-Za-z0-9]/g, '')));
+        //$fields = $form.find('div[data-datafield]');
+        //$fields.each(function (index, element) {
+        //    var $field, args;
+        //    $field = jQuery(element);
+        //    args = {};
+        //    args.caption = $field.attr('data-caption');
+        //    args.datafield = $field.attr('data-datafield');
+        //    nodeField = FwApplicationTree.getNodeByFuncRecursive(nodeForm, args, function (node, args2) {
+        //        var isfield, captionsmatch, idsmatch;
+        //        isfield = (node.nodetype === 'Field');
+        //        //captionsmatch = (node.caption  === args2.caption);
+        //        idsmatch = false;
+        //        if ((typeof args2.caption === 'string') && (typeof args2.datafield === 'string')) {
+        //            idsmatch = (node.id.indexOf('field-' + args2.caption.replace(/[^A-Za-z0-9]/g, '') + '-' + args2.datafield.replace(/[^A-Za-z0-9]/g, '')) !== -1);
+        //            //console.log('---------');
+        //            //console.log(node.id);
+        //            //console.log('field-' + args2.caption.replace(/[^A-Za-z0-9]/g, '') + '-' + args2.datafield.replace(/[^A-Za-z0-9]/g, ''));
+        //            //console.log(node.id.indexOf('field-' + args2.caption.replace(/[^A-Za-z0-9]/g, '') + '-' + args2.datafield.replace(/[^A-Za-z0-9]/g, '')));
+        //        }
+        //        return (isfield && idsmatch);
+        //    });
+        //    if (nodeField !== null) {
+        //        if (nodeField.properties.visible === 'F') {
+        //            $field.remove();
+        //        }
+        //        if (nodeField.properties.editable === 'F') {
+        //            FwFormField.disable($field);
+        //        }
+        //    }
+        //});
+
+        // hide grids based on security tree
+        const nodeControls = FwApplicationTree.getNodeByFuncRecursive(nodeModule, {}, (node: any, args2: any) => {
+           return node.nodetype === 'Controls';
+        });
+        const $securitycontrols = $form.find('[data-secid]');
+        $securitycontrols.each(function (index, element) {
+            const $securitycontrol = jQuery(element);
+            const securityid = $securitycontrol.attr('data-secid');
+            const nodeSecurityControl = FwApplicationTree.getNodeById(nodeControls, securityid);
+            if (nodeSecurityControl === null || nodeSecurityControl.properties.visible === 'F') {
+                $securitycontrol.empty().css({
+                    'visibility': 'hidden'
+                });
+            }
+            if (nodeSecurityControl !== null && $securitycontrol.attr('data-control') === 'FwGrid') {
+                const $grid = $securitycontrol;
+                const nodeGridActions = FwApplicationTree.getNodeByFuncRecursive(nodeSecurityControl, {}, (node: any, args2: any) => {
+                    return (node.nodetype === 'ControlActions');
+                });
+                const nodeGridEdit = FwApplicationTree.getNodeByFuncRecursive(nodeGridActions, {}, (node: any, args2: any) => {
+                    return node.nodetype === 'ControlAction' && node.properties.action === 'ControlEdit';
+                });
+                if (nodeGridEdit.properties.visible === 'F') {
+                    $grid.children('[data-control="FwBrowse"]').attr('data-security-new', 'F');
+                    $grid.children('[data-control="FwBrowse"]').attr('data-security-edit', 'F');
                 }
-                return (isfield && idsmatch);
-            });
-            if (nodeField !== null) {
-                if (nodeField.properties.visible === 'F') {
-                    $field.remove();
-                }
-                if (nodeField.properties.editable === 'F') {
-                    FwFormField.disable($field);
+                const nodeGridDelete = FwApplicationTree.getNodeByFuncRecursive(nodeGridActions, {}, (node: any, args2: any) => {
+                    return node.nodetype === 'ControlAction' && node.properties.action === 'ControlDelete';
+                });
+                if (nodeGridDelete.properties.visible === 'F') {
+                    $grid.children('[data-control="FwBrowse"]').attr('data-security-delete', 'F');
                 }
             }
         });
 
-        // hide grids based on security tree
         $grids = $form.data('grids');
         $grids.each(function (index, element) {
             var $grid, args, nodeGridButton;
             $grid = jQuery(element);
             args = {};
             args.grid = $grid.attr('data-grid');
-            nodeGrid = FwApplicationTree.getNodeByFuncRecursive(nodeForm, args, function (node, args2) {
+            nodeControl = FwApplicationTree.getNodeByFuncRecursive(nodeControls, args, function (node, args2) {
                 var isgrid, gridnamesmatch;
-                isgrid = (node.properties.nodetype === 'FormGrid');
-                gridnamesmatch = (node.properties.grid === args2.grid);
+                isgrid = (node.nodetype === 'Control' && node.properties.controltype === 'Grid');
+                gridnamesmatch = (node.properties.control === args2.grid);
                 return (isgrid && gridnamesmatch);
             });
-            if (nodeGrid !== null) {
-                if (nodeGrid.properties.visible === 'F') {
-                    $grid.empty().css('visibility', 'hidden');
+            if (nodeControl !== null) {
+                if (nodeControl.properties.visible === 'F') {
+                    //$grid.empty().css('visibility', 'hidden');
+                    $grid.remove();
                 }
-                for (var gridBtnIndex = 0; gridBtnIndex < nodeGrid.children.length; gridBtnIndex++) {
-                    nodeGridButton = nodeGrid.children[gridBtnIndex];
-                    if (nodeGridButton.properties.visible === 'F') {
-                        switch (nodeGridButton.properties.nodetype) {
-                            case 'NewMenuBarButton':
-                                $grid.attr('data-security-new', 'F');
-                                break;
-                            case 'EditMenuBarButton':
-                                $grid.attr('data-security-edit', 'F');
-                                break;
-                            case 'DeleteMenuBarButton':
-                                $grid.attr('data-security-delete', 'F');
-                                break;
-                        }
-                    }
+                const nodeGridActions = FwApplicationTree.getNodeByFuncRecursive(nodeControl, {}, (node: any, args2: any) => {
+                    return (node.nodetype === 'ControlActions');
+                });
+                const nodeGridEdit = FwApplicationTree.getNodeByFuncRecursive(nodeGridActions, {}, (node: any, args2: any) => {
+                    return node.nodetype === 'ControlAction' && node.properties.action === 'ControlEdit';
+                });
+                if (nodeGridEdit.properties.visible === 'F') {
+                    $grid.children('[data-control="FwBrowse"]').attr('data-security-new', 'F');
+                    $grid.children('[data-control="FwBrowse"]').attr('data-security-edit', 'F');
+                }
+                const nodeGridDelete = FwApplicationTree.getNodeByFuncRecursive(nodeGridActions, {}, (node: any, args2: any) => {
+                    return node.nodetype === 'ControlAction' && node.properties.action === 'ControlDelete';
+                });
+                if (nodeGridDelete.properties.visible === 'F') {
+                    $grid.children('[data-control="FwBrowse"]').attr('data-security-delete', 'F');
                 }
             }
         });
@@ -1020,7 +688,7 @@
                 window[controller]['setFormProperties']($form);
             }
             if (typeof window[controller]['afterLoad'] === 'function') {
-                window[controller]['afterLoad']($form);
+                window[controller]['afterLoad']($form, response);
             }
         } else {
             //$form.attr('data-mode', 'EDIT');
@@ -1040,7 +708,7 @@
                 window[controller]['setFormProperties']($form);
             }
             if (typeof window[controller]['afterLoad'] === 'function') {
-                window[controller]['afterLoad']($form);
+                window[controller]['afterLoad']($form, response);
             }
         }
     }
@@ -1065,8 +733,8 @@
                 };
             }
             FwServices.module.method(request, module, 'Save', $form, function (response) {
-                var $formfields, $browse;
-
+                let $formfields, $browse;
+                $form.data('SaveFormAPIresponse', response); // meant to be temporary solution for settings page save of new record. Data used to populate new record panel for form - J. Pace
                 if (typeof controller.apiurl !== 'undefined') {
                     if (parameters.closetab === false) {
                         //Refresh the browse window on saving a record.
@@ -1076,8 +744,10 @@
                         }
                         var tabname = (typeof response.tabname === 'string') ? response.tabname : (typeof response.RecordTitle === 'string') ? response.RecordTitle : 'Unknown';
                         $tab.find('.caption').html(tabname);
+                        $form.closest('.fwpopupbox').find('.popuptitle').html(tabname); // If popout
                         $tab.find('.modified').html('');
                         $form.find('.btn[data-type="SaveMenuBarButton"]').addClass('disabled');
+                        $form.find('.btn[data-type="RefreshMenuBarButton"]').removeClass('disabled');
                         if ($form.attr('data-mode') === 'NEW') {
                             $form.attr('data-mode', 'EDIT');
                             $formfields = jQuery().add($form.data('uniqueids')).add($form.data('fields'));
@@ -1088,7 +758,7 @@
                         FwFormField.loadForm($formfields, response);
                         $form.attr('data-modified', 'false');
                         if (typeof controller['afterLoad'] === 'function') {
-                            controller['afterLoad']($form);
+                            controller['afterLoad']($form, response);
                         }
                         if (typeof controller['afterSave'] === 'function') {
                             controller['afterSave']($form);
@@ -1100,7 +770,7 @@
                             $parenttab = jQuery('#' + $tab.data('parenttabid'));
                         }
                         FwModule.beforeCloseForm($form);
-                        FwModule.closeFormTab($tab, parameters.refreshRootTab);
+                        FwModule.closeFormTab($tab, $form, parameters.refreshRootTab);
                         if (typeof parameters.afterCloseForm === 'function') {
                             parameters.afterCloseForm();
                         }
@@ -1126,6 +796,7 @@
                         $tab.find('.caption').html(response.tabname);
                         $tab.find('.modified').html('');
                         $form.find('.btn[data-type="SaveMenuBarButton"]').addClass('disabled');
+                        $form.find('.btn[data-type="RefreshMenuBarButton"]').removeClass('disabled');
 
                         if ($form.attr('data-mode') === 'NEW') {
                             $form.attr('data-mode', 'EDIT');
@@ -1136,7 +807,7 @@
                         FwFormField.loadForm($formfields, response.tables);
                         $form.attr('data-modified', 'false');
                         if (typeof controller['afterLoad'] === 'function') {
-                            controller['afterLoad']($form);
+                            controller['afterLoad']($form, response);
                         }
                         if (typeof controller['afterSave'] === 'function') {
                             controller['afterSave']($form);
@@ -1148,7 +819,7 @@
                             $parenttab = jQuery('#' + $tab.data('parenttabid'));
                         }
                         FwModule.beforeCloseForm($form);
-                        FwModule.closeFormTab($tab, parameters.refreshRootTab);
+                        FwModule.closeFormTab($tab, $form, parameters.refreshRootTab);
                         if (typeof parameters.afterCloseForm === 'function') {
                             parameters.afterCloseForm();
                         }
@@ -1173,28 +844,26 @@
     }
     //----------------------------------------------------------------------------------------------
     static deleteRecord(module: string, $control: JQuery) {
-        var controller, method, $browse, ids, $selectedRow, $form, $tab, request;
         try {
-            $browse = $control;
-            $selectedRow = $browse.find('tr.selected');
+            const $browse = $control;
+            const $selectedRow = $browse.find('tr.selected');
             if ($selectedRow.length > 0) {
-                ids = {};
-                var $confirmation = FwConfirmation.renderConfirmation('Delete Record', 'Are you sure you want to delete this record?');
-                var $yes = FwConfirmation.addButton($confirmation, 'Yes');
-                var $no = FwConfirmation.addButton($confirmation, 'No');
-
+                const $confirmation = FwConfirmation.renderConfirmation('Delete Record', 'Are you sure you want to delete this record?');
+                const $yes = FwConfirmation.addButton($confirmation, 'Yes');
+                const $no = FwConfirmation.addButton($confirmation, 'No');
+                $yes.focus();
                 $yes.on('click', function () {
-                    controller = $browse.attr('data-controller');
-                    ids = FwBrowse.getRowFormUniqueIds($browse, $selectedRow);
-                    request = {
+                    const controller = $browse.attr('data-controller');
+                    const ids = FwBrowse.getRowFormUniqueIds($browse, $selectedRow);
+                    const request: any = {
                         module: (<any>window[controller]).Module,
                         ids: ids
                     };
                     FwServices.module.method(request, (<any>window[controller]).Module, 'Delete', $browse, function (response) {
-                        $form = FwModule.getFormByUniqueIds(ids);
+                        const $form = FwModule.getFormByUniqueIds(ids);
                         if ((typeof $form != 'undefined') && ($form.length > 0)) {
-                            $tab = jQuery('#' + $form.closest('div.tabpage').attr('data-tabid'));
-                            FwModule.closeFormTab($tab, true);
+                            const $tab = jQuery(`#${$form.closest('div.tabpage').attr('data-tabid')}`);
+                            FwModule.closeFormTab($tab, $form, true);
                         }
                         FwBrowse.databind($browse);
                     });
@@ -1207,139 +876,67 @@
         }
     }
     //----------------------------------------------------------------------------------------------
+    static addFormMenuBarButton($menu: JQuery, caption: string, onclick: (e: JQuery.ClickEvent) => void) {
+        const $menubarbutton = FwMenu.addStandardBtn($menu, caption);
+        $menubarbutton.on('click', onclick);
+    }
+    //----------------------------------------------------------------------------------------------
     static addFormMenu($form: JQuery) {
-        var controller, $menu, $save, $edit, $delete,
-            nodeModule, nodeForm, nodeFormMenuBar, nodeFormSubMenu, $submenubtn, $menubarbutton, nodetype,
-            nodeSubMenuGroup, $submenucolumn, $submenugroup, nodeSubMenuItem, $submenuitem, hasClickEvent;
+        const controller = $form.attr('data-controller');
+        const $menu = FwMenu.getMenuControl('default');
+        $form.find('.fwform-menu').append($menu);
+        const $subMenu = FwMenu.addSubMenu($menu);
+        const $colOptions = FwMenu.addSubMenuColumn($subMenu);
+        const $groupOptions = FwMenu.addSubMenuGroup($colOptions, 'Options');
 
-        controller = $form.attr('data-controller');
-        $menu = FwMenu.getMenuControl('default');
-
-        nodeModule = FwApplicationTree.getNodeByController(controller);
-        if (nodeModule !== null) {
-            const nodeBrowse = FwApplicationTree.getChildByType(nodeModule, 'Browse');
-            let hasBrowseNew = false;
-            let hasBrowseEdit = false;
-            const hasBrowse = (nodeBrowse !== null);
-            if (hasBrowse) {
-                const nodeBrowseNewButton = FwApplicationTree.getChildrenByType(nodeBrowse, 'NewMenuBarButton');
-                const nodeBrowseEditButton = FwApplicationTree.getChildrenByType(nodeBrowse, 'EditMenuBarButton');
-                hasBrowseNew = (nodeBrowseNewButton !== null && nodeBrowseNewButton.length > 0) ? (nodeBrowseNewButton[0].properties.visible === 'T') : false;
-                hasBrowseEdit = (nodeBrowseEditButton !== null && nodeBrowseEditButton.length > 0) ? (nodeBrowseEditButton[0].properties.visible === 'T') : false;
-            }
-            nodeForm = FwApplicationTree.getChildByType(nodeModule, 'Form');
-            if (nodeForm !== null) {
-                nodeFormMenuBar = FwApplicationTree.getChildByType(nodeForm, 'MenuBar');
-                if (nodeFormMenuBar !== null) {
-                    if (nodeFormMenuBar.properties.visible === 'T') {
-                        $form.find('.fwform-menu').append($menu);
-                        for (var menubaritemno = 0; menubaritemno < nodeFormMenuBar.children.length; menubaritemno++) {
-                            var nodeMenuBarItem = nodeFormMenuBar.children[menubaritemno];
-                            if (nodeMenuBarItem.properties.visible === 'T') {
-                                nodetype = FwApplicationTree.getNodeType(nodeMenuBarItem);
-                                switch (nodetype) {
-                                    case 'SubMenu':
-                                        nodeFormSubMenu = nodeMenuBarItem;
-                                        if (nodeFormSubMenu !== null) {
-                                            $submenubtn = FwMenu.addSubMenu($menu);
-                                            for (var submenuoptionno = 0; submenuoptionno < nodeFormSubMenu.children.length; submenuoptionno++) {
-                                                nodeSubMenuGroup = nodeFormSubMenu.children[submenuoptionno];
-                                                if (nodeSubMenuGroup.properties.visible === 'T') {
-                                                    $submenucolumn = FwMenu.addSubMenuColumn($submenubtn)
-                                                    $submenugroup = FwMenu.addSubMenuGroup($submenucolumn, nodeSubMenuGroup.properties.caption, nodeSubMenuGroup.id);
-                                                    for (var submenuitemno = 0; submenuitemno < nodeSubMenuGroup.children.length; submenuitemno++) {
-                                                        nodeSubMenuItem = nodeSubMenuGroup.children[submenuitemno];
-                                                        if (nodeSubMenuItem.properties.visible === 'T') {
-                                                            $submenuitem = FwMenu.addSubMenuBtn($submenugroup, nodeSubMenuItem.properties.caption, nodeSubMenuItem.id);
-                                                            hasClickEvent = ((typeof controller === 'string') &&
-                                                                (controller.length > 0) &&
-                                                                (typeof FwApplicationTree.clickEvents !== 'undefined') &&
-                                                                (typeof FwApplicationTree.clickEvents['{' + nodeSubMenuItem.id + '}'] === 'function'));
-                                                            if (hasClickEvent) {
-                                                                $submenuitem.on('click', FwApplicationTree.clickEvents['{' + nodeSubMenuItem.id + '}']);
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                        break;
-                                    case 'MenuBarButton':
-                                        $menubarbutton = FwMenu.addStandardBtn($menu, nodeMenuBarItem.properties.caption);
-                                        $menubarbutton.on('click', FwApplicationTree.clickEvents['{' + nodeMenuBarItem.id + '}']);
-                                        break;
-                                    case 'SaveMenuBarButton':
-                                        if (($form.attr('data-mode') === 'NEW' && (hasBrowseNew || !hasBrowse)) || ($form.attr('data-mode') === 'EDIT' && (hasBrowseEdit || !hasBrowse))) {
-                                            $menubarbutton = FwMenu.addStandardBtn($menu, nodeMenuBarItem.properties.caption);
-                                            $menubarbutton.attr('data-type', 'SaveMenuBarButton');
-                                            $menubarbutton.addClass('disabled');
-                                            $menubarbutton.on('click', function (event) {
-                                                var method, ismodified;
-                                                try {
-                                                    method = 'saveForm';
-                                                    ismodified = $form.attr('data-modified');
-                                                    if (ismodified === 'true') {
-                                                        if (typeof window[controller] === 'undefined') throw 'Missing javascript module: ' + controller;
-                                                        if (typeof window[controller][method] === 'function') {
-                                                            (<any>window)[controller][method]($form, { closetab: false });
-                                                        } else {
-                                                            FwModule[method]((<any>window)[controller].Module, $form, { closetab: false });
-                                                        }
-                                                    }
-                                                } catch (ex) {
-                                                    FwFunc.showError(ex);
-                                                }
-                                            });
-                                        }
-                                        break;
-                                    case 'PrevMenuBarButton':
-                                        if (nodeMenuBarItem.properties.visible === 'T') {
-                                            var $prev = FwMenu.addStandardBtn($menu, '<', nodeMenuBarItem.id);
-                                            $prev.attr('data-type', 'PrevButton');
-                                            $prev.on('click', function () {
-                                                var $this, $browse, $tab, $selectedrow;
-                                                try {
-                                                    $this = jQuery(this);
-                                                    $browse = $this.closest('.tabpages').find('[data-tabtype="BROWSE"] .fwbrowse');
-                                                    $tab = FwTabs.getTabByElement($this);
-                                                    FwBrowse.openPrevRow($browse, $tab, $form);
-                                                } catch (ex) {
-                                                    FwFunc.showError(ex);
-                                                }
-                                            });
-                                        }
-                                        break;
-                                    case 'NextMenuBarButton':
-                                        if (nodeMenuBarItem.properties.visible === 'T') {
-                                            var $next = FwMenu.addStandardBtn($menu, '>', nodeMenuBarItem.id);
-                                            $next.attr('data-type', 'NextButton');
-                                            $next.on('click', function () {
-                                                var $this, $browse, $tab, $selectedrow;
-                                                try {
-                                                    $this = jQuery(this);
-                                                    $browse = $this.closest('.tabpages').find('[data-tabtype="BROWSE"] .fwbrowse');
-                                                    $tab = FwTabs.getTabByElement($this);
-                                                    FwBrowse.openNextRow($browse, $tab, $form);
-                                                } catch (ex) {
-                                                    FwFunc.showError(ex);
-                                                }
-                                            });
-                                        }
-                                        break;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        const options: IAddFormMenuOptions = {
+            $form: $form,
+            $menu: $menu, 
+            $subMenu: $subMenu, 
+            $colOptions: $colOptions, 
+            $groupOptions: $groupOptions,
+            hasSave: true,
+            hasNext: false,
+            hasPrevious: false
+        };
+        //if (typeof $form.data('addFormMenuItems') === 'function') {
+        //    $form.data('addFormMenuItems')(options);
+        //}
         if ((typeof $form.attr('data-controller') != 'undefined') && (typeof window[$form.attr('data-controller')]['addFormMenuItems'] === 'function')) {
-            var $menuobj = window[$form.attr('data-controller')]['addFormMenuItems']($menu, $form);
-            if (typeof $menuobj !== 'undefined') {
-                $menu = $menuobj;
+            window[$form.attr('data-controller')]['addFormMenuItems'](options);
+        }
+        else {
+            FwMenu.addFormMenuButtons(options);
+        }
+        
+
+        // Refresh form button
+        if (typeof (<any>window[controller])['loadForm'] === 'function') {
+            const $refreshmenubarbutton = FwMenu.addStandardBtn($menu, 'Refresh');
+            $refreshmenubarbutton.attr('data-type', 'RefreshMenuBarButton');
+            if ($form.attr('data-mode') === 'NEW') {
+                $refreshmenubarbutton.addClass('disabled');
+            } else {
+                $refreshmenubarbutton.removeClass('disabled');
             }
+            $refreshmenubarbutton.on('click', e => {
+                try {
+                    const $this = jQuery(e.currentTarget);
+                    const ismodified = $form.attr('data-modified');
+                    if (ismodified !== 'true' && $form.attr('data-mode') !== 'NEW' && !$this.hasClass('disabled')) {
+                        FwModule.refreshForm($form)
+                    }
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            });
         }
 
+        const moduleSecurityId = '';
+        if (typeof (<any>window)[controller].id === 'string' && (<any>window)[controller].id.length > 0) {
+            FwMenu.applyFormSecurity(options, (<any>window)[controller].id);
+        }
+        FwMenu.cleanupMenu($menu);
         FwControl.renderRuntimeControls($menu);
     }
     //----------------------------------------------------------------------------------------------
@@ -1353,9 +950,8 @@
     }
     //----------------------------------------------------------------------------------------------
     static closeForm($form: JQuery, $tab: JQuery, navigationpath?: string, afterCloseForm?: Function, closeParent?: boolean) {
-        var $tabcontrol, ismodified, hassubmodule, issubmodule, $confirmation, $save, $dontsave, $cancel, tabname, $parenttab;
-        $tabcontrol = $tab.closest('.fwtabs');
-        ismodified = $form.attr('data-modified');
+        var hassubmodule, issubmodule, $confirmation, $save, $dontsave, $cancel, tabname, $parenttab;
+        const ismodified = $form.attr('data-modified');
         hassubmodule = (typeof $tab.data('subtabids') !== 'undefined') && ($tab.data('subtabids').length > 0);
         issubmodule = $tab.hasClass('submodule')
 
@@ -1379,19 +975,35 @@
                 $confirmation = FwConfirmation.renderConfirmation('Close Tab', 'Want to save your changes to "' + tabname + '"?');
                 $save = FwConfirmation.addButton($confirmation, 'Save');
                 $dontsave = FwConfirmation.addButton($confirmation, 'Don\'t Save');
-                if ($form.parent().data('type') !== 'settings-row') { $cancel = FwConfirmation.addButton($confirmation, 'Cancel'); }
-
+                //if ($form.parent().data('type') !== 'settings-row') { $cancel = FwConfirmation.addButton($confirmation, 'Cancel'); }
+                $cancel = FwConfirmation.addButton($confirmation, 'Cancel');
+                $save.focus();
                 $save.on('click', function () {
-                    var controller, isvalid;
-                    controller = $form.attr('data-controller');
+                    const controller = $form.attr('data-controller');
                     if (typeof window[controller] === 'undefined') throw 'Missing javascript module controller: ' + controller;
                     if (typeof window[controller]['saveForm'] === 'function') {
                         window[controller]['saveForm']($form, { closetab: true, navigationpath: navigationpath, closeparent: closeParent, afterCloseForm: afterCloseForm, refreshRootTab: true });
                     }
                 });
-                $dontsave.on('click', function () {
+                // hotkey support for confirmation buttons
+                $confirmation.on('keyup', e => {
+                    e.preventDefault();
+                    if (e.which === 83) { // 's'
+                        $save.click();
+                    }
+                    if (e.which === 78 || e.which === 68) { // 'n'(78) or 'd'(68)
+                        $dontsave.click();
+                    }
+                    if (e.which === 67) { // 'c'
+                        if ($cancel) {
+                            $cancel.click();
+                        }
+                    }
+                })
+
+                $dontsave.on('click', e => {
                     FwModule.beforeCloseForm($form);
-                    FwModule.closeFormTab($tab, false);
+                    FwModule.closeFormTab($tab, $form, false);
                     if (typeof afterCloseForm === 'function') {
                         afterCloseForm();
                     }
@@ -1405,7 +1017,7 @@
                 });
             } else {
                 FwModule.beforeCloseForm($form);
-                FwModule.closeFormTab($tab, false);
+                FwModule.closeFormTab($tab, $form, false);
                 if (typeof afterCloseForm === 'function') {
                     afterCloseForm();
                 }
@@ -1416,35 +1028,38 @@
         }
     }
     //----------------------------------------------------------------------------------------------
-    static closeFormTab($tab: JQuery, refreshRootTab?: boolean) {
-        var $browse, $newTab, newTabType, tabIsActive, $tabcontrol, $tabpage, isSubModule;
-        $tabcontrol = $tab.closest('.fwtabs');
-        $tabpage = $tabcontrol.find('#' + $tab.attr('data-tabpageid'));
-        isSubModule = $tab.hasClass('submodule');
+    static closeFormTab($tab: JQuery, $form: JQuery, refreshRootTab?: boolean) {
+        if ($form.parent().data('type') === 'settings-row') {
+            $form.attr('data-modified', 'false')
+        } else {
+            const $tabcontrol = $tab.closest('.fwtabs');
+            let $tabpage = $tabcontrol.find('#' + $tab.attr('data-tabpageid'));
 
-        if (isSubModule) {
-            var $parenttab, subtabids;
-            $parenttab = jQuery(`#${$tab.data('parenttabid')}`);
-            if ($parenttab.length > 0) {
-                subtabids = $parenttab.data('subtabids');
-                subtabids = jQuery.grep(subtabids, function (value) {
-                    return value != $tab.attr('id');
-                });
-                $parenttab.data('subtabids', subtabids);
+            const isSubModule = $tab.hasClass('submodule');
+            if (isSubModule) {
+                var $parenttab, subtabids;
+                $parenttab = jQuery(`#${$tab.data('parenttabid')}`);
+                if ($parenttab.length > 0) {
+                    subtabids = $parenttab.data('subtabids');
+                    subtabids = jQuery.grep(subtabids, function (value) {
+                        return value != $tab.attr('id');
+                    });
+                    $parenttab.data('subtabids', subtabids);
+                }
             }
-        }
 
-        $newTab = (($tab.next().length > 0) ? $tab.next() : $tab.prev());
-        tabIsActive = $tab.hasClass('active');
-        FwTabs.removeTab($tab);
-        if (tabIsActive) {
-            FwTabs.setActiveTab($tabcontrol, $newTab);
-            newTabType = $newTab.attr('data-tabtype');
-            if (newTabType === 'BROWSE') {
-                $tabpage = $tabcontrol.find(`#${$newTab.attr('data-tabpageid')}`);
-                $browse = $tabpage.find('.fwbrowse[data-type="Browse"]');
-                if (refreshRootTab) {
-                    FwBrowse.databind($browse);
+            const $newTab = (($tab.next().length > 0) ? $tab.next() : $tab.prev());
+            const tabIsActive = $tab.hasClass('active');
+            FwTabs.removeTab($tab);
+            if (tabIsActive) {
+                FwTabs.setActiveTab($tabcontrol, $newTab);
+                const newTabType = $newTab.attr('data-tabtype');
+                if (newTabType === 'BROWSE') {
+                    $tabpage = $tabcontrol.find(`#${$newTab.attr('data-tabpageid')}`);
+                    const $browse = $tabpage.find('.fwbrowse[data-type="Browse"]');
+                    if (refreshRootTab) {
+                        FwBrowse.databind($browse);
+                    }
                 }
             }
         }
@@ -1492,10 +1107,13 @@
             originalValue = $fwformfield.attr('data-originalvalue');
             dataField = $fwformfield.attr('data-datafield');
             if (typeof dataField === 'undefined') {
-                var formCaption = typeof $form.attr('data-caption') !== 'undefined' ? $form.attr('data-caption') : 'Unknown';
-                console.log('On Form: "' + formCaption + ' ", the attribute data-datafield is required on the fwformfield with the following html: ' + jQuery('div').append($fwformfield).html());
-                throw 'Attribute data-datafield is missing on fwformfield element.';
+                dataField = '';
             }
+            //if (typeof dataField === 'undefined') {
+            //    var formCaption = typeof $form.attr('data-caption') !== 'undefined' ? $form.attr('data-caption') : 'Unknown';
+            //    console.log('On Form: "' + formCaption + ' ", the attribute data-datafield is required on the fwformfield with the following html: ' + jQuery('div').append($fwformfield).html());
+            //    throw 'Attribute data-datafield is missing on fwformfield element.';
+            //}
             value = FwFormField.getValue2($fwformfield);
             let value2 = value
             if (typeof value === 'number' || typeof value === 'boolean') {
@@ -1505,7 +1123,7 @@
             }
 
             isBlank = (dataField === '');
-            isCalculatedField = (dataField[0] === '#') && (dataField[1] === '.');
+            isCalculatedField = (!isBlank) && (dataField[0] === '#') && (dataField[1] === '.');
             isValidDataField = (!isBlank) && (!isCalculatedField);
             getAllFields = ($form.attr('data-mode') === 'NEW') || getAllFieldsOverride;
 
@@ -1765,18 +1383,16 @@
     }
     //----------------------------------------------------------------------------------------------
     static setFormReadOnly($form: JQuery) {
-        var $fwformfields, $grids, $save;
-
         $form.attr('data-mode', 'READONLY');
-        $fwformfields = $form.data('fields');
+        const $fwformfields = $form.data('fields');
         FwFormField.disable($fwformfields);
-        $grids = $form.data('grids');
+        const $grids = $form.data('grids');
         $grids.each(function (index, element) {
-            var $grid = jQuery(element).find('div[data-control="FwBrowse"][data-type="Grid"]');
+            const $grid = jQuery(element).find('div[data-control="FwBrowse"][data-type="Grid"]');
             FwBrowse.disableGrid($grid);
         });
 
-        $save = $form.find('div.btn[data-type="SaveMenuBarButton"]');
+        const $save = $form.find('div.btn[data-type="SaveMenuBarButton"]');
         $save.addClass('disabled');
         $save.off('click');
     }
@@ -1786,14 +1402,19 @@
         return $control;
     }
     //----------------------------------------------------------------------------------------------
-    static refreshForm($form: JQuery, controller: any) {
+    static refreshForm($form: JQuery) {
         const uniqueIds = FwModule.getFormUniqueIds($form);
-        let newUniqueIds = {};
+        const newUniqueIds: any = {};
         setTimeout(() => {
             for (let key in uniqueIds) {
                 newUniqueIds[key] = uniqueIds[key].value
-                const $newForm = controller.loadForm(newUniqueIds);
-                $form.parent().empty().append($newForm);
+            }
+            const controller = $form.data('controller');
+            if (typeof window[controller]['loadForm'] === 'function') {
+                const $newForm = (<any>window[controller]).loadForm(newUniqueIds);
+                $form.html($newForm);
+                const $fwcontrols = $newForm.find('.fwcontrol');
+                FwControl.loadControls($fwcontrols);
             }
         }, 0)
     };
@@ -1861,3 +1482,25 @@ interface IFwFormField {
     renderRuntimeHtml($control: JQuery<HTMLElement>, html: string[]): void;
     setValue($fwformfield: JQuery<HTMLElement>, value: any, text: string, firechangeevent: boolean): void;
 }
+
+interface IModule {
+    Module: string
+    apiurl: string
+    caption: string
+    nav: string
+    id: string
+    getModuleScreen: () => IModuleScreen
+    addBrowseMenuItems?: (options: IAddBrowseMenuOptions) => void
+    [key: string]: any
+}
+
+interface IModuleScreen {
+    $view?: JQuery
+    viewModel?: any
+    properties?: any
+    load?: () => void
+    unload?: () => void
+    [key: string]: any
+}
+
+ 

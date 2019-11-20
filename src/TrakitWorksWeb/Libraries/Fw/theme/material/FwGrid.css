@@ -57,7 +57,7 @@ html.theme-material .fw-grid .grid-header .filtercell .filterclear:hover {backgr
 html.theme-material .fw-grid .grid-header .filtercell.filtered .filterclear {display:inline-block;}
 html.theme-material .fw-grid .grid-header .filtercell .filterclear i {font-size:20px;}
 
-html.theme-material .fw-grid .grid-header .filterinput {flex: 1 1 0;height:calc(0.8em + 1.5em);background-color:#ffffff;padding: 0 .375em;font-size: .8em; border: 1px solid #E0E0E0; outline: 0;transition: all 0.3s;min-width:0px;}
+html.theme-material .fw-grid .grid-header .filterinput {flex: 1 1 0;height:2.3em;background-color:#ffffff;padding: 0 .375em;font-size: .8em; border: 1px solid #E0E0E0; outline: 0;transition: all 0.3s;min-width:0px;}
 
 html.theme-material .fw-grid .grid-content {flex: 1 1;overflow: auto;overflow-x: auto;overflow-y: scroll;}
 html.theme-material .fw-grid .grid-content table {table-layout:fixed;}

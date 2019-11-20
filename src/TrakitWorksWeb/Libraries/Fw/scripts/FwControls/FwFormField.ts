@@ -407,7 +407,7 @@ class FwFormFieldClass {
         try {
             value = this.getText($parent, selector);
         } catch (ex) {
-            throw 'FwFormField.getValueByDataField: Unable to get value for datafield: ' + datafield;
+            throw 'FwFormField.getTextByDataField: Unable to get value for datafield: ' + datafield;
         }
         return value;
     }

@@ -123,6 +123,9 @@ html[connectionstate="CONNECTED"] #master #master-footer {background-color:green
 #master .menu .menu-close {background-color:#000000;position:fixed;top:0;left:0;width:0;height:0;opacity:0;-webkit-transition: opacity .3s,width 0s .3s,height 0s .3s;}
 #master .menu.is-active .menu-close {width:100%;height:100%;opacity:.7;-webkit-transition: opacity .3s;}
 
+#master .menu .menu-body .menu-body-top {background-color:rgba(0,0,0,.4);}
+#master .menu .menu-body .menu-body-top .apptitle {padding-top:10px 0;font-size:20px;}
+#master .menu .menu-body .menu-body-top .menu-top-controls {padding:5px;overflow:auto;font-size:12px;}
 #master .menu .menu-body .menu-body-links {font-size:14px;}
 #master .menu .menu-body .menu-body-link {overflow:auto;/*border-bottom:1px solid #9c9c9c;padding:10px;*/cursor:pointer;line-height: 44px;padding: 0 15px;}
 .no-touch #master .menu .menu-body .menu-body-link:hover {background-color:rgba(0, 0, 0, 0.1);}
@@ -138,6 +141,7 @@ html[connectionstate="CONNECTED"] #master #master-footer {background-color:green
 @media screen and (min-width:1025px) {
     #master .menu .menu-body {-webkit-transform:translateX(0);width:240px;box-shadow: 8px 8px 20px 0 rgba(0, 0, 0, 0.2);}
 }
+#master .menu .menu-body .menu-body-footer {font-size: 10px;padding: 5px 0;background-color: rgba(0,0,0,.4);width: 100%;}
 /***************************
 FwMobileLogin
 ***************************/

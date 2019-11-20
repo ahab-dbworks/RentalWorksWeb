@@ -7,6 +7,7 @@
     TotalPages: number;
     TotalRows: number;
     ColumnNameByIndex: { [columnnIndex: number]: string };
+    Totals: { [columnName: string]: number };
 }
 
 interface FwJsonDataTableColumn {

@@ -1,6 +1,6 @@
 //---------------------------------------------------------------------------------
 class FwApplicationTree {
-    static tree: any = null;
+    static tree: IGroupSecurityNode = null;
     static clickEvents: any = {};
     static currentApplicationId: string = '';
     //---------------------------------------------------------------------------------
@@ -22,42 +22,42 @@ class FwApplicationTree {
         return applicationtree;
     };
     //---------------------------------------------------------------------------------
-    static getNodeByController(controller) {
-        var tree = FwApplicationTree.getMyTree();
-        var node = FwApplicationTree.getNodeByControllerRecursive(tree, controller);
-        return node;
-    };
+    //static getNodeByController(controller) {
+    //    var tree = FwApplicationTree.getMyTree();
+    //    var node = FwApplicationTree.getNodeByControllerRecursive(tree, controller);
+    //    return node;
+    //};
     //---------------------------------------------------------------------------------
-    static getNodeByControllerRecursive = function(node, controller) {
-        var resultnode=null;
-        if (node !== null) {
-            var data_nodetype   = node.properties.nodetype;
-            var data_controller = node.properties.controller;
-            var isModule        = ((typeof data_nodetype   === 'string') && (data_nodetype === 'Module' || data_nodetype === 'SettingsModule'))
-            var isSubModule     = ((typeof data_nodetype   === 'string') && (data_nodetype === 'SubModule'))
-            var isGrid          = ((typeof data_nodetype   === 'string') && (data_nodetype === 'Grid'))
-            var foundController = ((typeof data_controller === 'string') && (data_controller.length > 0) && (data_controller === controller));
-            if ((isModule || isSubModule || isGrid) && foundController) {
-                resultnode = node;
-            } else if (resultnode === null) {
-                for (var childno = 0; childno < node.children.length; childno++) {
-                    resultnode = FwApplicationTree.getNodeByControllerRecursive(node.children[childno], controller);
-                    if (resultnode !== null) {
-                        break;
-                    }
-                }
-            }
-        }
-        return resultnode;
-    };
+    //static getNodeByControllerRecursive = function(node, controller) {
+    //    var resultnode=null;
+    //    if (node !== null) {
+    //        var data_nodetype   = node.nodetype;
+    //        var data_controller = node.properties.controller;
+    //        var isModule        = ((typeof data_nodetype   === 'string') && (data_nodetype === 'Module' || data_nodetype === 'SettingsModule'))
+    //        var isSubModule     = ((typeof data_nodetype   === 'string') && (data_nodetype === 'SubModule'))
+    //        var isGrid          = ((typeof data_nodetype   === 'string') && (data_nodetype === 'Grid'))
+    //        var foundController = ((typeof data_controller === 'string') && (data_controller.length > 0) && (data_controller === controller));
+    //        if ((isModule || isSubModule || isGrid) && foundController) {
+    //            resultnode = node;
+    //        } else if (resultnode === null) {
+    //            for (var childno = 0; childno < node.children.length; childno++) {
+    //                resultnode = FwApplicationTree.getNodeByControllerRecursive(node.children[childno], controller);
+    //                if (resultnode !== null) {
+    //                    break;
+    //                }
+    //            }
+    //        }
+    //    }
+    //    return resultnode;
+    //};
     //---------------------------------------------------------------------------------
-    static getNodeByFuncRecursive(node, args, func) {
-        var resultnode=null;
+    static getNodeByFuncRecursive(node, args, func: (node: any, args: any) => any): IGroupSecurityNode {
+        var resultnode: IGroupSecurityNode = null;
         if (node !== null) {
             var ismatch = func(node, args);
             if (ismatch) {
                 resultnode = node;
-            } else {
+            } else if (typeof node.children !== 'undefined') {
                 for (var childno = 0; childno < node.children.length; childno++) {
                     resultnode = FwApplicationTree.getNodeByFuncRecursive(node.children[childno], args, func);
                     if (resultnode !== null) {
@@ -69,8 +69,8 @@ class FwApplicationTree {
         return resultnode;
     };
     //---------------------------------------------------------------------------------
-    static getNodeById(node, id) {
-        var resultNode=null;
+    static getNodeById(node, id): IGroupSecurityNode {
+        var resultNode: IGroupSecurityNode = null;
         if (node !== null) {
             var data_nodetype = node.id;
             if (node.id === id) {
@@ -86,12 +86,12 @@ class FwApplicationTree {
         return resultNode;
     };
     //---------------------------------------------------------------------------------
-    static getChildByType(node, nodetype) {
-        var resultNode=null, foundNodeType, childno, currentNode;
+    static getChildByType(node, nodetype): IGroupSecurityNode {
+        var resultNode: IGroupSecurityNode = null, foundNodeType, childno, currentNode;
         if (node !== null) {
             for (childno = 0; childno < node.children.length; childno++) {
                 currentNode = node.children[childno];
-                foundNodeType = ((currentNode.hasOwnProperty('properties')) && (currentNode.properties.hasOwnProperty('nodetype')) && (currentNode.properties.nodetype === nodetype))
+                foundNodeType = ((currentNode.hasOwnProperty('properties')) && (currentNode.hasOwnProperty('nodetype')) && (currentNode.nodetype === nodetype))
                 if (foundNodeType) {
                     resultNode = currentNode;
                     break;
@@ -101,17 +101,17 @@ class FwApplicationTree {
         return resultNode;
     };
     //---------------------------------------------------------------------------------
-    static getChildrenByType(node, nodetype) {
-        var children = [];
+    static getChildrenByType(node: any, nodetype: string): IGroupSecurityNode[] {
+        var children: IGroupSecurityNode[] = [];
         FwApplicationTree.getChildrenByTypeRecursive(node, nodetype, children);
         return children;
     };
     //---------------------------------------------------------------------------------
-    static getChildrenByTypeRecursive(node, nodetype, children) {
-        if (node !== null) {
+    private static getChildrenByTypeRecursive(node: any, nodetype: string, children: IGroupSecurityNode[]): void {
+        if (node !== null && typeof node.children !== 'undefined') {
             for (var childno = 0; childno < node.children.length; childno++) {
                 var currentNode = node.children[childno];
-                var foundNodeType = ((currentNode.hasOwnProperty('properties')) && (currentNode.properties.hasOwnProperty('nodetype')) && (currentNode.properties.nodetype === nodetype))
+                var foundNodeType = ((currentNode.hasOwnProperty('properties')) && (currentNode.hasOwnProperty('nodetype')) && (currentNode.nodetype === nodetype))
                 if (foundNodeType) {
                     children.push(currentNode);
                 }
@@ -123,7 +123,7 @@ class FwApplicationTree {
     static getNodeType(node) {
         var nodetype=null;
         if (node !== null) {
-            nodetype = node.properties.nodetype;
+            nodetype = node.nodetype;
         }
         return nodetype;
     };
@@ -137,8 +137,8 @@ class FwApplicationTree {
         return securitynodes;
     }
     //---------------------------------------------------------------------------------
-    static getSecurityNodesRecursive(securitynodes, node, hidenewmenuoptionsbydefault) {
-        var includenode, newNode, childno, visible, editable;
+    static getSecurityNodesRecursive(securitynodes: IDbSecurityNode[], node: IGroupSecurityNode, hidenewmenuoptionsbydefault: boolean) {
+        var includenode, newNode: IDbSecurityNode, childno, visible, editable;
 
         visible  = ((typeof node.properties.visible  === 'string') && 
                     ((hidenewmenuoptionsbydefault !== true) && (node.properties.visible === 'F')) || ((hidenewmenuoptionsbydefault === true) && (node.properties.visible === 'T'))) ? node.properties.visible : null;
@@ -146,13 +146,13 @@ class FwApplicationTree {
         includenode  = (visible !== null) || (editable !== null);
         if (includenode) {
             newNode = {
-                id: node.id
+                id: node.id,
+                properties: {
+                    visible: (visible !== null) ? visible : 'F'
+                }
             };
-            if (visible !== null) {
-                newNode.visible = visible;
-            }
             if (editable !== null) {
-                newNode.editable = editable;
+                newNode.properties['visible'].editable = editable;
             }
             securitynodes.push(newNode);
         }
@@ -165,6 +165,31 @@ class FwApplicationTree {
         return securitynodes;
     }
     //---------------------------------------------------------------------------------
+    static isVisibleInSecurityTree(secid: string): boolean {
+        let isVisible = true;
+        if (typeof secid === 'string') {
+            const nodeButton = FwApplicationTree.getNodeById(FwApplicationTree.tree, secid);
+            isVisible = nodeButton.properties.hasOwnProperty('visible') && nodeButton.properties.visible === 'T';
+        }
+        return isVisible;
+    }
+    //---------------------------------------------------------------------------------
 }
 //---------------------------------------------------------------------------------
-
+interface IDbSecurityNode {
+    id: string;
+    properties?: any;
+}
+//---------------------------------------------------------------------------------
+interface IGroupSecurityNode {
+    id: string
+    nodetype: string
+    caption?: string
+    children?: IGroupSecurityNode[]
+    properties?: IGroupSecurityNodeProperties
+}
+interface IGroupSecurityNodeProperties {
+    visible?: string
+    [key: string]: any
+}
+//---------------------------------------------------------------------------------

@@ -35,8 +35,8 @@
                 color: 'ffffff',
                 showEvent: '',
                 onSubmit: function (hsb, hex, rgb, el) {
-                    jQuery(el).siblings('.fwformfield-value').val('#' + hex).change();
-                    jQuery(el).find('.fwformfield-color').css('background-color', '#' + hex);
+                    jQuery(el).siblings('.fwformfield-value').val(`#${hex}`).change();
+                    jQuery(el).find('.fwformfield-color').css('background-color', `#${hex}`);
                     jQuery(el).colpickHide();
                 }
             })
@@ -48,13 +48,10 @@
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }
-            })
-            ;
+            });
     }
     //---------------------------------------------------------------------------------
-    loadItems($control: JQuery<HTMLElement>, items: any, hideEmptyItem: boolean): void {
-
-    }
+    loadItems($control: JQuery<HTMLElement>, items: any, hideEmptyItem: boolean): void { }
     //---------------------------------------------------------------------------------
     loadForm($fwformfield: JQuery<HTMLElement>, table: string, field: string, value: any, text: string): void {
         $fwformfield
@@ -65,21 +62,17 @@
         $fwformfield.find('.fwformfield-color').css('background-color', value);
     }
     //---------------------------------------------------------------------------------
-    disable($control: JQuery<HTMLElement>) {
-
-    }
+    disable($control: JQuery<HTMLElement>) { }
     //---------------------------------------------------------------------------------
-    enable($control: JQuery<HTMLElement>) {
-
-    }
+    enable($control: JQuery<HTMLElement>) { }
     //---------------------------------------------------------------------------------
     getValue2($fwformfield: JQuery<HTMLElement>) {
-        var value = $fwformfield.find('.fwformfield-value').val();
+        const value = $fwformfield.find('.fwformfield-value').val();
         return value;
     }
     //---------------------------------------------------------------------------------
     setValue($fwformfield: JQuery<HTMLElement>, value, text, firechangeevent) {
-        var $inputvalue = $fwformfield.find('.fwformfield-value');
+        const $inputvalue = $fwformfield.find('.fwformfield-value');
         $inputvalue.val(value);
         if (firechangeevent) $inputvalue.change();
     }

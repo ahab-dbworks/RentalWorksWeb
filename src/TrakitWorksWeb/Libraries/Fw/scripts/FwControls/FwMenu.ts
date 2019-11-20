@@ -1,6 +1,6 @@
 class FwMenuClass {
     //---------------------------------------------------------------------------------
-    upgrade($control) {
+    upgrade($control: JQuery): void {
         var properties, i, data_type;
         //sync properties
         data_type = $control.attr('data-type');
@@ -12,12 +12,11 @@ class FwMenuClass {
         }
     }
     //---------------------------------------------------------------------------------
-    init($control) {
-        FwMenu.upgrade($control);
-
+    init($control: JQuery): void {
+        //FwMenu.upgrade($control);
     };
     //---------------------------------------------------------------------------------
-    getDesignerProperties(data_type) {
+    getDesignerProperties(data_type: string): any[] {
         var properties = [], propId, propClass, propDataControl, propDataType, propRenderMode, propDataVersion, propDataCaption, propDataEnabled, propDataOriginalValue, propDataImageUrl, propDataField, propDataFieldCount, propFieldCount;
         propId = { caption: 'ID', datatype: 'string', attribute: 'id', defaultvalue: FwControl.generateControlId('tabs'), visible: true, enabled: true };
         propClass = { caption: 'CSS Class', datatype: 'string', attribute: 'class', defaultvalue: 'fwcontrol fwmenu', visible: false, enabled: false };
@@ -31,31 +30,31 @@ class FwMenuClass {
         return properties;
     };
     //---------------------------------------------------------------------------------
-    renderDesignerHtml($control) {
+    renderDesignerHtml($control: JQuery): void {
         var data_type, data_rendermode, html;
         data_type = $control.attr('data-type');
         data_rendermode = $control.attr('data-rendermode');
         $control.attr('data-rendermode', 'designer');
     };
     //---------------------------------------------------------------------------------
-    renderRuntimeHtml($control) {
+    renderRuntimeHtml($control: JQuery): void {
         var html, $usercontrolChildren;
 
         $control.attr('data-rendermode', 'runtime');
     };
     //---------------------------------------------------------------------------------
-    renderTemplateHtml($control) {
+    renderTemplateHtml($control: JQuery): void {
         var data_type, data_rendermode, html;
         data_type = $control.attr('data-type');
         data_rendermode = $control.attr('data-rendermode');
         $control.attr('data-rendermode', 'template');
     };
     //---------------------------------------------------------------------------------
-    getMenuControl(controltype) {
+    getMenuControl(controltype: string): JQuery {
         var html, $menuObject;
 
         html = [];
-        html.push('<div class="fwcontrol fwmenu ' + controltype + '" data-control="FwMenu">');
+        html.push('<div class="fwcontrol fwmenu ' + controltype + '" data-control="FwMenu" data-visible="true">');
         html.push('<div class="buttonbar"></div>');
         html.push('</div>');
         $menuObject = jQuery(html.join(''));
@@ -63,11 +62,11 @@ class FwMenuClass {
         return $menuObject;
     };
     //---------------------------------------------------------------------------------
-    addSubMenu($control) {
+    addSubMenu($control: JQuery): JQuery {
         var $btn, html;
 
         html = [];
-        html.push('<div class="submenubutton">');
+        html.push('<div class="submenubutton" data-visible="true">');
         html.push('<div class="icon"><i class="material-icons">&#xE5D2;</i></div>'); //menu
         html.push('<div class="submenu"></div>');
         html.push('</div>');
@@ -109,11 +108,11 @@ class FwMenuClass {
         return $btn;
     };
     //---------------------------------------------------------------------------------
-    addSubMenuColumn($control) {
+    addSubMenuColumn($control: JQuery): JQuery {
         var html, $column;
 
         html = [];
-        html.push('<div class="submenu-column"></div>');
+        html.push('<div class="submenu-column" data-visible="true"></div>');
 
         $column = jQuery(html.join(''));
 
@@ -122,12 +121,12 @@ class FwMenuClass {
         return $column;
     };
     //---------------------------------------------------------------------------------
-    addSubMenuGroup($control, groupcaption, securityid) {
+    addSubMenuGroup($control: JQuery, groupcaption: string, securityid?: string): JQuery {
         var html, $group;
 
         securityid = (typeof securityid === 'string') ? securityid : '';
         html = [];
-        html.push('<div class="submenu-group" data-securityid="' + securityid + '">');
+        html.push('<div class="submenu-group" data-securityid="' + securityid + '" data-visible="true">');
         html.push('<div class="caption">' + groupcaption + '</div>');
         html.push('<div class="body"></div>');
         html.push('</div>');
@@ -139,12 +138,12 @@ class FwMenuClass {
         return $group;
     };
     //---------------------------------------------------------------------------------
-    addSubMenuBtn($group, caption, securityid) {
+    addSubMenuBtn($group: JQuery, caption: string, securityid?: string): JQuery {
         var html, $btn;
 
         securityid = (typeof securityid === 'string') ? securityid : '';
         html = [];
-        html.push('<div class="submenu-btn" data-securityid="' + securityid + '">');
+        html.push('<div class="submenu-btn" data-securityid="' + securityid + '" data-visible="true">');
         html.push('<div class="caption">' + caption + '</div>');
         html.push('</div>');
 
@@ -155,7 +154,13 @@ class FwMenuClass {
         return $btn;
     };
     //---------------------------------------------------------------------------------
-    addStandardBtn($control, caption, securityid) {
+    addSubMenuItem($group: JQuery, caption: string, securityid: string, onclick: (event: JQuery.ClickEvent) => void): JQuery {
+        const $btn = this.addSubMenuBtn($group, caption, securityid);
+        $btn.on('click', onclick);
+        return $btn;
+    };
+    //---------------------------------------------------------------------------------
+    addStandardBtn($control: JQuery, caption: string, securityid?: string): JQuery {
         var $btn, btnHtml, btnId, id;
         $btn = jQuery();
         if ((caption !== '') && (typeof caption !== 'undefined')) {
@@ -164,13 +169,14 @@ class FwMenuClass {
                 btnId = 'btn' + id;
                 securityid = (typeof securityid === 'string') ? securityid : '';
                 btnHtml = [];
-                btnHtml.push('<div id="' + btnId + '" class="btn" tabindex="0" data-securityid="' + securityid + '">');
+                btnHtml.push('<div id="' + btnId + '" class="btn" tabindex="0" data-securityid="' + securityid + '" data-visible="true">');
                 if ($control.hasClass('default')) {
                     switch (caption) {
                         case 'New': btnHtml.push('<i class="material-icons">&#xE145;</i>'); break; //add
                         case 'Edit': btnHtml.push('<i class="material-icons">&#xE254;</i>'); break; //mode_edit
                         case 'Delete': btnHtml.push('<i class="material-icons">&#xE872;</i>'); break; //delete
                         case 'Save': btnHtml.push('<i class="material-icons">&#xE161;</i>'); break; //save
+                        case 'Refresh': btnHtml.push('<i class="material-icons">refresh</i>'); break; //find
                         case 'Find': btnHtml.push('<i class="material-icons">search</i>'); break; //find
                     }
                 }
@@ -189,12 +195,12 @@ class FwMenuClass {
         return $btn;
     };
     //---------------------------------------------------------------------------------
-    addViewBtn($control, caption, subitems, allowMultiple?: boolean, filterField?: string) {
-        var $btn, btnHtml, btnId, id, $ddBtn;
+    addViewBtn($control: JQuery, caption: string, subitems: JQuery[], allowMultiple?: boolean, filterField?: string): JQuery {
+        var $btn, btnHtml, btnId, id;
         id = program.uniqueId(8);
         btnId = 'btn' + id;
         btnHtml = [];
-        btnHtml.push(`<div id="${btnId}" class="ddviewbtn">`);
+        btnHtml.push(`<div id="${btnId}" class="ddviewbtn" data-visible="true">`);
         btnHtml.push(`  <div class="ddviewbtn-caption">${caption}:</div>`);
         btnHtml.push(`  <div class="ddviewbtn-select ${allowMultiple ? ' multifilter' : ''}" tabindex="0">`);
         btnHtml.push('    <div class="ddviewbtn-select-value"></div>');
@@ -208,7 +214,7 @@ class FwMenuClass {
         const controller = $control.closest('.fwbrowse').attr('data-controller');
         let selectedFilterValues: Array<string> = [];
         for (var i = 0; i < subitems.length; i++) {
-            $ddBtn = subitems[i];
+            let $ddBtn = subitems[i];
             if (allowMultiple) {
                 $ddBtn.prepend(`<input type="checkbox">`);
 
@@ -240,8 +246,13 @@ class FwMenuClass {
                     //check all checkboxes if "ALL" is checked & set caption & update ActiveViewFields
                     let indexOfAll = fields.indexOf("ALL");
                     if (isSelectAllFilters) {
+                        const $filterOptions = jQuery($this).siblings().find('input[type="checkbox"]');
                         if (isChecked) {
-                            jQuery($this).siblings().find('input[type="checkbox"]').prop('checked', true);
+                            if ($filterOptions.length === 1) { //if there is only one other option
+                                $filterOptions.prop('checked', false);
+                            } else {
+                                $filterOptions.prop('checked', true);
+                            }
                             selectedFilterValues = ["All"];
                             fields = ["ALL"];
                             caption = "All";
@@ -326,7 +337,11 @@ class FwMenuClass {
                 const caption = $ddbtn.find(`.ddviewbtn-dropdown-btn-caption`).html();
                 if ($this == 'ALL') {
                     $ddbtn.addClass('select-all-filters');
-                    $btn.find('input').prop('checked', true);
+                    if ($btn.find('input').length === 2) {
+                        $btn.find(`div[data-value="${$this}"] input`).prop('checked', true);
+                    } else {
+                        $btn.find('input').prop('checked', true);
+                    }
                     selectedFilterValues = ["All"];
                 } else {
                     $ddbtn.find('input').prop('checked', true);
@@ -373,7 +388,7 @@ class FwMenuClass {
         return $btn;
     };
     //---------------------------------------------------------------------------------
-    generateDropDownViewBtn(caption, active, value?) {
+    generateDropDownViewBtn(caption: string, active: boolean, value?: string): JQuery {
         var btnHtml, $ddBtn;
         btnHtml = [];
         if (typeof value !== 'undefined') {
@@ -389,7 +404,7 @@ class FwMenuClass {
         return $ddBtn
     };
     //---------------------------------------------------------------------------------
-    addVerticleSeparator($control) {
+    addVerticleSeparator($control: JQuery): void {
         var html, $vr;
         html = [];
         html.push('<div class="vr"></div>');
@@ -397,11 +412,11 @@ class FwMenuClass {
         $control.find('.buttonbar').append($vr);
     };
     //---------------------------------------------------------------------------------
-    addCustomContent($control, $content) {
+    addCustomContent($control: JQuery, $content: JQuery): void {
         $control.find('.buttonbar').append($content);
     };
     //---------------------------------------------------------------------------------
-    generateButtonMenuOption(caption) {
+    generateButtonMenuOption(caption: string): JQuery {
         let $btnMenuOption, html;
         html = [];
         html.push(`<div class="btnmenuoption" data-type="btnmenuoption">${caption}</div>`);
@@ -409,12 +424,12 @@ class FwMenuClass {
         return $btnMenuOption;
     };
     //----------------------------------------------------------------------------------------------
-    addButtonMenuOptions($control, menuOptions) {
+    addButtonMenuOptions($control: JQuery, menuOptions: JQuery[]): JQuery {
         const caption = $control.attr('data-caption');
         const html = [];
         html.push(`<div class="fwformcontrol btnmenu">${caption}</div>`);
-        html.push('  <div><i class="material-icons btnmenudd">&#xE5C5;</i></div>');
-        html.push('<div class="btnmenuoptions"></div>');
+        html.push(`<div class="icon-wrapper"><i class="material-icons btnmenudd">&#xE5C5;</i></div>`);
+        html.push(`<div class="btnmenuoptions"></div>`);
         $control.append(html.join(''))
             .find('.btnmenuoptions')
             .append(menuOptions);
@@ -431,6 +446,776 @@ class FwMenuClass {
         return $control;
     };
     //----------------------------------------------------------------------------------------------
+    applyFormSecurity(options: IAddFormMenuOptions, moduleSecurityId: string): void {
+        let $form = options.$menu.closest('.fwform');
+        const nodeModule = FwApplicationTree.getNodeById(FwApplicationTree.tree, moduleSecurityId);
+        if (nodeModule === null) {
+            console.error(`Unable to find Module node in security tree for security id: ${moduleSecurityId}`);
+            options.$menu.attr('data-visible', 'false').hide();
+            return;
+        } else {
+            options.$menu.attr('data-visible', 'true').show();
+        }
+        const nodeActions = FwApplicationTree.getNodeByFuncRecursive(nodeModule, {}, (node: any, args: any) => {
+            return (node.nodetype === 'ModuleActions');
+        });
+        if (nodeActions !== null) {
+            const nodeNew = FwApplicationTree.getNodeByFuncRecursive(nodeActions, {}, (node: any, args: any) => {
+                return (node.nodetype === 'ModuleAction' && node.properties.action === 'New');
+            });
+            const nodeEdit = FwApplicationTree.getNodeByFuncRecursive(nodeActions, {}, (node: any, args: any) => {
+                return (node.nodetype === 'ModuleAction' && node.properties.action === 'Edit');
+            });
+            const nodeSave = FwApplicationTree.getNodeByFuncRecursive(nodeActions, {}, (node: any, args: any) => {
+                return (node.nodetype === 'ModuleAction' && node.properties.action === 'Save');
+            });
+            let hasSave: boolean = false;
+            
+            const mode = $form.attr('data-mode');
+            hasSave =  ((options.hasSave && nodeNew !== null && nodeNew.properties.visible === 'T' && mode === 'NEW') ||
+                        (options.hasSave && nodeEdit !== null && nodeEdit.properties.visible === 'T') && mode === 'EDIT' ||
+                        (nodeSave !== null && nodeSave.properties.visible === 'T') && (mode === 'NEW' || mode === 'EDIT'));
+
+            // Save
+            if (hasSave) {
+                const $btnSave = options.$menu.find('.btn[data-type="SaveMenuBarButton"]');
+                $btnSave.attr('data-visible', 'true').show();
+            } else {
+                const $btnSave = options.$menu.find('.btn[data-type="SaveMenuBarButton"]');
+                $btnSave.attr('data-visible', 'false').hide();
+            }
+        }
+        const nodeOptions = FwApplicationTree.getNodeByFuncRecursive(nodeModule, {}, (node: any, args: any) => {
+            return (node.nodetype === 'ModuleOptions' || node.nodetype === 'ControlOptions');
+        });
+        options.$menu.find('.submenubutton [data-securityid]').show(); // first enable all the menu items in case they are hidden
+        if (nodeOptions !== null) {
+            for (let i = 0; i < nodeOptions.children.length; i++) {
+                let nodeOption = nodeOptions.children[i];
+                const optionIsVisible = (nodeOption.properties.visible === 'T');
+                options.$menu.find(`.submenubutton [data-securityid="${nodeOption.id}"]`).attr('data-visible', optionIsVisible.toString()).toggle(optionIsVisible);
+            }
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    applyBrowseSecurity(options: IAddBrowseMenuOptions, moduleSecurityId: string): void {
+        let $browse = options.$menu.closest('.fwbrowse');
+        const nodeModule = FwApplicationTree.getNodeById(FwApplicationTree.tree, moduleSecurityId);
+        if (nodeModule === null) {
+            console.error(`Unable to find Module node in security tree for security id: ${moduleSecurityId}`);
+            options.$menu.attr('data-visible', 'false').hide();
+            return;
+        } else {
+            options.$menu.attr('data-visible', 'true').show();
+        }
+        const nodeActions = FwApplicationTree.getNodeByFuncRecursive(nodeModule, {}, (node: any, args: any) => {
+            return (node.nodetype === 'ModuleActions');
+        });
+        if (nodeActions !== null) {
+            let nodeView = null;
+            nodeView = FwApplicationTree.getNodeByFuncRecursive(nodeActions, {}, (node: any, args: any) => {
+                return (node.nodetype === 'ModuleAction' && node.properties.action === 'View');
+            });
+            const nodeNew = FwApplicationTree.getNodeByFuncRecursive(nodeActions, {}, (node: any, args: any) => {
+                return (node.nodetype === 'ModuleAction' && node.properties.action === 'New');
+            });
+            const nodeEdit = FwApplicationTree.getNodeByFuncRecursive(nodeActions, {}, (node: any, args: any) => {
+                return (node.nodetype === 'ModuleAction' && node.properties.action === 'Edit');
+            });
+            const nodeSave = FwApplicationTree.getNodeByFuncRecursive(nodeActions, {}, (node: any, args: any) => {
+                return (node.nodetype === 'ModuleAction' && node.properties.action === 'Save');
+            });
+            const nodeDelete = FwApplicationTree.getNodeByFuncRecursive(nodeActions, {}, (node: any, args: any) => {
+                return (node.nodetype === 'ModuleAction' && node.properties.action === 'Delete');
+            });
+            let hasView: boolean = false;
+            let hasNew: boolean = false;
+            let hasEdit: boolean = false;
+            let hasDelete: boolean = false;
+            hasView = options.hasView && (nodeView !== null && nodeView.properties.visible === 'T' && (nodeEdit === null || nodeEdit.properties.visible === 'F'));
+            hasNew = options.hasNew && ((nodeNew !== null && nodeNew.properties.visible === 'T') || (nodeSave !== null && nodeSave.properties.visible === 'T'));
+            hasEdit = options.hasEdit && ((nodeEdit !== null && nodeEdit.properties.visible === 'T') || (nodeSave !== null && nodeSave.properties.visible === 'T'));
+            hasDelete = options.hasDelete && (nodeDelete !== null && nodeDelete.properties.visible === 'T');
+            
+            // View
+            if (hasView) {
+                const $btnView = options.$menu.find('.btn[data-type="ViewMenuBarButton"]');
+                $btnView.attr('data-visible', 'true').show();
+            }
+            else {
+                const $btnView = options.$menu.find('.btn[data-type="ViewMenuBarButton"]');
+                $btnView.attr('data-visible', 'false').hide();
+            }
+
+            // New
+            if (hasNew) {
+                const $btnNew = options.$menu.find('.btn[data-type="NewMenuBarButton"]');
+                $btnNew.attr('data-visible', 'true').show();
+                $browse.attr('data-newtab', 'true');
+            } else {
+                const $btnNew = options.$menu.find('.btn[data-type="NewMenuBarButton"]');
+                $btnNew.attr('data-visible', 'false').hide();
+                $browse.attr('data-newtab', 'false');
+            }
+
+            // Edit
+            if (hasEdit) {
+                const $btnEdit = options.$menu.find('.btn[data-type="EditMenuBarButton"]');
+                $btnEdit.attr('data-visible', 'true').show();
+            } else {
+                const $btnEdit = options.$menu.find('.btn[data-type="EditMenuBarButton"]');
+                $btnEdit.attr('data-visible', 'false').hide();
+            }
+
+            // Delete
+            if (hasDelete) {
+                const $btnDelete = options.$menu.find('.btn[data-type="DeleteMenuBarButton"]');
+                $btnDelete.attr('data-visible', 'true').show();
+            } else {
+                const $btnDelete = options.$menu.find('.btn[data-type="DeleteMenuBarButton"]');
+                $btnDelete.attr('data-visible', 'false').hide();
+            }
+        }
+        const nodeOptions = FwApplicationTree.getNodeByFuncRecursive(nodeModule, {}, (node: any, args: any) => {
+            return (node.nodetype === 'ModuleOptions' || node.nodetype === 'ControlOptions');
+        });
+        options.$menu.find('.submenubutton [data-securityid]').show(); // first enable all the menu items in case they are hidden
+        if (nodeOptions !== null) {
+            for (let i = 0; i < nodeOptions.children.length; i++) {
+                let nodeOption = nodeOptions.children[i];
+                const optionIsVisible = (nodeOption.properties.visible === 'T');
+                options.$menu.find(`.submenubutton [data-securityid="${nodeOption.id}"]`).attr('data-visible', optionIsVisible.toString()).toggle(optionIsVisible);
+            }
+        }
+    }
+    
+    //----------------------------------------------------------------------------------------------
+    applyGridSecurity(options: IAddGridMenuOptions, moduleSecurityId: string): void {
+        let $browse = options.$menu.closest('.fwbrowse');
+        const nodeModule = FwApplicationTree.getNodeById(FwApplicationTree.tree, moduleSecurityId);
+        if (nodeModule === null) {
+            console.error(`Unable to find Module node in security tree for security id: ${moduleSecurityId}`);
+            options.$menu.attr('data-visible', 'false').hide();
+            return;
+        } else {
+            options.$menu.attr('data-visible', 'true').show();
+        }
+        const nodeActions = FwApplicationTree.getNodeByFuncRecursive(nodeModule, {}, (node: any, args: any) => {
+            return (node.nodetype === 'ControlActions' || node.nodetype === 'ModuleActions');
+        });
+        if (nodeActions !== null) {
+            const nodeNew = FwApplicationTree.getNodeByFuncRecursive(nodeActions, {}, (node: any, args: any) => {
+                return (node.nodetype === 'ControlAction' && node.properties.action === 'ControlNew') || (node.nodetype === 'ModuleAction' && node.properties.action === 'New');
+            });
+            const nodeEdit = FwApplicationTree.getNodeByFuncRecursive(nodeActions, {}, (node: any, args: any) => {
+                return (node.nodetype === 'ControlAction' && node.properties.action === 'ControlEdit') || (node.nodetype === 'ModuleAction' && node.properties.action === 'Edit');
+            });
+            const nodeSave = FwApplicationTree.getNodeByFuncRecursive(nodeActions, {}, (node: any, args: any) => {
+                return (node.nodetype === 'ControlAction' && node.properties.action === 'ControlSave') || (node.nodetype === 'ModuleAction' && node.properties.action === 'Save');
+            });
+            const nodeDelete = FwApplicationTree.getNodeByFuncRecursive(nodeActions, {}, (node: any, args: any) => {
+                return (node.nodetype === 'ControlAction' && node.properties.action === 'ControlDelete') || (node.nodetype === 'ModuleAction' && node.properties.action === 'Delete');
+            });
+            let hasNew: boolean = false;
+            let hasEdit: boolean = false;
+            let hasDelete: boolean = false;
+            hasNew = options.hasNew && ((nodeNew !== null && nodeNew.properties.visible === 'T') || (nodeSave !== null && nodeSave.properties.visible === 'T'));
+            hasEdit = options.hasEdit && ((nodeEdit !== null && nodeEdit.properties.visible === 'T') || (nodeSave !== null && nodeSave.properties.visible === 'T'));
+            hasDelete = options.hasDelete && (nodeDelete !== null && nodeDelete.properties.visible === 'T');
+
+            // New
+            if (hasNew) {
+                const $btnNew = options.$menu.find('.btn[data-type="NewMenuBarButton"]');
+                $btnNew.attr('data-visible', 'true').show();
+                $browse.attr('data-newtab', 'true');
+            } else {
+                const $btnNew = options.$menu.find('.btn[data-type="NewMenuBarButton"]');
+                $btnNew.attr('data-visible', 'false').hide();
+                $browse.attr('data-newtab', 'false');
+            }
+
+            // Edit
+            if (hasEdit) {
+                const $btnEdit = options.$menu.find('.btn[data-type="EditMenuBarButton"]');
+                $btnEdit.attr('data-visible', 'true').show();
+            } else {
+                const $btnEdit = options.$menu.find('.btn[data-type="EditMenuBarButton"]');
+                $btnEdit.attr('data-visible', 'false').hide();
+            }
+
+            // Delete
+            if (hasDelete) {
+                const $btnDelete = options.$menu.find('.btn[data-type="DeleteMenuBarButton"]');
+                $btnDelete.attr('data-visible', 'true').show();
+            } else {
+                const $btnDelete = options.$menu.find('.btn[data-type="DeleteMenuBarButton"]');
+                $btnDelete.attr('data-visible', 'false').hide();
+            }
+            options.$browse.attr('data-deleteoption', hasDelete.toString());
+        }
+        const nodeOptions = FwApplicationTree.getNodeByFuncRecursive(nodeModule, {}, (node: any, args: any) => {
+            return (node.nodetype === 'ModuleOptions' || node.nodetype === 'ControlOptions');
+        });
+        options.$menu.find('.submenubutton [data-securityid]').show(); // first enable all the menu items in case they are hidden
+        if (nodeOptions !== null) {
+            for (let i = 0; i < nodeOptions.children.length; i++) {
+                let nodeOption = nodeOptions.children[i];
+                const optionIsVisible = (nodeOption.properties.visible === 'T');
+                options.$menu.find(`.submenubutton [data-securityid="${nodeOption.id}"]`).attr('data-visible', optionIsVisible.toString()).toggle(optionIsVisible);
+            }
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    cleanupMenu($menu: JQuery) {
+        const $submenus = $menu.find('.submenu');
+        for (let submenuno = 0; submenuno < $submenus.length; submenuno++) {
+            const $submenu = $submenus.eq(submenuno);
+            const $submenugroups = $submenu.find('.submenu-group');
+            for (let submenugroupno = 0; submenugroupno < $submenugroups.length; submenugroupno++) {
+                const $submenugroup = $submenugroups.eq(submenugroupno);
+                const hasChildren = $submenugroup.children('.body').eq(0).children('[data-visible="true"]').length > 0;
+                $submenugroup.attr('data-visible', hasChildren.toString()).toggle(hasChildren);
+            }
+            const $submenucolumns = $submenu.find('.submenu-column');
+            for (let submenucolno = 0; submenucolno < $submenucolumns.length; submenucolno++) {
+                const $submenucol = $submenucolumns.eq(submenucolno);
+                const hasChildren = $submenucol.children('[data-visible="true"]').eq(0).length > 0;
+                $submenucol.attr('data-visible', hasChildren.toString()).toggle(hasChildren);
+            }
+            if ($submenu.children('[data-visible="true"]').length === 0) {
+                const $submenubutton = $submenu.closest('.submenubutton');
+                $submenubutton.addClass('nohover');
+                $submenubutton.off('click', '.icon');
+                $submenubutton.find('.icon i')
+                    .css({
+                        color: '#aaaaaa'
+                    });
+            }
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    addBrowseMenuButtons(options: IAddBrowseMenuOptions) {
+        if (typeof options.hasView === 'undefined') {
+            options.hasView = true;
+        }
+        if (typeof options.hasNew === 'undefined') {
+            options.hasNew = true;
+        }
+        if (typeof options.hasEdit === 'undefined') {
+            options.hasEdit = true;
+        }
+        if (typeof options.hasDelete === 'undefined') {
+            options.hasDelete = true;
+        }
+        if (typeof options.hasFind === 'undefined') {
+            options.hasFind = true;
+        }
+        if (typeof options.hasDownloadExcel === 'undefined') {
+            options.hasDownloadExcel = true;
+        }
+        //if (typeof buttons.hasExportExcel) {
+        //    //check the security tree
+        //    const nodeExportExcel
+        //    FwMenu.addSubMenuItem(options.$groupExport, 'Download Excel Workbook (*.xlsx)', this.exportExcelSecurityId, (e: JQuery.ClickEvent) => {
+        //        try {
+        //            const $form = options.$browse.closest('.fwform');
+        //            $form
+        //            FwBrowse.downloadExcelWorkbook(options.$browse, options.$browse.attr('data-controller');
+        //        }
+        //        catch (ex) {
+        //            FwFunc.showError(ex);
+        //        }
+        //    });
+        //}
+        if (typeof options.hasNew === 'boolean' && options.hasNew) {
+            options.$browse.attr('data-newtab', 'true');
+            const $menubarbutton = FwMenu.addStandardBtn(options.$menu, 'New');
+            $menubarbutton.attr('data-type', 'NewMenuBarButton');
+            $menubarbutton.on('click', function () {
+                try {
+                    //options.$browse.attr('data-newtab', 'true');
+                    const controller = options.$browse.attr('data-controller');
+                    const issubmodule = options.$browse.closest('.tabpage').hasClass('submodule');
+                    if (typeof window[controller] === 'undefined') throw 'Missing javascript module: ' + controller;
+                    if (typeof (<any>window[controller]).openForm !== 'function') throw 'Missing javascript function: ' + controller + '.openForm';
+                    const $form = (<any>window[controller]).openForm('NEW');
+                    if (!issubmodule) {
+                        FwModule.openModuleTab($form, 'New ' + $form.attr('data-caption'), true, 'FORM', true);
+                    } else {
+                        FwModule.openSubModuleTab(options.$browse, $form);
+                    }
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            });
+        }
+        if (typeof options.hasEdit === 'boolean' && options.hasEdit) {
+            const $menubarbutton = FwMenu.addStandardBtn(options.$menu, 'View');
+            $menubarbutton.attr('data-type', 'ViewMenuBarButton');
+            $menubarbutton.on('click', function (event) {
+                try {
+                    const $browse = jQuery(this).closest('.fwbrowse');
+                    const $selectedRow = $browse.find('tr.selected');
+                    if ($selectedRow.length > 0) {
+                        $selectedRow.dblclick();
+                    } else {
+                        FwNotification.renderNotification('WARNING', 'Please select a row.');
+                    }
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            });
+            
+            const $menubarbutton2 = FwMenu.addStandardBtn(options.$menu, 'Edit');
+            $menubarbutton2.attr('data-type', 'EditMenuBarButton');
+            $menubarbutton2.on('click', function (event) {
+                try {
+                    const $selectedRow = options.$browse.find('tr.selected');
+                    if ($selectedRow.length > 0) {
+                        $selectedRow.dblclick();
+                    } else {
+                        FwNotification.renderNotification('WARNING', 'Please select a row.');
+                    }
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            });
+        }
+        if (typeof options.hasDelete === 'boolean' && options.hasDelete) {
+            const $menubarbutton = FwMenu.addStandardBtn(options.$menu, 'Delete');
+            $menubarbutton.attr('data-type', 'DeleteMenuBarButton');
+            $menubarbutton.on('click', function () {
+                try {
+                    const controller = options.$browse.attr('data-controller');
+                    if (typeof window[controller] === 'undefined') throw 'Missing javascript module: ' + controller;
+                    if (typeof window[controller]['deleteRecord'] === 'function') {
+                        window[controller]['deleteRecord'](options.$browse);
+                    } else {
+                        FwModule['deleteRecord']((<any>window[controller]).Module, options.$browse);
+                    }
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            });
+        }
+        if (typeof options.hasFind === 'boolean' && options.hasFind) {
+            let loaded = false;
+            const $menubarbutton = FwMenu.addStandardBtn(options.$menu, 'Find');
+
+            $menubarbutton.append(`
+            <div class="findbutton-dropdown">
+                <div class="query">
+                    <div class="queryrow">
+                        <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield find-field andor" data-caption="" data-datafield="AndOr" style="flex:1 1 auto;"></div>
+                        <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield find-field datafieldselect" data-caption="Data Field" data-datafield="Datafield" style="flex:1 1 auto;"></div>
+                        <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield find-field datafieldcomparison" data-caption="" data-datafield="DatafieldComparison" style="flex:1 1 150px;"></div>
+                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield find-field textquery" data-caption="" data-datafield="DatafieldQuery" style="flex:1 1 200px;"></div>
+                        <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield find-field datequery" data-enabled="true" data-caption="" data-datafield="DateFieldQuery" style="flex:1 1 200px;display:none;"></div>
+                        <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield find-field booleanquery" data-caption="" data-datafield="BooleanFieldQuery" style="flex:1 1 200px;display:none;"></div>
+                        <i class="material-icons delete-query">delete_outline</i>
+                        <i class="material-icons add-query">add_circle_outline</i>
+                    </div>
+                </div>
+                <div class="flexrow queryrow">
+                    <div class="find fwformcontrol querysearch" data-type="button" style="flex:0 1 50px;margin:15px 15px 10px 10px;margin-left:auto;">Apply</div>
+                </div>
+            </div>`);
+            FwControl.renderRuntimeHtml($menubarbutton.find('.fwcontrol'));
+
+            $menubarbutton.attr('data-type', 'FindMenuBarButton');
+            let findFields = [];
+            let textComparisonFields = [
+                { value: 'like', text: 'Contains' },
+                { value: 'startswith', text: 'Starts With' },
+                { value: 'endswith', text: 'Ends With' },
+                { value: '=', text: 'Equals' },
+                { value: 'doesnotcontain', text: 'Does Not Contain' },
+                { value: '<>', text: 'Does Not Equal' }
+            ];
+            let numericComparisonFields = [
+                { value: '=', text: '=' },
+                { value: '>', text: '>' },
+                { value: '>=', text: '≥' },
+                { value: '<', text: '<' },
+                { value: '<=', text: '≤' },
+                { value: '<>', text: '≠' },
+            ];
+            let booleanComparisonFields = [
+                { value: '=', text: 'Equals' },
+                { value: '<>', text: 'Does Not Equal' }
+            ];
+            let dateComparisonFields = [
+                { value: '=', text: 'Equals' },
+                { value: '<', text: 'Prior To' },
+                { value: '<=', text: 'Prior To or Equals' },
+                { value: '>', text: 'Later Than' },
+                { value: '>=', text: 'Later Than or Equals' },
+                { value: '<>    ', text: 'Does Not Equal' },
+            ];
+
+            $menubarbutton.on('click', function (e) {
+                let maxZIndex;
+                let $this = jQuery(this);
+                const controller = options.$browse.attr('data-controller');
+                e.preventDefault();
+                if (!loaded) {
+                    FwAppData.apiMethod(true, 'GET', (<any>window[controller]).apiurl + '/emptyobject', null, FwServices.defaultTimeout, function onSuccess(response) {
+                        let dateField = options.$browse.find('.datequery');
+                        let textField = options.$browse.find('.textquery');
+                        let booleanField = options.$browse.find('.booleanquery');
+                                        FwControl.renderRuntimeHtml($menubarbutton.find('.fwcontrol'));
+
+                        for (var j = 0; j < response._Custom.length; j++) {
+                            findFields.push({
+                                'value': response._Custom[j].FieldName,
+                                'text': response._Custom[j].FieldName,
+                                'type': response._Custom[j].FieldType
+                            })
+                        }
+
+                        for (var i = 0; i < response._Fields.length; i++) {
+                            findFields.push({
+                                'value': response._Fields[i].Name,
+                                'text': response._Fields[i].Name,
+                                'type': response._Fields[i].DataType
+                            })
+                        }
+                        findFields.sort(function (a, b) { return (a.text > b.text) ? 1 : ((b.text > a.text) ? -1 : 0); });
+                        window['FwFormField_select'].loadItems(options.$browse.find('.datafieldselect'), findFields, false);
+                        window['FwFormField_select'].loadItems(options.$browse.find('.andor'), [{ value: 'and', text: 'And' }, { value: 'or', text: 'Or' }], true);
+                        window['FwFormField_select'].loadItems(booleanField, [{ value: 'T', text: 'true' }, { value: 'F', text: 'false' }], true);
+                        options.$browse.find('.datafieldselect').on('change', function () {
+                            let datatype = jQuery(this).find(':selected').data('type');
+                            dateField.hide();
+                            textField.hide();
+                            booleanField.hide();
+                            switch (datatype) {
+                                case 'Text':
+                                    textField.show();
+                                    window['FwFormField_select'].loadItems(jQuery(options.$browse.find('.datafieldcomparison')[0]), textComparisonFields, true);
+                                    break;
+                                case 'Integer':
+                                case 'Decimal':
+                                case 'Float':
+                                    textField.show();
+                                    window['FwFormField_select'].loadItems(jQuery(options.$browse.find('.datafieldcomparison')[0]), numericComparisonFields, true);
+                                    break;
+                                case 'True/False':
+                                case 'Boolean':
+                                    booleanField.show();
+                                    window['FwFormField_select'].loadItems(jQuery(options.$browse.find('.datafieldcomparison')[0]), booleanComparisonFields, true);
+                                    break;
+                                case 'Date':
+                                    dateField.show();
+                                    window['FwFormField_select'].loadItems(jQuery(options.$browse.find('.datafieldcomparison')[0]), dateComparisonFields, true);
+                                    break;
+                            }
+                        })
+                    }, function onError(response) {
+                        FwFunc.showError(response);
+                    }, null);
+
+                    loaded = true
+                }
+
+                if (!$this.hasClass('active')) {
+                    maxZIndex = FwFunc.getMaxZ('*');
+                    $this.find('.findbutton-dropdown').css('z-index', maxZIndex + 1);
+                    $this.addClass('active');
+
+                    jQuery(document).on('click', function closeMenu(e: any) {
+                        let target = jQuery(e.target);
+                        if ($menubarbutton.has(e.target).length === 0 && !jQuery(e.target).hasClass('delete-query') && target.parent().prop('tagName') !== 'TR' && !target.hasClass('year') && !target.hasClass('month') && jQuery(document.body).find('.datepicker').has(e.target).length === 0) {
+                            $this.removeClass('active');
+                            $this.find('.findbutton-dropdown').css('z-index', '0');
+                            jQuery(document).off('click');
+                        }
+                    });
+                }
+            });
+
+            options.$browse.find('.add-query').on('click', function cloneRow() {
+                let $newRow = jQuery(this).closest('.queryrow').clone();
+                FwControl.renderRuntimeHtml($newRow.find('.fwcontrol'));
+                window['FwFormField_select'].loadItems($newRow.find('.datafieldselect'), findFields, false);
+                window['FwFormField_select'].loadItems($newRow.find('.andor'), [{ value: 'and', text: 'And' }, { value: 'or', text: 'Or' }], true);
+                window['FwFormField_select'].loadItems($newRow.find('.booleanquery'), [{ value: 'T', text: 'true' }, { value: 'F', text: 'false' }], true);
+                let dateField = $newRow.find('.datequery');
+                let textField = $newRow.find('.textquery');
+                let booleanField = $newRow.find('.booleanquery');
+
+                $newRow.find('.datafieldselect').on('change', function () {
+                    let datatype = jQuery(this).find(':selected').data('type');
+                    dateField.hide();
+                    textField.hide();
+                    booleanField.hide();
+                    switch (datatype) {
+                        case 'Text':
+                            textField.show();
+                            window['FwFormField_select'].loadItems($newRow.find('.datafieldcomparison'), textComparisonFields, true);
+                            break;
+                        case 'Integer':
+                        case 'Decimal':
+                        case 'Float':
+                            textField.show();
+                            window['FwFormField_select'].loadItems($newRow.find('.datafieldcomparison'), numericComparisonFields, true);
+                            break;
+                        case 'True/False':
+                        case 'Boolean':
+                            booleanField.show();
+                            window['FwFormField_select'].loadItems($newRow.find('.datafieldcomparison'), booleanComparisonFields, true);
+                            break;
+                        case 'Date':
+                            dateField.show();
+                            window['FwFormField_select'].loadItems($newRow.find('.datafieldcomparison'), dateComparisonFields, true);
+                            break;
+                    }
+                });
+                $newRow.find('.delete-query').on('click', function () {
+                    if ($newRow.find('.add-query').css('visibility') === 'visible') {
+                        $newRow.prev().find('.add-query').css('visibility', 'visible');
+                    }
+                    if ($newRow.find('.andor').css('visibility') === 'hidden') {
+                        $newRow.next().find('.andor').css('visibility', 'hidden');
+                    }
+                    if (options.$browse.find('.query').find('.queryrow').length === 2 && $newRow.next().length !== 0) {
+                        $newRow.next().find('.delete-query').removeAttr('style').css('visibility', 'hidden');
+                    }
+                    if (options.$browse.find('.query').find('.queryrow').length === 2 && $newRow.prev().length !== 0) {
+                        $newRow.prev().find('.delete-query').removeAttr('style').css('visibility', 'hidden');
+                    }
+                    $newRow.remove();
+                }).css('visibility', 'visible');
+                $newRow.find('.andor').css('visibility', 'visible');
+                $newRow.find('.add-query').on('click', cloneRow);
+                $newRow.find('input').val('')
+                $newRow.appendTo(options.$browse.find('.query'));
+                if (options.$browse.find('.query').find('.queryrow').length > 1) {
+                    jQuery(options.$browse.find('.query').find('.queryrow')[0]).find('.delete-query').on('click', function () {
+                        jQuery(this).closest('.queryrow').next().find('.andor').css('visibility', 'hidden');
+                        jQuery(this).closest('.queryrow').remove();
+                    }).css('visibility', 'visible');
+                }
+                jQuery(this).css('cursor', 'default');
+                jQuery(this).css('visibility', 'hidden');
+            })
+
+            options.$browse.find('.querysearch').on('click', function (e) {
+                options.$browse.removeData('advancedsearchrequest')
+                let request = FwBrowse.getRequest(options.$browse);
+                let advancedSearch: any = {};
+                let queryRows = options.$browse.find('.query').find('.queryrow');
+                let $find = jQuery(this).closest('.btn');
+                advancedSearch.searchfieldoperators = [];
+                advancedSearch.searchfieldtypes = [];
+                advancedSearch.searchfields = [];
+                advancedSearch.searchfieldvalues = [];
+                advancedSearch.searchcondition = [];
+                advancedSearch.searchseparators = [];
+                advancedSearch.searchconjunctions = [];
+
+                //adds container for read-only fields from "Find"
+                const $browsemenu = options.$browse.find('.fwbrowse-menu');
+                let $searchFields;
+                if ($browsemenu.find('.read-only-searchfields').length === 0) {
+                    $searchFields = jQuery(`<div class="fwcontrol fwmenu default read-only-searchfields flexcolumn" style="padding-bottom:10px;"></div>`);
+                    $browsemenu.append($searchFields);
+                } else {
+                    $searchFields = $browsemenu.find('.read-only-searchfields').empty();
+                }
+
+                for (var i = 0; i < queryRows.length; i++) {
+                    let valuefield;
+                    const comparisonText = jQuery(queryRows[i]).find('.datafieldcomparison').find(':selected').text();
+                    const comparisonfield = FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="DatafieldComparison"]'));
+                    const datafield = FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="Datafield"]'));
+                    let type = jQuery(queryRows[i]).find('.datafieldselect').find(':selected').data('type');
+                    if (datafield != '') {
+                        advancedSearch.searchfieldtypes.push(jQuery(queryRows[i]).find('.datafieldselect').find(':selected').data('type'));
+                        advancedSearch.searchfields.push(datafield);
+                        switch (type) {
+                            case 'True/False':
+                            case 'Boolean':
+                                valuefield = FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="BooleanFieldQuery"]'));
+                                if (valuefield === 'F' && comparisonfield === '=') {
+                                    advancedSearch.searchfieldvalues.push('T');
+                                    advancedSearch.searchfieldoperators.push('<>');
+                                } else if (valuefield === 'F' && comparisonfield === '<>') {
+                                    advancedSearch.searchfieldvalues.push('T');
+                                    advancedSearch.searchfieldoperators.push('=');
+                                } else {
+                                    advancedSearch.searchfieldvalues.push(valuefield);
+                                    advancedSearch.searchfieldoperators.push(comparisonfield);
+                                }
+                                valuefield = (valuefield == 'F' ? 'FALSE' : 'TRUE');
+                                break;
+                            case 'Date':
+                                valuefield = FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="DateFieldQuery"]'));
+                                advancedSearch.searchfieldvalues.push(valuefield);
+                                advancedSearch.searchfieldoperators.push(comparisonfield);
+                                break;
+                            default:
+                                valuefield = FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="DatafieldQuery"]'));
+                                advancedSearch.searchfieldvalues.push(valuefield);
+                                advancedSearch.searchfieldoperators.push(comparisonfield);
+                                break;
+                        }
+                        advancedSearch.searchseparators.push(',');
+
+                        //adds read-only fields
+                        const $readOnlyField = jQuery(`<div class="searchfield-row" style="display:flex;">
+                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="Datafield" data-enabled="false" style="flex:0 0 200px;"></div>
+                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="Comparison" data-enabled="false" style="flex:0 0 200px;"></div>
+                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="Value" data-enabled="false" style="flex:0 0 200px;"></div>
+                        </div>`);
+                        FwControl.renderRuntimeHtml($readOnlyField.find('.fwformfield'));
+                        FwFormField.setValue2($readOnlyField.find('[data-datafield="Datafield"]'), datafield, datafield);
+                        FwFormField.setValue2($readOnlyField.find('[data-datafield="Comparison"]'), comparisonText, comparisonText);
+                        FwFormField.setValue2($readOnlyField.find('[data-datafield="Value"]'), valuefield, valuefield);
+                        $searchFields.append($readOnlyField);
+                    }
+                    if (i === 0) {
+                        advancedSearch.searchconjunctions.push(' ');
+                    } else {
+                        advancedSearch.searchconjunctions.push(FwFormField.getValue2(jQuery(queryRows[i]).find('.andor')));
+                    }
+                }
+
+                options.$browse.data('advancedsearchrequest', advancedSearch);
+
+                request.searchfieldoperators = request.searchfieldoperators.concat(advancedSearch.searchfieldoperators);
+                request.searchfields = request.searchfields.concat(advancedSearch.searchfields);
+                request.searchfieldtypes = request.searchfieldtypes.concat(advancedSearch.searchfieldtypes);
+                request.searchfieldvalues = request.searchfieldvalues.concat(advancedSearch.searchfieldvalues);
+                request.searchseparators = request.searchseparators.concat(advancedSearch.searchseparators);
+                request.searchconjunctions = request.searchconjunctions.concat(advancedSearch.searchconjunctions);
+
+                FwServices.module.method(request, request.module, 'Browse', options.$browse, function (response) {
+                    try {
+                        FwBrowse.beforeDataBindCallBack(options.$browse, request, response);
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                })
+
+                $find.removeClass('active');
+                $find.find('.findbutton-dropdown').css('z-index', '0');
+                jQuery(document).off('click');
+
+                e.stopPropagation();
+            });
+        }
+        if (options.hasDownloadExcel) {
+            const gridSecurityId = options.$browse.data('secid');
+            const gridName = options.$browse.data('name');
+            FwMenu.addSubMenuItem(options.$groupExport, 'Download Excel Workbook (*.xlsx)', gridSecurityId, (e: JQuery.ClickEvent) => {
+                try {
+                    FwBrowse.downloadExcelWorkbook(options.$browse, gridName + 'Controller');
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            });
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    addFormMenuButtons(options: IAddFormMenuOptions) {
+        if (options.$form.attr('data-mode') === 'NEW' || options.$form.attr('data-mode') === 'EDIT') {
+            const $menubarbutton = FwMenu.addStandardBtn(options.$menu, 'Save');
+            $menubarbutton.attr('data-type', 'SaveMenuBarButton');
+            $menubarbutton.addClass('disabled');
+            $menubarbutton.on('click', function (event) {
+                try {
+                    const method = 'saveForm';
+                    const ismodified = options.$form.attr('data-modified');
+                    if (ismodified === 'true') {
+                        const controller = options.$form.attr('data-controller');
+                        if (typeof window[controller] === 'undefined') throw 'Missing javascript module: ' + controller;
+                        if (typeof window[controller][method] === 'function') {
+                            (<any>window)[controller][method](options.$form, { closetab: false });
+                        } else {
+                            FwModule[method]((<any>window)[controller].Module, options.$form, { closetab: false });
+                        }
+                    }
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            });
+        }
+        if (typeof options.hasPrevious === 'boolean' && options.hasPrevious) {
+            var $prev = FwMenu.addStandardBtn(options.$menu, '<');
+            $prev.attr('data-type', 'PrevButton');
+            $prev.on('click', function () {
+                var $this, $browse, $tab, $selectedrow;
+                try {
+                    $this = jQuery(this);
+                    $browse = $this.closest('.tabpages').find('[data-tabtype="BROWSE"] .fwbrowse');
+                    $tab = FwTabs.getTabByElement($this);
+                    FwBrowse.openPrevRow($browse, $tab, options.$form);
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            });
+        }
+        if (typeof options.hasNext === 'boolean' && options.hasNext) {
+            var $next = FwMenu.addStandardBtn(options.$menu, '>');
+            $next.attr('data-type', 'NextButton');
+            $next.on('click', function () {
+                var $this, $browse, $tab, $selectedrow;
+                try {
+                    $this = jQuery(this);
+                    $browse = $this.closest('.tabpages').find('[data-tabtype="BROWSE"] .fwbrowse');
+                    $tab = FwTabs.getTabByElement($this);
+                    FwBrowse.openNextRow($browse, $tab, options.$form);
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            });
+        }
+    }
+    //----------------------------------------------------------------------------------------------
 }
 
-var FwMenu: any = new FwMenuClass();
+var FwMenu = new FwMenuClass();
+
+interface IAddFormMenuOptions {
+    $form: JQuery
+    $menu: JQuery
+    $subMenu: JQuery
+    $colOptions: JQuery
+    $groupOptions: JQuery
+    hasPrevious?: boolean
+    hasNext?: boolean
+    hasSave?: boolean
+}
+
+interface IAddBrowseMenuOptions {
+    $browse: JQuery
+    $menu: JQuery
+    $subMenu: JQuery
+    $colOptions: JQuery
+    $groupOptions: JQuery
+    $colExport: JQuery
+    $groupExport: JQuery
+    hasView?: boolean
+    hasNew?: boolean
+    hasEdit?: boolean
+    hasDelete?: boolean
+    hasFind?: boolean
+    hasDownloadExcel?: boolean
+    hasInactive?: boolean;
+}
+
+interface IAddGridMenuOptions {
+    $browse: JQuery;
+    $menu: JQuery;
+    $subMenu: JQuery;
+    $colActions: JQuery;
+    $groupActions: JQuery;
+    $colExport: JQuery;
+    $groupExport: JQuery;
+    gridSecurityId?: string;
+    hasDelete?: boolean;
+    hasEdit?: boolean;
+    hasNew?: boolean;
+    hasDownloadExcel?: boolean;
+}

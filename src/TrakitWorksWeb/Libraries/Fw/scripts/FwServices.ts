@@ -73,7 +73,43 @@ class FwServicesClass {
                 FwAppData.apiMethod(true, 'DELETE', url, null, FwServices.defaultTimeout, onSuccess, onError, $form);
             }
             else if (method === 'Save') {
-                FwAppData.apiMethod(true, 'POST', url, request, FwServices.defaultTimeout, onSuccess, onError, $form);
+                const controllerName = $form.attr('data-controller');
+                const controller = (<any>window)[controllerName];
+                const securityId = controller.id;
+                const nodeModule = FwApplicationTree.getNodeById(FwApplicationTree.tree, securityId);
+                const nodeNew = FwApplicationTree.getNodeByFuncRecursive(nodeModule, {}, (node: any, args: any) => {
+                    return (node.nodetype === 'ModuleAction' && node.properties.action === 'New');
+                });
+                const nodeEdit = FwApplicationTree.getNodeByFuncRecursive(nodeModule, {}, (node: any, args: any) => {
+                    return (node.nodetype === 'ModuleAction' && node.properties.action === 'Edit');
+                });
+                const nodeSave = FwApplicationTree.getNodeByFuncRecursive(nodeModule, {}, (node: any, args: any) => {
+                    return (node.nodetype === 'ModuleAction' && node.properties.action === 'Save');
+                });
+                const mode = $form.attr('data-mode');
+                if (mode == 'NEW' && nodeNew !== null && nodeNew.properties.visible === 'T') {
+                    FwAppData.apiMethod(true, 'POST', url, request, FwServices.defaultTimeout, onSuccess, onError, $form);
+                    return;
+                }
+                else if (mode === 'EDIT' && nodeEdit !== null && nodeEdit.properties.visible === 'T') {
+                    let putUrl = url;
+                    switch ($form.attr('data-mode')) {
+                        case 'EDIT':
+                            const $uniqueIdFields = $form.data('uniqueids');
+                            if (typeof $form.data('getapiurl') !== 'function' && $uniqueIdFields.length === 1) {
+                                putUrl += `/${FwFormField.getValue2($uniqueIdFields.eq(0))}`;
+                            } else if (typeof $form.data('getapiurl') !== 'function' && $uniqueIdFields.length > 1) {
+                                throw 'Need to define a function $form.data(getapiurl) to define a custom url for this module which has multiple primary keys'
+                            }
+                            break;
+                    }
+                    FwAppData.apiMethod(true, 'PUT', putUrl, request, FwServices.defaultTimeout, onSuccess, onError, $form);
+                    return;
+                }
+                else if ((mode === 'NEW' || mode === 'EDIT') && nodeSave != null && nodeSave.properties.visible === 'T')
+                {
+                    FwAppData.apiMethod(true, 'POST', url, request, FwServices.defaultTimeout, onSuccess, onError, $form);
+                }
             }
             else {
                 FwAppData.jsonPost(true, url , request, FwServices.defaultTimeout, onSuccess, onError, $form);

@@ -1,12 +1,17 @@
-﻿class FwBrowseColumn_numberClass implements IFwBrowseColumn {
+class FwBrowseColumn_numberClass implements IFwBrowseColumn {
     //---------------------------------------------------------------------------------
     databindfield($browse, $field, dt, dtRow, $tr): void {
-    
+
     }
     //---------------------------------------------------------------------------------
     getFieldValue($browse, $tr, $field, field, originalvalue) {
         if (($tr.hasClass('editmode')) || ($tr.hasClass('newmode'))) {
-            field.value = $field.find('input.value').val();
+            var $value = $field.find('input.value');
+            if ($value.length > 0) {
+                field.value = $field.find('input.value').val();
+            } else {
+                field.value = originalvalue;
+            }
         }
     }
     //---------------------------------------------------------------------------------

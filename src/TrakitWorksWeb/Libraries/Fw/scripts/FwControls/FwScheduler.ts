@@ -288,8 +288,9 @@ class FwSchedulerClass {
                 FwFunc.showError(ex);
             }
         });
-        $control.on('onactivatetab', function () {
-            if ($control.attr('data-refreshonactivatetab') !== 'false') {
+        $control.on('onactivatetab', () => {
+            const $form = $control.closest('.fwform');
+            if ($control.attr('data-refreshonactivatetab') !== 'false' && $form.attr('data-mode') !== 'NEW') {
                 FwScheduler.refresh($control);
             }
         });
@@ -409,6 +410,7 @@ class FwSchedulerClass {
         dpcalendar.eventClickHandling = 'Disabled';
         dpcalendar.eventMoveHandling = 'Disabled';
         dpcalendar.eventResizeHandling = 'Disabled';
+        dpcalendar.heightSpec = 'Full';
         dpcalendar.weekStarts = 0;
         dpcalendar.businessBeginsHour = 0;
         dpcalendar.businessEndsHour = 11;
@@ -422,6 +424,7 @@ class FwSchedulerClass {
                 FwFunc.showError(ex);
             }
         };
+        if (typeof $control.data('onheaderclick') === 'function') dpcalendar.onHeaderClick = $control.data('onheaderclick');
         dpcalendar.init();
     };
     //---------------------------------------------------------------------------------
@@ -445,7 +448,9 @@ class FwSchedulerClass {
             dpmonth.clearSelection();
             dpmonth.update();
         };
+
         if (typeof $control.data('ontimerangedoubleclicked') === 'function') dpmonth.onTimeRangeDoubleClicked = $control.data('ontimerangedoubleclicked');
+        if (typeof $control.data('oneventdoubleclick') === 'function') dpmonth.onEventDoubleClick = $control.data('oneventdoubleclick');
         if (typeof $control.data('oneventclick') === 'function') dpmonth.onEventClick = $control.data('oneventclick');
         if (typeof $control.data('ontimerangeselect') === 'function') dpmonth.onTimeRangeSelect = $control.data('ontimerangeselect');
         dpmonth.onBeforeCellRender = function (args) {
@@ -506,7 +511,9 @@ class FwSchedulerClass {
             dp5week.clearSelection();
             dp5week.update();
         };
+
         if (typeof $control.data('ontimerangedoubleclicked') === 'function') dp5week.onTimeRangeDoubleClicked = $control.data('ontimerangedoubleclicked');
+        if (typeof $control.data('oneventdoubleclick') === 'function') dp5week.onEventDoubleClick = $control.data('oneventdoubleclick');
         if (typeof $control.data('oneventclick') === 'function') dp5week.onEventClick = $control.data('oneventclick');
         if (typeof $control.data('ontimerangeselect') === 'function') dp5week.onTimeRangeSelect = $control.data('ontimerangeselect');
 
@@ -621,7 +628,7 @@ class FwSchedulerClass {
             case 'Day':
             case 'Week':
                 navcalendar = $control.data('navcalendar');
-                navcalendar.select(date);   
+                navcalendar.select(date);
                 break;
             case '5 Week':
                 nav5week = $control.data('nav5week');
@@ -655,6 +662,9 @@ class FwSchedulerClass {
         $control.find('.schedulercontainer').hide();
         $control.find('.calendarcontainer').show();
         $control.find('.yearcontainer').hide();
+        if ($control.attr('data-shownav') === 'false') {
+            $control.find('.navcalendarcontainer').hide();
+        }
         $control.find('.changeview').attr('data-selected', 'false');
         $control.find('.btnDay').attr('data-selected', 'true');
         if ($control.next().data('dpscheduler') !== undefined) {
@@ -680,6 +690,9 @@ class FwSchedulerClass {
         $control.find('.schedulercontainer').hide();
         $control.find('.calendarcontainer').show();
         $control.find('.yearcontainer').hide();
+        if ($control.attr('data-shownav') === 'false') {
+            $control.find('.navcalendarcontainer').hide();
+        }
         $control.find('.changeview').attr('data-selected', 'false');
         $control.find('.btnWeek').attr('data-selected', 'true');
         if ($control.next().data('dpscheduler') !== undefined) {
@@ -702,6 +715,9 @@ class FwSchedulerClass {
         $control.find('.schedulercontainer').hide();
         $control.find('.monthcontainer').hide();
         $control.find('.yearcontainer').hide();
+        if ($control.attr('data-shownav') === 'false') {
+            $control.find('.nav5weekcontainer').hide();
+        }
         $control.find('.changeview').attr('data-selected', 'false');
         $control.find('.btn5Week').attr('data-selected', 'true');
         if ($control.next().data('dpscheduler') !== undefined) {
@@ -727,6 +743,9 @@ class FwSchedulerClass {
         $control.find('.schedulercontainer').hide();
         $control.find('.monthcontainer').show();
         $control.find('.yearcontainer').hide();
+        if ($control.attr('data-shownav') === 'false') {
+            $control.find('.navmonthcontainer').hide();
+        }
         $control.find('.changeview').attr('data-selected', 'false');
         $control.find('.btnMonth').attr('data-selected', 'true');
         if ($control.next().data('dpscheduler') !== undefined) {
@@ -1003,7 +1022,10 @@ class FwSchedulerClass {
     };
     //---------------------------------------------------------------------------------
     getTodaysDate() {
-        return new DayPilot.Date(new Date().toISOString());
+        //return new DayPilot.Date(new Date().toISOString());
+        let dateStr = moment().format('YYYY-MM-DD');
+        let timeStr = moment().format('HH:mm:ss');
+        return new DayPilot.Date(dateStr + 'T' + timeStr);   //#1305 11/15/2019 justin hoffman.  Without this, the calandar advances to the next day when viewing the calendar after 4pm on your machine.
     }
     //---------------------------------------------------------------------------------
     getFirstSundayMonth(year) {

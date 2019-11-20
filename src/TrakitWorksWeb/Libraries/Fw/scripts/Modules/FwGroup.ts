@@ -5,12 +5,13 @@
         caption: string;
         id: string;
         nav: string;
+        exportExcelSecurityId: string;
 
         constructor() {
             this.Module = 'Group';
             this.apiurl = 'api/v1/group';
             this.caption = 'Group';
-            this.id = '9BE101B6-B406-4253-B2C6-D0571C7E5916';
+            this.id = 'NFcnktYjQafU';
             this.nav = 'module/group';
         }
 
@@ -36,6 +37,7 @@
 
         openBrowse() {
             let $browse = jQuery(this.getBrowseTemplate());
+            //$browse.data('addBrowseMenuItems', (options: IAddBrowseMenuOptions) => {});
             FwModule.openBrowse($browse);
 
             return $browse;
@@ -43,9 +45,8 @@
 
         openForm(mode: string) {
             let $form = jQuery(this.getFormTemplate());
+            //$form.data('addFormMenuItems', (options: IAddFormMenuOptions) => {});
             FwModule.openForm($form, mode);
-
-
             if (mode === 'NEW') {
                 FwFormField.enable($form.find('.ifnew'))
             } else {
@@ -122,7 +123,7 @@
             //TwGroupController.renderGroupTreePreview($form);
         };
 
-        renderGroupTreePreview($form) {
+        renderGroupTreePreview($form: JQuery) {
             var $previewgrouptree, $previewgrouptree_children, applicationtree;
             $previewgrouptree = $form.find('.previewgrouptree');
             $previewgrouptree_children = jQuery('<ul class="grouptree"></ul>');
@@ -139,27 +140,81 @@
             }
         }
 
-        renderNode(mode, $form, $container, node) {
+        renderNode(mode, $form: JQuery, $container: JQuery, node: IGroupSecurityNode) {
             var me = this;
-            var hidenewmenuoptionsbydefault, haschildren, $node, $content, $iconexpander, $icon, $iconvisible, $iconeditable,
+            var hidenewmenuoptionsbydefault, haschildren, $node: JQuery, $content, $iconexpander, $icon, $iconvisible, $iconeditable,
                 $caption, nodedescription, $childrencontainer, $children;
 
+            let $waitOverlay;
+            if (node.nodetype === 'System') {
+               $waitOverlay = FwOverlay.showPleaseWaitOverlay($form.find('.securitytabpage'), FwAppData.generateUUID());
+            }
             hidenewmenuoptionsbydefault = (FwFormField.getValueByDataField($form, 'HideNewMenuOptionsByDefault'));
             haschildren = (node.children.length > 0);
-            $node = jQuery('<li class="node">')
-                .attr('data-property-id', node.id)
+            $node = jQuery('<li class="node">');
+            switch (node.nodetype) {
+                case 'ModuleActions':
+                    if ((node.children.length === 0) ||
+                       (node.children.length === 1 && typeof node.children[0].properties.action === 'string' && node.children[0].properties.action === 'Browse' )) {
+                        $node.hide();
+                        const $parent = $node.closest('li.node');
+                        const $moduleAction = $parent.find('.children li.node:visible');
+                        if ($moduleAction.length === 0) {
+                            $parent.find('.iconexpander').hide();
+                        }
+                    }
+                    break;
+                case 'ControllerMethod':
+                    $node.addClass('advancedmode-remove');
+                    break;
+                case 'ModuleAction':
+                case 'ControlAction':
+                    switch (node.properties.action) {
+                        case 'Browse':
+                        case 'ControlBrowse':
+                            $node.addClass('advancedmode-remove');
+                            break;
+                    }
+                    break;
+            }
+
+            $node.attr('data-property-id', node.id)
                 .attr('data-haschildren', haschildren ? 'T' : 'F')
+                .attr('data-nodetype', node.nodetype)
                 ;
             if (haschildren) {
                 $node.attr('data-expanded', (node.id === "apptree") ? 'T' : 'F');
             }
             for (var key in node.properties) {
-                $node.attr('data-property-' + key, node.properties[key]);
+                if ((key === 'visible') &&
+                    ((node.nodetype === 'System') || 
+                    (node.nodetype === 'Controls') || 
+                    (node.nodetype === 'ModuleActions') || 
+                    (node.nodetype === 'ControlActions') || 
+                    (node.nodetype === 'ModuleOptions') || 
+                    (node.nodetype === 'ControlOptions') || 
+                    (node.nodetype === 'ModuleAction' && node.properties['action'] === 'Browse') ||
+                    (node.nodetype === 'ControlAction' && node.properties['action'] === 'ControlBrowse') ||
+                    (node.nodetype === 'ControllerMethod'))) {
+                    //$node.attr('data-property-visible', 'T');
+                }
+                else {
+                    $node.attr('data-property-' + key, node.properties[key]);
+                }
             }
             $content = jQuery('<div class="content">');
 
             //$iconexpander = jQuery('<div class="iconexpander">');
             $iconexpander = jQuery('<i class="material-icons iconexpander"></i>')
+            switch (node.nodetype) {
+                case 'ModuleAction':
+                case 'ControlAction':
+                case 'ControllerMethod':
+                case 'ModuleOption':
+                case 'ControlOption':
+                    $iconexpander.addClass('advancedmode-hidden')
+                    break;
+            }
             $node.append($iconexpander);
             if (haschildren) {
                 $iconexpander.on('click', function () {
@@ -167,7 +222,10 @@
                     try {
                         showchildren = ($node.attr('data-expanded') === 'F');
                         jQuery(this).closest('.content').siblings('.childrencontainer').toggle(showchildren);
-                        $node.attr('data-expanded', showchildren ? 'T' : 'F')
+                        $node.attr('data-expanded', showchildren ? 'T' : 'F');
+                        //if ($node.attr('data-nodetype') === 'Module') {
+                        //    $node.find('li.node:not([data-nodetype="Control"],[data-nodetype="ModuleAction"],[data-nodetype="ModuleOptions"],[data-nodetype="ControlAction"],[data-nodetype="ControlOptions"])').attr('data-expanded', showchildren);
+                        //}
                     } catch (ex) {
                         FwFunc.showError(ex);
                     }
@@ -178,42 +236,53 @@
             $node.append($icon);
 
             if ((mode === 'edit') && (typeof $node.attr('data-property-visible') === 'string')) {
-                //$iconvisible = jQuery('<div class="iconvisible">');
-                $iconvisible = jQuery('<i class="material-icons iconvisible"></i>');
-                $content.append($iconvisible);
-                $iconvisible.on('click', function () {
-                    try {
-                        let $li = jQuery(this).closest('li');
-                        let visible = ($li.attr('data-property-visible') === 'T');
-                        $li.attr('data-property-visible', visible ? 'F' : 'T');
-                        if (!visible) {
-                            let $parents = $li.parents('li.node');
-                            for (let i = 0; i < $parents.length; i++) {
-                                let $parent = $parents.eq(i);
-                                if (typeof $parent.attr('data-property-visible') !== 'undefined') {
-                                    $parent.attr('data-property-visible', 'T');
+                
+                if (node.nodetype === 'Category' || 
+                    (node.nodetype === 'ModuleAction' && (node.properties['action'] !== 'Browse')) || 
+                    node.nodetype === 'Module' || 
+                    node.nodetype === 'Control' ||
+                    (node.nodetype === 'ControlAction' && (node.properties['action'] !== 'ControlBrowse')) || 
+                    node.nodetype === 'ModuleOption' || node.nodetype == 'ControlOption') {
+                    
+                    $iconvisible = jQuery('<i class="material-icons iconvisible"></i>');
+                    $content.append($iconvisible);
+                    $iconvisible.on('click', function () {
+                        try {
+                            let $li = jQuery(this).closest('li');
+                            let visible = ($li.attr('data-property-visible') === 'T');
+                            $li.attr('data-property-visible', visible ? 'F' : 'T');
+                            if (!visible) {
+                                let $parents = $li.parents('li.node');
+                                for (let i = 0; i < $parents.length; i++) {
+                                    let $parent = $parents.eq(i);
+                                    if (typeof $parent.attr('data-property-visible') !== 'undefined') {
+                                        $parent.attr('data-property-visible', 'T');
+                                    }
                                 }
                             }
-                        }
-                        let $li_children = $li.find('li[data-property-visible]');
-                        if ($li_children.length > 0) {
-                            let $confirmation = FwConfirmation.renderConfirmation('Confirm...', 'Also toggle (' + (visible ? 'Off' : 'On') + ') all the children of this node?');
-                            let $btnYes = FwConfirmation.addButton($confirmation, 'Yes', true);
-                            $btnYes.on('click', function () {
-                                $li_children.attr('data-property-visible', visible ? 'F' : 'T');
-                                me.updateSecurityField($form);
-                            });
-                            let $btnNo = FwConfirmation.addButton($confirmation, 'No', true);
-                            $btnNo.on('click', function () {
-                                me.updateSecurityField($form);
-                            });
-                        } else {
+                            let $li_children = $li.find('li[data-property-visible]');
+                            // mv this is the code that prompts you if you want to toggle all children on or off.  I'm finding it more pestering than useful lately, so I have disabled it for now
+                            //if ($li_children.length > 0) {
+                            //    let $confirmation = FwConfirmation.renderConfirmation('Confirm...', 'Also toggle (' + (visible ? 'Off' : 'On') + ') all the children of this node?');
+                            //    let $btnYes = FwConfirmation.addButton($confirmation, 'Yes', true);
+                            //    $btnYes.on('click', function () {
+                            //        $li_children.attr('data-property-visible', visible ? 'F' : 'T');
+                            //        me.updateSecurityField($form);
+                            //    });
+                            //    let $btnNo = FwConfirmation.addButton($confirmation, 'No', true);
+                            //    $btnNo.on('click', function () {
+                            //        me.updateSecurityField($form);
+                            //    });
+                            //} else {
+                            //    me.updateSecurityField($form);
+                            //}
+                            $li_children.attr('data-property-visible', visible ? 'F' : 'T');
                             me.updateSecurityField($form);
+                        } catch (ex) {
+                            FwFunc.showError(ex);
                         }
-                    } catch (ex) {
-                        FwFunc.showError(ex);
-                    }
-                });
+                    });
+                } 
             }
 
             if ((mode === 'edit') && (typeof $node.attr('data-property-editable') === 'string')) {
@@ -237,57 +306,76 @@
 
             $caption = jQuery('<div class="caption">');
             nodedescription = '';
-            //switch (node.properties.nodetype) {
-            //    case 'System':
-            //    //case 'Application':
-            //    case 'Browse':
-            //    case 'Form':
-            //    case 'Components':
-            //    case 'MenuBar':
-            //    case 'Lv1SubModulesMenu':
-            //    case 'Lv1GridsMenu':
-            //    case 'SubMenu':
-            //    case 'Lv1SettingsMenu':
-            //    case 'SettingsMenu':
-            //        nodedescription = '';
-            //        break;
-            //    case 'Lv1ModuleMenu':
-            //        nodedescription = 'Menu: ';
-            //        break;
-            //    case 'Lv2ModuleMenu':
-            //        nodedescription = 'Menu: ';
-            //        break;
-            //    case 'SubModule':
-            //        nodedescription = 'SubModule: ';
-            //        break;
-            //    case 'SubMenuGroup':
-            //        nodedescription = 'Menu: ';
-            //        break;
-            //    case 'SubMenuItem':
-            //    case 'DownloadExcelSubMenuItem':
-            //        nodedescription = 'MenuItem: ';
-            //        break;
-            //    case 'NewMenuBarButton':
-            //    case 'ViewMenuBarButton':
-            //    case 'EditMenuBarButton':
-            //    case 'DeleteMenuBarButton':
-            //    case 'SaveMenuBarButton':
-            //        nodedescription = 'MenuBarButton: ';
-            //        break;
-            //    case 'FormGrid':
-            //        nodedescription = 'Grid: ';
-            //        break;
-            //    case 'SettingsModule':
-            //        nodedescription = 'Setting: ';
-            //        break;
-            //    case 'ControllerMethod':
-            //        nodedescription = 'Method: ';
-            //        break;
-            //    default:
-            //        nodedescription = node.properties.nodetype + ': '
-            //        break;
-            //}
-            $caption.text(nodedescription + node.properties.caption);
+            switch (node.nodetype) {
+                case 'System':
+                    nodedescription = `<i class="material-icons" style="margin:0 .2em 0 .2em;color:#607d8b;font-size:1.5em;">verified_user</i> <span style="color:#607d8b;">${node.caption}</span>`;
+                    break;
+                case 'Category':
+                    nodedescription = `<i class="material-icons" style="margin:0 .2em 0 .2em;color:#607d8b;font-size:1.5em;">folder</i> <span style="color:#607d8b;">${node.caption}</span>`
+                    break;
+                case 'Module':
+                    nodedescription = `<i class="material-icons" style="margin:0 .2em 0 .2em;font-size:1.5em;color:#607d8b;">extension</i> <span style="color:#607d8b;">${node.caption}</span>`
+                    break;
+                case 'ModuleActions':
+                case 'ControlActions':
+                    nodedescription = `<i class="material-icons" style="margin:0 .2em 0 .2em;color:#607d8b;font-size:1.5em;">play_for_work</i> <span style="color:#607d8b;">${node.caption}</span>`;
+                    break;
+                case 'Controls':
+                    nodedescription = `<i class="material-icons" style="margin:0 .2em 0 .2em;color:#607d8b;font-size:1.5em;">art_track</i> <span style="color:#607d8b;">${node.caption}</span>`;
+                    break;
+                case 'ModuleOptions':
+                case 'ControlOptions':
+                    nodedescription = `<i class="material-icons" style="margin:0 .2em 0 .2em;color:#607d8b;font-size:1.5em;">menu</i> <span style="color:#607d8b;">${node.caption}</span>`;
+                    break;
+                case 'ModuleAction':
+                case 'ControlAction':
+                    switch (node.properties.action) {
+                        case 'Browse':
+                        case 'ControlBrowse':
+                            nodedescription = `<i class="material-icons" style="margin:0 .2em 0 .2em;color:#607d8b;font-size:1.5em;">search</i> <span style="color:#607d8b;">${node.caption}</span>`;
+                            break;
+                        case 'View':
+                        case 'ControlView':
+                            nodedescription = `<i class="material-icons" style="margin:0 .2em 0 .5em;color:#607d8b;font-size:1.5em;">tv</i> <span style="color:#607d8b;">${node.caption}</span>`;
+                            break;
+                        case 'New':
+                        case 'ControlNew':
+                            nodedescription = `<i class="material-icons" style="margin:0 .2em 0 .5em;color:#607d8b;font-size:1.5em;">add_circle</i> <span style="color:#607d8b;">${node.caption}</span>`;
+                            break;
+                        case 'Edit':
+                        case 'ControlEdit':
+                            nodedescription = `<i class="material-icons" style="margin:0 .2em 0 .5em;color:#607d8b;font-size:1.5em;">create</i>' <span style="color:#607d8b;">${node.caption}</span>`;
+                            break;
+                        case 'Save':
+                        case 'ControlSave':
+                            nodedescription = `<i class="material-icons" style="margin:0 .2em 0 .5em;color:#607d8b;font-size:1.5em;">save</i> <span style="color:#607d8b;">${node.caption}</span>`;
+                            break;
+                        case 'Delete':
+                        case 'ControlDelete':
+                            nodedescription = `<i class="material-icons" style="margin:0 .2em 0 .5em;color:#607d8b;font-size:1.5em;">clear</i> <span style="color:#607d8b;">${node.caption}</span>`;
+                            break;
+                        default:
+                            nodedescription = node.caption;
+                            break;
+                    }
+                    break;
+                case 'Control':
+                    if (typeof node.properties.controltype === 'string') {
+                        nodedescription = `${node.properties.controltype}: ${node.caption}`;
+                    }
+                    break;
+                case 'ControllerMethod':
+                    nodedescription = `<i class="material-icons" style="margin:0 .2em 0 .5em;color:#607d8b;font-size:1.5em;">filter_drama</i> <span style="color:#607d8b;">${node.caption}</span>`;
+                    break;
+                case 'ModuleOption':
+                case 'ControlOption':
+                    nodedescription = `<i class="material-icons" style="margin:0 .2em 0 .5em;color:#607d8b;font-size:1.5em;">touch_app</i> <span style="color:#607d8b;">${node.caption}</span>`;
+                    break;
+                default:
+                    nodedescription = `<span style="font-size:.8em;color:#607d8b;">${node.nodetype}:</span> ${node.caption}`
+                    break;
+            }
+            $caption.html(nodedescription);
             $content.append($caption);
 
             $node.append($content);
@@ -299,51 +387,58 @@
                 $childrencontainer.append($children);
                 $node.append($childrencontainer);
                 for (var i = 0; i < node.children.length; i++) {
-                    if ((mode === 'edit') || (typeof node.children[i].properties.visible === 'undefined') || (node.children[i].properties.visible === 'T')) {
-                        this.renderNode(mode, $form, $children, node.children[i]);
+                    const nodeChild = node.children[i];
+                    if (((mode === 'edit') || (typeof nodeChild.properties.visible === 'undefined') || (nodeChild.properties.visible === 'T')) &&
+                        (nodeChild.id !== 'AdministratorControls' && nodeChild.id !== 'HomeControls' && nodeChild.id !== 'SharedControls' && nodeChild.id !== 'UtilitiesControls')) {
+                        this.renderNode(mode, $form, $children, nodeChild);
                     }
                 }
             }
+            if (node.nodetype === 'System') {
+                FwOverlay.hideOverlay($waitOverlay);
+                $node.children('.iconexpander').click();
+            }
         }
 
-        getGroupTreeJson($form?) {
-            var $apptreenode = jQuery('.editgrouptree > ul.grouptree > li[data-property-nodetype="System"]');
+        getGroupTreeJson($form?: JQuery) {
+            //var $apptreenode = jQuery('.editgrouptree > ul.grouptree > li[data-property-nodetype="System"]');
+            var $apptreenode = jQuery('.editgrouptree > ul.grouptree > li');
             var grouptree = this.getGroupTreeJsonNode($form, null, $apptreenode);
             return grouptree;
         }
 
-        getGroupTreeJsonNode($form, parent, $node) {
-            var node, attribute, property, $children, $child, child, index;
-
-            node = {
+        getGroupTreeJsonNode($form: JQuery, parent: IGroupSecurityNode[], $node: JQuery) {
+            let node: IGroupSecurityNode = {
                 id: '',
+                nodetype: '',
                 properties: {},
                 children: []
             };
             // process node's attributes
-            for (index = 0; index < $node[0].attributes.length; index++) {
-                attribute = $node[0].attributes[index];
+            for (let attributeIndex = 0; attributeIndex < $node[0].attributes.length; attributeIndex++) {
+                const attribute = $node[0].attributes[attributeIndex];
                 if (attribute.name.indexOf('data-property-') === 0) {
-                    property = attribute.name.substring(14, attribute.name.length);
+                    let property = attribute.name.substring(14, attribute.name.length);
                     if (property === 'id') {
                         node.id = attribute.value;
-                    } else {
+                    } 
+                    else {
                         node.properties[property] = attribute.value;
                     }
                 }
             }
             // process node's children
-            $children = $node.find('> .childrencontainer > ul.children > li');
-            for (index = 0; index < $children.length; index++) {
-                $child = $children.eq(index);
-                child = this.getGroupTreeJsonNode($form, node.children, $child);
+            const $children = $node.find('> .childrencontainer > ul.children > li');
+            for (let childIndex = 0; childIndex < $children.length; childIndex++) {
+                const $child = $children.eq(childIndex);
+                const child = this.getGroupTreeJsonNode($form, node.children, $child);
                 node.children.push(child);
             }
 
             return node;
         }
 
-        updateSecurityField($form) {
+        updateSecurityField($form: JQuery) {
             var apptreenode, hidenewmenuoptionsbydefault, securitynodes, securityJson;
             try {
                 apptreenode = this.getGroupTreeJson();
@@ -366,7 +461,7 @@
             return $form;
         }
 
-        saveForm($form: any, parameters: any) {
+        saveForm($form: JQuery, parameters: any) {
             FwModule.saveForm(this.Module, $form, parameters);
         }
 
@@ -376,13 +471,22 @@
         //    FwModule.loadAudit($form, uniqueid);
         //}
 
-        afterLoad($form: any) {
+        afterLoad($form: JQuery) {
             let $editgrouptree = $form.find('.editgrouptree');
             let $previewgrouptree = $form.find('.previewgrouptree');
             let GroupId = FwFormField.getValueByDataField($form, 'GroupId');
 
             $form.find('[data-type="tab"][data-caption="Security"]').one('click', e => {
                 this.loadGroupTree($editgrouptree, $previewgrouptree, $form, GroupId);
+            });
+
+            $form.find('.cbAdvancedMode input.fwformfield-value').on('click', (e: JQuery.ClickEvent) => {
+                try {
+                    const isAdvancedMode = jQuery(e.currentTarget).prop('checked');
+                    $form.find('.editgrouptree').attr('data-advancedmode', isAdvancedMode);
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
             })
         }
 
@@ -400,7 +504,7 @@
 
         getFormTemplate() {
             return `
-                <div id="groupform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-caption="Group" data-rendermode="template" data-tablename="groups" data-mode="" data-hasaudit="false" data-controller="GroupController">
+                <div id="groupform" class="fwcontrol fwcontainer fwform fwgroup" data-control="FwContainer" data-type="form" data-version="1" data-caption="Group" data-rendermode="template" data-tablename="groups" data-mode="" data-hasaudit="false" data-controller="GroupController">
                     <div data-control="FwFormField" data-type="key" class="fwcontrol fwformfield" data-isuniqueid="true" data-saveorder="1" data-caption="" data-datafield="GroupId"></div>
                         <div id="groupform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs">
                             <div class="tabs">
@@ -408,11 +512,11 @@
                                 <div data-type="tab" id="securitytab" class="tab" data-tabpageid="securitytabpage" data-caption="Security"></div>
                             </div>
                             <div class="tabpages">
-                                <div data-type="tabpage" id="grouptabpage" class="tabpage" data-tabid="grouptab">
+                                <div data-type="tabpage" id="grouptabpage" class="tabpage grouptabpage" data-tabid="grouptab">
                                     <div class="formpage">
                                         <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Group">
                                             <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                                                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Name" data-noduplicate="true" data-datafield="Name"></div>
+                                                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Name" data-datafield="Name" data-required="true"></div>
                                             </div>
                                         <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                                             <div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield" data-caption="Notes" data-datafield="Memo"></div>
@@ -420,9 +524,9 @@
                                     </div>
                                 </div>
                             </div>
-                            <div data-type="tabpage" id="securitytabpage" class="tabpage" data-tabid="securitytab">
+                            <div data-type="tabpage" id="securitytabpage" class="tabpage securitytabpage" data-tabid="securitytab">
                                 <div class="formpage">
-                                    <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                                    <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow" style="display:none">
                                         <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Items in Security Tree are Hidden by Default (IF YOU CHANGE THIS, SAVE AND CLOSE BEFORE EDITING THE TREE)" data-datafield="HideNewMenuOptionsByDefault"></div>
                                         <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-datafield="Security" style="display:none;"></div>
                                         <div style="margin:10px 10px 10px 10px;">Changing the security tree will take effect for users the next time they login.</div>
@@ -437,7 +541,8 @@
                                     <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                                         <div class="row1" style="overflow:hidden;">
                                             <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Security" style="float:left;overflow:hidden;">
-                                                <div class="editgrouptree" style="float:left;"></div>
+                                                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield cbAdvancedMode" data-caption="Advanced View (shows REST endpoints)" style="display:none"></div>
+                                                <div class="editgrouptree" data-advancedmode="false" style="float:left;"></div>
                                                 <div class="previewgrouptree" style="float:left;"></div>
                                             </div>
                                         </div>
