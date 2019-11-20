@@ -13,7 +13,7 @@ using WebApi.Logic;
 
 namespace WebApi.Modules.Reports.ContractReports.OutContractReport
 {
-    [FwSqlTable("dbo.funccontractoutrpt(@contractid, @applanguageid, @includebackorder)")]
+    [FwSqlTable("dbo.funccontractoutrptweb(@contractid, @applanguageid)")]
     public class OutContractItemReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
@@ -80,7 +80,7 @@ namespace WebApi.Modules.Reports.ContractReports.OutContractReport
                     select.Parse();
                     select.AddParameter("@contractid", request.ContractId);
                     select.AddParameter("@applanguageid", "");
-                    select.AddParameter("@includebackorder", "F");
+                    //select.AddParameter("@includebackorder", "F");
                     select.AddOrderBy("rectypeorder, itemorder, masterno, masteritemid");
                     dt = await qry.QueryToFwJsonTableAsync(select, false);
                 }
