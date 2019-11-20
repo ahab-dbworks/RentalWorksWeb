@@ -3,6 +3,15 @@
 class AvailabilitySettings {
     Module: string = 'AvailabilitySettings';
     apiurl: string = 'api/v1/availabilitysettings';
+    caption: string = Constants.Modules.Settings.children.SystemSettings.children.AvailabilitySettings.caption;
+    nav: string = Constants.Modules.Settings.children.SystemSettings.children.AvailabilitySettings.nav;
+    id: string = Constants.Modules.Settings.children.SystemSettings.children.AvailabilitySettings.id;
+    //---------------------------------------------------------------------------------------------
+    addBrowseMenuItems(options: IAddBrowseMenuOptions): void {
+        options.hasNew = false;
+        options.hasDelete = false;
+        FwMenu.addBrowseMenuButtons(options);
+    }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         const screen: any = {};

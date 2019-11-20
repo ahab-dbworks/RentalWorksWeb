@@ -1,16 +1,28 @@
 ﻿class Exchange {
-    Module: string = 'Exchange';
-    apiurl: string = 'api/v1/exchange';
-    caption: string = Constants.Modules.Home.Exchange.caption;
-    nav: string = Constants.Modules.Home.Exchange.nav;
-    id: string = Constants.Modules.Home.Exchange.id;
-    ContractId: string = '';
-    ExchangeResponse: any = {};
-    successSoundFileName: string;
-    errorSoundFileName: string;
+    Module:                    string = 'Exchange';
+    apiurl:                    string = 'api/v1/exchange';
+    caption:                   string = Constants.Modules.Warehouse.children.Exchange.caption;
+    nav:                       string = Constants.Modules.Warehouse.children.Exchange.nav;
+    id:                        string = Constants.Modules.Warehouse.children.Exchange.id;
+    ContractId:                string = '';
+    ExchangeResponse:          any    = {};
+    successSoundFileName:      string;
+    errorSoundFileName:        string;
     notificationSoundFileName: string;
-    Type: string = 'Order';
+    Type:                      string = 'Order';
+    //----------------------------------------------------------------------------------------------
+    addFormMenuItems(options: IAddFormMenuOptions): void {
+        options.hasSave = false;
+        FwMenu.addFormMenuButtons(options);
 
+        FwMenu.addSubMenuItem(options.$groupOptions, 'Cancel Exchange', '', (e: JQuery.ClickEvent) => {
+            try {
+                this.cancelExchange(options.$form);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+    }
     //----------------------------------------------------------------------------------------------
     getModuleScreen = () => {
         const screen: any = {};
@@ -47,14 +59,42 @@
             $form.find('div[data-validationname="SalesInventoryValidation"]').show();
         }
 
-        const cancelMenuOptionId = Constants.Modules.Home.Exchange.form.menuItems.Cancel.id.replace('{', '').replace('}', '');
-        $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'false');
-
         this.getSoundUrls($form);
         this.getSuspendedSessions($form);
         this.events($form);
+
         return $form;
     };
+    //----------------------------------------------------------------------------------------------
+    cancelExchange($form: JQuery): void {
+        try {
+            const contractId = ExchangeController.ContractId;
+            if (contractId != '') {
+                const $confirmation = FwConfirmation.renderConfirmation('Cancel Exchange', 'Cancelling this Exchange Session will cause all transacted items to be cancelled. Continue?');
+                const $yes          = FwConfirmation.addButton($confirmation, 'Yes', false);
+                const $no           = FwConfirmation.addButton($confirmation, 'No', true);
+
+                $yes.on('click', () => {
+                    try {
+                        const request: any = { ContractId: contractId };
+                        FwAppData.apiMethod(true, 'POST', `api/v1/contract/cancelcontract`, request, FwServices.defaultTimeout,
+                            response => {
+                                FwConfirmation.destroyConfirmation($confirmation);
+                                ExchangeController.resetForm($form);
+                                FwNotification.renderNotification('SUCCESS', 'Session succesfully cancelled.');
+                            },
+                            ex => FwFunc.showError(ex),
+                            $confirmation.find('.fwconfirmationbox'));
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+            }
+        } catch (ex) {
+            FwFunc.showError(ex);
+        }
+    }
     //----------------------------------------------------------------------------------------------
     getSuspendedSessions($form) {
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
@@ -107,8 +147,8 @@
     }
     //----------------------------------------------------------------------------------------------
     getSoundUrls($form: JQuery): void {
-        this.successSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).successSoundFileName;
-        this.errorSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).errorSoundFileName;
+        this.successSoundFileName      = JSON.parse(sessionStorage.getItem('sounds')).successSoundFileName;
+        this.errorSoundFileName        = JSON.parse(sessionStorage.getItem('sounds')).errorSoundFileName;
         this.notificationSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).notificationSoundFileName;
     };
     //----------------------------------------------------------------------------------------------
@@ -121,8 +161,6 @@
 
         contractRequest['DepartmentId'] = department.departmentid;
 
-        const cancelMenuOptionId = Constants.Modules.Home.Exchange.form.menuItems.Cancel.id.replace('{', '').replace('}', '');
-
         // Deal Id
         $form.find('div[data-datafield="DealId"]').data('onchange', $tr => {
             contractRequest['OrderId'] = FwFormField.getValueByDataField($form, "OrderId");
@@ -133,7 +171,6 @@
                     if (this.ContractId === '') {
                         this.ContractId = response.ContractId
                         $form.find('.suspendedsession').hide();
-                        $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'true');
                     }
 
                     let $exchangeItemGridControl: any;
@@ -164,7 +201,6 @@
                         if (this.ContractId === '') {
                             this.ContractId = response.ContractId
                             $form.find('.suspendedsession').hide();
-                            $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'true');
                         }
 
                         FwFormField.disable(FwFormField.getDataField($form, 'OrderId'));
@@ -240,7 +276,6 @@
                             if (this.ContractId === '') {
                                 this.ContractId = response.ContractId;
                                 $form.find('.suspendedsession').hide();
-                                $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'true');
                             }
                             $form.find('div.error-msg.check-in').html('');
                             $form.find('.in').removeClass('error');
@@ -293,16 +328,22 @@
     };
     //----------------------------------------------------------------------------------------------
     renderGrids($form: JQuery): void {
-        const $exchangeItemGrid = $form.find('div[data-grid="ExchangeItemGrid"]');
-        const $exchangeItemGridControl = FwBrowse.loadGridFromTemplate('ExchangeItemGrid');
-        $exchangeItemGrid.empty().append($exchangeItemGridControl);
-        $exchangeItemGridControl.data('ondatabind', request => {
-            request.uniqueids = {
-                ContractId: this.ContractId
-            };
-        })
-        FwBrowse.init($exchangeItemGridControl);
-        FwBrowse.renderRuntimeHtml($exchangeItemGridControl);
+        FwBrowse.renderGrid({
+            nameGrid:         'ExchangeItemGrid',
+            gridSecurityId:   'Azkpehs1tvl',
+            moduleSecurityId: this.id,
+            $form:            $form,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                options.hasNew    = false;
+                options.hasEdit   = false;
+                options.hasDelete = false;
+            },
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    ContractId: this.ContractId
+                };
+            }
+        });
     };
     //----------------------------------------------------------------------------------------------
     beforeValidateOrder($browse, $grid, request) {
@@ -331,8 +372,6 @@
             }
         }
         this.ContractId = '';
-        const cancelMenuOptionId = Constants.Modules.Home.Exchange.form.menuItems.Cancel.id.replace('{', '').replace('}', '');
-        $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'false');
         this.ExchangeResponse = {};
         this.renderGrids($form);
         FwFormField.enable(FwFormField.getDataField($form, 'OrderId'));
@@ -356,7 +395,7 @@
           <div class="flexpage">
             <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Exchange">
                 <div class="flexrow">
-                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield forTypeOrder" data-caption="${Constants.Modules.Home.Deal.caption}" data-datafield="DealId" data-displayfield="Deal" data-validationname="DealValidation" style="flex:1 1 175px;"></div>
+                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield forTypeOrder" data-caption="${Constants.Modules.Agent.children.Deal.caption}" data-datafield="DealId" data-displayfield="Deal" data-validationname="DealValidation" style="flex:1 1 175px;"></div>
                 ${typeHTML}
                 <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description" style="flex:1 1 250px;" data-enabled="false"></div>
                 <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield forTypeOrder" data-caption="Department" data-datafield="DepartmentId" data-displayfield="Department" data-validationname="DepartmentValidation" style="flex:1 1 200px;" data-enabled="false"></div>
@@ -405,34 +444,6 @@
           </div>
         </div>`;
     }
-};
-//----------------------------------------------------------------------------------------------
-//Cancel
-FwApplicationTree.clickEvents[Constants.Modules.Home.Exchange.form.menuItems.Cancel.id] = function (event: JQuery.ClickEvent) {
-    const $form = jQuery(this).closest('.fwform');
-    const contractId = ExchangeController.ContractId;
-    const $confirmation = FwConfirmation.renderConfirmation('Cancel Exchange', 'Cancelling this Exchange Session will cause all transacted items to be cancelled.  Continue?');
-    FwConfirmation.addControls($confirmation, '');
-    const $yes = FwConfirmation.addButton($confirmation, 'Yes', false);
-    FwConfirmation.addButton($confirmation, 'No', true);
-
-    $yes.on('click', () => {
-        try {
-            const request: any = {};
-            request.ContractId = contractId;
-            FwAppData.apiMethod(true, 'POST', `api/v1/contract/cancelcontract`, request, FwServices.defaultTimeout,
-                response => {
-                    FwConfirmation.destroyConfirmation($confirmation);
-                    ExchangeController.resetForm($form);
-                    FwNotification.renderNotification('SUCCESS', 'Session succesfully cancelled.');
-                },
-                ex => FwFunc.showError(ex),
-                $confirmation.find('.fwconfirmationbox'));
-        }
-        catch (ex) {
-            FwFunc.showError(ex);
-        }
-    });
 };
 //----------------------------------------------------------------------------------------------
 var ExchangeController = new Exchange();

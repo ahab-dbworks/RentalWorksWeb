@@ -1,11 +1,9 @@
 class POApprover {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'POApprover';
-        this.apiurl = 'api/v1/poapprover';
-    }
+    Module: string = 'POApprover';
+    apiurl: string = 'api/v1/poapprover';
+    caption: string = Constants.Modules.Settings.children.POSettings.children.POApprover.caption;
+    nav: string = Constants.Modules.Settings.children.POSettings.children.POApprover.nav;
+    id: string = Constants.Modules.Settings.children.POSettings.children.POApprover.id;
 
     getModuleScreen() {
         var screen, $browse;
@@ -18,7 +16,7 @@ class POApprover {
         $browse = this.openBrowse();
 
         screen.load = function () {
-            FwModule.openModuleTab($browse, 'PO Approver', false, 'BROWSE', true);
+            FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };

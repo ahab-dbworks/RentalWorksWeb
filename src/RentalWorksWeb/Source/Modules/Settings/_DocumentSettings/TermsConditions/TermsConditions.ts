@@ -1,7 +1,9 @@
 ﻿class TermsConditions {
     Module: string = 'TermsConditions';
     apiurl: string = 'api/v1/termsconditions';
-    caption: string = 'Terms & Conditions';
+    caption: string = Constants.Modules.Settings.children.DocumentSettings.children.TermsConditions.caption;
+    nav: string = Constants.Modules.Settings.children.DocumentSettings.children.TermsConditions.nav;
+    id: string = Constants.Modules.Settings.children.DocumentSettings.children.TermsConditions.id;
 
     getModuleScreen() {
         const screen: any = {};

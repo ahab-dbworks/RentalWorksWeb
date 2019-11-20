@@ -1,19 +1,20 @@
 class CrewStatus {
-    Module: string = 'CrewStatus';
-    apiurl: string = 'api/v1/crewstatus';
+    Module:  string = 'CrewStatus';
+    apiurl:  string = 'api/v1/crewstatus';
+    caption: string = Constants.Modules.Settings.children.LaborSettings.children.CrewStatus.caption;
+    nav:     string = Constants.Modules.Settings.children.LaborSettings.children.CrewStatus.nav;
+    id:      string = Constants.Modules.Settings.children.LaborSettings.children.CrewStatus.id;
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
-        var screen, $browse;
-
-        screen = {};
+        const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
-        $browse = this.openBrowse();
+        const $browse = this.openBrowse();
 
         screen.load = function () {
-            FwModule.openModuleTab($browse, 'Crew Status', false, 'BROWSE', true);
+            FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };
@@ -25,27 +26,21 @@ class CrewStatus {
     }
     //----------------------------------------------------------------------------------------------
     openBrowse() {
-        var $browse;
-
-        $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
+        let $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
 
         return $browse;
     }
     //----------------------------------------------------------------------------------------------
     openForm(mode: string) {
-        var $form;
-
-        $form = FwModule.loadFormFromTemplate(this.Module);
+        let $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 
         return $form;
     }
     //----------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
-        var $form;
-
-        $form = this.openForm('EDIT');
+        let $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="CrewStatusId"] input').val(uniqueids.CrewStatusId);
         FwModule.loadForm(this.Module, $form);
 

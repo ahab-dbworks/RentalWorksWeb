@@ -1,6 +1,9 @@
 class POClassification {
-    Module: string;
-    apiurl: string;
+    Module: string = 'POClassification';
+    apiurl: string = 'api/v1/poclassification';
+    caption: string = Constants.Modules.Settings.children.POSettings.children.POClassification.caption;
+    nav: string = Constants.Modules.Settings.children.POSettings.children.POClassification.nav;
+    id: string = Constants.Modules.Settings.children.POSettings.children.POClassification.id;
 
     constructor() {
         this.Module = 'POClassification';
@@ -18,7 +21,7 @@ class POClassification {
         $browse = this.openBrowse();
 
         screen.load = function () {
-            FwModule.openModuleTab($browse, 'PO Classification', false, 'BROWSE', true);
+            FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };

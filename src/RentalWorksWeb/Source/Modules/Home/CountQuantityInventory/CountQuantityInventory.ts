@@ -16,8 +16,8 @@ class CountQuantityInventory {
 
         const $form = this.openForm('EDIT');
 
-        screen.load = function () {
-            FwModule.openModuleTab($form, 'Count Quantity Inventory', false, 'FORM', true);
+        screen.load = () => {
+            FwModule.openModuleTab($form, this.caption, false, 'FORM', true);
         };
         screen.unload = function () {
         };

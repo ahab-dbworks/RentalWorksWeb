@@ -8,6 +8,7 @@
         $control.data('browse', $browse);
         $browse.attr('data-multiselectvalidation', 'true');
         $form = $control.closest('.fwform');
+        let $object = ($control.closest('.fwbrowse:not([data-controller=""])').length > 0) ? $control.closest('.fwbrowse:not([data-controller=""])') : $control.closest('.fwform:not([data-controller=""])');
         controller = $form.attr('data-controller');
         formbeforevalidate = $control.attr('data-formbeforevalidate');
         control_boundfields = $control.attr('data-boundfields');
@@ -42,6 +43,8 @@
         FwBrowse.init($browse);
         $browse.data('$control', $control);
         $browse.data('ondatabind', function (request) {
+            var $btnvalidate = $browse.data('$btnvalidate');
+            var $tr = $btnvalidate.closest('tr');
             request.module = validationName;
             if ((typeof boundfields != 'undefined') && (boundfields.length > 0)) {
                 request.boundids = {};
@@ -56,6 +59,16 @@
             }
             if ((typeof controller === 'string') && (typeof window[controller] !== 'undefined') && (typeof window[controller][formbeforevalidate] === 'function')) {
                 window[controller][formbeforevalidate]($browse, $form, request);
+            }
+            else if ((typeof $object.attr('data-name') === 'string') && (typeof window[$object.attr('data-name') + 'Controller'] !== 'undefined') && (typeof window[$object.attr('data-name') + 'Controller']['beforeValidate'] === 'function')) {
+                if ($object.attr('data-type') === 'Grid') {
+                    window[$object.attr('data-name') + 'Controller']['beforeValidate']($control.attr('data-formdatafield'), request, $browse, $object.closest('.fwform'), $tr);
+                } else {
+                    window[$object.attr('data-name') + 'Controller']['beforeValidate']($control.attr('data-datafield'), request, $browse, $object, $tr);
+                }
+            }
+            else if ((typeof controller === 'string') && (typeof window[controller] !== 'undefined') && (typeof window[controller]['beforeValidate'] === 'function')) {
+                window[controller]['beforeValidate']($control.attr('data-datafield'), request, $browse, $object, $tr);
             }
         });
         FwBrowse.renderRuntimeHtml($browse);

@@ -1,11 +1,9 @@
 class VehicleMake {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'VehicleMake';
-        this.apiurl = 'api/v1/vehiclemake';
-    }
+    Module: string = 'VehicleMake';
+    apiurl: string = 'api/v1/vehiclemake';
+    caption: string = Constants.Modules.Settings.children.VehicleSettings.children.VehicleMake.caption;
+    nav: string = Constants.Modules.Settings.children.VehicleSettings.children.VehicleMake.nav;
+    id: string = Constants.Modules.Settings.children.VehicleSettings.children.VehicleMake.id;
 
     getModuleScreen() {
         var screen, $browse;
@@ -62,19 +60,25 @@ class VehicleMake {
     }
 
     renderGrids($form: any) {
-        const $vehicleMakeModelGrid = $form.find('div[data-grid="VehicleMakeModelGrid"]');
-        const $vehicleMakeModelGridControl = FwBrowse.loadGridFromTemplate('VehicleMakeModelGrid');
-        $vehicleMakeModelGrid.empty().append($vehicleMakeModelGridControl);
-        $vehicleMakeModelGridControl.data('ondatabind', request => {
-            request.uniqueids = {
-                VehicleMakeId: FwFormField.getValueByDataField($form, 'VehicleMakeId')
-            };
+        FwBrowse.renderGrid({
+            nameGrid:         'VehicleMakeModelGrid',
+            gridSecurityId:   'kPPx0KctQjlXx',
+            moduleSecurityId: this.id,
+            $form:            $form,
+            //addGridMenu: (options: IAddGridMenuOptions) => {
+            //    options.hasNew    = false;
+            //    options.hasEdit   = false;
+            //    options.hasDelete = false;
+            //},
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    VehicleMakeId: FwFormField.getValueByDataField($form, 'VehicleMakeId')
+                };
+            },
+            beforeSave: (request: any) => {
+                request.VehicleMakeId = FwFormField.getValueByDataField($form, 'VehicleMakeId');
+            }
         });
-        $vehicleMakeModelGridControl.data('beforesave', request => {
-            request.VehicleMakeId = FwFormField.getValueByDataField($form, 'VehicleMakeId');
-        });
-        FwBrowse.init($vehicleMakeModelGridControl);
-        FwBrowse.renderRuntimeHtml($vehicleMakeModelGridControl);
     }
 
     afterLoad($form: any) {

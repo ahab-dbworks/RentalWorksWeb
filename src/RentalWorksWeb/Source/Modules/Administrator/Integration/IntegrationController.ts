@@ -1,5 +1,6 @@
 class IntegrationControllerClass {
     Module: 'Integration';
+    caption: 'RentalWorks Integration';
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen, $form;
@@ -9,8 +10,8 @@ class IntegrationControllerClass {
 
         $form = this.loadForm();
 
-        screen.load = function () {
-            FwModule.openModuleTab($form, 'RentalWorks Integration', false, 'FORM', true);
+        screen.load = () => {
+            FwModule.openModuleTab($form, this.caption, false, 'FORM', true);
         };
         screen.unload = function () {
         };

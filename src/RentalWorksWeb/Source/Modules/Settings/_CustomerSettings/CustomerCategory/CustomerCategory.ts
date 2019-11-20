@@ -1,11 +1,9 @@
 ﻿class CustomerCategory {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'CustomerCategory';
-        this.apiurl = 'api/v1/customercategory';
-    }
+    Module: string = 'CustomerCategory';
+    apiurl: string = 'api/v1/customercategory';
+    caption: string = Constants.Modules.Settings.children.CustomerSettings.children.CustomerCategory.caption;
+    nav: string = Constants.Modules.Settings.children.CustomerSettings.children.CustomerCategory.nav;
+    id: string = Constants.Modules.Settings.children.CustomerSettings.children.CustomerCategory.id;
 
     getModuleScreen() {
         var screen, $browse;

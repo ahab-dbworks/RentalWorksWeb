@@ -2,9 +2,14 @@
 
 class RemoveFromContainer {
     Module: string = 'RemoveFromContainer';
-    caption: string = Constants.Modules.Home.RemoveFromContainer.caption;
-	nav: string = Constants.Modules.Home.RemoveFromContainer.nav;
-	id: string = Constants.Modules.Home.RemoveFromContainer.id;
+    caption: string = Constants.Modules.Container.children.RemoveFromContainer.caption;
+    nav: string = Constants.Modules.Container.children.RemoveFromContainer.nav;
+    id: string = Constants.Modules.Container.children.RemoveFromContainer.id;
+    //----------------------------------------------------------------------------------------------
+    addFormMenuItems(options: IAddFormMenuOptions): void {
+        options.hasSave = false;
+        FwMenu.addFormMenuButtons(options);
+    }
     //----------------------------------------------------------------------------------------------
     getModuleScreen = () => {
         var screen: any = {};
@@ -90,7 +95,7 @@ class RemoveFromContainer {
         $form.find('.itemid[data-displayfield="BarCode"] input').focus();
     }
     //----------------------------------------------------------------------------------------------
-    beforeValidate($browse, $grid, request) {
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
         const validationName = request.module;
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
 
@@ -118,17 +123,17 @@ class RemoveFromContainer {
         </div>
         <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Container" style="max-width:700px">
           <div class="flexrow">
-            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield container" data-caption="Container Item" data-datafield="ContainerItemId" data-displayfield="BarCode" data-validationname="ContainerItemValidation" data-formbeforevalidate="beforeValidate" style="flex:0 1 200px;"></div>
+            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield container" data-caption="Container Item" data-datafield="ContainerItemId" data-displayfield="BarCode" data-validationname="ContainerItemValidation" style="flex:0 1 200px;"></div>
             <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Container Description" data-datafield="ContainerDescription" style="flex:0 1 400px;" data-enabled="false"></div>
           </div>
         </div>
         <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Item to Remove" style="max-width:700px">
           <div class="flexrow">
-            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield itemid" data-caption="Bar Code No." data-datafield="ItemId" data-displayfield="BarCode" data-formbeforevalidate="beforeValidate" data-validationname="AssetValidation" style="flex:0 1 200px;"></div>
-            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield itemid" data-caption="Serial No." data-datafield="ItemId" data-displayfield="SerialNumber" data-formbeforevalidate="beforeValidate" data-validationname="AssetValidation" style="flex:0 1 200px;"></div>
+            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield itemid" data-caption="Bar Code No." data-datafield="ItemId" data-displayfield="BarCode" data-validationname="AssetValidation" style="flex:0 1 200px;"></div>
+            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield itemid" data-caption="Serial No." data-datafield="ItemId" data-displayfield="SerialNumber" data-validationname="AssetValidation" style="flex:0 1 200px;"></div>
           </div>
           <div class="flexrow">
-            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="InventoryId" data-displayfield="ICode" data-formbeforevalidate="beforeValidate" data-validationname="RentalInventoryValidation" style="flex:0 1 200px;"></div>
+            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="InventoryId" data-displayfield="ICode" data-validationname="RentalInventoryValidation" style="flex:0 1 200px;"></div>
             <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Item Description" data-datafield="ItemDescription" data-enabled="false" style="flex:0 1 400px;"></div>
           </div>
           <div class="flexrow">

@@ -1,11 +1,9 @@
 ﻿class VendorCatalog {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'VendorCatalog';
-        this.apiurl = 'api/v1/vendorcatalog';
-    }
+    Module: string = 'VendorCatalog';
+    apiurl: string = 'api/v1/vendorcatalog';
+    caption: string = Constants.Modules.Settings.children.VendorSettings.children.VendorCatalog.caption;
+    nav: string = Constants.Modules.Settings.children.VendorSettings.children.VendorCatalog.nav;
+    id: string = Constants.Modules.Settings.children.VendorSettings.children.VendorCatalog.id;
 
     getModuleScreen() {
         var screen, $browse;

@@ -1,4 +1,4 @@
-﻿routes.push({
+routes.push({
     pattern: /^reports\/salesrepresentativebillingreport/, action: function (match: RegExpExecArray) {
         return SalesRepresentativeBillingReportController.getModuleScreen();
     }
@@ -108,7 +108,7 @@ class SalesRepresentativeBillingReport extends FwWebApiReport {
         return parameters;
     }
     //----------------------------------------------------------------------------------------------
-    beforeValidate($browse, $form, request) {
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
         const validationName = request.module;
         const customerId = FwFormField.getValueByDataField($form, 'CustomerId');
         request.uniqueids = {};

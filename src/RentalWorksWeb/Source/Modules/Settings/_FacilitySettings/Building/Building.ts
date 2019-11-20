@@ -1,6 +1,9 @@
-class RwBuilding {
+class Building {
     Module: string = 'Building';
     apiurl: string = 'api/v1/building';
+    caption: string = Constants.Modules.Settings.children.FacilitySettings.children.Building.caption;
+    nav: string = Constants.Modules.Settings.children.FacilitySettings.children.Building.nav;
+    id: string = Constants.Modules.Settings.children.FacilitySettings.children.Building.id;
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen, $browse;
@@ -13,7 +16,7 @@ class RwBuilding {
         $browse = this.openBrowse();
 
         screen.load = function () {
-            FwModule.openModuleTab($browse, 'Building', false, 'BROWSE', true);
+            FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };
@@ -124,43 +127,95 @@ class RwBuilding {
     }
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
-        const $floorGrid = $form.find('div[data-grid="FloorGrid"]');
-        const $floorGridControl = FwBrowse.loadGridFromTemplate('FloorGrid');
-        $floorGrid.empty().append($floorGridControl);
-        $floorGridControl.data('ondatabind', request => {
-            request.uniqueids = {
-                BuildingId: FwFormField.getValueByDataField($form, 'BuildingId')
-            };
-        })
-        $floorGridControl.data('beforesave', request => {
-            request.BuildingId = FwFormField.getValueByDataField($form, 'BuildingId');
+        //floorgrid
+        //const $floorGrid = $form.find('div[data-grid="FloorGrid"]');
+        //const $floorGridControl = FwBrowse.loadGridFromTemplate('FloorGrid');
+        //$floorGrid.empty().append($floorGridControl);
+        //$floorGridControl.data('ondatabind', request => {
+        //    request.uniqueids = {
+        //        BuildingId: FwFormField.getValueByDataField($form, 'BuildingId')
+        //    };
+        //})
+        //$floorGridControl.data('beforesave', request => {
+        //    request.BuildingId = FwFormField.getValueByDataField($form, 'BuildingId');
+        //});
+        //FwBrowse.init($floorGridControl);
+        //FwBrowse.renderRuntimeHtml($floorGridControl);
+
+        FwBrowse.renderGrid({
+            nameGrid: 'FloorGrid',
+            gridSecurityId: 'LrybQVClgY6f',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    BuildingId: FwFormField.getValueByDataField($form, 'BuildingId')
+                };
+            },
+            beforeSave: (request: any) => {
+                request.BuildingId = FwFormField.getValueByDataField($form, 'BuildingId');
+            },
         });
-        FwBrowse.init($floorGridControl);
-        FwBrowse.renderRuntimeHtml($floorGridControl);
 
-        const $spaceGrid = $form.find('div[data-grid="SpaceGrid"]');
-        const $spaceGridControl = FwBrowse.loadGridFromTemplate('SpaceGrid');
-        $spaceGrid.empty().append($spaceGridControl);
-        $spaceGridControl.data('ondatabind', request => {
-            request.uniqueids = {
-                BuildingId: FwFormField.getValueByDataField($form, 'BuildingId')
-            };
-        })
-        FwBrowse.init($spaceGridControl);
-        FwBrowse.renderRuntimeHtml($spaceGridControl);
+        // Space Grid
+        //const $spaceGrid = $form.find('div[data-grid="SpaceGrid"]');
+        //const $spaceGridControl = FwBrowse.loadGridFromTemplate('SpaceGrid');
+        //$spaceGrid.empty().append($spaceGridControl);
+        //$spaceGridControl.data('ondatabind', request => {
+        //    request.uniqueids = {
+        //        BuildingId: FwFormField.getValueByDataField($form, 'BuildingId')
+        //    };
+        //})
+        //FwBrowse.init($spaceGridControl);
+        //FwBrowse.renderRuntimeHtml($spaceGridControl);
 
+        FwBrowse.renderGrid({
+            nameGrid: 'SpaceGrid',
+            gridSecurityId: 'DgWXultjwPXkU',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    BuildingId: FwFormField.getValueByDataField($form, 'BuildingId')
+                };
+            },
+            //beforeSave: (request: any) => {
+            //    request.BuildingId = FwFormField.getValueByDataField($form, 'BuildingId');
+            //},
+        });
+
+        //space rate grid
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
-        const $spaceRateGrid = $form.find('div[data-grid="SpaceRateGrid"]');
-        const $spaceRateGridControl = FwBrowse.loadGridFromTemplate('SpaceRateGrid');
-        $spaceRateGrid.empty().append($spaceRateGridControl);
-        $spaceRateGridControl.data('ondatabind', request => {
-            request.uniqueids = {
-                BuildingId: FwFormField.getValueByDataField($form, 'BuildingId'),
-                WarehouseId: warehouse.warehouseid
-            };
-        })
-        FwBrowse.init($spaceRateGridControl);
-        FwBrowse.renderRuntimeHtml($spaceRateGridControl);
+        //const $spaceRateGrid = $form.find('div[data-grid="SpaceRateGrid"]');
+        //const $spaceRateGridControl = FwBrowse.loadGridFromTemplate('SpaceRateGrid');
+        //$spaceRateGrid.empty().append($spaceRateGridControl);
+        //$spaceRateGridControl.data('ondatabind', request => {
+        //    request.uniqueids = {
+        //        BuildingId: FwFormField.getValueByDataField($form, 'BuildingId'),
+        //        WarehouseId: warehouse.warehouseid
+        //    };
+        //})
+        //FwBrowse.init($spaceRateGridControl);
+        //FwBrowse.renderRuntimeHtml($spaceRateGridControl);
+
+        FwBrowse.renderGrid({
+            nameGrid: 'SpaceRateGrid',
+            gridSecurityId: 'iWPadFxStXkcL',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    BuildingId: FwFormField.getValueByDataField($form, 'BuildingId'),
+                    WarehouseId: warehouse.warehouseid
+                };
+            },
+            //beforeSave: (request: any) => {
+            //    request.BuildingId = FwFormField.getValueByDataField($form, 'BuildingId');
+            //},
+        });
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
@@ -175,4 +230,4 @@ class RwBuilding {
     }
 }
 //----------------------------------------------------------------------------------------------
-var BuildingController = new RwBuilding();
+var BuildingController = new Building();

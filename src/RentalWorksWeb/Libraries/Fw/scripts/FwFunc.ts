@@ -22,18 +22,23 @@
     }
     //---------------------------------------------------------------------------------
     static showWebApiError(status: number, error: string | { message: string, stack: string }, responseText: string, fullurl: string) {
-        if (status === 401 || status === 403) {
-            FwConfirmation.showMessage(`${status} - ${error}`, `Url: ${fullurl}`, false, true, 'OK',
-                (event) => {
-                    try {
-                        sessionStorage.clear();
-                        window.location.reload(false);
-                    }
-                    catch (ex) {
-                        FwFunc.showError(ex);
-                    }
-                }
-            );
+        if (status === 401 /*|| status === 403*/) {
+            FwNotification.renderNotification('ERROR', `${status} - ${error}`, `Url: ${fullurl}`);
+            setTimeout(() => {
+                sessionStorage.clear();
+                window.location.reload(true);
+            }, 3000);
+            //FwConfirmation.showMessage(`${status} - ${error}`, `Url: ${fullurl}`, false, true, 'OK',
+            //    (event) => {
+            //        try {
+            //            sessionStorage.clear();
+            //            window.location.reload(false);
+            //        }
+            //        catch (ex) {
+            //            FwFunc.showError(ex);
+            //        }
+            //    }
+            //);
         }
         else if (status === 0) {
             //console.error(apiException.Message + '\n' + apiException.StackTrace);

@@ -10,7 +10,7 @@
         });
     }
 
-    beforeValidate($browse, $grid, request, datafield, $tr) {
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $gridbrowse: JQuery, $tr: JQuery) {
         request.uniqueids = {
             GlAccountType: 'ASSET,EXPENSE'
         };

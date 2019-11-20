@@ -1,16 +1,24 @@
 ﻿routes.push({ pattern: /^module\/transferout$/, action: function (match: RegExpExecArray) { return TransferOutController.getModuleScreen(); } });
 
-class TransferOut extends StagingCheckoutBase{
-    Module: string = 'TransferOut';
-    caption: string = Constants.Modules.Home.TransferOut.caption;
-	nav: string = Constants.Modules.Home.TransferOut.nav;
-	id: string = Constants.Modules.Home.TransferOut.id;
-    showAddItemToOrder: boolean = false;
-    successSoundFileName: string;
-    errorSoundFileName: string;
+class TransferOut extends StagingCheckoutBase {
+    Module:                    string  = 'TransferOut';
+    apirul:                    string  = 'api/v1/transferout'
+    caption:                   string  = Constants.Modules.Transfers.children.TransferOut.caption;
+    nav:                       string  = Constants.Modules.Transfers.children.TransferOut.nav;
+    id:                        string  = Constants.Modules.Transfers.children.TransferOut.id;
+    showAddItemToOrder:        boolean = false;
+    isPendingItemGridView:     boolean = false;
+    Type:                      string  = 'Transfer';
+    successSoundFileName:      string;
+    errorSoundFileName:        string;
     notificationSoundFileName: string;
-    contractId: string;
-    isPendingItemGridView: boolean = false;
-    Type: string = 'Transfer';
+    contractId:                string;
+    //----------------------------------------------------------------------------------------------
+    addFormMenuItems(options: IAddFormMenuOptions): void {
+        options.hasSave = false;
+        FwMenu.addFormMenuButtons(options);
+    }
+    //----------------------------------------------------------------------------------------------
 }
+
 var TransferOutController = new TransferOut();

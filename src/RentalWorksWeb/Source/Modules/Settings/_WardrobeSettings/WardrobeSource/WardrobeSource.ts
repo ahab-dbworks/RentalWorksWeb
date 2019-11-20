@@ -1,11 +1,9 @@
 class WardrobeSource {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'WardrobeSource';
-        this.apiurl = 'api/v1/wardrobesource';
-    }
+    Module: string = 'WardrobeSource';
+    apiurl: string = 'api/v1/wardrobesource';
+    caption: string = Constants.Modules.Settings.children.WardrobeSettings.children.WardrobeSource.caption;
+    nav: string = Constants.Modules.Settings.children.WardrobeSettings.children.WardrobeSource.nav;
+    id: string = Constants.Modules.Settings.children.WardrobeSettings.children.WardrobeSource.id;
 
     getModuleScreen() {
         var screen, $browse;

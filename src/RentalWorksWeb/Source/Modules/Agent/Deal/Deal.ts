@@ -1,9 +1,9 @@
 class Deal {
     Module: string = 'Deal';
     apiurl: string = 'api/v1/deal';
-    caption: string = Constants.Modules.Home.Deal.caption;
-    nav: string = Constants.Modules.Home.Deal.nav;
-    id: string = Constants.Modules.Home.Deal.id;
+    caption: string = Constants.Modules.Agent.children.Deal.caption;
+    nav: string = Constants.Modules.Agent.children.Deal.nav;
+    id: string = Constants.Modules.Agent.children.Deal.id;
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         const screen: any = {};
@@ -29,7 +29,6 @@ class Deal {
     }
     //----------------------------------------------------------------------------------------------
     openBrowse() {
-        //var $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         let $browse = jQuery(this.getBrowseTemplate());
         $browse = FwModule.openBrowse($browse);
 
@@ -183,73 +182,164 @@ class Deal {
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
         // ----------
-        const $resaleGrid = $form.find('div[data-grid="CompanyResaleGrid"]');
-        const $resaleControl = FwBrowse.loadGridFromTemplate('CompanyResaleGrid');
-        $resaleGrid.empty().append($resaleControl);
-        $resaleControl.data('ondatabind', function (request) {
-            request.uniqueids = {
-                CompanyId: $form.find('div.fwformfield[data-datafield="DealId"] input').val()
-            }
-        });
-        $resaleControl.data('beforesave', function (request) {
-            request.CompanyId = FwFormField.getValueByDataField($form, 'DealId')
-        });
-        FwBrowse.init($resaleControl);
-        FwBrowse.renderRuntimeHtml($resaleControl);
-        // ----------
-        const $taxOptionGrid = $form.find('div[data-grid="CompanyTaxOptionGrid"]');
-        const $taxOptionControl = FwBrowse.loadGridFromTemplate('CompanyTaxOptionGrid');
-        $taxOptionGrid.empty().append($taxOptionControl);
-        $taxOptionControl.data('ondatabind', function (request) {
-            request.uniqueids = {
-                CompanyId: $form.find('div.fwformfield[data-datafield="DealId"] input').val()
-            }
-        });
-        FwBrowse.init($taxOptionControl);
-        FwBrowse.renderRuntimeHtml($taxOptionControl);
-        // ----------
-        const $dealNoteGrid = $form.find('div[data-grid="DealNoteGrid"]');
-        const $dealNoteControl = FwBrowse.loadGridFromTemplate('DealNoteGrid');
-        $dealNoteGrid.empty().append($dealNoteControl);
-        $dealNoteControl.data('ondatabind', function (request) {
-            request.uniqueids = {
-                DealId: $form.find('div.fwformfield[data-datafield="DealId"] input').val()
-            }
-        });
-        $dealNoteControl.data('beforesave', function (request) {
-            request.DealId = FwFormField.getValueByDataField($form, 'DealId');
-        })
-        FwBrowse.init($dealNoteControl);
-        FwBrowse.renderRuntimeHtml($dealNoteControl);
-        // ----------
-        const $dealShipperGrid = $form.find('div[data-grid="DealShipperGrid"]');
-        const $dealShipperGridControl = FwBrowse.loadGridFromTemplate('DealShipperGrid');
-        $dealShipperGrid.empty().append($dealShipperGridControl);
-        $dealShipperGridControl.data('ondatabind', function (request) {
-            request.uniqueids = {
-                DealId: $form.find('div.fwformfield[data-datafield="DealId"] input').val()
-            }
-        });
-        $dealShipperGridControl.data('beforesave', function (request) {
-            request.DealId = FwFormField.getValueByDataField($form, 'DealId')
-        });
+        // Company Resale Grid
+        //const $resaleGrid = $form.find('div[data-grid="CompanyResaleGrid"]');
+        //const $resaleControl = FwBrowse.loadGridFromTemplate('CompanyResaleGrid');
+        //$resaleGrid.empty().append($resaleControl);
+        //$resaleControl.data('ondatabind', function (request) {
+        //    request.uniqueids = {
+        //        CompanyId: $form.find('div.fwformfield[data-datafield="DealId"] input').val()
+        //    }
+        //});
+        //$resaleControl.data('beforesave', function (request) {
+        //    request.CompanyId = FwFormField.getValueByDataField($form, 'DealId')
+        //});
+        //FwBrowse.init($resaleControl);
+        //FwBrowse.renderRuntimeHtml($resaleControl);
 
-        FwBrowse.init($dealShipperGridControl);
-        FwBrowse.renderRuntimeHtml($dealShipperGridControl);
-        // ----------
-        const $companyContactGrid: any = $form.find(`div[data-grid="CompanyContactGrid"]`);
-        const $companyContactControl: any = FwBrowse.loadGridFromTemplate('CompanyContactGrid');
-        $companyContactGrid.empty().append($companyContactControl);
-        $companyContactControl.data('ondatabind', function (request) {
-            request.uniqueids = {
-                CompanyId: FwFormField.getValueByDataField($form, 'DealId')
+        FwBrowse.renderGrid({
+            nameGrid: 'CompanyResaleGrid',
+            gridSecurityId: 'k48X9sulRpmb',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    CompanyId: FwFormField.getValueByDataField($form, 'DealId')
+                };
+            },
+            beforeSave: (request: any) => {
+                request.CompanyId = FwFormField.getValueByDataField($form, 'DealId');
             }
         });
-        $companyContactControl.data('beforesave', function (request) {
-            request.CompanyId = FwFormField.getValueByDataField($form, 'DealId');
+        // ----------
+        // Company Tax Option Grid
+        //const $taxOptionGrid = $form.find('div[data-grid="CompanyTaxOptionGrid"]');
+        //const $taxOptionControl = FwBrowse.loadGridFromTemplate('CompanyTaxOptionGrid');
+        //$taxOptionGrid.empty().append($taxOptionControl);
+        //$taxOptionControl.data('ondatabind', function (request) {
+        //    request.uniqueids = {
+        //        CompanyId: $form.find('div.fwformfield[data-datafield="DealId"] input').val()
+        //    }
+        //});
+        //FwBrowse.init($taxOptionControl);
+        //FwBrowse.renderRuntimeHtml($taxOptionControl);
+
+        FwBrowse.renderGrid({
+            nameGrid: 'CompanyTaxOptionGrid',
+            gridSecurityId: 'B9CzDEmYe1Zf',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                options.hasNew = false;
+                options.hasDelete = false;
+            },
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    CompanyId: FwFormField.getValueByDataField($form, 'DealId')
+                };
+            },
+            //beforeSave: (request: any) => {
+            //    request.CompanyId = FwFormField.getValueByDataField($form, 'DealId');
+            //}
         });
-        FwBrowse.init($companyContactControl);
-        FwBrowse.renderRuntimeHtml($companyContactControl);
+        // ----------
+        // Deal Note Grid
+        //const $dealNoteGrid = $form.find('div[data-grid="DealNoteGrid"]');
+        //const $dealNoteControl = FwBrowse.loadGridFromTemplate('DealNoteGrid');
+        //$dealNoteGrid.empty().append($dealNoteControl);
+        //$dealNoteControl.data('ondatabind', function (request) {
+        //    request.uniqueids = {
+        //        DealId: $form.find('div.fwformfield[data-datafield="DealId"] input').val()
+        //    }
+        //});
+        //$dealNoteControl.data('beforesave', function (request) {
+        //    request.DealId = FwFormField.getValueByDataField($form, 'DealId');
+        //})
+        //FwBrowse.init($dealNoteControl);
+        //FwBrowse.renderRuntimeHtml($dealNoteControl);
+
+        FwBrowse.renderGrid({
+            nameGrid: 'DealNoteGrid',
+            gridSecurityId: 'jcwmVLFEU88k',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                
+            },
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    DealId: FwFormField.getValueByDataField($form, 'DealId')
+                };
+            },
+            beforeSave: (request: any) => {
+                request.DealId = FwFormField.getValueByDataField($form, 'DealId');
+            }
+        });
+        // ----------
+        // Deal Shipper Grid
+        //const $dealShipperGrid = $form.find('div[data-grid="DealShipperGrid"]');
+        //const $dealShipperGridControl = FwBrowse.loadGridFromTemplate('DealShipperGrid');
+        //$dealShipperGrid.empty().append($dealShipperGridControl);
+        //$dealShipperGridControl.data('ondatabind', function (request) {
+        //    request.uniqueids = {
+        //        DealId: $form.find('div.fwformfield[data-datafield="DealId"] input').val()
+        //    }
+        //});
+        //$dealShipperGridControl.data('beforesave', function (request) {
+        //    request.DealId = FwFormField.getValueByDataField($form, 'DealId')
+        //});
+
+        //FwBrowse.init($dealShipperGridControl);
+        //FwBrowse.renderRuntimeHtml($dealShipperGridControl);
+
+        FwBrowse.renderGrid({
+            nameGrid: 'DealShipperGrid',
+            gridSecurityId: '5cMD0y0jSUgz',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    DealId: FwFormField.getValueByDataField($form, 'DealId')
+                };
+            },
+            beforeSave: (request: any) => {
+                request.DealId = FwFormField.getValueByDataField($form, 'DealId');
+            }
+        });
+        // ----------
+        //const $companyContactGrid: any = $form.find(`div[data-grid="CompanyContactGrid"]`);
+        //const $companyContactControl: any = FwBrowse.loadGridFromTemplate('CompanyContactGrid');
+        //$companyContactGrid.empty().append($companyContactControl);
+        //$companyContactControl.data('ondatabind', function (request) {
+        //    request.uniqueids = {
+        //        CompanyId: FwFormField.getValueByDataField($form, 'DealId')
+        //    }
+        //});
+        //$companyContactControl.data('beforesave', function (request) {
+        //    request.CompanyId = FwFormField.getValueByDataField($form, 'DealId');
+        //});
+        //FwBrowse.init($companyContactControl);
+        //FwBrowse.renderRuntimeHtml($companyContactControl);
+
+        FwBrowse.renderGrid({
+            nameGrid: 'CompanyContactGrid',
+            gridSecurityId: 'gQHuhVDA5Do2',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    CompanyId: FwFormField.getValueByDataField($form, 'DealId')
+                };
+            },
+            beforeSave: (request: any) => {
+                request.CompanyId = FwFormField.getValueByDataField($form, 'DealId');
+            }
+        });
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any): void {
@@ -847,7 +937,7 @@ class Deal {
     //----------------------------------------------------------------------------------------------
     getBrowseTemplate(): string {
         return `
-        <div data-name="Deal" data-control="FwBrowse" data-type="Browse" id="DealBrowse" class="fwcontrol fwbrowse" data-orderby="" data-controller="DealController" data-hasinactive="true">
+        <div data-name="Deal" data-control="FwBrowse" data-type="Browse" id="DealBrowse" class="fwcontrol fwbrowse" data-orderby="" data-controller="DealController">
           <div class="column" data-width="0" data-visible="false">
             <div class="field" data-isuniqueid="true" data-datafield="DealId" data-browsedatatype="key" ></div>
           </div>

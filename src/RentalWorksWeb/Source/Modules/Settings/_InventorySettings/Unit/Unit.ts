@@ -1,12 +1,10 @@
 class Unit {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'Unit';
-        this.apiurl = 'api/v1/unit';
-    }
-
+    Module: string = 'Unit';
+    apiurl: string = 'api/v1/unit';
+    caption: string = Constants.Modules.Settings.children.InventorySettings.children.Unit.caption;
+    nav:     string = Constants.Modules.Settings.children.InventorySettings.children.Unit.nav;
+    id:      string = Constants.Modules.Settings.children.InventorySettings.children.Unit.id;
+    //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen, $browse;
 
@@ -18,7 +16,7 @@ class Unit {
         $browse = this.openBrowse();
 
         screen.load = function () {
-            FwModule.openModuleTab($browse, 'Unit of Measure', false, 'BROWSE', true);
+            FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };
@@ -28,7 +26,7 @@ class Unit {
 
         return screen;
     }
-
+    //----------------------------------------------------------------------------------------------
     openBrowse() {
         var $browse;
 
@@ -37,7 +35,7 @@ class Unit {
 
         return $browse;
     }
-
+    //----------------------------------------------------------------------------------------------
     openForm(mode: string) {
         var $form;
 
@@ -46,7 +44,7 @@ class Unit {
 
         return $form;
     }
-
+    //----------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
         var $form;
 
@@ -56,13 +54,14 @@ class Unit {
 
         return $form;
     }
-
+    //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
     }
-
+    //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
     }
+    //----------------------------------------------------------------------------------------------
 }
 
 var UnitController = new Unit();

@@ -1,6 +1,9 @@
 class BarCodeRange {
     Module: string = 'BarCodeRange';
     apiurl: string = 'api/v1/barcoderange';
+    caption: string = Constants.Modules.Settings.children.InventorySettings.children.BarCodeRange.caption;
+    nav:     string = Constants.Modules.Settings.children.InventorySettings.children.BarCodeRange.nav;
+    id:      string = Constants.Modules.Settings.children.InventorySettings.children.BarCodeRange.id;
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen, $browse;
@@ -12,8 +15,8 @@ class BarCodeRange {
 
         $browse = this.openBrowse();
 
-        screen.load = function () {
-            FwModule.openModuleTab($browse, 'Bar Code Range', false, 'BROWSE', true);
+        screen.load = () => {
+            FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };

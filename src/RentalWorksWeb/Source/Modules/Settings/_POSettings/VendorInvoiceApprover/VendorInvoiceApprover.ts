@@ -1,11 +1,9 @@
 class VendorInvoiceApprover {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'VendorInvoiceApprover';
-        this.apiurl = 'api/v1/vendorinvoiceapprover';
-    }
+    Module: string = 'VendorInvoiceApprover';
+    apiurl: string = 'api/v1/vendorinvoiceapprover';
+    caption: string = Constants.Modules.Settings.children.POSettings.children.POType.caption;
+    nav: string = Constants.Modules.Settings.children.POSettings.children.POType.nav;
+    id: string = Constants.Modules.Settings.children.POSettings.children.POType.id;
 
     getModuleScreen() {
         var screen, $browse;
@@ -18,7 +16,7 @@ class VendorInvoiceApprover {
         $browse = this.openBrowse();
 
         screen.load = function () {
-            FwModule.openModuleTab($browse, 'Vendor Invoice Approver', false, 'BROWSE', true);
+            FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };

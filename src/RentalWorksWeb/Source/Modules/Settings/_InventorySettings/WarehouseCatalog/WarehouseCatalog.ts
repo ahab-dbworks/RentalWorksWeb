@@ -1,12 +1,10 @@
 class WarehouseCatalog {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'WarehouseCatalog';
-        this.apiurl = 'api/v1/warehousecatalog';
-    }
-
+    Module: string = 'WarehouseCatalog';
+    apiurl: string = 'api/v1/warehousecatalog';
+    caption: string = Constants.Modules.Settings.children.InventorySettings.children.WarehouseCatalog.caption;
+    nav:     string = Constants.Modules.Settings.children.InventorySettings.children.WarehouseCatalog.nav;
+    id:      string = Constants.Modules.Settings.children.InventorySettings.children.WarehouseCatalog.id;
+    //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen, $browse;
 
@@ -18,7 +16,7 @@ class WarehouseCatalog {
         $browse = this.openBrowse();
 
         screen.load = function () {
-            FwModule.openModuleTab($browse, 'Warehouse Catalog', false, 'BROWSE', true);
+            FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };
@@ -28,7 +26,7 @@ class WarehouseCatalog {
 
         return screen;
     }
-
+    //----------------------------------------------------------------------------------------------
     openBrowse() {
         var $browse;
 
@@ -37,7 +35,7 @@ class WarehouseCatalog {
 
         return $browse;
     }
-
+    //----------------------------------------------------------------------------------------------
     openForm(mode: string) {
         var $form;
 
@@ -46,7 +44,7 @@ class WarehouseCatalog {
 
         return $form;
     }
-
+    //----------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
         var $form;
 
@@ -56,13 +54,14 @@ class WarehouseCatalog {
 
         return $form;
     }
-
+    //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
     }
-
+    //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
     }
+    //----------------------------------------------------------------------------------------------
 }
 
 var WarehouseCatalogController = new WarehouseCatalog();

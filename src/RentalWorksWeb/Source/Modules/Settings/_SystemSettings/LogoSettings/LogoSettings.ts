@@ -3,10 +3,15 @@
 class LogoSettings {
     Module: string = 'LogoSettings';
     apiurl: string = 'api/v1/logosettings';
-    caption: string = Constants.Modules.Settings.LogoSettings.caption;
-    nav: string = Constants.Modules.Settings.LogoSettings.nav;
-    id: string = Constants.Modules.Settings.LogoSettings.id;
+    caption: string = Constants.Modules.Settings.children.SystemSettings.children.LogoSettings.caption;
+    nav: string = Constants.Modules.Settings.children.SystemSettings.children.LogoSettings.nav;
+    id: string = Constants.Modules.Settings.children.SystemSettings.children.LogoSettings.id;
     reportImageId: string = Constants.MainMenu.Reports.id;
+    //----------------------------------------------------------------------------------------------
+    addBrowseMenuItems(options: IAddBrowseMenuOptions): void {
+        options.hasNew = false;
+        FwMenu.addBrowseMenuButtons(options);
+    }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         const screen: any = {};

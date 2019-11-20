@@ -1,17 +1,44 @@
 routes.push({ pattern: /^module\/transferreceipt$/, action: function (match: RegExpExecArray) { return TransferReceiptController.getModuleScreen(); } });
 
-class TransferReceipt extends Contract {
-    Module: string = 'TransferReceipt';
-    apiurl: string = 'api/v1/manifest';
-    caption: string = Constants.Modules.Home.TransferReceipt.caption;
-	nav: string = Constants.Modules.Home.TransferReceipt.nav;
-	id: string = Constants.Modules.Home.TransferReceipt.id;
-    ActiveViewFields: any = {};
+class TransferReceipt extends ContractBase {
+    Module:             string = 'TransferReceipt';
+    apiurl:             string = 'api/v1/transferreceipt';
+    caption:            string = Constants.Modules.Transfers.children.TransferReceipt.caption;
+    nav:                string = Constants.Modules.Transfers.children.TransferReceipt.nav;
+    id:                 string = Constants.Modules.Transfers.children.TransferReceipt.id;
+    ActiveViewFields:   any    = {};
     ActiveViewFieldsId: string;
+    //----------------------------------------------------------------------------------------------
+    addBrowseMenuItems(options: IAddBrowseMenuOptions): void {
+        options.hasInactive = false;
+        options.hasNew = false;
+        options.hasDelete = false;
+        FwMenu.addBrowseMenuButtons(options);
+        super.afterAddBrowseMenuItems(options);
+    }
+    //----------------------------------------------------------------------------------------------
+    addFormMenuItems(options: IAddFormMenuOptions): void {
+        FwMenu.addFormMenuButtons(options);
+
+        FwMenu.addSubMenuItem(options.$groupOptions, 'Print Order', '', (e: JQuery.ClickEvent) => {
+            try {
+                this.printContract(options.$form);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+        FwMenu.addSubMenuItem(options.$groupOptions, 'Void Contract', 'OB2ssAaVMdIY', (e: JQuery.ClickEvent) => {
+            try {
+                this.voidContract(options.$form);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+    }
     //---------------------------------------------------------------------------------------------
     getBrowseTemplate(): string {
         return `
-      <div data-name="TransferReceipt" data-control="FwBrowse" data-type="Browse" id="ManifestBrowse" class="fwcontrol fwbrowse" data-controller="TransferReceiptController" data-hasinactive="false">
+      <div data-name="TransferReceipt" data-control="FwBrowse" data-type="Browse" id="ManifestBrowse" class="fwcontrol fwbrowse" data-controller="TransferReceiptController">
         <div class="column" data-width="0" data-visible="false">
           <div class="field" data-isuniqueid="true" data-datafield="ManifestId" data-datatype="key"></div>
         </div>
@@ -101,17 +128,6 @@ class TransferReceipt extends Contract {
     }
     //----------------------------------------------------------------------------------------------
 }
-//----------------------------------------------------------------------------------------------
-FwApplicationTree.clickEvents[Constants.Modules.Home.TransferReceipt.form.menuItems.Print.id] = function (e) {
-    var $form;
-    try {
-        $form = jQuery(this).closest('.fwform');
-        $form.find('.print').trigger('click');
-    }
-    catch (ex) {
-        FwFunc.showError(ex);
-    }
-};
 //----------------------------------------------------------------------------------------------
 
 var TransferReceiptController = new TransferReceipt();

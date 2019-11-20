@@ -3,11 +3,27 @@ routes.push({ pattern: /^module\/billing$/, action: function (match: RegExpExecA
 class Billing {
     Module: string = 'Billing';
     apiurl: string = 'api/v1/billing';
-    caption: string = Constants.Modules.Home.Billing.caption;
-    nav: string = Constants.Modules.Home.Billing.nav;
-    id: string = Constants.Modules.Home.Billing.id;
+    caption: string = Constants.Modules.Billing.children.Billing.caption;
+    nav: string = Constants.Modules.Billing.children.Billing.nav;
+    id: string = Constants.Modules.Billing.children.Billing.id;
     ActiveView: string = 'ALL';
     SessionId: string;
+    //----------------------------------------------------------------------------------------------
+    addBrowseMenuItems(options: IAddBrowseMenuOptions): void {
+        options.hasNew = false;
+        options.hasEdit = false;
+        options.hasDelete = false;
+        options.hasFind = false;
+        FwMenu.addBrowseMenuButtons(options);
+
+        //FwMenu.addSubMenuItem(options.$groupOptions, `XXXXXXXXXXx`, `pnHZApj7X6kKU`, (e: JQuery.ClickEvent) => {
+        //    //try {
+        //    //    this.xxxxxxxxxxxx($browse);
+        //    //} catch (ex) {
+        //    //    FwFunc.showError(ex);
+        //    //}
+        //});
+    }
     //----------------------------------------------------------------------------------------------
     getModuleScreen(filter?: { datafield: string, search: string }) {
         const screen: any = {};
@@ -191,11 +207,11 @@ class Billing {
                 let id;
                 id = $this.closest('tr').find('div[data-browsedatafield="BillingId"]').attr('data-originalvalue');
                 ids.push(id);
-            };
+            }
 
             request = {
-                SessionId: this.SessionId
-                , BillingIds: ids
+                SessionId: this.SessionId,
+                BillingIds: ids
             }
 
             FwAppData.apiMethod(true, 'POST', `api/v1/billing/createinvoices`, request, FwServices.defaultTimeout, function onSuccess(response) {
@@ -231,11 +247,11 @@ class Billing {
             }, null, $browse, this.SessionId);
         });
     }
-
     //----------------------------------------------------------------------------------------------
     openBrowse() {
         let $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
+
         $browse.find('.pager .col2, .pager .col3').hide();
 
         FwBrowse.addLegend($browse, 'Missing Crew Times', '#FF9D9D');
@@ -251,13 +267,13 @@ class Billing {
         FwBrowse.addLegend($browse, 'Hiatus', '#00B95C');
 
         return $browse;
-    };
+    }
     //----------------------------------------------------------------------------------------------
     openForm(mode, parentModuleInfo?: any) {
         let $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
         return $form;
-    };
+    }
     //----------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
         let $form = this.openForm('EDIT');
@@ -265,11 +281,12 @@ class Billing {
         FwModule.loadForm(this.Module, $form);
 
         return $form;
-    };
+    }
     //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
-    };
-};
+    }
+    //----------------------------------------------------------------------------------------------
+}
 //----------------------------------------------------------------------------------------------
 var BillingController = new Billing();

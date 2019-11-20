@@ -1,11 +1,9 @@
 ﻿class Department {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'Department';
-        this.apiurl = 'api/v1/department';
-    }
+    Module: string = 'Department';
+    apiurl: string = 'api/v1/department';
+    caption: string = Constants.Modules.Settings.children.CompanyDepartmentSettings.children.Department.caption;
+    nav: string = Constants.Modules.Settings.children.CompanyDepartmentSettings.children.Department.nav;
+    id: string = Constants.Modules.Settings.children.CompanyDepartmentSettings.children.Department.id;
 
     getModuleScreen() {
         var screen, $browse;

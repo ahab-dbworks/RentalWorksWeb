@@ -1,11 +1,9 @@
 ﻿class WardrobeCare {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'WardrobeCare';
-        this.apiurl = 'api/v1/wardrobecare';
-    }
+    Module: string = 'WardrobeCare';
+    apiurl: string = 'api/v1/wardrobecare';
+    caption: string = Constants.Modules.Settings.children.WardrobeSettings.children.WardrobeCare.caption;
+    nav: string = Constants.Modules.Settings.children.WardrobeSettings.children.WardrobeCare.nav;
+    id: string = Constants.Modules.Settings.children.WardrobeSettings.children.WardrobeCare.id;
 
     getModuleScreen() {
         var screen, $browse;

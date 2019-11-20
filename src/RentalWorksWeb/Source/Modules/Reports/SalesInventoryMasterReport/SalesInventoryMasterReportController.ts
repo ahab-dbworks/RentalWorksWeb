@@ -1,4 +1,4 @@
-﻿routes.push({
+routes.push({
     pattern: /^reports\/salesinventorymasterreport/, action: function (match: RegExpExecArray) {
         return SalesInventoryMasterReportController.getModuleScreen();
     }
@@ -173,7 +173,7 @@ class SalesInventoryMasterReport extends FwWebApiReport {
         ]);
     }
     //----------------------------------------------------------------------------------------------
-    beforeValidate($browse, $form, request) {
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
         request.uniqueids.Sales = true;
     };
     //----------------------------------------------------------------------------------------------

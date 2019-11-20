@@ -1,12 +1,10 @@
 class InventoryAdjustmentReason {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'InventoryAdjustmentReason';
-        this.apiurl = 'api/v1/inventoryadjustmentreason';
-    }
-
+    Module: string = 'InventoryAdjustmentReason';
+    apiurl: string = 'api/v1/inventoryadjustmentreason';
+    caption: string = Constants.Modules.Settings.children.InventorySettings.children.InventoryAdjustmentReason.caption;
+    nav:     string = Constants.Modules.Settings.children.InventorySettings.children.InventoryAdjustmentReason.nav;
+    id:      string = Constants.Modules.Settings.children.InventorySettings.children.InventoryAdjustmentReason.id;
+    //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen, $browse;
 
@@ -17,8 +15,8 @@ class InventoryAdjustmentReason {
 
         $browse = this.openBrowse();
 
-        screen.load = function () {
-            FwModule.openModuleTab($browse, 'Inventory Adjustment Reason', false, 'BROWSE', true);
+        screen.load = () => {
+            FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };
@@ -28,7 +26,7 @@ class InventoryAdjustmentReason {
 
         return screen;
     }
-
+    //----------------------------------------------------------------------------------------------
     openBrowse() {
         var $browse;
 
@@ -37,7 +35,7 @@ class InventoryAdjustmentReason {
 
         return $browse;
     }
-
+    //----------------------------------------------------------------------------------------------
     openForm(mode: string) {
         var $form;
 
@@ -46,7 +44,7 @@ class InventoryAdjustmentReason {
 
         return $form;
     }
-
+    //----------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
         var $form;
 
@@ -56,13 +54,14 @@ class InventoryAdjustmentReason {
 
         return $form;
     }
-
+    //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
     }
 
     afterLoad($form: any) {
     }
+    //----------------------------------------------------------------------------------------------
 }
 
 var InventoryAdjustmentReasonController = new InventoryAdjustmentReason();

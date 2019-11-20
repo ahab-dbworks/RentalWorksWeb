@@ -1,19 +1,19 @@
 ﻿routes.push({ pattern: /^module\/dashboardsettings$/, action: function (match: RegExpExecArray) { return DashboardSettingsController.getModuleScreen(); } });
 
 class DashboardSettings {
-    Module: string = 'DashboardSettings';
-    apiurl: string = 'api/v1/userdashboardsettings';
-    caption: string = Constants.Modules.Utilities.DashboardSettings.caption;
-    nav: string = Constants.Modules.Utilities.DashboardSettings.nav;
-    id: string = Constants.Modules.Utilities.DashboardSettings.id;
+    Module:  string = 'DashboardSettings';
+    apiurl:  string = 'api/v1/userdashboardsettings';
+    caption: string = Constants.Modules.Utilities.children.DashboardSettings.caption;
+    nav:     string = Constants.Modules.Utilities.children.DashboardSettings.nav;
+    id:      string = Constants.Modules.Utilities.children.DashboardSettings.id;
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
-        var screen: any = {};
+        const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
-        var $form = this.openForm('EDIT');
+        const $form = this.openForm('EDIT');
 
         screen.load = function () {
             FwModule.openModuleTab($form, 'Dashboard Settings', false, 'FORM', true);
@@ -25,10 +25,9 @@ class DashboardSettings {
     }
     //----------------------------------------------------------------------------------------------
     openForm(mode: string) {
-        var $form;
         var userId = JSON.parse(sessionStorage.getItem('userid'));
 
-        $form = FwModule.loadFormFromTemplate(this.Module);
+        let $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 
         $form.find('div.fwformfield[data-datafield="UserId"] input').val(userId.webusersid);

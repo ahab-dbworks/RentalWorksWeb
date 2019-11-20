@@ -1,11 +1,28 @@
 ﻿class PhysicalInventory {
     Module: string = 'PhysicalInventory';
     apiurl: string = 'api/v1/physicalinventory';
-    caption: string = Constants.Modules.Home.PhysicalInventory.caption;
-    nav: string = Constants.Modules.Home.PhysicalInventory.nav;
-    id: string = Constants.Modules.Home.PhysicalInventory.id;
+    caption: string = Constants.Modules.Inventory.children.PhysicalInventory.caption;
+    nav: string = Constants.Modules.Inventory.children.PhysicalInventory.nav;
+    id: string = Constants.Modules.Inventory.children.PhysicalInventory.id;
     ActiveViewFields: any = {};
     ActiveViewFieldsId: string;
+    //---------------------------------------------------------------------------------------------
+    addBrowseMenuItems(options: IAddBrowseMenuOptions): void {
+        FwMenu.addBrowseMenuButtons(options);
+
+        //Location Filter
+        const location = JSON.parse(sessionStorage.getItem('location'));
+        const $allLocations = FwMenu.generateDropDownViewBtn('ALL Locations', false, "ALL");
+        const $userLocation = FwMenu.generateDropDownViewBtn(location.location, true, location.locationid);
+
+        if (typeof this.ActiveViewFields["OfficeLocationId"] == 'undefined') {
+            this.ActiveViewFields.OfficeLocationId = [location.locationid];
+        }
+
+        let viewLocation: Array<JQuery> = [];
+        viewLocation.push($userLocation, $allLocations);
+        FwMenu.addViewBtn(options.$menu, 'Location', viewLocation, true, "OfficeLocationId");
+    };
     //---------------------------------------------------------------------------------------------
     getModuleScreen() {
         const screen: any = {};
@@ -15,8 +32,8 @@
 
         const $browse = this.openBrowse();
 
-        screen.load = function () {
-            FwModule.openModuleTab($browse, 'Physical Inventory', false, 'BROWSE', true);
+        screen.load = () => {
+            FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };
@@ -35,24 +52,21 @@
             request.activeviewfields = this.ActiveViewFields;
         });
 
-        return $browse;
-    }
-    //---------------------------------------------------------------------------------------------
-    addBrowseMenuItems($menuObject) {
-        //Location Filter
-        const location = JSON.parse(sessionStorage.getItem('location'));
-        const $allLocations = FwMenu.generateDropDownViewBtn('ALL Locations', false, "ALL");
-        const $userLocation = FwMenu.generateDropDownViewBtn(location.location, true, location.locationid);
-
-        if (typeof this.ActiveViewFields["OfficeLocationId"] == 'undefined') {
-            this.ActiveViewFields.OfficeLocationId = [location.locationid];
+        try {
+            FwAppData.apiMethod(true, 'GET', `${this.apiurl}/legend`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                for (let key in response) {
+                    FwBrowse.addLegend($browse, key, response[key]);
+                }
+            }, function onError(response) {
+                FwFunc.showError(response);
+            }, $browse)
+        } catch (ex) {
+            FwFunc.showError(ex);
         }
 
-        let viewLocation: Array<JQuery> = [];
-        viewLocation.push($userLocation, $allLocations);
-        FwMenu.addViewBtn($menuObject, 'Location', viewLocation, true, "OfficeLocationId");
-        return $menuObject;
-    };
+;
+        return $browse;
+    }
     //---------------------------------------------------------------------------------------------
     openForm(mode: string) {
         let $form = FwModule.loadFormFromTemplate(this.Module);
@@ -349,19 +363,37 @@
     }
     //---------------------------------------------------------------------------------------------
     renderGrids($form) {
-        const $physicalInventoryCycleInventoryGrid = $form.find('div[data-grid="PhysicalInventoryCycleInventoryGrid"]');
-        const $physicalInventoryCycleInventoryGridControl = FwBrowse.loadGridFromTemplate('PhysicalInventoryCycleInventoryGrid');
-        $physicalInventoryCycleInventoryGrid.empty().append($physicalInventoryCycleInventoryGridControl);
-        $physicalInventoryCycleInventoryGridControl.data('ondatabind', request => {
-            request.uniqueids = {
-                PhysicalInventoryId: FwFormField.getValueByDataField($form, 'PhysicalInventoryId')
-            };
+        //const $physicalInventoryCycleInventoryGrid = $form.find('div[data-grid="PhysicalInventoryCycleInventoryGrid"]');
+        //const $physicalInventoryCycleInventoryGridControl = FwBrowse.loadGridFromTemplate('PhysicalInventoryCycleInventoryGrid');
+        //$physicalInventoryCycleInventoryGrid.empty().append($physicalInventoryCycleInventoryGridControl);
+        //$physicalInventoryCycleInventoryGridControl.data('ondatabind', request => {
+        //    request.uniqueids = {
+        //        PhysicalInventoryId: FwFormField.getValueByDataField($form, 'PhysicalInventoryId')
+        //    };
+        //});
+        //$physicalInventoryCycleInventoryGridControl.data('beforesave', request => {
+        //    request.PhysicalInventoryId = FwFormField.getValueByDataField($form, 'PhysicalInventoryId')
+        //});
+        //FwBrowse.init($physicalInventoryCycleInventoryGridControl);
+        //FwBrowse.renderRuntimeHtml($physicalInventoryCycleInventoryGridControl);
+
+        //Physical Inventory Cycle Inventory Grid
+        FwBrowse.renderGrid({
+            nameGrid: 'PhysicalInventoryCycleInventoryGrid',
+            gridSecurityId: 'juyq8FkxJPR5Q',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    PhysicalInventoryId: FwFormField.getValueByDataField($form, 'PhysicalInventoryId')
+                };
+            }, 
+            beforeSave: (request: any) => {
+                request.PhysicalInventoryId = FwFormField.getValueByDataField($form, 'PhysicalInventoryId');
+            }
         });
-        $physicalInventoryCycleInventoryGridControl.data('beforesave', request => {
-            request.PhysicalInventoryId = FwFormField.getValueByDataField($form, 'PhysicalInventoryId')
-        });
-        FwBrowse.init($physicalInventoryCycleInventoryGridControl);
-        FwBrowse.renderRuntimeHtml($physicalInventoryCycleInventoryGridControl);
+
     }
     //---------------------------------------------------------------------------------------------
     afterLoad($form: any) {

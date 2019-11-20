@@ -1,10 +1,12 @@
 class MailList {
-    Module: string;
-    apiurl: string;
+    Module: string = 'MailList';
+    apiurl: string = 'api/v1/maillist';
+    caption: string = Constants.Modules.Settings.children.ContactSettings.children.MailList.caption;
+    nav: string = Constants.Modules.Settings.children.ContactSettings.children.MailList.nav;
+    id: string = Constants.Modules.Settings.children.ContactSettings.children.MailList.id;
 
     constructor() {
-        this.Module = 'MailList';
-        this.apiurl = 'api/v1/maillist';
+        
     }
 
     getModuleScreen() {

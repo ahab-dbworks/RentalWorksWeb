@@ -1,11 +1,9 @@
 ﻿class WardrobeLabel {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'WardrobeLabel';
-        this.apiurl = 'api/v1/wardrobelabel';
-    }
+    Module: string = 'WardrobeLabel';
+    apiurl: string = 'api/v1/wardrobelabel';
+    caption: string = Constants.Modules.Settings.children.WardrobeSettings.children.WardrobeLabel.caption;
+    nav: string = Constants.Modules.Settings.children.WardrobeSettings.children.WardrobeLabel.nav;
+    id: string = Constants.Modules.Settings.children.WardrobeSettings.children.WardrobeLabel.id;
 
     getModuleScreen() {
         var screen, $browse;

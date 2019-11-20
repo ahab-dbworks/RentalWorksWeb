@@ -3,11 +3,72 @@ routes.push({ pattern: /^module\/vendorinvoice$/, action: function (match: RegEx
 class VendorInvoice {
     Module: string = 'VendorInvoice';
     apiurl: string = 'api/v1/vendorinvoice';
-    caption: string = Constants.Modules.Home.VendorInvoice.caption;
-    nav: string = Constants.Modules.Home.VendorInvoice.nav;
-    id: string = Constants.Modules.Home.VendorInvoice.id;
+    caption: string = Constants.Modules.Billing.children.VendorInvoice.caption;
+    nav: string = Constants.Modules.Billing.children.VendorInvoice.nav;
+    id: string = Constants.Modules.Billing.children.VendorInvoice.id;
     ActiveViewFields: any = {};
     ActiveViewFieldsId: string;
+    //----------------------------------------------------------------------------------------------
+    addBrowseMenuItems(options: IAddBrowseMenuOptions): void {
+        FwMenu.addBrowseMenuButtons(options);
+
+        FwMenu.addSubMenuItem(options.$groupOptions, `Approve`, `qGQ28sAtqVz4`, (e: JQuery.ClickEvent) => {
+                try {
+                    this.browseApproveVendorInvoice(options.$browse);
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            });
+            FwMenu.addSubMenuItem(options.$groupOptions, `Unpprove`, `qGQ28sAtqVz4`, (e: JQuery.ClickEvent) => {
+                try {
+                    this.browseUnapproveVendorInvoice(options.$browse);
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            });
+
+        const $all: JQuery = FwMenu.generateDropDownViewBtn('All', true, "ALL");
+        const $new: JQuery = FwMenu.generateDropDownViewBtn('New', true, "NEW");
+        const $approved: JQuery = FwMenu.generateDropDownViewBtn('Approved', false, "APPROVED");
+        const $processed: JQuery = FwMenu.generateDropDownViewBtn('Processed', false, "PROCESSED");
+        const $closed: JQuery = FwMenu.generateDropDownViewBtn('Closed', false, "CLOSED");
+
+        let viewSubitems: Array<JQuery> = [];
+        viewSubitems.push($all, $new, $approved, $processed, $closed);
+        FwMenu.addViewBtn(options.$menu, 'View', viewSubitems, true, "Status");
+
+        //Location Filter
+        const location = JSON.parse(sessionStorage.getItem('location'));
+        const $allLocations = FwMenu.generateDropDownViewBtn('ALL Locations', false, "ALL");
+        const $userLocation = FwMenu.generateDropDownViewBtn(location.location, true, location.locationid);
+
+        if (typeof this.ActiveViewFields["LocationId"] == 'undefined') {
+            this.ActiveViewFields.LocationId = [location.locationid];
+        }
+
+        const viewLocation: Array<JQuery> = [];
+        viewLocation.push($userLocation, $allLocations);
+        FwMenu.addViewBtn(options.$menu, 'Location', viewLocation, true, "LocationId");
+    }
+    //----------------------------------------------------------------------------------------------
+    addFormMenuItems(options: IAddFormMenuOptions): void {
+        FwMenu.addFormMenuButtons(options);
+
+        FwMenu.addSubMenuItem(options.$groupOptions, `Approve`, `qGQ28sAtqVz4`, (e: JQuery.ClickEvent) => {
+            try {
+                this.formApproveVendorInvoice(options.$form);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+        FwMenu.addSubMenuItem(options.$groupOptions, `Unpprove`, `qGQ28sAtqVz4`, (e: JQuery.ClickEvent) => {
+            try {
+                this.formUnapproveVendorInvoice(options.$form);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+    }
     //----------------------------------------------------------------------------------------------
     getModuleScreen(filter?: any) {
         var screen: any = {};
@@ -37,33 +98,6 @@ class VendorInvoice {
         });
 
         return $browse;
-    };
-    //----------------------------------------------------------------------------------------------
-    addBrowseMenuItems($menuObject) {
-        const $all: JQuery = FwMenu.generateDropDownViewBtn('All', true, "ALL");
-        const $new: JQuery = FwMenu.generateDropDownViewBtn('New', true, "NEW");
-        const $approved: JQuery = FwMenu.generateDropDownViewBtn('Approved', false, "APPROVED");
-        const $processed: JQuery = FwMenu.generateDropDownViewBtn('Processed', false, "PROCESSED");
-        const $closed: JQuery = FwMenu.generateDropDownViewBtn('Closed', false, "CLOSED");
-
-        let viewSubitems: Array<JQuery> = [];
-        viewSubitems.push($all, $new, $approved, $processed, $closed);
-        FwMenu.addViewBtn($menuObject, 'View', viewSubitems, true, "Status");
-
-        //Location Filter
-        const location = JSON.parse(sessionStorage.getItem('location'));
-        const $allLocations = FwMenu.generateDropDownViewBtn('ALL Locations', false, "ALL");
-        const $userLocation = FwMenu.generateDropDownViewBtn(location.location, true, location.locationid);
-
-        if (typeof this.ActiveViewFields["LocationId"] == 'undefined') {
-            this.ActiveViewFields.LocationId = [location.locationid];
-        }
-
-        const viewLocation: Array<JQuery> = [];
-        viewLocation.push($userLocation, $allLocations);
-        FwMenu.addViewBtn($menuObject, 'Location', viewLocation, true, "LocationId");
-
-        return $menuObject;
     };
     //----------------------------------------------------------------------------------------------
     openForm(mode, parentModuleInfo?: any) {
@@ -97,105 +131,211 @@ class VendorInvoice {
     //----------------------------------------------------------------------------------------------
     renderGrids($form: JQuery): void {
         // ----------
-        const $vendorInvoiceItemGrid: JQuery = $form.find('div[data-grid="VendorInvoiceItemGrid"]');
-        const $vendorInvoiceItemGridControl = FwBrowse.loadGridFromTemplate('VendorInvoiceItemGrid');
-        $vendorInvoiceItemGrid.empty().append($vendorInvoiceItemGridControl);
-        $vendorInvoiceItemGridControl.data('ondatabind', request => {
-            request.uniqueids = {
-                VendorInvoiceId: FwFormField.getValueByDataField($form, 'VendorInvoiceId')
-                , PurchaseOrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId')
-            }
-            request.totalfields = ["LineTotal", "Tax", "LineTotalWithTax"]
-
-        })
-        FwBrowse.addEventHandler($vendorInvoiceItemGridControl, 'afterdatabindcallback', ($vendorInvoiceItemGridControl, response) => {
-            FwFormField.setValue($form, 'div[data-totalfield="InvoiceItemGrossTotal"]', response.Totals.LineTotal);
-            FwFormField.setValue($form, 'div[data-totalfield="InvoiceItemTax"]', response.Totals.Tax);
-            FwFormField.setValue($form, 'div[data-totalfield="InvoiceItemTotal"]', response.Totals.LineTotalWithTax);
-        })
-        FwBrowse.init($vendorInvoiceItemGridControl);
-        FwBrowse.renderRuntimeHtml($vendorInvoiceItemGridControl);
+        //const $vendorInvoiceItemGrid: JQuery = $form.find('div[data-grid="VendorInvoiceItemGrid"]');
+        //const $vendorInvoiceItemGridControl = FwBrowse.loadGridFromTemplate('VendorInvoiceItemGrid');
+        //$vendorInvoiceItemGrid.empty().append($vendorInvoiceItemGridControl);
+        //$vendorInvoiceItemGridControl.data('ondatabind', request => {
+        //    request.uniqueids = {
+        //        VendorInvoiceId: FwFormField.getValueByDataField($form, 'VendorInvoiceId')
+        //        , PurchaseOrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId')
+        //    }
+        //    request.totalfields = ["LineTotal", "Tax", "LineTotalWithTax"]
+        //
+        //})
+        //FwBrowse.addEventHandler($vendorInvoiceItemGridControl, 'afterdatabindcallback', ($vendorInvoiceItemGridControl, response) => {
+        //    FwFormField.setValue($form, 'div[data-totalfield="InvoiceItemGrossTotal"]', response.Totals.LineTotal);
+        //    FwFormField.setValue($form, 'div[data-totalfield="InvoiceItemTax"]', response.Totals.Tax);
+        //    FwFormField.setValue($form, 'div[data-totalfield="InvoiceItemTotal"]', response.Totals.LineTotalWithTax);
+        //})
+        //FwBrowse.init($vendorInvoiceItemGridControl);
+        //FwBrowse.renderRuntimeHtml($vendorInvoiceItemGridControl);
+        FwBrowse.renderGrid({
+            nameGrid: 'VendorInvoiceItemGrid',
+            gridSecurityId: 'mEYOByOhi5yT0',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    VendorInvoiceId: FwFormField.getValueByDataField($form, 'VendorInvoiceId')
+                };
+                request.totalfields = ["LineTotal", "Tax", "LineTotalWithTax"];
+            },
+            afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
+                FwFormField.setValue($form, 'div[data-totalfield="InvoiceItemGrossTotal"]', dt.Totals.LineTotal);
+                FwFormField.setValue($form, 'div[data-totalfield="InvoiceItemTax"]', dt.Totals.Tax);
+                FwFormField.setValue($form, 'div[data-totalfield="InvoiceItemTotal"]', dt.Totals.LineTotalWithTax);
+            },
+        });
         // ----------
-        const $glDistributionGrid = $form.find('div[data-grid="GlDistributionGrid"]');
-        const $glDistributionGridControl = FwBrowse.loadGridFromTemplate('GlDistributionGrid');
-        $glDistributionGrid.empty().append($glDistributionGridControl);
-        $glDistributionGridControl.data('ondatabind', request => {
-            request.uniqueids = {
-                VendorInvoiceId: FwFormField.getValueByDataField($form, 'VendorInvoiceId')
-            };
+        //const $glDistributionGrid = $form.find('div[data-grid="GlDistributionGrid"]');
+        //const $glDistributionGridControl = FwBrowse.loadGridFromTemplate('GlDistributionGrid');
+        //$glDistributionGrid.empty().append($glDistributionGridControl);
+        //$glDistributionGridControl.data('ondatabind', request => {
+        //    request.uniqueids = {
+        //        VendorInvoiceId: FwFormField.getValueByDataField($form, 'VendorInvoiceId')
+        //    };
+        //});
+        //FwBrowse.addEventHandler($glDistributionGridControl, 'afterdatabindcallback', () => {
+        //})
+        //FwBrowse.init($glDistributionGridControl);
+        //FwBrowse.renderRuntimeHtml($glDistributionGridControl);
+        FwBrowse.renderGrid({
+            nameGrid: 'GlDistributionGrid',
+            gridSecurityId: '5xgHiF8dduf',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    VendorInvoiceId: FwFormField.getValueByDataField($form, 'VendorInvoiceId')
+                };
+                request.totalfields = ["Debit", "Credit"];
+            },
+            afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
+                //FwFormField.setValue2($form.find('.gldistribution-totals [data-totalfield="Debit"]'), dt.Totals.Debit);
+                //FwFormField.setValue2($form.find('.gldistribution-totals [data-totalfield="Credit"]'), dt.Totals.Credit);
+            },
         });
-        FwBrowse.addEventHandler($glDistributionGridControl, 'afterdatabindcallback', () => {
-        })
-        FwBrowse.init($glDistributionGridControl);
-        FwBrowse.renderRuntimeHtml($glDistributionGridControl);
         // ----------
-        const $vendorInvoicePaymentGrid = $form.find('div[data-grid="VendorInvoicePaymentGrid"]');
-        const $vendorInvoicePaymentGridControl = FwBrowse.loadGridFromTemplate('VendorInvoicePaymentGrid');
-        $vendorInvoicePaymentGrid.empty().append($vendorInvoicePaymentGridControl);
-        $vendorInvoicePaymentGridControl.data('ondatabind', request => {
-            request.uniqueids = {
-                VendorInvoiceId: FwFormField.getValueByDataField($form, 'VendorInvoiceId')
-            };
+        //const $vendorInvoicePaymentGrid = $form.find('div[data-grid="VendorInvoicePaymentGrid"]');
+        //const $vendorInvoicePaymentGridControl = FwBrowse.loadGridFromTemplate('VendorInvoicePaymentGrid');
+        //$vendorInvoicePaymentGrid.empty().append($vendorInvoicePaymentGridControl);
+        //$vendorInvoicePaymentGridControl.data('ondatabind', request => {
+        //    request.uniqueids = {
+        //        VendorInvoiceId: FwFormField.getValueByDataField($form, 'VendorInvoiceId')
+        //    };
+        //});
+        //FwBrowse.init($vendorInvoicePaymentGridControl);
+        //FwBrowse.renderRuntimeHtml($vendorInvoicePaymentGridControl);
+        FwBrowse.renderGrid({
+            nameGrid: 'VendorInvoicePaymentGrid',
+            gridSecurityId: 'cD51xfgax4oY',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    VendorInvoiceId: FwFormField.getValueByDataField($form, 'VendorInvoiceId')
+                };
+            },
         });
-        FwBrowse.init($vendorInvoicePaymentGridControl);
-        FwBrowse.renderRuntimeHtml($vendorInvoicePaymentGridControl);
         // ----------
-        const $vendorInvoiceNoteGrid = $form.find('div[data-grid="VendorInvoiceNoteGrid"]');
-        const $vendorInvoiceNoteGridControl = FwBrowse.loadGridFromTemplate('VendorInvoiceNoteGrid');
-        $vendorInvoiceNoteGrid.empty().append($vendorInvoiceNoteGridControl);
-        $vendorInvoiceNoteGridControl.data('ondatabind', request => {
-            request.uniqueids = {
-                UniqueId1: FwFormField.getValueByDataField($form, 'VendorInvoiceId')
-            };
+        //const $vendorInvoiceNoteGrid = $form.find('div[data-grid="VendorInvoiceNoteGrid"]');
+        //const $vendorInvoiceNoteGridControl = FwBrowse.loadGridFromTemplate('VendorInvoiceNoteGrid');
+        //$vendorInvoiceNoteGrid.empty().append($vendorInvoiceNoteGridControl);
+        //$vendorInvoiceNoteGridControl.data('ondatabind', request => {
+        //request.uniqueids = {
+        //UniqueId1: FwFormField.getValueByDataField($form, 'VendorInvoiceId')
+        //};
+        //});
+        //FwBrowse.init($vendorInvoiceNoteGridControl);
+        //FwBrowse.renderRuntimeHtml($vendorInvoiceNoteGridControl);
+        FwBrowse.renderGrid({
+            nameGrid: 'VendorInvoiceNoteGrid',
+            gridSecurityId: '8YECGu7qFOty',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    UniqueId1: FwFormField.getValueByDataField($form, 'VendorInvoiceId')
+                };
+            },
+            beforeSave: (request: any) => {
+                request.UniqueId1 = FwFormField.getValueByDataField($form, 'VendorInvoiceId');
+            },
         });
-        $vendorInvoiceNoteGridControl.data('beforesave', function (request) {
-            request.UniqueId1 = $form.find('div.fwformfield[data-datafield="VendorInvoiceId"] input').val()
-        });
-        FwBrowse.init($vendorInvoiceNoteGridControl);
-        FwBrowse.renderRuntimeHtml($vendorInvoiceNoteGridControl);
         // ----------
-        const $vendorInvoiceHistoryGrid = $form.find('div[data-grid="VendorInvoiceStatusHistoryGrid"]');
-        const $vendorInvoiceHistoryGridControl = FwBrowse.loadGridFromTemplate('VendorInvoiceStatusHistoryGrid');
-        $vendorInvoiceHistoryGrid.empty().append($vendorInvoiceHistoryGridControl);
-        $vendorInvoiceHistoryGridControl.data('ondatabind', request => {
-            request.uniqueids = {
-                VendorInvoiceId: FwFormField.getValueByDataField($form, 'VendorInvoiceId')
-            };
+        //const $vendorInvoiceHistoryGrid = $form.find('div[data-grid="VendorInvoiceStatusHistoryGrid"]');
+        //const $vendorInvoiceHistoryGridControl = FwBrowse.loadGridFromTemplate('VendorInvoiceStatusHistoryGrid');
+        //$vendorInvoiceHistoryGrid.empty().append($vendorInvoiceHistoryGridControl);
+        //$vendorInvoiceHistoryGridControl.data('ondatabind', request => {
+        //    request.uniqueids = {
+        //        VendorInvoiceId: FwFormField.getValueByDataField($form, 'VendorInvoiceId')
+        //    };
+        //});
+        //FwBrowse.init($vendorInvoiceHistoryGridControl);
+        //FwBrowse.renderRuntimeHtml($vendorInvoiceHistoryGridControl);
+        FwBrowse.renderGrid({
+            nameGrid: 'VendorInvoiceStatusHistoryGrid',
+            gridSecurityId: 'laMVsOwWI4Wkj',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    VendorInvoiceId: FwFormField.getValueByDataField($form, 'VendorInvoiceId')
+                };
+            },
         });
-        FwBrowse.init($vendorInvoiceHistoryGridControl);
-        FwBrowse.renderRuntimeHtml($vendorInvoiceHistoryGridControl);
         // ----------
-        const $exportBatchGrid = $form.find('div[data-grid="VendorInvoiceExportBatchGrid"]');
-        const $exportBatchGridControl = FwBrowse.loadGridFromTemplate('VendorInvoiceExportBatchGrid');
-        $exportBatchGrid.empty().append($exportBatchGridControl);
-        $exportBatchGridControl.data('ondatabind', request => {
-            request.uniqueids = {
-                VendorInvoiceId: FwFormField.getValueByDataField($form, 'VendorInvoiceId')
-            };
+        //const $exportBatchGrid = $form.find('div[data-grid="VendorInvoiceExportBatchGrid"]');
+        //const $exportBatchGridControl = FwBrowse.loadGridFromTemplate('VendorInvoiceExportBatchGrid');
+        //$exportBatchGrid.empty().append($exportBatchGridControl);
+        //$exportBatchGridControl.data('ondatabind', request => {
+        //    request.uniqueids = {
+        //        VendorInvoiceId: FwFormField.getValueByDataField($form, 'VendorInvoiceId')
+        //    };
+        //});
+        //FwBrowse.init($exportBatchGridControl);
+        //FwBrowse.renderRuntimeHtml($exportBatchGridControl);
+        FwBrowse.renderGrid({
+            nameGrid: 'VendorInvoiceExportBatchGrid',
+            gridSecurityId: 'QriRQnYpPbxn',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    VendorInvoiceId: FwFormField.getValueByDataField($form, 'VendorInvoiceId')
+                };
+            },
         });
-        FwBrowse.init($exportBatchGridControl);
-        FwBrowse.renderRuntimeHtml($exportBatchGridControl);
         // ----------
-        const $additionalItemsGrid = $form.find('div[data-grid="AdditionalItemsGrid"]');
-        const $additionalItemsGridControl = FwBrowse.loadGridFromTemplate('AdditionalItemsGrid');
-        $additionalItemsGrid.empty().append($additionalItemsGridControl);
-        $additionalItemsGridControl.data('ondatabind', request => {
-            request.uniqueids = {
-                VendorInvoiceId: FwFormField.getValueByDataField($form, 'VendorInvoiceId')
-                , PurchaseOrderId: ""
-            };
-            request.totalfields = ["LineTotal", "Tax", "LineTotalWithTax"];
+        //const $additionalItemsGrid = $form.find('div[data-grid="AdditionalItemsGrid"]');
+        //const $additionalItemsGridControl = FwBrowse.loadGridFromTemplate('AdditionalItemsGrid');
+        //$additionalItemsGrid.empty().append($additionalItemsGridControl);
+        //$additionalItemsGridControl.data('ondatabind', request => {
+        //    request.uniqueids = {
+        //        VendorInvoiceId: FwFormField.getValueByDataField($form, 'VendorInvoiceId')
+        //        , PurchaseOrderId: ""
+        //    };
+        //    request.totalfields = ["LineTotal", "Tax", "LineTotalWithTax"];
+        //});
+        //FwBrowse.addEventHandler($additionalItemsGridControl, 'afterdatabindcallback', ($additionalItemsGridControl, response) => {
+        //    FwFormField.setValue($form, 'div[data-totalfield="AdditionalItemGrossTotal"]', response.Totals.LineTotal);
+        //    FwFormField.setValue($form, 'div[data-totalfield="AdditionalItemTax"]', response.Totals.Tax);
+        //    FwFormField.setValue($form, 'div[data-totalfield="AdditionalItemTotal"]', response.Totals.LineTotalWithTax);
+        //})
+        //$additionalItemsGridControl.data('beforesave', request => {
+        //    request.VendorInvoiceId = FwFormField.getValueByDataField($form, 'VendorInvoiceId');
+        //});
+        //FwBrowse.init($additionalItemsGridControl);
+        //FwBrowse.renderRuntimeHtml($additionalItemsGridControl);
+        FwBrowse.renderGrid({
+            nameGrid: 'AdditionalItemsGrid',
+            gridSecurityId: 'mEYOByOhi5yT0',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    VendorInvoiceId: FwFormField.getValueByDataField($form, 'VendorInvoiceId'),
+                    PurchaseOrderId: "",
+                };
+                request.totalfields = ["LineTotal", "Tax", "LineTotalWithTax"];
+            },
+            beforeSave: (request: any) => {
+                request.VendorInvoiceId = FwFormField.getValueByDataField($form, 'VendorInvoiceId');
+                request.PurchaseOrderId = "";
+            },
+            afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
+                FwFormField.setValue($form, 'div[data-totalfield="AdditionalItemGrossTotal"]', dt.Totals.LineTotal);
+                FwFormField.setValue($form, 'div[data-totalfield="AdditionalItemTax"]', dt.Totals.Tax);
+                FwFormField.setValue($form, 'div[data-totalfield="AdditionalItemTotal"]', dt.Totals.LineTotalWithTax);
+            },
         });
-        FwBrowse.addEventHandler($additionalItemsGridControl, 'afterdatabindcallback', ($additionalItemsGridControl, response) => {
-            FwFormField.setValue($form, 'div[data-totalfield="AdditionalItemGrossTotal"]', response.Totals.LineTotal);
-            FwFormField.setValue($form, 'div[data-totalfield="AdditionalItemTax"]', response.Totals.Tax);
-            FwFormField.setValue($form, 'div[data-totalfield="AdditionalItemTotal"]', response.Totals.LineTotalWithTax);
-        })
-        $additionalItemsGridControl.data('beforesave', request => {
-            request.VendorInvoiceId = FwFormField.getValueByDataField($form, 'VendorInvoiceId');
-        });
-        FwBrowse.init($additionalItemsGridControl);
-        FwBrowse.renderRuntimeHtml($additionalItemsGridControl);
         // ----------
     };
     //----------------------------------------------------------------------------------------------
@@ -303,76 +443,75 @@ class VendorInvoice {
             FwFormField.setValue($form, 'div[data-datafield="LaborTaxRate1"]', $tr.find('.field[data-browsedatafield="LaborTaxRate1"]').attr('data-originalvalue'));
         });
     };
-};
-//----------------------------------------------------------------------------------------------
-//form approve
-FwApplicationTree.clickEvents[Constants.Modules.Home.VendorInvoice.form.menuItems.Approve.id] = function (event) {
-    var $form, vendorInvoiceId;
-    $form = jQuery(this).closest('.fwform');
-    vendorInvoiceId = FwFormField.getValueByDataField($form, 'VendorInvoiceId');
-    FwAppData.apiMethod(true, 'POST', `api/v1/vendorinvoice/toggleapproved/${vendorInvoiceId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
-        if (response.success === true) {
-            FwModule.refreshForm($form);
-        } else {
-            FwNotification.renderNotification('WARNING', response.msg);
-        }
-    }, null, $form);
-};
-//----------------------------------------------------------------------------------------------
-//form unapprove
-FwApplicationTree.clickEvents[Constants.Modules.Home.VendorInvoice.form.menuItems.Unapprove.id] = function (event) {
-    var $form, vendorInvoiceId;
-    $form = jQuery(this).closest('.fwform');
-    vendorInvoiceId = FwFormField.getValueByDataField($form, 'VendorInvoiceId');
-    FwAppData.apiMethod(true, 'POST', `api/v1/vendorinvoice/toggleapproved/${vendorInvoiceId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
-        if (response.success === true) {
-            FwModule.refreshForm($form);
-        } else {
-            FwNotification.renderNotification('WARNING', response.msg);
-        }
-    }, null, $form);
-};
-//----------------------------------------------------------------------------------------------
-//browse approve
-FwApplicationTree.clickEvents[Constants.Modules.Home.VendorInvoice.browse.menuItems.Approve.id] = function (event) {
-    try {
-        let $browse = jQuery(this).closest('.fwbrowse');
-        let vendorInvoiceId = $browse.find('.selected [data-browsedatafield="VendorInvoiceId"]').attr('data-originalvalue');
-        if (typeof vendorInvoiceId !== 'undefined') {
-            FwAppData.apiMethod(true, 'POST', `api/v1/vendorinvoice/toggleapproved/${vendorInvoiceId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
-                if (response.success === true) {
-                    FwBrowse.search($browse);
-                } else {
-                    FwNotification.renderNotification('WARNING', response.msg);
-                }
-            }, null, $browse);
-        } else {
-            FwNotification.renderNotification('WARNING', 'No Vendor Invoice Selected');
-        }
-    } catch (ex) {
-        FwFunc.showError(ex);
+    //----------------------------------------------------------------------------------------------
+    browseApproveVendorInvoice($browse: JQuery) {
+        const vendorInvoiceId: string = $browse.find('.selected [data-browsedatafield="VendorInvoiceId"]').attr('data-originalvalue');
+        this.approveVendorInvoice($browse, vendorInvoiceId, function onSuccess(response) { FwBrowse.databind($browse); });
     }
-};
-//----------------------------------------------------------------------------------------------
-//browse unapprove
-FwApplicationTree.clickEvents[Constants.Modules.Home.VendorInvoice.form.menuItems.Unapprove.id] = function (event) {
-    try {
-        let $browse = jQuery(this).closest('.fwbrowse');
-        let vendorInvoiceId = $browse.find('.selected [data-browsedatafield="VendorInvoiceId"]').attr('data-originalvalue');
-        if (typeof vendorInvoiceId !== 'undefined') {
-            FwAppData.apiMethod(true, 'POST', `api/v1/vendorinvoice/toggleapproved/${vendorInvoiceId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
-                if (response.success === true) {
-                    FwBrowse.search($browse);
-                } else {
-                    FwNotification.renderNotification('WARNING', response.msg);
-                }
-            }, null, $browse);
-        } else {
-            FwNotification.renderNotification('WARNING', 'No Vendor Invoice Selected');
-        }
-    } catch (ex) {
-        FwFunc.showError(ex);
+    //----------------------------------------------------------------------------------------------
+    formApproveVendorInvoice($form: JQuery) {
+        const vendorInvoiceId: string = FwFormField.getValueByDataField($form, 'VendorInvoiceId');
+        this.approveVendorInvoice($form, vendorInvoiceId, function onSuccess(response) { FwModule.refreshForm($form); });
     }
-};
-//----------------------------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------
+    approveVendorInvoice($formToBlock: JQuery, vendorInvoiceId: string, onApproveSuccess: (response: any) => void, onApproveFailure?: (response: any) => void): void {
+        try {
+            if ((vendorInvoiceId == null) || (vendorInvoiceId == '') || (typeof vendorInvoiceId === 'undefined')) {
+                FwNotification.renderNotification('WARNING', 'No Vendor Invoice Selected');
+            }
+            else {
+                FwAppData.apiMethod(true, 'POST', `api/v1/vendorinvoice/toggleapproved/${vendorInvoiceId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                    if (response.success === true) {
+                        if ((onApproveSuccess) && (typeof onApproveSuccess === 'function')) {
+                            onApproveSuccess(response);
+                        }
+                    } else {
+                        FwNotification.renderNotification('WARNING', response.msg);
+                        if ((onApproveFailure) && (typeof onApproveFailure === 'function')) {
+                            onApproveFailure(response);
+                        }
+                    }
+                }, null, $formToBlock);
+            }
+        } catch (ex) {
+            FwFunc.showError(ex);
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    browseUnapproveVendorInvoice($browse: JQuery) {
+        const vendorInvoiceId: string = $browse.find('.selected [data-browsedatafield="VendorInvoiceId"]').attr('data-originalvalue');
+        this.unApproveVendorInvoice($browse, vendorInvoiceId, function onSuccess(response) { FwBrowse.databind($browse); });
+    }
+    //----------------------------------------------------------------------------------------------
+    formUnapproveVendorInvoice($form: JQuery) {
+        const vendorInvoiceId: string = FwFormField.getValueByDataField($form, 'VendorInvoiceId');
+        this.unApproveVendorInvoice($form, vendorInvoiceId, function onSuccess(response) { FwModule.refreshForm($form); });
+    }
+    //----------------------------------------------------------------------------------------------
+    unApproveVendorInvoice($formToBlock: JQuery, vendorInvoiceId: string, onUnapproveSuccess: (response: any) => void, onUnapproveFailure?: (response: any) => void): void {
+        try {
+            if ((vendorInvoiceId == null) || (vendorInvoiceId == '') || (typeof vendorInvoiceId === 'undefined')) {
+                FwNotification.renderNotification('WARNING', 'No Vendor Invoice Selected');
+            }
+            else {
+                FwAppData.apiMethod(true, 'POST', `api/v1/vendorinvoice/toggleapproved/${vendorInvoiceId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                    if (response.success === true) {
+                        if ((onUnapproveSuccess) && (typeof onUnapproveSuccess === 'function')) {
+                            onUnapproveSuccess(response);
+                        }
+                    } else {
+                        FwNotification.renderNotification('WARNING', response.msg);
+                        if ((onUnapproveFailure) && (typeof onUnapproveFailure === 'function')) {
+                            onUnapproveFailure(response);
+                        }
+                    }
+                }, null, $formToBlock);
+            }
+        } catch (ex) {
+            FwFunc.showError(ex);
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+}
+
 var VendorInvoiceController = new VendorInvoice();

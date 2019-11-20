@@ -1,11 +1,9 @@
 class VehicleScheduleStatus {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'VehicleScheduleStatus';
-        this.apiurl = 'api/v1/vehicleschedulestatus';
-    }
+    Module: string = 'VehicleScheduleStatus';
+    apiurl: string = 'api/v1/vehicleschedulestatus';
+    caption: string = Constants.Modules.Settings.children.VehicleSettings.children.VehicleScheduleStatus.caption;
+    nav: string = Constants.Modules.Settings.children.VehicleSettings.children.VehicleScheduleStatus.nav;
+    id: string = Constants.Modules.Settings.children.VehicleSettings.children.VehicleScheduleStatus.id;
 
     getModuleScreen() {
         var screen, $browse;

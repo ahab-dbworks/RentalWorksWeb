@@ -1,11 +1,9 @@
 class FacilityScheduleStatus {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'FacilityScheduleStatus';
-        this.apiurl = 'api/v1/facilityschedulestatus';
-    }
+    Module: string = 'FacilityScheduleStatus';
+    apiurl: string = 'api/v1/facilityschedulestatus';
+    caption: string = Constants.Modules.Settings.children.FacilitySettings.children.FacilityScheduleStatus.caption;
+    nav: string = Constants.Modules.Settings.children.FacilitySettings.children.FacilityScheduleStatus.nav;
+    id: string = Constants.Modules.Settings.children.FacilitySettings.children.FacilityScheduleStatus.id;
 
     getModuleScreen() {
         var screen, $browse;

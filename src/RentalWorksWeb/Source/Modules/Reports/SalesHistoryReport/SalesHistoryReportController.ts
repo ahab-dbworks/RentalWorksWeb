@@ -1,4 +1,4 @@
-﻿routes.push({
+routes.push({
     pattern: /^reports\/saleshistoryreport/, action: function (match: RegExpExecArray) {
         return SalesHistoryReportController.getModuleScreen();
     }
@@ -136,7 +136,7 @@ class SalesHistoryReport extends FwWebApiReport {
         ]);
     }
     //----------------------------------------------------------------------------------------------
-    beforeValidate($browse, $form, request) {
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
         const validationName = request.module;
         const customerId = FwFormField.getValueByDataField($form, 'CustomerId');
         const dealId = FwFormField.getValueByDataField($form, 'DealId');

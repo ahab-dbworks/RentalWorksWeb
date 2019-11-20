@@ -1,24 +1,20 @@
 class RwLaborPosition {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'LaborPosition';
-        this.apiurl = 'api/v1/position';
-    }
-
+    Module:  string = 'LaborPosition';
+    apiurl:  string = 'api/v1/position';
+    caption: string = Constants.Modules.Settings.children.LaborSettings.children.LaborPosition.caption;
+    nav:     string = Constants.Modules.Settings.children.LaborSettings.children.LaborPosition.nav;
+    id:      string = Constants.Modules.Settings.children.LaborSettings.children.LaborPosition.id;
+    //----------------------------------------------------------------------------------------------
     getModuleScreen() {
-        var screen, $browse;
-
-        screen = {};
+        const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
-        $browse = this.openBrowse();
+        const $browse = this.openBrowse();
 
         screen.load = function () {
-            FwModule.openModuleTab($browse, 'Position', false, 'BROWSE', true);
+            FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };
@@ -28,20 +24,16 @@ class RwLaborPosition {
 
         return screen;
     }
-
+    //----------------------------------------------------------------------------------------------
     openBrowse() {
-        var $browse;
-
-        $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
+        let $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
 
         return $browse;
     }
-
+    //----------------------------------------------------------------------------------------------
     openForm(mode: string) {
-        var $form;
-
-        $form = FwModule.loadFormFromTemplate(this.Module);
+        let $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 
         if (mode === 'NEW') {
@@ -81,45 +73,83 @@ class RwLaborPosition {
 
         return $form;
     }
-
+    //----------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
-        var $form;
-
-        $form = this.openForm('EDIT');
+        let $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="PositionId"] input').val(uniqueids.PositionId);
         FwModule.loadForm(this.Module, $form);
 
         return $form;
     }
-
+    //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
     }
 
     renderGrids($form: any) {
-        const $rateLocationTaxGrid = $form.find('div[data-grid="RateLocationTaxGrid"]');
-        const $rateLocationTaxGridControl = FwBrowse.loadGridFromTemplate('RateLocationTaxGrid');
-        $rateLocationTaxGrid.empty().append($rateLocationTaxGridControl);
-        $rateLocationTaxGridControl.data('ondatabind', request => {
-            request.uniqueids = {
-                RateId: FwFormField.getValueByDataField($form, 'PositionId')
-            };
-        })
-        FwBrowse.init($rateLocationTaxGridControl);
-        FwBrowse.renderRuntimeHtml($rateLocationTaxGridControl);
+        //const $rateLocationTaxGrid = $form.find('div[data-grid="RateLocationTaxGrid"]');
+        //const $rateLocationTaxGridControl = FwBrowse.loadGridFromTemplate('RateLocationTaxGrid');
+        //$rateLocationTaxGrid.empty().append($rateLocationTaxGridControl);
+        //$rateLocationTaxGridControl.data('ondatabind', request => {
+        //    request.uniqueids = {
+        //        RateId: FwFormField.getValueByDataField($form, 'PositionId')
+        //    };
+        //})
+        //FwBrowse.init($rateLocationTaxGridControl);
+        //FwBrowse.renderRuntimeHtml($rateLocationTaxGridControl);
 
-        const $rateWarehouseGrid = $form.find('div[data-grid="RateWarehouseGrid"]');
-        const $rateWarehouseGridControl = FwBrowse.loadGridFromTemplate('RateWarehouseGrid');
-        $rateWarehouseGrid.empty().append($rateWarehouseGridControl);
-        $rateWarehouseGridControl.data('ondatabind', request => {
-            request.uniqueids = {
-                RateId: FwFormField.getValueByDataField($form, 'PositionId')
-            };
-        })
-        FwBrowse.init($rateWarehouseGridControl);
-        FwBrowse.renderRuntimeHtml($rateWarehouseGridControl);
+        FwBrowse.renderGrid({
+            nameGrid: 'RateLocationTaxGrid',
+            gridSecurityId: 'Bm6TN9A4IRIuT',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                options.hasNew = false;
+                options.hasDelete = false;
+            },
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    RateId: FwFormField.getValueByDataField($form, 'PositionId'),
+                };
+            }
+            //beforeSave: (request: any) => {
+            //    request.RateId = FwFormField.getValueByDataField($form, 'PositionId');
+            //},
+        });
+
+        //const $rateWarehouseGrid = $form.find('div[data-grid="RateWarehouseGrid"]');
+        //const $rateWarehouseGridControl = FwBrowse.loadGridFromTemplate('RateWarehouseGrid');
+        //$rateWarehouseGrid.empty().append($rateWarehouseGridControl);
+        //$rateWarehouseGridControl.data('ondatabind', request => {
+        //    request.uniqueids = {
+        //        RateId: FwFormField.getValueByDataField($form, 'PositionId')
+        //    };
+        //})
+        //FwBrowse.init($rateWarehouseGridControl);
+        //FwBrowse.renderRuntimeHtml($rateWarehouseGridControl);
+
+        FwBrowse.renderGrid({
+            nameGrid: 'RateWarehouseGrid',
+            gridSecurityId: 'oVjmeqXtHEJCm',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                options.hasNew = false;
+                options.hasDelete = false;
+            },
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    RateId: FwFormField.getValueByDataField($form, 'PositionId'),
+                };
+            }
+            //beforeSave: (request: any) => {
+            //    request.RateId = FwFormField.getValueByDataField($form, 'PositionId');
+            //},
+        });
     }
-
+    //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
         const $rateLocationTaxGrid = $form.find('[data-name="RateLocationTaxGrid"]');
         FwBrowse.search($rateLocationTaxGrid);

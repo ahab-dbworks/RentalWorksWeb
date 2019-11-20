@@ -1,10 +1,17 @@
 ﻿routes.push({ pattern: /^module\/transferstatus$/, action: function (match: RegExpExecArray) { return TransferStatusController.getModuleScreen(); } });
 
 class TransferStatus extends OrderStatusBase {
-    Module: string = 'TransferStatus';
-    caption: string = Constants.Modules.Home.TransferStatus.caption;
-	nav: string = Constants.Modules.Home.TransferStatus.nav;
-	id: string = Constants.Modules.Home.TransferStatus.id;
-    Type: string = 'Transfer';
+    Module:  string = 'TransferStatus';
+    apiurl:  string = 'api/v1/transferstatus'
+    caption: string = Constants.Modules.Transfers.children.TransferStatus.caption;
+    nav:     string = Constants.Modules.Transfers.children.TransferStatus.nav;
+    id:      string = Constants.Modules.Transfers.children.TransferStatus.id;
+    Type:    string = 'Transfer';
+    //----------------------------------------------------------------------------------------------
+    addFormMenuItems(options: IAddFormMenuOptions) {
+        options.hasSave = false;
+        FwMenu.addFormMenuButtons(options);
+    }
+    //----------------------------------------------------------------------------------------------
 }
 var TransferStatusController = new TransferStatus();

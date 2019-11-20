@@ -1,11 +1,66 @@
 class Repair {
     Module: string = 'Repair';
     apiurl: string = 'api/v1/repair';
-    caption: string = Constants.Modules.Home.Repair.caption;
-    nav: string = Constants.Modules.Home.Repair.nav;
-    id: string = Constants.Modules.Home.Repair.id;
+    caption: string = Constants.Modules.Inventory.children.Repair.caption;
+    nav: string = Constants.Modules.Inventory.children.Repair.nav;
+    id: string = Constants.Modules.Inventory.children.Repair.id;
     ActiveViewFields: any = {};
     ActiveViewFieldsId: string;
+    //----------------------------------------------------------------------------------------------
+    addBrowseMenuItems(options: IAddBrowseMenuOptions): void {
+        FwMenu.addBrowseMenuButtons(options);
+
+        FwMenu.addSubMenuItem(options.$groupOptions, 'Void', 'AxRbFcXeLZS0a', (e: JQuery.ClickEvent) => {
+            try {
+                this.browseVoid(options.$browse);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+
+        const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+        const $all: JQuery = FwMenu.generateDropDownViewBtn('ALL Warehouses', false, "ALL");
+        const $userWarehouse: JQuery = FwMenu.generateDropDownViewBtn(warehouse.warehouse, true, warehouse.warehouseid);
+        if (typeof this.ActiveViewFields["WarehouseId"] == 'undefined') {
+            this.ActiveViewFields.WarehouseId = [warehouse.warehouseid];
+        }
+        const viewSubItems: Array<JQuery> = [];
+        viewSubItems.push($userWarehouse, $all);
+        FwMenu.addViewBtn(options.$menu, 'Warehouse', viewSubItems, true, "WarehouseId");
+    }
+    //----------------------------------------------------------------------------------------------
+    addFormMenuItems(options: IAddFormMenuOptions): void {
+        FwMenu.addFormMenuButtons(options);
+
+        FwMenu.addSubMenuItem(options.$groupOptions, 'Estimate', 'V6R1MLai1R7Fw', (e: JQuery.ClickEvent) => {
+            try {
+                this.estimateOrder(options.$form);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+        FwMenu.addSubMenuItem(options.$groupOptions, 'Complete', 'PgeX6is7sKrYI', (e: JQuery.ClickEvent) => {
+            try {
+                this.completeOrder(options.$form);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+        FwMenu.addSubMenuItem(options.$groupOptions, 'Void', 'AxRbFcXeLZS0a', (e: JQuery.ClickEvent) => {
+            try {
+                this.voidOrder(options.$form);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+        FwMenu.addSubMenuItem(options.$groupOptions, 'Release Items', 'PpSdBovye5sNv', (e: JQuery.ClickEvent) => {
+            try {
+                this.releaseItems(options.$form);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+    }
     //----------------------------------------------------------------------------------------------
     getModuleScreen = (filter?: { datafield: string, search: string }) => {
         const screen: any = {};
@@ -43,7 +98,7 @@ class Repair {
         //let $browse: JQuery = FwBrowse.loadBrowseFromTemplate(this.Module);
         let $browse = jQuery(this.getBrowseTemplate());
         $browse = FwModule.openBrowse($browse);
-
+        
         $browse.data('ondatabind', request => {
             request.activeviewfields = this.ActiveViewFields;
         });
@@ -62,22 +117,58 @@ class Repair {
             FwBrowse.addLegend($browse, 'Transferred', intransit[0].Color);
         }, null, $browse);
 
-        return $browse;
-    };
-    //----------------------------------------------------------------------------------------------
-    addBrowseMenuItems($menuObject: any) {
-        const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
-        const $all: JQuery = FwMenu.generateDropDownViewBtn('ALL Warehouses', false, "ALL");
-        const $userWarehouse: JQuery = FwMenu.generateDropDownViewBtn(warehouse.warehouse, true, warehouse.warehouseid);
-        if (typeof this.ActiveViewFields["WarehouseId"] == 'undefined') {
-            this.ActiveViewFields.WarehouseId = [warehouse.warehouseid];
-        }
-        const viewSubItems: Array<JQuery> = [];
-        viewSubItems.push($userWarehouse, $all);
-        FwMenu.addViewBtn($menuObject, 'Warehouse', viewSubItems, true, "WarehouseId");
 
-        return $menuObject;
-    };
+
+
+        return $browse;
+    }
+    //----------------------------------------------------------------------------------------------
+    browseVoid($browse: JQuery) {
+        try {
+            const RepairId = $browse.find('.selected [data-browsedatafield="RepairId"]').attr('data-originalvalue');
+            if (RepairId != null) {
+                const $confirmation = FwConfirmation.renderConfirmation('Void', '');
+                $confirmation.find('.fwconfirmationbox').css('width', '450px');
+                const html: Array<string> = [];
+                html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+                html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+                html.push('    <div>Void this Repair Order?</div>');
+                html.push('  </div>');
+                html.push('</div>');
+
+                FwConfirmation.addControls($confirmation, html.join(''));
+                const $yes = FwConfirmation.addButton($confirmation, 'Void', false);
+                const $no = FwConfirmation.addButton($confirmation, 'Cancel');
+                $yes.focus();
+                $yes.on('click', makeVoid);
+                // ----------
+                function makeVoid() {
+                    FwFormField.disable($confirmation.find('.fwformfield'));
+                    FwFormField.disable($yes);
+                    $yes.text('Voiding...');
+                    $yes.off('click');
+
+                    FwAppData.apiMethod(true, 'POST', `api/v1/repair/void/${RepairId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                        FwNotification.renderNotification('SUCCESS', 'Repair Order Successfully Voided');
+                        FwConfirmation.destroyConfirmation($confirmation);
+                        FwBrowse.databind($browse);
+                    }, function onError(response) {
+                        $yes.on('click', makeVoid);
+                        $yes.text('Void');
+                        FwFunc.showError(response);
+                        FwFormField.enable($confirmation.find('.fwformfield'));
+                        FwFormField.enable($yes);
+                        FwBrowse.databind($browse);
+                    }, $browse);
+                };
+            } else {
+                FwNotification.renderNotification('WARNING', 'Select a Repair Order to void.');
+            }
+        }
+        catch (ex) {
+            FwFunc.showError(ex);
+        }
+    }
     //----------------------------------------------------------------------------------------------
     openForm = (mode: string) => {
         //let $form = FwModule.loadFormFromTemplate(this.Module);
@@ -85,7 +176,10 @@ class Repair {
         $form = FwModule.openForm($form, mode);
 
         $form.find('.icodesales').hide();
-
+        const qcRequired = FwFormField.getValueByDataField($form, 'QcRequired');
+        if (qcRequired) {
+            $form.find('[data-type="tab"][data-caption="QC"]').show();
+        }
 
         // Tax Option Validation
         $form.find('div[data-datafield="TaxOptionId"]').data('onchange', $tr => {
@@ -213,7 +307,7 @@ class Repair {
         return $form;
     }
     //----------------------------------------------------------------------------------------------
-    loadForm(uniqueids: any) {
+    loadForm = (uniqueids: any) => {
         let $form: JQuery = this.openForm('EDIT');
         $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="RepairId"] input').val(uniqueids.RepairId);
@@ -234,63 +328,134 @@ class Repair {
     //----------------------------------------------------------------------------------------------
     renderGrids($form: JQuery): void {
         // ----------
-        const $repairCostGrid = $form.find('div[data-grid="RepairCostGrid"]');
-        const $repairCostGridControl = FwBrowse.loadGridFromTemplate('RepairCostGrid');
-        $repairCostGrid.empty().append($repairCostGridControl);
-        $repairCostGridControl.data('ondatabind', request => {
-            request.uniqueids = {
-                RepairId: $form.find('div.fwformfield[data-datafield="RepairId"] input').val()
-            }
+        //const $repairCostGrid = $form.find('div[data-grid="RepairCostGrid"]');
+        //const $repairCostGridControl = FwBrowse.loadGridFromTemplate('RepairCostGrid');
+        //$repairCostGrid.empty().append($repairCostGridControl);
+        //$repairCostGridControl.data('ondatabind', request => {
+        //    request.uniqueids = {
+        //        RepairId: $form.find('div.fwformfield[data-datafield="RepairId"] input').val()
+        //    }
+        //    request.totalfields = ["GrossTotal", "Tax", "Extended", "Total", "DiscountAmount"]
+        //});
+        //$repairCostGridControl.data('beforesave', request => {
+        //    request.RepairId = FwFormField.getValueByDataField($form, 'RepairId');
+        //});
+        //FwBrowse.addEventHandler($repairCostGridControl, 'afterdatabindcallback', ($repairCostGridControl, response) => {
+        //    FwFormField.setValue($form, 'div[data-totalfield="RepairCostTotal"]', response.Totals.Total);
+        //    FwFormField.setValue($form, 'div[data-totalfield="RepairCostTax"]', response.Totals.Tax);
+        //    FwFormField.setValue($form, 'div[data-totalfield="RepairCostExtended"]', response.Totals.Extended);
+        //    FwFormField.setValue($form, 'div[data-totalfield="RepairCostGrossTotal"]', response.Totals.GrossTotal);
+        //    FwFormField.setValue($form, 'div[data-totalfield="RepairCostDiscount"]', response.Totals.DiscountAmount);
+        //});
+        //FwBrowse.init($repairCostGridControl);
+        //FwBrowse.renderRuntimeHtml($repairCostGridControl);
+
+        //Repair Cost Grid
+        const $repairCostGrid = FwBrowse.renderGrid({
+            nameGrid: 'RepairCostGrid',
+            gridSecurityId: 'THGHEcObwRTDc',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    RepairId: FwFormField.getValueByDataField($form, 'RepairId')
+                };
             request.totalfields = ["GrossTotal", "Tax", "Extended", "Total", "DiscountAmount"]
+            }, 
+            beforeSave: (request: any) => {
+                request.RepairId = FwFormField.getValueByDataField($form, 'RepairId');
+            }
         });
-        $repairCostGridControl.data('beforesave', request => {
-            request.RepairId = FwFormField.getValueByDataField($form, 'RepairId');
-        });
-        FwBrowse.addEventHandler($repairCostGridControl, 'afterdatabindcallback', ($repairCostGridControl, response) => {
+        FwBrowse.addEventHandler($repairCostGrid, 'afterdatabindcallback', ($repairCostGrid, response) => {
             FwFormField.setValue($form, 'div[data-totalfield="RepairCostTotal"]', response.Totals.Total);
             FwFormField.setValue($form, 'div[data-totalfield="RepairCostTax"]', response.Totals.Tax);
             FwFormField.setValue($form, 'div[data-totalfield="RepairCostExtended"]', response.Totals.Extended);
             FwFormField.setValue($form, 'div[data-totalfield="RepairCostGrossTotal"]', response.Totals.GrossTotal);
             FwFormField.setValue($form, 'div[data-totalfield="RepairCostDiscount"]', response.Totals.DiscountAmount);
         });
-        FwBrowse.init($repairCostGridControl);
-        FwBrowse.renderRuntimeHtml($repairCostGridControl);
+
         // ----------
-        const $repairPartGrid = $form.find('div[data-grid="RepairPartGrid"]');
-        const $repairPartGridControl = FwBrowse.loadGridFromTemplate('RepairPartGrid');
-        $repairPartGrid.empty().append($repairPartGridControl);
-        $repairPartGridControl.data('ondatabind', request => {
-            request.uniqueids = {
-                RepairId: $form.find('div.fwformfield[data-datafield="RepairId"] input').val()
-            }
+        //const $repairPartGrid = $form.find('div[data-grid="RepairPartGrid"]');
+        //const $repairPartGridControl = FwBrowse.loadGridFromTemplate('RepairPartGrid');
+        //$repairPartGrid.empty().append($repairPartGridControl);
+        //$repairPartGridControl.data('ondatabind', request => {
+        //    request.uniqueids = {
+        //        RepairId: $form.find('div.fwformfield[data-datafield="RepairId"] input').val()
+        //    }
+        //    request.totalfields = ["GrossTotal", "Tax", "Extended", "Total", "DiscountAmount"]
+        //});
+        //$repairPartGridControl.data('beforesave', request => {
+        //    request.RepairId = FwFormField.getValueByDataField($form, 'RepairId');
+        //});
+        //FwBrowse.addEventHandler($repairPartGridControl, 'afterdatabindcallback', ($repairPartGridControl, response) => {
+        //    FwFormField.setValue($form, 'div[data-totalfield="RepairPartTotal"]', response.Totals.Total);
+        //    FwFormField.setValue($form, 'div[data-totalfield="RepairPartTax"]', response.Totals.Tax);
+        //    FwFormField.setValue($form, 'div[data-totalfield="RepairPartExtended"]', response.Totals.Extended);
+        //    FwFormField.setValue($form, 'div[data-totalfield="RepairPartGrossTotal"]', response.Totals.GrossTotal);
+        //    FwFormField.setValue($form, 'div[data-totalfield="RepairPartDiscount"]', response.Totals.DiscountAmount);
+        //});
+        //FwBrowse.init($repairPartGridControl);
+        //FwBrowse.renderRuntimeHtml($repairPartGridControl);
+
+        //Repair Part Grid
+        const $repairPartGrid = FwBrowse.renderGrid({
+            nameGrid: 'RepairPartGrid',
+            gridSecurityId: 'k1Qn9brpxHGhp',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    RepairId: FwFormField.getValueByDataField($form, 'RepairId')
+                };
             request.totalfields = ["GrossTotal", "Tax", "Extended", "Total", "DiscountAmount"]
+            }, 
+            beforeSave: (request: any) => {
+                request.RepairId = FwFormField.getValueByDataField($form, 'RepairId');
+            }
         });
-        $repairPartGridControl.data('beforesave', request => {
-            request.RepairId = FwFormField.getValueByDataField($form, 'RepairId');
-        });
-        FwBrowse.addEventHandler($repairPartGridControl, 'afterdatabindcallback', ($repairPartGridControl, response) => {
+        FwBrowse.addEventHandler($repairPartGrid, 'afterdatabindcallback', ($repairPartGrid, response) => {
             FwFormField.setValue($form, 'div[data-totalfield="RepairPartTotal"]', response.Totals.Total);
             FwFormField.setValue($form, 'div[data-totalfield="RepairPartTax"]', response.Totals.Tax);
             FwFormField.setValue($form, 'div[data-totalfield="RepairPartExtended"]', response.Totals.Extended);
             FwFormField.setValue($form, 'div[data-totalfield="RepairPartGrossTotal"]', response.Totals.GrossTotal);
             FwFormField.setValue($form, 'div[data-totalfield="RepairPartDiscount"]', response.Totals.DiscountAmount);
         });
-        FwBrowse.init($repairPartGridControl);
-        FwBrowse.renderRuntimeHtml($repairPartGridControl);
+
+
         // ----------
-        const $repairReleaseGrid = $form.find('div[data-grid="RepairReleaseGrid"]');
-        const $repairReleaseGridControl = FwBrowse.loadGridFromTemplate('RepairReleaseGrid');
-        $repairReleaseGrid.empty().append($repairReleaseGridControl);
-        $repairReleaseGridControl.data('ondatabind', request => {
-            request.uniqueids = {
-                RepairId: $form.find('div.fwformfield[data-datafield="RepairId"] input').val()
+        //const $repairReleaseGrid = $form.find('div[data-grid="RepairReleaseGrid"]');
+        //const $repairReleaseGridControl = FwBrowse.loadGridFromTemplate('RepairReleaseGrid');
+        //$repairReleaseGrid.empty().append($repairReleaseGridControl);
+        //$repairReleaseGridControl.data('ondatabind', request => {
+        //    request.uniqueids = {
+        //        RepairId: $form.find('div.fwformfield[data-datafield="RepairId"] input').val()
+        //    }
+        //});
+        //$repairReleaseGridControl.data('beforesave', request => {
+        //    request.RepairId = FwFormField.getValueByDataField($form, 'RepairId');
+        //});
+        //FwBrowse.init($repairReleaseGridControl);
+        //FwBrowse.renderRuntimeHtml($repairReleaseGridControl);
+
+        //Repair Release Grid
+        const $repairReleaseGrid = FwBrowse.renderGrid({
+            nameGrid: 'RepairReleaseGrid',
+            gridSecurityId: 'O2lL9RZYzdjNg',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    RepairId: FwFormField.getValueByDataField($form, 'RepairId')
+                };
+            }, 
+            beforeSave: (request: any) => {
+                request.RepairId = FwFormField.getValueByDataField($form, 'RepairId');
             }
         });
-        $repairReleaseGridControl.data('beforesave', request => {
-            request.RepairId = FwFormField.getValueByDataField($form, 'RepairId');
-        });
-        FwBrowse.init($repairReleaseGridControl);
-        FwBrowse.renderRuntimeHtml($repairReleaseGridControl);
+
     }
     //----------------------------------------------------------------------------------------------
     saveForm($form: JQuery, parameters: any): void {
@@ -362,7 +527,7 @@ class Repair {
             $form.find('.not-owned').hide();
             FwFormField.enable($form.find('div[data-datafield="AvailFor"]'));
             FwFormField.disable($form.find('.not-owned'));
-            if (FwFormField.getValueByDataField($form, 'AvailFor') === 'S') {
+            if (FwFormField.getValue($form, '.repairavailforradio') === 'S') {
                 $form.find('.icodesales').show();
                 $form.find('.icoderental').hide();
             } else {
@@ -374,7 +539,7 @@ class Repair {
     //----------------------------------------------------------------------------------------------
     getBrowseTemplate(): string {
         return `
-        <div data-name="Repair" data-control="FwBrowse" data-type="Browse" id="RepairBrowse" class="fwcontrol fwbrowse" data-orderby="RepairId" data-controller="RepairController" data-hasinactive="true">
+        <div data-name="Repair" data-control="FwBrowse" data-type="Browse" id="RepairBrowse" class="fwcontrol fwbrowse" data-orderby="RepairId" data-controller="RepairController">
           <div class="column flexcolumn" data-width="0" data-visible="false">
             <div class="field" data-isuniqueid="true" data-datafield="RepairId" data-browsedatatype="key" ></div>
           </div>
@@ -452,14 +617,14 @@ class Repair {
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Repair Ticket">
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Repair Number" data-datafield="RepairNumber" data-enabled="false" style="flex:1 1 115px;"></div>
-                          <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Date" data-datafield="RepairDate"  data-enabled="false" style="flex:1 1 115px;"></div>
+                          <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Date" data-datafield="RepairDate" data-enabled="false" style="flex:1 1 115px;"></div>
                         </div>
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="Available For" data-datafield="AvailFor" data-enabled="false" style="flex:1 1 115px;">
+                          <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield repairavailforradio" data-caption="Available For" data-datafield="AvailFor" data-enabled="false" style="flex:1 1 115px;">
                             <div data-value="R" data-caption="Rent"></div>
                             <div data-value="S" data-caption="Sell"></div>
                           </div>
-                          <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="Type" data-datafield="RepairType" data-enabled="false" style="flex:1 1 115px;">
+                          <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield repairtyperadio" data-caption="Type" data-datafield="RepairType" data-enabled="false" style="flex:1 1 115px;">
                             <div data-value="OWNED" data-caption="Owned"></div>
                             <div data-value="OUTSIDE" data-caption="Not Owned"></div>
                           </div>
@@ -469,16 +634,16 @@ class Repair {
                     <div class="flexcolumn" style="flex:1 1 525px;">
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Item">
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield icoderental icode" data-caption="I-Code" data-datafield="InventoryId" data-displayfield="ICode" data-enabled="false" data-formbeforevalidate="beforeValidate" data-validationpeek="true" data-validationname="RentalInventoryValidation" style="flex:1 1 115px;"></div>
-                          <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield icodesales icode" data-caption="I-Code" data-datafield="InventoryId" data-displayfield="ICode" data-enabled="false" data-formbeforevalidate="beforeValidate" data-validationpeek="true" data-validationname="SalesInventoryValidation" style="flex:1 1 115px;"></div>
+                          <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield icoderental icode" data-caption="I-Code" data-datafield="InventoryId" data-displayfield="ICode" data-enabled="false" data-validationpeek="true" data-validationname="RentalInventoryValidation" style="flex:1 1 115px;"></div>
+                          <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield icodesales icode" data-caption="I-Code" data-datafield="InventoryId" data-displayfield="ICode" data-enabled="false" data-validationpeek="true" data-validationname="SalesInventoryValidation" style="flex:1 1 115px;"></div>
                           <div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield not-owned" data-caption="Item Description" data-datafield="ItemDescription" data-enabled="false" style="flex:1 1 300px; display:none;"></div>
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield itemid" data-caption="Item Description" data-datafield="ItemDescription" data-enabled="false" style="flex:1 1 300px;"></div>                       
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield itemid" data-caption="Quantity" data-datafield="Quantity" data-enabled="false" style="flex:1 1 50px;"></div>
                         </div>
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield itemid" data-caption="Bar Code" data-datafield="ItemId" data-displayfield="BarCode" data-enabled="false" data-formbeforevalidate="beforeValidate" data-validationpeek="true" data-validationname="AssetValidation" style="flex:1 1 150px;"></div>
+                          <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield itemid" data-caption="Bar Code" data-datafield="ItemId" data-displayfield="BarCode" data-enabled="false" data-validationpeek="true" data-validationname="AssetValidation" style="flex:1 1 150px;"></div>
                           <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield itemid" data-caption="Serial Number" data-datafield="ItemId" data-displayfield="SerialNumber" data-enabled="false" data-validationpeek="true" data-validationname="AssetValidation" style="flex:1 1 150px;"></div>
-                          <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield itemid" data-caption="RFID" data-datafield="ItemId" data-displayfield="RfId" data-enabled="false" data-formbeforevalidate="beforeValidate" data-validationpeek="true" data-validationname="AssetValidation" style="flex:1 1 150px;"></div>
+                          <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield itemid" data-caption="RFID" data-datafield="ItemId" data-displayfield="RfId" data-enabled="false" data-validationpeek="true" data-validationname="AssetValidation" style="flex:1 1 150px;"></div>
                         </div>
                       </div>
                     </div>
@@ -506,7 +671,7 @@ class Repair {
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="LocationId" data-enabled="false" data-visible="false" style="float:left;width:0px;display:none;"></div>
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="BillingWarehouseId" data-enabled="false" data-visible="false" style="float:left;width:0px;display:none;"></div>
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="InputByUserId" data-enabled="false" data-visible="false" style="float:left;width:0px;display:none;"></div>
-                          <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="" data-datafield="QcRequired" style="float:left;width:0px;display:none;"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="QcRequired" data-enabled="false" style="float:left;width:0px;display:none;"></div>
                         </div>
                      </div>
                    </div>
@@ -519,7 +684,7 @@ class Repair {
                    </div>
                    <div class="flexcolumn" style="flex:1 1 125px;">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Priority">
-                      <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="" data-datafield="Priority">
+                      <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield repairtyperadio" data-caption="" data-datafield="Priority">
                         <div data-value="HIG" data-caption="High"></div>
                         <div data-value="MED" data-caption="Medium"></div>
                         <div data-value="LOW" data-caption="Low"></div>
@@ -788,7 +953,7 @@ class Repair {
             } else {
                 FwFormField.disable($form.find('.qc-related'));
             }
-        })
+        });
         //
         $form.find('[data-type="tab"][data-caption="QC"]').on('click', e => {
             if ($form.attr('data-mode') === 'NEW') {
@@ -1133,7 +1298,7 @@ class Repair {
         };
     };
     //----------------------------------------------------------------------------------------------
-    beforeValidate($browse, $grid, request) {
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
         const validationName = request.module;
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
 
@@ -1158,94 +1323,4 @@ class Repair {
         };
     }
 };
-// using COMPLETE security guid
-FwApplicationTree.clickEvents[Constants.Modules.Home.Repair.form.menuItems.Complete.id] = function (event: JQuery.ClickEvent) {
-    try {
-        const $form = jQuery(this).closest('.fwform');
-        RepairController.completeOrder($form);
-    }
-    catch (ex) {
-        FwFunc.showError(ex);
-    }
-};
-// using ESTIMATE security guid
-FwApplicationTree.clickEvents[Constants.Modules.Home.Repair.form.menuItems.Estimate.id] = function (event: JQuery.ClickEvent) {
-    try {
-        const $form = jQuery(this).closest('.fwform');
-        RepairController.estimateOrder($form);
-    }
-    catch (ex) {
-        FwFunc.showError(ex);
-    }
-};
-// using VOID security guid
-FwApplicationTree.clickEvents[Constants.Modules.Home.Repair.form.menuItems.Void.id] = function (event: JQuery.ClickEvent) {
-    try {
-        const $form = jQuery(this).closest('.fwform');
-        RepairController.voidOrder($form);
-    }
-    catch (ex) {
-        FwFunc.showError(ex);
-    }
-};
-// using RELEASE security guid
-FwApplicationTree.clickEvents[Constants.Modules.Home.Repair.form.menuItems.ReleaseItems.id] = function (event: JQuery.ClickEvent) {
-    try {
-        const $form = jQuery(this).closest('.fwform');
-        RepairController.releaseItems($form);
-    }
-    catch (ex) {
-        FwFunc.showError(ex);
-    }
-};
-//---------------------------------------------------------------------------------
-//Browse Void Option
-FwApplicationTree.clickEvents[Constants.Modules.Home.Repair.browse.menuItems.Void.id] = function (event: JQuery.ClickEvent) {
-    try {
-        const $browse = jQuery(this).closest('.fwbrowse');
-        const RepairId = $browse.find('.selected [data-browsedatafield="RepairId"]').attr('data-originalvalue');
-        if (RepairId != null) {
-            const $confirmation = FwConfirmation.renderConfirmation('Void', '');
-            $confirmation.find('.fwconfirmationbox').css('width', '450px');
-            const html: Array<string> = [];
-            html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
-            html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-            html.push('    <div>Void this Repair Order?</div>');
-            html.push('  </div>');
-            html.push('</div>');
-
-            FwConfirmation.addControls($confirmation, html.join(''));
-            const $yes = FwConfirmation.addButton($confirmation, 'Void', false);
-            const $no = FwConfirmation.addButton($confirmation, 'Cancel');
-            $yes.focus();
-            $yes.on('click', makeVoid);
-            // ----------
-            function makeVoid() {
-                FwFormField.disable($confirmation.find('.fwformfield'));
-                FwFormField.disable($yes);
-                $yes.text('Voiding...');
-                $yes.off('click');
-
-                FwAppData.apiMethod(true, 'POST', `api/v1/repair/void/${RepairId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
-                    FwNotification.renderNotification('SUCCESS', 'Repair Order Successfully Voided');
-                    FwConfirmation.destroyConfirmation($confirmation);
-                    FwBrowse.databind($browse);
-                }, function onError(response) {
-                    $yes.on('click', makeVoid);
-                    $yes.text('Void');
-                    FwFunc.showError(response);
-                    FwFormField.enable($confirmation.find('.fwformfield'));
-                    FwFormField.enable($yes);
-                    FwBrowse.databind($browse);
-                }, $browse);
-            };
-        } else {
-            FwNotification.renderNotification('WARNING', 'Select a Repair Order to void.');
-        }
-    }
-    catch (ex) {
-        FwFunc.showError(ex);
-    }
-};
-//------------------------------------------------------------------------------------------------
 var RepairController = new Repair();

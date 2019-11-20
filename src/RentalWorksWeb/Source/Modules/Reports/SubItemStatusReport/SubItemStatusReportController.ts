@@ -1,4 +1,4 @@
-﻿routes.push({
+routes.push({
     pattern: /^reports\/subitemstatusreport/, action: function (match: RegExpExecArray) {
         return SubItemStatusReportController.getModuleScreen();
     }
@@ -118,7 +118,7 @@ class SubItemStatusReport extends FwWebApiReport {
         return parameters;
     }
     //----------------------------------------------------------------------------------------------
-    beforeValidate($browse, $form, request) {
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
         const validationName = request.module;
         const customerId = FwFormField.getValueByDataField($form, 'CustomerId');
         request.uniqueids = {};

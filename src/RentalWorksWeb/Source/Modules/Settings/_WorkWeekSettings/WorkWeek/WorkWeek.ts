@@ -1,8 +1,12 @@
-﻿routes.push({ pattern: /^module\/workweek$/, action: function (match: RegExpExecArray) { return WorkWeekController.getModuleScreen(); } });
+﻿//routes.push({ pattern: /^module\/workweek$/, action: function (match: RegExpExecArray) { return WorkWeekController.getModuleScreen(); } });
 
 class WorkWeek {
     Module: string = 'WorkWeek';
     apiurl: string = 'api/v1/workweek';
+    caption: string = Constants.Modules.Settings.children.WorkWeekSettings.children.WorkWeek.caption;
+    nav: string = Constants.Modules.Settings.children.WorkWeekSettings.children.WorkWeek.nav;
+    id: string = Constants.Modules.Settings.children.WorkWeekSettings.children.WorkWeek.id;
+
 
     getModuleScreen() {
         let screen, $browse;

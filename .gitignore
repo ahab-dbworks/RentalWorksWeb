@@ -102,8 +102,8 @@
 
 **/Fw/scripts/FwControls/FwBrowseColumns/**/*.js
 **/Fw/scripts/FwControls/FwBrowseColumns/**/*.js.map
-**/Fw/scripts/FwControls/FwFormFields/FwFormField_validation2.js
-**/Fw/scripts/FwControls/FwFormFields/FwFormField_validation2.js.map
+**/Fw/scripts/FwControls/FwFormFields/**/*.js
+**/Fw/scripts/FwControls/FwFormFields/**/*.js.map
 **/Fw/scripts/FwControls/FwAppImage.js
 **/Fw/scripts/FwControls/FwAppImage.js.map
 **/Fw/scripts/FwControls/FwApplicationTree.js
@@ -120,6 +120,8 @@
 **/Fw/scripts/FwControls/FwFileMenu.js.map
 **/Fw/scripts/FwControls/FwFormField.js
 **/Fw/scripts/FwControls/FwFormField.js.map
+**/Fw/scripts/FwControls/FwGrid.js
+**/Fw/scripts/FwControls/FwGrid.js.map
 **/Fw/scripts/FwControls/FwGridMenu.js
 **/Fw/scripts/FwControls/FwGridMenu.js.map
 **/Fw/scripts/FwControls/FwMenu.js

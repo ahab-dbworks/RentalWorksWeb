@@ -130,7 +130,7 @@ class RentalInventoryMovementReport extends FwWebApiReport {
         ]);
     }
     //----------------------------------------------------------------------------------------------
-    beforeValidate = function ($browse, $form, request) {
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
         const validationName = request.module;
         if (validationName != null) {
             const inventoryTypeId = FwFormField.getValueByDataField($form, 'InventoryTypeId');

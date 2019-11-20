@@ -10,7 +10,7 @@
 [data-control="FwAppImage"] div.images {overflow:hidden;min-height:100px;}
 [data-control="FwAppImage"] div.image {min-height:10px;background-color:#000000;border:1px solid #000000;margin:5px;border-radius:5px;cursor:pointer;height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;}
 [data-control="FwAppImage"] div.image > div.pastecontrol {display:flex;}
-[data-control="FwAppImage"] div.image > div.pastecontrol > div.pastedimagecontainer {background-size: cover;background-repeat: no-repeat;text-align:center;}
+[data-control="FwAppImage"] div.image > div.pastecontrol > div.pastedimagecontainer {background-size: cover;background-repeat: no-repeat;text-align:center;position: relative;}
 [data-control="FwAppImage"] div.image > div.pastecontrol > div.pastedimagecontainer > div.btnAdd,
 [data-control="FwAppImage"] div.image > div.pastecontrol > div.pastedimagecontainer > div.btnDelete {border-top-right-radius:5px;border-bottom-left-radius:5px;display:none;cursor:pointer;position:absolute;top:0;right:0;z-index:2;width:32px;height:32px;line-height:32px;vertical-align:middle;text-align:center;background-color:rgba(255,255,255,.7);border-left:1px solid #aaaaaa;border-bottom:1px solid #aaaaaa;}
 [data-control="FwAppImage"] div.image > div.pastecontrol > div.pastedimagecontainer > img.pastedimage {height:100%;width:100%;}

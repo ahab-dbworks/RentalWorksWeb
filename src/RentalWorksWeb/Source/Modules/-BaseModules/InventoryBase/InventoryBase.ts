@@ -1,4 +1,4 @@
-﻿abstract class InventoryBase {
+abstract class InventoryBase {
     Module: string = 'BaseInventory';
     apiurl: string = 'api/v1/baseinventory';
     caption: string = 'Base Inventory';
@@ -6,7 +6,39 @@
     yearData: any = [];
     ActiveViewFields: any = {};
     ActiveViewFieldsId: string;
+    CreateCompleteId: string;
+    //----------------------------------------------------------------------------------------------
+    afterAddBrowseMenuItems(options: IAddBrowseMenuOptions): void {
+        FwMenu.addBrowseMenuButtons(options);
 
+        const $all: JQuery = FwMenu.generateDropDownViewBtn('All', true, "ALL");
+        const $item: JQuery = FwMenu.generateDropDownViewBtn('Item', true, "I");
+        const $accessory: JQuery = FwMenu.generateDropDownViewBtn('Accessory', false, "A");
+        const $complete: JQuery = FwMenu.generateDropDownViewBtn('Complete', false, "C");
+        const $kit: JQuery = FwMenu.generateDropDownViewBtn('Kit', false, "K");
+        const $set: JQuery = FwMenu.generateDropDownViewBtn('Set', false, "S");
+        const $misc: JQuery = FwMenu.generateDropDownViewBtn('Misc', false, "M");
+        const $container: JQuery = FwMenu.generateDropDownViewBtn('Container', false, "N");
+
+        FwMenu.addVerticleSeparator(options.$menu);
+
+        const viewSubitems: Array<JQuery> = [];
+        viewSubitems.push($all, $item, $accessory, $complete, $kit, $set, $misc);
+        if (this.AvailableFor === "R") {
+            viewSubitems.push($container);
+        }
+        FwMenu.addViewBtn(options.$menu, 'View', viewSubitems, true, "Classification");
+    }
+    //----------------------------------------------------------------------------------------------
+    afterAddFormMenuItems(options: IAddFormMenuOptions): void {
+        FwMenu.addSubMenuItem(options.$groupOptions, 'Create Complete', this.CreateCompleteId, (e: JQuery.ClickEvent) => {
+            try {
+                this.createComplete(options.$form);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+    }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         const screen: any = {};
@@ -55,28 +87,6 @@
         }
 
         return $browse;
-    }
-    //----------------------------------------------------------------------------------------------
-    addBrowseMenuItems($menuObject: any) {
-        const $all: JQuery = FwMenu.generateDropDownViewBtn('All', true, "ALL");
-        const $item: JQuery = FwMenu.generateDropDownViewBtn('Item', true, "I");
-        const $accessory: JQuery = FwMenu.generateDropDownViewBtn('Accessory', false, "A");
-        const $complete: JQuery = FwMenu.generateDropDownViewBtn('Complete', false, "C");
-        const $kit: JQuery = FwMenu.generateDropDownViewBtn('Kit', false, "K");
-        const $set: JQuery = FwMenu.generateDropDownViewBtn('Set', false, "S");
-        const $misc: JQuery = FwMenu.generateDropDownViewBtn('Misc', false, "M");
-        const $container: JQuery = FwMenu.generateDropDownViewBtn('Container', false, "N");
-
-        FwMenu.addVerticleSeparator($menuObject);
-
-        const viewSubitems: Array<JQuery> = [];
-        viewSubitems.push($all, $item, $accessory, $complete, $kit, $set, $misc);
-        if (this.AvailableFor === "R") {
-            viewSubitems.push($container);
-        }
-        FwMenu.addViewBtn($menuObject, 'View', viewSubitems, true, "Classification");
-
-        return $menuObject;
     }
     //----------------------------------------------------------------------------------------------
     openForm(mode: string, uniqueids?) {
@@ -128,7 +138,6 @@
             $form.find('[data-datafield="ICode"]').attr(`data-required`, `false`);
         }
 
-
         const controller = $form.attr('data-controller');
         if (typeof window[controller]['openFormInventory'] === 'function') {
             window[controller]['openFormInventory']($form);
@@ -162,6 +171,24 @@
     //---------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
+    }
+    //----------------------------------------------------------------------------------------------
+    createComplete($form: JQuery) {
+        try {
+            const inventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
+            FwAppData.apiMethod(true, 'POST', `api/v1/inventorycompletekit/createcomplete/${inventoryId}`, null, FwServices.defaultTimeout,
+                response => {
+                    const uniqueIds: any = {};
+                    uniqueIds.InventoryId = response.PackageId;
+                    const $completeForm = RentalInventoryController.loadForm(uniqueIds);
+                    FwModule.openSubModuleTab($form, $completeForm);
+                }, ex => {
+                    FwFunc.showError(ex);
+                }, $form);
+        }
+        catch (ex) {
+            FwFunc.showError(ex);
+        }
     }
     //----------------------------------------------------------------------------------------------
     addCalendarEvents($form, $control, inventoryId) {
@@ -425,6 +452,7 @@
                 FwFormField.disable($form.find('[data-datafield="PackageRevenueCalculationFormula"]'));
             }
         });
+
         // G/L Accounts
         $form.find('div[data-datafield="AssetAccountId"]').data('onchange', function ($tr) {
             FwFormField.setValue($form, 'div[data-datafield="AssetAccountDescription"]', $tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
@@ -592,7 +620,7 @@
         FwFormField.enable($form.find('[data-datafield="Classification"]'));
 
         $form.find('div[data-datafield="Classification"] .fwformfield-value').on('change', function () {
-            const $this = jQuery(this);
+            var $this = jQuery(this);
 
             $form.find('.completeskitstab').show();
             $form.find('.containertab').hide();

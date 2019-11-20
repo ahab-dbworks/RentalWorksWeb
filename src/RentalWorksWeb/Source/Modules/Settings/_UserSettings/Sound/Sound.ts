@@ -1,7 +1,11 @@
-routes.push({ pattern: /^module\/sound$/, action: function (match: RegExpExecArray) { return SoundController.getModuleScreen(); } });
+//routes.push({ pattern: /^module\/sound$/, action: function (match: RegExpExecArray) { return SoundController.getModuleScreen(); } });
+
 class Sound {
     Module: string = 'Sound';
     apiurl: string = 'api/v1/sound';
+    caption: string = Constants.Modules.Settings.children.UserSettings.children.Sound.caption;
+    nav: string = Constants.Modules.Settings.children.UserSettings.children.Sound.nav;
+    id: string = Constants.Modules.Settings.children.UserSettings.children.Sound.id;
 
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {

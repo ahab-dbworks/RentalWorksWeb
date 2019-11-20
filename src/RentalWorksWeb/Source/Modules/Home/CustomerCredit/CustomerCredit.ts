@@ -9,6 +9,29 @@ class CustomerCredit {
     ActiveViewFields: any = {};
     ActiveViewFieldsId: string;
     //---------------------------------------------------------------------------------------------
+    addBrowseMenuItems(options: IAddBrowseMenuOptions): void {
+        options.hasInactive = false;
+        FwMenu.addBrowseMenuButtons(options);
+
+        // Type
+        const $all = FwMenu.generateDropDownViewBtn('ALL', true, "ALL");
+        const $depletingdeposits = FwMenu.generateDropDownViewBtn('Depleting Deposits', false, "D");
+        const $creditmemos = FwMenu.generateDropDownViewBtn('Credit Memos', false, "C");
+        const $overpayments = FwMenu.generateDropDownViewBtn('Overpayments', false, "O");
+
+        const viewType: Array<JQuery> = [];
+        viewType.push($all, $depletingdeposits, $creditmemos, $overpayments);
+        FwMenu.addViewBtn(options.$menu, 'Type', viewType, true, "RecType");
+
+        // Status
+        const $allStatus = FwMenu.generateDropDownViewBtn('ALL', true, "ALL");
+        const $amountRemaining = FwMenu.generateDropDownViewBtn('Amount Remaining', false, "R"); // needs value here
+
+        const viewStatus: Array<JQuery> = [];
+        viewStatus.push($allStatus, $amountRemaining);
+        FwMenu.addViewBtn(options.$menu, 'Status', viewStatus, true, "Status");
+    }
+    //---------------------------------------------------------------------------------------------
     getModuleScreen() {
         const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
@@ -45,27 +68,6 @@ class CustomerCredit {
         return $browse;
     };
     //---------------------------------------------------------------------------------------------
-    addBrowseMenuItems($menuObject: any) {
-        // Type
-        const $all = FwMenu.generateDropDownViewBtn('ALL', true, "ALL");
-        const $depletingdeposits = FwMenu.generateDropDownViewBtn('Depleting Deposits', false, "D");
-        const $creditmemos = FwMenu.generateDropDownViewBtn('Credit Memos', false, "C");
-        const $overpayments = FwMenu.generateDropDownViewBtn('Overpayments', false, "O");
-
-        const viewType: Array<JQuery> = [];
-        viewType.push($all, $depletingdeposits, $creditmemos, $overpayments);
-        FwMenu.addViewBtn($menuObject, 'Type', viewType, true, "RecType");
-
-        // Status
-        const $allStatus = FwMenu.generateDropDownViewBtn('ALL', true, "ALL");
-        const $amountRemaining = FwMenu.generateDropDownViewBtn('Amount Remaining', false, "R"); // needs value here
-
-        const viewStatus: Array<JQuery> = [];
-        viewStatus.push($allStatus, $amountRemaining);
-        FwMenu.addViewBtn($menuObject, 'Status', viewStatus, true, "Status");
-        return $menuObject;
-    };
-    //---------------------------------------------------------------------------------------------
     openForm(mode: string) {
         // var $form = FwModule.loadFormFromTemplate(this.Module);
         //let $form = jQuery(AssetController.getFormTemplate());
@@ -93,7 +95,7 @@ class CustomerCredit {
     //---------------------------------------------------------------------------------------------
     getBrowseTemplate(): string {
         return `
-           <div data-name="CustomerCredit" data-control="FwBrowse" data-type="Browse" id="CustomerCreditBrowse" class="fwcontrol fwbrowse" data-orderby="" data-controller="CustomerCreditController" data-hasinactive="false">
+           <div data-name="CustomerCredit" data-control="FwBrowse" data-type="Browse" id="CustomerCreditBrowse" class="fwcontrol fwbrowse" data-orderby="" data-controller="CustomerCreditController">
              <div class="column flexcolumn" data-width="0" data-visible="false">
                <div class="field" data-isuniqueid="true" data-datafield="ReceiptId" data-browsedatatype="key"></div>
              </div>

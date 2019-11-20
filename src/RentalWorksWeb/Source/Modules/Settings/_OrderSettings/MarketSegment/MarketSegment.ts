@@ -1,8 +1,11 @@
-﻿routes.push({ pattern: /^module\/marketsegment$/, action: function (match: RegExpExecArray) { return MarketSegmentController.getModuleScreen(); } });
+﻿//routes.push({ pattern: /^module\/marketsegment$/, action: function (match: RegExpExecArray) { return MarketSegmentController.getModuleScreen(); } });
 
 class MarketSegment {
     Module: string = 'MarketSegment';
     apiurl: string = 'api/v1/marketsegment';
+    caption: string = Constants.Modules.Settings.children.OrderSettings.children.MarketSegment.caption;
+    nav: string = Constants.Modules.Settings.children.OrderSettings.children.MarketSegment.nav;
+    id: string = Constants.Modules.Settings.children.OrderSettings.children.MarketSegment.id;
 
     getModuleScreen() {
         let screen, $browse;
@@ -27,19 +30,35 @@ class MarketSegment {
     }
 
     renderGrids($form: any) {
-        const marketSegmentJobGrid = $form.find('div[data-grid="MarketSegmentJobGrid"]');
-        const $marketSegmentJobGridControl = FwBrowse.loadGridFromTemplate('MarketSegmentJobGrid');
-        marketSegmentJobGrid.empty().append($marketSegmentJobGridControl);
-        $marketSegmentJobGridControl.data('ondatabind', request => {
-            request.uniqueids = {
-                MarketSegmentId: FwFormField.getValueByDataField($form, 'MarketSegmentId')
-            }
+        //const marketSegmentJobGrid = $form.find('div[data-grid="MarketSegmentJobGrid"]');
+        //const $marketSegmentJobGridControl = FwBrowse.loadGridFromTemplate('MarketSegmentJobGrid');
+        //marketSegmentJobGrid.empty().append($marketSegmentJobGridControl);
+        //$marketSegmentJobGridControl.data('ondatabind', request => {
+        //    request.uniqueids = {
+        //        MarketSegmentId: FwFormField.getValueByDataField($form, 'MarketSegmentId')
+        //    }
+        //});
+        //$marketSegmentJobGridControl.data('beforesave', request => {
+        //    request.MarketSegmentId = FwFormField.getValueByDataField($form, 'MarketSegmentId');
+        //})
+        //FwBrowse.init($marketSegmentJobGridControl);
+        //FwBrowse.renderRuntimeHtml($marketSegmentJobGridControl);
+
+        FwBrowse.renderGrid({
+            nameGrid: 'MarketSegmentJobGrid',
+            gridSecurityId: 'OWZGrnUnJHon',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    MarketSegmentId: FwFormField.getValueByDataField($form, 'MarketSegmentId'),
+                };
+            },
+            beforeSave: (request: any) => {
+                request.MarketSegmentId = FwFormField.getValueByDataField($form, 'MarketSegmentId');
+            },
         });
-        $marketSegmentJobGridControl.data('beforesave', request => {
-            request.MarketSegmentId = FwFormField.getValueByDataField($form, 'MarketSegmentId');
-        })
-        FwBrowse.init($marketSegmentJobGridControl);
-        FwBrowse.renderRuntimeHtml($marketSegmentJobGridControl);
     }
 
     openBrowse() {

@@ -1,11 +1,9 @@
 class VehicleColor {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'VehicleColor';
-        this.apiurl = 'api/v1/vehiclecolor';
-    }
+    Module: string = 'VehicleColor';
+    apiurl: string = 'api/v1/vehiclecolor';
+    caption: string = Constants.Modules.Settings.children.VehicleSettings.children.VehicleColor.caption;
+    nav: string = Constants.Modules.Settings.children.VehicleSettings.children.VehicleColor.nav;
+    id: string = Constants.Modules.Settings.children.VehicleSettings.children.VehicleColor.id;
 
     getModuleScreen() {
         var screen, $browse;

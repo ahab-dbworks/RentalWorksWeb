@@ -4,12 +4,41 @@ routes.push({ pattern: /^module\/project\/(\w+)\/(\S+)/, action: function (match
 class Project {
     Module: string = 'Project';
     apiurl: string = 'api/v1/project';
-    caption: string = Constants.Modules.Home.Project.caption;
-    nav: string = Constants.Modules.Home.Project.nav;
-    id: string = Constants.Modules.Home.Project.id;
+    caption: string = Constants.Modules.Agent.children.Project.caption;
+    nav: string = Constants.Modules.Agent.children.Project.nav;
+    id: string = Constants.Modules.Agent.children.Project.id;
     ActiveViewFields: any = {};
     ActiveViewFieldsId: string;
+    //-----------------------------------------------------------------------------------------------
+    addBrowseMenuItems(options: IAddBrowseMenuOptions): void {
+        options.hasDelete = false;
+        FwMenu.addBrowseMenuButtons(options);
 
+        const location = JSON.parse(sessionStorage.getItem('location'));
+        const $allLocations = FwMenu.generateDropDownViewBtn('ALL Locations', false, "ALL");
+        const $userLocation = FwMenu.generateDropDownViewBtn(location.location, true, location.locationid);
+
+        if (typeof this.ActiveViewFields["LocationId"] == 'undefined') {
+            this.ActiveViewFields.LocationId = [location.locationid];
+        }
+
+        let viewLocation = [];
+        viewLocation.push($userLocation, $allLocations);
+        FwMenu.addViewBtn(options.$menu, 'Location', viewLocation, true, "LocationId");
+    }
+    //-----------------------------------------------------------------------------------------------
+    addFormMenuItems(options: IAddFormMenuOptions): void {
+        FwMenu.addFormMenuButtons(options);
+
+        FwMenu.addSubMenuItem(options.$groupOptions, 'Create Quote', 'X5qRQcu9TBn8Z', (e: JQuery.ClickEvent) => {
+            try {
+                this.createQuote(options.$form);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+    }
+    //-----------------------------------------------------------------------------------------------
     getModuleScreen = (filter?: { datafield: string, search: string }) => {
         let screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
@@ -40,12 +69,10 @@ class Project {
         };
 
         return screen;
-    };
-
+    }
+    //-----------------------------------------------------------------------------------------------
     openBrowse() {
-        var $browse;
-
-        $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
+        let $browse: JQuery = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
 
         const self = this;
@@ -55,26 +82,9 @@ class Project {
 
         return $browse;
     }
-
-    addBrowseMenuItems($menuObject) {
-        const location = JSON.parse(sessionStorage.getItem('location'));
-        const $allLocations = FwMenu.generateDropDownViewBtn('ALL Locations', false, "ALL");
-        const $userLocation = FwMenu.generateDropDownViewBtn(location.location, true, location.locationid);
-
-        if (typeof this.ActiveViewFields["LocationId"] == 'undefined') {
-            this.ActiveViewFields.LocationId = [location.locationid];
-        }
-
-        let viewLocation = [];
-        viewLocation.push($userLocation, $allLocations);
-        FwMenu.addViewBtn($menuObject, 'Location', viewLocation, true, "LocationId");
-        return $menuObject;
-    };
-
+    //-----------------------------------------------------------------------------------------------
     openForm(mode: string) {
-        var $form;
-
-        $form = FwModule.loadFormFromTemplate(this.Module);
+        let $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 
         FwFormField.loadItems($form.find('[data-datafield="Status"]'), [
@@ -105,72 +115,122 @@ class Project {
             $form.find('.activityCheckboxes div > input').prop('checked', true);
         }
 
-        $form.find('div[data-datafield="PickTime"]').attr('data-required', false);
-        $form.find('div[data-datafield="EstimatedStartTime"]').attr('data-required', false);
-        $form.find('div[data-datafield="EstimatedStopTime"]').attr('data-required', false);
+        $form.find('div[data-datafield="PickTime"]').attr('data-required', 'false');
+        $form.find('div[data-datafield="EstimatedStartTime"]').attr('data-required', 'false');
+        $form.find('div[data-datafield="EstimatedStopTime"]').attr('data-required', 'false');
 
         return $form;
     }
-
+    //-----------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
-        var $form;
-
-        $form = this.openForm('EDIT');
+        let $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="ProjectId"] input').val(uniqueids.ProjectId);
         FwModule.loadForm(this.Module, $form);
 
         return $form;
     }
-
+    //-----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
     }
-
+    //-----------------------------------------------------------------------------------------------
     renderGrids($form) {
-        const $projectContactGrid = $form.find('div[data-grid="ProjectContactGrid"]');
-        const $projectContactGridControl = FwBrowse.loadGridFromTemplate('ProjectContactGrid');
-        $projectContactGrid.empty().append($projectContactGridControl);
-        $projectContactGridControl.data('ondatabind', request => {
-            request.uniqueids = {
-                ProjectId: FwFormField.getValueByDataField($form, 'ProjectId')
-            };
-        });
-        $projectContactGridControl.data('beforesave', request => {
-            request.ProjectId = FwFormField.getValueByDataField($form, 'ProjectId');
-            request.CompanyId = FwFormField.getValueByDataField($form, 'DealId');
-        });
-        FwBrowse.init($projectContactGridControl);
-        FwBrowse.renderRuntimeHtml($projectContactGridControl);
+        //Project Contact Grid
+        //const $projectContactGrid = $form.find('div[data-grid="ProjectContactGrid"]');
+        //const $projectContactGridControl = FwBrowse.loadGridFromTemplate('ProjectContactGrid');
+        //$projectContactGrid.empty().append($projectContactGridControl);
+        //$projectContactGridControl.data('ondatabind', request => {
+        //    request.uniqueids = {
+        //        ProjectId: FwFormField.getValueByDataField($form, 'ProjectId')
+        //    };
+        //});
+        //$projectContactGridControl.data('beforesave', request => {
+        //    request.ProjectId = FwFormField.getValueByDataField($form, 'ProjectId');
+        //    request.CompanyId = FwFormField.getValueByDataField($form, 'DealId');
+        //});
+        //FwBrowse.init($projectContactGridControl);
+        //FwBrowse.renderRuntimeHtml($projectContactGridControl);
 
-        const $poApproverGrid = $form.find('div[data-grid="POApproverGrid"]');
-        const $poApproverGridControl = FwBrowse.loadGridFromTemplate('POApproverGrid');
-        $poApproverGrid.empty().append($poApproverGridControl);
-        $poApproverGridControl.data('ondatabind', request => {
-            request.uniqueids = {
-                ProjectId: FwFormField.getValueByDataField($form, 'ProjectId')
-            };
+        FwBrowse.renderGrid({
+            nameGrid: 'ProjectContactGrid',
+            gridSecurityId: 'ZvjyLW5OM5s1X',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    ProjectId: FwFormField.getValueByDataField($form, 'ProjectId')
+                };
+            },
+            beforeSave: (request: any) => {
+                request.ProjectId = FwFormField.getValueByDataField($form, 'ProjectId');
+                request.CompanyId = FwFormField.getValueByDataField($form, 'DealId');
+            }
         });
-        $poApproverGridControl.data('beforesave', request => {
-            request.ProjectId = FwFormField.getValueByDataField($form, 'ProjectId');
-        });
-        FwBrowse.init($poApproverGridControl);
-        FwBrowse.renderRuntimeHtml($poApproverGridControl);
+        //-----
+        //PO Approver Grid
+        //const $poApproverGrid = $form.find('div[data-grid="POApproverGrid"]');
+        //const $poApproverGridControl = FwBrowse.loadGridFromTemplate('POApproverGrid');
+        //$poApproverGrid.empty().append($poApproverGridControl);
+        //$poApproverGridControl.data('ondatabind', request => {
+        //    request.uniqueids = {
+        //        ProjectId: FwFormField.getValueByDataField($form, 'ProjectId')
+        //    };
+        //});
+        //$poApproverGridControl.data('beforesave', request => {
+        //    request.ProjectId = FwFormField.getValueByDataField($form, 'ProjectId');
+        //});
+        //FwBrowse.init($poApproverGridControl);
+        //FwBrowse.renderRuntimeHtml($poApproverGridControl);
 
-        const $projectNoteGrid = $form.find('div[data-grid="ProjectNoteGrid"]');
-        const $projectNoteGridControl = FwBrowse.loadGridFromTemplate('ProjectNoteGrid');
-        $projectNoteGrid.empty().append($projectNoteGridControl);
-        $projectNoteGridControl.data('ondatabind', request => {
-            request.uniqueids = {
-                ProjectId: FwFormField.getValueByDataField($form, 'ProjectId')
-            };
+        FwBrowse.renderGrid({
+            nameGrid: 'POApproverGrid',
+            gridSecurityId: 'kaGlUrLG9GjN',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    ProjectId: FwFormField.getValueByDataField($form, 'ProjectId')
+                };
+            },
+            beforeSave: (request: any) => {
+                request.ProjectId = FwFormField.getValueByDataField($form, 'ProjectId');
+            }
         });
-        $projectNoteGridControl.data('beforesave', request => {
-            request.ProjectId = FwFormField.getValueByDataField($form, 'ProjectId');
+        //-----
+        //Project Note Grid
+        //const $projectNoteGrid = $form.find('div[data-grid="ProjectNoteGrid"]');
+        //const $projectNoteGridControl = FwBrowse.loadGridFromTemplate('ProjectNoteGrid');
+        //$projectNoteGrid.empty().append($projectNoteGridControl);
+        //$projectNoteGridControl.data('ondatabind', request => {
+        //    request.uniqueids = {
+        //        ProjectId: FwFormField.getValueByDataField($form, 'ProjectId')
+        //    };
+        //});
+        //$projectNoteGridControl.data('beforesave', request => {
+        //    request.ProjectId = FwFormField.getValueByDataField($form, 'ProjectId');
+        //});
+        //FwBrowse.init($projectNoteGridControl);
+        //FwBrowse.renderRuntimeHtml($projectNoteGridControl);
+
+        FwBrowse.renderGrid({
+            nameGrid: 'ProjectNoteGrid',
+            gridSecurityId: 'tR09bf745p0YU',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    ProjectId: FwFormField.getValueByDataField($form, 'ProjectId')
+                };
+            },
+            beforeSave: (request: any) => {
+                request.ProjectId = FwFormField.getValueByDataField($form, 'ProjectId');
+            }
         });
-        FwBrowse.init($projectNoteGridControl);
-        FwBrowse.renderRuntimeHtml($projectNoteGridControl);
     }
-
+    //-----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
         const $projectContactGrid = $form.find('[data-name="ProjectContactGrid"]');
         FwBrowse.search($projectContactGrid);
@@ -181,71 +241,44 @@ class Project {
         const $projectNoteGrid = $form.find('[data-name="ProjectNoteGrid"]');
         FwBrowse.search($projectNoteGrid);
     }
-}
-
-FwApplicationTree.clickEvents[Constants.Modules.Home.Project.form.menuItems.CreateQuote.id] = function () {
-    try {
-        const $form = jQuery(this).closest('.fwform');
+    //-----------------------------------------------------------------------------------------------
+    createQuote($form: any) {
         const projectId = FwFormField.getValueByDataField($form, 'ProjectId');
-        const location = JSON.parse(sessionStorage.getItem('location'));
-        const projectNumber = FwFormField.getValueByDataField($form, 'ProjectNumber');
-        const projectName = FwFormField.getValueByDataField($form, 'Project');
 
         if (projectId == "") {
             FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
         } else {
-            var $confirmation, $yes, $no;
-
-            $confirmation = FwConfirmation.renderConfirmation('Create Quote', '');
+            let $confirmation = FwConfirmation.renderConfirmation('Create Quote', '');
             $confirmation.find('.fwconfirmationbox').css('width', '450px');
-            const html: Array<string> = [];
-            html.push(`<div class="fwform" data-controller="none" style="background-color: transparent;">`);
-            html.push(`  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">`);
-            html.push(`    <div>Create a new Quote for Project ${projectNumber} ${projectName}?</div>`);
-            html.push(`  </div>`);
-            html.push(`</div>`);
+            var html = [];
+            html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+            html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+            html.push('    <div>Create a Quote?</div>');
+            html.push('  </div>');
+            html.push('</div>');
 
             FwConfirmation.addControls($confirmation, html.join(''));
 
-            $yes = FwConfirmation.addButton($confirmation, 'Create Quote', false);
-            $no = FwConfirmation.addButton($confirmation, 'Cancel');
+            let $yes = FwConfirmation.addButton($confirmation, 'Create Quote', false);
+            let $no = FwConfirmation.addButton($confirmation, 'Cancel');
 
             $yes.on('click', createQuote);
+            var $confirmationbox = jQuery('.fwconfirmationbox');
             function createQuote() {
-                FwFormField.disable($yes);
-                $yes.text('Creating Quote...');
-                $yes.off('click');
+                FwAppData.apiMethod(true, 'POST', "api/v1/project/createquote/" + projectId, null, FwServices.defaultTimeout, function onSuccess(response) {
+                    FwNotification.renderNotification('SUCCESS', 'Quote Successfully Created.');
+                    FwConfirmation.destroyConfirmation($confirmation);
+                    let uniqueids: any = {};
+                    uniqueids.QuoteId = response.QuoteId;
+                    var $quoteform = QuoteController.loadForm(uniqueids);
+                    FwModule.openModuleTab($quoteform, "", true, 'FORM', true);
 
-                let request: any = {};
-                request.ProjectId = projectId;
-                request.OfficeLocationId = location.locationid;
-
-                const topLayer = '<div class="top-layer" data-controller="none" style="background-color: transparent;z-index:1"></div>';
-                const realConfirm = jQuery($confirmation.find('.fwconfirmationbox')).prepend(topLayer);
-
-                FwAppData.apiMethod(true, 'POST', "api/v1/project/createquote", request, FwServices.defaultTimeout, function onSuccess(response) {
-                    if (response.success) {
-                        FwNotification.renderNotification('SUCCESS', 'Quote Successfully Created.');
-                        FwConfirmation.destroyConfirmation($confirmation);
-                        let uniqueids: any = {};
-                        uniqueids.QuoteId = response.QuoteId;
-                        var $quoteform = QuoteController.loadForm(uniqueids);
-                        FwModule.openModuleTab($quoteform, "", true, 'FORM', true);
-                        FwModule.refreshForm($form);
-                    }
-                    else { }
-                }, function onError(response) {
-                    $yes.on('click', createQuote);
-                    $yes.text('Create Quote');
-                    FwFormField.enable($yes);
-                    FwFunc.showError(response);
-                }, realConfirm);
+                    FwModule.refreshForm($form);
+                }, null, $confirmationbox);
             }
         }
     }
-    catch (ex) {
-        FwFunc.showError(ex);
-    }
-};
+    //-----------------------------------------------------------------------------------------------
+}
 
 var ProjectController = new Project();

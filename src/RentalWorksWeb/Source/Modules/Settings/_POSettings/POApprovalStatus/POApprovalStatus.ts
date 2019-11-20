@@ -1,11 +1,9 @@
 class RwPOApprovalStatus {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'POApprovalStatus';
-        this.apiurl = 'api/v1/poapprovalstatus';
-    }
+    Module: string = 'POApprovalStatus';
+    apiurl: string = 'api/v1/poapprovalstatus';
+    caption: string = Constants.Modules.Settings.children.POSettings.children.POApprovalStatus.caption;
+    nav: string = Constants.Modules.Settings.children.POSettings.children.POApprovalStatus.nav;
+    id: string = Constants.Modules.Settings.children.POSettings.children.POApprovalStatus.id;
 
     getModuleScreen() {
         var screen, $browse;
@@ -18,7 +16,7 @@ class RwPOApprovalStatus {
         $browse = this.openBrowse();
 
         screen.load = function () {
-            FwModule.openModuleTab($browse, 'PO Approval Status', false, 'BROWSE', true);
+            FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };

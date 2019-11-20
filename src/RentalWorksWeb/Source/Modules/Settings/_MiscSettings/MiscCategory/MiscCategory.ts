@@ -1,11 +1,9 @@
 class MiscCategory {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'MiscCategory';
-        this.apiurl = 'api/v1/misccategory';
-    }
+    Module: string = 'MiscCategory';
+    apiurl: string = 'api/v1/misccategory';
+    caption: string = Constants.Modules.Settings.children.MiscSettings.children.MiscCategory.caption;
+    nav: string = Constants.Modules.Settings.children.MiscSettings.children.MiscCategory.nav;
+    id: string = Constants.Modules.Settings.children.MiscSettings.children.MiscCategory.id;
 
     getModuleScreen() {
         var screen, $browse;
@@ -46,19 +44,35 @@ class MiscCategory {
     }
 
     renderGrids($form: any) {
-        const $subCategoryGrid = $form.find('div[data-grid="SubCategoryGrid"]');
-        const $subCategoryControl = FwBrowse.loadGridFromTemplate('SubCategoryGrid');
-        $subCategoryGrid.empty().append($subCategoryControl);
-        $subCategoryControl.data('ondatabind', request => {
-            request.uniqueids = {
-                CategoryId: FwFormField.getValueByDataField($form, 'CategoryId')
-            }
+        //const $subCategoryGrid = $form.find('div[data-grid="SubCategoryGrid"]');
+        //const $subCategoryControl = FwBrowse.loadGridFromTemplate('SubCategoryGrid');
+        //$subCategoryGrid.empty().append($subCategoryControl);
+        //$subCategoryControl.data('ondatabind', request => {
+        //    request.uniqueids = {
+        //        CategoryId: FwFormField.getValueByDataField($form, 'CategoryId')
+        //    }
+        //});
+        //$subCategoryControl.data('beforesave', request => {
+        //    request.CategoryId = FwFormField.getValueByDataField($form, 'CategoryId');
+        //})
+        //FwBrowse.init($subCategoryControl);
+        //FwBrowse.renderRuntimeHtml($subCategoryControl);
+
+        FwBrowse.renderGrid({
+            nameGrid: 'SubCategoryGrid',
+            gridSecurityId: 'vHMa0l5PUysXo',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    CategoryId: FwFormField.getValueByDataField($form, 'CategoryId'),
+                };
+            },
+            beforeSave: (request: any) => {
+                request.CategoryId = FwFormField.getValueByDataField($form, 'CategoryId');
+            },
         });
-        $subCategoryControl.data('beforesave', request => {
-            request.CategoryId = FwFormField.getValueByDataField($form, 'CategoryId');
-        })
-        FwBrowse.init($subCategoryControl);
-        FwBrowse.renderRuntimeHtml($subCategoryControl);
     }
 
     openBrowse() {

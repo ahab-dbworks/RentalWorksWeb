@@ -1,11 +1,9 @@
 class SpaceType {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'SpaceType';
-        this.apiurl = 'api/v1/spacetype';
-    }
+    Module: string = 'SpaceType';
+    apiurl: string = 'api/v1/spacetype';
+    caption: string = Constants.Modules.Settings.children.FacilitySettings.children.SpaceType.caption;
+    nav: string = Constants.Modules.Settings.children.FacilitySettings.children.SpaceType.nav;
+    id: string = Constants.Modules.Settings.children.FacilitySettings.children.SpaceType.id;
 
     getModuleScreen() {
         var screen, $browse;

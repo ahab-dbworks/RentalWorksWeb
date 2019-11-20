@@ -149,12 +149,6 @@ class Base {
                                     url: `${applicationConfig.apiurl}api/v1/systemsettings/1`,
                                     $elementToBlock: $loginWindow
                                 });
-
-                                const promiseGetUser = FwAjax.callWebApi<any, any>({
-                                    httpMethod: 'GET',
-                                    url: `${applicationConfig.apiurl}api/v1/user/${responseSessionInfo.webUser.usersid}`,
-                                    $elementToBlock: $loginWindow
-                                });
                                 const promiseGetDepartment = FwAjax.callWebApi<any, any>({
                                     httpMethod: 'GET',
                                     url: `${applicationConfig.apiurl}api/v1/department/${responseSessionInfo.department.departmentid}`,
@@ -176,9 +170,8 @@ class Base {
                                     promiseGetDefaultSettings,          // 03
                                     promiseGetInventorySettings,        // 04
                                     promiseGetSystemSettings,           // 05
-                                    promiseGetUser,                     // 06
-                                    promiseGetDepartment,               // 07
-                                    promiseGetDocumentBarCodeSettings,  // 08
+                                    promiseGetDepartment,               // 06
+                                    promiseGetDocumentBarCodeSettings,  // 07
                                 ])
                                     .then((values: any) => {
                                         const responseGetUserSettings = values[0];
@@ -187,9 +180,8 @@ class Base {
                                         const responseGetDefaultSettings = values[3];
                                         const responseGetInventorySettings = values[4];
                                         const responseGetSystemSettings = values[5];
-                                        const responseGetUser = values[6];
-                                        const responseGetDepartment = values[7];
-                                        const responseGetDocumentBarCodeSettings = values[8];
+                                        const responseGetDepartment = values[6];
+                                        const responseGetDocumentBarCodeSettings = values[7];
 
                                         let sounds: any = {}, homePage: any = {}, toolbar: any = {};
                                         sounds.successSoundFileName = responseGetUserSettings.SuccessSoundFileName;
@@ -201,15 +193,6 @@ class Base {
                                         sessionStorage.setItem('sounds', JSON.stringify(sounds));
                                         sessionStorage.setItem('homePage', JSON.stringify(homePage));
                                         sessionStorage.setItem('toolbar', toolbar);
-                                        // Web admin - temp security for peek validation show / hide   J.Pace 7/12/19
-                                        const userid = JSON.parse(sessionStorage.getItem('userid'));
-                                        //if (values[4].WebAdministrator === true) {
-                                        if (responseGetUser.WebAdministrator === true) {
-                                            userid.webadministrator = 'true';
-                                        } else {
-                                            userid.webadministrator = 'false';
-                                        }
-                                        sessionStorage.setItem('userid', JSON.stringify(userid));
 
                                         // Include department's default activity selection in sessionStorage for use in Quote / Order
                                         const department = JSON.parse(sessionStorage.getItem('department'));

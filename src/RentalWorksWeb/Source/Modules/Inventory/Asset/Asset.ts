@@ -3,13 +3,40 @@
 class RwAsset {
     Module: string = 'Asset';
     apiurl: string = 'api/v1/item';
-    caption: string = Constants.Modules.Home.Asset.caption;
-    nav: string = Constants.Modules.Home.Asset.nav;
-    id: string = Constants.Modules.Home.Asset.id;
+    caption: string = Constants.Modules.Inventory.children.Asset.caption;
+    nav: string = Constants.Modules.Inventory.children.Asset.nav;
+    id: string = Constants.Modules.Inventory.children.Asset.id;
     nameItemAttributeValueGrid: string = 'ItemAttributeValueGrid';
     nameItemQcGrid: string = 'ItemQcGrid';
     ActiveViewFields: any = {};
     ActiveViewFieldsId: string;
+    //---------------------------------------------------------------------------------------------
+    addBrowseMenuItems(options: IAddBrowseMenuOptions): void {
+        options.hasNew = false;
+        FwMenu.addBrowseMenuButtons(options);
+
+        const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+        const $all: JQuery = FwMenu.generateDropDownViewBtn('ALL Warehouses', false, "ALL");
+        const $userWarehouse: JQuery = FwMenu.generateDropDownViewBtn(warehouse.warehouse, true, warehouse.warehouseid);
+
+        if (typeof this.ActiveViewFields["WarehouseId"] == 'undefined') {
+            this.ActiveViewFields.WarehouseId = [warehouse.warehouseid];
+        }
+
+        let viewSubitems: Array<JQuery> = [];
+        viewSubitems.push($userWarehouse, $all);
+        FwMenu.addViewBtn(options.$menu, 'Warehouse', viewSubitems, true, "WarehouseId");
+
+        //Tracked By Filter
+        const $trackAll = FwMenu.generateDropDownViewBtn('ALL', true, "ALL");
+        const $trackBarcode = FwMenu.generateDropDownViewBtn('Bar Code', false, "BARCODE");
+        const $trackSerialNumber = FwMenu.generateDropDownViewBtn('Serial Number', false, "SERIALNO");
+        const $trackRFID = FwMenu.generateDropDownViewBtn('RFID', false, "RFID");
+
+        let viewTrack: Array<JQuery> = [];
+        viewTrack.push($trackAll, $trackBarcode, $trackSerialNumber, $trackRFID);
+        FwMenu.addViewBtn(options.$menu, 'Tracked By', viewTrack, true, "TrackedBy");
+    };
     //---------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen: any = {};
@@ -62,36 +89,11 @@ class RwAsset {
         return $browse;
     };
     //---------------------------------------------------------------------------------------------
-    addBrowseMenuItems($menuObject: any) {
-        const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
-        const $all: JQuery = FwMenu.generateDropDownViewBtn('ALL Warehouses', false, "ALL");
-        const $userWarehouse: JQuery = FwMenu.generateDropDownViewBtn(warehouse.warehouse, true, warehouse.warehouseid);
-
-        if (typeof this.ActiveViewFields["WarehouseId"] == 'undefined') {
-            this.ActiveViewFields.WarehouseId = [warehouse.warehouseid];
-        }
-
-        let viewSubitems: Array<JQuery> = [];
-        viewSubitems.push($userWarehouse, $all);
-        FwMenu.addViewBtn($menuObject, 'Warehouse', viewSubitems, true, "WarehouseId");
-
-        //Tracked By Filter
-        const $trackAll = FwMenu.generateDropDownViewBtn('ALL', true, "ALL");
-        const $trackBarcode = FwMenu.generateDropDownViewBtn('Bar Code', false, "BARCODE");
-        const $trackSerialNumber = FwMenu.generateDropDownViewBtn('Serial Number', false, "SERIALNO");
-        const $trackRFID = FwMenu.generateDropDownViewBtn('RFID', false, "RFID");
-
-        let viewTrack: Array<JQuery> = [];
-        viewTrack.push($trackAll, $trackBarcode, $trackSerialNumber, $trackRFID);
-        FwMenu.addViewBtn($menuObject, 'Tracked By', viewTrack, true, "TrackedBy");
-        return $menuObject;
-    };
-    //---------------------------------------------------------------------------------------------
     openForm(mode: string) {
         // var $form = FwModule.loadFormFromTemplate(this.Module);
         let $form = jQuery(this.getFormTemplate());
         $form = FwModule.openForm($form, mode);
-
+        
         return $form;
     };
     //---------------------------------------------------------------------------------------------
@@ -119,7 +121,7 @@ class RwAsset {
         jQuery($browse).find('.ddviewbtn-caption:contains("Show:")').siblings('.ddviewbtn-select').find('.ddviewbtn-dropdown-btn:contains("All")').click();
         return $browse;
     }
-    //---------------------------------------------------------------------------------------------
+   //---------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
     };
@@ -130,47 +132,107 @@ class RwAsset {
     };
     //---------------------------------------------------------------------------------------------
     renderGrids($form: JQuery) {
-        const $itemAttributeValueGrid: JQuery = $form.find(`div[data-grid="${this.nameItemAttributeValueGrid}"]`);
-        const $itemAttributeValueGridControl: JQuery = FwBrowse.loadGridFromTemplate(this.nameItemAttributeValueGrid)
-        $itemAttributeValueGrid.empty().append($itemAttributeValueGridControl);
-        $itemAttributeValueGridControl.data('ondatabind', request => {
-            request.uniqueids = {
-                ItemId: FwFormField.getValueByDataField($form, 'ItemId')
-            };
+        //const $itemAttributeValueGrid: JQuery = $form.find(`div[data-grid="${this.nameItemAttributeValueGrid}"]`);
+        //const $itemAttributeValueGridControl: JQuery = FwBrowse.loadGridFromTemplate(this.nameItemAttributeValueGrid)
+        //$itemAttributeValueGrid.empty().append($itemAttributeValueGridControl);
+        //$itemAttributeValueGridControl.data('ondatabind', request => {
+        //    request.uniqueids = {
+        //        ItemId: FwFormField.getValueByDataField($form, 'ItemId')
+        //    };
+        //});
+        //$itemAttributeValueGridControl.data('beforesave', request => {
+        //    request.ItemId = FwFormField.getValueByDataField($form, 'ItemId');
+        //})
+        //FwBrowse.init($itemAttributeValueGridControl);
+        //FwBrowse.renderRuntimeHtml($itemAttributeValueGridControl);
+
+        //Item Attribute Value Grid
+        FwBrowse.renderGrid({
+            nameGrid: 'ItemAttributeValueGrid',
+            gridSecurityId: 'CntxgVXDQtQ7',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    ItemId: FwFormField.getValueByDataField($form, 'ItemId')
+                };
+            }, 
+            beforeSave: (request: any) => {
+                request.ItemId = FwFormField.getValueByDataField($form, 'ItemId');
+            }
         });
-        $itemAttributeValueGridControl.data('beforesave', request => {
-            request.ItemId = FwFormField.getValueByDataField($form, 'ItemId');
-        })
-        FwBrowse.init($itemAttributeValueGridControl);
-        FwBrowse.renderRuntimeHtml($itemAttributeValueGridControl);
+
         // ----------
-        const $itemQcGrid: JQuery = $form.find(`div[data-grid="${this.nameItemQcGrid}"]`);
-        const $itemQcGridControl: JQuery = FwBrowse.loadGridFromTemplate(this.nameItemQcGrid);
-        $itemQcGrid.empty().append($itemQcGridControl);
-        $itemQcGridControl.data('ondatabind', request => {
-            request.uniqueids = {
-                ItemId: FwFormField.getValueByDataField($form, 'ItemId')
-            };
-        })
-        FwBrowse.init($itemQcGridControl);
-        FwBrowse.renderRuntimeHtml($itemQcGridControl);
-        // ----------
-        const $vendorItemGrid: JQuery = $form.find(`div[data-grid="PurchaseVendorInvoiceItemGrid"]`);
-        const $vendorItemGridControl: JQuery = FwBrowse.loadGridFromTemplate('PurchaseVendorInvoiceItemGrid');
-        $vendorItemGrid.empty().append($vendorItemGridControl);
-        $vendorItemGridControl.data('ondatabind', request => {
-            request.uniqueids = {
-                PurchaseId: FwFormField.getValueByDataField($form, 'PurchaseId')
-            };
-            request.totalfields = ['Quantity', 'Extended'];
-        })
-        FwBrowse.addEventHandler($vendorItemGridControl, 'afterdatabindcallback', ($control, dt) => {
-            FwFormField.setValueByDataField($form, 'VendorInvoiceTotalQuantity', dt.Totals.Quantity);
-            FwFormField.setValueByDataField($form, 'VendorInvoiceTotalExtended', dt.Totals.Extended);
+        //const $itemQcGrid: JQuery = $form.find(`div[data-grid="${this.nameItemQcGrid}"]`);
+        //const $itemQcGridControl: JQuery = FwBrowse.loadGridFromTemplate(this.nameItemQcGrid);
+        //$itemQcGrid.empty().append($itemQcGridControl);
+        //$itemQcGridControl.data('ondatabind', request => {
+        //    request.uniqueids = {
+        //        ItemId: FwFormField.getValueByDataField($form, 'ItemId')
+        //    };
+        //})
+        //FwBrowse.init($itemQcGridControl);
+        //FwBrowse.renderRuntimeHtml($itemQcGridControl);
+
+        //Item QC Grid
+        FwBrowse.renderGrid({
+            nameGrid: 'ItemQcGrid',
+            gridSecurityId: 'u4UHiW7AOeZ5',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    ItemId: FwFormField.getValueByDataField($form, 'ItemId')
+                };
+            },
+            addGridMenu: (options:IAddGridMenuOptions) => {
+                options.hasNew = false;
+                options.hasDelete = false;
+                options.hasEdit = false;
+            }
+            //jh - user cannot sava data here
+            //beforeSave: (request: any) => {
+            //    request.ItemId = FwFormField.getValueByDataField($form, 'ItemId');
+            //}
         });
-        FwBrowse.init($vendorItemGridControl);
-        FwBrowse.renderRuntimeHtml($vendorItemGridControl);
-    };
+        // ----------
+        //const $vendorItemGrid: JQuery = $form.find(`div[data-grid="PurchaseVendorInvoiceItemGrid"]`);
+        //const $vendorItemGridControl: JQuery = FwBrowse.loadGridFromTemplate('PurchaseVendorInvoiceItemGrid');
+        //$vendorItemGrid.empty().append($vendorItemGridControl);
+        //$vendorItemGridControl.data('ondatabind', request => {
+        //    request.uniqueids = {
+        //        PurchaseId: FwFormField.getValueByDataField($form, 'PurchaseId')
+        //    };
+        //    request.totalfields = ['Quantity', 'Extended'];
+        //})
+        //FwBrowse.addEventHandler($vendorItemGridControl, 'afterdatabindcallback', ($control, dt) => {
+        //    FwFormField.setValueByDataField($form, 'VendorInvoiceTotalQuantity', dt.Totals.Quantity);
+        //    FwFormField.setValueByDataField($form, 'VendorInvoiceTotalExtended', dt.Totals.Extended);
+        //});
+        //FwBrowse.init($vendorItemGridControl);
+        //FwBrowse.renderRuntimeHtml($vendorItemGridControl);
+
+        //Purchase Vendor Invoice Item Grid
+        FwBrowse.renderGrid({
+            nameGrid: 'PurchaseVendorInvoiceItemGrid',
+            gridSecurityId: 'NlKSJj2fN0ly',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10, 
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    ItemId: FwFormField.getValueByDataField($form, 'ItemId')
+                };
+            }, 
+            //jh - user cannot sava data here
+            //beforeSave: (request: any) => {
+            //    request.ItemId = FwFormField.getValueByDataField($form, 'ItemId');
+            //}
+        });
+        // ----------
+ };
     //---------------------------------------------------------------------------------------------
     afterLoad($form: JQuery) {
         const availFor = FwFormField.getValueByDataField($form, 'AvailFor');
@@ -208,7 +270,7 @@ class RwAsset {
     //---------------------------------------------------------------------------------------------
     getBrowseTemplate(): string {
         return `
-        <div data-name="Asset" data-control="FwBrowse" data-type="Browse" id="AssetBrowse" class="fwcontrol fwbrowse" data-orderby="StatusDate" data-controller="AssetController" data-hasinactive="true">
+        <div data-name="Asset" data-control="FwBrowse" data-type="Browse" id="AssetBrowse" class="fwcontrol fwbrowse" data-orderby="StatusDate" data-controller="AssetController">
           <div class="column flexcolumn" data-width="0" data-visible="false">
             <div class="field" data-isuniqueid="true" data-datafield="ItemId" data-browsedatatype="key"></div>
           </div>

@@ -1,11 +1,9 @@
 ﻿class CustomerStatus {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'CustomerStatus';
-        this.apiurl = 'api/v1/customerstatus';
-    }
+    Module: string = 'CustomerStatus';
+    apiurl: string = 'api/v1/customerstatus';
+    caption: string = Constants.Modules.Settings.children.CustomerSettings.children.CustomerStatus.caption;
+    nav: string = Constants.Modules.Settings.children.CustomerSettings.children.CustomerStatus.nav;
+    id: string = Constants.Modules.Settings.children.CustomerSettings.children.CustomerStatus.id;
 
     getModuleScreen() {
         var screen, $browse;

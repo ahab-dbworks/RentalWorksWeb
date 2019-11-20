@@ -1,11 +1,9 @@
 class PersonnelType {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'PersonnelType';
-        this.apiurl = 'api/v1/personneltype';
-    }
+    Module: string = 'PersonnelType';
+    apiurl: string = 'api/v1/personneltype';
+    caption: string = Constants.Modules.Settings.children.EventSettings.children.PersonnelType.caption;
+    nav: string = Constants.Modules.Settings.children.EventSettings.children.PersonnelType.nav;
+    id: string = Constants.Modules.Settings.children.EventSettings.children.PersonnelType.id;
 
     getModuleScreen() {
         var screen, $browse;

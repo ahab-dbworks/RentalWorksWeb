@@ -2,9 +2,9 @@
 
 class EmptyContainer {
     Module: string = 'EmptyContainer';
-    caption: string = Constants.Modules.Home.EmptyContainer.caption;
-	nav: string = Constants.Modules.Home.EmptyContainer.nav;
-	id: string = Constants.Modules.Home.EmptyContainer.id;
+    caption: string = Constants.Modules.Container.children.EmptyContainer.caption;
+    nav: string = Constants.Modules.Container.children.EmptyContainer.nav;
+    id: string = Constants.Modules.Container.children.EmptyContainer.id;
     //----------------------------------------------------------------------------------------------
     getModuleScreen = () => {
         var screen: any = {};
@@ -32,7 +32,7 @@ class EmptyContainer {
 
         this.events($form);
         return $form;
-    };
+    }
     //----------------------------------------------------------------------------------------------
     events($form) {
         // Populate Description when selecting container
@@ -80,7 +80,7 @@ class EmptyContainer {
         });
     }
     //----------------------------------------------------------------------------------------------
-    beforeValidate($browse, $grid, request) {
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         request.uniqueids = {
             WarehouseId: warehouse.warehouseid
@@ -96,7 +96,7 @@ class EmptyContainer {
       <div class="flexpage">
         <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Container">
           <div class="flexrow" style="max-width:50%;">
-            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Container Item" data-datafield="ContainerItemId" data-displayfield="BarCode" data-validationname="ContainerItemValidation" data-formbeforevalidate="beforeValidate" style="flex:1 1 175px;"></div>
+            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Container Item" data-datafield="ContainerItemId" data-displayfield="BarCode" data-validationname="ContainerItemValidation" style="flex:1 1 175px;"></div>
             <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description" style="flex:1 1 250px;" data-enabled="false"></div>
           </div>
 

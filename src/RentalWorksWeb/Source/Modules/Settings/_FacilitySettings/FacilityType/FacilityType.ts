@@ -1,11 +1,9 @@
 class FacilityType {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'FacilityType';
-        this.apiurl = 'api/v1/facilitytype';
-    }
+    Module: string = 'FacilityType';
+    apiurl: string = 'api/v1/facilitytype';
+    caption: string = Constants.Modules.Settings.children.FacilitySettings.children.FacilityType.caption;
+    nav: string = Constants.Modules.Settings.children.FacilitySettings.children.FacilityType.nav;
+    id: string = Constants.Modules.Settings.children.FacilitySettings.children.FacilityType.id;
 
     getModuleScreen() {
         var screen, $browse;

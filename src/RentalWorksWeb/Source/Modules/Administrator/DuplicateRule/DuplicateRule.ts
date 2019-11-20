@@ -1,11 +1,11 @@
 routes.push({ pattern: /^module\/duplicaterule/, action: function (match: RegExpExecArray) { return DuplicateRuleController.getModuleScreen(); } });
 
 class DuplicateRule {
-    Module: string = 'DuplicateRule';
-    apiurl: string = 'api/v1/duplicaterule';
-    caption: string = Constants.Modules.Administrator.DuplicateRule.caption;
-    nav: string = Constants.Modules.Administrator.DuplicateRule.nav;
-    id: string = Constants.Modules.Administrator.DuplicateRule.id;
+    Module:  string = 'DuplicateRule';
+    apiurl:  string = 'api/v1/duplicaterule';
+    caption: string = Constants.Modules.Administrator.children.DuplicateRule.caption;
+    nav:     string = Constants.Modules.Administrator.children.DuplicateRule.nav;
+    id:      string = Constants.Modules.Administrator.children.DuplicateRule.id;
     //----------------------------------------------------------------------------------------------
     getModuleScreen = () => {
         const screen: any = {};
@@ -28,9 +28,7 @@ class DuplicateRule {
     }
     //----------------------------------------------------------------------------------------------
     openBrowse() {
-        let $browse;
-
-        $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
+        let $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
 
         FwBrowse.addLegend($browse, 'User Defined Rule', '#00FF00');
@@ -38,9 +36,72 @@ class DuplicateRule {
         return $browse;
     }
     //----------------------------------------------------------------------------------------------
+    loadModulesRecursive(modules: any[], category: string, nodeKey: string, currentNode: any): void {
+        if (currentNode.nodetype === 'Module') {
+            const nodeModule = FwApplicationTree.getNodeById(FwApplicationTree.tree, currentNode.id);
+            const nodeModuleActions = FwApplicationTree.getNodeByFuncRecursive(nodeModule, {}, (node: any, args: any) => {
+                return node.nodetype === 'ModuleActions'; 
+            });
+            const nodeNew = FwApplicationTree.getNodeByFuncRecursive(nodeModuleActions, {}, (node: any, args: any) => {
+                return node.nodetype === 'ModuleAction' && typeof node.properties === 'object' && 
+                    typeof node.properties.action === 'string' && node.properties.action === 'New'; 
+            });
+            const nodeEdit = FwApplicationTree.getNodeByFuncRecursive(nodeModuleActions, {}, (node: any, args: any) => {
+                return node.nodetype === 'ModuleAction' && typeof node.properties === 'object' && 
+                    typeof node.properties.action === 'string' && node.properties.action === 'Edit'; 
+            });
+            const hasNew: boolean = nodeNew !== null && nodeNew.properties.visible === 'T';
+            const hasEdit: boolean = nodeEdit !== null && nodeEdit.properties.visible === 'T';
+            if (hasNew || hasEdit) {
+                const moduleNav = nodeKey;
+                const moduleCaption = category + currentNode.caption;
+                const moduleController = nodeKey + "Controller";
+                if (typeof window[moduleController] !== 'undefined') {
+                    if (window[moduleController].hasOwnProperty('apiurl')) {
+                        const moduleUrl = (<any>window)[moduleController].apiurl;
+                        modules.push({ value: moduleNav, text: `${moduleCaption}`, apiurl: moduleUrl });
+                    }
+                }
+            }
+        } 
+        else if (currentNode.nodetype === 'Category' && nodeKey !== 'Reports') {
+            for (let childNodeKey in currentNode.children) {
+                const childNode = currentNode.children[childNodeKey];
+                this.loadModulesRecursive(modules, category + nodeKey + ' > ', childNodeKey, childNode);
+            }
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    loadGrid(modules: any[], nodeKey: string, currentNode: any): void {
+        const nodeGrid = FwApplicationTree.getNodeById(FwApplicationTree.tree, currentNode.id);
+        const nodeModuleActions = FwApplicationTree.getNodeByFuncRecursive(nodeGrid, {}, (node: any, args: any) => {
+            return node.nodetype === 'ModuleActions' || node.nodetype === 'ControlActions'; 
+        });
+        const nodeNew = FwApplicationTree.getNodeByFuncRecursive(nodeModuleActions, {}, (node: any, args: any) => {
+            return (node.nodetype === 'ModuleAction' || node.nodetype === 'ControlAction') && typeof node.properties === 'object' && 
+                typeof node.properties.action === 'string' && node.properties.action === 'New'; 
+        });
+        const nodeEdit = FwApplicationTree.getNodeByFuncRecursive(nodeModuleActions, {}, (node: any, args: any) => {
+            return (node.nodetype === 'ModuleAction' || node.nodetype === 'ControlAction') && typeof node.properties === 'object' && 
+                typeof node.properties.action === 'string' && node.properties.action === 'Edit'; 
+        });
+        const hasNew: boolean = nodeNew !== null && nodeNew.properties.visible === 'T';
+        const hasEdit: boolean = nodeEdit !== null && nodeEdit.properties.visible === 'T';
+        if (hasNew || hasEdit) {
+            const moduleNav = nodeKey.slice(0, -4);
+            const moduleCaption = 'Grid > ' + currentNode.caption;
+            const moduleController = nodeKey + "Controller";
+            if (typeof window[moduleController] !== 'undefined') {
+                if (window[moduleController].hasOwnProperty('apiurl')) {
+                    const moduleUrl = (<any>window)[moduleController].apiurl;
+                    modules.push({ value: moduleNav, text: `${moduleCaption}`, apiurl: moduleUrl });
+                }
+            }
+        } 
+    }
+    //----------------------------------------------------------------------------------------------
     openForm(mode: string) {
-        let $form;
-        $form = FwModule.loadFormFromTemplate(this.Module);
+        let $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 
         if (mode === 'NEW') {
@@ -49,60 +110,74 @@ class DuplicateRule {
             FwFormField.disable($form.find('.ifnew'));
         }
 
-        //load modules
-        const node = FwApplicationTree.getNodeById(FwApplicationTree.tree, '0A5F2584-D239-480F-8312-7C2B552A30BA');
-        const mainModules = FwApplicationTree.getChildrenByType(node, 'Module');
-        const settingsModules = FwApplicationTree.getChildrenByType(node, 'SettingsModule');
-        const modules = mainModules.concat(settingsModules);
-        let allModules = [];
+        ////load modules
+        //const node = FwApplicationTree.getNodeById(FwApplicationTree.tree, '0A5F2584-D239-480F-8312-7C2B552A30BA');
+        //const mainModules = FwApplicationTree.getChildrenByType(node, 'Module');
+        //const settingsModules = FwApplicationTree.getChildrenByType(node, 'SettingsModule');
+        //const modules = mainModules.concat(settingsModules);
+        //let allModules = [];
 
-        for (let i = 0; i < modules.length; i++) { //Traverse security tree and only add modules with 'New' or 'Edit' options 
-            let moduleChildren = modules[i].children;
-            let browseNodePosition = moduleChildren.map(function (x) { return x.properties.nodetype; }).indexOf('Browse');
-            if (browseNodePosition != -1) {
-                let browseNodeChildren = moduleChildren[browseNodePosition].children;
-                let menuBarNodePosition = browseNodeChildren.map(function (x) { return x.properties.nodetype; }).indexOf('MenuBar');
-                if (menuBarNodePosition != -1) {
-                    let menuBarChildren = browseNodeChildren[menuBarNodePosition].children;
-                    let newMenuBarButtonPosition = menuBarChildren.map(function (x) { return x.properties.nodetype; }).indexOf('NewMenuBarButton');
-                    let editMenuBarButtonPosition = menuBarChildren.map(function (x) { return x.properties.nodetype; }).indexOf('EditMenuBarButton');
-                    if (newMenuBarButtonPosition != -1 || editMenuBarButtonPosition != -1) {
-                        let moduleNav = modules[i].properties.controller.slice(0, -10)
-                            , moduleCaption = modules[i].properties.caption
-                            , moduleController = modules[i].properties.controller;
-                        if (typeof window[moduleController] !== 'undefined') {
-                            if (window[moduleController].hasOwnProperty('apiurl')) {
-                                var moduleUrl = (<any>window)[moduleController].apiurl;
-                                allModules.push({ value: moduleNav, text: `${moduleCaption}`, apiurl: moduleUrl });
-                            }
-                        }
-                    }
-                }
-            }
-        };
-        //load grids
-        const gridNode = FwApplicationTree.getNodeById(FwApplicationTree.tree, '43765919-4291-49DD-BE76-F69AA12B13E8');
-        let gridModules = FwApplicationTree.getChildrenByType(gridNode, 'Grid');
-        for (let i = 0; i < gridModules.length; i++) { //Traverse security tree and only add grids with 'New' or 'Edit' options 
-            let gridChildren = gridModules[i].children;
-            let menuBarNodePosition = gridChildren.map(function (x) { return x.properties.nodetype; }).indexOf('MenuBar');
-            if (menuBarNodePosition != -1) {
-                let menuBarChildren = gridChildren[menuBarNodePosition].children;
-                let newMenuBarButtonPosition = menuBarChildren.map(function (x) { return x.properties.nodetype; }).indexOf('NewMenuBarButton');
-                let editMenuBarButtonPosition = menuBarChildren.map(function (x) { return x.properties.nodetype; }).indexOf('EditMenuBarButton');
-                if (newMenuBarButtonPosition != -1 || editMenuBarButtonPosition != -1) {
-                    let moduleNav = gridModules[i].properties.controller.slice(0, -14)
-                        , moduleCaption = gridModules[i].properties.caption
-                        , moduleController = gridModules[i].properties.controller;
-                    if (typeof window[moduleController] !== 'undefined') {
-                        if (window[moduleController].hasOwnProperty('apiurl')) {
-                            let moduleUrl = (<any>window)[moduleController].apiurl;
-                            allModules.push({ value: moduleNav, text: `${moduleCaption}`, apiurl: moduleUrl });
-                        }
-                    }
-                }
-            }
-        };
+        //for (let i = 0; i < modules.length; i++) { //Traverse security tree and only add modules with 'New' or 'Edit' options 
+        //    let moduleChildren = modules[i].children;
+        //    let browseNodePosition = moduleChildren.map(function (x) { return x.properties.nodetype; }).indexOf('Browse');
+        //    if (browseNodePosition != -1) {
+        //        let browseNodeChildren = moduleChildren[browseNodePosition].children;
+        //        let menuBarNodePosition = browseNodeChildren.map(function (x) { return x.properties.nodetype; }).indexOf('MenuBar');
+        //        if (menuBarNodePosition != -1) {
+        //            let menuBarChildren = browseNodeChildren[menuBarNodePosition].children;
+        //            let newMenuBarButtonPosition = menuBarChildren.map(function (x) { return x.properties.nodetype; }).indexOf('NewMenuBarButton');
+        //            let editMenuBarButtonPosition = menuBarChildren.map(function (x) { return x.properties.nodetype; }).indexOf('EditMenuBarButton');
+        //            if (newMenuBarButtonPosition != -1 || editMenuBarButtonPosition != -1) {
+        //                let moduleNav = modules[i].properties.controller.slice(0, -10)
+        //                    , moduleCaption = modules[i].properties.caption
+        //                    , moduleController = modules[i].properties.controller;
+        //                if (typeof window[moduleController] !== 'undefined') {
+        //                    if (window[moduleController].hasOwnProperty('apiurl')) {
+        //                        var moduleUrl = (<any>window)[moduleController].apiurl;
+        //                        allModules.push({ value: moduleNav, text: `${moduleCaption}`, apiurl: moduleUrl });
+        //                    }
+        //                }
+        //            }
+        //        }
+        //    }
+        //}
+        ////load grids
+        //const gridNode = FwApplicationTree.getNodeById(FwApplicationTree.tree, '43765919-4291-49DD-BE76-F69AA12B13E8');
+        //let gridModules = FwApplicationTree.getChildrenByType(gridNode, 'Grid');
+        //for (let i = 0; i < gridModules.length; i++) { //Traverse security tree and only add grids with 'New' or 'Edit' options 
+        //    let gridChildren = gridModules[i].children;
+        //    let menuBarNodePosition = gridChildren.map(function (x) { return x.properties.nodetype; }).indexOf('MenuBar');
+        //    if (menuBarNodePosition != -1) {
+        //        let menuBarChildren = gridChildren[menuBarNodePosition].children;
+        //        let newMenuBarButtonPosition = menuBarChildren.map(function (x) { return x.properties.nodetype; }).indexOf('NewMenuBarButton');
+        //        let editMenuBarButtonPosition = menuBarChildren.map(function (x) { return x.properties.nodetype; }).indexOf('EditMenuBarButton');
+        //        if (newMenuBarButtonPosition != -1 || editMenuBarButtonPosition != -1) {
+        //            let moduleNav = gridModules[i].properties.controller.slice(0, -14)
+        //                , moduleCaption = gridModules[i].properties.caption
+        //                , moduleController = gridModules[i].properties.controller;
+        //            if (typeof window[moduleController] !== 'undefined') {
+        //                if (window[moduleController].hasOwnProperty('apiurl')) {
+        //                    let moduleUrl = (<any>window)[moduleController].apiurl;
+        //                    allModules.push({ value: moduleNav, text: `${moduleCaption}`, apiurl: moduleUrl });
+        //                }
+        //            }
+        //        }
+        //    }
+        //}
+
+        var allModules = [];
+
+        // Load Modules
+        for (const key in Constants.Modules) {
+            const node = Constants.Modules[key];
+            this.loadModulesRecursive(allModules, 'Module > ', key, node);
+        }
+
+        // Load Grids
+        for (const key in Constants.Grids) {
+            const node = Constants.Grids[key];
+            this.loadGrid(allModules, key, node);
+        }
 
         //Sort modules
         function compare(a, b) {
@@ -113,21 +188,19 @@ class DuplicateRule {
             return 0;
         }
         allModules.sort(compare);
-        allModules = allModules.filter((el, index) => { return index === 0 || el.text !== allModules[index - 1].text })
+        
         const $moduleSelect = $form.find('.modules');
         FwFormField.loadItems($moduleSelect, allModules);
 
         this.getFields($form);
 
-        $form.find('[data-datafield="SystemRule"]').attr('data-required', false);
+        $form.find('[data-datafield="SystemRule"]').attr('data-required', 'false');
 
         return $form;
     }
     //----------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
-        var $form;
-
-        $form = this.openForm('EDIT');
+        let $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="DuplicateRuleId"] input').val(uniqueids.DuplicateRuleId);
         FwModule.loadForm(this.Module, $form);
 

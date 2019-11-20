@@ -1,11 +1,9 @@
-class RwFacilityRate {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'FacilityRate';
-        this.apiurl = 'api/v1/facilityrate';
-    }
+class FacilityRate {
+    Module: string = 'FacilityRate';
+    apiurl: string = 'api/v1/facilityrate';
+    caption: string = Constants.Modules.Settings.children.FacilitySettings.children.FacilityRate.caption;
+    nav: string = Constants.Modules.Settings.children.FacilitySettings.children.FacilityRate.nav;
+    id: string = Constants.Modules.Settings.children.FacilitySettings.children.FacilityRate.id;
 
     getModuleScreen() {
         var screen, $browse;
@@ -89,27 +87,63 @@ class RwFacilityRate {
     }
 
     renderGrids($form: any) {
-       const $rateLocationTaxGrid = $form.find('div[data-grid="RateLocationTaxGrid"]');
-       const $rateLocationTaxGridControl = FwBrowse.loadGridFromTemplate('RateLocationTaxGrid');
-        $rateLocationTaxGrid.empty().append($rateLocationTaxGridControl);
-        $rateLocationTaxGridControl.data('ondatabind', request => {
-            request.uniqueids = {
-                RateId: FwFormField.getValueByDataField($form, 'RateId')
-            };
-        })
-        FwBrowse.init($rateLocationTaxGridControl);
-        FwBrowse.renderRuntimeHtml($rateLocationTaxGridControl);
+       //const $rateLocationTaxGrid = $form.find('div[data-grid="RateLocationTaxGrid"]');
+       //const $rateLocationTaxGridControl = FwBrowse.loadGridFromTemplate('RateLocationTaxGrid');
+       // $rateLocationTaxGrid.empty().append($rateLocationTaxGridControl);
+       // $rateLocationTaxGridControl.data('ondatabind', request => {
+       //     request.uniqueids = {
+       //         RateId: FwFormField.getValueByDataField($form, 'RateId')
+       //     };
+       // })
+       // FwBrowse.init($rateLocationTaxGridControl);
+       // FwBrowse.renderRuntimeHtml($rateLocationTaxGridControl);
 
-        const $rateWarehouseGrid = $form.find('div[data-grid="RateWarehouseGrid"]');
-        const $rateWarehouseGridControl = FwBrowse.loadGridFromTemplate('RateWarehouseGrid');
-        $rateWarehouseGrid.empty().append($rateWarehouseGridControl);
-        $rateWarehouseGridControl.data('ondatabind', request => {
-            request.uniqueids = {
-                RateId: FwFormField.getValueByDataField($form, 'RateId')
-            };
-        })
-        FwBrowse.init($rateWarehouseGridControl);
-        FwBrowse.renderRuntimeHtml($rateWarehouseGridControl);
+        FwBrowse.renderGrid({
+            nameGrid: 'RateLocationTaxGrid',
+            gridSecurityId: 'Bm6TN9A4IRIuT',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                options.hasNew = false;
+                options.hasDelete = false;
+            },
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    RateId: FwFormField.getValueByDataField($form, 'RateId'),
+                };
+            },
+            //beforeSave: (request: any) => {
+            //    request.RateId = FwFormField.getValueByDataField($form, 'RateId');
+            //},
+        });
+
+        //const $rateWarehouseGrid = $form.find('div[data-grid="RateWarehouseGrid"]');
+        //const $rateWarehouseGridControl = FwBrowse.loadGridFromTemplate('RateWarehouseGrid');
+        //$rateWarehouseGrid.empty().append($rateWarehouseGridControl);
+        //$rateWarehouseGridControl.data('ondatabind', request => {
+        //    request.uniqueids = {
+        //        RateId: FwFormField.getValueByDataField($form, 'RateId')
+        //    };
+        //})
+        //FwBrowse.init($rateWarehouseGridControl);
+        //FwBrowse.renderRuntimeHtml($rateWarehouseGridControl);
+
+        FwBrowse.renderGrid({
+            nameGrid: 'RateWarehouseGrid',
+            gridSecurityId: 'oVjmeqXtHEJCm',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    RateId: FwFormField.getValueByDataField($form, 'RateId'),
+                };
+            },
+            //beforeSave: (request: any) => {
+            //    request.RateId = FwFormField.getValueByDataField($form, 'RateId');
+            //},
+        });
     }
 
     afterLoad($form: any) {
@@ -127,8 +161,8 @@ class RwFacilityRate {
         }
     }
 
-    beforeValidate = function ($browse, $grid, request) {
-        var FacilityTypeValue = jQuery($grid.find('[data-validationname="FacilityTypeValidation"] input')).val();
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
+        var FacilityTypeValue = jQuery($form.find('[data-validationname="FacilityTypeValidation"] input')).val();
 
         request.uniqueids = {
             FacilityTypeId: FacilityTypeValue
@@ -136,4 +170,4 @@ class RwFacilityRate {
     }
 }
 
-var FacilityRateController = new RwFacilityRate();
+var FacilityRateController = new FacilityRate();

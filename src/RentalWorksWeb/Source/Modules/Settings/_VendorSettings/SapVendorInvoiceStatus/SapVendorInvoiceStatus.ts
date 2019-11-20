@@ -1,12 +1,15 @@
 class RwSapVendorInvoiceStatus {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'SapVendorInvoiceStatus';
-        this.apiurl = 'api/v1/sapvendorinvoicestatus';
+    Module: string = 'SapVendorInvoiceStatus';
+    apiurl: string = 'api/v1/sapvendorinvoicestatus';
+    caption: string = Constants.Modules.Settings.children.VendorSettings.children.SapVendorInvoiceStatus.caption;
+    nav: string = Constants.Modules.Settings.children.VendorSettings.children.SapVendorInvoiceStatus.nav;
+    id: string = Constants.Modules.Settings.children.VendorSettings.children.SapVendorInvoiceStatus.id;
+    //----------------------------------------------------------------------------------------------
+    addBrowseMenuItems(options: IAddBrowseMenuOptions): void {
+        options.hasNew = false;
+        FwMenu.addBrowseMenuButtons(options);
     }
-
+    //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen, $browse;
 

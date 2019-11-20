@@ -1,12 +1,10 @@
 class RetiredReason {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'RetiredReason';
-        this.apiurl = 'api/v1/retiredreason';
-    }
-
+    Module: string = 'RetiredReason';
+    apiurl: string = 'api/v1/retiredreason';
+    caption: string = Constants.Modules.Settings.children.InventorySettings.children.RetiredReason.caption;
+    nav:     string = Constants.Modules.Settings.children.InventorySettings.children.RetiredReason.nav;
+    id:      string = Constants.Modules.Settings.children.InventorySettings.children.RetiredReason.id;
+    //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen, $browse;
 
@@ -18,7 +16,7 @@ class RetiredReason {
         $browse = this.openBrowse();
 
         screen.load = function () {
-            FwModule.openModuleTab($browse, 'Retired Reason', false, 'BROWSE', true);
+            FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };
@@ -28,7 +26,7 @@ class RetiredReason {
 
         return screen;
     }
-
+    //----------------------------------------------------------------------------------------------
     openBrowse() {
         var $browse;
 
@@ -37,7 +35,7 @@ class RetiredReason {
 
         return $browse;
     }
-
+    //----------------------------------------------------------------------------------------------
     openForm(mode: string) {
         var $form;
 
@@ -46,7 +44,7 @@ class RetiredReason {
 
         return $form;
     }
-
+    //----------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
         var $form;
 
@@ -56,13 +54,14 @@ class RetiredReason {
 
         return $form;
     }
-
+    //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
     }
-
+    //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
     }
+    //----------------------------------------------------------------------------------------------
 }
 
 var RetiredReasonController = new RetiredReason();

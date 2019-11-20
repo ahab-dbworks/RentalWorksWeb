@@ -1,11 +1,9 @@
 ﻿class PaymentType {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'PaymentType';
-        this.apiurl = 'api/v1/paymenttype';
-    }
+    Module: string = 'PaymentType';
+    apiurl: string = 'api/v1/paymenttype';
+    caption: string = Constants.Modules.Settings.children.PaymentSettings.children.PaymentType.caption;
+    nav: string = Constants.Modules.Settings.children.PaymentSettings.children.PaymentType.nav;
+    id: string = Constants.Modules.Settings.children.PaymentSettings.children.PaymentType.id;
 
     getModuleScreen() {
         var screen, $browse;

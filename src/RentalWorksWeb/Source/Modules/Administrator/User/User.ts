@@ -1,11 +1,26 @@
 class User {
-    Module: string = 'User';
-    apiurl: string = 'api/v1/user';
-    caption: string = Constants.Modules.Administrator.User.caption;
-    nav: string = Constants.Modules.Administrator.User.nav;
-    id: string = Constants.Modules.Administrator.User.id;
-    ActiveViewFields: any = {};
+    Module:             string = 'User';
+    apiurl:             string = 'api/v1/user';
+    caption:            string = Constants.Modules.Administrator.children.User.caption;
+    nav:                string = Constants.Modules.Administrator.children.User.nav;
+    id:                 string = Constants.Modules.Administrator.children.User.id;
+    ActiveViewFields:   any    = {};
     ActiveViewFieldsId: string;
+    //----------------------------------------------------------------------------------------------
+    addBrowseMenuItems(options: IAddBrowseMenuOptions): void {
+        FwMenu.addBrowseMenuButtons(options);
+
+        const location = JSON.parse(sessionStorage.getItem('location'));
+        const $userLocation = FwMenu.generateDropDownViewBtn(location.location, true, location.locationid);
+        const $allLocations = FwMenu.generateDropDownViewBtn('ALL Offices', false, "ALL");
+
+        if (typeof this.ActiveViewFields["LocationId"] == 'undefined') {
+            this.ActiveViewFields.LocationId = [location.locationid];
+        }
+        const viewLocation = [];
+        viewLocation.push($userLocation, $allLocations);
+        FwMenu.addViewBtn(options.$menu, 'Location', viewLocation, true, "LocationId");
+    }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         const screen: any = {};
@@ -38,20 +53,6 @@ class User {
 
         return $browse;
     }
-    //----------------------------------------------------------------------------------------------
-    addBrowseMenuItems($menuObject) {
-        const location = JSON.parse(sessionStorage.getItem('location'));
-        const $userLocation = FwMenu.generateDropDownViewBtn(location.location, true, location.locationid);
-        const $allLocations = FwMenu.generateDropDownViewBtn('ALL Offices', false, "ALL");
-
-        if (typeof this.ActiveViewFields["LocationId"] == 'undefined') {
-            this.ActiveViewFields.LocationId = [location.locationid];
-        }
-        const viewLocation = [];
-        viewLocation.push($userLocation, $allLocations);
-        FwMenu.addViewBtn($menuObject, 'Location', viewLocation, true, "LocationId");
-        return $menuObject;
-    };
     //----------------------------------------------------------------------------------------------
     openForm(mode: string) {
         //let $form = FwModule.loadFormFromTemplate(this.Module);
@@ -294,9 +295,9 @@ class User {
         if (locationId) {
             request.uniqueids.LocationId = locationId;
         }
-    };
-//----------------------------------------------------------------------------------------------
-    beforeValidate = function ($browse, $grid, request, datafield) {
+    }
+    //----------------------------------------------------------------------------------------------
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
         switch (datafield) {
             case 'RentalInventoryTypeId':
                 request.uniqueids = {
@@ -318,7 +319,7 @@ class User {
                     Transportation: true
                 };
                 break;
-        };
+        }
     }
     //----------------------------------------------------------------------------------------------
     getBrowseTemplate(): string {
@@ -366,9 +367,6 @@ class User {
             <div class="tabpages">
               <div data-type="tabpage" id="usertabpage" class="tabpage" data-tabid="usertab">
                 <div class="flexpage">
-                  <!--09/26/2019 Justin Hoffman
-                      I have added hidden PrimaryDepartment and Name fields below to be able to harvest these values via Puppeteer
-                   -->
                   <div class="flexrow" style="display:none;">
                     <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="PrimaryDepartment" data-datafield="PrimaryDepartment"></div>
                     <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Name" data-datafield="Name"></div>
@@ -519,10 +517,10 @@ class User {
                     </div>
                     <div class="flexcolumn" style="flex:1 1 185px;">
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Default Inventory Types">
-                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Rental" data-datafield="RentalInventoryTypeId" data-displayfield="RentalInventoryType" data-formbeforevalidate="beforeValidate" data-validationname="InventoryTypeValidation" style="flex:1 1 125px;"></div>
-                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Sales" data-datafield="SalesInventoryTypeId" data-displayfield="SalesInventoryType" data-formbeforevalidate="beforeValidate" data-validationname="InventoryTypeValidation" style="flex:1 1 125px;"></div>
-                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Parts" data-datafield="PartsInventoryTypeId" data-displayfield="PartsInventoryType" data-formbeforevalidate="beforeValidate" data-validationname="InventoryTypeValidation" style="flex:1 1 125px;"></div>
-                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Transportation" data-datafield="TransportationTypeId" data-displayfield="TransportationType" data-formbeforevalidate="beforeValidate" data-validationname="InventoryTypeValidation" style="flex:1 1 125px;"></div>
+                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Rental" data-datafield="RentalInventoryTypeId" data-displayfield="RentalInventoryType" data-validationname="InventoryTypeValidation" style="flex:1 1 125px;"></div>
+                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Sales" data-datafield="SalesInventoryTypeId" data-displayfield="SalesInventoryType" data-validationname="InventoryTypeValidation" style="flex:1 1 125px;"></div>
+                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Parts" data-datafield="PartsInventoryTypeId" data-displayfield="PartsInventoryType" data-validationname="InventoryTypeValidation" style="flex:1 1 125px;"></div>
+                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Transportation" data-datafield="TransportationTypeId" data-displayfield="TransportationType" data-validationname="InventoryTypeValidation" style="flex:1 1 125px;"></div>
                       </div>
                     </div>
                     <div class="flexcolumn" style="flex:1 1 240px;">

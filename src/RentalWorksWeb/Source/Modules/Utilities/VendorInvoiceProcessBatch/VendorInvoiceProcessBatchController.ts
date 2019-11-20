@@ -1,8 +1,14 @@
 ﻿class VendorInvoiceProcessBatch {
-    Module: string = 'VendorInvoiceProcessBatch';
-    caption: string = Constants.Modules.Utilities.VendorInvoiceProcessBatch.caption;
-    nav: string = Constants.Modules.Utilities.VendorInvoiceProcessBatch.nav;
-    id: string = Constants.Modules.Utilities.VendorInvoiceProcessBatch.id;
+    Module:  string = 'VendorInvoiceProcessBatch';
+    apiurl:  string = 'api/v1/vendorinvoiceprocessbatch';
+    caption: string = Constants.Modules.Utilities.children.VendorInvoiceProcessBatch.caption;
+    nav:     string = Constants.Modules.Utilities.children.VendorInvoiceProcessBatch.nav;
+    id:      string = Constants.Modules.Utilities.children.VendorInvoiceProcessBatch.id;
+    //----------------------------------------------------------------------------------------------
+    addFormMenuItems(options: IAddFormMenuOptions): void {
+        options.hasSave = false;
+        FwMenu.addFormMenuButtons(options);
+    }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen: any = {};
@@ -32,7 +38,7 @@
 
         this.events($form);
         return $form;
-    };
+    }
     //----------------------------------------------------------------------------------------------
     events($form) {
         $form
@@ -40,10 +46,10 @@
                 let location = JSON.parse(sessionStorage.getItem('location'));
                 var userId = sessionStorage.getItem('usersid');
                 const request: any = {
-                    AsOfDate: FwFormField.getValueByDataField($form, 'AsOfDate')
-                    , LocationId: location.locationid
+                    AsOfDate: FwFormField.getValueByDataField($form, 'AsOfDate'),
+                    LocationId: location.locationid
                 };
-                FwAppData.apiMethod(true, 'POST', `api/v1/vendorinvoiceprocessbatch/createbatch`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                FwAppData.apiMethod(true, 'POST', `${this.apiurl}/createbatch`, request, FwServices.defaultTimeout, function onSuccess(response) {
                     alert(response.BatchId);
                     //submit batchid to export endpoint & show progress meter
                     //when that is successful, updated text and show print button
@@ -69,13 +75,13 @@
                     jQuery('.tab.submodule.active').find('.caption').html(`Print Vendor Invoice Batch`);
                     const batchTab = jQuery('.tab.submodule.active');
                     batchTab.find('.caption').html(`Print Deal Invoice Batch`);
-                }
-                catch (ex) {
+                } catch (ex) {
                     FwFunc.showError(ex);
                 }
             })
             .on('click', '.export-historical-batches', e => {
-                exportBatch();            })
+                exportBatch();
+            })
             .on('change', '[data-datafield="ExportHistoricalBatch"] input, [data-datafield="Process"] input', e => {
                 let $this = jQuery(e.currentTarget);
                 let checkboxName = $this.parents('.fwformfield').attr('data-datafield');
@@ -108,6 +114,7 @@
                 FwFormField.enable($form.find(`${controlsToEnable}`));
                 FwFormField.disable($form.find(`${controlsToDisable}`));
             })
+        ;
         function exportBatch() {
             const batchId = FwFormField.getValueByDataField($form, 'BatchId');
             if (batchId !== '') {
@@ -132,7 +139,7 @@
         }
     };
     //----------------------------------------------------------------------------------------------
-    beforeValidate = function ($browse, $grid, request) {
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
         const location = JSON.parse(sessionStorage.getItem('location'));
 
         request.uniqueids = {

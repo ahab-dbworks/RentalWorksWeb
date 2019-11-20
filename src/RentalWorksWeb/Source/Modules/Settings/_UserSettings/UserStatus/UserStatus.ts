@@ -1,11 +1,10 @@
 class UserStatus {
-    Module: string;
-    apiurl: string;
+    Module: string = 'UserStatus';
+    apiurl: string = 'api/v1/userstatus';
+    caption: string = Constants.Modules.Settings.children.UserSettings.children.UserStatus.caption;
+    nav: string = Constants.Modules.Settings.children.UserSettings.children.UserStatus.nav;
+    id: string = Constants.Modules.Settings.children.UserSettings.children.UserStatus.id;
 
-    constructor() {
-        this.Module = 'UserStatus';
-        this.apiurl = 'api/v1/userstatus';
-    }
 
     getModuleScreen() {
         var screen, $browse;

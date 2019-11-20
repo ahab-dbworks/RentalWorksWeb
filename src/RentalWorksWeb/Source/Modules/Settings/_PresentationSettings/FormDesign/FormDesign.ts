@@ -1,12 +1,17 @@
 class FormDesign {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'FormDesign';
-        this.apiurl = 'api/v1/formdesign';
+    Module: string = 'FormDesign';
+    apiurl: string = 'api/v1/formdesign';
+    caption: string = Constants.Modules.Settings.children.PresentationSettings.children.FormDesign.caption;
+    nav: string = Constants.Modules.Settings.children.PresentationSettings.children.FormDesign.nav;
+    id: string = Constants.Modules.Settings.children.PresentationSettings.children.FormDesign.id;
+    //----------------------------------------------------------------------------------------------
+    addBrowseMenuItems(options: IAddBrowseMenuOptions): void {
+        options.hasNew = false;
+        options.hasEdit = false;
+        options.hasDelete = false;
+        FwMenu.addBrowseMenuButtons(options);
     }
-
+    //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen, $browse;
 
@@ -17,8 +22,8 @@ class FormDesign {
 
         $browse = this.openBrowse();
 
-        screen.load = function () {
-            FwModule.openModuleTab($browse, 'Form Design', false, 'BROWSE', true);
+        screen.load = () => {
+            FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };

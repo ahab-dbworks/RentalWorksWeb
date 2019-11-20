@@ -1,11 +1,9 @@
 class EventType {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'EventType';
-        this.apiurl = 'api/v1/eventtype';
-    }
+    Module: string = 'EventType';
+    apiurl: string = 'api/v1/eventtype';
+    caption: string = Constants.Modules.Settings.children.EventSettings.children.EventType.caption;
+    nav: string = Constants.Modules.Settings.children.EventSettings.children.EventType.nav;
+    id: string = Constants.Modules.Settings.children.EventSettings.children.EventType.id;
 
     getModuleScreen() {
         var screen, $browse;
@@ -30,33 +28,38 @@ class EventType {
     }
 
     renderGrids($form: any) {
-        const $orderTypePersonnelTypeGrid = $form.find('div[data-grid="EventTypePersonnelTypeGrid"]');
-        const $orderTypePersonnelTypeGridControl = FwBrowse.loadGridFromTemplate('EventTypePersonnelTypeGrid');
-        $orderTypePersonnelTypeGrid.empty().append($orderTypePersonnelTypeGridControl);
-        $orderTypePersonnelTypeGridControl.data('ondatabind', request => {
-            request.uniqueids = {
-                EventTypeId: FwFormField.getValueByDataField($form, 'EventTypeId')
-            };
+        FwBrowse.renderGrid({
+            nameGrid: 'EventTypePersonnelTypeGrid',
+            gridSecurityId: 'CbjLxfIjRyg',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    EventTypeId: FwFormField.getValueByDataField($form, 'EventTypeId')
+                };
+            },
+            beforeSave: (request: any) => {
+                request.EventTypeId = FwFormField.getValueByDataField($form, 'EventTypeId')
+            }
         });
-        $orderTypePersonnelTypeGridControl.data('beforesave', request => {
-            request.EventTypeId = FwFormField.getValueByDataField($form, 'EventTypeId')
-        });
-        FwBrowse.init($orderTypePersonnelTypeGridControl);
-        FwBrowse.renderRuntimeHtml($orderTypePersonnelTypeGridControl);
         // --------------
-        const $orderTypeActivityDatesGrid = $form.find('div[data-grid="OrderTypeActivityDatesGrid"]');
-        const $orderTypeActivityDatesGridControl = FwBrowse.loadGridFromTemplate('OrderTypeActivityDatesGrid');
-        $orderTypeActivityDatesGrid.empty().append($orderTypeActivityDatesGridControl);
-        $orderTypeActivityDatesGridControl.data('ondatabind', request => {
-            request.uniqueids = {
-                OrderTypeId: FwFormField.getValueByDataField($form, 'EventTypeId')
-            };
-        })
-        $orderTypeActivityDatesGridControl.data('beforesave', request => {
-            request.OrderTypeId = FwFormField.getValueByDataField($form, 'EventTypeId');
+        FwBrowse.renderGrid({
+            nameGrid: 'OrderTypeActivityDatesGrid',
+            gridSecurityId: 'oMijD9WAL6Bl',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    OrderTypeId: FwFormField.getValueByDataField($form, 'EventTypeId')
+                };
+            },
+            beforeSave: (request: any) => {
+                request.OrderTypeId = FwFormField.getValueByDataField($form, 'EventTypeId');
+            }
         });
-        FwBrowse.init($orderTypeActivityDatesGridControl);
-        FwBrowse.renderRuntimeHtml($orderTypeActivityDatesGridControl);
+        // --------------
     }
 
     openBrowse() {

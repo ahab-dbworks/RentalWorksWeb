@@ -1,9 +1,16 @@
 ﻿routes.push({ pattern: /^module\/refreshglhistory/, action: function (match: RegExpExecArray) { return RefreshGLHistoryController.getModuleScreen(); } });
+
 class RefreshGLHistory {
-    Module: string = 'RefreshGLHistory';
-    caption: string = Constants.Modules.Utilities.RefreshGLHistory.caption;
-    nav: string = Constants.Modules.Utilities.RefreshGLHistory.nav;
-    id: string = Constants.Modules.Utilities.RefreshGLHistory.id;
+    Module:  string = 'RefreshGLHistory';
+    apiurl:  string = 'api/v1/gldistribution';
+    caption: string = Constants.Modules.Utilities.children.RefreshGLHistory.caption;
+    nav:     string = Constants.Modules.Utilities.children.RefreshGLHistory.nav;
+    id:      string = Constants.Modules.Utilities.children.RefreshGLHistory.id;
+    //----------------------------------------------------------------------------------------------
+    addFormMenuItems(options: IAddFormMenuOptions): void {
+        options.hasSave = false;
+        FwMenu.addFormMenuButtons(options);
+    }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         const screen: any = {};
@@ -43,7 +50,7 @@ class RefreshGLHistory {
                 request.FromDate = FwFormField.getValueByDataField($form, 'FromDate');
                 request.ToDate = FwFormField.getValueByDataField($form, 'ToDate');
 
-                FwAppData.apiMethod(true, 'POST', `api/v1/gldistribution/refresh`, request, FwServices.defaultTimeout,
+                FwAppData.apiMethod(true, 'POST', `${this.apiurl}/refresh`, request, FwServices.defaultTimeout,
                     response => { },
                     ex => FwFunc.showError(ex), $form);
             });

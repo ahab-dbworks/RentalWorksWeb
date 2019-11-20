@@ -1,11 +1,9 @@
 class WardrobeCondition {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'WardrobeCondition';
-        this.apiurl = 'api/v1/wardrobecondition';
-    }
+    Module: string = 'WardrobeCondition';
+    apiurl: string = 'api/v1/wardrobecondition';
+    caption: string = Constants.Modules.Settings.children.WardrobeSettings.children.WardrobeCondition.caption;
+    nav: string = Constants.Modules.Settings.children.WardrobeSettings.children.WardrobeCondition.nav;
+    id: string = Constants.Modules.Settings.children.WardrobeSettings.children.WardrobeCondition.id;
 
     getModuleScreen() {
         var screen, $browse;

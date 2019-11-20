@@ -1,6 +1,9 @@
 ﻿class BillingCycle {
     Module: string = 'BillingCycle';
     apiurl: string = 'api/v1/billingcycle';
+    caption: string = Constants.Modules.Settings.children.BillingCycleSettings.children.BillingCycle.caption;
+    nav: string = Constants.Modules.Settings.children.BillingCycleSettings.children.BillingCycle.nav;
+    id: string = Constants.Modules.Settings.children.BillingCycleSettings.children.BillingCycle.id;
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen, $browse;

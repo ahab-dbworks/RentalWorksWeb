@@ -16,8 +16,8 @@ class CreatePickList {
 
         var $form = this.openForm('EDIT', null);
 
-        screen.load = function () {
-            FwModule.openModuleTab($form, 'Create Pick List', false, 'FORM', true);
+        screen.load = () => {
+            FwModule.openModuleTab($form, this.caption, false, 'FORM', true);
         };
         screen.unload = function () {
         };

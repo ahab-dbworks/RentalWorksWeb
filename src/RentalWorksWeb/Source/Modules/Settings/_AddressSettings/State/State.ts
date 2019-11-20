@@ -1,11 +1,9 @@
 ﻿class State {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'State';
-        this.apiurl = 'api/v1/State';
-    }
+    Module: string = 'State';
+    apiurl: string = 'api/v1/State';
+    caption: string = Constants.Modules.Settings.children.AddressSettings.children.State.caption;
+    nav: string = Constants.Modules.Settings.children.AddressSettings.children.State.nav;
+    id: string = Constants.Modules.Settings.children.AddressSettings.children.State.id;
 
     getModuleScreen() {
         var screen, $browse;

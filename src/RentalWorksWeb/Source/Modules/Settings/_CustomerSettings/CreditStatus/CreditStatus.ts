@@ -1,6 +1,9 @@
 ﻿class CreditStatus {
     Module: string = 'CreditStatus';
     apiurl: string = 'api/v1/creditstatus';
+    caption: string = Constants.Modules.Settings.children.CustomerSettings.children.CreditStatus.caption;
+    nav: string = Constants.Modules.Settings.children.CustomerSettings.children.CreditStatus.nav;
+    id: string = Constants.Modules.Settings.children.CustomerSettings.children.CreditStatus.id;
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen, $browse;

@@ -445,10 +445,10 @@ Form tables
 #itemsearch #itemlist[data-view="LIST"] div[data-column="Rate"] {flex:0 0 80px;margin-right:10px;text-align:right;}
 #itemsearch #itemlist[data-view="LIST"] .gridcaption {display:none;}
 #itemsearch #itemlist[data-view="LIST"] .item-accessories .accColumns {display:none;}
-#itemsearch #itemlist[data-view="LIST"] .item-accessories .item-accessory-info > div[data-column="Description"] {margin:0em -2em 0em 3em;}
-#itemsearch #itemlist[data-view="LIST"] .item-accessories .item-accessory-info > div[data-column="Description"] .descriptionrow {margin-right:1em;}
-#itemsearch #itemlist[data-view="LIST"] .item-accessories .nested-accessories div[data-column="Description"] {margin:0em -5em 0em 6em;}
-#itemsearch #itemlist[data-view="LIST"] .item-accessories .nested-accessories div[data-column="Description"] .descriptionrow {margin-right:5em;}
+#itemsearch #itemlist[data-view="LIST"] .item-accessories .item-accessory-info > div[data-column="Description"] { margin: 0em -2em 0em 3em; }
+#itemsearch #itemlist[data-view="LIST"] .item-accessories .item-accessory-info > div[data-column="Description"] .descriptionrow { margin-right: 1em; }
+#itemsearch #itemlist[data-view="LIST"] .item-accessories .nested-accessories div[data-column="Description"] { margin: 0em -5em 0em 6em; }
+#itemsearch #itemlist[data-view="LIST"] .item-accessories .nested-accessories div[data-column="Description"] .descriptionrow { margin-right: 5em; }
 
 #itemsearch #itemlist[data-view="HYBRID"] .columnDescriptions {display:flex;align-items:center;padding:5px 20px 5px 5px;background-color:#e0e0e0;color:#464646;border-bottom:1px solid #BDBDBD;font-weight:bold;}
 #itemsearch #itemlist[data-view="HYBRID"] .item-info {display:flex;align-items:center;padding:5px;position:relative;border-bottom: 1px solid #BDBDBD;}
@@ -477,14 +477,15 @@ Form tables
 #itemsearch #itemlist[data-view="HYBRID"] div[data-column="Rate"] {flex:0 0 80px;margin-right:10px;text-align:right;}
 #itemsearch #itemlist[data-view="HYBRID"] .gridcaption {display:none;}
 #itemsearch #itemlist[data-view="HYBRID"] .item-accessories .accColumns {display:none;}
-#itemsearch #itemlist[data-view="HYBRID"] .item-accessories .item-accessory-info div[data-column="Description"] {margin-left:5em;margin-right:0em;}
-#itemsearch #itemlist[data-view="HYBRID"] .item-accessories .item-accessory-info div[data-column="ItemImage"] {float:left;}
-#itemsearch #itemlist[data-view="HYBRID"] .item-accessories .nested-accessories div[data-column="Description"] {margin-left:10em;margin-right:-5em;}
-#itemsearch #itemlist[data-view="HYBRID"] .item-accessories .nested-accessories div[data-column="Description"] .descriptionrow {margin-right:6em;}
+#itemsearch #itemlist[data-view="HYBRID"] .item-accessories .item-accessory-info div[data-column="Description"] { margin-left: 5em; margin-right: 0em; }
+#itemsearch #itemlist[data-view="HYBRID"] .item-accessories .item-accessory-info div[data-column="ItemImage"] { float: left; }
+#itemsearch #itemlist[data-view="HYBRID"] .item-accessories .nested-accessories div[data-column="Description"] { margin-left: 10em; margin-right: -5em; }
+/*#itemsearch #itemlist[data-view="HYBRID"] .item-accessories .nested-accessories div[data-column="ItemImage"] {float:left;}*/
+
 
 #inventory .item-container .item-info .opentab {margin-left:auto;cursor:pointer;}
-#inventory .item-container .toggleaccessories {font-weight: bold;color: #1E88E5;display:inline-block;cursor:pointer;}
-#inventory .item-container .toggleaccessories:hover {text-decoration:underline;}
+#inventory .item-container .toggleaccessories { font-weight: bold; color: #1E88E5; display: inline-block; cursor: pointer; }
+#inventory .item-container .toggleaccessories:hover { text-decoration: underline; }
 
 .item-info .incrementQuantity, .item-info .decrementQuantity {padding: 5px 0px;float: left;width: 25%;border: none;cursor:pointer;}
 
@@ -498,8 +499,7 @@ Form tables
 .item-container div[data-column="Available"][data-state="positiveconflict"] .available-color {background-color:#006600;color:#ffffff;}
 
 .item-container .item-accessories {}
-.item-container .item-accessories .item-accessory-info {display:flex;align-items:center;padding:5px;position:relative;border-bottom: 1px solid #BDBDBD;background-color:#EEEEEE;}
-.item-container .item-accessories .item-accessory-info .toggleaccessories {text-indent:1em;}
+.item-container .item-accessories .item-accessory-info .toggleaccessories { text-indent: 1em; }
 
 #previewHtml {height:100%;}
 #previewHtml div[data-browsedatafield="QuantityAvailable"] .fieldvalue {padding:4px 8px;border-radius:4px;display:inline-block;min-width: 36px;border: 1px solid rgba(0, 40, 100, 0.12);}

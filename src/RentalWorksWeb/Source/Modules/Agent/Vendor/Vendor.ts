@@ -3,9 +3,9 @@
 class Vendor {
     Module: string = 'Vendor';
     apiurl: string = 'api/v1/vendor';
-    caption: string = Constants.Modules.Home.Vendor.caption;
-	nav: string = Constants.Modules.Home.Vendor.nav;
-	id: string = Constants.Modules.Home.Vendor.id;
+    caption: string = Constants.Modules.Agent.children.Vendor.caption;
+    nav: string = Constants.Modules.Agent.children.Vendor.nav;
+    id: string = Constants.Modules.Agent.children.Vendor.id;
     //---------------------------------------------------------------------------------
     getModuleScreen() {
         const screen: any = {};
@@ -28,7 +28,6 @@ class Vendor {
     }
     //---------------------------------------------------------------------------------
     openBrowse() {
-        //let $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         let $browse = jQuery(this.getBrowseTemplate());
         $browse = FwModule.openBrowse($browse);
 
@@ -36,7 +35,6 @@ class Vendor {
     }
     //---------------------------------------------------------------------------------
     openForm(mode: string) {
-        //let $form = FwModule.loadFormFromTemplate(this.Module);
         let $form = jQuery(this.getFormTemplate());
         $form = FwModule.openForm($form, mode);
 
@@ -99,7 +97,7 @@ class Vendor {
         FwBrowse.search($browse);
         return $browse;
     }
-   //---------------------------------------------------------------------------------------------
+    //---------------------------------------------------------------------------------------------
     openVendorInvoiceBrowse($form) {
         const vendorId = FwFormField.getValueByDataField($form, 'VendorId');
         const $browse = VendorInvoiceController.openBrowse();
@@ -112,7 +110,7 @@ class Vendor {
         FwBrowse.search($browse);
         return $browse;
     }
-   //---------------------------------------------------------------------------------------------
+    //---------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
     }
@@ -213,49 +211,105 @@ class Vendor {
     //---------------------------------------------------------------------------------
     renderGrids($form: JQuery) {
         // ----------
-        const $companyTaxOptionGrid = $form.find('div[data-grid="CompanyTaxOptionGrid"]');
-        const $companyTaxOptionControl = FwBrowse.loadGridFromTemplate('CompanyTaxOptionGrid');
-        $companyTaxOptionGrid.empty().append($companyTaxOptionControl);
-        $companyTaxOptionControl.data('ondatabind', function (request) {
-            request.uniqueids = {
-                CompanyId: FwFormField.getValueByDataField($form, 'VendorId')
+        //Company Tax Option Grid
+        //const $companyTaxOptionGrid = $form.find('div[data-grid="CompanyTaxOptionGrid"]');
+        //const $companyTaxOptionControl = FwBrowse.loadGridFromTemplate('CompanyTaxOptionGrid');
+        //$companyTaxOptionGrid.empty().append($companyTaxOptionControl);
+        //$companyTaxOptionControl.data('ondatabind', function (request) {
+        //    request.uniqueids = {
+        //        CompanyId: FwFormField.getValueByDataField($form, 'VendorId')
+        //    }
+        //});
+        //$companyTaxOptionControl.data('beforesave', function (request) {
+        //    request.CompanyId = FwFormField.getValueByDataField($form, 'VendorId');
+        //});
+        //FwBrowse.init($companyTaxOptionControl);
+        //FwBrowse.renderRuntimeHtml($companyTaxOptionControl);
+
+        FwBrowse.renderGrid({
+            nameGrid: 'CompanyTaxOptionGrid',
+            gridSecurityId: 'B9CzDEmYe1Zf',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                options.hasNew = false;
+                options.hasDelete = false;
+
+            },
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    CompanyId: FwFormField.getValueByDataField($form, 'VendorId')
+                };
+            },
+            beforeSave: (request: any) => {
+                request.CompanyId = FwFormField.getValueByDataField($form, 'VendorId');
             }
         });
-        $companyTaxOptionControl.data('beforesave', function (request) {
-            request.CompanyId = FwFormField.getValueByDataField($form, 'VendorId');
-        });
-        FwBrowse.init($companyTaxOptionControl);
-        FwBrowse.renderRuntimeHtml($companyTaxOptionControl);
         // ----------
-        const $vendorNoteGrid = $form.find('div[data-grid="VendorNoteGrid"]');
-        const $vendorNoteControl = FwBrowse.loadGridFromTemplate('VendorNoteGrid');
-        $vendorNoteGrid.empty().append($vendorNoteControl);
-        $vendorNoteControl.data('ondatabind', function (request) {
-            request.uniqueids = {
-                VendorId: FwFormField.getValueByDataField($form, 'VendorId')
-            }
+        //Vendor Note Grid
+        //const $vendorNoteGrid = $form.find('div[data-grid="VendorNoteGrid"]');
+        //const $vendorNoteControl = FwBrowse.loadGridFromTemplate('VendorNoteGrid');
+        //$vendorNoteGrid.empty().append($vendorNoteControl);
+        //$vendorNoteControl.data('ondatabind', function (request) {
+        //    request.uniqueids = {
+        //        VendorId: FwFormField.getValueByDataField($form, 'VendorId')
+        //    }
+        //});
+        //FwBrowse.init($vendorNoteControl);
+        //FwBrowse.renderRuntimeHtml($vendorNoteControl);
+
+        FwBrowse.renderGrid({
+            nameGrid: 'VendorNoteGrid',
+            gridSecurityId: 'zuywROD73X60O',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+
+                request.uniqueids = {
+                    VendorId: FwFormField.getValueByDataField($form, 'VendorId')
+                };
+            },
+            //beforeSave: (request: any) => {
+            //    request.VendorId = FwFormField.getValueByDataField($form, 'VendorId');
+            //}
         });
-        FwBrowse.init($vendorNoteControl);
-        FwBrowse.renderRuntimeHtml($vendorNoteControl);
         // ----------
-        const $companyContactGrid = $form.find('div[data-grid="CompanyContactGrid"]');
-        const $companyContactControl = FwBrowse.loadGridFromTemplate('CompanyContactGrid');
-        $companyContactGrid.empty().append($companyContactControl);
-        $companyContactControl.data('ondatabind', function (request) {
-            request.uniqueids = {
-                CompanyId: FwFormField.getValueByDataField($form, 'VendorId')
+        //const $companyContactGrid = $form.find('div[data-grid="CompanyContactGrid"]');
+        //const $companyContactControl = FwBrowse.loadGridFromTemplate('CompanyContactGrid');
+        //$companyContactGrid.empty().append($companyContactControl);
+        //$companyContactControl.data('ondatabind', function (request) {
+        //    request.uniqueids = {
+        //        CompanyId: FwFormField.getValueByDataField($form, 'VendorId')
+        //    }
+        //});
+        //$companyContactControl.data('beforesave', function (request) {
+        //    request.CompanyId = FwFormField.getValueByDataField($form, 'VendorId');
+        //});
+        //FwBrowse.init($companyContactControl);
+        //FwBrowse.renderRuntimeHtml($companyContactControl);
+
+        FwBrowse.renderGrid({
+            nameGrid: 'CompanyContactGrid',
+            gridSecurityId: 'gQHuhVDA5Do2',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    CompanyId: FwFormField.getValueByDataField($form, 'VendorId')
+                };
+            },
+            beforeSave: (request: any) => {
+                request.CompanyId = FwFormField.getValueByDataField($form, 'VendorId');
             }
         });
-        $companyContactControl.data('beforesave', function (request) {
-            request.CompanyId = FwFormField.getValueByDataField($form, 'VendorId');
-        });
-        FwBrowse.init($companyContactControl);
-        FwBrowse.renderRuntimeHtml($companyContactControl);
     }
     //---------------------------------------------------------------------------------
     getBrowseTemplate(): string {
       return `
-      <div data-name="Vendor" data-control="FwBrowse" data-type="Browse" id="VendorBrowse" class="fwcontrol fwbrowse" data-orderby="" data-controller="VendorController" data-hasinactive="true">
+      <div data-name="Vendor" data-control="FwBrowse" data-type="Browse" id="VendorBrowse" class="fwcontrol fwbrowse" data-orderby="" data-controller="VendorController">
         <div class="column" data-width="0" data-visible="false">
           <div class="field" data-isuniqueid="true" data-datafield="VendorId" data-browsedatatype="key" ></div>
         </div>
@@ -625,6 +679,7 @@ class Vendor {
         </div>
       </div>`;
     }
+    //---------------------------------------------------------------------------------
 }
 //---------------------------------------------------------------------------------
 var VendorController = new Vendor();

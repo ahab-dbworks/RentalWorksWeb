@@ -1,4 +1,4 @@
-﻿routes.push({
+routes.push({
     pattern: /^reports\/rentallostanddamagedbillinghistoryreport/, action: function (match: RegExpExecArray) {
         return RentalLostAndDamagedBillingHistoryReportController.getModuleScreen();
     }
@@ -106,11 +106,11 @@ class RentalLostAndDamagedBillingHistoryReport extends FwWebApiReport {
         return parameters;
     }
     //----------------------------------------------------------------------------------------------
-    beforeValidate($browse: any, $form: any, request: any) {
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
         const validationName = request.module;
         if (validationName != null) {
             request.uniqueids = {};
-
+ 
             switch (validationName) {
                 case 'InventoryTypeValidation':
                     request.uniqueids.Rental = true;

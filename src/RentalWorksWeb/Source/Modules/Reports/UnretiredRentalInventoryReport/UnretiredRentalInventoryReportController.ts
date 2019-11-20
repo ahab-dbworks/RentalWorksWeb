@@ -1,4 +1,4 @@
-﻿routes.push({
+routes.push({
     pattern: /^reports\/unretiredrentalinventoryreport/, action: function (match: RegExpExecArray) {
         return UnretiredRentalInventoryReportController.getModuleScreen();
     }
@@ -91,7 +91,7 @@ class UnretiredRentalInventoryReport extends FwWebApiReport {
         return parameters;
     }
     //----------------------------------------------------------------------------------------------
-    beforeValidate = function ($browse, $form, request) {
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
         var validationName = request.module;
         if (validationName != null) {
             const inventoryTypeId = FwFormField.getValueByDataField($form, 'InventoryTypeId');

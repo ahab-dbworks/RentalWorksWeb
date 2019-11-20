@@ -1,11 +1,9 @@
 class PhotographyType {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'PhotographyType';
-        this.apiurl = 'api/v1/photographytype';
-    }
+    Module: string = 'PhotographyType';
+    apiurl: string = 'api/v1/photographytype';
+    caption: string = Constants.Modules.Settings.children.EventSettings.children.PhotographyType.caption;
+    nav: string = Constants.Modules.Settings.children.EventSettings.children.PhotographyType.nav;
+    id: string = Constants.Modules.Settings.children.EventSettings.children.PhotographyType.id;
 
     getModuleScreen() {
         var screen, $browse;

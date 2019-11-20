@@ -1,9 +1,9 @@
 class RwInventoryGroup {
     Module: string = 'InventoryGroup';
     apiurl: string = 'api/v1/inventorygroup';
-    caption: string = 'Inventory Group';
-    nav: string = 'module/inventorygroup';
-    id: string = '43AF2FBA-69FB-46A8-8E5A-2712486B66F3';
+    caption: string = Constants.Modules.Settings.children.InventorySettings.children.InventoryGroup.caption;
+    nav:     string = Constants.Modules.Settings.children.InventorySettings.children.InventoryGroup.nav;
+    id:      string = Constants.Modules.Settings.children.InventorySettings.children.InventoryGroup.id;
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         const screen: any = {};
@@ -33,20 +33,37 @@ class RwInventoryGroup {
     }
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
-        const $inventoryGroupInvGrid = $form.find('div[data-grid="InventoryGroupInvGrid"]');
-        const $inventoryGroupInvGridControl = FwBrowse.loadGridFromTemplate('InventoryGroupInvGrid');
-        $inventoryGroupInvGrid.empty().append($inventoryGroupInvGridControl);
-        $inventoryGroupInvGridControl.data('ondatabind', function (request) {
-            request.uniqueids = {
-                InventoryGroupId: $form.find('div.fwformfield[data-datafield="InventoryGroupId"] input').val()
-            };
-        })
+        // Inventory Group Grid
+        //const $inventoryGroupInvGrid = $form.find('div[data-grid="InventoryGroupInvGrid"]');
+        //const $inventoryGroupInvGridControl = FwBrowse.loadGridFromTemplate('InventoryGroupInvGrid');
+        //$inventoryGroupInvGrid.empty().append($inventoryGroupInvGridControl);
+        //$inventoryGroupInvGridControl.data('ondatabind', function (request) {
+        //    request.uniqueids = {
+        //        InventoryGroupId: $form.find('div.fwformfield[data-datafield="InventoryGroupId"] input').val()
+        //    };
+        //})
 
-        $inventoryGroupInvGridControl.data('beforesave', function (request) {
-            request.InventoryGroupId = FwFormField.getValueByDataField($form, 'InventoryGroupId');
+        //$inventoryGroupInvGridControl.data('beforesave', function (request) {
+        //    request.InventoryGroupId = FwFormField.getValueByDataField($form, 'InventoryGroupId');
+        //});
+        //FwBrowse.init($inventoryGroupInvGridControl);
+        //FwBrowse.renderRuntimeHtml($inventoryGroupInvGridControl);
+
+        FwBrowse.renderGrid({
+            nameGrid: 'InventoryGroupInvGrid',
+            gridSecurityId: 'IC5rbdvS3Me7',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    InventoryGroupId: FwFormField.getValueByDataField($form, 'InventoryGroupId')
+                };
+            },
+            beforeSave: (request: any) => {
+                request.InventoryGroupId = FwFormField.getValueByDataField($form, 'InventoryGroupId');
+            },
         });
-        FwBrowse.init($inventoryGroupInvGridControl);
-        FwBrowse.renderRuntimeHtml($inventoryGroupInvGridControl);
         // ----------
  
         this.events($form); // Here for a grid specific event

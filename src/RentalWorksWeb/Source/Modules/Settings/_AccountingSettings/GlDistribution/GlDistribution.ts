@@ -1,12 +1,15 @@
 ﻿class GlDistribution {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'GlDistribution';
-        this.apiurl = 'api/v1/gldistributionrule';
+    Module: string = 'GlDistribution';
+    apiurl: string = 'api/v1/gldistributionrule';
+    caption: string = Constants.Modules.Settings.children.AccountingSettings.children.GlDistribution.caption;
+    nav: string = Constants.Modules.Settings.children.AccountingSettings.children.GlDistribution.nav;
+    id: string = Constants.Modules.Settings.children.AccountingSettings.children.GlDistribution.id;
+    //----------------------------------------------------------------------------------------------
+    addBrowseMenuItems(options: IAddBrowseMenuOptions): void {
+        options.hasNew = false;
+        FwMenu.addBrowseMenuButtons(options);
     }
-
+    //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen, $browse;
 
@@ -28,7 +31,7 @@
 
         return screen;
     }
-
+    //----------------------------------------------------------------------------------------------
     openBrowse() {
         var $browse;
 
@@ -37,7 +40,7 @@
 
         return $browse;
     }
-
+    //----------------------------------------------------------------------------------------------
     openForm(mode: string) {
         var $form;
 
@@ -50,7 +53,7 @@
 
         return $form;
     }
-
+    //----------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
         var $form;
 
@@ -60,13 +63,14 @@
 
         return $form;
     }
-
+    //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
     }
-
+    //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
     }
+    //----------------------------------------------------------------------------------------------
 }
 
 var GlDistributionController = new GlDistribution();

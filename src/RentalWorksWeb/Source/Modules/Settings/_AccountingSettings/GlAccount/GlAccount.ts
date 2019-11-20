@@ -1,11 +1,9 @@
 ﻿class GlAccount {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'GlAccount';
-        this.apiurl = 'api/v1/glaccount';
-    }
+    Module: string = 'GlAccount';
+    apiurl: string = 'api/v1/glaccount';
+    caption: string = Constants.Modules.Settings.children.AccountingSettings.children.GlAccount.caption;
+    nav: string = Constants.Modules.Settings.children.AccountingSettings.children.GlAccount.nav;
+    id: string = Constants.Modules.Settings.children.AccountingSettings.children.GlAccount.id;
 
     getModuleScreen() {
         var screen, $browse;

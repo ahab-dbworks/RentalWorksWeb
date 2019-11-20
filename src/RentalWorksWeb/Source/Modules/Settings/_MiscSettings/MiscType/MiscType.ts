@@ -1,11 +1,10 @@
 class MiscType {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'MiscType';
-        this.apiurl = 'api/v1/misctype';
-    }
+    Module: string = 'MiscType';
+    apiurl: string = 'api/v1/misctype';
+    caption: string = Constants.Modules.Settings.children.MiscSettings.children.MiscType.caption;
+    nav: string = Constants.Modules.Settings.children.MiscSettings.children.MiscType.nav;
+    id: string = Constants.Modules.Settings.children.MiscSettings.children.MiscType.id;
+  
 
     getModuleScreen() {
         var screen, $browse;

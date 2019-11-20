@@ -1,9 +1,14 @@
 ﻿class Warehouse {
     Module: string = 'Warehouse';
     apiurl: string = 'api/v1/warehouse';
-    caption: string = Constants.Modules.Settings.Warehouse.caption;
-    nav: string = Constants.Modules.Settings.Warehouse.nav;
-    id: string = Constants.Modules.Settings.Warehouse.id;
+    caption: string = Constants.Modules.Settings.children.WarehouseSettings.children.Warehouse.caption;
+    nav: string = Constants.Modules.Settings.children.WarehouseSettings.children.Warehouse.nav;
+    id: string = Constants.Modules.Settings.children.WarehouseSettings.children.Warehouse.id;
+    //----------------------------------------------------------------------------------------------
+    addBrowseMenuItems(options: IAddBrowseMenuOptions): void {
+        options.hasNew = false;
+        FwMenu.addBrowseMenuButtons(options);
+    }
     //----------------------------------------------------------------------------------------------
     getModuleScreen(filter?: { datafield: string, search: string }) {
         const screen: any = {};
@@ -14,7 +19,7 @@
         const $browse = this.openBrowse();
 
         screen.load = function () {
-            FwModule.openModuleTab($browse, 'Warehouse', false, 'BROWSE', true);
+            FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
 
             // Dashboard search
             if (typeof filter !== 'undefined') {

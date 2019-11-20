@@ -1,11 +1,10 @@
 ﻿class PaymentTerms {
-    Module: string;
-    apiurl: string;
+    Module: string = 'PaymentTerms';
+    apiurl: string = 'api/v1/paymentterms';
+    caption: string = Constants.Modules.Settings.children.PaymentSettings.children.PaymentTerms.caption;
+    nav: string = Constants.Modules.Settings.children.PaymentSettings.children.PaymentTerms.nav;
+    id: string = Constants.Modules.Settings.children.PaymentSettings.children.PaymentTerms.id;
 
-    constructor() {
-        this.Module = 'PaymentTerms';
-        this.apiurl = 'api/v1/paymentterms';
-    }
 
     getModuleScreen() {
         var screen, $browse;

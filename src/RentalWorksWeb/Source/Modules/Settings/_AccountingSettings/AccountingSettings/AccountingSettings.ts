@@ -1,7 +1,15 @@
 class AccountingSettings {
     Module: string = 'AccountingSettings';
     apiurl: string = 'api/v1/accountingsettings';
-
+    caption: string = Constants.Modules.Settings.children.AccountingSettings.children.AccountingSettings.caption;
+    nav: string = Constants.Modules.Settings.children.AccountingSettings.children.AccountingSettings.nav;
+    id: string = Constants.Modules.Settings.children.AccountingSettings.children.AccountingSettings.id;
+    //----------------------------------------------------------------------------------------------
+    addBrowseMenuItems(options: IAddBrowseMenuOptions): void {
+        options.hasNew = false;
+        FwMenu.addBrowseMenuButtons(options);
+    }
+    //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
@@ -10,8 +18,8 @@ class AccountingSettings {
 
         const $browse = this.openBrowse();
 
-        screen.load = function () {
-            FwModule.openModuleTab($browse, 'Accounting Settings', false, 'BROWSE', true);
+        screen.load = () => {
+            FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };

@@ -1,14 +1,27 @@
-﻿//routes.push({ pattern: /^module\/receivefromvendor$/, action: function (match: RegExpExecArray) { return ReceiveFromVendorController.getModuleScreen(); } });
+//routes.push({ pattern: /^module\/receivefromvendor$/, action: function (match: RegExpExecArray) { return ReceiveFromVendorController.getModuleScreen(); } });
 
 class ReceiveFromVendor {
-    Module: string = 'ReceiveFromVendor';
-    caption: string = Constants.Modules.Home.ReceiveFromVendor.caption;
-    nav: string = Constants.Modules.Home.ReceiveFromVendor.nav;
-    id: string = Constants.Modules.Home.ReceiveFromVendor.id;
-    successSoundFileName: string;
-    errorSoundFileName: string;
+    Module:                    string = 'ReceiveFromVendor';
+    apiurl:                    string = 'api/v1/receivefromvendor';
+    caption:                   string = Constants.Modules.Warehouse.children.ReceiveFromVendor.caption;
+    nav:                       string = Constants.Modules.Warehouse.children.ReceiveFromVendor.nav;
+    id:                        string = Constants.Modules.Warehouse.children.ReceiveFromVendor.id;
+    successSoundFileName:      string;
+    errorSoundFileName:        string;
     notificationSoundFileName: string;
+    //----------------------------------------------------------------------------------------------
+    addFormMenuItems(options: IAddFormMenuOptions): void {
+        options.hasSave = false;
+        FwMenu.addFormMenuButtons(options);
 
+        FwMenu.addSubMenuItem(options.$groupOptions, 'Cancel Receive From Vendor', '', (e: JQuery.ClickEvent) => {
+            try {
+                this.CancelReceiveFromVendor(options.$form);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+    }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         const screen: any = {};
@@ -41,9 +54,6 @@ class ReceiveFromVendor {
         FwFormField.setValueByDataField($form, 'Date', currentDate);
         FwFormField.setValueByDataField($form, 'Time', currentTime);
 
-        const cancelMenuOptionId = Constants.Modules.Home.ReceiveFromVendor.form.menuItems.Cancel.id.replace('{', '').replace('}', '');
-        $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'false');
-
         if (typeof parentmoduleinfo !== 'undefined') {
             FwFormField.setValueByDataField($form, 'PurchaseOrderId', parentmoduleinfo.PurchaseOrderId, parentmoduleinfo.PurchaseOrderNumber);
             $form.find('[data-datafield="PurchaseOrderId"] input').change();
@@ -54,8 +64,39 @@ class ReceiveFromVendor {
         this.getSoundUrls($form);
         this.getItems($form);
         this.events($form);
+
         return $form;
-    };
+    }
+    //----------------------------------------------------------------------------------------------
+    CancelReceiveFromVendor($form: JQuery): void {
+        try {
+            const contractId    = FwFormField.getValueByDataField($form, 'ContractId');
+            if (contractId != '') {
+                const $confirmation = FwConfirmation.renderConfirmation('Cancel Receive From Vendor', 'Cancelling this Receive From Vendor Session will cause all transacted items to be cancelled. Continue?');
+                const $yes          = FwConfirmation.addButton($confirmation, 'Yes', false);
+                const $no           = FwConfirmation.addButton($confirmation, 'No', true);
+
+                $yes.on('click', () => {
+                    try {
+                        const request: any = {};
+                        request.ContractId = contractId;
+                        FwAppData.apiMethod(true, 'POST', `api/v1/contract/cancelcontract`, request, FwServices.defaultTimeout,
+                            response => {
+                                FwConfirmation.destroyConfirmation($confirmation);
+                                ReceiveFromVendorController.resetForm($form);
+                                FwNotification.renderNotification('SUCCESS', 'Session succesfully cancelled.');
+                            },
+                            ex => FwFunc.showError(ex),
+                            $confirmation.find('.fwconfirmationbox'));
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+            }
+        } catch (ex) {
+            FwFunc.showError(ex);
+        }
+    }
     //----------------------------------------------------------------------------------------------
     getSuspendedSessions($form) {
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
@@ -88,8 +129,6 @@ class ReceiveFromVendor {
                     let orderNumber = $this.find(`[data-browsedatafield="OrderNumber"]`).attr('data-originalvalue');
                     const contractId = $this.find(`[data-browsedatafield="ContractId"]`).attr('data-originalvalue');
                     FwFormField.setValueByDataField($form, 'ContractId', contractId);
-                    const cancelMenuOptionId = Constants.Modules.Home.ReceiveFromVendor.form.menuItems.Cancel.id.replace('{', '').replace('}', '');
-                    $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'true');
                     FwFormField.setValueByDataField($form, 'PurchaseOrderId', id, orderNumber);
                     FwPopup.destroyPopup($popup);
                     $form.find('[data-datafield="PurchaseOrderId"] input').change();
@@ -124,8 +163,6 @@ class ReceiveFromVendor {
 
                     FwFormField.setValueByDataField($form, 'ContractId', contractId);
                     $form.find('.suspendedsession').hide();
-                    const cancelMenuOptionId = Constants.Modules.Home.ReceiveFromVendor.form.menuItems.Cancel.id.replace('{', '').replace('}', '');
-                    $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'true');
 
                     $receiveItemsGridControl = $form.find('div[data-name="POReceiveItemGrid"]');
                     FwBrowse.search($receiveItemsGridControl);
@@ -142,25 +179,30 @@ class ReceiveFromVendor {
     }
     //----------------------------------------------------------------------------------------------
     getSoundUrls($form): void {
-        this.successSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).successSoundFileName;
-        this.errorSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).errorSoundFileName;
+        this.successSoundFileName      = JSON.parse(sessionStorage.getItem('sounds')).successSoundFileName;
+        this.errorSoundFileName        = JSON.parse(sessionStorage.getItem('sounds')).errorSoundFileName;
         this.notificationSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).notificationSoundFileName;
     }
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
-        const $receiveItemsGrid = $form.find('div[data-grid="POReceiveItemGrid"]');
-        const $receiveItemsGridControl = FwBrowse.loadGridFromTemplate('POReceiveItemGrid');
-        const max = 9999;
-        $receiveItemsGrid.empty().append($receiveItemsGridControl);
-        $receiveItemsGridControl.data('ondatabind', request => {
-            request.uniqueids = {
-                ContractId: FwFormField.getValueByDataField($form, 'ContractId')
-                , PurchaseOrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId')
+        FwBrowse.renderGrid({
+            nameGrid:         'POReceiveItemGrid',
+            gridSecurityId:   'uYBpfQCZBM4V6',
+            moduleSecurityId: this.id,
+            $form:            $form,
+            pageSize:         9999,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                options.hasNew    = false;
+                options.hasEdit   = false;
+                options.hasDelete = false;
+            },
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    ContractId:      FwFormField.getValueByDataField($form, 'ContractId'),
+                    PurchaseOrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId')
+                };
             }
-            request.pagesize = max;
-        })
-        FwBrowse.init($receiveItemsGridControl);
-        FwBrowse.renderRuntimeHtml($receiveItemsGridControl);
+        });
     }
     //----------------------------------------------------------------------------------------------
     events($form: any): void {
@@ -184,8 +226,7 @@ class ReceiveFromVendor {
                             FwModule.openSubModuleTab($form, $contractForm);
                         }
                         this.resetForm($form);
-                    }
-                    catch (ex) {
+                    } catch (ex) {
                         FwFunc.showError(ex);
                     }
                 }, null, $form);
@@ -240,7 +281,7 @@ class ReceiveFromVendor {
         });
     };
     //----------------------------------------------------------------------------------------------
-    beforeValidate($browse, $grid, request) {
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
         const validationName = request.module;
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
 
@@ -256,8 +297,8 @@ class ReceiveFromVendor {
     //----------------------------------------------------------------------------------------------
     addButtonMenu($form) {
         let $buttonmenu = $form.find('.createcontract[data-type="btnmenu"]');
-        let $createContract = FwMenu.generateButtonMenuOption('Create Contract')
-            , $createContractAndAssignBarCodes = FwMenu.generateButtonMenuOption('Create Contract and Assign Bar Codes');
+        let $createContract = FwMenu.generateButtonMenuOption('Create Contract'),
+            $createContractAndAssignBarCodes = FwMenu.generateButtonMenuOption('Create Contract and Assign Bar Codes');
 
         $createContract.on('click', e => {
             e.stopPropagation();
@@ -298,8 +339,8 @@ class ReceiveFromVendor {
         let $receiveItemsGridControl = $form.find('div[data-name="POReceiveItemGrid"]');
         $receiveItemsGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
-                ContractId: ''
-                , PurchaseOrderId: ''
+                ContractId: '',
+                PurchaseOrderId: ''
             }
         })
         FwBrowse.search($receiveItemsGridControl);
@@ -311,8 +352,6 @@ class ReceiveFromVendor {
         FwFormField.setValueByDataField($form, 'Time', currentTime);
         $form.find('.createcontract[data-type="button"]').show();
         $form.find('.createcontract[data-type="btnmenu"]').hide();
-        const cancelMenuOptionId = Constants.Modules.Home.ReceiveFromVendor.form.menuItems.Cancel.id.replace('{', '').replace('}', '');
-        $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'false');
 
         $form.find('.suspendedsession').show();
     }
@@ -326,7 +365,7 @@ class ReceiveFromVendor {
                 <div class="flexrow">
                     <div class="flexcolumn" style="flex:1 1 450px;">
                     <div class="flexrow">
-                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="PO No." data-datafield="PurchaseOrderId" data-displayfield="PurchaseOrderNumber" data-validationname="PurchaseOrderValidation" data-formbeforevalidate="beforeValidate" style="flex:0 1 175px;"></div>
+                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="PO No." data-datafield="PurchaseOrderId" data-displayfield="PurchaseOrderNumber" data-validationname="PurchaseOrderValidation" style="flex:0 1 175px;"></div>
                         <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="ContractId" data-datafield="ContractId" style="display:none; flex:0 1 175px;"></div>
                         <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Vendor" data-datafield="VendorId" data-displyfield="Vendor" data-validationname="VendorValidation" style="flex:1 1 300px;" data-enabled="false"></div>
                         <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Date" data-datafield="Date" style="flex:0 1 175px;" data-enabled="false"></div>
@@ -368,33 +407,5 @@ class ReceiveFromVendor {
         `;
     }
 }
-//----------------------------------------------------------------------------------------------
-//Cancel
-FwApplicationTree.clickEvents[Constants.Modules.Home.ReceiveFromVendor.form.menuItems.Cancel.id] = function (event: JQuery.ClickEvent) {
-    const $form = jQuery(this).closest('.fwform');
-    const contractId = FwFormField.getValueByDataField($form, 'ContractId');
-    const $confirmation = FwConfirmation.renderConfirmation('Cancel Receive From Vendor', 'Cancelling this Receive From Vendor Session will cause all transacted items to be cancelled.  Continue?');
-    FwConfirmation.addControls($confirmation, '');
-    const $yes = FwConfirmation.addButton($confirmation, 'Yes', false);
-    FwConfirmation.addButton($confirmation, 'No', true);
-
-    $yes.on('click', () => {
-        try {
-            const request: any = {};
-            request.ContractId = contractId;
-            FwAppData.apiMethod(true, 'POST', `api/v1/contract/cancelcontract`, request, FwServices.defaultTimeout,
-                response => {
-                    FwConfirmation.destroyConfirmation($confirmation);
-                    ReceiveFromVendorController.resetForm($form);
-                    FwNotification.renderNotification('SUCCESS', 'Session succesfully cancelled.');
-                },
-                ex => FwFunc.showError(ex),
-                $confirmation.find('.fwconfirmationbox'));
-        }
-        catch (ex) {
-            FwFunc.showError(ex);
-        }
-    });
-};
 //----------------------------------------------------------------------------------------------
 var ReceiveFromVendorController = new ReceiveFromVendor();

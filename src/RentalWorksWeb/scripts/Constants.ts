@@ -1,365 +1,864 @@
-﻿const Constants = {
+var Constants = {
     isTrakitWorks: false,
     isRentalWorks: true,
     appId: '0A5F2584-D239-480F-8312-7C2B552A30BA',
     appCaption: 'RentalWorks',
     appTitle: 'Rental<span class="rwpurple">Works<span style="font-size:14px;vertical-align:super;">&#174;</span></span>',
     MainMenu: {
-        Reports: { id: '7FEC9D55-336E-44FE-AE01-96BF7B74074C' },
-        Settings: { id: '730C9659-B33B-493E-8280-76A060A07DCE' }
+        Reports: { id: 'Reports' },
+        Settings: { id: 'Settings' }
     },
     Modules: {
         Administrator: {
-            Alert: { id: '6E5F47FB-1F18-443E-B464-9D2351857361', caption: 'Alert', nav: 'module/alert' },
-            CustomField: { id: 'C98C4CB4-2036-4D70-BC29-8F5A2874B178', caption: 'Custom Field', nav: 'module/customfield' },
-            CustomForm: { id: 'CB2EF8FF-2E8D-4AD0-B880-07037B839C5E', caption: 'Custom Form', nav: 'module/customform' },
-            CustomReportLayout: { id: 'B89CDAF3-53B2-4FE8-97C6-39DC98E98DBA', caption: 'Custom Report Layout', nav: 'module/customreportlayout' },
-            DuplicateRule: { id: '2E0EA479-AC02-43B1-87FA-CCE2ABA6E934', caption: 'Duplicate Rule', nav: 'module/duplicaterule' },
-            EmailHistory: { id: '3F44AC27-CE34-46BA-B4FB-A8AEBB214167', caption: 'Email History', nav: 'module/emailhistory' },
-            Group: { id: '9BE101B6-B406-4253-B2C6-D0571C7E5916', caption: 'Group', nav: 'module/group' },
-            Hotfix: { id: '9D29A5D9-744F-40CE-AE3B-09219611A680', caption: 'Hotfix', nav: 'module/hotfix' },
-
-            Reports: { id: '3C5C7603-9E7B-47AB-A722-B29CA09B3B8C', caption: 'Reports', nav: 'module/reports' },
-            Settings: { id: '57150967-486A-42DE-978D-A2B0F843341A', caption: 'Settings', nav: 'module/settings' },
-            User: { id: '79E93B21-8638-483C-B377-3F4D561F1243', caption: 'User', nav: 'module/user' }
+            id: 'Administrator',
+            caption: 'Administrator',
+            nodetype: 'Category',
+            children: {
+                Alert:         { id: 'gFfpaR5mDAzX',  caption: 'Alert',          nav: 'module/alert', nodetype: 'Module' },
+                CustomField:   { id: 'cZHPJQyBxolS',  caption: 'Custom Field',   nav: 'module/customfield', nodetype: 'Module' },
+                CustomForm:    { id: '11txpzVKVGi2',  caption: 'Custom Form',    nav: 'module/customform', nodetype: 'Module' },
+                CustomReportLayout: { id: 'EtrF5NHJ7dRg6', caption: 'Custom Report Layout', nav: 'module/customreportlayout' },
+                DuplicateRule: { id: 'v7oBspDLjli8',  caption: 'Duplicate Rule', nav: 'module/duplicaterule', nodetype: 'Module' },
+                EmailHistory:  { id: '3XHEm3Q8WSD8z', caption: 'Email History',  nav: 'module/emailhistory', nodetype: 'Module' },
+                Group:         { id: '0vP4rXxgGL1M',  caption: 'Group',          nav: 'module/group', nodetype: 'Module' },
+                Hotfix:        { id: 'yeqaGIUYfYNX',  caption: 'Hotfix',         nav: 'module/hotfix', nodetype: 'Module' },
+                Reports:       { id: '3C5C7603-9E7B-47AB-A722-B29CA09B3B8C', caption: 'Reports', nav: 'module/reports', nodetype: 'Module' },
+                Settings:      { id: '57150967-486A-42DE-978D-A2B0F843341A', caption: 'Settings', nav: 'module/settings', nodetype: 'Module' },
+                User:          { id: 'r1fKvn1KaFd0u', caption: 'User',           nav: 'module/user', nodetype: 'Module' }
+            }
+        },
+        Agent: {
+            id: 'Agent',
+            caption: 'Agent',
+            nodetype: 'Category',
+            children: {
+                Contact: { id: '9ykTwUXTet46', caption: 'Contact', nav: 'module/contact', nodetype: 'Module' },
+                Customer: { id: 'InSfo1f2lbFV', caption: 'Customer', nav: 'module/customer', nodetype: 'Module' },
+                Deal: { id: '8WdRib388fFF', caption: 'Deal', nav: 'module/deal', nodetype: 'Module' },
+                Order: { id: 'U8Zlahz3ke9i', caption: 'Order', nav: 'module/order', nodetype: 'Module' },
+                Project: { id: 'k7bYJRoHkf9Jr', caption: 'Project', nav: 'module/project', nodetype: 'Module' },
+                PurchaseOrder: { id: '9a0xOMvBM7Uh9', caption: 'Purchase Order', nav: 'module/purchaseorder', nodetype: 'Module' },
+                Quote: { id: 'jFkSBEur1dluU', caption: 'Quote', nav: 'module/quote', nodetype: 'Module' },
+                Vendor: { id: 'cwytGLEcUzJdn', caption: 'Vendor', nav: 'module/vendor', nodetype: 'Module' }
+            }
+        },
+        Billing: {
+            id: 'Billing',
+            caption: 'Billing',
+            nodetype: 'Category',
+            children: {
+                Billing: { id: '67cZ8IUbw53c', caption: 'Billing', nav: 'module/billing', nodetype: 'Module' },
+                Invoice: { id: 'cZ9Z8aGEiDDw', caption: 'Invoice', nav: 'module/invoice', nodetype: 'Module' },
+                Receipt: { id: 'q4PPGLusbFw', caption: 'Receipts', nav: 'module/receipt', nodetype: 'Module' },
+                VendorInvoice: { id: 'Fq9aOe0yWfY', caption: 'Vendor Invoice', nav: 'module/vendorinvoice', nodetype: 'Module' },
+            }
+        },
+        Container: {
+            id: 'Container',
+            caption: 'Container',
+            nodetype: 'Category',
+            children: {
+                Container:              { id: 'bSQsBVDvo86X1', caption: 'Container',                nav: 'module/container', nodetype: 'Module' },
+                ContainerStatus:        { id: 'AQCjfAUtfHy5',  caption: 'Container Status',         nav: 'module/containerstatus', nodetype: 'Module' },
+                FillContainer:          { id: '4D6pES9WoHVJ',  caption: 'Fill Container',           nav: 'module/fillcontainer', nodetype: 'Module' },
+                EmptyContainer:         { id: 'tfzkGtEIPTFr',  caption: 'Empty Container',          nav: 'module/emptycontainer', nodetype: 'Module' },
+                RemoveFromContainer:    { id: 'J9BTE3hOYuEd',  caption: 'Remove From Container',    nav: 'module/removefromcontainer', nodetype: 'Module' }
+            }
+        },
+        Inventory: {
+            id: 'Inventory',
+            caption: 'Inventory',
+            nodetype: 'Category',
+            children: {
+                Asset:                    { id: 'kSugPLvkuNsH',  caption: 'Asset',                  nav: 'module/item', nodetype: 'Module' },
+                AvailabilityConflicts:    { id: '2xsgUfsXeKJH',  caption: 'Availability Conflicts', nav: 'module/availabilityconflicts', nodetype: 'Module' },
+                CompleteQc:               { id: 'VwNYsEONLutM',  caption: 'Complete QC',            nav: 'module/completeqc', nodetype: 'Module' },
+                InventoryPurchaseUtility: { id: '', caption: 'Inventory Purchase Utility', nav: 'module/inventorypurchaseutility' },
+                PartsInventory:           { id: '2WDCohbQV6GU',  caption: 'Parts Inventory',        nav: 'module/partsinventory', nodetype: 'Module' },
+                PhysicalInventory:        { id: 'JIuxFUWTLDC6',  caption: 'Physical Inventory',     nav: 'module/physicalinventory', nodetype: 'Module' },
+                RentalInventory:          { id: '3ICuf6pSeBh6G', caption: 'Rental Inventory',       nav: 'module/rentalinventory', nodetype: 'Module' },
+                Repair:                   { id: 't4gfyzLkSZhyc', caption: 'Repair Order',           nav: 'module/repair', nodetype: 'Module' },
+                SalesInventory:           { id: 'ShjGAzM2Pq3kk', caption: 'Sales Inventory',        nav: 'module/salesinventory', nodetype: 'Module' }
+            }
         },
         Home: {
-            Asset: { id: '1C45299E-F8DB-4AE4-966F-BE142295E3D6', caption: 'Asset', nav: 'module/item' },
-            AssignBarCodes: { id: '4B9C17DE-7FC0-4C33-B953-26FC90F32EA0', caption: 'Assign Bar Codes', nav: 'module/assignbarcodes' },
-            AvailabilityConflicts: { id: 'DF2859D1-3834-42DA-A367-85B168850ED9', caption: 'Availability Conflicts', nav: 'module/availabilityconflicts' },
-            Billing: { id: '34E0472E-9057-4C66-8CC2-1938B3222569', caption: 'Billing', nav: 'module/billing' },
-            BillingMessage: { id: 'B232DF4D-462A-4810-952D-73F8DE66800C', caption: 'Billing Message', nav: 'module/billingmessage' },
-            CheckIn: {
-                id: '77317E53-25A2-4C12-8DAD-7541F9A09436', caption: 'Check-In', nav: 'module/checkin',
-                form: {
-                    menuItems: {
-                        Cancel: { id: '{52BEF7F5-C9F7-44DE-AD84-8E5AC68A9D7B}' }
-                    }
-                }
-            },
-            CompleteQc: { id: '3F20813A-CC21-49D8-A5F8-9930B7F05404', caption: 'Complete QC', nav: 'module/completeqc' },
-            Contact: { id: '3F803517-618A-41C0-9F0B-2C96B8BDAFC4', caption: 'Contact', nav: 'module/contact' },
-            Container: { id: '28A49328-FFBD-42D5-A492-EDF540DF7011', caption: 'Container', nav: 'module/container' },
-            ContainerStatus: { id: '0CD07ACF-D9A4-42A3-A288-162398683F8A', caption: 'Container Status', nav: 'module/containerstatus' },
-            Contract: {
-                id: '6BBB8A0A-53FA-4E1D-89B3-8B184B233DEA', caption: 'Contract', nav: 'module/contract',
-                form: {
-                    menuItems: {
-                        PrintOrder: { id: '{8C34754E-B27F-4FE1-93F3-8D6D84339322}' },
-                        VoidContract: { id: '{426E75B4-D91E-416F-AEB2-F6B4F8BB5936}' }
-                    }
-                }
-            },
-            CountQuantityInventory: { id: '0A02B28D-C025-4579-993B-860832F8837F', caption: 'Count Quantity Inventory', nav: 'module/physicalinventoryquantityinventory' },
-            CreatePickList: { id: '1407A536-B5C9-4363-8B54-A56DB8CE902D', caption: 'Create Pick List', nav: 'module/contract' },
-            Customer: { id: '214C6242-AA91-4498-A4CC-E0F3DCCCE71E', caption: 'Customer', nav: 'module/customer' },
-            CustomerCredit: { id: 'CCFCD376-FC2B-49F4-BAE0-3FB1F0258F66', caption: 'Customer Credit', nav: 'module/customercredit' },
-            Deal: { id: 'C67AD425-5273-4F80-A452-146B2008B41C', caption: 'Deal', nav: 'module/deal' },
-            DealCredit: { id: '3DD1BA32-0213-472E-ADA8-E54D531464CC', caption: 'Deal Credit', nav: 'module/dealcredit' },
-            EmptyContainer: { id: '60CAE944-DE89-459E-86AC-2F1B68211E07', caption: 'Empty Container', nav: 'module/emptycontainer' },
-            Exchange: {
-                id: '2AEDB175-7998-48BC-B2C4-D4794BF65342', caption: 'Exchange', nav: 'module/exchange',
-                form: {
-                    menuItems: {
-                        Cancel: { id: '{2301B78E-7928-4672-8747-29ED57C529FC}' }
-                    }
-                }
-            },
-            FillContainer: { id: '0F1050FB-48DF-41D7-A969-37300B81B7B5', caption: 'Fill Container', nav: 'module/fillcontainer' },
-            InventoryPurchaseUtility: { id: '5EEED3A9-40FF-4038-B53D-DB6E777FAC7C', caption: 'Inventory Purchase Utility', nav: 'module/inventorypurchaseutility' },
-            Invoice: {
-                id: '9B79D7D8-08A1-4F6B-AC0A-028DFA9FE10F', caption: 'Invoice', nav: 'module/invoice',
-                browse: {
-                    menuItems: {
-                        Void: { id: '{DACF4B06-DE63-4867-A684-4C77199D6961}' },
-                        Approve: { id: '{9D1A3607-EE4A-49E6-8EAE-DB3E0FF06EAE}' },
-                        Unapprove: { id: '{F9D43CB6-2666-4AE0-B35C-77735561B9B9}' }
-                    }
-                },
-                form: {
-                    menuItems: {
-                        Void: { id: '{DF6B0708-EC5A-475F-8EFB-B52E30BACAA3}' },
-                        PrintInvoice: { id: '{3A693D4E-3B9B-4749-A9B6-C8302F1EDE6A}' },
-                        Approve: { id: '{117CCDFA-FFC3-49CE-B41B-0F6CE9A69518}' },
-                        Unapprove: { id: '{F8C5F06C-4B9D-4495-B589-B44B02AE7915}' },
-                        CreditInvoice: { id: '{CC80D0FC-2E28-4C3D-83EB-C8B5EE0CB4B5}' }
-                    }
-                }
-            },
+            BillingMessage: { id: 'U0HFTNmYWt3a7', caption: 'Billing Message', nav: 'module/billingmessage', nodetype: 'Module' },
+            CountQuantityInventory: { id: '0A02B28D-C025-4579-993B-860832F8837F', caption: 'Count Quantity Inventory', nav: 'module/physicalinventoryquantityinventory', nodetype: 'Module' },
+            CreatePickList: { id: '1407A536-B5C9-4363-8B54-A56DB8CE902D', caption: 'Create Pick List', nav: 'module/contract', nodetype: 'Module' },
+            CustomerCredit: { id: 'DCPFcfKgUGnuC', caption: 'Customer Credit', nav: 'module/customercredit', nodetype: 'Module' },
+            DealCredit: { id: 'OCkLGwclipEA', caption: 'Deal Credit', nav: 'module/dealcredit', nodetype: 'Module' },
             Manifest: {
-                id: '1643B4CE-D368-4D64-8C05-6EF7C7D80336', caption: 'Transfer Manifest', nav: 'module/manifest',
+                id: 'yMwoSvKvwAbbZ', caption: 'Transfer Manifest', nav: 'module/manifest', nodetype: 'Module',
                 form: {
                     menuItems: {
                         Print: { id: '{8FC8A0F2-C016-476F-971B-64CF2ED95E41}' }
                     }
                 }
             },
-            Order: {
-                id: '64C46F51-5E00-48FA-94B6-FC4EF53FEA20', caption: 'Order', nav: 'module/order',
-                browse: {
-                    menuItems: {
-                        CancelUncancel: { id: '{DAE6DC23-A2CA-4E36-8214-72351C4E1449}' }
+            SubWorksheet: { id: '2227B6C3-587D-48B1-98B6-B9125E0E4D9D', caption: 'Sub Worksheet', nav: 'module/subworksheet', nodetype: 'Module' },
+            SuspendedSession: { id: '5FBE7FF8-3770-48C5-855C-4320C961D95A', caption: 'Suspended Session', nav: 'module/suspendedsession', nodetype: 'Module' }
+        },
+        Reports: {
+            id: 'Reports',
+            caption: 'Reports',
+            nodetype: 'Category',
+            children: {
+                AccountingReports: {
+                    id: 'Reports.AccountingReports',
+                    caption: 'Accounting Reports',
+                    nodetype: 'Category',
+                    children: {
+                        ArAgingReport: {                    id: 'KHw5yX5TubQ', caption: 'A/R Aging', nav: 'reports/aragingreport', nodetype: 'Module', description: 'List unpaid Invoices, and their corresponding aging totals.  Report is subtotalled by Deal and Customer.' },
+                        DailyReceiptsReport: {              id: 'OLyFIS7rBvr8', caption: 'Daily Receipts', nav: 'reports/dailyreceiptsreport', nodetype: 'Module', description: 'List Daily Receipts.  Report is subtotalled by Deal and Customer.' },
+                        GLDistributionReport: {             id: 'ClMQ5QkZq4PY', caption: 'G/L Distribution', nav: 'reports/gldistributionreport', nodetype: 'Module', description: 'Summarize transaction totals by Account over a date range.' }
                     }
                 },
-                form: {
-                    menuItems: {
-                        Search: { id: '{B2D127C6-A1C2-4697-8F3B-9A678F3EAEEE}' },
-                        CopyOrder: { id: '{E25CB084-7E7F-4336-9512-36B7271AC151}' },
-                        PrintOrder: { id: '{F2FD2F4C-1AB7-4627-9DD5-1C8DB96C5509}' },
-                        CreatePickList: { id: '{91C9FD3E-ADEE-49CE-BB2D-F00101DFD93F}' },
-                        CreateSnapshot: { id: '{AB1D12DC-40F6-4DF2-B405-54A0C73149EA}' },
-                        CancelSnapshot: { id: '{515A0924-C0B7-4EFA-A9A0-6CFFBF55DAB2}' },
-                        ViewSnapshot: { id: '{03000DCC-3D58-48EA-8BDF-A6D6B30668F5}' },
-                        CancelUncancel: { id: '{6B644862-9030-4D42-A29B-30C8DAC29D3E}' },
-                        OnHold: { id: '{00AB18C2-221A-46F9-86DC-A7145D13A0D8}' },
-                        OrderStatus: { id: '{CF245A59-3336-42BC-8CCB-B88807A9D4EA}' },
-                        CheckOut: { id: '{771DCE59-EB57-48B2-B189-177B414A4ED3}' },
-                        CheckIn: { id: '{380318B6-7E4D-446D-A018-1EB7720F4338}' },
-                        ChangeOfficeLocation: { id: '{31C62070-9045-478D-A0DC-D3B62B61E108}' },
-                    }
-                }
-            },
-            OrderStatus: { id: 'F6AE5BC1-865D-467B-A201-95C93F8E8D0B', caption: 'Order Status', nav: 'module/orderstatus' },
-            PartsInventory: {
-                id: '351B8A09-7778-4F06-A6A2-ED0920A5C360', caption: 'Parts Inventory', nav: 'module/partsinventory',
-                form: {
-                    menuItems: {
-                        CreateComplete: { id: '{1881D7B6-E17A-4D20-A2E5-71F383FBD8CB}' }
-                    }
-                }
-            },
-            PhysicalInventory: { id: 'BABFE80E-8A52-49D4-81D9-6B6EBB518E89', caption: 'Physical Inventory', nav: 'module/physicalinventory' },
-            PickList: {
-                id: '7B04E5D4-D079-4F3A-9CB0-844F293569ED', caption: 'Pick List', nav: 'module/picklist',
-                browse: {
-                    menuItems: {
-                        PrintPickList: { id: '{51C78FB1-CD66-431F-A7BA-FFFB3BFDFD6C}' }
+                BillingReports: {
+                    id: 'Reports.Billing',
+                    caption: 'Billing Reports',
+                    nodetype: 'Category',
+                    children: {
+                        AgentBillingReport: {               id: 'qx65UNbCoUW', caption: 'Agent Billing', nav: 'reports/agentbillingreport', nodetype: 'Module', description: 'Shows Invoice Activity Totals, subtotalled by Agent.' },
+                        BillingAnalysisReport: {            id: 'c2AwOP9UmJFw', caption: 'Billing Analysis', nav: 'reports/billinganalysisreport', nodetype: 'Module', description: 'List all Orders created within a specified date range, showing Order Total vs. Billed Total and Estimated Cost Total vs. Vendor Invoice Total.' },
+                        BillingProgressReport: {            id: 'Y5ssGcXnxL2', caption: 'Billing Progress', nav: 'reports/billingprogressreport', nodetype: 'Module', description: 'List all Orders and their percentage of total Billing, subtotalled by Customer and Deal.' },
+                        BillingStatementReport: {           id: 'wd7t1jPI4ztQH', caption: 'Billing Statement', nav: 'reports/billingstatementreport', nodetype: 'Module', description: 'Create a printable Billing Statement which itemizes all Billing and Receipt activity per Deal over a specific date range.' },
+                        CreateInvoiceProcessReport: {       id: 'qhb1dkFRrS6T', caption: 'Create Invoice Process', nav: 'reports/createinvoiceprocessreport', nodetype: 'Module', description: 'List all Invoices and Exceptions based on a Creation Batch.' },
+                        InvoiceDiscountReport: {            id: 'PwAjD9UxITIp', caption: 'Invoice Discount', nav: 'reports/invoicediscountreport', nodetype: 'Module', description: 'List all Invoices which have a Discount.' },
+                        InvoiceReport: {                    id: 'o5nbWmTr7xy0n', caption: 'Invoices', nav: 'reports/invoicereport', nodetype: 'Module', description: 'Invoice document.' },
+                        InvoiceSummaryReport: {             id: 'LeLwkS6yUBfV', caption: 'Invoice Summary', nav: 'reports/invoicesummaryreport', nodetype: 'Module', description: 'List all Invoices for a specific date range, subtotalled by Customer and Deal.' },
+                        ProfitLossReport: {                 id: 'gUCH9E3ZYdRIm', caption: 'Profit and Loss', nav: 'reports/profitlossreport', nodetype: 'Module', description: 'List Profit or Loss for all Orders that start within a specified date range.' },
+                        ProjectManagerBillingReport: {      id: 'lTDdAGi63jRVL', caption: 'Project Manager Billing', nav: 'reports/projectmanagerbillingreport', nodetype: 'Module', description: 'Shows Invoice Activity Totals, subtotalled by Project Manager.' },
+                        SalesQuoteBillingReport: {          id: 'L8WwjlirkzC55', caption: 'Sales Quote Billing Analysis', nav: 'reports/salesquotebillingreport', nodetype: 'Module', description: 'List Profitability of Sales Quotes.' },
+                        SalesRepresentativeBillingReport: { id: 'SgF8AMJVjKARN', caption: 'Sales Representative Billing', nav: 'reports/salesrepresentativebillingreport', nodetype: 'Module', description: 'Shows Invoice Activity Totals, subtotalled by Sales Representative.' },
+                        SalesTaxCanadaReport: {             id: 'UX8GjEXNteJz', caption: 'Sales Tax - Canada', nav: 'reports/salestaxcanadareport', nodetype: 'Module', description: 'List all Invoices for a specific date range, grouped and totaled by Tax Option' },
+                        SalesTaxUSAReport: {                id: 'TaaSgS14rWsCL', caption: 'Sales Tax - USA', nav: 'reports/salestaxusareport', nodetype: 'Module', description: 'List all Invoices for a specific date range, grouped and totaled by Tax Option' }
                     }
                 },
-                form: {
-                    menuItems: {
-                        PrintPickList: { id: '{069BBE73-5B14-4F3E-A594-8699676D9B8E}' },
-                        CancelPickList: { id: '{3BF7AEF3-BF52-4B8B-8324-910A92005B2B}' }
-                    }
-                }
-            },
-            Project: {
-                id: 'C6C8167A-C3B5-4915-8290-4520AF7EDB35', caption: 'Project', nav: 'module/project',
-                form: {
-                    menuItems: {
-                        CreateQuote: { id: '{92B78408-298F-431C-A535-2ADC7C4DD2F7}' }
-                    }
-                }
-            },
-            PurchaseOrder: {
-                id: '67D8C8BB-CF55-4231-B4A2-BB308ADF18F0', caption: 'Purchase Order', nav: 'module/purchaseorder',
-                form: {
-                    menuItems: {
-                        AssignBarCodes: { id: '{649E744B-0BDD-43ED-BB6E-5945CBB0BFA5}' },
-                        Search: { id: '{D512214F-F6BD-4098-8473-0AC7F675893D}' },
-                        ReceiveFromVendor: { id: '{4BB0AB54-641E-4638-89B4-0F9BFE88DF82}' },
-                        ReturnToVendor: { id: '{B287428E-FF45-469A-8203-3BFF18E90810}' },
-                        Void: { id: '{7F102668-CB35-471B-8812-352C13C123AB}' },
-                    }
-                }
-            },
-            Quote: {
-                id: '4D785844-BE8A-4C00-B1FA-2AA5B05183E5', caption: 'Quote', nav: 'module/quote',
-                browse: {
-                    menuItems: {
-                        CancelUncancel: { id: '{78ACB73C-23DD-46F0-B179-0571BAD3A17D}' }
+                ChangeAuditReports: {
+                    id: 'Reports.ChangeAuditReports',
+                    caption: 'Change Audit Reports',
+                    nodetype: 'Category',
+                    children: {
+                        ChangeAuditReport: {                id: 'hfM1GHEQCWBJ', caption: 'Change Audit', nav: 'reports/changeauditreport', nodetype: 'Module', description: 'List all data changes made to any module by any user over a specific date range.' }
                     }
                 },
-                form: {
-                    menuItems: {
-                        CopyQuote: { id: '{B918C711-32D7-4470-A8E5-B88AB5712863}' },
-                        Search: { id: '{BC3B1A5E-7270-4547-8FD1-4D14F505D452}' },
-                        PrintQuote: { id: '{B20DDE47-A5D7-49A9-B980-8860CADBF7F6}' },
-                        CreateOrder: { id: '{E265DFD0-380F-4E8C-BCFD-FA5DCBA4A654}' },
-                        NewVersion: { id: '{F79F8C21-66DF-4458-BBEB-E19B2BFCAEAA}' },
-                        MakeQuoteActive: { id: '{32BF5F46-987A-4D61-9E85-6A7954897077}' },
-                        Reserve: { id: '{C122C2C5-9D68-4CDF-86C9-E37CB70C57A0}' },
-                        CancelUncancel: { id: '{BF633873-8A40-4BD6-8ED8-3EAC27059C84}' },
-                        ChangeOfficeLocation: { id: '{FDFED8DE-151C-4C03-B509-5AE4B19A2588}' },
-                    }
-                }
-            },
-            Receipt: { id: '57E34535-1B9F-4223-AD82-981CA34A6DEC', caption: 'Receipts', nav: 'module/receipt' },
-            ReceiveFromVendor: {
-                id: '00539824-6489-4377-A291-EBFE26325FAD', caption: 'Receive From Vendor', nav: 'module/receivefromvendor',
-                form: {
-                    menuItems: {
-                        Cancel: { id: '{A3BA715F-9249-4504-B076-1E9195F35372}' }
-                    }
-                }
-            },
-            RemoveFromContainer: { id: 'FB9876B5-165E-486C-9E06-DFB3ACB3CBF0', caption: 'Remove From Container', nav: 'module/removefromcontainer' },
-            RentalInventory: {
-                id: 'FCDB4C86-20E7-489B-A8B7-D22EE6F85C06', caption: 'Rental Inventory', nav: 'module/rentalinventory',
-                form: {
-                    menuItems: {
-                        CreateComplete: { id: '{B3371C86-740C-44C4-A8FA-E8DE750800F3}' }
-                    }
-                }
-            },
-            Repair: {
-                id: '2BD0DC82-270E-4B86-A9AA-DD0461A0186A', caption: 'Repair Order', nav: 'module/repair',
-                browse: {
-                    menuItems: {
-                        Void: { id: '{AFA36551-F49E-4FB9-84DD-A54A423CCFF3}' }
+                ChargeProcessingReports: {
+                    id: 'Reports.ChargeProcessingReports',
+                    caption: 'Charge Processing Reports',
+                    nodetype: 'Category',
+                    children: {
+                        DealInvoiceBatchReport: {           id: 't3byQWNa3hZ4H', caption: 'Deal Invoice Batch', nav: 'reports/dealinvoicebatchreport', nodetype: 'Module', description: 'List all Invoices processed in a selected Batch.' },
+                        ReceiptBatchReport: {               id: 'jB7p9OvmCibhx', caption: 'Receipt Batch', nav: 'reports/receiptbatchreport', nodetype: 'Module', description: 'List all Receipts processed in a selected Batch.' },
+                        VendorInvoiceBatchReport: {         id: '6gc3QbSGD5BX', caption: 'Vendor Invoice Batch', nav: 'reports/vendorinvoicebatchreport', nodetype: 'Module', description: 'List all Vendor Invoices processed in a selected Batch.' }
                     }
                 },
-                form: {
-                    menuItems: {
-                        Estimate: { id: '{AEDCEB81-2A5A-4779-8A88-25FD48E88E6A}' },
-                        Complete: { id: '{6EE5D9E2-8075-43A6-8E81-E2BCA99B4308}' },
-                        Void: { id: '{9F58C03B-89CD-484A-8332-CDBF9961A258}' },
-                        ReleaseItems: { id: '{EE709549-C91C-473E-96CC-2DB121082FB5}' }
-                    }
-                }
-            },
-            ReturnToVendor: {
-                id: 'D54EAA01-A710-4F78-A1EE-5FC9EE9150D8', caption: 'Return To Vendor', nav: 'module/returntovendor',
-                form: {
-                    menuItems: {
-                        Cancel: { id: '{C072441D-1FE3-4D2E-A015-DBE871CEC0FD}' }
-                    }
-                }
-            },
-            SalesInventory: {
-                id: 'B0CF2E66-CDF8-4E58-8006-49CA68AE38C2', caption: 'Sales Inventory', nav: 'module/salesinventory',
-                form: {
-                    menuItems: {
-                        CreateComplete: { id: '{B13C0180-D25C-4AFC-9B2C-556C7B0FA53F}' }
-                    }
-                }
-            },
-            StagingCheckout: {
-                id: 'C3B5EEC9-3654-4660-AD28-20DE8FF9044D', caption: 'Staging / Check-Out', nav: 'module/checkout',
-                form: {
-                    menuItems: {
-                        Cancel: { id: '{6E95996C-E104-4BBA-BE13-5FD73E4AAD04}' }
-                    }
-                }
-            },
-            SubWorksheet: { id: '2227B6C3-587D-48B1-98B6-B9125E0E4D9D', caption: 'Sub Worksheet', nav: 'module/subworksheet' },
-            SuspendedSession: { id: '5FBE7FF8-3770-48C5-855C-4320C961D95A', caption: 'Suspended Session', nav: 'module/suspendedsession' },
-            TransferIn: { id: 'D9F487C2-5DC1-45DF-88A2-42A05679376C', caption: 'Transfer In', nav: 'module/transferin' },
-            TransferOrder: {
-                id: 'F089C9A9-554D-40BF-B1FA-015FEDE43591', caption: 'Transfer Order', nav: 'module/transferorder',
-                form: {
-                    menuItems: {
-                        Search: { id: '{EE207266-01FC-4D0E-8469-48F5B099ED71}' },
-                        Confirm: { id: '{A35F0AAD-81B5-4A0C-8970-D448A67D5A82}' },
-                        CreatePickList: { id: '{5CA07E25-A93E-4FA0-9206-B3F556684B0C}' },
-                        TransferStatus: { id: '{A256288F-238F-4594-8A6A-3B70613925DA}' },
-                        TransferOut: { id: '{D0AB3734-7F96-46A6-8297-331110A4854F}' },
-                        TransferIn: { id: '{E362D71D-7597-4752-8BDD-72EE0CB7B2C4}' }
-                    }
-                }
-            },
-            TransferOut: { id: '91E79272-C1CF-4678-A28F-B716907D060C', caption: 'Transfer Out', nav: 'module/transferout' },
-            TransferReceipt: {
-                id: '2B60012B-ED6A-430B-B2CB-C1287FD4CE8B', caption: 'Transfer Receipt', nav: 'module/transferreceipt',
-                form: {
-                    menuItems: {
-                        Print: { id: '{5C35E285-F8DA-4D27-AA64-379156213B7F}' }
-                    }
-                }
-            },
-            TransferStatus: { id: '58D5D354-136E-40D5-9675-B74FD7807D6F', caption: 'Transfer Status', nav: 'module/transferstatus' },
-            Vendor: { id: 'AE4884F4-CB21-4D10-A0B5-306BD0883F19', caption: 'Vendor', nav: 'module/vendor' },
-            VendorInvoice: {
-                id: '854B3C59-7040-47C4-A8A3-8A336FC970FE', caption: 'Vendor Invoice', nav: 'module/vendorinvoice',
-                browse: {
-                    menuItems: {
-                        Approve: { id: '{4A8CEF38-F59F-4306-8A9B-9B43FF6D127D}' },
-                        Unapprove: { id: '{9378DA62-F7FD-4FD2-8310-3277BBD155BF}' }
+                ContractReports: {
+                    id: 'Reports.ContractReports',
+                    caption: 'Contract Reports',
+                    nodetype: 'Category',
+                    children: {
+                        ContractRevisionReport: {           id: 'ZDRzzkgcqTb57', caption: 'Contract Revision Activity', nav: 'reports/contractrevisionreport', nodetype: 'Module', description: 'List all modifications made to Contracts over a specified date range.' },
+                        OutContractReport: {                id: 'p2tH0HSDc930', caption: 'Out Contract', nav: 'reports/outcontractreport', nodetype: 'Module', description: 'Check-Out Contract document.' }
                     }
                 },
-                form: {
-                    menuItems: {
-                        Approve: { id: '{79ABAD41-19F1-42C1-A88B-41479DE13B3B}' },
-                        Unapprove: { id: '{FB248072-C14C-4EEC-8B99-5ED8E950CE8A}' }
+                CrewReports: {
+                    id: 'Reports.CrewReports',
+                    caption: 'Crew Reports',
+                    nodetype: 'Category',
+                    children: {
+                        CrewSignInReport: {                 id: 'kvDH1delOiUT', caption: 'Crew Sign-In', nav: 'reports/crewsigninreport', nodetype: 'Module', description: 'Lists the Sign In and Out activity for Crew members over a specific date range.' }
+                    }
+                },
+                DealReports: {
+                    id: 'Reports.DealReports',
+                    caption: 'Deal Reports',
+                    nodetype: 'Category',
+                    children: {
+                        CreditsOnAccountReport: {           id: '9JCPjgemNM8D', caption: 'Credits On Account', nav: 'reports/creditsonaccountreport', nodetype: 'Module', description: 'List each Deal that has an outstanding Credit Memo, Depleting Deposit, or Overpayment.' },
+                        CustomerRevenueByMonthReport: {     id: '40SdfVGkZPtA6', caption: 'Customer Revenue By Month', nav: 'reports/customerrevenuebymonthreport', nodetype: 'Module', description: 'List all revenue per Customer, per Deal, per Month.' },
+                        CustomerRevenueByTypeReport: {      id: 'mIieqY1nHrJP', caption: 'Customer Revenue By Type', nav: 'reports/customerrevenuebytypereport', nodetype: 'Module', description: 'List each Invoice for a specific date range.  Revenue amounts are broken down by Activity Type (ie. Rentals, Sales, etc).  Revenue is subtotalled by Customer and Deal.' },
+                        DealInvoiceDetailReport: {          id: 'u5mTLIfmUKWfH', caption: 'Deal Invoice Detail', nav: 'reports/dealinvoicedetailreport', nodetype: 'Module', description: 'List each Invoice for a specific date range, grouped by Deal and Order.  Review revenue broken down by Activity Type (ie. Rental, Sales, etc).  Analyze profits net of Sub Vendor Costs.' },
+                        DealOutstandingItemsReport: {       id: 'i5RTw0gXIWhU', caption: 'Deal Outstanding Items', nav: 'reports/dealoutstandingitemsreport', nodetype: 'Module', description: 'List all items still Checked-Out to a specific Deal.' },
+                        OrdersByDealReport: {               id: 'ltXuVM54H5dYe', caption: 'Orders By Deal', nav: 'reports/ordersbydealreport', nodetype: 'Module', description: 'List all Orders for specific date ranges, grouped by Deal.' },
+                        ReturnReceiptReport: {              id: 'N9wTkNBeCgJQz', caption: 'Return Receipt', nav: 'reports/returnreceiptreport', nodetype: 'Module', description: 'List all inventory checked-in without an Order (ie. Return Receipt) including all reconciliations.' }
+                    }
+                },
+                MultiLocationReports: {
+                    id: 'Reports.MultiLocationReports',
+                    caption: 'Multi Location Reports',
+                    nodetype: 'Category',
+                    children: {
+                        TransferReport: {                   id: 'XerdM2ZaD51uw', caption: 'Transfer Report', nav: 'reports/transferreport', nodetype: 'Module', description: 'List all Transfer Orders as well as transferred Inventory over a specific date range.' }
+                    }
+                },
+                OrderReports: {
+                    id: 'Reports.OrderReports',
+                    caption: 'Order Reports',
+                    nodetype: 'Category',
+                    children: {
+                        LateReturnDueBackReport: {          id: 'gOtEnqxlXIOt', caption: 'Late Return / Due Back', nav: 'reports/latereturnduebackreport', nodetype: 'Module', description: 'List all items that are Late or Due Back on a specific date.  Data is subtotalled by Order and Deal.' },
+                        OrderConflictReport: {              id: 'kXV9ZCJogLiwe', caption: 'Availability Item Conflict', nav: 'reports/orderconflictreport', nodetype: 'Module', description: 'List all Negative and Positive Availability Conflicts over a specified date range.' },
+                        OrderReport: {                      id: 'Q89Ni6FvVL92', caption: 'Print Order', nav: 'reports/orderreport', nodetype: 'Module', description: 'Order document.' },
+                        OutstandingSubRentalReport: {       id: 'NCFNATdQRx5E', caption: 'Outstanding Sub-Rental', nav: 'reports/outstandingsubrentalreport', nodetype: 'Module', description: 'List all Sub-Rental items currently Staged, Out, or in Holding.' },
+                        PickListReport: {                   id: 'Rk38wHmvgXTg', caption: 'Pick List', nav: 'reports/picklistreport', nodetype: 'Module', description: 'Pick List document.' },
+                        QuikActivityReport: {               id: '4hamhMOWKXD9', caption: 'QuikActivity', nav: 'reports/quikactivityreport', nodetype: 'Module', description: 'List all Quote, Order, Transfer, Purchase, and Repair activities over a specific date range.' },
+                        QuoteReport: {                      id: '', caption: 'Print Quote', nodetype: 'Module', nav: 'reports/quotereport', description: 'Quote document.' },
+                        QuoteOrderMasterReport: {           id: 'yx1quQL9wJ9mg', caption: 'Quote / Order Master Report', nav: 'reports/quoteordermasterreport', nodetype: 'Module', description: 'List all Quotes and Orders, filtered by date range, and grouped by Deal.' },
+                        SubSalesStagedItemsReport: {        id: '2GIJvJlbIFQN', caption: 'Sub-Sales Staged Items', nav: 'reports/subsalesstageditemsreport', nodetype: 'Module', description: 'List all Sub Sale Inventory currently Staged on Orders.' }
+                    }
+                },
+                PartsInventoryReports: {
+                    id: 'Reports.PartsInventoryReports',
+                    caption: 'Parts Inventory Reports',
+                    nodetype: 'Category',
+                    children: {
+                        PartsInventoryAttributesReport: {           id: 'qyi6CvOObXr', caption: 'Parts Inventory Attributes', nav: 'reports/partsinventoryattributesreport', nodetype: 'Module', description: 'List all Parts Inventory with their Attributes and Values.' },
+                        PartsInventoryCatalogReport: {              id: '5KHdCAEfEbEVo', caption: 'Parts Inventory Catalog', nav: 'reports/partsinventorycatalogreport', nodetype: 'Module', description: 'List all Parts Inventory, current Rates, and Quantity on Hand.' },
+                        PartsInventoryPurchaseHistoryReport: {      id: 's3JHeEZYfEu', caption: 'Parts Inventory Purchase History', nav: 'reports/partsinventorypurchasehistoryreport', nodetype: 'Module', description: 'List all Parts Inventory Purchase History.' },
+                        PartsInventoryReorderReport: {              id: '2KtGO1TfYVe', caption: 'Parts Inventory Reorder', nav: 'reports/partsinventoryreorderreport', nodetype: 'Module', description: 'List all Parts Inventory to reorder. Filter items with quantity levels at or below their Reorder Point.' },
+                        PartsInventoryTransactionReport: {          id: 'p4MdfH1e38wLE', caption: 'Parts Inventory Transactions', nav: 'reports/partsinventorytransactionreport', nodetype: 'Module', description: 'List all Parts Inventory Transactions, including Cost and Price, over a specific date range.' }
+                    }
+                },
+                RentalInventoryReports: {
+                    id: 'Reports.RentalInventoryReports',
+                    caption: 'Rental Inventory Reports',
+                    nodetype: 'Category',
+                    children: {
+                        RentalInventoryActivityByDateReport: {      id: 'nh7dhdTKT9U0Q', caption: 'Rental Inventory Activity By Date', nav: 'reports/rentalinventoryactivitybydatereport', nodetype: 'Module', description: 'List all Rental Inventory Out and In Activity over a specific date range.' },
+                        RentalInventoryAttributesReport: {          id: 'CgvKJwiD2ew',   caption: 'Rental Inventory Attributes', nav: 'reports/rentalinventoryattributesreport', nodetype: 'Module', description: 'List all Rental Inventory with their Attributes and Values.' },
+                        RentalInventoryAvailabilityReport: {        id: 'LQj6R2GQBfLfS', caption: 'Rental Inventory Availability', nav: 'reports/rentalinventoryavailabilityreport', nodetype: 'Module', description: 'List all Rental Inventory with projected Availability for up to 30 days.' },
+                        RentalInventoryCatalogReport: {             id: '9cNlsCNNeCPV',  caption: 'Rental Inventory Catalog', nav: 'reports/rentalinventorycatalogreport', nodetype: 'Module', description: 'List all Rental Inventory, current Rates, Replacement Cost, and Owned Quantity.' },
+                        RentalInventoryChangeReport: {              id: '1hUsFp31mUCV',  caption: 'Rental Inventory Change', nav: 'reports/rentalinventorychangereport', nodetype: 'Module', description: 'List all changes to Rental Inventory quantities over a date range.' },
+                        RentalInventoryMasterReport: {              id: 'hVovGdrneLrzq', caption: 'Rental Inventory Master', nav: 'reports/rentalinventorymasterreport', nodetype: 'Module', description: 'List all Rental Inventory with their Quantities, Status, Cost, and Value.' },
+                        RentalInventoryMovementReport: {            id: '3fjXnYy5gTPR',  caption: 'Rental Inventory Movement', nav: 'reports/rentalinventorymovementreport', nodetype: 'Module', description: 'List all Rental Inventory with changes in quantity over a date range.' },
+                        RentalInventoryPurchaseHistoryReport: {     id: 'kI5HgFqlPzr',   caption: 'Rental Inventory Purchase History', nav: 'reports/rentalinventorypurchasehistoryreport', nodetype: 'Module', description: 'List all Rental Inventory Purchase History.' },
+                        RentalInventoryQCRequiredReport: {          id: 'LzwbAbB86Hlvs', caption: 'Rental Inventory QC Required', nav: 'reports/rentalinventoryqcrequiredreport', nodetype: 'Module', description: 'List all Rental Inventory that require QC.' },
+                        RentalInventoryStatusAndRevenueReport: {    id: 'uCEqKxMHdcT',   caption: 'Rental Inventory Status and Revenue', nav: 'reports/rentalinventorystatusandrevenuereport', nodetype: 'Module', description: 'List all Rental Inventory including current status counts and revenue over a given date range.' },
+                        RentalInventoryUnusedItemsReport: {         id: 'Xb4w7HOWs9vww', caption: 'Rental Inventory Unused Items', nav: 'reports/rentalinventoryunuseditemsreport', nodetype: 'Module', description: 'List all Rental Inventory that has not been rented for the the specified number of days.' },
+                        RentalInventoryUsageReport: {               id: 'BplzDmql7vG48', caption: 'Rental Inventory Usage', nav: 'reports/rentalinventoryusagereport', nodetype: 'Module', description: 'List all Rental Inventory and Usage, with owned revenue and sub-rental revenue.' },
+                        RentalInventoryValueReport: {               id: 'UZkDL1Yyby6kN', caption: 'Rental Inventory Value', nav: 'reports/rentalinventoryvaluereport', nodetype: 'Module', description: 'List all Rental Inventory and get a current value, historical value, or change in value over a date range.' },
+                        RentalLostAndDamagedBillingHistoryReport: { id: '37O4QUBc8nM8t', caption: 'Rental Lost And Damaged Billing History', nav: 'reports/rentallostanddamagedbillinghistoryreport', nodetype: 'Module', description: 'List all Billing for Lost and Damaged inventory.' },
+                        RetiredRentalInventoryReport: {             id: 'L8qgvB6nFhAV',  caption: 'Retired Rental Inventory', nav: 'reports/retiredrentalinventoryreport', nodetype: 'Module', description: 'List all Rental Inventory Retired during a specified date range.' },
+                        ReturnedToInventoryReport: {                id: 'jXgzMRhDOFMY',  caption: 'Returned To Inventory', nav: 'reports/returnedtoinventoryreport', nodetype: 'Module', description: 'List all Rental Inventory Returned during a specified date range.' },
+                        ReturnOnAssetReport: {                      id: '15TIjoDzY09G',  caption: 'Return On Asset', nav: 'reports/returnonassetreport', nodetype: 'Module', description: 'Calculate the Revenue, Value, Utilization, and Return on Asset for all Rental Inventory for various date ranges.' },
+                        UnretiredRentalInventoryReport: {           id: 'UaCdIoXMNFyiT', caption: 'Unretired Rental Inventory', nav: 'reports/unretiredrentalinventoryreport', nodetype: 'Module', description: 'List all Rental Inventory unretired during a specified date range.' },
+                        ValueOfOutRentalInventoryReport: {          id: 'n4gdQ6awebnX',  caption: 'Value Of Out Rental Inventory', nav: 'reports/valueofoutrentalinventoryreport', nodetype: 'Module', description: 'List all Rental Inventory Out on a specific date, including Cost and Value for each.' },
+                    }
+                },
+                RepairOrderReports: {
+                    id: 'Reports.RepairOrderReports',
+                    caption: 'Repair Order Reports',
+                    nodetype: 'Category',
+                    children: {
+                        RentalEquipmentRepairHistoryReport: { id: 'bLX4YBftwJvw', caption: 'Rental Equipment Repair History', nav: 'reports/rentalequipmentrepairhistoryreport', nodetype: 'Module', description: 'List all Rental Inventory that has been In Repair over a specified date range.' },
+                        RepairOrderStatusReport: {            id: 'KFP6Nq17ZuDPO', caption: 'Repair Order Status', nav: 'reports/repairorderstatusreport', nodetype: 'Module', description: 'List all Repair Orders, including Damage Notes.  Filter by Status, Type, Priority, Days In Repair, and more.' }
+                    }
+                },
+                SalesInventoryReports: {
+                    id: 'Reports.SalesInventoryReports',
+                    caption: 'Sales Inventory Reports',
+                    nodetype: 'Category',
+                    children: {
+                        SalesBackorderReport: {                id: 'KMdFiy9SEIQEU', caption: 'Sales Inventory Backorder', nav: 'reports/salesbackorderreport', nodetype: 'Module', description: 'List all Orders with Sales Inventory partially checked-out and items still on backorder.' },
+                        SalesHistoryReport: {                  id: '0qFfabkzl5Vi', caption: 'Sales History', nav: 'reports/saleshistoryreport', nodetype: 'Module', description: 'List all Sales over a specific date range.' },
+                        SalesInventoryAttributesReport: {      id: 'IKtnIOnt3tS', caption: 'Sales Inventory Attributes', nav: 'reports/salesinventoryattributesreport', nodetype: 'Module', description: 'List all Sales Inventory with their Attributes and Values.' },
+                        SalesInventoryCatalogReport: {         id: 'psk5v7y4gImL', caption: 'Sales Inventory Catalog', nav: 'reports/salesinventorycatalogreport', nodetype: 'Module', description: 'List all Sales Inventory, current Rates, and Quantity on Hand.' },
+                        SalesInventoryMasterReport: {          id: 'iZlMgIbbp6iK2', caption: 'Sales Inventory Master', nav: 'reports/salesinventorymasterreport', nodetype: 'Module', description: 'List all Sales Inventory with their Quantities, Costs, and Revenue Totals.' },
+                        SalesInventoryPurchaseHistoryReport: { id: 'mSjHvRjNvI0', caption: 'Sales Inventory Purchase History', nav: 'reports/salesinventorypurchasehistoryreport', nodetype: 'Module', description: 'List all Sales Inventory Purchase History.' },
+                        SalesInventoryReorderReport: {         id: 'h1ag1lcZCgd', caption: 'Sales Inventory Reorder', nav: 'reports/salesinventoryreorderreport', nodetype: 'Module', description: 'List all Sales Inventory to reorder. Filter items with quantity levels at or below their Reorder Point.' },
+                        SalesInventoryTransactionReport: {     id: 'uUxuUabbhO7ah', caption: 'Sales Inventory Transactions', nav: 'reports/salesinventorytransactionreport', nodetype: 'Module', description: 'List all Sales Inventory Transactions, including Cost and Price, over a specific date range.' }
+                    }
+                },
+                VendorReports: {
+                    id: 'Reports.VendorReports',
+                    caption: 'Vendor Reports',
+                    nodetype: 'Category',
+                    children: {
+                        PurchaseOrderMasterReport: {        id: 'zJJl8Frw1U7U7', caption: 'Purchase Order Master', nav: 'reports/purchaseordermasterreport', nodetype: 'Module', description: 'List all Purchase Orders for a specified date range.' },
+                        PurchaseOrderReport: {              id: 'yrvMp4sG8CzF', caption: 'Purchase Order', nav: 'reports/purchaseorderreport', nodetype: 'Module', description: 'List all Purchase Orders for a specified date range.' },
+                        SubItemStatusReport: {              id: 'fL9dlJfzzJf8U', caption: 'Sub Item Status', nav: 'reports/subitemstatusreport', nodetype: 'Module', description: 'List all Sub-Rentals, Sub-Sales, Sub-Misc, and Sub-Labor over a specified date range. Evaluate profitability of each.' },
+                        SubRentalBillingAnalysisReport: {   id: 'KIE1O1i2tvtsu', caption: 'Sub-Rental Billing Analysis', nav: 'reports/subrentalbillinganalysisreport', nodetype: 'Module', description: 'List all Sub-Rental Billing activity and compare Deal billing amounts with Vendor billing amounts.' },
+                        VendorInvoiceSummaryReport: {       id: 'J2Lczm4sL14Ze', caption: 'Vendor Invoice Summary', nav: 'reports/vendorinvoicesummaryreport', nodetype: 'Module', description: 'List all Invoices for a specific date range, subtotalled by Purchase Order and Deal.' }
                     }
                 }
             }
         },
         Settings: {
-            DefaultSettings: { id: '3F551271-C157-44F6-B06A-8F835F7A2084', caption: 'Default Settings', nav: 'module/defaultsettings' },
-            InventorySettings: { id: '5C7D5BFA-3EA3-42C5-B90A-27A9EA5EA9FC', caption: 'Inventory Settings', nav: 'module/inventorysettings' },
-            LogoSettings: { id: 'B3ADDF49-64EB-4740-AB41-4327E6E56242', caption: 'Logo Settings', nav: 'module/logosettings' },
-            SystemSettings: { id: '6EFC3A8C-E83E-4FE3-BAC8-8E04EBD7F204', caption: 'System Settings', nav: 'module/systemsettings' },
-            TaxOption: {
-                form: {
-                    menuItems: {
-                        ForceTaxRates: { id: '{CE1AEA95-F022-4CF5-A4FA-81CE32523344}' }
+            id: 'Settings',
+            caption: 'Settings',
+            nodetype: 'Category',
+            children: {
+                AccountingSettings: {
+                    caption: 'Accounting',
+                    id: 'Settings.AccountingSettings',
+                    nodetype: 'Category',
+                    children: {
+                        AccountingSettings: { id: 'Xxp77cNVPq29d', caption: 'Accounting Settings', nav: 'settings/accountingsettings/accountingsettings', nodetype: 'Module', description: '' },
+                        GlAccount: { id: '1bUgvfRlo7v4', caption: 'Chart Of Accounts', nav: 'settings/accountingsettings/chartofaccounts', nodetype: 'Module', description: 'Asset, Income, Liability, and Expense Accounts for tracking revenue and expenses.' },
+                        GlDistribution: { id: '71QUDQyIbibs', caption: 'G/L Distribution', nav: 'settings/accountingsettings/gldistribution', nodetype: 'Module', description: 'Accounts to use for Accounts Receivable, Receipts, Payables, etc.' }
+                    }
+                },
+                AddressSettings: {
+                    caption: 'Address',
+                    id: 'Settings.AddressSettings',
+                    nodetype: 'Category',
+                    children: {
+                        Country: { id: 'FV8c2ibthqUF', caption: 'Country', nav: 'settings/addresssettings/country', nodetype: 'Module', description: 'List Countries to relate to your Customers, Deals, and Vendors' },
+                        State: { id: 'JW3yCGldGTAqC', caption: 'State / Province', nav: 'settings/addresssettings/state', nodetype: 'Module', description: 'List States to relate to your Customers, Deals, and Vendors' }
+                    }
+                },
+                BillingCycleSettings: {
+                    caption: 'Billing Cycle',
+                    id: 'Settings.BillingCycleSettings',
+                    nodetype: 'Category',
+                    children: {
+                        BillingCycle: { id: 'FQfXEIcN9q3', caption: 'Billing Cycle', nav: 'settings/billingcyclesettings/billingcycle', nodetype: 'Module', description: 'Define and configure Billing Cycles for your Quotes and Orders' }
+                    }
+                },
+                CompanyDepartmentSettings: {
+                    caption: 'Company Department',
+                    id: 'Settings.CompanyDepartmentSettings',
+                    nodetype: 'Category',
+                    children: {
+                        Department: { id: 'kuYqT9d6TDEg', caption: 'Company Department', nav: 'settings/companydepartmentsettings/companydepartment', nodetype: 'Module', description: '' }
+                    }
+                },
+                ContactSettings: {
+                    caption: 'Contact',
+                    id: 'Settings.ContactSettings',
+                    nodetype: 'Category',
+                    children: {
+                        ContactEvent: { id: 'KdvGpc1dQINo', caption: 'Contact Event', nav: 'settings/contactsettings/contactevent', nodetype: 'Module', description: '' },
+                        ContactTitle: { id: 'PClZ3w0VUnPt', caption: 'Contact Title', nav: 'settings/contactsettings/contacttitle', description: '' },
+                        MailList: { id: 'vUT6JZ1Owu5n', caption: 'Mail List', nav: 'settings/contactsettings/maillist', nodetype: 'Module', description: '' }
+                    }
+                },
+                CurrencySettings: {
+                    caption: 'Currency',
+                    id: 'Settings.CurrencySettings',
+                    children: {
+                        Currency: { id: 'xpyZJmmju0uB', caption: 'Currency', nav: 'settings/currencysettings/currency', nodetype: 'Module', description: '' }
+                    }
+                },
+                CustomerSettings: {
+                    caption: 'Customer',
+                    id: 'Settings.CustomerSettings',
+                    nodetype: 'Category',
+                    children: {
+                        CreditStatus: { id: 'A4P8o1quoutj', caption: 'Credit Status', nav: 'settings/currencysettings/creditstatus', nodetype: 'Module', description: '' },
+                        CustomerCategory: { id: 'HC4q49WUI1NW', caption: 'Customer Category', nav: 'settings/currencysettings/customercategory', nodetype: 'Module', description: '' },
+                        CustomerStatus: { id: 'ZbZ8bywECnnE', caption: 'Customer Status', nav: 'settings/currencysettings/customerstatus', nodetype: 'Module', description: '' },
+                        CustomerType: { id: 'gk8NipmJErWZ', caption: 'Customer Type', nav: 'settings/currencysettings/customertype', nodetype: 'Module', description: '' }
+                    }
+                },
+                DealSettings: {
+                    caption: 'Deal',
+                    id: 'SetSettings.DealSettings',
+                    nodetype: 'Category',
+                    children: {
+                        DealClassification: { id: 'uRRVPMAFf61J', caption: 'Deal Classification', nav: 'settings/currencysettings/dealclassification', nodetype: 'Module', description: '' },
+                        DealStatus: { id: 'CHOTGdFVlnFK', caption: 'Deal Status', nav: 'settings/currencysettings/dealstatus', nodetype: 'Module', description: '' },
+                        DealType: { id: 'jZCS1X5BzeyS', caption: 'DealType', nav: 'settings/currencysettings/dealtype', nodetype: 'Module', description: '' },
+                        ProductionType: { id: '3UvqzQ0Svxay6', caption: 'Production Type', nav: 'settings/currencysettings/productiontype', nodetype: 'Module', description: '' },
+                        ScheduleType: { id: 'rUWFdPEkKkDAM', caption: 'Schedule Type', nav: 'settings/currencysettings/scheduletype', nodetype: 'Module', description: '' }
+                    }
+                },
+                DiscountTemplateSettings: {
+                    caption: 'Discount Template',
+                    id: 'Settings.DiscountTemplateSettings',
+                    nodetype: 'Category',
+                    children: {
+                        DiscountTemplate: { id: '1uoU0MeI7hIu', caption: 'Discount Template', nav: 'settings/discounttemplatesettings/discounttemplate', nodetype: 'Module', description: '' }
+                    }
+                },
+                DocumentSettings: {
+                    caption: 'Document',
+                    id: 'Settings.DocumentSettings',
+                    nodetype: 'Category',
+                    children: {
+                        DocumentType: { id: 'qus92U5z7R9Z', caption: 'Document Type', nav: 'settings/documentsettings/documenttype', nodetype: 'Module', description: '' },
+                        CoverLetter: { id: 'ejyCz527IQCS', caption: 'Cover Letter', nav: 'settings/documentsettings/coverletter', nodetype: 'Module', description: '' },
+                        TermsConditions: { id: 'lYqC40ZjalGUy', caption: 'Terms & Conditions', nav: 'settings/documentsettings/termsandconditions', nodetype: 'Module', description: '' }
+                    }
+                },
+                EventSettings: {
+                    caption: 'Event',
+                    id: 'Settings.EventSettings',
+                    nodetype: 'Category',
+                    children: {
+                        EventCategory: { id: '0Zcc827UeucP', caption: 'Event Category', nav: 'settings/eventsettings/eventcategory', nodetype: 'Module', description: '' },
+                        EventType: { id: 'HXotrQfoaQCq', caption: 'Event Type', nav: 'settings/eventsettings/eventtype', nodetype: 'Module', description: '' },
+                        PersonnelType: { id: 'Dd4V9E1c9Kz8', caption: 'Personnel Type', nav: 'settings/eventsettings/personneltype', nodetype: 'Module', description: '' },
+                        PhotographyType: { id: 'bFH6YcKYCqye', caption: 'Photography Type', nav: 'settings/eventsettings/photographytype', nodetype: 'Module', description: '' }
+                    }
+                },
+
+                FacilitySettings: {
+                    caption: 'Facility',
+                    id: 'Settings.FacilitySettings',
+                    nodetype: 'Category',
+                    children: {
+                        Building: { id: 'h0sTItX8Ofd', caption: 'Building', nav: 'settings/facilitysettings/building', nodetype: 'Module', description: '' },
+                        FacilityCategory: { id: 'YA1ynwQcq11', caption: 'Facility Category', nav: 'settings/facilitysettings/facilitycategory', nodetype: 'Module', description: '' },
+                        FacilityRate: { id: 'rA0UZvSMuSF', caption: 'Facility Rate', nav: 'settings/facilitysettings/facilityrate', nodetype: 'Module', description: '' },
+                        FacilityScheduleStatus: { id: '8QjijODAMJt', caption: 'Facility Schedule Status', nav: 'settings/facilitysettings/facilityschedulestatus', nodetype: 'Module', description: '' },
+                        FacilityStatus: { id: 'xJ4UyFe61kC', caption: 'Facility Status', nav: 'settings/facilitysettings/facilitystatus', nodetype: 'Module', description: '' },
+                        FacilityType: { id: 'sp3q4geu1RZM', caption: 'Facility Type', nav: 'settings/facilitysettings/facilitytype', nodetype: 'Module', description: '' },
+                        SpaceType: { id: 'lVjqEX5l2s8ZS', caption: 'Facility Space Type', nav: 'settings/facilitysettings/facilityspacetype', nodetype: 'Module', description: '' }
+                    }
+                },
+                FiscalYearSettings: {
+                    caption: 'Fiscal Year',
+                    id: 'Settings.FiscalYearSettings',
+                    nodetype: 'Category',
+                    children: {
+                        FiscalYear: { id: 'n8p9E78kGRM6', caption: 'Fiscal Year', nav: 'settings/fiscalyearsettings/fiscalyear', nodetype: 'Module', description: '' }
+                    }
+                },
+                GeneratorSettings: {
+                    caption: 'Generator',
+                    id: 'Settings.GeneratorSettings',
+                    children: {
+                        GeneratorFuelType: { id: 'WP4ewzQGUV8U', caption: 'Generator Fuel Type', nav: 'settings/generatorsettings/fueltype', nodetype: 'Module', description: '' },
+                        GeneratorMake: { id: 'fHix04T2Hsc6', caption: 'Generator Make', nav: 'settings/generatorsettings/make', nodetype: 'Module', description: '' },
+                        GeneratorRating: { id: 'B0hMFj9s7XGT', caption: 'Generator Rating', nav: 'settings/generatorsettings/rating', nodetype: 'Module', description: '' },
+                        GeneratorWatts: { id: 'D2Z3jlFgx8Es', caption: 'Generator Watts', nav: 'settings/generatorsettings/watts', nodetype: 'Module', description: '' },
+                        GeneratorType: { id: 'mUQp7GqmQlaR', caption: 'Generator Type', nav: 'settings/generatorsettings/type', nodetype: 'Module', description: '' }
+                    }
+                },
+                HolidaySettings: {
+                    caption: 'Holiday',
+                    id: 'Settings.HolidaySettings',
+                    nodetype: 'Category',
+                    children: {
+                        Holiday: { id: 'nZBYaMILxWSm', caption: 'Holiday', nav: 'settings/holidaysettings/holiday', nodetype: 'Module', description: '' },
+                        BlackoutStatus: { id: '1B2gGaIJglY', caption: 'Blackout Status', nav: 'settings/holidaysettings/blackoutstatus', nodetype: 'Module', description: '' }
+                    }
+                },
+                InventorySettings: {
+                    caption: 'Inventory',
+                    id: 'Settings.InventorySettings',
+                    nodetype: 'Category',
+                    children: {
+                        Attribute:                 { id: 'Ok4Yh4kdsxk'  , caption: 'Inventory Attribute',         nav: 'module/inventorysettings/attribute', nodetype: 'Module', description: '' },
+                        BarCodeRange:              { id: 'akTqMO0zmuc'  , caption: 'Bar Code Range',              nav: 'module/inventorysettings/barcoderange', nodetype: 'Module', description: '' },
+                        InventoryAdjustmentReason: { id: 'geoncGlrjrAr' , caption: 'Inventory Adjustment Reason', nav: 'module/inventorysettings/inventoryadjustmentreason', nodetype: 'Module', description: '' },
+                        InventoryCondition:        { id: 'JL0j4lk1KfBY' , caption: 'Inventory Condition',         nav: 'module/inventorysettings/inventorycondition', nodetype: 'Module', description: '' },
+                        InventoryGroup:            { id: 'XgfGFSbbiiHy' , caption: 'Inventory Group',             nav: 'module/inventorysettings/inventorygroup', nodetype: 'Module', description: '' },
+                        InventoryRank:             { id: '3YXhU6x3GseH' , caption: 'Inventory Rank',              nav: 'module/inventorysettings/inventoryrank', description: '' },
+                        InventoryStatus:           { id: 'eb5WjxGH2duV' , caption: 'Inventory Status',            nav: 'module/inventorysettings/inventorystatus', nodetype: 'Module', description: '' },
+                        InventoryType:             { id: 'aFLFxVNukHJt' , caption: 'Inventory Type',              nav: 'module/inventorysettings/inventorytype', nodetype: 'Module', description: '' },
+                        PartsCategory:             { id: 'aSzlwy6XYMSV' , caption: 'Parts Category',              nav: 'module/inventorysettings/partscategory', nodetype: 'Module', description: '' },
+                        RentalCategory:            { id: 'whxFImy6IZG2p', caption: 'Rental Category',             nav: 'module/inventorysettings/rentalcategory', nodetype: 'Module', description: '' },
+                        RetiredReason:             { id: 'hktLnLB9qF7k' , caption: 'Retired Reason',              nav: 'module/inventorysettings/retiredreason', nodetype: 'Module', description: '' },
+                        SalesCategory:             { id: 'XS6vdtV5jQTyF', caption: 'Sales Category',              nav: 'module/inventorysettings/salescategory', nodetype: 'Module', description: '' },
+                        Unit:                      { id: 'K87j9eupQwohK', caption: 'Unit of Measure',             nav: 'module/inventorysettings/unit', nodetype: 'Module', description: '' },
+                        UnretiredReason:           { id: '0SWJ0HNGoioxe', caption: 'Unretired Reason',            nav: 'module/inventorysettings/unretiredreason', nodetype: 'Module', description: '' },
+                        WarehouseCatalog:          { id: 'wMXhVrm9w33xO', caption: 'Warehouse Catalog',           nav: 'module/inventorysettings/warehousecatalog', nodetype: 'Module', description: '' }
+                    }
+                },
+                LaborSettings: {
+                    caption: 'Labor',
+                    id:      'Settings.LaborSettings',
+                    nodetype: 'Category',
+                    children: {
+                        Crew:               { id: '7myCbtZNx85m', caption: 'Crew',                 nav: 'settings/laborsettings/crew', nodetype: 'Module', description: '' },
+                        CrewScheduleStatus: { id: 'c0X4YfdKCp06', caption: 'Crew Schedule Status', nav: 'settings/laborsettings/crewschedulestatus', nodetype: 'Module', description: '' },
+                        CrewStatus:         { id: 'uW0hAqUv6mDL', caption: 'Crew Status',          nav: 'settings/laborsettings/crewstatus', nodetype: 'Module', description: '' },
+                        LaborCategory:      { id: 'nJIiZsDNxc83', caption: 'Labor Category',       nav: 'settings/laborsettings/laborcategory', nodetype: 'Module', description: '' },
+                        LaborPosition:      { id: 'ZKb7ET3WoPs2', caption: 'Crew Position',        nav: 'settings/laborsettings/laborposition', nodetype: 'Module', description: '' },
+                        LaborRate:          { id: 'GRs9mNWBxRw4', caption: 'Labor Rate',           nav: 'settings/laborsettings/laborrate', nodetype: 'Module', description: '' },
+                        LaborType:          { id: 'FGjikpXt4iRf', caption: 'Labor Type',           nav: 'settings/laborsettings/labortype', nodetype: 'Module', description: '' }
+                    }
+                },
+                MiscSettings: {
+                    caption: 'Misc',
+                    id: 'Settings.MiscellaneousSettings',
+                    nodetype: 'Category',
+                    children: {
+                        MiscCategory:   { id: 'BRtP4O9fieRK', caption: 'Miscellaneous Category',    nav: 'settings/miscsettings/misccategory', nodetype: 'Module', description: '' },
+                        MiscRate:       { id: 'tINVceJ8JoN7', caption: 'Miscellaneous Rate',      nav: 'settings/miscsettings/miscrate', nodetype: 'Module', description: '' },
+                        MiscType:       { id: 'FjAFN8CLolYu', caption: 'Miscellaneous Type',      nav: 'settings/miscsettings/misctype', nodetype: 'Module', description: '' }
+                    }
+                },
+                OfficeLocationSettings: {
+                    caption: 'Office Location',
+                    id: 'Settings.OfficeLocationSettings',
+                    nodetype: 'Category',
+                    children: {
+                        OfficeLocation: { id: 'yZhqRrXdTEvN', caption: 'Office Location', nav: 'settings/officeloactionsettings/officelocation', nodetype: 'Module', description: '' }
+                    }
+                },
+                OrderSettings: {
+                    caption: 'Order',
+                    id: 'Settings.OrderSettings',
+                    nodetype: 'Category',
+                    children: {
+                        OrderType:      { id: 'yFStSrvTlwWY', caption: 'Order Type',        nav: 'settings/ordersettings/ordertype', nodetype: 'Module', description: '' },
+                        DiscountReason: { id: 'XyjAvHBEaKL7', caption: 'Discount Reason',   nav: 'settings/ordersettings/discountreason', nodetype: 'Module', description: '' },
+                        MarketSegment:  { id: 'NPu4Lci1ndrl', caption: 'Market Segment',    nav: 'settings/ordersettings/marketsegment', nodetype: 'Module', description: '' },
+                        MarketType:     { id: 'sEgqHq5tov4n', caption: 'Market Type',       nav: 'settings/ordersettings/markettype', nodetype: 'Module', description: '' },
+                        OrderSetNo:     { id: 'OoepsrkqPYRP', caption: 'Order Set No.',     nav: 'settings/ordersettings/ordersetno', nodetype: 'Module', description: '' },
+                        OrderLocation:  { id: 'ezKyPjJBJKjQ', caption: 'Order Location',    nav: 'settings/laborsettings/laborrate', nodetype: 'Module', description: '' }
+                    }
+                },
+                PaymentSettings: {
+                    caption: 'Payment',
+                    id: 'Settings.PaymentSettings',
+                    nodetype: 'Category',
+                    children: {
+                        PaymentTerms:   { id: 'p5RqSdENdPMa', caption: 'Payment Terms', nav: 'settings/paymentsettings/paymentterms', nodetype: 'Module', description: '' },
+                        PaymentType:    { id: 'd8RdKxFfho4z', caption: 'Payment Type',  nav: 'settings/paymentsettings/paymenttype', nodetype: 'Module', description: '' }
+                    }
+                },
+                POSettings: {
+                    caption: 'PO',
+                    id: 'Settings.POSettings',
+                    nodetype: 'Category',
+                    children: {
+                        POApprovalStatus: { id: '9CsrBJ9TN1wT', caption: 'PO Approval Status', nav: 'settings/posettings/poapprovalstatus', nodetype: 'Module', description: '' },
+                        POApprover: { id: 'kaGlUrLG9GjN', caption: 'PO Approver', nav: 'settings/posettings/POApprover', nodetype: 'Module', description: '' },
+                        POApproverRole: { id: 'HdPKvHGhi3zf', caption: 'PO Approver Role', nav: 'settings/posettings/poapproverrole', nodetype: 'Module', description: '' },
+                        POClassification: { id: 'skhmIJOt0Fi0', caption: 'PO Classification', nav: 'settings/posettings/poclassification', nodetype: 'Module', description: '' },
+                        POImportance: { id: 'gLt2YTtB2afl', caption: 'PO Importance', nav: 'settings/posettings/poimportance', nodetype: 'Module', description: '' },
+                        PORejectReason: { id: 'xwTGYRx4Gg21', caption: 'PO Reject Reason', nav: 'settings/posettings/porejectreason', nodetype: 'Module', description: '' },
+                        POType: { id: 'Gyx3ZcMtuH1fi', caption: 'PO Type', nav: 'settings/posettings/potype', nodetype: 'Module', description: '' },
+                        VendorInvoiceApprover: { id: '3Hhg9Bl5Rm1mT', caption: 'Vendor Invoice Approver', nav: 'settings/posettings/vendorinvoiceapprover', nodetype: 'Module', description: '' }
+                    }
+                },
+                PresentationSettings: {
+                    caption: 'Presentation',
+                    id:      'Settings.PresentationSettings',
+                    nodetype: 'Category',
+                    children: {
+                        FormDesign: { id: 'er64NLGnsWN7', caption: 'Form Design', nav: 'settings/presentationsettings/formdesign', nodetype: 'Module', description: '' },
+                        PresentationLayer:  { id: '0v54dFE9Zhun8', caption: 'Presentation Layer',   nav: 'settings/presentationsettings/presentationlayer', nodetype: 'Module', description: '' }
+                    }
+                },
+                ProjectSettings: {
+                    caption: 'Project',
+                    id:      'Settings.ProjectSettings',
+                    nodetype: 'Category',
+                    children: {
+                        ProjectAsBuild:       { id: 'CiTY0pLnyroMa', caption: 'Project As Build',        nav: 'settings/projectsettings/projectasbuild', nodetype: 'Module', description: '' },
+                        ProjectCommissioning: { id: '124H9oI67IKRx', caption: 'Project Commissioning',   nav: 'settings/projectsettings/projectcommissioning', nodetype: 'Module', description: '' },
+                        ProjectDeposit:       { id: 'z9uSXy8A4AdoO', caption: 'Project Deposit',         nav: 'settings/projectsettings/projectdeposit', nodetype: 'Module', description: '' },
+                        ProjectDrawings:      { id: 'e0Ylzlhkp2wY0', caption: 'Project Drawings',        nav: 'settings/projectsettings/projectdrawings', nodetype: 'Module', description: '' },
+                        ProjectDropShipItems: { id: 'XzUwxCWh64FDw', caption: 'Project Drop Ship Items', nav: 'settings/projectsettings/projectdropshipitems', nodetype: 'Module', description: '' },
+                        ProjectItemsOrdered:  { id: 'oB5CeVYRCU1EG', caption: 'Project Items Ordered',   nav: 'settings/projectsettings/projectitemsordered', nodetype: 'Module', description: '' }
+                    }
+                },
+                PropsSettings: {
+                    caption: 'Props',
+                    id:      'Settings.PropsSettings',
+                    nodetype: 'Category',
+                    children: {
+                        PropsCondition: { id: 'E793OHd1PFRk4', caption: 'Props Condition', nav: 'settings/propssettings/propscondition', nodetype: 'Module', description: '' }
+                    }
+                },
+                RegionSettings: {
+                    caption: 'Region',
+                    id:      'Settings.RegionSettings',
+                    nodetype: 'Category',
+                    children: {
+                        Region: { id: 'pqSlzQGRVmxiE', caption: 'Region', nav: 'settings/regionsettings/region', nodetype: 'Module', description: '' }
+                    }
+                },
+                RepairSettings: {
+                    caption: 'Repair',
+                    id:      'Settings.RepairSettings',
+                    nodetype: 'Category',
+                    children: {
+                        RepairItemStatus: { id: 'iuo4dnWX5KCP8', caption: 'Repair Item Status', nav: 'settings/repairsettings/repairitemstatus', nodetype: 'Module', description: '' }
+                    }
+                },
+                SetSettings: {
+                    caption: 'Set',
+                    id:      'Settings.SetSettings',
+                    nodetype: 'Category',
+                    children: {
+                        SetCondition:    { id: '3r7dQtlxlUX8u', caption: 'Set Condition',     nav: 'settings/setsettings/setcondition', nodetype: 'Module', description: '' },
+                        SetOpening:      { id: 'gwzYE66lX9myO', caption: 'Set Opening',       nav: 'settings/setsettings/setopening', nodetype: 'Module', description: '' },
+                        SetSurface:      { id: 'Fg5VqZXTcgja2', caption: 'Set Surface',       nav: 'settings/setsettings/setsurface', nodetype: 'Module', description: '' },
+                        WallDescription: { id: '0uJgpWp1Mj9Jd', caption: 'Wall Descriptions', nav: 'settings/setsettings/walldescription', nodetype: 'Module', description: '' },
+                        WallType:        { id: 'V45pfjoiW04Ix', caption: 'Wall Type',         nav: 'settings/setsettings/walltype', nodetype: 'Module', description: '' }
+                    }
+                },
+                ShipViaSettings: {
+                    caption: 'Ship Via',
+                    id: 'Settings.ShipViaSettings',
+                    nodetype: 'Category',
+                    children: {
+                        ShipVia: { id: 'D1wheIde10lAO', caption: 'Ship Via', nav: 'settings/shipviasettings/shipvia', nodetype: 'Module', description: '' }
+                    }
+                },
+                SourceSettings: {
+                    caption: 'Source',
+                    id: 'Settings.SourceSettings',
+                    nodetype: 'Category',
+                    children: {
+                        Source: { id: 'BOH4LAvrGvVjW', caption: 'Source', nav: 'settings/sourcesettings/source', nodetype: 'Module', description: '' }
+                    }
+                },
+                SystemSettings: {
+                    caption: 'System',
+                    id: 'Settings.SystemSettings',
+                    nodetype: 'Category',
+                    children: {
+                        AvailabilitySettings: { id: 'UXYMLInJl6JMP', caption: 'Availability Settings', nav: 'settings/systemsettings/availabilitysettings', nodetype: 'Module', description: '' },
+                        DefaultSettings: { id: '6pvUgTaKPnjf3', caption: 'Default Settings', nav: 'settings/systemsettings/defaultsettings', nodetype: 'Module', description: '' },
+                        DocumentBarCodeSettings: { id: 'iSSvVLPqOGXnD', caption: 'Document Bar Code Settings', nav: 'settings/systemsettings/documentbarcodesettings', nodetype: 'Module', description: '' },
+                        EmailSettings: { id: '7MWuq0m77CnZ8', caption: 'Email Settings', nav: 'settings/systemsettings/emailsettings', nodetype: 'Module', description: '' },
+                        InventorySettings: { id: 'fdUclyoOCTYbx', caption: 'Inventory Settings', nav: 'module/systemsettings/inventorysettings', nodetype: 'Module', description: '' },
+                        LogoSettings: { id: 'FM7iCQcVmmUqK', caption: 'Logo Settings', nav: 'settings/systemsettings/logosettings', nodetype: 'Module', description: '' },
+                        SystemSettings: { id: 'v3tPhS7Ug7qgO', caption: 'System Settings', nav: 'settings/systemsettings/systemsettings', nodetype: 'Module', description: '' }
+                    }
+                },
+                TaxSettings: {
+                    caption: 'Tax Option',
+                    id: 'Settings.TaxSettings',
+                    nodetype: 'Category',
+                    children: {
+                        TaxOption: { id: 'gYT7BJnFn9SLc', caption: 'Tax Option', nav: 'settings/taxsettings/taxoption', nodetype: 'Module', description: '',
+                            form: {
+                                menuItems: {
+                                    ForceTaxRates: { id: '{CE1AEA95-F022-4CF5-A4FA-81CE32523344}' }
+                                }
+                            }
+                        }
+                    }
+                },
+                TemplateSettings: {
+                    caption: 'Template',
+                    id: 'Settings.TemplateSettings',
+                    nodetype: 'Category',
+                    children: {
+                        Template: { id: '74uXyH7jXXbZM', caption: 'Template', nav: 'settings/templatesettings/template', nodetype: 'Module', description: '',
+                            form: {
+                                menuItems: {
+                                    Search: { id: '{6386E100-98B2-42F3-BF71-5BB432070D10}' }
+                                }
+                            }
+                        }
+                    }
+                },
+                UserSettings: {
+                    caption: 'User',
+                    id: 'Settings.UserSettings',
+                    nodetype: 'Category',
+                    children: {
+                        UserStatus: { id: 'YjSbfCF9CEvjz', caption: 'User Status',  nav: 'settings/usersettings/userstatus', nodetype: 'Module', description: '' },
+                        Sound:      { id: '1SCjkmxKUSbaQ', caption: 'Sound',        nav: 'settings/usersettings/sound', nodetype: 'Module', description: '' }
+                    }
+                },
+                VehicleSettings: {
+                    caption: 'Vehicle',
+                    id: 'Settings.VehicleSettings',
+                    nodetype: 'Category',
+                    children: {
+                        LicenseClass:           { id: 'gLsGICI8R4VM',   caption: 'License Class',           nav: 'settings/vehiclesettings/licenseclass', nodetype: 'Module', description: '' },
+                        VehicleColor:           { id: 'vxf0Ur4W8UEzw',  caption: 'Vehicle Color',           nav: 'settings/vehiclesettings/vehiclecolor', nodetype: 'Module', description: '' },
+                        VehicleFuelType:        { id: 'T1uhkfrSK7J3d',  caption: 'Vehicle Fuel Type',       nav: 'settings/vehiclesettings/vehiclefueltype', nodetype: 'Module', description: '' },
+                        VehicleMake:            { id: 'Kacj9CuAA7F8m',  caption: 'Vehicle Make',            nav: 'settings/vehiclesettings/vehiclemake', nodetype: 'Module', description: '' },
+                        VehicleScheduleStatus:  { id: 'nvZvZeHdxviKG',  caption: 'Vehicle Schedule Status', nav: 'settings/vehiclesettings/vehicleschedulestatus', nodetype: 'Module', description: '' },
+                        VehicleStatus:          { id: 'RSXpDaDwDtgH3',  caption: 'Vehicle Status',          nav: 'settings/vehiclesettings/vehiclestatus', nodetype: 'Module', description: '' },
+                        VehicleType:            { id: 'lbbSCJTjhBL3U',  caption: 'Vehicle Type',            nav: 'settings/vehiclesettings/vehicletype', nodetype: 'Module', description: '' }
+                    }
+                },
+                VendorSettings: {
+                    caption: 'Vendor',
+                    id: 'Settings.VendorSettings',
+                    nodetype: 'Category',
+                    children: {
+                        OrganizationType:       { id: 'ENv2O3MbwKrI',   caption: 'Organization Type',           nav: 'settings/vendorsettings/organizationtype', nodetype: 'Module', description: '' },
+                        VendorCatalog:          { id: '086ok4V8ztfCu',  caption: 'Vendor Catalog',              nav: 'settings/vendorsettings/vendorcatalog', nodetype: 'Module', description: '' },
+                        VendorClass:            { id: 'EH6T4hlMVhYxq',  caption: 'Vendor Class',                nav: 'settings/vendorsettings/class', nodetype: 'Module', description: '' },
+                        SapVendorInvoiceStatus: { id: 'rzRfHzdo5DVyn',  caption: 'SAP Vendor Invoice Status',   nav: 'settings/vendorsettings/sapvendorinvoicestatus', nodetype: 'Module', description: '' }
+                    }
+                },
+                WardrobeSettings: {
+                    caption: 'Wardrobe',
+                    id: 'Settings.WardrobeSettings',
+                    nodetype: 'Category',
+                    children: {
+                        WardrobeCare: { id: 'DcPDf33MJtiO4', caption: 'Wardrobe Care', nav: 'settings/wardrobesettings/wardrobecare', nodetype: 'Module', description: '' },
+                        WardrobeColor: { id: 'Kc77x9j3t1Cf8', caption: 'Wardrobe Color', nav: 'settings/wardrobesettings/wardrobecolor', nodetype: 'Module', description: '' },
+                        WardrobeCondition: { id: 'W3fQSvmWyXmox', caption: 'Wardrobe Condition', nav: 'settings/wardrobesettings/wardrobecondition', nodetype: 'Module', description: '' },
+                        WardrobeGender: { id: 'oZl62v243hmoY', caption: 'Wardrobe Gender', nav: 'settings/wardrobesettings/wardrobegender', nodetype: 'Module', description: '' },
+                        WardrobeLabel: { id: 'oPEyg39ExOQhO', caption: 'Wardrobe Label', nav: 'settings/wardrobesettings/wardrobelabel', nodetype: 'Module', description: '' },
+                        WardrobeMaterial: { id: 'rTEb0yyIofBBU', caption: 'Wardrobe Material', nav: 'settings/wardrobesettings/wardrobematerial', nodetype: 'Module', description: '' },
+                        WardrobePattern: { id: '3SMTlxYJ2LGH1', caption: 'Wardrobe Pattern', nav: 'settings/wardrobesettings/wardrobepattern', nodetype: 'Module', description: '' },
+                        WardrobePeriod: { id: 'OhMqm7XJBcfI1', caption: 'Wardrobe Period', nav: 'settings/wardrobesettings/wardrobeperiod', nodetype: 'Module', description: '' },
+                        WardrobeSource: { id: 'ngguXevaaonRp', caption: 'Wardrobe Source', nav: 'settings/wardrobesettings/wardrobesource', nodetype: 'Module', description: '' }
+                    }
+                },
+                WarehouseSettings: {
+                    caption: 'Warehouse',
+                    id: 'Settings.WarehouseSettings',
+                    nodetype: 'Category',
+                    children: {
+                        Warehouse: { id: 'ICJcR2gOu04OB', caption: 'Warehouse', nav: 'settings/warehousesettings/warehouse', nodetype: 'Module', description: '' }
+                    }
+                },
+                WidgetSettings: {
+                    caption: 'Widget',
+                    id: 'Settings.WidgetSettings',
+                    nodetype: 'Category',
+                    children: {
+                        Widget: { id: 'QLfJikDW0foC1', caption: 'Widget', nav: 'settings/widgetsettings/widget', nodetype: 'Module', description: '' }
+                    }
+                },
+                WorkWeekSettings: {
+                    caption: 'Work Week',
+                    id: 'Settings.WorkWeekSettings',
+                    nodetype: 'Category',
+                    children: {
+                        WorkWeek: { id: 'hRNv34ONOUmB7', caption: 'Work Week', nav: 'settings/workweeksettings/workweek', nodetype: 'Module', description: '' }
                     }
                 }
-            },
-            Template: {
-                form: {
-                    menuItems: {
-                        Search: { id: '{6386E100-98B2-42F3-BF71-5BB432070D10}' }
-                    }
-                }
-            },
-            Warehouse: { id: '931D3E75-68CB-4280-B12F-9A955444AA0C', caption: 'Warehouse', nav: 'module/warehouse' }
+            }
+        },
+        Transfers: {
+            id: 'Transfers',
+            caption: 'Transfers',
+            nodetype: 'Category',
+            children: {
+                TransferIn:      { id: 'aVOT6HR8knES', caption: 'Transfer In',       nav: 'module/transferin' , nodetype: 'Module'},
+                Manifest:        { id: 'tc2HgrtvGDJ5', caption: 'Transfer Manifest', nav: 'module/manifest' , nodetype: 'Module'},
+                TransferOrder:   { id: 'tWkLbjsVHH6N', caption: 'Transfer Order',    nav: 'module/transferorder', nodetype: 'Module' },
+                TransferOut:     { id: 'uxIAX8VBtAwD', caption: 'Transfer Out',      nav: 'module/transferout' , nodetype: 'Module'},
+                TransferReceipt: { id: 'VSn3weoOHqLc', caption: 'Transfer Receipt',  nav: 'module/transferreceipt', nodetype: 'Module' },
+                TransferStatus:  { id: 'PgppzG0HnSzI', caption: 'Transfer Status',   nav: 'module/transferstatus', nodetype: 'Module' }
+            }
         },
         Utilities: {
-            Dashboard: { id: 'DF8111F5-F022-40B4-BAE6-23B2C6CF3705', caption: 'Dashboard', nav: 'module/dashboard' },
-            DashboardSettings: { id: '1B40C62A-1FA0-402E-BE52-9CBFDB30AD3F', caption: 'Dashboard Settings', nav: 'module/dashboardsettings' },
-            InvoiceProcessBatch: {
-                id: '5DB3FB9C-6F86-4696-867A-9B99AB0D6647', caption: 'Process Invoices', nav: 'module/invoiceprocessbatch',
-                form: {
-                    menuItems: {
-                        ExportSettings: { id: '{28D5F4EF-9A60-4D7F-B294-4B302B88413F}' }
-                    }
-                }
-            },
-            MigrateOrders: { id: '6FAA0140-ACA2-40CA-9FDD-507EAC437F2A', caption: 'Migrate Orders', nav: 'module/migrateorders' },
-            QuikActivityCalendar: { id: '897BCF55-6CE7-412C-82CB-557B045F8C0A', caption: 'QuikActivity Calendar', nav: 'module/quikactivitycalendar' },
-            QuikSearch: { id: '07587E25-9802-4379-8630-96DBA3136595', caption: 'QuikSearch', nav: 'module/quiksearch' },
-            ReceiptProcessBatch: {
-                id: '0BB9B45C-57FA-47E1-BC02-39CEE720792C', caption: 'Process Receipts', nav: 'module/receiptprocessbatch',
-                form: {
-                    menuItems: {
-                        ExportSettings: { id: '{0D951DA8-1843-4080-AD73-B0DF7F27189B}' }
-                    }
-                }
-            },
-            RefreshGLHistory: { id: '8F036E39-78D3-4FB9-A98E-BD33A5DB7FDA', caption: 'Refresh G/L History', nav: 'module/refreshglhistory' },
-            VendorInvoiceProcessBatch: { id: '4FA8A060-F2DF-4E59-8F9D-4A6A62A0D240', caption: 'Process Vendor Invoices', nav: 'module/vendorinvoiceprocessbatch' }
-
+            id: 'Utilities',
+            caption: 'Utilities',
+            nodetype: 'Category',
+            children: {
+                Dashboard:                 { id: 'DF8111F5-F022-40B4-BAE6-23B2C6CF3705', caption: 'Dashboard', nav: 'module/dashboard' },
+                DashboardSettings:         { id: 'lXpomto7a29v',  caption: 'Dashboard Settings',      nav: 'module/dashboardsettings', nodetype: 'Module' },
+                InvoiceProcessBatch:       { id: 'I8d2wTNNRmRJa', caption: 'Process Invoices',        nav: 'module/invoiceprocessbatch', nodetype: 'Module' },
+                MigrateOrders:             { id: '8NYSNibMVoO',   caption: 'Migrate Orders',          nav: 'module/migrateorders', nodetype: 'Module' },
+                QuikActivityCalendar:      { id: 'yhYOLhLE92IT',  caption: 'QuikActivity Calendar',   nav: 'module/quikactivitycalendar', nodetype: 'Module' },
+                QuikSearch:                { id: '0q9EEmHe5xXO',  caption: 'QuikSearch',              nav: 'module/quiksearch', nodetype: 'Module' },
+                ReceiptProcessBatch:       { id: 'ThKpggGlj1hqd', caption: 'Process Receipts',        nav: 'module/receiptprocessbatch', nodetype: 'Module' },
+                RefreshGLHistory:          { id: 'UuKB0PPalR9p',  caption: 'Refresh G/L History',     nav: 'module/refreshglhistory', nodetype: 'Module' },
+                VendorInvoiceProcessBatch: { id: 'gRjYvLD2qZ6NR', caption: 'Process Vendor Invoices', nav: 'module/vendorinvoiceprocessbatch', nodetype: 'Module' }
+            }
+        },
+        Warehouse: {
+            id: 'Warehouse',
+            caption: 'Warehouse',
+            nodetype: 'Category',
+            children: {
+                AssignBarCodes:    { id: '7UU96BApz2Va', caption: 'Assign Bar Codes',    nav: 'module/assignbarcodes', nodetype: 'Module' },
+                CheckIn:           { id: 'krnJWTUs4n5U', caption: 'Check-In',            nav: 'module/checkin', nodetype: 'Module' },
+                Contract:          { id: 'Z8MlDQp7xOqu', caption: 'Contract',            nav: 'module/contract', nodetype: 'Module' },
+                Exchange:          { id: 'IQS4rxzIVFl',  caption: 'Exchange',            nav: 'module/exchange', nodetype: 'Module' },
+                OrderStatus:       { id: 'C8Ycf0jvM2U9', caption: 'Order Status',        nav: 'module/orderstatus', nodetype: 'Module' },
+                PickList:          { id: 'bggVQOivrIgi', caption: 'Pick List',           nav: 'module/picklist', nodetype: 'Module' },
+                ReceiveFromVendor: { id: 'MtgBxCKWVl7m', caption: 'Receive From Vendor', nav: 'module/receivefromvendor', nodetype: 'Module' },
+                ReturnToVendor:    { id: 'cCxoTvTCDTcm', caption: 'Return To Vendor',    nav: 'module/returntovendor', nodetype: 'Module' },
+                StagingCheckout:   { id: 'H0sf3MFhL0VK', caption: 'Staging / Check-Out', nav: 'module/checkout', nodetype: 'Module' }
+            }
         }
     },
     Grids: {
-        ContractDetailGrid: {
-            menuItems: {
-                VoidItems: { id: '{DD6F2FD1-B70F-4525-BCAA-322EF3DBC9C1}' }
-            }
-        },
-        InventoryCompleteGrid: {
+        AdditionalItemsGrid: { id: 'mEYOByOhi5yT0', caption: 'Additional Items' },
+        AlertWebUsersGrid: { id: 'REgcmntq4LWE', caption: 'Alert Web Users' },
+        AlternativeDescriptionGrid: { id: '2BkAgaVVrDD3', caption: 'Alternative Description' },
+        AttributeValueGrid: { id: '2uvN8jERScu', caption: 'Attribute Value' },
+        AuditHistoryGrid: { id: 'xepjGBf0rdL', caption: 'Audit History' },
+        AvailabilityHistoryGrid: { id: 'OFP98sWaSXqD3', caption: 'Availability History' },
+        BillingCycleEventsGrid: { id: 'KSA8EsXjcrt', caption: 'Billing Cycle Events' },
+        CheckedInItemGrid: { id: 'RanTH3xgxNy', caption: 'Checked-In Item' },
+        CheckedOutItemGrid: { id: 'HXSEu4U0vSir', caption: 'Checked-Out Item' },
+        CheckInExceptionGrid: { id: '3S49xMb3FrcD', caption: 'Check-In Exception' },
+        CheckInOrderGrid: { id: 'HSZSZp9Ovrpq', caption: 'Check-In Order' },
+        CheckInQuantityItemsGrid: { id: 'BfClP5w8rjl7', caption: 'Check-In Quantity Items' },
+        CheckInSwapGrid: { id: 'hA3FE9ProwUn', caption: 'Check-In Swap' },
+        CheckOutPendingItemGrid: { id: 'GO96A3pk0UE', caption: 'Check-Out Pending Items' },
+        CompanyContactGrid: { id: 'gQHuhVDA5Do2', caption: 'Copmany Contact' },
+        CompanyResaleGrid: { id: 'k48X9sulRpmb', caption: 'Company Resale' },
+        CompanyTaxOptionGrid: { id: 'B9CzDEmYe1Zf', caption: 'Company Tax Option' },
+        ContactCompanyGrid: { id: 'gQHuhVDA5Do2', caption: 'Contact Company' },
+        //ContactEmailHistoryGrid: { id: '', caption: 'Contact Email History' },
+        ContactNoteGrid: { id: 'mkJ1Ry8nqSnw', caption: 'Contact Note' },
+        ContactPersonalEventGrid: { id: '35was7r004gg', caption: 'Contact Personal Event' },
+        ContainerWarehouseGrid: { id: '4gsBzepUJdWm', caption: 'Container Warehouse' },
+        ContractDetailGrid: { id: 'uJtRkkpKi8zT', caption: 'Contract Detail' },
+        ContractExchangeItemGrid: { id: 'Azkpehs1tvl', caption: 'Contract Exchange Item' },
+        ContractSummaryGrid: { id: 'a8I3UCKA3LN3', caption: 'Contract Summary' },
+        CrewLocationGrid: { id: 'vCrMyhsLCP7h', caption: 'Crew Location' },
+        CrewPositionGrid: { id: 'shA9rX1DYWp3', caption: 'Crew Position' },
+        CustomerNoteGrid: { id: '6AHfzr9WBEW9', caption: 'Customer Note' },
+        CustomFormGroupGrid: { id: '11txpzVKVGi2', caption: 'Custom Form Group' },
+        CustomFormUserGrid: { id: 'nHNdXDBX6m6cp', caption: 'Custom Form User' },
+        DealNoteGrid: { id: 'jcwmVLFEU88k', caption: 'Deal Notes' },
+        DealShipperGrid: { id: '5cMD0y0jSUgz', caption: 'Deal Shipper' },
+        DiscountItemGrid: { id: 'UMKuETy6vOLA', caption: 'Discount Item' },
+        DiscountItemLaborGrid: { id: 'UMKuETy6vOLA', caption: 'Discount Item Labor' },
+        DiscountItemMiscGrid: { id: 'UMKuETy6vOLA', caption: 'Discount Item Misc' },
+        DiscountItemRentalGrid: { id: 'UMKuETy6vOLA', caption: 'Discount Item Rental' },
+        DiscountItemSalesGrid: { id: 'UMKuETy6vOLA', caption: 'Discount Item Sales' },
+        //DocumentGrid: { id: '', caption: 'Document' },
+        DuplicateRuleFieldGrid: { id: 'DlPBQCJUC0iK', caption: 'Duplicate Rule Field' },
+        EventTypePersonnelTypeGrid: { id: 'CbjLxfIjRyg', caption: 'Event Type Personnel Type' },
+        ExchangeItemGrid: { id: 'Azkpehs1tvl', caption: 'Exchange Item' },
+        FiscalMonthGrid: { id: 'wt6RLPk0GOrm', caption: 'Fiscal Month' },
+        FiscalYearGrid: { id: 'n8p9E78kGRM6', caption: 'Fiscal Year' },
+        FloorGrid: { id: 'LrybQVClgY6f', caption: 'Floor' },
+        GeneratorMakeModelGrid: { id: 'CFnh3uxNiWZy', caption: 'Generator Make Model' },
+        GeneratorTypeWarehouseGrid: { id: 'N400cxkXaRDx', caption: 'Generator Type Warehouse' },
+        GlDistributionGrid: { id: 'UuKB0PPalR9p', caption: 'G/L Distribution' },
+        InventoryAttributeValueGrid: { id: 'CntxgVXDQtQ7', caption: 'Inventory Attribute Value' },
+        InventoryAvailabilityGrid: { id: 'g8sCuKjUVrW1', caption: 'Inventory Availability' },
+        InventoryCompatibilityGrid: { id: 'mlAKf5gRPNNI', caption: 'Inventory Compatibility' },
+        InventoryCompleteGrid: { id: 'ABL0XJQpsQQo', caption: 'Inventory Complete',
             menuItems: {
                 QuikSearch: { id: '{A3EEC381-6D45-485D-8E12-5DA6B38BB71A}' }
             }
         },
-        InventoryContainerItemGrid: {
+        InventoryCompleteKitGrid: { id: 'gflkb5sQf7it', caption: 'Inventory Complete Kit' },
+        InventoryConsignmentGrid: { id: 'JKfdyoLXFqu3', caption: 'Inventory Consignment' },
+        InventoryContainerItemGrid: { id: '6ELSTtE6IqSb', caption: 'Inventory Container Item',
             menuItems: {
                 QuikSearch: { id: '{BA9FD9DD-2E96-4A4D-80B9-6010BEE66D6F}' }
             }
         },
-        InventoryKitGrid: {
+        InventoryGroupInvGrid: { id: 'IC5rbdvS3Me7', caption: 'Inventory Group Inventory' },
+        InventoryKitGrid: { id: 'ABL0XJQpsQQo', caption: 'Inventory Kit',
             menuItems: {
                 QuikSearch: { id: '{B599B514-30BD-49B3-A08A-7863693D979C}' }
             }
         },
-        InvoiceItemGrid: {
+        InventoryLocationTaxGrid: { id: 'dpDtvVrXRZrd', caption: 'Inventory Location Tax' },
+        InventoryPrepGrid: { id: 'CzNh6kOVsRO4', caption: 'Inventory Prep' },
+        InventoryQcGrid: { id: 'g8sCuKjUVrW1', caption: 'Inventory QC' },
+        InventorySubstituteGrid: { id: '5sN9zKtGzNTq', caption: 'Inventory Substitute' },
+        InventoryVendorGrid: { id: 's9vdtBqItIEi', caption: 'Inventory Vendor' },
+        InventoryWarehouseStagingGrid: { id: 'g8sCuKjUVrW1', caption: 'Inventory Warehouse Staging' },
+        InvoiceItemGrid: { id: '5xgHiF8dduf', caption: 'Invoice Item',
             menuItems: {
                 ToggleOrderItemView: { id: '{46D27E42-9C66-42F5-922C-CAE617856F63}' }
-            }
+            }    
         },
-        OrderItemGrid: {
+        InvoiceNoteGrid: { id: 'PjT15E4lWmo7', caption: 'Invoice Notes' },
+        InvoiceOrderGrid: { id: 'xAv0ILs8aJA5C', caption: 'Invoice Order' },
+        InvoiceReceiptGrid: { id: 'cYUr48pou4fc', caption: 'Invoice Receipt' },
+        InvoiceRevenueGrid: { id: '2wrr1zqjxBeJ', caption: 'Invoice Revenue' },
+        InvoiceStatusHistoryGrid: { id: '3bf1WgNHvIyF', caption: 'Invoice Status History' },
+        ItemAttributeValueGrid: { id: 'buplkDkxM1hC', caption: 'Item Attribute Value' },
+        ItemQcGrid: { id: 'u4UHiW7AOeZ5', caption: 'Item QC' },
+        LaborCategoryGrid: { id: 'nJIiZsDNxc83', caption: 'Labor Category' },
+        LossAndDamageItemGrid: { id: 'ATHmxMHmRo9u', caption: 'Lost and Damage Items' },
+        ManualGlTransactionsGrid: { id: '00B9yDUY6RQfB', caption: 'Manual G/L Transactions' },
+        MarketSegmentJobGrid: { id: 'OWZGrnUnJHon', caption: 'Market Segment Job' },
+        MigrateItemGrid: { id: 'szZ66eT0VS5', caption: 'Migrate Orders Item' },
+        MiscCategoryGrid: { id: 'BRtP4O9fieRK', caption: 'Misc Category' },
+        OrderContactGrid: { id: '7CUe9WvpWNat', caption: 'Order Contact' },
+        OrderItemGrid: {  id: 'RFgCJpybXoEb', caption: 'Order Item',
             menuItems: {
                 SummaryView: { id: '{D27AD4E7-E924-47D1-AF6E-992B92F5A647}' },
                 //ManualSorting: { id: '{AD3FB369-5A40-4984-8A65-46E683851E52}' },
@@ -376,33 +875,98 @@
                 SplitDetails: { id: '{679D6E7A-C212-41A3-88D0-5B48936812A0}' },
             }
         },
-        OrderSnapshotGrid: {
+        OrderNoteGrid: { id: 'DZwS6DaO7Ed8', caption: 'Order Note' },
+        OrderPickListGrid: { id: 'fa0NLEHNkNU0', caption: 'Order Pick List' },
+        OrderSnapshotGrid: { id: 'YZQzEHG7tTUP', caption: 'Order Snapshot',
             menuItems: {
                 ViewSnapshot: { id: '{C6633D9A-3800-41F2-8747-BC780663E22F}' }
             }
         },
-        SearchPreviewGrid: {
+        OrderStatusHistoryGrid: { id: 'lATsdnAx7B4s', caption: 'Order Status History' },
+        OrderStatusRentalDetailGrid: { id: '75OyLDxMPa8z', caption: 'Order Status Rental Detail' },
+        OrderStatusSalesDetailGrid: { id: '75OyLDxMPa8z', caption: 'Order Status Sales Detail' },
+        OrderStatusSummaryGrid: { id: '3NAO1rd02hBF', caption: 'Order Status Summary' },
+        OrderTypeActivityDatesGrid: { id: 'oMijD9WAL6Bl', caption: 'Order Type Activity Dates' },
+        OrderTypeContactTitleGrid: { id: 'HzNQkWcZ8vEC', caption: 'Order Type Contact Title' },
+        OrderTypeCoverLetterGrid: { id: 'acguZNBoT1XC', caption: 'Order Type Cover Letter' },
+        OrderTypeInvoiceExportGrid: { id: 'acguZNBoT1XC', caption: 'Order Type Invoice Export' },
+        OrderTypeNoteGrid: { id: 'DZwS6DaO7Ed8', caption: 'Order Type Note' },
+        OrderTypeTermsAndConditionsGrid: { id: 'acguZNBoT1XC', caption: 'Order Type Terms And Conditions' },
+        PartsInventoryCompatibilityGrid: { id: 'mlAKf5gRPNNI', caption: 'Parts Inventory Compatibility' },
+        PartsInventorySubstituteGrid: { id: '5sN9zKtGzNTq', caption: 'Parts Inventory Substitute' },
+        PartsInventoryWarehouseGrid: { id: 'g8sCuKjUVrW1', caption: 'Parts Inventory Warehouse' },
+        PartsInventoryWarehousePricingGrid: { id: 'g8sCuKjUVrW1', caption: 'Parts Inventory Warehouse Pricing' },
+        PhysicalInventoryCycleInventoryGrid: { id: 'juyq8FkxJPR5Q', caption: 'Physical Inventory Cycle Inventory' },
+        PhysicalInventoryInventoryGrid: { id: 'BEoHoFVd3JFXN', caption: 'Physical Inventory Inventory' },
+        PhysicalInventoryQuantityInventoryGrid: { id: 'EZDA4vdM8wY32', caption: 'Physical Inventory Quantity Inventory' },
+        PickListItemGrid: { id: 'fa0NLEHNkNU0', caption: 'Pick List Item' },
+        PickListUtilityGrid: { id: 'DOnlknWuWfYS', caption: 'Pick List Utility' },
+        POApproverGrid: { id: 'kaGlUrLG9GjN', caption: 'PO Approver' },
+        POReceiveBarCodeGrid: { id: 'qH0cLrQVt9avI', caption: 'PO Receive Bar Code' },
+        POReceiveItemGrid: { id: 'uYBpfQCZBM4V6', caption: 'PO Receive Items' },
+        POReturnBarCodeGrid: { id: 'JkwkAFQ4tL7q0', caption: 'PO Return Bar Code' },
+        POReturnItemGrid: { id: 'wND2psEV3OEia', caption: 'PO Return Items' },
+        PresentationLayerActivityGrid: { id: 'QiLcE27ZUg0sE', caption: 'Presentation Layer Activity' },
+        PresentationLayerActivityOverrideGrid: { id: 'HWjX0WDoiG79H', caption: 'Presentation Layer Activity Override' },
+        PresentationLayerFormGrid: { id: 'FcJ0Ld64KSUqv', caption: 'Presentation Layer Form' },
+        ProjectContactGrid: { id: 'ZvjyLW5OM5s1X', caption: 'Project Contact' },
+        ProjectNoteGrid: { id: 'tR09bf745p0YU', caption: 'Project Note' },
+        PurchaseVendorGrid: { id: '15yjeHiHe1x99', caption: 'Purchase Vendor' },
+        PurchaseVendorInvoiceItemGrid: { id: 'NlKSJj2fN0ly', caption: 'Purchase Vendor Invoice Item' },
+        QuikActivityGrid: { id: 'yhYOLhLE92IT', caption: 'QuikActivity' },
+        RateLocationTaxGrid: { id: 'Bm6TN9A4IRIuT', caption: 'Rate Location Tax' },
+        RateWarehouseGrid: { id: 'oVjmeqXtHEJCm', caption: 'Rate Warehouse' },
+        RentalInventoryWarehouseGrid: { id: 'g8sCuKjUVrW1', caption: 'Rental Inventory Warehouse' },
+        RentalInventoryWarehousePricingGrid: { id: 'g8sCuKjUVrW1', caption: 'Rental Inventory Warehouse Pricing' },
+        RepairCostGrid: { id: 'THGHEcObwRTDc', caption: 'Repair Cost' },
+        RepairPartGrid: { id: 'k1Qn9brpxHGhp', caption: 'Repair Part' },
+        RepairReleaseGrid: { id: 'O2lL9RZYzdjNg', caption: 'Repair Release' },
+        ReportSettingsGrid: { id: 'arqFEggnNSrA6', caption: 'Report Settings' },
+        SalesInventoryCompatibilityGrid: { id: 'mlAKf5gRPNNI', caption: 'Sales Inventory Compatibility' },
+        SalesInventorySubstituteGrid: { id: '5sN9zKtGzNTq', caption: 'Sales Inventory Substitute' },
+        SalesInventoryWarehouseGrid: { id: 'g8sCuKjUVrW1', caption: 'Sales Inventory Warehouse' },
+        SalesInventoryWarehousePricingGrid: { id: 'g8sCuKjUVrW1', caption: 'Sales Inventory Warehouse Pricing' },
+        SearchPreviewGrid: { id: 'JLDAuUcvHEx1', caption: 'Search Preview',
             menuItems: {
                 //RefreshAvailability: { id: '{3756AF3A-1611-4BCD-BBD9-E3233F5A772E}' }
             }
         },
-        StagedItemGrid: {
-            menuItems: {
-                UnstageItems: { id: '{43010EEE-85B8-4444-9FA7-A0A4A0ABC8CF}' }
-            }
-        },
-        StagedQuantityItemGrid: {
-            menuItems: {
-                UnstageItems: { id: '{FECB5FC0-4E01-4F99-8D29-2F9CE446846B}' }
-            }
-        },
-        TransferOrderItemGrid: {
+        SingleRateWarehouseGrid: { id: 'oVjmeqXtHEJCm', caption: 'Single Rate Warehouse' },
+        SpaceGrid: { id: 'DgWXultjwPXkU', caption: 'Space' },
+        SpaceRateGrid: { id: 'iWPadFxStXkcL', caption: 'Space Rate' },
+        SpaceWarehouseRateGrid: { id: 'oVjmeqXtHEJCm', caption: 'Space Warehouse Rate' },
+        StagedItemGrid: { id: '40bj9sn7JHqai', caption: 'Staged Items' },
+        StageHoldingItemGrid: { id: 'i7EMskpGXvByc', caption: 'Stage Holding Items' },
+        StageQuantityItemGrid: { id: '0m0QMviBYWVYm', caption: 'Stage Quantity Items' },
+        SubCategoryGrid: { id: 'vHMa0l5PUysXo', caption: 'Sub-Category' },
+        SubPurchaseOrderItemGrid: { id: '8orfHWAhottty', caption: 'Sub-Purchase Order Items' },
+        TransferOrderItemGrid: { id: 'RFgCJpybXoEb', caption: 'Transfer Order Item',
             menuItems: {
                 QuikSearch: { id: '{16CD0101-28D7-49E2-A3ED-43C03152FEE6}' },
                 CopyTemplate: { id: '{5E73772F-F5E2-4382-9F50-3272F4E79A25}' },
                 //RefreshAvailability: { id: '{1065995B-3EF3-4B50-B513-F966F88570F1}' }
             }
-        }
+        },
+        VehicleMakeModelGrid: { id: 'kPPx0KctQjlXx', caption: 'Vehicle Make Model' },
+        VehicleTypeWarehouseGrid: { id: '5Oz300mlivVCc', caption: 'Vehicle Type Warehouse' },
+        VendorGrid: { id: 'cwytGLEcUzJdn', caption: 'Vendor' },
+        VendorInvoiceExportBatchGrid: { id: 'QriRQnYpPbxn', caption: 'Vendor Invoice Export Batch' },
+        VendorInvoiceItemGrid: { id: 'mEYOByOhi5yT0', caption: 'Vendor Invoice Item' },
+        VendorInvoiceNoteGrid: { id: '8YECGu7qFOty', caption: 'Vendor Invoice Note' },
+        VendorInvoicePaymentGrid: { id: 'cD51xfgax4oY', caption: 'Vendor Invoice Payment' },
+        VendorInvoiceStatusHistoryGrid: { id: 'laMVsOwWI4Wkj', caption: 'Vendor Invoice Status History' },
+        VendorNoteGrid: { id: 'zuywROD73X60O', caption: 'Vendor Note' },
+        WardrobeInventoryColorGrid: { id: 'gJN4HKmkowSD', caption: 'Wardrobe Inventory Color' },
+        WardrobeInventoryMaterialGrid: { id: 'l35woZUn3E5M', caption: 'Wardrobe Inventory Material' },
+        WarehouseAvailabilityHourGrid: { id: '1iBtCdzhTkio4', caption: 'Warehouse Availability Hour' },
+        WarehouseDepartmentGrid: { id: 'BlB26FHHFsaQx', caption: 'Warehouse Department' },
+        WarehouseDepartmentUserGrid: { id: 'BlB26FHHFsaQx', caption: 'Warehouse Department User' },
+        WarehouseGrid: { id: 'ICJcR2gOu04OB', caption: 'Warehouse' },
+        WarehouseInventoryTypeGrid: { id: 'HRLS0W2gCu4lD', caption: 'Warehouse Inventory Type' },
+        WarehouseOfficeLocationGrid: { id: 'B1kMAlpwQNPLG', caption: 'Warehouse Office Location' },
+        WarehouseQuikLocateApproverGrid: { id: 'IBGJoUXyFbKmm', caption: 'Warehouse QuikLocate Approver' },
+        WebAlertLogGrid: { id: 'x6SZhutIpRi2', caption: 'Web Alert Log' },
+        WidgetGroupGrid: { id: 'BXv7mQIbXokIW', caption: 'Widget Group' },
+        WidgetUserGrid: { id: 'CTzXYDyNzi8ET', caption: 'Widget User' }
     }
 };
-

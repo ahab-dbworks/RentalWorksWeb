@@ -1,6 +1,11 @@
-﻿class DocumentBarCodeSettings {
+﻿routes.push({ pattern: /^module\/documentbarcodesettings$/, action: function (match: RegExpExecArray) { return DocumentBarCodeSettingsController.getModuleScreen(); } });
+
+class DocumentBarCodeSettings {
     Module: string = 'DocumentBarCodeSettings';
     apiurl: string = 'api/v1/documentbarcodesettings';
+    caption: string = Constants.Modules.Settings.children.SystemSettings.children.DocumentBarCodeSettings.caption;
+    nav: string = Constants.Modules.Settings.children.SystemSettings.children.DocumentBarCodeSettings.nav;
+    id: string = Constants.Modules.Settings.children.SystemSettings.children.DocumentBarCodeSettings.id;
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen, $browse;

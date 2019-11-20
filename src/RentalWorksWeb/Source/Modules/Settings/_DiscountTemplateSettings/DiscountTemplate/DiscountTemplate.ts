@@ -1,11 +1,9 @@
 ﻿class DiscountTemplate {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'DiscountTemplate';
-        this.apiurl = 'api/v1/discounttemplate';
-    }
+    Module: string = 'DiscountTemplate';
+    apiurl: string = 'api/v1/discounttemplate';
+    caption: string = Constants.Modules.Settings.children.DiscountTemplateSettings.children.DiscountTemplate.caption;
+    nav: string = Constants.Modules.Settings.children.DiscountTemplateSettings.children.DiscountTemplate.nav;
+    id: string = Constants.Modules.Settings.children.DiscountTemplateSettings.children.DiscountTemplate.id;
 
     getModuleScreen() {
         var screen, $browse;
@@ -39,71 +37,153 @@
     }
 
     renderGrids($form: any) {
-        const $discountItemRentalGrid = $form.find('div[data-grid="DiscountItemRentalGrid"]');
-        const $discountItemRentalGridControl = FwBrowse.loadGridFromTemplate('DiscountItemRentalGrid');
-        $discountItemRentalGrid.empty().append($discountItemRentalGridControl);
-        $discountItemRentalGridControl.data('ondatabind', request => {
-            request.uniqueids = {
-                DiscountTemplateId: FwFormField.getValueByDataField($form, 'DiscountTemplateId'),
-                RecType: "R"
-            };
-        })
-        $discountItemRentalGridControl.data('beforesave', request => {
-            request.DiscountTemplateId = FwFormField.getValueByDataField($form, 'DiscountTemplateId');
-            request.RecType = "R";
-        })
-        FwBrowse.init($discountItemRentalGridControl);
-        FwBrowse.renderRuntimeHtml($discountItemRentalGridControl);
+        //const $discountItemRentalGrid = $form.find('div[data-grid="DiscountItemRentalGrid"]');
+        //const $discountItemRentalGridControl = FwBrowse.loadGridFromTemplate('DiscountItemRentalGrid');
+        //$discountItemRentalGrid.empty().append($discountItemRentalGridControl);
+        //$discountItemRentalGridControl.data('ondatabind', request => {
+        //    request.uniqueids = {
+        //        DiscountTemplateId: FwFormField.getValueByDataField($form, 'DiscountTemplateId'),
+        //        RecType: "R"
+        //    };
+        //})
+        //$discountItemRentalGridControl.data('beforesave', request => {
+        //    request.DiscountTemplateId = FwFormField.getValueByDataField($form, 'DiscountTemplateId');
+        //    request.RecType = "R";
+        //})
+        //FwBrowse.init($discountItemRentalGridControl);
+        //FwBrowse.renderRuntimeHtml($discountItemRentalGridControl);
 
-        const $discountItemSalesGrid = $form.find('div[data-grid="DiscountItemSalesGrid"]');
-        const $discountItemSalesGridControl = FwBrowse.loadGridFromTemplate('DiscountItemSalesGrid');
-        $discountItemSalesGrid.empty().append($discountItemSalesGridControl);
-        $discountItemSalesGridControl.data('ondatabind', request => {
-            request.uniqueids = {
-                DiscountTemplateId: FwFormField.getValueByDataField($form, 'DiscountTemplateId'),
-                RecType: "S"
-            };
-        })
-        $discountItemSalesGridControl.data('beforesave', request => {
-            request.DiscountTemplateId = FwFormField.getValueByDataField($form, 'DiscountTemplateId');
-            request.RecType = "S";
-        })
-        FwBrowse.init($discountItemSalesGridControl);
-        FwBrowse.renderRuntimeHtml($discountItemSalesGridControl);
+        //Discount Item Rental Grid
+        FwBrowse.renderGrid({
+            nameGrid: 'DiscountItemRentalGrid',
+            gridSecurityId: 'UMKuETy6vOLA',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10, 
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    DiscountTemplateId: FwFormField.getValueByDataField($form, 'DiscountTemplateId'),
+                    //eg ,                    RecType = "R"
+                    //jh - RecType is needed on all of these dataBind and beforeSave methods
+                };
+            }, 
+            beforeSave: (request: any) => {
+                request.DiscountTemplateId = FwFormField.getValueByDataField($form, 'DiscountTemplateId');
+                //request.RecType = "R";
+            }
+        });
+        //-------------------------------------------------------------------------------------------------------------
 
-        const $discountItemLaborGrid = $form.find('div[data-grid="DiscountItemLaborGrid"]');
-        const $discountItemLaborGridControl = FwBrowse.loadGridFromTemplate('DiscountItemLaborGrid');
-        $discountItemLaborGrid.empty().append($discountItemLaborGridControl);
-        $discountItemLaborGridControl.data('ondatabind', request => {
-            request.uniqueids = {
-                DiscountTemplateId: FwFormField.getValueByDataField($form, 'DiscountTemplateId'),
-                RecType: "L"
-            };
-        })
-        $discountItemLaborGridControl.data('beforesave', request => {
-            request.DiscountTemplateId = FwFormField.getValueByDataField($form, 'DiscountTemplateId');
-            request.RecType = "L";
-        })
-        FwBrowse.init($discountItemLaborGridControl);
-        FwBrowse.renderRuntimeHtml($discountItemLaborGridControl);
+        //const $discountItemSalesGrid = $form.find('div[data-grid="DiscountItemSalesGrid"]');
+        //const $discountItemSalesGridControl = FwBrowse.loadGridFromTemplate('DiscountItemSalesGrid');
+        //$discountItemSalesGrid.empty().append($discountItemSalesGridControl);
+        //$discountItemSalesGridControl.data('ondatabind', request => {
+        //    request.uniqueids = {
+        //        DiscountTemplateId: FwFormField.getValueByDataField($form, 'DiscountTemplateId'),
+        //        RecType: "S"
+        //    };
+        //})
+        //$discountItemSalesGridControl.data('beforesave', request => {
+        //    request.DiscountTemplateId = FwFormField.getValueByDataField($form, 'DiscountTemplateId');
+        //    request.RecType = "S";
+        //})
+        //FwBrowse.init($discountItemSalesGridControl);
+        //FwBrowse.renderRuntimeHtml($discountItemSalesGridControl);
 
-        const $discountItemMiscGrid = $form.find('div[data-grid="DiscountItemMiscGrid"]');
-        const $discountItemMiscGridControl = FwBrowse.loadGridFromTemplate('DiscountItemMiscGrid');
-        $discountItemMiscGrid.empty().append($discountItemMiscGridControl);
-        $discountItemMiscGridControl.data('ondatabind', request => {
-            request.uniqueids = {
-                DiscountTemplateId: FwFormField.getValueByDataField($form, 'DiscountTemplateId'),
-                RecType: "M"
-            };
-        })
-        $discountItemMiscGridControl.data('beforesave', request => {
-            request.DiscountTemplateId = FwFormField.getValueByDataField($form, 'DiscountTemplateId');
-            request.RecType = "M";
-        })
-        FwBrowse.init($discountItemMiscGridControl);
-        FwBrowse.renderRuntimeHtml($discountItemMiscGridControl);
+        //FwBrowse.renderRuntimeHtml($discountItemRentalGridControl);
+
+        //Discount Item Sales Grid
+        FwBrowse.renderGrid({
+            nameGrid: 'DiscountItemSalesGrid',
+            gridSecurityId: 'UMKuETy6vOLA',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    DiscountTemplateId: FwFormField.getValueByDataField($form, 'DiscountTemplateId')
+                    //,                    RecType = "S"
+                };
+            }, 
+            beforeSave: (request: any) => {
+                request.DiscountTemplateId = FwFormField.getValueByDataField($form, 'DiscountTemplateId');
+                //request.RecType = "S";
+            }
+        });        //-------------------------------------------------------------------------------------------------------------
+        //const $discountItemLaborGrid = $form.find('div[data-grid="DiscountItemLaborGrid"]');
+        //const $discountItemLaborGridControl = FwBrowse.loadGridFromTemplate('DiscountItemLaborGrid');
+        //$discountItemLaborGrid.empty().append($discountItemLaborGridControl);
+        //$discountItemLaborGridControl.data('ondatabind', request => {
+        //    request.uniqueids = {
+        //        DiscountTemplateId: FwFormField.getValueByDataField($form, 'DiscountTemplateId'),
+        //        RecType: "L"
+        //    };
+        //})
+        //$discountItemLaborGridControl.data('beforesave', request => {
+        //    request.DiscountTemplateId = FwFormField.getValueByDataField($form, 'DiscountTemplateId');
+        //    request.RecType = "L";
+        //})
+        //FwBrowse.init($discountItemLaborGridControl);
+        //FwBrowse.renderRuntimeHtml($discountItemLaborGridControl);
+        
+        //Discount Item Labor Grid
+        FwBrowse.renderGrid({
+            nameGrid: 'DiscountItemLaborGrid',
+            gridSecurityId: 'UMKuETy6vOLA',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    DiscountTemplateId: FwFormField.getValueByDataField($form, 'DiscountTemplateId')
+                    //,                    RecType = "L"
+                };
+            }, 
+            beforeSave: (request: any) => {
+                request.DiscountTemplateId = FwFormField.getValueByDataField($form, 'DiscountTemplateId');
+                //request.RecType = "L";
+            }
+        });
+
+        //-------------------------------------------------------------------------------------------------------------
+        //const $discountItemMiscGrid = $form.find('div[data-grid="DiscountItemMiscGrid"]');
+        //const $discountItemMiscGridControl = FwBrowse.loadGridFromTemplate('DiscountItemMiscGrid');
+        //$discountItemMiscGrid.empty().append($discountItemMiscGridControl);
+        //$discountItemMiscGridControl.data('ondatabind', request => {
+        //    request.uniqueids = {
+        //        DiscountTemplateId: FwFormField.getValueByDataField($form, 'DiscountTemplateId'),
+        //        RecType: "M"
+        //    };
+        //})
+        //$discountItemMiscGridControl.data('beforesave', request => {
+        //    request.DiscountTemplateId = FwFormField.getValueByDataField($form, 'DiscountTemplateId');
+        //    request.RecType = "M";
+        //})
+        //FwBrowse.init($discountItemMiscGridControl);
+        //FwBrowse.renderRuntimeHtml($discountItemMiscGridControl);
+
+        //Discount Item Misc Grid
+        FwBrowse.renderGrid({
+            nameGrid: 'DiscountItemMiscGrid',
+            gridSecurityId: 'UMKuETy6vOLA',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    DiscountTemplateId: FwFormField.getValueByDataField($form, 'DiscountTemplateId')
+                    //,                    RecType = "M"
+                };
+            }, 
+            beforeSave: (request: any) => {
+                request.DiscountTemplateId = FwFormField.getValueByDataField($form, 'DiscountTemplateId');
+                //request.RecType = "M";
+            }
+        });
+
+        //-------------------------------------------------------------------------------------------------------------
     }
-
+    //-------------------------------------------------------------------------------------------------------------
     openForm(mode: string) {
         var $form;
 
@@ -116,7 +196,7 @@
         }
         return $form;
     }
-
+    //-------------------------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
         var $form;
 
@@ -126,11 +206,11 @@
 
         return $form;
     }
-
+    //-------------------------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
     }
-
+    //-------------------------------------------------------------------------------------------------------------
     afterLoad($form: any) {
         const $discountItemControl = $form.find('[data-name="DiscountItemGrid"]');
         FwBrowse.search($discountItemControl);
@@ -155,6 +235,7 @@
         //const spaceDecimals = spaceDays.toFixed(3);
         //FwFormField.setValueByDataField($form, 'SpaceDaysPerWeek', spaceDecimals);
     }
+    //-------------------------------------------------------------------------------------------------------------
 }
 
 var DiscountTemplateController = new DiscountTemplate();

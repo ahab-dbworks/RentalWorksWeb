@@ -1,4 +1,4 @@
-﻿routes.push({
+routes.push({
     pattern: /^reports\/valueofoutrentalinventoryreport/, action: function (match: RegExpExecArray) {
         return ValueOfOutRentalInventoryReportController.getModuleScreen();
     }
@@ -100,7 +100,7 @@ class ValueOfOutRentalInventoryReport extends FwWebApiReport {
         return parameters;
     }
     //----------------------------------------------------------------------------------------------
-    beforeValidate($browse: any, $form: any, request: any) {
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
         const validationName = request.module;
         if (validationName != null) {
             request.uniqueids = {};

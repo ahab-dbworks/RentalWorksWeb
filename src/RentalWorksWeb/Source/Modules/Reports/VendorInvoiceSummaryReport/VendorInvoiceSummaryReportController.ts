@@ -1,4 +1,4 @@
-﻿routes.push({
+routes.push({
     pattern: /^reports\/vendorinvoicesummaryreport/, action: function (match: RegExpExecArray) {
         return VendorInvoiceSummaryReportController.getModuleScreen();
     }
@@ -129,7 +129,7 @@ class VendorInvoiceSummaryReport extends FwWebApiReport {
         return parameters;
     }
     //----------------------------------------------------------------------------------------------
-    beforeValidate($browse, $form, request) {
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
         const validationName = request.module;
         const vendorId = FwFormField.getValueByDataField($form, 'VendorId');
         request.uniqueids = {};

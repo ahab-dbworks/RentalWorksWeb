@@ -1,11 +1,9 @@
 class PresentationLayer {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'PresentationLayer';
-        this.apiurl = 'api/v1/presentationlayer';
-    }
+    Module: string = 'PresentationLayer';
+    apiurl: string = 'api/v1/presentationlayer';
+    caption: string = Constants.Modules.Settings.children.PresentationSettings.children.PresentationLayer.caption;
+    nav: string = Constants.Modules.Settings.children.PresentationSettings.children.PresentationLayer.nav;
+    id: string = Constants.Modules.Settings.children.PresentationSettings.children.PresentationLayer.id;
 
     getModuleScreen() {
         var screen, $browse;
@@ -62,44 +60,55 @@ class PresentationLayer {
     }
 
     renderGrids($form: any) {
-        const $presentationLayerActivityGrid = $form.find('div[data-grid="PresentationLayerActivityGrid"]');
-        const $presentationLayerActivityGridControl = FwBrowse.loadGridFromTemplate('PresentationLayerActivityGrid');
-        $presentationLayerActivityGrid.empty().append($presentationLayerActivityGridControl);
-        $presentationLayerActivityGridControl.data('ondatabind', request => {
-            request.uniqueids = {
-                PresentationLayerId: FwFormField.getValueByDataField($form, 'PresentationLayerId')
-            };
+        FwBrowse.renderGrid({
+            nameGrid: 'PresentationLayerActivityGrid',
+            gridSecurityId: 'QiLcE27ZUg0sE',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    PresentationLayerId: FwFormField.getValueByDataField($form, 'PresentationLayerId')
+                };
+            },
+            beforeSave: (request: any) => {
+                request.PresentationLayerId = FwFormField.getValueByDataField($form, 'PresentationLayerId');
+            }
         });
-        $presentationLayerActivityGridControl.data('beforesave', request => {
-            request.PresentationLayerId = FwFormField.getValueByDataField($form, 'PresentationLayerId');
+        // -----------
+        FwBrowse.renderGrid({
+            nameGrid: 'PresentationLayerActivityOverrideGrid',
+            gridSecurityId: 'HWjX0WDoiG79H',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    PresentationLayerId: FwFormField.getValueByDataField($form, 'PresentationLayerId')
+                };
+            },
+            beforeSave: (request: any) => {
+                request.PresentationLayerId = FwFormField.getValueByDataField($form, 'PresentationLayerId');
+            }
         });
-        FwBrowse.init($presentationLayerActivityGridControl);
-        FwBrowse.renderRuntimeHtml($presentationLayerActivityGridControl);
-
-        const $presentationLayerActivityOverrideGrid = $form.find('div[data-grid="PresentationLayerActivityOverrideGrid"]');
-        const $presentationLayerActivityOverrideGridControl = FwBrowse.loadGridFromTemplate('PresentationLayerActivityOverrideGrid');
-        $presentationLayerActivityOverrideGrid.empty().append($presentationLayerActivityOverrideGridControl);
-        $presentationLayerActivityOverrideGridControl.data('ondatabind', request => {
-            request.uniqueids = {
-                PresentationLayerId: FwFormField.getValueByDataField($form, 'PresentationLayerId')
-            };
+        // -----------
+        FwBrowse.renderGrid({
+            nameGrid: 'PresentationLayerFormGrid',
+            gridSecurityId: 'FcJ0Ld64KSUqv',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                options.hasNew = false;
+                options.hasDelete = false;
+            },
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    PresentationLayerId: FwFormField.getValueByDataField($form, 'PresentationLayerId')
+                };
+            }
         });
-        $presentationLayerActivityOverrideGridControl.data('beforesave', request => {
-            request.PresentationLayerId = FwFormField.getValueByDataField($form, 'PresentationLayerId');
-        });
-        FwBrowse.init($presentationLayerActivityOverrideGridControl);
-        FwBrowse.renderRuntimeHtml($presentationLayerActivityOverrideGridControl);
-
-        const $presentationLayerFormGrid = $form.find('div[data-grid="PresentationLayerFormGrid"]');
-        const $presentationLayerFormGridControl = FwBrowse.loadGridFromTemplate('PresentationLayerFormGrid');
-        $presentationLayerFormGrid.empty().append($presentationLayerFormGridControl);
-        $presentationLayerFormGridControl.data('ondatabind', request => {
-            request.uniqueids = {
-                PresentationLayerId: FwFormField.getValueByDataField($form, 'PresentationLayerId')
-            };
-        });
-        FwBrowse.init($presentationLayerFormGridControl);
-        FwBrowse.renderRuntimeHtml($presentationLayerFormGridControl);
+        // -----------
     }
 
     afterLoad($form: any) {

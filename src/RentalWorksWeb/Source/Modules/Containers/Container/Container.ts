@@ -3,13 +3,30 @@ routes.push({ pattern: /^module\/container$/, action: function (match: RegExpExe
 class Container {
     Module: string = 'Container';
     apiurl: string = 'api/v1/containeritem';
-    caption: string = 'Container';
-    nav: string = 'module/container';
-    id: string = '28A49328-FFBD-42D5-A492-EDF540DF7011';
+    caption: string = Constants.Modules.Container.children.Container.caption;
+    nav: string = Constants.Modules.Container.children.Container.nav;
+    id: string = Constants.Modules.Container.children.Container.id;
+    //caption: string = 'Container';
+    //nav: string = 'module/container';
+    //id: string = '28A49328-FFBD-42D5-A492-EDF540DF7011';
     nameItemAttributeValueGrid: string = 'ItemAttributeValueGrid';
     nameItemQcGrid: string = 'ItemQcGrid';
     ActiveViewFields: any = {};
     ActiveViewFieldsId: string;
+    //---------------------------------------------------------------------------------------------
+    addBrowseMenuItems(options: IAddBrowseMenuOptions): void {
+        FwMenu.addBrowseMenuButtons(options);
+
+        const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+        const $all: JQuery = FwMenu.generateDropDownViewBtn('ALL Warehouses', false, "ALL");
+        const $userWarehouse: JQuery = FwMenu.generateDropDownViewBtn(warehouse.warehouse, true, warehouse.warehouseid);
+        if (typeof this.ActiveViewFields["WarehouseId"] == 'undefined') {
+            this.ActiveViewFields.WarehouseId = [warehouse.warehouseid];
+        }
+        let viewSubitems: Array<JQuery> = [];
+        viewSubitems.push($userWarehouse, $all);
+        FwMenu.addViewBtn(options.$menu, 'Warehouse', viewSubitems, true, "WarehouseId");
+    }
     //---------------------------------------------------------------------------------------------
     getModuleScreen() {
         const screen: any = {};
@@ -29,7 +46,7 @@ class Container {
         };
 
         return screen;
-    };
+    }
     //---------------------------------------------------------------------------------------------
     openBrowse() {
         let $browse = jQuery(this.getBrowseTemplate());
@@ -52,21 +69,7 @@ class Container {
         }
 
         return $browse;
-    };
-    //---------------------------------------------------------------------------------------------
-    addBrowseMenuItems($menuObject: any) {
-        const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
-        const $all: JQuery = FwMenu.generateDropDownViewBtn('ALL Warehouses', false, "ALL");
-        const $userWarehouse: JQuery = FwMenu.generateDropDownViewBtn(warehouse.warehouse, true, warehouse.warehouseid);
-        if (typeof this.ActiveViewFields["WarehouseId"] == 'undefined') {
-            this.ActiveViewFields.WarehouseId = [warehouse.warehouseid];
-        }
-        let viewSubitems: Array<JQuery> = [];
-        viewSubitems.push($userWarehouse, $all);
-        FwMenu.addViewBtn($menuObject, 'Warehouse', viewSubitems, true, "WarehouseId");
-
-        return $menuObject;
-    };
+    }
     //---------------------------------------------------------------------------------------------
     openForm(mode: string) {
         // var $form = FwModule.loadFormFromTemplate(this.Module);
@@ -84,7 +87,7 @@ class Container {
         });
 
         return $form;
-    };
+    }
     //---------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
         const $form = this.openForm('EDIT');
@@ -92,20 +95,20 @@ class Container {
         FwModule.loadForm(this.Module, $form);
 
         return $form;
-    };
+    }
     //---------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
-    };
+    }
     //---------------------------------------------------------------------------------------------
     loadAudit($form: JQuery) {
         const uniqueid = FwFormField.getValueByDataField($form, 'ItemId');
         FwModule.loadAudit($form, uniqueid);
-    };
+    }
     //---------------------------------------------------------------------------------------------
     getBrowseTemplate(): string {
         return `
-           <div data-name="Container" data-control="FwBrowse" data-type="Browse" id="ContainerBrowse" class="fwcontrol fwbrowse" data-orderby="" data-controller="ContainerController" data-hasinactive="true">
+           <div data-name="Container" data-control="FwBrowse" data-type="Browse" id="ContainerBrowse" class="fwcontrol fwbrowse" data-orderby="" data-controller="ContainerController">
              <div class="column flexcolumn" data-width="0" data-visible="false">
                <div class="field" data-isuniqueid="false" data-datafield="ItemId" data-browsedatatype="text"></div>
              </div>
@@ -147,8 +150,8 @@ class Container {
              </div>
              <div class="column spacer" data-width="auto" data-visible="true"></div>
            </div>
-    `;
-    };
+           `;
+    }
     //---------------------------------------------------------------------------------------------
     getFormTemplate(){
         return AssetController.getFormTemplate();

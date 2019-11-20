@@ -20,6 +20,15 @@
             $generatedtr.find('.field[data-browsedatafield="Email"] input').val($form.find('div[data-datafield="Email"]').attr('data-originalvalue'));
         });
     };
+    //--------------------------------------------------------------------------------------------
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $gridbrowse: JQuery, $tr: JQuery) {
+        switch (datafield) {
+            case 'ContactTitleId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecontacttitle`);
+                break;
+        }
+    }
+    //--------------------------------------------------------------------------------------------
 
     //addGridMenuItems($menuObject) {
     //    var self = this;

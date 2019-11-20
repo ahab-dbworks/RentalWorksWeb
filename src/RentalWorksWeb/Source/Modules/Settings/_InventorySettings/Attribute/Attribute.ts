@@ -1,6 +1,9 @@
 class Attribute {
     Module: string = 'Attribute';
     apiurl: string = 'api/v1/attribute';
+    caption: string = Constants.Modules.Settings.children.InventorySettings.children.Attribute.caption;
+    nav:     string = Constants.Modules.Settings.children.InventorySettings.children.Attribute.nav;
+    id:      string = Constants.Modules.Settings.children.InventorySettings.children.Attribute.id;
     //---------------------------------------------------------------------------------
     getModuleScreen() {
         var screen, $browse;
@@ -12,8 +15,8 @@ class Attribute {
 
         $browse = this.openBrowse();
 
-        screen.load = function () {
-            FwModule.openModuleTab($browse, 'Attribute', false, 'BROWSE', true);
+        screen.load = () => {
+            FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };
@@ -57,20 +60,38 @@ class Attribute {
     }
     //---------------------------------------------------------------------------------
     renderGrids($form: any) {
-        const $attributeValueGrid = $form.find('div[data-grid="AttributeValueGrid"]');
-        const $attributeValueGridControl = FwBrowse.loadGridFromTemplate('AttributeValueGrid');
-        $attributeValueGrid.empty().append($attributeValueGridControl);
-        $attributeValueGridControl.data('ondatabind', request => {
-            request.uniqueids = {
-                AttributeId: FwFormField.getValueByDataField($form, 'AttributeId')
-            };
+        //const $attributeValueGrid = $form.find('div[data-grid="AttributeValueGrid"]');
+        //const $attributeValueGridControl = FwBrowse.loadGridFromTemplate('AttributeValueGrid');
+        //$attributeValueGrid.empty().append($attributeValueGridControl);
+        //$attributeValueGridControl.data('ondatabind', request => {
+        //    request.uniqueids = {
+        //        AttributeId: FwFormField.getValueByDataField($form, 'AttributeId')
+        //    };
+        //});
+        //$attributeValueGridControl.data('beforesave', request => {
+        //    request.AttributeId = FwFormField.getValueByDataField($form, 'AttributeId')
+        //});
+        //FwBrowse.init($attributeValueGridControl);
+        //FwBrowse.renderRuntimeHtml($attributeValueGridControl);
+
+        FwBrowse.renderGrid({
+            nameGrid: 'AttributeValueGrid',
+            gridSecurityId: '2uvN8jERScu',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    AttributeId: FwFormField.getValueByDataField($form, 'AttributeId'),
+                };
+            },
+            beforeSave: (request: any) => {
+                request.AttributeId = FwFormField.getValueByDataField($form, 'AttributeId');
+            },
         });
-        $attributeValueGridControl.data('beforesave', request => {
-            request.AttributeId = FwFormField.getValueByDataField($form, 'AttributeId')
-        });
-        FwBrowse.init($attributeValueGridControl);
-        FwBrowse.renderRuntimeHtml($attributeValueGridControl);
     }
+
+
     //---------------------------------------------------------------------------------
     afterLoad($form: any) {
         const $attributeValueGrid = $form.find('[data-name="AttributeValueGrid"]');

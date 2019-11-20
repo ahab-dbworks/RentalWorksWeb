@@ -1,6 +1,11 @@
 class VehicleType {
     Module: string = 'VehicleType';
     apiurl: string = 'api/v1/vehicletype';
+    caption: string = Constants.Modules.Settings.children.VehicleSettings.children.VehicleType.caption;
+    nav: string = Constants.Modules.Settings.children.VehicleSettings.children.VehicleType.nav;
+    id: string = Constants.Modules.Settings.children.VehicleSettings.children.VehicleType.id;
+
+
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         const screen: any = {};

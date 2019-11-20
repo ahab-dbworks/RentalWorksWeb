@@ -1,12 +1,18 @@
 ﻿routes.push({ pattern: /^module\/migrateorders/, action: function (match: RegExpExecArray) { return MigrateOrdersController.getModuleScreen(); } });
+
 class MigrateOrders {
-    Module: string = 'MigrateOrders';
-    apiurl: string = 'api/v1/migrateorders';
-    caption: string = Constants.Modules.Utilities.MigrateOrders.caption;
-    nav: string = Constants.Modules.Utilities.MigrateOrders.nav;
-    id: string = Constants.Modules.Utilities.MigrateOrders.id;
+    Module:               string = 'MigrateOrders';
+    apiurl:               string = 'api/v1/migrate';
+    caption:              string = Constants.Modules.Utilities.children.MigrateOrders.caption;
+    nav:                  string = Constants.Modules.Utilities.children.MigrateOrders.nav;
+    id:                   string = Constants.Modules.Utilities.children.MigrateOrders.id;
     successSoundFileName: string;
-    errorSoundFileName: string;
+    errorSoundFileName:   string;
+    //----------------------------------------------------------------------------------------------
+    addFormMenuItems(options: IAddFormMenuOptions): void {
+        options.hasSave = false;
+        FwMenu.addFormMenuButtons(options);
+    }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen: any = {};
@@ -34,7 +40,7 @@ class MigrateOrders {
         this.getSoundUrls($form);
         this.events($form);
         return $form;
-    };
+    }
     //----------------------------------------------------------------------------------------------
     getSoundUrls = ($form): void => {
         this.successSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).successSoundFileName;
@@ -146,7 +152,7 @@ class MigrateOrders {
             const $migrateItemGridControl = $form.find('[data-name="MigrateItemGrid"]');
             const request: any = {};
             request.SessionId = $migrateItemGrid.data('sessionId');
-            FwAppData.apiMethod(true, 'POST', `api/v1/migrate/selectall`, request, FwServices.defaultTimeout,
+            FwAppData.apiMethod(true, 'POST', `${this.apiurl}/selectall`, request, FwServices.defaultTimeout,
                 response => {
                     $form.find('.error-msg').html('');
                     if (response.success === false) {
@@ -157,15 +163,14 @@ class MigrateOrders {
                         FwBrowse.search($migrateItemGridControl);
                     }
                 },
-                ex => FwFunc.showError(ex)
-                , $migrateItemGrid);
+                ex => FwFunc.showError(ex), $migrateItemGrid);
         });
         // Select None
         $form.find('.select-none').on('click', e => {
             const $migrateItemGridControl = $form.find('[data-name="MigrateItemGrid"]');
             const request: any = {};
             request.SessionId = $migrateItemGrid.data('sessionId');
-            FwAppData.apiMethod(true, 'POST', `api/v1/migrate/selectnone`, request, FwServices.defaultTimeout,
+            FwAppData.apiMethod(true, 'POST', `${this.apiurl}/selectnone`, request, FwServices.defaultTimeout,
                 response => {
                     $form.find('.error-msg').html('');
                     if (response.success === false) {
@@ -175,8 +180,7 @@ class MigrateOrders {
                         successSound.play();
                     }
                     FwBrowse.search($migrateItemGridControl);
-                }, ex => FwFunc.showError(ex) 
-                , $migrateItemGrid);
+                }, ex => FwFunc.showError(ex), $migrateItemGrid);
         });
 
         //finalize migration
@@ -209,7 +213,7 @@ class MigrateOrders {
                 , UpdateBillingStopDate: FwFormField.getValueByDataField($form, 'UpdateBillingStopDate')
                 , BillingStopDate: FwFormField.getValueByDataField($form, 'MigrateBillingStopDate')
             }
-            FwAppData.apiMethod(true, 'POST', `api/v1/migrate/completesession`, request, FwServices.defaultTimeout,
+            FwAppData.apiMethod(true, 'POST', `${this.apiurl}/completesession`, request, FwServices.defaultTimeout,
                 response => {
                     $form.find('.error-msg').html('');
                     if (response.success === false) {
@@ -228,8 +232,7 @@ class MigrateOrders {
                         }
                         $form.empty().append(MigrateOrdersController.openForm('NEW')); //reset migrate orders tab
                     }
-                }, ex => FwFunc.showError(ex)
-                , $migrateItemGrid);
+                }, ex => FwFunc.showError(ex), $migrateItemGrid);
         });
     }
     //----------------------------------------------------------------------------------------------
@@ -259,7 +262,7 @@ class MigrateOrders {
             request.DealId = FwFormField.getValueByDataField($form, 'DealId');
             request.DepartmentId = JSON.parse(sessionStorage.getItem('department')).departmentid;
 
-            FwAppData.apiMethod(true, 'POST', `api/v1/migrate/startsession`, request, FwServices.defaultTimeout,
+            FwAppData.apiMethod(true, 'POST', `${this.apiurl}/startsession`, request, FwServices.defaultTimeout,
                 response => {
                     sessionId = response.SessionId;
                     if (sessionId) {
@@ -297,6 +300,7 @@ class MigrateOrders {
         request.uniqueids = {
             LocationId: officeLocationId
         }
-    };
+    }
+    //----------------------------------------------------------------------------------------------
 }
 var MigrateOrdersController = new MigrateOrders();

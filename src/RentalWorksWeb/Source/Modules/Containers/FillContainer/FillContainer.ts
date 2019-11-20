@@ -2,9 +2,9 @@ routes.push({ pattern: /^module\/fillcontainer$/, action: function (match: RegEx
 
 class FillContainer extends StagingCheckoutBase {
     Module: string = 'FillContainer';
-    caption: string = Constants.Modules.Home.FillContainer.caption;
-    nav: string = Constants.Modules.Home.FillContainer.nav;
-    id: string = Constants.Modules.Home.FillContainer.id;
+    caption: string = Constants.Modules.Container.children.FillContainer.caption;
+    nav: string = Constants.Modules.Container.children.FillContainer.nav;
+    id: string = Constants.Modules.Container.children.FillContainer.id;
     showAddItemToOrder: boolean = false;
     successSoundFileName: string;
     errorSoundFileName: string;
@@ -12,6 +12,11 @@ class FillContainer extends StagingCheckoutBase {
     contractId: string;
     isPendingItemGridView: boolean = false;
     Type: string = 'ContainerItem';
+    //----------------------------------------------------------------------------------------------
+    addFormMenuItems(options: IAddFormMenuOptions): void {
+        options.hasSave = false;
+        FwMenu.addFormMenuButtons(options);
+    }
     //----------------------------------------------------------------------------------------------
     events($form: any): void {
         super.events($form);
@@ -55,7 +60,7 @@ class FillContainer extends StagingCheckoutBase {
                                                     <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description" data-enabled="false" style="flex:0 1 400px;"></div>
                                                 </div>
                                                 <div class="flexrow">
-                                                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Container I-Code" data-datafield="ContainerId" data-displayfield="ICode" data-formbeforevalidate="beforeValidate" data-validationname="ContainerValidation" style="flex:0 1 200px;"></div>
+                                                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Container I-Code" data-datafield="ContainerId" data-displayfield="ICode" data-validationname="ContainerValidation" style="flex:0 1 200px;"></div>
                                                   <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Container Description" data-datafield="ContainerDescription" data-enabled="false" style="flex:0 1 400px;"></div>
                                                   <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="InventoryId" data-datafield="InventoryId" style="display:none;"></div>
                                                 </div>

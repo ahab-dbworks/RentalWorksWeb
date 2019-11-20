@@ -105,6 +105,7 @@ routes.push({ pattern: /^module\/quote$/, action: function (match: RegExpExecArr
 //routes.push({ pattern: /^module\/repair$/,            action: function(match: RegExpExecArray) { return RwRepairController.getModuleScreen(); } });
 
 //Settings Modules
+routes.push({ pattern: /^module\/documentbarcodesettings$/, action: function (match: RegExpExecArray) { return DocumentBarCodeSettingsController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/country$/, action: function (match: RegExpExecArray) { return CountryController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/state$/, action: function (match: RegExpExecArray) { return StateController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/customerstatus$/, action: function (match: RegExpExecArray) { return CustomerStatusController.getModuleScreen(); } });
@@ -115,7 +116,7 @@ routes.push({ pattern: /^module\/paymenttype$/, action: function (match: RegExpE
 routes.push({ pattern: /^module\/paymentterms$/, action: function (match: RegExpExecArray) { return PaymentTermsController.getModuleScreen(); } });
 //routes.push({ pattern: /^module\/customersettings$/, action: function (match: RegExpExecArray) { return RwCustomerSettingsController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/ordertype$/, action: function (match: RegExpExecArray) { return OrderTypeController.getModuleScreen(); } });
-routes.push({ pattern: /^module\/usersettings$/, action: function (match: RegExpExecArray) { return UserSettingsController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/userprofile$/, action: function (match: RegExpExecArray) { return UserProfileController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/vendorclass$/, action: function (match: RegExpExecArray) { return VendorClassController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/warehouse$/, action: function (match: RegExpExecArray) { return WarehouseController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/customercategory$/, action: function (match: RegExpExecArray) { return CustomerCategoryController.getModuleScreen(); } });

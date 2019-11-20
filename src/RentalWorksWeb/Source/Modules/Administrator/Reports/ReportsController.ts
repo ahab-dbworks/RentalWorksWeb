@@ -1,8 +1,8 @@
 ﻿class Reports {
     Module: string = 'Reports';
-    caption: string = Constants.Modules.Administrator.Reports.caption;
-    nav: string = Constants.Modules.Administrator.Reports.nav
-    id: string = Constants.Modules.Administrator.Reports.id;
+    caption: string = Constants.Modules.Administrator.children.Reports.caption;
+    nav: string = Constants.Modules.Administrator.children.Reports.nav
+    id: string = Constants.Modules.Administrator.children.Reports.id;
     reportsMenuId = Constants.MainMenu.Reports.id;
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
@@ -18,21 +18,22 @@
         screen.moduleCaptions = {};
         $reports = this.openReports();
 
-        screen.load = function () {
-            FwModule.openModuleTab($reports, 'Reports', false, 'REPORTS', true)
-            var node = FwApplicationTree.getNodeById(FwApplicationTree.tree, self.reportsMenuId);
+        screen.load = () => {
+            FwModule.openModuleTab($reports, this.caption, false, 'REPORTS', true)
+            //var nodeReports = FwApplicationTree.getNodeById(FwApplicationTree.tree, 'Reports');
+            const rootConstNodeReports = Constants.Modules.Reports;
             var moduleArray = [];
 
-            for (var i = 0; i < node.children.length; i++) {
-                if (node.children[i].properties.nodetype === 'Module' && node.children[i].properties.visible === 'T') {
-                    var moduleObj = [];
-                    moduleObj.push(node.children[i].properties.caption, node.children[i].properties.controller.slice(0, -10), node.children[i].properties.caption, node.children[i].properties.description);
-                    moduleArray.push(moduleObj);
-                } else {
-                    for (var j = 0; j < node.children[i].children.length; j++) {
-                        if (node.children[i].children[j].properties.visible === 'T') {
+            for (let keyCategory in rootConstNodeReports.children) {
+                const constNodeCategory = rootConstNodeReports.children[keyCategory];
+                const secNodeCategory = FwApplicationTree.getNodeById(FwApplicationTree.tree, constNodeCategory.id);
+                if (secNodeCategory.properties.visible === 'T') {
+                    for (let keyReport in constNodeCategory.children) {
+                        const constNodeReport = constNodeCategory.children[keyReport];
+                        const secNodeReport = FwApplicationTree.getNodeById(FwApplicationTree.tree, constNodeReport.id);
+                        if (secNodeReport !== null && secNodeReport.properties.visible === 'T') {
                             var moduleObj = [];
-                            moduleObj.push(node.children[i].children[j].properties.caption, node.children[i].children[j].properties.controller.slice(0, -10), node.children[i].properties.caption, node.children[i].children[j].properties.description, node.children[i].properties.caption);
+                            moduleObj.push(constNodeReport.caption, keyReport, constNodeCategory.caption, constNodeReport.description, constNodeCategory.caption);
                             moduleArray.push(moduleObj);
                         }
                     }

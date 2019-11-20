@@ -1,11 +1,9 @@
 ﻿class CustomerType {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'CustomerType';
-        this.apiurl = 'api/v1/customertype';
-    }
+    Module: string = 'CustomerType';
+    apiurl: string = 'api/v1/customertype';
+    caption: string = Constants.Modules.Settings.children.CustomerSettings.children.CustomerType.caption;
+    nav: string = Constants.Modules.Settings.children.CustomerSettings.children.CustomerType.nav;
+    id: string = Constants.Modules.Settings.children.CustomerSettings.children.CustomerType.id;
 
     getModuleScreen() {
         var screen, $browse;

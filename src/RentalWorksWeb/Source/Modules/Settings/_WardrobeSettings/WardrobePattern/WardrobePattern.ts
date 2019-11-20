@@ -1,11 +1,9 @@
 class WardrobePattern {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'WardrobePattern';
-        this.apiurl = 'api/v1/wardrobepattern';
-    }
+    Module: string = 'WardrobePattern';
+    apiurl: string = 'api/v1/wardrobepattern';
+    caption: string = Constants.Modules.Settings.children.WardrobeSettings.children.WardrobePattern.caption;
+    nav: string = Constants.Modules.Settings.children.WardrobeSettings.children.WardrobePattern.nav;
+    id: string = Constants.Modules.Settings.children.WardrobeSettings.children.WardrobePattern.id;
 
     getModuleScreen() {
         var screen, $browse;

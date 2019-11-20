@@ -1,13 +1,12 @@
 ﻿routes.push({ pattern: /^module\/markettype$/, action: function (match: RegExpExecArray) { return MarketTypeController.getModuleScreen(); } });
 
 class MarketType {
-    Module: string;
-    apiurl: string;
+    Module: string = 'MarketType';
+    apiurl: string = 'api/v1/markettype';
+    caption: string = Constants.Modules.Settings.children.OrderSettings.children.MarketType.caption;
+    nav: string = Constants.Modules.Settings.children.OrderSettings.children.MarketType.nav;
+    id: string = Constants.Modules.Settings.children.OrderSettings.children.MarketType.id;
 
-    constructor() {
-        this.Module = 'MarketType';
-        this.apiurl = 'api/v1/markettype';
-    }
 
     getModuleScreen() {
         var screen, $browse;

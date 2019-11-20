@@ -1,13 +1,13 @@
-﻿//routes.push({ pattern: /^module\/contact$/, action: function (match: RegExpExecArray) { return ContactController.getModuleScreen(); } });
+//routes.push({ pattern: /^module\/contact$/, action: function (match: RegExpExecArray) { return ContactController.getModuleScreen(); } });
 
 class Contact {
     Module: string = 'Contact';
     apiurl: string = 'api/v1/contact';
-    caption: string = Constants.Modules.Home.Contact.caption;
-    nav: string = Constants.Modules.Home.Contact.nav;
-    id: string = Constants.Modules.Home.Contact.id;
+    caption: string = Constants.Modules.Agent.children.Contact.caption;
+    nav: string = Constants.Modules.Agent.children.Contact.nav;
+    id: string = Constants.Modules.Agent.children.Contact.id;
     ActiveView: string = 'ALL';
-
+    //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var me: Contact = this;
         var screen: any = {};
@@ -17,8 +17,8 @@ class Contact {
 
         var $browse: JQuery = this.openBrowse();
 
-        screen.load = function () {
-            FwModule.openModuleTab($browse, me.caption, false, 'BROWSE', true);
+        screen.load = () => {
+            FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };
@@ -27,15 +27,11 @@ class Contact {
         };
 
         return screen;
-    };
-
+    }
     //----------------------------------------------------------------------------------------------
     openBrowse() {
-        var self = this;
-        //var $browse: JQuery = FwBrowse.loadBrowseFromTemplate(this.Module);
         let $browse = jQuery(this.getBrowseTemplate());
         $browse = FwModule.openBrowse($browse);
-
 
         try {
             FwAppData.apiMethod(true, 'GET', `${this.apiurl}/legend`, null, FwServices.defaultTimeout, function onSuccess(response) {
@@ -49,15 +45,11 @@ class Contact {
             FwFunc.showError(ex);
         }
 
-
         return $browse;
-    };
+    }
     //----------------------------------------------------------------------------------------------
     openForm(mode: string) {
-        //var $form;
-        //$form = FwModule.loadFormFromTemplate(this.Module);
         let $form = jQuery(this.getFormTemplate());
-
         $form = FwModule.openForm($form, mode);
 
         if (mode === 'NEW') {
@@ -95,12 +87,10 @@ class Contact {
         });
 
         return $form;
-    };
+    }
     //----------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
-        var $form: JQuery = this.openForm('EDIT');
-
-        $form = this.openForm('EDIT');
+        let $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="ContactId"] input').val(uniqueids.ContactId);
         FwModule.loadForm(this.Module, $form);
 
@@ -108,7 +98,7 @@ class Contact {
         $form.find('.quoteSubModule').append(this.openQuoteBrowse($form));
 
         return $form;
-    };
+    }
     //----------------------------------------------------------------------------------------------
     openOrderBrowse($form) {
         const contactId = FwFormField.getValueByDataField($form, 'ContactId');
@@ -139,51 +129,106 @@ class Contact {
     }
     //----------------------------------------------------------------------------------------------
     renderGrids($form: JQuery) {
-        const $contactNoteGrid = $form.find('div[data-grid="ContactNoteGrid"]');
-        const $contactNoteGridControl = FwBrowse.loadGridFromTemplate('ContactNoteGrid');
-        $contactNoteGrid.empty().append($contactNoteGridControl);
-        $contactNoteGridControl.data('ondatabind', request => {
-            request.uniqueids = {
-                ContactId: FwFormField.getValueByDataField($form, 'ContactId')
-            };
-        })
-        $contactNoteGridControl.data('beforesave', request => {
-            request.ContactId = FwFormField.getValueByDataField($form, 'ContactId');
+        // Contact Note Grid
+        //const $contactNoteGrid = $form.find('div[data-grid="ContactNoteGrid"]');
+        //const $contactNoteGridControl = FwBrowse.loadGridFromTemplate('ContactNoteGrid');
+        //$contactNoteGrid.empty().append($contactNoteGridControl);
+        //$contactNoteGridControl.data('ondatabind', request => {
+        //    request.uniqueids = {
+        //        ContactId: FwFormField.getValueByDataField($form, 'ContactId')
+        //    };
+        //})
+        //$contactNoteGridControl.data('beforesave', request => {
+        //    request.ContactId = FwFormField.getValueByDataField($form, 'ContactId');
+        //});
+        //FwBrowse.init($contactNoteGridControl);
+        //FwBrowse.renderRuntimeHtml($contactNoteGridControl);
+
+        FwBrowse.renderGrid({
+            nameGrid: 'ContactNoteGrid',
+            gridSecurityId: 'mkJ1Ry8nqSnw',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    ContactId: FwFormField.getValueByDataField($form, 'ContactId')
+                };
+            },
+            beforeSave: (request: any) => {
+                request.ContactId = FwFormField.getValueByDataField($form, 'ContactId');
+            },
         });
-        FwBrowse.init($contactNoteGridControl);
-        FwBrowse.renderRuntimeHtml($contactNoteGridControl);
 
         // Personal Event Grid
-        const $contactPersonalEventGrid = $form.find('div[data-grid="ContactPersonalEventGrid"]');
-        const $contactPersonalEventGridControl = FwBrowse.loadGridFromTemplate('ContactPersonalEventGrid');
-        $contactPersonalEventGrid.empty().append($contactPersonalEventGridControl);
-        $contactPersonalEventGridControl.data('ondatabind', request => {
-            request.uniqueids = {
-                ContactId: FwFormField.getValueByDataField($form, 'ContactId')
-            };
-        })
-        $contactPersonalEventGridControl.data('beforesave', request => {
-            request.ContactId = FwFormField.getValueByDataField($form, 'ContactId');
+        //const $contactPersonalEventGrid = $form.find('div[data-grid="ContactPersonalEventGrid"]');
+        //const $contactPersonalEventGridControl = FwBrowse.loadGridFromTemplate('ContactPersonalEventGrid');
+        //$contactPersonalEventGrid.empty().append($contactPersonalEventGridControl);
+        //$contactPersonalEventGridControl.data('ondatabind', request => {
+        //    request.uniqueids = {
+        //        ContactId: FwFormField.getValueByDataField($form, 'ContactId')
+        //    };
+        //})
+        //$contactPersonalEventGridControl.data('beforesave', request => {
+        //    request.ContactId = FwFormField.getValueByDataField($form, 'ContactId');
+        //});
+        //FwBrowse.init($contactPersonalEventGridControl);
+        //FwBrowse.renderRuntimeHtml($contactPersonalEventGridControl);
+
+        FwBrowse.renderGrid({
+            nameGrid: 'ContactPersonalEventGrid',
+            gridSecurityId: '35was7r004gg',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    ContactId: FwFormField.getValueByDataField($form, 'ContactId')
+                };
+            },
+            beforeSave: (request: any) => {
+                request.ContactId = FwFormField.getValueByDataField($form, 'ContactId');
+            }
         });
-        FwBrowse.init($contactPersonalEventGridControl);
-        FwBrowse.renderRuntimeHtml($contactPersonalEventGridControl);
+
+        ////Company Contact grid
+        //const $companyContactGrid = $form.find('div[data-grid="ContactCompanyGrid"]');
+        //const $companyContactGridControl = FwBrowse.loadGridFromTemplate('ContactCompanyGrid');
+        //$companyContactGrid.empty().append($companyContactGridControl);
+        //$companyContactGridControl.data('ondatabind', request => {
+        //    request.uniqueids = {
+        //        ContactId: FwFormField.getValueByDataField($form, 'ContactId')
+        //    };
+        //})
+        //$companyContactGridControl.data('beforesave', request => {
+        //    request.ContactId = FwFormField.getValueByDataField($form, 'ContactId');
+        //});
+        //FwBrowse.init($companyContactGridControl);
+        //FwBrowse.renderRuntimeHtml($companyContactGridControl);
 
         //Company Contact grid
-        const $companyContactGrid = $form.find('div[data-grid="ContactCompanyGrid"]');
-        const $companyContactGridControl = FwBrowse.loadGridFromTemplate('ContactCompanyGrid');
-        $companyContactGrid.empty().append($companyContactGridControl);
-        $companyContactGridControl.data('ondatabind', request => {
-            request.uniqueids = {
-                ContactId: FwFormField.getValueByDataField($form, 'ContactId')
-            };
-        })
-        $companyContactGridControl.data('beforesave', request => {
-            request.ContactId = FwFormField.getValueByDataField($form, 'ContactId');
+        FwBrowse.renderGrid({
+            nameGrid: 'ContactCompanyGrid',
+            gridSecurityId: 'gQHuhVDA5Do2',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+
+            },
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    ContactId: FwFormField.getValueByDataField($form, 'ContactId')
+                };
+            },
+            beforeSave: (request: any) => {
+                request.ContactId = FwFormField.getValueByDataField($form, 'ContactId');
+            }
+            
         });
-        FwBrowse.init($companyContactGridControl);
-        FwBrowse.renderRuntimeHtml($companyContactGridControl);
+
         this.addLegend($form);
-    };
+    }
     //----------------------------------------------------------------------------------------------
     addLegend($form: any) {
         const $companyContactGrid = $form.find('[data-name="ContactCompanyGrid"]');
@@ -231,44 +276,53 @@ class Contact {
             const $subModuleBrowse = $form.find(`#${tabPageId} .fwbrowse`);
             FwBrowse.search($subModuleBrowse);
         });
-    };
+    }
+    //--------------------------------------------------------------------------------------------
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
+        switch (datafield) {
+            case 'ContactTitleId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecontacttitle`);
+                break;
+        }
+    }
     //--------------------------------------------------------------------------------------------
     getBrowseTemplate(): string {
         return `
-      <div data-name="Contact" data-control="FwBrowse" data-type="Browse" class="fwcontrol fwbrowse" data-controller="ContactController" data-hasinactive="true">
-      <div class="column" data-width="0" data-visible="false">
-          <div class="field" data-isuniqueid="true" data-datafield="ContactId" data-browsedatatype="key" ></div>
-      </div>
-      <div class="column" data-width="0" data-visible="false">
-          <div class="field" data-datafield="Inactive" data-browsedatatype="text"  data-visible="false"></div>
-      </div>
-      <div class="column" data-width="150px">
-          <div class="field" data-caption="Last Name" data-isuniqueid="false" data-datafield="LastName" data-browsedatatype="text" data-sort="asc"></div>
-      </div>
-      <div class="column" data-width="150px">
-          <div class="field" data-caption="First Name" data-isuniqueid="false" data-datafield="FirstName" data-cellcolor="FirstNameColor" data-browsedatatype="text" data-sort="off"></div>
-      </div>
-      <div class="column" data-width="150px">
-          <div class="field" data-caption="Middle Initial" data-isuniqueid="false" data-datafield="MiddleInitial" data-browsedatatype="text" data-sort="off"></div>
-      </div>
-      <div class="column" data-width="150px" data-visible="true">
-          <div class="field" data-caption="Mobile Phone" data-isuniqueid="false" data-datafield="MobilePhone" data-browsedatatype="text" data-sort="off"></div>
-      </div>
-      <div class="column" data-width="150px" data-visible="true">
-          <div class="field" data-caption="E-mail" data-isuniqueid="false" data-datafield="Email" data-browsedatatype="text" data-sort="off" data-allcaps="false"></div>
-      </div>
-      <div class="column" data-width="150px" data-visible="true">
-          <div class="field" data-caption="City" data-isuniqueid="false" data-datafield="City" data-browsedatatype="text" data-sort="off"></div>
-      </div>
-      <div class="column" data-width="150px" data-visible="true">
-          <div class="field" data-caption="State" data-isuniqueid="false" data-datafield="State" data-browsedatatype="text" data-sort="off"></div>
-      </div>
-      <div class="column" data-width="150px" data-visible="true">
-          <div class="field" data-caption="Active Date" data-isuniqueid="false" data-datafield="ActiveDate" data-browsedatatype="text" data-sort="off"></div>
-      </div>
-      <div class="column spacer" data-width="auto" data-visible="true"></div>
-    </div>`;
+      <div data-name="Contact" data-control="FwBrowse" data-type="Browse" class="fwcontrol fwbrowse" data-controller="ContactController">
+        <div class="column" data-width="0" data-visible="false">
+            <div class="field" data-isuniqueid="true" data-datafield="ContactId" data-browsedatatype="key" ></div>
+        </div>
+        <div class="column" data-width="0" data-visible="false">
+            <div class="field" data-datafield="Inactive" data-browsedatatype="text"  data-visible="false"></div>
+        </div>
+        <div class="column" data-width="150px">
+            <div class="field" data-caption="Last Name" data-isuniqueid="false" data-datafield="LastName" data-browsedatatype="text" data-sort="asc"></div>
+        </div>
+        <div class="column" data-width="150px">
+            <div class="field" data-caption="First Name" data-isuniqueid="false" data-datafield="FirstName" data-cellcolor="FirstNameColor" data-browsedatatype="text" data-sort="off"></div>
+        </div>
+        <div class="column" data-width="150px">
+            <div class="field" data-caption="Middle Initial" data-isuniqueid="false" data-datafield="MiddleInitial" data-browsedatatype="text" data-sort="off"></div>
+        </div>
+        <div class="column" data-width="150px" data-visible="true">
+            <div class="field" data-caption="Mobile Phone" data-isuniqueid="false" data-datafield="MobilePhone" data-browsedatatype="text" data-sort="off"></div>
+        </div>
+        <div class="column" data-width="150px" data-visible="true">
+            <div class="field" data-caption="E-mail" data-isuniqueid="false" data-datafield="Email" data-browsedatatype="text" data-sort="off" data-allcaps="false"></div>
+        </div>
+        <div class="column" data-width="150px" data-visible="true">
+            <div class="field" data-caption="City" data-isuniqueid="false" data-datafield="City" data-browsedatatype="text" data-sort="off"></div>
+        </div>
+        <div class="column" data-width="150px" data-visible="true">
+            <div class="field" data-caption="State" data-isuniqueid="false" data-datafield="State" data-browsedatatype="text" data-sort="off"></div>
+        </div>
+        <div class="column" data-width="150px" data-visible="true">
+            <div class="field" data-caption="Active Date" data-isuniqueid="false" data-datafield="ActiveDate" data-browsedatatype="text" data-sort="off"></div>
+        </div>
+        <div class="column spacer" data-width="auto" data-visible="true"></div>
+      </div>`;
     }
+    //--------------------------------------------------------------------------------------------
     getFormTemplate(): string {
         return `
         <div class="fwcontrol fwcontainer fwform contactform" data-control="FwContainer" data-type="form" data-caption="Contact" data-hasaudit="false" data-controller="ContactController">
@@ -474,8 +528,6 @@ class Contact {
           </div>
         </div>`;
     }
-    //--------------------------------------------------------------------------------------------
-
     //--------------------------------------------------------------------------------------------
 }
 //--------------------------------------------------------------------------------------------

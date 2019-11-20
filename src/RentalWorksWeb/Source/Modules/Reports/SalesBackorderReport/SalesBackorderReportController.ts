@@ -1,4 +1,4 @@
-﻿routes.push({
+routes.push({
     pattern: /^reports\/salesbackorderreport/, action: function (match: RegExpExecArray) {
         return SalesBackorderReportController.getModuleScreen();
     }
@@ -80,7 +80,7 @@ class SalesBackorderReport extends FwWebApiReport {
         return parameters;
     }
     //----------------------------------------------------------------------------------------------
-    beforeValidate = function ($browse, $form, request) {
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
         const validationName = request.module;
         if (validationName != null) {
             const customerId = FwFormField.getValueByDataField($form, 'CustomerId');

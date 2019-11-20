@@ -1,6 +1,9 @@
 class RwMiscRate {
     Module: string = 'MiscRate';
     apiurl: string = 'api/v1/miscrate';
+    caption: string = Constants.Modules.Settings.children.MiscSettings.children.MiscRate.caption;
+    nav: string = Constants.Modules.Settings.children.MiscSettings.children.MiscRate.nav;
+    id: string = Constants.Modules.Settings.children.MiscSettings.children.MiscRate.id;
 
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
@@ -101,38 +104,99 @@ class RwMiscRate {
     //----------------------------------------------------------------------------------------------
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
-        const $rateLocationTaxGrid = $form.find('div[data-grid="RateLocationTaxGrid"]');
-        const $rateLocationTaxGridControl = FwBrowse.loadGridFromTemplate('RateLocationTaxGrid');
-        $rateLocationTaxGrid.empty().append($rateLocationTaxGridControl);
-        $rateLocationTaxGridControl.data('ondatabind', request => {
-            request.uniqueids = {
-                RateId: FwFormField.getValueByDataField($form, 'RateId')
-            };
-        })
-        FwBrowse.init($rateLocationTaxGridControl);
-        FwBrowse.renderRuntimeHtml($rateLocationTaxGridControl);
+        //const $rateLocationTaxGrid = $form.find('div[data-grid="RateLocationTaxGrid"]');
+        //const $rateLocationTaxGridControl = FwBrowse.loadGridFromTemplate('RateLocationTaxGrid');
+        //$rateLocationTaxGrid.empty().append($rateLocationTaxGridControl);
+        //$rateLocationTaxGridControl.data('ondatabind', request => {
+        //    request.uniqueids = {
+        //        RateId: FwFormField.getValueByDataField($form, 'RateId')
+        //    };
+        //})
+        //FwBrowse.init($rateLocationTaxGridControl);
+        //FwBrowse.renderRuntimeHtml($rateLocationTaxGridControl);
 
-        const $rateWarehouseGrid = $form.find('div[data-grid="RateWarehouseGrid"]');
-        const $rateWarehouseGridControl = FwBrowse.loadGridFromTemplate('RateWarehouseGrid');
-        $rateWarehouseGrid.empty().append($rateWarehouseGridControl);
-        $rateWarehouseGridControl.data('ondatabind', request => {
-            request.uniqueids = {
-                RateId: FwFormField.getValueByDataField($form, 'RateId')
-            };
-        })
-        FwBrowse.init($rateWarehouseGridControl);
-        FwBrowse.renderRuntimeHtml($rateWarehouseGridControl);
+        FwBrowse.renderGrid({
+            nameGrid: 'RateLocationTaxGrid',
+            gridSecurityId: 'Bm6TN9A4IRIuT',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                options.hasNew = false;
+                options.hasDelete = false;
+            },
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    RateId: FwFormField.getValueByDataField($form, 'RateId'),
+                };
+            },
+            //beforeSave: (request: any) => {
+            //    request.RateId = FwFormField.getValueByDataField($form, 'RateId');
+            //},
+        });
+    
 
-        const $singleRateWarehouseGrid = $form.find('div[data-grid="SingleRateWarehouseGrid"]');
-        const $singleRateWarehouseGridControl = FwBrowse.loadGridFromTemplate('SingleRateWarehouseGrid');
-        $singleRateWarehouseGrid.empty().append($singleRateWarehouseGridControl);
-        $singleRateWarehouseGridControl.data('ondatabind', request => {
-            request.uniqueids = {
-                RateId: FwFormField.getValueByDataField($form, 'RateId')
-            };
-        })
-        FwBrowse.init($singleRateWarehouseGridControl);
-        FwBrowse.renderRuntimeHtml($singleRateWarehouseGridControl);
+        //const $rateWarehouseGrid = $form.find('div[data-grid="RateWarehouseGrid"]');
+        //const $rateWarehouseGridControl = FwBrowse.loadGridFromTemplate('RateWarehouseGrid');
+        //$rateWarehouseGrid.empty().append($rateWarehouseGridControl);
+        //$rateWarehouseGridControl.data('ondatabind', request => {
+        //    request.uniqueids = {
+        //        RateId: FwFormField.getValueByDataField($form, 'RateId')
+        //    };
+        //})
+        //FwBrowse.init($rateWarehouseGridControl);
+        //FwBrowse.renderRuntimeHtml($rateWarehouseGridControl);
+
+        FwBrowse.renderGrid({
+            nameGrid: 'RateWarehouseGrid',
+            gridSecurityId: 'oVjmeqXtHEJCm',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                options.hasNew = false;
+                options.hasDelete = false;
+            },
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    RateId: FwFormField.getValueByDataField($form, 'RateId'),
+                };
+            },
+            //beforeSave: (request: any) => {
+            //    request.RateId = FwFormField.getValueByDataField($form, 'RateId);
+            //},
+        });
+
+        //const $singleRateWarehouseGrid = $form.find('div[data-grid="SingleRateWarehouseGrid"]');
+        //const $singleRateWarehouseGridControl = FwBrowse.loadGridFromTemplate('SingleRateWarehouseGrid');
+        //$singleRateWarehouseGrid.empty().append($singleRateWarehouseGridControl);
+        //$singleRateWarehouseGridControl.data('ondatabind', request => {
+        //    request.uniqueids = {
+        //        RateId: FwFormField.getValueByDataField($form, 'RateId')
+        //    };
+        //})
+        //FwBrowse.init($singleRateWarehouseGridControl);
+        //FwBrowse.renderRuntimeHtml($singleRateWarehouseGridControl);
+
+        FwBrowse.renderGrid({
+            nameGrid: 'SingleRateWarehouseGrid',
+            gridSecurityId: 'vHMa0l5PUysXo',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                options.hasNew = false;
+                options.hasDelete = false;
+            },
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    RateId: FwFormField.getValueByDataField($form, 'RateId'),
+                };
+            },
+            //beforeSave: (request: any) => {
+            //    request.RateId = FwFormField.getValueByDataField($form, 'RateId');
+            //},
+        });
     }
 
     //----------------------------------------------------------------------------------------------

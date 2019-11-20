@@ -1,9 +1,9 @@
-﻿class Customer {
+class Customer {
     Module: string = 'Customer';
     apiurl: string = 'api/v1/customer';
-    caption: string = Constants.Modules.Home.Customer.caption;
-    nav: string = Constants.Modules.Home.Customer.nav;
-    id: string = Constants.Modules.Home.Customer.id;
+    caption: string = Constants.Modules.Agent.children.Customer.caption;
+    nav: string = Constants.Modules.Agent.children.Customer.nav;
+    id: string = Constants.Modules.Agent.children.Customer.id;
     thisModule: Customer;
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
@@ -223,64 +223,139 @@
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
         // ----------
-        var nameCustomerResaleGrid: string = 'CompanyResaleGrid';
-        var $companyResaleGrid: any = $companyResaleGrid = $form.find('div[data-grid="' + nameCustomerResaleGrid + '"]');
-        var $companyResaleGridControl: any = FwBrowse.loadGridFromTemplate(nameCustomerResaleGrid);
+        //Company Resale Grid
+        //var nameCustomerResaleGrid: string = 'CompanyResaleGrid';
+        //var $companyResaleGrid: any = $companyResaleGrid = $form.find('div[data-grid="' + nameCustomerResaleGrid + '"]');
+        //var $companyResaleGridControl: any = FwBrowse.loadGridFromTemplate(nameCustomerResaleGrid);
 
-        $companyResaleGrid.empty().append($companyResaleGridControl);
-        $companyResaleGridControl.data('ondatabind', function (request) {
-            request.uniqueids = {
-                CompanyId: FwFormField.getValueByDataField($form, 'CustomerId')
-            };
-        });
-        $companyResaleGridControl.data('beforesave', function (request) {
-            request.CompanyId = FwFormField.getValueByDataField($form, 'CustomerId')
-        });
-        FwBrowse.init($companyResaleGridControl);
-        FwBrowse.renderRuntimeHtml($companyResaleGridControl);
-        // ----------
-        var nameCustomerNoteGrid: string = 'CustomerNoteGrid';
-        var $customerNoteGrid: any = $customerNoteGrid = $form.find('div[data-grid="' + nameCustomerNoteGrid + '"]');
-        var $customerNoteGridControl: any = FwBrowse.loadGridFromTemplate(nameCustomerNoteGrid);
-        $customerNoteGrid.empty().append($customerNoteGridControl);
-        $customerNoteGridControl.data('ondatabind', function (request) {
-            request.uniqueids = {
-                CustomerId: FwFormField.getValueByDataField($form, 'CustomerId')
+        //$companyResaleGrid.empty().append($companyResaleGridControl);
+        //$companyResaleGridControl.data('ondatabind', function (request) {
+        //    request.uniqueids = {
+        //        CompanyId: FwFormField.getValueByDataField($form, 'CustomerId')
+        //    };
+        //});
+        //$companyResaleGridControl.data('beforesave', function (request) {
+        //    request.CompanyId = FwFormField.getValueByDataField($form, 'CustomerId')
+        //});
+        //FwBrowse.init($companyResaleGridControl);
+        //FwBrowse.renderRuntimeHtml($companyResaleGridControl);
+
+        FwBrowse.renderGrid({
+            nameGrid: 'CompanyResaleGrid',
+            gridSecurityId: 'k48X9sulRpmb',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    CompanyId: FwFormField.getValueByDataField($form, 'CustomerId')
+                };
+            },
+            beforeSave: (request: any) => {
+                request.CompanyId = FwFormField.getValueByDataField($form, 'CustomerId');
             }
         });
-        FwBrowse.init($customerNoteGridControl);
-        FwBrowse.renderRuntimeHtml($customerNoteGridControl);
         // ----------
-        var nameCompanyTaxGrid: string = 'CompanyTaxOptionGrid'
-        var $companyTaxGrid: any = $companyTaxGrid = $form.find('div[data-grid="' + nameCompanyTaxGrid + '"]');
-        var $companyTaxControl: any = FwBrowse.loadGridFromTemplate(nameCompanyTaxGrid);
-        $companyTaxGrid.empty().append($companyTaxControl);
-        $companyTaxControl.data('ondatabind', function (request) {
-            request.uniqueids = {
-                CompanyId: FwFormField.getValueByDataField($form, 'CustomerId')
+        // Customer Note Grid
+        //var nameCustomerNoteGrid: string = 'CustomerNoteGrid';
+        //var $customerNoteGrid: any = $customerNoteGrid = $form.find('div[data-grid="' + nameCustomerNoteGrid + '"]');
+        //var $customerNoteGridControl: any = FwBrowse.loadGridFromTemplate(nameCustomerNoteGrid);
+        //$customerNoteGrid.empty().append($customerNoteGridControl);
+        //$customerNoteGridControl.data('ondatabind', function (request) {
+        //    request.uniqueids = {
+        //        CustomerId: FwFormField.getValueByDataField($form, 'CustomerId')
+        //    }
+        //});
+        //FwBrowse.init($customerNoteGridControl);
+        //FwBrowse.renderRuntimeHtml($customerNoteGridControl);
+
+        FwBrowse.renderGrid({
+            nameGrid: 'CustomerNoteGrid',
+            gridSecurityId: '6AHfzr9WBEW9',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    CustomerId: FwFormField.getValueByDataField($form, 'CustomerId')
+                };
+            },
+            beforeSave: (request: any) => {
+                request.CustomerId = FwFormField.getValueByDataField($form, 'CustomerId');
             }
         });
-        $companyTaxControl.data('beforesave', function (request) {
-            request.CompanyId = FwFormField.getValueByDataField($form, 'CustomerId');
-        });
-        FwBrowse.init($companyTaxControl);
-        FwBrowse.renderRuntimeHtml($companyTaxControl);
+
+
         // ----------
-        var nameCompanyContactGrid: string = 'CompanyContactGrid'
-        var $companyContactGrid: any = $companyContactGrid = $form.find('div[data-grid="' + nameCompanyContactGrid + '"]');
-        var $companyContactControl: any = FwBrowse.loadGridFromTemplate(nameCompanyContactGrid);
-        $companyContactGrid.empty().append($companyContactControl);
-        $companyContactControl.data('ondatabind', function (request) {
-            request.uniqueids = {
-                CompanyId: FwFormField.getValueByDataField($form, 'CustomerId')
+        // Tax Option Grid
+        //var nameCompanyTaxGrid: string = 'CompanyTaxOptionGrid'
+        //var $companyTaxGrid: any = $companyTaxGrid = $form.find('div[data-grid="' + nameCompanyTaxGrid + '"]');
+        //var $companyTaxControl: any = FwBrowse.loadGridFromTemplate(nameCompanyTaxGrid);
+        //$companyTaxGrid.empty().append($companyTaxControl);
+        //$companyTaxControl.data('ondatabind', function (request) {
+        //    request.uniqueids = {
+        //        CompanyId: FwFormField.getValueByDataField($form, 'CustomerId')
+        //    }
+        //});
+        //$companyTaxControl.data('beforesave', function (request) {
+        //    request.CompanyId = FwFormField.getValueByDataField($form, 'CustomerId');
+        //});
+        //FwBrowse.init($companyTaxControl);
+        //FwBrowse.renderRuntimeHtml($companyTaxControl);
+
+        FwBrowse.renderGrid({
+            nameGrid: 'CompanyTaxOptionGrid',
+            gridSecurityId: 'B9CzDEmYe1Zf',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                options.hasNew = false;
+                options.hasDelete = false;
+            },
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    CompanyId: FwFormField.getValueByDataField($form, 'CustomerId')
+                };
+            },
+            beforeSave: (request: any) => {
+                request.CompanyId = FwFormField.getValueByDataField($form, 'CustomerId');
             }
         });
-        $companyContactControl.data('beforesave', function (request) {
-            request.CompanyId = FwFormField.getValueByDataField($form, 'CustomerId');
+        // ----------
+        // Company Contact Grid
+        //var nameCompanyContactGrid: string = 'CompanyContactGrid'
+        //var $companyContactGrid: any = $companyContactGrid = $form.find('div[data-grid="' + nameCompanyContactGrid + '"]');
+        //var $companyContactControl: any = FwBrowse.loadGridFromTemplate(nameCompanyContactGrid);
+        //$companyContactGrid.empty().append($companyContactControl);
+        //$companyContactControl.data('ondatabind', function (request) {
+        //    request.uniqueids = {
+        //        CompanyId: FwFormField.getValueByDataField($form, 'CustomerId')
+        //    }
+        //});
+        //$companyContactControl.data('beforesave', function (request) {
+        //    request.CompanyId = FwFormField.getValueByDataField($form, 'CustomerId');
+        //});
+        //FwBrowse.init($companyContactControl);
+        //FwBrowse.renderRuntimeHtml($companyContactControl);
+
+        FwBrowse.renderGrid({
+            nameGrid: 'CompanyContactGrid',
+            gridSecurityId: 'gQHuhVDA5Do2',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    CompanyId: FwFormField.getValueByDataField($form, 'CustomerId')
+                };
+            },
+            beforeSave: (request: any) => {
+                request.CompanyId = FwFormField.getValueByDataField($form, 'CustomerId');
+            },
         });
-        FwBrowse.init($companyContactControl);
-        FwBrowse.renderRuntimeHtml($companyContactControl);
     }
+
     //----------------------------------------------------------------------------------------------
     beforeValidateInsuranceVendor($browse, $grid, request) {
         var $form;
@@ -302,7 +377,6 @@
         }
 
         this.toggleOptionsTabIfExcludeQuote($form, FwFormField.getValueByDataField($form, 'DisableQuoteOrderActivity'));
-
 
         //Click Event on tabs to load grids/browses
         $form.on('click', '[data-type="tab"]', e => {
@@ -384,7 +458,7 @@
     //----------------------------------------------------------------------------------------------
     getBrowseTemplate(): string {
         return `
-          <div data-name="Customer" data-control="FwBrowse" data-type="Browse" id="CustomerBrowse" class="fwcontrol fwbrowse" data-orderby="" data-controller="CustomerController" data-hasinactive="true">
+          <div data-name="Customer" data-control="FwBrowse" data-type="Browse" id="CustomerBrowse" class="fwcontrol fwbrowse" data-orderby="" data-controller="CustomerController">
           <div class="column" data-width="0" data-visible="false">
             <div class="field" data-isuniqueid="true" data-datafield="CustomerId" data-browsedatatype="key" ></div>
           </div>

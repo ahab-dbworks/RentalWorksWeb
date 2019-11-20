@@ -1,11 +1,9 @@
 class PORejectReason {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'PORejectReason';
-        this.apiurl = 'api/v1/porejectreason';
-    }
+    Module: string = 'PORejectReason';
+    apiurl: string = 'api/v1/porejectreason';
+    caption: string = Constants.Modules.Settings.children.POSettings.children.PORejectReason.caption;
+    nav: string = Constants.Modules.Settings.children.POSettings.children.PORejectReason.nav;
+    id: string = Constants.Modules.Settings.children.POSettings.children.PORejectReason.id;
 
     getModuleScreen() {
         var screen, $browse;

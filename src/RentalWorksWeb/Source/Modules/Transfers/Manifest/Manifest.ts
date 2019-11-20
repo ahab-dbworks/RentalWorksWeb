@@ -1,17 +1,37 @@
 routes.push({ pattern: /^module\/manifest$/, action: function (match: RegExpExecArray) { return ManifestController.getModuleScreen(); } });
 
-class Manifest extends Contract {
-    Module: string = 'Manifest';
-    apiurl: string = 'api/v1/manifest';
-    caption: string = Constants.Modules.Home.Manifest.caption;
-    nav: string = Constants.Modules.Home.Manifest.nav;
-    id: string = Constants.Modules.Home.Manifest.id;
-    ActiveViewFields: any = {};
+class Manifest extends ContractBase {
+    Module:             string = 'Manifest';
+    apiurl:             string = 'api/v1/transfermanifest';
+    caption:            string = Constants.Modules.Transfers.children.Manifest.caption;
+    nav:                string = Constants.Modules.Transfers.children.Manifest.nav;
+    id:                 string = Constants.Modules.Transfers.children.Manifest.id;
+    ActiveViewFields:   any    = {};
     ActiveViewFieldsId: string;
+    //----------------------------------------------------------------------------------------------
+    addBrowseMenuItems(options: IAddBrowseMenuOptions): void {
+        options.hasInactive = false;
+        options.hasNew = false;
+        options.hasDelete = false;
+        FwMenu.addBrowseMenuButtons(options);
+        super.afterAddBrowseMenuItems(options);
+    }
+    //----------------------------------------------------------------------------------------------
+    addFormMenuItems(options: IAddFormMenuOptions): void {
+        FwMenu.addFormMenuButtons(options);
+
+        FwMenu.addSubMenuItem(options.$groupOptions, 'Print Order', '', (e: JQuery.ClickEvent) => {
+            try {
+                this.printContract(options.$form);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+    }
     //---------------------------------------------------------------------------------------------
     getBrowseTemplate(): string {
         return `
-      <div data-name="Manifest" data-control="FwBrowse" data-type="Browse" id="ManifestBrowse" class="fwcontrol fwbrowse" data-controller="ManifestController" data-hasinactive="false">
+      <div data-name="Manifest" data-control="FwBrowse" data-type="Browse" id="ManifestBrowse" class="fwcontrol fwbrowse" data-controller="ManifestController">
         <div class="column" data-width="0" data-visible="false">
           <div class="field" data-isuniqueid="true" data-datafield="ManifestId" data-datatype="key"></div>
         </div>
@@ -101,17 +121,6 @@ class Manifest extends Contract {
     }
     //----------------------------------------------------------------------------------------------
 }
-//----------------------------------------------------------------------------------------------
-FwApplicationTree.clickEvents[Constants.Modules.Home.Manifest.form.menuItems.Print.id] = function (e: JQuery.ClickEvent) {
-    var $form;
-    try {
-        $form = jQuery(this).closest('.fwform');
-        $form.find('.print').trigger('click');
-    }
-    catch (ex) {
-        FwFunc.showError(ex);
-    }
-};
 //----------------------------------------------------------------------------------------------
 
 var ManifestController = new Manifest();

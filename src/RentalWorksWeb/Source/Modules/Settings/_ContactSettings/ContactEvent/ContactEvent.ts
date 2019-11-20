@@ -1,6 +1,9 @@
 class ContactEvent {
     Module: string = 'ContactEvent';
     apiurl: string = 'api/v1/contactevent';
+    caption: string = Constants.Modules.Settings.children.ContactSettings.children.ContactEvent.caption;
+    nav: string = Constants.Modules.Settings.children.ContactSettings.children.ContactEvent.nav;
+    id: string = Constants.Modules.Settings.children.ContactSettings.children.ContactEvent.id;
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen, $browse;

@@ -1,11 +1,9 @@
 class ScheduleType {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'ScheduleType';
-        this.apiurl = 'api/v1/scheduletype';
-    }
+    Module: string = 'ScheduleType';
+    apiurl: string = 'api/v1/scheduletype';
+    caption: string = Constants.Modules.Settings.children.DealSettings.children.ScheduleType.caption;
+    nav: string = Constants.Modules.Settings.children.DealSettings.children.ScheduleType.nav;
+    id: string = Constants.Modules.Settings.children.DealSettings.children.ScheduleType.id;
 
     getModuleScreen() {
         var screen, $browse;

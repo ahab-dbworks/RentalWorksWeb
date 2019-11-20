@@ -3,9 +3,14 @@
 class SystemSettings {
     Module: string = 'SystemSettings';
     apiurl: string = 'api/v1/systemsettings';
-    caption: string = Constants.Modules.Settings.SystemSettings.caption;
-    nav: string = Constants.Modules.Settings.SystemSettings.nav;
-    id: string = Constants.Modules.Settings.SystemSettings.id;
+    caption: string = Constants.Modules.Settings.children.SystemSettings.children.SystemSettings.caption;
+    nav: string = Constants.Modules.Settings.children.SystemSettings.children.SystemSettings.nav;
+    id: string = Constants.Modules.Settings.children.SystemSettings.children.SystemSettings.id;
+    //----------------------------------------------------------------------------------------------
+    addBrowseMenuItems(options: IAddBrowseMenuOptions): void {
+        options.hasNew = false;
+        FwMenu.addBrowseMenuButtons(options);
+    }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         const screen: any = {};

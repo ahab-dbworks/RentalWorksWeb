@@ -69,6 +69,7 @@ const agentBillingTemplate = `
               </div>
             </div>
           </div>
+          </div>
         </div>
       </div>
     </div>
@@ -116,7 +117,7 @@ class AgentBillingReport extends FwWebApiReport {
         FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', location.locationid, location.location);
     }
     //----------------------------------------------------------------------------------------------
-    beforeValidate($browse, $form, request) {
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
         const validationName = request.module;
         const customerId = FwFormField.getValueByDataField($form, 'CustomerId');
         request.uniqueids = {};

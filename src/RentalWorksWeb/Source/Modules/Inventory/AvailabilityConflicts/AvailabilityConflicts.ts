@@ -1,9 +1,10 @@
 ﻿routes.push({ pattern: /^module\/availabilityconflicts/, action: function (match: RegExpExecArray) { return AvailabilityConflictsController.getModuleScreen(); } });
+
 class AvailabilityConflicts {
     Module: string = 'AvailabilityConflicts';
-    caption: string = Constants.Modules.Home.AvailabilityConflicts.caption;
-    nav: string = Constants.Modules.Home.AvailabilityConflicts.nav;
-    id: string = Constants.Modules.Home.AvailabilityConflicts.id;
+    caption: string = Constants.Modules.Inventory.children.AvailabilityConflicts.caption;
+    nav: string = Constants.Modules.Inventory.children.AvailabilityConflicts.nav;
+    id: string = Constants.Modules.Inventory.children.AvailabilityConflicts.id;
     //----------------------------------------------------------------------------------------------
     getModuleScreen = () => {
         const screen: any = {};
@@ -224,7 +225,7 @@ class AvailabilityConflicts {
         });
     }
     //----------------------------------------------------------------------------------------------
-    beforeValidate($browse, $grid, request) {
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
         //const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         //request.uniqueids = {
         //    WarehouseId: warehouse.warehouseid

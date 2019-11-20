@@ -1,11 +1,9 @@
 ﻿class ProductionType {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'ProductionType';
-        this.apiurl = 'api/v1/productiontype';
-    }
+    Module: string= 'ProductionType';
+    apiurl: string = 'api/v1/productiontype';
+    caption: string = Constants.Modules.Settings.children.DealSettings.children.ProductionType.caption;
+    nav: string = Constants.Modules.Settings.children.DealSettings.children.ProductionType.nav;
+    id: string = Constants.Modules.Settings.children.DealSettings.children.ProductionType.id;
 
     getModuleScreen() {
         var screen, $browse;

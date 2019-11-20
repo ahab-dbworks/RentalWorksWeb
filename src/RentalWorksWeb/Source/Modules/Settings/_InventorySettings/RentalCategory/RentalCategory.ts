@@ -1,9 +1,9 @@
 class RentalCategory {
     Module: string = 'RentalCategory';
     apiurl: string = 'api/v1/rentalcategory';
-    caption: string = 'Rental Category';
-    nav: string = 'module/rentalcategory';
-    id: string = '91079439-A188-4637-B733-A7EF9A9DFC22';
+    caption: string = Constants.Modules.Settings.children.InventorySettings.children.RentalCategory.caption;
+    nav:     string = Constants.Modules.Settings.children.InventorySettings.children.RentalCategory.nav;
+    id:      string = Constants.Modules.Settings.children.InventorySettings.children.RentalCategory.id;
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         const screen: any = {};
@@ -25,19 +25,35 @@ class RentalCategory {
     }
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
-        const $subCategoryGrid = $form.find('div[data-grid="SubCategoryGrid"]');
-        const $subCategoryControl = FwBrowse.loadGridFromTemplate('SubCategoryGrid');
-        $subCategoryGrid.empty().append($subCategoryControl);
-        $subCategoryControl.data('ondatabind', function (request) {
-            request.uniqueids = {
-                CategoryId: $form.find('div.fwformfield[data-datafield="CategoryId"] input').val()
+        //const $subCategoryGrid = $form.find('div[data-grid="SubCategoryGrid"]');
+        //const $subCategoryControl = FwBrowse.loadGridFromTemplate('SubCategoryGrid');
+        //$subCategoryGrid.empty().append($subCategoryControl);
+        //$subCategoryControl.data('ondatabind', function (request) {
+        //    request.uniqueids = {
+        //        CategoryId: $form.find('div.fwformfield[data-datafield="CategoryId"] input').val()
+        //    }
+        //});
+        //$subCategoryControl.data('beforesave', function (request) {
+        //    request.CategoryId = FwFormField.getValueByDataField($form, 'CategoryId');
+        //})
+        //FwBrowse.init($subCategoryControl);
+        //FwBrowse.renderRuntimeHtml($subCategoryControl);
+
+        FwBrowse.renderGrid({
+            nameGrid: 'SubCategoryGrid',
+            gridSecurityId: 'vHMa0l5PUysXo',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    CategoryId: FwFormField.getValueByDataField($form, 'CategoryId'),
+                };
+            },
+            beforeSave: (request: any) => {
+                request.CategoryId = FwFormField.getValueByDataField($form, 'CategoryId');
             }
         });
-        $subCategoryControl.data('beforesave', function (request) {
-            request.CategoryId = FwFormField.getValueByDataField($form, 'CategoryId');
-        })
-        FwBrowse.init($subCategoryControl);
-        FwBrowse.renderRuntimeHtml($subCategoryControl);
     }
     //----------------------------------------------------------------------------------------------
     openBrowse() {
@@ -129,7 +145,7 @@ class RentalCategory {
         }
     }
     //----------------------------------------------------------------------------------------------
-    beforeValidate($browse, $grid, request) {
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
         request.uniqueids = {
             Rental: true
         }

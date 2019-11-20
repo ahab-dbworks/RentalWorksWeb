@@ -2,13 +2,13 @@
     Module: string = 'DiscountItemLaborGrid';
     apiurl: string = 'api/v1/discountitem';
 
-    beforeValidate = function ($browse, $grid, request) {
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $gridbrowse: JQuery, $tr: JQuery) {
         var validationName = request.module;
 
         if (validationName != null) {
-            var LaborTypeValue = jQuery($grid.find('tr.editrow [data-validationname="LaborTypeValidation"] input')).val();
-            var CategoryValue = jQuery($grid.find('tr.editrow [data-validationname="LaborCategoryValidation"] input')).val();
-            var SubCategoryValue = jQuery($grid.find('tr.editrow [data-validationname="SubCategoryValidation"] input')).val();
+            var LaborTypeValue = jQuery($gridbrowse.find('tr.editrow [data-validationname="LaborTypeValidation"] input')).val();
+            var CategoryValue = jQuery($gridbrowse.find('tr.editrow [data-validationname="LaborCategoryValidation"] input')).val();
+            var SubCategoryValue = jQuery($gridbrowse.find('tr.editrow [data-validationname="SubCategoryValidation"] input')).val();
 
             switch (validationName) {
                 case 'LaborCategoryValidation':

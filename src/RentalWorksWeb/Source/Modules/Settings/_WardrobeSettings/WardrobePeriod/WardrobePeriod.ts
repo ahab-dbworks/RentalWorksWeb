@@ -1,11 +1,9 @@
 class WardrobePeriod {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'WardrobePeriod';
-        this.apiurl = 'api/v1/wardrobeperiod';
-    }
+    Module: string = 'WardrobePeriod';
+    apiurl: string = 'api/v1/wardrobeperiod';
+    caption: string = Constants.Modules.Settings.children.WardrobeSettings.children.WardrobePeriod.caption;
+    nav: string = Constants.Modules.Settings.children.WardrobeSettings.children.WardrobePeriod.nav;
+    id: string = Constants.Modules.Settings.children.WardrobeSettings.children.WardrobePeriod.id;
 
     getModuleScreen() {
         var screen, $browse;

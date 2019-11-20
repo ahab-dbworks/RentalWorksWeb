@@ -1,6 +1,9 @@
 class BlackoutStatus {
     Module: string = 'BlackoutStatus';
     apiurl: string = 'api/v1/blackoutstatus';
+    caption: string = Constants.Modules.Settings.children.HolidaySettings.children.BlackoutStatus.caption;
+    nav: string = Constants.Modules.Settings.children.HolidaySettings.children.BlackoutStatus.nav;
+    id: string = Constants.Modules.Settings.children.HolidaySettings.children.BlackoutStatus.id;
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen, $browse;

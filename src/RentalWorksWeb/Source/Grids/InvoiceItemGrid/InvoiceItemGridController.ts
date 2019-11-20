@@ -13,19 +13,19 @@
         } else if ($grid.hasClass('P')) {
             FwBrowse.setFieldValue($grid, $tr, 'RecType', { value: 'P' });
         }
+    }
 
-        function beforeValidate($browse, $grid, request, datafield, $tr) {
-            const validationName = request.module;
-
-            const invoiceId = FwFormField.getValueByDataField($form, 'InvoiceId');
-            if (invoiceId != '') {
-                request.uniqueids = {
-                    InvoiceId: invoiceId
-                }
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $gridbrowse: JQuery, $tr: JQuery) {
+        const validationName = request.module;
+        const $form = $gridbrowse.closest('.fwform');
+        const invoiceId = FwFormField.getValueByDataField($form, 'InvoiceId');
+        if (invoiceId != '') {
+            request.uniqueids = {
+                InvoiceId: invoiceId
             }
         }
-
     }
+
     beforeValidateItem = function ($browse, $grid, request, datafield, $tr) {
         const recType = $tr.find('div[data-browsedatafield="RecType"] input.value').val();
         if (recType !== null) {

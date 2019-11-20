@@ -85,10 +85,13 @@
             // beforeValidate(datafield: String, request: any, $validationbrowse: JQuery, $form: JQuery) { }
             else if ((typeof $object.attr('data-name') === 'string') && (typeof window[$object.attr('data-name') + 'Controller'] !== 'undefined') && (typeof window[$object.attr('data-name') + 'Controller']['beforeValidate'] === 'function')) {
                 if ($object.attr('data-type') === 'Grid') {
-                    window[$object.attr('data-name') + 'Controller']['beforeValidate']($control.attr('data-datafield'), request, $validationbrowse, $object.closest('.fwform'), $tr);
+                    window[$object.attr('data-name') + 'Controller']['beforeValidate']($control.attr('data-formdatafield'), request, $validationbrowse, $object.closest('.fwform'), $tr);
                 } else {
                     window[$object.attr('data-name') + 'Controller']['beforeValidate']($control.attr('data-datafield'), request, $validationbrowse, $object, $tr);
                 }
+            }
+            else if ((typeof controller === 'string') && (typeof window[controller] !== 'undefined') && (typeof window[controller]['beforeValidate'] === 'function')) {
+                window[controller]['beforeValidate']($control.attr('data-datafield'), request, $validationbrowse, $object, $tr);
             }
         });
         $validationbrowse.data('$control', $control);
@@ -581,11 +584,11 @@
                 FwFunc.showError(ex);
             }
         });
-        const viewitems: Array<string> = [];
+        const viewitems: JQuery[] = [];
         viewitems.push($activeView, $inactiveView, $allView);
         const $menu = FwMenu.getMenuControl('default');
         const $show = FwMenu.addViewBtn($menu, FwLanguages.translate('Show'), viewitems);
-        $browse.find('.fwbrowse-menu .buttonbar').html($show);
+        $browse.find('.fwbrowse-menu .buttonbar').empty().append($show);
         $browse.find('.fwbrowse-menu .buttonbar .ddviewbtn').css('margin-left', 'auto');
     }
     homeModules: Array<string> = ['ContactValidation', 'CustomerValidation', 'DealValidation', 'OrderValidation', 'ProjectValidation', 'PurchaseOrderValidation', 'QuoteValidation', 'VendorValidation', 'AssetValidation', 'PartsInventoryValidation', 'RentalInventoryValidation', 'RepairOrderValidation', 'SalesInventoryValidation', 'ContractValidation', 'PickListValidation', 'ContainerValidation', 'InvoiceValidation', 'ReceiptValidation'];

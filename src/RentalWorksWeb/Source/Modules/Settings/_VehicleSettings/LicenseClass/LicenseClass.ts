@@ -1,11 +1,9 @@
 class LicenseClass {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'LicenseClass';
-        this.apiurl = 'api/v1/licenseclass';
-    }
+    Module: string = 'LicenseClass';
+    apiurl: string = 'api/v1/licenseclass';
+    caption: string = Constants.Modules.Settings.children.VehicleSettings.children.LicenseClass.caption;
+    nav: string = Constants.Modules.Settings.children.VehicleSettings.children.LicenseClass.nav;
+    id: string = Constants.Modules.Settings.children.VehicleSettings.children.LicenseClass.id;
 
     getModuleScreen() {
         var screen, $browse;

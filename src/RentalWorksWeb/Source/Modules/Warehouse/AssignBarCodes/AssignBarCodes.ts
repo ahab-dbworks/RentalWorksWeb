@@ -1,14 +1,19 @@
 ﻿//routes.push({ pattern: /^module\/assignbarcodes$/, action: function (match: RegExpExecArray) { return AssignBarCodesController.getModuleScreen(); } });
 
 class AssignBarCodes {
-    Module: string = 'AssignBarCodes';
-    caption: string = Constants.Modules.Home.AssignBarCodes.caption;
-    nav: string = Constants.Modules.Home.AssignBarCodes.nav;
-    id: string = Constants.Modules.Home.AssignBarCodes.id;
-    successSoundFileName: string;
-    errorSoundFileName: string;
+    Module:                    string = 'AssignBarCodes';
+    apiurl:                    string = 'api/v1/assignbarcodes';
+    caption:                   string = Constants.Modules.Warehouse.children.AssignBarCodes.caption;
+    nav:                       string = Constants.Modules.Warehouse.children.AssignBarCodes.nav;
+    id:                        string = Constants.Modules.Warehouse.children.AssignBarCodes.id;
+    successSoundFileName:      string;
+    errorSoundFileName:        string;
     notificationSoundFileName: string;
-
+    //----------------------------------------------------------------------------------------------
+    addFormMenuItems(options: IAddFormMenuOptions): void {
+        options.hasSave = false;
+        FwMenu.addFormMenuButtons(options);
+    }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen: any = {};
@@ -48,21 +53,24 @@ class AssignBarCodes {
     };
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
-        let $poReceiveBarCodeGrid: any,
-            $poReceiveBarCodeGridControl: any;
-
-        $poReceiveBarCodeGrid = $form.find('div[data-grid="POReceiveBarCodeGrid"]');
-        $poReceiveBarCodeGridControl = FwBrowse.loadGridFromTemplate('POReceiveBarCodeGrid');
-        $poReceiveBarCodeGrid.empty().append($poReceiveBarCodeGridControl);
-        $poReceiveBarCodeGridControl.data('ondatabind', function (request) {
-            request.uniqueids = {
-                PurchaseOrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId')
+        FwBrowse.renderGrid({
+            nameGrid:         'POReceiveBarCodeGrid',
+            gridSecurityId:   'qH0cLrQVt9avI',
+            moduleSecurityId: this.id,
+            $form:            $form,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                options.hasNew    = false;
+                options.hasEdit   = false;
+                options.hasDelete = false;
+            },
+            onDataBind: (request: any) => {
+                let contractid = FwFormField.getValueByDataField($form, 'ContractId');
+                request.uniqueids = {
+                    PurchaseOrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId'),
+                    ...(contractid != '') && { ReceiveContractId: contractid }
+                };
             }
-            const contractId = FwFormField.getValueByDataField($form, 'ContractId');
-            if (contractId != '') request.uniqueids.ReceiveContractId = contractId;
-        })
-        FwBrowse.init($poReceiveBarCodeGridControl);
-        FwBrowse.renderRuntimeHtml($poReceiveBarCodeGridControl);
+        });
     }
     //----------------------------------------------------------------------------------------------
     events($form) {
@@ -96,8 +104,8 @@ class AssignBarCodes {
         $form.find('.additems').on('click', e => {
             let request: any = {};
             request = {
-                PurchaseOrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId')
-                , ContractId: FwFormField.getValueByDataField($form, 'ContractId')
+                PurchaseOrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId'),
+                ContractId: FwFormField.getValueByDataField($form, 'ContractId')
             }
             FwAppData.apiMethod(true, 'POST', 'api/v1/purchaseorder/receivebarcodeadditems', request, FwServices.defaultTimeout, function onSuccess(response) {
                 if (response.success) {
@@ -119,8 +127,8 @@ class AssignBarCodes {
         $form.find('.assignbarcodes').on('click', e => {
             let request: any = {};
             request = {
-                PurchaseOrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId')
-                , ContractId: FwFormField.getValueByDataField($form, 'ContractId')
+                PurchaseOrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId'),
+                ContractId: FwFormField.getValueByDataField($form, 'ContractId')
             }
             FwAppData.apiMethod(true, 'POST', 'api/v1/purchaseorder/assignbarcodesfromreceive', request, FwServices.defaultTimeout, function onSuccess(response) {
                 FwBrowse.search($poReceiveBarCodeGridControl);
@@ -132,8 +140,8 @@ class AssignBarCodes {
         let warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         let warehouseId = warehouse.warehouseid;
         request.miscfields = {
-            AssignBarCodes: true
-            , AssigningWarehouseId: warehouseId
+            AssignBarCodes: true,
+            AssigningWarehouseId: warehouseId
         };
     };
     //----------------------------------------------------------------------------------------------

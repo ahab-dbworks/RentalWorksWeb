@@ -3,9 +3,14 @@
 class InventorySettings {
     Module: string = 'InventorySettings';
     apiurl: string = 'api/v1/inventorysettings';
-    caption: string = Constants.Modules.Settings.InventorySettings.caption;
-    nav: string = Constants.Modules.Settings.InventorySettings.nav;
-    id: string = Constants.Modules.Settings.InventorySettings.id;
+    caption: string = Constants.Modules.Settings.children.SystemSettings.children.InventorySettings.caption;
+    nav: string = Constants.Modules.Settings.children.SystemSettings.children.InventorySettings.nav;
+    id: string = Constants.Modules.Settings.children.SystemSettings.children.InventorySettings.id;
+    //----------------------------------------------------------------------------------------------
+    addBrowseMenuItems(options: IAddBrowseMenuOptions): void {
+        options.hasNew = false;
+        FwMenu.addBrowseMenuButtons(options);
+    }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         const screen: any = {};

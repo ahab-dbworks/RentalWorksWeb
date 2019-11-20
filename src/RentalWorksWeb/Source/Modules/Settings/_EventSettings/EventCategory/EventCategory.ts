@@ -1,11 +1,9 @@
 class EventCategory {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'EventCategory';
-        this.apiurl = 'api/v1/eventcategory';
-    }
+    Module: string = 'EventCategory';
+    apiurl: string = 'api/v1/eventcategory';
+    caption: string = Constants.Modules.Settings.children.EventSettings.children.EventCategory.caption;
+    nav: string = Constants.Modules.Settings.children.EventSettings.children.EventCategory.nav;
+    id: string = Constants.Modules.Settings.children.EventSettings.children.EventCategory.id;
 
     getModuleScreen() {
         var screen, $browse;

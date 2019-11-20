@@ -744,7 +744,7 @@ class SearchInterface {
             Mode:                        $popup.find('#itemlist').attr('data-view')
         };
     
-        FwAppData.apiMethod(true, 'POST', "api/v1/usersearchsettings/", request, FwServices.defaultTimeout, function onSuccess(response) {
+        FwAppData.apiMethod(true, 'PUT', `api/v1/usersearchsettings/${JSON.parse(sessionStorage.getItem('userid')).webusersid}`, request, FwServices.defaultTimeout, function onSuccess(response) {
             self.setViewSettings($popup, response);
     
             if (request.DisableAccessoryAutoExpand) {
@@ -798,7 +798,7 @@ class SearchInterface {
         FwFormField.setValueByDataField($popup, 'HideZeroQuantity', response.HideZeroQuantity);
         FwFormField.setValueByDataField($popup, 'DefaultSelect', response.DefaultSelect);
         FwFormField.setValueByDataField($popup, 'DefaultSortBy', response.DefaultSortBy);
-        FwFormField.setValueByDataField($popup, 'Select', response.DefaultSelect, null, true);
+        FwFormField.setValueByDataField($popup, 'Select', response.DefaultSelect);
         FwFormField.setValueByDataField($popup, 'SortBy', response.DefaultSortBy);
 
         $popup.find('#itemlist').attr('data-view', response.Mode);
@@ -1063,7 +1063,7 @@ class SearchInterface {
                 inventoryId = $iteminfo.attr('data-inventoryid');
                 $accessoryContainer = $iteminfo.siblings('.item-accessories');
             }
-            
+
             if ($accessoryContainer.is(":visible")) {
                 jQuery(e.currentTarget).text('Show Accessories');
             } else {
@@ -1127,14 +1127,14 @@ class SearchInterface {
                     WarehouseId: warehouseId,
                     Quantity:    element.val()
                 };
-
+                
                 if (element.parents('.nested-accessories').length > 0) {
                     accRequest.ParentId = element.parents('.nested-accessories').attr('data-parentid');
                     accRequest.GrandParentId = element.parents('.item-container').find('.item-info').attr('data-inventoryid');
                 } else {
                     accRequest.ParentId = element.parents('.item-container').find('.item-info').attr('data-inventoryid'); 
                 }
-               
+
                 accRequest.Quantity != "0" ? element.addClass('lightBlue') : element.removeClass('lightBlue');
 
                 FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch", accRequest, FwServices.defaultTimeout, function onSuccess(response) {
@@ -1489,7 +1489,7 @@ class SearchInterface {
         } else {
             accessoryContainer = $el.parents('.item-container').find('.item-accessories');
         }
-      
+
         let request: any = {
             SessionId:        id,
             OrderId:          id,
@@ -1558,7 +1558,7 @@ class SearchInterface {
                 if (isAccessory) {
                     accessoryContainer.find(`.item-accessory-info`).remove();
                 } else {
-                    $el.parents('.item-container').find('.item-accessories .item-accessory-info, .item-accessories .nested-accessories').remove();
+                    $el.parents('.item-container').find('.item-accessories .item-accessory-info').remove();
                 }
             for (var i = 0; i < response.Rows.length; i++) {
                 let imageThumbnail = response.Rows[i][thumbnail]  ? response.Rows[i][thumbnail]  : './theme/images/no-image.jpg';
@@ -1566,10 +1566,8 @@ class SearchInterface {
                 let conflictdate   = response.Rows[i][conflictIndex] ? moment(response.Rows[i][conflictIndex]).format('L') : '';
 
                 let accessoryhtml = `<div class="item-accessory-info" data-inventoryid="${response.Rows[i][inventoryIdIndex]}">
-                                       <div data-column="Description" class="columnorder">
-                                            <div data-column="ItemImage"><img src="${imageThumbnail}" data-value="${imageId}" alt="Image" class="image"></div>
-                                            <div class="descriptionrow">${response.Rows[i][descriptionIndex]}</div>
-                                       </div>
+                                       <div data-column="ItemImage"><img src="${imageThumbnail}" data-value="${imageId}" alt="Image" class="image"></div>
+                                       <div data-column="Description" class="columnorder"><div class="descriptionrow">${response.Rows[i][descriptionIndex]}</div></div>
                                        <div data-column="Tags" class="columnorder"></div>
                                        <div data-column="Quantity" class="columnorder">
                                          <div style="float:left; border:1px solid #bdbdbd;">
@@ -1607,9 +1605,7 @@ class SearchInterface {
                     $itemaccessoryinfo.find('div[data-column="Tags"]').append($tag);
 
                     $itemaccessoryinfo.find('div[data-column="Description"]').append('<div class="toggleaccessories" data-isaccessory="true">Show Accessories</div>');
-                    if (!isAccessory) {
-                        $itemaccessoryinfo.after(`<div class="nested-accessories" data-classification="${response.Rows[i][classificationIndex]}" style="display:none;" data-parentid="${response.Rows[i][inventoryIdIndex]}"></div>`);
-                    }
+                    $itemaccessoryinfo.after(`<div class="nested-accessories" data-classification="${response.Rows[i][classificationIndex]}" style="display:none; text-indent:1em;" data-parentid="${response.Rows[i][inventoryIdIndex]}"></div>`);
                 }
 
                 if (response.Rows[i][isOptionIndex] === true) {
@@ -1650,15 +1646,15 @@ class SearchInterface {
                 }
             }
 
-            //let obj = response.Rows.find(x => x[qtyIsStaleIndex] == true);
-            //if (typeof obj != 'undefined') {
-            //    if (accessoryContainer.find('.acc-refresh-avail').length < 1) {
-            //        accessoryContainer.append(`<div style="text-align:center;"><div data-type="button" class="fwformcontrol acc-refresh-avail" style="line-height:24px; height:24px; background-color:rgb(49, 0, 209);">Refresh Availability</div></div>`);
-            //    }
-            //    accessoryContainer.find('.acc-refresh-avail').show();
-            //} else {
-            //    accessoryContainer.find('.acc-refresh-avail').hide();
-            //}
+            let obj = response.Rows.find(x => x[qtyIsStaleIndex] == true);
+            if (typeof obj != 'undefined') {
+                if (accessoryContainer.find('.acc-refresh-avail').length < 1) {
+                    accessoryContainer.append(`<div style="text-align:center;"><div data-type="button" class="fwformcontrol acc-refresh-avail" style="line-height:24px; height:24px; background-color:rgb(49, 0, 209);">Refresh Availability</div></div>`);
+                }
+                accessoryContainer.find('.acc-refresh-avail').show();
+            } else {
+                accessoryContainer.find('.acc-refresh-avail').hide();
+            }
         }, null, $popup.find('#searchpopup'));
     }
     //----------------------------------------------------------------------------------------------

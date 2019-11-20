@@ -1,13 +1,90 @@
 routes.push({ pattern: /^module\/transferorder$/, action: function (match: RegExpExecArray) { return TransferOrderController.getModuleScreen(); } });
 //----------------------------------------------------------------------------------------------
 class TransferOrder {
-    Module: string = 'TransferOrder';
-    apiurl: string = 'api/v1/transferorder';
-    caption: string = Constants.Modules.Home.TransferOrder.caption;
-    nav: string = Constants.Modules.Home.TransferOrder.nav;
-    id: string = Constants.Modules.Home.TransferOrder.id;
-    ActiveViewFields: any = {};
+    Module:             string = 'TransferOrder';
+    apiurl:             string = 'api/v1/transferorder';
+    caption:            string = Constants.Modules.Transfers.children.TransferOrder.caption;
+    nav:                string = Constants.Modules.Transfers.children.TransferOrder.nav;
+    id:                 string = Constants.Modules.Transfers.children.TransferOrder.id;
+    ActiveViewFields:   any    = {};
     ActiveViewFieldsId: string;
+    //----------------------------------------------------------------------------------------------
+    addBrowseMenuItems(options: IAddBrowseMenuOptions): void {
+        options.hasDelete = false;
+        FwMenu.addBrowseMenuButtons(options);
+        
+        //warehouse filter
+        const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+        const $userWarehouse: JQuery = FwMenu.generateDropDownViewBtn(warehouse.warehouse, true, warehouse.warehouseid);
+        const $allWarehouses = FwMenu.generateDropDownViewBtn('ALL Warehouses', false, "ALL");
+
+        if (typeof this.ActiveViewFields["WarehouseId"] == 'undefined') {
+            this.ActiveViewFields.WarehouseId = [warehouse.warehouseid];
+        }
+
+        let viewLocation: Array<JQuery> = [];
+        viewLocation.push($userWarehouse, $allWarehouses);
+        FwMenu.addViewBtn(options.$menu, 'Warehouse', viewLocation, true, "WarehouseId");
+
+        const location = JSON.parse(sessionStorage.getItem('location'));
+        const $userLoc: JQuery = FwMenu.generateDropDownViewBtn(location.location, true, location.locationid);
+        const $allLoc = FwMenu.generateDropDownViewBtn('ALL', false, "ALL");
+
+        if (typeof this.ActiveViewFields["LocationId"] == 'undefined') {
+            this.ActiveViewFields.LocationId = [location.locationid];
+        }
+
+        let view: Array<JQuery> = [];
+        view.push($userLoc, $allLoc);
+        FwMenu.addViewBtn(options.$menu, 'Location', view, true, "LocationId");
+    }
+    //----------------------------------------------------------------------------------------------
+    addFormMenuItems(options: IAddFormMenuOptions): void {
+        FwMenu.addFormMenuButtons(options);
+
+        FwMenu.addSubMenuItem(options.$groupOptions, 'Search', '', (e: JQuery.ClickEvent) => {
+            try {
+                this.Search(options.$form);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+        FwMenu.addSubMenuItem(options.$groupOptions, 'Confirm', 'VHP1qrNmwB4', (e: JQuery.ClickEvent) => {
+            try {
+                this.ConfirmTransfer(options.$form);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+        FwMenu.addSubMenuItem(options.$groupOptions, 'Create Pick List', '', (e: JQuery.ClickEvent) => {
+            try {
+                this.CreatePickList(options.$form);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+        FwMenu.addSubMenuItem(options.$groupOptions, 'Transfer Status', '', (e: JQuery.ClickEvent) => {
+            try {
+                this.TransferStatus(options.$form);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+        FwMenu.addSubMenuItem(options.$groupOptions, 'Transfer Out', '', (e: JQuery.ClickEvent) => {
+            try {
+                this.TransferOut(options.$form);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+        FwMenu.addSubMenuItem(options.$groupOptions, 'Transfer In', '', (e: JQuery.ClickEvent) => {
+            try {
+                this.TransferIn(options.$form);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+    }
     //----------------------------------------------------------------------------------------------
     getModuleScreen(filter?: any) {
         const screen: any = {};
@@ -35,35 +112,6 @@ class TransferOrder {
         });
 
         return $browse;
-    };
-    //----------------------------------------------------------------------------------------------
-    addBrowseMenuItems($menuObject) {
-        //warehouse filter
-        const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
-        const $userWarehouse: JQuery = FwMenu.generateDropDownViewBtn(warehouse.warehouse, true, warehouse.warehouseid);
-        const $allWarehouses = FwMenu.generateDropDownViewBtn('ALL Warehouses', false, "ALL");
-
-        if (typeof this.ActiveViewFields["WarehouseId"] == 'undefined') {
-            this.ActiveViewFields.WarehouseId = [warehouse.warehouseid];
-        }
-
-        let viewLocation: Array<JQuery> = [];
-        viewLocation.push($userWarehouse, $allWarehouses);
-        FwMenu.addViewBtn($menuObject, 'Warehouse', viewLocation, true, "WarehouseId");
-
-        const location = JSON.parse(sessionStorage.getItem('location'));
-        const $userLoc: JQuery = FwMenu.generateDropDownViewBtn(location.location, true, location.locationid);
-        const $allLoc = FwMenu.generateDropDownViewBtn('ALL', false, "ALL");
-
-        if (typeof this.ActiveViewFields["LocationId"] == 'undefined') {
-            this.ActiveViewFields.LocationId = [location.locationid];
-        }
-
-        let view: Array<JQuery> = [];
-        view.push($userLoc, $allLoc);
-        FwMenu.addViewBtn($menuObject, 'Location', view, true, "LocationId");
-
-        return $menuObject;
     };
     //----------------------------------------------------------------------------------------------
     openForm(mode, parentModuleInfo?: any) {
@@ -113,6 +161,128 @@ class TransferOrder {
 
         return $form;
     };
+    //----------------------------------------------------------------------------------------------
+    Search($form: JQuery) {
+        try {
+            let transferId = FwFormField.getValueByDataField($form, 'TransferId');
+            if ($form.attr('data-mode') === 'NEW') {
+                TransferOrderController.saveForm($form, { closetab: false });
+                return;
+            }
+            if (transferId == "") {
+                FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
+            } else {
+                let search = new SearchInterface();
+                search.renderSearchPopup($form, transferId, 'Transfer');
+            }
+        } catch (ex) {
+            FwFunc.showError(ex);
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    ConfirmTransfer($form: JQuery) {
+        try {
+            const status = FwFormField.getValueByDataField($form, 'Status');
+            let action = 'Confirm';
+            if (status === 'CONFIRMED') {
+                action = 'Un-confirm';
+            }
+
+            const transferNumber = FwFormField.getValueByDataField($form, `TransferNumber`);
+            const $confirmation = FwConfirmation.renderConfirmation(`${action} Transfer`, '');
+            const html = `<div class="fwform" data-controller="none" style="background-color: transparent;">
+                            <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                              <div>${action} Transfer Number ${transferNumber}?</div>
+                            </div>
+                          </div>`;
+            FwConfirmation.addControls($confirmation, html);
+            const $yes = FwConfirmation.addButton($confirmation, `${action}`, false);
+            const $no  = FwConfirmation.addButton($confirmation, 'Cancel');
+
+            $yes.on('click', e => {
+                const topLayer = '<div class="top-layer" data-controller="none" style="background-color: transparent;z-index:1"></div>';
+                const realConfirm = jQuery($confirmation.find('.fwconfirmationbox')).prepend(topLayer);
+
+                const transferId = FwFormField.getValueByDataField($form, 'TransferId');
+                FwAppData.apiMethod(true, 'POST', `api/v1/transferorder/confirm/${transferId}`, null, FwServices.defaultTimeout, response => {
+                    FwNotification.renderNotification('SUCCESS', `Transfer Order Successfully ${action}ed.`);
+                    FwConfirmation.destroyConfirmation($confirmation);
+                    FwModule.refreshForm($form);
+                }, null, realConfirm);
+            });
+        } catch (ex) {
+            FwFunc.showError(ex);
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    CreatePickList($form: JQuery) {
+        try {
+            const mode = 'EDIT';
+            const orderInfo: any = {};
+            orderInfo.Type = 'Transfer';
+            orderInfo.OrderId = FwFormField.getValueByDataField($form, 'TransferId');
+            const $pickListForm = CreatePickListController.openForm(mode, orderInfo);
+            FwModule.openSubModuleTab($form, $pickListForm);
+            const $tabPage = FwTabs.getTabPageByElement($pickListForm);
+            const $tab = FwTabs.getTabByElement(jQuery($tabPage));
+            $tab.find('.caption').html('New Pick List');
+            const $pickListUtilityGrid = $pickListForm.find('[data-name="PickListUtilityGrid"]');
+            FwBrowse.search($pickListUtilityGrid);
+        } catch (ex) {
+            FwFunc.showError(ex);
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    TransferStatus($form: JQuery) {
+        try {
+            const mode = 'EDIT';
+            const transferInfo: any = {};
+            transferInfo.OrderId = FwFormField.getValueByDataField($form, 'TransferId');
+            transferInfo.OrderNumber = FwFormField.getValueByDataField($form, 'TransferNumber');
+            transferInfo.Type = 'Transfer';
+            const $transferStatusForm = TransferStatusController.openForm(mode, transferInfo);
+            FwModule.openSubModuleTab($form, $transferStatusForm);
+            const $tabPage = FwTabs.getTabPageByElement($transferStatusForm);
+            const $tab = FwTabs.getTabByElement(jQuery($tabPage));
+            $tab.find('.caption').html('Transfer Status');
+        } catch (ex) {
+            FwFunc.showError(ex);
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    TransferOut($form: JQuery) {
+        try {
+            const mode = 'EDIT';
+            const orderInfo: any = {};
+            orderInfo.TransferId = FwFormField.getValueByDataField($form, 'TransferId');
+            orderInfo.WarehouseId = FwFormField.getValueByDataField($form, 'FromWarehouseId');
+            // orderInfo.Warehouse = FwFormField.getValueByDataField($form, 'FromWarehouseId');
+            orderInfo.TransferNumber = FwFormField.getValueByDataField($form, 'TransferNumber');
+            const $stagingCheckoutForm = TransferOutController.openForm(mode, orderInfo);
+            FwModule.openSubModuleTab($form, $stagingCheckoutForm);
+            const $tabPage = FwTabs.getTabPageByElement($stagingCheckoutForm);
+            const $tab = FwTabs.getTabByElement(jQuery($tabPage));
+            $tab.find('.caption').html('Transfer Out');
+        } catch (ex) {
+            FwFunc.showError(ex);
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    TransferIn($form: JQuery) {
+        try {
+            const mode = 'EDIT';
+            const orderInfo: any = {};
+            orderInfo.TransferId = FwFormField.getValueByDataField($form, 'TransferId');
+            orderInfo.TransferNumber = FwFormField.getValueByDataField($form, 'TransferNumber');
+            const $checkinForm = TransferInController.openForm(mode, orderInfo);
+            FwModule.openSubModuleTab($form, $checkinForm);
+            const $tabPage = FwTabs.getTabPageByElement($checkinForm);
+            const $tab = FwTabs.getTabByElement(jQuery($tabPage));
+            $tab.find('.caption').html('Transfer In');
+        } catch (ex) {
+            FwFunc.showError(ex);
+        }
+    }
     //----------------------------------------------------------------------------------------------
     openPickListBrowse($form) {
         const $browse = PickListController.openBrowse();
@@ -258,7 +428,7 @@ class TransferOrder {
         });
     };
     //----------------------------------------------------------------------------------------------
-    beforeValidate($browse, $form, request) {
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
         const validationName = request.module;
         const warehouse = FwFormField.getValueByDataField($form, 'FromWarehouseId');
 
@@ -269,151 +439,6 @@ class TransferOrder {
                 };
                 break;
         };
-    }
-};
-
-//-----------------------------------------------------------------------------------------------------
-//Open Search Interface
-FwApplicationTree.clickEvents[Constants.Modules.Home.TransferOrder.form.menuItems.Search.id] = function (event: JQuery.ClickEvent) {
-    try {
-        let $form = jQuery(event.currentTarget).closest('.fwform');
-        let transferId = FwFormField.getValueByDataField($form, 'TransferId');
-        if ($form.attr('data-mode') === 'NEW') {
-            TransferOrderController.saveForm($form, { closetab: false });
-            return;
-        }
-        if (transferId == "") {
-            FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
-        } else {
-            let search = new SearchInterface();
-            search.renderSearchPopup($form, transferId, 'Transfer');
-        }
-    }
-    catch (ex) {
-        FwFunc.showError(ex);
-    }
-};
-//----------------------------------------------------------------------------------------------
-//Transfer Status
-FwApplicationTree.clickEvents[Constants.Modules.Home.TransferOrder.form.menuItems.TransferStatus.id] = (e: JQuery.ClickEvent) => {
-    try {
-        const $form = jQuery(e.currentTarget).closest('.fwform');
-        const mode = 'EDIT';
-        const transferInfo: any = {};
-        transferInfo.OrderId = FwFormField.getValueByDataField($form, 'TransferId');
-        transferInfo.OrderNumber = FwFormField.getValueByDataField($form, 'TransferNumber');
-        transferInfo.Type = 'Transfer';
-        const $transferStatusForm = TransferStatusController.openForm(mode, transferInfo);
-        FwModule.openSubModuleTab($form, $transferStatusForm);
-        const $tabPage = FwTabs.getTabPageByElement($transferStatusForm);
-        const $tab = FwTabs.getTabByElement(jQuery($tabPage));
-        $tab.find('.caption').html('Transfer Status');
-    }
-    catch (ex) {
-        FwFunc.showError(ex);
-    }
-};
-//----------------------------------------------------------------------------------------------
-//Transfer Out
-FwApplicationTree.clickEvents[Constants.Modules.Home.TransferOrder.form.menuItems.TransferOut.id] = (e: JQuery.ClickEvent) => {
-    try {
-        const $form = jQuery(e.currentTarget).closest('.fwform');
-        const mode = 'EDIT';
-        const orderInfo: any = {};
-        orderInfo.TransferId = FwFormField.getValueByDataField($form, 'TransferId');
-        orderInfo.WarehouseId = FwFormField.getValueByDataField($form, 'FromWarehouseId');
-        // orderInfo.Warehouse = FwFormField.getValueByDataField($form, 'FromWarehouseId');
-        orderInfo.TransferNumber = FwFormField.getValueByDataField($form, 'TransferNumber');
-        const $stagingCheckoutForm = TransferOutController.openForm(mode, orderInfo);
-        FwModule.openSubModuleTab($form, $stagingCheckoutForm);
-        const $tabPage = FwTabs.getTabPageByElement($stagingCheckoutForm);
-        const $tab = FwTabs.getTabByElement(jQuery($tabPage));
-        $tab.find('.caption').html('Transfer Out');
-    }
-    catch (ex) {
-        FwFunc.showError(ex);
-    }
-};
-
-//----------------------------------------------------------------------------------------------
-//Transfer In
-FwApplicationTree.clickEvents[Constants.Modules.Home.TransferOrder.form.menuItems.TransferIn.id] = (e: JQuery.ClickEvent) => {
-    try {
-        const $form = jQuery(e.currentTarget).closest('.fwform');
-        const mode = 'EDIT';
-        const orderInfo: any = {};
-        orderInfo.TransferId = FwFormField.getValueByDataField($form, 'TransferId');
-        orderInfo.TransferNumber = FwFormField.getValueByDataField($form, 'TransferNumber');
-        const $checkinForm = TransferInController.openForm(mode, orderInfo);
-        FwModule.openSubModuleTab($form, $checkinForm);
-        const $tabPage = FwTabs.getTabPageByElement($checkinForm);
-        const $tab = FwTabs.getTabByElement(jQuery($tabPage));
-        $tab.find('.caption').html('Transfer In');
-    }
-    catch (ex) {
-        FwFunc.showError(ex);
-    }
-};
-//----------------------------------------------------------------------------------------------
-//Confirm Transfer
-//-----------------------------------------------------------------------------------------------------
-FwApplicationTree.clickEvents[Constants.Modules.Home.TransferOrder.form.menuItems.Confirm.id] = (e: JQuery.ClickEvent) => {
-    try {
-        const $form = jQuery(e.currentTarget).closest('.fwform');
-        const status = FwFormField.getValueByDataField($form, 'Status');
-        let action = 'Confirm';
-        if (status === 'CONFIRMED') {
-            action = 'Un-confirm';
-        }
-
-        const transferNumber = FwFormField.getValueByDataField($form, `TransferNumber`);
-        const $confirmation = FwConfirmation.renderConfirmation(`${action} Transfer`, '');
-        $confirmation.find('.fwconfirmationbox').css('width', '450px');
-        const html = `<div class="fwform" data-controller="none" style="background-color: transparent;">
-                        <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                            <div>${action} Transfer Number ${transferNumber}?</div>
-                        </div>
-                      </div>`;
-        FwConfirmation.addControls($confirmation, html);
-        const $yes = FwConfirmation.addButton($confirmation, `${action}`, false);
-        FwConfirmation.addButton($confirmation, 'Cancel');
-
-        $yes.on('click', e => {
-            const topLayer = '<div class="top-layer" data-controller="none" style="background-color: transparent;z-index:1"></div>';
-            const realConfirm = jQuery($confirmation.find('.fwconfirmationbox')).prepend(topLayer);
-
-            const transferId = FwFormField.getValueByDataField($form, 'TransferId');
-            FwAppData.apiMethod(true, 'POST', `api/v1/transferorder/confirm/${transferId}`, null, FwServices.defaultTimeout, response => {
-                FwNotification.renderNotification('SUCCESS', `Transfer Order Successfully ${action}ed.`);
-                FwConfirmation.destroyConfirmation($confirmation);
-                FwModule.refreshForm($form);
-            }, null, realConfirm);
-        });
-    }
-    catch (ex) {
-        FwFunc.showError(ex);
-    }
-};
-//-----------------------------------------------------------------------------------------------------
-//Create Pick List
-//-----------------------------------------------------------------------------------------------------
-FwApplicationTree.clickEvents[Constants.Modules.Home.TransferOrder.form.menuItems.CreatePickList.id] = (e: JQuery.ClickEvent) => {
-    try {
-        const $form = jQuery(e.currentTarget).closest('.fwform');
-        const mode = 'EDIT';
-        const orderInfo: any = {};
-        orderInfo.Type = 'Transfer';
-        orderInfo.OrderId = FwFormField.getValueByDataField($form, 'TransferId');
-        const $pickListForm = CreatePickListController.openForm(mode, orderInfo);
-        FwModule.openSubModuleTab($form, $pickListForm);
-        const $tabPage = FwTabs.getTabPageByElement($pickListForm);
-        const $tab = FwTabs.getTabByElement(jQuery($tabPage));
-        $tab.find('.caption').html('New Pick List');
-        const $pickListUtilityGrid = $pickListForm.find('[data-name="PickListUtilityGrid"]');
-        FwBrowse.search($pickListUtilityGrid);
-    }
-    catch (ex) {
-        FwFunc.showError(ex);
     }
 };
 //-----------------------------------------------------------------------------------------------------

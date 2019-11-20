@@ -1,6 +1,9 @@
 class RwDocumentType {
     Module: string;
     apiurl: string;
+    caption: string = Constants.Modules.Settings.children.DocumentSettings.children.DocumentType.caption;
+    nav: string = Constants.Modules.Settings.children.DocumentSettings.children.DocumentType.nav;
+    id: string = Constants.Modules.Settings.children.DocumentSettings.children.DocumentType.id;
 
     constructor() {
         this.Module = 'DocumentType';

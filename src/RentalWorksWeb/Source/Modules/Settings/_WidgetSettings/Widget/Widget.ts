@@ -1,10 +1,13 @@
 class Widget {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'Widget';
-        this.apiurl = 'api/v1/widget';
+    Module: string = 'Widget';
+    apiurl: string = 'api/v1/widget';
+    caption: string = Constants.Modules.Settings.children.WidgetSettings.children.Widget.caption;
+    nav: string = Constants.Modules.Settings.children.WidgetSettings.children.Widget.nav;
+    id: string = Constants.Modules.Settings.children.WidgetSettings.children.Widget.id;
+    //----------------------------------------------------------------------------------------------
+    addBrowseMenuItems(options: IAddBrowseMenuOptions): void {
+        options.hasNew = false;
+        FwMenu.addBrowseMenuButtons(options);
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
@@ -195,8 +198,8 @@ class Widget {
             }
         }
 
-        <any>window['FwFormField_select'].loadItems(dateSelectField, selectArray, true);
-        <any>window['FwFormField_select'].setValue(dateSelectField, dateSelected);
+        FwFormField_select.loadItems(dateSelectField, selectArray, true);
+        FwFormField_select.setValue(dateSelectField, dateSelected, '', false);
 
         //shows/hides "Assign To" grids
         const assignTo = FwFormField.getValueByDataField($form, 'AssignTo');

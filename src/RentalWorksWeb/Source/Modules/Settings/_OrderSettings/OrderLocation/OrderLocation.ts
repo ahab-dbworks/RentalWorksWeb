@@ -1,11 +1,9 @@
 class OrderLocation {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'OrderLocation';
-        this.apiurl = 'api/v1/orderlocation';
-    }
+    Module: string = 'OrderLocation';
+    apiurl: string = 'api/v1/orderlocation';
+    caption: string = Constants.Modules.Settings.children.OrderSettings.children.OrderLocation.caption;
+    nav: string = Constants.Modules.Settings.children.OrderSettings.children.OrderLocation.nav;
+    id: string = Constants.Modules.Settings.children.OrderSettings.children.OrderLocation.id;
 
     getModuleScreen() {
         var screen, $browse;

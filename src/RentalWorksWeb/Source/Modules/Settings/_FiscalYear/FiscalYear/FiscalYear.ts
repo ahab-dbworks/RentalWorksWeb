@@ -1,11 +1,10 @@
 class FiscalYear {
-    Module: string;
-    apiurl: string;
+    Module: string = 'FiscalYear';
+    apiurl: string = 'api/v1/fiscalyear';
+    caption: string = Constants.Modules.Settings.children.FiscalYearSettings.children.FiscalYear.caption;
+    nav: string = Constants.Modules.Settings.children.FiscalYearSettings.children.FiscalYear.nav;
+    id: string = Constants.Modules.Settings.children.FiscalYearSettings.children.FiscalYear.id;
 
-    constructor() {
-        this.Module = 'FiscalYear';
-        this.apiurl = 'api/v1/fiscalyear';
-    }
 
     getModuleScreen() {
         var screen, $browse;
@@ -18,7 +17,7 @@ class FiscalYear {
         $browse = this.openBrowse();
 
         screen.load = function () {
-            FwModule.openModuleTab($browse, 'Fiscal Year', false, 'BROWSE', true);
+            FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };

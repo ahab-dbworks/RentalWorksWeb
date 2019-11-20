@@ -1,24 +1,20 @@
 class RwWallType {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'WallType';
-        this.apiurl = 'api/v1/walltype';
-    }
-
+    Module:  string = 'WallType';
+    apiurl:  string = 'api/v1/walltype';
+    caption: string = Constants.Modules.Settings.children.SetSettings.children.WallType.caption;
+    nav:     string = Constants.Modules.Settings.children.SetSettings.children.WallType.nav;
+    id:      string = Constants.Modules.Settings.children.SetSettings.children.WallType.id;
+    //----------------------------------------------------------------------------------------------
     getModuleScreen() {
-        var screen, $browse;
-
-        screen = {};
+        const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
-        $browse = this.openBrowse();
+        const $browse = this.openBrowse();
 
         screen.load = function () {
-            FwModule.openModuleTab($browse, 'Wall Type', false, 'BROWSE', true);
+            FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };
@@ -28,41 +24,35 @@ class RwWallType {
 
         return screen;
     }
-
+    //----------------------------------------------------------------------------------------------
     openBrowse() {
-        var $browse;
-
-        $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
+        let $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
 
         return $browse;
     }
-
+    //----------------------------------------------------------------------------------------------
     openForm(mode: string) {
-        var $form;
-
-        $form = FwModule.loadFormFromTemplate(this.Module);
+        let $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 
         return $form;
     }
-
+    //----------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
-        var $form;
-
-        $form = this.openForm('EDIT');
+        let $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="WallTypeId"] input').val(uniqueids.WallTypeId);
         FwModule.loadForm(this.Module, $form);
 
         return $form;
     }
-
+    //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
     }
-
+    //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
     }
 }
-
+//----------------------------------------------------------------------------------------------
 var WallTypeController = new RwWallType();

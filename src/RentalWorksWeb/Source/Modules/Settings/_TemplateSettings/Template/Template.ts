@@ -1,6 +1,9 @@
 ﻿class Template {
     Module: string = 'Template';
     apiurl: string = 'api/v1/Template';
+    caption: string = Constants.Modules.Settings.children.TemplateSettings.children.Template.caption;
+    nav: string = Constants.Modules.Settings.children.TemplateSettings.children.Template.nav;
+    id: string = Constants.Modules.Settings.children.TemplateSettings.children.Template.id;
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         const screen: any = {};
@@ -11,7 +14,7 @@
         const $browse = this.openBrowse();
 
         screen.load = function () {
-            FwModule.openModuleTab($browse, 'Template', false, 'BROWSE', true);
+            FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };
@@ -300,7 +303,7 @@
 
 var TemplateController = new Template();
 
-FwApplicationTree.clickEvents[Constants.Modules.Settings.Template.form.menuItems.Search.id] = function (e: JQuery.ClickEvent) {
+FwApplicationTree.clickEvents[Constants.Modules.Settings.children.TemplateSettings.children.Template.form.menuItems.Search.id] = function (e: JQuery.ClickEvent) {
     try {
         const $form = jQuery(this).closest('.fwform');
         const orderId = FwFormField.getValueByDataField($form, 'TemplateId');

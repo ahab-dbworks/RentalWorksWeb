@@ -6,6 +6,10 @@ class BillingMessage {
     caption: string = Constants.Modules.Home.BillingMessage.caption;
     nav: string = Constants.Modules.Home.BillingMessage.nav;
     id: string = Constants.Modules.Home.BillingMessage.id;
+    addBrowseMenuItems(options: IAddBrowseMenuOptions): void {
+        options.hasInactive = false;
+        FwMenu.addBrowseMenuButtons(options);
+    }
     //----------------------------------------------------------------------------------------------
     getModuleScreen(filter?: any) {
         const screen: any = {};
@@ -32,7 +36,7 @@ class BillingMessage {
     //----------------------------------------------------------------------------------------------
     getBrowseTemplate(): string {
         return `
-<div data-name="BillingMessage" data-control="FwBrowse" data-type="Browse" id="BillingMessageBrowse" class="fwcontrol fwbrowse" data-controller="BillingMessageController" data-hasinactive="false" data-hasfind="false">
+<div data-name="BillingMessage" data-control="FwBrowse" data-type="Browse" id="BillingMessageBrowse" class="fwcontrol fwbrowse" data-controller="BillingMessageController" data-hasfind="false">
   <div class="column" data-width="0" data-visible="false">
     <div class="field" data-isuniqueid="true" data-datafield="BillingMessageId" data-browsedatatype="key" data-sort="desc"></div>
   </div>

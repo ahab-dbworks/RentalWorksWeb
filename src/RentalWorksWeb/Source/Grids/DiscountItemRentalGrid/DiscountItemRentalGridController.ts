@@ -8,12 +8,12 @@
         });
     };
 
-    beforeValidate = function ($browse, $grid, request) {
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $gridbrowse: JQuery, $tr: JQuery) {
         var validationName = request.module;
         if (validationName != null) {
-            var InventoryTypeValue = jQuery($grid.find('tr.editrow [data-formvalidationname="InventoryTypeValidation"] input')).val();
-            var CategoryTypeId = jQuery($grid.find('tr.editrow [data-formvalidationname="RentalCategoryValidation"] input')).val();
-            var SubCategoryTypeId = jQuery($grid.find('tr.editrow [data-formvalidationname="SubCategoryValidation"] input')).val();
+            var InventoryTypeValue = jQuery($gridbrowse.find('tr.editrow [data-formvalidationname="InventoryTypeValidation"] input')).val();
+            var CategoryTypeId = jQuery($gridbrowse.find('tr.editrow [data-formvalidationname="RentalCategoryValidation"] input')).val();
+            var SubCategoryTypeId = jQuery($gridbrowse.find('tr.editrow [data-formvalidationname="SubCategoryValidation"] input')).val();
 
             switch (validationName) {
                 case 'InventoryTypeValidation':

@@ -1,11 +1,9 @@
 class FacilityCategory {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'FacilityCategory';
-        this.apiurl = 'api/v1/facilitycategory';
-    }
+    Module: string = 'FacilityCategory';
+    apiurl: string = 'api/v1/facilitycategory';
+    caption: string = Constants.Modules.Settings.children.FacilitySettings.children.FacilityCategory.caption;
+    nav: string = Constants.Modules.Settings.children.FacilitySettings.children.FacilityCategory.nav;
+    id: string = Constants.Modules.Settings.children.FacilitySettings.children.FacilityCategory.id;
 
     getModuleScreen() {
         var screen, $browse;

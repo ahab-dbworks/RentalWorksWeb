@@ -1,10 +1,14 @@
-﻿class TaxOption {
+class TaxOption {
     Module: string = 'TaxOption';
     apiurl: string = 'api/v1/taxoption';
+    caption: string = Constants.Modules.Settings.children.TaxSettings.children.TaxOption.caption;
+    nav: string = Constants.Modules.Settings.children.TaxSettings.children.TaxOption.nav;
+    id: string = Constants.Modules.Settings.children.TaxSettings.children.TaxOption.id;
 
+    //----------------------------------------------------------------------------------------------
     constructor() {
         //Sends confirmation for forcing tax rate
-        FwApplicationTree.clickEvents[Constants.Modules.Settings.TaxOption.form.menuItems.ForceTaxRates.id] = e => {
+        FwApplicationTree.clickEvents[Constants.Modules.Settings.children.TaxSettings.children.TaxOption.form.menuItems.ForceTaxRates.id] = e => {
             var $form, taxOptionId;
             try {
                 const $form = jQuery(this).closest('.fwform');

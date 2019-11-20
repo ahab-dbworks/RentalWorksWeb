@@ -1,11 +1,9 @@
 ﻿class WardrobeColor {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'WardrobeColor';
-        this.apiurl = 'api/v1/wardrobecolor';
-    }
+    Module: string = 'WardrobeColor';
+    apiurl: string = 'api/v1/wardrobecolor';
+    caption: string = Constants.Modules.Settings.children.WardrobeSettings.children.WardrobeColor.caption;
+    nav: string = Constants.Modules.Settings.children.WardrobeSettings.children.WardrobeColor.nav;
+    id: string = Constants.Modules.Settings.children.WardrobeSettings.children.WardrobeColor.id;
 
     getModuleScreen() {
         var screen, $browse;

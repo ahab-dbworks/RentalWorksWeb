@@ -1,11 +1,9 @@
 class VehicleFuelType {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'VehicleFuelType';
-        this.apiurl = 'api/v1/vehiclefueltype';
-    }
+    Module: string = 'VehicleFuelType';
+    apiurl: string = 'api/v1/vehiclefueltype';
+    caption: string = Constants.Modules.Settings.children.VehicleSettings.children.VehicleFuelType.caption;
+    nav: string = Constants.Modules.Settings.children.VehicleSettings.children.VehicleFuelType.nav;
+    id: string = Constants.Modules.Settings.children.VehicleSettings.children.VehicleFuelType.id;
 
     getModuleScreen() {
         var screen, $browse;

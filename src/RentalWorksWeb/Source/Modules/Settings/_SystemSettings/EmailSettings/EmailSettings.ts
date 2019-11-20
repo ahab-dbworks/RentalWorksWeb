@@ -3,9 +3,14 @@ routes.push({ pattern: /^module\/emailsettings$/, action: function (match: RegEx
 class EmailSettings {
     Module: string = 'EmailSettings';
     apiurl: string = 'api/v1/emailsettings';
-    caption: string = 'Email Settings';
-    nav: string = 'module/emailsettings';
-    id: string = '8C9613E0-E7E5-4242-9DF6-4F57F59CE2B9';
+    caption: string = Constants.Modules.Settings.children.SystemSettings.children.EmailSettings.caption;
+    nav: string = Constants.Modules.Settings.children.SystemSettings.children.EmailSettings.nav;
+    id: string = Constants.Modules.Settings.children.SystemSettings.children.EmailSettings.id;
+    //----------------------------------------------------------------------------------------------
+    addBrowseMenuItems(options: IAddBrowseMenuOptions): void {
+        options.hasNew = false;
+        FwMenu.addBrowseMenuButtons(options);
+    }
     //----------------------------------------------------------------------------------------------
     getModuleScreen(filter?: any) {
         var screen: any = {};

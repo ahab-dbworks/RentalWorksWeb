@@ -1,11 +1,9 @@
 class OrderSetNo {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'OrderSetNo';
-        this.apiurl = 'api/v1/ordersetno';
-    }
+    Module: string = 'OrderSetNo';
+    apiurl: string = 'api/v1/ordersetno';
+    caption: string = Constants.Modules.Settings.children.OrderSettings.children.OrderSetNo.caption;
+    nav: string = Constants.Modules.Settings.children.OrderSettings.children.OrderSetNo.nav;
+    id: string = Constants.Modules.Settings.children.OrderSettings.children.OrderSetNo.id;
 
     getModuleScreen() {
         var screen, $browse;

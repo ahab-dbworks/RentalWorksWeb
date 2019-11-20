@@ -20,8 +20,8 @@ class ScanBarCodes {
 
         var $form = this.openForm('EDIT');
 
-        screen.load = function () {
-            FwModule.openModuleTab($form, 'Scan Bar Codes', false, 'FORM', true);
+        screen.load = () => {
+            FwModule.openModuleTab($form, this.caption, false, 'FORM', true);
         };
         screen.unload = function () {
         };

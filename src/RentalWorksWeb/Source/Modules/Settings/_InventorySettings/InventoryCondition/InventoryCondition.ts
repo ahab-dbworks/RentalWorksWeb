@@ -1,11 +1,9 @@
 class InventoryCondition {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'InventoryCondition';
-        this.apiurl = 'api/v1/inventorycondition';
-    }
+    Module: string = 'InventoryCondition';
+    apiurl: string = 'api/v1/inventorycondition';
+    caption: string = Constants.Modules.Settings.children.InventorySettings.children.InventoryCondition.caption;
+    nav:     string = Constants.Modules.Settings.children.InventorySettings.children.InventoryCondition.nav;
+    id:      string = Constants.Modules.Settings.children.InventorySettings.children.InventoryCondition.id;
 
     getModuleScreen() {
         var screen, $browse;
@@ -17,8 +15,8 @@ class InventoryCondition {
 
         $browse = this.openBrowse();
 
-        screen.load = function () {
-            FwModule.openModuleTab($browse, 'Inventory Condition', false, 'BROWSE', true);
+        screen.load = () => {
+            FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };

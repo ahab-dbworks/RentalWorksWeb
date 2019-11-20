@@ -1,11 +1,9 @@
 ﻿class Holiday {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'Holiday';
-        this.apiurl = 'api/v1/holiday';
-    }
+    Module: string = 'Holiday';
+    apiurl: string = 'api/v1/holiday';
+    caption: string = Constants.Modules.Settings.children.HolidaySettings.children.Holiday.caption;
+    nav: string = Constants.Modules.Settings.children.HolidaySettings.children.Holiday.nav;
+    id: string = Constants.Modules.Settings.children.HolidaySettings.children.Holiday.id;
 
     getModuleScreen() {
         var screen, $browse;
@@ -17,8 +15,8 @@
 
         $browse = this.openBrowse();
 
-        screen.load = function () {
-            FwModule.openModuleTab($browse, 'Holiday', false, 'BROWSE', true);
+        screen.load = () => {
+            FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };

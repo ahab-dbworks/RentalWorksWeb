@@ -1,24 +1,20 @@
 class SetCondition {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'SetCondition';
-        this.apiurl = 'api/v1/setcondition';
-    }
-
+    Module:  string = 'SetCondition';
+    apiurl:  string = 'api/v1/setcondition';
+    caption: string = Constants.Modules.Settings.children.SetSettings.children.SetCondition.caption;
+    nav:     string = Constants.Modules.Settings.children.SetSettings.children.SetCondition.nav;
+    id:      string = Constants.Modules.Settings.children.SetSettings.children.SetCondition.id;
+    //----------------------------------------------------------------------------------------------
     getModuleScreen() {
-        var screen, $browse;
-
-        screen = {};
+        const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
-        $browse = this.openBrowse();
+        const $browse = this.openBrowse();
 
         screen.load = function () {
-            FwModule.openModuleTab($browse, 'Set Condition', false, 'BROWSE', true);
+            FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };
@@ -28,41 +24,35 @@ class SetCondition {
 
         return screen;
     }
-
+    //----------------------------------------------------------------------------------------------
     openBrowse() {
-        var $browse;
-
-        $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
+        let $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
 
         return $browse;
     }
-
+    //----------------------------------------------------------------------------------------------
     openForm(mode: string) {
-        var $form;
-
-        $form = FwModule.loadFormFromTemplate(this.Module);
+        let $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 
         return $form;
     }
-
+    //----------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
-        var $form;
-
-        $form = this.openForm('EDIT');
+        let $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="SetConditionId"] input').val(uniqueids.SetConditionId);
         FwModule.loadForm(this.Module, $form);
 
         return $form;
     }
-
+    //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
     }
-
+    //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
     }
 }
-
+//----------------------------------------------------------------------------------------------
 var SetConditionController = new SetCondition();

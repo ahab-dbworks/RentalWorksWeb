@@ -3,9 +3,15 @@
 class DefaultSettings {
     Module: string = 'DefaultSettings';
     apiurl: string = 'api/v1/defaultsettings';
-    caption: string = Constants.Modules.Settings.DefaultSettings.caption;
-    nav: string = Constants.Modules.Settings.DefaultSettings.nav;
-    id: string = Constants.Modules.Settings.DefaultSettings.id;
+    caption: string = Constants.Modules.Settings.children.SystemSettings.children.DefaultSettings.caption;
+    nav: string = Constants.Modules.Settings.children.SystemSettings.children.DefaultSettings.nav;
+    id: string = Constants.Modules.Settings.children.SystemSettings.children.DefaultSettings.id;
+    //----------------------------------------------------------------------------------------------
+    addBrowseMenuItems(options: IAddBrowseMenuOptions): void {
+        options.hasNew = false;
+        options.hasDelete = false;
+        FwMenu.addBrowseMenuButtons(options);
+    }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         const screen: any = {};

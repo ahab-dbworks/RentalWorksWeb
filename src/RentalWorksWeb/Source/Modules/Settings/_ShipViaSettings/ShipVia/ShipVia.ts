@@ -1,11 +1,10 @@
 ﻿class ShipVia {
-    Module: string;
-    apiurl: string;
+    Module: string = 'ShipVia';
+    apiurl: string = 'api/v1/ShipVia';
+    caption: string = Constants.Modules.Settings.children.ShipViaSettings.children.ShipVia.caption;
+    nav: string = Constants.Modules.Settings.children.ShipViaSettings.children.ShipVia.nav;
+    id: string = Constants.Modules.Settings.children.ShipViaSettings.children.ShipVia.id;
 
-    constructor() {
-        this.Module = 'ShipVia';
-        this.apiurl = 'api/v1/ShipVia';
-    }
 
     getModuleScreen() {
         var screen, $browse;

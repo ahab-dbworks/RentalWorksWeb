@@ -1,11 +1,9 @@
 class POImportance {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'POImportance';
-        this.apiurl = 'api/v1/poimportance';
-    }
+    Module: string = 'POImportance';
+    apiurl: string = 'api/v1/poimportance';
+    caption: string = Constants.Modules.Settings.children.POSettings.children.POImportance.caption;
+    nav: string = Constants.Modules.Settings.children.POSettings.children.POImportance.nav;
+    id: string = Constants.Modules.Settings.children.POSettings.children.POImportance.id;
 
     getModuleScreen() {
         var screen, $browse;
@@ -18,7 +16,7 @@ class POImportance {
         $browse = this.openBrowse();
 
         screen.load = function () {
-            FwModule.openModuleTab($browse, 'PO Importance', false, 'BROWSE', true);
+            FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };

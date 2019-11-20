@@ -1,12 +1,10 @@
 class InventoryStatus {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'InventoryStatus';
-        this.apiurl = 'api/v1/inventorystatus';
-    }
-
+    Module: string = 'InventoryStatus';
+    apiurl: string = 'api/v1/inventorystatus';
+    caption: string = Constants.Modules.Settings.children.InventorySettings.children.InventoryStatus.caption;
+    nav:     string = Constants.Modules.Settings.children.InventorySettings.children.InventoryStatus.nav;
+    id:      string = Constants.Modules.Settings.children.InventorySettings.children.InventoryStatus.id;
+    //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen, $browse;
 
@@ -18,7 +16,7 @@ class InventoryStatus {
         $browse = this.openBrowse();
 
         screen.load = function () {
-            FwModule.openModuleTab($browse, 'Inventory Status', false, 'BROWSE', true);
+            FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };
@@ -28,7 +26,7 @@ class InventoryStatus {
 
         return screen;
     }
-
+    //----------------------------------------------------------------------------------------------
     openBrowse() {
         var $browse;
 
@@ -37,7 +35,7 @@ class InventoryStatus {
 
         return $browse;
     }
-
+    //----------------------------------------------------------------------------------------------
     openForm(mode: string) {
         var $form;
 
@@ -46,7 +44,7 @@ class InventoryStatus {
 
         return $form;
     }
-
+    //----------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
         var $form;
 
@@ -56,13 +54,14 @@ class InventoryStatus {
 
         return $form;
     }
-
+    //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
     }
-
+    //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
     }
+    //----------------------------------------------------------------------------------------------
 }
 
 var InventoryStatusController = new InventoryStatus();

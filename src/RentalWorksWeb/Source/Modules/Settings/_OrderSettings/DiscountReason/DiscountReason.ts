@@ -1,11 +1,10 @@
 class DiscountReason {
-    Module: string;
-    apiurl: string;
+    Module: string = 'DiscountReason';
+    apiurl: string = 'api/v1/discountreason';
+    caption: string = Constants.Modules.Settings.children.OrderSettings.children.DiscountReason.caption;
+    nav: string = Constants.Modules.Settings.children.OrderSettings.children.DiscountReason.nav;
+    id: string = Constants.Modules.Settings.children.OrderSettings.children.DiscountReason.id;
 
-    constructor() {
-        this.Module = 'DiscountReason';
-        this.apiurl = 'api/v1/discountreason';
-    }
 
     getModuleScreen() {
         var screen, $browse;

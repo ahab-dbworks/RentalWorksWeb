@@ -1,8 +1,22 @@
 ﻿class ReceiptProcessBatch {
-    Module: string = 'ReceiptProcessBatch';
-    caption: string = Constants.Modules.Utilities.ReceiptProcessBatch.caption;
-    nav: string = Constants.Modules.Utilities.ReceiptProcessBatch.nav;
-    id: string = Constants.Modules.Utilities.ReceiptProcessBatch.id;
+    Module:  string = 'ReceiptProcessBatch';
+    apiurl:  string = 'api/v1/receiptprocessbatch'
+    caption: string = Constants.Modules.Utilities.children.ReceiptProcessBatch.caption;
+    nav:     string = Constants.Modules.Utilities.children.ReceiptProcessBatch.nav;
+    id:      string = Constants.Modules.Utilities.children.ReceiptProcessBatch.id;
+    //----------------------------------------------------------------------------------------------
+    addFormMenuItems(options: IAddFormMenuOptions): void {
+        options.hasSave = false;
+        FwMenu.addFormMenuButtons(options);
+
+        FwMenu.addSubMenuItem(options.$groupOptions, 'Export Settings', '', (e: JQuery.ClickEvent) => {
+            try {
+                this.ExportSettings(options.$form);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+    }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen: any = {};
@@ -12,8 +26,8 @@
 
         var $form = this.openForm('EDIT');
 
-        screen.load = function () {
-            FwModule.openModuleTab($form, 'Process Receipts', false, 'FORM', true);
+        screen.load = () => {
+            FwModule.openModuleTab($form, this.caption, false, 'FORM', true);
         };
         screen.unload = function () {
         };
@@ -36,7 +50,24 @@
 
         this.events($form);
         return $form;
-    };
+    }
+    //----------------------------------------------------------------------------------------------
+    ExportSettings($form: JQuery): void {
+        try {
+            let $exportSettingsBrowse = ExportSettingsController.openBrowse();
+            $exportSettingsBrowse.data('ondatabind', function (request) {
+                request.miscfields = {
+                    Invoices:       false,
+                    Receipts:       true,
+                    VendorInvoices: false
+                }
+            });
+            FwModule.openModuleTab($exportSettingsBrowse, 'Export Settings', true, 'BROWSE', true);
+            FwBrowse.search($exportSettingsBrowse);
+        } catch (ex) {
+            FwFunc.showError(ex);
+        }
+    }
     //----------------------------------------------------------------------------------------------
     events($form) {
         $form
@@ -45,12 +76,12 @@
                 var userId = sessionStorage.getItem('usersid');
                 const office = JSON.parse(sessionStorage.getItem('location'));
                 request = {
-                    OfficeLocationId: office.locationid
-                    , FromDate: FwFormField.getValueByDataField($form, 'FromDate')
-                    , ToDate: FwFormField.getValueByDataField($form, 'ToDate')
+                    OfficeLocationId: office.locationid,
+                    FromDate: FwFormField.getValueByDataField($form, 'FromDate'),
+                    ToDate: FwFormField.getValueByDataField($form, 'ToDate')
                 };
 
-                FwAppData.apiMethod(true, 'POST', `api/v1/receiptprocessbatch/createbatch`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                FwAppData.apiMethod(true, 'POST', `${this.apiurl}/createbatch`, request, FwServices.defaultTimeout, function onSuccess(response) {
                     if (response.Batch !== null) {
                         var batch = response.Batch;
                         var batchId = batch.BatchId;
@@ -123,7 +154,7 @@
                 request = {
                     BatchId: batchId
                 }
-                FwAppData.apiMethod(true, 'POST', `api/v1/receiptprocessbatch/export`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                FwAppData.apiMethod(true, 'POST', `${this.apiurl}/export`, request, FwServices.defaultTimeout, function onSuccess(response) {
                     if ((response.success === true) && (response.batch !== null)) {
                         let batch = response.batch;
                         let batchNumber = batch.BatchNumber
@@ -143,7 +174,7 @@
         }
     }
     //----------------------------------------------------------------------------------------------
-    beforeValidate = function ($browse, $grid, request) {
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
         let location = JSON.parse(sessionStorage.getItem('location'));
 
         request.uniqueids = {
@@ -152,22 +183,5 @@
     }
     //----------------------------------------------------------------------------------------------
 }
-//Export Settings
-FwApplicationTree.clickEvents[Constants.Modules.Utilities.ReceiptProcessBatch.form.menuItems.ExportSettings.id] = function (event) {
-    try {
-        let $exportSettingsBrowse = ExportSettingsController.openBrowse();
-        $exportSettingsBrowse.data('ondatabind', function (request) {
-            request.miscfields = {
-                Invoices: false
-                , Receipts: true
-                , VendorInvoices: false
-            }
-        });
-        FwModule.openModuleTab($exportSettingsBrowse, 'Export Settings', true, 'BROWSE', true);
-        FwBrowse.search($exportSettingsBrowse);
-    }
-    catch (ex) {
-        FwFunc.showError(ex);
-    }
-};
+
 var ReceiptProcessBatchController = new ReceiptProcessBatch();

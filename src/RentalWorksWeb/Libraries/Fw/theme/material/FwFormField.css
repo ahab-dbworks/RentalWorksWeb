@@ -16,7 +16,7 @@ html.theme-material .fwformfield .fwformfield-control input[type="text"].fwformf
 /*html.theme-material .fwformfield .fwformfield-control input[type="text"].fwformfield-value:focus {border: 1px solid #2196f3;}*/
 /*html.theme-material .fwformfield.error .fwformfield-control {border: 1px solid #f44336;}*/
 html.theme-material .fwformfield .fwformfield-control textarea.fwformfield-value {flex:1 0 auto;background-color: transparent;min-height:100px;resize:none;padding:6px;font-size:14px;border:0;outline:0;transition: all 0.3s;box-sizing:border-box;}
-html.theme-material .fwformfield .fwformfield-control   select.fwformfield-value {flex:1 0 auto;background-color: transparent;padding:.375em;font-size:.8em;outline:0;border:0;transition: all 0.3s;box-sizing:border-box;}
+html.theme-material .fwformfield .fwformfield-control   select.fwformfield-value {flex:1 0 auto;background-color: transparent;padding:.375em;font-size:.8em;outline:0;border:0;transition: all 0.3s;box-sizing:border-box;width:100%;}
 html.theme-material.mobile .fwformfield .fwformfield-control select.fwformfield-value {font-size:1.125em;}
 html.theme-material.mobile .fwformfield .fwformfield-control input[type="text"].fwformfield-value {font-size:1.125em;}
 

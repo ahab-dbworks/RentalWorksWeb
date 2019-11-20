@@ -1,6 +1,9 @@
 ﻿class CoverLetter {
     Module: string = 'CoverLetter';
     apiurl: string = 'api/v1/coverletter';
+    caption: string = Constants.Modules.Settings.children.DocumentSettings.children.CoverLetter.caption;
+    nav: string = Constants.Modules.Settings.children.DocumentSettings.children.CoverLetter.nav;
+    id: string = Constants.Modules.Settings.children.DocumentSettings.children.CoverLetter.id;
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen, $browse;
