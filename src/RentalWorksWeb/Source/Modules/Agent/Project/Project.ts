@@ -134,6 +134,26 @@ class Project {
         FwModule.saveForm(this.Module, $form, parameters);
     }
     //-----------------------------------------------------------------------------------------------
+    beforeValidate(datafield, request, $validationbrowse, $form, $tr) {
+        switch (datafield) {
+            case 'DealId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedeal`);
+                break;
+            case 'DepartmentId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedepartment`);
+                break;
+            case 'AgentId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateagent`);
+                break;
+            case 'ProjectManagerId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateprojectmanager`);
+                break;
+            case 'OutsideSalesRepresentativeId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatesalesrepresentative`);
+                break;
+        }
+    }
+    //--------------------------------------------------------------------------------------------
     renderGrids($form) {
         //Project Contact Grid
         //const $projectContactGrid = $form.find('div[data-grid="ProjectContactGrid"]');

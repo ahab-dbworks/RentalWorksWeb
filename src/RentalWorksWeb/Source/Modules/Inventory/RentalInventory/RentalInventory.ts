@@ -957,32 +957,98 @@ class RentalInventory extends InventoryBase {
         return $browse;
     }
     //----------------------------------------------------------------------------------------------
-    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
-        const validationName = request.module;
-        const InventoryTypeValue = jQuery($validationbrowse.find('[data-validationname="InventoryTypeValidation"] input')).val();
-        const CategoryTypeId = jQuery($validationbrowse.find('[data-validationname="RentalCategoryValidation"] input')).val();
+    //beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
+    //    const validationName = request.module;
+    //    const InventoryTypeValue = jQuery($validationbrowse.find('[data-validationname="InventoryTypeValidation"] input')).val();
+    //    const CategoryTypeId = jQuery($validationbrowse.find('[data-validationname="RentalCategoryValidation"] input')).val();
 
-        switch (validationName) {
-            case 'InventoryTypeValidation':
+    //    switch (validationName) {
+    //        case 'InventoryTypeValidation':
+    //            request.uniqueids = {
+    //                //Rental: true,
+    //                RecType: "R",
+    //                HasCategories: true
+    //            };
+    //            break;
+    //        case 'RentalCategoryValidation':
+    //            request.uniqueids = {
+    //                InventoryTypeId: InventoryTypeValue
+    //            };
+    //            break;
+    //        case 'SubCategoryValidation':
+    //            request.uniqueids = {
+    //                TypeId: InventoryTypeValue,
+    //                CategoryId: CategoryTypeId
+    //            };
+    //            break;
+    //    };
+    //};
+        beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
+        const InventoryTypeValue = jQuery($form.find('[data-validationname="InventoryTypeValidation"] input')).val();
+        const CategoryTypeId = jQuery($form.find('[data-validationname="PartsCategoryValidation"] input')).val();
+        switch (datafield) {
+            case 'InventoryTypeId':
                 request.uniqueids = {
                     //Rental: true,
                     RecType: "R",
                     HasCategories: true
                 };
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventorytype`);
                 break;
-            case 'RentalCategoryValidation':
+            case 'CategoryId':
                 request.uniqueids = {
                     InventoryTypeId: InventoryTypeValue
                 };
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecategory`);
                 break;
-            case 'SubCategoryValidation':
+            case 'SubCategoryId':
                 request.uniqueids = {
                     TypeId: InventoryTypeValue,
                     CategoryId: CategoryTypeId
                 };
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatesubcategory`);
                 break;
-        };
-    };
+            case 'UnitId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateunit`);
+                break;
+            case 'Rank':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validaterank`);
+                break;
+            case 'ManufacturerId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatemanufacturer`);
+                break;
+            case 'AssetAccountId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateassetaccount`);
+                break;
+            case 'IncomeAccountId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateincomeaccount`);
+                break;
+            case 'SubIncomeAccountId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatesubincomeaccount`);
+                break;
+            case 'EquipmentSaleIncomeAccountId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateequipmentsaleincomeaccount`);
+                break;
+            case 'LdIncomeAccountId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateldincomeaccount`);
+                break;
+            case 'CostOfGoodsSoldExpenseAccountId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecostofgoodssoldexpenseaccount`);
+                break;
+            case 'CostOfGoodsRentedExpenseAccountId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecostofgoodsrentedexpenseaccount`);
+                break;
+            case 'ProfitAndLossCategoryId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateprofitandlosscategory`);
+                break;
+            case 'CountryOfOriginId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecountryoforigin`);
+                break;
+            case 'WarehouseId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatewarehouse`);
+                break;
+        }
+    }
     //----------------------------------------------------------------------------------------------
     beforeValidateScannableICode($browse, $grid, request) {
         let $form = $grid.closest('.fwform');

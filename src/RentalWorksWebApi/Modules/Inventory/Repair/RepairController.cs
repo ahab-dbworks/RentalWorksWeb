@@ -7,6 +7,16 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebApi.Controllers;
+using WebApi.Modules.Inventory.Asset;
+using WebApi.Modules.Inventory.RentalInventory;
+using WebApi.Modules.Inventory.SalesInventory;
+using WebApi.Modules.Settings.CompanyDepartmentSettings.Department;
+using WebApi.Modules.Agent.Order;
+using WebApi.Modules.Settings.RepairSettings.RepairItemStatus;
+using WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation;
+using WebApi.Modules.Settings.WarehouseSettings.Warehouse;
+using WebApi.Modules.Settings.CurrencySettings.Currency;
+using WebApi.Modules.Settings.TaxSettings.TaxOption;
 
 namespace WebApi.Modules.Inventory.Repair
 {
@@ -212,6 +222,85 @@ namespace WebApi.Modules.Inventory.Repair
         {
             return await DoDeleteAsync<RepairLogic>(id);
         }
-        //------------------------------------------------------------------------------------ 
+        //------------------------------------------------------------------------------------
+        // POST api/v1/repair/validateitem/browse
+        [HttpPost("validateitem/browse")]
+        [FwControllerMethod(Id: "tX5N53HrXg01", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateItemBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<ItemLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/repair/validaterentalinventory/browse
+        [HttpPost("validaterentalinventory/browse")]
+        [FwControllerMethod(Id: "VOp20EULWvOq", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateRentalInventoryBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<RentalInventoryLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/repair/validatesalesinventory/browse
+        [HttpPost("validatesalesinventory/browse")]
+        [FwControllerMethod(Id: "6OO9FMaf4rnq", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateSalesInventoryBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<SalesInventoryLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/repair/validatedepartment/browse
+        [HttpPost("validatedepartment/browse")]
+        [FwControllerMethod(Id: "y0XFqSkySp4M", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateDepartmentBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<DepartmentLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/repair/validatedamageorder/browse
+        [HttpPost("validatedamageorder/browse")]
+        [FwControllerMethod(Id: "U8Nr63M7jORq", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateDamageOrderBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<OrderLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/repair/validaterepairitemstatus/browse
+        [HttpPost("validaterepairitemstatus/browse")]
+        [FwControllerMethod(Id: "oIUkgU6EB9D9", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateRepairItemStatusBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<RepairItemStatusLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/repair/validateofficelocation/browse
+        [HttpPost("validateofficelocation/browse")]
+        [FwControllerMethod(Id: "PpvdlqHRUcoH", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateOfficeLocationBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<OfficeLocationLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/repair/validatewarehouselocation/browse
+        [HttpPost("validatewarehouselocation/browse")]
+        [FwControllerMethod(Id: "8SjbOqgTjIsQ", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateWarehouseLocationBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<WarehouseLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/repair/validatecurrency/browse
+        [HttpPost("validatecurrency/browse")]
+        [FwControllerMethod(Id: "7as7szmVFOLQ", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateCurrencyBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<CurrencyLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/repair/validatetaxoption/browse
+        [HttpPost("validatetaxoption/browse")]
+        [FwControllerMethod(Id: "HIX3g9Fmuomy", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateTaxOptionBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<TaxOptionLogic>(browseRequest);
+        }
     }
 }

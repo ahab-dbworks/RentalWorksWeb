@@ -2,6 +2,7 @@
 
 class AvailabilityConflicts {
     Module: string = 'AvailabilityConflicts';
+    apiurl: string = 'api/v1/availabilityconflicts'
     caption: string = Constants.Modules.Inventory.children.AvailabilityConflicts.caption;
     nav: string = Constants.Modules.Inventory.children.AvailabilityConflicts.nav;
     id: string = Constants.Modules.Inventory.children.AvailabilityConflicts.id;
@@ -230,6 +231,29 @@ class AvailabilityConflicts {
         //request.uniqueids = {
         //    WarehouseId: warehouse.warehouseid
         //};
+        switch (datafield) {
+            case 'WarehouseId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatewarehouse`);
+                break;
+            case 'InventoryTypeId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventorytype`);
+                break;
+            case 'CategoryId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecategory`);
+                break;
+            case 'SubCategoryId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatesubcategory`);
+                break;
+            case 'InventoryId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventory`);
+                break;
+            case 'OrderId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateorder`);
+                break;
+            case 'DealId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedeal`);
+                break;
+        }
     }
     //----------------------------------------------------------------------------------------------
 }
