@@ -222,22 +222,29 @@ class RwMaster extends WebMaster {
     //----------------------------------------------------------------------------------------------
     buildOfficeLocation($usercontrol: JQuery<HTMLElement>) {
         const userlocation = JSON.parse(sessionStorage.getItem('location'));
-        const userid = JSON.parse(sessionStorage.getItem('userid'));
-        const defaultLocation = JSON.parse(sessionStorage.getItem('defaultlocation'));
+        const userwarehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+        const userdepartment = JSON.parse(sessionStorage.getItem('department'));
+
+        let locationCaption;
+        if (userlocation.location === userwarehouse.warehouse) {
+            locationCaption = userlocation.location
+        } else {
+            locationCaption = `${userlocation.location} / ${userwarehouse.warehouse}`;
+        }
+
         const $officelocation = jQuery(`<div class="officelocation">
                                         <div class="locationcolor" style="background-color:${userlocation.locationcolor}"></div>
-                                        <div class="value">${userlocation.location}</div>
+                                        <div class="value">${locationCaption}</div>
                                       </div>`);
 
         FwFileMenu.UserControl_addSystemBarControl('officelocation', $officelocation, $usercontrol);
-
 
         // navigation header location icon
         $officelocation.on('click', function () {
             try {
                 const $confirmation = FwConfirmation.renderConfirmation('Select an Office Location', '');
                 const $select = FwConfirmation.addButton($confirmation, 'Select', false);
-                const $cancel = FwConfirmation.addButton($confirmation, 'Cancel', true);
+                FwConfirmation.addButton($confirmation, 'Cancel', true);
 
                 FwConfirmation.addControls($confirmation, `<div class="fwform" data-controller="UserController" style="background-color: transparent;">
                                                              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
@@ -251,11 +258,8 @@ class RwMaster extends WebMaster {
                                                              </div>
                                                            </div>`);
 
-                const userlocation = JSON.parse(sessionStorage.getItem('location'));
                 FwFormField.setValueByDataField($confirmation, 'OfficeLocationId', userlocation.locationid, userlocation.location);
-                const userwarehouse = JSON.parse(sessionStorage.getItem('warehouse'));
                 FwFormField.setValueByDataField($confirmation, 'WarehouseId', userwarehouse.warehouseid, userwarehouse.warehouse);
-                const userdepartment = JSON.parse(sessionStorage.getItem('department'));
                 FwFormField.setValueByDataField($confirmation, 'DepartmentId', userdepartment.departmentid, userdepartment.department);
 
                 $confirmation.find('[data-datafield="OfficeLocationId"]').data('onchange', e => {
