@@ -1,6 +1,5 @@
 using FwStandard.AppManager;
 using FwStandard.Models;
-using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System;
@@ -9,9 +8,6 @@ using System.Threading.Tasks;
 using WebApi.Controllers;
 using WebApi.Logic;
 using WebApi.Modules.Warehouse.Contract;
-using WebApi.Modules.Agent.Deal;
-using WebApi.Modules.Settings.CompanyDepartmentSettings.Department;
-using WebApi.Modules.Settings.RateType;
 
 namespace WebApi.Modules.Utilities.Migrate
 {
@@ -228,37 +224,6 @@ namespace WebApi.Modules.Utilities.Migrate
                 return GetApiExceptionResult(ex);
             }
         }
-        //------------------------------------------------------------------------------------ 
-        // POST api/v1/migrate/validatedeal/browse 
-        [HttpPost("validatedeal/browse")]
-        [FwControllerMethod(Id: "JykKJ71hmyMm", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<FwJsonDataTable>> ValidateDealBrowseAsync([FromBody]BrowseRequest browseRequest)
-        {
-            return await DoBrowseAsync<DealLogic>(browseRequest);
-        }
-        //------------------------------------------------------------------------------------ 
-        // POST api/v1/migrate/validatedepartment/browse 
-        [HttpPost("validatedepartment/browse")]
-        [FwControllerMethod(Id: "ebKqlLmWTEEI", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<FwJsonDataTable>> ValidateDepartmentBrowseAsync([FromBody]BrowseRequest browseRequest)
-        {
-            return await DoBrowseAsync<DepartmentLogic>(browseRequest);
-        }
-        //------------------------------------------------------------------------------------ 
-        // POST api/v1/migrate/validatecreatenewdeal/browse 
-        [HttpPost("validatecreatenewdeal/browse")]
-        [FwControllerMethod(Id: "Y9WnvNSws5ea", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<FwJsonDataTable>> ValidateCategoryBrowseAsync([FromBody]BrowseRequest browseRequest)
-        {
-            return await DoBrowseAsync<DealLogic>(browseRequest);
-        }
-        //------------------------------------------------------------------------------------ 
-        // POST api/v1/migrate/validateratetype/browse 
-        [HttpPost("validateratetype/browse")]
-        [FwControllerMethod(Id: "EYYVUQuMIwkx", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<FwJsonDataTable>> ValidateSubCategoryBrowseAsync([FromBody]BrowseRequest browseRequest)
-        {
-            return await DoBrowseAsync<RateTypeLogic>(browseRequest);
-        }
+        //------------------------------------------------------------------------------------     
     }
 }

@@ -1,6 +1,5 @@
 ﻿abstract class StagingCheckoutBase {
     Module:                    string;
-    apiurl:                    string;
     caption:                   string;
     nav:                       string;
     id:                        string;
@@ -1202,36 +1201,33 @@
     };
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
+        const validationName = request.module;
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
-        //everything except order validation is from another module that extends this class, be sure to update these cases to the new api urls -jg
-        switch (datafield) {
-            case 'OrderId':
+
+        switch (validationName) {
+            case 'OrderValidation':
                 request.miscfields = {
                     Staging: true,
                     StagingWarehouseId: warehouse.warehouseid
                 };
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateorder`);
                 break;
-            case 'TransferId':
+            case 'TransferOrderValidation':
                 request.miscfields = {
                     TransferOut: true,
                     TransferOutWarehouseId: warehouse.warehouseid
                 };
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatetransfer`);
                 break;
-            case 'ContainerItemId':
+            case 'ContainerItemValidation':
                 request.uniqueids = {
                     WarehouseId: warehouse.warehouseid
                 };
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecontaineritem`);
                 break;
-            case 'ContainerId':
+            case 'ContainerValidation':
                 //from the fill container confirmation
                 const inventoryId = FwFormField.getValueByDataField($validationbrowse, 'InventoryId');
                 request.uniqueids = {
                     ScannableInventoryId: inventoryId
                 };
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecontainer`);
                 break;
         };
     }

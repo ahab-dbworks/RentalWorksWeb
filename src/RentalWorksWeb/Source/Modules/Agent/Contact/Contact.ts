@@ -72,10 +72,9 @@ class Contact {
             });
         }
 
-        //FwFormField.getDataField($form, 'DefaultDealId').data('beforevalidate', ($validationbrowse: JQuery, $object: JQuery, request: any, datafield, $tr: JQuery) => {
-        //    request.uniqueids.ContactId = FwFormField.getValueByDataField($form, 'ContactId');
-        //    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedeal`);
-        //});
+        FwFormField.getDataField($form, 'DefaultDealId').data('beforevalidate', ($validationbrowse: JQuery, $object: JQuery, request: any, datafield, $tr: JQuery) => {
+            request.uniqueids.ContactId = FwFormField.getValueByDataField($form, 'ContactId');
+        });
         FwFormField.getDataField($form, 'LocationId').on('change', (e: JQuery.ChangeEvent) => {
             try {
                 FwFormField.setValueByDataField($form, 'WarehouseId', '', '');
@@ -83,9 +82,9 @@ class Contact {
                 FwFunc.showError(ex);
             }
         });
-        //FwFormField.getDataField($form, 'WarehouseId').data('beforevalidate', ($validationbrowse: JQuery, $object: JQuery, request: any, datafield, $tr: JQuery) => {
-        //    request.uniqueids.LocationId = FwFormField.getValueByDataField($form, 'LocationId');
-        //});
+        FwFormField.getDataField($form, 'WarehouseId').data('beforevalidate', ($validationbrowse: JQuery, $object: JQuery, request: any, datafield, $tr: JQuery) => {
+            request.uniqueids.LocationId = FwFormField.getValueByDataField($form, 'LocationId');
+        });
 
         return $form;
     }
@@ -283,20 +282,6 @@ class Contact {
         switch (datafield) {
             case 'ContactTitleId':
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecontacttitle`);
-                break;
-            case 'CountryId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecountry`);
-                break;
-            case 'DefaultDealId':
-                request.uniqueids.ContactId = FwFormField.getValueByDataField($form, 'ContactId');
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedeal`);
-                break;
-            case 'LocationId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatelocation`);
-                break;
-            case 'WarehouseId':
-                request.uniqueids.LocationId = FwFormField.getValueByDataField($form, 'LocationId');
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatewarehouse`);
                 break;
         }
     }

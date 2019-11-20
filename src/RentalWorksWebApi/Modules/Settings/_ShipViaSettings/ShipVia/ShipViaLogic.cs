@@ -2,7 +2,6 @@ using FwStandard.AppManager;
 using WebApi.Data.Settings;
 using WebApi.Data.Settings.ShipViaSettings.ShipVia;
 using WebApi.Logic;
-using WebApi.Data.Settings.ShipViaSettings.ShipVia;
 
 namespace WebApi.Modules.Settings.ShipViaSettings.ShipVia
 {

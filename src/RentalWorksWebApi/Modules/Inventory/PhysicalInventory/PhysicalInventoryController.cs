@@ -7,9 +7,6 @@ using FwStandard.SqlServer;
 using System.Collections.Generic;
 using FwStandard.AppManager;
 using System;
-using WebApi.Modules.Settings.InventorySettings.InventoryType;
-using WebApi.Modules.Settings.Category;
-using WebApi.Modules.Settings.SubCategory;
 
 namespace WebApi.Modules.Inventory.PhysicalInventory
 {
@@ -342,29 +339,5 @@ namespace WebApi.Modules.Inventory.PhysicalInventory
         //    return await <PhysicalInventoryLogic>DoDeleteAsync(id);
         //}
         ////------------------------------------------------------------------------------------ 
-        /////------------------------------------------------------------------------------------      
-        // POST api/v1/physicalinventory/validateinventorytype/browse
-        [HttpPost("validateinventorytype/browse")]
-        [FwControllerMethod(Id: "PbYuCCjhBhfn", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<FwJsonDataTable>> ValidateInventoryTypeBrowseAsync([FromBody]BrowseRequest browseRequest)
-        {
-            return await DoBrowseAsync<InventoryTypeLogic>(browseRequest);
-        }
-        //------------------------------------------------------------------------------------
-        // POST api/v1/physicalinventory/validatecategory/browse
-        [HttpPost("validatecategory/browse")]
-        [FwControllerMethod(Id: "2pnedgBd7Mam", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<FwJsonDataTable>> ValidateCategoryBrowseAsync([FromBody]BrowseRequest browseRequest)
-        {
-            return await DoBrowseAsync<CategoryLogic>(browseRequest);
-        }
-        //------------------------------------------------------------------------------------
-        // POST api/v1/physicalinventory/validatesubcategory/browse
-        [HttpPost("validatesubcategory/browse")]
-        [FwControllerMethod(Id: "GDOkfq37LbdL", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<FwJsonDataTable>> ValidateSubCategoryBrowseAsync([FromBody]BrowseRequest browseRequest)
-        {
-            return await DoBrowseAsync<SubCategoryLogic>(browseRequest);
-        }
     }
 }

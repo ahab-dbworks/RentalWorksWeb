@@ -8,15 +8,6 @@ using System;
 using System.Threading.Tasks;
 using WebApi.Controllers;
 using WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation;
-using WebApi.Modules.Settings.CompanyDepartmentSettings.Department;
-using WebApi.Modules.Settings.CustomerSettings.CustomerType;
-using WebApi.Modules.Settings.CustomerSettings.CustomerCategory;
-using WebApi.Modules.Settings.AddressSettings.Country;
-using WebApi.Modules.Settings.CustomerSettings.CustomerStatus;
-using WebApi.Modules.Settings.PaymentSettings.PaymentTerms;
-using WebApi.Modules.Settings.CustomerSettings.CreditStatus;
-using WebApi.Modules.Agent.Vendor;
-using WebApi.Modules.Settings.AddressSettings.State;
 
 namespace WebApi.Modules.Agent.Customer
 {
@@ -105,93 +96,6 @@ namespace WebApi.Modules.Agent.Customer
             }
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/customer/validatelocation/browse
-        [HttpPost("validatelocation/browse")]
-        [FwControllerMethod(Id: "yNlf9UabTUR2", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<FwJsonDataTable>> ValidateLocationBrowseAsync([FromBody]BrowseRequest browseRequest)
-        {
-            return await DoBrowseAsync<OfficeLocationLogic>(browseRequest);
-        }
-        //------------------------------------------------------------------------------------
-        // POST api/v1/customer/validatedepartment/browse
-        [HttpPost("validatedepartment/browse")]
-        [FwControllerMethod(Id: "epyE1hEMELfV", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<FwJsonDataTable>> ValidateDepartmentBrowseAsync([FromBody]BrowseRequest browseRequest)
-        {
-            return await DoBrowseAsync<DepartmentLogic>(browseRequest);
-        }
-        //------------------------------------------------------------------------------------
-        // POST api/v1/customer/validatecustomertype/browse
-        [HttpPost("validatecustomertype/browse")]
-        [FwControllerMethod(Id: "wsSPageVvyup", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<FwJsonDataTable>> ValidateCustomerTypeBrowseAsync([FromBody]BrowseRequest browseRequest)
-        {
-            return await DoBrowseAsync<CustomerTypeLogic>(browseRequest);
-        }
-        //------------------------------------------------------------------------------------
-        // POST api/v1/customer/validatecustomercategory/browse
-        [HttpPost("validatecustomercategory/browse")]
-        [FwControllerMethod(Id: "L4QC5Ql4eY49", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<FwJsonDataTable>> ValidateCustomerCategoryBrowseAsync([FromBody]BrowseRequest browseRequest)
-        {
-            return await DoBrowseAsync<CustomerCategoryLogic>(browseRequest);
-        }
-        //------------------------------------------------------------------------------------
-        // POST api/v1/customer/validatecountry/browse
-        [HttpPost("validatecountry/browse")]
-        [FwControllerMethod(Id: "TCR6m9VWIySQ", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<FwJsonDataTable>> ValidateCountryBrowseAsync([FromBody]BrowseRequest browseRequest)
-        {
-            return await DoBrowseAsync<CountryLogic>(browseRequest);
-        }
-        //------------------------------------------------------------------------------------
-        // POST api/v1/customer/validatecustomerstatus/browse
-        [HttpPost("validatecustomerstatus/browse")]
-        [FwControllerMethod(Id: "buaMP5GP5l37", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<FwJsonDataTable>> ValidateCustomerStatusBrowseAsync([FromBody]BrowseRequest browseRequest)
-        {
-            return await DoBrowseAsync<CustomerStatusLogic>(browseRequest);
-        }
-        //------------------------------------------------------------------------------------
-        // POST api/v1/customer/validateparentcustomer/browse
-        [HttpPost("validateparentcustomer/browse")]
-        [FwControllerMethod(Id: "zhKwLHPom9AL", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<FwJsonDataTable>> ValidateParentCustomerBrowseAsync([FromBody]BrowseRequest browseRequest)
-        {
-            return await DoBrowseAsync<CustomerLogic>(browseRequest);
-        }
-        //------------------------------------------------------------------------------------
-        // POST api/v1/customer/validatepaymentterms/browse
-        [HttpPost("validatepaymentterms/browse")]
-        [FwControllerMethod(Id: "PHpjtoeKJTFk", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<FwJsonDataTable>> ValidatePaymentTermsBrowseAsync([FromBody]BrowseRequest browseRequest)
-        {
-            return await DoBrowseAsync<PaymentTermsLogic>(browseRequest);
-        }
-        //------------------------------------------------------------------------------------
-        // POST api/v1/customer/validatecreditstatus/browse
-        [HttpPost("validatecreditstatus/browse")]
-        [FwControllerMethod(Id: "s8wyQktsyDnH", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<FwJsonDataTable>> ValidateCreditStatusBrowseAsync([FromBody]BrowseRequest browseRequest)
-        {
-            return await DoBrowseAsync<CreditStatusLogic>(browseRequest);
-        }
-        //------------------------------------------------------------------------------------
-        // POST api/v1/customer/validateinsurancecompany/browse
-        [HttpPost("validateinsurancecompany/browse")]
-        [FwControllerMethod(Id: "vleyDPVAKeh3", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<FwJsonDataTable>> ValidateInsuranceCompanyBrowseAsync([FromBody]BrowseRequest browseRequest)
-        {
-            return await DoBrowseAsync<VendorLogic>(browseRequest);
-        }
-        //------------------------------------------------------------------------------------
-        // POST api/v1/customer/validatetaxstateofincorporation/browse
-        [HttpPost("validatetaxstateofincorporation/browse")]
-        [FwControllerMethod(Id: "6IplOv8OMzdM", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<FwJsonDataTable>> ValidateTaxStateOfIncorporationBrowseAsync([FromBody]BrowseRequest browseRequest)
-        {
-            return await DoBrowseAsync<StateLogic>(browseRequest);
-        }
         // GET api/v1/customer/validations/managingdepartments
         //[HttpGet("validations/managingdepartments")]
         //[FwControllerMethod(Id:"EQB3smR5TUZ4")]
@@ -214,103 +118,103 @@ namespace WebApi.Modules.Agent.Customer
         //}
         //------------------------------------------------------------------------------------
 
-        /*
-        {
-            "caption": "Office Location",
-            "validationname": "OfficeLocationValidation",
-            "datafield": "OfficeLocationId",
-            "displayfield": "OfficeLocation"
-        },
-        {
-            "caption": "Managing Department",
-            "validationname": "DepartmentValidation",
-            "datafield": "DepartmentId",
-            "displayfield": "Department"
-        },
-        {
-            "caption": "Type",
-            "validationname": "CustomerTypeValidation",
-            "datafield": "CustomerTypeId",
-            "displayfield": "CustomerType"
-        },
-        {
-            "caption": "Customer Category",
-            "validationname": "CustomerCategoryValidation",
-            "datafield": "CustomerCategoryId",
-            "displayfield": "CustomerCategory"
-        },
-        {
-            "caption": "Parent Customer",
-            "validationname": "CustomerValidation",
-            "datafield": "ParentCustomerId",
-            "displayfield": "ParentCustomer"
-        },
-        {
-            "caption": "Status",
-            "validationname": "CustomerStatusValidation",
-            "datafield": "CustomerStatusId",
-            "displayfield": "CustomerStatus"
-        },
-        {
-            "caption": "Country",
-            "validationname": "CountryValidation",
-            "datafield": "CountryId",
-            "displayfield": "Country"
-        },
-        {
-            "caption": "Payment Terms",
-            "validationname": "PaymentTermsValidation",
-            "datafield": "PaymentTermsId",
-            "displayfield": "PaymentTerms"
-        },
-        {
-            "caption": "Template",
-            "validationname": "DiscountTemplateValidation",
-            "datafield": "DiscountTemplateId",
-            "displayfield": "DiscountTemplate"
-        },
-        {
-            "caption": "Country",
-            "validationname": "CountryValidation",
-            "datafield": "BillToCountryId",
-            "displayfield": "BillToCountry"
-        },
-        {
-            "caption": "Status",
-            "validationname": "CreditStatusValidation",
-            "datafield": "CreditStatusId",
-            "displayfield": "CreditStatus"
-        },
-        {
-            "caption": "Name",
-            "validationname": "VendorValidation",
-            "datafield": "InsuranceCompanyId",
-            "displayfield": "InsuranceCompany"
-        },
-        {
-            "caption": "Country",
-            "validationname": "CountryValidation",
-            "datafield": "InsuranceCompanyCountryId",
-            "displayfield": "InsuranceCompanyCountry"
-        },
-        {
-            "caption": "State of Incorporation",
-            "validationname": "StateValidation",
-            "datafield": "TaxStateOfIncorporationId",
-            "displayfield": "TaxStateOfIncorporation"
-        },
-        {
-            "caption": "Tax Option",
-            "validationname": "CustomerValidation",
-            "datafield": "",
-            "displayfield": "Customer"
-        },
-        {
-            "caption": "Country",
-            "validationname": "CountryValidation",
-            "datafield": "ShipCountryId",
-            "displayfield": "ShipCountry"
-        }
-        */
+            /*
+            {
+                "caption": "Office Location",
+                "validationname": "OfficeLocationValidation",
+                "datafield": "OfficeLocationId",
+                "displayfield": "OfficeLocation"
+            },
+            {
+                "caption": "Managing Department",
+                "validationname": "DepartmentValidation",
+                "datafield": "DepartmentId",
+                "displayfield": "Department"
+            },
+            {
+                "caption": "Type",
+                "validationname": "CustomerTypeValidation",
+                "datafield": "CustomerTypeId",
+                "displayfield": "CustomerType"
+            },
+            {
+                "caption": "Customer Category",
+                "validationname": "CustomerCategoryValidation",
+                "datafield": "CustomerCategoryId",
+                "displayfield": "CustomerCategory"
+            },
+            {
+                "caption": "Parent Customer",
+                "validationname": "CustomerValidation",
+                "datafield": "ParentCustomerId",
+                "displayfield": "ParentCustomer"
+            },
+            {
+                "caption": "Status",
+                "validationname": "CustomerStatusValidation",
+                "datafield": "CustomerStatusId",
+                "displayfield": "CustomerStatus"
+            },
+            {
+                "caption": "Country",
+                "validationname": "CountryValidation",
+                "datafield": "CountryId",
+                "displayfield": "Country"
+            },
+            {
+                "caption": "Payment Terms",
+                "validationname": "PaymentTermsValidation",
+                "datafield": "PaymentTermsId",
+                "displayfield": "PaymentTerms"
+            },
+            {
+                "caption": "Template",
+                "validationname": "DiscountTemplateValidation",
+                "datafield": "DiscountTemplateId",
+                "displayfield": "DiscountTemplate"
+            },
+            {
+                "caption": "Country",
+                "validationname": "CountryValidation",
+                "datafield": "BillToCountryId",
+                "displayfield": "BillToCountry"
+            },
+            {
+                "caption": "Status",
+                "validationname": "CreditStatusValidation",
+                "datafield": "CreditStatusId",
+                "displayfield": "CreditStatus"
+            },
+            {
+                "caption": "Name",
+                "validationname": "VendorValidation",
+                "datafield": "InsuranceCompanyId",
+                "displayfield": "InsuranceCompany"
+            },
+            {
+                "caption": "Country",
+                "validationname": "CountryValidation",
+                "datafield": "InsuranceCompanyCountryId",
+                "displayfield": "InsuranceCompanyCountry"
+            },
+            {
+                "caption": "State of Incorporation",
+                "validationname": "StateValidation",
+                "datafield": "TaxStateOfIncorporationId",
+                "displayfield": "TaxStateOfIncorporation"
+            },
+            {
+                "caption": "Tax Option",
+                "validationname": "CustomerValidation",
+                "datafield": "",
+                "displayfield": "Customer"
+            },
+            {
+                "caption": "Country",
+                "validationname": "CountryValidation",
+                "datafield": "ShipCountryId",
+                "displayfield": "ShipCountry"
+            }
+            */
     }
 }

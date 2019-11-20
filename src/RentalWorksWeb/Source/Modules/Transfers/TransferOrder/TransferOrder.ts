@@ -429,36 +429,16 @@ class TransferOrder {
     };
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
+        const validationName = request.module;
         const warehouse = FwFormField.getValueByDataField($form, 'FromWarehouseId');
-        switch (datafield) {
-            case 'DepartmentId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedepartment`);
-                break;
-            case 'FromWarehouseId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatefromwarehouse`);
-                break;
-            case 'ToWarehouseId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatetowarehouse`);
-                break;
-            case 'AgentId':
+
+        switch (validationName) {
+            case 'UserValidation':
                 request.uniqueids = {
                     WarehouseId: warehouse
                 };
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateagent`);
                 break;
-            case 'SendRequestId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatesendto`);
-                break;
-            case 'OutDeliveryCarrierId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateoutdeliverycarrier`);
-                break;
-            case 'OutDeliveryShipViaId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateoutdeliveryshipvia`);
-                break;
-            case 'OutDeliveryToCountryId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateoutdeliverytocountry`);
-                break;
-        }
+        };
     }
 };
 //-----------------------------------------------------------------------------------------------------

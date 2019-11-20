@@ -1,6 +1,5 @@
 using FwStandard.AppManager;
 using FwStandard.Models;
-using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System;
@@ -10,7 +9,6 @@ using WebApi.Logic;
 using WebApi.Modules.Warehouse.CheckIn;
 using WebApi.Modules.Warehouse.Contract;
 using WebLibrary;
-using WebApi.Modules.Transfers.TransferOrder;
 
 //dummy-security-controller 
 namespace WebApi.Modules.Transfers.TransferIn
@@ -123,14 +121,7 @@ namespace WebApi.Modules.Transfers.TransferIn
                 return GetApiExceptionResult(ex);
             }
         }
-        //------------------------------------------------------------------------------------ 
-        // POST api/v1/transferin/validatetransfer/browse 
-        [HttpPost("validatetransfer/browse")]
-        [FwControllerMethod(Id: "dvWPAAj5GMnn", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<FwJsonDataTable>> ValidateTransferBrowseAsync([FromBody]BrowseRequest browseRequest)
-        {
-            return await DoBrowseAsync<TransferOrderLogic>(browseRequest);
-        }
+        //------------------------------------------------------------------------------------
     }
 }
 

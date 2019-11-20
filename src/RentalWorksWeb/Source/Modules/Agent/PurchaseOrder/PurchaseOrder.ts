@@ -1781,37 +1781,6 @@ class PurchaseOrder implements IModule {
         jQuery('.tab.submodule.active').find('.caption').html('Receive From Vendor');
     }
     //----------------------------------------------------------------------------------------------	
-    beforeValidate(datafield, request, $validationbrowse, $form, $tr) {
-        switch (datafield) {
-            case 'VendorId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatevendor`);
-                break;
-            case 'DepartmentId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedepartment`);
-                break;
-            case 'RateType':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validaterate`);
-                break;
-            case 'PoTypeId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatepotype`);
-                break;
-            case 'AgentId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateagent`);
-                break;
-            case 'ProjectManagerId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateprojectmanager`);
-                break;
-            case 'BillingCycleId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatebillingcycle`);
-                break;
-            case 'CurrencyId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecurrency`);
-                break;
-            case 'TaxOptionId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatetaxoption`);
-                break;
-        }
-    }
 }
 //----------------------------------------------------------------------------------------------
 

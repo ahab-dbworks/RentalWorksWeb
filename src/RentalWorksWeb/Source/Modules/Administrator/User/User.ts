@@ -299,87 +299,26 @@ class User {
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
         switch (datafield) {
-            case 'GroupId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validategroup`);
-                break;
-            case 'UserTitleId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateusertitle`);
-                break;
-            case 'OfficeLocationId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateofficelocation`);
-                break;
-            case 'WarehouseId':
-                const locationId = FwFormField.getValueByDataField($form, 'OfficeLocationId');
-                if (locationId) {
-                    request.uniqueids.LocationId = locationId;
-                }
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatewarehouselocation`);
-                break;
-            case 'State':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatestate`);
-                break;
-            case 'CountryId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecountry`);
-                break;
-            case 'RentalDepartmentId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validaterentaldepartment`);
-                break;
-            case 'SalesDepartmentId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatesalesdepartment`);
-                break;
-            case 'LaborDepartmentId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatelabordepartment`);
-                break;
-            case 'MiscDepartmentId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatemiscdepartment`);
-                break;
-            case 'PartsDepartmentId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatepartsdepartment`);
-                break;
-            case 'FacilityDepartmentId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatefacilitydepartment`);
-                break;
-            case 'TransportationDepartmentId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatetransportationdepartment`);
-                break;
             case 'RentalInventoryTypeId':
                 request.uniqueids = {
                     Rental: true
                 };
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validaterentalinventory`);
                 break;
             case 'SalesInventoryTypeId':
                 request.uniqueids = {
                     Sales: true
                 };
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatesalesinventorytype`);
                 break;
             case 'PartsInventoryTypeId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatepartsinventorytype`);
+                request.uniqueids = {
+                    Parts: true
+                };
                 break;
             case 'TransportationTypeId':
                 request.uniqueids = {
                     Transportation: true
                 };
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatetransportationtype`);
                 break;
-            case 'LaborTypeId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatelabortype`);
-                break;
-            case 'MiscTypeId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatemisctype`);
-                break;
-            case 'FacilityTypeId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatefacilitytype`);
-                break;
-            case 'SuccessSoundId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatesuccesssound`);
-                break;
-            case 'ErrorSoundId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateerrorsound`);
-                break;
-            case 'NotificationSoundId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatenotificationsound`);
         }
     }
     //----------------------------------------------------------------------------------------------
@@ -468,7 +407,7 @@ class User {
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Default Office / Warehouse">
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Office" data-datafield="OfficeLocationId" data-displayfield="OfficeLocation" data-validationname="OfficeLocationValidation" data-required="true" style="flex:1 1 225px;"></div>
-                          <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Warehouse" data-datafield="WarehouseId" data-displayfield="Warehouse" data-validationname="WarehouseValidation" data-required="true" style="flex:1 1 225px;"></div>
+                          <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Warehouse" data-datafield="WarehouseId" data-displayfield="Warehouse" data-validationname="WarehouseValidation" data-formbeforevalidate="beforeValidateWarehouse" data-required="true" style="flex:1 1 225px;"></div>
                         </div>
                       </div>
                     </div>
