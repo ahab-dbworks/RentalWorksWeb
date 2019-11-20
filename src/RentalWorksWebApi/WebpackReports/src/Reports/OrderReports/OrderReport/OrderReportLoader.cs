@@ -42,7 +42,8 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         [FwSqlDataField(column: "orderby", modeltype: FwDataTypes.Text)]
         public string OrderBy { get; set; }
         //------------------------------------------------------------------------------------ 
-        public async Task<FwJsonDataTable> LoadItems(OrderReportRequest request)
+        //public async Task<FwJsonDataTable> LoadItems(OrderReportRequest request)
+        public async Task<List<OrderItemReportLoader>> LoadItems(OrderReportRequest request)
         {
             FwJsonDataTable dt = null;
             using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
@@ -55,11 +56,28 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
                 }
                 //--------------------------------------------------------------------------------- 
             }
-                dt.Columns[dt.GetColumnNo("RowType")].IsVisible = true;
+            dt.Columns[dt.GetColumnNo("RowType")].IsVisible = true;
             string[] totalFields = new string[] { "PeriodExtended" };
             dt.InsertSubTotalRows("RecTypeDisplay", "RowType", totalFields);
             dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
-            return dt;
+            //return dt;
+
+
+            List<OrderItemReportLoader> items = new List<OrderItemReportLoader>();
+            foreach (List<object> row in dt.Rows)
+            {
+                OrderItemReportLoader item = new OrderItemReportLoader();
+                item.OrderId = (row[dt.GetColumnNo("OrderId")] ?? "").ToString();
+                item.RowType = (row[dt.GetColumnNo("RowType")] ?? "").ToString();
+                item.RecTypeDisplay = (row[dt.GetColumnNo("RecTypeDisplay")] ?? "").ToString();
+                item.ICode = (row[dt.GetColumnNo("ICode")] ?? "").ToString();
+                item.Description = (row[dt.GetColumnNo("Description")] ?? "").ToString();
+                item.QuantityOrdered = FwConvert.ToDecimal((row[dt.GetColumnNo("QuantityOrdered")] ?? "").ToString());
+                item.PeriodExtended = FwConvert.ToDecimal((row[dt.GetColumnNo("PeriodExtended")] ?? "").ToString());
+                item.OrderBy = (row[dt.GetColumnNo("OrderBy")] ?? "").ToString();
+                items.Add(item);
+            }
+            return items;
         }
         //------------------------------------------------------------------------------------ 
     }
@@ -545,12 +563,12 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         [FwSqlDataField(column: "indeliverydeliverynotes", modeltype: FwDataTypes.Text)]
         public string InDeliveryDeliveryNotes { get; set; }
         //------------------------------------------------------------------------------------ 
-        public FwJsonDataTable Items { get; set; }
+        public List<OrderItemReportLoader> Items { get; set; } = new List<OrderItemReportLoader>(new OrderItemReportLoader[] { new OrderItemReportLoader() });
         //------------------------------------------------------------------------------------ 
         public async Task<OrderReportLoader> RunReportAsync(OrderReportRequest request)
         {
             Task<OrderReportLoader> taskOrder;
-            Task<FwJsonDataTable> taskOrderItems;
+            Task<List<OrderItemReportLoader>> taskOrderItems;
 
             OrderReportLoader Order = null;
             OrderItemReportLoader OrderItems = null;

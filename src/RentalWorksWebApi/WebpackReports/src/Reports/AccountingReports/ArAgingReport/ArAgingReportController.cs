@@ -95,5 +95,28 @@ namespace WebApi.Modules.Reports.AccountingReports.ArAgingReport
             }
         }
         //------------------------------------------------------------------------------------ 
+        // GET api/v1/aragingreport/emptyobject
+        [HttpGet("emptyobject")]
+        [FwControllerMethod(Id: "xxxxxxxxxxxxxxxxxxxxxxxxxxxx2")]
+        public ActionResult<FwJsonDataTable> GetEmptyObject()
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                Type type = typeof(ArAgingReportLoader);
+                AppReportLoader l = (AppReportLoader)Activator.CreateInstance(type);
+                l.SetDependencies(AppConfig, UserSession);
+                //l.IsEmptyObject = true;
+                return new OkObjectResult(l);
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------ 
     }
 }

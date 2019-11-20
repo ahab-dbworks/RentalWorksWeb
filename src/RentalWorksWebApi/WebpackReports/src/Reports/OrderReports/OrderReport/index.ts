@@ -20,7 +20,8 @@ export class OrderReport extends WebpackReport {
                     Ajax.post<Order>(`${apiUrl}/api/v1/orderreport/runreport`, authorizationHeader, parameters)
                         .then((response: Order) => {
                             const data: any = response;
-                            data.Items = DataTable.toObjectList(response.Items);
+                            //data.Items = DataTable.toObjectList(response.Items);
+                            data.Items = response.Items;
                             data.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
                             data.System = 'RENTALWORKS';
                             if (logoObject.LogoImage != '') {

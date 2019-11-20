@@ -73,5 +73,28 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
             }
         }
         //------------------------------------------------------------------------------------ 
+        // GET api/v1/aragingreport/emptyobject
+        [HttpGet("emptyobject")]
+        [FwControllerMethod(Id: "xxxxxxxxxxxxxxxxxxxxxxxxxxxx3")]
+        public ActionResult<FwJsonDataTable> GetEmptyObject()
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                Type type = typeof(OrderReportLoader);
+                AppReportLoader l = (AppReportLoader)Activator.CreateInstance(type);
+                l.SetDependencies(AppConfig, UserSession);
+                //l.IsEmptyObject = true;
+                return new OkObjectResult(l);
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------ 
     }
 }
