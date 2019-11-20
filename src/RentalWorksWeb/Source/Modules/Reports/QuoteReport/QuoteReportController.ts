@@ -52,6 +52,7 @@ class QuoteReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     openForm() {
         const $form = this.getFrontEnd();
+        $form.attr('data-reportname', 'QuoteReport');
         return $form;
     }
     //----------------------------------------------------------------------------------------------
@@ -61,6 +62,7 @@ class QuoteReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     convertParameters(parameters: any) {
         const convertedParams: any = {};
+        convertedParams.CustomReportLayoutId = parameters.CustomReportLayoutId;
         convertedParams.OrderId = parameters.QuoteId;
         convertedParams.isQuote = true;
         return convertedParams;
