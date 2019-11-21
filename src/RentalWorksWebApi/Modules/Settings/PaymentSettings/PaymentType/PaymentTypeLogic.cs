@@ -1,7 +1,6 @@
 using FwStandard.AppManager;
 using WebApi.Data.Settings.PaymentSettings.PaymentType;
 using WebApi.Logic;
-using WebApi.Data.Settings.PaymentSettings.PaymentType;
 
 namespace WebApi.Modules.Settings.PaymentSettings.PaymentType
 {
