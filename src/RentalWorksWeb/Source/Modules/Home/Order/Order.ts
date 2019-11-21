@@ -77,14 +77,14 @@ class Order extends OrderBase {
         $orderItemGridLossDamage.find('.buttonbar').hide();
 
 
-        $form.find('div[data-datafield="BillingCycleId"]').data('onchange', () => {
-            const worksheetTab = $form.find('[data-type="tab"][data-caption="Worksheets"]');
-            if (FwFormField.getTextByDataField($form, 'BillingCycleId') === 'ON DEMAND') {
-                worksheetTab.show();
-            } else {
-                worksheetTab.hide();
-            }
-        });
+        //$form.find('div[data-datafield="BillingCycleId"]').data('onchange', () => {
+        //    const worksheetTab = $form.find('[data-type="tab"][data-caption="Worksheets"]');
+        //    if (FwFormField.getTextByDataField($form, 'BillingCycleId') === 'ON DEMAND') {
+        //        worksheetTab.show();
+        //    } else {
+        //        worksheetTab.hide();
+        //    }
+        //});
 
         this.getSoundUrls($form);
 
