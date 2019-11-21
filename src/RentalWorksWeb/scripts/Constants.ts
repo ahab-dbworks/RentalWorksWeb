@@ -48,6 +48,7 @@ var Constants = {
             nodetype: 'Category',
             children: {
                 Billing: { id: '67cZ8IUbw53c', caption: 'Billing', nav: 'module/billing', nodetype: 'Module' },
+                BillingMessage: { id: 'U0HFTNmYWt3a7', caption: 'Billing Message', nav: 'module/billingmessage', nodetype: 'Module' },
                 Invoice: { id: 'cZ9Z8aGEiDDw', caption: 'Invoice', nav: 'module/invoice', nodetype: 'Module' },
                 Receipt: { id: 'q4PPGLusbFw', caption: 'Receipts', nav: 'module/receipt', nodetype: 'Module' },
                 VendorInvoice: { id: 'Fq9aOe0yWfY', caption: 'Vendor Invoice', nav: 'module/vendorinvoice', nodetype: 'Module' },
@@ -66,21 +67,22 @@ var Constants = {
             }
         },
         Home: {
-            BillingMessage: { id: 'U0HFTNmYWt3a7', caption: 'Billing Message', nav: 'module/billingmessage', nodetype: 'Module' },
-            CountQuantityInventory: { id: '0A02B28D-C025-4579-993B-860832F8837F', caption: 'Count Quantity Inventory', nav: 'module/physicalinventoryquantityinventory', nodetype: 'Module' },
-            CreatePickList: { id: '1407A536-B5C9-4363-8B54-A56DB8CE902D', caption: 'Create Pick List', nav: 'module/contract', nodetype: 'Module' },
-            CustomerCredit: { id: 'DCPFcfKgUGnuC', caption: 'Customer Credit', nav: 'module/customercredit', nodetype: 'Module' },
-            DealCredit: { id: 'OCkLGwclipEA', caption: 'Deal Credit', nav: 'module/dealcredit', nodetype: 'Module' },
-            Manifest: {
-                id: 'yMwoSvKvwAbbZ', caption: 'Transfer Manifest', nav: 'module/manifest', nodetype: 'Module',
-                form: {
-                    menuItems: {
-                        Print: { id: '{8FC8A0F2-C016-476F-971B-64CF2ED95E41}' }
+            children: {
+                CountQuantityInventory: { id: '0A02B28D-C025-4579-993B-860832F8837F', caption: 'Count Quantity Inventory', nav: 'module/physicalinventoryquantityinventory', nodetype: 'Module' },
+                CreatePickList: { id: '1407A536-B5C9-4363-8B54-A56DB8CE902D', caption: 'Create Pick List', nav: 'module/contract', nodetype: 'Module' },
+                CustomerCredit: { id: 'DCPFcfKgUGnuC', caption: 'Customer Credit', nav: 'module/customercredit', nodetype: 'Module' },
+                DealCredit: { id: 'OCkLGwclipEA', caption: 'Deal Credit', nav: 'module/dealcredit', nodetype: 'Module' },
+                Manifest: {
+                    id: 'yMwoSvKvwAbbZ', caption: 'Transfer Manifest', nav: 'module/manifest', nodetype: 'Module',
+                    form: {
+                        menuItems: {
+                            Print: { id: '{8FC8A0F2-C016-476F-971B-64CF2ED95E41}' }
+                        }
                     }
-                }
-            },
-            SubWorksheet: { id: '2227B6C3-587D-48B1-98B6-B9125E0E4D9D', caption: 'Sub Worksheet', nav: 'module/subworksheet', nodetype: 'Module' },
-            SuspendedSession: { id: '5FBE7FF8-3770-48C5-855C-4320C961D95A', caption: 'Suspended Session', nav: 'module/suspendedsession', nodetype: 'Module' }
+                },
+                SubWorksheet: { id: '2227B6C3-587D-48B1-98B6-B9125E0E4D9D', caption: 'Sub Worksheet', nav: 'module/subworksheet', nodetype: 'Module' },
+                SuspendedSession: { id: '5FBE7FF8-3770-48C5-855C-4320C961D95A', caption: 'Suspended Session', nav: 'module/suspendedsession', nodetype: 'Module' }
+            }
         },
         Inventory: {
             id: 'Inventory',

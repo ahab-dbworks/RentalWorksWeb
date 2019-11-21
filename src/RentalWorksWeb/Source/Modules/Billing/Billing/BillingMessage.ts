@@ -3,9 +3,9 @@ routes.push({ pattern: /^module\/billingmessage$/, action: function (match: RegE
 class BillingMessage {
     Module: string = 'BillingMessage';
     apiurl: string = 'api/v1/billingmessage';
-    caption: string = Constants.Modules.Home.BillingMessage.caption;
-    nav: string = Constants.Modules.Home.BillingMessage.nav;
-    id: string = Constants.Modules.Home.BillingMessage.id;
+    caption: string = Constants.Modules.Billing.children.BillingMessage.caption;
+    nav: string = Constants.Modules.Billing.children.BillingMessage.nav;
+    id: string = Constants.Modules.Billing.children.BillingMessage.id;
     addBrowseMenuItems(options: IAddBrowseMenuOptions): void {
         options.hasInactive = false;
         FwMenu.addBrowseMenuButtons(options);

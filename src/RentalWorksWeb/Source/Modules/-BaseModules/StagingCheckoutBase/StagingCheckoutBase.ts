@@ -83,7 +83,7 @@
                 FwMenu.addSubMenuItem(options.$groupActions, 'Unstage Selected Items', '', (e: JQuery.ClickEvent) => {
                     try {
                         if ($form.attr('data-controller') === 'TransferOutController') {
-                            TransferOutController.unstageItems($form, e);
+                            (<any>window).TransferOutController.unstageItems($form, e);
                         } else {
                             StagingCheckoutController.unstageItems($form, e);
                         }
@@ -131,7 +131,7 @@
                 FwMenu.addSubMenuItem(options.$groupActions, 'Unstage Selected Items', '', (e: JQuery.ClickEvent) => {
                     try {
                         if ($form.attr('data-controller') === 'TransferOutController') {
-                            TransferOutController.unstageItems($form, e);
+                            (<any>window).TransferOutController.unstageItems($form, e);
                         } else {
                             StagingCheckoutController.unstageItems($form, e);
                         }

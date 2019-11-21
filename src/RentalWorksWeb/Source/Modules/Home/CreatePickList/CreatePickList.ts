@@ -2,9 +2,9 @@
 
 class CreatePickList {
     Module: string = 'CreatePickList';
-    caption: string = Constants.Modules.Home.CreatePickList.caption;
-    nav: string = Constants.Modules.Home.CreatePickList.nav;
-    id: string = Constants.Modules.Home.CreatePickList.id;
+    caption: string = Constants.Modules.Home.children.CreatePickList.caption;
+    nav: string = Constants.Modules.Home.children.CreatePickList.nav;
+    id: string = Constants.Modules.Home.children.CreatePickList.id;
     Type: string = 'Order';
 
     //----------------------------------------------------------------------------------------------

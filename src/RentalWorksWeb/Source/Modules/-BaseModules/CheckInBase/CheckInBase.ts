@@ -461,7 +461,7 @@
             orderInfo.OrderId = FwFormField.getValueByDataField($form, `${type}Id`);
             orderInfo.OrderNumber = FwFormField.getTextByDataField($form, `${type}Id`);
             if (this.Module == 'TransferIn') {
-                $orderStatusForm = TransferStatusController.openForm('EDIT', orderInfo);
+                $orderStatusForm = (<any>window).TransferStatusController.openForm('EDIT', orderInfo);
                 FwModule.openSubModuleTab($form, $orderStatusForm);
                 jQuery('.tab.submodule.active').find('.caption').html('Transfer Status');
             } else {

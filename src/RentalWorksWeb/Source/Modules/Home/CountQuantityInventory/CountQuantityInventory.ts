@@ -1,8 +1,8 @@
 class CountQuantityInventory {
     Module: string = 'CountQuantityInventory';
-    caption: string = Constants.Modules.Home.CountQuantityInventory.caption;
-    nav: string = Constants.Modules.Home.CountQuantityInventory.nav;
-    id: string = Constants.Modules.Home.CountQuantityInventory.id;
+    caption: string = Constants.Modules.Home.children.CountQuantityInventory.caption;
+    nav: string = Constants.Modules.Home.children.CountQuantityInventory.nav;
+    id: string = Constants.Modules.Home.children.CountQuantityInventory.id;
     successSoundFileName: string;
     errorSoundFileName: string;
     notificationSoundFileName: string;
