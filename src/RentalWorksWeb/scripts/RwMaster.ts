@@ -271,19 +271,7 @@ class RwMaster extends WebMaster {
     //----------------------------------------------------------------------------------------------
     buildMainMenu($view: JQuery) {
         this.initMainMenu();
-        //var nodeApplication;
-        //var nodeSystem = FwApplicationTree.getMyTree();
         var nodeApplication = FwApplicationTree.getMyTree();
-        //for (var appno = 0; appno < nodeSystem.children.length; appno++) {
-        //    if (nodeSystem.children[appno].id === FwApplicationTree.currentApplicationId) {
-        //        nodeApplication = nodeSystem.children[appno];
-        //    }
-        //}
-        //if (nodeApplication === null) {
-        //    sessionStorage.clear();
-        //    window.location.reload(true);
-        //}
-
         for (var i = 0; i < this.navigation.length; i++) {
             var categorySecurityObject = FwFunc.getObjects(nodeApplication, 'id', this.navigation[i].id);
             if (categorySecurityObject !== undefined && categorySecurityObject.length > 0 && categorySecurityObject[0].properties.visible === 'T') {
