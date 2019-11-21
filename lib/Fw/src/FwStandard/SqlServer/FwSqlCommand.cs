@@ -1623,6 +1623,20 @@ namespace FwStandard.SqlServer
                                         data = new FwDatabaseField(data).ToShortDateTimeString();
                                     }
                                 }
+                                //justin hoffman #1332 trying to get image data into this object
+                                else if (data is Byte[])
+                                {
+                                    if (!reader.IsDBNull(ordinal))
+                                    {
+                                        byte[] buffer = reader.GetSqlBytes(ordinal).Value;
+                                        bool isnull = (buffer.Length == 0) || ((buffer.Length == 1) && (buffer[0] == 255));
+                                        if (!isnull)
+                                        {
+                                            string base64data = Convert.ToBase64String(buffer);
+                                            data = "data:image/jpg;base64," + base64data;
+                                        }
+                                    }
+                                }
 
                                 if (reader.IsDBNull(ordinal))
                                 {
