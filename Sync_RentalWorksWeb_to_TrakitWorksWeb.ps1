@@ -20,6 +20,7 @@ try {
     $modules = @(
     
         # Modules: Base
+        'Modules\-BaseModules\CheckInBase',
         'Modules\-BaseModules\OrderStatusBase',
         'Modules\-BaseModules\StagingCheckoutBase', 
         
