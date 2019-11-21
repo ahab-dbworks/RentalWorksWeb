@@ -89,6 +89,7 @@ namespace WebLibrary.Security
             AddModule("Transfer Status",     "{58D5D354-136E-40D5-9675-B74FD7807D6F}", lv1menuTransfers.Id, "TransferStatusController");
             // Billing
             AddModule("Billing",             "{34E0472E-9057-4C66-8CC2-1938B3222569}", lv1menuBilling.Id, "BillingController");
+            AddModule("Billing Worksheet",   "{BF8E2838-A31D-46B2-ABE1-5B09FC3E2A9E}", lv1menuBilling.Id, "BillingWorksheetController");
             AddModule("Invoice",             "{9B79D7D8-08A1-4F6B-AC0A-028DFA9FE10F}", lv1menuBilling.Id, "InvoiceController");
             AddModule("Receipts",            "{57E34535-1B9F-4223-AD82-981CA34A6DEC}", lv1menuBilling.Id, "ReceiptController");
             AddModule("Vendor Invoice",      "{854B3C59-7040-47C4-A8A3-8A336FC970FE}", lv1menuBilling.Id, "VendorInvoiceController");

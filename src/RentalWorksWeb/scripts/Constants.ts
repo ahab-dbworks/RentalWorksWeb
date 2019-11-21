@@ -30,20 +30,17 @@
             AvailabilityConflicts: { id: 'DF2859D1-3834-42DA-A367-85B168850ED9', caption: 'Availability Conflicts', nav: 'module/availabilityconflicts' },
             Billing: { id: '34E0472E-9057-4C66-8CC2-1938B3222569', caption: 'Billing', nav: 'module/billing' },
             BillingWorksheet: {
-                id: 'F178308F-ECEF-4810-9EBF-5CA118051061', caption: 'Billing Worksheet', nav: 'module/billingworksheet',
+                id: 'BF8E2838-A31D-46B2-ABE1-5B09FC3E2A9E', caption: 'Billing Worksheet', nav: 'module/billingworksheet',
                 browse: {
                     menuItems: {
-                        Void: { id: '{123DC979-2CA0-4C02-9BD1-94A16BEC89AF}' },
-                        Approve: { id: '{259F747F-9B40-4484-9DDA-84B427DBB9D3}' },
-                        Unapprove: { id: '{7FA7E8A9-A81D-4AE4-AFD3-F92C3F57186E}' }
+                        Approve: { id: '20CA8800-41C5-4387-8EF0-558330B96AAA' },
+                        Unapprove: { id: 'DE1069AB-2A4D-4556-AD00-9D89FAA22B54' }
                     }
                 },
                 form: {
                     menuItems: {
-                        Void: { id: '{86057E2F-6F23-4F36-A27E-13995DB22938}' },
-                        PrintWorksheet: { id: '{39E81BF9-671C-47E7-A6C4-4DD880B0B145}' },
-                        Approve: { id: '{A4451EF0-92BC-4535-AB63-36341F194BF4}' },
-                        Unapprove: { id: '{86723D8A-E4AA-40EA-8902-09F5F3DA7E5C}' },
+                        Approve: { id: '16932E29-821B-45B1-A7B7-82D203258E70' },
+                        Unapprove: { id: '09B18F85-BD05-462F-994D-DF7989D37E44' },
                     }
                 }
             },
