@@ -147,15 +147,15 @@
             //availability calendar popup
             $generatedtr.find('div[data-browsedatafield="AvailableQuantity"]').on('click', e => {
                 let $popup = jQuery(`
-                <div id="availabilityCalendarPopup" class="fwform fwcontrol fwcontainer" data-control="FwContainer" data-type="form" style="overflow:auto;max-height:90vh;max-width:90vw;background-color:white; padding:10px; border:2px solid gray;">
-                    <div class="close-modal"><i class="material-icons">clear</i><div class="btn-text">Close</div></div>
-                    <div class="flexcolumn" style="overflow:auto;">
-                      <div class="flexrow" style="max-width:inherit;">
-                         <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Availability Calendar">
-                          <div data-control="FwScheduler" style="overflow:auto;" class="fwcontrol fwscheduler calendar"></div>
-                          <div data-control="FwSchedulerDetailed" class="fwcontrol fwscheduler realscheduler"></div>
-                         </div>
-                      </div>
+                <div>
+                    <div class="close-modal" style="background-color:white;top:.8em;right:.1em; padding-right:.5em; border-radius:.2em;justify-content:flex-end;"><i class="material-icons">clear</i><div class="btn-text">Close</div></div>
+                    <div id="availabilityCalendarPopup" class="fwform fwcontrol fwcontainer" data-control="FwContainer" data-type="form" style="overflow:auto;max-height:90vh;max-width:90vw;background-color:white; margin-top:2em; border:2px solid gray;">
+                        <div class="flexcolumn" style="overflow:auto;">
+                             <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Availability Calendar">
+                              <div data-control="FwScheduler" style="overflow:auto;" class="fwcontrol fwscheduler calendar"></div>
+                              <div data-control="FwSchedulerDetailed" class="fwcontrol fwscheduler realscheduler"></div>
+                             </div>
+                        </div>
                     </div>
                 </div>`);
                 FwControl.renderRuntimeControls($popup.find('.fwcontrol'));
