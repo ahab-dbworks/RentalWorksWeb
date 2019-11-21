@@ -11,6 +11,61 @@ class Repair {
     ActiveViewFields:   any    = {};
     ActiveViewFieldsId: string;
     //----------------------------------------------------------------------------------------------
+    addBrowseMenuItems(options: IAddBrowseMenuOptions): void {
+        FwMenu.addBrowseMenuButtons(options);
+
+        FwMenu.addSubMenuItem(options.$groupOptions, 'Void', 'AxRbFcXeLZS0a', (e: JQuery.ClickEvent) => {
+            try {
+                this.browseVoid(options.$browse);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+
+        const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+        const $all: JQuery = FwMenu.generateDropDownViewBtn('ALL Warehouses', false, "ALL");
+        const $userWarehouse: JQuery = FwMenu.generateDropDownViewBtn(warehouse.warehouse, true, warehouse.warehouseid);
+        if (typeof this.ActiveViewFields["WarehouseId"] == 'undefined') {
+            this.ActiveViewFields.WarehouseId = [warehouse.warehouseid];
+        }
+        const viewSubItems: Array<JQuery> = [];
+        viewSubItems.push($userWarehouse, $all);
+        FwMenu.addViewBtn(options.$menu, 'Warehouse', viewSubItems, true, "WarehouseId");
+    }
+    //----------------------------------------------------------------------------------------------
+    addFormMenuItems(options: IAddFormMenuOptions): void {
+        FwMenu.addFormMenuButtons(options);
+
+        FwMenu.addSubMenuItem(options.$groupOptions, 'Estimate', 'V6R1MLai1R7Fw', (e: JQuery.ClickEvent) => {
+            try {
+                this.estimateOrder(options.$form);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+        FwMenu.addSubMenuItem(options.$groupOptions, 'Complete', 'PgeX6is7sKrYI', (e: JQuery.ClickEvent) => {
+            try {
+                this.completeOrder(options.$form);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+        FwMenu.addSubMenuItem(options.$groupOptions, 'Void', 'AxRbFcXeLZS0a', (e: JQuery.ClickEvent) => {
+            try {
+                this.voidOrder(options.$form);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+        FwMenu.addSubMenuItem(options.$groupOptions, 'Release Items', 'PpSdBovye5sNv', (e: JQuery.ClickEvent) => {
+            try {
+                this.releaseItems(options.$form);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+    }
+    //----------------------------------------------------------------------------------------------
     getModuleScreen = (filter?: { datafield: string, search: string }) => {
         const screen: any = {};
         screen.$view      = FwModule.getModuleControl(`${this.Module}Controller`);
@@ -64,18 +119,51 @@ class Repair {
         return $browse;
     };
     //----------------------------------------------------------------------------------------------
-    addBrowseMenuItems($menuObject: any) {
-        const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
-        const $all: JQuery = FwMenu.generateDropDownViewBtn('ALL Warehouses', false, "ALL");
-        const $userWarehouse: JQuery = FwMenu.generateDropDownViewBtn(warehouse.warehouse, true, warehouse.warehouseid);
-        if (typeof this.ActiveViewFields["WarehouseId"] == 'undefined') {
-            this.ActiveViewFields.WarehouseId = [warehouse.warehouseid];
-        }
-        const viewSubItems: Array<JQuery> = [];
-        viewSubItems.push($userWarehouse, $all);
-        FwMenu.addViewBtn($menuObject, 'Warehouse', viewSubItems, true, "WarehouseId");
+    browseVoid($browse: JQuery) {
+        try {
+            const RepairId = $browse.find('.selected [data-browsedatafield="RepairId"]').attr('data-originalvalue');
+            if (RepairId != null) {
+                const $confirmation = FwConfirmation.renderConfirmation('Void', '');
+                $confirmation.find('.fwconfirmationbox').css('width', '450px');
+                const html: Array<string> = [];
+                html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+                html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+                html.push('    <div>Void this Repair Order?</div>');
+                html.push('  </div>');
+                html.push('</div>');
 
-        return $menuObject;
+                FwConfirmation.addControls($confirmation, html.join(''));
+                const $yes = FwConfirmation.addButton($confirmation, 'Void', false);
+                const $no = FwConfirmation.addButton($confirmation, 'Cancel');
+                $yes.focus();
+                $yes.on('click', makeVoid);
+                // ----------
+                function makeVoid() {
+                    FwFormField.disable($confirmation.find('.fwformfield'));
+                    FwFormField.disable($yes);
+                    $yes.text('Voiding...');
+                    $yes.off('click');
+
+                    FwAppData.apiMethod(true, 'POST', `api/v1/repair/void/${RepairId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                        FwNotification.renderNotification('SUCCESS', 'Repair Order Successfully Voided');
+                        FwConfirmation.destroyConfirmation($confirmation);
+                        FwBrowse.databind($browse);
+                    }, function onError(response) {
+                        $yes.on('click', makeVoid);
+                        $yes.text('Void');
+                        FwFunc.showError(response);
+                        FwFormField.enable($confirmation.find('.fwformfield'));
+                        FwFormField.enable($yes);
+                        FwBrowse.databind($browse);
+                    }, $browse);
+                };
+            } else {
+                FwNotification.renderNotification('WARNING', 'Select a Repair Order to void.');
+            }
+        }
+        catch (ex) {
+            FwFunc.showError(ex);
+        }
     }
     //----------------------------------------------------------------------------------------------
     openForm = (mode: string) => {
@@ -460,77 +548,77 @@ class Repair {
 }
 
 //------------------------------------------------------------------------------------------------
-// Complete
-FwApplicationTree.clickEvents[Constants.Modules.Home.Repair.form.menuItems.Complete.id] = function (event) {
-    const $form = jQuery(this).closest('.fwform');
-    try {
-        RepairController.completeOrder($form);
-    } catch (ex) {
-        FwFunc.showError(ex);
-    }
-};
-// Estimate
-FwApplicationTree.clickEvents[Constants.Modules.Home.Repair.form.menuItems.Estimate.id] = function (event) {
-    const $form = jQuery(this).closest('.fwform');
-    try {
-        RepairController.estimateOrder($form);
-    } catch (ex) {
-        FwFunc.showError(ex);
-    }
-};
-// Void
-FwApplicationTree.clickEvents[Constants.Modules.Home.Repair.form.menuItems.Void.id] = function (event) {
-    const $form = jQuery(this).closest('.fwform');
-    try {
-        RepairController.voidOrder($form);
-    } catch (ex) {
-        FwFunc.showError(ex);
-    }
-};
-// Release
-FwApplicationTree.clickEvents[Constants.Modules.Home.Repair.form.menuItems.ReleaseItems.id] = function (event) {
-    const $form = jQuery(this).closest('.fwform');
-    try {
-        RepairController.releaseItems($form);
-    } catch (ex) {
-        FwFunc.showError(ex);
-    }
-};
-//---------------------------------------------------------------------------------
-// Void - Browse
-FwApplicationTree.clickEvents[Constants.Modules.Home.Repair.browse.menuItems.Void.id] = function (event) {
-    try {
-        const $browse  = jQuery(this).closest('.fwbrowse');
-        const RepairId = $browse.find('.selected [data-browsedatafield="RepairId"]').attr('data-originalvalue');
-        if (RepairId != null) {
-            const $confirmation = FwConfirmation.renderConfirmation('Void', 'Void this Repair Order?');
-            const $yes          = FwConfirmation.addButton($confirmation, 'Void', false);
-            const $no           = FwConfirmation.addButton($confirmation, 'Cancel');
+//// Complete
+//FwApplicationTree.clickEvents[Constants.Modules.Home.Repair.form.menuItems.Complete.id] = function (event) {
+//    const $form = jQuery(this).closest('.fwform');
+//    try {
+//        RepairController.completeOrder($form);
+//    } catch (ex) {
+//        FwFunc.showError(ex);
+//    }
+//};
+//// Estimate
+//FwApplicationTree.clickEvents[Constants.Modules.Home.Repair.form.menuItems.Estimate.id] = function (event) {
+//    const $form = jQuery(this).closest('.fwform');
+//    try {
+//        RepairController.estimateOrder($form);
+//    } catch (ex) {
+//        FwFunc.showError(ex);
+//    }
+//};
+//// Void
+//FwApplicationTree.clickEvents[Constants.Modules.Home.Repair.form.menuItems.Void.id] = function (event) {
+//    const $form = jQuery(this).closest('.fwform');
+//    try {
+//        RepairController.voidOrder($form);
+//    } catch (ex) {
+//        FwFunc.showError(ex);
+//    }
+//};
+//// Release
+//FwApplicationTree.clickEvents[Constants.Modules.Home.Repair.form.menuItems.ReleaseItems.id] = function (event) {
+//    const $form = jQuery(this).closest('.fwform');
+//    try {
+//        RepairController.releaseItems($form);
+//    } catch (ex) {
+//        FwFunc.showError(ex);
+//    }
+//};
+////---------------------------------------------------------------------------------
+//// Void - Browse
+//FwApplicationTree.clickEvents[Constants.Modules.Home.Repair.browse.menuItems.Void.id] = function (event) {
+//    try {
+//        const $browse  = jQuery(this).closest('.fwbrowse');
+//        const RepairId = $browse.find('.selected [data-browsedatafield="RepairId"]').attr('data-originalvalue');
+//        if (RepairId != null) {
+//            const $confirmation = FwConfirmation.renderConfirmation('Void', 'Void this Repair Order?');
+//            const $yes          = FwConfirmation.addButton($confirmation, 'Void', false);
+//            const $no           = FwConfirmation.addButton($confirmation, 'Cancel');
 
-            $yes.on('click', function makeVoid() {
-                FwFormField.disable($yes);
-                $yes.text('Voiding...');
-                $yes.off('click');
+//            $yes.on('click', function makeVoid() {
+//                FwFormField.disable($yes);
+//                $yes.text('Voiding...');
+//                $yes.off('click');
 
-                FwAppData.apiMethod(true, 'POST', `api/v1/repair/void/${RepairId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
-                    FwNotification.renderNotification('SUCCESS', 'Repair Order Successfully Voided');
-                    FwConfirmation.destroyConfirmation($confirmation);
-                    FwBrowse.databind($browse);
-                }, function onError(response) {
-                    $yes.on('click', makeVoid);
-                    $yes.text('Void');
-                    FwFunc.showError(response);
-                    FwFormField.enable($yes);
-                    FwBrowse.databind($browse);
-                }, $browse);
-            });
-        } else {
-            FwNotification.renderNotification('WARNING', 'Select a Repair Order to void.');
-        }
-    } catch (ex) {
-        FwFunc.showError(ex);
-    }
-};
+//                FwAppData.apiMethod(true, 'POST', `api/v1/repair/void/${RepairId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+//                    FwNotification.renderNotification('SUCCESS', 'Repair Order Successfully Voided');
+//                    FwConfirmation.destroyConfirmation($confirmation);
+//                    FwBrowse.databind($browse);
+//                }, function onError(response) {
+//                    $yes.on('click', makeVoid);
+//                    $yes.text('Void');
+//                    FwFunc.showError(response);
+//                    FwFormField.enable($yes);
+//                    FwBrowse.databind($browse);
+//                }, $browse);
+//            });
+//        } else {
+//            FwNotification.renderNotification('WARNING', 'Select a Repair Order to void.');
+//        }
+//    } catch (ex) {
+//        FwFunc.showError(ex);
+//    }
+//};
 //------------------------------------------------------------------------------------------------
 
 var RepairController = new Repair();

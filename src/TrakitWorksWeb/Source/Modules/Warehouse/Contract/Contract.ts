@@ -9,6 +9,41 @@ class Contract {
     ActiveViewFields: any = {};
     ActiveViewFieldsId: string;
     //----------------------------------------------------------------------------------------------
+    addBrowseMenuItems(options: IAddBrowseMenuOptions): void {
+        options.hasNew = false;
+        options.hasDelete = false;
+        FwMenu.addBrowseMenuButtons(options);
+
+        const location = JSON.parse(sessionStorage.getItem('location'));
+        const $allLocations = FwMenu.generateDropDownViewBtn('ALL Locations', false, "ALL");
+        const $userLocation = FwMenu.generateDropDownViewBtn(location.location, true, location.locationid);
+        if (typeof this.ActiveViewFields["LocationId"] == 'undefined') {
+            this.ActiveViewFields.LocationId = [location.locationid];
+        }
+        const viewLocation = [];
+        viewLocation.push($userLocation, $allLocations);
+        FwMenu.addViewBtn(options.$menu, 'Location', viewLocation, true, "LocationId");
+    }
+    //----------------------------------------------------------------------------------------------
+    addFormMenuItems(options: IAddFormMenuOptions): void {
+        FwMenu.addFormMenuButtons(options);
+
+        FwMenu.addSubMenuItem(options.$groupOptions, 'Print Order', '', (e: JQuery.ClickEvent) => {
+            try {
+                this.printContract(options.$form);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+        //FwMenu.addSubMenuItem(options.$groupOptions, 'Void Entire Contract', 'bwrnjBpQv1P', (e: JQuery.ClickEvent) => {
+        //    try {
+        //        this.voidContract(options.$form);
+        //    } catch (ex) {
+        //        FwFunc.showError(ex);
+        //    }
+        //});
+    }
+    //----------------------------------------------------------------------------------------------
     getModuleScreen = () => {
         let screen, $browse;
 
@@ -63,19 +98,6 @@ class Contract {
 
         return $browse;
     }
-    //----------------------------------------------------------------------------------------------
-    addBrowseMenuItems = ($menuObject) => {
-        const location = JSON.parse(sessionStorage.getItem('location'));
-        const $allLocations = FwMenu.generateDropDownViewBtn('ALL Locations', false, "ALL");
-        const $userLocation = FwMenu.generateDropDownViewBtn(location.location, true, location.locationid);
-        if (typeof this.ActiveViewFields["LocationId"] == 'undefined') {
-            this.ActiveViewFields.LocationId = [location.locationid];
-        }
-        const viewLocation = [];
-        viewLocation.push($userLocation, $allLocations);
-        FwMenu.addViewBtn($menuObject, 'Location', viewLocation, true, "LocationId");
-        return $menuObject;
-    };
     //----------------------------------------------------------------------------------------------
     openForm(mode: string, parentModuleInfo?: any) {
         let $form = FwModule.loadFormFromTemplate(this.Module);
@@ -205,30 +227,64 @@ class Contract {
         }
     }
     //----------------------------------------------------------------------------------------------
+    printContract($form: JQuery): void {
+        try {
+            const $report = OutContractReportController.openForm();
+            FwModule.openSubModuleTab($form, $report);
+
+            const module = (this.Module == 'Contract' ? 'Contract' : 'Manifest');
+            const contractId = $form.find(`div.fwformfield[data-datafield="${module}Id"] input`).val();
+            $report.find(`div.fwformfield[data-datafield="${module}Id"] input`).val(contractId);
+            const contractNumber = $form.find(`div.fwformfield[data-datafield="${module}Number"] input`).val();
+            $report.find(`div.fwformfield[data-datafield="${module}Id"] .fwformfield-text`).val(contractNumber);
+            jQuery('.tab.submodule.active').find('.caption').html(`Print ${module}`);
+
+            const printTab = jQuery('.tab.submodule.active');
+            printTab.find('.caption').html(`Print ${module}`);
+            const recordTitle = jQuery('.tabs .active[data-tabtype="FORM"] .caption').text();
+            printTab.attr('data-caption', `${module} ${recordTitle}`);
+        } catch (ex) {
+            FwFunc.showError(ex);
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    voidContract($form: JQuery): void {
+        try {
+            const request: any = {};
+            request.ContractId = FwFormField.getValueByDataField($form, 'ContractId');
+            FwAppData.apiMethod(true, 'POST', `${this.apiurl}/voidcontract`, request, FwServices.defaultTimeout, response => {
+                let $confirmation = FwConfirmation.renderConfirmation('Error', response.msg);
+                FwConfirmation.addButton($confirmation, 'OK', true);
+            }, ex => FwFunc.showError(ex), $form);
+        } catch (ex) {
+            FwFunc.showError(ex);
+        }
+    }
+    //----------------------------------------------------------------------------------------------
 }
-//----------------------------------------------------------------------------------------------
-FwApplicationTree.clickEvents[Constants.Modules.Home.Contract.form.menuItems.PrintOrder.id] = function (e: JQuery.ClickEvent) {
-    try {
-        let $form = jQuery(e.currentTarget).closest('.fwform');
-        let controller = window[$form.attr('data-controller')];
-        const module = (controller.Module == 'Contract' ? 'Contract' : 'Manifest');
-        let contractNumber = FwFormField.getValueByDataField($form, `${module}Number`);
-        let contractId = FwFormField.getValueByDataField($form, `${module}Id`);
-        let recordTitle = jQuery('.tabs .active[data-tabtype="FORM"] .caption').text();
-        let $report = OutContractReportController.openForm();
+////----------------------------------------------------------------------------------------------
+//FwApplicationTree.clickEvents[Constants.Modules.Home.Contract.form.menuItems.PrintOrder.id] = function (e: JQuery.ClickEvent) {
+//    try {
+//        let $form = jQuery(e.currentTarget).closest('.fwform');
+//        let controller = window[$form.attr('data-controller')];
+//        const module = (controller.Module == 'Contract' ? 'Contract' : 'Manifest');
+//        let contractNumber = FwFormField.getValueByDataField($form, `${module}Number`);
+//        let contractId = FwFormField.getValueByDataField($form, `${module}Id`);
+//        let recordTitle = jQuery('.tabs .active[data-tabtype="FORM"] .caption').text();
+//        let $report = OutContractReportController.openForm();
 
-        FwModule.openSubModuleTab($form, $report);
+//        FwModule.openSubModuleTab($form, $report);
 
-        FwFormField.setValueByDataField($report, `${module}Id`, contractId, contractNumber);
-        jQuery('.tab.submodule.active').find('.caption').html(`Print ${module}`);
+//        FwFormField.setValueByDataField($report, `${module}Id`, contractId, contractNumber);
+//        jQuery('.tab.submodule.active').find('.caption').html(`Print ${module}`);
 
-        let printTab = jQuery('.tab.submodule.active');
-        printTab.find('.caption').html(`Print ${module}`);
-        printTab.attr('data-caption', `${module} ${recordTitle}`);
-    }
-    catch (ex) {
-        FwFunc.showError(ex);
-    }
-};
+//        let printTab = jQuery('.tab.submodule.active');
+//        printTab.find('.caption').html(`Print ${module}`);
+//        printTab.attr('data-caption', `${module} ${recordTitle}`);
+//    }
+//    catch (ex) {
+//        FwFunc.showError(ex);
+//    }
+//};
 //----------------------------------------------------------------------------------------------
 var ContractController = new Contract();
