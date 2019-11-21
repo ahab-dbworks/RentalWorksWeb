@@ -4,9 +4,9 @@ routes.push({ pattern: /^module\/deal\/(\w+)\/(\S+)/, action: function (match: R
 class Deal {
     Module:  string = 'Deal';
     apiurl:  string = 'api/v1/deal';
-    caption: string = Constants.Modules.Home.Deal.caption;
-    nav:     string = Constants.Modules.Home.Deal.nav;
-    id:      string = Constants.Modules.Home.Deal.id;
+    caption: string = Constants.Modules.Agent.children.Deal.caption;
+    nav:     string = Constants.Modules.Agent.children.Deal.nav;
+    id:      string = Constants.Modules.Agent.children.Deal.id;
     //----------------------------------------------------------------------------------------------
     getModuleScreen(filter?: { datafield: string, search: string }) {
         var self          = this;

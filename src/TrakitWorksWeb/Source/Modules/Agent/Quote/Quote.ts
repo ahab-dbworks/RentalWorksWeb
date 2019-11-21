@@ -4,9 +4,9 @@ routes.push({ pattern: /^module\/quote\/(\S+)\/(\S+)/, action: function (match: 
 class Quote {
     Module:             string = 'Quote';
     apiurl:             string = 'api/v1/quote';
-    caption:            string = Constants.Modules.Home.Quote.caption;
-	nav:                string = Constants.Modules.Home.Quote.nav;
-	id:                 string = Constants.Modules.Home.Quote.id;
+    caption:            string = Constants.Modules.Agent.children.Quote.caption;
+	nav:                string = Constants.Modules.Agent.children.Quote.nav;
+	id:                 string = Constants.Modules.Agent.children.Quote.id;
     ActiveViewFields:   any    = {};
     ActiveViewFieldsId: string;
     DefaultOrderType:   string;
@@ -606,14 +606,14 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.Quote.form.menuItems.Cancel
                     FwAppData.apiMethod(true, 'POST', `api/v1/quote/uncancel/${id}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
                         FwNotification.renderNotification('SUCCESS', 'Request Successfully Retrieved');
                         FwConfirmation.destroyConfirmation($confirmation);
-                        FwModule.refreshForm($form, self);
+                        FwModule.refreshForm($form);
                     }, function onError(response) {
                         $yes.on('click', uncancelOrder);
                         $yes.text('Cancel');
                         FwFunc.showError(response);
                         FwFormField.enable($confirmation.find('.fwformfield'));
                         FwFormField.enable($yes);
-                        FwModule.refreshForm($form, self);
+                        FwModule.refreshForm($form);
                     }, $form);
                 });
             } else {
@@ -630,14 +630,14 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.Quote.form.menuItems.Cancel
                     FwAppData.apiMethod(true, 'POST', `api/v1/quote/cancel/${id}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
                         FwNotification.renderNotification('SUCCESS', 'Request Successfully Cancelled');
                         FwConfirmation.destroyConfirmation($confirmation);
-                        FwModule.refreshForm($form, self);
+                        FwModule.refreshForm($form);
                     }, function onError(response) {
                         $yes.on('click', cancelOrder);
                         $yes.text('Cancel');
                         FwFunc.showError(response);
                         FwFormField.enable($confirmation.find('.fwformfield'));
                         FwFormField.enable($yes);
-                        FwModule.refreshForm($form, self);
+                        FwModule.refreshForm($form);
                     }, $form);
                 });
             }

@@ -14,125 +14,291 @@
             caption: 'Administrator',
             nodetype: 'Category',
             children: {
-                Control: { id: '044829ED-579F-4AAD-B464-B4823FDB5A35', caption: 'Control', nav: 'module/control' },
-                CustomField: { id: '99D56DA6-5779-44A5-8BA6-E033F343C6D0', caption: 'Custom Fields', nav: 'module/customfield' },
-                CustomForm: { id: '2F07BFC4-A120-4C97-9D96-F16906CD1B88', caption: 'Custom Forms', nav: 'module/customform' },
-                DuplicateRule: { id: '8A1EA4A2-6019-4B9B-8324-6143BD7916A1', caption: 'Duplicate Rules', nav: 'module/duplicaterule' },
-                EmailHistory: { id: '34092164-500A-46BB-8F09-86BBE0FEA082', caption: 'Email History', nav: 'module/emailhistory' },
-                Group: { id: '849D2706-72EC-48C0-B41C-0890297BF24B', caption: 'Group', nav: 'module/group' },
-                Hotfix: { id: 'B7336B5E-4BA4-4A99-97D6-60385045238B', caption: 'Hotfix', nav: 'module/hotfix' },
-                Reports: { id: 'CEAFF154-60DF-4491-96D4-4D4685665E60', caption: 'Reports', nav: 'module/reports' },
-                Settings: { id: 'AD8656B4-F161-4568-9AFF-64C81A3680E6', caption: 'Settings', nav: 'module/settings' },
-                User: { id: 'CE9E187C-288F-44AB-A54A-27A8CFF6FF53', caption: 'User', nav: 'module/user' }
+                Alert:         { id: 'gFfpaR5mDAzX',  caption: 'Alert',          nav: 'module/alert', nodetype: 'Module' },
+                CustomField:   { id: 'cZHPJQyBxolS',  caption: 'Custom Fields',   nav: 'module/customfield', nodetype: 'Module' },
+                CustomForm:    { id: '11txpzVKVGi2',  caption: 'Custom Forms',    nav: 'module/customform', nodetype: 'Module' },
+                CustomReportLayout: { id: 'EtrF5NHJ7dRg6', caption: 'Custom Report Layouts', nav: 'module/customreportlayout' },
+                DuplicateRule: { id: 'v7oBspDLjli8',  caption: 'Duplicate Rules', nav: 'module/duplicaterule', nodetype: 'Module' },
+                EmailHistory:  { id: '3XHEm3Q8WSD8z', caption: 'Email History',  nav: 'module/emailhistory', nodetype: 'Module' },
+                Group:         { id: '0vP4rXxgGL1M',  caption: 'Group',          nav: 'module/group', nodetype: 'Module' },
+                Hotfix:        { id: 'yeqaGIUYfYNX',  caption: 'Hotfix',         nav: 'module/hotfix', nodetype: 'Module' },
+                Reports:       { id: '3C5C7603-9E7B-47AB-A722-B29CA09B3B8C', caption: 'Reports', nav: 'module/reports', nodetype: 'Module' },
+                Settings:      { id: '57150967-486A-42DE-978D-A2B0F843341A', caption: 'Settings', nav: 'module/settings', nodetype: 'Module' },
+                User:          { id: 'r1fKvn1KaFd0u', caption: 'User',           nav: 'module/user', nodetype: 'Module' }
+            }
+        },
+        Agent: {
+            id: 'Agent',
+            caption: 'Agent',
+            nodetype: 'Category',
+            children: {
+                Contact: { id: '9ykTwUXTet46', caption: 'Contact', nav: 'module/contact' },
+                Customer: { id: 'InSfo1f2lbFV', caption: 'Customer', nav: 'module/customer' },
+                Deal: { id: '8WdRib388fFF', caption: 'Job', nav: 'module/deal' },
+                Order: { id: 'U8Zlahz3ke9i', caption: 'Order', nav: 'module/order',
+                    browse: {
+                        menuItems: {
+                            CancelUncancel: { id: '{CCD05127-481F-4352-A706-FEC6575DBEAF}' }
+                        }
+                    },
+                    form: {
+                        menuItems: {
+                            Search: { id: '{0C8F88D0-F945-4B95-9E91-8704B2D04C30}' },
+                            CopyOrder: { id: '{FFD9C063-FCF6-4A14-846D-4BD2887CF523}' },
+                            PrintOrder: { id: '{B2A04C34-45BF-440E-B588-DD070CD65E59}' },
+                            CreatePickList: { id: '{223FC05F-ABE5-4427-A459-CC66336400EC}' },
+                            CancelUncancel: { id: '{127B392C-EF2C-4684-AE59-5A8B0ED6B518}' },
+                            OrderStatus: { id: '{ECFE0CE4-3424-44EB-B213-29409CE3D595}' },
+                            CheckOut: { id: '{3C9AF5C2-F7FB-44C8-B3B9-FF09F40CC58F}' },
+                            CheckIn: { id: '{790B9193-AAFC-4EEE-9D5E-34D1F8DDD603}' }
+                        }
+                    }
+                },
+                PurchaseOrder: { id: '9a0xOMvBM7Uh9', caption: 'Purchase Order', nav: 'module/purchaseorder',
+                    form: {
+                        menuItems: {
+                            Search: { id: '{932A7318-3B62-4AA5-A0C5-904BB4BB9F17}' },
+                            ReceiveFromVendor: { id: '{B719A865-4B0A-4C60-A1D9-3614EC6D0515}' },
+                            ReturnToVendor: { id: '{6D3E64B9-6B08-47B0-8F51-CFAE12651630}' },
+                            AssignBarCodes: { id: '{D7722622-BBAE-4FE7-9DAD-1E2A4419CC3D}' }
+                        }
+                    }    
+                },
+                Quote: { id: 'jFkSBEur1dluU', caption: 'Request', nav: 'module/quote',
+                    browse: {
+                        menuItems: {
+                            CancelUncancel: { id: '{86412C14-9351-4C03-8D13-5338AB0EAEC8}' }
+                        }
+                    },
+                    form: {
+                        menuItems: {
+                            CopyQuote: { id: '{85B7FD07-74CD-4320-AFB0-9718EE5C8CDD}' },
+                            Search: { id: '{66EDC5EA-DC03-4A5B-82F2-A41D2B8A34E4}' },
+                            PrintQuote: { id: '{CC3F3DB4-21A4-4E70-8992-30886B2D1515}' },
+                            CreateOrder: { id: '{F9B8EAC3-07BD-4286-B4F8-CCBE53710B1F}' },
+                            //NewVersion: { id: '{18ECF5BB-18E0-45F5-AB9A-98A377E38D1F}' },
+                            CancelUncancel: { id: '{8F3E3263-B5AE-4CB4-8CBB-E9F680AA8C11}' }
+                        }
+                    }    
+                },
+                Vendor: { id: 'cwytGLEcUzJdn', caption: 'Vendor', nav: 'module/vendor' }
+            }
+        },
+        Inventory: {
+            id: 'Inventory',
+            caption: 'Inventory',
+            nodetype: 'Category',
+            children: {
+                Asset: { id: 'kSugPLvkuNsH', caption: 'Asset', nav: 'module/asset' },
+                InventoryItem: { id: '3ICuf6pSeBh6G', caption: 'Inventory Item', nav: 'module/inventoryitem' },
+                Repair: { id: 't4gfyzLkSZhyc', caption: 'Repair Order', nav: 'module/repair',
+                    browse: {
+                        menuItems: {
+                            Void: { id: '{4F0A3AF7-5CDF-4CCB-B7DF-8DFAF14AA516}' }
+                        }
+                    },
+                    form: {
+                        menuItems: {
+                            Estimate: { id: '{8733EA9A-790E-4DF1-BFF2-13302A7DCD26}' },
+                            Complete: { id: '{136159CD-A50A-4BCA-AA28-4AB3A1BDC1CB}' },
+                            Void: { id: '{B048566D-9A69-488E-B7AA-BF243821E4B0}' },
+                            ReleaseItems: { id: '{7A6B5CFD-1DFA-44BB-8B60-3FEE1E347654}' }
+                        }
+                    }
+                }
+            }
+        },
+        Warehouse: {
+            id: 'Warehouse',
+            caption: 'Warehouse',
+            nodetype: 'Category',
+            children: {
+                AssignBarCodes: { id: '7UU96BApz2Va', caption: 'Assign Bar Codes', nav: 'module/assignbarcodes' },
+                CheckIn: { id: 'krnJWTUs4n5U', caption: 'Check-In', nav: 'module/checkin' },
+                Contract: { id: 'Z8MlDQp7xOqu', caption: 'Contract', nav: 'module/contract', 
+                    form: {
+                        menuItems: { 
+                            PrintOrder: { id: '{8E3727B5-8E75-4648-AE52-FB3BD7729F02}' } 
+                        } 
+                    }
+                },
+                Exchange: { id: 'IQS4rxzIVFl', caption: 'Exchange', nav: 'module/exchange' },
+                OrderStatus: { id: 'C8Ycf0jvM2U9', caption: 'Order Status', nav: 'module/orderstatus' },
+                PickList: { id: 'bggVQOivrIgi', caption: 'Pick List', nav: 'module/picklist',
+                    browse: {
+                        menuItems: {
+                            PrintPickList: { id: '{E6EA3633-4CB8-4F5F-8EB4-C29D41C1B394}' }
+                        }
+                    },
+                    form: {
+                        menuItems: {
+                            PrintPickList: { id: '{E4C83683-8B4A-46F4-8A47-E11416AB10E7}' },
+                            CancelPickList: { id: '{DDC5BB9F-D214-458C-9559-67F2900DD011}' }
+                        }
+                    }
+                },
+                ReceiveFromVendor: { id: 'MtgBxCKWVl7m', caption: 'Receive From Vendor', nav: 'module/receivefromvendor' },
+                ReturnToVendor: { id: 'cCxoTvTCDTcm', caption: 'Return To Vendor', nav: 'module/returntovendor' },
+                StagingCheckout: { id: 'H0sf3MFhL0VK', caption: 'Staging / Check-Out', nav: 'module/checkout' }
             }
         },
         Home: {
-            Asset: { id: 'E1366299-0008-429C-93CC-B8ED8969B180', caption: 'Asset', nav: 'module/asset' },
-            AssignBarCodes: { id: '81B0D93C-9765-4340-8B40-63040E0343B8', caption: 'Assign Bar Codes', nav: 'module/assignbarcodes' },
-            CheckIn: { id: '3D1EB9C4-95E2-440C-A3EF-10927C4BDC65', caption: 'Check-In', nav: 'module/checkin' },
-            Contact: { id: '9DC167B7-3313-4783-8A97-03C55B6AD5F2', caption: 'Contact', nav: 'module/contact' },
-            Contract: { id: 'F6D42CC1-FAC6-49A9-9BF2-F370FE408F7B', caption: 'Contract', nav: 'module/contract', 
-                form: {
-                    menuItems: { 
-                        PrintOrder: { id: '{8E3727B5-8E75-4648-AE52-FB3BD7729F02}' } 
-                    } 
-                }
-            },
-            CreatePickList: { id: '1407A536-B5C9-4363-8B54-A56DB8CE902D', caption: 'Create Pick List', nav: 'module/createpicklist' },
-            Customer: { id: '8237418B-923D-4044-951F-98938C1EC3DE', caption: 'Customer', nav: 'module/customer' },
-            Deal: { id: '393DE600-2911-4753-85FD-ABBC4F0B1407', caption: 'Job', nav: 'module/deal' },
-            Exchange: { id: 'F9012ABC-B97E-433B-A604-F1DADFD6D7B7', caption: 'Exchange', nav: 'module/exchange' },
-            ExpendableItem: { id: '4115FFCE-69BB-4D2F-BCDC-3924AE045AA8', caption: 'Expendable Item', nav: 'module/expendableitem' },
-            Order: { id: '68B3710E-FE07-4461-9EFD-04E0DBDAF5EA', caption: 'Order', nav: 'module/order',
-                browse: {
-                    menuItems: {
-                        CancelUncancel: { id: '{CCD05127-481F-4352-A706-FEC6575DBEAF}' }
-                    }
-                },
-                form: {
-                    menuItems: {
-                        Search: { id: '{0C8F88D0-F945-4B95-9E91-8704B2D04C30}' },
-                        CopyOrder: { id: '{FFD9C063-FCF6-4A14-846D-4BD2887CF523}' },
-                        PrintOrder: { id: '{B2A04C34-45BF-440E-B588-DD070CD65E59}' },
-                        CreatePickList: { id: '{223FC05F-ABE5-4427-A459-CC66336400EC}' },
-                        CancelUncancel: { id: '{127B392C-EF2C-4684-AE59-5A8B0ED6B518}' },
-                        OrderStatus: { id: '{ECFE0CE4-3424-44EB-B213-29409CE3D595}' },
-                        CheckOut: { id: '{3C9AF5C2-F7FB-44C8-B3B9-FF09F40CC58F}' },
-                        CheckIn: { id: '{790B9193-AAFC-4EEE-9D5E-34D1F8DDD603}' }
-                    }
-                }
-            },
-            OrderStatus: { id: '7BB8BB8C-8041-41F6-A2FA-E9FA107FF5ED', caption: 'Order Status', nav: 'module/orderstatus' },
-            PickList: { id: '744B371E-5478-42F9-9852-E143A1EC5DDA', caption: 'Pick List', nav: 'module/picklist',
-                browse: {
-                    menuItems: {
-                        PrintPickList: { id: '{E6EA3633-4CB8-4F5F-8EB4-C29D41C1B394}' }
-                    }
-                },
-                form: {
-                    menuItems: {
-                        PrintPickList: { id: '{E4C83683-8B4A-46F4-8A47-E11416AB10E7}' },
-                        CancelPickList: { id: '{DDC5BB9F-D214-458C-9559-67F2900DD011}' }
-                    }
-                }
-            },
-            PurchaseOrder: { id: 'DA900327-CEAC-4CB0-9911-CAA2C67059C2', caption: 'Purchase Order', nav: 'module/purchaseorder',
-                form: {
-                    menuItems: {
-                        Search: { id: '{932A7318-3B62-4AA5-A0C5-904BB4BB9F17}' },
-                        ReceiveFromVendor: { id: '{B719A865-4B0A-4C60-A1D9-3614EC6D0515}' },
-                        ReturnToVendor: { id: '{6D3E64B9-6B08-47B0-8F51-CFAE12651630}' },
-                        AssignBarCodes: { id: '{D7722622-BBAE-4FE7-9DAD-1E2A4419CC3D}' }
-                    }
-                }    
-            },
-            Quote: { id: '9213AF53-6829-4276-9DF9-9DAA704C2CCF', caption: 'Request', nav: 'module/quote',
-                browse: {
-                    menuItems: {
-                        CancelUncancel: { id: '{86412C14-9351-4C03-8D13-5338AB0EAEC8}' }
-                    }
-                },
-                form: {
-                    menuItems: {
-                        CopyQuote: { id: '{85B7FD07-74CD-4320-AFB0-9718EE5C8CDD}' },
-                        Search: { id: '{66EDC5EA-DC03-4A5B-82F2-A41D2B8A34E4}' },
-                        PrintQuote: { id: '{CC3F3DB4-21A4-4E70-8992-30886B2D1515}' },
-                        CreateOrder: { id: '{F9B8EAC3-07BD-4286-B4F8-CCBE53710B1F}' },
-                        //NewVersion: { id: '{18ECF5BB-18E0-45F5-AB9A-98A377E38D1F}' },
-                        CancelUncancel: { id: '{8F3E3263-B5AE-4CB4-8CBB-E9F680AA8C11}' }
-                    }
-                }    
-            },
-            ReceiveFromVendor: { id: 'EC4052D5-664E-4C34-8802-78E086920628', caption: 'Receive From Vendor', nav: 'module/receivefromvendor' },
-            InventoryItem: { id: '803A2616-4DB6-4BAC-8845-ECAD34C369A8', caption: 'Inventory Item', nav: 'module/inventoryitem' },
-            Repair: { id: 'D567EC42-E74C-47AB-9CA8-764DC0F02D3B', caption: 'Repair Order', nav: 'module/repair',
-                browse: {
-                    menuItems: {
-                        Void: { id: '{4F0A3AF7-5CDF-4CCB-B7DF-8DFAF14AA516}' }
-                    }
-                },
-                form: {
-                    menuItems: {
-                        Estimate: { id: '{8733EA9A-790E-4DF1-BFF2-13302A7DCD26}' },
-                        Complete: { id: '{136159CD-A50A-4BCA-AA28-4AB3A1BDC1CB}' },
-                        Void: { id: '{B048566D-9A69-488E-B7AA-BF243821E4B0}' },
-                        ReleaseItems: { id: '{7A6B5CFD-1DFA-44BB-8B60-3FEE1E347654}' }
-                    }
-                }
-            },
-            ReturnToVendor: { id: '79EAD1AF-3206-42F2-A62B-DA1C44092A7F', caption: 'Return To Vendor', nav: 'module/returntovendor' },
-            StagingCheckout: { id: 'AD92E203-C893-4EB9-8CA7-F240DA855827', caption: 'Staging / Check-Out', nav: 'module/checkout' },
-            SubWorksheet: { id: '2227B6C3-587D-48B1-98B6-B9125E0E4D9D', caption: 'Sub Worksheet', nav: '' },
-            SuspendedSession: { id: '', caption: 'Suspended Session', nav: 'module/suspendedsession' },
-            Vendor: { id: '92E6B1BE-C9E1-46BD-91A0-DF257A5F909A', caption: 'Vendor', nav: 'module/vendor' }
+            id: 'Home',
+            caption: 'Home',
+            nodetype: 'Category',
+            children: {
+                CreatePickList: { id: '1407A536-B5C9-4363-8B54-A56DB8CE902D', caption: 'Create Pick List', nav: 'module/createpicklist' },
+                ExpendableItem: { id: 'ShjGAzM2Pq3kk', caption: 'Expendable Item', nav: 'module/expendableitem' },
+                SubWorksheet: { id: '2227B6C3-587D-48B1-98B6-B9125E0E4D9D', caption: 'Sub Worksheet', nav: '' },
+                SuspendedSession: { id: '5FBE7FF8-3770-48C5-855C-4320C961D95A', caption: 'Suspended Session', nav: 'module/suspendedsession' }
+            }
+        },
+        Reports: {
+            id: 'Reports',
+            caption: 'Reports',
+            nodetype: 'Category',
+            children: {
+
+            }
+
         },
         Settings: {
-            Warehouse: { id: '8DD21206-86D4-4C69-9094-A8CF0A5C93FF', caption: 'Warehouse', nav: 'module/warehouse' }
+            id: 'Settings',
+            caption: 'Settings',
+            nodetype: 'Category',
+            children: {
+                AddressSettings: {
+                    caption: 'Address',
+                    id: 'Settings.AddressSettings',
+                    nodetype: 'Category',
+                    children: {
+                        Country: { id: 'FV8c2ibthqUF', caption: 'Country', nav: 'settings/addresssettings/country', nodetype: 'Module', description: 'List Countries to relate to your Customers, Deals, and Vendors' },
+                        State: { id: 'JW3yCGldGTAqC', caption: 'State / Province', nav: 'settings/addresssettings/state', nodetype: 'Module', description: 'List States to relate to your Customers, Deals, and Vendors' }
+                    }
+                },
+                CompanyDepartmentSettings: {
+                    caption: 'Company Department',
+                    id: 'Settings.CompanyDepartmentSettings',
+                    nodetype: 'Category',
+                    children: {
+                        Department: { id: 'kuYqT9d6TDEg', caption: 'Company Department', nav: 'settings/companydepartmentsettings/companydepartment', nodetype: 'Module', description: '' }
+                    }
+                },
+                ContactSettings: {
+                    caption: 'Contact',
+                    id: 'Settings.ContactSettings',
+                    nodetype: 'Category',
+                    children: {
+                        ContactTitle: { id: 'PClZ3w0VUnPt', caption: 'Contact Title', nav: 'settings/contactsettings/contacttitle', description: '' }
+                    }
+                },
+                CurrencySettings: {
+                    caption: 'Currency',
+                    id: 'Settings.CurrencySettings',
+                    children: {
+                        Currency: { id: 'xpyZJmmju0uB', caption: 'Currency', nav: 'settings/currencysettings/currency', nodetype: 'Module', description: '' }
+                    }
+                },
+                DealSettings: {
+                    caption: 'Deal',
+                    id: 'SetSettings.DealSettings',
+                    nodetype: 'Category',
+                    children: {
+                        DealClassification: { id: 'uRRVPMAFf61J', caption: 'Deal Classification', nav: 'settings/currencysettings/dealclassification', nodetype: 'Module', description: '' },
+                        DealStatus: { id: 'CHOTGdFVlnFK', caption: 'Deal Status', nav: 'settings/currencysettings/dealstatus', nodetype: 'Module', description: '' },
+                        DealType: { id: 'jZCS1X5BzeyS', caption: 'DealType', nav: 'settings/currencysettings/dealtype', nodetype: 'Module', description: '' }
+                    }
+                },
+                InventorySettings: {
+                    caption: 'Inventory',
+                    id: 'Settings.InventorySettings',
+                    nodetype: 'Category',
+                    children: {
+                        Attribute:                 { id: 'Ok4Yh4kdsxk'  , caption: 'Inventory Attribute',         nav: 'module/inventorysettings/attribute', nodetype: 'Module', description: '' },
+                        InventoryCondition:        { id: 'JL0j4lk1KfBY' , caption: 'Inventory Condition',         nav: 'module/inventorysettings/inventorycondition', nodetype: 'Module', description: '' },
+                        InventoryRank:             { id: '3YXhU6x3GseH' , caption: 'Inventory Rank',              nav: 'module/inventorysettings/inventoryrank', description: '' },
+                        InventoryType:             { id: 'aFLFxVNukHJt' , caption: 'Inventory Type',              nav: 'module/inventorysettings/inventorytype', nodetype: 'Module', description: '' },
+                        RentalCategory:            { id: 'whxFImy6IZG2p', caption: 'Rental Category',             nav: 'module/inventorysettings/rentalcategory', nodetype: 'Module', description: '' },
+                        Unit:                      { id: 'K87j9eupQwohK', caption: 'Unit of Measure',             nav: 'module/inventorysettings/unit', nodetype: 'Module', description: '' }
+                    }
+                },
+                OfficeLocationSettings: {
+                    caption: 'Office Location',
+                    id: 'Settings.OfficeLocationSettings',
+                    nodetype: 'Category',
+                    children: {
+                        OfficeLocation: { id: 'yZhqRrXdTEvN', caption: 'Office Location', nav: 'settings/officeloactionsettings/officelocation', nodetype: 'Module', description: '' }
+                    }
+                },
+                OrderSettings: {
+                    caption: 'Order',
+                    id: 'Settings.OrderSettings',
+                    nodetype: 'Category',
+                    children: {
+                        OrderType:      { id: 'yFStSrvTlwWY', caption: 'Order Type',        nav: 'settings/ordersettings/ordertype', nodetype: 'Module', description: '' }
+                    }
+                },
+                POSettings: {
+                    caption: 'PO',
+                    id: 'Settings.POSettings',
+                    nodetype: 'Category',
+                    children: {
+                        POClassification: { id: 'skhmIJOt0Fi0', caption: 'PO Classification', nav: 'settings/posettings/poclassification', nodetype: 'Module', description: '' },
+                        POType: { id: 'Gyx3ZcMtuH1fi', caption: 'PO Type', nav: 'settings/posettings/potype', nodetype: 'Module', description: '' }
+                    }
+                },
+                RepairSettings: {
+                    caption: 'Repair',
+                    id:      'Settings.RepairSettings',
+                    nodetype: 'Category',
+                    children: {
+                        RepairItemStatus: { id: 'iuo4dnWX5KCP8', caption: 'Repair Item Status', nav: 'settings/repairsettings/repairitemstatus', nodetype: 'Module', description: '' }
+                    }
+                },
+                ShipViaSettings: {
+                    caption: 'Ship Via',
+                    id: 'Settings.ShipViaSettings',
+                    nodetype: 'Category',
+                    children: {
+                        ShipVia: { id: 'D1wheIde10lAO', caption: 'Ship Via', nav: 'settings/shipviasettings/shipvia', nodetype: 'Module', description: '' }
+                    }
+                },
+                UserSettings: {
+                    caption: 'User',
+                    id: 'Settings.UserSettings',
+                    nodetype: 'Category',
+                    children: {
+                        UserStatus: { id: 'YjSbfCF9CEvjz', caption: 'User Status',  nav: 'settings/usersettings/userstatus', nodetype: 'Module', description: '' }
+                    }
+                },
+                VendorSettings: {
+                    caption: 'Vendor',
+                    id: 'Settings.VendorSettings',
+                    nodetype: 'Category',
+                    children: {
+                        OrganizationType:       { id: 'ENv2O3MbwKrI',   caption: 'Organization Type',           nav: 'settings/vendorsettings/organizationtype', nodetype: 'Module', description: '' },
+                        VendorClass:            { id: 'EH6T4hlMVhYxq',  caption: 'Vendor Class',                nav: 'settings/vendorsettings/class', nodetype: 'Module', description: '' }
+                    }
+                },
+                WarehouseSettings: {
+                    id: 'WarehouseSettings',
+                    caption: 'Warehouse Settings',
+                    nodetype: 'Category',
+                    children: {
+                        Warehouse: { id: 'ICJcR2gOu04OB', caption: 'Warehouse', nav: 'module/warehouse' }
+                    }
+                }
+            }
         },
         Utilities: {
-            Dashboard: { id: 'E01F0032-CFAA-4556-9F24-E4C28C5B50A1', caption: 'Dashboard', nav: 'module/dashboard' },
-            DashboardSettings: { id: 'AD262A8E-A487-4786-895D-6E3DA1DB13BD', caption: 'Dashboard Settings', nav: 'module/dashboardsettings' },
-            QuikActivityCalendar: { id: 'FB114A8F-1675-4C7C-BC9C-A4C005A405D7', caption: 'QuikActivity Calendar', nav: 'module/quikactivitycalendar' }
+            id: 'Utilities',
+            caption: 'Utilities',
+            nodetype: 'Category',
+            children: {
+                Dashboard: { id: 'DF8111F5-F022-40B4-BAE6-23B2C6CF3705', caption: 'Dashboard', nav: 'module/dashboard' },
+                DashboardSettings: { id: 'lXpomto7a29v', caption: 'Dashboard Settings', nav: 'module/dashboardsettings' },
+                QuikActivityCalendar: { id: 'yhYOLhLE92IT', caption: 'QuikActivity Calendar', nav: 'module/quikactivitycalendar' }
+            }
         }
     },
     Grids: {

@@ -5,9 +5,9 @@ routes.push({ pattern: /^module\/repair\/(\w+)\/(\S+)/, action: function (match:
 class Repair {
     Module:             string = 'Repair';
     apiurl:             string = 'api/v1/repair';
-    caption:            string = Constants.Modules.Home.Repair.caption;
-    nav:                string = Constants.Modules.Home.Repair.nav;
-    id:                 string = Constants.Modules.Home.Repair.id;
+    caption:            string = Constants.Modules.Inventory.children.Repair.caption;
+    nav:                string = Constants.Modules.Inventory.children.Repair.nav;
+    id:                 string = Constants.Modules.Inventory.children.Repair.id;
     ActiveViewFields:   any    = {};
     ActiveViewFieldsId: string;
     //----------------------------------------------------------------------------------------------
@@ -263,13 +263,13 @@ class Repair {
                 FwAppData.apiMethod(true, 'POST', `api/v1/repair/estimate/${RepairId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
                     FwNotification.renderNotification('SUCCESS', 'Estimate Successfully Cancelled');
                     FwConfirmation.destroyConfirmation($confirmation);
-                    FwModule.refreshForm($form, RepairController);
+                    FwModule.refreshForm($form);
                 }, function onError(response) {
                     $yes.on('click', cancelEstimate);
                     $yes.text('Cancel Estimate');
                     FwFunc.showError(response);
                     FwFormField.enable($yes);
-                    FwModule.refreshForm($form, RepairController);
+                    FwModule.refreshForm($form);
                 }, $form);
             });
         } else {
@@ -287,13 +287,13 @@ class Repair {
                 FwAppData.apiMethod(true, 'POST', `api/v1/repair/estimate/${RepairId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
                     FwNotification.renderNotification('SUCCESS', 'Repair Order Successfully Estimated');
                     FwConfirmation.destroyConfirmation($confirmation);
-                    FwModule.refreshForm($form, RepairController);
+                    FwModule.refreshForm($form);
                 }, function onError(response) {
                     $yes.on('click', makeEstimate);
                     $yes.text('Estimate');
                     FwFunc.showError(response);
                     FwFormField.enable($yes);
-                    FwModule.refreshForm($form, RepairController);
+                    FwModule.refreshForm($form);
                 }, $form);
             });
         }
@@ -326,14 +326,14 @@ class Repair {
             FwAppData.apiMethod(true, 'POST', `api/v1/repair/complete/${RepairId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
                 FwNotification.renderNotification('SUCCESS', 'Repair Order Successfully Completed');
                 FwConfirmation.destroyConfirmation($confirmation);
-                FwModule.refreshForm($form, RepairController);
+                FwModule.refreshForm($form);
                 $form.data('hasCompleted', true);
             }, function onError(response) {
                 $yes.on('click', makeComplete);
                 $yes.text('Complete');
                 FwFunc.showError(response);
                 FwFormField.enable($yes);
-                FwModule.refreshForm($form, RepairController);
+                FwModule.refreshForm($form);
                 $form.data('hasCompleted', true);
             }, $form);
         };
@@ -353,13 +353,13 @@ class Repair {
             FwAppData.apiMethod(true, 'POST', `api/v1/repair/void/${RepairId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
                 FwNotification.renderNotification('SUCCESS', 'Repair Order Successfully Voided');
                 FwConfirmation.destroyConfirmation($confirmation);
-                FwModule.refreshForm($form, RepairController);
+                FwModule.refreshForm($form);
             }, function onError(response) {
                 $yes.on('click', makeVoid);
                 $yes.text('Void');
                 FwFunc.showError(response);
                 FwFormField.enable($yes);
-                FwModule.refreshForm($form, RepairController);
+                FwModule.refreshForm($form);
             }, $form);
         });
     };
@@ -414,7 +414,7 @@ class Repair {
                     FwAppData.apiMethod(true, 'POST', `api/v1/repair/releaseitems/${RepairId}/${releasedQuantityConfirmation}`, null, FwServices.defaultTimeout, function onSuccess(response) {
                         FwNotification.renderNotification('SUCCESS', 'Items Successfully Released');
                         FwConfirmation.destroyConfirmation($confirmation);
-                        FwModule.refreshForm($form, RepairController);
+                        FwModule.refreshForm($form);
                     }, function onError(response) {
                         $yes.on('click', release);
                         $yes.text('Release');

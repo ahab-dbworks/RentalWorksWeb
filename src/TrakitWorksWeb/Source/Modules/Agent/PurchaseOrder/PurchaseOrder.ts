@@ -4,9 +4,9 @@ routes.push({ pattern: /^module\/purchaseorder\/(\w+)\/(\S+)/, action: function 
 class PurchaseOrder {
     Module:                  string = 'PurchaseOrder';
     apiurl:                  string = 'api/v1/purchaseorder';
-    caption: string = Constants.Modules.Home.PurchaseOrder.caption;
-	nav: string = Constants.Modules.Home.PurchaseOrder.nav;
-	id: string = Constants.Modules.Home.PurchaseOrder.id;
+    caption: string = Constants.Modules.Agent.children.PurchaseOrder.caption;
+	nav: string = Constants.Modules.Agent.children.PurchaseOrder.nav;
+	id: string = Constants.Modules.Agent.children.PurchaseOrder.id;
     DefaultPurchasePoType:   string;
     DefaultPurchasePoTypeId: string;
     ActiveViewFields:        any    = {};

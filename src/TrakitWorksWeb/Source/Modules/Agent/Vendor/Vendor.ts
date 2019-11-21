@@ -3,9 +3,9 @@
 class Vendor {
     Module:  string = 'Vendor';
     apiurl:  string = 'api/v1/vendor';
-    caption: string = Constants.Modules.Home.Vendor.caption;
-	nav: string = Constants.Modules.Home.Vendor.nav;
-	id: string = Constants.Modules.Home.Vendor.id;
+    caption: string = Constants.Modules.Agent.children.Vendor.caption;
+	nav: string = Constants.Modules.Agent.children.Vendor.nav;
+	id: string = Constants.Modules.Agent.children.Vendor.id;
     //---------------------------------------------------------------------------------
     getModuleScreen() {
         var self:    Vendor = this;

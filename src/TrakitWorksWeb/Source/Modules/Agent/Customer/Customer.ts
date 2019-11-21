@@ -4,9 +4,9 @@ routes.push({ pattern: /^module\/customer\/(\S+)\/(\S+)/, action: function (matc
 class Customer {
     Module: string = 'Customer';
     apiurl: string = 'api/v1/customer';
-    caption: string = Constants.Modules.Home.Customer.caption;
-	nav: string = Constants.Modules.Home.Customer.nav;
-	id: string = Constants.Modules.Home.Customer.id;
+    caption: string = Constants.Modules.Agent.children.Customer.caption;
+	nav: string = Constants.Modules.Agent.children.Customer.nav;
+	id: string = Constants.Modules.Agent.children.Customer.id;
     thisModule: Customer;
     //----------------------------------------------------------------------------------------------
     getModuleScreen(filter?: { datafield: string, search: string }) {

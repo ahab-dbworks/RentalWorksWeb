@@ -3,9 +3,9 @@
 class PickList {
     Module: string = 'PickList';
     apiurl: string = 'api/v1/picklist';
-    caption: string = Constants.Modules.Home.PickList.caption;
-	nav: string = Constants.Modules.Home.PickList.nav;
-	id: string = Constants.Modules.Home.PickList.id;
+    caption: string = Constants.Modules.Warehouse.children.PickList.caption;
+	nav: string = Constants.Modules.Warehouse.children.PickList.nav;
+	id: string = Constants.Modules.Warehouse.children.PickList.id;
     ActiveViewFields: any = {};
     ActiveViewFieldsId: string;
     //----------------------------------------------------------------------------------------------

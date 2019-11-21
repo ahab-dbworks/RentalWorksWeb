@@ -245,8 +245,6 @@
     <Content Include="Source\Grids\WarehouseInventoryTypeGrid\WarehouseInventoryTypeGridBrowse.htm" />
     <Content Include="Source\Grids\WarehouseOfficeLocationGrid\WarehouseOfficeLocationGridBrowse.htm" />
     <Content Include="Source\Grids\WarehouseQuikLocateApproverGrid\WarehouseQuikLocateApproverGridBrowse.htm" />
-    <Content Include="Source\Modules\Administrator\Control\ControlBrowse.htm" />
-    <Content Include="Source\Modules\Administrator\Control\ControlForm.htm" />
     <Content Include="Source\Modules\Administrator\CustomField\CustomFieldBrowse.htm" />
     <Content Include="Source\Modules\Administrator\CustomField\CustomFieldForm.htm" />
     <Content Include="Source\Modules\Administrator\CustomForm\CustomFormBrowse.htm" />
@@ -268,8 +266,8 @@
     <Content Include="Source\Modules\Agent\Customer\CustomerForm.htm" />
     <Content Include="Source\Modules\Agent\Deal\DealBrowse.htm" />
     <Content Include="Source\Modules\Agent\Deal\DealForm.htm" />
-    <Content Include="Source\Modules\Inventory\ExpendableItem\ExpendableItemBrowse.htm" />
-    <Content Include="Source\Modules\Inventory\ExpendableItem\ExpendableItemForm.htm" />
+    <Content Include="Source\Modules\Home\ExpendableItem\ExpendableItemBrowse.htm" />
+    <Content Include="Source\Modules\Home\ExpendableItem\ExpendableItemForm.htm" />
     <Content Include="Source\Modules\Inventory\InventoryItem\InventoryItemBrowse.htm" />
     <Content Include="Source\Modules\Inventory\InventoryItem\InventoryItemForm.htm" />
     <Content Include="Source\Modules\Agent\Order\OrderBrowse.htm" />
@@ -286,8 +284,8 @@
     <Content Include="Source\Modules\Agent\Contact\Contact.css" />
     <Content Include="Source\Modules\Agent\Contact\ContactBrowse.htm" />
     <Content Include="Source\Modules\Agent\Contact\ContactForm.htm" />
-    <Content Include="Source\Modules\Inventory\PartsInventory\PartsInventoryBrowse.htm" />
-    <Content Include="Source\Modules\Inventory\PartsInventory\PartsInventoryForm.htm" />
+    <Content Include="Source\Modules\Home\PartsInventory\PartsInventoryBrowse.htm" />
+    <Content Include="Source\Modules\Home\PartsInventory\PartsInventoryForm.htm" />
     <Content Include="Source\Modules\Warehouse\ReturnToVendor\ReturnToVendorForm.htm" />
     <Content Include="Source\Modules\Warehouse\Contract\ContractBrowse.htm" />
     <Content Include="Source\Modules\Warehouse\Contract\ContractForm.htm" />
@@ -584,7 +582,6 @@
     <TypeScriptCompile Include="Source\Modules\-BaseModules\OrderBase\OrderBase.ts" />
     <TypeScriptCompile Include="Source\Modules\-BaseModules\OrderStatusBase\OrderStatusBase.ts" />
     <TypeScriptCompile Include="Source\Modules\-BaseModules\StagingCheckoutBase\StagingCheckoutBase.ts" />
-    <TypeScriptCompile Include="Source\Modules\Administrator\Control\Control.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\CustomField\CustomField.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\CustomForm\CustomForm.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\DuplicateRule\DuplicateRule.ts" />
@@ -600,7 +597,7 @@
     <TypeScriptCompile Include="Source\Modules\Home\CreatePickList\CreatePickList.ts" />
     <TypeScriptCompile Include="Source\Modules\Agent\Deal\Deal.ts" />
     <TypeScriptCompile Include="Source\Modules\Warehouse\Exchange\Exchange.ts" />
-    <TypeScriptCompile Include="Source\Modules\Inventory\ExpendableItem\ExpendableItem.ts" />
+    <TypeScriptCompile Include="Source\Modules\Home\ExpendableItem\ExpendableItem.ts" />
     <TypeScriptCompile Include="Source\Modules\Warehouse\OrderStatus\OrderStatus.ts" />
     <TypeScriptCompile Include="Source\Modules\Agent\Order\Order.ts" />
     <TypeScriptCompile Include="Source\Modules\Agent\Order\SearchInterface.ts" />
@@ -707,6 +704,8 @@
     <Folder Include="App_Data\Temp\Downloads\" />
     <Folder Include="Libraries\" />
     <Folder Include="Source\Controls\" />
+    <Folder Include="Source\Modules\Administrator\Alert\" />
+    <Folder Include="Source\Modules\Administrator\CustomReportLayout\" />
     <Folder Include="theme\fwaudio\" />
     <Folder Include="theme\fwcursors\" />
     <Folder Include="theme\fwfonts\" />

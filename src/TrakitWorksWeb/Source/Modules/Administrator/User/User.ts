@@ -1,9 +1,9 @@
 ﻿class User {
     Module:             string = 'User';
     apiurl:             string = 'api/v1/user';
-    caption: string = Constants.Modules.Administrator.User.caption;
-	nav: string = Constants.Modules.Administrator.User.nav;
-	id: string = Constants.Modules.Administrator.User.id;
+    caption: string = Constants.Modules.Administrator.children.User.caption;
+	nav: string = Constants.Modules.Administrator.children.User.nav;
+	id: string = Constants.Modules.Administrator.children.User.id;
     ActiveViewFields:   any    = {};
     ActiveViewFieldsId: string;
     //----------------------------------------------------------------------------------------------

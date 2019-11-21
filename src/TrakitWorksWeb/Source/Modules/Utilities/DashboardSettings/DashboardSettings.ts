@@ -3,9 +3,9 @@
 class DashboardSettings {
     Module: string = 'DashboardSettings';
     apiurl: string = 'api/v1/userdashboardsettings';
-    caption: string = Constants.Modules.Utilities.DashboardSettings.caption;
-    nav: string = Constants.Modules.Utilities.DashboardSettings.nav;
-    id: string = Constants.Modules.Utilities.DashboardSettings.id;
+    caption: string = Constants.Modules.Utilities.children.DashboardSettings.caption;
+    nav: string = Constants.Modules.Utilities.children.DashboardSettings.nav;
+    id: string = Constants.Modules.Utilities.children.DashboardSettings.id;
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen: any = {};

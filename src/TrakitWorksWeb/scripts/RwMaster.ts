@@ -8,24 +8,24 @@
         
         // TrakitWorks Menu
         let menuTrakitWorks = {
-            caption: 'TrakitWorks',
-            id: 'B05953D7-DC85-486C-B9A4-7743875DFABC',
+            caption: 'Agent',
+            id: 'Agent',
             children: []
         };
         if (userType == 'USER')
         {
-            menuTrakitWorks.children.push(Constants.Modules.Home.Contact);
-            menuTrakitWorks.children.push(Constants.Modules.Home.Deal);
-            menuTrakitWorks.children.push(Constants.Modules.Home.Order);
-            menuTrakitWorks.children.push(Constants.Modules.Home.PurchaseOrder);
+            menuTrakitWorks.children.push(Constants.Modules.Agent.children.Contact);
+            menuTrakitWorks.children.push(Constants.Modules.Agent.children.Deal);
+            menuTrakitWorks.children.push(Constants.Modules.Agent.children.Order);
+            menuTrakitWorks.children.push(Constants.Modules.Agent.children.PurchaseOrder);
         }
         if (userType == 'USER' || userType == 'CONTACT')
         {
-            menuTrakitWorks.children.push(Constants.Modules.Home.Quote);
+            menuTrakitWorks.children.push(Constants.Modules.Agent.children.Quote);
         }
         if (userType == 'USER')
         {
-            menuTrakitWorks.children.push(Constants.Modules.Home.Vendor);
+            menuTrakitWorks.children.push(Constants.Modules.Agent.children.Vendor);
         }
         this.navigation.push(menuTrakitWorks);
 
@@ -34,56 +34,57 @@
             // Inventory Menu
             let menuInventory = {
                 caption: 'Inventory',
-                id: 'CA7EDF90-F08A-4E5C-BA6B-87DB6A14D485',
+                id: 'Inventory',
                 children: [
-                    Constants.Modules.Home.Asset,
-                    Constants.Modules.Home.InventoryItem,
-                    Constants.Modules.Home.Repair
+                    Constants.Modules.Inventory.children.Asset,
+                    Constants.Modules.Inventory.children.InventoryItem,
+                    Constants.Modules.Inventory.children.Repair
                 ]
             };
             this.navigation.push(menuInventory);
 
             let menuWarehouse = {
                 caption: 'Warehouse',
-                id: '293A157D-EA8E-48F6-AE97-15F9DE53041A',
+                id: 'Warehouse',
                 children: [
-                    Constants.Modules.Home.AssignBarCodes,
-                    Constants.Modules.Home.CheckIn,
-                    Constants.Modules.Home.Contract,
-                    Constants.Modules.Home.Exchange,
-                    Constants.Modules.Home.OrderStatus,
-                    Constants.Modules.Home.PickList,
-                    Constants.Modules.Home.ReceiveFromVendor,
-                    Constants.Modules.Home.ReturnToVendor,
-                    Constants.Modules.Home.StagingCheckout
+                    Constants.Modules.Warehouse.children.AssignBarCodes,
+                    Constants.Modules.Warehouse.children.CheckIn,
+                    Constants.Modules.Warehouse.children.Contract,
+                    Constants.Modules.Warehouse.children.Exchange,
+                    Constants.Modules.Warehouse.children.OrderStatus,
+                    Constants.Modules.Warehouse.children.PickList,
+                    Constants.Modules.Warehouse.children.ReceiveFromVendor,
+                    Constants.Modules.Warehouse.children.ReturnToVendor,
+                    Constants.Modules.Warehouse.children.StagingCheckout
                 ]
             };
             this.navigation.push(menuWarehouse);
             
             let menuUtilities = {
                 caption: 'Utilities',
-                id: '293A157D-EA8E-48F6-AE97-15F9DE53041A',
+                id: 'Utilities',
                 children: [
-                    Constants.Modules.Utilities.Dashboard,
-                    Constants.Modules.Utilities.DashboardSettings,
-                    Constants.Modules.Utilities.QuikActivityCalendar
+                    Constants.Modules.Utilities.children.Dashboard,
+                    Constants.Modules.Utilities.children.DashboardSettings,
+                    Constants.Modules.Utilities.children.QuikActivityCalendar
                 ]
             };
             this.navigation.push(menuUtilities);
 
             let menuAdministrator = {
                 caption: 'Administrator',
-                id: 'A3EE3EE9-4C98-4315-B08D-2FAD67C04E07',
+                id: 'Administrator',
                 children: [
-                    Constants.Modules.Administrator.Control,
-                    Constants.Modules.Administrator.CustomField,
-                    Constants.Modules.Administrator.CustomForm,
-                    Constants.Modules.Administrator.DuplicateRule,
-                    Constants.Modules.Administrator.Group,
-                    Constants.Modules.Administrator.Hotfix,
-                    Constants.Modules.Administrator.Reports,
-                    Constants.Modules.Administrator.Settings,
-                    Constants.Modules.Administrator.User
+                    Constants.Modules.Administrator.children.Alert,
+                    Constants.Modules.Administrator.children.CustomField,
+                    Constants.Modules.Administrator.children.CustomForm,
+                    Constants.Modules.Administrator.children.CustomReportLayout,
+                    Constants.Modules.Administrator.children.DuplicateRule,
+                    Constants.Modules.Administrator.children.Group,
+                    Constants.Modules.Administrator.children.Hotfix,
+                    Constants.Modules.Administrator.children.Reports,
+                    Constants.Modules.Administrator.children.Settings,
+                    Constants.Modules.Administrator.children.User
                 ]
             };
             this.navigation.push(menuAdministrator);

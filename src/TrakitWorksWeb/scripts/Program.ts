@@ -147,7 +147,7 @@ routes.push({ pattern: /^module\/warehouse$/, action: function (match: RegExpExe
 //---------------------------------------------------------------------------------
 // Administrator
 //---------------------------------------------------------------------------------
-routes.push({ pattern: /^module\/control$/, action: function (match: RegExpExecArray) { return ControlController.getModuleScreen(); } });
+//routes.push({ pattern: /^module\/control$/, action: function (match: RegExpExecArray) { return ControlController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/group$/, action: function (match: RegExpExecArray) { return GroupController.getModuleScreen(); } });
 //routes.push({ pattern: /^module\/integration$/, action: function (match: RegExpExecArray) { return IntegrationController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/user$/, action: function (match: RegExpExecArray) { return UserController.getModuleScreen(); } });

@@ -3,9 +3,9 @@
 class Contact {
     Module: string = 'Contact';
     apiurl: string = 'api/v1/contact';
-    caption: string = Constants.Modules.Home.Contact.caption;
-	nav: string = Constants.Modules.Home.Contact.nav;
-	id: string = Constants.Modules.Home.Contact.id;
+    caption: string = Constants.Modules.Agent.children.Contact.caption;
+	nav: string = Constants.Modules.Agent.children.Contact.nav;
+	id: string = Constants.Modules.Agent.children.Contact.id;
     ActiveView: string = 'ALL';
 
     getModuleScreen() {
