@@ -89,19 +89,18 @@ class CreatePickList {
     }
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
-        var $pickListUtilityGrid;
-        var $pickListUtilityGridControl;
-        $pickListUtilityGrid = $form.find('div[data-grid="PickListUtilityGrid"]');
-        $pickListUtilityGridControl = jQuery(jQuery('#tmpl-grids-PickListUtilityGridBrowse').html());
-        $pickListUtilityGrid.empty().append($pickListUtilityGridControl);
-        $pickListUtilityGridControl.data('ondatabind', function (request) {
-            request.uniqueids = {
-                OrderId: FwFormField.getValueByDataField($form, 'OrderId')
-                , SessionId: FwFormField.getValueByDataField($form, 'OrderId') //jason - placeholder until we can support multiple orders
-            };
+        const $pickListUtilityGridControl = FwBrowse.renderGrid({
+            nameGrid:         'PickListUtilityGrid',
+            gridSecurityId:   'DOnlknWuWfYS',
+            moduleSecurityId: this.id,
+            $form:            $form,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    OrderId: FwFormField.getValueByDataField($form, 'OrderId')
+                    , SessionId: FwFormField.getValueByDataField($form, 'OrderId') //jason - placeholder until we can support multiple orders
+                };
+            }
         });
-        FwBrowse.init($pickListUtilityGridControl);
-        FwBrowse.renderRuntimeHtml($pickListUtilityGridControl);
 
         $form.find('.applyoptions').on('click', function () {
             var miscfields = CreatePickListController.getOptions($form);

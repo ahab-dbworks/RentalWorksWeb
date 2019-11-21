@@ -444,37 +444,35 @@ class CustomForm {
     //}
     //----------------------------------------------------------------------------------------------
     renderGrids($form) {
-        let $customFormGroupGrid;
-        let $customFormGroupGridControl;
-        $customFormGroupGrid = $form.find('div[data-grid="CustomFormGroupGrid"]');
-        $customFormGroupGridControl = FwBrowse.loadGridFromTemplate('CustomFormGroupGrid');
-        $customFormGroupGrid.empty().append($customFormGroupGridControl);
-        $customFormGroupGridControl.data('ondatabind', function (request) {
-            request.uniqueids = {
-                CustomFormId: FwFormField.getValueByDataField($form, 'CustomFormId')
-            };
+        FwBrowse.renderGrid({
+            nameGrid:         'CustomFormGroupGrid',
+            gridSecurityId:   '11txpzVKVGi2',
+            moduleSecurityId: this.id,
+            $form:            $form,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    CustomFormId: FwFormField.getValueByDataField($form, 'CustomFormId')
+                };
+            },
+            beforeSave: (request: any) => {
+                request.CustomFormId = FwFormField.getValueByDataField($form, 'CustomFormId')
+            }
         });
-        $customFormGroupGridControl.data('beforesave', function (request) {
-            request.CustomFormId = FwFormField.getValueByDataField($form, 'CustomFormId')
-        });
-        FwBrowse.init($customFormGroupGridControl);
-        FwBrowse.renderRuntimeHtml($customFormGroupGridControl);
 
-        let $customFormUserGrid;
-        let $customFormUserGridControl;
-        $customFormUserGrid = $form.find('div[data-grid="CustomFormUserGrid"]');
-        $customFormUserGridControl = FwBrowse.loadGridFromTemplate('CustomFormUserGrid');
-        $customFormUserGrid.empty().append($customFormUserGridControl);
-        $customFormUserGridControl.data('ondatabind', function (request) {
-            request.uniqueids = {
-                CustomFormId: FwFormField.getValueByDataField($form, 'CustomFormId')
-            };
+        FwBrowse.renderGrid({
+            nameGrid:         'CustomFormUserGrid',
+            gridSecurityId:   'nHNdXDBX6m6cp',
+            moduleSecurityId: this.id,
+            $form:            $form,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    CustomFormId: FwFormField.getValueByDataField($form, 'CustomFormId')
+                };
+            },
+            beforeSave: (request: any) => {
+                request.CustomFormId = FwFormField.getValueByDataField($form, 'CustomFormId')
+            }
         });
-        $customFormUserGridControl.data('beforesave', function (request) {
-            request.CustomFormId = FwFormField.getValueByDataField($form, 'CustomFormId')
-        });
-        FwBrowse.init($customFormUserGridControl);
-        FwBrowse.renderRuntimeHtml($customFormUserGridControl);
     }
     //----------------------------------------------------------------------------------------------
     events($form) {
