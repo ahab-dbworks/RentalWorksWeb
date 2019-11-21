@@ -13,7 +13,8 @@ class Order extends OrderBase {
     ActiveViewFields:     any = {};
     ActiveViewFieldsId:   string;
     DefaultOrderType:     string;
-    DefaultOrderTypeId:   string;
+    DefaultOrderTypeId: string;
+    totalFields = ['WeeklyExtendedNoDiscount', 'WeeklyDiscountAmount', 'WeeklyExtended', 'WeeklyTax', 'WeeklyTotal', 'MonthlyExtendedNoDiscount', 'MonthlyDiscountAmount', 'MonthlyExtended', 'MonthlyTax', 'MonthlyTotal', 'PeriodExtendedNoDiscount', 'PeriodDiscountAmount', 'PeriodExtended', 'PeriodTax', 'PeriodTotal',]
     //-----------------------------------------------------------------------------------------------
     getModuleScreen(filter?: any) {
         const screen: any = {};
@@ -79,21 +80,60 @@ class Order extends OrderBase {
         return $browse;
     }
     //----------------------------------------------------------------------------------------------
-    addBrowseMenuItems($menuObject) {
-        const $all       = FwMenu.generateDropDownViewBtn('All', true, "ALL");
-        const $confirmed = FwMenu.generateDropDownViewBtn('Confirmed', false, "CONFIRMED");
-        const $active    = FwMenu.generateDropDownViewBtn('Active', false, "ACTIVE");
-        const $hold      = FwMenu.generateDropDownViewBtn('Hold', false, "HOLD");
-        const $complete  = FwMenu.generateDropDownViewBtn('Complete', false, "COMPLETE");
-        const $cancelled = FwMenu.generateDropDownViewBtn('Cancelled', false, "CANCELLED");
-        const $closed    = FwMenu.generateDropDownViewBtn('Closed', false, "CLOSED");
+    //addBrowseMenuItems($menuObject) {
+    //    const $all       = FwMenu.generateDropDownViewBtn('All', true, "ALL");
+    //    const $confirmed = FwMenu.generateDropDownViewBtn('Confirmed', false, "CONFIRMED");
+    //    const $active    = FwMenu.generateDropDownViewBtn('Active', false, "ACTIVE");
+    //    const $hold      = FwMenu.generateDropDownViewBtn('Hold', false, "HOLD");
+    //    const $complete  = FwMenu.generateDropDownViewBtn('Complete', false, "COMPLETE");
+    //    const $cancelled = FwMenu.generateDropDownViewBtn('Cancelled', false, "CANCELLED");
+    //    const $closed    = FwMenu.generateDropDownViewBtn('Closed', false, "CLOSED");
       
+    //    let viewSubitems: Array<JQuery> = [];
+    //    viewSubitems.push($all, $confirmed, $active, $hold, $complete, $cancelled, $closed);
+    //    FwMenu.addViewBtn($menuObject, 'View', viewSubitems, true, "Status");
+
+    //    //Location Filter
+    //    const location      = JSON.parse(sessionStorage.getItem('location'));
+    //    const $allLocations = FwMenu.generateDropDownViewBtn('ALL Locations', false, "ALL");
+    //    const $userLocation = FwMenu.generateDropDownViewBtn(location.location, true, location.locationid);
+
+    //    if (typeof this.ActiveViewFields["LocationId"] == 'undefined') {
+    //        this.ActiveViewFields.LocationId = [location.locationid];
+    //    }
+
+    //    let viewLocation: Array<JQuery> = [];
+    //    viewLocation.push($userLocation, $allLocations);
+    //    FwMenu.addViewBtn($menuObject, 'Location', viewLocation, true, "LocationId");
+    //    return $menuObject;
+    //}
+    addBrowseMenuItems(options: IAddBrowseMenuOptions): void {
+        options.hasDelete = false;
+        FwMenu.addBrowseMenuButtons(options);
+
+        FwMenu.addSubMenuItem(options.$groupOptions, 'Cancel / Uncancel', 'dpH0uCuEp3E89', (e: JQuery.ClickEvent) => {
+            try {
+                this.browseCancelOption(options.$browse);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+
+        // View DropDownMenu
+        const $all = FwMenu.generateDropDownViewBtn('All', true, "ALL");
+        const $confirmed = FwMenu.generateDropDownViewBtn('Confirmed', false, "CONFIRMED");
+        const $active = FwMenu.generateDropDownViewBtn('Active', false, "ACTIVE");
+        const $hold = FwMenu.generateDropDownViewBtn('Hold', false, "HOLD");
+        const $complete = FwMenu.generateDropDownViewBtn('Complete', false, "COMPLETE");
+        const $cancelled = FwMenu.generateDropDownViewBtn('Cancelled', false, "CANCELLED");
+        const $closed = FwMenu.generateDropDownViewBtn('Closed', false, "CLOSED");
+
         let viewSubitems: Array<JQuery> = [];
         viewSubitems.push($all, $confirmed, $active, $hold, $complete, $cancelled, $closed);
-        FwMenu.addViewBtn($menuObject, 'View', viewSubitems, true, "Status");
+        FwMenu.addViewBtn(options.$menu, 'View', viewSubitems, true, "Status");
 
         //Location Filter
-        const location      = JSON.parse(sessionStorage.getItem('location'));
+        const location = JSON.parse(sessionStorage.getItem('location'));
         const $allLocations = FwMenu.generateDropDownViewBtn('ALL Locations', false, "ALL");
         const $userLocation = FwMenu.generateDropDownViewBtn(location.location, true, location.locationid);
 
@@ -101,12 +141,103 @@ class Order extends OrderBase {
             this.ActiveViewFields.LocationId = [location.locationid];
         }
 
-        let viewLocation: Array<JQuery> = [];
+        const viewLocation: Array<JQuery> = [];
         viewLocation.push($userLocation, $allLocations);
-        FwMenu.addViewBtn($menuObject, 'Location', viewLocation, true, "LocationId");
-        return $menuObject;
+        FwMenu.addViewBtn(options.$menu, 'Location', viewLocation, true, "LocationId");
     }
-    //----------------------------------------------------------------------------------------------
+    //-----------------------------------------------------------------------------------------------
+    addFormMenuItems(options: IAddFormMenuOptions): void {
+        FwMenu.addFormMenuButtons(options);
+
+        FwMenu.addSubMenuItem(options.$groupOptions, 'Copy Order', 'Y2TpHAfLr0W8', (e: JQuery.ClickEvent) => {
+            try {
+                this.copyOrderOrQuote(options.$form);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+        FwMenu.addSubMenuItem(options.$groupOptions, 'Print Order', 'qshFakNJL1Aw', (e: JQuery.ClickEvent) => {
+            try {
+                this.printQuoteOrder(options.$form);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+        //FwMenu.addSubMenuItem(options.$groupOptions, 'Search', '', (e: JQuery.ClickEvent) => {
+        //    try {
+        //        this.search(options.$form);
+        //    } catch (ex) {
+        //        FwFunc.showError(ex);
+        //    }
+        //});
+
+        FwMenu.addSubMenuItem(options.$groupOptions, 'Cancel / Uncancel', 'AYsdyaJ8KtGl', (e: JQuery.ClickEvent) => {
+            try {
+                this.cancelUncancelOrder(options.$form);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+        //no-security
+        FwMenu.addSubMenuItem(options.$groupOptions, 'Create Pick List', '', (e: JQuery.ClickEvent) => {
+            try {
+                this.createPickList(options.$form);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+        //FwMenu.addSubMenuItem(options.$groupOptions, 'Create Snapshot', '1nNrrlUbFv4I', (e: JQuery.ClickEvent) => {
+        //    try {
+        //        this.createSnapshotOrder(options.$form);
+        //    } catch (ex) {
+        //        FwFunc.showError(ex);
+        //    }
+        //});
+        ////no-security
+        //FwMenu.addSubMenuItem(options.$groupOptions, 'View Snapshot', '', (e: JQuery.ClickEvent) => {
+        //    try {
+        //        this.viewSnapshotOrder(options.$form);
+        //    } catch (ex) {
+        //        FwFunc.showError(ex);
+        //    }
+        //});
+        //FwMenu.addSubMenuItem(options.$groupOptions, 'On Hold', 'cxjzEFBumSaY', (e: JQuery.ClickEvent) => {
+        //    try {
+        //        this.OrderOnHold(options.$form);
+        //    } catch (ex) {
+        //        FwFunc.showError(ex);
+        //    }
+        //});
+        FwMenu.addSubMenuItem(options.$groupOptions, 'Order Status', 'ddU6D9wE0E8Q', (e: JQuery.ClickEvent) => {
+            try {
+                this.orderStatus(options.$form);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+        FwMenu.addSubMenuItem(options.$groupOptions, 'Check Out', '2EdnWXXf5S2b', (e: JQuery.ClickEvent) => {
+            try {
+                this.checkOut(options.$form);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+        FwMenu.addSubMenuItem(options.$groupOptions, 'Check In', '6OkDTK6ILron', (e: JQuery.ClickEvent) => {
+            try {
+                this.checkIn(options.$form);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+        //FwMenu.addSubMenuItem(options.$groupOptions, 'Change Office Location', 'zXHF8zSQywct', (e: JQuery.ClickEvent) => {
+        //    try {
+        //        this.changeOfficeLocation(options.$form);
+        //    } catch (ex) {
+        //        FwFunc.showError(ex);
+        //    }
+        //});
+    }
+    //------------------------------------------------------------------------------------------
     openForm(mode: string, parentModuleInfo?: any) {
         var $form = FwModule.loadFormFromTemplate(this.Module);
         $form     = FwModule.openForm($form, mode);
@@ -271,18 +402,35 @@ class Order extends OrderBase {
     }
     //----------------------------------------------------------------------------------------------
     renderGrids($form) {
-        const totalFields = ['WeeklyExtendedNoDiscount', 'WeeklyDiscountAmount', 'WeeklyExtended', 'WeeklyTax', 'WeeklyTotal', 'MonthlyExtendedNoDiscount', 'MonthlyDiscountAmount', 'MonthlyExtended', 'MonthlyTax', 'MonthlyTotal', 'PeriodExtendedNoDiscount', 'PeriodDiscountAmount', 'PeriodExtended', 'PeriodTax', 'PeriodTotal',]
+        // ------
+        let $orderItemGridRental: JQuery, $orderItemGridSales: JQuery, $orderItemGridLabor: JQuery, $orderItemGridMisc: JQuery, $orderItemGridUsedSale: JQuery, $combinedOrderItemGrid: JQuery;
         // ----------
-        const $orderStatusHistoryGrid = $form.find('div[data-grid="OrderStatusHistoryGrid"]');
-        const $orderStatusHistoryGridControl = FwBrowse.loadGridFromTemplate('OrderStatusHistoryGrid');
-        $orderStatusHistoryGrid.empty().append($orderStatusHistoryGridControl);
-        $orderStatusHistoryGridControl.data('ondatabind', function (request) {
-            request.uniqueids = {
-                OrderId: FwFormField.getValueByDataField($form, 'OrderId')
-            };
+        //const $orderStatusHistoryGrid = $form.find('div[data-grid="OrderStatusHistoryGrid"]');
+        //const $orderStatusHistoryGridControl = FwBrowse.loadGridFromTemplate('OrderStatusHistoryGrid');
+        //$orderStatusHistoryGrid.empty().append($orderStatusHistoryGridControl);
+        //$orderStatusHistoryGridControl.data('ondatabind', function (request) {
+        //    request.uniqueids = {
+        //        OrderId: FwFormField.getValueByDataField($form, 'OrderId')
+        //    };
+        //});
+        //FwBrowse.init($orderStatusHistoryGridControl);
+        //FwBrowse.renderRuntimeHtml($orderStatusHistoryGridControl);
+        FwBrowse.renderGrid({
+            nameGrid: 'OrderStatusHistoryGrid',
+            gridSecurityId: 'y5ubfAn7ByWa',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                options.hasNew = false;
+                options.hasDelete = false;
+            },
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    OrderId: FwFormField.getValueByDataField($form, `${this.Module}Id`)
+                };
+            }
         });
-        FwBrowse.init($orderStatusHistoryGridControl);
-        FwBrowse.renderRuntimeHtml($orderStatusHistoryGridControl);
         // ----------
         //const $orderSnapshotGrid = $form.find('div[data-grid="OrderSnapshotGrid"]');
         //const $orderSnapshotGridControl = FwBrowse.loadGridFromTemplate('OrderSnapshotGrid');
@@ -295,92 +443,184 @@ class Order extends OrderBase {
         //FwBrowse.init($orderSnapshotGridControl);
         //FwBrowse.renderRuntimeHtml($orderSnapshotGridControl);
         // ----------
-        const $orderItemGridRental = $form.find('.rentalgrid div[data-grid="OrderItemGrid"]');
-        const $orderItemGridRentalControl = FwBrowse.loadGridFromTemplate('OrderItemGrid');
-        $orderItemGridRental.empty().append($orderItemGridRentalControl);
-        $orderItemGridRentalControl.data('isSummary', false);
-        $orderItemGridRental.addClass('R');
+        //const $orderItemGridRental = $form.find('.rentalgrid div[data-grid="OrderItemGrid"]');
+        //const $orderItemGridRentalControl = FwBrowse.loadGridFromTemplate('OrderItemGrid');
+        //$orderItemGridRental.empty().append($orderItemGridRentalControl);
+        //$orderItemGridRentalControl.data('isSummary', false);
+        //$orderItemGridRental.addClass('R');
 
-        $orderItemGridRentalControl.data('ondatabind', function (request) {
-            request.uniqueids = {
-                OrderId: FwFormField.getValueByDataField($form, 'OrderId'),
-                RecType: 'R'
-            };
-            request.totalfields = totalFields;
-        });
-        $orderItemGridRentalControl.data('beforesave', function (request) {
-            request.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
-            request.RecType = 'R';
-        }
-        );
-        FwBrowse.addEventHandler($orderItemGridRentalControl, 'afterdatabindcallback', ($control, dt) => {
-            let rentalItems = $form.find('.rentalgrid tbody').children();
-            rentalItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Rental"]')) : FwFormField.enable($form.find('[data-datafield="Rental"]'));
-        });
+        //$orderItemGridRentalControl.data('ondatabind', function (request) {
+        //    request.uniqueids = {
+        //        OrderId: FwFormField.getValueByDataField($form, 'OrderId'),
+        //        RecType: 'R'
+        //    };
+        //    request.totalfields = totalFields;
+        //});
+        //$orderItemGridRentalControl.data('beforesave', function (request) {
+        //    request.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
+        //    request.RecType = 'R';
+        //}
+        //);
+        //FwBrowse.addEventHandler($orderItemGridRentalControl, 'afterdatabindcallback', ($control, dt) => {
+        //    let rentalItems = $form.find('.rentalgrid tbody').children();
+        //    rentalItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Rental"]')) : FwFormField.enable($form.find('[data-datafield="Rental"]'));
+        //});
 
-        FwBrowse.init($orderItemGridRentalControl);
-        FwBrowse.renderRuntimeHtml($orderItemGridRentalControl);
+        //FwBrowse.init($orderItemGridRentalControl);
+        //FwBrowse.renderRuntimeHtml($orderItemGridRentalControl);
+        FwBrowse.renderGrid({
+            nameGrid: 'OrderItemGrid',
+            gridSelector: '.rentalgrid div[data-grid="OrderItemGrid"]',
+            gridSecurityId: 'BHdfY4bPXSQf',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    OrderId: FwFormField.getValueByDataField($form, `${this.Module}Id`),
+                    RecType: 'R'
+                };
+                request.totalfields = this.totalFields;
+            },
+            beforeSave: (request: any) => {
+                request.OrderId = FwFormField.getValueByDataField($form, `${this.Module}Id`);
+                request.RecType = 'R';
+            },
+            beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
+                $fwgrid.addClass('R');
+                $browse.data('isSummary', false);
+                $orderItemGridRental = $fwgrid;
+            },
+            afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
+                let rentalItems = $form.find('.rentalgrid tbody').children();
+                rentalItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Rental"]')) : FwFormField.enable($form.find('[data-datafield="Rental"]'));
+            }
+        });
 
         // ----------
-        const $orderItemGridLossDamage = $form.find('.lossdamagegrid div[data-grid="OrderItemGrid"]');
-        const $orderItemGridLossDamageControl = FwBrowse.loadGridFromTemplate('OrderItemGrid');
-        $orderItemGridLossDamage.empty().append($orderItemGridLossDamageControl);
-        $orderItemGridLossDamageControl.data('isSummary', false);
-        $orderItemGridLossDamage.addClass('F');
-        $orderItemGridLossDamage.find('div[data-datafield="InventoryId"]').attr('data-formreadonly', 'true'); 
-        $orderItemGridLossDamage.find('div[data-datafield="Description"]').attr('data-formreadonly', 'true');
-        $orderItemGridLossDamage.find('div[data-datafield="ItemId"]').attr('data-formreadonly', 'true');
-        $orderItemGridLossDamage.find('div[data-datafield="Price"]').attr('data-digits', '3'); 
-        $orderItemGridLossDamage.find('div[data-datafield="Price"]').attr('data-digitsoptional', 'false'); 
+        //const $orderItemGridLossDamage = $form.find('.lossdamagegrid div[data-grid="OrderItemGrid"]');
+        //const $orderItemGridLossDamageControl = FwBrowse.loadGridFromTemplate('OrderItemGrid');
+        //$orderItemGridLossDamage.empty().append($orderItemGridLossDamageControl);
+        //$orderItemGridLossDamageControl.data('isSummary', false);
+        //$orderItemGridLossDamage.addClass('F');
+        //$orderItemGridLossDamage.find('div[data-datafield="InventoryId"]').attr('data-formreadonly', 'true'); 
+        //$orderItemGridLossDamage.find('div[data-datafield="Description"]').attr('data-formreadonly', 'true');
+        //$orderItemGridLossDamage.find('div[data-datafield="ItemId"]').attr('data-formreadonly', 'true');
+        //$orderItemGridLossDamage.find('div[data-datafield="Price"]').attr('data-digits', '3'); 
+        //$orderItemGridLossDamage.find('div[data-datafield="Price"]').attr('data-digitsoptional', 'false'); 
 
-        $orderItemGridLossDamageControl.data('ondatabind', function (request) {
-            request.uniqueids = {
-                OrderId: FwFormField.getValueByDataField($form, 'OrderId'),
-                RecType: 'F'
-            };
-            request.totalfields = totalFields;
-        });
-        $orderItemGridLossDamageControl.data('beforesave', function (request) {
-            request.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
-            request.RecType = 'F';
-        }
-        );
-        FwBrowse.addEventHandler($orderItemGridLossDamageControl, 'afterdatabindcallback', ($control, dt) => {
-            let lossDamageItems = $form.find('.lossdamagegrid tbody').children();
-            lossDamageItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="LossAndDamage"]')) : FwFormField.enable($form.find('[data-datafield="LossAndDamage"]'));
-        });
+        //$orderItemGridLossDamageControl.data('ondatabind', function (request) {
+        //    request.uniqueids = {
+        //        OrderId: FwFormField.getValueByDataField($form, 'OrderId'),
+        //        RecType: 'F'
+        //    };
+        //    request.totalfields = totalFields;
+        //});
+        //$orderItemGridLossDamageControl.data('beforesave', function (request) {
+        //    request.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
+        //    request.RecType = 'F';
+        //}
+        //);
+        //FwBrowse.addEventHandler($orderItemGridLossDamageControl, 'afterdatabindcallback', ($control, dt) => {
+        //    let lossDamageItems = $form.find('.lossdamagegrid tbody').children();
+        //    lossDamageItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="LossAndDamage"]')) : FwFormField.enable($form.find('[data-datafield="LossAndDamage"]'));
+        //});
 
-        FwBrowse.init($orderItemGridLossDamageControl);
-        FwBrowse.renderRuntimeHtml($orderItemGridLossDamageControl);
+        //FwBrowse.init($orderItemGridLossDamageControl);
+        //FwBrowse.renderRuntimeHtml($orderItemGridLossDamageControl);
+        FwBrowse.renderGrid({
+            nameGrid: 'OrderItemGrid',
+            gridSelector: '.lossdamagegrid div[data-grid="OrderItemGrid"]',
+            gridSecurityId: 'OEl7qBcnJkln',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    OrderId: FwFormField.getValueByDataField($form, 'OrderId'),
+                    RecType: 'F'
+                };
+                request.totalfields = this.totalFields;
+            },
+            beforeSave: (request: any) => {
+                request.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
+                request.RecType = 'F';
+            },
+            beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
+                $fwgrid.addClass('F');
+            },
+            afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
+                let lossDamageItems = $form.find('.lossdamagegrid tbody').children();
+                lossDamageItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="LossAndDamage"]')) : FwFormField.enable($form.find('[data-datafield="LossAndDamage"]'));
+            }
+        });
         // ----------
-        const $orderNoteGrid = $form.find('div[data-grid="OrderNoteGrid"]');
-        const $orderNoteGridControl = FwBrowse.loadGridFromTemplate('OrderNoteGrid');
-        $orderNoteGrid.empty().append($orderNoteGridControl);
-        $orderNoteGridControl.data('ondatabind', function (request) {
-            request.uniqueids = {
-                OrderId: FwFormField.getValueByDataField($form, 'OrderId')
-            };
+        //const $orderNoteGrid = $form.find('div[data-grid="OrderNoteGrid"]');
+        //const $orderNoteGridControl = FwBrowse.loadGridFromTemplate('OrderNoteGrid');
+        //$orderNoteGrid.empty().append($orderNoteGridControl);
+        //$orderNoteGridControl.data('ondatabind', function (request) {
+        //    request.uniqueids = {
+        //        OrderId: FwFormField.getValueByDataField($form, 'OrderId')
+        //    };
+        //});
+        //$orderNoteGridControl.data('beforesave', function (request) {
+        //    request.OrderId = FwFormField.getValueByDataField($form, 'OrderId')
+        //});
+        //FwBrowse.init($orderNoteGridControl);
+        //FwBrowse.renderRuntimeHtml($orderNoteGridControl);
+        FwBrowse.renderGrid({
+            nameGrid: 'OrderNoteGrid',
+            gridSecurityId: 'waVxYhlGKc0G',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+
+            },
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    OrderId: FwFormField.getValueByDataField($form, `${this.Module}Id`)
+                };
+            },
+            beforeSave: (request: any) => {
+                request.OrderId = FwFormField.getValueByDataField($form, `${this.Module}Id`);
+            }
         });
-        $orderNoteGridControl.data('beforesave', function (request) {
-            request.OrderId = FwFormField.getValueByDataField($form, 'OrderId')
-        });
-        FwBrowse.init($orderNoteGridControl);
-        FwBrowse.renderRuntimeHtml($orderNoteGridControl);
         // ----------
-        const $orderContactGrid = $form.find('div[data-grid="OrderContactGrid"]');
-        const $orderContactGridControl = FwBrowse.loadGridFromTemplate('OrderContactGrid');
-        $orderContactGrid.empty().append($orderContactGridControl);
-        $orderContactGridControl.data('ondatabind', function (request) {
-            request.uniqueids = {
-                OrderId: FwFormField.getValueByDataField($form, 'OrderId')
-            };
+        //const $orderContactGrid = $form.find('div[data-grid="OrderContactGrid"]');
+        //const $orderContactGridControl = FwBrowse.loadGridFromTemplate('OrderContactGrid');
+        //$orderContactGrid.empty().append($orderContactGridControl);
+        //$orderContactGridControl.data('ondatabind', function (request) {
+        //    request.uniqueids = {
+        //        OrderId: FwFormField.getValueByDataField($form, 'OrderId')
+        //    };
+        //});
+        //$orderContactGridControl.data('beforesave', function (request) {
+        //    request.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
+        //    request.CompanyId = FwFormField.getValueByDataField($form, 'DealId');
+        //});
+        //FwBrowse.init($orderContactGridControl);
+        //FwBrowse.renderRuntimeHtml($orderContactGridControl);
+        FwBrowse.renderGrid({
+            nameGrid: 'OrderContactGrid',
+            gridSecurityId: 'bPukYoWry0R4',
+            moduleSecurityId: this.id,
+
+            $form: $form,
+            pageSize: 10,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+
+            },
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    OrderId: FwFormField.getValueByDataField($form, `${this.Module}Id`)
+                };
+            },
+            beforeSave: (request: any) => {
+                request.OrderId = FwFormField.getValueByDataField($form, `${this.Module}Id`);
+                request.CompanyId = FwFormField.getValueByDataField($form, 'DealId');
+            }
         });
-        $orderContactGridControl.data('beforesave', function (request) {
-            request.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
-            request.CompanyId = FwFormField.getValueByDataField($form, 'DealId');
-        });
-        FwBrowse.init($orderContactGridControl);
-        FwBrowse.renderRuntimeHtml($orderContactGridControl);
 
         const itemGrids = [$orderItemGridRental];
         if ($form.attr('data-mode') === 'NEW') {
@@ -394,9 +634,237 @@ class Order extends OrderBase {
         }
     }
     //----------------------------------------------------------------------------------------------
-    loadAudit($form) {
-        const uniqueid = FwFormField.getValueByDataField($form, 'OrderId');
-        FwModule.loadAudit($form, uniqueid);
+    browseCancelOption($browse: JQuery) {
+        try {
+            let $confirmation, $yes, $no;
+            let orderId = $browse.find('.selected [data-browsedatafield="OrderId"]').attr('data-originalvalue');
+            let orderStatus = $browse.find('.selected [data-formdatafield="Status"]').attr('data-originalvalue');
+            if (orderId != null) {
+                if (orderStatus === "CANCELLED") {
+                    $confirmation = FwConfirmation.renderConfirmation('Cancel', '');
+                    $confirmation.find('.fwconfirmationbox').css('width', '450px');
+                    let html = [];
+                    html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+                    html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+                    html.push('    <div>Would you like to un-cancel this Order?</div>');
+                    html.push('  </div>');
+                    html.push('</div>');
+
+                    FwConfirmation.addControls($confirmation, html.join(''));
+                    $yes = FwConfirmation.addButton($confirmation, 'Un-Cancel Order', false);
+                    $no = FwConfirmation.addButton($confirmation, 'Cancel');
+
+                    $yes.on('click', uncancelOrder);
+                }
+                else {
+                    $confirmation = FwConfirmation.renderConfirmation('Cancel', '');
+                    $confirmation.find('.fwconfirmationbox').css('width', '450px');
+                    let html = [];
+                    html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+                    html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+                    html.push('    <div>Would you like to cancel this Order?</div>');
+                    html.push('  </div>');
+                    html.push('</div>');
+
+                    FwConfirmation.addControls($confirmation, html.join(''));
+                    $yes = FwConfirmation.addButton($confirmation, 'Cancel Order', false);
+                    $no = FwConfirmation.addButton($confirmation, 'Cancel');
+
+                    $yes.on('click', cancelOrder);
+                }
+
+                function cancelOrder() {
+                    let request: any = {};
+
+                    FwFormField.disable($confirmation.find('.fwformfield'));
+                    FwFormField.disable($yes);
+                    $yes.text('Canceling...');
+                    $yes.off('click');
+
+                    FwAppData.apiMethod(true, 'POST', `api/v1/order/cancel/${orderId}`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                        FwNotification.renderNotification('SUCCESS', 'Order Successfully Cancelled');
+                        FwConfirmation.destroyConfirmation($confirmation);
+                        FwBrowse.databind($browse);
+                    }, function onError(response) {
+                        $yes.on('click', cancelOrder);
+                        $yes.text('Cancel');
+                        FwFunc.showError(response);
+                        FwFormField.enable($confirmation.find('.fwformfield'));
+                        FwFormField.enable($yes);
+                        FwBrowse.databind($browse);
+                    }, $browse);
+                };
+
+                function uncancelOrder() {
+                    let request: any = {};
+
+                    FwFormField.disable($confirmation.find('.fwformfield'));
+                    FwFormField.disable($yes);
+                    $yes.text('Retrieving...');
+                    $yes.off('click');
+
+                    FwAppData.apiMethod(true, 'POST', `api/v1/order/uncancel/${orderId}`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                        FwNotification.renderNotification('SUCCESS', 'Order Successfully Retrieved');
+                        FwConfirmation.destroyConfirmation($confirmation);
+                        FwBrowse.databind($browse);
+                    }, function onError(response) {
+                        $yes.on('click', uncancelOrder);
+                        $yes.text('Cancel');
+                        FwFunc.showError(response);
+                        FwFormField.enable($confirmation.find('.fwformfield'));
+                        FwFormField.enable($yes);
+                        FwBrowse.databind($browse);
+                    }, $browse);
+                };
+            } else {
+                FwNotification.renderNotification('WARNING', 'Select an Order to perform this action.');
+            }
+        }
+        catch (ex) {
+            FwFunc.showError(ex);
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    cancelUncancelOrder($form: any) {
+        let $confirmation, $yes, $no;
+        const module = this.Module;
+        const id = FwFormField.getValueByDataField($form, `${module}Id`);
+        const orderStatus = FwFormField.getValueByDataField($form, 'Status');
+
+        if (id != null) {
+            if (orderStatus === "CANCELLED") {
+                $confirmation = FwConfirmation.renderConfirmation('Cancel', '');
+                $confirmation.find('.fwconfirmationbox').css('width', '450px');
+                let html = [];
+                html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+                html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+                html.push(`    <div>Would you like to un-cancel this ${module}?</div>`);
+                html.push('  </div>');
+                html.push('</div>');
+
+                FwConfirmation.addControls($confirmation, html.join(''));
+                $yes = FwConfirmation.addButton($confirmation, `Un-Cancel ${module}`, false);
+                $no = FwConfirmation.addButton($confirmation, 'Cancel');
+
+                $yes.on('click', uncancelOrder);
+            }
+            else {
+                $confirmation = FwConfirmation.renderConfirmation('Cancel', '');
+                $confirmation.find('.fwconfirmationbox').css('width', '450px');
+                let html = [];
+                html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+                html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+                html.push(`    <div>Would you like to cancel this ${module}?</div>`);
+                html.push('  </div>');
+                html.push('</div>');
+
+                FwConfirmation.addControls($confirmation, html.join(''));
+                $yes = FwConfirmation.addButton($confirmation, `Cancel ${module}`, false);
+                $no = FwConfirmation.addButton($confirmation, 'Cancel');
+
+                $yes.on('click', cancelOrder);
+            }
+        }
+        else {
+            if (module === 'Order') {
+                FwNotification.renderNotification('WARNING', 'Select an Order to perform this action.');
+            } else if (module === 'Quote') {
+                FwNotification.renderNotification('WARNING', 'Select a Quote to perform this action.');
+            }
+        }
+
+        function cancelOrder() {
+            let request: any = {};
+
+            FwFormField.disable($confirmation.find('.fwformfield'));
+            FwFormField.disable($yes);
+            $yes.text('Canceling...');
+            $yes.off('click');
+            const topLayer = '<div class="top-layer" data-controller="none" style="background-color: transparent;z-index:1"></div>';
+            const realConfirm = jQuery($confirmation.find('.fwconfirmationbox')).prepend(topLayer);
+
+            FwAppData.apiMethod(true, 'POST', `api/v1/${module}/cancel/${id}`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                FwNotification.renderNotification('SUCCESS', `${module} Successfully Cancelled`);
+                FwConfirmation.destroyConfirmation($confirmation);
+                FwModule.refreshForm($form);
+            }, function onError(response) {
+                $yes.on('click', cancelOrder);
+                $yes.text('Cancel');
+                FwFunc.showError(response);
+                FwFormField.enable($confirmation.find('.fwformfield'));
+                FwFormField.enable($yes);
+                FwModule.refreshForm($form);
+            }, realConfirm);
+        };
+
+        function uncancelOrder() {
+            let request: any = {};
+
+            FwFormField.disable($confirmation.find('.fwformfield'));
+            FwFormField.disable($yes);
+            $yes.text('Retrieving...');
+            $yes.off('click');
+
+            FwAppData.apiMethod(true, 'POST', `api/v1/${module}/uncancel/${id}`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                FwNotification.renderNotification('SUCCESS', `${module} Successfully Retrieved`);
+                FwConfirmation.destroyConfirmation($confirmation);
+                FwModule.refreshForm($form);
+            }, function onError(response) {
+                $yes.on('click', uncancelOrder);
+                $yes.text('Cancel');
+                FwFunc.showError(response);
+                FwFormField.enable($confirmation.find('.fwformfield'));
+                FwFormField.enable($yes);
+                FwModule.refreshForm($form);
+            }, $form);
+        };
+    };
+    //---------------------------------------------------------------------------------
+    orderStatus($form: JQuery) {
+        let mode = 'EDIT';
+        let orderInfo: any = {};
+        orderInfo.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
+        orderInfo.OrderNumber = FwFormField.getValueByDataField($form, 'OrderNumber');
+        let $orderStatusForm = OrderStatusController.openForm(mode, orderInfo);
+        FwModule.openSubModuleTab($form, $orderStatusForm);
+        jQuery('.tab.submodule.active').find('.caption').html('Order Status');
+    }
+    //----------------------------------------------------------------------------------------------
+    checkOut($form: JQuery) {
+        let mode = 'EDIT';
+        let orderInfo: any = {};
+        orderInfo.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
+        orderInfo.OrderNumber = FwFormField.getValueByDataField($form, 'OrderNumber');
+        orderInfo.WarehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
+        orderInfo.Warehouse = $form.find('div[data-datafield="WarehouseId"] input.fwformfield-text').val();
+        orderInfo.DealId = FwFormField.getValueByDataField($form, 'DealId');
+        orderInfo.Deal = $form.find('div[data-datafield="DealId"] input.fwformfield-text').val();
+        let $stagingCheckoutForm = StagingCheckoutController.openForm(mode, orderInfo);
+        FwModule.openSubModuleTab($form, $stagingCheckoutForm);
+        jQuery('.tab.submodule.active').find('.caption').html('Staging / Check-Out');
+    }
+    //----------------------------------------------------------------------------------------------
+    checkIn($form: JQuery) {
+        let mode = 'EDIT';
+        let orderInfo: any = {};
+        orderInfo.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
+        orderInfo.OrderNumber = FwFormField.getValueByDataField($form, 'OrderNumber');
+        let $checkinForm = CheckInController.openForm(mode, orderInfo);
+        FwModule.openSubModuleTab($form, $checkinForm);
+        jQuery('.tab.submodule.active').find('.caption').html('Check-In');
+    }
+    //----------------------------------------------------------------------------------------------
+    createPickList($form: JQuery) {
+        let mode = 'EDIT';
+        let orderInfo: any = {};
+        orderInfo.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
+        let $pickListForm = CreatePickListController.openForm(mode, orderInfo);
+        FwModule.openSubModuleTab($form, $pickListForm);
+        //jQuery('.tab.submodule.active').find('.caption').html('New Pick List');
+        jQuery('.tab.submodule.active[data-tabtype="FORM"]').find('.caption').html('New Pick List');  //justin 09/16/2019 added data-tabtype="FORM" to target the top-level form tab, not the tab page on the Order form
+        var $pickListUtilityGrid;
+        $pickListUtilityGrid = $pickListForm.find('[data-name="PickListUtilityGrid"]');
+        FwBrowse.search($pickListUtilityGrid);
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form) {
@@ -1001,21 +1469,21 @@ class Order extends OrderBase {
 //};
 //---------------------------------------------------------------------------------
 //Create Pick List
-FwApplicationTree.clickEvents[Constants.Modules.Home.Order.form.menuItems.CreatePickList.id] = function (event) {
-    try {
-        var $form = jQuery(this).closest('.fwform');
-        var orderInfo: any = {
-            OrderId: FwFormField.getValueByDataField($form, 'OrderId')
-        };
-        var $pickListForm = CreatePickListController.openForm('EDIT', orderInfo);
-        FwModule.openSubModuleTab($form, $pickListForm);
-        jQuery('.tab.submodule.active').find('.caption').html('New Pick List');
-        var $pickListUtilityGrid = $pickListForm.find('[data-name="PickListUtilityGrid"]');
-        FwBrowse.search($pickListUtilityGrid);
-    } catch (ex) {
-        FwFunc.showError(ex);
-    }
-};
+//FwApplicationTree.clickEvents[Constants.Modules.Home.Order.form.menuItems.CreatePickList.id] = function (event) {
+//    try {
+//        var $form = jQuery(this).closest('.fwform');
+//        var orderInfo: any = {
+//            OrderId: FwFormField.getValueByDataField($form, 'OrderId')
+//        };
+//        var $pickListForm = CreatePickListController.openForm('EDIT', orderInfo);
+//        FwModule.openSubModuleTab($form, $pickListForm);
+//        jQuery('.tab.submodule.active').find('.caption').html('New Pick List');
+//        var $pickListUtilityGrid = $pickListForm.find('[data-name="PickListUtilityGrid"]');
+//        FwBrowse.search($pickListUtilityGrid);
+//    } catch (ex) {
+//        FwFunc.showError(ex);
+//    }
+//};
 //----------------------------------------------------------------------------------------------
 //Confirmation for cancelling Pick List
 //FwApplicationTree.clickEvents[Constants.Modules.Home.Order.form.menuItems.CancelPickList.id] = function (event) {
@@ -1030,297 +1498,297 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.Order.form.menuItems.Create
 //};
 //----------------------------------------------------------------------------------------------
 //Copy Order
-FwApplicationTree.clickEvents[Constants.Modules.Home.Order.form.menuItems.CopyOrder.id] = function (event) {
-    try {
-        var $form           = jQuery(this).closest('.fwform');
-        const $confirmation = FwConfirmation.renderConfirmation('Copy Order', '');
-        const $yes          = FwConfirmation.addButton($confirmation, 'Copy', false);
-        const $no           = FwConfirmation.addButton($confirmation, 'Cancel');
-        const html          = [];
-        html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
-        html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-        html.push('    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Type" data-datafield="Type" data-enabled="false" style="width:90px;float:left;"></div>');
-        html.push('    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Job" data-datafield="Deal" data-enabled="false" style="width:340px;float:left;"></div>');
-        html.push('  </div>');
-        html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-        html.push('    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="No" data-datafield="OrderNo" data-enabled="false" style="width:90px;float:left;"></div>');
-        html.push('    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description" data-enabled="false" style="width:340px;float:left;"></div>');
-        html.push('  </div>');
-        html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-        html.push('    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="New Job" data-datafield="CopyToDealId" data-browsedisplayfield="Deal" data-validationname="DealValidation"></div>');
-        html.push('  </div>');
-        html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-        html.push('    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Copy Dates" data-datafield="CopyDates"></div>');
-        html.push('    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Copy Line Item Notes" data-datafield="CopyLineItemNotes"></div>');
-        html.push('  </div>');
-        html.push('</div>');
-        FwConfirmation.addControls($confirmation, html.join(''));
+//FwApplicationTree.clickEvents[Constants.Modules.Home.Order.form.menuItems.CopyOrder.id] = function (event) {
+//    try {
+//        var $form           = jQuery(this).closest('.fwform');
+//        const $confirmation = FwConfirmation.renderConfirmation('Copy Order', '');
+//        const $yes          = FwConfirmation.addButton($confirmation, 'Copy', false);
+//        const $no           = FwConfirmation.addButton($confirmation, 'Cancel');
+//        const html          = [];
+//        html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+//        html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+//        html.push('    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Type" data-datafield="Type" data-enabled="false" style="width:90px;float:left;"></div>');
+//        html.push('    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Job" data-datafield="Deal" data-enabled="false" style="width:340px;float:left;"></div>');
+//        html.push('  </div>');
+//        html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+//        html.push('    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="No" data-datafield="OrderNo" data-enabled="false" style="width:90px;float:left;"></div>');
+//        html.push('    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description" data-enabled="false" style="width:340px;float:left;"></div>');
+//        html.push('  </div>');
+//        html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+//        html.push('    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="New Job" data-datafield="CopyToDealId" data-browsedisplayfield="Deal" data-validationname="DealValidation"></div>');
+//        html.push('  </div>');
+//        html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+//        html.push('    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Copy Dates" data-datafield="CopyDates"></div>');
+//        html.push('    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Copy Line Item Notes" data-datafield="CopyLineItemNotes"></div>');
+//        html.push('  </div>');
+//        html.push('</div>');
+//        FwConfirmation.addControls($confirmation, html.join(''));
 
-        var deal        = FwFormField.getText($form, '[data-datafield="DealId"]');
-        var dealId      = FwFormField.getValue($form, '[data-datafield="DealId"]');
+//        var deal        = FwFormField.getText($form, '[data-datafield="DealId"]');
+//        var dealId      = FwFormField.getValue($form, '[data-datafield="DealId"]');
 
-        FwFormField.setValue($confirmation, 'div[data-datafield="Type"]', 'Order');
-        FwFormField.setValue($confirmation, 'div[data-datafield="Deal"]', deal);
-        FwFormField.setValue($confirmation, 'div[data-datafield="OrderNo"]', FwFormField.getValueByDataField($form, 'OrderNumber'));
-        FwFormField.setValue($confirmation, 'div[data-datafield="Description"]', FwFormField.getValueByDataField($form, 'Description'));
-        FwFormField.setValue($confirmation, 'div[data-datafield="CopyToDealId"]', dealId, deal);
-        FwFormField.setValue($confirmation, 'div[data-datafield="CopyDates"]', true);
-        FwFormField.setValue($confirmation, 'div[data-datafield="CopyLineItemNotes"]', true);
+//        FwFormField.setValue($confirmation, 'div[data-datafield="Type"]', 'Order');
+//        FwFormField.setValue($confirmation, 'div[data-datafield="Deal"]', deal);
+//        FwFormField.setValue($confirmation, 'div[data-datafield="OrderNo"]', FwFormField.getValueByDataField($form, 'OrderNumber'));
+//        FwFormField.setValue($confirmation, 'div[data-datafield="Description"]', FwFormField.getValueByDataField($form, 'Description'));
+//        FwFormField.setValue($confirmation, 'div[data-datafield="CopyToDealId"]', dealId, deal);
+//        FwFormField.setValue($confirmation, 'div[data-datafield="CopyDates"]', true);
+//        FwFormField.setValue($confirmation, 'div[data-datafield="CopyLineItemNotes"]', true);
 
-        $yes.on('click', function makeACopy() {
-            const request: any = {
-                CopyToType:             'O',
-                CopyToDealId:           FwFormField.getValueByDataField($confirmation, 'CopyToDealId'),
-                CopyRatesFromInventory: 'False',
-                CopyDates:              (FwFormField.getValueByDataField($confirmation, 'CopyDates') === 'T' ? 'True' : 'False'),
-                CopyLineItemNotes:      (FwFormField.getValueByDataField($confirmation, 'CopyLineItemNotes') === 'T' ? 'True' : 'False'),
-                CombineSubs:            'False',
-                CopyDocuments:          'False'
-            };
+//        $yes.on('click', function makeACopy() {
+//            const request: any = {
+//                CopyToType:             'O',
+//                CopyToDealId:           FwFormField.getValueByDataField($confirmation, 'CopyToDealId'),
+//                CopyRatesFromInventory: 'False',
+//                CopyDates:              (FwFormField.getValueByDataField($confirmation, 'CopyDates') === 'T' ? 'True' : 'False'),
+//                CopyLineItemNotes:      (FwFormField.getValueByDataField($confirmation, 'CopyLineItemNotes') === 'T' ? 'True' : 'False'),
+//                CombineSubs:            'False',
+//                CopyDocuments:          'False'
+//            };
 
-            FwFormField.disable($confirmation.find('.fwformfield'));
-            FwFormField.disable($yes);
-            $yes.text('Copying...');
-            $yes.off('click');
-            const orderId = FwFormField.getValueByDataField($form, 'OrderId');
-            FwAppData.apiMethod(true, 'POST', `api/v1/order/copytoorder/${orderId}`, request, FwServices.defaultTimeout, function onSuccess(response) {
-                FwNotification.renderNotification('SUCCESS', 'Order Successfully Copied');
-                FwConfirmation.destroyConfirmation($confirmation);
-                const uniqueids: any = {
-                    OrderId:     response.OrderId,
-                    OrderTypeId: response.OrderTypeId
-                };
-                var $control = OrderController.loadForm(uniqueids);
-                FwModule.openModuleTab($control, "", true, 'FORM', true);
-            }, function onError(response) {
-                $yes.on('click', makeACopy);
-                $yes.text('Copy');
-                FwFunc.showError(response);
-                FwFormField.enable($confirmation.find('.fwformfield'));
-                FwFormField.enable($yes);
-            }, $confirmation);
-        });
-    } catch (ex) {
-        FwFunc.showError(ex);
-    }
-};
+//            FwFormField.disable($confirmation.find('.fwformfield'));
+//            FwFormField.disable($yes);
+//            $yes.text('Copying...');
+//            $yes.off('click');
+//            const orderId = FwFormField.getValueByDataField($form, 'OrderId');
+//            FwAppData.apiMethod(true, 'POST', `api/v1/order/copytoorder/${orderId}`, request, FwServices.defaultTimeout, function onSuccess(response) {
+//                FwNotification.renderNotification('SUCCESS', 'Order Successfully Copied');
+//                FwConfirmation.destroyConfirmation($confirmation);
+//                const uniqueids: any = {
+//                    OrderId:     response.OrderId,
+//                    OrderTypeId: response.OrderTypeId
+//                };
+//                var $control = OrderController.loadForm(uniqueids);
+//                FwModule.openModuleTab($control, "", true, 'FORM', true);
+//            }, function onError(response) {
+//                $yes.on('click', makeACopy);
+//                $yes.text('Copy');
+//                FwFunc.showError(response);
+//                FwFormField.enable($confirmation.find('.fwformfield'));
+//                FwFormField.enable($yes);
+//            }, $confirmation);
+//        });
+//    } catch (ex) {
+//        FwFunc.showError(ex);
+//    }
+//};
 //----------------------------------------------------------------------------------------------
 //Cancel / Uncancel
-FwApplicationTree.clickEvents[Constants.Modules.Home.Order.form.menuItems.CancelUncancel.id] = function (event) {
-    try {
-        let $confirmation, $yes, $no;
-        let $form       = jQuery(this).closest('.fwform');
-        var self        = this;
-        var id          = FwFormField.getValueByDataField($form, 'OrderId');
-        var orderStatus = FwFormField.getValueByDataField($form, 'Status');
+//FwApplicationTree.clickEvents[Constants.Modules.Home.Order.form.menuItems.CancelUncancel.id] = function (event) {
+//    try {
+//        let $confirmation, $yes, $no;
+//        let $form       = jQuery(this).closest('.fwform');
+//        var self        = this;
+//        var id          = FwFormField.getValueByDataField($form, 'OrderId');
+//        var orderStatus = FwFormField.getValueByDataField($form, 'Status');
 
-        if (id != null) {
-            if (orderStatus === "CANCELLED") {
-                $confirmation = FwConfirmation.renderConfirmation('Cancel', '<div>Would you like to un-cancel this order?</div>');
-                $yes          = FwConfirmation.addButton($confirmation, 'Un-Cancel Order', false);
-                $no           = FwConfirmation.addButton($confirmation, 'Cancel');
+//        if (id != null) {
+//            if (orderStatus === "CANCELLED") {
+//                $confirmation = FwConfirmation.renderConfirmation('Cancel', '<div>Would you like to un-cancel this order?</div>');
+//                $yes          = FwConfirmation.addButton($confirmation, 'Un-Cancel Order', false);
+//                $no           = FwConfirmation.addButton($confirmation, 'Cancel');
 
-                $yes.on('click', function uncancelOrder() {
-                    FwFormField.disable($confirmation.find('.fwformfield'));
-                    FwFormField.disable($yes);
-                    $yes.text('Retrieving...');
-                    $yes.off('click');
+//                $yes.on('click', function uncancelOrder() {
+//                    FwFormField.disable($confirmation.find('.fwformfield'));
+//                    FwFormField.disable($yes);
+//                    $yes.text('Retrieving...');
+//                    $yes.off('click');
 
-                    FwAppData.apiMethod(true, 'POST', `api/v1/order/uncancel/${id}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
-                        FwNotification.renderNotification('SUCCESS', 'Order Successfully Retrieved');
-                        FwConfirmation.destroyConfirmation($confirmation);
-                        FwModule.refreshForm($form);
-                    }, function onError(response) {
-                        $yes.on('click', uncancelOrder);
-                        $yes.text('Cancel');
-                        FwFunc.showError(response);
-                        FwFormField.enable($confirmation.find('.fwformfield'));
-                        FwFormField.enable($yes);
-                        FwModule.refreshForm($form);
-                    }, $form);
-                });
-            } else {
-                $confirmation = FwConfirmation.renderConfirmation('Cancel', '<div>Would you like to cancel this order?</div>');
-                $yes          = FwConfirmation.addButton($confirmation, 'Cancel Order', false);
-                $no           = FwConfirmation.addButton($confirmation, 'Cancel');
+//                    FwAppData.apiMethod(true, 'POST', `api/v1/order/uncancel/${id}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
+//                        FwNotification.renderNotification('SUCCESS', 'Order Successfully Retrieved');
+//                        FwConfirmation.destroyConfirmation($confirmation);
+//                        FwModule.refreshForm($form);
+//                    }, function onError(response) {
+//                        $yes.on('click', uncancelOrder);
+//                        $yes.text('Cancel');
+//                        FwFunc.showError(response);
+//                        FwFormField.enable($confirmation.find('.fwformfield'));
+//                        FwFormField.enable($yes);
+//                        FwModule.refreshForm($form);
+//                    }, $form);
+//                });
+//            } else {
+//                $confirmation = FwConfirmation.renderConfirmation('Cancel', '<div>Would you like to cancel this order?</div>');
+//                $yes          = FwConfirmation.addButton($confirmation, 'Cancel Order', false);
+//                $no           = FwConfirmation.addButton($confirmation, 'Cancel');
 
-                $yes.on('click', function cancelOrder() {
-                    FwFormField.disable($confirmation.find('.fwformfield'));
-                    FwFormField.disable($yes);
-                    $yes.text('Canceling...');
-                    $yes.off('click');
+//                $yes.on('click', function cancelOrder() {
+//                    FwFormField.disable($confirmation.find('.fwformfield'));
+//                    FwFormField.disable($yes);
+//                    $yes.text('Canceling...');
+//                    $yes.off('click');
 
-                    FwAppData.apiMethod(true, 'POST', `api/v1/order/cancel/${id}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
-                        FwNotification.renderNotification('SUCCESS', 'Order Successfully Cancelled');
-                        FwConfirmation.destroyConfirmation($confirmation);
-                        FwModule.refreshForm($form);
-                    }, function onError(response) {
-                        $yes.on('click', cancelOrder);
-                        $yes.text('Cancel');
-                        FwFunc.showError(response);
-                        FwFormField.enable($confirmation.find('.fwformfield'));
-                        FwFormField.enable($yes);
-                        FwModule.refreshForm($form);
-                    }, $form);
-                });
-            }
-        } else {
-            FwNotification.renderNotification('WARNING', 'Select an Order to perform this action.');
-        }
-    } catch (ex) {
-        FwFunc.showError(ex);
-    }
-};
+//                    FwAppData.apiMethod(true, 'POST', `api/v1/order/cancel/${id}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
+//                        FwNotification.renderNotification('SUCCESS', 'Order Successfully Cancelled');
+//                        FwConfirmation.destroyConfirmation($confirmation);
+//                        FwModule.refreshForm($form);
+//                    }, function onError(response) {
+//                        $yes.on('click', cancelOrder);
+//                        $yes.text('Cancel');
+//                        FwFunc.showError(response);
+//                        FwFormField.enable($confirmation.find('.fwformfield'));
+//                        FwFormField.enable($yes);
+//                        FwModule.refreshForm($form);
+//                    }, $form);
+//                });
+//            }
+//        } else {
+//            FwNotification.renderNotification('WARNING', 'Select an Order to perform this action.');
+//        }
+//    } catch (ex) {
+//        FwFunc.showError(ex);
+//    }
+//};
 //----------------------------------------------------------------------------------------------
 //Order Status
-FwApplicationTree.clickEvents[Constants.Modules.Home.Order.form.menuItems.OrderStatus.id] = function (e) {
-    try {
-        var $form = jQuery(this).closest('.fwform');
-        var orderInfo: any = {
-            OrderId:     FwFormField.getValueByDataField($form, 'OrderId'),
-            OrderNumber: FwFormField.getValueByDataField($form, 'OrderNumber')
-        };
-        var $orderStatusForm = OrderStatusController.openForm('EDIT', orderInfo);
-        FwModule.openSubModuleTab($form, $orderStatusForm);
-        jQuery('.tab.submodule.active').find('.caption').html('Order Status');
-    } catch (ex) {
-        FwFunc.showError(ex);
-    }
-};
+//FwApplicationTree.clickEvents[Constants.Modules.Home.Order.form.menuItems.OrderStatus.id] = function (e) {
+//    try {
+//        var $form = jQuery(this).closest('.fwform');
+//        var orderInfo: any = {
+//            OrderId:     FwFormField.getValueByDataField($form, 'OrderId'),
+//            OrderNumber: FwFormField.getValueByDataField($form, 'OrderNumber')
+//        };
+//        var $orderStatusForm = OrderStatusController.openForm('EDIT', orderInfo);
+//        FwModule.openSubModuleTab($form, $orderStatusForm);
+//        jQuery('.tab.submodule.active').find('.caption').html('Order Status');
+//    } catch (ex) {
+//        FwFunc.showError(ex);
+//    }
+//};
 //----------------------------------------------------------------------------------------------
 //Check In
-FwApplicationTree.clickEvents[Constants.Modules.Home.Order.form.menuItems.CheckIn.id] = function (e) {
-    try {
-        var $form = jQuery(this).closest('.fwform');
-        var orderInfo: any = {
-            OrderId:     FwFormField.getValueByDataField($form, 'OrderId'),
-            OrderNumber: FwFormField.getValueByDataField($form, 'OrderNumber')
-        };
-        var $checkinForm = CheckInController.openForm('EDIT', orderInfo);
-        FwModule.openSubModuleTab($form, $checkinForm);
-        jQuery('.tab.submodule.active').find('.caption').html('Check-In');
-    } catch (ex) {
-        FwFunc.showError(ex);
-    }
-};
+//FwApplicationTree.clickEvents[Constants.Modules.Home.Order.form.menuItems.CheckIn.id] = function (e) {
+//    try {
+//        var $form = jQuery(this).closest('.fwform');
+//        var orderInfo: any = {
+//            OrderId:     FwFormField.getValueByDataField($form, 'OrderId'),
+//            OrderNumber: FwFormField.getValueByDataField($form, 'OrderNumber')
+//        };
+//        var $checkinForm = CheckInController.openForm('EDIT', orderInfo);
+//        FwModule.openSubModuleTab($form, $checkinForm);
+//        jQuery('.tab.submodule.active').find('.caption').html('Check-In');
+//    } catch (ex) {
+//        FwFunc.showError(ex);
+//    }
+//};
 //----------------------------------------------------------------------------------------------
 //Check Out
-FwApplicationTree.clickEvents[Constants.Modules.Home.Order.form.menuItems.CheckOut.id] = function (event) {
-    try {
-        var $form = jQuery(this).closest('.fwform');
-        var orderInfo: any = {
-            OrderId:     FwFormField.getValueByDataField($form, 'OrderId'),
-            OrderNumber: FwFormField.getValueByDataField($form, 'OrderNumber'),
-            WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId'),
-            Warehouse:   FwFormField.getText($form, 'div[data-datafield="WarehouseId"]'),
-            DealId:      FwFormField.getValueByDataField($form, 'DealId'),
-            Deal:        FwFormField.getText($form, 'div[data-datafield="DealId"]')
-        };
-        var $stagingCheckoutForm = StagingCheckoutController.openForm('EDIT', orderInfo);
-        FwModule.openSubModuleTab($form, $stagingCheckoutForm);
-        jQuery('.tab.submodule.active').find('.caption').html('Staging / Check-Out');
-    } catch (ex) {
-        FwFunc.showError(ex);
-    }
-};
+//FwApplicationTree.clickEvents[Constants.Modules.Home.Order.form.menuItems.CheckOut.id] = function (event) {
+//    try {
+//        var $form = jQuery(this).closest('.fwform');
+//        var orderInfo: any = {
+//            OrderId:     FwFormField.getValueByDataField($form, 'OrderId'),
+//            OrderNumber: FwFormField.getValueByDataField($form, 'OrderNumber'),
+//            WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId'),
+//            Warehouse:   FwFormField.getText($form, 'div[data-datafield="WarehouseId"]'),
+//            DealId:      FwFormField.getValueByDataField($form, 'DealId'),
+//            Deal:        FwFormField.getText($form, 'div[data-datafield="DealId"]')
+//        };
+//        var $stagingCheckoutForm = StagingCheckoutController.openForm('EDIT', orderInfo);
+//        FwModule.openSubModuleTab($form, $stagingCheckoutForm);
+//        jQuery('.tab.submodule.active').find('.caption').html('Staging / Check-Out');
+//    } catch (ex) {
+//        FwFunc.showError(ex);
+//    }
+//};
 //----------------------------------------------------------------------------------------------
 //Open Search Interface
-FwApplicationTree.clickEvents[Constants.Modules.Home.Order.form.menuItems.Search.id] = function (e) {
-    var $form = jQuery(this).closest('.fwform');
-    var orderId = FwFormField.getValueByDataField($form, 'OrderId');
-    if ($form.attr('data-mode') === 'NEW') {
-        OrderController.saveForm($form, { closetab: false });
-        return;
-    }
-    if (orderId == "") {
-        FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
-    } else {
-        var search = new SearchInterface();
-        search.renderSearchPopup($form, orderId, 'Order');
-    }
-};
+//FwApplicationTree.clickEvents[Constants.Modules.Home.Order.form.menuItems.Search.id] = function (e) {
+//    var $form = jQuery(this).closest('.fwform');
+//    var orderId = FwFormField.getValueByDataField($form, 'OrderId');
+//    if ($form.attr('data-mode') === 'NEW') {
+//        OrderController.saveForm($form, { closetab: false });
+//        return;
+//    }
+//    if (orderId == "") {
+//        FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
+//    } else {
+//        var search = new SearchInterface();
+//        search.renderSearchPopup($form, orderId, 'Order');
+//    }
+//};
 //----------------------------------------------------------------------------------------------
 //Print Order
-FwApplicationTree.clickEvents[Constants.Modules.Home.Order.form.menuItems.PrintOrder.id] = function (e) {
-    try {
-        var $form       = jQuery(this).closest('.fwform');
-        var orderNumber = FwFormField.getValue($form, 'div[data-datafield="OrderNumber"]');
-        var orderId     = FwFormField.getValue($form, 'div[data-datafield="OrderId"]');
-        var $report     = OrderReportController.openForm();
+//FwApplicationTree.clickEvents[Constants.Modules.Home.Order.form.menuItems.PrintOrder.id] = function (e) {
+//    try {
+//        var $form       = jQuery(this).closest('.fwform');
+//        var orderNumber = FwFormField.getValue($form, 'div[data-datafield="OrderNumber"]');
+//        var orderId     = FwFormField.getValue($form, 'div[data-datafield="OrderId"]');
+//        var $report     = OrderReportController.openForm();
 
-        FwModule.openSubModuleTab($form, $report);
+//        FwModule.openSubModuleTab($form, $report);
 
-        FwFormField.setValue($report, 'div[data-datafield="OrderId"]', orderId, orderNumber);
-    } catch (ex) {
-        FwFunc.showError(ex);
-    }
-};
+//        FwFormField.setValue($report, 'div[data-datafield="OrderId"]', orderId, orderNumber);
+//    } catch (ex) {
+//        FwFunc.showError(ex);
+//    }
+//};
 //---------------------------------------------------------------------------------
 //Browse Cancel Option
-FwApplicationTree.clickEvents[Constants.Modules.Home.Order.browse.menuItems.CancelUncancel.id] = function (event) {
-    try {
-        let $confirmation, $yes, $no;
-        var $browse     = jQuery(this).closest('.fwbrowse');
-        var orderId     = $browse.find('.selected [data-browsedatafield="OrderId"]').attr('data-originalvalue');
-        var orderStatus = $browse.find('.selected [data-formdatafield="Status"]').attr('data-originalvalue');
+//FwApplicationTree.clickEvents[Constants.Modules.Home.Order.browse.menuItems.CancelUncancel.id] = function (event) {
+//    try {
+//        let $confirmation, $yes, $no;
+//        var $browse     = jQuery(this).closest('.fwbrowse');
+//        var orderId     = $browse.find('.selected [data-browsedatafield="OrderId"]').attr('data-originalvalue');
+//        var orderStatus = $browse.find('.selected [data-formdatafield="Status"]').attr('data-originalvalue');
 
-        if (orderId != null) {
-            if (orderStatus === "CANCELLED") {
-                $confirmation = FwConfirmation.renderConfirmation('Cancel', '<div>Would you like to un-cancel this Order?</div>');
-                $yes          = FwConfirmation.addButton($confirmation, 'Un-Cancel Order', false);
-                $no           = FwConfirmation.addButton($confirmation, 'Cancel');
+//        if (orderId != null) {
+//            if (orderStatus === "CANCELLED") {
+//                $confirmation = FwConfirmation.renderConfirmation('Cancel', '<div>Would you like to un-cancel this Order?</div>');
+//                $yes          = FwConfirmation.addButton($confirmation, 'Un-Cancel Order', false);
+//                $no           = FwConfirmation.addButton($confirmation, 'Cancel');
 
-                $yes.on('click', function uncancelOrder() {
-                    FwFormField.disable($confirmation.find('.fwformfield'));
-                    FwFormField.disable($yes);
-                    $yes.text('Retrieving...');
-                    $yes.off('click');
+//                $yes.on('click', function uncancelOrder() {
+//                    FwFormField.disable($confirmation.find('.fwformfield'));
+//                    FwFormField.disable($yes);
+//                    $yes.text('Retrieving...');
+//                    $yes.off('click');
 
-                    FwAppData.apiMethod(true, 'POST', `api/v1/order/uncancel/${orderId}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
-                        FwNotification.renderNotification('SUCCESS', 'Order Successfully Retrieved');
-                        FwConfirmation.destroyConfirmation($confirmation);
-                        FwBrowse.databind($browse);
-                    }, function onError(response) {
-                        $yes.on('click', uncancelOrder);
-                        $yes.text('Cancel');
-                        FwFunc.showError(response);
-                        FwFormField.enable($confirmation.find('.fwformfield'));
-                        FwFormField.enable($yes);
-                        FwBrowse.databind($browse);
-                    }, $browse);
-                });
-            } else {
-                $confirmation = FwConfirmation.renderConfirmation('Cancel', '<div>Would you like to cancel this Order?</div>');
-                $yes          = FwConfirmation.addButton($confirmation, 'Cancel Order', false);
-                $no           = FwConfirmation.addButton($confirmation, 'Cancel');
+//                    FwAppData.apiMethod(true, 'POST', `api/v1/order/uncancel/${orderId}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
+//                        FwNotification.renderNotification('SUCCESS', 'Order Successfully Retrieved');
+//                        FwConfirmation.destroyConfirmation($confirmation);
+//                        FwBrowse.databind($browse);
+//                    }, function onError(response) {
+//                        $yes.on('click', uncancelOrder);
+//                        $yes.text('Cancel');
+//                        FwFunc.showError(response);
+//                        FwFormField.enable($confirmation.find('.fwformfield'));
+//                        FwFormField.enable($yes);
+//                        FwBrowse.databind($browse);
+//                    }, $browse);
+//                });
+//            } else {
+//                $confirmation = FwConfirmation.renderConfirmation('Cancel', '<div>Would you like to cancel this Order?</div>');
+//                $yes          = FwConfirmation.addButton($confirmation, 'Cancel Order', false);
+//                $no           = FwConfirmation.addButton($confirmation, 'Cancel');
 
-                $yes.on('click', function cancelOrder() {
-                    FwFormField.disable($confirmation.find('.fwformfield'));
-                    FwFormField.disable($yes);
-                    $yes.text('Canceling...');
-                    $yes.off('click');
+//                $yes.on('click', function cancelOrder() {
+//                    FwFormField.disable($confirmation.find('.fwformfield'));
+//                    FwFormField.disable($yes);
+//                    $yes.text('Canceling...');
+//                    $yes.off('click');
 
-                    FwAppData.apiMethod(true, 'POST', `api/v1/order/cancel/${orderId}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
-                        FwNotification.renderNotification('SUCCESS', 'Order Successfully Cancelled');
-                        FwConfirmation.destroyConfirmation($confirmation);
-                        FwBrowse.databind($browse);
-                    }, function onError(response) {
-                        $yes.on('click', cancelOrder);
-                        $yes.text('Cancel');
-                        FwFunc.showError(response);
-                        FwFormField.enable($confirmation.find('.fwformfield'));
-                        FwFormField.enable($yes);
-                        FwBrowse.databind($browse);
-                    }, $browse);
-                });
-            }
-        } else {
-            FwNotification.renderNotification('WARNING', 'Select an Order to perform this action.');
-        }
-    } catch (ex) {
-        FwFunc.showError(ex);
-    }
-};
+//                    FwAppData.apiMethod(true, 'POST', `api/v1/order/cancel/${orderId}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
+//                        FwNotification.renderNotification('SUCCESS', 'Order Successfully Cancelled');
+//                        FwConfirmation.destroyConfirmation($confirmation);
+//                        FwBrowse.databind($browse);
+//                    }, function onError(response) {
+//                        $yes.on('click', cancelOrder);
+//                        $yes.text('Cancel');
+//                        FwFunc.showError(response);
+//                        FwFormField.enable($confirmation.find('.fwformfield'));
+//                        FwFormField.enable($yes);
+//                        FwBrowse.databind($browse);
+//                    }, $browse);
+//                });
+//            }
+//        } else {
+//            FwNotification.renderNotification('WARNING', 'Select an Order to perform this action.');
+//        }
+//    } catch (ex) {
+//        FwFunc.showError(ex);
+//    }
+//};
 //---------------------------------------------------------------------------------
 
 var OrderController = new Order();

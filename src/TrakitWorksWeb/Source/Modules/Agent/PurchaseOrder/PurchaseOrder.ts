@@ -67,7 +67,37 @@ class PurchaseOrder {
         return $browse;
     };
     //----------------------------------------------------------------------------------------------
-    addBrowseMenuItems($menuObject: any) {
+    //addBrowseMenuItems($menuObject: any) {
+    //    const $all = FwMenu.generateDropDownViewBtn('All', true, "ALL");
+    //    const $new = FwMenu.generateDropDownViewBtn('New', false, "NEW");
+    //    const $open = FwMenu.generateDropDownViewBtn('Open', false, "OPEN");
+    //    const $received = FwMenu.generateDropDownViewBtn('Received', false, "RECEIVED");
+    //    const $complete = FwMenu.generateDropDownViewBtn('Complete', false, "COMPLETE");
+    //    const $void = FwMenu.generateDropDownViewBtn('Void', false, "VOID");
+    //    const $closed = FwMenu.generateDropDownViewBtn('Closed', false, "CLOSED");
+        
+    //    const viewSubitems: Array<JQuery> = [];
+    //    viewSubitems.push($all, $new, $open, $received, $complete, $void, $closed);
+    //    FwMenu.addViewBtn($menuObject, 'View', viewSubitems, true, "Status");
+
+    //    //Location Filter
+    //    const location = JSON.parse(sessionStorage.getItem('location'));
+    //    const $allLocations = FwMenu.generateDropDownViewBtn('ALL Locations', false, "ALL");
+    //    const $userLocation = FwMenu.generateDropDownViewBtn(location.location, true, location.locationid);
+
+    //    if (typeof this.ActiveViewFields["LocationId"] == 'undefined') {
+    //        this.ActiveViewFields.LocationId = [location.locationid];
+    //    }
+        
+    //    const viewLocation: Array<JQuery> = [];
+    //    viewLocation.push($userLocation, $allLocations);
+    //    FwMenu.addViewBtn($menuObject, 'Location', viewLocation, true, "LocationId");
+    //    return $menuObject;
+    //};
+    //----------------------------------------------------------------------------------------------
+    addBrowseMenuItems(options: IAddBrowseMenuOptions): void {
+        FwMenu.addBrowseMenuButtons(options);
+
         const $all = FwMenu.generateDropDownViewBtn('All', true, "ALL");
         const $new = FwMenu.generateDropDownViewBtn('New', false, "NEW");
         const $open = FwMenu.generateDropDownViewBtn('Open', false, "OPEN");
@@ -75,10 +105,10 @@ class PurchaseOrder {
         const $complete = FwMenu.generateDropDownViewBtn('Complete', false, "COMPLETE");
         const $void = FwMenu.generateDropDownViewBtn('Void', false, "VOID");
         const $closed = FwMenu.generateDropDownViewBtn('Closed', false, "CLOSED");
-        
+
         const viewSubitems: Array<JQuery> = [];
         viewSubitems.push($all, $new, $open, $received, $complete, $void, $closed);
-        FwMenu.addViewBtn($menuObject, 'View', viewSubitems, true, "Status");
+        FwMenu.addViewBtn(options.$menu, 'View', viewSubitems, true, "Status");
 
         //Location Filter
         const location = JSON.parse(sessionStorage.getItem('location'));
@@ -88,12 +118,45 @@ class PurchaseOrder {
         if (typeof this.ActiveViewFields["LocationId"] == 'undefined') {
             this.ActiveViewFields.LocationId = [location.locationid];
         }
-        
+
         const viewLocation: Array<JQuery> = [];
         viewLocation.push($userLocation, $allLocations);
-        FwMenu.addViewBtn($menuObject, 'Location', viewLocation, true, "LocationId");
-        return $menuObject;
-    };
+        FwMenu.addViewBtn(options.$menu, 'Location', viewLocation, true, "LocationId");
+    }
+    //----------------------------------------------------------------------------------------------
+    addFormMenuItems(options: IAddFormMenuOptions): void {
+        FwMenu.addFormMenuButtons(options);
+
+        FwMenu.addSubMenuItem(options.$groupOptions, 'Assign Barcodes', 'cCF4flMdl36v', (e: JQuery.ClickEvent) => {
+            try {
+                this.assignBarCodes(options.$form);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+        FwMenu.addSubMenuItem(options.$groupOptions, 'Receive From Vendor', 'Ib1R4j9P0d9E', (e: JQuery.ClickEvent) => {
+            try {
+                this.receiveFromVendor(options.$form);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+        FwMenu.addSubMenuItem(options.$groupOptions, 'Return To Vendor', 'R645XpKYOSX1', (e: JQuery.ClickEvent) => {
+            try {
+                this.returnToVendor(options.$form);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+        //no-security
+        FwMenu.addSubMenuItem(options.$groupOptions, 'Search', '', (e: JQuery.ClickEvent) => {
+            try {
+                this.search(options.$form);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+    }
     //----------------------------------------------------------------------------------------------
     openForm(mode: string, parentModuleInfo?: any) {
         let $form = FwModule.loadFormFromTemplate(this.Module);
@@ -214,93 +277,225 @@ class PurchaseOrder {
     //----------------------------------------------------------------------------------------------
     renderGrids($form: JQuery): void {
         // ----------
-        const $orderStatusHistoryGrid = $form.find('div[data-grid="OrderStatusHistoryGrid"]');
-        const $orderStatusHistoryGridControl = FwBrowse.loadGridFromTemplate('OrderStatusHistoryGrid');
-        $orderStatusHistoryGrid.empty().append($orderStatusHistoryGridControl);
-        $orderStatusHistoryGridControl.data('ondatabind', request => {
-            request.uniqueids = {
-                OrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId')
-            };
+        //const $orderStatusHistoryGrid = $form.find('div[data-grid="OrderStatusHistoryGrid"]');
+        //const $orderStatusHistoryGridControl = FwBrowse.loadGridFromTemplate('OrderStatusHistoryGrid');
+        //$orderStatusHistoryGrid.empty().append($orderStatusHistoryGridControl);
+        //$orderStatusHistoryGridControl.data('ondatabind', request => {
+        //    request.uniqueids = {
+        //        OrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId')
+        //    };
+        //});
+        //FwBrowse.init($orderStatusHistoryGridControl);
+        //FwBrowse.renderRuntimeHtml($orderStatusHistoryGridControl);
+        FwBrowse.renderGrid({
+            nameGrid: 'OrderStatusHistoryGrid',
+            gridSecurityId: 'k6GqKM4CQRme',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    OrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId')
+                }
+            }
         });
-        FwBrowse.init($orderStatusHistoryGridControl);
-        FwBrowse.renderRuntimeHtml($orderStatusHistoryGridControl);
         // ----------
-        const $orderItemGridRental = $form.find('.rentalgrid div[data-grid="OrderItemGrid"]');
-        const $orderItemGridRentalControl = FwBrowse.loadGridFromTemplate('OrderItemGrid');
-        $orderItemGridRentalControl.find('div[data-datafield="Price"]').attr('data-caption', 'Unit Price');
-        $orderItemGridRentalControl.find('div[data-datafield="PeriodDiscountAmount"]').attr('data-caption', 'Discount Amount');
-        $orderItemGridRentalControl.find('div[data-datafield="PeriodExtended"]').attr('data-caption', 'Extended');
-        $orderItemGridRentalControl.find('div[data-datafield="PeriodExtended"]').attr('data-formreadonly', 'true');
+        //const $orderItemGridRental = $form.find('.rentalgrid div[data-grid="OrderItemGrid"]');
+        //const $orderItemGridRentalControl = FwBrowse.loadGridFromTemplate('OrderItemGrid');
+        //$orderItemGridRentalControl.find('div[data-datafield="Price"]').attr('data-caption', 'Unit Price');
+        //$orderItemGridRentalControl.find('div[data-datafield="PeriodDiscountAmount"]').attr('data-caption', 'Discount Amount');
+        //$orderItemGridRentalControl.find('div[data-datafield="PeriodExtended"]').attr('data-caption', 'Extended');
+        //$orderItemGridRentalControl.find('div[data-datafield="PeriodExtended"]').attr('data-formreadonly', 'true');
 
-        $orderItemGridRental.empty().append($orderItemGridRentalControl);
-        $orderItemGridRentalControl.data('isSummary', false);
-        $orderItemGridRental.addClass('R');
+        //$orderItemGridRental.empty().append($orderItemGridRentalControl);
+        //$orderItemGridRentalControl.data('isSummary', false);
+        //$orderItemGridRental.addClass('R');
 
-        $orderItemGridRentalControl.data('ondatabind', request => {
-            request.uniqueids = {
-                OrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId'),
-                RecType: 'R'
-            };
+        //$orderItemGridRentalControl.data('ondatabind', request => {
+        //    request.uniqueids = {
+        //        OrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId'),
+        //        RecType: 'R'
+        //    };
+        //});
+        //$orderItemGridRentalControl.data('beforesave', request => {
+        //    request.OrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
+        //    request.RecType = 'R';
+        //});
+
+        //FwBrowse.addEventHandler($orderItemGridRentalControl, 'afterdatabindcallback', () => {
+        //    const rentalItems = $form.find('.rentalgrid tbody').children();
+        //    rentalItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Rental"]')) : FwFormField.enable($form.find('[data-datafield="Rental"]'));
+        //});
+
+        //FwBrowse.init($orderItemGridRentalControl);
+        //FwBrowse.renderRuntimeHtml($orderItemGridRentalControl);
+        FwBrowse.renderGrid({
+            nameGrid: 'OrderItemGrid',
+            gridSelector: '.rentalgrid div[data-grid="OrderItemGrid"]',
+            gridSecurityId: 'Vw70Sf1kT0HR',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    OrderId: FwFormField.getValueByDataField($form, `${this.Module}Id`),
+                    RecType: 'R'
+                };
+            },
+            beforeSave: (request: any) => {
+                request.OrderId = FwFormField.getValueByDataField($form, `${this.Module}Id`);
+                request.RecType = 'R';
+            },
+            beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
+                $fwgrid.addClass('R');
+                $browse.data('isSummary', false);
+                $browse.find('div[data-datafield="Price"]').attr('data-caption', 'Unit Price');
+                $browse.find('div[data-datafield="PeriodDiscountAmount"]').attr('data-caption', 'Discount Amount');
+                $browse.find('div[data-datafield="PeriodExtended"]').attr('data-caption', 'Extended');
+                $browse.find('div[data-datafield="PeriodExtended"]').attr('data-formreadonly', 'true');
+            },
+            afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
+                const rentalItems = $form.find('.rentalgrid tbody').children();
+                rentalItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Rental"]')) : FwFormField.enable($form.find('[data-datafield="Rental"]'));
+            }
         });
-        $orderItemGridRentalControl.data('beforesave', request => {
-            request.OrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
-            request.RecType = 'R';
-        });
-
-        FwBrowse.addEventHandler($orderItemGridRentalControl, 'afterdatabindcallback', () => {
-            const rentalItems = $form.find('.rentalgrid tbody').children();
-            rentalItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Rental"]')) : FwFormField.enable($form.find('[data-datafield="Rental"]'));
-        });
-
-        FwBrowse.init($orderItemGridRentalControl);
-        FwBrowse.renderRuntimeHtml($orderItemGridRentalControl);
         // ----------
-        const $orderItemGridSubRent = $form.find('.subrentalgrid div[data-grid="OrderItemGrid"]');
-        const $orderItemGridSubRentControl = FwBrowse.loadGridFromTemplate('OrderItemGrid');
-        $orderItemGridSubRentControl.find('.suborder').attr('data-visible', 'true');
-        $orderItemGridSubRentControl.find('div[data-datafield="Price"]').attr('data-caption', 'Unit Price');
-        $orderItemGridSubRentControl.find('div[data-datafield="PeriodDiscountAmount"]').attr('data-caption', 'Discount Amount');
-        $orderItemGridSubRentControl.find('div[data-datafield="PeriodExtended"]').attr('data-caption', 'Extended');
-        $orderItemGridSubRent.empty().append($orderItemGridSubRentControl);
-        $orderItemGridSubRent.addClass('R');
-        $orderItemGridSubRentControl.data('isSummary', false);
+        //const $orderItemGridSubRent = $form.find('.subrentalgrid div[data-grid="OrderItemGrid"]');
+        //const $orderItemGridSubRentControl = FwBrowse.loadGridFromTemplate('OrderItemGrid');
+        //$orderItemGridSubRentControl.find('.suborder').attr('data-visible', 'true');
+        //$orderItemGridSubRentControl.find('div[data-datafield="Price"]').attr('data-caption', 'Unit Price');
+        //$orderItemGridSubRentControl.find('div[data-datafield="PeriodDiscountAmount"]').attr('data-caption', 'Discount Amount');
+        //$orderItemGridSubRentControl.find('div[data-datafield="PeriodExtended"]').attr('data-caption', 'Extended');
+        //$orderItemGridSubRent.empty().append($orderItemGridSubRentControl);
+        //$orderItemGridSubRent.addClass('R');
+        //$orderItemGridSubRentControl.data('isSummary', false);
 
-        $orderItemGridSubRentControl.data('ondatabind', request => {
-            request.uniqueids = {
-                OrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId'),
-                RecType: 'R',
-                Summary: true,
-                Subs: true
-            };
-        });
-        $orderItemGridSubRentControl.data('beforesave', request => {
-            request.OrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
-            request.RecType = 'R';
-            request.Summary = true;
-            request.Subs = true;
-        });
-        FwBrowse.addEventHandler($orderItemGridSubRentControl, 'afterdatabindcallback', () => {
-            const subrentItems = $form.find('.subrentalgrid tbody').children();
-            subrentItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="SubRent"]')) : FwFormField.enable($form.find('[data-datafield="SubRent"]'));
-        });
+        //$orderItemGridSubRentControl.data('ondatabind', request => {
+        //    request.uniqueids = {
+        //        OrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId'),
+        //        RecType: 'R',
+        //        Summary: true,
+        //        Subs: true
+        //    };
+        //});
+        //$orderItemGridSubRentControl.data('beforesave', request => {
+        //    request.OrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
+        //    request.RecType = 'R';
+        //    request.Summary = true;
+        //    request.Subs = true;
+        //});
+        //FwBrowse.addEventHandler($orderItemGridSubRentControl, 'afterdatabindcallback', () => {
+        //    const subrentItems = $form.find('.subrentalgrid tbody').children();
+        //    subrentItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="SubRent"]')) : FwFormField.enable($form.find('[data-datafield="SubRent"]'));
+        //});
 
-        FwBrowse.init($orderItemGridSubRentControl);
-        FwBrowse.renderRuntimeHtml($orderItemGridSubRentControl);
+        //FwBrowse.init($orderItemGridSubRentControl);
+        //FwBrowse.renderRuntimeHtml($orderItemGridSubRentControl);
+        FwBrowse.renderGrid({
+            nameGrid: 'OrderItemGrid',
+            gridSelector: '.subrentalgrid div[data-grid="OrderItemGrid"]',
+            gridSecurityId: '4xH0ub5zREgD',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    OrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId'),
+                    RecType: 'R',
+                    Summary: true,
+                    Subs: true
+                };
+            },
+            beforeSave: (request: any) => {
+                request.OrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
+                request.RecType = 'R';
+                request.Summary = true;
+                request.Subs = true;
+            },
+            beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
+                $fwgrid.addClass('R');
+                $browse.data('isSummary', false);
+                $browse.find('.suborder').attr('data-visible', 'true');
+                $browse.find('div[data-datafield="Price"]').attr('data-caption', 'Unit Price');
+                $browse.find('div[data-datafield="PeriodDiscountAmount"]').attr('data-caption', 'Discount Amount');
+                $browse.find('div[data-datafield="PeriodExtended"]').attr('data-caption', 'Extended');
+            },
+            afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
+                const subrentItems = $form.find('.subrentalgrid tbody').children();
+                subrentItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="SubRent"]')) : FwFormField.enable($form.find('[data-datafield="SubRent"]'));
+            }
+        });
         // ----------
-        const $orderNoteGrid = $form.find('div[data-grid="OrderNoteGrid"]');
-        const $orderNoteGridControl = FwBrowse.loadGridFromTemplate('OrderNoteGrid');
-        $orderNoteGrid.empty().append($orderNoteGridControl);
-        $orderNoteGridControl.data('ondatabind', request => {
-            request.uniqueids = {
-                OrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId')
-            };
+        //const $orderNoteGrid = $form.find('div[data-grid="OrderNoteGrid"]');
+        //const $orderNoteGridControl = FwBrowse.loadGridFromTemplate('OrderNoteGrid');
+        //$orderNoteGrid.empty().append($orderNoteGridControl);
+        //$orderNoteGridControl.data('ondatabind', request => {
+        //    request.uniqueids = {
+        //        OrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId')
+        //    };
+        //});
+        //$orderNoteGridControl.data('beforesave', request => {
+        //    request.OrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId')
+        //});
+        //FwBrowse.init($orderNoteGridControl);
+        //FwBrowse.renderRuntimeHtml($orderNoteGridControl);
+        FwBrowse.renderGrid({
+            nameGrid: 'OrderNoteGrid',
+            gridSecurityId: 'rf47IV47DeSX',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    OrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId'),
+                };
+            },
+            beforeSave: (request: any) => {
+                request.OrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
+            }
         });
-        $orderNoteGridControl.data('beforesave', request => {
-            request.OrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId')
-        });
-        FwBrowse.init($orderNoteGridControl);
-        FwBrowse.renderRuntimeHtml($orderNoteGridControl);
     };
+    //----------------------------------------------------------------------------------------------
+    assignBarCodes($form) {
+        const mode = 'EDIT';
+        let purchaseOrderInfo: any = {};
+        purchaseOrderInfo.PurchaseOrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
+        purchaseOrderInfo.PurchaseOrderNumber = FwFormField.getValueByDataField($form, 'PurchaseOrderNumber');
+        const $assignBarCodesForm = AssignBarCodesController.openForm(mode, purchaseOrderInfo);
+        FwModule.openSubModuleTab($form, $assignBarCodesForm);
+        jQuery('.tab.submodule.active').find('.caption').html('Assign Bar Codes');
+    }
+    //----------------------------------------------------------------------------------------------
+    returnToVendor($form) {
+        let mode = 'EDIT';
+        let purchaseOrderInfo: any = {};
+        purchaseOrderInfo.PurchaseOrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
+        purchaseOrderInfo.PurchaseOrderNumber = FwFormField.getValueByDataField($form, 'PurchaseOrderNumber');
+        let $returnToVendorForm = ReturnToVendorController.openForm(mode, purchaseOrderInfo);
+        FwModule.openSubModuleTab($form, $returnToVendorForm);
+        jQuery('.tab.submodule.active').find('.caption').html('Return To Vendor');
+    }
+    //----------------------------------------------------------------------------------------------
+    search($form) {
+        let orderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
+
+        if (orderId == "") {
+            FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
+        } else {
+            let search = new SearchInterface();
+            let $popup = search.renderSearchPopup($form, orderId, 'PurchaseOrder');
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    receiveFromVendor($form) {
+        let mode = 'EDIT';
+        let purchaseOrderInfo: any = {};
+        purchaseOrderInfo.PurchaseOrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
+        purchaseOrderInfo.PurchaseOrderNumber = FwFormField.getValueByDataField($form, 'PurchaseOrderNumber');
+        let $receiveFromVendorForm = ReceiveFromVendorController.openForm(mode, purchaseOrderInfo);
+        FwModule.openSubModuleTab($form, $receiveFromVendorForm);
+        jQuery('.tab.submodule.active').find('.caption').html('Receive From Vendor');
+    }
     //----------------------------------------------------------------------------------------------
     loadAudit($form: JQuery): void {
         const uniqueid = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
@@ -430,70 +625,70 @@ class PurchaseOrder {
 }
 
 //----------------------------------------------------------------------------------------------
-FwApplicationTree.clickEvents[Constants.Modules.Home.PurchaseOrder.form.menuItems.ReceiveFromVendor.id] = function (e) {
-    var $form, $receiveFromVendorForm;
-    try {
-        $form = jQuery(this).closest('.fwform');
-        var mode = 'EDIT';
-        var purchaseOrderInfo: any = {};
-        purchaseOrderInfo.PurchaseOrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
-        purchaseOrderInfo.PurchaseOrderNumber = FwFormField.getValueByDataField($form, 'PurchaseOrderNumber');
-        $receiveFromVendorForm = ReceiveFromVendorController.openForm(mode, purchaseOrderInfo);
-        FwModule.openSubModuleTab($form, $receiveFromVendorForm);
-        jQuery('.tab.submodule.active').find('.caption').html('Receive From Vendor');
-    }
-    catch (ex) {
-        FwFunc.showError(ex);
-    }
-};
+//FwApplicationTree.clickEvents[Constants.Modules.Home.PurchaseOrder.form.menuItems.ReceiveFromVendor.id] = function (e) {
+//    var $form, $receiveFromVendorForm;
+//    try {
+//        $form = jQuery(this).closest('.fwform');
+//        var mode = 'EDIT';
+//        var purchaseOrderInfo: any = {};
+//        purchaseOrderInfo.PurchaseOrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
+//        purchaseOrderInfo.PurchaseOrderNumber = FwFormField.getValueByDataField($form, 'PurchaseOrderNumber');
+//        $receiveFromVendorForm = ReceiveFromVendorController.openForm(mode, purchaseOrderInfo);
+//        FwModule.openSubModuleTab($form, $receiveFromVendorForm);
+//        jQuery('.tab.submodule.active').find('.caption').html('Receive From Vendor');
+//    }
+//    catch (ex) {
+//        FwFunc.showError(ex);
+//    }
+//};
 //----------------------------------------------------------------------------------------------
-FwApplicationTree.clickEvents[Constants.Modules.Home.PurchaseOrder.form.menuItems.ReturnToVendor.id] = function (e) {
-    let $form, $returnToVendorForm;
-    try {
-        $form = jQuery(this).closest('.fwform');
-        let mode = 'EDIT';
-        let purchaseOrderInfo: any = {};
-        purchaseOrderInfo.PurchaseOrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
-        purchaseOrderInfo.PurchaseOrderNumber = FwFormField.getValueByDataField($form, 'PurchaseOrderNumber');
-        $returnToVendorForm = ReturnToVendorController.openForm(mode, purchaseOrderInfo);
-        FwModule.openSubModuleTab($form, $returnToVendorForm);
-        jQuery('.tab.submodule.active').find('.caption').html('Return To Vendor');
-    }
-    catch (ex) {
-        FwFunc.showError(ex);
-    }
-};
+//FwApplicationTree.clickEvents[Constants.Modules.Home.PurchaseOrder.form.menuItems.ReturnToVendor.id] = function (e) {
+//    let $form, $returnToVendorForm;
+//    try {
+//        $form = jQuery(this).closest('.fwform');
+//        let mode = 'EDIT';
+//        let purchaseOrderInfo: any = {};
+//        purchaseOrderInfo.PurchaseOrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
+//        purchaseOrderInfo.PurchaseOrderNumber = FwFormField.getValueByDataField($form, 'PurchaseOrderNumber');
+//        $returnToVendorForm = ReturnToVendorController.openForm(mode, purchaseOrderInfo);
+//        FwModule.openSubModuleTab($form, $returnToVendorForm);
+//        jQuery('.tab.submodule.active').find('.caption').html('Return To Vendor');
+//    }
+//    catch (ex) {
+//        FwFunc.showError(ex);
+//    }
+//};
 //----------------------------------------------------------------------------------------------
 
-FwApplicationTree.clickEvents[Constants.Modules.Home.PurchaseOrder.form.menuItems.Search.id] = function (e) {
-    let search, $form, orderId, $popup;
-    $form = jQuery(this).closest('.fwform');
-    orderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
+//FwApplicationTree.clickEvents[Constants.Modules.Home.PurchaseOrder.form.menuItems.Search.id] = function (e) {
+//    let search, $form, orderId, $popup;
+//    $form = jQuery(this).closest('.fwform');
+//    orderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
 
-    if (orderId == "") {
-        FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
-    } else {
-        search = new SearchInterface();
-        $popup = search.renderSearchPopup($form, orderId, 'PurchaseOrder');
-    }
-};
+//    if (orderId == "") {
+//        FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
+//    } else {
+//        search = new SearchInterface();
+//        $popup = search.renderSearchPopup($form, orderId, 'PurchaseOrder');
+//    }
+//};
 //----------------------------------------------------------------------------------------------
 //Assign Bar Codes
-FwApplicationTree.clickEvents[Constants.Modules.Home.PurchaseOrder.form.menuItems.AssignBarCodes.id] = function (e) {
-    const $form = jQuery(this).closest('.fwform'); 
-    try {
-        const mode = 'EDIT';
-        let purchaseOrderInfo: any = {};
-        purchaseOrderInfo.PurchaseOrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
-        purchaseOrderInfo.PurchaseOrderNumber = FwFormField.getValueByDataField($form, 'PurchaseOrderNumber');
-        const $assignBarCodesForm = AssignBarCodesController.openForm(mode, purchaseOrderInfo);
-        FwModule.openSubModuleTab($form, $assignBarCodesForm);
-        jQuery('.tab.submodule.active').find('.caption').html('Assign Bar Codes');
-    }
-    catch (ex) {
-        FwFunc.showError(ex);
-    }
-};
+//FwApplicationTree.clickEvents[Constants.Modules.Home.PurchaseOrder.form.menuItems.AssignBarCodes.id] = function (e) {
+//    const $form = jQuery(this).closest('.fwform'); 
+//    try {
+//        const mode = 'EDIT';
+//        let purchaseOrderInfo: any = {};
+//        purchaseOrderInfo.PurchaseOrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
+//        purchaseOrderInfo.PurchaseOrderNumber = FwFormField.getValueByDataField($form, 'PurchaseOrderNumber');
+//        const $assignBarCodesForm = AssignBarCodesController.openForm(mode, purchaseOrderInfo);
+//        FwModule.openSubModuleTab($form, $assignBarCodesForm);
+//        jQuery('.tab.submodule.active').find('.caption').html('Assign Bar Codes');
+//    }
+//    catch (ex) {
+//        FwFunc.showError(ex);
+//    }
+//};
 //----------------------------------------------------------------------------------------------
 
 var PurchaseOrderController = new PurchaseOrder();
