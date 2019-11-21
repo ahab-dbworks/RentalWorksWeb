@@ -134,27 +134,78 @@
                                     }
                                 });
 
-                                const promiseGetControlDefaults = FwAjax.callWebApi<any, any>({
+                                const promiseGetDefaultSettings = FwAjax.callWebApi<any, any>({
                                     httpMethod: 'GET',
-                                    url: `${applicationConfig.apiurl}api/v1/control/1`,
+                                    url: `${applicationConfig.apiurl}api/v1/defaultsettings/1`,
+                                    $elementToBlock: $loginWindow
+                                });
+                                const promiseGetInventorySettings = FwAjax.callWebApi<any, any>({
+                                    httpMethod: 'GET',
+                                    url: `${applicationConfig.apiurl}api/v1/inventorysettings/1`,
+                                    $elementToBlock: $loginWindow
+                                });
+                                const promiseGetSystemSettings = FwAjax.callWebApi<any, any>({
+                                    httpMethod: 'GET',
+                                    url: `${applicationConfig.apiurl}api/v1/systemsettings/1`,
+                                    $elementToBlock: $loginWindow
+                                });
+                                const promiseGetDepartment = FwAjax.callWebApi<any, any>({
+                                    httpMethod: 'GET',
+                                    url: `${applicationConfig.apiurl}api/v1/department/${responseSessionInfo.department.departmentid}`,
+                                    $elementToBlock: $loginWindow
+                                });
+
+                                const promiseGetDocumentBarCodeSettings = FwAjax.callWebApi<any, any>({
+                                    httpMethod: 'GET',
+                                    url: `${applicationConfig.apiurl}api/v1/documentbarcodesettings/1`,
                                     $elementToBlock: $loginWindow
                                 });
 
                                 // wait for all the queries to finish
-                                await Promise.all([promiseGetUserSettings, promiseGetCustomFields, promiseGetCustomForms, promiseGetControlDefaults])
+                                // wait for all the queries to finish
+                                await Promise.all([
+                                    promiseGetUserSettings,             // 00
+                                    promiseGetCustomFields,             // 01
+                                    promiseGetCustomForms,              // 02
+                                    promiseGetDefaultSettings,          // 03
+                                    promiseGetInventorySettings,        // 04
+                                    promiseGetSystemSettings,           // 05
+                                    promiseGetDepartment,               // 06
+                                    promiseGetDocumentBarCodeSettings,  // 07
+                                ])
                                     .then((values: any) => {
                                         const responseGetUserSettings = values[0];
-                                        let sounds: any = {}, homePage: any = {};
-                                        sounds.successSoundFileName      = responseGetUserSettings.SuccessSoundFileName;
-                                        sounds.errorSoundFileName        = responseGetUserSettings.ErrorSoundFileName;
+                                        const responseGetCustomFields = values[1];
+                                        const responseGetCustomForms = values[2];
+                                        const responseGetDefaultSettings = values[3];
+                                        const responseGetInventorySettings = values[4];
+                                        const responseGetSystemSettings = values[5];
+                                        const responseGetDepartment = values[6];
+                                        const responseGetDocumentBarCodeSettings = values[7];
+
+                                        let sounds: any = {}, homePage: any = {}, toolbar: any = {};
+                                        sounds.successSoundFileName = responseGetUserSettings.SuccessSoundFileName;
+                                        sounds.errorSoundFileName = responseGetUserSettings.ErrorSoundFileName;
                                         sounds.notificationSoundFileName = responseGetUserSettings.NotificationSoundFileName;
-                                        homePage.guid                    = responseGetUserSettings.HomeMenuGuid;
-                                        homePage.path                    = responseGetUserSettings.HomeMenuPath;
+                                        homePage.guid = responseGetUserSettings.HomeMenuGuid;
+                                        homePage.path = responseGetUserSettings.HomeMenuPath;
+                                        toolbar = responseGetUserSettings.ToolBarJson;
                                         sessionStorage.setItem('sounds', JSON.stringify(sounds));
                                         sessionStorage.setItem('homePage', JSON.stringify(homePage));
+                                        sessionStorage.setItem('toolbar', toolbar);
 
-                                        const responseGetCustomFields = values[1];
-                                        var customFields = [];
+                                        // Include department's default activity selection in sessionStorage for use in Quote / Order
+                                        const department = JSON.parse(sessionStorage.getItem('department'));
+                                        const defaultActivities: Array<string> = [];
+                                        for (let key in responseGetDepartment) {
+                                            if (key.startsWith('DefaultActivity') && responseGetDepartment[key] === true) {
+                                                defaultActivities.push(key.slice(15));
+                                            }
+                                        }
+                                        department.activities = defaultActivities;
+                                        sessionStorage.setItem('department', JSON.stringify(department));
+
+                                        const customFields = [];
                                         for (let i = 0; i < responseGetCustomFields.length; i++) {
                                             if (customFields.indexOf(responseGetCustomFields[i].ModuleName) === -1) {
                                                 customFields.push(responseGetCustomFields[i].ModuleName);
@@ -162,34 +213,37 @@
                                         }
                                         sessionStorage.setItem('customFields', JSON.stringify(customFields));
 
-                                        const responseGetCustomForms = values[2];
-                                        let baseFormIndex     = responseGetCustomForms.ColumnIndex.BaseForm;
-                                        let customFormIdIndex = responseGetCustomForms.ColumnIndex.CustomFormId;
-                                        let htmlIndex         = responseGetCustomForms.ColumnIndex.Html;
-                                        let activeCustomForms: any = [];
+                                        const baseFormIndex = responseGetCustomForms.ColumnIndex.BaseForm;
+                                        const customFormIdIndex = responseGetCustomForms.ColumnIndex.CustomFormId;
+                                        const customFormDescIndex = responseGetCustomForms.ColumnIndex.Description;
+                                        const htmlIndex = responseGetCustomForms.ColumnIndex.Html;
+                                        const activeCustomForms: any = [];
                                         for (let i = 0; i < responseGetCustomForms.Rows.length; i++) {
-                                            let customForm = responseGetCustomForms.Rows[i];
-                                            let baseform   = customForm[baseFormIndex];
-                                            activeCustomForms.push({ 'BaseForm': baseform, 'CustomFormId': customForm[customFormIdIndex] });
+                                            const customForm = responseGetCustomForms.Rows[i];
+                                            const baseform = customForm[baseFormIndex];
+                                            activeCustomForms.push({ 'BaseForm': baseform, 'CustomFormId': customForm[customFormIdIndex], 'Description': customForm[customFormDescIndex] });
                                             jQuery('head').append(`<template id="tmpl-custom-${baseform}">${customForm[htmlIndex]}</template>`);
                                         }
                                         if (activeCustomForms.length > 0) {
                                             sessionStorage.setItem('customForms', JSON.stringify(activeCustomForms));
                                         }
 
-                                        const responseGetControlDefaults = values[3];
-                                        let controlDefaults = {
-                                            defaultdealstatusid:       responseGetControlDefaults.DefaultDealStatusId,
-                                            defaultdealstatus:         responseGetControlDefaults.DefaultDealStatus,
-                                            defaultcustomerstatusid:   responseGetControlDefaults.DefaultCustomerStatusId,
-                                            defaultcustomerstatus:     responseGetControlDefaults.DefaultCustomerStatus,
-                                            defaultdealbillingcycleid: responseGetControlDefaults.DefaultDealBillingCycleId,
-                                            defaultdealbillingcycle:   responseGetControlDefaults.DefaultDealBillingCycle,
-                                            defaultunitid:             responseGetControlDefaults.DefaultUnitId,
-                                            defaultunit:               responseGetControlDefaults.DefaultUnit,
-                                            defaulticodemask:          responseGetControlDefaults.ICodeMask,
-                                            systemname:                responseGetControlDefaults.SystemName,
-                                            companyname:               responseGetControlDefaults.CompanyName
+                                        const controlDefaults = {
+                                            defaultdealstatusid: responseGetDefaultSettings.DefaultDealStatusId
+                                            , defaultdealstatus: responseGetDefaultSettings.DefaultDealStatus
+                                            , defaultcustomerstatusid: responseGetDefaultSettings.DefaultCustomerStatusId
+                                            , defaultcustomerstatus: responseGetDefaultSettings.DefaultCustomerStatus
+                                            , defaultdealbillingcycleid: responseGetDefaultSettings.DefaultDealBillingCycleId
+                                            , defaultdealbillingcycle: responseGetDefaultSettings.DefaultDealBillingCycle
+                                            , defaultunitid: responseGetDefaultSettings.DefaultUnitId
+                                            , defaultunit: responseGetDefaultSettings.DefaultUnit
+                                            , defaultrank: responseGetDefaultSettings.DefaultRank
+                                            , defaulticodemask: responseGetInventorySettings.ICodeMask
+                                            , userassignedicodes: responseGetInventorySettings.UserAssignedICodes
+                                            , sharedealsacrossofficelocations: responseGetSystemSettings.ShareDealsAcrossOfficeLocations
+                                            , systemname: responseGetSystemSettings.SystemName
+                                            , companyname: responseGetSystemSettings.CompanyName
+                                            , documentbarcodestyle: responseGetDocumentBarCodeSettings.DocumentBarCodeStyle
                                         }
                                         sessionStorage.setItem('controldefaults', JSON.stringify(controlDefaults));
 
