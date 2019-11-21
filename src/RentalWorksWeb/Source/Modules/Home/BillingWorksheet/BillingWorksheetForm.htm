@@ -9,15 +9,8 @@
       <div data-type="tab" id="misctab" class="tab" data-tabpageid="misctabpage" data-caption="Misc"></div>
       <div data-type="tab" id="rentalsaletab" class="tab hide-new" data-tabpageid="rentalsaletabpage" data-caption="Used Sale"></div>
       <div data-type="tab" id="facilitiestab" class="tab hide-new" data-tabpageid="facilitiestabpage" data-caption="Facilities"></div>
-      <div data-type="tab" id="metertab" class="tab hide-new" data-tabpageid="metertabpage" data-caption="Meter"></div>
-      <div data-type="tab" id="transportationtab" class="tab hide-new" data-tabpageid="transportationtabpage" data-caption="Transportation"></div>
-      <div data-type="tab" id="itemadjustmenttab" class="tab hide-new" data-tabpageid="itemadjustmenttabpage" data-caption="Item Adjustment"></div>
-
       <div data-type="tab" id="chargestab" class="tab hide-new" data-tabpageid="chargestabpage" data-caption="Charges"></div>
       <div data-type="tab" id="invoiceordertab" class="tab hide-new" data-tabpageid="invoiceordertabpage" data-caption="Order"></div>
-      <div data-type="tab" id="gldistributiontab" class="tab" data-tabpageid="gldistributiontabpage" data-caption="G/L Distribution"></div>
-      <div data-type="tab" id="invoicerevenuetab" class="tab" data-tabpageid="invoicerevenuetabpage" data-caption="Revenue"></div>
-      <div data-type="tab" id="receipttab" class="tab" data-tabpageid="receipttabpage" data-caption="Receipts"></div>
       <!--<div data-type="tab" id="addresstab" class="tab" data-tabpageid="addresstabpage" data-caption="Address"></div>-->
       <div data-type="tab" id="notetab" class="tab" data-tabpageid="notetabpage" data-caption="Notes"></div>
       <div data-type="tab" id="historytab" class="tab" data-tabpageid="historytabpage" data-caption="History"></div>
@@ -58,9 +51,6 @@
                 </div>
                 <div class="flexrow">
                   <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Reference No." data-datafield="ReferenceNumber" style="flex:1 1 125px;"></div>
-                </div>
-                <div class="flexrow">
-                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Creation Batch Number" data-datafield="InvoiceCreationBatchId" data-displayfield="InvoiceCreationBatchNumber" data-validationname="InvoiceCreationBatchValidation" data-validationpeek="false" data-enabled="false" style="flex:1 1 275px;"></div>
                 </div>
                 <div class="flexrow">
                   <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Customer Type" data-datafield="CustomerTypeId" data-displayfield="CustomerType" data-validationname="CustomerTypeValidation" data-validationpeek="false" data-enabled="false" style="flex:1 1 200px;"></div>
@@ -523,56 +513,6 @@
       <div data-type="tabpage" id="invoiceordertabpage" class="tabpage" data-tabid="invoiceordertab">
         <div class="flexrow rwGrid">
           <div data-control="FwGrid" data-grid="InvoiceOrderGrid" data-securitycaption="Order"></div>
-        </div>
-      </div>
-      <!-- G/L DISTRIBUTION TAB -->
-      <div data-type="tabpage" id="gldistributiontabpage" class="tabpage" data-tabid="gldistributiontab">
-        <div class="flexrow">
-          <div class="flexcolumn" style="flex:1 1 650px;">
-            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="G/L Distribution">
-              <div class="flexrow">
-                <div data-control="FwGrid" data-grid="GlDistributionGrid" data-securitycaption="G/L Distribution"></div>
-              </div>
-            </div>
-          </div>
-          <div class="flexcolumn gldistribution-totals" style="flex:0 0 250px;">
-            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Distribution Totals">
-              <div class="flexrow">
-                <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Debit" data-datafield="" data-enabled="false" data-totalfield="Debit" style="flex:1 1 100px;"></div>
-              </div>
-              <div class="flexrow">
-                <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Credit" data-datafield="" data-enabled="false" data-totalfield="Credit" style="flex:1 1 75px;"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="flexrow">
-          <div class="flexcolumn" style="flex:1 1 650px;">
-            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Manual G/L Distribution">
-              <div class="flexrow">
-                <div data-control="FwGrid" data-grid="ManualGlTransactionsGrid" data-securitycaption="Manual G/L Transactions"></div>
-              </div>
-            </div>
-          </div>
-          <div class="flexcolumn  manualgl-totals" style="flex:0 0 250px;">
-            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Manual Distribution Totals">
-              <div class="flexrow">
-                <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Amount" data-datafield="" data-enabled="false" data-totalfield="Amount" style="flex:1 1 100px;"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!--REVENUE TAB -->
-      <div data-type="tabpage" id="invoicerevenuetabpage" class="tabpage" data-tabid="invoicerevenuetab">
-        <div class="flexrow rwGrid">
-          <div data-control="FwGrid" data-grid="InvoiceRevenueGrid" data-securitycaption="Revenue"></div>
-        </div>
-      </div>
-      <!--RECEIPTS TAB -->
-      <div data-type="tabpage" id="receipttabpage" class="tabpage" data-tabid="receipttab">
-        <div class="flexrow rwGrid">
-          <div data-control="FwGrid" data-grid="InvoiceReceiptGrid" data-securitycaption="Receipts"></div>
         </div>
       </div>
       <!-- ADDRESS TAB PAGE -->
