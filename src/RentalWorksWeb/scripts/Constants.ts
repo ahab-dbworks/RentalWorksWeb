@@ -65,22 +65,6 @@ var Constants = {
                 RemoveFromContainer:    { id: 'J9BTE3hOYuEd',  caption: 'Remove From Container',    nav: 'module/removefromcontainer', nodetype: 'Module' }
             }
         },
-        Inventory: {
-            id: 'Inventory',
-            caption: 'Inventory',
-            nodetype: 'Category',
-            children: {
-                Asset:                    { id: 'kSugPLvkuNsH',  caption: 'Asset',                  nav: 'module/item', nodetype: 'Module' },
-                AvailabilityConflicts:    { id: '2xsgUfsXeKJH',  caption: 'Availability Conflicts', nav: 'module/availabilityconflicts', nodetype: 'Module' },
-                CompleteQc:               { id: 'VwNYsEONLutM',  caption: 'Complete QC',            nav: 'module/completeqc', nodetype: 'Module' },
-                InventoryPurchaseUtility: { id: '', caption: 'Inventory Purchase Utility', nav: 'module/inventorypurchaseutility' },
-                PartsInventory:           { id: '2WDCohbQV6GU',  caption: 'Parts Inventory',        nav: 'module/partsinventory', nodetype: 'Module' },
-                PhysicalInventory:        { id: 'JIuxFUWTLDC6',  caption: 'Physical Inventory',     nav: 'module/physicalinventory', nodetype: 'Module' },
-                RentalInventory:          { id: '3ICuf6pSeBh6G', caption: 'Rental Inventory',       nav: 'module/rentalinventory', nodetype: 'Module' },
-                Repair:                   { id: 't4gfyzLkSZhyc', caption: 'Repair Order',           nav: 'module/repair', nodetype: 'Module' },
-                SalesInventory:           { id: 'ShjGAzM2Pq3kk', caption: 'Sales Inventory',        nav: 'module/salesinventory', nodetype: 'Module' }
-            }
-        },
         Home: {
             BillingMessage: { id: 'U0HFTNmYWt3a7', caption: 'Billing Message', nav: 'module/billingmessage', nodetype: 'Module' },
             CountQuantityInventory: { id: '0A02B28D-C025-4579-993B-860832F8837F', caption: 'Count Quantity Inventory', nav: 'module/physicalinventoryquantityinventory', nodetype: 'Module' },
@@ -97,6 +81,22 @@ var Constants = {
             },
             SubWorksheet: { id: '2227B6C3-587D-48B1-98B6-B9125E0E4D9D', caption: 'Sub Worksheet', nav: 'module/subworksheet', nodetype: 'Module' },
             SuspendedSession: { id: '5FBE7FF8-3770-48C5-855C-4320C961D95A', caption: 'Suspended Session', nav: 'module/suspendedsession', nodetype: 'Module' }
+        },
+        Inventory: {
+            id: 'Inventory',
+            caption: 'Inventory',
+            nodetype: 'Category',
+            children: {
+                Asset:                    { id: 'kSugPLvkuNsH',  caption: 'Asset',                  nav: 'module/item', nodetype: 'Module' },
+                AvailabilityConflicts:    { id: '2xsgUfsXeKJH',  caption: 'Availability Conflicts', nav: 'module/availabilityconflicts', nodetype: 'Module' },
+                CompleteQc:               { id: 'VwNYsEONLutM',  caption: 'Complete QC',            nav: 'module/completeqc', nodetype: 'Module' },
+                InventoryPurchaseUtility: { id: '', caption: 'Inventory Purchase Utility', nav: 'module/inventorypurchaseutility' },
+                PartsInventory:           { id: '2WDCohbQV6GU',  caption: 'Parts Inventory',        nav: 'module/partsinventory', nodetype: 'Module' },
+                PhysicalInventory:        { id: 'JIuxFUWTLDC6',  caption: 'Physical Inventory',     nav: 'module/physicalinventory', nodetype: 'Module' },
+                RentalInventory:          { id: '3ICuf6pSeBh6G', caption: 'Rental Inventory',       nav: 'module/rentalinventory', nodetype: 'Module' },
+                Repair:                   { id: 't4gfyzLkSZhyc', caption: 'Repair Order',           nav: 'module/repair', nodetype: 'Module' },
+                SalesInventory:           { id: 'ShjGAzM2Pq3kk', caption: 'Sales Inventory',        nav: 'module/salesinventory', nodetype: 'Module' }
+            }
         },
         Reports: {
             id: 'Reports',
