@@ -3,7 +3,6 @@
     apiurl: string = 'api/v1/checkinquantityitem';
 
     generateRow($control, $generatedtr) {
-        let self = this;
         let $form, $quantityColumn;
         $form = $control.closest('.fwform'),
             $quantityColumn = $generatedtr.find('.quantity');
@@ -73,7 +72,8 @@
                     ContractId: contractId,
                     OrderItemId: orderItemId,
                     Code: code,
-                    Quantity: quantity
+                    Quantity: quantity,
+                    ModuleType: 'O'
                 };
 
                 if (orderItemIdComment) {

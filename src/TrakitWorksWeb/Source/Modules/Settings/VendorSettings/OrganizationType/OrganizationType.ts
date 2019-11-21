@@ -1,11 +1,9 @@
 class OrganizationType {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'OrganizationType';
-        this.apiurl = 'api/v1/organizationtype';
-    }
+    Module: string = 'OrganizationType';
+    apiurl: string = 'api/v1/organizationtype';
+    caption: string = Constants.Modules.Settings.children.VendorSettings.children.OrganizationType.caption;
+    nav: string = Constants.Modules.Settings.children.VendorSettings.children.OrganizationType.nav;
+    id: string = Constants.Modules.Settings.children.VendorSettings.children.OrganizationType.id;
 
     getModuleScreen() {
         var screen, $browse;

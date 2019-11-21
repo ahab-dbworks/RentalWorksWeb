@@ -1,9 +1,9 @@
 class InventoryType {
     Module: string = 'InventoryType';
     apiurl: string = 'api/v1/inventorytype';
-    caption: string = 'Inventory Type';
-    nav: string = 'module/inventorytype';
-    id: string = 'D62E0D20-AFF4-46A7-A767-FF32F6EC4617';
+    caption: string = Constants.Modules.Settings.children.InventorySettings.children.InventoryType.caption;
+    nav:     string = Constants.Modules.Settings.children.InventorySettings.children.InventoryType.nav;
+    id:      string = Constants.Modules.Settings.children.InventorySettings.children.InventoryType.id;
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         const screen: any = {};

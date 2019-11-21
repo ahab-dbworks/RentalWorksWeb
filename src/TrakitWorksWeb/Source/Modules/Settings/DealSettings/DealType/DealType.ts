@@ -1,11 +1,9 @@
 ﻿class DealType {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'DealType';
-        this.apiurl = 'api/v1/dealtype';
-    }
+    Module: string = 'DealType';
+    apiurl: string = 'api/v1/dealtype';
+    caption: string = Constants.Modules.Settings.children.DealSettings.children.DealType.caption;
+    nav: string = Constants.Modules.Settings.children.DealSettings.children.DealType.nav;
+    id: string = Constants.Modules.Settings.children.DealSettings.children.DealType.id;
 
     getModuleScreen() {
         var screen, $browse;

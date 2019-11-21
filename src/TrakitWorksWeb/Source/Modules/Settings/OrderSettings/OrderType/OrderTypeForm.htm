@@ -27,7 +27,7 @@
             <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Order Type">
               <div class="formcolumn" style="width:auto;">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Order Type" data-datafield="OrderType" style="float:left;width:250px;"></div>
+                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Order Type" data-datafield="OrderType" data-required="true" style="float:left;width:250px;"></div>
                   <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Inactive" data-datafield="Inactive" style="float:left;width:150px;"></div>
                   <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Master Sub-Order Type" data-datafield="IsMasterSubOrderType" style="float:left;width:200px;"></div>
                   <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Combine Activity Tabs" data-datafield="CombineActivityTabs" style="float:left;width:200px;"></div>
@@ -84,7 +84,7 @@
             <div class="formcolumn" style="width:auto;">
               <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="RentalShowICode" style="float:left;width:250px;"></div>
-                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Width" data-datafield="RentalICodeWidth" style="float:left;width:100px;"></div>
+                <!--<div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Width" data-datafield="RentalICodeWidth" style="float:left;width:100px;"></div>-->
               </div>
               <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Pick Date" data-datafield="RentalShowPickDate" style="float:left;width:250px;"></div>
@@ -120,16 +120,16 @@
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Markup Percent" data-datafield="RentalShowMarkupPercent" style="float:left;width:250px;"></div>
               </div>
               <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Taxable" data-datafield="RentalShowTaxable" style="float:left;width:250px;"></div>
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Margin Percent" data-datafield="RentalShowMarginPercent" style="float:left;width:250px;"></div>
               </div>
               <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Notes" data-datafield="RentalShowNotes" style="float:left;width:250px;"></div>
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Taxable" data-datafield="RentalShowTaxable" style="float:left;width:250px;"></div>
               </div>
             </div>
             <div class="formcolumn" style="width:auto;">
               <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Description" data-datafield="RentalShowDescription" style="float:left;width:250px;"></div>
-                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Width" data-datafield="RentalDescriptionWidth" style="float:left;width:100px;"></div>
+                <!--<div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Width" data-datafield="RentalDescriptionWidth" style="float:left;width:100px;"></div>-->
               </div>
               <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Rent From Date" data-datafield="RentalShowFromDate" style="float:left;width:250px;"></div>
@@ -168,7 +168,7 @@
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Episode Extended" data-datafield="RentalShowEpisodeExtended" style="float:left;width:250px;"></div>
               </div>
               <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Warehouse" data-datafield="RentalShowWarehouse" style="float:left;width:250px;"></div>
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Notes" data-datafield="RentalShowNotes" style="float:left;width:250px;"></div>
               </div>
             </div>
             <div class="formcolumn" style="width:auto;">
@@ -212,6 +212,9 @@
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Period Extended" data-datafield="RentalShowPeriodExtended" style="float:left;width:250px;"></div>
               </div>
               <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Warehouse" data-datafield="RentalShowWarehouse" style="float:left;width:250px;"></div>
+              </div>
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Return to Warehouse" data-datafield="RentalShowReturnToWarehouse" style="float:left;width:250px;"></div>
               </div>
             </div>
@@ -224,10 +227,13 @@
             <div class="formcolumn" style="width:auto;">
               <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="SalesShowICode" style="float:left;width:250px;"></div>
-                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Width" data-datafield="SalesICodeWidth" style="float:left;width:100px;"></div>
+                <!--<div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Width" data-datafield="SalesICodeWidth" style="float:left;width:100px;"></div>-->
               </div>
               <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Pick Date" data-datafield="SalesShowPickDate" style="float:left;width:250px;"></div>
+              </div>
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="From Date" data-datafield="SalesShowFromDate" style="float:left;width:250px;"></div>
               </div>
               <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Sub Sale Quantity" data-datafield="SalesShowSubQuantity" style="float:left;width:250px;"></div>
@@ -264,10 +270,13 @@
             <div class="formcolumn" style="width:auto;">
               <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Description" data-datafield="SalesShowDescription" style="float:left;width:250px;"></div>
-                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Width" data-datafield="SalesDescriptionWidth" style="float:left;width:100px;"></div>
+                <!--<div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Width" data-datafield="SalesDescriptionWidth" style="float:left;width:100px;"></div>-->
               </div>
               <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Pick Time" data-datafield="SalesShowPickTime" style="float:left;width:250px;"></div>
+              </div>
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="From Time" data-datafield="SalesShowFromTime" style="float:left;width:250px;"></div>
               </div>
               <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Cost" data-datafield="SalesShowCost" style="float:left;width:250px;"></div>
@@ -303,7 +312,7 @@
             <div class="formcolumn" style="width:auto;">
               <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Part Number" data-datafield="SalesShowManufacturerPartNumber" style="float:left;width:250px;"></div>
-                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Width" data-datafield="SalesManufacturerPartNumberWidth" style="float:left;width:100px;"></div>
+                <!--<div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Width" data-datafield="SalesManufacturerPartNumberWidth" style="float:left;width:100px;"></div>-->
               </div>
               <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow" data-visible="false" style="display:none;">
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="" data-datafield="" style="float:left;width:250px;"></div>
@@ -342,7 +351,7 @@
             <div class="formcolumn" style="width:auto;">
               <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Description" data-datafield="FacilityShowDescription" style="float:left;width:250px;"></div>
-                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Width" data-datafield="FacilityDescriptionWidth" style="float:left;width:100px;"></div>
+                <!--<div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Width" data-datafield="FacilityDescriptionWidth" style="float:left;width:100px;"></div>-->
               </div>
               <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Rent From Date" data-datafield="FacilityShowFromDate" style="float:left;width:250px;"></div>
@@ -437,7 +446,7 @@
             <div class="formcolumn" style="width:auto;">
               <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Description" data-datafield="VehicleShowDescription" style="float:left;width:200px;"></div>
-                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Width" data-datafield="VehicleDescriptionWidth" style="float:left;width:100px;"></div>
+                <!--<div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Width" data-datafield="VehicleDescriptionWidth" style="float:left;width:100px;"></div>-->
               </div>
               <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Pick Date" data-datafield="VehicleShowPickDate" style="float:left;width:250px;"></div>
@@ -556,7 +565,7 @@
               <div class="formcolumn" style="width:auto;">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="LaborShowICode" style="float:left;width:250px;"></div>
-                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Width" data-datafield="LaborICodeWidth" style="float:left;width:100px;"></div>
+                  <!--<div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Width" data-datafield="LaborICodeWidth" style="float:left;width:100px;"></div>-->
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Activity" data-datafield="LaborShowOrderActivity" style="float:left;width:250px;"></div>
@@ -592,7 +601,7 @@
               <div class="formcolumn" style="width:auto;">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Description" data-datafield="LaborShowDescription" style="float:left;width:250px;"></div>
-                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Width" data-datafield="LaborDescriptionWidth" style="float:left;width:100px;"></div>
+                  <!--<div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Width" data-datafield="LaborDescriptionWidth" style="float:left;width:100px;"></div>-->
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Crew Name" data-datafield="LaborShowCrewName" style="float:left;width:250px;"></div>
@@ -689,7 +698,7 @@
             <div class="formcolumn" style="width:auto;">
               <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="MiscShowICode" style="float:left;width:250px;"></div>
-                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Width" data-datafield="MiscICodeWidth" style="float:left;width:100px;"></div>
+                <!--<div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Width" data-datafield="MiscICodeWidth" style="float:left;width:100px;"></div>-->
               </div>
               <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="From Date" data-datafield="MiscShowFromDate" style="float:left;width:250px;"></div>
@@ -719,7 +728,7 @@
             <div class="formcolumn" style="width:auto;">
               <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Description" data-datafield="MiscShowDescription" style="float:left;width:250px;"></div>
-                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Width" data-datafield="MiscDescriptionWidth" style="float:left;width:100px;"></div>
+                <!--<div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Width" data-datafield="MiscDescriptionWidth" style="float:left;width:100px;"></div>-->
               </div>
               <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="To Date" data-datafield="MiscShowToDate" style="float:left;width:250px;"></div>
@@ -784,7 +793,7 @@
               </div>
               <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="RentalSaleShowICode" style="float:left;width:200px;"></div>
-                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Width" data-datafield="RentalSaleICodeWidth" style="float:left;width:100px;"></div>
+                <!--<div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Width" data-datafield="RentalSaleICodeWidth" style="float:left;width:100px;"></div>-->
               </div>
               <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Pick Date" data-datafield="RentalSaleShowPickDate" style="float:left;width:250px;"></div>
@@ -817,7 +826,7 @@
               </div>
               <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Description" data-datafield="RentalSaleShowDescription" style="float:left;width:200px;"></div>
-                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Width" data-datafield="RentalSaleDescriptionWidth" style="float:left;width:100px;"></div>
+                <!--<div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Width" data-datafield="RentalSaleDescriptionWidth" style="float:left;width:100px;"></div>-->
               </div>
               <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Pick Time" data-datafield="RentalSaleShowPickTime" style="float:left;width:250px;"></div>
@@ -876,7 +885,7 @@
               </div>
               <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="LossAndDamageShowICode" style="float:left;width:250px;"></div>
-                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Width" data-datafield="LossAndDamageICodeWidth" style="float:left;width:100px;"></div>
+                <!--<div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Width" data-datafield="LossAndDamageICodeWidth" style="float:left;width:100px;"></div>-->
               </div>
               <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Unit" data-datafield="LossAndDamageShowUnit" style="float:left;width:250px;"></div>
@@ -897,7 +906,7 @@
               </div>
               <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Description" data-datafield="LossAndDamageShowDescription" style="float:left;width:250px;"></div>
-                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Width" data-datafield="LossAndDamageDescriptionWidth" style="float:left;width:100px;"></div>
+                <!--<div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Width" data-datafield="LossAndDamageDescriptionWidth" style="float:left;width:100px;"></div>-->
               </div>
               <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Unit Price" data-datafield="LossAndDamageShowRate" style="float:left;width:250px;"></div>

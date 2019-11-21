@@ -1,6 +1,6 @@
-﻿<div id="customertypeform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-caption="Warehouse" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="WarehouseController">
+﻿<div id="warehouseform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-caption="Warehouse" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="WarehouseController">
   <div data-control="FwFormField" data-type="key" class="fwcontrol fwformfield" data-isuniqueid="true" data-saveorder="1" data-caption="" data-datafield="WarehouseId"></div>
-  <div id="customerform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
+  <div id="warehouseform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs">
       <div data-type="tab" id="generaltab" class="tab" data-tabpageid="generaltabpage" data-caption="General"></div>
       <div data-type="tab" id="barcodestab" class="tab" data-tabpageid="barcodestabpage" data-caption="Bar Codes"></div>
@@ -194,35 +194,15 @@
             <div class="formcolumn" style="width:600px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Availability">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Pre-calculate availability in a background process" data-datafield="AvailabilityCalculateInBackground" style="float:left;width:400px;"></div>
-                </div>
-                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Days to pre-calculate availability data in advance (data stored on server in cache)" data-datafield="AvailabilityCacheDays" style="float:left;width:500px;"></div>
-                </div>
-                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Days allowed beyond 'Rent To' date before items are late and counted as out indefinitely" data-datafield="AvailabilityLateDays" style="float:left;width:500px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Preserve Reservation Conflicts on specific Quotes/Orders" data-datafield="AvailabilityPreserveConflicts" style="float:left;width:400px;"></div>
                 </div>
-                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Number of days to calculate hourly availability" data-datafield="AvailabilityHourlyDays" style="float:left;width:300px;"></div>
-                </div>
-              </div>
-            </div>
-            <div class="formcolumn" style="width:500px;">
-              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                <div data-control="FwGrid" data-grid="WarehouseAvailabilityHourGrid" data-securitycaption="Warehouse Availability Hour"></div>
               </div>
             </div>
           </div>
           <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Hourly Availability">
-            <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-              <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Start (XX:00)" data-datafield="AvailabilityStartHour" style="float:left;width:100px;"></div>
-            </div>
-            <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-              <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Stop (XX:00)" data-datafield="AvailabilityStopHour" style="float:left;width:100px;"></div>
-            </div>
             <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
               <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Hours allowed beyond 'Rent To' time before items are late and counted as out indefinitely" data-datafield="AvailabilityLateHours" style="float:left;width:500px;"></div>
             </div>
@@ -260,11 +240,9 @@
                 <div data-value="EXTRA" data-caption="Use 'Extra' Order"></div>
               </div>
             </div>
-            <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow" style="display:none;">
-              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Rental" data-datafield="TaxCountry" style="float:left;width:200px;" data-enabled="false"></div>
-            </div>
             <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
               <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Tax Option" data-validationname="TaxOptionValidation" data-displayfield="TaxOption" data-datafield="TaxOptionId" style="float:left;width:250px;"></div>
+              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="TaxCountry" data-datafield="TaxCountry" data-enabled="false" style="flex:1 1 225px;display:none;"></div>
             </div>
             <div class="fwcontrol fwcontainer fwform-fieldrow ustax" data-control="FwContainer" data-type="fieldrow">
               <div data-control="FwFormField" data-type="percent" class="fwcontrol fwformfield rentalpercent" data-caption="Rental" data-datafield="RentalTaxRate1" style="float:left;width:200px;" data-enabled="false"></div>

@@ -1,6 +1,9 @@
 ﻿class Country {
     Module: string = 'Country';
     apiurl: string = 'api/v1/Country';
+    caption: string = Constants.Modules.Settings.children.AddressSettings.children.Country.caption;
+    nav: string = Constants.Modules.Settings.children.AddressSettings.children.Country.nav;
+    id: string = Constants.Modules.Settings.children.AddressSettings.children.Country.id;
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen, $browse;

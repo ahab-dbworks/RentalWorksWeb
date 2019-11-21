@@ -1,11 +1,10 @@
 ﻿class DealStatus {
-    Module: string;
-    apiurl: string;
+    Module: string = 'DealStatus';
+    apiurl: string = 'api/v1/dealstatus';
+    caption: string = Constants.Modules.Settings.children.DealSettings.children.DealStatus.caption;
+    nav: string = Constants.Modules.Settings.children.DealSettings.children.DealStatus.nav;
+    id: string = Constants.Modules.Settings.children.DealSettings.children.DealStatus.id;
 
-    constructor() {
-        this.Module = 'DealStatus';
-        this.apiurl = 'api/v1/dealstatus';
-    }
     // Test
     getModuleScreen() {
         var screen, $browse;

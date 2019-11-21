@@ -1,9 +1,9 @@
 ﻿class Group extends Fw.Modules.FwGroup {
     constructor() {
         super();
-        this.id = Constants.Modules.Administrator.Group.id;
-        this.caption = Constants.Modules.Administrator.Group.caption;
-        this.nav = Constants.Modules.Administrator.Group.nav;
+        this.id      = Constants.Modules.Administrator.children.Group.id;
+        this.caption = Constants.Modules.Administrator.children.Group.caption;
+        this.nav     = Constants.Modules.Administrator.children.Group.nav;
     }
 }
 

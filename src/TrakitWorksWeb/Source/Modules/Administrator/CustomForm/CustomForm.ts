@@ -1,26 +1,25 @@
 routes.push({ pattern: /^module\/customform$/, action: function (match: RegExpExecArray) { return CustomFormController.getModuleScreen(); } });
+
 class CustomForm {
-    Module: string = 'CustomForm';
-    apiurl: string = 'api/v1/customform';
-    caption: string = Constants.Modules.Administrator.CustomForm.caption;
-    nav: string = Constants.Modules.Administrator.CustomForm.nav;
-    id: string = Constants.Modules.Administrator.CustomForm.id;
+    Module:     string = 'CustomForm';
+    apiurl:     string = 'api/v1/customform';
+    caption:    string = Constants.Modules.Administrator.children.CustomForm.caption;
+    nav:        string = Constants.Modules.Administrator.children.CustomForm.nav;
+    id:         string = Constants.Modules.Administrator.children.CustomForm.id;
     codeMirror: any;
-    doc: any;
+    doc:        any;
     datafields: any;
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
-        var screen, $browse;
-
-        screen = {};
+        const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
-        $browse = this.openBrowse();
+        const $browse = this.openBrowse();
 
-        screen.load = function () {
-            FwModule.openModuleTab($browse, 'Custom Form', false, 'BROWSE', true);
+        screen.load = () => {
+            FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };
@@ -32,18 +31,14 @@ class CustomForm {
     }
     //----------------------------------------------------------------------------------------------
     openBrowse() {
-        var $browse;
-
-        $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
+        let $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
 
         return $browse;
     }
     //----------------------------------------------------------------------------------------------
     openForm(mode: string) {
-        var $form;
-
-        $form = FwModule.loadFormFromTemplate(this.Module);
+        let $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 
         let userid = JSON.parse(sessionStorage.getItem('userid'));
@@ -52,7 +47,11 @@ class CustomForm {
         if (mode == 'NEW') {
             FwFormField.enable($form.find('[data-datafield="BaseForm"]'));
             $form.find('.userGrid, .groupGrid').hide();
+            FwFormField.setValue($form, 'div[data-datafield="Active"]', true);
         }
+
+        //removes field propagation
+        $form.off('change', '.fwformfield[data-enabled="true"][data-datafield!=""]:not(.find-field)');
 
         this.loadModules($form);
         this.events($form);
@@ -60,9 +59,7 @@ class CustomForm {
     }
     //----------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
-        var $form;
-
-        $form = this.openForm('EDIT');
+        let $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="CustomFormId"] input').val(uniqueids.CustomFormId);
         FwModule.loadForm(this.Module, $form);
 
@@ -106,10 +103,16 @@ class CustomForm {
             case 'GROUPS':
                 $form.find('.groupGrid').show();
                 $form.find('.userGrid').hide();
+
+                const $groupGrid = $form.find('[data-name="CustomFormGroupGrid"]');
+                FwBrowse.search($groupGrid);
                 break;
             case 'USERS':
                 $form.find('.groupGrid').hide();
                 $form.find('.userGrid').show();
+
+                const $userGrid = $form.find('[data-name="CustomFormUserGrid"]');
+                FwBrowse.search($userGrid);
                 break;
             case 'ALL':
                 $form.find('.groupGrid').hide();
@@ -139,10 +142,10 @@ class CustomForm {
         let textArea = $form.find('#codeEditor').get(0);
         var codeMirror = CodeMirror.fromTextArea(textArea,
             {
-                mode: 'xml'
-                , lineNumbers: true
-                , foldGutter: true
-                , gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"]
+                mode: 'xml',
+                lineNumbers: true,
+                foldGutter: true,
+                gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"]
             });
         this.codeMirror = codeMirror;
         this.doc = codeMirror.getDoc();
@@ -192,35 +195,30 @@ class CustomForm {
         //Get valid field names and sort them
         const modulefields = $form.find('.modulefields');
         let moduleType = $form.find('[data-datafield="BaseForm"] option:selected').attr('data-type');
-        let moduleNav = controller.slice(0, -10);
         let apiurl = $form.find('[data-datafield="BaseForm"] option:selected').attr('data-apiurl');
         modulefields.empty();
         switch (moduleType) {
             case 'Grid':
             case 'Browse':
-                //let request: any = {};
-                //request = {
-                //    emptyobject: true
-                //};
                 if (apiurl !== "undefined") {
-                    FwAppData.apiMethod(true, 'GET', `${apiurl}/emptyobject`, /*request*/null, FwServices.defaultTimeout, function onSuccess(response) {
+                    FwAppData.apiMethod(true, 'GET', `${apiurl}/emptyobject`, null, FwServices.defaultTimeout, function onSuccess(response) {
                         let columnNames = Object.keys(response);
                         let customFields = response._Custom.map(obj => ({ fieldname: obj.FieldName, fieldtype: obj.FieldType }));
                         let allValidFields: any = [];
                         for (let i = 0; i < columnNames.length; i++) {
                             if (columnNames[i] != 'DateStamp' && columnNames[i] != 'RecordTitle' && columnNames[i] != '_Custom' && columnNames[i] != '_Fields') {
                                 allValidFields.push({
-                                    'Field': columnNames[i]
-                                    , 'IsCustom': 'false'
+                                    'Field': columnNames[i],
+                                    'IsCustom': 'false'
                                 });
                             }
                         }
 
                         for (let i = 0; i < customFields.length; i++) {
                             allValidFields.push({
-                                'Field': customFields[i].fieldname
-                                , 'IsCustom': 'true'
-                                , 'FieldType': customFields[i].fieldtype.toLowerCase()
+                                'Field': customFields[i].fieldname,
+                                'IsCustom': 'true',
+                                'FieldType': customFields[i].fieldtype.toLowerCase()
                             });
                         }
 
@@ -242,17 +240,17 @@ class CustomForm {
                     for (let i = 0; i < columnNames.length; i++) {
                         if (columnNames[i] != 'DateStamp' && columnNames[i] != 'RecordTitle' && columnNames[i] != '_Custom' && columnNames[i] != '_Fields') {
                             allValidFields.push({
-                                'Field': columnNames[i]
-                                , 'IsCustom': 'false'
+                                'Field': columnNames[i],
+                                'IsCustom': 'false'
                             });
                         }
                     }
 
                     for (let i = 0; i < customFields.length; i++) {
                         allValidFields.push({
-                            'Field': customFields[i].fieldname
-                            , 'IsCustom': 'true'
-                            , 'FieldType': customFields[i].fieldtype.toLowerCase()
+                            'Field': customFields[i].fieldname,
+                            'IsCustom': 'true',
+                            'FieldType': customFields[i].fieldtype.toLowerCase()
                         });
                     }
 
@@ -287,64 +285,76 @@ class CustomForm {
         FwMenu.addButtonMenuOptions($buttonmenu, menuOptions);
     }
     //----------------------------------------------------------------------------------------------
-    loadModules($form) {
-        let $moduleSelect
-            , node
-            , mainModules
-            , settingsModules
-            , modules
-            , allModules;
-
-        //Traverse security tree to find all browses and forms
-        node = FwApplicationTree.getNodeById(FwApplicationTree.tree, '0A5F2584-D239-480F-8312-7C2B552A30BA');
-        mainModules = FwApplicationTree.getChildrenByType(node, 'Module');
-        settingsModules = FwApplicationTree.getChildrenByType(node, 'SettingsModule');
-        modules = mainModules.concat(settingsModules);
-        allModules = [];
-        for (let i = 0; i < modules.length; i++) {
-            let moduleChildren = modules[i].children;
-            let browseNodePosition = moduleChildren.map(function (x) { return x.properties.nodetype; }).indexOf('Browse');
-            let formNodePosition = moduleChildren.map(function (x) { return x.properties.nodetype; }).indexOf('Form');
-            if (browseNodePosition != -1) {
-                addModulesToList(modules[i], 'Browse');
-            }
-            if (formNodePosition != -1) {
-                addModulesToList(modules[i], 'Form');
-            };
-        }
-
-        //Traverse security tree to find all grids
-        const gridNode = FwApplicationTree.getNodeById(FwApplicationTree.tree, '43765919-4291-49DD-BE76-F69AA12B13E8');
-        let gridModules = FwApplicationTree.getChildrenByType(gridNode, 'Grid');
-        for (let i = 0; i < gridModules.length; i++) {
-            addModulesToList(gridModules[i], 'Grid');
-        };
-
-        //Adds values to select dropdown
-        function addModulesToList(module, type: string) {
-            let controller = module.properties.controller;
-            let moduleNav = controller.slice(0, -10);
-            let moduleCaption = module.properties.caption;
-            let moduleUrl;
-            if (typeof window[controller] !== 'undefined') {
-                if (window[controller].hasOwnProperty('apiurl')) {
-                    moduleUrl = (<any>window)[controller].apiurl;
+    loadModulesRecursive(modules: any[], category: string, nodeKey: string, currentNode: any): void {
+        if (currentNode.nodetype === 'Module') {
+            const nodeModule = FwApplicationTree.getNodeById(FwApplicationTree.tree, currentNode.id);
+            const nodeModuleActions = FwApplicationTree.getNodeByFuncRecursive(nodeModule, {}, (node: any, args: any) => {
+                return node.nodetype === 'ModuleActions'; 
+            });
+            const nodeView = FwApplicationTree.getNodeByFuncRecursive(nodeModuleActions, {}, (node: any, args: any) => {
+                return node.nodetype === 'ModuleAction' && typeof node.properties === 'object' && 
+                    typeof node.properties.action === 'string' && node.properties.action === 'View'; 
+            });
+            const nodeNew = FwApplicationTree.getNodeByFuncRecursive(nodeModuleActions, {}, (node: any, args: any) => {
+                return node.nodetype === 'ModuleAction' && typeof node.properties === 'object' && 
+                    typeof node.properties.action === 'string' && node.properties.action === 'New'; 
+            });
+            const nodeEdit = FwApplicationTree.getNodeByFuncRecursive(nodeModuleActions, {}, (node: any, args: any) => {
+                return node.nodetype === 'ModuleAction' && typeof node.properties === 'object' && 
+                    typeof node.properties.action === 'string' && node.properties.action === 'Edit'; 
+            });
+            const hasView: boolean = nodeView !== null && nodeView.properties.visible === 'T';
+            const hasNew: boolean = nodeNew !== null && nodeNew.properties.visible === 'T';
+            const hasEdit: boolean = nodeEdit !== null && nodeEdit.properties.visible === 'T';
+            const moduleNav = nodeKey;
+            const moduleCaption = category + currentNode.caption;
+            const moduleController = nodeKey + "Controller";
+            if (typeof window[moduleController] !== 'undefined') {
+                if (window[moduleController].hasOwnProperty('apiurl')) {
+                    const moduleUrl = (<any>window)[moduleController].apiurl;
+                    modules.push({ value: `${moduleNav}Browse`, text: `${moduleCaption} Browse`, type: 'Browse', controllername: moduleController, apiurl: moduleUrl });
+                    if (hasView || hasNew || hasEdit) {
+                        modules.push({ value: `${moduleNav}Form`, text: `${moduleCaption} Form`, type: 'Form', controllername: moduleController, apiurl: moduleUrl });
+                    }
                 }
             }
-            switch (type) {
-                case 'Browse':
-                    allModules.push({ value: `${moduleNav}Browse`, text: `${moduleCaption} Browse`, type: type, controllername: module.properties.controller, apiurl: moduleUrl });
-                    break;
-                case 'Form':
-                    allModules.push({ value: `${moduleNav}Form`, text: `${moduleCaption} Form`, type: type, controllername: module.properties.controller, apiurl: moduleUrl });
-                    break;
-                case 'Grid':
-                    allModules.push({ value: `${moduleNav}Browse`, text: `${moduleCaption} Grid`, type: type, controllername: module.properties.controller, apiurl: moduleUrl });
-                    break;
+        } 
+        else if (currentNode.nodetype === 'Category' && nodeKey !== 'Reports') {
+            for (let childNodeKey in currentNode.children) {
+                const childNode = currentNode.children[childNodeKey];
+                this.loadModulesRecursive(modules, category + nodeKey + ' > ', childNodeKey, childNode);
             }
         }
+    }
+    //----------------------------------------------------------------------------------------------
+    loadGrid(modules: any[], nodeKey: string, currentNode: any): void {
+        const moduleNav = nodeKey;
+        const moduleCaption = 'Grid > ' + currentNode.caption;
+        const moduleController = nodeKey + "Controller";
+        if (typeof window[moduleController] !== 'undefined') {
+            if (window[moduleController].hasOwnProperty('apiurl')) {
+                const moduleUrl = (<any>window)[moduleController].apiurl;
+                modules.push({ value: `${moduleNav}Browse`, text: `${moduleCaption} Grid`, type: 'Grid', controllername: moduleController, apiurl: moduleUrl });
+            }
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    loadModules($form: JQuery) {
+        let allModules = [];
+        
+        // Load Modules
+        for (const key in Constants.Modules) {
+            const node = Constants.Modules[key];
+            this.loadModulesRecursive(allModules, 'Module > ', key, node);
+        }
 
-        //Sort modules alphabetically
+        // Load Grids
+        for (const key in Constants.Grids) {
+            const node = Constants.Grids[key];
+            this.loadGrid(allModules, key, node);
+        }
+
+        //Sort modules
         function compare(a, b) {
             if (a.text < b.text)
                 return -1;
@@ -354,11 +364,84 @@ class CustomForm {
         }
         allModules.sort(compare);
 
-        $moduleSelect = $form.find('.modules');
+        const $moduleSelect = $form.find('.modules');
         FwFormField.loadItems($moduleSelect, allModules);
 
         this.codeMirrorEvents($form);
     }
+    //----------------------------------------------------------------------------------------------
+    //loadModules($form) {
+    //    let $moduleSelect
+    //        , node
+    //        , mainModules
+    //        , settingsModules
+    //        , modules
+    //        , allModules;
+
+    //    //Traverse security tree to find all browses and forms
+    //    node = FwApplicationTree.getNodeById(FwApplicationTree.tree, '0A5F2584-D239-480F-8312-7C2B552A30BA');
+    //    mainModules = FwApplicationTree.getChildrenByType(node, 'Module');
+    //    settingsModules = FwApplicationTree.getChildrenByType(node, 'SettingsModule');
+    //    modules = mainModules.concat(settingsModules);
+    //    allModules = [];
+    //    for (let i = 0; i < modules.length; i++) {
+    //        let moduleChildren = modules[i].children;
+    //        let browseNodePosition = moduleChildren.map(function (x) { return x.properties.nodetype; }).indexOf('Browse');
+    //        let formNodePosition = moduleChildren.map(function (x) { return x.properties.nodetype; }).indexOf('Form');
+    //        if (browseNodePosition != -1) {
+    //            addModulesToList(modules[i], 'Browse');
+    //            if (formNodePosition != -1) {
+    //                addModulesToList(modules[i], 'Form');
+    //            };
+    //        }
+    //    }
+
+    //    //Traverse security tree to find all grids
+    //    const gridNode = FwApplicationTree.getNodeById(FwApplicationTree.tree, '43765919-4291-49DD-BE76-F69AA12B13E8');
+    //    let gridModules = FwApplicationTree.getChildrenByType(gridNode, 'Grid');
+    //    for (let i = 0; i < gridModules.length; i++) {
+    //        addModulesToList(gridModules[i], 'Grid');
+    //    };
+
+    //    //Adds values to select dropdown
+    //    function addModulesToList(module, type: string) {
+    //        let controller = module.properties.controller;
+    //        let moduleNav = controller.slice(0, -10);
+    //        let moduleCaption = module.properties.caption;
+    //        let moduleUrl;
+    //        if (typeof window[controller] !== 'undefined') {
+    //            if (window[controller].hasOwnProperty('apiurl')) {
+    //                moduleUrl = (<any>window)[controller].apiurl;
+    //            }
+    //        }
+    //        switch (type) {
+    //            case 'Browse':
+    //                allModules.push({ value: `${moduleNav}Browse`, text: `${moduleCaption} Browse`, type: type, controllername: module.properties.controller, apiurl: moduleUrl });
+    //                break;
+    //            case 'Form':
+    //                allModules.push({ value: `${moduleNav}Form`, text: `${moduleCaption} Form`, type: type, controllername: module.properties.controller, apiurl: moduleUrl });
+    //                break;
+    //            case 'Grid':
+    //                allModules.push({ value: `${moduleNav}Browse`, text: `${moduleCaption} Grid`, type: type, controllername: module.properties.controller, apiurl: moduleUrl });
+    //                break;
+    //        }
+    //    }
+
+    //    //Sort modules alphabetically
+    //    function compare(a, b) {
+    //        if (a.text < b.text)
+    //            return -1;
+    //        if (a.text > b.text)
+    //            return 1;
+    //        return 0;
+    //    }
+    //    allModules.sort(compare);
+
+    //    $moduleSelect = $form.find('.modules');
+    //    FwFormField.loadItems($moduleSelect, allModules);
+
+    //    this.codeMirrorEvents($form);
+    //}
     //----------------------------------------------------------------------------------------------
     renderGrids($form) {
         let $customFormGroupGrid;
@@ -496,6 +579,17 @@ class CustomForm {
             $customForm.find('[data-type="Browse"] tbody, [data-type="Browse"] tfoot, [data-type="Grid"] tbody, [data-type="Grid"] tfoot').hide();
             FwFormField.disable($customForm.find('[data-type="Browse"], [data-type="Grid"]'));
             $customForm.find('tr.fieldnames .column >, .submenu-btn').off('click');
+
+            //disables availability calendar
+            $customForm.find('[data-control="FwSchedulerDetailed"]').unbind('onactivatetab');
+            $customForm.find('[data-control="FwScheduler"]').unbind('onactivatetab');
+
+            //disable and add placeholder text for togglebutton controls
+            if (type === 'Form') {
+                const $toggleButtons = $customForm.find('[data-type="togglebuttons"]');
+                FwFormField.disable($toggleButtons);
+                $toggleButtons.text('[Toggle Buttons]');
+            }
         }
         disableControls();
 
@@ -540,7 +634,8 @@ class CustomForm {
                 $form.find('.addColumn[data-type="btnmenu"]').hide();
             } else if (type === 'Form') {
                 $form.find('.addColumn[data-type="btnmenu"]')
-                    .css({ 'width': '177px', 'margin-left': '27%' })
+                    //.css({ 'width': '177px', 'margin-left': '27%' })
+                    .css({ 'display': 'flex', 'margin-left': '27%' })
                     .show();
                 $form.find('.addColumn[data-type="button"]').hide();
                 $form.find('.addColumn .btnmenuoption:contains("ADD NEW CONTAINER")').addClass('addNewContainer');
@@ -701,6 +796,7 @@ class CustomForm {
                         $thisContainer.addClass('emptyContainer');
                     }
                 }
+
                 $customForm
                     .off('dragstart', 'div.fwformfield, div.flexrow, div.flexcolumn')
                     .on('dragstart', 'div.fwformfield, div.flexrow, div.flexcolumn', e => {
@@ -719,9 +815,10 @@ class CustomForm {
                         e.preventDefault();
                         e.originalEvent.dataTransfer.dropEffect = "none";
                     })
-                    .off('dragover', 'div.fwformfield')
-                    .on('dragover', 'div.fwformfield', e => {
+                    .off('dragover', 'div.fwformfield, div.flexrow, div.flexcolumn')
+                    .on('dragover', 'div.fwformfield, div.flexrow, div.flexcolumn', e => {
                         e.preventDefault();
+                        e.stopPropagation();
                         if ($elementDragged.attr('data-type') !== "tab") {
                             let $this = jQuery(e.currentTarget);
                             indexDrop = $this.attr('data-index');
@@ -1017,6 +1114,7 @@ class CustomForm {
 
                                 //update caption when datafield is changed
                                 jQuery(originalHtml).attr('data-caption', value);
+                                jQuery(originalHtml).find(`.fwformfield-caption`).text(value);
                                 $form.find(`#controlProperties .propname:contains('data-caption')`).siblings('.propval').find('input').val(value);
 
                                 if (isCustomField === "true") {
@@ -1046,6 +1144,10 @@ class CustomForm {
                                     jQuery($customFormClone).find(`div[data-index="${index}"]`).attr('data-customfield', 'true');
                                 }
                                 jQuery($customFormClone).find(`div[data-index="${index}"]`).attr(`data-caption`, `${value}`);
+                            }
+
+                            if (attribute === 'data-caption') {
+                                jQuery(originalHtml).find(`.fwformfield-caption`).text(value);
                             }
 
                             let isTab = jQuery(originalHtml).attr('data-type');
@@ -1455,6 +1557,7 @@ class CustomForm {
 
         }
     }
+    //----------------------------------------------------------------------------------------------
     getValueOptions(fieldname: string) {
         var values: any = [];
         switch (fieldname) {
@@ -1463,30 +1566,30 @@ class CustomForm {
             case 'data-datatype':
             case 'data-type':
                 values = [
-                    'checkbox'
-                    , 'checkboxlist'
-                    , 'color'
-                    , 'combobox'
-                    , 'date'
-                    , 'datetime'
-                    , 'decimal'
-                    , 'email'
-                    , 'key'
-                    , 'money'
-                    , 'multiselectvalidation'
-                    , 'note'
-                    , 'number'
-                    , 'percent'
-                    , 'phone'
-                    , 'radio'
-                    , 'searchbox'
-                    , 'select'
-                    , 'tab'
-                    , 'text'
-                    , 'textarea'
-                    , 'time'
-                    , 'timepicker'
-                    , 'validation'
+                    'checkbox',
+                    'checkboxlist',
+                    'color',
+                    'combobox',
+                    'date',
+                    'datetime',
+                    'decimal',
+                    'email',
+                    'key',
+                    'money',
+                    'multiselectvalidation',
+                    'note',
+                    'number',
+                    'percent',
+                    'phone',
+                    'radio',
+                    'searchbox',
+                    'select',
+                    'tab',
+                    'text',
+                    'textarea',
+                    'time',
+                    'timepicker',
+                    'validation'
                 ];
                 break;
             case 'data-sort':

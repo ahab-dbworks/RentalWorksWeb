@@ -54,6 +54,8 @@
                 };
 
                 $quantityColumn.on('change', '.fieldvalue', e => {
+                    const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+
                     let request: any = {},
                         code = $tr.find('[data-browsedatafield="BarCode"]').attr('data-originalvalue'),
                         orderItemId = $tr.find('[data-browsedatafield="OrderItemId"]').attr('data-originalvalue'),
@@ -66,6 +68,7 @@
                     request = {
                         OrderId: orderId,
                         Code: code,
+                        WarehouseId: warehouse.warehouseid,
                         Quantity: quantity,
                         OrderItemId: orderItemId,
                         VendorId: vendorId

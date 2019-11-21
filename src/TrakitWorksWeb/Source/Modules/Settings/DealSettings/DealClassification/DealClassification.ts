@@ -1,11 +1,9 @@
 ﻿class DealClassification {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'DealClassification';
-        this.apiurl = 'api/v1/dealclassification';
-    }
+    Module: string = 'DealClassification';
+    apiurl: string = 'api/v1/dealclassification';
+    caption: string = Constants.Modules.Settings.children.DealSettings.children.DealClassification.caption;
+    nav: string = Constants.Modules.Settings.children.DealSettings.children.DealClassification.nav;
+    id: string = Constants.Modules.Settings.children.DealSettings.children.DealClassification.id;
 
     getModuleScreen() {
         var screen, $browse;

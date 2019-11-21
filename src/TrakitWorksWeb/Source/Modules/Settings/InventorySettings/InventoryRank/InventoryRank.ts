@@ -1,11 +1,10 @@
 class InventoryRank {
-    Module: string;
-    apiurl: string;
+    Module: string = 'InventoryRank';
+    apiurl: string = 'api/v1/inventoryrank';
+    caption: string = Constants.Modules.Settings.children.InventorySettings.children.InventoryRank.caption;
+    nav:     string = Constants.Modules.Settings.children.InventorySettings.children.InventoryRank.nav;
+    id:      string = Constants.Modules.Settings.children.InventorySettings.children.InventoryRank.id;
 
-    constructor() {
-        this.Module = 'InventoryRank';
-        this.apiurl = 'api/v1/inventoryrank';
-    }
 
     getModuleScreen() {
         var screen, $browse;
@@ -17,8 +16,8 @@ class InventoryRank {
 
         $browse = this.openBrowse();
 
-        screen.load = function () {
-            FwModule.openModuleTab($browse, 'Inventory Rank', false, 'BROWSE', true);
+        screen.load = () => {
+            FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };

@@ -1,6 +1,9 @@
 class ContactTitle {
     Module: string = 'ContactTitle';
     apiurl: string = 'api/v1/contacttitle';
+    caption: string = Constants.Modules.Settings.children.ContactSettings.children.ContactTitle.caption;
+    nav: string = Constants.Modules.Settings.children.ContactSettings.children.ContactTitle.nav;
+    id: string = Constants.Modules.Settings.children.ContactSettings.children.ContactTitle.id;
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen, $browse;

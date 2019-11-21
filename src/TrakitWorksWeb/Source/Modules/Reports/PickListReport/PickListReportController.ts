@@ -19,6 +19,11 @@ const pickListTemplate = `
                     <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                       <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Pick List" data-savesetting="false" data-datafield="PickListId" data-displayfield="PickListNumber" data-validationname="PickListValidation" style="float:left;max-width:300px;"></div>
                     </div>
+                    <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                      <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="New Page for each Inventory Type" data-datafield="NewPagePerType"></div>
+                    </div>
+                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="OrderType" data-savesetting="false" style="display:none;"></div>
+                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="BarCodeStyle" data-savesetting="false" style="display:none;"></div>
                   </div>
                 </div>
               </div>
@@ -52,11 +57,19 @@ class PickListReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     openForm() {
         const $form = this.getFrontEnd();
+
+        $form.find('div[data-datafield="PickListId"]').data('onchange', $tr => {
+            FwFormField.setValue($form, 'div[data-datafield="OrderType"]', $tr.find('.field[data-formdatafield="OrderType"]').attr('data-originalvalue'));
+        });
+
         return $form;
     }
     //----------------------------------------------------------------------------------------------
     onLoadForm($form) {
         this.load($form, this.reportOptions);
+
+        const barCodeStyle = JSON.parse(sessionStorage.getItem('controldefaults')).documentbarcodestyle;
+        FwFormField.setValue($form, 'div[data-datafield="BarCodeStyle"]', barCodeStyle);
     }
     //----------------------------------------------------------------------------------------------
     convertParameters(parameters: any) {

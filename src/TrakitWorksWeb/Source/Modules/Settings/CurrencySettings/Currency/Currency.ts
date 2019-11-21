@@ -1,6 +1,9 @@
 class Currency {
     Module: string = 'Currency';
     apiurl: string = 'api/v1/currency';
+    caption: string = Constants.Modules.Settings.children.CurrencySettings.children.Currency.caption;
+    nav: string = Constants.Modules.Settings.children.CurrencySettings.children.Currency.nav;
+    id: string = Constants.Modules.Settings.children.CurrencySettings.children.Currency.id;
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen, $browse;
