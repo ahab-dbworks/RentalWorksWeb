@@ -1,8 +1,8 @@
-<div id="invoiceform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-caption="Invoice" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="InvoiceController">
-  <div data-control="FwFormField" data-type="key" class="fwcontrol fwformfield" data-isuniqueid="true" data-saveorder="1" data-caption="" data-datafield="InvoiceId"></div>
-  <div id="invoiceform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
+<div id="billingworksheetform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-caption="Billing Worksheet" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="BillingWorksheetController">
+  <div data-control="FwFormField" data-type="key" class="fwcontrol fwformfield" data-isuniqueid="true" data-saveorder="1" data-caption="" data-datafield="BillingWorksheetId"></div>
+  <div id="billingworksheetform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs">
-      <div data-type="tab" id="invoicetab" class="generaltab tab" data-tabpageid="invoicetabpage" data-caption="Invoice"></div>
+      <div data-type="tab" id="billingworksheettab" class="generaltab tab" data-tabpageid="billingworksheettabpage" data-caption="Worksheet"></div>
       <div data-type="tab" id="rentaltab" class="tab hide-new" data-tabpageid="rentaltabpage" data-caption="Rental"></div>
       <div data-type="tab" id="salestab" class="tab hide-new" data-tabpageid="salestabpage" data-caption="Sales"></div>
       <div data-type="tab" id="labortab" class="tab hide-new" data-tabpageid="labortabpage" data-caption="Labor"></div>
@@ -25,15 +25,15 @@
     </div>
     <div class="tabpages">
       <!-- INVOICE TAB -->
-      <div data-type="tabpage" id="invoicetabpage" class="tabpage" data-tabid="invoicetab">
+      <div data-type="tabpage" id="billingworksheettabpage" class="tabpage" data-tabid="billingworksheettab">
         <div class="formpage">
           <div class="flexrow">
             <!-- Invoice section -->
             <div class="flexcolumn" style="flex:1 1 300px;">
-              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Invoice">
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Worksheet">
                 <div class="flexrow">
-                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Invoice Number" data-datafield="InvoiceNumber" data-enabled="false" style="flex:1 1 125px;"></div>
-                  <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Invoice Date" data-datafield="InvoiceDate" data-required="true" style="flex:1 1 125px;"></div>
+                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Worksheet No." data-datafield="BillingWorksheetNumber" data-enabled="false" style="flex:1 1 125px;"></div>
+                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Order No." data-datafield="OrderNumber" data-required="true" style="flex:1 1 125px;"></div>
                 </div>
                 <div class="flexrow">
                   <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Crediting Invoice No." data-datafield="CreditingInvoiceId" data-displayfield="CreditingInvoiceNumber" data-validationname="InvoiceValidation" data-enabled="false" style="display:none;flex:1 1 200px;"></div>

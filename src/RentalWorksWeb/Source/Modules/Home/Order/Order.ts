@@ -203,7 +203,7 @@ class Order extends OrderBase {
         const worksheetTab = $form.find('[data-type="tab"][data-caption="Worksheets"]');
         if (FwFormField.getTextByDataField($form, 'BillingCycleId') === 'ON DEMAND') {
             worksheetTab.show();
-            $form.find('.worksheet-submodule').append(this.openSubModuleBrowse($form, 'Worksheet'));
+            $form.find('.worksheet-submodule').append(this.openSubModuleBrowse($form, 'BillingWorksheet'));
         } else {
             worksheetTab.hide();
         }

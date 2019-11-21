@@ -2,7 +2,7 @@ class BillingWorksheet {
     Module: string = 'BillingWorksheet';
     apiurl: string = 'api/v1/billingworksheet';
     caption: string = Constants.Modules.Home.BillingWorksheet.caption;
-    nav: string = Constants.Modules.Home.BillingWorksheet.nav; 
+    nav: string = Constants.Modules.Home.BillingWorksheet.nav;
     id: string = Constants.Modules.Home.BillingWorksheet.id;
     ActiveViewFields: any = {};
     ActiveViewFieldsId: string;
@@ -95,9 +95,6 @@ class BillingWorksheet {
     openForm(mode, parentModuleInfo?: any) {
         let $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
-
-        const $emailHistorySubModuleBrowse = this.openEmailHistoryBrowse($form);
-        $form.find('.emailhistory-page').append($emailHistorySubModuleBrowse);
 
         if (mode === 'NEW') {
             $form.find('.ifnew').attr('data-enabled', 'true');
@@ -474,7 +471,7 @@ class BillingWorksheet {
     };
     //----------------------------------------------------------------------------------------------
     loadAudit($form: JQuery): void {
-        const uniqueid = FwFormField.getValueByDataField($form, 'InvoiceId');
+        const uniqueid = FwFormField.getValueByDataField($form, 'BillingWorksheetId');
         FwModule.loadAudit($form, uniqueid);
     };
     //----------------------------------------------------------------------------------------------
@@ -501,10 +498,10 @@ class BillingWorksheet {
                 }
             }
         });
-        const IsStandAloneInvoice = FwFormField.getValueByDataField($form, 'IsStandAloneInvoice') === true;
-        if (IsStandAloneInvoice) {
-            FwFormField.enable($form.find('[data-datafield="RateType"]'));
-        }
+        //const IsStandAloneInvoice = FwFormField.getValueByDataField($form, 'IsStandAloneInvoice') === true;
+        //if (IsStandAloneInvoice) {
+        //    FwFormField.enable($form.find('[data-datafield="RateType"]'));
+        //}
         // Disbles form for certain statuses. Maintain position under 'IsStandAloneInvoice' condition since status overrides
         const status = FwFormField.getValueByDataField($form, 'Status');
         if (status === 'CLOSED' || status === 'PROCESSED' || status === 'VOID') {
@@ -658,17 +655,17 @@ class BillingWorksheet {
         }
     };
     //----------------------------------------------------------------------------------------------
-    openEmailHistoryBrowse($form) {
-        const $browse = EmailHistoryController.openBrowse();
+    //openEmailHistoryBrowse($form) {
+    //    const $browse = EmailHistoryController.openBrowse();
 
-        $browse.data('ondatabind', function (request) {
-            request.uniqueids = {
-                RelatedToId: $form.find('[data-datafield="InvoiceId"] input.fwformfield-value').val()
-            }
-        });
+    //    $browse.data('ondatabind', function (request) {
+    //        request.uniqueids = {
+    //            RelatedToId: $form.find('[data-datafield="InvoiceId"] input.fwformfield-value').val()
+    //        }
+    //    });
 
-        return $browse;
-    }
+    //    return $browse;
+    //}
     //----------------------------------------------------------------------------------------------
     events($form: JQuery): void {
         //Populate tax info fields with validation
@@ -681,30 +678,6 @@ class BillingWorksheet {
         $form.find('.billing-date-validation').on('changeDate', event => {
             this.checkBillingDateRange($form, event);
         });
-        //Open Print Invoice Report
-        $form.find('.print-worksheet').on('click', e => {
-            try {
-                const module = this.Module;
-                const recordTitle = jQuery('.tabs .active[data-tabtype="FORM"] .caption').text();
-                const $report = InvoiceReportController.openForm();
-
-                FwModule.openSubModuleTab($form, $report);
-
-                const worksheetId = $form.find(`div.fwformfield[data-datafield="${module}Id"] input`).val();
-                $report.find(`div.fwformfield[data-datafield="${module}Id"] input`).val(worksheetId);
-                const worksheetNumber = $form.find(`div.fwformfield[data-datafield="${module}Number"] input`).val();
-                $report.find(`div.fwformfield[data-datafield="${module}Id"] .fwformfield-text`).val(worksheetNumber);
-                jQuery('.tab.submodule.active').find('.caption').html(`Print ${module}`);
-
-                const printTab = jQuery('.tab.submodule.active');
-                printTab.find('.caption').html(`Print ${module}`);
-                printTab.attr('data-caption', `${module} ${recordTitle}`);
-            }
-            catch (ex) {
-                FwFunc.showError(ex);
-            }
-        });
-
         //Populate tax info fields with validation
         $form.find('div[data-datafield="TaxOptionId"]').data('onchange', $tr => {
             FwFormField.setValue($form, 'div[data-datafield="RentalTaxRate1"]', $tr.find('.field[data-browsedatafield="RentalTaxRate1"]').attr('data-originalvalue'));
@@ -728,56 +701,14 @@ class BillingWorksheet {
             FwFunc.showError(ex);
         }
     };
-    //----------------------------------------------------------------------------------------------
-    voidWorksheet($form: JQuery): void {
-        try {
-            const $confirmation = FwConfirmation.renderConfirmation('Void', '');
-            $confirmation.find('.fwconfirmationbox').css('width', '450px');
-            const html: Array<string> = [];
-            html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
-            html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-            html.push('    <div>Void Invoice?</div>');
-            html.push('  </div>');
-            html.push('</div>');
-
-            FwConfirmation.addControls($confirmation, html.join(''));
-            const $yes = FwConfirmation.addButton($confirmation, 'Void', false);
-            const $no = FwConfirmation.addButton($confirmation, 'Cancel');
-
-            $yes.on('click', makeVoid);
-
-            function makeVoid() {
-                FwFormField.disable($confirmation.find('.fwformfield'));
-                FwFormField.disable($yes);
-                $yes.text('Voiding...');
-                $yes.off('click');
-
-                const worksheetId = FwFormField.getValueByDataField($form, 'BillingWorksheetId');
-                FwAppData.apiMethod(true, 'POST', `api/v1/worksheet/${worksheetId}/void`, null, FwServices.defaultTimeout, function onSuccess(response) {
-                    FwNotification.renderNotification('SUCCESS', 'Worksheet Successfully Voided');
-                    FwConfirmation.destroyConfirmation($confirmation);
-                    FwModule.refreshForm($form);
-                }, function onError(response) {
-                    $yes.on('click', makeVoid);
-                    $yes.text('Void');
-                    FwFunc.showError(response);
-                    FwFormField.enable($confirmation.find('.fwformfield'));
-                    FwFormField.enable($yes);
-                    FwModule.refreshForm($form);
-                }, $form);
-            }
-        } catch (ex) {
-            FwFunc.showError(ex);
-        }
-    }
 };
 //----------------------------------------------------------------------------------------------
 //form approve
 FwApplicationTree.clickEvents[Constants.Modules.Home.BillingWorksheet.form.menuItems.Approve.id] = function (event: JQuery.ClickEvent) {
     try {
         const $form = jQuery(this).closest('.fwform');
-        const worksheetId = FwFormField.getValueByDataField($form, 'BillingWorksheetId');
-        FwAppData.apiMethod(true, 'POST', `api/v1/billingworksheet/${worksheetId}/approve`, null, FwServices.defaultTimeout, function onSuccess(response) {
+        const billingWorksheetId = FwFormField.getValueByDataField($form, 'BillingWorksheetId');
+        FwAppData.apiMethod(true, 'POST', `api/v1/billingworksheet/${billingWorksheetId}/approve`, null, FwServices.defaultTimeout, function onSuccess(response) {
             if (response.success === true) {
                 FwModule.refreshForm($form);
             } else {
@@ -793,8 +724,8 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.BillingWorksheet.form.menuI
 FwApplicationTree.clickEvents[Constants.Modules.Home.BillingWorksheet.form.menuItems.Unapprove.id] = function (event: JQuery.ClickEvent) {
     try {
         const $form = jQuery(this).closest('.fwform');
-        const worksheetId = FwFormField.getValueByDataField($form, 'BillingWorksheetId');
-        FwAppData.apiMethod(true, 'POST', `api/v1/billingworksheet/${worksheetId}/unapprove`, null, FwServices.defaultTimeout, function onSuccess(response) {
+        const billingWorksheetId = FwFormField.getValueByDataField($form, 'BillingWorksheetId');
+        FwAppData.apiMethod(true, 'POST', `api/v1/billingworksheet/${billingWorksheetId}/unapprove`, null, FwServices.defaultTimeout, function onSuccess(response) {
             if (response.success === true) {
                 FwModule.refreshForm($form);
             } else {
@@ -810,9 +741,9 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.BillingWorksheet.form.menuI
 FwApplicationTree.clickEvents[Constants.Modules.Home.BillingWorksheet.browse.menuItems.Approve.id] = function (event: JQuery.ClickEvent) {
     try {
         const $browse = jQuery(this).closest('.fwbrowse');
-        const worksheetId = $browse.find('.selected [data-browsedatafield="BillingWorksheetId"]').attr('data-originalvalue');
-        if (typeof worksheetId !== 'undefined') {
-            FwAppData.apiMethod(true, 'POST', `api/v1/billingworksheet/${worksheetId}/approve`, null, FwServices.defaultTimeout, function onSuccess(response) {
+        const billingWorksheetId = $browse.find('.selected [data-browsedatafield="BillingWorksheetId"]').attr('data-originalvalue');
+        if (typeof billingWorksheetId !== 'undefined') {
+            FwAppData.apiMethod(true, 'POST', `api/v1/billingworksheet/${billingWorksheetId}/approve`, null, FwServices.defaultTimeout, function onSuccess(response) {
                 if (response.success === true) {
                     FwBrowse.search($browse);
                 } else {
@@ -831,9 +762,9 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.BillingWorksheet.browse.men
 FwApplicationTree.clickEvents[Constants.Modules.Home.BillingWorksheet.browse.menuItems.Unapprove.id] = function (event: JQuery.ClickEvent) {
     try {
         const $browse = jQuery(this).closest('.fwbrowse');
-        const worksheetId = $browse.find('.selected [data-browsedatafield="BillingWorksheetId"]').attr('data-originalvalue');
-        if (typeof worksheetId !== 'undefined') {
-            FwAppData.apiMethod(true, 'POST', `api/v1/billingworksheet/${worksheetId}/unapprove`, null, FwServices.defaultTimeout, function onSuccess(response) {
+        const billingWorksheetId = $browse.find('.selected [data-browsedatafield="BillingWorksheetId"]').attr('data-originalvalue');
+        if (typeof billingWorksheetId !== 'undefined') {
+            FwAppData.apiMethod(true, 'POST', `api/v1/billingworksheet/${billingWorksheetId}/unapprove`, null, FwServices.defaultTimeout, function onSuccess(response) {
                 if (response.success === true) {
                     FwBrowse.search($browse);
                 } else {
