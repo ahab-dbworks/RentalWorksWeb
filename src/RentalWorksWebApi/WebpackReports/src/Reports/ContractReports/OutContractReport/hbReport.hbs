@@ -146,23 +146,46 @@
     </tbody>
   </table>
 </div>
+{{#if PersonPrintName}}
+<div class="rpt-flexrow" style="margin-top:25px;">
+  <fieldset style="height:150px">
+    <legend>RECEIVED BY</legend>
+    <table>
+      <tr>
+        <td valign="bottom"><img id="base64img" src="{{PersonSignature}}" alt="signature" style="width:auto;height:100px;" /></td>
+        <td>&nbsp;</td>
+        <td valign="bottom" style="width:250px">{{PersonPrintName}}</td>
+        <td>&nbsp;</td>
+        <td valign="bottom" style="width:100px">{{ContractDate}}</td>
+      </tr>
+      <tr>
+        <td style="border-top:1px solid #000000"><div class="caption">SIGNATURE</div></td>
+        <td>&nbsp;</td>
+        <td style="border-top:1px solid #000000"><div class="caption">PRINT NAME</div></td>
+        <td>&nbsp;</td>
+        <td style="border-top:1px solid #000000"><div class="caption">DATE</div></td>
+      </tr>
+    </table>
+  </fieldset>
+</div>
+{{else}}
 <div class="rpt-flexrow" style="margin-top:25px;">
   <fieldset>
     <legend>RECEIVED BY</legend>
     <div>
       <div style="display:flex">
         <div class="receivedbyfield">
-          <div class="value"><img src="{{ReceivedBySignatureDataUrl}}" /></div>
+          <div class="value"></div>
           <div class="caption">SIGNATURE</div>
         </div>
         <div class="receivedbyfield">
-          <div class="value">{{ReceivedBySignature}}</div>
+          <div class="value"></div>
           <div class="caption">PRINT NAME</div>
         </div>
       </div>
       <div style="display:flex">
         <div class="receivedbyfield">
-          <div class="value">{{ReceivedByDate}}</div>
+          <div class="value"></div>
           <div class="caption">DATE</div>
         </div>
         <div class="receivedbyfield"></div>
@@ -170,3 +193,4 @@
     </div>
   </fieldset>
 </div>
+{{/if}}
