@@ -345,9 +345,9 @@
         baseiconurl = 'theme/images/icons/home/';
         this.generateDropDownModuleBtn($view, $control, 'All Reports ID', 'All Reports', null, null);
         //const nodeReports = FwApplicationTree.getNodeByFuncRecursive(FwApplicationTree.tree, {}, (node: any, args: any) => node.id === 'Reports');
-        const constNodeReports = Constants.Modules.Reports;
-        for (const keyCategory in constNodeReports) {
-            const constNodeCategory = constNodeReports[keyCategory];
+        const constNodeReports = (<any>window).Constants.Modules.Reports;
+        for (const keyCategory in constNodeReports.children) {
+            const constNodeCategory = constNodeReports.children[keyCategory];
             dropDownMenuItems = [];
             for (const keyReport in constNodeCategory.children) {
                 const constNodeReport = constNodeCategory.children[keyReport];
