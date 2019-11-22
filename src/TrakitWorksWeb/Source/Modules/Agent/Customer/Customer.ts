@@ -247,64 +247,132 @@ class Customer {
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
         // ----------
-        var nameCustomerResaleGrid: string = 'CompanyResaleGrid';
-        var $companyResaleGrid: any = $companyResaleGrid = $form.find('div[data-grid="' + nameCustomerResaleGrid + '"]');
-        var $companyResaleGridControl: any = FwBrowse.loadGridFromTemplate(nameCustomerResaleGrid);
+        //var nameCustomerResaleGrid: string = 'CompanyResaleGrid';
+        //var $companyResaleGrid: any = $companyResaleGrid = $form.find('div[data-grid="' + nameCustomerResaleGrid + '"]');
+        //var $companyResaleGridControl: any = FwBrowse.loadGridFromTemplate(nameCustomerResaleGrid);
 
-        $companyResaleGrid.empty().append($companyResaleGridControl);
-        $companyResaleGridControl.data('ondatabind', function (request) {
-            request.uniqueids = {
-                CompanyId: FwFormField.getValueByDataField($form, 'CustomerId')
-            };
-        });
-        $companyResaleGridControl.data('beforesave', function (request) {
-            request.CompanyId = FwFormField.getValueByDataField($form, 'CustomerId')
-        });
-        FwBrowse.init($companyResaleGridControl);
-        FwBrowse.renderRuntimeHtml($companyResaleGridControl);
-        // ----------
-        var nameCustomerNoteGrid: string = 'CustomerNoteGrid';
-        var $customerNoteGrid: any = $customerNoteGrid = $form.find('div[data-grid="' + nameCustomerNoteGrid + '"]');
-        var $customerNoteGridControl: any = FwBrowse.loadGridFromTemplate(nameCustomerNoteGrid);
-        $customerNoteGrid.empty().append($customerNoteGridControl);
-        $customerNoteGridControl.data('ondatabind', function (request) {
-            request.uniqueids = {
-                CustomerId: FwFormField.getValueByDataField($form, 'CustomerId')
+        //$companyResaleGrid.empty().append($companyResaleGridControl);
+        //$companyResaleGridControl.data('ondatabind', function (request) {
+        //    request.uniqueids = {
+        //        CompanyId: FwFormField.getValueByDataField($form, 'CustomerId')
+        //    };
+        //});
+        //$companyResaleGridControl.data('beforesave', function (request) {
+        //    request.CompanyId = FwFormField.getValueByDataField($form, 'CustomerId')
+        //});
+        //FwBrowse.init($companyResaleGridControl);
+        //FwBrowse.renderRuntimeHtml($companyResaleGridControl);
+
+        FwBrowse.renderGrid({
+            nameGrid: 'CompanyResaleGrid',
+            gridSecurityId: 'YCWWUKvlHxbM',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    CompanyId: FwFormField.getValueByDataField($form, 'CustomerId')
+                };
+            },
+            beforeSave: (request: any) => {
+                request.CompanyId = FwFormField.getValueByDataField($form, 'CustomerId');
             }
         });
-        FwBrowse.init($customerNoteGridControl);
-        FwBrowse.renderRuntimeHtml($customerNoteGridControl);
         // ----------
-        var nameCompanyTaxGrid: string = 'CompanyTaxOptionGrid'
-        var $companyTaxGrid: any = $companyTaxGrid = $form.find('div[data-grid="' + nameCompanyTaxGrid + '"]');
-        var $companyTaxControl: any = FwBrowse.loadGridFromTemplate(nameCompanyTaxGrid);
-        $companyTaxGrid.empty().append($companyTaxControl);
-        $companyTaxControl.data('ondatabind', function (request) {
-            request.uniqueids = {
-                CompanyId: FwFormField.getValueByDataField($form, 'CustomerId')
+        //var nameCustomerNoteGrid: string = 'CustomerNoteGrid';
+        //var $customerNoteGrid: any = $customerNoteGrid = $form.find('div[data-grid="' + nameCustomerNoteGrid + '"]');
+        //var $customerNoteGridControl: any = FwBrowse.loadGridFromTemplate(nameCustomerNoteGrid);
+        //$customerNoteGrid.empty().append($customerNoteGridControl);
+        //$customerNoteGridControl.data('ondatabind', function (request) {
+        //    request.uniqueids = {
+        //        CustomerId: FwFormField.getValueByDataField($form, 'CustomerId')
+        //    }
+        //});
+        //FwBrowse.init($customerNoteGridControl);
+        //FwBrowse.renderRuntimeHtml($customerNoteGridControl);
+
+        FwBrowse.renderGrid({
+            nameGrid: 'CustomerNoteGrid',
+            gridSecurityId: 'Xxgc1Kt59jGM',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    CustomerId: FwFormField.getValueByDataField($form, 'CustomerId')
+                };
+            },
+            beforeSave: (request: any) => {
+                request.CustomerId = FwFormField.getValueByDataField($form, 'CustomerId');
             }
         });
-        $companyTaxControl.data('beforesave', function (request) {
-            request.CompanyId = FwFormField.getValueByDataField($form, 'CustomerId');
-        });
-        FwBrowse.init($companyTaxControl);
-        FwBrowse.renderRuntimeHtml($companyTaxControl);
         // ----------
-        var nameCompanyContactGrid: string = 'CompanyContactGrid'
-        var $companyContactGrid: any = $companyContactGrid = $form.find('div[data-grid="' + nameCompanyContactGrid + '"]');
-        var $companyContactControl: any = FwBrowse.loadGridFromTemplate(nameCompanyContactGrid);
-        $companyContactGrid.empty().append($companyContactControl);
-        $companyContactControl.data('ondatabind', function (request) {
-            request.uniqueids = {
-                CompanyId: FwFormField.getValueByDataField($form, 'CustomerId')
+        //var nameCompanyTaxGrid: string = 'CompanyTaxOptionGrid'
+        //var $companyTaxGrid: any = $companyTaxGrid = $form.find('div[data-grid="' + nameCompanyTaxGrid + '"]');
+        //var $companyTaxControl: any = FwBrowse.loadGridFromTemplate(nameCompanyTaxGrid);
+        //$companyTaxGrid.empty().append($companyTaxControl);
+        //$companyTaxControl.data('ondatabind', function (request) {
+        //    request.uniqueids = {
+        //        CompanyId: FwFormField.getValueByDataField($form, 'CustomerId')
+        //    }
+        //});
+        //$companyTaxControl.data('beforesave', function (request) {
+        //    request.CompanyId = FwFormField.getValueByDataField($form, 'CustomerId');
+        //});
+        //FwBrowse.init($companyTaxControl);
+        //FwBrowse.renderRuntimeHtml($companyTaxControl);
+
+        FwBrowse.renderGrid({
+            nameGrid: 'CompanyTaxOptionGrid',
+            gridSecurityId: 'pln3PcL3PMSb',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                
+            },
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    CompanyId: FwFormField.getValueByDataField($form, 'CustomerId')
+                };
+            },
+            beforeSave: (request: any) => {
+                request.CompanyId = FwFormField.getValueByDataField($form, 'CustomerId');
             }
         });
-        $companyContactControl.data('beforesave', function (request) {
-            request.CompanyId = FwFormField.getValueByDataField($form, 'CustomerId');
+        // ----------
+        //var nameCompanyContactGrid: string = 'CompanyContactGrid'
+        //var $companyContactGrid: any = $companyContactGrid = $form.find('div[data-grid="' + nameCompanyContactGrid + '"]');
+        //var $companyContactControl: any = FwBrowse.loadGridFromTemplate(nameCompanyContactGrid);
+        //$companyContactGrid.empty().append($companyContactControl);
+        //$companyContactControl.data('ondatabind', function (request) {
+        //    request.uniqueids = {
+        //        CompanyId: FwFormField.getValueByDataField($form, 'CustomerId')
+        //    }
+        //});
+        //$companyContactControl.data('beforesave', function (request) {
+        //    request.CompanyId = FwFormField.getValueByDataField($form, 'CustomerId');
+        //});
+        //FwBrowse.init($companyContactControl);
+        //FwBrowse.renderRuntimeHtml($companyContactControl);
+
+        FwBrowse.renderGrid({
+            nameGrid: 'CompanyContactGrid',
+            gridSecurityId: 'wfdyLQeNlL9y',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    CompanyId: FwFormField.getValueByDataField($form, 'CustomerId')
+                };
+            },
+            beforeSave: (request: any) => {
+                request.CompanyId = FwFormField.getValueByDataField($form, 'CustomerId');
+            },
         });
-        FwBrowse.init($companyContactControl);
-        FwBrowse.renderRuntimeHtml($companyContactControl);
     }
+    
     //----------------------------------------------------------------------------------------------
     beforeValidateInsuranceVendor($browse, $grid, request) {
         var $form;

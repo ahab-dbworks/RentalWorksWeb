@@ -150,30 +150,59 @@ class Vendor {
     }
     //---------------------------------------------------------------------------------
     renderGrids($form: JQuery) {
-        var $vendorTaxOptionGrid: JQuery = $form.find('div[data-grid="VendorTaxOptionGrid"]');
-        var $vendorTaxOptionControl: JQuery = FwBrowse.loadGridFromTemplate('VendorTaxOptionGrid');
-        $vendorTaxOptionGrid.empty().append($vendorTaxOptionControl);
-        $vendorTaxOptionControl.data('ondatabind', function (request) {
-            request.uniqueids = {
-                CompanyId: FwFormField.getValueByDataField($form, 'VendorId')
-            }
-        });
-        $vendorTaxOptionControl.data('beforesave', function (request) {
-            request.CompanyId = FwFormField.getValueByDataField($form, 'VendorId');
-        });
-        FwBrowse.init($vendorTaxOptionControl);
-        FwBrowse.renderRuntimeHtml($vendorTaxOptionControl);
+        //var $vendorTaxOptionGrid: JQuery = $form.find('div[data-grid="VendorTaxOptionGrid"]');
+        //var $vendorTaxOptionControl: JQuery = FwBrowse.loadGridFromTemplate('VendorTaxOptionGrid');
+        //$vendorTaxOptionGrid.empty().append($vendorTaxOptionControl);
+        //$vendorTaxOptionControl.data('ondatabind', function (request) {
+        //    request.uniqueids = {
+        //        CompanyId: FwFormField.getValueByDataField($form, 'VendorId')
+        //    }
+        //});
+        //$vendorTaxOptionControl.data('beforesave', function (request) {
+        //    request.CompanyId = FwFormField.getValueByDataField($form, 'VendorId');
+        //});
+        //FwBrowse.init($vendorTaxOptionControl);
+        //FwBrowse.renderRuntimeHtml($vendorTaxOptionControl);
 
-        var $vendorNoteGrid: JQuery = $form.find('div[data-grid="VendorNoteGrid"]');
-        var $vendorNoteControl: JQuery = FwBrowse.loadGridFromTemplate('VendorNoteGrid');
-        $vendorNoteGrid.empty().append($vendorNoteControl);
-        $vendorNoteControl.data('ondatabind', function (request) {
-            request.uniqueids = {
-                VendorId: FwFormField.getValueByDataField($form, 'VendorId')
+        FwBrowse.renderGrid({
+            nameGrid: 'VendorTaxOptionGrid',
+            gridSecurityId: 'YRHvf8VmpQVQ',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    CompanyId: FwFormField.getValueByDataField($form, 'VendorId')
+                };
+            },
+            beforeSave: (request: any) => {
+                request.CompanyId = FwFormField.getValueByDataField($form, 'VendorId');
             }
         });
-        FwBrowse.init($vendorNoteControl);
-        FwBrowse.renderRuntimeHtml($vendorNoteControl);
+
+        //var $vendorNoteGrid: JQuery = $form.find('div[data-grid="VendorNoteGrid"]');
+        //var $vendorNoteControl: JQuery = FwBrowse.loadGridFromTemplate('VendorNoteGrid');
+        //$vendorNoteGrid.empty().append($vendorNoteControl);
+        //$vendorNoteControl.data('ondatabind', function (request) {
+        //    request.uniqueids = {
+        //        VendorId: FwFormField.getValueByDataField($form, 'VendorId')
+        //    }
+        //});
+        //FwBrowse.init($vendorNoteControl);
+        //FwBrowse.renderRuntimeHtml($vendorNoteControl);
+
+        FwBrowse.renderGrid({
+            nameGrid: 'VendorNoteGrid',
+            gridSecurityId: 'Wt91OSBXgBd4',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    VendorId: FwFormField.getValueByDataField($form, 'VendorId')
+                };
+            },
+        });
 
         var nameCompanyContactGrid: string = 'CompanyContactGrid'
         var $companyContactGrid: any = $companyContactGrid = $form.find('div[data-grid="' + nameCompanyContactGrid + '"]');
