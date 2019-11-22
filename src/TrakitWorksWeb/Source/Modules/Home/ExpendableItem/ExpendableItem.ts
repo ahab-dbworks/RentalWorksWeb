@@ -1122,172 +1122,180 @@ class ExpendableItem {
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
 
         // RentalInventoryWarehouseGrid
-        let $rentalInventoryWarehouseGrid = $form.find('div[data-grid="RentalInventoryWarehouseGrid"]');
-        let $rentalInventoryWarehouseGridControl = jQuery(jQuery('#tmpl-grids-RentalInventoryWarehouseGridBrowse').html());
-        $rentalInventoryWarehouseGrid.empty().append($rentalInventoryWarehouseGridControl);
-        $rentalInventoryWarehouseGridControl.data('ondatabind', function (request) {
-            request.uniqueids = {
-                InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
-            };
+        FwBrowse.renderGrid({
+            nameGrid:         'RentalInventoryWarehouseGrid',
+            gridSecurityId:   'g8sCuKjUVrW1',
+            moduleSecurityId: this.id,
+            $form:            $form,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+                };
+            },
+            beforeSave: (request: any) => {
+                request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+            } 
         });
-        $rentalInventoryWarehouseGridControl.data('beforesave', function (request) {
-            request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
-        });
-        FwBrowse.init($rentalInventoryWarehouseGridControl);
-        FwBrowse.renderRuntimeHtml($rentalInventoryWarehouseGridControl);
 
         // ContainerWarehouseGrid
-        let containerWarehouseGrid: any;
-        let containerWarehouseGridControl: any;
-        containerWarehouseGrid = $form.find('div[data-grid="ContainerWarehouseGrid"]');
-        containerWarehouseGridControl = jQuery(jQuery('#tmpl-grids-ContainerWarehouseGridBrowse').html());
-        containerWarehouseGrid.empty().append(containerWarehouseGridControl);
-        containerWarehouseGridControl.data('ondatabind', function (request) {
-            request.uniqueids = {
-                InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
-            };
+        FwBrowse.renderGrid({
+            nameGrid:         'ContainerWarehouseGrid',
+            gridSecurityId:   '4gsBzepUJdWm',
+            moduleSecurityId: this.id,
+            $form:            $form,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+                };
+            },
+            beforeSave: (request: any) => {
+                request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+            } 
         });
-        containerWarehouseGridControl.data('beforesave', function (request) {
-            request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
-        });
-        FwBrowse.init(containerWarehouseGridControl);
-        FwBrowse.renderRuntimeHtml(containerWarehouseGridControl);
 
         // InventoryAvailabilityGrid
-        let $inventoryAvailabilityGrid = $form.find('div[data-grid="InventoryAvailabilityGrid"]');
-        let $inventoryAvailabilityGridControl = jQuery(jQuery('#tmpl-grids-InventoryAvailabilityGridBrowse').html());
-        $inventoryAvailabilityGrid.empty().append($inventoryAvailabilityGridControl);
-        $inventoryAvailabilityGridControl.data('ondatabind', function (request) {
-            request.uniqueids = {
-                InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
-            };
+        FwBrowse.renderGrid({
+            nameGrid:         'InventoryAvailabilityGrid',
+            gridSecurityId:   'g8sCuKjUVrW1',
+            moduleSecurityId: this.id,
+            $form:            $form,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+                };
+            },
+            beforeSave: (request: any) => {
+                request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+            } 
         });
-        $inventoryAvailabilityGridControl.data('beforesave', function (request) {
-            request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
-        });
-        FwBrowse.init($inventoryAvailabilityGridControl);
-        FwBrowse.renderRuntimeHtml($inventoryAvailabilityGridControl);
 
         // InventoryConsignmentGrid
-        let $inventoryConsignmentGrid = $form.find('div[data-grid="InventoryConsignmentGrid"]');
-        let $inventoryConsignmentGridControl = jQuery(jQuery('#tmpl-grids-InventoryConsignmentGridBrowse').html());
-        $inventoryConsignmentGrid.empty().append($inventoryConsignmentGridControl);
-        $inventoryConsignmentGridControl.data('ondatabind', function (request) {
-            request.uniqueids = {
-                InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
-            };
+        FwBrowse.renderGrid({
+            nameGrid:         'InventoryConsignmentGrid',
+            gridSecurityId:   'JKfdyoLXFqu3',
+            moduleSecurityId: this.id,
+            $form:            $form,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+                };
+            },
+            beforeSave: (request: any) => {
+                request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+            } 
         });
-        $inventoryConsignmentGridControl.data('beforesave', function (request) {
-            request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
-        });
-        FwBrowse.init($inventoryConsignmentGridControl);
-        FwBrowse.renderRuntimeHtml($inventoryConsignmentGridControl);
 
         // InventoryCompleteKitGrid
-        let $inventoryCompleteKitGrid = $form.find('div[data-grid="InventoryCompleteKitGrid"]');
-        let $inventoryCompleteKitGridControl = jQuery(jQuery('#tmpl-grids-InventoryCompleteKitGridBrowse').html());
-        $inventoryCompleteKitGrid.empty().append($inventoryCompleteKitGridControl);
-        $inventoryCompleteKitGridControl.data('ondatabind', function (request) {
-            request.uniqueids = {
-                InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
-            };
+        FwBrowse.renderGrid({
+            nameGrid:         'InventoryCompleteKitGrid',
+            gridSecurityId:   'gflkb5sQf7it',
+            moduleSecurityId: this.id,
+            $form:            $form,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+                };
+            },
+            beforeSave: (request: any) => {
+                request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+            } 
         });
-        $inventoryCompleteKitGridControl.data('beforesave', function (request) {
-            request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
-        });
-        FwBrowse.init($inventoryCompleteKitGridControl);
-        FwBrowse.renderRuntimeHtml($inventoryCompleteKitGridControl);
 
         // InventorySubstituteGrid
-        let $inventorySubstituteGrid = $form.find('div[data-grid="InventorySubstituteGrid"]');
-        let $inventorySubstituteGridControl = jQuery(jQuery('#tmpl-grids-InventorySubstituteGridBrowse').html());
-        $inventorySubstituteGrid.empty().append($inventorySubstituteGridControl);
-        $inventorySubstituteGridControl.data('ondatabind', function (request) {
-            request.uniqueids = {
-                InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val(),
-                WarehouseId: warehouse.warehouseid
-            };
+        FwBrowse.renderGrid({
+            nameGrid:         'InventorySubstituteGrid',
+            gridSecurityId:   '5sN9zKtGzNTq',
+            moduleSecurityId: this.id,
+            $form:            $form,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+                };
+            },
+            beforeSave: (request: any) => {
+                request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+            } 
         });
-        $inventorySubstituteGridControl.data('beforesave', function (request) {
-            request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
-        });
-        FwBrowse.init($inventorySubstituteGridControl);
-        FwBrowse.renderRuntimeHtml($inventorySubstituteGridControl);
 
         // InventoryCompatibilityGrid
-        let $inventoryCompatibilityGrid = $form.find('div[data-grid="InventoryCompatibilityGrid"]');
-        let $inventoryCompatibilityGridControl = jQuery(jQuery('#tmpl-grids-InventoryCompatibilityGridBrowse').html());
-        $inventoryCompatibilityGrid.empty().append($inventoryCompatibilityGridControl);
-        $inventoryCompatibilityGridControl.data('ondatabind', function (request) {
-            request.uniqueids = {
-                InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
-            };
+        FwBrowse.renderGrid({
+            nameGrid:         'InventoryCompatibilityGrid',
+            gridSecurityId:   'mlAKf5gRPNNI',
+            moduleSecurityId: this.id,
+            $form:            $form,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+                };
+            },
+            beforeSave: (request: any) => {
+                request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+            } 
         });
-        $inventoryCompatibilityGridControl.data('beforesave', function (request) {
-            request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
-        });
-        FwBrowse.init($inventoryCompatibilityGridControl);
-        FwBrowse.renderRuntimeHtml($inventoryCompatibilityGridControl);
 
         // InventoryQcGrid
-        let $inventoryQcGrid = $form.find('div[data-grid="InventoryQcGrid"]');
-        let $inventoryQcGridControl = jQuery(jQuery('#tmpl-grids-InventoryQcGridBrowse').html());
-        $inventoryQcGrid.empty().append($inventoryQcGridControl);
-        $inventoryQcGridControl.data('ondatabind', function (request) {
-            request.uniqueids = {
-                InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
-            };
+        FwBrowse.renderGrid({
+            nameGrid:         'InventoryQcGrid',
+            gridSecurityId:   'g8sCuKjUVrW1',
+            moduleSecurityId: this.id,
+            $form:            $form,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+                };
+            },
+            beforeSave: (request: any) => {
+                request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+            } 
         });
-        $inventoryQcGridControl.data('beforesave', function (request) {
-            request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
-        });
-        FwBrowse.init($inventoryQcGridControl);
-        FwBrowse.renderRuntimeHtml($inventoryQcGridControl);
 
         // InventoryAttributeValueGrid
-        let $inventoryAttributeValueGrid = $form.find('div[data-grid="InventoryAttributeValueGrid"]');
-        let $inventoryAttributeValueGridControl = jQuery(jQuery('#tmpl-grids-InventoryAttributeValueGridBrowse').html());
-        $inventoryAttributeValueGrid.empty().append($inventoryAttributeValueGridControl);
-        $inventoryAttributeValueGridControl.data('ondatabind', function (request) {
-            request.uniqueids = {
-                InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
-            };
+        FwBrowse.renderGrid({
+            nameGrid:         'InventoryAttributeValueGrid',
+            gridSecurityId:   'CntxgVXDQtQ7',
+            moduleSecurityId: this.id,
+            $form:            $form,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+                };
+            },
+            beforeSave: (request: any) => {
+                request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+            } 
         });
-        $inventoryAttributeValueGridControl.data('beforesave', function (request) {
-            request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
-        });
-        FwBrowse.init($inventoryAttributeValueGridControl);
-        FwBrowse.renderRuntimeHtml($inventoryAttributeValueGridControl);
 
         // InventoryVendorGrid
-        let $inventoryVendorGrid = $form.find('div[data-grid="InventoryVendorGrid"]');
-        let $inventoryVendorGridControl = jQuery(jQuery('#tmpl-grids-InventoryVendorGridBrowse').html());
-        $inventoryVendorGrid.empty().append($inventoryVendorGridControl);
-        $inventoryVendorGridControl.data('ondatabind', function (request) {
-            request.uniqueids = {
-                InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
-            };
+        FwBrowse.renderGrid({
+            nameGrid:         'InventoryVendorGrid',
+            gridSecurityId:   's9vdtBqItIEi',
+            moduleSecurityId: this.id,
+            $form:            $form,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+                };
+            },
+            beforeSave: (request: any) => {
+                request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+            } 
         });
-        $inventoryVendorGridControl.data('beforesave', function (request) {
-            request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
-        });
-        FwBrowse.init($inventoryVendorGridControl);
-        FwBrowse.renderRuntimeHtml($inventoryVendorGridControl);
 
         // InventoryWarehouseStagingGrid
-        let $inventoryWarehouseStagingGrid = $form.find('div[data-grid="InventoryWarehouseStagingGrid"]');
-        let $inventoryWarehouseStagingGridControl = jQuery(jQuery('#tmpl-grids-InventoryWarehouseStagingGridBrowse').html());
-        $inventoryWarehouseStagingGrid.empty().append($inventoryWarehouseStagingGridControl);
-        $inventoryWarehouseStagingGridControl.data('ondatabind', function (request) {
-            request.uniqueids = {
-                InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
-            };
+        FwBrowse.renderGrid({
+            nameGrid:         'InventoryWarehouseStagingGrid',
+            gridSecurityId:   'g8sCuKjUVrW1',
+            moduleSecurityId: this.id,
+            $form:            $form,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+                };
+            },
+            beforeSave: (request: any) => {
+                request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+            } 
         });
-        $inventoryWarehouseStagingGridControl.data('beforesave', function (request) {
-            request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
-        });
-        FwBrowse.init($inventoryWarehouseStagingGridControl);
-        FwBrowse.renderRuntimeHtml($inventoryWarehouseStagingGridControl);
     };
 
     //----------------------------------------------------------------------------------------------
