@@ -521,6 +521,7 @@
     <TypeScriptCompile Include="Source\Modules\Administrator\EmailHistory\EmailHistory.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\InventoryPurchaseUtility\InventoryPurchaseUtility.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\CountQuantityInventory\CountQuantityInventory.ts" />
+    <TypeScriptCompile Include="Source\Modules\Home\BillingWorksheet\BillingWorksheet.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\ScanBarCodes\ScanBarCodes.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Billing\BillingMessage.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\EmptyContainer\EmptyContainer.ts" />
@@ -659,6 +660,8 @@
     <Content Include="Source\Modules\Home\AvailabilityConflicts\AvailabilityConflictsForm.htm" />
     <Content Include="Source\Modules\Home\InventoryPurchaseUtility\InventoryPurchaseUtilityForm.htm" />
     <Content Include="Source\Modules\Home\CompleteQc\CompleteQcForm.htm" />
+    <Content Include="Source\Modules\Home\BillingWorksheet\BillingWorksheetBrowse.htm" />
+    <Content Include="Source\Modules\Home\BillingWorksheet\BillingWorksheetForm.htm" />
     <Content Include="Source\Modules\Home\PhysicalInventory\PhysicalInventoryBrowse.htm" />
     <Content Include="Source\Modules\Home\PhysicalInventory\PhysicalInventoryForm.htm" />
     <Content Include="Source\Modules\Home\PurchaseOrder\PurchaseOrderBrowse.htm" />

@@ -76,6 +76,16 @@ class Order extends OrderBase {
         $orderItemGridLossDamage.find('.submenu-btn').filter('[data-securityid="77E511EC-5463-43A0-9C5D-B54407C97B15"], [data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"]').hide();
         $orderItemGridLossDamage.find('.buttonbar').hide();
 
+
+        //$form.find('div[data-datafield="BillingCycleId"]').data('onchange', () => {
+        //    const worksheetTab = $form.find('[data-type="tab"][data-caption="Worksheet"]');
+        //    if (FwFormField.getTextByDataField($form, 'BillingCycleId') === 'ON DEMAND') {
+        //        worksheetTab.show();
+        //    } else {
+        //        worksheetTab.hide();
+        //    }
+        //});
+
         this.getSoundUrls($form);
 
         return $form;
@@ -189,6 +199,14 @@ class Order extends OrderBase {
         } else {
             $form.find('[data-type="tab"][data-caption="Repair"]').show();
         }
+        //On Demand Billing Cycles require a worksheet tab
+        const worksheetTab = $form.find('[data-type="tab"][data-caption="Worksheet"]');
+        if (FwFormField.getTextByDataField($form, 'BillingCycleId') === 'ON DEMAND') {
+            worksheetTab.show();
+            $form.find('.worksheet-submodule').append(this.openSubModuleBrowse($form, 'BillingWorksheet'));
+        } else {
+            worksheetTab.hide();
+        }
     }
     //----------------------------------------------------------------------------------------------
     getBrowseTemplate(): string {
@@ -260,6 +278,7 @@ class Order extends OrderBase {
               <div data-type="tab" id="alltab" class="combinedtab tab" data-tabpageid="alltabpage" data-caption="Items"></div>
               <div data-type="tab" id="subpurchaseordertab" class="tab submodule" data-tabpageid="subpurchaseordertabpage" data-caption="Sub POs"></div>
               <div data-type="tab" id="billingtab" class="tab" data-tabpageid="billingtabpage" data-caption="Billing"></div>
+              <div data-type="tab" id="worksheettab" class="tab" data-tabpageid="worksheettabpage" data-caption="Worksheet" style="display:none;"></div>
               <div data-type="tab" id="summarytab" class="profitlosstab tab" data-tabpageid="profitlosstabpage" data-caption="Profit &amp; Loss"></div>
               <div data-type="tab" id="contactstab" class="tab" data-tabpageid="contactstabpage" data-caption="Contacts"></div>
               <div data-type="tab" id="picklisttab" class="tab submodule" data-tabpageid="picklisttabpage" data-caption="Pick List"></div>
@@ -436,6 +455,13 @@ class Order extends OrderBase {
                       </div>
                     </div>
                   </div>            
+                </div>
+              </div>
+
+              <!-- WORKSHEET TAB -->
+              <div data-type="tabpage" id="worksheettabpage" class="tabpage worksheet-submodule" data-tabid="worksheettab">
+                <div class="flexrow">
+
                 </div>
               </div>
 

@@ -29,6 +29,21 @@
             AssignBarCodes: { id: '4B9C17DE-7FC0-4C33-B953-26FC90F32EA0', caption: 'Assign Bar Codes', nav: 'module/assignbarcodes' },
             AvailabilityConflicts: { id: 'DF2859D1-3834-42DA-A367-85B168850ED9', caption: 'Availability Conflicts', nav: 'module/availabilityconflicts' },
             Billing: { id: '34E0472E-9057-4C66-8CC2-1938B3222569', caption: 'Billing', nav: 'module/billing' },
+            BillingWorksheet: {
+                id: 'BF8E2838-A31D-46B2-ABE1-5B09FC3E2A9E', caption: 'Billing Worksheet', nav: 'module/billingworksheet',
+                browse: {
+                    menuItems: {
+                        Approve: { id: '20CA8800-41C5-4387-8EF0-558330B96AAA' },
+                        Unapprove: { id: 'DE1069AB-2A4D-4556-AD00-9D89FAA22B54' }
+                    }
+                },
+                form: {
+                    menuItems: {
+                        Approve: { id: '16932E29-821B-45B1-A7B7-82D203258E70' },
+                        Unapprove: { id: '09B18F85-BD05-462F-994D-DF7989D37E44' },
+                    }
+                }
+            },
             BillingMessage: { id: 'B232DF4D-462A-4810-952D-73F8DE66800C', caption: 'Billing Message', nav: 'module/billingmessage' },
             CheckIn: {
                 id: '77317E53-25A2-4C12-8DAD-7541F9A09436', caption: 'Check-In', nav: 'module/checkin',
