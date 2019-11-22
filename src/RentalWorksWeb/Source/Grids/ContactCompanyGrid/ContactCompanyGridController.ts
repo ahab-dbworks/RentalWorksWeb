@@ -26,6 +26,9 @@
             case 'ContactTitleId':
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecontacttitle`);
                 break;
+            case 'CompanyId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecompany`);
+
         }
     }
     //--------------------------------------------------------------------------------------------

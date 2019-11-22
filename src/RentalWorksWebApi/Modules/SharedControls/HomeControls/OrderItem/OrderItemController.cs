@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System;
 using FwStandard.BusinessLogic;
 using WebApi.Logic;
+using WebApi.Modules.Inventory.RentalInventory;
 
 namespace WebApi.Modules.HomeControls.OrderItem
 {
@@ -168,6 +169,22 @@ namespace WebApi.Modules.HomeControls.OrderItem
                 return GetApiExceptionResult(ex);
             }
         }
-        //------------------------------------------------------------------------------------ 
+        //------------------------------------------------------------------------------------
+        // POST api/v1/orderitem/validatebarcode/browse
+        //[HttpPost("validatebarcode/browse")]
+        //[FwControllerMethod(Id: "xh9fNFxwpvGU", ActionType: FwControllerActionTypes.Browse)]
+        //public async Task<ActionResult<FwJsonDataTable>> ValidateBarcodeBrowseAsync([FromBody]BrowseRequest browseRequest)
+        //{
+        //    return await DoBrowseAsync<RentalInventoryLogic>(browseRequest);
+        //}
+        // barcode validation currnetly disabled on the front end - JG
+        //------------------------------------------------------------------------------------
+        // POST api/v1/orderitem/validateicode/browse
+        [HttpPost("validateicode/browse")]
+        [FwControllerMethod(Id: "noMsoCbRmRN9", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateIcodeBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<RentalInventoryLogic>(browseRequest);
+        }
     }
 }
