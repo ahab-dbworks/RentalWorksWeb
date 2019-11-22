@@ -46,14 +46,14 @@ class InventoryPurchaseUtility {
             }
         });
 
-        const $rentalInventoryValidation = $form.find('[data-datafield="InventoryId"]');
+        const $rentalInventoryValidation = $form.find('.icode[data-datafield="InventoryId"]');
         $rentalInventoryValidation.data('beforevalidate', ($form, $rentalInventoryValidation, request) => {
             request.uniqueids = {
                 'WarehouseId': warehouse.warehouseid
             }
         });
 
-        const $rentalInventoryDescValidation = $form.find('[data-datafield="Description"]');
+        const $rentalInventoryDescValidation = $form.find('.description[data-datafield="InventoryId"]');
         $rentalInventoryDescValidation.data('beforevalidate', ($form, $rentalInventoryDescValidation, request) => {
             request.uniqueids = {
                 'WarehouseId': warehouse.warehouseid
@@ -67,12 +67,12 @@ class InventoryPurchaseUtility {
     events($form) {
         const $itemGridControl = $form.find('[data-name="InventoryPurchaseItemGrid"]');
 
-        $form.find('[data-datafield="Description"]').data('onchange', $tr => {
+        $form.find('.description[data-datafield="InventoryId"]').data('onchange', $tr => {
             FwFormField.setValueByDataField($form, 'InventoryId', FwBrowse.getValueByDataField(null, $tr, 'InventoryId'), FwBrowse.getValueByDataField(null, $tr, 'ICode'));
-            $form.find('[data-datafield="InventoryId"]').data('onchange')($tr)
+            $form.find('.icode[data-datafield="InventoryId"]').data('onchange')($tr)
         });
 
-        $form.find('[data-datafield="InventoryId"]').data('onchange', $tr => {
+        $form.find('.icode[data-datafield="InventoryId"]').data('onchange', $tr => {
             const trackedBy = FwBrowse.getValueByDataField(null, $tr, 'TrackedBy');
             if (trackedBy === 'QUANTITY') {
                 $form.find('.tracked-by').hide();
@@ -80,9 +80,9 @@ class InventoryPurchaseUtility {
                 $form.find('.tracked-by').show();
             }
             $form.find('.additems').show();
-
+            const inventoryId = FwBrowse.getValueByDataField(null, $tr, 'InventoryId');
             const description = FwBrowse.getValueByDataField(null, $tr, 'Description');
-            FwFormField.setValueByDataField($form, 'Description', description, description);
+            FwFormField.setValue2($form.find('.icode[data-datafield="InventoryId"]'), inventoryId, description);
             const unitVal = FwBrowse.getValueByDataField(null, $tr, 'UnitValue');
             FwFormField.setValueByDataField($form, 'UnitCost', unitVal);
             const aisleLoc = FwBrowse.getValueByDataField(null, $tr, 'AisleLocation');
