@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using WebApi.Controllers;
 using WebApi.Modules.Settings.ContactSettings.ContactTitle;
 using WebApi;
+using WebApi.Modules.Agent.Contact;
+using WebApi.Modules.HomeControls.Company;
 
 namespace WebApi.Modules.HomeControls.CompanyContact
 {
@@ -97,5 +99,20 @@ namespace WebApi.Modules.HomeControls.CompanyContact
             return await DoBrowseAsync<ContactTitleLogic>(browseRequest);
         }
         //------------------------------------------------------------------------------------
+        // POST api/v1/companycontact/validatecontact/browse
+        [HttpPost("validatecontact/browse")]
+        [FwControllerMethod(Id: "ekOMo9xGOkGX", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateContactBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<ContactLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/companycontact/validatecompany/browse
+        [HttpPost("validatecompany/browse")]
+        [FwControllerMethod(Id: "9wn9kwQ67DWI", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateCompanyBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<CompanyLogic>(browseRequest);
+        }
     }
 }

@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options; 
 using WebApi.Controllers; 
 using System.Threading.Tasks;
+using WebApi.Modules.Agent.Vendor;
+using WebApi.Modules.Settings.ShipViaSettings.ShipVia;
 namespace WebApi.Modules.HomeControls.DealShipper
 {
     [Route("api/v1/[controller]")]
@@ -71,5 +73,20 @@ namespace WebApi.Modules.HomeControls.DealShipper
             return await DoDeleteAsync<DealShipperLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/dealshipper/validatecarrier/browse
+        [HttpPost("validatecarrier/browse")]
+        [FwControllerMethod(Id: "JdAGxevEsuC1", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateCarrierBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<VendorLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/dealshipper/validateshipvia/browse
+        [HttpPost("validateshipvia/browse")]
+        [FwControllerMethod(Id: "jo6agHCPYYHB", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateShipViaBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<ShipViaLogic>(browseRequest);
+        }
     }
 }
