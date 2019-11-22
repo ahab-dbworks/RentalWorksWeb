@@ -502,7 +502,6 @@
     <TypeScriptCompile Include="Source\Modules\Administrator\Integration\IntegrationController.ts" />
     <TypeScriptCompile Include="Source\Modules\-BaseModules\CheckInBase\CheckInBase.ts" />
     <TypeScriptCompile Include="Source\Modules\-BaseModules\ContractBase\ContractBase.ts" />
-    <Content Include="Source\Modules\Account\UserProfile\UserProfile.js" />
     <Content Include="Source\Modules\Account\UserProfile\UserProfileForm.htm" />
     <Content Include="Source\Modules\Administrator\Alert\AlertBrowse.htm" />
     <Content Include="Source\Modules\Administrator\Alert\AlertForm.htm" />
@@ -1319,7 +1318,6 @@
     <Content Include="Source\Modules\Settings\FacilitySettings\FacilityStatus\FacilityStatus.js.map" />
     <Content Include="Source\Modules\Settings\FacilitySettings\FacilityType\FacilityType.js.map" />
     <Content Include="Source\Modules\Settings\FacilitySettings\SpaceType\SpaceType.js.map" />
-    <Content Include="Source\Modules\Account\UserProfile\UserProfile.js.map" />
     <Content Include="Source\Grids\CustomReportLayoutGroupGrid\CustomReportLayoutGroupGridController.js.map" />
     <Content Include="Source\Grids\CustomReportLayoutUserGrid\CustomReportLayoutUserGridController.js.map" />
     <Content Include="Source\Grids\InventoryPurchaseItemGrid\InventoryPurchaseItemGridController.js.map" />

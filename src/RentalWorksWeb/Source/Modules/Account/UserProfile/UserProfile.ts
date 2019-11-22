@@ -1,7 +1,7 @@
 ﻿class UserProfile{
     Module: string = 'UserProfile';
     apiurl: string = 'api/v1/userprofile';
-    id: string = '510F9B3F-601F-4912-833B-56E649962B0D';
+    id: string = 'DrTcbvvUw92V';
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         const screen: any = {};
