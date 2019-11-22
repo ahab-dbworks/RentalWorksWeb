@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build;FwDebugTarget;FwPublishTarget" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
@@ -11,7 +11,7 @@
     <FwFrontEndLibraryPath>$(FwApplicationDirectory)\Libraries\Fw</FwFrontEndLibraryPath>
     <FwBuildFolder>$(AppSolutionDir)\build</FwBuildFolder>
     <FwApplicationName>TrakitWorksWeb</FwApplicationName>
-    <FwUpdateSchema>true</FwUpdateSchema>
+    <FwUpdateSchema>false</FwUpdateSchema>
     <FwPublish>false</FwPublish>
     <FwDeploymentDirectory>$(FwBuildFolder)\$(FwApplicationName)</FwDeploymentDirectory>
     <FwDeploymentTempDirectory>$(FwDeploymentDirectory)Temp</FwDeploymentTempDirectory>
@@ -45,7 +45,7 @@
     <IISExpressUseClassicPipelineMode />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <FwUpdateSchema>true</FwUpdateSchema>
+    <FwUpdateSchema>false</FwUpdateSchema>
     <FwPublish>false</FwPublish>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
