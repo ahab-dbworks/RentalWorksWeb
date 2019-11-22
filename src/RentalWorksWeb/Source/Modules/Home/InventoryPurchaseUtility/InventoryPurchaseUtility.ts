@@ -46,6 +46,20 @@ class InventoryPurchaseUtility {
             }
         });
 
+        const $rentalInventoryValidation = $form.find('[data-datafield="InventoryId"]');
+        $rentalInventoryValidation.data('beforevalidate', ($form, $rentalInventoryValidation, request) => {
+            request.uniqueids = {
+                'WarehouseId': warehouse.warehouseid
+            }
+        });
+
+        const $rentalInventoryDescValidation = $form.find('[data-datafield="Description"]');
+        $rentalInventoryDescValidation.data('beforevalidate', ($form, $rentalInventoryDescValidation, request) => {
+            request.uniqueids = {
+                'WarehouseId': warehouse.warehouseid
+            }
+        });
+
         this.events($form);
         return $form;
     };
@@ -54,24 +68,27 @@ class InventoryPurchaseUtility {
         const $itemGridControl = $form.find('[data-name="InventoryPurchaseItemGrid"]');
 
         $form.find('[data-datafield="Description"]').data('onchange', $tr => {
-            FwFormField.setValueByDataField($form, 'InventoryId', $tr.find('[data-browsedatafield="InventoryId"]').attr('data-originalvalue'), $tr.find('[data-browsedatafield="ICode"]').attr('data-originalvalue'));
+            FwFormField.setValueByDataField($form, 'InventoryId', FwBrowse.getValueByDataField(null, $tr, 'InventoryId'), FwBrowse.getValueByDataField(null, $tr, 'ICode'));
             $form.find('[data-datafield="InventoryId"]').data('onchange')($tr)
         });
 
         $form.find('[data-datafield="InventoryId"]').data('onchange', $tr => {
-            const trackedBy = $tr.find('[data-browsedatafield="TrackedBy"]').attr('data-originalvalue');
+            const trackedBy = FwBrowse.getValueByDataField(null, $tr, 'TrackedBy');
             if (trackedBy === 'QUANTITY') {
-                $form.find('.itemsgrid').hide();
+                $form.find('.tracked-by').hide();
             } else {
-                $form.find('.itemsgrid').show();
+                $form.find('.tracked-by').show();
             }
+            $form.find('.additems').show();
 
-            FwFormField.setValueByDataField($form, 'Description', $tr.find('[data-browsedatafield="Description"]').attr('data-originalvalue'), $tr.find('[data-browsedatafield="Description"]').attr('data-originalvalue'));
-
-            const unitVal = $tr.find('[data-browsedatafield="UnitValue"]').attr('data-originalvalue');
+            const description = FwBrowse.getValueByDataField(null, $tr, 'Description');
+            FwFormField.setValueByDataField($form, 'Description', description, description);
+            const unitVal = FwBrowse.getValueByDataField(null, $tr, 'UnitValue');
             FwFormField.setValueByDataField($form, 'UnitCost', unitVal);
-
-            //defaulkt aisle loc and shelf
+            const aisleLoc = FwBrowse.getValueByDataField(null, $tr, 'AisleLocation');
+            FwFormField.setValueByDataField($form, 'AisleLocation', aisleLoc);
+            const shelfLoc = FwBrowse.getValueByDataField(null, $tr, 'ShelfLocation');
+            FwFormField.setValueByDataField($form, 'ShelfLocation', shelfLoc);
 
         });
 
@@ -83,7 +100,7 @@ class InventoryPurchaseUtility {
         });
 
         $form.find('[data-datafield="ManufacturerVendorId"]').data('onchange', $tr => {
-            FwFormField.setValueByDataField($form, 'CountryId', $tr.find('[data-browsedatafield="CountryId"]').attr('data-originalvalue'), $tr.find('[data-browsedatafield="Country"]').attr('data-originalvalue'));
+            FwFormField.setValueByDataField($form, 'CountryId', FwBrowse.getValueByDataField(null, $tr, 'CountryId'), FwBrowse.getValueByDataField(null, $tr, 'Country'));
         });
 
 

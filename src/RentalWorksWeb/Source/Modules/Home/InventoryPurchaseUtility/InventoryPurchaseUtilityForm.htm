@@ -1,5 +1,4 @@
 <div id="inventorypurchaseutilityform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-caption="Inventory Purchase Utility" data-rendermode="template" data-mode="" data-controller="InventoryPurchaseUtilityController">
-  <div data-control="FwFormField" data-type="key" class="fwcontrol fwformfield" data-isuniqueid="true" data-saveorder="1" data-caption="" data-datafield="BillingId"></div>
   <div id="InventoryPurchaseUtilityform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs">
       <div data-type="tab" id="generaltab" class="generaltab tab" data-tabpageid="generaltabpage" data-caption="General"></div>
@@ -55,12 +54,12 @@
             </div>
           </div>
         </div>
-        <div class="flexrow itemsgrid">
+        <div class="flexrow tracked-by" style="display:none;">
           <div data-control="FwGrid" data-grid="InventoryPurchaseItemGrid"></div>
         </div>
         <div class="flexrow" style="margin-top:15px;justify-content:center;">
-          <div class="fwformcontrol assignbarcodes" data-type="button" style="flex: 0 0 150px;">Assign Barcodes</div>
-          <div class="fwformcontrol additems" data-type="button" style="flex: 0 0 150px;margin:0 0 0 20px;">Add Items</div>
+          <div class="fwformcontrol assignbarcodes tracked-by" data-type="button" style="flex: 0 0 150px; display:none;">Assign Barcodes</div>
+          <div class="fwformcontrol additems" data-type="button" style="flex: 0 0 150px;margin:0 0 0 20px; display:none;">Add Items</div>
         </div>
       </div>
     </div>

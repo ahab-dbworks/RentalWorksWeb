@@ -62,9 +62,16 @@ namespace WebApi.Modules.Home.Inventory
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(calculatedColumnSql: "(select q.qty from masterwhqty q where q.masterid = t.masterid and q.warehouseid = @warehouseid)", modeltype: FwDataTypes.Decimal)]
         public decimal? Quantity { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "manifestvalue", modeltype: FwDataTypes.Decimal)]
+        ////------------------------------------------------------------------------------------ 
+        ///  //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "(select m.manifestvalue from masterwhview m where m.masterid = t.masterid and m.warehouseid = @warehouseid)", modeltype: FwDataTypes.Decimal)]
         public decimal? UnitValue { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "(select m.aisleloc from masterwhview m where m.masterid = t.masterid and m.warehouseid = @warehouseid)", modeltype: FwDataTypes.Text)]
+        public string AisleLocation { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "(select m.shelfloc from masterwhview m where m.masterid = t.masterid and m.warehouseid = @warehouseid)", modeltype: FwDataTypes.Text)]
+        public string ShelfLocation { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool? Inactive { get; set; }
