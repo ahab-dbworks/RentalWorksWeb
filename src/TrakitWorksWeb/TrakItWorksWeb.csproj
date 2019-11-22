@@ -627,7 +627,6 @@
     <TypeScriptCompile Include="Source\Modules\Reports\RentalInventoryPurchaseHistoryReport\RentalInventoryPurchaseHistoryReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\RentalInventoryQCRequiredReport\RentalInventoryQCRequiredReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\RentalInventoryUsageReport\RentalInventoryUsageReportController.ts" />
-    <TypeScriptCompile Include="Source\Modules\Reports\RentalInventoryValueReport\RentalInventoryValueReport Controller.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\RetiredRentalInventoryReport\RetiredRentalInventoryReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\ReturnedToInventoryReport\ReturnedToInventoryReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\UnretiredRentalInventoryReport\UnretiredRentalInventoryReportController.ts" />
@@ -707,6 +706,7 @@
     <Folder Include="Source\Controls\" />
     <Folder Include="Source\Modules\Administrator\Alert\" />
     <Folder Include="Source\Modules\Administrator\CustomReportLayout\" />
+    <Folder Include="Source\Modules\Reports\RentalInventoryValueReport\" />
     <Folder Include="theme\fwaudio\" />
     <Folder Include="theme\fwcursors\" />
     <Folder Include="theme\fwfonts\" />
