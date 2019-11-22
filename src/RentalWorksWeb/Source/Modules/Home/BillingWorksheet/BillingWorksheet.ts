@@ -232,6 +232,38 @@ class BillingWorksheet {
         FwBrowse.init($invoiceItemGridLaborControl);
         FwBrowse.renderRuntimeHtml($invoiceItemGridLaborControl);
         // ----------
+        const $invoiceItemGridFacilities = $form.find('.facilitiesgrid div[data-grid="InvoiceItemGrid"]');
+        const $invoiceItemGridFacilitiesControl = FwBrowse.loadGridFromTemplate('InvoiceItemGrid');
+        $invoiceItemGridFacilities.empty().append($invoiceItemGridFacilities);
+        $invoiceItemGridFacilities.addClass('L');
+        $invoiceItemGridFacilities.find('div[data-datafield="Extended"]').attr('data-formreadonly', 'true');
+        $invoiceItemGridFacilities.find('div[data-datafield="InventoryId"]').attr('data-formreadonly', 'true');
+        $invoiceItemGridFacilities.find('div[data-datafield="OrderNumber"]').attr('data-formreadonly', 'true');
+        $invoiceItemGridFacilities.find('div[data-datafield="Taxable"]').attr('data-formreadonly', 'true');
+        $invoiceItemGridFacilitiesControl.find('div[data-datafield="Rate"]').attr('data-caption', 'Unit Rate');
+        $invoiceItemGridFacilitiesControl.find('div[data-datafield="InventoryId"]').attr('data-caption', 'Item No.');
+        FwBrowse.disableGrid($invoiceItemGridLabor);
+        $invoiceItemGridFacilitiesControl.attr('data-deleteoption', 'false');
+
+        $invoiceItemGridFacilitiesControl.data('isSummary', false);
+
+        $invoiceItemGridFacilitiesControl.data('ondatabind', request => {
+            request.uniqueids = {
+                InvoiceId: FwFormField.getValueByDataField($form, 'InvoiceId'),
+                RecType: 'F'
+            };
+            request.totalfields = invoiceItemTotalFields;
+        });
+        $invoiceItemGridFacilitiesControl.data('beforesave', request => {
+            request.InvoiceId = FwFormField.getValueByDataField($form, 'InvoiceId');
+            request.RecType = 'F';
+        });
+        FwBrowse.addEventHandler($invoiceItemGridFacilitiesControl, 'afterdatabindcallback', ($invoiceItemGridFacilitiesControl, dt) => {
+            this.calculateInvoiceItemGridTotals($form, 'facilities', dt.Totals);
+        });
+        FwBrowse.init($invoiceItemGridFacilitiesControl);
+        FwBrowse.renderRuntimeHtml($invoiceItemGridFacilitiesControl);
+        // ----------
         const $invoiceItemGridMisc = $form.find('.miscgrid div[data-grid="InvoiceItemGrid"]');
         const $invoiceItemGridMiscControl = FwBrowse.loadGridFromTemplate('InvoiceItemGrid');
         $invoiceItemGridMisc.empty().append($invoiceItemGridMiscControl);
