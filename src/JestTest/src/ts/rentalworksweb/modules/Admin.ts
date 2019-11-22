@@ -147,8 +147,8 @@ export class CustomReportLayout extends AdminModule {
         this.newRecordsToCreate = [
             {
                 record: {
-                    BaseReport: TestUtils.randomIntegerBetween(5, 10),
                     Description: "GlobalScope.TestToken~1.TestToken",
+                    BaseReport: TestUtils.randomIntegerBetween(5, 10),  // moving here because the Please Wait will block immediate subsequent typing
                 },
                 seekObject: {
                     Description: "GlobalScope.TestToken~1.TestToken",

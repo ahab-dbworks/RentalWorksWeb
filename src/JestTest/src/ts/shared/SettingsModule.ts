@@ -13,7 +13,7 @@ export class ClickRecordResponse {
 export class SettingsModule extends ModuleBase {
     waitAfterClickingToOpenBrowseBeforeCheckingForErrors: number = 300;
     waitAfterClickingToOpenRecordBeforeCheckingForErrors: number = 300;
-    waitForButtonToGetEvents: number = 1500;
+    waitForButtonToGetEvents: number = 500;
     //---------------------------------------------------------------------------------------
     constructor() {
         super();
@@ -83,6 +83,7 @@ export class SettingsModule extends ModuleBase {
     }
     //---------------------------------------------------------------------------------------
     async browseGetRowsDisplayed(): Promise<number> {
+        Logging.logInfo(`about to count rows in the ${this.moduleName} module`);
         await page.waitForSelector(this.getBrowseSelector(), { visible: true });
 
         let recordSelector = `.panel-group[id="${this.moduleName}"] .panel-primary .panel-collapse .panel-body .panel-record:not(.inactive-panel)`;
@@ -487,12 +488,24 @@ export class SettingsModule extends ModuleBase {
                     })
                 await page.waitFor(() => !document.querySelector('.advisory'));
 
-                try {
-                    await page.waitFor(() => document.querySelector('.pleasewait'), { timeout: 3000 });
-                } catch (error) { } // assume that we missed the Please Wait dialog
+                //try {
+                //    await page.waitFor(() => document.querySelector('.pleasewait'), { timeout: 3000 });
+                //} catch (error) { } // assume that we missed the Please Wait dialog
+                //
+                //await page.waitFor(() => !document.querySelector('.pleasewait'));
+                //Logging.logInfo(`Finished waiting for the Please Wait dialog.`);
 
-                await page.waitFor(() => !document.querySelector('.pleasewait'));
-                Logging.logInfo(`Finished waiting for the Please Wait dialog.`);
+                //let selector = `.advisory .messageclose`;
+                //const elementHandle = await page.$(selector);
+                //if (elementHandle != null) {
+                //    await elementHandle.click();
+                //    await page.waitFor(() => !document.querySelector('.advisory'));  // wait for "record deleted" toaster to go away
+                //}
+                //
+                //
+
+                let selector = `.advisory`;
+                await page.waitForSelector(selector);
 
                 const afterDeleteMsg = await page.$eval('.advisory', el => el.textContent);
                 if ((afterDeleteMsg.includes('deleted')) && (!afterDeleteMsg.includes('Error'))) {
