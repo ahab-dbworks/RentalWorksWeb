@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using WebApi.Controllers;
 using System.Threading.Tasks;
-using WebApi.Modules.Settings.ContactSettings.ContactEvent;
 namespace WebApi.Modules.HomeControls.PersonalEvent
 {
     [Route("api/v1/[controller]")]
@@ -72,12 +71,5 @@ namespace WebApi.Modules.HomeControls.PersonalEvent
             return await DoDeleteAsync<PersonalEventLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/personalevent/validatecontactevent/browse
-        [HttpPost("validatecontactevent/browse")]
-        [FwControllerMethod(Id: "41uQJPcnywPN", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<FwJsonDataTable>> ValidateContactEventBrowseAsync([FromBody]BrowseRequest browseRequest)
-        {
-            return await DoBrowseAsync<ContactEventLogic>(browseRequest);
-        }
     }
 }

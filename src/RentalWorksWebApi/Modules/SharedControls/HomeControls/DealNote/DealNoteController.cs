@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using WebApi.Controllers;
 using System.Threading.Tasks;
-using WebApi.Modules.Administrator.User;
 
 namespace WebApi.Modules.HomeControls.DealNote
 {
@@ -73,12 +72,5 @@ namespace WebApi.Modules.HomeControls.DealNote
             return await DoDeleteAsync<DealNoteLogic>(id);
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/dealshipper/validatenotesby/browse
-        [HttpPost("validatenotesby/browse")]
-        [FwControllerMethod(Id: "PV2h2af9YBcp", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<FwJsonDataTable>> ValidateNotesByBrowseAsync([FromBody]BrowseRequest browseRequest)
-        {
-            return await DoBrowseAsync<UserLogic>(browseRequest);
-        }
     }
 }

@@ -7,7 +7,6 @@ using Microsoft.Extensions.Options;
 using WebApi.Controllers;
 using System;
 using System.Threading.Tasks;
-using WebApi.Modules.Administrator.User;
 
 namespace WebApi.Modules.HomeControls.CustomerNote
 {
@@ -74,12 +73,5 @@ namespace WebApi.Modules.HomeControls.CustomerNote
             return await DoDeleteAsync<CustomerNoteLogic>(id);
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/customernote/validatenotesby/browse
-        [HttpPost("validatenotesby/browse")]
-        [FwControllerMethod(Id: "28DMFerIzX5j", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<FwJsonDataTable>> ValidateNotesByBrowseAsync([FromBody]BrowseRequest browseRequest)
-        {
-            return await DoBrowseAsync<UserLogic>(browseRequest);
-        }
     }
 }

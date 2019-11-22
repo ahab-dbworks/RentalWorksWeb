@@ -6,7 +6,6 @@ using Microsoft.Extensions.Options;
 using WebApi.Controllers;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using WebApi.Modules.Settings.TaxSettings.TaxOption;
 
 namespace WebApi.Modules.HomeControls.CompanyTaxOption
 {
@@ -74,12 +73,5 @@ namespace WebApi.Modules.HomeControls.CompanyTaxOption
             return await DoDeleteAsync<CompanyTaxOptionLogic>(id);
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/companytaxoption/validatetaxoption/browse
-        [HttpPost("validatetaxoption/browse")]
-        [FwControllerMethod(Id: "WjXeTV0KxgSx", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<FwJsonDataTable>> ValidateTaxOptionBrowseAsync([FromBody]BrowseRequest browseRequest)
-        {
-            return await DoBrowseAsync<TaxOptionLogic>(browseRequest);
-        }
     }
 }

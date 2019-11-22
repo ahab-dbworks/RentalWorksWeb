@@ -9,7 +9,6 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebApi.Controllers;
-using WebApi.Modules.Settings.AddressSettings.State;
 
 namespace WebApi.Modules.HomeControls.CompanyTaxResale
 {
@@ -76,12 +75,5 @@ namespace WebApi.Modules.HomeControls.CompanyTaxResale
             return await DoDeleteAsync<CompanyTaxResaleLogic>(id);
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/personalevent/validatestate/browse
-        [HttpPost("validatestate/browse")]
-        [FwControllerMethod(Id: "OQ68jtzNQIvc", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<FwJsonDataTable>> ValidateStateBrowseAsync([FromBody]BrowseRequest browseRequest)
-        {
-            return await DoBrowseAsync<StateLogic>(browseRequest);
-        }
     }
 }

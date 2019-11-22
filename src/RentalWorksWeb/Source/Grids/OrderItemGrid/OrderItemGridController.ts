@@ -66,46 +66,41 @@
         }
     }
 
-    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $gridbrowse: JQuery, $tr: JQuery) {
-        switch (datafield) {
-            //case 'ItemId':
-            //    let inventoryId = $tr.find('.field[data-browsedatafield="InventoryId"] input').val();
-            //    if (inventoryId != '') {
-            //        request.uniqueids = {
-            //            InventoryId: inventoryId
-            //        }
-            //    }
-            //    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatebarcode`);
-            //    break;
-            // barcode validation currently disabled on the front-end.
-            case 'InventoryId':
-                var rate = $tr.find('div[data-browsedatafield="RecType"] input.value').val();
-                if (rate !== null) {
-                    switch (rate) {
-                        case 'R':
-                            request.uniqueids = {
-                                AvailFor: 'R'
-                            };
-                            break;
-                        case 'S':
-                            request.uniqueids = {
-                                AvailFor: 'S'
-                            };
-                            break;
-                        case 'M':
-                            request.uniqueids = {
-                                AvailFor: 'M'
-                            };
-                            break;
-                        case 'L':
-                            request.uniqueids = {
-                                AvailFor: 'L'
-                            };
-                            break;
-                    }
-                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateicode`);
+    beforeValidateItem = function ($browse, $grid, request, datafield, $tr) {
+        var rate = $tr.find('div[data-browsedatafield="RecType"] input.value').val();
+
+        if (rate !== null) {
+            switch (rate) {
+                case 'R':
+                    request.uniqueIds = {
+                        AvailFor: 'R'
+                    };
                     break;
-                }
+                case 'S':
+                    request.uniqueIds = {
+                        AvailFor: 'S'
+                    };
+                    break;
+                case 'M':
+                    request.uniqueIds = {
+                        AvailFor: 'M'
+                    };
+                    break;
+                case 'L':
+                    request.uniqueIds = {
+                        AvailFor: 'L'
+                    };
+                    break;
+            }
+        }
+    };
+
+    beforeValidateBarcode = function ($browse, $grid, request, datafield, $tr) {
+        let inventoryId = $tr.find('.field[data-browsedatafield="InventoryId"] input').val();
+        if (inventoryId != '') {
+            request.uniqueIds = {
+                InventoryId: inventoryId
+            }
         }
     }
 
