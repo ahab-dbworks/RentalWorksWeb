@@ -1,3 +1,5 @@
+routes.push({ pattern: /^module\/billingworksheet$/, action: function (match: RegExpExecArray) { return BillingWorksheetController.getModuleScreen(); } });
+
 class BillingWorksheet {
     Module: string = 'BillingWorksheet';
     apiurl: string = 'api/v1/billingworksheet';

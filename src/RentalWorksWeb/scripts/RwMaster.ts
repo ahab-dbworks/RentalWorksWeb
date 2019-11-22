@@ -107,7 +107,8 @@ class RwMaster extends WebMaster {
                     Constants.Modules.Home.Billing,
                     Constants.Modules.Home.Invoice,
                     Constants.Modules.Home.Receipt,
-                    Constants.Modules.Home.VendorInvoice
+                    Constants.Modules.Home.BillingWorksheet,
+                    Constants.Modules.Home.VendorInvoice,
                 ]
             };
             this.navigation.push(menuBilling);

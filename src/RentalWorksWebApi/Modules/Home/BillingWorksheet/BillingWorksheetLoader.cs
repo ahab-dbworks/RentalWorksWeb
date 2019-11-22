@@ -21,7 +21,7 @@ namespace WebApi.Modules.Home.BillingWorksheet
         [FwSqlDataField(column: "worksheetinvid", modeltype: FwDataTypes.Text)]
         public string ResultingInvoiceId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "invoiceid", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "invoiceid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
         public string BillingWorksheetId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "invoiceno", modeltype: FwDataTypes.Text)]
