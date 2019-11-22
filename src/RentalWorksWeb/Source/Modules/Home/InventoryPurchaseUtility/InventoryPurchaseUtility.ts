@@ -11,6 +11,7 @@ class InventoryPurchaseUtility {
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
+
         var $form = this.openForm('EDIT');
         screen.load = () => {
             FwModule.openModuleTab($form, this.caption, false, 'FORM', true);
