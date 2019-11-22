@@ -1,4 +1,4 @@
-﻿const Constants = {
+﻿var Constants = {
     isTrakitWorks: false,
     isRentalWorks: true,
     appId: 'D901DE93-EC22-45A1-BB4A-DD282CAF59FB',
