@@ -1,0 +1,2 @@
+Last Synced on: 11/21/2019 14:58:40
+Source Path: RentalWorksWeb\src\RentalWorksWeb\Source\Modules\Utilities\QuikActivityCalendar

@@ -70,6 +70,9 @@ try {
         "Modules\Settings\VendorSettings\OrganizationType",
         "Modules\Settings\WarehouseSettings\Warehouse",
 
+        # Modules: Utilities
+        "Modules\Utilities\QuikActivityCalendar",
+
         # Reports
         'Modules\Reports\DealOutstandingItemsReport',
         'Modules\Reports\LateReturnDueBackReport',,
@@ -129,6 +132,7 @@ try {
         'Grids\POReceiveItemGrid',
         'Grids\POReturnBarCodeGrid',
         'Grids\POReturnItemGrid',
+        'Grids\QuikActivityGrid',
         #'Grids\RentalInventoryWarehouseGrid',
         'Grids\RepairReleaseGrid',
         'Grids\ReportSettingsGrid',
