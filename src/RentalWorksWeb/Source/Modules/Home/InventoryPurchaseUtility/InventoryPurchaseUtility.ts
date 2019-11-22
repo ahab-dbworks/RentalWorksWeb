@@ -11,6 +11,7 @@ class InventoryPurchaseUtility {
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
+
         var $form = this.openForm('EDIT');
         screen.load = () => {
             FwModule.openModuleTab($form, this.caption, false, 'FORM', true);
@@ -27,12 +28,35 @@ class InventoryPurchaseUtility {
         //disables asterisk and save prompt
         $form.off('change keyup', '.fwformfield[data-enabled="true"]:not([data-isuniqueid="true"][data-datafield=""])');
 
+        const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+        FwFormField.setValueByDataField($form, 'WarehouseId', warehouse.warehouseid, warehouse.warehouse);
+        FwFormField.setValueByDataField($form, 'Quantity', 1);
+
+        const $manufacturerValidation = $form.find('[data-datafield="ManufacturerVendorId"]');
+        $manufacturerValidation.data('beforevalidate', ($form, $manufacturerValidation, request) => {
+            request.uniqueids = {
+                'RentalInventory': true
+            }
+        });
+
+        const $purchaseValidation = $form.find('[data-datafield="PurchaseVendorId"]');
+        $purchaseValidation.data('beforevalidate', ($form, $purchaseValidation, request) => {
+            request.uniqueids = {
+                'RentalInventory': true
+            }
+        });
+
         this.events($form);
         return $form;
     };
     //----------------------------------------------------------------------------------------------
     events($form) {
         const $itemGridControl = $form.find('[data-name="InventoryPurchaseItemGrid"]');
+
+        $form.find('[data-datafield="Description"]').data('onchange', $tr => {
+            FwFormField.setValueByDataField($form, 'InventoryId', $tr.find('[data-browsedatafield="InventoryId"]').attr('data-originalvalue'), $tr.find('[data-browsedatafield="ICode"]').attr('data-originalvalue'));
+            $form.find('[data-datafield="InventoryId"]').data('onchange')($tr)
+        });
 
         $form.find('[data-datafield="InventoryId"]').data('onchange', $tr => {
             const trackedBy = $tr.find('[data-browsedatafield="TrackedBy"]').attr('data-originalvalue');
@@ -42,10 +66,26 @@ class InventoryPurchaseUtility {
                 $form.find('.itemsgrid').show();
             }
 
-            //default unit cost
+            FwFormField.setValueByDataField($form, 'Description', $tr.find('[data-browsedatafield="Description"]').attr('data-originalvalue'), $tr.find('[data-browsedatafield="Description"]').attr('data-originalvalue'));
+
             const unitVal = $tr.find('[data-browsedatafield="UnitValue"]').attr('data-originalvalue');
             FwFormField.setValueByDataField($form, 'UnitCost', unitVal);
+
+            //defaulkt aisle loc and shelf
+
         });
+
+        $form.find('[data-datafield="WarrantyDays"]').on('change', e => {
+            const days = FwFormField.getValueByDataField($form, 'WarrantyDays');
+            const today = FwFunc.getDate();
+            const expiration = FwFunc.getDate(today, parseInt(days));
+            FwFormField.setValueByDataField($form, 'WarrantyExpiration', expiration);
+        });
+
+        $form.find('[data-datafield="ManufacturerVendorId"]').data('onchange', $tr => {
+            FwFormField.setValueByDataField($form, 'CountryId', $tr.find('[data-browsedatafield="CountryId"]').attr('data-originalvalue'), $tr.find('[data-browsedatafield="Country"]').attr('data-originalvalue'));
+        });
+
 
         //Add items button
         //$form.find('.additems').on('click', e => {
