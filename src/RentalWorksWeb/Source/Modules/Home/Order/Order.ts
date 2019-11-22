@@ -78,7 +78,7 @@ class Order extends OrderBase {
 
 
         //$form.find('div[data-datafield="BillingCycleId"]').data('onchange', () => {
-        //    const worksheetTab = $form.find('[data-type="tab"][data-caption="Worksheets"]');
+        //    const worksheetTab = $form.find('[data-type="tab"][data-caption="Worksheet"]');
         //    if (FwFormField.getTextByDataField($form, 'BillingCycleId') === 'ON DEMAND') {
         //        worksheetTab.show();
         //    } else {
@@ -200,7 +200,7 @@ class Order extends OrderBase {
             $form.find('[data-type="tab"][data-caption="Repair"]').show();
         }
         //On Demand Billing Cycles require a worksheet tab
-        const worksheetTab = $form.find('[data-type="tab"][data-caption="Worksheets"]');
+        const worksheetTab = $form.find('[data-type="tab"][data-caption="Worksheet"]');
         if (FwFormField.getTextByDataField($form, 'BillingCycleId') === 'ON DEMAND') {
             worksheetTab.show();
             $form.find('.worksheet-submodule').append(this.openSubModuleBrowse($form, 'BillingWorksheet'));
@@ -278,7 +278,7 @@ class Order extends OrderBase {
               <div data-type="tab" id="alltab" class="combinedtab tab" data-tabpageid="alltabpage" data-caption="Items"></div>
               <div data-type="tab" id="subpurchaseordertab" class="tab submodule" data-tabpageid="subpurchaseordertabpage" data-caption="Sub POs"></div>
               <div data-type="tab" id="billingtab" class="tab" data-tabpageid="billingtabpage" data-caption="Billing"></div>
-              <div data-type="tab" id="worksheettab" class="tab" data-tabpageid="worksheettabpage" data-caption="Worksheets" style="display:none;"></div>
+              <div data-type="tab" id="worksheettab" class="tab" data-tabpageid="worksheettabpage" data-caption="Worksheet" style="display:none;"></div>
               <div data-type="tab" id="summarytab" class="profitlosstab tab" data-tabpageid="profitlosstabpage" data-caption="Profit &amp; Loss"></div>
               <div data-type="tab" id="contactstab" class="tab" data-tabpageid="contactstabpage" data-caption="Contacts"></div>
               <div data-type="tab" id="picklisttab" class="tab submodule" data-tabpageid="picklisttabpage" data-caption="Pick List"></div>
