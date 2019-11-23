@@ -950,37 +950,34 @@ class FwModule {
     }
     //----------------------------------------------------------------------------------------------
     static closeForm($form: JQuery, $tab: JQuery, navigationpath?: string, afterCloseForm?: Function, closeParent?: boolean) {
-        var hassubmodule, issubmodule, $confirmation, $save, $dontsave, $cancel, tabname, $parenttab;
-        const ismodified = $form.attr('data-modified');
-        hassubmodule = (typeof $tab.data('subtabids') !== 'undefined') && ($tab.data('subtabids').length > 0);
-        issubmodule = $tab.hasClass('submodule')
-
+        const issubmodule = $tab.hasClass('submodule')
         if (issubmodule) {
-            $parenttab = jQuery('#' + $tab.data('parenttabid'));
+            var $parenttab = jQuery(`#${$tab.data('parenttabid')}`);
         }
 
+        const hassubmodule = (typeof $tab.data('subtabids') !== 'undefined') && ($tab.data('subtabids').length > 0);
         if (hassubmodule) {
-            var $submoduletab, $submoduleform, subtabids;
-            subtabids = $tab.data('subtabids');
-            $submoduletab = jQuery('#' + subtabids[subtabids.length - 1]);
-            $submoduleform = jQuery('#' + $submoduletab.attr('data-tabpageid')).find('.fwform');
+            const subtabids = $tab.data('subtabids');
+            const $submoduletab = jQuery(`#${subtabids[subtabids.length - 1]}`);
+            const $submoduleform = jQuery(`#${$submoduletab.attr('data-tabpageid')}`).find('.fwform');
             FwModule.closeForm($submoduleform, $submoduletab, navigationpath, null, true);
         } else {
+            const ismodified = $form.attr('data-modified');
             if (ismodified === 'true') {
+                let tabname;
                 if ($form.parent().data('type') === 'settings-row') {
                     tabname = $form.data('caption')
                 } else {
                     tabname = $tab.find('.caption').html();
                 }
-                $confirmation = FwConfirmation.renderConfirmation('Close Tab', 'Want to save your changes to "' + tabname + '"?');
-                $save = FwConfirmation.addButton($confirmation, 'Save');
-                $dontsave = FwConfirmation.addButton($confirmation, 'Don\'t Save');
-                //if ($form.parent().data('type') !== 'settings-row') { $cancel = FwConfirmation.addButton($confirmation, 'Cancel'); }
-                $cancel = FwConfirmation.addButton($confirmation, 'Cancel');
+                const $confirmation = FwConfirmation.renderConfirmation('Close Tab', `Want to save your changes to ${tabname}?`);
+                const $save = FwConfirmation.addButton($confirmation, 'Save');
+                const $dontsave = FwConfirmation.addButton($confirmation, 'Don\'t Save');
+                const $cancel = FwConfirmation.addButton($confirmation, 'Cancel');
                 $save.focus();
                 $save.on('click', function () {
                     const controller = $form.attr('data-controller');
-                    if (typeof window[controller] === 'undefined') throw 'Missing javascript module controller: ' + controller;
+                    if (typeof window[controller] === 'undefined') throw `Missing javascript module controller: ${controller}`;
                     if (typeof window[controller]['saveForm'] === 'function') {
                         window[controller]['saveForm']($form, { closetab: true, navigationpath: navigationpath, closeparent: closeParent, afterCloseForm: afterCloseForm, refreshRootTab: true });
                     }
@@ -1051,6 +1048,13 @@ class FwModule {
             const $newTab = (($tab.next().length > 0) ? $tab.next() : $tab.prev());
             const tabIsActive = $tab.hasClass('active');
             FwTabs.removeTab($tab);
+
+            // remove 'elipsis menu' if less than 2 forms open
+            const $openForms = jQuery('#master-body').find('div[data-type="form"]');
+            if ($openForms.length < 2) {
+                jQuery('#moduletabs').find('.closetabbutton').html('');
+            }
+
             if (tabIsActive) {
                 FwTabs.setActiveTab($tabcontrol, $newTab);
                 const newTabType = $newTab.attr('data-tabtype');

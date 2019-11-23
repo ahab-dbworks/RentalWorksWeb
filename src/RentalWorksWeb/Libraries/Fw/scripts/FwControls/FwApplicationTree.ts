@@ -1,10 +1,10 @@
 //---------------------------------------------------------------------------------
-class FwApplicationTree {
-    static tree: IGroupSecurityNode = null;
-    static clickEvents: any = {};
-    static currentApplicationId: string = '';
+class FwApplicationTreeClass {
+    tree: IGroupSecurityNode = null;
+    clickEvents: any = {};
+    currentApplicationId: string = '';
     //---------------------------------------------------------------------------------
-    static getMyTree() {
+    getMyTree() {
         var hasApplicationTreeInSessionStorage, applicationtree=null;
         if (FwApplicationTree.tree !== null) {
             applicationtree = FwApplicationTree.tree;
@@ -22,13 +22,13 @@ class FwApplicationTree {
         return applicationtree;
     };
     //---------------------------------------------------------------------------------
-    //static getNodeByController(controller) {
+    //getNodeByController(controller) {
     //    var tree = FwApplicationTree.getMyTree();
     //    var node = FwApplicationTree.getNodeByControllerRecursive(tree, controller);
     //    return node;
     //};
     //---------------------------------------------------------------------------------
-    //static getNodeByControllerRecursive = function(node, controller) {
+    //getNodeByControllerRecursive = function(node, controller) {
     //    var resultnode=null;
     //    if (node !== null) {
     //        var data_nodetype   = node.nodetype;
@@ -51,7 +51,7 @@ class FwApplicationTree {
     //    return resultnode;
     //};
     //---------------------------------------------------------------------------------
-    static getNodeByFuncRecursive(node, args, func: (node: any, args: any) => any): IGroupSecurityNode {
+    getNodeByFuncRecursive(node, args, func: (node: any, args: any) => any): IGroupSecurityNode {
         var resultnode: IGroupSecurityNode = null;
         if (node !== null) {
             var ismatch = func(node, args);
@@ -69,7 +69,7 @@ class FwApplicationTree {
         return resultnode;
     };
     //---------------------------------------------------------------------------------
-    static getNodeById(node, id): IGroupSecurityNode {
+    getNodeById(node, id): IGroupSecurityNode {
         var resultNode: IGroupSecurityNode = null;
         if (node !== null) {
             var data_nodetype = node.id;
@@ -86,7 +86,7 @@ class FwApplicationTree {
         return resultNode;
     };
     //---------------------------------------------------------------------------------
-    static getChildByType(node, nodetype): IGroupSecurityNode {
+    getChildByType(node, nodetype): IGroupSecurityNode {
         var resultNode: IGroupSecurityNode = null, foundNodeType, childno, currentNode;
         if (node !== null) {
             for (childno = 0; childno < node.children.length; childno++) {
@@ -101,13 +101,13 @@ class FwApplicationTree {
         return resultNode;
     };
     //---------------------------------------------------------------------------------
-    static getChildrenByType(node: any, nodetype: string): IGroupSecurityNode[] {
+    getChildrenByType(node: any, nodetype: string): IGroupSecurityNode[] {
         var children: IGroupSecurityNode[] = [];
         FwApplicationTree.getChildrenByTypeRecursive(node, nodetype, children);
         return children;
     };
     //---------------------------------------------------------------------------------
-    private static getChildrenByTypeRecursive(node: any, nodetype: string, children: IGroupSecurityNode[]): void {
+    private getChildrenByTypeRecursive(node: any, nodetype: string, children: IGroupSecurityNode[]): void {
         if (node !== null && typeof node.children !== 'undefined') {
             for (var childno = 0; childno < node.children.length; childno++) {
                 var currentNode = node.children[childno];
@@ -120,7 +120,7 @@ class FwApplicationTree {
         }
     };
     //---------------------------------------------------------------------------------
-    static getNodeType(node) {
+    getNodeType(node) {
         var nodetype=null;
         if (node !== null) {
             nodetype = node.nodetype;
@@ -128,7 +128,7 @@ class FwApplicationTree {
         return nodetype;
     };
     //---------------------------------------------------------------------------------
-    static getSecurityNodes(node, hidenewmenuoptionsbydefault) {
+    getSecurityNodes(node, hidenewmenuoptionsbydefault) {
         var securitynodes;
 
         securitynodes        = [];
@@ -137,7 +137,7 @@ class FwApplicationTree {
         return securitynodes;
     }
     //---------------------------------------------------------------------------------
-    static getSecurityNodesRecursive(securitynodes: IDbSecurityNode[], node: IGroupSecurityNode, hidenewmenuoptionsbydefault: boolean) {
+    getSecurityNodesRecursive(securitynodes: IDbSecurityNode[], node: IGroupSecurityNode, hidenewmenuoptionsbydefault: boolean) {
         var includenode, newNode: IDbSecurityNode, childno, visible, editable;
 
         visible  = ((typeof node.properties.visible  === 'string') && 
@@ -165,7 +165,7 @@ class FwApplicationTree {
         return securitynodes;
     }
     //---------------------------------------------------------------------------------
-    static isVisibleInSecurityTree(secid: string): boolean {
+    isVisibleInSecurityTree(secid: string): boolean {
         let isVisible = true;
         if (typeof secid === 'string') {
             const nodeButton = FwApplicationTree.getNodeById(FwApplicationTree.tree, secid);
@@ -173,8 +173,108 @@ class FwApplicationTree {
         }
         return isVisible;
     }
+    //----------------------------------------------------------------------------------------------
+    getAllModules(addModulePrefix: boolean, addCategoryNamesToCaption: boolean, onAddArrayItem: (modules: any[], moduleCaption: string, moduleName: string, category: string, currentNode: any, nodeModule: IGroupSecurityNode, hasNew: boolean, hasEdit: boolean, moduleController: any) => void): any[] {
+        const modules: {value: string, text: string}[] = [];
+        for (const key in (<any>window).Constants.Modules) {
+            const node = (<any>window).Constants.Modules[key];
+            let category = '';
+            if (addModulePrefix) {
+                category = 'Module > ';
+            }
+            this.getAllModulesRecursive(modules, category, key, node, addCategoryNamesToCaption, onAddArrayItem);
+        }
+        return modules;
+    }
+    //----------------------------------------------------------------------------------------------
+    private getAllModulesRecursive(modules: any[], category: string, nodeKey: string, currentNode: any, addCategoryNamesToCaption: boolean, onAddArrayItem: (modules: any[], moduleCaption: string, moduleName: string, category: string, currentNode: any, nodeModule: IGroupSecurityNode, hasNew: boolean, hasEdit: boolean, moduleController: any) => void): void {
+        if (currentNode.nodetype === 'Module') {
+            const nodeModule = FwApplicationTree.getNodeById(FwApplicationTree.tree, currentNode.id);
+            const nodeModuleActions = FwApplicationTree.getNodeByFuncRecursive(nodeModule, {}, (node: any, args: any) => {
+                return node.nodetype === 'ModuleActions'; 
+            });
+            const nodeNew = FwApplicationTree.getNodeByFuncRecursive(nodeModuleActions, {}, (node: any, args: any) => {
+                return node.nodetype === 'ModuleAction' && typeof node.properties === 'object' && 
+                    typeof node.properties.action === 'string' && node.properties.action === 'New'; 
+            });
+            const nodeEdit = FwApplicationTree.getNodeByFuncRecursive(nodeModuleActions, {}, (node: any, args: any) => {
+                return node.nodetype === 'ModuleAction' && typeof node.properties === 'object' && 
+                    typeof node.properties.action === 'string' && node.properties.action === 'Edit'; 
+            });
+            const hasNew: boolean = nodeNew !== null && nodeNew.properties.visible === 'T';
+            const hasEdit: boolean = nodeEdit !== null && nodeEdit.properties.visible === 'T';
+            const moduleControllerName = nodeKey + "Controller";
+            if (typeof window[moduleControllerName] !== 'undefined') {
+                const moduleController = window[moduleControllerName];
+                let moduleCaption = `${addCategoryNamesToCaption ? category : ''}${currentNode.caption}`;
+                onAddArrayItem(modules, moduleCaption, nodeKey, category, currentNode, nodeModule, hasNew, hasEdit, moduleController);
+                //if (moduleController.hasOwnProperty('apiurl')) {
+                        
+                //    modules.push({ value: moduleNav, text: `${moduleCaption}`, apiurl: moduleUrl });
+                //}
+            }
+        } 
+        else if (currentNode.nodetype === 'Category' && nodeKey !== 'Reports') {
+            for (let childNodeKey in currentNode.children) {
+                const childNode = currentNode.children[childNodeKey];
+                let childCategory = category;
+                if (addCategoryNamesToCaption) {
+                    childCategory += currentNode.caption + ' > ';
+                }
+                this.getAllModulesRecursive(modules, childCategory, childNodeKey, childNode, addCategoryNamesToCaption, onAddArrayItem);
+            }
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    getAllGrids(): IDropDownListItem[] {
+        const modules: {value: string, text: string}[] = [];
+        for (const key in (<any>window).Constants.Grids) {
+            const node = (<any>window).Constants.Grids[key];
+            this.getAllGridsRecursive(modules, key, node);
+        }
+        return modules;
+    }
+    //----------------------------------------------------------------------------------------------
+    getAllGridsRecursive(modules: IDropDownListItem[], nodeKey: string, currentNode: any): void {
+        const nodeGrid = FwApplicationTree.getNodeById(FwApplicationTree.tree, currentNode.id);
+        const nodeModuleActions = FwApplicationTree.getNodeByFuncRecursive(nodeGrid, {}, (node: any, args: any) => {
+            return node.nodetype === 'ModuleActions' || node.nodetype === 'ControlActions'; 
+        });
+        const nodeNew = FwApplicationTree.getNodeByFuncRecursive(nodeModuleActions, {}, (node: any, args: any) => {
+            return (node.nodetype === 'ModuleAction' || node.nodetype === 'ControlAction') && typeof node.properties === 'object' && 
+                typeof node.properties.action === 'string' && node.properties.action === 'New'; 
+        });
+        const nodeEdit = FwApplicationTree.getNodeByFuncRecursive(nodeModuleActions, {}, (node: any, args: any) => {
+            return (node.nodetype === 'ModuleAction' || node.nodetype === 'ControlAction') && typeof node.properties === 'object' && 
+                typeof node.properties.action === 'string' && node.properties.action === 'Edit'; 
+        });
+        const hasNew: boolean = nodeNew !== null && nodeNew.properties.visible === 'T';
+        const hasEdit: boolean = nodeEdit !== null && nodeEdit.properties.visible === 'T';
+        if (hasNew || hasEdit) {
+            const moduleNav = nodeKey.slice(0, -4);
+            const moduleCaption = 'Grid > ' + currentNode.caption;
+            const moduleController = nodeKey + "Controller";
+            if (typeof window[moduleController] !== 'undefined') {
+                if (window[moduleController].hasOwnProperty('apiurl')) {
+                    //const moduleUrl = (<any>window)[moduleController].apiurl;
+                    modules.push({ value: moduleNav, text: `${moduleCaption}` }); //, apiurl: moduleUrl
+                }
+            }
+        } 
+    }
+    //---------------------------------------------------------------------------------
+    sortModules(modules: IDropDownListItem[]): void {
+        modules.sort((a, b) => {
+            if (a.text < b.text)
+                return -1;
+            if (a.text > b.text)
+                return 1;
+            return 0;
+        });
+    }
     //---------------------------------------------------------------------------------
 }
+var FwApplicationTree = new FwApplicationTreeClass();
 //---------------------------------------------------------------------------------
 interface IDbSecurityNode {
     id: string;

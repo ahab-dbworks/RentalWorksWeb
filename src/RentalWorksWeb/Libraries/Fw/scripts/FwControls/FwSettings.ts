@@ -575,42 +575,42 @@ class FwSettingsClass {
                 showDelete = browseMenuOptions.hasDelete && (nodeDelete !== null && nodeDelete.properties.visible === 'T');
                 const caption = nodeModule.caption;
 
-                html.push(`<div class="panel-group" id="${moduleName}" data-id="${moduleId}" data-navigation="${menuCaption}" data-caption="${caption}" data-showDelete=${showDelete.toString()} data-showEdit="${showEdit.toString()}">`);
-                html.push('  <div class="panel panel-primary">');
-                html.push(`    <div data-toggle="collapse" data-target="${moduleName}" href="${moduleName}" class="panel-heading">`);
-                html.push('      <div class="flexrow" style="max-width:none;">');
-                html.push('        <i class="material-icons arrow-selector">keyboard_arrow_down</i>');
-                html.push('        <h4 class="panel-title">');
-                html.push('        <a id="title" data-toggle="collapse">' + menu + ' - ' + title + '</a>');
-                html.push('        <div id="myDropdown" class="dropdown-content">');
-                html.push('        <div class="flexcolumn">');
-                if (showNew) {
-                    html.push(`         <div class="flexrow new-row-menu" data-caption="${caption}"><i class="material-icons">add</i>New Item</div>`);
-                }
-                html.push('          <div class="show-inactive flexrow"><i class="material-icons">visibility</i>Show Inactive</div>');
-                html.push('          <div class="hide-inactive flexrow" style="display:none;"><i class="material-icons">visibility_off</i>Hide Inactive</div>');
-                html.push('          <div class="pop-out flexrow"><i class="material-icons">open_in_new</i>Pop Out Module</div>');
-                html.push('        </div>');
-                html.push('        </div>');
-                html.push('        <div style="margin-left:auto;">');
-                if (showNew) {
-                    html.push('          <i class="material-icons new-row-menu" title="Add New">add</i>');
-                }
-                html.push('          <i class="material-icons show-inactive" title="Show All">visibility</i>');
-                html.push('          <i class="material-icons hide-inactive" style="display:none" title="Hide Inactive">visibility_off</i>');
-                html.push('          <i class="material-icons pop-out" title="Pop Out">open_in_new</i>');
-                html.push('          <i class="material-icons refresh" title="Refresh">cached</i>');
-                html.push('          <i class="material-icons heading-menu">more_vert</i>');
-                html.push('        </div>');
-                html.push('        </h4>');
-                html.push('      </div>');
-                //if (description === "") {
-                //    html.push('      <small id="searchId" style="display:none;">' + moduleName + '</small>');
-                //    html.push('      <small style="margin:0 0 0 32px;" id="description-text">' + moduleName + '</small>');
-                //} else {
-                //    html.push('      <small id="searchId" style="display:none;">' + moduleName + '</small>');
-                //    html.push('      <small style="margin:0 0 0 32px;" id="description-text">' + description + '</small>');
-                //}
+        html.push(`<div class="panel-group" id="${moduleName}" data-id="${moduleId}" data-navigation="${menuCaption}" data-caption="${caption}" data-showDelete=${showDelete.toString()} data-showEdit="${showEdit.toString()}">`);
+        html.push('  <div class="panel panel-primary">');
+        html.push(`    <div data-toggle="collapse" data-target="${moduleName}" href="${moduleName}" class="panel-heading">`);
+        html.push('      <div class="flexrow" style="max-width:none;">');
+        html.push('        <i class="material-icons arrow-selector">keyboard_arrow_down</i>');
+        html.push('        <h4 class="panel-title">');
+        html.push('        <a id="title" data-toggle="collapse">' + menu + ' - ' + title + '</a>');
+        html.push('        <div id="myDropdown" class="dropdown-content">');
+        html.push('        <div class="flexcolumn">');
+        if (showNew) {
+            html.push(`         <div class="flexrow new-row-menu" data-caption="${caption}"><i class="material-icons">add</i>New Item</div>`);
+        }
+      //  html.push('          <div class="show-inactive flexrow"><i class="material-icons">visibility</i>Show Inactive</div>');
+      //  html.push('          <div class="hide-inactive flexrow" style="display:none;"><i class="material-icons">visibility_off</i>Hide Inactive</div>');
+        html.push('          <div class="pop-out flexrow"><i class="material-icons">open_in_new</i>Pop Out Module</div>');
+        html.push('        </div>');
+        html.push('        </div>');
+        html.push('        <div class="panel-icons" style="margin-left:auto;">');
+        if (showNew) {
+            html.push('          <i class="material-icons new-row-menu" title="Add New">add</i>');
+        }
+       // html.push('          <i class="material-icons show-inactive" title="Show All">visibility</i>');
+      //  html.push('          <i class="material-icons hide-inactive" style="display:none" title="Hide Inactive">visibility_off</i>');
+        html.push('          <i class="material-icons pop-out" title="Pop Out">open_in_new</i>');
+        html.push('          <i class="material-icons refresh" title="Refresh">cached</i>');
+        html.push('          <i class="material-icons heading-menu">more_vert</i>');
+        html.push('        </div>');
+        html.push('        </h4>');
+        html.push('      </div>');
+        //if (description === "") {
+        //    html.push('      <small id="searchId" style="display:none;">' + moduleName + '</small>');
+        //    html.push('      <small style="margin:0 0 0 32px;" id="description-text">' + moduleName + '</small>');
+        //} else {
+        //    html.push('      <small id="searchId" style="display:none;">' + moduleName + '</small>');
+        //    html.push('      <small style="margin:0 0 0 32px;" id="description-text">' + description + '</small>');
+        //}
 
                 html.push(`      <small id="searchId" style="display:none;">${moduleName}</small>`);
                 if (description) {
@@ -691,8 +691,11 @@ class FwSettingsClass {
                         const duplicateDatafields: any = {};
                         var withoutDuplicates = [];
 
-                        if ($body.is(':empty')) {
-
+                if ($body.is(':empty')) {
+                    if ($browse.attr('data-hasinactive') === 'true') {
+                        const $inactiveIcons = jQuery('<i class="material-icons show-inactive" title="Show All" style="padding-right:8px;">visibility</i><i class="material-icons hide-inactive" style="display:none;padding-right:8px;" title="Hide Inactive">visibility_off</i>');
+                        $this.find('.panel-icons .pop-out').before($inactiveIcons);
+                    }
                     //append legend
                     if ($body.find('.legend').length <= 0) {
                         $body.append('<div class="legend"><span class="input-group-addon search"><i class="material-icons">search</i></span><input type="text" id="recordSearch" class="form-control" placeholder="Record Search" autofocus></div>');
