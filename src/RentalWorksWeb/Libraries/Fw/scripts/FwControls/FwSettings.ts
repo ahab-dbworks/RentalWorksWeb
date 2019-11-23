@@ -581,11 +581,12 @@ class FwSettingsClass {
             html.push('          <i class="material-icons new-row-menu" title="Add New">add</i>');
         }
 
-        const $browse = window[`${moduleName}Controller`].openBrowse();
-        let hasInactive = false;
-        if ($browse.attr('data-hasinactive') === 'true') {
-            hasInactive = true;
-        }
+        //const $browse = window[`${moduleName}Controller`].openBrowse();
+        //let hasInactive = false;
+        //if ($browse.attr('data-hasinactive') === 'true') {
+        //    hasInactive = true;
+        //}
+        let hasInactive = true; //justin hoffman 11/22/2019 temporary revert
         if (hasInactive) {
             html.push('          <i class="material-icons show-inactive" title="Show All">visibility</i>');
             html.push('          <i class="material-icons hide-inactive" style="display:none" title="Hide Inactive">visibility_off</i>');
