@@ -1,6 +1,11 @@
 using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
+using FwStandard.Models;
+using FwStandard.SqlServer;
+using System.Collections.Generic;
 using WebApi.Logic;
+using WebLibrary;
+
 namespace WebApi.Modules.Home.InventoryPackageInventory
 {
     [FwLogic(Id:"yxgqhnhEbck7")]
@@ -13,6 +18,7 @@ namespace WebApi.Modules.Home.InventoryPackageInventory
         {
             dataRecords.Add(inventoryPackageInventory);
             dataLoader = inventoryPackageInventoryLoader;
+            BeforeSave += OnBeforeSave;
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id:"rlGmgpMiAAj0", IsPrimaryKey:true)]
@@ -127,6 +133,29 @@ namespace WebApi.Modules.Home.InventoryPackageInventory
 
             return isValid;
         }
+        //------------------------------------------------------------------------------------ 
+        public virtual void OnBeforeSave(object sender, BeforeSaveEventArgs e)
+        {
+            string invClassification = "";
+            using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString)) { 
+                invClassification = FwSqlCommand.GetStringDataAsync(conn, this.AppConfig.DatabaseSettings.QueryTimeout, "master", "masterid", this.PackageId, "class").Result;
+            }
+            if (invClassification.Equals(RwConstants.INVENTORY_CLASSIFICATION_COMPLETE))
+            {
+                BrowseRequest req = new BrowseRequest();
+                InventoryPackageInventoryLogic p = new InventoryPackageInventoryLogic();
+                p.AppConfig = this.AppConfig;
+                req.uniqueids = new Dictionary<string, object>();
+                req.uniqueids.Add("PackageId", this.PackageId);
+                List<InventoryPackageInventoryLogic> inv = p.SelectAsync<InventoryPackageInventoryLogic>(req).Result;
+
+                if (inv.Count.Equals(0))
+                {
+                    this.IsPrimary = true;
+                }
+            }
+        }
         //------------------------------------------------------------------------------------
+
     }
 }
