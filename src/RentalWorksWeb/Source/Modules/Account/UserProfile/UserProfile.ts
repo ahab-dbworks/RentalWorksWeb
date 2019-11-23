@@ -9,7 +9,7 @@
         screen.viewModel = {};
         screen.properties = {};
 
-        const $form = this.openForm('NEW');
+        const $form = this.openForm('EDIT');
 
         screen.load = () => {
             FwModule.openModuleTab($form, 'User Profile', false, 'FORM', true);
