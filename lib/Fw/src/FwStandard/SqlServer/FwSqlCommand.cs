@@ -1302,6 +1302,7 @@ namespace FwStandard.SqlServer
         object FormatReaderData(FwDataTypes dataType, int columnIndex, SqlDataReader reader)
         {
             object data = string.Empty;
+            string numberFormat = "";
             switch (dataType)
             {
                 case FwDataTypes.Text:
@@ -1367,13 +1368,58 @@ namespace FwStandard.SqlServer
                     }
                     break;
                 case FwDataTypes.DecimalStringNoTrailingZeros:
+                    numberFormat = "G29";
                     if (!reader.IsDBNull(columnIndex))
                     {
-                        data = reader.GetDecimal(columnIndex).ToString("G29");
+                        data = reader.GetDecimal(columnIndex).ToString(numberFormat);
                     }
                     else
                     {
-                        data = 0.0m.ToString("G29");
+                        data = 0.0m.ToString(numberFormat);
+                    }
+                    break;
+                case FwDataTypes.DecimalString1Digit:
+                    numberFormat = "F1";
+                    if (!reader.IsDBNull(columnIndex))
+                    {
+                        data = reader.GetDecimal(columnIndex).ToString(numberFormat);
+                    }
+                    else
+                    {
+                        data = 0.0m.ToString(numberFormat);
+                    }
+                    break;
+                case FwDataTypes.DecimalString2Digits:
+                    numberFormat = "F2";
+                    if (!reader.IsDBNull(columnIndex))
+                    {
+                        data = reader.GetDecimal(columnIndex).ToString(numberFormat);
+                    }
+                    else
+                    {
+                        data = 0.0m.ToString(numberFormat);
+                    }
+                    break;
+                case FwDataTypes.DecimalString3Digits:
+                    numberFormat = "F3";
+                    if (!reader.IsDBNull(columnIndex))
+                    {
+                        data = reader.GetDecimal(columnIndex).ToString(numberFormat);
+                    }
+                    else
+                    {
+                        data = 0.0m.ToString(numberFormat);
+                    }
+                    break;
+                case FwDataTypes.DecimalString4Digits:
+                    numberFormat = "F4";
+                    if (!reader.IsDBNull(columnIndex))
+                    {
+                        data = reader.GetDecimal(columnIndex).ToString(numberFormat);
+                    }
+                    else
+                    {
+                        data = 0.0m.ToString(numberFormat);
                     }
                     break;
                 case FwDataTypes.Boolean:
