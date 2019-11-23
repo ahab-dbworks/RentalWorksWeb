@@ -40,8 +40,17 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         [FwSqlDataField(column: "price", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? Rate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "discountpct", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "discountpct", modeltype: FwDataTypes.DecimalString2Digits)]
         public decimal? DiscountPercent { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "discountpctdisplay", modeltype: FwDataTypes.DecimalString2Digits)]
+        public decimal? DiscountPercentDisplay { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "weeklydiscountamt", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public decimal? WeeklyDiscountAmount { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "perioddiscountamt", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public decimal? PeriodDiscountAmount { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "weeklyextended", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? WeeklyExtended { get; set; }
@@ -82,7 +91,7 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
             recType = RwConstants.RECTYPE_RENTAL;
         }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "daysinwk", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "daysinwk", modeltype: FwDataTypes.DecimalString3Digits)]
         public decimal? DaysPerWeek { get; set; }
         //------------------------------------------------------------------------------------ 
     }
@@ -102,7 +111,7 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
             recType = RwConstants.RECTYPE_MISCELLANEOUS;
         }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "daysinwk", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "daysinwk", modeltype: FwDataTypes.DecimalString3Digits)]
         public decimal? DaysPerWeek { get; set; }
         //------------------------------------------------------------------------------------ 
     }
@@ -114,7 +123,7 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
             recType = RwConstants.RECTYPE_LABOR;
         }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "daysinwk", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "daysinwk", modeltype: FwDataTypes.DecimalString3Digits)]
         public decimal? DaysPerWeek { get; set; }
         //------------------------------------------------------------------------------------ 
     }
