@@ -48,42 +48,60 @@
         ], true);
 
         //load App Modules for Home Page
-        const node = FwApplicationTree.getNodeById(FwApplicationTree.tree, '0A5F2584-D239-480F-8312-7C2B552A30BA');
-        const mainModules = FwApplicationTree.getChildrenByType(node, 'Module');
-        const settingsModules = FwApplicationTree.getChildrenByType(node, 'SettingsModule');
-        const modules = mainModules.concat(settingsModules);
-        const allModules = [];
-        const sortableModules = [];
-        for (let i = 0; i < modules.length; i++) {
-            if (modules[i].properties.visible === "T") {
-                const moduleGUID = modules[i].id;
-                const moduleCaption = modules[i].properties.caption;
-                const moduleController = modules[i].properties.controller;
-                if (typeof window[moduleController] !== 'undefined') {
-                    if (window[moduleController].hasOwnProperty('nav')) {
-                        const moduleNav = (<any>window)[moduleController].nav;
-                        allModules.push({ value: moduleGUID, text: moduleCaption, nav: moduleNav });
-                        sortableModules.push({ value: moduleNav, text: moduleCaption, selected: 'T' });
-                    }
-                }
-            }
-        };
+        //const node = FwApplicationTree.getNodeById(FwApplicationTree.tree, '0A5F2584-D239-480F-8312-7C2B552A30BA');
+        //const mainModules = FwApplicationTree.getChildrenByType(node, 'Module');
+        //const settingsModules = FwApplicationTree.getChildrenByType(node, 'SettingsModule');
+        //const modules = mainModules.concat(settingsModules);
+        //const allModules = [];
+        //const sortableModules = [];
+        //for (let i = 0; i < modules.length; i++) {
+        //    if (modules[i].properties.visible === "T") {
+        //        const moduleGUID = modules[i].id;
+        //        const moduleCaption = modules[i].properties.caption;
+        //        const moduleController = modules[i].properties.controller;
+        //        if (typeof window[moduleController] !== 'undefined') {
+        //            if (window[moduleController].hasOwnProperty('nav')) {
+        //                const moduleNav = (<any>window)[moduleController].nav;
+        //                allModules.push({ value: moduleGUID, text: moduleCaption, nav: moduleNav });
+        //                sortableModules.push({ value: moduleNav, text: moduleCaption, selected: 'T' });
+        //            }
+        //        }
+        //    }
+        //};
       
-        //Sort modules
-        function compare(a, b) {
-            if (a.text < b.text)
-                return -1;
-            if (a.text > b.text)
-                return 1;
-            return 0;
-        }
-        allModules.sort(compare);
+        ////Sort modules
+        //function compare(a, b) {
+        //    if (a.text < b.text)
+        //        return -1;
+        //    if (a.text > b.text)
+        //        return 1;
+        //    return 0;
+        //}
+        //allModules.sort(compare);
+
+        // Load Default Home Page
+        const allModules = FwApplicationTree.getAllModules(false, true, (modules: any[], moduleCaption: string, moduleName: string, category: string, currentNode: any, nodeModule: IGroupSecurityNode, hasNew: boolean, hasEdit: boolean, moduleController: any) => {
+            if (moduleController.hasOwnProperty('nav')) {
+                modules.push({ value: moduleController.id, text: moduleCaption, nav: moduleController.nav });
+            }
+        });
+        FwApplicationTree.sortModules(allModules);
         const $defaultHomePage = $form.find('.default-home-page');
         FwFormField.loadItems($defaultHomePage, allModules, true);
 
-        sortableModules.sort(compare);
+        // Load Available Modules
+        const sortableModules = FwApplicationTree.getAllModules(false, true, (modules: any[], moduleCaption: string, moduleName: string, category: string, currentNode: any, nodeModule: IGroupSecurityNode, hasNew: boolean, hasEdit: boolean, moduleController: any) => {
+            if (moduleController.hasOwnProperty('nav')) {
+                modules.push({ value: moduleController.nav, text: moduleCaption, selected: 'T'});
+            }
+        });
+        FwApplicationTree.sortModules(allModules);
         const $availModules = $form.find('.available-modules');
         FwFormField.loadItems($availModules, sortableModules, true);
+
+        //sortableModules.sort(compare);
+        //const $availModules = $form.find('.available-modules');
+        //FwFormField.loadItems($availModules, sortableModules, true);
 
         const userId = JSON.parse(sessionStorage.getItem('userid'));
         $form.find('div.fwformfield[data-datafield="UserId"] input').val(userId.webusersid);
@@ -165,28 +183,33 @@
     };
     //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
-        FwModule.saveForm(this.Module, $form, parameters);
+        try {
+            parameters.afterCloseForm = () => {
+                const homePage: any = {};
+                homePage.guid = FwFormField.getValueByDataField($form, 'HomeMenuGuid');
+                homePage.path = FwFormField.getValueByDataField($form, 'HomeMenuPath');
 
-        const homePage: any = {};
-        homePage.guid = FwFormField.getValueByDataField($form, 'HomeMenuGuid');
-        homePage.path = FwFormField.getValueByDataField($form, 'HomeMenuPath');
+                const sounds: any = {};
+                const successSoundFileName = FwFormField.getValueByDataField($form, 'SuccessSoundFileName').toString();
+                sounds.successSoundFileName = successSoundFileName;
+                const errorSoundFileName = FwFormField.getValueByDataField($form, 'ErrorSoundFileName').toString();
+                sounds.errorSoundFileName = errorSoundFileName;
+                const notificationSoundFileName = FwFormField.getValueByDataField($form, 'NotificationSoundFileName').toString();
+                sounds.notificationSoundFileName = notificationSoundFileName;
 
-        const sounds: any = {};
-        const successSoundFileName = FwFormField.getValueByDataField($form, 'SuccessSoundFileName').toString();
-        sounds.successSoundFileName = successSoundFileName;
-        const errorSoundFileName = FwFormField.getValueByDataField($form, 'ErrorSoundFileName').toString();
-        sounds.errorSoundFileName = errorSoundFileName;
-        const notificationSoundFileName = FwFormField.getValueByDataField($form, 'NotificationSoundFileName').toString();
-        sounds.notificationSoundFileName = notificationSoundFileName;
+                const browseDefaultRows = jQuery($form.find('[data-datafield="BrowseDefaultRows"] select')).val().toString();
+                sessionStorage.setItem('browsedefaultrows', browseDefaultRows);
+                const applicationTheme = jQuery($form.find('[data-datafield="ApplicationTheme"] select')).val().toString();
+                sessionStorage.setItem('applicationtheme', applicationTheme);
+                sessionStorage.setItem('sounds', JSON.stringify(sounds));
+                sessionStorage.setItem('homePage', JSON.stringify(homePage));
 
-        const browseDefaultRows = jQuery($form.find('[data-datafield="BrowseDefaultRows"] select')).val().toString();
-        sessionStorage.setItem('browsedefaultrows', browseDefaultRows);
-        const applicationTheme = jQuery($form.find('[data-datafield="ApplicationTheme"] select')).val().toString();
-        sessionStorage.setItem('applicationtheme', applicationTheme);
-        sessionStorage.setItem('sounds', JSON.stringify(sounds));
-        sessionStorage.setItem('homePage', JSON.stringify(homePage));
-
-        setTimeout(function () { location.reload(); }, 1000);
+                setTimeout(function () { location.reload(); }, 1000);
+            };
+            FwModule.saveForm(this.Module, $form, parameters);
+        } catch (ex) {
+            FwFunc.showError(ex);
+        }
     };
     //----------------------------------------------------------------------------------------------
     afterSave($form) {
