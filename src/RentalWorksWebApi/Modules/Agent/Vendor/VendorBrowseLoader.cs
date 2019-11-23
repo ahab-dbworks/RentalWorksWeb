@@ -77,12 +77,15 @@ namespace WebApi.Modules.Agent.Vendor
         {
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
+            addFilterToSelect("Manufacturer", "manufacturer", select, request);
             addFilterToSelect("Insurance", "insurance", select, request);
             addFilterToSelect("Freight", "freight", select, request);
             addFilterToSelect("SubRent", "subrent", select, request);
             addFilterToSelect("SubSale", "subsales", select, request);
             addFilterToSelect("SubMisc", "submisc", select, request);
             addFilterToSelect("SubLabor", "sublabor", select, request);
+            addFilterToSelect("RentalInventory", "rentalinventory", select, request);
+            addFilterToSelect("SalesInventory", "salesinventory", select, request);
         }
         //------------------------------------------------------------------------------------
     }

@@ -35,7 +35,7 @@ class InventoryPurchaseUtility {
         const $manufacturerValidation = $form.find('[data-datafield="ManufacturerVendorId"]');
         $manufacturerValidation.data('beforevalidate', ($form, $manufacturerValidation, request) => {
             request.uniqueids = {
-                'RentalInventory': true
+                'Manufacturer': true
             }
         });
 
