@@ -29,8 +29,6 @@
 .fwsettings div.well div.panel-group div.panel-primary div.panel-heading i.material-icons { flex:0; font-size: 23px; vertical-align: bottom; }
 .fwsettings div.well div.panel-group div.panel-primary div.panel-heading i.material-icons.heading-menu { margin-left:auto; display: inline; font-size: 23px; }
 .fwsettings div.well div.panel-group div.panel-primary div.panel-heading h4.panel-title div i.new-row-menu { cursor: pointer; } 
-.fwsettings div.well div.panel-group div.panel-primary div.panel-heading h4.panel-title div i.show-inactive { cursor: pointer; } 
-.fwsettings div.well div.panel-group div.panel-primary div.panel-heading h4.panel-title div i.hide-inactive { cursor: pointer; } 
 .fwsettings div.well div.panel-group div.panel-primary div.panel-heading h4.panel-title div i.pop-out { cursor: pointer; } 
 .fwsettings div.well div.panel-group div.panel-primary div.panel-heading h4.panel-title div i.refresh { cursor: pointer; } 
 .fwsettings div.well div.panel-group div.panel-primary div.panel-heading h4.panel-title div i.heading-menu { cursor: pointer; } 
@@ -48,6 +46,9 @@
 .fwsettings div.well div.panel-group div.panel-primary div.panel-body div.legend div.legenditem {float:left;margin:0 5px 0 5px;}
 .fwsettings div.well div.panel-group div.panel-primary div.panel-body div.legend div.legenditem div.color {width:20px; height: 14px;float:left;}
 .fwsettings div.well div.panel-group div.panel-primary div.panel-body div.legend div.legenditem div.caption {float:left; margin: 0 0 0 5px;font-size:12px; font-weight:bold;cursor:default;}
+.fwsettings div.well div.panel-group div.panel-primary div.panel-body div.legend div.view-options i.material-icons.show-btn { cursor: pointer;padding:4px; background-color:#428bca;border-radius:3px; }
+.fwsettings div.well div.panel-group div.panel-primary div.panel-body div.legend div.view-options .view-text { font-size:1.1em;cursor: pointer;padding:6px 6px 6px 10px;font-weight:600; } 
+
 .fwsettings div.well div.panel-group div.panel-primary div.panel-body div.panel .panel-group { margin-bottom: 0; border-radius: 4px; } 
 .fwsettings div.well div.panel-group div.panel-primary div.panel-body div.panel-info { border-color: #bce8f1 } 
 .fwsettings div.well div.panel-group div.panel-primary div.panel-body div.panel-info div.row-heading { color: #31708f; background-color: #d9edf7; border-color: #bce8f1; padding: 10px 15px; display: flex; justify-content: space-between; } 
