@@ -1,10 +1,11 @@
 using FwStandard.AppManager;
+using WebApi.Data.Settings;
 using WebApi.Data.Settings.ContactSettings.MailList;
 using WebApi.Logic;
 
 namespace WebApi.Modules.Settings.ContactSettings.MailList
 {
-    [FwLogic(Id:"2CB6bfXITDyX")]
+    [FwLogic(Id: "2CB6bfXITDyX")]
     public class MailListLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
@@ -14,16 +15,16 @@ namespace WebApi.Modules.Settings.ContactSettings.MailList
             dataRecords.Add(mailList);
         }
         //------------------------------------------------------------------------------------
-        [FwLogicProperty(Id:"ff6IRyHI6fXr", IsPrimaryKey:true)]
+        [FwLogicProperty(Id: "ff6IRyHI6fXr", IsPrimaryKey: true)]
         public string MailListId { get { return mailList.MailListId; } set { mailList.MailListId = value; } }
 
-        [FwLogicProperty(Id:"ff6IRyHI6fXr", IsRecordTitle:true)]
+        [FwLogicProperty(Id: "ff6IRyHI6fXr", IsRecordTitle: true)]
         public string MailList { get { return mailList.MailList; } set { mailList.MailList = value; } }
 
-        [FwLogicProperty(Id:"QODB8LdlCDH")]
+        [FwLogicProperty(Id: "QODB8LdlCDH")]
         public bool? Inactive { get { return mailList.Inactive; } set { mailList.Inactive = value; } }
 
-        [FwLogicProperty(Id:"eiQEubRgGP1")]
+        [FwLogicProperty(Id: "eiQEubRgGP1")]
         public string DateStamp { get { return mailList.DateStamp; } set { mailList.DateStamp = value; } }
 
         //------------------------------------------------------------------------------------
