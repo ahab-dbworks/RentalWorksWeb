@@ -5,14 +5,12 @@ class Sound {
 
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
-        var screen, $browse;
-
-        screen = {};
+        const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
-        $browse = this.openBrowse();
+        const $browse = this.openBrowse();
 
         screen.load = function () {
             FwModule.openModuleTab($browse, 'Sound', false, 'BROWSE', true);
@@ -27,9 +25,7 @@ class Sound {
     }
     //----------------------------------------------------------------------------------------------
     openBrowse() {
-        var $browse;
-
-        $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
+        let $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
 
         FwBrowse.addLegend($browse, 'User Defined Sound', '#00FF00');
@@ -38,9 +34,7 @@ class Sound {
     }
     //----------------------------------------------------------------------------------------------
     openForm(mode: string) {
-        var $form, $moduleSelect;
-
-        $form = FwModule.loadFormFromTemplate(this.Module);
+        let $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 
         if ($form.find('div[data-datafield="SystemSound"]').attr('data-originalvalue') === "true") {
@@ -91,9 +85,7 @@ class Sound {
     }
     //----------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
-        var $form;
-
-        $form = this.openForm('EDIT');
+        const $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="SoundId"] input').val(uniqueids.SoundId);
         FwModule.loadForm(this.Module, $form);
 
@@ -105,12 +97,10 @@ class Sound {
     }
     //----------------------------------------------------------------------------------------------
     events($form: JQuery): void {
-        let sound, soundFileName;
-
         // Sound Preview
         $form.find('.sound-play-button').on('click', e => {
-            soundFileName = FwFormField.getValueByDataField($form, 'FileName');
-            sound = new Audio(soundFileName);
+            const soundFileName = FwFormField.getValueByDataField($form, 'FileName');
+            const sound = new Audio(soundFileName);
             sound.play();
         });
     };

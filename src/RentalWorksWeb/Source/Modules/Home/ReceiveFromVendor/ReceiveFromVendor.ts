@@ -5,10 +5,6 @@ class ReceiveFromVendor {
     caption: string = Constants.Modules.Home.ReceiveFromVendor.caption;
     nav: string = Constants.Modules.Home.ReceiveFromVendor.nav;
     id: string = Constants.Modules.Home.ReceiveFromVendor.id;
-    successSoundFileName: string;
-    errorSoundFileName: string;
-    notificationSoundFileName: string;
-
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         const screen: any = {};
@@ -51,7 +47,6 @@ class ReceiveFromVendor {
         }
 
         this.getSuspendedSessions($form);
-        this.getSoundUrls($form);
         this.getItems($form);
         this.events($form);
         return $form;
@@ -139,12 +134,6 @@ class ReceiveFromVendor {
                 }, null, $form);
             }
         });
-    }
-    //----------------------------------------------------------------------------------------------
-    getSoundUrls($form): void {
-        this.successSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).successSoundFileName;
-        this.errorSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).errorSoundFileName;
-        this.notificationSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).notificationSoundFileName;
     }
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {

@@ -5,10 +5,6 @@ class AssignBarCodes {
     caption: string = Constants.Modules.Home.AssignBarCodes.caption;
     nav: string = Constants.Modules.Home.AssignBarCodes.nav;
     id: string = Constants.Modules.Home.AssignBarCodes.id;
-    successSoundFileName: string;
-    errorSoundFileName: string;
-    notificationSoundFileName: string;
-
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen: any = {};

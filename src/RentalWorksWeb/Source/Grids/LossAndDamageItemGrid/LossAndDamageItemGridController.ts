@@ -1,14 +1,10 @@
 ﻿class LossAndDamageItemGrid {
     Module: string = 'LossAndDamageItemGrid';
     apiurl: string = 'api/v1/lossanddamageitem';
-    errorSoundFileName: string;
     //----------------------------------------------------------------------------------------------
     generateRow($control, $generatedtr) {
-        let $form, errorSound, $quantityColumn;
-        $form = $control.closest('.fwform');
-        $quantityColumn = $generatedtr.find('[data-browsedatatype="numericupdown"]');
-        this.errorSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).errorSoundFileName;
-        errorSound = new Audio(this.errorSoundFileName);
+        const $form = $control.closest('.fwform');
+        const $quantityColumn = $generatedtr.find('[data-browsedatatype="numericupdown"]');
 
         FwBrowse.setAfterRenderRowCallback($control, ($tr: JQuery, dt: FwJsonDataTable, rowIndex: number) => {
             let quantityOutValue = +$tr.find('[data-browsedatafield="QuantityOut"]').attr('data-originalvalue');
@@ -41,7 +37,7 @@
                                     $tr.find('[data-browsedatafield="Quantity"]').attr('data-originalvalue', Number(newValue));
                                     $tr.find('[data-browsedatafield="Quantity"] .value').val(+response.NewQuantity);
                                 } else {
-                                    errorSound.play();
+                                    FwFunc.playErrorSound();
                                     errorMsg.html(`<div><span>${response.msg}</span></div>`);
                                     $tr.find('[data-browsedatafield="Quantity"] .value').val(+response.NewQuantity);
                                 }

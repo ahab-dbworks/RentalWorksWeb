@@ -6,9 +6,6 @@ class TransferOut extends StagingCheckoutBase{
 	nav: string = Constants.Modules.Home.TransferOut.nav;
 	id: string = Constants.Modules.Home.TransferOut.id;
     showAddItemToOrder: boolean = false;
-    successSoundFileName: string;
-    errorSoundFileName: string;
-    notificationSoundFileName: string;
     contractId: string;
     isPendingItemGridView: boolean = false;
     Type: string = 'Transfer';

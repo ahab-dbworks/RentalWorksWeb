@@ -5,10 +5,6 @@ class ReturnToVendor {
     caption: string = Constants.Modules.Home.ReturnToVendor.caption;
     nav: string = Constants.Modules.Home.ReturnToVendor.nav;
     id: string = Constants.Modules.Home.ReturnToVendor.id;
-    successSoundFileName: string;
-    errorSoundFileName: string;
-    notificationSoundFileName: string;
-
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen: any = {};
@@ -52,7 +48,6 @@ class ReturnToVendor {
             $form.find('[data-datafield="PurchaseOrderId"] input').change();
             $form.attr('data-showsuspendedsessions', 'false');
         }
-        this.getSoundUrls($form);
         this.getItems($form);
         this.events($form);
         this.getSuspendedSessions($form);
@@ -106,8 +101,6 @@ class ReturnToVendor {
     }
     //----------------------------------------------------------------------------------------------
     getItems($form) {
-        let successSound, self = this;
-        successSound = new Audio(this.successSoundFileName);
         $form.find('[data-datafield="PurchaseOrderId"]').data('onchange', $tr => {
             FwFormField.disable($form.find('[data-datafield="PurchaseOrderId"]'));
 
@@ -136,12 +129,6 @@ class ReturnToVendor {
                 }, null, null);
             }
         });
-    };
-    //----------------------------------------------------------------------------------------------
-    getSoundUrls($form): void {
-        this.successSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).successSoundFileName;
-        this.errorSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).errorSoundFileName;
-        this.notificationSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).notificationSoundFileName;
     };
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {

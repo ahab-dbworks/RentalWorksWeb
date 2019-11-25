@@ -4,9 +4,6 @@
 	nav: string = Constants.Modules.Home.StagingCheckout.nav;
 	id: string = Constants.Modules.Home.StagingCheckout.id;
     showAddItemToOrder: boolean = false;
-    successSoundFileName: string;
-    errorSoundFileName: string;
-    notificationSoundFileName: string;
     contractId: string;
     isPendingItemGridView: boolean = false;
     Type: string = 'Order';

@@ -1,22 +1,14 @@
 ﻿class PhysicalInventoryQuantityInventoryGrid {
     Module: string = 'PhysicalInventoryQuantityInventoryGrid';
     apiurl: string = 'api/v1/physicalinventoryquantityinventory';
-    errorSoundFileName: string;
-    successSoundFileName: string;
     addItemRequest: any = {};
     $form: any;
     errorMsg: any;
-    errorSound: any;
-    successSound: any;
     $trForAddItem: any;
     //----------------------------------------------------------------------------------------------
     generateRow($control, $generatedtr) {
         this.$form = $control.closest('.fwform');
         const $quantityColumn = $generatedtr.find('[data-browsedatatype="numericupdown"]');
-        this.errorSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).errorSoundFileName;
-        this.errorSound = new Audio(this.errorSoundFileName);
-        this.successSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).successSoundFileName;
-        this.successSound = new Audio(this.successSoundFileName);
         this.errorMsg = this.$form.find('.error-msg.qty');
 
         FwBrowse.setAfterRenderRowCallback($control, ($tr: JQuery, dt: FwJsonDataTable, rowIndex: number) => {

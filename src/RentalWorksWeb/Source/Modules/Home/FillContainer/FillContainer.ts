@@ -6,9 +6,6 @@ class FillContainer extends StagingCheckoutBase {
     nav: string = Constants.Modules.Home.FillContainer.nav;
     id: string = Constants.Modules.Home.FillContainer.id;
     showAddItemToOrder: boolean = false;
-    successSoundFileName: string;
-    errorSoundFileName: string;
-    notificationSoundFileName: string;
     contractId: string;
     isPendingItemGridView: boolean = false;
     Type: string = 'ContainerItem';

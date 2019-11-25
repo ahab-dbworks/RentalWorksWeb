@@ -1,13 +1,10 @@
 ﻿class StageHoldingItemGrid {
     Module: string = 'StageHoldingItemGrid';
     apiurl: string = 'api/v1/stageholdingitem';
-    errorSoundFileName: string;
     //----------------------------------------------------------------------------------------------
     generateRow($control, $generatedtr) {
         const $form = $control.closest('.fwform');
         const $quantityColumn = $generatedtr.find('[data-browsedatatype="numericupdown"]');
-        this.errorSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).errorSoundFileName;
-        const errorSound = new Audio(this.errorSoundFileName);
 
         FwBrowse.setAfterRenderRowCallback($control, ($tr: JQuery, dt: FwJsonDataTable, rowIndex: number) => {
             let trackedByValue = $tr.find('[data-browsedatafield="TrackedBy"]').attr('data-originalvalue');
@@ -43,7 +40,7 @@
                                     $tr.find('[data-browsedatafield="Quantity"]').attr('data-originalvalue', Number(newValue));
                                     FwBrowse.setFieldValue($grid, $tr, 'QuantityHolding', { value: response.InventoryStatus.QuantityRemaining });
                                 } else {
-                                    errorSound.play();
+                                    FwFunc.playErrorSound();
                                     $form.find('.error-msg.holding').html(`<div><span>${response.msg}</span></div>`);
                                     $tr.find('[data-browsedatafield="Quantity"] input').val(Number(oldValue));
                                 }

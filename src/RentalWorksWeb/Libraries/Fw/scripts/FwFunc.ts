@@ -258,4 +258,36 @@
         NUMPAD_DOT: 110
     }
     //---------------------------------------------------------------------------------
+    static playSuccessSound() {
+        const successSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).successSoundFileName;
+
+        if (successSoundFileName && typeof successSoundFileName === 'string') {
+            const sound = new Audio(successSoundFileName);
+            sound.play();
+        } else {
+            FwNotification.renderNotification('INFO', 'No Success Sound set up. Visit User Settings to choose a sound.')
+        }
+    }
+    //---------------------------------------------------------------------------------
+    static playErrorSound() {
+        const errorSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).errorSoundFileName;
+
+        if (errorSoundFileName && typeof errorSoundFileName === 'string') {
+            const sound = new Audio(errorSoundFileName);
+            sound.play();
+        } else {
+            FwNotification.renderNotification('INFO', 'No Error Sound set up. Visit User Settings to choose a sound.')
+        }
+    }
+    //---------------------------------------------------------------------------------
+    static playNotificationSound() {
+        const notificationSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).notificationSoundFileName;
+
+        if (notificationSoundFileName && typeof notificationSoundFileName === 'string') {
+            const sound = new Audio(notificationSoundFileName);
+            sound.play();
+        } else {
+            FwNotification.renderNotification('INFO', 'No Notification Sound set up. Visit User Settings to choose a sound.')
+        }
+    }
 }

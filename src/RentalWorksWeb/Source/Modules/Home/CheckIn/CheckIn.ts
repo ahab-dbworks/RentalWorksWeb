@@ -5,19 +5,16 @@ class CheckIn {
     caption: string = Constants.Modules.Home.CheckIn.caption;
     nav: string = Constants.Modules.Home.CheckIn.nav;
     id: string = Constants.Modules.Home.CheckIn.id;
-    successSoundFileName: string;
-    errorSoundFileName: string;
-    notificationSoundFileName: string;
     Type: string;
 
     //----------------------------------------------------------------------------------------------
     getModuleScreen = () => {
-        var screen: any = {};
+        const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
-        var $form = this.openForm('EDIT');
+        const $form = this.openForm('EDIT');
 
         screen.load = () => {
             FwModule.openModuleTab($form, this.caption, false, 'FORM', true);
@@ -56,7 +53,6 @@ class CheckIn {
         const cancelMenuOptionId = Constants.Modules.Home.CheckIn.form.menuItems.Cancel.id.replace('{', '').replace('}', '');
         $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'false');
 
-        this.getSoundUrls($form);
         this.events($form);
         this.getSuspendedSessions($form);
         return $form;
@@ -210,18 +206,10 @@ class CheckIn {
         }
     }
     //----------------------------------------------------------------------------------------------
-    getSoundUrls($form): void {
-        this.successSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).successSoundFileName;
-        this.errorSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).errorSoundFileName;
-        this.notificationSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).notificationSoundFileName;
-    }
-    //----------------------------------------------------------------------------------------------
     events($form: any): void {
-        let errorMsg, errorSound, successSound, department, self = this;
-        department = JSON.parse(sessionStorage.getItem('department'));
-        errorSound = new Audio(this.errorSoundFileName);
-        successSound = new Audio(this.successSoundFileName);
-        errorMsg = $form.find('.error-msg:not(.qty)');
+        const department = JSON.parse(sessionStorage.getItem('department'));
+
+        const errorMsg = $form.find('.error-msg:not(.qty)');
         const $checkInQuantityItemsGridControl = $form.find('div[data-name="CheckInQuantityItemsGrid"]');
         const allActiveOrders = $form.find('[data-datafield="AllOrdersForDeal"] input');
         const specificOrder = $form.find('[data-datafield="SpecificOrder"] input');
@@ -459,11 +447,6 @@ class CheckIn {
     };
     //----------------------------------------------------------------------------------------------
     checkInItem($form, type?: string) {
-        let errorSound, successSound, notificationSound;
-        errorSound = new Audio(this.errorSoundFileName);
-        successSound = new Audio(this.successSoundFileName);
-        notificationSound = new Audio(this.notificationSoundFileName);
-
         const module = this.Module;
         const request: any = {};
         let idType;
@@ -504,7 +487,7 @@ class CheckIn {
 
         FwAppData.apiMethod(true, 'POST', 'api/v1/checkin/checkinitem', request, FwServices.defaultTimeout, response => {
             if (response.success) {
-                successSound.play();
+                FwFunc.playSuccessSound();
                 FwFormField.setValueByDataField($form, 'ContractId', response.ContractId);
                 FwFormField.setValueByDataField($form, 'ICode', response.InventoryStatus.ICode);
                 FwFormField.setValueByDataField($form, 'InventoryDescription', response.InventoryStatus.Description);
@@ -531,7 +514,7 @@ class CheckIn {
                 $form.find('[data-datafield="BarCode"] input').select();
 
                 if (response.status === 107) {
-                    successSound.play();
+                    FwFunc.playSuccessSound();
                     $form.find('[data-datafield="Quantity"] input').select();
                 }
 
@@ -542,10 +525,10 @@ class CheckIn {
             }
             else if (!response.success) {
                 if (response.ShowSwap) {
-                    notificationSound.play();
+                    FwFunc.playNotificationSound();
                     $form.find('.swapitem').show();
                 } else {
-                    errorSound.play();
+                    FwFunc.playErrorSound();
                     $form.find('.swapitem').hide();
                 }
                 $form.find('.error-msg:not(.qty)').html(`<div><span>${response.msg}</span></div>`);
