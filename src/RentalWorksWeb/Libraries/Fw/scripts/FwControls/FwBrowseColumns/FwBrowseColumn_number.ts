@@ -37,6 +37,7 @@ class FwBrowseColumn_numberClass implements IFwBrowseColumn {
         var originalvalue = (typeof $field.attr('data-originalvalue')  === 'string') ? $field.attr('data-originalvalue') : '';
         $field.html(`<div class="fieldvalue">${originalvalue}</div>`);
         $field.data('autoselect', false);
+        $field.css({ 'justify-content': 'flex-end' });
         $field.find('.fieldvalue').inputmask("numeric", {
             min: ((typeof $field.attr('data-minvalue') !== 'undefined') ? $field.attr('data-minvalue') : undefined),
             max: ((typeof $field.attr('data-maxvalue') !== 'undefined') ? $field.attr('data-maxvalue') : undefined),
