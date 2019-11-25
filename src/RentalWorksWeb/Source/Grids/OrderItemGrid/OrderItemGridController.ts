@@ -103,9 +103,12 @@
                             };
                             break;
                     }
-                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateicode`);
-                    break;
                 }
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateicode`);
+                break;
+            case 'UnitId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateunit`);
+                break;
         }
     }
 

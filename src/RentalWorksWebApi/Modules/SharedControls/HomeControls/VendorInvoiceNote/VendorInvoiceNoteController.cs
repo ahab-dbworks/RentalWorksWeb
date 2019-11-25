@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using FwStandard.SqlServer;
 using System.Collections.Generic;
 using FwStandard.AppManager;
+using WebApi.Modules.Administrator.User;
 namespace WebApi.Modules.HomeControls.VendorInvoiceNote
 {
     [Route("api/v1/[controller]")]
@@ -71,5 +72,12 @@ namespace WebApi.Modules.HomeControls.VendorInvoiceNote
             return await DoDeleteAsync<VendorInvoiceNoteLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/vendorinvoicenote/validateuser/browse
+        [HttpPost("validateuser/browse")]
+        [FwControllerMethod(Id: "tdUg3t1jjeMw", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateUserBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<UserLogic>(browseRequest);
+        }
     }
 }

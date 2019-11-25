@@ -50,6 +50,16 @@
         $tr.find('.limit input').prop('disabled', true)
             .css('background-color', "#f5f5f5");
     }
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $gridbrowse: JQuery, $tr: JQuery) {
+        switch (datafield) {
+            case 'UsersId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateuser`);
+                break;
+            case 'AppRoleId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validaterole`);
+                break;
+        }
+    }
 }
 
 var POApproverGridController = new POApproverGrid();
