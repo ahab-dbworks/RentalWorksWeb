@@ -10,13 +10,6 @@
         FwBrowse.setFieldValue($control, $tr, 'NoteDate', { value: today });
         FwBrowse.setFieldValue($control, $tr, 'UserId', { value: usersid, text: name });
     }
-    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $gridbrowse: JQuery, $tr: JQuery) {
-        switch (datafield) {
-            case 'UserId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateuser`);
-                break;
-        }
-    }
 }
 
 var OrderNoteGridController = new OrderNoteGrid();

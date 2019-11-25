@@ -10,7 +10,6 @@ using System;
 using FwStandard.BusinessLogic;
 using WebApi.Logic;
 using WebApi.Modules.Inventory.RentalInventory;
-using WebApi.Modules.Settings.InventorySettings.Unit;
 
 namespace WebApi.Modules.HomeControls.OrderItem
 {
@@ -186,14 +185,6 @@ namespace WebApi.Modules.HomeControls.OrderItem
         public async Task<ActionResult<FwJsonDataTable>> ValidateIcodeBrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync<RentalInventoryLogic>(browseRequest);
-        }
-        //------------------------------------------------------------------------------------
-        // POST api/v1/orderitem/validateunit/browse
-        [HttpPost("validateunit/browse")]
-        [FwControllerMethod(Id: "89DT0pmBmlhd", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<FwJsonDataTable>> ValidateUnitBrowseAsync([FromBody]BrowseRequest browseRequest)
-        {
-            return await DoBrowseAsync<UnitLogic>(browseRequest);
         }
     }
 }

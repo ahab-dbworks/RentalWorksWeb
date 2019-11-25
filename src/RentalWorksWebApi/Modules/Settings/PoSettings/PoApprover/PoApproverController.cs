@@ -6,8 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options; 
 using WebApi.Controllers; 
 using System.Threading.Tasks;
-using WebApi.Modules.Administrator.User;
-using WebApi.Modules.Settings.PoSettings.PoApproverRole;
 namespace WebApi.Modules.Settings.PoSettings.PoApprover
 {
     [Route("api/v1/[controller]")]
@@ -73,20 +71,5 @@ namespace WebApi.Modules.Settings.PoSettings.PoApprover
             return await DoDeleteAsync<PoApproverLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/poapprover/validateuser/browse
-        [HttpPost("validateuser/browse")]
-        [FwControllerMethod(Id: "uVmBcfNISdRP", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<FwJsonDataTable>> ValidateUserBrowseAsync([FromBody]BrowseRequest browseRequest)
-        {
-            return await DoBrowseAsync<UserLogic>(browseRequest);
-        }
-        //------------------------------------------------------------------------------------ 
-        // POST api/v1/poapprover/validaterole/browse
-        [HttpPost("validaterole/browse")]
-        [FwControllerMethod(Id: "4FCH5Db0a3Jb", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<FwJsonDataTable>> ValidateRoleBrowseAsync([FromBody]BrowseRequest browseRequest)
-        {
-            return await DoBrowseAsync<PoApproverRoleLogic>(browseRequest);
-        }
     }
 }

@@ -6,8 +6,6 @@ using System.Threading.Tasks;
 using FwStandard.SqlServer;
 using System.Collections.Generic;
 using FwStandard.AppManager;
-using WebApi.Modules.Settings.AccountingSettings.GlAccount;
-using WebApi.Modules.Settings.MiscellaneousSettings.MiscRate;
 
 namespace WebApi.Modules.HomeControls.VendorInvoiceItem
 {
@@ -74,20 +72,5 @@ namespace WebApi.Modules.HomeControls.VendorInvoiceItem
             return await DoDeleteAsync<VendorInvoiceItemLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/vendorinvoiceitem/validateglaccount/browse
-        [HttpPost("validateglaccount/browse")]
-        [FwControllerMethod(Id: "KNl6qguYVyoO", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<FwJsonDataTable>> ValidateGlAccountBrowseAsync([FromBody]BrowseRequest browseRequest)
-        {
-            return await DoBrowseAsync<GlAccountLogic>(browseRequest);
-        }
-        //------------------------------------------------------------------------------------ 
-        // POST api/v1/vendorinvoiceitem/validateinventory/browse
-        [HttpPost("validateinventory/browse")]
-        [FwControllerMethod(Id: "vY0xv2uKJNaz", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<FwJsonDataTable>> ValidateInventoryBrowseAsync([FromBody]BrowseRequest browseRequest)
-        {
-            return await DoBrowseAsync<MiscRateLogic>(browseRequest);
-        }
     }
 }
