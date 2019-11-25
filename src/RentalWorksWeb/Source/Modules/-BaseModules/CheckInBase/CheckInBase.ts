@@ -213,6 +213,11 @@
             CheckIn: true
             , CheckInWarehouseId: warehouseId
         }
+        switch (datafield) {
+            case 'TransferId':
+                console.log(this.apiurl);
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatetransfer`);
+        }
     }
     //----------------------------------------------------------------------------------------------
     beforeValidateSpecificOrder($browse: any, $form: any, request: any) {

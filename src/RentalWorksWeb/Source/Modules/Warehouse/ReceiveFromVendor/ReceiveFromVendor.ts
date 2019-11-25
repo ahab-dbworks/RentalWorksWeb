@@ -282,15 +282,15 @@ class ReceiveFromVendor {
     };
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
-        const validationName = request.module;
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
 
-        switch (validationName) {
-            case 'PurchaseOrderValidation':
+        switch (datafield) {
+            case 'PurchaseOrderId':
                 request.miscfields = {
                     ReceiveFromVendor: true,
                     ReceivingWarehouseId: warehouse.warehouseid,
                 };
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatepurchaseorder`);
                 break;
         };
     };

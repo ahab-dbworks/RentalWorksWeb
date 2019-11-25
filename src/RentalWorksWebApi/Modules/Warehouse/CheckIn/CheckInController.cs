@@ -1,5 +1,6 @@
 using FwStandard.AppManager;
 using FwStandard.Models;
+using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System;
@@ -140,6 +141,21 @@ namespace WebApi.Modules.Warehouse.CheckIn
                 return GetApiExceptionResult(ex);
             }
         }
-        //------------------------------------------------------------------------------------
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/checkin/validateorder/browse 
+        [HttpPost("validateorder/browse")]
+        [FwControllerMethod(Id: "BnNjcfxTX4vw", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateOrderBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<OrderLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/checkin/validatedeal/browse 
+        [HttpPost("validatedeal/browse")]
+        [FwControllerMethod(Id: "Ja3WXDS3DN5G", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateDealBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<DealLogic>(browseRequest);
+        }
     }
 }

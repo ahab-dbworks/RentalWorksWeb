@@ -120,5 +120,36 @@ namespace WebApi.Modules.Agent.Contact
             return await DoBrowseAsync<ContactTitleLogic>(browseRequest);
         }
         //------------------------------------------------------------------------------------
+        // POST api/v1/contact/validatecountry/browse
+        [HttpPost("validatecountry/browse")]
+        [FwControllerMethod(Id:"OHcallxEmBIt", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateCountryBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<CountryLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/contact/validatedeal/browse 
+        [HttpPost("validatedeal/browse")]
+        [FwControllerMethod(Id:"4THbrHEHMvAO", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateDealBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<CompanyContactLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/contact/validatelocation/browse 
+        [HttpPost("validatelocation/browse")]
+        [FwControllerMethod(Id: "C7OS3V9Qo5R4", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateLocationBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<OfficeLocationLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/contact/validatewarehouse/browse 
+        [HttpPost("validatewarehouse/browse")]
+        [FwControllerMethod(Id: "OWQ8pj7IdPLr", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateWarehouseBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<WarehouseLogic>(browseRequest);
+        }
     }
 }

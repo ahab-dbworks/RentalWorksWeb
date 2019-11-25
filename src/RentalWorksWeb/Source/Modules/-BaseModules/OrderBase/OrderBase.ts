@@ -1131,79 +1131,194 @@ class OrderBase {
         };
     };
     //----------------------------------------------------------------------------------------------
-    beforeValidateOutShipVia($browse: any, $grid: any, request: any) {
-        let validationName = request.module,
-            outDeliveryCarrierId = jQuery($grid.find('[data-datafield="OutDeliveryCarrierId"] input')).val();
-        switch (validationName) {
-            case 'ShipViaValidation':
-                request.uniqueids = {
-                    VendorId: outDeliveryCarrierId
-                };
+    //beforeValidateOutShipVia($browse: any, $grid: any, request: any) {
+    //    let validationName = request.module,
+    //        outDeliveryCarrierId = jQuery($form.find('[data-datafield="OutDeliveryCarrierId"] input')).val();
+    //    switch (validationName) {
+    //        case 'ShipViaValidation':
+    //            request.uniqueids = {
+    //                VendorId: outDeliveryCarrierId
+    //            };
+    //            break;
+    //    }
+    //};
+    //beforeValidateInShipVia($browse: any, $grid: any, request: any) {
+    //    let validationName = request.module;
+    //    let inDeliveryCarrierId = jQuery($form.find('[data-datafield="InDeliveryCarrierId"] input')).val();
+    //    switch (validationName) {
+    //        case 'ShipViaValidation':
+    //            request.uniqueids = {
+    //                VendorId: inDeliveryCarrierId
+    //            };
+    //            break;
+    //    }
+    //};
+    //beforeValidateCarrier($browse: any, $grid: any, request: any) {
+    //    let validationName = request.module;
+    //    switch (validationName) {
+    //        case 'VendorValidation':
+    //            request.uniqueids = {
+    //                Freight: true
+    //            };
+    //            break;
+    //    }
+    //};
+    //beforeValidateDeal($browse: any, $grid: any, request: any) {
+    //    const $form = $grid.closest('.fwform');
+    //    const shareDealsAcrossOfficeLocations = JSON.parse(sessionStorage.getItem('controldefaults')).sharedealsacrossofficelocations;
+    //    if (!shareDealsAcrossOfficeLocations) {
+    //        const officeLocationId = FwFormField.getValueByDataField($form, 'OfficeLocationId');
+    //        request.uniqueids = {
+    //            LocationId: officeLocationId
+    //        }
+    //    }
+    //};
+    //beforeValidateMarketSegment($browse: any, $grid: any, request: any) {
+    //    const validationName = request.module;
+    //    const marketTypeValue = jQuery($grid.find('[data-validationname="MarketTypeValidation"] input')).val();
+    //    const marketSegmentValue = jQuery($grid.find('[data-validationname="MarketSegmentValidation"] input')).val();
+    //    switch (validationName) {
+    //        case 'MarketSegmentValidation':
+    //            if (marketTypeValue !== "") {
+    //                request.uniqueids = {
+    //                    MarketTypeId: marketTypeValue,
+    //                };
+    //                break;
+    //            }
+    //        case 'MarketSegmentJobValidation':
+    //            if (marketSegmentValue !== "") {
+    //                request.uniqueids = {
+    //                    MarketTypeId: marketTypeValue,
+    //                    MarketSegmentId: marketSegmentValue,
+    //                };
+    //                break;
+    //            }
+    //    };
+    //};
+    //----------------------------------------------------------------------------------------------
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
+        switch (datafield) {
+            case 'DepartmentId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedepartment`);
                 break;
-        }
-    };
-    beforeValidateInShipVia($browse: any, $grid: any, request: any) {
-        let validationName = request.module;
-        let inDeliveryCarrierId = jQuery($grid.find('[data-datafield="InDeliveryCarrierId"] input')).val();
-        switch (validationName) {
-            case 'ShipViaValidation':
-                request.uniqueids = {
-                    VendorId: inDeliveryCarrierId
-                };
+            case 'DealId':
+                const shareDealsAcrossOfficeLocations = JSON.parse(sessionStorage.getItem('controldefaults')).sharedealsacrossofficelocations;
+                if (!shareDealsAcrossOfficeLocations) {
+                    const officeLocationId = FwFormField.getValueByDataField($form, 'OfficeLocationId');
+                    request.uniqueids = {
+                        LocationId: officeLocationId
+                    }
+                }
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedeal`);
                 break;
-        }
-    };
-    beforeValidateCarrier($browse: any, $grid: any, request: any) {
-        let validationName = request.module;
-        switch (validationName) {
-            case 'VendorValidation':
-                request.uniqueids = {
-                    Freight: true
-                };
+            case 'RateType':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateratetype`);
                 break;
-        }
-    };
-    beforeValidateDeal($browse: any, $grid: any, request: any) {
-        const $form = $grid.closest('.fwform');
-        const shareDealsAcrossOfficeLocations = JSON.parse(sessionStorage.getItem('controldefaults')).sharedealsacrossofficelocations;
-        if (!shareDealsAcrossOfficeLocations) {
-            const officeLocationId = FwFormField.getValueByDataField($form, 'OfficeLocationId');
-            request.uniqueids = {
-                LocationId: officeLocationId
-            }
-        }
-    };
-    beforeValidateMarketSegment($browse: any, $grid: any, request: any) {
-        const validationName = request.module;
-        const marketTypeValue = jQuery($grid.find('[data-validationname="MarketTypeValidation"] input')).val();
-        const marketSegmentValue = jQuery($grid.find('[data-validationname="MarketSegmentValidation"] input')).val();
-        switch (validationName) {
-            case 'MarketSegmentValidation':
+            case 'OrderTypeId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateordertype`);
+                break;
+            case 'AgentId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateagent`);
+                break;
+            case 'ProjectManagerId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateprojectmanager`);
+                break;
+            case 'OutsideSalesRepresentativeId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateoutsidesalesrepresentative`);
+                break;
+            case 'MarketTypeId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatemarkettype`);
+                break;
+            case 'MarketSegmentId':
+                const marketTypeValue = jQuery($form.find('[data-validationname="MarketTypeValidation"] input')).val();
                 if (marketTypeValue !== "") {
                     request.uniqueids = {
-                        MarketTypeId: marketTypeValue,
+                        MarketTypeId: marketTypeValue
                     };
-                    break;
                 }
-            case 'MarketSegmentJobValidation':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatemarketsegment`);
+                break;
+            case 'MarketSegmentJobId':
+                const marketSegmentValue = jQuery($form.find('[data-validationname="MarketSegmentValidation"] input')).val();
                 if (marketSegmentValue !== "") {
                     request.uniqueids = {
                         MarketTypeId: marketTypeValue,
                         MarketSegmentId: marketSegmentValue,
                     };
-                    break;
                 }
-        };
-    };
-    beforeValidateWarehouse($browse: any, $form: any, request: any) {
-        request.uniqueids = {};
-        const locationId = FwFormField.getValueByDataField($form, 'OfficeLocationId');
-
-        if (locationId) {
-            request.uniqueids.LocationId = locationId;
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatemarketsegmentjob`);
+                break;
+            case 'CoverLetterId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecoverletter`);
+                break;
+            case 'TermsConditionsId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatetermsconditions`);
+                break;
+            case 'BillingCycleId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatebillingcycle`);
+                break;
+            case 'PaymentTermsId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatepaymentterms`);
+                break;
+            case 'PaymentTypeId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatepaymenttype`);
+                break;
+            case 'CurrencyId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecurrency`);
+                break;
+            case 'TaxOptionId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatetaxoption`);
+                break;
+            case 'DiscountReasonId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatediscountreason`);
+                break;
+            case 'IssuedToCountryId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateissuedtocountry`);
+                break;
+            case 'OutDeliveryCarrierId':
+                request.uniqueids = {
+                    Freight: true
+                };
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateoutdeliverycarrier`);
+                break;
+            case 'OutDeliveryShipViaId':
+                let outDeliveryCarrierId = jQuery($form.find('[data-datafield="OutDeliveryCarrierId"] input')).val();
+                request.uniqueids = {
+                    VendorId: outDeliveryCarrierId
+                };
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateoutdeliveryshipvia`);
+                break;
+            case 'InDeliveryCarrierId':
+                request.uniqueids = {
+                    Freight: true
+                };
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateindeliverycarrier`);
+                break;
+            case 'InDeliveryShipViaId':
+                let inDeliveryCarrierId = jQuery($form.find('[data-datafield="InDeliveryCarrierId"] input')).val();
+                request.uniqueids = {
+                    VendorId: inDeliveryCarrierId
+                };
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateindeliveryshipvia`);
+                break;
+            case 'OutDeliveryToCountryId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateoutdeliverytocountry`);
+                break;
+            case 'InDeliveryToCountryId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateindeliverytocountry`);
+                break;
+            case 'OfficeLocationId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateofficelocation`);
+                break;
+            case 'WarehouseId':
+                const locationId = FwFormField.getValueByDataField($form, 'OfficeLocationId');
+                if (locationId) {
+                    request.uniqueids.LocationId = locationId;
+                }
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatewarehouse`);
+                break;
         }
-    };
-    //----------------------------------------------------------------------------------------------
+    }
     events($form: any) {
         //let weeklyType = $form.find(".weeklyType");
         //let monthlyType = $form.find(".monthlyType");
@@ -2259,7 +2374,7 @@ class OrderBase {
             html.push(`        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Office Location" data-datafield="OfficeLocationId" data-validationname="OfficeLocationValidation" data-required="true"></div>`);
             html.push(`      </div>`);
             html.push(`      <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">`);
-            html.push(`        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Warehouse" data-formbeforevalidate="beforeValidateWarehouse" data-datafield="WarehouseId" data-validationname="WarehouseValidation" data-boundfields="OfficeLocationId" data-required="true"></div>`);
+            html.push(`        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Warehouse" data-datafield="WarehouseId" data-validationname="WarehouseValidation" data-boundfields="OfficeLocationId" data-required="true"></div>`);
             html.push(`      </div>`);
             html.push('  </div>');
             html.push('</div>');

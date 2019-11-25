@@ -2,6 +2,7 @@
 
 class EmptyContainer {
     Module: string = 'EmptyContainer';
+    apiurl: string = 'api/v1/emptycontainer';
     caption: string = Constants.Modules.Container.children.EmptyContainer.caption;
     nav: string = Constants.Modules.Container.children.EmptyContainer.nav;
     id: string = Constants.Modules.Container.children.EmptyContainer.id;
@@ -85,6 +86,10 @@ class EmptyContainer {
         request.uniqueids = {
             WarehouseId: warehouse.warehouseid
         };
+        switch (datafield) {
+            case 'ContainerItemId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecontaineritem`);
+        }
     }
     //----------------------------------------------------------------------------------------------
     getFormTemplate(): string {

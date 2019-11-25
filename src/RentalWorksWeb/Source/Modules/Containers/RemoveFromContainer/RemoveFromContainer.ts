@@ -2,6 +2,7 @@
 
 class RemoveFromContainer {
     Module: string = 'RemoveFromContainer';
+    apiurl: string = 'api/v1/removefromcontainer';
     caption: string = Constants.Modules.Container.children.RemoveFromContainer.caption;
     nav: string = Constants.Modules.Container.children.RemoveFromContainer.nav;
     id: string = Constants.Modules.Container.children.RemoveFromContainer.id;
@@ -96,18 +97,23 @@ class RemoveFromContainer {
     }
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
-        const validationName = request.module;
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
-
-        if (validationName === 'AssetValidation') {
-            request.uniqueids = {
-                WarehouseId: warehouse.warehouseid
-            };
-        } else if (validationName === 'RentalInventoryValidation') {
-            request.uniqueids = {
-                WarehouseId: warehouse.warehouseid,
-                TrackedBy: 'QUANTITY',
-            };
+        switch (datafield) {
+            case 'ContainerItemId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecontaineritem`);
+                break;
+            case 'ItemId':
+                request.uniqueids = {
+                    WarehouseId: warehouse.warehouseid
+                };
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateitem`);
+                break;
+            case 'InventoryId':
+                request.uniqueids = {
+                    WarehouseId: warehouse.warehouseid,
+                    TrackedBy: 'QUANTITY',
+                }; 
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventory`);
         }
     }
     //----------------------------------------------------------------------------------------------
