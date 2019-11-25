@@ -243,6 +243,8 @@
     <Content Include="Source\Grids\WarehouseInventoryTypeGrid\WarehouseInventoryTypeGridBrowse.htm" />
     <Content Include="Source\Grids\WarehouseOfficeLocationGrid\WarehouseOfficeLocationGridBrowse.htm" />
     <Content Include="Source\Grids\WarehouseQuikLocateApproverGrid\WarehouseQuikLocateApproverGridBrowse.htm" />
+    <Content Include="Source\Modules\Administrator\Alert\AlertBrowse.htm" />
+    <Content Include="Source\Modules\Administrator\Alert\AlertForm.htm" />
     <Content Include="Source\Modules\Administrator\CustomField\CustomFieldBrowse.htm" />
     <Content Include="Source\Modules\Administrator\CustomField\CustomFieldForm.htm" />
     <Content Include="Source\Modules\Administrator\CustomForm\CustomFormBrowse.htm" />
@@ -581,6 +583,7 @@
     <TypeScriptCompile Include="Source\Modules\-BaseModules\OrderBase\OrderBase.ts" />
     <TypeScriptCompile Include="Source\Modules\-BaseModules\OrderStatusBase\OrderStatusBase.ts" />
     <TypeScriptCompile Include="Source\Modules\-BaseModules\StagingCheckoutBase\StagingCheckoutBase.ts" />
+    <TypeScriptCompile Include="Source\Modules\Administrator\Alert\Alert.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\CustomField\CustomField.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\CustomForm\CustomForm.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\DuplicateRule\DuplicateRule.ts" />
@@ -698,7 +701,6 @@
     <Folder Include="App_Data\Temp\Downloads\" />
     <Folder Include="Libraries\" />
     <Folder Include="Source\Controls\" />
-    <Folder Include="Source\Modules\Administrator\Alert\" />
     <Folder Include="Source\Modules\Administrator\CustomReportLayout\" />
     <Folder Include="Source\Modules\Reports\RentalInventoryValueReport\" />
     <Folder Include="theme\fwaudio\" />
