@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using FwStandard.AppManager;
 using WebLibrary;
 using System;
+using WebApi.Modules.Billing.Invoice;
 
 namespace WebApi.Modules.Home.BillingWorksheet
 {
@@ -85,104 +86,66 @@ namespace WebApi.Modules.Home.BillingWorksheet
             await Task.CompletedTask; // get rid of the no async call warning
             return new OkObjectResult(legend);
         }
-        ////------------------------------------------------------------------------------------ 
-        //// POST api/v1/invoice/A0000001/void
-        //[HttpPost("{id}/void")]
-        //[FwControllerMethod(Id: "ULOn03RyRluBz")]
-        //public async Task<ActionResult<BillingWorksheetLogic>> Void([FromRoute]string id)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
-        //    try
-        //    {
-        //        string[] ids = id.Split('~');
-        //        BillingWorksheetLogic l = new BillingWorksheetLogic();
-        //        l.SetDependencies(AppConfig, UserSession);
-        //        if (await l.LoadAsync<BillingWorksheetLogic>(ids))
-        //        {
-        //            TSpStatusResponse response = await l.Void();
-        //            if (response.success)
-        //            {
-        //                await l.LoadAsync<BillingWorksheetLogic>(ids);
-        //                return new OkObjectResult(l);
-        //            }
-        //            else
-        //            {
-        //                throw new Exception(response.msg);
-        //            }
-        //        }
-        //        else
-        //        {
-        //            return NotFound();
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return GetApiExceptionResult(ex);
-        //    }
-        //}
         ////------------------------------------------------------------------------------------     
         //// POST api/v1/invoice/A0000001/approve
-        //[HttpPost("{id}/approve")]
-        //[FwControllerMethod(Id: "eMYtyUHlOkUuo")]
-        //public async Task<ActionResult<ToggleInvoiceApprovedResponse>> Approve([FromRoute]string id)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
-        //    try
-        //    {
-        //        string[] ids = id.Split('~');
-        //        BillingWorksheetLogic l = new BillingWorksheetLogic();
-        //        l.SetDependencies(AppConfig, UserSession);
-        //        if (await l.LoadAsync<BillingWorksheetLogic>(ids))
-        //        {
-        //            ToggleInvoiceApprovedResponse response = await l.Approve();
-        //            return new OkObjectResult(response);
-        //        }
-        //        else
-        //        {
-        //            return NotFound();
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return GetApiExceptionResult(ex);
-        //    }
-        //}
-        ////------------------------------------------------------------------------------------     
+        [HttpPost("{id}/approve")]
+        [FwControllerMethod(Id: "eMYtyUHlOkUuo")]
+        public async Task<ActionResult<ToggleInvoiceApprovedResponse>> Approve([FromRoute]string id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                string[] ids = id.Split('~');
+                BillingWorksheetLogic l = new BillingWorksheetLogic();
+                l.SetDependencies(AppConfig, UserSession);
+                if (await l.LoadAsync<BillingWorksheetLogic>(ids))
+                {
+                    ToggleInvoiceApprovedResponse response = await l.Approve();
+                    return new OkObjectResult(response);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------     
         //// POST api/v1/invoice/A0000001/unapprove
-        //[HttpPost("{id}/unapprove")]
-        //[FwControllerMethod(Id: "sJydlcSDO02Zs")]
-        //public async Task<ActionResult<ToggleInvoiceApprovedResponse>> Unapprove([FromRoute]string id)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
-        //    try
-        //    {
-        //        string[] ids = id.Split('~');
-        //        BillingWorksheetLogic l = new BillingWorksheetLogic();
-        //        l.SetDependencies(AppConfig, UserSession);
-        //        if (await l.LoadAsync<BillingWorksheetLogic>(ids))
-        //        {
-        //            ToggleInvoiceApprovedResponse response = await l.Unapprove();
-        //            return new OkObjectResult(response);
-        //        }
-        //        else
-        //        {
-        //            return NotFound();
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return GetApiExceptionResult(ex);
-        //    }
-        //}
+        [HttpPost("{id}/unapprove")]
+        [FwControllerMethod(Id: "sJydlcSDO02Zs")]
+        public async Task<ActionResult<ToggleInvoiceApprovedResponse>> Unapprove([FromRoute]string id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                string[] ids = id.Split('~');
+                BillingWorksheetLogic l = new BillingWorksheetLogic();
+                l.SetDependencies(AppConfig, UserSession);
+                if (await l.LoadAsync<BillingWorksheetLogic>(ids))
+                {
+                    ToggleInvoiceApprovedResponse response = await l.Unapprove();
+                    return new OkObjectResult(response);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
         //------------------------------------------------------------------------------------ 
     }
 }

@@ -33,14 +33,14 @@
                 id: 'BF8E2838-A31D-46B2-ABE1-5B09FC3E2A9E', caption: 'Billing Worksheet', nav: 'module/billingworksheet',
                 browse: {
                     menuItems: {
-                        Approve: { id: '20CA8800-41C5-4387-8EF0-558330B96AAA' },
-                        Unapprove: { id: 'DE1069AB-2A4D-4556-AD00-9D89FAA22B54' }
+                        Approve: { id: '{20CA8800-41C5-4387-8EF0-558330B96AAA}' },
+                        Unapprove: { id: '{DE1069AB-2A4D-4556-AD00-9D89FAA22B54}' }
                     }
                 },
                 form: {
                     menuItems: {
-                        Approve: { id: '16932E29-821B-45B1-A7B7-82D203258E70' },
-                        Unapprove: { id: '09B18F85-BD05-462F-994D-DF7989D37E44' },
+                        Approve: { id: '{16932E29-821B-45B1-A7B7-82D203258E70}' },
+                        Unapprove: { id: '{09B18F85-BD05-462F-994D-DF7989D37E44}' },
                     }
                 }
             },

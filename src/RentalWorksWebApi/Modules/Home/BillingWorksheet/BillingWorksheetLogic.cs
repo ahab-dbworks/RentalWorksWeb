@@ -3,6 +3,7 @@ using FwStandard.AppManager;
 using WebApi.Modules.Billing.Invoice;
 using WebLibrary;
 using Newtonsoft.Json;
+using System.Threading.Tasks;
 
 namespace WebApi.Modules.Home.BillingWorksheet
 {
@@ -21,7 +22,7 @@ namespace WebApi.Modules.Home.BillingWorksheet
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "2ijwJxkJTB2tW", IsPrimaryKey: true)]
         public string BillingWorksheetId { get { return billingWorksheet.InvoiceId; } set { billingWorksheet.InvoiceId = value; } }
-        [FwLogicProperty(Id: "2joDnffYLhfLE")]
+        [FwLogicProperty(Id: "2joDnffYLhfLE", IsRecordTitle: true)]
         public string WorksheetNumber { get { return billingWorksheet.InvoiceNumber; } set { billingWorksheet.InvoiceNumber = value; } }
         [FwLogicProperty(Id: "2k9NFU18jBITg")]
         public string WorksheetDate { get { return billingWorksheet.InvoiceDate; } set { billingWorksheet.InvoiceDate = value; } }
@@ -110,5 +111,16 @@ namespace WebApi.Modules.Home.BillingWorksheet
         //    return isValid; 
         //} 
         //------------------------------------------------------------------------------------ 
+        //------------------------------------------------------------------------------------ 
+        public async Task<ToggleInvoiceApprovedResponse> Approve()
+        {
+            return await billingWorksheet.Approve();
+        }
+        //------------------------------------------------------------------------------------    
+        public async Task<ToggleInvoiceApprovedResponse> Unapprove()
+        {
+            return await billingWorksheet.Unapprove();
+        }
+        //------------------------------------------------------------------------------------    
     }
 }
