@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using WebApi.Controllers;
 using System.Threading.Tasks;
+using WebApi.Modules.Agent.Contact;
+using WebApi.Modules.Settings.ContactSettings.ContactTitle;
 namespace WebApi.Modules.HomeControls.ProjectContact
 {
     [Route("api/v1/[controller]")]
@@ -71,5 +73,20 @@ namespace WebApi.Modules.HomeControls.ProjectContact
             return await DoDeleteAsync<ProjectContactLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/projectcontact/validatecontact/browse
+        [HttpPost("validatecontact/browse")]
+        [FwControllerMethod(Id: "DBsd0FQksNmq", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateContactBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<ContactLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/projectcontact/validatecontacttitle/browse
+        [HttpPost("validatecontacttitle/browse")]
+        [FwControllerMethod(Id: "VAAtxBHyo1en", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateContactTitleBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<ContactTitleLogic>(browseRequest);
+        }
     }
 }

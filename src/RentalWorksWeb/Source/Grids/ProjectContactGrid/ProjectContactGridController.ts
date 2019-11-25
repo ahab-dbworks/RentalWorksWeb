@@ -21,6 +21,15 @@
 
         FwBrowse.addLegend($control, 'Project For', '#00c400');
     }
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $gridbrowse: JQuery, $tr: JQuery) {
+        switch (datafield) {
+            case 'ContactId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecontact`);
+                break;
+            case 'ContactTitleId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecontacttitle`);
+        }
+    }
 }
 
 var ProjectContactGridController = new ProjectContactGrid();
