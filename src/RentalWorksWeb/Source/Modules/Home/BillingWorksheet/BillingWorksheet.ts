@@ -716,7 +716,14 @@ class BillingWorksheet {
             FwFormField.setValue($form, 'div[data-datafield="SalesTaxRate1"]', $tr.find('.field[data-browsedatafield="SalesTaxRate1"]').attr('data-originalvalue'));
             FwFormField.setValue($form, 'div[data-datafield="LaborTaxRate1"]', $tr.find('.field[data-browsedatafield="LaborTaxRate1"]').attr('data-originalvalue'));
         });
+        $form.find('div[data-type="button"].update-worksheet').click(e => {
+            this.updateWorksheet($form);
+        });
     };
+    //----------------------------------------------------------------------------------------------
+    updateWorksheet($form: JQuery) {
+
+    }
     //----------------------------------------------------------------------------------------------
     checkBillingDateRange($form: JQuery, event: any): void {
         try {
