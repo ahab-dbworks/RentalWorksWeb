@@ -430,64 +430,35 @@
         }
     }
     //---------------------------------------------------------------------------------------------
-    //beforeValidateInventoryType($browse, $grid, request) {
-    //    let validationName = request.module,
-    //        recType = FwFormField.getValueByDataField($grid, 'RecType');
-    //    switch (validationName) {
-    //        case 'InventoryTypeValidation':
-    //            request.uniqueids = {};
-    //            if (recType === 'R') { request.uniqueids.Rental = true };
-    //            if (recType === 'S') { request.uniqueids.Sales = true };
-    //            if (recType === 'P') { request.uniqueids.Parts = true };
-    //            break;
-    //    }
-    //}
-    //beforeValidateCategory($browse, $grid, request) {
-    //    let inventoryTypeId = FwFormField.getValueByDataField($grid, 'InventoryTypeId');
-    //    let recType = FwFormField.getValueByDataField($grid, 'RecType');
-    //    request.uniqueids = {
-    //        InventoryTypeId: inventoryTypeId,
-    //        RecType: recType
-    //    };
-    //}
-    //beforeValidateSubCategory($browse, $grid, request) {
-    //    let inventoryTypeId = FwFormField.getValueByDataField($grid, 'InventoryTypeId');
-    //    let categoryId = FwFormField.getValueByDataField($grid, 'CategoryId');
-    //    let recType = FwFormField.getValueByDataField($grid, 'RecType');
-    //    request.uniqueids = {
-    //        InventoryTypeId: inventoryTypeId,
-    //        CategoryId: categoryId,
-    //        RecType: recType
-    //    };
-    //}
-    beforeValidate(datafield, request, $validationbrowse, $form, $tr) {
-        let inventoryTypeId = FwFormField.getValueByDataField($form, 'InventoryTypeId');
-        let categoryId = FwFormField.getValueByDataField($form, 'CategoryId');
-        let recType = FwFormField.getValueByDataField($form, 'RecType');
-        switch (datafield) {
-            case 'InventoryTypeId':
+    beforeValidateInventoryType($browse, $grid, request) {
+        let validationName = request.module,
+            recType = FwFormField.getValueByDataField($grid, 'RecType');
+        switch (validationName) {
+            case 'InventoryTypeValidation':
                 request.uniqueids = {};
                 if (recType === 'R') { request.uniqueids.Rental = true };
                 if (recType === 'S') { request.uniqueids.Sales = true };
                 if (recType === 'P') { request.uniqueids.Parts = true };
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventorytype`);
-                break;
-            case 'CategoryId':
-                request.uniqueids = {
-                    InventoryTypeId: inventoryTypeId,
-                    RecType: recType
-                }
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecategory`);
-                break;
-            case 'SubCategoryId':
-                request.uniqueids = {
-                InventoryTypeId: inventoryTypeId,
-                CategoryId: categoryId,
-                RecType: recType
-                };
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatesubcategory`);
                 break;
         }
+    }
+    beforeValidateCategory($browse, $grid, request) {
+        let inventoryTypeId = FwFormField.getValueByDataField($grid, 'InventoryTypeId');
+        let recType = FwFormField.getValueByDataField($grid, 'RecType');
+        request.uniqueids = {
+            InventoryTypeId: inventoryTypeId,
+            RecType: recType
+        };
+    }
+    beforeValidateSubCategory($browse, $grid, request) {
+        let inventoryTypeId = FwFormField.getValueByDataField($grid, 'InventoryTypeId');
+        let categoryId = FwFormField.getValueByDataField($grid, 'CategoryId');
+        let recType = FwFormField.getValueByDataField($grid, 'RecType');
+        request.uniqueids = {
+            InventoryTypeId: inventoryTypeId,
+            CategoryId: categoryId,
+            RecType: recType
+        };
     }
 }
 //---------------------------------------------------------------------------------------------

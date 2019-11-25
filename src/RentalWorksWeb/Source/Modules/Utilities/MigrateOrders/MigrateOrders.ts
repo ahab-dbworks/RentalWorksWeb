@@ -294,28 +294,13 @@ class MigrateOrders {
         return $browse;
     }
     //----------------------------------------------------------------------------------------------
-    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
-        const officeLocationId = FwFormField.getValueByDataField($form, 'OfficeLocationId');
-        switch (datafield) {
-            case 'DealId':
-                request.uniqueids = {
-                    LocationId: officeLocationId
-                }
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedeal`);
-                break;
-            case 'DepartmentId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedepartment`);
-                break;
-            case 'CreateNewDealId':
-                request.uniqueids = {
-                    LocationId: officeLocationId
-                }
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecreatenewdeal`);
-                break;
-            case 'RateType':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateratetype`);
-                break;
+    beforeValidateDeal($browse: any, $grid: any, request: any) {
+        let $form = $grid.closest('.fwform');
+        var officeLocationId = FwFormField.getValueByDataField($form, 'OfficeLocationId');
+        request.uniqueids = {
+            LocationId: officeLocationId
         }
     }
+    //----------------------------------------------------------------------------------------------
 }
 var MigrateOrdersController = new MigrateOrders();

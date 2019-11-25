@@ -1,6 +1,5 @@
 using FwStandard.AppManager;
 using FwStandard.Models;
-using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -312,22 +311,7 @@ namespace WebApi.Modules.Warehouse.Exchange
                 return StatusCode(jsonException.StatusCode, jsonException);
             }
         }
-        //------------------------------------------------------------------------------------
-        // POST api/v1/exchange/validatedeal/browse 
-        [HttpPost("validatedeal/browse")]
-        [FwControllerMethod(Id: "GSYnHvCvxO1N", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<FwJsonDataTable>> ValidateDeliveryToCountryBrowseAsync([FromBody]BrowseRequest browseRequest)
-        {
-            return await DoBrowseAsync<DealLogic>(browseRequest);
-        }
-        //------------------------------------------------------------------------------------
-        // POST api/v1/exchange/validateorder/browse 
-        [HttpPost("validateorder/browse")]
-        [FwControllerMethod(Id: "Stg1hDOyLwo6", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<FwJsonDataTable>> ValidateOrderBrowseAsync([FromBody]BrowseRequest browseRequest)
-        {
-            return await DoBrowseAsync<OrderLogic>(browseRequest);
-        }
+        //------------------------------------------------------------------------------------       
 
     }
 }

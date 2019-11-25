@@ -935,59 +935,6 @@ class Deal {
         return $browse;
     }
     //----------------------------------------------------------------------------------------------
-    beforeValidate(datafield, request, $validationbrowse, $form, $tr) {
-        switch (datafield) {
-            case 'CustomerId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecustomer`);
-                break;
-            case 'OfficeLocationId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateofficelocation`);
-                break;
-            case 'DepartmentId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedepartment`);
-                break;
-            case 'DealTypeId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedealtype`);
-                break;
-            case 'DealClassificationId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedealclassification`);
-                break;
-            case 'ProductionTypeId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateproductiontype`);
-                break;
-            case 'CsrId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecsr`);
-                break;
-            case 'DefaultAgentId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateagent`);
-                break;
-            case 'DefaultProjectManagerId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateprojectmanager`);
-                break;
-            case 'CountryId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecountry`);
-                break;
-            case 'DealStatusId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedealstatus`);
-                break;
-            case 'BillingCycleId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatebillingcycle`);
-                break;
-            case 'PaymentTypeId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatepaymenttype`);
-                break;
-            case 'PaymentTermsId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatepaymentterms`);
-                break;
-            case 'DefaultRate':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateorderrate`);
-                break;
-            case 'OutsideSalesRepresentativeId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatesalesrepresentative`);
-                break;
-        }
-    }
-    //----------------------------------------------------------------------------------------------
     getBrowseTemplate(): string {
         return `
         <div data-name="Deal" data-control="FwBrowse" data-type="Browse" id="DealBrowse" class="fwcontrol fwbrowse" data-orderby="" data-controller="DealController">

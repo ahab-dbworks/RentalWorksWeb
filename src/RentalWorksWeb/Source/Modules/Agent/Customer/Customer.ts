@@ -357,14 +357,14 @@ class Customer {
     }
 
     //----------------------------------------------------------------------------------------------
-    //beforeValidateInsuranceVendor($browse, $grid, request) {
-    //    var $form;
-    //    $form = $grid.closest('.fwform');
+    beforeValidateInsuranceVendor($browse, $grid, request) {
+        var $form;
+        $form = $grid.closest('.fwform');
 
-    //    request.uniqueids = {
-    //        Insurance: true
-    //    }
-    //}
+        request.uniqueids = {
+            Insurance: true
+        }
+    }
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
         if (FwFormField.getValue($form, 'div[data-datafield="UseDiscountTemplate"]') === true) {
@@ -456,47 +456,6 @@ class Customer {
         jQuery('.TaxOption').find(':input').val(TaxOption);
     }
     //----------------------------------------------------------------------------------------------
-   beforeValidate(datafield, request, $validationbrowse, $form, $tr) {
-        switch (datafield) {
-            case 'OfficeLocationId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatelocation`);
-                break;
-            case 'DepartmentId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedepartment`);
-                break;
-            case 'CustomerTypeId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecustomertype`);
-                break;
-            case 'CustomerCategoryId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecustomercategory`);
-                break;
-            case 'CountryId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecountry`);
-                break;
-            case 'CustomerStatusId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecustomerstatus`);
-                break;
-            case 'ParentCustomerId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateparentcustomer`);
-                break;
-            case 'PaymentTermsId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatepaymentterms`);
-                break;
-            case 'CreditStatusId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecreditstatus`);
-                break;
-            case 'InsuranceCompanyId':
-                request.uniqueids = {
-                    Insurance: true
-                }
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinsurancecompany`);
-                break;
-            case 'TaxStateOfIncorporationId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatetaxstateofincorporation`);
-                break;
-        }
-    }
-    //--------------------------------------------------------------------------------------------
     getBrowseTemplate(): string {
         return `
           <div data-name="Customer" data-control="FwBrowse" data-type="Browse" id="CustomerBrowse" class="fwcontrol fwbrowse" data-orderby="" data-controller="CustomerController">

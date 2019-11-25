@@ -8,12 +8,6 @@ using System.Collections.Generic;
 using FwStandard.AppManager;
 using Microsoft.AspNetCore.Http;
 using System;
-using WebApi.Modules.Settings.CompanyDepartmentSettings.Department;
-using WebApi.Modules.Settings.WarehouseSettings.Warehouse;
-using WebApi.Modules.Administrator.User;
-using WebApi.Modules.Agent.Vendor;
-using WebApi.Modules.Settings.ShipViaSettings.ShipVia;
-using WebApi.Modules.Settings.AddressSettings.Country;
 
 namespace WebApi.Modules.Transfers.TransferOrder
 {
@@ -114,69 +108,5 @@ namespace WebApi.Modules.Transfers.TransferOrder
         //    return await DoDeleteAsync<TransferOrderLogic>(id);
         //}
         //------------------------------------------------------------------------------------ 
-        //------------------------------------------------------------------------------------ 
-        // POST api/v1/transferorder/validatedepartment/browse 
-        [HttpPost("validatedepartment/browse")]
-        [FwControllerMethod(Id: "tMO0u5ONPVU7", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<FwJsonDataTable>> ValidateTransferOrderBrowseAsync([FromBody]BrowseRequest browseRequest)
-        {
-            return await DoBrowseAsync<DepartmentLogic>(browseRequest);
-        }
-        //------------------------------------------------------------------------------------ 
-        // POST api/v1/transferorder/validatefromwarehouse/browse 
-        [HttpPost("validatefromwarehouse/browse")]
-        [FwControllerMethod(Id: "6gWw6xtYWgmu", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<FwJsonDataTable>> ValidateFromWarehouseBrowseAsync([FromBody]BrowseRequest browseRequest)
-        {
-            return await DoBrowseAsync<WarehouseLogic>(browseRequest);
-        }
-        //------------------------------------------------------------------------------------ 
-        // POST api/v1/transferorder/validatetowarehouse/browse 
-        [HttpPost("validatetowarehouse/browse")]
-        [FwControllerMethod(Id: "cJOltqawuGAt", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<FwJsonDataTable>> ValidateToWarehouseBrowseAsync([FromBody]BrowseRequest browseRequest)
-        {
-            return await DoBrowseAsync<WarehouseLogic>(browseRequest);
-        }
-        //------------------------------------------------------------------------------------ 
-        // POST api/v1/transferorder/validateagent/browse 
-        [HttpPost("validateagent/browse")]
-        [FwControllerMethod(Id: "YbeY2ItrJ0St", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<FwJsonDataTable>> ValidateAgentBrowseAsync([FromBody]BrowseRequest browseRequest)
-        {
-            return await DoBrowseAsync<UserLogic>(browseRequest);
-        }
-        //------------------------------------------------------------------------------------ 
-        // POST api/v1/transferorder/validateoutdeliverycarrier/browse 
-        [HttpPost("validateoutdeliverycarrier/browse")]
-        [FwControllerMethod(Id: "MW9jtyAmAuWU", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<FwJsonDataTable>> ValidateOutDeliveryCarrierBrowseAsync([FromBody]BrowseRequest browseRequest)
-        {
-            return await DoBrowseAsync<VendorLogic>(browseRequest);
-        }
-        //------------------------------------------------------------------------------------ 
-        // POST api/v1/transferorder/validateoutdeliveryshipvia/browse 
-        [HttpPost("validateoutdeliveryshipvia/browse")]
-        [FwControllerMethod(Id: "qFvAVzMzPDG4", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<FwJsonDataTable>> ValidateOutDeliveryShipViaBrowseAsync([FromBody]BrowseRequest browseRequest)
-        {
-            return await DoBrowseAsync<ShipViaLogic>(browseRequest);
-        }
-        //------------------------------------------------------------------------------------ 
-        // POST api/v1/transferorder/validateoutdeliverytocountry/browse 
-        [HttpPost("validateoutdeliverytocountry/browse")]
-        [FwControllerMethod(Id: "tE6oX5Un0wGG", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<FwJsonDataTable>> ValidateDeliveryToCountryBrowseAsync([FromBody]BrowseRequest browseRequest)
-        {
-            return await DoBrowseAsync<CountryLogic>(browseRequest);
-        }
-        //------------------------------------------------------------------------------------ 
-        // POST api/v1/transferorder/validatesendto/browse 
-        [HttpPost("validatesendto/browse")]
-        [FwControllerMethod(Id: "1nsCXoIHInCP", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<FwJsonDataTable>> ValidateSendToBrowseAsync([FromBody]BrowseRequest browseRequest)
-        {
-            return await DoBrowseAsync<UserLogic>(browseRequest);
-        }
     }
 }

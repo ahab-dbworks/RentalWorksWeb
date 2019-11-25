@@ -13,7 +13,6 @@ using WebApi.Modules.Agent.Vendor;
 using WebApi.Modules.Settings.ShipViaSettings.ShipVia;
 using WebApi.Modules.Settings.AddressSettings.Country;
 
-
 namespace WebApi.Modules.Warehouse.Contract
 {
 
@@ -151,28 +150,5 @@ namespace WebApi.Modules.Warehouse.Contract
             }
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/contract/validatedeliverycarrier/browse 
-        [HttpPost("validatedeliverycarrier/browse")]
-        [FwControllerMethod(Id: "G5pqD6OPkcj2", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<FwJsonDataTable>> ValidateDeliveryCarrierBrowseAsync([FromBody]BrowseRequest browseRequest)
-        {
-            return await DoBrowseAsync<VendorLogic>(browseRequest);
-        }
-        //------------------------------------------------------------------------------------
-        // POST api/v1/contract/validateshipvia/browse 
-        [HttpPost("validateshipvia/browse")]
-        [FwControllerMethod(Id: "YIuJhJyyLhu2", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<FwJsonDataTable>> ValidateShipViaBrowseAsync([FromBody]BrowseRequest browseRequest)
-        {
-            return await DoBrowseAsync<ShipViaLogic>(browseRequest);
-        }
-        //------------------------------------------------------------------------------------
-        // POST api/v1/contract/validatedeliverytocountry/browse 
-        [HttpPost("validatedeliverytocountry/browse")]
-        [FwControllerMethod(Id: "cGdqYoo3IvFO", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<FwJsonDataTable>> ValidateDeliveryToCountryBrowseAsync([FromBody]BrowseRequest browseRequest)
-        {
-            return await DoBrowseAsync<CountryLogic>(browseRequest);
-        }
     }
 }

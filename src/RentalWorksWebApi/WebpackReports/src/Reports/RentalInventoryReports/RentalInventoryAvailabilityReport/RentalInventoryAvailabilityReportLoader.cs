@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebApi.Data;
-using WebApi.Modules.HomeControls.InventoryAvailability;
+using WebApi.Modules.Home.InventoryAvailability;
 
 namespace WebApi.Modules.Reports.RentalInventoryReports.RentalInventoryAvailabilityReport
 {

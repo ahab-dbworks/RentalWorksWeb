@@ -42,32 +42,9 @@ class Billing {
         return screen;
     };
     //----------------------------------------------------------------------------------------------
-    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
-        switch (datafield) {
-            case 'OfficeLocationId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateofficelocation`);
-                break;
-            case 'CustomerId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecustomer`);
-                break;
-            case 'DealId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedeal`);
-                break;
-            case 'DepartmentId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedepartment`);
-                break;
-            case 'UserId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateuser`);
-                break;
-            case 'OrderId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateorder`);
-                break;
-        }
-    }
-    //----------------------------------------------------------------------------------------------
     renderBrowseFilterPopup($browse) {
         let $popup = jQuery(`
-                <div id="billingSearchPopup" class="fwcontrol fwcontainer fwform" data-controller="BillingController" data-control="FwContainer" data-type="form" style="background-color:white; padding:0px 0px 10px 0px; border:2px solid gray; min-width:350px;">
+                <div id="billingSearchPopup" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" style="background-color:white; padding:0px 0px 10px 0px; border:2px solid gray; min-width:350px;">
                   <div style="background-color:#2196F3;height:60px;width:412px;color:white;"><span style="position:absolute;top:5px;padding:15px;font-size:1.1em">Billing Search</span> <div class="close-modal" style="position:absolute; right:5px; top:5px; cursor:pointer;"><i class="material-icons">clear</i></div></div>
                   <div class="flexpage">
                     <div class="flexrow">
