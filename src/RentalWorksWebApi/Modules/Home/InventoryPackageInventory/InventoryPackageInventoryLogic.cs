@@ -19,6 +19,7 @@ namespace WebApi.Modules.Home.InventoryPackageInventory
             dataRecords.Add(inventoryPackageInventory);
             dataLoader = inventoryPackageInventoryLoader;
             BeforeSave += OnBeforeSave;
+            BeforeDelete += OnBeforeDelete;
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "rlGmgpMiAAj0", IsPrimaryKey: true)]
@@ -159,6 +160,15 @@ namespace WebApi.Modules.Home.InventoryPackageInventory
                         IsPrimary = true;
                     }
                 }
+            }
+        }
+        //------------------------------------------------------------------------------------
+        public void OnBeforeDelete(object sender, BeforeDeleteEventArgs e)
+        {
+            if (IsPrimary.GetValueOrDefault(false))
+            {
+                e.PerformDelete = false;
+                e.ErrorMessage = "Primary Item cannot be deleted.";
             }
         }
         //------------------------------------------------------------------------------------
