@@ -620,31 +620,15 @@ class FwSettingsClass {
             this.newRow($body, $control, apiurl, $modulecontainer, moduleName, $settingsPageModules);
         });
 
-        $settingsPageModules.on('click', '.show-inactive', e => {
+        $settingsPageModules.on('click', '.view-options', e => {
             e.stopPropagation();
             const $this = jQuery(e.currentTarget);
-            if ($this.closest('.panel').find('.panel-collapse').is(':visible') && $this.closest('#myDropdown').length !== 0) {
-                $this.closest('.panel').find('.inactive-panel').parent().show();
-                $this.closest('.view-options').find('.hide-inactive').show();
-                $this.closest('.view-options').find('.show-inactive').hide();
-                $this.closest('#myDropdown').hide();
-            } else if ($this.closest('.panel').find('.panel-collapse').is(':visible') && $this.closest('#myDropdown').length === 0) {
+            if ($this.find('.show-inactive').is(':visible')) {
                 $this.closest('.panel').find('.inactive-panel').parent().show();
                 $this.closest('.view-options').find('.show-inactive').hide();
                 $this.closest('.view-options').find('.hide-inactive').show();
                 $this.closest('.view-options').find('.view-text').text('Hide Inactive');
-            }
-        });
-
-        $settingsPageModules.on('click', '.hide-inactive', e => {
-            e.stopPropagation();
-            const $this = jQuery(e.currentTarget);
-            if ($this.closest('.panel').find('.panel-collapse').is(':visible') && $this.closest('#myDropdown').length !== 0) {
-                $this.closest('.panel').find('.inactive-panel').parent().hide();
-                $this.closest('.view-options').find('.hide-inactive').hide();
-                $this.closest('.view-options').find('.show-inactive').show();
-                $this.closest('#myDropdown').hide();
-            } else if ($this.closest('.panel').find('.panel-collapse').is(':visible') && $this.closest('#myDropdown').length === 0) {
+            } else {
                 $this.closest('.panel').find('.inactive-panel').parent().hide();
                 $this.closest('.view-options').find('.hide-inactive').hide();
                 $this.closest('.view-options').find('.show-inactive').show();
@@ -1396,8 +1380,8 @@ class FwSettingsClass {
     //----------------------------------------------------------------------------------------------
     getLegend(): string {
         return `
-            <div class="flexrow legend">
-              <div class="view-options">
+            <div class="legend">
+              <div class="view-options" style="float:left;">
                 <div class="flexrow">
                   <div class="flexcolumn" style="max-width: 28px;">
                     <i class="material-icons show-inactive show-btn" title="Show All">visibility</i>
