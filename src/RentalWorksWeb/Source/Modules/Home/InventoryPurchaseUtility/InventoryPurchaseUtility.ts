@@ -29,8 +29,12 @@ class InventoryPurchaseUtility {
         $form.off('change keyup', '.fwformfield[data-enabled="true"]:not([data-isuniqueid="true"][data-datafield=""])');
 
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+        const today = FwFunc.getDate();
         FwFormField.setValueByDataField($form, 'WarehouseId', warehouse.warehouseid, warehouse.warehouse);
         FwFormField.setValueByDataField($form, 'Quantity', 1);
+        FwFormField.setValueByDataField($form, 'PurchaseDate', today);
+        FwFormField.setValueByDataField($form, 'ReceiveDate', today);
+
 
         const $manufacturerValidation = $form.find('[data-datafield="ManufacturerVendorId"]');
         $manufacturerValidation.data('beforevalidate', ($form, $manufacturerValidation, request) => {
