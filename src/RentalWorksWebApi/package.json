@@ -28,7 +28,7 @@
     "ajv": "6.5.3",
     "child-process-promise": "2.2.1",
     "clean-webpack-plugin": "0.1.19",
-    "copy-webpack-plugin": "^5.0.5",
+    "copy-webpack-plugin": "5.0.5",
     "css-loader": "1.0.0",
     "exec": "0.2.1",
     "handlebars-loader": "1.7.0",
