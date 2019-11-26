@@ -266,7 +266,7 @@ class FwSettingsClass {
     }
     //----------------------------------------------------------------------------------------------
     getRows($body, $control, apiurl, $modulecontainer, moduleName) {
-        FwAppData.apiMethod(true, 'GET', applicationConfig.appbaseurl + applicationConfig.appvirtualdirectory + apiurl, null, null, function onSuccess(response) {
+        FwAppData.apiMethod(true, 'GET', applicationConfig.appbaseurl + applicationConfig.appvirtualdirectory + apiurl, null, null, response => {
             const browseKeys = [];
             const $browse = window[`${moduleName}Controller`].openBrowse();
             let browseData = [];
@@ -276,13 +276,14 @@ class FwSettingsClass {
             let $form = jQuery(jQuery(`#tmpl-modules-${moduleName}Form`).html());
             const keys = $browse.find('.field');
             const rowId = jQuery(keys[0]).attr('data-browsedatafield');
-            if ($body.find('.legend').length <= 1) {
-                $body.prepend('<div class="legend"><span class="input-group-addon search"><i class="material-icons">search</i></span><input type="text" id="recordSearch" class="form-control" placeholder="Record Search" autofocus></div>');
-            }
+
             //append legend
-            //if ($browse.find('.legend').length > 0) {
-            //    $body.append($browse.find('.legend'));
-            //}
+            if ($body.find('.legend').length <= 1) {
+                $body.prepend(this.getLegend());
+                if ($browse.attr('data-hasinactive') !== 'true') {
+                    $body.find('.legend .view-options').hide();
+                }
+            }
 
             for (var i = 1; i < keys.length; i++) {
                 let Key;
@@ -540,8 +541,8 @@ class FwSettingsClass {
         const module = <IModule>window[controllerName];
         if (typeof module !== 'undefined' && typeof module.apiurl === 'string') {
             apiurl = module.apiurl;
-            $form = jQuery(jQuery('#tmpl-modules-' + moduleName + 'Form').html());
-            $body = $control.find('#' + moduleName + '.panel-body');
+            $form = jQuery(jQuery(`#tmpl-modules-${moduleName}Form`).html());
+            $body = $control.find(`#${moduleName}.panel-body`);
             const browseMenuOptions = FwModule.getDefaultBrowseMenuOptions($modulecontainer);
             if (typeof module.addBrowseMenuItems === 'function') {
                 module.addBrowseMenuItems(browseMenuOptions);
@@ -587,17 +588,13 @@ class FwSettingsClass {
                 if (showNew) {
                     html.push(`         <div class="flexrow new-row-menu" data-caption="${caption}"><i class="material-icons">add</i>New Item</div>`);
                 }
-                html.push('          <div class="show-inactive flexrow"><i class="material-icons">visibility</i>Show Inactive</div>');
-                html.push('          <div class="hide-inactive flexrow" style="display:none;"><i class="material-icons">visibility_off</i>Hide Inactive</div>');
                 html.push('          <div class="pop-out flexrow"><i class="material-icons">open_in_new</i>Pop Out Module</div>');
                 html.push('        </div>');
                 html.push('        </div>');
-                html.push('        <div style="margin-left:auto;">');
+                html.push('        <div class="panel-icons" style="margin-left:auto;">');
                 if (showNew) {
                     html.push('          <i class="material-icons new-row-menu" title="Add New">add</i>');
                 }
-                html.push('          <i class="material-icons show-inactive" title="Show All">visibility</i>');
-                html.push('          <i class="material-icons hide-inactive" style="display:none" title="Hide Inactive">visibility_off</i>');
                 html.push('          <i class="material-icons pop-out" title="Pop Out">open_in_new</i>');
                 html.push('          <i class="material-icons refresh" title="Refresh">cached</i>');
                 html.push('          <i class="material-icons heading-menu">more_vert</i>');
@@ -639,33 +636,19 @@ class FwSettingsClass {
                     this.newRow($body, $control, apiurl, $modulecontainer, moduleName, $settingsPageModules);
                 });
 
-                $settingsPageModules.on('click', '.show-inactive', e => {
+                $settingsPageModules.on('click', '.view-options', e => {
                     e.stopPropagation();
                     const $this = jQuery(e.currentTarget);
-                    if ($this.closest('.panel').find('.panel-collapse').is(':visible') && $this.closest('#myDropdown').length !== 0) {
+                    if ($this.find('.show-inactive').is(':visible')) {
                         $this.closest('.panel').find('.inactive-panel').parent().show();
-                        $this.closest('.panel-title').find('.hide-inactive').show();
-                        $this.closest('.panel-title').find('.show-inactive').hide();
-                        $this.closest('#myDropdown').hide();
-                    } else if ($this.closest('.panel').find('.panel-collapse').is(':visible') && $this.closest('#myDropdown').length === 0) {
-                        $this.closest('.panel').find('.inactive-panel').parent().show();
-                        $this.closest('.panel-title').find('.hide-inactive').show();
-                        $this.closest('.panel-title').find('.show-inactive').hide();
-                    }
-                });
-
-                $settingsPageModules.on('click', '.hide-inactive', e => {
-                    e.stopPropagation();
-                    const $this = jQuery(e.currentTarget);
-                    if ($this.closest('.panel').find('.panel-collapse').is(':visible') && $this.closest('#myDropdown').length !== 0) {
+                        $this.closest('.view-options').find('.show-inactive').hide();
+                        $this.closest('.view-options').find('.hide-inactive').show();
+                        $this.closest('.view-options').find('.view-text').text('Hide Inactive');
+                    } else {
                         $this.closest('.panel').find('.inactive-panel').parent().hide();
-                        $this.closest('.panel-title').find('.hide-inactive').hide();
-                        $this.closest('.panel-title').find('.show-inactive').show();
-                        $this.closest('#myDropdown').hide();
-                    } else if ($this.closest('.panel').find('.panel-collapse').is(':visible') && $this.closest('#myDropdown').length === 0) {
-                        $this.closest('.panel').find('.inactive-panel').parent().hide();
-                        $this.closest('.panel-title').find('.hide-inactive').hide();
-                        $this.closest('.panel-title').find('.show-inactive').show();
+                        $this.closest('.view-options').find('.hide-inactive').hide();
+                        $this.closest('.view-options').find('.show-inactive').show();
+                        $this.closest('.view-options').find('.view-text').text('Show Inactive');
                     }
                 });
 
@@ -678,12 +661,11 @@ class FwSettingsClass {
                     program.popOutTab('#/module/' + moduleName);
                 });
 
-        $settingsPageModules
-            .on('click', '.panel-heading', function (e) {
-                var browseData = [], browseKeys = [], $form;
+                $settingsPageModules
+                    .on('click', '.panel-heading', e => {
+                        var browseData = [], browseKeys = [], $form;
 
-                        const $this = jQuery(this);
-                        const moduleName = $this.closest('.panel-group').attr('id');
+                        const moduleName = $settingsPageModules.closest('.panel-group').attr('id');
                         const $browse = window[moduleName + 'Controller'].openBrowse();
                         const $modulecontainer = $control.find('#' + moduleName);
                         const apiurl = window[moduleName + 'Controller'].apiurl;
@@ -692,14 +674,16 @@ class FwSettingsClass {
                         var withoutDuplicates = [];
 
                         if ($body.is(':empty')) {
-
-                    //append legend
-                    if ($body.find('.legend').length <= 0) {
-                        $body.append('<div class="legend"><span class="input-group-addon search"><i class="material-icons">search</i></span><input type="text" id="recordSearch" class="form-control" placeholder="Record Search" autofocus></div>');
-                    }
-                    if ($browse.find('.legend').length > 0) {
-                        $body.append($browse.find('.legend'));
-                    }
+                            //append legend
+                            if ($body.find('.legend').length <= 0) {
+                                $body.append(this.getLegend());
+                                if ($browse.attr('data-hasinactive') !== 'true') {
+                                    $body.find('.legend .view-options').hide();
+                                }
+                            }
+                            if ($browse.find('.legend').length > 0) {
+                                $body.append($browse.find('.legend'));
+                            }
 
                             FwAppData.apiMethod(true, 'GET', applicationConfig.appbaseurl + applicationConfig.appvirtualdirectory + apiurl, null, null, function onSuccess(response) {
                                 $form = jQuery(jQuery(`#tmpl-modules-${moduleName}Form`).html());
@@ -909,11 +893,11 @@ class FwSettingsClass {
                     })
                     .on('click', '.refresh', e => {
                         e.stopPropagation();
-                        const $this = jQuery(e.currentTarget);
-                        let $body = $control.find('#' + moduleName + '.panel-body');
-                        if ($this.closest('.panel-title').find('.hide-inactive').length !== 0) {
-                            $this.closest('.panel-title').find('.hide-inactive').hide()
-                            $this.closest('.panel-title').find('.show-inactive').show();
+                        const $body = $control.find(`#${moduleName}.panel-body`);
+                        if ($body.find('.view-options .hide-inactive').length !== 0) {
+                            $body.find('.view-options .hide-inactive').hide()
+                            $body.find('.view-options .show-inactive').show();
+                            $body.find('.view-options .view-text').text('Show Inactive');
                         }
                         if (!$body.is(':empty')) {
                             $body.empty();
@@ -1410,6 +1394,28 @@ class FwSettingsClass {
             $rowBody.parent().find('.record-selector').html('keyboard_arrow_down');
             $form.remove();
         }
+    }
+    //----------------------------------------------------------------------------------------------
+    getLegend(): string {
+        return `
+            <div class="legend">
+              <div class="view-options" style="float:left;">
+                <div class="flexrow">
+                  <div class="flexcolumn" style="max-width: 28px;">
+                    <i class="material-icons show-inactive show-btn" title="Show All">visibility</i>
+                    <i class="material-icons hide-inactive show-btn" title="Hide Inactive" style="display:none;">visibility_off</i>
+                  </div>
+                  <div class="flexcolumn">
+                    <div class="view-text">Show Inactive</div>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <span class="input-group-addon search"><i class="material-icons">search</i></span>
+                <input type="text" id="recordSearch" class="form-control" placeholder="Record Search" autofocus="">
+              </div>
+            </div>
+       `;
     }
     //----------------------------------------------------------------------------------------------
     getHeaderView($control) {

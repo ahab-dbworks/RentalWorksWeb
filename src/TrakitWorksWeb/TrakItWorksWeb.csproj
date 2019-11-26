@@ -72,7 +72,7 @@
     </TypeScriptSourceRoot>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <FwUpdateSchema>true</FwUpdateSchema>
+    <FwUpdateSchema>false</FwUpdateSchema>
     <FwPublish>true</FwPublish>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
@@ -754,7 +754,6 @@
     <Exec Command="robocopy &quot;$(FwFrontEndLibraryPath)\theme\fwfonts&quot; &quot;$(FwDeploymentDirectory)\theme\fwfonts&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
     <Exec Command="robocopy &quot;$(FwFrontEndLibraryPath)\theme\fwimages&quot; &quot;$(FwDeploymentDirectory)\theme\fwimages&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
     <Exec Command="robocopy &quot;$(FwApplicationDirectory)\theme\images&quot; &quot;$(FwDeploymentDirectory)\theme\images&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
-    <Copy SourceFiles="$(FwApplicationDirectory)\Application.sample.config" DestinationFiles="$(FwDeploymentDirectory)\Application.sample.config" ContinueOnError="false" />
     <Copy SourceFiles="$(FwApplicationDirectory)\Global.asax" DestinationFiles="$(FwDeploymentDirectory)\Global.asax" ContinueOnError="false" />
     <Copy SourceFiles="$(FwApplicationDirectory)\ApplicationConfig.sample.js" DestinationFiles="$(FwDeploymentDirectory)\ApplicationConfig.sample.js" ContinueOnError="false" />
     <Copy SourceFiles="$(FwApplicationDirectory)\version.txt" DestinationFiles="$(FwDeploymentDirectory)\version.txt" ContinueOnError="false" />
@@ -766,10 +765,10 @@
     <Exec Command="robocopy &quot;$(FwApplicationDirectory)\Libraries\ckeditor&quot; &quot;$(FwDeploymentDirectory)\Libraries\ckeditor&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
     <MakeDir Directories="$(FwDeploymentDirectory)\Libraries\codemirror" Condition="!Exists('$(FwDeploymentDirectory)\Libraries\codemirror')" ContinueOnError="false" />
     <Exec Command="robocopy &quot;$(FwApplicationDirectory)\Libraries\codemirror&quot; &quot;$(FwDeploymentDirectory)\Libraries\codemirror&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
-    <MakeDir Directories="$(FwDeploymentDirectory)\source" Condition="!Exists('$(FwDeploymentDirectory)\source')" ContinueOnError="false" />
+    <!--<MakeDir Directories="$(FwDeploymentDirectory)\source" Condition="!Exists('$(FwDeploymentDirectory)\source')" ContinueOnError="false" />
     <MakeDir Directories="$(FwDeploymentDirectory)\source\reports" Condition="!Exists('$(FwDeploymentDirectory)\source\reports')" ContinueOnError="false" />
     <MakeDir Directories="$(FwDeploymentDirectory)\source\reports\application" Condition="!Exists('$(FwDeploymentDirectory)\source\reports\application')" ContinueOnError="false" />
-    <Exec Command="robocopy &quot;$(FwApplicationDirectory)\source\reports\application&quot; &quot;$(FwDeploymentDirectory)\source\reports\application&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
+    <Exec Command="robocopy &quot;$(FwApplicationDirectory)\source\reports\application&quot; &quot;$(FwDeploymentDirectory)\source\reports\application&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />-->
     <MakeDir Directories="$(FwDeploymentDirectory)\App_Data" Condition="!Exists('$(FwDeploymentDirectory)\App_Data')" ContinueOnError="false" />
     <MakeDir Directories="$(FwDeploymentDirectory)\App_Data\Temp" Condition="!Exists('$(FwDeploymentDirectory)\App_Data\Temp')" ContinueOnError="false" />
     <MakeDir Directories="$(FwDeploymentDirectory)\App_Data\Temp\Downloads" Condition="!Exists('$(FwDeploymentDirectory)\App_Data\Temp\Downloads')" ContinueOnError="false" />

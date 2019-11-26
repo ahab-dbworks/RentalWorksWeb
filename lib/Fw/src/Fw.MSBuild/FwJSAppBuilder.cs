@@ -29,7 +29,6 @@ namespace Fw.MSBuildTasks
         public string Version { get;set;} = string.Empty;
         public bool Publish { get;set;} = false;
         public bool AttachDebugger { get;set;} = false;
-        public bool UpdateSchema { get;set; } = true;
         //---------------------------------------------------------------------------------------------
         public FwJSAppBuilder() : base()
         {
@@ -56,7 +55,6 @@ namespace Fw.MSBuildTasks
             StringBuilder sourceFiles, sourceFiles_combinedText, mergeTemplate, mergeFiles;
             CommandLineBuilder commandLine;
             MergeFile mergeFile;
-            FwApplicationSchema schema;
             XmlDocument doc;
             XmlNodeList scrollerNodes, scrollerFieldNodes, formfieldNodes;
             FwApplicationSchema.Form form;
@@ -88,12 +86,6 @@ namespace Fw.MSBuildTasks
                     //}
                     
                     config = (JSAppBuilderConfig)FwFuncMSBuild.LoadObject(typeof(JSAppBuilderConfig), configFilePath, solutionDir, this.Log);
-                    
-                    if (UpdateSchema)
-                    {
-                        applicationConfigPath = Path.Combine(Path.GetDirectoryName(configFilePath), "Application.config");
-                        databaseConnections = GetDatabaseConnections(applicationConfigPath);
-                    }
                     pathSite     = Path.GetDirectoryName(configFilePath);
 
                     for (int i = 0; i < config.Targets.Count; i++)
@@ -112,15 +104,6 @@ namespace Fw.MSBuildTasks
                                 html_outputFilePath.Add(GetAbsolutePath(Path.Combine(config.Targets[i].OutputDirectory, config.Targets[i].Files[targetfileno].OutputFile)));
                                 html_inputFilePath.Add(GetAbsolutePath(config.Targets[i].Files[targetfileno].InputFile));
                                 html_outputFileText.Add(new StringBuilder(File.ReadAllText(html_inputFilePath[targetfileno])));
-                            }
-                            if (UpdateSchema)
-                            {
-                                schema = new FwApplicationSchema();
-                            }
-                            else
-                            {
-                                FwApplicationSchema.Load(config.SchemaPath);
-                                schema = FwApplicationSchema.Current;
                             }
 
                             bool buildmodules = false;
@@ -262,20 +245,14 @@ namespace Fw.MSBuildTasks
                                         pathFormTemplate   = Path.Combine(pathModule, nameModule + "Form.htm");
                                         if (File.Exists(pathBrowseTemplate)) fileBrowseTemplate = File.ReadAllText(pathBrowseTemplate);
                                         if (File.Exists(pathFormTemplate))   fileFormTemplate   = File.ReadAllText(pathFormTemplate);
-                                        if (UpdateSchema)
-                                        {
-                                            schema.Modules[nameModule] = GetModuleSchema(nameModule, fileBrowseTemplate, fileFormTemplate, databaseConnections[config.DatabaseConnection]);
-                                        }
                                         if (fileBrowseTemplate != null)
                                         {
-                                            fileBrowseTemplate = GetAddSchemaDataToModuleBrowseTemplate(fileBrowseTemplate, schema, nameModule);
                                             sbModules.AppendLine("<script id=\"tmpl-modules-" + nameModule + "Browse\" type=\"text/html\">");
                                             sbModules.AppendLine(fileBrowseTemplate);
                                             sbModules.AppendLine("</script>");
                                         }
                                         if (fileFormTemplate != null)
                                         {
-                                            fileFormTemplate   = GetAddSchemaDataToModuleFormTemplate(fileFormTemplate, schema, nameModule);
                                             sbModules.AppendLine("<script id=\"tmpl-modules-" + nameModule + "Form\" type=\"text/html\">");
                                             sbModules.AppendLine(fileFormTemplate);
                                             sbModules.AppendLine("</script>");
@@ -294,20 +271,14 @@ namespace Fw.MSBuildTasks
                                         pathFormTemplate   = Path.Combine(pathModule, nameModule + "Form.htm");
                                         if (File.Exists(pathBrowseTemplate)) fileBrowseTemplate = File.ReadAllText(pathBrowseTemplate);
                                         if (File.Exists(pathFormTemplate))   fileFormTemplate   = File.ReadAllText(pathFormTemplate);
-                                        if (UpdateSchema)
-                                        {
-                                            schema.Modules[nameModule] = GetModuleSchema(nameModule, fileBrowseTemplate, fileFormTemplate, databaseConnections[config.DatabaseConnection]);
-                                        }
                                         if (fileBrowseTemplate != null)
                                         {
-                                            fileBrowseTemplate = GetAddSchemaDataToModuleBrowseTemplate(fileBrowseTemplate, schema, nameModule);
                                             sbModules.AppendLine("<script id=\"tmpl-modules-" + nameModule + "Browse\" type=\"text/html\">");
                                             sbModules.AppendLine(fileBrowseTemplate);
                                             sbModules.AppendLine("</script>");
                                         }
                                         if (fileFormTemplate != null)
                                         {
-                                            fileFormTemplate   = GetAddSchemaDataToModuleFormTemplate(fileFormTemplate, schema, nameModule);
                                             sbModules.AppendLine("<script id=\"tmpl-modules-" + nameModule + "Form\" type=\"text/html\">");
                                             sbModules.AppendLine(fileFormTemplate);
                                             sbModules.AppendLine("</script>");
@@ -353,13 +324,8 @@ namespace Fw.MSBuildTasks
                                                 }
                                             }
                                         }
-                                        if (UpdateSchema)
-                                        {
-                                            schema.Modules[nameModule] = GetModuleSchema(nameModule, fileBrowseTemplate, fileFormTemplate, databaseConnections[config.DatabaseConnection]);
-                                        }
                                         if (fileBrowseTemplate != null)
                                         {
-                                            fileBrowseTemplate = GetAddSchemaDataToModuleBrowseTemplate(fileBrowseTemplate, schema, nameModule);
                                             if (Publish)
                                             {
                                                 sbModules.AppendLine("<script id=\"tmpl-modules-" + nameModule + "Browse\" type=\"text/html\">");
@@ -375,7 +341,6 @@ namespace Fw.MSBuildTasks
                                         }
                                         if (fileFormTemplate != null)
                                         {
-                                            fileFormTemplate   = GetAddSchemaDataToModuleFormTemplate(fileFormTemplate, schema, nameModule);
                                             if (Publish)
                                             {
                                                 sbModules.AppendLine("<script id=\"tmpl-modules-" + nameModule + "Form\" type=\"text/html\">");
@@ -403,20 +368,14 @@ namespace Fw.MSBuildTasks
                                         pathFormTemplate   = Path.Combine(pathModule, nameModule + "Form.htm");
                                         if (File.Exists(pathBrowseTemplate)) fileBrowseTemplate = File.ReadAllText(pathBrowseTemplate);
                                         if (File.Exists(pathFormTemplate))   fileFormTemplate   = File.ReadAllText(pathFormTemplate);
-                                        if (UpdateSchema)
-                                        {
-                                            schema.Modules[nameModule] = GetModuleSchema(nameModule, fileBrowseTemplate, fileFormTemplate, databaseConnections[config.DatabaseConnection]);
-                                        }
                                         if (fileBrowseTemplate != null)
                                         {
-                                            fileBrowseTemplate = GetAddSchemaDataToModuleBrowseTemplate(fileBrowseTemplate, schema, nameModule);
                                             sbModules.AppendLine("<script id=\"tmpl-modules-" + nameModule + "Browse\" type=\"text/html\">");
                                             sbModules.AppendLine(fileBrowseTemplate);
                                             sbModules.AppendLine("</script>");
                                         }
                                         if (fileFormTemplate != null)
                                         {
-                                            fileFormTemplate   = GetAddSchemaDataToModuleFormTemplate(fileFormTemplate, schema, nameModule);
                                             sbModules.AppendLine("<script id=\"tmpl-modules-" + nameModule + "Form\" type=\"text/html\">");
                                             sbModules.AppendLine(fileFormTemplate);
                                             sbModules.AppendLine("</script>");
@@ -443,11 +402,6 @@ namespace Fw.MSBuildTasks
                                     nameModule = new DirectoryInfo(pathModule).Name;
                                     pathBrowseTemplate = Path.Combine(pathModule, nameModule + "Browse.htm");
                                     fileBrowseTemplate = File.ReadAllText(pathBrowseTemplate);
-                                    if (UpdateSchema)
-                                    {
-                                        schema.Grids[nameModule] = GetGridSchema(nameModule, fileBrowseTemplate, databaseConnections[config.DatabaseConnection]);
-                                    }
-                                    fileBrowseTemplate = GetAddSchemaDataToGridTemplate(fileBrowseTemplate, schema, nameModule);
                                     sbModules.AppendLine("<script id=\"tmpl-grids-" + nameModule + "Browse\" type=\"text/html\">");
                                     sbModules.AppendLine(fileBrowseTemplate);
                                     sbModules.AppendLine("</script>");
@@ -463,13 +417,8 @@ namespace Fw.MSBuildTasks
                                     nameModule = new DirectoryInfo(pathModule).Name;
                                     pathBrowseTemplate = Path.Combine(pathModule, nameModule + "Browse.htm");
                                     fileBrowseTemplate = File.ReadAllText(pathBrowseTemplate);
-                                    if (UpdateSchema)
-                                    {
-                                        schema.Grids[nameModule] = GetGridSchema(nameModule, fileBrowseTemplate, databaseConnections[config.DatabaseConnection]);
-                                    }
                                     if (Publish)
                                     {
-                                        fileBrowseTemplate = GetAddSchemaDataToGridTemplate(fileBrowseTemplate, schema, nameModule);
                                         sbModules.AppendLine("<script id=\"tmpl-grids-" + nameModule + "Browse\" type=\"text/html\">");
                                         sbModules.AppendLine(fileBrowseTemplate);
                                         sbModules.AppendLine("</script>");
@@ -501,11 +450,6 @@ namespace Fw.MSBuildTasks
                                     nameModule = new DirectoryInfo(pathModule).Name;
                                     pathBrowseTemplate = Path.Combine(pathModule, nameModule + "Browse.htm");
                                     fileBrowseTemplate = File.ReadAllText(pathBrowseTemplate);
-                                    if (UpdateSchema)
-                                    {
-                                        schema.Validations[nameModule] = GetValidationSchema(nameModule, fileBrowseTemplate, databaseConnections[config.DatabaseConnection]);
-                                    }
-                                    fileBrowseTemplate = GetAddSchemaDataToValidationBrowseTemplate(fileBrowseTemplate, schema, nameModule);
                                     sbModules.AppendLine("<script id=\"tmpl-validations-" + nameModule + "Browse\" type=\"text/html\">");
                                     sbModules.AppendLine(fileBrowseTemplate);
                                     sbModules.AppendLine("</script>");
@@ -521,13 +465,8 @@ namespace Fw.MSBuildTasks
                                     nameModule = new DirectoryInfo(pathModule).Name;
                                     pathBrowseTemplate = Path.Combine(pathModule, nameModule + "Browse.htm");
                                     fileBrowseTemplate = File.ReadAllText(pathBrowseTemplate);
-                                    if (UpdateSchema)
-                                    {
-                                        schema.Validations[nameModule] = GetValidationSchema(nameModule, fileBrowseTemplate, databaseConnections[config.DatabaseConnection]);
-                                    }
                                     if (Publish)
                                     {
-                                        fileBrowseTemplate = GetAddSchemaDataToValidationBrowseTemplate(fileBrowseTemplate, schema, nameModule);
                                         sbModules.AppendLine("<script id=\"tmpl-validations-" + nameModule + "Browse\" type=\"text/html\">");
                                         sbModules.AppendLine(fileBrowseTemplate);
                                         sbModules.AppendLine("</script>");
@@ -655,13 +594,6 @@ namespace Fw.MSBuildTasks
                                 }
                             }
                             #endregion
-
-                            // save the schema to disk
-                            if (UpdateSchema)
-                            {
-                                schema.Save(config.SchemaPath);
-                            }
-
                                 
                             // Source Files
                             #region replace: {{{javascripts}}}
@@ -995,6 +927,7 @@ namespace Fw.MSBuildTasks
                                     {
                                         File.Delete(sourceFiles_combinedOutputPath);
                                     }
+                                    new FileInfo(sourceFiles_combinedOutputPath).Directory.Create();
                                     File.WriteAllText(sourceFiles_combinedOutputPath, NormalizeLineEndings(sourceFiles_combinedText.ToString()));
                                     if ((config.Targets[i].Minify) && (config.SourceFiles[j].Minify))
                                     {
@@ -2504,141 +2437,141 @@ namespace Fw.MSBuildTasks
             return result;
         }
         //---------------------------------------------------------------------------------------------
-        string GetAddSchemaDataToGridTemplate(string formTemplate, FwApplicationSchema schema, string gridName)
-        {
-            XmlDocument xmlForm;
-            XmlNodeList xmlBrowses, xmlUniqueIds, xmlColumns;
-            string result;
+        //string GetAddSchemaDataToGridTemplate(string formTemplate, FwApplicationSchema schema, string gridName)
+        //{
+        //    XmlDocument xmlForm;
+        //    XmlNodeList xmlBrowses, xmlUniqueIds, xmlColumns;
+        //    string result;
             
-            xmlForm = new XmlDocument();
-            try
-            {
-                xmlForm.LoadXml(formTemplate);
-            }
-            catch(Exception ex)
-            {
-                Console.Error.WriteLine("***The file " + gridName + "Browse.htm is not valid XML.***");
-                Console.Error.WriteLine(ex.Message);
-                //Console.Error.WriteLine(ex.StackTrace);
-            }
-            xmlBrowses = xmlForm.SelectNodes("//div[@data-control='FwBrowse']"); //xpath query
-            foreach(XmlNode xmlBrowse in xmlBrowses)
-            {
-                if (schema.Grids[gridName].Browse.Columns.ContainsKey("inactive"))
-                {
-                    if (xmlBrowse.Attributes["data-hasinactive"] == null)
-                    {
-                        XmlAttribute attrHasInactive;
+        //    xmlForm = new XmlDocument();
+        //    try
+        //    {
+        //        xmlForm.LoadXml(formTemplate);
+        //    }
+        //    catch(Exception ex)
+        //    {
+        //        Console.Error.WriteLine("***The file " + gridName + "Browse.htm is not valid XML.***");
+        //        Console.Error.WriteLine(ex.Message);
+        //        //Console.Error.WriteLine(ex.StackTrace);
+        //    }
+        //    xmlBrowses = xmlForm.SelectNodes("//div[@data-control='FwBrowse']"); //xpath query
+        //    foreach(XmlNode xmlBrowse in xmlBrowses)
+        //    {
+        //        if (schema.Grids[gridName].Browse.Columns.ContainsKey("inactive"))
+        //        {
+        //            if (xmlBrowse.Attributes["data-hasinactive"] == null)
+        //            {
+        //                XmlAttribute attrHasInactive;
 
-                        attrHasInactive       = xmlForm.CreateAttribute("data-hasinactive");
-                        attrHasInactive.Value = "true";
-                        xmlBrowse.Attributes.Append(attrHasInactive); 
-                    }
-                    if (xmlBrowse.Attributes["data-activeinactiveview"] == null)
-                    {
-                        XmlAttribute attrHasInactive;
+        //                attrHasInactive       = xmlForm.CreateAttribute("data-hasinactive");
+        //                attrHasInactive.Value = "true";
+        //                xmlBrowse.Attributes.Append(attrHasInactive); 
+        //            }
+        //            if (xmlBrowse.Attributes["data-activeinactiveview"] == null)
+        //            {
+        //                XmlAttribute attrHasInactive;
 
-                        attrHasInactive       = xmlForm.CreateAttribute("data-activeinactiveview");
-                        attrHasInactive.Value = "active";
-                        xmlBrowse.Attributes.Append(attrHasInactive); 
-                    }
-                }
+        //                attrHasInactive       = xmlForm.CreateAttribute("data-activeinactiveview");
+        //                attrHasInactive.Value = "active";
+        //                xmlBrowse.Attributes.Append(attrHasInactive); 
+        //            }
+        //        }
                 
-            }
-            xmlUniqueIds = xmlForm.SelectNodes("//div[@class='field' and @data-isuniqueid='true']"); //xpath query
-            xmlColumns   = xmlForm.SelectNodes("//div[@class='field' and (not(@data-isuniqueid) or @data-isuniqueid!='true')]"); //xpath query
-            foreach(XmlNode xmlUniqueId in xmlUniqueIds)
-            {
-                string datafield, tableName, columnName;
-                string[] dataFieldFragments;
+        //    }
+        //    xmlUniqueIds = xmlForm.SelectNodes("//div[@class='field' and @data-isuniqueid='true']"); //xpath query
+        //    xmlColumns   = xmlForm.SelectNodes("//div[@class='field' and (not(@data-isuniqueid) or @data-isuniqueid!='true')]"); //xpath query
+        //    foreach(XmlNode xmlUniqueId in xmlUniqueIds)
+        //    {
+        //        string datafield, tableName, columnName;
+        //        string[] dataFieldFragments;
 
-                if ( ((xmlUniqueId.Attributes["data-formdatafield"] != null) && (xmlUniqueId.Attributes["data-formdatafield"].Value.Contains('.'))) &&
-                        ((xmlUniqueId.Attributes["data-formmaxlength"] == null) || (string.IsNullOrEmpty(xmlUniqueId.Attributes["data-formmaxlength"].Value))) )
-                {
-                    dataFieldFragments = xmlUniqueId.Attributes["data-formdatafield"].Value.Split(new char[]{'.'});
-                    tableName          = dataFieldFragments[0];
-                    columnName         = dataFieldFragments[1];
-                    if (schema.Grids.ContainsKey(gridName) && schema.Grids[gridName].Form.Tables.ContainsKey(tableName) && schema.Grids[gridName].Form.Tables[tableName].UniqueIds.ContainsKey(columnName))
-                    {
-                        XmlAttribute attrMaxLength;
+        //        if ( ((xmlUniqueId.Attributes["data-formdatafield"] != null) && (xmlUniqueId.Attributes["data-formdatafield"].Value.Contains('.'))) &&
+        //                ((xmlUniqueId.Attributes["data-formmaxlength"] == null) || (string.IsNullOrEmpty(xmlUniqueId.Attributes["data-formmaxlength"].Value))) )
+        //        {
+        //            dataFieldFragments = xmlUniqueId.Attributes["data-formdatafield"].Value.Split(new char[]{'.'});
+        //            tableName          = dataFieldFragments[0];
+        //            columnName         = dataFieldFragments[1];
+        //            if (schema.Grids.ContainsKey(gridName) && schema.Grids[gridName].Form.Tables.ContainsKey(tableName) && schema.Grids[gridName].Form.Tables[tableName].UniqueIds.ContainsKey(columnName))
+        //            {
+        //                XmlAttribute attrMaxLength;
 
-                        attrMaxLength = xmlUniqueId.OwnerDocument.CreateAttribute("data-formmaxlength");
-                        attrMaxLength.Value = schema.Grids[gridName].Form.Tables[tableName].UniqueIds[columnName].SqlCharacterMaximumLength.ToString();
-                        xmlUniqueId.Attributes.Append(attrMaxLength);
-                    }
-                }
-            }
-            foreach(XmlNode xmlColumn in xmlColumns)
-            {
-                string datafield, tableName, columnName;
-                string[] dataFieldFragments;
+        //                attrMaxLength = xmlUniqueId.OwnerDocument.CreateAttribute("data-formmaxlength");
+        //                attrMaxLength.Value = schema.Grids[gridName].Form.Tables[tableName].UniqueIds[columnName].SqlCharacterMaximumLength.ToString();
+        //                xmlUniqueId.Attributes.Append(attrMaxLength);
+        //            }
+        //        }
+        //    }
+        //    foreach(XmlNode xmlColumn in xmlColumns)
+        //    {
+        //        string datafield, tableName, columnName;
+        //        string[] dataFieldFragments;
 
-                if ( ((xmlColumn.Attributes["data-formdatafield"] != null) && (xmlColumn.Attributes["data-formdatafield"].Value.Contains('.'))) &&
-                        ((xmlColumn.Attributes["data-formmaxlength"] == null) || (string.IsNullOrEmpty(xmlColumn.Attributes["data-formmaxlength"].Value))) )
-                {
-                    dataFieldFragments = xmlColumn.Attributes["data-formdatafield"].Value.Split(new char[]{'.'});
-                    tableName          = dataFieldFragments[0];
-                    columnName         = dataFieldFragments[1];
-                    if (schema.Grids.ContainsKey(gridName) && schema.Grids[gridName].Form.Tables.ContainsKey(tableName) && schema.Grids[gridName].Form.Tables[tableName].Columns.ContainsKey(columnName))
-                    {
-                        XmlAttribute attrMaxLength;
+        //        if ( ((xmlColumn.Attributes["data-formdatafield"] != null) && (xmlColumn.Attributes["data-formdatafield"].Value.Contains('.'))) &&
+        //                ((xmlColumn.Attributes["data-formmaxlength"] == null) || (string.IsNullOrEmpty(xmlColumn.Attributes["data-formmaxlength"].Value))) )
+        //        {
+        //            dataFieldFragments = xmlColumn.Attributes["data-formdatafield"].Value.Split(new char[]{'.'});
+        //            tableName          = dataFieldFragments[0];
+        //            columnName         = dataFieldFragments[1];
+        //            if (schema.Grids.ContainsKey(gridName) && schema.Grids[gridName].Form.Tables.ContainsKey(tableName) && schema.Grids[gridName].Form.Tables[tableName].Columns.ContainsKey(columnName))
+        //            {
+        //                XmlAttribute attrMaxLength;
 
-                        attrMaxLength = xmlColumn.OwnerDocument.CreateAttribute("data-formmaxlength");
-                        attrMaxLength.Value = schema.Grids[gridName].Form.Tables[tableName].Columns[columnName].SqlCharacterMaximumLength.ToString();
-                        xmlColumn.Attributes.Append(attrMaxLength);
-                    }
-                }
-            }
-            result = GetFormattedXml(xmlForm.OuterXml);
+        //                attrMaxLength = xmlColumn.OwnerDocument.CreateAttribute("data-formmaxlength");
+        //                attrMaxLength.Value = schema.Grids[gridName].Form.Tables[tableName].Columns[columnName].SqlCharacterMaximumLength.ToString();
+        //                xmlColumn.Attributes.Append(attrMaxLength);
+        //            }
+        //        }
+        //    }
+        //    result = GetFormattedXml(xmlForm.OuterXml);
 
-            return result;
-        }
+        //    return result;
+        //}
         //---------------------------------------------------------------------------------------------
-        string GetAddSchemaDataToValidationBrowseTemplate(string formTemplate, FwApplicationSchema schema, string validationName)
-        {
-            XmlDocument xmlForm;
-            XmlNodeList xmlBrowses;
-            string result;
+        //string GetAddSchemaDataToValidationBrowseTemplate(string formTemplate, FwApplicationSchema schema, string validationName)
+        //{
+        //    XmlDocument xmlForm;
+        //    XmlNodeList xmlBrowses;
+        //    string result;
 
-            xmlForm = new XmlDocument();
-            try
-            {
-                xmlForm.LoadXml(formTemplate);
-            }
-            catch(Exception ex)
-            {
-                Console.Error.WriteLine("***The file " + validationName + "Browse.htm is not valid XML.***");
-                Console.Error.WriteLine(ex.Message);
-                //Console.Error.WriteLine(ex.StackTrace);
-            }
-            xmlBrowses = xmlForm.SelectNodes("//div[@data-control='FwBrowse']"); //xpath query
-            foreach(XmlNode xmlBrowse in xmlBrowses)
-            {
-                if (schema.Validations[validationName].Browse.Columns.ContainsKey("inactive"))
-                {
-                    if (xmlBrowse.Attributes["data-hasinactive"] == null)
-                    {
-                        XmlAttribute attrHasInactive;
+        //    xmlForm = new XmlDocument();
+        //    try
+        //    {
+        //        xmlForm.LoadXml(formTemplate);
+        //    }
+        //    catch(Exception ex)
+        //    {
+        //        Console.Error.WriteLine("***The file " + validationName + "Browse.htm is not valid XML.***");
+        //        Console.Error.WriteLine(ex.Message);
+        //        //Console.Error.WriteLine(ex.StackTrace);
+        //    }
+        //    xmlBrowses = xmlForm.SelectNodes("//div[@data-control='FwBrowse']"); //xpath query
+        //    foreach(XmlNode xmlBrowse in xmlBrowses)
+        //    {
+        //        if (schema.Validations[validationName].Browse.Columns.ContainsKey("inactive"))
+        //        {
+        //            if (xmlBrowse.Attributes["data-hasinactive"] == null)
+        //            {
+        //                XmlAttribute attrHasInactive;
 
-                        attrHasInactive       = xmlForm.CreateAttribute("data-hasinactive");
-                        attrHasInactive.Value = "true";
-                        xmlBrowse.Attributes.Append(attrHasInactive); 
-                    }
-                    if (xmlBrowse.Attributes["data-activeinactiveview"] == null)
-                    {
-                        XmlAttribute attrHasInactive;
+        //                attrHasInactive       = xmlForm.CreateAttribute("data-hasinactive");
+        //                attrHasInactive.Value = "true";
+        //                xmlBrowse.Attributes.Append(attrHasInactive); 
+        //            }
+        //            if (xmlBrowse.Attributes["data-activeinactiveview"] == null)
+        //            {
+        //                XmlAttribute attrHasInactive;
 
-                        attrHasInactive       = xmlForm.CreateAttribute("data-activeinactiveview");
-                        attrHasInactive.Value = "active";
-                        xmlBrowse.Attributes.Append(attrHasInactive); 
-                    }
-                }
+        //                attrHasInactive       = xmlForm.CreateAttribute("data-activeinactiveview");
+        //                attrHasInactive.Value = "active";
+        //                xmlBrowse.Attributes.Append(attrHasInactive); 
+        //            }
+        //        }
                 
-            }
-            result = GetFormattedXml(xmlForm.OuterXml);
+        //    }
+        //    result = GetFormattedXml(xmlForm.OuterXml);
             
-            return result;
-        }
+        //    return result;
+        //}
         //---------------------------------------------------------------------------------------------
         string GetFormattedXml(string xml)
         {
@@ -2723,7 +2656,6 @@ namespace Fw.MSBuildTasks
     [XmlRoot("JSAppBuilderConfig")]
     public class JSAppBuilderConfig
     {
-        public string SchemaPath {get;set;}
         public string DatabaseConnection {get;set;}
         
         [XmlArray("Fields")]

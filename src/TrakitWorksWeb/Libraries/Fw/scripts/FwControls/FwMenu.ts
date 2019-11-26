@@ -334,6 +334,15 @@ class FwMenuClass {
                     $ddbtn = $btn.find(`[data-value="${loc}"]`);
                     (<any>window)[controller].ActiveViewFields[filterField][i] = loc;
                 }
+                //To account for changes in warehouse
+                if (filterField == 'WarehouseId' && $ddbtn.length == 0) {
+                    const wh = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid;
+                    (<any>window)[controller].ActiveViewFieldsId = undefined;
+                    $ddbtn = $btn.find(`[data-value="${wh}"]`);
+                    (<any>window)[controller].ActiveViewFields[filterField] = (<any>window)[controller].ActiveViewFields[filterField].filter(e => { return e != $this });
+                    (<any>window)[controller].ActiveViewFields[filterField][i] = wh;
+                }
+
                 const caption = $ddbtn.find(`.ddviewbtn-dropdown-btn-caption`).html();
                 if ($this == 'ALL') {
                     $ddbtn.addClass('select-all-filters');
