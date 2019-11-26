@@ -131,7 +131,7 @@ class Alert {
         }
     }
     //----------------------------------------------------------------------------------------------
-    loadGrid(modules: any[], nodeKey: string, currentNode: any): void {
+    loadGrids(modules: any[], nodeKey: string, currentNode: any): void {
         const nodeGrid = FwApplicationTree.getNodeById(FwApplicationTree.tree, currentNode.id);
         const nodeModuleActions = FwApplicationTree.getNodeByFuncRecursive(nodeGrid, {}, (node: any, args: any) => {
             return node.nodetype === 'ModuleActions' || node.nodetype === 'ControlActions'; 
@@ -171,7 +171,7 @@ class Alert {
         // Load Grids
         for (const key in Constants.Grids) {
             const node = Constants.Grids[key];
-            this.loadGrid(allModules, key, node);
+            this.loadGrids(allModules, key, node);
         }
 
         //Sort modules
