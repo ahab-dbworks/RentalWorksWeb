@@ -72,7 +72,7 @@ class InventoryPurchaseUtility {
         const $itemGridControl = $form.find('[data-name="InventoryPurchaseItemGrid"]');
 
         $form.find('.description[data-datafield="InventoryId"]').data('onchange', $tr => {
-            FwFormField.setValueByDataField($form, 'InventoryId', FwBrowse.getValueByDataField(null, $tr, 'InventoryId'), FwBrowse.getValueByDataField(null, $tr, 'ICode'));
+            FwFormField.setValue2($form.find('.icode[data-datafield="InventoryId"]'), FwBrowse.getValueByDataField(null, $tr, 'InventoryId'), FwBrowse.getValueByDataField(null, $tr, 'ICode'))
             $form.find('.icode[data-datafield="InventoryId"]').data('onchange')($tr)
         });
 
@@ -86,7 +86,7 @@ class InventoryPurchaseUtility {
             $form.find('.additems').show();
             const inventoryId = FwBrowse.getValueByDataField(null, $tr, 'InventoryId');
             const description = FwBrowse.getValueByDataField(null, $tr, 'Description');
-            FwFormField.setValue2($form.find('.icode[data-datafield="InventoryId"]'), inventoryId, description);
+            FwFormField.setValue2($form.find('.description[data-datafield="InventoryId"]'), inventoryId, description);
             const unitVal = FwBrowse.getValueByDataField(null, $tr, 'UnitValue');
             FwFormField.setValueByDataField($form, 'UnitCost', unitVal);
             const aisleLoc = FwBrowse.getValueByDataField(null, $tr, 'AisleLocation');
