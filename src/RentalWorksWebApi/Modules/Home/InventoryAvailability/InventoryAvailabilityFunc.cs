@@ -327,6 +327,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
         public TInventoryWarehouseAvailabilityQuantity Available { get; set; } = new TInventoryWarehouseAvailabilityQuantity();
         public TInventoryWarehouseAvailabilityQuantity Reserved { get; set; } = new TInventoryWarehouseAvailabilityQuantity();
         public TInventoryWarehouseAvailabilityQuantity Returning { get; set; } = new TInventoryWarehouseAvailabilityQuantity();
+        public List<TInventoryWarehouseAvailabilityReservation> Reservations { get; set; } = new List<TInventoryWarehouseAvailabilityReservation>();
     }
     //-------------------------------------------------------------------------------------------------------
     public class TInventoryWarehouseAvailabilityMinimum
@@ -638,6 +639,12 @@ namespace WebApi.Modules.Home.InventoryAvailability
         public TInventoryNeedingAvailDictionary() : base(new AvailabilityKeyEqualityComparer()) { }
     }
     //-------------------------------------------------------------------------------------------------------
+    public class TInventoryAvailabilityCalendarDate
+    {
+        public DateTime theDate { get; set; }
+        public List<TInventoryWarehouseAvailabilityReservation> Reservations { get; set; } = new List<TInventoryWarehouseAvailabilityReservation>();
+    }
+    //------------------------------------------------------------------------------------ 
     public class TInventoryAvailabilityCalendarEvent
     {
         public string InventoryId { get; set; }
@@ -684,6 +691,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
     public class TInventoryAvailabilityCalendarAndScheduleResponse
     {
         public TInventoryWarehouseAvailability InventoryData { get; set; }
+        public List<TInventoryAvailabilityCalendarDate> Dates { get; set; } = new List<TInventoryAvailabilityCalendarDate>();
         public List<TInventoryAvailabilityCalendarEvent> InventoryAvailabilityCalendarEvents { get; set; } = new List<TInventoryAvailabilityCalendarEvent>();
         public List<TInventoryAvailabilityScheduleResource> InventoryAvailabilityScheduleResources { get; set; } = new List<TInventoryAvailabilityScheduleResource>();
         public List<TInventoryAvailabilityScheduleEvent> InventoryAvailabilityScheduleEvents { get; set; } = new List<TInventoryAvailabilityScheduleEvent>();
@@ -1173,10 +1181,10 @@ namespace WebApi.Modules.Home.InventoryAvailability
                         reservation.QuantityOrdered = FwConvert.ToDecimal(row[dt.GetColumnNo("qtyordered")].ToString());
                         reservation.QuantitySub = FwConvert.ToDecimal(row[dt.GetColumnNo("subqty")].ToString());
                         reservation.QuantityConsigned = FwConvert.ToDecimal(row[dt.GetColumnNo("consignqty")].ToString());
-                        reservation.SubPurchaseOrderId= row[dt.GetColumnNo("poid")].ToString();
-                        reservation.SubPurchaseOrderNumber= row[dt.GetColumnNo("pono")].ToString();
-                        reservation.SubPurchaseOrderDescription= row[dt.GetColumnNo("podesc")].ToString();
-                        reservation.SubPurchaseOrderVendor= row[dt.GetColumnNo("povendor")].ToString();
+                        reservation.SubPurchaseOrderId = row[dt.GetColumnNo("poid")].ToString();
+                        reservation.SubPurchaseOrderNumber = row[dt.GetColumnNo("pono")].ToString();
+                        reservation.SubPurchaseOrderDescription = row[dt.GetColumnNo("podesc")].ToString();
+                        reservation.SubPurchaseOrderVendor = row[dt.GetColumnNo("povendor")].ToString();
 
                         TInventoryWarehouseAvailabilityQuantity reservationStaged = new TInventoryWarehouseAvailabilityQuantity();
                         TInventoryWarehouseAvailabilityQuantity reservationOut = new TInventoryWarehouseAvailabilityQuantity();
@@ -1469,6 +1477,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
                                 {
                                     if ((reservation.FromDateTime <= theDateTime) && (theDateTime <= reservation.ToDateTime))
                                     {
+                                        inventoryWarehouseAvailabilityDateTime.Reservations.Add(reservation);
                                         inventoryWarehouseAvailabilityDateTime.Reserved += reservation.QuantityReserved;
                                         if (!reservation.countedReserved)
                                         {
@@ -1935,6 +1944,12 @@ namespace WebApi.Modules.Home.InventoryAvailability
                                 iReturn.textColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_TEXT_COLOR_RETURNING);
                                 response.InventoryAvailabilityCalendarEvents.Add(iReturn);
                             }
+
+                            TInventoryAvailabilityCalendarDate d = new TInventoryAvailabilityCalendarDate();
+                            d.theDate = theDate;
+                            d.Reservations.AddRange(inventoryWarehouseAvailabilityDateTime.Reservations);
+                            response.Dates.Add(d);
+
                         }
                     }
 
