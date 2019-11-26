@@ -931,7 +931,7 @@ class FwModule {
                 $this = jQuery(this);
                 value = FwFormField.getValue2($this);
                 errorTab = $this.closest('.tabpage').attr('data-tabid');
-                if (value != '' && !$this.hasClass('date-validation')) {
+                if (value != '' && !$this.hasClass('dev-error')) {
                     $this.removeClass('error');
                     if ($this.closest('.tabpage.active').has('.error').length === 0) {
                         $this.parents('.fwcontrol .fwtabs').find('#' + errorTab).removeClass('error');
@@ -1760,7 +1760,7 @@ class FwModule {
                     isvalid = false;
                     $field.addClass('error');
                     $field.parents('.fwcontrol .fwtabs').find('#' + errorTab).addClass('error');
-                } else if ($field.find('.fwformfield-value').val() != '') {
+                } else if ($field.find('.fwformfield-value').val() != '' && !$field.hasClass('dev-error')) {
                     $field.removeClass('error');
                 }
             }

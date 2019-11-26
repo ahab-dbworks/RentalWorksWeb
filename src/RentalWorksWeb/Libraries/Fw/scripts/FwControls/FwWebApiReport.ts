@@ -34,7 +34,7 @@ abstract class FwWebApiReport {
         $form.on('change', '.fwformfield[data-required="true"].error', function () {
             const $this = jQuery(this);
             const value = FwFormField.getValue2($this);
-            if (value !== '' && !$this.hasClass('date-validation')) {
+            if (value !== '' && !$this.hasClass('dev-error')) {
                 $this.removeClass('error');
                 if ($this.closest('.tabpage.active').has('.error').length === 0) {
                     const errorTab = $this.closest('.tabpage').attr('data-tabid');
