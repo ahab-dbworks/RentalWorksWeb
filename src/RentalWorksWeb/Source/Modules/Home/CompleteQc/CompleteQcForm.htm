@@ -18,9 +18,46 @@
               <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="ICode" style="flex:1 1 125px;" data-enabled="false"></div>
               <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="Description" style="flex:1 1 350px;" data-enabled="false"></div>
             </div>
-            <div class="qcsuccess" style="display:none;">
+            <div class="qcsuccess here" style="display:none;">
               <div class="flexrow">
                 <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Condition" data-datafield="Condition" style="flex:0 1 300px;" data-validationname="InventoryConditionValidation"></div>
+              </div>
+              <div class="flexrow">
+                <div class="flexcolumn" style="flex:1 1 650px;">
+                  <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Attributes">
+                    <div class="flexrow">
+                      <div data-control="FwGrid" data-grid="InventoryAttributeValueGrid" data-securitycaption="Inventory Attribute Value"></div>
+                    </div>
+                    <div class="flexrow">
+                      <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Copy Attributes to Quote/Order as a Note" data-datafield="CopyAttributesAsNote" style="width:275px;margin-top:5px;margin-left:10px;"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="flexcolumn" style="flex:1 1 400px;">
+                  <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Track Usage">
+                    <div class="flexrow">
+                      <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Asset Usage" data-datafield="TrackAssetUsage" style="flex:1 1 150px;margin-top:0px;"></div>
+                      <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Lamp Usage" data-datafield="TrackLampUsage" style="flex:1 1 150px;margin-top:0px;"></div>
+                    </div>
+                    <div class="flexrow">
+                      <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Lamp Strikes" data-datafield="TrackStrikes" style="flex:1 1 150px;margin-top:0px;"></div>
+                      <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Foot-Candles" data-datafield="TrackCandles" style="flex:1 1 150px;margin-top:0px;"></div>
+                    </div>
+                    <div class="flexrow">
+                      <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield lamps" data-caption="Number of Lamps" data-datafield="LampCount" style="flex:1 1 110px;"></div>
+                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Min. Foot Candles" data-datafield="MinimumFootCandles" style="flex:1 1 125px;margin-left:40px;"></div>
+                    </div>
+                  </div>
+                  <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Track Software">
+                    <div class="flexrow">
+                      <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Enable Software Tracking" data-datafield="TrackSoftware" style="flex:1 1 200px;margin-top:10px;"></div>
+                    </div>
+                    <div class="flexrow">
+                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield track-software" data-caption="Version" data-datafield="SoftwareVersion" data-enabled="false" style="flex:1 1 120px;"></div>
+                      <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield track-software" data-caption="Effective Date" data-datafield="SoftwareEffectiveDate" data-enabled="false" style="flex:1 1 120px;"></div>
+                    </div>
+                  </div>
+                </div>
               </div>
               <div class="flexrow" style="max-width:800px">
                 <div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield" data-caption="Note" data-datafield="Note" style="flex:1 1 450px;"></div>

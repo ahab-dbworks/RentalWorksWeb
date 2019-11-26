@@ -290,4 +290,5 @@
             FwNotification.renderNotification('INFO', 'No Notification Sound set up. Visit User Settings to choose a sound.')
         }
     }
+    //---------------------------------------------------------------------------------
 }
