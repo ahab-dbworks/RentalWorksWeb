@@ -46,7 +46,7 @@
 .fwsettings div.well div.panel-group div.panel-primary div.panel-body div.legend div.legenditem {float:left;margin:0 5px 0 5px;}
 .fwsettings div.well div.panel-group div.panel-primary div.panel-body div.legend div.legenditem div.color {width:20px; height: 14px;float:left;}
 .fwsettings div.well div.panel-group div.panel-primary div.panel-body div.legend div.legenditem div.caption {float:left; margin: 0 0 0 5px;font-size:12px; font-weight:bold;cursor:default;}
-.fwsettings div.well div.panel-group div.panel-primary div.panel-body div.legend div.view-options i.material-icons.show-btn { cursor: pointer;padding:4px;border-radius:3px; }
+.fwsettings div.well div.panel-group div.panel-primary div.panel-body div.legend div.view-options i.material-icons.show-btn { cursor:pointer;padding:4px;border-radius:3px; }
 .fwsettings div.well div.panel-group div.panel-primary div.panel-body div.legend div.view-options .view-text { font-size:1.1em;cursor: pointer;padding:6px 6px 6px 10px;font-weight:600; } 
 
 .fwsettings div.well div.panel-group div.panel-primary div.panel-body div.panel .panel-group { margin-bottom: 0; border-radius: 4px; } 
