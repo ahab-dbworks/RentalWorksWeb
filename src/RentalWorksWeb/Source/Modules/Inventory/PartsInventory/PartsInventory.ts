@@ -582,8 +582,8 @@ class PartsInventory extends InventoryBase {
 
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
-        const InventoryTypeValue = jQuery($validationbrowse.find('[data-validationname="InventoryTypeValidation"] input')).val();
-        const CategoryTypeId = jQuery($validationbrowse.find('[data-validationname="PartsCategoryValidation"] input')).val();
+        const InventoryTypeValue = jQuery($form.find('[data-validationname="InventoryTypeValidation"] input')).val();
+        const CategoryTypeId = jQuery($form.find('[data-validationname="PartsCategoryValidation"] input')).val();
         switch (datafield) {
             case 'InventoryTypeId':
                 request.uniqueids = {

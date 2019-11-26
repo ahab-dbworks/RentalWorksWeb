@@ -714,8 +714,8 @@ class SalesInventory extends InventoryBase {
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
         const validationName = request.module;
-        const InventoryTypeValue = jQuery($validationbrowse.find('[data-validationname="InventoryTypeValidation"] input')).val();
-        const CategoryTypeId = jQuery($validationbrowse.find('[data-validationname="SalesCategoryValidation"] input')).val();
+        const InventoryTypeValue = jQuery($form.find('[data-validationname="InventoryTypeValidation"] input')).val();
+        const CategoryTypeId = jQuery($form.find('[data-validationname="SalesCategoryValidation"] input')).val();
 
         switch (datafield) {
             case 'InventoryTypeId':
@@ -733,6 +733,7 @@ class SalesInventory extends InventoryBase {
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecategoryid`);
                 break;
             case 'SubCategoryId':
+
                 request.uniqueids = {
                     TypeId: InventoryTypeValue,
                     CategoryId: CategoryTypeId
