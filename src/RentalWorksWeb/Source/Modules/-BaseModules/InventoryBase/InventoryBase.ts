@@ -173,7 +173,11 @@
                 endOfMonth = moment(calendarRequest.start.value).add(calendarRequest.days, 'd').format('MM/DD/YYYY');
                 let warehouseId;
                 if ($form.is('tr')) {
-                    warehouseId = FwBrowse.getValueByDataField($control, $form, 'WarehouseId');
+                    if (typeof $form.data('warehousefilter') === 'string') {
+                        warehouseId = $form.data('warehousefilter');
+                    } else {
+                        warehouseId = FwBrowse.getValueByDataField($control, $form, 'WarehouseId');
+                    }
                 } else {
                     warehouseId = FwFormField.getValue($form, '.warehousefilter');   //justin 11/11/2018 fixing build error
                 }
@@ -198,6 +202,9 @@
                     //}
                     //self.loadScheduler($form, response.InventoryAvailabilityScheduleEvents, response.InventoryAvailabilityScheduleResources);
                     FwScheduler.loadEventsCallback($control, [{ id: '1', name: '' }], calendarevents);
+                    if (typeof $form.data('warehousefilter')) {
+                        $form = jQuery('#availabilityCalendarPopup');
+                    }
                     this.loadInventoryDataTotals($form, response.InventoryData);
                 }, function onError(response) {
                     FwFunc.showError(response);
@@ -230,7 +237,11 @@
 
                 let warehouseId;
                 if ($form.is('tr')) {
-                    warehouseId = FwBrowse.getValueByDataField($control, $form, 'WarehouseId');
+                    if (typeof $form.data('warehousefilter') === 'string') {
+                        warehouseId = $form.data('warehousefilter');
+                    } else {
+                        warehouseId = FwBrowse.getValueByDataField($control, $form, 'WarehouseId');
+                    }
                 } else {
                     warehouseId = FwFormField.getValue($form, '.warehousefilter');
                 }
