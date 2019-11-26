@@ -160,12 +160,6 @@ class CustomReportLayout {
             let modulehtml;
             let reportName = $this.val();
             if (reportName != '') {
-                if (reportName === 'QuoteReport') {
-                    reportName = 'OrderReport';
-                }
-                if (reportName === 'LateReturnDueBackReport') {
-                    reportName = 'LateReturnsReport';
-                }
                 FwAppData.apiMethod(true, 'GET', `api/v1/customreportlayout/template/${reportName}`, null, FwServices.defaultTimeout,
                     response => {
                         //get the html from the template and set it as codemirror's value
