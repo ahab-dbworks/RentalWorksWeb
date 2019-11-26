@@ -49,6 +49,7 @@ namespace WebApi.Modules.Agent.Order
             billToAddress.UniqueId1 = dealOrder.OrderId;
             billToAddress.UniqueId2 = RwConstants.ADDRESS_TYPE_BILLING;
             tax.AfterSave += OnAfterSaveTax;
+            dealOrderDetail.AssignPrimaryKeys += OrderDetailAssignPrimaryKeys;
 
             UseTransactionToSave = true;
             ForceSave = true;
@@ -1312,6 +1313,11 @@ namespace WebApi.Modules.Agent.Order
             return isValid;
         }
         //------------------------------------------------------------------------------------
+        public void OrderDetailAssignPrimaryKeys(object sender, EventArgs e)
+        {
+            ((DealOrderDetailRecord)sender).OrderId = GetPrimaryKeys()[0].ToString();
+        }
+        //------------------------------------------------------------------------------------ 
         public virtual void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {
             if (e.SaveMode.Equals(TDataRecordSaveMode.smInsert))
@@ -1515,6 +1521,17 @@ namespace WebApi.Modules.Agent.Order
         public virtual void OnAfterSaveDealOrder(object sender, AfterSaveDataRecordEventArgs e)
         {
             billToAddress.UniqueId1 = dealOrder.OrderId;
+
+            // justin hoffman 11/25/2019
+            // this is really stupid
+            // I am deleting the record that dbwIU_dealorder is giving us, so I can add my own and avoid a unique index error
+            if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
+            {
+                DealOrderDetailRecord detailRec = new DealOrderDetailRecord();
+                detailRec.SetDependencies(AppConfig, UserSession);
+                detailRec.OrderId = GetPrimaryKeys()[0].ToString();
+                bool b = detailRec.DeleteAsync(e.SqlConnection).Result;
+            }
 
             if (e.SaveMode.Equals(TDataRecordSaveMode.smUpdate))
             {
