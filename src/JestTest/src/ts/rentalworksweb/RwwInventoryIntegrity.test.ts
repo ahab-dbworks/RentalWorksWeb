@@ -53,7 +53,7 @@ export class InventoryIntegrityTest extends BaseTest {
     async openModuleRecord(module: ModuleBase, seekObject: any, registerWithRecordKey?: string) {
         await module.openBrowse();
         await module.browseSeek(seekObject);
-        await module.openFirstRecordIfAny(true, registerWithRecordKey);
+        await module.openRecord(1, true, registerWithRecordKey);
         await module.closeRecord();
     }
     //---------------------------------------------------------------------------------------
@@ -84,7 +84,7 @@ export class InventoryIntegrityTest extends BaseTest {
         if (registerWithRecordKey) {
             await module.closeRecord();
             await module.browseSeek(record.seekObject);
-            await module.openFirstRecordIfAny(true, registerWithRecordKey);
+            await module.openRecord(1, true, registerWithRecordKey);
             await module.closeRecord();
         }
 
@@ -95,7 +95,7 @@ export class InventoryIntegrityTest extends BaseTest {
 
         await rentalInventoryModule.openBrowse();
         await rentalInventoryModule.browseSeek(record.seekObject);
-        await rentalInventoryModule.openFirstRecordIfAny();
+        await rentalInventoryModule.openRecord();
 
         let availabilityTabSelector = `div[data-type="tab"]#availabilitycalendartab1 .caption`;
         await page.waitForSelector(availabilityTabSelector);

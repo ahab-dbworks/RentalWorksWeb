@@ -12,8 +12,9 @@ export class ClickRecordResponse {
 //---------------------------------------------------------------------------------------
 export class SettingsModule extends ModuleBase {
     waitAfterClickingToOpenBrowseBeforeCheckingForErrors: number = 300;
-    waitAfterClickingToOpenRecordBeforeCheckingForErrors: number = 300;
-    waitForButtonToGetEvents: number = 500;
+    waitAfterClickingToOpenRecordBeforeCheckingForErrors: number = 400;
+    waitAfterClickingToOpenRecordToCheckForErrors: number = 300;
+    waitForButtonToGetEvents: number = 800;
     //---------------------------------------------------------------------------------------
     constructor() {
         super();
@@ -241,16 +242,16 @@ export class SettingsModule extends ModuleBase {
         let clickRecordResponse: ClickRecordResponse = await this.clickRecord(index);
 
         if (clickRecordResponse.clicked) {
-            try {
-                await page.waitFor(() => document.querySelector('.pleasewait'), { timeout: 3000 });
-            } catch (error) { } // assume that we missed the Please Wait dialog
-
-            await page.waitFor(() => !document.querySelector('.pleasewait'));
-            Logging.logInfo(`Finished waiting for the Please Wait dialog.`);
+            //try {
+            //    await page.waitFor(() => document.querySelector('.pleasewait'), { timeout: 3000 });
+            //} catch (error) { } // assume that we missed the Please Wait dialog
+            //
+            //await page.waitFor(() => !document.querySelector('.pleasewait'));
+            //Logging.logInfo(`Finished waiting for the Please Wait dialog.`);
 
             var popUp;
             try {
-                popUp = await page.waitForSelector('.advisory', { timeout: 500 });
+                popUp = await page.waitForSelector('.advisory', { timeout: this.waitAfterClickingToOpenRecordToCheckForErrors });
             } catch (error) { } // no error pop-up
 
             if (popUp !== undefined) {
@@ -294,79 +295,79 @@ export class SettingsModule extends ModuleBase {
 
     }
     //---------------------------------------------------------------------------------------
-    async openFirstRecordIfAny(): Promise<OpenRecordResponse> {
-
-        let openRecordResponse: OpenRecordResponse = new OpenRecordResponse();
-        openRecordResponse.opened = false;
-        openRecordResponse.record = null;
-        openRecordResponse.errorMessage = "form not opened";
-
-        let formCountBefore = await this.countOpenForms();
-
-        let clickRecordResponse: ClickRecordResponse = await this.clickRecord();
-
-        if (clickRecordResponse.recordsVisible === 0) {
-            openRecordResponse.opened = true;
-            openRecordResponse.record = null;
-            openRecordResponse.errorMessage = "";
-        }
-        else {
-
-
-            if (clickRecordResponse.clicked) {
-                try {
-                    await page.waitFor(() => document.querySelector('.pleasewait'), { timeout: 1000 });
-                } catch (error) { } // assume that we missed the Please Wait dialog
-
-                await page.waitFor(() => !document.querySelector('.pleasewait'));
-                Logging.logInfo(`Finished waiting for the Please Wait dialog.`);
-
-                var popUp;
-                try {
-                    popUp = await page.waitForSelector('.advisory', { timeout: 500 });
-                } catch (error) { } // no error pop-up
-
-                if (popUp !== undefined) {
-                    let errorMessage = await page.$eval('.advisory', el => el.textContent);
-                    openRecordResponse.opened = false;
-                    openRecordResponse.record = null;
-                    openRecordResponse.errorMessage = errorMessage;
-
-                    Logging.logError(`Error opening ${this.moduleCaption} form: ` + errorMessage);
-
-                    const options = await page.$$('.advisory .fwconfirmation-button');
-                    await options[0].click() // click "OK" option
-                        .then(() => {
-                            Logging.logInfo(`Clicked the "OK" button.`);
-                        })
-                }
-                else {
-
-                    let formCountAfter = await this.countOpenForms();
-                    if (formCountAfter == formCountBefore + 1) {
-
-                        openRecordResponse.opened = true;
-                        openRecordResponse.errorMessage = "";
-                        openRecordResponse.record = await this.getFormRecord();
-                        openRecordResponse.keys = await this.getFormKeys();
-
-                        Logging.logInfo(`Form Record: ${JSON.stringify(openRecordResponse.record)}`);
-                        Logging.logInfo(`Form Keys: ${JSON.stringify(openRecordResponse.keys)}`);
-
-                        if (this.waitAfterClickingToOpenFormToAllowOtherQueries > 0) {
-                            await ModuleBase.wait(this.waitAfterClickingToOpenFormToAllowOtherQueries);
-                        }
-                    }
-                    else {
-                        openRecordResponse.errorMessage = `${formCountAfter} forms opened`;
-                    }
-                }
-
-            }
-        }
-
-        return openRecordResponse;
-    }
+    //async openFirstRecordIfAny(): Promise<OpenRecordResponse> {
+    //
+    //    let openRecordResponse: OpenRecordResponse = new OpenRecordResponse();
+    //    openRecordResponse.opened = false;
+    //    openRecordResponse.record = null;
+    //    openRecordResponse.errorMessage = "form not opened";
+    //
+    //    let formCountBefore = await this.countOpenForms();
+    //
+    //    let clickRecordResponse: ClickRecordResponse = await this.clickRecord();
+    //
+    //    if (clickRecordResponse.recordsVisible === 0) {
+    //        openRecordResponse.opened = true;
+    //        openRecordResponse.record = null;
+    //        openRecordResponse.errorMessage = "";
+    //    }
+    //    else {
+    //
+    //
+    //        if (clickRecordResponse.clicked) {
+    //            try {
+    //                await page.waitFor(() => document.querySelector('.pleasewait'), { timeout: 1000 });
+    //            } catch (error) { } // assume that we missed the Please Wait dialog
+    //
+    //            await page.waitFor(() => !document.querySelector('.pleasewait'));
+    //            Logging.logInfo(`Finished waiting for the Please Wait dialog.`);
+    //
+    //            var popUp;
+    //            try {
+    //                popUp = await page.waitForSelector('.advisory', { timeout: 500 });
+    //            } catch (error) { } // no error pop-up
+    //
+    //            if (popUp !== undefined) {
+    //                let errorMessage = await page.$eval('.advisory', el => el.textContent);
+    //                openRecordResponse.opened = false;
+    //                openRecordResponse.record = null;
+    //                openRecordResponse.errorMessage = errorMessage;
+    //
+    //                Logging.logError(`Error opening ${this.moduleCaption} form: ` + errorMessage);
+    //
+    //                const options = await page.$$('.advisory .fwconfirmation-button');
+    //                await options[0].click() // click "OK" option
+    //                    .then(() => {
+    //                        Logging.logInfo(`Clicked the "OK" button.`);
+    //                    })
+    //            }
+    //            else {
+    //
+    //                let formCountAfter = await this.countOpenForms();
+    //                if (formCountAfter == formCountBefore + 1) {
+    //
+    //                    openRecordResponse.opened = true;
+    //                    openRecordResponse.errorMessage = "";
+    //                    openRecordResponse.record = await this.getFormRecord();
+    //                    openRecordResponse.keys = await this.getFormKeys();
+    //
+    //                    Logging.logInfo(`Form Record: ${JSON.stringify(openRecordResponse.record)}`);
+    //                    Logging.logInfo(`Form Keys: ${JSON.stringify(openRecordResponse.keys)}`);
+    //
+    //                    if (this.waitAfterClickingToOpenFormToAllowOtherQueries > 0) {
+    //                        await ModuleBase.wait(this.waitAfterClickingToOpenFormToAllowOtherQueries);
+    //                    }
+    //                }
+    //                else {
+    //                    openRecordResponse.errorMessage = `${formCountAfter} forms opened`;
+    //                }
+    //            }
+    //
+    //        }
+    //    }
+    //
+    //    return openRecordResponse;
+    //}
     //---------------------------------------------------------------------------------------
     async createNewRecord(count?: number): Promise<CreateNewResponse> {
         let createNewResponse: CreateNewResponse = new CreateNewResponse()

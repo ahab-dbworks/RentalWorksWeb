@@ -48,7 +48,6 @@ export class ShallowRegressionTest extends BaseTest {
                 if (module.canView) {       //if the module supports form viewing, try to open the first form, if any
                     testName = `Open first ${module.moduleCaption} form, if any`;
                     test(testName, async () => {
-                        //await module.openFirstRecordIfAny()
                         await module.openRecord()
                             .then(openRecordResponse => {
                                 expect(openRecordResponse.errorMessage).toBe("");

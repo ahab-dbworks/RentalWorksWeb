@@ -88,6 +88,9 @@ export class ModuleBase {
 
     globalScopeRef = GlobalScope;
 
+    static NOTEMPTY: string = "|NOTEMPTY|";
+
+
     //---------------------------------------------------------------------------------------
     constructor() {
         this.moduleName = 'UnknownModule';
@@ -311,110 +314,110 @@ export class ModuleBase {
         return openRecordResponse;
     }
     //---------------------------------------------------------------------------------------
-    async openFirstRecordIfAny(registerGlobal?: boolean, globalKeyValue?: string): Promise<OpenRecordResponse> {
-        let openRecordResponse: OpenRecordResponse = new OpenRecordResponse();
-        openRecordResponse.opened = false;
-        openRecordResponse.record = null;
-        openRecordResponse.errorMessage = "form not opened";
-
-        let formCountBefore = await this.countOpenForms();
-
-        let selector = `.fwbrowse`;
-        await page.waitForSelector(selector, { timeout: 3000 });
-
-        selector = `.fwbrowse tbody tr.viewmode`;
-        let records = await page.$$eval(selector, (e: any) => { return e; });
-        var recordCount;
-        if (records == undefined) {
-            recordCount = 0;
-        }
-        else {
-            recordCount = records.length;
-        }
-        Logging.logInfo(`Record Count: ${recordCount}`);
-
-
-        if (recordCount == 0) {
-            openRecordResponse.opened = true;
-            openRecordResponse.record = null;
-            openRecordResponse.errorMessage = "";
-        }
-        else {
-            selector += `:nth-child(1)`;
-            await page.waitForSelector(selector);
-
-            //await ModuleBase.wait(500); // wait for the record(s) to get their click events  // #stresstest s/b 1000+
-            await ModuleBase.wait(this.waitForRecordsToGetEvents); // wait for the record(s) to get their click events  // #stresstest s/b 1000+
-
-
-            Logging.logInfo(`About to double-click the first row.`);
-            await page.click(selector, { clickCount: 2 });
-            //await page.waitFor(() => document.querySelector('.pleasewait'));
-
-            try {
-                await page.waitFor(() => document.querySelector('.pleasewait'), { timeout: 3000 });
-            } catch (error) { } // assume that we missed the Please Wait dialog
-
-            await page.waitFor(() => !document.querySelector('.pleasewait'));
-            Logging.logInfo(`Finished waiting for the Please Wait dialog.`);
-
-            var popUp;
-            try {
-                popUp = await page.waitForSelector('.advisory', { timeout: 500 });
-            } catch (error) { } // no error pop-up
-
-            if (popUp !== undefined) {
-                let errorMessage = await page.$eval('.advisory', el => el.textContent);
-                openRecordResponse.opened = false;
-                openRecordResponse.record = null;
-                openRecordResponse.errorMessage = errorMessage;
-
-                Logging.logError(`Error opening ${this.moduleCaption} form: ` + errorMessage);
-
-                const options = await page.$$('.advisory .fwconfirmation-button');
-                await options[0].click() // click "OK" option
-                    .then(() => {
-                        Logging.logInfo(`Clicked the "OK" button.`);
-                    })
-            }
-            else {
-                let formCountAfter = await this.countOpenForms();
-                if (formCountAfter == formCountBefore + 1) {
-                    openRecordResponse.opened = true;
-                    openRecordResponse.errorMessage = "";
-                    openRecordResponse.record = await this.getFormRecord();
-                    openRecordResponse.keys = await this.getFormKeys();
-
-                    Logging.logInfo(`Form Record: ${JSON.stringify(openRecordResponse.record)}`);
-                    Logging.logInfo(`Form Keys: ${JSON.stringify(openRecordResponse.keys)}`);
-
-                    if (registerGlobal) {
-                        let globalKey = this.moduleName;
-                        if (globalKeyValue === undefined) {
-                            for (var key in openRecordResponse.keys) {
-                                globalKey = globalKey + "~" + openRecordResponse.keys[key];
-                            }
-                        }
-                        else {
-                            globalKey = globalKey + "~" + globalKeyValue;
-                        }
-                        Logging.logInfo(`Registering Global Value:    key=${globalKey}     value=${JSON.stringify(openRecordResponse.record)}`);
-
-                        this.globalScopeRef[globalKey] = openRecordResponse.record;
-                    }
-
-
-                    if (this.waitAfterClickingToOpenFormToAllowOtherQueries > 0) {
-                        await ModuleBase.wait(this.waitAfterClickingToOpenFormToAllowOtherQueries);
-                    }
-                }
-                else {
-                    openRecordResponse.errorMessage = `${formCountAfter} forms opened`;
-                }
-            }
-        }
-        return openRecordResponse;
-    }
+    //async openFirstRecordIfAny(registerGlobal?: boolean, globalKeyValue?: string): Promise<OpenRecordResponse> {
+    //    let openRecordResponse: OpenRecordResponse = new OpenRecordResponse();
+    //    openRecordResponse.opened = false;
+    //    openRecordResponse.record = null;
+    //    openRecordResponse.errorMessage = "form not opened";
+    //
+    //    let formCountBefore = await this.countOpenForms();
+    //
+    //    let selector = `.fwbrowse`;
+    //    await page.waitForSelector(selector, { timeout: 3000 });
+    //
+    //    selector = `.fwbrowse tbody tr.viewmode`;
+    //    let records = await page.$$eval(selector, (e: any) => { return e; });
+    //    var recordCount;
+    //    if (records == undefined) {
+    //        recordCount = 0;
+    //    }
+    //    else {
+    //        recordCount = records.length;
+    //    }
+    //    Logging.logInfo(`Record Count: ${recordCount}`);
+    //
+    //
+    //    if (recordCount == 0) {
+    //        openRecordResponse.opened = true;
+    //        openRecordResponse.record = null;
+    //        openRecordResponse.errorMessage = "";
+    //    }
+    //    else {
+    //        selector += `:nth-child(1)`;
+    //        await page.waitForSelector(selector);
+    //
+    //        //await ModuleBase.wait(500); // wait for the record(s) to get their click events  // #stresstest s/b 1000+
+    //        await ModuleBase.wait(this.waitForRecordsToGetEvents); // wait for the record(s) to get their click events  // #stresstest s/b 1000+
+    //
+    //
+    //        Logging.logInfo(`About to double-click the first row.`);
+    //        await page.click(selector, { clickCount: 2 });
+    //        //await page.waitFor(() => document.querySelector('.pleasewait'));
+    //
+    //        try {
+    //            await page.waitFor(() => document.querySelector('.pleasewait'), { timeout: 3000 });
+    //        } catch (error) { } // assume that we missed the Please Wait dialog
+    //
+    //        await page.waitFor(() => !document.querySelector('.pleasewait'));
+    //        Logging.logInfo(`Finished waiting for the Please Wait dialog.`);
+    //
+    //        var popUp;
+    //        try {
+    //            popUp = await page.waitForSelector('.advisory', { timeout: 500 });
+    //        } catch (error) { } // no error pop-up
+    //
+    //        if (popUp !== undefined) {
+    //            let errorMessage = await page.$eval('.advisory', el => el.textContent);
+    //            openRecordResponse.opened = false;
+    //            openRecordResponse.record = null;
+    //            openRecordResponse.errorMessage = errorMessage;
+    //
+    //            Logging.logError(`Error opening ${this.moduleCaption} form: ` + errorMessage);
+    //
+    //            const options = await page.$$('.advisory .fwconfirmation-button');
+    //            await options[0].click() // click "OK" option
+    //                .then(() => {
+    //                    Logging.logInfo(`Clicked the "OK" button.`);
+    //                })
+    //        }
+    //        else {
+    //            let formCountAfter = await this.countOpenForms();
+    //            if (formCountAfter == formCountBefore + 1) {
+    //                openRecordResponse.opened = true;
+    //                openRecordResponse.errorMessage = "";
+    //                openRecordResponse.record = await this.getFormRecord();
+    //                openRecordResponse.keys = await this.getFormKeys();
+    //
+    //                Logging.logInfo(`Form Record: ${JSON.stringify(openRecordResponse.record)}`);
+    //                Logging.logInfo(`Form Keys: ${JSON.stringify(openRecordResponse.keys)}`);
+    //
+    //                if (registerGlobal) {
+    //                    let globalKey = this.moduleName;
+    //                    if (globalKeyValue === undefined) {
+    //                        for (var key in openRecordResponse.keys) {
+    //                            globalKey = globalKey + "~" + openRecordResponse.keys[key];
+    //                        }
+    //                    }
+    //                    else {
+    //                        globalKey = globalKey + "~" + globalKeyValue;
+    //                    }
+    //                    Logging.logInfo(`Registering Global Value:    key=${globalKey}     value=${JSON.stringify(openRecordResponse.record)}`);
+    //
+    //                    this.globalScopeRef[globalKey] = openRecordResponse.record;
+    //                }
+    //
+    //
+    //                if (this.waitAfterClickingToOpenFormToAllowOtherQueries > 0) {
+    //                    await ModuleBase.wait(this.waitAfterClickingToOpenFormToAllowOtherQueries);
+    //                }
+    //            }
+    //            else {
+    //                openRecordResponse.errorMessage = `${formCountAfter} forms opened`;
+    //            }
+    //        }
+    //    }
+    //    return openRecordResponse;
+    //}
     //---------------------------------------------------------------------------------------
     async clickAllTabsOnForm(): Promise<ClickAllTabsResponse> {
         let clickAllTabsResponse: ClickAllTabsResponse = new ClickAllTabsResponse();
@@ -704,6 +707,8 @@ export class ModuleBase {
                     case 'money':
                     case 'number':
                     case 'date':
+                    case 'time':
+                    case 'timepicker':
                     case 'password':
                     case 'text':
                         currentValue = await this.getDataFieldValue(fieldToPopulate);
@@ -786,6 +791,8 @@ export class ModuleBase {
                     case 'money':
                     case 'number':
                     case 'date':
+                    case 'time':
+                    case 'timepicker':
                     case 'password':
                     case 'key':
                         value = await this.getDataFieldValue(dataField);
