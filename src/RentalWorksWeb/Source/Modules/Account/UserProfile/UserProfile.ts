@@ -47,38 +47,6 @@
             { value: 'theme-material', text: 'Material' }
         ], true);
 
-        //load App Modules for Home Page
-        //const node = FwApplicationTree.getNodeById(FwApplicationTree.tree, '0A5F2584-D239-480F-8312-7C2B552A30BA');
-        //const mainModules = FwApplicationTree.getChildrenByType(node, 'Module');
-        //const settingsModules = FwApplicationTree.getChildrenByType(node, 'SettingsModule');
-        //const modules = mainModules.concat(settingsModules);
-        //const allModules = [];
-        //const sortableModules = [];
-        //for (let i = 0; i < modules.length; i++) {
-        //    if (modules[i].properties.visible === "T") {
-        //        const moduleGUID = modules[i].id;
-        //        const moduleCaption = modules[i].properties.caption;
-        //        const moduleController = modules[i].properties.controller;
-        //        if (typeof window[moduleController] !== 'undefined') {
-        //            if (window[moduleController].hasOwnProperty('nav')) {
-        //                const moduleNav = (<any>window)[moduleController].nav;
-        //                allModules.push({ value: moduleGUID, text: moduleCaption, nav: moduleNav });
-        //                sortableModules.push({ value: moduleNav, text: moduleCaption, selected: 'T' });
-        //            }
-        //        }
-        //    }
-        //};
-      
-        ////Sort modules
-        //function compare(a, b) {
-        //    if (a.text < b.text)
-        //        return -1;
-        //    if (a.text > b.text)
-        //        return 1;
-        //    return 0;
-        //}
-        //allModules.sort(compare);
-
         // Load Default Home Page
         const allModules = FwApplicationTree.getAllModules(false, false, (modules: any[], moduleCaption: string, moduleName: string, category: string, currentNode: any, nodeModule: IGroupSecurityNode, hasNew: boolean, hasEdit: boolean, moduleController: any) => {
             if (moduleController.hasOwnProperty('nav')) {
