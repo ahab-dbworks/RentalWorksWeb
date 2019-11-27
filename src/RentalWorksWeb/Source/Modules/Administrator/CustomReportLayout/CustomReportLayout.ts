@@ -131,8 +131,8 @@ class CustomReportLayout {
         } else {
             this.codeMirror.setValue('');
         }
-        //let controller: any = FwFormField.getValueByDataField($form, 'BaseReport');
-        //this.addValidFields($form, controller);
+        let reportName: any = FwFormField.getValueByDataField($form, 'BaseReport');
+        this.addValidFields($form, reportName);
         this.renderTab($form, 'Designer');
 
         //Sets form to modified upon changing code in editor
@@ -158,7 +158,8 @@ class CustomReportLayout {
         $form.find('div.modules').on('change', e => {
             let $this = $form.find('[data-datafield="BaseReport"] option:selected');
             let modulehtml;
-            FwAppData.apiMethod(true, 'GET', `api/v1/customreportlayout/template/${$this.val()}`, null, FwServices.defaultTimeout,
+            const reportName = $this.val()
+            FwAppData.apiMethod(true, 'GET', `api/v1/customreportlayout/template/${reportName}`, null, FwServices.defaultTimeout,
                 response => {
                     //get the html from the template and set it as codemirror's value
                     modulehtml = response.ReportTemplate;
@@ -167,7 +168,7 @@ class CustomReportLayout {
                     }
                     this.renderTab($form, 'Designer');
                 }, ex => FwFunc.showError(ex), $form);
-            //this.addValidFields($form, controller);
+            this.addValidFields($form, reportName);
         });
 
         //Updates value for form fields
@@ -178,89 +179,49 @@ class CustomReportLayout {
         });
     }
     //----------------------------------------------------------------------------------------------
-    //addValidFields($form, controller) {
-    //    let self = this;
-    //    //Get valid field names and sort them
-    //    const modulefields = $form.find('.modulefields');
-    //    let moduleType = $form.find('[data-datafield="BaseForm"] option:selected').attr('data-type');
-    //    let apiurl = $form.find('[data-datafield="BaseForm"] option:selected').attr('data-apiurl');
-    //    modulefields.empty();
-    //    switch (moduleType) {
-    //        case 'Grid':
-    //        case 'Browse':
-    //            if (apiurl !== "undefined") {
-    //                FwAppData.apiMethod(true, 'GET', `${apiurl}/emptyobject`, null, FwServices.defaultTimeout, function onSuccess(response) {
-    //                    let columnNames = Object.keys(response);
-    //                    let customFields = response._Custom.map(obj => ({ fieldname: obj.FieldName, fieldtype: obj.FieldType }));
-    //                    let allValidFields: any = [];
-    //                    for (let i = 0; i < columnNames.length; i++) {
-    //                        if (columnNames[i] != 'DateStamp' && columnNames[i] != 'RecordTitle' && columnNames[i] != '_Custom' && columnNames[i] != '_Fields') {
-    //                            allValidFields.push({
-    //                                'Field': columnNames[i]
-    //                                , 'IsCustom': 'false'
-    //                            });
-    //                        }
-    //                    }
+    addValidFields($form, reportName) {
+        //Get valid field names and sort them
+        const modulefields = $form.find('.modulefields');
+        modulefields.empty();
+        FwAppData.apiMethod(true, 'GET', `api/v1/${reportName}/emptyobject`, null, FwServices.defaultTimeout,
+            response => {
+            let columnNames = Object.keys(response);
+            let customFields = response._Custom.map(obj => ({ fieldname: obj.FieldName, fieldtype: obj.FieldType }));
+            let allValidFields: any = [];
+            for (let i = 0; i < columnNames.length; i++) {
+                if (columnNames[i] != 'DateStamp' && columnNames[i] != 'RecordTitle' && columnNames[i] != '_Custom' && columnNames[i] != '_Fields') {
+                    allValidFields.push({
+                        'Field': columnNames[i]
+                        , 'IsCustom': 'false'
+                    });
+                }
+            }
 
-    //                    for (let i = 0; i < customFields.length; i++) {
-    //                        allValidFields.push({
-    //                            'Field': customFields[i].fieldname
-    //                            , 'IsCustom': 'true'
-    //                            , 'FieldType': customFields[i].fieldtype.toLowerCase()
-    //                        });
-    //                    }
+            for (let i = 0; i < customFields.length; i++) {
+                allValidFields.push({
+                    'Field': customFields[i].fieldname
+                    , 'IsCustom': 'true'
+                    , 'FieldType': customFields[i].fieldtype.toLowerCase()
+                });
+            }
 
-    //                    self.datafields = allValidFields.sort(compare);
+            this.datafields = allValidFields.sort(compare);
 
-    //                    for (let i = 0; i < allValidFields.length; i++) {
-    //                        modulefields.append(`
-    //                            <div data-iscustomfield=${allValidFields[i].IsCustom}>${allValidFields[i].Field}</div>
-    //                            `);
-    //                    }
-    //                }, null, $form);
-    //            }
-    //            break;
-    //        case 'Form':
-    //            FwAppData.apiMethod(true, 'GET', `${apiurl}/emptyobject`, null, FwServices.defaultTimeout, function onSuccess(response) {
-    //                let columnNames = Object.keys(response);
-    //                let customFields = response._Custom.map(obj => ({ fieldname: obj.FieldName, fieldtype: obj.FieldType }));
-    //                let allValidFields: any = [];
-    //                for (let i = 0; i < columnNames.length; i++) {
-    //                    if (columnNames[i] != 'DateStamp' && columnNames[i] != 'RecordTitle' && columnNames[i] != '_Custom' && columnNames[i] != '_Fields') {
-    //                        allValidFields.push({
-    //                            'Field': columnNames[i]
-    //                            , 'IsCustom': 'false'
-    //                        });
-    //                    }
-    //                }
+            for (let i = 0; i < allValidFields.length; i++) {
+                modulefields.append(`
+                                <div data-iscustomfield=${allValidFields[i].IsCustom}>${allValidFields[i].Field}</div>
+                                `);
+                }
+            }, ex => FwFunc.showError(ex), $form);
 
-    //                for (let i = 0; i < customFields.length; i++) {
-    //                    allValidFields.push({
-    //                        'Field': customFields[i].fieldname
-    //                        , 'IsCustom': 'true'
-    //                        , 'FieldType': customFields[i].fieldtype.toLowerCase()
-    //                    });
-    //                }
-
-    //                self.datafields = allValidFields.sort(compare);
-
-    //                for (let i = 0; i < allValidFields.length; i++) {
-    //                    modulefields.append(`
-    //                            <div data-iscustomfield=${allValidFields[i].IsCustom}>${allValidFields[i].Field}</div>
-    //                            `);
-    //                }
-    //            }, null, $form);
-    //            break;
-    //    }
-
-    //    function compare(a, b) {
-    //        if (a.Field < b.Field)
-    //            return -1;
-    //        if (a.Field > b.Field)
-    //            return 1;
-    //        return 0;
-    //    }
-    //}
+        function compare(a, b) {
+            if (a.Field < b.Field)
+                return -1;
+            if (a.Field > b.Field)
+                return 1;
+            return 0;
+        }
+    }
     //----------------------------------------------------------------------------------------------
     //addButtonMenu($form) {
     //    let $buttonmenu = $form.find('.addColumn[data-type="btnmenu"]');
