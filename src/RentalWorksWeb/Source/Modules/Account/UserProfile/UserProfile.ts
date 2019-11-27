@@ -1,4 +1,4 @@
-class UserProfile{
+﻿class UserProfile{
     Module: string = 'UserProfile';
     apiurl: string = 'api/v1/userprofile';
     id: string = 'DrTcbvvUw92V';
@@ -152,6 +152,7 @@ class UserProfile{
     //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         try {
+            parameters.closetab = true;
             parameters.afterCloseForm = () => {
                 const homePage: any = {};
                 homePage.guid = FwFormField.getValueByDataField($form, 'HomeMenuGuid');
