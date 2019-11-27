@@ -57,6 +57,15 @@
             $generatedtr.find('.field[data-browsedatafield="DiscountAmount"] input').val(discountValue);
         };
     };
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
+        switch (datafield) {
+            case 'InventoryId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventory`);
+                break;
+            case 'WarehouseId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatewarehouse`);
+        }
+    }
 }
 
 var RepairPartGridController = new RepairPartGrid();

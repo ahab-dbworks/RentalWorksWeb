@@ -227,18 +227,28 @@ class AvailabilityConflicts {
     }
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
-        //const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
-        //request.uniqueids = {
-        //    WarehouseId: warehouse.warehouseid
-        //};
+        const InventoryTypeValue = jQuery($form.find('[data-validationname="InventoryTypeValidation"] input')).val();
+        const inventoryRadio = jQuery($form.find('input[value="R"]')).is(':checked');
+        const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+        request.uniqueids = {
+            WarehouseId: warehouse.warehouseid
+        };
         switch (datafield) {
             case 'WarehouseId':
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatewarehouse`);
                 break;
             case 'InventoryTypeId':
+                request.uniqueids = {
+                    //RecType: 'R', //need to talk to justin about passing a rectype here?  There is a radio button on the front end to select rental, sales or all.
+                    // There was no RecType passed originally, but may need for filtering.
+                    //HasCategories: true
+                }
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventorytype`);
                 break;
             case 'CategoryId':
+                request.uniqueids = {
+                    InventoryTypeId: InventoryTypeValue
+                };
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecategory`);
                 break;
             case 'SubCategoryId':

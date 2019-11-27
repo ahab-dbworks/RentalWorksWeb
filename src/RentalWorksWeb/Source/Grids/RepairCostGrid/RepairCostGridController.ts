@@ -54,6 +54,13 @@
             $generatedtr.find('.field[data-browsedatafield="DiscountAmount"] input').val(discountValue);
         };
     };
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
+        switch (datafield) {
+            case 'RateId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validaterate`);
+                break;
+        }
+    }
 }
 
 var RepairCostGridController = new RepairCostGrid();
