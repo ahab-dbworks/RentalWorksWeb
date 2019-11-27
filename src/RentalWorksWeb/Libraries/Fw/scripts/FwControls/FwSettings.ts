@@ -279,15 +279,16 @@ class FwSettingsClass {
 
             //append record search / legend
             if ($body.find('.record-search').length <= 1) {
-                $body.prepend(this.getLegend());
+                $body.prepend(this.getRecordSearch());
                 if ($browse.attr('data-hasinactive') !== 'true') {
                     $body.find('.record-search .view-options').hide();
                 }
             }
-            const legend = $browse.find('.legend');
-            if (legend.length > 0) {
-                $body.find('.record-search').after(legend);
+            const $legend = $browse.find('.legend');
+            if ($legend.length > 0) {
+                $body.find('.record-search').after($legend);
             }
+
             for (var i = 1; i < keys.length; i++) {
                 let Key;
                 if (jQuery(keys[i]).attr('data-datafield')) {
@@ -665,7 +666,7 @@ class FwSettingsClass {
                 if ($body.is(':empty')) {
                     //append record search / legend
                     if ($body.find('.record-search').length <= 0) {
-                        $body.append(this.getLegend());
+                        $body.append(this.getRecordSearch());
                         if ($browse.attr('data-hasinactive') !== 'true') {
                             $body.find('.record-search .view-options').hide();
                         }
@@ -1384,7 +1385,7 @@ class FwSettingsClass {
         }
     }
     //----------------------------------------------------------------------------------------------
-    getLegend(): string {
+    getRecordSearch(): string {
         return `
             <div class="record-search">
               <div class="view-options" style="float:left;">
