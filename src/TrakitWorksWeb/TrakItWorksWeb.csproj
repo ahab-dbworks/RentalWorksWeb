@@ -666,10 +666,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\lib\Fw\src\Fw.Json\Fw.Json.csproj">
-      <Project>{3be1823f-3f08-4ca5-94bc-9c7efd2fc64f}</Project>
-      <Name>Fw.Json</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\lib\Fw\src\FwStandard\FwStandard.csproj">
       <Project>{bf70fe28-da24-40ec-aa7e-613803411e12}</Project>
       <Name>FwStandard</Name>
