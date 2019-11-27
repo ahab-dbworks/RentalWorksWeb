@@ -26,19 +26,35 @@
          });
      }
 
-     beforeValidateItem = function ($browse, $grid, request, datafield, $tr) {
-         const availFor = $grid.find('.active [data-grid="TransferOrderItemGrid"]');
+     //beforeValidateItem = function ($browse, $grid, request, datafield, $tr) {
+     //    const availFor = $grid.find('.active [data-grid="TransferOrderItemGrid"]');
 
-         if (availFor.hasClass('R')) {
-             request.uniqueids = {
-                 AvailFor: 'R'
-             };
-         } else if (availFor.hasClass('S')) {
-             request.uniqueids = {
-                 AvailFor: 'S'
-             };
+     //    if (availFor.hasClass('R')) {
+     //        request.uniqueids = {
+     //            AvailFor: 'R'
+     //        };
+     //    } else if (availFor.hasClass('S')) {
+     //        request.uniqueids = {
+     //            AvailFor: 'S'
+     //        };
+     //    }
+     //};
+     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
+         switch (datafield) {
+             case 'InventoryId':
+                 const availFor = $form.find('.active [data-grid="TransferOrderItemGrid"]');
+                 if (availFor.hasClass('R')) {
+                     request.uniqueids = {
+                         AvailFor: 'R'
+                     };
+                 } else if (availFor.hasClass('S')) {
+                     request.uniqueids = {
+                         AvailFor: 'S'
+                     };
+                 }
+                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateicodetransfer`);
          }
-     };
+     }
 }
 //-----------------------------------------------------------------------------------------------------
 //QuikSearch

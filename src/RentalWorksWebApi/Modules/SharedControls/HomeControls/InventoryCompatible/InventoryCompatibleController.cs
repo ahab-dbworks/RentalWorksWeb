@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options; 
 using WebApi.Controllers; 
 using System.Threading.Tasks;
+using WebApi.Modules.Inventory.RentalInventory;
+using WebApi.Modules.Inventory.SalesInventory;
 
 namespace WebApi.Modules.HomeControls.InventoryCompatible
 {
@@ -72,5 +74,20 @@ namespace WebApi.Modules.HomeControls.InventoryCompatible
             return await DoDeleteAsync<InventoryCompatibleLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/inventorycompatible/validatecompatiblewithinventoryrental/browse
+        [HttpPost("validatecompatiblewithinventoryrental/browse")]
+        [FwControllerMethod(Id: "SYpFJdcVc2rh", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateCompatibleWithInventoryRentalBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<RentalInventoryLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/inventorycompatible/validatecompatiblewithinventorysales/browse
+        [HttpPost("validatecompatiblewithinventorysales/browse")]
+        [FwControllerMethod(Id: "IP5bBOpkzCnX", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateCompatibleWithInventorySalesBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<SalesInventoryLogic>(browseRequest);
+        }
     }
 }

@@ -8,6 +8,13 @@
             $generatedtr.find('.field[data-browsedatafield="AvailableFor"]').text($tr.find('.field[data-browsedatafield="AvailFor"]').attr('data-originalvalue'));
         });
     }
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
+        switch (datafield) {
+            case 'InventoryId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventory`);
+                break;
+        }
+    }
 }
 
 var PhysicalInventoryCycleInventoryGridController = new PhysicalInventoryCycleInventoryGrid();

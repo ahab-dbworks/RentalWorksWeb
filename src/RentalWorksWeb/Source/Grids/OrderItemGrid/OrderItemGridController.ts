@@ -86,29 +86,34 @@
                             request.uniqueids = {
                                 AvailFor: 'R'
                             };
+                            $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateicoderental`);
                             break;
                         case 'S':
                             request.uniqueids = {
                                 AvailFor: 'S'
                             };
+                            $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateicodesales`);
                             break;
                         case 'M':
                             request.uniqueids = {
                                 AvailFor: 'M'
                             };
+                            $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateicodemisc`);
                             break;
                         case 'L':
                             request.uniqueids = {
                                 AvailFor: 'L'
                             };
+                            $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateicodelabor`);
                             break;
                     }
                 }
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateicode`);
                 break;
             case 'UnitId':
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateunit`);
                 break;
+            case 'WarehouseId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatewarehouse`);
         }
     }
 
