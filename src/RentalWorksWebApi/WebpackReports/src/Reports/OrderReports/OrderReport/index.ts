@@ -30,12 +30,7 @@ export class OrderReport extends WebpackReport {
                             if (logoObject.LogoImage != '') {
                                 data.Logosrc = logoObject.LogoImage;
                             }
-                            if (parameters.isQuote) {
-                                data.Report = 'QUOTE';
-                                document.title = 'Quote Report'
-                            } else {
-                                data.Report = 'ORDER';
-                            }
+                            data.Report = 'ORDER';
 
                             this.renderFooterHtml(data);
                             if (this.action === 'Preview' || this.action === 'PrintHtml') {

@@ -17,7 +17,7 @@ export class QuoteReport extends WebpackReport {
             Ajax.get<DataTable>(`${apiUrl}/api/v1/logosettings/1`, authorizationHeader)
                 .then((response: DataTable) => {
                     const logoObject: any = response;
-                    Ajax.post<Order>(`${apiUrl}/api/v1/orderreport/runreport`, authorizationHeader, parameters)
+                    Ajax.post<Order>(`${apiUrl}/api/v1/quotereport/runreport`, authorizationHeader, parameters)
                         .then((response: Order) => {
                             const data: any = response;
                             data.Items = DataTable.toObjectList(response.Items);
@@ -30,12 +30,8 @@ export class QuoteReport extends WebpackReport {
                             if (logoObject.LogoImage != '') {
                                 data.Logosrc = logoObject.LogoImage;
                             }
-                            if (parameters.isQuote) {
-                                data.Report = 'QUOTE';
-                                document.title = 'Quote Report'
-                            } else {
-                                data.Report = 'ORDER';
-                            }
+                            data.Report = 'QUOTE';
+                            document.title = 'Quote Report';
 
                             this.renderFooterHtml(data);
                             if (this.action === 'Preview' || this.action === 'PrintHtml') {
