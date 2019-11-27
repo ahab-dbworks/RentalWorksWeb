@@ -190,6 +190,8 @@ html.theme-material .fwbrowse table tbody .field[data-formdatatype="toggleswitch
 html.theme-material .fwbrowse table tbody .field[data-formdatatype="toggleswitch"] input:checked + .slider:before {-webkit-transform: translateX(26px);-ms-transform: translateX(26px);transform: translateX(26px);}
 html.theme-material .fwbrowse table tbody .field[data-formdatatype="toggleswitch"][data-enabled="false"] .switch {opacity:0.5;}
 
+html.theme-material .fwbrowse table tbody .field[data-browsedatatype="number"] {justify-content:flex-end;}
+
 html.theme-material .fwbrowse table tbody .field[data-formdatatype="validation"] .btnpeek {height:100%;cursor:pointer;color:#000000;display: flex;align-items: center;justify-content: center; margin-left: auto;}
 
 html.theme-material .fwbrowse table tbody tr.editrow .field[data-formdatatype="time"] input.value {flex: 1 1 0;box-sizing:border-box;height:100%;width:100%;border:0;padding:0 .3rem;}

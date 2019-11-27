@@ -1,6 +1,4 @@
-﻿using Fw.Json.SqlServer;
-using Fw.Json.Utilities;
-using System;
+﻿using System;
 
 namespace TrakitWorksWeb
 {
@@ -9,9 +7,7 @@ namespace TrakitWorksWeb
 
         protected void Application_Start(object sender, EventArgs e)
         {
-            FwFunc.WriteLog("Begin Application Start");
-            FwSqlConnection.AppDatabase = FwDatabases.RentalWorks;
-            FwFunc.WriteLog("End Application Start");
+            
         }
 
         protected void Session_Start(object sender, EventArgs e)

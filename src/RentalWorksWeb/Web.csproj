@@ -71,17 +71,6 @@
     <TypeScriptSourceRoot>
     </TypeScriptSourceRoot>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug Web Fast|AnyCPU' ">
-    <FwUpdateSchema>false</FwUpdateSchema>
-    <FwPublish>false</FwPublish>
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <FwUpdateSchema>true</FwUpdateSchema>
     <FwPublish>true</FwPublish>
@@ -107,17 +96,6 @@
     </TypeScriptMapRoot>
     <TypeScriptSourceRoot>
     </TypeScriptSourceRoot>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release Web Fast|AnyCPU' ">
-    <FwUpdateSchema>false</FwUpdateSchema>
-    <FwPublish>true</FwPublish>
-    <OutputPath>bin\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="DevDefined.OAuth, Version=1.0.0.0, Culture=neutral, PublicKeyToken=a3261f5b4697e67d, processorArchitecture=MSIL">
@@ -165,7 +143,6 @@
     <Content Include="Global.asax" />
     <Content Include="index_src.htm" />
     <Content Include="Integration\QBOIntegration\images\qbo_logo.png" />
-    <Content Include="Integration\QBOIntegration\QBOIntegration.aspx" />
     <Content Include="Integration\QBOIntegration\QBOIntegration.css" />
     <Content Include="Integration\QBOIntegration\QBOIntegrationController.js" />
     <TypeScriptCompile Include="%40types\Fw\index.d.ts" />
@@ -1292,14 +1269,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Integration\QBOIntegration\QBOIntegration.aspx.cs">
-      <DependentUpon>QBOIntegration.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Integration\QBOIntegration\QBOIntegration.aspx.designer.cs">
-      <DependentUpon>QBOIntegration.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Integration\QBOIntegration\QBOIntegrationData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -1329,10 +1298,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\lib\Fw\src\Fw.Json\Fw.Json.csproj">
-      <Project>{3be1823f-3f08-4ca5-94bc-9c7efd2fc64f}</Project>
-      <Name>Fw.Json</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\lib\Fw\src\FwStandard\FwStandard.csproj">
       <Project>{bf70fe28-da24-40ec-aa7e-613803411e12}</Project>
       <Name>FwStandard</Name>
@@ -1543,7 +1508,6 @@
     <MakeDir Directories="$(FwDeploymentDirectory)\Integration\QBOIntegration" Condition="!Exists('$(FwDeploymentDirectory)\Integration\QBOIntegration')" ContinueOnError="false" />
     <MakeDir Directories="$(FwDeploymentDirectory)\Integration\QBOIntegration\images" Condition="!Exists('$(FwDeploymentDirectory)\Integration\QBOIntegration\images')" ContinueOnError="false" />
     <Exec Command="robocopy &quot;$(FwApplicationDirectory)\Integration\QBOIntegration\images&quot; &quot;$(FwDeploymentDirectory)\Integration\QBOIntegration\images&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
-    <Copy SourceFiles="$(FwApplicationDirectory)\Application.sample.config" DestinationFiles="$(FwDeploymentDirectory)\Application.sample.config" ContinueOnError="false" />
     <Copy SourceFiles="$(FwApplicationDirectory)\Global.asax" DestinationFiles="$(FwDeploymentDirectory)\Global.asax" ContinueOnError="false" />
     <Copy SourceFiles="$(FwApplicationDirectory)\ApplicationConfig.sample.js" DestinationFiles="$(FwDeploymentDirectory)\ApplicationConfig.sample.js" ContinueOnError="false" />
     <Copy SourceFiles="$(FwApplicationDirectory)\version.txt" DestinationFiles="$(FwDeploymentDirectory)\version.txt" ContinueOnError="false" />

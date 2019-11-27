@@ -56,7 +56,6 @@ namespace JSAppBuilder
                 config.BuildEngine = new VirtualBuildEngine();
                 config.Publish = publish;
                 config.Version = version;
-                config.UpdateSchema = updateSchema;
                 config.AttachDebugger = attachDebugger;
                 config.Build(pathJSAppBuilderConfig, solutionPath);
             }

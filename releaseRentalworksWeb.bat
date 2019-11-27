@@ -3,8 +3,8 @@ rem --------------------------------------------------------------------------
 rem Purpose:       
 rem This batch file will produce a new build of RentalWorksWeb in the "build" directory.
 rem --------------------------------------------------------------------------
-rem Author:        Justin Hoffman
-rem Last modified: 10/25/2019
+rem Author:        Justin Hoffman, Mike Vermilion
+rem Last modified: 11/26/2019
 rem --------------------------------------------------------------------------
 rem
 rem
@@ -37,23 +37,38 @@ if not exist "c:\Program Files\7-Zip\7z.exe" ECHO 7-Zip is not installed
 if not exist "c:\Program Files\7-Zip\7z.exe" set /p=Hit ENTER to exit
 if not exist "c:\Program Files\7-Zip\7z.exe" exit /B
 
-rem Get the Build number from the user
-set /p buildno="Build Number (ie. 2019.1.2.X): "
+rem Prompt the user which system to build
+set /p productname="Which system would you like to build: 1. RentalWorksWeb, 2. TrakitWorks? (default:1): "
+IF "%productname%"=="" (
+	set productname=RentalWorksWeb
+) ELSE IF "%productname%"=="1" (
+	set productname=RentalWorksWeb
+) ELSE IF "%productname%"=="2" (
+	set productname=TrakitWorksWeb
+) ELSE (
+	exit /B
+)
 
-rem Prompt the user if they want to commit and deploy to ftp
-set /p commitandftp="Do you want to commit and FTP the build? (y/n default:n): "
-IF NOT "%commitandftp%"=="y" set commitandftp=n
+rem Get the Build number from the user
+FOR /F "tokens=*" %%i IN (%DwRentalWorksWebPath%\src\%productname%\version.txt) DO @set previousversionno=%%i
+set /p fullversionno="Previous Version: %previousversionno%, New Version: "
+for /f "tokens=1-3 delims=." %%i in ("%fullversionno%") do (
+  set shortversionno=%%i.%%j.%%k
+)
+for /f "tokens=4 delims=." %%i in ("%fullversionno%") do (
+  set buildno=%%i
+)
 
 rem determine ZIP filename
 setlocal ENABLEDELAYEDEXPANSION
-set buildnoforzip=%buildno:.=_%
-set zipfilename=RentalWorksWeb_%buildnoforzip%.zip
+set buildnoforzip=%fullversionno:.=_%
+set zipfilename=%productname%_%buildnoforzip%.zip
 
 rem Update the Build number in the version.txt files
-echo | set /p buildnumber=>%DwRentalWorksWebPath%\src\RentalWorksWeb\version.txt
-echo | set /p buildnumber="%buildno%">>%DwRentalWorksWebPath%\src\RentalWorksWeb\version.txt
-echo | set /p buildnumber="%buildno%"> %DwRentalWorksWebPath%\src\RentalWorksWebApi\version.txt
-echo | set /p buildnumber="%buildno%"> %DwRentalWorksWebPath%\src\RentalWorksWeb\version-RentalWorksWeb.txt
+echo | set /p buildnumber=>%DwRentalWorksWebPath%\src\%productname%\version.txt
+echo | set /p buildnumber="%fullversionno%">>%DwRentalWorksWebPath%\src\%productname%\version.txt
+echo | set /p buildnumber="%fullversionno%"> %DwRentalWorksWebPath%\src\RentalWorksWebApi\version.txt
+echo | set /p buildnumber="%fullversionno%"> %DwRentalWorksWebPath%\src\RentalWorksWebApi\version-%productname%.txt
 
 rem update AssemblyInfo.cs
 cmd /c exit 91
@@ -64,7 +79,7 @@ set closeBrack=%=exitcodeAscii%
 rem echo %closeBrack%
 set newassemblyline=%openBrack%assembly: AssemblyVersion("%buildno%")%closeBrack%
 rem echo %newassemblyline%
-set "file=%DwRentalWorksWebPath%\src\RentalWorksWeb\Properties\AssemblyInfo.cs"
+set "file=%DwRentalWorksWebPath%\src\%productname%\Properties\AssemblyInfo.cs"
 for /F "delims=" %%a in (%file%) do (
     set /A count+=1
     set "array[!count!]=%%a"
@@ -76,14 +91,52 @@ for /L %%i in (1,1,%count%) do (
    echo !array[%%i]!|find "AssemblyVersion" >nul
    if errorlevel 1 (echo !array[%%i]!>>%file%) else (call echo !newassemblyline!>>%file%))
 
+rem delete any old build files
+cd %DwRentalWorksWebPath%\build
+if exist %productname%\ (rmdir %productname% /S /Q)
+if exist %productname%Api\ (rmdir %productname%Api /S /Q)
+if exist %zipfilename% (del %zipfilename%)
+
+rem build Web
+dotnet restore %DwRentalWorksWebPath%\RentalWorksWeb.sln
+"C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\msbuild.exe" %DwRentalWorksWebPath%\RentalWorksWeb.sln /t:Rebuild /p:Configuration="Release %productname%" /p:Platform="any cpu" /p:ReferencePath=%DwRentalWorksWebPath%\packages 
+
+rem build the API 
+cd %DwRentalWorksWebPath%\src\RentalWorksWebApi
+call npm i
+call npm run publish
+if "%productname%"=="RentalWorksWeb" (
+	set webapipath=%DwRentalWorksWebPath%\build\RentalWorksWebApi\
+)
+else if "%productname%"=="TrakitWorksWeb" (
+    MOVE %DwRentalWorksWebPath%\build\RentalWorksWebApi %DwRentalWorksWebPath%\build\TrakitWorksWebApi
+	set webapipath=%DwRentalWorksWebPath%\build\TrakitWorksWebApi\
+)
+
+rem make the ZIP deliverable
+"c:\Program Files\7-Zip\7z.exe" a %DwRentalWorksWebPath%\build\%zipfilename% %DwRentalWorksWebPath%\build\%productname%\
+"c:\Program Files\7-Zip\7z.exe" a %DwRentalWorksWebPath%\build\%zipfilename% %webapipath%
+cd %DwRentalWorksWebPath%\build
+
+rem delete the work files
+if exist %productname%\ (rmdir %productname% /S /Q)
+if exist %productname%Api\ (rmdir %productname%Api /S /Q)
+
+rem copy the ZIP delivable to "history" sub-directory
+copy %zipfilename% history
+
+rem Prompt the user if they want to commit and deploy to ftp
+set /p commitandftp="Do you want to commit and FTP the build? (y/n default:n): "
+IF NOT "%commitandftp%"=="y" set commitandftp=n
+
 IF "%commitandftp%"=="y" (
     rem rem command-line Git push in the modified version and assemply files
     cd %DwRentalWorksWebPath%
     git config --global gc.auto 0
-    git add "src/RentalWorksWeb/version.txt"
+    git add "src/%productname%/version.txt"
+    git add "src/%productname%/Properties/AssemblyInfo.cs"
     git add "src/RentalWorksWebApi/version.txt"
-    git add "src/RentalWorksWeb/version-RentalWorksWeb.txt"
-    git add "src/RentalWorksWeb/Properties/AssemblyInfo.cs"
+    git add "src/RentalWorksWebApi/version-%productname%.txt"
     git commit -m "web: %buildno%"
     git push
     rem git tag web/v%buildno%
@@ -104,35 +157,8 @@ IF "%commitandftp%"=="y" (
     rem   -v -u {email_address}:{password} -X POST -H "Content-Type: application/json"
     rem Note: "section" will be something like RentalWorksWeb > Release Documents
     rem Note: need to research how to attach documents
-)
 
-rem delete any old build files
-cd %DwRentalWorksWebPath%\build
-if exist RentalWorksWeb\ (rmdir RentalWorksWeb /S /Q)
-if exist RentalWorksWebApi\ (rmdir RentalWorksWebApi /S /Q)
-if exist %zipfilename% (del %zipfilename%)
 
-rem build Web
-dotnet restore %DwRentalWorksWebPath%\RentalWorksWeb.sln
-"C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\msbuild.exe" %DwRentalWorksWebPath%\RentalWorksWeb.sln /t:Rebuild /p:Configuration="Release Web" /p:Platform="any cpu" /p:ReferencePath=%DwRentalWorksWebPath%\packages 
-
-rem build the API 
-cd %DwRentalWorksWebPath%\src\RentalWorksWebApi
-call npm run publish
-
-rem make the ZIP deliverable
-"c:\Program Files\7-Zip\7z.exe" a %DwRentalWorksWebPath%\build\%zipfilename% %DwRentalWorksWebPath%\build\RentalWorksWeb\
-"c:\Program Files\7-Zip\7z.exe" a %DwRentalWorksWebPath%\build\%zipfilename% %DwRentalWorksWebPath%\build\RentalWorksWebApi\
-cd %DwRentalWorksWebPath%\build
-
-rem delete the work files
-if exist RentalWorksWeb\ (rmdir RentalWorksWeb /S /Q)
-if exist RentalWorksWebApi\ (rmdir RentalWorksWebApi /S /Q)
-
-rem copy the ZIP delivable to "history" sub-directory
-copy %zipfilename% history
-
-IF "%commitandftp%"=="y" (
     rem Create FTP command file to upload the zip
     setlocal DISABLEDELAYEDEXPANSION
     cd %DwRentalWorksWebPath%\build
@@ -141,8 +167,8 @@ IF "%commitandftp%"=="y" (
     echo %DwFtpUploadUser%>>%ftpcommandfilename%
     echo %DwFtpUploadPassword%>>%ftpcommandfilename%
     echo cd update>>%ftpcommandfilename%
-    echo cd rentalworksweb>>%ftpcommandfilename%
-    echo cd 2019.1.2>>%ftpcommandfilename%
+    echo cd %productname%>>%ftpcommandfilename%
+    echo cd %shortversionno%>>%ftpcommandfilename%
     echo put %zipfilename%>>%ftpcommandfilename%
     echo put %buildno%.pdf>>%ftpcommandfilename%
     echo quit>>%ftpcommandfilename%
@@ -151,5 +177,4 @@ IF "%commitandftp%"=="y" (
     ftp -s:%ftpcommandfilename% -v
     del %ftpcommandfilename%
 )
-
-
+pause

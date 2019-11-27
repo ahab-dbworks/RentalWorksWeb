@@ -510,3 +510,9 @@ class FwFormFieldClass {
 }
 
 var FwFormField = new FwFormFieldClass();
+
+//---------------------------------------------------------------------------------
+interface IDropDownListItem {
+    value: string
+    text: string
+}
