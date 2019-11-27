@@ -202,7 +202,7 @@
                     //}
                     //self.loadScheduler($form, response.InventoryAvailabilityScheduleEvents, response.InventoryAvailabilityScheduleResources);
                     FwScheduler.loadEventsCallback($control, [{ id: '1', name: '' }], calendarevents);
-                    if (typeof $form.data('warehousefilter')) {
+                    if (typeof $form.data('warehousefilter') === 'string') {
                         $form = jQuery('#availabilityCalendarPopup');
                     }
                     this.loadInventoryDataTotals($form, response.InventoryData);
