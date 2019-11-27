@@ -25,6 +25,7 @@ namespace WebLibrary
         //AVAILABILITY
         public static string AVAILABILITY_COLOR_RESERVED { get; set; }
         public static string AVAILABILITY_COLOR_LATE { get; set; }
+        public static string AVAILABILITY_COLOR_LATE_BUT_RETURNING { get; set; }
 
 
 
@@ -228,6 +229,8 @@ namespace WebLibrary
 
             AVAILABILITY_COLOR_RESERVED = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_RESERVED);
             AVAILABILITY_COLOR_LATE = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_LATE);
+            AVAILABILITY_COLOR_LATE_BUT_RETURNING = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_LATE_BUT_RETURNING);
+
 
             CONTRACT_ITEM_VOIDED_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.CONTRACT_ITEM_VOIDED_COLOR);
             CONTRACT_BILLING_DATE_ADJUSTED_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.CONTRACT_BILLING_DATE_ADJUSTED_COLOR);

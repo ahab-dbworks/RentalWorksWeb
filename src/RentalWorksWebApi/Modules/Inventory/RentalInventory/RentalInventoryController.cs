@@ -51,7 +51,7 @@ namespace WebApi.Modules.Inventory.RentalInventory
             legend.Add("Sub Rent", RwGlobals.SUB_COLOR);
             legend.Add("Staged", RwGlobals.STAGED_COLOR);
             legend.Add("Out", RwGlobals.OUT_COLOR);
-            legend.Add("Late", RwGlobals.AVAILABILITY_COLOR_LATE);
+            legend.Add("Late But Returning", RwGlobals.AVAILABILITY_COLOR_LATE_BUT_RETURNING);
             legend.Add("In Transit", RwGlobals.IN_TRANSIT_COLOR);
             legend.Add("In Repair", RwGlobals.IN_REPAIR_COLOR);
             legend.Add("Pending Exchange", RwGlobals.PENDING_EXCHANGE_COLOR);

@@ -224,6 +224,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
         public string Deal { get; set; }
         public DateTime FromDateTime { get; set; }
         public DateTime ToDateTime { get; set; }
+        public bool LateButReturning { get; set; }
         public decimal QuantityOrdered { get; set; } = 0;
         public decimal QuantitySub { get; set; } = 0;
         public decimal QuantityConsigned { get; set; } = 0;
@@ -1094,6 +1095,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
                 qry.Add("       a.warehouseid, a.whcode, a.warehouse,                                           ");
                 qry.Add("       a.returntowarehouseid, a.returntowhcode, a.returntowarehouse,                   ");
                 qry.Add("       a.orderid, a.masteritemid, a.availfromdatetime, a.availtodatetime,              ");
+                qry.Add("       a.availlatedays, a.availlatehours,                                              ");
                 qry.Add("       a.ordertype, a.orderno, a.orderdesc, a.orderstatus, a.dealid, a.deal,           ");
                 qry.Add("       a.departmentid, a.department,                                                   ");
                 qry.Add("       a.qtyordered, a.qtystagedowned, a.qtyoutowned, a.qtyinowned,                    ");
@@ -1222,6 +1224,21 @@ namespace WebApi.Modules.Home.InventoryAvailability
                         {
                         }
 
+                        if ((reservation.ToDateTime < DateTime.Now) && ((reservation.QuantityStaged.Total + reservation.QuantityOut.Total + +reservation.QuantityInRepair.Total) > 0))
+                        {
+                            int warehouseLateDays = FwConvert.ToInt32(row[dt.GetColumnNo("availlatedays")].ToString());
+                            DateTime lateButReturningThroughDate = reservation.ToDateTime.AddDays(warehouseLateDays);
+                            if ((warehouseLateDays > 0) && (reservation.QuantityOut.Total > 0) && (reservation.ToDateTime < lateButReturningThroughDate))
+                            {
+                                reservation.ToDateTime = lateButReturningThroughDate;
+                                reservation.LateButReturning = true;
+                            }
+                            else
+                            {
+                                reservation.ToDateTime = InventoryAvailabilityFunc.LateDateTime;
+                            }
+                        }
+
                         availData.Reservations.Add(reservation);
                     }
                 }
@@ -1234,6 +1251,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
                 qry.Add("       a.warehouseid, a.whcode, a.warehouse,                                           ");
                 qry.Add("       a.returntowarehouseid, a.returntowhcode, a.returntowarehouse,                   ");
                 qry.Add("       a.orderid, a.masteritemid, a.availfromdatetime, a.availtodatetime,              ");
+                qry.Add("       a.availlatedays, a.availlatehours,                                              ");
                 qry.Add("       a.ordertype, a.orderno, a.orderdesc, a.orderstatus, a.dealid, a.deal,           ");
                 qry.Add("       a.departmentid, a.department,                                                   ");
                 qry.Add("       a.qtyordered, a.qtystagedowned, a.qtyoutowned, a.qtyinowned,                    ");
@@ -1357,6 +1375,21 @@ namespace WebApi.Modules.Home.InventoryAvailability
                             }
                             else if (reservation.OrderType.Equals(RwConstants.ORDER_TYPE_REPAIR))
                             {
+                            }
+
+                            if ((reservation.ToDateTime < DateTime.Now) && ((reservation.QuantityStaged.Total + reservation.QuantityOut.Total + +reservation.QuantityInRepair.Total) > 0))
+                            {
+                                int warehouseLateDays = FwConvert.ToInt32(row[dt.GetColumnNo("availlatedays")].ToString());
+                                DateTime lateButReturningThroughDate = reservation.ToDateTime.AddDays(warehouseLateDays);
+                                if ((warehouseLateDays > 0) && (reservation.QuantityOut.Total > 0) && (reservation.ToDateTime < lateButReturningThroughDate))
+                                {
+                                    reservation.ToDateTime = lateButReturningThroughDate;
+                                    reservation.LateButReturning = true;
+                                }
+                                else
+                                {
+                                    reservation.ToDateTime = InventoryAvailabilityFunc.LateDateTime;
+                                }
                             }
 
                             availData.Reservations.Add(reservation);
@@ -2062,6 +2095,10 @@ namespace WebApi.Modules.Home.InventoryAvailability
                             else
                             {
                                 availScheduleEvent.enddisplay = reservationToDateTime.ToString();
+                                if (reservation.LateButReturning)
+                                {
+                                    availScheduleEvent.enddisplay += " (Late)";
+                                }
                             }
 
                             availScheduleEvent.text = reservation.ReservationDescription;
@@ -2116,6 +2153,10 @@ namespace WebApi.Modules.Home.InventoryAvailability
                             else
                             {
                                 availScheduleEvent.enddisplay = reservationToDateTime.ToString();
+                                if (reservation.LateButReturning)
+                                {
+                                    availScheduleEvent.enddisplay += " (Late)";
+                                }
                             }
 
                             availScheduleEvent.text = reservation.ReservationDescription;
@@ -2173,6 +2214,10 @@ namespace WebApi.Modules.Home.InventoryAvailability
                             else
                             {
                                 availScheduleEvent.enddisplay = reservationToDateTime.ToString();
+                                if (reservation.LateButReturning)
+                                {
+                                    availScheduleEvent.enddisplay += " (Late)";
+                                }
                             }
 
                             availScheduleEvent.text = reservation.ReservationDescription;
@@ -2220,6 +2265,10 @@ namespace WebApi.Modules.Home.InventoryAvailability
                             else
                             {
                                 availScheduleEvent.enddisplay = reservationToDateTime.ToString();
+                                if (reservation.LateButReturning)
+                                {
+                                    availScheduleEvent.enddisplay += " (Late)";
+                                }
                             }
 
                             availScheduleEvent.text = reservation.ReservationDescription;
@@ -2270,6 +2319,10 @@ namespace WebApi.Modules.Home.InventoryAvailability
                             else
                             {
                                 availScheduleEvent.enddisplay = reservationToDateTime.ToString();
+                                if (reservation.LateButReturning)
+                                {
+                                    availScheduleEvent.enddisplay += " (Late)";
+                                }
                             }
 
                             availScheduleEvent.text = reservation.ReservationDescription;
@@ -2290,7 +2343,16 @@ namespace WebApi.Modules.Home.InventoryAvailability
                             {
                                 availScheduleEvent.barColor = RwGlobals.OUT_COLOR;
                             }
+
                             availScheduleEvent.textColor = FwConvert.OleColorToHtmlColor(0); //black 
+
+                            if (reservation.LateButReturning)
+                            {
+                                availScheduleEvent.backColor = RwGlobals.AVAILABILITY_COLOR_LATE_BUT_RETURNING;
+                                availScheduleEvent.textColor = FwConvert.OleColorToHtmlColor(16777215); //white
+                            }
+
+
                             response.InventoryAvailabilityScheduleEvents.Add(availScheduleEvent);
                         }
                     }
@@ -2329,6 +2391,10 @@ namespace WebApi.Modules.Home.InventoryAvailability
                             else
                             {
                                 availScheduleEvent.enddisplay = reservationToDateTime.ToString();
+                                if (reservation.LateButReturning)
+                                {
+                                    availScheduleEvent.enddisplay += " (Late)";
+                                }
                             }
 
                             availScheduleEvent.text = reservation.ReservationDescription;
@@ -2391,6 +2457,10 @@ namespace WebApi.Modules.Home.InventoryAvailability
                             else
                             {
                                 availScheduleEvent.enddisplay = reservationToDateTime.ToString();
+                                if (reservation.LateButReturning)
+                                {
+                                    availScheduleEvent.enddisplay += " (Late)";
+                                }
                             }
 
                             availScheduleEvent.text = reservation.ReservationDescription;
