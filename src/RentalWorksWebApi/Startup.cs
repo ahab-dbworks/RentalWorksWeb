@@ -20,17 +20,16 @@ namespace WebApi
         //------------------------------------------------------------------------------------
         public override void ConfigureServices(IServiceCollection services)
         {
-            services.AddHostedService<AvailabilityService>();
             base.ConfigureServices(services);
-            //FwSecurityTree.Tree = new SecurityTree(ApplicationConfig.DatabaseSettings, "{94FBE349-104E-420C-81E9-1636EBAE2836}");
             RwGlobals.SetGlobalColors(ApplicationConfig.DatabaseSettings);
             FwAppManager.Tree = new AppManager(this.ApplicationConfig.DatabaseSettings);
             FwAppManager.CurrentProduct = "Rw";
             FwAppManager.CurrentProductEdition = "E";
             FwAppManager.Tree.LoadFromWebApi();
-            //FwAppManager.Tree.LoadAllGroupTrees().Wait();
-            //var node1 = FwAppManager.Tree.GetGroupsTreeAsync("A000KXE5", false).Result;
-            //var node2 = FwAppManager.Tree.GetGroupsTreeAsync("A000KXE5", false).Result;
+            if (this.ApplicationConfig.EnableAvailabilityService)
+            {
+                services.AddHostedService<AvailabilityService>();
+            }
         }
         //------------------------------------------------------------------------------------
         public override void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
