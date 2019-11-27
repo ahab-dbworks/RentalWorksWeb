@@ -277,12 +277,16 @@ class FwSettingsClass {
             const keys = $browse.find('.field');
             const rowId = jQuery(keys[0]).attr('data-browsedatafield');
 
-            //append legend
-            if ($body.find('.legend').length <= 1) {
-                $body.prepend(this.getLegend());
+            //append record search / legend
+            if ($body.find('.record-search').length <= 1) {
+                $body.prepend(this.getRecordSearch());
                 if ($browse.attr('data-hasinactive') !== 'true') {
-                    $body.find('.legend .view-options').hide();
+                    $body.find('.record-search .view-options').hide();
                 }
+            }
+            const $legend = $browse.find('.legend');
+            if ($legend.length > 0) {
+                $body.find('.record-search').after($legend);
             }
 
             for (var i = 1; i < keys.length; i++) {
@@ -518,6 +522,7 @@ class FwSettingsClass {
             $body.prepend($wrappedForm);
             $body.prepend(jQuery(newRowHtml.join('')));
             $body.prepend($body.find('.legend'));
+            $body.prepend($body.find('.record-search'));
         }
 
         $body.on('click', '.close-new-row', e => {
@@ -674,11 +679,11 @@ class FwSettingsClass {
                         var withoutDuplicates = [];
 
                         if ($body.is(':empty')) {
-                            //append legend
-                            if ($body.find('.legend').length <= 0) {
-                                $body.append(this.getLegend());
+                            //append record search / legend
+                            if ($body.find('.record-search').length <= 0) {
+                                $body.append(this.getRecordSearch());
                                 if ($browse.attr('data-hasinactive') !== 'true') {
-                                    $body.find('.legend .view-options').hide();
+                                    $body.find('.record-search .view-options').hide();
                                 }
                             }
                             if ($browse.find('.legend').length > 0) {
@@ -1034,7 +1039,7 @@ class FwSettingsClass {
                                 if (tempSaveResponse) {
                                     this.getPanelForNew($control, $form, moduleName, tempSaveResponse);
                                 }
-                            }, 750)
+                            }, 800)
                         }
                         // existing record with a save event
                         if (typeof browsedata !== 'undefined') {
@@ -1383,6 +1388,8 @@ class FwSettingsClass {
         $body.find('.new-row').remove();
         $body.prepend($newPanel);
         $body.prepend($body.find('.legend'));
+        $body.prepend($body.find('.record-search'));
+
         const $rowBody = $body.find(`#${saveData[rowId]}.panel-body`);
         if (!inactiverecord) {
             $rowBody.prepend($form);
@@ -1396,9 +1403,9 @@ class FwSettingsClass {
         }
     }
     //----------------------------------------------------------------------------------------------
-    getLegend(): string {
+    getRecordSearch(): string {
         return `
-            <div class="legend">
+            <div class="record-search">
               <div class="view-options" style="float:left;">
                 <div class="flexrow">
                   <div class="flexcolumn" style="max-width: 28px;">

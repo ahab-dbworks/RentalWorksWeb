@@ -48,7 +48,7 @@
         ], true);
 
         // Load Default Home Page
-        const allModules = FwApplicationTree.getAllModules(false, false, (modules: any[], moduleCaption: string, moduleName: string, category: string, currentNode: any, nodeModule: IGroupSecurityNode, hasNew: boolean, hasEdit: boolean, moduleController: any) => {
+        const allModules = FwApplicationTree.getAllModules(false, false, (modules: any[], moduleCaption: string, moduleName: string, category: string, currentNode: any, nodeModule: IGroupSecurityNode, hasView: boolean, hasNew: boolean, hasEdit: boolean, moduleController: any) => {
             if (moduleController.hasOwnProperty('nav')) {
                 modules.push({ value: moduleController.id, text: moduleCaption, nav: moduleController.nav });
             }
