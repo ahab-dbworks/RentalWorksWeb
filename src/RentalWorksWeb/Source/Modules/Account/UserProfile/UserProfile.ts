@@ -1,4 +1,4 @@
-﻿class UserProfile{
+class UserProfile{
     Module: string = 'UserProfile';
     apiurl: string = 'api/v1/userprofile';
     id: string = 'DrTcbvvUw92V';
@@ -48,24 +48,24 @@
         ], true);
 
         // Load Default Home Page
-        const allModules = FwApplicationTree.getAllModules(false, false, (modules: any[], moduleCaption: string, moduleName: string, category: string, currentNode: any, nodeModule: IGroupSecurityNode, hasView: boolean, hasNew: boolean, hasEdit: boolean, moduleController: any) => {
+        const defaultHomePages = FwApplicationTree.getAllModules(false, false, (modules: any[], moduleCaption: string, moduleName: string, category: string, currentNode: any, nodeModule: IGroupSecurityNode, hasView: boolean, hasNew: boolean, hasEdit: boolean, moduleController: any) => {
             if (moduleController.hasOwnProperty('nav')) {
                 modules.push({ value: moduleController.id, text: moduleCaption, nav: moduleController.nav });
             }
         });
-        FwApplicationTree.sortModules(allModules);
+        FwApplicationTree.sortModules(defaultHomePages);
         const $defaultHomePage = $form.find('.default-home-page');
-        FwFormField.loadItems($defaultHomePage, allModules, true);
+        FwFormField.loadItems($defaultHomePage, defaultHomePages, true);
 
         // Load Available Modules
-        const sortableModules = FwApplicationTree.getAllModules(false, false, (modules: any[], moduleCaption: string, moduleName: string, category: string, currentNode: any, nodeModule: IGroupSecurityNode, hasNew: boolean, hasEdit: boolean, moduleController: any) => {
+        const toolbarModules = FwApplicationTree.getAllModules(false, false, (modules: any[], moduleCaption: string, moduleName: string, category: string, currentNode: any, nodeModule: IGroupSecurityNode, hasView: boolean, hasNew: boolean, hasEdit: boolean, moduleController: any) => {
             if (moduleController.hasOwnProperty('nav')) {
                 modules.push({ value: moduleController.nav, text: moduleCaption, selected: 'T'});
             }
         });
-        FwApplicationTree.sortModules(allModules);
+        FwApplicationTree.sortModules(toolbarModules);
         const $availModules = $form.find('.available-modules');
-        FwFormField.loadItems($availModules, sortableModules, true);
+        FwFormField.loadItems($availModules, toolbarModules, true);
 
         //sortableModules.sort(compare);
         //const $availModules = $form.find('.available-modules');
