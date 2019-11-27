@@ -1,18 +1,21 @@
 ﻿using FwStandard.Models;
 using FwStandard.Reporting;
 using FwStandard.SqlServer;
+using FwStandard.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace FwCore.Controllers
 {
     public abstract class FwReportController : FwController
     {
         public FwReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        //---------------------------------------------------------------------------------------------
+        protected Type loaderType = null;
         //---------------------------------------------------------------------------------------------
         protected abstract string GetReportFileName();
         //---------------------------------------------------------------------------------------------
@@ -84,6 +87,41 @@ namespace FwCore.Controllers
             return response;
         }
 
+        //------------------------------------------------------------------------------------ 
+        [HttpGet("emptyobject")]
+        public ActionResult<FwJsonDataTable> GetEmptyObject()
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                Type type = loaderType;
+                FwReportLoader l = (FwReportLoader)Activator.CreateInstance(type);
+                l.SetDependencies(AppConfig, UserSession);
+                return new OkObjectResult(l);
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------ 
+        protected ObjectResult GetApiExceptionResult(Exception ex)
+        {
+            FwApiException jsonException = new FwApiException();
+            jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+            jsonException.Message = ex.Message;
+            if (ex.InnerException != null)
+            {
+                jsonException.Message += $"\n\nInnerException: \n{ex.InnerException.Message}";
+            }
+            jsonException.StackTrace = ex.StackTrace;
+            return StatusCode(jsonException.StatusCode, jsonException);
+        }
+
+        //------------------------------------------------------------------------------------ 
         /// <summary>
         /// When a PDF is emailed, it's logged in a table an accesible by the uniqueid
         /// </summary>
