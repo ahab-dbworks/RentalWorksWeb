@@ -35,7 +35,7 @@ namespace WebApi.Modules.Reports.DealReports.CustomerRevenueByMonthReport
     [FwController(Id: "40SdfVGkZPtA6")]
     public class CustomerRevenueByMonthReportController : AppReportController
     {
-        public CustomerRevenueByMonthReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public CustomerRevenueByMonthReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(CustomerRevenueByMonthReportLoader); }
         protected override string GetReportFileName() { return "CustomerRevenueByMonthReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Customer Revenue By Month Report"; }
@@ -90,29 +90,6 @@ namespace WebApi.Modules.Reports.DealReports.CustomerRevenueByMonthReport
                 FwJsonDataTable dt = await l.RunReportAsync(request);
                 l.HideDetailColumnsInSummaryDataTable(request, dt);
                 return new OkObjectResult(dt);
-            }
-            catch (Exception ex)
-            {
-                return GetApiExceptionResult(ex);
-            }
-        }
-        //------------------------------------------------------------------------------------ 
-        // GET api/v1/customerrevenuebymonthreport/emptyobject
-        [HttpGet("emptyobject")]
-        [FwControllerMethod(Id: "xxxxxxxxxxxxxxxxxxxxxxxxxxxx1")]
-        public ActionResult<FwJsonDataTable> GetEmptyObject()
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            try
-            {
-                Type type = typeof(CustomerRevenueByMonthReportLoader);
-                AppReportLoader l = (AppReportLoader)Activator.CreateInstance(type);
-                l.SetDependencies(AppConfig, UserSession);
-                //l.IsEmptyObject = true;
-                return new OkObjectResult(l);
             }
             catch (Exception ex)
             {

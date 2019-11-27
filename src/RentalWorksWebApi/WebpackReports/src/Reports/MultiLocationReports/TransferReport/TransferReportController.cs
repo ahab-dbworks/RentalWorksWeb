@@ -36,7 +36,7 @@ namespace WebApi.Modules.Reports.MultiLocationReports.TransferReport
     [FwController(Id: "XerdM2ZaD51uw")]
     public class TransferReportController : AppReportController
     {
-        public TransferReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public TransferReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(TransferReportLoader); }
         protected override string GetReportFileName() { return "TransferReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Transfer Report"; }

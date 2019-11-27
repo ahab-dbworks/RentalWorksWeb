@@ -34,7 +34,7 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.RentalInventoryChangeRep
     [FwController(Id: "1hUsFp31mUCV")]
     public class RentalInventoryChangeReportController : AppReportController
     {
-        public RentalInventoryChangeReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public RentalInventoryChangeReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(RentalInventoryChangeReportLoader); }
         protected override string GetReportFileName() { return "RentalInventoryChangeReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Rental Inventory Change Report"; }

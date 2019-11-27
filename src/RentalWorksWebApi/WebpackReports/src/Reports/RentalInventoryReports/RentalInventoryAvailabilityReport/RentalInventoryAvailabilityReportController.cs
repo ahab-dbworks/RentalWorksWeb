@@ -37,7 +37,7 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.RentalInventoryAvailabil
     [FwController(Id: "LQj6R2GQBfLfS")]
     public class RentalInventoryAvailabilityReportController : AppReportController
     {
-        public RentalInventoryAvailabilityReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public RentalInventoryAvailabilityReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(RentalInventoryAvailabilityReportLoader); }
         protected override string GetReportFileName() { return "RentalInventoryAvailabilityReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Rental Inventory Availability Report"; }

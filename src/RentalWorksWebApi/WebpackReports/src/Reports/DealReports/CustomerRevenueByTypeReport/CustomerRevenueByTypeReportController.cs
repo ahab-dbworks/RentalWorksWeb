@@ -37,7 +37,7 @@ namespace WebApi.Modules.Reports.DealReports.CustomerRevenueByTypeReport
     [FwController(Id: "mIieqY1nHrJP")]
     public class CustomerRevenueByTypeReportController : AppReportController
     {
-        public CustomerRevenueByTypeReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public CustomerRevenueByTypeReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(CustomerRevenueByTypeReportLoader); }
         protected override string GetReportFileName() { return "CustomerRevenueByTypeReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Customer Revenue By Type Report"; }

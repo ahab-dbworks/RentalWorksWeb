@@ -24,7 +24,7 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
     [FwController(Id:"Q89Ni6FvVL92")]
     public class OrderReportController : AppReportController
     {
-        public OrderReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public OrderReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(OrderReportLoader); }
         protected override string GetReportFileName() { return "OrderReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Order Report"; }
@@ -66,29 +66,6 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
                 OrderReportLoader l = new OrderReportLoader();
                 l.SetDependencies(this.AppConfig, this.UserSession);
                 return new OkObjectResult(await l.RunReportAsync(request));               
-            }
-            catch (Exception ex)
-            {
-                return GetApiExceptionResult(ex);
-            }
-        }
-        //------------------------------------------------------------------------------------ 
-        // GET api/v1/aragingreport/emptyobject
-        [HttpGet("emptyobject")]
-        [FwControllerMethod(Id: "xxxxxxxxxxxxxxxxxxxxxxxxxxxx3")]
-        public ActionResult<FwJsonDataTable> GetEmptyObject()
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            try
-            {
-                Type type = typeof(OrderReportLoader);
-                AppReportLoader l = (AppReportLoader)Activator.CreateInstance(type);
-                l.SetDependencies(AppConfig, UserSession);
-                //l.IsEmptyObject = true;
-                return new OkObjectResult(l);
             }
             catch (Exception ex)
             {

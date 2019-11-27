@@ -45,7 +45,7 @@ namespace WebApi.Modules.Reports.DealReports.DealOutstandingItemsReport
     [FwController(Id:"i5RTw0gXIWhU")]
     public class DealOutstandingItemsReportController : AppReportController
     {
-        public DealOutstandingItemsReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public DealOutstandingItemsReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(DealOutstandingItemsReportLoader); }
         protected override string GetReportFileName() { return "DealOutstandingItemsReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Deal Outstanding Items Report"; }

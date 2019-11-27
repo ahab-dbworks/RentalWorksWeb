@@ -33,7 +33,7 @@ namespace WebApi.Modules.Reports.AccountingReports.ArAgingReport
     [FwController(Id:"KHw5yX5TubQ")]
     public class ArAgingReportController : AppReportController
     {
-        public ArAgingReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public ArAgingReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(ArAgingReportLoader); }
         protected override string GetReportFileName() { return "ArAgingReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "A/R Aging Report"; }
@@ -88,29 +88,6 @@ namespace WebApi.Modules.Reports.AccountingReports.ArAgingReport
                 FwJsonDataTable dt = await l.RunReportAsync(request);
                 l.HideDetailColumnsInSummaryDataTable(request, dt);
                 return new OkObjectResult(dt);
-            }
-            catch (Exception ex)
-            {
-                return GetApiExceptionResult(ex);
-            }
-        }
-        //------------------------------------------------------------------------------------ 
-        // GET api/v1/aragingreport/emptyobject
-        [HttpGet("emptyobject")]
-        [FwControllerMethod(Id: "xxxxxxxxxxxxxxxxxxxxxxxxxxxx2")]
-        public ActionResult<FwJsonDataTable> GetEmptyObject()
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            try
-            {
-                Type type = typeof(ArAgingReportLoader);
-                AppReportLoader l = (AppReportLoader)Activator.CreateInstance(type);
-                l.SetDependencies(AppConfig, UserSession);
-                //l.IsEmptyObject = true;
-                return new OkObjectResult(l);
             }
             catch (Exception ex)
             {

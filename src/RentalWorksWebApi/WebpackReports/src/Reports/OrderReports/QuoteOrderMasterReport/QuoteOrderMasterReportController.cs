@@ -36,7 +36,7 @@ namespace WebApi.Modules.Reports.OrderReports.QuoteOrderMasterReport
     [FwController(Id: "yx1quQL9wJ9mg")]
     public class QuoteOrderMasterReportController : AppReportController
     {
-        public QuoteOrderMasterReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public QuoteOrderMasterReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(QuoteOrderMasterReportLoader); }
         protected override string GetReportFileName() { return "QuoteOrderMasterReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Quote Order Master Report"; }

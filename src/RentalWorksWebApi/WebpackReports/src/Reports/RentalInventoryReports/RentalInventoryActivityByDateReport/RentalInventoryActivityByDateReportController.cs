@@ -30,7 +30,7 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.RentalInventoryActivityB
     [FwController(Id: "nh7dhdTKT9U0Q")]
     public class RentalInventoryActivityByDateReportController : AppReportController
     {
-        public RentalInventoryActivityByDateReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public RentalInventoryActivityByDateReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(RentalInventoryActivityByDateReportLoader); }
         protected override string GetReportFileName() { return "RentalInventoryActivityByDateReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Rental Inventory Activity By Date Report"; }
