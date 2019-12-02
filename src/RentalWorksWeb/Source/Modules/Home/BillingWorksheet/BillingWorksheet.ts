@@ -148,13 +148,13 @@ class BillingWorksheet {
 
         $invoiceItemGridRentalControl.data('ondatabind', request => {
             request.uniqueids = {
-                InvoiceId: FwFormField.getValueByDataField($form, 'InvoiceId'),
+                InvoiceId: FwFormField.getValueByDataField($form, 'BillingWorksheetId'),
                 RecType: 'R'
             };
             request.totalfields = invoiceItemTotalFields;
         });
         $invoiceItemGridRentalControl.data('beforesave', request => {
-            request.InvoiceId = FwFormField.getValueByDataField($form, 'InvoiceId');
+            request.InvoiceId = FwFormField.getValueByDataField($form, 'BillingWorksheetId');
             request.RecType = 'R';
         });
 
@@ -175,13 +175,13 @@ class BillingWorksheet {
 
         $invoiceItemGridSalesControl.data('ondatabind', request => {
             request.uniqueids = {
-                InvoiceId: FwFormField.getValueByDataField($form, 'InvoiceId'),
+                InvoiceId: FwFormField.getValueByDataField($form, 'BillingWorksheetId'),
                 RecType: 'S'
             };
             request.totalfields = invoiceItemTotalFields;
         });
         $invoiceItemGridSalesControl.data('beforesave', request => {
-            request.InvoiceId = FwFormField.getValueByDataField($form, 'InvoiceId');
+            request.InvoiceId = FwFormField.getValueByDataField($form, 'BillingWorksheetId');
             request.RecType = 'S';
         });
         FwBrowse.addEventHandler($invoiceItemGridSalesControl, 'afterdatabindcallback', ($invoiceItemGridSalesControl, dt) => {
@@ -190,41 +190,9 @@ class BillingWorksheet {
         FwBrowse.init($invoiceItemGridSalesControl);
         FwBrowse.renderRuntimeHtml($invoiceItemGridSalesControl);
         // ----------
-        const $invoiceItemGridLabor = $form.find('.laborgrid div[data-grid="InvoiceItemGrid"]');
-        const $invoiceItemGridLaborControl = FwBrowse.loadGridFromTemplate('InvoiceItemGrid');
-        $invoiceItemGridLabor.empty().append($invoiceItemGridLaborControl);
-        $invoiceItemGridLabor.addClass('L');
-        $invoiceItemGridLabor.find('div[data-datafield="Extended"]').attr('data-formreadonly', 'true');
-        $invoiceItemGridLabor.find('div[data-datafield="InventoryId"]').attr('data-formreadonly', 'true');
-        $invoiceItemGridLabor.find('div[data-datafield="OrderNumber"]').attr('data-formreadonly', 'true');
-        $invoiceItemGridLabor.find('div[data-datafield="Taxable"]').attr('data-formreadonly', 'true');
-        $invoiceItemGridLaborControl.find('div[data-datafield="Rate"]').attr('data-caption', 'Unit Rate');
-        $invoiceItemGridLaborControl.find('div[data-datafield="InventoryId"]').attr('data-caption', 'Item No.');
-        FwBrowse.disableGrid($invoiceItemGridLabor);
-        $invoiceItemGridLaborControl.attr('data-deleteoption', 'false');
-
-        $invoiceItemGridLaborControl.data('isSummary', false);
-
-        $invoiceItemGridLaborControl.data('ondatabind', request => {
-            request.uniqueids = {
-                InvoiceId: FwFormField.getValueByDataField($form, 'InvoiceId'),
-                RecType: 'L'
-            };
-            request.totalfields = invoiceItemTotalFields;
-        });
-        $invoiceItemGridLaborControl.data('beforesave', request => {
-            request.InvoiceId = FwFormField.getValueByDataField($form, 'InvoiceId');
-            request.RecType = 'L';
-        });
-        FwBrowse.addEventHandler($invoiceItemGridLaborControl, 'afterdatabindcallback', ($invoiceItemGridLaborControl, dt) => {
-            this.calculateInvoiceItemGridTotals($form, 'labor', dt.Totals);
-        });
-        FwBrowse.init($invoiceItemGridLaborControl);
-        FwBrowse.renderRuntimeHtml($invoiceItemGridLaborControl);
-        // ----------
         const $invoiceItemGridFacilities = $form.find('.facilitiesgrid div[data-grid="InvoiceItemGrid"]');
         const $invoiceItemGridFacilitiesControl = FwBrowse.loadGridFromTemplate('InvoiceItemGrid');
-        $invoiceItemGridFacilities.empty().append($invoiceItemGridFacilities);
+        $invoiceItemGridFacilities.empty().append($invoiceItemGridFacilitiesControl);
         $invoiceItemGridFacilities.addClass('F');
         $invoiceItemGridFacilities.find('div[data-datafield="Extended"]').attr('data-formreadonly', 'true');
         $invoiceItemGridFacilities.find('div[data-datafield="InventoryId"]').attr('data-formreadonly', 'true');
@@ -238,13 +206,13 @@ class BillingWorksheet {
 
         $invoiceItemGridFacilitiesControl.data('ondatabind', request => {
             request.uniqueids = {
-                InvoiceId: FwFormField.getValueByDataField($form, 'InvoiceId'),
+                InvoiceId: FwFormField.getValueByDataField($form, 'BillingWorksheetId'),
                 RecType: 'F'
             };
             request.totalfields = invoiceItemTotalFields;
         });
         $invoiceItemGridFacilitiesControl.data('beforesave', request => {
-            request.InvoiceId = FwFormField.getValueByDataField($form, 'InvoiceId');
+            request.InvoiceId = FwFormField.getValueByDataField($form, 'BillingWorksheetId');
             request.RecType = 'F';
         });
         FwBrowse.addEventHandler($invoiceItemGridFacilitiesControl, 'afterdatabindcallback', ($invoiceItemGridFacilitiesControl, dt) => {
@@ -252,6 +220,38 @@ class BillingWorksheet {
         });
         FwBrowse.init($invoiceItemGridFacilitiesControl);
         FwBrowse.renderRuntimeHtml($invoiceItemGridFacilitiesControl);
+        //const $invoiceItemGridLabor = $form.find('.laborgrid div[data-grid="InvoiceItemGrid"]');
+        //const $invoiceItemGridLaborControl = FwBrowse.loadGridFromTemplate('InvoiceItemGrid');
+        //$invoiceItemGridLabor.empty().append($invoiceItemGridLaborControl);
+        //$invoiceItemGridLabor.addClass('L');
+        //$invoiceItemGridLabor.find('div[data-datafield="Extended"]').attr('data-formreadonly', 'true');
+        //$invoiceItemGridLabor.find('div[data-datafield="InventoryId"]').attr('data-formreadonly', 'true');
+        //$invoiceItemGridLabor.find('div[data-datafield="OrderNumber"]').attr('data-formreadonly', 'true');
+        //$invoiceItemGridLabor.find('div[data-datafield="Taxable"]').attr('data-formreadonly', 'true');
+        //$invoiceItemGridLaborControl.find('div[data-datafield="Rate"]').attr('data-caption', 'Unit Rate');
+        //$invoiceItemGridLaborControl.find('div[data-datafield="InventoryId"]').attr('data-caption', 'Item No.');
+        //FwBrowse.disableGrid($invoiceItemGridLabor);
+        //$invoiceItemGridLaborControl.attr('data-deleteoption', 'false');
+
+        //$invoiceItemGridLaborControl.data('isSummary', false);
+
+        //$invoiceItemGridLaborControl.data('ondatabind', request => {
+        //    request.uniqueids = {
+        //        InvoiceId: FwFormField.getValueByDataField($form, 'BillingWorksheetId'),
+        //        RecType: 'L'
+        //    };
+        //    request.totalfields = invoiceItemTotalFields;
+        //});
+        //$invoiceItemGridLaborControl.data('beforesave', request => {
+        //    request.InvoiceId = FwFormField.getValueByDataField($form, 'BillingWorksheetId');
+        //    request.RecType = 'L';
+        //});
+        //FwBrowse.addEventHandler($invoiceItemGridLaborControl, 'afterdatabindcallback', ($invoiceItemGridLaborControl, dt) => {
+        //    this.calculateInvoiceItemGridTotals($form, 'labor', dt.Totals);
+        //});
+        //FwBrowse.init($invoiceItemGridLaborControl);
+        //FwBrowse.renderRuntimeHtml($invoiceItemGridLaborControl);
+        // ----------
         // ----------
         const $invoiceItemGridMisc = $form.find('.miscgrid div[data-grid="InvoiceItemGrid"]');
         const $invoiceItemGridMiscControl = FwBrowse.loadGridFromTemplate('InvoiceItemGrid');
@@ -264,13 +264,13 @@ class BillingWorksheet {
 
         $invoiceItemGridMiscControl.data('ondatabind', request => {
             request.uniqueids = {
-                InvoiceId: FwFormField.getValueByDataField($form, 'InvoiceId'),
+                InvoiceId: FwFormField.getValueByDataField($form, 'BillingWorksheetId'),
                 RecType: 'M'
             };
             request.totalfields = invoiceItemTotalFields;
         });
         $invoiceItemGridMiscControl.data('beforesave', request => {
-            request.InvoiceId = FwFormField.getValueByDataField($form, 'InvoiceId');
+            request.InvoiceId = FwFormField.getValueByDataField($form, 'BillingWorksheetId');
             request.RecType = 'M';
         });
         FwBrowse.addEventHandler($invoiceItemGridMiscControl, 'afterdatabindcallback', ($invoiceItemGridMiscControl, dt) => {
@@ -290,13 +290,13 @@ class BillingWorksheet {
 
         $invoiceItemGridRentalSaleControl.data('ondatabind', request => {
             request.uniqueids = {
-                InvoiceId: FwFormField.getValueByDataField($form, 'InvoiceId'),
+                InvoiceId: FwFormField.getValueByDataField($form, 'BillingWorksheetId'),
                 RecType: 'RS'
             };
             request.totalfields = invoiceItemTotalFields;
         });
         $invoiceItemGridRentalSaleControl.data('beforesave', request => {
-            request.InvoiceId = FwFormField.getValueByDataField($form, 'InvoiceId');
+            request.InvoiceId = FwFormField.getValueByDataField($form, 'BillingWorksheetId');
             request.RecType = 'RS';
         });
         FwBrowse.addEventHandler($invoiceItemGridRentalSaleControl, 'afterdatabindcallback', ($invoiceItemGridRentalSaleControl, dt) => {
@@ -310,11 +310,11 @@ class BillingWorksheet {
         $invoiceNoteGrid.empty().append($invoiceNoteGridControl);
         $invoiceNoteGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
-                InvoiceId: $form.find('div.fwformfield[data-datafield="InvoiceId"] input').val()
+                InvoiceId: $form.find('div.fwformfield[data-datafield="BillingWorksheetId"] input').val()
             }
         });
         $invoiceNoteGridControl.data('beforesave', function (request) {
-            request.InvoiceId = FwFormField.getValueByDataField($form, 'InvoiceId');
+            request.InvoiceId = FwFormField.getValueByDataField($form, 'BillingWorksheetId');
         })
         FwBrowse.init($invoiceNoteGridControl);
         FwBrowse.renderRuntimeHtml($invoiceNoteGridControl);
@@ -325,7 +325,7 @@ class BillingWorksheet {
         $glDistributionGrid.empty().append($glDistributionGridControl);
         $glDistributionGridControl.data('ondatabind', request => {
             request.uniqueids = {
-                InvoiceId: FwFormField.getValueByDataField($form, 'InvoiceId')
+                InvoiceId: FwFormField.getValueByDataField($form, 'BillingWorksheetId')
             };
             request.totalfields = glTotalFields;
         });
@@ -341,7 +341,7 @@ class BillingWorksheet {
         $manualGlGrid.empty().append($manualGlGridControl);
         $manualGlGridControl.data('ondatabind', request => {
             request.uniqueids = {
-                InvoiceId: FwFormField.getValueByDataField($form, 'InvoiceId')
+                InvoiceId: FwFormField.getValueByDataField($form, 'BillingWorksheetId')
             };
             request.totalfields = ["Amount"];
         });
@@ -349,7 +349,7 @@ class BillingWorksheet {
             FwFormField.setValue2($form.find('.manualgl-totals [data-totalfield="Amount"]'), dt.Totals.Amount);
         });
         $manualGlGridControl.data('beforesave', request => {
-            request.InvoiceId = FwFormField.getValueByDataField($form, 'InvoiceId');
+            request.InvoiceId = FwFormField.getValueByDataField($form, 'BillingWorksheetId');
         });
         FwBrowse.init($manualGlGridControl);
         FwBrowse.renderRuntimeHtml($manualGlGridControl);
@@ -359,7 +359,7 @@ class BillingWorksheet {
         $invoiceOrderGrid.empty().append($invoiceOrderGridControl);
         $invoiceOrderGridControl.data('ondatabind', request => {
             request.uniqueids = {
-                InvoiceId: FwFormField.getValueByDataField($form, 'InvoiceId')
+                InvoiceId: FwFormField.getValueByDataField($form, 'BillingWorksheetId')
             };
         });
         FwBrowse.init($invoiceOrderGridControl);
@@ -370,7 +370,7 @@ class BillingWorksheet {
         $invoiceRevenueGrid.empty().append($invoiceRevenueGridControl);
         $invoiceRevenueGridControl.data('ondatabind', request => {
             request.uniqueids = {
-                InvoiceId: FwFormField.getValueByDataField($form, 'InvoiceId')
+                InvoiceId: FwFormField.getValueByDataField($form, 'BillingWorksheetId')
             };
         });
         FwBrowse.init($invoiceRevenueGridControl);
@@ -381,7 +381,7 @@ class BillingWorksheet {
         $invoiceReceiptGrid.empty().append($invoiceReceiptGridControl);
         $invoiceReceiptGridControl.data('ondatabind', request => {
             request.uniqueids = {
-                InvoiceId: FwFormField.getValueByDataField($form, 'InvoiceId')
+                InvoiceId: FwFormField.getValueByDataField($form, 'BillingWorksheetId')
             };
         });
         FwBrowse.init($invoiceReceiptGridControl);
@@ -392,7 +392,7 @@ class BillingWorksheet {
         $invoiceStatusHistoryGrid.empty().append($invoiceStatusHistoryGridControl);
         $invoiceStatusHistoryGridControl.data('ondatabind', request => {
             request.uniqueids = {
-                InvoiceId: FwFormField.getValueByDataField($form, 'InvoiceId')
+                InvoiceId: FwFormField.getValueByDataField($form, 'BillingWorksheetId')
             };
         });
         FwBrowse.init($invoiceStatusHistoryGridControl);
@@ -409,7 +409,7 @@ class BillingWorksheet {
 
         $invoiceItemGridAdjustmentRentalControl.data('ondatabind', request => {
             request.uniqueids = {
-                InvoiceId: FwFormField.getValueByDataField($form, 'InvoiceId'),
+                InvoiceId: FwFormField.getValueByDataField($form, 'BillingWorksheetId'),
                 RecType: 'A',
                 AvailFor: 'R',
                 pagesize: itemPageSize
@@ -417,7 +417,7 @@ class BillingWorksheet {
             request.totalfields = itemAdjustmentTotalFields;
         });
         $invoiceItemGridAdjustmentRentalControl.data('beforesave', request => {
-            request.InvoiceId = FwFormField.getValueByDataField($form, 'InvoiceId');
+            request.InvoiceId = FwFormField.getValueByDataField($form, 'BillingWorksheetId');
             request.RecType = 'A';
             request.AvailFor = 'R';
             request.pagesize = itemPageSize;
@@ -437,7 +437,7 @@ class BillingWorksheet {
         $invoiceItemGridAdjustmentSales.addClass('S');
         $invoiceItemGridAdjustmentSalesControl.data('ondatabind', request => {
             request.uniqueids = {
-                InvoiceId: FwFormField.getValueByDataField($form, 'InvoiceId'),
+                InvoiceId: FwFormField.getValueByDataField($form, 'BillingWorksheetId'),
                 pagesize: itemPageSize,
                 RecType: 'A',
                 AvailFor: 'S'
@@ -445,7 +445,7 @@ class BillingWorksheet {
             request.totalfields = itemAdjustmentTotalFields;
         });
         $invoiceItemGridAdjustmentSalesControl.data('beforesave', request => {
-            request.InvoiceId = FwFormField.getValueByDataField($form, 'InvoiceId');
+            request.InvoiceId = FwFormField.getValueByDataField($form, 'BillingWorksheetId');
             request.RecType = 'A';
             request.AvailFor = 'S';
             request.pagesize = itemPageSize;
@@ -465,7 +465,7 @@ class BillingWorksheet {
         $invoiceItemGridAdjustmentParts.addClass('P')
         $invoiceItemGridAdjustmentPartsControl.data('ondatabind', request => {
             request.uniqueids = {
-                InvoiceId: FwFormField.getValueByDataField($form, 'InvoiceId'),
+                InvoiceId: FwFormField.getValueByDataField($form, 'BillingWorksheetId'),
                 pagesize: itemPageSize,
                 RecType: 'A',
                 AvailFor: 'P'
@@ -473,7 +473,7 @@ class BillingWorksheet {
             request.totalfields = itemAdjustmentTotalFields;
         });
         $invoiceItemGridAdjustmentPartsControl.data('beforesave', request => {
-            request.InvoiceId = FwFormField.getValueByDataField($form, 'InvoiceId');
+            request.InvoiceId = FwFormField.getValueByDataField($form, 'BillingWorksheetId');
             request.RecType = 'A';
             request.AvailFor = 'P';
             request.pagesize = itemPageSize;
