@@ -60,17 +60,20 @@ namespace WebApi.Modules.Home.Inventory
             set { }
         }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "(select q.qty from masterwhqty q where q.masterid = t.masterid and q.warehouseid = @warehouseid)", modeltype: FwDataTypes.Decimal)]
+        //[FwSqlDataField(calculatedColumnSql: "(select q.qty from masterwhqty q where q.masterid = t.masterid and q.warehouseid = @warehouseid)", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(calculatedColumnSql: "q.qty", modeltype: FwDataTypes.Decimal)]
         public decimal? Quantity { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        ///  //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "(select m.manifestvalue from masterwhview m where m.masterid = t.masterid and m.warehouseid = @warehouseid)", modeltype: FwDataTypes.Decimal)]
+        //------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(calculatedColumnSql: "(select m.manifestvalue from masterwhview m where m.masterid = t.masterid and m.warehouseid = @warehouseid)", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(calculatedColumnSql: "mw.manifestvalue", modeltype: FwDataTypes.Decimal)]
         public decimal? UnitValue { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "(select m.aisleloc from masterwhview m where m.masterid = t.masterid and m.warehouseid = @warehouseid)", modeltype: FwDataTypes.Text)]
+        //[FwSqlDataField(calculatedColumnSql: "(select m.aisleloc from masterwhview m where m.masterid = t.masterid and m.warehouseid = @warehouseid)", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(calculatedColumnSql: "mw.aisleloc", modeltype: FwDataTypes.Text)]
         public string AisleLocation { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "(select m.shelfloc from masterwhview m where m.masterid = t.masterid and m.warehouseid = @warehouseid)", modeltype: FwDataTypes.Text)]
+        //[FwSqlDataField(calculatedColumnSql: "(select m.shelfloc from masterwhview m where m.masterid = t.masterid and m.warehouseid = @warehouseid)", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(calculatedColumnSql: "mw.shelfloc", modeltype: FwDataTypes.Text)]
         public string ShelfLocation { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
@@ -78,6 +81,10 @@ namespace WebApi.Modules.Home.Inventory
         //------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
+            OverrideFromClause = " from inventoryview [t] with (nolock) " +
+                " left outer join masterwh mw with (nolock) on (t.masterid = mw.masterid and mw.warehouseid = @warehouseid)" +
+                " left outer join masterwhqty q with (nolock) on (t.masterid = q.masterid and q.warehouseid = @warehouseid)";
+
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
 
