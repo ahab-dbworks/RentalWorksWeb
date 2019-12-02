@@ -199,7 +199,21 @@ class Order extends OrderBase {
         const worksheetTab = $form.find('[data-type="tab"][data-caption="Billing Worksheet"]');
         if (FwFormField.getTextByDataField($form, 'BillingCycleId') === 'ON DEMAND') {
             worksheetTab.show();
-            $form.find('.worksheet-submodule').append(this.openSubModuleBrowse($form, 'BillingWorksheet'));
+            const billingWorksheetBrowse = this.openSubModuleBrowse($form, 'BillingWorksheet');
+            $form.find('.worksheet-submodule').append(billingWorksheetBrowse);
+
+            billingWorksheetBrowse.find('div.btn[data-type="NewMenuBarButton"]').off('click');
+            billingWorksheetBrowse.find('div.btn[data-type="NewMenuBarButton"]').on('click', function () {
+                const formData: any = {};
+                const $browse = jQuery(this).closest('.fwbrowse');
+                const controller = $browse.attr('data-controller');
+                formData.OrderNumber = FwFormField.getValueByDataField($form, 'OrderNumber');
+                formData.DealId = FwFormField.getValueByDataField($form, 'DealId');
+                if (typeof window[controller] !== 'object') throw `Missing javascript module: ${controller}`;
+                if (typeof window[controller]['openForm'] !== 'function') throw `Missing javascript function: ${controller}.openForm`;
+                const $billingWorksheetForm = window[controller]['openForm']('NEW', formData);
+                FwModule.openSubModuleTab($browse, $billingWorksheetForm);
+            });
         } else {
             worksheetTab.hide();
         }

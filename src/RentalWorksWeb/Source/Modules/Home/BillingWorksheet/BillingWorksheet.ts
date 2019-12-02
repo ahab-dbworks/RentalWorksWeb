@@ -50,18 +50,7 @@ class BillingWorksheet {
                 $tr.css('color', '#aaaaaa');
             }
         });
-
-        try {
-            FwAppData.apiMethod(true, 'GET', `${this.apiurl}/legend`, null, FwServices.defaultTimeout, function onSuccess(response) {
-                for (let key in response) {
-                    FwBrowse.addLegend($browse, key, response[key]);
-                }
-            }, function onError(response) {
-                FwFunc.showError(response);
-            }, $browse)
-        } catch (ex) {
-            FwFunc.showError(ex);
-        }
+       
 
         return $browse;
     };
@@ -107,11 +96,11 @@ class BillingWorksheet {
             FwFormField.setValue($form, 'div[data-datafield="AgentId"]', usersid, name);
 
             const today = FwFunc.getDate();
-            FwFormField.setValueByDataField($form, 'BillingStartDate', today);
-            FwFormField.setValueByDataField($form, 'BillingEndDate', today);
-            FwFormField.setValueByDataField($form, 'InvoiceDate', today);
+            FwFormField.setValueByDataField($form, 'WorksheetDate', today);
+     
             FwFormField.enable($form.find('[data-datafield="StatusDate"]'));
-            FwFormField.enable($form.find('[data-datafield="RateType"]'));
+            FwFormField.disable($form.find('[data-datafield="DealId"]'));
+
             FwFormField.setValueByDataField($form, 'StatusDate', today);
             const department = JSON.parse(sessionStorage.getItem('department'));
             FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid, department.department);
@@ -119,7 +108,6 @@ class BillingWorksheet {
             const office = JSON.parse(sessionStorage.getItem('location'));
             FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', office.locationid, office.location);
 
-            FwFormField.setValueByDataField($form, 'InvoiceType', 'BILLING');
             FwFormField.setValueByDataField($form, 'Status', 'NEW');
 
             // hide tabs
@@ -237,14 +225,13 @@ class BillingWorksheet {
         const $invoiceItemGridFacilities = $form.find('.facilitiesgrid div[data-grid="InvoiceItemGrid"]');
         const $invoiceItemGridFacilitiesControl = FwBrowse.loadGridFromTemplate('InvoiceItemGrid');
         $invoiceItemGridFacilities.empty().append($invoiceItemGridFacilities);
-        $invoiceItemGridFacilities.addClass('L');
+        $invoiceItemGridFacilities.addClass('F');
         $invoiceItemGridFacilities.find('div[data-datafield="Extended"]').attr('data-formreadonly', 'true');
         $invoiceItemGridFacilities.find('div[data-datafield="InventoryId"]').attr('data-formreadonly', 'true');
         $invoiceItemGridFacilities.find('div[data-datafield="OrderNumber"]').attr('data-formreadonly', 'true');
         $invoiceItemGridFacilities.find('div[data-datafield="Taxable"]').attr('data-formreadonly', 'true');
         $invoiceItemGridFacilitiesControl.find('div[data-datafield="Rate"]').attr('data-caption', 'Unit Rate');
         $invoiceItemGridFacilitiesControl.find('div[data-datafield="InventoryId"]').attr('data-caption', 'Item No.');
-        FwBrowse.disableGrid($invoiceItemGridLabor);
         $invoiceItemGridFacilitiesControl.attr('data-deleteoption', 'false');
 
         $invoiceItemGridFacilitiesControl.data('isSummary', false);
@@ -710,14 +697,11 @@ class BillingWorksheet {
         $form.find('.billing-date-validation').on('changeDate', event => {
             this.checkBillingDateRange($form, event);
         });
-        //Populate tax info fields with validation
-        $form.find('div[data-datafield="TaxOptionId"]').data('onchange', $tr => {
-            FwFormField.setValue($form, 'div[data-datafield="RentalTaxRate1"]', $tr.find('.field[data-browsedatafield="RentalTaxRate1"]').attr('data-originalvalue'));
-            FwFormField.setValue($form, 'div[data-datafield="SalesTaxRate1"]', $tr.find('.field[data-browsedatafield="SalesTaxRate1"]').attr('data-originalvalue'));
-            FwFormField.setValue($form, 'div[data-datafield="LaborTaxRate1"]', $tr.find('.field[data-browsedatafield="LaborTaxRate1"]').attr('data-originalvalue'));
-        });
         $form.find('div[data-type="button"].update-worksheet').click(e => {
             this.updateWorksheet($form);
+        });
+        $form.find('div[data-datafield="OrderId"]').data('onchange', $tr => {
+            FwFormField.setValue($form, 'div[data-datafield="OrderDescription"]', $tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
         });
     };
     //----------------------------------------------------------------------------------------------
