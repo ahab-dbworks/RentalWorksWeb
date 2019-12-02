@@ -231,8 +231,8 @@ namespace WebApi.Modules.Home.InventoryAvailability
         public bool QcDelayExcludeWeekend { get; set; }
         public bool QcDelayExcludeHoliday { get; set; }
         public bool QcDelayIndefinite { get; set; }
-        public DateTime QcDelayFromDateTime { get; set; }
-        public DateTime QcDelayToDateTime { get; set; }
+        public DateTime? QcDelayFromDateTime { get; set; }
+        public DateTime? QcDelayToDateTime { get; set; }
         public decimal QcQuantity { get; set; }
         public decimal QuantityOrdered { get; set; } = 0;
         public decimal QuantitySub { get; set; } = 0;
@@ -266,6 +266,21 @@ namespace WebApi.Modules.Home.InventoryAvailability
                 }
 
                 return isTran;
+            }
+        }
+        [JsonIgnore]
+        public bool IsContainer
+        {
+            get
+            {
+                bool isContain = false;
+
+                if (OrderType.Equals(RwConstants.ORDER_TYPE_CONTAINER))
+                {
+                    isContain = true;
+                }
+
+                return isContain;
             }
         }
         [JsonIgnore]
@@ -1147,19 +1162,19 @@ namespace WebApi.Modules.Home.InventoryAvailability
                 qry.Add("             join tmpsearchsession t with (nolock) on (a.masterid    = t.masterid and   ");
                 qry.Add("                                                       a.warehouseid = t.warehouseid)   ");
                 qry.Add(" where t.sessionid = @sessionid                                                         ");
-                qry.Add(" and   a.rectype in (                                                                   ");
-                qry.Add("                     '" + RwConstants.RECTYPE_RENTAL + "'  ,                            ");
-                qry.Add("                     '" + RwConstants.RECTYPE_SALE + "'                                 ");
-                qry.Add("                     )                                                                  ");
-                qry.Add(" and   (a.ordertype in (                                                                ");
-                qry.Add("                     '" + RwConstants.ORDER_TYPE_ORDER + "'  ,                          ");
-                qry.Add("                     '" + RwConstants.ORDER_TYPE_TRANSFER + "'  ,                       ");
-                qry.Add("                     '" + RwConstants.ORDER_TYPE_REPAIR + "' ,                          ");
-                qry.Add("                     '" + RwConstants.ORDER_TYPE_PENDING_EXCHANGE + "'                  ");
-                qry.Add("                        )                                                               ");
-                qry.Add("          or                                                                            ");
-                qry.Add("        ((a.ordertype = '" + RwConstants.ORDER_TYPE_QUOTE + "') and ");
-                qry.Add("         (a.orderstatus = '" + RwConstants.QUOTE_STATUS_RESERVED + "')))");
+                //qry.Add(" and   a.rectype in (                                                                   ");
+                //qry.Add("                     '" + RwConstants.RECTYPE_RENTAL + "'  ,                            ");
+                //qry.Add("                     '" + RwConstants.RECTYPE_SALE + "'                                 ");
+                //qry.Add("                     )                                                                  ");
+                //qry.Add(" and   (a.ordertype in (                                                                ");
+                //qry.Add("                     '" + RwConstants.ORDER_TYPE_ORDER + "'  ,                          ");
+                //qry.Add("                     '" + RwConstants.ORDER_TYPE_TRANSFER + "'  ,                       ");
+                //qry.Add("                     '" + RwConstants.ORDER_TYPE_REPAIR + "' ,                          ");
+                //qry.Add("                     '" + RwConstants.ORDER_TYPE_PENDING_EXCHANGE + "'                  ");
+                //qry.Add("                        )                                                               ");
+                //qry.Add("          or                                                                            ");
+                //qry.Add("        ((a.ordertype = '" + RwConstants.ORDER_TYPE_QUOTE + "') and ");
+                //qry.Add("         (a.orderstatus = '" + RwConstants.QUOTE_STATUS_RESERVED + "')))");
                 qry.AddParameter("@sessionid", sessionId);
                 FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync();
 
@@ -1278,7 +1293,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
                             }
                         }
 
-                        if ((reservation.QcRequired) && ((reservation.QuantityReserved.Owned + reservation.QuantityStaged.Owned + reservation.QuantityOut.Owned) > 0) && (reservation.EnableQcDelay) && ((reservation.QcDelayDays > 0) || (reservation.QcDelayIndefinite)))
+                        if ((reservation.QcRequired) && (reservation.OrderType.Equals(RwConstants.ORDER_TYPE_QUOTE) || reservation.OrderType.Equals(RwConstants.ORDER_TYPE_ORDER)) && ((reservation.QuantityReserved.Owned + reservation.QuantityStaged.Owned + reservation.QuantityOut.Owned) > 0) && (reservation.EnableQcDelay) && ((reservation.QcDelayDays > 0) || (reservation.QcDelayIndefinite)))
                         {
                             if (!reservation.ToDateTime.Equals(InventoryAvailabilityFunc.LateDateTime))
                             {
@@ -1324,18 +1339,18 @@ namespace WebApi.Modules.Home.InventoryAvailability
                 qry.Add("             join tmpsearchsession t with (nolock) on (a.masterid            = t.masterid and   ");
                 qry.Add("                                                       a.returntowarehouseid = t.warehouseid)   ");
                 qry.Add(" where t.sessionid = @sessionid                                                         ");
-                qry.Add(" and   a.rectype in (                                                                   ");
-                qry.Add("                     '" + RwConstants.RECTYPE_RENTAL + "'  ,                            ");
-                qry.Add("                     '" + RwConstants.RECTYPE_SALE + "'                                 ");
-                qry.Add("                     )                                                                  ");
-                qry.Add(" and   (a.ordertype in (                                                                ");
-                qry.Add("                     '" + RwConstants.ORDER_TYPE_ORDER + "'  ,                          ");
-                qry.Add("                     '" + RwConstants.ORDER_TYPE_TRANSFER + "'  ,                       ");
-                qry.Add("                     '" + RwConstants.ORDER_TYPE_REPAIR + "'                            ");
-                qry.Add("                        )                                                               ");
-                qry.Add("          or                                                                            ");
-                qry.Add("        ((a.ordertype = '" + RwConstants.ORDER_TYPE_QUOTE + "') and ");
-                qry.Add("         (a.orderstatus = '" + RwConstants.QUOTE_STATUS_RESERVED + "')))");
+                //qry.Add(" and   a.rectype in (                                                                   ");
+                //qry.Add("                     '" + RwConstants.RECTYPE_RENTAL + "'  ,                            ");
+                //qry.Add("                     '" + RwConstants.RECTYPE_SALE + "'                                 ");
+                //qry.Add("                     )                                                                  ");
+                //qry.Add(" and   (a.ordertype in (                                                                ");
+                //qry.Add("                     '" + RwConstants.ORDER_TYPE_ORDER + "'  ,                          ");
+                //qry.Add("                     '" + RwConstants.ORDER_TYPE_TRANSFER + "'  ,                       ");
+                //qry.Add("                     '" + RwConstants.ORDER_TYPE_REPAIR + "'                            ");
+                //qry.Add("                        )                                                               ");
+                //qry.Add("          or                                                                            ");
+                //qry.Add("        ((a.ordertype = '" + RwConstants.ORDER_TYPE_QUOTE + "') and ");
+                //qry.Add("         (a.orderstatus = '" + RwConstants.QUOTE_STATUS_RESERVED + "')))");
                 qry.AddParameter("@sessionid", sessionId);
                 FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync();
 
@@ -1452,7 +1467,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
                                 }
                             }
 
-                            if ((reservation.QcRequired) && ((reservation.QuantityReserved.Owned + reservation.QuantityStaged.Owned + reservation.QuantityOut.Owned) > 0) && (reservation.EnableQcDelay) && ((reservation.QcDelayDays > 0) || (reservation.QcDelayIndefinite)))
+                            if ((reservation.QcRequired) && (reservation.OrderType.Equals(RwConstants.ORDER_TYPE_QUOTE) || reservation.OrderType.Equals(RwConstants.ORDER_TYPE_ORDER)) && ((reservation.QuantityReserved.Owned + reservation.QuantityStaged.Owned + reservation.QuantityOut.Owned) > 0) && (reservation.EnableQcDelay) && ((reservation.QcDelayDays > 0) || (reservation.QcDelayIndefinite)))
                             {
                                 if (!reservation.ToDateTime.Equals(InventoryAvailabilityFunc.LateDateTime))
                                 {
@@ -1621,10 +1636,10 @@ namespace WebApi.Modules.Home.InventoryAvailability
                                         }
                                     }
 
-                                    //if (reservation.ToDateTime == theDateTime)
-                                    //{
-                                    //    inventoryWarehouseAvailabilityDateTime.Returning += reservation.QuantityReserved + reservation.QuantityStaged + reservation.QuantityOut + reservation.QuantityInRepair;
-                                    //}
+                                    if (reservation.ToDateTime == theDateTime)
+                                    {
+                                        inventoryWarehouseAvailabilityDateTime.Returning += reservation.QuantityReserved + reservation.QuantityStaged + reservation.QuantityOut + reservation.QuantityInRepair;
+                                    }
 
                                     if (reservation.QcDelayToDateTime != null)
                                     {
@@ -2066,8 +2081,8 @@ namespace WebApi.Modules.Home.InventoryAvailability
                     qcEvent.InventoryId = inventoryId;
                     qcEvent.WarehouseId = warehouseId;
 
-                    DateTime qcFromDateTime = reservation.QcDelayFromDateTime;
-                    DateTime qcToDateTime = reservation.QcDelayToDateTime;
+                    DateTime qcFromDateTime = reservation.QcDelayFromDateTime.GetValueOrDefault(DateTime.MinValue);
+                    DateTime qcToDateTime = reservation.QcDelayToDateTime.GetValueOrDefault(DateTime.MinValue);
                     startDisplay = "";
                     endDisplay = "";
 
@@ -2092,7 +2107,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
                     qcEvent.enddisplay = endDisplay;
                     qcEvent.text = reservation.ReservationDescription;
                     qcEvent.backColor = RwGlobals.AVAILABILITY_COLOR_QC_REQUIRED;
-                    qcEvent.barColor = "";
+                    qcEvent.barColor = barColor;
                     qcEvent.textColor = RwGlobals.AVAILABILITY_TEXT_COLOR_QC_REQUIRED;
                     qcEvent.isWarehouseTotal = isWarehouseTotal;
                     qcEvent.total = AvailabilityNumberToString(qty);
@@ -2238,11 +2253,20 @@ namespace WebApi.Modules.Home.InventoryAvailability
                 // add QC Required "reservation"
                 if ((availData.QcRequired.OwnedAndConsigned > 0) && (availData.EnableQcDelay) && (availData.QcDelayDays > 0))
                 {
-                    response.InventoryAvailabilityScheduleResources.Add(newScheduleResource(ref resourceId, "QC Required"));
-                    backColor = RwGlobals.AVAILABILITY_COLOR_QC_REQUIRED;
-                    barColor = "";
-                    textColor = RwGlobals.AVAILABILITY_TEXT_COLOR_QC_REQUIRED;
-                    response.InventoryAvailabilityScheduleEvents.Add(buildScheduleEvent(resourceId, FromDate, FromDate.AddDays(availData.QcDelayDays), availData.QcRequired.OwnedAndConsigned, "QC Required", backColor, barColor, textColor, ref eventId, InventoryId, WarehouseId, false));
+                    if (FromDate <= availData.QcToDateTime)
+                    {
+                        DateTime qcToDateTime = availData.QcToDateTime;
+                        if (qcToDateTime.Hour.Equals(0) && qcToDateTime.Minute.Equals(0) && qcToDateTime.Second.Equals(0))
+                        {
+                            qcToDateTime = qcToDateTime.AddDays(1).AddSeconds(-1);
+                        }
+
+                        response.InventoryAvailabilityScheduleResources.Add(newScheduleResource(ref resourceId, "QC Required"));
+                        backColor = RwGlobals.AVAILABILITY_COLOR_QC_REQUIRED;
+                        barColor = RwGlobals.AVAILABILITY_COLOR_QC_REQUIRED;
+                        textColor = RwGlobals.AVAILABILITY_TEXT_COLOR_QC_REQUIRED;
+                        response.InventoryAvailabilityScheduleEvents.Add(buildScheduleEvent(resourceId, FromDate, qcToDateTime, availData.QcRequired.OwnedAndConsigned, "QC Required", backColor, barColor, textColor, ref eventId, InventoryId, WarehouseId, false));
+                    }
                 }
 
                 // build up the schedule resources and reservation events
@@ -2309,6 +2333,10 @@ namespace WebApi.Modules.Home.InventoryAvailability
                         if (reservation.IsTransfer)
                         {
                             barColor = RwGlobals.IN_TRANSIT_COLOR;
+                        }
+                        else if (reservation.IsContainer)
+                        {
+                            barColor = RwGlobals.CONTAINER_COLOR;
                         }
                         else if (reservation.IsPendingExchange)
                         {
