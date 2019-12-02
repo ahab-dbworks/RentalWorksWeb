@@ -49,7 +49,7 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
         [FwSqlDataField(column: "discountpct", modeltype: FwDataTypes.DecimalString2Digits)]
         public decimal? DiscountPercent { get; set; }
         //------------------------------------------------------------------------------------ 
-        public async Task<FwJsonDataTable> LoadItems(InvoiceReportRequest request)
+        public async Task<List<InvoiceItemReportLoader>> LoadItems(InvoiceReportRequest request)
         {
             FwJsonDataTable dt = null;
             using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
@@ -67,7 +67,25 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
             string[] totalFields = new string[] { "Extended" };
             dt.InsertSubTotalRows("RecTypeDisplay", "RowType", totalFields);
             dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
-            return dt;
+
+            List<InvoiceItemReportLoader> items = new List<InvoiceItemReportLoader>();
+            foreach (List<object> row in dt.Rows)
+            {
+                InvoiceItemReportLoader item = new InvoiceItemReportLoader();
+                item.InvoiceId = (row[dt.GetColumnNo("InvoiceId")] ?? "").ToString();
+                item.RowType = (row[dt.GetColumnNo("RowType")] ?? "").ToString();
+                item.RecType = (row[dt.GetColumnNo("RecType")] ?? "").ToString();
+                item.RecTypeDisplay = (row[dt.GetColumnNo("RecTypeDisplay")] ?? "").ToString();
+                item.ICode = (row[dt.GetColumnNo("ICode")] ?? "").ToString();
+                item.Description = (row[dt.GetColumnNo("Description")] ?? "").ToString();
+                item.Quantity = FwConvert.ToDecimal((row[dt.GetColumnNo("Quantity")] ?? "").ToString());
+                item.Extended = FwConvert.ToDecimal((row[dt.GetColumnNo("Extended")] ?? "").ToString());
+                item.OrderBy = (row[dt.GetColumnNo("OrderBy")] ?? "").ToString();
+                item.Rate = FwConvert.ToDecimal((row[dt.GetColumnNo("Rate")] ?? "").ToString());
+                item.DiscountPercent = FwConvert.ToDecimal((row[dt.GetColumnNo("DiscountPercent")] ?? "").ToString());
+                items.Add(item);
+            }
+            return items;
         }
         //------------------------------------------------------------------------------------ 
     }
@@ -506,15 +524,15 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
 
 
         //------------------------------------------------------------------------------------
-        public FwJsonDataTable RentalItems { get; set; }
+        public List<InvoiceItemReportLoader> RentalItems { get; set; }
         //------------------------------------------------------------------------------------ 
-        public FwJsonDataTable SalesItems { get; set; }
+        public List<InvoiceItemReportLoader> SalesItems { get; set; }
         //------------------------------------------------------------------------------------ 
-        public FwJsonDataTable MiscItems { get; set; }
+        public List<InvoiceItemReportLoader> MiscItems { get; set; }
         //------------------------------------------------------------------------------------ 
-        public FwJsonDataTable LaborItems { get; set; }
+        public List<InvoiceItemReportLoader> LaborItems { get; set; }
         //------------------------------------------------------------------------------------ 
-        public FwJsonDataTable Items { get; set; }
+        public List<InvoiceItemReportLoader> Items { get; set; } = new List<InvoiceItemReportLoader>(new InvoiceItemReportLoader[] { new InvoiceItemReportLoader() });
         //------------------------------------------------------------------------------------ 
 
 
@@ -531,31 +549,31 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
                     Task<InvoiceReportLoader> taskInvoice = qry.QueryToTypedObjectAsync<InvoiceReportLoader>();
 
                     //all items
-                    Task<FwJsonDataTable> taskInvoiceItems;
+                    Task<List<InvoiceItemReportLoader>> taskInvoiceItems;
                     InvoiceItemReportLoader InvoiceItems = new InvoiceItemReportLoader();
                     InvoiceItems.SetDependencies(AppConfig, UserSession);
                     taskInvoiceItems = InvoiceItems.LoadItems(request);
 
                     //rental items
-                    Task<FwJsonDataTable> taskRentalInvoiceItems;
+                    Task<List<InvoiceItemReportLoader>> taskRentalInvoiceItems;
                     RentalInvoiceItemReportLoader RentalItems = new RentalInvoiceItemReportLoader();
                     RentalItems.SetDependencies(AppConfig, UserSession);
                     taskRentalInvoiceItems = RentalItems.LoadItems(request);
 
                     //sales items
-                    Task<FwJsonDataTable> taskSalesInvoiceItems;
+                    Task<List<InvoiceItemReportLoader>> taskSalesInvoiceItems;
                     SalesInvoiceItemReportLoader SalesItems = new SalesInvoiceItemReportLoader();
                     SalesItems.SetDependencies(AppConfig, UserSession);
                     taskSalesInvoiceItems = SalesItems.LoadItems(request);
 
                     //misc items
-                    Task<FwJsonDataTable> taskMiscInvoiceItems;
+                    Task<List<InvoiceItemReportLoader>> taskMiscInvoiceItems;
                     MiscInvoiceItemReportLoader MiscItems = new MiscInvoiceItemReportLoader();
                     MiscItems.SetDependencies(AppConfig, UserSession);
                     taskMiscInvoiceItems = MiscItems.LoadItems(request);
 
                     //labor items
-                    Task<FwJsonDataTable> taskLaborInvoiceItems;
+                    Task<List<InvoiceItemReportLoader>> taskLaborInvoiceItems;
                     LaborInvoiceItemReportLoader LaborItems = new LaborInvoiceItemReportLoader();
                     LaborItems.SetDependencies(AppConfig, UserSession);
                     taskLaborInvoiceItems = LaborItems.LoadItems(request);

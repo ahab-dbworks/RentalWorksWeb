@@ -85,14 +85,22 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
             foreach (List<object> row in dt.Rows)
             {
                 OrderItemReportLoader item = new OrderItemReportLoader();
-                item.OrderId = (row[dt.GetColumnNo("OrderId")] ?? "").ToString();
                 item.RowType = (row[dt.GetColumnNo("RowType")] ?? "").ToString();
+                item.OrderId = (row[dt.GetColumnNo("OrderId")] ?? "").ToString();
+                item.RecType = (row[dt.GetColumnNo("RecType")] ?? "").ToString();
                 item.RecTypeDisplay = (row[dt.GetColumnNo("RecTypeDisplay")] ?? "").ToString();
                 item.ICode = (row[dt.GetColumnNo("ICode")] ?? "").ToString();
                 item.Description = (row[dt.GetColumnNo("Description")] ?? "").ToString();
                 item.QuantityOrdered = FwConvert.ToDecimal((row[dt.GetColumnNo("QuantityOrdered")] ?? "").ToString());
+                item.Rate = FwConvert.ToDecimal((row[dt.GetColumnNo("Rate")] ?? "").ToString());
+                item.DiscountPercent = FwConvert.ToDecimal((row[dt.GetColumnNo("DiscountPercent")] ?? "").ToString());
+                item.DiscountPercentDisplay = FwConvert.ToDecimal((row[dt.GetColumnNo("DiscountPercentDisplay")] ?? "").ToString());
+                item.WeeklyDiscountAmount = FwConvert.ToDecimal((row[dt.GetColumnNo("WeeklyDiscountAmount")] ?? "").ToString());
+                item.PeriodDiscountAmount = FwConvert.ToDecimal((row[dt.GetColumnNo("PeriodDiscountAmount")] ?? "").ToString());
+                item.WeeklyExtended = FwConvert.ToDecimal((row[dt.GetColumnNo("WeeklyExtended")] ?? "").ToString());
                 item.PeriodExtended = FwConvert.ToDecimal((row[dt.GetColumnNo("PeriodExtended")] ?? "").ToString());
                 item.OrderBy = (row[dt.GetColumnNo("OrderBy")] ?? "").ToString();
+
                 items.Add(item);
             }
             return items;
