@@ -82,6 +82,12 @@ namespace FwCore.AppManager
                         var groupsid = context.HttpContext.User.Claims.FirstOrDefault(c => c.Type == AuthenticationClaimsTypes.GroupsId).Value;
                         var groupsdatestamp = Convert.ToDateTime(context.HttpContext.User.Claims.FirstOrDefault(c => c.Type == AuthenticationClaimsTypes.GroupsDateStamp).Value);
                         var groupTree = FwAppManager.Tree.GetGroupsTreeAsync(groupsid, true).Result;
+                        if (groupTree == null)
+                        {
+                            // reject the request because the group does not exist
+                            context.Result = new UnauthorizedResult();
+                            return Task.CompletedTask;
+                        }
                         var groupTreeNode = groupTree.RootNode.FindById(controllerMethodAttribute.Id);
                         if (groupsdatestamp != groupTree.DateStamp)
                         {

@@ -89,7 +89,7 @@ abstract class FwWebApiReport {
                         request.parameters.companyName = companyName;
                         request.parameters.action = 'Preview';
 
-                        if (request.parameters.CustomReportLayoutId != "") {
+                        if (request.parameters.CustomReportLayoutId != "" && request.parameters.CustomReportLayoutId != undefined) {
                             const customReportLayout = FwAjax.callWebApi<any, any>({
                                 httpMethod: 'GET',
                                 url: `${applicationConfig.apiurl}api/v1/customreportlayout/${request.parameters.CustomReportLayoutId}`,
