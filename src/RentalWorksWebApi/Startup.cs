@@ -1,4 +1,4 @@
-﻿using FwCore.Api;
+using FwCore.Api;
 using FwStandard.AppManager;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -20,16 +20,13 @@ namespace WebApi
         //------------------------------------------------------------------------------------
         public override void ConfigureServices(IServiceCollection services)
         {
+            services.AddHostedService<AvailabilityService>();
             base.ConfigureServices(services);
             RwGlobals.SetGlobalColors(ApplicationConfig.DatabaseSettings);
             FwAppManager.Tree = new AppManager(this.ApplicationConfig.DatabaseSettings);
             FwAppManager.CurrentProduct = "Rw";
             FwAppManager.CurrentProductEdition = "E";
             FwAppManager.Tree.LoadFromWebApi();
-            if (this.ApplicationConfig.EnableAvailabilityService)
-            {
-                services.AddHostedService<AvailabilityService>();
-            }
         }
         //------------------------------------------------------------------------------------
         public override void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)

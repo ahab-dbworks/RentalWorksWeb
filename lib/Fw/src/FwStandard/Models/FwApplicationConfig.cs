@@ -8,7 +8,6 @@
         public SqlServerConfig DataWarehouseDatabaseSettings { get; set; }
         public FwJwtIssuerOptions JwtIssuerOptions { get; set; }
         public DebuggingConfig Debugging { get; set; } = new DebuggingConfig();
-        public bool EnableAvailabilityService { get; set; } = true;
     }
 
     public class SqlServerConfig
