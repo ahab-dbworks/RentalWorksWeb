@@ -30,6 +30,9 @@ namespace WebLibrary
         public static string AVAILABILITY_COLOR_LATE_BUT_RETURNING { get; set; }
         public static string AVAILABILITY_TEXT_COLOR_LATE_BUT_RETURNING { get; set; }
         public static string AVAILABILITY_COLOR_NO_AVAILABILITY { get; set; }
+        public static string AVAILABILITY_TEXT_COLOR_NO_AVAILABILITY { get; set; }
+        public static string AVAILABILITY_COLOR_QC_REQUIRED { get; set; }
+        public static string AVAILABILITY_TEXT_COLOR_QC_REQUIRED { get; set; }
         public static string AVAILABILITY_COLOR_NEGATIVE { get; set; }
         public static string AVAILABILITY_TEXT_COLOR_NEGATIVE { get; set; }
         public static string AVAILABILITY_COLOR_LOW { get; set; }
@@ -244,12 +247,15 @@ namespace WebLibrary
             AVAILABILITY_COLOR_LATE_BUT_RETURNING = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_LATE_BUT_RETURNING);
             AVAILABILITY_TEXT_COLOR_LATE_BUT_RETURNING = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_TEXT_COLOR_LATE_BUT_RETURNING);
             AVAILABILITY_COLOR_NO_AVAILABILITY = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_NO_AVAILABILITY);
+            AVAILABILITY_TEXT_COLOR_NO_AVAILABILITY = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_TEXT_COLOR_NO_AVAILABILITY);
+            AVAILABILITY_COLOR_QC_REQUIRED = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_QC_REQUIRED);
+            AVAILABILITY_TEXT_COLOR_QC_REQUIRED = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_TEXT_COLOR_QC_REQUIRED);
             AVAILABILITY_COLOR_NEGATIVE = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_NEGATIVE);
             AVAILABILITY_TEXT_COLOR_NEGATIVE = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_TEXT_COLOR_NEGATIVE);
             AVAILABILITY_COLOR_LOW = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_LOW);
             AVAILABILITY_TEXT_COLOR_LOW = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_TEXT_COLOR_LOW);
             AVAILABILITY_COLOR_POSITIVE = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_POSITIVE);
-            AVAILABILITY_TEXT_COLOR_POSITIVE= FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_TEXT_COLOR_POSITIVE);
+            AVAILABILITY_TEXT_COLOR_POSITIVE = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_TEXT_COLOR_POSITIVE);
             AVAILABILITY_COLOR_RETURNING = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_RETURNING);
             AVAILABILITY_TEXT_COLOR_RETURNING = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_TEXT_COLOR_RETURNING);
 

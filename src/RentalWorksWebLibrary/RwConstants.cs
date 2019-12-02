@@ -414,6 +414,8 @@
         public const string NO_AVAILABILITY_CAPTION = "No Availability";
         public const int AVAILABILITY_COLOR_NO_AVAILABILITY = 16772044;      //aqua
         public const int AVAILABILITY_TEXT_COLOR_NO_AVAILABILITY = 0;        //black
+        public const int AVAILABILITY_COLOR_QC_REQUIRED = 33023;             //orange
+        public const int AVAILABILITY_TEXT_COLOR_QC_REQUIRED = 0;            //black
         public const int AVAILABILITY_COLOR_NEGATIVE = 255;                  //red
         public const int AVAILABILITY_COLOR_POSITIVE = 3381504;              //green
         public const int AVAILABILITY_COLOR_LOW = 65535;                     //yellow
