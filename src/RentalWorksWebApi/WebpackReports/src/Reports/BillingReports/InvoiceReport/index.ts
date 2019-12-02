@@ -22,12 +22,19 @@ export class InvoiceReport extends WebpackReport {
                         .then((response: Invoice) => {
                             const data: any = response;
                             data.Items = DataTable.toObjectList(response.Items);
+                            data.RentalItems = DataTable.toObjectList(response.RentalItems);
+                            data.SalesItems = DataTable.toObjectList(response.SalesItems);
+                            data.MiscItems = DataTable.toObjectList(response.MiscItems);
+                            data.LaborItems = DataTable.toObjectList(response.LaborItems);
                             data.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
                             data.System = 'RENTALWORKS';
                             data.Report = 'INVOICE';
                             if (logoObject.LogoImage != '') {
                                 data.Logosrc = logoObject.LogoImage;
                             }
+
+                            console.log('DATA', data);
+
                             this.renderFooterHtml(data);
                             if (this.action === 'Preview' || this.action === 'PrintHtml') {
                                 document.getElementById('pageFooter').innerHTML = this.footerHtml;
@@ -222,5 +229,9 @@ class Invoice {
     InDeliveryShipVia: string;
     InDeliveryDeliveryNotes: string
     Items: any;
+    RentalItems: any;
+    SalesItems: any;
+    MiscItems: any;
+    LaborItems: any;
     PrintTime: string;
 }

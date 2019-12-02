@@ -14,6 +14,7 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
 
     public class InvoiceItemReportLoader : AppReportLoader
     {
+        public string recType = "";
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "invoiceid", modeltype: FwDataTypes.Text)]
         public string InvoiceId { get; set; }
@@ -42,6 +43,12 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
         [FwSqlDataField(column: "orderby", modeltype: FwDataTypes.Text)]
         public string OrderBy { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "rate", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public decimal? Rate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "discountpct", modeltype: FwDataTypes.DecimalString2Digits)]
+        public decimal? DiscountPercent { get; set; }
+        //------------------------------------------------------------------------------------ 
         public async Task<FwJsonDataTable> LoadItems(InvoiceReportRequest request)
         {
             FwJsonDataTable dt = null;
@@ -50,6 +57,7 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
                 using (FwSqlCommand qry = new FwSqlCommand(conn, "webgetinvoiceprintdetails", this.AppConfig.DatabaseSettings.ReportTimeout))
                 {
                     qry.AddParameter("@invoiceid", SqlDbType.Text, ParameterDirection.Input, request.InvoiceId);
+                    qry.AddParameter("@rectype", SqlDbType.Text, ParameterDirection.Input, recType);
                     AddPropertiesAsQueryColumns(qry);
                     dt = await qry.QueryToFwJsonTableAsync(false, 0);
                 }
@@ -63,6 +71,52 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
         }
         //------------------------------------------------------------------------------------ 
     }
+
+    //------------------------------------------------------------------------------------ 
+    public class RentalInvoiceItemReportLoader : InvoiceItemReportLoader
+    {
+        public RentalInvoiceItemReportLoader()
+        {
+            recType = RwConstants.RECTYPE_RENTAL;
+        }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "daysinwk", modeltype: FwDataTypes.DecimalString3Digits)]
+        public decimal? DaysPerWeek { get; set; }
+        //------------------------------------------------------------------------------------ 
+    }
+    //------------------------------------------------------------------------------------ 
+    public class SalesInvoiceItemReportLoader : InvoiceItemReportLoader
+    {
+        public SalesInvoiceItemReportLoader()
+        {
+            recType = RwConstants.RECTYPE_SALE;
+        }
+    }
+    //------------------------------------------------------------------------------------ 
+    public class MiscInvoiceItemReportLoader : InvoiceItemReportLoader
+    {
+        public MiscInvoiceItemReportLoader()
+        {
+            recType = RwConstants.RECTYPE_MISCELLANEOUS;
+        }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "daysinwk", modeltype: FwDataTypes.DecimalString3Digits)]
+        public decimal? DaysPerWeek { get; set; }
+        //------------------------------------------------------------------------------------ 
+    }
+    //------------------------------------------------------------------------------------ 
+    public class LaborInvoiceItemReportLoader : InvoiceItemReportLoader
+    {
+        public LaborInvoiceItemReportLoader()
+        {
+            recType = RwConstants.RECTYPE_LABOR;
+        }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "daysinwk", modeltype: FwDataTypes.DecimalString3Digits)]
+        public decimal? DaysPerWeek { get; set; }
+        //------------------------------------------------------------------------------------ 
+    }
+    //------------------------------------------------------------------------------------ 
 
 
     public class InvoiceReportLoader : AppReportLoader
@@ -452,15 +506,21 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
 
 
         //------------------------------------------------------------------------------------
+        public FwJsonDataTable RentalItems { get; set; }
+        //------------------------------------------------------------------------------------ 
+        public FwJsonDataTable SalesItems { get; set; }
+        //------------------------------------------------------------------------------------ 
+        public FwJsonDataTable MiscItems { get; set; }
+        //------------------------------------------------------------------------------------ 
+        public FwJsonDataTable LaborItems { get; set; }
+        //------------------------------------------------------------------------------------ 
         public FwJsonDataTable Items { get; set; }
         //------------------------------------------------------------------------------------ 
+
+
         public async Task<InvoiceReportLoader> RunReportAsync(InvoiceReportRequest request)
         {
-            Task<InvoiceReportLoader> taskInvoice;
-            Task<FwJsonDataTable> taskInvoiceItems;
-
             InvoiceReportLoader Invoice = null;
-            InvoiceItemReportLoader InvoiceItems = null;
             using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
             {
                 await conn.OpenAsync();
@@ -468,19 +528,49 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
                 {
                     qry.AddParameter("@invoiceid", SqlDbType.Text, ParameterDirection.Input, request.InvoiceId);
                     AddPropertiesAsQueryColumns(qry);
-                    taskInvoice = qry.QueryToTypedObjectAsync<InvoiceReportLoader>();
+                    Task<InvoiceReportLoader> taskInvoice = qry.QueryToTypedObjectAsync<InvoiceReportLoader>();
 
-                    InvoiceItems = new InvoiceItemReportLoader();
+                    //all items
+                    Task<FwJsonDataTable> taskInvoiceItems;
+                    InvoiceItemReportLoader InvoiceItems = new InvoiceItemReportLoader();
                     InvoiceItems.SetDependencies(AppConfig, UserSession);
                     taskInvoiceItems = InvoiceItems.LoadItems(request);
 
-                    await Task.WhenAll(new Task[] { taskInvoice, taskInvoiceItems });
+                    //rental items
+                    Task<FwJsonDataTable> taskRentalInvoiceItems;
+                    RentalInvoiceItemReportLoader RentalItems = new RentalInvoiceItemReportLoader();
+                    RentalItems.SetDependencies(AppConfig, UserSession);
+                    taskRentalInvoiceItems = RentalItems.LoadItems(request);
+
+                    //sales items
+                    Task<FwJsonDataTable> taskSalesInvoiceItems;
+                    SalesInvoiceItemReportLoader SalesItems = new SalesInvoiceItemReportLoader();
+                    SalesItems.SetDependencies(AppConfig, UserSession);
+                    taskSalesInvoiceItems = SalesItems.LoadItems(request);
+
+                    //misc items
+                    Task<FwJsonDataTable> taskMiscInvoiceItems;
+                    MiscInvoiceItemReportLoader MiscItems = new MiscInvoiceItemReportLoader();
+                    MiscItems.SetDependencies(AppConfig, UserSession);
+                    taskMiscInvoiceItems = MiscItems.LoadItems(request);
+
+                    //labor items
+                    Task<FwJsonDataTable> taskLaborInvoiceItems;
+                    LaborInvoiceItemReportLoader LaborItems = new LaborInvoiceItemReportLoader();
+                    LaborItems.SetDependencies(AppConfig, UserSession);
+                    taskLaborInvoiceItems = LaborItems.LoadItems(request);
+
+                    await Task.WhenAll(new Task[] { taskInvoice, taskInvoiceItems, taskRentalInvoiceItems, taskSalesInvoiceItems, taskMiscInvoiceItems, taskLaborInvoiceItems });
 
                     Invoice = taskInvoice.Result;
 
                     if (Invoice != null)
                     {
                         Invoice.Items = taskInvoiceItems.Result;
+                        Invoice.RentalItems = taskRentalInvoiceItems.Result;
+                        Invoice.SalesItems = taskSalesInvoiceItems.Result;
+                        Invoice.MiscItems = taskMiscInvoiceItems.Result;
+                        Invoice.LaborItems = taskLaborInvoiceItems.Result;
                     }
                 }
             }
