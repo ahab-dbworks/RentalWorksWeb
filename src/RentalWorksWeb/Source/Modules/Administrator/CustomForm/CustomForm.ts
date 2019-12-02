@@ -285,163 +285,28 @@ class CustomForm {
         FwMenu.addButtonMenuOptions($buttonmenu, menuOptions);
     }
     //----------------------------------------------------------------------------------------------
-    loadModulesRecursive(modules: any[], category: string, nodeKey: string, currentNode: any): void {
-        if (currentNode.nodetype === 'Module') {
-            const nodeModule = FwApplicationTree.getNodeById(FwApplicationTree.tree, currentNode.id);
-            const nodeModuleActions = FwApplicationTree.getNodeByFuncRecursive(nodeModule, {}, (node: any, args: any) => {
-                return node.nodetype === 'ModuleActions'; 
-            });
-            const nodeView = FwApplicationTree.getNodeByFuncRecursive(nodeModuleActions, {}, (node: any, args: any) => {
-                return node.nodetype === 'ModuleAction' && typeof node.properties === 'object' && 
-                    typeof node.properties.action === 'string' && node.properties.action === 'View'; 
-            });
-            const nodeNew = FwApplicationTree.getNodeByFuncRecursive(nodeModuleActions, {}, (node: any, args: any) => {
-                return node.nodetype === 'ModuleAction' && typeof node.properties === 'object' && 
-                    typeof node.properties.action === 'string' && node.properties.action === 'New'; 
-            });
-            const nodeEdit = FwApplicationTree.getNodeByFuncRecursive(nodeModuleActions, {}, (node: any, args: any) => {
-                return node.nodetype === 'ModuleAction' && typeof node.properties === 'object' && 
-                    typeof node.properties.action === 'string' && node.properties.action === 'Edit'; 
-            });
-            const hasView: boolean = nodeView !== null && nodeView.properties.visible === 'T';
-            const hasNew: boolean = nodeNew !== null && nodeNew.properties.visible === 'T';
-            const hasEdit: boolean = nodeEdit !== null && nodeEdit.properties.visible === 'T';
-            const moduleNav = nodeKey;
-            const moduleCaption = category + currentNode.caption;
-            const moduleController = nodeKey + "Controller";
-            if (typeof window[moduleController] !== 'undefined') {
-                if (window[moduleController].hasOwnProperty('apiurl')) {
-                    const moduleUrl = (<any>window)[moduleController].apiurl;
-                    modules.push({ value: `${moduleNav}Browse`, text: `${moduleCaption} Browse`, type: 'Browse', controllername: moduleController, apiurl: moduleUrl });
-                    if (hasView || hasNew || hasEdit) {
-                        modules.push({ value: `${moduleNav}Form`, text: `${moduleCaption} Form`, type: 'Form', controllername: moduleController, apiurl: moduleUrl });
-                    }
+    loadModules($form: JQuery) {
+        // Load Modules dropdown with sorted list of Modules and Grids
+        const modules = FwApplicationTree.getAllModules(false, false, (modules: any[], moduleCaption: string, moduleName: string, category: string, currentNode: any, nodeModule: IGroupSecurityNode, hasView: boolean, hasNew: boolean, hasEdit: boolean, moduleController: any) => {
+            if (moduleController.hasOwnProperty('apiurl')) {
+                modules.push({ value: `${moduleName}Browse`, text: `${moduleCaption} Browse`, type: 'Browse', controllername: moduleName + 'Controller', apiurl: moduleController.apiurl });
+                if (hasView || hasNew || hasEdit) {
+                    modules.push({ value: `${moduleName}Form`, text: `${moduleCaption} Form`, type: 'Form', controllername: moduleName + 'Controller', apiurl: moduleController.apiurl });
                 }
             }
-        } 
-        else if (currentNode.nodetype === 'Category' && nodeKey !== 'Reports') {
-            for (let childNodeKey in currentNode.children) {
-                const childNode = currentNode.children[childNodeKey];
-                this.loadModulesRecursive(modules, category + nodeKey + ' > ', childNodeKey, childNode);
+        });
+        const grids = FwApplicationTree.getAllGrids(false, (modules: any[], moduleCaption: string, moduleName: string, category: string, currentNode: any, nodeModule: IGroupSecurityNode, hasNew: boolean, hasEdit: boolean, moduleController: any) => {
+            if (moduleController.hasOwnProperty('apiurl')) {
+                modules.push({ value: `${moduleName}Browse`, text: `${moduleCaption} Grid`, type: 'Grid', controllername: moduleName + 'Controller', apiurl: moduleController.apiurl });
             }
-        }
-    }
-    //----------------------------------------------------------------------------------------------
-    loadGrid(modules: any[], nodeKey: string, currentNode: any): void {
-        const moduleNav = nodeKey;
-        const moduleCaption = 'Grid > ' + currentNode.caption;
-        const moduleController = nodeKey + "Controller";
-        if (typeof window[moduleController] !== 'undefined') {
-            if (window[moduleController].hasOwnProperty('apiurl')) {
-                const moduleUrl = (<any>window)[moduleController].apiurl;
-                modules.push({ value: `${moduleNav}Browse`, text: `${moduleCaption} Grid`, type: 'Grid', controllername: moduleController, apiurl: moduleUrl });
-            }
-        }
-    }
-    //----------------------------------------------------------------------------------------------
-    loadModules($form: JQuery) {
-        let allModules = [];
-        
-        // Load Modules
-        for (const key in Constants.Modules) {
-            const node = Constants.Modules[key];
-            this.loadModulesRecursive(allModules, 'Module > ', key, node);
-        }
-
-        // Load Grids
-        for (const key in Constants.Grids) {
-            const node = Constants.Grids[key];
-            this.loadGrid(allModules, key, node);
-        }
-
-        //Sort modules
-        function compare(a, b) {
-            if (a.text < b.text)
-                return -1;
-            if (a.text > b.text)
-                return 1;
-            return 0;
-        }
-        allModules.sort(compare);
-
-        const $moduleSelect = $form.find('.modules');
+        });
+        const allModules = modules.concat(grids);
+        FwApplicationTree.sortModules(allModules);
+         let $moduleSelect = $form.find('.modules');
         FwFormField.loadItems($moduleSelect, allModules);
 
         this.codeMirrorEvents($form);
     }
-    //----------------------------------------------------------------------------------------------
-    //loadModules($form) {
-    //    let $moduleSelect
-    //        , node
-    //        , mainModules
-    //        , settingsModules
-    //        , modules
-    //        , allModules;
-
-    //    //Traverse security tree to find all browses and forms
-    //    node = FwApplicationTree.getNodeById(FwApplicationTree.tree, '0A5F2584-D239-480F-8312-7C2B552A30BA');
-    //    mainModules = FwApplicationTree.getChildrenByType(node, 'Module');
-    //    settingsModules = FwApplicationTree.getChildrenByType(node, 'SettingsModule');
-    //    modules = mainModules.concat(settingsModules);
-    //    allModules = [];
-    //    for (let i = 0; i < modules.length; i++) {
-    //        let moduleChildren = modules[i].children;
-    //        let browseNodePosition = moduleChildren.map(function (x) { return x.properties.nodetype; }).indexOf('Browse');
-    //        let formNodePosition = moduleChildren.map(function (x) { return x.properties.nodetype; }).indexOf('Form');
-    //        if (browseNodePosition != -1) {
-    //            addModulesToList(modules[i], 'Browse');
-    //            if (formNodePosition != -1) {
-    //                addModulesToList(modules[i], 'Form');
-    //            };
-    //        }
-    //    }
-
-    //    //Traverse security tree to find all grids
-    //    const gridNode = FwApplicationTree.getNodeById(FwApplicationTree.tree, '43765919-4291-49DD-BE76-F69AA12B13E8');
-    //    let gridModules = FwApplicationTree.getChildrenByType(gridNode, 'Grid');
-    //    for (let i = 0; i < gridModules.length; i++) {
-    //        addModulesToList(gridModules[i], 'Grid');
-    //    };
-
-    //    //Adds values to select dropdown
-    //    function addModulesToList(module, type: string) {
-    //        let controller = module.properties.controller;
-    //        let moduleNav = controller.slice(0, -10);
-    //        let moduleCaption = module.properties.caption;
-    //        let moduleUrl;
-    //        if (typeof window[controller] !== 'undefined') {
-    //            if (window[controller].hasOwnProperty('apiurl')) {
-    //                moduleUrl = (<any>window)[controller].apiurl;
-    //            }
-    //        }
-    //        switch (type) {
-    //            case 'Browse':
-    //                allModules.push({ value: `${moduleNav}Browse`, text: `${moduleCaption} Browse`, type: type, controllername: module.properties.controller, apiurl: moduleUrl });
-    //                break;
-    //            case 'Form':
-    //                allModules.push({ value: `${moduleNav}Form`, text: `${moduleCaption} Form`, type: type, controllername: module.properties.controller, apiurl: moduleUrl });
-    //                break;
-    //            case 'Grid':
-    //                allModules.push({ value: `${moduleNav}Browse`, text: `${moduleCaption} Grid`, type: type, controllername: module.properties.controller, apiurl: moduleUrl });
-    //                break;
-    //        }
-    //    }
-
-    //    //Sort modules alphabetically
-    //    function compare(a, b) {
-    //        if (a.text < b.text)
-    //            return -1;
-    //        if (a.text > b.text)
-    //            return 1;
-    //        return 0;
-    //    }
-    //    allModules.sort(compare);
-
-    //    $moduleSelect = $form.find('.modules');
-    //    FwFormField.loadItems($moduleSelect, allModules);
-
-    //    this.codeMirrorEvents($form);
-    //}
     //----------------------------------------------------------------------------------------------
     renderGrids($form) {
         FwBrowse.renderGrid({

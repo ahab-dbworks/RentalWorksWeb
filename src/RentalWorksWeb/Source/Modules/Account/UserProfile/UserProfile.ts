@@ -47,57 +47,25 @@
             { value: 'theme-material', text: 'Material' }
         ], true);
 
-        //load App Modules for Home Page
-        //const node = FwApplicationTree.getNodeById(FwApplicationTree.tree, '0A5F2584-D239-480F-8312-7C2B552A30BA');
-        //const mainModules = FwApplicationTree.getChildrenByType(node, 'Module');
-        //const settingsModules = FwApplicationTree.getChildrenByType(node, 'SettingsModule');
-        //const modules = mainModules.concat(settingsModules);
-        //const allModules = [];
-        //const sortableModules = [];
-        //for (let i = 0; i < modules.length; i++) {
-        //    if (modules[i].properties.visible === "T") {
-        //        const moduleGUID = modules[i].id;
-        //        const moduleCaption = modules[i].properties.caption;
-        //        const moduleController = modules[i].properties.controller;
-        //        if (typeof window[moduleController] !== 'undefined') {
-        //            if (window[moduleController].hasOwnProperty('nav')) {
-        //                const moduleNav = (<any>window)[moduleController].nav;
-        //                allModules.push({ value: moduleGUID, text: moduleCaption, nav: moduleNav });
-        //                sortableModules.push({ value: moduleNav, text: moduleCaption, selected: 'T' });
-        //            }
-        //        }
-        //    }
-        //};
-      
-        ////Sort modules
-        //function compare(a, b) {
-        //    if (a.text < b.text)
-        //        return -1;
-        //    if (a.text > b.text)
-        //        return 1;
-        //    return 0;
-        //}
-        //allModules.sort(compare);
-
         // Load Default Home Page
-        const allModules = FwApplicationTree.getAllModules(false, false, (modules: any[], moduleCaption: string, moduleName: string, category: string, currentNode: any, nodeModule: IGroupSecurityNode, hasNew: boolean, hasEdit: boolean, moduleController: any) => {
+        const defaultHomePages = FwApplicationTree.getAllModules(false, false, (modules: any[], moduleCaption: string, moduleName: string, category: string, currentNode: any, nodeModule: IGroupSecurityNode, hasView: boolean, hasNew: boolean, hasEdit: boolean, moduleController: any) => {
             if (moduleController.hasOwnProperty('nav')) {
                 modules.push({ value: moduleController.id, text: moduleCaption, nav: moduleController.nav });
             }
         });
-        FwApplicationTree.sortModules(allModules);
+        FwApplicationTree.sortModules(defaultHomePages);
         const $defaultHomePage = $form.find('.default-home-page');
-        FwFormField.loadItems($defaultHomePage, allModules, true);
+        FwFormField.loadItems($defaultHomePage, defaultHomePages, true);
 
         // Load Available Modules
-        const sortableModules = FwApplicationTree.getAllModules(false, false, (modules: any[], moduleCaption: string, moduleName: string, category: string, currentNode: any, nodeModule: IGroupSecurityNode, hasNew: boolean, hasEdit: boolean, moduleController: any) => {
+        const toolbarModules = FwApplicationTree.getAllModules(false, false, (modules: any[], moduleCaption: string, moduleName: string, category: string, currentNode: any, nodeModule: IGroupSecurityNode, hasView: boolean, hasNew: boolean, hasEdit: boolean, moduleController: any) => {
             if (moduleController.hasOwnProperty('nav')) {
                 modules.push({ value: moduleController.nav, text: moduleCaption, selected: 'T'});
             }
         });
-        FwApplicationTree.sortModules(allModules);
+        FwApplicationTree.sortModules(toolbarModules);
         const $availModules = $form.find('.available-modules');
-        FwFormField.loadItems($availModules, sortableModules, true);
+        FwFormField.loadItems($availModules, toolbarModules, true);
 
         //sortableModules.sort(compare);
         //const $availModules = $form.find('.available-modules');
@@ -184,6 +152,7 @@
     //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         try {
+            parameters.closetab = true;
             parameters.afterCloseForm = () => {
                 const homePage: any = {};
                 homePage.guid = FwFormField.getValueByDataField($form, 'HomeMenuGuid');
