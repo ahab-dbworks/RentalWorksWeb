@@ -20,8 +20,11 @@ export class OrderReport extends WebpackReport {
                     Ajax.post<Order>(`${apiUrl}/api/v1/orderreport/runreport`, authorizationHeader, parameters)
                         .then((response: Order) => {
                             const data: any = response;
-                            //data.Items = DataTable.toObjectList(response.Items);
-                            data.Items = response.Items;
+                            data.Items = DataTable.toObjectList(response.Items);
+                            data.RentalItems = DataTable.toObjectList(response.RentalItems);
+                            data.SalesItems = DataTable.toObjectList(response.SalesItems);
+                            data.MiscItems = DataTable.toObjectList(response.MiscItems);
+                            data.LaborItems = DataTable.toObjectList(response.LaborItems);
                             data.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
                             data.System = 'RENTALWORKS';
                             if (logoObject.LogoImage != '') {
@@ -33,6 +36,8 @@ export class OrderReport extends WebpackReport {
                             } else {
                                 data.Report = 'ORDER';
                             }
+
+                            console.log(data, 'DATA');
 
                             this.renderFooterHtml(data);
                             if (this.action === 'Preview' || this.action === 'PrintHtml') {
@@ -237,5 +242,9 @@ class Order {
     InDeliveryShipVia: string;
     InDeliveryDeliveryNotes: string
     Items: any;
+    RentalItems: any;
+    SalesItems: any;
+    MiscItems: any;
+    LaborItems: any;
     PrintTime: string;
 }

@@ -14,12 +14,13 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
 
     public class OrderItemReportLoader : AppReportLoader
     {
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "orderid", modeltype: FwDataTypes.Text)]
-        public string OrderId { get; set; }
+        public string recType = "";
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text, isVisible: false)]
         public string RowType { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "orderid", modeltype: FwDataTypes.Text)]
+        public string OrderId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rectype", modeltype: FwDataTypes.Text)]
         public string RecType { get; set; }
@@ -36,14 +37,31 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         [FwSqlDataField(column: "qtyordered", modeltype: FwDataTypes.Decimal)]
         public decimal? QuantityOrdered { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "price", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public decimal? Rate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "discountpct", modeltype: FwDataTypes.DecimalString2Digits)]
+        public decimal? DiscountPercent { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "discountpctdisplay", modeltype: FwDataTypes.DecimalString2Digits)]
+        public decimal? DiscountPercentDisplay { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "weeklydiscountamt", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public decimal? WeeklyDiscountAmount { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "perioddiscountamt", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public decimal? PeriodDiscountAmount { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "weeklyextended", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public decimal? WeeklyExtended { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "periodextended", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? PeriodExtended { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderby", modeltype: FwDataTypes.Text)]
         public string OrderBy { get; set; }
         //------------------------------------------------------------------------------------ 
-        //public async Task<FwJsonDataTable> LoadItems(OrderReportRequest request)
-        public async Task<List<OrderItemReportLoader>> LoadItems(OrderReportRequest request)
+        public async Task<FwJsonDataTable> LoadItems(OrderReportRequest request)
         {
             FwJsonDataTable dt = null;
             using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
@@ -51,6 +69,7 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
                 using (FwSqlCommand qry = new FwSqlCommand(conn, "webgetorderprintdetails", this.AppConfig.DatabaseSettings.ReportTimeout))
                 {
                     qry.AddParameter("@orderid", SqlDbType.Text, ParameterDirection.Input, request.OrderId);
+                    qry.AddParameter("@rectype", SqlDbType.Text, ParameterDirection.Input, recType);
                     AddPropertiesAsQueryColumns(qry);
                     dt = await qry.QueryToFwJsonTableAsync(false, 0);
                 }
@@ -60,27 +79,56 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
             string[] totalFields = new string[] { "PeriodExtended" };
             dt.InsertSubTotalRows("RecTypeDisplay", "RowType", totalFields);
             dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
-            //return dt;
-
-
-            List<OrderItemReportLoader> items = new List<OrderItemReportLoader>();
-            foreach (List<object> row in dt.Rows)
-            {
-                OrderItemReportLoader item = new OrderItemReportLoader();
-                item.OrderId = (row[dt.GetColumnNo("OrderId")] ?? "").ToString();
-                item.RowType = (row[dt.GetColumnNo("RowType")] ?? "").ToString();
-                item.RecTypeDisplay = (row[dt.GetColumnNo("RecTypeDisplay")] ?? "").ToString();
-                item.ICode = (row[dt.GetColumnNo("ICode")] ?? "").ToString();
-                item.Description = (row[dt.GetColumnNo("Description")] ?? "").ToString();
-                item.QuantityOrdered = FwConvert.ToDecimal((row[dt.GetColumnNo("QuantityOrdered")] ?? "").ToString());
-                item.PeriodExtended = FwConvert.ToDecimal((row[dt.GetColumnNo("PeriodExtended")] ?? "").ToString());
-                item.OrderBy = (row[dt.GetColumnNo("OrderBy")] ?? "").ToString();
-                items.Add(item);
-            }
-            return items;
+            return dt;
         }
         //------------------------------------------------------------------------------------ 
     }
+    //------------------------------------------------------------------------------------ 
+    public class RentalOrderItemReportLoader : OrderItemReportLoader
+    {
+        public RentalOrderItemReportLoader()
+        {
+            recType = RwConstants.RECTYPE_RENTAL;
+        }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "daysinwk", modeltype: FwDataTypes.DecimalString3Digits)]
+        public decimal? DaysPerWeek { get; set; }
+        //------------------------------------------------------------------------------------ 
+    }
+    //------------------------------------------------------------------------------------ 
+    public class SalesOrderItemReportLoader : OrderItemReportLoader
+    {
+        public SalesOrderItemReportLoader()
+        {
+            recType = RwConstants.RECTYPE_SALE;
+        }
+    }
+    //------------------------------------------------------------------------------------ 
+    public class MiscOrderItemReportLoader : OrderItemReportLoader
+    {
+        public MiscOrderItemReportLoader()
+        {
+            recType = RwConstants.RECTYPE_MISCELLANEOUS;
+        }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "daysinwk", modeltype: FwDataTypes.DecimalString3Digits)]
+        public decimal? DaysPerWeek { get; set; }
+        //------------------------------------------------------------------------------------ 
+    }
+    //------------------------------------------------------------------------------------ 
+    public class LaborOrderItemReportLoader : OrderItemReportLoader
+    {
+        public LaborOrderItemReportLoader()
+        {
+            recType = RwConstants.RECTYPE_LABOR;
+        }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "daysinwk", modeltype: FwDataTypes.DecimalString3Digits)]
+        public decimal? DaysPerWeek { get; set; }
+        //------------------------------------------------------------------------------------ 
+    }
+    //------------------------------------------------------------------------------------ 
+
 
 
     public class OrderReportLoader : AppReportLoader
@@ -115,6 +163,9 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "locphone", modeltype: FwDataTypes.Text)]
         public string OfficeLocationPhone { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "locfax", modeltype: FwDataTypes.Text)]
+        public string OfficeLocationFax { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "dealwithno", modeltype: FwDataTypes.Text)]
         public string DealAndDealNumber { get; set; }
@@ -563,15 +614,19 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         [FwSqlDataField(column: "indeliverydeliverynotes", modeltype: FwDataTypes.Text)]
         public string InDeliveryDeliveryNotes { get; set; }
         //------------------------------------------------------------------------------------ 
-        public List<OrderItemReportLoader> Items { get; set; } = new List<OrderItemReportLoader>(new OrderItemReportLoader[] { new OrderItemReportLoader() });
+        public FwJsonDataTable RentalItems { get; set; }
+        //------------------------------------------------------------------------------------ 
+        public FwJsonDataTable SalesItems { get; set; }
+        //------------------------------------------------------------------------------------ 
+        public FwJsonDataTable MiscItems { get; set; }
+        //------------------------------------------------------------------------------------ 
+        public FwJsonDataTable LaborItems { get; set; }
+        //------------------------------------------------------------------------------------ 
+        public FwJsonDataTable Items { get; set; }
         //------------------------------------------------------------------------------------ 
         public async Task<OrderReportLoader> RunReportAsync(OrderReportRequest request)
         {
-            Task<OrderReportLoader> taskOrder;
-            Task<List<OrderItemReportLoader>> taskOrderItems;
-
             OrderReportLoader Order = null;
-            OrderItemReportLoader OrderItems = null;
             using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
             {
                 await conn.OpenAsync();
@@ -579,19 +634,49 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
                 {
                     qry.AddParameter("@orderid", SqlDbType.Text, ParameterDirection.Input, request.OrderId);
                     AddPropertiesAsQueryColumns(qry);
-                    taskOrder = qry.QueryToTypedObjectAsync<OrderReportLoader>();
+                    Task<OrderReportLoader> taskOrder = qry.QueryToTypedObjectAsync<OrderReportLoader>();
 
-                    OrderItems = new OrderItemReportLoader();
+                    //all items
+                    Task<FwJsonDataTable> taskOrderItems;
+                    OrderItemReportLoader OrderItems = new OrderItemReportLoader();
                     OrderItems.SetDependencies(AppConfig, UserSession);
                     taskOrderItems = OrderItems.LoadItems(request);
 
-                    await Task.WhenAll(new Task[] { taskOrder, taskOrderItems });
+                    //rental items
+                    Task<FwJsonDataTable> taskRentalOrderItems;
+                    RentalOrderItemReportLoader RentalItems = new RentalOrderItemReportLoader();
+                    RentalItems.SetDependencies(AppConfig, UserSession);
+                    taskRentalOrderItems = RentalItems.LoadItems(request);
+
+                    //sales items
+                    Task<FwJsonDataTable> taskSalesOrderItems;
+                    SalesOrderItemReportLoader SalesItems = new SalesOrderItemReportLoader();
+                    SalesItems.SetDependencies(AppConfig, UserSession);
+                    taskSalesOrderItems = SalesItems.LoadItems(request);
+
+                    //misc items
+                    Task<FwJsonDataTable> taskMiscOrderItems;
+                    MiscOrderItemReportLoader MiscItems = new MiscOrderItemReportLoader();
+                    MiscItems.SetDependencies(AppConfig, UserSession);
+                    taskMiscOrderItems = MiscItems.LoadItems(request);
+
+                    //labor items
+                    Task<FwJsonDataTable> taskLaborOrderItems;
+                    LaborOrderItemReportLoader LaborItems = new LaborOrderItemReportLoader();
+                    LaborItems.SetDependencies(AppConfig, UserSession);
+                    taskLaborOrderItems = LaborItems.LoadItems(request);
+
+                    await Task.WhenAll(new Task[] { taskOrder, taskOrderItems, taskRentalOrderItems, taskSalesOrderItems, taskMiscOrderItems, taskLaborOrderItems });
 
                     Order = taskOrder.Result;
 
                     if (Order != null)
                     {
                         Order.Items = taskOrderItems.Result;
+                        Order.RentalItems = taskRentalOrderItems.Result;
+                        Order.SalesItems = taskSalesOrderItems.Result;
+                        Order.MiscItems = taskMiscOrderItems.Result;
+                        Order.LaborItems = taskLaborOrderItems.Result;
                     }
                 }
             }
