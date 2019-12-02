@@ -111,6 +111,8 @@ namespace FwStandard.Data
         //------------------------------------------------------------------------------------
         protected string OverrideTableName { get; set; } = "";
         //------------------------------------------------------------------------------------
+        protected string OverrideFromClause { get; set; } = "";
+        //------------------------------------------------------------------------------------
         protected virtual int PrimaryKeyCount
         {
             get
@@ -517,7 +519,14 @@ namespace FwStandard.Data
             {
                 withNoLock = " with (nolock)";
             }
-            select.Add("from " + TableName + " [" + TableAlias + "]" + withNoLock);
+            if (!string.IsNullOrEmpty(OverrideFromClause))
+            {
+                select.Add(OverrideFromClause);
+            }
+            else
+            {
+                select.Add("from " + TableName + " [" + TableAlias + "]" + withNoLock);
+            }
 
             if ((customFields != null) && (customFields.Count > 0))
             {
