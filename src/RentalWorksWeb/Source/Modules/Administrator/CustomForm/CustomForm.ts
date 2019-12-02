@@ -7,7 +7,6 @@ class CustomForm {
     id: string = Constants.Modules.Administrator.CustomForm.id;
     codeMirror: any;
     doc: any;
-    datafields: any;
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen, $browse;
@@ -229,7 +228,7 @@ class CustomForm {
                             });
                         }
 
-                        self.datafields = allValidFields.sort(compare);
+                        $form.data('validdatafields', allValidFields.sort(compare));
 
                         for (let i = 0; i < allValidFields.length; i++) {
                             modulefields.append(`
@@ -261,7 +260,7 @@ class CustomForm {
                         });
                     }
 
-                    self.datafields = allValidFields.sort(compare);
+                    $form.data('validdatafields', allValidFields.sort(compare));
 
                     for (let i = 0; i < allValidFields.length; i++) {
                         modulefields.append(`
@@ -575,12 +574,15 @@ class CustomForm {
 
             //adds select options for datafields
             function addDatafields() {
+                const validFields = $form.data('validdatafields');
+                if (typeof validFields === 'object') {
                 let datafieldOptions = $form.find('#controlProperties .propval .datafields');
                 for (let z = 0; z < datafieldOptions.length; z++) {
                     let field = jQuery(datafieldOptions[z]);
                     field.append(`<option value="" disabled>Select field</option>`)
-                    for (let i = 0; i < self.datafields.length; i++) {
-                        let $this = self.datafields[i];
+                   
+                    for (let i = 0; i < validFields.length; i++) {
+                        let $this = validFields[i];
                         field.append(`<option data-iscustomfield=${$this.IsCustom} value="${$this.Field}" data-type="${$this.FieldType}">${$this.Field}</option>`);
                     }
                     let value = jQuery(field).attr('value');
@@ -589,6 +591,7 @@ class CustomForm {
                     } else {
                         jQuery(field).find(`option[disabled]`).prop('selected', true);
                     };
+                    }
                 }
             };
 
