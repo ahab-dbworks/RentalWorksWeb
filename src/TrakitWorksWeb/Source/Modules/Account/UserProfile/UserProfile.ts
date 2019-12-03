@@ -1,10 +1,10 @@
-﻿routes.push({ pattern: /^module\/usersettings$/, action: function (match: RegExpExecArray) { return UserSettingsController.getModuleScreen(); } });
+﻿routes.push({ pattern: /^module\/userprofile$/, action: function (match: RegExpExecArray) { return UserProfileController.getModuleScreen(); } });
 
-class UserSettings {
-    Module: string = 'UserSettings';
-    apiurl: string = 'api/v1/usersettings';
-    id: string = '2563927C-8D51-43C4-9243-6F69A52E2657';
-
+class UserProfile {
+    Module: string = 'UserProfile';
+    apiurl: string = 'api/v1/userprofile';
+    id: string = 'DrTcbvvUw92V';
+    caption: string = 'User Profile';
 
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
@@ -16,7 +16,7 @@ class UserSettings {
         let $form = this.openForm('NEW');
 
         screen.load = function () {
-            FwModule.openModuleTab($form, 'User Settings', false, 'FORM', true);
+            FwModule.openModuleTab($form, this.caption, false, 'FORM', true);
         };
         screen.unload = function () {
         };
@@ -25,7 +25,7 @@ class UserSettings {
     }
     //----------------------------------------------------------------------------------------------
     openForm(mode: string) {
-        let $form, $browsedefaultrows, $applicationtheme, $defaultHomePage, $moduleSelect
+        let $form, $browsedefaultrows, $applicationtheme, $moduleSelect
             , node
             , mainModules
             , settingsModules
@@ -60,33 +60,25 @@ class UserSettings {
             { value: 'theme-material', text: 'Material' }
         ], true);
 
-        //load App Modules for Home Page
-        node = FwApplicationTree.getNodeById(FwApplicationTree.tree, '0A5F2584-D239-480F-8312-7C2B552A30BA');
-        mainModules = FwApplicationTree.getChildrenByType(node, 'Module');
-        settingsModules = FwApplicationTree.getChildrenByType(node, 'SettingsModule');
-        modules = mainModules.concat(settingsModules);
-        allModules = [];
-        for (let i = 0; i < modules.length; i++) {
-            let moduleNav = modules[i].properties.modulenav;
-            let moduleGUID = modules[i].id
-                , moduleCaption = modules[i].properties.caption
-                , moduleController = modules[i].properties.controller;
-            if (typeof window[moduleController] !== 'undefined') {
-                allModules.push({ value: moduleGUID, text: moduleCaption, apiurl: moduleNav });
+        // Load Default Home Page
+        const defaultHomePages = FwApplicationTree.getAllModules(false, false, (modules: any[], moduleCaption: string, moduleName: string, category: string, currentNode: any, nodeModule: IGroupSecurityNode, hasView: boolean, hasNew: boolean, hasEdit: boolean, moduleController: any) => {
+            if (moduleController.hasOwnProperty('nav')) {
+                modules.push({ value: moduleController.id, text: moduleCaption, nav: moduleController.nav });
             }
-        };
-        //Sort modules
-        function compare(a, b) {
-            if (a.text < b.text)
-                return -1;
-            if (a.text > b.text)
-                return 1;
-            return 0;
-        }
+        });
+        FwApplicationTree.sortModules(defaultHomePages);
+        const $defaultHomePage = $form.find('.default-home-page');
+        FwFormField.loadItems($defaultHomePage, defaultHomePages, true);
 
-        allModules.sort(compare);
-        $defaultHomePage = $form.find('.default-home-page');
-        FwFormField.loadItems($defaultHomePage, allModules, true);
+        // Load Available Modules
+        //const toolbarModules = FwApplicationTree.getAllModules(false, false, (modules: any[], moduleCaption: string, moduleName: string, category: string, currentNode: any, nodeModule: IGroupSecurityNode, hasView: boolean, hasNew: boolean, hasEdit: boolean, moduleController: any) => {
+        //    if (moduleController.hasOwnProperty('nav')) {
+        //        modules.push({ value: moduleController.nav, text: moduleCaption, selected: 'T'});
+        //    }
+        //});
+        //FwApplicationTree.sortModules(toolbarModules);
+        //const $availModules = $form.find('.available-modules');
+        //FwFormField.loadItems($availModules, toolbarModules, true);
 
         $form.find('div.fwformfield[data-datafield="UserId"] input').val(userId.webusersid);
         FwModule.loadForm(this.Module, $form);
@@ -162,4 +154,4 @@ class UserSettings {
     }
     //----------------------------------------------------------------------------------------------
 }
-var UserSettingsController = new UserSettings();
+var UserProfileController = new UserProfile();

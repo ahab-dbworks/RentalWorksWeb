@@ -128,11 +128,11 @@
         FwFileMenu.UserControl_addSystemBarControl('username', $controlUserName, $usercontrol);
 
         // Add DropDownMenuItem: User Settings
-        var $miUserSettings = jQuery(`<div>${RwLanguages.translate('User Settings')}</div>`);
-        FwFileMenu.UserControl_addDropDownMenuItem('usersettings', $miUserSettings, $usercontrol);
+        var $miUserSettings = jQuery(`<div>${RwLanguages.translate('User Profile')}</div>`);
+        FwFileMenu.UserControl_addDropDownMenuItem('userprofile', $miUserSettings, $usercontrol);
         $miUserSettings.on('click', (event) => {
             try {
-                program.getModule('module/usersettings');
+                program.getModule('module/userprofile');
             }
             catch (ex) {
                 FwFunc.showError(ex);
