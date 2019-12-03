@@ -278,15 +278,15 @@ class FwSettingsClass {
             const rowId = jQuery(keys[0]).attr('data-browsedatafield');
 
             //append record search / legend
-            if ($body.find('.record-search').length <= 1) {
+            if ($body.find('.search-bar').length <= 1) {
                 $body.prepend(this.getRecordSearch());
                 if ($browse.attr('data-hasinactive') !== 'true') {
-                    $body.find('.record-search .view-options').hide();
+                    $body.find('.search-bar .view-options').hide();
                 }
             }
             const $legend = $browse.find('.legend');
             if ($legend.length > 0) {
-                $body.find('.record-search').after($legend);
+                $body.find('.search-bar').after($legend);
             }
 
             for (var i = 1; i < keys.length; i++) {
@@ -522,7 +522,7 @@ class FwSettingsClass {
             $body.prepend($wrappedForm);
             $body.prepend(jQuery(newRowHtml.join('')));
             $body.prepend($body.find('.legend'));
-            $body.prepend($body.find('.record-search'));
+            $body.prepend($body.find('.search-bar'));
         }
 
         $body.on('click', '.close-new-row', e => {
@@ -665,10 +665,10 @@ class FwSettingsClass {
 
                 if ($body.is(':empty')) {
                     //append record search / legend
-                    if ($body.find('.record-search').length <= 0) {
+                    if ($body.find('.search-bar').length <= 0) {
                         $body.append(this.getRecordSearch());
                         if ($browse.attr('data-hasinactive') !== 'true') {
-                            $body.find('.record-search .view-options').hide();
+                            $body.find('.search-bar .view-options').hide();
                         }
                     }
                     if ($browse.find('.legend').length > 0) {
@@ -1371,7 +1371,7 @@ class FwSettingsClass {
         $body.find('.new-row').remove();
         $body.prepend($newPanel);
         $body.prepend($body.find('.legend'));
-        $body.prepend($body.find('.record-search'));
+        $body.prepend($body.find('.search-bar'));
         const $rowBody = $body.find(`#${saveData[rowId]}.panel-body`);
         if (!inactiverecord) {
             $rowBody.prepend($form);
@@ -1387,8 +1387,8 @@ class FwSettingsClass {
     //----------------------------------------------------------------------------------------------
     getRecordSearch(): string {
         return `
-            <div class="record-search">
-              <div class="view-options" style="float:left;">
+            <div class="search-bar">
+              <div class="view-options">
                 <div class="flexrow">
                   <div class="flexcolumn" style="max-width: 28px;">
                     <i class="material-icons show-inactive show-btn" title="Show All">visibility</i>
@@ -1399,7 +1399,7 @@ class FwSettingsClass {
                   </div>
                 </div>
               </div>
-              <div>
+              <div class="record-search">
                 <span class="input-group-addon search"><i class="material-icons">search</i></span>
                 <input type="text" id="recordSearch" class="form-control" placeholder="Record Search" autofocus="">
               </div>
