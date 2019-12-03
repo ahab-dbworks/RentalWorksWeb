@@ -18,6 +18,7 @@ namespace WebLibrary.Security.Tree.RentalWorksWeb.Modules.Home
             tree.AddNewMenuBarButton("{CF6AAE9C-6CDB-45FC-A5DC-FC3913A826E2}", nodeBrowseMenuBar.Id);
             tree.AddViewMenuBarButton("{294D64ED-19FD-4609-996E-47B5BC5457BE}", nodeBrowseMenuBar.Id);
             tree.AddEditMenuBarButton("{AB63CFD3-6357-4E26-83A7-31A33379251C}", nodeBrowseMenuBar.Id);
+            tree.AddDeleteMenuBarButton("{A0FF4DB6-D10C-4AC4-B501-96BC131D02D1}", nodeBrowseMenuBar.Id);
             tree.AddSubMenuItem("Approve", "{20CA8800-41C5-4387-8EF0-558330B96AAA}", nodeBrowseExport.Id);
             tree.AddSubMenuItem("Unapprove", "{DE1069AB-2A4D-4556-AD00-9D89FAA22B54}", nodeBrowseExport.Id);
 

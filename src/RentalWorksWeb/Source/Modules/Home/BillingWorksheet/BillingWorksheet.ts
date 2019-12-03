@@ -150,8 +150,6 @@ class BillingWorksheet {
         $invoiceItemGridRental.empty().append($invoiceItemGridRentalControl);
         $invoiceItemGridRentalControl.data('isSummary', false);
         $invoiceItemGridRental.addClass('R');
-        FwBrowse.disableGrid($invoiceItemGridRental);
-        $invoiceItemGridRentalControl.attr('data-deleteoption', 'false');
         $invoiceItemGridRentalControl.find('div[data-datafield="Rate"]').attr('data-caption', 'Unit Rate');
 
         $invoiceItemGridRentalControl.data('ondatabind', request => {
@@ -176,8 +174,6 @@ class BillingWorksheet {
         const $invoiceItemGridSalesControl = FwBrowse.loadGridFromTemplate('InvoiceItemGrid');
         $invoiceItemGridSales.empty().append($invoiceItemGridSalesControl);
         $invoiceItemGridSales.addClass('S');
-        FwBrowse.disableGrid($invoiceItemGridSales);
-        $invoiceItemGridSalesControl.attr('data-deleteoption', 'false');
         $invoiceItemGridSalesControl.data('isSummary', false);
         $invoiceItemGridSalesControl.find('div[data-datafield="Rate"]').attr('data-caption', 'Unit Price');
 
@@ -208,8 +204,6 @@ class BillingWorksheet {
         $invoiceItemGridFacilities.find('div[data-datafield="Taxable"]').attr('data-formreadonly', 'true');
         $invoiceItemGridFacilitiesControl.find('div[data-datafield="Rate"]').attr('data-caption', 'Unit Rate');
         $invoiceItemGridFacilitiesControl.find('div[data-datafield="InventoryId"]').attr('data-caption', 'Item No.');
-        $invoiceItemGridFacilitiesControl.attr('data-deleteoption', 'false');
-
         $invoiceItemGridFacilitiesControl.data('isSummary', false);
 
         $invoiceItemGridFacilitiesControl.data('ondatabind', request => {
@@ -505,6 +499,11 @@ class BillingWorksheet {
     };
     //----------------------------------------------------------------------------------------------
     afterLoad($form: JQuery): void {
+        // Disbles form for certain statuses. Maintain position under 'IsStandAloneInvoice' condition since status overrides
+        const status = FwFormField.getValueByDataField($form, 'Status');
+        if (status === 'CLOSED' || status === 'PROCESSED' || status === 'VOID') {
+            FwModule.setFormReadOnly($form);
+        }
         //Click Event on tabs to load grids/browses
         $form.on('click', '[data-type="tab"]', e => {
             const tabname = jQuery(e.currentTarget).attr('id');
@@ -527,50 +526,8 @@ class BillingWorksheet {
                 }
             }
         });
-        //const IsStandAloneInvoice = FwFormField.getValueByDataField($form, 'IsStandAloneInvoice') === true;
-        //if (IsStandAloneInvoice) {
-        //    FwFormField.enable($form.find('[data-datafield="RateType"]'));
-        //}
-        // Disbles form for certain statuses. Maintain position under 'IsStandAloneInvoice' condition since status overrides
-        const status = FwFormField.getValueByDataField($form, 'Status');
-        if (status === 'CLOSED' || status === 'PROCESSED' || status === 'VOID') {
-            FwModule.setFormReadOnly($form);
-        }
-        // Hide tab behavior
-        //if (!FwFormField.getValueByDataField($form, 'HasRentalItem')) { $form.find('[data-type="tab"][data-caption="Rental"]').hide() }
-        //if (!FwFormField.getValueByDataField($form, 'HasSalesItem')) { $form.find('[data-type="tab"][data-caption="Sales"]').hide() }
-        //if (!FwFormField.getValueByDataField($form, 'HasLaborItem')) { $form.find('[data-type="tab"][data-caption="Labor"]').hide() }
-        //if (!FwFormField.getValueByDataField($form, 'HasFacilityItem')) { $form.find('[data-type="tab"][data-caption="Facilities"]').hide() }
-        //if (!FwFormField.getValueByDataField($form, 'HasRentalSaleItem')) { $form.find('[data-type="tab"][data-caption="Used Sale"]').hide() }
 
-        const $invoiceItemGridRental = $form.find('.rentalgrid [data-name="InvoiceItemGrid"]');
-        const $invoiceItemGridSales = $form.find('.salesgrid [data-name="InvoiceItemGrid"]');
-        const $invoiceItemGridLabor = $form.find('.laborgrid [data-name="InvoiceItemGrid"]');
-        const $invoiceItemGridRentalSale = $form.find('.rentalsalegrid [data-name="InvoiceItemGrid"]');
-        // Hides DELETE grid menu item
-        $invoiceItemGridRental.find('.submenu-btn').filter('[data-securityid="27053421-85CC-46F4-ADB3-85CEC8A8090B"]').hide();
-        $invoiceItemGridSales.find('.submenu-btn').filter('[data-securityid="27053421-85CC-46F4-ADB3-85CEC8A8090B"]').hide();
-        $invoiceItemGridLabor.find('.submenu-btn').filter('[data-securityid="27053421-85CC-46F4-ADB3-85CEC8A8090B"]').hide();
-        $invoiceItemGridRentalSale.find('.submenu-btn').filter('[data-securityid="27053421-85CC-46F4-ADB3-85CEC8A8090B"]').hide();
-        // Hides grid row DELETE button
-        //$invoiceItemGridRental.find('.browsecontextmenucell').css('pointer-events', 'none');
-        //$invoiceItemGridSales.find('.browsecontextmenucell').css('pointer-events', 'none');
-        //$invoiceItemGridLabor.find('.browsecontextmenucell').css('pointer-events', 'none');
-        //$invoiceItemGridRentalSale.find('.browsecontextmenucell').css('pointer-events', 'none');
-        // Hides grid ADD button
-        $invoiceItemGridRental.find('.buttonbar').hide();
-        $invoiceItemGridSales.find('.buttonbar').hide();
-        $invoiceItemGridLabor.find('.buttonbar').hide();
-        $invoiceItemGridRentalSale.find('.buttonbar').hide();
-        this.InvoiceCredit($form);
         this.dynamicColumns($form);
-
-        $form.find('.browsecontextmenu i').click(e => {
-            const $this = jQuery(e.currentTarget);
-            if ($this.parents().attr('data-grid') === 'InvoiceItemGrid') {
-                $this.find('div.fwcontextmenu fwcontextmenubox .deleteoption').css('pointer-events', 'none');
-            }
-        })
     };
 
     //----------------------------------------------------------------------------------------------
