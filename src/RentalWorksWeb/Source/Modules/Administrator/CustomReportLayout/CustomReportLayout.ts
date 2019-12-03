@@ -217,7 +217,7 @@ class CustomReportLayout {
                     if (allValidFields[i].hasOwnProperty("NestedItems")) {
                         for (const key of Object.keys(allValidFields[i].NestedItems[0])) {
                             if (key != '_Custom') {
-                                modulefields.append(`<div data-iscustomfield="false" data-isnested="true" style="text-indent:1em;">${key}</div>`);
+                                modulefields.append(`<div data-iscustomfield="false" data-isnested="true" data-parentfield="${allValidFields[i].Field}" style="text-indent:1em;">${key}</div>`);
                             }
                         }
                     } 
@@ -351,6 +351,21 @@ class CustomReportLayout {
                     $form.find('.groupGrid').hide();
                     break;
             }
+        });
+
+        //add field on click
+        $form.on('click', '.modulefields div', e => {
+            const $this = jQuery(e.currentTarget);
+            let textToInject;
+            if ($this.attr('data-isnested') != 'true') {
+                textToInject = `{{${$this.text()}}}`;
+            } else {
+                textToInject = `{{${$this.attr('data-parentfield')}.${$this.text()}}}`; //for nested objects
+            }
+            const doc = this.codeMirror.getDoc();
+            const cursor = doc.getCursor();
+            doc.replaceRange(textToInject, cursor);
+            $form.find('#codeEditor').change();  
         });
     }
     //----------------------------------------------------------------------------------------------
