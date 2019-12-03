@@ -288,7 +288,7 @@ class Contact {
     //--------------------------------------------------------------------------------------------
     getBrowseTemplate(): string {
         return `
-      <div data-name="Contact" data-control="FwBrowse" data-type="Browse" class="fwcontrol fwbrowse" data-controller="ContactController">
+      <div data-name="Contact" data-control="FwBrowse" data-type="Browse" class="fwcontrol fwbrowse" data-controller="ContactController" data-hasinactive="true">
         <div class="column" data-width="0" data-visible="false">
             <div class="field" data-isuniqueid="true" data-datafield="ContactId" data-browsedatatype="key" ></div>
         </div>
