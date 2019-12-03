@@ -257,12 +257,11 @@ class FwApplicationTreeClass {
         const hasEdit: boolean = nodeEdit !== null && nodeEdit.properties.visible === 'T';
         if (hasNew || hasEdit) {
             const moduleNav = nodeKey.slice(0, -4);
-            const moduleCaption = 'Grid > ' + currentNode.caption;
             const moduleControllerName = nodeKey + "Controller";
             if (typeof window[moduleControllerName] !== 'undefined') {
                 const moduleController = window[moduleControllerName];
                 let moduleCaption = `${addGridPrefix ? category : ''}${currentNode.caption}`;
-                onAddArrayItem(modules, moduleCaption, nodeKey, category, currentNode, nodeGrid, hasNew, hasEdit, moduleController);
+                onAddArrayItem(modules, moduleCaption, moduleNav, category, currentNode, nodeGrid, hasNew, hasEdit, moduleController);
             }
         } 
     }
