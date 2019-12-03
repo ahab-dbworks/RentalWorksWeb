@@ -121,18 +121,18 @@ namespace WebApi.Modules.HomeControls.InventorySearch
         // POST api/v1/inventorysearch 
         [HttpPost]
         [FwControllerMethod(Id:"pIzlx22ziLGg", ActionType: FwControllerActionTypes.New)]
-        public async Task<ActionResult<InventorySearchLogic>> NewAsync([FromBody]InventorySearchLogic l)
+        public async Task<ActionResult<InventorySearchLogic>> PostAsync([FromBody]InventorySearchLogic l)
         {
-            return await DoNewAsync<InventorySearchLogic>(l);
+            return await DoPostAsync<InventorySearchLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
         // PUT api/v1/inventorysearch/A0000001
-        [HttpPut("{id}")]
-        [FwControllerMethod(Id: "F09OEvjou3KIm", ActionType: FwControllerActionTypes.Edit)]
-        public async Task<ActionResult<InventorySearchLogic>> EditAsync([FromRoute] string id, [FromBody]InventorySearchLogic l)
-        {
-            return await DoEditAsync<InventorySearchLogic>(l);
-        }
+        //[HttpPut("{id}")]
+        //[FwControllerMethod(Id: "F09OEvjou3KIm", ActionType: FwControllerActionTypes.Edit)]
+        //public async Task<ActionResult<InventorySearchLogic>> EditAsync([FromRoute] string id, [FromBody]InventorySearchLogic l)
+        //{
+        //    return await DoEditAsync<InventorySearchLogic>(l);
+        //}
         //------------------------------------------------------------------------------------ 
         // POST api/v1/inventorysearch/gettotal
         [HttpGet("gettotal/{sessionid}")]
