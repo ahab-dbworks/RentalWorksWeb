@@ -2,7 +2,7 @@
 
 class DashboardSettings {
     Module: string = 'DashboardSettings';
-    apiurl: string = 'api/v1/userdashboardsettings';
+    apiurl: string = 'api/v1/dashboardsettings';
     caption: string = Constants.Modules.Utilities.children.DashboardSettings.caption;
     nav: string = Constants.Modules.Utilities.children.DashboardSettings.nav;
     id: string = Constants.Modules.Utilities.children.DashboardSettings.id;

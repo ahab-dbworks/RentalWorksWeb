@@ -86,7 +86,7 @@ class RwHome {
                             FwAppData.apiMethod(true, 'POST', 'api/v1/userwidget/', request, FwServices.defaultTimeout, function onSuccess(response) {
                                 FwNotification.renderNotification('SUCCESS', 'Widget Chart Type Updated');
                                 FwConfirmation.destroyConfirmation($confirmation);
-                                FwAppData.apiMethod(true, 'GET', 'api/v1/userdashboardsettings/' + response.UserId, null, FwServices.defaultTimeout, function onSuccess(widgetResponse) {
+                                FwAppData.apiMethod(true, 'GET', 'api/v1/dashboardsettings/' + response.UserId, null, FwServices.defaultTimeout, function onSuccess(widgetResponse) {
                                     let $dashboard = $chartSettings.closest('.programlogo');
                                     for (var i = 0; i < widgetResponse.UserWidgets.length; i++) {
                                         if (widgetResponse.UserWidgets[i].selected && widgetResponse.UserWidgets[i].userWidgetId === response.UserWidgetId) {
@@ -117,7 +117,7 @@ class RwHome {
         var $dashboard = $control.find('.programlogo');
         var webusersid = sessionStorage.getItem('webusersid');
 
-        FwAppData.apiMethod(true, 'GET', 'api/v1/userdashboardsettings/' + webusersid, null, FwServices.defaultTimeout, function onSuccess(response) {
+        FwAppData.apiMethod(true, 'GET', 'api/v1/dashboardsettings/' + webusersid, null, FwServices.defaultTimeout, function onSuccess(response) {
             let hiddenCounter = 0;
             let dashboardButton = '<div class="flexrow" style="max-width:none;justify-content:center"><div class="fwformcontrol dashboardsettings" data-type="button" style="flex:0 1 350px;margin:75px 0 0 10px;text-align:center;">You have no widgets yet - Add some now!</div></div>';
             if (hiddenCounter === response.UserWidgets.length) {

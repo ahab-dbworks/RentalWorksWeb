@@ -10,12 +10,11 @@ using WebApi.Logic;
 using WebApi.Modules.Administrator.User;
 using WebApi.Modules.Settings.AvailableWidget;
 using WebApi.Modules.Settings.WebUserWidget;
-using WebApi.Modules.Settings.WidgetSettings.Widget;
 
-namespace WebApi.Modules.Settings.UserDashboardSettings
+namespace WebApi.Modules.Utilities.DashboardSettings
 {
     [FwLogic(Id: "4wHzCi9ODcIR9")]
-    public class UserDashboardSettingsLogic : AppBusinessLogic
+    public class DashboardSettingsLogic : AppBusinessLogic
     {
         public class UserDashboardSetting
         {
@@ -130,7 +129,7 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
 
         //public class AvailableWidget : WidgetLogic { }
         //------------------------------------------------------------------------------------
-        public UserDashboardSettingsLogic()
+        public DashboardSettingsLogic()
         {
             DashboardSettingsTitle = "Dashboard Settings";
             LoadOriginalBeforeSaving = false;
@@ -349,10 +348,10 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
         public override async Task<int> SaveAsync(FwBusinessLogic original, FwSqlConnection conn = null, TDataRecordSaveMode saveMode = TDataRecordSaveMode.Auto)
         {
             int savedCount = 0;
-            UserDashboardSettingsLogic orig = new UserDashboardSettingsLogic();
+            DashboardSettingsLogic orig = new DashboardSettingsLogic();
             orig.SetDependencies(AppConfig, UserSession);
             orig.UserId = UserId;
-            await orig.LoadAsync<UserDashboardSettingsLogic>();
+            await orig.LoadAsync<DashboardSettingsLogic>();
 
             if (WidgetsPerRow != null)
             {
