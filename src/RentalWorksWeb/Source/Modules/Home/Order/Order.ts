@@ -204,14 +204,22 @@ class Order extends OrderBase {
 
             billingWorksheetBrowse.find('div.btn[data-type="NewMenuBarButton"]').off('click');
             billingWorksheetBrowse.find('div.btn[data-type="NewMenuBarButton"]').on('click', function () {
-                const formData: any = {};
+                const parentModuleInfo: any = {};
                 const $browse = jQuery(this).closest('.fwbrowse');
                 const controller = $browse.attr('data-controller');
-                formData.OrderNumber = FwFormField.getValueByDataField($form, 'OrderNumber');
-                formData.DealId = FwFormField.getValueByDataField($form, 'DealId');
+                parentModuleInfo.OrderNumber = FwFormField.getValueByDataField($form, 'OrderNumber');
+                parentModuleInfo.OrderDescription = FwFormField.getValueByDataField($form, 'Description');
+                parentModuleInfo.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
+                parentModuleInfo.OrderTypeId = FwFormField.getValueByDataField($form, 'OrderTypeId');
+                parentModuleInfo.OrderType = FwFormField.getTextByDataField($form, 'OrderTypeId');
+                parentModuleInfo.Deal = FwFormField.getTextByDataField($form, 'DealId');
+                parentModuleInfo.DealId = FwFormField.getValueByDataField($form, 'DealId');
+                parentModuleInfo.DealNumber = FwFormField.getValueByDataField($form, 'DealNumber');
+
+
                 if (typeof window[controller] !== 'object') throw `Missing javascript module: ${controller}`;
                 if (typeof window[controller]['openForm'] !== 'function') throw `Missing javascript function: ${controller}.openForm`;
-                const $billingWorksheetForm = window[controller]['openForm']('NEW', formData);
+                const $billingWorksheetForm = window[controller]['openForm']('NEW', parentModuleInfo);
                 FwModule.openSubModuleTab($browse, $billingWorksheetForm);
             });
         } else {

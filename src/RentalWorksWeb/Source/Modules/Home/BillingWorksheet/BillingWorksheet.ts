@@ -116,6 +116,14 @@ class BillingWorksheet {
             FwFormField.disable($form.find('.ifnew'));
         }
 
+        if (typeof parentModuleInfo !== 'undefined') {
+            FwFormField.setValue($form, 'div[data-datafield="DealId"]', parentModuleInfo.DealId, parentModuleInfo.Deal);
+            FwFormField.setValue($form, 'div[data-datafield="DealNumber"]', parentModuleInfo.DealNumber);
+            FwFormField.setValue($form, 'div[data-datafield="OrderId"]', parentModuleInfo.OrderId, parentModuleInfo.OrderNumber);
+            FwFormField.setValue($form, 'div[data-datafield="OrderDescription"]', parentModuleInfo.OrderDescription);
+            FwFormField.setValue($form, 'div[data-datafield="OrderTypeId"]', parentModuleInfo.OrderTypeId, parentModuleInfo.OrderType);
+        }
+
         this.events($form);
 
         return $form;
