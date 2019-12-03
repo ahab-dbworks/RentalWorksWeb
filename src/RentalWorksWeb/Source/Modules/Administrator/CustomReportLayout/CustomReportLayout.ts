@@ -5,7 +5,6 @@ class CustomReportLayout {
     nav: string = Constants.Modules.Administrator.CustomReportLayout.nav;
     id: string = Constants.Modules.Administrator.CustomReportLayout.id;
     codeMirror: any;
-    datafields: any;
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen, $browse;
@@ -185,17 +184,24 @@ class CustomReportLayout {
         modulefields.empty();
         FwAppData.apiMethod(true, 'GET', `api/v1/${reportName}/emptyobject`, null, FwServices.defaultTimeout,
             response => {
-            let columnNames = Object.keys(response);
             let customFields = response._Custom.map(obj => ({ fieldname: obj.FieldName, fieldtype: obj.FieldType }));
             let allValidFields: any = [];
-            for (let i = 0; i < columnNames.length; i++) {
-                if (columnNames[i] != 'DateStamp' && columnNames[i] != 'RecordTitle' && columnNames[i] != '_Custom' && columnNames[i] != '_Fields') {
-                    allValidFields.push({
-                        'Field': columnNames[i]
-                        , 'IsCustom': 'false'
-                    });
+                for (const key of Object.keys(response)) {
+                    if (key != 'DateStamp' && key != 'RecordTitle' && key != '_Custom' && key != '_Fields') {
+                        if (Array.isArray(response[key])) {
+                            allValidFields.push({
+                                'Field': key
+                                , 'IsCustom': 'false'
+                                , 'NestedItems': [response[key][0]]
+                            });
+                        } else {
+                            allValidFields.push({
+                                'Field': key
+                                , 'IsCustom': 'false'
+                            });
+                        }
+                    }
                 }
-            }
 
             for (let i = 0; i < customFields.length; i++) {
                 allValidFields.push({
@@ -205,12 +211,16 @@ class CustomReportLayout {
                 });
             }
 
-            this.datafields = allValidFields.sort(compare);
-
-            for (let i = 0; i < allValidFields.length; i++) {
-                modulefields.append(`
-                                <div data-iscustomfield=${allValidFields[i].IsCustom}>${allValidFields[i].Field}</div>
-                                `);
+            $form.data('validdatafields', allValidFields.sort(compare));
+                for (let i = 0; i < allValidFields.length; i++) {
+                    modulefields.append(`<div data-iscustomfield=${allValidFields[i].IsCustom}>${allValidFields[i].Field}</div>`);
+                    if (allValidFields[i].hasOwnProperty("NestedItems")) {
+                        for (const key of Object.keys(allValidFields[i].NestedItems[0])) {
+                            if (key != '_Custom') {
+                                modulefields.append(`<div data-iscustomfield="false" data-isnested="true" style="text-indent:1em;">${key}</div>`);
+                            }
+                        }
+                    } 
                 }
             }, ex => FwFunc.showError(ex), $form);
 
@@ -477,25 +487,28 @@ class CustomReportLayout {
 //                self.codeMirror.setValue($modifiedClone.innerHTML);
 //            };
 
-//            //adds select options for datafields
-//            function addDatafields() {
-//                let datafieldOptions = $form.find('#controlProperties .propval .datafields');
-//                for (let z = 0; z < datafieldOptions.length; z++) {
-//                    let field = jQuery(datafieldOptions[z]);
-//                    field.append(`<option value="" disabled>Select field</option>`)
-//                    for (let i = 0; i < self.datafields.length; i++) {
-//                        let $this = self.datafields[i];
-//                        field.append(`<option data-iscustomfield=${$this.IsCustom} value="${$this.Field}" data-type="${$this.FieldType}">${$this.Field}</option>`);
-//                    }
-//                    let value = jQuery(field).attr('value');
-//                    if (value) {
-//                        jQuery(field).find(`option[value="${value}"]`).prop('selected', true);
-//                    } else {
-//                        jQuery(field).find(`option[disabled]`).prop('selected', true);
-//                    };
-//                }
-//            };
-
+            //adds select options for datafields
+        function addDatafields() {
+            const validFields = $form.data('validdatafields');
+            if (typeof validFields === 'object') {
+                let datafieldOptions = $form.find('#controlProperties .propval .datafields');
+                for (let z = 0; z < datafieldOptions.length; z++) {
+                    let field = jQuery(datafieldOptions[z]);
+                    field.append(`<option value="" disabled>Select field</option>`)
+                    for (let i = 0; i < validFields.length; i++) {
+                        let $this = validFields[i];
+                        field.append(`<option data-iscustomfield=${$this.IsCustom} value="${$this.Field}" data-type="${$this.FieldType}">${$this.Field}</option>`);
+                    }
+                    let value = jQuery(field).attr('value');
+                    if (value) {
+                        jQuery(field).find(`option[value="${value}"]`).prop('selected', true);
+                    } else {
+                        jQuery(field).find(`option[disabled]`).prop('selected', true);
+                    };
+                }
+            }
+        };
+        addDatafields();
 //            //limit values that can be selected for certain fields
 //            function addValueOptions() {
 //                let addOptionsHere = $form.find('#controlProperties .propval .valueOptions');
@@ -845,7 +858,6 @@ class CustomReportLayout {
 
 //                        $form.find('#controlProperties input').css('text-indent', '3px');
 
-//                        addDatafields();
 //                        addValueOptions();
 
 //                        //delete object
