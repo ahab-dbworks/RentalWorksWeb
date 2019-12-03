@@ -91,7 +91,10 @@ class CustomForm {
                     $customForm.find(`[data-datafield="${dataField}"]`).removeClass('error');
                 }
             }
-        })
+        });
+
+        //for retaining position in code editor after saving
+        $form.find('[data-datafield="Html"]').addClass('reload');
 
         if (!hasDuplicates) FwModule.saveForm(this.Module, $form, parameters);
     }
@@ -126,12 +129,15 @@ class CustomForm {
         }
 
         //Loads html for code editor
-        let html = $form.find('[data-datafield="Html"] textarea').val();
-        if (typeof html !== 'undefined') {
-            this.codeMirror.setValue(html);
-        } else {
-            this.codeMirror.setValue('');
+        if (!$form.find('[data-datafield="Html"]').hasClass('reload')) {
+            let html = $form.find('[data-datafield="Html"] textarea').val();
+            if (typeof html !== 'undefined') {
+                this.codeMirror.setValue(html);
+            } else {
+                this.codeMirror.setValue('');
+            }
         }
+
         let controller: any = $form.find('[data-datafield="BaseForm"] option:selected').attr('data-controllername');
         this.addValidFields($form, controller);
         this.renderTab($form, 'Designer');
@@ -436,6 +442,15 @@ class CustomForm {
                     $form.find('.groupGrid').hide();
                     break;
             }
+        });
+
+        //add field on click
+        $form.on('click', '.modulefields div', e => {
+            const $this = jQuery(e.currentTarget);
+            const doc = this.codeMirror.getDoc();
+            const cursor = doc.getCursor();
+            doc.replaceRange($this.text(), cursor);
+            $form.find('#codeEditor').change();
         });
     }
     //----------------------------------------------------------------------------------------------

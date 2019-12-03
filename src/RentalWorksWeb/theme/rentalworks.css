@@ -595,6 +595,9 @@ html.theme-material [data-name="AuditHistoryGrid"] tbody tr.selected td ul:not(.
     border-style: solid;
 }
 
+.modulefields div {cursor:pointer;}
+.modulefields div:nth-child(odd) {background-color: #f1f1f1;}
+
 /* Availability Conflicts */
 #availabilityTable table {border-collapse:collapse;}
 #availabilityTable table .number {text-align:right;}
