@@ -346,29 +346,23 @@
         });
     };
     //----------------------------------------------------------------------------------------------
-    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
+    beforeValidateOrder($browse, $grid, request) {
+        const $form = $grid.closest('.fwform');
         const DealId: string = FwFormField.getValueByDataField($form, 'DealId');
-        switch (datafield) {
-            case 'DealId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedeal`);
-                break;
-            case 'OrderId':
-                let warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
-                let warehouseId = warehouse.warehouseid;
-                if (DealId.length > 0) {
-                    request.uniqueids = {
-                        'DealId': DealId
-                    }
-                }
-                request.miscfields = {
-                    Exchange: true,
-                    ExchangeWarehouseId: warehouseId
-                }
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateorder`);
-                break;
+        if (DealId.length > 0) {
+            request.uniqueids = {
+                'DealId': DealId
+            }
         }
 
-    }
+        let warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+        let warehouseId = warehouse.warehouseid;
+        request.miscfields = {
+            Exchange: true,
+            ExchangeWarehouseId: warehouseId
+        }
+
+    };
     //----------------------------------------------------------------------------------------------
     resetForm($form) {
         const fields = $form.find('.fwformfield');
@@ -390,7 +384,7 @@
         let typeHTML;
         switch (this.Module) {
             case 'Exchange':
-                typeHTML = `<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Order No." data-datafield="OrderId" data-displayfield="OrderNumber" data-validationname="OrderValidation" style="flex:1 1 125px;"></div>`;
+                typeHTML = `<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Order No." data-datafield="OrderId" data-displayfield="OrderNumber" data-validationname="OrderValidation" style="flex:1 1 125px;" data-formbeforevalidate="beforeValidateOrder"></div>`;
                 break;
             case 'ExchangeContainerItem':
                 typeHTML = `<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Container Item" data-datafield="ItemId" data-displayfield="BarCode" data-validationname="ContainerItemValidation" style="flex:1 1 125px;"></div>`;

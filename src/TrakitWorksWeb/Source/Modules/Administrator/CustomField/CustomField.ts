@@ -32,70 +32,6 @@ class CustomField {
         return $browse;
     }
     //----------------------------------------------------------------------------------------------
-    loadModulesRecursive(modules: any[], category: string, nodeKey: string, currentNode: any): void {
-        if (currentNode.nodetype === 'Module') {
-            const nodeModule = FwApplicationTree.getNodeById(FwApplicationTree.tree, currentNode.id);
-            const nodeModuleActions = FwApplicationTree.getNodeByFuncRecursive(nodeModule, {}, (node: any, args: any) => {
-                return node.nodetype === 'ModuleActions'; 
-            });
-            const nodeNew = FwApplicationTree.getNodeByFuncRecursive(nodeModuleActions, {}, (node: any, args: any) => {
-                return node.nodetype === 'ModuleAction' && typeof node.properties === 'object' && 
-                    typeof node.properties.action === 'string' && node.properties.action === 'New'; 
-            });
-            const nodeEdit = FwApplicationTree.getNodeByFuncRecursive(nodeModuleActions, {}, (node: any, args: any) => {
-                return node.nodetype === 'ModuleAction' && typeof node.properties === 'object' && 
-                    typeof node.properties.action === 'string' && node.properties.action === 'Edit'; 
-            });
-            const hasNew: boolean = nodeNew !== null && nodeNew.properties.visible === 'T';
-            const hasEdit: boolean = nodeEdit !== null && nodeEdit.properties.visible === 'T';
-            if (hasNew || hasEdit) {
-                const moduleNav = nodeKey;
-                const moduleCaption = category + currentNode.caption;
-                const moduleController = nodeKey + "Controller";
-                if (typeof window[moduleController] !== 'undefined') {
-                    if (window[moduleController].hasOwnProperty('apiurl')) {
-                        const moduleUrl = (<any>window)[moduleController].apiurl;
-                        modules.push({ value: moduleNav, text: `${moduleCaption}`, apiurl: moduleUrl });
-                    }
-                }
-            }
-        } 
-        else if (currentNode.nodetype === 'Category' && nodeKey !== 'Reports') {
-            for (let childNodeKey in currentNode.children) {
-                const childNode = currentNode.children[childNodeKey];
-                this.loadModulesRecursive(modules, category + nodeKey + ' > ', childNodeKey, childNode);
-            }
-        }
-    }
-    //----------------------------------------------------------------------------------------------
-    loadGrid(modules: any[], nodeKey: string, currentNode: any): void {
-        const nodeGrid = FwApplicationTree.getNodeById(FwApplicationTree.tree, currentNode.id);
-        const nodeModuleActions = FwApplicationTree.getNodeByFuncRecursive(nodeGrid, {}, (node: any, args: any) => {
-            return node.nodetype === 'ModuleActions' || node.nodetype === 'ControlActions'; 
-        });
-        const nodeNew = FwApplicationTree.getNodeByFuncRecursive(nodeModuleActions, {}, (node: any, args: any) => {
-            return (node.nodetype === 'ModuleAction' || node.nodetype === 'ControlAction') && typeof node.properties === 'object' && 
-                typeof node.properties.action === 'string' && node.properties.action === 'New'; 
-        });
-        const nodeEdit = FwApplicationTree.getNodeByFuncRecursive(nodeModuleActions, {}, (node: any, args: any) => {
-            return (node.nodetype === 'ModuleAction' || node.nodetype === 'ControlAction') && typeof node.properties === 'object' && 
-                typeof node.properties.action === 'string' && node.properties.action === 'Edit'; 
-        });
-        const hasNew: boolean = nodeNew !== null && nodeNew.properties.visible === 'T';
-        const hasEdit: boolean = nodeEdit !== null && nodeEdit.properties.visible === 'T';
-        if (hasNew || hasEdit) {
-            const moduleNav = nodeKey.slice(0, -4);
-            const moduleCaption = 'Grid > ' + currentNode.caption;
-            const moduleController = nodeKey + "Controller";
-            if (typeof window[moduleController] !== 'undefined') {
-                if (window[moduleController].hasOwnProperty('apiurl')) {
-                    const moduleUrl = (<any>window)[moduleController].apiurl;
-                    modules.push({ value: moduleNav, text: `${moduleCaption}`, apiurl: moduleUrl });
-                }
-            }
-        } 
-    }
-    //----------------------------------------------------------------------------------------------
     openForm(mode: string) {
         let $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
@@ -124,81 +60,22 @@ class CustomField {
             FwFormField.enable($form.find('.ifnew'))
         }
 
-        //var node = FwApplicationTree.getNodeById(FwApplicationTree.tree, '0A5F2584-D239-480F-8312-7C2B552A30BA');
-        //var modules = FwApplicationTree.getChildrenByType(node, 'Module');
-        //var settingsModules = FwApplicationTree.getChildrenByType(node, 'SettingsModule');
-        var allModules = [];
-
-        // Load Modules
-        for (const key in Constants.Modules) {
-            const node = Constants.Modules[key];
-            this.loadModulesRecursive(allModules, 'Module > ', key, node);
-        }
-
-        // Load Grids
-        for (const key in Constants.Grids) {
-            const node = Constants.Grids[key];
-            this.loadGrid(allModules, key, node);
-        }
-
-        //for (var i = 0; i < modules.length; i++) {
-        //    const controller = modules[i].properties.controller;
-        //    const moduleCaption = modules[i].properties.caption;
-        //    if (typeof window[controller] !== 'undefined') {
-        //        if (window[controller].hasOwnProperty('apiurl')) {
-        //            let moduleNav = (<any>window)[controller].nav;
-        //            if (moduleNav) {
-        //                const sliceIndex = moduleNav.lastIndexOf('/');
-        //                moduleNav = moduleNav.slice(sliceIndex + 1);
-        //                if (moduleNav == 'customfield') {
-        //                    break;
-        //                }
-        //                allModules.push({ value: moduleNav, text: moduleCaption });
-        //            }
-        //        }
-        //    }
-        //}
-        //for (var i = 0; i < settingsModules.length; i++) {
-        //    var settingsModuleNav = settingsModules[i].properties.controller.slice(0, -10);
-        //    var settingsModuleCaption = settingsModules[i].properties.caption
-        //    allModules.push({ value: settingsModuleNav, text: settingsModuleCaption });
-        //}
-
-        //const gridNode = FwApplicationTree.getNodeById(FwApplicationTree.tree, '43765919-4291-49DD-BE76-F69AA12B13E8');
-        //let gridModules = FwApplicationTree.getChildrenByType(gridNode, 'Grid');
-        //for (let i = 0; i < gridModules.length; i++) { //Traverse security tree and only add grids with 'New' or 'Edit' options 
-        //    let gridChildren = gridModules[i].children;
-        //    let menuBarNodePosition = gridChildren.map(function (x) { return x.properties.nodetype; }).indexOf('MenuBar');
-        //    if (menuBarNodePosition != -1) {
-        //        let menuBarChildren = gridChildren[menuBarNodePosition].children;
-        //        let newMenuBarButtonPosition = menuBarChildren.map(function (x) { return x.properties.nodetype; }).indexOf('NewMenuBarButton');
-        //        let editMenuBarButtonPosition = menuBarChildren.map(function (x) { return x.properties.nodetype; }).indexOf('EditMenuBarButton');
-        //        if (newMenuBarButtonPosition != -1 || editMenuBarButtonPosition != -1) {
-        //            let moduleNav = gridModules[i].properties.controller.slice(0, -14)
-        //                , moduleCaption = gridModules[i].properties.caption
-        //                , moduleController = gridModules[i].properties.controller;
-        //            if (typeof window[moduleController] !== 'undefined') {
-        //                if (window[moduleController].hasOwnProperty('apiurl')) {
-        //                    let moduleUrl = (<any>window)[moduleController].apiurl;
-        //                    allModules.push({ value: moduleNav, text: moduleCaption, apiurl: moduleUrl });
-        //                }
-        //            }
-        //        }
-        //    }
-        //}
-
-        //Sort modules
-        function compare(a, b) {
-            if (a.text < b.text)
-                return -1;
-            if (a.text > b.text)
-                return 1;
-            return 0;
-        }
-        allModules.sort(compare);
-
-        let $moduleSelect = $form.find('.modules');
+        // Load Modules dropdown with sorted list of Modules and Grids
+        const modules = FwApplicationTree.getAllModules(false, false, (modules: any[], moduleCaption: string, moduleName: string, category: string, currentNode: any, nodeModule: IGroupSecurityNode, hasView: boolean, hasNew: boolean, hasEdit: boolean, moduleController: any) => {
+            if (moduleController.hasOwnProperty('apiurl')) {
+                modules.push({ value: moduleName.toLowerCase(), text: moduleCaption, apiurl: moduleController.apiurl });
+            }
+        });
+        const grids = FwApplicationTree.getAllGrids(false, (modules: any[], moduleCaption: string, moduleName: string, category: string, currentNode: any, nodeModule: IGroupSecurityNode, hasNew: boolean, hasEdit: boolean, moduleController: any) => {
+            if (moduleController.hasOwnProperty('apiurl')) {
+                modules.push({ value: moduleName.toLowerCase(), text: moduleCaption, apiurl: moduleController.apiurl });
+            }
+        });
+        const allModules = modules.concat(grids);
+        FwApplicationTree.sortModules(allModules);
+         let $moduleSelect = $form.find('.modules');
         FwFormField.loadItems($moduleSelect, allModules);
+        
 
         return $form;
     }
