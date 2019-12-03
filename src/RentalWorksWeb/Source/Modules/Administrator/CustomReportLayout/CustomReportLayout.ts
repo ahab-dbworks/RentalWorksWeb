@@ -72,6 +72,10 @@ class CustomReportLayout {
     //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         $form.find('#codeEditor').change();
+
+        //for retaining position in code editor after saving
+        $form.find('[data-datafield="Html"]').addClass('reload');
+
         //const $customForm = $form.find(`#designerContent`);
         //const $fields = $customForm.find('.fwformfield');
         //let hasDuplicates: boolean = false;
@@ -124,12 +128,15 @@ class CustomReportLayout {
         }
 
         //Loads html for code editor
-        let html = $form.find('[data-datafield="Html"] textarea').val();
-        if (typeof html !== 'undefined') {
-            this.codeMirror.setValue(html);
-        } else {
-            this.codeMirror.setValue('');
+        if (!$form.find('[data-datafield="Html"]').hasClass('reload')) {
+            let html = $form.find('[data-datafield="Html"] textarea').val();
+            if (typeof html !== 'undefined') {
+                this.codeMirror.setValue(html);
+            } else {
+                this.codeMirror.setValue('');
+            }
         }
+
         let reportName: any = FwFormField.getValueByDataField($form, 'BaseReport');
         this.addValidFields($form, reportName);
         this.renderTab($form, 'Designer');
