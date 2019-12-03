@@ -120,7 +120,7 @@ class BillingWorksheet {
             FwFormField.setValue($form, 'div[data-datafield="DealId"]', parentModuleInfo.DealId, parentModuleInfo.Deal);
             FwFormField.setValue($form, 'div[data-datafield="DealNumber"]', parentModuleInfo.DealNumber);
             FwFormField.setValue($form, 'div[data-datafield="OrderId"]', parentModuleInfo.OrderId, parentModuleInfo.OrderNumber);
-            FwFormField.setValue($form, 'div[data-datafield="OrderDescription"]', parentModuleInfo.OrderDescription);
+            FwFormField.setValue($form, 'div[data-datafield="WorksheetDescription"]', parentModuleInfo.OrderDescription);
             FwFormField.setValue($form, 'div[data-datafield="OrderTypeId"]', parentModuleInfo.OrderTypeId, parentModuleInfo.OrderType);
         }
 
@@ -709,7 +709,7 @@ class BillingWorksheet {
             this.updateWorksheet($form);
         });
         $form.find('div[data-datafield="OrderId"]').data('onchange', $tr => {
-            FwFormField.setValue($form, 'div[data-datafield="OrderDescription"]', $tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
+            FwFormField.setValue($form, 'div[data-datafield="WorksheetDescription"]', $tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
         });
     };
     //----------------------------------------------------------------------------------------------

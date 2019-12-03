@@ -4,6 +4,9 @@ using WebApi.Modules.Billing.Invoice;
 using WebLibrary;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
+using WebApi.Modules.Home.OrderInvoice;
+using FwStandard.BusinessLogic;
+using WebApi.Modules.Billing.Billing;
 
 namespace WebApi.Modules.Home.BillingWorksheet
 {
@@ -12,16 +15,21 @@ namespace WebApi.Modules.Home.BillingWorksheet
     {
         //------------------------------------------------------------------------------------ 
         InvoiceRecord billingWorksheet = new InvoiceRecord();
+        OrderInvoiceRecord orderInvoice = new OrderInvoiceRecord();
         BillingWorksheetLoader billingWorksheetLoader = new BillingWorksheetLoader();
         public BillingWorksheetLogic()
         {
             dataRecords.Add(billingWorksheet);
+            dataRecords.Add(orderInvoice);
             dataLoader = billingWorksheetLoader;
             InvoiceType = RwConstants.INVOICE_TYPE_WORKSHEET;
+
+            billingWorksheet.BeforeSave += OnBeforeSaveBillingWorksheet;
+            billingWorksheet.AfterSave += OnAfteSaveBillingWorksheet;
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "2ijwJxkJTB2tW", IsPrimaryKey: true)]
-        public string BillingWorksheetId { get { return billingWorksheet.InvoiceId; } set { billingWorksheet.InvoiceId = value; } }
+        public string BillingWorksheetId { get { return billingWorksheet.InvoiceId; } set { billingWorksheet.InvoiceId = value; orderInvoice.InvoiceId = value; } }
         [FwLogicProperty(Id: "2joDnffYLhfLE", IsRecordTitle: true)]
         public string WorksheetNumber { get { return billingWorksheet.InvoiceNumber; } set { billingWorksheet.InvoiceNumber = value; } }
         [FwLogicProperty(Id: "2k9NFU18jBITg")]
@@ -33,10 +41,10 @@ namespace WebApi.Modules.Home.BillingWorksheet
         public string BillingStartDate { get { return billingWorksheet.BillingStartDate; } set { billingWorksheet.BillingStartDate = value; } }
         [FwLogicProperty(Id: "2LADbGK9NjOP5")]
         public string BillingEndDate { get { return billingWorksheet.BillingEndDate; } set { billingWorksheet.BillingEndDate = value; } }
-        [FwLogicProperty(Id: "2ldTFWyY5MGDf", IsReadOnly: true)]
-        public string OrderId { get; set; }
-        [FwLogicProperty(Id: "2lrujFC2e8Xdr")]
-        public string OrderNumber { get { return billingWorksheet.OrderNumber; } set { billingWorksheet.OrderNumber = value; } }
+        [FwLogicProperty(Id: "5QPKY4RJ0HC7V")]
+        public string OrderId { get { return orderInvoice.OrderId; } set { orderInvoice.OrderId = value; } }
+        [FwLogicProperty(Id: "2lrujFC2e8Xdr", IsReadOnly: true)]
+        public string OrderNumber { get; set; }
         [FwLogicProperty(Id: "2MhOETpM1SSyK", IsReadOnly: true)]
         public string OrderDescription { get; set; }
         [FwLogicProperty(Id: "2mi27Luav5zlE", IsReadOnly: true)]
@@ -111,7 +119,27 @@ namespace WebApi.Modules.Home.BillingWorksheet
         //    return isValid; 
         //} 
         //------------------------------------------------------------------------------------ 
-        //------------------------------------------------------------------------------------ 
+        public void OnBeforeSaveBillingWorksheet(object sender, BeforeSaveDataRecordEventArgs e)
+        {
+            if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
+            {
+                WorksheetNumber = BillingFunc.GetNextBillingWorksheetNumberAsync(AppConfig, UserSession, OrderId, e.SqlConnection).Result;
+
+                //if ((TaxOptionId == null) || (TaxOptionId.Equals(string.Empty)))
+                //{
+                //    TaxOptionId = AppFunc.GetLocationAsync(AppConfig, UserSession, OfficeLocationId, "taxoptionid", e.SqlConnection).Result;
+                //}
+            }
+        }
+        //------------------------------------------------------------------------------------
+        public void OnAfteSaveBillingWorksheet(object sender, AfterSaveDataRecordEventArgs e)
+        {
+            if (e.SaveMode.Equals(TDataRecordSaveMode.smInsert))
+            {
+                orderInvoice.InvoiceId = ((InvoiceRecord)sender).InvoiceId;
+            }
+        }
+        //------------------------------------------------------------------------------------    
         public async Task<ToggleInvoiceApprovedResponse> Approve()
         {
             return await billingWorksheet.Approve();
