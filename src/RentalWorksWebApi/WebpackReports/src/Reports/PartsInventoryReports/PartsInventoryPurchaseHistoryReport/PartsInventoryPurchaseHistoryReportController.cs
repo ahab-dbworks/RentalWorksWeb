@@ -19,7 +19,7 @@ namespace WebApi.Modules.Reports.PartsInventoryReports.PartsInventoryPurchaseHis
     [FwController(Id:"s3JHeEZYfEu")]
     public class PartsInventoryPurchaseHistoryReportController : AppReportController
     {
-        public PartsInventoryPurchaseHistoryReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public PartsInventoryPurchaseHistoryReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(PartsInventoryPurchaseHistoryReportLoader); }
         protected override string GetReportFileName() { return "PartsInventoryPurchaseHistoryReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Parts Inventory Purchase History Report"; }

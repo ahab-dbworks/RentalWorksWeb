@@ -33,7 +33,7 @@ namespace WebApi.Modules.Reports.Billing.ProfitLossReport
     [FwController(Id: "gUCH9E3ZYdRIm")]
     public class ProfitLossReportController : AppReportController
     {
-        public ProfitLossReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public ProfitLossReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(ProfitLossReportLoader); }
         protected override string GetReportFileName() { return "ProfitLossReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Profit And Loss Report"; }

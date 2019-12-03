@@ -31,7 +31,7 @@ namespace WebApi.Modules.Reports.SalesInventoryReports.SalesInventoryReorderRepo
     [FwController(Id:"h1ag1lcZCgd")]
     public class SalesInventoryReorderReportController : AppReportController
     {
-        public SalesInventoryReorderReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public SalesInventoryReorderReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(SalesInventoryReorderReportLoader); }
         protected override string GetReportFileName() { return "SalesInventoryReorderReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Sales Inventory Reorder Report"; }

@@ -61,7 +61,8 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         [FwSqlDataField(column: "orderby", modeltype: FwDataTypes.Text)]
         public string OrderBy { get; set; }
         //------------------------------------------------------------------------------------ 
-        public async Task<FwJsonDataTable> LoadItems(OrderReportRequest request)
+        //public async Task<FwJsonDataTable> LoadItems(OrderReportRequest request)
+        public async Task<List<OrderItemReportLoader>> LoadItems(OrderReportRequest request)
         {
             FwJsonDataTable dt = null;
             using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
@@ -79,7 +80,30 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
             string[] totalFields = new string[] { "PeriodExtended" };
             dt.InsertSubTotalRows("RecTypeDisplay", "RowType", totalFields);
             dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
-            return dt;
+            //return dt;
+            List<OrderItemReportLoader> items = new List<OrderItemReportLoader>();
+            foreach (List<object> row in dt.Rows)
+            {
+                OrderItemReportLoader item = new OrderItemReportLoader();
+                item.RowType = (row[dt.GetColumnNo("RowType")] ?? "").ToString();
+                item.OrderId = (row[dt.GetColumnNo("OrderId")] ?? "").ToString();
+                item.RecType = (row[dt.GetColumnNo("RecType")] ?? "").ToString();
+                item.RecTypeDisplay = (row[dt.GetColumnNo("RecTypeDisplay")] ?? "").ToString();
+                item.ICode = (row[dt.GetColumnNo("ICode")] ?? "").ToString();
+                item.Description = (row[dt.GetColumnNo("Description")] ?? "").ToString();
+                item.QuantityOrdered = FwConvert.ToDecimal((row[dt.GetColumnNo("QuantityOrdered")] ?? "").ToString());
+                item.Rate = FwConvert.ToDecimal((row[dt.GetColumnNo("Rate")] ?? "").ToString());
+                item.DiscountPercent = FwConvert.ToDecimal((row[dt.GetColumnNo("DiscountPercent")] ?? "").ToString());
+                item.DiscountPercentDisplay = FwConvert.ToDecimal((row[dt.GetColumnNo("DiscountPercentDisplay")] ?? "").ToString());
+                item.WeeklyDiscountAmount = FwConvert.ToDecimal((row[dt.GetColumnNo("WeeklyDiscountAmount")] ?? "").ToString());
+                item.PeriodDiscountAmount = FwConvert.ToDecimal((row[dt.GetColumnNo("PeriodDiscountAmount")] ?? "").ToString());
+                item.WeeklyExtended = FwConvert.ToDecimal((row[dt.GetColumnNo("WeeklyExtended")] ?? "").ToString());
+                item.PeriodExtended = FwConvert.ToDecimal((row[dt.GetColumnNo("PeriodExtended")] ?? "").ToString());
+                item.OrderBy = (row[dt.GetColumnNo("OrderBy")] ?? "").ToString();
+
+                items.Add(item);
+            }
+            return items;
         }
         //------------------------------------------------------------------------------------ 
     }
@@ -614,15 +638,16 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         [FwSqlDataField(column: "indeliverydeliverynotes", modeltype: FwDataTypes.Text)]
         public string InDeliveryDeliveryNotes { get; set; }
         //------------------------------------------------------------------------------------ 
-        public FwJsonDataTable RentalItems { get; set; }
+        public List<OrderItemReportLoader> RentalItems { get; set; }
         //------------------------------------------------------------------------------------ 
-        public FwJsonDataTable SalesItems { get; set; }
+        public List<OrderItemReportLoader> SalesItems { get; set; }
         //------------------------------------------------------------------------------------ 
-        public FwJsonDataTable MiscItems { get; set; }
+        public List<OrderItemReportLoader> MiscItems { get; set; }
         //------------------------------------------------------------------------------------ 
-        public FwJsonDataTable LaborItems { get; set; }
+        public List<OrderItemReportLoader> LaborItems { get; set; }
         //------------------------------------------------------------------------------------ 
-        public FwJsonDataTable Items { get; set; }
+        public List<OrderItemReportLoader> Items { get; set; } = new List<OrderItemReportLoader>(new OrderItemReportLoader[] { new OrderItemReportLoader() });
+
         //------------------------------------------------------------------------------------ 
         public async Task<OrderReportLoader> RunReportAsync(OrderReportRequest request)
         {
@@ -637,31 +662,31 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
                     Task<OrderReportLoader> taskOrder = qry.QueryToTypedObjectAsync<OrderReportLoader>();
 
                     //all items
-                    Task<FwJsonDataTable> taskOrderItems;
+                    Task<List<OrderItemReportLoader>> taskOrderItems;
                     OrderItemReportLoader OrderItems = new OrderItemReportLoader();
                     OrderItems.SetDependencies(AppConfig, UserSession);
                     taskOrderItems = OrderItems.LoadItems(request);
 
                     //rental items
-                    Task<FwJsonDataTable> taskRentalOrderItems;
+                    Task<List<OrderItemReportLoader>> taskRentalOrderItems;
                     RentalOrderItemReportLoader RentalItems = new RentalOrderItemReportLoader();
                     RentalItems.SetDependencies(AppConfig, UserSession);
                     taskRentalOrderItems = RentalItems.LoadItems(request);
 
                     //sales items
-                    Task<FwJsonDataTable> taskSalesOrderItems;
+                    Task<List<OrderItemReportLoader>> taskSalesOrderItems;
                     SalesOrderItemReportLoader SalesItems = new SalesOrderItemReportLoader();
                     SalesItems.SetDependencies(AppConfig, UserSession);
                     taskSalesOrderItems = SalesItems.LoadItems(request);
 
                     //misc items
-                    Task<FwJsonDataTable> taskMiscOrderItems;
+                    Task<List<OrderItemReportLoader>> taskMiscOrderItems;
                     MiscOrderItemReportLoader MiscItems = new MiscOrderItemReportLoader();
                     MiscItems.SetDependencies(AppConfig, UserSession);
                     taskMiscOrderItems = MiscItems.LoadItems(request);
 
                     //labor items
-                    Task<FwJsonDataTable> taskLaborOrderItems;
+                    Task<List<OrderItemReportLoader>> taskLaborOrderItems;
                     LaborOrderItemReportLoader LaborItems = new LaborOrderItemReportLoader();
                     LaborItems.SetDependencies(AppConfig, UserSession);
                     taskLaborOrderItems = LaborItems.LoadItems(request);

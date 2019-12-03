@@ -32,7 +32,7 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.RentalInventoryStatusAnd
     [FwController(Id: "uCEqKxMHdcT")]
     public class RentalInventoryStatusAndRevenueReportController : AppReportController
     {
-        public RentalInventoryStatusAndRevenueReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public RentalInventoryStatusAndRevenueReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(RentalInventoryStatusAndRevenueReportLoader); }
         protected override string GetReportFileName() { return "RentalInventoryStatusAndRevenueReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Rental Inventory Status and Revenue Report"; }

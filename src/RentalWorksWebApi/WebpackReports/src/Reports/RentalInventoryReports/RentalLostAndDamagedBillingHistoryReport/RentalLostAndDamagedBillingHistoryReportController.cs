@@ -35,7 +35,7 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.RentalLostAndDamagedBill
     [FwController(Id: "37O4QUBc8nM8t")]
     public class RentalLostAndDamagedBillingHistoryReportController : AppReportController
     {
-        public RentalLostAndDamagedBillingHistoryReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public RentalLostAndDamagedBillingHistoryReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(RentalLostAndDamagedBillingHistoryReportLoader); }
         protected override string GetReportFileName() { return "RentalLostAndDamagedBillingHistoryReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Rental Lost and Damaged Billing History Report"; }

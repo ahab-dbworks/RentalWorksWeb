@@ -32,7 +32,7 @@ namespace WebApi.Modules.Reports.DealReports.ReturnReceiptReport
     [FwController(Id: "N9wTkNBeCgJQz")]
     public class ReturnReceiptReportController : AppReportController
     {
-        public ReturnReceiptReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public ReturnReceiptReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(ReturnReceiptReportLoader); }
         protected override string GetReportFileName() { return "ReturnReceiptReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Return Receipt Report"; }

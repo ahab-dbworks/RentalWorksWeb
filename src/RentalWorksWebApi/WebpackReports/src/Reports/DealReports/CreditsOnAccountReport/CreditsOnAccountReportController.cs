@@ -29,7 +29,7 @@ namespace WebApi.Modules.Reports.DealReports.CreditsOnAccountReport
     [FwController(Id: "9JCPjgemNM8D")]
     public class CreditsOnAccountReportController : AppReportController
     {
-        public CreditsOnAccountReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public CreditsOnAccountReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(CreditsOnAccountReportLoader); }
         protected override string GetReportFileName() { return "CreditsOnAccountReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Credits On Account Report"; }

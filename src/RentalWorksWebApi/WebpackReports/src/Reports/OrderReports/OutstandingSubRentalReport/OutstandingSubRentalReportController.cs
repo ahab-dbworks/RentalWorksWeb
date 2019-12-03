@@ -30,7 +30,7 @@ namespace WebApi.Modules.Reports.OrderReports.OutstandingSubRentalReport
     [FwController(Id: "NCFNATdQRx5E ")]
     public class OutstandingSubRentalReportController : AppReportController
     {
-        public OutstandingSubRentalReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public OutstandingSubRentalReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(OutstandingSubRentalReportLoader); }
         protected override string GetReportFileName() { return "OutstandingSubRentalReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Outstanding Sub-Rental Report"; }

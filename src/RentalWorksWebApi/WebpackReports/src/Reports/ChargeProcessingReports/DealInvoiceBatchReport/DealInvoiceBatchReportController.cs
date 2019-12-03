@@ -28,7 +28,7 @@ namespace WebApi.Modules.Reports.ChargeProcessingReports.DealInvoiceBatchReport
     [FwController(Id: "t3byQWNa3hZ4H")]
     public class DealInvoiceBatchReportController : AppReportController
     {
-        public DealInvoiceBatchReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public DealInvoiceBatchReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(DealInvoiceBatchReportLoader); }
         protected override string GetReportFileName() { return "DealInvoiceBatchReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Deal Invoice Batch"; }

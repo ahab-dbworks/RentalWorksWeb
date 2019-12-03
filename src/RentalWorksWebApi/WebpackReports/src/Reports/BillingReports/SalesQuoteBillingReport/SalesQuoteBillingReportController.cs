@@ -29,7 +29,7 @@ namespace WebApi.Modules.Reports.Billing.SalesQuoteBillingReport
     [FwController(Id: "L8WwjlirkzC55")]
     public class SalesQuoteBillingReportController : AppReportController
     {
-        public SalesQuoteBillingReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public SalesQuoteBillingReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(SalesQuoteBillingReportLoader); }
         protected override string GetReportFileName() { return "SalesQuoteBillingReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Sales Quote Billing Analysis Report"; }
