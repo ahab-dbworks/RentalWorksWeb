@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using FwStandard.SqlServer;
 using System.Collections.Generic;
 using FwStandard.AppManager;
+using WebApi.Modules.Administrator.Group;
 namespace WebApi.Modules.AdministratorControls.CustomFormGroup
 {
     [Route("api/v1/[controller]")]
@@ -71,5 +72,12 @@ namespace WebApi.Modules.AdministratorControls.CustomFormGroup
             return await DoDeleteAsync<CustomFormGroupLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/customformgroup/validategroupname/browse
+        [HttpPost("validategroupname/browse")]
+        [FwControllerMethod(Id: "PSMj7FBrh8YY", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateGroupNameBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<GroupLogic>(browseRequest);
+        }
     }
 }

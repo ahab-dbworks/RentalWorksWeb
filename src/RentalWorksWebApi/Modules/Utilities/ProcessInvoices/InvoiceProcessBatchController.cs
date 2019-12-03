@@ -116,6 +116,13 @@ namespace WebApi.Modules.Utilities.InvoiceProcessBatch
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
         }
-        //------------------------------------------------------------------------------------ 
+        //------------------------------------------------------------------------------------
+        // POST api/v1/invoiceprocessbatch/validatebatch/browse
+        [HttpPost("validatebatch/browse")]
+        [FwControllerMethod(Id: "06cQB3Po9Txv", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateBatchBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<InvoiceProcessBatchLogic>(browseRequest);
+        }
     }
 }

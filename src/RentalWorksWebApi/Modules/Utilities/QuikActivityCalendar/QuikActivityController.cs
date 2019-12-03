@@ -7,6 +7,7 @@ using System;
 using FwStandard.AppManager;
 using static WebApi.Modules.Utilities.QuikActivity.QuikActivityFunc;
 using FwStandard.SqlServer;
+using WebApi.Modules.Settings.WarehouseSettings.Warehouse;
 
 namespace WebApi.Modules.Utilities.QuikActivity
 {
@@ -45,5 +46,12 @@ namespace WebApi.Modules.Utilities.QuikActivity
             }
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/quikactivity/validatewarehouse/browse
+        [HttpPost("validatewarehouse/browse")]
+        [FwControllerMethod(Id: "zLGR9juMsCx9", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateWarehouseBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<WarehouseLogic>(browseRequest);
+        }
     }
 }

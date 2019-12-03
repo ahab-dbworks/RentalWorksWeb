@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using FwStandard.SqlServer;
 using System.Collections.Generic;
 using FwStandard.AppManager;
+using WebApi.Modules.Administrator.User;
 
 namespace WebApi.Modules.Settings.WidgetUser
 {
@@ -72,5 +73,12 @@ namespace WebApi.Modules.Settings.WidgetUser
             return await DoDeleteAsync<WidgetUserLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/widgetuser/validateuser/browse
+        [HttpPost("validateuser/browse")]
+        [FwControllerMethod(Id: "PS5bD2ElDa0R", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateUserBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<UserLogic>(browseRequest);
+        }
     }
 }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using FwStandard.SqlServer;
 using System.Collections.Generic;
 using FwStandard.AppManager;
+using WebApi.Modules.Administrator.Group;
 
 namespace WebApi.Modules.Settings.WidgetGroup
 {
@@ -71,6 +72,13 @@ namespace WebApi.Modules.Settings.WidgetGroup
         {
             return await DoDeleteAsync<WidgetGroupLogic>(id);
         }
-        //------------------------------------------------------------------------------------ 
+        //------------------------------------------------------------------------------------
+        // POST api/v1/widgetgroup/validategroup/browse
+        [HttpPost("validategroup/browse")]
+        [FwControllerMethod(Id: "hHwgSHrf5xER", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateUserBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<GroupLogic>(browseRequest);
+        }
     }
 }

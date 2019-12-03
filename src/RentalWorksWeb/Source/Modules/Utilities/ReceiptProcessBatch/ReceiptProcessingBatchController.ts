@@ -180,6 +180,11 @@
         request.uniqueids = {
             LocationId: location.locationid
         };
+        switch (datafield) {
+            case 'BatchId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatebatch`);
+                break;
+        }
     }
     //----------------------------------------------------------------------------------------------
 }

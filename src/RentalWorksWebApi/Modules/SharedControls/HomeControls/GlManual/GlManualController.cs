@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using FwStandard.SqlServer;
 using System.Collections.Generic;
 using FwStandard.AppManager;
+using WebApi.Modules.Settings.AccountingSettings.GlAccount;
 namespace WebApi.Modules.HomeControls.GlManual
 {
     [Route("api/v1/[controller]")]
@@ -70,6 +71,21 @@ namespace WebApi.Modules.HomeControls.GlManual
         {
             return await DoDeleteAsync<GlManualLogic>(id);
         }
-        //------------------------------------------------------------------------------------ 
+        //------------------------------------------------------------------------------------
+        // POST api/v1/glmanual/debitglaccount/browse
+        [HttpPost("debitglaccount/browse")]
+        [FwControllerMethod(Id: "j4UNPLd36VGY", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateDebitGlAccountBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<GlAccountLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/glmanual/creditglaccount/browse
+        [HttpPost("creditglaccount/browse")]
+        [FwControllerMethod(Id: "W7xfLfqIYNO1", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateCreditGlAccountBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<GlAccountLogic>(browseRequest);
+        }
     }
 }

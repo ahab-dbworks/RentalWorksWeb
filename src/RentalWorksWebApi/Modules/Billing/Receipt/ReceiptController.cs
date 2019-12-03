@@ -8,6 +8,10 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebApi.Controllers;
 using WebApi;
+using WebApi.Modules.HomeControls.DealCredit;
+using WebApi.Modules.HomeControls.CustomerCredit;
+using WebApi.Modules.Administrator.User;
+using WebApi.Modules.Settings.PaymentSettings.PaymentType;
 
 namespace WebApi.Modules.Billing.Receipt
 {
@@ -122,6 +126,37 @@ namespace WebApi.Modules.Billing.Receipt
                 return GetApiExceptionResult(ex);
             }
         }
-        //------------------------------------------------------------------------------------       
+        //------------------------------------------------------------------------------------   
+        // POST api/v1/receipt/validatedealdeposit/browse
+        [HttpPost("validatedealdeposit/browse")]
+        [FwControllerMethod(Id: "rSY8mWOwt83G", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateDealDepositBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<DealCreditLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------   
+        // POST api/v1/receipt/validatecustomerdeposit/browse
+        [HttpPost("validatecustomerdeposit/browse")]
+        [FwControllerMethod(Id: "4qGuCHPWtEHg", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateCustomerDepositBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<CustomerCreditLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------   
+        // POST api/v1/receipt/validateappliedby/browse
+        [HttpPost("validateappliedby/browse")]
+        [FwControllerMethod(Id: "YUkaRBBBo6O1", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateAppliedByBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<UserLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------   
+        // POST api/v1/receipt/validatepaymenttype/browse
+        [HttpPost("validatepaymenttype/browse")]
+        [FwControllerMethod(Id: "sOLFyGFVmSjA", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidatePaymentTypeAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<PaymentTypeLogic>(browseRequest);
+        }
     }
 }

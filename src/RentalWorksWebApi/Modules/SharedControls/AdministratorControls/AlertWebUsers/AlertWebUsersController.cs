@@ -7,6 +7,7 @@ using Microsoft.Extensions.Options;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebApi.Controllers;
+using WebApi.Modules.Administrator.User;
 namespace WebApi.Modules.AdministratorControls.AlertWebUsers
 {
     [Route("api/v1/[controller]")]
@@ -72,5 +73,12 @@ namespace WebApi.Modules.AdministratorControls.AlertWebUsers
             return await DoDeleteAsync<AlertWebUsersLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/alertwebusers/validateuser/browse
+        [HttpPost("validateuser/browse")]
+        [FwControllerMethod(Id: "4RkyReVIXu77", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateUserBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<UserLogic>(browseRequest);
+        }
     }
 }

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebApi.Controllers;
 using WebApi.Modules.AdministratorControls.CustomReportLayoutGroup;
+using WebApi.Modules.Administrator.Group;
 
 namespace WebApi.Modules.Administrator.CustomReportLayoutGroup
 {
@@ -64,6 +65,13 @@ namespace WebApi.Modules.Administrator.CustomReportLayoutGroup
         {
             return await DoDeleteAsync<CustomReportLayoutGroupLogic>(id);
         }
-        //------------------------------------------------------------------------------------ 
+        //------------------------------------------------------------------------------------
+        // POST api/v1/customreportlayoutgroup/validategroupname/browse
+        [HttpPost("validategroupname/browse")]
+        [FwControllerMethod(Id: "jFmtm95g6IQY", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateGroupBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<GroupLogic>(browseRequest);
+        }
     }
 }

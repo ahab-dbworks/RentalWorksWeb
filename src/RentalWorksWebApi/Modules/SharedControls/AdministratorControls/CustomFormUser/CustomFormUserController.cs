@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using FwStandard.SqlServer;
 using System.Collections.Generic;
 using FwStandard.AppManager;
+using WebApi.Modules.Administrator.User;
 namespace WebApi.Modules.AdministratorControls.CustomFormUser
 {
     [Route("api/v1/[controller]")]
@@ -71,5 +72,12 @@ namespace WebApi.Modules.AdministratorControls.CustomFormUser
             return await DoDeleteAsync<CustomFormUserLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/customformuser/validateuser/browse
+        [HttpPost("validateuser/browse")]
+        [FwControllerMethod(Id: "CjRxevn6NKS9", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateUserBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<UserLogic>(browseRequest);
+        }
     }
 }

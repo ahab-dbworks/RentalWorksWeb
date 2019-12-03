@@ -433,7 +433,6 @@ class Receipt {
     }
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
-        const validationName = request.module;
         const paymentTypeType = FwFormField.getValueByDataField($form, 'PaymentTypeType');
         const dealId = FwFormField.getValueByDataField($form, 'DealId');
         const customerId = FwFormField.getValueByDataField($form, 'CustomerId');
@@ -450,22 +449,30 @@ class Receipt {
 
         request.uniqueids = { RemainingOnly: true };
 
-        switch (validationName) {
-            case 'DealCreditValidation':
+        switch (datafield) {
+            case 'DealDepositId':
                 if (payType !== "") {
                     request.uniqueids.RecType = payType;
                 }
                 if (dealId !== '') {
                     request.uniqueids.DealId = dealId;
-                }
+                }  
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedealdeposit`);
                 break;
-            case 'CustomerCreditValidation':
+            case 'CustomerDepositId':
                 if (payType !== "") {
                     request.uniqueids.RecType = payType;
                 }
                 if (customerId !== '') {
                     request.uniqueids.CustomerId = customerId;
                 }
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecustomerdeposit`);
+                break;
+            case 'AppliedById':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateappliedby`);
+                break;
+            case 'PaymentTypeId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatepaymenttype`);
                 break;
         };
     }

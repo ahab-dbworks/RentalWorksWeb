@@ -171,10 +171,13 @@
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
         const location = JSON.parse(sessionStorage.getItem('location'));
-
         request.uniqueids = {
             LocationId: location.locationid
         };
+        switch (datafield) {
+            case 'BatchId': 
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatebatch`);
+        }
     }
     //----------------------------------------------------------------------------------------------
 }
