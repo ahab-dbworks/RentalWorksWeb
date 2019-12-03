@@ -6,6 +6,7 @@ using WebApi.Logic;
 using static FwStandard.Data.FwDataReadWriteRecord;
 using System.Threading.Tasks;
 using FwStandard.SqlServer;
+using System;
 
 namespace WebApi.Modules.Home.InventorySearch
 {
@@ -46,9 +47,23 @@ namespace WebApi.Modules.Home.InventorySearch
         [FwLogicProperty(Id:"UG7rknSx0rbh")]
         public decimal? Quantity { get { return inventorySearch.Quantity; } set { inventorySearch.Quantity = value; } }
 
+        [FwLogicProperty(Id: "A31rHKgRnqgGv")]
+        public DateTime? FromDate { get { return inventorySearch.FromDate; } set { inventorySearch.FromDate = value; } }
+
+        [FwLogicProperty(Id: "tfKPrmyQwO1J0")]
+        public DateTime? ToDate { get { return inventorySearch.ToDate; } set { inventorySearch.ToDate = value; } }
+        
+        [FwLogicProperty(Id: "oQb7QncbU0rA1")]
+        public decimal? QuantityAvailable { get { return inventorySearch.QuantityAvailable; } }
+
+        [FwLogicProperty(Id: "63DshaJDHrYHw")]
+        public DateTime? ConflictDate { get { return inventorySearch.ConflictDate; } }
+
+        [FwLogicProperty(Id: "AkWX42DcxB5q8")]
+        public string AvailabilityState { get { return inventorySearch.AvailabilityState; } }
+
         [FwLogicProperty(Id:"tvd6AqBMrgc4", IsReadOnly:true)]
         public decimal? TotalQuantityInSession { get { return inventorySearch.TotalQuantityInSession; } }
-
 
         //------------------------------------------------------------------------------------
         public async Task<FwJsonDataTable> SearchAsync(InventorySearchRequest request)

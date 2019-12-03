@@ -7,6 +7,7 @@ using System.Data;
 using System.Threading.Tasks;
 using WebApi.Data;
 using WebApi.Logic;
+using WebApi.Modules.Home.InventoryAvailability;
 using WebApi.Modules.Home.InventoryPackageInventory;
 using WebLibrary;
 
@@ -15,6 +16,7 @@ namespace WebApi.Modules.Home.InventorySearch
     [FwSqlTable("tmpsearchsession")]
     public class InventorySearchRecord : AppDataReadWriteRecord
     {
+        //------------------------------------------------------------------------------------ 
         public InventorySearchRecord()
         {
             BeforeSave += OnBeforeSaveInventorySearch;
@@ -37,6 +39,21 @@ namespace WebApi.Modules.Home.InventorySearch
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "qty", modeltype: FwDataTypes.Integer, sqltype: "numeric", precision: 12, scale: 2)]
         public decimal? Quantity { get; set; }
+        //------------------------------------------------------------------------------------ 
+        // this property is only used to hold the request value for the availability check in overridden save method below
+        public DateTime? FromDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        // this property is only used to hold the request value for the availability check in overridden save method below
+        public DateTime? ToDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        // this property is only used to hold the return value in the overridden save method below
+        public decimal? QuantityAvailable { get; set; }
+        //------------------------------------------------------------------------------------ 
+        // this property is only used to hold the return value in the overridden save method below
+        public DateTime? ConflictDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        // this property is only used to hold the return value in the overridden save method below
+        public string AvailabilityState { get; set; }
         //------------------------------------------------------------------------------------ 
         // this property is only used to hold the return value in the overridden save method below
         public decimal? TotalQuantityInSession { get; set; }
@@ -73,6 +90,38 @@ namespace WebApi.Modules.Home.InventorySearch
                     {
                         throw new System.Exception("Cannot save search quantity: " + response.msg);
                     }
+
+
+                    QuantityAvailable = 0;
+                    ConflictDate = null;
+                    AvailabilityState = RwConstants.AVAILABILITY_STATE_STALE;
+
+                    DateTime fromDateTime = DateTime.MinValue;
+                    DateTime toDateTime = DateTime.MinValue;
+
+                    if ((FromDate != null) && (FromDate > DateTime.MinValue))
+                    {
+                        fromDateTime = FromDate.GetValueOrDefault(DateTime.MinValue);
+                    }
+                    if ((ToDate != null) && (ToDate > DateTime.MinValue))
+                    {
+                        toDateTime = ToDate.GetValueOrDefault(DateTime.MinValue);
+                    }
+
+
+                    TInventoryWarehouseAvailabilityRequestItems availRequestItems = new TInventoryWarehouseAvailabilityRequestItems();
+                    availRequestItems.Add(new TInventoryWarehouseAvailabilityRequestItem(InventoryId, WarehouseId, fromDateTime, toDateTime));
+
+                    TAvailabilityCache availCache = InventoryAvailabilityFunc.GetAvailability(AppConfig, UserSession, availRequestItems, refreshIfNeeded: true, forceRefresh: false).Result;
+                    TInventoryWarehouseAvailability availData = null;
+                    if (availCache.TryGetValue(new TInventoryWarehouseAvailabilityKey(InventoryId, WarehouseId), out availData))
+                    {
+                        TInventoryWarehouseAvailabilityMinimum minAvail = availData.GetMinimumAvailableQuantity(fromDateTime, toDateTime, Quantity.GetValueOrDefault(0));
+                        QuantityAvailable = minAvail.MinimumAvailable.OwnedAndConsigned;
+                        ConflictDate = minAvail.FirstConfict;
+                        AvailabilityState = minAvail.AvailabilityState;
+                    }
+
                 }
             }
             e.PerformSave = false;
