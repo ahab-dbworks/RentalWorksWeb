@@ -14,7 +14,7 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
 
     public class InvoiceItemReportLoader : AppReportLoader
     {
-        public string recType = "";
+        protected string recType = "";
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "invoiceid", modeltype: FwDataTypes.Text)]
         public string InvoiceId { get; set; }
@@ -63,7 +63,7 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
                 }
                 //--------------------------------------------------------------------------------- 
             }
-                dt.Columns[dt.GetColumnNo("RowType")].IsVisible = true;
+            dt.Columns[dt.GetColumnNo("RowType")].IsVisible = true;
             string[] totalFields = new string[] { "Extended" };
             dt.InsertSubTotalRows("RecTypeDisplay", "RowType", totalFields);
             dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
@@ -519,18 +519,18 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
         public string OrderedByPhoneAndExtension { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "orderedbyemail", modeltype: FwDataTypes.Text)]
-        public string OrderedByEmail{ get; set; }
+        public string OrderedByEmail { get; set; }
 
 
 
         //------------------------------------------------------------------------------------
-        public List<InvoiceItemReportLoader> RentalItems { get; set; }
+        public List<InvoiceItemReportLoader> RentalItems { get; set; } = new List<InvoiceItemReportLoader>(new InvoiceItemReportLoader[] { new InvoiceItemReportLoader() });
         //------------------------------------------------------------------------------------ 
-        public List<InvoiceItemReportLoader> SalesItems { get; set; }
+        public List<InvoiceItemReportLoader> SalesItems { get; set; } = new List<InvoiceItemReportLoader>(new InvoiceItemReportLoader[] { new InvoiceItemReportLoader() });
         //------------------------------------------------------------------------------------ 
-        public List<InvoiceItemReportLoader> MiscItems { get; set; }
+        public List<InvoiceItemReportLoader> MiscItems { get; set; } = new List<InvoiceItemReportLoader>(new InvoiceItemReportLoader[] { new InvoiceItemReportLoader() });
         //------------------------------------------------------------------------------------ 
-        public List<InvoiceItemReportLoader> LaborItems { get; set; }
+        public List<InvoiceItemReportLoader> LaborItems { get; set; } = new List<InvoiceItemReportLoader>(new InvoiceItemReportLoader[] { new InvoiceItemReportLoader() });
         //------------------------------------------------------------------------------------ 
         public List<InvoiceItemReportLoader> Items { get; set; } = new List<InvoiceItemReportLoader>(new InvoiceItemReportLoader[] { new InvoiceItemReportLoader() });
         //------------------------------------------------------------------------------------ 
@@ -556,7 +556,7 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
 
                     //rental items
                     Task<List<InvoiceItemReportLoader>> taskRentalInvoiceItems;
-                    RentalInvoiceItemReportLoader RentalItems = new RentalInvoiceItemReportLoader();
+                    InvoiceItemReportLoader RentalItems = new InvoiceItemReportLoader();
                     RentalItems.SetDependencies(AppConfig, UserSession);
                     taskRentalInvoiceItems = RentalItems.LoadItems(request);
 

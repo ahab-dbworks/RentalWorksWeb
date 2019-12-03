@@ -14,7 +14,7 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
 
     public class OrderItemReportLoader : AppReportLoader
     {
-        public string recType = "";
+        protected string recType = "";
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text, isVisible: false)]
         public string RowType { get; set; }
@@ -638,13 +638,13 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         [FwSqlDataField(column: "indeliverydeliverynotes", modeltype: FwDataTypes.Text)]
         public string InDeliveryDeliveryNotes { get; set; }
         //------------------------------------------------------------------------------------ 
-        public List<OrderItemReportLoader> RentalItems { get; set; }
+        public List<OrderItemReportLoader> RentalItems { get; set; } = new List<OrderItemReportLoader>(new OrderItemReportLoader[] { new OrderItemReportLoader() });
         //------------------------------------------------------------------------------------ 
-        public List<OrderItemReportLoader> SalesItems { get; set; }
+        public List<OrderItemReportLoader> SalesItems { get; set; } = new List<OrderItemReportLoader>(new OrderItemReportLoader[] { new OrderItemReportLoader() });
         //------------------------------------------------------------------------------------ 
-        public List<OrderItemReportLoader> MiscItems { get; set; }
+        public List<OrderItemReportLoader> MiscItems { get; set; } = new List<OrderItemReportLoader>(new OrderItemReportLoader[] { new OrderItemReportLoader() });
         //------------------------------------------------------------------------------------ 
-        public List<OrderItemReportLoader> LaborItems { get; set; }
+        public List<OrderItemReportLoader> LaborItems { get; set; } = new List<OrderItemReportLoader>(new OrderItemReportLoader[] { new OrderItemReportLoader() });
         //------------------------------------------------------------------------------------ 
         public List<OrderItemReportLoader> Items { get; set; } = new List<OrderItemReportLoader>(new OrderItemReportLoader[] { new OrderItemReportLoader() });
 
