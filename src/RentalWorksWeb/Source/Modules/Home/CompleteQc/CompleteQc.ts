@@ -177,14 +177,14 @@ class CompleteQc {
                               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Foot Candles">
                                 <div class="flexrow">
                                   <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield lamps" data-caption="Current" data-datafield="CurrentFootCandles" style="flex:1 1 110px;"></div>
-                                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Reserved" data-datafield="RequiredFootCandles" style="flex:1 1 125px;margin-left:40px;"></div>
+                                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Required" data-datafield="RequiredFootCandles" style="flex:1 1 125px;margin-left:40px;"></div>
                                 </div>
                               </div>
                               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Software Version">
                                 <div class="flexrow">
-                                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Current" data-datafield="CurrentSoftwareVersion" data-displayfield="SoftwareVersion" data-validationname="SoftwareVersionValidation" data-enabled="false" style="flex:1 1 120px;"></div>
                                   <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Required" data-datafield="RequiredSoftwareVersion" data-enabled="false" style="flex:1 1 120px;"></div>
-                                  <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Effective Date" data-datafield="SoftwareEffectiveDate" data-enabled="false" style="flex:1 1 120px;"></div>
+                                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Current" data-datafield="CurrentSoftwareVersion" data-displayfield="SoftwareVersion" data-validationname="SoftwareVersionValidation" data-enabled="true" style="flex:1 1 120px;"></div>
+                                  <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Effective Date" data-datafield="SoftwareEffectiveDate" data-enabled="true" style="flex:1 1 120px;"></div>
                                 </div>
                               </div>
                             </div>

@@ -659,7 +659,6 @@
     <TypeScriptCompile Include="Source\Modules\Home\Repair\Repair.ts" />
     <Content Include="Source\Modules\Home\AvailabilityConflicts\AvailabilityConflictsForm.htm" />
     <Content Include="Source\Modules\Home\InventoryPurchaseUtility\InventoryPurchaseUtilityForm.htm" />
-    <Content Include="Source\Modules\Home\CompleteQc\CompleteQcForm.htm" />
     <Content Include="Source\Modules\Home\BillingWorksheet\BillingWorksheetBrowse.htm" />
     <Content Include="Source\Modules\Home\BillingWorksheet\BillingWorksheetForm.htm" />
     <Content Include="Source\Modules\Home\PhysicalInventory\PhysicalInventoryBrowse.htm" />
