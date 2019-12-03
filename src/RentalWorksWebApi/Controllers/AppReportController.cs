@@ -17,18 +17,19 @@ namespace WebApi.Controllers
         //------------------------------------------------------------------------------------
         public AppReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------
-        protected ObjectResult GetApiExceptionResult(Exception ex)
-        {
-            FwApiException jsonException = new FwApiException();
-            jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-            jsonException.Message = ex.Message;
-            if (ex.InnerException != null)
-            {
-                jsonException.Message += $"\n\nInnerException: \n{ex.InnerException.Message}";
-            }
-            jsonException.StackTrace = ex.StackTrace;
-            return StatusCode(jsonException.StatusCode, jsonException);
-        }
+        //justin hoffman 12/03/2019 method GetApiExceptionResult already defined in FwReportController
+        //protected ObjectResult GetApiExceptionResult(Exception ex)
+        //{
+        //    FwApiException jsonException = new FwApiException();
+        //    jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+        //    jsonException.Message = ex.Message;
+        //    if (ex.InnerException != null)
+        //    {
+        //        jsonException.Message += $"\n\nInnerException: \n{ex.InnerException.Message}";
+        //    }
+        //    jsonException.StackTrace = ex.StackTrace;
+        //    return StatusCode(jsonException.StatusCode, jsonException);
+        //}
         //------------------------------------------------------------------------------------
         protected virtual async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> DoExportExcelXlsxFileAsync(FwJsonDataTable dt, string worksheetName = "", bool includeIdColumns = true)
         {
