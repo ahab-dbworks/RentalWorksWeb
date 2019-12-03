@@ -63,12 +63,12 @@ class CustomField {
         // Load Modules dropdown with sorted list of Modules and Grids
         const modules = FwApplicationTree.getAllModules(false, false, (modules: any[], moduleCaption: string, moduleName: string, category: string, currentNode: any, nodeModule: IGroupSecurityNode, hasView: boolean, hasNew: boolean, hasEdit: boolean, moduleController: any) => {
             if (moduleController.hasOwnProperty('apiurl')) {
-                modules.push({ value: moduleName, text: moduleCaption, apiurl: moduleController.apiurl });
+                modules.push({ value: moduleName.toLowerCase(), text: moduleCaption, apiurl: moduleController.apiurl });
             }
         });
         const grids = FwApplicationTree.getAllGrids(false, (modules: any[], moduleCaption: string, moduleName: string, category: string, currentNode: any, nodeModule: IGroupSecurityNode, hasNew: boolean, hasEdit: boolean, moduleController: any) => {
             if (moduleController.hasOwnProperty('apiurl')) {
-                modules.push({ value: moduleName, text: moduleCaption, apiurl: moduleController.apiurl });
+                modules.push({ value: moduleName.toLowerCase(), text: moduleCaption, apiurl: moduleController.apiurl });
             }
         });
         const allModules = modules.concat(grids);
