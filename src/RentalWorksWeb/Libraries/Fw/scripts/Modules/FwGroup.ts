@@ -112,7 +112,12 @@
                 else {
                     $node.attr('data-expanded', 'F').children('div.content').css('background-color', 'rgba(100,100,100,.1)');
                     var $nodes: JQuery = $node.filter(function () {
-                        return -1 != jQuery(this).data().propertyCaption.toUpperCase().indexOf(val);
+                        let isMatch = false;
+                        const caption = jQuery(this).data('property-caption');
+                        if (caption !== undefined) {
+                            isMatch = -1 != jQuery(this).data('property-caption').toUpperCase().indexOf(val);
+                        }
+                        return isMatch;
                     });
                     $nodes.attr('data-expanded', 'T');
                     $nodes.children('div.content').css('background-color', 'cornflowerblue');
@@ -181,6 +186,7 @@
             $node.attr('data-property-id', node.id)
                 .attr('data-haschildren', haschildren ? 'T' : 'F')
                 .attr('data-nodetype', node.nodetype)
+                .attr('data-property-caption', node.caption)
                 ;
             if (haschildren) {
                 $node.attr('data-expanded', (node.id === "apptree") ? 'T' : 'F');
