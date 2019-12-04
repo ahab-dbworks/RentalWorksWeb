@@ -60,7 +60,7 @@ namespace WebApi.Modules.Billing.BillingWorksheet
         //------------------------------------------------------------------------------------ 
         // PUT api/v1/billingworksheet/A00000001 
         [HttpPut("{id}")]
-        [FwControllerMethod(Id: "2eUvhnt0ta38x", ActionType: FwControllerActionTypes.Edit)]
+        [FwControllerMethod(Id: "f40W7HIzvg9AH", ActionType: FwControllerActionTypes.Edit)]
         public async Task<ActionResult<BillingWorksheetLogic>> EditAsync([FromBody]BillingWorksheetLogic l)
         {
             return await DoEditAsync<BillingWorksheetLogic>(l);
