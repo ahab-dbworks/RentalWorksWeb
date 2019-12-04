@@ -1,4 +1,4 @@
-﻿namespace WebApi
+namespace WebApi
 {
     public static class RwConstants
     {
@@ -414,6 +414,8 @@
         public const string NO_AVAILABILITY_CAPTION = "No Availability";
         public const int AVAILABILITY_COLOR_NO_AVAILABILITY = 16772044;      //aqua
         public const int AVAILABILITY_TEXT_COLOR_NO_AVAILABILITY = 0;        //black
+        public const int AVAILABILITY_COLOR_QC_REQUIRED = 33023;             //orange
+        public const int AVAILABILITY_TEXT_COLOR_QC_REQUIRED = 0;            //black
         public const int AVAILABILITY_COLOR_NEGATIVE = 255;                  //red
         public const int AVAILABILITY_COLOR_POSITIVE = 3381504;              //green
         public const int AVAILABILITY_COLOR_LOW = 65535;                     //yellow
@@ -430,6 +432,8 @@
         public const int AVAILABILITY_TEXT_COLOR_HISTORICAL_DATE = 0;        //black
         public const int AVAILABILITY_COLOR_LATE = 4227327;                  //orange
         public const int AVAILABILITY_TEXT_COLOR_LATE = 0;                   //black
+        public const int AVAILABILITY_COLOR_LATE_BUT_RETURNING = 14914500;   //light purple #c493e3
+        public const int AVAILABILITY_TEXT_COLOR_LATE_BUT_RETURNING = 16777215;  // white
 
         public const string AVAILABILITY_STATE_NO_AVAILABILITY_CHECK = "noavailcheck";
         public const string AVAILABILITY_STATE_STALE = "stale";
@@ -467,7 +471,7 @@
 
         //EXCHANGE
         public const int PENDING_EXCHANGE_COLOR = 8454143; // yellow
-
+        public const string EXCHANGE_PENDING_ITEM_STATUS = "P";
 
         //CUSTOM FORM
         public const string CUSTOM_FORM_ASSIGN_TO_ALL = "ALL";

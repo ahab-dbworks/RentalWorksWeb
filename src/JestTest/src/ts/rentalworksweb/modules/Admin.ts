@@ -130,6 +130,40 @@ export class CustomForm extends AdminModule {
     //---------------------------------------------------------------------------------------
 }
 //---------------------------------------------------------------------------------------
+export class CustomReportLayout extends AdminModule {
+    //---------------------------------------------------------------------------------------
+    constructor() {
+        super();
+        this.moduleName = 'CustomReportLayout';
+        this.moduleId = 'B89CDAF3-53B2-4FE8-97C6-39DC98E98DBA';
+        this.moduleCaption = 'Custom Report Layout';
+        this.waitBeforeClickingSave = 2000;
+
+        this.defaultNewRecordToExpect = {
+            BaseReport: "",
+            Description: "",
+            Active: true,
+        }
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    Description: "GlobalScope.TestToken~1.TestToken",
+                    BaseReport: TestUtils.randomIntegerBetween(5, 10),  // moving here because the Please Wait will block immediate subsequent typing
+                },
+                seekObject: {
+                    Description: "GlobalScope.TestToken~1.TestToken",
+                }
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            BaseReport: "|NOTEMPTY|",
+            Description: this.newRecordsToCreate[0].record.Description.toUpperCase(),
+            Active: true,
+        }
+    }
+    //---------------------------------------------------------------------------------------
+}
+//---------------------------------------------------------------------------------------
 export class DuplicateRule extends AdminModule {
     //---------------------------------------------------------------------------------------
     constructor() {

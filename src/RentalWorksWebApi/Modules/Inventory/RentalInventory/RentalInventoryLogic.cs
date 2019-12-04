@@ -21,7 +21,7 @@ namespace WebApi.Modules.Inventory.RentalInventory
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "EMtstFgQO6Apj")]
-        public bool? ExcludeFromReturnOnAsset { get; set; }
+        public bool? ExcludeFromReturnOnAsset { get { return master.ExcludeFromReturnOnAsset; } set { master.ExcludeFromReturnOnAsset = value; } }
         //------------------------------------------------------------------------------------ 
         protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
         {

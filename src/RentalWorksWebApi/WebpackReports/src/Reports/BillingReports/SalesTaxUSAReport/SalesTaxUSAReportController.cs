@@ -18,7 +18,7 @@ namespace WebApi.Modules.Reports.Billing.SalesTaxUSAReport
     [FwController(Id: "TaaSgS14rWsCL")]
     public class SalesTaxUSAReportController : AppReportController
     {
-        public SalesTaxUSAReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public SalesTaxUSAReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(SalesTaxUSAReportLoader); }
         protected override string GetReportFileName() { return "SalesTaxUSAReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Sales Tax USA Report"; }

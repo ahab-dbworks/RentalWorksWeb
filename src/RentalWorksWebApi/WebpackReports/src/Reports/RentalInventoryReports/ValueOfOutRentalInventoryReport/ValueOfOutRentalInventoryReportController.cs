@@ -30,7 +30,7 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.ValueOfOutRentalInventor
     [FwController(Id: "n4gdQ6awebnX")]
     public class ValueOfOutRentalInventoryReportController : AppReportController
     {
-        public ValueOfOutRentalInventoryReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public ValueOfOutRentalInventoryReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(ValueOfOutRentalInventoryReportLoader); }
         protected override string GetReportFileName() { return "ValueOfOutRentalInventoryReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Value of Out Rental Inventory"; }

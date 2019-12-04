@@ -13,6 +13,7 @@ using FwStandard.AppManager;
 using static FwCore.Controllers.FwDataController;
 using WebApi.Data;
 
+
 namespace WebApi.Modules.Reports.DealReports.CustomerRevenueByMonthReport
 {
     public class CustomerRevenueByMonthReportRequest : AppReportRequest
@@ -34,7 +35,7 @@ namespace WebApi.Modules.Reports.DealReports.CustomerRevenueByMonthReport
     [FwController(Id: "40SdfVGkZPtA6")]
     public class CustomerRevenueByMonthReportController : AppReportController
     {
-        public CustomerRevenueByMonthReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public CustomerRevenueByMonthReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(CustomerRevenueByMonthReportLoader); }
         protected override string GetReportFileName() { return "CustomerRevenueByMonthReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Customer Revenue By Month Report"; }

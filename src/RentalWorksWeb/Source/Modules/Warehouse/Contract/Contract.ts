@@ -18,7 +18,7 @@ class Contract extends ContractBase {
     addFormMenuItems(options: IAddFormMenuOptions) {
         FwMenu.addFormMenuButtons(options);
 
-        FwMenu.addSubMenuItem(options.$groupOptions, 'Print Order', '', (e: JQuery.ClickEvent) => {
+        FwMenu.addSubMenuItem(options.$groupOptions, 'Print Contract', '', (e: JQuery.ClickEvent) => {
             try {
                 this.printContract(options.$form);
             } catch (ex) {

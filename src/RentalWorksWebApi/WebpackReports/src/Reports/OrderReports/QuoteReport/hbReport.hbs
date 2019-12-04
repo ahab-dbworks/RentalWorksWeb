@@ -1,0 +1,181 @@
+﻿<!--Quote Report-->
+<div class="rpt-flexrow" style="margin:5px 0px 0px 4px;">
+  <div class="rpt-flexcolumn" style="border-bottom: 2px solid #027cc5;padding-bottom:5px;">
+    {{#if Logosrc}}
+    <div style="height:130px;"><img class="clientlogo" src="{{Logosrc}}" style="display:block;width:auto;height:100%;" alt="logo" /></div>
+    {{else}}
+    <div></div>
+    {{/if}}
+    <span class="header-left" style="font-weight:600">{{OfficeLocationCompany}}</span>
+    <span class="header-left">{{OfficeLocationAddress1}}</span>
+    <span class="header-left">{{OfficeLocationAddress2}}</span>
+    <span class="header-left">{{OfficeLocationCityStateZipCodeCountry}}</span>
+    <span class="header-left"><span style="font-weight:600;">Phone: </span>{{OfficeLocationPhone}}</span>
+  </div>
+  <div class="rpt-flexcolumn">
+    <span class="sub-title blue">{{Department}}</span>
+    <span class="title blue">{{Report}}</span>
+  </div>
+  <div class="rpt-flexcolumn">
+    <span class="header-right blue" style="font-size:30px;"><span style="font-weight:600;padding-right:13px;">No: </span><span style="background-color:#DCDCDC;color:black;border:3px solid #0798ee;padding:2px;">{{OrderNumber}}</span></span>
+    <span style="font-size:18px;padding-top:5px;" class="header-right blue"><span style="font-weight:600;padding-right:50px;">Date: </span><span style="color:black;">{{OrderDate}}</span></span>
+  </div>
+</div>
+<div class="rpt-flexrow" style="margin-top:10px;padding-left:3px;">
+  <table class="sub-header">
+    <tr>
+      <td class="header-left"><span style="font-weight:600;padding-right:40px;">Agent: </span><span class="blue">{{Agent}}</span></td>
+      <td class="header-center"><span style="font-weight:600;">Description: </span><span class="blue">{{Description}}</span></td>
+      <td class="header-right"><span style="font-weight:600;">Billing Period: </span><span class="blue">{{BillingDates}}</span></td>
+    </tr>
+    <tr>
+      <td class="header-left"><span style="font-weight:600;padding-right:43px;">Email: </span><span class="blue">{{AgentEmail}}</span></td>
+      <td class="header-center"><span style="font-weight:600;padding-right:13px;">Customer: </span><span class="blue">{{Customer}}</span></td>
+      <td class="header-right"><span style="font-weight:600;">Usage Period: </span><span class="blue">{{UsageDates}}</span></td>
+    </tr>
+    <tr>
+      <td class="header-left"><span style="font-weight:600;">Phone / Ext: </span><span class="blue">{{AgentPhoneAndExtension}}</span></td>
+      <td class="header-center"><span style="font-weight:600;padding-right:51px;">Deal: </span><span class="blue">{{Deal}}</span></td>
+      <td class="header-right"><span style="font-weight:600;padding-right:53px;">Terms: </span><span class="blue">{{PaymentTerms}}</span></td>
+    </tr>
+    <tr>
+      <td class="header-left"></td>
+      <td class="header-center"><span style="font-weight:600;padding-right:37px;">PO No: </span><span class="blue">{{PoNumber}}</span></td>
+      <td class="header-right"><span style="font-weight:600;padding-right:7px;">Billing Cycle: </span><span class="blue">{{BillingCycle}}</span></td>
+    </tr>
+  </table>
+</div>
+<div class="rpt-flexrow" style="margin-top:25px;">
+  <table>
+    <thead>
+      <tr>
+        <th class="sub text" style="text-align:left;">Issued To</th>
+        <th class="sub text" style="text-align:left;">Outgoing (DELIVER)</th>
+        <th class="sub text" style="text-align:left;">Incoming (DELIVER)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td id="issuedTo" style="text-align:left;width:33.3%;">
+          <div>
+            <span style="font-weight:600;">Issued To: </span><span class="blue">{{IssuedToCompany}}</span>
+          </div>
+          <div class="blue" style="padding-left:78px;">
+            {{IssuedToAttention1}}
+          </div>
+          <div class="blue" style="padding-left:78px;">
+            {{IssuedToAttention2}}
+          </div>
+          <div class="blue" style="padding-left:78px;">
+            {{IssuedToAddress1}}
+          </div>
+          <div class="blue" style="padding-left:78px;">
+            {{IssuedToAddress2}}
+          </div>
+          <div class="blue" style="padding-left:78px;">
+            {{IssuedToCity}}, {{IssuedToState}} {{IssuedToZipCode}} {{IssuedToCountry}}
+          </div>
+          <div>
+            <span style="font-weight:600;padding-right:23px;">Phone: </span><span class="blue">{{IssuedToPhone}}</span>
+          </div>
+          <div>
+            <span style="font-weight:600;padding-right:43px;">Fax: </span><span class="blue">{{IssuedToFax}}</span>
+          </div>
+        </td>
+        <td id="outgoing" style="text-align:left;width:33.3%;">
+          <div>
+            <span style="font-weight:600;">Attention: </span><span class="blue">{{OutDeliveryAttention}}</span>
+          </div>
+          <div class="att-text-align blue">
+            {{OutDeliveryAddress1}}
+          </div>
+          <div class="att-text-align blue">
+            {{OutDeliveryAddress2}}
+          </div>
+          <div class="att-text-align blue">
+            {{OutDeliveryCityStateZipCodeCountry}}
+          </div>
+          <div>
+            <span style="font-weight:600;padding-right:20px">Phone: </span><span class="blue">{{OutDeliveryContactPhone}}</span>
+          </div>
+          <div>
+            <span style="font-weight:600;">Required: </span><span class="blue">{{OutDeliveryRequiredByDateTime}}</span>
+          </div>
+        </td>
+        <td id="incoming" style="text-align:left;width:33.3%">
+          <div>
+            <span style="font-weight:600;">Attention: </span><span class="blue">{{InDeliveryAttention}}</span>
+          </div>
+          <div class="att-text-align blue">
+            {{InDeliveryAddress1}}
+          </div>
+          <div class="att-text-align blue">
+            {{InDeliveryAddress2}}
+          </div>
+          <div class="att-text-align blue">
+            {{InDeliveryCityStateZipCodeCountry}}
+          </div>
+          <div>
+            <span style="font-weight:600;padding-right:10px">Contact: </span><span class="blue">{{InDeliveryContact}}</span>
+          </div>
+          <div>
+            <span style="font-weight:600;padding-right:20px;">Phone: </span><span class="blue">{{InDeliveryContactPhone}}</span>
+          </div>
+          <div>
+            <span style="font-weight:600;">Required: </span><span class="blue">{{InDeliveryRequiredByDateTime}}</span>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="rpt-flexrow" style="margin-top:25px;">
+  <table>
+    {{#each Items}}
+    {{#ifEquals RowType "RecTypeDisplayheader"}}
+    <thead data-rowtype="{{RowType}}">
+      <tr>
+        <td colspan="8" class="section-header">{{RecTypeDisplay}}&nbsp;</td>
+      </tr>
+      <tr>
+        <td></td>
+        <th>I-Code</th>
+        <th>Description</th>
+        <th class="number">Quantity</th>
+        <th class="number">Period Extended</th>
+      </tr>
+    </thead>
+    {{/ifEquals}}
+    {{#ifEquals RowType "detail"}}
+    <tbody data-rowtype="{{RowType}}">
+      <tr>
+        <td></td>
+        <td>{{ICode}}</td>
+        <td>{{Description}}</td>
+        <td class="number">{{QuantityOrdered}}</td>
+        <td class="number">{{PeriodExtended}}</td>
+      </tr>
+    </tbody>
+    {{/ifEquals}}
+    {{#ifEquals RowType "RecTypeDisplayfooter"}}
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="display-footer">{{RecTypeDisplay}}&nbsp;</td>
+      <td class="display-footer-total" data-value="{{PeriodExtended}}"></td>
+    </tr>
+    {{/ifEquals}}
+    {{#ifEquals RowType "grandtotal"}}
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="display-footer">GRAND TOTAL:&nbsp;</td>
+      <td class="display-footer-total" data-value="{{PeriodExtended}}"></td>
+    </tr>
+    {{/ifEquals}}
+    {{/each}}
+  </table>
+</div>
+<div id="termsRow" style="padding:20px 10px 0px 10px;font-size:1em;" class="rpt-flexrow" colspan="5"><span id="terms"></span></div>

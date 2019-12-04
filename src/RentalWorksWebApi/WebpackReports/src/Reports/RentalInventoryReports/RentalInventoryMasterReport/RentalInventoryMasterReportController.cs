@@ -31,7 +31,7 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.RentalInventoryMasterRep
     [FwController(Id: "hVovGdrneLrzq")]
     public class RentalInventoryMasterReportController : AppReportController
     {
-        public RentalInventoryMasterReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public RentalInventoryMasterReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(RentalInventoryMasterReportLoader); }
         protected override string GetReportFileName() { return "RentalInventoryMasterReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Rental Inventory Master Report"; }

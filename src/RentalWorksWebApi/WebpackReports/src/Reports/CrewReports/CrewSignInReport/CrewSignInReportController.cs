@@ -34,7 +34,7 @@ namespace WebApi.Modules.Reports.CrewReports.CrewSignInReport
     public class CrewSignInReportController : AppReportController
     {
         //------------------------------------------------------------------------------------ 
-        public CrewSignInReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public CrewSignInReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(CrewSignInReportLoader); }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFileName() { return "CrewSignInReport"; }
         //------------------------------------------------------------------------------------ 

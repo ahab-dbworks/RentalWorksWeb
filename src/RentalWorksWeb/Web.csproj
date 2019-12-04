@@ -502,6 +502,7 @@
     <TypeScriptCompile Include="Source\Modules\Administrator\Reports\ReportsController.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\EmailHistory\EmailHistory.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\CountQuantityInventory\CountQuantityInventory.ts" />
+    <TypeScriptCompile Include="Source\Modules\Home\BillingWorksheet\BillingWorksheet.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\ScanBarCodes\ScanBarCodes.ts" />
     <TypeScriptCompile Include="Source\Modules\Billing\Billing\BillingMessage.ts" />
     <TypeScriptCompile Include="Source\Modules\Containers\EmptyContainer\EmptyContainer.ts" />
@@ -636,7 +637,7 @@
     <TypeScriptCompile Include="Source\Modules\Reports\CrewSignInReport\CrewSignInReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\CustomerRevenueByTypeReport\CustomerRevenueByTypeReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\BillingProgressReport\BillingProgressReportController.ts" />
-    <TypeScriptCompile Include="Source\Modules\Reports\LateReturnDueBackReport\LateReturnDueBackReportController.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\LateReturnsReport\LateReturnsReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\SalesRepresentativeBilling\SalesRepresentativeBillingReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\ProjectManagerBilling\ProjectManagerBillingReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\GLDistributionReport\GLDistributionReportController.ts" />
@@ -1024,6 +1025,7 @@
     <Content Include="Source\Validations\InvoiceValidation\InvoiceValidationBrowse.htm" />
     <Content Include="Source\Validations\QuikActivityTypeValidation\QuikActivityTypeValidationBrowse.htm" />
     <Content Include="Source\Validations\InventoryChangeTransactionTypeValidation\InventoryChangeTransactionTypeValidationBrowse.htm" />
+    <Content Include="Source\Validations\RentalInventoryDescriptionValidation\RentalInventoryDescriptionValidationBrowse.htm" />
     <Content Include="Source\Validations\TransferOrderValidation\TransferOrderValidationBrowse.htm" />
     <Content Include="Source\Validations\ReceiptProcessBatchValidation\ReceiptProcessBatchValidationBrowse.htm" />
     <Content Include="Source\Validations\ReceiptValidation\ReceiptValidationBrowse.htm" />

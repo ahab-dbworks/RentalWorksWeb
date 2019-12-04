@@ -7,7 +7,7 @@ import './index.scss';
 const hbReport = require("./hbReport.hbs"); 
 const hbFooter = require("./hbFooter.hbs"); 
 
-export class LateReturnDueBackReport extends WebpackReport {
+export class LateReturnsReport extends WebpackReport {
     // DO NOT USE THIS REPORT AS A TEMPLATE
     renderReport(apiUrl: string, authorizationHeader: string, parameters: any): void {
         try {
@@ -65,4 +65,4 @@ export class LateReturnDueBackReport extends WebpackReport {
     }
 }
 
-(<any>window).report = new LateReturnDueBackReport();
+(<any>window).report = new LateReturnsReport();

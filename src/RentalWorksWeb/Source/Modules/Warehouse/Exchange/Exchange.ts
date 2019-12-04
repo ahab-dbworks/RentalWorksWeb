@@ -1,4 +1,4 @@
-﻿class Exchange {
+class Exchange {
     Module:                    string = 'Exchange';
     apiurl:                    string = 'api/v1/exchange';
     caption:                   string = Constants.Modules.Warehouse.children.Exchange.caption;
@@ -59,10 +59,11 @@
             $form.find('div[data-validationname="SalesInventoryValidation"]').show();
         }
 
-        this.getSoundUrls($form);
+        const cancelMenuOptionId = Constants.Modules.Home.Exchange.form.menuItems.Cancel.id.replace('{', '').replace('}', '');
+        $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'false');
+
         this.getSuspendedSessions($form);
         this.events($form);
-
         return $form;
     };
     //----------------------------------------------------------------------------------------------
@@ -146,21 +147,13 @@
         }
     }
     //----------------------------------------------------------------------------------------------
-    getSoundUrls($form: JQuery): void {
-        this.successSoundFileName      = JSON.parse(sessionStorage.getItem('sounds')).successSoundFileName;
-        this.errorSoundFileName        = JSON.parse(sessionStorage.getItem('sounds')).errorSoundFileName;
-        this.notificationSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).notificationSoundFileName;
-    };
-    //----------------------------------------------------------------------------------------------
     events($form: JQuery): void {
-        let errorSound, successSound, department, contractRequest = {}, exchangeRequest = {};
-
-        errorSound = new Audio(this.errorSoundFileName);
-        successSound = new Audio(this.successSoundFileName);
-        department = JSON.parse(sessionStorage.getItem('department'));
-
+        const department = JSON.parse(sessionStorage.getItem('department'));
+        const contractRequest: any = {}
         contractRequest['DepartmentId'] = department.departmentid;
 
+        const cancelMenuOptionId = Constants.Modules.Home.Exchange.form.menuItems.Cancel.id.replace('{', '').replace('}', '');
+        const exchangeRequest: any = {};
         // Deal Id
         $form.find('div[data-datafield="DealId"]').data('onchange', $tr => {
             contractRequest['OrderId'] = FwFormField.getValueByDataField($form, "OrderId");
@@ -171,10 +164,10 @@
                     if (this.ContractId === '') {
                         this.ContractId = response.ContractId
                         $form.find('.suspendedsession').hide();
+                        $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'true');
                     }
 
-                    let $exchangeItemGridControl: any;
-                    $exchangeItemGridControl = $form.find('[data-name="OrderStatusSummaryGrid"]');
+                    const $exchangeItemGridControl = $form.find('[data-name="OrderStatusSummaryGrid"]');
                     $exchangeItemGridControl.data('ondatabind', function (request) {
                         request.uniqueids = {
                             ContractId: response.ContractId
@@ -185,7 +178,7 @@
                 }, null, $form);
             } catch (ex) {
                 FwFunc.showError(ex);
-                errorSound.play();
+                FwFunc.playErrorSound();
             }
         });
         // Order Id
@@ -201,6 +194,7 @@
                         if (this.ContractId === '') {
                             this.ContractId = response.ContractId
                             $form.find('.suspendedsession').hide();
+                            $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'true');
                         }
 
                         FwFormField.disable(FwFormField.getDataField($form, 'OrderId'));
@@ -222,7 +216,7 @@
                 try {
                     FwAppData.apiMethod(true, 'POST', "api/v1/exchange/exchangeitemout", exchangeRequest, FwServices.defaultTimeout, response => {
                         if (response.success) {
-                            successSound.play();
+                            FwFunc.playSuccessSound();
                             FwFormField.setValueByDataField($form, 'ICodeOut', response.ItemStatus.ICode);
                             FwFormField.setValueByDataField($form, 'DescriptionOut', response.ItemStatus.Description);
                             FwFormField.setValueByDataField($form, 'WarehouseIdOut', response.ItemStatus.WarehouseId, response.ItemStatus.Warehouse);
@@ -250,7 +244,7 @@
                             FwBrowse.search($exchangeItemGridControl);
                             FwFormField.getDataField($form, 'BarCodeIn').find('input').focus();
                         } else {
-                            errorSound.play();
+                            FwFunc.playErrorSound();
                             FwFormField.setValueByDataField($form, 'ICodeOut', response.ItemStatus.ICode);
                             FwFormField.setValueByDataField($form, 'DescriptionOut', response.ItemStatus.Description);
                             $form.find('.out').addClass('error');
@@ -276,10 +270,11 @@
                             if (this.ContractId === '') {
                                 this.ContractId = response.ContractId;
                                 $form.find('.suspendedsession').hide();
+                                $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'true');
                             }
                             $form.find('div.error-msg.check-in').html('');
                             $form.find('.in').removeClass('error');
-                            successSound.play();
+                            FwFunc.playSuccessSound();
                             FwFormField.setValueByDataField($form, 'DealId', response.DealId, response.Deal);
                             FwFormField.setValueByDataField($form, 'OrderId', response.OrderId, response.OrderNumber);
                             FwFormField.setValueByDataField($form, 'Description', response.OrderDescription);
@@ -296,7 +291,7 @@
                             FwFormField.setValueByDataField($form, 'DescriptionIn', response.ItemStatus.Description);
                             FwFormField.setValueByDataField($form, 'ICodeIn', response.ItemStatus.ICode);
                             $form.find('.in').addClass('error');
-                            errorSound.play();
+                            FwFunc.playErrorSound();
                             $form.find('div.error-msg.check-in').html(`<div><span>${response.msg}</span></div>`);
                             FwFormField.getDataField($form, 'BarCodeIn').find('input').select();
                         }
@@ -372,6 +367,8 @@
             }
         }
         this.ContractId = '';
+        const cancelMenuOptionId = Constants.Modules.Home.Exchange.form.menuItems.Cancel.id.replace('{', '').replace('}', '');
+        $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'false');
         this.ExchangeResponse = {};
         this.renderGrids($form);
         FwFormField.enable(FwFormField.getDataField($form, 'OrderId'));

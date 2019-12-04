@@ -28,7 +28,7 @@ namespace WebApi.Modules.Reports.SalesInventoryReports.SalesBackorderReport
     [FwController(Id: "KMdFiy9SEIQEU")]
     public class SalesBackorderReportController : AppReportController
     {
-        public SalesBackorderReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public SalesBackorderReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(SalesBackorderReportLoader); }
         protected override string GetReportFileName() { return "SalesBackorderReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Sales Backorder Report"; }

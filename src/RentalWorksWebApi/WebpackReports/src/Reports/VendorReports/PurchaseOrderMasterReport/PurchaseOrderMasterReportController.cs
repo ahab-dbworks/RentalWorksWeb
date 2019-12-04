@@ -30,7 +30,7 @@ namespace WebApi.Modules.Reports.VendorReports.PurchaseOrderMasterReport
     [FwController(Id: "zJJl8Frw1U7U7")]
     public class PurchaseOrderMasterReportController : AppReportController
     {
-        public PurchaseOrderMasterReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public PurchaseOrderMasterReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(PurchaseOrderMasterReportLoader); }
         protected override string GetReportFileName() { return "PurchaseOrderMasterReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Purchase Order Master Report"; }

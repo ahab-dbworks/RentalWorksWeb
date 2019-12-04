@@ -209,8 +209,7 @@ namespace WebApi.Modules.HomeControls.InventorySearchPreview
                             availRequestItems.Add(new TInventoryWarehouseAvailabilityRequestItem(inventoryId, warehouseId, fromDateTime, toDateTime));
                         }
 
-                        //TAvailabilityCache availCache = await InventoryAvailabilityFunc.GetAvailability(AppConfig, UserSession, availRequestItems, request.RefreshAvailability.GetValueOrDefault(false));
-                        TAvailabilityCache availCache = await InventoryAvailabilityFunc.GetAvailability(AppConfig, UserSession, availRequestItems, refreshIfNeeded: true, forceRefresh: false);  //jh 08/23/2019 experimental
+                        TAvailabilityCache availCache = await InventoryAvailabilityFunc.GetAvailability(AppConfig, UserSession, availRequestItems, refreshIfNeeded: true, forceRefresh: false); 
 
                         foreach (List<object> row in dt.Rows)
                         {
@@ -230,7 +229,7 @@ namespace WebApi.Modules.HomeControls.InventorySearchPreview
                             {
                                 TInventoryWarehouseAvailabilityMinimum minAvail = availData.GetMinimumAvailableQuantity(fromDateTime, toDateTime);
 
-                                qtyAvailable = minAvail.MinimumAvailable.Total;
+                                qtyAvailable = minAvail.MinimumAvailable.OwnedAndConsigned;
                                 conflictDate = minAvail.FirstConfict;
                                 isStale = minAvail.IsStale;
                                 availColor = minAvail.Color;

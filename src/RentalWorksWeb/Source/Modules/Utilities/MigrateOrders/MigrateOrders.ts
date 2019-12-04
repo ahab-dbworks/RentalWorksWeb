@@ -1,13 +1,11 @@
 ﻿routes.push({ pattern: /^module\/migrateorders/, action: function (match: RegExpExecArray) { return MigrateOrdersController.getModuleScreen(); } });
 
 class MigrateOrders {
-    Module:               string = 'MigrateOrders';
-    apiurl:               string = 'api/v1/migrate';
-    caption:              string = Constants.Modules.Utilities.children.MigrateOrders.caption;
-    nav:                  string = Constants.Modules.Utilities.children.MigrateOrders.nav;
-    id:                   string = Constants.Modules.Utilities.children.MigrateOrders.id;
-    successSoundFileName: string;
-    errorSoundFileName:   string;
+    Module: string = 'MigrateOrders';
+    apiurl: string = 'api/v1/migrateorders';
+    caption: string = Constants.Modules.Utilities.MigrateOrders.caption;
+    nav: string = Constants.Modules.Utilities.MigrateOrders.nav;
+    id: string = Constants.Modules.Utilities.MigrateOrders.id;
     //----------------------------------------------------------------------------------------------
     addFormMenuItems(options: IAddFormMenuOptions): void {
         options.hasSave = false;
@@ -37,19 +35,11 @@ class MigrateOrders {
         //disables "modified" asterisk
         $form.off('change keyup', '.fwformfield[data-enabled="true"]:not([data-isuniqueid="true"][data-datafield=""])');
 
-        this.getSoundUrls($form);
         this.events($form);
         return $form;
     }
     //----------------------------------------------------------------------------------------------
-    getSoundUrls = ($form): void => {
-        this.successSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).successSoundFileName;
-        this.errorSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).errorSoundFileName;
-    }
-    //----------------------------------------------------------------------------------------------
     events($form) {
-        const errorSound = new Audio(this.errorSoundFileName);
-        const successSound = new Audio(this.successSoundFileName);
         const department = JSON.parse(sessionStorage.getItem('department'));
         FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid, department.department);
         const rateType = JSON.parse(sessionStorage.getItem('defaultlocation')).ratetype;
@@ -156,10 +146,10 @@ class MigrateOrders {
                 response => {
                     $form.find('.error-msg').html('');
                     if (response.success === false) {
-                        errorSound.play();
+                        FwFunc.playErrorSound();
                         $form.find('div.error-msg').html(`<div><span>${response.msg}</span></div>`);
                     } else {
-                        successSound.play();
+                        FwFunc.playSuccessSound();
                         FwBrowse.search($migrateItemGridControl);
                     }
                 },
@@ -174,10 +164,10 @@ class MigrateOrders {
                 response => {
                     $form.find('.error-msg').html('');
                     if (response.success === false) {
-                        errorSound.play();
+                        FwFunc.playErrorSound();
                         $form.find('div.error-msg').html(`<div><span>${response.msg}</span></div>`);
                     } else {
-                        successSound.play();
+                        FwFunc.playSuccessSound();
                     }
                     FwBrowse.search($migrateItemGridControl);
                 }, ex => FwFunc.showError(ex), $migrateItemGrid);
@@ -217,10 +207,10 @@ class MigrateOrders {
                 response => {
                     $form.find('.error-msg').html('');
                     if (response.success === false) {
-                        errorSound.play();
+                        FwFunc.playErrorSound();
                         $form.find('div.error-msg').html(`<div><span>${response.msg}</span></div>`);
                     } else {
-                        successSound.play();
+                        FwFunc.playSuccessSound();
                         if (response.Contracts.length > 0) {
                             for (let i = 0; i < response.Contracts.length; i++) {
                                 const contractId = response.Contracts[i].ContractId;
@@ -295,12 +285,15 @@ class MigrateOrders {
     }
     //----------------------------------------------------------------------------------------------
     beforeValidateDeal($browse: any, $grid: any, request: any) {
-        let $form = $grid.closest('.fwform');
-        var officeLocationId = FwFormField.getValueByDataField($form, 'OfficeLocationId');
-        request.uniqueids = {
-            LocationId: officeLocationId
+        const $form = $grid.closest('.fwform');
+        const shareDealsAcrossOfficeLocations = JSON.parse(sessionStorage.getItem('controldefaults')).sharedealsacrossofficelocations;
+        if (!shareDealsAcrossOfficeLocations) {
+            const officeLocationId = FwFormField.getValueByDataField($form, 'OfficeLocationId');
+            request.uniqueids = {
+                LocationId: officeLocationId
+            }
         }
-    }
+    };
     //----------------------------------------------------------------------------------------------
 }
 var MigrateOrdersController = new MigrateOrders();

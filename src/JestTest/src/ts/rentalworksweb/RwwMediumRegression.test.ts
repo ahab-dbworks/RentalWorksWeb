@@ -25,7 +25,7 @@ import {
     WardrobeMaterial, WardrobePattern, WardrobePeriod, WardrobeSource, Warehouse, Widget, WorkWeek,
 
     //administrator
-    Alert, CustomField, CustomForm, DuplicateRule, EmailHistory, Group, Hotfix, User,
+    Alert, CustomField, CustomForm, CustomReportLayout, DuplicateRule, EmailHistory, Group, Hotfix, User,
 } from './modules/AllModules';
 import { SettingsModule } from '../shared/SettingsModule';
 
@@ -74,12 +74,23 @@ export class MediumRegressionTest extends BaseTest {
                                                 }
 
                                                 Logging.logInfo(`Comparing: ${key}\n     Expecting: "${expectingValue}"\n     Found:     "${foundValue}"`);
-                                                if (expectingValue === "|NOTEMPTY|") {
-                                                    expect(foundValue).not.toBe("");
+                                                if (expectingValue === ModuleBase.NOTEMPTY) {
+                                                    //expect(foundValue).not.toBe("");
+                                                    let expectedStr = `${key} value is ""`;
+                                                    let actualStr = `${key} value is "${foundValue}"`;
+                                                    expect(actualStr).not.toBe(expectedStr);
                                                 }
                                                 else {
-                                                    expect(foundValue).not.toBeUndefined();
-                                                    expect(foundValue).toBe(expectingValue);
+                                                    //expect(foundValue).not.toBeUndefined();
+                                                    let expectedStr = `${key} value is undefined`;
+                                                    let actualStr = `${key} value is ${foundValue == undefined ? "undefined" : foundValue}`;
+                                                    expect(actualStr).not.toBe(expectedStr);
+
+
+                                                    //expect(foundValue).toBe(expectingValue);
+                                                    expectedStr = `${key} value is ${expectingValue}`;
+                                                    actualStr = `${key} value is ${foundValue}`;
+                                                    expect(actualStr).toBe(expectedStr);
                                                 }
                                             }
                                         });
@@ -139,7 +150,7 @@ export class MediumRegressionTest extends BaseTest {
                                 if (rec.recordToExpect) {
                                     testName = `Open the newly-created ${module.moduleCaption} record, compare values with expected`;
                                     test(testName, async () => {
-                                        await module.openFirstRecordIfAny()
+                                        await module.openRecord()
                                             .then(openRecordResponse => {
                                                 for (let key in rec.recordToExpect) {
                                                     let expectingValue = rec.recordToExpect[key];
@@ -150,12 +161,22 @@ export class MediumRegressionTest extends BaseTest {
                                                     }
 
                                                     Logging.logInfo(`Comparing: ${key}\n     Expecting: "${expectingValue}"\n     Found:     "${foundValue}"`);
-                                                    if (expectingValue === "|NOTEMPTY|") {
-                                                        expect(foundValue).not.toBe("");
+                                                    if (expectingValue === ModuleBase.NOTEMPTY) {
+                                                        //expect(foundValue).not.toBe("");
+                                                        let expectedStr = `${key} value is ""`;
+                                                        let actualStr = `${key} value is "${foundValue}"`;
+                                                        expect(actualStr).not.toBe(expectedStr);
                                                     }
                                                     else {
-                                                        expect(foundValue).not.toBeUndefined();
-                                                        expect(foundValue).toBe(expectingValue);
+                                                        //expect(foundValue).not.toBeUndefined();
+                                                        let expectedStr = `${key} value is undefined`;
+                                                        let actualStr = `${key} value is ${foundValue == undefined ? "undefined" : foundValue}`;
+                                                        expect(actualStr).not.toBe(expectedStr);
+
+                                                        //expect(foundValue).toBe(expectingValue);
+                                                        expectedStr = `${key} value is ${expectingValue}`;
+                                                        actualStr = `${key} value is ${foundValue}`;
+                                                        expect(actualStr).toBe(expectedStr);
                                                     }
                                                 }
                                             });
@@ -624,6 +645,7 @@ export class MediumRegressionTest extends BaseTest {
         this.MediumRegressionOnModule(new Alert());
         this.MediumRegressionOnModule(new CustomField());
         this.MediumRegressionOnModule(new CustomForm());
+        this.MediumRegressionOnModule(new CustomReportLayout());
         this.MediumRegressionOnModule(new DuplicateRule());
         this.MediumRegressionOnModule(new EmailHistory());
         this.MediumRegressionOnModule(new Group());

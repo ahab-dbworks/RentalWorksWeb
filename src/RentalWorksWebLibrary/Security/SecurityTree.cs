@@ -89,6 +89,7 @@ namespace WebLibrary.Security
             AddModule("Transfer Status",     "{58D5D354-136E-40D5-9675-B74FD7807D6F}", lv1menuTransfers.Id, "TransferStatusController");
             // Billing
             AddModule("Billing",             "{34E0472E-9057-4C66-8CC2-1938B3222569}", lv1menuBilling.Id, "BillingController");
+            AddModule("Billing Worksheet",   "{BF8E2838-A31D-46B2-ABE1-5B09FC3E2A9E}", lv1menuBilling.Id, "BillingWorksheetController");
             AddModule("Invoice",             "{9B79D7D8-08A1-4F6B-AC0A-028DFA9FE10F}", lv1menuBilling.Id, "InvoiceController");
             AddModule("Receipts",            "{57E34535-1B9F-4223-AD82-981CA34A6DEC}", lv1menuBilling.Id, "ReceiptController");
             AddModule("Vendor Invoice",      "{854B3C59-7040-47C4-A8A3-8A336FC970FE}", lv1menuBilling.Id, "VendorInvoiceController");
@@ -302,7 +303,7 @@ namespace WebLibrary.Security
                                                        AddReportsModule("Transfer Report",                         "{BB643679-F9C9-4B4E-B20F-DE6BD856BB32}", lv2menuMultiLocationReports.Id,    "TransferReportController",                   description: "List all Transfer Orders as well as transferred Inventory over a specific date range.");
             var lv2menuOrderReports           = AddReportsMenu("Order Reports",                                    "{17D093EB-4EF0-4391-8DDA-5108D3B16CEB}", lv1menuReports.Id);                
                                                        AddReportsModule("Availability Item Conflict",              "{60D00AC8-EDBB-454F-B479-0C2F82B53A27}", lv2menuOrderReports.Id,            "OrderConflictReportController",              description: "List all Negative and Positive Availability Conflicts over a specified date range.");
-                                                       AddReportsModule("Late Return / Due Back",                  "{7349F6BE-08EE-4202-A571-2A5DEEDB6982}", lv2menuOrderReports.Id,            "LateReturnDueBackReportController",          description: "List all items that are Late or Due Back on a specific date.  Data is subtotalled by Order and Deal.");
+                                                       AddReportsModule("Late Return / Due Back",                  "{7349F6BE-08EE-4202-A571-2A5DEEDB6982}", lv2menuOrderReports.Id,            "LateReturnsReportController",                description: "List all items that are Late or Due Back on a specific date.  Data is subtotalled by Order and Deal.");
                                                        AddReportsModule("Outstanding Sub-Rental",                  "{855BB31C-C77E-451F-8D79-35FEB7DB9AFE}", lv2menuOrderReports.Id,            "OutstandingSubRentalReportController",       description: "List all Sub-Rental items currently Staged, Out, or in Holding.");
                                                        AddReportsModule("Pick List",                               "{37A26BC9-9509-4524-9368-3D1E575142BD}", lv2menuOrderReports.Id,            "PickListReportController",                   description: "Pick List document.");
                                                        AddReportsModule("Print Order",                             "{8A0B608D-6C48-4403-AAF0-937FAF33AC46}", lv2menuOrderReports.Id,            "OrderReportController",                      description: "Order document.");

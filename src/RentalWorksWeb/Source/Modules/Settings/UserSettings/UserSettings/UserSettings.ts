@@ -68,7 +68,7 @@
                 }
             }
         };
-      
+
         //Sort modules
         function compare(a, b) {
             if (a.text < b.text)
@@ -132,6 +132,20 @@
     //----------------------------------------------------------------------------------------------
     events($form: JQuery): void {
         // Sound Validation
+        $form.find('.sound-validation').change(() => {
+            const successSoundId = FwFormField.getValueByDataField($form, 'SuccessSoundId');
+            if (successSoundId === '') {
+                FwFormField.setValueByDataField($form, 'SuccessSoundFileName', '');
+            }
+            const errorSoundId = FwFormField.getValueByDataField($form, 'ErrorSoundId');
+            if (errorSoundId === '') {
+                FwFormField.setValueByDataField($form, 'ErrorSoundFileName', '');
+            }
+            const notificationSoundId = FwFormField.getValueByDataField($form, 'NotificationSoundId');
+            if (notificationSoundId === '') {
+                FwFormField.setValueByDataField($form, 'NotificationSoundFileName', '');
+            }
+        })
         $form.find('div[data-datafield="SuccessSoundId"]').data('onchange', $tr => {
             FwFormField.setValue($form, 'div[data-datafield="SuccessSoundFileName"]', $tr.find('.field[data-formdatafield="FileName"]').attr('data-originalvalue'));
         });

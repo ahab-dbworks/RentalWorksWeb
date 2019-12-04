@@ -1,6 +1,6 @@
 ﻿using FwStandard.Security;
 
-namespace WebLibrary.Security.Tree.RentalWorksWeb.Modules.Settings
+namespace WebLibrary.Security.Tree.RentalWorksWeb.Modules.Home
 {
     public class InvoiceMenu : FwSecurityTreeBranch
     {

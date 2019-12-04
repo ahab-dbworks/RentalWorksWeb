@@ -7,10 +7,6 @@ class ScanBarCodes {
     caption: 'Scan Bar Codes';
     nav: 'module/scanbarcodes';
     id: 'C8683D4F-70C1-40CD-967A-0891B14664E8';
-    successSoundFileName: string;
-    errorSoundFileName: string;
-    notificationSoundFileName: string;
-
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen: any = {};

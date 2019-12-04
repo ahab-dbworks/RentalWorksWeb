@@ -256,12 +256,6 @@ Form tables
     -moz-appearance: textfield;
 }
 
-.fwbrowse table tbody tr input[type="number"].fieldvalue::-webkit-outer-spin-button,
-.fwbrowse table tbody tr input[type="number"].fieldvalue::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-
 /* Styling for play buttons */
 .play-button {
     outline: none;
@@ -600,6 +594,9 @@ html.theme-material [data-name="AuditHistoryGrid"] tbody tr.selected td ul:not(.
     border-color: inherit;
     border-style: solid;
 }
+
+.modulefields div {cursor:pointer;}
+.modulefields div:nth-child(odd) {background-color: #f1f1f1;}
 
 /* Availability Conflicts */
 #availabilityTable table {border-collapse:collapse;}

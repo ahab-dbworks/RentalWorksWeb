@@ -378,7 +378,7 @@ export class GridBase {
         // wait 300 milliseconds for any errors
         var popUp;
         try {
-            popUp = await page.waitForSelector('.advisory', { timeout: 300 });
+            popUp = await page.waitForSelector('.advisory', { timeout: 750 });
         } catch (error) { }  // no error pop-up
 
         if (popUp !== undefined) {

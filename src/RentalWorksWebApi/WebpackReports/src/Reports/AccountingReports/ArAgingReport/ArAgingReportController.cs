@@ -33,7 +33,7 @@ namespace WebApi.Modules.Reports.AccountingReports.ArAgingReport
     [FwController(Id:"KHw5yX5TubQ")]
     public class ArAgingReportController : AppReportController
     {
-        public ArAgingReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public ArAgingReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(ArAgingReportLoader); }
         protected override string GetReportFileName() { return "ArAgingReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "A/R Aging Report"; }

@@ -33,7 +33,7 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.UnretiredRentalInventory
     [FwController(Id: "UaCdIoXMNFyiT")]
     public class UnretiredRentalInventoryReportController : AppReportController
     {
-        public UnretiredRentalInventoryReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public UnretiredRentalInventoryReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(UnretiredRentalInventoryReportLoader); }
         protected override string GetReportFileName() { return "UnretiredRentalInventoryReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Retired Rental Inventory Report"; }

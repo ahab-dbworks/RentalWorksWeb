@@ -38,7 +38,7 @@ namespace WebApi.Modules.Reports.Billing.ProjectManagerBillingReport
     public class ProjectManagerBillingReportController : AppReportController
     {
         //------------------------------------------------------------------------------------ 
-        public ProjectManagerBillingReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public ProjectManagerBillingReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(ProjectManagerBillingReportLoader); }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFileName() { return "ProjectManagerBillingReport"; }
         //------------------------------------------------------------------------------------ 

@@ -1193,6 +1193,7 @@ export class EventType extends SettingsModule {
         this.waitAfterClickingToOpenBrowseBeforeCheckingForErrors = 1500;
         this.waitAfterClickingToOpenRecordBeforeCheckingForErrors = 1500;
         this.waitAfterClickingToOpenFormToAllowOtherQueries = 2000;
+        this.waitForButtonToGetEvents = 1500;
 
         let activityDatesGrid: GridBase = new GridBase("Activity Dates Grid", "OrderTypeActivityDatesGrid");
         activityDatesGrid.waitForGridSubMenuToGetEvents = 1000;
@@ -3540,6 +3541,7 @@ export class OrderType extends SettingsModule {
         this.waitAfterClickingToOpenBrowseBeforeCheckingForErrors = 1500;
         this.waitAfterClickingToOpenRecordBeforeCheckingForErrors = 1500;
         this.waitAfterClickingToOpenFormToAllowOtherQueries = 2000;
+        this.waitForButtonToGetEvents = 1500;
 
         let activityDatesGrid: GridBase = new GridBase("Activity Dates Grid", "OrderTypeActivityDatesGrid");
         activityDatesGrid.waitForGridSubMenuToGetEvents = 1000;
@@ -4201,6 +4203,7 @@ export class POType extends SettingsModule {
         this.waitAfterClickingToOpenBrowseBeforeCheckingForErrors = 1500;
         this.waitAfterClickingToOpenRecordBeforeCheckingForErrors = 1500;
         this.waitAfterClickingToOpenFormToAllowOtherQueries = 2000;
+        this.waitForButtonToGetEvents = 1500;
 
         let activityDatesGrid: GridBase = new GridBase("Activity Dates Grid", "OrderTypeActivityDatesGrid");
         activityDatesGrid.waitForGridSubMenuToGetEvents = 1000;
@@ -5108,6 +5111,7 @@ export class LogoSettings extends SettingsModule {
         this.moduleCaption = 'Logo Settings';
         this.canNew = false;
         this.canDelete = false;
+        this.waitAfterClickingToOpenBrowseToAllowOtherQueries = 2000;
     }
     //---------------------------------------------------------------------------------------
 }

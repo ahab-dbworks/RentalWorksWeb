@@ -1,15 +1,15 @@
 using FwStandard.AppManager;
 using FwStandard.Models;
-using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using System;
-using System.Threading.Tasks;
 using WebApi.Controllers;
+using System.Threading.Tasks;
+using System;
+//using Microsoft.AspNetCore.Http;
+using FwStandard.SqlServer;
 using WebApi.Logic;
-using WebApi.Modules.Home.InventorySearch;
 
-namespace WebApi.Modules.HomeControls.InventorySearch
+namespace WebApi.Modules.Home.InventorySearch
 {
     //------------------------------------------------------------------------------------ 
     public class InventorySearchGetTotalRequest
@@ -35,7 +35,6 @@ namespace WebApi.Modules.HomeControls.InventorySearch
         public string Classification;
         public string SearchText;
         public bool? ShowAvailability;
-        //public bool? RefreshAvailability;
         public DateTime FromDate;
         public DateTime ToDate;
         public bool? ShowImages;
@@ -51,7 +50,6 @@ namespace WebApi.Modules.HomeControls.InventorySearch
         public string GrandParentId;
         public string WarehouseId;
         public bool? ShowAvailability;
-        //public bool? RefreshAvailability;
         public DateTime FromDate;
         public DateTime ToDate;
         public bool? ShowImages;
@@ -164,7 +162,7 @@ namespace WebApi.Modules.HomeControls.InventorySearch
         //------------------------------------------------------------------------------------ 
         // POST api/v1/inventorysearch/addto 
         [HttpPost("addto")]
-        [FwControllerMethod(Id:"bB1lEAjR2sZy", ActionType: FwControllerActionTypes.Option)]
+        [FwControllerMethod(Id:"bB1lEAjR2sZy")]
         public async Task<ActionResult<bool>> AddTo([FromBody]InventorySearchAddToRequest request)
         {
             if (!ModelState.IsValid)

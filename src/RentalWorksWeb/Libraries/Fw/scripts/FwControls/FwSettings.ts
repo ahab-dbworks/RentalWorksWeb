@@ -541,6 +541,7 @@ class FwSettingsClass {
         let showNew = false;
         let showDelete = false;
         let showEdit = false;
+
         $modulecontainer = $control.find('#' + moduleName);
         const controllerName = moduleName + 'Controller';
         const module = <IModule>window[controllerName];
