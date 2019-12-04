@@ -607,14 +607,6 @@ class BillingWorksheet {
         }
     };
     //----------------------------------------------------------------------------------------------
-    InvoiceCredit($form: JQuery) {
-        const invoiceType = FwFormField.getValueByDataField($form, 'InvoiceType');
-
-        if (invoiceType === 'CREDIT') {
-            $form.find('div[data-datafield="CreditingInvoiceId"]').show();
-        }
-    }
-    //----------------------------------------------------------------------------------------------
     calculateInvoiceItemGridTotals($form: JQuery, gridType: string, totals?, isAdjustment?: boolean): void {
         if (isAdjustment) {
             const subTotal = totals.LineTotal;

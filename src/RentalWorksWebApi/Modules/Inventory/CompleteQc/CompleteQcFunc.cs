@@ -18,6 +18,8 @@ namespace WebApi.Modules.Inventory.CompleteQc
         public string ItemQcId { get; set; }
         public bool CannotQcItemBecauseOfStatus { get; set; }
         public bool ItemDoesNotNeedQc { get; set; }
+        public bool ShowFootCandles { get; set; }
+        public bool ShowSoftwareVersion { get; set; }
     }
 
 
@@ -59,6 +61,8 @@ namespace WebApi.Modules.Inventory.CompleteQc
                 response.status = qry.GetParameter("@status").ToInt32();
                 response.success = (response.status == 0);
                 response.msg = qry.GetParameter("@msg").ToString();
+                //response.ShowFootCandles = qry.GetParameter("@showfootcandles").ToInt32().Equals(1250);
+                //response.ShowSoftwareVersion = qry.GetParameter("@showsoftwareversion").ToInt32().Equals(1250);
             }
             return response;
         }
