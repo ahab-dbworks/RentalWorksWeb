@@ -663,13 +663,13 @@ class Invoice {
             nameGrid: 'InvoiceReceiptGrid',
             gridSecurityId: 'cYUr48pou4fc',
             moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
                 options.hasNew = false;
                 options.hasEdit = false;
                 options.hasDelete = false;
             },
-            $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     InvoiceId: FwFormField.getValueByDataField($form, 'InvoiceId'),
