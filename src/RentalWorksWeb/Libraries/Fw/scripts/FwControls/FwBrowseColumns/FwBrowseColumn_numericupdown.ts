@@ -1,4 +1,4 @@
-class FwBrowseColumn_numericupdownClass implements IFwBrowseColumn {
+﻿class FwBrowseColumn_numericupdownClass implements IFwBrowseColumn {
     //---------------------------------------------------------------------------------
     databindfield($browse, $field, dt, dtRow, $tr): void {
 

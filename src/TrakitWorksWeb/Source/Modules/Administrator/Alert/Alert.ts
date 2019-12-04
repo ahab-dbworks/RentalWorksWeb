@@ -95,95 +95,20 @@ class Alert {
         FwBrowse.renderRuntimeHtml($alertHistoryGridControl);
     }
     //----------------------------------------------------------------------------------------------
-    loadModulesRecursive(modules: any[], category: string, nodeKey: string, currentNode: any): void {
-        if (currentNode.nodetype === 'Module') {
-            const nodeModule = FwApplicationTree.getNodeById(FwApplicationTree.tree, currentNode.id);
-            const nodeModuleActions = FwApplicationTree.getNodeByFuncRecursive(nodeModule, {}, (node: any, args: any) => {
-                return node.nodetype === 'ModuleActions'; 
-            });
-            const nodeNew = FwApplicationTree.getNodeByFuncRecursive(nodeModuleActions, {}, (node: any, args: any) => {
-                return node.nodetype === 'ModuleAction' && typeof node.properties === 'object' && 
-                    typeof node.properties.action === 'string' && node.properties.action === 'New'; 
-            });
-            const nodeEdit = FwApplicationTree.getNodeByFuncRecursive(nodeModuleActions, {}, (node: any, args: any) => {
-                return node.nodetype === 'ModuleAction' && typeof node.properties === 'object' && 
-                    typeof node.properties.action === 'string' && node.properties.action === 'Edit'; 
-            });
-            const hasNew: boolean = nodeNew !== null && nodeNew.properties.visible === 'T';
-            const hasEdit: boolean = nodeEdit !== null && nodeEdit.properties.visible === 'T';
-            if (hasNew || hasEdit) {
-                const moduleNav = nodeKey;
-                const moduleCaption = category + currentNode.caption;
-                const moduleController = nodeKey + "Controller";
-                if (typeof window[moduleController] !== 'undefined') {
-                    if (window[moduleController].hasOwnProperty('apiurl')) {
-                        const moduleUrl = (<any>window)[moduleController].apiurl;
-                        modules.push({ value: moduleNav, text: `${moduleCaption}`, apiurl: moduleUrl });
-                    }
-                }
-            }
-        } 
-        else if (currentNode.nodetype === 'Category' && nodeKey !== 'Reports') {
-            for (let childNodeKey in currentNode.children) {
-                const childNode = currentNode.children[childNodeKey];
-                this.loadModulesRecursive(modules, category + nodeKey + ' > ', childNodeKey, childNode);
-            }
-        }
-    }
-    //----------------------------------------------------------------------------------------------
-    loadGrid(modules: any[], nodeKey: string, currentNode: any): void {
-        const nodeGrid = FwApplicationTree.getNodeById(FwApplicationTree.tree, currentNode.id);
-        const nodeModuleActions = FwApplicationTree.getNodeByFuncRecursive(nodeGrid, {}, (node: any, args: any) => {
-            return node.nodetype === 'ModuleActions' || node.nodetype === 'ControlActions'; 
-        });
-        const nodeNew = FwApplicationTree.getNodeByFuncRecursive(nodeModuleActions, {}, (node: any, args: any) => {
-            return (node.nodetype === 'ModuleAction' || node.nodetype === 'ControlAction') && typeof node.properties === 'object' && 
-                typeof node.properties.action === 'string' && node.properties.action === 'New'; 
-        });
-        const nodeEdit = FwApplicationTree.getNodeByFuncRecursive(nodeModuleActions, {}, (node: any, args: any) => {
-            return (node.nodetype === 'ModuleAction' || node.nodetype === 'ControlAction') && typeof node.properties === 'object' && 
-                typeof node.properties.action === 'string' && node.properties.action === 'Edit'; 
-        });
-        const hasNew: boolean = nodeNew !== null && nodeNew.properties.visible === 'T';
-        const hasEdit: boolean = nodeEdit !== null && nodeEdit.properties.visible === 'T';
-        if (hasNew || hasEdit) {
-            const moduleNav = nodeKey.slice(0, -4);
-            const moduleCaption = 'Grid > ' + currentNode.caption;
-            const moduleController = nodeKey + "Controller";
-            if (typeof window[moduleController] !== 'undefined') {
-                if (window[moduleController].hasOwnProperty('apiurl')) {
-                    const moduleUrl = (<any>window)[moduleController].apiurl;
-                    modules.push({ value: moduleNav, text: `${moduleCaption}`, apiurl: moduleUrl });
-                }
-            }
-        } 
-    }
-    //----------------------------------------------------------------------------------------------
     loadModules($form) {
-        let allModules = [];
-        
-        // Load Modules
-        for (const key in Constants.Modules) {
-            const node = Constants.Modules[key];
-            this.loadModulesRecursive(allModules, 'Module > ', key, node);
-        }
-
-        // Load Grids
-        for (const key in Constants.Grids) {
-            const node = Constants.Grids[key];
-            this.loadGrid(allModules, key, node);
-        }
-
-        //Sort modules
-        function compare(a, b) {
-            if (a.text < b.text)
-                return -1;
-            if (a.text > b.text)
-                return 1;
-            return 0;
-        }
-        allModules.sort(compare);
-
+        // Load Modules dropdown with sorted list of Modules and Grids
+        const modules = FwApplicationTree.getAllModules(false, false, (modules: any[], moduleCaption: string, moduleName: string, category: string, currentNode: any, nodeModule: IGroupSecurityNode, hasView: boolean, hasNew: boolean, hasEdit: boolean, moduleController: any) => {
+            if (moduleController.hasOwnProperty('apiurl')) {
+                modules.push({ value: moduleName, text: moduleCaption, apiurl: moduleController.apiurl });
+            }
+        });
+        const grids = FwApplicationTree.getAllGrids(false, (modules: any[], moduleCaption: string, moduleName: string, category: string, currentNode: any, nodeModule: IGroupSecurityNode, hasNew: boolean, hasEdit: boolean, moduleController: any) => {
+            if (moduleController.hasOwnProperty('apiurl')) {
+                modules.push({ value: moduleName, text: moduleCaption, apiurl: moduleController.apiurl });
+            }
+        });
+        const allModules = modules.concat(grids);
+        FwApplicationTree.sortModules(allModules);
         const $moduleSelect = $form.find('.modules');
         FwFormField.loadItems($moduleSelect, allModules);
 

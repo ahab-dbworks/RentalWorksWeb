@@ -277,12 +277,16 @@ class FwSettingsClass {
             const keys = $browse.find('.field');
             const rowId = jQuery(keys[0]).attr('data-browsedatafield');
 
-            //append legend
-            if ($body.find('.legend').length <= 1) {
-                $body.prepend(this.getLegend());
+            //append record search / legend
+            if ($body.find('.search-bar').length <= 1) {
+                $body.prepend(this.getRecordSearch());
                 if ($browse.attr('data-hasinactive') !== 'true') {
-                    $body.find('.legend .view-options').hide();
+                    $body.find('.search-bar .view-options').hide();
                 }
+            }
+            const $legend = $browse.find('.legend');
+            if ($legend.length > 0) {
+                $body.find('.search-bar').after($legend);
             }
 
             for (var i = 1; i < keys.length; i++) {
@@ -518,6 +522,7 @@ class FwSettingsClass {
             $body.prepend($wrappedForm);
             $body.prepend(jQuery(newRowHtml.join('')));
             $body.prepend($body.find('.legend'));
+            $body.prepend($body.find('.search-bar'));
         }
 
         $body.on('click', '.close-new-row', e => {
@@ -674,11 +679,11 @@ class FwSettingsClass {
                         var withoutDuplicates = [];
 
                         if ($body.is(':empty')) {
-                            //append legend
-                            if ($body.find('.legend').length <= 0) {
-                                $body.append(this.getLegend());
+                            //append record search / legend
+                            if ($body.find('.search-bar').length <= 0) {
+                                $body.append(this.getRecordSearch());
                                 if ($browse.attr('data-hasinactive') !== 'true') {
-                                    $body.find('.legend .view-options').hide();
+                                    $body.find('.search-bar .view-options').hide();
                                 }
                             }
                             if ($browse.find('.legend').length > 0) {
@@ -1034,7 +1039,7 @@ class FwSettingsClass {
                                 if (tempSaveResponse) {
                                     this.getPanelForNew($control, $form, moduleName, tempSaveResponse);
                                 }
-                            }, 750)
+                            }, 800)
                         }
                         // existing record with a save event
                         if (typeof browsedata !== 'undefined') {
@@ -1383,6 +1388,8 @@ class FwSettingsClass {
         $body.find('.new-row').remove();
         $body.prepend($newPanel);
         $body.prepend($body.find('.legend'));
+        $body.prepend($body.find('.search-bar'));
+
         const $rowBody = $body.find(`#${saveData[rowId]}.panel-body`);
         if (!inactiverecord) {
             $rowBody.prepend($form);
@@ -1396,10 +1403,10 @@ class FwSettingsClass {
         }
     }
     //----------------------------------------------------------------------------------------------
-    getLegend(): string {
+    getRecordSearch(): string {
         return `
-            <div class="legend">
-              <div class="view-options" style="float:left;">
+            <div class="search-bar">
+              <div class="view-options">
                 <div class="flexrow">
                   <div class="flexcolumn" style="max-width: 28px;">
                     <i class="material-icons show-inactive show-btn" title="Show All">visibility</i>
@@ -1410,7 +1417,7 @@ class FwSettingsClass {
                   </div>
                 </div>
               </div>
-              <div>
+              <div class="record-search">
                 <span class="input-group-addon search"><i class="material-icons">search</i></span>
                 <input type="text" id="recordSearch" class="form-control" placeholder="Record Search" autofocus="">
               </div>
@@ -1423,8 +1430,8 @@ class FwSettingsClass {
         const nodeSettings = FwApplicationTree.getNodeById(FwApplicationTree.tree, 'Settings');
         const settings = (<any>window).Constants.Modules.Settings;
         this.generateDropDownModuleBtn($view, $control, 'All Settings ID', 'All Settings', null, null);
-        for (let settingsCategoryKey in settings) {
-            const settingsCategory = settings[settingsCategoryKey];
+        for (let settingsCategoryKey in settings.children) {
+            const settingsCategory = settings.children[settingsCategoryKey];
             //const nodeSettingsCategory = FwApplicationTree.getNodeById(FwApplicationTree.tree, settingsCategory.id);
             if (true /*nodeSettingsCategory !== null && nodeSettingsCategory.properties.visible === 'T'*/) {
                 const dropDownMenuItems = [];

@@ -24,7 +24,7 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
     [FwController(Id:"Q89Ni6FvVL92")]
     public class OrderReportController : AppReportController
     {
-        public OrderReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public OrderReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(OrderReportLoader); }
         protected override string GetReportFileName() { return "OrderReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Order Report"; }

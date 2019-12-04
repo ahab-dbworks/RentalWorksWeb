@@ -2,18 +2,17 @@ using FwStandard.BusinessLogic;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Threading.Tasks;
 using WebApi.Data;
 using WebApi.Logic;
-using WebApi.Modules.HomeControls.InventoryPackageInventory;
+using WebApi.Modules.HomeControls.InventoryAvailability;
 
 namespace WebApi.Modules.HomeControls.InventorySearch
 {
     [FwSqlTable("tmpsearchsession")]
     public class InventorySearchRecord : AppDataReadWriteRecord
     {
+        //------------------------------------------------------------------------------------ 
         public InventorySearchRecord()
         {
             BeforeSave += OnBeforeSaveInventorySearch;
@@ -37,34 +36,88 @@ namespace WebApi.Modules.HomeControls.InventorySearch
         [FwSqlDataField(column: "qty", modeltype: FwDataTypes.Integer, sqltype: "numeric", precision: 12, scale: 2)]
         public decimal? Quantity { get; set; }
         //------------------------------------------------------------------------------------ 
+        // this property is only used to hold the request value for the availability check in overridden save method below
+        public DateTime? FromDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        // this property is only used to hold the request value for the availability check in overridden save method below
+        public DateTime? ToDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        // this property is only used to hold the return value in the overridden save method below
+        public decimal? QuantityAvailable { get; set; }
+        //------------------------------------------------------------------------------------ 
+        // this property is only used to hold the return value in the overridden save method below
+        public DateTime? ConflictDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        // this property is only used to hold the return value in the overridden save method below
+        public string AvailabilityState { get; set; }
+        //------------------------------------------------------------------------------------ 
         // this property is only used to hold the return value in the overridden save method below
         public decimal? TotalQuantityInSession { get; set; }
         //------------------------------------------------------------------------------------ 
         public void OnBeforeSaveInventorySearch(object sender, BeforeSaveDataRecordEventArgs e)
         {
-            using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
+            if (Quantity < 0)
             {
-                TSpStatusResponse response = new TSpStatusResponse();
-
-                FwSqlCommand qry = new FwSqlCommand(conn, "savetmpsearchsession", this.AppConfig.DatabaseSettings.QueryTimeout);
-                qry.AddParameter("@sessionid", SqlDbType.NVarChar, ParameterDirection.Input, SessionId);
-                qry.AddParameter("@parentid", SqlDbType.NVarChar, ParameterDirection.Input, ParentId);
-                qry.AddParameter("@grandparentid", SqlDbType.NVarChar, ParameterDirection.Input, GrandParentId);
-                qry.AddParameter("@masterid", SqlDbType.NVarChar, ParameterDirection.Input, InventoryId);
-                qry.AddParameter("@warehouseid", SqlDbType.NVarChar, ParameterDirection.Input, WarehouseId);
-                qry.AddParameter("@qty", SqlDbType.Float, ParameterDirection.Input, Quantity);
-                qry.AddParameter("@totalqtyinsession", SqlDbType.Float, ParameterDirection.Output);
-                qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
-                qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
-                int i = qry.ExecuteNonQueryAsync().Result;
-                TotalQuantityInSession = qry.GetParameter("@totalqtyinsession").ToDecimal();
-                response.status = qry.GetParameter("@status").ToInt32();
-                response.success = (response.status == 0);
-                response.msg = qry.GetParameter("@msg").ToString();
-
-                if (!response.success)
+                throw new System.Exception("Quantity cannot be negative.");
+            }
+            else
+            {
+                using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
                 {
-                    throw new System.Exception("Cannot save search quantity: " + response.msg);
+                    TSpStatusResponse response = new TSpStatusResponse();
+
+                    FwSqlCommand qry = new FwSqlCommand(conn, "savetmpsearchsession", this.AppConfig.DatabaseSettings.QueryTimeout);
+                    qry.AddParameter("@sessionid", SqlDbType.NVarChar, ParameterDirection.Input, SessionId);
+                    qry.AddParameter("@parentid", SqlDbType.NVarChar, ParameterDirection.Input, ParentId);
+                    qry.AddParameter("@grandparentid", SqlDbType.NVarChar, ParameterDirection.Input, GrandParentId);
+                    qry.AddParameter("@masterid", SqlDbType.NVarChar, ParameterDirection.Input, InventoryId);
+                    qry.AddParameter("@warehouseid", SqlDbType.NVarChar, ParameterDirection.Input, WarehouseId);
+                    qry.AddParameter("@qty", SqlDbType.Float, ParameterDirection.Input, Quantity);
+                    qry.AddParameter("@totalqtyinsession", SqlDbType.Float, ParameterDirection.Output);
+                    qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
+                    qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
+                    int i = qry.ExecuteNonQueryAsync().Result;
+                    TotalQuantityInSession = qry.GetParameter("@totalqtyinsession").ToDecimal();
+                    response.status = qry.GetParameter("@status").ToInt32();
+                    response.success = (response.status == 0);
+                    response.msg = qry.GetParameter("@msg").ToString();
+
+                    if (!response.success)
+                    {
+                        throw new System.Exception("Cannot save search quantity: " + response.msg);
+                    }
+
+
+                    QuantityAvailable = 0;
+                    ConflictDate = null;
+                    AvailabilityState = RwConstants.AVAILABILITY_STATE_STALE;
+
+                    DateTime fromDateTime = DateTime.MinValue;
+                    DateTime toDateTime = DateTime.MinValue;
+
+                    if ((FromDate != null) && (FromDate > DateTime.MinValue))
+                    {
+                        fromDateTime = FromDate.GetValueOrDefault(DateTime.MinValue);
+                    }
+                    if ((ToDate != null) && (ToDate > DateTime.MinValue))
+                    {
+                        toDateTime = ToDate.GetValueOrDefault(DateTime.MinValue);
+                    }
+
+
+                    TInventoryWarehouseAvailabilityRequestItems availRequestItems = new TInventoryWarehouseAvailabilityRequestItems();
+                    availRequestItems.Add(new TInventoryWarehouseAvailabilityRequestItem(InventoryId, WarehouseId, fromDateTime, toDateTime));
+
+                    TAvailabilityCache availCache = InventoryAvailabilityFunc.GetAvailability(AppConfig, UserSession, availRequestItems, refreshIfNeeded: true, forceRefresh: false).Result;
+                    TInventoryWarehouseAvailability availData = null;
+                    if (availCache.TryGetValue(new TInventoryWarehouseAvailabilityKey(InventoryId, WarehouseId), out availData))
+                    {
+                        TInventoryWarehouseAvailabilityMinimum minAvail = availData.GetMinimumAvailableQuantity(fromDateTime, toDateTime, Quantity.GetValueOrDefault(0));
+                        QuantityAvailable = minAvail.MinimumAvailable.OwnedAndConsigned;
+                        ConflictDate = minAvail.FirstConfict;
+                        AvailabilityState = minAvail.AvailabilityState;
+                    }
+
                 }
             }
             e.PerformSave = false;

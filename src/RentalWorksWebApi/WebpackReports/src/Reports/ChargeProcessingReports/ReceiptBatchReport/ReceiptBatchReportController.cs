@@ -27,7 +27,7 @@ namespace WebApi.Modules.Reports.ChargeProcessingReports.ReceiptBatchReport
     [FwController(Id: "jB7p9OvmCibhx")]
     public class ReceiptBatchReportController : AppReportController
     {
-        public ReceiptBatchReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public ReceiptBatchReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(ReceiptBatchReportLoader); }
         protected override string GetReportFileName() { return "ReceiptBatchReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Receipt Batch"; }

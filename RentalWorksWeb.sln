@@ -24,8 +24,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RentalWorksTest", "src\RentalWorksTest\RentalWorksTest.csproj", "{86349F96-FDF2-4D9F-B23C-3664AE189B00}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FwStandard", "lib\Fw\src\FwStandard\FwStandard.csproj", "{BF70FE28-DA24-40EC-AA7E-613803411E12}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi", "src\RentalWorksWebApi\WebApi.csproj", "{8015A604-E732-481C-AB96-065C9E7E20B0}"
@@ -36,10 +34,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrakitWorksWeb", "src\Traki
 	ProjectSection(ProjectDependencies) = postProject
 		{727C09EB-27BD-4657-A43E-7CA436679403} = {727C09EB-27BD-4657-A43E-7CA436679403}
 	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RwQBO", "src\RwQBO\RwQBO.csproj", "{5A1B32D5-4C84-456A-9D28-A1D3696BC594}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SecurityTreeBuilder", "src\SecurityTreeBuilder\SecurityTreeBuilder.csproj", "{8323F78C-1359-4DC1-831C-4C8B7B25F916}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuartzScheduler", "src\QuartzScheduler\QuartzScheduler.csproj", "{0E4387DB-3F03-4C59-8C8D-48529C01C7DA}"
 EndProject
@@ -104,12 +98,6 @@ Global
 		{7576C47B-B75E-4491-AF97-5FCFEF52484E}.Release TrakitWorksWeb|Any CPU.ActiveCfg = Release|Any CPU
 		{7576C47B-B75E-4491-AF97-5FCFEF52484E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7576C47B-B75E-4491-AF97-5FCFEF52484E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{86349F96-FDF2-4D9F-B23C-3664AE189B00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{86349F96-FDF2-4D9F-B23C-3664AE189B00}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{86349F96-FDF2-4D9F-B23C-3664AE189B00}.Release RentalWorksWeb|Any CPU.ActiveCfg = Release|Any CPU
-		{86349F96-FDF2-4D9F-B23C-3664AE189B00}.Release TrakitWorksWeb|Any CPU.ActiveCfg = Release|Any CPU
-		{86349F96-FDF2-4D9F-B23C-3664AE189B00}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{86349F96-FDF2-4D9F-B23C-3664AE189B00}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BF70FE28-DA24-40EC-AA7E-613803411E12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BF70FE28-DA24-40EC-AA7E-613803411E12}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BF70FE28-DA24-40EC-AA7E-613803411E12}.Release RentalWorksWeb|Any CPU.ActiveCfg = Release|Any CPU
@@ -141,19 +129,6 @@ Global
 		{D56B7396-11E1-4E1B-8511-1F0838770F9A}.Release TrakitWorksWeb|Any CPU.Build.0 = Release|Any CPU
 		{D56B7396-11E1-4E1B-8511-1F0838770F9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D56B7396-11E1-4E1B-8511-1F0838770F9A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5A1B32D5-4C84-456A-9D28-A1D3696BC594}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5A1B32D5-4C84-456A-9D28-A1D3696BC594}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5A1B32D5-4C84-456A-9D28-A1D3696BC594}.Release RentalWorksWeb|Any CPU.ActiveCfg = Release Web Fast|Any CPU
-		{5A1B32D5-4C84-456A-9D28-A1D3696BC594}.Release TrakitWorksWeb|Any CPU.ActiveCfg = Release Web Fast|Any CPU
-		{5A1B32D5-4C84-456A-9D28-A1D3696BC594}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5A1B32D5-4C84-456A-9D28-A1D3696BC594}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8323F78C-1359-4DC1-831C-4C8B7B25F916}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8323F78C-1359-4DC1-831C-4C8B7B25F916}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8323F78C-1359-4DC1-831C-4C8B7B25F916}.Release RentalWorksWeb|Any CPU.ActiveCfg = Release|Any CPU
-		{8323F78C-1359-4DC1-831C-4C8B7B25F916}.Release RentalWorksWeb|Any CPU.Build.0 = Release|Any CPU
-		{8323F78C-1359-4DC1-831C-4C8B7B25F916}.Release TrakitWorksWeb|Any CPU.ActiveCfg = Release|Any CPU
-		{8323F78C-1359-4DC1-831C-4C8B7B25F916}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8323F78C-1359-4DC1-831C-4C8B7B25F916}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0E4387DB-3F03-4C59-8C8D-48529C01C7DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0E4387DB-3F03-4C59-8C8D-48529C01C7DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0E4387DB-3F03-4C59-8C8D-48529C01C7DA}.Release RentalWorksWeb|Any CPU.ActiveCfg = Release|Any CPU

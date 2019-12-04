@@ -3,10 +3,6 @@ class CountQuantityInventory {
     caption: string = Constants.Modules.Home.children.CountQuantityInventory.caption;
     nav: string = Constants.Modules.Home.children.CountQuantityInventory.nav;
     id: string = Constants.Modules.Home.children.CountQuantityInventory.id;
-    successSoundFileName: string;
-    errorSoundFileName: string;
-    notificationSoundFileName: string;
-
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         const screen: any = {};

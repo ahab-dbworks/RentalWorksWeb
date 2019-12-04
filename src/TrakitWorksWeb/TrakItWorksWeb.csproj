@@ -21,7 +21,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <TypeScriptToolsVersion>3.6</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>3.7</TypeScriptToolsVersion>
     <Use64BitIISExpress />
   </PropertyGroup>
   <UsingTask TaskName="MSBuild.Community.Tasks.Version" AssemblyFile="$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.dll" />
@@ -314,7 +314,7 @@
     <Content Include="Source\Modules\Settings\AddressSettings\State\StateForm.htm" />
     <Content Include="Source\Modules\Settings\InventorySettings\Unit\UnitBrowse.htm" />
     <Content Include="Source\Modules\Settings\InventorySettings\Unit\UnitForm.htm" />
-    <Content Include="Source\Modules\Settings\UserSettings\UserSettings\UserSettingsForm.htm" />
+    <Content Include="Source\Modules\Account\UserProfile\UserProfileForm.htm" />
     <Content Include="Source\Modules\Settings\VendorSettings\VendorClass\VendorClassBrowse.htm" />
     <Content Include="Source\Modules\Settings\VendorSettings\VendorClass\VendorClassForm.htm" />
     <Content Include="Source\Modules\Settings\WarehouseSettings\Warehouse\WarehouseBrowse.htm" />
@@ -631,7 +631,7 @@
     <TypeScriptCompile Include="Source\Modules\Settings\ShipViaSettings\ShipVia\ShipVia.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\AddressSettings\State\State.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\InventorySettings\Unit\Unit.ts" />
-    <TypeScriptCompile Include="Source\Modules\Settings\UserSettings\UserSettings\UserSettings.ts" />
+    <TypeScriptCompile Include="Source\Modules\Account\UserProfile\UserProfile.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\VendorSettings\VendorClass\VendorClass.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\WarehouseSettings\Warehouse\Warehouse.ts" />
     <TypeScriptCompile Include="Source\Modules\Utilities\DashboardSettings\DashboardSettings.ts" />

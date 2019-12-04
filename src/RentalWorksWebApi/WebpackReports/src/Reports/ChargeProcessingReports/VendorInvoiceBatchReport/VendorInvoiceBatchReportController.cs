@@ -27,7 +27,7 @@ namespace WebApi.Modules.Reports.ChargeProcessingReports.VendorInvoiceBatchRepor
     [FwController(Id: "6gc3QbSGD5BX")]
     public class VendorInvoiceBatchReportController : AppReportController
     {
-        public VendorInvoiceBatchReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public VendorInvoiceBatchReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(VendorInvoiceBatchReportLoader); }
         protected override string GetReportFileName() { return "VendorInvoiceBatchReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Vendor Invoice Batch"; }

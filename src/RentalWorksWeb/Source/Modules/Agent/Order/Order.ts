@@ -179,7 +179,15 @@ class Order extends OrderBase {
         $orderItemGridLossDamage.find('.submenu-btn').filter('[data-securityid="77E511EC-5463-43A0-9C5D-B54407C97B15"], [data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"]').hide();
         $orderItemGridLossDamage.find('.buttonbar').hide();
 
-        this.getSoundUrls($form);
+
+        //$form.find('div[data-datafield="BillingCycleId"]').data('onchange', () => {
+        //    const worksheetTab = $form.find('[data-type="tab"][data-caption="Billing Worksheet"]');
+        //    if (FwFormField.getTextByDataField($form, 'BillingCycleId') === 'ON DEMAND') {
+        //        worksheetTab.show();
+        //    } else {
+        //        worksheetTab.hide();
+        //    }
+        //});
 
         return $form;
     }
@@ -318,6 +326,7 @@ class Order extends OrderBase {
         });
 
 
+
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form, response) {
@@ -345,6 +354,36 @@ class Order extends OrderBase {
             $form.find('[data-type="tab"][data-caption="Repair"]').hide();
         } else {
             $form.find('[data-type="tab"][data-caption="Repair"]').show();
+        }
+        //On Demand Billing Cycles require a worksheet tab
+        const worksheetTab = $form.find('[data-type="tab"][data-caption="Billing Worksheet"]');
+        if (FwFormField.getTextByDataField($form, 'BillingCycleId') === 'ON DEMAND') {
+            worksheetTab.show();
+            const billingWorksheetBrowse = this.openSubModuleBrowse($form, 'BillingWorksheet');
+            $form.find('.worksheet-submodule').append(billingWorksheetBrowse);
+
+            billingWorksheetBrowse.find('div.btn[data-type="NewMenuBarButton"]').off('click');
+            billingWorksheetBrowse.find('div.btn[data-type="NewMenuBarButton"]').on('click', function () {
+                const parentModuleInfo: any = {};
+                const $browse = jQuery(this).closest('.fwbrowse');
+                const controller = $browse.attr('data-controller');
+                parentModuleInfo.OrderNumber = FwFormField.getValueByDataField($form, 'OrderNumber');
+                parentModuleInfo.OrderDescription = FwFormField.getValueByDataField($form, 'Description');
+                parentModuleInfo.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
+                parentModuleInfo.OrderTypeId = FwFormField.getValueByDataField($form, 'OrderTypeId');
+                parentModuleInfo.OrderType = FwFormField.getTextByDataField($form, 'OrderTypeId');
+                parentModuleInfo.Deal = FwFormField.getTextByDataField($form, 'DealId');
+                parentModuleInfo.DealId = FwFormField.getValueByDataField($form, 'DealId');
+                parentModuleInfo.DealNumber = FwFormField.getValueByDataField($form, 'DealNumber');
+
+
+                if (typeof window[controller] !== 'object') throw `Missing javascript module: ${controller}`;
+                if (typeof window[controller]['openForm'] !== 'function') throw `Missing javascript function: ${controller}.openForm`;
+                const $billingWorksheetForm = window[controller]['openForm']('NEW', parentModuleInfo);
+                FwModule.openSubModuleTab($browse, $billingWorksheetForm);
+            });
+        } else {
+            worksheetTab.hide();
         }
     }
     //----------------------------------------------------------------------------------------------
@@ -417,6 +456,7 @@ class Order extends OrderBase {
               <div data-type="tab" id="alltab" class="combinedtab tab" data-tabpageid="alltabpage" data-caption="Items"></div>
               <div data-type="tab" id="subpurchaseordertab" class="tab submodule" data-tabpageid="subpurchaseordertabpage" data-caption="Sub POs"></div>
               <div data-type="tab" id="billingtab" class="tab" data-tabpageid="billingtabpage" data-caption="Billing"></div>
+              <div data-type="tab" id="billingworksheettab" class="tab" data-tabpageid="billingworksheettabpage" data-caption="Billing Worksheet" style="display:none;"></div>
               <div data-type="tab" id="summarytab" class="profitlosstab tab" data-tabpageid="profitlosstabpage" data-caption="Profit &amp; Loss"></div>
               <div data-type="tab" id="contactstab" class="tab" data-tabpageid="contactstabpage" data-caption="Contacts"></div>
               <div data-type="tab" id="picklisttab" class="tab submodule" data-tabpageid="picklisttabpage" data-caption="Pick List"></div>
@@ -596,6 +636,8 @@ class Order extends OrderBase {
                 </div>
               </div>
 
+              <!-- BILLING WORKSHEET TAB -->
+              <div data-type="tabpage" id="billingworksheettabpage" class="tabpage worksheet-submodule" data-tabid="billingworksheettab"></div>
               <!-- P&L TAB -->
               <div data-type="tabpage" id="profitlosstabpage" class="profitlossgrid tabpage" data-tabid="profitlosstab" data-render="false">
                 <div class="wideflexrow">
@@ -1309,6 +1351,12 @@ class Order extends OrderBase {
                         <div data-control="FwFormField" data-type="text" class="differentaddress fwcontrol fwformfield" data-caption="Attention" data-datafield="BillToAttention" data-enabled="false" style="flex:1 1 250px;"></div>
                       </div>
                       <div class="flexrow">
+                        <div data-control="FwFormField" data-type="text" class="differentaddress fwcontrol fwformfield" data-caption="Attention 2" data-datafield="BillToAttention2" data-enabled="false" style="flex:1 1 250px;"></div>
+                      </div>
+                      <div class="flexrow">
+                        <div data-control="FwFormField" data-type="text" class="differentaddress fwcontrol fwformfield" data-caption="Address" data-datafield="BillToAddress1" data-enabled="false" style="flex:1 1 250px;"></div>
+                      </div>
+                      <div class="flexrow">
                         <div data-control="FwFormField" data-type="text" class="differentaddress fwcontrol fwformfield" data-caption="Address 2" data-datafield="BillToAddress2" data-enabled="false" style="flex:1 1 250px;"></div>
                       </div>
                       <div class="flexrow">
@@ -1603,11 +1651,6 @@ class Order extends OrderBase {
         `;
     }
     //----------------------------------------------------------------------------------------------
-    getSoundUrls = ($form): void => {
-        this.successSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).successSoundFileName;
-        this.errorSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).errorSoundFileName;
-    }
-    //----------------------------------------------------------------------------------------------
     cancelPickList(pickListId, pickListNumber, $form) {
         var $confirmation, $yes, $no;
         var orderId = FwFormField.getValueByDataField($form, 'OrderId');
@@ -1633,7 +1676,7 @@ class Order extends OrderBase {
                 }
             }, null, $form);
         });
-    }
+    };
     //----------------------------------------------------------------------------------------------
     // Form menu item -- corresponding grid menu item function in OrderSnapshotGrid controller
     viewSnapshotOrder($form) {
@@ -1660,14 +1703,12 @@ class Order extends OrderBase {
         catch (ex) {
             FwFunc.showError(ex);
         }
-    }
+    };
     //----------------------------------------------------------------------------------------------
     addLossDamage($form: JQuery, event: any): void {
         let sessionId, $lossAndDamageItemGridControl;
         const userWarehouseId = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid;
         const dealId = FwFormField.getValueByDataField($form, 'DealId');
-        const errorSound = new Audio(this.errorSoundFileName);
-        const successSound = new Audio(this.successSoundFileName);
         const HTML: Array<string> = [];
         HTML.push(
             `<div class="fwcontrol fwcontainer fwform popup" data-control="FwContainer" data-type="form" data-caption="Loss and Damage">
@@ -1727,12 +1768,12 @@ class Order extends OrderBase {
                 }
             });
             return $browse;
-        }
+        };
 
         const startLDSession = (): void => {
             let $browse = jQuery($popup).children().find('.fwbrowse');
             let orderId, $selectedCheckBoxes: any, orderIds: string = '';
-            $selectedCheckBoxes = $browse.find('.cbselectrow:checked');
+            $selectedCheckBoxes = $browse.find('tbody .cbselectrow:checked');
             if ($selectedCheckBoxes.length !== 0) {
                 for (let i = 0; i < $selectedCheckBoxes.length; i++) {
                     orderId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderId"]').attr('data-originalvalue');
@@ -1772,7 +1813,7 @@ class Order extends OrderBase {
             } else {
                 FwNotification.renderNotification('WARNING', 'Select rows in order to perform this function.');
             }
-        }
+        };
         const events = () => {
             let $orderItemGridLossDamage = $form.find('.lossdamagegrid [data-name="OrderItemGrid"]');
             // Starts LD session
@@ -1805,10 +1846,10 @@ class Order extends OrderBase {
                 FwAppData.apiMethod(true, 'POST', `api/v1/lossanddamage/selectall`, request, FwServices.defaultTimeout, function onSuccess(response) {
                     $popup.find('.error-msg').html('');
                     if (response.success === false) {
-                        errorSound.play();
+                        FwFunc.playErrorSound();
                         $popup.find('div.error-msg').html(`<div><span>${response.msg}</span></div>`);
                     } else {
-                        successSound.play();
+                        FwFunc.playSuccessSound();
                         FwBrowse.search($lossAndDamageItemGridControl);
                     }
                 }, function onError(response) {
@@ -1825,11 +1866,11 @@ class Order extends OrderBase {
                 FwAppData.apiMethod(true, 'POST', `api/v1/lossanddamage/selectnone`, request, FwServices.defaultTimeout, function onSuccess(response) {
                     $popup.find('.error-msg').html('');
                     if (response.success === false) {
-                        errorSound.play();
+                        FwFunc.playErrorSound();
                         FwBrowse.search($lossAndDamageItemGridControl);
                         $popup.find('div.error-msg').html(`<div><span">${response.msg}</span></div>`);
                     } else {
-                        successSound.play();
+                        FwFunc.playSuccessSound();
                         FwBrowse.search($lossAndDamageItemGridControl); //justin 01/31/2019
                     }
                 }, function onError(response) {

@@ -28,7 +28,7 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.RentalInventoryQCRequire
     [FwController(Id: "LzwbAbB86Hlvs")]
     public class RentalInventoryQCRequiredReportController : AppReportController
     {
-        public RentalInventoryQCRequiredReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public RentalInventoryQCRequiredReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(RentalInventoryQCRequiredReportLoader); }
         protected override string GetReportFileName() { return "RentalInventoryQCRequiredReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Rental Inventory QC Required Report"; }

@@ -19,7 +19,7 @@ namespace WebApi.Modules.Reports.SalesInventoryReports.SalesInventoryCatalogRepo
     [FwController(Id:"psk5v7y4gImL")]
     public class SalesInventoryCatalogReportController : AppReportController
     {
-        public SalesInventoryCatalogReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public SalesInventoryCatalogReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(SalesInventoryCatalogReportLoader); }
         protected override string GetReportFileName() { return "SalesInventoryCatalogReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Sales Inventory Catalog Report"; }

@@ -4,19 +4,10 @@
 
     generateRow($control, $generatedtr) {
         let $form = $control.closest('.fwform'),
-            $quantityColumn = $generatedtr.find('.quantity');
+            $quantityColumn = $generatedtr.find('[data-browsedatatype="numericupdown"]');
 
         FwBrowse.setAfterRenderRowCallback($control, ($tr: JQuery, dt: FwJsonDataTable, rowIndex: number) => {
-            let originalquantity = $tr.find('[data-browsedatafield="Quantity"]').attr('data-originalvalue');
             let $grid = $tr.parents('[data-grid="POReturnItemGrid"]');
-
-            let $oldElement = $quantityColumn.find('div');
-            let html = [];
-            html.push('<button class="decrementQuantity" tabindex="-1" style="padding: 5px 0px; float:left; width:25%; border:none;">-</button>');
-            html.push('<input class="fieldvalue" type="number" style="height:1.5em; width:40px; text-align:center;" value="' + originalquantity + '">');
-            html.push('<button class="incrementQuantity" tabindex="-1" style="padding: 5px 0px; float:left; width:25%; border:none;">+</button>');
-            jQuery($oldElement).replaceWith(html.join(''));
-
             let trackedBy = $tr.find('[data-browsedatafield="TrackedBy"]').attr('data-originalvalue');
             //Hides Quantity controls if item is tracked by barcode
             if (trackedBy === "BARCODE") {
@@ -25,41 +16,6 @@
                     .parents('td')
                     .css('background-color', 'rgb(245,245,245)');
             }
-
-            $quantityColumn.data({
-                interval: {},
-                increment: function () {
-                    var $value = $quantityColumn.find('.fieldvalue');
-                    var oldval = jQuery.isNumeric(parseFloat($value.val())) ? parseFloat($value.val()) : 0;
-                    if ((typeof $quantityColumn.attr('data-maxvalue') !== 'undefined') && ($quantityColumn.attr('data-maxvalue') <= oldval)) {
-                    } else {
-                        $value.val(++oldval);
-                    }
-                },
-                decrement: function () {
-                    var $value = $quantityColumn.find('.fieldvalue');
-                    var oldval = jQuery.isNumeric(parseFloat($value.val())) ? parseFloat($value.val()) : 0;
-                    if ((typeof $quantityColumn.attr('data-minvalue') !== 'undefined') && ($quantityColumn.attr('data-minvalue') >= oldval)) {
-                    } else {
-                        if (oldval > 0) {
-                            $value.val(--oldval);
-                        }
-                    }
-                }
-            });
-
-            if (jQuery('html').hasClass('desktop')) {
-                $quantityColumn
-                    .on('click', '.incrementQuantity', function () {
-                        $quantityColumn.data('increment')();
-                        $quantityColumn.find('.fieldvalue').change();
-                    })
-                    .on('click', '.decrementQuantity', function () {
-                        $quantityColumn.data('decrement')();
-                        $quantityColumn.find('.fieldvalue').change();
-                    });
-            };
-
             $quantityColumn.on('change', '.fieldvalue', e => {
                 let request: any = {},
                     contractId = $tr.find('[data-browsedatafield="ContractId"]').attr('data-originalvalue'),

@@ -34,7 +34,7 @@ namespace WebApi.Modules.Reports.Billing.AgentBillingReport
     public class AgentBillingReportController : AppReportController
     {
         //------------------------------------------------------------------------------------ 
-        public AgentBillingReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public AgentBillingReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(AgentBillingReportLoader); }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFileName() { return "AgentBillingReport"; }
         //------------------------------------------------------------------------------------ 

@@ -39,12 +39,14 @@
 .fwsettings div.well div.panel-group div.panel-primary div.panel-heading small .highlighted {color:yellow;} 
 .fwsettings div.well div.panel-group div.panel-primary div.panel-body { padding: 15px; border-top: 1px solid #ddd; border-top-color: #428bca;}
 
-.fwsettings div.well div.panel-group div.panel-primary div.panel-body div.record-search {padding:2px;overflow:hidden;background-color:#efefef;border-radius:4px 4px 0 0;}
-.fwsettings div.well div.panel-group div.panel-primary div.panel-body div.record-search input{ display: block; float:right; padding: 0.3rem 0.5rem; font-size: 1rem; line-height: 1.25; color: #495057; background-color: #fff; background-image: none; background-clip: padding-box; border: 1px solid rgba(0, 0, 0, 0.15); border-radius: 0.25rem; transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s; border-right:0; border-top-right-radius:0; border-bottom-right-radius:0; }
-.fwsettings div.well div.panel-group div.panel-primary div.panel-body div.record-search span.search { padding: 0.1em 0.5em; float:right; font-size: 14px; font-weight: 400; line-height: 1; color: #555; text-align: center; background-color: #fff; border: 1px solid #ccc; border-radius: 4px; white-space: nowrap; vertical-align: middle; display: table-cell;border-left: 0; border-top-left-radius:0;border-bottom-left-radius:0;}
-.fwsettings div.well div.panel-group div.panel-primary div.panel-body div.record-search div.view-options i.material-icons.show-btn { cursor:pointer;padding:4px;border-radius:3px; }
-.fwsettings div.well div.panel-group div.panel-primary div.panel-body div.record-search div.view-options .view-text { font-size:1.1em;cursor: pointer;padding:6px 6px 6px 10px;font-weight:600; } 
-
+/*Record Search and Legend*/
+.fwsettings div.well div.panel-group div.panel-primary div.panel-body div.search-bar {padding:2px;overflow:hidden;background-color:#efefef;border-radius:4px 4px 0 0;}
+.fwsettings div.well div.panel-group div.panel-primary div.panel-body div.search-bar input{ display: block; float:right; padding: 0.3rem 0.5rem; font-size: 1rem; line-height: 1.25; color: #495057; background-color: #fff; background-image: none; background-clip: padding-box; border: 1px solid rgba(0, 0, 0, 0.15); border-radius: 0.25rem; transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s; border-right:0; border-top-right-radius:0; border-bottom-right-radius:0; }
+.fwsettings div.well div.panel-group div.panel-primary div.panel-body div.search-bar span.search { padding: 0.1em 0.5em; float:right; font-size: 14px; font-weight: 400; line-height: 1; color: #555; text-align: center; background-color: #fff; border: 1px solid #ccc; border-radius: 4px; white-space: nowrap; vertical-align: middle; display: table-cell;border-left: 0; border-top-left-radius:0;border-bottom-left-radius:0;}
+.fwsettings div.well div.panel-group div.panel-primary div.panel-body div.search-bar div.view-options i.material-icons.show-btn { cursor:pointer;padding:4px;border-radius:3px; }
+.fwsettings div.well div.panel-group div.panel-primary div.panel-body div.search-bar div.view-options .view-text { font-size:1.1em;cursor: pointer;padding:6px 6px 6px 10px;font-weight:500;width:96px; } 
+.fwsettings div.well div.panel-group div.panel-primary div.panel-body div.search-bar div.view-options { float:right; } 
+.fwsettings div.well div.panel-group div.panel-primary div.panel-body div.search-bar div.record-search { float:left; } 
 .fwsettings div.well div.panel-group div.panel-primary div.panel-body div.legend {padding:2px;overflow:hidden;background-color:#efefef;margin-bottom:20px;border-radius: 0 0 4px 4px;}
 .fwsettings div.well div.panel-group div.panel-primary div.panel-body div.legend div.legenditem {float:left;margin:0 5px 0 5px;}
 .fwsettings div.well div.panel-group div.panel-primary div.panel-body div.legend div.legenditem div.color {width:20px; height: 14px;float:left;}

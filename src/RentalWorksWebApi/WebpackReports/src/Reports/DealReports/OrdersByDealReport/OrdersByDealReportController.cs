@@ -45,7 +45,7 @@ namespace WebApi.Modules.Reports.DealReports.OrdersByDealReport
     [FwController(Id: "ltXuVM54H5dYe")]
     public class OrdersByDealReportController : AppReportController
     {
-        public OrdersByDealReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public OrdersByDealReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(OrdersByDealReportLoader); }
         protected override string GetReportFileName() { return "OrdersByDealReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Orders By Deal Report"; }

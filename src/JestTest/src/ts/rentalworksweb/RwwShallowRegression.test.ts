@@ -24,7 +24,7 @@ import {
     WardrobeMaterial, WardrobePattern, WardrobePeriod, WardrobeSource, Warehouse, Widget, WorkWeek,
 
     //administrator
-    Alert, CustomField, CustomForm, DuplicateRule, EmailHistory, Group, Hotfix, User,
+    Alert, CustomField, CustomForm, CustomReportLayout, DuplicateRule, EmailHistory, Group, Hotfix, User,
 } from './modules/AllModules';
 
 
@@ -48,7 +48,6 @@ export class ShallowRegressionTest extends BaseTest {
                 if (module.canView) {       //if the module supports form viewing, try to open the first form, if any
                     testName = `Open first ${module.moduleCaption} form, if any`;
                     test(testName, async () => {
-                        //await module.openFirstRecordIfAny()
                         await module.openRecord()
                             .then(openRecordResponse => {
                                 expect(openRecordResponse.errorMessage).toBe("");
@@ -261,6 +260,7 @@ export class ShallowRegressionTest extends BaseTest {
         this.ShallowRegressionOnModule(new Alert());
         this.ShallowRegressionOnModule(new CustomField());
         this.ShallowRegressionOnModule(new CustomForm());
+        this.ShallowRegressionOnModule(new CustomReportLayout());
         this.ShallowRegressionOnModule(new DuplicateRule());
         this.ShallowRegressionOnModule(new EmailHistory());
         this.ShallowRegressionOnModule(new Group());

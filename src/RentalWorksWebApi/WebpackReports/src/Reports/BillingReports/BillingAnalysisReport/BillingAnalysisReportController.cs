@@ -34,7 +34,7 @@ namespace WebApi.Modules.Reports.Billing.BillingAnalysisReport
     [FwController(Id: "c2AwOP9UmJFw ")]
     public class BillingAnalysisReportController : AppReportController
     {
-        public BillingAnalysisReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public BillingAnalysisReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(BillingAnalysisReportLoader); }
         protected override string GetReportFileName() { return "BillingAnalysisReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Billing Analysis Report"; }

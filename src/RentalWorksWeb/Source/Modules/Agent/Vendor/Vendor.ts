@@ -346,7 +346,7 @@ class Vendor {
     //---------------------------------------------------------------------------------
     getBrowseTemplate(): string {
       return `
-      <div data-name="Vendor" data-control="FwBrowse" data-type="Browse" id="VendorBrowse" class="fwcontrol fwbrowse" data-orderby="" data-controller="VendorController">
+      <div data-name="Vendor" data-control="FwBrowse" data-type="Browse" id="VendorBrowse" class="fwcontrol fwbrowse" data-orderby="" data-controller="VendorController" data-hasinactive="true">
         <div class="column" data-width="0" data-visible="false">
           <div class="field" data-isuniqueid="true" data-datafield="VendorId" data-browsedatatype="key" ></div>
         </div>

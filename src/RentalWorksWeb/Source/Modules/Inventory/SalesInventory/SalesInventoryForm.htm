@@ -1,4 +1,4 @@
-﻿<div id="salesinventoryform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-caption="Sales Inventory" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="SalesInventoryController">
+<div id="salesinventoryform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-caption="Sales Inventory" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="SalesInventoryController">
   <div data-control="FwFormField" data-type="key" class="fwcontrol fwformfield" data-isuniqueid="true" data-saveorder="1" data-caption="" data-datafield="InventoryId"></div>
   <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="SubCategoryCount" style="display:none;"></div>
   <div id="salesinventoryform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
@@ -563,11 +563,15 @@
                 </div>
               </div>
             </div>
-            <div class="flexrow" style="max-width:1352px;">
+            <div class="flexrow" style="max-width:1400px;">
+              <div class="flexcolumn">
+                <div data-control="FwScheduler" style="overflow:auto;" class="fwcontrol fwscheduler calendar"></div>
+              </div>
+            </div>
+            <div class="flexrow" style="max-width:1950px;">
               <div class="flexcolumn cal-sched">
-                <div data-control="FwScheduler" class="fwcontrol fwscheduler calendar"></div>
                 <div data-control="FwSchedulerDetailed" class="fwcontrol fwscheduler realscheduler"></div>
-                <div class="fwbrowse" style="width:1422px;"><div class="legend"></div></div>
+                <div class="fwbrowse" style="width:1950px;"><div class="legend"></div></div>
               </div>
             </div>
           </div>

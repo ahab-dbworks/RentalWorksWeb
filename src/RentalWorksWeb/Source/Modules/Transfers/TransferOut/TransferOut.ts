@@ -1,4 +1,4 @@
-﻿routes.push({ pattern: /^module\/transferout$/, action: function (match: RegExpExecArray) { return TransferOutController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/transferout$/, action: function (match: RegExpExecArray) { return TransferOutController.getModuleScreen(); } });
 
 class TransferOut extends StagingCheckoutBase {
     Module:                    string  = 'TransferOut';
@@ -9,9 +9,6 @@ class TransferOut extends StagingCheckoutBase {
     showAddItemToOrder:        boolean = false;
     isPendingItemGridView:     boolean = false;
     Type:                      string  = 'Transfer';
-    successSoundFileName:      string;
-    errorSoundFileName:        string;
-    notificationSoundFileName: string;
     contractId:                string;
     //----------------------------------------------------------------------------------------------
     addFormMenuItems(options: IAddFormMenuOptions): void {

@@ -108,7 +108,7 @@ class Container {
     //---------------------------------------------------------------------------------------------
     getBrowseTemplate(): string {
         return `
-           <div data-name="Container" data-control="FwBrowse" data-type="Browse" id="ContainerBrowse" class="fwcontrol fwbrowse" data-orderby="" data-controller="ContainerController">
+           <div data-name="Container" data-control="FwBrowse" data-type="Browse" id="ContainerBrowse" class="fwcontrol fwbrowse" data-orderby="" data-controller="ContainerController" data-hasinactive="true">
              <div class="column flexcolumn" data-width="0" data-visible="false">
                <div class="field" data-isuniqueid="false" data-datafield="ItemId" data-browsedatatype="text"></div>
              </div>

@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "SecurityTreeBuilder": {
-      "commandName": "Project",
-      "commandLineArgs": "--outputfile \"MiddleTierExport.json\""
-    }
-  }
-}

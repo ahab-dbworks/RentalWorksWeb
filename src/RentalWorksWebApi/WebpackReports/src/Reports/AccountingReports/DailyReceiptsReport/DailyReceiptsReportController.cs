@@ -30,7 +30,7 @@ namespace WebApi.Modules.Reports.AccountingReports.DailyReceiptsReport
     [FwController(Id: "OLyFIS7rBvr8")]
     public class DailyReceiptsReportController : AppReportController
     {
-        public DailyReceiptsReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public DailyReceiptsReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(DailyReceiptsReportLoader); }
         protected override string GetReportFileName() { return "DailyReceiptsReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Daily Receipts Report"; }

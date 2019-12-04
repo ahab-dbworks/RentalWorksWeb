@@ -38,7 +38,7 @@ namespace WebApi.Modules.Reports.VendorReports.VendorInvoiceSummaryReport
     [FwController(Id: "J2Lczm4sL14Ze")]
     public class VendorInvoiceSummaryReportController : AppReportController
     {
-        public VendorInvoiceSummaryReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public VendorInvoiceSummaryReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(VendorInvoiceSummaryReportLoader); }
         protected override string GetReportFileName() { return "VendorInvoiceSummaryReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Vendor Invoice Summary Report"; }

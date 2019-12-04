@@ -467,29 +467,6 @@
         request.uniqueids = {
             WarehouseId: warehouse.warehouseid
         };
-        switch (datafield) {
-            case 'OrderId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateorder`);
-                break;
-            case 'InventoryTypeId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventorytype`);
-                break;
-            case 'CategoryId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecategory`);
-                break;
-            case 'SubCategoryId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatesubcategory`);
-                break;
-            case 'ICode':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateicode`);
-                break;
-            case 'WarehouseId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatewarehouse`);
-                break;
-            case 'TransferId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatetransfer`);
-                break;
-        }
     }
     //----------------------------------------------------------------------------------------------
     getFormTemplate(): string {

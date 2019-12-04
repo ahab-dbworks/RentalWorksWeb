@@ -287,7 +287,7 @@ class RwAsset {
     //---------------------------------------------------------------------------------------------
     getBrowseTemplate(): string {
         return `
-        <div data-name="Asset" data-control="FwBrowse" data-type="Browse" id="AssetBrowse" class="fwcontrol fwbrowse" data-orderby="StatusDate" data-controller="AssetController">
+        <div data-name="Asset" data-control="FwBrowse" data-type="Browse" id="AssetBrowse" class="fwcontrol fwbrowse" data-orderby="StatusDate" data-controller="AssetController" data-hasinactive="true">
           <div class="column flexcolumn" data-width="0" data-visible="false">
             <div class="field" data-isuniqueid="true" data-datafield="ItemId" data-browsedatatype="key"></div>
           </div>
@@ -317,6 +317,9 @@ class RwAsset {
           </div>
           <div class="column flexcolumn" max-width="100px" data-visible="true">
             <div class="field" data-caption="Tracked By" data-datafield="TrackedBy" data-browsedatatype="text" data-sort="off"></div>
+          </div>
+          <div class="column flexcolumn" data-width="0" data-visible="true">
+            <div class="field" data-datafield="QcRequired"  data-caption="QC Req." data-browsedatatype="checkbox"></div>
           </div>
           <div class="column flexcolumn" max-width="100px" data-visible="true">
             <div class="field" data-caption="RFID" data-datafield="RfId" data-browsedatatype="text" data-sort="off"></div>

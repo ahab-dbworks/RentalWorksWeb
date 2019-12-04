@@ -3,7 +3,8 @@ var Constants = {
     isRentalWorks: true,
     appId: '0A5F2584-D239-480F-8312-7C2B552A30BA',
     appCaption: 'RentalWorks',
-    appTitle: 'Rental<span class="rwpurple">Works<span style="font-size:14px;vertical-align:super;">&#174;</span></span>',
+    //appTitle: 'Rental<span class="rwpurple">Works<span style="font-size:14px;vertical-align:super;">&#174;</span></span>',
+    appTitle: 'Rental<span class="rwpurple">Works</span>',
     MainMenu: {
         Reports: { id: 'Reports' },
         Settings: { id: 'Settings' }
@@ -49,6 +50,7 @@ var Constants = {
             children: {
                 Billing: { id: '67cZ8IUbw53c', caption: 'Billing', nav: 'module/billing', nodetype: 'Module' },
                 BillingMessage: { id: 'U0HFTNmYWt3a7', caption: 'Billing Message', nav: 'module/billingmessage', nodetype: 'Module' },
+                BillingWorksheet: { id: '2BTZbIXJy4tdI', caption: 'Billing Worksheet', nav: 'module/billingworksheet', nodetype: 'Module' },
                 Invoice: { id: 'cZ9Z8aGEiDDw', caption: 'Invoice', nav: 'module/invoice', nodetype: 'Module' },
                 Receipt: { id: 'q4PPGLusbFw', caption: 'Receipts', nav: 'module/receipt', nodetype: 'Module' },
                 VendorInvoice: { id: 'Fq9aOe0yWfY', caption: 'Vendor Invoice', nav: 'module/vendorinvoice', nodetype: 'Module' },

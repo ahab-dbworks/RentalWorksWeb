@@ -47,9 +47,10 @@
             { value: 'theme-material', text: 'Material' }
         ], true);
 
-        // Load Default Home Page
+        // Load Default Home Page Options, Exclude Settings Modules.
         const defaultHomePages = FwApplicationTree.getAllModules(false, false, (modules: any[], moduleCaption: string, moduleName: string, category: string, currentNode: any, nodeModule: IGroupSecurityNode, hasView: boolean, hasNew: boolean, hasEdit: boolean, moduleController: any) => {
-            if (moduleController.hasOwnProperty('nav')) {
+            const settingsString = 'settings';
+            if (moduleController.hasOwnProperty('nav') && moduleController.nav.indexOf(settingsString) === -1 ) {
                 modules.push({ value: moduleController.id, text: moduleCaption, nav: moduleController.nav });
             }
         });
@@ -66,10 +67,6 @@
         FwApplicationTree.sortModules(toolbarModules);
         const $availModules = $form.find('.available-modules');
         FwFormField.loadItems($availModules, toolbarModules, true);
-
-        //sortableModules.sort(compare);
-        //const $availModules = $form.find('.available-modules');
-        //FwFormField.loadItems($availModules, sortableModules, true);
 
         const userId = JSON.parse(sessionStorage.getItem('userid'));
         $form.find('div.fwformfield[data-datafield="UserId"] input').val(userId.webusersid);
@@ -152,29 +149,10 @@
     //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         try {
-            parameters.closetab = true;
-            parameters.afterCloseForm = () => {
-                const homePage: any = {};
-                homePage.guid = FwFormField.getValueByDataField($form, 'HomeMenuGuid');
-                homePage.path = FwFormField.getValueByDataField($form, 'HomeMenuPath');
-
-                const sounds: any = {};
-                const successSoundFileName = FwFormField.getValueByDataField($form, 'SuccessSoundFileName').toString();
-                sounds.successSoundFileName = successSoundFileName;
-                const errorSoundFileName = FwFormField.getValueByDataField($form, 'ErrorSoundFileName').toString();
-                sounds.errorSoundFileName = errorSoundFileName;
-                const notificationSoundFileName = FwFormField.getValueByDataField($form, 'NotificationSoundFileName').toString();
-                sounds.notificationSoundFileName = notificationSoundFileName;
-
-                const browseDefaultRows = jQuery($form.find('[data-datafield="BrowseDefaultRows"] select')).val().toString();
-                sessionStorage.setItem('browsedefaultrows', browseDefaultRows);
-                const applicationTheme = jQuery($form.find('[data-datafield="ApplicationTheme"] select')).val().toString();
-                sessionStorage.setItem('applicationtheme', applicationTheme);
-                sessionStorage.setItem('sounds', JSON.stringify(sounds));
-                sessionStorage.setItem('homePage', JSON.stringify(homePage));
-
-                setTimeout(function () { location.reload(); }, 1000);
-            };
+            //parameters.closetab = true;
+            //parameters.afterCloseForm = () => {
+                
+            //};
             FwModule.saveForm(this.Module, $form, parameters);
         } catch (ex) {
             FwFunc.showError(ex);
@@ -182,11 +160,31 @@
     };
     //----------------------------------------------------------------------------------------------
     afterSave($form) {
+        const homePage: any = {};
+        homePage.guid = FwFormField.getValueByDataField($form, 'HomeMenuGuid');
+        homePage.path = FwFormField.getValueByDataField($form, 'HomeMenuPath');
+
+        const sounds: any = {};
+        const successSoundFileName = FwFormField.getValueByDataField($form, 'SuccessSoundFileName').toString();
+        sounds.successSoundFileName = successSoundFileName;
+        const errorSoundFileName = FwFormField.getValueByDataField($form, 'ErrorSoundFileName').toString();
+        sounds.errorSoundFileName = errorSoundFileName;
+        const notificationSoundFileName = FwFormField.getValueByDataField($form, 'NotificationSoundFileName').toString();
+        sounds.notificationSoundFileName = notificationSoundFileName;
+
+        const browseDefaultRows = jQuery($form.find('[data-datafield="BrowseDefaultRows"] select')).val().toString();
+        sessionStorage.setItem('browsedefaultrows', browseDefaultRows);
+        const applicationTheme = jQuery($form.find('[data-datafield="ApplicationTheme"] select')).val().toString();
+        sessionStorage.setItem('applicationtheme', applicationTheme);
+        sessionStorage.setItem('sounds', JSON.stringify(sounds));
+        sessionStorage.setItem('homePage', JSON.stringify(homePage));
+        
         const toolBarJson = FwFormField.getValueByDataField($form, 'ToolBarJson')
         sessionStorage.setItem('toolbar', toolBarJson);
 
         //remove unchecked modules
         $form.find('.selected-modules li[data-selected="F"]').remove();
+        window.location.reload(false);
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form) {

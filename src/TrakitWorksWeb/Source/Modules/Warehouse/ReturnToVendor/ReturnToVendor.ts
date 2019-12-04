@@ -307,15 +307,15 @@ class ReturnToVendor {
     }
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
-        const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+        const validationName = request.module;
+        const warehouse      = JSON.parse(sessionStorage.getItem('warehouse'));
 
-        switch (datafield) {
-            case 'PurchaseOrderId':
+        switch (validationName) {
+            case 'PurchaseOrderValidation':
                 request.miscfields = {
                     ReturnToVendor:       true,
                     ReturningWarehouseId: warehouse.warehouseid,
                 };
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatepurchaseorder`);
                 break;
         };
     }

@@ -69,42 +69,76 @@ class Alert {
     }
     //----------------------------------------------------------------------------------------------
     renderGrids($form) {
-        const $alertWebUserGrid = $form.find('div[data-grid="AlertWebUsersGrid"]');
-        const $alertWebUserGridControl = FwBrowse.loadGridFromTemplate('AlertWebUsersGrid');
-        $alertWebUserGrid.empty().append($alertWebUserGridControl);
-        $alertWebUserGridControl.data('ondatabind', request => {
-            request.uniqueids = {
-                AlertId: FwFormField.getValueByDataField($form, 'AlertId')
-            };
-        });
-        $alertWebUserGridControl.data('beforesave', request => {
-            request.AlertId = FwFormField.getValueByDataField($form, 'AlertId')
-        });
-        FwBrowse.init($alertWebUserGridControl);
-        FwBrowse.renderRuntimeHtml($alertWebUserGridControl);
+        //const $alertWebUserGrid = $form.find('div[data-grid="AlertWebUsersGrid"]');
+        //const $alertWebUserGridControl = FwBrowse.loadGridFromTemplate('AlertWebUsersGrid');
+        //$alertWebUserGrid.empty().append($alertWebUserGridControl);
+        //$alertWebUserGridControl.data('ondatabind', request => {
+        //    request.uniqueids = {
+        //        AlertId: FwFormField.getValueByDataField($form, 'AlertId')
+        //    };
+        //});
+        //$alertWebUserGridControl.data('beforesave', request => {
+        //    request.AlertId = FwFormField.getValueByDataField($form, 'AlertId')
+        //});
+        //FwBrowse.init($alertWebUserGridControl);
+        //FwBrowse.renderRuntimeHtml($alertWebUserGridControl);
 
-        const $alertHistoryGrid = $form.find('div[data-grid="WebAlertLogGrid"]');
-        const $alertHistoryGridControl = FwBrowse.loadGridFromTemplate('WebAlertLogGrid');
-        $alertHistoryGrid.empty().append($alertHistoryGridControl);
-        $alertHistoryGridControl.data('ondatabind', request => {
-            request.uniqueids = {
-                AlertId: FwFormField.getValueByDataField($form, 'AlertId')
-            };
+        FwBrowse.renderGrid({
+            nameGrid: 'AlertWebUsersGrid',
+            gridSecurityId: 'REgcmntq4LWE',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    AlertId: FwFormField.getValueByDataField($form, 'AlertId'),
+                };
+            },
+            beforeSave: (request: any) => {
+                request.AlertId = FwFormField.getValueByDataField($form, 'AlertId')
+            }
         });
-        FwBrowse.init($alertHistoryGridControl);
-        FwBrowse.renderRuntimeHtml($alertHistoryGridControl);
+
+        //const $alertHistoryGrid = $form.find('div[data-grid="WebAlertLogGrid"]');
+        //const $alertHistoryGridControl = FwBrowse.loadGridFromTemplate('WebAlertLogGrid');
+        //$alertHistoryGrid.empty().append($alertHistoryGridControl);
+        //$alertHistoryGridControl.data('ondatabind', request => {
+        //    request.uniqueids = {
+        //        AlertId: FwFormField.getValueByDataField($form, 'AlertId')
+        //    };
+        //});
+        //FwBrowse.init($alertHistoryGridControl);
+        //FwBrowse.renderRuntimeHtml($alertHistoryGridControl);
+
+        FwBrowse.renderGrid({
+            nameGrid: 'WebAlertLogGrid',
+            gridSecurityId: 'x6SZhutIpRi2',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                options.hasNew = false;
+                options.hasEdit = false;
+                options.hasDelete = false;
+            },
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    AlertId: FwFormField.getValueByDataField($form, 'AlertId'),
+                };
+            }
+        });
     }
     //----------------------------------------------------------------------------------------------
     loadModules($form) {
         // Load Modules dropdown with sorted list of Modules and Grids
         const modules = FwApplicationTree.getAllModules(false, false, (modules: any[], moduleCaption: string, moduleName: string, category: string, currentNode: any, nodeModule: IGroupSecurityNode, hasView: boolean, hasNew: boolean, hasEdit: boolean, moduleController: any) => {
             if (moduleController.hasOwnProperty('apiurl')) {
-                modules.push({ value: moduleName, text: moduleCaption + ' (Module)', apiurl: moduleController.apiurl });
+                modules.push({ value: moduleName, text: moduleCaption, apiurl: moduleController.apiurl });
             }
         });
         const grids = FwApplicationTree.getAllGrids(false, (modules: any[], moduleCaption: string, moduleName: string, category: string, currentNode: any, nodeModule: IGroupSecurityNode, hasNew: boolean, hasEdit: boolean, moduleController: any) => {
             if (moduleController.hasOwnProperty('apiurl')) {
-                modules.push({ value: moduleName, text: moduleCaption + ' (Grid)', apiurl: moduleController.apiurl });
+                modules.push({ value: moduleName, text: moduleCaption, apiurl: moduleController.apiurl });
             }
         });
         const allModules = modules.concat(grids);
@@ -352,9 +386,9 @@ class Alert {
         let $conditionRow = jQuery(`
                             <div class="flexrow condition-row">
                               <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="AlertConditionId" style="display:none;"></div>
-                              <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield" data-caption="Data Field" data-datafield="FieldName1" data-allcaps="false" style="flex:1 1 0; max-width:350px;"></div>
-                              <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield" data-caption="Condition" data-datafield="Condition" style="flex:1 1 0; max-width:250px;"></div>
-                              <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield" data-caption="Data Field" data-datafield="FieldName2" data-allcaps="false" style="flex:1 1 0; max-width:350px;"></div>
+                              <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield" data-caption="Data Field" data-datafield="FieldName1" data-allcaps="false" style="flex:1 1 0; max-width:400px;"></div>
+                              <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield" data-caption="Condition" data-datafield="Condition" style="flex:1 1 0; max-width:150px;"></div>
+                              <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield" data-caption="Data Field" data-datafield="FieldName2" data-allcaps="false" style="flex:1 1 0; max-width:400px;"></div>
                               <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="Value" data-allcaps="false" style="flex:1 1 0; max-width:250px;" data-enabled="false"></div>
                               <i class="material-icons delete-condition" style="max-width:25px; cursor:pointer; margin:23px 0px 0px 10px;">delete_outline</i>
                               <i class="material-icons add-condition" style="max-width:25px; cursor:pointer; margin:23px 0px 0px 10px;">add_circle_outline</i>

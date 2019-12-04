@@ -77,5 +77,22 @@ namespace WebApi.Modules.Billing.Billing
             return response;
         }
         //-------------------------------------------------------------------------------------------------------
+        public static async Task<string> GetNextBillingWorksheetNumberAsync(FwApplicationConfig appConfig, FwUserSession userSession, string orderId, FwSqlConnection conn = null)
+        {
+            string worksheetNo = "";
+            if (conn == null)
+            {
+                conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString);
+            }
+            FwSqlCommand qry = new FwSqlCommand(conn, "getnextworksheetno", appConfig.DatabaseSettings.QueryTimeout);
+            qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, orderId);
+            //qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+            //qry.AddParameter("@locationid", SqlDbType.NVarChar, ParameterDirection.Input, locationId);
+            qry.AddParameter("@worksheetno", SqlDbType.NVarChar, ParameterDirection.Output);
+            await qry.ExecuteNonQueryAsync();
+            worksheetNo = qry.GetParameter("@worksheetno").ToString().TrimEnd();
+            return worksheetNo;
+        }
+        //-------------------------------------------------------------------------------------------------------
     }
 }

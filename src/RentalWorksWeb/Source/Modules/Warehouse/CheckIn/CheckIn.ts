@@ -6,9 +6,6 @@ class CheckIn extends CheckInBase {
     caption:                   string = Constants.Modules.Warehouse.children.CheckIn.caption;
     nav:                       string = Constants.Modules.Warehouse.children.CheckIn.nav;
     id:                        string = Constants.Modules.Warehouse.children.CheckIn.id;
-    successSoundFileName:      string;
-    errorSoundFileName:        string;
-    notificationSoundFileName: string;
     Type:                      string;
     //----------------------------------------------------------------------------------------------
     addFormMenuItems(options: IAddFormMenuOptions): void {

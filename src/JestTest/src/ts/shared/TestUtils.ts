@@ -226,6 +226,10 @@ export class TestUtils {
         return faker.name.lastName();
     }
     //-----------------------------------------------------------------------------------------------------------------
+    static randomFullName(): string {
+        return this.randomFirstName() + " " + this.randomLastName();
+    }
+    //-----------------------------------------------------------------------------------------------------------------
     static randomEmail(): string {
         return faker.internet.email();
     }
@@ -324,6 +328,10 @@ export class TestUtils {
         return recentDateStr;
     }
     //-----------------------------------------------------------------------------------------------------------------
+    static todayMDY(separator: string = "/"): string {
+        return TestUtils.dateMDY(new Date(), separator);
+    }
+    //-----------------------------------------------------------------------------------------------------------------
     static randomRecentDateMDY(withinNumberOfDays?: number, separator: string = "/"): string {
         let recentDate = faker.date.recent(withinNumberOfDays);
         return TestUtils.dateMDY(recentDate, separator);
@@ -360,6 +368,14 @@ export class TestUtils {
         let daysPast: number = (numberOfDays * minusOne);
         let pastDate: Date = new Date(today.getTime() + (daysPast * 1000 * 60 * 60 * 24));
         return TestUtils.dateMDY(TestUtils.pastDate(numberOfDays), separator);
+    }
+    //-----------------------------------------------------------------------------------------------------------------
+    static randomTimeHHMM(): string{
+        return this.randomIntegerBetween(0, 23).toString().padStart(2, "0") + ":" + this.randomIntegerBetween(0, 59).toString().padStart(2, "0");
+    }
+    //-----------------------------------------------------------------------------------------------------------------
+    static randomBoolean(): boolean {
+        return faker.random.boolean();
     }
     //-----------------------------------------------------------------------------------------------------------------
 }

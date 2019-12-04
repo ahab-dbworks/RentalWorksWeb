@@ -5,10 +5,8 @@ using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
 using WebApi.Modules.HomeControls.InventoryPackageInventory;
-using WebApi.Modules.HomeControls.InventorySearch;
-using WebApi;
 
-namespace WebApi.Modules.Home.InventorySearch
+namespace WebApi.Modules.HomeControls.InventorySearch
 {
     public static class InventorySearchFunc
     {
