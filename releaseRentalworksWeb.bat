@@ -81,17 +81,17 @@ git add "src/RentalWorksWeb/version-RentalWorksWeb.txt"
 git add "src/RentalWorksWeb/Properties/AssemblyInfo.cs"
 git commit -m "web: %buildno%"
 git push
-rem git tag web/v%buildno%
-rem git push origin web/v%buildno%
+git tag web/v%buildno%
+git push origin web/v%buildno%
 
 rem command-line gren make Build Release Document
-rem cd %DwRentalWorksWebPath%\build
-rem call gren changelog --token=4f42c7ba6af985f6ac6a6c9eba45d8f25388ef58 --username=databaseworks --repo=rentalworksweb --generate --override --changelog-filename=v%buildno%.md -t web/v%buildno% -c ..\config.grenrc
-rem start v%buildno%.md
+cd %DwRentalWorksWebPath%\build
+call gren changelog --token=4f42c7ba6af985f6ac6a6c9eba45d8f25388ef58 --username=databaseworks --repo=rentalworksweb --generate --override --changelog-filename=v%buildno%.md -t web/v%buildno% -c ..\config.grenrc
+start v%buildno%.md
 
 rem produce a PDF of the MD file
-rem cd %DwRentalWorksWebPath%
-rem call md-to-pdf build\v%buildno%.md
+cd %DwRentalWorksWebPath%
+call md-to-pdf build\v%buildno%.md
 
 rem Need to use curl to publish the PDF file to ZenDesk as a new "article"
 rem curl https://dbworks.zendesk.com/api/v2/help_center/sections/{id}/articles.json \

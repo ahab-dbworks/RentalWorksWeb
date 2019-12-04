@@ -2,7 +2,8 @@
     "dataSource": "issues",
     "ignoreIssuesWith": [
         "wontfix",
-        "duplicate"
+        "duplicate",
+		"v2019.1.2 validation"
     ],
     "groupBy": {
         "<div style=\"color:black;background-color:yellow;padding-left:5px;padding-top:5px;padding-bottom:5px\">Enhancements:</div>": ["enhancement", "internal"],
