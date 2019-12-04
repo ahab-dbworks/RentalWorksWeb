@@ -130,33 +130,69 @@ class Widget {
     }
     //----------------------------------------------------------------------------------------------
     renderGrids($form) {
-        const $widgetGroupGrid = $form.find('div[data-grid="WidgetGroupGrid"]');
-        const $widgetGroupGridControl = FwBrowse.loadGridFromTemplate('WidgetGroupGrid');
-        $widgetGroupGrid.empty().append($widgetGroupGridControl);
-        $widgetGroupGridControl.data('ondatabind', request => {
-            request.uniqueids = {
-                WidgetId: FwFormField.getValueByDataField($form, 'WidgetId')
-            };
-        });
-        $widgetGroupGridControl.data('beforesave', request => {
-            request.WidgetId = FwFormField.getValueByDataField($form, 'WidgetId')
-        });
-        FwBrowse.init($widgetGroupGridControl);
-        FwBrowse.renderRuntimeHtml($widgetGroupGridControl);
+        //const $widgetGroupGrid = $form.find('div[data-grid="WidgetGroupGrid"]');
+        //const $widgetGroupGridControl = FwBrowse.loadGridFromTemplate('WidgetGroupGrid');
+        //$widgetGroupGrid.empty().append($widgetGroupGridControl);
+        //$widgetGroupGridControl.data('ondatabind', request => {
+        //    request.uniqueids = {
+        //        WidgetId: FwFormField.getValueByDataField($form, 'WidgetId')
+        //    };
+        //});
+        //$widgetGroupGridControl.data('beforesave', request => {
+        //    request.WidgetId = FwFormField.getValueByDataField($form, 'WidgetId')
+        //});
+        //FwBrowse.init($widgetGroupGridControl);
+        //FwBrowse.renderRuntimeHtml($widgetGroupGridControl);
 
-        const $widgetUserGrid = $form.find('div[data-grid="WidgetUserGrid"]');
-        const $widgetUserGridControl = FwBrowse.loadGridFromTemplate('WidgetUserGrid');
-        $widgetUserGrid.empty().append($widgetUserGridControl);
-        $widgetUserGridControl.data('ondatabind', request => {
-            request.uniqueids = {
-                WidgetId: FwFormField.getValueByDataField($form, 'WidgetId')
-            };
+        FwBrowse.renderGrid({
+            nameGrid: 'WidgetGroupGrid',
+            gridSecurityId: 'BXv7mQIbXokIW',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    WidgetId: FwFormField.getValueByDataField($form, 'WidgetId')
+                };
+            },
+            beforeSave: (request: any) => {
+                request.uniqueids = {
+                    WidgetId: FwFormField.getValueByDataField($form, 'WidgetId')
+                };
+            }
         });
-        $widgetUserGridControl.data('beforesave', request => {
-            request.WidgetId = FwFormField.getValueByDataField($form, 'WidgetId')
+
+        //const $widgetUserGrid = $form.find('div[data-grid="WidgetUserGrid"]');
+        //const $widgetUserGridControl = FwBrowse.loadGridFromTemplate('WidgetUserGrid');
+        //$widgetUserGrid.empty().append($widgetUserGridControl);
+        //$widgetUserGridControl.data('ondatabind', request => {
+        //    request.uniqueids = {
+        //        WidgetId: FwFormField.getValueByDataField($form, 'WidgetId')
+        //    };
+        //});
+        //$widgetUserGridControl.data('beforesave', request => {
+        //    request.WidgetId = FwFormField.getValueByDataField($form, 'WidgetId')
+        //});
+        //FwBrowse.init($widgetUserGridControl);
+        //FwBrowse.renderRuntimeHtml($widgetUserGridControl);
+
+        FwBrowse.renderGrid({
+            nameGrid: 'WidgetUserGrid',
+            gridSecurityId: 'CTzXYDyNzi8ET',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    WidgetId: FwFormField.getValueByDataField($form, 'WidgetId')
+                };
+            },
+            beforeSave: (request: any) => {
+                request.uniqueids = {
+                    WidgetId: FwFormField.getValueByDataField($form, 'WidgetId')
+                };
+            }
         });
-        FwBrowse.init($widgetUserGridControl);
-        FwBrowse.renderRuntimeHtml($widgetUserGridControl);
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
