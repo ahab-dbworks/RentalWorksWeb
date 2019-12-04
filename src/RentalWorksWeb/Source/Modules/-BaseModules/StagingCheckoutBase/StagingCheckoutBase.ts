@@ -6,7 +6,7 @@
     showAddItemToOrder: boolean;
     contractId: string;
     isPendingItemGridView: boolean = false;
-    Type:                      string;
+    Type: string;
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         const screen: any = {};
@@ -47,10 +47,8 @@
         $form.find('[data-datafield="WarehouseId"]').hide();
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
-
-        //#jasontodo
-        //const cancelMenuOptionId = Constants.Modules.Home.StagingCheckout.form.menuItems.Cancel.id.replace('{', '').replace('}', '');
-        //$form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'false');
+     
+        $form.find('div.caption:contains(Cancel Staging / Check-Out)').parent().attr('data-enabled', 'false');
 
         this.getOrder($form);
         if (typeof parentmoduleinfo !== 'undefined') {
@@ -253,6 +251,7 @@
                     const number = $this.find(`[data-browsedatafield="${this.Type}Number"]`).attr('data-originalvalue');
                     const contractId = $this.find(`[data-browsedatafield="ContractId"]`).attr('data-originalvalue');
                     this.contractId = contractId;
+                    $form.find('div.caption:contains(Cancel Staging / Check-Out)').parent().attr('data-enabled', 'true');
                     if (this.Module == 'FillContainer') {
                         const orderId = $this.find(`[data-browsedatafield="OrderId"]`).attr('data-originalvalue');
                         FwFormField.setValueByDataField($form, 'OrderId', orderId);
@@ -419,7 +418,7 @@
                     try {
                         this.contractId = response.ContractId;
                         $form.find('.suspendedsession').hide();
-
+                        $form.find('div.caption:contains(Cancel Staging / Check-Out)').parent().attr('data-enabled', 'true');
                         this.renderPartialCheckoutGrids($form);
                     }
                     catch (ex) {
@@ -428,7 +427,7 @@
                 }, null, null);
             } else {
                 $form.find('.suspendedsession').hide();
-
+                $form.find('div.caption:contains(Cancel Staging / Check-Out)').parent().attr('data-enabled', 'true');
                 this.renderPartialCheckoutGrids($form);
             }
         } else {
@@ -1331,7 +1330,7 @@
         $form.find('.createcontract').show();
 
         this.contractId = '';
-
+        $form.find('div.caption:contains(Cancel Staging / Check-Out)').parent().attr('data-enabled', 'false');
         $form.find('.suspendedsession').show();
     }
     //----------------------------------------------------------------------------------------------
