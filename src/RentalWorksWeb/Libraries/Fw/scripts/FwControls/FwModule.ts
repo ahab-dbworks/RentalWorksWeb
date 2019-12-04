@@ -329,7 +329,7 @@ class FwModule {
     }
     //----------------------------------------------------------------------------------------------
     static openForm($form: JQuery, mode: string) {
-        var $fwcontrols, formid, $formTabControl, auditTabIds, $auditControl, controller,
+        var $fwcontrols, formid, $formTabControl, auditTabIds, controller,
             nodeModule=null, nodeTabs, nodeTab, $tabs, nodeField, $fields, nodeControl, $grids, $tabcontrol, args;
         
         controller = $form.attr('data-controller');
@@ -407,43 +407,93 @@ class FwModule {
             let $keys = $form.find('.fwformfield[data-type="key"]');
             if ($keys.length !== 0) {
                 auditTabIds = FwTabs.addTab($formTabControl, 'Audit', false, 'AUDIT', false);
-                $auditControl = jQuery(FwBrowse.loadGridFromTemplate('AuditHistoryGrid'));
-                $auditControl.data('ondatabind', function (request) {
-                    const apiurl = (<any>window[controller]).apiurl;
-                    const sliceIndex = apiurl.lastIndexOf('/');
-                    const moduleName = apiurl.slice(sliceIndex + 1);
-                    request.uniqueids = {};
-                    request.uniqueids.ModuleName = moduleName;
-                    for (let i = 0; i < 2; i++) {
-                        let uniqueIdValue = jQuery($keys[i]).find('input').val();
-                        if (typeof uniqueIdValue !== 'undefined') {
-                            switch (i) {
-                                case 0:
-                                    request.uniqueids.UniqueId1 = uniqueIdValue;
-                                    break;
-                                case 1:
-                                    request.uniqueids.UniqueId2 = uniqueIdValue;
-                                    break;
-                                case 2:
-                                    request.uniqueids.UniqueId3 = uniqueIdValue;
-                                    break;
-                            }
-                        } else {
-                            break;
+                const moduleControllerName = $form.data('controller'); 
+                if (moduleControllerName !== undefined) {
+                    const moduleController = (<any>window)[moduleControllerName]; 
+                    if (moduleController !== undefined) {
+                        const moduleSecurityId = moduleController.id; 
+                        if (moduleSecurityId !== undefined) {
+                            const $auditControl = FwBrowse.renderGrid({
+                                moduleSecurityId: moduleSecurityId,
+                                $form: $form,
+                                nameGrid: 'AuditHistoryGrid',
+                                gridSecurityId: 'xepjGBf0rdL',
+                                pageSize: 10,
+                                onDataBind: request => {
+                                    const apiurl = (<any>window[controller]).apiurl;
+                                    const sliceIndex = apiurl.lastIndexOf('/');
+                                    const moduleName = apiurl.slice(sliceIndex + 1);
+                                    request.uniqueids = {};
+                                    request.uniqueids.ModuleName = moduleName;
+                                    for (let i = 0; i < 2; i++) {
+                                        let uniqueIdValue = jQuery($keys[i]).find('input').val();
+                                        if (typeof uniqueIdValue !== 'undefined') {
+                                            switch (i) {
+                                                case 0:
+                                                    request.uniqueids.UniqueId1 = uniqueIdValue;
+                                                    break;
+                                                case 1:
+                                                    request.uniqueids.UniqueId2 = uniqueIdValue;
+                                                    break;
+                                                case 2:
+                                                    request.uniqueids.UniqueId3 = uniqueIdValue;
+                                                    break;
+                                            }
+                                        } else {
+                                            break;
+                                        }
+                                    }
+                                }
+                            });
+                            $formTabControl.find('#' + auditTabIds.tabpageid).append($auditControl);
+                            $formTabControl.find('#' + auditTabIds.tabid)
+                                .addClass('audittab')
+                                .on('click', e => {
+                                    if ($form.attr('data-mode') !== 'NEW') {
+                                        FwBrowse.search($auditControl);
+                                    };
+                                });
                         }
                     }
-                });
-                FwBrowse.init($auditControl);
-                FwBrowse.renderRuntimeHtml($auditControl);
+                }
+                
+                //const $auditControl = jQuery(FwBrowse.loadGridFromTemplate('AuditHistoryGrid'));
+                //$auditControl.data('ondatabind', function (request) {
+                //    const apiurl = (<any>window[controller]).apiurl;
+                //    const sliceIndex = apiurl.lastIndexOf('/');
+                //    const moduleName = apiurl.slice(sliceIndex + 1);
+                //    request.uniqueids = {};
+                //    request.uniqueids.ModuleName = moduleName;
+                //    for (let i = 0; i < 2; i++) {
+                //        let uniqueIdValue = jQuery($keys[i]).find('input').val();
+                //        if (typeof uniqueIdValue !== 'undefined') {
+                //            switch (i) {
+                //                case 0:
+                //                    request.uniqueids.UniqueId1 = uniqueIdValue;
+                //                    break;
+                //                case 1:
+                //                    request.uniqueids.UniqueId2 = uniqueIdValue;
+                //                    break;
+                //                case 2:
+                //                    request.uniqueids.UniqueId3 = uniqueIdValue;
+                //                    break;
+                //            }
+                //        } else {
+                //            break;
+                //        }
+                //    }
+                //});
+                //FwBrowse.init($auditControl);
+                //FwBrowse.renderRuntimeHtml($auditControl);
 
-                $formTabControl.find('#' + auditTabIds.tabpageid).append($auditControl);
-                $formTabControl.find('#' + auditTabIds.tabid)
-                    .addClass('audittab')
-                    .on('click', e => {
-                        if ($form.attr('data-mode') !== 'NEW') {
-                            FwBrowse.search($auditControl);
-                        };
-                    });
+                //$formTabControl.find('#' + auditTabIds.tabpageid).append($auditControl);
+                //$formTabControl.find('#' + auditTabIds.tabid)
+                //    .addClass('audittab')
+                //    .on('click', e => {
+                //        if ($form.attr('data-mode') !== 'NEW') {
+                //            FwBrowse.search($auditControl);
+                //        };
+                //    });
             }
         }
 
