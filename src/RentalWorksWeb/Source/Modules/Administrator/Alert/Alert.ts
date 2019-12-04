@@ -69,30 +69,64 @@ class Alert {
     }
     //----------------------------------------------------------------------------------------------
     renderGrids($form) {
-        const $alertWebUserGrid = $form.find('div[data-grid="AlertWebUsersGrid"]');
-        const $alertWebUserGridControl = FwBrowse.loadGridFromTemplate('AlertWebUsersGrid');
-        $alertWebUserGrid.empty().append($alertWebUserGridControl);
-        $alertWebUserGridControl.data('ondatabind', request => {
-            request.uniqueids = {
-                AlertId: FwFormField.getValueByDataField($form, 'AlertId')
-            };
-        });
-        $alertWebUserGridControl.data('beforesave', request => {
-            request.AlertId = FwFormField.getValueByDataField($form, 'AlertId')
-        });
-        FwBrowse.init($alertWebUserGridControl);
-        FwBrowse.renderRuntimeHtml($alertWebUserGridControl);
+        //const $alertWebUserGrid = $form.find('div[data-grid="AlertWebUsersGrid"]');
+        //const $alertWebUserGridControl = FwBrowse.loadGridFromTemplate('AlertWebUsersGrid');
+        //$alertWebUserGrid.empty().append($alertWebUserGridControl);
+        //$alertWebUserGridControl.data('ondatabind', request => {
+        //    request.uniqueids = {
+        //        AlertId: FwFormField.getValueByDataField($form, 'AlertId')
+        //    };
+        //});
+        //$alertWebUserGridControl.data('beforesave', request => {
+        //    request.AlertId = FwFormField.getValueByDataField($form, 'AlertId')
+        //});
+        //FwBrowse.init($alertWebUserGridControl);
+        //FwBrowse.renderRuntimeHtml($alertWebUserGridControl);
 
-        const $alertHistoryGrid = $form.find('div[data-grid="WebAlertLogGrid"]');
-        const $alertHistoryGridControl = FwBrowse.loadGridFromTemplate('WebAlertLogGrid');
-        $alertHistoryGrid.empty().append($alertHistoryGridControl);
-        $alertHistoryGridControl.data('ondatabind', request => {
-            request.uniqueids = {
-                AlertId: FwFormField.getValueByDataField($form, 'AlertId')
-            };
+        FwBrowse.renderGrid({
+            nameGrid: 'AlertWebUsersGrid',
+            gridSecurityId: 'REgcmntq4LWE',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    AlertId: FwFormField.getValueByDataField($form, 'AlertId'),
+                };
+            },
+            beforeSave: (request: any) => {
+                request.AlertId = FwFormField.getValueByDataField($form, 'AlertId')
+            }
         });
-        FwBrowse.init($alertHistoryGridControl);
-        FwBrowse.renderRuntimeHtml($alertHistoryGridControl);
+
+        //const $alertHistoryGrid = $form.find('div[data-grid="WebAlertLogGrid"]');
+        //const $alertHistoryGridControl = FwBrowse.loadGridFromTemplate('WebAlertLogGrid');
+        //$alertHistoryGrid.empty().append($alertHistoryGridControl);
+        //$alertHistoryGridControl.data('ondatabind', request => {
+        //    request.uniqueids = {
+        //        AlertId: FwFormField.getValueByDataField($form, 'AlertId')
+        //    };
+        //});
+        //FwBrowse.init($alertHistoryGridControl);
+        //FwBrowse.renderRuntimeHtml($alertHistoryGridControl);
+
+        FwBrowse.renderGrid({
+            nameGrid: 'WebAlertLogGrid',
+            gridSecurityId: 'x6SZhutIpRi2',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                options.hasNew = false;
+                options.hasEdit = false;
+                options.hasDelete = false;
+            },
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    AlertId: FwFormField.getValueByDataField($form, 'AlertId'),
+                };
+            }
+        });
     }
     //----------------------------------------------------------------------------------------------
     loadModules($form) {
