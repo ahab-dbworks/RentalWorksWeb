@@ -653,6 +653,11 @@ class Invoice {
             nameGrid: 'InvoiceReceiptGrid',
             gridSecurityId: 'cYUr48pou4fc',
             moduleSecurityId: this.id,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                options.hasNew = false;
+                options.hasEdit = false;
+                options.hasDelete = false;
+            },
             $form: $form,
             pageSize: 10,
             onDataBind: (request: any) => {
