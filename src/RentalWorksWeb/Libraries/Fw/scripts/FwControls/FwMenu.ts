@@ -180,7 +180,8 @@ class FwMenuClass {
                         case 'Find': btnHtml.push('<i class="material-icons">search</i>'); break; //find
                     }
                 }
-                btnHtml.push('  <div class="btn-text">' + caption + '</div>');
+                const addedClass = caption.replace(/ /g, '');
+                btnHtml.push(`  <div class="btn-text ${addedClass}">${caption}</div>`);
                 btnHtml.push('</div>');
                 $btn = $btn.add(btnHtml.join(''));
             } catch (ex) {
