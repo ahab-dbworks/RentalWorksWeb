@@ -263,6 +263,7 @@ class Receipt {
             pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
                 options.hasNew = false;
+                options.hasEdit = false;
                 options.hasDelete = false;
             },
             onDataBind: (request: any) => {
