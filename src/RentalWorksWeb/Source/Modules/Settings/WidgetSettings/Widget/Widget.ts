@@ -156,9 +156,7 @@ class Widget {
                 };
             },
             beforeSave: (request: any) => {
-                request.uniqueids = {
-                    WidgetId: FwFormField.getValueByDataField($form, 'WidgetId')
-                };
+                request.WidgetId = FwFormField.getValueByDataField($form, 'WidgetId');
             }
         });
 
@@ -188,9 +186,7 @@ class Widget {
                 };
             },
             beforeSave: (request: any) => {
-                request.uniqueids = {
-                    WidgetId: FwFormField.getValueByDataField($form, 'WidgetId')
-                };
+                request.WidgetId = FwFormField.getValueByDataField($form, 'WidgetId');
             }
         });
     }
