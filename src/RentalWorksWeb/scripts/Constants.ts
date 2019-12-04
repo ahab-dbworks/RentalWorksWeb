@@ -15,17 +15,17 @@ var Constants = {
             caption: 'Administrator',
             nodetype: 'Category',
             children: {
-                Alert:         { id: 'gFfpaR5mDAzX',  caption: 'Alert',          nav: 'module/alert', nodetype: 'Module' },
-                CustomField:   { id: 'cZHPJQyBxolS',  caption: 'Custom Field',   nav: 'module/customfield', nodetype: 'Module' },
-                CustomForm:    { id: '11txpzVKVGi2',  caption: 'Custom Form',    nav: 'module/customform', nodetype: 'Module' },
-                CustomReportLayout: { id: 'EtrF5NHJ7dRg6', caption: 'Custom Report Layout', nav: 'module/customreportlayout' },
-                DuplicateRule: { id: 'v7oBspDLjli8',  caption: 'Duplicate Rule', nav: 'module/duplicaterule', nodetype: 'Module' },
-                EmailHistory:  { id: '3XHEm3Q8WSD8z', caption: 'Email History',  nav: 'module/emailhistory', nodetype: 'Module' },
-                Group:         { id: '0vP4rXxgGL1M',  caption: 'Group',          nav: 'module/group', nodetype: 'Module' },
-                Hotfix:        { id: 'yeqaGIUYfYNX',  caption: 'Hotfix',         nav: 'module/hotfix', nodetype: 'Module' },
-                Reports:       { id: '3C5C7603-9E7B-47AB-A722-B29CA09B3B8C', caption: 'Reports', nav: 'module/reports', nodetype: 'Module' },
-                Settings:      { id: '57150967-486A-42DE-978D-A2B0F843341A', caption: 'Settings', nav: 'module/settings', nodetype: 'Module' },
-                User:          { id: 'r1fKvn1KaFd0u', caption: 'User',           nav: 'module/user', nodetype: 'Module' }
+                Alert:              { id: 'gFfpaR5mDAzX',  caption: 'Alert',          nav: 'module/alert', nodetype: 'Module' },
+                CustomField:        { id: 'cZHPJQyBxolS',  caption: 'Custom Field',   nav: 'module/customfield', nodetype: 'Module' },
+                CustomForm:         { id: '11txpzVKVGi2',  caption: 'Custom Form',    nav: 'module/customform', nodetype: 'Module' },
+                CustomReportLayout: { id: 'EtrF5NHJ7dRg6', caption: 'Custom Report Layout', nav: 'module/customreportlayout', nodetype: 'Module' },
+                DuplicateRule:      { id: 'v7oBspDLjli8',  caption: 'Duplicate Rule', nav: 'module/duplicaterule', nodetype: 'Module' },
+                EmailHistory:       { id: '3XHEm3Q8WSD8z', caption: 'Email History',  nav: 'module/emailhistory', nodetype: 'Module' },
+                Group:              { id: '0vP4rXxgGL1M',  caption: 'Group',          nav: 'module/group', nodetype: 'Module' },
+                Hotfix:             { id: 'yeqaGIUYfYNX',  caption: 'Hotfix',         nav: 'module/hotfix', nodetype: 'Module' },
+                Reports:            { id: '3C5C7603-9E7B-47AB-A722-B29CA09B3B8C', caption: 'Reports', nav: 'module/reports', nodetype: 'Module' },
+                Settings:           { id: '57150967-486A-42DE-978D-A2B0F843341A', caption: 'Settings', nav: 'module/settings', nodetype: 'Module' },
+                User:               { id: 'r1fKvn1KaFd0u', caption: 'User',           nav: 'module/user', nodetype: 'Module' }
             }
         },
         Agent: {
@@ -94,7 +94,6 @@ var Constants = {
                 Asset:                    { id: 'kSugPLvkuNsH',  caption: 'Asset',                  nav: 'module/item', nodetype: 'Module' },
                 AvailabilityConflicts:    { id: '2xsgUfsXeKJH',  caption: 'Availability Conflicts', nav: 'module/availabilityconflicts', nodetype: 'Module' },
                 CompleteQc:               { id: 'VwNYsEONLutM',  caption: 'Complete QC',            nav: 'module/completeqc', nodetype: 'Module' },
-                InventoryPurchaseUtility: { id: '', caption: 'Inventory Purchase Utility', nav: 'module/inventorypurchaseutility' },
                 PartsInventory:           { id: '2WDCohbQV6GU',  caption: 'Parts Inventory',        nav: 'module/partsinventory', nodetype: 'Module' },
                 PhysicalInventory:        { id: 'JIuxFUWTLDC6',  caption: 'Physical Inventory',     nav: 'module/physicalinventory', nodetype: 'Module' },
                 RentalInventory:          { id: '3ICuf6pSeBh6G', caption: 'Rental Inventory',       nav: 'module/rentalinventory', nodetype: 'Module' },
@@ -741,7 +740,8 @@ var Constants = {
             nodetype: 'Category',
             children: {
                 Dashboard:                 { id: 'DF8111F5-F022-40B4-BAE6-23B2C6CF3705', caption: 'Dashboard', nav: 'home', nodetype: 'Module' },
-                DashboardSettings:         { id: 'lXpomto7a29v',  caption: 'Dashboard Settings',      nav: 'module/dashboardsettings', nodetype: 'Module' },
+                DashboardSettings:         { id: 'lXpomto7a29v', caption: 'Dashboard Settings', nav: 'module/dashboardsettings', nodetype: 'Module' },
+                InventoryPurchaseUtility:  { id: 'sOxbXBmCPc9y', caption: 'Inventory Purchase Utility', nav: 'module/inventorypurchaseutility', nodetype: 'Module' },
                 InvoiceProcessBatch:       { id: 'I8d2wTNNRmRJa', caption: 'Process Invoices',        nav: 'module/invoiceprocessbatch', nodetype: 'Module' },
                 MigrateOrders:             { id: '8NYSNibMVoO',   caption: 'Migrate Orders',          nav: 'module/migrateorders', nodetype: 'Module' },
                 QuikActivityCalendar:      { id: 'yhYOLhLE92IT',  caption: 'QuikActivity Calendar',   nav: 'module/quikactivitycalendar', nodetype: 'Module' },

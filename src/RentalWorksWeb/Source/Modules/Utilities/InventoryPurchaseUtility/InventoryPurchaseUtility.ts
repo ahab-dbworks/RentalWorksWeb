@@ -2,9 +2,9 @@ routes.push({ pattern: /^module\/inventorypurchaseutility$/, action: function (m
 //----------------------------------------------------------------------------------------------
 class InventoryPurchaseUtility {
     Module: string = 'InventoryPurchaseUtility';
-    caption: string = Constants.Modules.Inventory.children.InventoryPurchaseUtility.caption;
-    nav: string = Constants.Modules.Inventory.children.InventoryPurchaseUtility.nav;
-    id: string = Constants.Modules.Inventory.children.InventoryPurchaseUtility.id;
+    caption: string = Constants.Modules.Utilities.children.InventoryPurchaseUtility.caption;
+    nav: string = Constants.Modules.Utilities.children.InventoryPurchaseUtility.nav;
+    id: string = Constants.Modules.Utilities.children.InventoryPurchaseUtility.id;
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         const screen: any = {};
