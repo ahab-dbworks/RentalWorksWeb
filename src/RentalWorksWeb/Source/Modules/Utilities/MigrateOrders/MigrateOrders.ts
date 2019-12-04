@@ -3,9 +3,9 @@
 class MigrateOrders {
     Module: string = 'MigrateOrders';
     apiurl: string = 'api/v1/migrateorders';
-    caption: string = Constants.Modules.Utilities.MigrateOrders.caption;
-    nav: string = Constants.Modules.Utilities.MigrateOrders.nav;
-    id: string = Constants.Modules.Utilities.MigrateOrders.id;
+    caption: string = Constants.Modules.Utilities.children.MigrateOrders.caption;
+    nav: string = Constants.Modules.Utilities.children.MigrateOrders.nav;
+    id: string = Constants.Modules.Utilities.children.MigrateOrders.id;
     //----------------------------------------------------------------------------------------------
     addFormMenuItems(options: IAddFormMenuOptions): void {
         options.hasSave = false;

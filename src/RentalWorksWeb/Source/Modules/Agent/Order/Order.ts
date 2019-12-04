@@ -1679,7 +1679,7 @@ class Order extends OrderBase {
     };
     //----------------------------------------------------------------------------------------------
     // Form menu item -- corresponding grid menu item function in OrderSnapshotGrid controller
-    viewSnapshotOrder($form, event) {
+    viewSnapshotOrder($form) {
         let $orderForm, $selectedCheckBoxes, $orderSnapshotGrid, snapshotId, orderNumber;
 
         $orderSnapshotGrid = $form.find(`[data-name="OrderSnapshotGrid"]`);
@@ -1939,7 +1939,7 @@ class Order extends OrderBase {
         }
     }
     //----------------------------------------------------------------------------------------------
-    createSnapshotOrder($form: JQuery, event: any): void {
+    createSnapshotOrder($form: JQuery): void {
         let orderNumber, orderId, $orderSnapshotGrid;
         orderNumber = FwFormField.getValueByDataField($form, 'OrderNumber');
         orderId = FwFormField.getValueByDataField($form, 'OrderId');
@@ -1985,7 +1985,7 @@ class Order extends OrderBase {
         }
     };
     //----------------------------------------------------------------------------------------------
-    OrderOnHold($form: JQuery, event: any): void {
+    OrderOnHold($form: JQuery): void {
         const orderNumber = FwFormField.getValueByDataField($form, 'OrderNumber');
         const orderId = FwFormField.getValueByDataField($form, 'OrderId');
         const status = FwFormField.getValueByDataField($form, 'Status');

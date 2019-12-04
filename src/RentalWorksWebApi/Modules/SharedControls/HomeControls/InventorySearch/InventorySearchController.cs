@@ -9,7 +9,7 @@ using System;
 using FwStandard.SqlServer;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Home.InventorySearch
+namespace WebApi.Modules.HomeControls.InventorySearch
 {
     //------------------------------------------------------------------------------------ 
     public class InventorySearchGetTotalRequest

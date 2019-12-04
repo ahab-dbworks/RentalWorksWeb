@@ -3,9 +3,9 @@ routes.push({ pattern: /^module\/billingworksheet$/, action: function (match: Re
 class BillingWorksheet {
     Module: string = 'BillingWorksheet';
     apiurl: string = 'api/v1/billingworksheet';
-    caption: string = Constants.Modules.Home.BillingWorksheet.caption;
-    nav: string = Constants.Modules.Home.BillingWorksheet.nav;
-    id: string = Constants.Modules.Home.BillingWorksheet.id;
+    caption: string = Constants.Modules.Billing.children.BillingWorksheet.caption;
+    nav: string = Constants.Modules.Billing.children.BillingWorksheet.nav;
+    id: string = Constants.Modules.Billing.children.BillingWorksheet.id;
     ActiveViewFields: any = {};
     ActiveViewFieldsId: string;
     //----------------------------------------------------------------------------------------------
@@ -683,8 +683,10 @@ class BillingWorksheet {
     };
 };
 //----------------------------------------------------------------------------------------------
+//#joshtodo
+/*
 //form approve
-FwApplicationTree.clickEvents[Constants.Modules.Home.BillingWorksheet.form.menuItems.Approve.id] = function (event: JQuery.ClickEvent) {
+FwApplicationTree.clickEvents[Constants.Modules.Billing.children.BillingWorksheet.form.menuItems.Approve.id] = function (event: JQuery.ClickEvent) {
     try {
         const $form = jQuery(this).closest('.fwform');
         const billingWorksheetId = FwFormField.getValueByDataField($form, 'BillingWorksheetId');
@@ -701,7 +703,7 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.BillingWorksheet.form.menuI
 };
 //----------------------------------------------------------------------------------------------
 //form unapprove
-FwApplicationTree.clickEvents[Constants.Modules.Home.BillingWorksheet.form.menuItems.Unapprove.id] = function (event: JQuery.ClickEvent) {
+FwApplicationTree.clickEvents[Constants.Modules.Billing.children.BillingWorksheet.form.menuItems.Unapprove.id] = function (event: JQuery.ClickEvent) {
     try {
         const $form = jQuery(this).closest('.fwform');
         const billingWorksheetId = FwFormField.getValueByDataField($form, 'BillingWorksheetId');
@@ -718,7 +720,7 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.BillingWorksheet.form.menuI
 };
 //----------------------------------------------------------------------------------------------
 //browse approve
-FwApplicationTree.clickEvents[Constants.Modules.Home.BillingWorksheet.browse.menuItems.Approve.id] = function (event: JQuery.ClickEvent) {
+FwApplicationTree.clickEvents[Constants.Modules.Billing.children.BillingWorksheet.browse.menuItems.Approve.id] = function (event: JQuery.ClickEvent) {
     try {
         const $browse = jQuery(this).closest('.fwbrowse');
         const billingWorksheetId = $browse.find('.selected [data-browsedatafield="BillingWorksheetId"]').attr('data-originalvalue');
@@ -739,7 +741,7 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.BillingWorksheet.browse.men
 };
 //----------------------------------------------------------------------------------------------
 //browse unapprove
-FwApplicationTree.clickEvents[Constants.Modules.Home.BillingWorksheet.browse.menuItems.Unapprove.id] = function (event: JQuery.ClickEvent) {
+FwApplicationTree.clickEvents[Constants.Modules.Billing.children.BillingWorksheet.browse.menuItems.Unapprove.id] = function (event: JQuery.ClickEvent) {
     try {
         const $browse = jQuery(this).closest('.fwbrowse');
         const billingWorksheetId = $browse.find('.selected [data-browsedatafield="BillingWorksheetId"]').attr('data-originalvalue');
@@ -759,5 +761,6 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.BillingWorksheet.browse.men
     }
 };
 //----------------------------------------------------------------------------------------------
+*/
 
 var BillingWorksheetController = new BillingWorksheet();

@@ -20,7 +20,7 @@ using WebApi.Modules.Settings.AvailabilityKeepFreshLog;
 
 
 
-namespace WebApi.Modules.Home.InventoryAvailability
+namespace WebApi.Modules.HomeControls.InventoryAvailability
 {
 
     //-------------------------------------------------------------------------------------------------------

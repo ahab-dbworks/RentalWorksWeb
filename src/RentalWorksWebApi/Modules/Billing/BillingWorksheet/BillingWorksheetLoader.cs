@@ -3,7 +3,7 @@ using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-namespace WebApi.Modules.Home.BillingWorksheet
+namespace WebApi.Modules.Billing.BillingWorksheet
 {
     [FwSqlTable("invoiceworksheetview")]
     public class BillingWorksheetLoader : AppDataLoadRecord

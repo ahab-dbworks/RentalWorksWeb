@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using WebApi.Controllers;
 using System.Threading.Tasks;
-using WebLibrary;
 
 namespace WebApi.Modules.HomeControls.ExchangeItem
 {

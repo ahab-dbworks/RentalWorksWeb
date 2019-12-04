@@ -51,8 +51,9 @@ class ReceiveFromVendor {
         FwFormField.setValueByDataField($form, 'Date', currentDate);
         FwFormField.setValueByDataField($form, 'Time', currentTime);
 
-        const cancelMenuOptionId = Constants.Modules.Home.ReceiveFromVendor.form.menuItems.Cancel.id.replace('{', '').replace('}', '');
-        $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'false');
+        //#jasontodo
+        //const cancelMenuOptionId = Constants.Modules.Home.ReceiveFromVendor.form.menuItems.Cancel.id.replace('{', '').replace('}', '');
+        //$form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'false');
 
         if (typeof parentmoduleinfo !== 'undefined') {
             FwFormField.setValueByDataField($form, 'PurchaseOrderId', parentmoduleinfo.PurchaseOrderId, parentmoduleinfo.PurchaseOrderNumber);
@@ -127,8 +128,9 @@ class ReceiveFromVendor {
                     let orderNumber = $this.find(`[data-browsedatafield="OrderNumber"]`).attr('data-originalvalue');
                     const contractId = $this.find(`[data-browsedatafield="ContractId"]`).attr('data-originalvalue');
                     FwFormField.setValueByDataField($form, 'ContractId', contractId);
-                    const cancelMenuOptionId = Constants.Modules.Home.ReceiveFromVendor.form.menuItems.Cancel.id.replace('{', '').replace('}', '');
-                    $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'true');
+                    //#jasontodo
+                    //const cancelMenuOptionId = Constants.Modules.Home.ReceiveFromVendor.form.menuItems.Cancel.id.replace('{', '').replace('}', '');
+                    //$form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'true');
                     FwFormField.setValueByDataField($form, 'PurchaseOrderId', id, orderNumber);
                     FwPopup.destroyPopup($popup);
                     $form.find('[data-datafield="PurchaseOrderId"] input').change();
@@ -163,8 +165,10 @@ class ReceiveFromVendor {
 
                     FwFormField.setValueByDataField($form, 'ContractId', contractId);
                     $form.find('.suspendedsession').hide();
-                    const cancelMenuOptionId = Constants.Modules.Home.ReceiveFromVendor.form.menuItems.Cancel.id.replace('{', '').replace('}', '');
-                    $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'true');
+
+                    //#jasontodo
+                    //const cancelMenuOptionId = Constants.Modules.Home.ReceiveFromVendor.form.menuItems.Cancel.id.replace('{', '').replace('}', '');
+                    //$form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'true');
 
                     $receiveItemsGridControl = $form.find('div[data-name="POReceiveItemGrid"]');
                     FwBrowse.search($receiveItemsGridControl);
@@ -349,8 +353,10 @@ class ReceiveFromVendor {
         FwFormField.setValueByDataField($form, 'Time', currentTime);
         $form.find('.createcontract[data-type="button"]').show();
         $form.find('.createcontract[data-type="btnmenu"]').hide();
-        const cancelMenuOptionId = Constants.Modules.Home.ReceiveFromVendor.form.menuItems.Cancel.id.replace('{', '').replace('}', '');
-        $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'false');
+
+        //#jasontodo
+        //const cancelMenuOptionId = Constants.Modules.Home.ReceiveFromVendor.form.menuItems.Cancel.id.replace('{', '').replace('}', '');
+        //$form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'false');
 
         $form.find('.suspendedsession').show();
     }

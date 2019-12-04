@@ -50,8 +50,9 @@ class ReturnToVendor {
         //$form.find('div[data-datafield="PurchaseOrderId"] input fwformfield-text').focus();
         //$form.find('div[data-displayfield="PurchaseOrderNumber"] input').focus();
 
-        const cancelMenuOptionId = Constants.Modules.Home.ReturnToVendor.form.menuItems.Cancel.id.replace('{', '').replace('}', '');
-        $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'false');
+        //#jasontodo
+        //const cancelMenuOptionId = Constants.Modules.Home.ReturnToVendor.form.menuItems.Cancel.id.replace('{', '').replace('}', '');
+        //$form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'false');
 
         let date = new Date(),
             currentDate = date.toLocaleString(),
@@ -169,8 +170,10 @@ class ReturnToVendor {
 
                     FwFormField.setValueByDataField($form, 'ContractId', contractId);
                     $form.find('.suspendedsession').hide();
-                    const cancelMenuOptionId = Constants.Modules.Home.ReturnToVendor.form.menuItems.Cancel.id.replace('{', '').replace('}', '');
-                    $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'true');
+
+                    //#jasontodo
+                    //const cancelMenuOptionId = Constants.Modules.Home.ReturnToVendor.form.menuItems.Cancel.id.replace('{', '').replace('}', '');
+                    //$form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'true');
 
                     $pOReturnItemGridControl = $form.find('div[data-name="POReturnItemGrid"]');
                     FwBrowse.search($pOReturnItemGridControl);
@@ -322,8 +325,10 @@ class ReturnToVendor {
         $form.find('div[data-name="POReturnItemGrid"] tr.viewmode').empty();
         $form.find('div[data-name="POReturnBarCodeGrid"] tr.viewmode').empty();
         errorMsg.html('');
-        const cancelMenuOptionId = Constants.Modules.Home.ReturnToVendor.form.menuItems.Cancel.id.replace('{', '').replace('}', '');
-        $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'false');
+
+        //#jasontodo
+        //const cancelMenuOptionId = Constants.Modules.Home.ReturnToVendor.form.menuItems.Cancel.id.replace('{', '').replace('}', '');
+        //$form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'false');
 
         $form.find('.suspendedsession').show();
     }

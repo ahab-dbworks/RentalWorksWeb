@@ -59,8 +59,9 @@ class Exchange {
             $form.find('div[data-validationname="SalesInventoryValidation"]').show();
         }
 
-        const cancelMenuOptionId = Constants.Modules.Home.Exchange.form.menuItems.Cancel.id.replace('{', '').replace('}', '');
-        $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'false');
+        //#jasontodo
+        //const cancelMenuOptionId = Constants.Modules.Home.Exchange.form.menuItems.Cancel.id.replace('{', '').replace('}', '');
+        //$form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'false');
 
         this.getSuspendedSessions($form);
         this.events($form);
@@ -152,7 +153,9 @@ class Exchange {
         const contractRequest: any = {}
         contractRequest['DepartmentId'] = department.departmentid;
 
-        const cancelMenuOptionId = Constants.Modules.Home.Exchange.form.menuItems.Cancel.id.replace('{', '').replace('}', '');
+        //#jasontodo
+        //const cancelMenuOptionId = Constants.Modules.Home.Exchange.form.menuItems.Cancel.id.replace('{', '').replace('}', '');
+
         const exchangeRequest: any = {};
         // Deal Id
         $form.find('div[data-datafield="DealId"]').data('onchange', $tr => {
@@ -164,7 +167,8 @@ class Exchange {
                     if (this.ContractId === '') {
                         this.ContractId = response.ContractId
                         $form.find('.suspendedsession').hide();
-                        $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'true');
+                        //#jasontodo
+                        //$form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'true');
                     }
 
                     const $exchangeItemGridControl = $form.find('[data-name="OrderStatusSummaryGrid"]');
@@ -194,7 +198,8 @@ class Exchange {
                         if (this.ContractId === '') {
                             this.ContractId = response.ContractId
                             $form.find('.suspendedsession').hide();
-                            $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'true');
+                            //#jasontodo
+                            //$form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'true');
                         }
 
                         FwFormField.disable(FwFormField.getDataField($form, 'OrderId'));
@@ -270,7 +275,8 @@ class Exchange {
                             if (this.ContractId === '') {
                                 this.ContractId = response.ContractId;
                                 $form.find('.suspendedsession').hide();
-                                $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'true');
+                                //#jasontodo
+                                //$form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'true');
                             }
                             $form.find('div.error-msg.check-in').html('');
                             $form.find('.in').removeClass('error');
@@ -367,8 +373,9 @@ class Exchange {
             }
         }
         this.ContractId = '';
-        const cancelMenuOptionId = Constants.Modules.Home.Exchange.form.menuItems.Cancel.id.replace('{', '').replace('}', '');
-        $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'false');
+        //#jasontodo
+        //const cancelMenuOptionId = Constants.Modules.Home.Exchange.form.menuItems.Cancel.id.replace('{', '').replace('}', '');
+        //$form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'false');
         this.ExchangeResponse = {};
         this.renderGrids($form);
         FwFormField.enable(FwFormField.getDataField($form, 'OrderId'));
