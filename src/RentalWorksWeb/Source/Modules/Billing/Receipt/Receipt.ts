@@ -261,6 +261,10 @@ class Receipt {
             moduleSecurityId: this.id,
             $form: $form,
             pageSize: 10,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                options.hasNew = false;
+                options.hasDelete = false;
+            },
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     ReceiptId: FwFormField.getValueByDataField($form, 'ReceiptId')
