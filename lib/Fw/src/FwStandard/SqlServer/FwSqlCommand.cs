@@ -1215,7 +1215,13 @@ namespace FwStandard.SqlServer
                                 {
                                     ordinal = reader.GetOrdinal(FwSqlSelect.TOTAL_FIELD_PREFIX + fieldName);
                                     //dt.Totals.Add(fieldName, reader.GetDecimal(ordinal));
-                                    dt.Totals[fieldName] = reader.GetDecimal(ordinal);  // just update the total value here instead
+                                    //dt.Totals[fieldName] = reader.GetDecimal(ordinal);  // just update the total value here instead
+                                    decimal total = 0;
+                                    if (!reader.IsDBNull(ordinal))
+                                    {
+                                        total = reader.GetDecimal(ordinal);  
+                                    }
+                                    dt.Totals[fieldName] = total;
                                 }
                             }
                         }
