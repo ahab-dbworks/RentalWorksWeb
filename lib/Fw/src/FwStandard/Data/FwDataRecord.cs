@@ -385,16 +385,17 @@ namespace FwStandard.Data
             List<PropertyInfo> primaryKeyProperties = GetPrimaryKeyProperties();
             foreach (PropertyInfo primaryKeyProperty in primaryKeyProperties)
             {
-                foreach (Attribute attribute in primaryKeyProperty.GetCustomAttributes())
+                if (primaryKeyProperty.PropertyType == typeof(string))
                 {
-                    if (attribute.GetType() == typeof(FwSqlDataFieldAttribute))
+                    foreach (Attribute attribute in primaryKeyProperty.GetCustomAttributes())
                     {
-                        FwSqlDataFieldAttribute dataFieldAttribute = (FwSqlDataFieldAttribute)attribute;
-                        if ((!dataFieldAttribute.IsPrimaryKeyOptional) && (!dataFieldAttribute.Identity))
+                        if (attribute.GetType() == typeof(FwSqlDataFieldAttribute))
                         {
-                            string id = await FwSqlData.GetNextIdAsync(conn, AppConfig.DatabaseSettings);
-                            if (primaryKeyProperty.GetValue(this) is string)
+                            FwSqlDataFieldAttribute dataFieldAttribute = (FwSqlDataFieldAttribute)attribute;
+                            if ((!dataFieldAttribute.IsPrimaryKeyOptional) && (!dataFieldAttribute.Identity))
                             {
+                                string id = await FwSqlData.GetNextIdAsync(conn, AppConfig.DatabaseSettings);
+                                //if (primaryKeyProperty.GetValue(this) is string)
                                 primaryKeyProperties[0].SetValue(this, id);
                             }
                         }
