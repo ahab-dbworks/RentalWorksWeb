@@ -199,7 +199,7 @@ var Constants = {
                     caption: 'Order Reports',
                     nodetype: 'Category',
                     children: {
-                        LateReturnDueBackReport: {          id: 'gOtEnqxlXIOt', caption: 'Late Return / Due Back', nav: 'reports/latereturnduebackreport', nodetype: 'Module', description: 'List all items that are Late or Due Back on a specific date.  Data is subtotalled by Order and Deal.' },
+                        LateReturnsReport: {                id: 'gOtEnqxlXIOt', caption: 'Late Return / Due Back', nav: 'reports/latereturnsreport', nodetype: 'Module', description: 'List all items that are Late or Due Back on a specific date.  Data is subtotalled by Order and Deal.' },
                         OrderConflictReport: {              id: 'kXV9ZCJogLiwe', caption: 'Availability Item Conflict', nav: 'reports/orderconflictreport', nodetype: 'Module', description: 'List all Negative and Positive Availability Conflicts over a specified date range.' },
                         OrderReport: {                      id: 'Q89Ni6FvVL92', caption: 'Print Order', nav: 'reports/orderreport', nodetype: 'Module', description: 'Order document.' },
                         OutstandingSubRentalReport: {       id: 'NCFNATdQRx5E', caption: 'Outstanding Sub-Rental', nav: 'reports/outstandingsubrentalreport', nodetype: 'Module', description: 'List all Sub-Rental items currently Staged, Out, or in Holding.' },

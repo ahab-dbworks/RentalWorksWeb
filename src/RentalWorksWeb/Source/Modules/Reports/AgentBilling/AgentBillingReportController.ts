@@ -73,8 +73,7 @@ const agentBillingTemplate = `
         </div>
       </div>
     </div>
-  </div>
-</div>`;
+  </div>`;
 
 //----------------------------------------------------------------------------------------------
 class AgentBillingReport extends FwWebApiReport {
