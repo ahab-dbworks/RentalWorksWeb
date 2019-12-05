@@ -1,13 +1,10 @@
-﻿class StagingCheckout extends StagingCheckoutBase {
+class StagingCheckout extends StagingCheckoutBase {
     Module:                    string  = 'StagingCheckout';
     apiurl:                    string  = 'api/v1/checkout';
     caption:                   string  = Constants.Modules.Warehouse.children.StagingCheckout.caption;
     nav:                       string  = Constants.Modules.Warehouse.children.StagingCheckout.nav;
     id:                        string  = Constants.Modules.Warehouse.children.StagingCheckout.id;
     showAddItemToOrder:        boolean = false;
-    successSoundFileName:      string;
-    errorSoundFileName:        string;
-    notificationSoundFileName: string;
     contractId:                string;
     isPendingItemGridView:     boolean = false;
     Type:                      string  = 'Order';

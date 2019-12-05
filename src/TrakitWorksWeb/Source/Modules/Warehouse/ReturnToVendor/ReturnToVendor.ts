@@ -50,7 +50,9 @@ class ReturnToVendor {
         //$form.find('div[data-datafield="PurchaseOrderId"] input fwformfield-text').focus();
         //$form.find('div[data-displayfield="PurchaseOrderNumber"] input').focus();
 
-        let date        = new Date(),
+        $form.find('div.caption:contains(Cancel Return To Vendor)').parent().attr('data-enabled', 'false');
+
+        let date = new Date(),
             currentDate = date.toLocaleString(),
             currentTime = date.toLocaleTimeString();
 
@@ -62,11 +64,9 @@ class ReturnToVendor {
             $form.find('[data-datafield="PurchaseOrderId"] input').change();
             $form.attr('data-showsuspendedsessions', 'false');
         }
-        this.getSoundUrls($form);
         this.getItems($form);
         this.events($form);
         this.getSuspendedSessions($form);
-
         return $form;
     }
     //----------------------------------------------------------------------------------------------
@@ -148,8 +148,6 @@ class ReturnToVendor {
     }
     //----------------------------------------------------------------------------------------------
     getItems($form) {
-        let self         = this;
-        let successSound = new Audio(this.successSoundFileName);
         $form.find('[data-datafield="PurchaseOrderId"]').data('onchange', $tr => {
             FwFormField.disable($form.find('[data-datafield="PurchaseOrderId"]'));
 
@@ -171,18 +169,14 @@ class ReturnToVendor {
                     FwFormField.setValueByDataField($form, 'ContractId', contractId);
                     $form.find('.suspendedsession').hide();
 
+                    $form.find('div.caption:contains(Cancel Return To Vendor)').parent().attr('data-enabled', 'true');
+
                     $pOReturnItemGridControl = $form.find('div[data-name="POReturnItemGrid"]');
                     FwBrowse.search($pOReturnItemGridControl);
                 }, null, null);
             }
         });
-    }
-    //----------------------------------------------------------------------------------------------
-    getSoundUrls($form): void {
-        this.successSoundFileName      = JSON.parse(sessionStorage.getItem('sounds')).successSoundFileName;
-        this.errorSoundFileName        = JSON.parse(sessionStorage.getItem('sounds')).errorSoundFileName;
-        this.notificationSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).notificationSoundFileName;
-    }
+    };
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
         FwBrowse.renderGrid({
@@ -327,6 +321,7 @@ class ReturnToVendor {
         $form.find('div[data-name="POReturnItemGrid"] tr.viewmode').empty();
         $form.find('div[data-name="POReturnBarCodeGrid"] tr.viewmode').empty();
         errorMsg.html('');
+        $form.find('div.caption:contains(Cancel Return To Vendor)').parent().attr('data-enabled', 'false');
 
         $form.find('.suspendedsession').show();
     }
@@ -340,7 +335,7 @@ class ReturnToVendor {
                 <div class="flexrow">
                     <div class="flexcolumn" style="flex:0 1 735px;">
                     <div class="flexrow">
-                      <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="PO No." data-datafield="PurchaseOrderId" data-displayfield="PurchaseOrderNumber" data-validationname="PurchaseOrderValidation" style="flex:0 1 175px;"></div>
+                      <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="PO No." data-datafield="PurchaseOrderId" data-displayfield="PurchaseOrderNumber" data-validationname="PurchaseOrderValidation" data-formbeforevalidate="beforeValidate" style="flex:0 1 175px;"></div>
                       <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="ContractId" data-datafield="ContractId" style="display:none; flex:0 1 175px;"></div>
                       <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Vendor" data-datafield="VendorId" data-displyfield="Vendor" data-validationname="VendorValidation" style="flex:1 1 300px;" data-enabled="false"></div>
                       <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Date" data-datafield="Date" style="flex:0 1 125px;" data-enabled="false"></div>
@@ -377,3 +372,4 @@ class ReturnToVendor {
 }
 //----------------------------------------------------------------------------------------------
 var ReturnToVendorController = new ReturnToVendor();
+
