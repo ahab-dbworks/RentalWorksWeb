@@ -85,7 +85,7 @@ rem echo %openBrack%
 cmd /c exit 93
 set closeBrack=%=exitcodeAscii%
 rem echo %closeBrack%
-set newassemblyline=%openBrack%assembly: AssemblyVersion("%buildno%")%closeBrack%
+set newassemblyline=%openBrack%assembly: AssemblyVersion("%fullversionno%")%closeBrack%
 rem echo %newassemblyline%
 set "file=%DwRentalWorksWebPath%\src\%productname%\Properties\AssemblyInfo.cs"
 for /F "delims=" %%a in (%file%) do (
@@ -108,19 +108,19 @@ IF "%commitandftp%"=="y" (
     git add "src/%productname%/Properties/AssemblyInfo.cs"
     git add "src/RentalWorksWebApi/version.txt"
     git add "src/RentalWorksWebApi/version-%productname%.txt"
-    git commit -m "web: %buildno%"
+    git commit -m "web: %fullversionno%"
     git push
-    git tag web/v%buildno%
-    git push origin web/v%buildno%
+    git tag web/v%fullversionno%
+    git push origin web/v%fullversionno%
 
     rem command-line gren make Build Release Document
     cd %DwRentalWorksWebPath%
-    call gren changelog --token=4f42c7ba6af985f6ac6a6c9eba45d8f25388ef58 --username=databaseworks --repo=rentalworksweb --generate --override --changelog-filename=build/v%buildno%.md -t web/v%buildno% -c config.grenrc
-    start build/v%buildno%.md
+    call gren changelog --token=4f42c7ba6af985f6ac6a6c9eba45d8f25388ef58 --username=databaseworks --repo=rentalworksweb --generate --override --changelog-filename=build/v%fullversionno%.md -t web/v%fullversionno% -c config.grenrc
+    start build/v%fullversionno%.md
 
     rem produce a PDF of the MD file
     cd %DwRentalWorksWebPath%
-    call md-to-pdf build\v%buildno%.md
+    call md-to-pdf build\v%fullversionno%.md
 
     rem Need to use curl to publish the PDF file to ZenDesk as a new "article"
     rem curl https://dbworks.zendesk.com/api/v2/help_center/sections/{id}/articles.json \
@@ -175,7 +175,7 @@ IF "%commitandftp%"=="y" (
     echo cd %productname%>>%ftpcommandfilename%
     echo cd %shortversionno%>>%ftpcommandfilename%
     echo put %zipfilename%>>%ftpcommandfilename%
-    echo put v%buildno%.pdf>>%ftpcommandfilename%
+    echo put v%fullversionno%.pdf>>%ftpcommandfilename%
     echo quit>>%ftpcommandfilename%
 
     rem Run the FTP command using the command file created above, delete the command file
