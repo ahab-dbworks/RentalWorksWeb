@@ -1204,7 +1204,7 @@
                 break;
             case 'ContainerValidation':
                 //from the fill container confirmation
-                const inventoryId = FwFormField.getValueByDataField($validationbrowse, 'InventoryId');
+                const inventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
                 request.uniqueids = {
                     ScannableInventoryId: inventoryId
                 };
