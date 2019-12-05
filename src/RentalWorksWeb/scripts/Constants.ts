@@ -74,14 +74,14 @@ var Constants = {
                 CreatePickList: { id: '1407A536-B5C9-4363-8B54-A56DB8CE902D', caption: 'Create Pick List', nav: 'module/contract', nodetype: 'Module' },
                 CustomerCredit: { id: 'DCPFcfKgUGnuC', caption: 'Customer Credit', nav: 'module/customercredit', nodetype: 'Module' },
                 DealCredit: { id: 'OCkLGwclipEA', caption: 'Deal Credit', nav: 'module/dealcredit', nodetype: 'Module' },
-                Manifest: {
-                    id: 'yMwoSvKvwAbbZ', caption: 'Transfer Manifest', nav: 'module/manifest', nodetype: 'Module',
-                    form: {
-                        menuItems: {
-                            Print: { id: '{8FC8A0F2-C016-476F-971B-64CF2ED95E41}' }
-                        }
-                    }
-                },
+                //Manifest: {
+                //    id: 'yMwoSvKvwAbbZ', caption: 'Transfer Manifest', nav: 'module/manifest', nodetype: 'Module',
+                //    form: {
+                //        menuItems: {
+                //            Print: { id: '{8FC8A0F2-C016-476F-971B-64CF2ED95E41}' }
+                //        }
+                //    }
+                //},
                 SubWorksheet: { id: '2227B6C3-587D-48B1-98B6-B9125E0E4D9D', caption: 'Sub Worksheet', nav: 'module/subworksheet', nodetype: 'Module' },
                 SuspendedSession: { id: '5FBE7FF8-3770-48C5-855C-4320C961D95A', caption: 'Suspended Session', nav: 'module/suspendedsession', nodetype: 'Module' }
             }
