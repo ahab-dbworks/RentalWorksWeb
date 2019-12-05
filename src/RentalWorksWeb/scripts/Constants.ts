@@ -339,6 +339,7 @@ var Constants = {
                 CurrencySettings: {
                     caption: 'Currency',
                     id: 'Settings.CurrencySettings',
+                    nodetype: 'Category',
                     children: {
                         Currency: { id: 'xpyZJmmju0uB', caption: 'Currency', nav: 'settings/currencysettings/currency', nodetype: 'Module', description: '' }
                     }
@@ -421,6 +422,7 @@ var Constants = {
                 GeneratorSettings: {
                     caption: 'Generator',
                     id: 'Settings.GeneratorSettings',
+                    nodetype: 'Category',
                     children: {
                         GeneratorFuelType: { id: 'WP4ewzQGUV8U', caption: 'Generator Fuel Type', nav: 'settings/generatorsettings/fueltype', nodetype: 'Module', description: '' },
                         GeneratorMake: { id: 'fHix04T2Hsc6', caption: 'Generator Make', nav: 'settings/generatorsettings/make', nodetype: 'Module', description: '' },
