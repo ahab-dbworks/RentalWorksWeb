@@ -61,7 +61,6 @@ namespace WebApi.Modules.Settings.InventorySettings.InventoryType
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
             useWithNoLock = false;
-            select.UseOptionRecompile = true;
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
             select.AddWhere("(rental='T' or sales = 'T' or parts='T' or sets='T' or props='T' or wardrobe='T' or vehicle ='T')");
