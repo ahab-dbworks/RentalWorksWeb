@@ -46,6 +46,8 @@ namespace WebApi.Modules.Inventory.CompleteQc
                 qry.AddParameter("@condition", SqlDbType.NVarChar, ParameterDirection.Output);
                 qry.AddParameter("@rentalitemid", SqlDbType.NVarChar, ParameterDirection.Output);
                 qry.AddParameter("@rentalitemqcid", SqlDbType.NVarChar, ParameterDirection.Output);
+                qry.AddParameter("@trackfootcandles", SqlDbType.NVarChar, ParameterDirection.Output);
+                qry.AddParameter("@tracksoftware", SqlDbType.NVarChar, ParameterDirection.Output);
                 qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
                 qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
                 await qry.ExecuteNonQueryAsync();
