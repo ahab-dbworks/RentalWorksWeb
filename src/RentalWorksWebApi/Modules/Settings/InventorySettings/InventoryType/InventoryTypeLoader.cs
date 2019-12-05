@@ -74,6 +74,25 @@ namespace WebApi.Modules.Settings.InventorySettings.InventoryType
             addFilterToSelect("Vehicle", "vehicle", select, request);
 
             string recType = GetUniqueIdAsString("RecType", request) ?? "";
+            if (string.IsNullOrEmpty(recType))
+            {
+                if (GetUniqueIdAsBoolean("Rental", request).GetValueOrDefault(false))
+                {
+                    recType = RwConstants.RECTYPE_RENTAL;
+                }
+                else if (GetUniqueIdAsBoolean("Sales", request).GetValueOrDefault(false))
+                {
+                    recType = RwConstants.RECTYPE_SALE;
+                }
+                else if (GetUniqueIdAsBoolean("Parts", request).GetValueOrDefault(false))
+                {
+                    recType = RwConstants.RECTYPE_PARTS;
+                }
+                else if (GetUniqueIdAsBoolean("Vehicle", request).GetValueOrDefault(false))
+                {
+                    recType = RwConstants.RECTYPE_VEHICLE;
+                }
+            }
             select.AddParameter("@rectype", recType);
 
             if (GetUniqueIdAsBoolean("HasCategories", request).GetValueOrDefault(false))
