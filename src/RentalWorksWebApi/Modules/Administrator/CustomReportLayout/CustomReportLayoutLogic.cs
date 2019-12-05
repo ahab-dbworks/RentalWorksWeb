@@ -4,7 +4,7 @@ using System.Reflection;
 using WebApi.Logic;
 using WebApi;
 
-namespace WebApi.Modules.AdministratorControls.CustomReportLayout
+namespace WebApi.Modules.Administrator.CustomReportLayout
 {
     [FwLogic(Id:"SgSLHzluaM9Kz")]
     public class CustomReportLayoutLogic : AppBusinessLogic
