@@ -33,7 +33,7 @@ namespace WebApi.Controllers.SharedControls.AppImage
         //------------------------------------------------------------------------------------
         // GET api/v1/appimage/getonebyid?&appimageid=value&thumbnail=value
         [HttpGet("getimage")]
-        [FwControllerMethod(Id: "6VM5MbZwucZi", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
+        [FwControllerMethod(Id: "6VM5MbZwucZi", ActionType: FwControllerActionTypes.Browse, AllowAnonymous: true)]
         public async Task<ActionResult<List<FwAppImageModel>>> GetImageAsync([FromQuery]string appimageid, [FromQuery]string thumbnail="")
         {
             return await base.DoGetOneAsync(appimageid, thumbnail, null, null, null, null);

@@ -252,36 +252,16 @@ class CustomReportLayout {
     //}
     //----------------------------------------------------------------------------------------------
     loadModules($form) {
-        let $moduleSelect
-            , node
-            , reports
-            , allReports;
+        let $moduleSelect = $form.find('.modules');
 
-        //Traverse security tree to find all browses and forms
-        node = FwApplicationTree.getNodeById(FwApplicationTree.tree, '0A5F2584-D239-480F-8312-7C2B552A30BA');
-        reports = FwApplicationTree.getChildrenByType(node, 'ReportsModule');
-        reports.map(obj => obj.properties);
-        allReports = [];
-        for (let i = 0; i < reports.length; i++) {
-            let reportChildren = reports[i].properties;
-            allReports.push({
-                text: reportChildren.caption
-                , value: reportChildren.controller.slice(0, - 10)
-            })
-        }
+        const reports = FwApplicationTree.getAllReports(false, false, (modules: any[], moduleCaption: string, moduleName: string, category: string, currentNode: any, nodeModule: IGroupSecurityNode, hasView: boolean, hasNew: boolean, hasEdit: boolean, moduleController: any) => {
+            if (moduleController.hasOwnProperty('apiurl')) {
+                modules.push({ value: moduleName, text: moduleCaption, apiurl: moduleController.apiurl });
+            }
+        });
 
-        //Sort modules alphabetically
-        function compare(a, b) {
-            if (a.text < b.text)
-                return -1;
-            if (a.text > b.text)
-                return 1;
-            return 0;
-        }
-        allReports.sort(compare);
-
-        $moduleSelect = $form.find('.modules');
-        FwFormField.loadItems($moduleSelect, allReports);
+        FwApplicationTree.sortModules(reports);
+        FwFormField.loadItems($moduleSelect, reports);
 
         this.codeMirrorEvents($form);
     }

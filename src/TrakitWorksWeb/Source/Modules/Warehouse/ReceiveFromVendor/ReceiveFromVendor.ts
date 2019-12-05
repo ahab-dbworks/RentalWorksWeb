@@ -6,9 +6,6 @@ class ReceiveFromVendor {
     caption:                   string = Constants.Modules.Warehouse.children.ReceiveFromVendor.caption;
     nav:                       string = Constants.Modules.Warehouse.children.ReceiveFromVendor.nav;
     id:                        string = Constants.Modules.Warehouse.children.ReceiveFromVendor.id;
-    successSoundFileName:      string;
-    errorSoundFileName:        string;
-    notificationSoundFileName: string;
     //----------------------------------------------------------------------------------------------
     addFormMenuItems(options: IAddFormMenuOptions): void {
         options.hasSave = false;
@@ -54,6 +51,8 @@ class ReceiveFromVendor {
         FwFormField.setValueByDataField($form, 'Date', currentDate);
         FwFormField.setValueByDataField($form, 'Time', currentTime);
 
+        $form.find('div.caption:contains(Cancel Receive From Vendor)').parent().attr('data-enabled', 'false');
+
         if (typeof parentmoduleinfo !== 'undefined') {
             FwFormField.setValueByDataField($form, 'PurchaseOrderId', parentmoduleinfo.PurchaseOrderId, parentmoduleinfo.PurchaseOrderNumber);
             $form.find('[data-datafield="PurchaseOrderId"] input').change();
@@ -61,10 +60,8 @@ class ReceiveFromVendor {
         }
 
         this.getSuspendedSessions($form);
-        this.getSoundUrls($form);
         this.getItems($form);
         this.events($form);
-
         return $form;
     }
     //----------------------------------------------------------------------------------------------
@@ -129,6 +126,7 @@ class ReceiveFromVendor {
                     let orderNumber = $this.find(`[data-browsedatafield="OrderNumber"]`).attr('data-originalvalue');
                     const contractId = $this.find(`[data-browsedatafield="ContractId"]`).attr('data-originalvalue');
                     FwFormField.setValueByDataField($form, 'ContractId', contractId);
+                    $form.find('div.caption:contains(Cancel Receive From Vendor)').parent().attr('data-enabled', 'true');
                     FwFormField.setValueByDataField($form, 'PurchaseOrderId', id, orderNumber);
                     FwPopup.destroyPopup($popup);
                     $form.find('[data-datafield="PurchaseOrderId"] input').change();
@@ -163,6 +161,7 @@ class ReceiveFromVendor {
 
                     FwFormField.setValueByDataField($form, 'ContractId', contractId);
                     $form.find('.suspendedsession').hide();
+                    $form.find('div.caption:contains(Cancel Receive From Vendor)').parent().attr('data-enabled', 'true');
 
                     $receiveItemsGridControl = $form.find('div[data-name="POReceiveItemGrid"]');
                     FwBrowse.search($receiveItemsGridControl);
@@ -176,12 +175,6 @@ class ReceiveFromVendor {
                 }, null, $form);
             }
         });
-    }
-    //----------------------------------------------------------------------------------------------
-    getSoundUrls($form): void {
-        this.successSoundFileName      = JSON.parse(sessionStorage.getItem('sounds')).successSoundFileName;
-        this.errorSoundFileName        = JSON.parse(sessionStorage.getItem('sounds')).errorSoundFileName;
-        this.notificationSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).notificationSoundFileName;
     }
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
@@ -226,7 +219,8 @@ class ReceiveFromVendor {
                             FwModule.openSubModuleTab($form, $contractForm);
                         }
                         this.resetForm($form);
-                    } catch (ex) {
+                    }
+                    catch (ex) {
                         FwFunc.showError(ex);
                     }
                 }, null, $form);
@@ -352,6 +346,7 @@ class ReceiveFromVendor {
         FwFormField.setValueByDataField($form, 'Time', currentTime);
         $form.find('.createcontract[data-type="button"]').show();
         $form.find('.createcontract[data-type="btnmenu"]').hide();
+        $form.find('div.caption:contains(Cancel Receive From Vendor)').parent().attr('data-enabled', 'false');
 
         $form.find('.suspendedsession').show();
     }
@@ -365,7 +360,7 @@ class ReceiveFromVendor {
                 <div class="flexrow">
                     <div class="flexcolumn" style="flex:1 1 450px;">
                     <div class="flexrow">
-                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="PO No." data-datafield="PurchaseOrderId" data-displayfield="PurchaseOrderNumber" data-validationname="PurchaseOrderValidation" style="flex:0 1 175px;"></div>
+                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="PO No." data-datafield="PurchaseOrderId" data-displayfield="PurchaseOrderNumber" data-validationname="PurchaseOrderValidation" data-formbeforevalidate="beforeValidate" style="flex:0 1 175px;"></div>
                         <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="ContractId" data-datafield="ContractId" style="display:none; flex:0 1 175px;"></div>
                         <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Vendor" data-datafield="VendorId" data-displyfield="Vendor" data-validationname="VendorValidation" style="flex:1 1 300px;" data-enabled="false"></div>
                         <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Date" data-datafield="Date" style="flex:0 1 175px;" data-enabled="false"></div>

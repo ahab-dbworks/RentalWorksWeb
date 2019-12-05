@@ -1,4 +1,4 @@
-﻿//routes.push({ pattern: /^module\/assignbarcodes$/, action: function (match: RegExpExecArray) { return AssignBarCodesController.getModuleScreen(); } });
+//routes.push({ pattern: /^module\/assignbarcodes$/, action: function (match: RegExpExecArray) { return AssignBarCodesController.getModuleScreen(); } });
 
 class AssignBarCodes {
     Module:                    string = 'AssignBarCodes';
@@ -6,9 +6,6 @@ class AssignBarCodes {
     caption:                   string = Constants.Modules.Warehouse.children.AssignBarCodes.caption;
     nav:                       string = Constants.Modules.Warehouse.children.AssignBarCodes.nav;
     id:                        string = Constants.Modules.Warehouse.children.AssignBarCodes.id;
-    successSoundFileName:      string;
-    errorSoundFileName:        string;
-    notificationSoundFileName: string;
     //----------------------------------------------------------------------------------------------
     addFormMenuItems(options: IAddFormMenuOptions): void {
         options.hasSave = false;

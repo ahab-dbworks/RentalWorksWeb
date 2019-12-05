@@ -1,2 +1,2 @@
-Last Synced on: 05/24/2019 09:29:02
+Last Synced on: 12/04/2019 17:21:20
 Source Path: RentalWorksWeb\src\RentalWorksWeb\Source\Modules\Reports\QuoteReport

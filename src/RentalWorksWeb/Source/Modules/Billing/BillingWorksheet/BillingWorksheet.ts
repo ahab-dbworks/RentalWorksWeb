@@ -27,7 +27,7 @@ class BillingWorksheet {
             FwBrowse.screenunload($browse);
         };
         return screen;
-    };
+    }
     //----------------------------------------------------------------------------------------------
     openBrowse() {
         let $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
@@ -50,13 +50,30 @@ class BillingWorksheet {
                 $tr.css('color', '#aaaaaa');
             }
         });
-       
+
 
         return $browse;
-    };
+    }
     //----------------------------------------------------------------------------------------------
-    addBrowseMenuItems($menuObject: any) {
-        const location = JSON.parse(sessionStorage.getItem('location'));
+    addBrowseMenuItems(options: IAddBrowseMenuOptions): void {
+        options.hasDelete = true;
+        FwMenu.addBrowseMenuButtons(options);
+
+        FwMenu.addSubMenuItem(options.$groupOptions, 'Approve', '5eCr7yC19pza9', (e: JQuery.ClickEvent) => {
+            try {
+                this.browseApproveOrUnapprove(options.$browse, 'approve');
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+        FwMenu.addSubMenuItem(options.$groupOptions, 'Unapprove', '1bMGBrD9BekZ2', (e: JQuery.ClickEvent) => {
+            try {
+                this.browseApproveOrUnapprove(options.$browse, 'approve');
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+
         const $new = FwMenu.generateDropDownViewBtn('New', false, "NEW");
         const $approved = FwMenu.generateDropDownViewBtn('Approved', false, "APPROVED");
         const $newapproved = FwMenu.generateDropDownViewBtn('New & Approved', false, "NEWAPPROVED");
@@ -67,9 +84,10 @@ class BillingWorksheet {
 
         const viewSubitems: Array<JQuery> = [];
         viewSubitems.push($all, $new, $approved, $newapproved, $processed, $closed, $void);
-        FwMenu.addViewBtn($menuObject, 'View', viewSubitems, true, "Status");
+        FwMenu.addViewBtn(options.$menu, 'View', viewSubitems, true, "Status");
 
         //Location Filter
+        const location = JSON.parse(sessionStorage.getItem('location'));
         const $allLocations = FwMenu.generateDropDownViewBtn('ALL Locations', false, "ALL");
         const $userLocation = FwMenu.generateDropDownViewBtn(location.location, true, location.locationid);
 
@@ -77,11 +95,29 @@ class BillingWorksheet {
             this.ActiveViewFields.LocationId = [location.locationid];
         }
 
-        const viewLocation = [];
+        const viewLocation: Array<JQuery> = [];
         viewLocation.push($allLocations, $userLocation);
-        FwMenu.addViewBtn($menuObject, 'Location', viewLocation, true, "LocationId");
-        return $menuObject;
-    };
+        FwMenu.addViewBtn(options.$menu, 'Location', viewLocation, true, "LocationId");
+    }
+    //-----------------------------------------------------------------------------------------------
+    addFormMenuItems(options: IAddFormMenuOptions): void {
+        FwMenu.addFormMenuButtons(options);
+
+        FwMenu.addSubMenuItem(options.$groupOptions, 'Approve', 'CaXDtIbJk1AD2', (e: JQuery.ClickEvent) => {
+            try {
+                this.approveOrUnaproveWorksheet(options.$form, 'approve')
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+        FwMenu.addSubMenuItem(options.$groupOptions, 'Unapprove', 'os2wt4JduF909', (e: JQuery.ClickEvent) => {
+            try {
+                this.approveOrUnaproveWorksheet(options.$form, 'unapprove')
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+    }
     //----------------------------------------------------------------------------------------------
     openForm(mode, parentModuleInfo?: any) {
         let $form = FwModule.loadFormFromTemplate(this.Module);
@@ -97,7 +133,7 @@ class BillingWorksheet {
 
             const today = FwFunc.getDate();
             FwFormField.setValueByDataField($form, 'WorksheetDate', today);
-     
+
             FwFormField.enable($form.find('[data-datafield="StatusDate"]'));
             FwFormField.disable($form.find('[data-datafield="DealId"]'));
 
@@ -127,7 +163,7 @@ class BillingWorksheet {
         this.events($form);
 
         return $form;
-    };
+    }
     //----------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
         const $form = this.openForm('EDIT');
@@ -135,11 +171,11 @@ class BillingWorksheet {
         FwModule.loadForm(this.Module, $form);
 
         return $form;
-    };
+    }
     //----------------------------------------------------------------------------------------------
     saveForm($form: JQuery, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
-    };
+    }
     //----------------------------------------------------------------------------------------------
     renderGrids($form: JQuery): void {
         const invoiceItemTotalFields = ["LineTotalWithTax", "Tax", "LineTotal", "LineTotalBeforeDiscount", "DiscountAmount"];
@@ -491,12 +527,12 @@ class BillingWorksheet {
         jQuery($form.find('.laborgrid .valtype')).attr('data-validationname', 'LaborRateValidation');
         jQuery($form.find('.miscgrid .valtype')).attr('data-validationname', 'MiscRateValidation');
         jQuery($form.find('.rentalsalegrid .valtype')).attr('data-validationname', 'RentalInventoryValidation');
-    };
+    }
     //----------------------------------------------------------------------------------------------
     loadAudit($form: JQuery): void {
         const uniqueid = FwFormField.getValueByDataField($form, 'BillingWorksheetId');
         FwModule.loadAudit($form, uniqueid);
-    };
+    }
     //----------------------------------------------------------------------------------------------
     afterLoad($form: JQuery): void {
         // Disbles form for certain statuses. Maintain position under 'IsStandAloneInvoice' condition since status overrides
@@ -528,8 +564,57 @@ class BillingWorksheet {
         });
 
         this.dynamicColumns($form);
-    };
-
+    }
+    //----------------------------------------------------------------------------------------------
+    approveOrUnaproveWorksheet($form: any, indicator: string) {
+        const billingWorksheetId = FwFormField.getValueByDataField($form, 'BillingWorksheetId');
+        if (indicator === 'approve') {
+            FwAppData.apiMethod(true, 'POST', `api/v1/billingworksheet/${billingWorksheetId}/approve`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                if (response.success === true) {
+                    FwModule.refreshForm($form);
+                } else {
+                    FwNotification.renderNotification('WARNING', response.msg);
+                }
+            }, null, $form);
+        } else if (indicator === 'unapprove') {
+            FwAppData.apiMethod(true, 'POST', `api/v1/billingworksheet/${billingWorksheetId}/unapprove`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                if (response.success === true) {
+                    FwModule.refreshForm($form);
+                } else {
+                    FwNotification.renderNotification('WARNING', response.msg);
+                }
+            }, null, $form);
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    browseApproveOrUnapprove($browse: any, indicator: string) {
+        const billingWorksheetId = $browse.find('.selected [data-browsedatafield="BillingWorksheetId"]').attr('data-originalvalue');
+        if (indicator === 'approve') {
+            if (typeof billingWorksheetId !== 'undefined') {
+                FwAppData.apiMethod(true, 'POST', `api/v1/billingworksheet/${billingWorksheetId}/approve`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                    if (response.success === true) {
+                        FwBrowse.search($browse);
+                    } else {
+                        FwNotification.renderNotification('WARNING', response.msg);
+                    }
+                }, null, $browse);
+            } else {
+                FwNotification.renderNotification('WARNING', 'No Worksheet Selected');
+            }
+        } else if (indicator === 'unapprove') {
+            if (typeof billingWorksheetId !== 'undefined') {
+                FwAppData.apiMethod(true, 'POST', `api/v1/billingworksheet/${billingWorksheetId}/unapprove`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                    if (response.success === true) {
+                        FwBrowse.search($browse);
+                    } else {
+                        FwNotification.renderNotification('WARNING', response.msg);
+                    }
+                }, null, $browse);
+            } else {
+                FwNotification.renderNotification('WARNING', 'No Worksheet Selected');
+            }
+        }
+    }
     //----------------------------------------------------------------------------------------------
     dynamicColumns($form: JQuery): void {
         const invoiceType = FwFormField.getValueByDataField($form, 'InvoiceType');
@@ -605,7 +690,7 @@ class BillingWorksheet {
             jQuery($salesAdjustmentGrid.find(`[data-mappedfield="${hiddenAdjustment[i]}"]`)).parent().hide();
             jQuery($partsAdjustmentGrid.find(`[data-mappedfield="${hiddenAdjustment[i]}"]`)).parent().hide();
         }
-    };
+    }
     //----------------------------------------------------------------------------------------------
     calculateInvoiceItemGridTotals($form: JQuery, gridType: string, totals?, isAdjustment?: boolean): void {
         if (isAdjustment) {
@@ -629,7 +714,7 @@ class BillingWorksheet {
             $form.find(`.${gridType}-totals [data-totalfield="Tax"] input`).val(salesTax);
             $form.find(`.${gridType}-totals [data-totalfield="Total"] input`).val(total);
         }
-    };
+    }
     //----------------------------------------------------------------------------------------------
     //openEmailHistoryBrowse($form) {
     //    const $browse = EmailHistoryController.openBrowse();
@@ -660,7 +745,7 @@ class BillingWorksheet {
         $form.find('div[data-datafield="OrderId"]').data('onchange', $tr => {
             FwFormField.setValue($form, 'div[data-datafield="WorksheetDescription"]', $tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
         });
-    };
+    }
     //----------------------------------------------------------------------------------------------
     updateWorksheet($form: JQuery) {
 
@@ -680,87 +765,9 @@ class BillingWorksheet {
         } catch (ex) {
             FwFunc.showError(ex);
         }
-    };
-};
-//----------------------------------------------------------------------------------------------
-//#joshtodo
-/*
-//form approve
-FwApplicationTree.clickEvents[Constants.Modules.Billing.children.BillingWorksheet.form.menuItems.Approve.id] = function (event: JQuery.ClickEvent) {
-    try {
-        const $form = jQuery(this).closest('.fwform');
-        const billingWorksheetId = FwFormField.getValueByDataField($form, 'BillingWorksheetId');
-        FwAppData.apiMethod(true, 'POST', `api/v1/billingworksheet/${billingWorksheetId}/approve`, null, FwServices.defaultTimeout, function onSuccess(response) {
-            if (response.success === true) {
-                FwModule.refreshForm($form);
-            } else {
-                FwNotification.renderNotification('WARNING', response.msg);
-            }
-        }, null, $form);
-    } catch (ex) {
-        FwFunc.showError(ex);
     }
-};
+}
 //----------------------------------------------------------------------------------------------
-//form unapprove
-FwApplicationTree.clickEvents[Constants.Modules.Billing.children.BillingWorksheet.form.menuItems.Unapprove.id] = function (event: JQuery.ClickEvent) {
-    try {
-        const $form = jQuery(this).closest('.fwform');
-        const billingWorksheetId = FwFormField.getValueByDataField($form, 'BillingWorksheetId');
-        FwAppData.apiMethod(true, 'POST', `api/v1/billingworksheet/${billingWorksheetId}/unapprove`, null, FwServices.defaultTimeout, function onSuccess(response) {
-            if (response.success === true) {
-                FwModule.refreshForm($form);
-            } else {
-                FwNotification.renderNotification('WARNING', response.msg);
-            }
-        }, null, $form);
-    } catch (ex) {
-        FwFunc.showError(ex);
-    }
-};
-//----------------------------------------------------------------------------------------------
-//browse approve
-FwApplicationTree.clickEvents[Constants.Modules.Billing.children.BillingWorksheet.browse.menuItems.Approve.id] = function (event: JQuery.ClickEvent) {
-    try {
-        const $browse = jQuery(this).closest('.fwbrowse');
-        const billingWorksheetId = $browse.find('.selected [data-browsedatafield="BillingWorksheetId"]').attr('data-originalvalue');
-        if (typeof billingWorksheetId !== 'undefined') {
-            FwAppData.apiMethod(true, 'POST', `api/v1/billingworksheet/${billingWorksheetId}/approve`, null, FwServices.defaultTimeout, function onSuccess(response) {
-                if (response.success === true) {
-                    FwBrowse.search($browse);
-                } else {
-                    FwNotification.renderNotification('WARNING', response.msg);
-                }
-            }, null, $browse);
-        } else {
-            FwNotification.renderNotification('WARNING', 'No Worksheet Selected');
-        }
-    } catch (ex) {
-        FwFunc.showError(ex);
-    }
-};
-//----------------------------------------------------------------------------------------------
-//browse unapprove
-FwApplicationTree.clickEvents[Constants.Modules.Billing.children.BillingWorksheet.browse.menuItems.Unapprove.id] = function (event: JQuery.ClickEvent) {
-    try {
-        const $browse = jQuery(this).closest('.fwbrowse');
-        const billingWorksheetId = $browse.find('.selected [data-browsedatafield="BillingWorksheetId"]').attr('data-originalvalue');
-        if (typeof billingWorksheetId !== 'undefined') {
-            FwAppData.apiMethod(true, 'POST', `api/v1/billingworksheet/${billingWorksheetId}/unapprove`, null, FwServices.defaultTimeout, function onSuccess(response) {
-                if (response.success === true) {
-                    FwBrowse.search($browse);
-                } else {
-                    FwNotification.renderNotification('WARNING', response.msg);
-                }
-            }, null, $browse);
-        } else {
-            FwNotification.renderNotification('WARNING', 'No Worksheet Selected');
-        }
-    } catch (ex) {
-        FwFunc.showError(ex);
-    }
-};
-//----------------------------------------------------------------------------------------------
-*/
+
 
 var BillingWorksheetController = new BillingWorksheet();

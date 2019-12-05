@@ -8,6 +8,7 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using FwStandard.AppManager;
 
 namespace FwCore.Controllers
 {
@@ -89,6 +90,7 @@ namespace FwCore.Controllers
 
         //------------------------------------------------------------------------------------ 
         [HttpGet("emptyobject")]
+        [FwControllerMethod("", FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public ActionResult<FwJsonDataTable> GetEmptyObject()
         {
             if (!ModelState.IsValid)
