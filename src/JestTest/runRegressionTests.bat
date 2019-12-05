@@ -4,7 +4,7 @@ rem Purpose:
 rem This batch file will run a series of automated tests on RentalWorksWeb
 rem --------------------------------------------------------------------------
 rem Author:        Justin Hoffman
-rem Last modified: 10/23/2019
+rem Last modified: 12/05/2019
 rem --------------------------------------------------------------------------
 rem
 rem
@@ -43,6 +43,7 @@ call :runtest "LoginLogout" "Login Logout"
 call :runtest "RwwShallowRegression" "Shallow Regression"
 call :runtest "RwwMediumRegression" "Medium Regression"
 call :runtest "RwwInventoryIntegrity" "Inventory Integrity"
+call :runtest "RwwRunReports" "Reports"
 
 set "file=%testrootpath%\jest.rentalworksweb%testnumber%.config.js"
 if exist %file% (del %file%)
