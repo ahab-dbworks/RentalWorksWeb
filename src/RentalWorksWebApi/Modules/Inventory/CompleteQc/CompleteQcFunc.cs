@@ -61,8 +61,8 @@ namespace WebApi.Modules.Inventory.CompleteQc
                 response.status = qry.GetParameter("@status").ToInt32();
                 response.success = (response.status == 0);
                 response.msg = qry.GetParameter("@msg").ToString();
-                //response.ShowFootCandles = qry.GetParameter("@showfootcandles").ToInt32().Equals(1250);
-                //response.ShowSoftwareVersion = qry.GetParameter("@showsoftwareversion").ToInt32().Equals(1250);
+                response.ShowFootCandles = FwConvert.ToBoolean(qry.GetParameter("@trackfootcandles").ToString());
+                response.ShowSoftwareVersion = FwConvert.ToBoolean(qry.GetParameter("@tracksoftware").ToString());
             }
             return response;
         }

@@ -692,7 +692,6 @@
     <Content Include="Source\Modules\Settings\InventorySettings\InventoryType\InventoryTypeBrowse.htm" />
     <Content Include="Source\Modules\Settings\InventorySettings\InventoryType\InventoryTypeForm.htm" />
     <Content Include="Source\Modules\Inventory\AvailabilityConflicts\AvailabilityConflictsForm.htm" />
-    <Content Include="Source\Modules\Inventory\CompleteQc\CompleteQcForm.htm" />
     <Content Include="Source\Modules\Inventory\PhysicalInventory\PhysicalInventoryForm.htm" />
     <Content Include="Source\Modules\Inventory\PhysicalInventory\PhysicalInventoryBrowse.htm" />
     <Content Include="Source\Modules\Agent\PurchaseOrder\PurchaseOrderBrowse.htm" />
