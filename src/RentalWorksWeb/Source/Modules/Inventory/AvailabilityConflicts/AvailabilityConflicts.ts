@@ -226,10 +226,69 @@ class AvailabilityConflicts {
     }
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
-        //const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
-        //request.uniqueids = {
-        //    WarehouseId: warehouse.warehouseid
-        //};
+        let availFor = FwFormField.getValueByDataField($form, 'AvailableFor');
+        let inventoryTypeId = FwFormField.getValueByDataField($form, 'InventoryTypeId');
+        let categoryId = FwFormField.getValueByDataField($form, 'CategoryId');
+        let subCategoryId = FwFormField.getValueByDataField($form, 'SubCategoryId');
+        switch (datafield) {
+            case 'InventoryTypeId':
+                if (availFor === "R") {
+                    request.uniqueids = {
+                        Rental: true,
+                    };
+                }
+                else if (availFor === "S") {
+                    request.uniqueids = {
+                        Sales: true,
+                    };
+                }
+                //$validationbrowse.attr('data-apiurl', `${this.apiurl}/validatexxxxxxxx`);
+                break;
+            case 'CategoryId':
+                if (inventoryTypeId) {
+                    request.uniqueids = {
+                        InventoryTypeId: inventoryTypeId,
+                    };
+                }
+                //$validationbrowse.attr('data-apiurl', `${this.apiurl}/validatexxxxxxxx`);
+                break;
+            case 'SubCategoryId':
+                if (inventoryTypeId) {
+                    request.uniqueids = {
+                        InventoryTypeId: inventoryTypeId,
+                    };
+                }
+                if (categoryId) {
+                    request.uniqueids = {
+                        CategoryId: categoryId,
+                    };
+                }
+                //$validationbrowse.attr('data-apiurl', `${this.apiurl}/validatexxxxxxxx`);
+                break;
+            case 'InventoryId':
+                if (availFor) {
+                    request.uniqueids = {
+                        AvailFor: availFor,
+                    };
+                }
+                if (inventoryTypeId) {
+                    request.uniqueids = {
+                        InventoryTypeId: inventoryTypeId,
+                    };
+                }
+                if (categoryId) {
+                    request.uniqueids = {
+                        CategoryId: categoryId,
+                    };
+                }
+                if (subCategoryId) {
+                    request.uniqueids = {
+                        SubCategoryId: subCategoryId,
+                    };
+                }
+                //$validationbrowse.attr('data-apiurl', `${this.apiurl}/validatexxxxxxxx`);
+                break;
+        }
     }
     //----------------------------------------------------------------------------------------------
 }
