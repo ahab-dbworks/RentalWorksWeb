@@ -37,12 +37,29 @@ namespace WebApi.Modules.HomeControls.InventorySearch
             {
                 if (string.IsNullOrEmpty(request.InventoryId))
                 {
+
+                    FwSqlCommand qrySessionItems = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
+                    qrySessionItems.Add("select distinct t.masterid, t.warehouseid, m.class              ");
+                    qrySessionItems.Add(" from  tmpsearchsession t                                       ");
+                    qrySessionItems.Add("            join master m on (t.masterid = m.masterid)          ");
+                    qrySessionItems.Add(" where t.sessionid = @sessionid                                 ");
+                    qrySessionItems.AddParameter("@sessionid", request.SessionId);
+                    FwJsonDataTable dt = await qrySessionItems.QueryToFwJsonTableAsync();
+
                     // adding to Quote, Order, PO, Transfer, etc.
                     FwSqlCommand qry = new FwSqlCommand(conn, "tmpsearchsessionaddtoorder", appConfig.DatabaseSettings.QueryTimeout);
                     qry.AddParameter("@sessionid", SqlDbType.NVarChar, ParameterDirection.Input, request.SessionId);
                     qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, request.OrderId);
                     qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
                     int i = await qry.ExecuteNonQueryAsync();
+
+                    foreach (List<object> row in dt.Rows)
+                    {
+                        string inventoryId = row[dt.GetColumnNo("masterid")].ToString();
+                        string warehouseId = row[dt.GetColumnNo("warehouseid")].ToString();
+                        string classification = row[dt.GetColumnNo("class")].ToString();
+                        InventoryAvailability.InventoryAvailabilityFunc.RequestRecalc(inventoryId, warehouseId, classification);
+                    }
                 }
                 else
                 {
