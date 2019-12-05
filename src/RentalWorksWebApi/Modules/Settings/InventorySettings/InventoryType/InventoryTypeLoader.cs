@@ -87,10 +87,6 @@ namespace WebApi.Modules.Settings.InventorySettings.InventoryType
                 {
                     recType = RwConstants.RECTYPE_PARTS;
                 }
-                else if (GetUniqueIdAsBoolean("Vehicle", request).GetValueOrDefault(false))
-                {
-                    recType = RwConstants.RECTYPE_VEHICLE;
-                }
             }
             select.AddParameter("@rectype", recType);
 
