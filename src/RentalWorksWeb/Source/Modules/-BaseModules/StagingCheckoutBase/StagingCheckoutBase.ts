@@ -3,6 +3,7 @@
     caption: string;
     nav: string;
     id: string;
+    apiurl: string;
     showAddItemToOrder: boolean;
     contractId: string;
     isPendingItemGridView: boolean = false;

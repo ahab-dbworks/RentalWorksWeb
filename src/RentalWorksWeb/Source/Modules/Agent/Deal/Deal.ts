@@ -985,6 +985,15 @@ class Deal {
             case 'OutsideSalesRepresentativeId':
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatesalesrepresentative`);
                 break;
+            case 'CreditStatusId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecreditstatus`);
+                break;
+            case 'InsuranceCompanyId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinsurancecompany`);
+                break;
+            case 'ShipCountryId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateshipcountry`);
+                break;
         }
     }
     //----------------------------------------------------------------------------------------------

@@ -1317,6 +1317,9 @@ class OrderBase {
                 }
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatewarehouse`);
                 break;
+            case 'BillToCountryId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatebilltocountry`);
+                break;
         }
     }
     events($form: any) {

@@ -792,6 +792,14 @@ namespace WebApi.Modules.Agent.Order
         {
             return await DoBrowseAsync<WarehouseLogic>(browseRequest);
         }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/order/validatebilltocountry/browse 
+        [HttpPost("validatebilltocountry/browse")]
+        [FwControllerMethod(Id: "41DHh6BQqeru", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateBillToCountryBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<CountryLogic>(browseRequest);
+        }
 
     }
 }

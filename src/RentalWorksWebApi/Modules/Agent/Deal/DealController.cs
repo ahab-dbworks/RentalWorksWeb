@@ -20,6 +20,8 @@ using WebApi.Modules.Settings.PaymentSettings.PaymentType;
 using WebApi.Modules.Settings.PaymentSettings.PaymentTerms;
 using WebApi.Modules.Settings.RateType;
 using WebApi.Modules.Agent.Contact;
+using WebApi.Modules.Settings.CustomerSettings.CreditStatus;
+using WebApi.Modules.Agent.Vendor;
 
 
 namespace WebApi.Modules.Agent.Deal
@@ -213,6 +215,30 @@ namespace WebApi.Modules.Agent.Deal
         public async Task<ActionResult<FwJsonDataTable>> ValidateSalesRepresentativeBrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync<ContactLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/deal/validatecreditstatus/browse
+        [HttpPost("validatecreditstatus/browse")]
+        [FwControllerMethod(Id: "te1kHnk8sFA9", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateCreditStatusBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<CreditStatusLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/deal/validateinsurancecompany/browse
+        [HttpPost("validateinsurancecompany/browse")]
+        [FwControllerMethod(Id: "8KSRWLsn5xch", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateInsuranceCompanyBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<VendorLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/deal/validateshipcountry/browse
+        [HttpPost("validateshipcountry/browse")]
+        [FwControllerMethod(Id: "b27nOHP7YCK5", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateShipCountryBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<CountryLogic>(browseRequest);
         }
     }
 }

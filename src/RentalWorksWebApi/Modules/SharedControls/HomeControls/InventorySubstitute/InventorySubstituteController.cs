@@ -8,6 +8,7 @@ using WebApi.Controllers;
 using System.Threading.Tasks;
 using WebApi.Modules.Inventory.RentalInventory;
 using WebApi.Modules.Inventory.SalesInventory;
+using WebApi.Modules.Inventory.PartsInventory;
 namespace WebApi.Modules.HomeControls.InventorySubstitute
 {
     [Route("api/v1/[controller]")]
@@ -87,6 +88,14 @@ namespace WebApi.Modules.HomeControls.InventorySubstitute
         public async Task<ActionResult<FwJsonDataTable>> ValidateSubstituteInventorySalesBrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync<SalesInventoryLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/inventorysubstitute/validatesubstituteinventoryparts/browse
+        [HttpPost("validatesubstituteinventoryparts/browse")]
+        [FwControllerMethod(Id: "BXx6q526bTlP", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateSubstituteInventoryPartsBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<PartsInventoryLogic>(browseRequest);
         }
     }
 }
