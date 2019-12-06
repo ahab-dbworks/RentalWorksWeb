@@ -153,6 +153,9 @@ class FwSchedulerDetailedClass {
             }
         });
         dpscheduler.eventMoveHandling = "Disabled";
+        dpscheduler.eventDoubleClickHandling = "Enabled";
+        if (typeof $control.data('oneventdoubleclicked') === 'function') dpscheduler.onEventDoubleClicked = $control.data('oneventdoubleclicked');
+
         dpscheduler.init();
     };
     //---------------------------------------------------------------------------------
