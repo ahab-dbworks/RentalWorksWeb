@@ -6,20 +6,17 @@ class Sound {
     caption: string = Constants.Modules.Settings.children.UserSettings.children.Sound.caption;
     nav: string = Constants.Modules.Settings.children.UserSettings.children.Sound.nav;
     id: string = Constants.Modules.Settings.children.UserSettings.children.Sound.id;
-
     //----------------------------------------------------------------------------------------------
-    getModuleScreen() {
-        var screen, $browse;
-
-        screen = {};
+    getModuleScreen(filter?: { datafield: string, search: string }) {
+        const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
-        $browse = this.openBrowse();
+        const $browse = this.openBrowse();
 
-        screen.load = function () {
-            FwModule.openModuleTab($browse, 'Sound', false, 'BROWSE', true);
+        screen.load = () => {
+            FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };
@@ -31,20 +28,15 @@ class Sound {
     }
     //----------------------------------------------------------------------------------------------
     openBrowse() {
-        var $browse;
-
-        $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
+        let $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
 
         FwBrowse.addLegend($browse, 'User Defined Sound', '#00FF00');
-
         return $browse;
     }
     //----------------------------------------------------------------------------------------------
     openForm(mode: string) {
-        var $form, $moduleSelect;
-
-        $form = FwModule.loadFormFromTemplate(this.Module);
+        let $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 
         if ($form.find('div[data-datafield="SystemSound"]').attr('data-originalvalue') === "true") {

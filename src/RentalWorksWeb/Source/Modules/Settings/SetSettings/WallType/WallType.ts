@@ -1,11 +1,11 @@
-class RwWallType {
-    Module:  string = 'WallType';
-    apiurl:  string = 'api/v1/walltype';
+class WallType {
+    Module: string = 'WallType';
+    apiurl: string = 'api/v1/walltype';
     caption: string = Constants.Modules.Settings.children.SetSettings.children.WallType.caption;
-    nav:     string = Constants.Modules.Settings.children.SetSettings.children.WallType.nav;
-    id:      string = Constants.Modules.Settings.children.SetSettings.children.WallType.id;
+    nav: string = Constants.Modules.Settings.children.SetSettings.children.WallType.nav;
+    id: string = Constants.Modules.Settings.children.SetSettings.children.WallType.id;
     //----------------------------------------------------------------------------------------------
-    getModuleScreen() {
+    getModuleScreen(filter?: { datafield: string, search: string }) {
         const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
@@ -13,7 +13,7 @@ class RwWallType {
 
         const $browse = this.openBrowse();
 
-        screen.load = function () {
+        screen.load = () => {
             FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
@@ -55,4 +55,4 @@ class RwWallType {
     }
 }
 //----------------------------------------------------------------------------------------------
-var WallTypeController = new RwWallType();
+var WallTypeController = new WallType();

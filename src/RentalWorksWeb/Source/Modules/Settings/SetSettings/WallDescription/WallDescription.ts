@@ -1,11 +1,11 @@
-class RwWallDescription {
-    Module:  string = 'WallDescription';
-    apiurl:  string = 'api/v1/walldescription';
+class WallDescription {
+    Module: string = 'WallDescription';
+    apiurl: string = 'api/v1/walldescription';
     caption: string = Constants.Modules.Settings.children.SetSettings.children.WallDescription.caption;
-    nav:     string = Constants.Modules.Settings.children.SetSettings.children.WallDescription.nav;
-    id:      string = Constants.Modules.Settings.children.SetSettings.children.WallDescription.id;
+    nav: string = Constants.Modules.Settings.children.SetSettings.children.WallDescription.nav;
+    id: string = Constants.Modules.Settings.children.SetSettings.children.WallDescription.id;
     //----------------------------------------------------------------------------------------------
-    getModuleScreen() {
+    getModuleScreen(filter?: { datafield: string, search: string }) {
         const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
@@ -13,7 +13,7 @@ class RwWallDescription {
 
         const $browse = this.openBrowse();
 
-        screen.load = function () {
+        screen.load = () => {
             FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
@@ -55,4 +55,4 @@ class RwWallDescription {
     }
 }
 //----------------------------------------------------------------------------------------------
-var WallDescriptionController = new RwWallDescription();
+var WallDescriptionController = new WallDescription();

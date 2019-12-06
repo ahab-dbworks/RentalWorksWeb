@@ -1,11 +1,11 @@
 class CrewScheduleStatus {
-    Module:  string = 'CrewScheduleStatus';
-    apiurl:  string = 'api/v1/crewschedulestatus';
+    Module: string = 'CrewScheduleStatus';
+    apiurl: string = 'api/v1/crewschedulestatus';
     caption: string = Constants.Modules.Settings.children.LaborSettings.children.CrewScheduleStatus.caption;
-    nav:     string = Constants.Modules.Settings.children.LaborSettings.children.CrewScheduleStatus.nav;
-    id:      string = Constants.Modules.Settings.children.LaborSettings.children.CrewScheduleStatus.id;
+    nav: string = Constants.Modules.Settings.children.LaborSettings.children.CrewScheduleStatus.nav;
+    id: string = Constants.Modules.Settings.children.LaborSettings.children.CrewScheduleStatus.id;
     //----------------------------------------------------------------------------------------------
-    getModuleScreen() {
+    getModuleScreen(filter?: { datafield: string, search: string }) {
         const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
@@ -13,7 +13,7 @@ class CrewScheduleStatus {
 
         const $browse = this.openBrowse();
 
-        screen.load = function () {
+        screen.load = () => {
             FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);

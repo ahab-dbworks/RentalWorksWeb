@@ -1,11 +1,11 @@
 ﻿class ProjectDeposit {
-    Module:  string = 'ProjectDeposit';
-    apiurl:  string = 'api/v1/projectdeposit';
+    Module: string = 'ProjectDeposit';
+    apiurl: string = 'api/v1/projectdeposit';
     caption: string = Constants.Modules.Settings.children.ProjectSettings.children.ProjectDeposit.caption;
-    nav:     string = Constants.Modules.Settings.children.ProjectSettings.children.ProjectDeposit.nav;
-    id:      string = Constants.Modules.Settings.children.ProjectSettings.children.ProjectDeposit.id;
+    nav: string = Constants.Modules.Settings.children.ProjectSettings.children.ProjectDeposit.nav;
+    id: string = Constants.Modules.Settings.children.ProjectSettings.children.ProjectDeposit.id;
     //----------------------------------------------------------------------------------------------
-    getModuleScreen() {
+    getModuleScreen(filter?: { datafield: string, search: string }) {
         const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
@@ -13,7 +13,7 @@
 
         const $browse = this.openBrowse();
 
-        screen.load = function () {
+        screen.load = () => {
             FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);

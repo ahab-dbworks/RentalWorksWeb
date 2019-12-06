@@ -1,4 +1,4 @@
-class RwSapVendorInvoiceStatus {
+class SapVendorInvoiceStatus {
     Module: string = 'SapVendorInvoiceStatus';
     apiurl: string = 'api/v1/sapvendorinvoicestatus';
     caption: string = Constants.Modules.Settings.children.VendorSettings.children.SapVendorInvoiceStatus.caption;
@@ -10,18 +10,16 @@ class RwSapVendorInvoiceStatus {
         FwMenu.addBrowseMenuButtons(options);
     }
     //----------------------------------------------------------------------------------------------
-    getModuleScreen() {
-        var screen, $browse;
-
-        screen = {};
+    getModuleScreen(filter?: { datafield: string, search: string }) {
+        const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
-        $browse = this.openBrowse();
+        const $browse = this.openBrowse();
 
-        screen.load = function () {
-            FwModule.openModuleTab($browse, 'SAP Vendor Invoice Status', false, 'BROWSE', true);
+        screen.load = () => {
+            FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };
@@ -31,20 +29,16 @@ class RwSapVendorInvoiceStatus {
 
         return screen;
     }
-
+    //----------------------------------------------------------------------------------------------
     openBrowse() {
-        var $browse;
-
-        $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
+        let $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
 
         return $browse;
     }
-
+    //----------------------------------------------------------------------------------------------
     openForm(mode: string) {
-        var $form;
-
-        $form = FwModule.loadFormFromTemplate(this.Module);
+        let $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 
         return $form;
@@ -68,4 +62,4 @@ class RwSapVendorInvoiceStatus {
     }
 }
 
-var SapVendorInvoiceStatusController = new RwSapVendorInvoiceStatus();
+var SapVendorInvoiceStatusController = new SapVendorInvoiceStatus();

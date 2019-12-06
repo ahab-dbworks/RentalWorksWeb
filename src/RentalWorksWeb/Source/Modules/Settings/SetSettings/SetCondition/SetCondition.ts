@@ -1,11 +1,11 @@
 class SetCondition {
-    Module:  string = 'SetCondition';
-    apiurl:  string = 'api/v1/setcondition';
+    Module: string = 'SetCondition';
+    apiurl: string = 'api/v1/setcondition';
     caption: string = Constants.Modules.Settings.children.SetSettings.children.SetCondition.caption;
-    nav:     string = Constants.Modules.Settings.children.SetSettings.children.SetCondition.nav;
-    id:      string = Constants.Modules.Settings.children.SetSettings.children.SetCondition.id;
+    nav: string = Constants.Modules.Settings.children.SetSettings.children.SetCondition.nav;
+    id: string = Constants.Modules.Settings.children.SetSettings.children.SetCondition.id;
     //----------------------------------------------------------------------------------------------
-    getModuleScreen() {
+    getModuleScreen(filter?: { datafield: string, search: string }) {
         const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
@@ -13,7 +13,7 @@ class SetCondition {
 
         const $browse = this.openBrowse();
 
-        screen.load = function () {
+        screen.load = () => {
             FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);

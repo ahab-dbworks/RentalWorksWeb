@@ -1,11 +1,11 @@
 class RwLaborPosition {
-    Module:  string = 'LaborPosition';
-    apiurl:  string = 'api/v1/position';
+    Module: string = 'LaborPosition';
+    apiurl: string = 'api/v1/position';
     caption: string = Constants.Modules.Settings.children.LaborSettings.children.LaborPosition.caption;
-    nav:     string = Constants.Modules.Settings.children.LaborSettings.children.LaborPosition.nav;
-    id:      string = Constants.Modules.Settings.children.LaborSettings.children.LaborPosition.id;
+    nav: string = Constants.Modules.Settings.children.LaborSettings.children.LaborPosition.nav;
+    id: string = Constants.Modules.Settings.children.LaborSettings.children.LaborPosition.id;
     //----------------------------------------------------------------------------------------------
-    getModuleScreen() {
+    getModuleScreen(filter?: { datafield: string, search: string }) {
         const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
@@ -13,7 +13,7 @@ class RwLaborPosition {
 
         const $browse = this.openBrowse();
 
-        screen.load = function () {
+        screen.load = () => {
             FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);

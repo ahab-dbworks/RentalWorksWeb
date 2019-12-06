@@ -1,13 +1,13 @@
 //routes.push({ pattern: /^module\/returntovendor$/, action: function (match: RegExpExecArray) { return ReturnToVendorController.getModuleScreen(); } });
 
 class ReturnToVendor {
-    Module:                    string = 'ReturnToVendor';
-    apiurl:                    string = 'api/v1/returntovendor'
-    caption:                   string = Constants.Modules.Warehouse.children.ReturnToVendor.caption;
-    nav:                       string = Constants.Modules.Warehouse.children.ReturnToVendor.nav;
-    id:                        string = Constants.Modules.Warehouse.children.ReturnToVendor.id;
-    successSoundFileName:      string;
-    errorSoundFileName:        string;
+    Module: string = 'ReturnToVendor';
+    apiurl: string = 'api/v1/returntovendor'
+    caption: string = Constants.Modules.Warehouse.children.ReturnToVendor.caption;
+    nav: string = Constants.Modules.Warehouse.children.ReturnToVendor.nav;
+    id: string = Constants.Modules.Warehouse.children.ReturnToVendor.id;
+    successSoundFileName: string;
+    errorSoundFileName: string;
     notificationSoundFileName: string;
     //----------------------------------------------------------------------------------------------
     addFormMenuItems(options: IAddFormMenuOptions): void {
@@ -24,15 +24,15 @@ class ReturnToVendor {
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
-        var screen: any = {};
+        const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
         var $form = this.openForm('EDIT');
 
-        screen.load = function () {
-            FwModule.openModuleTab($form, 'Return To Vendor', false, 'FORM', true);
+        screen.load = () => {
+            FwModule.openModuleTab($form, this.caption, false, 'FORM', true);
         };
         screen.unload = function () {
         };
@@ -72,11 +72,11 @@ class ReturnToVendor {
     //----------------------------------------------------------------------------------------------
     CancelReturnToVendor($form: JQuery): void {
         try {
-            const contractId    = FwFormField.getValueByDataField($form, 'ContractId');
+            const contractId = FwFormField.getValueByDataField($form, 'ContractId');
             if (contractId != '') {
                 const $confirmation = FwConfirmation.renderConfirmation('Cancel Return To Vendor', 'Cancelling this Return To Vendor Session will cause all transacted items to be cancelled. Continue?');
-                const $yes          = FwConfirmation.addButton($confirmation, 'Yes', false);
-                const $no           = FwConfirmation.addButton($confirmation, 'No', true);
+                const $yes = FwConfirmation.addButton($confirmation, 'Yes', false);
+                const $no = FwConfirmation.addButton($confirmation, 'No', true);
 
                 $yes.on('click', () => {
                     try {
@@ -101,9 +101,9 @@ class ReturnToVendor {
     }
     //----------------------------------------------------------------------------------------------
     getSuspendedSessions($form) {
-        const warehouse             = JSON.parse(sessionStorage.getItem('warehouse'));
+        const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         const showSuspendedSessions = $form.attr('data-showsuspendedsessions');
-        let sessionType             = 'RETURN';
+        let sessionType = 'RETURN';
 
         if (showSuspendedSessions != "false") {
             FwAppData.apiMethod(true, 'GET', `api/v1/purchaseorder/returnsuspendedsessionsexist?warehouseId=${warehouse.warehouseid}`, null, FwServices.defaultTimeout,
@@ -116,7 +116,7 @@ class ReturnToVendor {
             $form.on('click', '.suspendedsession', e => {
                 SuspendedSessionController.sessionType = sessionType;
                 const $browse = SuspendedSessionController.openBrowse();
-                const $popup  = FwPopup.renderPopup($browse, { ismodal: true }, 'Suspended Sessions');
+                const $popup = FwPopup.renderPopup($browse, { ismodal: true }, 'Suspended Sessions');
                 FwPopup.showPopup($popup);
                 $browse.data('ondatabind', request => {
                     request.uniqueids = {
@@ -127,9 +127,9 @@ class ReturnToVendor {
                 FwBrowse.search($browse);
 
                 $browse.on('dblclick', 'tr.viewmode', e => {
-                    let $this        = jQuery(e.currentTarget);
-                    let id           = $this.find(`[data-browsedatafield="PurchaseOrderId"]`).attr('data-originalvalue');
-                    let orderNumber  = $this.find(`[data-browsedatafield="OrderNumber"]`).attr('data-originalvalue');
+                    let $this = jQuery(e.currentTarget);
+                    let id = $this.find(`[data-browsedatafield="PurchaseOrderId"]`).attr('data-originalvalue');
+                    let orderNumber = $this.find(`[data-browsedatafield="OrderNumber"]`).attr('data-originalvalue');
                     const contractId = $this.find(`[data-browsedatafield="ContractId"]`).attr('data-originalvalue');
                     FwFormField.setValueByDataField($form, 'ContractId', contractId);
                     FwFormField.setValueByDataField($form, 'PurchaseOrderId', id, orderNumber);
@@ -180,37 +180,37 @@ class ReturnToVendor {
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
         FwBrowse.renderGrid({
-            nameGrid:         'POReturnItemGrid',
-            gridSecurityId:   'wND2psEV3OEia',
+            nameGrid: 'POReturnItemGrid',
+            gridSecurityId: 'wND2psEV3OEia',
             moduleSecurityId: this.id,
-            $form:            $form,
-            pageSize:         9999,
+            $form: $form,
+            pageSize: 9999,
             addGridMenu: (options: IAddGridMenuOptions) => {
-                options.hasNew    = false;
-                options.hasEdit   = false;
+                options.hasNew = false;
+                options.hasEdit = false;
                 options.hasDelete = false;
             },
             onDataBind: (request: any) => {
                 request.uniqueids = {
-                    ContractId:      FwFormField.getValueByDataField($form, 'ContractId'),
+                    ContractId: FwFormField.getValueByDataField($form, 'ContractId'),
                     PurchaseOrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId')
                 };
             }
         });
 
         FwBrowse.renderGrid({
-            nameGrid:         'POReturnBarCodeGrid',
-            gridSecurityId:   'JkwkAFQ4tL7q0',
+            nameGrid: 'POReturnBarCodeGrid',
+            gridSecurityId: 'JkwkAFQ4tL7q0',
             moduleSecurityId: this.id,
-            $form:            $form,
+            $form: $form,
             addGridMenu: (options: IAddGridMenuOptions) => {
-                options.hasNew    = false;
-                options.hasEdit   = false;
+                options.hasNew = false;
+                options.hasEdit = false;
                 options.hasDelete = false;
             },
             onDataBind: (request: any) => {
                 request.uniqueids = {
-                    PurchaseOrderId:  FwFormField.getValueByDataField($form, 'PurchaseOrderId'),
+                    PurchaseOrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId'),
                     ReturnContractId: FwFormField.getValueByDataField($form, 'ContractId')
                 };
             }
@@ -223,10 +223,10 @@ class ReturnToVendor {
 
         // Create Contract
         $form.find('.createcontract').on('click', e => {
-            let date        = new Date(),
+            let date = new Date(),
                 currentDate = date.toLocaleString(),
                 currentTime = date.toLocaleTimeString();
-            let contractId  = FwFormField.getValueByDataField($form, 'ContractId');
+            let contractId = FwFormField.getValueByDataField($form, 'ContractId');
             FwAppData.apiMethod(true, 'POST', `api/v1/purchaseorder/completereturncontract/${contractId}`, null, FwServices.defaultTimeout,
                 response => {
                     try {
@@ -279,12 +279,12 @@ class ReturnToVendor {
         $form.find('[data-datafield="BarCode"] input').on('keydown', e => {
             if (e.which === 13) {
                 errorMsg.html('');
-                const $returnItemsGridControl   = $form.find('div[data-name="POReturnItemGrid"]');
+                const $returnItemsGridControl = $form.find('div[data-name="POReturnItemGrid"]');
                 const $returnBarCodeGridControl = $form.find('div[data-name="POReturnBarCodeGrid"]');
                 let request = {
-                    ContractId:      FwFormField.getValueByDataField($form, 'ContractId'),
+                    ContractId: FwFormField.getValueByDataField($form, 'ContractId'),
                     PurchaseOrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId'),
-                    BarCode:         FwFormField.getValueByDataField($form, 'BarCode')
+                    BarCode: FwFormField.getValueByDataField($form, 'BarCode')
                 };
                 FwAppData.apiMethod(true, 'POST', `api/v1/purchaseorderreturnitem/returnitems`, request, FwServices.defaultTimeout, function onSuccess(response) {
                     if (response.success === true) {
@@ -302,12 +302,12 @@ class ReturnToVendor {
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
         const validationName = request.module;
-        const warehouse      = JSON.parse(sessionStorage.getItem('warehouse'));
+        const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
 
         switch (validationName) {
             case 'PurchaseOrderValidation':
                 request.miscfields = {
-                    ReturnToVendor:       true,
+                    ReturnToVendor: true,
                     ReturningWarehouseId: warehouse.warehouseid,
                 };
                 break;

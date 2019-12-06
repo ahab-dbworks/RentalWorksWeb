@@ -4,19 +4,17 @@
     caption: string = Constants.Modules.Settings.children.SourceSettings.children.Source.caption;
     nav: string = Constants.Modules.Settings.children.SourceSettings.children.Source.nav;
     id: string = Constants.Modules.Settings.children.SourceSettings.children.Source.id;
-
-    getModuleScreen() {
-        var screen, $browse;
-
-        screen = {};
+    //----------------------------------------------------------------------------------------------
+    getModuleScreen(filter?: { datafield: string, search: string }) {
+        const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
-        $browse = this.openBrowse();
+        const $browse = this.openBrowse();
 
-        screen.load = function () {
-            FwModule.openModuleTab($browse, 'Source', false, 'BROWSE', true);
+        screen.load = () => {
+            FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };
@@ -26,23 +24,19 @@
 
         return screen;
     }
-
+    //----------------------------------------------------------------------------------------------
     openBrowse() {
-        var $browse;
-
-        $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
+        let $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
 
         return $browse;
     }
-
+    //----------------------------------------------------------------------------------------------
     openForm(mode: string) {
-        var $form, $sourcetype, setFormProperties;
-
-        $form = FwModule.loadFormFromTemplate(this.Module);
+        let $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 
-        setFormProperties = function ($form: any) {
+        const setFormProperties = function ($form: any) {
             var $cbUseProxy, $txtProxy, $txtProxyPort, $txtProxyUsername, $txtProxyPassword, $cbArchiveFile, $txtArchivePath;
 
             $cbUseProxy = $form.find('div[data-datafield="UseProxy"]');
@@ -72,7 +66,7 @@
             }
         };
 
-        $sourcetype = $form.find('div[data-datafield="SourceType"]');
+        const $sourcetype = $form.find('div[data-datafield="SourceType"]');
         FwFormField.loadItems($sourcetype, [
             { value: 'FTP', text: 'FTP' },
             { value: 'SOAP', text: 'SOAP' },

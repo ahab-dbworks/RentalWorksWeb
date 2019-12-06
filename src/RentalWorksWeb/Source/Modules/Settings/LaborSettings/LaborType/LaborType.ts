@@ -1,11 +1,11 @@
 class LaborType {
-    Module:  string = 'LaborType';
-    apiurl:  string = 'api/v1/labortype';
+    Module: string = 'LaborType';
+    apiurl: string = 'api/v1/labortype';
     caption: string = Constants.Modules.Settings.children.LaborSettings.children.LaborType.caption;
-    nav:     string = Constants.Modules.Settings.children.LaborSettings.children.LaborType.nav;
-    id:      string = Constants.Modules.Settings.children.LaborSettings.children.LaborType.id;
+    nav: string = Constants.Modules.Settings.children.LaborSettings.children.LaborType.nav;
+    id: string = Constants.Modules.Settings.children.LaborSettings.children.LaborType.id;
     //----------------------------------------------------------------------------------------------
-    getModuleScreen() {
+    getModuleScreen(filter?: { datafield: string, search: string }) {
         const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
@@ -13,7 +13,7 @@ class LaborType {
 
         const $browse = this.openBrowse();
 
-        screen.load = function () {
+        screen.load = () => {
             FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
@@ -50,7 +50,7 @@ class LaborType {
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
     }
-     //----------------------------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
     }
 }

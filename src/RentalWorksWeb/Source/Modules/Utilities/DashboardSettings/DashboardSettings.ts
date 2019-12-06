@@ -15,8 +15,8 @@ class DashboardSettings {
 
         const $form = this.openForm('EDIT');
 
-        screen.load = function () {
-            FwModule.openModuleTab($form, 'Dashboard Settings', false, 'FORM', true);
+        screen.load = () => {
+            FwModule.openModuleTab($form, this.caption, false, 'FORM', true);
         };
         screen.unload = function () {
         };
@@ -25,11 +25,11 @@ class DashboardSettings {
     }
     //----------------------------------------------------------------------------------------------
     openForm(mode: string) {
-        var userId = JSON.parse(sessionStorage.getItem('userid'));
 
         let $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 
+        const userId = JSON.parse(sessionStorage.getItem('userid'));
         $form.find('div.fwformfield[data-datafield="UserId"] input').val(userId.webusersid);
         FwModule.loadForm(this.Module, $form);
 
