@@ -190,10 +190,16 @@ class CustomReportLayout {
                 for (const key of Object.keys(response)) {
                     if (key != 'DateStamp' && key != 'RecordTitle' && key != '_Custom' && key != '_Fields') {
                         if (Array.isArray(response[key])) {
+                            const unorderedItems = response[key][0];
+                            const orderedItems = {};
+                            Object.keys(unorderedItems).sort().forEach(key => {
+                                orderedItems[key] = unorderedItems[key];
+                            });
+
                             allValidFields.push({
                                 'Field': key
                                 , 'IsCustom': 'false'
-                                , 'NestedItems': [response[key][0]]
+                                , 'NestedItems': orderedItems
                             });
                         } else {
                             allValidFields.push({
@@ -212,11 +218,11 @@ class CustomReportLayout {
                     });
                 }
 
-                $form.data('validdatafields', allValidFields.sort(compare));
+                $form.data('validdatafields', allValidFields.sort((a, b) => a.Field < b.Field ? -1 : 1));
                 for (let i = 0; i < allValidFields.length; i++) {
                     modulefields.append(`<div data-iscustomfield=${allValidFields[i].IsCustom}>${allValidFields[i].Field}</div>`);
                     if (allValidFields[i].hasOwnProperty("NestedItems")) {
-                        for (const key of Object.keys(allValidFields[i].NestedItems[0])) {
+                        for (const key of Object.keys(allValidFields[i].NestedItems)) {
                             if (key != '_Custom') {
                                 modulefields.append(`<div data-iscustomfield="false" data-isnested="true" data-parentfield="${allValidFields[i].Field}" style="text-indent:1em;">${key}</div>`);
                             }
@@ -224,14 +230,6 @@ class CustomReportLayout {
                     }
                 }
             }, ex => FwFunc.showError(ex), $form);
-
-        function compare(a, b) {
-            if (a.Field < b.Field)
-                return -1;
-            if (a.Field > b.Field)
-                return 1;
-            return 0;
-        }
     }
     //----------------------------------------------------------------------------------------------
     //addButtonMenu($form) {
