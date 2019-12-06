@@ -21,6 +21,7 @@ export { SalesInventory } from '../modules/Home';
 //Home - Warehouse
 export { AssignBarCodes } from '../modules/FrontEnds';
 export { Contract } from '../modules/Home';
+export { Exchange } from '../modules/FrontEnds';
 export { PickList } from '../modules/Home';
 export { ReceiveFromVendor } from '../modules/FrontEnds';
 export { Staging } from '../modules/FrontEnds';
