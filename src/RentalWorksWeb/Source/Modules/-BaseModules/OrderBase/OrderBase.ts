@@ -167,6 +167,17 @@ class OrderBase {
             moduleSecurityId: this.id,
             $form: $form,
             pageSize: 10,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                //justin hoffman 12/06/2019 WIP
+                FwMenu.addSubMenuItem(options.$groupActions, 'Sub PO Worksheet', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        this.SubPoWorksheet($form, e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+            },
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     OrderId: FwFormField.getValueByDataField($form, `${this.Module}Id`),
@@ -508,6 +519,54 @@ class OrderBase {
             this.findFilterHide($lossDamageGrid, '.submenu-btn', '[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"], [data-securityid="AD3FB369-5A40-4984-8A65-46E683851E52"], [data-securityid="B6B68464-B95C-4A4C-BAF2-6AA59B871468"], [data-securityid="01EB96CB-6C62-4D5C-9224-8B6F45AD9F63"], [data-securityid="9476D532-5274-429C-A563-FE89F5B89B01"]');
         }
     }
+    //----------------------------------------------------------------------------------------------
+
+
+
+    //----------------------------------------------------------------------------------------------
+    //justin hoffman 12/06/2019 - copied from OrderItemGridController.ts WIP
+    SubPoWorksheet($form: JQuery, event) {
+        try {
+
+            var $subWorksheetForm, subWorksheetData: any = {};
+            let $grid = jQuery(event.currentTarget).parents('[data-control="FwGrid"]');
+
+            if ($grid.hasClass('A')) {
+                subWorksheetData.RecType = ''
+            } else if ($grid.hasClass('R')) {
+                subWorksheetData.RecType = 'R'
+            } else if ($grid.hasClass('S')) {
+                subWorksheetData.RecType = 'S'
+            } else if ($grid.hasClass('M')) {
+                subWorksheetData.RecType = 'M'
+            } else if ($grid.hasClass('L')) {
+                subWorksheetData.RecType = 'L'
+            } else if ($grid.hasClass('RS')) {
+                subWorksheetData.RecType = 'RS'
+            }
+
+            subWorksheetData.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
+            subWorksheetData.RateType = FwFormField.getValueByDataField($form, 'RateType');
+            subWorksheetData.CurrencyId = FwFormField.getValueByDataField($form, 'CurrencyId');
+            subWorksheetData.CurrencyCode = FwFormField.getTextByDataField($form, 'CurrencyId');
+            subWorksheetData.EstimatedStartDate = FwFormField.getValueByDataField($form, 'EstimatedStartDate');
+            subWorksheetData.EstimatedStopDate = FwFormField.getValueByDataField($form, 'EstimatedStopDate');
+            subWorksheetData.EstimatedStartTime = FwFormField.getValueByDataField($form, 'EstimatedStartTime');
+            $subWorksheetForm = SubWorksheetController.openForm('EDIT', subWorksheetData);
+            FwModule.openSubModuleTab($form, $subWorksheetForm);
+            jQuery('.tab.submodule.active').find('.caption').html('Sub Worksheet');
+
+
+
+        }
+        catch (ex) {
+            FwFunc.showError(ex);
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+
+
+
     //----------------------------------------------------------------------------------------------
     loadBrowseMenu($browse: JQuery) { };
     //----------------------------------------------------------------------------------------------
