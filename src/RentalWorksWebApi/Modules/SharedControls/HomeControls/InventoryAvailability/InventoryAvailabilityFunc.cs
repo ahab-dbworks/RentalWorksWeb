@@ -716,8 +716,11 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
         public string textColor { get; set; }
         public string id { get; set; } = "";
         public string resource { get; set; }
+        public string orderId { get; set; }
         public string orderNumber { get; set; }
+        public string orderType { get; set; }
         public string orderStatus { get; set; }
+        public string orderDescription { get; set; }
         public string deal { get; set; }
         public string subPoNumber { get; set; }
         public string subPoVendor { get; set; }
@@ -2022,7 +2025,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                 reservationEvent.resource = resourceId.ToString();
                 reservationEvent.InventoryId = inventoryId;
                 reservationEvent.WarehouseId = warehouseId;
-
+              
                 DateTime reservationFromDateTime = reservation.FromDateTime;
                 DateTime reservationToDateTime = reservation.ToDateTime;
                 string startDisplay = "";
@@ -2064,8 +2067,11 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                 reservationEvent.isWarehouseTotal = isWarehouseTotal;
                 reservationEvent.total = AvailabilityNumberToString(qty);
 
+                reservationEvent.orderId = reservation.OrderId;
                 reservationEvent.orderNumber = reservation.OrderNumber;
                 reservationEvent.orderStatus = reservation.OrderStatus;
+                reservationEvent.orderType = reservation.OrderType;
+                reservationEvent.orderDescription = reservation.OrderDescription;
                 reservationEvent.deal = reservation.Deal;
                 reservationEvent.subPoNumber = reservation.SubPurchaseOrderNumber;
                 reservationEvent.subPoVendor = reservation.SubPurchaseOrderVendor;
@@ -2112,8 +2118,11 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                     qcEvent.isWarehouseTotal = isWarehouseTotal;
                     qcEvent.total = AvailabilityNumberToString(qty);
 
+                    qcEvent.orderId = reservation.OrderId;
                     qcEvent.orderNumber = reservation.OrderNumber;
                     qcEvent.orderStatus = reservation.OrderStatus;
+                    qcEvent.orderType = reservation.OrderType;
+                    qcEvent.orderDescription = reservation.OrderDescription;
                     qcEvent.deal = reservation.Deal;
 
                     scheduleEvents.Add(qcEvent);
