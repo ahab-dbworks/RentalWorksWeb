@@ -312,7 +312,7 @@ class PickList {
                   </div>
                 </div>
               </div>
-             <div data-type="tabpage" id="emailhistorytabpage" class="tabpage submodule emailhistory-page" data-tabid="emailhistorytab"></div>
+             <div data-type="tabpage" id="emailhistorytabpage" class="tabpage submodule emailhistory-page rwSubModule" data-tabid="emailhistorytab"></div>
             </div>
           </div>
         </div>`;
