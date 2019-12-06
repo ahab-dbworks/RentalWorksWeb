@@ -68,16 +68,34 @@ class SpaceType {
     }
 
     renderGrids($form: any) {
-        const $spaceWarehouseRateGrid = $form.find('div[data-grid="SpaceWarehouseRateGrid"]');
-        const $spaceWarehouseRateGridControl = FwBrowse.loadGridFromTemplate('SpaceWarehouseRateGrid');
-        $spaceWarehouseRateGrid.empty().append($spaceWarehouseRateGridControl);
-        $spaceWarehouseRateGridControl.data('ondatabind', request => {
-            request.uniqueids = {
-                RateId: FwFormField.getValueByDataField($form, 'RateId')
-            };
+        //const $spaceWarehouseRateGrid = $form.find('div[data-grid="SpaceWarehouseRateGrid"]');
+        //const $spaceWarehouseRateGridControl = FwBrowse.loadGridFromTemplate('SpaceWarehouseRateGrid');
+        //$spaceWarehouseRateGrid.empty().append($spaceWarehouseRateGridControl);
+        //$spaceWarehouseRateGridControl.data('ondatabind', request => {
+        //    request.uniqueids = {
+        //        RateId: FwFormField.getValueByDataField($form, 'RateId')
+        //    };
+        //});
+        //FwBrowse.init($spaceWarehouseRateGridControl);
+        //FwBrowse.renderRuntimeHtml($spaceWarehouseRateGridControl);
+
+        FwBrowse.renderGrid({
+            nameGrid: 'SpaceWarehouseRateGrid',
+            gridSecurityId: 'oVjmeqXtHEJCm',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                options.hasNew = false;
+                options.hasDelete = false;
+                options.hasEdit = true;
+            },
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    RateId: FwFormField.getValueByDataField($form, 'RateId')
+                };
+            }
         });
-        FwBrowse.init($spaceWarehouseRateGridControl);
-        FwBrowse.renderRuntimeHtml($spaceWarehouseRateGridControl);
     }
 
     afterLoad($form: any) {

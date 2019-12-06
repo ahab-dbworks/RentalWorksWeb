@@ -68,16 +68,34 @@
     }
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
-        const $billingCycleEventsGrid = $form.find('div[data-grid="BillingCycleEventsGrid"]');
-        const $billingCycleEventsGridControl = FwBrowse.loadGridFromTemplate('BillingCycleEventsGrid');
-        $billingCycleEventsGrid.empty().append($billingCycleEventsGridControl);
-        $billingCycleEventsGridControl.data('ondatabind', request => {
-            request.uniqueids = {
-                BillingCycleId: FwFormField.getValueByDataField($form, 'BillingCycleId')
-            };
+        //const $billingCycleEventsGrid = $form.find('div[data-grid="BillingCycleEventsGrid"]');
+        //const $billingCycleEventsGridControl = FwBrowse.loadGridFromTemplate('BillingCycleEventsGrid');
+        //$billingCycleEventsGrid.empty().append($billingCycleEventsGridControl);
+        //$billingCycleEventsGridControl.data('ondatabind', request => {
+        //    request.uniqueids = {
+        //        BillingCycleId: FwFormField.getValueByDataField($form, 'BillingCycleId')
+        //    };
+        //});
+        //FwBrowse.init($billingCycleEventsGridControl);
+        //FwBrowse.renderRuntimeHtml($billingCycleEventsGridControl);
+    //-------------
+        FwBrowse.renderGrid({
+            nameGrid: 'BillingCycleEventsGrid',
+            gridSecurityId: 'KSA8EsXjcrt',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                options.hasNew = false;
+                options.hasDelete = false;
+                options.hasEdit = true;
+            },
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    BillingCycleId: FwFormField.getValueByDataField($form, 'BillingCycleId')
+                };
+            }
         });
-        FwBrowse.init($billingCycleEventsGridControl);
-        FwBrowse.renderRuntimeHtml($billingCycleEventsGridControl);
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
