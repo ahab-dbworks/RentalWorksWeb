@@ -103,14 +103,14 @@ class BillingWorksheet {
     addFormMenuItems(options: IAddFormMenuOptions): void {
         FwMenu.addFormMenuButtons(options);
 
-        FwMenu.addSubMenuItem(options.$groupOptions, 'Approve', 'CaXDtIbJk1AD2', (e: JQuery.ClickEvent) => {
+        FwMenu.addSubMenuItem(options.$groupOptions, 'Approve', 'eMYtyUHlOkUuo', (e: JQuery.ClickEvent) => {
             try {
                 this.approveOrUnaproveWorksheet(options.$form, 'approve')
             } catch (ex) {
                 FwFunc.showError(ex);
             }
         });
-        FwMenu.addSubMenuItem(options.$groupOptions, 'Unapprove', 'os2wt4JduF909', (e: JQuery.ClickEvent) => {
+        FwMenu.addSubMenuItem(options.$groupOptions, 'Unapprove', 'sJydlcSDO02Zs', (e: JQuery.ClickEvent) => {
             try {
                 this.approveOrUnaproveWorksheet(options.$form, 'unapprove')
             } catch (ex) {
