@@ -6,6 +6,8 @@ using System.Data;
 using System.Reflection;
 using System.Threading.Tasks;
 using WebApi.Data;
+using WebApi.Logic;
+
 namespace WebApi.Modules.Reports.Billing.InvoiceReport
 {
 
@@ -76,18 +78,14 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
                     int columnIndex = dt.GetColumnNo(fieldName);
                     if (!columnIndex.Equals(-1))
                     {
-                        string propType = dt.Columns[columnIndex].DataType.ToString();
-                        switch (propType)
+                        FwDataTypes propType = dt.Columns[columnIndex].DataType;
+                        if (AppFunc.FwDataTypeIsDecimal(propType))
                         {
-                            case "Decimal":
-                            case "DecimalString2Digits":
-                            case "DecimalString3Digits":
-                            case "CurrencyStringNoDollarSign":
-                                property.SetValue(item, FwConvert.ToDecimal((row[dt.GetColumnNo(fieldName)] ?? "").ToString()));
-                                break;
-                            default:
-                                property.SetValue(item, (row[dt.GetColumnNo(fieldName)] ?? "").ToString());
-                                break;
+                            property.SetValue(item, FwConvert.ToDecimal((row[dt.GetColumnNo(fieldName)] ?? "").ToString()));
+                        }
+                        else
+                        {
+                            property.SetValue(item, (row[dt.GetColumnNo(fieldName)] ?? "").ToString());
                         }
                     }
                 }

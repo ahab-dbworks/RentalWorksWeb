@@ -9,6 +9,8 @@ using WebApi;
 using System.Threading.Tasks;
 using System.Data;
 using System.Reflection;
+using WebApi.Logic;
+
 namespace WebApi.Modules.Reports.OrderReports.OrderReport
 {
 
@@ -80,7 +82,6 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
             string[] totalFields = new string[] { "PeriodExtended" };
             dt.InsertSubTotalRows("RecTypeDisplay", "RowType", totalFields);
             dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
-            //return dt;
 
             List<T> items = new List<T>();
             foreach (List<object> row in dt.Rows)
@@ -93,18 +94,14 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
                     int columnIndex = dt.GetColumnNo(fieldName);
                     if (!columnIndex.Equals(-1))
                     {
-                        string propType = dt.Columns[columnIndex].DataType.ToString();
-                        switch (propType)
+                        FwDataTypes propType = dt.Columns[columnIndex].DataType;
+                        if (AppFunc.FwDataTypeIsDecimal(propType))
                         {
-                            case "Decimal":
-                            case "DecimalString2Digits":
-                            case "DecimalString3Digits":
-                            case "CurrencyStringNoDollarSign":
-                                property.SetValue(item, FwConvert.ToDecimal((row[dt.GetColumnNo(fieldName)] ?? "").ToString()));
-                                break;
-                            default:
-                                property.SetValue(item, (row[dt.GetColumnNo(fieldName)] ?? "").ToString());
-                                break;
+                            property.SetValue(item, FwConvert.ToDecimal((row[dt.GetColumnNo(fieldName)] ?? "").ToString()));
+                        }
+                        else
+                        {
+                            property.SetValue(item, (row[dt.GetColumnNo(fieldName)] ?? "").ToString());
                         }
                     }
                 }
