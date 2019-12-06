@@ -78,7 +78,7 @@ class Contact {
         FwFormField.getDataField($form, 'LocationId').on('change', (e: JQuery.ChangeEvent) => {
             try {
                 FwFormField.setValueByDataField($form, 'WarehouseId', '', '');
-            } catch(ex) {
+            } catch (ex) {
                 FwFunc.showError(ex);
             }
         });
@@ -224,7 +224,7 @@ class Contact {
             beforeSave: (request: any) => {
                 request.ContactId = FwFormField.getValueByDataField($form, 'ContactId');
             }
-            
+
         });
 
         this.addLegend($form);
