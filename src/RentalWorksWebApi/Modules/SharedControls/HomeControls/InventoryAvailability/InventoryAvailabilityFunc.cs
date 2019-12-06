@@ -1285,7 +1285,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                         {
                             int warehouseLateDays = FwConvert.ToInt32(row[dt.GetColumnNo("availlatedays")].ToString());
                             DateTime lateButReturningThroughDate = reservation.ToDateTime.AddDays(warehouseLateDays);
-                            if ((warehouseLateDays > 0) && (reservation.QuantityOut.Total > 0) && (reservation.ToDateTime < lateButReturningThroughDate))
+                            if ((warehouseLateDays > 0) && (reservation.QuantityOut.Total > 0) && (reservation.ToDateTime < lateButReturningThroughDate) && (lateButReturningThroughDate > DateTime.Now))
                             {
                                 reservation.ToDateTime = lateButReturningThroughDate;
                                 reservation.LateButReturning = true;
@@ -1459,7 +1459,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                             {
                                 int warehouseLateDays = FwConvert.ToInt32(row[dt.GetColumnNo("availlatedays")].ToString());
                                 DateTime lateButReturningThroughDate = reservation.ToDateTime.AddDays(warehouseLateDays);
-                                if ((warehouseLateDays > 0) && (reservation.QuantityOut.Total > 0) && (reservation.ToDateTime < lateButReturningThroughDate))
+                                if ((warehouseLateDays > 0) && (reservation.QuantityOut.Total > 0) && (reservation.ToDateTime < lateButReturningThroughDate) && (lateButReturningThroughDate > DateTime.Now))
                                 {
                                     reservation.ToDateTime = lateButReturningThroughDate;
                                     reservation.LateButReturning = true;
