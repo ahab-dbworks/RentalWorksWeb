@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using WebApi.Controllers;
 using System.Threading.Tasks;
+using WebApi.Modules.HomeControls.GeneralItem;
+using WebApi.Modules.Inventory.Asset;
 namespace WebApi.Modules.HomeControls.InvoiceItem
 {
     [Route("api/v1/[controller]")]
@@ -71,5 +73,20 @@ namespace WebApi.Modules.HomeControls.InvoiceItem
             return await DoDeleteAsync<InvoiceItemLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/invoiceitem/validateinventory/browse
+        [HttpPost("validateinventory/browse")]
+        [FwControllerMethod(Id: "Wr7NKfUqdUFK", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateInventoryBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<GeneralItemLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/invoiceitem/validateitem/browse
+        [HttpPost("validateitem/browse")]
+        [FwControllerMethod(Id: "I220TMDKKp70", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateItemBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<ItemLogic>(browseRequest);
+        }
     }
 }

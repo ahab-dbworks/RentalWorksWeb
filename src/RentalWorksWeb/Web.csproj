@@ -500,6 +500,7 @@
     <TypeScriptCompile Include="Source\Modules\Administrator\Hotfix\Hotfix.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\Reports\ReportsController.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\EmailHistory\EmailHistory.ts" />
+    <TypeScriptCompile Include="Source\Modules\Billing\BillingWorksheet\BillingWorksheet.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\CountQuantityInventory\CountQuantityInventory.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\ScanBarCodes\ScanBarCodes.ts" />
     <TypeScriptCompile Include="Source\Modules\Billing\Billing\BillingMessage.ts" />
@@ -653,6 +654,9 @@
     <TypeScriptCompile Include="Source\Modules\Agent\Order\SearchInterface.ts" />
     <TypeScriptCompile Include="Source\Modules\Agent\Quote\Quote.ts" />
     <TypeScriptCompile Include="Source\Modules\Inventory\Repair\Repair.ts" />
+    <Content Include="Source\Modules\Billing\BillingWorksheet\BillingWorksheet.js" />
+    <Content Include="Source\Modules\Billing\BillingWorksheet\BillingWorksheetBrowse.htm" />
+    <Content Include="Source\Modules\Billing\BillingWorksheet\BillingWorksheetForm.htm" />
     <Content Include="Source\Modules\Settings\AccountingSettings\AccountingSettings\AccountingSettingsBrowse.htm" />
     <Content Include="Source\Modules\Settings\AccountingSettings\AccountingSettings\AccountingSettingsForm.htm" />
     <Content Include="Source\Modules\Settings\AccountingSettings\GlAccount\GlAccountBrowse.htm" />
@@ -1289,6 +1293,7 @@
     <Content Include="Source\Grids\CustomReportLayoutUserGrid\CustomReportLayoutUserGridController.js.map" />
     <Content Include="Source\Grids\InventoryPurchaseItemGrid\InventoryPurchaseItemGridController.js.map" />
     <Content Include="libman.json" />
+    <Content Include="Source\Modules\Billing\BillingWorksheet\BillingWorksheet.js.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

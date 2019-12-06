@@ -529,6 +529,37 @@ class BillingWorksheet {
         jQuery($form.find('.rentalsalegrid .valtype')).attr('data-validationname', 'RentalInventoryValidation');
     }
     //----------------------------------------------------------------------------------------------
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
+        switch (datafield) {
+            case 'OrderId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateorder`);
+                break;
+            case 'DepartmentId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedepartment`);
+                break;
+            case 'AgentId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateagent`);
+                break;
+            case 'ProjectManagerId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateprojectmanager`);
+                break;
+            case 'OutsideSalesRepresentativeId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateoutsidesalesrepresentative`);
+                break;
+            case 'PaymentTermsId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatepaymentterms`);
+                break;
+            case 'PaymentTypeId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatepaymenttype`);
+                break;
+            case 'CurrencyId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecurrency`);
+                break;
+            case 'TaxOptionId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatetaxoption`);
+                break;
+        }
+    }
     loadAudit($form: JQuery): void {
         const uniqueid = FwFormField.getValueByDataField($form, 'BillingWorksheetId');
         FwModule.loadAudit($form, uniqueid);

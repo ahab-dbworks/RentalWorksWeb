@@ -344,6 +344,14 @@ class VendorInvoice {
         // ----------
     };
     //----------------------------------------------------------------------------------------------
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
+        switch (datafield) {
+            case 'TaxOptionId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatetaxoption`);
+                break;
+        }
+    }
+    //----------------------------------------------------------------------------------------------
     afterLoad($form: JQuery) {
         //Disables editing when STATUS is CLOSED or PROCESSED 
         let status = FwFormField.getValueByDataField($form, 'Status');

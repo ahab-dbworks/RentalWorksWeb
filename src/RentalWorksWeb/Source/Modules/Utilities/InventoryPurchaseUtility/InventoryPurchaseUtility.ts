@@ -3,6 +3,7 @@ routes.push({ pattern: /^module\/inventorypurchaseutility$/, action: function (m
 class InventoryPurchaseUtility {
     Module: string = 'InventoryPurchaseUtility';
     caption: string = Constants.Modules.Utilities.children.InventoryPurchaseUtility.caption;
+    apiurl: string = 'api/v1/inventorypurchaseutility';
     nav: string = Constants.Modules.Utilities.children.InventoryPurchaseUtility.nav;
     id: string = Constants.Modules.Utilities.children.InventoryPurchaseUtility.id;
     //----------------------------------------------------------------------------------------------
@@ -161,6 +162,25 @@ class InventoryPurchaseUtility {
         });
     }
     //----------------------------------------------------------------------------------------------
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
+        switch (datafield) {
+            case 'InventoryId': 
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventory`);
+                break;
+            case 'WarehouseId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatewarehouse`);
+                break;
+            case 'ManufacturerVendorId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatemanufacturervendor`);
+                break;
+            case 'CountryId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecountry`);
+                break;
+            case 'PurchaseVendorId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatepurchasevendor`);
+                break;
+        }
+    }
 };
 //----------------------------------------------------------------------------------------------
 var InventoryPurchaseUtilityController = new InventoryPurchaseUtility();

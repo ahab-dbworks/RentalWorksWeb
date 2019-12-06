@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebApi.Controllers;
+using WebApi.Modules.Settings.TaxSettings.TaxOption;
 
 namespace WebApi.Modules.Billing.VendorInvoice
 {
@@ -104,5 +105,12 @@ namespace WebApi.Modules.Billing.VendorInvoice
             }
         }
         //------------------------------------------------------------------------------------
+        // POST api/v1/vendorinvoice/validatetaxoption/browse
+        [HttpPost("validatetaxoption/browse")]
+        [FwControllerMethod(Id: "oCPfYW0xPHzb", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateInventoryBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<TaxOptionLogic>(browseRequest);
+        }
     }
 }
