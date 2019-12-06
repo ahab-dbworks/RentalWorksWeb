@@ -1,14 +1,11 @@
-using FwStandard.Data;
-using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using WebApi.Data;
-using System.Collections.Generic;
 using System;
-using WebApi;
-using System.Threading.Tasks;
+using System.Collections.Generic;
 using System.Data;
 using System.Reflection;
+using System.Threading.Tasks;
+using WebApi.Data;
 namespace WebApi.Modules.Reports.Billing.InvoiceReport
 {
 
@@ -49,7 +46,7 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
         [FwSqlDataField(column: "discountpct", modeltype: FwDataTypes.DecimalString2Digits)]
         public decimal? DiscountPercent { get; set; }
         //------------------------------------------------------------------------------------ 
-        public async Task<List<InvoiceItemReportLoader>> LoadItems(InvoiceReportRequest request)
+        public async Task<List<T>> LoadItems<T>(InvoiceReportRequest request)
         {
             FwJsonDataTable dt = null;
             using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
@@ -68,21 +65,44 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
             dt.InsertSubTotalRows("RecTypeDisplay", "RowType", totalFields);
             dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
 
-            List<InvoiceItemReportLoader> items = new List<InvoiceItemReportLoader>();
+            List<T> items = new List<T>();
             foreach (List<object> row in dt.Rows)
             {
-                InvoiceItemReportLoader item = new InvoiceItemReportLoader();
-                item.InvoiceId = (row[dt.GetColumnNo("InvoiceId")] ?? "").ToString();
-                item.RowType = (row[dt.GetColumnNo("RowType")] ?? "").ToString();
-                item.RecType = (row[dt.GetColumnNo("RecType")] ?? "").ToString();
-                item.RecTypeDisplay = (row[dt.GetColumnNo("RecTypeDisplay")] ?? "").ToString();
-                item.ICode = (row[dt.GetColumnNo("ICode")] ?? "").ToString();
-                item.Description = (row[dt.GetColumnNo("Description")] ?? "").ToString();
-                item.Quantity = FwConvert.ToDecimal((row[dt.GetColumnNo("Quantity")] ?? "").ToString());
-                item.Extended = FwConvert.ToDecimal((row[dt.GetColumnNo("Extended")] ?? "").ToString());
-                item.OrderBy = (row[dt.GetColumnNo("OrderBy")] ?? "").ToString();
-                item.Rate = FwConvert.ToDecimal((row[dt.GetColumnNo("Rate")] ?? "").ToString());
-                item.DiscountPercent = FwConvert.ToDecimal((row[dt.GetColumnNo("DiscountPercent")] ?? "").ToString());
+                T item = (T)Activator.CreateInstance(typeof(T));
+                PropertyInfo[] properties = item.GetType().GetProperties();
+                foreach (var property in properties)
+                {
+                    string fieldName = property.Name;
+                    int columnIndex = dt.GetColumnNo(fieldName);
+                    if (!columnIndex.Equals(-1))
+                    {
+                        string propType = dt.Columns[columnIndex].DataType.ToString();
+                        switch (propType)
+                        {
+                            case "Decimal":
+                            case "DecimalString2Digits":
+                            case "DecimalString3Digits":
+                            case "CurrencyStringNoDollarSign":
+                                property.SetValue(item, FwConvert.ToDecimal((row[dt.GetColumnNo(fieldName)] ?? "").ToString()));
+                                break;
+                            default:
+                                property.SetValue(item, (row[dt.GetColumnNo(fieldName)] ?? "").ToString());
+                                break;
+                        }
+                    }
+                }
+                //item.InvoiceId = (row[dt.GetColumnNo("InvoiceId")] ?? "").ToString();
+                //item.RowType = (row[dt.GetColumnNo("RowType")] ?? "").ToString();
+                //item.RecType = (row[dt.GetColumnNo("RecType")] ?? "").ToString();
+                //item.RecTypeDisplay = (row[dt.GetColumnNo("RecTypeDisplay")] ?? "").ToString();
+                //item.ICode = (row[dt.GetColumnNo("ICode")] ?? "").ToString();
+                //item.Description = (row[dt.GetColumnNo("Description")] ?? "").ToString();
+                //item.Quantity = FwConvert.ToDecimal((row[dt.GetColumnNo("Quantity")] ?? "").ToString());
+                //item.Extended = FwConvert.ToDecimal((row[dt.GetColumnNo("Extended")] ?? "").ToString());
+                //item.OrderBy = (row[dt.GetColumnNo("OrderBy")] ?? "").ToString();
+                //item.Rate = FwConvert.ToDecimal((row[dt.GetColumnNo("Rate")] ?? "").ToString());
+                //item.DiscountPercent = FwConvert.ToDecimal((row[dt.GetColumnNo("DiscountPercent")] ?? "").ToString());
+                //item.DaysPerWeek = FwConvert.ToDecimal((row[dt.GetColumnNo("DaysPerWeek")] ?? "").ToString());
                 items.Add(item);
             }
             return items;
@@ -524,13 +544,13 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
 
 
         //------------------------------------------------------------------------------------
-        public List<InvoiceItemReportLoader> RentalItems { get; set; } = new List<InvoiceItemReportLoader>(new InvoiceItemReportLoader[] { new InvoiceItemReportLoader() });
+        public List<RentalInvoiceItemReportLoader> RentalItems { get; set; } = new List<RentalInvoiceItemReportLoader>(new RentalInvoiceItemReportLoader[] { new RentalInvoiceItemReportLoader() });
         //------------------------------------------------------------------------------------ 
-        public List<InvoiceItemReportLoader> SalesItems { get; set; } = new List<InvoiceItemReportLoader>(new InvoiceItemReportLoader[] { new InvoiceItemReportLoader() });
+        public List<SalesInvoiceItemReportLoader> SalesItems { get; set; } = new List<SalesInvoiceItemReportLoader>(new SalesInvoiceItemReportLoader[] { new SalesInvoiceItemReportLoader() });
         //------------------------------------------------------------------------------------ 
-        public List<InvoiceItemReportLoader> MiscItems { get; set; } = new List<InvoiceItemReportLoader>(new InvoiceItemReportLoader[] { new InvoiceItemReportLoader() });
+        public List<MiscInvoiceItemReportLoader> MiscItems { get; set; } = new List<MiscInvoiceItemReportLoader>(new MiscInvoiceItemReportLoader[] { new MiscInvoiceItemReportLoader() });
         //------------------------------------------------------------------------------------ 
-        public List<InvoiceItemReportLoader> LaborItems { get; set; } = new List<InvoiceItemReportLoader>(new InvoiceItemReportLoader[] { new InvoiceItemReportLoader() });
+        public List<LaborInvoiceItemReportLoader> LaborItems { get; set; } = new List<LaborInvoiceItemReportLoader>(new LaborInvoiceItemReportLoader[] { new LaborInvoiceItemReportLoader() });
         //------------------------------------------------------------------------------------ 
         public List<InvoiceItemReportLoader> Items { get; set; } = new List<InvoiceItemReportLoader>(new InvoiceItemReportLoader[] { new InvoiceItemReportLoader() });
         //------------------------------------------------------------------------------------ 
@@ -552,31 +572,31 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
                     Task<List<InvoiceItemReportLoader>> taskInvoiceItems;
                     InvoiceItemReportLoader InvoiceItems = new InvoiceItemReportLoader();
                     InvoiceItems.SetDependencies(AppConfig, UserSession);
-                    taskInvoiceItems = InvoiceItems.LoadItems(request);
+                    taskInvoiceItems = InvoiceItems.LoadItems<InvoiceItemReportLoader>(request);
 
                     //rental items
-                    Task<List<InvoiceItemReportLoader>> taskRentalInvoiceItems;
-                    InvoiceItemReportLoader RentalItems = new InvoiceItemReportLoader();
+                    Task<List<RentalInvoiceItemReportLoader>> taskRentalInvoiceItems;
+                    RentalInvoiceItemReportLoader RentalItems = new RentalInvoiceItemReportLoader();
                     RentalItems.SetDependencies(AppConfig, UserSession);
-                    taskRentalInvoiceItems = RentalItems.LoadItems(request);
+                    taskRentalInvoiceItems = RentalItems.LoadItems<RentalInvoiceItemReportLoader>(request);
 
                     //sales items
-                    Task<List<InvoiceItemReportLoader>> taskSalesInvoiceItems;
+                    Task<List<SalesInvoiceItemReportLoader>> taskSalesInvoiceItems;
                     SalesInvoiceItemReportLoader SalesItems = new SalesInvoiceItemReportLoader();
                     SalesItems.SetDependencies(AppConfig, UserSession);
-                    taskSalesInvoiceItems = SalesItems.LoadItems(request);
+                    taskSalesInvoiceItems = SalesItems.LoadItems<SalesInvoiceItemReportLoader>(request);
 
                     //misc items
-                    Task<List<InvoiceItemReportLoader>> taskMiscInvoiceItems;
+                    Task<List<MiscInvoiceItemReportLoader>> taskMiscInvoiceItems;
                     MiscInvoiceItemReportLoader MiscItems = new MiscInvoiceItemReportLoader();
                     MiscItems.SetDependencies(AppConfig, UserSession);
-                    taskMiscInvoiceItems = MiscItems.LoadItems(request);
+                    taskMiscInvoiceItems = MiscItems.LoadItems<MiscInvoiceItemReportLoader>(request);
 
                     //labor items
-                    Task<List<InvoiceItemReportLoader>> taskLaborInvoiceItems;
+                    Task<List<LaborInvoiceItemReportLoader>> taskLaborInvoiceItems;
                     LaborInvoiceItemReportLoader LaborItems = new LaborInvoiceItemReportLoader();
                     LaborItems.SetDependencies(AppConfig, UserSession);
-                    taskLaborInvoiceItems = LaborItems.LoadItems(request);
+                    taskLaborInvoiceItems = LaborItems.LoadItems<LaborInvoiceItemReportLoader>(request);
 
                     await Task.WhenAll(new Task[] { taskInvoice, taskInvoiceItems, taskRentalInvoiceItems, taskSalesInvoiceItems, taskMiscInvoiceItems, taskLaborInvoiceItems });
 

@@ -1092,15 +1092,21 @@ class SearchInterface {
             .on('change', '.item-info [data-column="Quantity"] input', e => {
                 e.stopPropagation();
 
-                let element      = jQuery(e.currentTarget);
-                let quantity     = element.val();
-                let inventoryId  = element.parents('.item-info').attr('data-inventoryid');
-                let request: any = {
+                let element       = jQuery(e.currentTarget);
+                let quantity      = element.val();
+                const item        = element.parents('.item-info');
+                const inventoryId = item.attr('data-inventoryid');
+                const fromDate    = FwFormField.getValueByDataField($popup, 'FromDate');
+                const toDate      = FwFormField.getValueByDataField($popup, 'ToDate');
+                const pickDate    = FwFormField.getValueByDataField($popup, 'PickDate');
+                let request: any  = {
                     OrderId:     id,
                     SessionId:   id,
                     InventoryId: inventoryId,
                     WarehouseId: warehouseId,
-                    Quantity:    quantity
+                    Quantity: quantity,
+                    FromDate: pickDate != "" ? pickDate : fromDate,
+                    ToDate: toDate
                 }
 
                 if (quantity > 0) {
@@ -1109,18 +1115,26 @@ class SearchInterface {
 
                 quantity != 0 ? element.addClass('lightBlue') : element.removeClass('lightBlue');
 
-                let $accContainer    = element.parents('.item-container').find('.item-accessories');
+                let $accContainer = element.parents('.item-container').find('.item-accessories');
                 let accessoryRefresh = $popup.find('.toggleAccessories input').prop('checked');
-                FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/", request, FwServices.defaultTimeout, function onSuccess(response) {
-                    if (accessoryRefresh == false) {
-                        if ($accContainer.length > 0) {
-                            self.refreshAccessoryQuantity($popup, id, warehouseId, inventoryId, e);
+                FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/", request, FwServices.defaultTimeout,
+                    response => {
+                        if (accessoryRefresh == false) {
+                            if ($accContainer.length > 0) {
+                                self.refreshAccessoryQuantity($popup, id, warehouseId, inventoryId, e);
+                            }
                         }
-                    }
 
-                    //Updates Preview tab with total # of items
-                    $popup.find('.tab[data-caption="Preview"] .caption').text(`Preview (${response.TotalQuantityInSession})`);
-                }, null, $searchpopup);
+                        item.find('[data-column="Available"]')
+                            .attr('data-state', response.AvailabilityState)
+                            .find('.value')
+                            .text(response.QuantityAvailable);
+
+                        item.find('[data-column="ConflictDate"] value').text(response.ConflictDate || "");
+
+                        //Updates Preview tab with total # of items
+                        $popup.find('.tab[data-caption="Preview"] .caption').text(`Preview (${response.TotalQuantityInSession})`);
+                    }, ex => FwFunc.showError(ex), $searchpopup);
             })
             .on('click', '.item-accessory-info [data-column="Quantity"] input', e => {
                 jQuery(e.currentTarget).select();

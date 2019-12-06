@@ -713,30 +713,51 @@ class SalesInventory extends InventoryBase {
     };
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
-        const validationName = request.module;
-        const InventoryTypeValue = jQuery($form.find('[data-validationname="InventoryTypeValidation"] input')).val();
-        const CategoryTypeId = jQuery($form.find('[data-validationname="SalesCategoryValidation"] input')).val();
+        //const validationName = request.module;
+        //const InventoryTypeValue = jQuery($validationbrowse.find('[data-validationname="InventoryTypeValidation"] input')).val();
+        //const CategoryTypeId = jQuery($validationbrowse.find('[data-validationname="SalesCategoryValidation"] input')).val();
+
+        //switch (validationName) {
+        //    case 'InventoryTypeValidation':
+        //        request.uniqueids = {
+        //            //Sales: true,
+        //            RecType: "S",
+        //            HasCategories: true
+        //        };
+        //        break;
+        //    case 'SalesCategoryValidation':
+        //        request.uniqueids = {
+        //            InventoryTypeId: InventoryTypeValue
+        //        };
+        //        break;
+        //    case 'SubCategoryValidation':
+        //        request.uniqueids = {
+        //            TypeId: InventoryTypeValue,
+        //            CategoryId: CategoryTypeId
+        //        };
+        //        break;
+        //};
+        let inventoryTypeId = FwFormField.getValueByDataField($form, 'InventoryTypeId');
+        let categoryId = FwFormField.getValueByDataField($form, 'CategoryId');
 
         switch (datafield) {
             case 'InventoryTypeId':
                 request.uniqueids = {
-                    //Sales: true,
-                    RecType: "S",
-                    HasCategories: true
+                    Sales: true,
+                    HasCategories: true,
                 };
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventorytype`);
                 break;
             case 'CategoryId':
                 request.uniqueids = {
-                    InventoryTypeId: InventoryTypeValue
+                    InventoryTypeId: inventoryTypeId,
                 };
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecategoryid`);
                 break;
             case 'SubCategoryId':
-
                 request.uniqueids = {
-                    TypeId: InventoryTypeValue,
-                    CategoryId: CategoryTypeId
+                    InventoryTypeId: inventoryTypeId,
+                    CategoryId: categoryId,
                 };
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatesubcategory`);
                 break;

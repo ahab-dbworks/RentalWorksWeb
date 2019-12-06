@@ -74,14 +74,14 @@ var Constants = {
                 CreatePickList: { id: '1407A536-B5C9-4363-8B54-A56DB8CE902D', caption: 'Create Pick List', nav: 'module/contract', nodetype: 'Module' },
                 CustomerCredit: { id: 'DCPFcfKgUGnuC', caption: 'Customer Credit', nav: 'module/customercredit', nodetype: 'Module' },
                 DealCredit: { id: 'OCkLGwclipEA', caption: 'Deal Credit', nav: 'module/dealcredit', nodetype: 'Module' },
-                Manifest: {
-                    id: 'yMwoSvKvwAbbZ', caption: 'Transfer Manifest', nav: 'module/manifest', nodetype: 'Module',
-                    form: {
-                        menuItems: {
-                            Print: { id: '{8FC8A0F2-C016-476F-971B-64CF2ED95E41}' }
-                        }
-                    }
-                },
+                //Manifest: {
+                //    id: 'yMwoSvKvwAbbZ', caption: 'Transfer Manifest', nav: 'module/manifest', nodetype: 'Module',
+                //    form: {
+                //        menuItems: {
+                //            Print: { id: '{8FC8A0F2-C016-476F-971B-64CF2ED95E41}' }
+                //        }
+                //    }
+                //},
                 SubWorksheet: { id: '2227B6C3-587D-48B1-98B6-B9125E0E4D9D', caption: 'Sub Worksheet', nav: 'module/subworksheet', nodetype: 'Module' },
                 SuspendedSession: { id: '5FBE7FF8-3770-48C5-855C-4320C961D95A', caption: 'Suspended Session', nav: 'module/suspendedsession', nodetype: 'Module' }
             }
@@ -199,7 +199,7 @@ var Constants = {
                     caption: 'Order Reports',
                     nodetype: 'Category',
                     children: {
-                        LateReturnDueBackReport: {          id: 'gOtEnqxlXIOt', caption: 'Late Return / Due Back', nav: 'reports/latereturnduebackreport', nodetype: 'Module', description: 'List all items that are Late or Due Back on a specific date.  Data is subtotalled by Order and Deal.' },
+                        LateReturnsReport: {                id: 'gOtEnqxlXIOt', caption: 'Late Return / Due Back', nav: 'reports/latereturnsreport', nodetype: 'Module', description: 'List all items that are Late or Due Back on a specific date.  Data is subtotalled by Order and Deal.' },
                         OrderConflictReport: {              id: 'kXV9ZCJogLiwe', caption: 'Availability Item Conflict', nav: 'reports/orderconflictreport', nodetype: 'Module', description: 'List all Negative and Positive Availability Conflicts over a specified date range.' },
                         OrderReport: {                      id: 'Q89Ni6FvVL92', caption: 'Print Order', nav: 'reports/orderreport', nodetype: 'Module', description: 'Order document.' },
                         OutstandingSubRentalReport: {       id: 'NCFNATdQRx5E', caption: 'Outstanding Sub-Rental', nav: 'reports/outstandingsubrentalreport', nodetype: 'Module', description: 'List all Sub-Rental items currently Staged, Out, or in Holding.' },
@@ -339,6 +339,7 @@ var Constants = {
                 CurrencySettings: {
                     caption: 'Currency',
                     id: 'Settings.CurrencySettings',
+                    nodetype: 'Category',
                     children: {
                         Currency: { id: 'xpyZJmmju0uB', caption: 'Currency', nav: 'settings/currencysettings/currency', nodetype: 'Module', description: '' }
                     }
@@ -421,6 +422,7 @@ var Constants = {
                 GeneratorSettings: {
                     caption: 'Generator',
                     id: 'Settings.GeneratorSettings',
+                    nodetype: 'Category',
                     children: {
                         GeneratorFuelType: { id: 'WP4ewzQGUV8U', caption: 'Generator Fuel Type', nav: 'settings/generatorsettings/fueltype', nodetype: 'Module', description: '' },
                         GeneratorMake: { id: 'fHix04T2Hsc6', caption: 'Generator Make', nav: 'settings/generatorsettings/make', nodetype: 'Module', description: '' },

@@ -1,6 +1,6 @@
 ﻿routes.push({ pattern: /^reports\/latereturnsreport$/, action: function (match: RegExpExecArray) { return LateReturnsReportController.getModuleScreen(); } });
 
-const lateReturnDueBackTemplate = `
+const lateReturnsTemplate = `
     <div class="fwcontrol fwcontainer fwform fwreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Late Return / Due Back" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="LateReturnsReportController">
       <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
         <div class="tabs" style="margin-right:10px;">
@@ -87,7 +87,7 @@ const lateReturnDueBackTemplate = `
 
 class LateReturnsReport extends FwWebApiReport {
     constructor() {
-        super('LateReturnsReport', 'api/v1/latereturnsreport', lateReturnDueBackTemplate);
+        super('LateReturnsReport', 'api/v1/latereturnsreport', lateReturnsTemplate);
     }
 
     //----------------------------------------------------------------------------------------------

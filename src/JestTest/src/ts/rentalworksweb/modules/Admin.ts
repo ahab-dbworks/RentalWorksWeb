@@ -135,7 +135,7 @@ export class CustomReportLayout extends AdminModule {
     constructor() {
         super();
         this.moduleName = 'CustomReportLayout';
-        this.moduleId = 'B89CDAF3-53B2-4FE8-97C6-39DC98E98DBA';
+        this.moduleId = 'EtrF5NHJ7dRg6';
         this.moduleCaption = 'Custom Report Layout';
         this.waitBeforeClickingSave = 2000;
 

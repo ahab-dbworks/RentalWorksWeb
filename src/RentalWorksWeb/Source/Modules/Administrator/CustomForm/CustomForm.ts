@@ -227,7 +227,7 @@ class CustomForm {
                             });
                         }
 
-                        $form.data('validdatafields', allValidFields.sort(compare));
+                        $form.data('validdatafields', allValidFields.sort((a, b) => a.Field < b.Field ? -1 : 1));
 
                         for (let i = 0; i < allValidFields.length; i++) {
                             modulefields.append(`
@@ -259,7 +259,7 @@ class CustomForm {
                         });
                     }
 
-                    $form.data('validdatafields', allValidFields.sort(compare));
+                    $form.data('validdatafields', allValidFields.sort((a, b) => a.Field < b.Field ? -1 : 1));
 
                     for (let i = 0; i < allValidFields.length; i++) {
                         modulefields.append(`
@@ -268,14 +268,6 @@ class CustomForm {
                     }
                 }, null, $form);
                 break;
-        }
-
-        function compare(a, b) {
-            if (a.Field < b.Field)
-                return -1;
-            if (a.Field > b.Field)
-                return 1;
-            return 0;
         }
     }
     //----------------------------------------------------------------------------------------------

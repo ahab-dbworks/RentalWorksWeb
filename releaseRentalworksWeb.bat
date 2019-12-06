@@ -1,7 +1,7 @@
 echo off
 rem --------------------------------------------------------------------------
 rem Purpose:       
-rem This batch file will produce a new build of RentalWorksWeb in the "build" directory.
+rem This batch file will produce a new build of RentalWorksWeb or TrackitWorksWeb in the "build" directory.
 rem --------------------------------------------------------------------------
 rem Author:        Justin Hoffman, Mike Vermilion
 rem Last modified: 11/26/2019
@@ -13,26 +13,19 @@ rem --------------------------------------------------------------------------
 
 
 
-
-
-
 rem NO MODIFICATIONS BEYOND THIS POINT
 rem --------------------------------------------------------------------------
 rem --------------------------------------------------------------------------
 rem --------------------------------------------------------------------------
 rem --------------------------------------------------------------------------
+
+
+rem Exit if DwRentalWorksWebPath environment variable is not set
 IF "%DwRentalWorksWebPath%"=="" ECHO Environment Variable DwRentalWorksWebPath is NOT defined
 IF "%DwRentalWorksWebPath%"=="" set /p=Hit ENTER to exit
 IF "%DwRentalWorksWebPath%"=="" exit /B
 
-IF "%DwFtpUploadUser%"=="" ECHO Environment Variable DwFtpUploadUser is NOT defined
-IF "%DwFtpUploadUser%"=="" set /p=Hit ENTER to exit
-IF "%DwFtpUploadUser%"=="" exit /B
-
-IF "%DwFtpUploadPassword%"=="" ECHO Environment Variable DwFtpUploadPassword is NOT defined
-IF "%DwFtpUploadPassword%"=="" set /p=Hit ENTER to exit
-IF "%DwFtpUploadPassword%"=="" exit /B
-
+rem Exit if 7-zip is not installed
 if not exist "c:\Program Files\7-Zip\7z.exe" ECHO 7-Zip is not installed
 if not exist "c:\Program Files\7-Zip\7z.exe" set /p=Hit ENTER to exit
 if not exist "c:\Program Files\7-Zip\7z.exe" exit /B
@@ -59,6 +52,21 @@ for /f "tokens=4 delims=." %%i in ("%fullversionno%") do (
   set buildno=%%i
 )
 
+rem Prompt the user if they want to commit and deploy to ftp
+set /p commitandftp="Do you want to commit and FTP the build? (y/n default:n): "
+IF NOT "%commitandftp%"=="y" set commitandftp=n
+
+rem if posting to FTP, make sure the user/pass environment variables are set
+IF "%commitandftp%"=="y" (
+IF "%DwFtpUploadUser%"=="" ECHO Environment Variable DwFtpUploadUser is NOT defined
+IF "%DwFtpUploadUser%"=="" set /p=Hit ENTER to exit
+IF "%DwFtpUploadUser%"=="" exit /B
+
+IF "%DwFtpUploadPassword%"=="" ECHO Environment Variable DwFtpUploadPassword is NOT defined
+IF "%DwFtpUploadPassword%"=="" set /p=Hit ENTER to exit
+IF "%DwFtpUploadPassword%"=="" exit /B
+)
+
 rem determine ZIP filename
 setlocal ENABLEDELAYEDEXPANSION
 set buildnoforzip=%fullversionno:.=_%
@@ -77,7 +85,7 @@ rem echo %openBrack%
 cmd /c exit 93
 set closeBrack=%=exitcodeAscii%
 rem echo %closeBrack%
-set newassemblyline=%openBrack%assembly: AssemblyVersion("%buildno%")%closeBrack%
+set newassemblyline=%openBrack%assembly: AssemblyVersion("%fullversionno%")%closeBrack%
 rem echo %newassemblyline%
 set "file=%DwRentalWorksWebPath%\src\%productname%\Properties\AssemblyInfo.cs"
 for /F "delims=" %%a in (%file%) do (
@@ -90,6 +98,37 @@ for /L %%i in (1,1,%count%) do (
    rem echo %line%>>%file%)
    echo !array[%%i]!|find "AssemblyVersion" >nul
    if errorlevel 1 (echo !array[%%i]!>>%file%) else (call echo !newassemblyline!>>%file%))
+
+rem We need to commit the version files and Tag the repo here because other commits may come in while we Build
+IF "%commitandftp%"=="y" (
+    rem rem command-line Git push in the modified version and assemply files
+    cd %DwRentalWorksWebPath%
+    git config --global gc.auto 0
+    git add "src/%productname%/version.txt"
+    git add "src/%productname%/Properties/AssemblyInfo.cs"
+    git add "src/RentalWorksWebApi/version.txt"
+    git add "src/RentalWorksWebApi/version-%productname%.txt"
+    git commit -m "web: %fullversionno%"
+    git push
+    git tag web/v%fullversionno%
+    git push origin web/v%fullversionno%
+
+    rem command-line gren make Build Release Document
+    cd %DwRentalWorksWebPath%
+    call gren changelog --token=4f42c7ba6af985f6ac6a6c9eba45d8f25388ef58 --username=databaseworks --repo=rentalworksweb --generate --override --changelog-filename=build/v%fullversionno%.md -t web/v%fullversionno% -c config.grenrc
+    start build/v%fullversionno%.md
+
+    rem produce a PDF of the MD file
+    cd %DwRentalWorksWebPath%
+    call md-to-pdf build\v%fullversionno%.md
+
+    rem Need to use curl to publish the PDF file to ZenDesk as a new "article"
+    rem curl https://dbworks.zendesk.com/api/v2/help_center/sections/{id}/articles.json \
+    rem   -d '{"article": {"title": "RentalWorksWeb v2019.1.1.XX", "body": "RentalWorksWeb v2019.1.1.XX has been released", "locale": "en-us" }, "notify_subscribers": false}' \
+    rem   -v -u {email_address}:{password} -X POST -H "Content-Type: application/json"
+    rem Note: "section" will be something like RentalWorksWeb > Release Documents
+    rem Note: need to research how to attach documents
+)
 
 rem delete any old build files
 cd %DwRentalWorksWebPath%\build
@@ -107,8 +146,7 @@ call npm i
 call npm run publish
 if "%productname%"=="RentalWorksWeb" (
 	set webapipath=%DwRentalWorksWebPath%\build\RentalWorksWebApi\
-)
-else if "%productname%"=="TrakitWorksWeb" (
+) else if "%productname%"=="TrakitWorksWeb" (
     MOVE %DwRentalWorksWebPath%\build\RentalWorksWebApi %DwRentalWorksWebPath%\build\TrakitWorksWebApi
 	set webapipath=%DwRentalWorksWebPath%\build\TrakitWorksWebApi\
 )
@@ -125,40 +163,7 @@ if exist %productname%Api\ (rmdir %productname%Api /S /Q)
 rem copy the ZIP delivable to "history" sub-directory
 copy %zipfilename% history
 
-rem Prompt the user if they want to commit and deploy to ftp
-set /p commitandftp="Do you want to commit and FTP the build? (y/n default:n): "
-IF NOT "%commitandftp%"=="y" set commitandftp=n
-
 IF "%commitandftp%"=="y" (
-    rem rem command-line Git push in the modified version and assemply files
-    cd %DwRentalWorksWebPath%
-    git config --global gc.auto 0
-    git add "src/%productname%/version.txt"
-    git add "src/%productname%/Properties/AssemblyInfo.cs"
-    git add "src/RentalWorksWebApi/version.txt"
-    git add "src/RentalWorksWebApi/version-%productname%.txt"
-    git commit -m "web: %buildno%"
-    git push
-    rem git tag web/v%buildno%
-    rem git push origin web/v%buildno%
-    rem 
-    rem rem command-line gren make Build Release Document
-    rem cd %DwRentalWorksWebPath%\build
-    rem call gren changelog --token=4f42c7ba6af985f6ac6a6c9eba45d8f25388ef58 --username=databaseworks --repo=rentalworksweb --generate --override --changelog-filename=v%buildno%.md -t web/v%buildno% -c ..\config.grenrc
-    rem start v%buildno%.md
-    rem 
-    rem rem produce a PDF of the MD file
-    rem cd %DwRentalWorksWebPath%
-    rem call md-to-pdf build\v%buildno%.md
-
-    rem Need to use curl to publish the PDF file to ZenDesk as a new "article"
-    rem curl https://dbworks.zendesk.com/api/v2/help_center/sections/{id}/articles.json \
-    rem   -d '{"article": {"title": "RentalWorksWeb v2019.1.1.XX", "body": "RentalWorksWeb v2019.1.1.XX has been released", "locale": "en-us" }, "notify_subscribers": false}' \
-    rem   -v -u {email_address}:{password} -X POST -H "Content-Type: application/json"
-    rem Note: "section" will be something like RentalWorksWeb > Release Documents
-    rem Note: need to research how to attach documents
-
-
     rem Create FTP command file to upload the zip
     setlocal DISABLEDELAYEDEXPANSION
     cd %DwRentalWorksWebPath%\build
@@ -170,11 +175,11 @@ IF "%commitandftp%"=="y" (
     echo cd %productname%>>%ftpcommandfilename%
     echo cd %shortversionno%>>%ftpcommandfilename%
     echo put %zipfilename%>>%ftpcommandfilename%
-    echo put %buildno%.pdf>>%ftpcommandfilename%
+    echo put v%fullversionno%.pdf>>%ftpcommandfilename%
     echo quit>>%ftpcommandfilename%
 
     rem Run the FTP command using the command file created above, delete the command file
     ftp -s:%ftpcommandfilename% -v
     del %ftpcommandfilename%
 )
-pause
+rem pause

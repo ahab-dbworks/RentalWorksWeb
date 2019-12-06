@@ -4,9 +4,6 @@
     caption:                   string;
     nav:                       string;
     id:                        string;
-    successSoundFileName:      string;
-    errorSoundFileName:        string;
-    notificationSoundFileName: string;
     Type:                      string;
     //----------------------------------------------------------------------------------------------
     getModuleScreen(): IModuleScreen {
@@ -51,14 +48,13 @@
             $form.attr('data-showsuspendedsessions', 'false');
         }
 
-        this.getSoundUrls($form);
         this.events($form);
         this.getSuspendedSessions($form);
         return $form;
     }
     //----------------------------------------------------------------------------------------------
     getSuspendedSessions($form) {
-        const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+        const warehouseId = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid;
         const showSuspendedSessions = $form.attr('data-showsuspendedsessions');
         if (showSuspendedSessions != "false") {
             let sessionType;
@@ -73,7 +69,7 @@
                     //orderType = 'T';
                     break;
             }
-            FwAppData.apiMethod(true, 'GET', `${this.apiurl}/suspendedsessionsexist?warehouseId=${warehouse.warehouseid}`, null, FwServices.defaultTimeout, response => {
+            FwAppData.apiMethod(true, 'GET', `${this.apiurl}/suspendedsessionsexist?warehouseId=${warehouseId}`, null, FwServices.defaultTimeout, response => {
                 if (response) {
                     $form.find('.buttonbar').append(`<div class="fwformcontrol suspendedsession" data-type="button" style="float:left;">Suspended Sessions</div>`);
                 }
@@ -207,8 +203,8 @@
     }
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
-        let warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
-        let warehouseId = warehouse.warehouseid;
+        const warehouseId = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid;
+
         request.miscfields = {
             CheckIn: true
             , CheckInWarehouseId: warehouseId
@@ -221,9 +217,8 @@
     }
     //----------------------------------------------------------------------------------------------
     beforeValidateSpecificOrder($browse: any, $form: any, request: any) {
-        let dealId = FwFormField.getValueByDataField($form, 'DealId');
-        let warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
-        let warehouseId = warehouse.warehouseid;
+        const dealId = FwFormField.getValueByDataField($form, 'DealId');
+        const warehouseId = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid;
         request.uniqueids = {
             DealId: dealId
         }
@@ -233,25 +228,12 @@
         }
     }
     //----------------------------------------------------------------------------------------------
-    getSoundUrls($form): void {
-        this.successSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).successSoundFileName;
-        this.errorSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).errorSoundFileName;
-        this.notificationSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).notificationSoundFileName;
-    }
-    //----------------------------------------------------------------------------------------------
     events($form: any): void {
-        let errorMsg, errorSound, successSound, department, self = this;
-        department = JSON.parse(sessionStorage.getItem('department'));
-        errorSound = new Audio(this.errorSoundFileName);
-        successSound = new Audio(this.successSoundFileName);
-        errorMsg = $form.find('.error-msg:not(.qty)');
-        const $checkInQuantityItemsGridControl = $form.find('div[data-name="CheckInQuantityItemsGrid"]');
-        const allActiveOrders = $form.find('[data-datafield="AllOrdersForDeal"] input');
-        const specificOrder = $form.find('[data-datafield="SpecificOrder"] input');
-        const specificOrderValidation = $form.find('div[data-datafield="SpecificOrderId"]');
+        const errorMsg = $form.find('.error-msg:not(.qty)');
         const type = (this.Module === 'CheckIn' ? 'Order' : 'Transfer');
 
         //Default Department
+        const department = JSON.parse(sessionStorage.getItem('department'));
         FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid, department.department);
         //Order selection
         $form.find('[data-datafield="OrderId"], [data-datafield="TransferId"]').data('onchange', $tr => {
@@ -287,8 +269,7 @@
             const contractId = FwFormField.getValueByDataField($form, 'ContractId');
             if (contractId.length === 0) {
                 FwFormField.disable($form.find('[data-datafield="OrderId"], [data-datafield="DealId"]'));
-                let request: any = {};
-                request = {
+                const request: any = {
                     DealId: FwFormField.getValueByDataField($form, 'DealId'),
                     DepartmentId: FwFormField.getValueByDataField($form, 'DepartmentId'),
                     OfficeLocationId: JSON.parse(sessionStorage.getItem('location')).locationid,
@@ -357,6 +338,8 @@
                 FwNotification.renderNotification('WARNING', 'Select an Order, Deal, BarCode, or I-Code.')
             }
         });
+        const $checkInQuantityItemsGridControl = $form.find('div[data-name="CheckInQuantityItemsGrid"]');
+        const allActiveOrders = $form.find('[data-datafield="AllOrdersForDeal"] input');
         $form.find('div.quantityitemstab').on('click', e => {
             //Disable clicking Quantity Items tab w/o a ContractId
             let contractId = FwFormField.getValueByDataField($form, 'ContractId');
@@ -397,7 +380,8 @@
                 $form.find('.all-orders').hide();
             }
         });
-
+        const specificOrder = $form.find('[data-datafield="SpecificOrder"] input');
+        const specificOrderValidation = $form.find('div[data-datafield="SpecificOrderId"]');
         //AllOrdersForDeal Checkbox functionality
         allActiveOrders.on('change', e => {
             if (allActiveOrders.prop('checked')) {
@@ -479,11 +463,6 @@
     }
     //----------------------------------------------------------------------------------------------
     checkInItem($form, type?: string) {
-        let errorSound, successSound, notificationSound;
-        errorSound = new Audio(this.errorSoundFileName);
-        successSound = new Audio(this.successSoundFileName);
-        notificationSound = new Audio(this.notificationSoundFileName);
-
         const module = this.Module;
         const request: any = {};
         let idType;
@@ -524,7 +503,7 @@
 
         FwAppData.apiMethod(true, 'POST', `${this.apiurl}/checkinitem`, request, FwServices.defaultTimeout, response => {
             if (response.success) {
-                successSound.play();
+                FwFunc.playSuccessSound();
                 FwFormField.setValueByDataField($form, 'ContractId', response.ContractId);
                 FwFormField.setValueByDataField($form, 'ICode', response.InventoryStatus.ICode);
                 FwFormField.setValueByDataField($form, 'InventoryDescription', response.InventoryStatus.Description);
@@ -549,7 +528,7 @@
                 $form.find('[data-datafield="BarCode"] input').select();
 
                 if (response.status === 107) {
-                    successSound.play();
+                    FwFunc.playSuccessSound();
                     $form.find('[data-datafield="Quantity"] input').select();
                 }
 
@@ -559,10 +538,10 @@
                 }
             } else if (!response.success) {
                 if (response.ShowSwap) {
-                    notificationSound.play();
+                    FwFunc.playNotificationSound();
                     $form.find('.swapitem').show();
                 } else {
-                    errorSound.play();
+                    FwFunc.playErrorSound();
                     $form.find('.swapitem').hide();
                 }
                 $form.find('.error-msg:not(.qty)').html(`<div><span>${response.msg}</span></div>`);
@@ -603,15 +582,14 @@
                           <div class="flexrow">
                             <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="ContractId" data-datafield="ContractId" style="display:none; flex:1 1 250px;"></div>
                             ${this.Module == 'CheckIn' ?
-                '<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Order No." data-datafield="OrderId" data-displayfield="OrderNumber" data-validationname="OrderValidation" style="flex:0 1 175px;"></div>'
-                : '<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Transfer No." data-datafield="TransferId" data-displayfield="TransferNumber" data-validationname="TransferOrderValidation" style="flex:0 1 175px;"></div>'}
+                                '<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Order No." data-datafield="OrderId" data-displayfield="OrderNumber" data-validationname="OrderValidation" style="flex:0 1 175px;"></div>'
+                                : '<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Transfer No." data-datafield="TransferId" data-displayfield="TransferNumber" data-validationname="TransferOrderValidation" style="flex:0 1 175px;"></div>'}
                             <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description" style="flex:1 1 250px;" data-enabled="false"></div>
                           </div>
                         </div>
                         <div class="flexcolumn" style="flex:1 1 450px;">
                           <div class="flexrow">
-                            ${this.Module == 'CheckIn' ?
-            `<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="${Constants.Modules.Agent.children.Deal.caption}" data-datafield="DealId" data-displayfield="Deal" data-validationname="DealValidation" style="flex:0 1 350px;"></div>` : ''}
+                            ${this.Module == 'CheckIn' ? `<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="${Constants.Modules.Agent.children.Deal.caption}" data-datafield="DealId" data-displayfield="Deal" data-validationname="DealValidation" style="flex:0 1 350px;"></div>` : ''}
                             <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Department" data-datafield="DepartmentId" data-displayfield="Department" data-validationname="DepartmentValidation" style="flex:0 1 200px;" data-enabled="false"></div>
                           </div>
                         </div>

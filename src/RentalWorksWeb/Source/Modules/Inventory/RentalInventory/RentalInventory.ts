@@ -6,7 +6,7 @@ class RentalInventory extends InventoryBase {
     id: string = Constants.Modules.Inventory.children.RentalInventory.id;
     AvailableFor: string = "R";
     CreateCompleteId: string = '';
-    
+
     //----------------------------------------------------------------------------------------------
     openFormInventory($form: any) {
         FwFormField.loadItems($form.find('.lamps'), [
@@ -52,12 +52,12 @@ class RentalInventory extends InventoryBase {
                 options.hasNew = false;
                 options.hasDelete = false;
             },
-           // getBaseApiUrl: (): string => { return `${this.apiurl}/${FwFormField.getValueByDataField($form, 'InventoryId')}/aka`; }, 
+            // getBaseApiUrl: (): string => { return `${this.apiurl}/${FwFormField.getValueByDataField($form, 'InventoryId')}/aka`; }, 
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     InventoryId: FwFormField.getValueByDataField($form, 'InventoryId')
                 };
-            }, 
+            },
             beforeSave: (request: any) => {
                 request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
             }
@@ -100,7 +100,7 @@ class RentalInventory extends InventoryBase {
                     UserWarehouseId: warehouse.warehouseid
                 };
                 request.pagesize = 100;  //justin 04/01/2019 #359 show all active warehouses here
-            }, 
+            },
             beforeSave: (request: any) => {
                 request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
             }
@@ -141,7 +141,7 @@ class RentalInventory extends InventoryBase {
                 request.miscfields = {
                     UserWarehouseId: warehouse.warehouseid
                 };
-            }, 
+            },
             beforeSave: (request: any) => {
                 request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
             }
@@ -184,11 +184,11 @@ class RentalInventory extends InventoryBase {
                     UserWarehouseId: warehouse.warehouseid
                 };
                 request.pagesize = 100;  //justin 04/01/2019 #359 show all active warehouses here
-            }, 
+            },
             beforeSave: (request: any) => {
                 request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
             }
-        });        
+        });
         // ----------
         //const $inventoryAvailabilityGrid = $form.find('div[data-grid="InventoryAvailabilityGrid"]');
         //const $inventoryAvailabilityGridControl = FwBrowse.loadGridFromTemplate('InventoryAvailabilityGrid');
@@ -219,7 +219,7 @@ class RentalInventory extends InventoryBase {
                 request.uniqueids = {
                     InventoryId: FwFormField.getValueByDataField($form, 'InventoryId')
                 };
-            }, 
+            },
             beforeSave: (request: any) => {
                 request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
             }
@@ -255,7 +255,7 @@ class RentalInventory extends InventoryBase {
                 request.uniqueids = {
                     InventoryId: FwFormField.getValueByDataField($form, 'InventoryId')
                 };
-            }, 
+            },
             beforeSave: (request: any) => {
                 request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
             }
@@ -282,12 +282,12 @@ class RentalInventory extends InventoryBase {
             moduleSecurityId: this.id,
             $form: $form,
             pageSize: 10,
-           // getBaseApiUrl: (): string => { return `${this.apiurl}/${FwFormField.getValueByDataField($form, 'InventoryId')}/aka`; },
+            // getBaseApiUrl: (): string => { return `${this.apiurl}/${FwFormField.getValueByDataField($form, 'InventoryId')}/aka`; },
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     InventoryId: FwFormField.getValueByDataField($form, 'InventoryId')
                 };
-            }, 
+            },
             beforeSave: (request: any) => {
                 request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
             }
@@ -319,7 +319,7 @@ class RentalInventory extends InventoryBase {
                 request.uniqueids = {
                     InventoryId: FwFormField.getValueByDataField($form, 'InventoryId')
                 };
-            }, 
+            },
             beforeSave: (request: any) => {
                 request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
             }
@@ -350,7 +350,7 @@ class RentalInventory extends InventoryBase {
                 request.uniqueids = {
                     InventoryId: FwFormField.getValueByDataField($form, 'InventoryId')
                 };
-            }, 
+            },
             beforeSave: (request: any) => {
                 request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
             }
@@ -385,7 +385,7 @@ class RentalInventory extends InventoryBase {
                 request.uniqueids = {
                     InventoryId: FwFormField.getValueByDataField($form, 'InventoryId')
                 };
-            }, 
+            },
             beforeSave: (request: any) => {
                 request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
             }
@@ -412,12 +412,12 @@ class RentalInventory extends InventoryBase {
             moduleSecurityId: this.id,
             $form: $form,
             pageSize: 10,
-           // getBaseApiUrl: (): string => { return `${this.apiurl}/${FwFormField.getValueByDataField($form, 'InventoryId')}/aka`; },
+            // getBaseApiUrl: (): string => { return `${this.apiurl}/${FwFormField.getValueByDataField($form, 'InventoryId')}/aka`; },
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     InventoryId: FwFormField.getValueByDataField($form, 'InventoryId')
                 };
-            }, 
+            },
             beforeSave: (request: any) => {
                 request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
             }
@@ -448,7 +448,7 @@ class RentalInventory extends InventoryBase {
                 request.uniqueids = {
                     InventoryId: FwFormField.getValueByDataField($form, 'InventoryId')
                 };
-            }, 
+            },
             beforeSave: (request: any) => {
                 request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
             }
@@ -479,7 +479,7 @@ class RentalInventory extends InventoryBase {
                 request.uniqueids = {
                     InventoryId: FwFormField.getValueByDataField($form, 'InventoryId')
                 };
-            }, 
+            },
             beforeSave: (request: any) => {
                 request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
             }
@@ -508,12 +508,12 @@ class RentalInventory extends InventoryBase {
             moduleSecurityId: this.id,
             $form: $form,
             pageSize: 10,
-           // getBaseApiUrl: (): string => { return `${this.apiurl}/${FwFormField.getValueByDataField($form, 'InventoryId')}/aka`; }, 
+            // getBaseApiUrl: (): string => { return `${this.apiurl}/${FwFormField.getValueByDataField($form, 'InventoryId')}/aka`; }, 
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     InventoryId: FwFormField.getValueByDataField($form, 'InventoryId')
                 };
-            }, 
+            },
             beforeSave: (request: any) => {
                 request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
             }
@@ -560,13 +560,13 @@ class RentalInventory extends InventoryBase {
             pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
-                    PackageId  : FwFormField.getValueByDataField($form, 'InventoryId'),
+                    PackageId: FwFormField.getValueByDataField($form, 'InventoryId'),
                     WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId')
                 };
-            }, 
+            },
             beforeSave: (request: any) => {
-                request.PackageId   = FwFormField.getValueByDataField($form, 'InventoryId'),
-                request.WarehouseId = FwFormField.getValueByDataField($form, 'WarehouseId')
+                request.PackageId = FwFormField.getValueByDataField($form, 'InventoryId'),
+                    request.WarehouseId = FwFormField.getValueByDataField($form, 'WarehouseId')
             }
         });
 
@@ -613,12 +613,12 @@ class RentalInventory extends InventoryBase {
                 options.hasNew = false;
                 options.hasDelete = false;
             },
-           // getBaseApiUrl: (): string => { return `${this.apiurl}/${FwFormField.getValueByDataField($form, 'InventoryId')}/aka`; },
+            // getBaseApiUrl: (): string => { return `${this.apiurl}/${FwFormField.getValueByDataField($form, 'InventoryId')}/aka`; },
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     InventoryId: FwFormField.getValueByDataField($form, 'InventoryId')
                 };
-            }, 
+            },
             beforeSave: (request: any) => {
                 request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
             }
@@ -656,7 +656,7 @@ class RentalInventory extends InventoryBase {
         //FwBrowse.init($inventoryKitGridControl);
         //FwBrowse.renderRuntimeHtml($inventoryKitGridControl);
 
-                
+
         //Inventory Kit Grid
         const $inventoryKitGrid = FwBrowse.renderGrid({
             nameGrid: 'InventoryKitGrid',
@@ -668,13 +668,13 @@ class RentalInventory extends InventoryBase {
                 request.uniqueids = {
                     InventoryId: FwFormField.getValueByDataField($form, 'InventoryId')
                 };
-            }, 
+            },
             beforeSave: (request: any) => {
                 request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
             }
         });
 
-        
+
         $inventoryKitGrid.data('isfieldeditable', function ($field, dt, rowIndex) {
             let primaryRowIndex;
             if (primaryRowIndex === undefined) {
@@ -718,7 +718,7 @@ class RentalInventory extends InventoryBase {
                 request.uniqueids = {
                     InventoryId: FwFormField.getValueByDataField($form, 'InventoryId')
                 };
-            }, 
+            },
             beforeSave: (request: any) => {
                 request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
             }
@@ -744,12 +744,12 @@ class RentalInventory extends InventoryBase {
             gridSecurityId: 'l35woZUn3E5M',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10, 
+            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     InventoryId: FwFormField.getValueByDataField($form, 'InventoryId')
                 };
-            }, 
+            },
             beforeSave: (request: any) => {
                 request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
             }
@@ -772,12 +772,12 @@ class RentalInventory extends InventoryBase {
             gridSecurityId: '15yjeHiHe1x99',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10, 
+            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     InventoryId: FwFormField.getValueByDataField($form, 'InventoryId')
                 };
-            }, 
+            },
             beforeSave: (request: any) => {
                 request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
             }
@@ -804,12 +804,12 @@ class RentalInventory extends InventoryBase {
             gridSecurityId: '2BkAgaVVrDD3',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10, 
+            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     InventoryId: FwFormField.getValueByDataField($form, 'InventoryId')
                 };
-            }, 
+            },
             beforeSave: (request: any) => {
                 request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
             }
@@ -821,8 +821,8 @@ class RentalInventory extends InventoryBase {
     dynamicColumns($form: any): void {
         const threeWeekPricing = JSON.parse(sessionStorage.getItem('applicationOptions')).threeweekpricing;
         const $rentalInventoryWarehousePricingGrid = $form.find('div[data-name="RentalInventoryWarehousePricingGrid"]');
-        
-        !threeWeekPricing.enabled ? jQuery($rentalInventoryWarehousePricingGrid.find(`[data-mappedfield="Rate"]`)).parent().hide() : jQuery($rentalInventoryWarehousePricingGrid.find(`[data-mappedfield="Rate"]`)).parent().show() 
+
+        !threeWeekPricing.enabled ? jQuery($rentalInventoryWarehousePricingGrid.find(`[data-mappedfield="Rate"]`)).parent().hide() : jQuery($rentalInventoryWarehousePricingGrid.find(`[data-mappedfield="Rate"]`)).parent().show()
     };
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
@@ -957,55 +957,53 @@ class RentalInventory extends InventoryBase {
         return $browse;
     }
     //----------------------------------------------------------------------------------------------
-    //beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
-    //    const validationName = request.module;
-    //    const InventoryTypeValue = jQuery($validationbrowse.find('[data-validationname="InventoryTypeValidation"] input')).val();
-    //    const CategoryTypeId = jQuery($validationbrowse.find('[data-validationname="RentalCategoryValidation"] input')).val();
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
+        //const validationName = request.module;
+        //const InventoryTypeValue = jQuery($validationbrowse.find('[data-validationname="InventoryTypeValidation"] input')).val();
+        //const CategoryTypeId = jQuery($validationbrowse.find('[data-validationname="RentalCategoryValidation"] input')).val();
+        //
+        //switch (validationName) {
+        //    case 'InventoryTypeValidation':
+        //        request.uniqueids = {
+        //            //Rental: true,
+        //            RecType: "R",
+        //            HasCategories: true
+        //        };
+        //        break;
+        //    case 'RentalCategoryValidation':
+        //        request.uniqueids = {
+        //            InventoryTypeId: InventoryTypeValue
+        //        };
+        //        break;
+        //    case 'SubCategoryValidation':
+        //        request.uniqueids = {
+        //            TypeId: InventoryTypeValue,
+        //            CategoryId: CategoryTypeId
+        //        };
+        //        break;
+        //};
 
-    //    switch (validationName) {
-    //        case 'InventoryTypeValidation':
-    //            request.uniqueids = {
-    //                //Rental: true,
-    //                RecType: "R",
-    //                HasCategories: true
-    //            };
-    //            break;
-    //        case 'RentalCategoryValidation':
-    //            request.uniqueids = {
-    //                InventoryTypeId: InventoryTypeValue
-    //            };
-    //            break;
-    //        case 'SubCategoryValidation':
-    //            request.uniqueids = {
-    //                TypeId: InventoryTypeValue,
-    //                CategoryId: CategoryTypeId
-    //            };
-    //            break;
-    //    };
-    //};
-        beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
-        const InventoryTypeValue = jQuery($form.find('[data-validationname="InventoryTypeValidation"] input')).val();
-        const CategoryTypeId = jQuery($form.find('[data-validationname="RentalCategoryValidation"] input')).val();
+        let inventoryTypeId = FwFormField.getValueByDataField($form, 'InventoryTypeId');
+        let categoryId = FwFormField.getValueByDataField($form, 'CategoryId');
+
         switch (datafield) {
             case 'InventoryTypeId':
                 request.uniqueids = {
-                    //Rental: true,
-                    RecType: "R",
-                    HasCategories: true
+                    Rental: true,
+                    HasCategories: true,
                 };
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventorytype`);
                 break;
             case 'CategoryId':
                 request.uniqueids = {
-                    InventoryTypeId: InventoryTypeValue
+                    InventoryTypeId: inventoryTypeId,
                 };
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecategory`);
                 break;
             case 'SubCategoryId':
-                //const CategoryTypeId = jQuery($form.find('[data-validationname="RentalCategoryValidation"] input')).val();
                 request.uniqueids = {
-                    TypeId: InventoryTypeValue,
-                    CategoryId: CategoryTypeId
+                    InventoryTypeId: inventoryTypeId,
+                    CategoryId: categoryId,
                 };
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatesubcategory`);
                 break;
