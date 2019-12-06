@@ -59,14 +59,14 @@ class BillingWorksheet {
         options.hasDelete = true;
         FwMenu.addBrowseMenuButtons(options);
 
-        FwMenu.addSubMenuItem(options.$groupOptions, 'Approve', '5eCr7yC19pza9', (e: JQuery.ClickEvent) => {
+        FwMenu.addSubMenuItem(options.$groupOptions, 'Approve', 'eMYtyUHlOkUuo', (e: JQuery.ClickEvent) => {
             try {
                 this.browseApproveOrUnapprove(options.$browse, 'approve');
             } catch (ex) {
                 FwFunc.showError(ex);
             }
         });
-        FwMenu.addSubMenuItem(options.$groupOptions, 'Unapprove', '1bMGBrD9BekZ2', (e: JQuery.ClickEvent) => {
+        FwMenu.addSubMenuItem(options.$groupOptions, 'Unapprove', 'sJydlcSDO02Zs', (e: JQuery.ClickEvent) => {
             try {
                 this.browseApproveOrUnapprove(options.$browse, 'approve');
             } catch (ex) {
