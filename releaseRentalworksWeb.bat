@@ -165,7 +165,7 @@ copy %zipfilename% history
 
 IF "%commitandftp%"=="y" (
     rem Create FTP command file to upload the zip
-    setlocal DISABLEDELAYEDEXPANSION
+    rem setlocal DISABLEDELAYEDEXPANSION
     cd %DwRentalWorksWebPath%\build
     set ftpcommandfilename=ftp.txt
     echo open ftp.dbworks.com>%ftpcommandfilename%
@@ -182,4 +182,4 @@ IF "%commitandftp%"=="y" (
     ftp -s:%ftpcommandfilename% -v
     del %ftpcommandfilename%
 )
-rem pause
+pause
