@@ -3092,6 +3092,7 @@ export class LaborPosition extends SettingsModule {
                 record: {
                     LaborTypeId: 1,
                     CategoryId: 1,
+                    ICode: TestUtils.randomAlphanumeric(8),
                     Description: "GlobalScope.TestToken~1.TestToken",
                     UnitId: 1,
                     NonDiscountable: true,
@@ -3104,6 +3105,7 @@ export class LaborPosition extends SettingsModule {
             {
                 record: {
                     LaborTypeId: 1,
+                    ICode: TestUtils.randomAlphanumeric(8),
                     Description: "GlobalScope.TestToken~1.TestToken",
                     UnitId: 1,
                     NonDiscountable: true,
@@ -3114,6 +3116,7 @@ export class LaborPosition extends SettingsModule {
                 record: {
                     LaborTypeId: 1,
                     CategoryId: 1,
+                    ICode: TestUtils.randomAlphanumeric(8),
                     Description: "",
                     UnitId: 1,
                     NonDiscountable: true,
@@ -3124,6 +3127,7 @@ export class LaborPosition extends SettingsModule {
                 record: {
                     LaborTypeId: 1,
                     CategoryId: 1,
+                    ICode: TestUtils.randomAlphanumeric(8),
                     Description: "GlobalScope.TestToken~1.TestToken",
                     NonDiscountable: true,
                 },
