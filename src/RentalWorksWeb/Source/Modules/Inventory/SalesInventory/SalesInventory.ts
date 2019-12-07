@@ -516,8 +516,7 @@ class SalesInventory extends InventoryBase {
                 };
             }, 
             beforeSave: (request: any) => {
-                request.PackageId   = FwFormField.getValueByDataField($form, 'InventoryId'),
-                request.WarehouseId = FwFormField.getValueByDataField($form, 'WarehouseId')
+                request.PackageId   = FwFormField.getValueByDataField($form, 'InventoryId')
             },
             beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
                 $browse.find('div[data-datafield="InventoryId"]').attr('data-validationname', 'SalesInventoryValidation');
