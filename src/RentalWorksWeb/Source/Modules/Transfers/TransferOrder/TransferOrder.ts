@@ -324,7 +324,7 @@ class TransferOrder {
         FwModule.saveForm(this.Module, $form, parameters);
     };
     //----------------------------------------------------------------------------------------------
-    renderGrids($form: JQuery): void {
+    renderGrids($form) {
         // ----------
         //const $picklistGrid = $form.find('div[data-grid="OrderPickListGrid"]');
         //const $picklistGridControl = FwBrowse.loadGridFromTemplate('OrderPickListGrid');
@@ -337,18 +337,19 @@ class TransferOrder {
         //FwBrowse.init($picklistGridControl);
         //FwBrowse.renderRuntimeHtml($picklistGridControl);
 
-        FwBrowse.renderGrid({
-            nameGrid: 'OrderPickListGrid',
-            gridSecurityId: 'bggVQOivrIgi',
-            moduleSecurityId: this.id,
-            $form: $form,
-            pageSize: 10,
-            onDataBind: (request: any) => {
-                request.uniqueids = {
-                    OrderId: FwFormField.getValueByDataField($form, 'TransferId')
-                };
-            }
-        });
+        //justin hoffman 12/07/2019 grid was replaced by Sub Module, this code is obsolete
+        //FwBrowse.renderGrid({
+        //    nameGrid: 'OrderPickListGrid',
+        //    gridSecurityId: 'bggVQOivrIgi',
+        //    moduleSecurityId: this.id,
+        //    $form: $form,
+        //    pageSize: 10,
+        //    onDataBind: (request: any) => {
+        //        request.uniqueids = {
+        //            OrderId: FwFormField.getValueByDataField($form, 'TransferId')
+        //        };
+        //    }
+        //});
         // ----------
         //const $orderItemRentalGrid = $form.find('.rentalItemGrid div[data-grid="TransferOrderItemGrid"]');
         //const $orderItemRentalGridControl = FwBrowse.loadGridFromTemplate('TransferOrderItemGrid');
@@ -369,7 +370,7 @@ class TransferOrder {
         // ----------
         FwBrowse.renderGrid({
             nameGrid: 'TransferOrderItemGrid',
-            gridSelector: '.rentalgrid div[data-grid="TransferOrderItemGrid"]',
+            gridSelector: '.rentalItemGrid div[data-grid="TransferOrderItemGrid"]',
             gridSecurityId: 'RFgCJpybXoEb',
             moduleSecurityId: this.id,
             $form: $form,
