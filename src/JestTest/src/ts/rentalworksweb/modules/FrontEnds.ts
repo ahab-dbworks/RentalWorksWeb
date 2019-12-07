@@ -9,7 +9,7 @@ export class Staging extends FrontEndModule {
     constructor() {
         super();
         this.moduleName = 'Staging';
-        this.moduleId = 'C3B5EEC9-3654-4660-AD28-20DE8FF9044D';
+        this.moduleId = 'H0sf3MFhL0VK';
         this.moduleCaption = 'Staging / Check-Out';
     }
     //---------------------------------------------------------------------------------------
@@ -76,7 +76,7 @@ export class ReceiveFromVendor extends FrontEndModule {
     constructor() {
         super();
         this.moduleName = 'ReceiveFromVendor';
-        this.moduleId = '00539824-6489-4377-A291-EBFE26325FAD';
+        this.moduleId = 'MtgBxCKWVl7m';
         this.moduleCaption = 'Receive From Vendor';
 
         let itemsGrid: GridBase = new GridBase("Receive Items Grid", "POReceiveItemGrid");
@@ -115,7 +115,7 @@ export class AssignBarCodes extends FrontEndModule {
     constructor() {
         super();
         this.moduleName = 'AssignBarCodes';
-        this.moduleId = '4B9C17DE-7FC0-4C33-B953-26FC90F32EA0';
+        this.moduleId = '7UU96BApz2Va';
         this.moduleCaption = 'Assign Bar Codes';
 
         let itemsGrid: GridBase = new GridBase("Receive Bar Codes Grid", "POReceiveBarCodeGrid");
@@ -165,7 +165,7 @@ export class Exchange extends FrontEndModule {
     constructor() {
         super();
         this.moduleName = 'Exchange';
-        this.moduleId = '2AEDB175-7998-48BC-B2C4-D4794BF65342';
+        this.moduleId = 'IQS4rxzIVFl';
         this.moduleCaption = 'Exchange';
     }
     //---------------------------------------------------------------------------------------
