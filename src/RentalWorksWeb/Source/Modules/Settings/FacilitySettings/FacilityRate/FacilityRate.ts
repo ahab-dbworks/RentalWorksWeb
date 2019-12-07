@@ -40,6 +40,16 @@ class FacilityRate {
             $form.find('.ifnew').attr('data-enabled', 'true')
         }
 
+        let userassignedicodes = JSON.parse(sessionStorage.getItem('controldefaults')).userassignedicodes;
+        if (userassignedicodes) {
+            FwFormField.enable($form.find('[data-datafield="ICode"]'));
+            $form.find('[data-datafield="ICode"]').attr(`data-required`, `true`);
+        }
+        else {
+            FwFormField.disable($form.find('[data-datafield="ICode"]'));
+            $form.find('[data-datafield="ICode"]').attr(`data-required`, `false`);
+        }
+
         $form.find('[data-datafield="OverrideProfitAndLossCategory"] .fwformfield-value').on('change', function () {
             var $this = jQuery(this);
             if ($this.prop('checked') === true) {
