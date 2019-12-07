@@ -4,20 +4,17 @@ class UserStatus {
     caption: string = Constants.Modules.Settings.children.UserSettings.children.UserStatus.caption;
     nav: string = Constants.Modules.Settings.children.UserSettings.children.UserStatus.nav;
     id: string = Constants.Modules.Settings.children.UserSettings.children.UserStatus.id;
-
-
-    getModuleScreen() {
-        var screen, $browse;
-
-        screen = {};
+    //----------------------------------------------------------------------------------------------
+    getModuleScreen(filter?: { datafield: string, search: string }) {
+        const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
-        $browse = this.openBrowse();
+        const $browse = this.openBrowse();
 
-        screen.load = function () {
-            FwModule.openModuleTab($browse, 'User Status', false, 'BROWSE', true);
+        screen.load = () => {
+            FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };
@@ -27,20 +24,16 @@ class UserStatus {
 
         return screen;
     }
-
+    //----------------------------------------------------------------------------------------------
     openBrowse() {
-        var $browse;
-
-        $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
+        let $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
 
         return $browse;
     }
-
+    //----------------------------------------------------------------------------------------------
     openForm(mode: string) {
-        var $form;
-
-        $form = FwModule.loadFormFromTemplate(this.Module);
+        let $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 
         return $form;

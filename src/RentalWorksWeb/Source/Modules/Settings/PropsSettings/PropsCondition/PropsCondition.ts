@@ -1,11 +1,11 @@
 class PropsCondition {
-    Module:  string = 'PropsCondition';
-    apiurl:  string = 'api/v1/propscondition';
+    Module: string = 'PropsCondition';
+    apiurl: string = 'api/v1/propscondition';
     caption: string = Constants.Modules.Settings.children.PropsSettings.children.PropsCondition.caption;
-    nav:     string = Constants.Modules.Settings.children.PropsSettings.children.PropsCondition.nav;
-    id:      string = Constants.Modules.Settings.children.PropsSettings.children.PropsCondition.id;
+    nav: string = Constants.Modules.Settings.children.PropsSettings.children.PropsCondition.nav;
+    id: string = Constants.Modules.Settings.children.PropsSettings.children.PropsCondition.id;
     //----------------------------------------------------------------------------------------------
-    getModuleScreen() {
+    getModuleScreen(filter?: { datafield: string, search: string }) {
         const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
@@ -13,8 +13,8 @@ class PropsCondition {
 
         const $browse = this.openBrowse();
 
-        screen.load = function () {
-            FwModule.openModuleTab($browse, 'Props Condition', false, 'BROWSE', true);
+        screen.load = () => {
+            FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };

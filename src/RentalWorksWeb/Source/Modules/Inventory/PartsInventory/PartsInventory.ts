@@ -31,6 +31,10 @@ class PartsInventory extends InventoryBase {
             moduleSecurityId: this.id,
             $form: $form,
             pageSize: 10,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                options.hasNew = false;
+                options.hasDelete = false;
+            },
            // getBaseApiUrl: (): string => { return `${this.apiurl}/${FwFormField.getValueByDataField($form, 'InventoryId')}/aka`; },
             onDataBind: (request: any) => {
                 request.uniqueids = {

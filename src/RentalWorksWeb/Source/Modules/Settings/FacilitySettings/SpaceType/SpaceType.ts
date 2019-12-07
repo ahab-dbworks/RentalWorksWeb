@@ -4,19 +4,17 @@ class SpaceType {
     caption: string = Constants.Modules.Settings.children.FacilitySettings.children.SpaceType.caption;
     nav: string = Constants.Modules.Settings.children.FacilitySettings.children.SpaceType.nav;
     id: string = Constants.Modules.Settings.children.FacilitySettings.children.SpaceType.id;
-
-    getModuleScreen() {
-        var screen, $browse;
-
-        screen = {};
+    //----------------------------------------------------------------------------------------------
+    getModuleScreen(filter?: { datafield: string, search: string }) {
+        const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
-        $browse = this.openBrowse();
+        const $browse = this.openBrowse();
 
-        screen.load = function () {
-            FwModule.openModuleTab($browse, 'Space Type', false, 'BROWSE', true);
+        screen.load = () => {
+            FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };
@@ -26,20 +24,16 @@ class SpaceType {
 
         return screen;
     }
-
+    //----------------------------------------------------------------------------------------------
     openBrowse() {
-        var $browse;
-
-        $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
+        let $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
 
         return $browse;
     }
-
+    //----------------------------------------------------------------------------------------------
     openForm(mode: string) {
-        var $form;
-
-        $form = FwModule.loadFormFromTemplate(this.Module);
+        let $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 
         $form.find('[data-datafield="ForReportsOnly"] .fwformfield-value').on('change', function () {
@@ -74,16 +68,34 @@ class SpaceType {
     }
 
     renderGrids($form: any) {
-        const $spaceWarehouseRateGrid = $form.find('div[data-grid="SpaceWarehouseRateGrid"]');
-        const $spaceWarehouseRateGridControl = FwBrowse.loadGridFromTemplate('SpaceWarehouseRateGrid');
-        $spaceWarehouseRateGrid.empty().append($spaceWarehouseRateGridControl);
-        $spaceWarehouseRateGridControl.data('ondatabind', request => {
-            request.uniqueids = {
-                RateId: FwFormField.getValueByDataField($form, 'RateId')
-            };
+        //const $spaceWarehouseRateGrid = $form.find('div[data-grid="SpaceWarehouseRateGrid"]');
+        //const $spaceWarehouseRateGridControl = FwBrowse.loadGridFromTemplate('SpaceWarehouseRateGrid');
+        //$spaceWarehouseRateGrid.empty().append($spaceWarehouseRateGridControl);
+        //$spaceWarehouseRateGridControl.data('ondatabind', request => {
+        //    request.uniqueids = {
+        //        RateId: FwFormField.getValueByDataField($form, 'RateId')
+        //    };
+        //});
+        //FwBrowse.init($spaceWarehouseRateGridControl);
+        //FwBrowse.renderRuntimeHtml($spaceWarehouseRateGridControl);
+
+        FwBrowse.renderGrid({
+            nameGrid: 'SpaceWarehouseRateGrid',
+            gridSecurityId: 'oVjmeqXtHEJCm',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                options.hasNew = false;
+                options.hasDelete = false;
+                options.hasEdit = true;
+            },
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    RateId: FwFormField.getValueByDataField($form, 'RateId')
+                };
+            }
         });
-        FwBrowse.init($spaceWarehouseRateGridControl);
-        FwBrowse.renderRuntimeHtml($spaceWarehouseRateGridControl);
     }
 
     afterLoad($form: any) {

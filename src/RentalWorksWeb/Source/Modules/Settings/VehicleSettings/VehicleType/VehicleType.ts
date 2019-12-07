@@ -4,10 +4,8 @@ class VehicleType {
     caption: string = Constants.Modules.Settings.children.VehicleSettings.children.VehicleType.caption;
     nav: string = Constants.Modules.Settings.children.VehicleSettings.children.VehicleType.nav;
     id: string = Constants.Modules.Settings.children.VehicleSettings.children.VehicleType.id;
-
-
     //----------------------------------------------------------------------------------------------
-    getModuleScreen() {
+    getModuleScreen(filter?: { datafield: string, search: string }) {
         const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
@@ -15,8 +13,8 @@ class VehicleType {
 
         const $browse = this.openBrowse();
 
-        screen.load = function () {
-            FwModule.openModuleTab($browse, 'Vehicle Type', false, 'BROWSE', true);
+        screen.load = () => {
+            FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };
@@ -27,15 +25,30 @@ class VehicleType {
         return screen;
     }
     //----------------------------------------------------------------------------------------------
-    disableFields(): void {
-        jQuery('.disablefield').attr('data-required', 'false');
-    }
-    //----------------------------------------------------------------------------------------------
     openBrowse() {
         let $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
 
         return $browse;
+    }
+    //----------------------------------------------------------------------------------------------
+    openForm(mode: string) {
+        let $form = FwModule.loadFormFromTemplate(this.Module);
+        $form = FwModule.openForm($form, mode);
+        this.events($form);
+        return $form;
+    }
+    //----------------------------------------------------------------------------------------------
+    loadForm(uniqueids: any) {
+        const $form = this.openForm('EDIT');
+        $form.find('div.fwformfield[data-datafield="VehicleTypeId"] input').val(uniqueids.VehicleTypeId);
+        FwModule.loadForm(this.Module, $form);
+
+        return $form;
+    }
+    //----------------------------------------------------------------------------------------------
+    disableFields(): void {
+        jQuery('.disablefield').attr('data-required', 'false');
     }
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
@@ -53,21 +66,6 @@ class VehicleType {
         });
         FwBrowse.init($vehicleTypeWarehouseControl);
         FwBrowse.renderRuntimeHtml($vehicleTypeWarehouseControl);
-    }
-    //----------------------------------------------------------------------------------------------
-    openForm(mode: string) {
-        let $form = FwModule.loadFormFromTemplate(this.Module);
-        $form = FwModule.openForm($form, mode);
-        this.events($form);
-        return $form;
-    }
-    //----------------------------------------------------------------------------------------------
-    loadForm(uniqueids: any) {
-        const $form = this.openForm('EDIT');
-        $form.find('div.fwformfield[data-datafield="VehicleTypeId"] input').val(uniqueids.VehicleTypeId);
-        FwModule.loadForm(this.Module, $form);
-
-        return $form;
     }
     //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {

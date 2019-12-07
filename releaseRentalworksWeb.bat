@@ -113,14 +113,19 @@ IF "%commitandftp%"=="y" (
     git tag web/v%fullversionno%
     git push origin web/v%fullversionno%
 
-    rem command-line gren make Build Release Document
+    rem copy the document header image to the build directory 
     cd %DwRentalWorksWebPath%
-    call gren changelog --token=4f42c7ba6af985f6ac6a6c9eba45d8f25388ef58 --username=databaseworks --repo=rentalworksweb --generate --override --changelog-filename=build/v%fullversionno%.md -t web/v%fullversionno% -c config.grenrc
-    start build/v%fullversionno%.md
+    copy releasedocumentlogo.png build /y
+
+    rem command-line gren make Build Release Document
+    cd %DwRentalWorksWebPath%\build
+    call gren changelog --token=4f42c7ba6af985f6ac6a6c9eba45d8f25388ef58 --username=databaseworks --repo=rentalworksweb --generate --override --changelog-filename=v%fullversionno%.md -t web/v%fullversionno% -c ..\config.grenrc
+    start v%fullversionno%.md
 
     rem produce a PDF of the MD file
     cd %DwRentalWorksWebPath%
     call md-to-pdf build\v%fullversionno%.md
+	set pdffilename=v%fullversionno%.pdf
 
     rem Need to use curl to publish the PDF file to ZenDesk as a new "article"
     rem curl https://dbworks.zendesk.com/api/v2/help_center/sections/{id}/articles.json \
@@ -171,15 +176,16 @@ IF "%commitandftp%"=="y" (
     echo open ftp.dbworks.com>%ftpcommandfilename%
     echo %DwFtpUploadUser%>>%ftpcommandfilename%
     echo %DwFtpUploadPassword%>>%ftpcommandfilename%
-    echo cd update>>%ftpcommandfilename%
+    echo cd Update>>%ftpcommandfilename%
     echo cd %productname%>>%ftpcommandfilename%
     echo cd %shortversionno%>>%ftpcommandfilename%
     echo put %zipfilename%>>%ftpcommandfilename%
-    echo put v%fullversionno%.pdf>>%ftpcommandfilename%
+    echo put %pdffilename%>>%ftpcommandfilename%
     echo quit>>%ftpcommandfilename%
 
     rem Run the FTP command using the command file created above, delete the command file
     ftp -s:%ftpcommandfilename% -v
+	pause
     del %ftpcommandfilename%
 )
-rem pause
+pause

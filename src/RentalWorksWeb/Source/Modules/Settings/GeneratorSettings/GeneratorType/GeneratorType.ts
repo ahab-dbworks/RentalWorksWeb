@@ -4,9 +4,8 @@ class GeneratorType {
     caption: string = Constants.Modules.Settings.children.GeneratorSettings.children.GeneratorType.caption;
     nav: string = Constants.Modules.Settings.children.GeneratorSettings.children.GeneratorType.nav;
     id: string = Constants.Modules.Settings.children.GeneratorSettings.children.GeneratorType.id;
-
     //----------------------------------------------------------------------------------------------
-    getModuleScreen() {
+    getModuleScreen(filter?: { datafield: string, search: string }) {
         const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
@@ -14,8 +13,8 @@ class GeneratorType {
 
         const $browse = this.openBrowse();
 
-        screen.load = function () {
-            FwModule.openModuleTab($browse, 'Generator Type', false, 'BROWSE', true);
+        screen.load = () => {
+            FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };
@@ -31,6 +30,13 @@ class GeneratorType {
         $browse = FwModule.openBrowse($browse);
 
         return $browse;
+    }
+    //----------------------------------------------------------------------------------------------
+    openForm(mode: string) {
+        let $form = FwModule.loadFormFromTemplate(this.Module);
+        $form = FwModule.openForm($form, mode);
+        this.events($form);
+        return $form;
     }
     //----------------------------------------------------------------------------------------------
     disableFields(): void {
@@ -75,15 +81,6 @@ class GeneratorType {
             //    request.GeneratorTypeId = FwFormField.getValueByDataField($form, 'GeneratorTypeId');
             //},
         });
-
-        
-    }
-    //----------------------------------------------------------------------------------------------
-    openForm(mode: string) {
-        let $form = FwModule.loadFormFromTemplate(this.Module);
-        $form = FwModule.openForm($form, mode);
-        this.events($form);
-        return $form;
     }
     //----------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {

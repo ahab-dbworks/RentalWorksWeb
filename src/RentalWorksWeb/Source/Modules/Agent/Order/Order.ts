@@ -19,7 +19,7 @@ class Order extends OrderBase {
                 FwFunc.showError(ex);
             }
         });
-        
+
         // View DropDownMenu
         const $all = FwMenu.generateDropDownViewBtn('All', true, "ALL");
         const $confirmed = FwMenu.generateDropDownViewBtn('Confirmed', false, "CONFIRMED");
@@ -305,11 +305,11 @@ class Order extends OrderBase {
             $form: $form,
             pageSize: 10,
             onDataBind: (request: any) => {
-            request.uniqueids = {
-                OrderId: FwFormField.getValueByDataField($form, 'OrderId'),
-                RecType: 'F'
-            };
-            request.totalfields = this.totalFields;
+                request.uniqueids = {
+                    OrderId: FwFormField.getValueByDataField($form, 'OrderId'),
+                    RecType: 'F'
+                };
+                request.totalfields = this.totalFields;
             },
             beforeSave: (request: any) => {
                 request.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
@@ -324,9 +324,6 @@ class Order extends OrderBase {
                 lossDamageItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="LossAndDamage"]')) : FwFormField.enable($form.find('[data-datafield="LossAndDamage"]'));
             }
         });
-
-
-
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form, response) {
@@ -637,7 +634,7 @@ class Order extends OrderBase {
               </div>
 
               <!-- BILLING WORKSHEET TAB -->
-              <div data-type="tabpage" id="billingworksheettabpage" class="tabpage worksheet-submodule" data-tabid="billingworksheettab"></div>
+              <div data-type="tabpage" id="billingworksheettabpage" class="tabpage worksheet-submodule rwSubModule" data-tabid="billingworksheettab"></div>
               <!-- P&L TAB -->
               <div data-type="tabpage" id="profitlosstabpage" class="profitlossgrid tabpage" data-tabid="profitlosstab" data-render="false">
                 <div class="wideflexrow">
@@ -1623,7 +1620,7 @@ class Order extends OrderBase {
              <div data-type="tabpage" id="invoicetabpage" class="tabpage invoice-submodule rwSubModule" data-tabid="invoicetab"></div>
 
              <!-- REPAIR TAB -->
-              <div data-type="tabpage" id="repairtabpage" class="tabpage submodule repair-submodule" data-tabid="repairtab"></div>
+              <div data-type="tabpage" id="repairtabpage" class="tabpage submodule repair-submodule rwSubModule" data-tabid="repairtab"></div>
 
               <!-- NOTES TAB -->
               <div data-type="tabpage" id="notetabpage" class="tabpage" data-tabid="notetab">
@@ -2037,7 +2034,7 @@ class Order extends OrderBase {
         }
     }
     //----------------------------------------------------------------------------------------------
-    cancelUncancel($browse: JQuery){
+    cancelUncancel($browse: JQuery) {
         let $confirmation, $yes, $no;
         let orderId = $browse.find('.selected [data-browsedatafield="OrderId"]').attr('data-originalvalue');
         let orderStatus = $browse.find('.selected [data-formdatafield="Status"]').attr('data-originalvalue');

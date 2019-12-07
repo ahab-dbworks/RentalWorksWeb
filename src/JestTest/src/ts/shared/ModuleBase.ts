@@ -490,7 +490,7 @@ export class ModuleBase {
         await page.waitForSelector(this.getBrowseSelector(), { timeout: 10000 });
         var newButton;
         try {
-            newButton = await page.waitForSelector(this.getDeleteButtonSelector(), { timeout: 1500 });
+            newButton = await page.waitForSelector(this.getDeleteButtonSelector(), { visible: true, timeout: 1500 });
         } catch (error) { } // not found
         foundDeleteButton = (newButton !== undefined);
         return foundDeleteButton;
@@ -598,7 +598,7 @@ export class ModuleBase {
         await page.waitForSelector(this.getBrowseSelector(), { timeout: 10000 });
         var newButton;
         try {
-            newButton = await page.waitForSelector(this.getNewButtonSelector(), { timeout: 1500 });
+            newButton = await page.waitForSelector(this.getNewButtonSelector(), { visible: true, timeout: 1500 });
         } catch (error) { } // not found
         foundNewButton = (newButton !== undefined);
         return foundNewButton;

@@ -4,19 +4,17 @@ class EventType {
     caption: string = Constants.Modules.Settings.children.EventSettings.children.EventType.caption;
     nav: string = Constants.Modules.Settings.children.EventSettings.children.EventType.nav;
     id: string = Constants.Modules.Settings.children.EventSettings.children.EventType.id;
-
-    getModuleScreen() {
-        var screen, $browse;
-
-        screen = {};
+    //----------------------------------------------------------------------------------------------
+    getModuleScreen(filter?: { datafield: string, search: string }) {
+        const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
-        $browse = this.openBrowse();
+        const $browse = this.openBrowse();
 
-        screen.load = function () {
-            FwModule.openModuleTab($browse, 'Event Type', false, 'BROWSE', true);
+        screen.load = () => {
+            FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };
@@ -26,7 +24,31 @@ class EventType {
 
         return screen;
     }
+    //----------------------------------------------------------------------------------------------
+    openBrowse() {
+        let $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
+        $browse = FwModule.openBrowse($browse);
 
+        return $browse;
+    }
+    //----------------------------------------------------------------------------------------------
+    openForm(mode: string) {
+        let $form = FwModule.loadFormFromTemplate(this.Module);
+        $form = FwModule.openForm($form, mode);
+
+        return $form;
+    }
+    //----------------------------------------------------------------------------------------------
+    loadForm(uniqueids: any) {
+        var $form;
+
+        $form = this.openForm('EDIT');
+        $form.find('div.fwformfield[data-datafield="EventTypeId"] input').val(uniqueids.EventTypeId);
+        FwModule.loadForm(this.Module, $form);
+
+        return $form;
+    }
+    //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
         FwBrowse.renderGrid({
             nameGrid: 'EventTypePersonnelTypeGrid',
@@ -49,7 +71,6 @@ class EventType {
             gridSecurityId: 'oMijD9WAL6Bl',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     OrderTypeId: FwFormField.getValueByDataField($form, 'EventTypeId')
@@ -61,39 +82,11 @@ class EventType {
         });
         // --------------
     }
-
-    openBrowse() {
-        var $browse;
-
-        $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
-        $browse = FwModule.openBrowse($browse);
-
-        return $browse;
-    }
-
-    openForm(mode: string) {
-        var $form;
-
-        $form = FwModule.loadFormFromTemplate(this.Module);
-        $form = FwModule.openForm($form, mode);
-
-        return $form;
-    }
-
-    loadForm(uniqueids: any) {
-        var $form;
-
-        $form = this.openForm('EDIT');
-        $form.find('div.fwformfield[data-datafield="EventTypeId"] input').val(uniqueids.EventTypeId);
-        FwModule.loadForm(this.Module, $form);
-
-        return $form;
-    }
-
+    //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
     }
-
+    //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
         const $personnelTypeGrid = $form.find('[data-name="EventTypePersonnelTypeGrid"]');
         FwBrowse.search($personnelTypeGrid);

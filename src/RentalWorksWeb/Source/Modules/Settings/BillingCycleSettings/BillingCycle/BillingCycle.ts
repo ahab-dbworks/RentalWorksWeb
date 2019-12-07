@@ -5,18 +5,16 @@
     nav: string = Constants.Modules.Settings.children.BillingCycleSettings.children.BillingCycle.nav;
     id: string = Constants.Modules.Settings.children.BillingCycleSettings.children.BillingCycle.id;
     //----------------------------------------------------------------------------------------------
-    getModuleScreen() {
-        var screen, $browse;
-
-        screen = {};
+    getModuleScreen(filter?: { datafield: string, search: string }) {
+        const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
-        $browse = this.openBrowse();
+        const $browse = this.openBrowse();
 
-        screen.load = function () {
-            FwModule.openModuleTab($browse, 'Billing Cycle', false, 'BROWSE', true);
+        screen.load = () => {
+            FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };
@@ -28,18 +26,14 @@
     }
     //----------------------------------------------------------------------------------------------
     openBrowse() {
-        var $browse;
-
-        $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
+        let $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
 
         return $browse;
     }
     //----------------------------------------------------------------------------------------------
     openForm(mode: string) {
-        var $form;
-
-        $form = FwModule.loadFormFromTemplate(this.Module);
+        let $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 
         $form.find('div[data-datafield="BillingCycleType"] .fwformfield-value').on('change', function () {
@@ -74,16 +68,34 @@
     }
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
-        const $billingCycleEventsGrid = $form.find('div[data-grid="BillingCycleEventsGrid"]');
-        const $billingCycleEventsGridControl = FwBrowse.loadGridFromTemplate('BillingCycleEventsGrid');
-        $billingCycleEventsGrid.empty().append($billingCycleEventsGridControl);
-        $billingCycleEventsGridControl.data('ondatabind', request => {
-            request.uniqueids = {
-                BillingCycleId: FwFormField.getValueByDataField($form, 'BillingCycleId')
-            };
+        //const $billingCycleEventsGrid = $form.find('div[data-grid="BillingCycleEventsGrid"]');
+        //const $billingCycleEventsGridControl = FwBrowse.loadGridFromTemplate('BillingCycleEventsGrid');
+        //$billingCycleEventsGrid.empty().append($billingCycleEventsGridControl);
+        //$billingCycleEventsGridControl.data('ondatabind', request => {
+        //    request.uniqueids = {
+        //        BillingCycleId: FwFormField.getValueByDataField($form, 'BillingCycleId')
+        //    };
+        //});
+        //FwBrowse.init($billingCycleEventsGridControl);
+        //FwBrowse.renderRuntimeHtml($billingCycleEventsGridControl);
+    //-------------
+        FwBrowse.renderGrid({
+            nameGrid: 'BillingCycleEventsGrid',
+            gridSecurityId: 'KSA8EsXjcrt',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                options.hasNew = false;
+                options.hasDelete = false;
+                options.hasEdit = true;
+            },
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    BillingCycleId: FwFormField.getValueByDataField($form, 'BillingCycleId')
+                };
+            }
         });
-        FwBrowse.init($billingCycleEventsGridControl);
-        FwBrowse.renderRuntimeHtml($billingCycleEventsGridControl);
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
@@ -95,7 +107,7 @@
             $form.find(".eventstab").show();
         } else if (radioType === "MONTHLY" || radioType === "CALMONTH") {
             FwFormField.enable($form.find('[data-datafield="ProrateMonthly"]'));
-        }else {
+        } else {
             $form.find(".eventstab").hide();
         }
     }

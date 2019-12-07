@@ -1,11 +1,11 @@
 class LaborCategory {
-    Module:  string = 'LaborCategory';
-    apiurl:  string = 'api/v1/laborcategory';
+    Module: string = 'LaborCategory';
+    apiurl: string = 'api/v1/laborcategory';
     caption: string = Constants.Modules.Settings.children.LaborSettings.children.LaborCategory.caption;
-    nav:     string = Constants.Modules.Settings.children.LaborSettings.children.LaborCategory.nav;
-    id:      string = Constants.Modules.Settings.children.LaborSettings.children.LaborCategory.id;
+    nav: string = Constants.Modules.Settings.children.LaborSettings.children.LaborCategory.nav;
+    id: string = Constants.Modules.Settings.children.LaborSettings.children.LaborCategory.id;
     //----------------------------------------------------------------------------------------------
-    getModuleScreen() {
+    getModuleScreen(filter?: { datafield: string, search: string }) {
         const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
@@ -13,7 +13,7 @@ class LaborCategory {
 
         const $browse = this.openBrowse();
 
-        screen.load = function () {
+        screen.load = () => {
             FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
@@ -23,6 +23,44 @@ class LaborCategory {
         };
 
         return screen;
+    }
+    //----------------------------------------------------------------------------------------------
+    openBrowse() {
+        let $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
+        $browse = FwModule.openBrowse($browse);
+
+        return $browse;
+    }
+    //----------------------------------------------------------------------------------------------
+    openForm(mode: string) {
+        let $form = FwModule.loadFormFromTemplate(this.Module);
+        $form = FwModule.openForm($form, mode);
+
+        this.events($form);
+
+        this.toggleEnabled($form.find('.overridecheck input[type=checkbox]'), $form.find('.catvalidation'));
+
+        $form.find('div[data-datafield="IncomeAccountId"]').data('onchange', function ($tr) {
+            FwFormField.setValue($form, 'div[data-datafield="IncomeAccountDescription"]', $tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
+        });
+
+        $form.find('div[data-datafield="SubIncomeAccountId"]').data('onchange', function ($tr) {
+            FwFormField.setValue($form, 'div[data-datafield="SubIncomeAccountDescription"]', $tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
+        });
+
+        $form.find('div[data-datafield="ExpenseAccountId"]').data('onchange', function ($tr) {
+            FwFormField.setValue($form, 'div[data-datafield="ExpenseAccountDescription"]', $tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
+        });
+
+        return $form;
+    }
+    //----------------------------------------------------------------------------------------------
+    loadForm(uniqueids: any) {
+        let $form = this.openForm('EDIT');
+        $form.find('div.fwformfield[data-datafield="CategoryId"] input').val(uniqueids.CategoryId);
+        FwModule.loadForm(this.Module, $form);
+
+        return $form;
     }
     //----------------------------------------------------------------------------------------------
     events($form: JQuery): void {
@@ -71,44 +109,6 @@ class LaborCategory {
                 request.CategoryId = FwFormField.getValueByDataField($form, 'CategoryId');
             },
         });
-    }
-    //----------------------------------------------------------------------------------------------
-    openBrowse() {
-        let $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
-        $browse = FwModule.openBrowse($browse);
-
-        return $browse;
-    }
-    //----------------------------------------------------------------------------------------------
-    openForm(mode: string) {
-        let $form = FwModule.loadFormFromTemplate(this.Module);
-        $form = FwModule.openForm($form, mode);
-
-        this.events($form);
-
-        this.toggleEnabled($form.find('.overridecheck input[type=checkbox]'), $form.find('.catvalidation'));
-
-        $form.find('div[data-datafield="IncomeAccountId"]').data('onchange', function ($tr) {
-            FwFormField.setValue($form, 'div[data-datafield="IncomeAccountDescription"]', $tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
-        });
-
-        $form.find('div[data-datafield="SubIncomeAccountId"]').data('onchange', function ($tr) {
-            FwFormField.setValue($form, 'div[data-datafield="SubIncomeAccountDescription"]', $tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
-        });
-
-        $form.find('div[data-datafield="ExpenseAccountId"]').data('onchange', function ($tr) {
-            FwFormField.setValue($form, 'div[data-datafield="ExpenseAccountDescription"]', $tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
-        });
-
-        return $form;
-    }
-    //----------------------------------------------------------------------------------------------
-    loadForm(uniqueids: any) {
-        let $form = this.openForm('EDIT');
-        $form.find('div.fwformfield[data-datafield="CategoryId"] input').val(uniqueids.CategoryId);
-        FwModule.loadForm(this.Module, $form);
-
-        return $form;
     }
     //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {

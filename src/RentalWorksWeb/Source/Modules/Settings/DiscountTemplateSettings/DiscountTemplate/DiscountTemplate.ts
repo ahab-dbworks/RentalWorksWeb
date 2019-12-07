@@ -4,19 +4,17 @@
     caption: string = Constants.Modules.Settings.children.DiscountTemplateSettings.children.DiscountTemplate.caption;
     nav: string = Constants.Modules.Settings.children.DiscountTemplateSettings.children.DiscountTemplate.nav;
     id: string = Constants.Modules.Settings.children.DiscountTemplateSettings.children.DiscountTemplate.id;
-
-    getModuleScreen() {
-        var screen, $browse;
-
-        screen = {};
+    //----------------------------------------------------------------------------------------------
+    getModuleScreen(filter?: { datafield: string, search: string }) {
+        const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
-        $browse = this.openBrowse();
+        const $browse = this.openBrowse();
 
-        screen.load = function () {
-            FwModule.openModuleTab($browse, 'Discount Template', false, 'BROWSE', true);
+        screen.load = () => {
+            FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };
@@ -26,16 +24,37 @@
 
         return screen;
     }
-
+    //----------------------------------------------------------------------------------------------
     openBrowse() {
-        var $browse;
-
-        $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
+        let $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
 
         return $browse;
     }
+    //----------------------------------------------------------------------------------------------
+    openForm(mode: string) {
+        let $form = FwModule.loadFormFromTemplate(this.Module);
+        $form = FwModule.openForm($form, mode);
 
+        if (mode === 'NEW') {
+            const office = JSON.parse(sessionStorage.getItem('location'));
+            FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', office.locationid, office.location);
+        }
+        return $form;
+    }
+    //-------------------------------------------------------------------------------------------------------------
+    loadForm(uniqueids: any) {
+        const $form = this.openForm('EDIT');
+        $form.find('div.fwformfield[data-datafield="DiscountTemplateId"] input').val(uniqueids.DiscountTemplateId);
+        FwModule.loadForm(this.Module, $form);
+
+        return $form;
+    }
+    //-------------------------------------------------------------------------------------------------------------
+    saveForm($form: any, parameters: any) {
+        FwModule.saveForm(this.Module, $form, parameters);
+    }
+    //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
         //const $discountItemRentalGrid = $form.find('div[data-grid="DiscountItemRentalGrid"]');
         //const $discountItemRentalGridControl = FwBrowse.loadGridFromTemplate('DiscountItemRentalGrid');
@@ -182,33 +201,6 @@
         });
 
         //-------------------------------------------------------------------------------------------------------------
-    }
-    //-------------------------------------------------------------------------------------------------------------
-    openForm(mode: string) {
-        var $form;
-
-        $form = FwModule.loadFormFromTemplate(this.Module);
-        $form = FwModule.openForm($form, mode);
-
-        if (mode === 'NEW') {
-            const office = JSON.parse(sessionStorage.getItem('location'));
-            FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', office.locationid, office.location);
-        }
-        return $form;
-    }
-    //-------------------------------------------------------------------------------------------------------------
-    loadForm(uniqueids: any) {
-        var $form;
-
-        $form = this.openForm('EDIT');
-        $form.find('div.fwformfield[data-datafield="DiscountTemplateId"] input').val(uniqueids.DiscountTemplateId);
-        FwModule.loadForm(this.Module, $form);
-
-        return $form;
-    }
-    //-------------------------------------------------------------------------------------------------------------
-    saveForm($form: any, parameters: any) {
-        FwModule.saveForm(this.Module, $form, parameters);
     }
     //-------------------------------------------------------------------------------------------------------------
     afterLoad($form: any) {

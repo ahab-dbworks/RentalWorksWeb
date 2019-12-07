@@ -1,11 +1,11 @@
-class RwSetOpening {
-    Module:  string = 'SetOpening';
-    apiurl:  string = 'api/v1/setopening';
+class SetOpening {
+    Module: string = 'SetOpening';
+    apiurl: string = 'api/v1/setopening';
     caption: string = Constants.Modules.Settings.children.SetSettings.children.SetOpening.caption;
-    nav:     string = Constants.Modules.Settings.children.SetSettings.children.SetOpening.nav;
-    id:      string = Constants.Modules.Settings.children.SetSettings.children.SetOpening.id;
+    nav: string = Constants.Modules.Settings.children.SetSettings.children.SetOpening.nav;
+    id: string = Constants.Modules.Settings.children.SetSettings.children.SetOpening.id;
     //----------------------------------------------------------------------------------------------
-    getModuleScreen() {
+    getModuleScreen(filter?: { datafield: string, search: string }) {
         const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
@@ -13,7 +13,7 @@ class RwSetOpening {
 
         const $browse = this.openBrowse();
 
-        screen.load = function () {
+        screen.load = () => {
             FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
@@ -55,4 +55,4 @@ class RwSetOpening {
     }
 }
 //----------------------------------------------------------------------------------------------
-var SetOpeningController = new RwSetOpening();
+var SetOpeningController = new SetOpening();

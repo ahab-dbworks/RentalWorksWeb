@@ -1,9 +1,9 @@
 ﻿class VendorInvoiceProcessBatch {
-    Module:  string = 'VendorInvoiceProcessBatch';
-    apiurl:  string = 'api/v1/vendorinvoiceprocessbatch';
+    Module: string = 'VendorInvoiceProcessBatch';
+    apiurl: string = 'api/v1/vendorinvoiceprocessbatch';
     caption: string = Constants.Modules.Utilities.children.VendorInvoiceProcessBatch.caption;
-    nav:     string = Constants.Modules.Utilities.children.VendorInvoiceProcessBatch.nav;
-    id:      string = Constants.Modules.Utilities.children.VendorInvoiceProcessBatch.id;
+    nav: string = Constants.Modules.Utilities.children.VendorInvoiceProcessBatch.nav;
+    id: string = Constants.Modules.Utilities.children.VendorInvoiceProcessBatch.id;
     //----------------------------------------------------------------------------------------------
     addFormMenuItems(options: IAddFormMenuOptions): void {
         options.hasSave = false;
@@ -18,8 +18,8 @@
 
         var $form = this.openForm('EDIT');
 
-        screen.load = function () {
-            FwModule.openModuleTab($form, 'Process Vendor Invoices', false, 'FORM', true);
+        screen.load = () => {
+            FwModule.openModuleTab($form, this.caption, false, 'FORM', true);
         };
         screen.unload = function () {
         };
@@ -114,7 +114,7 @@
                 FwFormField.enable($form.find(`${controlsToEnable}`));
                 FwFormField.disable($form.find(`${controlsToDisable}`));
             })
-        ;
+            ;
         function exportBatch() {
             const batchId = FwFormField.getValueByDataField($form, 'BatchId');
             if (batchId !== '') {

@@ -4,19 +4,17 @@ class FacilityRate {
     caption: string = Constants.Modules.Settings.children.FacilitySettings.children.FacilityRate.caption;
     nav: string = Constants.Modules.Settings.children.FacilitySettings.children.FacilityRate.nav;
     id: string = Constants.Modules.Settings.children.FacilitySettings.children.FacilityRate.id;
-
-    getModuleScreen() {
-        var screen, $browse;
-
-        screen = {};
+    //----------------------------------------------------------------------------------------------
+    getModuleScreen(filter?: { datafield: string, search: string }) {
+        const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
-        $browse = this.openBrowse();
+        const $browse = this.openBrowse();
 
-        screen.load = function () {
-            FwModule.openModuleTab($browse, 'Facility Rate', false, 'BROWSE', true);
+        screen.load = () => {
+            FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };
@@ -26,26 +24,21 @@ class FacilityRate {
 
         return screen;
     }
-
+    //----------------------------------------------------------------------------------------------
     openBrowse() {
-        var $browse;
-
-        $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
+        let $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
 
         return $browse;
     }
-
+    //----------------------------------------------------------------------------------------------
     openForm(mode: string) {
-        var $form;
-
-        $form = FwModule.loadFormFromTemplate(this.Module);
+        let $form = FwModule.loadFormFromTemplate(this.Module);
+        $form = FwModule.openForm($form, mode);
 
         if (mode === 'NEW') {
             $form.find('.ifnew').attr('data-enabled', 'true')
         }
-
-        $form = FwModule.openForm($form, mode);
 
         $form.find('[data-datafield="OverrideProfitAndLossCategory"] .fwformfield-value').on('change', function () {
             var $this = jQuery(this);
@@ -87,16 +80,16 @@ class FacilityRate {
     }
 
     renderGrids($form: any) {
-       //const $rateLocationTaxGrid = $form.find('div[data-grid="RateLocationTaxGrid"]');
-       //const $rateLocationTaxGridControl = FwBrowse.loadGridFromTemplate('RateLocationTaxGrid');
-       // $rateLocationTaxGrid.empty().append($rateLocationTaxGridControl);
-       // $rateLocationTaxGridControl.data('ondatabind', request => {
-       //     request.uniqueids = {
-       //         RateId: FwFormField.getValueByDataField($form, 'RateId')
-       //     };
-       // })
-       // FwBrowse.init($rateLocationTaxGridControl);
-       // FwBrowse.renderRuntimeHtml($rateLocationTaxGridControl);
+        //const $rateLocationTaxGrid = $form.find('div[data-grid="RateLocationTaxGrid"]');
+        //const $rateLocationTaxGridControl = FwBrowse.loadGridFromTemplate('RateLocationTaxGrid');
+        // $rateLocationTaxGrid.empty().append($rateLocationTaxGridControl);
+        // $rateLocationTaxGridControl.data('ondatabind', request => {
+        //     request.uniqueids = {
+        //         RateId: FwFormField.getValueByDataField($form, 'RateId')
+        //     };
+        // })
+        // FwBrowse.init($rateLocationTaxGridControl);
+        // FwBrowse.renderRuntimeHtml($rateLocationTaxGridControl);
 
         FwBrowse.renderGrid({
             nameGrid: 'RateLocationTaxGrid',

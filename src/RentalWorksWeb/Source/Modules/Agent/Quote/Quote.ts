@@ -75,7 +75,6 @@ class Quote extends OrderBase {
                 FwFunc.showError(ex);
             }
         });
-        //need to discuss
         FwMenu.addSubMenuItem(options.$groupOptions, 'Print Quote', '', (e: JQuery.ClickEvent) => {
             try {
                 this.printQuoteOrder(options.$form);
@@ -111,8 +110,7 @@ class Quote extends OrderBase {
                 FwFunc.showError(ex);
             }
         });
-        //need to discuss
-        FwMenu.addSubMenuItem(options.$groupOptions, 'Reserve', '', (e: JQuery.ClickEvent) => {
+        FwMenu.addSubMenuItem(options.$groupOptions, 'Reserve', '1oBE7m2rBjxhm', (e: JQuery.ClickEvent) => {
             try {
                 this.reserveQuote(options.$form);
             } catch (ex) {
@@ -1721,33 +1719,33 @@ class Quote extends OrderBase {
     }
     //-----------------------------------------------------------------------------------------------------
     createOrder($form) {
-       const status = FwFormField.getValueByDataField($form, 'Status');
+        const status = FwFormField.getValueByDataField($form, 'Status');
 
-       if ((status === 'ACTIVE') || (status === 'RESERVED')) {
-           const quoteNumber = FwFormField.getValueByDataField($form, 'QuoteNumber');
-           const $confirmation = FwConfirmation.renderConfirmation('Create Order', `<div>Create Order for Quote ${quoteNumber}?</div>`);
-           const $yes = FwConfirmation.addButton($confirmation, 'Create Order', false);
-           const $no = FwConfirmation.addButton($confirmation, 'Cancel');
+        if ((status === 'ACTIVE') || (status === 'RESERVED')) {
+            const quoteNumber = FwFormField.getValueByDataField($form, 'QuoteNumber');
+            const $confirmation = FwConfirmation.renderConfirmation('Create Order', `<div>Create Order for Quote ${quoteNumber}?</div>`);
+            const $yes = FwConfirmation.addButton($confirmation, 'Create Order', false);
+            const $no = FwConfirmation.addButton($confirmation, 'Cancel');
 
-           $yes.on('click', function () {
-               const quoteId = FwFormField.getValueByDataField($form, 'QuoteId');
-               const topLayer = '<div class="top-layer" data-controller="none" style="background-color: transparent;z-index:1"></div>';
-               const realConfirm = jQuery($confirmation.find('.fwconfirmationbox')).prepend(topLayer);
-               FwAppData.apiMethod(true, 'POST', `api/v1/quote/createorder/${quoteId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
-                   FwConfirmation.destroyConfirmation($confirmation);
-                   const $quoteTab = jQuery(`#${$form.closest('.tabpage').attr('data-tabid')}`);
-                   FwTabs.removeTab($quoteTab);
-                   const uniqueids: any = {
-                       OrderId: response.OrderId
-                   };
-                   const $orderform = OrderController.loadForm(uniqueids);
-                   FwModule.openModuleTab($orderform, "", true, 'FORM', true);
-                   FwNotification.renderNotification('SUCCESS', 'Order Successfully Created.');
-               }, null, realConfirm);
-           });
-       } else {
-           FwNotification.renderNotification('WARNING', 'Can only convert an "ACTIVE" or "RESERVED" Quote to an Order.');
-       }
+            $yes.on('click', function () {
+                const quoteId = FwFormField.getValueByDataField($form, 'QuoteId');
+                const topLayer = '<div class="top-layer" data-controller="none" style="background-color: transparent;z-index:1"></div>';
+                const realConfirm = jQuery($confirmation.find('.fwconfirmationbox')).prepend(topLayer);
+                FwAppData.apiMethod(true, 'POST', `api/v1/quote/createorder/${quoteId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                    FwConfirmation.destroyConfirmation($confirmation);
+                    const $quoteTab = jQuery(`#${$form.closest('.tabpage').attr('data-tabid')}`);
+                    FwTabs.removeTab($quoteTab);
+                    const uniqueids: any = {
+                        OrderId: response.OrderId
+                    };
+                    const $orderform = OrderController.loadForm(uniqueids);
+                    FwModule.openModuleTab($orderform, "", true, 'FORM', true);
+                    FwNotification.renderNotification('SUCCESS', 'Order Successfully Created.');
+                }, null, realConfirm);
+            });
+        } else {
+            FwNotification.renderNotification('WARNING', 'Can only convert an "ACTIVE" or "RESERVED" Quote to an Order.');
+        }
     }
     //-----------------------------------------------------------------------------------------------------
     makeQuoteActive($form) {

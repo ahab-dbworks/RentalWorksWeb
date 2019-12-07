@@ -326,50 +326,117 @@ class TransferOrder {
     //----------------------------------------------------------------------------------------------
     renderGrids($form: JQuery): void {
         // ----------
-        const $picklistGrid = $form.find('div[data-grid="OrderPickListGrid"]');
-        const $picklistGridControl = FwBrowse.loadGridFromTemplate('OrderPickListGrid');
-        $picklistGrid.empty().append($picklistGridControl);
-        $picklistGridControl.data('ondatabind', request => {
-            request.uniqueids = {
-                OrderId: FwFormField.getValueByDataField($form, 'TransferId')
-            };
+        //const $picklistGrid = $form.find('div[data-grid="OrderPickListGrid"]');
+        //const $picklistGridControl = FwBrowse.loadGridFromTemplate('OrderPickListGrid');
+        //$picklistGrid.empty().append($picklistGridControl);
+        //$picklistGridControl.data('ondatabind', request => {
+        //    request.uniqueids = {
+        //        OrderId: FwFormField.getValueByDataField($form, 'TransferId')
+        //    };
+        //});
+        //FwBrowse.init($picklistGridControl);
+        //FwBrowse.renderRuntimeHtml($picklistGridControl);
+
+        FwBrowse.renderGrid({
+            nameGrid: 'OrderPickListGrid',
+            gridSecurityId: 'bggVQOivrIgi',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    OrderId: FwFormField.getValueByDataField($form, 'TransferId')
+                };
+            }
         });
-        FwBrowse.init($picklistGridControl);
-        FwBrowse.renderRuntimeHtml($picklistGridControl);
         // ----------
-        const $orderItemRentalGrid = $form.find('.rentalItemGrid div[data-grid="TransferOrderItemGrid"]');
-        const $orderItemRentalGridControl = FwBrowse.loadGridFromTemplate('TransferOrderItemGrid');
-        $orderItemRentalGrid.empty().append($orderItemRentalGridControl);
-        $orderItemRentalGrid.addClass('R');
-        $orderItemRentalGridControl.data('ondatabind', request => {
-            request.uniqueids = {
-                OrderId: FwFormField.getValueByDataField($form, 'TransferId')
-                , RecType: 'R'
-            };
-        });
-        $orderItemRentalGridControl.data('beforesave', request => {
-            request.OrderId = FwFormField.getValueByDataField($form, 'TransferId');
-            request.RecType = 'R';
-        });
-        FwBrowse.init($orderItemRentalGridControl);
-        FwBrowse.renderRuntimeHtml($orderItemRentalGridControl);
+        //const $orderItemRentalGrid = $form.find('.rentalItemGrid div[data-grid="TransferOrderItemGrid"]');
+        //const $orderItemRentalGridControl = FwBrowse.loadGridFromTemplate('TransferOrderItemGrid');
+        //$orderItemRentalGrid.empty().append($orderItemRentalGridControl);
+        //$orderItemRentalGrid.addClass('R');
+        //$orderItemRentalGridControl.data('ondatabind', request => {
+        //    request.uniqueids = {
+        //        OrderId: FwFormField.getValueByDataField($form, 'TransferId')
+        //        , RecType: 'R'
+        //    };
+        //});
+        //$orderItemRentalGridControl.data('beforesave', request => {
+        //    request.OrderId = FwFormField.getValueByDataField($form, 'TransferId');
+        //    request.RecType = 'R';
+        //});
+        //FwBrowse.init($orderItemRentalGridControl);
+        //FwBrowse.renderRuntimeHtml($orderItemRentalGridControl);
         // ----------
-        const $orderItemSalesGrid = $form.find('.salesItemGrid div[data-grid="TransferOrderItemGrid"]');
-        const $orderItemSalesGridControl = FwBrowse.loadGridFromTemplate('TransferOrderItemGrid');
-        $orderItemSalesGrid.empty().append($orderItemSalesGridControl);
-        $orderItemSalesGrid.addClass('S');
-        $orderItemSalesGridControl.data('ondatabind', request => {
-            request.uniqueids = {
-                OrderId: FwFormField.getValueByDataField($form, 'TransferId')
-                , RecType: 'S'
-            };
+        FwBrowse.renderGrid({
+            nameGrid: 'TransferOrderItemGrid',
+            gridSelector: '.rentalgrid div[data-grid="TransferOrderItemGrid"]',
+            gridSecurityId: 'RFgCJpybXoEb',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                options.hasNew = true;
+                options.hasEdit = true;
+                options.hasDelete = true;
+            },
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    OrderId: FwFormField.getValueByDataField($form, 'TransferId')
+                    , RecType: 'R'
+                };
+            },
+            beforeSave: (request: any) => {
+                request.OrderId = FwFormField.getValueByDataField($form, 'TransferId');
+                request.RecType = 'R';
+            },
+            beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
+                $fwgrid.addClass('R');
+            },
         });
-        $orderItemSalesGridControl.data('beforesave', request => {
-            request.OrderId = FwFormField.getValueByDataField($form, 'TransferId');
-            request.RecType = 'S';
+        // ----------
+        //const $orderItemSalesGrid = $form.find('.salesItemGrid div[data-grid="TransferOrderItemGrid"]');
+        //const $orderItemSalesGridControl = FwBrowse.loadGridFromTemplate('TransferOrderItemGrid');
+        //$orderItemSalesGrid.empty().append($orderItemSalesGridControl);
+        //$orderItemSalesGrid.addClass('S');
+        //$orderItemSalesGridControl.data('ondatabind', request => {
+        //    request.uniqueids = {
+        //        OrderId: FwFormField.getValueByDataField($form, 'TransferId')
+        //        , RecType: 'S'
+        //    };
+        //});
+        //$orderItemSalesGridControl.data('beforesave', request => {
+        //    request.OrderId = FwFormField.getValueByDataField($form, 'TransferId');
+        //    request.RecType = 'S';
+        //});
+        //FwBrowse.init($orderItemSalesGridControl);
+        //FwBrowse.renderRuntimeHtml($orderItemSalesGridControl);
+        // ----------
+        FwBrowse.renderGrid({
+            nameGrid: 'TransferOrderItemGrid',
+            gridSelector: '.salesItemGrid div[data-grid="TransferOrderItemGrid"]',
+            gridSecurityId: 'RFgCJpybXoEb',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                options.hasNew = true;
+                options.hasEdit = true;
+                options.hasDelete = true;
+            },
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    OrderId: FwFormField.getValueByDataField($form, 'TransferId')
+                    , RecType: 'S'
+                };
+            },
+            beforeSave: (request: any) => {
+                request.OrderId = FwFormField.getValueByDataField($form, 'TransferId');
+                request.RecType = 'S';
+            },
+            beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
+                $fwgrid.addClass('S');
+            },
         });
-        FwBrowse.init($orderItemSalesGridControl);
-        FwBrowse.renderRuntimeHtml($orderItemSalesGridControl);
     };
     //----------------------------------------------------------------------------------------------
     afterLoad($form: JQuery) {

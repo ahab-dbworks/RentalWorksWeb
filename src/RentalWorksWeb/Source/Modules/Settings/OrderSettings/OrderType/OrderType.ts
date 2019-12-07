@@ -4,20 +4,17 @@ class OrderType {
     caption: string = Constants.Modules.Settings.children.OrderSettings.children.OrderType.caption;
     nav: string = Constants.Modules.Settings.children.OrderSettings.children.OrderType.nav;
     id: string = Constants.Modules.Settings.children.OrderSettings.children.OrderType.id;
-
-
-    getModuleScreen() {
-        var screen, $browse;
-
-        screen = {};
+    //----------------------------------------------------------------------------------------------
+    getModuleScreen(filter?: { datafield: string, search: string }) {
+        const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
-        $browse = this.openBrowse();
+        const $browse = this.openBrowse();
 
-        screen.load = function () {
-            FwModule.openModuleTab($browse, 'Order Type', false, 'BROWSE', true);
+        screen.load = () => {
+            FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };
@@ -27,20 +24,16 @@ class OrderType {
 
         return screen;
     }
-
+    //----------------------------------------------------------------------------------------------
     openBrowse() {
-        var $browse;
-
-        $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
+        let $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
 
         return $browse;
     }
-
+    //----------------------------------------------------------------------------------------------
     openForm(mode: string) {
-        var $form;
-
-        $form = FwModule.loadFormFromTemplate(this.Module);
+        let $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 
         $form.find('[data-datafield="QuikPayDiscount"] .fwformfield-value').on('change', function () {
@@ -161,7 +154,6 @@ class OrderType {
             gridSecurityId: 'oMijD9WAL6Bl',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     OrderTypeId: FwFormField.getValueByDataField($form, 'OrderTypeId')

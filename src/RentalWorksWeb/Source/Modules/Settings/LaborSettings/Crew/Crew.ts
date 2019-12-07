@@ -1,11 +1,11 @@
 ﻿class Crew {
-    Module:  string = 'Crew';
-    apiurl:  string = 'api/v1/crew';
+    Module: string = 'Crew';
+    apiurl: string = 'api/v1/crew';
     caption: string = Constants.Modules.Settings.children.LaborSettings.children.Crew.caption;
-    nav:     string = Constants.Modules.Settings.children.LaborSettings.children.Crew.nav;
-    id:      string = Constants.Modules.Settings.children.LaborSettings.children.Crew.id;
+    nav: string = Constants.Modules.Settings.children.LaborSettings.children.Crew.nav;
+    id: string = Constants.Modules.Settings.children.LaborSettings.children.Crew.id;
     //----------------------------------------------------------------------------------------------
-    getModuleScreen() {
+    getModuleScreen(filter?: { datafield: string, search: string }) {
         const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
@@ -13,7 +13,7 @@
 
         const $browse = this.openBrowse();
 
-        screen.load = function () {
+        screen.load = () => {
             FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);

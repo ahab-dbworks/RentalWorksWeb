@@ -117,32 +117,10 @@ namespace WebApi.Modules.HomeControls.CheckInException
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
             useWithNoLock = false;
-            string contractId = "";
-            string rectype = "";
-            string containerItemId = "";
-            bool showAll = true;
-
-            if ((request != null) && (request.uniqueids != null))
-            {
-                IDictionary<string, object> uniqueIds = ((IDictionary<string, object>)request.uniqueids);
-                if (uniqueIds.ContainsKey("ContractId"))
-                {
-                    contractId = uniqueIds["ContractId"].ToString();
-                }
-                if (uniqueIds.ContainsKey("RecType"))
-                {
-                    rectype = uniqueIds["RecType"].ToString();
-                }
-                if (uniqueIds.ContainsKey("ContainerItemId"))
-                {
-                    containerItemId = uniqueIds["ContainerItemId"].ToString();
-                }
-                if (uniqueIds.ContainsKey("ShowAll"))
-                {
-                    showAll = FwConvert.ToBoolean(uniqueIds["ShowAll"].ToString());
-                }
-
-            }
+            string contractId = GetUniqueIdAsString("ContractId", request) ?? "x-x-x";
+            string rectype = GetUniqueIdAsString("RecType", request) ?? "";
+            string containerItemId = GetUniqueIdAsString("ContainerItemId", request) ?? "";
+            bool showAll = GetUniqueIdAsBoolean("ShowAll", request).GetValueOrDefault(false);
 
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
@@ -153,7 +131,8 @@ namespace WebApi.Modules.HomeControls.CheckInException
             select.AddParameter("@containeritemid", containerItemId); 
             select.AddParameter("@showall", showAll);
 
-
+            //select.AddWhereIn("rectype", RwConstants.RECTYPE_RENTAL + "," + RwConstants.RECTYPE_SALE); //jhtodo should only show Sales for Transfers
+            select.AddWhereIn("rectype", RwConstants.RECTYPE_RENTAL); //jhtodo should only show Sales for Transfers
 
         }
         //------------------------------------------------------------------------------------ 

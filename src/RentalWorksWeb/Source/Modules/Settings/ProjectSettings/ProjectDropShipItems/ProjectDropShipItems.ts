@@ -1,11 +1,11 @@
-class RwProjectDropShipItems {
+class ProjectDropShipItems {
     Module:  string = 'ProjectDropShipItems';
     apiurl:  string = 'api/v1/projectdropshipitems';
     caption: string = Constants.Modules.Settings.children.ProjectSettings.children.ProjectDropShipItems.caption;
     nav:     string = Constants.Modules.Settings.children.ProjectSettings.children.ProjectDropShipItems.nav;
     id:      string = Constants.Modules.Settings.children.ProjectSettings.children.ProjectDropShipItems.id;
     //----------------------------------------------------------------------------------------------
-    getModuleScreen() {
+    getModuleScreen(filter?: { datafield: string, search: string }) {
         const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
@@ -13,7 +13,7 @@ class RwProjectDropShipItems {
 
         const $browse = this.openBrowse();
 
-        screen.load = function () {
+        screen.load = () => {
             FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
@@ -55,4 +55,4 @@ class RwProjectDropShipItems {
     }
 }
 //----------------------------------------------------------------------------------------------
-var ProjectDropShipItemsController = new RwProjectDropShipItems();
+var ProjectDropShipItemsController = new ProjectDropShipItems();

@@ -796,9 +796,7 @@ export class InventoryIntegrityTest extends BaseTest {
             testName = "Test Inventory Integrity";
             test(testName, async () => {
                 //quantity rental inventory
-                let record: NewRecordToCreate = rentalInventoryModule.newRecordsToCreate[0];
                 let expectedInvData: InventoryData = new InventoryData();
-
                 expectedInvData.qtyTotal = 0;
                 expectedInvData.qtyIn = 0;
                 expectedInvData.qtyQcRequired = 0;
@@ -809,12 +807,12 @@ export class InventoryIntegrityTest extends BaseTest {
                 expectedInvData.qtyInTransit = 0;
                 //                                     00     01     02     03     04     05     06     07     08     09     10     11     12     13     14     15     16     17     18     19     20     21     22     23     24
                 expectedInvData.populateAvailDates(["  0", "  0", "  0", "  0", "  0", "  0", "  0", "  0", "  0", "  0", "  0", "  0", "  0", "  0", "  0", "  0", "  0", "  0", "  0", "  0", "  0", "  0", "  0", "  0", "  0",]);
+
+                let record: NewRecordToCreate = rentalInventoryModule.newRecordsToCreate[0];
                 await this.TestInventoryIntegrity(rentalInventoryModule, record, expectedInvData, "010");
 
                 //barcode rental inventory
-                record = rentalInventoryModule.newRecordsToCreate[1];
                 expectedInvData = new InventoryData();
-
                 expectedInvData.qtyTotal = 0;
                 expectedInvData.qtyIn = 0;
                 expectedInvData.qtyQcRequired = 0;
@@ -825,6 +823,8 @@ export class InventoryIntegrityTest extends BaseTest {
                 expectedInvData.qtyInTransit = 0;
                 //                                     00     01     02     03     04     05     06     07     08     09     10     11     12     13     14     15     16     17     18     19     20     21     22     23     24
                 expectedInvData.populateAvailDates(["  0", "  0", "  0", "  0", "  0", "  0", "  0", "  0", "  0", "  0", "  0", "  0", "  0", "  0", "  0", "  0", "  0", "  0", "  0", "  0", "  0", "  0", "  0", "  0", "  0",]);
+
+                record = rentalInventoryModule.newRecordsToCreate[1];
                 await this.TestInventoryIntegrity(rentalInventoryModule, record, expectedInvData, "020");
 
             }, this.testTimeout);
@@ -846,7 +846,7 @@ export class InventoryIntegrityTest extends BaseTest {
                 //reserve this quote
                 async function reserveQuote() {
                     let moduleMenuSelector: string = module.getFormMenuSelector();
-                    let functionMenuSelector = `div [data-securityid="C122C2C5-9D68-4CDF-86C9-E37CB70C57A0"]`;
+                    let functionMenuSelector = `div [data-securityid="1oBE7m2rBjxhm"]`;
                     await page.waitForSelector(moduleMenuSelector);
                     await page.click(moduleMenuSelector);
                     await page.waitForSelector(functionMenuSelector);
@@ -898,7 +898,7 @@ export class InventoryIntegrityTest extends BaseTest {
                 //cancel this quote
                 async function cancelQuote() {
                     let moduleMenuSelector: string = module.getFormMenuSelector();
-                    let functionMenuSelector = `div [data-securityid="BF633873-8A40-4BD6-8ED8-3EAC27059C84"]`;
+                    let functionMenuSelector = `div [data-securityid="dpH0uCuEp3E89"]`;
                     await page.waitForSelector(moduleMenuSelector);
                     await page.click(moduleMenuSelector);
                     await page.waitForSelector(functionMenuSelector);
@@ -981,7 +981,6 @@ export class InventoryIntegrityTest extends BaseTest {
             testName = "Test Inventory Integrity";
             test(testName, async () => {
                 //quantity inventory
-                let record: NewRecordToCreate = rentalInventoryModule.newRecordsToCreate[0];
                 let expectedInvData: InventoryData = new InventoryData();
 
                 expectedInvData.qtyTotal = 20;
@@ -994,7 +993,6 @@ export class InventoryIntegrityTest extends BaseTest {
                 expectedInvData.qtyInTransit = 0;
                 //                                    00     01     02     03     04     05     06     07     08     09     10     11     12     13     14     15     16     17     18     19     20     21     22     23     24
                 expectedInvData.populateAvailDates([" 20", "  8", "  8", "  5", " -5", " -5", " -5", "  5", "  5", "  5", " 11", " 14", " 14", " 14", " 20", " 20", " 20", " 20", " 20", " 20", " 20", " 20", " 20", " 20", " 20",]);
-                await this.TestInventoryIntegrity(rentalInventoryModule, record, expectedInvData);
 
                 let record: NewRecordToCreate = rentalInventoryModule.newRecordsToCreate[0];
                 await this.TestInventoryIntegrity(rentalInventoryModule, record, expectedInvData, "030");
@@ -1039,7 +1037,6 @@ export class InventoryIntegrityTest extends BaseTest {
             testName = "Test Inventory Integrity";
             test(testName, async () => {
                 //quantity 
-                let record: NewRecordToCreate = rentalInventoryModule.newRecordsToCreate[0];
                 let expectedInvData: InventoryData = new InventoryData();
 
                 expectedInvData.qtyTotal = 20;
@@ -1057,7 +1054,6 @@ export class InventoryIntegrityTest extends BaseTest {
                 await this.TestInventoryIntegrity(rentalInventoryModule, record, expectedInvData, "040");
 
                 //barcode 
-                record = rentalInventoryModule.newRecordsToCreate[1];
                 expectedInvData = new InventoryData();
 
                 expectedInvData.qtyTotal = 20;
@@ -1070,6 +1066,10 @@ export class InventoryIntegrityTest extends BaseTest {
                 expectedInvData.qtyInTransit = 0;
                 //                                    00     01     02     03     04     05     06     07     08     09     10     11     12     13     14     15     16     17     18     19     20     21     22     23     24
                 expectedInvData.populateAvailDates([" 14", "  8", "  8", "  5", " -5", " -5", " -5", "  5", "  5", "  5", " 11", " 14", " 14", " 14", " 20", " 20", " 20", " 20", " 20", " 20", " 20", " 20", " 20", " 20", " 20",]);
+
+                record = rentalInventoryModule.newRecordsToCreate[1];
+                await this.TestInventoryIntegrity(rentalInventoryModule, record, expectedInvData, "041");
+
 
             }, this.testTimeout);
             //---------------------------------------------------------------------------------------
@@ -1096,7 +1096,6 @@ export class InventoryIntegrityTest extends BaseTest {
             testName = "Test Inventory Integrity";
             test(testName, async () => {
                 //quantity
-                let record: NewRecordToCreate = rentalInventoryModule.newRecordsToCreate[0];
                 let expectedInvData: InventoryData = new InventoryData();
 
                 expectedInvData.qtyTotal = 20;
@@ -1109,11 +1108,11 @@ export class InventoryIntegrityTest extends BaseTest {
                 expectedInvData.qtyInTransit = 0;
                 //                                    00     01     02     03     04     05     06     07     08     09     10     11     12     13     14     15     16     17     18     19     20     21     22     23     24
                 expectedInvData.populateAvailDates([" 12", "  6", "  6", "  3", " -7", " -7", " -7", "  3", "  3", "  5", " 11", " 14", " 14", " 14", " 20", " 20", " 20", " 20", " 20", " 20", " 20", " 20", " 20", " 20", " 20",]);
+
                 let record: NewRecordToCreate = rentalInventoryModule.newRecordsToCreate[0];
                 await this.TestInventoryIntegrity(rentalInventoryModule, record, expectedInvData, "050");
 
                 //barcode
-                record = rentalInventoryModule.newRecordsToCreate[1];
                 expectedInvData = new InventoryData();
 
                 expectedInvData.qtyTotal = 20;
@@ -1126,7 +1125,9 @@ export class InventoryIntegrityTest extends BaseTest {
                 expectedInvData.qtyInTransit = 0;
                 //                                    00     01     02     03     04     05     06     07     08     09     10     11     12     13     14     15     16     17     18     19     20     21     22     23     24
                 expectedInvData.populateAvailDates([" 12", "  6", "  6", "  3", " -7", " -7", " -7", "  3", "  3", "  5", " 11", " 14", " 14", " 14", " 20", " 20", " 20", " 20", " 20", " 20", " 20", " 20", " 20", " 20", " 20",]);
-                await this.TestInventoryIntegrity(rentalInventoryModule, record, expectedInvData);
+
+                record = rentalInventoryModule.newRecordsToCreate[1];
+                await this.TestInventoryIntegrity(rentalInventoryModule, record, expectedInvData, "051");
 
 
             }, this.testTimeout);
@@ -1139,7 +1140,7 @@ export class InventoryIntegrityTest extends BaseTest {
                 //confirm this transfer
                 async function confirmTransfer() {
                     let moduleMenuSelector = module.getFormMenuSelector();
-                    let functionMenuSelector = `div [data-securityid="A35F0AAD-81B5-4A0C-8970-D448A67D5A82"]`;
+                    let functionMenuSelector = `div [data-securityid="VHP1qrNmwB4"]`;
                     let toasterCloseSelector = `.advisory .messageclose`;
                     await page.waitForSelector(moduleMenuSelector);
                     await page.click(moduleMenuSelector);
@@ -1209,7 +1210,6 @@ export class InventoryIntegrityTest extends BaseTest {
             testName = "Test Inventory Integrity";
             test(testName, async () => {
                 //quantity
-                let record: NewRecordToCreate = rentalInventoryModule.newRecordsToCreate[0];
                 let expectedInvData: InventoryData = new InventoryData();
 
                 expectedInvData.qtyTotal = 20;
@@ -1222,10 +1222,11 @@ export class InventoryIntegrityTest extends BaseTest {
                 expectedInvData.qtyInTransit = 0;
                 //                                    00     01     02     03     04     05     06     07     08     09     10     11     12     13     14     15     16     17     18     19     20     21     22     23     24
                 expectedInvData.populateAvailDates([" 12", "  6", "  6", "  3", " -7", " -7", " -7", "  3", "  3", "  5", "  7", " 10", " 10", " 10", " 16", " 16", " 16", " 16", " 16", " 16", " 16", " 16", " 16", " 16", " 16",]);
-                await this.TestInventoryIntegrity(rentalInventoryModule, record, expectedInvData);
+
+                let record: NewRecordToCreate = rentalInventoryModule.newRecordsToCreate[0];
+                await this.TestInventoryIntegrity(rentalInventoryModule, record, expectedInvData, "060");
 
                 //barcode
-                record = rentalInventoryModule.newRecordsToCreate[1];
                 expectedInvData = new InventoryData();
 
                 expectedInvData.qtyTotal = 20;
@@ -1238,7 +1239,9 @@ export class InventoryIntegrityTest extends BaseTest {
                 expectedInvData.qtyInTransit = 0;
                 //                                    00     01     02     03     04     05     06     07     08     09     10     11     12     13     14     15     16     17     18     19     20     21     22     23     24
                 expectedInvData.populateAvailDates([" 12", "  6", "  6", "  3", " -7", " -7", " -7", "  3", "  3", "  5", "  7", " 10", " 10", " 10", " 16", " 16", " 16", " 16", " 16", " 16", " 16", " 16", " 16", " 16", " 16",]);
-                await this.TestInventoryIntegrity(rentalInventoryModule, record, expectedInvData);
+
+                record = rentalInventoryModule.newRecordsToCreate[1];
+                await this.TestInventoryIntegrity(rentalInventoryModule, record, expectedInvData, "061");
 
             }, this.testTimeout);
             //---------------------------------------------------------------------------------------
@@ -1257,13 +1260,12 @@ export class InventoryIntegrityTest extends BaseTest {
             //---------------------------------------------------------------------------------------
             testName = "Test Inventory Integrity";
             test(testName, async () => {
-                //quantity
-                let record: NewRecordToCreate = rentalInventoryModule.newRecordsToCreate[0];
-                await this.TestInventoryIntegrity(rentalInventoryModule, record, expectedInvData, "060");
+                ////quantity
+                //let record: NewRecordToCreate = rentalInventoryModule.newRecordsToCreate[0];
+                //await this.TestInventoryIntegrity(rentalInventoryModule, record, expectedInvData, "060");
 
                 //barcode
-                record = rentalInventoryModule.newRecordsToCreate[1];
-                expectedInvData = new InventoryData();
+                let expectedInvData: InventoryData = new InventoryData();
 
                 expectedInvData.qtyTotal = 20;
                 expectedInvData.qtyIn = 12;
@@ -1275,7 +1277,9 @@ export class InventoryIntegrityTest extends BaseTest {
                 expectedInvData.qtyInTransit = 0;
                 //                                    00     01     02     03     04     05     06     07     08     09     10     11     12     13     14     15     16     17     18     19     20     21     22     23     24
                 expectedInvData.populateAvailDates([" 11", "  5", "  5", "  2", " -8", " -8", " -8", "  2", "  2", "  4", "  6", "  9", "  9", "  9", " 15", " 15", " 15", " 15", " 15", " 15", " 15", " 15", " 15", " 15", " 15",]);
-                await this.TestInventoryIntegrity(rentalInventoryModule, record, expectedInvData);
+
+                let record: NewRecordToCreate = rentalInventoryModule.newRecordsToCreate[1];
+                await this.TestInventoryIntegrity(rentalInventoryModule, record, expectedInvData, "070");
 
             }, this.testTimeout);
             //---------------------------------------------------------------------------------------

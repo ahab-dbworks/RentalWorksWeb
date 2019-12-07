@@ -6,15 +6,16 @@ class ExportSettings {
     nav: string = 'module/exportsettings';
     id: string = '70CEC5BB-2FD9-4C68-9BE2-F8A3C6A17BB7';
     //----------------------------------------------------------------------------------------------
-    getModuleScreen() {
-        var screen: any = {};
+    getModuleScreen(filter?: { datafield: string, search: string }) {
+        const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
-        var $browse = this.openBrowse();
 
-        screen.load = function () {
-            FwModule.openModuleTab($browse, "Export Settings", false, 'BROWSE', true);
+        const $browse = this.openBrowse();
+
+        screen.load = () => {
+            FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };
@@ -26,13 +27,13 @@ class ExportSettings {
     }
     //----------------------------------------------------------------------------------------------
     openBrowse() {
-        var $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
+        let $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
 
         return $browse;
-    };
+    }
     //----------------------------------------------------------------------------------------------
-    openForm(mode: string, parentmoduleinfo?) {
+    openForm(mode: string) {
         let $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 

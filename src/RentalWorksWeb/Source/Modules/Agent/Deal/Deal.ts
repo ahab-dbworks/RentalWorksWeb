@@ -267,7 +267,7 @@ class Deal {
             $form: $form,
             pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
-                
+
             },
             onDataBind: (request: any) => {
                 request.uniqueids = {

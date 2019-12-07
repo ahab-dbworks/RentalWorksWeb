@@ -1,11 +1,11 @@
-class RwSetSurface {
-    Module:  string = 'SetSurface';
-    apiurl:  string = 'api/v1/setsurface';
+class SetSurface {
+    Module: string = 'SetSurface';
+    apiurl: string = 'api/v1/setsurface';
     caption: string = Constants.Modules.Settings.children.SetSettings.children.SetSurface.caption;
-    nav:     string = Constants.Modules.Settings.children.SetSettings.children.SetSurface.nav;
-    id:      string = Constants.Modules.Settings.children.SetSettings.children.SetSurface.id;
+    nav: string = Constants.Modules.Settings.children.SetSettings.children.SetSurface.nav;
+    id: string = Constants.Modules.Settings.children.SetSettings.children.SetSurface.id;
     //----------------------------------------------------------------------------------------------
-    getModuleScreen() {
+    getModuleScreen(filter?: { datafield: string, search: string }) {
         const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
@@ -13,7 +13,7 @@ class RwSetSurface {
 
         const $browse = this.openBrowse();
 
-        screen.load = function () {
+        screen.load = () => {
             FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
@@ -55,4 +55,4 @@ class RwSetSurface {
     }
 }
 //----------------------------------------------------------------------------------------------
-var SetSurfaceController = new RwSetSurface();
+var SetSurfaceController = new SetSurface();

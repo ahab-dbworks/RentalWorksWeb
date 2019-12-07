@@ -104,9 +104,13 @@ class CompleteQc {
                     $completed.show();
                     if (!response.ShowFootCandles) {
                         $form.find('.foot-candles').hide();
+                    } else {
+                        $form.find('.foot-candles').show();
                     }
                     if (!response.ShowSoftwareVersion) {
                         $form.find('.software-version').hide();
+                    } else {
+                        $form.find('.software-version').show();
                     }
                     $form.find('.code').removeClass('error');
                     $form.find('.success-msg:not(.update)').html(`<div style="margin:0px 0px 0px 5px;"><span>QC Completed Successfully</span></div>`);

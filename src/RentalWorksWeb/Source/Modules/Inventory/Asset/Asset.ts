@@ -582,7 +582,7 @@ class RwAsset {
                 </div>
               </div>
               <!-- Repair Order tab -->
-              <div data-type="tabpage" id="repairordertabpage" class="tabpage repairOrderSubModule" data-tabid="repairordertab">
+              <div data-type="tabpage" id="repairordertabpage" class="tabpage repairOrderSubModule rwSubModule" data-tabid="repairordertab">
               </div>
               <!-- Notes tab -->
               <div data-type="tabpage" id="notestabpage" class="tabpage" data-tabid="notestab">

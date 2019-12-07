@@ -1,11 +1,11 @@
 class ProjectAsBuild {
-    Module:  string = 'ProjectAsBuild';
-    apiurl:  string = 'api/v1/projectasbuild';
+    Module: string = 'ProjectAsBuild';
+    apiurl: string = 'api/v1/projectasbuild';
     caption: string = Constants.Modules.Settings.children.ProjectSettings.children.ProjectAsBuild.caption;
-    nav:     string = Constants.Modules.Settings.children.ProjectSettings.children.ProjectAsBuild.nav;
-    id:      string = Constants.Modules.Settings.children.ProjectSettings.children.ProjectAsBuild.id;
+    nav: string = Constants.Modules.Settings.children.ProjectSettings.children.ProjectAsBuild.nav;
+    id: string = Constants.Modules.Settings.children.ProjectSettings.children.ProjectAsBuild.id;
     //----------------------------------------------------------------------------------------------
-    getModuleScreen() {
+    getModuleScreen(filter?: { datafield: string, search: string }) {
         const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
@@ -13,7 +13,7 @@ class ProjectAsBuild {
 
         const $browse = this.openBrowse();
 
-        screen.load = function () {
+        screen.load = () => {
             FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);

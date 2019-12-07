@@ -1,11 +1,11 @@
 class ProjectItemsOrdered {
-    Module:  string = 'ProjectItemsOrdered';
-    apiurl:  string = 'api/v1/projectitemsordered';
+    Module: string = 'ProjectItemsOrdered';
+    apiurl: string = 'api/v1/projectitemsordered';
     caption: string = Constants.Modules.Settings.children.ProjectSettings.children.ProjectItemsOrdered.caption;
-    nav:     string = Constants.Modules.Settings.children.ProjectSettings.children.ProjectItemsOrdered.nav;
-    id:      string = Constants.Modules.Settings.children.ProjectSettings.children.ProjectItemsOrdered.id;
+    nav: string = Constants.Modules.Settings.children.ProjectSettings.children.ProjectItemsOrdered.nav;
+    id: string = Constants.Modules.Settings.children.ProjectSettings.children.ProjectItemsOrdered.id;
     //----------------------------------------------------------------------------------------------
-    getModuleScreen() {
+    getModuleScreen(filter?: { datafield: string, search: string }) {
         const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
@@ -13,7 +13,7 @@ class ProjectItemsOrdered {
 
         const $browse = this.openBrowse();
 
-        screen.load = function () {
+        screen.load = () => {
             FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);

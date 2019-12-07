@@ -296,6 +296,40 @@ abstract class InventoryBase {
                     FwFunc.showError(response);
                 }, $control)
             })
+            .data('oneventdoubleclicked', request => {
+                const data = request.e.data;
+                let module;
+                let datafield;
+                switch (data.orderType) {
+                    case 'O': //ORDER
+                        module = 'Order';
+                        datafield = 'OrderId';
+                        break;
+                    case 'Q': //QUOTE
+                        module = 'Quote';
+                        datafield = 'QuoteId';
+                        break;
+                    case 'C': //PURCHASE ORDER
+                        module = 'PurchaseOrder';
+                        datafield = 'PurchaseOrderId';
+                        break;
+                    case 'T': //TRANSFER
+                        module = 'TransferOrder';
+                        datafield = 'TransferId';
+                        break;
+                    case 'R': //REPAIR
+                        module = 'Repair';
+                        datafield = 'RepairId';
+                        break;
+                    default:
+                        FwFunc.showError('Invalid Order Type');
+                        break;
+                }
+              
+                const id = data.orderId;
+                const title = data.orderDescription;
+                FwValidation.validationPeek($control, module, id, datafield, $form, title);
+            });
     }
     //----------------------------------------------------------------------------------------------
     loadScheduler($form, events, resources) {

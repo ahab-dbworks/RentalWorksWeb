@@ -1,11 +1,11 @@
-class RwProjectDrawings {
-    Module:  string = 'ProjectDrawings';
-    apiurl:  string = 'api/v1/projectdrawings';
+class ProjectDrawings {
+    Module: string = 'ProjectDrawings';
+    apiurl: string = 'api/v1/projectdrawings';
     caption: string = Constants.Modules.Settings.children.ProjectSettings.children.ProjectDrawings.caption;
-    nav:     string = Constants.Modules.Settings.children.ProjectSettings.children.ProjectDrawings.nav;
-    id:      string = Constants.Modules.Settings.children.ProjectSettings.children.ProjectDrawings.id;
+    nav: string = Constants.Modules.Settings.children.ProjectSettings.children.ProjectDrawings.nav;
+    id: string = Constants.Modules.Settings.children.ProjectSettings.children.ProjectDrawings.id;
     //----------------------------------------------------------------------------------------------
-    getModuleScreen() {
+    getModuleScreen(filter?: { datafield: string, search: string }) {
         const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
@@ -13,7 +13,7 @@ class RwProjectDrawings {
 
         const $browse = this.openBrowse();
 
-        screen.load = function () {
+        screen.load = () => {
             FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
@@ -55,4 +55,4 @@ class RwProjectDrawings {
     }
 }
 //----------------------------------------------------------------------------------------------
-var ProjectDrawingsController = new RwProjectDrawings();
+var ProjectDrawingsController = new ProjectDrawings();

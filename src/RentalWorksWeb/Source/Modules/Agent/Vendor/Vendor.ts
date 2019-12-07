@@ -54,21 +54,21 @@ class Vendor {
         //Toggle Buttons - Vendor tab - Vendor Type Company or Person
         FwFormField.loadItems($form.find('div[data-datafield="VendorNameType"]'), [
             { value: 'COMPANY', caption: 'Company', checked: true },
-            { value: 'PERSON',  caption: 'Person' }
+            { value: 'PERSON', caption: 'Person' }
         ]);
 
         //Toggle Buttons - Deliver/Ship tab - Default Delivery Address
         FwFormField.loadItems($form.find('div[data-datafield="DefaultOutgoingDeliveryType"]'), [
             { value: 'DELIVER', caption: 'Vendor Deliver' },
-            { value: 'SHIP',    caption: 'Ship' },
-            { value: 'PICK UP',  caption: 'Pick Up' }
+            { value: 'SHIP', caption: 'Ship' },
+            { value: 'PICK UP', caption: 'Pick Up' }
         ]);
 
         //Toggle Buttons - Deliver/Ship tab - Default Return Delivery Address
         FwFormField.loadItems($form.find('div[data-datafield="DefaultIncomingDeliveryType"]'), [
             { value: 'DELIVER', caption: 'Deliver' },
-            { value: 'SHIP',    caption: 'Ship' },
-            { value: 'PICK UP',  caption: 'Vendor Pick Up' }
+            { value: 'SHIP', caption: 'Ship' },
+            { value: 'PICK UP', caption: 'Vendor Pick Up' }
         ]);
 
         return $form;
@@ -345,7 +345,7 @@ class Vendor {
     }
     //---------------------------------------------------------------------------------
     getBrowseTemplate(): string {
-      return `
+        return `
       <div data-name="Vendor" data-control="FwBrowse" data-type="Browse" id="VendorBrowse" class="fwcontrol fwbrowse" data-orderby="" data-controller="VendorController" data-hasinactive="true">
         <div class="column" data-width="0" data-visible="false">
           <div class="field" data-isuniqueid="true" data-datafield="VendorId" data-browsedatatype="key" ></div>
@@ -379,7 +379,7 @@ class Vendor {
     }
     //---------------------------------------------------------------------------------
     getFormTemplate(): string {
-      return `
+        return `
       <div id="vendorform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-caption="Vendor" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="VendorController">
         <div data-control="FwFormField" data-type="key" class="fwcontrol fwformfield" data-isuniqueid="true" data-saveorder="1" data-caption="" data-datafield="VendorId"></div>
         <div id="vendorform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
