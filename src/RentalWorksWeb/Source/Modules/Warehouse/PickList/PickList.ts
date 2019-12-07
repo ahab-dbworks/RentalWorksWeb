@@ -13,7 +13,7 @@ class PickList {
         screen.viewModel = {};
         screen.properties = {};
         var $browse = this.openBrowse();
-        screen.load = function () {
+        screen.load = () => {
             FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
@@ -312,7 +312,7 @@ class PickList {
                   </div>
                 </div>
               </div>
-             <div data-type="tabpage" id="emailhistorytabpage" class="tabpage submodule emailhistory-page rwSubModule" data-tabid="emailhistorytab"></div>
+             <div data-type="tabpage" id="emailhistorytabpage" class="tabpage submodule emailhistory-page" data-tabid="emailhistorytab"></div>
             </div>
           </div>
         </div>`;
