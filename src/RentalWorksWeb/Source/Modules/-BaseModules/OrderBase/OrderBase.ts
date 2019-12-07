@@ -168,8 +168,14 @@ class OrderBase {
             $form: $form,
             pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
-                //justin hoffman 12/06/2019 WIP
-                FwMenu.addSubMenuItem(options.$groupActions, 'Sub PO Worksheet', '', (e: JQuery.ClickEvent) => {
+                //WIP for #1418
+                const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
+                const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')
+                FwMenu.addSubMenuItem($optionsgroup, 'Copy Template', '', (e: JQuery.ClickEvent) => { });
+                FwMenu.addSubMenuItem($optionsgroup, 'Copy Line-Items', '', (e: JQuery.ClickEvent) => { });
+                FwMenu.addSubMenuItem($optionsgroup, 'Lock / Unlock Selected', '', (e: JQuery.ClickEvent) => { });
+                FwMenu.addSubMenuItem($optionsgroup, 'Bold / Unbold Selected', '', (e: JQuery.ClickEvent) => { });
+                FwMenu.addSubMenuItem($optionsgroup, 'Sub PO Worksheet', '', (e: JQuery.ClickEvent) => {
                     try {
                         this.SubPoWorksheet($form, e);
                     }
@@ -177,6 +183,15 @@ class OrderBase {
                         FwFunc.showError(ex);
                     }
                 });
+
+                const $viewcolumn = FwMenu.addSubMenuColumn(options.$menu);
+                const $viewgroup = FwMenu.addSubMenuGroup($viewcolumn, 'View', 'securityid2')
+                FwMenu.addSubMenuItem($viewgroup, 'Summary View', '', (e: JQuery.ClickEvent) => { });
+                FwMenu.addSubMenuItem($viewgroup, 'Shortages Only', '', (e: JQuery.ClickEvent) => { });
+                FwMenu.addSubMenuItem($viewgroup, 'Show Split Details', '', (e: JQuery.ClickEvent) => { });
+                FwMenu.addSubMenuItem($viewgroup, 'Color Legend', '', (e: JQuery.ClickEvent) => { });
+
+
             },
             onDataBind: (request: any) => {
                 request.uniqueids = {
