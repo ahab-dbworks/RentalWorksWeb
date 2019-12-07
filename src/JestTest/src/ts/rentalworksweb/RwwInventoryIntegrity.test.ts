@@ -846,7 +846,7 @@ export class InventoryIntegrityTest extends BaseTest {
                 //reserve this quote
                 async function reserveQuote() {
                     let moduleMenuSelector: string = module.getFormMenuSelector();
-                    let functionMenuSelector = `div [data-securityid="1oBE7m2rBjxhm"]`;
+                    let functionMenuSelector = `div .fwform [data-securityid="1oBE7m2rBjxhm"]`;
                     await page.waitForSelector(moduleMenuSelector);
                     await page.click(moduleMenuSelector);
                     await page.waitForSelector(functionMenuSelector);
@@ -898,7 +898,7 @@ export class InventoryIntegrityTest extends BaseTest {
                 //cancel this quote
                 async function cancelQuote() {
                     let moduleMenuSelector: string = module.getFormMenuSelector();
-                    let functionMenuSelector = `div [data-securityid="dpH0uCuEp3E89"]`;
+                    let functionMenuSelector = `div .fwform [data-securityid="dpH0uCuEp3E89"]`;
                     await page.waitForSelector(moduleMenuSelector);
                     await page.click(moduleMenuSelector);
                     await page.waitForSelector(functionMenuSelector);
@@ -1140,7 +1140,7 @@ export class InventoryIntegrityTest extends BaseTest {
                 //confirm this transfer
                 async function confirmTransfer() {
                     let moduleMenuSelector = module.getFormMenuSelector();
-                    let functionMenuSelector = `div [data-securityid="VHP1qrNmwB4"]`;
+                    let functionMenuSelector = `div .fwform [data-securityid="VHP1qrNmwB4"]`;
                     let toasterCloseSelector = `.advisory .messageclose`;
                     await page.waitForSelector(moduleMenuSelector);
                     await page.click(moduleMenuSelector);
@@ -1183,7 +1183,7 @@ export class InventoryIntegrityTest extends BaseTest {
             //    //cancel this transfer
             //    async function cancelTransfer() {
             //        let moduleMenuSelector = module.getFormMenuSelector();
-            //        let functionMenuSelector = `div [data-securityid="XXXXXXXXXXXXXXXXXXXXXXX"]`;
+            //        let functionMenuSelector = `div .fwform [data-securityid="XXXXXXXXXXXXXXXXXXXXXXX"]`;
             //        let toasterCloseSelector = `.advisory .messageclose`;
             //        await page.waitForSelector(moduleMenuSelector);
             //        await page.click(moduleMenuSelector);
