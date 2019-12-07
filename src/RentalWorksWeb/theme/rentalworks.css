@@ -615,11 +615,11 @@ html.theme-material [data-name="AuditHistoryGrid"] tbody tr.selected td ul:not(.
 #availabilityTable table tr td div[data-state="low"]  {background-color:#ffeb3b;}
 #availabilityTable table tr td div[data-state="noavailcheck"] {background-color:#00ffff;}
 #availabilityTable table tr td div[data-state="positiveconflict"] {background-color:#006600;color:#ffffff;}
-/*submodule browses added to forms*/ 
+/*submodule browses added to forms*/
 .rwSubModule > div {
-  margin: 2px;
-  border-left: 1px solid #9e9e9e;
-  border-right: 1px solid #9e9e9e;
+    margin: .5rem .5rem 1rem .5rem;
+    border-left: 1px solid #9e9e9e;
+    border-right: 1px solid #9e9e9e;
 }
 
 .activity {
