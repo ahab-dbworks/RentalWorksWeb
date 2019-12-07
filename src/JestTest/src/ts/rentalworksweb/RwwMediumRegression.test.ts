@@ -642,11 +642,11 @@ export class MediumRegressionTest extends BaseTest {
         //this.MediumRegressionOnModule(new WorkWeek());     // module cannot be tested because there is no unique field that can be searched to validate or delete the record
 
         //Administrator
-        this.MediumRegressionOnModule(new Alert());
-        this.MediumRegressionOnModule(new CustomField());
+        //this.MediumRegressionOnModule(new Alert());
+        //this.MediumRegressionOnModule(new CustomField());
         this.MediumRegressionOnModule(new CustomForm());
         this.MediumRegressionOnModule(new CustomReportLayout());
-        this.MediumRegressionOnModule(new DuplicateRule());
+        //this.MediumRegressionOnModule(new DuplicateRule());
         this.MediumRegressionOnModule(new EmailHistory());
         this.MediumRegressionOnModule(new Group());
         this.MediumRegressionOnModule(new Hotfix());
