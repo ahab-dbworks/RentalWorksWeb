@@ -181,83 +181,174 @@ class BillingWorksheet {
         const invoiceItemTotalFields = ["LineTotalWithTax", "Tax", "LineTotal", "LineTotalBeforeDiscount", "DiscountAmount"];
         //                               Total               Tax   SubTotal      GrossTotal                 Discount
         // ----------
-        const $invoiceItemGridRental = $form.find('.rentalgrid div[data-grid="InvoiceItemGrid"]');
-        const $invoiceItemGridRentalControl = FwBrowse.loadGridFromTemplate('InvoiceItemGrid');
-        $invoiceItemGridRental.empty().append($invoiceItemGridRentalControl);
-        $invoiceItemGridRentalControl.data('isSummary', false);
-        $invoiceItemGridRental.addClass('R');
-        $invoiceItemGridRentalControl.find('div[data-datafield="Rate"]').attr('data-caption', 'Unit Rate');
+        //const $invoiceItemGridRental = $form.find('.rentalgrid div[data-grid="InvoiceItemGrid"]');
+        //const $invoiceItemGridRentalControl = FwBrowse.loadGridFromTemplate('InvoiceItemGrid');
+        //$invoiceItemGridRental.empty().append($invoiceItemGridRentalControl);
+        //$invoiceItemGridRentalControl.data('isSummary', false);
+        //$invoiceItemGridRental.addClass('R');
+        //$invoiceItemGridRentalControl.find('div[data-datafield="Rate"]').attr('data-caption', 'Unit Rate');
 
-        $invoiceItemGridRentalControl.data('ondatabind', request => {
-            request.uniqueids = {
-                InvoiceId: FwFormField.getValueByDataField($form, 'BillingWorksheetId'),
-                RecType: 'R'
-            };
-            request.totalfields = invoiceItemTotalFields;
-        });
-        $invoiceItemGridRentalControl.data('beforesave', request => {
-            request.InvoiceId = FwFormField.getValueByDataField($form, 'BillingWorksheetId');
-            request.RecType = 'R';
-        });
+        //$invoiceItemGridRentalControl.data('ondatabind', request => {
+        //    request.uniqueids = {
+        //        InvoiceId: FwFormField.getValueByDataField($form, 'BillingWorksheetId'),
+        //        RecType: 'R'
+        //    };
+        //    request.totalfields = invoiceItemTotalFields;
+        //});
+        //$invoiceItemGridRentalControl.data('beforesave', request => {
+        //    request.InvoiceId = FwFormField.getValueByDataField($form, 'BillingWorksheetId');
+        //    request.RecType = 'R';
+        //});
 
-        FwBrowse.addEventHandler($invoiceItemGridRentalControl, 'afterdatabindcallback', ($invoiceItemGridRentalControl, dt) => {
-            this.calculateInvoiceItemGridTotals($form, 'rental', dt.Totals);
+        //FwBrowse.addEventHandler($invoiceItemGridRentalControl, 'afterdatabindcallback', ($invoiceItemGridRentalControl, dt) => {
+        //    this.calculateInvoiceItemGridTotals($form, 'rental', dt.Totals);
+        //});
+        //FwBrowse.init($invoiceItemGridRentalControl);
+        //FwBrowse.renderRuntimeHtml($invoiceItemGridRentalControl);
+
+
+        FwBrowse.renderGrid({
+            nameGrid: 'InvoiceItemGrid',
+            gridSelector: '.rentalgrid div[data-grid="InvoiceItemGrid"]',
+            gridSecurityId: '5xgHiF8dduf',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    InvoiceId: FwFormField.getValueByDataField($form, 'BillingWorksheetId'),
+                    RecType: 'R'
+                };
+                request.totalfields = invoiceItemTotalFields;
+            },
+            beforeSave: (request: any) => {
+                    request.InvoiceId = FwFormField.getValueByDataField($form, 'BillingWorksheetId');
+                    request.RecType = 'R';
+            },
+            beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
+                $fwgrid.addClass('R');
+                $browse.data('isSummary', false);
+                $browse.find('div[data-datafield="Rate"]').attr('data-caption', 'Unit Rate');
+            },
+            afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
+                this.calculateInvoiceItemGridTotals($form, 'rental', dt.Totals);
+            },
         });
-        FwBrowse.init($invoiceItemGridRentalControl);
-        FwBrowse.renderRuntimeHtml($invoiceItemGridRentalControl);
         // ----------
-        const $invoiceItemGridSales = $form.find('.salesgrid div[data-grid="InvoiceItemGrid"]');
-        const $invoiceItemGridSalesControl = FwBrowse.loadGridFromTemplate('InvoiceItemGrid');
-        $invoiceItemGridSales.empty().append($invoiceItemGridSalesControl);
-        $invoiceItemGridSales.addClass('S');
-        $invoiceItemGridSalesControl.data('isSummary', false);
-        $invoiceItemGridSalesControl.find('div[data-datafield="Rate"]').attr('data-caption', 'Unit Price');
+        //const $invoiceItemGridSales = $form.find('.salesgrid div[data-grid="InvoiceItemGrid"]');
+        //const $invoiceItemGridSalesControl = FwBrowse.loadGridFromTemplate('InvoiceItemGrid');
+        //$invoiceItemGridSales.empty().append($invoiceItemGridSalesControl);
+        //$invoiceItemGridSales.addClass('S');
+        //$invoiceItemGridSalesControl.data('isSummary', false);
+        //$invoiceItemGridSalesControl.find('div[data-datafield="Rate"]').attr('data-caption', 'Unit Price');
 
-        $invoiceItemGridSalesControl.data('ondatabind', request => {
-            request.uniqueids = {
-                InvoiceId: FwFormField.getValueByDataField($form, 'BillingWorksheetId'),
-                RecType: 'S'
-            };
-            request.totalfields = invoiceItemTotalFields;
+        //$invoiceItemGridSalesControl.data('ondatabind', request => {
+        //    request.uniqueids = {
+        //        InvoiceId: FwFormField.getValueByDataField($form, 'BillingWorksheetId'),
+        //        RecType: 'S'
+        //    };
+        //    request.totalfields = invoiceItemTotalFields;
+        //});
+        //$invoiceItemGridSalesControl.data('beforesave', request => {
+        //    request.InvoiceId = FwFormField.getValueByDataField($form, 'BillingWorksheetId');
+        //    request.RecType = 'S';
+        //});
+        //FwBrowse.addEventHandler($invoiceItemGridSalesControl, 'afterdatabindcallback', ($invoiceItemGridSalesControl, dt) => {
+        //    this.calculateInvoiceItemGridTotals($form, 'sales', dt.Totals);
+        //});
+        //FwBrowse.init($invoiceItemGridSalesControl);
+        //FwBrowse.renderRuntimeHtml($invoiceItemGridSalesControl);
+
+
+        FwBrowse.renderGrid({
+            nameGrid: 'InvoiceItemGrid',
+            gridSelector: '.salesgrid div[data-grid="InvoiceItemGrid"]',
+            gridSecurityId: '5xgHiF8dduf',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    InvoiceId: FwFormField.getValueByDataField($form, 'BillingWorksheetId'),
+                    RecType: 'S'
+                };
+                request.totalfields = invoiceItemTotalFields;
+            },
+            beforeSave: (request: any) => {
+                request.InvoiceId = FwFormField.getValueByDataField($form, 'BillingWorksheetId');
+                request.RecType = 'S';
+            },
+            beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
+                $fwgrid.addClass('S');
+                $browse.data('isSummary', false);
+                $browse.find('div[data-datafield="Rate"]').attr('data-caption', 'Unit Price');
+            },
+            afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
+                this.calculateInvoiceItemGridTotals($form, 'sales', dt.Totals);
+            },
         });
-        $invoiceItemGridSalesControl.data('beforesave', request => {
-            request.InvoiceId = FwFormField.getValueByDataField($form, 'BillingWorksheetId');
-            request.RecType = 'S';
-        });
-        FwBrowse.addEventHandler($invoiceItemGridSalesControl, 'afterdatabindcallback', ($invoiceItemGridSalesControl, dt) => {
-            this.calculateInvoiceItemGridTotals($form, 'sales', dt.Totals);
-        });
-        FwBrowse.init($invoiceItemGridSalesControl);
-        FwBrowse.renderRuntimeHtml($invoiceItemGridSalesControl);
         // ----------
-        const $invoiceItemGridFacilities = $form.find('.facilitiesgrid div[data-grid="InvoiceItemGrid"]');
-        const $invoiceItemGridFacilitiesControl = FwBrowse.loadGridFromTemplate('InvoiceItemGrid');
-        $invoiceItemGridFacilities.empty().append($invoiceItemGridFacilitiesControl);
-        $invoiceItemGridFacilities.addClass('F');
-        $invoiceItemGridFacilities.find('div[data-datafield="Extended"]').attr('data-formreadonly', 'true');
-        $invoiceItemGridFacilities.find('div[data-datafield="InventoryId"]').attr('data-formreadonly', 'true');
-        $invoiceItemGridFacilities.find('div[data-datafield="OrderNumber"]').attr('data-formreadonly', 'true');
-        $invoiceItemGridFacilities.find('div[data-datafield="Taxable"]').attr('data-formreadonly', 'true');
-        $invoiceItemGridFacilitiesControl.find('div[data-datafield="Rate"]').attr('data-caption', 'Unit Rate');
-        $invoiceItemGridFacilitiesControl.find('div[data-datafield="InventoryId"]').attr('data-caption', 'Item No.');
-        $invoiceItemGridFacilitiesControl.data('isSummary', false);
+        //const $invoiceItemGridFacilities = $form.find('.facilitiesgrid div[data-grid="InvoiceItemGrid"]');
+        //const $invoiceItemGridFacilitiesControl = FwBrowse.loadGridFromTemplate('InvoiceItemGrid');
+        //$invoiceItemGridFacilities.empty().append($invoiceItemGridFacilitiesControl);
+        //$invoiceItemGridFacilities.addClass('F');
+        //$invoiceItemGridFacilities.find('div[data-datafield="Extended"]').attr('data-formreadonly', 'true');
+        //$invoiceItemGridFacilities.find('div[data-datafield="InventoryId"]').attr('data-formreadonly', 'true');
+        //$invoiceItemGridFacilities.find('div[data-datafield="OrderNumber"]').attr('data-formreadonly', 'true');
+        //$invoiceItemGridFacilities.find('div[data-datafield="Taxable"]').attr('data-formreadonly', 'true');
+        //$invoiceItemGridFacilitiesControl.find('div[data-datafield="Rate"]').attr('data-caption', 'Unit Rate');
+        //$invoiceItemGridFacilitiesControl.find('div[data-datafield="InventoryId"]').attr('data-caption', 'Item No.');
+        //$invoiceItemGridFacilitiesControl.data('isSummary', false);
 
-        $invoiceItemGridFacilitiesControl.data('ondatabind', request => {
-            request.uniqueids = {
-                InvoiceId: FwFormField.getValueByDataField($form, 'BillingWorksheetId'),
-                RecType: 'F'
-            };
-            request.totalfields = invoiceItemTotalFields;
+        //$invoiceItemGridFacilitiesControl.data('ondatabind', request => {
+        //    request.uniqueids = {
+        //        InvoiceId: FwFormField.getValueByDataField($form, 'BillingWorksheetId'),
+        //        RecType: 'F'
+        //    };
+        //    request.totalfields = invoiceItemTotalFields;
+        //});
+        //$invoiceItemGridFacilitiesControl.data('beforesave', request => {
+        //    request.InvoiceId = FwFormField.getValueByDataField($form, 'BillingWorksheetId');
+        //    request.RecType = 'F';
+        //});
+        //FwBrowse.addEventHandler($invoiceItemGridFacilitiesControl, 'afterdatabindcallback', ($invoiceItemGridFacilitiesControl, dt) => {
+        //    this.calculateInvoiceItemGridTotals($form, 'facilities', dt.Totals);
+        //});
+        //FwBrowse.init($invoiceItemGridFacilitiesControl);
+        //FwBrowse.renderRuntimeHtml($invoiceItemGridFacilitiesControl);
+
+        FwBrowse.renderGrid({
+            nameGrid: 'InvoiceItemGrid',
+            gridSelector: '.facilitiesgrid div[data-grid="InvoiceItemGrid"]',
+            gridSecurityId: '5xgHiF8dduf',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    InvoiceId: FwFormField.getValueByDataField($form, 'BillingWorksheetId'),
+                    RecType: 'F'
+                };
+                request.totalfields = invoiceItemTotalFields;
+            },
+            beforeSave: (request: any) => {
+                request.InvoiceId = FwFormField.getValueByDataField($form, 'BillingWorksheetId');
+                request.RecType = 'F';
+            },
+            beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
+                $fwgrid.addClass('F');
+                $fwgrid.find('div[data-datafield="Extended"]').attr('data-formreadonly', 'true');
+                $fwgrid.find('div[data-datafield="InventoryId"]').attr('data-formreadonly', 'true');
+                $fwgrid.find('div[data-datafield="OrderNumber"]').attr('data-formreadonly', 'true');
+                $fwgrid.find('div[data-datafield="Taxable"]').attr('data-formreadonly', 'true');
+                $browse.find('div[data-datafield="Rate"]').attr('data-caption', 'Unit Rate');
+                $browse.find('div[data-datafield="InventoryId"]').attr('data-caption', 'Item No.');
+                $browse.data('isSummary', false);
+            },
+            afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
+                this.calculateInvoiceItemGridTotals($form, 'facilities', dt.Totals);
+            },
         });
-        $invoiceItemGridFacilitiesControl.data('beforesave', request => {
-            request.InvoiceId = FwFormField.getValueByDataField($form, 'BillingWorksheetId');
-            request.RecType = 'F';
-        });
-        FwBrowse.addEventHandler($invoiceItemGridFacilitiesControl, 'afterdatabindcallback', ($invoiceItemGridFacilitiesControl, dt) => {
-            this.calculateInvoiceItemGridTotals($form, 'facilities', dt.Totals);
-        });
-        FwBrowse.init($invoiceItemGridFacilitiesControl);
-        FwBrowse.renderRuntimeHtml($invoiceItemGridFacilitiesControl);
         //const $invoiceItemGridLabor = $form.find('.laborgrid div[data-grid="InvoiceItemGrid"]');
         //const $invoiceItemGridLaborControl = FwBrowse.loadGridFromTemplate('InvoiceItemGrid');
         //$invoiceItemGridLabor.empty().append($invoiceItemGridLaborControl);
@@ -291,189 +382,416 @@ class BillingWorksheet {
         //FwBrowse.renderRuntimeHtml($invoiceItemGridLaborControl);
         // ----------
         // ----------
-        const $invoiceItemGridMisc = $form.find('.miscgrid div[data-grid="InvoiceItemGrid"]');
-        const $invoiceItemGridMiscControl = FwBrowse.loadGridFromTemplate('InvoiceItemGrid');
-        $invoiceItemGridMisc.empty().append($invoiceItemGridMiscControl);
-        $invoiceItemGridMisc.addClass('M');
-        $invoiceItemGridMisc.find('div[data-datafield="Extended"]').attr('data-formreadonly', 'true')
-        $invoiceItemGridMiscControl.data('isSummary', false);
-        $invoiceItemGridMiscControl.find('div[data-datafield="Rate"]').attr('data-caption', 'Unit Rate');
-        $invoiceItemGridMiscControl.find('div[data-datafield="InventoryId"]').attr('data-caption', 'Item No.');
+        //const $invoiceItemGridMisc = $form.find('.miscgrid div[data-grid="InvoiceItemGrid"]');
+        //const $invoiceItemGridMiscControl = FwBrowse.loadGridFromTemplate('InvoiceItemGrid');
+        //$invoiceItemGridMisc.empty().append($invoiceItemGridMiscControl);
+        //$invoiceItemGridMisc.addClass('M');
+        //$invoiceItemGridMisc.find('div[data-datafield="Extended"]').attr('data-formreadonly', 'true')
+        //$invoiceItemGridMiscControl.data('isSummary', false);
+        //$invoiceItemGridMiscControl.find('div[data-datafield="Rate"]').attr('data-caption', 'Unit Rate');
+        //$invoiceItemGridMiscControl.find('div[data-datafield="InventoryId"]').attr('data-caption', 'Item No.');
 
-        $invoiceItemGridMiscControl.data('ondatabind', request => {
-            request.uniqueids = {
-                InvoiceId: FwFormField.getValueByDataField($form, 'BillingWorksheetId'),
-                RecType: 'M'
-            };
-            request.totalfields = invoiceItemTotalFields;
-        });
-        $invoiceItemGridMiscControl.data('beforesave', request => {
-            request.InvoiceId = FwFormField.getValueByDataField($form, 'BillingWorksheetId');
-            request.RecType = 'M';
-        });
-        FwBrowse.addEventHandler($invoiceItemGridMiscControl, 'afterdatabindcallback', ($invoiceItemGridMiscControl, dt) => {
-            this.calculateInvoiceItemGridTotals($form, 'misc', dt.Totals);
-        });
-        FwBrowse.init($invoiceItemGridMiscControl);
-        FwBrowse.renderRuntimeHtml($invoiceItemGridMiscControl);
-        // ----------
-        const $invoiceItemGridRentalSale = $form.find('.rentalsalegrid div[data-grid="InvoiceItemGrid"]');
-        const $invoiceItemGridRentalSaleControl = FwBrowse.loadGridFromTemplate('InvoiceItemGrid');
-        $invoiceItemGridRentalSale.empty().append($invoiceItemGridRentalSaleControl);
-        $invoiceItemGridRentalSale.addClass('RS');
-        FwBrowse.disableGrid($invoiceItemGridRentalSale);
-        $invoiceItemGridRentalSaleControl.attr('data-deleteoption', 'false');
-        $invoiceItemGridRentalSaleControl.data('isSummary', false);
-        $invoiceItemGridRentalSaleControl.find('div[data-datafield="Rate"]').attr('data-caption', 'Unit Price');
+        //$invoiceItemGridMiscControl.data('ondatabind', request => {
+        //    request.uniqueids = {
+        //        InvoiceId: FwFormField.getValueByDataField($form, 'BillingWorksheetId'),
+        //        RecType: 'M'
+        //    };
+        //    request.totalfields = invoiceItemTotalFields;
+        //});
+        //$invoiceItemGridMiscControl.data('beforesave', request => {
+        //    request.InvoiceId = FwFormField.getValueByDataField($form, 'BillingWorksheetId');
+        //    request.RecType = 'M';
+        //});
+        //FwBrowse.addEventHandler($invoiceItemGridMiscControl, 'afterdatabindcallback', ($invoiceItemGridMiscControl, dt) => {
+        //    this.calculateInvoiceItemGridTotals($form, 'misc', dt.Totals);
+        //});
+        //FwBrowse.init($invoiceItemGridMiscControl);
+        //FwBrowse.renderRuntimeHtml($invoiceItemGridMiscControl);
 
-        $invoiceItemGridRentalSaleControl.data('ondatabind', request => {
-            request.uniqueids = {
-                InvoiceId: FwFormField.getValueByDataField($form, 'BillingWorksheetId'),
-                RecType: 'RS'
-            };
-            request.totalfields = invoiceItemTotalFields;
+        FwBrowse.renderGrid({
+            nameGrid: 'InvoiceItemGrid',
+            gridSelector: '.miscgrid div[data-grid="InvoiceItemGrid"]',
+            gridSecurityId: '5xgHiF8dduf',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    InvoiceId: FwFormField.getValueByDataField($form, 'BillingWorksheetId'),
+                    RecType: 'M'
+                };
+                request.totalfields = invoiceItemTotalFields;
+            },
+            beforeSave: (request: any) => {
+                request.InvoiceId = FwFormField.getValueByDataField($form, 'BillingWorksheetId');
+                request.RecType = 'M';
+            },
+            beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
+                $fwgrid.addClass('M');
+                $fwgrid.find('div[data-datafield="Extended"]').attr('data-formreadonly', 'true')
+                $browse.data('isSummary', false);
+                $browse.find('div[data-datafield="Rate"]').attr('data-caption', 'Unit Rate');
+                $browse.find('div[data-datafield="InventoryId"]').attr('data-caption', 'Item No.');
+            },
+            afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
+                this.calculateInvoiceItemGridTotals($form, 'misc', dt.Totals);
+            },
         });
-        $invoiceItemGridRentalSaleControl.data('beforesave', request => {
-            request.InvoiceId = FwFormField.getValueByDataField($form, 'BillingWorksheetId');
-            request.RecType = 'RS';
-        });
-        FwBrowse.addEventHandler($invoiceItemGridRentalSaleControl, 'afterdatabindcallback', ($invoiceItemGridRentalSaleControl, dt) => {
-            this.calculateInvoiceItemGridTotals($form, 'rentalsale', dt.Totals);
-        });
-        FwBrowse.init($invoiceItemGridRentalSaleControl);
-        FwBrowse.renderRuntimeHtml($invoiceItemGridRentalSaleControl);
         // ----------
-        const $invoiceNoteGrid = $form.find('div[data-grid="InvoiceNoteGrid"]');
-        const $invoiceNoteGridControl = FwBrowse.loadGridFromTemplate('InvoiceNoteGrid');
-        $invoiceNoteGrid.empty().append($invoiceNoteGridControl);
-        $invoiceNoteGridControl.data('ondatabind', function (request) {
-            request.uniqueids = {
-                InvoiceId: $form.find('div.fwformfield[data-datafield="BillingWorksheetId"] input').val()
-            }
+        //const $invoiceItemGridRentalSale = $form.find('.rentalsalegrid div[data-grid="InvoiceItemGrid"]');
+        //const $invoiceItemGridRentalSaleControl = FwBrowse.loadGridFromTemplate('InvoiceItemGrid');
+        //$invoiceItemGridRentalSale.empty().append($invoiceItemGridRentalSaleControl);
+        //$invoiceItemGridRentalSale.addClass('RS');
+        //FwBrowse.disableGrid($invoiceItemGridRentalSale);
+        //$invoiceItemGridRentalSaleControl.attr('data-deleteoption', 'false');
+        //$invoiceItemGridRentalSaleControl.data('isSummary', false);
+        //$invoiceItemGridRentalSaleControl.find('div[data-datafield="Rate"]').attr('data-caption', 'Unit Price');
+
+        //$invoiceItemGridRentalSaleControl.data('ondatabind', request => {
+        //    request.uniqueids = {
+        //        InvoiceId: FwFormField.getValueByDataField($form, 'BillingWorksheetId'),
+        //        RecType: 'RS'
+        //    };
+        //    request.totalfields = invoiceItemTotalFields;
+        //});
+        //$invoiceItemGridRentalSaleControl.data('beforesave', request => {
+        //    request.InvoiceId = FwFormField.getValueByDataField($form, 'BillingWorksheetId');
+        //    request.RecType = 'RS';
+        //});
+        //FwBrowse.addEventHandler($invoiceItemGridRentalSaleControl, 'afterdatabindcallback', ($invoiceItemGridRentalSaleControl, dt) => {
+        //    //this.calculateInvoiceItemGridTotals($form, 'rentalsale', dt.Totals);
+        //});
+        //FwBrowse.init($invoiceItemGridRentalSaleControl);
+        //FwBrowse.renderRuntimeHtml($invoiceItemGridRentalSaleControl);
+
+        FwBrowse.renderGrid({
+            nameGrid: 'InvoiceItemGrid',
+            gridSelector: '.rentalsalegrid div[data-grid="InvoiceItemGrid"]',
+            gridSecurityId: '5xgHiF8dduf',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    InvoiceId: FwFormField.getValueByDataField($form, 'BillingWorksheetId'),
+                    RecType: 'RS'
+                };
+                request.totalfields = invoiceItemTotalFields;
+            },
+            beforeSave: (request: any) => {
+                request.InvoiceId = FwFormField.getValueByDataField($form, 'BillingWorksheetId');
+                request.RecType = 'RS';
+            },
+            beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
+                $fwgrid.addClass('RS');
+                FwBrowse.disableGrid($fwgrid);
+                $browse.attr('data-deleteoption', 'false');
+                $browse.data('isSummary', false);
+                $browse.find('div[data-datafield="Rate"]').attr('data-caption', 'Unit Price');
+            },
+            afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
+                this.calculateInvoiceItemGridTotals($form, 'rentalsale', dt.Totals);
+            },
         });
-        $invoiceNoteGridControl.data('beforesave', function (request) {
-            request.InvoiceId = FwFormField.getValueByDataField($form, 'BillingWorksheetId');
-        })
-        FwBrowse.init($invoiceNoteGridControl);
-        FwBrowse.renderRuntimeHtml($invoiceNoteGridControl);
+        // ----------
+        //const $invoiceNoteGrid = $form.find('div[data-grid="InvoiceNoteGrid"]');
+        //const $invoiceNoteGridControl = FwBrowse.loadGridFromTemplate('InvoiceNoteGrid');
+        //$invoiceNoteGrid.empty().append($invoiceNoteGridControl);
+        //$invoiceNoteGridControl.data('ondatabind', function (request) {
+        //    request.uniqueids = {
+        //        InvoiceId: $form.find('div.fwformfield[data-datafield="BillingWorksheetId"] input').val()
+        //    }
+        //});
+        //$invoiceNoteGridControl.data('beforesave', function (request) {
+        //    request.InvoiceId = FwFormField.getValueByDataField($form, 'BillingWorksheetId');
+        //})
+        //FwBrowse.init($invoiceNoteGridControl);
+        //FwBrowse.renderRuntimeHtml($invoiceNoteGridControl);
+
+        FwBrowse.renderGrid({
+            nameGrid: 'InvoiceNoteGrid',
+            gridSecurityId: '8YECGu7qFOty',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    InvoiceId: $form.find('div.fwformfield[data-datafield="BillingWorksheetId"] input').val()
+                };
+            },
+            beforeSave: (request: any) => {
+                request.InvoiceId = FwFormField.getValueByDataField($form, 'BillingWorksheetId');
+            },
+        });
         // ----------
         const glTotalFields = ["Debit", "Credit"];
-        const $glDistributionGrid = $form.find('div[data-grid="GlDistributionGrid"]');
-        const $glDistributionGridControl = FwBrowse.loadGridFromTemplate('GlDistributionGrid');
-        $glDistributionGrid.empty().append($glDistributionGridControl);
-        $glDistributionGridControl.data('ondatabind', request => {
-            request.uniqueids = {
-                InvoiceId: FwFormField.getValueByDataField($form, 'BillingWorksheetId')
-            };
-            request.totalfields = glTotalFields;
+        //const $glDistributionGrid = $form.find('div[data-grid="GlDistributionGrid"]');
+        //const $glDistributionGridControl = FwBrowse.loadGridFromTemplate('GlDistributionGrid');
+        //$glDistributionGrid.empty().append($glDistributionGridControl);
+        //$glDistributionGridControl.data('ondatabind', request => {
+        //    request.uniqueids = {
+        //        InvoiceId: FwFormField.getValueByDataField($form, 'BillingWorksheetId')
+        //    };
+        //    request.totalfields = glTotalFields;
+        //});
+        //FwBrowse.addEventHandler($glDistributionGridControl, 'afterdatabindcallback', ($glDistributionGridControl, dt) => {
+        //    FwFormField.setValue2($form.find('.gldistribution-totals [data-totalfield="Debit"]'), dt.Totals.Debit);
+        //    FwFormField.setValue2($form.find('.gldistribution-totals [data-totalfield="Credit"]'), dt.Totals.Credit);
+        //});
+        //FwBrowse.init($glDistributionGridControl);
+        //FwBrowse.renderRuntimeHtml($glDistributionGridControl);
+
+        FwBrowse.renderGrid({
+            nameGrid: 'GlDistributionGrid',
+            gridSecurityId: '8YECGu7qFOty',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    InvoiceId: FwFormField.getValueByDataField($form, 'BillingWorksheetId')
+                };
+                request.totalfields = glTotalFields;
+            },
+            afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
+                FwFormField.setValue2($form.find('.gldistribution-totals [data-totalfield="Debit"]'), dt.Totals.Debit);
+                FwFormField.setValue2($form.find('.gldistribution-totals [data-totalfield="Credit"]'), dt.Totals.Credit);
+            },
         });
-        FwBrowse.addEventHandler($glDistributionGridControl, 'afterdatabindcallback', ($glDistributionGridControl, dt) => {
-            FwFormField.setValue2($form.find('.gldistribution-totals [data-totalfield="Debit"]'), dt.Totals.Debit);
-            FwFormField.setValue2($form.find('.gldistribution-totals [data-totalfield="Credit"]'), dt.Totals.Credit);
-        });
-        FwBrowse.init($glDistributionGridControl);
-        FwBrowse.renderRuntimeHtml($glDistributionGridControl);
         // ----------
-        const $manualGlGrid = $form.find('div[data-grid="ManualGlTransactionsGrid"]');
-        const $manualGlGridControl = FwBrowse.loadGridFromTemplate('ManualGlTransactionsGrid');
-        $manualGlGrid.empty().append($manualGlGridControl);
-        $manualGlGridControl.data('ondatabind', request => {
-            request.uniqueids = {
-                InvoiceId: FwFormField.getValueByDataField($form, 'BillingWorksheetId')
-            };
-            request.totalfields = ["Amount"];
+        //const $manualGlGrid = $form.find('div[data-grid="ManualGlTransactionsGrid"]');
+        //const $manualGlGridControl = FwBrowse.loadGridFromTemplate('ManualGlTransactionsGrid');
+        //$manualGlGrid.empty().append($manualGlGridControl);
+        //$manualGlGridControl.data('ondatabind', request => {
+        //    request.uniqueids = {
+        //        InvoiceId: FwFormField.getValueByDataField($form, 'BillingWorksheetId')
+        //    };
+        //    request.totalfields = ["Amount"];
+        //});
+        //FwBrowse.addEventHandler($manualGlGridControl, 'afterdatabindcallback', ($manualGlGridControl, dt) => {
+        //    FwFormField.setValue2($form.find('.manualgl-totals [data-totalfield="Amount"]'), dt.Totals.Amount);
+        //});
+        //$manualGlGridControl.data('beforesave', request => {
+        //    request.InvoiceId = FwFormField.getValueByDataField($form, 'BillingWorksheetId');
+        //});
+        //FwBrowse.init($manualGlGridControl);
+        //FwBrowse.renderRuntimeHtml($manualGlGridControl);
+
+        FwBrowse.renderGrid({
+            nameGrid: 'ManualGlTransactionsGrid',
+            gridSecurityId: '8YECGu7qFOty',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    InvoiceId: FwFormField.getValueByDataField($form, 'BillingWorksheetId')
+                };
+                request.totalfields = ["Amount"];
+            },
+            beforeSave: (request: any) => {
+                request.InvoiceId = FwFormField.getValueByDataField($form, 'BillingWorksheetId');
+            },
+            afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
+                FwFormField.setValue2($form.find('.manualgl-totals [data-totalfield="Amount"]'), dt.Totals.Amount);
+            },
         });
-        FwBrowse.addEventHandler($manualGlGridControl, 'afterdatabindcallback', ($manualGlGridControl, dt) => {
-            FwFormField.setValue2($form.find('.manualgl-totals [data-totalfield="Amount"]'), dt.Totals.Amount);
-        });
-        $manualGlGridControl.data('beforesave', request => {
-            request.InvoiceId = FwFormField.getValueByDataField($form, 'BillingWorksheetId');
-        });
-        FwBrowse.init($manualGlGridControl);
-        FwBrowse.renderRuntimeHtml($manualGlGridControl);
         // ----------
-        const $invoiceOrderGrid = $form.find('div[data-grid="InvoiceOrderGrid"]');
-        const $invoiceOrderGridControl = FwBrowse.loadGridFromTemplate('InvoiceOrderGrid');
-        $invoiceOrderGrid.empty().append($invoiceOrderGridControl);
-        $invoiceOrderGridControl.data('ondatabind', request => {
-            request.uniqueids = {
-                InvoiceId: FwFormField.getValueByDataField($form, 'BillingWorksheetId')
-            };
+        //const $invoiceOrderGrid = $form.find('div[data-grid="InvoiceOrderGrid"]');
+        //const $invoiceOrderGridControl = FwBrowse.loadGridFromTemplate('InvoiceOrderGrid');
+        //$invoiceOrderGrid.empty().append($invoiceOrderGridControl);
+        //$invoiceOrderGridControl.data('ondatabind', request => {
+        //    request.uniqueids = {
+        //        InvoiceId: FwFormField.getValueByDataField($form, 'BillingWorksheetId')
+        //    };
+        //});
+        //FwBrowse.init($invoiceOrderGridControl);
+        //FwBrowse.renderRuntimeHtml($invoiceOrderGridControl);
+
+        FwBrowse.renderGrid({
+            nameGrid: 'InvoiceOrderGrid',
+            gridSecurityId: '8YECGu7qFOty',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    InvoiceId: FwFormField.getValueByDataField($form, 'BillingWorksheetId')
+                };
+            }
         });
-        FwBrowse.init($invoiceOrderGridControl);
-        FwBrowse.renderRuntimeHtml($invoiceOrderGridControl);
         // ----------
-        const $invoiceRevenueGrid = $form.find('div[data-grid="InvoiceRevenueGrid"]');
-        const $invoiceRevenueGridControl = FwBrowse.loadGridFromTemplate('InvoiceRevenueGrid');
-        $invoiceRevenueGrid.empty().append($invoiceRevenueGridControl);
-        $invoiceRevenueGridControl.data('ondatabind', request => {
-            request.uniqueids = {
-                InvoiceId: FwFormField.getValueByDataField($form, 'BillingWorksheetId')
-            };
+        //const $invoiceRevenueGrid = $form.find('div[data-grid="InvoiceRevenueGrid"]');
+        //const $invoiceRevenueGridControl = FwBrowse.loadGridFromTemplate('InvoiceRevenueGrid');
+        //$invoiceRevenueGrid.empty().append($invoiceRevenueGridControl);
+        //$invoiceRevenueGridControl.data('ondatabind', request => {
+        //    request.uniqueids = {
+        //        InvoiceId: FwFormField.getValueByDataField($form, 'BillingWorksheetId')
+        //    };
+        //});
+        //FwBrowse.init($invoiceRevenueGridControl);
+        //FwBrowse.renderRuntimeHtml($invoiceRevenueGridControl);
+
+        FwBrowse.renderGrid({
+            nameGrid: 'InvoiceRevenueGrid',
+            gridSecurityId: '8YECGu7qFOty',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    InvoiceId: FwFormField.getValueByDataField($form, 'BillingWorksheetId')
+                };
+            }
         });
-        FwBrowse.init($invoiceRevenueGridControl);
-        FwBrowse.renderRuntimeHtml($invoiceRevenueGridControl);
         // ----------
-        const $invoiceReceiptGrid = $form.find('div[data-grid="InvoiceReceiptGrid"]');
-        const $invoiceReceiptGridControl = FwBrowse.loadGridFromTemplate('InvoiceReceiptGrid');
-        $invoiceReceiptGrid.empty().append($invoiceReceiptGridControl);
-        $invoiceReceiptGridControl.data('ondatabind', request => {
-            request.uniqueids = {
-                InvoiceId: FwFormField.getValueByDataField($form, 'BillingWorksheetId')
-            };
+        //const $invoiceReceiptGrid = $form.find('div[data-grid="InvoiceReceiptGrid"]');
+        //const $invoiceReceiptGridControl = FwBrowse.loadGridFromTemplate('InvoiceReceiptGrid');
+        //$invoiceReceiptGrid.empty().append($invoiceReceiptGridControl);
+        //$invoiceReceiptGridControl.data('ondatabind', request => {
+        //    request.uniqueids = {
+        //        InvoiceId: FwFormField.getValueByDataField($form, 'BillingWorksheetId')
+        //    };
+        //});
+        //FwBrowse.init($invoiceReceiptGridControl);
+        //FwBrowse.renderRuntimeHtml($invoiceReceiptGridControl);
+
+        FwBrowse.renderGrid({
+            nameGrid: 'InvoiceReceiptGrid',
+            gridSecurityId: '8YECGu7qFOty',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    InvoiceId: FwFormField.getValueByDataField($form, 'BillingWorksheetId')
+                };
+            }
         });
-        FwBrowse.init($invoiceReceiptGridControl);
-        FwBrowse.renderRuntimeHtml($invoiceReceiptGridControl);
         // ----------
-        const $invoiceStatusHistoryGrid = $form.find('div[data-grid="InvoiceStatusHistoryGrid"]');
-        const $invoiceStatusHistoryGridControl = FwBrowse.loadGridFromTemplate('InvoiceStatusHistoryGrid');
-        $invoiceStatusHistoryGrid.empty().append($invoiceStatusHistoryGridControl);
-        $invoiceStatusHistoryGridControl.data('ondatabind', request => {
-            request.uniqueids = {
-                InvoiceId: FwFormField.getValueByDataField($form, 'BillingWorksheetId')
-            };
+        //const $invoiceStatusHistoryGrid = $form.find('div[data-grid="InvoiceStatusHistoryGrid"]');
+        //const $invoiceStatusHistoryGridControl = FwBrowse.loadGridFromTemplate('InvoiceStatusHistoryGrid');
+        //$invoiceStatusHistoryGrid.empty().append($invoiceStatusHistoryGridControl);
+        //$invoiceStatusHistoryGridControl.data('ondatabind', request => {
+        //    request.uniqueids = {
+        //        InvoiceId: FwFormField.getValueByDataField($form, 'BillingWorksheetId')
+        //    };
+        //});
+        //FwBrowse.init($invoiceStatusHistoryGridControl);
+        //FwBrowse.renderRuntimeHtml($invoiceStatusHistoryGridControl);
+
+        FwBrowse.renderGrid({
+            nameGrid: 'InvoiceStatusHistoryGrid',
+            gridSecurityId: '8YECGu7qFOty',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    InvoiceId: FwFormField.getValueByDataField($form, 'BillingWorksheetId')
+                };
+            }
         });
-        FwBrowse.init($invoiceStatusHistoryGridControl);
-        FwBrowse.renderRuntimeHtml($invoiceStatusHistoryGridControl);
         // Invoice Item Adjustment Grids
         // ----------
         const itemPageSize = 3;
         const itemAdjustmentTotalFields = ["LineTotalWithTax", "Tax", "LineTotal"];
-        const $invoiceItemGridAdjustmentRental = $form.find('.rentaladjustment div[data-grid="InvoiceItemGrid"]');
-        const $invoiceItemGridAdjustmentRentalControl = FwBrowse.loadGridFromTemplate('InvoiceItemGrid');
-        $invoiceItemGridAdjustmentRentalControl.attr('data-pagesize', itemPageSize);
-        $invoiceItemGridAdjustmentRental.empty().append($invoiceItemGridAdjustmentRentalControl);
-        $invoiceItemGridAdjustmentRental.addClass('R');
+        //const $invoiceItemGridAdjustmentRental = $form.find('.rentaladjustment div[data-grid="InvoiceItemGrid"]');
+        //const $invoiceItemGridAdjustmentRentalControl = FwBrowse.loadGridFromTemplate('InvoiceItemGrid');
+        //$invoiceItemGridAdjustmentRentalControl.attr('data-pagesize', itemPageSize);
+        //$invoiceItemGridAdjustmentRental.empty().append($invoiceItemGridAdjustmentRentalControl);
+        //$invoiceItemGridAdjustmentRental.addClass('R');
 
-        $invoiceItemGridAdjustmentRentalControl.data('ondatabind', request => {
-            request.uniqueids = {
+        //$invoiceItemGridAdjustmentRentalControl.data('ondatabind', request => {
+        //    request.uniqueids = {
+        //        InvoiceId: FwFormField.getValueByDataField($form, 'BillingWorksheetId'),
+        //        RecType: 'A',
+        //        AvailFor: 'R',
+        //        pagesize: itemPageSize
+        //    };
+        //    request.totalfields = itemAdjustmentTotalFields;
+        //});
+        //$invoiceItemGridAdjustmentRentalControl.data('beforesave', request => {
+        //    request.InvoiceId = FwFormField.getValueByDataField($form, 'BillingWorksheetId');
+        //    request.RecType = 'A';
+        //    request.AvailFor = 'R';
+        //    request.pagesize = itemPageSize;
+        //});
+        //FwBrowse.addEventHandler($invoiceItemGridAdjustmentRentalControl, 'afterdatabindcallback', ($invoiceItemGridAdjustmentRentalControl, dt) => {
+        //    this.calculateInvoiceItemGridTotals($form, 'rentaladjustment', dt.Totals, true);
+        //});
+
+        //FwBrowse.init($invoiceItemGridAdjustmentRentalControl);
+        //FwBrowse.renderRuntimeHtml($invoiceItemGridAdjustmentRentalControl);
+
+
+        FwBrowse.renderGrid({
+            nameGrid: 'InvoiceItemGrid',
+            gridSelector: '.rentaladjustment div[data-grid="InvoiceItemGrid"]',
+            gridSecurityId: '5xgHiF8dduf',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
                 InvoiceId: FwFormField.getValueByDataField($form, 'BillingWorksheetId'),
                 RecType: 'A',
                 AvailFor: 'R',
                 pagesize: itemPageSize
             };
             request.totalfields = itemAdjustmentTotalFields;
+            },
+            beforeSave: (request: any) => {
+                request.InvoiceId = FwFormField.getValueByDataField($form, 'BillingWorksheetId');
+                request.RecType = 'A';
+                request.AvailFor = 'R';
+                request.pagesize = itemPageSize;
+            },
+            beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
+                $fwgrid.addClass('R');
+                $browse.attr('data-pagesize', itemPageSize);
+            },
+            afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
+                this.calculateInvoiceItemGridTotals($form, 'rentaladjustment', dt.Totals, true);
+            },
         });
-        $invoiceItemGridAdjustmentRentalControl.data('beforesave', request => {
-            request.InvoiceId = FwFormField.getValueByDataField($form, 'BillingWorksheetId');
-            request.RecType = 'A';
-            request.AvailFor = 'R';
-            request.pagesize = itemPageSize;
-        });
-        FwBrowse.addEventHandler($invoiceItemGridAdjustmentRentalControl, 'afterdatabindcallback', ($invoiceItemGridAdjustmentRentalControl, dt) => {
-            this.calculateInvoiceItemGridTotals($form, 'rentaladjustment', dt.Totals, true);
-        });
-
-        FwBrowse.init($invoiceItemGridAdjustmentRentalControl);
-        FwBrowse.renderRuntimeHtml($invoiceItemGridAdjustmentRentalControl);
         // ----------
-        const $invoiceItemGridAdjustmentSales = $form.find('.salesadjustment div[data-grid="InvoiceItemGrid"]');
-        const $invoiceItemGridAdjustmentSalesControl = FwBrowse.loadGridFromTemplate('InvoiceItemGrid');
-        $invoiceItemGridAdjustmentSalesControl.attr('data-pagesize', itemPageSize);
+        //const $invoiceItemGridAdjustmentSales = $form.find('.salesadjustment div[data-grid="InvoiceItemGrid"]');
+        //const $invoiceItemGridAdjustmentSalesControl = FwBrowse.loadGridFromTemplate('InvoiceItemGrid');
+        //$invoiceItemGridAdjustmentSalesControl.attr('data-pagesize', itemPageSize);
 
-        $invoiceItemGridAdjustmentSales.empty().append($invoiceItemGridAdjustmentSalesControl);
-        $invoiceItemGridAdjustmentSales.addClass('S');
-        $invoiceItemGridAdjustmentSalesControl.data('ondatabind', request => {
+        //$invoiceItemGridAdjustmentSales.empty().append($invoiceItemGridAdjustmentSalesControl);
+        //$invoiceItemGridAdjustmentSales.addClass('S');
+        //$invoiceItemGridAdjustmentSalesControl.data('ondatabind', request => {
+        //    request.uniqueids = {
+        //        InvoiceId: FwFormField.getValueByDataField($form, 'BillingWorksheetId'),
+        //        pagesize: itemPageSize,
+        //        RecType: 'A',
+        //        AvailFor: 'S'
+        //    };
+        //    request.totalfields = itemAdjustmentTotalFields;
+        //});
+        //$invoiceItemGridAdjustmentSalesControl.data('beforesave', request => {
+        //    request.InvoiceId = FwFormField.getValueByDataField($form, 'BillingWorksheetId');
+        //    request.RecType = 'A';
+        //    request.AvailFor = 'S';
+        //    request.pagesize = itemPageSize;
+        //});
+        //FwBrowse.addEventHandler($invoiceItemGridAdjustmentSalesControl, 'afterdatabindcallback', ($invoiceItemGridAdjustmentSalesControl, dt) => {
+        //    this.calculateInvoiceItemGridTotals($form, 'salesadjustment', dt.Totals, true);
+        //});
+
+        //FwBrowse.init($invoiceItemGridAdjustmentSalesControl);
+        //FwBrowse.renderRuntimeHtml($invoiceItemGridAdjustmentSalesControl);
+
+        FwBrowse.renderGrid({
+            nameGrid: 'InvoiceItemGrid',
+            gridSelector: '.salesadjustment div[data-grid="InvoiceItemGrid"]',
+            gridSecurityId: '5xgHiF8dduf',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
             request.uniqueids = {
                 InvoiceId: FwFormField.getValueByDataField($form, 'BillingWorksheetId'),
                 pagesize: itemPageSize,
@@ -481,46 +799,79 @@ class BillingWorksheet {
                 AvailFor: 'S'
             };
             request.totalfields = itemAdjustmentTotalFields;
-        });
-        $invoiceItemGridAdjustmentSalesControl.data('beforesave', request => {
+            },
+            beforeSave: (request: any) => {
             request.InvoiceId = FwFormField.getValueByDataField($form, 'BillingWorksheetId');
             request.RecType = 'A';
             request.AvailFor = 'S';
             request.pagesize = itemPageSize;
+            },
+            beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
+                $fwgrid.addClass('S');
+                $browse.attr('data-pagesize', itemPageSize);
+            },
+            afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
+                this.calculateInvoiceItemGridTotals($form, 'salesadjustment', dt.Totals, true);
+            },
         });
-        FwBrowse.addEventHandler($invoiceItemGridAdjustmentSalesControl, 'afterdatabindcallback', ($invoiceItemGridAdjustmentSalesControl, dt) => {
-            this.calculateInvoiceItemGridTotals($form, 'salesadjustment', dt.Totals, true);
-        });
-
-        FwBrowse.init($invoiceItemGridAdjustmentSalesControl);
-        FwBrowse.renderRuntimeHtml($invoiceItemGridAdjustmentSalesControl);
         // ----------
-        const $invoiceItemGridAdjustmentParts = $form.find('.partsadjustment div[data-grid="InvoiceItemGrid"]');
-        const $invoiceItemGridAdjustmentPartsControl = FwBrowse.loadGridFromTemplate('InvoiceItemGrid');
-        $invoiceItemGridAdjustmentPartsControl.attr('data-pagesize', itemPageSize);
+        //const $invoiceItemGridAdjustmentParts = $form.find('.partsadjustment div[data-grid="InvoiceItemGrid"]');
+        //const $invoiceItemGridAdjustmentPartsControl = FwBrowse.loadGridFromTemplate('InvoiceItemGrid');
+        //$invoiceItemGridAdjustmentPartsControl.attr('data-pagesize', itemPageSize);
 
-        $invoiceItemGridAdjustmentParts.empty().append($invoiceItemGridAdjustmentPartsControl);
-        $invoiceItemGridAdjustmentParts.addClass('P')
-        $invoiceItemGridAdjustmentPartsControl.data('ondatabind', request => {
-            request.uniqueids = {
-                InvoiceId: FwFormField.getValueByDataField($form, 'BillingWorksheetId'),
-                pagesize: itemPageSize,
-                RecType: 'A',
-                AvailFor: 'P'
-            };
-            request.totalfields = itemAdjustmentTotalFields;
+        //$invoiceItemGridAdjustmentParts.empty().append($invoiceItemGridAdjustmentPartsControl);
+        //$invoiceItemGridAdjustmentParts.addClass('P')
+        //$invoiceItemGridAdjustmentPartsControl.data('ondatabind', request => {
+        //    request.uniqueids = {
+        //        InvoiceId: FwFormField.getValueByDataField($form, 'BillingWorksheetId'),
+        //        pagesize: itemPageSize,
+        //        RecType: 'A',
+        //        AvailFor: 'P'
+        //    };
+        //    request.totalfields = itemAdjustmentTotalFields;
+        //});
+        //$invoiceItemGridAdjustmentPartsControl.data('beforesave', request => {
+        //    request.InvoiceId = FwFormField.getValueByDataField($form, 'BillingWorksheetId');
+        //    request.RecType = 'A';
+        //    request.AvailFor = 'P';
+        //    request.pagesize = itemPageSize;
+        //});
+        //FwBrowse.addEventHandler($invoiceItemGridAdjustmentPartsControl, 'afterdatabindcallback', ($invoiceItemGridAdjustmentPartsControl, dt) => {
+        //    this.calculateInvoiceItemGridTotals($form, 'partsadjustment', dt.Totals, true);
+        //});
+        //FwBrowse.init($invoiceItemGridAdjustmentPartsControl);
+        //FwBrowse.renderRuntimeHtml($invoiceItemGridAdjustmentPartsControl);
+
+        FwBrowse.renderGrid({
+            nameGrid: 'InvoiceItemGrid',
+            gridSelector: '.salesadjustment div[data-grid="InvoiceItemGrid"]',
+            gridSecurityId: '5xgHiF8dduf',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    InvoiceId: FwFormField.getValueByDataField($form, 'BillingWorksheetId'),
+                    pagesize: itemPageSize,
+                    RecType: 'A',
+                    AvailFor: 'P'
+                };
+                request.totalfields = itemAdjustmentTotalFields;
+            },
+            beforeSave: (request: any) => {
+                    request.InvoiceId = FwFormField.getValueByDataField($form, 'BillingWorksheetId');
+                    request.RecType = 'A';
+                    request.AvailFor = 'P';
+                    request.pagesize = itemPageSize;
+            },
+            beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
+                $fwgrid.addClass('P');
+                $browse.attr('data-pagesize', itemPageSize);
+            },
+            afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
+                this.calculateInvoiceItemGridTotals($form, 'partsadjustment', dt.Totals, true);
+            },
         });
-        $invoiceItemGridAdjustmentPartsControl.data('beforesave', request => {
-            request.InvoiceId = FwFormField.getValueByDataField($form, 'BillingWorksheetId');
-            request.RecType = 'A';
-            request.AvailFor = 'P';
-            request.pagesize = itemPageSize;
-        });
-        FwBrowse.addEventHandler($invoiceItemGridAdjustmentPartsControl, 'afterdatabindcallback', ($invoiceItemGridAdjustmentPartsControl, dt) => {
-            this.calculateInvoiceItemGridTotals($form, 'partsadjustment', dt.Totals, true);
-        });
-        FwBrowse.init($invoiceItemGridAdjustmentPartsControl);
-        FwBrowse.renderRuntimeHtml($invoiceItemGridAdjustmentPartsControl);
         // ----------
         jQuery($form.find('.rentalgrid .valtype')).attr('data-validationname', 'RentalInventoryValidation');
         jQuery($form.find('.salesgrid .valtype')).attr('data-validationname', 'SalesInventoryValidation');
