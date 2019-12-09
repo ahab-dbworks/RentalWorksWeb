@@ -670,7 +670,7 @@ class RentalInventory extends InventoryBase {
             pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
-                    InventoryId: FwFormField.getValueByDataField($form, 'InventoryId'),
+                    PackageId: FwFormField.getValueByDataField($form, 'InventoryId'),
                     WarehouseId: warehouse.warehouseid
                 };
             },

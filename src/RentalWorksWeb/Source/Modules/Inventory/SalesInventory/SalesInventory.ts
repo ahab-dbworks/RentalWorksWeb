@@ -515,7 +515,7 @@ class SalesInventory extends InventoryBase {
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     PackageId  : FwFormField.getValueByDataField($form, 'InventoryId'),
-                    WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId')
+                    WarehouseId: warehouse.warehouseid
                 };
             }, 
             beforeSave: (request: any) => {
