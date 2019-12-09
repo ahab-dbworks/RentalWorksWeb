@@ -9,6 +9,10 @@ class PartsInventory extends InventoryBase {
     AvailableFor: string = "P";
     CreateCompleteId: string = '';
     //----------------------------------------------------------------------------------------------
+    addBrowseMenuItems(options: IAddBrowseMenuOptions): void {
+        super.afterAddBrowseMenuItems(options);
+    }
+    //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         // ----------

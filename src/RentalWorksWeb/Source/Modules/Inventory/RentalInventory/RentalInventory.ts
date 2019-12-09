@@ -8,6 +8,10 @@ class RentalInventory extends InventoryBase {
     CreateCompleteId: string = '';
 
     //----------------------------------------------------------------------------------------------
+    addBrowseMenuItems(options: IAddBrowseMenuOptions): void {
+        super.afterAddBrowseMenuItems(options);
+    }
+    //----------------------------------------------------------------------------------------------
     openFormInventory($form: any) {
         FwFormField.loadItems($form.find('.lamps'), [
             { value: '0', text: '0' },

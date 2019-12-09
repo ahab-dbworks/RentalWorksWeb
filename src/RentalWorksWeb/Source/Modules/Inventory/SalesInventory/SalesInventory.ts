@@ -6,7 +6,10 @@ class SalesInventory extends InventoryBase {
     id: string = Constants.Modules.Inventory.children.SalesInventory.id;
     AvailableFor: string = "S";
     CreateCompleteId: string = '';
-
+    //----------------------------------------------------------------------------------------------
+    addBrowseMenuItems(options: IAddBrowseMenuOptions): void {
+        super.afterAddBrowseMenuItems(options);
+    }
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
