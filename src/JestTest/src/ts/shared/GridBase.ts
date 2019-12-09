@@ -173,10 +173,11 @@ export class GridBase {
         //Logging.logInfo(`about to click editable cell on grid: ${this.gridName}`);
         //await page.click(editableCellSelector);
 
-        //let editableCellSelector = `${this.gridSelector} .tablewrapper table tbody tr:nth-child(1) .column[data-visible="true"] .editablefield`;
-        let editableCellSelector = `${this.gridSelector} .tablewrapper table tbody tr:nth-child(1) .column[data-visible="true"]`;
+        let editableCellSelector = `${this.gridSelector} .tablewrapper table tbody tr:nth-child(1) .column[data-visible="true"] .editablefield`;
+        //let editableCellSelector = `${this.gridSelector} .tablewrapper table tbody tr:nth-child(1) .column[data-visible="true"]`;
         const editableCells = await page.$$(editableCellSelector);
 
+        let foundEditableCell: boolean = false;
         if (editableCells) {
             for (let editableCell of editableCells) {
                 let styleAttributeValue: string = await page.evaluate(el => el.getAttribute('style'), editableCell);
@@ -185,24 +186,47 @@ export class GridBase {
                 }
                 if (!styleAttributeValue.replace(' ', '').includes("display:none")) {  // only consider the cell if it is displayed
                     //found a non-hidden cell
-                    await editableCell.click();
-                    break; // exit the loop, cell was clicked
+
+                    const cellColumn = (await editableCell.$x('..'))[0]; // parent column element
+
+                    //foundEditableCell = true;
+                    //await editableCell.click();
+                    //break; // exit the loop, cell was clicked
+
+                    let styleAttributeValue: string = await page.evaluate(el => el.getAttribute('style'), cellColumn);
+                    if ((styleAttributeValue === undefined) || (styleAttributeValue == null)) {
+                        styleAttributeValue = "";
+                    }
+                    if (!styleAttributeValue.replace(' ', '').includes("display:none")) {  // only consider the column if it is displayed
+                        //found a non-hidden cell
+
+                        foundEditableCell = true;
+                        await editableCell.click();
+                        break; // exit the loop, cell was clicked
+                    }
+
+
                 }
             }
         }
 
-        let editModeRowSelector = `${this.gridSelector} .tablewrapper table tbody tr.editrow`;
-        var editRow;
-        try {
-            editRow = await page.waitForSelector(editableCellSelector, { timeout: 3000 });
-            Logging.logInfo(`found row in EDIT mode on grid: ${this.gridName}`);
+        if (foundEditableCell) {
+            let editModeRowSelector = `${this.gridSelector} .tablewrapper table tbody tr.editrow`;
+            var editRow;
+            try {
+                editRow = await page.waitForSelector(editableCellSelector, { timeout: 3000 });
+                Logging.logInfo(`found row in EDIT mode on grid: ${this.gridName}`);
 
-            let cancelEditModeButtonSelector = `${this.gridSelector} .tablewrapper table tbody tr.editrow .divcancelsaverow i`;
-            await page.waitForSelector(cancelEditModeButtonSelector);
-            await page.click(cancelEditModeButtonSelector);
+                let cancelEditModeButtonSelector = `${this.gridSelector} .tablewrapper table tbody tr.editrow .divcancelsaverow i`;
+                Logging.logInfo(`looking for grid row edit cancel button ${cancelEditModeButtonSelector}`);
+                await page.waitForSelector(cancelEditModeButtonSelector);
+                Logging.logInfo(`found grid row edit cancel button, about to click`);
+                await page.click(cancelEditModeButtonSelector);
+                Logging.logInfo(`clicked grid row edit cancel button`);
 
-        } catch (error) { } // not found
-        canEdit = (editRow !== undefined);
+            } catch (error) { } // not found
+            canEdit = (editRow !== undefined);
+        }
         return canEdit;
     }
     //---------------------------------------------------------------------------------------

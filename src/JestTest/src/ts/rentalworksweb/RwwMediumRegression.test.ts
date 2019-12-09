@@ -178,61 +178,96 @@ export class MediumRegressionTest extends BaseTest {
                                     if (module.grids) {
                                         for (let grid of module.grids) {
                                             if (grid.canNew) {
-                                                for (let gridRecord of rec.gridRecords) {
-                                                    if (gridRecord.grid === grid) {
-                                                        testName = `Add row to Grid: ${grid.gridDisplayName}`;
-                                                        if (gridRecord.recordToCreate.expectedErrorFields) {
-                                                            testName += ` with missing required fields ${JSON.stringify(gridRecord.recordToCreate.expectedErrorFields)}`;
-                                                        }
-                                                        test(testName, async () => {
-                                                            await grid.addGridRow(gridRecord.recordToCreate.record, true)
-                                                                .then(saveResponse => {
-                                                                    if (gridRecord.recordToCreate.expectedErrorFields) {
-                                                                        expect(saveResponse.errorFields.length).toBeGreaterThan(0);
-                                                                        expect(saveResponse.errorFields.length).toBe(gridRecord.recordToCreate.expectedErrorFields.length);
-                                                                        expect(saveResponse.saved).toBeFalsy();
-                                                                    }
-                                                                    else {
-                                                                        expect(saveResponse.errorMessage).toBe("");
-                                                                        expect(saveResponse.saved).toBeTruthy();
-                                                                    }
-                                                                });
-                                                        }, grid.saveTimeout);
-
-                                                        if (gridRecord.recordToCreate.attemptDuplicate) {
-                                                            testName = `Attempt to add duplicate row to Grid: ${grid.gridDisplayName}, expect duplicate error`;
+                                                if (rec.gridRecords) {
+                                                    for (let gridRecord of rec.gridRecords) {
+                                                        if (gridRecord.grid === grid) {
+                                                            testName = `Add row to Grid: ${grid.gridDisplayName}`;
+                                                            if (gridRecord.recordToCreate.expectedErrorFields) {
+                                                                testName += ` with missing required fields ${JSON.stringify(gridRecord.recordToCreate.expectedErrorFields)}`;
+                                                            }
                                                             test(testName, async () => {
                                                                 await grid.addGridRow(gridRecord.recordToCreate.record, true)
                                                                     .then(saveResponse => {
-                                                                        expect(saveResponse.errorMessage).toContain('Duplicate Rule');
-                                                                        expect(saveResponse.saved).toBe(false);
+                                                                        if (gridRecord.recordToCreate.expectedErrorFields) {
+                                                                            expect(saveResponse.errorFields.length).toBeGreaterThan(0);
+                                                                            expect(saveResponse.errorFields.length).toBe(gridRecord.recordToCreate.expectedErrorFields.length);
+                                                                            expect(saveResponse.saved).toBeFalsy();
+                                                                        }
+                                                                        else {
+                                                                            expect(saveResponse.errorMessage).toBe("");
+                                                                            expect(saveResponse.saved).toBeTruthy();
+                                                                        }
                                                                     });
                                                             }, grid.saveTimeout);
-                                                        }
 
-                                                        if (!gridRecord.recordToCreate.expectedErrorFields) {
-
-                                                            //attempto edit the row
-                                                            if (grid.canEdit) {
-
-                                                                //  check to make sure at least one row exists, and that it can be put into Edit mode
-                                                                testName = `Confirm that a row exists in the Grid, and that EDIT option exists: ${grid.gridDisplayName}`;
+                                                            if (gridRecord.recordToCreate.attemptDuplicate) {
+                                                                testName = `Attempt to add duplicate row to Grid: ${grid.gridDisplayName}, expect duplicate error`;
                                                                 test(testName, async () => {
-                                                                    await grid.getRecordCount()
-                                                                        .then(async gridRowCount => {
-                                                                            expect(gridRowCount).toBeGreaterThan(0);
-
-                                                                            await grid.checkForEditAbility()
-                                                                                .then(optionExists => {
-                                                                                    expect(optionExists).toBeTruthy();
-                                                                                });
+                                                                    await grid.addGridRow(gridRecord.recordToCreate.record, true)
+                                                                        .then(saveResponse => {
+                                                                            expect(saveResponse.errorMessage).toContain('Duplicate Rule');
+                                                                            expect(saveResponse.saved).toBe(false);
                                                                         });
-                                                                }, grid.editTimeout);
+                                                                }, grid.saveTimeout);
+                                                            }
 
-                                                                if (gridRecord.recordToCreate.editRecord) {
+                                                            if (!gridRecord.recordToCreate.expectedErrorFields) {
 
-                                                                    //  attempt to edit the row
-                                                                    testName = `Apply edits to row in: ${grid.gridDisplayName}`;
+                                                                //attempto edit the row
+                                                                if (grid.canEdit) {
+
+                                                                    //  check to make sure at least one row exists, and that it can be put into Edit mode
+                                                                    testName = `Confirm that a row exists in the Grid, and that EDIT option exists: ${grid.gridDisplayName}`;
+                                                                    test(testName, async () => {
+                                                                        await grid.getRecordCount()
+                                                                            .then(async gridRowCount => {
+                                                                                expect(gridRowCount).toBeGreaterThan(0);
+
+                                                                                await grid.checkForEditAbility()
+                                                                                    .then(optionExists => {
+                                                                                        expect(optionExists).toBeTruthy();
+                                                                                    });
+                                                                            });
+                                                                    }, grid.editTimeout);
+
+                                                                    if (gridRecord.recordToCreate.editRecord) {
+
+                                                                        //  attempt to edit the row
+                                                                        testName = `Apply edits to row in: ${grid.gridDisplayName}`;
+                                                                        test(testName, async () => {
+                                                                            let rowIndex: number = 1;
+
+                                                                            if (gridRecord.recordToCreate.seekObject) {
+                                                                                await grid.getRecordRowIndex(gridRecord.recordToCreate.seekObject)
+                                                                                    .then(i => {
+                                                                                        rowIndex = i;
+                                                                                    });
+                                                                                expect(rowIndex).toBeGreaterThan(0);
+                                                                            }
+
+                                                                            await grid.editGridRow(rowIndex, gridRecord.recordToCreate.editRecord.record, true)
+                                                                                .then(editResponse => {
+                                                                                    expect(editResponse.errorMessage).toBe("");
+                                                                                    expect(editResponse.saved).toBeTruthy();
+                                                                                });
+
+                                                                        }, grid.editTimeout);
+
+                                                                        // todo: find the row again and compare with expected
+                                                                    }
+                                                                }
+
+                                                                if (grid.canDelete) {
+                                                                    testName = `Confirm that rows exist in the Grid: ${grid.gridDisplayName}`;
+                                                                    test(testName, async () => {
+                                                                        await grid.getRecordCount()
+                                                                            .then(gridRowCount => {
+                                                                                expect(gridRowCount).toBeGreaterThan(0);
+                                                                            });
+                                                                    }, grid.deleteTimeout);
+
+
+                                                                    testName = `Delete row from Grid: ${grid.gridDisplayName}`;
                                                                     test(testName, async () => {
                                                                         let rowIndex: number = 1;
 
@@ -244,46 +279,13 @@ export class MediumRegressionTest extends BaseTest {
                                                                             expect(rowIndex).toBeGreaterThan(0);
                                                                         }
 
-                                                                        await grid.editGridRow(rowIndex, gridRecord.recordToCreate.editRecord.record, true)
-                                                                            .then(editResponse => {
-                                                                                expect(editResponse.errorMessage).toBe("");
-                                                                                expect(editResponse.saved).toBeTruthy();
+                                                                        await grid.deleteGridRow(rowIndex, true)
+                                                                            .then(deleteResponse => {
+                                                                                expect(deleteResponse.errorMessage).toBe("");
+                                                                                expect(deleteResponse.deleted).toBeTruthy();
                                                                             });
-
-                                                                    }, grid.editTimeout);
-
-                                                                    // todo: find the row again and compare with expected
+                                                                    }, grid.deleteTimeout);
                                                                 }
-                                                            }
-
-                                                            if (grid.canDelete) {
-                                                                testName = `Confirm that rows exist in the Grid: ${grid.gridDisplayName}`;
-                                                                test(testName, async () => {
-                                                                    await grid.getRecordCount()
-                                                                        .then(gridRowCount => {
-                                                                            expect(gridRowCount).toBeGreaterThan(0);
-                                                                        });
-                                                                }, grid.deleteTimeout);
-
-
-                                                                testName = `Delete row from Grid: ${grid.gridDisplayName}`;
-                                                                test(testName, async () => {
-                                                                    let rowIndex: number = 1;
-
-                                                                    if (gridRecord.recordToCreate.seekObject) {
-                                                                        await grid.getRecordRowIndex(gridRecord.recordToCreate.seekObject)
-                                                                            .then(i => {
-                                                                                rowIndex = i;
-                                                                            });
-                                                                        expect(rowIndex).toBeGreaterThan(0);
-                                                                    }
-
-                                                                    await grid.deleteGridRow(rowIndex, true)
-                                                                        .then(deleteResponse => {
-                                                                            expect(deleteResponse.errorMessage).toBe("");
-                                                                            expect(deleteResponse.deleted).toBeTruthy();
-                                                                        });
-                                                                }, grid.deleteTimeout);
                                                             }
                                                         }
                                                     }
@@ -340,35 +342,35 @@ export class MediumRegressionTest extends BaseTest {
 
 
                                                 // check each record 
-                                                for (let gridRecord of rec.gridRecords) {
-                                                    if (gridRecord.grid === grid) {
-                                                        if ((gridRecord.recordToEdit) && (!gridRecord.recordToCreate)) {
+                                                if (rec.gridRecords) {
+                                                    for (let gridRecord of rec.gridRecords) {
+                                                        if (gridRecord.grid === grid) {
+                                                            if ((gridRecord.recordToEdit) && (!gridRecord.recordToCreate)) {
 
-                                                            //  attempt to edit the row
-                                                            testName = `Apply edits to row in: ${grid.gridDisplayName}`;
-                                                            test(testName, async () => {
-                                                                let rowIndex: number = 1;
+                                                                //  attempt to edit the row
+                                                                testName = `Apply edits to row in: ${grid.gridDisplayName}`;
+                                                                test(testName, async () => {
+                                                                    let rowIndex: number = 1;
 
-                                                                if (gridRecord.recordToEdit.seekObject) {
-                                                                    await grid.getRecordRowIndex(gridRecord.recordToEdit.seekObject)
-                                                                        .then(i => {
-                                                                            rowIndex = i;
+                                                                    if (gridRecord.recordToEdit.seekObject) {
+                                                                        await grid.getRecordRowIndex(gridRecord.recordToEdit.seekObject)
+                                                                            .then(i => {
+                                                                                rowIndex = i;
+                                                                            });
+                                                                        expect(rowIndex).toBeGreaterThan(0);
+                                                                    }
+
+                                                                    await grid.editGridRow(rowIndex, gridRecord.recordToEdit.record, true)
+                                                                        .then(editResponse => {
+                                                                            expect(editResponse.errorMessage).toBe("");
+                                                                            expect(editResponse.saved).toBeTruthy();
                                                                         });
-                                                                    expect(rowIndex).toBeGreaterThan(0);
-                                                                }
 
-                                                                await grid.editGridRow(rowIndex, gridRecord.recordToEdit.record, true)
-                                                                    .then(editResponse => {
-                                                                        expect(editResponse.errorMessage).toBe("");
-                                                                        expect(editResponse.saved).toBeTruthy();
-                                                                    });
+                                                                }, grid.editTimeout);
 
-                                                            }, grid.editTimeout);
+                                                                // todo: find the row again and compare with expected
 
-                                                            // todo: find the row again and compare with expected
-
-
-
+                                                            }
                                                         }
                                                     }
                                                 }
