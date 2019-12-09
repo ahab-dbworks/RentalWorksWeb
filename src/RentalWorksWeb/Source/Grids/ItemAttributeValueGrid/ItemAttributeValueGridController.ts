@@ -8,6 +8,15 @@
             $control.find('[data-formdatafield="AttributeValueId"] input.text').val('');
         });
     }
+
+    //----------------------------------------------------------------------------------------------
+    beforeValidateAttribute = function ($browse, $grid, request, datafield, $tr) {
+        request.uniqueIds = {
+            HasValues: true,
+        };
+    };
+    //----------------------------------------------------------------------------------------------
+
 }
 
 var ItemAttributeValueGridController = new ItemAttributeValueGrid();
