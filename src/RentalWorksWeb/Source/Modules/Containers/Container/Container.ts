@@ -91,7 +91,10 @@ class Container {
     //---------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
         const $form = this.openForm('EDIT');
-        FwFormField.setValueByDataField($form, 'ItemId', uniqueids.ContainerItemId);
+
+        const uniqueid = uniqueids.ContainerItemId || uniqueids.ContainerId;
+
+        FwFormField.setValueByDataField($form, 'ItemId', uniqueid);
         FwModule.loadForm(this.Module, $form);
 
         return $form;

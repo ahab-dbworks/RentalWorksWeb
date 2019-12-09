@@ -1027,6 +1027,7 @@
     <Content Include="Source\Validations\QuikActivityTypeValidation\QuikActivityTypeValidationBrowse.htm" />
     <Content Include="Source\Validations\InventoryChangeTransactionTypeValidation\InventoryChangeTransactionTypeValidationBrowse.htm" />
     <Content Include="Source\Validations\RentalInventoryDescriptionValidation\RentalInventoryDescriptionValidationBrowse.htm" />
+    <Content Include="Source\Validations\RepairValidation\RepairValidationBrowse.htm" />
     <Content Include="Source\Validations\TransferOrderValidation\TransferOrderValidationBrowse.htm" />
     <Content Include="Source\Validations\ReceiptProcessBatchValidation\ReceiptProcessBatchValidationBrowse.htm" />
     <Content Include="Source\Validations\ReceiptValidation\ReceiptValidationBrowse.htm" />

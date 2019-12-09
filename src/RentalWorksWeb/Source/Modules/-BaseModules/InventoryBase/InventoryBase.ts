@@ -321,6 +321,14 @@ abstract class InventoryBase {
                         module = 'Repair';
                         datafield = 'RepairId';
                         break;
+                    case 'N': //CONTAINER
+                        module = 'Container';
+                        datafield = 'ContainerItemId';
+                        break;
+                    case 'PENDING': //PENDING
+                        module = 'Contract';
+                        datafield = 'ContractId';
+                        break;
                     default:
                         FwFunc.showError('Invalid Order Type');
                         break;
