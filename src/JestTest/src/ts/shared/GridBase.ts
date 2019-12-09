@@ -1,13 +1,17 @@
 import { GlobalScope } from '../shared/GlobalScope';
-import { ModuleBase, NewRecordToCreate } from './ModuleBase';
+import { ModuleBase, NewRecordToCreate, RecordToEdit } from './ModuleBase';
 import { Logging } from '../shared/Logging';
 import { TestUtils } from './TestUtils';
 
-export class AddGridRowResponse {
+export class SaveGridRowResponse {
     saved: boolean;
     errorMessage: string;
     errorFields: string[];
 }
+
+export class AddGridRowResponse extends SaveGridRowResponse{ }
+
+export class EditGridRowResponse extends SaveGridRowResponse{ }
 
 export class DeleteGridRowResponse {
     deleted: boolean;
@@ -16,13 +20,9 @@ export class DeleteGridRowResponse {
 
 export class GridRecordToCreate {
     grid: GridBase;
-    recordToCreate: NewRecordToCreate;
+    recordToCreate?: NewRecordToCreate;
+    recordToEdit?: RecordToEdit;
 }
-
-//export class GridRecordToEdit {
-//    grid: GridBase;
-//    recordToEdit: RecordToEdit;
-//}
 
 //---------------------------------------------------------------------------------------
 export class GridBase {
@@ -43,6 +43,7 @@ export class GridBase {
     waitAfterSavingToReloadGrid: number = 0;
     waitAfterInputtingEachCellValueOnNewRow: number = 500;
     waitBeforeClickingSaveButtonOnNewRow: number = 1000;
+    waitBeforeClickingSaveButtonOnEditRow: number = 1000;
     waitForGridSubMenuToGetEvents: number = 250;
 
     defaultNewRecordToExpect?: any;
@@ -132,13 +133,6 @@ export class GridBase {
     async getRecordCount(): Promise<number> {
         Logging.logInfo(`About to check number of rows in grid: ${this.gridName}`);
 
-        //const tabId = await page.$eval(this.gridSelector, el => el.closest('[data-type="tabpage"]').getAttribute('data-tabid'));
-        //const tabIsActive = await page.$eval(`#${tabId}`, el => el.classList.contains('active'));
-        //if (!tabIsActive) {
-        //    Logging.logInfo(`Clicking tab ${tabId} in getRecordCount`);
-        //    await page.click(`#${tabId}`);
-        //    await ModuleBase.wait(1500); // wait for the grid to refresh if any
-        //}
         await this.clickGridTab();
 
         await page.waitForSelector(this.gridSelector);
@@ -153,13 +147,6 @@ export class GridBase {
         let buttonExists: boolean = false;
         Logging.logInfo(`About to check for new button on grid: ${this.gridName}`);
 
-        //const tabId = await page.$eval(this.gridSelector, el => el.closest('[data-type="tabpage"]').getAttribute('data-tabid'));
-        //const tabIsActive = await page.$eval(`#${tabId}`, el => el.classList.contains('active'));
-        //if (!tabIsActive) {
-        //    Logging.logInfo(`Clicking tab ${tabId} in addGridRow`);
-        //    await page.click(`#${tabId}`);
-        //    await ModuleBase.wait(500); // wait for the grid to refresh if any
-        //}
         await this.clickGridTab();
 
         //let gridNewButtonSelector = `${this.gridSelector} .buttonbar [data-type="NewButton"] i`;
@@ -177,13 +164,32 @@ export class GridBase {
 
         await this.clickGridTab();
 
-        let editableCellSelector = `${this.gridSelector} .tablewrapper table tbody tr:nth-child(1) .editablefield`;
-        await page.waitForSelector(editableCellSelector);
-        Logging.logInfo(`found editable cell on grid: ${this.gridName}`);
-        await ModuleBase.wait(200); // wait for the grid row to get its events
+        //let editableCellSelector = `${this.gridSelector} .tablewrapper table tbody tr:nth-child(1) .column[data-visible="true"] .editablefield`;
+        //await page.waitForSelector(editableCellSelector);
 
-        Logging.logInfo(`about to click editable cell on grid: ${this.gridName}`);
-        await page.click(editableCellSelector);
+        //Logging.logInfo(`found editable cell on grid: ${this.gridName}`);
+        //await ModuleBase.wait(200); // wait for the grid row to get its events
+
+        //Logging.logInfo(`about to click editable cell on grid: ${this.gridName}`);
+        //await page.click(editableCellSelector);
+
+        //let editableCellSelector = `${this.gridSelector} .tablewrapper table tbody tr:nth-child(1) .column[data-visible="true"] .editablefield`;
+        let editableCellSelector = `${this.gridSelector} .tablewrapper table tbody tr:nth-child(1) .column[data-visible="true"]`;
+        const editableCells = await page.$$(editableCellSelector);
+
+        if (editableCells) {
+            for (let editableCell of editableCells) {
+                let styleAttributeValue: string = await page.evaluate(el => el.getAttribute('style'), editableCell);
+                if ((styleAttributeValue === undefined) || (styleAttributeValue == null)) {
+                    styleAttributeValue = "";
+                }
+                if (!styleAttributeValue.replace(' ', '').includes("display:none")) {  // only consider the cell if it is displayed
+                    //found a non-hidden cell
+                    await editableCell.click();
+                    break; // exit the loop, cell was clicked
+                }
+            }
+        }
 
         let editModeRowSelector = `${this.gridSelector} .tablewrapper table tbody tr.editrow`;
         var editRow;
@@ -204,13 +210,6 @@ export class GridBase {
         let deleteExists: boolean = false;
         Logging.logInfo(`About to check for delete option on grid: ${this.gridName}`);
 
-        //const tabId = await page.$eval(this.gridSelector, el => el.closest('[data-type="tabpage"]').getAttribute('data-tabid'));
-        //const tabIsActive = await page.$eval(`#${tabId}`, el => el.classList.contains('active'));
-        //if (!tabIsActive) {
-        //    Logging.logInfo(`Clicking tab ${tabId} in addGridRow`);
-        //    await page.click(`#${tabId}`);
-        //    await ModuleBase.wait(500); // wait for the grid to refresh if any
-        //}
         await this.clickGridTab();
 
         let gridMenuSelector = `${this.gridSelector} .submenubutton i`;
@@ -237,35 +236,8 @@ export class GridBase {
         return deleteExists;
     }
     //---------------------------------------------------------------------------------------
-    async addGridRow(record: any, closeUnexpectedErrors: boolean = false): Promise<AddGridRowResponse> {
-
-        let response = new AddGridRowResponse();
-        response.saved = false;
-        response.errorMessage = "not saved";
-        response.errorFields = new Array<string>();
-
-        Logging.logInfo(`About to add a new row to grid: ${this.gridName}`);
-
-        //const tabId = await page.$eval(this.gridSelector, el => el.closest('[data-type="tabpage"]').getAttribute('data-tabid'));
-        //const tabIsActive = await page.$eval(`#${tabId}`, el => el.classList.contains('active'));
-        //if (!tabIsActive) {
-        //    Logging.logInfo(`Clicking tab ${tabId} in addGridRow`);
-        //    await page.click(`#${tabId}`);
-        //    await ModuleBase.wait(1500); // wait for the grid to refresh if any
-        //}
-        await this.clickGridTab();
-
-        //let gridNewButtonSelector = `${this.gridSelector} .buttonbar [data-type="NewButton"] i`;
-        await page.waitForSelector(this.newButtonSelector, { visible: true });
-        await ModuleBase.wait(1000); // wait for the New button to get its events
-        await page.click(this.newButtonSelector);
-        Logging.logInfo(`clicked New button on grid: ${this.gridName}`);
-
-
-        let gridNewRowSelector = `${this.gridSelector} tbody tr`;
-        await page.waitForSelector(gridNewRowSelector);
-        Logging.logInfo(`found new row on grid: ${this.gridName}`);
-
+    async populateRowWithRecord(record: any): Promise<boolean> {
+        let success: boolean = false;
         for (let key in record) {
             let fieldToPopulate = key;
             let valueToPopulate = record[key];
@@ -350,10 +322,16 @@ export class GridBase {
                 await ModuleBase.wait(this.waitAfterInputtingEachCellValueOnNewRow);
             }
         }
+        success = true;
+        return success;
+    }
+    //---------------------------------------------------------------------------------------
+    async saveRow(closeUnexpectedErrors: boolean = false): Promise<SaveGridRowResponse> {
 
-        if (this.waitBeforeClickingSaveButtonOnNewRow > 0) {
-            await ModuleBase.wait(this.waitBeforeClickingSaveButtonOnNewRow); 
-        }
+        let response = new SaveGridRowResponse();
+        response.saved = false;
+        response.errorMessage = "not saved";
+        response.errorFields = new Array<string>();
 
         Logging.logInfo(`about to find the Save button on grid: ${this.gridName}`);
         let gridRowSaveButtonSelector = `${this.gridSelector} .tablewrapper table tbody tr td div.divsaverow i`;
@@ -415,6 +393,7 @@ export class GridBase {
             // cancel the insert row
             let gridRowCancelButtonSelector = `${this.gridSelector} .tablewrapper table tbody tr td div.divcancelsaverow i`;
             await page.waitForSelector(gridRowCancelButtonSelector, { visible: true });
+            Logging.logInfo(`Found grid row cancel button. about to click`);
             await page.click(gridRowCancelButtonSelector);
         }
         else {
@@ -427,6 +406,72 @@ export class GridBase {
             await ModuleBase.wait(this.waitAfterSavingToReloadGrid);
         }
 
+        return response;
+
+    }
+    //---------------------------------------------------------------------------------------
+    async addGridRow(record: any, closeUnexpectedErrors: boolean = false): Promise<AddGridRowResponse> {
+
+        let response = new AddGridRowResponse();
+        response.saved = false;
+        response.errorMessage = "not saved";
+        response.errorFields = new Array<string>();
+
+        Logging.logInfo(`About to add a new row to grid: ${this.gridName}`);
+
+        await this.clickGridTab();
+
+        await page.waitForSelector(this.newButtonSelector, { visible: true });
+        await ModuleBase.wait(1000); // wait for the New button to get its events
+        await page.click(this.newButtonSelector);
+        Logging.logInfo(`clicked New button on grid: ${this.gridName}`);
+
+        let gridNewRowSelector = `${this.gridSelector} tbody tr`;
+        await page.waitForSelector(gridNewRowSelector);
+        Logging.logInfo(`found new row on grid: ${this.gridName}`);
+
+        await this.populateRowWithRecord(record);
+
+        if (this.waitBeforeClickingSaveButtonOnNewRow > 0) {
+            await ModuleBase.wait(this.waitBeforeClickingSaveButtonOnNewRow);
+        }
+
+        response = await this.saveRow(closeUnexpectedErrors);
+
+        return response;
+    }
+    //---------------------------------------------------------------------------------------
+    async editGridRow(rowToEdit: number, record: any, closeUnexpectedErrors: boolean = false): Promise<EditGridRowResponse> {
+
+        let response = new EditGridRowResponse();
+        response.saved = false;
+        response.errorMessage = "not saved";
+        response.errorFields = new Array<string>();
+
+        Logging.logInfo(`About to edit row in grid: ${this.gridName}`);
+
+        await this.clickGridTab();
+
+        let editableCellSelector = `${this.gridSelector} .tablewrapper table tbody tr:nth-child(${rowToEdit}) .editablefield`;
+        Logging.logInfo(`editableCellSelector: ${editableCellSelector}`);
+        await page.waitForSelector(editableCellSelector);
+        Logging.logInfo(`found editable cell on grid: ${this.gridName}`);
+        await ModuleBase.wait(200); // wait for the grid row to get its events
+
+        Logging.logInfo(`about to click editable cell on grid: ${this.gridName}`);
+        await page.click(editableCellSelector);
+
+        let editModeRowSelector = `${this.gridSelector} .tablewrapper table tbody tr.editrow`;
+        await page.waitForSelector(editModeRowSelector);
+        Logging.logInfo(`found row in edit mode on grid: ${this.gridName}`);
+
+        await this.populateRowWithRecord(record);
+
+        if (this.waitBeforeClickingSaveButtonOnEditRow > 0) {
+            await ModuleBase.wait(this.waitBeforeClickingSaveButtonOnEditRow);
+        }
+
+        response = await this.saveRow(closeUnexpectedErrors);
 
         return response;
     }
@@ -442,13 +487,6 @@ export class GridBase {
 
         Logging.logInfo(`About to delete row from grid: ${this.gridName}`);
 
-        //const tabId = await page.$eval(this.gridSelector, el => el.closest('[data-type="tabpage"]').getAttribute('data-tabid'));
-        //const tabIsActive = await page.$eval(`#${tabId}`, el => el.classList.contains('active'));
-        //if (!tabIsActive) {
-        //    Logging.logInfo(`Clicking tab ${tabId} in deleteGridRow`);
-        //    await page.click(`#${tabId}`);
-        //    await ModuleBase.wait(1500);  // wait for the grid to load
-        //}
         await this.clickGridTab();
 
         await ModuleBase.wait(this.waitForGridSubMenuToGetEvents);  // wait for the grid sub menu to get its events

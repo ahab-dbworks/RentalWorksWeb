@@ -34,25 +34,23 @@ export class SaveResponse {
     errorFields: string[];
 }
 
+export class RecordToEdit {
+    record: any;
+    seekObject?: any;
+    expectedErrorFields?: string[];
+    recordToExpect?: any;
+}
+
 export class NewRecordToCreate {
     record: any;
     seekObject?: any;
     expectedErrorFields?: string[];
     recordToExpect?: any;
     attemptDuplicate?: boolean = false;
+    editRecord?: RecordToEdit;
     //persistData?: boolean = false;
     gridRecords?: GridRecordToCreate[];
 }
-
-//export class RecordToEdit {
-//    record: any;
-//    seekObject?: any;
-//    expectedErrorFields?: string[];
-//    recordToExpect?: any;
-//    attemptDuplicate?: boolean = false;
-//    gridRecords?: GridRecordToCreate[];
-//}
-
 
 export class DeleteResponse {
     deleted: boolean;

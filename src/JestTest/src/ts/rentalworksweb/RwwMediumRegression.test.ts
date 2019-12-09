@@ -75,19 +75,15 @@ export class MediumRegressionTest extends BaseTest {
 
                                                 Logging.logInfo(`Comparing: ${key}\n     Expecting: "${expectingValue}"\n     Found:     "${foundValue}"`);
                                                 if (expectingValue === ModuleBase.NOTEMPTY) {
-                                                    //expect(foundValue).not.toBe("");
                                                     let expectedStr = `${key} value is ""`;
                                                     let actualStr = `${key} value is "${foundValue}"`;
                                                     expect(actualStr).not.toBe(expectedStr);
                                                 }
                                                 else {
-                                                    //expect(foundValue).not.toBeUndefined();
                                                     let expectedStr = `${key} value is undefined`;
                                                     let actualStr = `${key} value is ${foundValue == undefined ? "undefined" : foundValue}`;
                                                     expect(actualStr).not.toBe(expectedStr);
 
-
-                                                    //expect(foundValue).toBe(expectingValue);
                                                     expectedStr = `${key} value is ${expectingValue}`;
                                                     actualStr = `${key} value is ${foundValue}`;
                                                     expect(actualStr).toBe(expectedStr);
@@ -162,18 +158,15 @@ export class MediumRegressionTest extends BaseTest {
 
                                                     Logging.logInfo(`Comparing: ${key}\n     Expecting: "${expectingValue}"\n     Found:     "${foundValue}"`);
                                                     if (expectingValue === ModuleBase.NOTEMPTY) {
-                                                        //expect(foundValue).not.toBe("");
                                                         let expectedStr = `${key} value is ""`;
                                                         let actualStr = `${key} value is "${foundValue}"`;
                                                         expect(actualStr).not.toBe(expectedStr);
                                                     }
                                                     else {
-                                                        //expect(foundValue).not.toBeUndefined();
                                                         let expectedStr = `${key} value is undefined`;
                                                         let actualStr = `${key} value is ${foundValue == undefined ? "undefined" : foundValue}`;
                                                         expect(actualStr).not.toBe(expectedStr);
 
-                                                        //expect(foundValue).toBe(expectingValue);
                                                         expectedStr = `${key} value is ${expectingValue}`;
                                                         actualStr = `${key} value is ${foundValue}`;
                                                         expect(actualStr).toBe(expectedStr);
@@ -218,6 +211,51 @@ export class MediumRegressionTest extends BaseTest {
                                                         }
 
                                                         if (!gridRecord.recordToCreate.expectedErrorFields) {
+
+                                                            //attempto edit the row
+                                                            if (grid.canEdit) {
+
+                                                                //  check to make sure at least one row exists, and that it can be put into Edit mode
+                                                                testName = `Confirm that a row exists in the Grid, and that EDIT option exists: ${grid.gridDisplayName}`;
+                                                                test(testName, async () => {
+                                                                    await grid.getRecordCount()
+                                                                        .then(async gridRowCount => {
+                                                                            expect(gridRowCount).toBeGreaterThan(0);
+
+                                                                            await grid.checkForEditAbility()
+                                                                                .then(optionExists => {
+                                                                                    expect(optionExists).toBeTruthy();
+                                                                                });
+                                                                        });
+                                                                }, grid.editTimeout);
+
+                                                                if (gridRecord.recordToCreate.editRecord) {
+
+                                                                    //  attempt to edit the row
+                                                                    testName = `Apply edits to row in: ${grid.gridDisplayName}`;
+                                                                    test(testName, async () => {
+                                                                        let rowIndex: number = 1;
+
+                                                                        if (gridRecord.recordToCreate.seekObject) {
+                                                                            await grid.getRecordRowIndex(gridRecord.recordToCreate.seekObject)
+                                                                                .then(i => {
+                                                                                    rowIndex = i;
+                                                                                });
+                                                                            expect(rowIndex).toBeGreaterThan(0);
+                                                                        }
+
+                                                                        await grid.editGridRow(rowIndex, gridRecord.recordToCreate.editRecord.record, true)
+                                                                            .then(editResponse => {
+                                                                                expect(editResponse.errorMessage).toBe("");
+                                                                                expect(editResponse.saved).toBeTruthy();
+                                                                            });
+
+                                                                    }, grid.editTimeout);
+
+                                                                    // todo: find the row again and compare with expected
+                                                                }
+                                                            }
+
                                                             if (grid.canDelete) {
                                                                 testName = `Confirm that rows exist in the Grid: ${grid.gridDisplayName}`;
                                                                 test(testName, async () => {
@@ -226,6 +264,7 @@ export class MediumRegressionTest extends BaseTest {
                                                                             expect(gridRowCount).toBeGreaterThan(0);
                                                                         });
                                                                 }, grid.deleteTimeout);
+
 
                                                                 testName = `Delete row from Grid: ${grid.gridDisplayName}`;
                                                                 test(testName, async () => {
@@ -298,6 +337,42 @@ export class MediumRegressionTest extends BaseTest {
 
                                                         });
                                                 }, grid.editTimeout);
+
+
+                                                // check each record 
+                                                for (let gridRecord of rec.gridRecords) {
+                                                    if (gridRecord.grid === grid) {
+                                                        if ((gridRecord.recordToEdit) && (!gridRecord.recordToCreate)) {
+
+                                                            //  attempt to edit the row
+                                                            testName = `Apply edits to row in: ${grid.gridDisplayName}`;
+                                                            test(testName, async () => {
+                                                                let rowIndex: number = 1;
+
+                                                                if (gridRecord.recordToEdit.seekObject) {
+                                                                    await grid.getRecordRowIndex(gridRecord.recordToEdit.seekObject)
+                                                                        .then(i => {
+                                                                            rowIndex = i;
+                                                                        });
+                                                                    expect(rowIndex).toBeGreaterThan(0);
+                                                                }
+
+                                                                await grid.editGridRow(rowIndex, gridRecord.recordToEdit.record, true)
+                                                                    .then(editResponse => {
+                                                                        expect(editResponse.errorMessage).toBe("");
+                                                                        expect(editResponse.saved).toBeTruthy();
+                                                                    });
+
+                                                            }, grid.editTimeout);
+
+                                                            // todo: find the row again and compare with expected
+
+
+
+                                                        }
+                                                    }
+                                                }
+
                                             }
 
                                             if ((!grid.canNew) && (grid.canDelete)) {   // unusual, but possible I guess
@@ -368,6 +443,111 @@ export class MediumRegressionTest extends BaseTest {
                                     }, module.formSaveTimeout);
                                 }
 
+                                if (rec.editRecord) {
+                                    testName = `Seek to the newly-created ${module.moduleCaption} record`;
+                                    test(testName, async () => {
+                                        let recordCount = await module.browseSeek(rec.seekObject);//.then().catch(err => this.LogError(testName, err));
+                                        expect(recordCount).toBe(1);
+                                    }, module.browseSeekTimeout);
+
+                                    // open 
+                                    testName = `Open the newly-created ${module.moduleCaption} record for editing`;
+                                    test(testName, async () => {
+                                        await module.openRecord();
+                                    }, module.formOpenTimeout);
+
+                                    //edit
+                                    testName = `Modify/Edit ${module.moduleCaption}`;
+                                    if (rec.editRecord.expectedErrorFields) {
+                                        testName += ` with missing required fields ${JSON.stringify(rec.editRecord.expectedErrorFields)}`;
+                                    }
+                                    test(testName, async () => {
+                                        await module.populateFormWithRecord(rec.editRecord.record);
+                                    }, module.formOpenTimeout);
+
+                                    //save
+                                    testName = `Save edited ${module.moduleCaption}`;
+                                    if (rec.editRecord.expectedErrorFields) {
+                                        testName = `Attempt to save edited ${module.moduleCaption}, expect missing required field error`;
+                                    }
+                                    test(testName, async () => {
+                                        let successfulSave: boolean = false;
+                                        let saveError: string = "";
+                                        let errorFields: string[] = new Array<string>();
+
+                                        await module.saveRecord(true)
+                                            .then(saveResponse => {
+                                                successfulSave = saveResponse.saved;
+                                                saveError = saveResponse.errorMessage;
+                                                errorFields = saveResponse.errorFields;
+                                            });
+                                        if (successfulSave) {
+                                            await module.closeRecord();  //close the form
+                                        }
+                                        else {
+                                            await module.closeModifiedRecordWithoutSaving();  //close the form without saving
+                                        }
+
+                                        if (rec.editRecord.expectedErrorFields) {
+                                            expect(errorFields.length).toBeGreaterThan(0);
+                                            expect(errorFields.length).toBe(rec.editRecord.expectedErrorFields.length);
+                                            expect(successfulSave).toBe(false);
+                                        }
+                                        else {
+                                            expect(saveError).toBe("");
+                                            expect(errorFields.length).toBe(0);
+                                            expect(successfulSave).toBe(true);
+                                        }
+
+                                    }, module.formSaveTimeout);
+
+
+                                    testName = `Seek to the edited ${module.moduleCaption} record`;
+                                    test(testName, async () => {
+                                        let recordCount = await module.browseSeek(rec.editRecord.seekObject);//.then().catch(err => this.LogError(testName, err));
+                                        expect(recordCount).toBe(1);
+                                    }, module.browseSeekTimeout);
+
+                                    if (rec.editRecord.recordToExpect) {
+                                        testName = `Open the edited ${module.moduleCaption} record, compare values with expected`;
+                                        test(testName, async () => {
+                                            await module.openRecord()
+                                                .then(openRecordResponse => {
+                                                    for (let key in rec.editRecord.recordToExpect) {
+                                                        let expectingValue = rec.editRecord.recordToExpect[key];
+                                                        let foundValue = openRecordResponse.record[key];//.toUpperCase();
+
+                                                        if (expectingValue.toString().toUpperCase().includes("GLOBALSCOPE.")) {
+                                                            expectingValue = TestUtils.getGlobalScopeValue(expectingValue, this.globalScopeRef);
+                                                        }
+
+                                                        Logging.logInfo(`Comparing: ${key}\n     Expecting: "${expectingValue}"\n     Found:     "${foundValue}"`);
+                                                        if (expectingValue === ModuleBase.NOTEMPTY) {
+                                                            let expectedStr = `${key} value is ""`;
+                                                            let actualStr = `${key} value is "${foundValue}"`;
+                                                            expect(actualStr).not.toBe(expectedStr);
+                                                        }
+                                                        else {
+                                                            let expectedStr = `${key} value is undefined`;
+                                                            let actualStr = `${key} value is ${foundValue == undefined ? "undefined" : foundValue}`;
+                                                            expect(actualStr).not.toBe(expectedStr);
+
+                                                            expectedStr = `${key} value is ${expectingValue}`;
+                                                            actualStr = `${key} value is ${foundValue}`;
+                                                            expect(actualStr).toBe(expectedStr);
+                                                        }
+                                                    }
+                                                });
+                                        }, module.formOpenTimeout);
+                                    }
+
+                                    testName = `Close the ${module.moduleCaption} record`;
+                                    test(testName, async () => {
+                                        await module.closeRecord();  //close the form
+                                    }, module.formOpenTimeout);
+
+                                }
+
                                 if (module.canDelete) {
                                     testName = `Seek to the newly-created ${module.moduleCaption} record`;
                                     test(testName, async () => {
@@ -420,12 +600,10 @@ export class MediumRegressionTest extends BaseTest {
     }
     //---------------------------------------------------------------------------------------
     async RelogAsCopyOfUser() {
-
         this.LoadMyUserGlobal(new User());
         this.CopyMyUserRegisterGlobal(new User());
         this.DoLogoff();
         this.DoLogin();  // uses new login account
-
     }
     //---------------------------------------------------------------------------------------
     async PerformTests() {
