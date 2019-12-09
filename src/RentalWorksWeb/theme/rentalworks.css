@@ -173,7 +173,7 @@ html.theme-material .fwbrowse table tbody tr.editrow .field[data-formdatatype="v
 }
 
 html.theme-material .fwbrowse table tbody tr.editrow .field[data-formdatatype="number"] input.value {
-    font-size: .9em;
+    font-size: 1em;
 }
 
 /*Rules for disabled grid rows text color-profile while selected*/
