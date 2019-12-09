@@ -1474,7 +1474,7 @@
                   <div class="flexrow error-msg qty"></div>
                   <div class="formrow add-item-qty"></div>
                   <div class="flexrow">
-                    <div data-control="FwGrid" data-grid="StageQuantityItemGrid" data-securitycaption=""></div>
+                    <div data-control="FwGrid" data-grid="StageQuantityItemGrid" data-securitycaption="" data-moduletype="${this.Type}"></div>
                   </div>
                   <div class="formrow">
                     <div class="fwformcontrol options-button" data-type="button" style="float:left; margin-left:10px;">Options &#8675;</div>
