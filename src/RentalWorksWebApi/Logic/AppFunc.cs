@@ -81,6 +81,43 @@ namespace WebApi.Logic
             }
         }
         //-----------------------------------------------------------------------------
+        public static async Task<bool> InsertDataAsync(FwApplicationConfig appConfig, string tablename, string[] columns, string[] values)
+        {
+            bool success = false;
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
+                qry.Add("insert into " + tablename);
+                for (int c = 0; c < columns.Length; c++)
+                {
+                    qry.Add(columns[c]);
+                    if (c < (columns.Length - 1))
+                    {
+                        qry.Add(",");
+                    }
+                }
+                qry.Add(") values (");
+                for (int c = 0; c < values.Length; c++)
+                {
+                    qry.Add("@" + columns[c]);
+                    if (c < (values.Length - 1))
+                    {
+                        qry.Add(", ");
+                    }
+                }
+
+                for (int c = 0; c < values.Length; c++)
+                {
+                    qry.AddParameter("@" + columns[c], values[c]);
+                }
+
+                await qry.ExecuteAsync();
+                success = true;
+            }
+
+            return success;
+        }
+        //-------------------------------------------------------------------------------------------------------
         public static async Task<FwDatabaseField[]> GetDataAsync(FwApplicationConfig appConfig, string tablename, string[] wherecolumns, string[] wherecolumnvalues, string[] selectcolumns)
         {
             FwDatabaseField[] results;
@@ -129,6 +166,41 @@ namespace WebApi.Logic
             return results;
         }
         //-------------------------------------------------------------------------------------------------------
+        public static async Task<bool> DeleteDataAsync(FwApplicationConfig appConfig, string tablename, string[] wherecolumns, string[] wherecolumnvalues, int? rowCount = null)
+        {
+            bool success = false;
+
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
+                qry.Add("delete ");
+                if (rowCount != null)
+                {
+                    qry.Add(" top " + rowCount.ToString());
+                }
+                qry.Add(" from tablename ");
+                qry.Add("where ");
+                for (int c = 0; c < wherecolumns.Length; c++)
+                {
+                    qry.Add(wherecolumns[c] + " = @wherecolumnvalue" + c.ToString());
+                    if (c < (wherecolumns.Length - 1))
+                    {
+                        qry.Add(" and ");
+                    }
+                }
+
+                for (int c = 0; c < wherecolumnvalues.Length; c++)
+                {
+                    qry.AddParameter("@wherecolumnvalue" + c.ToString(), wherecolumnvalues[c]);
+                }
+
+                await qry.ExecuteAsync();
+                success = true;
+            }
+
+            return success;
+        }
+        //-------------------------------------------------------------------------------------------------------
         public static async Task<string[]> GetStringDataAsync(FwApplicationConfig appConfig, string tablename, string[] wherecolumns, string[] wherecolumnvalues, string[] selectcolumns)
         {
             FwDatabaseField[] results = await GetDataAsync(appConfig, tablename, wherecolumns, wherecolumnvalues, selectcolumns);
@@ -147,13 +219,16 @@ namespace WebApi.Logic
 
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
             {
+                string returnValueFieldName = "getdata__returnvalue";
                 FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
-                qry.Add("select top 1 " + selectcolumn);
+                //qry.Add("select top 1 " + selectcolumn);
+                qry.Add("select top 1 " + returnValueFieldName + " = " + selectcolumn);
                 qry.Add("from " + tablename + " with (nolock)");
                 qry.Add("where " + wherecolumn + " = @wherecolumnvalue");
                 qry.AddParameter("@wherecolumnvalue", wherecolumnvalue);
                 await qry.ExecuteAsync();
-                result = (qry.RowCount == 1) ? qry.GetField(selectcolumn) : null;
+                //result = (qry.RowCount == 1) ? qry.GetField(selectcolumn) : null;
+                result = (qry.RowCount == 1) ? qry.GetField(returnValueFieldName) : null;
             }
 
             return result;
