@@ -236,6 +236,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
         public decimal QcQuantity { get; set; }
         public string ContainerBarCode { get; set; }
         public bool AvailableWhileInContainer { get; set; }
+        public string ContractId { get; set; }
         public decimal QuantityOrdered { get; set; } = 0;
         public decimal QuantitySub { get; set; } = 0;
         public decimal QuantityConsigned { get; set; } = 0;
@@ -739,6 +740,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
         public string deal { get; set; }
         public string subPoNumber { get; set; }
         public string subPoVendor { get; set; }
+        public string contractId { get; set; }
         public bool isWarehouseTotal { get; set; } = false;
         public bool isGrandTotal { get; set; } = false;
     }
@@ -1162,6 +1164,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                 qry.Add("       a.availqcdelayexcludeweekend, a.availqcdelayexcludeholiday,                     ");
                 qry.Add("       a.availqcdelayindefinite,                                                       ");
                 qry.Add("       a.excludecontainedfromavail, a.containerbarcode,                                ");
+                qry.Add("       a.contractid,                                                                   ");
                 qry.Add("       a.ordertype, a.orderno, a.orderdesc, a.orderstatus, a.dealid, a.deal,           ");
                 qry.Add("       a.departmentid, a.department,                                                   ");
                 qry.Add("       a.qtyordered, a.qtystagedowned, a.qtyoutowned, a.qtyinowned,                    ");
@@ -1242,6 +1245,8 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                         
                         reservation.AvailableWhileInContainer = ((reservation.IsContainer) && (!FwConvert.ToBoolean(row[dt.GetColumnNo("excludecontainedfromavail")].ToString())));
                         reservation.ContainerBarCode = row[dt.GetColumnNo("containerbarcode")].ToString();
+
+                        reservation.ContractId = row[dt.GetColumnNo("contractid")].ToString();
 
                         reservation.QuantityOrdered = FwConvert.ToDecimal(row[dt.GetColumnNo("qtyordered")].ToString());
                         reservation.QuantitySub = FwConvert.ToDecimal(row[dt.GetColumnNo("subqty")].ToString());
@@ -1330,6 +1335,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                 qry.Add("       a.availqcdelayexcludeweekend, a.availqcdelayexcludeholiday,                     ");
                 qry.Add("       a.availqcdelayindefinite,                                                       ");
                 qry.Add("       a.excludecontainedfromavail, a.containerbarcode,                                ");
+                qry.Add("       a.contractid,                                                                   ");
                 qry.Add("       a.ordertype, a.orderno, a.orderdesc, a.orderstatus, a.dealid, a.deal,           ");
                 qry.Add("       a.departmentid, a.department,                                                   ");
                 qry.Add("       a.qtyordered, a.qtystagedowned, a.qtyoutowned, a.qtyinowned,                    ");
@@ -1408,6 +1414,8 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
 
                             reservation.AvailableWhileInContainer = ((reservation.IsContainer) && (!FwConvert.ToBoolean(row[dt.GetColumnNo("excludecontainedfromavail")].ToString())));
                             reservation.ContainerBarCode = row[dt.GetColumnNo("containerbarcode")].ToString();
+
+                            reservation.ContractId = row[dt.GetColumnNo("contractid")].ToString();
 
                             reservation.QuantityOrdered = FwConvert.ToDecimal(row[dt.GetColumnNo("qtyordered")].ToString());
                             reservation.QuantitySub = FwConvert.ToDecimal(row[dt.GetColumnNo("subqty")].ToString());
@@ -2079,6 +2087,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                 reservationEvent.deal = reservation.Deal;
                 reservationEvent.subPoNumber = reservation.SubPurchaseOrderNumber;
                 reservationEvent.subPoVendor = reservation.SubPurchaseOrderVendor;
+                reservationEvent.contractId = reservation.ContractId;
 
                 scheduleEvents.Add(reservationEvent);
 
@@ -2128,6 +2137,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                     qcEvent.orderType = reservation.OrderType;
                     qcEvent.orderDescription = reservation.OrderDescription;
                     qcEvent.deal = reservation.Deal;
+                    qcEvent.contractId = reservation.ContractId;
 
                     scheduleEvents.Add(qcEvent);
                 }
