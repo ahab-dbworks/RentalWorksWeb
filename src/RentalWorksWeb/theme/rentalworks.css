@@ -148,27 +148,27 @@ html.theme-material .fwbrowse table thead tr td .field .fieldcaption .caption {
 }
 
 html.theme-material .fwbrowse table tbody tr.editrow .field[data-formdatatype="date"] input.value {
-    font-size: .9em;
+    font-size: 1em;
 }
 
 html.theme-material .fwbrowse table tbody tr.editrow .field[data-formdatatype="timepicker"] input.value {
-    font-size: .9em;
+    font-size: 1em;
 }
 
 html.theme-material .fwbrowse table tbody tr.editrow .field[data-formdatatype="time"] input.value {
 }
 
 html.theme-material .fwbrowse table tbody tr.editrow .field[data-formdatatype="money"] input.value {
-    font-size: .9em;
+    font-size: 1em;
 }
 
 html.theme-material .fwbrowse table tbody tr.editrow .field[data-formdatatype="text"] input.value {
-    font-size: .9em;
+    font-size: 1em;
     padding: 0 .3rem;
 }
 
 html.theme-material .fwbrowse table tbody tr.editrow .field[data-formdatatype="validation"] input.text {
-    font-size: .9em;
+    font-size: 1em;
     padding: 0 .3rem;
 }
 
