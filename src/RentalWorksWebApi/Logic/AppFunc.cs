@@ -107,7 +107,7 @@ namespace WebApi.Logic
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
             {
                 FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
-                qry.Add("insert into " + tablename);
+                qry.Add("insert into " + tablename + "(");
                 for (int c = 0; c < columns.Length; c++)
                 {
                     qry.Add(columns[c]);
