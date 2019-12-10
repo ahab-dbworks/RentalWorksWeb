@@ -2271,17 +2271,38 @@ namespace FwStandard.SqlServer
                     data = ((string)propertyValue).Trim();
                     break;
                 case FwDataTypes.Date:
-                    if (propertyValue.GetType() != typeof(string)) throw new Exception("Expected string for " + propertyName);
-                    //data = ((string)propertyValue).Trim();
-                    //justin 02/26/2018 - dates to be saved as NULL when blank
-                    string strDate = ((string)propertyValue).Trim();
-                    if (strDate.Equals(string.Empty))
+                    //if (propertyValue.GetType() != typeof(string)) throw new Exception("Expected string for " + propertyName);
+                    ////data = ((string)propertyValue).Trim();
+                    ////justin 02/26/2018 - dates to be saved as NULL when blank
+                    //string strDate = ((string)propertyValue).Trim();
+                    //if (strDate.Equals(string.Empty))
+                    //{
+                    //    data = DBNull.Value;
+                    //}
+                    //else
+                    //{
+                    //    data = strDate;
+                    //}
+
+                    if (propertyValue.GetType().Equals(typeof(DateTime)))
                     {
-                        data = DBNull.Value;
+                        data = propertyValue;
+                    }
+                    else if (propertyValue.GetType().Equals(typeof(string)))
+                    {
+                        string strDate = ((string)propertyValue).Trim();
+                        if (strDate.Equals(string.Empty))
+                        {
+                            data = DBNull.Value;
+                        }
+                        else
+                        {
+                            data = strDate;
+                        }
                     }
                     else
                     {
-                        data = strDate;
+                        throw new Exception("Expected string or DateTime for " + propertyName);
                     }
                     break;
                 case FwDataTypes.Time:
