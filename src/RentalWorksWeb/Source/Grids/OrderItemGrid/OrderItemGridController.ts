@@ -933,7 +933,7 @@
         await jQuery(document).trigger('click');
     }
     //----------------------------------------------------------------------------------------------
-    openSearch(event) {
+    quikSearch(event) {
         const grid = jQuery(event.currentTarget).parents('[data-control="FwGrid"]');
         let gridInventoryType;
         if (grid.hasClass('R')) {

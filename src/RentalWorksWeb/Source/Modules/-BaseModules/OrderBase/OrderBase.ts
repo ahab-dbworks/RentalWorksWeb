@@ -17,19 +17,17 @@ class OrderBase {
     //----------------------------------------------------------------------------------------------
     getBrowseTemplate(): string { return ``; }
     getFormTemplate(): string { return ``; }
-    findFilterHide($fwgrid: JQuery | JQuery[], element: string, filter: string): void {
-        if (Array.isArray($fwgrid)) {
-            $fwgrid.forEach((grid) => {
-                grid.find(element).filter(filter).hide();
-            });
-        } else {
-            $fwgrid.find(element).filter(filter).hide();
-        }
-    }
+    //findFilterHide($fwgrid: JQuery | JQuery[], element: string, filter: string): void {
+    //    if (Array.isArray($fwgrid)) {
+    //        $fwgrid.forEach((grid) => {
+    //            grid.find(element).filter(filter).hide();
+    //        });
+    //    } else {
+    //        $fwgrid.find(element).filter(filter).hide();
+    //    }
+    //}
     //----------------------------------------------------------------------------------------------
     renderGrids($form) {
-        // ---- 
-        let $orderItemGridRental: JQuery, $orderItemGridSales: JQuery, $orderItemGridLabor: JQuery, $orderItemGridMisc: JQuery, $orderItemGridUsedSale: JQuery, $combinedOrderItemGrid: JQuery;
         // ----------
         // Order Status History Grid
         //const $orderStatusHistoryGrid = $form.find('div[data-grid="OrderStatusHistoryGrid"]');
@@ -160,6 +158,7 @@ class OrderBase {
         //FwBrowse.init($orderItemGridRentalControl);
         //FwBrowse.renderRuntimeHtml($orderItemGridRentalControl);
 
+        let $orderItemGridRental: JQuery;
         FwBrowse.renderGrid({
             nameGrid: 'OrderItemGrid',
             gridSelector: '.rentalgrid div[data-grid="OrderItemGrid"]',
@@ -168,9 +167,16 @@ class OrderBase {
             $form: $form,
             pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
-                //WIP for #1418
                 const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
                 const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')
+                FwMenu.addSubMenuItem($optionsgroup, 'QuikSearch', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.quikSearch(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
                 FwMenu.addSubMenuItem($optionsgroup, 'Copy Template', '', (e: JQuery.ClickEvent) => {
                     try {
                         OrderItemGridController.copyTemplate(e);
@@ -203,14 +209,16 @@ class OrderBase {
                         FwFunc.showError(ex);
                     }
                 });
-                FwMenu.addSubMenuItem($optionsgroup, 'Sub PO Worksheet', '', (e: JQuery.ClickEvent) => {
-                    try {
-                        OrderItemGridController.SubPOWorksheet(e);
-                    }
-                    catch (ex) {
-                        FwFunc.showError(ex);
-                    }
-                });
+                if ($form.attr('data-controller') !== 'QuoteController') {
+                    FwMenu.addSubMenuItem($optionsgroup, 'Sub PO Worksheet', '', (e: JQuery.ClickEvent) => {
+                        try {
+                            OrderItemGridController.SubPOWorksheet(e);
+                        }
+                        catch (ex) {
+                            FwFunc.showError(ex);
+                        }
+                    });
+                }
 
                 const $viewcolumn = FwMenu.addSubMenuColumn(options.$menu);
                 const $viewgroup = FwMenu.addSubMenuGroup($viewcolumn, 'View', 'securityid2')
@@ -246,8 +254,6 @@ class OrderBase {
                         FwFunc.showError(ex);
                     }
                 });
-
-
             },
             onDataBind: (request: any) => {
                 request.uniqueids = {
@@ -270,9 +276,6 @@ class OrderBase {
                 rentalItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Rental"]')) : FwFormField.enable($form.find('[data-datafield="Rental"]'));
             }
         });
-
-
-
         // ----------
         //const $orderItemGridSales = $form.find('.salesgrid div[data-grid="OrderItemGrid"]');
         //const $orderItemGridSalesControl = FwBrowse.loadGridFromTemplate('OrderItemGrid');
@@ -302,7 +305,7 @@ class OrderBase {
 
         //FwBrowse.init($orderItemGridSalesControl);
         //FwBrowse.renderRuntimeHtml($orderItemGridSalesControl);
-
+        let $orderItemGridSales: JQuery;
         FwBrowse.renderGrid({
             nameGrid: 'OrderItemGrid',
             gridSelector: '.salesgrid div[data-grid="OrderItemGrid"]',
@@ -311,9 +314,16 @@ class OrderBase {
             $form: $form,
             pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
-                //WIP for #1418
                 const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
                 const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')
+                FwMenu.addSubMenuItem($optionsgroup, 'QuikSearch', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.quikSearch(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
                 FwMenu.addSubMenuItem($optionsgroup, 'Copy Template', '', (e: JQuery.ClickEvent) => {
                     try {
                         OrderItemGridController.copyTemplate(e);
@@ -346,14 +356,16 @@ class OrderBase {
                         FwFunc.showError(ex);
                     }
                 });
-                FwMenu.addSubMenuItem($optionsgroup, 'Sub PO Worksheet', '', (e: JQuery.ClickEvent) => {
-                    try {
-                        OrderItemGridController.SubPOWorksheet(e);
-                    }
-                    catch (ex) {
-                        FwFunc.showError(ex);
-                    }
-                });
+                if ($form.attr('data-controller') !== 'QuoteController') {
+                    FwMenu.addSubMenuItem($optionsgroup, 'Sub PO Worksheet', '', (e: JQuery.ClickEvent) => {
+                        try {
+                            OrderItemGridController.SubPOWorksheet(e);
+                        }
+                        catch (ex) {
+                            FwFunc.showError(ex);
+                        }
+                    });
+                }
 
                 const $viewcolumn = FwMenu.addSubMenuColumn(options.$menu);
                 const $viewgroup = FwMenu.addSubMenuGroup($viewcolumn, 'View', 'securityid2')
@@ -441,7 +453,7 @@ class OrderBase {
 
         //FwBrowse.init($orderItemGridLaborControl);
         //FwBrowse.renderRuntimeHtml($orderItemGridLaborControl);
-
+        let $orderItemGridLabor: JQuery;
         FwBrowse.renderGrid({
             nameGrid: 'OrderItemGrid',
             gridSelector: '.laborgrid div[data-grid="OrderItemGrid"]',
@@ -450,9 +462,16 @@ class OrderBase {
             $form: $form,
             pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
-                //WIP for #1418
                 const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
                 const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')
+                FwMenu.addSubMenuItem($optionsgroup, 'QuikSearch', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.quikSearch(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
                 FwMenu.addSubMenuItem($optionsgroup, 'Copy Template', '', (e: JQuery.ClickEvent) => {
                     try {
                         OrderItemGridController.copyTemplate(e);
@@ -485,14 +504,16 @@ class OrderBase {
                         FwFunc.showError(ex);
                     }
                 });
-                FwMenu.addSubMenuItem($optionsgroup, 'Sub PO Worksheet', '', (e: JQuery.ClickEvent) => {
-                    try {
-                        OrderItemGridController.SubPOWorksheet(e);
-                    }
-                    catch (ex) {
-                        FwFunc.showError(ex);
-                    }
-                });
+                if ($form.attr('data-controller') !== 'QuoteController') {
+                    FwMenu.addSubMenuItem($optionsgroup, 'Sub PO Worksheet', '', (e: JQuery.ClickEvent) => {
+                        try {
+                            OrderItemGridController.SubPOWorksheet(e);
+                        }
+                        catch (ex) {
+                            FwFunc.showError(ex);
+                        }
+                    });
+                }
 
                 const $viewcolumn = FwMenu.addSubMenuColumn(options.$menu);
                 const $viewgroup = FwMenu.addSubMenuGroup($viewcolumn, 'View', 'securityid2')
@@ -580,7 +601,7 @@ class OrderBase {
 
         //FwBrowse.init($orderItemGridMiscControl);
         //FwBrowse.renderRuntimeHtml($orderItemGridMiscControl);
-
+        let $orderItemGridMisc: JQuery;
         FwBrowse.renderGrid({
             nameGrid: 'OrderItemGrid',
             gridSelector: '.miscgrid div[data-grid="OrderItemGrid"]',
@@ -589,9 +610,16 @@ class OrderBase {
             $form: $form,
             pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
-                //WIP for #1418
                 const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
                 const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')
+                FwMenu.addSubMenuItem($optionsgroup, 'QuikSearch', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.quikSearch(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
                 FwMenu.addSubMenuItem($optionsgroup, 'Copy Template', '', (e: JQuery.ClickEvent) => {
                     try {
                         OrderItemGridController.copyTemplate(e);
@@ -624,14 +652,16 @@ class OrderBase {
                         FwFunc.showError(ex);
                     }
                 });
-                FwMenu.addSubMenuItem($optionsgroup, 'Sub PO Worksheet', '', (e: JQuery.ClickEvent) => {
-                    try {
-                        OrderItemGridController.SubPOWorksheet(e);
-                    }
-                    catch (ex) {
-                        FwFunc.showError(ex);
-                    }
-                });
+                if ($form.attr('data-controller') !== 'QuoteController') {
+                    FwMenu.addSubMenuItem($optionsgroup, 'Sub PO Worksheet', '', (e: JQuery.ClickEvent) => {
+                        try {
+                            OrderItemGridController.SubPOWorksheet(e);
+                        }
+                        catch (ex) {
+                            FwFunc.showError(ex);
+                        }
+                    });
+                }
 
                 const $viewcolumn = FwMenu.addSubMenuColumn(options.$menu);
                 const $viewgroup = FwMenu.addSubMenuGroup($viewcolumn, 'View', 'securityid2')
@@ -713,7 +743,7 @@ class OrderBase {
         //});
         //FwBrowse.init($orderItemGridUsedSaleControl);
         //FwBrowse.renderRuntimeHtml($orderItemGridUsedSaleControl);
-
+        let $orderItemGridUsedSale: JQuery;
         FwBrowse.renderGrid({
             nameGrid: 'OrderItemGrid',
             gridSelector: '.usedsalegrid div[data-grid="OrderItemGrid"]',
@@ -722,9 +752,16 @@ class OrderBase {
             $form: $form,
             pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
-                //WIP for #1418
                 const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
                 const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')
+                FwMenu.addSubMenuItem($optionsgroup, 'QuikSearch', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.quikSearch(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
                 FwMenu.addSubMenuItem($optionsgroup, 'Copy Template', '', (e: JQuery.ClickEvent) => {
                     try {
                         OrderItemGridController.copyTemplate(e);
@@ -757,14 +794,16 @@ class OrderBase {
                         FwFunc.showError(ex);
                     }
                 });
-                FwMenu.addSubMenuItem($optionsgroup, 'Sub PO Worksheet', '', (e: JQuery.ClickEvent) => {
-                    try {
-                        OrderItemGridController.SubPOWorksheet(e);
-                    }
-                    catch (ex) {
-                        FwFunc.showError(ex);
-                    }
-                });
+                if ($form.attr('data-controller') !== 'QuoteController') {
+                    FwMenu.addSubMenuItem($optionsgroup, 'Sub PO Worksheet', '', (e: JQuery.ClickEvent) => {
+                        try {
+                            OrderItemGridController.SubPOWorksheet(e);
+                        }
+                        catch (ex) {
+                            FwFunc.showError(ex);
+                        }
+                    });
+                }
 
                 const $viewcolumn = FwMenu.addSubMenuColumn(options.$menu);
                 const $viewgroup = FwMenu.addSubMenuGroup($viewcolumn, 'View', 'securityid2')
@@ -845,7 +884,7 @@ class OrderBase {
 
         //FwBrowse.init($combinedOrderItemGridControl);
         //FwBrowse.renderRuntimeHtml($combinedOrderItemGridControl);
-
+        let $combinedOrderItemGrid: JQuery;
         FwBrowse.renderGrid({
             nameGrid: 'OrderItemGrid',
             gridSelector: '.combinedgrid div[data-grid="OrderItemGrid"]',
@@ -854,9 +893,16 @@ class OrderBase {
             $form: $form,
             pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
-                //WIP for #1418
                 const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
                 const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')
+                FwMenu.addSubMenuItem($optionsgroup, 'QuikSearch', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.quikSearch(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
                 FwMenu.addSubMenuItem($optionsgroup, 'Copy Template', '', (e: JQuery.ClickEvent) => {
                     try {
                         OrderItemGridController.copyTemplate(e);
@@ -889,14 +935,16 @@ class OrderBase {
                         FwFunc.showError(ex);
                     }
                 });
-                FwMenu.addSubMenuItem($optionsgroup, 'Sub PO Worksheet', '', (e: JQuery.ClickEvent) => {
-                    try {
-                        OrderItemGridController.SubPOWorksheet(e);
-                    }
-                    catch (ex) {
-                        FwFunc.showError(ex);
-                    }
-                });
+                if ($form.attr('data-controller') !== 'QuoteController') {
+                    FwMenu.addSubMenuItem($optionsgroup, 'Sub PO Worksheet', '', (e: JQuery.ClickEvent) => {
+                        try {
+                            OrderItemGridController.SubPOWorksheet(e);
+                        }
+                        catch (ex) {
+                            FwFunc.showError(ex);
+                        }
+                    });
+                }
 
                 const $viewcolumn = FwMenu.addSubMenuColumn(options.$menu);
                 const $viewgroup = FwMenu.addSubMenuGroup($viewcolumn, 'View', 'securityid2')
@@ -944,8 +992,8 @@ class OrderBase {
             },
             beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
                 $fwgrid.addClass('A');
-                $browse.find('.combined').attr('data-visible', 'true');
-                $browse.find('.individual').attr('data-visible', 'false');
+                $fwgrid.find('.combined').attr('data-visible', 'true');
+                $fwgrid.find('.individual').attr('data-visible', 'false');
                 $combinedOrderItemGrid = $fwgrid;
 
             },
@@ -954,7 +1002,6 @@ class OrderBase {
             }
         });
         // ----------
-
         const itemGrids = [$orderItemGridRental, $orderItemGridSales, $orderItemGridLabor, $orderItemGridMisc];
         if ($form.attr('data-mode') === 'NEW') {
             for (let i = 0; i < itemGrids.length; i++) {
@@ -974,21 +1021,21 @@ class OrderBase {
 
         $form.find('.tabGridsLoaded[data-type="tab"]').removeClass('tabGridsLoaded');
 
-        if (this.Module === 'Quote') {
-            //hide subworksheet and LD menu items
-            const hideGridsBtn: JQuery[] = [$orderItemGridRental, $orderItemGridSales, $orderItemGridLabor, $orderItemGridMisc, $orderItemGridUsedSale, $combinedOrderItemGrid];
-            this.findFilterHide(hideGridsBtn, '.submenu-btn', '[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"], [data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"], [data-securityid="78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412"]');
-        }
-        else if (this.Module === 'Order') {
-            //hide LD menu items
-            const hideGridsBtn: JQuery[] = [$orderItemGridRental, $orderItemGridSales, $orderItemGridLabor, $orderItemGridMisc, $combinedOrderItemGrid];
-            this.findFilterHide(hideGridsBtn, '.submenu-btn', '[data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"], [data-securityid="78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412"]');
-            this.findFilterHide($orderItemGridUsedSale, '.submenu-btn', '[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"], [data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"], [data-securityid="78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412"]');
+        //if (this.Module === 'Quote') {
+        //    //hide subworksheet and LD menu items
+        //    const hideGridsBtn: JQuery[] = [$orderItemGridRental, $orderItemGridSales, $orderItemGridLabor, $orderItemGridMisc, $orderItemGridUsedSale, $combinedOrderItemGrid];
+        //    this.findFilterHide(hideGridsBtn, '.submenu-btn', '[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"], [data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"], [data-securityid="78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412"]');
+        //}
+        //else if (this.Module === 'Order') {
+        //    //hide LD menu items
+        //    const hideGridsBtn: JQuery[] = [$orderItemGridRental, $orderItemGridSales, $orderItemGridLabor, $orderItemGridMisc, $combinedOrderItemGrid];
+        //    this.findFilterHide(hideGridsBtn, '.submenu-btn', '[data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"], [data-securityid="78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412"]');
+        //    this.findFilterHide($orderItemGridUsedSale, '.submenu-btn', '[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"], [data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"], [data-securityid="78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412"]');
 
-            //Hides non-LD menu items
-            const $lossDamageGrid = $form.find('.lossdamagegrid [data-name="OrderItemGrid"]');
-            this.findFilterHide($lossDamageGrid, '.submenu-btn', '[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"], [data-securityid="AD3FB369-5A40-4984-8A65-46E683851E52"], [data-securityid="B6B68464-B95C-4A4C-BAF2-6AA59B871468"], [data-securityid="01EB96CB-6C62-4D5C-9224-8B6F45AD9F63"], [data-securityid="9476D532-5274-429C-A563-FE89F5B89B01"]');
-        }
+        //    //Hides non-LD menu items
+        //    const $lossDamageGrid = $form.find('.lossdamagegrid [data-name="OrderItemGrid"]');
+        //    this.findFilterHide($lossDamageGrid, '.submenu-btn', '[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"], [data-securityid="AD3FB369-5A40-4984-8A65-46E683851E52"], [data-securityid="B6B68464-B95C-4A4C-BAF2-6AA59B871468"], [data-securityid="01EB96CB-6C62-4D5C-9224-8B6F45AD9F63"], [data-securityid="9476D532-5274-429C-A563-FE89F5B89B01"]');
+        //}
     }
     //----------------------------------------------------------------------------------------------
     loadBrowseMenu($browse: JQuery) { };
