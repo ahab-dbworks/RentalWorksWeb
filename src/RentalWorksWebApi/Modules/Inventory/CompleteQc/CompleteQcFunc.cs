@@ -9,19 +9,20 @@ namespace WebApi.Modules.Inventory.CompleteQc
 
     public class CompleteQcItemResponse : TSpStatusResponse
     {
-        public string InventoryId{ get; set; }
-        public string ICode{ get; set; }
-        public string Description{ get; set; }
+        public string InventoryId { get; set; }
+        public string ICode { get; set; }
+        public string Description { get; set; }
         public string ConditionId { get; set; }
         public string Condition { get; set; }
-        public string ItemId{ get; set; }
+        public string ItemId { get; set; }
         public string ItemQcId { get; set; }
         public bool CannotQcItemBecauseOfStatus { get; set; }
         public bool ItemDoesNotNeedQc { get; set; }
         public bool ShowFootCandles { get; set; }
+        public string RequiredFootCandles { get; set; }
         public bool ShowSoftwareVersion { get; set; }
+        public string RequiredSoftwareVersion { get; set; }
     }
-
 
     public class UpdateQcItemResponse : TSpStatusResponse
     {
@@ -65,6 +66,8 @@ namespace WebApi.Modules.Inventory.CompleteQc
                 response.msg = qry.GetParameter("@msg").ToString();
                 response.ShowFootCandles = FwConvert.ToBoolean(qry.GetParameter("@trackfootcandles").ToString());
                 response.ShowSoftwareVersion = FwConvert.ToBoolean(qry.GetParameter("@tracksoftware").ToString());
+                response.RequiredFootCandles = qry.GetParameter("@minfootcandles").ToString();
+                response.RequiredSoftwareVersion = qry.GetParameter("@softwareversion").ToString();
             }
             return response;
         }
