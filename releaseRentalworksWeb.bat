@@ -32,19 +32,20 @@ if not exist "c:\Program Files\7-Zip\7z.exe" exit /B
 
 rem Prompt the user which system to build
 set /p productname="Which system would you like to build: 1. RentalWorksWeb, 2. TrakitWorks? (default:1): "
-IF "%productname%"=="" (
-	set productname=RentalWorksWeb
-) ELSE IF "%productname%"=="1" (
+IF "%productname%"=="1" (
 	set productname=RentalWorksWeb
 ) ELSE IF "%productname%"=="2" (
 	set productname=TrakitWorksWeb
 ) ELSE (
-	exit /B
+	set productname=RentalWorksWeb
 )
+echo Building %productname%
 
 rem Get the Build number from the user
 FOR /F "tokens=*" %%i IN (%DwRentalWorksWebPath%\src\%productname%\version.txt) DO @set previousversionno=%%i
-set /p fullversionno="Previous Version: %previousversionno%, New Version: "
+rem set /p fullversionno="Previous Version: %previousversionno%, New Version: "
+echo Previous Version: %previousversionno%
+set /p fullversionno="New Version:      "
 for /f "tokens=1-3 delims=." %%i in ("%fullversionno%") do (
   set shortversionno=%%i.%%j.%%k
 )
@@ -58,13 +59,13 @@ IF NOT "%commitandftp%"=="y" set commitandftp=n
 
 rem if posting to FTP, make sure the user/pass environment variables are set
 IF "%commitandftp%"=="y" (
-IF "%DwFtpUploadUser%"=="" ECHO Environment Variable DwFtpUploadUser is NOT defined
-IF "%DwFtpUploadUser%"=="" set /p=Hit ENTER to exit
-IF "%DwFtpUploadUser%"=="" exit /B
-
-IF "%DwFtpUploadPassword%"=="" ECHO Environment Variable DwFtpUploadPassword is NOT defined
-IF "%DwFtpUploadPassword%"=="" set /p=Hit ENTER to exit
-IF "%DwFtpUploadPassword%"=="" exit /B
+   IF "%DwFtpUploadUser%"=="" ECHO Environment Variable DwFtpUploadUser is NOT defined
+   IF "%DwFtpUploadUser%"=="" set /p=Hit ENTER to exit
+   IF "%DwFtpUploadUser%"=="" exit /B
+   
+   IF "%DwFtpUploadPassword%"=="" ECHO Environment Variable DwFtpUploadPassword is NOT defined
+   IF "%DwFtpUploadPassword%"=="" set /p=Hit ENTER to exit
+   IF "%DwFtpUploadPassword%"=="" exit /B
 )
 
 rem determine ZIP filename
@@ -168,11 +169,11 @@ if exist %productname%Api\ (rmdir %productname%Api /S /Q)
 rem copy the ZIP delivable to "history" sub-directory
 copy %zipfilename% history
 
+set ftpcommandfilename=ftp.txt
 IF "%commitandftp%"=="y" (
     rem Create FTP command file to upload the zip
     setlocal DISABLEDELAYEDEXPANSION
     cd %DwRentalWorksWebPath%\build
-    set ftpcommandfilename=ftp.txt
     echo open ftp.dbworks.com>%ftpcommandfilename%
     echo %DwFtpUploadUser%>>%ftpcommandfilename%
     echo %DwFtpUploadPassword%>>%ftpcommandfilename%
@@ -182,10 +183,8 @@ IF "%commitandftp%"=="y" (
     echo put %zipfilename%>>%ftpcommandfilename%
     echo put %pdffilename%>>%ftpcommandfilename%
     echo quit>>%ftpcommandfilename%
-
     rem Run the FTP command using the command file created above, delete the command file
     ftp -s:%ftpcommandfilename% -v
-	pause
     del %ftpcommandfilename%
 )
-pause
+cd %DwRentalWorksWebPath%

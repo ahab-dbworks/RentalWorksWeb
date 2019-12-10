@@ -1373,7 +1373,7 @@
             case 'FillContainer':
                 tabCaption = this.caption;
                 //typeHTML = `<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield clearable" data-caption="Container Item" data-datafield="ContainerItemId" data-displayfield="BarCode" data-validationname="ContainerItemValidation" style="flex:0 1 175px;"></div>`;
-                typeHTML = `<div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield clearable" data-caption="Container Item" data-datafield="BarCode" style="flex:0 1 175px;"></div>
+                typeHTML = `<div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield clearable" data-caption="Scannable Container Item" data-datafield="BarCode" style="flex:0 1 175px;"></div>
                             <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield clearable" data-datafield="ContainerItemId" data-displayfield="BarCode" data-validationname="ContainerItemValidation" style="display:none;"></div>
                             <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield clearable" data-caption="Order Id" data-datafield="OrderId" style="display:none;"></div>`;
                 statusBtnCaption = 'Container Status';
@@ -1478,7 +1478,7 @@
                   <div class="flexrow error-msg qty"></div>
                   <div class="formrow add-item-qty"></div>
                   <div class="flexrow">
-                    <div data-control="FwGrid" data-grid="StageQuantityItemGrid" data-securitycaption=""></div>
+                    <div data-control="FwGrid" data-grid="StageQuantityItemGrid" data-securitycaption="" data-moduletype="${this.Type}"></div>
                   </div>
                   <div class="formrow">
                     <div class="fwformcontrol options-button" data-type="button" style="float:left; margin-left:10px;">Options &#8675;</div>

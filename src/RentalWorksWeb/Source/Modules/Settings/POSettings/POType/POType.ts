@@ -85,9 +85,10 @@ class POType {
                     OrderTypeId: FwFormField.getValueByDataField($form, 'PoTypeId')
                 };
             },
-            beforeSave: (request: any) => {
-                request.OrderTypeId = FwFormField.getValueByDataField($form, 'PoTypeId');
-            }
+            //(cannot add New)
+            //beforeSave: (request: any) => {
+            //    request.OrderTypeId = FwFormField.getValueByDataField($form, 'PoTypeId');
+            //}
         });
         //----------
         //const $orderTypeTermsAndConditionsGrid = $form.find('div[data-grid="OrderTypeTermsAndConditionsGrid"]');
@@ -110,14 +111,20 @@ class POType {
             moduleSecurityId: this.id,
             $form: $form,
             pageSize: 10,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                options.hasNew = false;
+                options.hasDelete = false;
+                options.hasEdit = true;
+            },
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     OrderTypeId: FwFormField.getValueByDataField($form, 'PoTypeId')
                 };
             },
-            beforeSave: (request: any) => {
-                request.OrderTypeId = FwFormField.getValueByDataField($form, 'PoTypeId');
-            }
+            //(cannot add New)
+            //beforeSave: (request: any) => {
+            //    request.OrderTypeId = FwFormField.getValueByDataField($form, 'PoTypeId');
+            //}
         });
         //----------
         //const $orderTypeActivityDatesGrid = $form.find('div[data-grid="OrderTypeActivityDatesGrid"]');

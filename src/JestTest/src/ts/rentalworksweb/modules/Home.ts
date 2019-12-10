@@ -15,12 +15,16 @@ export class Quote extends HomeModule {
         this.canDelete = false;
         let rentalGrid: GridBase = new GridBase("Rental Item Grid", "OrderItemGrid", ["R"]);
         rentalGrid.waitAfterSavingToReloadGrid = 1500;
+        rentalGrid.multiRowSave = true;
         let salesGrid: GridBase = new GridBase("Sales Item Grid", "OrderItemGrid", ["S"]);
         salesGrid.waitAfterSavingToReloadGrid = 1500;
+        salesGrid.multiRowSave = true;
         let miscGrid: GridBase = new GridBase("Miscellaneous Item Grid", "OrderItemGrid", ["M"]);
         miscGrid.waitAfterSavingToReloadGrid = 1500;
+        miscGrid.multiRowSave = true;
         let laborGrid: GridBase = new GridBase("Labor Item Grid", "OrderItemGrid", ["L"]);
         laborGrid.waitAfterSavingToReloadGrid = 1500;
+        laborGrid.multiRowSave = true;
         let contactGrid: GridBase = new GridBase("Contact Grid", "OrderContactGrid");
         let noteGrid: GridBase = new GridBase("Note Grid", "OrderNoteGrid");
         this.grids.push(rentalGrid);
@@ -200,84 +204,105 @@ export class Quote extends HomeModule {
                 grid: rentalGrid,
                 recordToCreate: {
                     record: {
-                        InventoryId: 4,
-                    }
-                }
+                        InventoryId: TestUtils.randomIntegerBetween(1, 3),
+                        QuantityOrdered: TestUtils.randomIntegerBetween(1, 3).toString(),
+                    },
+                    editRecord: {
+                        record: {
+                            QuantityOrdered: "5",
+                        },
+                        recordToExpect: {
+                            QuantityOrdered: "5",
+                        },
+                    },
+                },
             },
-            //{
-            //    grid: rentalGrid,
-            //    recordToCreate: {
-            //        record: {
-            //        },
-            //        expectedErrorFields: ["InventoryId"],
-            //    }
-            //},
             {
                 grid: salesGrid,
                 recordToCreate: {
                     record: {
-                        InventoryId: 3,
-                    }
-                }
+                        InventoryId: TestUtils.randomIntegerBetween(1, 3),
+                        QuantityOrdered: TestUtils.randomIntegerBetween(1, 3).toString(),
+                    },
+                    editRecord: {
+                        record: {
+                            QuantityOrdered: "5",
+                        },
+                        recordToExpect: {
+                            QuantityOrdered: "5",
+                        },
+                    },
+                },
             },
-            //{
-            //    grid: salesGrid,
-            //    recordToCreate: {
-            //        record: {
-            //        },
-            //        expectedErrorFields: ["InventoryId"],
-            //    }
-            //},
             {
                 grid: miscGrid,
                 recordToCreate: {
                     record: {
-                        InventoryId: 1,
-                    }
-                }
+                        InventoryId: TestUtils.randomIntegerBetween(1, 3),
+                        QuantityOrdered: TestUtils.randomIntegerBetween(1, 3).toString(),
+                    },
+                    editRecord: {
+                        record: {
+                            QuantityOrdered: "5",
+                        },
+                        recordToExpect: {
+                            QuantityOrdered: "5",
+                        },
+                    },
+                },
             },
-            //{
-            //    grid: miscGrid,
-            //    recordToCreate: {
-            //        record: {
-            //        },
-            //        expectedErrorFields: ["InventoryId"],
-            //    }
-            //},
             {
                 grid: laborGrid,
                 recordToCreate: {
                     record: {
-                        InventoryId: 1,
-                    }
-                }
+                        InventoryId: TestUtils.randomIntegerBetween(1, 3),
+                        QuantityOrdered: TestUtils.randomIntegerBetween(1, 3).toString(),
+                    },
+                    editRecord: {
+                        record: {
+                            QuantityOrdered: "5",
+                        },
+                        recordToExpect: {
+                            QuantityOrdered: "5",
+                        },
+                    },
+                },
             },
-            //{
-            //    grid: laborGrid,
-            //    recordToCreate: {
-            //        record: {
-            //        },
-            //        expectedErrorFields: ["InventoryId"],
-            //    }
-            //},
             {
                 grid: contactGrid,
                 recordToCreate: {
                     record: {
                         ContactId: 1,
                         ContactTitleId: 1,
-                    }
-                }
+                    },
+                    editRecord: {
+                        record: {
+                            OfficeExtension: "GlobalScope.TestToken~1.ShortTestToken",
+                        },
+                        recordToExpect: {
+                            OfficeExtension: "GlobalScope.TestToken~1.ShortTestToken",
+                        },
+                    },
+                },
             },
             {
                 grid: noteGrid,
                 recordToCreate: {
                     record: {
                         NotesDescription: "GlobalScope.TestToken~1.TestToken",
-                    }
-                }
+                    },
+                    editRecord: {
+                        record: {
+                            NotesDescription: "GlobalScope.TestToken~1.MediumTestToken",
+                        },
+                        recordToExpect: {
+                            NotesDescription: "GlobalScope.TestToken~1.MediumTestToken",
+                        },
+                    },
+                },
             },
         ];
+
 
 
         this.newRecordsToCreate[0].recordToExpect = {
@@ -442,12 +467,16 @@ export class Order extends HomeModule {
         this.canDelete = false;
         let rentalGrid: GridBase = new GridBase("Rental Item Grid", "OrderItemGrid", ["R"]);
         rentalGrid.waitAfterSavingToReloadGrid = 1500;
+        rentalGrid.multiRowSave = true;
         let salesGrid: GridBase = new GridBase("Sales Item Grid", "OrderItemGrid", ["S"]);
         salesGrid.waitAfterSavingToReloadGrid = 1500;
+        salesGrid.multiRowSave = true;
         let miscGrid: GridBase = new GridBase("Miscellaneous Item Grid", "OrderItemGrid", ["M"]);
         miscGrid.waitAfterSavingToReloadGrid = 1500;
+        miscGrid.multiRowSave = true;
         let laborGrid: GridBase = new GridBase("Labor Item Grid", "OrderItemGrid", ["L"]);
         laborGrid.waitAfterSavingToReloadGrid = 1500;
+        laborGrid.multiRowSave = true;
         let contactGrid: GridBase = new GridBase("Contact Grid", "OrderContactGrid");
         let noteGrid: GridBase = new GridBase("Note Grid", "OrderNoteGrid");
         this.grids.push(rentalGrid);
@@ -627,33 +656,69 @@ export class Order extends HomeModule {
                 grid: rentalGrid,
                 recordToCreate: {
                     record: {
-                        InventoryId: 4,
-                    }
-                }
+                        InventoryId: TestUtils.randomIntegerBetween(1, 3),
+                        QuantityOrdered: TestUtils.randomIntegerBetween(1, 3).toString(),
+                    },
+                    editRecord: {
+                        record: {
+                            QuantityOrdered: "5",
+                        },
+                        recordToExpect: {
+                            QuantityOrdered: "5",
+                        },
+                    },
+                },
             },
             {
                 grid: salesGrid,
                 recordToCreate: {
                     record: {
-                        InventoryId: 3,
-                    }
-                }
+                        InventoryId: TestUtils.randomIntegerBetween(1, 3),
+                        QuantityOrdered: TestUtils.randomIntegerBetween(1, 3).toString(),
+                    },
+                    editRecord: {
+                        record: {
+                            QuantityOrdered: "5",
+                        },
+                        recordToExpect: {
+                            QuantityOrdered: "5",
+                        },
+                    },
+                },
             },
             {
                 grid: miscGrid,
                 recordToCreate: {
                     record: {
-                        InventoryId: 1,
-                    }
-                }
+                        InventoryId: TestUtils.randomIntegerBetween(1, 3),
+                        QuantityOrdered: TestUtils.randomIntegerBetween(1, 3).toString(),
+                    },
+                    editRecord: {
+                        record: {
+                            QuantityOrdered: "5",
+                        },
+                        recordToExpect: {
+                            QuantityOrdered: "5",
+                        },
+                    },
+                },
             },
             {
                 grid: laborGrid,
                 recordToCreate: {
                     record: {
-                        InventoryId: 1,
-                    }
-                }
+                        InventoryId: TestUtils.randomIntegerBetween(1, 3),
+                        QuantityOrdered: TestUtils.randomIntegerBetween(1, 3).toString(),
+                    },
+                    editRecord: {
+                        record: {
+                            QuantityOrdered: "5",
+                        },
+                        recordToExpect: {
+                            QuantityOrdered: "5",
+                        },
+                    },
+                },
             },
             {
                 grid: contactGrid,
@@ -661,16 +726,32 @@ export class Order extends HomeModule {
                     record: {
                         ContactId: 1,
                         ContactTitleId: 1,
-                    }
-                }
+                    },
+                    editRecord: {
+                        record: {
+                            OfficeExtension: "GlobalScope.TestToken~1.ShortTestToken",
+                        },
+                        recordToExpect: {
+                            OfficeExtension: "GlobalScope.TestToken~1.ShortTestToken",
+                        },
+                    },
+                },
             },
             {
                 grid: noteGrid,
                 recordToCreate: {
                     record: {
                         NotesDescription: "GlobalScope.TestToken~1.TestToken",
-                    }
-                }
+                    },
+                    editRecord: {
+                        record: {
+                            NotesDescription: "GlobalScope.TestToken~1.MediumTestToken",
+                        },
+                        recordToExpect: {
+                            NotesDescription: "GlobalScope.TestToken~1.MediumTestToken",
+                        },
+                    },
+                },
             },
         ];
 
@@ -829,6 +910,7 @@ export class Customer extends HomeModule {
         this.moduleId = 'InSfo1f2lbFV';
         this.moduleCaption = 'Customer';
         let contactGrid: GridBase = new GridBase("Contact Grid", "CompanyContactGrid");
+        //taxgrid
         let resaleGrid: GridBase = new GridBase("Resale Grid", "CompanyResaleGrid");
         let noteGrid: GridBase = new GridBase("Note Grid", "CustomerNoteGrid");
         this.grids.push(contactGrid);
@@ -856,6 +938,17 @@ export class Customer extends HomeModule {
                     Customer: "GlobalScope.TestToken~1.TestToken",
                 },
                 attemptDuplicate: true,
+                editRecord: {
+                    record: {
+                        Address1: "GlobalScope.TestToken~1.TestToken",
+                    },
+                    seekObject: {
+                        Customer: "GlobalScope.TestToken~1.TestToken",
+                    },
+                    recordToExpect: {
+                        Address1: "GlobalScope.TestToken~1.TestToken",
+                    },
+                },
             },
             {
                 record: {
@@ -970,7 +1063,16 @@ export class Customer extends HomeModule {
                     record: {
                         ContactId: 1,
                         ContactTitleId: 1,
-                    }
+                        ActiveDate: TestUtils.randomRecentDateMDY(30, ""),
+                    },
+                    editRecord: {
+                        record: {
+                            ActiveDate: "01/01/2001",
+                        },
+                        recordToExpect: {
+                            ActiveDate: "01/01/2001",
+                        },
+                    },
                 }
             },
             {
@@ -989,7 +1091,15 @@ export class Customer extends HomeModule {
                     record: {
                         StateId: 1,
                         ResaleNumber: "GlobalScope.TestToken~1.TestToken",
-                    }
+                    },
+                    editRecord: {
+                        record: {
+                            ResaleNumber: "GlobalScope.TestToken~1.MediumTestToken",
+                        },
+                        recordToExpect: {
+                            ResaleNumber: "GlobalScope.TestToken~1.MediumTestToken",
+                        },
+                    },
                 },
             },
             {
@@ -1006,8 +1116,16 @@ export class Customer extends HomeModule {
                 recordToCreate: {
                     record: {
                         Description: "GlobalScope.TestToken~1.TestToken",
-                    }
-                }
+                    },
+                    editRecord: {
+                        record: {
+                            Description: "GlobalScope.TestToken~1.MediumTestToken",
+                        },
+                        recordToExpect: {
+                            Description: "GlobalScope.TestToken~1.MediumTestToken",
+                        },
+                    },
+                },
             },
         ];
 
@@ -1035,6 +1153,7 @@ export class Deal extends HomeModule {
         this.moduleId = '8WdRib388fFF';
         this.moduleCaption = 'Deal';
         let contactGrid: GridBase = new GridBase("Contact Grid", "CompanyContactGrid");
+        //taxgrid
         let resaleGrid: GridBase = new GridBase("Resale Grid", "CompanyResaleGrid");
         let shipperGrid: GridBase = new GridBase("Shipper Grid", "DealShipperGrid");
         let noteGrid: GridBase = new GridBase("Note Grid", "DealNoteGrid");
@@ -1062,9 +1181,42 @@ export class Deal extends HomeModule {
                 },
                 seekObject: {
                     Deal: "GlobalScope.TestToken~1.TestToken",
+                },
+                attemptDuplicate: true,
+                editRecord: {
+                    record: {
+                        Address1: "GlobalScope.TestToken~1.TestToken",
+                    },
+                    seekObject: {
+                        Deal: "GlobalScope.TestToken~1.TestToken",
+                    },
+                    recordToExpect: {
+                        Address1: "GlobalScope.TestToken~1.TestToken",
+                    },
                 }
-
-            }
+            },
+            {
+                record: {
+                    Deal: TestUtils.randomCompanyName() + " GlobalScope.TestToken~1.TestToken",
+                    DealNumber: "GlobalScope.TestToken~1.TestToken",
+                    Address2: TestUtils.randomAddress2(),
+                    Fax: TestUtils.randomPhone(),
+                    DealTypeId: 1,
+                    UseCustomerTax: false
+                },
+                expectedErrorFields: ["CustomerId"],
+            },
+            {
+                record: {
+                    Deal: TestUtils.randomCompanyName() + " GlobalScope.TestToken~1.TestToken",
+                    DealNumber: "GlobalScope.TestToken~1.TestToken",
+                    CustomerId: 1,
+                    Address2: TestUtils.randomAddress2(),
+                    Fax: TestUtils.randomPhone(),
+                    UseCustomerTax: false
+                },
+                expectedErrorFields: ["DealTypeId"],
+            },
         ];
 
         this.newRecordsToCreate[0].gridRecords = [
@@ -1074,7 +1226,26 @@ export class Deal extends HomeModule {
                     record: {
                         ContactId: 1,
                         ContactTitleId: 1,
-                    }
+                        ActiveDate: TestUtils.randomRecentDateMDY(30, ""),
+                    },
+                    editRecord: {
+                        record: {
+                            ActiveDate: "01/01/2001",
+                        },
+                        recordToExpect: {
+                            ActiveDate: "01/01/2001",
+                        },
+                    },
+                },
+            },
+            {
+                grid: contactGrid,
+                recordToCreate: {
+                    record: {
+                        ContactId: 1,
+                        ContactTitleId: 0,
+                    },
+                    expectedErrorFields: ["ContactTitleId"],
                 }
             },
             {
@@ -1083,8 +1254,25 @@ export class Deal extends HomeModule {
                     record: {
                         StateId: 1,
                         ResaleNumber: "GlobalScope.TestToken~1.TestToken",
-                    }
-                }
+                    },
+                    editRecord: {
+                        record: {
+                            ResaleNumber: "GlobalScope.TestToken~1.MediumTestToken",
+                        },
+                        recordToExpect: {
+                            ResaleNumber: "GlobalScope.TestToken~1.MediumTestToken",
+                        },
+                    },
+                },
+            },
+            {
+                grid: resaleGrid,
+                recordToCreate: {
+                    record: {
+                        ResaleNumber: "GlobalScope.TestToken~1.TestToken",
+                    },
+                    expectedErrorFields: ["StateId"],
+                },
             },
             {
                 grid: shipperGrid,
@@ -1093,16 +1281,51 @@ export class Deal extends HomeModule {
                         CarrierId: 1,
                         ShipViaId: 1,
                         ShipperAcct: "GlobalScope.TestToken~1.MediumTestToken",
-                    }
-                }
+                    },
+                    editRecord: {
+                        record: {
+                            ShipperAcct: "GlobalScope.TestToken~1.ShortTestToken",
+                        },
+                        recordToExpect: {
+                            ShipperAcct: "GlobalScope.TestToken~1.ShortTestToken",
+                        },
+                    },
+                },
+            },
+            {
+                grid: shipperGrid,
+                recordToCreate: {
+                    record: {
+                        ShipperAcct: "GlobalScope.TestToken~1.MediumTestToken",
+                    },
+                    expectedErrorFields: ["CarrierId", "ShipViaId"],
+                },
+            },
+            {
+                grid: shipperGrid,
+                recordToCreate: {
+                    record: {
+                        CarrierId: 1,
+                        ShipperAcct: "GlobalScope.TestToken~1.MediumTestToken",
+                    },
+                    expectedErrorFields: ["ShipViaId"],
+                },
             },
             {
                 grid: noteGrid,
                 recordToCreate: {
                     record: {
                         Description: "GlobalScope.TestToken~1.TestToken",
-                    }
-                }
+                    },
+                    editRecord: {
+                        record: {
+                            Description: "GlobalScope.TestToken~1.MediumTestToken",
+                        },
+                        recordToExpect: {
+                            Description: "GlobalScope.TestToken~1.MediumTestToken",
+                        },
+                    },
+                },
             },
         ];
 
@@ -1131,8 +1354,12 @@ export class Vendor extends HomeModule {
         this.moduleName = 'Vendor';
         this.moduleId = 'cwytGLEcUzJdn';
         this.moduleCaption = 'Vendor';
+        let taxGrid: GridBase = new GridBase("Location Tax Grid", "CompanyTaxOptionGrid");
+        taxGrid.canNew = false;
+        taxGrid.canDelete = false;
         let contactGrid: GridBase = new GridBase("Contact Grid", "CompanyContactGrid");
         let noteGrid: GridBase = new GridBase("Note Grid", "VendorNoteGrid");
+        //this.grids.push(taxGrid);  //todo #1410
         this.grids.push(contactGrid);
         this.grids.push(noteGrid);
 
@@ -1157,9 +1384,47 @@ export class Vendor extends HomeModule {
                 },
                 seekObject: {
                     VendorDisplayName: "GlobalScope.TestToken~1.TestToken",
-                }
-
-            }
+                },
+                //attemptDuplicate: true,
+                editRecord: {
+                    record: {
+                        Address2: "ABCD",
+                    },
+                    recordToExpect: {
+                        Address2: "ABCD",
+                    },
+                },
+            },
+            {
+                record: {
+                    VendorNumber: TestUtils.randomAlphanumeric(8),
+                    Address1: TestUtils.randomAddress1(),
+                    Address2: TestUtils.randomAddress2(),
+                    City: TestUtils.randomCity(),
+                    State: TestUtils.randomState(),
+                    ZipCode: TestUtils.randomZipCode(),
+                    Phone: TestUtils.randomPhone(),
+                    Fax: TestUtils.randomPhone(),
+                    WebAddress: TestUtils.randomUrl(),
+                    //OfficeLocation: "GlobalScope.User~ME.OfficeLocation",                  // ie. "LAS VEGAS"
+                },
+                expectedErrorFields: ["Vendor"],
+            },
+            {
+                record: {
+                    Vendor: TestUtils.randomCompanyName(),
+                    Address1: TestUtils.randomAddress1(),
+                    Address2: TestUtils.randomAddress2(),
+                    City: TestUtils.randomCity(),
+                    State: TestUtils.randomState(),
+                    ZipCode: TestUtils.randomZipCode(),
+                    Phone: TestUtils.randomPhone(),
+                    Fax: TestUtils.randomPhone(),
+                    WebAddress: TestUtils.randomUrl(),
+                    //OfficeLocation: "GlobalScope.User~ME.OfficeLocation",                  // ie. "LAS VEGAS"
+                },
+                expectedErrorFields: ["VendorNumber"],
+            },
         ];
 
         this.newRecordsToCreate[0].gridRecords = [
@@ -1169,7 +1434,27 @@ export class Vendor extends HomeModule {
                     record: {
                         ContactId: 1,
                         ContactTitleId: 1,
-                    }
+                        ActiveDate: TestUtils.randomRecentDateMDY(30, ""),
+                    },
+                    editRecord: {
+                        record: {
+                            ActiveDate: "01/01/2001",
+                        },
+                        recordToExpect: {
+                            ActiveDate: "01/01/2001",
+                        },
+                    },
+                },
+            },
+            {
+                grid: taxGrid,
+                recordToEdit: {
+                    seekObject: {
+                        Location: "GlobalScope.User~ME.OfficeLocation",
+                    },
+                    record: {
+                        TaxOptionId: TestUtils.randomIntegerBetween(1, 5),
+                    },
                 }
             },
             {
@@ -1177,8 +1462,16 @@ export class Vendor extends HomeModule {
                 recordToCreate: {
                     record: {
                         Description: "GlobalScope.TestToken~1.TestToken",
-                    }
-                }
+                    },
+                    editRecord: {
+                        record: {
+                            Description: "GlobalScope.TestToken~1.MediumTestToken",
+                        },
+                        recordToExpect: {
+                            Description: "GlobalScope.TestToken~1.MediumTestToken",
+                        },
+                    },
+                },
             },
         ];
 
@@ -1234,6 +1527,17 @@ export class Contact extends HomeModule {
                 seekObject: {
                     LastName: "GlobalScope.TestToken~1.TestToken",
                 },
+                editRecord: {
+                    record: {
+                        Address1: "GlobalScope.TestToken~1.TestToken",
+                    },
+                    seekObject: {
+                        LastName: "GlobalScope.TestToken~1.TestToken",
+                    },
+                    recordToExpect: {
+                        Address1: "GlobalScope.TestToken~1.TestToken",
+                    },
+                }
             }
         ];
         this.newRecordsToCreate[0].gridRecords = [
@@ -1244,8 +1548,17 @@ export class Contact extends HomeModule {
                         CompanyId: 5,
                         ContactTitleId: 4,
                         OfficePhone: TestUtils.randomPhone(),
-                    }
-                }
+                        ActiveDate: TestUtils.randomRecentDateMDY(30, ""),
+                    },
+                    editRecord: {
+                        record: {
+                            ActiveDate: "01/01/2001",
+                        },
+                        recordToExpect: {
+                            ActiveDate: "01/01/2001",
+                        },
+                    },
+                },
             },
             {
                 grid: companyGrid,
@@ -1264,16 +1577,32 @@ export class Contact extends HomeModule {
                     record: {
                         ContactEventId: 1,
                         EventDate: TestUtils.randomRecentDateMDY(30, ""),
-                    }
-                }
+                    },
+                    editRecord: {
+                        record: {
+                            EventDate: "01/01/2001",
+                        },
+                        recordToExpect: {
+                            EventDate: "01/01/2001",
+                        },
+                    },
+                },
             },
             {
                 grid: noteGrid,
                 recordToCreate: {
                     record: {
                         Description: "GlobalScope.TestToken~1.TestToken",
-                    }
-                }
+                    },
+                    editRecord: {
+                        record: {
+                            Description: "GlobalScope.TestToken~1.MediumTestToken",
+                        },
+                        recordToExpect: {
+                            Description: "GlobalScope.TestToken~1.MediumTestToken",
+                        },
+                    },
+                },
             },
         ];
         this.newRecordsToCreate[0].recordToExpect = {
@@ -1313,16 +1642,21 @@ export class PurchaseOrder extends HomeModule {
         this.canDelete = false;
         this.rentalGrid = new GridBase("Rental Inventory Grid", "OrderItemGrid", ["R", "purchase"]);
         this.rentalGrid.waitAfterSavingToReloadGrid = 1500;
+        this.rentalGrid.multiRowSave = true;
         this.salesGrid = new GridBase("Sales Inventory Grid", "OrderItemGrid", ["S", "purchase"]);
         this.salesGrid.waitAfterSavingToReloadGrid = 1500;
+        this.salesGrid.multiRowSave = true;
         this.partsGrid = new GridBase("Parts Inventory Grid", "OrderItemGrid", ["P", "purchase"]);
         this.partsGrid.waitAfterSavingToReloadGrid = 1500;
+        this.partsGrid.multiRowSave = true;
         this.miscGrid = new GridBase("Miscellaneous Items Grid", "OrderItemGrid", ["M", "purchase"]);
         this.miscGrid.waitAfterSavingToReloadGrid = 1500;
+        this.miscGrid.multiRowSave = true;
         this.laborGrid = new GridBase("Labor Items Grid", "OrderItemGrid", ["L", "purchase"]);
         this.laborGrid.waitAfterSavingToReloadGrid = 1500;
+        this.laborGrid.multiRowSave = true;
         //let contactGrid: GridBase = new GridBase("OrderContactGrid");
-        this.noteGrid= new GridBase("Note Grid", "OrderNoteGrid");
+        this.noteGrid = new GridBase("Note Grid", "OrderNoteGrid");
         this.grids.push(this.rentalGrid);
         this.grids.push(this.salesGrid);
         this.grids.push(this.partsGrid);
@@ -1355,60 +1689,111 @@ export class PurchaseOrder extends HomeModule {
                 grid: this.rentalGrid,
                 recordToCreate: {
                     record: {
-                        InventoryId: 4,
-                    }
-                }
+                        InventoryId: TestUtils.randomIntegerBetween(1, 3),
+                        QuantityOrdered: TestUtils.randomIntegerBetween(1, 3).toString(),
+                    },
+                    editRecord: {
+                        record: {
+                            QuantityOrdered: "5",
+                        },
+                        recordToExpect: {
+                            QuantityOrdered: "5",
+                        },
+                    },
+                },
             },
             {
                 grid: this.salesGrid,
                 recordToCreate: {
                     record: {
-                        InventoryId: 3,
-                    }
-                }
+                        InventoryId: TestUtils.randomIntegerBetween(1, 3),
+                        QuantityOrdered: TestUtils.randomIntegerBetween(1, 3).toString(),
+                    },
+                    editRecord: {
+                        record: {
+                            QuantityOrdered: "5",
+                        },
+                        recordToExpect: {
+                            QuantityOrdered: "5",
+                        },
+                    },
+                },
             },
             {
                 grid: this.partsGrid,
                 recordToCreate: {
                     record: {
-                        InventoryId: 3,
-                    }
-                }
+                        InventoryId: TestUtils.randomIntegerBetween(1, 3),
+                        QuantityOrdered: TestUtils.randomIntegerBetween(1, 3).toString(),
+                    },
+                    editRecord: {
+                        record: {
+                            QuantityOrdered: "5",
+                        },
+                        recordToExpect: {
+                            QuantityOrdered: "5",
+                        },
+                    },
+                },
             },
             {
                 grid: this.miscGrid,
                 recordToCreate: {
                     record: {
-                        InventoryId: 1,
-                    }
-                }
+                        InventoryId: TestUtils.randomIntegerBetween(1, 3),
+                        QuantityOrdered: TestUtils.randomIntegerBetween(1, 3).toString(),
+                    },
+                    editRecord: {
+                        record: {
+                            QuantityOrdered: "5",
+                        },
+                        recordToExpect: {
+                            QuantityOrdered: "5",
+                        },
+                    },
+                },
             },
             {
                 grid: this.laborGrid,
                 recordToCreate: {
                     record: {
-                        InventoryId: 1,
-                    }
-                }
+                        InventoryId: TestUtils.randomIntegerBetween(1, 3),
+                        QuantityOrdered: TestUtils.randomIntegerBetween(1, 3).toString(),
+                    },
+                    editRecord: {
+                        record: {
+                            QuantityOrdered: "5",
+                        },
+                        recordToExpect: {
+                            QuantityOrdered: "5",
+                        },
+                    },
+                },
             },
-			/*
-            {
-                grid: contactGrid,
-                recordToCreate: {
-                    record: {
-                        ContactId: 1,
-                        ContactTitleId: 1,
-                    }
-                }
-            },
-			*/
+            //{
+            //    grid: contactGrid,
+            //    recordToCreate: {
+            //        record: {
+            //            ContactId: 1,
+            //            ContactTitleId: 1,
+            //        }
+            //    }
+            //},
             {
                 grid: this.noteGrid,
                 recordToCreate: {
                     record: {
                         NotesDescription: "GlobalScope.TestToken~1.TestToken",
-                    }
-                }
+                    },
+                    editRecord: {
+                        record: {
+                            NotesDescription: "GlobalScope.TestToken~1.MediumTestToken",
+                        },
+                        recordToExpect: {
+                            NotesDescription: "GlobalScope.TestToken~1.MediumTestToken",
+                        },
+                    },
+                },
             },
         ];
 
@@ -1461,8 +1846,16 @@ export class Project extends HomeModule {
                     record: {
                         ContactId: 1,
                         ContactTitleId: 1,
-                    }
-                }
+                    },
+                    editRecord: {
+                        record: {
+                            OfficeExtension: "GlobalScope.TestToken~1.ShortTestToken",
+                        },
+                        recordToExpect: {
+                            OfficeExtension: "GlobalScope.TestToken~1.ShortTestToken",
+                        },
+                    },
+                },
             },
             {
                 grid: poApproverGrid,
@@ -1470,16 +1863,32 @@ export class Project extends HomeModule {
                     record: {
                         UsersId: 1,
                         AppRoleId: 1,
-                    }
-                }
+                    },
+                    editRecord: {
+                        record: {
+                            IsBackup: true,
+                        },
+                        recordToExpect: {
+                            IsBackup: true,
+                        },
+                    },
+                },
             },
             {
                 grid: noteGrid,
                 recordToCreate: {
                     record: {
                         NotesDescription: "GlobalScope.TestToken~1.TestToken",
-                    }
-                }
+                    },
+                    editRecord: {
+                        record: {
+                            NotesDescription: "GlobalScope.TestToken~1.MediumTestToken",
+                        },
+                        recordToExpect: {
+                            NotesDescription: "GlobalScope.TestToken~1.MediumTestToken",
+                        },
+                    },
+                },
             },
         ];
 
@@ -1714,25 +2123,46 @@ export class RentalInventory extends HomeModule {
             }
         ];
 
+        let aka1: string = TestUtils.randomAlphanumeric(20);
+        let aka2: string = TestUtils.randomAlphanumeric(20);
 
         this.newRecordsToCreate[0].gridRecords = [
             {
                 grid: akaGrid,
                 recordToCreate: {
                     record: {
-                        AKA: "GlobalScope.TestToken~1.TestToken",
+                        AKA: aka1,
                     },
                     seekObject: {
-                        AKA: "GlobalScope.TestToken~1.TestToken",
+                        AKA: aka1,
                     },
                     attemptDuplicate: true,
+                    editRecord: {
+                        seekObject: {
+                            AKA: aka1,
+                        },
+                        record: {
+                            AKA: aka2,
+                        },
+                        recordToExpect: {
+                            AKA: aka2,
+                        },
+                    },
                 },
             },
             {
                 grid: substituteGrid,
                 recordToCreate: {
                     record: {
-                        SubstituteInventoryId: 1,
+                        SubstituteInventoryId: TestUtils.randomIntegerBetween(1, 3),
+                    },
+                    editRecord: {
+                        record: {
+                            SubstituteInventoryId: TestUtils.randomIntegerBetween(4, 6),
+                        },
+                        //recordToExpect: {
+                        //    SubstituteInventoryId: TestUtils.randomIntegerBetween(4, 6),
+                        //},
                     },
                 },
             },
@@ -1749,7 +2179,15 @@ export class RentalInventory extends HomeModule {
                 grid: compatibilityGrid,
                 recordToCreate: {
                     record: {
-                        CompatibleWithInventoryId: 1,
+                        CompatibleWithInventoryId: TestUtils.randomIntegerBetween(1, 3),
+                    },
+                    editRecord: {
+                        record: {
+                            CompatibleWithInventoryId: TestUtils.randomIntegerBetween(4, 6),
+                        },
+                        //recordToExpect: {
+                        //    CompatibleWithInventoryId: TestUtils.randomIntegerBetween(4, 6),
+                        //},
                     },
                 },
             },
@@ -1758,8 +2196,17 @@ export class RentalInventory extends HomeModule {
                 recordToCreate: {
                     record: {
                         PrepRateId: 1,
-                        PrepRate: "25.25",
+                        //PrepRate: "25.25",
+                        PrepRate: TestUtils.randomIntegerBetween(10, 99) + "." + TestUtils.randomIntegerBetween(10, 99),
                         PrepTime: "1",
+                    },
+                    editRecord: {
+                        record: {
+                            PrepRate: "50.50",
+                        },
+                        recordToExpect: {
+                            PrepRate: "50.50",
+                        },
                     },
                 },
             },
@@ -1769,6 +2216,25 @@ export class RentalInventory extends HomeModule {
                     record: {
                         AttributeId: 1,
                         AttributeValueId: 1,
+                    },
+                    editRecord: {
+                        record: {
+                            AttributeValueId: 2,
+                        },
+                        //recordToExpect: {
+                        //    AttributeValueId: 2,
+                        //},
+                    },
+                },
+            },
+            {
+                grid: taxGrid,
+                recordToEdit: {
+                    seekObject: {
+                        Location: "GlobalScope.User~ME.OfficeLocation",
+                    },
+                    record: {
+                        Taxable: false,
                     },
                 },
             },
@@ -2059,17 +2525,31 @@ export class SalesInventory extends HomeModule {
             }
         ];
 
+        let aka1: string = TestUtils.randomAlphanumeric(20);
+        let aka2: string = TestUtils.randomAlphanumeric(20);
+
         this.newRecordsToCreate[0].gridRecords = [
             {
                 grid: akaGrid,
                 recordToCreate: {
                     record: {
-                        AKA: "GlobalScope.TestToken~1.TestToken",
+                        AKA: aka1,
                     },
                     seekObject: {
-                        AKA: "GlobalScope.TestToken~1.TestToken",
+                        AKA: aka1,
                     },
                     attemptDuplicate: true,
+                    editRecord: {
+                        seekObject: {
+                            AKA: aka1,
+                        },
+                        record: {
+                            AKA: aka2,
+                        },
+                        recordToExpect: {
+                            AKA: aka2,
+                        },
+                    },
                 },
             },
             {
@@ -2077,6 +2557,14 @@ export class SalesInventory extends HomeModule {
                 recordToCreate: {
                     record: {
                         SubstituteInventoryId: 1,
+                    },
+                    editRecord: {
+                        record: {
+                            SubstituteInventoryId: TestUtils.randomIntegerBetween(4, 6),
+                        },
+                        //recordToExpect: {
+                        //    SubstituteInventoryId: TestUtils.randomIntegerBetween(4, 6),
+                        //},
                     },
                 },
             },
@@ -2095,6 +2583,14 @@ export class SalesInventory extends HomeModule {
                     record: {
                         CompatibleWithInventoryId: 1,
                     },
+                    editRecord: {
+                        record: {
+                            CompatibleWithInventoryId: TestUtils.randomIntegerBetween(4, 6),
+                        },
+                        //recordToExpect: {
+                        //    CompatibleWithInventoryId: TestUtils.randomIntegerBetween(4, 6),
+                        //},
+                    },
                 },
             },
             {
@@ -2102,8 +2598,17 @@ export class SalesInventory extends HomeModule {
                 recordToCreate: {
                     record: {
                         PrepRateId: 1,
-                        PrepRate: "25.25",
+                        //PrepRate: "25.25",
+                        PrepRate: TestUtils.randomIntegerBetween(10, 99) + "." + TestUtils.randomIntegerBetween(10, 99),
                         PrepTime: "1",
+                    },
+                    editRecord: {
+                        record: {
+                            PrepRate: "50.50",
+                        },
+                        recordToExpect: {
+                            PrepRate: "50.50",
+                        },
                     },
                 },
             },
@@ -2113,6 +2618,25 @@ export class SalesInventory extends HomeModule {
                     record: {
                         AttributeId: 1,
                         AttributeValueId: 1,
+                    },
+                    editRecord: {
+                        record: {
+                            AttributeValueId: 2,
+                        },
+                        //recordToExpect: {
+                        //    AttributeValueId: 2,
+                        //},
+                    },
+                },
+            },
+            {
+                grid: taxGrid,
+                recordToEdit: {
+                    seekObject: {
+                        Location: "GlobalScope.User~ME.OfficeLocation",
+                    },
+                    record: {
+                        Taxable: false,
                     },
                 },
             },
@@ -2371,17 +2895,31 @@ export class PartsInventory extends HomeModule {
             }
         ];
 
+        let aka1: string = TestUtils.randomAlphanumeric(20);
+        let aka2: string = TestUtils.randomAlphanumeric(20);
+
         this.newRecordsToCreate[0].gridRecords = [
             {
                 grid: akaGrid,
                 recordToCreate: {
                     record: {
-                        AKA: "GlobalScope.TestToken~1.TestToken",
+                        AKA: aka1,
                     },
                     seekObject: {
-                        AKA: "GlobalScope.TestToken~1.TestToken",
+                        AKA: aka1,
                     },
                     attemptDuplicate: true,
+                    editRecord: {
+                        seekObject: {
+                            AKA: aka1,
+                        },
+                        record: {
+                            AKA: aka2,
+                        },
+                        recordToExpect: {
+                            AKA: aka2,
+                        },
+                    },
                 },
             },
             {
@@ -2389,6 +2927,14 @@ export class PartsInventory extends HomeModule {
                 recordToCreate: {
                     record: {
                         SubstituteInventoryId: 1,
+                    },
+                    editRecord: {
+                        record: {
+                            SubstituteInventoryId: TestUtils.randomIntegerBetween(4, 6),
+                        },
+                        //recordToExpect: {
+                        //    SubstituteInventoryId: TestUtils.randomIntegerBetween(4, 6),
+                        //},
                     },
                 },
             },
@@ -2407,6 +2953,14 @@ export class PartsInventory extends HomeModule {
                     record: {
                         CompatibleWithInventoryId: 1,
                     },
+                    editRecord: {
+                        record: {
+                            CompatibleWithInventoryId: TestUtils.randomIntegerBetween(4, 6),
+                        },
+                        //recordToExpect: {
+                        //    CompatibleWithInventoryId: TestUtils.randomIntegerBetween(4, 6),
+                        //},
+                    },
                 },
             },
             {
@@ -2414,8 +2968,17 @@ export class PartsInventory extends HomeModule {
                 recordToCreate: {
                     record: {
                         PrepRateId: 1,
-                        PrepRate: "25.25",
+                        //PrepRate: "25.25",
+                        PrepRate: TestUtils.randomIntegerBetween(10, 99) + "." + TestUtils.randomIntegerBetween(10, 99),
                         PrepTime: "1",
+                    },
+                    editRecord: {
+                        record: {
+                            PrepRate: "50.50",
+                        },
+                        recordToExpect: {
+                            PrepRate: "50.50",
+                        },
                     },
                 },
             },
@@ -2425,6 +2988,25 @@ export class PartsInventory extends HomeModule {
                     record: {
                         AttributeId: 1,
                         AttributeValueId: 1,
+                    },
+                    editRecord: {
+                        record: {
+                            AttributeValueId: 2,
+                        },
+                        //recordToExpect: {
+                        //    AttributeValueId: 2,
+                        //},
+                    },
+                },
+            },
+            {
+                grid: taxGrid,
+                recordToEdit: {
+                    seekObject: {
+                        Location: "GlobalScope.User~ME.OfficeLocation",
+                    },
+                    record: {
+                        Taxable: false,
                     },
                 },
             },
@@ -2538,6 +3120,55 @@ export class Asset extends HomeModule {
         this.moduleCaption = 'Asset';
         this.canNew = false;
         this.canDelete = false;
+
+        let vendorInvoiceGrid: GridBase = new GridBase("Vendor Invoice Grid", "PurchaseVendorInvoiceItemGrid");
+        vendorInvoiceGrid.canNew = false;
+        vendorInvoiceGrid.canEdit = false;
+        vendorInvoiceGrid.canDelete = false;
+
+        //let attributeGrid: GridBase = new GridBase("Attribute Grid", "ItemAttributeValueGrid");
+
+        let qcGrid: GridBase = new GridBase("QC Grid", "ItemQcGrid");
+        qcGrid.canNew = false;
+        qcGrid.canEdit = false;
+        qcGrid.canDelete = false;
+
+        this.grids.push(vendorInvoiceGrid);
+        //this.grids.push(attributeGrid);
+        this.grids.push(qcGrid);
+
+
+        this.recordsToEdit = [
+            {
+                record: {
+                    InspectionNo: "GlobalScope.TestToken~1.MediumTestToken",
+                },
+                recordToExpect: {
+                    InspectionNo: "GlobalScope.TestToken~1.MediumTestToken",
+                },
+            }
+        ];
+
+        //this.recordsToEdit[0].gridRecords = [
+        //    {
+        //        grid: attributeGrid,
+        //        recordToCreate: {
+        //            record: {
+        //                AttributeId: 1,
+        //                AttributeValueId: 1,
+        //            },
+        //            editRecord: {
+        //                record: {
+        //                    AttributeValueId: 2,
+        //                },
+        //                //recordToExpect: {
+        //                //    AttributeValueId: 2,
+        //                //},
+        //            },
+        //        },
+        //    },
+        //];
+
     }
     //---------------------------------------------------------------------------------------
 }
@@ -2572,12 +3203,23 @@ export class PhysicalInventory extends HomeModule {
                 seekObject: {
                     Description: "GlobalScope.TestToken~1.TestToken",
                 },
+                editRecord: {
+                    seekObject: {
+                        Description: "GlobalScope.TestToken~1.TestToken",
+                    },
+                    record: {
+                        ScheduleDate: "01/01/2001",
+                    },
+                    recordToExpect: {
+                        ScheduleDate: "01/01/2001",
+                    },
+                },
             }
         ];
+
         this.newRecordsToCreate[0].recordToExpect = {
             Description: this.newRecordsToCreate[0].record.Description.toUpperCase(),
-        }
-
+        };
 
     }
     //---------------------------------------------------------------------------------------
@@ -2594,9 +3236,28 @@ export class PickList extends HomeModule {
 
         let itemsGrid: GridBase = new GridBase("Items Grid", "PickListItemGrid");
         itemsGrid.canNew = false;
+        itemsGrid.canDelete = false;
 
         this.grids.push(itemsGrid);
 
+        this.recordsToEdit = [
+            {
+                record: {
+                    DueTime: TestUtils.randomIntegerBetween(10, 23) + ":" + TestUtils.randomIntegerBetween(10, 50),
+                },
+            },
+        ];
+
+        this.recordsToEdit[0].gridRecords = [
+            {
+                grid: itemsGrid,
+                recordToEdit: {
+                    record: {
+                        Quantity: TestUtils.randomIntegerBetween(1, 50).toString(),
+                    }
+                }
+            }
+        ];
 
 
     }

@@ -20,7 +20,7 @@ class FillContainer extends StagingCheckoutBase {
 
         //"Instantiate Container" events
         $form.find('[data-datafield="BarCode"]').on('keydown', e => {
-            if (e.which == 13) {
+            if (e.which === 13 || e.which === 9 ) {
                 const barcode = FwFormField.getValueByDataField($form, 'BarCode');
                 const $errorMsg = $form.find('.error-msg');
                 FwAppData.apiMethod(true, 'GET', `api/v1/item/bybarcode?barcode=${barcode}`, null, FwServices.defaultTimeout,

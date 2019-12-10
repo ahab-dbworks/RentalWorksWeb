@@ -300,34 +300,56 @@ abstract class InventoryBase {
                 const data = request.e.data;
                 let module;
                 let datafield;
+                let id;
+                let title;
                 switch (data.orderType) {
                     case 'O': //ORDER
                         module = 'Order';
                         datafield = 'OrderId';
+                        id = data.orderId;
+                        title = data.orderDescription;
                         break;
                     case 'Q': //QUOTE
                         module = 'Quote';
                         datafield = 'QuoteId';
+                        id = data.orderId;
+                        title = data.orderDescription;
                         break;
                     case 'C': //PURCHASE ORDER
                         module = 'PurchaseOrder';
                         datafield = 'PurchaseOrderId';
+                        id = data.orderId;
+                        title = data.orderDescription;
                         break;
                     case 'T': //TRANSFER
                         module = 'TransferOrder';
                         datafield = 'TransferId';
+                        id = data.orderId;
+                        title = data.orderDescription;
                         break;
                     case 'R': //REPAIR
                         module = 'Repair';
                         datafield = 'RepairId';
+                        id = data.orderId;
+                        title = data.orderDescription;
+                        break;
+                    case 'N': //CONTAINER
+                        module = 'Container';
+                        datafield = 'ContainerItemId';
+                        id = data.orderId;
+                        title = data.orderDescription;
+                        break;
+                    case 'PENDING': //PENDING EXCHANGE
+                        module = 'Contract';
+                        datafield = 'ContractId';
+                        id = data.contractId;
+                        title = data.orderDescription;
                         break;
                     default:
                         FwFunc.showError('Invalid Order Type');
                         break;
                 }
               
-                const id = data.orderId;
-                const title = data.orderDescription;
                 FwValidation.validationPeek($control, module, id, datafield, $form, title);
             });
     }

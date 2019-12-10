@@ -302,6 +302,11 @@ namespace WebApi
         public const int INVENTORY_AVAILABLE_FOR_SALE_COLOR = 6504703;    // reddish
         public const int INVENTORY_AVAILABLE_FOR_PARTS_COLOR = 16543686;  // purplish
 
+        public const string INVENTORY_TRACKED_BY_BAR_CODE = "BARCODE";
+        public const string INVENTORY_TRACKED_BY_SERIAL_NO = "SERIALNO";
+        public const string INVENTORY_TRACKED_BY_RFID = "RFID";
+        public const string INVENTORY_TRACKED_BY_QUANTITY = "QUANTITY";
+
         public const string INVENTORY_STATUS_TYPE_IN = "IN";
         public const string INVENTORY_STATUS_TYPE_OUT = "OUT";
         public const string INVENTORY_STATUS_TYPE_INCONTAINER = "INCONTAINER";

@@ -6,7 +6,10 @@ class SalesInventory extends InventoryBase {
     id: string = Constants.Modules.Inventory.children.SalesInventory.id;
     AvailableFor: string = "S";
     CreateCompleteId: string = '';
-
+    //----------------------------------------------------------------------------------------------
+    addBrowseMenuItems(options: IAddBrowseMenuOptions): void {
+        super.afterAddBrowseMenuItems(options);
+    }
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
@@ -512,12 +515,11 @@ class SalesInventory extends InventoryBase {
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     PackageId  : FwFormField.getValueByDataField($form, 'InventoryId'),
-                    WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId')
+                    WarehouseId: warehouse.warehouseid
                 };
             }, 
             beforeSave: (request: any) => {
-                request.PackageId   = FwFormField.getValueByDataField($form, 'InventoryId'),
-                request.WarehouseId = FwFormField.getValueByDataField($form, 'WarehouseId')
+                request.PackageId   = FwFormField.getValueByDataField($form, 'InventoryId')
             },
             beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
                 $browse.find('div[data-datafield="InventoryId"]').attr('data-validationname', 'SalesInventoryValidation');

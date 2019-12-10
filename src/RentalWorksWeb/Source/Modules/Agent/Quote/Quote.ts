@@ -119,7 +119,7 @@ class Quote extends OrderBase {
         });
         FwMenu.addSubMenuItem(options.$groupOptions, 'Cancel / Uncancel', 'dpH0uCuEp3E89', (e: JQuery.ClickEvent) => {
             try {
-                OrderController.cancelUncancelOrder(options.$form);
+                this.cancelUncancel(options.$form);
             } catch (ex) {
                 FwFunc.showError(ex);
             }
@@ -1619,10 +1619,10 @@ class Quote extends OrderBase {
         }
     }
     //-----------------------------------------------------------------------------------------------------
-    cancelUncancel($browse) {
+    cancelUncancel($form) {
         let $confirmation, $yes, $no;
-        const quoteId = $browse.find('.selected [data-browsedatafield="QuoteId"]').attr('data-originalvalue');
-        const quoteStatus = $browse.find('.selected [data-formdatafield="Status"]').attr('data-originalvalue');
+        const quoteId = FwFormField.getValueByDataField($form, 'QuoteId');
+        const quoteStatus = FwFormField.getValueByDataField($form, 'Status');
         if (quoteId != null) {
             if (quoteStatus === "CANCELLED") {
                 $confirmation = FwConfirmation.renderConfirmation('Cancel', '');
@@ -1667,15 +1667,15 @@ class Quote extends OrderBase {
                 FwAppData.apiMethod(true, 'POST', `api/v1/quote/cancel/${quoteId}`, request, FwServices.defaultTimeout, function onSuccess(response) {
                     FwNotification.renderNotification('SUCCESS', 'Quote Successfully Cancelled');
                     FwConfirmation.destroyConfirmation($confirmation);
-                    FwBrowse.databind($browse);
+                    FwModule.refreshForm($form);
                 }, function onError(response) {
                     $yes.on('click', cancelQuote);
                     $yes.text('Cancel');
                     FwFunc.showError(response);
                     FwFormField.enable($confirmation.find('.fwformfield'));
                     FwFormField.enable($yes);
-                    FwBrowse.databind($browse);
-                }, $browse);
+                    FwModule.refreshForm($form);
+                }, $confirmation);
             };
 
             function uncancelQuote() {
@@ -1689,15 +1689,15 @@ class Quote extends OrderBase {
                 FwAppData.apiMethod(true, 'POST', `api/v1/quote/uncancel/${quoteId}`, request, FwServices.defaultTimeout, function onSuccess(response) {
                     FwNotification.renderNotification('SUCCESS', 'Quote Successfully Retrieved');
                     FwConfirmation.destroyConfirmation($confirmation);
-                    FwBrowse.databind($browse);
+                    FwModule.refreshForm($form);
                 }, function onError(response) {
                     $yes.on('click', uncancelQuote);
                     $yes.text('Cancel');
                     FwFunc.showError(response);
                     FwFormField.enable($confirmation.find('.fwformfield'));
                     FwFormField.enable($yes);
-                    FwBrowse.databind($browse);
-                }, $browse);
+                    FwModule.refreshForm($form);
+                }, $confirmation);
             };
         } else {
             FwNotification.renderNotification('WARNING', 'Select a Quote to perform this action.');

@@ -234,6 +234,9 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
         public DateTime? QcDelayFromDateTime { get; set; }
         public DateTime? QcDelayToDateTime { get; set; }
         public decimal QcQuantity { get; set; }
+        public string ContainerBarCode { get; set; }
+        public bool AvailableWhileInContainer { get; set; }
+        public string ContractId { get; set; }
         public decimal QuantityOrdered { get; set; } = 0;
         public decimal QuantitySub { get; set; } = 0;
         public decimal QuantityConsigned { get; set; } = 0;
@@ -253,6 +256,8 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
         public bool countedReserved = false;  // used only while calculating future availability
         [JsonIgnore]
         public bool countedLate = false;  // used only while calculating future availability
+        [JsonIgnore]
+        public bool countedAvailableInContainer = false;  // used only while calculating future availability
         [JsonIgnore]
         public bool IsTransfer
         {
@@ -309,8 +314,11 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
             get
             {
                 StringBuilder sb = new StringBuilder();
-                sb.Append(OrderNumber);
-                sb.Append(" ");
+                if (!string.IsNullOrEmpty(OrderNumber))
+                {
+                    sb.Append(OrderNumber);
+                    sb.Append(" ");
+                }
                 sb.Append(OrderDescription);
                 if (!string.IsNullOrEmpty(Deal))
                 {
@@ -335,6 +343,14 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                         sb.Append(" (");
                         sb.Append(SubPurchaseOrderVendor);
                         sb.Append(")");
+                    }
+                }
+                if (IsContainer)
+                {
+                    if (!string.IsNullOrEmpty(ContainerBarCode))
+                    {
+                        sb.Append(" ");
+                        sb.Append(ContainerBarCode);
                     }
                 }
                 return sb.ToString();
@@ -724,6 +740,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
         public string deal { get; set; }
         public string subPoNumber { get; set; }
         public string subPoVendor { get; set; }
+        public string contractId { get; set; }
         public bool isWarehouseTotal { get; set; } = false;
         public bool isGrandTotal { get; set; } = false;
     }
@@ -1146,6 +1163,8 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                 qry.Add("       a.qcrequired, a.availenableqcdelay, a.availqcdelay,                             ");
                 qry.Add("       a.availqcdelayexcludeweekend, a.availqcdelayexcludeholiday,                     ");
                 qry.Add("       a.availqcdelayindefinite,                                                       ");
+                qry.Add("       a.excludecontainedfromavail, a.containerbarcode,                                ");
+                qry.Add("       a.contractid,                                                                   ");
                 qry.Add("       a.ordertype, a.orderno, a.orderdesc, a.orderstatus, a.dealid, a.deal,           ");
                 qry.Add("       a.departmentid, a.department,                                                   ");
                 qry.Add("       a.qtyordered, a.qtystagedowned, a.qtyoutowned, a.qtyinowned,                    ");
@@ -1165,19 +1184,6 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                 qry.Add("             join tmpsearchsession t with (nolock) on (a.masterid    = t.masterid and   ");
                 qry.Add("                                                       a.warehouseid = t.warehouseid)   ");
                 qry.Add(" where t.sessionid = @sessionid                                                         ");
-                //qry.Add(" and   a.rectype in (                                                                   ");
-                //qry.Add("                     '" + RwConstants.RECTYPE_RENTAL + "'  ,                            ");
-                //qry.Add("                     '" + RwConstants.RECTYPE_SALE + "'                                 ");
-                //qry.Add("                     )                                                                  ");
-                //qry.Add(" and   (a.ordertype in (                                                                ");
-                //qry.Add("                     '" + RwConstants.ORDER_TYPE_ORDER + "'  ,                          ");
-                //qry.Add("                     '" + RwConstants.ORDER_TYPE_TRANSFER + "'  ,                       ");
-                //qry.Add("                     '" + RwConstants.ORDER_TYPE_REPAIR + "' ,                          ");
-                //qry.Add("                     '" + RwConstants.ORDER_TYPE_PENDING_EXCHANGE + "'                  ");
-                //qry.Add("                        )                                                               ");
-                //qry.Add("          or                                                                            ");
-                //qry.Add("        ((a.ordertype = '" + RwConstants.ORDER_TYPE_QUOTE + "') and ");
-                //qry.Add("         (a.orderstatus = '" + RwConstants.QUOTE_STATUS_RESERVED + "')))");
                 qry.AddParameter("@sessionid", sessionId);
                 FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync();
 
@@ -1236,6 +1242,11 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                         reservation.QcDelayExcludeWeekend = FwConvert.ToBoolean(row[dt.GetColumnNo("availqcdelayexcludeweekend")].ToString());
                         reservation.QcDelayExcludeHoliday = FwConvert.ToBoolean(row[dt.GetColumnNo("availqcdelayexcludeholiday")].ToString());
                         reservation.QcDelayIndefinite = FwConvert.ToBoolean(row[dt.GetColumnNo("availqcdelayindefinite")].ToString());
+                        
+                        reservation.AvailableWhileInContainer = ((reservation.IsContainer) && (!FwConvert.ToBoolean(row[dt.GetColumnNo("excludecontainedfromavail")].ToString())));
+                        reservation.ContainerBarCode = row[dt.GetColumnNo("containerbarcode")].ToString();
+
+                        reservation.ContractId = row[dt.GetColumnNo("contractid")].ToString();
 
                         reservation.QuantityOrdered = FwConvert.ToDecimal(row[dt.GetColumnNo("qtyordered")].ToString());
                         reservation.QuantitySub = FwConvert.ToDecimal(row[dt.GetColumnNo("subqty")].ToString());
@@ -1323,6 +1334,8 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                 qry.Add("       a.qcrequired, a.availenableqcdelay, a.availqcdelay,                             ");
                 qry.Add("       a.availqcdelayexcludeweekend, a.availqcdelayexcludeholiday,                     ");
                 qry.Add("       a.availqcdelayindefinite,                                                       ");
+                qry.Add("       a.excludecontainedfromavail, a.containerbarcode,                                ");
+                qry.Add("       a.contractid,                                                                   ");
                 qry.Add("       a.ordertype, a.orderno, a.orderdesc, a.orderstatus, a.dealid, a.deal,           ");
                 qry.Add("       a.departmentid, a.department,                                                   ");
                 qry.Add("       a.qtyordered, a.qtystagedowned, a.qtyoutowned, a.qtyinowned,                    ");
@@ -1342,18 +1355,6 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                 qry.Add("             join tmpsearchsession t with (nolock) on (a.masterid            = t.masterid and   ");
                 qry.Add("                                                       a.returntowarehouseid = t.warehouseid)   ");
                 qry.Add(" where t.sessionid = @sessionid                                                         ");
-                //qry.Add(" and   a.rectype in (                                                                   ");
-                //qry.Add("                     '" + RwConstants.RECTYPE_RENTAL + "'  ,                            ");
-                //qry.Add("                     '" + RwConstants.RECTYPE_SALE + "'                                 ");
-                //qry.Add("                     )                                                                  ");
-                //qry.Add(" and   (a.ordertype in (                                                                ");
-                //qry.Add("                     '" + RwConstants.ORDER_TYPE_ORDER + "'  ,                          ");
-                //qry.Add("                     '" + RwConstants.ORDER_TYPE_TRANSFER + "'  ,                       ");
-                //qry.Add("                     '" + RwConstants.ORDER_TYPE_REPAIR + "'                            ");
-                //qry.Add("                        )                                                               ");
-                //qry.Add("          or                                                                            ");
-                //qry.Add("        ((a.ordertype = '" + RwConstants.ORDER_TYPE_QUOTE + "') and ");
-                //qry.Add("         (a.orderstatus = '" + RwConstants.QUOTE_STATUS_RESERVED + "')))");
                 qry.AddParameter("@sessionid", sessionId);
                 FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync();
 
@@ -1410,6 +1411,11 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                             reservation.QcDelayExcludeWeekend = FwConvert.ToBoolean(row[dt.GetColumnNo("availqcdelayexcludeweekend")].ToString());
                             reservation.QcDelayExcludeHoliday = FwConvert.ToBoolean(row[dt.GetColumnNo("availqcdelayexcludeholiday")].ToString());
                             reservation.QcDelayIndefinite = FwConvert.ToBoolean(row[dt.GetColumnNo("availqcdelayindefinite")].ToString());
+
+                            reservation.AvailableWhileInContainer = ((reservation.IsContainer) && (!FwConvert.ToBoolean(row[dt.GetColumnNo("excludecontainedfromavail")].ToString())));
+                            reservation.ContainerBarCode = row[dt.GetColumnNo("containerbarcode")].ToString();
+
+                            reservation.ContractId = row[dt.GetColumnNo("contractid")].ToString();
 
                             reservation.QuantityOrdered = FwConvert.ToDecimal(row[dt.GetColumnNo("qtyordered")].ToString());
                             reservation.QuantitySub = FwConvert.ToDecimal(row[dt.GetColumnNo("subqty")].ToString());
@@ -1610,6 +1616,12 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                                             available -= reservation.QuantityReserved;
                                         }
                                         reservation.countedReserved = true;
+                                    }
+
+                                    if ((reservation.AvailableWhileInContainer) && (!reservation.countedAvailableInContainer))
+                                    {
+                                        available += reservation.QuantityStaged + reservation.QuantityOut;
+                                        reservation.countedAvailableInContainer = true;
                                     }
 
                                     if (((available.OwnedAndConsigned) < 0) && ((reservation.QuantityReserved.OwnedAndConsigned) > 0))
@@ -2075,6 +2087,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                 reservationEvent.deal = reservation.Deal;
                 reservationEvent.subPoNumber = reservation.SubPurchaseOrderNumber;
                 reservationEvent.subPoVendor = reservation.SubPurchaseOrderVendor;
+                reservationEvent.contractId = reservation.ContractId;
 
                 scheduleEvents.Add(reservationEvent);
 
@@ -2124,6 +2137,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                     qcEvent.orderType = reservation.OrderType;
                     qcEvent.orderDescription = reservation.OrderDescription;
                     qcEvent.deal = reservation.Deal;
+                    qcEvent.contractId = reservation.ContractId;
 
                     scheduleEvents.Add(qcEvent);
                 }

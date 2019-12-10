@@ -8,6 +8,15 @@
             $control.find('[data-formdatafield="AttributeValueId"] input.text').val('');
         });
     }
+
+    //----------------------------------------------------------------------------------------------
+    beforeValidateAttribute = function ($browse, $grid, request, datafield, $tr) {
+        request.uniqueIds = {
+            HasValues: true,
+        };
+    };
+    //----------------------------------------------------------------------------------------------
+
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
         switch (datafield) {
             case 'AttributeId':

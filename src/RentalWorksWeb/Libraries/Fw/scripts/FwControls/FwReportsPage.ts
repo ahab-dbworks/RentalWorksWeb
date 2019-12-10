@@ -51,45 +51,47 @@
     }
     //----------------------------------------------------------------------------------------------
     getCaptions(screen) {
-        var node = FwApplicationTree.getNodeById(FwApplicationTree.tree, FwApplicationTree.currentApplicationId);
-        var modules = FwApplicationTree.getChildrenByType(node, 'ReportsModule');
+        var node = FwApplicationTree.getNodeById(FwApplicationTree.tree, 'Reports');
+        var modules = FwApplicationTree.getChildrenByType(node, 'Module');
         for (var i = 0; i < modules.length; i++) {
-            var moduleName = modules[i].properties.controller;
-            if (typeof (<any>window[moduleName]).openForm === 'function') {
-                var $form = (<any>window[moduleName]).openForm();
-                var $fwformfields = $form.find('.fwformfield[data-caption]');
-                for (var j = 0; j < $fwformfields.length; j++) {
-                    var $field = $fwformfields.eq(j);
-                    var caption = $field.attr('data-caption').toUpperCase();
-                    if ($field.attr('data-type') === 'radio') {
-                        var radioCaptions = $field.find('div');
-                        for (var k = 0; k < radioCaptions.length; k++) {
-                            var radioCaption = jQuery(radioCaptions[k]).attr('data-caption').toUpperCase()
-                            screen.moduleCaptions[radioCaption] = {};
-                            screen.moduleCaptions[radioCaption][moduleName] = [];
-                            screen.moduleCaptions[radioCaption][moduleName].push($field);
+            var moduleName = modules[i].caption + 'Controller';
+            if (typeof (<any>window[moduleName]) != 'undefined') {
+                if (typeof (<any>window[moduleName]).openForm === 'function') {
+                    var $form = (<any>window[moduleName]).openForm();
+                    var $fwformfields = $form.find('.fwformfield[data-caption]');
+                    for (var j = 0; j < $fwformfields.length; j++) {
+                        var $field = $fwformfields.eq(j);
+                        var caption = $field.attr('data-caption').toUpperCase();
+                        if ($field.attr('data-type') === 'radio') {
+                            var radioCaptions = $field.find('div');
+                            for (var k = 0; k < radioCaptions.length; k++) {
+                                var radioCaption = jQuery(radioCaptions[k]).attr('data-caption').toUpperCase()
+                                screen.moduleCaptions[radioCaption] = {};
+                                screen.moduleCaptions[radioCaption][moduleName] = [];
+                                screen.moduleCaptions[radioCaption][moduleName].push($field);
+                            }
                         }
+                        if (typeof screen.moduleCaptions[caption] === 'undefined') {
+                            screen.moduleCaptions[caption] = {};
+                        }
+                        if (typeof screen.moduleCaptions[caption][moduleName] === 'undefined') {
+                            screen.moduleCaptions[caption][moduleName] = [];
+                        }
+                        screen.moduleCaptions[caption][moduleName].push($field);
                     }
-                    if (typeof screen.moduleCaptions[caption] === 'undefined') {
-                        screen.moduleCaptions[caption] = {};
+                    //add section headings to search
+                    const $sectionHeadings = $form.find('.fwform-section[data-caption]');
+                    for (let l = 0; l < $sectionHeadings.length; l++) {
+                        const $section = $sectionHeadings.eq(l);
+                        const sectionCaption = $section.attr('data-caption').toUpperCase();
+                        if (typeof screen.moduleCaptions[sectionCaption] === 'undefined') {
+                            screen.moduleCaptions[sectionCaption] = {};
+                        }
+                        if (typeof screen.moduleCaptions[sectionCaption][moduleName] === 'undefined') {
+                            screen.moduleCaptions[sectionCaption][moduleName] = [];
+                        }
+                        screen.moduleCaptions[sectionCaption][moduleName].push($section);
                     }
-                    if (typeof screen.moduleCaptions[caption][moduleName] === 'undefined') {
-                        screen.moduleCaptions[caption][moduleName] = [];
-                    }
-                    screen.moduleCaptions[caption][moduleName].push($field);
-                }
-                //add section headings to search
-                const $sectionHeadings = $form.find('.fwform-section[data-caption]');
-                for (let l = 0; l < $sectionHeadings.length; l++) {
-                    const $section = $sectionHeadings.eq(l);
-                    const sectionCaption = $section.attr('data-caption').toUpperCase();
-                    if (typeof screen.moduleCaptions[sectionCaption] === 'undefined') {
-                        screen.moduleCaptions[sectionCaption] = {};
-                    }
-                    if (typeof screen.moduleCaptions[sectionCaption][moduleName] === 'undefined') {
-                        screen.moduleCaptions[sectionCaption][moduleName] = [];
-                    }
-                    screen.moduleCaptions[sectionCaption][moduleName].push($section);
                 }
             }
         }
