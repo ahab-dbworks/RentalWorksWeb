@@ -752,7 +752,7 @@
         const $form = jQuery(event.currentTarget).closest('.fwform');
         const $grid = jQuery(event.currentTarget).closest('[data-name="OrderItemGrid"]');
         let recType;
-        recType = jQuery(this).closest('[data-grid="OrderItemGrid"]');
+        recType = jQuery(event.currentTarget).closest('[data-grid="OrderItemGrid"]');
         if (recType.hasClass('R')) {
             recType = 'R';
         } else if (recType.hasClass('S')) {
@@ -894,7 +894,7 @@
     }
     //---------------------------------------------------------------------------------
     async shortagesOnly(event: any) {
-        const $orderItemGrid: any = jQuery(this).closest('[data-name="OrderItemGrid"]');
+        const $orderItemGrid: any = jQuery(event.currentTarget).closest('[data-name="OrderItemGrid"]');
         let shortages: boolean = $orderItemGrid.data('Shortages');
         shortages = !shortages;
         $orderItemGrid.data('Shortages', shortages);
@@ -914,7 +914,7 @@
     }
     //---------------------------------------------------------------------------------
     async splitDetail(event: any) {
-        const $orderItemGrid: any = jQuery(this).closest('[data-name="OrderItemGrid"]');
+        const $orderItemGrid: any = jQuery(event.currentTarget).closest('[data-name="OrderItemGrid"]');
         let splitDetails: boolean = $orderItemGrid.data('SplitDetails');
         splitDetails = !splitDetails;
         $orderItemGrid.data('SplitDetails', splitDetails);
@@ -933,14 +933,8 @@
         await jQuery(document).trigger('click');
     }
     //----------------------------------------------------------------------------------------------
-    openSearch(e) {
-        let grid = jQuery(e.currentTarget).parents('[data-control="FwGrid"]');
-        let search, $form, orderId, quoteId, purchaseOrderId, templateId;
-
-        $form = jQuery(this).closest('.fwform');
-        let controllerName = $form.attr('data-controller');
-        search = new SearchInterface();
-
+    openSearch(event) {
+        const grid = jQuery(event.currentTarget).parents('[data-control="FwGrid"]');
         let gridInventoryType;
         if (grid.hasClass('R')) {
             gridInventoryType = 'Rental';
@@ -958,6 +952,8 @@
             gridInventoryType = 'Parts';
         }
 
+        const $form = jQuery(event.currentTarget).closest('.fwform');
+        const controllerName = $form.attr('data-controller');
         if ($form.attr('data-mode') === 'NEW') {
             let isValid = FwModule.validateForm($form);
             if (isValid) {
@@ -974,9 +970,10 @@
             return;
         }
 
+        const search = new SearchInterface();
         switch (controllerName) {
             case 'OrderController':
-                orderId = FwFormField.getValueByDataField($form, 'OrderId');
+                const orderId = FwFormField.getValueByDataField($form, 'OrderId');
                 if (orderId == '') {
                     FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
                 } else {
@@ -984,7 +981,7 @@
                 }
                 break;
             case 'QuoteController':
-                quoteId = FwFormField.getValueByDataField($form, 'QuoteId');
+                const quoteId = FwFormField.getValueByDataField($form, 'QuoteId');
                 if (quoteId == '') {
                     FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
                 } else {
@@ -992,7 +989,7 @@
                 }
                 break;
             case 'PurchaseOrderController':
-                purchaseOrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
+                const purchaseOrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
                 if (purchaseOrderId == '') {
                     FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
                 } else {
@@ -1000,7 +997,7 @@
                 }
                 break;
             case 'TemplateController':
-                templateId = FwFormField.getValueByDataField($form, 'TemplateId');
+                const templateId = FwFormField.getValueByDataField($form, 'TemplateId');
                 if (templateId == '') {
                     FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
                 } else {
@@ -1016,9 +1013,9 @@
 //----------------------------------------------------------------------------------------------
 ////Refresh Availability
 //FwApplicationTree.clickEvents[Constants.Grids.OrderItemGrid.menuItems.RefreshAvailability.id] = function (e) {
-//    const $orderItemGrid = jQuery(this).closest('[data-name="OrderItemGrid"]');
+//    const $orderItemGrid = jQuery(event.currentTarget).closest('[data-name="OrderItemGrid"]');
 //    let recType;
-//    recType = jQuery(this).closest('[data-grid="OrderItemGrid"]');
+//    recType = jQuery(event.currentTarget).closest('[data-grid="OrderItemGrid"]');
 //    if (recType.hasClass('R')) {
 //        recType = 'R';
 //    } else if (recType.hasClass('S')) {
@@ -1161,33 +1158,33 @@
 //};
 
 //---------------------------------------------------------------------------------
-FwApplicationTree.clickEvents[Constants.Grids.OrderItemGrid.menuItems.AddLossAndDamageItems.id] = function (event: JQuery.ClickEvent) {
-    try {
-        const $form = jQuery(this).closest('.fwform');
-        if ($form.attr('data-mode') !== 'NEW') {
-            OrderController.addLossDamage($form, event);
-        } else {
-            FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
-        }
-    }
-    catch (ex) {
-        FwFunc.showError(ex);
-    }
-};
-//---------------------------------------------------------------------------------
-FwApplicationTree.clickEvents[Constants.Grids.OrderItemGrid.menuItems.RetireLossAndDamageItems.id] = function (event: JQuery.ClickEvent) {
-    try {
-        const $form = jQuery(this).closest('.fwform');
-        if ($form.attr('data-mode') !== 'NEW') {
-            let $form = jQuery(this).closest('.fwform');
-            OrderController.retireLossDamage($form);
-        } else {
-            FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
-        }
-    }
-    catch (ex) {
-        FwFunc.showError(ex);
-    }
-};
+//FwApplicationTree.clickEvents[Constants.Grids.OrderItemGrid.menuItems.AddLossAndDamageItems.id] = function (event: JQuery.ClickEvent) {
+//    try {
+//        const $form = jQuery(this).closest('.fwform');
+//        if ($form.attr('data-mode') !== 'NEW') {
+//            OrderController.addLossDamage($form, event);
+//        } else {
+//            FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
+//        }
+//    }
+//    catch (ex) {
+//        FwFunc.showError(ex);
+//    }
+//};
+////---------------------------------------------------------------------------------
+//FwApplicationTree.clickEvents[Constants.Grids.OrderItemGrid.menuItems.RetireLossAndDamageItems.id] = function (event: JQuery.ClickEvent) {
+//    try {
+//        const $form = jQuery(this).closest('.fwform');
+//        if ($form.attr('data-mode') !== 'NEW') {
+//            let $form = jQuery(this).closest('.fwform');
+//            OrderController.retireLossDamage($form);
+//        } else {
+//            FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
+//        }
+//    }
+//    catch (ex) {
+//        FwFunc.showError(ex);
+//    }
+//};
 //---------------------------------------------------------------------------------
 var OrderItemGridController = new OrderItemGrid();

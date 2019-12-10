@@ -403,9 +403,9 @@ class OrderBase {
             },
             beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
                 $fwgrid.addClass('S');
-                $browse.find('div[data-datafield="Price"]').attr('data-caption', 'Unit Price');
-                $browse.find('div[data-datafield="PeriodDiscountAmount"]').attr('data-caption', 'Discount Amount');
-                $browse.find('div[data-datafield="PeriodExtended"]').attr('data-caption', 'Extended');
+                $fwgrid.find('div[data-datafield="Price"]').attr('data-caption', 'Unit Price');
+                $fwgrid.find('div[data-datafield="PeriodDiscountAmount"]').attr('data-caption', 'Discount Amount');
+                $fwgrid.find('div[data-datafield="PeriodExtended"]').attr('data-caption', 'Extended');
                 $orderItemGridSales = $fwgrid;
             },
             afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
