@@ -627,34 +627,34 @@
         const $selectedCheckBoxes = $browse.find('tbody .cbselectrow:checked');
 
         if (orderId != null) {
-                for (let i = 0; i < $selectedCheckBoxes.length; i++) {
-                    let orderItem: any = {};
-                    let orderItemId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderItemId"]').attr('data-originalvalue');
-                    let orderId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderId"]').attr('data-originalvalue');
-                    let description = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="Description"]').attr('data-originalvalue');
-                    let quantityOrdered = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="QuantityOrdered"]').attr('data-originalvalue');
-                    let recType = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="RecType"]').attr('data-originalvalue');
-                    let rowsRolledUp = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="RowsRolledUp"]').attr('data-originalvalue');
+            for (let i = 0; i < $selectedCheckBoxes.length; i++) {
+                let orderItem: any = {};
+                let orderItemId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderItemId"]').attr('data-originalvalue');
+                let orderId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderId"]').attr('data-originalvalue');
+                let description = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="Description"]').attr('data-originalvalue');
+                let quantityOrdered = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="QuantityOrdered"]').attr('data-originalvalue');
+                let recType = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="RecType"]').attr('data-originalvalue');
+                let rowsRolledUp = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="RowsRolledUp"]').attr('data-originalvalue');
 
-                    orderItem.OrderItemId = orderItemId
-                    orderItem.OrderId = orderId;
-                    orderItem.Description = description;
-                    orderItem.QuantityOrdered = quantityOrdered;
-                    orderItem.RecType = recType;
-                    orderItem.RowsRolledUp = rowsRolledUp;
+                orderItem.OrderItemId = orderItemId
+                orderItem.OrderId = orderId;
+                orderItem.Description = description;
+                orderItem.QuantityOrdered = quantityOrdered;
+                orderItem.RecType = recType;
+                orderItem.RowsRolledUp = rowsRolledUp;
 
-                    if ($selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="Bold"]').attr('data-originalvalue') === 'true') {
-                        orderItem.Bold = false;
-                    } else {
-                        orderItem.Bold = true;
-                    }
-                    boldItems.push(orderItem);
+                if ($selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="Bold"]').attr('data-originalvalue') === 'true') {
+                    orderItem.Bold = false;
+                } else {
+                    orderItem.Bold = true;
                 }
-        await boldUnboldItem(boldItems);
-        await jQuery(document).trigger('click');
-            } else {
-                FwNotification.renderNotification('WARNING', 'Select a record.')
+                boldItems.push(orderItem);
             }
+            await boldUnboldItem(boldItems);
+            await jQuery(document).trigger('click');
+        } else {
+            FwNotification.renderNotification('WARNING', 'Select a record.')
+        }
 
         function boldUnboldItem(orders): void {
 
@@ -854,34 +854,34 @@
         const $selectedCheckBoxes = $browse.find('tbody .cbselectrow:checked');
 
         if (orderId != null) {
-                for (let i = 0; i < $selectedCheckBoxes.length; i++) {
-                    let orderItem: any = {};
-                    let orderItemId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderItemId"]').attr('data-originalvalue');
-                    let orderId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderId"]').attr('data-originalvalue');
-                    let description = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="Description"]').attr('data-originalvalue');
-                    let quantityOrdered = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="QuantityOrdered"]').attr('data-originalvalue');
-                    let recType = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="RecType"]').attr('data-originalvalue');
-                    let rowsRolledUp = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="RowsRolledUp"]').attr('data-originalvalue');
+            for (let i = 0; i < $selectedCheckBoxes.length; i++) {
+                let orderItem: any = {};
+                let orderItemId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderItemId"]').attr('data-originalvalue');
+                let orderId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderId"]').attr('data-originalvalue');
+                let description = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="Description"]').attr('data-originalvalue');
+                let quantityOrdered = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="QuantityOrdered"]').attr('data-originalvalue');
+                let recType = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="RecType"]').attr('data-originalvalue');
+                let rowsRolledUp = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="RowsRolledUp"]').attr('data-originalvalue');
 
-                    orderItem.OrderItemId = orderItemId
-                    orderItem.OrderId = orderId;
-                    orderItem.Description = description;
-                    orderItem.QuantityOrdered = quantityOrdered;
-                    orderItem.RecType = recType;
-                    orderItem.RowsRolledUp = rowsRolledUp;
+                orderItem.OrderItemId = orderItemId
+                orderItem.OrderId = orderId;
+                orderItem.Description = description;
+                orderItem.QuantityOrdered = quantityOrdered;
+                orderItem.RecType = recType;
+                orderItem.RowsRolledUp = rowsRolledUp;
 
-                    if ($selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="Locked"]').attr('data-originalvalue') === 'true') {
-                        orderItem.Locked = false;
-                    } else {
-                        orderItem.Locked = true;
-                    }
-                    lockedItems.push(orderItem);
+                if ($selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="Locked"]').attr('data-originalvalue') === 'true') {
+                    orderItem.Locked = false;
+                } else {
+                    orderItem.Locked = true;
                 }
-                await lockUnlockItem(lockedItems);
-                await jQuery(document).trigger('click');
-            } else {
-                FwNotification.renderNotification('WARNING', 'Select a record.')
+                lockedItems.push(orderItem);
             }
+            await lockUnlockItem(lockedItems);
+            await jQuery(document).trigger('click');
+        } else {
+            FwNotification.renderNotification('WARNING', 'Select a record.')
+        }
 
         function lockUnlockItem(orders): void {
             FwAppData.apiMethod(true, 'POST', `api/v1/orderitem/many`, orders, FwServices.defaultTimeout, function onSuccess(response) {
@@ -909,8 +909,8 @@
             });
         }
 
-       await  FwBrowse.search($orderItemGrid);
-       await jQuery(document).trigger('click');
+        await FwBrowse.search($orderItemGrid);
+        await jQuery(document).trigger('click');
     }
     //---------------------------------------------------------------------------------
     async splitDetail(event: any) {
@@ -932,85 +932,84 @@
         await FwBrowse.search($orderItemGrid);
         await jQuery(document).trigger('click');
     }
-}
-//----------------------------------------------------------------------------------------------
-//Search Interface
-FwApplicationTree.clickEvents[Constants.Grids.OrderItemGrid.menuItems.Search.id] = function (e) {
-    let grid = jQuery(e.currentTarget).parents('[data-control="FwGrid"]');
-    let search, $form, orderId, quoteId, purchaseOrderId, templateId;
+    //----------------------------------------------------------------------------------------------
+    openSearch(e) {
+        let grid = jQuery(e.currentTarget).parents('[data-control="FwGrid"]');
+        let search, $form, orderId, quoteId, purchaseOrderId, templateId;
 
-    $form = jQuery(this).closest('.fwform');
-    let controllerName = $form.attr('data-controller');
-    search = new SearchInterface();
+        $form = jQuery(this).closest('.fwform');
+        let controllerName = $form.attr('data-controller');
+        search = new SearchInterface();
 
-    let gridInventoryType;
-    if (grid.hasClass('R')) {
-        gridInventoryType = 'Rental';
-    }
-    if (grid.hasClass('S')) {
-        gridInventoryType = 'Sales';
-    }
-    if (grid.hasClass('L')) {
-        gridInventoryType = 'Labor';
-    }
-    if (grid.hasClass('M')) {
-        gridInventoryType = 'Misc';
-    }
-    if (grid.hasClass('P')) {
-        gridInventoryType = 'Parts';
-    }
-
-    if ($form.attr('data-mode') === 'NEW') {
-        let isValid = FwModule.validateForm($form);
-        if (isValid) {
-            let activeTabId = jQuery($form.find('[data-type="tab"].active')).attr('id');
-            if (controllerName === "OrderController") {
-                OrderController.saveForm($form, { closetab: false });
-            } else if (controllerName === "QuoteController") {
-                QuoteController.saveForm($form, { closetab: false });
-            }
-            $form.attr('data-opensearch', 'true');
-            $form.attr('data-searchtype', gridInventoryType);
-            $form.attr('data-activetabid', activeTabId);
+        let gridInventoryType;
+        if (grid.hasClass('R')) {
+            gridInventoryType = 'Rental';
         }
-        return;
-    }
+        if (grid.hasClass('S')) {
+            gridInventoryType = 'Sales';
+        }
+        if (grid.hasClass('L')) {
+            gridInventoryType = 'Labor';
+        }
+        if (grid.hasClass('M')) {
+            gridInventoryType = 'Misc';
+        }
+        if (grid.hasClass('P')) {
+            gridInventoryType = 'Parts';
+        }
 
-    switch (controllerName) {
-        case 'OrderController':
-            orderId = FwFormField.getValueByDataField($form, 'OrderId');
-            if (orderId == '') {
-                FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
-            } else {
-                search.renderSearchPopup($form, orderId, 'Order', gridInventoryType);
+        if ($form.attr('data-mode') === 'NEW') {
+            let isValid = FwModule.validateForm($form);
+            if (isValid) {
+                let activeTabId = jQuery($form.find('[data-type="tab"].active')).attr('id');
+                if (controllerName === "OrderController") {
+                    OrderController.saveForm($form, { closetab: false });
+                } else if (controllerName === "QuoteController") {
+                    QuoteController.saveForm($form, { closetab: false });
+                }
+                $form.attr('data-opensearch', 'true');
+                $form.attr('data-searchtype', gridInventoryType);
+                $form.attr('data-activetabid', activeTabId);
             }
-            break;
-        case 'QuoteController':
-            quoteId = FwFormField.getValueByDataField($form, 'QuoteId');
-            if (quoteId == '') {
-                FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
-            } else {
-                search.renderSearchPopup($form, quoteId, 'Quote', gridInventoryType);
-            }
-            break;
-        case 'PurchaseOrderController':
-            purchaseOrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
-            if (purchaseOrderId == '') {
-                FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
-            } else {
-                search.renderSearchPopup($form, purchaseOrderId, 'PurchaseOrder', gridInventoryType);
-            }
-            break;
-        case 'TemplateController':
-            templateId = FwFormField.getValueByDataField($form, 'TemplateId');
-            if (templateId == '') {
-                FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
-            } else {
-                search.renderSearchPopup($form, templateId, 'Template', gridInventoryType);
-            }
-            break;
+            return;
+        }
+
+        switch (controllerName) {
+            case 'OrderController':
+                orderId = FwFormField.getValueByDataField($form, 'OrderId');
+                if (orderId == '') {
+                    FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
+                } else {
+                    search.renderSearchPopup($form, orderId, 'Order', gridInventoryType);
+                }
+                break;
+            case 'QuoteController':
+                quoteId = FwFormField.getValueByDataField($form, 'QuoteId');
+                if (quoteId == '') {
+                    FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
+                } else {
+                    search.renderSearchPopup($form, quoteId, 'Quote', gridInventoryType);
+                }
+                break;
+            case 'PurchaseOrderController':
+                purchaseOrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
+                if (purchaseOrderId == '') {
+                    FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
+                } else {
+                    search.renderSearchPopup($form, purchaseOrderId, 'PurchaseOrder', gridInventoryType);
+                }
+                break;
+            case 'TemplateController':
+                templateId = FwFormField.getValueByDataField($form, 'TemplateId');
+                if (templateId == '') {
+                    FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
+                } else {
+                    search.renderSearchPopup($form, templateId, 'Template', gridInventoryType);
+                }
+                break;
+        }
     }
-};
+}
 
 
 

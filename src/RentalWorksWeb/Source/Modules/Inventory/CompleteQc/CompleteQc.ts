@@ -120,6 +120,9 @@ class CompleteQc {
                     this.itemId = response.ItemId;
                     this.itemQcId = response.ItemQcId;
                     const $inventoryAttributeValueGrid = $form.find('[data-name="InventoryAttributeValueGrid"]');
+                    $inventoryAttributeValueGrid.data('ondatabind', request => {
+                        request.uniqueids = { ItemId: this.itemId }
+                    })
                     FwBrowse.search($inventoryAttributeValueGrid);
                     $form.find('div[data-datafield="Code"] input').select().focus();
                 } else {
@@ -192,7 +195,7 @@ class CompleteQc {
                               <div class="fwcontrol fwcontainer fwform-section foot-candles" data-control="FwContainer" data-type="section" data-caption="Foot Candles">
                                 <div class="flexrow">
                                   <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield lamps" data-caption="Current" data-datafield="CurrentFootCandles" style="flex:1 1 110px;"></div>
-                                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Required" data-datafield="RequiredFootCandles" style="flex:1 1 125px;margin-left:40px;"></div>
+                                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Required" data-datafield="RequiredFootCandles" data-enabled="false" style="flex:1 1 125px;margin-left:40px;"></div>
                                 </div>
                               </div>
                               <div class="fwcontrol fwcontainer fwform-section software-version" data-control="FwContainer" data-type="section" data-caption="Software Version">

@@ -47,7 +47,7 @@
         $form.find('[data-datafield="WarehouseId"]').hide();
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
-     
+
         $form.find('div.caption:contains(Cancel Staging / Check-Out)').parent().attr('data-enabled', 'false');
 
         this.getOrder($form);
@@ -67,14 +67,14 @@
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any): void {
         FwBrowse.renderGrid({
-            nameGrid:         'StagedItemGrid',
-            gridSecurityId:   '40bj9sn7JHqai',
+            nameGrid: 'StagedItemGrid',
+            gridSecurityId: '40bj9sn7JHqai',
             moduleSecurityId: this.id,
-            $form:            $form,
-            pageSize:         20,
+            $form: $form,
+            pageSize: 20,
             addGridMenu: (options: IAddGridMenuOptions) => {
-                options.hasNew    = false;
-                options.hasEdit   = false;
+                options.hasNew = false;
+                options.hasEdit = false;
                 options.hasDelete = false;
 
                 FwMenu.addSubMenuItem(options.$groupActions, 'Unstage Selected Items', '', (e: JQuery.ClickEvent) => {
@@ -98,13 +98,13 @@
         });
 
         FwBrowse.renderGrid({
-            nameGrid:         'CheckedOutItemGrid',
-            gridSecurityId:   'HXSEu4U0vSir',
+            nameGrid: 'CheckedOutItemGrid',
+            gridSecurityId: 'HXSEu4U0vSir',
             moduleSecurityId: this.id,
-            $form:            $form,
+            $form: $form,
             addGridMenu: (options: IAddGridMenuOptions) => {
-                options.hasNew    = false;
-                options.hasEdit   = false;
+                options.hasNew = false;
+                options.hasEdit = false;
                 options.hasDelete = false;
             },
             onDataBind: (request: any) => {
@@ -115,14 +115,14 @@
         });
 
         FwBrowse.renderGrid({
-            nameGrid:         'StageQuantityItemGrid',
-            gridSecurityId:   '0m0QMviBYWVYm',
+            nameGrid: 'StageQuantityItemGrid',
+            gridSecurityId: '0m0QMviBYWVYm',
             moduleSecurityId: this.id,
-            $form:            $form,
-            pageSize:         20,
+            $form: $form,
+            pageSize: 20,
             addGridMenu: (options: IAddGridMenuOptions) => {
-                options.hasNew    = false;
-                options.hasEdit   = false;
+                options.hasNew = false;
+                options.hasEdit = false;
                 options.hasDelete = false;
 
                 FwMenu.addSubMenuItem(options.$groupActions, 'Unstage Selected Items', '', (e: JQuery.ClickEvent) => {
@@ -147,14 +147,14 @@
         });
 
         FwBrowse.renderGrid({
-            nameGrid:         'StageHoldingItemGrid',
-            gridSecurityId:   'i7EMskpGXvByc',
+            nameGrid: 'StageHoldingItemGrid',
+            gridSecurityId: 'i7EMskpGXvByc',
             moduleSecurityId: this.id,
-            $form:            $form,
-            pageSize:         20,
+            $form: $form,
+            pageSize: 20,
             addGridMenu: (options: IAddGridMenuOptions) => {
-                options.hasNew    = false;
-                options.hasEdit   = false;
+                options.hasNew = false;
+                options.hasEdit = false;
                 options.hasDelete = false;
             },
             onDataBind: (request: any) => {
@@ -167,14 +167,14 @@
         });
 
         FwBrowse.renderGrid({
-            nameGrid:         'CheckOutPendingItemGrid',
-            gridSecurityId:   'GO96A3pk0UE',
+            nameGrid: 'CheckOutPendingItemGrid',
+            gridSecurityId: 'GO96A3pk0UE',
             moduleSecurityId: this.id,
-            $form:            $form,
-            pageSize:         20,
+            $form: $form,
+            pageSize: 20,
             addGridMenu: (options: IAddGridMenuOptions) => {
-                options.hasNew    = false;
-                options.hasEdit   = false;
+                options.hasNew = false;
+                options.hasEdit = false;
                 options.hasDelete = false;
             },
             onDataBind: (request: any) => {
@@ -222,7 +222,7 @@
                 case 'FillContainer':
                     apiUrl = `api/v1/checkout/containersuspendedsessionsexist?warehouseId=${warehouse.warehouseid}`;
                     sessionType = 'FILL';
-                    //orderType = 'N';
+                //orderType = 'N';
             }
             FwAppData.apiMethod(true, 'GET', apiUrl, null, FwServices.defaultTimeout,
                 response => {
@@ -790,7 +790,7 @@
         const orderId = FwFormField.getValueByDataField($form, `${type}Id`);
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         const request: any = {};
-        
+
         setTimeout(() => {
             if (this.Module === 'StagingCheckout' && warehouse.promptforcheckoutexceptions == true) {
                 const $grid = $form.find('[data-name="CheckOutPendingItemGrid"]');
@@ -935,10 +935,10 @@
                 $form.find('div.AddItemToOrder').html('');
                 const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
                 const orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
-                const code    = FwFormField.getValueByDataField($form, 'Code');
+                const code = FwFormField.getValueByDataField($form, 'Code');
                 const request: any = {
                     OrderId: orderId,
-                    Code:    code,
+                    Code: code,
                     WarehouseId: warehouse.warehouseid
                 }
 
@@ -989,12 +989,12 @@
                     $form.find('div.AddItemToOrder').html('');
 
                     const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
-                    const orderId  = FwFormField.getValueByDataField($form, `${this.Type}Id`);
-                    const code     = FwFormField.getValueByDataField($form, 'Code');
+                    const orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
+                    const code = FwFormField.getValueByDataField($form, 'Code');
                     const quantity = +FwFormField.getValueByDataField($form, 'Quantity');
-                    const request  = {
-                        OrderId:  orderId,
-                        Code:     code,
+                    const request = {
+                        OrderId: orderId,
+                        Code: code,
                         WarehouseId: warehouse.warehouseid,
                         Quantity: quantity
                     }
