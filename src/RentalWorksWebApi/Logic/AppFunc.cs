@@ -35,7 +35,7 @@ namespace WebApi.Logic
 
     public class SortItemsResponse : TSpStatusResponse { }
 
-    public class UpdateInventoryQuantityRequest 
+    public class UpdateInventoryQuantityRequest
     {
         public string InventoryId { get; set; }
         public string WarehouseId { get; set; }
@@ -130,6 +130,7 @@ namespace WebApi.Logic
                 {
                     qry.AddParameter("@" + columns[c], values[c]);
                 }
+                qry.Add(")");
 
                 await qry.ExecuteAsync();
                 success = true;
@@ -190,34 +191,40 @@ namespace WebApi.Logic
         {
             bool success = false;
 
-            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            if (wherecolumns.Length.Equals(0))
             {
-                FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
-                qry.Add("delete ");
-                if (rowCount != null)
-                {
-                    qry.Add(" top " + rowCount.ToString());
-                }
-                qry.Add(" from tablename ");
-                qry.Add("where ");
-                for (int c = 0; c < wherecolumns.Length; c++)
-                {
-                    qry.Add(wherecolumns[c] + " = @wherecolumnvalue" + c.ToString());
-                    if (c < (wherecolumns.Length - 1))
-                    {
-                        qry.Add(" and ");
-                    }
-                }
-
-                for (int c = 0; c < wherecolumnvalues.Length; c++)
-                {
-                    qry.AddParameter("@wherecolumnvalue" + c.ToString(), wherecolumnvalues[c]);
-                }
-
-                await qry.ExecuteAsync();
-                success = true;
+                throw new Exception("missing wherecolumns in call to DeleteDataAsync.");
             }
+            else
+            {
+                using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+                {
+                    FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
+                    qry.Add("delete ");
+                    if (rowCount != null)
+                    {
+                        qry.Add(" top " + rowCount.ToString());
+                    }
+                    qry.Add(" from " + tablename);
+                    qry.Add(" where ");
+                    for (int c = 0; c < wherecolumns.Length; c++)
+                    {
+                        qry.Add(wherecolumns[c] + " = @wherecolumnvalue" + c.ToString());
+                        if (c < (wherecolumns.Length - 1))
+                        {
+                            qry.Add(" and ");
+                        }
+                    }
 
+                    for (int c = 0; c < wherecolumnvalues.Length; c++)
+                    {
+                        qry.AddParameter("@wherecolumnvalue" + c.ToString(), wherecolumnvalues[c]);
+                    }
+
+                    await qry.ExecuteAsync();
+                    success = true;
+                }
+            }
             return success;
         }
         //-------------------------------------------------------------------------------------------------------
