@@ -2717,7 +2717,7 @@ class FwBrowseClass {
             }
 
             if (typeof onrowdblclick !== 'undefined') {
-                $control.find('.runtime tbody').on('dblclick', '> tr', (event: JQuery.DoubleClickEvent) => {
+                $control.find('.runtime tbody').one('dblclick', '> tr', (event: JQuery.DoubleClickEvent) => {
                     let $tr = jQuery(event.target);
                     $tr.addClass('selected');
                     if ((nodeView !== null && nodeView.properties.visible === 'T') || 
