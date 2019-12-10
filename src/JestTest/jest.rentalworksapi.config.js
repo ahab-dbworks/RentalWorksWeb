@@ -13,5 +13,17 @@ module.exports = {
         "jsx",
         "json",
         "node"
+    ],
+    "reporters": [
+        "default",
+        [
+		"./node_modules/jest-html-reporter", {
+            "pageTitle": "RentalWorks Api Test Report",
+			"outputPath": "test-report-rentalworksapi.html",
+			includeFailureMsg : true,
+			includeConsoleLog : true,
+			logo: "rwwlogo.png"
+           }
+		]
     ]
 }
