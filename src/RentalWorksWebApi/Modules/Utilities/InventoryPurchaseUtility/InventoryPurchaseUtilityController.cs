@@ -18,7 +18,7 @@ namespace WebApi.Modules.Utilities.InventoryPurchaseUtility
         // POST api/v1/inventorypurchaseutility/startsession
         [HttpPost("startsession")]
         [FwControllerMethod(Id: "MswwSEhfz761H", ActionType: FwControllerActionTypes.Option, Caption: "Start Session")]
-        public async Task<ActionResult<StartInventoryPurchaseSessionResponse>> StartSession (StartInventoryPurchaseSessionRequest request)
+        public async Task<ActionResult<StartInventoryPurchaseSessionResponse>> StartSession ([FromBody]StartInventoryPurchaseSessionRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -38,7 +38,7 @@ namespace WebApi.Modules.Utilities.InventoryPurchaseUtility
         // POST api/v1/inventorypurchaseutility/updatesession
         [HttpPost("updatesession")]
         [FwControllerMethod(Id: "7PRcr9vgVyP38", ActionType: FwControllerActionTypes.Option, Caption: "Update Session")]
-        public async Task<ActionResult<UpdateInventoryPurchaseSessionResponse>> UpdateSession(UpdateInventoryPurchaseSessionRequest request)
+        public async Task<ActionResult<UpdateInventoryPurchaseSessionResponse>> UpdateSession([FromBody]UpdateInventoryPurchaseSessionRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -58,7 +58,7 @@ namespace WebApi.Modules.Utilities.InventoryPurchaseUtility
         // POST api/v1/inventorypurchaseutility/assignbarcodes
         [HttpPost("assignbarcodes")]
         [FwControllerMethod(Id: "tMnf44QPZSZJ1", ActionType: FwControllerActionTypes.Option, Caption: "Assign Bar Codes")]
-        public async Task<ActionResult<InventoryPurchaseAssignBarCodesResponse>> AssignBarCodes(InventoryPurchaseAssignBarCodesRequest request)
+        public async Task<ActionResult<InventoryPurchaseAssignBarCodesResponse>> AssignBarCodes([FromBody]InventoryPurchaseAssignBarCodesRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -78,7 +78,7 @@ namespace WebApi.Modules.Utilities.InventoryPurchaseUtility
         // POST api/v1/inventorypurchaseutility/completesession
         [HttpPost("completesession")]
         [FwControllerMethod(Id: "niBKGqW4TdGbC", ActionType: FwControllerActionTypes.Option, Caption: "Complete Session")]
-        public async Task<ActionResult<InventoryPurchaseCompleteSessionResponse>> CompleteSession(InventoryPurchaseCompleteSessionRequest request)
+        public async Task<ActionResult<InventoryPurchaseCompleteSessionResponse>> CompleteSession([FromBody]InventoryPurchaseCompleteSessionRequest request)
         {
             if (!ModelState.IsValid)
             {
