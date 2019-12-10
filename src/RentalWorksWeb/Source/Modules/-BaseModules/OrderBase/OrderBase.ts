@@ -85,7 +85,7 @@ class OrderBase {
             $form: $form,
             pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
-                
+
             },
             onDataBind: (request: any) => {
                 request.uniqueids = {
@@ -117,11 +117,11 @@ class OrderBase {
             nameGrid: 'OrderContactGrid',
             gridSecurityId: 'B9CzDEmYe1Zf',
             moduleSecurityId: this.id,
-           
+
             $form: $form,
             pageSize: 10,
-            addGridMenu: (options: IAddGridMenuOptions) => {   
-                
+            addGridMenu: (options: IAddGridMenuOptions) => {
+
             },
             onDataBind: (request: any) => {
                 request.uniqueids = {
@@ -171,13 +171,41 @@ class OrderBase {
                 //WIP for #1418
                 const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
                 const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')
-                FwMenu.addSubMenuItem($optionsgroup, 'Copy Template', '', (e: JQuery.ClickEvent) => { });
-                FwMenu.addSubMenuItem($optionsgroup, 'Copy Line-Items', '', (e: JQuery.ClickEvent) => { });
-                FwMenu.addSubMenuItem($optionsgroup, 'Lock / Unlock Selected', '', (e: JQuery.ClickEvent) => { });
-                FwMenu.addSubMenuItem($optionsgroup, 'Bold / Unbold Selected', '', (e: JQuery.ClickEvent) => { });
+                FwMenu.addSubMenuItem($optionsgroup, 'Copy Template', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.copyTemplate(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+                FwMenu.addSubMenuItem($optionsgroup, 'Copy Line-Items', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.copyLineItems(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+                FwMenu.addSubMenuItem($optionsgroup, 'Lock / Unlock Selected', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.lockUnlock(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+                FwMenu.addSubMenuItem($optionsgroup, 'Bold / Unbold Selected', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.boldUnbold(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
                 FwMenu.addSubMenuItem($optionsgroup, 'Sub PO Worksheet', '', (e: JQuery.ClickEvent) => {
                     try {
-                        this.SubPoWorksheet($form, e);
+                        OrderItemGridController.SubPOWorksheet(e);
                     }
                     catch (ex) {
                         FwFunc.showError(ex);
@@ -186,10 +214,38 @@ class OrderBase {
 
                 const $viewcolumn = FwMenu.addSubMenuColumn(options.$menu);
                 const $viewgroup = FwMenu.addSubMenuGroup($viewcolumn, 'View', 'securityid2')
-                FwMenu.addSubMenuItem($viewgroup, 'Summary View', '', (e: JQuery.ClickEvent) => { });
-                FwMenu.addSubMenuItem($viewgroup, 'Shortages Only', '', (e: JQuery.ClickEvent) => { });
-                FwMenu.addSubMenuItem($viewgroup, 'Show Split Details', '', (e: JQuery.ClickEvent) => { });
-                FwMenu.addSubMenuItem($viewgroup, 'Color Legend', '', (e: JQuery.ClickEvent) => { });
+                FwMenu.addSubMenuItem($viewgroup, 'Summary View', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.detailSummaryView(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+                FwMenu.addSubMenuItem($viewgroup, 'Shortages Only', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.shortagesOnly(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+                FwMenu.addSubMenuItem($viewgroup, 'Show Split Details', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.splitDetail(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+                FwMenu.addSubMenuItem($viewgroup, 'Color Legend', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.colorLegend(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
 
 
             },
@@ -214,9 +270,9 @@ class OrderBase {
                 rentalItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Rental"]')) : FwFormField.enable($form.find('[data-datafield="Rental"]'));
             }
         });
-        
 
-       
+
+
         // ----------
         //const $orderItemGridSales = $form.find('.salesgrid div[data-grid="OrderItemGrid"]');
         //const $orderItemGridSalesControl = FwBrowse.loadGridFromTemplate('OrderItemGrid');
@@ -273,9 +329,9 @@ class OrderBase {
                 $orderItemGridSales = $fwgrid;
             },
             afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
-                    this.calculateOrderItemGridTotals($form, 'sales', dt.Totals);
-                    let salesItems = $form.find('.salesgrid tbody').children();
-                    salesItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Sales"]')) : FwFormField.enable($form.find('[data-datafield="Sales"]'));
+                this.calculateOrderItemGridTotals($form, 'sales', dt.Totals);
+                let salesItems = $form.find('.salesgrid tbody').children();
+                salesItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Sales"]')) : FwFormField.enable($form.find('[data-datafield="Sales"]'));
             }
         });
         // ----------
@@ -330,9 +386,9 @@ class OrderBase {
                 $orderItemGridLabor = $fwgrid;
             },
             afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
-                    this.calculateOrderItemGridTotals($form, 'labor', dt.Totals);
-                    let laborItems = $form.find('.laborgrid tbody').children();
-                    laborItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Labor"]')) : FwFormField.enable($form.find('[data-datafield="Labor"]'));
+                this.calculateOrderItemGridTotals($form, 'labor', dt.Totals);
+                let laborItems = $form.find('.laborgrid tbody').children();
+                laborItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Labor"]')) : FwFormField.enable($form.find('[data-datafield="Labor"]'));
             }
         });
         // ----------
@@ -387,12 +443,12 @@ class OrderBase {
                 $fwgrid.addClass('M');
                 $browse.find('div[data-datafield="InventoryId"]').attr('data-caption', 'Item No.');
                 $orderItemGridMisc = $fwgrid;
-                
+
             },
             afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
-            this.calculateOrderItemGridTotals($form, 'misc', dt.Totals);
-            let miscItems = $form.find('.miscgrid tbody').children();
-            miscItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Miscellaneous"]')) : FwFormField.enable($form.find('[data-datafield="Miscellaneous"]'));
+                this.calculateOrderItemGridTotals($form, 'misc', dt.Totals);
+                let miscItems = $form.find('.miscgrid tbody').children();
+                miscItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Miscellaneous"]')) : FwFormField.enable($form.find('[data-datafield="Miscellaneous"]'));
             }
         });
         // ----------
@@ -469,7 +525,7 @@ class OrderBase {
 
         //FwBrowse.init($combinedOrderItemGridControl);
         //FwBrowse.renderRuntimeHtml($combinedOrderItemGridControl);
-        
+
         FwBrowse.renderGrid({
             nameGrid: 'OrderItemGrid',
             gridSelector: '.combinedgrid div[data-grid="OrderItemGrid"]',
@@ -498,7 +554,7 @@ class OrderBase {
             }
         });
         // ----------
-        
+
         const itemGrids = [$orderItemGridRental, $orderItemGridSales, $orderItemGridLabor, $orderItemGridMisc];
         if ($form.attr('data-mode') === 'NEW') {
             for (let i = 0; i < itemGrids.length; i++) {
@@ -528,54 +584,10 @@ class OrderBase {
             const hideGridsBtn: JQuery[] = [$orderItemGridRental, $orderItemGridSales, $orderItemGridLabor, $orderItemGridMisc, $combinedOrderItemGrid];
             this.findFilterHide(hideGridsBtn, '.submenu-btn', '[data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"], [data-securityid="78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412"]');
             this.findFilterHide($orderItemGridUsedSale, '.submenu-btn', '[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"], [data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"], [data-securityid="78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412"]');
-            
+
             //Hides non-LD menu items
             const $lossDamageGrid = $form.find('.lossdamagegrid [data-name="OrderItemGrid"]');
             this.findFilterHide($lossDamageGrid, '.submenu-btn', '[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"], [data-securityid="AD3FB369-5A40-4984-8A65-46E683851E52"], [data-securityid="B6B68464-B95C-4A4C-BAF2-6AA59B871468"], [data-securityid="01EB96CB-6C62-4D5C-9224-8B6F45AD9F63"], [data-securityid="9476D532-5274-429C-A563-FE89F5B89B01"]');
-        }
-    }
-    //----------------------------------------------------------------------------------------------
-
-
-
-    //----------------------------------------------------------------------------------------------
-    //justin hoffman 12/06/2019 - copied from OrderItemGridController.ts WIP
-    SubPoWorksheet($form: JQuery, event) {
-        try {
-
-            var $subWorksheetForm, subWorksheetData: any = {};
-            let $grid = jQuery(event.currentTarget).parents('[data-control="FwGrid"]');
-
-            if ($grid.hasClass('A')) {
-                subWorksheetData.RecType = ''
-            } else if ($grid.hasClass('R')) {
-                subWorksheetData.RecType = 'R'
-            } else if ($grid.hasClass('S')) {
-                subWorksheetData.RecType = 'S'
-            } else if ($grid.hasClass('M')) {
-                subWorksheetData.RecType = 'M'
-            } else if ($grid.hasClass('L')) {
-                subWorksheetData.RecType = 'L'
-            } else if ($grid.hasClass('RS')) {
-                subWorksheetData.RecType = 'RS'
-            }
-
-            subWorksheetData.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
-            subWorksheetData.RateType = FwFormField.getValueByDataField($form, 'RateType');
-            subWorksheetData.CurrencyId = FwFormField.getValueByDataField($form, 'CurrencyId');
-            subWorksheetData.CurrencyCode = FwFormField.getTextByDataField($form, 'CurrencyId');
-            subWorksheetData.EstimatedStartDate = FwFormField.getValueByDataField($form, 'EstimatedStartDate');
-            subWorksheetData.EstimatedStopDate = FwFormField.getValueByDataField($form, 'EstimatedStopDate');
-            subWorksheetData.EstimatedStartTime = FwFormField.getValueByDataField($form, 'EstimatedStartTime');
-            $subWorksheetForm = SubWorksheetController.openForm('EDIT', subWorksheetData);
-            FwModule.openSubModuleTab($form, $subWorksheetForm);
-            jQuery('.tab.submodule.active').find('.caption').html('Sub Worksheet');
-
-
-
-        }
-        catch (ex) {
-            FwFunc.showError(ex);
         }
     }
     //----------------------------------------------------------------------------------------------
