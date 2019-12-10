@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using WebApi.Controllers;
 using System.Threading.Tasks;
+using WebApi.Modules.Settings.LaborSettings.LaborType;
+using WebApi.Modules.Settings.AccountingSettings.GlAccount;
 
 namespace WebApi.Modules.Settings.LaborSettings.LaborCategory
 {
@@ -72,5 +74,44 @@ namespace WebApi.Modules.Settings.LaborSettings.LaborCategory
             return await DoDeleteAsync<LaborCategoryLogic>(id);
         }
         //------------------------------------------------------------------------------------
+        // POST api/v1/settings/validatelabortype/browse
+        [HttpPost("validatelabortype/browse")]
+        [FwControllerMethod(Id: "ecVm382ssCSI", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateLaborTypeBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<LaborTypeLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/settings/validateprofitandlosscategory/browse
+        [HttpPost("validateprofitandlosscategory/browse")]
+        [FwControllerMethod(Id: "HgB94bdPFbLy", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateProfitAndLossCategoryBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<LaborCategoryLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/settings/validateincomeaccount/browse
+        [HttpPost("validateincomeaccount/browse")]
+        [FwControllerMethod(Id: "rGEpVl4X8kOJ", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateIncomeAccountBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<GlAccountLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/settings/validatesubincomeaccount/browse
+        [HttpPost("validatesubincomeaccount/browse")]
+        [FwControllerMethod(Id: "LfJepKpPfIN7", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateSubIncomeAccountBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<GlAccountLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/settings/validateexpenseaccount/browse
+        [HttpPost("validateexpenseaccount/browse")]
+        [FwControllerMethod(Id: "O4xfU9DJJmY0", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateExpenseAccountBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<GlAccountLogic>(browseRequest);
+        }
     }
 }

@@ -230,32 +230,61 @@ class RwLaborRate {
     };
 
     //----------------------------------------------------------------------------------------------
-    beforeValidateType = function ($browse, $grid, request) {
-        request.uniqueids = {
-            HasCategories: true,
-        };
-    }
+    //beforeValidateType = function ($browse, $grid, request) {
+    //    request.uniqueids = {
+    //        HasCategories: true,
+    //    };
+    //}
     //----------------------------------------------------------------------------------------------
-    beforeValidateCategory = function ($browse, $grid, request) {
-        const $form = $grid.closest('.fwform');
-        const laborTypeId = FwFormField.getValueByDataField($form, 'LaborTypeId');
+    //beforeValidateCategory = function ($browse, $grid, request) {
+    //    const $form = $grid.closest('.fwform');
+    //    const laborTypeId = FwFormField.getValueByDataField($form, 'LaborTypeId');
 
-        request.uniqueids = {
-            LaborTypeId: laborTypeId,
-        };
-    }
+    //    request.uniqueids = {
+    //        LaborTypeId: laborTypeId,
+    //    };
+    //}
     //----------------------------------------------------------------------------------------------
-    beforeValidateSubCategory = function ($browse, $grid, request) {
-        const $form = $grid.closest('.fwform');
-        const laborTypeId = FwFormField.getValueByDataField($form, 'LaborTypeId');
-        const categoryId = FwFormField.getValueByDataField($form, 'CategoryId');
+    //beforeValidateSubCategory = function ($browse, $grid, request) {
+    //    const $form = $grid.closest('.fwform');
+    //    const laborTypeId = FwFormField.getValueByDataField($form, 'LaborTypeId');
+    //    const categoryId = FwFormField.getValueByDataField($form, 'CategoryId');
 
-        request.uniqueids = {
-            LaborTypeId: laborTypeId,
-            CategoryId: categoryId,
-        };
-    }
+    //    request.uniqueids = {
+    //        LaborTypeId: laborTypeId,
+    //        CategoryId: categoryId,
+    //    };
+    //}
     //----------------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------------------
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
+        const laborTypeId = FwFormField.getValueByDataField($form, 'LaborTypeId');
+        switch (datafield) {
+            case 'LaborTypeId':
+                request.uniqueids = {
+                    HasCategories: true,
+                };
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatelabortype`);
+                break;
+            case 'LaborCategoryId':
+                request.uniqueids = {
+                    LaborTypeId: laborTypeId,
+                };
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatelaborcategory`);
+                break;
+            case 'SubCategoryId':
+                const categoryId = FwFormField.getValueByDataField($form, 'CategoryId');
+                request.uniqueids = {
+                    LaborTypeId: laborTypeId,
+                    CategoryId: categoryId,
+                };
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatesubcategory`);
+                break;
+            case 'UnitId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateunit`);
+                break;
+        }
+    }
 }
 
 //----------------------------------------------------------------------------------------------

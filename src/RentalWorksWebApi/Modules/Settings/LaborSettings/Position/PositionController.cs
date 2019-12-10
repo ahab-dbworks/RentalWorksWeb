@@ -6,6 +6,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options; 
 using WebApi.Controllers; 
 using System.Threading.Tasks;
+using WebApi.Modules.Settings.LaborSettings.LaborType;
+using WebApi.Modules.Settings.LaborSettings.LaborCategory;
+using WebApi.Modules.Settings.InventorySettings.Unit;
+using WebApi.Modules.Settings.SubCategory;
 
 namespace WebApi.Modules.Settings.LaborSettings.Position
 {
@@ -72,5 +76,36 @@ namespace WebApi.Modules.Settings.LaborSettings.Position
             return await DoDeleteAsync<PositionLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/settings/validatelabortype/browse
+        [HttpPost("validatelabortype/browse")]
+        [FwControllerMethod(Id: "ybCEYy1aKIFD", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateLaborTypeBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<LaborTypeLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/settings/validatelaborcategory/browse
+        [HttpPost("validatelaborcategory/browse")]
+        [FwControllerMethod(Id: "osdKOQacAy5x", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateLaborCategoryBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<LaborCategoryLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/settings/validatesubcategory/browse
+        [HttpPost("validatesubcategory/browse")]
+        [FwControllerMethod(Id: "TPjXM7D14LVS", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateSubCategoryBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<SubCategoryLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/settings/validateunit/browse
+        [HttpPost("validateunit/browse")]
+        [FwControllerMethod(Id: "ENFjH4JwB2K2", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateUnitBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<UnitLogic>(browseRequest);
+        }
     }
 } 
