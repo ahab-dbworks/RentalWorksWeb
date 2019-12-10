@@ -86,7 +86,7 @@ class InventoryPurchaseUtility {
             $form.find('.additems').show();
             const inventoryId = FwBrowse.getValueByDataField(null, $tr, 'InventoryId');
             const description = FwBrowse.getValueByDataField(null, $tr, 'Description');
-            FwFormField.setValue2($form.find('.description[data-datafield="InventoryId"]'), inventoryId, description);
+            FwFormField.setValue2($form.find('.description[data-datafield="InventoryId"]'), inventoryId, description, false);
             const unitVal = FwBrowse.getValueByDataField(null, $tr, 'UnitValue');
             FwFormField.setValueByDataField($form, 'UnitCost', unitVal);
             const aisleLoc = FwBrowse.getValueByDataField(null, $tr, 'AisleLocation');
@@ -138,25 +138,27 @@ class InventoryPurchaseUtility {
 
         //Add items button
         $form.find('.additems').on('click', e => {
-            let request: any = {};
-            request = {
-                PurchaseOrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId')
-                , ContractId: FwFormField.getValueByDataField($form, 'ContractId')
-            }
-            FwAppData.apiMethod(true, 'POST', 'api/v1/purchaseorder/receivebarcodeadditems', request, FwServices.defaultTimeout,
+            let request: any = {
+                SessionId: $form.data('sessionid'),
+                InventoryId: FwFormField.getValueByDataField($form, 'InventoryId'),
+                Quantity: FwFormField.getValueByDataField($form, 'Quantity'),
+                WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId'),
+                AisleLocation: FwFormField.getValueByDataField($form, 'AisleLocation'),
+                ShelfLocation: FwFormField.getValueByDataField($form, 'ShelfLocation'),
+                ManufacturerVendorId: FwFormField.getValueByDataField($form, 'ManufacturerVendorId'),
+                CountryId: FwFormField.getValueByDataField($form, 'CountryId'),
+                WarrantyDays: FwFormField.getValueByDataField($form, 'WarrantyDays'),
+                WarrantyExpiration: FwFormField.getValueByDataField($form, 'WarrantyExpiration'),
+                PurchaseVendorId: FwFormField.getValueByDataField($form, 'PurchaseVendorId'),
+                OutsidePoNumber: FwFormField.getValueByDataField($form, 'OutsidePoNumber'),
+                PurchaseDate: FwFormField.getValueByDataField($form, 'PurchaseDate'),
+                ReceiveDate: FwFormField.getValueByDataField($form, 'ReceiveDate'),
+                VendorPartNumber: FwFormField.getValueByDataField($form, 'VendorPartNumber'),
+                UnitCost: FwFormField.getValueByDataField($form, 'UnitCost'),
+            };
+            FwAppData.apiMethod(true, 'POST', 'api/v1/inventorypurchaseutility/completesession', request, FwServices.defaultTimeout,
                 response => {
-                if (response.success) {
-                    FwNotification.renderNotification('SUCCESS', `${response.ItemsAdded} items added.`);
-                    FwFormField.setValueByDataField($form, 'PurchaseOrderId', '', '');
-                    FwFormField.setValueByDataField($form, 'ContractId', '', '');
-                    FwFormField.setValueByDataField($form, 'PODate', '');
-                    FwFormField.setValueByDataField($form, 'VendorId', '', '');
-                    FwFormField.setValueByDataField($form, 'Description', '');
-                    FwFormField.setValueByDataField($form, 'ContractDate', '');
-                    FwFormField.enable($form.find('[data-datafield="PurchaseOrderId"]'));
-                    FwFormField.enable($form.find('[data-datafield="ContractId"]'));
-                    $itemGridControl.find('tbody').empty();
-                }
+              
             }, ex => FwFunc.showError(ex), $form);
         });
 
