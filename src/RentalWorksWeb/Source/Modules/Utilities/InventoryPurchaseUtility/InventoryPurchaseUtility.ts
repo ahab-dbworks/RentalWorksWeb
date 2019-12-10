@@ -101,7 +101,6 @@ class InventoryPurchaseUtility {
                 request.SessionId = $form.data('sessionid');
                 FwAppData.apiMethod(true, 'POST', `api/v1/inventorypurchaseutility/updatesession`, request, FwServices.defaultTimeout,
                     response => {
-                        $form.data("sessionid", response.SessionId);
                         FwBrowse.search($itemGridControl);
                     }, ex => FwFunc.showError(ex), $form);
             } else {
@@ -131,7 +130,7 @@ class InventoryPurchaseUtility {
                 request.SessionId = $form.data('sessionid');
                 FwAppData.apiMethod(true, 'POST', `api/v1/inventorypurchaseutility/updatesession`, request, FwServices.defaultTimeout,
                     response => {
-                        $form.data("sessionid", response.SessionId);
+                        FwBrowse.search($itemGridControl);
                     }, ex => FwFunc.showError(ex), $form);
             }
         });
@@ -184,7 +183,7 @@ class InventoryPurchaseUtility {
             pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
-                    PickListId: FwFormField.getValueByDataField($form, 'PickListId')
+                    SessionId: $form.data('sessionid')
                 };
             }
         });

@@ -141,6 +141,7 @@ namespace WebApi.Modules.Utilities.InventoryPurchaseUtility
             UpdateInventoryPurchaseSessionRequest updateRequest = new UpdateInventoryPurchaseSessionRequest();
             updateRequest.InventoryId = request.InventoryId;
             updateRequest.Quantity = request.Quantity;
+            updateRequest.SessionId = request.SessionId;
             UpdateInventoryPurchaseSessionResponse updateResponse = await UpdateSession(appConfig, userSession, updateRequest);
 
             response.success = false;
