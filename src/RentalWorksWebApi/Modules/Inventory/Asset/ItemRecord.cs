@@ -5,6 +5,7 @@ using WebApi.Data;
 using System.Data;
 using System.Threading.Tasks;
 using WebApi.Logic;
+using System;
 
 namespace WebApi.Modules.Inventory.Asset
 {
@@ -61,7 +62,7 @@ namespace WebApi.Modules.Inventory.Asset
         public string CountryOfOriginId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "warrantyexp", modeltype: FwDataTypes.Date, sqltype: "smalldatetime")]
-        public string WarrantyExpiration { get; set; }
+        public DateTime? WarrantyExpiration { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "mfgmodel", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 15)]
         public string ManufacturerModelNumber { get; set; }

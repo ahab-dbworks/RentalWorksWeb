@@ -1,7 +1,8 @@
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
+using System;
 using WebApi.Data;
-namespace WebApi.Modules.HomeControls.Purchase
+namespace WebApi.Modules.Inventory.Purchase
 {
     [FwSqlTable("purchase")]
     public class PurchaseRecord : AppDataReadWriteRecord
@@ -11,31 +12,31 @@ namespace WebApi.Modules.HomeControls.Purchase
         public string PurchaseId { get; set; } = "";
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "purchasepoid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
-        public string PurchasePurchaseOrderId { get; set; }
+        public string PurchasePoId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "warehouseid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string WarehouseId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "physicalitemid", modeltype: FwDataTypes.Integer, sqltype: "int")]
-        public int? PhysicalItemId { get; set; }
+        public int? PhysicalInventoryItemId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "physicalid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string PhysicalInventoryId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "purchasedate", modeltype: FwDataTypes.Date, sqltype: "smalldatetime")]
-        public string PurchaseDate { get; set; }
+        public DateTime? PurchaseDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "purchamt", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 10, scale: 3)]
-        public decimal? PurchaseAmount { get; set; }
+        public decimal? UnitCost { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "vendpartno", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 40)]
         public string VendorPartNumber { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "received", modeltype: FwDataTypes.Date, sqltype: "smalldatetime")]
-        public string ReceiveDate { get; set; }
+        public DateTime? ReceiveDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "purchvendorid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
-        public string PurchaseVendorId { get; set; }
+        public string VendorId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ownership", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 11)]
         public string Ownership { get; set; }
@@ -44,7 +45,7 @@ namespace WebApi.Modules.HomeControls.Purchase
         public string LeaseVendorId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "leasepurchasedate", modeltype: FwDataTypes.Date, sqltype: "smalldatetime")]
-        public string LeasePurchaseDate { get; set; }
+        public string LeasePurchasedate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "leasepoid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string LeasePurchaseOrderId { get; set; }
@@ -80,10 +81,10 @@ namespace WebApi.Modules.HomeControls.Purchase
         public string LeaseDocumentId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inputdate", modeltype: FwDataTypes.Date, sqltype: "smalldatetime")]
-        public string InputDate { get; set; }
+        public DateTime? InputDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "moddate", modeltype: FwDataTypes.Date, sqltype: "smalldatetime")]
-        public string ModifiedDate { get; set; }
+        public DateTime? ModifiedDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "purchasenotes", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255)]
         public string PurchaseNotes { get; set; }
@@ -92,7 +93,7 @@ namespace WebApi.Modules.HomeControls.Purchase
         public string OutsidePurchaseOrderNumber { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "leaseorderedpoid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
-        public string LeaseOrderedPurchaseOrderId { get; set; }
+        public string LeaseOrderedPoId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "leaseorderedvendorid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string LeaseOrderedVendorId { get; set; }
@@ -107,7 +108,7 @@ namespace WebApi.Modules.HomeControls.Purchase
         public string ReceiveContractId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "purchasepoitemid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
-        public string PurchasePurchaseOrderItemId { get; set; }
+        public string PurchasePoItemId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inventoryreceiptid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string InventoryReceiptId { get; set; }
@@ -116,7 +117,7 @@ namespace WebApi.Modules.HomeControls.Purchase
         public string InventoryReceiptItemId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "purchamtwithtax", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 10, scale: 3)]
-        public decimal? PurchaseAmountWithTax { get; set; }
+        public decimal? UnitCostWithTax { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "consignoragreementid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string ConsignorAgreementId { get; set; }
@@ -134,7 +135,7 @@ namespace WebApi.Modules.HomeControls.Purchase
         public string OriginalPurchaseId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "adjid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
-        public string InventoryAdjustmentId { get; set; }
+        public string AdjustmentId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }

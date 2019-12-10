@@ -351,6 +351,11 @@ namespace WebApi
         public const string INVENTORY_PACKAGE_PRICE_ITEM_PRICE = "IP";
         public const string INVENTORY_PACKAGE_PRICE_SPECIAL_ITEM_PRICE = "SP";
 
+        public const string INVENTORY_OWNERSHIP_OWNED = "OWNED";
+        public const string INVENTORY_OWNERSHIP_CONSIGNED = "CONSIGNED";
+
+        public const string INVENTORY_QUANTITY_TRANSACTION_TYPE_PURCHASE = "PURCHASE";
+
 
 
         // ORDERTRAN

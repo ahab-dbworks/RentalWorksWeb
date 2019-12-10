@@ -35,6 +35,26 @@ namespace WebApi.Logic
 
     public class SortItemsResponse : TSpStatusResponse { }
 
+    public class UpdateInventoryQuantityRequest 
+    {
+        public string InventoryId { get; set; }
+        public string WarehouseId { get; set; }
+        public string ConsignorId { get; set; }
+        public string ConsignorAgreementId { get; set; }
+        public string TransactionType { get; set; }
+        public string OrderType { get; set; }
+        public decimal QuantityChange { get; set; }
+        public bool UpdateCost { get; set; }
+        public decimal? CostPerItem { get; set; }
+        public decimal? ForceCost { get; set; }
+        public string UniqueId1 { get; set; }
+        public string UniqueId2 { get; set; }
+        public string UniqueId3 { get; set; }
+        public int? UniqueId4 { get; set; }
+        public bool LogOnly { get; set; }
+    }
+    public class UpdateInventoryQuantityResponse : TSpStatusResponse { }
+
     public static class AppFunc
     {
 
@@ -956,6 +976,38 @@ namespace WebApi.Logic
                     t.Equals(FwDataTypes.CurrencyStringNoDollarSign) ||
                     t.Equals(FwDataTypes.CurrencyStringNoDollarSignNoDecimalPlaces) ||
                     t.Equals(FwDataTypes.Percentage));
+        }
+        //-------------------------------------------------------------------------------------------------------    
+        //temporary location for this method
+        public static async Task<UpdateInventoryQuantityResponse> UpdateInventoryQuantity(FwApplicationConfig appConfig, FwUserSession userSession, UpdateInventoryQuantityRequest request)
+        {
+            UpdateInventoryQuantityResponse response = new UpdateInventoryQuantityResponse();
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                FwSqlCommand qry = new FwSqlCommand(conn, "updatemasterwhqty", appConfig.DatabaseSettings.QueryTimeout);
+                qry.AddParameter("@masterid", SqlDbType.NVarChar, ParameterDirection.Input, request.InventoryId);
+                qry.AddParameter("@warehouseid", SqlDbType.NVarChar, ParameterDirection.Input, request.WarehouseId);
+                qry.AddParameter("@consignorid", SqlDbType.NVarChar, ParameterDirection.Input, request.ConsignorId);
+                qry.AddParameter("@consignoragreementid", SqlDbType.NVarChar, ParameterDirection.Input, request.ConsignorAgreementId);
+                qry.AddParameter("@trantype", SqlDbType.NVarChar, ParameterDirection.Input, request.TransactionType);
+                qry.AddParameter("@ordertype", SqlDbType.NVarChar, ParameterDirection.Input, request.OrderType);
+                qry.AddParameter("@qtychange", SqlDbType.Decimal, ParameterDirection.Input, request.QuantityChange);
+                qry.AddParameter("@updatecost", SqlDbType.NVarChar, ParameterDirection.Input, request.UpdateCost);
+                qry.AddParameter("@costperitem", SqlDbType.Decimal, ParameterDirection.Input, request.CostPerItem);
+                qry.AddParameter("@forcecost", SqlDbType.NVarChar, ParameterDirection.Input, request.ForceCost);
+                qry.AddParameter("@uniqueid1", SqlDbType.NVarChar, ParameterDirection.Input, request.UniqueId1);
+                qry.AddParameter("@uniqueid2", SqlDbType.NVarChar, ParameterDirection.Input, request.UniqueId2);
+                qry.AddParameter("@uniqueid3", SqlDbType.NVarChar, ParameterDirection.Input, request.UniqueId3);
+                qry.AddParameter("@uniqueid4", SqlDbType.Int, ParameterDirection.Input, request.UniqueId4);
+                qry.AddParameter("@logonly", SqlDbType.NVarChar, ParameterDirection.Input, request.LogOnly);
+                qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+                qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
+                qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
+                await qry.ExecuteNonQueryAsync();
+                response.success = (qry.GetParameter("@status").ToInt32() == 0);
+                response.msg = qry.GetParameter("@msg").ToString();
+            }
+            return response;
         }
         //-------------------------------------------------------------------------------------------------------    
     }
