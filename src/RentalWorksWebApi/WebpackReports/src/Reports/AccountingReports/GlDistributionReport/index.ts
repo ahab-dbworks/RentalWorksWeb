@@ -7,7 +7,7 @@ import '../../../../lib/FwReportLibrary/src/theme/webpackReports.scss';
 const hbReport = require("./hbReport.hbs");
 const hbFooter = require("./hbFooter.hbs");
 
-export class GLDistributionReport extends WebpackReport {
+export class GlDistributionReport extends WebpackReport {
     renderReport(apiUrl: string, authorizationHeader: string, parameters: any): void {
         try {
             super.renderReport(apiUrl, authorizationHeader, parameters);
@@ -54,4 +54,4 @@ export class GLDistributionReport extends WebpackReport {
     }
 }
 
-(<any>window).report = new GLDistributionReport();
+(<any>window).report = new GlDistributionReport();

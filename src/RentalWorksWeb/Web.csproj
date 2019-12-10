@@ -627,7 +627,7 @@
     <TypeScriptCompile Include="Source\Modules\Reports\PickListReport\PickListReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\RentalInventoryValueReport\RentalInventoryValueReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\RentalInventoryAttributesReport\RentalInventoryAttributesReportController.ts" />
-    <TypeScriptCompile Include="Source\Modules\Reports\SalesInventoryTransaction\SalesInventoryTransactionReportController.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\SalesInventoryTransactionReport\SalesInventoryTransactionReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\InvoiceSummaryReport\InvoiceSummaryReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\CreditsOnAccount\CreditsOnAccountReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\RentalInventoryCatalogReport\RentalInventoryCatalogReportController.ts" />
@@ -637,9 +637,9 @@
     <TypeScriptCompile Include="Source\Modules\Reports\CustomerRevenueByTypeReport\CustomerRevenueByTypeReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\BillingProgressReport\BillingProgressReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\LateReturnsReport\LateReturnsReportController.ts" />
-    <TypeScriptCompile Include="Source\Modules\Reports\SalesRepresentativeBilling\SalesRepresentativeBillingReportController.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\SalesRepresentativeBillingReport\SalesRepresentativeBillingReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\ProjectManagerBilling\ProjectManagerBillingReportController.ts" />
-    <TypeScriptCompile Include="Source\Modules\Reports\GLDistributionReport\GLDistributionReportController.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\GlDistributionReport\GlDistributionReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\AgentBilling\AgentBillingReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\OutContract\OutContractReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\SystemSettings\DefaultSettings\DefaultSettings.ts" />

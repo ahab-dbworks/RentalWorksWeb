@@ -1,11 +1,11 @@
 ﻿routes.push({
     pattern: /^reports\/gldistributionreport/, action: function (match: RegExpExecArray) {
-        return GLDistributionReportController.getModuleScreen();
+        return GlDistributionReportController.getModuleScreen();
     }
 });
 
 const GLDistributionTemplate = `
-<div class="fwcontrol fwcontainer fwform fwreport gldistributionreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="G/L Distribution" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="GLDistributionReportController">
+<div class="fwcontrol fwcontainer fwform fwreport gldistributionreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="G/L Distribution" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="GlDistributionReportController">
   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs" style="margin-right:10px;">
       <div id="generaltab" class="tab" data-tabpageid="generaltabpage" data-caption="General"></div>
@@ -54,7 +54,7 @@ const GLDistributionTemplate = `
 </div>
 `;
 //----------------------------------------------------------------------------------------------
-class GLDistributionReport extends FwWebApiReport {
+class GlDistributionReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
         super('GLDistributionReport', 'api/v1/gldistributionreport', GLDistributionTemplate);
@@ -95,4 +95,4 @@ class GLDistributionReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
 };
 
-var GLDistributionReportController: any = new GLDistributionReport();
+var GlDistributionReportController: any = new GlDistributionReport();

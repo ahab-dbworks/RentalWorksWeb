@@ -113,7 +113,7 @@ var Constants = {
                     children: {
                         ArAgingReport: {                    id: 'KHw5yX5TubQ', caption: 'A/R Aging', nav: 'reports/aragingreport', nodetype: 'Module', description: 'List unpaid Invoices, and their corresponding aging totals.  Report is subtotalled by Deal and Customer.' },
                         DailyReceiptsReport: {              id: 'OLyFIS7rBvr8', caption: 'Daily Receipts', nav: 'reports/dailyreceiptsreport', nodetype: 'Module', description: 'List Daily Receipts.  Report is subtotalled by Deal and Customer.' },
-                        GLDistributionReport: {             id: 'ClMQ5QkZq4PY', caption: 'G/L Distribution', nav: 'reports/gldistributionreport', nodetype: 'Module', description: 'Summarize transaction totals by Account over a date range.' }
+                        GlDistributionReport: {             id: 'ClMQ5QkZq4PY', caption: 'G/L Distribution', nav: 'reports/gldistributionreport', nodetype: 'Module', description: 'Summarize transaction totals by Account over a date range.' }
                     }
                 },
                 BillingReports: {
