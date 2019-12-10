@@ -794,16 +794,6 @@ class OrderBase {
                         FwFunc.showError(ex);
                     }
                 });
-                if ($form.attr('data-controller') !== 'QuoteController') {
-                    FwMenu.addSubMenuItem($optionsgroup, 'Sub PO Worksheet', '', (e: JQuery.ClickEvent) => {
-                        try {
-                            OrderItemGridController.SubPOWorksheet(e);
-                        }
-                        catch (ex) {
-                            FwFunc.showError(ex);
-                        }
-                    });
-                }
 
                 const $viewcolumn = FwMenu.addSubMenuColumn(options.$menu);
                 const $viewgroup = FwMenu.addSubMenuGroup($viewcolumn, 'View', 'securityid2')

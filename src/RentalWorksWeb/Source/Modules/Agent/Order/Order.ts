@@ -64,7 +64,7 @@ class Order extends OrderBase {
                 FwFunc.showError(ex);
             }
         });
-        FwMenu.addSubMenuItem(options.$groupOptions, 'Search', '', (e: JQuery.ClickEvent) => {
+        FwMenu.addSubMenuItem(options.$groupOptions, 'QuikSearch', '', (e: JQuery.ClickEvent) => {
             try {
                 this.search(options.$form);
             } catch (ex) {
@@ -305,7 +305,6 @@ class Order extends OrderBase {
             $form: $form,
             pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
-                //WIP for #1418
                 const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
                 const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')
                 FwMenu.addSubMenuItem($optionsgroup, 'Add Loss and Damage Items', '', (e: JQuery.ClickEvent) => {
@@ -319,6 +318,72 @@ class Order extends OrderBase {
                 FwMenu.addSubMenuItem($optionsgroup, 'Retire Loss and Damage Items', '', (e: JQuery.ClickEvent) => {
                     try {
                         this.retireLossDamage(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+                FwMenu.addSubMenuItem($optionsgroup, 'Copy Template', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.copyTemplate(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+                FwMenu.addSubMenuItem($optionsgroup, 'Copy Line-Items', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.copyLineItems(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+                FwMenu.addSubMenuItem($optionsgroup, 'Lock / Unlock Selected', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.lockUnlock(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+                FwMenu.addSubMenuItem($optionsgroup, 'Bold / Unbold Selected', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.boldUnbold(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+                const $viewcolumn = FwMenu.addSubMenuColumn(options.$menu);
+                const $viewgroup = FwMenu.addSubMenuGroup($viewcolumn, 'View', 'securityid2')
+                FwMenu.addSubMenuItem($viewgroup, 'Summary View', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.detailSummaryView(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+                FwMenu.addSubMenuItem($viewgroup, 'Shortages Only', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.shortagesOnly(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+                FwMenu.addSubMenuItem($viewgroup, 'Show Split Details', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.splitDetail(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+                FwMenu.addSubMenuItem($viewgroup, 'Color Legend', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.colorLegend(e);
                     }
                     catch (ex) {
                         FwFunc.showError(ex);

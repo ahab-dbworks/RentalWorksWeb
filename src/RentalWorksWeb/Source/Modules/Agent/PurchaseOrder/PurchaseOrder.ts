@@ -68,7 +68,7 @@ class PurchaseOrder implements IModule {
             }
         });
         //no-security
-        FwMenu.addSubMenuItem(options.$groupOptions, 'Search', '', (e: JQuery.ClickEvent) => {
+        FwMenu.addSubMenuItem(options.$groupOptions, 'QuikSearch', '', (e: JQuery.ClickEvent) => {
             try {
                 this.search(options.$form);
             } catch (ex) {
@@ -311,7 +311,7 @@ class PurchaseOrder implements IModule {
                 request.uniqueids = {
                     OrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId')
                 }
-             }
+            }
         });
         // ----------
         //const $orderItemGridRental = $form.find('.rentalgrid div[data-grid="OrderItemGrid"]');
@@ -355,7 +355,7 @@ class PurchaseOrder implements IModule {
             addGridMenu: (options: IAddGridMenuOptions) => {
                 const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
                 const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')
-                FwMenu.addSubMenuItem($optionsgroup, 'Search', '', (e: JQuery.ClickEvent) => {
+                FwMenu.addSubMenuItem($optionsgroup, 'QuikSearch', '', (e: JQuery.ClickEvent) => {
                     try {
                         OrderItemGridController.quikSearch(e);
                     }
@@ -379,7 +379,7 @@ class PurchaseOrder implements IModule {
                         FwFunc.showError(ex);
                     }
                 });
-    
+
                 FwMenu.addSubMenuItem($optionsgroup, 'Bold / Unbold Selected', '', (e: JQuery.ClickEvent) => {
                     try {
                         OrderItemGridController.boldUnbold(e);
@@ -462,7 +462,7 @@ class PurchaseOrder implements IModule {
             addGridMenu: (options: IAddGridMenuOptions) => {
                 const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
                 const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')
-                FwMenu.addSubMenuItem($optionsgroup, 'Search', '', (e: JQuery.ClickEvent) => {
+                FwMenu.addSubMenuItem($optionsgroup, 'QuikSearch', '', (e: JQuery.ClickEvent) => {
                     try {
                         OrderItemGridController.quikSearch(e);
                     }
@@ -568,7 +568,7 @@ class PurchaseOrder implements IModule {
             addGridMenu: (options: IAddGridMenuOptions) => {
                 const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
                 const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')
-                FwMenu.addSubMenuItem($optionsgroup, 'Search', '', (e: JQuery.ClickEvent) => {
+                FwMenu.addSubMenuItem($optionsgroup, 'QuikSearch', '', (e: JQuery.ClickEvent) => {
                     try {
                         OrderItemGridController.quikSearch(e);
                     }
@@ -675,7 +675,7 @@ class PurchaseOrder implements IModule {
             addGridMenu: (options: IAddGridMenuOptions) => {
                 const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
                 const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')
-                FwMenu.addSubMenuItem($optionsgroup, 'Search', '', (e: JQuery.ClickEvent) => {
+                FwMenu.addSubMenuItem($optionsgroup, 'QuikSearch', '', (e: JQuery.ClickEvent) => {
                     try {
                         OrderItemGridController.quikSearch(e);
                     }
@@ -783,7 +783,7 @@ class PurchaseOrder implements IModule {
             addGridMenu: (options: IAddGridMenuOptions) => {
                 const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
                 const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')
-                FwMenu.addSubMenuItem($optionsgroup, 'Search', '', (e: JQuery.ClickEvent) => {
+                FwMenu.addSubMenuItem($optionsgroup, 'QuikSearch', '', (e: JQuery.ClickEvent) => {
                     try {
                         OrderItemGridController.quikSearch(e);
                     }
@@ -893,7 +893,7 @@ class PurchaseOrder implements IModule {
             addGridMenu: (options: IAddGridMenuOptions) => {
                 const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
                 const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')
-                FwMenu.addSubMenuItem($optionsgroup, 'Search', '', (e: JQuery.ClickEvent) => {
+                FwMenu.addSubMenuItem($optionsgroup, 'QuikSearch', '', (e: JQuery.ClickEvent) => {
                     try {
                         OrderItemGridController.quikSearch(e);
                     }
@@ -1003,7 +1003,7 @@ class PurchaseOrder implements IModule {
             addGridMenu: (options: IAddGridMenuOptions) => {
                 const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
                 const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')
-                FwMenu.addSubMenuItem($optionsgroup, 'Search', '', (e: JQuery.ClickEvent) => {
+                FwMenu.addSubMenuItem($optionsgroup, 'QuikSearch', '', (e: JQuery.ClickEvent) => {
                     try {
                         OrderItemGridController.quikSearch(e);
                     }
@@ -1111,6 +1111,45 @@ class PurchaseOrder implements IModule {
             moduleSecurityId: this.id,
             $form: $form,
             pageSize: 10,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
+                const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')
+                FwMenu.addSubMenuItem($optionsgroup, 'Copy Template', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.copyTemplate(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+                FwMenu.addSubMenuItem($optionsgroup, 'Copy Line-Items', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.copyLineItems(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+
+                FwMenu.addSubMenuItem($optionsgroup, 'Bold / Unbold Selected', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.boldUnbold(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+                const $viewcolumn = FwMenu.addSubMenuColumn(options.$menu);
+                const $viewgroup = FwMenu.addSubMenuGroup($viewcolumn, 'View', 'securityid2')
+                FwMenu.addSubMenuItem($viewgroup, 'Color Legend', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.colorLegend(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+            },
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     OrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId'),
@@ -1176,6 +1215,45 @@ class PurchaseOrder implements IModule {
             moduleSecurityId: this.id,
             $form: $form,
             pageSize: 10,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
+                const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')
+                FwMenu.addSubMenuItem($optionsgroup, 'Copy Template', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.copyTemplate(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+                FwMenu.addSubMenuItem($optionsgroup, 'Copy Line-Items', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.copyLineItems(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+
+                FwMenu.addSubMenuItem($optionsgroup, 'Bold / Unbold Selected', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.boldUnbold(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+                const $viewcolumn = FwMenu.addSubMenuColumn(options.$menu);
+                const $viewgroup = FwMenu.addSubMenuGroup($viewcolumn, 'View', 'securityid2')
+                FwMenu.addSubMenuItem($viewgroup, 'Color Legend', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.colorLegend(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+            },
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     OrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId'),

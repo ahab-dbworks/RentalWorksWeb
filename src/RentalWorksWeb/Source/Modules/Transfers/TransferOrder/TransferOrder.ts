@@ -1,18 +1,18 @@
 routes.push({ pattern: /^module\/transferorder$/, action: function (match: RegExpExecArray) { return TransferOrderController.getModuleScreen(); } });
 //----------------------------------------------------------------------------------------------
 class TransferOrder {
-    Module:             string = 'TransferOrder';
-    apiurl:             string = 'api/v1/transferorder';
-    caption:            string = Constants.Modules.Transfers.children.TransferOrder.caption;
-    nav:                string = Constants.Modules.Transfers.children.TransferOrder.nav;
-    id:                 string = Constants.Modules.Transfers.children.TransferOrder.id;
-    ActiveViewFields:   any    = {};
+    Module: string = 'TransferOrder';
+    apiurl: string = 'api/v1/transferorder';
+    caption: string = Constants.Modules.Transfers.children.TransferOrder.caption;
+    nav: string = Constants.Modules.Transfers.children.TransferOrder.nav;
+    id: string = Constants.Modules.Transfers.children.TransferOrder.id;
+    ActiveViewFields: any = {};
     ActiveViewFieldsId: string;
     //----------------------------------------------------------------------------------------------
     addBrowseMenuItems(options: IAddBrowseMenuOptions): void {
         options.hasDelete = false;
         FwMenu.addBrowseMenuButtons(options);
-        
+
         //warehouse filter
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         const $userWarehouse: JQuery = FwMenu.generateDropDownViewBtn(warehouse.warehouse, true, warehouse.warehouseid);
@@ -42,7 +42,7 @@ class TransferOrder {
     addFormMenuItems(options: IAddFormMenuOptions): void {
         FwMenu.addFormMenuButtons(options);
 
-        FwMenu.addSubMenuItem(options.$groupOptions, 'Search', '', (e: JQuery.ClickEvent) => {
+        FwMenu.addSubMenuItem(options.$groupOptions, 'QuikSearch', '', (e: JQuery.ClickEvent) => {
             try {
                 this.Search(options.$form);
             } catch (ex) {
@@ -197,7 +197,7 @@ class TransferOrder {
                           </div>`;
             FwConfirmation.addControls($confirmation, html);
             const $yes = FwConfirmation.addButton($confirmation, `${action}`, false);
-            const $no  = FwConfirmation.addButton($confirmation, 'Cancel');
+            const $no = FwConfirmation.addButton($confirmation, 'Cancel');
 
             $yes.on('click', e => {
                 const topLayer = '<div class="top-layer" data-controller="none" style="background-color: transparent;z-index:1"></div>';
@@ -379,6 +379,24 @@ class TransferOrder {
                 options.hasNew = true;
                 options.hasEdit = true;
                 options.hasDelete = true;
+                const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
+                const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')
+                FwMenu.addSubMenuItem($optionsgroup, 'QuikSearch', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.quikSearch(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+                FwMenu.addSubMenuItem($optionsgroup, 'Copy Template', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.copyTemplate(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
             },
             onDataBind: (request: any) => {
                 request.uniqueids = {
@@ -423,6 +441,24 @@ class TransferOrder {
                 options.hasNew = true;
                 options.hasEdit = true;
                 options.hasDelete = true;
+                const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
+                const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')
+                FwMenu.addSubMenuItem($optionsgroup, 'QuikSearch', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.quikSearch(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+                FwMenu.addSubMenuItem($optionsgroup, 'Copy Template', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.copyTemplate(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
             },
             onDataBind: (request: any) => {
                 request.uniqueids = {
