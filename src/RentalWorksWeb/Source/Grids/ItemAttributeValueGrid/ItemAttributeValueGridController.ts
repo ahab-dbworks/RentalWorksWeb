@@ -10,16 +10,19 @@
     }
 
     //----------------------------------------------------------------------------------------------
-    beforeValidateAttribute = function ($browse, $grid, request, datafield, $tr) {
-        request.uniqueIds = {
-            HasValues: true,
-        };
-    };
+    //beforeValidateAttribute = function ($browse, $grid, request, datafield, $tr) {
+    //    request.uniqueIds = {
+    //        HasValues: true,
+    //    };
+    //};
     //----------------------------------------------------------------------------------------------
 
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
         switch (datafield) {
             case 'AttributeId':
+                request.uniqueIds = {
+                    HasValues: true,
+                };
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateattribute`);
                 break;
             case 'AttributeValueId':

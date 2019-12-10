@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using WebApi.Controllers;
 using System.Threading.Tasks;
+using WebApi.Modules.Settings.CustomerSettings.CreditStatus;
 
 namespace WebApi.Modules.Settings.DealSettings.DealStatus
 {
@@ -73,6 +74,12 @@ namespace WebApi.Modules.Settings.DealSettings.DealStatus
             return await DoDeleteAsync<DealStatusLogic>(id);
         }
         //------------------------------------------------------------------------------------
-        //------------------------------------------------------------------------------------
+        // POST api/v1/dealstatus/validatecreditstatus/browse
+        [HttpPost("validatecreditstatus/browse")]
+        [FwControllerMethod(Id: "PsfyNzBWU6hJ", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateCreditStatusBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<CreditStatusLogic>(browseRequest);
+        }
     }
 }

@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options; 
 using WebApi.Controllers; 
 using System.Threading.Tasks;
+using WebApi.Modules.Settings.AccountingSettings.GlAccount;
+
 namespace WebApi.Modules.Settings.AccountingSettings.GlDistributionRule
 {
     [Route("api/v1/[controller]")]
@@ -71,5 +73,12 @@ namespace WebApi.Modules.Settings.AccountingSettings.GlDistributionRule
             return await DoDeleteAsync<GlDistributionRuleLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/settings/validateglaccount/browse
+        [HttpPost("validateglaccount/browse")]
+        [FwControllerMethod(Id: "Lgb2SEdYtXzu", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateGlAccountBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<GlAccountLogic>(browseRequest);
+        }
     }
 }

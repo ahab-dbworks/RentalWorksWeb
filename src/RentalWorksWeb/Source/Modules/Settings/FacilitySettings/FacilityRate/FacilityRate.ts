@@ -166,10 +166,23 @@ class FacilityRate {
 
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
         var FacilityTypeValue = jQuery($form.find('[data-validationname="FacilityTypeValidation"] input')).val();
-
-        request.uniqueids = {
-            FacilityTypeId: FacilityTypeValue
-        };
+        switch (datafield) {
+            case 'FacilityTypeId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatefacilitytype`);
+                break;
+            case 'CategoryId':
+                request.uniqueids = {
+                    FacilityTypeId: FacilityTypeValue
+                };
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecategory`);
+                break;
+            case 'UnitId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateunit`);
+                break;
+            case 'ProfitAndLossCategoryId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateprofitandlosscategory`);
+                break;
+        } 
     }
 }
 
