@@ -9,9 +9,9 @@ export class SaveGridRowResponse {
     errorFields: string[];
 }
 
-export class AddGridRowResponse extends SaveGridRowResponse{ }
+export class AddGridRowResponse extends SaveGridRowResponse { }
 
-export class EditGridRowResponse extends SaveGridRowResponse{ }
+export class EditGridRowResponse extends SaveGridRowResponse { }
 
 export class DeleteGridRowResponse {
     deleted: boolean;
@@ -37,6 +37,7 @@ export class GridBase {
     canNew: boolean;
     canEdit: boolean;
     canDelete: boolean;
+    multiRowSave: boolean;  // ie (order grids can save multiple rows at one time)
 
     newButtonSelector: string = "";
 
@@ -158,26 +159,12 @@ export class GridBase {
         return buttonExists;
     }
     //---------------------------------------------------------------------------------------
-    async checkForEditAbility(): Promise<boolean> {
-        let canEdit: boolean = false;
-        Logging.logInfo(`About to check for Edit ability on grid: ${this.gridName}`);
+    async clickFirstEditableCell(rowNumber: number): Promise<boolean> {
+        let foundEditableCell: boolean = false;
 
-        await this.clickGridTab();
-
-        //let editableCellSelector = `${this.gridSelector} .tablewrapper table tbody tr:nth-child(1) .column[data-visible="true"] .editablefield`;
-        //await page.waitForSelector(editableCellSelector);
-
-        //Logging.logInfo(`found editable cell on grid: ${this.gridName}`);
-        //await ModuleBase.wait(200); // wait for the grid row to get its events
-
-        //Logging.logInfo(`about to click editable cell on grid: ${this.gridName}`);
-        //await page.click(editableCellSelector);
-
-        let editableCellSelector = `${this.gridSelector} .tablewrapper table tbody tr:nth-child(1) .column[data-visible="true"] .editablefield`;
-        //let editableCellSelector = `${this.gridSelector} .tablewrapper table tbody tr:nth-child(1) .column[data-visible="true"]`;
+        let editableCellSelector = `${this.gridSelector} .tablewrapper table tbody tr:nth-child(${rowNumber}) .column[data-visible="true"] .editablefield`;
         const editableCells = await page.$$(editableCellSelector);
 
-        let foundEditableCell: boolean = false;
         if (editableCells) {
             for (let editableCell of editableCells) {
                 let styleAttributeValue: string = await page.evaluate(el => el.getAttribute('style'), editableCell);
@@ -186,12 +173,7 @@ export class GridBase {
                 }
                 if (!styleAttributeValue.replace(' ', '').includes("display:none")) {  // only consider the cell if it is displayed
                     //found a non-hidden cell
-
                     const cellColumn = (await editableCell.$x('..'))[0]; // parent column element
-
-                    //foundEditableCell = true;
-                    //await editableCell.click();
-                    //break; // exit the loop, cell was clicked
 
                     let styleAttributeValue: string = await page.evaluate(el => el.getAttribute('style'), cellColumn);
                     if ((styleAttributeValue === undefined) || (styleAttributeValue == null)) {
@@ -204,17 +186,54 @@ export class GridBase {
                         await editableCell.click();
                         break; // exit the loop, cell was clicked
                     }
-
-
                 }
             }
         }
+        return foundEditableCell;
+    }
+    //---------------------------------------------------------------------------------------
+    async checkForEditAbility(): Promise<boolean> {
+        let canEdit: boolean = false;
+        Logging.logInfo(`About to check for Edit ability on grid: ${this.gridName}`);
+
+        await this.clickGridTab();
+
+        //let editableCellSelector = `${this.gridSelector} .tablewrapper table tbody tr:nth-child(1) .column[data-visible="true"] .editablefield`;
+        //const editableCells = await page.$$(editableCellSelector);
+        //
+        //let foundEditableCell: boolean = false;
+        //if (editableCells) {
+        //    for (let editableCell of editableCells) {
+        //        let styleAttributeValue: string = await page.evaluate(el => el.getAttribute('style'), editableCell);
+        //        if ((styleAttributeValue === undefined) || (styleAttributeValue == null)) {
+        //            styleAttributeValue = "";
+        //        }
+        //        if (!styleAttributeValue.replace(' ', '').includes("display:none")) {  // only consider the cell if it is displayed
+        //            //found a non-hidden cell
+        //            const cellColumn = (await editableCell.$x('..'))[0]; // parent column element
+        //
+        //            let styleAttributeValue: string = await page.evaluate(el => el.getAttribute('style'), cellColumn);
+        //            if ((styleAttributeValue === undefined) || (styleAttributeValue == null)) {
+        //                styleAttributeValue = "";
+        //            }
+        //            if (!styleAttributeValue.replace(' ', '').includes("display:none")) {  // only consider the column if it is displayed
+        //                //found a non-hidden cell
+        //
+        //                foundEditableCell = true;
+        //                await editableCell.click();
+        //                break; // exit the loop, cell was clicked
+        //            }
+        //        }
+        //    }
+        //}
+
+        let foundEditableCell: boolean = await this.clickFirstEditableCell(1);
 
         if (foundEditableCell) {
-            let editModeRowSelector = `${this.gridSelector} .tablewrapper table tbody tr.editrow`;
             var editRow;
             try {
-                editRow = await page.waitForSelector(editableCellSelector, { timeout: 3000 });
+                let editModeRowSelector = `${this.gridSelector} .tablewrapper table tbody tr.editrow`;
+                editRow = await page.waitForSelector(editModeRowSelector, { timeout: 3000 });
                 Logging.logInfo(`found row in EDIT mode on grid: ${this.gridName}`);
 
                 let cancelEditModeButtonSelector = `${this.gridSelector} .tablewrapper table tbody tr.editrow .divcancelsaverow i`;
@@ -359,6 +378,20 @@ export class GridBase {
 
         Logging.logInfo(`about to find the Save button on grid: ${this.gridName}`);
         let gridRowSaveButtonSelector = `${this.gridSelector} .tablewrapper table tbody tr td div.divsaverow i`;
+
+        if (this.multiRowSave) {
+            var multiSaveButton;
+            try {
+                let gridMultiRowSaveButtonSelector = `${this.gridSelector} .grid-multi-save i`;
+                multiSaveButton = await page.waitForSelector(gridMultiRowSaveButtonSelector, { timeout: 500 });
+                if (multiSaveButton) {
+                    gridRowSaveButtonSelector = gridMultiRowSaveButtonSelector;
+                }
+            } catch (error) { } // assume that there is no multi-save button
+        }
+
+
+
         await page.waitForSelector(gridRowSaveButtonSelector, { visible: true });
         Logging.logInfo(`found the Save button on grid: ${this.gridName}.  About to click.`);
         await page.click(gridRowSaveButtonSelector);
@@ -476,14 +509,16 @@ export class GridBase {
 
         await this.clickGridTab();
 
-        let editableCellSelector = `${this.gridSelector} .tablewrapper table tbody tr:nth-child(${rowToEdit}) .editablefield`;
-        Logging.logInfo(`editableCellSelector: ${editableCellSelector}`);
-        await page.waitForSelector(editableCellSelector);
-        Logging.logInfo(`found editable cell on grid: ${this.gridName}`);
-        await ModuleBase.wait(200); // wait for the grid row to get its events
+        //let editableCellSelector = `${this.gridSelector} .tablewrapper table tbody tr:nth-child(${rowToEdit}) .editablefield`;
+        //Logging.logInfo(`editableCellSelector: ${editableCellSelector}`);
+        //await page.waitForSelector(editableCellSelector);
+        //Logging.logInfo(`found editable cell on grid: ${this.gridName}`);
+        //await ModuleBase.wait(200); // wait for the grid row to get its events
+        //
+        //Logging.logInfo(`about to click editable cell on grid: ${this.gridName}`);
+        //await page.click(editableCellSelector);
 
-        Logging.logInfo(`about to click editable cell on grid: ${this.gridName}`);
-        await page.click(editableCellSelector);
+        await this.clickFirstEditableCell(1);
 
         let editModeRowSelector = `${this.gridSelector} .tablewrapper table tbody tr.editrow`;
         await page.waitForSelector(editModeRowSelector);
@@ -496,7 +531,6 @@ export class GridBase {
         }
 
         response = await this.saveRow(closeUnexpectedErrors);
-
         return response;
     }
     //---------------------------------------------------------------------------------------

@@ -39,6 +39,7 @@ export class RecordToEdit {
     seekObject?: any;
     expectedErrorFields?: string[];
     recordToExpect?: any;
+    gridRecords?: GridRecordToCreate[];
 }
 
 export class NewRecordToCreate {
@@ -83,6 +84,7 @@ export class ModuleBase {
 
     defaultNewRecordToExpect: any;
     newRecordsToCreate: NewRecordToCreate[];
+    recordsToEdit?: RecordToEdit[];
 
     globalScopeRef = GlobalScope;
 
