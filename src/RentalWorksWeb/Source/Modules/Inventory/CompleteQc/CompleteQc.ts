@@ -74,19 +74,25 @@ class CompleteQc {
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
         // ----------
-        const $inventoryAttributeValueGrid = $form.find('div[data-grid="InventoryAttributeValueGrid"]');
-        const $inventoryAttributeValueGridControl = FwBrowse.loadGridFromTemplate('InventoryAttributeValueGrid');
-        $inventoryAttributeValueGrid.empty().append($inventoryAttributeValueGridControl);
-        $inventoryAttributeValueGridControl.data('ondatabind', function (request) {
-            request.uniqueids = {
-                InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
-            };
+        FwBrowse.renderGrid({
+            nameGrid: 'ItemAttributeValueGrid',
+            gridSecurityId: 'buplkDkxM1hC',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                options.hasNew = false;
+                options.hasDelete = false;
+            },
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    InventoryId: FwFormField.getValueByDataField($form, `InventoryId`)
+                };
+            },
+            beforeSave: (request: any) => {
+                request.InventoryId = FwFormField.getValueByDataField($form, `InventoryId`);
+            }
         });
-        $inventoryAttributeValueGridControl.data('beforesave', function (request) {
-            request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
-        });
-        FwBrowse.init($inventoryAttributeValueGridControl);
-        FwBrowse.renderRuntimeHtml($inventoryAttributeValueGridControl);
     }
     //----------------------------------------------------------------------------------------------
     completeQc($form, request) {
@@ -116,14 +122,14 @@ class CompleteQc {
                     FwFormField.setValueByDataField($form, 'Description', response.Description);
                     FwFormField.setValueByDataField($form, 'Condition', response.ConditionId, response.Condition);
                     FwFormField.setValueByDataField($form, 'RequiredFootCandles', response.RequiredFootCandles);
-                    FwFormField.setValueByDataField($form, 'RequiredSoftwareVersion', response.SoftwareVersion);
+                    FwFormField.setValueByDataField($form, 'RequiredSoftwareVersion', response.RequiredSoftwareVersion);
                     this.itemId = response.ItemId;
                     this.itemQcId = response.ItemQcId;
-                    const $inventoryAttributeValueGrid = $form.find('[data-name="InventoryAttributeValueGrid"]');
-                    $inventoryAttributeValueGrid.data('ondatabind', request => {
-                        request.uniqueids = { ItemId: this.itemId }
+                    const $itemAttributeValueGrid = $form.find('[data-name="ItemAttributeValueGrid"]');
+                    $itemAttributeValueGrid.data('ondatabind', request => {
+                        request.uniqueids = { ItemId: response.ItemId }
                     })
-                    FwBrowse.search($inventoryAttributeValueGrid);
+                    FwBrowse.search($itemAttributeValueGrid);
                     $form.find('div[data-datafield="Code"] input').select().focus();
                 } else {
                     $completed.hide();
@@ -187,7 +193,7 @@ class CompleteQc {
                             <div class="flexcolumn" style="flex:1 1 650px;">
                               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Attributes">
                                 <div class="flexrow">
-                                  <div data-control="FwGrid" data-grid="InventoryAttributeValueGrid" data-securitycaption="Inventory Attribute Value"></div>
+                                  <div data-control="FwGrid" data-grid="ItemAttributeValueGrid" data-securitycaption="Item Attribute Value"></div>
                                 </div>
                               </div>
                             </div>
