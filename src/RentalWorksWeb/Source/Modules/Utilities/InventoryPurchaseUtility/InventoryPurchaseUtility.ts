@@ -157,13 +157,15 @@ class InventoryPurchaseUtility {
             };
             FwAppData.apiMethod(true, 'POST', 'api/v1/inventorypurchaseutility/completesession', request, FwServices.defaultTimeout,
                 response => {
-                    FwNotification.renderNotification("SUCCESS", "Purchase(s) Successfully Created");
- 
-                    //    const uniqueids: any = {};
-                    //    uniqueids.PurchaseId = 
-                    //    const $control = PurchaseController.loadForm(uniqueids);
-                    //    FwModule.openModuleTab($control, "", true, 'FORM', true);
-      
+                    if (response.success) {
+                        FwNotification.renderNotification("SUCCESS", "Purchase(s) Successfully Created");
+                        //    const uniqueids: any = {};
+                        //    uniqueids.PurchaseId = 
+                        //    const $control = PurchaseController.loadForm(uniqueids);
+                        //    FwModule.openModuleTab($control, "", true, 'FORM', true);
+                    } else {
+                        FwNotification.renderNotification("ERROR", response.msg);
+                    }
             }, ex => FwFunc.showError(ex), $form);
         });
 
