@@ -229,6 +229,59 @@ namespace WebApi.Logic
             return success;
         }
         //-------------------------------------------------------------------------------------------------------
+        public static async Task<bool> UpdateDataAsync(FwApplicationConfig appConfig, string tablename, string[] columns, string[] values, string[] wherecolumns, string[] wherecolumnvalues)
+        {
+            bool success = false;
+
+            if (wherecolumns.Length.Equals(0))
+            {
+                throw new Exception("missing wherecolumns in call to UpdateDataAsync.");
+            }
+            else if (columns.Length.Equals(0))
+            {
+                throw new Exception("missing columns in call to UpdateDataAsync.");
+            }
+            else
+            {
+                using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+                {
+                    FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
+                    qry.Add("update " + tablename);
+                    qry.Add(" set   ");
+                    for (int c = 0; c < columns.Length; c++)
+                    {
+                        qry.Add(columns[c] + "= @" + columns[c] + c.ToString());
+                        if (c < (columns.Length - 1))
+                        {
+                            qry.Add(",");
+                        }
+                    }
+                    qry.Add(" where ");
+                    for (int c = 0; c < wherecolumns.Length; c++)
+                    {
+                        qry.Add(wherecolumns[c] + " = @wherecolumnvalue" + c.ToString());
+                        if (c < (wherecolumns.Length - 1))
+                        {
+                            qry.Add(" and ");
+                        }
+                    }
+
+                    for (int c = 0; c < values.Length; c++)
+                    {
+                        qry.AddParameter("@" + columns[c] + c.ToString(), values[c]);
+                    }
+                    for (int c = 0; c < wherecolumnvalues.Length; c++)
+                    {
+                        qry.AddParameter("@wherecolumnvalue" + c.ToString(), wherecolumnvalues[c]);
+                    }
+
+                    await qry.ExecuteAsync();
+                    success = true;
+                }
+            }
+            return success;
+        }
+        //-------------------------------------------------------------------------------------------------------
         public static async Task<string[]> GetStringDataAsync(FwApplicationConfig appConfig, string tablename, string[] wherecolumns, string[] wherecolumnvalues, string[] selectcolumns)
         {
             FwDatabaseField[] results = await GetDataAsync(appConfig, tablename, wherecolumns, wherecolumnvalues, selectcolumns);
