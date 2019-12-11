@@ -148,6 +148,8 @@ class InventoryPurchaseUtility {
                 AisleLocation: FwFormField.getValueByDataField($form, 'AisleLocation'),
                 ShelfLocation: FwFormField.getValueByDataField($form, 'ShelfLocation'),
                 ManufacturerVendorId: FwFormField.getValueByDataField($form, 'ManufacturerVendorId'),
+                ManufacturerModelNumber: FwFormField.getValueByDataField($form, 'ManufacturerModelNumber'),
+                ManufacturerPartNumber: FwFormField.getValueByDataField($form, 'ManufacturerPartNumber'),
                 CountryId: FwFormField.getValueByDataField($form, 'CountryId'),
                 WarrantyDays: FwFormField.getValueByDataField($form, 'WarrantyDays'),
                 WarrantyExpiration: FwFormField.getValueByDataField($form, 'WarrantyExpiration'),

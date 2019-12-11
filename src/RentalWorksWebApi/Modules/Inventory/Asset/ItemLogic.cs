@@ -99,8 +99,8 @@ namespace WebApi.Modules.Inventory.Asset
         [FwLogicProperty(Id: "SSQlcW1A2vNC", IsReadOnly: true)]
         public string StatusType { get; set; }
 
-        [FwLogicProperty(Id: "M8UBOJ8jLKZl", IsReadOnly: true)]
-        public string StatusDate { get; set; }
+        [FwLogicProperty(Id: "M8UBOJ8jLKZl", DisableDirectModify: true)]
+        public string StatusDate { get { return itemStatus.StatusDate; } set { itemStatus.StatusDate = value; } }
 
         [FwLogicProperty(Id: "eW70jsFJ22b3", IsReadOnly: true)]
         public string InventoryStatus { get; set; }

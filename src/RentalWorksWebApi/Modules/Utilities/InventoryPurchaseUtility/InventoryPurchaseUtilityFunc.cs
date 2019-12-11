@@ -49,6 +49,8 @@ namespace WebApi.Modules.Utilities.InventoryPurchaseUtility
         public string AisleLocation { get; set; }
         public string ShelfLocation { get; set; }
         public string ManufacturerVendorId { get; set; }
+        public string ManufacturerModelNumber { get; set; }
+        public string ManufacturerPartNumber { get; set; }
         public string CountryId { get; set; }
         public int? WarrantyDays { get; set; }
         public DateTime? WarrantyExpiration { get; set; }
@@ -143,16 +145,6 @@ namespace WebApi.Modules.Utilities.InventoryPurchaseUtility
         //------------------------------------------------------------------------------------------------------- 
         public static async Task<InventoryPurchaseCompleteSessionResponse> CompleteSession(FwApplicationConfig appConfig, FwUserSession userSession, InventoryPurchaseCompleteSessionRequest request)
         {
-
-            /*
-          
-            justin hoffman todo:
-update rentalitemstatus set warehouseid = 'B0029AY5' where rentalitemid in (select rentalitemid from rentalitem where masterid = 'Y000XAGF') and warehouseid = ''
-update rentalitemstatus set statusdate = '12/11/2019' where rentalitemid in (select rentalitemid from rentalitem where masterid = 'Y000XAGF') and statusdate is null
---mfg model
---mfg part             
-             
-             */
 
             InventoryPurchaseCompleteSessionResponse response = new InventoryPurchaseCompleteSessionResponse();
 
@@ -298,11 +290,15 @@ update rentalitemstatus set statusdate = '12/11/2019' where rentalitemid in (sel
                                 item.SetDependencies(appConfig, userSession);
                                 item.PurchaseId = purchase.PurchaseId;
                                 item.InventoryId = purchase.InventoryId;
+                                item.WarehouseId= purchase.WarehouseId;
                                 item.InventoryStatusId = RwGlobals.INVENTORY_STATUS_IN_ID;
+                                item.StatusDate = DateTime.Today.ToString("yyyy-MM-dd");  //?
                                 item.BarCode = barCode;
                                 item.AisleLocation = request.AisleLocation;
                                 item.ShelfLocation = request.ShelfLocation;
                                 item.ManufacturerId = request.ManufacturerVendorId;
+                                item.ManufacturerModelNumber = request.ManufacturerModelNumber;
+                                item.ManufacturerPartNumber = request.ManufacturerPartNumber;
                                 item.CountryOfOriginId = request.CountryId;
                                 item.WarrantyPeriod = request.WarrantyDays;
                                 item.WarrantyExpiration = request.WarrantyExpiration;
