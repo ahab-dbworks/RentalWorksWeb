@@ -100,18 +100,16 @@ class InvoiceDiscountReport extends FwWebApiReport {
         this.load($form, this.reportOptions);
 
         $form.find('div[data-datafield="DiscountPercent"] .fwformfield-caption').css('margin-bottom', "2em");
-        const department = JSON.parse(sessionStorage.getItem('department'));
-        const location = JSON.parse(sessionStorage.getItem('location'));
-
-        FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid, department.department);
-        FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', location.locationid, location.location);
 
         // Default settings for first time running
-        const aMonthAgo = moment().subtract(1, 'months').format('MM/DD/YYYY');
-        FwFormField.setValueByDataField($form, 'FromDate', aMonthAgo);
+        const department = JSON.parse(sessionStorage.getItem('department'));
+        FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid, department.department);
+        const location = JSON.parse(sessionStorage.getItem('location'));
+        FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', location.locationid, location.location);
         const today = FwFunc.getDate();
         FwFormField.setValueByDataField($form, 'ToDate', today);
-
+        const aMonthAgo = FwFunc.getDate(today, -30);
+        FwFormField.setValueByDataField($form, 'FromDate', aMonthAgo);
         FwFormField.setValueByDataField($form, 'DiscountPercent', '1');
     }
     //----------------------------------------------------------------------------------------------

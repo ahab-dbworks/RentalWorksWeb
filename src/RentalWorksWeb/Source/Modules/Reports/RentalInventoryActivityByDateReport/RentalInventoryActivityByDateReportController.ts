@@ -82,8 +82,13 @@ class RentalInventoryActivityByDateReport extends FwWebApiReport {
     onLoadForm($form) {
         this.load($form, this.reportOptions);
 
+        // Default settings for first time running
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
+        const today = FwFunc.getDate();
+        FwFormField.setValueByDataField($form, 'ToDate', today);
+        const aMonthAgo = FwFunc.getDate(today, -30);
+        FwFormField.setValueByDataField($form, 'FromDate', aMonthAgo);
     }
     //----------------------------------------------------------------------------------------------
     convertParameters(parameters: any) {

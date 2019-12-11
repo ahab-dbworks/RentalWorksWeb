@@ -103,12 +103,11 @@ class BillingProgressReport extends FwWebApiReport {
     onLoadForm($form) {
         this.load($form, this.reportOptions);
 
+        // Default settings for first time running
         const location = JSON.parse(sessionStorage.getItem('location'));
         FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', location.locationid, location.location);
-
         const department = JSON.parse(sessionStorage.getItem('department'));
         FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid, department.department);
-
         const today = FwFunc.getDate();
         FwFormField.setValueByDataField($form, 'AsOfDate', today);
         FwFormField.setValue($form, 'div[data-datafield="ExcludeBilled100"]', 'T')

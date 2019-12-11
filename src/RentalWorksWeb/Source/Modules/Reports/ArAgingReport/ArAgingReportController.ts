@@ -80,6 +80,7 @@ class ArAgingReport extends FwWebApiReport {
     onLoadForm($form) {
         this.load($form, this.reportOptions);
 
+        // Default settings for first time running
         const location = JSON.parse(sessionStorage.getItem('location'));
         FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', location.locationid, location.location);
         const today = FwFunc.getDate();

@@ -132,14 +132,22 @@ class RentalInventoryAvailabilityReport extends FwWebApiReport {
     onLoadForm($form) {
         this.load($form, this.reportOptions);
 
+        // Default settings for first time running
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
+
+        this.loadLists($form);
+    }
+    //----------------------------------------------------------------------------------------------
+    afterLoad($form) {
+        const today = FwFunc.getDate();
+        const twoWeeks = FwFunc.getDate(today, 14);
+        FwFormField.setValueByDataField($form, 'FromDate', today);
+        FwFormField.setValueByDataField($form, 'ToDate', twoWeeks);
 
         $form.find('.date-field').on('changeDate', event => {
             this.dateValidation($form, event);
         });
-
-        this.loadLists($form);
     }
     //----------------------------------------------------------------------------------------------
     convertParameters(parameters: any) {
