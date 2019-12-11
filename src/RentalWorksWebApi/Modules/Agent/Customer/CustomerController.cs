@@ -37,7 +37,7 @@ namespace WebApi.Modules.Agent.Customer
         // GET api/v1/customer
         [HttpGet]
         [FwControllerMethod(Id:"a48vy0bxduhl", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<GetManyResponse<GetManyCustomerResponse>>> GetManyAsync([FromQuery]GetManyCustomerRequest request)
+        public async Task<ActionResult<GetResponse<GetManyCustomerResponse>>> GetManyAsync([FromQuery]GetManyCustomerRequest request)
         {
             return await DoGetManyAsync<GetManyCustomerResponse>(request);
         }
@@ -77,7 +77,7 @@ namespace WebApi.Modules.Agent.Customer
         // GET api/v1/customer/lookup/officelocations
         [HttpGet("lookup/officelocations")]
         [FwControllerMethod(Id:"ydamcE1E1G9P", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<GetManyResponse<GetManyOfficeLocationModel>>> GetOfficeLocationsAsync([FromQuery]GetManyOfficeLocationRequest request)
+        public async Task<ActionResult<GetResponse<GetManyOfficeLocationModel>>> GetOfficeLocationsAsync([FromQuery]GetManyOfficeLocationRequest request)
         {
             //return await DoGetManyAsync<GetManyOfficeLocationModel>(request, typeof(OfficeLocationLogic));
             try
@@ -99,7 +99,7 @@ namespace WebApi.Modules.Agent.Customer
         // GET api/v1/customer/validations/managingdepartments
         //[HttpGet("validations/managingdepartments")]
         //[FwControllerMethod(Id:"EQB3smR5TUZ4")]
-        //public async Task<ActionResult<GetManyResponse<GetManyDepartmentsValidationModel>>> GetManagingDepartmentsAsync([FromQuery]GetManyDepartmentsRequest request)
+        //public async Task<ActionResult<GetResponse<GetManyDepartmentsValidationModel>>> GetManagingDepartmentsAsync([FromQuery]GetManyDepartmentsRequest request)
         //{
         //    try
         //    {

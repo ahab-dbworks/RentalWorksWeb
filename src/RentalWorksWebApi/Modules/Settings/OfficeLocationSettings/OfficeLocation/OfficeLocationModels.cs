@@ -3,17 +3,17 @@
 namespace WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation
 {
     //------------------------------------------------------------------------------------
-    public class GetManyOfficeLocationRequest : GetManyRequest
+    public class GetManyOfficeLocationRequest : GetRequest
     {
         /// <summary>
         /// Filter Expression
         /// </summary>
-        [GetManyRequestProperty(true, false)]
+        [GetRequestProperty(true, false)]
         public string LocationId { get; set; } = null;
         /// <summary>
         /// Filter Expression
         /// </summary>
-        [GetManyRequestProperty(true, true)]
+        [GetRequestProperty(true, true)]
         public string Location { get; set; } = null;
     }
     //------------------------------------------------------------------------------------

@@ -9,17 +9,17 @@ In the new way of doing things in the middle tier projects, validations function
 In most cases, you can share the validation's model class with any similar validations against the same entity.  So for example if we are doing the OfficeLocation validation on Customer, we are going to go to the WebApi project and create a file called OfficeLocationModels.cs in the OfficeLocation folder.  If you don't want to share the model you might want to create it in the Customer folder's CustomerModels.cs file.
 
 ~~~~
-public class GetManyOfficeLocationRequest : GetManyRequest
+public class GetManyOfficeLocationRequest : GetRequest
 {
     /// <summary>
     /// Filter Expression
     /// </summary>
-    [GetManyRequestProperty(true, false)]
+    [GetRequestProperty(true, false)]
     public string LocationId { get; set; } = null;
     /// <summary>
     /// Filter Expression
     /// </summary>
-    [GetManyRequestProperty(true, true)]
+    [GetRequestProperty(true, true)]
     public string Location { get; set; } = null;
 }
 ~~~~
@@ -39,7 +39,7 @@ Notice that we use the Request and Response models we just created here.  Also n
 
 
 ~~~~
-public async Task<GetManyResponse<GetManyOfficeLocationModel>> GetOfficeLocationsAsync(GetManyOfficeLocationRequest request)
+public async Task<GetResponse<GetManyOfficeLocationModel>> GetOfficeLocationsAsync(GetManyOfficeLocationRequest request)
 {
     var officeLocationLogic = CreateBusinessLogic<OfficeLocationLogic>(this.AppConfig, this.UserSession);
     request.filters["Inactive"] = new GetManyRequestFilter("Inactive", "eq", "true", false);
@@ -55,7 +55,7 @@ The goal here is to call a method on the module's Logic file that will return a 
 ~~~~
 // GET api/v1/customer/lookup/officelocations
 [HttpGet("lookup/officelocations")]
-public async Task<ActionResult<GetManyResponse<GetManyOfficeLocationModel>>> GetOfficeLocationsAsync([FromQuery]GetManyOfficeLocationRequest request)
+public async Task<ActionResult<GetResponse<GetManyOfficeLocationModel>>> GetOfficeLocationsAsync([FromQuery]GetManyOfficeLocationRequest request)
 {
     try
     {
