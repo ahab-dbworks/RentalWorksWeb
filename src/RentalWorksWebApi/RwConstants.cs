@@ -354,7 +354,7 @@ namespace WebApi
         public const string INVENTORY_OWNERSHIP_OWNED = "OWNED";
         public const string INVENTORY_OWNERSHIP_CONSIGNED = "CONSIGNED";
 
-        public const string INVENTORY_QUANTITY_TRANSACTION_TYPE_PURCHASE = "PURCHASE";
+        public const string INVENTORY_QUANTITY_TRANSACTION_TYPE_PURCHASE = "PURCHASE INVENTORY";
 
 
 
