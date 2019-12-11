@@ -181,6 +181,8 @@ class InventoryPurchaseUtility {
             if (typeof $form.data('sessionid') === 'string') {
                 const request: any = {};
                 request.SessionId = $form.data('sessionid');
+                request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
+                request.WarehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
                 FwAppData.apiMethod(true, 'POST', `api/v1/inventorypurchaseutility/assignbarcodes`, request, FwServices.defaultTimeout,
                     response => {
                         FwBrowse.search($itemGridControl);

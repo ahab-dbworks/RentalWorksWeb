@@ -35,6 +35,8 @@ namespace WebApi.Modules.Utilities.InventoryPurchaseUtility
     public class InventoryPurchaseAssignBarCodesRequest : TSpStatusResponse
     {
         public string SessionId { get; set; }
+        public string InventoryId { get; set; }
+        public string WarehouseId { get; set; }
     }
     public class InventoryPurchaseAssignBarCodesResponse : TSpStatusResponse { }
 
@@ -127,6 +129,8 @@ namespace WebApi.Modules.Utilities.InventoryPurchaseUtility
             {
                 FwSqlCommand qry = new FwSqlCommand(conn, "assignbarcodesfrompurchase", appConfig.DatabaseSettings.QueryTimeout);
                 qry.AddParameter("@sessionid", SqlDbType.NVarChar, ParameterDirection.Input, request.SessionId);
+                qry.AddParameter("@masterid", SqlDbType.NVarChar, ParameterDirection.Input, request.InventoryId);
+                qry.AddParameter("@warehouseid", SqlDbType.NVarChar, ParameterDirection.Input, request.WarehouseId);
                 qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
                 qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
                 qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
@@ -139,6 +143,17 @@ namespace WebApi.Modules.Utilities.InventoryPurchaseUtility
         //------------------------------------------------------------------------------------------------------- 
         public static async Task<InventoryPurchaseCompleteSessionResponse> CompleteSession(FwApplicationConfig appConfig, FwUserSession userSession, InventoryPurchaseCompleteSessionRequest request)
         {
+
+            /*
+          
+            justin hoffman todo:
+update rentalitemstatus set warehouseid = 'B0029AY5' where rentalitemid in (select rentalitemid from rentalitem where masterid = 'Y000XAGF') and warehouseid = ''
+update rentalitemstatus set statusdate = '12/11/2019' where rentalitemid in (select rentalitemid from rentalitem where masterid = 'Y000XAGF') and statusdate is null
+--mfg model
+--mfg part             
+             
+             */
+
             InventoryPurchaseCompleteSessionResponse response = new InventoryPurchaseCompleteSessionResponse();
 
             UpdateInventoryPurchaseSessionRequest updateRequest = new UpdateInventoryPurchaseSessionRequest();
