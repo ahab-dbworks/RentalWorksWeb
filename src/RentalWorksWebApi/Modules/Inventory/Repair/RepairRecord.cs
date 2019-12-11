@@ -175,7 +175,9 @@ namespace WebApi.Modules.Inventory.Repair
             {
                 if (!string.IsNullOrEmpty(InventoryId) && !string.IsNullOrEmpty(WarehouseId))
                 {
-                    InventoryAvailabilityFunc.RequestRecalc(InventoryId, WarehouseId, "");  // #jhtodo: classification?
+                    FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString);
+                    string classification = FwSqlCommand.GetStringDataAsync(conn, AppConfig.DatabaseSettings.QueryTimeout, "master", "masterid", InventoryId, "class").Result;
+                    InventoryAvailabilityFunc.RequestRecalc(InventoryId, WarehouseId, classification);
                 }
             }
             return response;
@@ -188,7 +190,9 @@ namespace WebApi.Modules.Inventory.Repair
             {
                 if (!string.IsNullOrEmpty(InventoryId) && !string.IsNullOrEmpty(WarehouseId))
                 {
-                    InventoryAvailabilityFunc.RequestRecalc(InventoryId, WarehouseId, "");  // #jhtodo: classification?
+                    FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString);
+                    string classification = FwSqlCommand.GetStringDataAsync(conn, AppConfig.DatabaseSettings.QueryTimeout, "master", "masterid", InventoryId, "class").Result;
+                    InventoryAvailabilityFunc.RequestRecalc(InventoryId, WarehouseId, classification);
                 }
             }
             return response;
@@ -201,7 +205,9 @@ namespace WebApi.Modules.Inventory.Repair
             {
                 if (!string.IsNullOrEmpty(InventoryId) && !string.IsNullOrEmpty(WarehouseId))
                 {
-                    InventoryAvailabilityFunc.RequestRecalc(InventoryId, WarehouseId, "");  // #jhtodo: classification?
+                    FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString);
+                    string classification = FwSqlCommand.GetStringDataAsync(conn, AppConfig.DatabaseSettings.QueryTimeout, "master", "masterid", InventoryId, "class").Result;
+                    InventoryAvailabilityFunc.RequestRecalc(InventoryId, WarehouseId, classification);
                 }
             }
             return response;

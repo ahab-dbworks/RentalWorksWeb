@@ -487,7 +487,8 @@ namespace WebApi.Modules.Inventory.Repair
             }
             if (!string.IsNullOrEmpty(InventoryId) && !string.IsNullOrEmpty(WarehouseId))
             {
-                InventoryAvailabilityFunc.RequestRecalc(invId, whId, "");  // #jhtodo: classification?
+                string classification = FwSqlCommand.GetStringDataAsync(e.SqlConnection, AppConfig.DatabaseSettings.QueryTimeout, "master", "masterid", InventoryId, "class").Result;
+                InventoryAvailabilityFunc.RequestRecalc(invId, whId, classification);
             }
 
         }
