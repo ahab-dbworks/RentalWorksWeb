@@ -188,10 +188,10 @@
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form) {
-        const browseRows = sessionStorage.getItem('browsedefaultrows');
-        const theme = sessionStorage.getItem('applicationtheme');
-        jQuery($form.find('div.fwformfield[data-datafield="BrowseDefaultRows"] select')).val(browseRows);
-        jQuery($form.find('div.fwformfield[data-datafield="ApplicationTheme"] select')).val(theme);
+        //const browseRows = sessionStorage.getItem('browsedefaultrows');
+        //const theme = sessionStorage.getItem('applicationtheme');
+        //jQuery($form.find('div.fwformfield[data-datafield="BrowseDefaultRows"] select')).val(browseRows);
+        //jQuery($form.find('div.fwformfield[data-datafield="ApplicationTheme"] select')).val(theme);
 
         let selectedModules = FwFormField.getValueByDataField($form, 'ToolBarJson');
         if (selectedModules.length > 0) {
