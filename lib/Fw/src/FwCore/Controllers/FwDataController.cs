@@ -630,7 +630,9 @@ namespace FwCore.Controllers
         {
             FwApiException jsonException = new FwApiException();
             jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-            jsonException.Message = ex.Message;
+            //jsonException.Message = ex.Message;
+            jsonException.Message = ex.Message.Replace("The transaction ended in the trigger. The batch has been aborted.", "");
+
             if (ex.InnerException != null)
             {
                 jsonException.Message += $"\n\nInnerException: \n{ex.InnerException.Message}";
