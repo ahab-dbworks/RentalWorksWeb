@@ -300,6 +300,10 @@ namespace WebApi.Modules.Utilities.InventoryPurchaseUtility
                                 qtyRequest.CostPerItem = purchase.UnitCost;
                                 qtyRequest.UniqueId1 = purchase.PurchaseId;
                                 UpdateInventoryQuantityResponse qtyResponse = await AppFunc.UpdateInventoryQuantity(appConfig, userSession, qtyRequest);
+
+                                response.PurchaseId.Add(purchase.PurchaseId);
+                                response.ItemId.Add(item.ItemId);
+                                response.QuantityAdded++;
                             }
 
                         }
@@ -342,6 +346,9 @@ namespace WebApi.Modules.Utilities.InventoryPurchaseUtility
                             qtyRequest.CostPerItem = purchase.UnitCost;
                             qtyRequest.UniqueId1 = purchase.PurchaseId;
                             UpdateInventoryQuantityResponse qtyResponse = await AppFunc.UpdateInventoryQuantity(appConfig, userSession, qtyRequest);
+
+                            response.PurchaseId.Add(purchase.PurchaseId);
+                            response.QuantityAdded += request.Quantity;
 
                         }
 
