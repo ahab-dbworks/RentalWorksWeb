@@ -16,7 +16,7 @@ namespace WebApi.Modules.Settings.ExportSettings.DataExportFormat
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "YXM8el7OjZSl", IsPrimaryKey:true)]
-        public string DataExportFormatId { get { return dataExportFormat.DataExportFormatId; } set { dataExportFormat.DataExportFormatId = value; } }
+        public int? DataExportFormatId { get { return dataExportFormat.DataExportFormatId; } set { dataExportFormat.DataExportFormatId = value; } }
 
         [FwLogicProperty(Id: "1c6m6xEZxKqI")]
         public string ExportType { get { return dataExportFormat.ExportType; } set { dataExportFormat.ExportType = value; } }

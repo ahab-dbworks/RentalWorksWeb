@@ -7,8 +7,8 @@ namespace WebApi.Modules.Settings.ExportSettings.DataExportFormat
     public class DataExportFormatRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "dataexportformatid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)]
-        public string DataExportFormatId { get; set; } = "";
+        [FwSqlDataField(column: "dataexportformatid", modeltype: FwDataTypes.Integer, sqltype: "int", isPrimaryKey: true, identity: true)]
+        public int? DataExportFormatId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "exporttype", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255, required: true)]
         public string ExportType { get; set; }
