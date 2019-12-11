@@ -582,19 +582,18 @@ class FwSettingsClass {
                 showNew = browseMenuOptions.hasNew && ((nodeNew !== null && nodeNew.properties.visible === 'T') || (nodeSave !== null && nodeSave.properties.visible === 'T'));
                 showEdit = browseMenuOptions.hasEdit && ((nodeEdit !== null && nodeEdit.properties.visible === 'T') || (nodeSave !== null && nodeSave.properties.visible === 'T'));
                 showDelete = browseMenuOptions.hasDelete && (nodeDelete !== null && nodeDelete.properties.visible === 'T');
-                const caption = nodeModule.caption;
 
-                html.push(`<div class="panel-group" id="${moduleName}" data-id="${moduleId}" data-navigation="${menuCaption}" data-caption="${caption}" data-showDelete=${showDelete.toString()} data-showEdit="${showEdit.toString()}">`);
+                html.push(`<div class="panel-group" id="${moduleName}" data-id="${moduleId}" data-navigation="${menuCaption}" data-caption="${title}" data-showDelete=${showDelete.toString()} data-showEdit="${showEdit.toString()}">`);
                 html.push('  <div class="panel panel-primary">');
                 html.push(`    <div data-toggle="collapse" data-target="${moduleName}" href="${moduleName}" class="panel-heading">`);
                 html.push('      <div class="flexrow" style="max-width:none;">');
                 html.push('        <i class="material-icons arrow-selector">keyboard_arrow_down</i>');
                 html.push('        <h4 class="panel-title">');
-                html.push('        <a id="title" data-toggle="collapse">' + menu + ' - ' + title + '</a>');
+                html.push(`        <a id="title" data-toggle="collapse">${menu} - ${title}</a>`);
                 html.push('        <div id="myDropdown" class="dropdown-content">');
                 html.push('        <div class="flexcolumn">');
                 if (showNew) {
-                    html.push(`         <div class="flexrow new-row-menu" data-caption="${caption}"><i class="material-icons">add</i>New Item</div>`);
+                    html.push(`         <div class="flexrow new-row-menu" data-caption="${title}"><i class="material-icons">add</i>New Item</div>`);
                 }
                 html.push('          <div class="pop-out flexrow"><i class="material-icons">open_in_new</i>Pop Out Module</div>');
                 html.push('        </div>');
