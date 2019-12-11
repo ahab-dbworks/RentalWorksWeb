@@ -64,7 +64,7 @@ class Order extends OrderBase {
                 FwFunc.showError(ex);
             }
         });
-        FwMenu.addSubMenuItem(options.$groupOptions, 'Search', '', (e: JQuery.ClickEvent) => {
+        FwMenu.addSubMenuItem(options.$groupOptions, 'QuikSearch', '', (e: JQuery.ClickEvent) => {
             try {
                 this.search(options.$form);
             } catch (ex) {
@@ -304,6 +304,92 @@ class Order extends OrderBase {
             moduleSecurityId: this.id,
             $form: $form,
             pageSize: 10,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
+                const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')
+                FwMenu.addSubMenuItem($optionsgroup, 'Add Loss and Damage Items', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        this.addLossDamage(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+                FwMenu.addSubMenuItem($optionsgroup, 'Retire Loss and Damage Items', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        this.retireLossDamage(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+                FwMenu.addSubMenuItem($optionsgroup, 'Copy Template', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.copyTemplate(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+                FwMenu.addSubMenuItem($optionsgroup, 'Copy Line-Items', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.copyLineItems(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+                FwMenu.addSubMenuItem($optionsgroup, 'Lock / Unlock Selected', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.lockUnlock(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+                FwMenu.addSubMenuItem($optionsgroup, 'Bold / Unbold Selected', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.boldUnbold(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+                const $viewcolumn = FwMenu.addSubMenuColumn(options.$menu);
+                const $viewgroup = FwMenu.addSubMenuGroup($viewcolumn, 'View', 'securityid2')
+                FwMenu.addSubMenuItem($viewgroup, 'Summary View', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.detailSummaryView(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+                FwMenu.addSubMenuItem($viewgroup, 'Shortages Only', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.shortagesOnly(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+                FwMenu.addSubMenuItem($viewgroup, 'Show Split Details', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.splitDetail(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+                FwMenu.addSubMenuItem($viewgroup, 'Color Legend', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.colorLegend(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+            },
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     OrderId: FwFormField.getValueByDataField($form, 'OrderId'),
@@ -317,6 +403,11 @@ class Order extends OrderBase {
             },
             beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
                 $fwgrid.addClass('F');
+                $fwgrid.find('div[data-datafield="InventoryId"]').attr('data-formreadonly', 'true');
+                $fwgrid.find('div[data-datafield="Description"]').attr('data-formreadonly', 'true');
+                $fwgrid.find('div[data-datafield="ItemId"]').attr('data-formreadonly', 'true');
+                $fwgrid.find('div[data-datafield="Price"]').attr('data-digits', '3');
+                $fwgrid.find('div[data-datafield="Price"]').attr('data-digitsoptional', 'false');
             },
             afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
                 this.calculateOrderItemGridTotals($form, 'lossdamage', dt.Totals);
@@ -1702,13 +1793,15 @@ class Order extends OrderBase {
         }
     };
     //----------------------------------------------------------------------------------------------
-    addLossDamage($form: JQuery, event: any): void {
-        let sessionId, $lossAndDamageItemGridControl;
-        const userWarehouseId = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid;
-        const dealId = FwFormField.getValueByDataField($form, 'DealId');
-        const HTML: Array<string> = [];
-        HTML.push(
-            `<div class="fwcontrol fwcontainer fwform popup" data-control="FwContainer" data-type="form" data-caption="Loss and Damage">
+    addLossDamage(event: any): void {
+        const $form = jQuery(event.currentTarget).closest('.fwform');
+        if ($form.attr('data-mode') !== 'NEW') {
+            let sessionId, $lossAndDamageItemGridControl;
+            const userWarehouseId = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid;
+            const dealId = FwFormField.getValueByDataField($form, 'DealId');
+            const HTML: Array<string> = [];
+            HTML.push(
+                `<div class="fwcontrol fwcontainer fwform popup" data-control="FwContainer" data-type="form" data-caption="Loss and Damage">
               <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
                 <div class="tabpages">
                   <div class="formpage">
@@ -1738,201 +1831,209 @@ class Order extends OrderBase {
                   </div>
                 </div>
             </div>`
-        );
+            );
 
-        const addOrderBrowse = () => {
-            let $browse = jQuery(this.getBrowseTemplate());
-            $browse.attr('data-hasmultirowselect', 'true');
-            $browse.attr('data-type', 'Browse');
-            $browse.attr('data-showsearch', 'false');
-            FwBrowse.setAfterRenderRowCallback($browse, function ($tr, dt, rowIndex) {
-                if (dt.Rows[rowIndex][dt.ColumnIndex['Status']] === 'CANCELLED') {
-                    $tr.css('color', '#aaaaaa');
-                }
-            });
-
-            $browse = FwModule.openBrowse($browse);
-            $browse.find('.fwbrowse-menu').hide();
-
-            $browse.data('ondatabind', function (request) {
-                request.ActiveViewFields = OrderController.ActiveViewFields;
-                request.pagesize = 15;
-                request.orderby = 'OrderDate desc';
-                request.miscfields = {
-                    LossAndDamage: true,
-                    LossAndDamageWarehouseId: userWarehouseId,
-                    LossAndDamageDealId: dealId
-                }
-            });
-            return $browse;
-        };
-
-        const startLDSession = (): void => {
-            let $browse = jQuery($popup).children().find('.fwbrowse');
-            let orderId, $selectedCheckBoxes: any, orderIds: string = '';
-            $selectedCheckBoxes = $browse.find('tbody .cbselectrow:checked');
-            if ($selectedCheckBoxes.length !== 0) {
-                for (let i = 0; i < $selectedCheckBoxes.length; i++) {
-                    orderId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderId"]').attr('data-originalvalue');
-                    if (orderId) {
-                        orderIds = orderIds.concat(', ', orderId);
+            const addOrderBrowse = () => {
+                let $browse = jQuery(this.getBrowseTemplate());
+                $browse.attr('data-hasmultirowselect', 'true');
+                $browse.attr('data-type', 'Browse');
+                $browse.attr('data-showsearch', 'false');
+                FwBrowse.setAfterRenderRowCallback($browse, function ($tr, dt, rowIndex) {
+                    if (dt.Rows[rowIndex][dt.ColumnIndex['Status']] === 'CANCELLED') {
+                        $tr.css('color', '#aaaaaa');
                     }
-                }
-                orderIds = orderIds.substring(2);
+                });
 
-                const request: any = {};
-                request.OrderIds = orderIds;
-                request.DealId = dealId;
-                request.WarehouseId = userWarehouseId;
-                FwAppData.apiMethod(true, 'POST', `api/v1/lossanddamage/startsession`, request, FwServices.defaultTimeout, response => {
-                    sessionId = response.SessionId
-                    this.lossDamageSessionId = sessionId;
-                    if (sessionId) {
-                        $popup.find('.container').html('<div class="formrow"><div data-control="FwGrid" data-grid="LossAndDamageItemGrid" data-securitycaption=""></div></div>');
-                        $popup.find('.add-button').hide();
-                        $popup.find('.sub-header').hide();
-                        $popup.find('.session-buttons').show();
-                        const $lossAndDamageItemGrid = $popup.find('div[data-grid="LossAndDamageItemGrid"]');
-                        $lossAndDamageItemGridControl = FwBrowse.loadGridFromTemplate('LossAndDamageItemGrid');
-                        $lossAndDamageItemGrid.data('sessionId', sessionId);
-                        $lossAndDamageItemGrid.data('orderId', orderId);
-                        $lossAndDamageItemGrid.empty().append($lossAndDamageItemGridControl);
-                        $lossAndDamageItemGridControl.data('ondatabind', request => {
-                            request.uniqueids = {
-                                SessionId: sessionId
-                            };
-                        });
-                        FwBrowse.init($lossAndDamageItemGridControl);
-                        FwBrowse.renderRuntimeHtml($lossAndDamageItemGridControl);
-                        FwBrowse.search($lossAndDamageItemGridControl);
+                $browse = FwModule.openBrowse($browse);
+                $browse.find('.fwbrowse-menu').hide();
+
+                $browse.data('ondatabind', function (request) {
+                    request.ActiveViewFields = OrderController.ActiveViewFields;
+                    request.pagesize = 15;
+                    request.orderby = 'OrderDate desc';
+                    request.miscfields = {
+                        LossAndDamage: true,
+                        LossAndDamageWarehouseId: userWarehouseId,
+                        LossAndDamageDealId: dealId
                     }
-                }, null, $browse);
-            } else {
-                FwNotification.renderNotification('WARNING', 'Select rows in order to perform this function.');
+                });
+                return $browse;
+            };
+
+            const startLDSession = (): void => {
+                let $browse = jQuery($popup).children().find('.fwbrowse');
+                let orderId, $selectedCheckBoxes: any, orderIds: string = '';
+                $selectedCheckBoxes = $browse.find('tbody .cbselectrow:checked');
+                if ($selectedCheckBoxes.length !== 0) {
+                    for (let i = 0; i < $selectedCheckBoxes.length; i++) {
+                        orderId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderId"]').attr('data-originalvalue');
+                        if (orderId) {
+                            orderIds = orderIds.concat(', ', orderId);
+                        }
+                    }
+                    orderIds = orderIds.substring(2);
+
+                    const request: any = {};
+                    request.OrderIds = orderIds;
+                    request.DealId = dealId;
+                    request.WarehouseId = userWarehouseId;
+                    FwAppData.apiMethod(true, 'POST', `api/v1/lossanddamage/startsession`, request, FwServices.defaultTimeout, response => {
+                        sessionId = response.SessionId
+                        this.lossDamageSessionId = sessionId;
+                        if (sessionId) {
+                            $popup.find('.container').html('<div class="formrow"><div data-control="FwGrid" data-grid="LossAndDamageItemGrid" data-securitycaption=""></div></div>');
+                            $popup.find('.add-button').hide();
+                            $popup.find('.sub-header').hide();
+                            $popup.find('.session-buttons').show();
+                            const $lossAndDamageItemGrid = $popup.find('div[data-grid="LossAndDamageItemGrid"]');
+                            $lossAndDamageItemGridControl = FwBrowse.loadGridFromTemplate('LossAndDamageItemGrid');
+                            $lossAndDamageItemGrid.data('sessionId', sessionId);
+                            $lossAndDamageItemGrid.data('orderId', orderId);
+                            $lossAndDamageItemGrid.empty().append($lossAndDamageItemGridControl);
+                            $lossAndDamageItemGridControl.data('ondatabind', request => {
+                                request.uniqueids = {
+                                    SessionId: sessionId
+                                };
+                            });
+                            FwBrowse.init($lossAndDamageItemGridControl);
+                            FwBrowse.renderRuntimeHtml($lossAndDamageItemGridControl);
+                            FwBrowse.search($lossAndDamageItemGridControl);
+                        }
+                    }, null, $browse);
+                } else {
+                    FwNotification.renderNotification('WARNING', 'Select rows in order to perform this function.');
+                }
+            };
+            const events = () => {
+                let $orderItemGridLossDamage = $form.find('.lossdamagegrid [data-name="OrderItemGrid"]');
+                // Starts LD session
+                $popup.find('.select-items').on('click', event => {
+                    startLDSession();
+                });
+                // Complete Session
+                $popup.find('.complete-session').on('click', event => {
+                    let $lossAndDamageItemGrid = $popup.find('div[data-grid="LossAndDamageItemGrid"]');
+                    $lossAndDamageItemGrid = jQuery($lossAndDamageItemGrid);
+                    let request: any = {};
+                    request.SourceOrderId = FwFormField.getValueByDataField($form, 'OrderId');
+                    request.SessionId = this.lossDamageSessionId
+                    FwAppData.apiMethod(true, 'POST', `api/v1/lossanddamage/completesession`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                        if (response.success === true) {
+                            FwPopup.destroyPopup($popup);
+                            FwBrowse.search($orderItemGridLossDamage);
+                        } else {
+                            FwNotification.renderNotification('ERROR', response.msg);
+                        }
+                    }, null, $lossAndDamageItemGrid)
+                });
+                // Select All
+                $popup.find('.selectall').on('click', e => {
+                    let $lossAndDamageItemGrid = $popup.find('div[data-grid="LossAndDamageItemGrid"]');
+                    $lossAndDamageItemGrid = jQuery($lossAndDamageItemGrid);
+
+                    const request: any = {};
+                    request.SessionId = this.lossDamageSessionId;
+                    FwAppData.apiMethod(true, 'POST', `api/v1/lossanddamage/selectall`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                        $popup.find('.error-msg').html('');
+                        if (response.success === false) {
+                            FwFunc.playErrorSound();
+                            $popup.find('div.error-msg').html(`<div><span>${response.msg}</span></div>`);
+                        } else {
+                            FwFunc.playSuccessSound();
+                            FwBrowse.search($lossAndDamageItemGridControl);
+                        }
+                    }, function onError(response) {
+                        FwFunc.showError(response);
+                    }, $lossAndDamageItemGrid);
+                });
+                // Select None
+                $popup.find('.selectnone').on('click', e => {
+                    let $lossAndDamageItemGrid = $popup.find('div[data-grid="LossAndDamageItemGrid"]');
+                    $lossAndDamageItemGrid = jQuery($lossAndDamageItemGrid);
+
+                    const request: any = {};
+                    request.SessionId = this.lossDamageSessionId;
+                    FwAppData.apiMethod(true, 'POST', `api/v1/lossanddamage/selectnone`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                        $popup.find('.error-msg').html('');
+                        if (response.success === false) {
+                            FwFunc.playErrorSound();
+                            FwBrowse.search($lossAndDamageItemGridControl);
+                            $popup.find('div.error-msg').html(`<div><span">${response.msg}</span></div>`);
+                        } else {
+                            FwFunc.playSuccessSound();
+                            FwBrowse.search($lossAndDamageItemGridControl);
+                        }
+                    }, function onError(response) {
+                        FwFunc.showError(response);
+                    }, $lossAndDamageItemGrid);
+                });
+                //Options button
+                $popup.find('.options-button').on('click', e => {
+                    $popup.find('div.formrow.option-list').toggle();
+                });
             }
-        };
-        const events = () => {
-            let $orderItemGridLossDamage = $form.find('.lossdamagegrid [data-name="OrderItemGrid"]');
-            // Starts LD session
-            $popup.find('.select-items').on('click', event => {
-                startLDSession();
-            });
-            // Complete Session
-            $popup.find('.complete-session').on('click', event => {
-                let $lossAndDamageItemGrid = $popup.find('div[data-grid="LossAndDamageItemGrid"]');
-                $lossAndDamageItemGrid = jQuery($lossAndDamageItemGrid);
-                let request: any = {};
-                request.SourceOrderId = FwFormField.getValueByDataField($form, 'OrderId');
-                request.SessionId = this.lossDamageSessionId
-                FwAppData.apiMethod(true, 'POST', `api/v1/lossanddamage/completesession`, request, FwServices.defaultTimeout, function onSuccess(response) {
-                    if (response.success === true) {
-                        FwPopup.destroyPopup($popup);
-                        FwBrowse.search($orderItemGridLossDamage);
-                    } else {
-                        FwNotification.renderNotification('ERROR', response.msg); //justin 01/31/2019
-                    }
-                }, null, $lossAndDamageItemGrid)
-            });
-            // Select All
-            $popup.find('.selectall').on('click', e => {
-                let $lossAndDamageItemGrid = $popup.find('div[data-grid="LossAndDamageItemGrid"]');
-                $lossAndDamageItemGrid = jQuery($lossAndDamageItemGrid);
-
-                const request: any = {};
-                request.SessionId = this.lossDamageSessionId; //justin 01/31/2019
-                FwAppData.apiMethod(true, 'POST', `api/v1/lossanddamage/selectall`, request, FwServices.defaultTimeout, function onSuccess(response) {
-                    $popup.find('.error-msg').html('');
-                    if (response.success === false) {
-                        FwFunc.playErrorSound();
-                        $popup.find('div.error-msg').html(`<div><span>${response.msg}</span></div>`);
-                    } else {
-                        FwFunc.playSuccessSound();
-                        FwBrowse.search($lossAndDamageItemGridControl);
-                    }
-                }, function onError(response) {
-                    FwFunc.showError(response);
-                }, $lossAndDamageItemGrid);
-            });
-            // Select None
-            $popup.find('.selectnone').on('click', e => {
-                let $lossAndDamageItemGrid = $popup.find('div[data-grid="LossAndDamageItemGrid"]');
-                $lossAndDamageItemGrid = jQuery($lossAndDamageItemGrid);
-
-                const request: any = {};
-                request.SessionId = this.lossDamageSessionId; //justin 01/31/2019
-                FwAppData.apiMethod(true, 'POST', `api/v1/lossanddamage/selectnone`, request, FwServices.defaultTimeout, function onSuccess(response) {
-                    $popup.find('.error-msg').html('');
-                    if (response.success === false) {
-                        FwFunc.playErrorSound();
-                        FwBrowse.search($lossAndDamageItemGridControl);
-                        $popup.find('div.error-msg').html(`<div><span">${response.msg}</span></div>`);
-                    } else {
-                        FwFunc.playSuccessSound();
-                        FwBrowse.search($lossAndDamageItemGridControl); //justin 01/31/2019
-                    }
-                }, function onError(response) {
-                    FwFunc.showError(response);
-                }, $lossAndDamageItemGrid);
-            });
-            //Options button
-            $popup.find('.options-button').on('click', e => {
-                $popup.find('div.formrow.option-list').toggle();
-            });
+            const $popupHtml = HTML.join('');
+            const $popup = FwPopup.renderPopup(jQuery($popupHtml), { ismodal: true }, 'Loss and Damage');
+            FwPopup.showPopup($popup);
+            const $orderBrowse = addOrderBrowse();
+            $popup.find('.container').append($orderBrowse);
+            FwBrowse.search($orderBrowse);
+            events();
+        } else {
+            FwNotification.renderNotification('WARNING', 'Save the record before performing this function.');
         }
-        const $popupHtml = HTML.join('');
-        const $popup = FwPopup.renderPopup(jQuery($popupHtml), { ismodal: true }, 'Loss and Damage');
-        FwPopup.showPopup($popup);
-        const $orderBrowse = addOrderBrowse();
-        $popup.find('.container').append($orderBrowse);
-        FwBrowse.search($orderBrowse);
-        events();
     }
     //----------------------------------------------------------------------------------------------
-    retireLossDamage($form: JQuery): void {
-        const $confirmation = FwConfirmation.renderConfirmation('Confirm?', '');
-        $confirmation.find('.fwconfirmationbox').css('width', '450px');
+    retireLossDamage(event: any): void {
+        const $form = jQuery(event.currentTarget).closest('.fwform');
+        if ($form.attr('data-mode') !== 'NEW') {
+            const $confirmation = FwConfirmation.renderConfirmation('Confirm?', '');
+            $confirmation.find('.fwconfirmationbox').css('width', '450px');
 
-        const html: Array<string> = [];;
-        html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
-        html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-        html.push('    <div>Create a Lost Contract and Retire the Items?</div>');
-        html.push('  </div>');
-        html.push('</div>');
+            const html: Array<string> = [];;
+            html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+            html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+            html.push('    <div>Create a Lost Contract and Retire the Items?</div>');
+            html.push('  </div>');
+            html.push('</div>');
 
-        FwConfirmation.addControls($confirmation, html.join(''));
-        const $yes = FwConfirmation.addButton($confirmation, 'Retire', false);
-        const $no = FwConfirmation.addButton($confirmation, 'Cancel');
+            FwConfirmation.addControls($confirmation, html.join(''));
+            const $yes = FwConfirmation.addButton($confirmation, 'Retire', false);
+            const $no = FwConfirmation.addButton($confirmation, 'Cancel');
 
-        $yes.on('click', retireLD);
+            $yes.on('click', retireLD);
 
-        function retireLD() {
-            const orderId = FwFormField.getValueByDataField($form, 'OrderId');
-            const request: any = {}
-            request.OrderId = orderId;
-            FwFormField.disable($confirmation.find('.fwformfield'));
-            FwFormField.disable($yes);
-            FwFormField.disable($no);
-            $yes.text('Retiring...');
-            $yes.off('click');
+            function retireLD() {
+                const orderId = FwFormField.getValueByDataField($form, 'OrderId');
+                const request: any = {}
+                request.OrderId = orderId;
+                FwFormField.disable($confirmation.find('.fwformfield'));
+                FwFormField.disable($yes);
+                FwFormField.disable($no);
+                $yes.text('Retiring...');
+                $yes.off('click');
 
-            FwAppData.apiMethod(true, 'POST', `api/v1/lossanddamage/retire`, request, FwServices.defaultTimeout, function onSuccess(response) {
-                if (response.success === true) {
-                    const uniqueids: any = {};
-                    uniqueids.ContractId = response.ContractId;
-                    FwNotification.renderNotification('SUCCESS', 'Order Successfully Retired');
-                    FwConfirmation.destroyConfirmation($confirmation);
-                    const $contractForm = ContractController.loadForm(uniqueids);
-                    FwModule.openModuleTab($contractForm, "", true, 'FORM', true)
+                FwAppData.apiMethod(true, 'POST', `api/v1/lossanddamage/retire`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                    if (response.success === true) {
+                        const uniqueids: any = {};
+                        uniqueids.ContractId = response.ContractId;
+                        FwNotification.renderNotification('SUCCESS', 'Order Successfully Retired');
+                        FwConfirmation.destroyConfirmation($confirmation);
+                        const $contractForm = ContractController.loadForm(uniqueids);
+                        FwModule.openModuleTab($contractForm, "", true, 'FORM', true)
+                        FwModule.refreshForm($form);
+                    }
+                }, function onError(response) {
+                    $yes.on('click', retireLD);
+                    $yes.text('Retire');
+                    FwFunc.showError(response);
+                    FwFormField.enable($confirmation.find('.fwformfield'));
+                    FwFormField.enable($yes);
                     FwModule.refreshForm($form);
-                }
-            }, function onError(response) {
-                $yes.on('click', retireLD);
-                $yes.text('Retire');
-                FwFunc.showError(response);
-                FwFormField.enable($confirmation.find('.fwformfield'));
-                FwFormField.enable($yes);
-                FwModule.refreshForm($form);
-            }, $form);
+                }, $form);
+            }
+        } else {
+            FwNotification.renderNotification('WARNING', 'Save the record before performing this function.');
         }
     }
     //----------------------------------------------------------------------------------------------

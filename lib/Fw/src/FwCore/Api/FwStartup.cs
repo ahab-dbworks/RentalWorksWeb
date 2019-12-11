@@ -4,6 +4,7 @@ using FwCore.Middleware;
 using FwStandard.Models;
 using FwStandard.Modules.Administrator.Alert;
 using FwStandard.SqlServer;
+using FwStandard.Utilities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -15,6 +16,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Converters;
 using Swashbuckle.AspNetCore.Swagger;
+using Swashbuckle.AspNetCore.SwaggerGen;
+using Swashbuckle.AspNetCore.SwaggerUI;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -24,7 +27,7 @@ using System.Threading.Tasks;
 
 namespace FwCore.Api
 {
-    public class FwStartup
+    public abstract class FwStartup
     {
         //------------------------------------------------------------------------------------
         protected IHostingEnvironment HostingEnvironment;
@@ -159,17 +162,12 @@ namespace FwCore.Api
             services.AddSwaggerGen(c =>
             {
                 c.DescribeAllEnumsAsStrings();
-                c.SwaggerDoc("accountservices-v1", new Info { Title = SystemName + " Account Services API v1", Version = "v1" });
-                c.SwaggerDoc("home-v1", new Info { Title = SystemName + " Home API v1", Version = "v1" });
-                c.SwaggerDoc("settings-v1", new Info { Title = SystemName + " Settings API v1", Version = "v1" });
-                c.SwaggerDoc("reports-v1", new Info { Title = SystemName + "  Reports API v1", Version = "v1" });
-                c.SwaggerDoc("utilities-v1", new Info { Title = SystemName + "  Utilities API v1", Version = "v1" });
-                c.SwaggerDoc("administrator-v1", new Info { Title = SystemName + " Administrator API v1", Version = "v1" });
+                this.AddSwaggerDocs(c);
                 var filePath = Path.Combine(ApplicationEnvironment.ApplicationBasePath, "WebApi.xml");
                 c.IncludeXmlComments(filePath);
                 c.AddSecurityDefinition("Bearer", new ApiKeyScheme
                 {
-                    Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+                    Description = "Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
                     Name = "Authorization",
                     In = "header",
                     Type = "apiKey"
@@ -181,7 +179,7 @@ namespace FwCore.Api
 
                 // rename the models
                 c.CustomSchemaIds((type) => {
-                    string modelName = type.FullName;
+                    string modelName = FwTypeTranslator.GetFriendlyName(type);
                     if (modelName.StartsWith("WebApi") && modelName.EndsWith("Logic"))
                     {
                         modelName = modelName.Substring(0, modelName.Length - 5) + "Model";
@@ -208,6 +206,8 @@ namespace FwCore.Api
             FwSqlSelect.PagingCompatibility = FwSqlSelect.PagingCompatibilities.PreSql2012;
             AlertFunc.RefreshAlerts(ApplicationConfig);
         }
+        //------------------------------------------------------------------------------------
+        protected abstract void AddSwaggerDocs(SwaggerGenOptions options);
         //------------------------------------------------------------------------------------
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public virtual void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
@@ -273,12 +273,7 @@ namespace FwCore.Api
                     c.InjectJavascript("/swagger-ui/custom.js", "text/javascript");
                 }
                 c.DocExpansion(DocExpansion.None);
-                c.SwaggerEndpoint(Configuration["ApplicationConfig:VirtualDirectory"] + "/swagger/accountservices-v1/swagger.json", SystemName + " Account Services API v1");
-                c.SwaggerEndpoint(Configuration["ApplicationConfig:VirtualDirectory"] + "/swagger/home-v1/swagger.json", SystemName + " Home API v1");
-                c.SwaggerEndpoint(Configuration["ApplicationConfig:VirtualDirectory"] + "/swagger/settings-v1/swagger.json", SystemName + " Settings API v1");
-                c.SwaggerEndpoint(Configuration["ApplicationConfig:VirtualDirectory"] + "/swagger/reports-v1/swagger.json", SystemName + " Reports API v1");
-                c.SwaggerEndpoint(Configuration["ApplicationConfig:VirtualDirectory"] + "/swagger/utilities-v1/swagger.json", SystemName + " Utilities API v1");
-                c.SwaggerEndpoint(Configuration["ApplicationConfig:VirtualDirectory"] + "/swagger/administrator-v1/swagger.json", SystemName + " Administrator API v1");
+                this.AddSwaggerEndPoints(c);
             });
             if (!env.IsDevelopment())
             {
@@ -288,6 +283,8 @@ namespace FwCore.Api
                 });
             }
         }
+        //------------------------------------------------------------------------------------
+        protected abstract void AddSwaggerEndPoints(SwaggerUIOptions options);
         //------------------------------------------------------------------------------------
     }
 }

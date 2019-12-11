@@ -456,47 +456,8 @@ class FwModule {
                         }
                     }
                 }
-                
-                //const $auditControl = jQuery(FwBrowse.loadGridFromTemplate('AuditHistoryGrid'));
-                //$auditControl.data('ondatabind', function (request) {
-                //    const apiurl = (<any>window[controller]).apiurl;
-                //    const sliceIndex = apiurl.lastIndexOf('/');
-                //    const moduleName = apiurl.slice(sliceIndex + 1);
-                //    request.uniqueids = {};
-                //    request.uniqueids.ModuleName = moduleName;
-                //    for (let i = 0; i < 2; i++) {
-                //        let uniqueIdValue = jQuery($keys[i]).find('input').val();
-                //        if (typeof uniqueIdValue !== 'undefined') {
-                //            switch (i) {
-                //                case 0:
-                //                    request.uniqueids.UniqueId1 = uniqueIdValue;
-                //                    break;
-                //                case 1:
-                //                    request.uniqueids.UniqueId2 = uniqueIdValue;
-                //                    break;
-                //                case 2:
-                //                    request.uniqueids.UniqueId3 = uniqueIdValue;
-                //                    break;
-                //            }
-                //        } else {
-                //            break;
-                //        }
-                //    }
-                //});
-                //FwBrowse.init($auditControl);
-                //FwBrowse.renderRuntimeHtml($auditControl);
-
-                //$formTabControl.find('#' + auditTabIds.tabpageid).append($auditControl);
-                //$formTabControl.find('#' + auditTabIds.tabid)
-                //    .addClass('audittab')
-                //    .on('click', e => {
-                //        if ($form.attr('data-mode') !== 'NEW') {
-                //            FwBrowse.search($auditControl);
-                //        };
-                //    });
             }
         }
-
 
         $form
             .on('change keyup', '.fwformfield[data-enabled="true"]:not([data-isuniqueid="true"][data-datafield=""])', function (event) {

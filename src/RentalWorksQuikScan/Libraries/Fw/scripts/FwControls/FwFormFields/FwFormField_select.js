@@ -25,12 +25,12 @@ var FwFormField_selectClass = (function () {
         $control.html(html.join(''));
     };
     FwFormField_selectClass.prototype.loadItems = function ($control, items, hideEmptyItem) {
-        var html, previousoptgroup, optgroup, selected;
-        html = [];
+        var optgroup, selected;
+        var html = [];
         if (!hideEmptyItem) {
             html.push('<option value=""></option>');
         }
-        previousoptgroup = null;
+        var previousoptgroup = null;
         optgroup = '';
         if ((typeof items !== 'undefined') && (items !== null)) {
             for (var i = 0; i < items.length; i++) {

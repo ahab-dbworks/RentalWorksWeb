@@ -2719,6 +2719,9 @@ class FwBrowseClass {
             if (typeof onrowdblclick !== 'undefined') {
                 $control.find('.runtime tbody').on('dblclick', '> tr', (event: JQuery.DoubleClickEvent) => {
                     let $tr = jQuery(event.target);
+                    if ($tr.data('onrowdblclick')) {  //prevents event from being applied multiple times to the same control, fixes issue with .data('onchange') events triggering multiple times
+                        return false;
+                    }
                     $tr.addClass('selected');
                     if ((nodeView !== null && nodeView.properties.visible === 'T') || 
                         (nodeEdit !== null && nodeEdit.properties.visible === 'T') || 
@@ -2726,6 +2729,7 @@ class FwBrowseClass {
                         $control.attr('data-type') === 'Validation') {
                         onrowdblclick.apply(event.currentTarget, [event]);
                     }
+                    $tr.data('onrowdblclick', true);
                 });
             }
 

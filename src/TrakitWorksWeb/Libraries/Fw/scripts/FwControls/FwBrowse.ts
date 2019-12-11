@@ -1831,7 +1831,7 @@ class FwBrowseClass {
             });
         }
 
-        FwMenu.applyGridSecurity(options, options.$browse.data('secid'));
+        FwMenu.applyGridSecurity(options, options.gridSecurityId);
         FwMenu.cleanupMenu(options.$menu);
     }
     //---------------------------------------------------------------------------------
@@ -2717,7 +2717,7 @@ class FwBrowseClass {
             }
 
             if (typeof onrowdblclick !== 'undefined') {
-                $control.find('.runtime tbody').on('dblclick', '> tr', (event: JQuery.DoubleClickEvent) => {
+                $control.find('.runtime tbody').one('dblclick', '> tr', (event: JQuery.DoubleClickEvent) => {
                     let $tr = jQuery(event.target);
                     $tr.addClass('selected');
                     if ((nodeView !== null && nodeView.properties.visible === 'T') || 
@@ -3940,7 +3940,7 @@ class FwBrowseClass {
     }
     //---------------------------------------------------------------------------------
     renderAuditHistoryPopup($tr: JQuery): void {
-        let HTML: Array<string> = [], $popupHtml, $popup, $auditHistoryGrid, $auditHistoryGridControl, uniqueId;
+        let HTML: Array<string> = [], $popupHtml, $popup, $auditHistoryGrid, uniqueId;
         uniqueId = $tr.find('[data-browsedatatype="key"]').attr('data-originalvalue');
 
         HTML.push(
@@ -3974,32 +3974,24 @@ class FwBrowseClass {
         if (this.endsWith(module, 'Grid')) {
             module = module.substring(0, module.length - 4);
         }
-        $auditHistoryGrid = $popup.find('div[data-grid="AuditHistoryGrid"]');
-        $auditHistoryGridControl = jQuery(jQuery('#tmpl-grids-AuditHistoryGridBrowse').html());
-        $auditHistoryGrid.empty().append($auditHistoryGridControl);
-        $auditHistoryGridControl.data('ondatabind', request => {
-            request.uniqueids = {
-                UniqueId1: uniqueId
-                , ModuleName: module
-            };
+        $auditHistoryGrid = FwBrowse.renderGrid({
+            nameGrid:         'AuditHistoryGrid',
+            gridSecurityId:   'xepjGBf0rdL',
+            moduleSecurityId: '',
+            $form:            $popup,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                options.hasNew    = false;
+                options.hasEdit   = false;
+                options.hasDelete = false;
+            },
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    UniqueId1: uniqueId,
+                    ModuleName: module
+                };
+            }
         });
-        FwBrowse.init($auditHistoryGridControl);
-        FwBrowse.renderRuntimeHtml($auditHistoryGridControl);
-        let options: IAddGridMenuOptions = {
-            $browse: $auditHistoryGridControl,
-            $colActions: null,
-            $groupExport: null,
-            $colExport: null,
-            $groupActions: null,
-            $menu: null,
-            $subMenu: null,
-            gridSecurityId: '',
-            hasNew: false,
-            hasEdit: false,
-            hasDelete: false
-        };
-        FwBrowse.addGridMenuButtons(options);
-        FwBrowse.search($auditHistoryGridControl);
+        FwBrowse.search($auditHistoryGrid);
         // Close modal
         $popup.find('.close-modal').one('click', e => {
             FwPopup.destroyPopup($popup);

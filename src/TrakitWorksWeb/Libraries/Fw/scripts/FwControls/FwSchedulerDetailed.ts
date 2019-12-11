@@ -132,16 +132,16 @@ class FwSchedulerDetailedClass {
                 args.html = ``;
                 //args.html += `<div style='font-weight:bold'>${ev.text()}</div><div>Order Number: ${ev.data.orderNumber}</div><div>Order Status: ${ev.data.orderStatus}</div><div>Deal: ${ev.data.deal}</div><div>Start: ${ev.start().toString("MM/dd/yyyy HH:mm")}</div><div>End: ${ev.end().toString("MM/dd/yyyy HH:mm")}</div>`;
                 args.html += `<div style='font-weight:bold'>${ev.text()}</div>`;
-				if (ev.data.orderNumber) {
-					args.html += `<div>Order Number: ${ev.data.orderNumber}</div>`;
-				}
-				if (ev.data.orderStatus) {
-					args.html += `<div>Order Status: ${ev.data.orderStatus}</div>`;
-				}
-				if (ev.data.deal) {
-					args.html += `<div>Deal: ${ev.data.deal}</div>`;
-				}
-				args.html += `<div>Start: ${ev.start().toString("MM/dd/yyyy HH:mm")}</div><div>End: ${ev.end().toString("MM/dd/yyyy HH:mm")}</div>`;
+                if (ev.data.orderNumber) {
+                    args.html += `<div>Order Number: ${ev.data.orderNumber}</div>`;
+                }
+                if (ev.data.orderStatus) {
+                    args.html += `<div>Order Status: ${ev.data.orderStatus}</div>`;
+                }
+                if (ev.data.deal) {
+                    args.html += `<div>Deal: ${ev.data.deal}</div>`;
+                }
+                args.html += `<div>Start: ${ev.start().toString("MM/dd/yyyy HH:mm")}</div><div>End: ${ev.end().toString("MM/dd/yyyy HH:mm")}</div>`;
                 if (ev.data.subPoNumber) {
                     args.html += `<div>Sub PO Number: ${ev.data.subPoNumber}</div>`;
                     if (ev.data.subPoVendor) {
@@ -153,6 +153,9 @@ class FwSchedulerDetailedClass {
             }
         });
         dpscheduler.eventMoveHandling = "Disabled";
+        dpscheduler.eventDoubleClickHandling = "Enabled";
+        if (typeof $control.data('oneventdoubleclicked') === 'function') dpscheduler.onEventDoubleClicked = $control.data('oneventdoubleclicked');
+
         dpscheduler.init();
     };
     //---------------------------------------------------------------------------------

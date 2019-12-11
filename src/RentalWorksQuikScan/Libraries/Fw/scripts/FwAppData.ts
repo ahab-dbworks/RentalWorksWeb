@@ -248,7 +248,7 @@ class FwAppData {
                     errorThrown = 'Not Found';
                     errorContent = JSON.stringify({
                         StatusCode: 404,
-                        Message: 'URL: ' + fullurl,
+                        Message: `${ajaxOptions.method}: ${fullurl}`,
                         StackTrace: ''
                     });
                 }

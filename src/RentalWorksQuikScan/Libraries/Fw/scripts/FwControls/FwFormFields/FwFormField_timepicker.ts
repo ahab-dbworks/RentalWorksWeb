@@ -2,7 +2,7 @@
     //---------------------------------------------------------------------------------
     renderDesignerHtml($control: JQuery<HTMLElement>, html: string[]): void {
         html.push(FwControl.generateDesignerHandle($control.attr('data-type'), $control.attr('id')));
-        html.push('<div class="fwformfield-caption">' + $control.attr('data-caption') + '</div>');
+        html.push(`<div class="fwformfield-caption">${$control.attr('data-caption')}</div>`);
         html.push('<div class="fwformfield-control">');
         html.push('<input class="fwformfield-value" type="text"');
         if ($control.attr('data-enabled') === 'false') {
@@ -14,8 +14,7 @@
     }
     //---------------------------------------------------------------------------------
     renderRuntimeHtml($control: JQuery<HTMLElement>, html: string[]): void {
-        var timepickerTimeFormat, inputmaskTimeFormat;
-        html.push('<div class="fwformfield-caption">' + $control.attr('data-caption') + '</div>');
+        html.push(`<div class="fwformfield-caption">${$control.attr('data-caption')}</div>`);
         html.push('<div class="fwformfield-control">');
         html.push('<input class="fwformfield-value" type="text" autocapitalize="none"');
         if ($control.attr('data-enabled') === 'false') {
@@ -27,13 +26,45 @@
         $control.html(html.join(''));
 
         $control.find('.fwformfield-value').clockpicker({
-            autoclose:  true,
+            autoclose: true,
             twelvehour: ($control.attr('data-timeformat') !== '24') ? true : false,
-            donetext:   'Done',
+            donetext: 'Done',
             afterDone: function () {
-                $control.find('input').focus();
+                $control.find('input').change().focus();
             }
         }).off(); //Suppresses the time picker from opening on focus.
+
+        // time formatting for 24HR only
+        $control.find('.fwformfield-value').change(e => {
+            const $this = jQuery(e.currentTarget);
+            const field = $this.closest('div[data-type="timepicker"]');
+            field.removeClass('error');
+            const val = $this.val().toString().replace(/\D/g, ''); // lose all extra char : letters, symbols, spaces
+            if (val != '') {
+                if (val.length !== 4) {
+                    field.addClass('error');
+                    FwNotification.renderNotification('WARNING', "You've entered a non-standard time format.");
+                    return;
+                }
+
+                const start = val.substring(0, 2);
+                const startDecimal = new Decimal(start);
+                if (startDecimal.greaterThan(23)) {
+                    field.addClass('error');
+                    FwNotification.renderNotification('WARNING', "You've entered a non-standard time format.");
+                    return;
+                }
+                const end = val.substring(2);
+                const endDecimal = new Decimal(end);
+                if (endDecimal.greaterThan(59)) {
+                    field.addClass('error');
+                    FwNotification.renderNotification('WARNING', "You've entered a non-standard time format.");
+                    return;
+                }
+
+                $this.val(`${start}:${end}`);
+            }
+        })
 
         $control.on('click', '.btntime', function (e) {
             if ($control.attr('data-enabled') === 'true') {
@@ -63,12 +94,12 @@
     }
     //---------------------------------------------------------------------------------
     getValue2($fwformfield: JQuery<HTMLElement>): any {
-        var value = $fwformfield.find('.fwformfield-value').val();
+        const value = $fwformfield.find('.fwformfield-value').val();
         return value;
     }
     //---------------------------------------------------------------------------------
     setValue($fwformfield: JQuery<HTMLElement>, value: any, text: string, firechangeevent: boolean): void {
-        var $inputvalue = $fwformfield.find('.fwformfield-value');
+        const $inputvalue = $fwformfield.find('.fwformfield-value');
         $inputvalue.val(value);
         if (firechangeevent) $inputvalue.change();
     }

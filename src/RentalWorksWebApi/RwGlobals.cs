@@ -94,6 +94,8 @@ namespace WebApi
         //INVENTORY
         public static string INVENTORY_AVAILABLE_FOR_SALE_COLOR { get; set; }
         public static string INVENTORY_AVAILABLE_FOR_PARTS_COLOR { get; set; }
+        public static string INVENTORY_STATUS_IN_ID { get; set; }
+
 
         //STAGING / CHECK-OUT
         public static string STAGING_PENDING_ITEMS_MISSING_COLOR { get; set; }
@@ -137,6 +139,12 @@ namespace WebApi
 
 
 
+
+            
+            using (FwSqlConnection conn = new FwSqlConnection(databaseSettings.ConnectionString))
+            {
+                INVENTORY_STATUS_IN_ID = FwSqlCommand.GetDataAsync(conn, databaseSettings.QueryTimeout, "rentalstatus", "statustype", RwConstants.INVENTORY_STATUS_TYPE_IN, "rentalstatusid").Result.ToString().TrimEnd();
+            }
 
             int containerColorInt = 0;
             using (FwSqlConnection conn = new FwSqlConnection(databaseSettings.ConnectionString))

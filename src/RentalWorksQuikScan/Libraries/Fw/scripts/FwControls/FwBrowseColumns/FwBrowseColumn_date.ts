@@ -6,7 +6,12 @@
     //---------------------------------------------------------------------------------
     getFieldValue($browse, $tr, $field, field, originalvalue): void {
         if (($tr.hasClass('editmode')) || ($tr.hasClass('newmode'))) {
-            field.value = $field.find('input.value').val();
+            var $value = $field.find('input.value');
+            if ($value.length > 0) {
+                field.value = $field.find('input.value').val();
+            } else {
+                field.value = originalvalue;
+            }
         }
     };
     //---------------------------------------------------------------------------------
@@ -28,7 +33,7 @@
         $field.data('autoselect', false);
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
         $field.html(originalvalue);
-        $field.on('click', function() {
+        $field.on('click', function () {
             if ($field.attr('data-formreadonly') !== 'true') {
                 $field.data('autoselect', true);
             }

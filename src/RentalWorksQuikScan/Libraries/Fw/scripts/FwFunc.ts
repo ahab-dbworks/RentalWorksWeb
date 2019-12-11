@@ -1,5 +1,5 @@
 ﻿class FwFunc {
-    
+
     //---------------------------------------------------------------------------------
     static showError(ex: any): void {
         let $confirmation, $btnOK, message;
@@ -22,18 +22,23 @@
     }
     //---------------------------------------------------------------------------------
     static showWebApiError(status: number, error: string | { message: string, stack: string }, responseText: string, fullurl: string) {
-        if (status === 401 || status === 403) {
-            FwConfirmation.showMessage(`${status} - ${error}`, `Url: ${fullurl}`, false, true, 'OK',
-                (event) => {
-                    try {
-                        sessionStorage.clear();
-                        window.location.reload(false);
-                    }
-                    catch (ex) {
-                        FwFunc.showError(ex);
-                    }
-                }
-            );
+        if (status === 401 /*|| status === 403*/) {
+            FwNotification.renderNotification('ERROR', `${status} - ${error}`, `Url: ${fullurl}`);
+            setTimeout(() => {
+                sessionStorage.clear();
+                window.location.reload(true);
+            }, 3000);
+            //FwConfirmation.showMessage(`${status} - ${error}`, `Url: ${fullurl}`, false, true, 'OK',
+            //    (event) => {
+            //        try {
+            //            sessionStorage.clear();
+            //            window.location.reload(false);
+            //        }
+            //        catch (ex) {
+            //            FwFunc.showError(ex);
+            //        }
+            //    }
+            //);
         }
         else if (status === 0) {
             //console.error(apiException.Message + '\n' + apiException.StackTrace);
@@ -50,6 +55,14 @@
             }
             console.log(message);
             let $confirmation = FwConfirmation.renderConfirmation(status + ' ' + error, message);
+            let $btnOK = FwConfirmation.addButton($confirmation, 'OK', true);
+            setTimeout(function () {
+                $btnOK.focus();
+            }, 100);
+        }
+        else if (status === 400) {
+            console.error(responseText);
+            let $confirmation = FwConfirmation.renderConfirmation(status + ' ' + error, responseText);
             let $btnOK = FwConfirmation.addButton($confirmation, 'OK', true);
             setTimeout(function () {
                 $btnOK.focus();
@@ -79,7 +92,7 @@
         }
     }
     //---------------------------------------------------------------------------------
-    static showMessage(message: string, onbuttonclick?: (event: JQuery.ClickEvent) => void) : void {
+    static showMessage(message: string, onbuttonclick?: (event: JQuery.ClickEvent) => void): void {
         let $confirmation = FwConfirmation.showMessage('Message', message, false, true, 'OK', onbuttonclick);
         // mv 2016-12-19 This caused a bug in the create contract button, where you could skip the navigation event after create a contract by clicking the background
         //$confirmation.on('click', function() {
@@ -90,7 +103,7 @@
         });
     }
     //---------------------------------------------------------------------------------
-    static getDate = function (paramdate?: string, modifier?: number) : string{
+    static getDate = function (paramdate?: string, modifier?: number): string {
         let date, dd, mm, yyyy;
         if (typeof paramdate === 'undefined') {
             date = new Date();
@@ -125,7 +138,7 @@
         return date;
     }
     //---------------------------------------------------------------------------------
-    static htmlEscape(str: string) : string {
+    static htmlEscape(str: string): string {
         return String(str)
             .replace(/&/g, '&amp;')
             .replace(/"/g, '&quot;')
@@ -134,7 +147,7 @@
             .replace(/>/g, '&gt;');
     }
     //---------------------------------------------------------------------------------
-    static htmlUnescape(value: string) : string {
+    static htmlUnescape(value: string): string {
         return String(value)
             .replace(/&quot;/g, '"')
             .replace(/&#39;/g, "'")
@@ -143,7 +156,7 @@
             .replace(/&amp;/g, '&')
     }
     //---------------------------------------------------------------------------------
-    static getMaxZ(selector: string) : number {
+    static getMaxZ(selector: string): number {
         return Math.max.apply(null, jQuery(selector).map(function () {
             let z;
             // mv 2018-05-29 - I bumped the starting value from 0 to 1 because the checkbox has an ::after element with z-index 1 that it doesn't seem to find.
@@ -151,11 +164,11 @@
         }));
     }
     //---------------------------------------------------------------------------------
-    static round(num: number, decimalplaces: number) : number {
+    static round(num: number, decimalplaces: number): number {
         return Math.round(num * Math.pow(10, decimalplaces)) / Math.pow(10, decimalplaces);
     }
     //---------------------------------------------------------------------------------
-    static convert12to24(time: string) : string {
+    static convert12to24(time: string): string {
         let hours = Number(time.match(/^(\d+)/)[1]);
         let minutes = Number(time.match(/:(\d+)/)[1]);
         let AMPM = time.match(/\s(.*)$/)[1];
@@ -168,7 +181,7 @@
         return sHours + ":" + sMinutes + ":00";
     }
     //---------------------------------------------------------------------------------
-    static convert24to12(time: any) : string {
+    static convert24to12(time: any): string {
         time = time.toString().match(/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [time];
         if (time.length > 1) {
             time = time.slice(1);
@@ -178,12 +191,12 @@
         return time.join('');
     }
     //---------------------------------------------------------------------------------
-    static isDesktop() : boolean {
+    static isDesktop(): boolean {
         let isDesktop = jQuery('html').hasClass('desktop');
         return isDesktop;
     }
     //---------------------------------------------------------------------------------
-    static isMobile() : boolean {
+    static isMobile(): boolean {
         let isMobile = jQuery('html').hasClass('mobile');
         return isMobile;
     }
@@ -213,32 +226,82 @@
         return objects;
     }
     //---------------------------------------------------------------------------------
+    static debounce(func: any, wait: number, immediate?: boolean): any {
+        // Returns a function, that, as long as it continues to be invoked, will not be triggered. The function will be called after it stops being called for
+        // N milliseconds. If `immediate` is passed, trigger the function on the leading edge, instead of the trailing. Returned function must be invoked.
+        let timeout;
+        return function () {
+            const context = this, args = arguments;
+            const later = function () {
+                timeout = null;
+                if (!immediate) func.apply(context, args);
+            };
+            const callNow = immediate && !timeout;
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+            if (callNow) func.apply(context, args);
+        };
+    }
+    //---------------------------------------------------------------------------------
     static stringFormat(str: string, ...args: any[]): string {
         return str.replace(/{(\d+)}/g, (match, index) => args[index] || '');
     }
     //---------------------------------------------------------------------------------
     static keys: {
-        INSERT:       45,
-        DELETE:       46,
-        BACKSPACE:    8,
-        TAB:          9,
-        ENTER:        13,
-        ESC:          27,
-        LEFT:         37,
-        UP:           38,
-        RIGHT:        39,
-        DOWN:         40,
-        END:          35,
-        HOME:         36,
-        SPACEBAR:     32,
-        PAGEUP:       33,
-        PAGEDOWN:     34,
-        F2:           113,
-        F10:          121,
-        F12:          123,
-        NUMPAD_PLUS:  107,
+        INSERT: 45,
+        DELETE: 46,
+        BACKSPACE: 8,
+        TAB: 9,
+        ENTER: 13,
+        ESC: 27,
+        LEFT: 37,
+        UP: 38,
+        RIGHT: 39,
+        DOWN: 40,
+        END: 35,
+        HOME: 36,
+        SPACEBAR: 32,
+        PAGEUP: 33,
+        PAGEDOWN: 34,
+        F2: 113,
+        F10: 121,
+        F12: 123,
+        NUMPAD_PLUS: 107,
         NUMPAD_MINUS: 109,
-        NUMPAD_DOT:   110
+        NUMPAD_DOT: 110
+    }
+    //---------------------------------------------------------------------------------
+    static playSuccessSound() {
+        const successSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).successSoundFileName;
+
+        if (successSoundFileName && typeof successSoundFileName === 'string') {
+            const sound = new Audio(successSoundFileName);
+            sound.play();
+        } else {
+            FwNotification.renderNotification('INFO', 'No Success Sound set up. Visit User Settings to choose a sound.')
+        }
+    }
+    //---------------------------------------------------------------------------------
+    static playErrorSound() {
+        const errorSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).errorSoundFileName;
+
+        if (errorSoundFileName && typeof errorSoundFileName === 'string') {
+            const sound = new Audio(errorSoundFileName);
+            sound.play();
+        } else {
+            FwNotification.renderNotification('INFO', 'No Error Sound set up. Visit User Settings to choose a sound.')
+        }
+    }
+    //---------------------------------------------------------------------------------
+    static playNotificationSound() {
+        const notificationSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).notificationSoundFileName;
+
+        if (notificationSoundFileName && typeof notificationSoundFileName === 'string') {
+            const sound = new Audio(notificationSoundFileName);
+            sound.play();
+        } else {
+            FwNotification.renderNotification('INFO', 'No Notification Sound set up. Visit User Settings to choose a sound.')
+        }
     }
     //---------------------------------------------------------------------------------
 }

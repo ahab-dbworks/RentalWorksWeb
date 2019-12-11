@@ -1,7 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿using FwStandard.Utilities;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Dynamic;
 using System.Linq;
 using System.Reflection;
@@ -58,31 +60,57 @@ namespace FwStandard.Models
         }
     }
 
-    public class GetManyRequestPropertyAttribute : Attribute
+    [AttributeUsage(AttributeTargets.Class)]
+    public class GetRequestAttribute : Attribute
+    {
+        public readonly string DefaultSort = string.Empty;
+
+        public GetRequestAttribute(string DefaultSort = "")
+        {
+            this.DefaultSort = DefaultSort;
+        }
+    }
+
+    [AttributeUsage(AttributeTargets.Property)]
+    public class GetRequestPropertyAttribute : Attribute
     {
         public readonly bool EnableFiltering = false;
         public readonly bool EnableSorting = false;
 
-        public GetManyRequestPropertyAttribute(bool enableFiltering, bool enableSorting)
+        public GetRequestPropertyAttribute(bool EnableFiltering, bool EnableSorting)
         {
-            this.EnableFiltering = enableFiltering;
-            this.EnableSorting = enableSorting;
+            this.EnableFiltering = EnableFiltering;
+            this.EnableSorting = EnableSorting;
         }
     }
 
-    public class GetManyRequest
+    public class GetRequest
     {
         // properties - JSON serialized
-        public int pageno { get; set; } = 0;
-        public int pagesize { get; set; } = 0;
-        public string sort { get; set; } = "";
+        /// <summary>
+        /// The page number in the result set starting from 1.  PageNo is required when the PageSize is specified.
+        /// </summary>
+        [Range(1, double.MaxValue)]
+        public int PageNo { get; set; } = 1;
+
+        /// <summary>
+        /// Limit result set to the specified amount.
+        /// </summary>
+        [Range(1, 1000)]
+        public int PageSize { get; set; } = 1000;
+        
+        /// <summary>
+        /// A sort expression to use of the form: Field1:asc,Field2:desc
+        /// </summary>
+        [MaxLength(1024)]
+        public string Sort { get; set; } = "";
         //protected string activeview { get; set; } = string.Emp
 
         // fields - not JSON serialized
         public Dictionary<string, GetManyRequestFilter> filters = new Dictionary<string, GetManyRequestFilter>();
         private bool _parsed = false;
 
-        public GetManyRequest()
+        public GetRequest()
         {
 
         }
@@ -91,12 +119,22 @@ namespace FwStandard.Models
         {
             if (!_parsed)
             {
+                if (string.IsNullOrEmpty(Sort))
+                {
+                    var getRequestAttribute = this.GetType().GetCustomAttribute<GetRequestAttribute>();
+                    if (getRequestAttribute == null || string.IsNullOrEmpty(getRequestAttribute.DefaultSort))
+                    {
+                        var requestTypeName = FwTypeTranslator.GetFriendlyName(this.GetType());
+                        throw new Exception($"Default sort expression is required. Please set the following attribute on class: {requestTypeName}.  [GetRequest[DefaultSort: \"FieldName:asc\"]");
+                    }
+                    this.Sort = getRequestAttribute.DefaultSort;
+                }
                 var propertyInfos = this.GetType().GetProperties(BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Instance)
-                    .Where(p => p.GetCustomAttribute<GetManyRequestPropertyAttribute>() != null)
+                    .Where(p => p.GetCustomAttribute<GetRequestPropertyAttribute>() != null)
                     .ToList();
                 foreach (var propertyInfo in propertyInfos)
                 {
-                    var getManyRequestFieldAttribute = propertyInfo.GetCustomAttribute<GetManyRequestPropertyAttribute>();
+                    var getManyRequestFieldAttribute = propertyInfo.GetCustomAttribute<GetRequestPropertyAttribute>();
                     if (getManyRequestFieldAttribute != null && getManyRequestFieldAttribute.EnableFiltering)
                     {
                         string fieldName = propertyInfo.Name;

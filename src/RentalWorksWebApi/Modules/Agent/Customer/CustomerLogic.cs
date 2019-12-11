@@ -448,7 +448,7 @@ namespace WebApi.Modules.Agent.Customer
         //    }
         //}
         //------------------------------------------------------------------------------------
-        public async Task<GetManyResponse<GetManyOfficeLocationModel>> GetOfficeLocationsAsync(GetManyOfficeLocationRequest request)
+        public async Task<GetResponse<GetManyOfficeLocationModel>> GetOfficeLocationsAsync(GetManyOfficeLocationRequest request)
         {
             var officeLocationLogic = CreateBusinessLogic<OfficeLocationLogic>(this.AppConfig, this.UserSession);
             request.filters["Inactive"] = new GetManyRequestFilter("Inactive", "ne", "true", false);

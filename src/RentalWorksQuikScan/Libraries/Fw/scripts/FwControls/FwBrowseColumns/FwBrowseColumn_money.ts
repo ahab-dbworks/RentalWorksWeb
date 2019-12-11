@@ -1,7 +1,7 @@
 ﻿class FwBrowseColumn_moneyClass implements IFwBrowseColumn {
     //---------------------------------------------------------------------------------
     databindfield($browse, $field, dt, dtRow, $tr): void {
-    
+
     }
     //---------------------------------------------------------------------------------
     getFieldValue($browse, $tr, $field, field, originalvalue): void {
@@ -48,7 +48,7 @@
         } else {
             $field.html('<div class="fieldvalue">$0.00</div>');
         }
-        $field.on('click', function() {
+        $field.on('click', function () {
             if ($field.attr('data-formreadonly') !== 'true') {
                 $field.data('autoselect', true);
             }

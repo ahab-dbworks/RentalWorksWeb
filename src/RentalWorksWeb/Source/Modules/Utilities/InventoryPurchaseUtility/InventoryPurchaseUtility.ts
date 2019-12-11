@@ -74,7 +74,7 @@ class InventoryPurchaseUtility {
 
         $form.find('.description[data-datafield="InventoryId"]').data('onchange', $tr => {
             FwFormField.setValue2($form.find('.icode[data-datafield="InventoryId"]'), FwBrowse.getValueByDataField(null, $tr, 'InventoryId'), FwBrowse.getValueByDataField(null, $tr, 'ICode'))
-            $form.find('.icode[data-datafield="InventoryId"]').data('onchange')($tr)
+            $form.find('.icode[data-datafield="InventoryId"]').data('onchange')($tr);
         });
 
         $form.find('.icode[data-datafield="InventoryId"]').data('onchange', $tr => {
@@ -87,7 +87,7 @@ class InventoryPurchaseUtility {
             $form.find('.additems').show();
             const inventoryId = FwBrowse.getValueByDataField(null, $tr, 'InventoryId');
             const description = FwBrowse.getValueByDataField(null, $tr, 'Description');
-            FwFormField.setValue2($form.find('.description[data-datafield="InventoryId"]'), inventoryId, description);
+            FwFormField.setValue2($form.find('.description[data-datafield="InventoryId"]'), inventoryId, description, false);
             const unitVal = FwBrowse.getValueByDataField(null, $tr, 'UnitValue');
             FwFormField.setValueByDataField($form, 'UnitCost', unitVal);
             const aisleLoc = FwBrowse.getValueByDataField(null, $tr, 'AisleLocation');
@@ -95,6 +95,21 @@ class InventoryPurchaseUtility {
             const shelfLoc = FwBrowse.getValueByDataField(null, $tr, 'ShelfLocation');
             FwFormField.setValueByDataField($form, 'ShelfLocation', shelfLoc);
 
+            const request: any = {};
+            request.InventoryId = inventoryId;
+            request.Quantity = FwFormField.getValueByDataField($form, 'Quantity');
+            if (typeof $form.data('sessionid') === 'string') {
+                request.SessionId = $form.data('sessionid');
+                FwAppData.apiMethod(true, 'POST', `api/v1/inventorypurchaseutility/updatesession`, request, FwServices.defaultTimeout,
+                    response => {
+                        FwBrowse.search($itemGridControl);
+                    }, ex => FwFunc.showError(ex), $form);
+            } else {
+                FwAppData.apiMethod(true, 'POST', `api/v1/inventorypurchaseutility/startsession`, request, FwServices.defaultTimeout,
+                    response => {
+                        $form.data("sessionid", response.SessionId);
+                    }, ex => FwFunc.showError(ex), $form);
+            }
         });
 
         $form.find('[data-datafield="WarrantyDays"]').on('change', e => {
@@ -108,43 +123,64 @@ class InventoryPurchaseUtility {
             FwFormField.setValueByDataField($form, 'CountryId', FwBrowse.getValueByDataField(null, $tr, 'CountryId'), FwBrowse.getValueByDataField(null, $tr, 'Country'));
         });
 
+        $form.find('[data-datafield="Quantity"]').on('change', e => {
+            const request: any = {};
+            request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
+            request.Quantity = FwFormField.getValueByDataField($form, 'Quantity');
+            if (typeof $form.data('sessionid') === 'string') {
+                request.SessionId = $form.data('sessionid');
+                FwAppData.apiMethod(true, 'POST', `api/v1/inventorypurchaseutility/updatesession`, request, FwServices.defaultTimeout,
+                    response => {
+                        FwBrowse.search($itemGridControl);
+                    }, ex => FwFunc.showError(ex), $form);
+            }
+        });
 
         //Add items button
-        //$form.find('.additems').on('click', e => {
-        //    let request: any = {};
-        //    request = {
-        //        PurchaseOrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId')
-        //        , ContractId: FwFormField.getValueByDataField($form, 'ContractId')
-        //    }
-        //    FwAppData.apiMethod(true, 'POST', 'api/v1/purchaseorder/receivebarcodeadditems', request, FwServices.defaultTimeout,
-        //        response => {
-        //        if (response.success) {
-        //            FwNotification.renderNotification('SUCCESS', `${response.ItemsAdded} items added.`);
-        //            FwFormField.setValueByDataField($form, 'PurchaseOrderId', '', '');
-        //            FwFormField.setValueByDataField($form, 'ContractId', '', '');
-        //            FwFormField.setValueByDataField($form, 'PODate', '');
-        //            FwFormField.setValueByDataField($form, 'VendorId', '', '');
-        //            FwFormField.setValueByDataField($form, 'Description', '');
-        //            FwFormField.setValueByDataField($form, 'ContractDate', '');
-        //            FwFormField.enable($form.find('[data-datafield="PurchaseOrderId"]'));
-        //            FwFormField.enable($form.find('[data-datafield="ContractId"]'));
-        //            $itemGridControl.find('tbody').empty();
-        //        }
-        //    }, ex => FwFunc.showError(ex), $form);
-        //});
+        $form.find('.additems').on('click', e => {
+            let request: any = {
+                SessionId: $form.data('sessionid'),
+                InventoryId: FwFormField.getValueByDataField($form, 'InventoryId'),
+                Quantity: FwFormField.getValueByDataField($form, 'Quantity'),
+                WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId'),
+                AisleLocation: FwFormField.getValueByDataField($form, 'AisleLocation'),
+                ShelfLocation: FwFormField.getValueByDataField($form, 'ShelfLocation'),
+                ManufacturerVendorId: FwFormField.getValueByDataField($form, 'ManufacturerVendorId'),
+                CountryId: FwFormField.getValueByDataField($form, 'CountryId'),
+                WarrantyDays: FwFormField.getValueByDataField($form, 'WarrantyDays'),
+                WarrantyExpiration: FwFormField.getValueByDataField($form, 'WarrantyExpiration'),
+                PurchaseVendorId: FwFormField.getValueByDataField($form, 'PurchaseVendorId'),
+                OutsidePoNumber: FwFormField.getValueByDataField($form, 'OutsidePoNumber'),
+                PurchaseDate: FwFormField.getValueByDataField($form, 'PurchaseDate'),
+                ReceiveDate: FwFormField.getValueByDataField($form, 'ReceiveDate'),
+                VendorPartNumber: FwFormField.getValueByDataField($form, 'VendorPartNumber'),
+                UnitCost: FwFormField.getValueByDataField($form, 'UnitCost'),
+            };
+            FwAppData.apiMethod(true, 'POST', 'api/v1/inventorypurchaseutility/completesession', request, FwServices.defaultTimeout,
+                response => {
+                    if (response.success) {
+                        FwNotification.renderNotification("SUCCESS", "Purchase(s) Successfully Created");
+                        //    const uniqueids: any = {};
+                        //    uniqueids.PurchaseId = 
+                        //    const $control = PurchaseController.loadForm(uniqueids);
+                        //    FwModule.openModuleTab($control, "", true, 'FORM', true);
+                    } else {
+                        FwNotification.renderNotification("ERROR", response.msg);
+                    }
+            }, ex => FwFunc.showError(ex), $form);
+        });
 
         //Assign Bar Codes button
-        //$form.find('.assignbarcodes').on('click', e => {
-        //    let request: any = {};
-        //    request = {
-        //        PurchaseOrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId')
-        //        , ContractId: FwFormField.getValueByDataField($form, 'ContractId')
-        //    }
-        //    FwAppData.apiMethod(true, 'POST', 'api/v1/purchaseorder/assignbarcodesfromreceive', request, FwServices.defaultTimeout,
-        //        response => {
-        //        FwBrowse.search($itemGridControl);
-        //    }, ex => FwFunc.showError(ex), $form);
-        //});
+        $form.find('.assignbarcodes').on('click', e => {
+            if (typeof $form.data('sessionid') === 'string') {
+                const request: any = {};
+                request.SessionId = $form.data('sessionid');
+                FwAppData.apiMethod(true, 'POST', `api/v1/inventorypurchaseutility/assignbarcodes`, request, FwServices.defaultTimeout,
+                    response => {
+                        FwBrowse.search($itemGridControl);
+                    }, ex => FwFunc.showError(ex), $form);
+            }
+        });
     }
     //----------------------------------------------------------------------------------------------
     renderGrids($form) {
@@ -156,7 +192,7 @@ class InventoryPurchaseUtility {
             pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
-                    PickListId: FwFormField.getValueByDataField($form, 'PickListId')
+                    SessionId: $form.data('sessionid')
                 };
             }
         });

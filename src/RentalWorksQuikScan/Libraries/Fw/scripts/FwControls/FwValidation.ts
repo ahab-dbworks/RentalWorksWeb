@@ -85,10 +85,13 @@
             // beforeValidate(datafield: String, request: any, $validationbrowse: JQuery, $form: JQuery) { }
             else if ((typeof $object.attr('data-name') === 'string') && (typeof window[$object.attr('data-name') + 'Controller'] !== 'undefined') && (typeof window[$object.attr('data-name') + 'Controller']['beforeValidate'] === 'function')) {
                 if ($object.attr('data-type') === 'Grid') {
-                    window[$object.attr('data-name') + 'Controller']['beforeValidate']($control.attr('data-datafield'), request, $validationbrowse, $object.closest('.fwform'), $tr);
+                    window[$object.attr('data-name') + 'Controller']['beforeValidate']($control.attr('data-formdatafield'), request, $validationbrowse, $object.closest('.fwform'), $tr);
                 } else {
                     window[$object.attr('data-name') + 'Controller']['beforeValidate']($control.attr('data-datafield'), request, $validationbrowse, $object, $tr);
                 }
+            }
+            else if ((typeof controller === 'string') && (typeof window[controller] !== 'undefined') && (typeof window[controller]['beforeValidate'] === 'function')) {
+                window[controller]['beforeValidate']($control.attr('data-datafield'), request, $validationbrowse, $object, $tr);
             }
         });
         $validationbrowse.data('$control', $control);
@@ -173,12 +176,12 @@
         };
 
         var preserveFocus = function ($validationbrowse) {
-            var $previousActiveElement = $validationbrowse.data('previousActiveElement');
+            const $previousActiveElement = $validationbrowse.data('previousActiveElement');
             $previousActiveElement.focus();
         }
 
         $validationbrowse.on('keydown', e => {
-            var code = e.keyCode || e.which;
+            const code = e.keyCode || e.which;
             switch (code) {
                 case 27: //ESC key
                     try {
@@ -200,16 +203,15 @@
             }
         });
 
-        $validationbrowse.data('onrowdblclick', function () {
-            var $tr, originalcolor, $rows;
+        $validationbrowse.data('onrowdblclick', e => {
             try {
-                $tr = jQuery(this);
+                const $tr = jQuery(e.currentTarget);
                 FwValidation.selectRow($control, $tr, $valuefield, $searchfield, $btnvalidate, $validationbrowse);
-                originalcolor = $searchfield.css('background-color');
+                const originalcolor = $searchfield.css('background-color');
                 $searchfield.css('background-color', '#abcdef').animate({ backgroundColor: originalcolor }, 1500, function () { $searchfield.attr('background-color', '') });
                 jQuery(document).off('keydown');
 
-                $rows = $validationbrowse.find('table > tbody > tr');
+                const $rows = $validationbrowse.find('table > tbody > tr');
                 if ($rows.length !== 1) {
                     preserveFocus($validationbrowse);
                 }
@@ -218,10 +220,9 @@
             }
         });
 
-        $validationbrowse.on('click', '.validationbuttons .btnSelect', function () {
-            var $tr;
+        $validationbrowse.on('click', '.validationbuttons .btnSelect', e => {
             try {
-                $tr = $validationbrowse.find('tr.selected');
+                const $tr = $validationbrowse.find('tr.selected');
                 if ($tr.length === 0) {
                     throw 'No row selected.';
                 }
@@ -238,8 +239,7 @@
             }
         });
 
-        $validationbrowse.find('.validationbuttons .btnClear').on('click', function () {
-            var uniqueid, $trGrid, $gridUniqueIdField;
+        $validationbrowse.find('.validationbuttons .btnClear').on('click', e => {
             try {
                 $valuefield.val('').change();
                 $searchfield.val('');
@@ -252,7 +252,7 @@
             }
         });
 
-        $validationbrowse.find('.validationbuttons .btnCancel').on('click', function () {
+        $validationbrowse.find('.validationbuttons .btnCancel').on('click', e => {
             try {
                 FwValidation.clearSearchCriteria($validationbrowse, $btnvalidate);
                 $popup = $validationbrowse.closest('.fwpopup');
@@ -263,8 +263,8 @@
             }
         });
 
-        $validationbrowse.find('.validationbuttons .btnNew').on('click', function () {
-            var $this = jQuery(this);
+        $validationbrowse.find('.validationbuttons .btnNew').on('click', e => {
+            const $this = jQuery(e.currentTarget);
             try {
                 FwValidation.newValidation($control, validationName.slice(0, -10), $object, $this, $valuefield, $btnvalidate, $validationbrowse.attr('data-caption'));
             } catch (ex) {
@@ -272,8 +272,8 @@
             }
         });
 
-        $validationbrowse.find('input[type="text"]').on('keydown', (e) => {
-            var code = e.keyCode || e.which;
+        $validationbrowse.find('input[type="text"]').on('keydown', e => {
+            const code = e.keyCode || e.which;
             try {
                 if (code === 13) { //Enter Key
                     this.validate($control, validationName, $valuefield, $searchfield, $btnvalidate, $validationbrowse, false);
@@ -284,13 +284,12 @@
             }
         });
 
-        $control.find('.btnpeek').on('click', () => {
+        $control.find('.btnpeek').on('click', e => {
             try {
-                let me = this;
                 $control.find('.btnpeek').hide();
                 $validationbrowse.data('$control').find('.validation-loader').show();
-                setTimeout(function () {
-                    me.validationPeek($control, validationName.slice(0, -10), $valuefield.val().toString(), $valuefield.parent().parent().attr('data-datafield'), $object, $searchfield.val());
+                setTimeout(() => {
+                    this.validationPeek($control, validationName.slice(0, -10), $valuefield.val().toString(), $valuefield.parent().parent().attr('data-datafield'), $object, $searchfield.val());
                     $validationbrowse.data('$control').find('.validation-loader').hide();
                     $control.find('.btnpeek').show()
                 })
@@ -323,6 +322,9 @@
             } else {
                 throw 'FwValidation: Validation is not setup correctly. Missing validation display field.';
             }
+        }
+        if ($control.attr('data-showinactivemenu') === 'true') {
+            this.addInactiveMenu($validationbrowse);
         }
         FwBrowse.search($validationbrowse);
     };
@@ -416,25 +418,35 @@
     };
     //---------------------------------------------------------------------------------
     validationPeek($control: JQuery, validationName: string, validationId: string, validationDatafield: string, $parentFormOrBrowse, title) {
-        var $popupForm;
-        var $validationbrowse = jQuery(jQuery('#tmpl-validations-' + validationName + 'ValidationBrowse').html());
+        let $popupForm;
+
+        var $validationbrowse = jQuery(jQuery(`#tmpl-validations-${validationName}ValidationBrowse`).html());
+        const peekForm = $validationbrowse.attr('data-peekForm');      // for validations without a form, this attr can be added to point to an alternate form to open in peek - J. Pace
         validationDatafield = $validationbrowse.find('div[data-browsedatatype="key"]').data('datafield');
 
         try {
             if (validationId !== '') {
-                if (jQuery('#tmpl-modules-' + validationName + 'Form').html() === undefined) {
-                    $popupForm = jQuery(window[validationName + 'Controller'].getFormTemplate());
-                } else {
-                    $popupForm = jQuery(jQuery('#tmpl-modules-' + validationName + 'Form').html());
-                }
-                $popupForm = window[validationName + 'Controller'].openForm('EDIT');
+                //if (jQuery(`#tmpl-modules-${validationName}Form`).html() === undefined) {
+                //    if (peekForm) {
+                //        $popupForm = window[`${peekForm}Controller`].openForm('EDIT');
+                //    } else {
+                //        $popupForm = jQuery(window[`${validationName}Controller`].getFormTemplate());      // commented out unnecessary code - J. Pace 10/14/19
+                //    }
+                //} else {
+                //    $popupForm = jQuery(jQuery(`#tmpl-modules-${validationName}Form`).html());
+                //}
+                //$popupForm = window[validationName + 'Controller'].openForm('EDIT');
 
-                $popupForm.find('div.fwformfield[data-datafield="' + validationDatafield + '"] input').val(validationId);
-                let ids = {};
+                const ids: any = {};
                 ids[validationDatafield] = validationId;
-                $popupForm = window[validationName + 'Controller'].loadForm(ids);
+                if (peekForm) {
+                    $popupForm = window[`${peekForm}Controller`].loadForm(ids);
+                } else {
+                    $popupForm = window[`${validationName}Controller`].loadForm(ids);
+                }
+                //$popupForm.find(`div.fwformfield[data-datafield="${validationDatafield}"] input`).val(validationId);
                 FwPopup.showPopup(FwPopup.renderPopup($popupForm, undefined, title, validationId));
-                let $fwcontrols = $popupForm.find('.fwcontrol');
+                const $fwcontrols = $popupForm.find('.fwcontrol');
                 FwControl.loadControls($fwcontrols);
                 $popupForm.find('.btnpeek').remove();
                 $popupForm.css({ 'background-color': 'white', 'box-shadow': '0 25px 44px rgba(0, 0, 0, 0.30), 0 20px 15px rgba(0, 0, 0, 0.22)', 'width': '60vw', 'height': '60vh', 'overflow': 'scroll', 'position': 'relative' });
@@ -536,6 +548,48 @@
         catch (ex) {
             FwFunc.showError(ex);
         }
+    }
+    //---------------------------------------------------------------------------------
+    addInactiveMenu($browse: JQuery) {
+        $browse.find('.runtime .fwbrowse-menu').remove();
+        $browse.closest('[data-control="FwBrowse"]').attr('data-activeinactiveview', 'active');
+        $browse.find('.runtime .browsecaption').after(`<div class="fwbrowse-menu"><div class="fwcontrol fwmenu default" data-control="FwMenu" data-visible="true" data-rendermode="runtime"><div class="buttonbar"></div></div></div></div>`);
+        const $activeView = FwMenu.generateDropDownViewBtn(FwLanguages.translate('Active'), true);
+        $activeView.on('click', e => {
+            try {
+                const $fwbrowse = jQuery(e.currentTarget).closest('.fwbrowse');
+                $fwbrowse.attr('data-activeinactiveview', 'active');
+                FwBrowse.search($fwbrowse);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+        const $inactiveView = FwMenu.generateDropDownViewBtn(FwLanguages.translate('Inactive'), false);
+        $inactiveView.on('click', e => {
+            try {
+                const $fwbrowse = jQuery(e.currentTarget).closest('.fwbrowse');
+                $fwbrowse.attr('data-activeinactiveview', 'inactive');
+                FwBrowse.search($fwbrowse);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+        const $allView = FwMenu.generateDropDownViewBtn(FwLanguages.translate('All'), false);
+        $allView.on('click', e => {
+            try {
+                const $fwbrowse = jQuery(e.currentTarget).closest('.fwbrowse');
+                $fwbrowse.attr('data-activeinactiveview', 'all');
+                FwBrowse.search($fwbrowse);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+        const viewitems: JQuery[] = [];
+        viewitems.push($activeView, $inactiveView, $allView);
+        const $menu = FwMenu.getMenuControl('default');
+        const $show = FwMenu.addViewBtn($menu, FwLanguages.translate('Show'), viewitems);
+        $browse.find('.fwbrowse-menu .buttonbar').empty().append($show);
+        $browse.find('.fwbrowse-menu .buttonbar .ddviewbtn').css('margin-left', 'auto');
     }
     homeModules: Array<string> = ['ContactValidation', 'CustomerValidation', 'DealValidation', 'OrderValidation', 'ProjectValidation', 'PurchaseOrderValidation', 'QuoteValidation', 'VendorValidation', 'AssetValidation', 'PartsInventoryValidation', 'RentalInventoryValidation', 'RepairOrderValidation', 'SalesInventoryValidation', 'ContractValidation', 'PickListValidation', 'ContainerValidation', 'InvoiceValidation', 'ReceiptValidation'];
     //----------------------------------------------------------------------------------------------

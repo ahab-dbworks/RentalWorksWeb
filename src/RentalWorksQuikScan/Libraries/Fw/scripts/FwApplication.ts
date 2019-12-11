@@ -1,5 +1,5 @@
 class FwApplication {
-    name:  string;
+    name: string;
     title: string;
     screens: any[] = [];
     audioMode: string;
@@ -66,10 +66,10 @@ class FwApplication {
             if (typeof this.screens[this.screens.length - 1].unload !== 'undefined') {
                 this.screens[this.screens.length - 1].unload();
             }
-        
+
             this.screens[this.screens.length - 1] = screen;
         }
-        screen.$view.hide(0, function() {
+        screen.$view.hide(0, function () {
             screen.$view.hide();
             applicationContainer
                 .empty()
@@ -94,7 +94,7 @@ class FwApplication {
                 }
                 if (this.screens.length > 0) {
                     screen = this.screens[this.screens.length - 1];
-                    screen.$view.hide(0, function() {
+                    screen.$view.hide(0, function () {
                         applicationContainer.children().hide();
                         screen.$view.hide();
                         applicationContainer
@@ -110,7 +110,7 @@ class FwApplication {
             }
         }
     }
-   //---------------------------------------------------------------------------------
+    //---------------------------------------------------------------------------------
     setAudioMode(mode: 'none' | 'html5' | 'DTDevices' | 'NativeAudio'): void {
         this.audioMode = mode;
         switch (mode) {
@@ -118,23 +118,23 @@ class FwApplication {
                 this.audioSuccessArray = [1200, 300];
                 this.audioErrorArray = [800, 200, 600, 200];
                 break;
-            case 'html5':;
+            case 'html5': ;
                 if (typeof this.audioSuccess === 'undefined') {
                     this.audioSuccess = new Audio('theme/fwaudio/success2.wav');
                     this.audioError = new Audio('theme/fwaudio/error2.wav');
                 }
                 break;
             case 'NativeAudio':
-                if( (<any>window).plugins && (<any>window).plugins.NativeAudio ) {
+                if ((<any>window).plugins && (<any>window).plugins.NativeAudio) {
                     // Preload audio resources
                     if (typeof (<any>window).plugins.NativeAudio.preloadedSounds !== 'boolean') {
                         (<any>window).plugins.NativeAudio.preloadedSounds = true;
                         (<any>window).plugins.NativeAudio.preloadSimple('success', 'audio/success.wav', function (msg) {
-                        }, function(msg){
+                        }, function (msg) {
                             //FwFunc.showError(msg);
                         });
-                        (<any>window).plugins.NativeAudio.preloadSimple( 'error', 'audio/error.wav', function(msg){
-                        }, function(msg){
+                        (<any>window).plugins.NativeAudio.preloadSimple('error', 'audio/error.wav', function (msg) {
+                        }, function (msg) {
                             //FwFunc.showError(msg);
                         });
                     }
@@ -145,7 +145,7 @@ class FwApplication {
     //---------------------------------------------------------------------------------
     playStatus(isSuccessful: boolean): void {
         if (isSuccessful) {
-            switch(this.audioMode) {
+            switch (this.audioMode) {
                 case 'DTDevices':
                     (<any>window).DTDevices.playSound(this.audioSuccessArray);
                     break;
@@ -160,13 +160,13 @@ class FwApplication {
                     break;
             }
         } else {
-            switch(this.audioMode) {
+            switch (this.audioMode) {
                 case 'DTDevices':
                     (<any>window).DTDevices.playSound(this.audioErrorArray);
                     break;
                 case 'html5':
                     this.audioError.currentTime = 0;
-                    this.audioError.play(); 
+                    this.audioError.play();
                     break;
                 case 'NativeAudio':
                     if ((<any>window).plugins && (<any>window).plugins.NativeAudio) {
@@ -192,13 +192,13 @@ class FwApplication {
         var me = this;
         window.addEventListener("dragover", function (e) {
             e.preventDefault();
-        },false);
-        window.addEventListener("drop",function(e){
+        }, false);
+        window.addEventListener("drop", function (e) {
             e.preventDefault();
-        },false);
+        }, false);
         // seems like we need to handle another window changing the browser storage area
         // not sure what's needed yet, but this event fires when it changes
-        if(!localStorage.getItem('media') || (localStorage.getItem('media').length === 0)) {
+        if (!localStorage.getItem('media') || (localStorage.getItem('media').length === 0)) {
             if (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)) {
                 this.setMedia('mobile');
             } else {
@@ -223,7 +223,7 @@ class FwApplication {
     //---------------------------------------------------------------------------------
     uniqueId(idlength) {
         var charstoformid = '_0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz'.split('');
-        if (! idlength) {
+        if (!idlength) {
             idlength = Math.floor(Math.random() * charstoformid.length);
         }
         var uniqid = '';
@@ -231,7 +231,7 @@ class FwApplication {
             uniqid += charstoformid[Math.floor(Math.random() * charstoformid.length)];
         }
         // one last step is to check if this ID is already taken by an element before
-        if(jQuery("#"+uniqid).length === 0) {
+        if (jQuery("#" + uniqid).length === 0) {
             return uniqid;
         } else {
             return this.uniqueId(idlength);
@@ -240,15 +240,15 @@ class FwApplication {
     //---------------------------------------------------------------------------------
     debugCss(idlength) {
         var html = [], fields = [], formfields, $appendContent;
-    
+
         jQuery('.application').empty();
         formfields = ['text', 'number', 'password', 'select', 'date', 'time', 'email', 'url', 'phone', 'validation', 'multiselectvalidation', 'combobox', 'money', 'zipcode', 'percent', 'ssn', 'color', 'checkbox', 'toggleswitch', 'radio', 'searchbox', 'textarea'];
 
         html.push('<div style="display:flex;flex-wrap:wrap;">');
         for (var i = 0; i < formfields.length; i++) {
             var field, fieldname;
-            field     = formfields[i];
-            fieldname = field.toLowerCase().replace(/\b[a-z]/g, function(letter) {return letter.toUpperCase();});
+            field = formfields[i];
+            fieldname = field.toLowerCase().replace(/\b[a-z]/g, function (letter) { return letter.toUpperCase(); });
             html.push(`<div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="${fieldname} Section" style="min-width:300px;">`);
             html.push('  <div class="flexrow">');
             html.push(`    <div data-control="FwFormField" data-type="${field}" class="fwcontrol fwformfield" data-caption="${fieldname} Field"></div>`);
@@ -272,17 +272,17 @@ class FwApplication {
 
         //load options for the selects
         var $selectFields = $appendContent.find('div[data-type="select"]');
-        $selectFields.each(function(index, element) {
+        $selectFields.each(function (index, element) {
             var $selectField;
             $selectField = jQuery(element);
             FwFormField.loadItems($selectField, [
-                {value:'A',     text:'ACTIVE'},
-                {value:'D',     text:'DECEASED'},
-                {value:'T',     text:'TERMINATED'},
-                {value:'N',     text:'NO HIRE'},
-                {value:'R',     text:'RETIRED'},
-                {value:'I',     text:'INACTIVE'},
-                {value:'S',     text:'SUSPENDED'}
+                { value: 'A', text: 'ACTIVE' },
+                { value: 'D', text: 'DECEASED' },
+                { value: 'T', text: 'TERMINATED' },
+                { value: 'N', text: 'NO HIRE' },
+                { value: 'R', text: 'RETIRED' },
+                { value: 'I', text: 'INACTIVE' },
+                { value: 'S', text: 'SUSPENDED' }
             ], true);
         });
 
@@ -291,11 +291,11 @@ class FwApplication {
     //---------------------------------------------------------------------------------
     forceReloadCss() {
         var a = document.getElementsByTagName('link');
-        for(var i = 0; i < a.length; i++) {
+        for (var i = 0; i < a.length; i++) {
             var s = a[i];
-            if(s.rel.toLowerCase().indexOf('stylesheet')>=0 && s.href) {
-                var h = s.href.replace(/(&|%5C?)forceReload=\d+/,'');
-                s.href = h + (h.indexOf('?') >=0 ? '&' : '?') + 'forceReload=' + (new Date().valueOf());
+            if (s.rel.toLowerCase().indexOf('stylesheet') >= 0 && s.href) {
+                var h = s.href.replace(/(&|%5C?)forceReload=\d+/, '');
+                s.href = h + (h.indexOf('?') >= 0 ? '&' : '?') + 'forceReload=' + (new Date().valueOf());
             }
         }
     };
@@ -305,9 +305,9 @@ class FwApplication {
         const $modifiedForms = $bodyContainer.find('div[data-type="form"][data-modified="true"]');
         path = path.toLowerCase();
         if ($modifiedForms.length > 0) {
-            if (jQuery($modifiedForms[0]).parent().data('type') === 'settings-row') {
-                this.navigate(path);
-            }
+            //if (jQuery($modifiedForms[0]).parent().data('type') === 'settings-row') {
+            //    this.navigate(path);
+            //}
             const $form = jQuery($modifiedForms[0]);
             const $tab = jQuery(`#${$form.parent().attr('data-tabid')}`);
             $tab.click();
@@ -442,7 +442,7 @@ class FwApplication {
     }
     //---------------------------------------------------------------------------------
     setApplicationTheme(setTheme: string) {
-        jQuery('html').removeClass( function(index, className) {
+        jQuery('html').removeClass(function (index, className) {
             return (className.match(/(^|\s)theme-\S+/g) || []).join(' ');
         });
         jQuery('html').addClass(setTheme);
@@ -473,7 +473,7 @@ window.addEventListener("error", e => {
 });
 //---------------------------------------------------------------------------------
 // Handle uncaught promise rejections
-window.addEventListener("unhandledrejection", e => { 
+window.addEventListener("unhandledrejection", e => {
     // if logged in on the desktop, but the master section doesn't come up, need to logout to clear the error
     // this can avoid the user getting a blank white screen under certain error conditions
     if (jQuery('#master').length === 0 && jQuery('html.desktop').length === 1 && sessionStorage.getItem('apiToken') !== null) {

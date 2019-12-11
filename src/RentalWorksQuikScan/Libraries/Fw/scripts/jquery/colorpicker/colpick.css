@@ -4,24 +4,24 @@ colpick Color Picker / colpick.com
 
 /*Main container*/
 .colpick {
-	position: absolute;
-	width: 346px;
-	height: 170px;
-	overflow: hidden;
-	display: none;
-	font-family: Arial, Helvetica, sans-serif;
-	background:#ebebeb;
-	border: 1px solid #bbb;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	border-radius: 5px;
-	
-	/*Prevents selecting text when dragging the selectors*/
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	-o-user-select: none;
-	user-select: none;
+    position: absolute;
+    width: 346px;
+    height: 170px;
+    overflow: hidden;
+    display: none;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #ebebeb;
+    border: 1px solid #bbb;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    /*Prevents selecting text when dragging the selectors*/
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+    z-index: 1000;
 }
 /*Color selection box with gradients*/
 .colpick_color {

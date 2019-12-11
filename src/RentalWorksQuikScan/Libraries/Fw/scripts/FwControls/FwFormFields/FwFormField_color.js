@@ -34,8 +34,8 @@ var FwFormField_colorClass = (function () {
             color: 'ffffff',
             showEvent: '',
             onSubmit: function (hsb, hex, rgb, el) {
-                jQuery(el).siblings('.fwformfield-value').val('#' + hex).change();
-                jQuery(el).find('.fwformfield-color').css('background-color', '#' + hex);
+                jQuery(el).siblings('.fwformfield-value').val("#" + hex).change();
+                jQuery(el).find('.fwformfield-color').css('background-color', "#" + hex);
                 jQuery(el).colpickHide();
             }
         })
@@ -50,8 +50,7 @@ var FwFormField_colorClass = (function () {
             }
         });
     };
-    FwFormField_colorClass.prototype.loadItems = function ($control, items, hideEmptyItem) {
-    };
+    FwFormField_colorClass.prototype.loadItems = function ($control, items, hideEmptyItem) { };
     FwFormField_colorClass.prototype.loadForm = function ($fwformfield, table, field, value, text) {
         $fwformfield
             .attr('data-originalvalue', value)
@@ -60,10 +59,8 @@ var FwFormField_colorClass = (function () {
         $fwformfield.find('.fwformfield-colorselector').colpickSetColor(value);
         $fwformfield.find('.fwformfield-color').css('background-color', value);
     };
-    FwFormField_colorClass.prototype.disable = function ($control) {
-    };
-    FwFormField_colorClass.prototype.enable = function ($control) {
-    };
+    FwFormField_colorClass.prototype.disable = function ($control) { };
+    FwFormField_colorClass.prototype.enable = function ($control) { };
     FwFormField_colorClass.prototype.getValue2 = function ($fwformfield) {
         var value = $fwformfield.find('.fwformfield-value').val();
         return value;

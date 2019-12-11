@@ -71,12 +71,12 @@ class FwBrowseColumn_numberClass implements IFwBrowseColumn {
         $field.html(htmlString);
         $field.find('input.value').inputmask("numeric", {
             //placeholder: '0',
-            min:            ((typeof $browse.attr('data-minvalue') !== 'undefined') ? $browse.attr('data-minvalue') : undefined),
-            max:            ((typeof $browse.attr('data-maxvalue') !== 'undefined') ? $browse.attr('data-maxvalue') : undefined),
-            digits:         ((typeof $browse.attr('data-digits') !== 'undefined') ? $browse.attr('data-digits') : 2),
-            radixPoint:     '.',
+            min: ((typeof $field.attr('data-minvalue') !== 'undefined') ? $field.attr('data-minvalue') : undefined),
+            max: ((typeof $field.attr('data-maxvalue') !== 'undefined') ? $field.attr('data-maxvalue') : undefined),
+            digits: ((typeof $field.attr('data-digits') !== 'undefined') ? $field.attr('data-digits') : 2),
+            radixPoint: '.',
             groupSeparator: ',',
-            autoGroup:      (((typeof $browse.attr('data-formatnumeric') !== 'undefined') && ($browse.attr('data-formatnumeric') == 'true')) ? true : false)
+            autoGroup: (((typeof $field.attr('data-formatnumeric') !== 'undefined') && ($field.attr('data-formatnumeric') == 'true')) ? true : false)
         });
         this.setFieldValue($browse, $tr, $field, { value: originalvalue });
         if ($field.data('autoselect') === true) {

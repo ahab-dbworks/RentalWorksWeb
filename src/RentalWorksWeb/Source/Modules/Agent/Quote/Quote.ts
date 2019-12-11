@@ -82,7 +82,7 @@ class Quote extends OrderBase {
                 FwFunc.showError(ex);
             }
         });
-        FwMenu.addSubMenuItem(options.$groupOptions, 'Search', '', (e: JQuery.ClickEvent) => {
+        FwMenu.addSubMenuItem(options.$groupOptions, 'QuikSearch', '', (e: JQuery.ClickEvent) => {
             try {
                 this.search(options.$form);
             } catch (ex) {

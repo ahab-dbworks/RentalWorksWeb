@@ -87,6 +87,13 @@ class DailyReceiptsReport extends FwWebApiReport {
 
         const location = JSON.parse(sessionStorage.getItem('location'));
         FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', location.locationid, location.location);
+
+        // Default settings for first time running
+        const aMonthAgo = moment().subtract(1, 'months').format('MM/DD/YYYY');
+        FwFormField.setValueByDataField($form, 'FromDate', aMonthAgo);
+        const today = FwFunc.getDate();
+        FwFormField.setValueByDataField($form, 'ToDate', today);
+
         this.loadLists($form);
     }
     //----------------------------------------------------------------------------------------------
