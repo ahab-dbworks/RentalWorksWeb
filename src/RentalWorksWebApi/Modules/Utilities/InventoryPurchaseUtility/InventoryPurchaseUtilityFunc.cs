@@ -99,21 +99,24 @@ namespace WebApi.Modules.Utilities.InventoryPurchaseUtility
                     int increaseQty = (request.Quantity - existingBarCodes);
                     for (int i = 0; i < increaseQty; i++)
                     {
-                        await AppFunc.InsertDataAsync(appConfig, "barcodeholding", new string[] { "sessionid" }, new string[] { request.SessionId });
+                        response.success = await AppFunc.InsertDataAsync(appConfig, "barcodeholding", new string[] { "sessionid" }, new string[] { request.SessionId });
                     }
                 }
                 else if (request.Quantity < existingBarCodes)
                 {
                     //decrease barcodes
                     int decreaseQty = (existingBarCodes - request.Quantity);
-                    await AppFunc.DeleteDataAsync(appConfig, "barcodeholding", new string[] { "sessionid" }, new string[] { request.SessionId }, rowCount: decreaseQty);
+                    response.success = await AppFunc.DeleteDataAsync(appConfig, "barcodeholding", new string[] { "sessionid" }, new string[] { request.SessionId }, rowCount: decreaseQty);
+                } 
+                else
+                {
+                    response.success = true;
                 }
             }
             else
             {
-                await AppFunc.DeleteDataAsync(appConfig, "barcodeholding", new string[] { "sessionid" }, new string[] { request.SessionId });
+                response.success = await AppFunc.DeleteDataAsync(appConfig, "barcodeholding", new string[] { "sessionid" }, new string[] { request.SessionId });
             }
-
             return response;
         }
         //-------------------------------------------------------------------------------------------------------
