@@ -105,6 +105,14 @@ class InvoiceDiscountReport extends FwWebApiReport {
 
         FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid, department.department);
         FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', location.locationid, location.location);
+
+        // Default settings for first time running
+        const aMonthAgo = moment().subtract(1, 'months').format('MM/DD/YYYY');
+        FwFormField.setValueByDataField($form, 'FromDate', aMonthAgo);
+        const today = FwFunc.getDate();
+        FwFormField.setValueByDataField($form, 'ToDate', today);
+
+        FwFormField.setValueByDataField($form, 'DiscountPercent', '1');
     }
     //----------------------------------------------------------------------------------------------
     convertParameters(parameters: any) {
