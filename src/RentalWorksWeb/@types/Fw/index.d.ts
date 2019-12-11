@@ -1,5 +1,4 @@
 declare var product: any;
-declare var FwAudit: any;
 declare var FwBasePages: any;
 declare var FwCharge: any;
 declare var FwSecurity: any;

@@ -3,7 +3,7 @@ var FwFormField_timepickerClass = (function () {
     }
     FwFormField_timepickerClass.prototype.renderDesignerHtml = function ($control, html) {
         html.push(FwControl.generateDesignerHandle($control.attr('data-type'), $control.attr('id')));
-        html.push('<div class="fwformfield-caption">' + $control.attr('data-caption') + '</div>');
+        html.push("<div class=\"fwformfield-caption\">" + $control.attr('data-caption') + "</div>");
         html.push('<div class="fwformfield-control">');
         html.push('<input class="fwformfield-value" type="text"');
         if ($control.attr('data-enabled') === 'false') {
@@ -14,8 +14,7 @@ var FwFormField_timepickerClass = (function () {
         $control.html(html.join(''));
     };
     FwFormField_timepickerClass.prototype.renderRuntimeHtml = function ($control, html) {
-        var timepickerTimeFormat, inputmaskTimeFormat;
-        html.push('<div class="fwformfield-caption">' + $control.attr('data-caption') + '</div>');
+        html.push("<div class=\"fwformfield-caption\">" + $control.attr('data-caption') + "</div>");
         html.push('<div class="fwformfield-control">');
         html.push('<input class="fwformfield-value" type="text" autocapitalize="none"');
         if ($control.attr('data-enabled') === 'false') {
@@ -30,9 +29,37 @@ var FwFormField_timepickerClass = (function () {
             twelvehour: ($control.attr('data-timeformat') !== '24') ? true : false,
             donetext: 'Done',
             afterDone: function () {
-                $control.find('input').focus();
+                $control.find('input').change().focus();
             }
         }).off();
+        $control.find('.fwformfield-value').change(function (e) {
+            var $this = jQuery(e.currentTarget);
+            var field = $this.closest('div[data-type="timepicker"]');
+            field.removeClass('error');
+            var val = $this.val().toString().replace(/\D/g, '');
+            if (val != '') {
+                if (val.length !== 4) {
+                    field.addClass('error');
+                    FwNotification.renderNotification('WARNING', "You've entered a non-standard time format.");
+                    return;
+                }
+                var start = val.substring(0, 2);
+                var startDecimal = new Decimal(start);
+                if (startDecimal.greaterThan(23)) {
+                    field.addClass('error');
+                    FwNotification.renderNotification('WARNING', "You've entered a non-standard time format.");
+                    return;
+                }
+                var end = val.substring(2);
+                var endDecimal = new Decimal(end);
+                if (endDecimal.greaterThan(59)) {
+                    field.addClass('error');
+                    FwNotification.renderNotification('WARNING', "You've entered a non-standard time format.");
+                    return;
+                }
+                $this.val(start + ":" + end);
+            }
+        });
         $control.on('click', '.btntime', function (e) {
             if ($control.attr('data-enabled') === 'true') {
                 e.stopPropagation();

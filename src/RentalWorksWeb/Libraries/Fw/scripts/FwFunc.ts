@@ -60,6 +60,14 @@
                 $btnOK.focus();
             }, 100);
         }
+        else if (status === 400) {
+            console.error(responseText);
+            let $confirmation = FwConfirmation.renderConfirmation(status + ' ' + error, responseText);
+            let $btnOK = FwConfirmation.addButton($confirmation, 'OK', true);
+            setTimeout(function () {
+                $btnOK.focus();
+            }, 100);
+        }
         else {
             // try to show the Json Error message
             if (typeof responseText === 'string' && responseText.length > 0) {

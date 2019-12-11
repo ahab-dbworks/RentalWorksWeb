@@ -174,6 +174,48 @@ class FwApplicationTreeClass {
         return isVisible;
     }
     //----------------------------------------------------------------------------------------------
+    getAllReports(addModulePrefix: boolean, addCategoryNamesToCaption: boolean, onAddArrayItem: (modules: any[], moduleCaption: string, moduleName: string, category: string, currentNode: any, nodeModule: IGroupSecurityNode, hasView: boolean, hasNew: boolean, hasEdit: boolean, moduleController: any) => void): any[] {
+        const modules: any[] = [];
+        for (const key in (<any>window).Constants.Modules) {
+            const node = (<any>window).Constants.Modules[key];
+            let category = '';
+            if (addModulePrefix) {
+                category = 'Module > ';
+            }
+            this.getAllReportsRecursive(modules, category, key, node, addCategoryNamesToCaption, onAddArrayItem);
+        }
+        return modules;
+    }
+    //----------------------------------------------------------------------------------------------
+    private getAllReportsRecursive(modules: any[], category: string, nodeKey: string, currentNode: any, addCategoryNamesToCaption: boolean, onAddArrayItem: (modules: any[], moduleCaption: string, moduleName: string, category: string, currentNode: any, nodeModule: IGroupSecurityNode, hasView: boolean, hasNew: boolean, hasEdit: boolean, moduleController: any) => void): void {
+        if (currentNode.nodetype === 'Module') {
+            const nodeModule = FwApplicationTree.getNodeById(FwApplicationTree.tree, currentNode.id);
+            const moduleControllerName = nodeKey + "Controller";
+            if (typeof window[moduleControllerName] !== 'undefined') {
+                const moduleController = window[moduleControllerName];
+                let moduleCaption = `${addCategoryNamesToCaption ? category : ''}${currentNode.caption}`;
+                onAddArrayItem(modules, moduleCaption, nodeKey, category, currentNode, nodeModule, false, false, false, moduleController);
+            }
+        }
+        else if (currentNode.nodetype === 'Category' && nodeKey === 'Reports') {
+            for (let childNodeKey in currentNode.children) {
+                const childNode = currentNode.children[childNodeKey];
+                let childCategory = category;
+                if (addCategoryNamesToCaption) {
+                    childCategory += currentNode.caption + ' > ';
+                }
+                if (childNode.hasOwnProperty('children')) {
+                    for (let key in childNode.children) {
+                        const grandChildNode = childNode.children[key];
+                        this.getAllReportsRecursive(modules, childCategory, key, grandChildNode, addCategoryNamesToCaption, onAddArrayItem);
+                    }
+                } else {
+                    this.getAllReportsRecursive(modules, childCategory, childNodeKey, childNode, addCategoryNamesToCaption, onAddArrayItem);
+                }
+            }
+        }
+    }
+        //----------------------------------------------------------------------------------------------
     getAllModules(addModulePrefix: boolean, addCategoryNamesToCaption: boolean, onAddArrayItem: (modules: any[], moduleCaption: string, moduleName: string, category: string, currentNode: any, nodeModule: IGroupSecurityNode, hasView: boolean, hasNew: boolean, hasEdit: boolean, moduleController: any) => void): any[] {
         const modules: any[] = [];
         for (const key in (<any>window).Constants.Modules) {

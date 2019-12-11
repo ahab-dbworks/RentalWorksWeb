@@ -204,7 +204,8 @@ class FwSettingsClass {
     //};
     //----------------------------------------------------------------------------------------------
     getCaptions(screen) {
-        const node = FwApplicationTree.getNodeById(FwApplicationTree.tree, '730C9659-B33B-493E-8280-76A060A07DCE');
+        const node = FwApplicationTree.getNodeById(FwApplicationTree.tree, 'Settings');
+        //const node = FwApplicationTree.getNodeById(FwApplicationTree.tree, '730C9659-B33B-493E-8280-76A060A07DCE');
 
         FwAppData.apiMethod(true, 'GET', 'api/v1/customfield/', null, FwServices.defaultTimeout, function onSuccess(response) {
             for (var i = 0; i < response.length; i++) {
@@ -224,9 +225,10 @@ class FwSettingsClass {
                 }
                 screen.moduleCaptions[fieldName][response[i].ModuleName].push(customObject);
             }
-            const modules = FwApplicationTree.getChildrenByType(node, 'SettingsModule');
-            for (let idx = 0; idx < modules.length; idx++) {
-                let moduleName = modules[idx].properties.controller.slice(0, -10);
+            const settingsModules = FwApplicationTree.getChildrenByType(node, 'Module');
+            for (let idx = 0; idx < settingsModules.length; idx++) {
+                //let moduleName = settingsModules[idx].properties.controller.slice(0, -10);
+                let moduleName = settingsModules[idx].caption;
                 let $form = jQuery(jQuery('#tmpl-modules-' + moduleName + 'Form').html());
                 let $fwformfields = $form.find('.fwformfield[data-caption]');
                 let $fwformsectionfields = $form.find('.fwform-section');
@@ -541,6 +543,7 @@ class FwSettingsClass {
         let showNew = false;
         let showDelete = false;
         let showEdit = false;
+
         $modulecontainer = $control.find('#' + moduleName);
         const controllerName = moduleName + 'Controller';
         const module = <IModule>window[controllerName];

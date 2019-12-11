@@ -343,7 +343,7 @@
         $view = jQuery('<div class="menu-container" data-control="FwFileMenu" data-version="2" data-rendermode="template"><div class="menu"></div></div>');
 
         var baseiconurl, $menu, ribbonItem, dropDownMenuItems, caption;
-        
+
         baseiconurl = 'theme/images/icons/home/';
         this.generateDropDownModuleBtn($view, $control, 'All Reports ID', 'All Reports', null, null);
         //const nodeReports = FwApplicationTree.getNodeByFuncRecursive(FwApplicationTree.tree, {}, (node: any, args: any) => node.id === 'Reports');
@@ -355,11 +355,11 @@
                 const constNodeReport = constNodeCategory.children[keyReport];
                 const secNodeReport = FwApplicationTree.getNodeById(FwApplicationTree.tree, constNodeReport.id);
                 if (secNodeReport !== null && secNodeReport.properties.visible === 'T') {
-                    dropDownMenuItems.push({ 
-                        id: constNodeReport.id, 
-                        caption: constNodeReport.caption, 
-                        modulenav: '', 
-                        imgurl: '', 
+                    dropDownMenuItems.push({
+                        id: constNodeReport.id,
+                        caption: constNodeReport.caption,
+                        modulenav: '',
+                        imgurl: '',
                         moduleName: keyReport
                     });
                 }

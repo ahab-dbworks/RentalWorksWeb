@@ -439,11 +439,11 @@ namespace FwStandard.BusinessLogic
             return records;
         }
         //------------------------------------------------------------------------------------
-        public virtual async Task<GetManyResponse<T>> GetManyAsync<T>(GetManyRequest request, Func<FwSqlSelect, Task> beforeExecuteQuery = null)
+        public virtual async Task<GetResponse<T>> GetManyAsync<T>(GetRequest request, Func<FwSqlSelect, Task> beforeExecuteQuery = null)
         {
             LoadCustomFields();
 
-            GetManyResponse<T> response = new GetManyResponse<T>();
+            GetResponse<T> response = new GetResponse<T>();
             if (dataLoader == null)
             {
                 if (dataRecords.Count > 0)
@@ -458,6 +458,7 @@ namespace FwStandard.BusinessLogic
                         response.PageNo = result.PageNo;
                         response.PageSize = result.PageSize;
                         response.TotalRows = result.TotalRows;
+                        response.Sort = request.Sort;
                         response.Items = new List<T>(result.Items.Count);
                         Mapper.Map((object)result.Items, response.Items, opts =>
                         {
@@ -478,6 +479,7 @@ namespace FwStandard.BusinessLogic
                     response.PageNo = result.PageNo;
                     response.PageSize = result.PageSize;
                     response.TotalRows = result.TotalRows;
+                    response.Sort = request.Sort;
                     response.Items = new List<T>(result.Items.Count);
                     Mapper.Map((object)result.Items, response.Items, opts =>
                     {

@@ -6,9 +6,10 @@ html.theme-material .fwmenu.grid .buttonbar .btn {background:#4CAF50;color:#ffff
 html.theme-material .fwmenu.grid .buttonbar .btn:hover {background-color:#43a047;}
 html.theme-material .fwmenu.grid .buttonbar .btn.disabled {opacity:0.6;}
 html.theme-material .fwmenu.grid .submenubutton {flex: 0 0 auto;color: #607D8B;}
-html.theme-material .fwmenu.grid .submenubutton:hover {background-color: #7B1FA2; color: #ffffff;}
+html.theme-material .fwmenu.grid .submenubutton:hover:not(.nohover) {background-color: #7B1FA2; color: #ffffff;}
 html.theme-material .fwmenu.grid .submenubutton.active {background-color: #7B1FA2; color: #ffffff;}
-html.theme-material .fwmenu.grid .submenubutton .icon {height:24px;padding:4px;cursor:pointer;}
+html.theme-material .fwmenu.grid .submenubutton .icon {height:24px;padding:4px;}
+html.theme-material .fwmenu.grid .submenubutton:not(.nohover) .icon {cursor:pointer;}
 html.theme-material .fwmenu.grid .submenubutton .submenu {display:none;position:absolute;margin-top:1px;padding:1px;-moz-box-shadow:3px 3px 5px 1px rgba(0,0,0,.3);-webkit-box-shadow:3px 3px 5px 1px rgba(0,0,0,.3);box-shadow:3px 3px 5px 1px rgba(0,0,0,.3);background: #fafafa;border: 1px solid #d6d6d6;color: #263248;}
 html.theme-material .fwmenu.grid .submenubutton.active .submenu {display:block;}
 html.theme-material .fwmenu.grid .submenubutton .submenu .submenu-column {margin:10px;font-size:14px;float:left;min-width:200px;}
@@ -50,10 +51,10 @@ html.theme-material .fwmenu.default .buttonbar .ddviewbtn > .ddviewbtn-select > 
 html.theme-material .fwmenu.default .buttonbar .ddviewbtn > .ddviewbtn-select > .ddviewbtn-dropdown > .ddviewbtn-dropdown-btn > .ddviewbtn-dropdown-btn-caption {float:left;padding:0 10px;}
 
 html.theme-material .fwmenu.default .submenubutton {flex:0 0 auto;transition: .3s;}
-html.theme-material .fwmenu.default .submenubutton:hover {background:#2e7d32;}
-html.theme-material .fwmenu.default .submenubutton:active {background:#2e7d32;}
-html.theme-material .fwmenu.default .submenubutton.active {background:#2e7d32;}
-html.theme-material .fwmenu.default .submenubutton .icon {padding:.5em;cursor:pointer;display:flex;align-items:center;}
+html.theme-material .fwmenu.default .submenubutton:not(.nohover):hover {background:#2e7d32;}
+html.theme-material .fwmenu.default .submenubutton:not(.nohover):hover:active {background:#2e7d32;}
+html.theme-material .fwmenu.default .submenubutton .icon {padding:.5em;display:flex;align-items:center;}
+html.theme-material .fwmenu.default .submenubutton:not(.nohover) .icon {cursor:pointer;}
 html.theme-material .fwmenu.default .submenubutton .icon .material-icons {font-size:1.5em;}
 html.theme-material .fwmenu.default .submenubutton .submenu {display:none;position:absolute;margin-top:1px;-moz-box-shadow:3px 3px 5px 1px rgba(0,0,0,.3);-webkit-box-shadow:3px 3px 5px 1px rgba(0,0,0,.3);box-shadow:3px 3px 5px 1px rgba(0,0,0,.3);background: #fafafa;border: 1px solid #d6d6d6;color: #263248;}
 html.theme-material .fwmenu.default .submenubutton.active .submenu {display:flex;}
@@ -61,6 +62,7 @@ html.theme-material .fwmenu.default .submenubutton .submenu .submenu-column {mar
 html.theme-material .fwmenu.default .submenubutton .submenu .submenu-column .submenu-group {margin-bottom:15px;}
 html.theme-material .fwmenu.default .submenubutton .submenu .submenu-column .submenu-group > .caption {font-weight:bold;color:#000077;border-bottom:solid 2px #000077;}
 html.theme-material .fwmenu.default .submenubutton .submenu .submenu-column .submenu-group .submenu-btn {cursor:pointer;padding:3px;border:solid 1px transparent;}
+html.theme-material .fwmenu.default .submenubutton .submenu .submenu-column .submenu-group .submenu-btn[data-enabled="false"] {pointer-events:none;color:lightgray;}
 html.theme-material .fwmenu.default .submenubutton .submenu .submenu-column .submenu-group .submenu-btn:hover {background: rgba(213,221,229,1);color: #1a2631;border: 1px solid rgba(41,77,133,1);}
 
 html.theme-material .fwmenu.default .submenubutton.fw {float:right;}
@@ -78,6 +80,8 @@ html.theme-material [data-type="btnmenu"] .btnmenuoptions {border-radius:2px;mar
 /*#endregion*/
 
 /*#region data-type="btnmenu" (icon area revealing dropdown)*/
+html.theme-material [data-type="btnmenu"] .icon-wrapper { float:left;padding-left:1px; }
+
 html.theme-material [data-type="btnmenu"] i.btnmenudd { vertical-align:middle;float:right;background-color:#01579B;color:white;height:29px;padding:4px 3px 3px 3px;border-radius:0 2px 2px 0;cursor:pointer; }
 html.theme-material [data-type="btnmenu"] i.btnmenudd { background-color:#01579b;color: #ffffff;box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12); }
 html.theme-material [data-type="btnmenu"] i.btnmenudd:hover { box-shadow: 0 5px 11px 0 rgba(0,0,0,0.18), 0 4px 15px 0 rgba(0,0,0,0.15); }

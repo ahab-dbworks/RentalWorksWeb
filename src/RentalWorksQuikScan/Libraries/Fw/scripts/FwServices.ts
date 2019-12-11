@@ -73,7 +73,43 @@ class FwServicesClass {
                 FwAppData.apiMethod(true, 'DELETE', url, null, FwServices.defaultTimeout, onSuccess, onError, $form);
             }
             else if (method === 'Save') {
-                FwAppData.apiMethod(true, 'POST', url, request, FwServices.defaultTimeout, onSuccess, onError, $form);
+                const controllerName = $form.attr('data-controller');
+                const controller = (<any>window)[controllerName];
+                const securityId = controller.id;
+                const nodeModule = FwApplicationTree.getNodeById(FwApplicationTree.tree, securityId);
+                const nodeNew = FwApplicationTree.getNodeByFuncRecursive(nodeModule, {}, (node: any, args: any) => {
+                    return (node.nodetype === 'ModuleAction' && node.properties.action === 'New');
+                });
+                const nodeEdit = FwApplicationTree.getNodeByFuncRecursive(nodeModule, {}, (node: any, args: any) => {
+                    return (node.nodetype === 'ModuleAction' && node.properties.action === 'Edit');
+                });
+                const nodeSave = FwApplicationTree.getNodeByFuncRecursive(nodeModule, {}, (node: any, args: any) => {
+                    return (node.nodetype === 'ModuleAction' && node.properties.action === 'Save');
+                });
+                const mode = $form.attr('data-mode');
+                if (mode == 'NEW' && nodeNew !== null && nodeNew.properties.visible === 'T') {
+                    FwAppData.apiMethod(true, 'POST', url, request, FwServices.defaultTimeout, onSuccess, onError, $form);
+                    return;
+                }
+                else if (mode === 'EDIT' && nodeEdit !== null && nodeEdit.properties.visible === 'T') {
+                    let putUrl = url;
+                    switch ($form.attr('data-mode')) {
+                        case 'EDIT':
+                            const $uniqueIdFields = $form.data('uniqueids');
+                            if (typeof $form.data('getapiurl') !== 'function' && $uniqueIdFields.length === 1) {
+                                putUrl += `/${FwFormField.getValue2($uniqueIdFields.eq(0))}`;
+                            } else if (typeof $form.data('getapiurl') !== 'function' && $uniqueIdFields.length > 1) {
+                                throw 'Need to define a function $form.data(getapiurl) to define a custom url for this module which has multiple primary keys'
+                            }
+                            break;
+                    }
+                    FwAppData.apiMethod(true, 'PUT', putUrl, request, FwServices.defaultTimeout, onSuccess, onError, $form);
+                    return;
+                }
+                else if ((mode === 'NEW' || mode === 'EDIT') && nodeSave != null && nodeSave.properties.visible === 'T')
+                {
+                    FwAppData.apiMethod(true, 'POST', url, request, FwServices.defaultTimeout, onSuccess, onError, $form);
+                }
             }
             else {
                 FwAppData.jsonPost(true, url , request, FwServices.defaultTimeout, onSuccess, onError, $form);
@@ -139,7 +175,47 @@ class FwServicesClass {
                 FwAppData.apiMethod(true, 'DELETE', url, null, FwServices.defaultTimeout, onSuccess, onError, $grid);
             }
             else if (method === 'Insert' || method === 'Update' || method === 'Save') {
-                FwAppData.apiMethod(true, 'POST', url, request, FwServices.defaultTimeout, onSuccess, onError, $grid);
+                const secid = $grid.data('secid');
+                if (typeof secid !== 'string' || secid.length === 0) {
+                    let moduleName = $grid.find('.menucaption').text();
+                    throw `Unable to perform '${method}' on Grid '${moduleName}, Grid is missing attribute secid.'`;
+                }
+                const nodeModule = FwApplicationTree.getNodeById(FwApplicationTree.tree, $grid.data('secid'));
+                if (nodeModule === null) {
+                    let moduleName = $grid.find('.menucaption').text();
+                    throw `Unable to perform '${method}' on Grid '${moduleName}, Unable to find security node for id '${secid}'`;
+                }
+                const nodeNew = FwApplicationTree.getNodeByFuncRecursive(nodeModule, {}, (node: any, args: any) => {
+                    return (node.nodetype === 'ModuleAction' && node.properties.action === 'New');
+                });
+                const nodeEdit = FwApplicationTree.getNodeByFuncRecursive(nodeModule, {}, (node: any, args: any) => {
+                    return (node.nodetype === 'ModuleAction' && node.properties.action === 'Edit');
+                });
+                if (method === 'Save' || (method === 'Insert' && nodeNew !== null && nodeNew.properties.visible === 'T')) {
+                    FwAppData.apiMethod(true, 'POST', url, request, FwServices.defaultTimeout, onSuccess, onError, $grid);
+                }
+                else if (method === 'Update' && nodeEdit !== null && nodeEdit.properties.visible === 'T') {
+                    const $tr = $grid.find('.editrow').eq(0);
+                    const $uniqueIdFields = $tr.find('.field[data-isuniqueid="true"]');
+                    if (typeof $grid.data('getapiurl') !== 'function' && $uniqueIdFields.length === 1) {
+                        url = `${url}/${FwBrowse.getValueByDataField($grid, $tr, $uniqueIdFields.data('formdatafield'))}`; 
+                    } else if (typeof $grid.data('getapiurl') !== 'function' && $uniqueIdFields.length > 1) {
+                        throw 'Need to define a function $form.data(getapiurl) to define a custom url for this module which has multiple primary keys'
+                    }
+                    //var ids: any = [];
+                    //for (var key in request.ids) {
+                    //    ids.push(request.ids[key].value);
+                    //}
+                    //ids = ids.join('~');
+                    //if (ids.length === 0) {
+                    //    throw 'primary key id(s) cannot be blank';
+                    //}
+                    //url += '/' + ids
+                    FwAppData.apiMethod(true, 'PUT', url, request, FwServices.defaultTimeout, onSuccess, onError, $grid);
+                } else {
+                    let moduleName = $grid.find('.menucaption').text();
+                    throw `Unable to perform '${method}' on Grid '${moduleName}'`;
+                }
             }
             else if (method === 'ValidateDuplicate') {
                 FwAppData.jsonPost(true, url, request, FwServices.defaultTimeout, onSuccess, onError, null);

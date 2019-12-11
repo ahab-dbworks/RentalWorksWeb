@@ -42,7 +42,7 @@
         var $btn, html;
 
         html = [];
-        html.push('<div class="submenubutton">');
+        html.push('<div class="submenubutton" data-visible="true">');
         html.push('<div class="icon"><i class="material-icons">&#xE5D2;</i></div>'); //menu
         html.push('<div class="submenu"></div>');
         html.push('</div>');
@@ -87,7 +87,7 @@
         var html, $column;
 
         html = [];
-        html.push('<div class="submenu-column"></div>');
+        html.push('<div class="submenu-column" data-visible="true"></div>');
 
         $column = jQuery(html.join(''));
 
@@ -101,7 +101,7 @@
 
         securityid = (typeof securityid === 'string') ? securityid : '';
         html = [];
-        html.push('<div class="submenu-group" data-securityid="' + securityid + '">');
+        html.push('<div class="submenu-group" data-securityid="' + securityid + '" data-visible="true">');
         html.push('<div class="caption">' + groupcaption + '</div>');
         html.push('<div class="body"></div>');
         html.push('</div>');
@@ -114,12 +114,18 @@
     }
     //---------------------------------------------------------------------------------
     addSubMenuBtn($group, caption, securityid) {
-        var html, $btn;
+        var html, $btn, btnClass;
 
         securityid = (typeof securityid === 'string') ? securityid : '';
         html = [];
-        html.push('<div class="submenu-btn" data-securityid="' + securityid + '">');
-        html.push('<div class="caption">' + caption + '</div>');
+        html.push('<div class="submenu-btn" data-securityid="' + securityid + '" data-visible="true">');
+        //html.push('<div class="caption">' + caption + '</div>');
+        //justin hoffman 11/01/2019 - need the "deleteoption" class added here for automated testing
+        btnClass = "caption";
+        if (caption === 'Delete Selected') {
+            btnClass += " deleteoption";
+        }
+        html.push(`<div class="${btnClass}">${caption}</div>`); 
         html.push('</div>');
 
         $btn = jQuery(html.join(''));
@@ -149,7 +155,7 @@
                 btnId = 'btn' + id;
                 securityid = (typeof securityid === 'string') ? securityid : '';
                 btnHtml = [];
-                btnHtml.push('<div id="' + btnId + '" class="btn" tabindex="0" data-securityid="' + securityid + '">');
+                btnHtml.push('<div id="' + btnId + '" class="btn" tabindex="0" data-securityid="' + securityid + '" data-visible="true">');
                 //if ($control.hasClass('default')) {
                 switch (caption) {
                     case 'New': btnHtml.push('<i class="material-icons">&#xE145;</i>'); break; //add

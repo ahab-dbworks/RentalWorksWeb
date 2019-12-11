@@ -265,7 +265,14 @@ namespace FwCore.Controllers
             return await DoGetEmptyObjectAsync();
         }
         //------------------------------------------------------------------------------------
-        protected virtual async Task<ActionResult<GetManyResponse<T>>> DoGetManyAsync<T>(GetManyRequest request, Type type = null)
+        /// <summary>
+        /// Gets a list of objects using the type argument as the BusinessLogicType and maps the results onto the generic type T.  If type is null, the logicType of the controller is used for the BusinessLogicType.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="request"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        protected virtual async Task<ActionResult<GetResponse<T>>> DoGetManyAsync<T>(GetRequest request, Type type = null)
         {
             if (!ModelState.IsValid)
             {
@@ -278,8 +285,13 @@ namespace FwCore.Controllers
                     type = logicType;
                 }
                 FwBusinessLogic l = FwBusinessLogic.CreateBusinessLogic(type, this.AppConfig, this.UserSession);
-                GetManyResponse<T> response = await l.GetManyAsync<T>(request);
+                GetResponse<T> response = await l.GetManyAsync<T>(request);
                 return new OkObjectResult(response);
+            }
+            catch(ArgumentException ex)
+            {
+                ModelState.AddModelError(ex.ParamName, ex.Message);
+                return BadRequest(ModelState);
             }
             catch (Exception ex)
             {

@@ -72,7 +72,7 @@
         if (definedmenu.objects) {
             for (var i = 0; i < definedmenu.objects.length; i++) {
                 var object = definedmenu.objects[i];
-
+                
                 if (object === 'seperator') {
                     jQuery('<div>')
                         .addClass('grid-menu-seperator')
@@ -89,16 +89,16 @@
     }
     //---------------------------------------------------------------------------------
     private _addButton($grid: JQuery, $menu: JQuery, button: GridMenuButton) {
-        var me = this;
+        if (FwApplicationTree.isVisibleInSecurityTree(button.secid)) {
+            const $button = jQuery('<div>')
+                .addClass('grid-menu-button')
+                .html(button.caption)
+                .appendTo($menu)
+                .on('click', jQuery.proxy(button.action, this, $grid));
 
-        var $button = jQuery('<div>')
-            .addClass('grid-menu-button')
-            .html(button.caption)
-            .appendTo($menu)
-            .on('click', jQuery.proxy(button.action, me, $grid));
-
-        if (button.icon) {
-            jQuery(`<i class="material-icons left">${button.icon}</i>`).prependTo($button);
+            if (button.icon) {
+                jQuery(`<i class="material-icons left">${button.icon}</i>`).prependTo($button);
+            }
         }
     }
     //---------------------------------------------------------------------------------
@@ -106,8 +106,7 @@
         var me = this;
 
         var $dropdownbutton = jQuery('<div>')
-            .addClass('grid-menu-dropdownbutton')
-            .appendTo($menu);
+            .addClass('grid-menu-dropdownbutton');
 
         var $button = jQuery('<div>')
             .addClass('grid-menu-button')
@@ -133,25 +132,31 @@
         var $dropdown = jQuery('<div>')
             .addClass('grid-menu-dropdown')
             .appendTo($dropdownbutton);
-
+        let hasChildItems = false;
         for (var i = 0; i < button.items.length; i++) {
-            let item = button.items[i];
-
+            const item = button.items[i];
             if (item === 'seperator') {
                 jQuery('<div>')
                     .addClass('dropdown-seperator')
                     .appendTo($dropdown);
             } else {
-                let $item = jQuery('<div>')
-                    .addClass('dropdown-item')
-                    .appendTo($dropdown)
-                    .on('click', jQuery.proxy(item.action, me, $grid))
+                const dropDownButtonItem = <GridMenuDropDownButtonItem>item;
+                if (FwApplicationTree.isVisibleInSecurityTree(dropDownButtonItem.secid)) {
+                    hasChildItems = true;
+                    let $item = jQuery('<div>')
+                        .addClass('dropdown-item')
+                        .appendTo($dropdown)
+                        .on('click', jQuery.proxy(item.action, me, $grid))
 
-                let $caption = jQuery('<div>')
-                    .addClass('dropdown-item-caption')
-                    .html(item.caption)
-                    .appendTo($item);
+                    let $caption = jQuery('<div>')
+                        .addClass('dropdown-item-caption')
+                        .html(item.caption)
+                        .appendTo($item);
+                }
             }
+        }
+        if (hasChildItems) {
+            $dropdownbutton.appendTo($menu)
         }
     }
     //---------------------------------------------------------------------------------
@@ -918,12 +923,17 @@ interface GridEditable {
 }
 
 interface GridMenu {
-    objects?: (GridMenuButton | GridMenuFilter | GridMenuDropDownButton | 'seperator')[];
+    //objects?: (GridMenuButton | GridMenuFilter | GridMenuDropDownButton | 'seperator')[];
+    objects?: GridMenuObject[];
 }
+
+type GridMenuObject = GridMenuButton | GridMenuFilter | GridMenuDropDownButton | 'seperator';
 
 interface GridMenuButton {
     type: 'button';
     caption?: string;
+    secid?: string;
+    validateSecurity?($grid: JQuery): boolean;
     icon?: string;
     id?: string;
     action?($grid: JQuery, e: JQuery.ClickEvent): void;
@@ -937,6 +947,8 @@ interface GridMenuDropDownButton {
 
 interface GridMenuDropDownButtonItem {
     caption?: string;
+    secid?: string;
+    validateSecurity?($grid: JQuery): boolean;
     icon?: string;
     id?: string;
     action?($grid: JQuery, e: JQuery.ClickEvent): void;

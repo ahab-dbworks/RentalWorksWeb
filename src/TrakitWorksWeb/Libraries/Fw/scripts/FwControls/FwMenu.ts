@@ -161,15 +161,14 @@ class FwMenuClass {
     };
     //---------------------------------------------------------------------------------
     addStandardBtn($control: JQuery, caption: string, securityid?: string): JQuery {
-        var $btn, btnHtml, btnId, id;
-        $btn = jQuery();
+        let $btn = jQuery();
         if ((caption !== '') && (typeof caption !== 'undefined')) {
             try {
-                id = program.uniqueId(8);
-                btnId = 'btn' + id;
+                const id = program.uniqueId(8);
+                const btnId = `btn${id}`;
                 securityid = (typeof securityid === 'string') ? securityid : '';
-                btnHtml = [];
-                btnHtml.push('<div id="' + btnId + '" class="btn" tabindex="0" data-securityid="' + securityid + '" data-visible="true">');
+                const btnHtml: Array<string> = [];
+                btnHtml.push(`<div id="${btnId}" class="btn" tabindex="0" data-securityid="${securityid}" data-visible="true">`);
                 if ($control.hasClass('default')) {
                     switch (caption) {
                         case 'New': btnHtml.push('<i class="material-icons">&#xE145;</i>'); break; //add
@@ -180,7 +179,8 @@ class FwMenuClass {
                         case 'Find': btnHtml.push('<i class="material-icons">search</i>'); break; //find
                     }
                 }
-                btnHtml.push('  <div class="btn-text">' + caption + '</div>');
+                const addedClass = caption.toLowerCase().replace(/ /g, '');
+                btnHtml.push(`  <div class="btn-text ${addedClass}-btn">${caption}</div>`);
                 btnHtml.push('</div>');
                 $btn = $btn.add(btnHtml.join(''));
             } catch (ex) {
@@ -193,7 +193,7 @@ class FwMenuClass {
         $control.find('.buttonbar').append($btn);
 
         return $btn;
-    };
+    }
     //---------------------------------------------------------------------------------
     addViewBtn($control: JQuery, caption: string, subitems: JQuery[], allowMultiple?: boolean, filterField?: string): JQuery {
         var $btn, btnHtml, btnId, id;

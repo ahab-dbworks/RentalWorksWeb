@@ -808,20 +808,20 @@ namespace FwStandard.Data
             }
         }
         //------------------------------------------------------------------------------------
-        protected virtual void SetBaseGetManyQuery(FwSqlSelect select, FwSqlCommand qry, GetManyRequest request, FwCustomFields customFields = null)
+        protected virtual void SetBaseGetManyQuery<T>(FwSqlSelect select, FwSqlCommand qry, GetRequest request, FwCustomFields customFields = null)
         {
             if (select == null) throw new ArgumentException("Argument 'select' cannot be null.");
             if (qry == null) throw new ArgumentException("Argument 'qry' cannot be null.");
             if (request == null) throw new ArgumentException("Argument 'request' cannot be null.");
             request.Parse();
-            select.EnablePaging = request.pagesize > 0;
-            select.PageNo = request.pageno;
-            select.PageSize = request.pagesize;
+            select.EnablePaging = request.PageSize > 0;
+            select.PageNo = request.PageNo;
+            select.PageSize = request.PageSize;
             StringBuilder sb = new StringBuilder();
             sb.Append("select");
 
             // Get all the Properties of this Record
-            PropertyInfo[] recordProperties = this.GetType().GetTypeInfo().GetProperties();
+            PropertyInfo[] recordProperties = this.GetType().GetProperties();
             int colNo = 0;
             Dictionary<string, string> columns = new Dictionary<string, string>();
             string fullFieldName = "";
@@ -1247,10 +1247,10 @@ namespace FwStandard.Data
                 }
             }
 
-            if (request.sort.Length > 0)
+            if (request.Sort.Length > 0)
             {
                 var sqlSortExpression = string.Empty;
-                var sortArray = request.sort.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                var sortArray = request.Sort.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
                 foreach (var sortExpression in sortArray)
                 {
                     var sortExpressionParts = sortExpression.Split(new char[] { ':' });
@@ -1283,12 +1283,12 @@ namespace FwStandard.Data
                     var requestPropInfo = request.GetType().GetProperties()
                         .Where<PropertyInfo>(
                             p => p.Name == sortField &&
-                            p.GetCustomAttribute<GetManyRequestPropertyAttribute>() != null &&
-                            p.GetCustomAttribute<GetManyRequestPropertyAttribute>().EnableSorting == true)
+                            p.GetCustomAttribute<GetRequestPropertyAttribute>() != null &&
+                            p.GetCustomAttribute<GetRequestPropertyAttribute>().EnableSorting == true)
                         .FirstOrDefault<PropertyInfo>();
                     if (recordPropInfo == null && requestPropInfo == null)
                     {
-                        throw new ArgumentException($"Invalid column name: '{sortField}' in sort expression.");
+                        throw new ArgumentException($"Invalid column name: '{sortField}' in sort expression.", sortField);
                     }
                     else
                     {
@@ -1388,7 +1388,7 @@ namespace FwStandard.Data
             }
         }
         //------------------------------------------------------------------------------------
-        public virtual async Task<GetManyResponse<T>> GetManyAsync<T>(GetManyRequest request, FwCustomFields customFields = null, Func<FwSqlSelect, Task> beforeExecuteQuery = null)
+        public virtual async Task<GetResponse<T>> GetManyAsync<T>(GetRequest request, FwCustomFields customFields = null, Func<FwSqlSelect, Task> beforeExecuteQuery = null)
         {
             //using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
             using (FwSqlConnection conn = GetDatabaseConnection())
@@ -1396,7 +1396,7 @@ namespace FwStandard.Data
                 FwSqlSelect select = new FwSqlSelect();
                 using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout))
                 {
-                    SetBaseGetManyQuery(select, qry, request, customFields);
+                    SetBaseGetManyQuery<T>(select, qry, request, customFields);
                     select.Parse();
                     if (beforeExecuteQuery != null)
                     {
@@ -1407,7 +1407,7 @@ namespace FwStandard.Data
                     // call the generic method SelectAsync<T> on the qry using reflection
                     MethodInfo method = typeof(FwSqlCommand).GetMethod("GetManyAsync");
                     MethodInfo generic = method.MakeGenericMethod(this.GetType());
-                    Task<GetManyResponse<T>> result = (Task<GetManyResponse<T>>)generic.Invoke(qry, new object[] { customFields });
+                    Task<GetResponse<T>> result = (Task<GetResponse<T>>)generic.Invoke(qry, new object[] { customFields });
                     var response = await result;
                     return response;
                 }

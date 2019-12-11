@@ -1,6 +1,5 @@
 ﻿declare var product: any;
 //var geval = eval;
-declare var FwAudit: any;
 declare var FwBasePages: any;
 declare var FwCharge: any;
 declare var FwSecurity: any;

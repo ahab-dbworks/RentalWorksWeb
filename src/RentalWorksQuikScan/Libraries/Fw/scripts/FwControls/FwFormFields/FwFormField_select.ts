@@ -25,14 +25,14 @@
         $control.html(html.join(''));
     }
     //---------------------------------------------------------------------------------
-    loadItems($control: JQuery<HTMLElement>, items: {text:string, value:string, selected?:boolean, optgroup?:string}[], hideEmptyItem: boolean): void {
-        var html, previousoptgroup, optgroup, selected;
+    loadItems($control: JQuery<HTMLElement>, items: { text: string, value: string, selected?: boolean, optgroup?: string }[], hideEmptyItem: boolean): void {
+        var optgroup, selected;
 
-        html = [];
+        const html = [];
         if (!hideEmptyItem) {
             html.push('<option value=""></option>');
         }
-        previousoptgroup = null;
+        let previousoptgroup = null;
         optgroup = '';
         if ((typeof items !== 'undefined') && (items !== null)) {
             for (var i = 0; i < items.length; i++) {
@@ -80,7 +80,7 @@
         return value;
     }
     //---------------------------------------------------------------------------------
-    setValue($fwformfield: JQuery<HTMLElement>, value: any, text: string, firechangeevent: boolean): void {
+    setValue($fwformfield: JQuery<HTMLElement>, value: any, text?: string, firechangeevent?: boolean): void {
         var $inputvalue = $fwformfield.find('.fwformfield-value');
         $inputvalue.val(value);
         if (firechangeevent) $inputvalue.change();

@@ -2129,12 +2129,12 @@ namespace FwStandard.SqlServer
             return results;
         }
         //------------------------------------------------------------------------------------
-        public async Task<GetManyResponse<T>> GetManyAsync<T>(FwCustomFields customFields = null) where T : FwDataRecord
+        public async Task<GetResponse<T>> GetManyAsync<T>(FwCustomFields customFields = null) where T : FwDataRecord
         {
             string methodName = "GetManyAsync";
             string usefulLinesFromStackTrace = GetUsefulLinesFromStackTrace(methodName);
 
-            GetManyResponse<T> response = new GetManyResponse<T>();
+            GetResponse<T> response = new GetResponse<T>();
             response.PageNo = this.PageNo;
             response.PageSize = this.PageSize;
             //this.Add("order by " + orderByColumn + " " + orderByDirection.ToString());

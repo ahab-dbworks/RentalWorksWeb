@@ -51,45 +51,47 @@
     }
     //----------------------------------------------------------------------------------------------
     getCaptions(screen) {
-        var node = FwApplicationTree.getNodeById(FwApplicationTree.tree, FwApplicationTree.currentApplicationId);
-        var modules = FwApplicationTree.getChildrenByType(node, 'ReportsModule');
+        var node = FwApplicationTree.getNodeById(FwApplicationTree.tree, 'Reports');
+        var modules = FwApplicationTree.getChildrenByType(node, 'Module');
         for (var i = 0; i < modules.length; i++) {
-            var moduleName = modules[i].properties.controller;
-            if (typeof (<any>window[moduleName]).openForm === 'function') {
-                var $form = (<any>window[moduleName]).openForm();
-                var $fwformfields = $form.find('.fwformfield[data-caption]');
-                for (var j = 0; j < $fwformfields.length; j++) {
-                    var $field = $fwformfields.eq(j);
-                    var caption = $field.attr('data-caption').toUpperCase();
-                    if ($field.attr('data-type') === 'radio') {
-                        var radioCaptions = $field.find('div');
-                        for (var k = 0; k < radioCaptions.length; k++) {
-                            var radioCaption = jQuery(radioCaptions[k]).attr('data-caption').toUpperCase()
-                            screen.moduleCaptions[radioCaption] = {};
-                            screen.moduleCaptions[radioCaption][moduleName] = [];
-                            screen.moduleCaptions[radioCaption][moduleName].push($field);
+            var moduleName = modules[i].caption + 'Controller';
+            if (typeof (<any>window[moduleName]) != 'undefined') {
+                if (typeof (<any>window[moduleName]).openForm === 'function') {
+                    var $form = (<any>window[moduleName]).openForm();
+                    var $fwformfields = $form.find('.fwformfield[data-caption]');
+                    for (var j = 0; j < $fwformfields.length; j++) {
+                        var $field = $fwformfields.eq(j);
+                        var caption = $field.attr('data-caption').toUpperCase();
+                        if ($field.attr('data-type') === 'radio') {
+                            var radioCaptions = $field.find('div');
+                            for (var k = 0; k < radioCaptions.length; k++) {
+                                var radioCaption = jQuery(radioCaptions[k]).attr('data-caption').toUpperCase()
+                                screen.moduleCaptions[radioCaption] = {};
+                                screen.moduleCaptions[radioCaption][moduleName] = [];
+                                screen.moduleCaptions[radioCaption][moduleName].push($field);
+                            }
                         }
+                        if (typeof screen.moduleCaptions[caption] === 'undefined') {
+                            screen.moduleCaptions[caption] = {};
+                        }
+                        if (typeof screen.moduleCaptions[caption][moduleName] === 'undefined') {
+                            screen.moduleCaptions[caption][moduleName] = [];
+                        }
+                        screen.moduleCaptions[caption][moduleName].push($field);
                     }
-                    if (typeof screen.moduleCaptions[caption] === 'undefined') {
-                        screen.moduleCaptions[caption] = {};
+                    //add section headings to search
+                    const $sectionHeadings = $form.find('.fwform-section[data-caption]');
+                    for (let l = 0; l < $sectionHeadings.length; l++) {
+                        const $section = $sectionHeadings.eq(l);
+                        const sectionCaption = $section.attr('data-caption').toUpperCase();
+                        if (typeof screen.moduleCaptions[sectionCaption] === 'undefined') {
+                            screen.moduleCaptions[sectionCaption] = {};
+                        }
+                        if (typeof screen.moduleCaptions[sectionCaption][moduleName] === 'undefined') {
+                            screen.moduleCaptions[sectionCaption][moduleName] = [];
+                        }
+                        screen.moduleCaptions[sectionCaption][moduleName].push($section);
                     }
-                    if (typeof screen.moduleCaptions[caption][moduleName] === 'undefined') {
-                        screen.moduleCaptions[caption][moduleName] = [];
-                    }
-                    screen.moduleCaptions[caption][moduleName].push($field);
-                }
-                //add section headings to search
-                const $sectionHeadings = $form.find('.fwform-section[data-caption]');
-                for (let l = 0; l < $sectionHeadings.length; l++) {
-                    const $section = $sectionHeadings.eq(l);
-                    const sectionCaption = $section.attr('data-caption').toUpperCase();
-                    if (typeof screen.moduleCaptions[sectionCaption] === 'undefined') {
-                        screen.moduleCaptions[sectionCaption] = {};
-                    }
-                    if (typeof screen.moduleCaptions[sectionCaption][moduleName] === 'undefined') {
-                        screen.moduleCaptions[sectionCaption][moduleName] = [];
-                    }
-                    screen.moduleCaptions[sectionCaption][moduleName].push($section);
                 }
             }
         }
@@ -297,10 +299,11 @@
                     const modules: any = [];
                     for (var i = 0; i < results.length; i++) {
                         //check report ids for match
-                        for (let k = 0; k < $reports.length; k++) {
-                            if ($reports.eq(k).attr('id').toUpperCase() === results[i]) {
-                                modules.push($reports.eq(k)[0]);
-                            }
+                        const matchedResults = $reports.filter(function () {
+                            return -1 != jQuery(this).attr('id').toUpperCase().indexOf(results[i]);
+                        }).closest('div.panel-group');
+                        if (matchedResults.length > 0) {
+                            jQuery.merge(modules, matchedResults);
                         }
 
                         //check descriptions for match
@@ -309,7 +312,7 @@
                         }).closest('div.panel-group');
                         matchedDescription.find('.highlighted').removeClass('highlighted');
                         if (matchedDescription.length > 0) {
-                            modules.push(matchedDescription);
+                            jQuery.merge(modules, matchedDescription);
                         }
 
                         //check titles for match
@@ -317,7 +320,7 @@
                             return -1 != jQuery(this).text().toUpperCase().indexOf(results[i]);
                         }).closest('div.panel-group');
                         if (matchedTitle.length > 0) {
-                            modules.push(matchedTitle);
+                            jQuery.merge(modules, matchedTitle);
                         }
                     }
                     matchDescriptionTitle(modules);
@@ -339,47 +342,29 @@
 
         $view = jQuery('<div class="menu-container" data-control="FwFileMenu" data-version="2" data-rendermode="template"><div class="menu"></div></div>');
 
-        var nodeApplications, nodeApplication = null, baseiconurl, $menu, ribbonItem, dropDownMenuItems, caption;
-        nodeApplications = FwApplicationTree.getMyTree();
-        for (var appno = 0; appno < nodeApplications.children.length; appno++) {
-            if (nodeApplications.children[appno].id === FwApplicationTree.currentApplicationId) {
-                nodeApplication = nodeApplications.children[appno];
-            }
-        }
-        if (nodeApplication === null) {
-            sessionStorage.clear();
-            window.location.reload(true);
-        }
+        var baseiconurl, $menu, ribbonItem, dropDownMenuItems, caption;
+
         baseiconurl = 'theme/images/icons/home/';
-        for (var lv1childno = 0; lv1childno < nodeApplication.children.length; lv1childno++) {
-            var nodeLv1MenuItem = nodeApplication.children[lv1childno];
-            if (nodeLv1MenuItem.properties.visible === 'T' && nodeLv1MenuItem.properties.caption === 'Reports') {
-                switch (nodeLv1MenuItem.properties.nodetype) {
-                    case 'Lv1ReportsMenu':
-                        this.generateDropDownModuleBtn($view, $control, 'All Reports ID', 'All Reports', null, null);
-                        for (var lv2childno = 0; lv2childno < nodeLv1MenuItem.children.length; lv2childno++) {
-                            var nodeLv2MenuItem = nodeLv1MenuItem.children[lv2childno];
-                            if (nodeLv2MenuItem.properties.visible === 'T') {
-                                switch (nodeLv2MenuItem.properties.nodetype) {
-                                    case 'ReportsMenu':
-                                        dropDownMenuItems = [];
-                                        for (var lv3childno = 0; lv3childno < nodeLv2MenuItem.children.length; lv3childno++) {
-                                            var nodeLv3MenuItem = nodeLv2MenuItem.children[lv3childno];
-                                            if (nodeLv3MenuItem.properties.visible === 'T') {
-                                                dropDownMenuItems.push({ id: nodeLv3MenuItem.id, caption: nodeLv3MenuItem.properties.caption, modulenav: nodeLv3MenuItem.properties.modulenav, imgurl: nodeLv3MenuItem.properties.iconurl, moduleName: nodeLv3MenuItem.properties.controller.slice(0, -10) });
-                                            }
-                                        }
-                                        this.generateDropDownModuleBtn($view, $control, nodeLv2MenuItem.id, nodeLv2MenuItem.properties.caption, nodeLv2MenuItem.properties.iconurl, dropDownMenuItems);
-                                        break;
-                                    case 'ReportsModule':
-                                        this.generateStandardModuleBtn($view, $control, nodeLv2MenuItem.id, nodeLv2MenuItem.properties.caption, nodeLv2MenuItem.properties.modulenav, nodeLv2MenuItem.properties.iconurl, nodeLv2MenuItem.properties.controller.slice(0, -10));
-                                        break;
-                                }
-                            }
-                        }
-                        break;
+        this.generateDropDownModuleBtn($view, $control, 'All Reports ID', 'All Reports', null, null);
+        //const nodeReports = FwApplicationTree.getNodeByFuncRecursive(FwApplicationTree.tree, {}, (node: any, args: any) => node.id === 'Reports');
+        const constNodeReports = (<any>window).Constants.Modules.Reports;
+        for (const keyCategory in constNodeReports.children) {
+            const constNodeCategory = constNodeReports.children[keyCategory];
+            dropDownMenuItems = [];
+            for (const keyReport in constNodeCategory.children) {
+                const constNodeReport = constNodeCategory.children[keyReport];
+                const secNodeReport = FwApplicationTree.getNodeById(FwApplicationTree.tree, constNodeReport.id);
+                if (secNodeReport !== null && secNodeReport.properties.visible === 'T') {
+                    dropDownMenuItems.push({
+                        id: constNodeReport.id,
+                        caption: constNodeReport.caption,
+                        modulenav: '',
+                        imgurl: '',
+                        moduleName: keyReport
+                    });
                 }
             }
+            this.generateDropDownModuleBtn($view, $control, constNodeCategory.id, constNodeCategory.caption, '', dropDownMenuItems);
         }
 
         return $view;
