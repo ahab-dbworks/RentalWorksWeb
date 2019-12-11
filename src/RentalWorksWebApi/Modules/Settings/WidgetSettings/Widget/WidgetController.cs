@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using System;
 using Microsoft.AspNetCore.Http;
 using WebApi.Logic;
+using WebApi.Modules.Settings.WidgetDateBehavior;
+using WebApi.Modules.Settings.NumberFormat;
 
 namespace WebApi.Modules.Settings.WidgetSettings.Widget
 {
@@ -113,6 +115,28 @@ namespace WebApi.Modules.Settings.WidgetSettings.Widget
             }
         }
         //------------------------------------------------------------------------------------
-
+        // POST api/v1/widget/validatedatebehavior/browse
+        [HttpPost("validatedatebehavior/browse")]
+        [FwControllerMethod(Id: "ARYDB6o1rEBt", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateDateBehaviorBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<WidgetDateBehaviorLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/widget/validateaxisnumberformat/browse
+        [HttpPost("validateaxisnumberformat/browse")]
+        [FwControllerMethod(Id: "2szc7FWOcaRq", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateAxisNumberFormatBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<NumberFormatLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/widget/validatedatanumberformat/browse
+        [HttpPost("validatedatanumberformat/browse")]
+        [FwControllerMethod(Id: "MrSmLpFQQRKA", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateDataNumberFormatBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<NumberFormatLogic>(browseRequest);
+        }
     }
 }
