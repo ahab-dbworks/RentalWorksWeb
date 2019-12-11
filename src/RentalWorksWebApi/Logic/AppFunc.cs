@@ -1008,11 +1008,12 @@ namespace WebApi.Logic
                 qry.AddParameter("@uniqueid4", SqlDbType.Int, ParameterDirection.Input, request.UniqueId4);
                 qry.AddParameter("@logonly", SqlDbType.NVarChar, ParameterDirection.Input, request.LogOnly);
                 qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
-                qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
-                qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
+                //qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
+                //qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
                 await qry.ExecuteNonQueryAsync();
-                response.success = (qry.GetParameter("@status").ToInt32() == 0);
-                response.msg = qry.GetParameter("@msg").ToString();
+                //response.success = (qry.GetParameter("@status").ToInt32() == 0);
+                //response.msg = qry.GetParameter("@msg").ToString();
+                response.success = true;
             }
             return response;
         }
