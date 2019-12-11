@@ -508,6 +508,7 @@
     <TypeScriptCompile Include="Source\Modules\Settings\AccountingSettings\AccountingSettings\AccountingSettings.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\AccountingSettings\GlAccount\GlAccount.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\AccountingSettings\GlDistribution\GlDistribution.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\ExportSettings\DataExportFormat\DataExportFormat.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\FacilitySettings\Building\Building.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\FacilitySettings\FacilityCategory\FacilityCategory.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\FacilitySettings\FacilityRate\FacilityRate.ts" />
@@ -663,6 +664,8 @@
     <Content Include="Source\Modules\Settings\AccountingSettings\GlAccount\GlAccountForm.htm" />
     <Content Include="Source\Modules\Settings\AccountingSettings\GlDistribution\GlDistributionBrowse.htm" />
     <Content Include="Source\Modules\Settings\AccountingSettings\GlDistribution\GlDistributionForm.htm" />
+    <Content Include="Source\Modules\Settings\ExportSettings\DataExportFormat\DataExportFormatBrowse.htm" />
+    <Content Include="Source\Modules\Settings\ExportSettings\DataExportFormat\DataExportFormatForm.htm" />
     <Content Include="Source\Modules\Settings\FacilitySettings\Building\Building.js" />
     <Content Include="Source\Modules\Settings\FacilitySettings\Building\BuildingBrowse.htm" />
     <Content Include="Source\Modules\Settings\FacilitySettings\Building\BuildingForm.htm" />

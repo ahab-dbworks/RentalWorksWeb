@@ -396,7 +396,14 @@ var Constants = {
                         PhotographyType: { id: 'bFH6YcKYCqye', caption: 'Photography Type', nav: 'settings/eventsettings/photographytype', nodetype: 'Module', description: '' }
                     }
                 },
-
+                ExportSettings: {
+                    caption: 'Export',
+                    id: 'Settings.ExportSettings',
+                    nodetype: 'Category',
+                    children: {
+                        DataExportFormat: { id: 'ItSDcv89HNNo', caption: 'Data Export Format', nav: 'settings/exportsettings/dataexportformat', nodetype: 'Module', description: '' },
+                    }
+                },
                 FacilitySettings: {
                     caption: 'Facility',
                     id: 'Settings.FacilitySettings',
