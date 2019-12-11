@@ -7,6 +7,7 @@ using System.Data;
 using System.Text;
 using System.Threading.Tasks;
 using WebApi;
+using WebApi.Modules.HomeControls.InventoryAvailability;
 
 namespace WebApi.Logic
 {
@@ -1014,6 +1015,10 @@ namespace WebApi.Logic
                 //response.success = (qry.GetParameter("@status").ToInt32() == 0);
                 //response.msg = qry.GetParameter("@msg").ToString();
                 response.success = true;
+
+                string classification = FwSqlCommand.GetStringDataAsync(conn, appConfig.DatabaseSettings.QueryTimeout, "master", "masterid", request.InventoryId, "class").Result;
+                InventoryAvailabilityFunc.RequestRecalc(request.InventoryId, request.WarehouseId, classification);
+
             }
             return response;
         }
