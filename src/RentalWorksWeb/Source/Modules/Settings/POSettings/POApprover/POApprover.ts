@@ -72,6 +72,23 @@ class POApprover {
             FwFormField.disable($form.find('.limits'));
         }
     }
+    //----------------------------------------------------------------------------------------------
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
+        switch (datafield) {
+            case 'LocationId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatelocation`);
+                break;
+            case 'DepartmentId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedepartment`);
+                break;
+            case 'UsersId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateuser`);
+                break;
+            case 'AppRoleId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validaterole`);
+                break;
+        }
+    }
 }
 
 var POApproverController = new POApprover();

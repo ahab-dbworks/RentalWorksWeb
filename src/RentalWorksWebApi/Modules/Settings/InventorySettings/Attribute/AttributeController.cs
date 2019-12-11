@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using WebApi.Controllers;
 using System.Threading.Tasks;
+using WebApi.Modules.Settings.InventorySettings.InventoryType;
 
 namespace WebApi.Modules.Settings.InventorySettings.Attribute
 {
@@ -72,5 +73,12 @@ namespace WebApi.Modules.Settings.InventorySettings.Attribute
             return await DoDeleteAsync<AttributeLogic>(id);
         }
         //------------------------------------------------------------------------------------
+        // POST api/v1/attribute/validateinventorytype/browse
+        [HttpPost("validateinventorytype/browse")]
+        [FwControllerMethod(Id: "7n7AgQygp5ok", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateCountryBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<InventoryTypeLogic>(browseRequest);
+        }
     }
 }

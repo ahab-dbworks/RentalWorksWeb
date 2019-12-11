@@ -8,6 +8,9 @@ using WebApi.Controllers;
 using System.Threading.Tasks;
 using WebApi.Modules.Administrator.User;
 using WebApi.Modules.Settings.PoSettings.PoApproverRole;
+using WebApi.Modules.Settings.CompanyDepartmentSettings.Department;
+using WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation;
+
 namespace WebApi.Modules.Settings.PoSettings.PoApprover
 {
     [Route("api/v1/[controller]")]
@@ -87,6 +90,22 @@ namespace WebApi.Modules.Settings.PoSettings.PoApprover
         public async Task<ActionResult<FwJsonDataTable>> ValidateRoleBrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync<PoApproverRoleLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/poapprover/validatelocation/browse
+        [HttpPost("validatelocation/browse")]
+        [FwControllerMethod(Id: "25EcxFRp8VeU", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateLocationAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<OfficeLocationLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/poapprover/validatedepartment/browse
+        [HttpPost("validatedepartment/browse")]
+        [FwControllerMethod(Id: "SMwT5lKbhXJv", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateDepartmentBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<DepartmentLogic>(browseRequest);
         }
     }
 }

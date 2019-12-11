@@ -170,6 +170,20 @@
         //jQuery($form.find('.transportationgrid .valtype')).attr('data-validationname', 'FacilityRateValidation');
     }
     //----------------------------------------------------------------------------------------------
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
+        switch (datafield) {
+            case 'RateType':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatederate`);
+                break;
+            case 'WarehouseId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatewarehouse`);
+                break;
+            case 'DepartmentId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedepartment`);
+                break;
+        }
+    }
+    //----------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
         const $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="TemplateId"] input').val(uniqueids.TemplateId);

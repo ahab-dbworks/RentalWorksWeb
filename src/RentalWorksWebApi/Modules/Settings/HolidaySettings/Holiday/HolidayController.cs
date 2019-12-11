@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options; 
 using WebApi.Controllers; 
 using System.Threading.Tasks;
+using WebApi.Modules.Settings.AddressSettings.Country;
+
 namespace WebApi.Modules.Settings.HolidaySettings.Holiday
 {
     [Route("api/v1/[controller]")]
@@ -71,5 +73,12 @@ namespace WebApi.Modules.Settings.HolidaySettings.Holiday
             return await DoDeleteAsync<HolidayLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/holiday/validatecountry/browse
+        [HttpPost("validatecountry/browse")]
+        [FwControllerMethod(Id: "Qv2hlPJ7LCjj", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateCountryBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<CountryLogic>(browseRequest);
+        }
     }
 }

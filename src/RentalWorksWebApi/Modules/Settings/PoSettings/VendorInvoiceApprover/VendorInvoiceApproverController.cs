@@ -6,6 +6,9 @@ using Microsoft.Extensions.Options;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebApi.Controllers;
+using WebApi.Modules.Administrator.User;
+using WebApi.Modules.Settings.CompanyDepartmentSettings.Department;
+using WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation;
 
 namespace WebApi.Modules.Settings.PoSettings.VendorInvoiceApprover
 {
@@ -72,5 +75,28 @@ namespace WebApi.Modules.Settings.PoSettings.VendorInvoiceApprover
             return await DoDeleteAsync<VendorInvoiceApproverLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/vendorinvoiceapprover/validatelocation/browse
+        [HttpPost("validaterole/browse")]
+        [FwControllerMethod(Id: "uLIsfH08z5Dq", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateLocationBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<OfficeLocationLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/vendorinvoiceapprover/validatedepartment/browse
+        [HttpPost("validatedepartment/browse")]
+        [FwControllerMethod(Id: "YO91k9V7oFvh", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateDepartmentAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<DepartmentLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/vendorinvoiceapprover/validateuser/browse
+        [HttpPost("validateuser/browse")]
+        [FwControllerMethod(Id: "qwWJflfg0HKA", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateUserBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<UserLogic>(browseRequest);
+        }
     }
 }

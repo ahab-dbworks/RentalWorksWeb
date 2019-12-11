@@ -153,6 +153,14 @@
             $form.find('.offset').show();
         }
     }
+    //-------------------------------------------------------------------------------------------------------
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
+        switch (datafield) {
+            case 'CountryId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecountry`);
+                break;
+        }
+    }
 }
 
 var HolidayController = new Holiday();

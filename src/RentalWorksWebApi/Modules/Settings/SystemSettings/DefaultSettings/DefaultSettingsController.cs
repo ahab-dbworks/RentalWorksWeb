@@ -6,6 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using WebApi.Controllers;
 using System.Threading.Tasks;
+using WebApi.Modules.Settings.CustomerSettings.CustomerStatus;
+using WebApi.Modules.Settings.DealSettings.DealStatus;
+using WebApi.Modules.Settings.BillingCycleSettings.BillingCycle;
+using WebApi.Modules.Settings.InventorySettings.Unit;
+using WebApi.Modules.Settings.Rank;
+using WebApi.Modules.Administrator.Group;
 
 namespace WebApi.Modules.Settings.SystemSettings.DefaultSettings
 {
@@ -64,5 +70,60 @@ namespace WebApi.Modules.Settings.SystemSettings.DefaultSettings
             return await DoEditAsync<DefaultSettingsLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/availabilitysettings/validatedefaultcustomerstatus/browse
+        [HttpPost("validatedefaultcustomerstatus/browse")]
+        [FwControllerMethod(Id: "Tq2q0xAsdIlY", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateDefaultCustomerStatusBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<CustomerStatusLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/availabilitysettings/validatedefaultdealstatus/browse
+        [HttpPost("validatedefaultdealstatus/browse")]
+        [FwControllerMethod(Id: "DUF0rFdf1Snr", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateDefaultDealStatusBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<DealStatusLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/availabilitysettings/validatedefaultdealbillingcycle/browse
+        [HttpPost("validatedefaultdealbillingcycle/browse")]
+        [FwControllerMethod(Id: "rTS88VjrtVrk", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateDefaultDealBillingCycleBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<BillingCycleLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/availabilitysettings/validatedefaultunit/browse
+        [HttpPost("validatedefaultunit/browse")]
+        [FwControllerMethod(Id: "F99QTnaWNd2L", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateDefaultUnitBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<UnitLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/availabilitysettings/validatedefaultrank/browse
+        [HttpPost("validatedefaultrank/browse")]
+        [FwControllerMethod(Id: "wSHVw72bdL9g", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateDefaultRankBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<RankLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/availabilitysettings/validatedefaultnonrecurringbillingcycle/browse
+        [HttpPost("validatedefaultnonrecurringbillingcycle/browse")]
+        [FwControllerMethod(Id: "NBtsA3GREvvs", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateDefaultNonRecurringBillingCycleBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<BillingCycleLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/availabilitysettings/validatedefaultcontactgroup/browse
+        [HttpPost("validatedefaultcontactgroup/browse")]
+        [FwControllerMethod(Id: "GxvORzNn1hLq", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateDefaultContactGroupBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<GroupLogic>(browseRequest);
+        }
     }
 }

@@ -172,6 +172,20 @@ class TaxOption {
             }, null, null);
         });
     }
+    //----------------------------------------------------------------------------------------------
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
+        switch (datafield) {
+            case 'TaxAccountId1':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedetaxaccount1`);
+                break;
+            case 'TaxAccountId2':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatetaxaccount2`);
+                break;
+            case 'TaxOnTaxAccountId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedetaxontaxaccount`);
+                break;
+        }
+    }
 }
 
 var TaxOptionController = new TaxOption();

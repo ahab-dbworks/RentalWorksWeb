@@ -9,6 +9,7 @@ using Microsoft.Extensions.Options;
 using System;
 using System.Threading.Tasks;
 using WebApi.Controllers;
+using WebApi.Modules.Settings.AccountingSettings.GlAccount;
 
 namespace WebApi.Modules.Settings.TaxSettings.TaxOption
 {
@@ -103,5 +104,28 @@ namespace WebApi.Modules.Settings.TaxSettings.TaxOption
             }
         }
         //------------------------------------------------------------------------------------
+        // POST api/v1/taxoption/validatedetaxaccount1/browse
+        [HttpPost("validatedetaxaccount1/browse")]
+        [FwControllerMethod(Id: "b2OQ9K28g5SQ", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateTaxAccount1BrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<GlAccountLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/taxoption/validatetaxaccount2/browse
+        [HttpPost("validatetaxaccount2/browse")]
+        [FwControllerMethod(Id: "6D6nNGC1PuWw", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateTaxAccount2BrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<GlAccountLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/taxoption/validatedetaxontaxaccount/browse
+        [HttpPost("validatedetaxontaxaccount/browse")]
+        [FwControllerMethod(Id: "x2W78MPJDuLf", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateTaxOnTaxAccountBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<GlAccountLogic>(browseRequest);
+        }
     }
 }

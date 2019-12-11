@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options; 
 using WebApi.Controllers; 
 using System.Threading.Tasks;
+using WebApi.Modules.Settings.WarehouseSettings.Warehouse;
+using WebApi.Modules.Settings.InventorySettings.InventoryType;
+
 namespace WebApi.Modules.Settings.InventorySettings.InventoryRank
 {
     [Route("api/v1/[controller]")]
@@ -70,6 +73,21 @@ namespace WebApi.Modules.Settings.InventorySettings.InventoryRank
         {
             return await DoDeleteAsync<InventoryRankLogic>(id);
         }
-        //------------------------------------------------------------------------------------ 
+        //------------------------------------------------------------------------------------
+        // POST api/v1/inventoryrank/validatewarehouse/browse
+        [HttpPost("validatewarehouse/browse")]
+        [FwControllerMethod(Id: "PsBTTzRUMwjK", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateWarehouseBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<WarehouseLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/inventoryrank/validateinventorytype/browse
+        [HttpPost("validateinventorytype/browse")]
+        [FwControllerMethod(Id: "F2be2GS3uMuF", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateInventoryTypeBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<InventoryTypeLogic>(browseRequest);
+        }
     }
 }

@@ -92,6 +92,14 @@ class MarketSegment {
         const $marketSegmentJobGrid = $form.find('[data-name="MarketSegmentJobGrid"]');
         FwBrowse.search($marketSegmentJobGrid);
     }
+    //--------------------------------------------------------------------------------------------------------
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
+    switch (datafield) {
+        case 'MarketTypeId':
+            $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatemarkettype`);
+            break;
+    }
+}
 }
 
 var MarketSegmentController = new MarketSegment();

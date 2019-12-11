@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options; 
 using WebApi.Controllers; 
 using System.Threading.Tasks;
+using WebApi.Modules.Settings.FacilitySettings.FacilityType;
+using WebApi.Modules.Settings.FacilitySettings.FacilityRate;
+
 namespace WebApi.Modules.Settings.FacilitySettings.SpaceType
 {
     [Route("api/v1/[controller]")]
@@ -71,5 +74,20 @@ namespace WebApi.Modules.Settings.FacilitySettings.SpaceType
             return await DoDeleteAsync<SpaceTypeLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/spacetype/validatefacilitytype/browse
+        [HttpPost("validatefacilitytype/browse")]
+        [FwControllerMethod(Id: "wrRb0HzKzuwu", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateFacilityTypeBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<FacilityTypeLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/spacetype/validaterate/browse
+        [HttpPost("validaterate/browse")]
+        [FwControllerMethod(Id: "oVEgXFRy9D7f", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateRateBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<FacilityRateLogic>(browseRequest);
+        }
     }
 }

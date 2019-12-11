@@ -148,8 +148,34 @@ class SalesCategory {
     }
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
-        request.uniqueids = {
-            Sales: true
+        switch (datafield) {
+            case 'InventoryTypeId':
+                request.uniqueids = {
+                    Sales: true
+                }
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventorytype`);
+                break;
+            case 'InventoryBarCodeDesignerId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventorybarcodedesigner`);
+                break;
+            case 'BarCodeDesignerId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatebarcodedesigner`);
+                break;
+            case 'ProfitAndLossCategoryId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateprofitandlosscategoryid`);
+                break;
+            case 'AssetAccountId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateassetaccount`);
+                break;
+            case 'IncomeAccountId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateincomeaccount`);
+                break;
+            case 'SubIncomeAccountId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatesubincomeaccount`);
+                break;
+            case 'CostOfGoodsSoldExpenseAccountId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecostofgoodssoldexpenseaccount`);
+                break;
         }
     }
     //----------------------------------------------------------------------------------------------

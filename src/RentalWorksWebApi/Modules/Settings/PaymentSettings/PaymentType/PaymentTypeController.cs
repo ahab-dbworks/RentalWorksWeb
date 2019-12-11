@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using WebApi.Controllers;
 using System.Threading.Tasks;
+using WebApi.Modules.Settings.AccountingSettings.GlAccount;
 
 namespace WebApi.Modules.Settings.PaymentSettings.PaymentType
 {
@@ -72,5 +73,12 @@ namespace WebApi.Modules.Settings.PaymentSettings.PaymentType
             return await DoDeleteAsync<PaymentTypeLogic>(id);
         }
         //------------------------------------------------------------------------------------
+        // POST api/v1/paymenttype/validateglaccount/browse
+        [HttpPost("validateglaccount/browse")]
+        [FwControllerMethod(Id: "xNbfshsvDtxW", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateGlAccountBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<GlAccountLogic>(browseRequest);
+        }
     }
 }

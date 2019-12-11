@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using WebApi.Controllers;
 using System.Threading.Tasks;
+using WebApi.Modules.Settings.OrderSettings.MarketType;
+
 namespace WebApi.Modules.Settings.OrderSettings.MarketSegment
 {
     [Route("api/v1/[controller]")]
@@ -70,6 +72,13 @@ namespace WebApi.Modules.Settings.OrderSettings.MarketSegment
         {
             return await DoDeleteAsync<MarketSegmentLogic>(id);
         }
-        //------------------------------------------------------------------------------------ 
+        //------------------------------------------------------------------------------------
+        // POST api/v1/Location/validatemarkettype/browse
+        [HttpPost("validatemarkettype/browse")]
+        [FwControllerMethod(Id: "7vujAs2Dtd75", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateMarketTypeBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<MarketTypeLogic>(browseRequest);
+        }
     }
 }

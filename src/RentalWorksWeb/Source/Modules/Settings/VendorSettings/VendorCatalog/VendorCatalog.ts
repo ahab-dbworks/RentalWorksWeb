@@ -54,36 +54,76 @@
         FwModule.saveForm(this.Module, $form, parameters);
     }
 
-    beforeValidateInventoryType($browse, $grid, request) {
-        var value = $grid.find('input[type="radio"]:checked').val();
-        switch (value) {
-            case 'RENTAL':
-                request.uniqueids = {
-                    Rental: true
-                }
-                break;
-            case 'SALES':
-                request.uniqueids = {
-                    Sales: true
-                }
-                break;
-            case 'PARTS':
-                request.uniqueids = {
-                    Parts: true
-                }
-                break;
-        }
-    }
+    //beforeValidateInventoryType($browse, $grid, request) {
+    //    var value = $grid.find('input[type="radio"]:checked').val();
+    //    switch (value) {
+    //        case 'RENTAL':
+    //            request.uniqueids = {
+    //                Rental: true
+    //            }
+    //            break;
+    //        case 'SALES':
+    //            request.uniqueids = {
+    //                Sales: true
+    //            }
+    //            break;
+    //        case 'PARTS':
+    //            request.uniqueids = {
+    //                Parts: true
+    //            }
+    //            break;
+    //    }
+    //}
 
-    beforeValidateShipVia($browse, $grid, request) {
-        var validationName = request.module;
-        var VendorIdValue = jQuery($grid.find('[data-datafield="CarrierId"] input')).val();
+    //beforeValidateShipVia($browse, $grid, request) {
+    //    var validationName = request.module;
+    //    var VendorIdValue = jQuery($grid.find('[data-datafield="CarrierId"] input')).val();
 
-        switch (validationName) {
-            case 'ShipViaValidation':
+    //    switch (validationName) {
+    //        case 'ShipViaValidation':
+    //            request.uniqueids = {
+    //                VendorId: VendorIdValue
+    //            };
+    //            break;
+    //    }
+    //}
+
+    //----------------------------------------------------------------------------------------------
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
+        const VendorIdValue = jQuery($form.find('[data-datafield="CarrierId"] input')).val();
+        const value = $form.find('input[type="radio"]:checked').val();
+        switch (datafield) {
+            case 'InventoryTypeId':
+                switch (value) {
+                    case 'RENTAL':
+                        request.uniqueids = {
+                            Rental: true
+                        }
+                        break;
+                    case 'SALES':
+                        request.uniqueids = {
+                            Sales: true
+                        }
+                        break;
+                    case 'PARTS':
+                        request.uniqueids = {
+                            Parts: true
+                        }
+                        break;
+                }
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventorytype`);
+                break;
+            case 'VendorId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatevendor`);
+                break;
+            case 'CarrierId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecarrier`);
+                break;
+            case 'ShipViaId':
                 request.uniqueids = {
                     VendorId: VendorIdValue
                 };
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateshipvia`);
                 break;
         }
     }

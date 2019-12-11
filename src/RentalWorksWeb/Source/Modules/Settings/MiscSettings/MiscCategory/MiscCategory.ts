@@ -122,6 +122,26 @@ class MiscCategory {
         const $laborCategoryGrid = $form.find('[data-name="SubCategoryGrid"]');
         FwBrowse.search($laborCategoryGrid);
     }
+    //--------------------------------------------------------------------------------
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
+        switch (datafield) {
+            case 'MiscTypeId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatemisctype`);
+                break;
+            case 'ProfitAndLossCategoryId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateprofitandlosscategory`);
+                break;
+            case 'IncomeAccountId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateincomeaccount`);
+                break;
+            case 'SubIncomeAccountId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatesubincomeaccount`);
+                break;
+            case 'ExpenseAccountId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateexpenseaccount`);
+                break;
+        }
+    }
 }
 
 var MiscCategoryController = new MiscCategory();
