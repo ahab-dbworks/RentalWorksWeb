@@ -22,9 +22,9 @@ namespace WebApi.Modules.Inventory.Purchase
         public string Ownership { get { return purchase.Ownership; } set { purchase.Ownership = value; } }
         [FwLogicProperty(Id: "94Uu34C7NCX0b")]
         public string InventoryId { get { return purchase.InventoryId; } set { purchase.InventoryId = value; } }
-        [FwLogicProperty(Id: "94ZxntlkFcBrA", IsReadOnly: true)]
+        [FwLogicProperty(Id: "94ZxntlkFcBrA", IsReadOnly: true, IsRecordTitle: true)]
         public string ICode { get; set; }
-        [FwLogicProperty(Id: "96VWu3NnBUlg8", IsReadOnly: true)]
+        [FwLogicProperty(Id: "96VWu3NnBUlg8", IsReadOnly: true, IsRecordTitle: true)]
         public string Description { get; set; }
         [FwLogicProperty(Id: "97kpFvVlXRP9E", IsReadOnly: true)]
         public string TrackedBy { get; set; }
@@ -36,7 +36,7 @@ namespace WebApi.Modules.Inventory.Purchase
         public string WarehouseCode { get; set; }
         [FwLogicProperty(Id: "9BXhWk2DG4dGN")]
         public int? Quantity { get { return purchase.Quantity; } set { purchase.Quantity = value; } }
-        [FwLogicProperty(Id: "9bzfehu8Cp7dD")]
+        [FwLogicProperty(Id: "9bzfehu8Cp7dD", IsRecordTitle: true)]
         public DateTime? PurchaseDate { get { return purchase.PurchaseDate; } set { purchase.PurchaseDate = value; } }
         [FwLogicProperty(Id: "9dmdw3FaHpegB")]
         public DateTime? ReceiveDate { get { return purchase.ReceiveDate; } set { purchase.ReceiveDate = value; } }

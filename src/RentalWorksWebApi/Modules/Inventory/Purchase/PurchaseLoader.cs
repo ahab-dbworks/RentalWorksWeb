@@ -10,7 +10,7 @@ namespace WebApi.Modules.Inventory.Purchase
     public class PurchaseLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "purchaseid", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "purchaseid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
         public string PurchaseId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ownership", modeltype: FwDataTypes.Text)]
