@@ -3,6 +3,7 @@
 namespace WebApi.Modules.Agent.Customer
 {
     //------------------------------------------------------------------------------------
+    [GetRequest(DefaultSort: "Customer:asc")]
     public class GetManyCustomerRequest : GetRequest
     {
         /// <summary>

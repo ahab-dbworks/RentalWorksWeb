@@ -1297,7 +1297,14 @@ namespace FwStandard.Data
                         {
                             sqlSortExpression += ", ";
                         }
-                        sqlSortExpression += sqlDataFieldAttribute.ColumnName + sortDirection;
+                        if (request.PageSize == 0)
+                        {
+                            sqlSortExpression += sqlDataFieldAttribute.ColumnName + sortDirection;
+                        }
+                        else
+                        {
+                            sqlSortExpression += sortField + sortDirection;
+                        }
                     }
                 }
                 select.Add("order by " + sqlSortExpression);

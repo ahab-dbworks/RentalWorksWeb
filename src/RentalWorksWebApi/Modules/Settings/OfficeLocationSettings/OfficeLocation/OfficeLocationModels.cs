@@ -3,6 +3,7 @@
 namespace WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation
 {
     //------------------------------------------------------------------------------------
+    [GetRequest(DefaultSort: "Location:asc")]
     public class GetManyOfficeLocationRequest : GetRequest
     {
         /// <summary>
