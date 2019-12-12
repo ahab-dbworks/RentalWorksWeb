@@ -48,6 +48,7 @@ namespace WebApi
             options.SwaggerDoc("reports-v1", new Info { Title = SystemName + "  Reports API v1", Version = "v1" });
             options.SwaggerDoc("utilities-v1", new Info { Title = SystemName + "  Utilities API v1", Version = "v1" });
             options.SwaggerDoc("administrator-v1", new Info { Title = SystemName + " Administrator API v1", Version = "v1" });
+            options.SwaggerDoc("mobile-v1", new Info { Title = SystemName + " QuikScan API v1", Version = "v1" });
         }
         //------------------------------------------------------------------------------------
         protected override void AddSwaggerEndPoints(SwaggerUIOptions options)
@@ -58,6 +59,7 @@ namespace WebApi
             options.SwaggerEndpoint(Configuration["ApplicationConfig:VirtualDirectory"] + "/swagger/reports-v1/swagger.json", SystemName + " Reports API v1");
             options.SwaggerEndpoint(Configuration["ApplicationConfig:VirtualDirectory"] + "/swagger/utilities-v1/swagger.json", SystemName + " Utilities API v1");
             options.SwaggerEndpoint(Configuration["ApplicationConfig:VirtualDirectory"] + "/swagger/administrator-v1/swagger.json", SystemName + " Administrator API v1");
+            options.SwaggerEndpoint(Configuration["ApplicationConfig:VirtualDirectory"] + "/swagger/mobile-v1/swagger.json", SystemName + " Mobile API v1");
         }
         //------------------------------------------------------------------------------------
     }

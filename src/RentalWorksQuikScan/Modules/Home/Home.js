@@ -12,32 +12,37 @@ RwHome.getHomeScreen = function(viewModel, properties) {
     screen.viewModel               = viewModel;
     screen.properties              = properties;
 
-    var nodeApplications = FwApplicationTree.getMyTree();
-    var nodeApplication = null;
-    for (var appno = 0; appno < nodeApplications.children.length; appno++) {
-        if (nodeApplications.children[appno].id === '8D0A5ECF-72D2-4428-BDC8-7E3CC56EDD3A') {
-            nodeApplication = nodeApplications.children[appno];
-        }
-    }
-    if (nodeApplication === null) {
-        throw 'Unable to find RentalWorks QuikScan node in group tree. {4537336F-8EDF-4E6B-8CCF-434D72C7D749}';
-    }
-    var nodeHome = nodeApplication.children[0];
+    //var nodeApplications = FwApplicationTree.getMyTree();
+    //var nodeApplication = null;
+    //for (var appno = 0; appno < nodeApplications.children.length; appno++) {
+    //    if (nodeApplications.children[appno].id === '8D0A5ECF-72D2-4428-BDC8-7E3CC56EDD3A') {
+    //        nodeApplication = nodeApplications.children[appno];
+    //    }
+    //}
+    //if (nodeApplication === null) {
+    //    throw 'Unable to find RentalWorks QuikScan node in group tree. {4537336F-8EDF-4E6B-8CCF-434D72C7D749}';
+    //}
+    //var nodeHome = nodeApplication.children[0];
+    const secNodeMobile = FwApplicationTree.getNodeById(FwApplicationTree.tree, 'Mobile');
+    var nodeMobile = Constants.Modules.Mobile;
     var caption, hasusertype;
-    for (var moduleno = 0; moduleno < nodeHome.children.length; moduleno++) {
-        nodeModule = nodeHome.children[moduleno];
-        if (nodeModule.properties.visible === 'T') {
-            switch (nodeModule.properties.nodetype) {
+    for (var moduleKey in nodeMobile.children) {
+        nodeModule = nodeMobile.children[moduleKey];
+        if (nodeModule.visible) {
+            switch (nodeModule.nodetype) {
                 case 'Module':
-                    if (typeof nodeModule.properties.usertype === 'string') {
-                        hasusertype = (jQuery.inArray(sessionStorage.userType, nodeModule.properties.usertype.split(',')) !== -1);
+                    if (typeof nodeModule.usertype === 'string') {
+                        hasusertype = (jQuery.inArray(sessionStorage.userType, nodeModule.usertype.split(',')) !== -1);
                     } else {
                         hasusertype = true;
                     }
                     if (hasusertype) {
-                        caption = (typeof nodeModule.properties.htmlcaption === 'string' && nodeModule.properties.htmlcaption.length > 0) ? RwLanguages.translate(nodeModule.properties.htmlcaption) : RwLanguages.translate(nodeModule.properties.caption);
-                        $menuObject = RwHome.generateIcon(caption, nodeModule.properties.modulenav, nodeModule.properties.iconurl, nodeModule.id);
-                        screen.$view.find('.fwmenu').append($menuObject);
+                        const secNodeModule = FwApplicationTree.getNodeById(secNodeMobile, nodeModule.id);
+                        if (secNodeModule !== null && secNodeModule.properties.visible === 'T') {
+                            caption = (typeof nodeModule.htmlcaption === 'string' && nodeModule.htmlcaption.length > 0) ? RwLanguages.translate(nodeModule.htmlcaption) : RwLanguages.translate(nodeModule.caption);
+                            $menuObject = RwHome.generateIcon(caption, nodeModule.nav, nodeModule.iconurl, nodeModule.id);
+                            screen.$view.find('.fwmenu').append($menuObject);
+                        }
                     }
                     break;
             }
