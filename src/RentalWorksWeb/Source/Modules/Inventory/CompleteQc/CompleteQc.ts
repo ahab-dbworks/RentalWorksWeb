@@ -96,10 +96,8 @@ class CompleteQc {
             const $completed = $form.find('.qcsuccess');
             FwAppData.apiMethod(true, 'POST', 'api/v1/completeqc/completeqcitem', request, FwServices.defaultTimeout, response => {
                 $form.find('div.msg').html('');
-                FwFormField.setValueByDataField($form, 'ICode', '');
-                FwFormField.setValueByDataField($form, 'Description', '');
+                FwFormField.setValue($form, '.clear-fields', '');
                 FwFormField.setValueByDataField($form, 'Condition', '');
-                FwFormField.setValueByDataField($form, 'Note', '');
                 if (response.success) {
                     $completed.show();
                     if (!response.ShowFootCandles) {
@@ -178,8 +176,8 @@ class CompleteQc {
                         <div class="msg success-msg"></div>
                         <div class="msg error-msg"></div>
                         <div class="flexrow" style="max-width:800px">
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="ICode" style="flex:1 1 125px;" data-enabled="false"></div>
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="Description" style="flex:1 1 350px;" data-enabled="false"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield clear-fields" data-caption="I-Code" data-datafield="ICode" style="flex:1 1 125px;" data-enabled="false"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield clear-fields" data-caption="" data-datafield="Description" style="flex:1 1 350px;" data-enabled="false"></div>
                         </div>
                         <div class="qcsuccess" style="display:none;">
                           <div class="flexrow">
@@ -196,21 +194,21 @@ class CompleteQc {
                             <div class="flexcolumn" style="flex:0 1 800px;">
                               <div class="fwcontrol fwcontainer fwform-section foot-candles" data-control="FwContainer" data-type="section" data-caption="Foot Candles">
                                 <div class="flexrow">
-                                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Required" data-datafield="RequiredFootCandles" data-enabled="false" style="flex:1 1 125px;"></div>
-                                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield lamps" data-caption="Current" data-datafield="CurrentFootCandles" style="flex:1 1 110px;"></div>
+                                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield clear-fields" data-caption="Required" data-datafield="RequiredFootCandles" data-enabled="false" style="flex:1 1 125px;"></div>
+                                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield lamps clear-fields" data-caption="Current" data-datafield="CurrentFootCandles" style="flex:1 1 110px;"></div>
                                 </div>
                               </div>
                               <div class="fwcontrol fwcontainer fwform-section software-version" data-control="FwContainer" data-type="section" data-caption="Software Version">
                                 <div class="flexrow">
-                                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Required" data-datafield="RequiredSoftwareVersion" data-enabled="false" style="flex:1 1 120px;"></div>
-                                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Current" data-datafield="CurrentSoftwareVersion" data-enabled="true" style="flex:1 1 120px;"></div>
-                                  <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Effective Date" data-datafield="SoftwareEffectiveDate" data-enabled="true" style="flex:1 1 120px;"></div>
+                                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield clear-fields" data-caption="Required" data-datafield="RequiredSoftwareVersion" data-enabled="false" style="flex:1 1 120px;"></div>
+                                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield clear-fields" data-caption="Current" data-datafield="CurrentSoftwareVersion" data-enabled="true" style="flex:1 1 120px;"></div>
+                                  <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield clear-fields" data-caption="Effective Date" data-datafield="SoftwareEffectiveDate" data-enabled="true" style="flex:1 1 120px;"></div>
                                 </div>
                               </div>
                             </div>
                           </div>
                           <div class="flexrow" style="max-width:800px">
-                            <div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield" data-caption="Note" data-datafield="Note" style="flex:1 1 450px;"></div>
+                            <div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield clear-fields" data-caption="Note" data-datafield="Note" style="flex:1 1 450px;"></div>
                           </div>
                           <div class="flexrow">
                             <div class="fwformcontrol updateqc" data-type="button" style="flex:0 1 90px;margin:15px 15px 10px 10px;">Update QC</div>
