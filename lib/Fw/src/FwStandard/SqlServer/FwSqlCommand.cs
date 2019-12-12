@@ -2095,7 +2095,14 @@ namespace FwStandard.SqlServer
                             }
                             FwDatabaseField field = new FwDatabaseField(reader.GetValue(i));
                             object data = FormatReaderData(attribute.Value.ModelType, i, reader);
+
+                            //12/12/2019 justin hoffman - to support loading Logics with true DateTime? fields
+                            if ((sqlDataFieldPropertyInfos[attribute.Key].PropertyType == typeof(DateTime?)) || (sqlDataFieldPropertyInfos[attribute.Key].PropertyType == typeof(DateTime)))
+                            {
+                                data = FwConvert.ToDateTime(data.ToString());
+                            }
                             sqlDataFieldPropertyInfos[attribute.Key].SetValue(obj, data);
+
                         }
 
                         if ((customFields != null) && (customFields.Count > 0))
