@@ -14,6 +14,18 @@ export class RunReportsTest extends BaseTest {
             await page.click(reportIcon);
         }
         // ----------
+        async function getReportNames() {
+            const reportNames = await page.evaluate(() => {
+                const reports = jQuery('.well .panel-group');
+                const names: Array<string> = []
+                reports.each((i, el) => {
+                    names.push(jQuery(el).attr('id'));
+                })
+                return names;
+            })
+            return reportNames;
+        }
+        // ----------
         async function runReport(reportName: string) {
             let closeUnexpectedErrors = false;
             Logging.logInfo(`About to click on ${reportName}`);
@@ -58,12 +70,16 @@ export class RunReportsTest extends BaseTest {
             else {
                 Logging.logInfo(`no error pop-up found previewing: ${reportName}.`);
                 const pages = await browser.pages();
-                await console.log('PAGES: ', pages.length)
                 if (pages.length === 3) {
                     Logging.logInfo(`Waiting for ${reportName} to load`);
-                    await pages[2].waitForSelector('.preview', { visible: true });
+                    await pages[2].waitForSelector('body', { visible: true, timeout: 3000 });
+                    const preview = await pages[2].$('.preview');
                     await ModuleBase.wait(1000); // only for developer to be able to see the report
-                    Logging.logInfo(`${reportName} rendered`);
+                    if (preview) {
+                        Logging.logInfo(`${reportName} rendered`);
+                    } else {
+                        Logging.logInfo(`${reportName} was not rendered`);
+                    }
                     Logging.logInfo(`About to close ${reportName}`);
                     await pages[2].close();
                 }
@@ -77,15 +93,26 @@ export class RunReportsTest extends BaseTest {
                 await goToReportsPage();
             }, this.testTimeout);
             // ----------
-            testName = 'Preview ArAgingReport';
+            testName = 'Run ALL Reports';
             test(testName, async () => {
-                await runReport('ArAgingReport');
+                Logging.logInfo(`About to get Report Names`);
+                const reportNames = await getReportNames();
+                await console.log('reportNames', reportNames);
+                Logging.logInfo(`About to get run each report`);
+                for (let i = 0; i < reportNames.length; i++) {
+                    await runReport(reportNames[i]);
+                }
             }, this.testTimeout);
             // ----------
-            testName = 'Preview CreateInvoiceProcessReport';
-            test(testName, async () => {
-                await runReport('CreateInvoiceProcessReport');
-            }, this.testTimeout);
+            //testName = 'Preview ArAgingReport';
+            //test(testName, async () => {
+            //    await runReport('ArAgingReport');
+            //}, this.testTimeout);
+            //// ----------
+            //testName = 'Preview CreateInvoiceProcessReport';
+            //test(testName, async () => {
+            //    await runReport('CreateInvoiceProcessReport');
+            //}, this.testTimeout);
         });
     }
     //---------------------------------------------------------------------------------------
