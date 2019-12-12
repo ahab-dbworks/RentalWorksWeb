@@ -108,6 +108,9 @@ namespace WebApi.Modules.HomeControls.InventorySearch
         [FwSqlDataField(column: "monthlyrate", modeltype: FwDataTypes.Decimal)]
         public decimal? MonthlyRate { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "price", modeltype: FwDataTypes.Decimal)]
+        public decimal? Price { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "qty", modeltype: FwDataTypes.Decimal)]
         public decimal? Quantity { get; set; }
         //------------------------------------------------------------------------------------ 
