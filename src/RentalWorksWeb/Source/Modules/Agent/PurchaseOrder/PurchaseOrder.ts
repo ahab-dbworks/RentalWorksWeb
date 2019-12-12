@@ -15,6 +15,7 @@ class PurchaseOrder implements IModule {
     CachedPurchaseOrderTypes: any = {};
     //----------------------------------------------------------------------------------------------
     addBrowseMenuItems(options: IAddBrowseMenuOptions): void {
+        options.hasInactive = false;
         FwMenu.addBrowseMenuButtons(options);
 
         const $all = FwMenu.generateDropDownViewBtn('All', true, "ALL");

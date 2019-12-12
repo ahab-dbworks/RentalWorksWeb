@@ -9,6 +9,7 @@ class Order extends OrderBase {
     errorSoundFileName: string;
     //----------------------------------------------------------------------------------------------
     addBrowseMenuItems(options: IAddBrowseMenuOptions): void {
+        options.hasInactive = false;
         options.hasDelete = false;
         FwMenu.addBrowseMenuButtons(options);
 

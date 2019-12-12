@@ -9,6 +9,7 @@ class Contract extends ContractBase {
     BillingDate:        string;
     //----------------------------------------------------------------------------------------------
     addBrowseMenuItems(options: IAddBrowseMenuOptions): void {
+        options.hasInactive = false;
         options.hasNew = false;
         options.hasDelete = false;
         FwMenu.addBrowseMenuButtons(options);
