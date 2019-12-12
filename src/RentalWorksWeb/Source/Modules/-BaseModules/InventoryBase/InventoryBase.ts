@@ -811,6 +811,7 @@ abstract class InventoryBase {
                         case 'Invoice':
                         case 'TransferOrder':
                         case 'PurchaseOrder':
+                        case 'PurchaseHistory':
                             $browseControl = this.openSubModuleBrowse($form, submoduleName);
                             $tabpage.append($browseControl);
                             FwBrowse.search($browseControl);
