@@ -10,24 +10,36 @@
             var CategoryValue = jQuery($gridbrowse.find('tr.editrow [data-validationname="LaborCategoryValidation"] input')).val();
             var SubCategoryValue = jQuery($gridbrowse.find('tr.editrow [data-validationname="SubCategoryValidation"] input')).val();
 
-            switch (validationName) {
-                case 'LaborCategoryValidation':
+            switch (datafield) {
+                case 'OrderTypeId':
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateordertype`);
+                    break;
+                case 'InventoryTypeId':
+                    request.uniqueids = {
+                        Sales: true
+                    };
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventorytype`);
+                    break;
+                case 'CategoryId':
                     request.uniqueids = {
                         LaborTypeId: LaborTypeValue
                     };
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecategory`);
                     break;
-                case 'SubCategoryValidation':
+                case 'SubCategoryId':
                     request.uniqueids = {
                         TypeId: LaborTypeValue,
                         CategoryId: CategoryValue
                     };
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatesubcategory`);
                     break;
-                case 'LaborRateValidation':
+                case 'InventoryId':
                     request.uniqueids = {
                         LaborTypeId: LaborTypeValue,
                         CategoryId: CategoryValue,
                         SubCategoryId: SubCategoryValue
                     };
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventory`);
                     break;
             };
         }

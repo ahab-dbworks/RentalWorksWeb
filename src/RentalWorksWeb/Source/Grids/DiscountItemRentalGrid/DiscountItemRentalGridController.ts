@@ -15,29 +15,36 @@
             var CategoryTypeId = jQuery($gridbrowse.find('tr.editrow [data-formvalidationname="RentalCategoryValidation"] input')).val();
             var SubCategoryTypeId = jQuery($gridbrowse.find('tr.editrow [data-formvalidationname="SubCategoryValidation"] input')).val();
 
-            switch (validationName) {
-                case 'InventoryTypeValidation':
+            switch (datafield) {
+                case 'OrderTypeId':
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateordertype`);
+                    break;
+                case 'InventoryTypeId':
                     request.uniqueids = {
                         Rental: true
                     };
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventorytype`);
                     break;
-                case 'RentalCategoryValidation':
+                case 'CategoryId':
                     request.uniqueids = {
                         InventoryTypeId: InventoryTypeValue
                     };
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecategory`);
                     break;
-                case 'SubCategoryValidation':
+                case 'SubCategoryId':
                     request.uniqueids = {
                         TypeId: InventoryTypeValue,
                         CategoryId: CategoryTypeId
                     };
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatesubcategory`);
                     break;
-                case 'RentalInventoryValidation':
+                case 'InventoryId':
                     request.uniqueids = {
                         InventoryTypeId: InventoryTypeValue,
                         CategoryId: CategoryTypeId,
                         SubCategoryId: SubCategoryTypeId
                     };
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventory`);
                     break;
             };
         }

@@ -6,6 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using WebApi.Controllers;
 using System.Threading.Tasks;
+using WebApi.Modules.Settings.OrderSettings.OrderType;
+using WebApi.Modules.Settings.InventorySettings.InventoryType;
+using WebApi.Modules.Settings.InventorySettings.RentalCategory;
+using WebApi.Modules.Settings.SubCategory;
+using WebApi.Modules.Inventory.RentalInventory;
+
 namespace WebApi.Modules.Settings.DiscountItem
 {
     [Route("api/v1/[controller]")]
@@ -71,5 +77,44 @@ namespace WebApi.Modules.Settings.DiscountItem
             return await DoDeleteAsync<DiscountItemLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/discountitem/validateordertype/browse
+        [HttpPost("validateordertype/browse")]
+        [FwControllerMethod(Id: "NuvNcvNRVcf2", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateOrderTypeBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<OrderTypeLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/discountitem/validateinventorytype/browse
+        [HttpPost("validateinventorytype/browse")]
+        [FwControllerMethod(Id: "e1JNjMoA9I0k", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateInventoryTypeBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<InventoryTypeLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/discountitem/validatecategory/browse
+        [HttpPost("validatecategory/browse")]
+        [FwControllerMethod(Id: "ncqc8ULkQ8zN", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateCategoryBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<RentalCategoryLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/discountitem/validatesubcategory/browse
+        [HttpPost("validatesubcategory/browse")]
+        [FwControllerMethod(Id: "klMQwaEKm1gU", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateSubCategoryBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<SubCategoryLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/discountitem/validateinventory/browse
+        [HttpPost("validateinventory/browse")]
+        [FwControllerMethod(Id: "O2HeEkBeDlAa", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateInventoryBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<RentalInventoryLogic>(browseRequest);
+        }
     }
 }

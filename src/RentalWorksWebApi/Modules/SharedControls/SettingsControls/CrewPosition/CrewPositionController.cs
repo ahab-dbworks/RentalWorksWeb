@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options; 
 using WebApi.Controllers; 
 using System.Threading.Tasks;
+using WebApi.Modules.Settings.LaborSettings.LaborType;
+using WebApi.Modules.Settings.LaborSettings.Position;
+
 namespace WebApi.Modules.Settings.CrewPosition
 {
     [Route("api/v1/[controller]")]
@@ -71,5 +74,20 @@ namespace WebApi.Modules.Settings.CrewPosition
             return await DoDeleteAsync<CrewPositionLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/crewposition/validatelabortype/browse
+        [HttpPost("validatelabortype/browse")]
+        [FwControllerMethod(Id: "rElqQatRyId7", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateLaborTypeBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<LaborTypeLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/crewposition/validaterate/browse
+        [HttpPost("validaterate/browse")]
+        [FwControllerMethod(Id: "fCbokeeLoNW4", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateRateBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<PositionLogic>(browseRequest);
+        }
     }
 }

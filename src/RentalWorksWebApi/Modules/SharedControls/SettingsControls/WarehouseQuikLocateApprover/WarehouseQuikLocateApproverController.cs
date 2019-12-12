@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options; 
 using WebApi.Controllers; 
 using System.Threading.Tasks;
+using WebApi.Modules.Administrator.User;
+
 namespace WebApi.Modules.Settings.WarehouseQuikLocateApprover
 {
     [Route("api/v1/[controller]")]
@@ -71,5 +73,12 @@ namespace WebApi.Modules.Settings.WarehouseQuikLocateApprover
             return await DoDeleteAsync<WarehouseQuikLocateApproverLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/warehousequiklocateapprover/validateuser/browse
+        [HttpPost("validateuser/browse")]
+        [FwControllerMethod(Id: "H44Uc97N9DgT", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateUserBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<UserLogic>(browseRequest);
+        }
     }
 }

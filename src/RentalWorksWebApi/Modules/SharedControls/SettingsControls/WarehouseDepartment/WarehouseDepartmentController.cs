@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options; 
 using WebApi.Controllers; 
 using System.Threading.Tasks;
+using WebApi.Modules.Administrator.User;
+
 namespace WebApi.Modules.Settings.WarehouseDepartment
 {
     [Route("api/v1/[controller]")]
@@ -70,6 +72,13 @@ namespace WebApi.Modules.Settings.WarehouseDepartment
         //{
         //    return await <WarehouseDepartmentLogic>DoDeleteAsync(id);
         //}
-        ////------------------------------------------------------------------------------------ 
+        /// //------------------------------------------------------------------------------------ 
+        // POST api/v1/warehousedepartment/validaterequestto/browse
+        [HttpPost("validaterequestto/browse")]
+        [FwControllerMethod(Id: "1nUBa9a4rhMk", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateRequestToBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<UserLogic>(browseRequest);
+        }
     }
 }

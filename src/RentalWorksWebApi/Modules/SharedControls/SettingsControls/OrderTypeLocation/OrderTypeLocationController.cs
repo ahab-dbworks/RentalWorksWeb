@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options; 
 using WebApi.Controllers; 
 using System.Threading.Tasks;
+using WebApi.Modules.Settings.DocumentSettings.TermsConditions;
+using WebApi.Modules.Settings.DocumentSettings.CoverLetter;
+
 namespace WebApi.Modules.Settings.OrderTypeLocation
 {
     [Route("api/v1/[controller]")]
@@ -71,5 +74,20 @@ namespace WebApi.Modules.Settings.OrderTypeLocation
             return await DoDeleteAsync<OrderTypeLocationLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/ordertypelocation/validatetermsconditions/browse
+        [HttpPost("validatetermsconditions/browse")]
+        [FwControllerMethod(Id: "Bm55tObVTBhB", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateTermsConditionsBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<TermsConditionsLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/ordertypelocation/validatecoverletter/browse
+        [HttpPost("validatecoverletter/browse")]
+        [FwControllerMethod(Id: "J7RIXGY6xetQ", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateCoverLetterBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<CoverLetterLogic>(browseRequest);
+        }
     }
 }

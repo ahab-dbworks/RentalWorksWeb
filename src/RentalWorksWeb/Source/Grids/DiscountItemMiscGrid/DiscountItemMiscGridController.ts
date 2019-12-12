@@ -15,26 +15,36 @@
             var MiscTypeValue = jQuery($gridbrowse.find('tr.editrow [data-validationname="MiscTypeValidation"] input')).val();
             var CategoryValue = jQuery($gridbrowse.find('tr.editrow [data-validationname="MiscCategoryValidation"] input')).val();
             var SubCategoryValue = jQuery($gridbrowse.find('tr.editrow [data-validationname="SubCategoryValidation"] input')).val();
-
-            switch (validationName) {
-                case 'MiscCategoryValidation':
+            switch (datafield) {
+                case 'OrderTypeId':
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateordertype`);
+                    break;
+                case 'InventoryTypeId':
+                    request.uniqueids = {
+                        Sales: true
+                    };
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventorytype`);
+                    break;
+                case 'CategoryId':
                     request.uniqueids = {
                         MiscTypeId: MiscTypeValue
                     };
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecategory`);
                     break;
-                case 'SubCategoryValidation':
+                case 'SubCategoryId':
                     request.uniqueids = {
                         TypeId: MiscTypeValue,
                         CategoryId: CategoryValue
                     };
-
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatesubcategory`);
                     break;
-                case 'MiscRateValidation':
+                case 'InventoryId':
                     request.uniqueids = {
                         MiscTypeId: MiscTypeValue,
                         CategoryId: CategoryValue,
                         SubCategoryId: SubCategoryValue
                     };
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventory`);
                     break;
             };
         }

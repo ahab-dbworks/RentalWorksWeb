@@ -10,34 +10,40 @@
 
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $gridbrowse: JQuery, $tr: JQuery) {
         var validationName = request.module;
-
         if (validationName != null) {
             var InventoryTypeValue = jQuery($gridbrowse.find('tr.editrow [data-validationname="InventoryTypeValidation"] input')).val();
             var CategoryTypeValue = jQuery($gridbrowse.find('tr.editrow [data-validationname="SalesCategoryValidation"] input')).val();
             var SubCategoryTypeValue = jQuery($gridbrowse.find('tr.editrow [data-validationname="SubCategoryValidation"] input')).val();
-            switch (validationName) {
-                case 'InventoryTypeValidation':
+            switch (datafield) {
+                case 'OrderTypeId':
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateordertype`);
+                    break;
+                case 'InventoryTypeId':
                     request.uniqueids = {
                         Sales: true
                     };
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventorytype`);
                     break;
-                case 'SalesCategoryValidation':
+                case 'CategoryId':
                     request.uniqueids = {
                         InventoryTypeId: InventoryTypeValue
                     };
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecategory`);
                     break;
-                case 'SubCategoryValidation':
+                case 'SubCategoryId':
                     request.uniqueids = {
                         TypeId: InventoryTypeValue,
                         CategoryId: CategoryTypeValue
                     };
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatesubcategory`);
                     break;
-                case 'SalesInventoryValidation':
+                case 'InventoryId':
                     request.uniqueids = {
-                        InventoryTypeId: InventoryTypeValue,
+                        nventoryTypeId: InventoryTypeValue,
                         CategoryId: CategoryTypeValue,
                         SubCategoryId: SubCategoryTypeValue
                     };
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventory`);
                     break;
             };
         }
