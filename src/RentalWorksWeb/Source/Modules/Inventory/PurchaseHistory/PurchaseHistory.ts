@@ -13,6 +13,7 @@ class PurchaseHistory {
     addBrowseMenuItems(options: IAddBrowseMenuOptions): void {
         options.hasNew = false;
         options.hasDelete = false;
+        options.hasInactive = false;
         FwMenu.addBrowseMenuButtons(options);
 
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
