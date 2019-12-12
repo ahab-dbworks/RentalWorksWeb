@@ -811,7 +811,6 @@ var Constants = {
         CustomFormUserGrid: { id: 'nHNdXDBX6m6cp', caption: 'Custom Form User' },
         DealNoteGrid: { id: 'jcwmVLFEU88k', caption: 'Deal Notes' },
         DealShipperGrid: { id: '5cMD0y0jSUgz', caption: 'Deal Shipper' },
-        DiscountItemGrid: { id: 'UMKuETy6vOLA', caption: 'Discount Item' },
         DiscountItemLaborGrid: { id: 'UMKuETy6vOLA', caption: 'Discount Item Labor' },
         DiscountItemMiscGrid: { id: 'UMKuETy6vOLA', caption: 'Discount Item Misc' },
         DiscountItemRentalGrid: { id: 'UMKuETy6vOLA', caption: 'Discount Item Rental' },

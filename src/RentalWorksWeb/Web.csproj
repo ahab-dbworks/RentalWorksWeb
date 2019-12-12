@@ -259,7 +259,6 @@
     <Content Include="Source\Grids\DiscountItemLaborGrid\DiscountItemLaborGridBrowse.htm" />
     <Content Include="Source\Grids\DiscountItemSalesGrid\DiscountItemSalesGridBrowse.htm" />
     <Content Include="Source\Grids\DiscountItemRentalGrid\DiscountItemRentalGridBrowse.htm" />
-    <Content Include="Source\Grids\DiscountItemGrid\DiscountItemGridBrowse.htm" />
     <Content Include="Source\Grids\InventoryAttributeValueGrid\InventoryAttributeValueGridBrowse.htm" />
     <Content Include="Source\Grids\FiscalMonthGrid\FiscalMonthGridBrowse.htm" />
     <Content Include="Source\Grids\DealShipperGrid\DealShipperGridBrowse.htm" />
@@ -413,7 +412,6 @@
     <TypeScriptCompile Include="Source\Grids\DiscountItemLaborGrid\DiscountItemLaborGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\DiscountItemSalesGrid\DiscountItemSalesGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\DiscountItemRentalGrid\DiscountItemRentalGridController.ts" />
-    <TypeScriptCompile Include="Source\Grids\DiscountItemGrid\DiscountItemGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\InventoryAttributeValueGrid\InventoryAttributeValueGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\FiscalMonthGrid\FiscalMonthGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\DealNoteGrid\DealNoteGridController.ts" />
