@@ -6,6 +6,8 @@ using WebApi.Modules.HomeControls.Master;
 //using static FwStandard.Data.FwDataReadWriteRecord;
 using System.Reflection;
 using WebApi;
+using FwStandard.SqlServer;
+using WebApi.Logic;
 
 namespace WebApi.Modules.HomeControls.Inventory
 {
@@ -414,7 +416,7 @@ namespace WebApi.Modules.HomeControls.Inventory
             if (isValid)
             {
                 PropertyInfo property = typeof(InventoryLogic).GetProperty(nameof(InventoryLogic.PackagePrice));
-                string[] acceptableValues = {"", RwConstants.INVENTORY_PACKAGE_PRICE_COMPLETEKIT_PRICE, RwConstants.INVENTORY_PACKAGE_PRICE_ITEM_PRICE, RwConstants.INVENTORY_PACKAGE_PRICE_SPECIAL_ITEM_PRICE };
+                string[] acceptableValues = { "", RwConstants.INVENTORY_PACKAGE_PRICE_COMPLETEKIT_PRICE, RwConstants.INVENTORY_PACKAGE_PRICE_ITEM_PRICE, RwConstants.INVENTORY_PACKAGE_PRICE_SPECIAL_ITEM_PRICE };
                 isValid = IsValidStringValue(property, acceptableValues, ref validateMsg);
             }
 
@@ -434,6 +436,34 @@ namespace WebApi.Modules.HomeControls.Inventory
                 InventoryLogic orig = ((InventoryLogic)e.Original);
                 PrimaryDimensionUniqueId = orig.PrimaryDimensionUniqueId;
                 SecondaryDimensionUniqueId = orig.SecondaryDimensionUniqueId;
+            }
+
+            string trackedBy = TrackedBy;
+            string classification = Classification;
+            if (e.Original != null)
+            {
+                InventoryLogic orig = (InventoryLogic)e.Original;
+                trackedBy = trackedBy ?? orig.TrackedBy;
+                classification = classification ?? orig.Classification;
+            }
+
+            if (string.IsNullOrEmpty(trackedBy))
+            {
+                if (classification.Equals(RwConstants.ITEMCLASS_COMPLETE))
+                {
+
+                    string primaryInventoryId = AppFunc.GetStringDataAsync(AppConfig, "packageitem", new string[] { "packageid", "primaryflg" }, new string[] { InventoryId, "T" }, new string[] { "masterid" }).Result[0];
+                    trackedBy = AppFunc.GetStringDataAsync(AppConfig, "master", "masterid", primaryInventoryId, "trackedby").Result;
+                    if (!string.IsNullOrEmpty(trackedBy))
+                    {
+                        TrackedBy = trackedBy;
+                    }
+                }
+                else if (classification.Equals(RwConstants.ITEMCLASS_CONTAINER))
+                {
+                    TrackedBy = RwConstants.INVENTORY_TRACKED_BY_BAR_CODE;  // hard-coded for now.  Maybe someday we will support serial
+                }
+
             }
         }
         //------------------------------------------------------------------------------------
