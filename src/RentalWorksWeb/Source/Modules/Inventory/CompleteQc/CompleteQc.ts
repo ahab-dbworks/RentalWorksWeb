@@ -80,17 +80,13 @@ class CompleteQc {
             moduleSecurityId: this.id,
             $form: $form,
             pageSize: 10,
-            addGridMenu: (options: IAddGridMenuOptions) => {
-                options.hasNew = false;
-                options.hasDelete = false;
-            },
             onDataBind: (request: any) => {
                 request.uniqueids = {
-                    InventoryId: FwFormField.getValueByDataField($form, `InventoryId`)
+                    ItemId: this.itemId
                 };
             },
             beforeSave: (request: any) => {
-                request.InventoryId = FwFormField.getValueByDataField($form, `InventoryId`);
+                request.ItemId = this.itemId;
             }
         });
     }
@@ -200,7 +196,7 @@ class CompleteQc {
                             <div class="flexcolumn" style="flex:0 1 800px;">
                               <div class="fwcontrol fwcontainer fwform-section foot-candles" data-control="FwContainer" data-type="section" data-caption="Foot Candles">
                                 <div class="flexrow">
-                                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Required" data-datafield="RequiredFootCandles" data-enabled="false" style="flex:1 1 125px;margin-left:40px;"></div>
+                                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Required" data-datafield="RequiredFootCandles" data-enabled="false" style="flex:1 1 125px;"></div>
                                   <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield lamps" data-caption="Current" data-datafield="CurrentFootCandles" style="flex:1 1 110px;"></div>
                                 </div>
                               </div>
