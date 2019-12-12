@@ -113,7 +113,9 @@ class RentalInventoryUsageReport extends FwWebApiReport {
         FwFormField.setValueByDataField($form, 'ToDate', today);
         const aMonthAgo = FwFunc.getDate(today, -30);
         FwFormField.setValueByDataField($form, 'FromDate', aMonthAgo);
-
+    }
+    //----------------------------------------------------------------------------------------------
+    afterLoad($form) {
         const $filterOperators = $form.find('div[data-datafield="UtilizationFilterMode"]');
         FwFormField.loadItems($filterOperators, [
             { value: 'ALL', text: 'ALL' },
@@ -138,8 +140,6 @@ class RentalInventoryUsageReport extends FwWebApiReport {
     }
     //----------------------------------------------------------------------------------------------
     convertParameters(parameters: any) {
-        console.log('params', parameters)
-
         return parameters;
     }
     //----------------------------------------------------------------------------------------------
