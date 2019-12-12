@@ -101,6 +101,36 @@ class SalesInventoryMasterReport extends FwWebApiReport {
     openForm() {
         const $form = this.getFrontEnd();
 
+        return $form;
+    }
+    //----------------------------------------------------------------------------------------------
+    onLoadForm($form) {
+        this.load($form, this.reportOptions);
+        const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+        FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
+        this.loadLists($form);
+    }
+    //----------------------------------------------------------------------------------------------
+    afterLoad($form) {
+        const includePeriodRevenue = FwFormField.getValueByDataField($form, 'IncludePeriodRevenue');
+        const $dateRangeFields = $form.find('.toggle-enable[data-type="date"]');
+        if (includePeriodRevenue) {
+            FwFormField.enable($form.find('.toggle-enable:not(.filter-amount)'));
+            $dateRangeFields.attr('data-required', "true");
+            const filterMode = FwFormField.getValueByDataField($form, 'RevenueFilterMode');
+            const $filterAmountField = $form.find('[data-datafield="RevenueFilterAmount"]');
+
+            if (filterMode === "ALL") {
+                FwFormField.disable($filterAmountField);
+                $filterAmountField.attr('data-required', "false");
+            } else {
+                FwFormField.enable($filterAmountField);
+                $filterAmountField.attr('data-required', "true");
+            }
+        } else {
+            FwFormField.disable($form.find('.toggle-enable'));
+            $dateRangeFields.attr('data-required', "false");
+        }
         $form.find('[data-datafield="IncludePeriodRevenue"]').on('change', e => {
             const isChecked = FwFormField.getValueByDataField($form, 'IncludePeriodRevenue');
             const $dateRangeFields = $form.find('.toggle-enable[data-type="date"]');
@@ -125,36 +155,6 @@ class SalesInventoryMasterReport extends FwWebApiReport {
 
             }
         });
-
-        return $form;
-    }
-    //----------------------------------------------------------------------------------------------
-    onLoadForm($form) {
-        this.load($form, this.reportOptions);
-        const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
-        FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
-        this.loadLists($form);
-    }
-    //----------------------------------------------------------------------------------------------
-    afterLoad($form) {
-        const includeRevenue = FwFormField.getValueByDataField($form, 'IncludePeriodRevenue');
-        const $dateRangeFields = $form.find('.toggle-enable[data-type="date"]');
-        if (includeRevenue) {
-            FwFormField.enable($form.find('.toggle-enable:not(.filter-amount)'));
-            $dateRangeFields.attr('data-required', "true");
-            const filterMode = FwFormField.getValueByDataField($form, 'RevenueFilterMode');
-            const $filterAmountField = $form.find('[data-datafield="RevenueFilterAmount"]');
-            if (filterMode === "ALL") {
-                FwFormField.disable($filterAmountField);
-                $filterAmountField.attr('data-required', "false");
-            } else {
-                FwFormField.enable($filterAmountField);
-                $filterAmountField.attr('data-required', "true");
-            }
-        } else {
-            FwFormField.disable($form.find('.toggle-enable'));
-            $dateRangeFields.attr('data-required', "false");
-        }
     }
     //----------------------------------------------------------------------------------------------
     convertParameters(parameters: any) {
