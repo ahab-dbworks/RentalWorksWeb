@@ -197,6 +197,26 @@ export class ModuleBase {
     //---------------------------------------------------------------------------------------
     async browseSeek(seekObject: any): Promise<number> {
         await page.waitForSelector(`.fwbrowse .fieldnames`);
+
+        ////clear current browse seek, if any
+        //let firstColumnHeaderSelector = `.fwbrowse table tr.fieldnames td.column[data-visible="true"] .fieldcaption .caption`;
+        //await page.waitForSelector(firstColumnHeaderSelector);
+        //await page.click(firstColumnHeaderSelector);
+        //
+        //await ModuleBase.wait(500);
+        //
+        //let clearAllFiltersSelector = `div .fwbrowse table tr.fieldnames td.column[data-visible="true"] .columnoptions .columnoptions-button:nth-child(6)`;
+        //await page.waitForSelector(clearAllFiltersSelector);
+        //await page.click(clearAllFiltersSelector);
+        //
+        ////wait for please wait to come and go
+        //try {
+        //    await page.waitFor(() => document.querySelector('.pleasewait'), { timeout: 2000 });
+        //} catch (error) { } // assume that we missed the Please Wait dialog
+        //
+        //await page.waitFor(() => !document.querySelector('.pleasewait'), { timeout: this.browseSeekTimeout });
+        //Logging.logInfo(`Finished waiting for the Please Wait dialog.`);
+
         for (var key in seekObject) {
 
             let seekValue = seekObject[key];
@@ -241,12 +261,16 @@ export class ModuleBase {
         let formCountBefore = await this.countOpenForms();
 
         if (index == undefined) {
+            Logging.logInfo(`index is undefined, setting to 1`);
             index = 1;
         }
         let selector = `.fwbrowse tbody tr.viewmode:nth-child(${index})`;
+        Logging.logInfo(`looking for rowselector ${selector}`);
         await page.waitForSelector(selector);
-        selector = `.fwbrowse tbody tr.viewmode`;
-        await page.click(selector, { clickCount: 2 });
+        //selector = `.fwbrowse tbody tr.viewmode`;
+        let firstCellSelector = `.fwbrowse tbody tr.viewmode:nth-child(${index}) td.column[data-visible="true"]`;
+        Logging.logInfo(`about to double-click cell selector ${firstCellSelector}`);
+        await page.click(firstCellSelector, { clickCount: 2 });
         //await page.waitFor(() => document.querySelector('.pleasewait'));
         //await page.waitFor(() => !document.querySelector('.pleasewait'));
 
@@ -256,7 +280,6 @@ export class ModuleBase {
 
         await page.waitFor(() => !document.querySelector('.pleasewait'));
         Logging.logInfo(`Finished waiting for the Please Wait dialog.`);
-
 
         var popUp;
         try {
@@ -982,7 +1005,7 @@ export class ModuleBase {
         let savingObject = await this.getFormRecord();
         Logging.logInfo(`About to try to save ${this.moduleCaption} Record: ${JSON.stringify(savingObject)}`);
 
-        await ModuleBase.wait(this.waitBeforeClickingSave);  
+        await ModuleBase.wait(this.waitBeforeClickingSave);
 
         let saveButtonSelector = `.btn[data-type="SaveMenuBarButton"]`;
         await page.click(saveButtonSelector);
