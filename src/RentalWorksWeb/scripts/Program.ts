@@ -103,6 +103,7 @@ routes.push({ pattern: /^module\/quote$/, action: function (match: RegExpExecArr
 //routes.push({ pattern: /^module\/barcodeditems$/,          action: function(match: RegExpExecArray) { return RwBarCodedItemsController.getModuleScreen(); } });
 //routes.push({ pattern: /^module\/serialitems$/,            action: function(match: RegExpExecArray) { return RwSerialItemsController.getModuleScreen(); } });
 //routes.push({ pattern: /^module\/repair$/,            action: function(match: RegExpExecArray) { return RwRepairController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/purchasehistory$/, action: function (match: RegExpExecArray) { return PurchaseHistoryController.getModuleScreen(); } });
 
 //Settings Modules
 routes.push({ pattern: /^module\/documentbarcodesettings$/, action: function (match: RegExpExecArray) { return DocumentBarCodeSettingsController.getModuleScreen(); } });
