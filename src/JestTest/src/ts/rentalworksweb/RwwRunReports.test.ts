@@ -1,10 +1,17 @@
 import { BaseTest } from '../shared/BaseTest';
 import { ModuleBase, OpenRecordResponse } from '../shared/ModuleBase';
 import { Logging } from '../shared/Logging';
+import { User } from './modules/AllModules';
 
 export class RunReportsTest extends BaseTest {
     //---------------------------------------------------------------------------------------
-
+    async RelogAsCopyOfUser() {
+        this.LoadMyUserGlobal(new User());
+        this.CopyMyUserRegisterGlobal(new User());
+        this.DoLogoff();
+        this.DoLogin();  // uses new login account
+    }
+    //---------------------------------------------------------------------------------------
     async PerformTests() {
         // ----------
         async function goToReportsPage() {
