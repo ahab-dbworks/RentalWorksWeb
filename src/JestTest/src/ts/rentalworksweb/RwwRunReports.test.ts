@@ -76,6 +76,7 @@ export class RunReportsTest extends BaseTest {
             else {
                 Logging.logInfo(`no error pop-up found previewing: ${reportName}.`);
                 const pages = await browser.pages();
+                //await pages[2].setViewport({ width: 1600, height: 1080 })
                 if (pages.length === 3) {
                     Logging.logInfo(`Waiting for ${reportName} to load`);
                     await pages[2].waitForSelector('body', { visible: true, timeout: 3000 });
@@ -92,23 +93,30 @@ export class RunReportsTest extends BaseTest {
             }
         }
         //---------------------------------------------------------------------------------------
-        describe('Go to Reports page and run particular reports', () => {
+        describe('Go to Reports page and run reports', () => {
             // ----------
             let testName: string = 'Navigate to report section';
             test(testName, async () => {
                 await goToReportsPage();
             }, this.testTimeout);
             // ----------
-            testName = 'Run ALL Reports';
+            let reportNames;
+            testName = 'Get ALL Reports';
             test(testName, async () => {
                 Logging.logInfo(`About to get Report Names`);
-                const reportNames = await getReportNames();
+                reportNames = await getReportNames();
                 await console.log('reportNames: ', reportNames);
-                Logging.logInfo(`About to run each report`);
-                for (let i = 0; i < reportNames.length; i++) {
-                    await runReport(reportNames[i]);
-                }
             }, this.testTimeout);
+
+
+            for (let i = 0; i < reportNames.length; i++) {
+                testName = `Running ${reportNames[i]}`;
+                test(testName, async () => {
+                    Logging.logInfo(`About to run ${reportNames[i]}`);
+                    await runReport(reportNames[i]);
+                }, this.testTimeout);
+                }
+
             // ----------
             //testName = 'Preview ArAgingReport';
             //test(testName, async () => {
