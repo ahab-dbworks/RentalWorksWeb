@@ -97,6 +97,16 @@ namespace Fw.Json.Services
                     reader = new JsonFx.Json.JsonReader(); 
                     request = reader.Read(jsonRequest);
                     response.request = request;
+                    // handle CORS preflight requests, the project's web.config should be setup to return the needed CORS headers such as:
+                    //<add name="Access-Control-Allow-Origin" value="*"/>
+                    //<add name="Access-Control-Allow-Methods" value="GET, PUT, POST, DELETE, OPTIONS"/>
+                    //<add name="Access-Control-Allow-Headers" value="Origin, X-Requested-With, Content-Type, Accept, Authorization"/>
+                    //<add name="Access-Control-Max-Age" value="86400"/>
+                    if (context.Request.HttpMethod == "OPTIONS")
+                    {
+                        context.Response.StatusCode = 204;
+                        return;
+                    }
                     if (request == null)
                     {
                         throw new Exception("Request format is invalid. [FwJsonService.cs:ProcessRequest]");
