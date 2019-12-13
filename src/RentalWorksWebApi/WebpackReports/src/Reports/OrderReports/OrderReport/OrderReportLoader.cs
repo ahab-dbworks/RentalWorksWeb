@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Data;
 using System.Reflection;
 using WebApi.Logic;
+using WebApi.Modules.HomeControls.OrderDates;
 
 namespace WebApi.Modules.Reports.OrderReports.OrderReport
 {
@@ -144,6 +145,9 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         [FwSqlDataField(column: "daysinwk", modeltype: FwDataTypes.DecimalString3Digits)]
         public decimal? DaysPerWeek { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "billableperiods", modeltype: FwDataTypes.DecimalStringNoTrailingZeros)]
+        public decimal? BillablePeriods { get; set; }
+        //------------------------------------------------------------------------------------ 
     }
     //------------------------------------------------------------------------------------ 
     public class SalesOrderItemReportLoader : OrderItemReportLoader
@@ -164,6 +168,9 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         [FwSqlDataField(column: "daysinwk", modeltype: FwDataTypes.DecimalString3Digits)]
         public decimal? DaysPerWeek { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "billableperiods", modeltype: FwDataTypes.DecimalStringNoTrailingZeros)]
+        public decimal? BillablePeriods { get; set; }
+        //------------------------------------------------------------------------------------ 
     }
     //------------------------------------------------------------------------------------ 
     public class LaborOrderItemReportLoader : OrderItemReportLoader
@@ -175,6 +182,9 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "daysinwk", modeltype: FwDataTypes.DecimalString3Digits)]
         public decimal? DaysPerWeek { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "billableperiods", modeltype: FwDataTypes.DecimalStringNoTrailingZeros)]
+        public decimal? BillablePeriods { get; set; }
         //------------------------------------------------------------------------------------ 
     }
     //------------------------------------------------------------------------------------ 
@@ -664,6 +674,31 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         [FwSqlDataField(column: "indeliverydeliverynotes", modeltype: FwDataTypes.Text)]
         public string InDeliveryDeliveryNotes { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "taxoption", modeltype: FwDataTypes.Text)]
+        public string TaxOption { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "rentaltaxrate1", modeltype: FwDataTypes.DecimalString3Digits)]
+        public decimal? TaxRentalRate1 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "rentaltaxrate2", modeltype: FwDataTypes.DecimalString3Digits)]
+        public decimal? TaxRentalRate2 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "salestaxrate1", modeltype: FwDataTypes.DecimalString3Digits)]
+        public decimal? TaxSalesRate1 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "salestaxrate1", modeltype: FwDataTypes.DecimalString3Digits)]
+        public decimal? TaxSalesRate2 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "labortaxrate1", modeltype: FwDataTypes.DecimalString3Digits)]
+        public decimal? TaxLaborRate1 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "labortaxrate1", modeltype: FwDataTypes.DecimalString3Digits)]
+        public decimal? TaxLaborRate2 { get; set; }
+        //------------------------------------------------------------------------------------ 
+
+
+
+
         public List<RentalOrderItemReportLoader> RentalItems { get; set; } = new List<RentalOrderItemReportLoader>(new RentalOrderItemReportLoader[] { new RentalOrderItemReportLoader() });
         //------------------------------------------------------------------------------------ 
         public List<SalesOrderItemReportLoader> SalesItems { get; set; } = new List<SalesOrderItemReportLoader>(new SalesOrderItemReportLoader[] { new SalesOrderItemReportLoader() });
@@ -673,6 +708,11 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         public List<LaborOrderItemReportLoader> LaborItems { get; set; } = new List<LaborOrderItemReportLoader>(new LaborOrderItemReportLoader[] { new LaborOrderItemReportLoader() });
         //------------------------------------------------------------------------------------ 
         public List<OrderItemReportLoader> Items { get; set; } = new List<OrderItemReportLoader>(new OrderItemReportLoader[] { new OrderItemReportLoader() });
+        //------------------------------------------------------------------------------------ 
+        public List<OrderDatesLogic> ActivityDatesAndTimes { get; set; } = new List<OrderDatesLogic>(new OrderDatesLogic[] { new OrderDatesLogic() });
+        //------------------------------------------------------------------------------------ 
+
+
 
         //------------------------------------------------------------------------------------ 
         public async Task<OrderReportLoader> RunReportAsync(OrderReportRequest request)
@@ -716,7 +756,7 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
                     LaborOrderItemReportLoader LaborItems = new LaborOrderItemReportLoader();
                     LaborItems.SetDependencies(AppConfig, UserSession);
                     taskLaborOrderItems = LaborItems.LoadItems<LaborOrderItemReportLoader>(request);
-
+                    
                     await Task.WhenAll(new Task[] { taskOrder, taskOrderItems, taskRentalOrderItems, taskSalesOrderItems, taskMiscOrderItems, taskLaborOrderItems });
 
                     Order = taskOrder.Result;
@@ -728,6 +768,20 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
                         Order.SalesItems = taskSalesOrderItems.Result;
                         Order.MiscItems = taskMiscOrderItems.Result;
                         Order.LaborItems = taskLaborOrderItems.Result;
+
+
+                        //activity dates and times
+                        BrowseRequest activityDatesAndTimesRequest = new BrowseRequest();
+                        activityDatesAndTimesRequest.pageno = 0;
+                        activityDatesAndTimesRequest.pagesize = 0;
+                        activityDatesAndTimesRequest.orderby = "OrderBy";
+                        activityDatesAndTimesRequest.uniqueids = new Dictionary<string, object>();
+                        activityDatesAndTimesRequest.uniqueids.Add("OrderId", request.OrderId);
+
+                        OrderDatesLogic l = new OrderDatesLogic();
+                        l.SetDependencies(AppConfig, UserSession);
+                        ActivityDatesAndTimes = await l.SelectAsync<OrderDatesLogic>(activityDatesAndTimesRequest);
+
                     }
                 }
             }
@@ -736,3 +790,14 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         //------------------------------------------------------------------------------------ 
     }
 }
+
+
+
+/*
+ 
+Qutotation Totals Summary Section
+ - Custom Activity Field from the Presentation Layer (e.g., Shipping, Travel Expenses, Non Union Labor)
+ - Order Receipts Total (displays sum of Receipts applied to Invoices)     
+     
+     */
+
