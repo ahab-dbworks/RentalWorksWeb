@@ -25,6 +25,10 @@
 /src/RentalWorksQuikScan/Application.config
 /src/RentalWorksQuikScan/ApplicationConfig.js
 /src/RentalWorksQuikScan/FwApplicationSchema.config
+/src/RentalWorksQuikScan/scripts/Constants.js
+/src/RentalWorksQuikScan/scripts/Constants.js.map
+/src/RentalWorksQuikScan/Modules/QC/QC.js
+/src/RentalWorksQuikScan/Modules/QC/QC.js.map
 /src/RentalWorksQuikScan/Modules/QuikIn/QuikIn.js.map
 /src/RentalWorksQuikScan/Modules/QuikIn/QuikIn.js
 /src/RentalWorksQuikScan/scripts/_references.js
@@ -192,3 +196,4 @@
 /src/JestTest/*.pdf
 /src/JestTest/*.jpg
 /src/JestTest/output/**
+
