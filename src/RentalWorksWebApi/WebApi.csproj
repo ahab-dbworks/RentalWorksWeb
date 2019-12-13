@@ -86,8 +86,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Exports\VendorInvoiceExport\" />
-    <Folder Include="Exports\ReceiptExport\" />
+    <Folder Include="Exports\VendorInvoiceBatchExport\" />
     <Folder Include="Modules\SharedControls\AdministratorControls\Test\" />
     <Folder Include="Modules\Containers\ContainerStatus\" />
     <Folder Include="Modules\Containers\EmptyContainer\" />
