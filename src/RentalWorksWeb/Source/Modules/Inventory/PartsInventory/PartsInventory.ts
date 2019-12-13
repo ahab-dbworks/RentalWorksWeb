@@ -355,8 +355,10 @@ class PartsInventory extends InventoryBase {
                 };
             }, 
             beforeSave: (request: any) => {
-                request.PackageId   = FwFormField.getValueByDataField($form, 'InventoryId'),
-                request.WarehouseId = FwFormField.getValueByDataField($form, 'WarehouseId')
+                request.PackageId   = FwFormField.getValueByDataField($form, 'InventoryId')
+            },
+            beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
+                $browse.find('div[data-datafield="InventoryId"]').attr('data-validationname', 'PartsInventoryValidation');
             }
         });
 
@@ -423,11 +425,15 @@ class PartsInventory extends InventoryBase {
            // getBaseApiUrl: (): string => { return `${this.apiurl}/${FwFormField.getValueByDataField($form, 'InventoryId')}/aka`; }, 
             onDataBind: (request: any) => {
                 request.uniqueids = {
-                    InventoryId: FwFormField.getValueByDataField($form, 'InventoryId')
+                    PackageId: FwFormField.getValueByDataField($form, 'InventoryId'),
+                    WarehouseId: warehouse.warehouseid
                 };
             }, 
             beforeSave: (request: any) => {
-                request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
+                request.PackageId = FwFormField.getValueByDataField($form, 'InventoryId');
+            },
+            beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
+                $browse.find('div[data-datafield="InventoryId"]').attr('data-validationname', 'PartsInventoryValidation');
             }
         });
 
