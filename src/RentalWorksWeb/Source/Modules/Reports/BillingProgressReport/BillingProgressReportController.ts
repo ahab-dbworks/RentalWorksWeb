@@ -56,7 +56,7 @@ const billingProgressTemplate = `
                   <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Deal Type" data-datafield="DealTypeId" data-displayfield="DealType" data-validationname="DealTypeValidation" data-showinactivemenu="true" style="float:left;min-width:400px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Deal" data-datafield="DealId" data-displayfield="Deal" data-validationname="DealValidation" data-formbeforevalidate="beforeValidateDeal" data-showinactivemenu="true" style="float:left;min-width:400px;"></div>
+                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Deal" data-datafield="DealId" data-displayfield="Deal" data-validationname="DealValidation" data-showinactivemenu="true" style="float:left;min-width:400px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Agent" data-datafield="AgentId" data-displayfield="Agent" data-validationname="UserValidation" data-showinactivemenu="true" style="float:left;min-width:400px;"></div>
@@ -146,6 +146,45 @@ class BillingProgressReport extends FwWebApiReport {
         }
     };
     //----------------------------------------------------------------------------------------------
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
+        const customerId = FwFormField.getValueByDataField($form, 'CustomerId');
+        const dealTypeId = FwFormField.getValueByDataField($form, 'DealTypeId');
+        const dealCsrId = FwFormField.getValueByDataField($form, 'DealCsrId');
+        request.uniqueids = {};
+
+        switch (datafield) {
+            case 'OfficeLocationId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateofficelocation`);
+                break;
+            case 'DepartmentId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedepartment`);
+                break;
+            case 'DealId':
+                if (customerId) {
+                    request.uniqueids.CustomerId = customerId;
+                }
+                if (dealTypeId) {
+                    request.uniqueids.DealTypeId = dealTypeId;
+                }
+                if (dealCsrId) {
+                    request.uniqueids.DealCsrId = dealCsrId;
+                }
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedeal`);
+                break;
+            case 'DealCsrId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateproject`);
+                break;
+            case 'CustomerId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateagent`);
+                break;
+            case 'DealTypeId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateproject`);
+                break;
+            case 'AgentId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateagent`);
+                break;
+        }
+    }
 };
 
 var BillingProgressReportController: any = new BillingProgressReport();

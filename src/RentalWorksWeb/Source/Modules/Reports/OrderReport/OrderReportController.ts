@@ -64,6 +64,13 @@ class OrderReport extends FwWebApiReport {
         return parameters;
     }
     //----------------------------------------------------------------------------------------------
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
+        switch (datafield) {
+            case 'OrderId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateorder`);
+                break;
+        }
+    }
 };
 
 var OrderReportController: any = new OrderReport();

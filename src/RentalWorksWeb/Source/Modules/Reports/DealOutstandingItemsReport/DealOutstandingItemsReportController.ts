@@ -177,36 +177,100 @@ class DealOutstandingItemsReport extends FwWebApiReport {
         FwFormField.toggle($form.find('div[data-datafield="ToDate"]'), filterDate);
     }
     //----------------------------------------------------------------------------------------------
-    beforeValidate($browse, $form, request) {
-        const validationName = request.module;
+    //beforeValidate($browse, $form, request) {
+    //    const validationName = request.module;
+    //    const customerId = FwFormField.getValueByDataField($form, 'CustomerId');
+    //    const inventoryTypeId = FwFormField.getValueByDataField($form, 'InventoryTypeId');
+    //    const dealId = FwFormField.getValueByDataField($form, 'DealId');
+    //    const categoryId = FwFormField.getValueByDataField($form, 'CategoryId');
+    //    const subCategoryId = FwFormField.getValueByDataField($form, 'SubCategoryId');
+
+    //    request.uniqueids = {};
+
+    //    switch (validationName) {
+    //        case 'InventoryTypeValidation':
+    //            request.uniqueids.Rental = true;
+    //            break;
+    //        case 'DealValidation':
+    //            if (customerId !== "") {
+    //                request.uniqueids.CustomerId = customerId;
+    //            }
+    //            break;
+    //        case 'OrderValidation':
+    //            if (dealId !== "") {
+    //                request.uniqueids.DealId = dealId;
+    //            }
+    //            break;
+    //        case 'RentalCategoryValidation':
+    //            if (inventoryTypeId !== "") {
+    //                request.uniqueids.InventoryTypeId = inventoryTypeId;
+    //                break;
+    //            }
+    //        case 'SubCategoryValidation':
+    //            request.uniqueids.Rental = true;
+    //            if (inventoryTypeId !== "") {
+    //                request.uniqueids.TypeId = inventoryTypeId;
+    //            }
+    //            if (categoryId !== "") {
+    //                request.uniqueids.CategoryId = categoryId;
+    //            }
+    //            break;
+    //        case 'RentalInventoryValidation':
+    //            if (inventoryTypeId !== "") {
+    //                request.uniqueids.InventoryTypeId = inventoryTypeId;
+    //            }
+    //            if (categoryId !== "") {
+    //                request.uniqueids.CategoryId = categoryId;
+    //            }
+    //            if (subCategoryId !== "") {
+    //                request.uniqueids.SubCategoryId = subCategoryId;
+    //            }
+    //            break;
+    //    };
+    //};
+    //----------------------------------------------------------------------------------------------
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
         const customerId = FwFormField.getValueByDataField($form, 'CustomerId');
         const inventoryTypeId = FwFormField.getValueByDataField($form, 'InventoryTypeId');
         const dealId = FwFormField.getValueByDataField($form, 'DealId');
         const categoryId = FwFormField.getValueByDataField($form, 'CategoryId');
         const subCategoryId = FwFormField.getValueByDataField($form, 'SubCategoryId');
-
-        request.uniqueids = {};
-
-        switch (validationName) {
-            case 'InventoryTypeValidation':
-                request.uniqueids.Rental = true;
+        switch (datafield) {
+            case 'OfficeLocationId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateofficelocation`);
                 break;
-            case 'DealValidation':
+            case 'DepartmentId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedepartment`);
+                break;
+            case 'OrderTypeId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateordertype`);
+                break;
+            case 'CustomerId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecustomer`);
+                break;
+            case 'DealId':
                 if (customerId !== "") {
                     request.uniqueids.CustomerId = customerId;
                 }
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedeal`);
                 break;
-            case 'OrderValidation':
+            case 'OrderId':
                 if (dealId !== "") {
                     request.uniqueids.DealId = dealId;
                 }
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateorder`);
                 break;
-            case 'RentalCategoryValidation':
+            case 'InventoryTypeId':
+                request.uniqueids.Rental = true;
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventorytype`);
+                break;
+            case 'CategoryId':
                 if (inventoryTypeId !== "") {
                     request.uniqueids.InventoryTypeId = inventoryTypeId;
-                    break;
                 }
-            case 'SubCategoryValidation':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecategory`);
+                break;
+            case 'SubCategoryId':
                 request.uniqueids.Rental = true;
                 if (inventoryTypeId !== "") {
                     request.uniqueids.TypeId = inventoryTypeId;
@@ -214,8 +278,9 @@ class DealOutstandingItemsReport extends FwWebApiReport {
                 if (categoryId !== "") {
                     request.uniqueids.CategoryId = categoryId;
                 }
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatesubcategory`);
                 break;
-            case 'RentalInventoryValidation':
+            case 'InventoryId':
                 if (inventoryTypeId !== "") {
                     request.uniqueids.InventoryTypeId = inventoryTypeId;
                 }
@@ -225,10 +290,10 @@ class DealOutstandingItemsReport extends FwWebApiReport {
                 if (subCategoryId !== "") {
                     request.uniqueids.SubCategoryId = subCategoryId;
                 }
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventory`);
                 break;
-        };
-    };
-    //----------------------------------------------------------------------------------------------
+        }
+    }
 };
 
 var DealOutstandingItemsReportController: any = new DealOutstandingItemsReport();

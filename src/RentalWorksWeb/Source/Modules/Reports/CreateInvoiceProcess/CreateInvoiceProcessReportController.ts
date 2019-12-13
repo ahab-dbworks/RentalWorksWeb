@@ -72,6 +72,13 @@ class CreateInvoiceProcessReport extends FwWebApiReport {
     convertParameters(parameters: any) {
         return parameters;
     }
+    //----------------------------------------------------------------------------------------------
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
+        switch (datafield) {
+            case 'InvoiceCreationBatchId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinvoicecreationbatch`);
+        }
+    }
 };
 
 var CreateInvoiceProcessReportController: any = new CreateInvoiceProcessReport();

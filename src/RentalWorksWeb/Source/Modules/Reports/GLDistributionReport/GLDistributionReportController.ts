@@ -99,6 +99,19 @@ class GlDistributionReport extends FwWebApiReport {
         return parameters;
     }
     //----------------------------------------------------------------------------------------------
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
+        switch (datafield) {
+            case 'OfficeLocationId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateofficelocation`);
+                break;
+            case 'GlAccountId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateglaccount`);
+                break;
+            case 'DealId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedeal`);
+                break;
+        }
+    }
 };
 
 var GlDistributionReportController: any = new GlDistributionReport();

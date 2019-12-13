@@ -87,5 +87,24 @@ class CrewSignInReport extends FwWebApiReport {
         return parameters;
     }
     //----------------------------------------------------------------------------------------------
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
+        switch (datafield) {
+            case 'OfficeLocationId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateofficelocation`);
+                break;
+            case 'CustomerId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecustomer`);
+                break;
+            case 'DealId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedeal`);
+                break;
+            case 'OrderId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateorder`);
+                break;
+            case 'DepartmentId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedepartment`);
+                break;
+        }
+    }
 }
 var CrewSignInReportController: any = new CrewSignInReport();

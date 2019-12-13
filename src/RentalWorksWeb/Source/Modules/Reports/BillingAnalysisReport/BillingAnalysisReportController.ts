@@ -107,6 +107,30 @@ class BillingAnalysisReport extends FwWebApiReport {
         return $form;
     }
     //----------------------------------------------------------------------------------------------
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
+        const customerId = FwFormField.getValueByDataField($form, 'CustomerId');
+        const dealTypeId = FwFormField.getValueByDataField($form, 'DealTypeId');
+        const dealCsrId = FwFormField.getValueByDataField($form, 'DealCsrId');
+        request.uniqueids = {};
+
+        switch (datafield) {
+            case 'OfficeLocationId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateofficelocation`);
+                break;
+            case 'CustomerId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecustomer`);
+                break;
+            case 'DealId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedeal`);
+                break;
+            case 'ProjectId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateproject`);
+                break;
+            case 'AgentId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateagent`);
+                break;
+        }
+    }
     onLoadForm($form) {
         this.load($form, this.reportOptions);
         const location = JSON.parse(sessionStorage.getItem('location'));

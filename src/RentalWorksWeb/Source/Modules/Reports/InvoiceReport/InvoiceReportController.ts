@@ -64,6 +64,12 @@ class InvoiceReport extends FwWebApiReport {
         return parameters;
     }
     //----------------------------------------------------------------------------------------------
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
+        switch (datafield) {
+            case 'InvoiceId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinvoice`);
+        }
+    }
 };
 
 var InvoiceReportController: any = new InvoiceReport();

@@ -147,6 +147,12 @@ class ChangeAuditReport extends FwWebApiReport {
         return parameters;
     }
     //----------------------------------------------------------------------------------------------
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
+        switch (datafield) {
+            case 'WebUsersId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatewebusers`);
+        }
+    }
 };
 
 var ChangeAuditReportController: any = new ChangeAuditReport();

@@ -62,13 +62,13 @@ class OutContractReport extends FwWebApiReport {
         return parameters;
     }
     //----------------------------------------------------------------------------------------------
-    beforeValidate($browse, $form, request) {
-        const validationName = request.module;
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
         request.uniqueids = {};
 
-        switch (validationName) {
-            case 'ContractValidation':
+        switch (datafield) {
+            case 'ContractId':
                 request.uniqueids.ContractType = 'OUT';
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecontract`);
                 break;
         };
     };

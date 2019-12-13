@@ -36,7 +36,7 @@ const ArAgingTemplate = `
                   <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Deal CSR" data-datafield="DealCsrId" data-displayfield="Csr" data-showinactivemenu="true" data-validationname="UserValidation" style="float:left;min-width:400px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Deal" data-datafield="DealId" data-displayfield="Deal" data-showinactivemenu="true" data-validationname="DealValidation" data-formbeforevalidate="beforeValidateDeal" style="float:left;min-width:400px;"></div>
+                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Deal" data-datafield="DealId" data-displayfield="Deal" data-showinactivemenu="true" data-validationname="DealValidation" style="float:left;min-width:400px;"></div>
                 </div>
               </div>
             </div>
@@ -107,6 +107,39 @@ class ArAgingReport extends FwWebApiReport {
         }
     };
     //----------------------------------------------------------------------------------------------
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
+        const customerId = FwFormField.getValueByDataField($form, 'CustomerId');
+        const dealTypeId = FwFormField.getValueByDataField($form, 'DealTypeId');
+        const dealCsrId = FwFormField.getValueByDataField($form, 'DealCsrId');
+        request.uniqueids = {};
+
+        switch (datafield) {
+            case 'OfficeLocationId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateofficelocation`);
+                break;
+            case 'CustomerId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecustomer`);
+                break;
+            case 'DealTypeId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedealtype`);
+                break;
+            case 'DealCsrId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedealcsr`);
+                break;
+            case 'DealId':
+                if (customerId) {
+                    request.uniqueids.CustomerId = customerId;
+                }
+                if (dealTypeId) {
+                    request.uniqueids.DealTypeId = dealTypeId;
+                }
+                if (dealCsrId) {
+                    request.uniqueids.DealCsrId = dealCsrId;
+                }
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedeal`);
+                break;
+        }
+    }
 };
 
 var ArAgingReportController: any = new ArAgingReport();
