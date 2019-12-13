@@ -106,6 +106,8 @@
 
 .DS_Store
 
+**/Fw/scripts/FwControls/FwAudit.js
+**/Fw/scripts/FwControls/FwAudit.js.map
 **/Fw/scripts/FwControls/FwBrowseColumns/**/*.js
 **/Fw/scripts/FwControls/FwBrowseColumns/**/*.js.map
 **/Fw/scripts/FwControls/FwFormFields/**/*.js
