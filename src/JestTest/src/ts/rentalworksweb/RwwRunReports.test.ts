@@ -15,15 +15,14 @@ export class RunReportsTest extends BaseTest {
         }
         // ----------
         async function getReportNames() {
-            const reportNames = await page.evaluate(() => {
+            return await page.evaluate(() => {
                 const reports = jQuery('.well .panel-group');
-                const names: Array<string> = []
+                const names: Array<string> = [];
                 reports.each((i, el) => {
                     names.push(jQuery(el).attr('id'));
                 })
                 return names;
             })
-            return reportNames;
         }
         // ----------
         async function runReport(reportName: string) {
@@ -97,8 +96,8 @@ export class RunReportsTest extends BaseTest {
             test(testName, async () => {
                 Logging.logInfo(`About to get Report Names`);
                 const reportNames = await getReportNames();
-                await console.log('reportNames', reportNames);
-                Logging.logInfo(`About to get run each report`);
+                await console.log('reportNames: ', reportNames);
+                Logging.logInfo(`About to run each report`);
                 for (let i = 0; i < reportNames.length; i++) {
                     await runReport(reportNames[i]);
                 }
