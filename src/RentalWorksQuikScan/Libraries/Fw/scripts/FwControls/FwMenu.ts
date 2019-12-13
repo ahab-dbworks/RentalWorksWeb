@@ -295,21 +295,20 @@ class FwMenuClass {
 
                     (<any>window)[controller].ActiveViewFields[filterField] = fields;
 
-                    let request = {
-                        WebUserId: JSON.parse(sessionStorage.getItem('userid')).webusersid
-                        , ModuleName: (<any>window)[controller].Module
-                        , ActiveViewFields: JSON.stringify((<any>window)[controller].ActiveViewFields)
-                        , OfficeLocationId: JSON.parse(sessionStorage.getItem('location')).locationid
-                    };
+                    const request: any = {};
+                    request.WebUserId = JSON.parse(sessionStorage.getItem('userid')).webusersid;
+                    request.ModuleName = (<any>window)[controller].Module;
+                    request.ActiveViewFields = JSON.stringify((<any>window)[controller].ActiveViewFields);
+                    request.OfficeLocationId = JSON.parse(sessionStorage.getItem('location')).locationid;
 
                     if (typeof (<any>window)[controller].ActiveViewFieldsId == 'undefined') {
                         FwAppData.apiMethod(true, 'POST', `api/v1/browseactiveviewfields/`, request, FwServices.defaultTimeout, function onSuccess(response) {
                             (<any>window)[controller].ActiveViewFieldsId = response.Id;
-                        }, null, null);
+                        }, ex => FwFunc.showError(ex), $browse);
                     } else {
-                        request["Id"] = (<any>window)[controller].ActiveViewFieldsId;
-                        FwAppData.apiMethod(true, 'POST', `api/v1/browseactiveviewfields/`, request, FwServices.defaultTimeout, function onSuccess(response) {
-                        }, null, null);
+                        request.Id = (<any>window)[controller].ActiveViewFieldsId;
+                        FwAppData.apiMethod(true, 'PUT', `api/v1/browseactiveviewfields/${request.Id}`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                        }, ex => FwFunc.showError(ex), $browse);
                     }
                 }
 
@@ -545,7 +544,7 @@ class FwMenuClass {
             hasNew = options.hasNew && ((nodeNew !== null && nodeNew.properties.visible === 'T') || (nodeSave !== null && nodeSave.properties.visible === 'T'));
             hasEdit = options.hasEdit && ((nodeEdit !== null && nodeEdit.properties.visible === 'T') || (nodeSave !== null && nodeSave.properties.visible === 'T'));
             hasDelete = options.hasDelete && (nodeDelete !== null && nodeDelete.properties.visible === 'T');
-            
+
             // View
             if (hasView) {
                 const $btnView = options.$menu.find('.btn[data-type="ViewMenuBarButton"]');
@@ -597,7 +596,7 @@ class FwMenuClass {
             }
         }
     }
-    
+
     //----------------------------------------------------------------------------------------------
     applyGridSecurity(options: IAddGridMenuOptions, moduleSecurityId: string): void {
         let $browse = options.$menu.closest('.fwbrowse');
@@ -774,7 +773,7 @@ class FwMenuClass {
                     FwFunc.showError(ex);
                 }
             });
-            
+
             const $menubarbutton2 = FwMenu.addStandardBtn(options.$menu, 'Edit');
             $menubarbutton2.attr('data-type', 'EditMenuBarButton');
             $menubarbutton2.on('click', function (event) {
@@ -872,7 +871,7 @@ class FwMenuClass {
                         let dateField = options.$browse.find('.datequery');
                         let textField = options.$browse.find('.textquery');
                         let booleanField = options.$browse.find('.booleanquery');
-                                        FwControl.renderRuntimeHtml($menubarbutton.find('.fwcontrol'));
+                        FwControl.renderRuntimeHtml($menubarbutton.find('.fwcontrol'));
 
                         for (var j = 0; j < response._Custom.length; j++) {
                             findFields.push({

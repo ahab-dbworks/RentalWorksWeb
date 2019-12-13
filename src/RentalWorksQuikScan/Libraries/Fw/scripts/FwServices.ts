@@ -200,17 +200,19 @@ class FwServicesClass {
                     if (typeof $grid.data('getapiurl') !== 'function' && $uniqueIdFields.length === 1) {
                         url = `${url}/${FwBrowse.getValueByDataField($grid, $tr, $uniqueIdFields.data('formdatafield'))}`; 
                     } else if (typeof $grid.data('getapiurl') !== 'function' && $uniqueIdFields.length > 1) {
-                        throw 'Need to define a function $form.data(getapiurl) to define a custom url for this module which has multiple primary keys'
+                        //throw 'Need to define a function form.data(getapiurl) to define a custom url for this module which has multiple primary keys'
+                        //justin hoffman 12/12/2019 commented above temporary to allow composite keys while we transition
+                        var ids: any = [];
+                        for (let i = 0; i < $uniqueIdFields.length; i++) { 
+                            let id = FwBrowse.getValueByDataField($grid, $tr, $uniqueIdFields.eq(i).data('formdatafield'));
+                            ids.push(id);
+                        }
+                        ids = ids.join('~');
+                        if (ids.length === 0) {
+                            throw 'primary key id(s) cannot be blank';
+                        }
+                        url += '/' + ids
                     }
-                    //var ids: any = [];
-                    //for (var key in request.ids) {
-                    //    ids.push(request.ids[key].value);
-                    //}
-                    //ids = ids.join('~');
-                    //if (ids.length === 0) {
-                    //    throw 'primary key id(s) cannot be blank';
-                    //}
-                    //url += '/' + ids
                     FwAppData.apiMethod(true, 'PUT', url, request, FwServices.defaultTimeout, onSuccess, onError, $grid);
                 } else {
                     let moduleName = $grid.find('.menucaption').text();

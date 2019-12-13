@@ -15,6 +15,11 @@
             this.nav = 'module/group';
         }
 
+        addBrowseMenuItems(options: IAddBrowseMenuOptions): void {
+            options.hasInactive = false;
+            FwMenu.addBrowseMenuButtons(options);
+        }
+
         getModuleScreen() {
             let screen: any = {};
             screen.$view = FwModule.getModuleControl(this.Module + 'Group');
