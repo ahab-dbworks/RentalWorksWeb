@@ -187,10 +187,10 @@ FwMobileMasterController.generateDeviceStatusIcons = function ($containgelement)
 }
 //----------------------------------------------------------------------------------------------
 FwMobileMasterController.generateMenuLinks = function($menu) {
-    var html, $link, $linkgroup, appOptions;
+    var html, $link, $linkgroup;
 
     var nodeApplication = FwApplicationTree.getMyTree();
-    appOptions = program.getApplicationOptions();
+    const applicationOptions = program.getApplicationOptions();
 
     $link      = FwMobileMasterController.generateLink($menu, 'Home',        'theme/images/icons/128/home.001.png',    'home/home');           $menu.find('.menu-body-links').append($link);
     $link.addClass('navHome');
@@ -207,7 +207,17 @@ FwMobileMasterController.generateMenuLinks = function($menu) {
                     } else {
                         hasusertype = true;
                     }
-                    if (hasusertype) {
+                    let hasApplicationOptions = true;
+                    if (typeof nodeModule.applicationoptions === 'string') {
+                        const moduleApplicationOptions = nodeModule.applicationoptions.split(',');
+                        for (let optionNo = 0; optionNo < moduleApplicationOptions.length; optionNo++) {
+                            let option = moduleApplicationOptions[optionNo];
+                            if (applicationOptions.hasOwnProperty(option)) {
+                                hasApplicationOptions &= option.enabled;
+                            }
+                        }
+                    }
+                    if (hasusertype && hasApplicationOptions) {
                         const secNodeModule = FwApplicationTree.getNodeById(secNodeMobile, nodeModule.id);
                         if (secNodeModule !== null && secNodeModule.properties.visible === 'T') {
                             var caption = nodeModule.caption;

@@ -1,7 +1,7 @@
 var RwHome = {};
 //----------------------------------------------------------------------------------------------
 RwHome.getHomeScreen = function(viewModel, properties) {
-    var combinedViewModel, screen, applicationOptions, $menuObject, nodeModule;
+    var combinedViewModel, screen, $menuObject, nodeModule;
     combinedViewModel = jQuery.extend({
         captionPageTitle:         '<div class="apptitle bgothm center" style="padding-top:10px 0;font-size:18px;color:#f2f2f2;">RentalWorks QuikScan</div>',
         captionPageSubTitle:      ''
@@ -23,23 +23,32 @@ RwHome.getHomeScreen = function(viewModel, properties) {
     //    throw 'Unable to find RentalWorks QuikScan node in group tree. {4537336F-8EDF-4E6B-8CCF-434D72C7D749}';
     //}
     //var nodeHome = nodeApplication.children[0];
+    const applicationOptions = program.getApplicationOptions();
     const secNodeMobile = FwApplicationTree.getNodeById(FwApplicationTree.tree, 'Mobile');
     var nodeMobile = Constants.Modules.Mobile;
-    var caption, hasusertype;
     for (var moduleKey in nodeMobile.children) {
         nodeModule = nodeMobile.children[moduleKey];
         if (nodeModule.visible) {
             switch (nodeModule.nodetype) {
                 case 'Module':
+                    let hasusertype = true;
                     if (typeof nodeModule.usertype === 'string') {
                         hasusertype = (jQuery.inArray(sessionStorage.userType, nodeModule.usertype.split(',')) !== -1);
-                    } else {
-                        hasusertype = true;
                     }
-                    if (hasusertype) {
+                    let hasApplicationOptions = true;
+                    if (typeof nodeModule.applicationoptions === 'string') {
+                        const moduleApplicationOptions = nodeModule.applicationoptions.split(',');
+                        for (let optionNo = 0; optionNo < moduleApplicationOptions.length; optionNo++) {
+                            let option = moduleApplicationOptions[optionNo];
+                            if (applicationOptions.hasOwnProperty(option)) {
+                                hasApplicationOptions &= option.enabled;
+                            }
+                        }
+                    }
+                    if (hasusertype && hasApplicationOptions) {
                         const secNodeModule = FwApplicationTree.getNodeById(secNodeMobile, nodeModule.id);
                         if (secNodeModule !== null && secNodeModule.properties.visible === 'T') {
-                            caption = (typeof nodeModule.htmlcaption === 'string' && nodeModule.htmlcaption.length > 0) ? RwLanguages.translate(nodeModule.htmlcaption) : RwLanguages.translate(nodeModule.caption);
+                            const caption = (typeof nodeModule.htmlcaption === 'string' && nodeModule.htmlcaption.length > 0) ? RwLanguages.translate(nodeModule.htmlcaption) : RwLanguages.translate(nodeModule.caption);
                             $menuObject = RwHome.generateIcon(caption, nodeModule.nav, nodeModule.iconurl, nodeModule.id);
                             screen.$view.find('.fwmenu').append($menuObject);
                         }
