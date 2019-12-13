@@ -20,7 +20,7 @@ class Program extends FwApplication {
     lineaPro_BatteryStatus_IsPlugged: boolean = false;
     lineaPro_BatteryStatus_Status: 'unknown' | 'critical' | 'low' | 'ok' = 'unknown';
     showRfidStatusIcon: boolean = false;
-    hasHfRfidApplicationOption: boolean = false;
+    hasHfRfidApplicationOption: boolean = true;
     //---------------------------------------------------------------------------------
     constructor() {
         super();
@@ -75,7 +75,7 @@ class Program extends FwApplication {
             me.loadApplication();
         }, 2000);
         if (typeof document.addEventListener !== 'undefined') {
-            document.addEventListener('deviceready', function() {
+            document.addEventListener('deviceready', () => {
                 me.runningInCordova = true;
                 document.addEventListener("offline", function () {
                     program.online = false;
@@ -95,7 +95,7 @@ class Program extends FwApplication {
                         debug: false
                     };
                 }
-                DwCordovaFunc.getBrowserVersion(function (args: Array<any>) {
+                DwCordovaFunc.getBrowserVersion((args: Array<any>) => {
                     var versionString = args[0];
                     let version = versionString.split('.');
                     let major: number = parseInt(version[0]);
@@ -132,7 +132,7 @@ class Program extends FwApplication {
                     if (typeof DTDevices === 'object') {
                         DTDevices.barcodeSetScanBeep(true, [500,50]);
                         DTDevices.startListening();
-                        DTDevices.registerListener('barcodeData', 'barcodeData_applicationjs', function (barcode, barcodeType) {
+                        DTDevices.registerListener('barcodeData', 'barcodeData_applicationjs', (barcode, barcodeType) => {
                             program.setAudioMode('DTDevices');
                             me.onBarcodeData(barcode);
                         });
@@ -147,12 +147,25 @@ class Program extends FwApplication {
                         }
                         DTDevices.barcodeSetScanMode(localStorage.getItem('barcodeScanMode'));
 
+                        this.onConnectLineaPro();
+                        //NearfieldRfidScanner.enableNearfieldScanner((uid: string, uidType: string) => {
+                        //    try {
+                        //        program.setAudioMode('DTDevices');
+                        //        me.onBarcodeData(uid);
+                        //        //FwNotification.renderNotification('INFO', `UID: ${uid}. UID Type: ${uidType}`);
+                        //    } catch (ex) {
+                        //        FwFunc.showError(ex);
+                        //    }
+                        //});
+
                         //set the connection state when it changes
-                        DTDevices.registerListener('connectionState', 'connectionState_applicationjs', function (connectionState) {
+                        DTDevices.registerListener('connectionState', 'connectionState_applicationjs', (connectionState) => {
                             if (connectionState === 'CONNECTED') {
                                 program.setScanMode('DTDevices');
+                                this.onConnectLineaPro();
                             } else {
                                 program.setScanMode('NativeAudio');
+                                NearfieldRfidScanner.disableNearfieldScanner();
                             }
                             me.setDeviceConnectionState(connectionState);
                         });
@@ -250,6 +263,20 @@ class Program extends FwApplication {
                 });
             }, false);
         }
+    };
+
+    onConnectLineaPro = () => {
+        NearfieldRfidScanner.enableNearfieldScanner((uid: string, uidType: string) => {
+            try {
+                program.setAudioMode('DTDevices');
+                RwServices.inventory.getBarcodeFromRfid({ rfid: uid }, (response: any) => {
+                    this.onBarcodeData(response.barcode);
+                });
+                //FwNotification.renderNotification('INFO', `UID: ${uid}. UID Type: ${uidType}`);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
     };
     //---------------------------------------------------------------------------------
     setScanTarget(selector: string) {

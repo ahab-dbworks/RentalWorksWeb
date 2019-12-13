@@ -135,6 +135,11 @@ namespace RentalWorksQuikScan.Source
                 ),
                 new FwJsonRequestAction(
                     roles: new string[]{RwUserRoles.RentalWorksUser},
+                    isMatch: delegate(string requestPath, string applicationPath) { return Regex.IsMatch(requestPath, GetRegexString("/inventory/getbarcodefromrfid", applicationPath)); },
+                    onMatch: delegate(dynamic request, dynamic response, dynamic session) { RwService.GetBarcodeFromRfid(request, response, session); }
+                ),
+                new FwJsonRequestAction(
+                    roles: new string[]{RwUserRoles.RentalWorksUser},
                     isMatch: delegate(string requestPath, string applicationPath) { return Regex.IsMatch(requestPath, GetRegexString("/inventory/phycountitem", applicationPath)); },
                     onMatch: delegate(dynamic request, dynamic response, dynamic session) { RwService.PhyCountItem(request, response, session); }
                 ),
