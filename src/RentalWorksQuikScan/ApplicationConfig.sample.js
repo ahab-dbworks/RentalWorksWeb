@@ -1,3 +1,6 @@
+// The WebApi Url
+applicationConfig.apiurl = 'https://webapi.company.com/';
+
 // QuikIn: Allow the user to browse for sessions in addition to being able to scan the Session No. off a Return List
 applicationConfig.quikIn.enableQuikInSessionSearch = false;
 
