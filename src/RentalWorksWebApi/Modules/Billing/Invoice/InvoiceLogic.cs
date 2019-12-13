@@ -56,6 +56,12 @@ namespace WebApi.Modules.Billing.Invoice
         [FwLogicProperty(Id: "QDeUxAJnHIsp")]
         public string BillingEndDate { get { return invoice.BillingEndDate; } set { invoice.BillingEndDate = value; } }
 
+        [FwLogicProperty(Id: "r2d50s00tU8m4", IsReadOnly: true)]
+        public string UsageStartDate { get; set; }
+
+        [FwLogicProperty(Id: "kSfl2WWGJZsWD", IsReadOnly: true)]
+        public string UsageEndDate { get; set; }
+
         [FwLogicProperty(Id: "qs381b0OIlKQ", IsReadOnly: true)]
         public string OrderId { get; set; }
 

@@ -292,5 +292,12 @@ namespace WebApi.Modules.Billing.Invoice
         [FwSqlDataField(column: "creditinginvoiceno", modeltype: FwDataTypes.Text)]
         public string CreditingInvoiceNumber { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "usagestartdate", modeltype: FwDataTypes.Text)]
+        public string UsageStartDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "usageenddate", modeltype: FwDataTypes.Text)]
+        public string UsageEndDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+
     }
 }
