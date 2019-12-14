@@ -100,6 +100,11 @@ namespace WebApi.Modules.HomeControls.DealOrderDetail
         [FwSqlDataField(column: "isreturntransferorder", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
         public bool? IsReturnTransferOrder { get; set; }
         //------------------------------------------------------------------------------------
+
+        [FwSqlDataField(column: "presentationlayerid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        public string PresentationLayerId { get; set; }
+        //------------------------------------------------------------------------------------ 
+
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------

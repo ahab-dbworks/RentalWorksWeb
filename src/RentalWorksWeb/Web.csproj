@@ -164,6 +164,8 @@
     <Content Include="Source\Grids\InventoryPurchaseItemGrid\InventoryPurchaseItemGridBrowse.htm" />
     <Content Include="Source\Grids\InventoryPurchaseItemGrid\InventoryPurchaseItemGridController.js" />
     <Content Include="Source\Grids\ManualGlTransactionsGrid\ManualGlTransactionsGridBrowse.htm" />
+    <Content Include="Source\Grids\OrderActivitySummaryGrid\OrderActivitySummaryGridBrowse.htm" />
+    <Content Include="Source\Grids\OrderTypePresentationLayerGrid\OrderTypePresentationLayerGridBrowse.htm" />
     <Content Include="Source\Grids\PurchaseVendorGrid\PurchaseVendorGridBrowse.htm" />
     <Content Include="Source\Grids\PhysicalInventoryCycleInventoryGrid\PhysicalInventoryCycleInventoryGridBrowse.htm" />
     <Content Include="Source\Grids\PhysicalInventoryInventoryGrid\PhysicalInventoryInventoryGridBrowse.htm" />
@@ -318,6 +320,8 @@
     <TypeScriptCompile Include="Source\Grids\CustomReportLayoutUserGrid\CustomReportLayoutUserGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\InventoryPurchaseItemGrid\InventoryPurchaseItemGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\ManualGlTransactionsGrid\ManualGlTransactionsGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\OrderActivitySummaryGrid\OrderActivitySummaryGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\OrderTypePresentationLayerGrid\OrderTypePresentationLayerGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\PurchaseVendorGrid\PurchaseVendorGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\PhysicalInventoryCycleInventoryGrid\PhysicalInventoryCycleInventoryGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\PhysicalInventoryInventoryGrid\PhysicalInventoryInventoryGridController.ts" />
@@ -1015,6 +1019,7 @@
     <TypeScriptCompile Include="Source\Pages\HomePage\RwHomeController.ts" />
     <Content Include="Source\Validations\AssetValidation\AssetValidationBrowse.htm" />
     <Content Include="Source\Validations\ContactDealValidation\ContactDealValidationBrowse.htm" />
+    <Content Include="Source\Validations\PresentationLayerValidation\PresentationLayerValidationBrowse.htm" />
     <Content Include="Source\Validations\CustomerCreditValidation\CustomerCreditValidationBrowse.htm" />
     <Content Include="Source\Validations\CustomFormValidation\CustomFormValidationBrowse.htm" />
     <Content Include="Source\Validations\CustomReportLayoutValidation\CustomreportLayoutValidationBrowse.htm" />

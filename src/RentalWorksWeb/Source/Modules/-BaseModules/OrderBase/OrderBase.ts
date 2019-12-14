@@ -6,6 +6,8 @@ class OrderBase {
     DefaultTermsConditions: string;
     DefaultCoverLetterId: string;
     DefaultCoverLetter: string;
+    DefaultPresentationLayerId: string;
+    DefaultPresentationLayer: string;
     CombineActivity: string;
     Module: string;
     id: string;
@@ -131,6 +133,28 @@ class OrderBase {
                 request.CompanyId = FwFormField.getValueByDataField($form, 'DealId');
             }
         });
+
+        // ----------
+        FwBrowse.renderGrid({
+            nameGrid: 'OrderActivitySummaryGrid',
+            gridSecurityId: 'anBvrz1T2ipsv',
+            moduleSecurityId: this.id,
+
+            $form: $form,
+            pageSize: 10,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                options.hasNew = false;
+                options.hasEdit = false;
+                options.hasDelete = false;
+            },
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    OrderId: FwFormField.getValueByDataField($form, `${this.Module}Id`)
+                };
+            }
+        });
+        // ----------
+
         // ----------
         //const $orderItemGridRental = $form.find('.rentalgrid div[data-grid="OrderItemGrid"]');
         //const $orderItemGridRentalControl = FwBrowse.loadGridFromTemplate('OrderItemGrid');
@@ -1085,6 +1109,8 @@ class OrderBase {
                         this.DefaultTermsConditions = response.Rows[0][response.ColumnIndex.TermsConditions];
                         this.DefaultCoverLetterId = response.Rows[0][response.ColumnIndex.CoverLetterId];
                         this.DefaultCoverLetter = response.Rows[0][response.ColumnIndex.CoverLetter];
+                        this.DefaultPresentationLayerId = response.Rows[0][response.ColumnIndex.PresentationLayerId];
+                        this.DefaultPresentationLayer = response.Rows[0][response.ColumnIndex.PresentationLayer];
                     }
                 }, null, null);
         }, null, null);
@@ -1124,6 +1150,7 @@ class OrderBase {
             FwFormField.setValue($form, 'div[data-datafield="BillingCycleId"]', controlDefaults.defaultdealbillingcycleid, controlDefaults.defaultdealbillingcycle);
             FwFormField.setValue($form, 'div[data-datafield="TermsConditionsId"]', this.DefaultTermsConditionsId, this.DefaultTermsConditions);
             FwFormField.setValue($form, 'div[data-datafield="CoverLetterId"]', this.DefaultCoverLetterId, this.DefaultCoverLetter);
+            FwFormField.setValue($form, 'div[data-datafield="PresentationLayerId"]', this.DefaultPresentationLayerId, this.DefaultPresentationLayer);
 
             FwFormField.setValue($form, 'div[data-datafield="PendingPo"]', true);
             // Dynamic set value for user's department default activities
@@ -2661,8 +2688,11 @@ class OrderBase {
                     const termsConditions = response.Rows[0][response.ColumnIndex.TermsConditions];
                     const coverLetterId = response.Rows[0][response.ColumnIndex.CoverLetterId];
                     const coverLetter = response.Rows[0][response.ColumnIndex.CoverLetter];
+                    const presentationLayerId = response.Rows[0][response.ColumnIndex.PresentationLayerId];
+                    const presentationLayer = response.Rows[0][response.ColumnIndex.PresentationLayer];
                     FwFormField.setValue($form, 'div[data-datafield="TermsConditionsId"]', termsConditionsId, termsConditions);
                     FwFormField.setValue($form, 'div[data-datafield="CoverLetterId"]', coverLetterId, coverLetter);
+                    FwFormField.setValue($form, 'div[data-datafield="PresentationLayerId"]', presentationLayerId, presentationLayer);
                 }
             }, null, null);
     }

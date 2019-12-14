@@ -41,6 +41,13 @@ namespace WebApi.Modules.Settings.OrderTypeLocation
         [FwLogicProperty(Id:"ypuh9hLC3MbZ", IsReadOnly:true)]
         public string CoverLetter { get; set; }
 
+        [FwLogicProperty(Id: "RY9HoZXlFmJFR")]
+        public string PresentationLayerId { get { return orderTypeLocation.PresentationLayerId; } set { orderTypeLocation.PresentationLayerId = value; } }
+
+        [FwLogicProperty(Id: "xCo8okM4Yq0wK", IsReadOnly: true)]
+        public string PresentationLayer { get; set; }
+
+
         [FwLogicProperty(Id:"sp92wxiF6uOu")]
         public string DateStamp { get { return orderTypeLocation.DateStamp; } set { orderTypeLocation.DateStamp = value; } }
 

@@ -1171,9 +1171,17 @@ namespace WebApi.Modules.Agent.Order
         public decimal? TotalReplacementCost { get; set; }
 
 
+        //------------------------------------------------------------------------------------
+        [FwLogicProperty(Id: "kSfl2WWGJZsWD")]
+        public string PresentationLayerId { get { return dealOrderDetail.PresentationLayerId; } set { dealOrderDetail.PresentationLayerId = value; } }
+        [FwLogicProperty(Id: "r2d50s00tU8m4", IsReadOnly: true)]
+        public string PresentationLayer { get; set; }
+        //------------------------------------------------------------------------------------
+
+
+
         [FwLogicProperty(Id: "HmfP8Yd1BuDm", IsRecordTitle: true, IsReadOnly: true)]
         public string QuoteOrderTitle { get; set; }
-
         //------------------------------------------------------------------------------------
         [FwLogicProperty(Id: "Mj4GCUlVtnzB")]
         public string DateStamp { get { return dealOrder.DateStamp; } set { dealOrder.DateStamp = value; dealOrderDetail.DateStamp = value; } }

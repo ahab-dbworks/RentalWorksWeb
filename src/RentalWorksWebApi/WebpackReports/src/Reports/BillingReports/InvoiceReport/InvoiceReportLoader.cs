@@ -34,19 +34,19 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
         public string Description { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "qty", modeltype: FwDataTypes.Decimal)]
-        public decimal? Quantity { get; set; }
+        public string Quantity { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "extended", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
-        public decimal? Extended { get; set; }
+        public string Extended { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderby", modeltype: FwDataTypes.Text)]
         public string OrderBy { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rate", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
-        public decimal? Rate { get; set; }
+        public string Rate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "discountpct", modeltype: FwDataTypes.DecimalString2Digits)]
-        public decimal? DiscountPercent { get; set; }
+        public string DiscountPercent { get; set; }
         //------------------------------------------------------------------------------------ 
         public async Task<List<T>> LoadItems<T>(InvoiceReportRequest request)
         {
@@ -79,9 +79,13 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
                     if (!columnIndex.Equals(-1))
                     {
                         FwDataTypes propType = dt.Columns[columnIndex].DataType;
-                        if (AppFunc.FwDataTypeIsDecimal(propType))
+                        bool isDecimal = false;
+                        string numberStringFormat = "";
+                        FwSqlCommand.FwDataTypeIsDecimal(propType, ref isDecimal, ref numberStringFormat);
+                        if (isDecimal)
                         {
-                            property.SetValue(item, FwConvert.ToDecimal((row[dt.GetColumnNo(fieldName)] ?? "").ToString()));
+                            decimal d = FwConvert.ToDecimal((row[dt.GetColumnNo(fieldName)] ?? "0").ToString());
+                            property.SetValue(item, d.ToString(numberStringFormat));
                         }
                         else
                         {
@@ -89,18 +93,6 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
                         }
                     }
                 }
-                //item.InvoiceId = (row[dt.GetColumnNo("InvoiceId")] ?? "").ToString();
-                //item.RowType = (row[dt.GetColumnNo("RowType")] ?? "").ToString();
-                //item.RecType = (row[dt.GetColumnNo("RecType")] ?? "").ToString();
-                //item.RecTypeDisplay = (row[dt.GetColumnNo("RecTypeDisplay")] ?? "").ToString();
-                //item.ICode = (row[dt.GetColumnNo("ICode")] ?? "").ToString();
-                //item.Description = (row[dt.GetColumnNo("Description")] ?? "").ToString();
-                //item.Quantity = FwConvert.ToDecimal((row[dt.GetColumnNo("Quantity")] ?? "").ToString());
-                //item.Extended = FwConvert.ToDecimal((row[dt.GetColumnNo("Extended")] ?? "").ToString());
-                //item.OrderBy = (row[dt.GetColumnNo("OrderBy")] ?? "").ToString();
-                //item.Rate = FwConvert.ToDecimal((row[dt.GetColumnNo("Rate")] ?? "").ToString());
-                //item.DiscountPercent = FwConvert.ToDecimal((row[dt.GetColumnNo("DiscountPercent")] ?? "").ToString());
-                //item.DaysPerWeek = FwConvert.ToDecimal((row[dt.GetColumnNo("DaysPerWeek")] ?? "").ToString());
                 items.Add(item);
             }
             return items;
@@ -117,7 +109,7 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
         }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "daysinwk", modeltype: FwDataTypes.DecimalString3Digits)]
-        public decimal? DaysPerWeek { get; set; }
+        public string DaysPerWeek { get; set; }
         //------------------------------------------------------------------------------------ 
     }
     //------------------------------------------------------------------------------------ 
@@ -137,7 +129,7 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
         }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "daysinwk", modeltype: FwDataTypes.DecimalString3Digits)]
-        public decimal? DaysPerWeek { get; set; }
+        public string DaysPerWeek { get; set; }
         //------------------------------------------------------------------------------------ 
     }
     //------------------------------------------------------------------------------------ 
@@ -149,7 +141,7 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
         }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "daysinwk", modeltype: FwDataTypes.DecimalString3Digits)]
-        public decimal? DaysPerWeek { get; set; }
+        public string DaysPerWeek { get; set; }
         //------------------------------------------------------------------------------------ 
     }
     //------------------------------------------------------------------------------------ 

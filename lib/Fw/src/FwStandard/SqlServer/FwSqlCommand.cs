@@ -1304,7 +1304,23 @@ namespace FwStandard.SqlServer
 
             return dt;
         }
-
+        //-------------------------------------------------------------------------------------------------------    
+        public static void FwDataTypeIsDecimal(FwDataTypes t, ref bool isDecimal, ref string numberStringFormat)
+        {
+            isDecimal = false;
+            numberStringFormat = "";
+            if (t.Equals(FwDataTypes.Decimal)) { isDecimal = true; numberStringFormat = ""; }
+            else if (t.Equals(FwDataTypes.DecimalString1Digit)) { isDecimal = true; numberStringFormat = "F1"; }
+            else if (t.Equals(FwDataTypes.DecimalString2Digits)) { isDecimal = true; numberStringFormat = "F2"; }
+            else if (t.Equals(FwDataTypes.DecimalString3Digits)) { isDecimal = true; numberStringFormat = "F3"; }
+            else if (t.Equals(FwDataTypes.DecimalString4Digits)) { isDecimal = true; numberStringFormat = "F4"; }
+            else if (t.Equals(FwDataTypes.DecimalStringNoTrailingZeros)) { isDecimal = true; numberStringFormat = ""; }
+            else if (t.Equals(FwDataTypes.CurrencyString)) { isDecimal = true; numberStringFormat = "F2"; }
+            else if (t.Equals(FwDataTypes.CurrencyStringNoDollarSign)) { isDecimal = true; numberStringFormat = "F2"; }
+            else if (t.Equals(FwDataTypes.CurrencyStringNoDollarSignNoDecimalPlaces)) { isDecimal = true; numberStringFormat = ""; }
+            else if (t.Equals(FwDataTypes.Percentage)) { isDecimal = true; numberStringFormat = ""; } //??
+        }
+        //-------------------------------------------------------------------------------------------------------    
         object FormatReaderData(FwDataTypes dataType, int columnIndex, SqlDataReader reader)
         {
             object data = string.Empty;
@@ -1888,7 +1904,24 @@ namespace FwStandard.SqlServer
                                                 }
                                                 dictionary[dataFieldAttribute.ColumnName] = b;
                                             }
-                                            property.SetValue(result, dictionary[dataFieldAttribute.ColumnName]);
+                                            //property.SetValue(result, dictionary[dataFieldAttribute.ColumnName]);
+
+                                            //FwDataTypes propType = activitiesDt.Columns[columnIndex].DataType;
+                                            bool isDecimal = false;
+                                            string numberStringFormat = "";
+                                            FwDataTypeIsDecimal(dataFieldAttribute.ModelType, ref isDecimal, ref numberStringFormat);
+                                            if ((isDecimal) && (property.PropertyType == typeof(string)))
+                                            {
+                                                decimal d = FwConvert.ToDecimal((dictionary[dataFieldAttribute.ColumnName] ?? "0").ToString());
+                                                property.SetValue(result, d.ToString(numberStringFormat));
+                                            }
+                                            else
+                                            {
+                                                property.SetValue(result, dictionary[dataFieldAttribute.ColumnName]);
+                                            }
+
+
+
                                         }
                                         break;
                                     }

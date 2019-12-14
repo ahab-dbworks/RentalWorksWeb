@@ -3,7 +3,7 @@ using FwStandard.Models;
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data; 
-using System.Collections.Generic;
+
 namespace WebApi.Modules.Settings.OrderTypeLocation
 {
     [FwSqlTable("ordertypelocationview")]
@@ -36,6 +36,12 @@ namespace WebApi.Modules.Settings.OrderTypeLocation
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "coverletter", modeltype: FwDataTypes.Text)]
         public string CoverLetter { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "presentationlayerid", modeltype: FwDataTypes.Text)]
+        public string PresentationLayerId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "presentationlayer", modeltype: FwDataTypes.Text)]
+        public string PresentationLayer { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }

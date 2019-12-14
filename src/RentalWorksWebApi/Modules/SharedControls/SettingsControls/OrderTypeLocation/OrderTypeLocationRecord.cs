@@ -1,4 +1,3 @@
-using FwStandard.BusinessLogic; 
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data;
@@ -25,6 +24,9 @@ namespace WebApi.Modules.Settings.OrderTypeLocation
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "invoiceclass", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 50)]
         public string InvoiceClass { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "presentationlayerid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        public string PresentationLayerId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }

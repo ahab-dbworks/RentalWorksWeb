@@ -5,12 +5,12 @@ using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 using System.Collections.Generic;
 using System;
-using WebApi;
 using System.Threading.Tasks;
 using System.Data;
 using System.Reflection;
-using WebApi.Logic;
 using WebApi.Modules.HomeControls.OrderDates;
+using WebApi.Modules.Agent.OrderActivitySummary;
+
 
 namespace WebApi.Modules.Reports.OrderReports.OrderReport
 {
@@ -38,33 +38,32 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         public string Description { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "qtyordered", modeltype: FwDataTypes.Decimal)]
-        public decimal? QuantityOrdered { get; set; }
+        public string QuantityOrdered { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "price", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
-        public decimal? Rate { get; set; }
+        public string Rate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "discountpct", modeltype: FwDataTypes.DecimalString2Digits)]
-        public decimal? DiscountPercent { get; set; }
+        public string DiscountPercent { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "discountpctdisplay", modeltype: FwDataTypes.DecimalString2Digits)]
-        public decimal? DiscountPercentDisplay { get; set; }
+        public string DiscountPercentDisplay { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "weeklydiscountamt", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
-        public decimal? WeeklyDiscountAmount { get; set; }
+        public string WeeklyDiscountAmount { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "perioddiscountamt", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
-        public decimal? PeriodDiscountAmount { get; set; }
+        public string PeriodDiscountAmount { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "weeklyextended", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
-        public decimal? WeeklyExtended { get; set; }
+        public string WeeklyExtended { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "periodextended", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
-        public decimal? PeriodExtended { get; set; }
+        public string PeriodExtended { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderby", modeltype: FwDataTypes.Text)]
         public string OrderBy { get; set; }
         //------------------------------------------------------------------------------------ 
-        //public async Task<FwJsonDataTable> LoadItems(OrderReportRequest request)
         public async Task<List<T>> LoadItems<T>(OrderReportRequest request)
         {
             FwJsonDataTable dt = null;
@@ -96,9 +95,13 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
                     if (!columnIndex.Equals(-1))
                     {
                         FwDataTypes propType = dt.Columns[columnIndex].DataType;
-                        if (AppFunc.FwDataTypeIsDecimal(propType))
+                        bool isDecimal = false;
+                        string numberStringFormat = "";
+                        FwSqlCommand.FwDataTypeIsDecimal(propType, ref isDecimal, ref numberStringFormat);
+                        if (isDecimal)
                         {
-                            property.SetValue(item, FwConvert.ToDecimal((row[dt.GetColumnNo(fieldName)] ?? "").ToString()));
+                            decimal d = FwConvert.ToDecimal((row[dt.GetColumnNo(fieldName)] ?? "0").ToString());
+                            property.SetValue(item, d.ToString(numberStringFormat));
                         }
                         else
                         {
@@ -108,28 +111,7 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
                 }
                 items.Add(item);
             }
-            //List<OrderItemReportLoader> items = new List<OrderItemReportLoader>();
-            //foreach (List<object> row in dt.Rows)
-            //{
-            //    OrderItemReportLoader item = new OrderItemReportLoader();
-            //    item.RowType = (row[dt.GetColumnNo("RowType")] ?? "").ToString();
-            //    item.OrderId = (row[dt.GetColumnNo("OrderId")] ?? "").ToString();
-            //    item.RecType = (row[dt.GetColumnNo("RecType")] ?? "").ToString();
-            //    item.RecTypeDisplay = (row[dt.GetColumnNo("RecTypeDisplay")] ?? "").ToString();
-            //    item.ICode = (row[dt.GetColumnNo("ICode")] ?? "").ToString();
-            //    item.Description = (row[dt.GetColumnNo("Description")] ?? "").ToString();
-            //    item.QuantityOrdered = FwConvert.ToDecimal((row[dt.GetColumnNo("QuantityOrdered")] ?? "").ToString());
-            //    item.Rate = FwConvert.ToDecimal((row[dt.GetColumnNo("Rate")] ?? "").ToString());
-            //    item.DiscountPercent = FwConvert.ToDecimal((row[dt.GetColumnNo("DiscountPercent")] ?? "").ToString());
-            //    item.DiscountPercentDisplay = FwConvert.ToDecimal((row[dt.GetColumnNo("DiscountPercentDisplay")] ?? "").ToString());
-            //    item.WeeklyDiscountAmount = FwConvert.ToDecimal((row[dt.GetColumnNo("WeeklyDiscountAmount")] ?? "").ToString());
-            //    item.PeriodDiscountAmount = FwConvert.ToDecimal((row[dt.GetColumnNo("PeriodDiscountAmount")] ?? "").ToString());
-            //    item.WeeklyExtended = FwConvert.ToDecimal((row[dt.GetColumnNo("WeeklyExtended")] ?? "").ToString());
-            //    item.PeriodExtended = FwConvert.ToDecimal((row[dt.GetColumnNo("PeriodExtended")] ?? "").ToString());
-            //    item.OrderBy = (row[dt.GetColumnNo("OrderBy")] ?? "").ToString();
 
-            //    items.Add(item);
-            //}
             return items;
         }
         //------------------------------------------------------------------------------------ 
@@ -143,10 +125,10 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "daysinwk", modeltype: FwDataTypes.DecimalString3Digits)]
-        public decimal? DaysPerWeek { get; set; }
+        public string DaysPerWeek { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "billableperiods", modeltype: FwDataTypes.DecimalStringNoTrailingZeros)]
-        public decimal? BillablePeriods { get; set; }
+        public string BillablePeriods { get; set; }
         //------------------------------------------------------------------------------------ 
     }
     //------------------------------------------------------------------------------------ 
@@ -166,10 +148,10 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "daysinwk", modeltype: FwDataTypes.DecimalString3Digits)]
-        public decimal? DaysPerWeek { get; set; }
+        public string DaysPerWeek { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "billableperiods", modeltype: FwDataTypes.DecimalStringNoTrailingZeros)]
-        public decimal? BillablePeriods { get; set; }
+        public string BillablePeriods { get; set; }
         //------------------------------------------------------------------------------------ 
     }
     //------------------------------------------------------------------------------------ 
@@ -181,10 +163,10 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "daysinwk", modeltype: FwDataTypes.DecimalString3Digits)]
-        public decimal? DaysPerWeek { get; set; }
+        public string DaysPerWeek { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "billableperiods", modeltype: FwDataTypes.DecimalStringNoTrailingZeros)]
-        public decimal? BillablePeriods { get; set; }
+        public string BillablePeriods { get; set; }
         //------------------------------------------------------------------------------------ 
     }
     //------------------------------------------------------------------------------------ 
@@ -272,8 +254,8 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         [FwSqlDataField(column: "pono", modeltype: FwDataTypes.Text)]
         public string PoNumber { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "poamt", modeltype: FwDataTypes.Decimal)]
-        public decimal? PoAmount { get; set; }
+        [FwSqlDataField(column: "poamt", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string PoAmount { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "billname", modeltype: FwDataTypes.Text)]
         public string BillToName { get; set; }
@@ -441,7 +423,7 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         public string RequisitionDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "summaryinvoicegroup", modeltype: FwDataTypes.Decimal)]
-        public decimal? SummaryInvoiceGroup { get; set; }
+        public string SummaryInvoiceGroup { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "loadindate", modeltype: FwDataTypes.Date)]
         public string LoadInDate { get; set; }
@@ -678,24 +660,32 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         public string TaxOption { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rentaltaxrate1", modeltype: FwDataTypes.DecimalString3Digits)]
-        public decimal? TaxRentalRate1 { get; set; }
+        public string TaxRentalRate1 { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rentaltaxrate2", modeltype: FwDataTypes.DecimalString3Digits)]
-        public decimal? TaxRentalRate2 { get; set; }
+        public string TaxRentalRate2 { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "salestaxrate1", modeltype: FwDataTypes.DecimalString3Digits)]
-        public decimal? TaxSalesRate1 { get; set; }
+        public string TaxSalesRate1 { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "salestaxrate1", modeltype: FwDataTypes.DecimalString3Digits)]
-        public decimal? TaxSalesRate2 { get; set; }
+        public string TaxSalesRate2 { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "labortaxrate1", modeltype: FwDataTypes.DecimalString3Digits)]
-        public decimal? TaxLaborRate1 { get; set; }
+        public string TaxLaborRate1 { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "labortaxrate1", modeltype: FwDataTypes.DecimalString3Digits)]
-        public decimal? TaxLaborRate2 { get; set; }
+        public string TaxLaborRate2 { get; set; }
         //------------------------------------------------------------------------------------ 
-
+        [FwSqlDataField(column: "ordertotal", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string Total { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "appliedreceipts", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string AppliedReceipts { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "unpaidtotal", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string UnpaidTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
 
 
 
@@ -710,6 +700,8 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         public List<OrderItemReportLoader> Items { get; set; } = new List<OrderItemReportLoader>(new OrderItemReportLoader[] { new OrderItemReportLoader() });
         //------------------------------------------------------------------------------------ 
         public List<OrderDatesLogic> ActivityDatesAndTimes { get; set; } = new List<OrderDatesLogic>(new OrderDatesLogic[] { new OrderDatesLogic() });
+        //------------------------------------------------------------------------------------ 
+        public List<OrderActivitySummaryLogic> ActivitySummary { get; set; } = new List<OrderActivitySummaryLogic>(new OrderActivitySummaryLogic[] { new OrderActivitySummaryLogic() });
         //------------------------------------------------------------------------------------ 
 
 
@@ -756,7 +748,7 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
                     LaborOrderItemReportLoader LaborItems = new LaborOrderItemReportLoader();
                     LaborItems.SetDependencies(AppConfig, UserSession);
                     taskLaborOrderItems = LaborItems.LoadItems<LaborOrderItemReportLoader>(request);
-                    
+
                     await Task.WhenAll(new Task[] { taskOrder, taskOrderItems, taskRentalOrderItems, taskSalesOrderItems, taskMiscOrderItems, taskLaborOrderItems });
 
                     Order = taskOrder.Result;
@@ -780,7 +772,51 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
 
                         OrderDatesLogic l = new OrderDatesLogic();
                         l.SetDependencies(AppConfig, UserSession);
-                        ActivityDatesAndTimes = await l.SelectAsync<OrderDatesLogic>(activityDatesAndTimesRequest);
+                        Order.ActivityDatesAndTimes = await l.SelectAsync<OrderDatesLogic>(activityDatesAndTimesRequest);
+
+                        //activity summary
+                        BrowseRequest activitySummaryRequest = new BrowseRequest();
+                        activitySummaryRequest.pageno = 0;
+                        activitySummaryRequest.pagesize = 0;
+                        activitySummaryRequest.orderby = "Activity";
+                        activitySummaryRequest.uniqueids = new Dictionary<string, object>();
+                        activitySummaryRequest.uniqueids.Add("OrderId", request.OrderId);
+
+                        Order.ActivitySummary.Clear();
+                        OrderActivitySummaryLoader actL = new OrderActivitySummaryLoader();
+                        actL.SetDependencies(AppConfig, UserSession);
+                        FwJsonDataTable activitiesDt = await actL.BrowseAsync(activitySummaryRequest);
+
+                        string[] totalFields = new string[] { "GrossTotal", "Discount", "SubTotal", "SubTotalTaxable", "Tax", "Total" };
+                        activitiesDt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
+
+                        foreach (List<object> row in activitiesDt.Rows)
+                        {
+                            OrderActivitySummaryLogic activity = (OrderActivitySummaryLogic)Activator.CreateInstance(typeof(OrderActivitySummaryLogic));
+                            PropertyInfo[] properties = activity.GetType().GetProperties();
+                            foreach (var property in properties)
+                            {
+                                string fieldName = property.Name;
+                                int columnIndex = activitiesDt.GetColumnNo(fieldName);
+                                if (!columnIndex.Equals(-1))
+                                {
+                                    FwDataTypes propType = activitiesDt.Columns[columnIndex].DataType;
+                                    bool isDecimal = false;
+                                    string numberStringFormat = "";
+                                    FwSqlCommand.FwDataTypeIsDecimal(propType, ref isDecimal, ref numberStringFormat);
+                                    if (isDecimal)
+                                    {
+                                        decimal d = FwConvert.ToDecimal((row[activitiesDt.GetColumnNo(fieldName)] ?? "0").ToString());
+                                        property.SetValue(activity, d.ToString(numberStringFormat));
+                                    }
+                                    else
+                                    {
+                                        property.SetValue(activity, (row[activitiesDt.GetColumnNo(fieldName)] ?? "").ToString());
+                                    }
+                                }
+                            }
+                            Order.ActivitySummary.Add(activity);
+                        }
 
                     }
                 }
@@ -790,14 +826,3 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         //------------------------------------------------------------------------------------ 
     }
 }
-
-
-
-/*
- 
-Qutotation Totals Summary Section
- - Custom Activity Field from the Presentation Layer (e.g., Shipping, Travel Expenses, Non Union Labor)
- - Order Receipts Total (displays sum of Receipts applied to Invoices)     
-     
-     */
-

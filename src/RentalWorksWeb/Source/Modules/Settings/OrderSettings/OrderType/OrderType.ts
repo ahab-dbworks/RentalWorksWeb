@@ -143,9 +143,6 @@ class OrderType {
                 request.uniqueids = {
                     OrderTypeId: FwFormField.getValueByDataField($form, 'OrderTypeId')
                 };
-            },
-            beforeSave: (request: any) => {
-                request.OrderTypeId = FwFormField.getValueByDataField($form, 'OrderTypeId');
             }
         });
         //----------
@@ -178,9 +175,6 @@ class OrderType {
                 request.uniqueids = {
                     OrderTypeId: FwFormField.getValueByDataField($form, 'OrderTypeId')
                 };
-            },
-            beforeSave: (request: any) => {
-                request.OrderTypeId = FwFormField.getValueByDataField($form, 'OrderTypeId');
             }
         });
         // ----------
@@ -200,6 +194,23 @@ class OrderType {
             }
         });
         // -----------
+        FwBrowse.renderGrid({
+            nameGrid: 'OrderTypePresentationLayerGrid',
+            gridSecurityId: 'acguZNBoT1XC',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                options.hasNew = false;
+                options.hasDelete = false;
+            },
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    OrderTypeId: FwFormField.getValueByDataField($form, 'OrderTypeId')
+                };
+            }
+        });
+        //----------
     }
 
     afterLoad($form: any) {
@@ -217,6 +228,9 @@ class OrderType {
 
         const $orderTypeActivityDatesGrid = $form.find('[data-name="OrderTypeActivityDatesGrid"]');
         FwBrowse.search($orderTypeActivityDatesGrid);
+
+        const $orderTypePresentationLayerGrid = $form.find('[data-name="OrderTypePresentationLayerGrid"]');
+        FwBrowse.search($orderTypePresentationLayerGrid);
 
         if ($form.find('[data-datafield="QuikPayDiscount"] .fwformfield-value').prop('checked')) {
             FwFormField.enable($form.find('.discount'))
