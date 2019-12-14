@@ -84,23 +84,25 @@ class SalesInventoryAttributesReport extends FwWebApiReport {
         return parameters;
     }
     //----------------------------------------------------------------------------------------------
-    beforeValidate = ($browse, $form, request) => {
-        const validationName = request.module;
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
+
         const inventoryTypeId = FwFormField.getValueByDataField($form, 'InventoryTypeId');
         const categoryId = FwFormField.getValueByDataField($form, 'CategoryId');
         const subCategoryId = FwFormField.getValueByDataField($form, 'SubCategoryId');
-        request.uniqueids = {};
 
-        switch (validationName) {
-            case 'InventoryTypeValidation':
+
+        switch (datafield) {
+            case 'InventoryTypeId':
                 request.uniqueids.Sales = true;
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventorytype`);
                 break;
-            case 'SalesCategoryValidation':
+            case 'CategoryId':
                 if (inventoryTypeId !== "") {
                     request.uniqueids.InventoryTypeId = inventoryTypeId;
-                    break;
                 }
-            case 'SubCategoryValidation':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecategory`);
+                break;
+            case 'SubCategoryId':
                 request.uniqueids.Sales = true;
 
                 if (inventoryTypeId !== "") {
@@ -109,8 +111,9 @@ class SalesInventoryAttributesReport extends FwWebApiReport {
                 if (categoryId !== "") {
                     request.uniqueids.CategoryId = categoryId;
                 }
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatesubcategory`);
                 break;
-            case 'SalesInventoryValidation':
+            case 'InventoryId':
                 if (inventoryTypeId !== "") {
                     request.uniqueids.InventoryTypeId = inventoryTypeId;
                 }
@@ -120,6 +123,10 @@ class SalesInventoryAttributesReport extends FwWebApiReport {
                 if (subCategoryId !== "") {
                     request.uniqueids.SubCategoryId = subCategoryId;
                 }
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventory`);
+                break;
+            case 'AttributeId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateattribute`);
                 break;
         };
     };

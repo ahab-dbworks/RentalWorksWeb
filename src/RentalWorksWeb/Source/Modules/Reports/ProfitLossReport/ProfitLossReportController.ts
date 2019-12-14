@@ -104,19 +104,33 @@ class ProfitLossReport extends FwWebApiReport {
         return parameters;
     }
     //----------------------------------------------------------------------------------------------
-    beforeValidate($browse, $form, request) {
-        const validationName = request.module;
+    //----------------------------------------------------------------------------------------------
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
         const customerId = FwFormField.getValueByDataField($form, 'CustomerId');
-        request.uniqueids = {};
-
-        switch (validationName) {
-            case 'DealValidation':
+        switch (datafield) {
+            case 'OfficeLocationId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateofficelocation`);
+                break;
+            case 'DepartmentId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedepartment`);
+                break;
+            case 'CustomerId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecustomer`);
+                break;
+            case 'AgentId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateagent`);
+                break;
+            case 'OrderId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateorder`);
+                break;
+            case 'DealId':
                 if (customerId !== "") {
                     request.uniqueids.CustomerId = customerId;
                 }
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedeal`);
                 break;
-        };
-    };
+        }
+    }
     //----------------------------------------------------------------------------------------------
     loadLists($form: JQuery): void {
         FwFormField.loadItems($form.find('div[data-datafield="Statuses"]'), [

@@ -119,15 +119,28 @@ class SubItemStatusReport extends FwWebApiReport {
     }
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
-        const validationName = request.module;
         const customerId = FwFormField.getValueByDataField($form, 'CustomerId');
-        request.uniqueids = {};
-
-        switch (validationName) {
-            case 'DealValidation':
+        switch (datafield) {
+            case 'DealId':
                 if (customerId !== "") {
                     request.uniqueids.CustomerId = customerId;
                 }
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedeal`);
+                break;
+            case 'OfficeLocationId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateofficelocation`);
+                break;
+            case 'CustomerId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecustomer`);
+                break;
+            case 'OrderId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateorder`);
+                break;
+            case 'VendorId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatevendor`);
+                break;
+            case 'PoClassificationId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatepoclassification`);
                 break;
         };
     }

@@ -95,8 +95,25 @@ class RentalEquipmentRepairHistoryReport extends FwWebApiReport {
         return parameters;
     }
     //----------------------------------------------------------------------------------------------
-    beforeValidate($browse, $form, request) {
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
         request.uniqueids.Rental = true;
+        switch (datafield) {
+            case 'OfficeLocationId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatewarehouse`);
+                break;
+            case 'WarehouseId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventorytype`);
+                break;
+            case 'InventoryTypeId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateactivitytype`);
+                break;
+            case 'CategoryId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedepartment`);
+                break;
+            case 'InventoryId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateagent`);
+                break;
+        };
     };
     //----------------------------------------------------------------------------------------------
 };

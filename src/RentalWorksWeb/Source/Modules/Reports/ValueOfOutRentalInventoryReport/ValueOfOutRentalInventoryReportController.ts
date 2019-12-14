@@ -101,16 +101,17 @@ class ValueOfOutRentalInventoryReport extends FwWebApiReport {
     }
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
-        const validationName = request.module;
-        if (validationName != null) {
-            request.uniqueids = {};
 
-            switch (validationName) {
-                case 'InventoryTypeValidation':
+            switch (datafield) {
+                case 'InventoryTypeId':
                     request.uniqueids.Rental = true;
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventorytype`);
+                    break;
+                case 'WarehouseId':
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatewarehouse`);
                     break;
             }
-        }
+        
     };
     //----------------------------------------------------------------------------------------------
 };

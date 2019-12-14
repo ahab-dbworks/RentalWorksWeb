@@ -113,9 +113,26 @@ class QuikActivityReport extends FwWebApiReport {
         ]);
     }
     //----------------------------------------------------------------------------------------------
-    beforeValidate = function ($browse, $form, request) {
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
         request.IsSystemType = "T";
-    }
+        switch (datafield) {
+            case 'WarehouseId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatewarehouse`);
+                break;
+            case 'InventoryTypeId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventorytype`);
+                break;
+            case 'ActivityType':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateactivitytype`);
+                break;
+            case 'DepartmentId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedepartment`);
+                break;
+            case 'AgentId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateagent`);
+                break;
+        };
+    };
 };
 
 var QuikActivityReportController: any = new QuikActivityReport();

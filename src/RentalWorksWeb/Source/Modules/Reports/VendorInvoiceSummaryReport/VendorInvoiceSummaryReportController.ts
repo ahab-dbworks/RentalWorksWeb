@@ -130,15 +130,25 @@ class VendorInvoiceSummaryReport extends FwWebApiReport {
     }
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
-        const validationName = request.module;
         const vendorId = FwFormField.getValueByDataField($form, 'VendorId');
-        request.uniqueids = {};
-
-        switch (validationName) {
-            case 'PurchaseOrderValidation':
+        switch (datafield) {
+            case 'PurchaseOrderId':
                 if (vendorId !== "") {
                     request.uniqueids.VendorId = vendorId;
                 }
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatepurchaseorder`);
+                break;
+            case 'OfficeLocationId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateofficelocation`);
+                break;
+            case 'DepartmentId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedepartment`);
+                break;
+            case 'DealId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedeal`);
+                break;
+            case 'VendorId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatevendor`);
                 break;
         };
     };

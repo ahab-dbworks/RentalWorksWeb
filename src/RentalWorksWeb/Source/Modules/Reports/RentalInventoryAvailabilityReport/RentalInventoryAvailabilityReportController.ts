@@ -153,23 +153,24 @@ class RentalInventoryAvailabilityReport extends FwWebApiReport {
     }
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
-        const validationName = request.module;
-        if (validationName != null) {
+
             const inventoryTypeId = FwFormField.getValueByDataField($form, 'InventoryTypeId');
             const categoryId = FwFormField.getValueByDataField($form, 'CategoryId');
             const subCategoryId = FwFormField.getValueByDataField($form, 'SubCategoryId');
             request.uniqueids = {};
 
-            switch (validationName) {
-                case 'InventoryTypeValidation':
+            switch (datafield) {
+                case 'InventoryTypeId':
                     request.uniqueids.Rental = true;
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventorytype`);
                     break;
-                case 'RentalCategoryValidation':
+                case 'CategoryId':
                     if (inventoryTypeId !== "") {
                         request.uniqueids.InventoryTypeId = inventoryTypeId;
                     }
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validaterentalcategory`);
                     break;
-                case 'SubCategoryValidation':
+                case 'SubCategoryId':
                     request.uniqueids.Rental = true;
                     if (inventoryTypeId !== "") {
                         request.uniqueids.InventoryTypeId = inventoryTypeId;
@@ -177,8 +178,9 @@ class RentalInventoryAvailabilityReport extends FwWebApiReport {
                     if (categoryId !== "") {
                         request.uniqueids.CategoryId = categoryId;
                     }
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatesubcategory`);
                     break;
-                case 'RentalInventoryValidation':
+                case 'InventoryId':
                     if (inventoryTypeId !== "") {
                         request.uniqueids.InventoryTypeId = inventoryTypeId;
                     };
@@ -188,10 +190,13 @@ class RentalInventoryAvailabilityReport extends FwWebApiReport {
                     if (subCategoryId !== "") {
                         request.uniqueids.SubCategoryId = subCategoryId;
                     };
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validaterentalinventory`);
+                    break;
+                case 'WarehouseId':
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateattribute`);
                     break;
             }
         }
-    }
     //----------------------------------------------------------------------------------------------
     dateValidation = function ($form, event) {
         const $element = jQuery(event.currentTarget);

@@ -235,23 +235,23 @@ class RepairOrderStatusReport extends FwWebApiReport {
     }
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
-        const validationName = request.module;
-        if (validationName != null) {
+
             const inventoryTypeId = FwFormField.getValueByDataField($form, 'InventoryTypeId');
             const categoryId = FwFormField.getValueByDataField($form, 'CategoryId');
             const subCategoryId = FwFormField.getValueByDataField($form, 'SubCategoryId');
-            request.uniqueids = {};
 
-            switch (validationName) {
-                case 'InventoryTypeValidation':
+            switch (datafield) {
+                case 'InventoryTypeId':
                     request.uniqueids.Rental = true;
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventorytype`);
                     break;
-                case 'RentalCategoryValidation':
+                case 'CategoryId':
                     if (inventoryTypeId !== "") {
                         request.uniqueids.InventoryTypeId = inventoryTypeId;
                     }
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecategory`);
                     break;
-                case 'SubCategoryValidation':
+                case 'SubCategoryId':
                     request.uniqueids.Rental = true;
                     if (inventoryTypeId !== "") {
                         request.uniqueids.InventoryTypeId = inventoryTypeId;
@@ -259,8 +259,9 @@ class RepairOrderStatusReport extends FwWebApiReport {
                     if (categoryId !== "") {
                         request.uniqueids.CategoryId = categoryId;
                     }
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatesubcategory`);
                     break;
-                case 'RentalInventoryValidation':
+                case 'InventoryId':
                     if (inventoryTypeId !== "") {
                         request.uniqueids.InventoryTypeId = inventoryTypeId;
                     };
@@ -270,9 +271,25 @@ class RepairOrderStatusReport extends FwWebApiReport {
                     if (subCategoryId !== "") {
                         request.uniqueids.SubCategoryId = subCategoryId;
                     };
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventory`);
+                    break;
+                case 'WarehouseId':
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatewarehouse`);
+                    break;
+                case 'DepartmentId':
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedepartment`);
+                    break;
+                case 'RepairItemStatusId':
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validaterepairitemstatus`);
+                    break;
+                case 'VendorId':
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatevendor`);
+                    break;
+                case 'VendorRepairItemStatusId':
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatevendorrepairitemstatus`);
                     break;
             }
-        }
+        
     }
     //----------------------------------------------------------------------------------------------
 };

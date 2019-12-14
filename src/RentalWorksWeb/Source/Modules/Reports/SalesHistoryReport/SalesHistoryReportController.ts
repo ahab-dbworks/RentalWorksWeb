@@ -137,27 +137,45 @@ class SalesHistoryReport extends FwWebApiReport {
     }
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
-        const validationName = request.module;
+
         const customerId = FwFormField.getValueByDataField($form, 'CustomerId');
         const dealId = FwFormField.getValueByDataField($form, 'DealId');
-        request.uniqueids = {};
 
-        switch (validationName) {
-            case 'InventoryTypeValidation':
+
+        switch (datafield) {
+            case 'InventoryTypeId':
                 request.uniqueids.Sales = true;
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventorytype`);
                 break;
-            case 'DealValidation':
+            case 'DealId':
                 if (customerId !== "") {
                     request.uniqueids.CustomerId = customerId;
                 }
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedeal`);
                 break;
-            case 'OrderValidation':
+            case 'OrderId':
                 if (customerId !== "") {
                     request.uniqueids.CustomerId = customerId;
                 }
                 if (dealId !== "") {
                     request.uniqueids.DealId = dealId;
                 }
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateorder`);
+                break;
+            case 'OfficeLocationId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateofficelocation`);
+                break;
+            case 'DepartmentId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedepartment`);
+                break;
+            case 'CustomerId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecustomer`);
+                break;
+            case 'VendorId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatevendor`);
+                break;
+            case 'WarehouseId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatewarehouse`);
                 break;
         };
     };

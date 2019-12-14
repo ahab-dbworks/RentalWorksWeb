@@ -85,23 +85,22 @@ class RetiredRentalInventoryReport extends FwWebApiReport {
     }
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
-        var validationName = request.module;
-        if (validationName != null) {
+
             const inventoryTypeId = FwFormField.getValueByDataField($form, 'InventoryTypeId');
             const categoryId = FwFormField.getValueByDataField($form, 'CategoryId');
             const subCategoryId = FwFormField.getValueByDataField($form, 'SubCategoryId');
-            request.uniqueids = {};
 
-            switch (validationName) {
-                case 'InventoryTypeValidation':
+
+            switch (datafield) {
+                case 'InventoryTypeId':
                     request.uniqueids.Rental = true;
                     break;
-                case 'RentalCategoryValidation':
+                case 'CategoryId':
                     if (inventoryTypeId !== "") {
                         request.uniqueids.InventoryTypeId = inventoryTypeId;
                     }
                     break;
-                case 'SubCategoryValidation':
+                case 'SubCategoryId':
                     request.uniqueids.Rental = true;
                     if (inventoryTypeId !== "") {
                         request.uniqueids.InventoryTypeId = inventoryTypeId;
@@ -110,7 +109,7 @@ class RetiredRentalInventoryReport extends FwWebApiReport {
                         request.uniqueids.CategoryId = categoryId;
                     }
                     break;
-                case 'RentalInventoryValidation':
+                case 'InventoryId':
                     if (inventoryTypeId !== "") {
                         request.uniqueids.InventoryTypeId = inventoryTypeId;
                     };
@@ -121,8 +120,20 @@ class RetiredRentalInventoryReport extends FwWebApiReport {
                         request.uniqueids.SubCategoryId = subCategoryId;
                     };
                     break;
+                case 'WarehouseId':
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatewarehouse`);
+                    break;
+                case 'RetiredReasonId':
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateretiredreason`);
+                    break;
+                case 'DealId':
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedeal`);
+                    break;
+                case 'CustomerId':
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecustomer`);
+                    break;
             }
-        }
+        
     }
     //----------------------------------------------------------------------------------------------
 };

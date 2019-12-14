@@ -63,6 +63,13 @@ class PhysicalInventoryRecountAnalysisReport extends FwWebApiReport {
         return parameters;
     }
     //----------------------------------------------------------------------------------------------
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
+        switch (datafield) {
+            case 'PhysicalInventoryId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatephysicalinventory`);
+                break;
+        }
+    }
 };
 
 var PhysicalInventoryRecountAnalysisReportController: any = new PhysicalInventoryRecountAnalysisReport();

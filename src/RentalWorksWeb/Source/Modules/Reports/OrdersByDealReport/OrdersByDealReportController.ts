@@ -254,7 +254,7 @@ class OrdersByDealReport extends FwWebApiReport {
                 if (customerId !== "") {
                     request.uniqueids.CustomerId = customerId;
                 }
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecontact`);
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedeal`);
                 break;
         }
     }

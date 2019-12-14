@@ -107,26 +107,39 @@ class RentalLostAndDamagedBillingHistoryReport extends FwWebApiReport {
     }
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
-        const validationName = request.module;
-        if (validationName != null) {
-            request.uniqueids = {};
+
  
-            switch (validationName) {
-                case 'InventoryTypeValidation':
+            switch (datafield) {
+                case 'InventoryTypeId':
                     request.uniqueids.Rental = true;
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventorytype`);
                     break;
-                case 'DealValidation':
+                case 'DealId':
                     request.uniqueids.CustomerId = FwFormField.getValueByDataField($form, 'CustomerId');
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedeal`);
                     break;
-                case 'RentalCategoryValidation':
+                case 'CategoryId':
                     request.uniqueids.InventoryTypeId = FwFormField.getValueByDataField($form, 'InventoryTypeId');
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecategory`);
                     break;
-                case 'RentalInventoryValidation':
+                case 'InventoryId':
                     request.uniqueids.InventoryTypeId = FwFormField.getValueByDataField($form, 'InventoryTypeId');
                     request.uniqueids.CategoryId = FwFormField.getValueByDataField($form, 'CategoryId');
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventory`);
+                    break;
+                case 'RetiredReasonId':
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateretiredreason`);
+                    break;
+                case 'CustomerId':
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecustomer`);
+                    break;
+                case 'WarehouseId':
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatewarehouse`);
+                    break;
+                case 'UnretiredReasonId':
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateunretiredreason`);
                     break;
             }
-        }
     };
     //----------------------------------------------------------------------------------------------
 };

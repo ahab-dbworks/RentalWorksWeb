@@ -109,15 +109,25 @@ class SalesRepresentativeBillingReport extends FwWebApiReport {
     }
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
-        const validationName = request.module;
         const customerId = FwFormField.getValueByDataField($form, 'CustomerId');
-        request.uniqueids = {};
-
-        switch (validationName) {
-            case 'DealValidation':
+        switch (datafield) {
+            case 'DealId':
                 if (customerId !== "") {
                     request.uniqueids.CustomerId = customerId;
                 }
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedeal`);
+                break;
+            case 'OfficeLocationId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateofficelocation`);
+                break;
+            case 'SalesRepresentativeId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatesalesrepresentative`);
+                break;
+            case 'DepartmentId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedepartment`);
+                break;
+            case 'CustomerId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecustomer`);
                 break;
         };
     };

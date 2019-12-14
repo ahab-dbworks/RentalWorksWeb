@@ -81,22 +81,32 @@ class SalesBackorderReport extends FwWebApiReport {
     }
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
-        const validationName = request.module;
-        if (validationName != null) {
-            const customerId = FwFormField.getValueByDataField($form, 'CustomerId');
-            request.uniqueids = {};
 
-            switch (validationName) {
-                case 'InventoryTypeValidation':
+            const customerId = FwFormField.getValueByDataField($form, 'CustomerId');
+
+
+            switch (datafield) {
+                case 'InventoryTypeId':
                     request.uniqueids.Sales = true;
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventorytype`);
                     break;
-                case 'DealValidation':
+                case 'DealId':
                     if (customerId !== "") {
                         request.uniqueids.CustomerId = customerId;
                     }
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedeal`);
+                    break;
+                case 'WarehouseId':
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatewarehouse`);
+                    break;
+                case 'VendorId':
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatevendor`);
+                    break;
+                case 'CustomerId':
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecustomer`);
                     break;
             }
-        }
+        
     }
     //----------------------------------------------------------------------------------------------
 };

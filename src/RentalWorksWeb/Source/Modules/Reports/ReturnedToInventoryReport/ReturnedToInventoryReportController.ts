@@ -92,23 +92,23 @@ class ReturnedToInventoryReport extends FwWebApiReport {
     }
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
-        var validationName = request.module;
-        if (validationName != null) {
+
             const inventoryTypeId = FwFormField.getValueByDataField($form, 'InventoryTypeId');
             const subCategoryId = FwFormField.getValueByDataField($form, 'SubCategoryId');
             const categoryId = FwFormField.getValueByDataField($form, 'CategoryId');
-            request.uniqueids = {};
 
-            switch (validationName) {
-                case 'InventoryTypeValidation':
+            switch (datafield) {
+                case 'InventoryTypeId':
                     request.uniqueids.Rental = true;
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventorytype`);
                     break;
-                case 'RentalCategoryValidation':
+                case 'CategoryId':
                     if (inventoryTypeId !== "") {
                         request.uniqueids.InventoryTypeId = inventoryTypeId;
                     }
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecategory`);
                     break;
-                case 'SubCategoryValidation':
+                case 'SubCategoryId':
                     request.uniqueids.Rental = true;
                     if (inventoryTypeId !== "") {
                         request.uniqueids.InventoryTypeId = inventoryTypeId;
@@ -116,17 +116,28 @@ class ReturnedToInventoryReport extends FwWebApiReport {
                     if (categoryId !== "") {
                         request.uniqueids.CategoryId = categoryId;
                     }
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatesubcategory`);
                     break;
-                case 'RentalInventoryValidation':
+                case 'InventoryId':
                     if (inventoryTypeId !== "") {
                         request.uniqueids.InventoryTypeId = inventoryTypeId;
                     };
                     if (categoryId !== "") {
                         request.uniqueids.CategoryId = categoryId;
                     };
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventory`);
+                    break;
+                case 'UserId':
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateuser`);
+                    break;
+                case 'DealId':
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedeal`);
+                    break;
+                case 'WarehouseId':
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatewarehouse`);
                     break;
             }
-        }
+        
     }
     //----------------------------------------------------------------------------------------------
 };

@@ -113,6 +113,17 @@ class SalesTaxCanadaReport extends FwWebApiReport {
         ]);
     }
     //----------------------------------------------------------------------------------------------
+
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
+        switch (datafield) {
+            case 'OfficeLocationId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateofficelocation`);
+                break;
+            case 'DepartmentId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedepartment`);
+                break;
+        };
+    };
 }
 
 var SalesTaxCanadaReportController: any = new SalesTaxCanadaReport();

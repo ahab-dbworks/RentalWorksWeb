@@ -109,6 +109,26 @@ class PurchaseOrderReport extends FwWebApiReport {
         ]);
     }
     //----------------------------------------------------------------------------------------------
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
+        switch (datafield) {
+            case 'WarehouseId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatewarehouse`);
+                break;
+            case 'ProjectId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateproject`);
+                break;
+            case 'VendorId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatevendor`);
+                break;
+            case 'DepartmentId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedepartment`);
+                break;
+            case 'PoApprovalStatusId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatepoapprovalstatus`);
+                break;
+        };
+    };
+    //----------------------------------------------------------------------------------------------
 };
 
 var PurchaseOrderReportController: any = new PurchaseOrderReport();
