@@ -15,6 +15,7 @@ class PurchaseOrder implements IModule {
     CachedPurchaseOrderTypes: any = {};
     //----------------------------------------------------------------------------------------------
     addBrowseMenuItems(options: IAddBrowseMenuOptions): void {
+        options.hasInactive = false;
         FwMenu.addBrowseMenuButtons(options);
 
         const $all = FwMenu.generateDropDownViewBtn('All', true, "ALL");
@@ -940,7 +941,8 @@ class PurchaseOrder implements IModule {
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     OrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId'),
-                    RecType: 'R'
+                    RecType: 'R',
+                    Subs: true,
                 };
             },
             beforeSave: (request: any) => {
@@ -1050,7 +1052,8 @@ class PurchaseOrder implements IModule {
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     OrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId'),
-                    RecType: 'S'
+                    RecType: 'S',
+                    Subs: true,
                 };
             },
             beforeSave: (request: any) => {
@@ -1153,7 +1156,8 @@ class PurchaseOrder implements IModule {
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     OrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId'),
-                    RecType: 'L'
+                    RecType: 'L',
+                    Subs: true,
                 };
             },
             beforeSave: (request: any) => {
@@ -1257,7 +1261,8 @@ class PurchaseOrder implements IModule {
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     OrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId'),
-                    RecType: 'M'
+                    RecType: 'M',
+                    Subs: true,
                 };
             },
             beforeSave: (request: any) => {

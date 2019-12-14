@@ -30,13 +30,6 @@ class InventoryPurchaseUtility {
         $form.off('change keyup', '.fwformfield[data-enabled="true"]:not([data-isuniqueid="true"][data-datafield=""])');
 
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
-        const today = FwFunc.getDate();
-        FwFormField.setValueByDataField($form, 'WarehouseId', warehouse.warehouseid, warehouse.warehouse);
-        FwFormField.setValueByDataField($form, 'Quantity', 1);
-        FwFormField.setValueByDataField($form, 'PurchaseDate', today);
-        FwFormField.setValueByDataField($form, 'ReceiveDate', today);
-
-
         const $manufacturerValidation = $form.find('[data-datafield="ManufacturerVendorId"]');
         $manufacturerValidation.data('beforevalidate', ($form, $manufacturerValidation, request) => {
             request.uniqueids = {
@@ -65,9 +58,19 @@ class InventoryPurchaseUtility {
             }
         });
 
+        this.setDefaults($form);
         this.events($form);
         return $form;
     };
+    //----------------------------------------------------------------------------------------------
+    setDefaults($form) {
+        const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+        const today = FwFunc.getDate();
+        FwFormField.setValueByDataField($form, 'WarehouseId', warehouse.warehouseid, warehouse.warehouse);
+        FwFormField.setValueByDataField($form, 'Quantity', 1);
+        FwFormField.setValueByDataField($form, 'PurchaseDate', today);
+        FwFormField.setValueByDataField($form, 'ReceiveDate', today);
+    }
     //----------------------------------------------------------------------------------------------
     events($form) {
         const $itemGridControl = $form.find('[data-name="InventoryPurchaseItemGrid"]');
@@ -146,6 +149,8 @@ class InventoryPurchaseUtility {
                 AisleLocation: FwFormField.getValueByDataField($form, 'AisleLocation'),
                 ShelfLocation: FwFormField.getValueByDataField($form, 'ShelfLocation'),
                 ManufacturerVendorId: FwFormField.getValueByDataField($form, 'ManufacturerVendorId'),
+                ManufacturerModelNumber: FwFormField.getValueByDataField($form, 'ManufacturerModelNumber'),
+                ManufacturerPartNumber: FwFormField.getValueByDataField($form, 'ManufacturerPartNumber'),
                 CountryId: FwFormField.getValueByDataField($form, 'CountryId'),
                 WarrantyDays: FwFormField.getValueByDataField($form, 'WarrantyDays'),
                 WarrantyExpiration: FwFormField.getValueByDataField($form, 'WarrantyExpiration'),
@@ -160,6 +165,10 @@ class InventoryPurchaseUtility {
                 response => {
                     if (response.success) {
                         FwNotification.renderNotification("SUCCESS", "Purchase(s) Successfully Created");
+                        $form.find('.fwformfield input').val('');
+                        $itemGridControl.find('tr.viewmode').empty();
+                        $form.removeData('sessionid');
+                        this.setDefaults($form);
                         //    const uniqueids: any = {};
                         //    uniqueids.PurchaseId = 
                         //    const $control = PurchaseController.loadForm(uniqueids);
@@ -167,7 +176,7 @@ class InventoryPurchaseUtility {
                     } else {
                         FwNotification.renderNotification("ERROR", response.msg);
                     }
-            }, ex => FwFunc.showError(ex), $form);
+                }, ex => FwFunc.showError(ex), $form);
         });
 
         //Assign Bar Codes button
@@ -175,6 +184,8 @@ class InventoryPurchaseUtility {
             if (typeof $form.data('sessionid') === 'string') {
                 const request: any = {};
                 request.SessionId = $form.data('sessionid');
+                request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
+                request.WarehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
                 FwAppData.apiMethod(true, 'POST', `api/v1/inventorypurchaseutility/assignbarcodes`, request, FwServices.defaultTimeout,
                     response => {
                         FwBrowse.search($itemGridControl);

@@ -36,7 +36,7 @@ namespace WebApi.Modules.Inventory.Asset
         {
             InventoryStatusLogic s = new InventoryStatusLogic();
             s.SetDependencies(AppConfig, UserSession);
-            GetResponse<InventoryStatusLogic> r = await s.GetManyAsync<InventoryStatusLogic>(new GetRequest());
+            GetResponse<InventoryStatusLogic> r = await s.GetManyAsync<InventoryStatusLogic>(new GetInventoryStatusRequest());
 
             Dictionary<string, string> legend = new Dictionary<string, string>();
             foreach (InventoryStatusLogic l in r.Items)

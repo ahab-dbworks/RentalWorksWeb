@@ -1448,6 +1448,10 @@ namespace FwStandard.BusinessLogic
                         {
                             title = title + ((decimal)propertyValue).ToString().TrimEnd();
                         }
+                        else if (propertyValue is DateTime)
+                        {
+                            title = title + ((DateTime)propertyValue).ToShortDateString();
+                        }
                         else
                         {
                             throw new Exception("Property type " + propertyValue.GetType().ToString() + " needs to be implemented! [FwBusinessLogic.RecordTitle]");

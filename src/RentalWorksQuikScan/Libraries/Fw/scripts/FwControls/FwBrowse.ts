@@ -1657,7 +1657,7 @@ class FwBrowseClass {
             $browse = $control.closest('.fwbrowse');
             controller = $control.attr('data-controller');
             if (typeof window[controller] === 'undefined') throw 'Missing javascript module: ' + controller;
-            
+
             var $menu = FwGridMenu.getMenuControl('grid');
             $browse.find('.gridmenu').append($menu);
             const $subMenu = FwMenu.addSubMenu($menu);
@@ -1665,7 +1665,7 @@ class FwBrowseClass {
             const $groupActions = FwMenu.addSubMenuGroup($colActions, 'Actions');
             const $colExport = FwMenu.addSubMenuColumn($subMenu);
             const $groupExport = FwMenu.addSubMenuGroup($colExport, 'Export');
-            
+
             //const $submenucolumn = FwGridMenu.addSubMenuColumn($submenubtn);
             //const $rowactions = FwGridMenu.addSubMenuGroup($submenucolumn, 'Actions', '');
             const options: IAddGridMenuOptions = {
@@ -1715,7 +1715,7 @@ class FwBrowseClass {
 
                 }
             }
-            
+
             if (typeof window[controller]['setDefaultOptions'] === 'function') {
                 window[controller]['setDefaultOptions']($control);
             }
@@ -1746,7 +1746,7 @@ class FwBrowseClass {
                 });
             }
         }
-        
+
         if (typeof options.hasDelete === 'boolean' && options.hasDelete && nodeGridDelete !== null && nodeGridDelete.properties.visible === 'T') {
             const $submenuitem = FwGridMenu.addSubMenuBtn(options.$groupActions, 'Delete Selected', nodeGridDelete.id);
             $submenuitem.on('click', (e: JQuery.Event) => {
@@ -1758,7 +1758,7 @@ class FwBrowseClass {
                             if ($selectedCheckBoxes.length === 0) {
                                 FwFunc.showMessage('Select one or more rows to delete!');
                             } else {
-                                var $confirmation = FwConfirmation.yesNo('Delete Record' + ($selectedCheckBoxes.length > 1 ? 's' : ''), 'Delete ' + $selectedCheckBoxes.length + ' record' + ($selectedCheckBoxes.length > 1 ? 's' : '') + '?', 
+                                var $confirmation = FwConfirmation.yesNo('Delete Record' + ($selectedCheckBoxes.length > 1 ? 's' : ''), 'Delete ' + $selectedCheckBoxes.length + ' record' + ($selectedCheckBoxes.length > 1 ? 's' : '') + '?',
                                     //on yes
                                     () => {
                                         try {
@@ -1772,7 +1772,7 @@ class FwBrowseClass {
                                         }
                                     },
                                     // on no
-                                    () => { 
+                                    () => {
                                         // do nothing
                                     });
 
@@ -2525,7 +2525,7 @@ class FwBrowseClass {
                             throw 'Attribute data-controller is not defined on Browse control.'
                         }
                         // Delete menu option
-                        if ($browse.attr('data-enabled') !== 'false' && $browse.attr('data-deleteoption') !== 'false' && 
+                        if ($browse.attr('data-enabled') !== 'false' && $browse.attr('data-deleteoption') !== 'false' &&
                             ((nodeEdit !== null && nodeEdit.properties.visible === 'T') || (nodeSave !== null && nodeSave.properties.visible === 'T'))) {
                             const nodeGrid = FwApplicationTree.getNodeById(nodeModule, $browse.data('secid'));
                             if (nodeGrid !== null) {
@@ -2717,14 +2717,23 @@ class FwBrowseClass {
             }
 
             if (typeof onrowdblclick !== 'undefined') {
-                $control.find('.runtime tbody').one('dblclick', '> tr', (event: JQuery.DoubleClickEvent) => {
+                $control.find('.runtime tbody').on('dblclick', '> tr', (event: JQuery.DoubleClickEvent) => {
                     let $tr = jQuery(event.target);
+
                     $tr.addClass('selected');
-                    if ((nodeView !== null && nodeView.properties.visible === 'T') || 
-                        (nodeEdit !== null && nodeEdit.properties.visible === 'T') || 
-                        (nodeSave !== null && nodeSave.properties.visible === 'T') ||
-                        $control.attr('data-type') === 'Validation') {
+                    if ((nodeView !== null && nodeView.properties.visible === 'T') ||
+                        (nodeEdit !== null && nodeEdit.properties.visible === 'T') ||
+                        (nodeSave !== null && nodeSave.properties.visible === 'T')) {
                         onrowdblclick.apply(event.currentTarget, [event]);
+                    }
+
+                    if ($control.attr('data-type') === 'Validation') {
+                        if ($tr.data('onrowdblclick')) {  //prevents event from being applied multiple times to the same control, fixes issue with .data('onchange') events triggering multiple times
+                            return false;
+                        } else {
+                            $tr.data('onrowdblclick', true);
+                            onrowdblclick.apply(event.currentTarget, [event]);
+                        }
                     }
                 });
             }
@@ -4126,19 +4135,19 @@ class FwBrowseClass {
     }
     //---------------------------------------------------------------------------------
     renderGrid(options: {
-            moduleSecurityId: string,
-            $form: JQuery,
-            gridSelector?: string,
-            nameGrid: string,
-            gridSecurityId: string,
-            pageSize?: number,
-            getBaseApiUrl?: () => string,
-            onDataBind?: (request: any) => void,
-            afterDataBindCallback?: ($browse: JQuery, dt: FwJsonDataTable) => void,
-            beforeSave?: (request: any) => void,
-            addGridMenu?: (options: IAddGridMenuOptions) => void,
-            beforeInit?: ($fwgrid: JQuery, $browse: JQuery) => void
-        }): JQuery {
+        moduleSecurityId: string,
+        $form: JQuery,
+        gridSelector?: string,
+        nameGrid: string,
+        gridSecurityId: string,
+        pageSize?: number,
+        getBaseApiUrl?: () => string,
+        onDataBind?: (request: any) => void,
+        afterDataBindCallback?: ($browse: JQuery, dt: FwJsonDataTable) => void,
+        beforeSave?: (request: any) => void,
+        addGridMenu?: (options: IAddGridMenuOptions) => void,
+        beforeInit?: ($fwgrid: JQuery, $browse: JQuery) => void
+    }): JQuery {
         if (typeof options.gridSelector !== 'string' || options.gridSelector.length === 0) {
             options.gridSelector = `div[data-grid="${options.nameGrid}"]`;
         }
@@ -4151,14 +4160,14 @@ class FwBrowseClass {
         $browse.data('secid', options.gridSecurityId);
         $browse.attr('data-pagesize', options.pageSize);
         if (typeof options.getBaseApiUrl === 'function') {
-            $browse.data('getbaseapiurl', options.getBaseApiUrl) 
+            $browse.data('getbaseapiurl', options.getBaseApiUrl)
         }
         if (typeof options.onDataBind === 'function') {
             $browse.data('ondatabind', options.onDataBind);
         }
         if (typeof options.afterDataBindCallback === 'function') {
             FwBrowse.addEventHandler($browse, 'afterdatabindcallback', ($browse: JQuery, dt: FwJsonDataTable) => {
-               options.afterDataBindCallback($browse, dt);
+                options.afterDataBindCallback($browse, dt);
             });
         }
         if (typeof options.beforeSave === 'function') {
@@ -4168,7 +4177,7 @@ class FwBrowseClass {
             $browse.data('addGridMenu', options.addGridMenu);
         } else {
             $browse.data('addGridMenu', (options: IAddGridMenuOptions) => void {
-                
+
             });
         }
         if (typeof options.beforeInit === 'function') {

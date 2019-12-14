@@ -90,10 +90,15 @@ class ReturnReceiptReport extends FwWebApiReport {
     onLoadForm($form) {
         this.load($form, this.reportOptions);
 
-        const department = JSON.parse(sessionStorage.getItem('department'));
-        FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid, department.department);
+        // Default settings for first time running
         const location = JSON.parse(sessionStorage.getItem('location'));
         FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', location.locationid, location.location);
+        const department = JSON.parse(sessionStorage.getItem('department'));
+        FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid, department.department);
+        const today = FwFunc.getDate();
+        FwFormField.setValueByDataField($form, 'ToDate', today);
+        const aMonthAgo = FwFunc.getDate(today, -30);
+        FwFormField.setValueByDataField($form, 'FromDate', aMonthAgo);
     }
     //----------------------------------------------------------------------------------------------
     convertParameters(parameters: any) {

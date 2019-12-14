@@ -295,21 +295,20 @@ class FwMenuClass {
 
                     (<any>window)[controller].ActiveViewFields[filterField] = fields;
 
-                    let request = {
-                        WebUserId: JSON.parse(sessionStorage.getItem('userid')).webusersid
-                        , ModuleName: (<any>window)[controller].Module
-                        , ActiveViewFields: JSON.stringify((<any>window)[controller].ActiveViewFields)
-                        , OfficeLocationId: JSON.parse(sessionStorage.getItem('location')).locationid
-                    };
+                    const request: any = {}; 
+                    request.WebUserId = JSON.parse(sessionStorage.getItem('userid')).webusersid;
+                    request.ModuleName = (<any>window)[controller].Module;
+                    request.ActiveViewFields = JSON.stringify((<any>window)[controller].ActiveViewFields);
+                    request.OfficeLocationId = JSON.parse(sessionStorage.getItem('location')).locationid;
 
                     if (typeof (<any>window)[controller].ActiveViewFieldsId == 'undefined') {
                         FwAppData.apiMethod(true, 'POST', `api/v1/browseactiveviewfields/`, request, FwServices.defaultTimeout, function onSuccess(response) {
                             (<any>window)[controller].ActiveViewFieldsId = response.Id;
-                        }, null, null);
+                        }, ex => FwFunc.showError(ex), $browse);
                     } else {
-                        request["Id"] = (<any>window)[controller].ActiveViewFieldsId;
-                        FwAppData.apiMethod(true, 'POST', `api/v1/browseactiveviewfields/`, request, FwServices.defaultTimeout, function onSuccess(response) {
-                        }, null, null);
+                        request.Id = (<any>window)[controller].ActiveViewFieldsId;
+                        FwAppData.apiMethod(true, 'PUT', `api/v1/browseactiveviewfields/${request.Id}`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                        }, ex => FwFunc.showError(ex), $browse);
                     }
                 }
 

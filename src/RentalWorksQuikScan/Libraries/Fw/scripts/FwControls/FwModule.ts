@@ -276,7 +276,15 @@ class FwModule {
         }
 
         // add the Active/Inactive dropdown to the browse menu
-        //if ((typeof options.$browse !== null) && (typeof options.$browse.attr('data-hasinactive') === 'string') && (options.$browse.attr('data-hasinactive') === 'true')) {
+        if (typeof options.$browse !== null) {
+            if (typeof options.$browse.attr('data-hasinactive') === 'string') {
+                options.hasInactive = (options.$browse.attr('data-hasinactive') === 'true');
+                //console.warn(`HasInactive for browse control: ${options.$browse.attr('data-controller')} should be updated to define hasinactive in the TypeScript code.`);
+            } else {
+                // mv 2019-12-12 Not sure if this is needed, just adding this in case some legacy code needs this
+                options.$browse.attr('data-hasinactive', options.hasInactive.toString());
+            }
+        }
         if (options.hasInactive) {
             if (typeof options.$browse.attr('data-activeinactiveview') === 'undefined') {
                 options.$browse.attr('data-activeinactiveview', 'active');

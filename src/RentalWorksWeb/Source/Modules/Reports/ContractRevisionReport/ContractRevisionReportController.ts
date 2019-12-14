@@ -92,9 +92,6 @@ class ContractRevisionReport extends FwWebApiReport {
         this.load($form, this.reportOptions);
         this.loadLists($form);
 
-        const location = JSON.parse(sessionStorage.getItem('location'));
-        FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', location.locationid, location.location);
-
         const filterDates = $form.find('div[data-datafield="FilterDates"] input');
         filterDates.on('change', e => {
             if (jQuery(e.currentTarget).prop('checked')) {
@@ -108,6 +105,13 @@ class ContractRevisionReport extends FwWebApiReport {
         $form.find('.filter-caption input').remove();
         $form.find('.filter-caption label').css('padding-bottom', '42px');
 
+        // Default settings for first time running
+        const location = JSON.parse(sessionStorage.getItem('location'));
+        FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', location.locationid, location.location);
+        const today = FwFunc.getDate();
+        FwFormField.setValueByDataField($form, 'ToDate', today);
+        const aMonthAgo = FwFunc.getDate(today, -30);
+        FwFormField.setValueByDataField($form, 'FromDate', aMonthAgo);
     }
     //----------------------------------------------------------------------------------------------
     convertParameters(parameters: any) {

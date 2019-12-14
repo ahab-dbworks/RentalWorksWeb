@@ -259,7 +259,6 @@
     <Content Include="Source\Grids\DiscountItemLaborGrid\DiscountItemLaborGridBrowse.htm" />
     <Content Include="Source\Grids\DiscountItemSalesGrid\DiscountItemSalesGridBrowse.htm" />
     <Content Include="Source\Grids\DiscountItemRentalGrid\DiscountItemRentalGridBrowse.htm" />
-    <Content Include="Source\Grids\DiscountItemGrid\DiscountItemGridBrowse.htm" />
     <Content Include="Source\Grids\InventoryAttributeValueGrid\InventoryAttributeValueGridBrowse.htm" />
     <Content Include="Source\Grids\FiscalMonthGrid\FiscalMonthGridBrowse.htm" />
     <Content Include="Source\Grids\DealShipperGrid\DealShipperGridBrowse.htm" />
@@ -413,7 +412,6 @@
     <TypeScriptCompile Include="Source\Grids\DiscountItemLaborGrid\DiscountItemLaborGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\DiscountItemSalesGrid\DiscountItemSalesGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\DiscountItemRentalGrid\DiscountItemRentalGridController.ts" />
-    <TypeScriptCompile Include="Source\Grids\DiscountItemGrid\DiscountItemGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\InventoryAttributeValueGrid\InventoryAttributeValueGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\FiscalMonthGrid\FiscalMonthGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\DealNoteGrid\DealNoteGridController.ts" />
@@ -505,9 +503,11 @@
     <TypeScriptCompile Include="Source\Modules\Home\ScanBarCodes\ScanBarCodes.ts" />
     <TypeScriptCompile Include="Source\Modules\Billing\Billing\BillingMessage.ts" />
     <TypeScriptCompile Include="Source\Modules\Containers\EmptyContainer\EmptyContainer.ts" />
+    <TypeScriptCompile Include="Source\Modules\Inventory\PurchaseHistory\PurchaseHistory.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\AccountingSettings\AccountingSettings\AccountingSettings.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\AccountingSettings\GlAccount\GlAccount.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\AccountingSettings\GlDistribution\GlDistribution.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\ExportSettings\DataExportFormat\DataExportFormat.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\FacilitySettings\Building\Building.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\FacilitySettings\FacilityCategory\FacilityCategory.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\FacilitySettings\FacilityRate\FacilityRate.ts" />
@@ -663,6 +663,8 @@
     <Content Include="Source\Modules\Settings\AccountingSettings\GlAccount\GlAccountForm.htm" />
     <Content Include="Source\Modules\Settings\AccountingSettings\GlDistribution\GlDistributionBrowse.htm" />
     <Content Include="Source\Modules\Settings\AccountingSettings\GlDistribution\GlDistributionForm.htm" />
+    <Content Include="Source\Modules\Settings\ExportSettings\DataExportFormat\DataExportFormatBrowse.htm" />
+    <Content Include="Source\Modules\Settings\ExportSettings\DataExportFormat\DataExportFormatForm.htm" />
     <Content Include="Source\Modules\Settings\FacilitySettings\Building\Building.js" />
     <Content Include="Source\Modules\Settings\FacilitySettings\Building\BuildingBrowse.htm" />
     <Content Include="Source\Modules\Settings\FacilitySettings\Building\BuildingForm.htm" />

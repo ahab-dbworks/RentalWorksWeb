@@ -10,6 +10,7 @@ class Quote extends OrderBase {
     id: string = Constants.Modules.Agent.children.Quote.id;
     //----------------------------------------------------------------------------------------------
     addBrowseMenuItems(options: IAddBrowseMenuOptions): void {
+        options.hasInactive = false;
         FwMenu.addBrowseMenuButtons(options);
 
         FwMenu.addSubMenuItem(options.$groupOptions, 'Cancel / Uncancel', 'dpH0uCuEp3E89', (e: JQuery.ClickEvent) => {

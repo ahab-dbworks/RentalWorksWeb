@@ -102,10 +102,17 @@ class SubRentalBillingAnalysisReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     onLoadForm($form) {
         this.load($form, this.reportOptions);
+        this.loadLists($form);
+
+        // Default settings for first time running
+        const department = JSON.parse(sessionStorage.getItem('department'));
+        FwFormField.setValue($form, 'div[data-datafield="Department"]', department.departmentid, department.department);
         const location = JSON.parse(sessionStorage.getItem('location'));
         FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', location.locationid, location.location);
-
-        this.loadLists($form);
+        const today = FwFunc.getDate();
+        FwFormField.setValueByDataField($form, 'ToDate', today);
+        const aMonthAgo = FwFunc.getDate(today, -30);
+        FwFormField.setValueByDataField($form, 'FromDate', aMonthAgo);
     }
     //----------------------------------------------------------------------------------------------
     loadLists($form: JQuery): void {

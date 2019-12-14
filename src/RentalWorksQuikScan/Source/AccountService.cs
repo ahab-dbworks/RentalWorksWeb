@@ -1,7 +1,6 @@
 ﻿using Fw.Json.Services;
 using Fw.Json.SqlServer;
 using Fw.Json.Utilities;
-using FwStandard.Security;
 using RentalWorksQuikScan.Modules;
 
 namespace RentalWorksQuikScan.Source
@@ -14,7 +13,7 @@ namespace RentalWorksQuikScan.Source
             response.webUser.iscrew      = (FwValidate.IsPropertyDefined(webUserData, "iscrew"))     ? webUserData.iscrew     : string.Empty;
             tokenData.webUser.locationid = (FwValidate.IsPropertyDefined(webUserData, "locationid")) ? webUserData.locationid : string.Empty;
 
-            //Exposes application options to the front end
+            //Exposes application options to rthe front end
             if (FwValidate.IsPropertyDefined(session.applicationOptions, "packagetruck"))  response.applicationOptions.packagetruck  = session.applicationOptions.packagetruck;
             if (FwValidate.IsPropertyDefined(session.applicationOptions, "props"))         response.applicationOptions.props         = session.applicationOptions.props;
             if (FwValidate.IsPropertyDefined(session.applicationOptions, "tieredpricing")) response.applicationOptions.tieredpricing = session.applicationOptions.tieredpricing;
@@ -31,7 +30,7 @@ namespace RentalWorksQuikScan.Source
         //----------------------------------------------------------------------------------------------------
         public override dynamic GetGroupsTree(string groupsid, bool removeHiddenNodes)
         {
-            return FwSecurityTree.Tree.GetGroupsTreeAsync(groupsid, true);
+            return null;
         }
         //----------------------------------------------------------------------------------------------------
     }

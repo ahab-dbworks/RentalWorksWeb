@@ -25,6 +25,7 @@ RwServices.FillContainer.InstantiateContainer          = function(request, doneC
 RwServices.FillContainer.RemoveItemFromContainer       = function(request, doneCallback) {RwAppData.jsonPost(true,  'services.ashx?path=/fillcontainer/removeitemfromcontainer',       request, doneCallback);};
 RwServices.FillContainer.SelectContainer               = function(request, doneCallback) {RwAppData.jsonPost(true,  'services.ashx?path=/fillcontainer/selectcontainer',               request, doneCallback);};
 RwServices.FillContainer.SetContainerNo                = function(request, doneCallback) {RwAppData.jsonPost(true,  'services.ashx?path=/fillcontainer/setcontainerno',                request, doneCallback);};
+RwServices.inventory.getBarcodeFromRfid                = function(request, doneCallback) {RwAppData.jsonPost(true,  'services.ashx?path=/inventory/getbarcodefromrfid',                request, doneCallback);};
 RwServices.inventory.addInventoryWebImage              = function(request, doneCallback) {RwAppData.jsonPost(true,  'services.ashx?path=/inventory/addinventorywebimage',              request, doneCallback);};
 RwServices.inventory.selectRepairOrder                 = function(request, doneCallback) {RwAppData.jsonPost(true,  'services.ashx?path=/inventory/selectrepairorder',                 request, doneCallback);};
 RwServices.inventory.updateRepairOrder                 = function(request, doneCallback) {RwAppData.jsonPost(true,  'services.ashx?path=/inventory/updaterepairorder',                 request, doneCallback);};

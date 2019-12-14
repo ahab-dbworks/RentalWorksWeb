@@ -106,9 +106,16 @@ class RentalInventoryUsageReport extends FwWebApiReport {
         this.load($form, this.reportOptions);
         this.loadLists($form);
 
+        // Default settings for first time running
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
-
+        const today = FwFunc.getDate();
+        FwFormField.setValueByDataField($form, 'ToDate', today);
+        const aMonthAgo = FwFunc.getDate(today, -30);
+        FwFormField.setValueByDataField($form, 'FromDate', aMonthAgo);
+    }
+    //----------------------------------------------------------------------------------------------
+    afterLoad($form) {
         const $filterOperators = $form.find('div[data-datafield="UtilizationFilterMode"]');
         FwFormField.loadItems($filterOperators, [
             { value: 'ALL', text: 'ALL' },
@@ -133,8 +140,6 @@ class RentalInventoryUsageReport extends FwWebApiReport {
     }
     //----------------------------------------------------------------------------------------------
     convertParameters(parameters: any) {
-        console.log('params', parameters)
-
         return parameters;
     }
     //----------------------------------------------------------------------------------------------

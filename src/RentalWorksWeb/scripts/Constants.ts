@@ -95,6 +95,7 @@ var Constants = {
                 AvailabilityConflicts:    { id: '2xsgUfsXeKJH',  caption: 'Availability Conflicts', nav: 'module/availabilityconflicts', nodetype: 'Module' },
                 CompleteQc:               { id: 'VwNYsEONLutM',  caption: 'Complete QC',            nav: 'module/completeqc', nodetype: 'Module' },
                 PartsInventory:           { id: '2WDCohbQV6GU',  caption: 'Parts Inventory',        nav: 'module/partsinventory', nodetype: 'Module' },
+                PurchaseHistory:          { id: '8XKYiQYXj9BKK', caption: 'Purchase History',       nav: 'module/purchasehistory', nodetype: 'Module' },
                 PhysicalInventory:        { id: 'JIuxFUWTLDC6',  caption: 'Physical Inventory',     nav: 'module/physicalinventory', nodetype: 'Module' },
                 RentalInventory:          { id: '3ICuf6pSeBh6G', caption: 'Rental Inventory',       nav: 'module/rentalinventory', nodetype: 'Module' },
                 Repair:                   { id: 't4gfyzLkSZhyc', caption: 'Repair Order',           nav: 'module/repair', nodetype: 'Module' },
@@ -396,7 +397,14 @@ var Constants = {
                         PhotographyType: { id: 'bFH6YcKYCqye', caption: 'Photography Type', nav: 'settings/eventsettings/photographytype', nodetype: 'Module', description: '' }
                     }
                 },
-
+                ExportSettings: {
+                    caption: 'Export',
+                    id: 'Settings.ExportSettings',
+                    nodetype: 'Category',
+                    children: {
+                        DataExportFormat: { id: 'ItSDcv89HNNo', caption: 'Data Export Format', nav: 'settings/exportsettings/dataexportformat', nodetype: 'Module', description: '' },
+                    }
+                },
                 FacilitySettings: {
                     caption: 'Facility',
                     id: 'Settings.FacilitySettings',
@@ -803,7 +811,6 @@ var Constants = {
         CustomFormUserGrid: { id: 'nHNdXDBX6m6cp', caption: 'Custom Form User' },
         DealNoteGrid: { id: 'jcwmVLFEU88k', caption: 'Deal Notes' },
         DealShipperGrid: { id: '5cMD0y0jSUgz', caption: 'Deal Shipper' },
-        DiscountItemGrid: { id: 'UMKuETy6vOLA', caption: 'Discount Item' },
         DiscountItemLaborGrid: { id: 'UMKuETy6vOLA', caption: 'Discount Item Labor' },
         DiscountItemMiscGrid: { id: 'UMKuETy6vOLA', caption: 'Discount Item Misc' },
         DiscountItemRentalGrid: { id: 'UMKuETy6vOLA', caption: 'Discount Item Rental' },

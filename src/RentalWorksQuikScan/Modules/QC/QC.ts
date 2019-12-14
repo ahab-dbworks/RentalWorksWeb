@@ -1,4 +1,4 @@
-﻿class QCClass {
+class QCClass {
     getQCScreen(viewModel, properties) {
         var combinedViewModel, screen, $search, $item, $itemstatus;
         combinedViewModel = jQuery.extend({
@@ -21,26 +21,6 @@
         $search     = screen.$view.find('.qc-search');
         $item       = screen.$view.find('.qc-item');
         $itemstatus = screen.$view.find('.qc-item-status');
-
-        if (program.hasHfRfidApplicationOption === true) {
-            if (typeof (<any>window).DTDevices !== 'undefined' && typeof (<any>window).DTDevices.rfInitWithFieldGain === 'function') {
-                DTDevices.rfInitWithFieldGain('ISO15', -1000,
-                    function () {
-                        FwNotification.renderNotification('SUCCESS', 'Enabled nearfield scanner.');
-                    },
-                    function () {
-                        FwNotification.renderNotification('ERROR', 'Can\'t enable nearfield scanner.');
-                    }
-                );
-            }
-            if (typeof (<any>window).DTDevices !== 'undefined' && typeof (<any>window).DTDevices.rfInitWithFieldGain === 'function') {
-                DTDevices.registerListener('rfCardDetected', 'rfCardDetected_applicationjs',
-                    function (returnUid, returnType) {
-                        FwNotification.renderNotification('INFO', returnUid);
-                    }
-                );
-            }
-        }
 
         screen.$view.find('#qccontrol').fwmobilemodulecontrol({
             buttons: [
@@ -70,19 +50,34 @@
             ]
         });
 
+        screen.onScanBarcode = (barcode: string, barcodetype: string, callback: (response: any) => void) => {
+            let request = {
+                code: barcode
+            };
+            RwServices.callMethod('QC', 'ItemScan', request, function(response) {
+                callback(response);
+                $item.resetitem();
+                $itemstatus.loadvalues(response.qcitem.status, response.qcitem.msg);
+                if (response.qcitem.status === 0) $item.showscreen(response);
+            });
+            
+        }
+
         $search.on('change', '.fwmobilecontrol-value', function() {
-            var $this, request;
-            $this = jQuery(this);
-            if ($this.val() !== '') {
-                request = {
-                    code: $this.val()
-                };
-                RwServices.callMethod('QC', 'ItemScan', request, function(response) {
-                    $this.val('');
-                    $item.resetitem();
-                    $itemstatus.loadvalues(response.qcitem.status, response.qcitem.msg);
-                    if (response.qcitem.status === 0) $item.showscreen(response);
-                });
+            try {
+                var $this = jQuery(this);
+                if ($this.val() !== '') {
+                    const barcode: string = <string>$this.val();
+                    screen.onScanBarcode(barcode, null, () => {
+                        try {
+                            $this.val('');
+                        } catch (ex) {
+                            FwFunc.showError(ex);
+                        }
+                    });
+                }
+            } catch (ex) {
+                FwFunc.showError(ex);
             }
         });
 

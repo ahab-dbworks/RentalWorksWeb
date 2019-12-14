@@ -7,7 +7,7 @@ rem Usagw:
 rem upgradeRentalWorksWeb <version>
 rem --------------------------------------------------------------------------
 rem Author:        Justin Hoffman
-rem Last modified: 10/01/2019
+rem Last modified: 12/13/2019
 rem --------------------------------------------------------------------------
 rem
 rem
@@ -68,7 +68,7 @@ if "%buildno%"=="LATEST" (
    echo update>>%ftpcommandfilename%
    echo update>>%ftpcommandfilename%
    echo cd rentalworksweb>>%ftpcommandfilename%
-   echo cd 2019.1.1>>%ftpcommandfilename%
+   echo cd 2019.1.2>>%ftpcommandfilename%
    echo ls * %updatesfile%>>%ftpcommandfilename%
    echo quit>>%ftpcommandfilename%
    ftp -s:%ftpcommandfilename% -v
@@ -103,7 +103,7 @@ echo open ftp.dbworks.com>%ftpcommandfilename%
 echo update>>%ftpcommandfilename%
 echo update>>%ftpcommandfilename%
 echo cd rentalworksweb>>%ftpcommandfilename%
-echo cd 2019.1.1>>%ftpcommandfilename%
+echo cd 2019.1.2>>%ftpcommandfilename%
 echo get %zipfilename%>>%ftpcommandfilename%
 echo quit>>%ftpcommandfilename%
 

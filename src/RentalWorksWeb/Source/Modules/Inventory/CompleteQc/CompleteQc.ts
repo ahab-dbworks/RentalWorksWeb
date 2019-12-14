@@ -74,19 +74,21 @@ class CompleteQc {
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
         // ----------
-        const $inventoryAttributeValueGrid = $form.find('div[data-grid="InventoryAttributeValueGrid"]');
-        const $inventoryAttributeValueGridControl = FwBrowse.loadGridFromTemplate('InventoryAttributeValueGrid');
-        $inventoryAttributeValueGrid.empty().append($inventoryAttributeValueGridControl);
-        $inventoryAttributeValueGridControl.data('ondatabind', function (request) {
-            request.uniqueids = {
-                InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
-            };
+        FwBrowse.renderGrid({
+            nameGrid: 'ItemAttributeValueGrid',
+            gridSecurityId: 'buplkDkxM1hC',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    ItemId: this.itemId
+                };
+            },
+            beforeSave: (request: any) => {
+                request.ItemId = this.itemId;
+            }
         });
-        $inventoryAttributeValueGridControl.data('beforesave', function (request) {
-            request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
-        });
-        FwBrowse.init($inventoryAttributeValueGridControl);
-        FwBrowse.renderRuntimeHtml($inventoryAttributeValueGridControl);
     }
     //----------------------------------------------------------------------------------------------
     completeQc($form, request) {
@@ -94,10 +96,8 @@ class CompleteQc {
             const $completed = $form.find('.qcsuccess');
             FwAppData.apiMethod(true, 'POST', 'api/v1/completeqc/completeqcitem', request, FwServices.defaultTimeout, response => {
                 $form.find('div.msg').html('');
-                FwFormField.setValueByDataField($form, 'ICode', '');
-                FwFormField.setValueByDataField($form, 'Description', '');
+                FwFormField.setValue($form, '.clear-fields', '');
                 FwFormField.setValueByDataField($form, 'Condition', '');
-                FwFormField.setValueByDataField($form, 'Note', '');
                 if (response.success) {
                     $completed.show();
                     if (!response.ShowFootCandles) {
@@ -116,14 +116,14 @@ class CompleteQc {
                     FwFormField.setValueByDataField($form, 'Description', response.Description);
                     FwFormField.setValueByDataField($form, 'Condition', response.ConditionId, response.Condition);
                     FwFormField.setValueByDataField($form, 'RequiredFootCandles', response.RequiredFootCandles);
-                    FwFormField.setValueByDataField($form, 'RequiredSoftwareVersion', response.SoftwareVersion);
+                    FwFormField.setValueByDataField($form, 'RequiredSoftwareVersion', response.RequiredSoftwareVersion);
                     this.itemId = response.ItemId;
                     this.itemQcId = response.ItemQcId;
-                    const $inventoryAttributeValueGrid = $form.find('[data-name="InventoryAttributeValueGrid"]');
-                    $inventoryAttributeValueGrid.data('ondatabind', request => {
-                        request.uniqueids = { ItemId: this.itemId }
+                    const $itemAttributeValueGrid = $form.find('[data-name="ItemAttributeValueGrid"]');
+                    $itemAttributeValueGrid.data('ondatabind', request => {
+                        request.uniqueids = { ItemId: response.ItemId }
                     })
-                    FwBrowse.search($inventoryAttributeValueGrid);
+                    FwBrowse.search($itemAttributeValueGrid);
                     $form.find('div[data-datafield="Code"] input').select().focus();
                 } else {
                     $completed.hide();
@@ -176,8 +176,8 @@ class CompleteQc {
                         <div class="msg success-msg"></div>
                         <div class="msg error-msg"></div>
                         <div class="flexrow" style="max-width:800px">
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="ICode" style="flex:1 1 125px;" data-enabled="false"></div>
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="Description" style="flex:1 1 350px;" data-enabled="false"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield clear-fields" data-caption="I-Code" data-datafield="ICode" style="flex:1 1 125px;" data-enabled="false"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield clear-fields" data-caption="" data-datafield="Description" style="flex:1 1 350px;" data-enabled="false"></div>
                         </div>
                         <div class="qcsuccess" style="display:none;">
                           <div class="flexrow">
@@ -187,28 +187,28 @@ class CompleteQc {
                             <div class="flexcolumn" style="flex:1 1 650px;">
                               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Attributes">
                                 <div class="flexrow">
-                                  <div data-control="FwGrid" data-grid="InventoryAttributeValueGrid" data-securitycaption="Inventory Attribute Value"></div>
+                                  <div data-control="FwGrid" data-grid="ItemAttributeValueGrid" data-securitycaption="Item Attribute Value"></div>
                                 </div>
                               </div>
                             </div>
                             <div class="flexcolumn" style="flex:0 1 800px;">
                               <div class="fwcontrol fwcontainer fwform-section foot-candles" data-control="FwContainer" data-type="section" data-caption="Foot Candles">
                                 <div class="flexrow">
-                                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Required" data-datafield="RequiredFootCandles" data-enabled="false" style="flex:1 1 125px;margin-left:40px;"></div>
-                                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield lamps" data-caption="Current" data-datafield="CurrentFootCandles" style="flex:1 1 110px;"></div>
+                                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield clear-fields" data-caption="Required" data-datafield="RequiredFootCandles" data-enabled="false" style="flex:1 1 125px;"></div>
+                                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield lamps clear-fields" data-caption="Current" data-datafield="CurrentFootCandles" style="flex:1 1 110px;"></div>
                                 </div>
                               </div>
                               <div class="fwcontrol fwcontainer fwform-section software-version" data-control="FwContainer" data-type="section" data-caption="Software Version">
                                 <div class="flexrow">
-                                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Required" data-datafield="RequiredSoftwareVersion" data-enabled="false" style="flex:1 1 120px;"></div>
-                                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Current" data-datafield="CurrentSoftwareVersion" data-enabled="true" style="flex:1 1 120px;"></div>
-                                  <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Effective Date" data-datafield="SoftwareEffectiveDate" data-enabled="true" style="flex:1 1 120px;"></div>
+                                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield clear-fields" data-caption="Required" data-datafield="RequiredSoftwareVersion" data-enabled="false" style="flex:1 1 120px;"></div>
+                                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield clear-fields" data-caption="Current" data-datafield="CurrentSoftwareVersion" data-enabled="true" style="flex:1 1 120px;"></div>
+                                  <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield clear-fields" data-caption="Effective Date" data-datafield="SoftwareEffectiveDate" data-enabled="true" style="flex:1 1 120px;"></div>
                                 </div>
                               </div>
                             </div>
                           </div>
                           <div class="flexrow" style="max-width:800px">
-                            <div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield" data-caption="Note" data-datafield="Note" style="flex:1 1 450px;"></div>
+                            <div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield clear-fields" data-caption="Note" data-datafield="Note" style="flex:1 1 450px;"></div>
                           </div>
                           <div class="flexrow">
                             <div class="fwformcontrol updateqc" data-type="button" style="flex:0 1 90px;margin:15px 15px 10px 10px;">Update QC</div>

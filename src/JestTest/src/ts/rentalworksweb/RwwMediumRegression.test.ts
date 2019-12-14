@@ -455,7 +455,13 @@ export class MediumRegressionTest extends BaseTest {
                                     // open 
                                     testName = `Open the newly-created ${module.moduleCaption} record for editing`;
                                     test(testName, async () => {
-                                        await module.openRecord();
+                                        await module.openRecord()
+                                            .then(openRecordResponse => {
+                                                expect(openRecordResponse.errorMessage).toBe("");
+                                                expect(openRecordResponse.record).toBeDefined();
+                                                expect(openRecordResponse.opened).toBeTruthy();
+                                            });
+
                                     }, module.formOpenTimeout);
 
                                     //edit

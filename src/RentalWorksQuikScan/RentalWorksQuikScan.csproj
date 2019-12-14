@@ -401,6 +401,8 @@
     </Content>
     <Content Include="tsconfig.json" />
     <TypeScriptCompile Include="%40types\QuikScan\index.d.ts" />
+    <TypeScriptCompile Include="scripts\Constants.ts" />
+    <TypeScriptCompile Include="scripts\NearfieldRfidScanner.ts" />
     <TypeScriptCompile Include="scripts\RwVirtualNumpad.ts" />
   </ItemGroup>
   <ItemGroup>
@@ -483,10 +485,6 @@
     <ProjectReference Include="..\..\lib\Fw\src\FwStandard\FwStandard.csproj">
       <Project>{bf70fe28-da24-40ec-aa7e-613803411e12}</Project>
       <Name>FwStandard</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\RentalWorksWebLibrary\WebLibrary.csproj">
-      <Project>{28ff8708-3b6c-4933-b35a-be80c879060f}</Project>
-      <Name>WebLibrary</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

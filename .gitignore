@@ -25,9 +25,15 @@
 /src/RentalWorksQuikScan/Application.config
 /src/RentalWorksQuikScan/ApplicationConfig.js
 /src/RentalWorksQuikScan/FwApplicationSchema.config
+/src/RentalWorksQuikScan/scripts/Constants.js
+/src/RentalWorksQuikScan/scripts/Constants.js.map
+/src/RentalWorksQuikScan/Modules/QC/QC.js
+/src/RentalWorksQuikScan/Modules/QC/QC.js.map
 /src/RentalWorksQuikScan/Modules/QuikIn/QuikIn.js.map
 /src/RentalWorksQuikScan/Modules/QuikIn/QuikIn.js
 /src/RentalWorksQuikScan/scripts/_references.js
+/src/RentalWorksQuikScan/scripts/NearfieldRfidScanner.js
+/src/RentalWorksQuikScan/scripts/NearfieldRfidScanner.js.map
 /src/RentalWorksQuikScan/scripts/Program.js
 /src/RentalWorksQuikScan/scripts/Program.js.map
 /src/RentalWorksQuikScan/scripts/RwVirtualNumpad.js.map
@@ -100,6 +106,8 @@
 
 .DS_Store
 
+**/Fw/scripts/FwControls/FwAudit.js
+**/Fw/scripts/FwControls/FwAudit.js.map
 **/Fw/scripts/FwControls/FwBrowseColumns/**/*.js
 **/Fw/scripts/FwControls/FwBrowseColumns/**/*.js.map
 **/Fw/scripts/FwControls/FwFormFields/**/*.js

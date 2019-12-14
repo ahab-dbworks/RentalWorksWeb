@@ -675,7 +675,7 @@ class RentalInventory extends InventoryBase {
                 };
             },
             beforeSave: (request: any) => {
-                request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
+                request.PackageId = FwFormField.getValueByDataField($form, 'InventoryId');
             }
         });
 

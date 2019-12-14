@@ -4,7 +4,7 @@ rem Purpose:
 rem This batch file will produce a new build of RentalWorksWeb or TrackitWorksWeb in the "build" directory.
 rem --------------------------------------------------------------------------
 rem Author:        Justin Hoffman, Mike Vermilion
-rem Last modified: 11/26/2019
+rem Last modified: 12/13/2019
 rem --------------------------------------------------------------------------
 rem
 rem
@@ -121,6 +121,8 @@ IF "%commitandftp%"=="y" (
     rem command-line gren make Build Release Document
     cd %DwRentalWorksWebPath%\build
     call gren changelog --token=4f42c7ba6af985f6ac6a6c9eba45d8f25388ef58 --username=databaseworks --repo=rentalworksweb --generate --override --changelog-filename=v%fullversionno%.md -t web/v%fullversionno% -c ..\config.grenrc
+	rem syntax to produce a cumulative document for a range of tags:
+    rem call gren changelog --token=4f42c7ba6af985f6ac6a6c9eba45d8f25388ef58 --username=databaseworks --repo=rentalworksweb --generate --override --changelog-filename=v%fullversionno%.md -t web/vNEWWESTVERSION..web/vLASTVERSIONRELEASED -c ..\config.grenrc
     start v%fullversionno%.md
 
     rem produce a PDF of the MD file

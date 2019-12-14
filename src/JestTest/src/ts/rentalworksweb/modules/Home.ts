@@ -1390,6 +1390,9 @@ export class Vendor extends HomeModule {
                     record: {
                         Address2: "ABCD",
                     },
+                    seekObject: {
+                        VendorDisplayName: "GlobalScope.TestToken~1.TestToken",
+                    },
                     recordToExpect: {
                         Address2: "ABCD",
                     },
@@ -2123,8 +2126,8 @@ export class RentalInventory extends HomeModule {
             }
         ];
 
-        let aka1: string = TestUtils.randomAlphanumeric(20);
-        let aka2: string = TestUtils.randomAlphanumeric(20);
+        let aka1: string = TestUtils.randomAlphanumeric(20).toUpperCase();
+        let aka2: string = TestUtils.randomAlphanumeric(20).toUpperCase();
 
         this.newRecordsToCreate[0].gridRecords = [
             {
@@ -2137,17 +2140,17 @@ export class RentalInventory extends HomeModule {
                         AKA: aka1,
                     },
                     attemptDuplicate: true,
-                    editRecord: {
-                        seekObject: {
-                            AKA: aka1,
-                        },
-                        record: {
-                            AKA: aka2,
-                        },
-                        recordToExpect: {
-                            AKA: aka2,
-                        },
-                    },
+                    //editRecord: {
+                    //    seekObject: {
+                    //        AKA: aka1,
+                    //    },
+                    //    record: {
+                    //        AKA: aka2,
+                    //    },
+                    //    recordToExpect: {
+                    //        AKA: aka2,
+                    //    },
+                    //},
                 },
             },
             {
@@ -2525,8 +2528,8 @@ export class SalesInventory extends HomeModule {
             }
         ];
 
-        let aka1: string = TestUtils.randomAlphanumeric(20);
-        let aka2: string = TestUtils.randomAlphanumeric(20);
+        let aka1: string = TestUtils.randomAlphanumeric(20).toUpperCase();
+        let aka2: string = TestUtils.randomAlphanumeric(20).toUpperCase();
 
         this.newRecordsToCreate[0].gridRecords = [
             {
@@ -2539,17 +2542,17 @@ export class SalesInventory extends HomeModule {
                         AKA: aka1,
                     },
                     attemptDuplicate: true,
-                    editRecord: {
-                        seekObject: {
-                            AKA: aka1,
-                        },
-                        record: {
-                            AKA: aka2,
-                        },
-                        recordToExpect: {
-                            AKA: aka2,
-                        },
-                    },
+                    //editRecord: {
+                    //    seekObject: {
+                    //        AKA: aka1,
+                    //    },
+                    //    record: {
+                    //        AKA: aka2,
+                    //    },
+                    //    recordToExpect: {
+                    //        AKA: aka2,
+                    //    },
+                    //},
                 },
             },
             {
@@ -2895,8 +2898,8 @@ export class PartsInventory extends HomeModule {
             }
         ];
 
-        let aka1: string = TestUtils.randomAlphanumeric(20);
-        let aka2: string = TestUtils.randomAlphanumeric(20);
+        let aka1: string = TestUtils.randomAlphanumeric(20).toUpperCase();
+        let aka2: string = TestUtils.randomAlphanumeric(20).toUpperCase();
 
         this.newRecordsToCreate[0].gridRecords = [
             {
@@ -2909,17 +2912,17 @@ export class PartsInventory extends HomeModule {
                         AKA: aka1,
                     },
                     attemptDuplicate: true,
-                    editRecord: {
-                        seekObject: {
-                            AKA: aka1,
-                        },
-                        record: {
-                            AKA: aka2,
-                        },
-                        recordToExpect: {
-                            AKA: aka2,
-                        },
-                    },
+                    //editRecord: {
+                    //    seekObject: {
+                    //        AKA: aka1,
+                    //    },
+                    //    record: {
+                    //        AKA: aka2,
+                    //    },
+                    //    recordToExpect: {
+                    //        AKA: aka2,
+                    //    },
+                    //},
                 },
             },
             {

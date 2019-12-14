@@ -155,6 +155,10 @@ class VendorInvoice {
             moduleSecurityId: this.id,
             $form: $form,
             pageSize: 10,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                options.hasNew = false;
+                options.hasDelete = false;
+            },
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     VendorInvoiceId: FwFormField.getValueByDataField($form, 'VendorInvoiceId')

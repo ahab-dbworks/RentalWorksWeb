@@ -1,4 +1,4 @@
-﻿//----------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------
 RwOrderController.getItemStatusScreen = function(viewModel, properties) {
     var applicationOptions = program.getApplicationOptions();
     var combinedViewModel = jQuery.extend({
@@ -250,36 +250,6 @@ RwOrderController.getItemStatusScreen = function(viewModel, properties) {
 
         // setup TSL RFID Reader
         RwRFID.registerEvents(screen.rfidscan);
-
-        // setup Linea Pro HF RFID Reader
-        if (program.hasHfRfidApplicationOption === true) {
-            //alert('initing HF RFID...');
-            if (typeof window.DTDevices !== 'undefined' && typeof window.DTDevices.rfInitWithFieldGain === 'function') {
-                DTDevices.rfInitWithFieldGain('ISO15', -1000,
-                    function () {
-                        FwNotification.renderNotification('SUCCESS', 'Enabled nearfield scanner.');
-                    },
-                    function () {
-                        FwNotification.renderNotification('ERROR', 'Can\'t enable nearfield scanner.');
-                    }
-                );
-            }
-            if (typeof window.DTDevices !== 'undefined' && typeof window.DTDevices.rfInitWithFieldGain === 'function') {
-                DTDevices.registerListener('rfCardDetected', 'rfCardDetected_applicationjs',
-                    function (returnUid, returnType, cardIndex) {
-                        jQuery('.scanTarget').val(returnUid).change();
-                        FwNotification.renderNotification('INFO', returnUid);
-                        DTDevices.rfRemoveCard(cardIndex,
-                            function success() {
-                                FwNotification.renderNotification('SUCCESS', 'rfRemoveCard success');
-                            },
-                            function fail() {
-                                FwNotification.renderNotification('ERROR', 'rfRemoveCard failed');
-                            });
-                    }
-                );
-            }
-        }
 
         //if (typeof window.TslReader !== 'undefined') {
         //    window.TslReader.registerListener('deviceConnected', 'deviceConnected_rwordercontrollerjs_getItemStatusScreen', function() {

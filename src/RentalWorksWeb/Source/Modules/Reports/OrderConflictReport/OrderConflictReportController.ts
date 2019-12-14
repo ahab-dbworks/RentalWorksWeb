@@ -123,18 +123,19 @@ class OrderConflictReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     openForm() {
         const $form = this.getFrontEnd();
-
         return $form;
     }
     //----------------------------------------------------------------------------------------------
     onLoadForm($form) {
         this.load($form, this.reportOptions);
         this.loadLists($form);
-
+        // Default settings for first time running
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
-        FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
-
+        FwFormField.setValue($form, 'div[data-datafield="FromWarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
+        const department = JSON.parse(sessionStorage.getItem('department'));
+        FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid, department.department);
     }
+    //----------------------------------------------------------------------------------------------
     afterLoad($form) {
         const today = FwFunc.getDate();
         const twoWeeks = FwFunc.getDate(today, 14);

@@ -566,6 +566,7 @@ class SearchInterface {
             quantityQcRequired        = response.ColumnIndex.QuantityQcRequired,
             quantity                  = response.ColumnIndex.Quantity,
             dailyRate                 = response.ColumnIndex.DailyRate,
+            priceIndex                = response.ColumnIndex.Price,
             inventoryId               = response.ColumnIndex.InventoryId,
             thumbnail                 = response.ColumnIndex.Thumbnail,
             appImageId                = response.ColumnIndex.ImageId,
@@ -588,10 +589,18 @@ class SearchInterface {
             $inventoryContainer.append('<div style="font-weight: bold; font-size:1.3em;text-align: center;padding-top: 50px;">0 Items Found</div>');
         }
 
+        const inventoryType = FwFormField.getValueByDataField($popup, 'InventoryType');
+
         for (let i = 0; i < response.Rows.length; i++) {
             let imageThumbnail = response.Rows[i][thumbnail]  ? response.Rows[i][thumbnail]  : './theme/images/no-image.jpg';
             let imageId        = response.Rows[i][appImageId] ? response.Rows[i][appImageId] : '';
-            let rate           = Number(response.Rows[i][dailyRate]).toFixed(2);
+            let rate;
+            if (inventoryType === 'L' || inventoryType === 'M') {
+                rate = Number(response.Rows[i][priceIndex]).toFixed(2);
+            } else {
+                rate = Number(response.Rows[i][dailyRate]).toFixed(2);
+            }
+
             let conflictdate   = response.Rows[i][conflictDate] ? moment(response.Rows[i][conflictDate]).format('L') : "";
 
 

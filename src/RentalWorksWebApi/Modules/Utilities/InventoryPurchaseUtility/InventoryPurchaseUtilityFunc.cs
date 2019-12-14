@@ -35,6 +35,8 @@ namespace WebApi.Modules.Utilities.InventoryPurchaseUtility
     public class InventoryPurchaseAssignBarCodesRequest : TSpStatusResponse
     {
         public string SessionId { get; set; }
+        public string InventoryId { get; set; }
+        public string WarehouseId { get; set; }
     }
     public class InventoryPurchaseAssignBarCodesResponse : TSpStatusResponse { }
 
@@ -47,6 +49,8 @@ namespace WebApi.Modules.Utilities.InventoryPurchaseUtility
         public string AisleLocation { get; set; }
         public string ShelfLocation { get; set; }
         public string ManufacturerVendorId { get; set; }
+        public string ManufacturerModelNumber { get; set; }
+        public string ManufacturerPartNumber { get; set; }
         public string CountryId { get; set; }
         public int? WarrantyDays { get; set; }
         public DateTime? WarrantyExpiration { get; set; }
@@ -127,6 +131,8 @@ namespace WebApi.Modules.Utilities.InventoryPurchaseUtility
             {
                 FwSqlCommand qry = new FwSqlCommand(conn, "assignbarcodesfrompurchase", appConfig.DatabaseSettings.QueryTimeout);
                 qry.AddParameter("@sessionid", SqlDbType.NVarChar, ParameterDirection.Input, request.SessionId);
+                qry.AddParameter("@masterid", SqlDbType.NVarChar, ParameterDirection.Input, request.InventoryId);
+                qry.AddParameter("@warehouseid", SqlDbType.NVarChar, ParameterDirection.Input, request.WarehouseId);
                 qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
                 qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
                 qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
@@ -139,6 +145,7 @@ namespace WebApi.Modules.Utilities.InventoryPurchaseUtility
         //------------------------------------------------------------------------------------------------------- 
         public static async Task<InventoryPurchaseCompleteSessionResponse> CompleteSession(FwApplicationConfig appConfig, FwUserSession userSession, InventoryPurchaseCompleteSessionRequest request)
         {
+
             InventoryPurchaseCompleteSessionResponse response = new InventoryPurchaseCompleteSessionResponse();
 
             UpdateInventoryPurchaseSessionRequest updateRequest = new UpdateInventoryPurchaseSessionRequest();
@@ -283,11 +290,15 @@ namespace WebApi.Modules.Utilities.InventoryPurchaseUtility
                                 item.SetDependencies(appConfig, userSession);
                                 item.PurchaseId = purchase.PurchaseId;
                                 item.InventoryId = purchase.InventoryId;
+                                item.WarehouseId= purchase.WarehouseId;
                                 item.InventoryStatusId = RwGlobals.INVENTORY_STATUS_IN_ID;
+                                item.StatusDate = DateTime.Today.ToString("yyyy-MM-dd");  //?
                                 item.BarCode = barCode;
                                 item.AisleLocation = request.AisleLocation;
                                 item.ShelfLocation = request.ShelfLocation;
                                 item.ManufacturerId = request.ManufacturerVendorId;
+                                item.ManufacturerModelNumber = request.ManufacturerModelNumber;
+                                item.ManufacturerPartNumber = request.ManufacturerPartNumber;
                                 item.CountryOfOriginId = request.CountryId;
                                 item.WarrantyPeriod = request.WarrantyDays;
                                 item.WarrantyExpiration = request.WarrantyExpiration;

@@ -1,10 +1,17 @@
 import { BaseTest } from '../shared/BaseTest';
 import { ModuleBase, OpenRecordResponse } from '../shared/ModuleBase';
 import { Logging } from '../shared/Logging';
+import { User } from './modules/AllModules';
 
 export class RunReportsTest extends BaseTest {
     //---------------------------------------------------------------------------------------
-
+    async RelogAsCopyOfUser() {
+        this.LoadMyUserGlobal(new User());
+        this.CopyMyUserRegisterGlobal(new User());
+        this.DoLogoff();
+        this.DoLogin();  // uses new login account
+    }
+    //---------------------------------------------------------------------------------------
     async PerformTests() {
         // ----------
         async function goToReportsPage() {
@@ -12,6 +19,17 @@ export class RunReportsTest extends BaseTest {
             const reportIcon = `div.systembar i[title="Reports"]`;
             await page.waitForSelector(reportIcon, { visible: true });
             await page.click(reportIcon);
+        }
+        // ----------
+        async function getReportNames() {
+            return await page.evaluate(() => {
+                const reports = jQuery('.well .panel-group');
+                const names: Array<string> = [];
+                reports.each((i, el) => {
+                    names.push(jQuery(el).attr('id'));
+                })
+                return names;
+            })
         }
         // ----------
         async function runReport(reportName: string) {
@@ -58,34 +76,57 @@ export class RunReportsTest extends BaseTest {
             else {
                 Logging.logInfo(`no error pop-up found previewing: ${reportName}.`);
                 const pages = await browser.pages();
-                await console.log('PAGES: ', pages.length)
+                //await pages[2].setViewport({ width: 1600, height: 1080 })
                 if (pages.length === 3) {
                     Logging.logInfo(`Waiting for ${reportName} to load`);
-                    await pages[2].waitForSelector('.preview', { visible: true });
+                    await pages[2].waitForSelector('body', { visible: true, timeout: 3000 });
+                    const preview = await pages[2].$('.preview');
                     await ModuleBase.wait(1000); // only for developer to be able to see the report
-                    Logging.logInfo(`${reportName} rendered`);
+                    if (preview) {
+                        Logging.logInfo(`${reportName} rendered`);
+                    } else {
+                        Logging.logInfo(`${reportName} was not rendered`);
+                    }
                     Logging.logInfo(`About to close ${reportName}`);
                     await pages[2].close();
                 }
             }
         }
         //---------------------------------------------------------------------------------------
-        describe('Go to Reports page and run particular reports', () => {
+        describe('Go to Reports page and run reports', () => {
             // ----------
             let testName: string = 'Navigate to report section';
             test(testName, async () => {
                 await goToReportsPage();
             }, this.testTimeout);
             // ----------
-            testName = 'Preview ArAgingReport';
+            let reportNames;
+            testName = 'Get ALL Reports';
             test(testName, async () => {
-                await runReport('ArAgingReport');
+                Logging.logInfo(`About to get Report Names`);
+                reportNames = await getReportNames();
+                await console.log('reportNames: ', reportNames);
             }, this.testTimeout);
+
+
+            for (let i = 0; i < reportNames.length; i++) {
+                testName = `Running ${reportNames[i]}`;
+                test(testName, async () => {
+                    Logging.logInfo(`About to run ${reportNames[i]}`);
+                    await runReport(reportNames[i]);
+                }, this.testTimeout);
+                }
+
             // ----------
-            testName = 'Preview CreateInvoiceProcessReport';
-            test(testName, async () => {
-                await runReport('CreateInvoiceProcessReport');
-            }, this.testTimeout);
+            //testName = 'Preview ArAgingReport';
+            //test(testName, async () => {
+            //    await runReport('ArAgingReport');
+            //}, this.testTimeout);
+            //// ----------
+            //testName = 'Preview CreateInvoiceProcessReport';
+            //test(testName, async () => {
+            //    await runReport('CreateInvoiceProcessReport');
+            //}, this.testTimeout);
         });
     }
     //---------------------------------------------------------------------------------------

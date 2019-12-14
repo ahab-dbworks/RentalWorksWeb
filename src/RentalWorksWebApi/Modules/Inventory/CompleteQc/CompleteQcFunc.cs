@@ -19,7 +19,7 @@ namespace WebApi.Modules.Inventory.CompleteQc
         public bool CannotQcItemBecauseOfStatus { get; set; }
         public bool ItemDoesNotNeedQc { get; set; }
         public bool ShowFootCandles { get; set; }
-        public string RequiredFootCandles { get; set; }
+        public int RequiredFootCandles { get; set; }
         public bool ShowSoftwareVersion { get; set; }
         public string RequiredSoftwareVersion { get; set; }
     }
@@ -48,7 +48,9 @@ namespace WebApi.Modules.Inventory.CompleteQc
                 qry.AddParameter("@rentalitemid", SqlDbType.NVarChar, ParameterDirection.Output);
                 qry.AddParameter("@rentalitemqcid", SqlDbType.NVarChar, ParameterDirection.Output);
                 qry.AddParameter("@trackfootcandles", SqlDbType.NVarChar, ParameterDirection.Output);
+                qry.AddParameter("@minfootcandles", SqlDbType.Int, ParameterDirection.Output);
                 qry.AddParameter("@tracksoftware", SqlDbType.NVarChar, ParameterDirection.Output);
+                qry.AddParameter("@softwareversion", SqlDbType.NVarChar, ParameterDirection.Output);
                 qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
                 qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
                 await qry.ExecuteNonQueryAsync();
@@ -66,7 +68,7 @@ namespace WebApi.Modules.Inventory.CompleteQc
                 response.msg = qry.GetParameter("@msg").ToString();
                 response.ShowFootCandles = FwConvert.ToBoolean(qry.GetParameter("@trackfootcandles").ToString());
                 response.ShowSoftwareVersion = FwConvert.ToBoolean(qry.GetParameter("@tracksoftware").ToString());
-                response.RequiredFootCandles = qry.GetParameter("@minfootcandles").ToString();
+                response.RequiredFootCandles = FwConvert.ToInt32(qry.GetParameter("@minfootcandles").ToString());
                 response.RequiredSoftwareVersion = qry.GetParameter("@softwareversion").ToString();
             }
             return response;
@@ -82,7 +84,7 @@ namespace WebApi.Modules.Inventory.CompleteQc
                 qry.AddParameter("@rentalitemqcid", SqlDbType.NVarChar, ParameterDirection.Input, request.ItemQcId);
                 qry.AddParameter("@conditionid", SqlDbType.NVarChar, ParameterDirection.Input, request.ConditionId);
                 qry.AddParameter("@footcandles", SqlDbType.NVarChar, ParameterDirection.Input, request.CurrentFootCandles);
-                qry.AddParameter("@softwareversion", SqlDbType.NVarChar, ParameterDirection.Input, request.CurrentSoftwareVersion);
+                qry.AddParameter("@currentsoftware", SqlDbType.NVarChar, ParameterDirection.Input, request.CurrentSoftwareVersion);
                 qry.AddParameter("@note", SqlDbType.NVarChar, ParameterDirection.Input, request.Note);
                 qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
                 qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);

@@ -937,5 +937,11 @@ namespace RentalWorksQuikScan.Source
                                                                     substitutecomplete:  request.substitutecomplete);
         }
         //---------------------------------------------------------------------------------------------
+        public static void GetBarcodeFromRfid(dynamic request, dynamic response, dynamic session)
+        {
+            response.barcode = RwAppData.GetBarcodeFromRfid(conn: FwSqlConnection.RentalWorks,
+                                                            rfid: request.rfid);
+        }
+        //---------------------------------------------------------------------------------------------
     }
 }

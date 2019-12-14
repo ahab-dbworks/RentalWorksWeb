@@ -649,13 +649,13 @@ export class GridBase {
                         //cellValue = await page.$eval(cellSelector, (e: any) => e.value);
                         break;
                     default:
-                        cellSelector = rowSelector + ` td.column .field[data-browsedatafield=\'${fieldToFind}\']`;
+                        cellSelector = rowSelector + ` td.column .field[data-browsedatafield="${fieldToFind}"]`;
                         cellValue = await page.$eval(cellSelector, (e: any) => e.textContent);
                         break;
                 }
                 Logging.logInfo(`Found value of ${cellValue} in field ${fieldToFind} in grid: ${this.gridSelector}`);
 
-                if (cellValue == valueToFind) {
+                if (cellValue.toUpperCase() == valueToFind.toUpperCase()) {
                     recordFound = true;
                 }
                 else {

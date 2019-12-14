@@ -141,6 +141,12 @@ class ChangeAuditReport extends FwWebApiReport {
 
         const $moduleSelect = $form.find('.modules');
         FwFormField.loadItems($moduleSelect, allModules);
+
+        // Default settings for first time running
+        const today = FwFunc.getDate();
+        FwFormField.setValueByDataField($form, 'ToDate', today);
+        const aMonthAgo = FwFunc.getDate(today, -30);
+        FwFormField.setValueByDataField($form, 'FromDate', aMonthAgo);
     }
     //----------------------------------------------------------------------------------------------
     convertParameters(parameters: any) {
