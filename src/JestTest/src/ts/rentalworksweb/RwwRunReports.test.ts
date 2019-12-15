@@ -21,6 +21,83 @@ export class RunReportsTest extends BaseTest {
             await page.click(reportIcon);
         }
         // ----------
+
+            const reportNames = ['ArAgingReport',
+                'DailyReceiptsReport',
+                'GlDistributionReport',
+                'AgentBillingReport',
+                'BillingProgressReport',
+                'BillingStatementReport',
+                'CreateInvoiceProcessReport',
+                'InvoiceDiscountReport',
+                'InvoiceReport',
+                'InvoiceSummaryReport',
+                'ProfitLossReport',
+                'ProjectManagerBillingReport',
+                'SalesQuoteBillingReport',
+                'SalesRepresentativeBillingReport',
+                'SalesTaxCanadaReport',
+                'SalesTaxUSAReport',
+                'ChangeAuditReport',
+                'DealInvoiceBatchReport',
+                'ReceiptBatchReport',
+                'VendorInvoiceBatchReport',
+                'ContractRevisionReport',
+                'OutContractReport',
+                'CrewSignInReport',
+                'CreditsOnAccountReport',
+                'CustomerRevenueByMonthReport',
+                'CustomerRevenueByTypeReport',
+                'DealInvoiceDetailReport',
+                'DealOutstandingItemsReport',
+                'OrdersByDealReport',
+                'ReturnReceiptReport',
+                'TransferReport',
+                'LateReturnsReport',
+                'OrderConflictReport',
+                'OrderReport',
+                'PickListReport',
+                'QuikActivityReport',
+                'QuoteReport',
+                'QuoteOrderMasterReport',
+                'PartsInventoryAttributesReport',
+                'PartsInventoryCatalogReport',
+                'PartsInventoryPurchaseHistoryReport',
+                'PartsInventoryReorderReport',
+                'PartsInventoryTransactionReport',
+                'RentalInventoryActivityByDateReport',
+                'RentalInventoryAttributesReport',
+                'RentalInventoryAvailabilityReport',
+                'RentalInventoryCatalogReport',
+                'RentalInventoryChangeReport',
+                'RentalInventoryMasterReport',
+                'RentalInventoryMovementReport',
+                'RentalInventoryPurchaseHistoryReport',
+                'RentalInventoryQCRequiredReport',
+                'RentalInventoryStatusAndRevenueReport',
+                'RentalInventoryUnusedItemsReport',
+                'RentalInventoryUsageReport',
+                'RentalInventoryValueReport',
+                'RentalLostAndDamagedBillingHistoryReport',
+                'RetiredRentalInventoryReport',
+                'ReturnedToInventoryReport',
+                'ReturnOnAssetReport',
+                'UnretiredRentalInventoryReport',
+                'ValueOfOutRentalInventoryReport',
+                'RepairOrderStatusReport',
+                'SalesBackorderReport',
+                'SalesHistoryReport',
+                'SalesInventoryAttributesReport',
+                'SalesInventoryCatalogReport',
+                'SalesInventoryMasterReport',
+                'SalesInventoryPurchaseHistoryReport',
+                'SalesInventoryReorderReport',
+                'SalesInventoryTransactionReport',
+                'PurchaseOrderMasterReport',
+                'SubItemStatusReport',
+                'SubRentalBillingAnalysisReport',
+                'VendorInvoiceSummaryReport']
+        // ----------
         async function getReportNames() {
             return await page.evaluate(() => {
                 const reports = jQuery('.well .panel-group');
@@ -100,15 +177,14 @@ export class RunReportsTest extends BaseTest {
                 await goToReportsPage();
             }, this.testTimeout);
             // ----------
-            let reportNames;
-            testName = 'Get ALL Reports';
-            test(testName, async () => {
-                Logging.logInfo(`About to get Report Names`);
-                reportNames = await getReportNames();
-                await console.log('reportNames: ', reportNames);
-            }, this.testTimeout);
+            //testName = 'Get ALL Reports';
+            //test(testName, async () => {
+            //    Logging.logInfo(`About to get Report Names`);
+            //    //reportNames = await getReportNames();
+            //    //await console.log('reportNames: ', reportNames);
+            //}, this.testTimeout);
 
-
+            
             for (let i = 0; i < reportNames.length; i++) {
                 testName = `Running ${reportNames[i]}`;
                 test(testName, async () => {
