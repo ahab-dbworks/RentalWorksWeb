@@ -218,6 +218,7 @@ abstract class InventoryBase {
                     for (let i = 0; i < calendarevents.length; i++) {
                         if (calendarevents[i].textColor !== 'rgb(0,0,0)') {
                             calendarevents[i].html = `<div style="color:${calendarevents[i].textColor};">${calendarevents[i].text}</div>`
+                            calendarevents[i].data = { 'meta-data': response.Dates[i] }
                         }
                     }
 
@@ -349,7 +350,7 @@ abstract class InventoryBase {
                         FwFunc.showError('Invalid Order Type');
                         break;
                 }
-              
+
                 FwValidation.validationPeek($control, module, id, datafield, $form, title);
             });
     }
@@ -533,6 +534,7 @@ abstract class InventoryBase {
             }
         });
     }
+
     //----------------------------------------------------------------------------------------------
     //jh 08/19/2019 obsolete
     //loadGantt($form) {

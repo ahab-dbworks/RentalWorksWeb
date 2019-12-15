@@ -347,6 +347,18 @@ class PartsInventory extends InventoryBase {
             moduleSecurityId: this.id,
             $form: $form,
             pageSize: 10,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
+                const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')
+                FwMenu.addSubMenuItem($optionsgroup, 'QuikSearch', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        RentalInventoryController.quikSearch(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+            },
            // getBaseApiUrl: (): string => { return `${this.apiurl}/${FwFormField.getValueByDataField($form, 'InventoryId')}/aka`; }, 
             onDataBind: (request: any) => {
                 request.uniqueids = {
@@ -422,6 +434,18 @@ class PartsInventory extends InventoryBase {
             moduleSecurityId: this.id,
             $form: $form,
             pageSize: 10,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
+                const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')
+                FwMenu.addSubMenuItem($optionsgroup, 'QuikSearch', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        RentalInventoryController.quikSearch(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+            },
            // getBaseApiUrl: (): string => { return `${this.apiurl}/${FwFormField.getValueByDataField($form, 'InventoryId')}/aka`; }, 
             onDataBind: (request: any) => {
                 request.uniqueids = {

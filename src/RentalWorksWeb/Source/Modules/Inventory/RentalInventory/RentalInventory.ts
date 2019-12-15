@@ -513,6 +513,18 @@ class RentalInventory extends InventoryBase {
             moduleSecurityId: this.id,
             $form: $form,
             pageSize: 10,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
+                const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')
+                FwMenu.addSubMenuItem($optionsgroup, 'QuikSearch', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        this.quikSearch(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+            },
             // getBaseApiUrl: (): string => { return `${this.apiurl}/${FwFormField.getValueByDataField($form, 'InventoryId')}/aka`; }, 
             onDataBind: (request: any) => {
                 request.uniqueids = {
@@ -563,6 +575,18 @@ class RentalInventory extends InventoryBase {
             moduleSecurityId: this.id,
             $form: $form,
             pageSize: 10,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
+                const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')
+                FwMenu.addSubMenuItem($optionsgroup, 'QuikSearch', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        this.quikSearch(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+            },
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     PackageId: FwFormField.getValueByDataField($form, 'InventoryId'),
@@ -668,6 +692,18 @@ class RentalInventory extends InventoryBase {
             moduleSecurityId: this.id,
             $form: $form,
             pageSize: 10,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
+                const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')
+                FwMenu.addSubMenuItem($optionsgroup, 'QuikSearch', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        this.quikSearch(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+            },
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     PackageId: FwFormField.getValueByDataField($form, 'InventoryId'),
@@ -676,9 +712,10 @@ class RentalInventory extends InventoryBase {
             },
             beforeSave: (request: any) => {
                 request.PackageId = FwFormField.getValueByDataField($form, 'InventoryId');
+            },
+            beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
             }
         });
-
 
         $inventoryKitGrid.data('isfieldeditable', function ($field, dt, rowIndex) {
             let primaryRowIndex;
@@ -946,7 +983,44 @@ class RentalInventory extends InventoryBase {
         if (FwFormField.getValueByDataField($form, 'TrackSoftware')) FwFormField.enable($form.find('.track-software'));
 
         this.dynamicColumns($form);
-    };
+    }
+    //----------------------------------------------------------------------------------------------
+    quikSearch(event) {
+        const $form = jQuery(event.currentTarget).closest('.fwform');
+        const controllerName = $form.attr('data-controller');
+
+        let gridInventoryType: string;
+        if (controllerName === 'RentalInventoryController') {
+            gridInventoryType = 'Rental';
+        } else if (controllerName === 'SalesInventoryController') {
+            gridInventoryType = 'Sales';
+        }
+
+        if ($form.attr('data-mode') === 'NEW') {
+            let isValid = FwModule.validateForm($form);
+            if (isValid) {
+                let activeTabId = jQuery($form.find('[data-type="tab"].active')).attr('id');
+                (<any>window)[controllerName].saveForm($form, { closetab: false });
+                $form.attr('data-opensearch', 'true');
+                $form.attr('data-searchtype', gridInventoryType);
+                $form.attr('data-activetabid', activeTabId);
+            }
+        }
+        let type: string;
+        const grid = jQuery(event.currentTarget).parents('[data-control="FwGrid"]').attr('data-grid');
+        if (grid === 'InventoryKitGrid') {
+            type = 'Kit'
+        }
+        if (grid === 'InventoryCompleteGrid') {
+            type = 'Complete'
+        }
+        if (grid === 'InventoryContainerItemGrid') {
+            type = 'Container'
+        }
+        const id = FwFormField.getValueByDataField($form, 'InventoryId');
+        const search = new SearchInterface();
+        search.renderSearchPopup($form, id, type, gridInventoryType);
+    }
     //----------------------------------------------------------------------------------------------
     openContainerBrowse($form: any) {
         const $browse = ContainerController.openBrowse();
