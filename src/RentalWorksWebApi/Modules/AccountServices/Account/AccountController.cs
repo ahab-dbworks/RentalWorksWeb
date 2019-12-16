@@ -118,7 +118,7 @@ namespace WebApi.Modules.AccountServices.Account
         
         // GET api/v1/account/locationinfo?locationid=value&warehouseid=value&departmentid=value
         [HttpGet("officelocation")]
-        [FwControllerMethod(Id: "d22TgeY4ersd", ActionType: FwControllerActionTypes.Browse)]
+        [FwControllerMethod(Id: "d22TgeY4ersd", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]  //justin hoffman 12/16/2019 added ValidateSecurityGroup=false as a temporary fix for #1473.  
         public async Task<ActionResult<GetOfficeLocationResponse>> GetOfficeLocation([FromQuery]string locationid, [FromQuery]string warehouseid, [FromQuery]string departmentid)
         {
             // run all the queries in parallel
