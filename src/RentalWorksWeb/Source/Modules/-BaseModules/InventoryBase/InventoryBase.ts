@@ -8,7 +8,7 @@ abstract class InventoryBase {
     ActiveViewFieldsId: string;
     CreateCompleteId: string;
     //----------------------------------------------------------------------------------------------
-    afterAddBrowseMenuItems(options: IAddBrowseMenuOptions): void {
+    addBrowseMenuItems(options: IAddBrowseMenuOptions): void {
         FwMenu.addBrowseMenuButtons(options);
 
         const $all: JQuery = FwMenu.generateDropDownViewBtn('All', true, "ALL");
@@ -30,7 +30,7 @@ abstract class InventoryBase {
         FwMenu.addViewBtn(options.$menu, 'View', viewSubitems, true, "Classification");
     }
     //----------------------------------------------------------------------------------------------
-    afterAddFormMenuItems(options: IAddFormMenuOptions): void {
+    addFormMenuItems(options: IAddFormMenuOptions): void {
         FwMenu.addSubMenuItem(options.$groupOptions, 'Create Complete', this.CreateCompleteId, (e: JQuery.ClickEvent) => {
             try {
                 this.createComplete(options.$form);

@@ -5,12 +5,6 @@ class RentalInventory extends InventoryBase {
     nav: string = Constants.Modules.Inventory.children.RentalInventory.nav;
     id: string = Constants.Modules.Inventory.children.RentalInventory.id;
     AvailableFor: string = "R";
-    CreateCompleteId: string = '';
-
-    //----------------------------------------------------------------------------------------------
-    addBrowseMenuItems(options: IAddBrowseMenuOptions): void {
-        super.afterAddBrowseMenuItems(options);
-    }
     //----------------------------------------------------------------------------------------------
     openFormInventory($form: any) {
         FwFormField.loadItems($form.find('.lamps'), [

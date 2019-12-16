@@ -7,11 +7,6 @@ class PartsInventory extends InventoryBase {
     nav: string = Constants.Modules.Inventory.children.PartsInventory.nav;
     id: string = Constants.Modules.Inventory.children.PartsInventory.id;
     AvailableFor: string = "P";
-    CreateCompleteId: string = '';
-    //----------------------------------------------------------------------------------------------
-    addBrowseMenuItems(options: IAddBrowseMenuOptions): void {
-        super.afterAddBrowseMenuItems(options);
-    }
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
