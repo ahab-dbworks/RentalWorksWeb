@@ -55,6 +55,17 @@ namespace WebApi.Modules.HomeControls.OrderContact
             return await DoNewAsync<OrderContactLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
+        //justin hoffman 12/16/2019 #1471
+        // this is a special Put command to support a behavior of this API that used to exist before we split Post in to Post/Put
+        // user can Put an object here with a blank ID and the API will treat it as a Post for New.
+        // PUT api/v1/ordercontact
+        [HttpPut]
+        [FwControllerMethod(Id: "5Jt2GEqYyncCP", ActionType: FwControllerActionTypes.Edit)]
+        public async Task<ActionResult<OrderContactLogic>> NewAsync2([FromRoute] string id, [FromBody]OrderContactLogic l)
+        {
+            return await DoNewAsync<OrderContactLogic>(l);
+        }
+        //------------------------------------------------------------------------------------ 
         // PUT api/v1/ordercontact/A0000001
         [HttpPut("{id}")]
         [FwControllerMethod(Id: "9i8zqc18s1gxa", ActionType: FwControllerActionTypes.Edit)]
