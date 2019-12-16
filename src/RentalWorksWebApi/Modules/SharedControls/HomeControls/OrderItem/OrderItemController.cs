@@ -14,14 +14,14 @@ namespace WebApi.Modules.HomeControls.OrderItem
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
-    [FwController(Id:"RFgCJpybXoEb")]
+    [FwController(Id: "RFgCJpybXoEb")]
     public class OrderItemController : AppDataController
     {
         public OrderItemController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(OrderItemLogic); }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/orderitem/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"Yx7zfT0uv9r4", ActionType: FwControllerActionTypes.Browse)]
+        [FwControllerMethod(Id: "Yx7zfT0uv9r4", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
@@ -29,7 +29,7 @@ namespace WebApi.Modules.HomeControls.OrderItem
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id:"1hyN9Ooa1Jzs", ActionType: FwControllerActionTypes.Browse)]
+        [FwControllerMethod(Id: "1hyN9Ooa1Jzs", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -37,7 +37,7 @@ namespace WebApi.Modules.HomeControls.OrderItem
         //------------------------------------------------------------------------------------ 
         // GET api/v1/orderitem/A0000001
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"g4Z0ZkzW6VM7", ActionType: FwControllerActionTypes.Browse)]
+        [FwControllerMethod(Id: "g4Z0ZkzW6VM7", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<OrderItemLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<OrderItemLogic>(id);
@@ -45,7 +45,7 @@ namespace WebApi.Modules.HomeControls.OrderItem
         //------------------------------------------------------------------------------------ 
         // POST api/v1/orderitem 
         [HttpPost]
-        [FwControllerMethod(Id:"DbB7badcbBLq", ActionType: FwControllerActionTypes.New)]
+        [FwControllerMethod(Id: "DbB7badcbBLq", ActionType: FwControllerActionTypes.New)]
         public async Task<ActionResult<OrderItemLogic>> NewAsync([FromBody]OrderItemLogic l)
         {
             return await DoNewAsync<OrderItemLogic>(l);
@@ -61,7 +61,7 @@ namespace WebApi.Modules.HomeControls.OrderItem
         //------------------------------------------------------------------------------------ 
         // POST api/v1/orderitem/many
         [HttpPost("many")]
-        [FwControllerMethod(Id: "MqUlSwrmvxSAK")]
+        [FwControllerMethod(Id: "MqUlSwrmvxSAK", ActionType: FwControllerActionTypes.Edit)]
         public async Task<List<ActionResult<OrderItemLogic>>> PostAsync([FromBody]List<OrderItemLogic> l)
         {
             FwBusinessLogicList l2 = new FwBusinessLogicList();
@@ -69,9 +69,17 @@ namespace WebApi.Modules.HomeControls.OrderItem
             return await DoPostAsync<OrderItemLogic>(l2);
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/orderitem/insertsubtotal
+        [HttpPost("insertsubtotal")]
+        [FwControllerMethod(Id: "W5ijnvSzwkxLq")]
+        public async Task<ObjectResult> InsertSubTotalAsync([FromBody]List<OrderItemLogic> l)
+        {
+            return GetApiExceptionResult(new Exception("Not yet programmed"));
+        }
+        //------------------------------------------------------------------------------------ 
         // DELETE api/v1/orderitem/A0000001
         [HttpDelete("{id}")]
-        [FwControllerMethod(Id:"042zT8NJ4EW8", ActionType: FwControllerActionTypes.Delete)]
+        [FwControllerMethod(Id: "042zT8NJ4EW8", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<OrderItemLogic>(id);
@@ -80,7 +88,7 @@ namespace WebApi.Modules.HomeControls.OrderItem
 
         // GET api/v1/orderitem/calculateextended
         [HttpGet("calculateextended")]
-        [FwControllerMethod(Id:"Ef2C7Iuxu0tA")]
+        [FwControllerMethod(Id: "Ef2C7Iuxu0tA")]
         public IActionResult CalculateExtended(string RateType, string RecType, DateTime? FromDate, DateTime? ToDate, DateTime? BillingFromDate, DateTime? BillingToDate, Decimal? Quantity, Decimal? Rate, Decimal? Rate2, Decimal? Rate3, Decimal? Rate4, Decimal? Rate5, Decimal? DaysPerWeek, Decimal? DiscountPercent)
         {
             try
@@ -112,7 +120,7 @@ namespace WebApi.Modules.HomeControls.OrderItem
 
         // GET api/v1/orderitem/calculatediscountpercent
         [HttpGet("calculatediscountpercent")]
-        [FwControllerMethod(Id:"lhAMnv7k6hlY")]
+        [FwControllerMethod(Id: "lhAMnv7k6hlY")]
         public IActionResult CalculateDiscountPercent(string RateType, string RecType, DateTime? FromDate, DateTime? ToDate, DateTime? BillingFromDate, DateTime? BillingToDate, Decimal? Quantity, Decimal? Rate, Decimal? Rate2, Decimal? Rate3, Decimal? Rate4, Decimal? Rate5, Decimal? DaysPerWeek, Decimal? DiscountPercent,
                                                       Decimal? UnitDiscountAmount, Decimal? UnitExtended, Decimal? WeeklyDiscountAmount, Decimal? WeeklyExtended, Decimal? MonthlyDiscountAmount, Decimal? MonthlyExtended, Decimal? PeriodDiscountAmount, Decimal? PeriodExtended)
         {

@@ -667,6 +667,38 @@
         };
     }
     //----------------------------------------------------------------------------------------------
+    async insertSubTotalLine(event) {
+        //justin hoffman WIP
+        const $browse = jQuery(event.currentTarget).closest('.fwbrowse');
+        const subTotalItems = [];
+        const orderId = $browse.find('.selected [data-browsedatafield="OrderId"]').attr('data-originalvalue');
+        const $selectedCheckBoxes = $browse.find('tbody .cbselectrow:checked');
+        
+        if (orderId != null) {
+            for (let i = 0; i < $selectedCheckBoxes.length; i++) {
+                let orderItem: any = {};
+                let orderItemId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderItemId"]').attr('data-originalvalue');
+                orderItem.OrderItemId = orderItemId
+                orderItem.OrderId = orderId;
+                subTotalItems.push(orderItem);
+            }
+            await insertSubTotalItems(subTotalItems);
+            await jQuery(document).trigger('click');
+        } else {
+            FwNotification.renderNotification('WARNING', 'Select a record.')
+        }
+        
+        function insertSubTotalItems(items): void {
+        
+            FwAppData.apiMethod(true, 'POST', `api/v1/orderitem/insertsubtotal`, items, FwServices.defaultTimeout, function onSuccess(response) {
+                FwBrowse.databind($browse);
+            }, function onError(response) {
+                FwFunc.showError(response);
+                FwBrowse.databind($browse);
+            }, $browse);
+        };
+    }
+    //----------------------------------------------------------------------------------------------    
     async detailSummaryView(event) {
         const $orderItemGrid: any = jQuery(event.currenTarget).closest('[data-name="OrderItemGrid"]');
 

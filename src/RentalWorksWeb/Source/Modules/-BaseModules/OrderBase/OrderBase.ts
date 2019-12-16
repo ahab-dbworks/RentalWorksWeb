@@ -237,6 +237,15 @@ class OrderBase {
                         FwFunc.showError(ex);
                     }
                 });
+                //justin hoffman WIP
+                //FwMenu.addSubMenuItem($optionsgroup, 'Insert Sub-Total Line', '', (e: JQuery.ClickEvent) => {
+                //    try {
+                //        OrderItemGridController.insertSubTotalLine(e);
+                //    }
+                //    catch (ex) {
+                //        FwFunc.showError(ex);
+                //    }
+                //});
                 if ($form.attr('data-controller') !== 'QuoteController') {
                     FwMenu.addSubMenuItem($optionsgroup, 'Sub PO Worksheet', '', (e: JQuery.ClickEvent) => {
                         try {
