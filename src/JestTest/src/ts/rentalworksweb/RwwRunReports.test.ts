@@ -159,9 +159,9 @@ export class RunReportsTest extends BaseTest {
                 await pages[2].setViewport({ width: 1600, height: 1080 })
                 if (pages.length === 3) {
                     Logging.logInfo(`Waiting for ${reportName} to load`);
-                    await pages[2].waitForSelector('body', { visible: true, timeout: 5000 });
+                    await pages[2].waitForSelector('body', { visible: true, timeout: 10000 });
                     const preview = await pages[2].$('.preview');
-                    await ModuleBase.wait(5000); // only for developer to be able to see the report
+                    await ModuleBase.wait(2000); // only for developer to be able to see the report
                     if (preview) {
                         Logging.logInfo(`${reportName} rendered`);
                     } else {
