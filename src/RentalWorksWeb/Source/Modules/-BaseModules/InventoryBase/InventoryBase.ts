@@ -415,7 +415,7 @@ abstract class InventoryBase {
             else {
                 FwFormField.disable($form.find('[data-datafield="ProfitAndLossCategoryId"]'));
             }
-        });
+        })
 
         $form.find('div[data-datafield="InventoryTypeId"]').data('onchange', $tr => {
             if ($tr.find('.field[data-browsedatafield="Wardrobe"]').attr('data-originalvalue') === 'true') {
@@ -423,16 +423,18 @@ abstract class InventoryBase {
             } else {
                 $form.find('.wardrobetab').hide();
             }
-        });
+        })
 
         $form.find('div[data-datafield="CategoryId"]').data('onchange', $tr => {
-            FwFormField.disable($form.find('.subcategory'));
             if ($tr.find('.field[data-browsedatafield="SubCategoryCount"]').attr('data-originalvalue') > 0) {
-                FwFormField.enable($form.find('.subcategory'));
+                FwFormField.enable($form.find('div[data-datafield="SubCategoryId"]'));
+                $form.find('[data-datafield="SubCategoryId"]').attr(`data-required`, `true`);
             } else {
                 FwFormField.setValueByDataField($form, 'SubCategoryId', '')
+                $form.find('[data-datafield="SubCategoryId"]').attr(`data-required`, `false`);
+                FwFormField.disable($form.find('div[data-datafield="SubCategoryId"]'));
             }
-        });
+        })
         // Hides or shows Asset tab for particular settings on the form
         $form.find('.class-tracked-radio input').on('change', () => {
             const classificationValue = FwFormField.getValueByDataField($form, 'Classification');
@@ -457,7 +459,7 @@ abstract class InventoryBase {
                 FwFormField.disable($form.find('[data-datafield="AllocateRevenueForAccessories"]'));
                 FwFormField.disable($form.find('[data-datafield="PackageRevenueCalculationFormula"]'));
             }
-        });
+        })
         $form.find(`[data-datafield="AllocateRevenueForAccessories"] .fwformfield-value`).on('change', e => {
             const $this = jQuery(e.currentTarget);
             if ($this.prop('checked') === true) {
@@ -465,30 +467,30 @@ abstract class InventoryBase {
             } else {
                 FwFormField.disable($form.find('[data-datafield="PackageRevenueCalculationFormula"]'));
             }
-        });
+        })
 
         // G/L Accounts
         $form.find('div[data-datafield="AssetAccountId"]').data('onchange', function ($tr) {
             FwFormField.setValue($form, 'div[data-datafield="AssetAccountDescription"]', $tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
-        });
+        })
         $form.find('div[data-datafield="IncomeAccountId"]').data('onchange', function ($tr) {
             FwFormField.setValue($form, 'div[data-datafield="IncomeAccountDescription"]', $tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
-        });
+        })
         $form.find('div[data-datafield="SubIncomeAccountId"]').data('onchange', function ($tr) {
             FwFormField.setValue($form, 'div[data-datafield="SubIncomeAccountDescription"]', $tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
-        });
+        })
         $form.find('div[data-datafield="EquipmentSaleIncomeAccountId"]').data('onchange', function ($tr) {
             FwFormField.setValue($form, 'div[data-datafield="EquipmentSaleIncomeAccountDescription"]', $tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
-        });
+        })
         $form.find('div[data-datafield="LdIncomeAccountId"]').data('onchange', function ($tr) {
             FwFormField.setValue($form, 'div[data-datafield="LdIncomeAccountDescription"]', $tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
-        });
+        })
         $form.find('div[data-datafield="CostOfGoodsSoldExpenseAccountId"]').data('onchange', function ($tr) {
             FwFormField.setValue($form, 'div[data-datafield="CostOfGoodsSoldExpenseAccountDescription"]', $tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
-        });
+        })
         $form.find('div[data-datafield="CostOfGoodsRentedExpenseAccountId"]').data('onchange', function ($tr) {
             FwFormField.setValue($form, 'div[data-datafield="CostOfGoodsRentedExpenseAccountDescription"]', $tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
-        });
+        })
 
         //Load Availability Calender when the tab is clicked
         $form.find('[data-type="tab"][data-caption="Availability Calendar"]').on('click', e => {
@@ -749,11 +751,59 @@ abstract class InventoryBase {
         }
     }
     //----------------------------------------------------------------------------------------------
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
+        const inventoryTypeId = FwFormField.getValueByDataField($form, 'InventoryTypeId');
+        const categoryId = FwFormField.getValueByDataField($form, 'CategoryId');
+
+        switch (datafield) {
+            case 'InventoryTypeId':
+                request.uniqueids = {
+                    Sales: true,
+                    HasCategories: true,
+                };
+                break;
+            case 'CategoryId':
+                if (inventoryTypeId) {
+                    request.uniqueids = {
+                        InventoryTypeId: inventoryTypeId,
+                    };
+                }
+                break;
+            case 'SubCategoryId':
+                if (inventoryTypeId) {
+                    request.uniqueids = {
+                        InventoryTypeId: inventoryTypeId,
+                    };
+                }
+                if (categoryId) {
+                    request.uniqueids = {
+                        CategoryId: categoryId,
+                    };
+                }
+                break;
+        }
+    }
+    //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
         //Disable "Create Complete" if classification isn't Item or Accessory
         const classification = FwFormField.getValueByDataField($form, 'Classification');
         if (classification !== 'A' && classification !== 'I') {
             $form.find('.fwform-menu .submenu-btn').css({ 'pointer-events': 'none', 'color': 'lightgray' });
+        }
+        if ($form.find('[data-datafield="SubCategoryCount"] .fwformfield-value').val() > 0) {
+            FwFormField.enable($form.find('[data-datafield="SubCategoryId"]'));
+        } else {
+            FwFormField.disable($form.find('[data-datafield="SubCategoryId"]'));
+        }
+
+        if ($form.find('[data-datafield="OverrideProfitAndLossCategory"] .fwformfield-value').prop('checked')) {
+            FwFormField.enable($form.find('[data-datafield="ProfitAndLossCategoryId"]'))
+        } else {
+            FwFormField.disable($form.find('[data-datafield="ProfitAndLossCategoryId"]'))
+        }
+
+        if ($form.find('[data-datafield="InventoryTypeIsWardrobe"] .fwformfield-value').prop('checked') === true) {
+            $form.find('.wardrobetab').show();
         }
 
         //Enable/disable duplicate fields based on classification

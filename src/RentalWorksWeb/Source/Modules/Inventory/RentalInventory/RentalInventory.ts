@@ -864,63 +864,13 @@ class RentalInventory extends InventoryBase {
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
         super.afterLoad($form);
-
-        var $itemLocationTaxGrid: any;
-        var $inventoryAvailabilityGrid: any;
-        var $inventoryConsignmentGrid: any;
-        var $inventoryCompleteKitGrid: any;
-        var $inventorySubstituteGrid: any;
-        var $inventoryCompatibilityGrid: any;
-        var $inventoryQcGrid: any;
-        var $inventoryAttributeValueGrid: any;
-        var $inventoryVendorGrid: any;
-        var $inventoryPrepGrid: any;
-        var $inventoryContainerItemGrid: any;
-        var $inventoryCompleteGrid: any;
-        var $inventoryWarehouseStagingGrid: any;
-        var $inventoryKitGrid: any;
-        var $wardrobeInventoryColorGrid: any;
-        var $wardrobeInventoryMaterialGrid: any;
-
         this.iCodeMask($form);
 
-        const $containerWarehouseGrid = $form.find('[data-name="ContainerWarehouseGrid"]');
         const $rentalInventoryWarehouseGrid = $form.find('[data-name="RentalInventoryWarehouseGrid"]');
         FwBrowse.search($rentalInventoryWarehouseGrid);
         const $rentalInventoryWarehousePricingGrid = $form.find('[data-name="RentalInventoryWarehousePricingGrid"]');
         FwBrowse.search($rentalInventoryWarehousePricingGrid);
-        $itemLocationTaxGrid = $form.find('[data-name="ItemLocationTaxGrid"]');
-        //FwBrowse.search($itemLocationTaxGrid);
-        $inventoryAvailabilityGrid = $form.find('[data-name="InventoryAvailabilityGrid"]');
-        //FwBrowse.search($inventoryAvailabilityGrid);
-        $inventoryConsignmentGrid = $form.find('[data-name="InventoryConsignmentGrid"]');
-        //FwBrowse.search($inventoryConsignmentGrid);
-        $inventoryCompleteKitGrid = $form.find('[data-name="InventoryCompleteKitGrid"]');
-        //FwBrowse.search($inventoryCompleteKitGrid);
-        $inventorySubstituteGrid = $form.find('[data-name="InventorySubstituteGrid"]');
-        //FwBrowse.search($inventorySubstituteGrid);
-        $inventoryCompatibilityGrid = $form.find('[data-name="InventoryCompatibilityGrid"]');
-        //FwBrowse.search($inventoryCompatibilityGrid);
-        $inventoryQcGrid = $form.find('[data-name="InventoryQcGrid"]');
-        //FwBrowse.search($inventoryQcGrid);
-        $inventoryAttributeValueGrid = $form.find('[data-name="InventoryAttributeValueGrid"]');
-        //FwBrowse.search($inventoryAttributeValueGrid);
-        $inventoryVendorGrid = $form.find('[data-name="InventoryVendorGrid"]');
-        //FwBrowse.search($inventoryVendorGrid);
-        $inventoryPrepGrid = $form.find('[data-name="InventoryPrepGrid"]');
-        //FwBrowse.search($inventoryPrepGrid);
-        $inventoryContainerItemGrid = $form.find('[data-name="InventoryContainerItemGrid"]');
-        //FwBrowse.search($inventoryContainerGrid);
-        $inventoryCompleteGrid = $form.find('[data-name="InventoryCompleteGrid"]');
-        //FwBrowse.search($inventoryCompleteGrid);
-        $inventoryWarehouseStagingGrid = $form.find('[data-name="InventoryWarehouseStagingGrid"]');
-        //FwBrowse.search($inventoryWarehouseStagingGrid);
-        $inventoryKitGrid = $form.find('[data-name="InventoryKitGrid"]');
-        //FwBrowse.search($inventoryKitGrid);
-        $wardrobeInventoryColorGrid = $form.find('[data-name="WardrobeInventoryColorGrid"]');
-        //FwBrowse.search($wardrobeInventoryColorGrid);
-        $wardrobeInventoryMaterialGrid = $form.find('[data-name="WardrobeInventoryMaterialGrid"]');
-        //FwBrowse.search($wardrobeInventoryMaterialGrid);
+
 
         this.afterLoadSetClassification($form);
 
@@ -944,6 +894,7 @@ class RentalInventory extends InventoryBase {
         }
 
         //Change the grid on primary to tab when classification is container
+        const $containerWarehouseGrid = $form.find('[data-name="ContainerWarehouseGrid"]');
         if (classificationValue == 'N') {
             $form.find('[data-grid="RentalInventoryWarehouseGrid"]').hide();
             $form.find('[data-grid="ContainerWarehouseGrid"]').show();
@@ -956,22 +907,6 @@ class RentalInventory extends InventoryBase {
 
             //Show settings tab
             $form.find('.settingstab').show();
-        }
-
-        if ($form.find('[data-datafield="OverrideProfitAndLossCategory"] .fwformfield-value').prop('checked')) {
-            FwFormField.enable($form.find('[data-datafield="ProfitAndLossCategoryId"]'))
-        } else {
-            FwFormField.disable($form.find('[data-datafield="ProfitAndLossCategoryId"]'))
-        }
-
-        if ($form.find('[data-datafield="InventoryTypeIsWardrobe"] .fwformfield-value').prop('checked') === true) {
-            $form.find('.wardrobetab').show();
-        };
-
-        if ($form.find('[data-datafield="SubCategoryCount"] .fwformfield-value').val() > 0) {
-            FwFormField.enable($form.find('.subcategory'));
-        } else {
-            FwFormField.disable($form.find('.subcategory'));
         }
 
         //enable version and effective date fields upon loading if "Enable Software Tracking" is checked
@@ -1031,56 +966,6 @@ class RentalInventory extends InventoryBase {
         return $browse;
     }
     //----------------------------------------------------------------------------------------------
-    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
-        //const validationName = request.module;
-        //const InventoryTypeValue = jQuery($validationbrowse.find('[data-validationname="InventoryTypeValidation"] input')).val();
-        //const CategoryTypeId = jQuery($validationbrowse.find('[data-validationname="RentalCategoryValidation"] input')).val();
-        //
-        //switch (validationName) {
-        //    case 'InventoryTypeValidation':
-        //        request.uniqueids = {
-        //            //Rental: true,
-        //            RecType: "R",
-        //            HasCategories: true
-        //        };
-        //        break;
-        //    case 'RentalCategoryValidation':
-        //        request.uniqueids = {
-        //            InventoryTypeId: InventoryTypeValue
-        //        };
-        //        break;
-        //    case 'SubCategoryValidation':
-        //        request.uniqueids = {
-        //            TypeId: InventoryTypeValue,
-        //            CategoryId: CategoryTypeId
-        //        };
-        //        break;
-        //};
-
-        let inventoryTypeId = FwFormField.getValueByDataField($form, 'InventoryTypeId');
-        let categoryId = FwFormField.getValueByDataField($form, 'CategoryId');
-
-        switch (datafield) {
-            case 'InventoryTypeId':
-                request.uniqueids = {
-                    Rental: true,
-                    HasCategories: true,
-                };
-                break;
-            case 'CategoryId':
-                request.uniqueids = {
-                    InventoryTypeId: inventoryTypeId,
-                };
-                break;
-            case 'SubCategoryId':
-                request.uniqueids = {
-                    InventoryTypeId: inventoryTypeId,
-                    CategoryId: categoryId,
-                };
-                break;
-        }
-    };
-    //----------------------------------------------------------------------------------------------
     beforeValidateScannableICode($browse, $grid, request) {
         let $form = $grid.closest('.fwform');
         const ContainerId = FwFormField.getValueByDataField($form, 'ContainerId');
@@ -1123,7 +1008,7 @@ class RentalInventory extends InventoryBase {
         });
     }
     //----------------------------------------------------------------------------------------------
-};
+}
 
 //----------------------------------------------------------------------------------------------
 var RentalInventoryController = new RentalInventory();

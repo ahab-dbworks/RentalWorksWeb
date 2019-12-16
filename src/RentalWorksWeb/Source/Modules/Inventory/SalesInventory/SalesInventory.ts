@@ -688,8 +688,7 @@ class SalesInventory extends InventoryBase {
                 request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
             }
         });
-    };
-
+    }
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
         super.afterLoad($form);
@@ -710,74 +709,9 @@ class SalesInventory extends InventoryBase {
             }
         }
 
-        if ($form.find('[data-datafield="OverrideProfitAndLossCategory"] .fwformfield-value').prop('checked')) {
-            FwFormField.enable($form.find('[data-datafield="ProfitAndLossCategoryId"]'))
-        } else {
-            FwFormField.disable($form.find('[data-datafield="ProfitAndLossCategoryId"]'))
-        }
 
-        if ($form.find('[data-datafield="InventoryTypeIsWardrobe"] .fwformfield-value').prop('checked') === true) {
-            $form.find('.wardrobetab').show();
-        };
-
-        if ($form.find('[data-datafield="SubCategoryCount"] .fwformfield-value').val() > 0) {
-            FwFormField.enable($form.find('.subcategory'));
-        } else {
-            FwFormField.disable($form.find('.subcategory'));
-        }
-
-    };
-    //----------------------------------------------------------------------------------------------
-    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
-        //const validationName = request.module;
-        //const InventoryTypeValue = jQuery($validationbrowse.find('[data-validationname="InventoryTypeValidation"] input')).val();
-        //const CategoryTypeId = jQuery($validationbrowse.find('[data-validationname="SalesCategoryValidation"] input')).val();
-
-        //switch (validationName) {
-        //    case 'InventoryTypeValidation':
-        //        request.uniqueids = {
-        //            //Sales: true,
-        //            RecType: "S",
-        //            HasCategories: true
-        //        };
-        //        break;
-        //    case 'SalesCategoryValidation':
-        //        request.uniqueids = {
-        //            InventoryTypeId: InventoryTypeValue
-        //        };
-        //        break;
-        //    case 'SubCategoryValidation':
-        //        request.uniqueids = {
-        //            TypeId: InventoryTypeValue,
-        //            CategoryId: CategoryTypeId
-        //        };
-        //        break;
-        //};
-        let inventoryTypeId = FwFormField.getValueByDataField($form, 'InventoryTypeId');
-        let categoryId = FwFormField.getValueByDataField($form, 'CategoryId');
-
-        switch (datafield) {
-            case 'InventoryTypeId':
-                request.uniqueids = {
-                    Sales: true,
-                    HasCategories: true,
-                };
-                break;
-            case 'CategoryId':
-                request.uniqueids = {
-                    InventoryTypeId: inventoryTypeId,
-                };
-                break;
-            case 'SubCategoryId':
-                request.uniqueids = {
-                    InventoryTypeId: inventoryTypeId,
-                    CategoryId: categoryId,
-                };
-                break;
-        }
-
-
-    };
-};
+    }
+   
+}
 //----------------------------------------------------------------------------------------------
 var SalesInventoryController = new SalesInventory();
