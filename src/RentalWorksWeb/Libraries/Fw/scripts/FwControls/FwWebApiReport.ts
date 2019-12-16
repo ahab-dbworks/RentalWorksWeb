@@ -85,22 +85,9 @@ abstract class FwWebApiReport {
                     if (isValid) {
                         const request: any = this.getRenderRequest($form);
                         request.renderMode = 'Html';
-                        request.parameters = this.convertParameters(this.getParameters($form));
+                        request.parameters = await this.convertParameters(this.getParameters($form));
                         request.parameters.companyName = companyName;
                         request.parameters.action = 'Preview';
-
-                        if (request.parameters.CustomReportLayoutId != "" && request.parameters.CustomReportLayoutId != undefined) {
-                            const customReportLayout = FwAjax.callWebApi<any, any>({
-                                httpMethod: 'GET',
-                                url: `${applicationConfig.apiurl}api/v1/customreportlayout/${request.parameters.CustomReportLayoutId}`,
-                                $elementToBlock: $form
-                            });
-
-                            await customReportLayout
-                                .then((values: any) => {
-                                    request.parameters.ReportTemplate = values.Html;
-                                });
-                        }
 
                         const reportPageMessage = new ReportPageMessage();
                         reportPageMessage.action = 'Preview';
@@ -134,15 +121,16 @@ abstract class FwWebApiReport {
         if ((typeof reportOptions.HasExportPdf === 'undefined') || (reportOptions.HasExportPdf === true)) {
             const $btnPrintPdf = FwMenu.addStandardBtn($menuObject, 'Print HTML');
             FwMenu.addVerticleSeparator($menuObject);
-            $btnPrintPdf.on('click', (event: JQuery.Event) => {
+            $btnPrintPdf.on('click', async (event: JQuery.Event) => {
                 try {
                     const isValid = FwModule.validateForm($form);
                     if (isValid) {
                         const request: any = this.getRenderRequest($form);
                         request.renderMode = 'Html';
-                        request.parameters = this.convertParameters(this.getParameters($form));
+                        request.parameters = await this.convertParameters(this.getParameters($form));
                         request.parameters.companyName = companyName;
                         request.parameters.action = 'Print/PDF';
+
                         const $iframe = jQuery(`<iframe src="${urlHtmlReport}" style="display:none;"></iframe>`);
                         jQuery('.application').append($iframe);
                         $iframe.on('load', () => {
@@ -166,7 +154,7 @@ abstract class FwWebApiReport {
         if ((typeof reportOptions.HasDownloadExcel === 'undefined') || (reportOptions.HasDownloadExcel === true)) {
             const $btnDownloadExcel = FwMenu.addStandardBtn($menuObject, 'Download Excel');
             FwMenu.addVerticleSeparator($menuObject);
-            $btnDownloadExcel.on('click', event => {
+            $btnDownloadExcel.on('click', async event => {
                 try {
                     const isValid = FwModule.validateForm($form);
                     if (isValid) {
@@ -189,7 +177,7 @@ abstract class FwWebApiReport {
                         $confirmation.find('.sub-headings input').prop('checked', false);
                         const request: any = this.getRenderRequest($form);
                         request.downloadPdfAsAttachment = true;
-                        const convertedparameters = this.convertParameters(this.getParameters($form));
+                        const convertedparameters = await this.convertParameters(this.getParameters($form));
                         for (let key in convertedparameters) {
                             request[key] = convertedparameters[key];
                         }
@@ -228,16 +216,17 @@ abstract class FwWebApiReport {
         if ((typeof reportOptions.HasExportPdf === 'undefined') || (reportOptions.HasExportPdf === true)) {
             const $btnOpenPdf = FwMenu.addStandardBtn($menuObject, 'View PDF');
             FwMenu.addVerticleSeparator($menuObject);
-            $btnOpenPdf.on('click', (event: JQuery.Event) => {
+            $btnOpenPdf.on('click', async (event: JQuery.Event) => {
                 try {
                     const isValid = FwModule.validateForm($form);
                     if (isValid) {
                         const request: any = this.getRenderRequest($form);
                         request.renderMode = 'Pdf';
                         request.downloadPdfAsAttachment = false;
-                        request.parameters = this.convertParameters(this.getParameters($form));
+                        request.parameters = await this.convertParameters(this.getParameters($form));
                         request.parameters.companyName = companyName;
                         request.parameters.action = 'Print/PDF'
+
                         const win = window.open('', '_blank');
                         const head = win.document.head || win.document.getElementsByTagName('head')[0];
                         const loader = jQuery(win.document.body.innerHTML = '<div class="loader-container"><div class="loader"></div></div>');
@@ -332,7 +321,7 @@ abstract class FwWebApiReport {
         if ((typeof reportOptions.HasEmailMePdf === 'undefined') || (reportOptions.HasEmailMePdf === true)) {
             const $btnEmailMePdf = FwMenu.addStandardBtn($menuObject, 'E-mail (to me)');
             FwMenu.addVerticleSeparator($menuObject);
-            $btnEmailMePdf.on('click', (event: JQuery.Event) => {
+            $btnEmailMePdf.on('click', async (event: JQuery.Event) => {
                 try {
                     const isValid = FwModule.validateForm($form);
                     if (isValid) {
@@ -343,7 +332,7 @@ abstract class FwWebApiReport {
                         request.email.cc = '';
                         request.email.subject = '[reportname]';
                         request.email.body = '';
-                        request.parameters = this.convertParameters(this.getParameters($form));
+                        request.parameters = await this.convertParameters(this.getParameters($form));
 
                         const $notification = FwNotification.renderNotification('PERSISTENTINFO', 'Preparing Report...');
                         request.parameters.companyName = companyName;
@@ -390,7 +379,7 @@ abstract class FwWebApiReport {
                         FwFormField.setValueByDataField($confirmation, 'from', email);
                         FwFormField.setValueByDataField($confirmation, 'subject', FwTabs.getTabByElement($form).attr('data-caption'));
 
-                        $btnSend.click((event: JQuery.Event) => {
+                        $btnSend.click(async (event: JQuery.Event) => {
                             try {
                                 const $notification = FwNotification.renderNotification('PERSISTENTINFO', 'Preparing Report...');
                                 const requestEmailPdf: any = this.getRenderRequest($form);
@@ -400,7 +389,8 @@ abstract class FwWebApiReport {
                                 requestEmailPdf.email.cc = $confirmation.find('[data-datafield="ccusers"] input.fwformfield-text').val();
                                 requestEmailPdf.email.subject = FwFormField.getValueByDataField($confirmation, 'subject');
                                 requestEmailPdf.email.body = FwFormField.getValueByDataField($confirmation, 'body');
-                                requestEmailPdf.parameters = this.convertParameters(this.getParameters($form));
+                                requestEmailPdf.parameters = await this.convertParameters(this.getParameters($form));
+
                                 if (requestEmailPdf.parameters != null) {
                                     requestEmailPdf.parameters.companyName = companyName;
                                     FwAppData.apiMethod(true, 'POST', `${this.apiurl}/render`, requestEmailPdf, timeout,
@@ -603,7 +593,7 @@ abstract class FwWebApiReport {
         });
     }
     //----------------------------------------------------------------------------------------------
-    getParameters($form: JQuery): any {
+    async getParameters($form: JQuery): Promise<any> {
         try {
             const parameters: any = {};
             const isvalid = FwModule.validateForm($form);
@@ -618,6 +608,20 @@ abstract class FwWebApiReport {
             } else {
                 throw 'Please fill in the required fields.';
             }
+
+            if (parameters.CustomReportLayoutId != "" && parameters.CustomReportLayoutId != undefined) {
+                const customReportLayout = FwAjax.callWebApi<any, any>({
+                    httpMethod: 'GET',
+                    url: `${applicationConfig.apiurl}api/v1/customreportlayout/${parameters.CustomReportLayoutId}`,
+                    $elementToBlock: $form
+                });
+
+                await customReportLayout
+                    .then((values: any) => {
+                        parameters.ReportTemplate = values.Html;
+                    });
+            }
+
             return parameters;
         } catch (ex) {
             FwFunc.showError(ex)
