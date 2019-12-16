@@ -23,79 +23,79 @@ export class RunReportsTest extends BaseTest {
         // ----------
 
         const reportNames = ['ArAgingReport',
-            //'DailyReceiptsReport',
-            //'GlDistributionReport',
-            //'AgentBillingReport',
-            //'BillingProgressReport',
-            //'BillingStatementReport',
+            'DailyReceiptsReport',
+            'GlDistributionReport',
+            'AgentBillingReport',
+            'BillingProgressReport',
+            'BillingStatementReport',
             'CreateInvoiceProcessReport',
-            //'InvoiceDiscountReport',
-            //'InvoiceReport',
-            //'InvoiceSummaryReport',
-            //'ProfitLossReport',
-            //'ProjectManagerBillingReport',
-            //'SalesQuoteBillingReport',
-            //'SalesRepresentativeBillingReport',
-            //'SalesTaxCanadaReport',
-            //'SalesTaxUSAReport',
-            //'ChangeAuditReport',
-            //'DealInvoiceBatchReport',
-            //'ReceiptBatchReport',
-            //'VendorInvoiceBatchReport',
-            //'ContractRevisionReport',
-            //'OutContractReport',
-            //'CrewSignInReport',
-            //'CreditsOnAccountReport',
-            //'CustomerRevenueByMonthReport',
-            //'CustomerRevenueByTypeReport',
-            //'DealInvoiceDetailReport',
-            //'DealOutstandingItemsReport',
-            //'OrdersByDealReport',
-            //'ReturnReceiptReport',
-            //'TransferReport',
-            //'LateReturnsReport',
-            //'OrderConflictReport',
-            //'OrderReport',
-            //'PickListReport',
-            //'QuikActivityReport',
-            //'QuoteReport',
-            //'QuoteOrderMasterReport',
-            //'PartsInventoryAttributesReport',
-            //'PartsInventoryCatalogReport',
-            //'PartsInventoryPurchaseHistoryReport',
-            //'PartsInventoryReorderReport',
-            //'PartsInventoryTransactionReport',
-            //'RentalInventoryActivityByDateReport',
-            //'RentalInventoryAttributesReport',
-            //'RentalInventoryAvailabilityReport',
-            //'RentalInventoryCatalogReport',
-            //'RentalInventoryChangeReport',
-            //'RentalInventoryMasterReport',
-            //'RentalInventoryMovementReport',
-            //'RentalInventoryPurchaseHistoryReport',
-            //'RentalInventoryQCRequiredReport',
-            //'RentalInventoryStatusAndRevenueReport',
-            //'RentalInventoryUnusedItemsReport',
-            //'RentalInventoryUsageReport',
-            //'RentalInventoryValueReport',
-            //'RentalLostAndDamagedBillingHistoryReport',
-            //'RetiredRentalInventoryReport',
-            //'ReturnedToInventoryReport',
-            //'ReturnOnAssetReport',
-            //'UnretiredRentalInventoryReport',
-            //'ValueOfOutRentalInventoryReport',
-            //'RepairOrderStatusReport',
-            //'SalesBackorderReport',
-            //'SalesHistoryReport',
-            //'SalesInventoryAttributesReport',
-            //'SalesInventoryCatalogReport',
-            //'SalesInventoryMasterReport',
-            //'SalesInventoryPurchaseHistoryReport',
-            //'SalesInventoryReorderReport',
-            //'SalesInventoryTransactionReport',
-            //'PurchaseOrderMasterReport',
-            //'SubItemStatusReport',
-            //'SubRentalBillingAnalysisReport',
+            'InvoiceDiscountReport',
+            'InvoiceReport',
+            'InvoiceSummaryReport',
+            'ProfitLossReport',
+            'ProjectManagerBillingReport',
+            'SalesQuoteBillingReport',
+            'SalesRepresentativeBillingReport',
+            'SalesTaxCanadaReport',
+            'SalesTaxUSAReport',
+            'ChangeAuditReport',
+            'DealInvoiceBatchReport',
+            'ReceiptBatchReport',
+            'VendorInvoiceBatchReport',
+            'ContractRevisionReport',
+            'OutContractReport',
+            'CrewSignInReport',
+            'CreditsOnAccountReport',
+            'CustomerRevenueByMonthReport',
+            'CustomerRevenueByTypeReport',
+            'DealInvoiceDetailReport',
+            'DealOutstandingItemsReport',
+            'OrdersByDealReport',
+            'ReturnReceiptReport',
+            'TransferReport',
+            'LateReturnsReport',
+            'OrderConflictReport',
+            'OrderReport',
+            'PickListReport',
+            'QuikActivityReport',
+            'QuoteReport',
+            'QuoteOrderMasterReport',
+            'PartsInventoryAttributesReport',
+            'PartsInventoryCatalogReport',
+            'PartsInventoryPurchaseHistoryReport',
+            'PartsInventoryReorderReport',
+            'PartsInventoryTransactionReport',
+            'RentalInventoryActivityByDateReport',
+            'RentalInventoryAttributesReport',
+            'RentalInventoryAvailabilityReport',
+            'RentalInventoryCatalogReport',
+            'RentalInventoryChangeReport',
+            'RentalInventoryMasterReport',
+            'RentalInventoryMovementReport',
+            'RentalInventoryPurchaseHistoryReport',
+            'RentalInventoryQCRequiredReport',
+            'RentalInventoryStatusAndRevenueReport',
+            'RentalInventoryUnusedItemsReport',
+            'RentalInventoryUsageReport',
+            'RentalInventoryValueReport',
+            'RentalLostAndDamagedBillingHistoryReport',
+            'RetiredRentalInventoryReport',
+            'ReturnedToInventoryReport',
+            'ReturnOnAssetReport',
+            'UnretiredRentalInventoryReport',
+            'ValueOfOutRentalInventoryReport',
+            'RepairOrderStatusReport',
+            'SalesBackorderReport',
+            'SalesHistoryReport',
+            'SalesInventoryAttributesReport',
+            'SalesInventoryCatalogReport',
+            'SalesInventoryMasterReport',
+            'SalesInventoryPurchaseHistoryReport',
+            'SalesInventoryReorderReport',
+            'SalesInventoryTransactionReport',
+            'PurchaseOrderMasterReport',
+            'SubItemStatusReport',
+            'SubRentalBillingAnalysisReport',
             'VendorInvoiceSummaryReport']
         // ----------
         async function getReportNames() {
@@ -111,6 +111,7 @@ export class RunReportsTest extends BaseTest {
         // ----------
         async function runReport(reportName: string) {
             let closeUnexpectedErrors = false;
+            let testPassed = true;
             Logging.logInfo(`About to click on ${reportName}`);
             const reportPanel = `#${reportName} .panel .panel-heading`;
             await page.waitForSelector(reportPanel, { visible: true });
@@ -130,6 +131,7 @@ export class RunReportsTest extends BaseTest {
             } catch (error) { }  // no error pop-up
 
             if (popUp !== undefined) {
+                testPassed = false;
                 Logging.logInfo(`error pop-up found previewing ${reportName}.`);
                 closeUnexpectedErrors = true;
                 let selector: string = ``;
@@ -138,7 +140,6 @@ export class RunReportsTest extends BaseTest {
                 const errorMessage = await page.$eval('.advisory', el => el.textContent);
                 Logging.logInfo(`${reportName} Report not generated: ${errorMessage}`);
                 Logging.logInfo(`Error Fields: ${JSON.stringify(errorFields)}`);
-                expect(errorFields.length).toBe(0);
                 errorFields.length = 0;
 
                 if (closeUnexpectedErrors) {
@@ -153,7 +154,7 @@ export class RunReportsTest extends BaseTest {
                 }
             }
             else {
-                Logging.logInfo(`no error pop-up found previewing: ${reportName}.`);
+                Logging.logInfo(`NO error pop-up found previewing: ${reportName}.`);
                 const pages = await browser.pages();
                 await pages[2].setViewport({ width: 1600, height: 1080 })
                 if (pages.length === 3) {
@@ -164,15 +165,16 @@ export class RunReportsTest extends BaseTest {
                     if (preview) {
                         Logging.logInfo(`${reportName} rendered`);
                     } else {
+                        testPassed = false;
                         const html = await pages[2].$('html');
                         Logging.logInfo(`${reportName} was not rendered`);
                         Logging.logInfo(`Error: ${html}`);
                     }
-                    expect(preview).toBeTruthy();
                     Logging.logInfo(`About to close ${reportName}`);
                     await pages[2].close();
                 }
             }
+            expect(testPassed).toBeTruthy();
         }
         //---------------------------------------------------------------------------------------
         describe('Go to Reports page and run reports', () => {
@@ -182,14 +184,7 @@ export class RunReportsTest extends BaseTest {
                 await goToReportsPage();
             }, this.testTimeout);
             // ----------
-            //testName = 'Get ALL Reports';
-            //test(testName, async () => {
-            //    Logging.logInfo(`About to get Report Names`);
-            //    //reportNames = await getReportNames();
-            //    //await console.log('reportNames: ', reportNames);
-            //}, this.testTimeout);
-
-
+            // Iterate through all Reports
             for (let i = 0; i < reportNames.length; i++) {
                 testName = `Running ${reportNames[i]}`;
                 test(testName, async () => {
@@ -197,7 +192,12 @@ export class RunReportsTest extends BaseTest {
                     await runReport(reportNames[i]);
                 }, this.testTimeout);
             }
-
+            //testName = 'Get ALL Reports';
+            //test(testName, async () => {
+            //    Logging.logInfo(`About to get Report Names`);
+            //    //reportNames = await getReportNames();
+            //    //await console.log('reportNames: ', reportNames);
+            //}, this.testTimeout);
             // ----------
             //testName = 'Preview ArAgingReport';
             //test(testName, async () => {
