@@ -3,6 +3,7 @@ using FwStandard.SqlServer.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Globalization;
 using System.Reflection;
 using System.Threading.Tasks;
 using WebApi.Data;
@@ -80,12 +81,15 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
                     {
                         FwDataTypes propType = dt.Columns[columnIndex].DataType;
                         bool isDecimal = false;
-                        string numberStringFormat = "";
-                        FwSqlCommand.FwDataTypeIsDecimal(propType, ref isDecimal, ref numberStringFormat);
+                        //string numberStringFormat = "";
+                        //FwSqlCommand.FwDataTypeIsDecimal(propType, ref isDecimal, ref numberStringFormat);
+                        NumberFormatInfo numberFormat = new CultureInfo("en-US", false).NumberFormat;
+                        FwSqlCommand.FwDataTypeIsDecimal(propType, ref isDecimal, ref numberFormat);
                         if (isDecimal)
                         {
                             decimal d = FwConvert.ToDecimal((row[dt.GetColumnNo(fieldName)] ?? "0").ToString());
-                            property.SetValue(item, d.ToString(numberStringFormat));
+                            //property.SetValue(item, d.ToString(numberStringFormat));
+                            property.SetValue(item, d.ToString("N", numberFormat));
                         }
                         else
                         {

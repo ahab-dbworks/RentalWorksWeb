@@ -10,7 +10,7 @@ using System.Data;
 using System.Reflection;
 using WebApi.Modules.HomeControls.OrderDates;
 using WebApi.Modules.Agent.OrderActivitySummary;
-
+using System.Globalization;
 
 namespace WebApi.Modules.Reports.OrderReports.OrderReport
 {
@@ -49,16 +49,16 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         [FwSqlDataField(column: "discountpctdisplay", modeltype: FwDataTypes.DecimalString2Digits)]
         public string DiscountPercentDisplay { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "weeklydiscountamt", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        [FwSqlDataField(column: "weeklydiscountamt", modeltype: FwDataTypes.DecimalString2Digits)]
         public string WeeklyDiscountAmount { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "perioddiscountamt", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        [FwSqlDataField(column: "perioddiscountamt", modeltype: FwDataTypes.DecimalString2Digits)]
         public string PeriodDiscountAmount { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "weeklyextended", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        [FwSqlDataField(column: "weeklyextended", modeltype: FwDataTypes.DecimalString2Digits)]
         public string WeeklyExtended { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "periodextended", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        [FwSqlDataField(column: "periodextended", modeltype: FwDataTypes.DecimalString2Digits)]
         public string PeriodExtended { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderby", modeltype: FwDataTypes.Text)]
@@ -96,12 +96,15 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
                     {
                         FwDataTypes propType = dt.Columns[columnIndex].DataType;
                         bool isDecimal = false;
-                        string numberStringFormat = "";
-                        FwSqlCommand.FwDataTypeIsDecimal(propType, ref isDecimal, ref numberStringFormat);
+                        //string numberStringFormat = "";
+                        //FwSqlCommand.FwDataTypeIsDecimal(propType, ref isDecimal, ref numberStringFormat);
+                        NumberFormatInfo numberFormat = new CultureInfo("en-US", false).NumberFormat;
+                        FwSqlCommand.FwDataTypeIsDecimal(propType, ref isDecimal, ref numberFormat);
                         if (isDecimal)
                         {
                             decimal d = FwConvert.ToDecimal((row[dt.GetColumnNo(fieldName)] ?? "0").ToString());
-                            property.SetValue(item, d.ToString(numberStringFormat));
+                            //property.SetValue(item, d.ToString(numberStringFormat));
+                            property.SetValue(item, d.ToString("N", numberFormat));
                         }
                         else
                         {
@@ -802,12 +805,15 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
                                 {
                                     FwDataTypes propType = activitiesDt.Columns[columnIndex].DataType;
                                     bool isDecimal = false;
-                                    string numberStringFormat = "";
-                                    FwSqlCommand.FwDataTypeIsDecimal(propType, ref isDecimal, ref numberStringFormat);
+                                    //string numberStringFormat = "";
+                                    //FwSqlCommand.FwDataTypeIsDecimal(propType, ref isDecimal, ref numberStringFormat);
+                                    NumberFormatInfo numberFormat = new CultureInfo("en-US", false).NumberFormat;
+                                    FwSqlCommand.FwDataTypeIsDecimal(propType, ref isDecimal, ref numberFormat);
                                     if (isDecimal)
                                     {
                                         decimal d = FwConvert.ToDecimal((row[activitiesDt.GetColumnNo(fieldName)] ?? "0").ToString());
-                                        property.SetValue(activity, d.ToString(numberStringFormat));
+                                        //property.SetValue(activity, d.ToString(numberStringFormat));
+                                        property.SetValue(activity, d.ToString("N", numberFormat));
                                     }
                                     else
                                     {
