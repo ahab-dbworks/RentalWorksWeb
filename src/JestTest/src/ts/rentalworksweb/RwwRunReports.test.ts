@@ -22,81 +22,81 @@ export class RunReportsTest extends BaseTest {
         }
         // ----------
 
-            const reportNames = ['ArAgingReport',
-                'DailyReceiptsReport',
-                'GlDistributionReport',
-                'AgentBillingReport',
-                'BillingProgressReport',
-                'BillingStatementReport',
-                'CreateInvoiceProcessReport',
-                'InvoiceDiscountReport',
-                'InvoiceReport',
-                'InvoiceSummaryReport',
-                'ProfitLossReport',
-                'ProjectManagerBillingReport',
-                'SalesQuoteBillingReport',
-                'SalesRepresentativeBillingReport',
-                'SalesTaxCanadaReport',
-                'SalesTaxUSAReport',
-                'ChangeAuditReport',
-                'DealInvoiceBatchReport',
-                'ReceiptBatchReport',
-                'VendorInvoiceBatchReport',
-                'ContractRevisionReport',
-                'OutContractReport',
-                'CrewSignInReport',
-                'CreditsOnAccountReport',
-                'CustomerRevenueByMonthReport',
-                'CustomerRevenueByTypeReport',
-                'DealInvoiceDetailReport',
-                'DealOutstandingItemsReport',
-                'OrdersByDealReport',
-                'ReturnReceiptReport',
-                'TransferReport',
-                'LateReturnsReport',
-                'OrderConflictReport',
-                'OrderReport',
-                'PickListReport',
-                'QuikActivityReport',
-                'QuoteReport',
-                'QuoteOrderMasterReport',
-                'PartsInventoryAttributesReport',
-                'PartsInventoryCatalogReport',
-                'PartsInventoryPurchaseHistoryReport',
-                'PartsInventoryReorderReport',
-                'PartsInventoryTransactionReport',
-                'RentalInventoryActivityByDateReport',
-                'RentalInventoryAttributesReport',
-                'RentalInventoryAvailabilityReport',
-                'RentalInventoryCatalogReport',
-                'RentalInventoryChangeReport',
-                'RentalInventoryMasterReport',
-                'RentalInventoryMovementReport',
-                'RentalInventoryPurchaseHistoryReport',
-                'RentalInventoryQCRequiredReport',
-                'RentalInventoryStatusAndRevenueReport',
-                'RentalInventoryUnusedItemsReport',
-                'RentalInventoryUsageReport',
-                'RentalInventoryValueReport',
-                'RentalLostAndDamagedBillingHistoryReport',
-                'RetiredRentalInventoryReport',
-                'ReturnedToInventoryReport',
-                'ReturnOnAssetReport',
-                'UnretiredRentalInventoryReport',
-                'ValueOfOutRentalInventoryReport',
-                'RepairOrderStatusReport',
-                'SalesBackorderReport',
-                'SalesHistoryReport',
-                'SalesInventoryAttributesReport',
-                'SalesInventoryCatalogReport',
-                'SalesInventoryMasterReport',
-                'SalesInventoryPurchaseHistoryReport',
-                'SalesInventoryReorderReport',
-                'SalesInventoryTransactionReport',
-                'PurchaseOrderMasterReport',
-                'SubItemStatusReport',
-                'SubRentalBillingAnalysisReport',
-                'VendorInvoiceSummaryReport']
+        const reportNames = ['ArAgingReport',
+            //'DailyReceiptsReport',
+            //'GlDistributionReport',
+            //'AgentBillingReport',
+            //'BillingProgressReport',
+            //'BillingStatementReport',
+            'CreateInvoiceProcessReport',
+            //'InvoiceDiscountReport',
+            //'InvoiceReport',
+            //'InvoiceSummaryReport',
+            //'ProfitLossReport',
+            //'ProjectManagerBillingReport',
+            //'SalesQuoteBillingReport',
+            //'SalesRepresentativeBillingReport',
+            //'SalesTaxCanadaReport',
+            //'SalesTaxUSAReport',
+            //'ChangeAuditReport',
+            //'DealInvoiceBatchReport',
+            //'ReceiptBatchReport',
+            //'VendorInvoiceBatchReport',
+            //'ContractRevisionReport',
+            //'OutContractReport',
+            //'CrewSignInReport',
+            //'CreditsOnAccountReport',
+            //'CustomerRevenueByMonthReport',
+            //'CustomerRevenueByTypeReport',
+            //'DealInvoiceDetailReport',
+            //'DealOutstandingItemsReport',
+            //'OrdersByDealReport',
+            //'ReturnReceiptReport',
+            //'TransferReport',
+            //'LateReturnsReport',
+            //'OrderConflictReport',
+            //'OrderReport',
+            //'PickListReport',
+            //'QuikActivityReport',
+            //'QuoteReport',
+            //'QuoteOrderMasterReport',
+            //'PartsInventoryAttributesReport',
+            //'PartsInventoryCatalogReport',
+            //'PartsInventoryPurchaseHistoryReport',
+            //'PartsInventoryReorderReport',
+            //'PartsInventoryTransactionReport',
+            //'RentalInventoryActivityByDateReport',
+            //'RentalInventoryAttributesReport',
+            //'RentalInventoryAvailabilityReport',
+            //'RentalInventoryCatalogReport',
+            //'RentalInventoryChangeReport',
+            //'RentalInventoryMasterReport',
+            //'RentalInventoryMovementReport',
+            //'RentalInventoryPurchaseHistoryReport',
+            //'RentalInventoryQCRequiredReport',
+            //'RentalInventoryStatusAndRevenueReport',
+            //'RentalInventoryUnusedItemsReport',
+            //'RentalInventoryUsageReport',
+            //'RentalInventoryValueReport',
+            //'RentalLostAndDamagedBillingHistoryReport',
+            //'RetiredRentalInventoryReport',
+            //'ReturnedToInventoryReport',
+            //'ReturnOnAssetReport',
+            //'UnretiredRentalInventoryReport',
+            //'ValueOfOutRentalInventoryReport',
+            //'RepairOrderStatusReport',
+            //'SalesBackorderReport',
+            //'SalesHistoryReport',
+            //'SalesInventoryAttributesReport',
+            //'SalesInventoryCatalogReport',
+            //'SalesInventoryMasterReport',
+            //'SalesInventoryPurchaseHistoryReport',
+            //'SalesInventoryReorderReport',
+            //'SalesInventoryTransactionReport',
+            //'PurchaseOrderMasterReport',
+            //'SubItemStatusReport',
+            //'SubRentalBillingAnalysisReport',
+            'VendorInvoiceSummaryReport']
         // ----------
         async function getReportNames() {
             return await page.evaluate(() => {
@@ -134,10 +134,12 @@ export class RunReportsTest extends BaseTest {
                 closeUnexpectedErrors = true;
                 let selector: string = ``;
 
-                const errorFields = await page.$$eval(`div.field.error`, fields => fields.map((field) => field.getAttribute('data-datafield')));
+                const errorFields = await page.$$eval(`div[data-control="FwFormField"].error`, fields => fields.map((field) => field.getAttribute('data-datafield')));
                 const errorMessage = await page.$eval('.advisory', el => el.textContent);
                 Logging.logInfo(`${reportName} Report not generated: ${errorMessage}`);
                 Logging.logInfo(`Error Fields: ${JSON.stringify(errorFields)}`);
+                expect(errorFields.length).toBe(0);
+                errorFields.length = 0;
 
                 if (closeUnexpectedErrors) {
                     //check for the "record not saved" toaster message and make it go away
@@ -153,17 +155,20 @@ export class RunReportsTest extends BaseTest {
             else {
                 Logging.logInfo(`no error pop-up found previewing: ${reportName}.`);
                 const pages = await browser.pages();
-                //await pages[2].setViewport({ width: 1600, height: 1080 })
+                await pages[2].setViewport({ width: 1600, height: 1080 })
                 if (pages.length === 3) {
                     Logging.logInfo(`Waiting for ${reportName} to load`);
-                    await pages[2].waitForSelector('body', { visible: true, timeout: 3000 });
+                    await pages[2].waitForSelector('body', { visible: true, timeout: 5000 });
                     const preview = await pages[2].$('.preview');
-                    await ModuleBase.wait(1000); // only for developer to be able to see the report
+                    await ModuleBase.wait(5000); // only for developer to be able to see the report
                     if (preview) {
                         Logging.logInfo(`${reportName} rendered`);
                     } else {
+                        const html = await pages[2].$('html');
                         Logging.logInfo(`${reportName} was not rendered`);
+                        Logging.logInfo(`Error: ${html}`);
                     }
+                    expect(preview).toBeTruthy();
                     Logging.logInfo(`About to close ${reportName}`);
                     await pages[2].close();
                 }
@@ -184,14 +189,14 @@ export class RunReportsTest extends BaseTest {
             //    //await console.log('reportNames: ', reportNames);
             //}, this.testTimeout);
 
-            
+
             for (let i = 0; i < reportNames.length; i++) {
                 testName = `Running ${reportNames[i]}`;
                 test(testName, async () => {
                     Logging.logInfo(`About to run ${reportNames[i]}`);
                     await runReport(reportNames[i]);
                 }, this.testTimeout);
-                }
+            }
 
             // ----------
             //testName = 'Preview ArAgingReport';
