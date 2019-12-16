@@ -121,6 +121,9 @@ namespace WebApi.Modules.Settings.UserSettings.UserSettings
         [FwLogicProperty(Id: "ypkfs1JBnySIQ")]
         public string ToolBarJson { get; set; }
 
+        [FwLogicProperty(Id: "RNSGN6rtM7kOk", IsReadOnly: true)]
+        public bool? WebAdministrator{ get; set; }
+
         [FwLogicProperty(Id:"JGq0mOToNeqi")]
         public string DateStamp { get { return webUser.DateStamp; } set { webUser.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
