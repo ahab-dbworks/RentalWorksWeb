@@ -295,7 +295,7 @@ class FwMenuClass {
 
                     (<any>window)[controller].ActiveViewFields[filterField] = fields;
 
-                    const request: any = {}; 
+                    const request: any = {};
                     request.WebUserId = JSON.parse(sessionStorage.getItem('userid')).webusersid;
                     request.ModuleName = (<any>window)[controller].Module;
                     request.ActiveViewFields = JSON.stringify((<any>window)[controller].ActiveViewFields);
@@ -478,11 +478,11 @@ class FwMenuClass {
                 return (node.nodetype === 'ModuleAction' && node.properties.action === 'Save');
             });
             let hasSave: boolean = false;
-            
+
             const mode = $form.attr('data-mode');
-            hasSave =  ((options.hasSave && nodeNew !== null && nodeNew.properties.visible === 'T' && mode === 'NEW') ||
-                        (options.hasSave && nodeEdit !== null && nodeEdit.properties.visible === 'T') && mode === 'EDIT' ||
-                        (nodeSave !== null && nodeSave.properties.visible === 'T') && (mode === 'NEW' || mode === 'EDIT'));
+            hasSave = ((options.hasSave && nodeNew !== null && nodeNew.properties.visible === 'T' && mode === 'NEW') ||
+                (options.hasSave && nodeEdit !== null && nodeEdit.properties.visible === 'T') && mode === 'EDIT' ||
+                (nodeSave !== null && nodeSave.properties.visible === 'T') && (mode === 'NEW' || mode === 'EDIT'));
 
             // Save
             if (hasSave) {
@@ -544,7 +544,7 @@ class FwMenuClass {
             hasNew = options.hasNew && ((nodeNew !== null && nodeNew.properties.visible === 'T') || (nodeSave !== null && nodeSave.properties.visible === 'T'));
             hasEdit = options.hasEdit && ((nodeEdit !== null && nodeEdit.properties.visible === 'T') || (nodeSave !== null && nodeSave.properties.visible === 'T'));
             hasDelete = options.hasDelete && (nodeDelete !== null && nodeDelete.properties.visible === 'T');
-            
+
             // View
             if (hasView) {
                 const $btnView = options.$menu.find('.btn[data-type="ViewMenuBarButton"]');
@@ -596,7 +596,7 @@ class FwMenuClass {
             }
         }
     }
-    
+
     //----------------------------------------------------------------------------------------------
     applyGridSecurity(options: IAddGridMenuOptions, moduleSecurityId: string): void {
         let $browse = options.$menu.closest('.fwbrowse');
@@ -773,7 +773,7 @@ class FwMenuClass {
                     FwFunc.showError(ex);
                 }
             });
-            
+
             const $menubarbutton2 = FwMenu.addStandardBtn(options.$menu, 'Edit');
             $menubarbutton2.attr('data-type', 'EditMenuBarButton');
             $menubarbutton2.on('click', function (event) {
@@ -871,7 +871,7 @@ class FwMenuClass {
                         let dateField = options.$browse.find('.datequery');
                         let textField = options.$browse.find('.textquery');
                         let booleanField = options.$browse.find('.booleanquery');
-                                        FwControl.renderRuntimeHtml($menubarbutton.find('.fwcontrol'));
+                        FwControl.renderRuntimeHtml($menubarbutton.find('.fwcontrol'));
 
                         for (var j = 0; j < response._Custom.length; j++) {
                             findFields.push({
@@ -1219,7 +1219,7 @@ interface IAddGridMenuOptions {
     $subMenu: JQuery;
     $colActions: JQuery;
     $groupActions: JQuery;
-    $colExport: JQuery;
+    //$colExport: JQuery;
     $groupExport: JQuery;
     gridSecurityId?: string;
     hasDelete?: boolean;
