@@ -163,6 +163,9 @@ namespace WebApi
         public const string ITEMCLASS_SUFFIX_ITEM = "I";
         public const string ITEMCLASS_SUFFIX_OPTION = "O";
 
+        public const string ITEMCLASS_COMPLETE_SUFFIX = "C";
+        public const string ITEMCLASS_KIT_SUFFIX = "K";
+
         public const int COMPLETE_COLOR = 16746632;     // purple
         public const int KIT_COLOR = 5101142;           // green
         public const int MISCELLANEOUS_COLOR = 6382847; // pink/coral
