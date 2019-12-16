@@ -31,6 +31,7 @@ abstract class InventoryBase {
     }
     //----------------------------------------------------------------------------------------------
     addFormMenuItems(options: IAddFormMenuOptions): void {
+        FwMenu.addFormMenuButtons(options);
         FwMenu.addSubMenuItem(options.$groupOptions, 'Create Complete', this.CreateCompleteId, (e: JQuery.ClickEvent) => {
             try {
                 this.createComplete(options.$form);
