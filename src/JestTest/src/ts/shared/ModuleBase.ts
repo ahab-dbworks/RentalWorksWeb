@@ -267,6 +267,11 @@ export class ModuleBase {
         let selector = `.fwbrowse tbody tr.viewmode:nth-child(${index})`;
         Logging.logInfo(`looking for rowselector ${selector}`);
         await page.waitForSelector(selector);
+
+        if (this.waitForRecordsToGetEvents > 0) {
+            await ModuleBase.wait(this.waitForRecordsToGetEvents);
+        }
+
         //selector = `.fwbrowse tbody tr.viewmode`;
         let firstCellSelector = `.fwbrowse tbody tr.viewmode:nth-child(${index}) td.column[data-visible="true"]`;
         Logging.logInfo(`about to double-click cell selector ${firstCellSelector}`);
