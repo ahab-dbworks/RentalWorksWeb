@@ -3393,8 +3393,15 @@ class OrderBase {
 
         //activity dates
         $form.find('.modify').off().on('click', e => {
-            $form.find('.schedule-date-fields').hide();
-            $form.find('.activity-dates').show();
+            const scheduleFields = $form.find('.schedule-date-fields');
+            const activityDateFields = $form.find('.activity-dates');
+            if (scheduleFields.css('display') === 'none') {
+                scheduleFields.show();
+                activityDateFields.hide();
+            } else {
+                scheduleFields.hide();
+                activityDateFields.show();
+            }
         });
 
         $form.data('beforesave', request => {
