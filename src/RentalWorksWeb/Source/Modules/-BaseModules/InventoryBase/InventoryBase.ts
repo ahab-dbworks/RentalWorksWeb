@@ -754,31 +754,32 @@ abstract class InventoryBase {
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
         const inventoryTypeId = FwFormField.getValueByDataField($form, 'InventoryTypeId');
         const categoryId = FwFormField.getValueByDataField($form, 'CategoryId');
-
+        const controller = $form.attr('data-controller');
+        request.uniqueids = {};
         switch (datafield) {
             case 'InventoryTypeId':
-                request.uniqueids = {
-                    Sales: true,
-                    HasCategories: true,
-                };
+                request.uniqueids.HasCategories = true;
+                if (controller === 'RentalInventoryController') {
+                    request.uniqueids.Rental = true;
+                }
+                if (controller === 'SalesInventoryController') {
+                    request.uniqueids.Sales = true;
+                }
+                if (controller === 'PartsInventoryController') {
+                    request.uniqueids.Parts = true;
+                }
                 break;
             case 'CategoryId':
                 if (inventoryTypeId) {
-                    request.uniqueids = {
-                        InventoryTypeId: inventoryTypeId,
-                    };
+                    request.uniqueids.InventoryTypeId = inventoryTypeId;
                 }
                 break;
             case 'SubCategoryId':
                 if (inventoryTypeId) {
-                    request.uniqueids = {
-                        InventoryTypeId: inventoryTypeId,
-                    };
+                    request.uniqueids.InventoryTypeId = inventoryTypeId;
                 }
                 if (categoryId) {
-                    request.uniqueids = {
-                        CategoryId: categoryId,
-                    };
+                    request.uniqueids.CategoryId = categoryId;
                 }
                 break;
         }
