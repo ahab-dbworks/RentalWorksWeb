@@ -528,11 +528,12 @@ class RentalInventory extends InventoryBase {
             // getBaseApiUrl: (): string => { return `${this.apiurl}/${FwFormField.getValueByDataField($form, 'InventoryId')}/aka`; }, 
             onDataBind: (request: any) => {
                 request.uniqueids = {
-                    InventoryId: FwFormField.getValueByDataField($form, 'InventoryId')
+                    PackageId: FwFormField.getValueByDataField($form, 'InventoryId')
                 };
             },
             beforeSave: (request: any) => {
-                request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
+                request.PackageId = FwFormField.getValueByDataField($form, 'InventoryId');
+                request.ContainerId = FwFormField.getValueByDataField($form, 'ContainerId');
             }
         });
         // ----------
