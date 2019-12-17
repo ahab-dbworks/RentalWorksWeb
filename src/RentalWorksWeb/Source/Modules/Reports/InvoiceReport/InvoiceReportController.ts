@@ -68,6 +68,7 @@ class InvoiceReport extends FwWebApiReport {
         switch (datafield) {
             case 'InvoiceId':
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinvoice`);
+                break;
         }
     }
 };

@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using WebApi.Controllers;
 using static FwCore.Controllers.FwDataController;
 using WebApi.Data;
+using WebApi.Modules.Administrator.User;
 
 namespace WebApi.Modules.Reports.ChangeAuditReports.ChangeAuditReport
 {
@@ -89,5 +90,12 @@ namespace WebApi.Modules.Reports.ChangeAuditReports.ChangeAuditReport
             }
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/changeauditreport/validatewebusers/browse 
+        [HttpPost("validatewebusers/browse")]
+        [FwControllerMethod(Id: "5SHOctdEFvN8", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateWebUsersBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<UserLogic>(browseRequest);
+        }
     }
 }

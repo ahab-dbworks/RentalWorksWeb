@@ -112,28 +112,11 @@ class BillingStatementReport extends FwWebApiReport {
         return parameters;
     }
     //----------------------------------------------------------------------------------------------
-    beforeValidateDeal($browse: any, $form: any, request: any) {
-        request.uniqueids = {};
-        const customerId = FwFormField.getValueByDataField($form, 'CustomerId');
-        const dealTypeId = FwFormField.getValueByDataField($form, 'DealTypeId');
-        const dealStatusId = FwFormField.getValueByDataField($form, 'DealStatusId');
-
-        if (customerId) {
-            request.uniqueids.CustomerId = customerId;
-        }
-        if (dealTypeId) {
-            request.uniqueids.DealTypeId = dealTypeId;
-        }
-        if (dealStatusId) {
-            request.uniqueids.DealStatusId = dealStatusId;
-        }
-    };
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
         const customerId = FwFormField.getValueByDataField($form, 'CustomerId');
         const dealTypeId = FwFormField.getValueByDataField($form, 'DealTypeId');
         const dealCsrId = FwFormField.getValueByDataField($form, 'DealCsrId');
-        request.uniqueids = {};
 
         switch (datafield) {
             case 'OfficeLocationId':

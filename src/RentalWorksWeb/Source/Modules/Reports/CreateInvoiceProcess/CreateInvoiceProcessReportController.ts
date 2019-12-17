@@ -77,6 +77,7 @@ class CreateInvoiceProcessReport extends FwWebApiReport {
         switch (datafield) {
             case 'InvoiceCreationBatchId':
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinvoicecreationbatch`);
+                break;
         }
     }
 };

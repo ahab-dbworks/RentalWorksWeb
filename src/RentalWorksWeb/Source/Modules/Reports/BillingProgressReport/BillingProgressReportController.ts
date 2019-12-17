@@ -128,22 +128,6 @@ class BillingProgressReport extends FwWebApiReport {
         return parameters;
     }
     //----------------------------------------------------------------------------------------------
-    beforeValidateDeal($browse: any, $form: any, request: any) {
-        request.uniqueids = {};
-        const customerId = FwFormField.getValueByDataField($form, 'CustomerId');
-        const dealTypeId = FwFormField.getValueByDataField($form, 'DealTypeId');
-        const dealCsrId = FwFormField.getValueByDataField($form, 'DealCsrId');
-
-        if (customerId) {
-            request.uniqueids.CustomerId = customerId;
-        }
-        if (dealTypeId) {
-            request.uniqueids.DealTypeId = dealTypeId;
-        }
-        if (dealCsrId) {
-            request.uniqueids.DealCsrId = dealCsrId;
-        }
-    };
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
         const customerId = FwFormField.getValueByDataField($form, 'CustomerId');
@@ -171,13 +155,13 @@ class BillingProgressReport extends FwWebApiReport {
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedeal`);
                 break;
             case 'DealCsrId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateproject`);
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedealcsr`);
                 break;
             case 'CustomerId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateagent`);
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecustomer`);
                 break;
             case 'DealTypeId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateproject`);
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedealtype`);
                 break;
             case 'AgentId':
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateagent`);

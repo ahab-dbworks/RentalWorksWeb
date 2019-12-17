@@ -108,10 +108,6 @@ class BillingAnalysisReport extends FwWebApiReport {
     }
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
-        const customerId = FwFormField.getValueByDataField($form, 'CustomerId');
-        const dealTypeId = FwFormField.getValueByDataField($form, 'DealTypeId');
-        const dealCsrId = FwFormField.getValueByDataField($form, 'DealCsrId');
-        request.uniqueids = {};
 
         switch (datafield) {
             case 'OfficeLocationId':
