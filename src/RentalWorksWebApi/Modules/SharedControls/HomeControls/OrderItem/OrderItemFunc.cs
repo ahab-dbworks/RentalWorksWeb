@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebApi.Logic;
 using WebApi;
+using FwStandard.SqlServer;
+using System.Text;
+using System.Data;
 
 namespace WebApi.Modules.HomeControls.OrderItem
 {
@@ -34,9 +37,156 @@ namespace WebApi.Modules.HomeControls.OrderItem
             SortItemsResponse response = await AppFunc.SortItems(appConfig, userSession, r2);
             return response;
         }
+        //-------------------------------------------------------------------------------------------------------    
+        public static async Task<TSpStatusResponse> InsertHeaderOrderItems(FwApplicationConfig appConfig, FwUserSession userSession, List<OrderItemLogic> items)
+        {
+            TSpStatusResponse response = new TSpStatusResponse();
+
+            bool inputsValid = true;
+            string orderId = "";
+            StringBuilder orderItemIds = new StringBuilder();
+            foreach (OrderItemLogic oi in items)
+            {
+                if (string.IsNullOrEmpty(orderId))
+                {
+                    orderId = oi.OrderId;
+                }
+                else
+                {
+                    if (!oi.OrderId.Equals(orderId))
+                    {
+                        response.msg = "OrderId must be the same for all headings being added.";
+                        response.success = false;
+                        inputsValid = false;
+                    }
+                }
+                if (orderItemIds.Length > 0)
+                {
+                    orderItemIds.Append(",");
+                }
+                orderItemIds.Append(oi.OrderItemId);
+            }
+
+            if (inputsValid)
+            {
+                using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+                {
+                    FwSqlCommand qry = new FwSqlCommand(conn, "insertorderheadingsweb", appConfig.DatabaseSettings.QueryTimeout);
+                    qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, orderId);
+                    qry.AddParameter("@masteritemids", SqlDbType.NVarChar, ParameterDirection.Input, orderItemIds.ToString());
+                    qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+                    qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
+                    qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
+                    await qry.ExecuteNonQueryAsync();
+                    response.status = qry.GetParameter("@status").ToInt32();
+                    response.success = (response.status == 0);
+                    response.msg = qry.GetParameter("@msg").ToString();
+                }
+            }
+
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------    
+        public static async Task<TSpStatusResponse> InsertSubTotalOrderItems(FwApplicationConfig appConfig, FwUserSession userSession, List<OrderItemLogic> items)
+        {
+            TSpStatusResponse response = new TSpStatusResponse();
+
+            bool inputsValid = true;
+            string orderId = "";
+            StringBuilder orderItemIds = new StringBuilder();
+            foreach (OrderItemLogic oi in items)
+            {
+                if (string.IsNullOrEmpty(orderId))
+                {
+                    orderId = oi.OrderId;
+                }
+                else
+                {
+                    if (!oi.OrderId.Equals(orderId))
+                    {
+                        response.msg = "OrderId must be the same for all sub-totals being added.";
+                        response.success = false;
+                        inputsValid = false;
+                    }
+                }
+                if (orderItemIds.Length > 0)
+                {
+                    orderItemIds.Append(",");
+                }
+                orderItemIds.Append(oi.OrderItemId);
+            }
+
+            if (inputsValid)
+            {
+                using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+                {
+                    FwSqlCommand qry = new FwSqlCommand(conn, "insertordersubtotalsweb", appConfig.DatabaseSettings.QueryTimeout);
+                    qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, orderId);
+                    qry.AddParameter("@masteritemids", SqlDbType.NVarChar, ParameterDirection.Input, orderItemIds.ToString());
+                    qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+                    qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
+                    qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
+                    await qry.ExecuteNonQueryAsync();
+                    response.status = qry.GetParameter("@status").ToInt32();
+                    response.success = (response.status == 0);
+                    response.msg = qry.GetParameter("@msg").ToString();
+                }
+            }
+
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------    
+        public static async Task<TSpStatusResponse> InsertTextOrderItems(FwApplicationConfig appConfig, FwUserSession userSession, List<OrderItemLogic> items)
+        {
+            TSpStatusResponse response = new TSpStatusResponse();
+
+            bool inputsValid = true;
+            string orderId = "";
+            StringBuilder orderItemIds = new StringBuilder();
+            foreach (OrderItemLogic oi in items)
+            {
+                if (string.IsNullOrEmpty(orderId))
+                {
+                    orderId = oi.OrderId;
+                }
+                else
+                {
+                    if (!oi.OrderId.Equals(orderId))
+                    {
+                        response.msg = "OrderId must be the same for all texts being added.";
+                        response.success = false;
+                        inputsValid = false;
+                    }
+                }
+                if (orderItemIds.Length > 0)
+                {
+                    orderItemIds.Append(",");
+                }
+                orderItemIds.Append(oi.OrderItemId);
+            }
+
+            if (inputsValid)
+            {
+                using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+                {
+                    FwSqlCommand qry = new FwSqlCommand(conn, "insertordertextsweb", appConfig.DatabaseSettings.QueryTimeout);
+                    qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, orderId);
+                    qry.AddParameter("@masteritemids", SqlDbType.NVarChar, ParameterDirection.Input, orderItemIds.ToString());
+                    qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+                    qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
+                    qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
+                    await qry.ExecuteNonQueryAsync();
+                    response.status = qry.GetParameter("@status").ToInt32();
+                    response.success = (response.status == 0);
+                    response.msg = qry.GetParameter("@msg").ToString();
+                }
+            }
+
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------    
     }
     //-------------------------------------------------------------------------------------------------------    
-
     public class OrderItemExtended
     {
 

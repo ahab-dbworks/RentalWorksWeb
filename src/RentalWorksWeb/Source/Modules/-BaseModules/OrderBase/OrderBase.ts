@@ -197,6 +197,7 @@ class OrderBase {
             addGridMenu: (options: IAddGridMenuOptions) => {
                 const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
                 const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')
+                const $sutotalinggroup = FwMenu.addSubMenuGroup($optionscolumn, 'Text / Sub-Totals', '')
                 FwMenu.addSubMenuItem($optionsgroup, 'QuikSearch', '', (e: JQuery.ClickEvent) => {
                     try {
                         OrderItemGridController.quikSearch(e);
@@ -237,15 +238,6 @@ class OrderBase {
                         FwFunc.showError(ex);
                     }
                 });
-                //justin hoffman WIP
-                //FwMenu.addSubMenuItem($optionsgroup, 'Insert Sub-Total Line', '', (e: JQuery.ClickEvent) => {
-                //    try {
-                //        OrderItemGridController.insertSubTotalLine(e);
-                //    }
-                //    catch (ex) {
-                //        FwFunc.showError(ex);
-                //    }
-                //});
                 if ($form.attr('data-controller') !== 'QuoteController') {
                     FwMenu.addSubMenuItem($optionsgroup, 'Sub PO Worksheet', '', (e: JQuery.ClickEvent) => {
                         try {
@@ -256,6 +248,30 @@ class OrderBase {
                         }
                     });
                 }
+                FwMenu.addSubMenuItem($sutotalinggroup, 'Insert Header Lines', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.insertHeaderLines(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+                FwMenu.addSubMenuItem($sutotalinggroup, 'Insert Text Lines', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.insertTextLines(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+                FwMenu.addSubMenuItem($sutotalinggroup, 'Insert Sub-Total Lines', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.insertSubTotalLines(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
 
                 const $viewcolumn = FwMenu.addSubMenuColumn(options.$menu);
                 const $viewgroup = FwMenu.addSubMenuGroup($viewcolumn, 'View', 'securityid2')

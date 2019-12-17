@@ -667,8 +667,69 @@
         };
     }
     //----------------------------------------------------------------------------------------------
-    async insertSubTotalLine(event) {
-        //justin hoffman WIP
+    async insertHeaderLines(event) {
+        const $browse = jQuery(event.currentTarget).closest('.fwbrowse');
+        const headerItems= [];
+        const orderId = $browse.find('.selected [data-browsedatafield="OrderId"]').attr('data-originalvalue');
+        const $selectedCheckBoxes = $browse.find('tbody .cbselectrow:checked');
+
+        if (orderId != null) {
+            for (let i = 0; i < $selectedCheckBoxes.length; i++) {
+                let orderItem: any = {};
+                let orderItemId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderItemId"]').attr('data-originalvalue');
+                orderItem.OrderItemId = orderItemId
+                orderItem.OrderId = orderId;
+                headerItems.push(orderItem);
+            }
+            await insertHeaderItems(headerItems);
+            await jQuery(document).trigger('click');
+        } else {
+            FwNotification.renderNotification('WARNING', 'Select a record.')
+        }
+
+        function insertHeaderItems(items): void {
+
+            FwAppData.apiMethod(true, 'POST', `api/v1/orderitem/insertheaders`, items, FwServices.defaultTimeout, function onSuccess(response) {
+                FwBrowse.databind($browse);
+            }, function onError(response) {
+                FwFunc.showError(response);
+                FwBrowse.databind($browse);
+            }, $browse);
+        };
+    }
+    //----------------------------------------------------------------------------------------------   
+    async insertTextLines(event) {
+        const $browse = jQuery(event.currentTarget).closest('.fwbrowse');
+        const textItems = [];
+        const orderId = $browse.find('.selected [data-browsedatafield="OrderId"]').attr('data-originalvalue');
+        const $selectedCheckBoxes = $browse.find('tbody .cbselectrow:checked');
+
+        if (orderId != null) {
+            for (let i = 0; i < $selectedCheckBoxes.length; i++) {
+                let orderItem: any = {};
+                let orderItemId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderItemId"]').attr('data-originalvalue');
+                orderItem.OrderItemId = orderItemId
+                orderItem.OrderId = orderId;
+                textItems.push(orderItem);
+            }
+            await insertTextItems(textItems);
+            await jQuery(document).trigger('click');
+        } else {
+            FwNotification.renderNotification('WARNING', 'Select a record.')
+        }
+
+        function insertTextItems(items): void {
+
+            FwAppData.apiMethod(true, 'POST', `api/v1/orderitem/inserttexts`, items, FwServices.defaultTimeout, function onSuccess(response) {
+                FwBrowse.databind($browse);
+            }, function onError(response) {
+                FwFunc.showError(response);
+                FwBrowse.databind($browse);
+            }, $browse);
+        };
+    }
+    //----------------------------------------------------------------------------------------------
+    async insertSubTotalLines(event) {
         const $browse = jQuery(event.currentTarget).closest('.fwbrowse');
         const subTotalItems = [];
         const orderId = $browse.find('.selected [data-browsedatafield="OrderId"]').attr('data-originalvalue');
@@ -690,7 +751,7 @@
         
         function insertSubTotalItems(items): void {
         
-            FwAppData.apiMethod(true, 'POST', `api/v1/orderitem/insertsubtotal`, items, FwServices.defaultTimeout, function onSuccess(response) {
+            FwAppData.apiMethod(true, 'POST', `api/v1/orderitem/insertsubtotals`, items, FwServices.defaultTimeout, function onSuccess(response) {
                 FwBrowse.databind($browse);
             }, function onError(response) {
                 FwFunc.showError(response);

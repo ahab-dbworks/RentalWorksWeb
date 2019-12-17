@@ -69,12 +69,61 @@ namespace WebApi.Modules.HomeControls.OrderItem
             return await DoPostAsync<OrderItemLogic>(l2);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/orderitem/insertsubtotal
-        [HttpPost("insertsubtotal")]
-        [FwControllerMethod(Id: "W5ijnvSzwkxLq")]
-        public async Task<ObjectResult> InsertSubTotalAsync([FromBody]List<OrderItemLogic> l)
+        // POST api/v1/orderitem/insertheaders
+        [HttpPost("insertheaders")]
+        [FwControllerMethod(Id: "634Bemv0wZyEK")]
+        public async Task<ActionResult<TSpStatusResponse>> InsertHeadersAsync([FromBody]List<OrderItemLogic> items)
         {
-            return GetApiExceptionResult(new Exception("Not yet programmed"));
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                return await OrderItemFunc.InsertSubTotalOrderItems(AppConfig, UserSession, items);
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/orderitem/inserttexts
+        [HttpPost("inserttexts")]
+        [FwControllerMethod(Id: "Kc8j1WuPdQFdO")]
+        public async Task<ActionResult<TSpStatusResponse>> InsertTextsAsync([FromBody]List<OrderItemLogic> items)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                return await OrderItemFunc.InsertTextOrderItems(AppConfig, UserSession, items);
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/orderitem/insertsubtotals
+        [HttpPost("insertsubtotals")]
+        [FwControllerMethod(Id: "W5ijnvSzwkxLq")]
+        public async Task<ActionResult<TSpStatusResponse>> InsertSubTotalsAsync([FromBody]List<OrderItemLogic> items)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                return await OrderItemFunc.InsertSubTotalOrderItems(AppConfig, UserSession, items);
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
         }
         //------------------------------------------------------------------------------------ 
         // DELETE api/v1/orderitem/A0000001
