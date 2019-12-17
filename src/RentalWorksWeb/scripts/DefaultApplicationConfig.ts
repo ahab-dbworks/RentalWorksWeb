@@ -1,5 +1,7 @@
 ﻿class ApplicationConfig extends FwApplicationConfig {
-    customLogin: boolean;
-    client: string;
+    customLogin: boolean = false;
+    client: string = '';
+    defaultPeek: boolean = true;
+    allCaps: boolean = false;
 }
 var applicationConfig = new ApplicationConfig();
