@@ -545,7 +545,7 @@ class FwAppImageClass {
             }
             url += `${key}=${request[key]}`;
         }
-        FwAppData.apiMethod(true, 'GET', url, request, applicationConfig.ajaxTimeoutSeconds, 
+        FwAppData.apiMethod(true, 'GET', url, request, applicationConfig.ajaxTimeoutSeconds,
             (response: any) => {
                 try {
                     FwAppImage.getAppImagesCallback($control, response);
@@ -690,7 +690,7 @@ class FwAppImageClass {
             MimeType: mimetype
         };
         FwAppImage.setGetAppImagesRequest($control, request);
-        FwAppData.apiMethod(true, 'POST', `api/v1/appimage`, request, applicationConfig.ajaxTimeoutSeconds, 
+        FwAppData.apiMethod(true, 'POST', `api/v1/appimage`, request, applicationConfig.ajaxTimeoutSeconds,
             (response: any) => {
                 try {
                     FwAppImage.getAppImages($control);
@@ -711,7 +711,7 @@ class FwAppImageClass {
             AppImageId: appimageid
         };
         FwAppImage.setGetAppImagesRequest($control, request);
-        FwAppData.apiMethod(true, 'DELETE', `api/v1/appimage`, request, applicationConfig.ajaxTimeoutSeconds, 
+        FwAppData.apiMethod(true, 'DELETE', `api/v1/appimage`, request, applicationConfig.ajaxTimeoutSeconds,
             (response: any) => {
                 try {
                     $image.remove();
