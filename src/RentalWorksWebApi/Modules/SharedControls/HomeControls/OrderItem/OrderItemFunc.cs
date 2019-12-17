@@ -25,7 +25,8 @@ namespace WebApi.Modules.HomeControls.OrderItem
             r2.StartAtIndex = request.StartAtIndex;
             r2.RowNumberDigits = 6;
 
-            foreach (string itemId in request.OrderItemIds) {
+            foreach (string itemId in request.OrderItemIds)
+            {
                 List<string> idCombo = new List<string>();
                 idCombo.Add(itemId);
                 r2.Ids.Add(idCombo);
@@ -122,7 +123,8 @@ namespace WebApi.Modules.HomeControls.OrderItem
                     }
                 }
 
-                if (RecType.Equals(RwConstants.RECTYPE_RENTAL))
+                //if (RecType.Equals(RwConstants.RECTYPE_RENTAL)) 
+                if ((RecType.Equals(RwConstants.RECTYPE_RENTAL)) && (!string.IsNullOrEmpty(RateType)))//justin hoffman #1491
                 {
                     if (RateType.Equals(RwConstants.RATE_TYPE_DAILY))
                     {
@@ -145,7 +147,8 @@ namespace WebApi.Modules.HomeControls.OrderItem
                         throw new Exception($"Invalid RateType: {RateType}.");
                     }
                 }
-                else if ((RecType.Equals(RwConstants.RECTYPE_SALE)) || (RecType.Equals(RwConstants.RECTYPE_MISCELLANEOUS)) || (RecType.Equals(RwConstants.RECTYPE_LABOR)))
+                //else if ((RecType.Equals(RwConstants.RECTYPE_SALE)) || (RecType.Equals(RwConstants.RECTYPE_MISCELLANEOUS)) || (RecType.Equals(RwConstants.RECTYPE_LABOR)))
+                else 
                 {
                     BillablePeriods = 1;
                 }
@@ -159,7 +162,8 @@ namespace WebApi.Modules.HomeControls.OrderItem
             UnitDiscountAmount = Rate * (DiscountPercent / 100);
             UnitExtended = Rate * ((100 - DiscountPercent) / 100);
 
-            if (RecType.Equals(RwConstants.RECTYPE_RENTAL))
+            //if (RecType.Equals(RwConstants.RECTYPE_RENTAL)) 
+            if ((RecType.Equals(RwConstants.RECTYPE_RENTAL)) && (!string.IsNullOrEmpty(RateType)))//justin hoffman #1491
             {
                 if (RateType.Equals(RwConstants.RATE_TYPE_DAILY))
                 {
@@ -201,7 +205,8 @@ namespace WebApi.Modules.HomeControls.OrderItem
                     throw new Exception($"Invalid RateType: {RateType}.");
                 }
             }
-            else if ((RecType.Equals(RwConstants.RECTYPE_SALE)) || (RecType.Equals(RwConstants.RECTYPE_LOSS_AND_DAMAGE)) || (RecType.Equals(RwConstants.RECTYPE_MISCELLANEOUS)) || (RecType.Equals(RwConstants.RECTYPE_LABOR)))
+            //else if ((RecType.Equals(RwConstants.RECTYPE_SALE)) || (RecType.Equals(RwConstants.RECTYPE_LOSS_AND_DAMAGE)) || (RecType.Equals(RwConstants.RECTYPE_MISCELLANEOUS)) || (RecType.Equals(RwConstants.RECTYPE_LABOR)))
+            else 
             {
                 WeeklyDiscountAmount = MonthlyDiscountAmount = PeriodDiscountAmount = Quantity * Rate * (DiscountPercent / 100);
                 WeeklyExtended = MonthlyExtended = PeriodExtended = Quantity * Rate * ((100 - DiscountPercent) / 100);
@@ -248,7 +253,8 @@ namespace WebApi.Modules.HomeControls.OrderItem
         {
             UpdateDaysWeeksMonths();
 
-            if (RecType.Equals(RwConstants.RECTYPE_RENTAL))
+            //if (RecType.Equals(RwConstants.RECTYPE_RENTAL)) 
+            if ((RecType.Equals(RwConstants.RECTYPE_RENTAL)) && (!string.IsNullOrEmpty(RateType)))//justin hoffman #1491
             {
                 if (RateType.Equals(RwConstants.RATE_TYPE_DAILY))
                 {
@@ -364,7 +370,8 @@ namespace WebApi.Modules.HomeControls.OrderItem
                     throw new Exception($"Invalid RateType: {RateType}.");
                 }
             }
-            else if ((RecType.Equals(RwConstants.RECTYPE_SALE)) || (RecType.Equals(RwConstants.RECTYPE_LOSS_AND_DAMAGE)) || (RecType.Equals(RwConstants.RECTYPE_MISCELLANEOUS)) || (RecType.Equals(RwConstants.RECTYPE_LABOR)))
+            //else if ((RecType.Equals(RwConstants.RECTYPE_SALE)) || (RecType.Equals(RwConstants.RECTYPE_LOSS_AND_DAMAGE)) || (RecType.Equals(RwConstants.RECTYPE_MISCELLANEOUS)) || (RecType.Equals(RwConstants.RECTYPE_LABOR)))
+            else
             {
                 if ((Quantity == 0) || (Rate == 0))
                 {
