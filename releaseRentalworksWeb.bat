@@ -29,9 +29,9 @@ IF "%productname%"=="1" (
 echo Building %productname%Web
 
 
-if "$productname%"=="Rentalworks" (
+if "%productname%"=="RentalWorks" (
     set tagprefix=web
-) else if "$productname%"=="TrakitWorks" (
+) else if "%productname%"=="TrakitWorks" (
     set tagprefix=tw
 )
 rem Get the Web Build number from the user
@@ -116,7 +116,7 @@ IF "%commitandftp%"=="y" (
     git add "src/RentalWorksQuikScan/Properties/AssemblyInfo.cs"
     git add "src/RentalWorksWebApi/version.txt"
     git add "src/RentalWorksWebApi/version-%productname%Web.txt"
-    git commit -m "%productname%Web: %fullversionno%
+    git commit -m "%tagprefix%: %fullversionno%"
     git push
     git tag %tagprefix%/v%fullversionno%
     git push origin %tagprefix%/v%fullversionno%
@@ -127,7 +127,7 @@ IF "%commitandftp%"=="y" (
 
     rem command-line gren make Build Release Document
     cd %DwRentalWorksWebPath%\build
-    call gren changelog --token=4f42c7ba6af985f6ac6a6c9eba45d8f25388ef58 --username=databaseworks --repo=rentalworksweb --generate --override --changelog-filename=v%fullversionno%.md -t web/v%fullversionno% -c ..\config.grenrc
+    call gren changelog --token=4f42c7ba6af985f6ac6a6c9eba45d8f25388ef58 --username=databaseworks --repo=rentalworksweb --generate --override --changelog-filename=v%fullversionno%.md -t %tagprefix%/v%fullversionno% -c ..\config.grenrc
 	rem syntax to produce a cumulative document for a range of tags:
     rem call gren changelog --token=4f42c7ba6af985f6ac6a6c9eba45d8f25388ef58 --username=databaseworks --repo=rentalworksweb --generate --override --changelog-filename=v%fullversionno%.md -t web/vNEWWESTVERSION..web/vLASTVERSIONRELEASED -c ..\config.grenrc
     start v%fullversionno%.md
