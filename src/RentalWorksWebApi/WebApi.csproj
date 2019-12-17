@@ -64,16 +64,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="version-QuikScan.txt" />
     <None Remove="version-RentalWorksWeb.txt" />
     <None Remove="version-TrakitWorksWeb.txt" />
     <None Remove="version.txt" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="version-QuikScan.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="version-RentalWorksWeb.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

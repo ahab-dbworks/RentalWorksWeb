@@ -132,22 +132,6 @@ class WebApiCompiler {
         await spawn('dotnet', ['run', '--configuration', this.dotnetConfiguration, '--launch-profile', 'WebApi'], { stdio: 'inherit' });
     }
     //------------------------------------------------------------------------------------
-    async build_securitytree() {
-        console.log('//------------------------------------------------------------------------------------');
-        console.log('Building security tree...');
-        console.log(`dotnet run --outputfile ../RentalWorksWebApi/ApplicationManager/WebApiApp.Json`);
-        console.log('//------------------------------------------------------------------------------------');
-        let pathSecurityTreeProject = path.resolve(__dirname, '../SecurityTreeBuilder/').replace(/\\/g, '/');
-        let pathOutputFile = path.resolve(__dirname, '../RentalWorksWebApi/ApplicationManager/WebApiApp.Json').replace(/\\/g, '/');
-        console.log('pathSecurityTreeProject:', pathSecurityTreeProject);
-        console.log('pathOutputFile:', pathOutputFile);
-        await spawn('dotnet', ['run', '--outputfile', pathOutputFile], {
-            cwd: pathSecurityTreeProject,
-            stdio: 'inherit'
-        });
-
-    }
-    //------------------------------------------------------------------------------------
     async build() {
         try {
             if (this.target === WebApiCompiler.TARGET_ALL) {

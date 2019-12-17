@@ -208,13 +208,11 @@ class RwLaborRate {
         }
 
         if ($form.find('[data-datafield="SubCategoryCount"] .fwformfield-value').val() > 0) {
-            FwFormField.enable($form.find('.subcategory'));
+            FwFormField.enable($form.find('[data-datafield="SubCategoryId"]'));
         } else {
-            FwFormField.disable($form.find('.subcategory'));
+            FwFormField.disable($form.find('[data-datafield="SubCategoryId"]'));
         }
-
-    };
-
+    }
     //----------------------------------------------------------------------------------------------
     events($form: any) {
         // Display Single or Recurring Rates Tab change event
@@ -226,8 +224,18 @@ class RwLaborRate {
                 $form.find('.single_rates').hide();
                 $form.find('.recurring_rates').show();
             }
-        });
-    };
+        })
+        $form.find('div[data-datafield="CategoryId"]').data('onchange', $tr => {
+            if ($tr.find('.field[data-browsedatafield="SubCategoryCount"]').attr('data-originalvalue') > 0) {
+                FwFormField.enable($form.find('div[data-datafield="SubCategoryId"]'));
+                $form.find('[data-datafield="SubCategoryId"]').attr(`data-required`, `true`);
+            } else {
+                FwFormField.setValueByDataField($form, 'SubCategoryId', '')
+                $form.find('[data-datafield="SubCategoryId"]').attr(`data-required`, `false`);
+                FwFormField.disable($form.find('div[data-datafield="SubCategoryId"]'));
+            }
+        })
+    }
 
     //----------------------------------------------------------------------------------------------
     //beforeValidateType = function ($browse, $grid, request) {

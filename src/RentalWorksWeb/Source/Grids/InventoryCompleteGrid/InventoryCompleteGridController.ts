@@ -12,34 +12,3 @@
 
 var InventoryCompleteGridController = new InventoryCompleteGrid();
 
-//----------------------------------------------------------------------------------------------
-//QuikSearch
-FwApplicationTree.clickEvents[Constants.Grids.InventoryCompleteGrid.menuItems.QuikSearch.id] = function (e) {
-    let search, $form, id;
-
-    $form = jQuery(this).closest('.fwform');
-    const controllerName = $form.attr('data-controller');
-    search = new SearchInterface();
-
-    let gridInventoryType;
-    if (controllerName === 'RentalInventoryController') {
-        gridInventoryType = 'Rental';
-    } else if (controllerName === 'SalesInventoryController') {
-        gridInventoryType = 'Sales';
-    }
-
-    if ($form.attr('data-mode') === 'NEW') {
-        let isValid = FwModule.validateForm($form);
-        if (isValid) {
-            let activeTabId = jQuery($form.find('[data-type="tab"].active')).attr('id');
-            (<any>window)[controllerName].saveForm($form, { closetab: false });
-            $form.attr('data-opensearch', 'true');
-            $form.attr('data-searchtype', gridInventoryType);
-            $form.attr('data-activetabid', activeTabId);
-        }
-    }
-
-    id = FwFormField.getValueByDataField($form, 'InventoryId');
-    search.renderSearchPopup($form, id, 'Complete', gridInventoryType);
-}
-//----------------------------------------------------------------------------------------------

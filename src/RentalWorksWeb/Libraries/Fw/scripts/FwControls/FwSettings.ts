@@ -981,10 +981,10 @@ class FwSettingsClass {
                             if (jQuery(e.currentTarget).closest('.panel-group').attr('data-showEdit') === 'false') {
                                 FwModule.setFormReadOnly($form);
                             }
-                        }
 
-                        if ($form.find('.fwappimage')[0]) {
-                            FwAppImage.getAppImages($form.find('.fwappimage'))
+                            if ($form.find('.fwappimage')[0]) {
+                                FwAppImage.getAppImages($form.find('.fwappimage'))  // - 12/16/19 J. Pace Moved into this scope to prvent undefined error in sortable library
+                            }
                         }
 
                         if (typeof window[moduleName + 'Controller']['afterLoad'] === 'function') {

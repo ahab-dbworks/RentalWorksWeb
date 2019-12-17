@@ -5,11 +5,6 @@ class SalesInventory extends InventoryBase {
     nav: string = Constants.Modules.Inventory.children.SalesInventory.nav;
     id: string = Constants.Modules.Inventory.children.SalesInventory.id;
     AvailableFor: string = "S";
-    CreateCompleteId: string = '';
-    //----------------------------------------------------------------------------------------------
-    addBrowseMenuItems(options: IAddBrowseMenuOptions): void {
-        super.afterAddBrowseMenuItems(options);
-    }
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
@@ -40,7 +35,7 @@ class SalesInventory extends InventoryBase {
                 request.uniqueids = {
                     InventoryId: FwFormField.getValueByDataField($form, 'InventoryId')
                 };
-            } 
+            }
         });
         // ----------
         //const $salesInventoryWarehouseGrid = $form.find('div[data-grid="SalesInventoryWarehouseGrid"]');
@@ -80,7 +75,7 @@ class SalesInventory extends InventoryBase {
                     UserWarehouseId: warehouse.warehouseid
                 };
                 request.pagesize = 100;  //justin 04/01/2019 #359 show all active warehouses here                
-            }, 
+            },
             beforeSave: (request: any) => {
                 request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
             }
@@ -123,11 +118,11 @@ class SalesInventory extends InventoryBase {
                     UserWarehouseId: warehouse.warehouseid
                 };
                 request.pagesize = 100;  //justin 04/01/2019 #359 show all active warehouses here
-            }, 
+            },
             beforeSave: (request: any) => {
                 request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
             }
-        });        
+        });
 
         // ----------
         //const $inventoryAvailabilityGrid = $form.find('div[data-grid="InventoryAvailabilityGrid"]');
@@ -155,7 +150,7 @@ class SalesInventory extends InventoryBase {
                 request.uniqueids = {
                     InventoryId: FwFormField.getValueByDataField($form, 'InventoryId')
                 };
-            }, 
+            },
             beforeSave: (request: any) => {
                 request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
             }
@@ -188,7 +183,7 @@ class SalesInventory extends InventoryBase {
                 request.uniqueids = {
                     InventoryId: FwFormField.getValueByDataField($form, 'InventoryId')
                 };
-            } 
+            }
         });
         // ----------
         //const $inventoryCompleteKitGrid = $form.find('div[data-grid="InventoryCompleteKitGrid"]');
@@ -241,17 +236,12 @@ class SalesInventory extends InventoryBase {
             moduleSecurityId: this.id,
             $form: $form,
             pageSize: 10,
-            addGridMenu: (options: IAddGridMenuOptions) => {
-                options.hasEdit = false;
-                options.hasNew = false;
-                options.hasDelete = false;
-            },
-           // getBaseApiUrl: (): string => { return `${this.apiurl}/${FwFormField.getValueByDataField($form, 'InventoryId')}/aka`; },
+            // getBaseApiUrl: (): string => { return `${this.apiurl}/${FwFormField.getValueByDataField($form, 'InventoryId')}/aka`; },
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     InventoryId: FwFormField.getValueByDataField($form, 'InventoryId')
                 };
-            }, 
+            },
             beforeSave: (request: any) => {
                 request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
             }
@@ -277,12 +267,12 @@ class SalesInventory extends InventoryBase {
             gridSecurityId: 'mlAKf5gRPNNI',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10, 
+            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     InventoryId: FwFormField.getValueByDataField($form, 'InventoryId')
                 };
-            }, 
+            },
             beforeSave: (request: any) => {
                 request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
             }
@@ -305,12 +295,12 @@ class SalesInventory extends InventoryBase {
             gridSecurityId: 'g8sCuKjUVrW1',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10, 
+            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     InventoryId: FwFormField.getValueByDataField($form, 'InventoryId')
                 };
-            }, 
+            },
             beforeSave: (request: any) => {
                 request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
             }
@@ -337,12 +327,12 @@ class SalesInventory extends InventoryBase {
             moduleSecurityId: this.id,
             $form: $form,
             pageSize: 10,
-           // getBaseApiUrl: (): string => { return `${this.apiurl}/${FwFormField.getValueByDataField($form, 'InventoryId')}/aka`; },
+            // getBaseApiUrl: (): string => { return `${this.apiurl}/${FwFormField.getValueByDataField($form, 'InventoryId')}/aka`; },
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     InventoryId: FwFormField.getValueByDataField($form, 'InventoryId')
                 };
-            }, 
+            },
             beforeSave: (request: any) => {
                 request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
             }
@@ -373,7 +363,7 @@ class SalesInventory extends InventoryBase {
                 request.uniqueids = {
                     InventoryId: FwFormField.getValueByDataField($form, 'InventoryId')
                 };
-            }, 
+            },
             beforeSave: (request: any) => {
                 request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
             }
@@ -404,7 +394,7 @@ class SalesInventory extends InventoryBase {
                 request.uniqueids = {
                     InventoryId: FwFormField.getValueByDataField($form, 'InventoryId')
                 };
-            }, 
+            },
             beforeSave: (request: any) => {
                 request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
             }
@@ -435,7 +425,7 @@ class SalesInventory extends InventoryBase {
                 request.uniqueids = {
                     InventoryId: FwFormField.getValueByDataField($form, 'InventoryId')
                 };
-            }, 
+            },
             beforeSave: (request: any) => {
                 request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
             }
@@ -466,7 +456,7 @@ class SalesInventory extends InventoryBase {
                 request.uniqueids = {
                     InventoryId: FwFormField.getValueByDataField($form, 'InventoryId')
                 };
-            }, 
+            },
             beforeSave: (request: any) => {
                 request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
             }
@@ -512,14 +502,26 @@ class SalesInventory extends InventoryBase {
             moduleSecurityId: this.id,
             $form: $form,
             pageSize: 10,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
+                const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')
+                FwMenu.addSubMenuItem($optionsgroup, 'QuikSearch', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        RentalInventoryController.quikSearch(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+            },
             onDataBind: (request: any) => {
                 request.uniqueids = {
-                    PackageId  : FwFormField.getValueByDataField($form, 'InventoryId'),
+                    PackageId: FwFormField.getValueByDataField($form, 'InventoryId'),
                     WarehouseId: warehouse.warehouseid
                 };
-            }, 
+            },
             beforeSave: (request: any) => {
-                request.PackageId   = FwFormField.getValueByDataField($form, 'InventoryId')
+                request.PackageId = FwFormField.getValueByDataField($form, 'InventoryId')
             },
             beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
                 $browse.find('div[data-datafield="InventoryId"]').attr('data-validationname', 'SalesInventoryValidation');
@@ -583,12 +585,24 @@ class SalesInventory extends InventoryBase {
             moduleSecurityId: this.id,
             $form: $form,
             pageSize: 10,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
+                const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')
+                FwMenu.addSubMenuItem($optionsgroup, 'QuikSearch', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        RentalInventoryController.quikSearch(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+            },
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     PackageId: FwFormField.getValueByDataField($form, 'InventoryId'),
                     WarehouseId: warehouse.warehouseid
                 };
-            }, 
+            },
             beforeSave: (request: any) => {
                 request.PackageId = FwFormField.getValueByDataField($form, 'InventoryId');
             },
@@ -597,7 +611,6 @@ class SalesInventory extends InventoryBase {
             }
         });
 
-        
         $inventoryKitGrid.data('isfieldeditable', function ($field, dt, rowIndex) {
             let primaryRowIndex;
             if (primaryRowIndex === undefined) {
@@ -670,13 +683,12 @@ class SalesInventory extends InventoryBase {
                 request.uniqueids = {
                     InventoryId: FwFormField.getValueByDataField($form, 'InventoryId')
                 };
-            }, 
+            },
             beforeSave: (request: any) => {
                 request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
             }
         });
-    };
-
+    }
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
         super.afterLoad($form);
@@ -697,49 +709,9 @@ class SalesInventory extends InventoryBase {
             }
         }
 
-        if ($form.find('[data-datafield="OverrideProfitAndLossCategory"] .fwformfield-value').prop('checked')) {
-            FwFormField.enable($form.find('[data-datafield="ProfitAndLossCategoryId"]'))
-        } else {
-            FwFormField.disable($form.find('[data-datafield="ProfitAndLossCategoryId"]'))
-        }
 
-        if ($form.find('[data-datafield="InventoryTypeIsWardrobe"] .fwformfield-value').prop('checked') === true) {
-            $form.find('.wardrobetab').show();
-        };
-
-        if ($form.find('[data-datafield="SubCategoryCount"] .fwformfield-value').val() > 0) {
-            FwFormField.enable($form.find('.subcategory'));
-        } else {
-            FwFormField.disable($form.find('.subcategory'));
-        }
-
-    };
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
-        //const validationName = request.module;
-        //const InventoryTypeValue = jQuery($validationbrowse.find('[data-validationname="InventoryTypeValidation"] input')).val();
-        //const CategoryTypeId = jQuery($validationbrowse.find('[data-validationname="SalesCategoryValidation"] input')).val();
-
-        //switch (validationName) {
-        //    case 'InventoryTypeValidation':
-        //        request.uniqueids = {
-        //            //Sales: true,
-        //            RecType: "S",
-        //            HasCategories: true
-        //        };
-        //        break;
-        //    case 'SalesCategoryValidation':
-        //        request.uniqueids = {
-        //            InventoryTypeId: InventoryTypeValue
-        //        };
-        //        break;
-        //    case 'SubCategoryValidation':
-        //        request.uniqueids = {
-        //            TypeId: InventoryTypeValue,
-        //            CategoryId: CategoryTypeId
-        //        };
-        //        break;
-        //};
         let inventoryTypeId = FwFormField.getValueByDataField($form, 'InventoryTypeId');
         let categoryId = FwFormField.getValueByDataField($form, 'CategoryId');
 

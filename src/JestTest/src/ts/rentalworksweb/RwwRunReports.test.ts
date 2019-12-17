@@ -21,7 +21,84 @@ export class RunReportsTest extends BaseTest {
             await page.click(reportIcon);
         }
         // ----------
-        async function getReportNames() {
+
+        const reportNames = ['ArAgingReport',
+            'DailyReceiptsReport',
+            'GlDistributionReport',
+            'AgentBillingReport',
+            'BillingProgressReport',
+            'BillingStatementReport',
+            'CreateInvoiceProcessReport',
+            'InvoiceDiscountReport',
+            'InvoiceReport',
+            'InvoiceSummaryReport',
+            'ProfitLossReport',
+            'ProjectManagerBillingReport',
+            'SalesQuoteBillingReport',
+            'SalesRepresentativeBillingReport',
+            'SalesTaxCanadaReport',
+            'SalesTaxUSAReport',
+            'ChangeAuditReport',
+            'DealInvoiceBatchReport',
+            'ReceiptBatchReport',
+            'VendorInvoiceBatchReport',
+            'ContractRevisionReport',
+            'OutContractReport',
+            'CrewSignInReport',
+            'CreditsOnAccountReport',
+            'CustomerRevenueByMonthReport',
+            'CustomerRevenueByTypeReport',
+            'DealInvoiceDetailReport',
+            'DealOutstandingItemsReport',
+            'OrdersByDealReport',
+            'ReturnReceiptReport',
+            'TransferReport',
+            'LateReturnsReport',
+            'OrderConflictReport',
+            'OrderReport',
+            'PickListReport',
+            'QuikActivityReport',
+            'QuoteReport',
+            'QuoteOrderMasterReport',
+            'PartsInventoryAttributesReport',
+            'PartsInventoryCatalogReport',
+            'PartsInventoryPurchaseHistoryReport',
+            'PartsInventoryReorderReport',
+            'PartsInventoryTransactionReport',
+            'RentalInventoryActivityByDateReport',
+            'RentalInventoryAttributesReport',
+            'RentalInventoryAvailabilityReport',
+            'RentalInventoryCatalogReport',
+            'RentalInventoryChangeReport',
+            'RentalInventoryMasterReport',
+            'RentalInventoryMovementReport',
+            'RentalInventoryPurchaseHistoryReport',
+            'RentalInventoryQCRequiredReport',
+            'RentalInventoryStatusAndRevenueReport',
+            'RentalInventoryUnusedItemsReport',
+            'RentalInventoryUsageReport',
+            'RentalInventoryValueReport',
+            'RentalLostAndDamagedBillingHistoryReport',
+            'RetiredRentalInventoryReport',
+            'ReturnedToInventoryReport',
+            'ReturnOnAssetReport',
+            'UnretiredRentalInventoryReport',
+            'ValueOfOutRentalInventoryReport',
+            'RepairOrderStatusReport',
+            'SalesBackorderReport',
+            'SalesHistoryReport',
+            'SalesInventoryAttributesReport',
+            'SalesInventoryCatalogReport',
+            'SalesInventoryMasterReport',
+            'SalesInventoryPurchaseHistoryReport',
+            'SalesInventoryReorderReport',
+            'SalesInventoryTransactionReport',
+            'PurchaseOrderMasterReport',
+            'SubItemStatusReport',
+            'SubRentalBillingAnalysisReport',
+            'VendorInvoiceSummaryReport']
+        // ----------
+        async function getReportNamesDynamic() {
             return await page.evaluate(() => {
                 const reports = jQuery('.well .panel-group');
                 const names: Array<string> = [];
@@ -34,6 +111,7 @@ export class RunReportsTest extends BaseTest {
         // ----------
         async function runReport(reportName: string) {
             let closeUnexpectedErrors = false;
+            let testError = null;
             Logging.logInfo(`About to click on ${reportName}`);
             const reportPanel = `#${reportName} .panel .panel-heading`;
             await page.waitForSelector(reportPanel, { visible: true });
@@ -57,10 +135,12 @@ export class RunReportsTest extends BaseTest {
                 closeUnexpectedErrors = true;
                 let selector: string = ``;
 
-                const errorFields = await page.$$eval(`div.field.error`, fields => fields.map((field) => field.getAttribute('data-datafield')));
+                const errorFields = await page.$$eval(`div[data-control="FwFormField"].error`, fields => fields.map((field) => field.getAttribute('data-datafield')));
                 const errorMessage = await page.$eval('.advisory', el => el.textContent);
+                testError = errorMessage;
                 Logging.logInfo(`${reportName} Report not generated: ${errorMessage}`);
                 Logging.logInfo(`Error Fields: ${JSON.stringify(errorFields)}`);
+                errorFields.length = 0;
 
                 if (closeUnexpectedErrors) {
                     //check for the "record not saved" toaster message and make it go away
@@ -74,23 +154,27 @@ export class RunReportsTest extends BaseTest {
                 }
             }
             else {
-                Logging.logInfo(`no error pop-up found previewing: ${reportName}.`);
+                Logging.logInfo(`NO error pop-up found previewing: ${reportName}.`);
                 const pages = await browser.pages();
-                //await pages[2].setViewport({ width: 1600, height: 1080 })
+                await pages[2].setViewport({ width: 1600, height: 1080 })
                 if (pages.length === 3) {
                     Logging.logInfo(`Waiting for ${reportName} to load`);
-                    await pages[2].waitForSelector('body', { visible: true, timeout: 3000 });
+                    await pages[2].waitForSelector('body', { visible: true, timeout: 10000 });
                     const preview = await pages[2].$('.preview');
                     await ModuleBase.wait(1000); // only for developer to be able to see the report
                     if (preview) {
                         Logging.logInfo(`${reportName} rendered`);
                     } else {
+                        const html = await pages[2].$eval('html', el => el.textContent);
+                        testError = html;
                         Logging.logInfo(`${reportName} was not rendered`);
+                        Logging.logInfo(`Error: ${html}`);
                     }
                     Logging.logInfo(`About to close ${reportName}`);
                     await pages[2].close();
                 }
             }
+            expect(testError).toBeNull();
         }
         //---------------------------------------------------------------------------------------
         describe('Go to Reports page and run reports', () => {
@@ -100,33 +184,14 @@ export class RunReportsTest extends BaseTest {
                 await goToReportsPage();
             }, this.testTimeout);
             // ----------
-            let reportNames;
-            testName = 'Get ALL Reports';
-            test(testName, async () => {
-                Logging.logInfo(`About to get Report Names`);
-                reportNames = await getReportNames();
-                await console.log('reportNames: ', reportNames);
-            }, this.testTimeout);
-
-
+            // Iterate through all Reports
             for (let i = 0; i < reportNames.length; i++) {
                 testName = `Running ${reportNames[i]}`;
                 test(testName, async () => {
                     Logging.logInfo(`About to run ${reportNames[i]}`);
                     await runReport(reportNames[i]);
                 }, this.testTimeout);
-                }
-
-            // ----------
-            //testName = 'Preview ArAgingReport';
-            //test(testName, async () => {
-            //    await runReport('ArAgingReport');
-            //}, this.testTimeout);
-            //// ----------
-            //testName = 'Preview CreateInvoiceProcessReport';
-            //test(testName, async () => {
-            //    await runReport('CreateInvoiceProcessReport');
-            //}, this.testTimeout);
+            }
         });
     }
     //---------------------------------------------------------------------------------------

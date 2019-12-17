@@ -61,7 +61,7 @@ namespace WebApi.Modules.HomeControls.Inventory
         }
         //------------------------------------------------------------------------------------ 
         //[FwSqlDataField(calculatedColumnSql: "(select q.qty from masterwhqty q where q.masterid = t.masterid and q.warehouseid = @warehouseid)", modeltype: FwDataTypes.Decimal)]
-        [FwSqlDataField(calculatedColumnSql: "q.qty", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(calculatedColumnSql: "mw.qty", modeltype: FwDataTypes.Decimal)]
         public decimal? Quantity { get; set; }
         //------------------------------------------------------------------------------------ 
         //[FwSqlDataField(calculatedColumnSql: "(select m.manifestvalue from masterwhview m where m.masterid = t.masterid and m.warehouseid = @warehouseid)", modeltype: FwDataTypes.Decimal)]
@@ -81,9 +81,17 @@ namespace WebApi.Modules.HomeControls.Inventory
         //------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
+            //OverrideFromClause = " from inventoryview [t] with (nolock) " +
+            //    " left outer join masterwh mw with (nolock) on (t.masterid = mw.masterid and mw.warehouseid = @warehouseid)" +
+            //    " left outer join masterwhqty q with (nolock) on (t.masterid = q.masterid and q.warehouseid = @warehouseid)";
+
+
             OverrideFromClause = " from inventoryview [t] with (nolock) " +
-                " left outer join masterwh mw with (nolock) on (t.masterid = mw.masterid and mw.warehouseid = @warehouseid)" +
-                " left outer join masterwhqty q with (nolock) on (t.masterid = q.masterid and q.warehouseid = @warehouseid)";
+                  " outer apply(select top 1 mw.manifestvalue, mw.aisleloc, mw.shelfloc, q.qty" +
+                  "              from  masterwh mw with(nolock)" +
+                  "                            join masterwhqty q with(nolock) on(q.masterid = mw.masterid and q.warehouseid = mw.warehouseid)" +
+                  "                  where mw.masterid = t.masterid) mw";
+
 
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();

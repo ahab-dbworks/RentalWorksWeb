@@ -18,7 +18,7 @@ namespace WebApi.Modules.Billing.VendorInvoice
         [FwSqlDataField(column: "modusersid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string ModUsersId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "invno", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 15, required: true)]
+        [FwSqlDataField(column: "invno", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 50, required: true)]
         public string InvoiceNumber { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "invdate", modeltype: FwDataTypes.Date, sqltype: "smalldatetime", required: true)]

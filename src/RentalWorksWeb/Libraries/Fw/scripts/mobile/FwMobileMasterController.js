@@ -187,55 +187,45 @@ FwMobileMasterController.generateDeviceStatusIcons = function ($containgelement)
 }
 //----------------------------------------------------------------------------------------------
 FwMobileMasterController.generateMenuLinks = function($menu) {
-    var html, $link, $linkgroup, appOptions;
+    var html, $link, $linkgroup;
 
-    appOptions = program.getApplicationOptions();
+    var nodeApplication = FwApplicationTree.getMyTree();
+    const applicationOptions = program.getApplicationOptions();
 
     $link      = FwMobileMasterController.generateLink($menu, 'Home',        'theme/images/icons/128/home.001.png',    'home/home');           $menu.find('.menu-body-links').append($link);
     $link.addClass('navHome');
-
-    //for (var i = 0; i < ModuleList.length; i++) {
-    //    var hasusertype          = (jQuery.inArray(sessionStorage.userType, ModuleList[i].usertype) !== -1);
-    //    var hasapplicationoption = ((typeof appOptions[ModuleList[i].appoption] !== 'undefined') && (appOptions[ModuleList[i].appoption].enabled));
-
-    //    if (((ModuleList[i].appoption === '') || hasapplicationoption) && (hasusertype)) {
-    //        $link = FwMobileMasterController.generateLink($menu, ModuleList[i].name, ModuleList[i].icon, ModuleList[i].nav); $menu.find('.menu-body-links').append($link);
-    //    }
-    //}
-
-    var nodeSystem = FwApplicationTree.getMyTree();
-    var nodeApplication = null;
-    for (var appno = 0; appno < nodeSystem.children.length; appno++) {
-        if (typeof FwApplicationTree.currentApplicationId === 'undefined') {
-            throw 'Need to set FwApplicationTree.currentApplicationId in Application.js. {90B5B30D-F455-406E-9ABD-E2BBAE711CE4}';
-        }
-        if (nodeSystem.children[appno].id === FwApplicationTree.currentApplicationId) {
-            nodeApplication = nodeSystem.children[appno];
-        }
-    }
-    if (nodeApplication === null) {
-        if (confirm('There is an issue with the way the app loaded. Would you like to reload to try and fix the problem?')) {
-            sessionStorage.clear();
-            window.location.reload(true);
-        }
-    }
-    var nodeHome = nodeApplication.children[0];
-    for (var moduleno = 0; moduleno < nodeHome.children.length; moduleno++) {
-        nodeModule = nodeHome.children[moduleno];
-        if (nodeModule.properties.visible === 'T') {
-            switch (nodeModule.properties.nodetype) {
+    
+    const secNodeMobile = FwApplicationTree.getNodeById(FwApplicationTree.tree, 'Mobile');
+    var nodeMobile = Constants.Modules.Mobile;
+    for (var moduleKey in nodeMobile.children) {
+        nodeModule = nodeMobile.children[moduleKey];
+        if (nodeModule.visible) {
+            switch (nodeModule.nodetype) {
                 case 'Module':
-                    if (typeof nodeModule.properties.usertype === 'string') {
-                        hasusertype = (jQuery.inArray(sessionStorage.userType, nodeModule.properties.usertype.split(',')) !== -1);
+                    if (typeof nodeModule.usertype === 'string') {
+                        hasusertype = (jQuery.inArray(sessionStorage.userType, nodeModule.usertype.split(',')) !== -1);
                     } else {
                         hasusertype = true;
                     }
-                    if (hasusertype) {
-                        var caption = nodeModule.properties.caption;
-                        if (typeof AppLanguages !== 'undefined') {
-                            caption = AppLanguages.translate(caption);
+                    let hasApplicationOptions = true;
+                    if (typeof nodeModule.applicationoptions === 'string') {
+                        const moduleApplicationOptions = nodeModule.applicationoptions.split(',');
+                        for (let optionNo = 0; optionNo < moduleApplicationOptions.length; optionNo++) {
+                            let option = moduleApplicationOptions[optionNo];
+                            if (applicationOptions.hasOwnProperty(option)) {
+                                hasApplicationOptions &= option.enabled;
+                            }
                         }
-                        $link = FwMobileMasterController.generateLink($menu, caption, nodeModule.properties.iconurl, nodeModule.properties.modulenav); $menu.find('.menu-body-links').append($link);
+                    }
+                    if (hasusertype && hasApplicationOptions) {
+                        const secNodeModule = FwApplicationTree.getNodeById(secNodeMobile, nodeModule.id);
+                        if (secNodeModule !== null && secNodeModule.properties.visible === 'T') {
+                            var caption = nodeModule.caption;
+                            if (typeof AppLanguages !== 'undefined') {
+                                caption = AppLanguages.translate(caption);
+                            }
+                            $link = FwMobileMasterController.generateLink($menu, caption, nodeModule.iconurl, nodeModule.nav); $menu.find('.menu-body-links').append($link);
+                        }
                     }
                     break;
             }

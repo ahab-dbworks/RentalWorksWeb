@@ -62,20 +62,10 @@ class MiscRate {
             }
         });
 
-        $form.find('div[data-datafield="CategoryId"]').data('onchange', function ($tr) {
-            FwFormField.disable($form.find('.subcategory'));
-            if ($tr.find('.field[data-browsedatafield="SubCategoryCount"]').attr('data-originalvalue') > 0) {
-                FwFormField.enable($form.find('.subcategory'));
-            } else {
-                FwFormField.setValueByDataField($form, 'SubCategoryId', '')
-            }
-        });
-
         this.events($form);
 
         return $form;
     }
-
     //----------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
         var $form;
@@ -86,13 +76,11 @@ class MiscRate {
 
         return $form;
     }
-
     //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
     }
 
-    //----------------------------------------------------------------------------------------------
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
         //const $rateLocationTaxGrid = $form.find('div[data-grid="RateLocationTaxGrid"]');
@@ -189,7 +177,6 @@ class MiscRate {
             //},
         });
     }
-
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
         const $rateLocationTaxGrid = $form.find('[data-name="RateLocationTaxGrid"]');
@@ -219,12 +206,11 @@ class MiscRate {
         }
 
         if ($form.find('[data-datafield="SubCategoryCount"] .fwformfield-value').val() > 0) {
-            FwFormField.enable($form.find('.subcategory'));
+            FwFormField.enable($form.find('[data-datafield="SubCategoryId"]'));
         } else {
-            FwFormField.disable($form.find('.subcategory'));
+            FwFormField.disable($form.find('[data-datafield="SubCategoryId"]'));
         }
     }
-
     //----------------------------------------------------------------------------------------------
     events($form: any) {
         // Display Single or Recurring Rates Tab change event
@@ -237,9 +223,18 @@ class MiscRate {
                 $form.find('.single_rates').hide();
                 $form.find('.recurring_rates').show();
             }
-        });
-    };
-
+        })
+        $form.find('div[data-datafield="CategoryId"]').data('onchange', $tr => {
+            if ($tr.find('.field[data-browsedatafield="SubCategoryCount"]').attr('data-originalvalue') > 0) {
+                FwFormField.enable($form.find('div[data-datafield="SubCategoryId"]'));
+                $form.find('[data-datafield="SubCategoryId"]').attr(`data-required`, `true`);
+            } else {
+                FwFormField.setValueByDataField($form, 'SubCategoryId', '')
+                $form.find('[data-datafield="SubCategoryId"]').attr(`data-required`, `false`);
+                FwFormField.disable($form.find('div[data-datafield="SubCategoryId"]'));
+            }
+        })
+    }
     //----------------------------------------------------------------------------------------------
     beforeValidateType = function ($browse, $grid, request) {
         request.uniqueids = {

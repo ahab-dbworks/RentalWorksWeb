@@ -1,19 +1,18 @@
 using FwStandard.SqlServer;
-using FwStandard.SqlServer.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
 using WebApi.Data;
 
-namespace WebApi.Exports.InvoiceExport
+namespace WebApi.Modules.Exports.ReceiptBatchExport
 {
     public class ReceiptBatchExportRequest
     {
         public string BatchId { get; set; }
     }
 
-    public class ReceiptBatchExportLoader : AppDataLoadRecord  // maybe add a new superclass that all Exports inherit from?
+    public class ReceiptBatchExportLoader : AppExportLoader  // maybe add a new superclass that all Exports inherit from?
     {
         public string BatchId { get; set; }
         public string BatchNumber { get; set; }
@@ -40,10 +39,10 @@ namespace WebApi.Exports.InvoiceExport
                 public decimal? InvoiceTotal { get; set; }
             }
 
-            public List<Invoice> Invoices = new List<Invoice>();
+            public List<Invoice> Invoices = new List<Invoice>(new Invoice[] { new Invoice() });
         }
 
-        public List<BatchReceipt> Receipts = new List<BatchReceipt>();
+        public List<BatchReceipt> Receipts = new List<BatchReceipt>(new BatchReceipt[] { new BatchReceipt() });
 
         //protected string recType = "";
         ////------------------------------------------------------------------------------------ 

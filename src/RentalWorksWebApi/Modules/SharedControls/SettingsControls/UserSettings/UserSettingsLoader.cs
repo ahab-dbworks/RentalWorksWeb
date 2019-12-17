@@ -58,6 +58,9 @@ namespace WebApi.Modules.Settings.UserSettings.UserSettings
         [FwSqlDataField(column: "toolbarjson", modeltype: FwDataTypes.Text)]
         public string ToolBarJson { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "webadministrator", modeltype: FwDataTypes.Boolean)]
+        public bool? WebAdministrator { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 

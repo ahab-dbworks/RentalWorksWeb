@@ -8,6 +8,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Data.SqlTypes;
 using System.Dynamic;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -1219,7 +1220,7 @@ namespace FwStandard.SqlServer
                                     decimal total = 0;
                                     if (!reader.IsDBNull(ordinal))
                                     {
-                                        total = reader.GetDecimal(ordinal);  
+                                        total = reader.GetDecimal(ordinal);
                                     }
                                     dt.Totals[fieldName] = total;
                                 }
@@ -1304,7 +1305,26 @@ namespace FwStandard.SqlServer
 
             return dt;
         }
+        //-------------------------------------------------------------------------------------------------------    
+        public static void FwDataTypeIsDecimal(FwDataTypes t, ref bool isDecimal, ref NumberFormatInfo numberFormat)
+        {
+            numberFormat = new CultureInfo("en-US", false).NumberFormat;
+            numberFormat.NumberGroupSeparator = ",";
+            numberFormat.NumberDecimalSeparator = ".";
 
+            isDecimal = false;
+            if (t.Equals(FwDataTypes.Decimal)) { isDecimal = true; }
+            else if (t.Equals(FwDataTypes.DecimalString1Digit)) { isDecimal = true; numberFormat.NumberDecimalDigits = 1; }
+            else if (t.Equals(FwDataTypes.DecimalString2Digits)) { isDecimal = true; numberFormat.NumberDecimalDigits = 2; }
+            else if (t.Equals(FwDataTypes.DecimalString3Digits)) { isDecimal = true; numberFormat.NumberDecimalDigits = 3; }
+            else if (t.Equals(FwDataTypes.DecimalString4Digits)) { isDecimal = true; numberFormat.NumberDecimalDigits = 4; }
+            else if (t.Equals(FwDataTypes.DecimalStringNoTrailingZeros)) { isDecimal = true; }
+            else if (t.Equals(FwDataTypes.CurrencyString)) { isDecimal = true; numberFormat.NumberDecimalDigits = 2; }
+            else if (t.Equals(FwDataTypes.CurrencyStringNoDollarSign)) { isDecimal = true; numberFormat.NumberDecimalDigits = 2; }
+            else if (t.Equals(FwDataTypes.CurrencyStringNoDollarSignNoDecimalPlaces)) { isDecimal = true; numberFormat.NumberDecimalDigits = 0; }
+            else if (t.Equals(FwDataTypes.Percentage)) { isDecimal = true; } //??
+        }
+        //-------------------------------------------------------------------------------------------------------    
         object FormatReaderData(FwDataTypes dataType, int columnIndex, SqlDataReader reader)
         {
             object data = string.Empty;
@@ -1888,7 +1908,27 @@ namespace FwStandard.SqlServer
                                                 }
                                                 dictionary[dataFieldAttribute.ColumnName] = b;
                                             }
-                                            property.SetValue(result, dictionary[dataFieldAttribute.ColumnName]);
+                                            //property.SetValue(result, dictionary[dataFieldAttribute.ColumnName]);
+
+                                            //FwDataTypes propType = activitiesDt.Columns[columnIndex].DataType;
+                                            bool isDecimal = false;
+                                            //string numberStringFormat = "";
+                                            //FwDataTypeIsDecimal(dataFieldAttribute.ModelType, ref isDecimal, ref numberStringFormat);
+                                            NumberFormatInfo numberFormat = new CultureInfo("en-US", false).NumberFormat;
+                                            FwSqlCommand.FwDataTypeIsDecimal(dataFieldAttribute.ModelType, ref isDecimal, ref numberFormat);
+                                            if ((isDecimal) && (property.PropertyType == typeof(string)))
+                                            {
+                                                decimal d = FwConvert.ToDecimal((dictionary[dataFieldAttribute.ColumnName] ?? "0").ToString());
+                                                //property.SetValue(result, d.ToString(numberStringFormat));
+                                                property.SetValue(result, d.ToString("N", numberFormat));
+                                            }
+                                            else
+                                            {
+                                                property.SetValue(result, dictionary[dataFieldAttribute.ColumnName]);
+                                            }
+
+
+
                                         }
                                         break;
                                     }

@@ -3,6 +3,7 @@ using FwStandard.Reporting;
 using FwStandard.SqlServer;
 using FwStandard.BusinessLogic;
 using FwStandard.Data;
+using FwStandard.BusinessLogic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System;
@@ -163,6 +164,8 @@ namespace FwCore.Controllers
             return await this.DoBrowseAsync(browseRequest, typeof(T));
         }
         //------------------------------------------------------------------------------------
+
+        //------------------------------------------------------------------------------------ 
         /// <summary>
         /// When a PDF is emailed, it's logged in a table an accesible by the uniqueid
         /// </summary>

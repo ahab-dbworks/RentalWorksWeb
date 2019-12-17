@@ -1,19 +1,18 @@
 using FwStandard.SqlServer;
-using FwStandard.SqlServer.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
 using WebApi.Data;
 
-namespace WebApi.Exports.InvoiceExport
+namespace WebApi.Modules.Exports.InvoiceBatchExport
 {
-    public class InvoiceBachExportRequest
+    public class InvoiceBatchExportRequest
     {
         public string BatchId { get; set; }
     }
 
-    public class InvoiceBatchExportLoader : AppDataLoadRecord  // maybe add a new superclass that all Exports inherit from?
+    public class InvoiceBatchExportLoader : AppExportLoader  // maybe add a new superclass that all Exports inherit from?
     {
         public string BatchId { get; set; }
         public string BatchNumber { get; set; }
@@ -41,10 +40,10 @@ namespace WebApi.Exports.InvoiceExport
             public decimal? InvoiceTax { get; set; }
             public decimal? InvoiceTotal { get; set; }
 
-            public List<InvoiceItem> Items = new List<InvoiceItem>();
+            public List<InvoiceItem> Items = new List<InvoiceItem>(new InvoiceItem[] { new InvoiceItem() });
         }
 
-        public List<BatchInvoice> Invoices = new List<BatchInvoice>();
+        public List<BatchInvoice> Invoices = new List<BatchInvoice>(new BatchInvoice[] { new BatchInvoice() });
 
         //protected string recType = "";
         ////------------------------------------------------------------------------------------ 
@@ -81,7 +80,7 @@ namespace WebApi.Exports.InvoiceExport
         //[FwSqlDataField(column: "discountpct", modeltype: FwDataTypes.DecimalString2Digits)]
         //public decimal? DiscountPercent { get; set; }
         //------------------------------------------------------------------------------------ 
-        public async Task<InvoiceBatchExportLoader> DoLoad<InvoiceBatchExportLoader>(InvoiceBachExportRequest request)
+        public async Task<InvoiceBatchExportLoader> DoLoad<InvoiceBatchExportLoader>(InvoiceBatchExportRequest request)
         {
             InvoiceBatchExportLoader batchLoader;
 

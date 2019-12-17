@@ -1025,20 +1025,6 @@ namespace WebApi.Logic
             return response;
         }
         //-------------------------------------------------------------------------------------------------------    
-        public static bool FwDataTypeIsDecimal(FwDataTypes t)
-        {
-            return (t.Equals(FwDataTypes.Decimal) ||
-                    t.Equals(FwDataTypes.DecimalString1Digit) ||
-                    t.Equals(FwDataTypes.DecimalString2Digits) ||
-                    t.Equals(FwDataTypes.DecimalString3Digits) ||
-                    t.Equals(FwDataTypes.DecimalString4Digits) ||
-                    t.Equals(FwDataTypes.DecimalStringNoTrailingZeros) ||
-                    t.Equals(FwDataTypes.CurrencyString) ||
-                    t.Equals(FwDataTypes.CurrencyStringNoDollarSign) ||
-                    t.Equals(FwDataTypes.CurrencyStringNoDollarSignNoDecimalPlaces) ||
-                    t.Equals(FwDataTypes.Percentage));
-        }
-        //-------------------------------------------------------------------------------------------------------    
         //temporary location for this method
         public static async Task<UpdateInventoryQuantityResponse> UpdateInventoryQuantity(FwApplicationConfig appConfig, FwUserSession userSession, UpdateInventoryQuantityRequest request)
         {

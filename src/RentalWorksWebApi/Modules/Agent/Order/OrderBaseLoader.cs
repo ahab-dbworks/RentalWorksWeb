@@ -331,6 +331,12 @@ namespace WebApi.Modules.Agent.Order
         [FwSqlDataField(column: "termsconditions", modeltype: FwDataTypes.Text)]
         public string TermsConditions { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "presentationlayerid", modeltype: FwDataTypes.Text)]
+        public string PresentationLayerId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "presentationlayer", modeltype: FwDataTypes.Text)]
+        public string PresentationLayer { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "markettypeid", modeltype: FwDataTypes.Text)]
         public string MarketTypeId { get; set; }
         //------------------------------------------------------------------------------------
@@ -938,6 +944,8 @@ namespace WebApi.Modules.Agent.Order
         [FwSqlDataField(column: "totalreplacementcost", modeltype: FwDataTypes.Decimal)]
         public decimal? TotalReplacementCost { get; set; }
         //------------------------------------------------------------------------------------
+
+
 
 
         [FwSqlDataField(column: "quoteordertitle", modeltype: FwDataTypes.Text)]

@@ -3,9 +3,14 @@ class SuspendedSession {
     Module: string = 'SuspendedSession';
     apiurl: string = 'api/v1/suspendedsession';
     caption: string = Constants.Modules.Home.children.SuspendedSession.caption;
-	nav: string = Constants.Modules.Home.children.SuspendedSession.nav;
-	id: string = Constants.Modules.Home.children.SuspendedSession.id;
+    nav: string = Constants.Modules.Home.children.SuspendedSession.nav;
+    id: string = Constants.Modules.Home.children.SuspendedSession.id;
     sessionType: string = "";
+    //----------------------------------------------------------------------------------------------
+    addBrowseMenuItems(options: IAddBrowseMenuOptions): void {
+        options.hasInactive = false;
+        FwMenu.addBrowseMenuButtons(options);
+    }
     //----------------------------------------------------------------------------------------------
     openBrowse() {
         let $browse;
