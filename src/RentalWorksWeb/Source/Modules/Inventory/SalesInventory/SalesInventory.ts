@@ -708,6 +708,7 @@ class SalesInventory extends InventoryBase {
                 $form.find('.tab.asset').show();
             }
         }
+    }
 
 
     //----------------------------------------------------------------------------------------------

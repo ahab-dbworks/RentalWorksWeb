@@ -551,6 +551,7 @@ class PartsInventory extends InventoryBase {
         FwBrowse.search($partsInventoryWarehousePricingGrid);
 
         this.afterLoadSetClassification($form);
+    }
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
         let inventoryTypeId = FwFormField.getValueByDataField($form, 'InventoryTypeId');
@@ -559,8 +560,9 @@ class PartsInventory extends InventoryBase {
             case 'InventoryTypeId':
                 request.uniqueids = {
                     Parts: true,
-                };
                     HasCategories: true,
+                };
+                    
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventorytype`);
                 break;
             case 'CategoryId':

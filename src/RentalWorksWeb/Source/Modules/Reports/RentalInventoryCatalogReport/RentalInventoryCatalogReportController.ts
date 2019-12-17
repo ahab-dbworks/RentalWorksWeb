@@ -165,7 +165,7 @@ class RentalInventoryCatalogReport extends FwWebApiReport {
                     break;
             }
         }
-    }
+    
     //----------------------------------------------------------------------------------------------
 };
 

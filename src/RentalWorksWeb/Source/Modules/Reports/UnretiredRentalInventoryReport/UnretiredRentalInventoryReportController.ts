@@ -102,7 +102,7 @@ class UnretiredRentalInventoryReport extends FwWebApiReport {
             const categoryId = FwFormField.getValueByDataField($form, 'CategoryId');
             const subCategoryId = FwFormField.getValueByDataField($form, 'SubCategoryId');
 
-            switch (validationName) {
+            switch (datafield) {
                 case 'InventoryTypeId':
                     request.uniqueids.Rental = true;
                     $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventorytype`);

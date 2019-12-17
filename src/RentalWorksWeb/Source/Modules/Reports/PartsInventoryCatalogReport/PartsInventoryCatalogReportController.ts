@@ -164,7 +164,7 @@ class PartsInventoryCatalogReport extends FwWebApiReport {
                     break;
             }
         }
-    }
+    
     //----------------------------------------------------------------------------------------------
 };
 
