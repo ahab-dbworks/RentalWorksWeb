@@ -76,6 +76,7 @@ class Program extends FwApplication {
         }, 2000);
         if (typeof document.addEventListener !== 'undefined') {
             document.addEventListener('deviceready', () => {
+                //FwNotification.renderNotification('INFO', 'Device Ready');
                 me.runningInCordova = true;
                 document.addEventListener("offline", function () {
                     program.online = false;
@@ -147,25 +148,29 @@ class Program extends FwApplication {
                         }
                         DTDevices.barcodeSetScanMode(localStorage.getItem('barcodeScanMode'));
 
-                        this.onConnectLineaPro();
-                        //NearfieldRfidScanner.enableNearfieldScanner((uid: string, uidType: string) => {
-                        //    try {
-                        //        program.setAudioMode('DTDevices');
-                        //        me.onBarcodeData(uid);
-                        //        //FwNotification.renderNotification('INFO', `UID: ${uid}. UID Type: ${uidType}`);
-                        //    } catch (ex) {
-                        //        FwFunc.showError(ex);
-                        //    }
-                        //});
+                        // set event handlers for nearfield scanner
+                        NearfieldRfidScanner.init((uid: string, uidType: string) => {
+                            try {
+                                program.setAudioMode('DTDevices');
+                                RwServices.inventory.getBarcodeFromRfid({ rfid: uid }, (response: any) => {
+                                    this.onBarcodeData(response.barcode);
+                                });
+                                //FwNotification.renderNotification('INFO', `UID: ${uid}. UID Type: ${uidType}`);
+                            } catch (ex) {
+                                FwFunc.showError(ex);
+                            }
+                        });
+                        NearfieldRfidScanner.enable();
 
                         //set the connection state when it changes
                         DTDevices.registerListener('connectionState', 'connectionState_applicationjs', (connectionState) => {
+                            //FwNotification.renderNotification('INFO', `ConnectionState: ${connectionState}`);
                             if (connectionState === 'CONNECTED') {
                                 program.setScanMode('DTDevices');
-                                this.onConnectLineaPro();
+                                NearfieldRfidScanner.enable();
                             } else {
                                 program.setScanMode('NativeAudio');
-                                NearfieldRfidScanner.disableNearfieldScanner();
+                                NearfieldRfidScanner.disable();
                             }
                             me.setDeviceConnectionState(connectionState);
                         });
@@ -263,20 +268,6 @@ class Program extends FwApplication {
                 });
             }, false);
         }
-    };
-
-    onConnectLineaPro = () => {
-        NearfieldRfidScanner.enableNearfieldScanner((uid: string, uidType: string) => {
-            try {
-                program.setAudioMode('DTDevices');
-                RwServices.inventory.getBarcodeFromRfid({ rfid: uid }, (response: any) => {
-                    this.onBarcodeData(response.barcode);
-                });
-                //FwNotification.renderNotification('INFO', `UID: ${uid}. UID Type: ${uidType}`);
-            } catch (ex) {
-                FwFunc.showError(ex);
-            }
-        });
     };
     //---------------------------------------------------------------------------------
     setScanTarget(selector: string) {

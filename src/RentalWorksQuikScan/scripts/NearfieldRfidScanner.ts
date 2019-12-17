@@ -5,8 +5,14 @@
     private lastUid: string = '';
     private ignoreLastUidUntil: Date = new Date();
     
+    init(onScanUid: (uid: string, uidType: string) => void): void {
+        if (program.hasHfRfidApplicationOption) {
+            this.onScanUid = onScanUid;
+        }
+    }
+    
     // This will enable the scanner and listen for a scan and then become disabled after a successful scan.  Programmer must re-enable the scanner after a succesful scan if they want it back on.
-    enableNearfieldScanner(onScanUid: (uid: string, uidType: string) => void): void {
+    enable() {
         if (program.hasHfRfidApplicationOption) {
             if (!this.isEnabled && typeof (<any>window).DTDevices !== 'undefined' && typeof (<any>window).DTDevices.rfInitWithFieldGain === 'function') {
                 DTDevices.rfInitWithFieldGain('ISO15', -1000,
@@ -14,7 +20,6 @@
                     () => {
                         try {
                             this.isEnabled = true;
-                            this.onScanUid = onScanUid;
                             //FwNotification.renderNotification('SUCCESS', 'Enabled nearfield scanner.');
                             this.startListening();
                         } catch (ex) {
@@ -35,12 +40,12 @@
         }
     }
 
-    disableNearfieldScanner() {
+    disable() {
         this.isEnabled = false;
         this.stopListening();
     }
 
-    startListening(): void {
+    private startListening(): void {
         if (program.hasHfRfidApplicationOption) {
             if (!this.isListening && typeof (<any>window).DTDevices !== 'undefined' && typeof (<any>window).DTDevices.rfInitWithFieldGain === 'function') {
                 //FwNotification.renderNotification('INFO', 'Start Listening for Nearfield Scans.');
@@ -64,7 +69,7 @@
                                     FwFunc.showError(ex);
                                 }
                             }
-                            this.enableNearfieldScanner(this.onScanUid);
+                            this.enable();
                         } catch (ex) {
                             FwFunc.showError(ex);
                         }
