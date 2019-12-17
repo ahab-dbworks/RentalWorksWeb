@@ -45,6 +45,7 @@ class DataExportFormat {
         //removes field propagation
         $form.off('change', '.fwformfield[data-enabled="true"][data-datafield!=""]:not(.find-field)');
 
+
         this.loadExportTypes($form);
         this.events($form);
         return $form;
@@ -140,11 +141,10 @@ class DataExportFormat {
                             Object.keys(unorderedItems).sort().forEach(key => {
                                 orderedItems[key] = unorderedItems[key];
                             });
-
                             allValidFields.push({
-                                'Field': key
-                                , 'IsCustom': 'false'
-                                , 'NestedItems': orderedItems
+                                'Field': key,
+                                'IsCustom': 'false',
+                                'NestedItems': orderedItems
                             });
                         } else {
                             allValidFields.push({
@@ -170,6 +170,11 @@ class DataExportFormat {
                         for (const key of Object.keys(allValidFields[i].NestedItems)) {
                             if (key != '_Custom') {
                                 modulefields.append(`<div data-iscustomfield="false" data-isnested="true" data-parentfield="${allValidFields[i].Field}" style="text-indent:1em;">${key}</div>`);
+                                if (Array.isArray(allValidFields[i].NestedItems[key])) {
+                                    for (const j of Object.keys(allValidFields[i].NestedItems[key][0])) {
+                                        modulefields.append(`<div data-iscustomfield="false" data-isnested="true" data-parentfield="${key}" style="text-indent:3em;">${j}</div>`);
+                                    }
+                                }
                             }
                         }
                     }
@@ -180,15 +185,13 @@ class DataExportFormat {
     loadExportTypes($form) {
         let $moduleSelect = $form.find('.export-types');
 
-        //need to change to load export types instead of reports
-        const reports = FwApplicationTree.getAllReports(false, false, (modules: any[], moduleCaption: string, moduleName: string, category: string, currentNode: any, nodeModule: IGroupSecurityNode, hasView: boolean, hasNew: boolean, hasEdit: boolean, moduleController: any) => {
-            if (moduleController.hasOwnProperty('apiurl')) {
-                modules.push({ value: moduleName, text: moduleCaption, apiurl: moduleController.apiurl });
-            }
-        });
+        const exports = (<any>window).Constants.Modules.Exports.children;
+        const modules: any = [];
+        for (var key of Object.keys(exports)) {
+            modules.push({ value: key, text: exports[key].caption })
+        }
 
-        FwApplicationTree.sortModules(reports);
-        FwFormField.loadItems($moduleSelect, reports);
+        FwFormField.loadItems($moduleSelect, modules);
 
         this.codeMirrorEvents($form);
     }

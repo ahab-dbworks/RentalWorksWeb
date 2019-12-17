@@ -68,6 +68,15 @@ var Constants = {
                 RemoveFromContainer:    { id: 'J9BTE3hOYuEd',  caption: 'Remove From Container',    nav: 'module/removefromcontainer', nodetype: 'Module' }
             }
         },
+        Exports: {
+            id: 'Exports',
+            caption: 'Exports',
+            nodetype: 'Category',
+            children: {
+                InvoiceBatchExport: { id: 'GI2FxKtrjja1', caption: 'Invoice Batch Export', nodetype: 'Module' },
+                ReceiptBatchExport: { id: 'di8ahTdcwt0H', caption: 'Receipt Batch Export', nodetype: 'Module' }
+            }
+        },
         Home: {
             children: {
                 CountQuantityInventory: { id: '', caption: 'Count Quantity Inventory', nav: 'module/physicalinventoryquantityinventory', nodetype: 'Module' },
