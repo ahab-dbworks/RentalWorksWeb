@@ -130,9 +130,9 @@ IF "%commitandftp%"=="y" (
     git add "src/RentalWorksWebApi/version.txt"
     git add "src/RentalWorksWebApi/version-%productname%Web.txt"
     git commit -m "web: %fullversionno%, qs: %qsfullqsversionno%"
-    rem git push
-    rem git tag web/v%fullversionno%
-    rem git push origin web/v%fullversionno%
+    git push
+    git tag web/v%fullversionno%
+    git push origin web/v%fullversionno%
 
     rem copy the document header image to the build directory 
     cd %DwRentalWorksWebPath%
