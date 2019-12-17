@@ -216,20 +216,24 @@ namespace WebApi.Modules.HomeControls.Master
         //------------------------------------------------------------------------------------ 
         public void OnBeforeSaveMaster(object sender, BeforeSaveDataRecordEventArgs e)
         {
-            if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
+            if (e.SaveMode.Equals(TDataRecordSaveMode.smInsert))
             {
                 if ((string.IsNullOrEmpty(ICode)) || (ICode.Equals(tmpICode)))
                 {
                     ICode = AppFunc.GetNextSystemCounterAsync(AppConfig, UserSession, "masterno", e.SqlConnection).Result;
                     string iCodePrefix = AppFunc.GetStringDataAsync(AppConfig, "syscontrol", "controlid", RwConstants.CONTROL_ID, "icodeprefix").Result;
+                    //AAAAA-AA (mask)
                     ICode = iCodePrefix.Trim() + ICode;
-                    if (Classification.Equals(RwConstants.ITEMCLASS_COMPLETE))
+                    if (!string.IsNullOrEmpty(Classification))
                     {
-                        ICode += "-" + RwConstants.ITEMCLASS_COMPLETE_SUFFIX;
-                    }
-                    else if (Classification.Equals(RwConstants.ITEMCLASS_KIT))
-                    {
-                        ICode += "-" + RwConstants.ITEMCLASS_KIT_SUFFIX;
+                        if (Classification.Equals(RwConstants.ITEMCLASS_COMPLETE))
+                        {
+                            ICode += "-" + RwConstants.ITEMCLASS_COMPLETE_SUFFIX;
+                        }
+                        else if (Classification.Equals(RwConstants.ITEMCLASS_KIT))
+                        {
+                            ICode += "-" + RwConstants.ITEMCLASS_KIT_SUFFIX;
+                        }
                     }
                 }
             }
