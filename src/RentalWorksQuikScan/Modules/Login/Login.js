@@ -58,7 +58,7 @@ RwAccountController.getLoginScreen = function(viewModel, properties) {
                         email:    $email.val(),
                         password: $password.val()
                     };
-                    RwServices.account.getAuthToken(request, async function(response) {
+                    RwServices.account.getAuthToken(request, function(response) {
                         try {
                             if (response.errNo !== 0) {
                                 throw new Error(response.errMsg);
@@ -109,57 +109,92 @@ RwAccountController.getLoginScreen = function(viewModel, properties) {
                             sessionStorage.setItem('siteName', response.site.name);
 
                              // Ajax for a jwt token
-                            const responseJwt = await FwAjax.callWebApi({
-                                httpMethod: 'POST',
-                                url: `${applicationConfig.apiurl}api/v1/jwt`,
-                                $elementToBlock: screen.$view,
-                                data: {
-                                    UserName: $email.val(),
-                                    Password: $password.val()
-                                }
-                            });
-
-                            if ((responseJwt.statuscode == 0) && (typeof responseJwt.access_token !== 'undefined')) {
-                                sessionStorage.setItem('apiToken', responseJwt.access_token);
-                                localStorage.setItem('email', $email.val()); // mv 5/10/19 - this is the email or login and cannot be used to display the email address
-                                if (typeof responseJwt.exception !== 'undefined') {
-                                    if (applicationConfig.debugMode) {
-                                        throw new Error(responseJwt.exception + responseJwt.stacktrace);
-                                    } else {
-                                        throw new Error(responseJwt.exception);
-                                    }
-                                } else {
-                                    // get session info
-                                    const responseSessionInfo = await FwAjax.callWebApi({
-                                        httpMethod: 'GET',
-                                        url: `${applicationConfig.apiurl}api/v1/account/session?applicationid=${FwApplicationTree.currentApplicationId}`,
-                                        $elementToBlock: screen.$view
-                                    });
-                                    sessionStorage.setItem('email', responseSessionInfo.webUser.email);
-                                    sessionStorage.setItem('fullname', responseSessionInfo.webUser.fullname);
-                                    sessionStorage.setItem('name', responseSessionInfo.webUser.name);  //justin 05/06/2018
-                                    sessionStorage.setItem('usersid', responseSessionInfo.webUser.usersid);  //justin 05/25/2018  //C4E0E7F6-3B1C-4037-A50C-9825EDB47F44
-                                    sessionStorage.setItem('browsedefaultrows', responseSessionInfo.webUser.browsedefaultrows);
-                                    sessionStorage.setItem('applicationtheme', responseSessionInfo.webUser.applicationtheme);
-                                    sessionStorage.setItem('lastLoggedIn', new Date().toLocaleTimeString());
-                                    sessionStorage.setItem('serverVersion', responseSessionInfo.serverVersion);
-                                    sessionStorage.setItem('applicationOptions', JSON.stringify(responseSessionInfo.applicationOptions));
-                                    sessionStorage.setItem('userType', responseSessionInfo.webUser.usertype);
-                                    sessionStorage.setItem('applicationtree', JSON.stringify(responseSessionInfo.applicationtree));
-                                    sessionStorage.setItem('clientCode', responseSessionInfo.clientcode);
-                                    sessionStorage.setItem('location', JSON.stringify(responseSessionInfo.location));
-                                    sessionStorage.setItem('defaultlocation', JSON.stringify(responseSessionInfo.location));
-                                    sessionStorage.setItem('warehouse', JSON.stringify(responseSessionInfo.warehouse));
-                                    sessionStorage.setItem('department', JSON.stringify(responseSessionInfo.department));
-                                    sessionStorage.setItem('webusersid', responseSessionInfo.webUser.webusersid);
-                                    sessionStorage.setItem('userid', JSON.stringify(responseSessionInfo.webUser));
-                                    if (responseSessionInfo.webUser.usertype == 'CONTACT') {
-                                        sessionStorage.setItem('deal', JSON.stringify(responseSessionInfo.deal));
-                                    }
-                                }
+                            //const responseJwt = await FwAjax.callWebApi({
+                            //    httpMethod: 'POST',
+                            //    url: `${applicationConfig.apiurl}api/v1/jwt`,
+                            //    $elementToBlock: screen.$view,
+                            //    data: {
+                            //        UserName: $email.val(),
+                            //        Password: $password.val()
+                            //    }
+                            //});
+                            var jwtRequest = {
+                                UserName: $email.val(),
+                                Password: $password.val()
                             }
-
-                            program.navigate('home/home');
+                            FwAppData.apiMethod(false, 'POST', 'api/v1/jwt', jwtRequest,  null,
+                                function(responseJwt) {
+                                    try {
+                                        if ((responseJwt.statuscode == 0) && (typeof responseJwt.access_token !== 'undefined')) {
+                                            sessionStorage.setItem('apiToken', responseJwt.access_token);
+                                            localStorage.setItem('email', $email.val()); // mv 5/10/19 - this is the email or login and cannot be used to display the email address
+                                            if (typeof responseJwt.exception !== 'undefined') {
+                                                if (applicationConfig.debugMode) {
+                                                    throw new Error(responseJwt.exception + responseJwt.stacktrace);
+                                                } else {
+                                                    throw new Error(responseJwt.exception);
+                                                }
+                                            } else {
+                                                // get session info
+                                                FwAppData.apiMethod(true, 'GET', 'api/v1/account/session?applicationid=' + FwApplicationTree.currentApplicationId, null,  null,
+                                                    function(responseSessionInfo) {
+                                                        try {
+                                                            sessionStorage.setItem('email', responseSessionInfo.webUser.email);
+                                                            sessionStorage.setItem('fullname', responseSessionInfo.webUser.fullname);
+                                                            sessionStorage.setItem('name', responseSessionInfo.webUser.name);  //justin 05/06/2018
+                                                            sessionStorage.setItem('usersid', responseSessionInfo.webUser.usersid);  //justin 05/25/2018  //C4E0E7F6-3B1C-4037-A50C-9825EDB47F44
+                                                            sessionStorage.setItem('browsedefaultrows', responseSessionInfo.webUser.browsedefaultrows);
+                                                            sessionStorage.setItem('applicationtheme', responseSessionInfo.webUser.applicationtheme);
+                                                            sessionStorage.setItem('lastLoggedIn', new Date().toLocaleTimeString());
+                                                            sessionStorage.setItem('serverVersion', responseSessionInfo.serverVersion);
+                                                            sessionStorage.setItem('applicationOptions', JSON.stringify(responseSessionInfo.applicationOptions));
+                                                            sessionStorage.setItem('userType', responseSessionInfo.webUser.usertype);
+                                                            sessionStorage.setItem('applicationtree', JSON.stringify(responseSessionInfo.applicationtree));
+                                                            sessionStorage.setItem('clientCode', responseSessionInfo.clientcode);
+                                                            sessionStorage.setItem('location', JSON.stringify(responseSessionInfo.location));
+                                                            sessionStorage.setItem('defaultlocation', JSON.stringify(responseSessionInfo.location));
+                                                            sessionStorage.setItem('warehouse', JSON.stringify(responseSessionInfo.warehouse));
+                                                            sessionStorage.setItem('department', JSON.stringify(responseSessionInfo.department));
+                                                            sessionStorage.setItem('webusersid', responseSessionInfo.webUser.webusersid);
+                                                            sessionStorage.setItem('userid', JSON.stringify(responseSessionInfo.webUser));
+                                                            if (responseSessionInfo.webUser.usertype == 'CONTACT') {
+                                                                sessionStorage.setItem('deal', JSON.stringify(responseSessionInfo.deal));
+                                                            }
+                                                            program.navigate('home/home');
+                                                        } catch (ex) {
+                                                            FwFunc.showError(ex);
+                                                        }
+                                                    }, 
+                                                    function (errorThrown) {
+                                                        try {
+                                                            sessionStorage.clear();
+                                                            FwFunc.showError(errorThrown);
+                                                        } catch (ex) {
+                                                            FwFunc.showError(ex);
+                                                        }
+                                                    }
+                                                    , screen.$view);
+                                                //const responseSessionInfo = await FwAjax.callWebApi({
+                                                //    httpMethod: 'GET',
+                                                //    url: `${applicationConfig.apiurl}api/v1/account/session?applicationid=${FwApplicationTree.currentApplicationId}`,
+                                                //    $elementToBlock: screen.$view
+                                                //});
+                                    
+                                            }
+                                        }
+                                    } catch (ex) {
+                                        FwFunc.showError(ex);
+                                    }
+                                }, 
+                                function (errorThrown) {
+                                    try {
+                                        sessionStorage.clear();
+                                        FwFunc.showError(errorThrown);
+                                    } catch (ex) {
+                                        FwFunc.showError(ex);
+                                    }
+                                }
+                                , screen.$view);
                         } catch(ex) {
                             FwFunc.showError(ex);
                         }
