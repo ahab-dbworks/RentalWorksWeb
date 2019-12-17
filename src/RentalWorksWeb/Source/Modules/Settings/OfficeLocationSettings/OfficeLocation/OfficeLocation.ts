@@ -67,9 +67,7 @@
     }
     //----------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
-        var $form;
-
-        $form = this.openForm('EDIT');
+        const $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="LocationId"] input').val(uniqueids.LocationId);
         FwModule.loadForm(this.Module, $form);
 

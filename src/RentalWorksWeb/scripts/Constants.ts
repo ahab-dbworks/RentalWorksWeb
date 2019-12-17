@@ -962,6 +962,7 @@ var Constants = {
         StageQuantityItemGrid: { id: '0m0QMviBYWVYm', caption: 'Stage Quantity Items' },
         SubCategoryGrid: { id: 'vHMa0l5PUysXo', caption: 'Sub-Category' },
         SubPurchaseOrderItemGrid: { id: '8orfHWAhottty', caption: 'Sub-Purchase Order Items' },
+        SystemNumberGrid: { id: 'aUMum8mzxVrWc', caption: 'System Numbers' },
         TransferOrderItemGrid: { id: 'RFgCJpybXoEb', caption: 'Transfer Order Item',
             menuItems: {
                 QuikSearch: { id: '{16CD0101-28D7-49E2-A3ED-43C03152FEE6}' },
