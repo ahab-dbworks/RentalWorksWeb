@@ -666,12 +666,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\lib\Fw\src\FwStandard\FwStandard.csproj">
-      <Project>{bf70fe28-da24-40ec-aa7e-613803411e12}</Project>
-      <Name>FwStandard</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="App_Data\Temp\Downloads\" />
     <Folder Include="Libraries\" />
     <Folder Include="Source\Controls\" />

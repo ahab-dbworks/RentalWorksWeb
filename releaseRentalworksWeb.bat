@@ -31,21 +31,20 @@ if not exist "c:\Program Files\7-Zip\7z.exe" set /p=Hit ENTER to exit
 if not exist "c:\Program Files\7-Zip\7z.exe" exit /B
 
 rem Prompt the user which system to build
-set /p productname="Which system would you like to build: 1. RentalWorksWeb, 2. TrakitWorks? (default:1): "
+set /p productname="Which system would you like to build: 1. RentalWorks, 2. TrakitWorks? (default:1): "
 IF "%productname%"=="1" (
-	set productname=RentalWorksWeb
+	set productname=RentalWorks
 ) ELSE IF "%productname%"=="2" (
-	set productname=TrakitWorksWeb
+	set productname=TrakitWorks
 ) ELSE (
-	set productname=RentalWorksWeb
+	set productname=RentalWorks
 )
-echo Building %productname%
+echo Building %productname%Web
 
-rem Get the Build number from the user
-FOR /F "tokens=*" %%i IN (%DwRentalWorksWebPath%\src\%productname%\version.txt) DO @set previousversionno=%%i
-rem set /p fullversionno="Previous Version: %previousversionno%, New Version: "
-echo Previous Version: %previousversionno%
-set /p fullversionno="New Version:      "
+rem Get the Web Build number from the user
+FOR /F "tokens=*" %%i IN (%DwRentalWorksWebPath%\src\RentalWorksWebApi\version-%productname%Web.txt) DO @set previousversionno=%%i
+echo Previous %productname%Web Version: %previousversionno%
+set /p fullversionno=".....New %productname%Web Version: "
 for /f "tokens=1-3 delims=." %%i in ("%fullversionno%") do (
   set shortversionno=%%i.%%j.%%k
 )
@@ -71,13 +70,19 @@ IF "%commitandftp%"=="y" (
 rem determine ZIP filename
 setlocal ENABLEDELAYEDEXPANSION
 set buildnoforzip=%fullversionno:.=_%
-set zipfilename=%productname%_%buildnoforzip%.zip
+set zipfilename=%productname%Web_%buildnoforzip%.zip
 
 rem Update the Build number in the version.txt files
-echo | set /p buildnumber=>%DwRentalWorksWebPath%\src\%productname%\version.txt
-echo | set /p buildnumber="%fullversionno%">>%DwRentalWorksWebPath%\src\%productname%\version.txt
-echo | set /p buildnumber="%fullversionno%"> %DwRentalWorksWebPath%\src\RentalWorksWebApi\version.txt
-echo | set /p buildnumber="%fullversionno%"> %DwRentalWorksWebPath%\src\RentalWorksWebApi\version-%productname%.txt
+echo %fullversionno%>%DwRentalWorksWebPath%\src\%productname%Web\version.txt
+echo %fullversionno%>%DwRentalWorksWebPath%\src\RentalWorksQuikScan\version.txt
+echo %fullversionno%>%DwRentalWorksWebPath%\src\RentalWorksWebApi\version.txt
+echo %fullversionno%>%DwRentalWorksWebPath%\src\RentalWorksWebApi\version-%productname%Web.txt
+
+rem echo | set /p buildnumber=>%DwRentalWorksWebPath%\src\%productname%Web\version.txt
+rem echo | set /p buildnumber="%fullversionno%">>%DwRentalWorksWebPath%\src\%productname%Web\version.txt
+rem echo | set /p buildnumber="%fullversionno%"> %DwRentalWorksWebPath%\src\RentalWorksWebApi\version.txt
+rem echo | set /p buildnumber="%fullversionno%"> %DwRentalWorksWebPath%\src\RentalWorksWebApi\version-%productname%Web.txt
+rem echo | set /p buildnumber=>%DwRentalWorksWebPath%\src\RentalWorksQuikScan\version.txt
 
 rem update AssemblyInfo.cs
 cmd /c exit 91
@@ -86,9 +91,22 @@ rem echo %openBrack%
 cmd /c exit 93
 set closeBrack=%=exitcodeAscii%
 rem echo %closeBrack%
+
+rem Update RentalWorksWeb AssemblyInfo.cs
 set newassemblyline=%openBrack%assembly: AssemblyVersion("%fullversionno%")%closeBrack%
-rem echo %newassemblyline%
-set "file=%DwRentalWorksWebPath%\src\%productname%\Properties\AssemblyInfo.cs"
+set "file=%DwRentalWorksWebPath%\src\%productname%Web\Properties\AssemblyInfo.cs"
+for /F "delims=" %%a in (%file%) do (
+    set /A count+=1
+    set "array[!count!]=%%a"
+)
+del %file%
+for /L %%i in (1,1,%count%) do (
+   echo !array[%%i]!|find "AssemblyVersion" >nul
+   if errorlevel 1 (echo !array[%%i]!>>%file%) else (call echo !newassemblyline!>>%file%))
+
+rem Update QuikScan AssemblyInfo.cs
+set newassemblyline=%openBrack%assembly: AssemblyVersion("%fullqsversionno%")%closeBrack%
+set "file=%DwRentalWorksWebPath%\src\RentalWorksQuikScan\Properties\AssemblyInfo.cs"
 for /F "delims=" %%a in (%file%) do (
     set /A count+=1
     set "array[!count!]=%%a"
@@ -105,14 +123,16 @@ IF "%commitandftp%"=="y" (
     rem rem command-line Git push in the modified version and assemply files
     cd %DwRentalWorksWebPath%
     git config --global gc.auto 0
-    git add "src/%productname%/version.txt"
-    git add "src/%productname%/Properties/AssemblyInfo.cs"
+    git add "src/%productname%Web/version.txt"
+    git add "src/%productname%Web/Properties/AssemblyInfo.cs"
+    git add "src/RentalWorksQuikScan/version.txt"
+    git add "src/RentalWorksQuikScan/Properties/AssemblyInfo.cs"
     git add "src/RentalWorksWebApi/version.txt"
-    git add "src/RentalWorksWebApi/version-%productname%.txt"
-    git commit -m "web: %fullversionno%"
-    git push
-    git tag web/v%fullversionno%
-    git push origin web/v%fullversionno%
+    git add "src/RentalWorksWebApi/version-%productname%Web.txt"
+    git commit -m "web: %fullversionno%, qs: %qsfullqsversionno%"
+    rem git push
+    rem git tag web/v%fullversionno%
+    rem git push origin web/v%fullversionno%
 
     rem copy the document header image to the build directory 
     cd %DwRentalWorksWebPath%
@@ -140,33 +160,43 @@ IF "%commitandftp%"=="y" (
 
 rem delete any old build files
 cd %DwRentalWorksWebPath%\build
-if exist %productname%\ (rmdir %productname% /S /Q)
-if exist %productname%Api\ (rmdir %productname%Api /S /Q)
+if exist %productname%Web\ (rmdir %productname%Web /S /Q)
+if exist %productname%WebApi\ (rmdir %productname%WebApi /S /Q)
 if exist %zipfilename% (del %zipfilename%)
 
 rem build Web
 dotnet restore %DwRentalWorksWebPath%\RentalWorksWeb.sln
-"C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\msbuild.exe" %DwRentalWorksWebPath%\RentalWorksWeb.sln /t:Rebuild /p:Configuration="Release %productname%" /p:Platform="any cpu" /p:ReferencePath=%DwRentalWorksWebPath%\packages 
+"C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\msbuild.exe" %DwRentalWorksWebPath%\RentalWorksWeb.sln /t:Rebuild /p:Configuration="Release %productname%Web" /p:Platform="any cpu" /p:ReferencePath=%DwRentalWorksWebPath%\packages 
 
 rem build the API 
 cd %DwRentalWorksWebPath%\src\RentalWorksWebApi
 call npm i
 call npm run publish
-if "%productname%"=="RentalWorksWeb" (
-	set webapipath=%DwRentalWorksWebPath%\build\RentalWorksWebApi\
-) else if "%productname%"=="TrakitWorksWeb" (
-    MOVE %DwRentalWorksWebPath%\build\RentalWorksWebApi %DwRentalWorksWebPath%\build\TrakitWorksWebApi
-	set webapipath=%DwRentalWorksWebPath%\build\TrakitWorksWebApi\
+
+if "%productname%"=="RentalWorks" (
+    set webpath=%DwRentalWorksWebPath%\build\RentalWorksWeb\
+    set quikscanpath=%DwRentalWorksWebPath%\build\RentalWorksQuikScan\
+    set webapipath=%DwRentalWorksWebPath%\build\RentalWorksWebApi\
+) else if "%productname%"=="TrakitWorks" (
+    move %DwRentalWorksWebPath%\build\RentalWorksWebApi %DwRentalWorksWebPath%\build\TrakitWorksWebApi
+    move %DwRentalWorksWebPath%\build\RentalWorksQuikScan\ %DwRentalWorksWebPath%\build\TrakitWorksQuikScan\
+    set webpath=%DwRentalWorksWebPath%\build\TrakitWorksWeb\
+    set quikscanpath=%DwRentalWorksWebPath%\build\TrakitWorksQuikScan\
+    set webapipath=%DwRentalWorksWebPath%\build\TrakitWorksWebApi\
 )
+del "%webapipath%version-RentalWorksWeb.txt"
+del "%webapipath%version-TrakitWorksWeb.txt"
 
 rem make the ZIP deliverable
-"c:\Program Files\7-Zip\7z.exe" a %DwRentalWorksWebPath%\build\%zipfilename% %DwRentalWorksWebPath%\build\%productname%\
+"c:\Program Files\7-Zip\7z.exe" a %DwRentalWorksWebPath%\build\%zipfilename% %webpath%
+"c:\Program Files\7-Zip\7z.exe" a %DwRentalWorksWebPath%\build\%zipfilename% %quikscanpath%
 "c:\Program Files\7-Zip\7z.exe" a %DwRentalWorksWebPath%\build\%zipfilename% %webapipath%
 cd %DwRentalWorksWebPath%\build
 
 rem delete the work files
-if exist %productname%\ (rmdir %productname% /S /Q)
-if exist %productname%Api\ (rmdir %productname%Api /S /Q)
+if exist %productname%Web\ (rmdir %productname%Web /S /Q)
+if exist RentalWorksQuikScan\ (rmdir RentalWorksQuikScan /S /Q)
+if exist %productname%WebApi\ (rmdir %productname%WebApi /S /Q)
 
 rem copy the ZIP delivable to "history" sub-directory
 copy %zipfilename% history
@@ -180,7 +210,7 @@ IF "%commitandftp%"=="y" (
     echo %DwFtpUploadUser%>>%ftpcommandfilename%
     echo %DwFtpUploadPassword%>>%ftpcommandfilename%
     echo cd Update>>%ftpcommandfilename%
-    echo cd %productname%>>%ftpcommandfilename%
+    echo cd %productname%Web>>%ftpcommandfilename%
     echo cd %shortversionno%>>%ftpcommandfilename%
     echo put %zipfilename%>>%ftpcommandfilename%
     echo put %pdffilename%>>%ftpcommandfilename%

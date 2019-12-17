@@ -85,24 +85,54 @@ namespace WebApi.Modules.AccountServices.Account
             response.applicationOptions = taskApplicationOptions.Result;
 
             // get the application version
-            switch (applicationId)
+            bool returnedVersion = false;
+            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
             {
-                // RentalWorksWeb
-                case "{0A5F2584-D239-480F-8312-7C2B552A30BA}":
-                    response.serverVersion = System.IO.File.ReadAllText(System.IO.Path.Combine(Environment.CurrentDirectory, "version-RentalWorksWeb.txt"));
-                    break;
-                // RentalWorks QuikScan
-                case "{8D0A5ECF-72D2-4428-BDC8-7E3CC56EDD3A}":
-                    response.serverVersion = System.IO.File.ReadAllText(System.IO.Path.Combine(Environment.CurrentDirectory, "version-QuikScan.txt"));
-                    break;
-                // TrakitWorksWeb
-                case "{D901DE93-EC22-45A1-BB4A-DD282CAF59FB}":
-                    response.serverVersion = System.IO.File.ReadAllText(System.IO.Path.Combine(Environment.CurrentDirectory, "version-TrakitWorksWeb.txt"));
-                    break;
-                // WebApi
-                case "{94FBE349-104E-420C-81E9-1636EBAE2836}":
-                    response.serverVersion = System.IO.File.ReadAllText(System.IO.Path.Combine(Environment.CurrentDirectory, "version.txt"));
-                    break;
+                string pathRentalWorksWebVersion = System.IO.Path.Combine(Environment.CurrentDirectory, "version-RentalWorksWeb.txt");
+                string pathTrakitWorksWebVersion = System.IO.Path.Combine(Environment.CurrentDirectory, "version-TrakitWorksWeb.txt");
+                switch (applicationId)
+                {
+                    // RentalWorksWeb
+                    case "{0A5F2584-D239-480F-8312-7C2B552A30BA}":
+                        if (System.IO.File.Exists(pathRentalWorksWebVersion))
+                        {
+                            response.serverVersion = System.IO.File.ReadAllText(pathRentalWorksWebVersion);
+                            returnedVersion = true;
+                        }
+                        break;
+                    // RentalWorks QuikScan
+                    case "{8D0A5ECF-72D2-4428-BDC8-7E3CC56EDD3A}":
+                        if (this.AppConfig.DatabaseSettings.ConnectionString.ToLower().Contains("rentalworks") && (System.IO.File.Exists(pathRentalWorksWebVersion)))
+                        {
+                            response.serverVersion = System.IO.File.ReadAllText(pathRentalWorksWebVersion);
+                            returnedVersion = true;
+                        }
+                        else if (this.AppConfig.DatabaseSettings.ConnectionString.ToLower().Contains("trakitworks") && (System.IO.File.Exists(pathTrakitWorksWebVersion)))
+                        {
+                            response.serverVersion = System.IO.File.ReadAllText(pathTrakitWorksWebVersion);
+                            returnedVersion = true;
+                        }
+                        break;
+                    // TrakitWorksWeb
+                    case "{D901DE93-EC22-45A1-BB4A-DD282CAF59FB}":
+                        if (System.IO.File.Exists(pathTrakitWorksWebVersion))
+                        {
+                            response.serverVersion = System.IO.File.ReadAllText(pathTrakitWorksWebVersion);
+                            returnedVersion = true;
+                        }
+                        break;
+                    // WebApi
+                    case "{94FBE349-104E-420C-81E9-1636EBAE2836}":
+                        response.serverVersion = System.IO.File.ReadAllText(System.IO.Path.Combine(Environment.CurrentDirectory, "version.txt"));
+                        returnedVersion = true;
+                        break;
+                }
+            }
+            if (!returnedVersion)
+            {
+                string pathVersion = System.IO.Path.Combine(Environment.CurrentDirectory, "version.txt");
+                response.serverVersion = System.IO.File.ReadAllText(pathVersion);
+                returnedVersion = true;
             }
 
             await Task.CompletedTask;
