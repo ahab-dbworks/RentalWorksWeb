@@ -166,8 +166,6 @@ class QuoteOrderMasterReport extends FwWebApiReport {
     beforeValidate($browse, $form, request) {
         const validationName = request.module;
         const customerId = FwFormField.getValueByDataField($form, 'CustomerId');
-        const dealId = FwFormField.getValueByDataField($form, 'DealId');
-
 
         request.uniqueids = {};
 

@@ -98,7 +98,7 @@ export class RunReportsTest extends BaseTest {
             'SubRentalBillingAnalysisReport',
             'VendorInvoiceSummaryReport']
         // ----------
-        async function getReportNames() {
+        async function getReportNamesDynamic() {
             return await page.evaluate(() => {
                 const reports = jQuery('.well .panel-group');
                 const names: Array<string> = [];
@@ -111,7 +111,7 @@ export class RunReportsTest extends BaseTest {
         // ----------
         async function runReport(reportName: string) {
             let closeUnexpectedErrors = false;
-            let testPassed = true;
+            let testError = null;
             Logging.logInfo(`About to click on ${reportName}`);
             const reportPanel = `#${reportName} .panel .panel-heading`;
             await page.waitForSelector(reportPanel, { visible: true });
@@ -131,13 +131,13 @@ export class RunReportsTest extends BaseTest {
             } catch (error) { }  // no error pop-up
 
             if (popUp !== undefined) {
-                testPassed = false;
                 Logging.logInfo(`error pop-up found previewing ${reportName}.`);
                 closeUnexpectedErrors = true;
                 let selector: string = ``;
 
                 const errorFields = await page.$$eval(`div[data-control="FwFormField"].error`, fields => fields.map((field) => field.getAttribute('data-datafield')));
                 const errorMessage = await page.$eval('.advisory', el => el.textContent);
+                testError = errorMessage;
                 Logging.logInfo(`${reportName} Report not generated: ${errorMessage}`);
                 Logging.logInfo(`Error Fields: ${JSON.stringify(errorFields)}`);
                 errorFields.length = 0;
@@ -161,12 +161,12 @@ export class RunReportsTest extends BaseTest {
                     Logging.logInfo(`Waiting for ${reportName} to load`);
                     await pages[2].waitForSelector('body', { visible: true, timeout: 10000 });
                     const preview = await pages[2].$('.preview');
-                    await ModuleBase.wait(2000); // only for developer to be able to see the report
+                    await ModuleBase.wait(1000); // only for developer to be able to see the report
                     if (preview) {
                         Logging.logInfo(`${reportName} rendered`);
                     } else {
-                        testPassed = false;
-                        const html = await pages[2].$('html');
+                        const html = await pages[2].$eval('html', el => el.textContent);
+                        testError = html;
                         Logging.logInfo(`${reportName} was not rendered`);
                         Logging.logInfo(`Error: ${html}`);
                     }
@@ -174,7 +174,7 @@ export class RunReportsTest extends BaseTest {
                     await pages[2].close();
                 }
             }
-            expect(testPassed).toBeTruthy();
+            expect(testError).toBeNull();
         }
         //---------------------------------------------------------------------------------------
         describe('Go to Reports page and run reports', () => {
@@ -192,22 +192,6 @@ export class RunReportsTest extends BaseTest {
                     await runReport(reportNames[i]);
                 }, this.testTimeout);
             }
-            //testName = 'Get ALL Reports';
-            //test(testName, async () => {
-            //    Logging.logInfo(`About to get Report Names`);
-            //    //reportNames = await getReportNames();
-            //    //await console.log('reportNames: ', reportNames);
-            //}, this.testTimeout);
-            // ----------
-            //testName = 'Preview ArAgingReport';
-            //test(testName, async () => {
-            //    await runReport('ArAgingReport');
-            //}, this.testTimeout);
-            //// ----------
-            //testName = 'Preview CreateInvoiceProcessReport';
-            //test(testName, async () => {
-            //    await runReport('CreateInvoiceProcessReport');
-            //}, this.testTimeout);
         });
     }
     //---------------------------------------------------------------------------------------
