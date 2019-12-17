@@ -30,6 +30,9 @@ namespace WebApi.Modules.HomeControls.InventorySearchPreview
         [FwSqlDataField(column: "parentid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string ParentId { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "grandparentid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        public string GrandParentId { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "qty", modeltype: FwDataTypes.Integer, sqltype: "numeric", precision: 12, scale: 2)]
         public decimal? Quantity { get; set; }
         //------------------------------------------------------------------------------------ 
