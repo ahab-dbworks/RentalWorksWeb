@@ -39,6 +39,27 @@ namespace WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation
         [FwSqlDataField(column: "glsuffix", modeltype: FwDataTypes.Text)]
         public string GlSuffix { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "useprefix", modeltype: FwDataTypes.Boolean)]
+        public bool? UseNumberPrefix { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "prefix", modeltype: FwDataTypes.Text)]
+        public string NumberPrefix { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "usereq", modeltype: FwDataTypes.Boolean)]
+        public bool? UseRequisitionNumbers { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "samequoteno", modeltype: FwDataTypes.Boolean)]
+        public bool? UseSameNumberForQuoteAndOrder { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "samebatchno", modeltype: FwDataTypes.Boolean)]
+        public bool? UseSameNumberForAllExportBatches { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "invoicesnumberedbyorder", modeltype: FwDataTypes.Boolean)]
+        public bool? UserOrderNumberAndSuffixForInvoice { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "invoicesnumberedforhiatus", modeltype: FwDataTypes.Boolean)]
+        public bool? UseHInHiatusInvoiceNumbers { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------ 

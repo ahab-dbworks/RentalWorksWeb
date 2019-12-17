@@ -34,6 +34,27 @@ namespace WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation
         [FwSqlDataField(column: "glsuffix", modeltype: FwDataTypes.Text, maxlength: 10)]
         public string GlSuffix { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "useprefix", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool? UseNumberPrefix { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "prefix", modeltype: FwDataTypes.Text, maxlength: 2)]
+        public string NumberPrefix { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "usereq", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool? UseRequisitionNumbers { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "samequoteno", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool? UseSameNumberForQuoteAndOrder { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "samebatchno", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool? UseSameNumberForAllExportBatches { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "invoicesnumberedbyorder", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool? UserOrderNumberAndSuffixForInvoice { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "invoicesnumberedforhiatus", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool? UseHInHiatusInvoiceNumbers { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -42,3 +63,5 @@ namespace WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation
         //------------------------------------------------------------------------------------ 
     }
 }
+
+

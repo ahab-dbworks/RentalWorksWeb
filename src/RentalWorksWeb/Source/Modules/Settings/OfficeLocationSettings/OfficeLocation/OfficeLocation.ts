@@ -44,6 +44,28 @@
         return $form;
     }
     //----------------------------------------------------------------------------------------------
+    renderGrids($form) {
+        FwBrowse.renderGrid({
+            nameGrid: 'SystemNumberGrid',
+            gridSecurityId: 'aUMum8mzxVrWc',
+            moduleSecurityId: this.id,
+
+            $form: $form,
+            pageSize: 20,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                options.hasNew = false;
+                options.hasEdit = true;
+                options.hasDelete = false;
+            },
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    LocationId: FwFormField.getValueByDataField($form, `LocationId`)
+                };
+            }
+        });
+        // ----------
+    }
+    //----------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
         var $form;
 

@@ -166,6 +166,7 @@
     <Content Include="Source\Grids\ManualGlTransactionsGrid\ManualGlTransactionsGridBrowse.htm" />
     <Content Include="Source\Grids\OrderActivitySummaryGrid\OrderActivitySummaryGridBrowse.htm" />
     <Content Include="Source\Grids\OrderTypePresentationLayerGrid\OrderTypePresentationLayerGridBrowse.htm" />
+    <Content Include="Source\Grids\SystemNumberGrid\SystemNumberGridBrowse.htm" />
     <Content Include="Source\Grids\PurchaseVendorGrid\PurchaseVendorGridBrowse.htm" />
     <Content Include="Source\Grids\PhysicalInventoryCycleInventoryGrid\PhysicalInventoryCycleInventoryGridBrowse.htm" />
     <Content Include="Source\Grids\PhysicalInventoryInventoryGrid\PhysicalInventoryInventoryGridBrowse.htm" />
@@ -322,6 +323,7 @@
     <TypeScriptCompile Include="Source\Grids\ManualGlTransactionsGrid\ManualGlTransactionsGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\OrderActivitySummaryGrid\OrderActivitySummaryGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\OrderTypePresentationLayerGrid\OrderTypePresentationLayerGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\SystemNumberGrid\SystemNumberGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\PurchaseVendorGrid\PurchaseVendorGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\PhysicalInventoryCycleInventoryGrid\PhysicalInventoryCycleInventoryGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\PhysicalInventoryInventoryGrid\PhysicalInventoryInventoryGridController.ts" />
