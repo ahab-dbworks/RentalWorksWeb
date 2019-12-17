@@ -245,13 +245,14 @@ abstract class InventoryBase {
                 //    FwFunc.showError(response);
                 //}, $calendar)
             })
-            .data('ontimerangedoubleclicked', function (event) {
+            .data('ontimerangedoubleclicked', event => {
                 try {
                     const date = event.start.toString('MM/dd/yyyy');
                     FwScheduler.setSelectedDay($control, date);
                     //DriverController.openTicket($form);
                     $form.find('div[data-type="Browse"][data-name="Schedule"] .browseDate .fwformfield-value').val(date).change();
                     $form.find('div.tab.schedule').click();
+                    this.renderDatePopup(event, date);
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }
@@ -537,6 +538,39 @@ abstract class InventoryBase {
             }
         });
     }
+    //----------------------------------------------------------------------------------------------
+    renderDatePopup(event: any, date: string): void {
+        const $form = jQuery(event.currentTarget).closest('.fwform');
+        if (date) {
+            const html: Array<string> = [];
+            html.push(
+                `<div class="fwcontrol fwcontainer fwform popup" data-control="FwContainer" data-type="form" data-caption="Activity Dates" style="height:900px;">
+              <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
+                <div class="tabpages">
+                  <div class="formpage">
+                      <div class="formrow">
+                        <div class="formcolumn" style="width:100%;margin-top:50px;">
+                          <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                            <div class="fwform-section-title" style="margin-bottom:20px;">Dates</div>
+                            <div data-control="FwGrid" class="container"></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>`
+            );
+
+            const events = () => { }
+            const $popup = FwPopup.renderPopup(jQuery(html.join('')), { ismodal: true }, 'Activity Dates');
+            FwPopup.showPopup($popup);
+            //$popup.find('.container').append($orderBrowse);
+            //FwBrowse.search($orderBrowse);
+            events();
+        }
+    }
+
 
     //----------------------------------------------------------------------------------------------
     //jh 08/19/2019 obsolete
