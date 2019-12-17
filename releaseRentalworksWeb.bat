@@ -6,19 +6,6 @@ rem --------------------------------------------------------------------------
 rem Author:        Justin Hoffman, Mike Vermilion
 rem Last modified: 12/13/2019
 rem --------------------------------------------------------------------------
-rem
-rem
-rem --------------------------------------------------------------------------
-rem --------------------------------------------------------------------------
-
-
-
-rem NO MODIFICATIONS BEYOND THIS POINT
-rem --------------------------------------------------------------------------
-rem --------------------------------------------------------------------------
-rem --------------------------------------------------------------------------
-rem --------------------------------------------------------------------------
-
 
 rem Exit if DwRentalWorksWebPath environment variable is not set
 IF "%DwRentalWorksWebPath%"=="" ECHO Environment Variable DwRentalWorksWebPath is NOT defined
@@ -41,6 +28,13 @@ IF "%productname%"=="1" (
 )
 echo Building %productname%Web
 
+
+if "$productname%"=="Rentalworks" (
+    set tagprefix=web
+)
+else if "$productname%"=="TrakitWorks" (
+    set tagprefix=tw
+)
 rem Get the Web Build number from the user
 FOR /F "tokens=*" %%i IN (%DwRentalWorksWebPath%\src\RentalWorksWebApi\version-%productname%Web.txt) DO @set previousversionno=%%i
 echo Previous %productname%Web Version: %previousversionno%
@@ -72,17 +66,11 @@ setlocal ENABLEDELAYEDEXPANSION
 set buildnoforzip=%fullversionno:.=_%
 set zipfilename=%productname%Web_%buildnoforzip%.zip
 
-rem Update the Build number in the version.txt files
+rem Update the version.txt files
 echo %fullversionno%>%DwRentalWorksWebPath%\src\%productname%Web\version.txt
 echo %fullversionno%>%DwRentalWorksWebPath%\src\RentalWorksQuikScan\version.txt
 echo %fullversionno%>%DwRentalWorksWebPath%\src\RentalWorksWebApi\version.txt
 echo %fullversionno%>%DwRentalWorksWebPath%\src\RentalWorksWebApi\version-%productname%Web.txt
-
-rem echo | set /p buildnumber=>%DwRentalWorksWebPath%\src\%productname%Web\version.txt
-rem echo | set /p buildnumber="%fullversionno%">>%DwRentalWorksWebPath%\src\%productname%Web\version.txt
-rem echo | set /p buildnumber="%fullversionno%"> %DwRentalWorksWebPath%\src\RentalWorksWebApi\version.txt
-rem echo | set /p buildnumber="%fullversionno%"> %DwRentalWorksWebPath%\src\RentalWorksWebApi\version-%productname%Web.txt
-rem echo | set /p buildnumber=>%DwRentalWorksWebPath%\src\RentalWorksQuikScan\version.txt
 
 rem update AssemblyInfo.cs
 cmd /c exit 91
@@ -129,10 +117,10 @@ IF "%commitandftp%"=="y" (
     git add "src/RentalWorksQuikScan/Properties/AssemblyInfo.cs"
     git add "src/RentalWorksWebApi/version.txt"
     git add "src/RentalWorksWebApi/version-%productname%Web.txt"
-    git commit -m "web: %fullversionno%, qs: %qsfullqsversionno%"
+    git commit -m "%productname%Web: %fullversionno%
     git push
-    git tag web/v%fullversionno%
-    git push origin web/v%fullversionno%
+    git tag %tagprefix%/v%fullversionno%
+    git push origin %tagprefix%/v%fullversionno%
 
     rem copy the document header image to the build directory 
     cd %DwRentalWorksWebPath%
