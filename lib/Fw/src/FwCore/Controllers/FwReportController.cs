@@ -2,6 +2,7 @@
 using FwStandard.Reporting;
 using FwStandard.SqlServer;
 using FwStandard.Data;
+using FwStandard.BusinessLogic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System;
@@ -17,6 +18,8 @@ namespace FwCore.Controllers
         public FwReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //---------------------------------------------------------------------------------------------
         protected Type loaderType = null;
+        //---------------------------------------------------------------------------------------------
+        protected Type logicType = null;
         //---------------------------------------------------------------------------------------------
         protected abstract string GetReportFileName();
         //---------------------------------------------------------------------------------------------
@@ -122,6 +125,44 @@ namespace FwCore.Controllers
             jsonException.StackTrace = ex.StackTrace;
             return StatusCode(jsonException.StatusCode, jsonException);
         }
+        //------------------------------------------------------------------------------------
+        protected FwBusinessLogic CreateBusinessLogic(Type type, FwApplicationConfig appConfig, FwUserSession userSession)
+        {
+            FwBusinessLogic bl = (FwBusinessLogic)Activator.CreateInstance(type);
+            bl.AppConfig = appConfig;
+            bl.UserSession = userSession;
+            bl.SetDependencies(appConfig, userSession);
+            return bl;
+        }
+        //-------------------------------------------------------------------------------------
+        protected virtual async Task<ActionResult<FwJsonDataTable>> DoBrowseAsync(BrowseRequest browseRequest, Type type = null)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                if (type == null)
+                {
+                    type = logicType;
+                }
+
+                FwBusinessLogic l = CreateBusinessLogic(type, this.AppConfig, this.UserSession);
+                FwJsonDataTable dt = await l.BrowseAsync(browseRequest);
+                return new OkObjectResult(dt);
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------
+        protected virtual async Task<ActionResult<FwJsonDataTable>> DoBrowseAsync<T>(BrowseRequest browseRequest)
+        {
+            return await this.DoBrowseAsync(browseRequest, typeof(T));
+        }
+        //------------------------------------------------------------------------------------
 
         //------------------------------------------------------------------------------------ 
         /// <summary>
