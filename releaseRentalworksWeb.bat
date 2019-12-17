@@ -31,8 +31,7 @@ echo Building %productname%Web
 
 if "$productname%"=="Rentalworks" (
     set tagprefix=web
-)
-else if "$productname%"=="TrakitWorks" (
+) else if "$productname%"=="TrakitWorks" (
     set tagprefix=tw
 )
 rem Get the Web Build number from the user
