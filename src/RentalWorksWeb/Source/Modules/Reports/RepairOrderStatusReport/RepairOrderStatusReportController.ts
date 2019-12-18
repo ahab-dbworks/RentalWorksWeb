@@ -124,7 +124,7 @@ const repairOrderStatusTemplate = `
 class RepairOrderStatusReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
-        super('RepairOrderStatusReport', 'api/v1/rentalinventoryvaluereport', repairOrderStatusTemplate);
+        super('RepairOrderStatusReport', 'api/v1/repairorderstatusreport', repairOrderStatusTemplate);
         this.reportOptions.HasDownloadExcel = true;
     }
     //----------------------------------------------------------------------------------------------

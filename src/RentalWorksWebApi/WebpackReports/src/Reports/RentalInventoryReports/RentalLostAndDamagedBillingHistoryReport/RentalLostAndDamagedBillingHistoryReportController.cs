@@ -12,6 +12,14 @@ using Microsoft.AspNetCore.Http;
 using FwStandard.AppManager;
 using static FwCore.Controllers.FwDataController;
 using WebApi.Data;
+using WebApi.Modules.Settings.InventorySettings.InventoryType;
+using WebApi.Modules.Settings.Category;
+using WebApi.Modules.Settings.WarehouseSettings.Warehouse;
+using WebApi.Modules.Inventory.RentalInventory;
+using WebApi.Modules.Settings.InventorySettings.RetiredReason;
+using WebApi.Modules.Agent.Customer;
+using WebApi.Modules.Settings.InventorySettings.UnretiredReason;
+using WebApi.Modules.Agent.Deal;
 
 namespace WebApi.Modules.Reports.RentalInventoryReports.RentalLostAndDamagedBillingHistoryReport
 {
@@ -97,5 +105,68 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.RentalLostAndDamagedBill
             }
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/rentallostanddamagedbillinghistoryreport/validateinventorytype/browse 
+        [HttpPost("validateinventorytype/browse")]
+        [FwControllerMethod(Id: "qazrvFHnYd0z", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateInventoryTypeBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<InventoryTypeLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/rentallostanddamagedbillinghistoryreport/validatecategory/browse 
+        [HttpPost("validatecategory/browse")]
+        [FwControllerMethod(Id: "HO28TCGPBJnY", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateCategoryBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<CategoryLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/rentallostanddamagedbillinghistoryreport/validatewarehouse/browse 
+        [HttpPost("validatewarehouse/browse")]
+        [FwControllerMethod(Id: "h5QYPDquskL8", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateWarehouseBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<WarehouseLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/rentallostanddamagedbillinghistoryreport/validateinventory/browse 
+        [HttpPost("validateinventory/browse")]
+        [FwControllerMethod(Id: "JKlm5VWNNsEw", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateInventoryBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<RentalInventoryLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/rentallostanddamagedbillinghistoryreport/validateretiredreason/browse 
+        [HttpPost("validateretiredreason/browse")]
+        [FwControllerMethod(Id: "G69To13QPqOL", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateRetiredReasonBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<RetiredReasonLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/rentallostanddamagedbillinghistoryreport/validatecustomer/browse 
+        [HttpPost("validatecustomer/browse")]
+        [FwControllerMethod(Id: "50vV1N6B50r9", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateCustomerBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<CustomerLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/rentallostanddamagedbillinghistoryreport/validateunretiredreason/browse 
+        [HttpPost("validateunretiredreason/browse")]
+        [FwControllerMethod(Id: "CpuqJyqYBvsS", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateUnretiredReasonBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<UnretiredReasonLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/rentallostanddamagedbillinghistoryreport/validatedeal/browse 
+        [HttpPost("validatedeal/browse")]
+        [FwControllerMethod(Id: "DGgAr5su6Iqf", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateDealBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<DealLogic>(browseRequest);
+        }
     }
 }

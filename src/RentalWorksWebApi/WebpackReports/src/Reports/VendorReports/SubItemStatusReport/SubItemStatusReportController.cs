@@ -12,6 +12,12 @@ using Microsoft.AspNetCore.Http;
 using FwStandard.AppManager;
 using static FwCore.Controllers.FwDataController;
 using WebApi.Data;
+using WebApi.Modules.Agent.Deal;
+using WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation;
+using WebApi.Modules.Agent.Customer;
+using WebApi.Modules.Agent.Order;
+using WebApi.Modules.Agent.Vendor;
+using WebApi.Modules.Settings.PoSettings.PoClassification;
 
 namespace WebApi.Modules.Reports.VendorReports.SubItemStatusReport
 {
@@ -97,5 +103,52 @@ namespace WebApi.Modules.Reports.VendorReports.SubItemStatusReport
             }
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/subitemstatusreport/validatedeal/browse 
+        [HttpPost("validatedeal/browse")]
+        [FwControllerMethod(Id: "pU2k4MzMf3rp", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateDealBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<DealLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/subitemstatusreport/validateofficelocation/browse 
+        [HttpPost("validateofficelocation/browse")]
+        [FwControllerMethod(Id: "EABMEkfzrthg", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateOfficeLocationBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<OfficeLocationLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/subitemstatusreport/validatecustomer/browse 
+        [HttpPost("validatecustomer/browse")]
+        [FwControllerMethod(Id: "9Klhvh7uH9Wm", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateCustomerBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<CustomerLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/subitemstatusreport/validateorder/browse 
+        [HttpPost("validateorder/browse")]
+        [FwControllerMethod(Id: "LQhsI5XgbSRm", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateOrderBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<OrderLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/subitemstatusreport/validatevendor/browse 
+        [HttpPost("validatevendor/browse")]
+        [FwControllerMethod(Id: "mJCaO0c5MUkt", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateVendorBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<VendorLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/subitemstatusreport/validatepoclassification/browse 
+        [HttpPost("validatepoclassification/browse")]
+        [FwControllerMethod(Id: "Css857RENpbX", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidatePoClassificationBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<PoClassificationLogic>(browseRequest);
+        }
     }
 }

@@ -99,11 +99,13 @@ class RetiredRentalInventoryReport extends FwWebApiReport {
             switch (datafield) {
                 case 'InventoryTypeId':
                     request.uniqueids.Rental = true;
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventorytype`);
                     break;
                 case 'CategoryId':
                     if (inventoryTypeId !== "") {
                         request.uniqueids.InventoryTypeId = inventoryTypeId;
                     }
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecategory`);
                     break;
                 case 'SubCategoryId':
                     request.uniqueids.Rental = true;
@@ -113,6 +115,7 @@ class RetiredRentalInventoryReport extends FwWebApiReport {
                     if (categoryId !== "") {
                         request.uniqueids.CategoryId = categoryId;
                     }
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatesubcategory`);
                     break;
                 case 'InventoryId':
                     if (inventoryTypeId !== "") {
@@ -124,6 +127,7 @@ class RetiredRentalInventoryReport extends FwWebApiReport {
                     if (subCategoryId !== "") {
                         request.uniqueids.SubCategoryId = subCategoryId;
                     };
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventory`);
                     break;
                 case 'WarehouseId':
                     $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatewarehouse`);

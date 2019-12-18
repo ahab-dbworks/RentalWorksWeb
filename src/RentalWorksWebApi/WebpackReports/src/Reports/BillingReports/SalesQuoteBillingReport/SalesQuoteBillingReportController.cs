@@ -12,6 +12,9 @@ using Microsoft.AspNetCore.Http;
 using FwStandard.AppManager;
 using static FwCore.Controllers.FwDataController;
 using WebApi.Data;
+using WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation;
+using WebApi.Modules.Administrator.User;
+using WebApi.Modules.Agent.Deal;
 
 namespace WebApi.Modules.Reports.Billing.SalesQuoteBillingReport
 {
@@ -91,5 +94,28 @@ namespace WebApi.Modules.Reports.Billing.SalesQuoteBillingReport
             }
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/salesquotebillingreport/validateofficelocation/browse 
+        [HttpPost("validateofficelocation/browse")]
+        [FwControllerMethod(Id: "Ap9omLudlOT9", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateOfficeLocationBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<OfficeLocationLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/salesquotebillingreport/validateagent/browse 
+        [HttpPost("validateagent/browse")]
+        [FwControllerMethod(Id: "veEp5aHHlBp5", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateAgentBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<UserLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/salesquotebillingreport/validatedeal/browse 
+        [HttpPost("validatedeal/browse")]
+        [FwControllerMethod(Id: "n2u6tGGshd6W", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateDealBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<DealLogic>(browseRequest);
+        }
     }
 }
