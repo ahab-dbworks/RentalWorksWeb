@@ -21,6 +21,12 @@ namespace WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation
         [FwSqlDataField(column: "company", modeltype: FwDataTypes.Text)]
         public string CompanyName { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "email", modeltype: FwDataTypes.Text)]
+        public string Email { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "webaddress", modeltype: FwDataTypes.Text)]
+        public string WebAddress { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ratetype", modeltype: FwDataTypes.Text)]
         public string RateType { get; set; }
         //------------------------------------------------------------------------------------ 

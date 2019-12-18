@@ -28,6 +28,12 @@ namespace WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation
         [FwLogicProperty(Id: "ZeOmhYbh0kY6D")]
         public string CompanyName { get { return location.CompanyName; } set { location.CompanyName = value; } }
 
+        [FwLogicProperty(Id: "vkQn6TgUTnDWo")]
+        public string Email { get { return location.Email; } set { location.Email = value; } }
+
+        [FwLogicProperty(Id: "U5purbrsmbnUJ")]
+        public string WebAddress { get { return location.WebAddress; } set { location.WebAddress = value; } }
+
         [FwLogicProperty(Id: "lGRLyD6Zq20")]
         public string RateType { get { return location.RateType; } set { location.RateType = value; } }
 

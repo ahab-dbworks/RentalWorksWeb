@@ -7,6 +7,7 @@ namespace WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation
     [FwSqlTable("location")]
     public class OfficeLocationRecord : AppDataReadWriteRecord
     {
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "locationid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]
         public string LocationId { get; set; } = "";
         //------------------------------------------------------------------------------------
@@ -18,6 +19,12 @@ namespace WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation
         //------------------------------------------------------------------------------------        
         [FwSqlDataField(column: "company", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 60)]
         public string CompanyName { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "email", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255)]
+        public string Email { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "webaddress", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255)]
+        public string WebAddress { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "ratetype", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 10)]
         public string RateType { get; set; }
