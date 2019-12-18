@@ -87,7 +87,8 @@ namespace WebApi.Modules.HomeControls.OrderItem
             DaysPerWeek = DaysPerWeek.GetValueOrDefault(1);
             DiscountPercent = DiscountPercent.GetValueOrDefault(0);
 
-            if ((fromDate != null) && (fromDate != DateTime.MinValue) && (toDate != null) && (toDate != DateTime.MinValue))
+            //if ((fromDate != null) && (fromDate != DateTime.MinValue) && (toDate != null) && (toDate != DateTime.MinValue))
+            if ((fromDate != null) && (fromDate != DateTime.MinValue) && (toDate != null) && (toDate != DateTime.MinValue) && (!string.IsNullOrEmpty(RateType))) //justin hoffman #1498
             {
                 Days = ((((toDate.Value) - (fromDate.Value)).Days) + 1);
                 Weeks = (int)Math.Ceiling((decimal)Days / 7);
@@ -123,8 +124,7 @@ namespace WebApi.Modules.HomeControls.OrderItem
                     }
                 }
 
-                //if (RecType.Equals(RwConstants.RECTYPE_RENTAL)) 
-                if ((RecType.Equals(RwConstants.RECTYPE_RENTAL)) && (!string.IsNullOrEmpty(RateType)))//justin hoffman #1491
+                if (RecType.Equals(RwConstants.RECTYPE_RENTAL)) 
                 {
                     if (RateType.Equals(RwConstants.RATE_TYPE_DAILY))
                     {
@@ -147,8 +147,7 @@ namespace WebApi.Modules.HomeControls.OrderItem
                         throw new Exception($"Invalid RateType: {RateType}.");
                     }
                 }
-                //else if ((RecType.Equals(RwConstants.RECTYPE_SALE)) || (RecType.Equals(RwConstants.RECTYPE_MISCELLANEOUS)) || (RecType.Equals(RwConstants.RECTYPE_LABOR)))
-                else 
+                else
                 {
                     BillablePeriods = 1;
                 }
@@ -206,7 +205,7 @@ namespace WebApi.Modules.HomeControls.OrderItem
                 }
             }
             //else if ((RecType.Equals(RwConstants.RECTYPE_SALE)) || (RecType.Equals(RwConstants.RECTYPE_LOSS_AND_DAMAGE)) || (RecType.Equals(RwConstants.RECTYPE_MISCELLANEOUS)) || (RecType.Equals(RwConstants.RECTYPE_LABOR)))
-            else 
+            else
             {
                 WeeklyDiscountAmount = MonthlyDiscountAmount = PeriodDiscountAmount = Quantity * Rate * (DiscountPercent / 100);
                 WeeklyExtended = MonthlyExtended = PeriodExtended = Quantity * Rate * ((100 - DiscountPercent) / 100);
