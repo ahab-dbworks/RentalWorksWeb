@@ -12,6 +12,7 @@ using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Http;
 
 using WebApi.Data;
+using WebApi.Modules.Warehouse.PickList;
 
 namespace WebApi.Modules.Reports.OrderReports.PickListReport
 {
@@ -74,5 +75,12 @@ namespace WebApi.Modules.Reports.OrderReports.PickListReport
             }
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/picklistreport/validatepicklist/browse 
+        [HttpPost("validatepicklist/browse")]
+        [FwControllerMethod(Id: "q8dPnRbYfEP7", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidatePickListBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<PickListLogic>(browseRequest);
+        }
     }
 }

@@ -12,6 +12,7 @@ using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Http;
 
 using WebApi.Data;
+using WebApi.Modules.Agent.Order;
 
 namespace WebApi.Modules.Reports.OrderReports.OrderReport
 {
@@ -73,5 +74,12 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
             }
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/orderreport/validateorder/browse 
+        [HttpPost("validateorder/browse")]
+        [FwControllerMethod(Id: "y72TPuX9WyF1", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateOrderBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<OrderLogic>(browseRequest);
+        }
     }
 }

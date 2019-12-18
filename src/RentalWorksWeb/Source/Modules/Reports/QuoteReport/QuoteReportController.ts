@@ -31,7 +31,7 @@ const quoteTemplate = `
 class QuoteReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
-        super('QuoteReport', 'api/v1/quoteeport', quoteTemplate);
+        super('QuoteReport', 'api/v1/quotereport', quoteTemplate);
         this.reportOptions.HasDownloadExcel = false;
     }
     //----------------------------------------------------------------------------------------------

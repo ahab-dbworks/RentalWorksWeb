@@ -1,6 +1,7 @@
 using FwStandard.AppManager;
 using FwStandard.Models;
 using FwStandard.Reporting;
+using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using PuppeteerSharp;
@@ -8,6 +9,7 @@ using System;
 using System.Threading.Tasks;
 using WebApi.Controllers;
 using WebApi.Data;
+using WebApi.Modules.Warehouse.Contract;
 
 namespace WebApi.Modules.Reports.ContractReports.OutContractReport
 {
@@ -78,5 +80,13 @@ namespace WebApi.Modules.Reports.ContractReports.OutContractReport
             }
         }
         //------------------------------------------------------------------------------------ 
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/outcontractreport/validatecontract/browse 
+        [HttpPost("validatecontract/browse")]
+        [FwControllerMethod(Id: "lbquhpmzhoyz", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateContractBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<ContractLogic>(browseRequest);
+        }
     }
 }

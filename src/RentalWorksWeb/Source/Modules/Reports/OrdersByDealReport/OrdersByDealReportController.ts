@@ -245,10 +245,10 @@ class OrdersByDealReport extends FwWebApiReport {
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecustomer`);
                 break;
             case 'DealTypeId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedeal`);
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedealtype`);
                 break;
             case 'DealStatusId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatediscountreason`);
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedealstatus`);
                 break;
             case 'DealId':
                 if (customerId !== "") {

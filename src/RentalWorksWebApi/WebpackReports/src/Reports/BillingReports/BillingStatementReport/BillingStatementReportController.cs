@@ -108,6 +108,7 @@ namespace WebApi.Modules.Reports.Billing.BillingStatementReport
         {
             return await DoBrowseAsync<OfficeLocationLogic>(browseRequest);
         }
+        //------------------------------------------------------------------------------------ 
         // POST api/v1/billingstatementreport/validatecustomer/browse 
         [HttpPost("validatecustomer/browse")]
         [FwControllerMethod(Id: "ADC2KzMOgvXw", ActionType: FwControllerActionTypes.Browse)]
@@ -115,6 +116,7 @@ namespace WebApi.Modules.Reports.Billing.BillingStatementReport
         {
             return await DoBrowseAsync<CustomerLogic>(browseRequest);
         }
+        //------------------------------------------------------------------------------------ 
         // POST api/v1/billingstatementreport/validatedeal/browse 
         [HttpPost("validatedeal/browse")]
         [FwControllerMethod(Id: "G30zzAE0m67n", ActionType: FwControllerActionTypes.Browse)]
@@ -122,6 +124,7 @@ namespace WebApi.Modules.Reports.Billing.BillingStatementReport
         {
             return await DoBrowseAsync<DealLogic>(browseRequest);
         }
+        //------------------------------------------------------------------------------------ 
         // POST api/v1/billingstatementreport/validatedealstatus/browse 
         [HttpPost("validatedealstatus/browse")]
         [FwControllerMethod(Id: "q4D3hBtFtcxE", ActionType: FwControllerActionTypes.Browse)]
@@ -129,6 +132,7 @@ namespace WebApi.Modules.Reports.Billing.BillingStatementReport
         {
             return await DoBrowseAsync<DealStatusLogic>(browseRequest);
         }
+        //------------------------------------------------------------------------------------ 
         // POST api/v1/billingstatementreport/validatedealtype/browse 
         [HttpPost("validatedealtype/browse")]
         [FwControllerMethod(Id: "UAOmNS8mDxeF", ActionType: FwControllerActionTypes.Browse)]

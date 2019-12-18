@@ -15,7 +15,7 @@ namespace WebApi.Modules.Settings.InventorySettings.Attribute
     [FwController(Id:"Ok4Yh4kdsxk")]
     public class AttributeController : AppDataController
     {
-        public AttributeController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(AttributeLogic); }
+        public AttributeController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(WarehouseCatalog); }
         //------------------------------------------------------------------------------------
         // POST api/v1/attribute/browse
         [HttpPost("browse")]
@@ -36,33 +36,33 @@ namespace WebApi.Modules.Settings.InventorySettings.Attribute
         // GET api/v1/attribute
         [HttpGet]
         [FwControllerMethod(Id:"Xm8esz2YyCa", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<IEnumerable<AttributeLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        public async Task<ActionResult<IEnumerable<WarehouseCatalog>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<AttributeLogic>(pageno, pagesize, sort);
+            return await DoGetAsync<WarehouseCatalog>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/attribute/A0000001
         [HttpGet("{id}")]
         [FwControllerMethod(Id:"Tmxx6Pgg5UK", ActionType: FwControllerActionTypes.View)]
-        public async Task<ActionResult<AttributeLogic>> GetOneAsync([FromRoute]string id)
+        public async Task<ActionResult<WarehouseCatalog>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<AttributeLogic>(id);
+            return await DoGetAsync<WarehouseCatalog>(id);
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/attribute
         [HttpPost]
         [FwControllerMethod(Id:"4TmA2YCRAah", ActionType: FwControllerActionTypes.New)]
-        public async Task<ActionResult<AttributeLogic>> NewAsync([FromBody]AttributeLogic l)
+        public async Task<ActionResult<WarehouseCatalog>> NewAsync([FromBody]WarehouseCatalog l)
         {
-            return await DoNewAsync<AttributeLogic>(l);
+            return await DoNewAsync<WarehouseCatalog>(l);
         }
         //------------------------------------------------------------------------------------
         // PUT api/v1/attribut/A0000001
         [HttpPut("{id}")]
         [FwControllerMethod(Id: "ip9WYDScZ6sXG", ActionType: FwControllerActionTypes.Edit)]
-        public async Task<ActionResult<AttributeLogic>> EditAsync([FromRoute] string id, [FromBody]AttributeLogic l)
+        public async Task<ActionResult<WarehouseCatalog>> EditAsync([FromRoute] string id, [FromBody]WarehouseCatalog l)
         {
-            return await DoEditAsync<AttributeLogic>(l);
+            return await DoEditAsync<WarehouseCatalog>(l);
         }
         //------------------------------------------------------------------------------------
         // DELETE api/v1/attribute/A0000001
@@ -70,7 +70,7 @@ namespace WebApi.Modules.Settings.InventorySettings.Attribute
         [FwControllerMethod(Id:"1pSGoEbLpZ3", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync<AttributeLogic>(id);
+            return await DoDeleteAsync<WarehouseCatalog>(id);
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/attribute/validateinventorytype/browse

@@ -78,7 +78,7 @@ namespace WebApi.Modules.HomeControls.ItemAttributeValue
         [FwControllerMethod(Id: "f5937sVY7A4E", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> ValidateAttributeBrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync<AttributeLogic>(browseRequest);
+            return await DoBrowseAsync<WarehouseCatalog>(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/itemattributevalue/validateattributevalue/browse

@@ -237,7 +237,7 @@ class LateReturnsReport extends FwWebApiReport {
                 break;
             case 'InventoryTypeId':
                 request.uniqueids.Rental = true;
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatediscountreason`);
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventorytype`);
                 break;
             case 'ContactId':
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecontact`);

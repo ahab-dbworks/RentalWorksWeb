@@ -132,11 +132,8 @@ class ProjectManagerBillingReport extends FwWebApiReport {
             case 'CustomerId':
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecustomer`);
                 break;
-            case 'DealTypeId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedeal`);
-                break;
-            case 'DealStatusId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatediscountreason`);
+            case 'ProjectManagerId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateprojectmanager`);
                 break;
             case 'DealId':
                 if (customerId !== "") {

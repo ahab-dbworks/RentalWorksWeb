@@ -214,29 +214,29 @@ class OrderConflictReport extends FwWebApiReport {
 
         switch (datafield) {
             case 'WarehouseId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedeal`);
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatewarehouse`);
                 break;
             case 'DepartmentId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateofficelocation`);
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedepartment`);
                 break;
             case 'DealId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedepartment`);
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedeal`);
                 break;
             case 'OrderId':
                 if (dealId !== "") {
                     request.uniqueids.DealId = dealId;
                 }
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecustomer`);
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateorder`);
                 break;
             case 'InventoryTypeId':
                 request.uniqueids.Rental = true;
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecustomer`);
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventorytype`);
                 break;
             case 'CategoryId':
                 if (inventoryTypeId !== "") {
                     request.uniqueids.InventoryTypeId = inventoryTypeId;
                 }
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecustomer`);
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecategory`);
                 break;
             case 'SubCategoryId':
                 request.uniqueids.Rental = true;
@@ -246,7 +246,7 @@ class OrderConflictReport extends FwWebApiReport {
                 if (categoryId !== "") {
                     request.uniqueids.CategoryId = categoryId;
                 }
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecustomer`);
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatesubcategory`);
                 break;
             case 'InventoryId':
                 if (inventoryTypeId !== "") {
@@ -258,7 +258,7 @@ class OrderConflictReport extends FwWebApiReport {
                 if (subCategoryId !== "") {
                     request.uniqueids.SubCategoryId = subCategoryId;
                 };
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecustomer`);
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventory`);
                 break;
         };
     }

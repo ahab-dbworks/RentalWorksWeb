@@ -4,12 +4,12 @@ using WebApi.Logic;
 namespace WebApi.Modules.Settings.InventorySettings.Attribute
 {
     [FwLogic(Id:"jZX9RL41g3A")]
-    public class AttributeLogic : AppBusinessLogic
+    public class WarehouseCatalog : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         AttributeRecord attribute = new AttributeRecord();
         AttributeLoader attributeLoader = new AttributeLoader();
-        public AttributeLogic()
+        public WarehouseCatalog()
         {
             dataRecords.Add(attribute);
             dataLoader = attributeLoader;

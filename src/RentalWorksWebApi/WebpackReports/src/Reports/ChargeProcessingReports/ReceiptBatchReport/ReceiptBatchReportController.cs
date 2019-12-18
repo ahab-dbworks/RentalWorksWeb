@@ -13,6 +13,7 @@ using FwStandard.AppManager;
 using static FwCore.Controllers.FwDataController;
 
 using WebApi.Data;
+using WebApi.Modules.Utilities.ReceiptProcessBatch;
 
 namespace WebApi.Modules.Reports.ChargeProcessingReports.ReceiptBatchReport
 {
@@ -93,5 +94,12 @@ namespace WebApi.Modules.Reports.ChargeProcessingReports.ReceiptBatchReport
             }
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/receiptbatchreport/validatebatch/browse 
+        [HttpPost("validatebatch/browse")]
+        [FwControllerMethod(Id: "OxnNHyNB2sJv", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateBatchBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<ReceiptProcessBatchLogic>(browseRequest);
+        }
     }
 }
