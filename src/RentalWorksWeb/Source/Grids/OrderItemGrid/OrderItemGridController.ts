@@ -123,19 +123,25 @@
                 if ($tr.find('.itemclass').text() === 'GH') {
                     //$tr.css('font-weight', "bold");
                     $tr.css('background-color', "#00e600");
-                    $tr.find('not .groupheaderline').val("");
+                    //$tr.find('not .groupheaderline').val("");
+                    $tr.find('.field:not(.groupheaderline) ').text('');
+                    //$tr.find('.field:not(.groupheaderline)').attr({ 'data-formreadonly': 'true', 'data-originalvalue': '' }).text('')
                 }
 
                 // Text Row
                 if ($tr.find('.itemclass').text() === 'T') {
                     //$tr.css('font-weight', "bold");
                     //$tr.css('background-color', "#00e600");
+                    $tr.find('.field:not(.textline) ').text('');
+                    //$tr.find('.field:not(.textline)').attr({ 'data-formreadonly': 'true', 'data-originalvalue': '' }).text('')
                 }
 
                 // Sub-Total Row
                 if ($tr.find('.itemclass').text() === 'ST') {
                     //$tr.css('font-weight', "bold");
-                    $tr.css('background-color', "#009900");
+                    $tr.css('background-color', "#00cc00");
+                    $tr.find('.field:not(.subtotalline) ').text('');
+                    //$tr.find('.field:not(.subtotalline)').attr({ 'data-formreadonly': 'true', 'data-originalvalue': '' }).text('')
                 }
 
 
