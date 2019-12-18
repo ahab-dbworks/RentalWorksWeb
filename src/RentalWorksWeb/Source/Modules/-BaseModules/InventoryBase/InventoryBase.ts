@@ -195,6 +195,7 @@ abstract class InventoryBase {
     addCalendarEvents($form, $control, inventoryId) {
         let startOfMonth = moment().startOf('month').format('MM/DD/YYYY');
         let endOfMonth = moment().endOf('month').format('MM/DD/YYYY');
+                let responseDates;
         $control
             .data('ongetevents', calendarRequest => {
                 startOfMonth = moment(calendarRequest.start.value).format('MM/DD/YYYY');
@@ -212,14 +213,14 @@ abstract class InventoryBase {
                 if (inventoryId === null || inventoryId === '') {
                     inventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
                 }
-
                 FwAppData.apiMethod(true, 'GET', `api/v1/inventoryavailability/calendarandscheduledata?&InventoryId=${inventoryId}&WarehouseId=${warehouseId}&FromDate=${startOfMonth}&ToDate=${endOfMonth}`, null, FwServices.defaultTimeout, response => {
                     FwScheduler.loadYearEventsCallback($control, [{ id: '1', name: '' }], this.yearlyEvents);
                     const calendarevents = response.InventoryAvailabilityCalendarEvents;
+                    // loading reservation data onto control for use in renderDatePopup()
+                    $control.data('reserveDates', response.Dates)
                     for (let i = 0; i < calendarevents.length; i++) {
                         if (calendarevents[i].textColor !== 'rgb(0,0,0)') {
                             calendarevents[i].html = `<div style="color:${calendarevents[i].textColor};">${calendarevents[i].text}</div>`
-                            calendarevents[i].data = { 'meta-data': response.Dates[i] }
                         }
                     }
 
@@ -252,7 +253,7 @@ abstract class InventoryBase {
                     //DriverController.openTicket($form);
                     $form.find('div[data-type="Browse"][data-name="Schedule"] .browseDate .fwformfield-value').val(date).change();
                     $form.find('div.tab.schedule').click();
-                    this.renderDatePopup(event, date);
+                    this.renderDatePopup($control, event, date);
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }
@@ -539,38 +540,79 @@ abstract class InventoryBase {
         });
     }
     //----------------------------------------------------------------------------------------------
-    renderDatePopup(event: any, date: string): void {
+    renderDatePopup($control: any, event: any, date: string): void {
         const $form = jQuery(event.currentTarget).closest('.fwform');
-        if (date) {
+        const reserveDates = $control.data('reserveDates');
+        if (date && reserveDates) {
             const html: Array<string> = [];
             html.push(
                 `<div class="fwcontrol fwcontainer fwform popup" data-control="FwContainer" data-type="form" data-caption="Activity Dates" style="height:900px;">
-              <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
-                <div class="tabpages">
-                  <div class="formpage">
-                      <div class="formrow">
-                        <div class="formcolumn" style="width:100%;margin-top:50px;">
-                          <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                            <div class="fwform-section-title" style="margin-bottom:20px;">Dates</div>
-                            <div data-control="FwGrid" class="container"></div>
+                  <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
+                    <div class="tabpages">
+                      <div class="formpage">
+                        <div class="formrow">
+                          <div class="formcolumn" style="width:100%;margin-top:50px;">
+                            <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                              <div class="fwform-section-title" style="margin-bottom:20px;">Dates</div>
+                              <div id="availabilityTable" class="flexrow" style="max-width:none;margin:15px;">
+                                <table>
+                                  <thead>
+                                    <tr>
+                                      <th>Order Type</th>
+                                      <th>Order No.</th>
+                                      <th>Description</th>
+                                      <th>Deal</th>
+                                      <th>Order Description</th>
+                                      <th class="number">Reserved</th>
+                                      <th class="number">Sub</th>
+                                      <th>From</th>
+                                      <th>To</th>
+                                    <tr>
+                                  </thead>
+                                  <tbody>
+                                  </tbody>
+                                </table>
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-            </div>`
-            );
+                </div>`);
 
-            const events = () => { }
             const $popup = FwPopup.renderPopup(jQuery(html.join('')), { ismodal: true }, 'Activity Dates');
             FwPopup.showPopup($popup);
-            //$popup.find('.container').append($orderBrowse);
-            //FwBrowse.search($orderBrowse);
-            events();
+            
+            const $rows: any = [];
+            for (let i = 0; i < reserveDates.length; i++) {
+                const data = reserveDates[i].Reservations;
+                const row = `
+                    <tr class="data-row">
+                        <td>${data.OrderType}</td>
+                        <td class="order-number" data-id="${data.OrderId}" data-ordertype="${data.OrderType}"><span>${data.OrderNumber}</span><i class="material-icons btnpeek">more_horiz</i></td>
+                        <td>${data.OrderDescription}</td>
+                        <td data-id="${data.DealId}"><span>${data.Deal}</span><i class="material-icons btnpeek">more_horiz</i></td>
+                        <td class="nowrap inventory-number" data-id="${data.InventoryId}"><span>${data.ICode}</span><i class="material-icons btnpeek">more_horiz</i></td>
+                        <td class="number">${data.QuantityReserved}</td>
+                        <td class="number">${data.QuantitySub}</td>
+                        <td>${data.FromDateTimeString}</td>
+                        <td>${data.ToDateTimeString}</td>
+                    </tr>
+                    <tr class="avail-calendar" style="display:none;"><tr>
+                    `;
+                $rows.push(row);
+            }
+
+            $form.find('tbody').empty().append($rows);
+
+            this.datePopupEvents($form);
         }
     }
+    //----------------------------------------------------------------------------------------------
+    datePopupEvents($form) {
 
+    }
 
     //----------------------------------------------------------------------------------------------
     //jh 08/19/2019 obsolete
