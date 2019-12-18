@@ -1883,9 +1883,10 @@ namespace FwStandard.SqlServer
                 foreach (PropertyInfo property in properties)
                 {
                     object propertyValue = property.GetValue(result);
-                    if (propertyValue == null)
-                    {
-                        if (property.IsDefined(typeof(FwSqlDataFieldAttribute)))
+                    //if (propertyValue == null)
+                    //{
+                    //justin hoffman 12/17/219 RentalWorksWeb#1482.  Even if propertyValue != null, we still want to apply formatting
+                    if (property.IsDefined(typeof(FwSqlDataFieldAttribute)))
                         {
                             foreach (Attribute attribute in property.GetCustomAttributes())
                             {
@@ -1926,16 +1927,12 @@ namespace FwStandard.SqlServer
                                             {
                                                 property.SetValue(result, dictionary[dataFieldAttribute.ColumnName]);
                                             }
-
-
-
                                         }
                                         break;
                                     }
                                 }
                             }
                         }
-                    }
                 }
             }
             return result;
