@@ -551,9 +551,8 @@ abstract class InventoryBase {
                     <div class="tabpages">
                       <div class="formpage">
                         <div class="formrow">
-                          <div class="formcolumn" style="width:100%;margin-top:50px;">
+                          <div class="formcolumn" style="width:100%;margin-top:5px;">
                             <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                              <div class="fwform-section-title" style="margin-bottom:20px;">Dates</div>
                               <div id="availabilityTable" class="flexrow" style="max-width:none;margin:15px;">
                                 <table>
                                   <thead>
@@ -562,7 +561,6 @@ abstract class InventoryBase {
                                       <th>Order No.</th>
                                       <th>Description</th>
                                       <th>Deal</th>
-                                      <th>Order Description</th>
                                       <th class="number">Reserved</th>
                                       <th class="number">Sub</th>
                                       <th>From</th>
@@ -583,35 +581,79 @@ abstract class InventoryBase {
 
             const $popup = FwPopup.renderPopup(jQuery(html.join('')), { ismodal: true }, 'Activity Dates');
             FwPopup.showPopup($popup);
-            
+            const thedata = reserveDates[0].Reservations
             const $rows: any = [];
-            for (let i = 0; i < reserveDates.length; i++) {
-                const data = reserveDates[i].Reservations;
+            for (let i = 0; i < thedata.length; i++) {
+                const data = thedata[i]
                 const row = `
                     <tr class="data-row">
-                        <td>${data.OrderType}</td>
+                        <td>${data.OrderTypeDescription}</td>
                         <td class="order-number" data-id="${data.OrderId}" data-ordertype="${data.OrderType}"><span>${data.OrderNumber}</span><i class="material-icons btnpeek">more_horiz</i></td>
                         <td>${data.OrderDescription}</td>
                         <td data-id="${data.DealId}"><span>${data.Deal}</span><i class="material-icons btnpeek">more_horiz</i></td>
-                        <td class="nowrap inventory-number" data-id="${data.InventoryId}"><span>${data.ICode}</span><i class="material-icons btnpeek">more_horiz</i></td>
-                        <td class="number">${data.QuantityReserved}</td>
+                        <td class="number">${data.QuantityReserved.Total}</td>
                         <td class="number">${data.QuantitySub}</td>
-                        <td>${data.FromDateTimeString}</td>
-                        <td>${data.ToDateTimeString}</td>
+                        <td>${data.FromDateTime}</td>
+                        <td>${data.ToDateTime}</td>
                     </tr>
                     <tr class="avail-calendar" style="display:none;"><tr>
                     `;
                 $rows.push(row);
             }
 
-            $form.find('tbody').empty().append($rows);
+            $popup.find('tbody').empty().append($rows);
 
-            this.datePopupEvents($form);
+            this.datePopupEvents($popup);
         }
     }
     //----------------------------------------------------------------------------------------------
-    datePopupEvents($form) {
+    datePopupEvents($control) {
+        //add validation peeks
+        $control.find('#availabilityTable table tr td i.btnpeek')
+            .off('click')
+            .on('click', e => {
+                try {
+                    //$control.find('.btnpeek').hide();
+                    //$validationbrowse.data('$control').find('.validation-loader').show();
+                    //setTimeout(function () {
+                    const $control = jQuery(e.currentTarget).closest('td');
+                    const validationId = $control.attr('data-id');
+                    let datafield;
+                    let validationPeekFormName;
+                    if ($control.hasClass('order-number')) {
+                        const orderType = $control.attr('data-ordertype');
+                        switch (orderType) {
+                            case 'O':
+                                datafield = 'OrderId';
+                                validationPeekFormName = 'Order';
+                                break;
+                            case 'Q':
+                                datafield = 'QuoteId';
+                                validationPeekFormName = 'Quote';
+                                break;
+                            case 'R':
+                                datafield = 'RepairId';
+                                validationPeekFormName = 'Repair';
+                                break;
+                            //
+                        }
+                    } else if ($control.hasClass('inventory-number')) {
+                        datafield = 'InventoryId';
+                        validationPeekFormName = 'RentalInventory';
+                    } else {
+                        datafield = 'DealId';
+                        validationPeekFormName = 'Deal';
+                    }
+                    const title = $control.find('span').text();
 
+                    FwValidation.validationPeek($control, validationPeekFormName, validationId, datafield, null, title);
+                    //$validationbrowse.data('$control').find('.validation-loader').hide();
+                    //$control.find('.btnpeek').show()
+                    //})
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            });
     }
 
     //----------------------------------------------------------------------------------------------
