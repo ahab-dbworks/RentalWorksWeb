@@ -356,6 +356,57 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                 return sb.ToString();
             }
         }
+        public void CloneFrom(TInventoryWarehouseAvailabilityReservation source)
+        {
+            this.WarehouseId = source.WarehouseId;
+            this.WarehouseCode = source.WarehouseCode;
+            this.Warehouse = source.Warehouse;
+            this.ReturnToWarehouseId = source.ReturnToWarehouseId;
+            this.ReturnToWarehouseCode = source.ReturnToWarehouseCode;
+            this.ReturnToWarehouse = source.ReturnToWarehouse;
+            this.OrderId = source.OrderId;
+            this.OrderItemId = source.OrderItemId;
+            this.OrderType = source.OrderType;
+            this.OrderNumber = source.OrderNumber;
+            this.OrderDescription = source.OrderDescription;
+            this.OrderStatus = source.OrderStatus;
+            this.DepartmentId = source.DepartmentId;
+            this.Department = source.Department;
+            this.DealId = source.DealId;
+            this.Deal = source.Deal;
+            this.FromDateTime = source.FromDateTime;
+            this.ToDateTime = source.ToDateTime;
+            this.LateButReturning = source.LateButReturning;
+            this.QcRequired = source.QcRequired;
+            this.EnableQcDelay = source.EnableQcDelay;
+            this.QcDelayDays = source.QcDelayDays;
+            this.QcDelayExcludeWeekend = source.QcDelayExcludeWeekend;
+            this.QcDelayExcludeHoliday = source.QcDelayExcludeHoliday;
+            this.QcDelayIndefinite = source.QcDelayIndefinite;
+            this.QcDelayFromDateTime = source.QcDelayFromDateTime;
+            this.QcDelayToDateTime = source.QcDelayToDateTime;
+            this.QcQuantity = source.QcQuantity;
+            this.ContainerBarCode = source.ContainerBarCode;
+            this.AvailableWhileInContainer = source.AvailableWhileInContainer;
+            this.ContractId = source.ContractId;
+            this.QuantityOrdered = source.QuantityOrdered;
+            this.QuantitySub = source.QuantitySub;
+            this.QuantityConsigned = source.QuantityConsigned;
+            this.QuantityReserved.CloneFrom(source.QuantityReserved);
+            this.QuantityStaged.CloneFrom(source.QuantityStaged);
+            this.QuantityOut.CloneFrom(source.QuantityOut);
+            this.QuantityIn.CloneFrom(source.QuantityIn);
+            this.QuantityInRepair.CloneFrom(source.QuantityInRepair);
+            this.QuantityLate.CloneFrom(source.QuantityLate);
+            this.QuantityReserved.CloneFrom(source.QuantityReserved);
+            this.IsPositiveConflict = source.IsPositiveConflict;
+            this.IsNegativeConflict = source.IsNegativeConflict;
+            this.SubPurchaseOrderId = source.SubPurchaseOrderId;
+            this.SubPurchaseOrderNumber = source.SubPurchaseOrderNumber;
+            this.SubPurchaseOrderDescription = source.SubPurchaseOrderDescription;
+            this.SubPurchaseOrderVendor = source.SubPurchaseOrderVendor;
+        }
+
     }
     //-------------------------------------------------------------------------------------------------------
     public class TInventoryWarehouseAvailabilityDateTime
@@ -694,7 +745,13 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
         public TInventoryAvailabilityCalendarDate(DateTime theDate, List<TInventoryWarehouseAvailabilityReservation> reservations)
         {
             this.TheDate = theDate;
-            this.Reservations.AddRange(Reservations);
+            //this.Reservations.AddRange(Reservations);
+            foreach (TInventoryWarehouseAvailabilityReservation reservation in reservations)
+            {
+                TInventoryWarehouseAvailabilityReservation newReservation = new TInventoryWarehouseAvailabilityReservation();
+                newReservation.CloneFrom(reservation);
+                this.Reservations.Add(newReservation);
+            }
         }
     }
     //------------------------------------------------------------------------------------ 
