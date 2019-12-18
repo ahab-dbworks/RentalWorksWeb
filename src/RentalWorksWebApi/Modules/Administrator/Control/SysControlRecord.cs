@@ -516,10 +516,10 @@ namespace WebApi.Modules.Administrator.Control
         public bool? Includenonbillable { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "userassignedvendorno", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool? Userassignedvendorno { get; set; }
+        public bool? IsVendorNumberAssignedByUser { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "vendorno", modeltype: FwDataTypes.Integer, sqltype: "int")]
-        public int? Vendorno { get; set; }
+        public int? LastVendorNumber { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "capslock", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool? CapsLock { get; set; }

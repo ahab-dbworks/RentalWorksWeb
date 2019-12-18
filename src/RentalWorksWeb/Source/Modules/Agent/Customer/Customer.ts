@@ -50,6 +50,16 @@ class Customer {
             FwFormField.setValue($form, 'div[data-datafield="CustomerStatusId"]', customerStatus.defaultcustomerstatusid, customerStatus.defaultcustomerstatus);
         }
 
+        let userassignedcustomerno = JSON.parse(sessionStorage.getItem('controldefaults')).userassignedcustomernumber;
+        if (userassignedcustomerno) {
+            FwFormField.enable($form.find('[data-datafield="CustomerNumber"]'));
+            $form.find('[data-datafield="CustomerNumber"]').attr(`data-required`, `true`);
+        }
+        else {
+            FwFormField.disable($form.find('[data-datafield="CustomerNumber"]'));
+            $form.find('[data-datafield="CustomerNumber"]').attr(`data-required`, `false`);
+        }
+
         //Toggle Buttons on Billing tab
         FwFormField.loadItems($form.find('div[data-datafield="BillingAddressType"]'), [
             { value: 'CUSTOMER', caption: 'Customer', checked: true },
@@ -463,10 +473,10 @@ class Customer {
             <div class="field" data-isuniqueid="true" data-datafield="CustomerId" data-browsedatatype="key" ></div>
           </div>
           <div class="column" data-width="300px" data-visible="true">
-            <div class="field" data-caption="Customer" data-datafield="Customer" data-browsedatatype="text" data-sort="asc"></div>
+            <div class="field" data-caption="Customer Name" data-datafield="Customer" data-browsedatatype="text" data-sort="asc"></div>
           </div>
           <div class="column" data-width="200px" data-visible="true">
-            <div class="field" data-caption="No." data-datafield="CustomerNumber" data-browsedatatype="text" data-sort="off"></div>
+            <div class="field" data-caption="Customer Number" data-datafield="CustomerNumber" data-browsedatatype="text" data-sort="off"></div>
           </div>
           <div class="column" data-width="200px" data-visible="true">
             <div class="field" data-caption="Type" data-datafield="CustomerType" data-browsedatatype="text" data-sort="off"></div>
@@ -510,10 +520,10 @@ class Customer {
                     <div class="flexcolumn" style="flex:1 1 300px;">
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Customer">
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Name" data-datafield="Customer" data-required="true" style="flex:1 1 450px;"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Customer Name" data-datafield="Customer" data-required="true" style="flex:1 1 450px;"></div>
                         </div>
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="No." data-datafield="CustomerNumber" data-required="true" style="flex:1 1 125px;"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Customer Number" data-datafield="CustomerNumber" data-required="true" style="flex:1 1 125px;"></div>
                         </div>
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Office Location" data-datafield="OfficeLocationId" data-displayfield="OfficeLocation" data-validationname="OfficeLocationValidation" style="flex:1 1 225px;" data-required="true"></div>
