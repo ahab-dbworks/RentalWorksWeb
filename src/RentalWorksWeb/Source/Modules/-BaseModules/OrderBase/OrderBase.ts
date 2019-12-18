@@ -2711,6 +2711,17 @@ class OrderBase {
                     FwFormField.setValue($form, 'div[data-datafield="PresentationLayerId"]', presentationLayerId, presentationLayer);
                 }
             }, null, null);
+
+        if ($form.attr('data-mode') === 'NEW') {
+            FwAppData.apiMethod(true, 'GET', `api/v1/ordertype/${orderTypeId}`, null, FwServices.defaultTimeout, response => {
+                this.DefaultFromTime = response.DefaultFromTime;
+                this.DefaultToTime = response.DefaultToTime;
+                this.DefaultPickTime = response.DefaultPickTime;
+                FwFormField.setValueByDataField($form, 'PickTime', this.DefaultPickTime);
+                FwFormField.setValueByDataField($form, 'EstimatedStartTime', this.DefaultFromTime);
+                FwFormField.setValueByDataField($form, 'EstimatedStopTime', this.DefaultToTime);
+            }, ex => FwFunc.showError(ex), $form);
+        }
     }
     //----------------------------------------------------------------------------------------------
     cancelUncancelOrder($form: any) {
