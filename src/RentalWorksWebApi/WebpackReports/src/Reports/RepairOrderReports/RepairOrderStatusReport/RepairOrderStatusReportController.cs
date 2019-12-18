@@ -155,7 +155,7 @@ namespace WebApi.Modules.Reports.RepairOrderReports.RepairOrderStatusReport
         //------------------------------------------------------------------------------------ 
         // POST api/v1/repairorderstatusreport/validatedepartment/browse 
         [HttpPost("validatedepartment/browse")]
-        [FwControllerMethod(Id: "vTP6HYfzMHmI", ActionType: FwControllerActionTypes.Browse)]
+        [FwControllerMethod(Id: "SJdHq7V9S82h", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> ValidateDepartmentBrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync<DepartmentLogic>(browseRequest);
@@ -163,7 +163,7 @@ namespace WebApi.Modules.Reports.RepairOrderReports.RepairOrderStatusReport
         //------------------------------------------------------------------------------------ 
         // POST api/v1/repairorderstatusreport/validaterepairitemstatus/browse 
         [HttpPost("validaterepairitemstatus/browse")]
-        [FwControllerMethod(Id: "M6EsP9YlUOHD", ActionType: FwControllerActionTypes.Browse)]
+        [FwControllerMethod(Id: "o2ah3Oka7vkT", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> ValidateRepairItemStatusBrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync<RepairItemStatusLogic>(browseRequest);
@@ -171,7 +171,7 @@ namespace WebApi.Modules.Reports.RepairOrderReports.RepairOrderStatusReport
         //------------------------------------------------------------------------------------ 
         // POST api/v1/repairorderstatusreport/validatevendor/browse 
         [HttpPost("validatevendor/browse")]
-        [FwControllerMethod(Id: "DwH1gJXpuKVO", ActionType: FwControllerActionTypes.Browse)]
+        [FwControllerMethod(Id: "YJJtCc6Vs7xm", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> ValidateVendorBrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync<VendorLogic>(browseRequest);
@@ -179,7 +179,7 @@ namespace WebApi.Modules.Reports.RepairOrderReports.RepairOrderStatusReport
         //------------------------------------------------------------------------------------ 
         // POST api/v1/repairorderstatusreport/validatevendorrepairitemstatus/browse 
         [HttpPost("validatevendorrepairitemstatus/browse")]
-        [FwControllerMethod(Id: "aLr4wenvpKfa", ActionType: FwControllerActionTypes.Browse)]
+        [FwControllerMethod(Id: "MwF9Xdu0XXsa", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> ValidateVendorRepairItemStatusBrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync<RepairItemStatusLogic>(browseRequest);

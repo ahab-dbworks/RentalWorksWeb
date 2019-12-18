@@ -132,7 +132,7 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.RentalInventoryMasterRep
         //------------------------------------------------------------------------------------ 
         // POST api/v1/rentalinventorymasterreport/validateinventory/browse 
         [HttpPost("validateinventory/browse")]
-        [FwControllerMethod(Id: "065XTsKh44ON", ActionType: FwControllerActionTypes.Browse)]
+        [FwControllerMethod(Id: "YP5F3HQl7F6R", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> ValidateInventoryBrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync<RentalInventoryLogic>(browseRequest);

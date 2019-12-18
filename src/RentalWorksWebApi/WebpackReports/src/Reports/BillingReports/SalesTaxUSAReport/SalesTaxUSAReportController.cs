@@ -84,7 +84,7 @@ namespace WebApi.Modules.Reports.Billing.SalesTaxUSAReport
         //------------------------------------------------------------------------------------ 
         // POST api/v1/salestaxusareport/validateofficelocation/browse 
         [HttpPost("validateofficelocation/browse")]
-        [FwControllerMethod(Id: "eWtb6D1c48H4", ActionType: FwControllerActionTypes.Browse)]
+        [FwControllerMethod(Id: "rpOfVP4V7Kdd", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> ValidateOfficeLocationBrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync<OfficeLocationLogic>(browseRequest);
@@ -92,7 +92,7 @@ namespace WebApi.Modules.Reports.Billing.SalesTaxUSAReport
         //------------------------------------------------------------------------------------ 
         // POST api/v1/salestaxusareport/validatedepartment/browse 
         [HttpPost("validatedepartment/browse")]
-        [FwControllerMethod(Id: "9t7nMMn6kUpt", ActionType: FwControllerActionTypes.Browse)]
+        [FwControllerMethod(Id: "Kby9zTfC1lm3", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> ValidateDepartmentBrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync<DepartmentLogic>(browseRequest);
