@@ -1522,13 +1522,6 @@ class SearchInterface {
     refreshAccessoryQuantity($popup, id, warehouseId, inventoryId, e) {
         let accessoryContainer;
         let $el = jQuery(e.currentTarget);
-        const isAccessory = $el.attr('data-isaccessory') === 'true';
-        if (isAccessory) {
-            const parentId = $el.parents('.item-accessory-info').attr('data-inventoryid');
-            accessoryContainer = $el.parents('.item-accessory-info').siblings(`.nested-accessories[data-parentid="${parentId}"]`);
-        } else {
-            accessoryContainer = $el.parents('.item-container').find('.item-accessories');
-        }
       
         let request: any = {
             SessionId:        id,
@@ -1539,6 +1532,15 @@ class SearchInterface {
             ShowImages:       true,
             FromDate:         FwFormField.getValueByDataField($popup, 'PickDate') || FwFormField.getValueByDataField($popup, 'FromDate') || undefined,
             ToDate:           FwFormField.getValueByDataField($popup, 'ToDate') || undefined
+        }
+
+        const isAccessory = $el.attr('data-isaccessory') === 'true';
+        if (isAccessory) {
+            request.GrandParentId = $el.parents('.item-accessories').siblings('.item-info').attr('data-inventoryid');
+            const parentId = $el.parents('.item-accessory-info').attr('data-inventoryid');
+            accessoryContainer = $el.parents('.item-accessory-info').siblings(`.nested-accessories[data-parentid="${parentId}"]`);
+        } else {
+            accessoryContainer = $el.parents('.item-container').find('.item-accessories');
         }
 
         let type = $popup.find('#itemsearch').attr('data-moduletype');
