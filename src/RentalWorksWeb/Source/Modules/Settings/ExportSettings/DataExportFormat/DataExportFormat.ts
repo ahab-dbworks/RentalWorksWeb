@@ -113,7 +113,7 @@ class DataExportFormat {
         //Select export type event
         $form.find('div.export-types').on('change', e => {
             let $this = $form.find('[data-datafield="ExportType"] option:selected');
-            const exportType = $this.val()
+            const exportType = $this.val();
             this.addValidFields($form, exportType);
         });
 
@@ -129,57 +129,59 @@ class DataExportFormat {
         //Get valid field names and sort them
         const modulefields = $form.find('.modulefields');
         modulefields.empty();
-        FwAppData.apiMethod(true, 'GET', `api/v1/${exportType}/emptyobject`, null, FwServices.defaultTimeout,
-            response => {
-                let customFields = response._Custom.map(obj => ({ fieldname: obj.FieldName, fieldtype: obj.FieldType }));
-                let allValidFields: any = [];
-                for (const key of Object.keys(response)) {
-                    if (key != 'DateStamp' && key != 'RecordTitle' && key != '_Custom' && key != '_Fields') {
-                        if (Array.isArray(response[key])) {
-                            const unorderedItems = response[key][0];
-                            const orderedItems = {};
-                            Object.keys(unorderedItems).sort().forEach(key => {
-                                orderedItems[key] = unorderedItems[key];
-                            });
-                            allValidFields.push({
-                                'Field': key,
-                                'IsCustom': 'false',
-                                'NestedItems': orderedItems
-                            });
-                        } else {
-                            allValidFields.push({
-                                'Field': key
-                                , 'IsCustom': 'false'
-                            });
+        if (exportType != "" && exportType != undefined) {
+            FwAppData.apiMethod(true, 'GET', `api/v1/${exportType}/emptyobject`, null, FwServices.defaultTimeout,
+                response => {
+                    let customFields = response._Custom.map(obj => ({ fieldname: obj.FieldName, fieldtype: obj.FieldType }));
+                    let allValidFields: any = [];
+                    for (const key of Object.keys(response)) {
+                        if (key != 'DateStamp' && key != 'RecordTitle' && key != '_Custom' && key != '_Fields') {
+                            if (Array.isArray(response[key])) {
+                                const unorderedItems = response[key][0];
+                                const orderedItems = {};
+                                Object.keys(unorderedItems).sort().forEach(key => {
+                                    orderedItems[key] = unorderedItems[key];
+                                });
+                                allValidFields.push({
+                                    'Field': key,
+                                    'IsCustom': 'false',
+                                    'NestedItems': orderedItems
+                                });
+                            } else {
+                                allValidFields.push({
+                                    'Field': key
+                                    , 'IsCustom': 'false'
+                                });
+                            }
                         }
                     }
-                }
 
-                for (let i = 0; i < customFields.length; i++) {
-                    allValidFields.push({
-                        'Field': customFields[i].fieldname
-                        , 'IsCustom': 'true'
-                        , 'FieldType': customFields[i].fieldtype.toLowerCase()
-                    });
-                }
+                    for (let i = 0; i < customFields.length; i++) {
+                        allValidFields.push({
+                            'Field': customFields[i].fieldname
+                            , 'IsCustom': 'true'
+                            , 'FieldType': customFields[i].fieldtype.toLowerCase()
+                        });
+                    }
 
-                $form.data('validdatafields', allValidFields.sort((a, b) => a.Field < b.Field ? -1 : 1));
-                for (let i = 0; i < allValidFields.length; i++) {
-                    modulefields.append(`<div data-iscustomfield=${allValidFields[i].IsCustom}>${allValidFields[i].Field}</div>`);
-                    if (allValidFields[i].hasOwnProperty("NestedItems")) {
-                        for (const key of Object.keys(allValidFields[i].NestedItems)) {
-                            if (key != '_Custom') {
-                                modulefields.append(`<div data-iscustomfield="false" data-isnested="true" data-parentfield="${allValidFields[i].Field}" style="text-indent:1em;">${key}</div>`);
-                                if (Array.isArray(allValidFields[i].NestedItems[key])) {
-                                    for (const j of Object.keys(allValidFields[i].NestedItems[key][0])) {
-                                        modulefields.append(`<div data-iscustomfield="false" data-isnested="true" data-parentfield="${key}" style="text-indent:3em;">${j}</div>`);
+                    $form.data('validdatafields', allValidFields.sort((a, b) => a.Field < b.Field ? -1 : 1));
+                    for (let i = 0; i < allValidFields.length; i++) {
+                        modulefields.append(`<div data-iscustomfield=${allValidFields[i].IsCustom}>${allValidFields[i].Field}</div>`);
+                        if (allValidFields[i].hasOwnProperty("NestedItems")) {
+                            for (const key of Object.keys(allValidFields[i].NestedItems)) {
+                                if (key != '_Custom') {
+                                    modulefields.append(`<div data-iscustomfield="false" data-isnested="true" data-parentfield="${allValidFields[i].Field}" style="text-indent:1em;">${key}</div>`);
+                                    if (Array.isArray(allValidFields[i].NestedItems[key])) {
+                                        for (const j of Object.keys(allValidFields[i].NestedItems[key][0])) {
+                                            modulefields.append(`<div data-iscustomfield="false" data-isnested="true" data-parentfield="${key}" style="text-indent:3em;">${j}</div>`);
+                                        }
                                     }
                                 }
                             }
                         }
                     }
-                }
-            }, ex => FwFunc.showError(ex), $form);
+                }, ex => FwFunc.showError(ex), $form);
+        }
     }
     //----------------------------------------------------------------------------------------------
     loadExportTypes($form) {
