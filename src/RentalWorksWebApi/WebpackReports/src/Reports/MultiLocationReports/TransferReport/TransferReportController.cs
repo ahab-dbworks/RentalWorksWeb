@@ -19,6 +19,7 @@ using WebApi.Modules.Settings.SubCategory;
 using WebApi.Modules.Inventory.RentalInventory;
 using WebApi.Modules.Settings.WarehouseSettings.Warehouse;
 using WebApi.Modules.Settings.CompanyDepartmentSettings.Department;
+using WebApi.Modules.Settings.InventorySettings.RentalCategory;
 
 namespace WebApi.Modules.Reports.MultiLocationReports.TransferReport
 {
@@ -118,7 +119,7 @@ namespace WebApi.Modules.Reports.MultiLocationReports.TransferReport
         [FwControllerMethod(Id: "LWCXh07Q2HJV", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> ValidateCategoryBrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync<CategoryLogic>(browseRequest);
+            return await DoBrowseAsync<RentalCategoryLogic>(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/transferreport/validatesubcategory/browse 

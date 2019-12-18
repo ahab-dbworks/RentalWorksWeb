@@ -19,6 +19,7 @@ using WebApi.Modules.Settings.WarehouseSettings.Warehouse;
 using WebApi.Modules.Inventory.RentalInventory;
 using WebApi.Modules.Settings.CompanyDepartmentSettings.Department;
 using WebApi.Modules.Agent.Deal;
+using WebApi.Modules.Settings.InventorySettings.RentalCategory;
 
 namespace WebApi.Modules.Reports.RentalInventoryReports.RentalInventoryUnusedItemsReport
 {
@@ -116,7 +117,7 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.RentalInventoryUnusedIte
         [FwControllerMethod(Id: "nHdJG4ASvNk4", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> ValidateCategoryBrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync<CategoryLogic>(browseRequest);
+            return await DoBrowseAsync<RentalCategoryLogic>(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/rentalinventoryunuseditemsreport/validatesubcategory/browse 

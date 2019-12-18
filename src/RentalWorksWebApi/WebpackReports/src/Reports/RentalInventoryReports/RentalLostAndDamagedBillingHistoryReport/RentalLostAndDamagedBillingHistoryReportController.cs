@@ -20,6 +20,7 @@ using WebApi.Modules.Settings.InventorySettings.RetiredReason;
 using WebApi.Modules.Agent.Customer;
 using WebApi.Modules.Settings.InventorySettings.UnretiredReason;
 using WebApi.Modules.Agent.Deal;
+using WebApi.Modules.Settings.InventorySettings.RentalCategory;
 
 namespace WebApi.Modules.Reports.RentalInventoryReports.RentalLostAndDamagedBillingHistoryReport
 {
@@ -118,7 +119,7 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.RentalLostAndDamagedBill
         [FwControllerMethod(Id: "HO28TCGPBJnY", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> ValidateCategoryBrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync<CategoryLogic>(browseRequest);
+            return await DoBrowseAsync<RentalCategoryLogic>(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/rentallostanddamagedbillinghistoryreport/validatewarehouse/browse 

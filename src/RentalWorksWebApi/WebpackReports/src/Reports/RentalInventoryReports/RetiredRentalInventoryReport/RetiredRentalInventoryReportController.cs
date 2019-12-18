@@ -21,6 +21,7 @@ using WebApi.Modules.Settings.SubCategory;
 using WebApi.Modules.Settings.InventorySettings.RetiredReason;
 using WebApi.Modules.Agent.Deal;
 using WebApi.Modules.Agent.Customer;
+using WebApi.Modules.Settings.InventorySettings.RentalCategory;
 
 namespace WebApi.Modules.Reports.RentalInventoryReports.RetiredRentalInventoryReport
 {
@@ -118,7 +119,7 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.RetiredRentalInventoryRe
         [FwControllerMethod(Id: "roscS7obl0re", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> ValidateCategoryBrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync<CategoryLogic>(browseRequest);
+            return await DoBrowseAsync<RentalCategoryLogic>(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/repairorderstatusreport/validatewarehouse/browse 

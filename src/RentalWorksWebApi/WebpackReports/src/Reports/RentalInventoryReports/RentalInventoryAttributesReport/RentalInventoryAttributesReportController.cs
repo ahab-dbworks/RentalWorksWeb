@@ -12,6 +12,7 @@ using WebApi.Modules.Inventory.RentalInventory;
 using WebApi.Modules.Reports.Shared.InventoryAttributesReport;
 using WebApi.Modules.Settings.Category;
 using WebApi.Modules.Settings.InventorySettings.InventoryType;
+using WebApi.Modules.Settings.InventorySettings.RentalCategory;
 using WebApi.Modules.Settings.SubCategory;
 using static FwCore.Controllers.FwDataController;
 
@@ -97,7 +98,7 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.RentalInventoryAttribute
         [FwControllerMethod(Id: "fvLd2VDb6YGb", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> ValidateCategoryBrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync<CategoryLogic>(browseRequest);
+            return await DoBrowseAsync<RentalCategoryLogic>(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/rentalinventoryattributesreport/validatesubcategory/browse 

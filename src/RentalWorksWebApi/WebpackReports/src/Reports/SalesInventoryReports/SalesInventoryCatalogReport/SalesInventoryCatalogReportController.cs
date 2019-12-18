@@ -12,6 +12,7 @@ using WebApi.Modules.Inventory.SalesInventory;
 using WebApi.Modules.Reports.Shared.InventoryCatalogReport;
 using WebApi.Modules.Settings.Category;
 using WebApi.Modules.Settings.InventorySettings.InventoryType;
+using WebApi.Modules.Settings.InventorySettings.SalesCategory;
 using WebApi.Modules.Settings.InventorySettings.WarehouseCatalog;
 using WebApi.Modules.Settings.SubCategory;
 using WebApi.Modules.Settings.WarehouseSettings.Warehouse;
@@ -100,7 +101,7 @@ namespace WebApi.Modules.Reports.SalesInventoryReports.SalesInventoryCatalogRepo
         [FwControllerMethod(Id: "oge5MXDqYvPS", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> ValidateCategoryBrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync<CategoryLogic>(browseRequest);
+            return await DoBrowseAsync<SalesCategoryLogic>(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/salesinventorycatalogreport/validatewarehouse/browse 

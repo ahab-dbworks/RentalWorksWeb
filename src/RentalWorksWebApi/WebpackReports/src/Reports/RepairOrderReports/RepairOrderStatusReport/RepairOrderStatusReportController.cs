@@ -20,6 +20,7 @@ using WebApi.Modules.Settings.SubCategory;
 using WebApi.Modules.Settings.CompanyDepartmentSettings.Department;
 using WebApi.Modules.Settings.RepairSettings.RepairItemStatus;
 using WebApi.Modules.Agent.Vendor;
+using WebApi.Modules.Settings.InventorySettings.RentalCategory;
 
 namespace WebApi.Modules.Reports.RepairOrderReports.RepairOrderStatusReport
 {
@@ -126,7 +127,7 @@ namespace WebApi.Modules.Reports.RepairOrderReports.RepairOrderStatusReport
         [FwControllerMethod(Id: "HNgs9YlJHLtv", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> ValidateCategoryBrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync<CategoryLogic>(browseRequest);
+            return await DoBrowseAsync<RentalCategoryLogic>(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/repairorderstatusreport/validatewarehouse/browse 

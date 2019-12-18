@@ -19,6 +19,7 @@ using WebApi.Modules.Inventory.RentalInventory;
 using WebApi.Modules.Settings.SubCategory;
 using WebApi.Modules.Administrator.User;
 using WebApi.Modules.Agent.Deal;
+using WebApi.Modules.Settings.InventorySettings.RentalCategory;
 
 namespace WebApi.Modules.Reports.RentalInventoryReports.ReturnedToInventoryReport
 {
@@ -114,7 +115,7 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.ReturnedToInventoryRepor
         [FwControllerMethod(Id: "CzBdyB6NtP3s", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> ValidateCategoryBrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync<CategoryLogic>(browseRequest);
+            return await DoBrowseAsync<RentalCategoryLogic>(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/returnedtoinventoryreport/validatewarehouse/browse 

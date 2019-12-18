@@ -15,6 +15,7 @@ using WebApi.Modules.Settings.WarehouseSettings.Warehouse;
 using WebApi.Modules.Settings.InventorySettings.InventoryType;
 using WebApi.Modules.Settings.Category;
 using WebApi.Modules.Inventory.RentalInventory;
+using WebApi.Modules.Settings.InventorySettings.RentalCategory;
 
 namespace WebApi.Modules.Reports.RepairOrderReports.RentalEquipmentRepairHistoryReport
 {
@@ -126,7 +127,7 @@ namespace WebApi.Modules.Reports.RepairOrderReports.RentalEquipmentRepairHistory
         [FwControllerMethod(Id: "1J6yBWxPudw2", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> ValidateCategoryBrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync<CategoryLogic>(browseRequest);
+            return await DoBrowseAsync<RentalCategoryLogic>(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/rentalequipmentrepairhistoryreport/validateinventory/browse 

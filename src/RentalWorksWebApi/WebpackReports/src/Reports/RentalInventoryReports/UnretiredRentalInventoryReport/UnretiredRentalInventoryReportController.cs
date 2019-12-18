@@ -19,6 +19,7 @@ using WebApi.Modules.Settings.SubCategory;
 using WebApi.Modules.Inventory.RentalInventory;
 using WebApi.Modules.Settings.InventorySettings.UnretiredReason;
 using WebApi.Modules.Settings.WarehouseSettings.Warehouse;
+using WebApi.Modules.Settings.InventorySettings.RentalCategory;
 
 namespace WebApi.Modules.Reports.RentalInventoryReports.UnretiredRentalInventoryReport
 {
@@ -114,7 +115,7 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.UnretiredRentalInventory
         [FwControllerMethod(Id: "wBXqSXGpuLd4", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> ValidateCategoryBrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync<CategoryLogic>(browseRequest);
+            return await DoBrowseAsync<RentalCategoryLogic>(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/unretiredrentalinventoryreport/validatesubcategory/browse 
