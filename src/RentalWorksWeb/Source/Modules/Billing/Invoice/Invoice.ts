@@ -11,27 +11,27 @@ class Invoice {
         options.hasDelete = false;
         FwMenu.addBrowseMenuButtons(options);
 
-            FwMenu.addSubMenuItem(options.$groupOptions, `Void`, `xEo3YJ6FHSYE`, (e: JQuery.ClickEvent) => {
-                try {
-                    this.browseVoidInvoice(options.$browse);
-                } catch (ex) {
-                    FwFunc.showError(ex);
-                }
-            });
-            FwMenu.addSubMenuItem(options.$groupOptions, `Approve`, `1OiRex9QtrM`, (e: JQuery.ClickEvent) => {
-                try {
-                    this.browseApproveInvoice(options.$browse);
-                } catch (ex) {
-                    FwFunc.showError(ex);
-                }
-            });
-            FwMenu.addSubMenuItem(options.$groupOptions, `Unpprove`, `cbkHowiSy8and`, (e: JQuery.ClickEvent) => {
-                try {
-                    this.browseUnapproveInvoice(options.$browse);
-                } catch (ex) {
-                    FwFunc.showError(ex);
-                }
-            });
+        FwMenu.addSubMenuItem(options.$groupOptions, `Void`, `xEo3YJ6FHSYE`, (e: JQuery.ClickEvent) => {
+            try {
+                this.browseVoidInvoice(options.$browse);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+        FwMenu.addSubMenuItem(options.$groupOptions, `Approve`, `1OiRex9QtrM`, (e: JQuery.ClickEvent) => {
+            try {
+                this.browseApproveInvoice(options.$browse);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+        FwMenu.addSubMenuItem(options.$groupOptions, `Unpprove`, `cbkHowiSy8and`, (e: JQuery.ClickEvent) => {
+            try {
+                this.browseUnapproveInvoice(options.$browse);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
 
         const location = JSON.parse(sessionStorage.getItem('location'));
         const $new = FwMenu.generateDropDownViewBtn('New', false, "NEW");
@@ -194,6 +194,7 @@ class Invoice {
         }
 
         this.events($form);
+        this.renderPrintButton($form);
 
         return $form;
     }
@@ -208,6 +209,14 @@ class Invoice {
     //----------------------------------------------------------------------------------------------
     saveForm($form: JQuery, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
+    }
+    //----------------------------------------------------------------------------------------------
+    renderPrintButton($form: any) {
+        var $print = FwMenu.addStandardBtn($form.find('.fwmenu:first'), 'Print');
+        $print.prepend('<i class="material-icons">print</i>');
+        $print.on('click', () => {
+            this.formPrintInvoice($form);
+        });
     }
     //----------------------------------------------------------------------------------------------
     renderGrids($form: JQuery): void {
@@ -1077,29 +1086,6 @@ class Invoice {
         $form.find('.billing-date-validation').on('changeDate', event => {
             this.checkBillingDateRange($form, event);
         });
-        //Open Print Invoice Report
-        $form.find('.print-invoice').on('click', e => {
-            try {
-                const module = this.Module;
-                const recordTitle = jQuery('.tabs .active[data-tabtype="FORM"] .caption').text();
-                const $report = InvoiceReportController.openForm();
-
-                FwModule.openSubModuleTab($form, $report);
-
-                const invoiceId = $form.find(`div.fwformfield[data-datafield="${module}Id"] input`).val();
-                $report.find(`div.fwformfield[data-datafield="${module}Id"] input`).val(invoiceId);
-                const invoiceNumber = $form.find(`div.fwformfield[data-datafield="${module}Number"] input`).val();
-                $report.find(`div.fwformfield[data-datafield="${module}Id"] .fwformfield-text`).val(invoiceNumber);
-                jQuery('.tab.submodule.active').find('.caption').html(`Print ${module}`);
-
-                const printTab = jQuery('.tab.submodule.active');
-                printTab.find('.caption').html(`Print ${module}`);
-                printTab.attr('data-caption', `${module} ${recordTitle}`);
-            }
-            catch (ex) {
-                FwFunc.showError(ex);
-            }
-        });
 
         //Populate tax info fields with validation
         $form.find('div[data-datafield="TaxOptionId"]').data('onchange', $tr => {
@@ -1254,7 +1240,26 @@ class Invoice {
     }
     //----------------------------------------------------------------------------------------------
     formPrintInvoice($form: JQuery) {
-        $form.find('.print-invoice').trigger('click');
+        try {
+            const module = this.Module;
+            const recordTitle = jQuery('.tabs .active[data-tabtype="FORM"] .caption').text();
+            const $report = InvoiceReportController.openForm();
+
+            FwModule.openSubModuleTab($form, $report);
+
+            const invoiceId = $form.find(`div.fwformfield[data-datafield="${module}Id"] input`).val();
+            $report.find(`div.fwformfield[data-datafield="${module}Id"] input`).val(invoiceId);
+            const invoiceNumber = $form.find(`div.fwformfield[data-datafield="${module}Number"] input`).val();
+            $report.find(`div.fwformfield[data-datafield="${module}Id"] .fwformfield-text`).val(invoiceNumber);
+            jQuery('.tab.submodule.active').find('.caption').html(`Print ${module}`);
+
+            const printTab = jQuery('.tab.submodule.active');
+            printTab.find('.caption').html(`Print ${module}`);
+            printTab.attr('data-caption', `${module} ${recordTitle}`);
+        }
+        catch (ex) {
+            FwFunc.showError(ex);
+        }
     }
     //----------------------------------------------------------------------------------------------
     formCreditInvoice($form: JQuery) {

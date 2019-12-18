@@ -43,7 +43,7 @@ class PickList {
         $form.find('.emailhistory-page').append($emailHistorySubModuleBrowse);
 
         this.events($form);
-
+        this.renderPrintButton($form);
         return $form;
     }
     //----------------------------------------------------------------------------------------------
@@ -101,19 +101,19 @@ class PickList {
         });
     }
     //----------------------------------------------------------------------------------------------
+    renderPrintButton($form: any) {
+        var $print = FwMenu.addStandardBtn($form.find('.fwmenu:first'), 'Print');
+        $print.prepend('<i class="material-icons">print</i>');
+        $print.on('click', () => {
+            this.printPickListFromForm($form);
+        });
+    }
+    //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
     }
     //----------------------------------------------------------------------------------------------
-    events($form) {
-        $form.on('click', '.printpicklist', e => {
-            try {
-                this.printPickListFromForm($form);
-            } catch (ex) {
-                FwFunc.showError(ex);
-            }
-        });
-    }
+    events($form) {}
     //----------------------------------------------------------------------------------------------
     printPickListFromBrowse($browse: JQuery): void {
         try {
@@ -285,7 +285,6 @@ class PickList {
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="OrderDescription" data-enabled="false" style="flex:1 1 325px;"></div>
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Deal" data-datafield="Deal" data-enabled="false" style="flex:1 1 325px;"></div>
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Order Type" data-datafield="OrderType" data-enabled="false" style="display:none;"></div>
-                          <div class="fwformcontrol printpicklist" data-type="button" style="flex:0 1 auto;margin:15px;">Print</div>
                         </div>
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Status" data-datafield="Status" data-enabled="false" style="flex:1 1 150px;"></div>
