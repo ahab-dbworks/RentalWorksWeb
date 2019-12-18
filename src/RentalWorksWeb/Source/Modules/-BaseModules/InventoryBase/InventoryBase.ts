@@ -195,7 +195,7 @@ abstract class InventoryBase {
     addCalendarEvents($form, $control, inventoryId) {
         let startOfMonth = moment().startOf('month').format('MM/DD/YYYY');
         let endOfMonth = moment().endOf('month').format('MM/DD/YYYY');
-                let responseDates;
+        let responseDates;
         $control
             .data('ongetevents', calendarRequest => {
                 startOfMonth = moment(calendarRequest.start.value).format('MM/DD/YYYY');
@@ -216,14 +216,12 @@ abstract class InventoryBase {
                 FwAppData.apiMethod(true, 'GET', `api/v1/inventoryavailability/calendarandscheduledata?&InventoryId=${inventoryId}&WarehouseId=${warehouseId}&FromDate=${startOfMonth}&ToDate=${endOfMonth}`, null, FwServices.defaultTimeout, response => {
                     FwScheduler.loadYearEventsCallback($control, [{ id: '1', name: '' }], this.yearlyEvents);
                     const calendarevents = response.InventoryAvailabilityCalendarEvents;
-                    // loading reservation data onto control for use in renderDatePopup()
-                    $control.data('reserveDates', response.Dates)
+                    $control.data('reserveDates', response.Dates);                  // loading reservation data onto control for use in renderDatePopup()
                     for (let i = 0; i < calendarevents.length; i++) {
                         if (calendarevents[i].textColor !== 'rgb(0,0,0)') {
                             calendarevents[i].html = `<div style="color:${calendarevents[i].textColor};">${calendarevents[i].text}</div>`
                         }
                     }
-
 
                     //for (var i = 0; i < schedulerEvents.length; i++) {
                     //    if (schedulerEvents[i].textColor !== 'rgb(0,0,0') {
@@ -540,10 +538,15 @@ abstract class InventoryBase {
         });
     }
     //----------------------------------------------------------------------------------------------
-    renderDatePopup($control: any, event: any, date: string): void {
+    renderDatePopup($control: any, event: any, displayDate: string): void {
         const $form = jQuery(event.currentTarget).closest('.fwform');
+        const date = event.start.value.substring(0, 10);
         const reserveDates = $control.data('reserveDates');
-        if (date && reserveDates) {
+        const theDate = reserveDates.filter(el => {
+            return el.TheDate.startsWith(date);
+        })
+        const reservations = theDate[0].Reservations;
+        if (reservations) {
             const html: Array<string> = [];
             html.push(
                 `<div class="fwcontrol fwcontainer fwform popup" data-control="FwContainer" data-type="form" data-caption="Activity Dates" style="height:900px;">
@@ -579,12 +582,11 @@ abstract class InventoryBase {
                   </div>
                 </div>`);
 
-            const $popup = FwPopup.renderPopup(jQuery(html.join('')), { ismodal: true }, 'Activity Dates');
+            const $popup = FwPopup.renderPopup(jQuery(html.join('')), { ismodal: true }, `Activity Dates ${displayDate}`);
             FwPopup.showPopup($popup);
-            const thedata = reserveDates[0].Reservations
             const $rows: any = [];
-            for (let i = 0; i < thedata.length; i++) {
-                const data = thedata[i]
+            for (let i = 0; i < reservations.length; i++) {
+                const data = reservations[i]
                 const row = `
                     <tr class="data-row">
                         <td>${data.OrderTypeDescription}</td>
@@ -593,8 +595,8 @@ abstract class InventoryBase {
                         <td data-id="${data.DealId}"><span>${data.Deal}</span><i class="material-icons btnpeek">more_horiz</i></td>
                         <td class="number">${data.QuantityReserved.Total}</td>
                         <td class="number">${data.QuantitySub}</td>
-                        <td>${data.FromDateTime}</td>
-                        <td>${data.ToDateTime}</td>
+                        <td>${data.FromDateTimeDisplay}</td>
+                        <td>${data.ToDateTimeDisplay}</td>
                     </tr>
                     <tr class="avail-calendar" style="display:none;"><tr>
                     `;
@@ -604,6 +606,8 @@ abstract class InventoryBase {
             $popup.find('tbody').empty().append($rows);
 
             this.datePopupEvents($popup);
+        } else {
+            FwNotification.renderNotification('INFO', 'No reservation data for this date.')
         }
     }
     //----------------------------------------------------------------------------------------------
