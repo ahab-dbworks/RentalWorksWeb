@@ -3008,6 +3008,7 @@ export class LaborRate extends SettingsModule {
                 record: {
                     LaborTypeId: 1,
                     CategoryId: 1,
+                    ICode: TestUtils.randomAlphanumeric(7),
                     Description: "GlobalScope.TestToken~1.TestToken",
                     UnitId: 1,
                     NonDiscountable: true,
@@ -3020,6 +3021,7 @@ export class LaborRate extends SettingsModule {
             {
                 record: {
                     LaborTypeId: 1,
+                    ICode: TestUtils.randomAlphanumeric(7),
                     Description: "GlobalScope.TestToken~1.TestToken",
                     UnitId: 1,
                     NonDiscountable: true,
@@ -3030,6 +3032,7 @@ export class LaborRate extends SettingsModule {
                 record: {
                     LaborTypeId: 1,
                     CategoryId: 1,
+                    ICode: TestUtils.randomAlphanumeric(7),
                     Description: "",
                     UnitId: 1,
                     NonDiscountable: true,
@@ -3040,6 +3043,7 @@ export class LaborRate extends SettingsModule {
                 record: {
                     LaborTypeId: 1,
                     CategoryId: 1,
+                    ICode: TestUtils.randomAlphanumeric(7),
                     Description: "GlobalScope.TestToken~1.TestToken",
                     NonDiscountable: true,
                 },
@@ -3364,6 +3368,7 @@ export class MiscRate extends SettingsModule {
                 record: {
                     MiscTypeId: 1,
                     CategoryId: 1,
+                    ICode: TestUtils.randomAlphanumeric(7),
                     Description: "GlobalScope.TestToken~1.TestToken",
                     UnitId: 1,
                     NonDiscountable: true,
@@ -3376,6 +3381,7 @@ export class MiscRate extends SettingsModule {
             {
                 record: {
                     MiscTypeId: 1,
+                    ICode: TestUtils.randomAlphanumeric(7),
                     Description: "GlobalScope.TestToken~1.TestToken",
                     UnitId: 1,
                     NonDiscountable: true,
@@ -3386,6 +3392,7 @@ export class MiscRate extends SettingsModule {
                 record: {
                     MiscTypeId: 1,
                     CategoryId: 1,
+                    ICode: TestUtils.randomAlphanumeric(7),
                     Description: "",
                     UnitId: 1,
                     NonDiscountable: true,
@@ -3396,6 +3403,7 @@ export class MiscRate extends SettingsModule {
                 record: {
                     MiscTypeId: 1,
                     CategoryId: 1,
+                    ICode: TestUtils.randomAlphanumeric(7),
                     Description: "GlobalScope.TestToken~1.TestToken",
                     NonDiscountable: true,
                 },
