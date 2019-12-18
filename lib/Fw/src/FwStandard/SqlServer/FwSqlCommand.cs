@@ -1895,7 +1895,8 @@ namespace FwStandard.SqlServer
                                     FwSqlDataFieldAttribute dataFieldAttribute = (FwSqlDataFieldAttribute)attribute;
                                     if (!dataFieldAttribute.ColumnName.Equals(string.Empty))
                                     {
-                                        if (dictionary[dataFieldAttribute.ColumnName] != null)
+                                        //if (dictionary[dataFieldAttribute.ColumnName] != null)
+                                        if ((dictionary.ContainsKey(dataFieldAttribute.ColumnName)) && (dictionary[dataFieldAttribute.ColumnName] != null))
                                         {
                                             if (dataFieldAttribute.ModelType.Equals(FwDataTypes.Boolean))  // special case for booleans. query result may be "T", "F", "" or other string. need to convert on-the-fly
                                             {
