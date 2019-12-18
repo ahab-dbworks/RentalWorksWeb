@@ -256,6 +256,11 @@ abstract class InventoryBase {
                     FwFunc.showError(ex);
                 }
             });
+        $control.dblclick(e => {
+            const $this = jQuery(e.currentTarget);
+            const day = $this.find('.month_default_cell .month_default_cell_header').text();
+            let here;
+        })
     }
     //----------------------------------------------------------------------------------------------
     addSchedulerEvents($form, $control, inventoryId) {
@@ -545,8 +550,7 @@ abstract class InventoryBase {
         const theDate = reserveDates.filter(el => {
             return el.TheDate.startsWith(date);
         })
-        const reservations = theDate[0].Reservations;
-        if (reservations) {
+        if (theDate.length) {
             const html: Array<string> = [];
             html.push(
                 `<div class="fwcontrol fwcontainer fwform popup" data-control="FwContainer" data-type="form" data-caption="Activity Dates" style="height:900px;">
@@ -585,6 +589,7 @@ abstract class InventoryBase {
             const $popup = FwPopup.renderPopup(jQuery(html.join('')), { ismodal: true }, `Activity Dates ${displayDate}`);
             FwPopup.showPopup($popup);
             const $rows: any = [];
+            const reservations = theDate[0].Reservations;
             for (let i = 0; i < reservations.length; i++) {
                 const data = reservations[i]
                 const row = `
@@ -658,6 +663,13 @@ abstract class InventoryBase {
                     FwFunc.showError(ex);
                 }
             });
+        //jQuery('#application')
+        //    .off('click')
+        //    .on('click', () => {
+        //        if ($control.length) {
+        //            $control.remove();
+        //        }
+        //    });
     }
 
     //----------------------------------------------------------------------------------------------
