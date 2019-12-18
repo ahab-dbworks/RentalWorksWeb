@@ -8,6 +8,9 @@ class OrderBase {
     DefaultCoverLetter: string;
     DefaultPresentationLayerId: string;
     DefaultPresentationLayer: string;
+    DefaultFromTime: string;
+    DefaultPickTime: string;
+    DefaultToTime: string;
     CombineActivity: string;
     Module: string;
     id: string;
@@ -1106,6 +1109,12 @@ class OrderBase {
                 LocationId: location.locationid
             }
 
+            FwAppData.apiMethod(true, 'GET', `api/v1/ordertype/${this.DefaultOrderTypeId}`, null, FwServices.defaultTimeout, response => {
+                this.DefaultFromTime = response.DefaultFromTime;
+                this.DefaultToTime = response.DefaultToTime;
+                this.DefaultPickTime = response.DefaultPickTime;
+            }, ex => FwFunc.showError(ex), $browse);
+
             FwAppData.apiMethod(true, 'POST', `api/v1/ordertypelocation/browse`, request, FwServices.defaultTimeout,
                 response => {
                     if (response.Rows.length > 0) {
@@ -1116,8 +1125,8 @@ class OrderBase {
                         this.DefaultPresentationLayerId = response.Rows[0][response.ColumnIndex.PresentationLayerId];
                         this.DefaultPresentationLayer = response.Rows[0][response.ColumnIndex.PresentationLayer];
                     }
-                }, null, null);
-        }, null, null);
+                }, ex => FwFunc.showError(ex), $browse);
+        }, ex => FwFunc.showError(ex), $browse);
 
         return $browse;
     };
@@ -1155,6 +1164,9 @@ class OrderBase {
             FwFormField.setValue($form, 'div[data-datafield="TermsConditionsId"]', this.DefaultTermsConditionsId, this.DefaultTermsConditions);
             FwFormField.setValue($form, 'div[data-datafield="CoverLetterId"]', this.DefaultCoverLetterId, this.DefaultCoverLetter);
             FwFormField.setValue($form, 'div[data-datafield="PresentationLayerId"]', this.DefaultPresentationLayerId, this.DefaultPresentationLayer);
+            FwFormField.setValueByDataField($form, 'PickTime', this.DefaultPickTime);
+            FwFormField.setValueByDataField($form, 'EstimatedStartTime', this.DefaultFromTime);
+            FwFormField.setValueByDataField($form, 'EstimatedStopTime', this.DefaultToTime);
 
             FwFormField.setValue($form, 'div[data-datafield="PendingPo"]', true);
             // Dynamic set value for user's department default activities
