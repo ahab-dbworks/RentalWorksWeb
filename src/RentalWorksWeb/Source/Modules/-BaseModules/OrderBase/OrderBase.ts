@@ -129,8 +129,12 @@ class OrderBase {
                 };
             },
             beforeSave: (request: any) => {
+                let companyId = FwFormField.getValueByDataField($form, 'DealId');
+                if (companyId === '') {
+                    companyId = FwFormField.getValueByDataField($form, `${this.Module}Id`);
+                }
                 request.OrderId = FwFormField.getValueByDataField($form, `${this.Module}Id`);
-                request.CompanyId = FwFormField.getValueByDataField($form, 'DealId');
+                request.CompanyId = companyId;
             }
         });
 
