@@ -223,7 +223,27 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
         public string DealId { get; set; }
         public string Deal { get; set; }
         public DateTime FromDateTime { get; set; }
+        public string FromDateTimeDisplay
+        {
+            get
+            {
+                string display = FromDateTime.ToString();
+                return display;
+            }
+        }
         public DateTime ToDateTime { get; set; }
+        public string ToDateTimeDisplay
+        {
+            get
+            {
+                string display = ToDateTime.ToString();
+                if (ToDateTime.Equals(InventoryAvailabilityFunc.LateDateTime))
+                {
+                    display = "No End Date";
+                }
+                return display;
+            }
+        }
         public bool LateButReturning { get; set; }
         public bool QcRequired { get; set; }
         public bool EnableQcDelay { get; set; }
@@ -1181,7 +1201,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                     availData.QcDelayDays = FwConvert.ToInt32(row[dt.GetColumnNo("availqcdelay")].ToString());
                     if (availData.EnableQcDelay)
                     {
-                        availData.QcToDateTime = DateTime.Today.AddDays(availData.QcDelayDays-1);
+                        availData.QcToDateTime = DateTime.Today.AddDays(availData.QcDelayDays - 1);
                     }
 
                     availData.InventoryWarehouse.LowAvailabilityPercent = FwConvert.ToInt32(row[dt.GetColumnNo("availabilitygrace")].ToString());
@@ -1299,7 +1319,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                         reservation.QcDelayExcludeWeekend = FwConvert.ToBoolean(row[dt.GetColumnNo("availqcdelayexcludeweekend")].ToString());
                         reservation.QcDelayExcludeHoliday = FwConvert.ToBoolean(row[dt.GetColumnNo("availqcdelayexcludeholiday")].ToString());
                         reservation.QcDelayIndefinite = FwConvert.ToBoolean(row[dt.GetColumnNo("availqcdelayindefinite")].ToString());
-                        
+
                         reservation.AvailableWhileInContainer = ((reservation.IsContainer) && (!FwConvert.ToBoolean(row[dt.GetColumnNo("excludecontainedfromavail")].ToString())));
                         reservation.ContainerBarCode = row[dt.GetColumnNo("containerbarcode")].ToString();
 
@@ -2094,7 +2114,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                 reservationEvent.resource = resourceId.ToString();
                 reservationEvent.InventoryId = inventoryId;
                 reservationEvent.WarehouseId = warehouseId;
-              
+
                 DateTime reservationFromDateTime = reservation.FromDateTime;
                 DateTime reservationToDateTime = reservation.ToDateTime;
                 string startDisplay = "";
