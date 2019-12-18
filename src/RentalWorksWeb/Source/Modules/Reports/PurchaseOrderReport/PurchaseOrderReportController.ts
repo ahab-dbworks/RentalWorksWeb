@@ -46,7 +46,7 @@ const purchaseOrderReportTemplate = `
                   <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Department" data-datafield="DepartmentId" data-displayfield="Department" data-validationname="DepartmentValidation" data-showinactivemenu="true" style="float:left;min-width:400px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="PO Approval Status" data-datafield="PoApprovalStatusId" data-displayfield="PoApprovalStatus" data-validationname="POApprovalStatusValidation" data-formbeforevalidate="beforeValidate" data-showinactivemenu="true" style="float:left;min-width:400px;"></div>
+                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="PO Approval Status" data-datafield="PoApprovalStatusId" data-displayfield="PoApprovalStatus" data-validationname="POApprovalStatusValidation"  data-showinactivemenu="true" style="float:left;min-width:400px;"></div>
                 </div>
               </div>
             </div>
