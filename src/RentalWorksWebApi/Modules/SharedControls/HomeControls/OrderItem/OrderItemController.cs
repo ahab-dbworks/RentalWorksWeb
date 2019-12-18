@@ -80,7 +80,7 @@ namespace WebApi.Modules.HomeControls.OrderItem
             }
             try
             {
-                return await OrderItemFunc.InsertSubTotalOrderItems(AppConfig, UserSession, items);
+                return await OrderItemFunc.InsertHeaderOrderItems(AppConfig, UserSession, items);
             }
             catch (Exception ex)
             {

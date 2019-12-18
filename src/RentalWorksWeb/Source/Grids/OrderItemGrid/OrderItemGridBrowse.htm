@@ -9,16 +9,16 @@
     <div class="field" data-datafield="ItemOrder" data-datatype="text" data-formreadonly="true" data-sort="asc"></div>
   </div>
   <div class="column" data-width="0" data-visible="false">
-    <div class="field" data-datafield="ItemClass" data-datatype="text" data-formreadonly="true" data-sort="off"></div>
+    <div class="field itemclass" data-datafield="ItemClass" data-datatype="text" data-formreadonly="true" data-sort="off"></div>
   </div>
   <div class="column" data-width="0" data-visible="false">
     <div class="field order-item-rowsrolledup" data-datafield="RowsRolledUp" data-datatype="text" data-formreadonly="true" data-sort="none"></div>
   </div>
   <div class="column individual" data-width="10px" data-visible="true">
-    <div class="field template" data-caption="&#35;" data-datafield="RowNumber" data-datatype="text" data-sort="off" data-formreadonly="true"></div>
+    <div class="field template groupheaderline textline subtotalline" data-caption="&#35;" data-datafield="RowNumber" data-datatype="text" data-sort="off" data-formreadonly="true"></div>
   </div>
   <div class="column combined" data-width="10px" data-visible="false">
-    <div class="field" data-caption="&#35;" data-datafield="RowNumberCombined" data-datatype="text" data-sort="off" data-formreadonly="true"></div>
+    <div class="field groupheaderline textline subtotalline" data-caption="&#35;" data-datafield="RowNumberCombined" data-datatype="text" data-sort="off" data-formreadonly="true"></div>
   </div>
   <div class="column combined" data-width="80px" data-visible="false">
     <div class="field" data-caption="Type" data-datafield="RecType" data-browsedisplayfield="RecTypeDisplay" data-datatype="validation" data-sort="off" data-validationpeek="false" data-validationname="RecTypeValidation"></div>
@@ -40,7 +40,7 @@
     <div class="field valtype template" data-caption="I-Code" data-datafield="InventoryId" data-browsedisplayfield="ICode" data-fullcellcolor="ICodeColor" data-datatype="validation" data-validationname="GeneralItemValidation" data-sort="none" data-mappedfield="ICode" style="white-space: pre;" data-formbeforevalidate="beforeValidateItem"></div>
   </div>
   <div class="column" data-width="auto" data-visible="true">
-    <div class="field template" data-caption="Description" data-datafield="Description" data-halfcellcolor="DescriptionColor" data-datatype="text" data-sort="off" data-mappedfield="Description" style="min-width:250px;"></div>
+    <div class="field template groupheaderline textline subtotalline" data-caption="Description" data-datafield="Description" data-halfcellcolor="DescriptionColor" data-datatype="text" data-sort="off" data-mappedfield="Description" style="min-width:250px;"></div>
   </div>
   <div class="column" data-width="95px" data-visible="true">
     <div class="field" data-caption="Pick Date" data-datafield="PickDate" data-datatype="date" data-sort="none" data-mappedfield="PickDate"></div>
@@ -161,13 +161,13 @@
     <div class="field field-to-lock" data-caption="Week Disc" data-datafield="WeeklyDiscountAmount" data-datatype="money" data-sort="none" data-mappedfield="WeeklyDiscountAmount"></div>
   </div>
   <div class="column" data-width="95px" data-visible="true">
-    <div class="field weekextended field-to-lock" data-caption="Week Extended" data-datafield="WeeklyExtended" data-datatype="money" data-sort="none" data-mappedfield="WeeklyExtended"></div>
+    <div class="field weekextended field-to-lock subtotalline" data-caption="Week Extended" data-datafield="WeeklyExtended" data-datatype="money" data-sort="none" data-mappedfield="WeeklyExtended"></div>
   </div>
   <div class="column" data-width="50px" data-visible="true">
     <div class="field field-to-lock" data-caption="Period Disc." data-datafield="PeriodDiscountAmount" data-datatype="money" data-sort="none" data-mappedfield="PeriodDiscountAmount"></div>
   </div>
   <div class="column" data-width="100px" data-visible="true">
-    <div class="field PeriodExtended field-to-lock" data-caption="Period Extended" data-datafield="PeriodExtended" data-datatype="money" data-sort="none" data-mappedfield="PeriodExtended"></div>
+    <div class="field PeriodExtended field-to-lock subtotalline" data-caption="Period Extended" data-datafield="PeriodExtended" data-datatype="money" data-sort="none" data-mappedfield="PeriodExtended"></div>
   </div>
   <div class="column" data-width="110px" data-visible="true">
     <div class="field" data-caption="Retired Reason" data-datafield="RetiredReasonId" data-browsedisplayfield="RetiredReason" data-datatype="validation" data-validationname="RetiredReasonValidation" data-sort="none" data-mappedfield="RetiredReason"></div>

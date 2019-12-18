@@ -119,6 +119,27 @@
                     $tr.css('font-style', "italic");
                 }
 
+                // Group Header Row
+                if ($tr.find('.itemclass').text() === 'GH') {
+                    //$tr.css('font-weight', "bold");
+                    $tr.css('background-color', "#00e600");
+                    $tr.find('not .groupheaderline').val("");
+                }
+
+                // Text Row
+                if ($tr.find('.itemclass').text() === 'T') {
+                    //$tr.css('font-weight', "bold");
+                    //$tr.css('background-color', "#00e600");
+                }
+
+                // Sub-Total Row
+                if ($tr.find('.itemclass').text() === 'ST') {
+                    //$tr.css('font-weight', "bold");
+                    $tr.css('background-color', "#009900");
+                }
+
+
+
                 const availabilityState = FwBrowse.getValueByDataField($control, $generatedtr, 'AvailabilityState');
                 const $availQty = $generatedtr.find('[data-browsedatafield="AvailableQuantity"]')
                 $availQty.attr('data-state', availabilityState);
