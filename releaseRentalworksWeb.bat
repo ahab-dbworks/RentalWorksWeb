@@ -93,7 +93,7 @@ for /L %%i in (1,1,%count%) do (
    if errorlevel 1 (echo !array[%%i]!>>%file%) else (call echo !newassemblyline!>>%file%))
 
 rem Update QuikScan AssemblyInfo.cs
-set newassemblyline=%openBrack%assembly: AssemblyVersion("%fullqsversionno%")%closeBrack%
+set newassemblyline=%openBrack%assembly: AssemblyVersion("%fullversionno%")%closeBrack%
 set "file=%DwRentalWorksWebPath%\src\RentalWorksQuikScan\Properties\AssemblyInfo.cs"
 for /F "delims=" %%a in (%file%) do (
     set /A count+=1
