@@ -195,6 +195,7 @@ abstract class InventoryBase {
     addCalendarEvents($form, $control, inventoryId) {
         let startOfMonth = moment().startOf('month').format('MM/DD/YYYY');
         let endOfMonth = moment().endOf('month').format('MM/DD/YYYY');
+        let responseDates;
         $control
             .data('ongetevents', calendarRequest => {
                 startOfMonth = moment(calendarRequest.start.value).format('MM/DD/YYYY');
@@ -212,17 +213,15 @@ abstract class InventoryBase {
                 if (inventoryId === null || inventoryId === '') {
                     inventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
                 }
-
                 FwAppData.apiMethod(true, 'GET', `api/v1/inventoryavailability/calendarandscheduledata?&InventoryId=${inventoryId}&WarehouseId=${warehouseId}&FromDate=${startOfMonth}&ToDate=${endOfMonth}`, null, FwServices.defaultTimeout, response => {
                     FwScheduler.loadYearEventsCallback($control, [{ id: '1', name: '' }], this.yearlyEvents);
                     const calendarevents = response.InventoryAvailabilityCalendarEvents;
+                    $control.data('reserveDates', response.Dates);                  // loading reservation data onto control for use in renderDatePopup()
                     for (let i = 0; i < calendarevents.length; i++) {
                         if (calendarevents[i].textColor !== 'rgb(0,0,0)') {
                             calendarevents[i].html = `<div style="color:${calendarevents[i].textColor};">${calendarevents[i].text}</div>`
-                            calendarevents[i].data = { 'meta-data': response.Dates[i] }
                         }
                     }
-
 
                     //for (var i = 0; i < schedulerEvents.length; i++) {
                     //    if (schedulerEvents[i].textColor !== 'rgb(0,0,0') {
@@ -245,17 +244,23 @@ abstract class InventoryBase {
                 //    FwFunc.showError(response);
                 //}, $calendar)
             })
-            .data('ontimerangedoubleclicked', function (event) {
+            .data('ontimerangedoubleclicked', event => {
                 try {
                     const date = event.start.toString('MM/dd/yyyy');
                     FwScheduler.setSelectedDay($control, date);
                     //DriverController.openTicket($form);
                     $form.find('div[data-type="Browse"][data-name="Schedule"] .browseDate .fwformfield-value').val(date).change();
                     $form.find('div.tab.schedule').click();
+                    this.renderDatePopup($control, event, date);
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }
             });
+        $control.dblclick(e => {
+            const $this = jQuery(e.currentTarget);
+            const day = $this.find('.month_default_cell .month_default_cell_header').text();
+            let here;
+        })
     }
     //----------------------------------------------------------------------------------------------
     addSchedulerEvents($form, $control, inventoryId) {
@@ -536,6 +541,135 @@ abstract class InventoryBase {
                 FwNotification.renderNotification('WARNING', 'Save Record first.');
             }
         });
+    }
+    //----------------------------------------------------------------------------------------------
+    renderDatePopup($control: any, event: any, displayDate: string): void {
+        const $form = jQuery(event.currentTarget).closest('.fwform');
+        const date = event.start.value.substring(0, 10);
+        const reserveDates = $control.data('reserveDates');
+        const theDate = reserveDates.filter(el => {
+            return el.TheDate.startsWith(date);
+        })
+        if (theDate.length) {
+            const html: Array<string> = [];
+            html.push(
+                `<div class="fwcontrol fwcontainer fwform popup" data-control="FwContainer" data-type="form" data-caption="Activity Dates" style="height:900px;">
+                  <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
+                    <div class="tabpages">
+                      <div class="formpage">
+                        <div class="formrow">
+                          <div class="formcolumn" style="width:100%;margin-top:5px;">
+                            <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                              <div id="availabilityTable" class="flexrow" style="max-width:none;margin:15px;">
+                                <table>
+                                  <thead>
+                                    <tr>
+                                      <th>Order Type</th>
+                                      <th>Order No.</th>
+                                      <th>Description</th>
+                                      <th>Deal</th>
+                                      <th class="number">Reserved</th>
+                                      <th class="number">Sub</th>
+                                      <th>From</th>
+                                      <th>To</th>
+                                    <tr>
+                                  </thead>
+                                  <tbody>
+                                  </tbody>
+                                </table>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>`);
+
+            const $popup = FwPopup.renderPopup(jQuery(html.join('')), { ismodal: true }, `Activity Dates ${displayDate}`);
+            FwPopup.showPopup($popup);
+            const $rows: any = [];
+            const reservations = theDate[0].Reservations;
+            for (let i = 0; i < reservations.length; i++) {
+                const data = reservations[i]
+                const row = `
+                    <tr class="data-row">
+                        <td>${data.OrderTypeDescription}</td>
+                        <td class="order-number" data-id="${data.OrderId}" data-ordertype="${data.OrderType}"><span>${data.OrderNumber}</span><i class="material-icons btnpeek">more_horiz</i></td>
+                        <td>${data.OrderDescription}</td>
+                        <td data-id="${data.DealId}"><span>${data.Deal}</span><i class="material-icons btnpeek">more_horiz</i></td>
+                        <td class="number">${data.QuantityReserved.Total}</td>
+                        <td class="number">${data.QuantitySub}</td>
+                        <td>${data.FromDateTimeDisplay}</td>
+                        <td>${data.ToDateTimeDisplay}</td>
+                    </tr>
+                    <tr class="avail-calendar" style="display:none;"><tr>
+                    `;
+                $rows.push(row);
+            }
+
+            $popup.find('tbody').empty().append($rows);
+
+            this.datePopupEvents($popup);
+        } else {
+            FwNotification.renderNotification('INFO', 'No reservation data for this date.')
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    datePopupEvents($control) {
+        //add validation peeks
+        $control.find('#availabilityTable table tr td i.btnpeek')
+            .off('click')
+            .on('click', e => {
+                try {
+                    //$control.find('.btnpeek').hide();
+                    //$validationbrowse.data('$control').find('.validation-loader').show();
+                    //setTimeout(function () {
+                    const $control = jQuery(e.currentTarget).closest('td');
+                    const validationId = $control.attr('data-id');
+                    let datafield;
+                    let validationPeekFormName;
+                    if ($control.hasClass('order-number')) {
+                        const orderType = $control.attr('data-ordertype');
+                        switch (orderType) {
+                            case 'O':
+                                datafield = 'OrderId';
+                                validationPeekFormName = 'Order';
+                                break;
+                            case 'Q':
+                                datafield = 'QuoteId';
+                                validationPeekFormName = 'Quote';
+                                break;
+                            case 'R':
+                                datafield = 'RepairId';
+                                validationPeekFormName = 'Repair';
+                                break;
+                            //
+                        }
+                    } else if ($control.hasClass('inventory-number')) {
+                        datafield = 'InventoryId';
+                        validationPeekFormName = 'RentalInventory';
+                    } else {
+                        datafield = 'DealId';
+                        validationPeekFormName = 'Deal';
+                    }
+                    const title = $control.find('span').text();
+
+                    FwValidation.validationPeek($control, validationPeekFormName, validationId, datafield, null, title);
+                    //$validationbrowse.data('$control').find('.validation-loader').hide();
+                    //$control.find('.btnpeek').show()
+                    //})
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            });
+        //jQuery('#application')
+        //    .off('click')
+        //    .on('click', () => {
+        //        if ($control.length) {
+        //            $control.remove();
+        //        }
+        //    });
     }
 
     //----------------------------------------------------------------------------------------------

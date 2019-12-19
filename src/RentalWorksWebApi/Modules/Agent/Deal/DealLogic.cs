@@ -11,13 +11,17 @@ namespace WebApi.Modules.Agent.Deal
         DealRecord deal = new DealRecord();
         DealLoader dealLoader = new DealLoader();
         DealBrowseLoader dealBrowseLoader = new DealBrowseLoader();
+        private string tmpDealNumber = string.Empty;
+
+
         public DealLogic()
         {
             dataRecords.Add(deal);
             dataLoader = dealLoader;
             browseLoader = dealBrowseLoader;
 
-            deal.BeforeSave += OnBeforeSaveDeal;
+            BeforeValidate += OnBeforeValidate;
+            BeforeSave += OnBeforeSave;
 
         }
         //------------------------------------------------------------------------------------ 
@@ -493,21 +497,28 @@ namespace WebApi.Modules.Agent.Deal
         public string DateStamp { get { return deal.DateStamp; } set { deal.DateStamp = value; } }
 
         //------------------------------------------------------------------------------------
-        public void OnBeforeSaveDeal(object sender, BeforeSaveDataRecordEventArgs e)
+        public void OnBeforeValidate(object sender, BeforeValidateEventArgs e)
         {
-            if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
+            if (e.SaveMode.Equals(TDataRecordSaveMode.smInsert))
             {
                 if (string.IsNullOrEmpty(DealNumber))
+                {
+                    tmpDealNumber = AppFunc.GetNextIdAsync(AppConfig).Result;
+                    DealNumber = tmpDealNumber;
+                }
+            }
+        }
+        //------------------------------------------------------------------------------------ 
+        public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
+        {
+            if (e.SaveMode.Equals(TDataRecordSaveMode.smInsert))
+            {
+                if ((string.IsNullOrEmpty(DealNumber)) || (DealNumber.Equals(tmpDealNumber)))
                 {
                     bool x = deal.SetNumber(e.SqlConnection).Result;
                 }
             }
-            else  // updating
-            {
-            }
         }
-        //------------------------------------------------------------------------------------
-
-
+        //------------------------------------------------------------------------------------ 
     }
 }

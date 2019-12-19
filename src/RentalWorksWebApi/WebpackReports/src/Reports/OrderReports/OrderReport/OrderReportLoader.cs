@@ -212,6 +212,12 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         [FwSqlDataField(column: "locfax", modeltype: FwDataTypes.Text)]
         public string OfficeLocationFax { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "locemail", modeltype: FwDataTypes.Text)]
+        public string OfficeLocationEmail { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "locwebaddress", modeltype: FwDataTypes.Text)]
+        public string OfficeLocationWebAddress { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "dealwithno", modeltype: FwDataTypes.Text)]
         public string DealAndDealNumber { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -352,6 +358,21 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "agentfax", modeltype: FwDataTypes.Text)]
         public string AgentFax { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "orderedby", modeltype: FwDataTypes.Text)]
+        public string OrderedBy { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "orderedbyemail", modeltype: FwDataTypes.Text)]
+        public string OrderedByEmail { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "orderedbyphone", modeltype: FwDataTypes.Text)]
+        public string OrderedByPhone { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "orderedbyext", modeltype: FwDataTypes.Text)]
+        public string OrderedByExtension { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "orderedbyphoneext", modeltype: FwDataTypes.Text)]
+        public string OrderedByPhoneAndExtension { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "projectmanager", modeltype: FwDataTypes.Text)]
         public string ProjectManager { get; set; }
@@ -689,8 +710,12 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         [FwSqlDataField(column: "unpaidtotal", modeltype: FwDataTypes.DecimalString2Digits)]
         public string UnpaidTotal { get; set; }
         //------------------------------------------------------------------------------------ 
-
-
+        [FwSqlDataField(column: "totalreplacementcost", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string TotalReplacementCost { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "totalreplacementvalue", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string TotalReplacementValue { get; set; }
+        //------------------------------------------------------------------------------------ 
 
         public List<RentalOrderItemReportLoader> RentalItems { get; set; } = new List<RentalOrderItemReportLoader>(new RentalOrderItemReportLoader[] { new RentalOrderItemReportLoader() });
         //------------------------------------------------------------------------------------ 

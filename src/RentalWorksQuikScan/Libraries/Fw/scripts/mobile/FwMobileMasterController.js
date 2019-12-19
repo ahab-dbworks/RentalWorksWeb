@@ -190,12 +190,12 @@ FwMobileMasterController.generateMenuLinks = function($menu) {
     var html, $link, $linkgroup;
 
     var nodeApplication = FwApplicationTree.getMyTree();
-    const applicationOptions = program.getApplicationOptions();
+    var applicationOptions = program.getApplicationOptions();
 
     $link      = FwMobileMasterController.generateLink($menu, 'Home',        'theme/images/icons/128/home.001.png',    'home/home');           $menu.find('.menu-body-links').append($link);
     $link.addClass('navHome');
     
-    const secNodeMobile = FwApplicationTree.getNodeById(FwApplicationTree.tree, 'Mobile');
+    var secNodeMobile = FwApplicationTree.getNodeById(FwApplicationTree.tree, 'Mobile');
     var nodeMobile = Constants.Modules.Mobile;
     for (var moduleKey in nodeMobile.children) {
         nodeModule = nodeMobile.children[moduleKey];
@@ -207,18 +207,18 @@ FwMobileMasterController.generateMenuLinks = function($menu) {
                     } else {
                         hasusertype = true;
                     }
-                    let hasApplicationOptions = true;
+                    var hasApplicationOptions = true;
                     if (typeof nodeModule.applicationoptions === 'string') {
-                        const moduleApplicationOptions = nodeModule.applicationoptions.split(',');
-                        for (let optionNo = 0; optionNo < moduleApplicationOptions.length; optionNo++) {
-                            let option = moduleApplicationOptions[optionNo];
+                        var moduleApplicationOptions = nodeModule.applicationoptions.split(',');
+                        for (var optionNo = 0; optionNo < moduleApplicationOptions.length; optionNo++) {
+                            var option = moduleApplicationOptions[optionNo];
                             if (applicationOptions.hasOwnProperty(option)) {
                                 hasApplicationOptions &= option.enabled;
                             }
                         }
                     }
                     if (hasusertype && hasApplicationOptions) {
-                        const secNodeModule = FwApplicationTree.getNodeById(secNodeMobile, nodeModule.id);
+                        var secNodeModule = FwApplicationTree.getNodeById(secNodeMobile, nodeModule.id);
                         if (secNodeModule !== null && secNodeModule.properties.visible === 'T') {
                             var caption = nodeModule.caption;
                             if (typeof AppLanguages !== 'undefined') {

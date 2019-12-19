@@ -42,6 +42,7 @@ class SystemSettings {
     openForm(mode: string) {
         let $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
+        this.events($form);
 
         if (mode === 'NEW') {
             FwFormField.enable($form.find('.ifnew'))
@@ -60,11 +61,29 @@ class SystemSettings {
         return $form;
     }
     //----------------------------------------------------------------------------------------------
+    events($form: any) {
+        $form.find('[data-datafield="IsVendorNumberAssignedByUser"] input').on('change', e => {
+            if (jQuery(e.currentTarget).prop('checked')) {
+                FwFormField.disable($form.find('[data-datafield="LastVendorNumber"]'));
+            }
+            else {
+                FwFormField.enable($form.find('[data-datafield="LastVendorNumber"]'));
+            }
+        });
+    }
+    //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
+        const userAssignedVendorNumber = FwFormField.getValueByDataField($form, 'IsVendorNumberAssignedByUser');
+        if (userAssignedVendorNumber) {
+            FwFormField.disable($form.find('[data-datafield="LastVendorNumber"]'));
+        }
+        else {
+            FwFormField.enable($form.find('[data-datafield="LastVendorNumber"]'));
+        }
     }
 }
 //----------------------------------------------------------------------------------------------

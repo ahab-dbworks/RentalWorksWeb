@@ -223,7 +223,27 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
         public string DealId { get; set; }
         public string Deal { get; set; }
         public DateTime FromDateTime { get; set; }
+        public string FromDateTimeDisplay
+        {
+            get
+            {
+                string display = FromDateTime.ToString();
+                return display;
+            }
+        }
         public DateTime ToDateTime { get; set; }
+        public string ToDateTimeDisplay
+        {
+            get
+            {
+                string display = ToDateTime.ToString();
+                if (ToDateTime.Equals(InventoryAvailabilityFunc.LateDateTime))
+                {
+                    display = "No End Date";
+                }
+                return display;
+            }
+        }
         public bool LateButReturning { get; set; }
         public bool QcRequired { get; set; }
         public bool EnableQcDelay { get; set; }
@@ -356,6 +376,57 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                 return sb.ToString();
             }
         }
+        public void CloneFrom(TInventoryWarehouseAvailabilityReservation source)
+        {
+            this.WarehouseId = source.WarehouseId;
+            this.WarehouseCode = source.WarehouseCode;
+            this.Warehouse = source.Warehouse;
+            this.ReturnToWarehouseId = source.ReturnToWarehouseId;
+            this.ReturnToWarehouseCode = source.ReturnToWarehouseCode;
+            this.ReturnToWarehouse = source.ReturnToWarehouse;
+            this.OrderId = source.OrderId;
+            this.OrderItemId = source.OrderItemId;
+            this.OrderType = source.OrderType;
+            this.OrderNumber = source.OrderNumber;
+            this.OrderDescription = source.OrderDescription;
+            this.OrderStatus = source.OrderStatus;
+            this.DepartmentId = source.DepartmentId;
+            this.Department = source.Department;
+            this.DealId = source.DealId;
+            this.Deal = source.Deal;
+            this.FromDateTime = source.FromDateTime;
+            this.ToDateTime = source.ToDateTime;
+            this.LateButReturning = source.LateButReturning;
+            this.QcRequired = source.QcRequired;
+            this.EnableQcDelay = source.EnableQcDelay;
+            this.QcDelayDays = source.QcDelayDays;
+            this.QcDelayExcludeWeekend = source.QcDelayExcludeWeekend;
+            this.QcDelayExcludeHoliday = source.QcDelayExcludeHoliday;
+            this.QcDelayIndefinite = source.QcDelayIndefinite;
+            this.QcDelayFromDateTime = source.QcDelayFromDateTime;
+            this.QcDelayToDateTime = source.QcDelayToDateTime;
+            this.QcQuantity = source.QcQuantity;
+            this.ContainerBarCode = source.ContainerBarCode;
+            this.AvailableWhileInContainer = source.AvailableWhileInContainer;
+            this.ContractId = source.ContractId;
+            this.QuantityOrdered = source.QuantityOrdered;
+            this.QuantitySub = source.QuantitySub;
+            this.QuantityConsigned = source.QuantityConsigned;
+            this.QuantityReserved.CloneFrom(source.QuantityReserved);
+            this.QuantityStaged.CloneFrom(source.QuantityStaged);
+            this.QuantityOut.CloneFrom(source.QuantityOut);
+            this.QuantityIn.CloneFrom(source.QuantityIn);
+            this.QuantityInRepair.CloneFrom(source.QuantityInRepair);
+            this.QuantityLate.CloneFrom(source.QuantityLate);
+            this.QuantityReserved.CloneFrom(source.QuantityReserved);
+            this.IsPositiveConflict = source.IsPositiveConflict;
+            this.IsNegativeConflict = source.IsNegativeConflict;
+            this.SubPurchaseOrderId = source.SubPurchaseOrderId;
+            this.SubPurchaseOrderNumber = source.SubPurchaseOrderNumber;
+            this.SubPurchaseOrderDescription = source.SubPurchaseOrderDescription;
+            this.SubPurchaseOrderVendor = source.SubPurchaseOrderVendor;
+        }
+
     }
     //-------------------------------------------------------------------------------------------------------
     public class TInventoryWarehouseAvailabilityDateTime
@@ -694,7 +765,13 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
         public TInventoryAvailabilityCalendarDate(DateTime theDate, List<TInventoryWarehouseAvailabilityReservation> reservations)
         {
             this.TheDate = theDate;
-            this.Reservations.AddRange(Reservations);
+            //this.Reservations.AddRange(Reservations);
+            foreach (TInventoryWarehouseAvailabilityReservation reservation in reservations)
+            {
+                TInventoryWarehouseAvailabilityReservation newReservation = new TInventoryWarehouseAvailabilityReservation();
+                newReservation.CloneFrom(reservation);
+                this.Reservations.Add(newReservation);
+            }
         }
     }
     //------------------------------------------------------------------------------------ 
@@ -1124,7 +1201,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                     availData.QcDelayDays = FwConvert.ToInt32(row[dt.GetColumnNo("availqcdelay")].ToString());
                     if (availData.EnableQcDelay)
                     {
-                        availData.QcToDateTime = DateTime.Today.AddDays(availData.QcDelayDays-1);
+                        availData.QcToDateTime = DateTime.Today.AddDays(availData.QcDelayDays - 1);
                     }
 
                     availData.InventoryWarehouse.LowAvailabilityPercent = FwConvert.ToInt32(row[dt.GetColumnNo("availabilitygrace")].ToString());
@@ -1242,7 +1319,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                         reservation.QcDelayExcludeWeekend = FwConvert.ToBoolean(row[dt.GetColumnNo("availqcdelayexcludeweekend")].ToString());
                         reservation.QcDelayExcludeHoliday = FwConvert.ToBoolean(row[dt.GetColumnNo("availqcdelayexcludeholiday")].ToString());
                         reservation.QcDelayIndefinite = FwConvert.ToBoolean(row[dt.GetColumnNo("availqcdelayindefinite")].ToString());
-                        
+
                         reservation.AvailableWhileInContainer = ((reservation.IsContainer) && (!FwConvert.ToBoolean(row[dt.GetColumnNo("excludecontainedfromavail")].ToString())));
                         reservation.ContainerBarCode = row[dt.GetColumnNo("containerbarcode")].ToString();
 
@@ -2037,7 +2114,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                 reservationEvent.resource = resourceId.ToString();
                 reservationEvent.InventoryId = inventoryId;
                 reservationEvent.WarehouseId = warehouseId;
-              
+
                 DateTime reservationFromDateTime = reservation.FromDateTime;
                 DateTime reservationToDateTime = reservation.ToDateTime;
                 string startDisplay = "";

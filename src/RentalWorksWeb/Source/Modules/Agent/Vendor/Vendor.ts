@@ -51,6 +51,17 @@ class Vendor {
             $form.find('div[data-datafield="Vendor"]').attr('data-required', 'true');
         }
 
+        let userassignedvendorno = JSON.parse(sessionStorage.getItem('controldefaults')).userassignedvendornumber;
+        if (userassignedvendorno) {
+            FwFormField.enable($form.find('[data-datafield="VendorNumber"]'));
+            $form.find('[data-datafield="VendorNumber"]').attr(`data-required`, `true`);
+        }
+        else {
+            FwFormField.disable($form.find('[data-datafield="VendorNumber"]'));
+            $form.find('[data-datafield="VendorNumber"]').attr(`data-required`, `false`);
+        }
+
+
         //Toggle Buttons - Vendor tab - Vendor Type Company or Person
         FwFormField.loadItems($form.find('div[data-datafield="VendorNameType"]'), [
             { value: 'COMPANY', caption: 'Company', checked: true },

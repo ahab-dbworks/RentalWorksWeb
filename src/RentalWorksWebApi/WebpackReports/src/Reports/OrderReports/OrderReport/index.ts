@@ -2,9 +2,11 @@
 import { CustomField } from '../../../../lib/FwReportLibrary/src/scripts/CustomField';
 import { DataTable } from '../../../../lib/FwReportLibrary/src/scripts/Browse';
 import { Ajax } from '../../../../lib/FwReportLibrary/src/scripts/Ajax';
+import * as QrCodeGen from '../../../../lib/FwReportLibrary/src/scripts/QrCodeGen';
 import * as moment from 'moment';
 import '../../../../lib/FwReportLibrary/src/theme/webpackReports.scss';
 import './index.scss';
+
 const hbReport = require("./hbReport.hbs");
 const hbFooter = require("./hbFooter.hbs");
 
@@ -31,6 +33,10 @@ export class OrderReport extends WebpackReport {
                                 data.Logosrc = logoObject.LogoImage;
                             }
                             data.Report = 'ORDER';
+
+                            const qr = QrCodeGen.QrCode.encodeText(data.OrderNumber, QrCodeGen.Ecc.MEDIUM);
+                            const svg = qr.toSvgString(4);
+                            data.OrderNumberQrCode = svg;
 
                             console.log(data, 'DATA');
 

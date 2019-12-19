@@ -66,10 +66,11 @@ set buildnoforzip=%fullversionno:.=_%
 set zipfilename=%productname%Web_%buildnoforzip%.zip
 
 rem Update the version.txt files
-echo %fullversionno%>%DwRentalWorksWebPath%\src\%productname%Web\version.txt
-echo %fullversionno%>%DwRentalWorksWebPath%\src\RentalWorksQuikScan\version.txt
-echo %fullversionno%>%DwRentalWorksWebPath%\src\RentalWorksWebApi\version.txt
-echo %fullversionno%>%DwRentalWorksWebPath%\src\RentalWorksWebApi\version-%productname%Web.txt
+echo | set /p buildnumber="%fullversionno%">%DwRentalWorksWebPath%\src\%productname%Web\version.txt
+echo | set /p buildnumber="%fullversionno%">%DwRentalWorksWebPath%\src\RentalWorksQuikScan\version.txt
+echo | set /p buildnumber="%fullversionno%">%DwRentalWorksWebPath%\src\RentalWorksWebApi\version.txt
+echo | set /p buildnumber="%fullversionno%">%DwRentalWorksWebPath%\src\RentalWorksWebApi\version-%productname%Web.txt
+
 
 rem update AssemblyInfo.cs
 cmd /c exit 91

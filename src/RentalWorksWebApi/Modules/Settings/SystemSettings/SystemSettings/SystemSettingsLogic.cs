@@ -39,6 +39,13 @@ namespace WebApi.Modules.Settings.SystemSettings.SystemSettings
         [FwLogicProperty(Id: "R1FCd2eL0sjEO")]
         public bool? ShareDealsAcrossOfficeLocations { get { return sysControl.ShareDealsAcrossOfficeLocations; } set { sysControl.ShareDealsAcrossOfficeLocations = value; } }
 
+        [FwLogicProperty(Id: "NrvJDomVVcrcM")]
+        public bool? IsVendorNumberAssignedByUser { get { return sysControl.IsVendorNumberAssignedByUser; } set { sysControl.IsVendorNumberAssignedByUser = value; } }
+
+        [FwLogicProperty(Id: "CSiC9ZwpMLerq")]
+        public int? LastVendorNumber { get { return sysControl.LastVendorNumber; } set { sysControl.LastVendorNumber = value; } }
+
+
         [FwLogicProperty(Id: "mxRFY4F28GOiA")]
         public bool? AllowDeleteExportedBeceipts { get { return sysControl.AllowDeleteExportedBeceipts; } set { sysControl.AllowDeleteExportedBeceipts = value; } }
 
@@ -55,12 +62,6 @@ namespace WebApi.Modules.Settings.SystemSettings.SystemSettings
 
         //[FwLogicProperty(Id:"11PX6fP8NNq5Q")]
         //public string Build { get { return control.Build; } set { control.Build = value; } }
-
-        //[FwLogicProperty(Id:"NrvJDomVVcrcM")]
-        //public bool? Userassignedvendorno { get { return sysControl.Userassignedvendorno; } set { sysControl.Userassignedvendorno = value; } }
-
-        //[FwLogicProperty(Id:"CSiC9ZwpMLerq")]
-        //public int? Vendorno { get { return sysControl.Vendorno; } set { sysControl.Vendorno = value; } }
 
         //[FwLogicProperty(Id:"YixTIZ4ozMPAB")]
         //public decimal? Rentrestockpercent { get { return sysControl.Rentrestockpercent; } set { sysControl.Rentrestockpercent = value; } }

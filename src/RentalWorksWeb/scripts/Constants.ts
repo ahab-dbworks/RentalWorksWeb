@@ -68,6 +68,15 @@ var Constants = {
                 RemoveFromContainer:    { id: 'J9BTE3hOYuEd',  caption: 'Remove From Container',    nav: 'module/removefromcontainer', nodetype: 'Module' }
             }
         },
+        Exports: {
+            id: 'Exports',
+            caption: 'Exports',
+            nodetype: 'Category',
+            children: {
+                InvoiceBatchExport: { id: 'GI2FxKtrjja1', caption: 'Invoice Batch Export', nodetype: 'Module' },
+                ReceiptBatchExport: { id: 'di8ahTdcwt0H', caption: 'Receipt Batch Export', nodetype: 'Module' }
+            }
+        },
         Home: {
             children: {
                 CountQuantityInventory: { id: '', caption: 'Count Quantity Inventory', nav: 'module/physicalinventoryquantityinventory', nodetype: 'Module' },
@@ -953,6 +962,7 @@ var Constants = {
         StageQuantityItemGrid: { id: '0m0QMviBYWVYm', caption: 'Stage Quantity Items' },
         SubCategoryGrid: { id: 'vHMa0l5PUysXo', caption: 'Sub-Category' },
         SubPurchaseOrderItemGrid: { id: '8orfHWAhottty', caption: 'Sub-Purchase Order Items' },
+        SystemNumberGrid: { id: 'aUMum8mzxVrWc', caption: 'System Numbers' },
         TransferOrderItemGrid: { id: 'RFgCJpybXoEb', caption: 'Transfer Order Item',
             menuItems: {
                 QuikSearch: { id: '{16CD0101-28D7-49E2-A3ED-43C03152FEE6}' },

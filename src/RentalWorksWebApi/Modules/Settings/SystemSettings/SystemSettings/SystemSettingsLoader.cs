@@ -25,6 +25,12 @@ namespace WebApi.Modules.Settings.SystemSettings.SystemSettings
         [FwSqlDataField(column: "sharedeals", modeltype: FwDataTypes.Boolean)]
         public bool? ShareDealsAcrossOfficeLocations { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "userassignedvendorno", modeltype: FwDataTypes.Boolean)]
+        public bool? IsVendorNumberAssignedByUser{ get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "vendorno", modeltype: FwDataTypes.Integer)]
+        public int? LastVendorNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "allowdeletebatchedreceipt", modeltype: FwDataTypes.Boolean)]
         public bool? AllowDeleteExportedBeceipts { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -41,12 +47,6 @@ namespace WebApi.Modules.Settings.SystemSettings.SystemSettings
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "build", modeltype: FwDataTypes.Text)]
         public string Build { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "userassignedvendorno", modeltype: FwDataTypes.Boolean)]
-        public bool? Userassignedvendorno { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "vendorno", modeltype: FwDataTypes.Integer)]
-        public int? Vendorno { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rentrestockpercent", modeltype: FwDataTypes.Decimal)]
         public decimal? Rentrestockpercent { get; set; }

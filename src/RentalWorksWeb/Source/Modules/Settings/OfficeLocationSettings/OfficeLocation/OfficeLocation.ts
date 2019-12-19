@@ -44,10 +44,29 @@
         return $form;
     }
     //----------------------------------------------------------------------------------------------
-    loadForm(uniqueids: any) {
-        var $form;
+    renderGrids($form) {
+        FwBrowse.renderGrid({
+            nameGrid: 'SystemNumberGrid',
+            gridSecurityId: 'aUMum8mzxVrWc',
+            moduleSecurityId: this.id,
 
-        $form = this.openForm('EDIT');
+            $form: $form,
+            pageSize: 20,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                options.hasNew = false;
+                options.hasEdit = true;
+                options.hasDelete = false;
+            },
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    LocationId: FwFormField.getValueByDataField($form, `LocationId`)
+                };
+            }
+        });
+    }
+    //----------------------------------------------------------------------------------------------
+    loadForm(uniqueids: any) {
+        const $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="LocationId"] input').val(uniqueids.LocationId);
         FwModule.loadForm(this.Module, $form);
 
@@ -59,6 +78,8 @@
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
+        const $systemNumberGrid = $form.find('[data-name="SystemNumberGrid"]');
+        FwBrowse.search($systemNumberGrid);
 
     }
     //----------------------------------------------------------------------------------------------

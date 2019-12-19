@@ -4,6 +4,7 @@
     <div class="tabs">
       <div data-type="tab" id="generaltab" class="tab" data-tabpageid="generaltabpage" data-caption="General"></div>
       <div data-type="tab" id="defaultstab" class="tab" data-tabpageid="defaultstabpage" data-caption="Defaults"></div>
+      <div data-type="tab" id="numberstab" class="tab" data-tabpageid="numberstabpage" data-caption="System Numbers"></div>
       <div data-type="tab" id="accountingtab" class="tab" data-tabpageid="accountingtabpage" data-caption="Accounting"></div>
     </div>
     <div class="tabpages">
@@ -19,6 +20,12 @@
               <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Company Name" data-datafield="CompanyName" style="float:left;width:300px;"></div>
             </div>
             <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Web Address" data-datafield="WebAddress" data-allcaps="false" style="float:left;width:300px;"></div>
+            </div>
+            <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+              <div data-control="FwFormField" data-type="email" class="fwcontrol fwformfield" data-caption="Email" data-datafield="Email" data-allcaps="false" style="float:left;width:300px;"></div>
+            </div>
+            <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
               <div data-control="FwFormField" data-type="color" class="fwcontrol fwformfield" data-caption="Color" data-datafield="Color" style="float:left;width:300px;"></div>
             </div>
           </div>
@@ -31,6 +38,13 @@
               <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Rate Type" data-datafield="RateType" data-displayfield="RateType" data-validationname="RateTypeValidation" style="width:250px;"></div>
               <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="PO Type" data-datafield="DefaultPurchasePoTypeId" data-displayfield="DefaultPurchasePoType" data-validationname="PoTypeValidation" style="width:250px;"></div>
             </div>
+          </div>
+        </div>
+      </div>
+      <div data-type="tabpage" id="numberstabpage" class="tabpage" data-tabid="numberstab" data-render="false">
+        <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="System Numbers">
+          <div class="flexrow">
+            <div class="rwGrid" data-control="FwGrid" data-grid="SystemNumberGrid" data-securitycaption="System Numbers"></div>
           </div>
         </div>
       </div>

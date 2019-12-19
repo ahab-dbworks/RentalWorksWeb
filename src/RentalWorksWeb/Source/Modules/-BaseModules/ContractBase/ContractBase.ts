@@ -96,6 +96,7 @@
             { value: 'OTHER', caption: 'Other'}
         ]);
         this.events($form);
+        this.renderPrintButton($form);
         return $form;
     }
     //----------------------------------------------------------------------------------------------
@@ -108,6 +109,14 @@
         FwModule.loadForm(this.Module, $form);
 
         return $form;
+    }
+    //----------------------------------------------------------------------------------------------
+    renderPrintButton($form: any) {
+        var $print = FwMenu.addStandardBtn($form.find('.fwmenu:first'), 'Print');
+        $print.prepend('<i class="material-icons">print</i>');
+        $print.on('click', () => {
+            this.printContract($form);
+        });
     }
     //----------------------------------------------------------------------------------------------
     events($form) {
@@ -149,13 +158,6 @@
                 FwFormField.setValueByDataField($form, 'DeliveryAddressType', 'WAREHOUSE');
             }
             $form.find('div[data-datafield="DeliveryAddressType"]').change();
-        });
-        $form.find('.print').on('click', e => {
-            try {
-                this.printContract($form);
-            } catch (ex) {
-                FwFunc.showError(ex);
-            }
         });
     }
     //----------------------------------------------------------------------------------------------
@@ -615,7 +617,6 @@
                     <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Exchange" data-datafield="Exchange" style="float:left;width:250px;display:none;"></div>
                     <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="BillingDateAdjusted" data-datafield="BillingDateAdjusted" style="float:left;width:250px;display:none;"></div>
                     <div data-control="FwFormField" data-type="validation" data-validationname="DealValidation" data-displayfield="Deal" class="fwcontrol fwformfield" data-caption="Deal" data-datafield="DealId" style="float:left;width:250px;display:none;" data-enabled="false"></div>
-                    <div class="print fwformcontrol" data-type="button" style="flex:1 1 50px;margin:15px 0 0 10px;">Print</div>
                   </div>
                 </div>
                 <div class="flexrow date-change-reason" style="max-width:800px;display:none;padding-left:10px;">

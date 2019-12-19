@@ -31,6 +31,7 @@
                         try {
                             this.isEnabled = false;
                             //FwNotification.renderNotification('ERROR', 'Can\'t enable nearfield scanner.');
+                            this.stopListening();
                         } catch (ex) {
                             FwFunc.showError(ex);
                         }

@@ -162,6 +162,16 @@ class Base {
                                     $elementToBlock: $loginWindow
                                 });
 
+                                const promiseGetSystemNumbers = FwAjax.callWebApi<BrowseRequest, any>({
+                                    httpMethod: 'POST',
+                                    url: `${applicationConfig.apiurl}api/v1/systemnumber/browse`,
+                                    $elementToBlock: $loginWindow,
+                                    data: {
+                                        uniqueids: {
+                                            LocationId: responseSessionInfo.location.locationid
+                                        }
+                                    }
+                                });
 
                                 // wait for all the queries to finish
                                 await Promise.all([
@@ -173,6 +183,7 @@ class Base {
                                     promiseGetSystemSettings,           // 05
                                     promiseGetDepartment,               // 06
                                     promiseGetDocumentBarCodeSettings,  // 07
+                                    promiseGetSystemNumbers,            // 08
                                 ])
                                     .then((values: any) => {
                                         const responseGetUserSettings = values[0];
@@ -183,6 +194,7 @@ class Base {
                                         const responseGetSystemSettings = values[5];
                                         const responseGetDepartment = values[6];
                                         const responseGetDocumentBarCodeSettings = values[7];
+                                        const responseGetSystemNumbers = values[8];
 
                                         let sounds: any = {}, homePage: any = {}, toolbar: any = {};
                                         sounds.successSoundFileName = responseGetUserSettings.SuccessSoundFileName;
@@ -240,6 +252,22 @@ class Base {
                                             sessionStorage.setItem('customForms', JSON.stringify(activeCustomForms));
                                         }
 
+                                        const systemNumberModuleIndex = responseGetSystemNumbers.ColumnIndex.Module;
+                                        const systemNumberIsAssignedByUserIndex = responseGetSystemNumbers.ColumnIndex.IsAssignByUser;
+                                        let userassignedcustnum: boolean = false;
+                                        let userassigneddealnum: boolean = false;
+                                        for (let i = 0; i < responseGetSystemNumbers.Rows.length; i++) {
+                                            const moduleSystemNumber = responseGetSystemNumbers.Rows[i];
+                                            const module = moduleSystemNumber[systemNumberModuleIndex];
+                                            const isAssignedByUser = moduleSystemNumber[systemNumberIsAssignedByUserIndex];
+                                            if (module === 'CUSTOMER') {
+                                                userassignedcustnum = isAssignedByUser;
+                                            }
+                                            else if (module === 'DEAL') {
+                                                userassigneddealnum = isAssignedByUser;
+                                            }
+                                        }
+ 
                                         const controlDefaults = {
                                             defaultdealstatusid: responseGetDefaultSettings.DefaultDealStatusId
                                             , defaultdealstatus: responseGetDefaultSettings.DefaultDealStatus
@@ -256,8 +284,13 @@ class Base {
                                             , systemname: responseGetSystemSettings.SystemName
                                             , companyname: responseGetSystemSettings.CompanyName
                                             , documentbarcodestyle: responseGetDocumentBarCodeSettings.DocumentBarCodeStyle
+                                            , userassignedvendornumber: responseGetSystemSettings.IsVendorNumberAssignedByUser
+                                            , userassignedcustomernumber: userassignedcustnum
+                                            , userassigneddealnumber: userassigneddealnum
                                         }
                                         sessionStorage.setItem('controldefaults', JSON.stringify(controlDefaults));
+
+
 
                                         // set redirectPath to navigate user to default home page, still need to go to the home page to run startup code if the user refreshes the browser
                                         let homePagePath = JSON.parse(sessionStorage.getItem('homePage')).path;

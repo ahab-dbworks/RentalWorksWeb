@@ -34,6 +34,9 @@ namespace WebApi.Modules.HomeControls.InventorySearchPreview
         [FwLogicProperty(Id:"3kb1jZvduWpJ")]
         public string ParentId { get { return inventorySearch.ParentId; } set { inventorySearch.ParentId = value; } }
 
+        [FwLogicProperty(Id: "McKcR0qr7BIsW")]
+        public string GrandParentId { get { return inventorySearch.GrandParentId; } set { inventorySearch.GrandParentId = value; } }
+
         [FwLogicProperty(Id:"gP4EPlMaB5jj")]
         public string InventoryId { get { return inventorySearch.InventoryId; } set { inventorySearch.InventoryId = value; } }
 

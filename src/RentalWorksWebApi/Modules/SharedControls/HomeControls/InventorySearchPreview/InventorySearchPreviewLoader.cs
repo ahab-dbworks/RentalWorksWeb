@@ -24,7 +24,10 @@ namespace WebApi.Modules.HomeControls.InventorySearchPreview
         public string WarehouseId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "parentid", modeltype: FwDataTypes.Text)]
-        public string ParentId { get; set; } 
+        public string ParentId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "grandparentid", modeltype: FwDataTypes.Text)]
+        public string GrandParentId { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "masterid", modeltype: FwDataTypes.Text)]
         public string InventoryId { get; set; } 
