@@ -1,5 +1,6 @@
 class SearchInterface {
     DefaultColumns: any = [];
+    id: string = Constants.Modules.Utilities.children.QuikSearch.id;
     //----------------------------------------------------------------------------------------------
     renderSearchPopup($form, id, type, gridInventoryType?) {
         let html: any = [];
@@ -248,22 +249,40 @@ class SearchInterface {
         this.getViewSettings($popup);
 
         //Render preview grid
-        const $previewGrid        = $popup.find('[data-grid="SearchPreviewGrid"]');
-        const $previewGridControl = FwBrowse.loadGridFromTemplate('SearchPreviewGrid');
-        $previewGrid.empty().append($previewGridControl);
-        $previewGridControl.data('ondatabind', request => {
-            request.SessionId        = id;
-            request.ShowAvailability = true;
-            request.FromDate         = FwFormField.getValueByDataField($popup, 'FromDate');
-            request.ToDate           = FwFormField.getValueByDataField($popup, 'ToDate');
-            request.ShowImages       = true;
-        });
+        //const $previewGrid        = $popup.find('[data-grid="SearchPreviewGrid"]');
+        //const $previewGridControl = FwBrowse.loadGridFromTemplate('SearchPreviewGrid');
+        //$previewGrid.empty().append($previewGridControl);
+        //$previewGridControl.data('ondatabind', request => {
+        //    request.SessionId        = id;
+        //    request.ShowAvailability = true;
+        //    request.FromDate         = FwFormField.getValueByDataField($popup, 'FromDate');
+        //    request.ToDate           = FwFormField.getValueByDataField($popup, 'ToDate');
+        //    request.ShowImages       = true;
+        //});
 
-        FwBrowse.init($previewGridControl);
-        FwBrowse.renderRuntimeHtml($previewGridControl);
-        FwBrowse.addEventHandler($previewGridControl, 'afterdatabindcallback', () => {
-            this.updatePreviewTabQuantity($popup, id, false);
+        FwBrowse.renderGrid({
+            nameGrid: 'SearchPreviewGrid',
+            gridSecurityId: 'JLDAuUcvHEx1',
+            moduleSecurityId: this.id,
+            $form: $popup,
+            pageSize: 10,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+
+            },
+            onDataBind: (request: any) => {
+                request.SessionId = id;
+                request.ShowAvailability = true;
+                request.FromDate = FwFormField.getValueByDataField($popup, 'FromDate');
+                request.ToDate = FwFormField.getValueByDataField($popup, 'ToDate');
+                request.ShowImages = true;
+            },
+            afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
+                this.updatePreviewTabQuantity($popup, id, false);
+            }
         });
+        //FwBrowse.addEventHandler($previewGridControl, 'afterdatabindcallback', () => {
+        //    this.updatePreviewTabQuantity($popup, id, false);
+        //});
 
         this.updatePreviewTabQuantity($popup, id, true);
         this.events($popup, $form, id);
@@ -1514,7 +1533,6 @@ class SearchInterface {
 
         FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearchpreview/browse", previewrequest, FwServices.defaultTimeout, function onSuccess(response) {
             let $grid = $popup.find('[data-name="SearchPreviewGrid"]');
-            //FwBrowse.databindcallback($grid, response);
             FwBrowse.search($grid);
         }, null, $searchpopup);
     }
