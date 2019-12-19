@@ -251,16 +251,11 @@ abstract class InventoryBase {
                     //DriverController.openTicket($form);
                     $form.find('div[data-type="Browse"][data-name="Schedule"] .browseDate .fwformfield-value').val(date).change();
                     $form.find('div.tab.schedule').click();
-                    this.renderDatePopup($control, event, date);
+                    this.renderReservationsPopup($control, event);
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }
-            });
-        $control.dblclick(e => {
-            const $this = jQuery(e.currentTarget);
-            const day = $this.find('.month_default_cell .month_default_cell_header').text();
-            let here;
-        })
+            })
     }
     //----------------------------------------------------------------------------------------------
     addSchedulerEvents($form, $control, inventoryId) {
@@ -543,8 +538,7 @@ abstract class InventoryBase {
         });
     }
     //----------------------------------------------------------------------------------------------
-    renderDatePopup($control: any, event: any, displayDate: string): void {
-        const $form = jQuery(event.currentTarget).closest('.fwform');
+    renderReservationsPopup($control: any, event: any): void {
         const date = event.start.value.substring(0, 10);
         const reserveDates = $control.data('reserveDates');
         const theDate = reserveDates.filter(el => {
@@ -586,6 +580,7 @@ abstract class InventoryBase {
                   </div>
                 </div>`);
 
+            const displayDate = event.start.toString('MM/dd/yyyy');
             const $popup = FwPopup.renderPopup(jQuery(html.join('')), { ismodal: true }, `Activity Dates ${displayDate}`);
             FwPopup.showPopup($popup);
             const $rows: any = [];
@@ -595,9 +590,9 @@ abstract class InventoryBase {
                 const row = `
                     <tr class="data-row">
                         <td>${data.OrderTypeDescription}</td>
-                        <td class="order-number" data-id="${data.OrderId}" data-ordertype="${data.OrderType}"><span>${data.OrderNumber}</span><i class="material-icons btnpeek">more_horiz</i></td>
+                        <td class="order-number" data-id="${data.OrderId}" data-ordertype="${data.OrderType}"><span>${data.OrderNumber}</span>${data.OrderType !== 'N' ? '<i class= "material-icons btnpeek">more_horiz</i>' : ''}</td>
                         <td>${data.OrderDescription}</td>
-                        <td data-id="${data.DealId}"><span>${data.Deal}</span><i class="material-icons btnpeek">more_horiz</i></td>
+                        <td data-id="${data.DealId}"><span>${data.Deal}</span>${data.Deal !== '' ? '<i class= "material-icons btnpeek">more_horiz</i>' : ''}</td>
                         <td class="number">${data.QuantityReserved.Total}</td>
                         <td class="number">${data.QuantitySub}</td>
                         <td>${data.FromDateTimeDisplay}</td>
@@ -610,13 +605,13 @@ abstract class InventoryBase {
 
             $popup.find('tbody').empty().append($rows);
 
-            this.datePopupEvents($popup);
+            this.reservationsPopupEvents($popup);
         } else {
             FwNotification.renderNotification('INFO', 'No reservation data for this date.')
         }
     }
     //----------------------------------------------------------------------------------------------
-    datePopupEvents($control) {
+    reservationsPopupEvents($control) {
         //add validation peeks
         $control.find('#availabilityTable table tr td i.btnpeek')
             .off('click')
@@ -644,7 +639,10 @@ abstract class InventoryBase {
                                 datafield = 'RepairId';
                                 validationPeekFormName = 'Repair';
                                 break;
-                            //
+                            case 'T':
+                                datafield = 'TransferId';
+                                validationPeekFormName = 'TransferOrder';
+                                break;
                         }
                     } else if ($control.hasClass('inventory-number')) {
                         datafield = 'InventoryId';
