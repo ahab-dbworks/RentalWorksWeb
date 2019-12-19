@@ -159,7 +159,7 @@ class PartsInventoryCatalogReport extends FwWebApiReport {
                 case 'WarehouseCatalogId':
                     $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatewarehousecatalog`);
                     break;
-                case 'Warehouse':
+                case 'WarehouseId':
                     $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatewarehouse`);
                     break;
             }

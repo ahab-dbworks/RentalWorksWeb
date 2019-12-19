@@ -96,9 +96,10 @@ class RentalInventoryAttributesReport extends FwWebApiReport {
             case 'CategoryId':
                 if (inventoryTypeId !== "") {
                     request.uniqueids.InventoryTypeId = inventoryTypeId;
-                    break;
+                    
                 }
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecategory`);
+                break;
             case 'SubCategoryId':
                 request.uniqueids.Rental = true;
 

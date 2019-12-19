@@ -12,6 +12,7 @@ using WebApi.Modules.Inventory.SalesInventory;
 using WebApi.Modules.Reports.RentalInventoryReports.RentalInventoryAttributesReport;
 using WebApi.Modules.Reports.Shared.InventoryAttributesReport;
 using WebApi.Modules.Settings.Category;
+using WebApi.Modules.Settings.InventorySettings.Attribute;
 using WebApi.Modules.Settings.InventorySettings.InventoryType;
 using WebApi.Modules.Settings.InventorySettings.SalesCategory;
 using WebApi.Modules.Settings.SubCategory;
@@ -107,7 +108,7 @@ namespace WebApi.Modules.Reports.SalesInventoryReports.SalesInventoryAttributesR
         [FwControllerMethod(Id: "xBgKDTIyOsVY", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> ValidateAttributeBrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync<AttributeLogic>(browseRequest);
+            return await DoBrowseAsync<WarehouseCatalog>(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/rentalinventoryattributesreport/validateinventory/browse 

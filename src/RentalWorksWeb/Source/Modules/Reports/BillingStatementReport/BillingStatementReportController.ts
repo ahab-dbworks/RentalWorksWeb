@@ -116,7 +116,7 @@ class BillingStatementReport extends FwWebApiReport {
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
         const customerId = FwFormField.getValueByDataField($form, 'CustomerId');
         const dealTypeId = FwFormField.getValueByDataField($form, 'DealTypeId');
-        const dealCsrId = FwFormField.getValueByDataField($form, 'DealCsrId');
+        //const dealCsrId = FwFormField.getValueByDataField($form, 'DealCsrId');
 
         switch (datafield) {
             case 'OfficeLocationId':
@@ -129,9 +129,9 @@ class BillingStatementReport extends FwWebApiReport {
                 if (dealTypeId) {
                     request.uniqueids.DealTypeId = dealTypeId;
                 }
-                if (dealCsrId) {
-                    request.uniqueids.DealCsrId = dealCsrId;
-                }
+                //if (dealCsrId) {
+                //    request.uniqueids.DealCsrId = dealCsrId;
+                //}
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedeal`);
                 break;
             case 'DealStatusId':

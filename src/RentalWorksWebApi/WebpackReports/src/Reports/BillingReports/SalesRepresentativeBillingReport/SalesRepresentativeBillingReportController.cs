@@ -18,6 +18,7 @@ using WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation;
 using WebApi.Modules.Administrator.User;
 using WebApi.Modules.Settings.CompanyDepartmentSettings.Department;
 using WebApi.Modules.Agent.Customer;
+using WebApi.Modules.Agent.Contact;
 
 namespace WebApi.Modules.Reports.Billing.SalesRepresentativeBillingReport
 {
@@ -126,7 +127,7 @@ namespace WebApi.Modules.Reports.Billing.SalesRepresentativeBillingReport
         [FwControllerMethod(Id: "syTNhC2shQyl", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> ValidateSalesRepresentativeBrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync<UserLogic>(browseRequest);
+            return await DoBrowseAsync<ContactLogic>(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/salesrepresentativebillingreport/validatedepartment/browse 

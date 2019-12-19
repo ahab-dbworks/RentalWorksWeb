@@ -201,7 +201,7 @@ class RentalInventoryAvailabilityReport extends FwWebApiReport {
                     $validationbrowse.attr('data-apiurl', `${this.apiurl}/validaterentalinventory`);
                     break;
                 case 'WarehouseId':
-                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateattribute`);
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatewarehouse`);
                     break;
             }
         }

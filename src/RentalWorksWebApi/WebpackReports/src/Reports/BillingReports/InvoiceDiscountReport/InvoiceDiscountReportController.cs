@@ -18,6 +18,7 @@ using WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation;
 using WebApi.Modules.Settings.AccountingSettings.GlAccount;
 using WebApi.Modules.Settings.CompanyDepartmentSettings.Department;
 using WebApi.Modules.Settings.OrderSettings.DiscountReason;
+using WebApi.Modules.Agent.Customer;
 
 namespace WebApi.Modules.Reports.Billing.InvoiceDiscountReport
 {
@@ -115,12 +116,12 @@ namespace WebApi.Modules.Reports.Billing.InvoiceDiscountReport
         {
             return await DoBrowseAsync<OfficeLocationLogic>(browseRequest);
         }
-        // POST api/v1/invoicediscountreport/validateglaccount/browse 
-        [HttpPost("validateglaccount/browse")]
+        // POST api/v1/invoicediscountreport/validatecustomer/browse 
+        [HttpPost("validatecustomer/browse")]
         [FwControllerMethod(Id: "ATtHlYVm7cF5", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<FwJsonDataTable>> ValidateGlAccountBrowseAsync([FromBody]BrowseRequest browseRequest)
+        public async Task<ActionResult<FwJsonDataTable>> ValidateCustomerBrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync<GlAccountLogic>(browseRequest);
+            return await DoBrowseAsync<CustomerLogic>(browseRequest);
         }
         // POST api/v1/invoicediscountreport/validatedepartment/browse 
         [HttpPost("validatedepartment/browse")]

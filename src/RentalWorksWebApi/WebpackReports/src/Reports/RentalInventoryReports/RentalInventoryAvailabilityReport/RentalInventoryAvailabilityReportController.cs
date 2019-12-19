@@ -18,6 +18,7 @@ using WebApi.Modules.Settings.SubCategory;
 using WebApi.Modules.Inventory.RentalInventory;
 using WebApi.Modules.Reports.RentalInventoryReports.RentalInventoryAttributesReport;
 using WebApi.Modules.Settings.InventorySettings.RentalCategory;
+using WebApi.Modules.Settings.WarehouseSettings.Warehouse;
 
 namespace WebApi.Modules.Reports.RentalInventoryReports.RentalInventoryAvailabilityReport
 {
@@ -137,12 +138,12 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.RentalInventoryAvailabil
             return await DoBrowseAsync<RentalInventoryLogic>(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/rentalinventoryavailabilityreport/validateattribute/browse 
+        // POST api/v1/rentalinventoryavailabilityreport/validatewarehouse/browse 
         [HttpPost("validatewarehouse/browse")]
         [FwControllerMethod(Id: "2cr9vNvUAncL", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> ValidateAttributeBrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync<AttributeLogic>(browseRequest);
+            return await DoBrowseAsync<WarehouseLogic>(browseRequest);
         }
     }
 }
