@@ -17,6 +17,7 @@ namespace WebApi.Modules.HomeControls.OrderItem
     {
         private bool _shortagesOnly = false;
 
+        //------------------------------------------------------------------------------------ 
         public OrderItemLoader()
         {
             AfterBrowse += OnAfterBrowse;
@@ -194,20 +195,35 @@ namespace WebApi.Modules.HomeControls.OrderItem
         [FwSqlDataField(column: "weeklyextendednodisc", modeltype: FwDataTypes.Decimal)]
         public decimal? WeeklyExtendedNoDiscount { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "(case when (subtotal.nextsubtotalitemorder is null) then 0 else sum(t.weeklyextendednodisc) over(partition by subtotal.nextsubtotalitemorder) end)", modeltype: FwDataTypes.Decimal)]
+        public decimal? WeeklyExtendedNoDiscountSubTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "weeklydiscountamt", modeltype: FwDataTypes.Decimal)]
         public decimal? WeeklyDiscountAmount { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "weeklyextended", modeltype: FwDataTypes.Decimal)]
         public decimal? WeeklyExtended { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "(case when (subtotal.nextsubtotalitemorder is null) then 0 else sum(t.weeklyextended) over(partition by subtotal.nextsubtotalitemorder) end)", modeltype: FwDataTypes.Decimal)]
+        public decimal? WeeklyExtendedSubTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "weeklytotal", modeltype: FwDataTypes.Decimal)]
         public decimal? WeeklyTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "(case when (subtotal.nextsubtotalitemorder is null) then 0 else sum(t.weeklytotal) over(partition by subtotal.nextsubtotalitemorder) end)", modeltype: FwDataTypes.Decimal)]
+        public decimal? WeeklyTotalSubTotal { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "weeklycostextended", modeltype: FwDataTypes.Decimal)]
         public decimal? WeeklyCostExtended { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "(case when (subtotal.nextsubtotalitemorder is null) then 0 else sum(t.weeklycostextended) over(partition by subtotal.nextsubtotalitemorder) end)", modeltype: FwDataTypes.Decimal)]
+        public decimal? WeeklyCostExtendedSubTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "weeklytax", modeltype: FwDataTypes.Decimal)]
         public decimal? WeeklyTax { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "(case when (subtotal.nextsubtotalitemorder is null) then 0 else sum(t.weeklytax) over(partition by subtotal.nextsubtotalitemorder) end)", modeltype: FwDataTypes.Decimal)]
+        public decimal? WeeklyTaxSubTotal { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "week2extended", modeltype: FwDataTypes.Decimal)]
         public decimal? Week2Extended { get; set; }
@@ -236,26 +252,47 @@ namespace WebApi.Modules.HomeControls.OrderItem
         [FwSqlDataField(column: "monthlyextendednodisc", modeltype: FwDataTypes.Decimal)]
         public decimal? MonthlyExtendedNoDiscount { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "(case when (subtotal.nextsubtotalitemorder is null) then 0 else sum(t.monthlyextendednodisc) over(partition by subtotal.nextsubtotalitemorder) end)", modeltype: FwDataTypes.Decimal)]
+        public decimal? MonthlyExtendedNoDiscountSubTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "monthlydiscountamt", modeltype: FwDataTypes.Decimal)]
         public decimal? MonthlyDiscountAmount { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "monthlyextended", modeltype: FwDataTypes.Decimal)]
         public decimal? MonthlyExtended { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "(case when (subtotal.nextsubtotalitemorder is null) then 0 else sum(t.monthlyextended) over(partition by subtotal.nextsubtotalitemorder) end)", modeltype: FwDataTypes.Decimal)]
+        public decimal? MonthlyExtendedSubTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "monthlycostextended", modeltype: FwDataTypes.Decimal)]
         public decimal? MonthlyCostExtended { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "(case when (subtotal.nextsubtotalitemorder is null) then 0 else sum(t.monthlycostextended) over(partition by subtotal.nextsubtotalitemorder) end)", modeltype: FwDataTypes.Decimal)]
+        public decimal? MonthlyCostExtendedSubTotal { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "monthlytax", modeltype: FwDataTypes.Decimal)]
         public decimal? MonthlyTax { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "(case when (subtotal.nextsubtotalitemorder is null) then 0 else sum(t.monthlytax) over(partition by subtotal.nextsubtotalitemorder) end)", modeltype: FwDataTypes.Decimal)]
+        public decimal? MonthlyTaxSubTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "monthlytotal", modeltype: FwDataTypes.Decimal)]
         public decimal? MonthlyTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "(case when (subtotal.nextsubtotalitemorder is null) then 0 else sum(t.monthlytotal) over(partition by subtotal.nextsubtotalitemorder) end)", modeltype: FwDataTypes.Decimal)]
+        public decimal? MonthlyTotalSubTotal { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "periodextendednodisc", modeltype: FwDataTypes.Decimal)]
         public decimal? PeriodExtendedNoDiscount { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "(case when (subtotal.nextsubtotalitemorder is null) then 0 else sum(t.periodextendednodisc) over(partition by subtotal.nextsubtotalitemorder) end)", modeltype: FwDataTypes.Decimal)]
+        public decimal? PeriodExtendedNoDiscountSubTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "periodcostextended", modeltype: FwDataTypes.Decimal)]
         public decimal? PeriodCostExtended { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "(case when (subtotal.nextsubtotalitemorder is null) then 0 else sum(t.periodcostextended) over(partition by subtotal.nextsubtotalitemorder) end)", modeltype: FwDataTypes.Decimal)]
+        public decimal? PeriodCostExtendedSubTotal { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "perioddiscountamt", modeltype: FwDataTypes.Decimal)]
         public decimal? PeriodDiscountAmount { get; set; }
@@ -263,14 +300,26 @@ namespace WebApi.Modules.HomeControls.OrderItem
         [FwSqlDataField(column: "periodextended", modeltype: FwDataTypes.Decimal)]
         public decimal? PeriodExtended { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "(case when (subtotal.nextsubtotalitemorder is null) then 0 else sum(t.periodextended) over(partition by subtotal.nextsubtotalitemorder) end)", modeltype: FwDataTypes.Decimal)]
+        public decimal? PeriodExtendedSubTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "periodtax", modeltype: FwDataTypes.Decimal)]
         public decimal? PeriodTax { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "(case when (subtotal.nextsubtotalitemorder is null) then 0 else sum(t.periodtax) over(partition by subtotal.nextsubtotalitemorder) end)", modeltype: FwDataTypes.Decimal)]
+        public decimal? PeriodTaxSubTotal { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "periodtotal", modeltype: FwDataTypes.Decimal)]
         public decimal? PeriodTotal { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "(case when (subtotal.nextsubtotalitemorder is null) then 0 else sum(t.periodtotal) over(partition by subtotal.nextsubtotalitemorder) end)", modeltype: FwDataTypes.Decimal)]
+        public decimal? PeriodTotalSubTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "periodvarianceextended", modeltype: FwDataTypes.Decimal)]
         public decimal? PeriodVarianceExtended { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "(case when (subtotal.nextsubtotalitemorder is null) then 0 else sum(t.periodvarianceextended) over(partition by subtotal.nextsubtotalitemorder) end)", modeltype: FwDataTypes.Decimal)]
+        public decimal? PeriodVarianceExtendedSubTotal { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "variancepct", modeltype: FwDataTypes.Decimal)]
         public decimal? VariancePercent { get; set; }
@@ -756,6 +805,12 @@ namespace WebApi.Modules.HomeControls.OrderItem
         //[FwSqlDataField(column: "qtyreturned", modeltype: FwDataTypes.Decimal)]
         //public decimal? Quantityreturned { get; set; }
         ////------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "groupheader.nextgroupheaderitemorder", modeltype: FwDataTypes.Text)]
+        public string NextGroupHeaderItemOrder { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "subtotal.nextsubtotalitemorder", modeltype: FwDataTypes.Text)]
+        public string NextSubTotalItemOrder { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -764,13 +819,8 @@ namespace WebApi.Modules.HomeControls.OrderItem
             string orderId = OrderId;
             bool summaryMode = GetUniqueIdAsBoolean("Summary", request).GetValueOrDefault(false);
             bool subs = false;
-            bool splitDetails = GetUniqueIdAsBoolean("SplitDetails", request).GetValueOrDefault(false);
+            bool rollup = GetUniqueIdAsBoolean("Rollup", request).GetValueOrDefault(false);
             _shortagesOnly = GetUniqueIdAsBoolean("ShortagesOnly", request).GetValueOrDefault(false);
-
-            if ((splitDetails) || (DetailOnly.GetValueOrDefault(false)))
-            {
-                OverrideTableName = "orderitemdetailwebview";
-            }
 
             if (string.IsNullOrEmpty(orderId))
             {
@@ -796,6 +846,50 @@ namespace WebApi.Modules.HomeControls.OrderItem
             {
                 subs = GetUniqueIdAsBoolean("Subs", request).GetValueOrDefault(false);
             }
+
+
+            bool hasSubTotal = false;
+            using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
+            {
+                FwSqlCommand qrySt = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout);
+                qrySt.Add("select hassubtotal = (case when exists (select * from masteritem mi where mi.orderid = @orderid and mi.itemclass = '" + RwConstants.ITEMCLASS_SUBTOTAL + "') then 'T' else 'F' end) ");
+                qrySt.AddParameter("@orderid", orderId);
+                FwJsonDataTable dt = qrySt.QueryToFwJsonTableAsync().Result;
+                hasSubTotal = FwConvert.ToBoolean(dt.Rows[0][0].ToString());
+            }
+
+            string tableName = "orderitemdetailwebview";
+            if ((rollup) && (!DetailOnly.GetValueOrDefault(false)))
+            {
+                tableName = "orderitemsummarywebview";
+            }
+
+            OverrideFromClause = " from " + tableName + " [t] with (nolock) ";
+            if (hasSubTotal)
+            {
+                OverrideFromClause +=
+                       " outer apply (select nextgroupheaderitemorder = (case when (t.itemclass = '" + RwConstants.ITEMCLASS_GROUP_HEADING + "') then '' else min(v2.itemorder) end)" +
+                       "               from  " + tableName + " v2 with (nolock)" +
+                       "               where v2.orderid   = t.orderid" +
+                       "               and   v2.itemorder > t.itemorder" +
+                       "               and   v2.itemclass = '" + RwConstants.ITEMCLASS_GROUP_HEADING + "') groupheader" +
+                       " outer apply (select nextsubtotalitemorder = (case " +
+                       "                                                 when (t.itemclass = '" + RwConstants.ITEMCLASS_SUBTOTAL + "')   then t.itemorder " +
+                       "                                                 when (groupheader.nextgroupheaderitemorder < min(v2.itemorder)) then null" +
+                       "                                                 else                                                                 min(v2.itemorder) end)" +
+                       "               from  " + tableName + " v2" +
+                       "               where v2.orderid   = t.orderid" +
+                       "               and   v2.itemorder > t.itemorder" +
+                       "               and   v2.itemclass = '" + RwConstants.ITEMCLASS_SUBTOTAL + "') subtotal";
+            }
+            else
+            {
+                OverrideFromClause +=
+                       "outer apply(select nextgroupheaderitemorder = null) groupheader " +
+                       "outer apply(select nextsubtotalitemorder = null) subtotal";
+            }
+
+
 
 
             base.SetBaseSelectQuery(select, qry, customFields, request);
@@ -895,9 +989,9 @@ namespace WebApi.Modules.HomeControls.OrderItem
                     }
                 }
 
-                if (dt.Rows.Count > 0)
+                if (_shortagesOnly)
                 {
-                    if (_shortagesOnly)
+                    if (dt.Rows.Count > 0)
                     {
                         for (int r = dt.Rows.Count - 1; r >= 0; r--)
                         {
@@ -908,6 +1002,28 @@ namespace WebApi.Modules.HomeControls.OrderItem
                         }
                     }
                 }
+
+                if (dt.Rows.Count > 0)
+                {
+                    foreach (List<object> row in dt.Rows)
+                    {
+                        string itemClass = row[dt.GetColumnNo("ItemClass")].ToString();
+                        if (itemClass.Equals(RwConstants.ITEMCLASS_SUBTOTAL))
+                        {
+                            for (int c = 0; c < dt.Columns.Count; c++)
+                            {
+                                if (dt.ColumnNameByIndex[c].EndsWith("SubTotal"))
+                                {
+                                    string subTotalColumnName = dt.ColumnNameByIndex[c];
+                                    string nonSubTotalColumnName = subTotalColumnName.Replace("SubTotal", "");
+                                    //row[dt.GetColumnNo(nonSubTotalColumnName)] = row[dt.GetColumnNo(subTotalColumnName)];
+                                    row[dt.GetColumnNo(nonSubTotalColumnName)] = row[c];
+                                }
+                            }
+                        }
+                    }
+                }
+
             }
         }
         //------------------------------------------------------------------------------------

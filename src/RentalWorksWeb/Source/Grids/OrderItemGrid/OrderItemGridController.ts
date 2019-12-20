@@ -132,6 +132,26 @@
                     $tr.css('font-style', "italic");
                 }
 
+
+                // Group Header Row
+                if ($tr.find('.itemclass').text() === 'GH') {
+                    $tr.css('font-weight', "bold");
+                    $tr.css('background-color', "#ffe6ff");
+                    $tr.find('.field:not(.groupheaderline) ').text('');
+                }
+
+                // Text Row
+                if ($tr.find('.itemclass').text() === 'T') {
+                    $tr.find('.field:not(.textline) ').text('');
+                }
+
+                // Sub-Total Row
+                if ($tr.find('.itemclass').text() === 'ST') {
+                    $tr.css('font-weight', "bold");
+                    $tr.css('background-color', "#ffb3ff");
+                    $tr.find('.field:not(.subtotalline) ').text('');
+                }
+
                 const availabilityState = FwBrowse.getValueByDataField($control, $generatedtr, 'AvailabilityState');
                 const $availQty = $generatedtr.find('[data-browsedatafield="AvailableQuantity"]')
                 $availQty.attr('data-state', availabilityState);
@@ -680,6 +700,99 @@
         };
     }
     //----------------------------------------------------------------------------------------------
+    async insertHeaderLines(event) {
+        const $browse = jQuery(event.currentTarget).closest('.fwbrowse');
+        const headerItems= [];
+        const orderId = $browse.find('.selected [data-browsedatafield="OrderId"]').attr('data-originalvalue');
+        const $selectedCheckBoxes = $browse.find('tbody .cbselectrow:checked');
+
+        if (orderId != null) {
+            for (let i = 0; i < $selectedCheckBoxes.length; i++) {
+                let orderItem: any = {};
+                let orderItemId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderItemId"]').attr('data-originalvalue');
+                orderItem.OrderItemId = orderItemId
+                orderItem.OrderId = orderId;
+                headerItems.push(orderItem);
+            }
+            await insertHeaderItems(headerItems);
+            await jQuery(document).trigger('click');
+        } else {
+            FwNotification.renderNotification('WARNING', 'Select a record.')
+        }
+
+        function insertHeaderItems(items): void {
+
+            FwAppData.apiMethod(true, 'POST', `api/v1/orderitem/insertheaders`, items, FwServices.defaultTimeout, function onSuccess(response) {
+                FwBrowse.databind($browse);
+            }, function onError(response) {
+                FwFunc.showError(response);
+                FwBrowse.databind($browse);
+            }, $browse);
+        };
+    }
+    //----------------------------------------------------------------------------------------------   
+    async insertTextLines(event) {
+        const $browse = jQuery(event.currentTarget).closest('.fwbrowse');
+        const textItems = [];
+        const orderId = $browse.find('.selected [data-browsedatafield="OrderId"]').attr('data-originalvalue');
+        const $selectedCheckBoxes = $browse.find('tbody .cbselectrow:checked');
+
+        if (orderId != null) {
+            for (let i = 0; i < $selectedCheckBoxes.length; i++) {
+                let orderItem: any = {};
+                let orderItemId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderItemId"]').attr('data-originalvalue');
+                orderItem.OrderItemId = orderItemId
+                orderItem.OrderId = orderId;
+                textItems.push(orderItem);
+            }
+            await insertTextItems(textItems);
+            await jQuery(document).trigger('click');
+        } else {
+            FwNotification.renderNotification('WARNING', 'Select a record.')
+        }
+
+        function insertTextItems(items): void {
+
+            FwAppData.apiMethod(true, 'POST', `api/v1/orderitem/inserttexts`, items, FwServices.defaultTimeout, function onSuccess(response) {
+                FwBrowse.databind($browse);
+            }, function onError(response) {
+                FwFunc.showError(response);
+                FwBrowse.databind($browse);
+            }, $browse);
+        };
+    }
+    //----------------------------------------------------------------------------------------------
+    async insertSubTotalLines(event) {
+        const $browse = jQuery(event.currentTarget).closest('.fwbrowse');
+        const subTotalItems = [];
+        const orderId = $browse.find('.selected [data-browsedatafield="OrderId"]').attr('data-originalvalue');
+        const $selectedCheckBoxes = $browse.find('tbody .cbselectrow:checked');
+        
+        if (orderId != null) {
+            for (let i = 0; i < $selectedCheckBoxes.length; i++) {
+                let orderItem: any = {};
+                let orderItemId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderItemId"]').attr('data-originalvalue');
+                orderItem.OrderItemId = orderItemId
+                orderItem.OrderId = orderId;
+                subTotalItems.push(orderItem);
+            }
+            await insertSubTotalItems(subTotalItems);
+            await jQuery(document).trigger('click');
+        } else {
+            FwNotification.renderNotification('WARNING', 'Select a record.')
+        }
+        
+        function insertSubTotalItems(items): void {
+        
+            FwAppData.apiMethod(true, 'POST', `api/v1/orderitem/insertsubtotals`, items, FwServices.defaultTimeout, function onSuccess(response) {
+                FwBrowse.databind($browse);
+            }, function onError(response) {
+                FwFunc.showError(response);
+                FwBrowse.databind($browse);
+            }, $browse);
+        };
+    }
+    //----------------------------------------------------------------------------------------------    
     async detailSummaryView(event) {
         const $orderItemGrid: any = jQuery(event.currenTarget).closest('[data-name="OrderItemGrid"]');
 
@@ -926,19 +1039,19 @@
         await jQuery(document).trigger('click');
     }
     //---------------------------------------------------------------------------------
-    async splitDetail(event: any) {
+    async rollup(event: any) {
         const $orderItemGrid: any = jQuery(event.currentTarget).closest('[data-name="OrderItemGrid"]');
-        let splitDetails: boolean = $orderItemGrid.data('SplitDetails');
-        splitDetails = !splitDetails;
-        $orderItemGrid.data('SplitDetails', splitDetails);
+        let rollup: boolean = $orderItemGrid.data('Rollup');
+        rollup = !rollup;
+        $orderItemGrid.data('Rollup', rollup);
         const $element = jQuery(event.currentTarget);
-        $element.children().text(splitDetails ? 'Roll-up Quantities' : 'Show Split Details');
+        $element.children().text(rollup ? 'Show Split Details' : 'Roll-up Quantities');
 
         const onDataBind = $orderItemGrid.data('ondatabind');
         if (typeof onDataBind == 'function') {
             $orderItemGrid.data('ondatabind', function (request) {
                 onDataBind(request);
-                request.uniqueids.SplitDetails = splitDetails;
+                request.uniqueids.Rollup = rollup;
             });
         }
 

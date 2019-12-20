@@ -130,6 +130,12 @@ namespace WebApi
         public const string ACTIVITY_TYPE_TEST = "TEST";
         public const string ACTIVITY_TYPE_REPAIRDUE = "REPAIRDUE";
 
+
+        public const string ITEMCLASS_GROUP_HEADING= "GH";
+        public const string ITEMCLASS_TEXT = "T";
+        public const string ITEMCLASS_SUBTOTAL = "ST";
+
+
         //QUOTE/ORDER LINE-ITEMS
         public const string RECTYPE_RENTAL = "R";
         public const string RECTYPE_SALE = "S";
