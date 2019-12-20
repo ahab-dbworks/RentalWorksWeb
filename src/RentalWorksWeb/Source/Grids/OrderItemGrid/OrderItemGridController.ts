@@ -123,7 +123,7 @@
                 // Group Header Row
                 if ($tr.find('.itemclass').text() === 'GH') {
                     $tr.css('font-weight', "bold");
-                    $tr.css('background-color', "#ffe6ff");
+                    $tr.css('background-color', "#ffffcc");
                     $tr.find('.field:not(.groupheaderline) ').text('');
                 }
 
@@ -135,7 +135,7 @@
                 // Sub-Total Row
                 if ($tr.find('.itemclass').text() === 'ST') {
                     $tr.css('font-weight', "bold");
-                    $tr.css('background-color', "#ffb3ff");
+                    $tr.css('background-color', "#ffff80");
                     $tr.find('.field:not(.subtotalline) ').text('');
                 }
 
