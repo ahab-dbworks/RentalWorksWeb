@@ -85,7 +85,7 @@ abstract class FwWebApiReport {
                     if (isValid) {
                         const request: any = this.getRenderRequest($form);
                         request.renderMode = 'Html';
-                        request.parameters = await this.convertParameters(this.getParameters($form));
+                        request.parameters = await this.getParameters($form).then((value) => this.convertParameters(value));
                         request.parameters.companyName = companyName;
                         request.parameters.action = 'Preview';
 
@@ -127,7 +127,7 @@ abstract class FwWebApiReport {
                     if (isValid) {
                         const request: any = this.getRenderRequest($form);
                         request.renderMode = 'Html';
-                        request.parameters = await this.convertParameters(this.getParameters($form));
+                        request.parameters = await this.getParameters($form).then((value) => this.convertParameters(value));
                         request.parameters.companyName = companyName;
                         request.parameters.action = 'Print/PDF';
 
@@ -177,7 +177,7 @@ abstract class FwWebApiReport {
                         $confirmation.find('.sub-headings input').prop('checked', false);
                         const request: any = this.getRenderRequest($form);
                         request.downloadPdfAsAttachment = true;
-                        const convertedparameters = await this.convertParameters(this.getParameters($form));
+                        const convertedparameters = await this.getParameters($form).then((value) => this.convertParameters(value));
                         for (let key in convertedparameters) {
                             request[key] = convertedparameters[key];
                         }
@@ -223,7 +223,7 @@ abstract class FwWebApiReport {
                         const request: any = this.getRenderRequest($form);
                         request.renderMode = 'Pdf';
                         request.downloadPdfAsAttachment = false;
-                        request.parameters = await this.convertParameters(this.getParameters($form));
+                        request.parameters = await this.getParameters($form).then((value) => this.convertParameters(value));
                         request.parameters.companyName = companyName;
                         request.parameters.action = 'Print/PDF'
 
@@ -332,7 +332,7 @@ abstract class FwWebApiReport {
                         request.email.cc = '';
                         request.email.subject = '[reportname]';
                         request.email.body = '';
-                        request.parameters = await this.convertParameters(this.getParameters($form));
+                        request.parameters = await this.getParameters($form).then((value) => this.convertParameters(value));
 
                         const $notification = FwNotification.renderNotification('PERSISTENTINFO', 'Preparing Report...');
                         request.parameters.companyName = companyName;
