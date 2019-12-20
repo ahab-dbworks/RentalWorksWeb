@@ -23,13 +23,13 @@
                     request.uniqueids = {
                         Sales: true
                     };
-                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventorytype`);
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatemiscinventorytype`);
                     break;
                 case 'CategoryId':
                     request.uniqueids = {
                         MiscTypeId: MiscTypeValue
                     };
-                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecategory`);
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatemisccategory`);
                     break;
                 case 'SubCategoryId':
                     request.uniqueids = {
@@ -44,7 +44,7 @@
                         CategoryId: CategoryValue,
                         SubCategoryId: SubCategoryValue
                     };
-                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventory`);
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatemiscinventory`);
                     break;
             };
         }

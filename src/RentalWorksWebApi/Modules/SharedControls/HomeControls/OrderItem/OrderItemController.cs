@@ -226,7 +226,7 @@ namespace WebApi.Modules.HomeControls.OrderItem
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/orderitem/validatewarehouse/browse
-        [HttpPost("validateunit/browse")]
+        [HttpPost("validatewarehouse/browse")]
         [FwControllerMethod(Id: "UFgbeFf3tqN4", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> ValidateWarehouseBrowseAsync([FromBody]BrowseRequest browseRequest)
         {

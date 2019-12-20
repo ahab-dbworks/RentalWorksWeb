@@ -114,8 +114,8 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.RentalInventoryAvailabil
             return await DoBrowseAsync<InventoryTypeLogic>(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/rentalinventoryavailabilityreport/validatecategory/browse 
-        [HttpPost("validatecategory/browse")]
+        // POST api/v1/rentalinventoryavailabilityreport/validaterentalcategory/browse 
+        [HttpPost("validaterentalcategory/browse")]
         [FwControllerMethod(Id: "RftPyaYAlfsq", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> ValidateCategoryBrowseAsync([FromBody]BrowseRequest browseRequest)
         {
@@ -130,8 +130,8 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.RentalInventoryAvailabil
             return await DoBrowseAsync<SubCategoryLogic>(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/rentalinventoryavailabilityreport/validateinventory/browse 
-        [HttpPost("validateinventory/browse")]
+        // POST api/v1/rentalinventoryavailabilityreport/validaterentalinventory/browse 
+        [HttpPost("validaterentalinventory/browse")]
         [FwControllerMethod(Id: "X5quL0JWrLHx", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> ValidateInventoryBrowseAsync([FromBody]BrowseRequest browseRequest)
         {

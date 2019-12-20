@@ -18,13 +18,13 @@
                     request.uniqueids = {
                         Sales: true
                     };
-                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventorytype`);
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatelaborinventorytype`);
                     break;
                 case 'CategoryId':
                     request.uniqueids = {
                         LaborTypeId: LaborTypeValue
                     };
-                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecategory`);
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatelaborcategory`);
                     break;
                 case 'SubCategoryId':
                     request.uniqueids = {
@@ -39,7 +39,7 @@
                         CategoryId: CategoryValue,
                         SubCategoryId: SubCategoryValue
                     };
-                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventory`);
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatelaborinventory`);
                     break;
             };
         }

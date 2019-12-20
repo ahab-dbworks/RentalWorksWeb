@@ -11,6 +11,14 @@ using WebApi.Modules.Settings.InventorySettings.InventoryType;
 using WebApi.Modules.Settings.InventorySettings.RentalCategory;
 using WebApi.Modules.Settings.SubCategory;
 using WebApi.Modules.Inventory.RentalInventory;
+using WebApi.Modules.Settings.LaborSettings.LaborType;
+using WebApi.Modules.Settings.LaborSettings.LaborCategory;
+using WebApi.Modules.Settings.LaborSettings.LaborRate;
+using WebApi.Modules.Settings.MiscellaneousSettings.MiscType;
+using WebApi.Modules.Settings.MiscellaneousSettings.MiscCategory;
+using WebApi.Modules.Settings.MiscellaneousSettings.MiscRate;
+using WebApi.Modules.Settings.InventorySettings.SalesCategory;
+using WebApi.Modules.Inventory.SalesInventory;
 
 namespace WebApi.Modules.Settings.DiscountItem
 {
@@ -77,6 +85,7 @@ namespace WebApi.Modules.Settings.DiscountItem
             return await DoDeleteAsync<DiscountItemLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
+        // ----- Rental Discount Tab ---------------------------------------------------------
         // POST api/v1/discountitem/validateordertype/browse
         [HttpPost("validateordertype/browse")]
         [FwControllerMethod(Id: "NuvNcvNRVcf2", ActionType: FwControllerActionTypes.Browse)]
@@ -115,6 +124,74 @@ namespace WebApi.Modules.Settings.DiscountItem
         public async Task<ActionResult<FwJsonDataTable>> ValidateInventoryBrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync<RentalInventoryLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
+        // ----- Labor Discount Tab ---------------------------------------------------------
+        // POST api/v1/discountitem/validatelaborinventorytype/browse
+        [HttpPost("validatelaborinventorytype/browse")]
+        [FwControllerMethod(Id: "0kTVz2o7mPM5", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateLaborInventoryTypeBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<LaborTypeLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/discountitem/validatelaborcategory/browse
+        [HttpPost("validatelaborcategory/browse")]
+        [FwControllerMethod(Id: "j083RhAaqr8V", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateLaborCategoryBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<LaborCategoryLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/discountitem/validatelaborinventory/browse
+        [HttpPost("validatelaborinventory/browse")]
+        [FwControllerMethod(Id: "odWXy8LaYAk3", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateLaborInventoryBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<LaborRateLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
+        // ----- Misc Discount Tab ---------------------------------------------------------
+        // POST api/v1/discountitem/validatemiscinventorytype/browse
+        [HttpPost("validatemiscinventorytype/browse")]
+        [FwControllerMethod(Id: "upOLk0dSTTf4", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateMiscInventoryTypeBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<MiscTypeLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/discountitem/validatemisccategory/browse
+        [HttpPost("validatemisccategory/browse")]
+        [FwControllerMethod(Id: "yXwF7bXJn8Hw", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateMiscCategoryBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<MiscCategoryLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/discountitem/validatemiscinventory/browse
+        [HttpPost("validatemiscinventory/browse")]
+        [FwControllerMethod(Id: "fAIodLfSPeJD", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateMiscInventoryBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<MiscRateLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
+        // ----- Sales Discount Tab ---------------------------------------------------------
+        //------------------------------------------------------------------------------------
+        // POST api/v1/discountitem/validatesalescategory/browse
+        [HttpPost("validatesalescategory/browse")]
+        [FwControllerMethod(Id: "nyw76dyma8L8", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateSalesCategoryBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<SalesCategoryLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/discountitem/validatesalesinventory/browse
+        [HttpPost("validatesalesinventory/browse")]
+        [FwControllerMethod(Id: "IsfexnWlsdjx", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateSalesInventoryBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<SalesInventoryLogic>(browseRequest);
         }
     }
 }

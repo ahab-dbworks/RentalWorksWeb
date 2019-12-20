@@ -194,7 +194,7 @@ namespace WebApi.Modules.Inventory.PartsInventory
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/partsinventory/validatewarehouse/browse
-        [HttpPost("validateprofitandloss/browse")]
+        [HttpPost("validatewarehouse/browse")]
         [FwControllerMethod(Id: "J3hDOnj1JYd7", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> ValidateWarehouseBrowseAsync([FromBody]BrowseRequest browseRequest)
         {

@@ -9,6 +9,9 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebApi.Controllers;
+using WebApi.Modules.Agent.Vendor;
+using WebApi.Modules.Settings.InventorySettings.InventoryType;
+using WebApi.Modules.Settings.ShipViaSettings.ShipVia;
 
 namespace WebApi.Modules.Settings.VendorSettings.VendorCatalog
 {
@@ -77,5 +80,37 @@ namespace WebApi.Modules.Settings.VendorSettings.VendorCatalog
             return await DoDeleteAsync<VendorCatalogLogic>(id);
         }
         //------------------------------------------------------------------------------------
+        //------------------------------------------------------------------------------------
+        // POST api/v1/vendorcatalog/validateinventorytype/browse
+        [HttpPost("validateinventorytype/browse")]
+        [FwControllerMethod(Id: "PMrlBtOeazMl", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateInventoryTypeBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<InventoryTypeLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/vendorcatalog/validatevendor/browse
+        [HttpPost("validatevendor/browse")]
+        [FwControllerMethod(Id: "KQ2A8eoGDKbC", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateVendorBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<VendorLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/vendorcatalog/validatecarrier/browse
+        [HttpPost("validatecarrier/browse")]
+        [FwControllerMethod(Id: "OI6IQcYjN8Sf", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateCarrierBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<VendorLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/vendorcatalog/validateshipvia/browse
+        [HttpPost("validateshipvia/browse")]
+        [FwControllerMethod(Id: "mbdUw5DWJhxb", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateShipViaBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<ShipViaLogic>(browseRequest);
+        }
     }
 }

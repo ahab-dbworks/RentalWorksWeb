@@ -28,7 +28,7 @@
                     request.uniqueids = {
                         InventoryTypeId: InventoryTypeValue
                     };
-                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecategory`);
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatesalescategory`);
                     break;
                 case 'SubCategoryId':
                     request.uniqueids = {
@@ -43,7 +43,7 @@
                         CategoryId: CategoryTypeValue,
                         SubCategoryId: SubCategoryTypeValue
                     };
-                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventory`);
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatesalesinventory`);
                     break;
             };
         }
