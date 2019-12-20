@@ -291,9 +291,9 @@ class OrderBase {
                         FwFunc.showError(ex);
                     }
                 });
-                FwMenu.addSubMenuItem($viewgroup, 'Show Split Details', '', (e: JQuery.ClickEvent) => {
+                FwMenu.addSubMenuItem($viewgroup, 'Rollup Quantities', '', (e: JQuery.ClickEvent) => {
                     try {
-                        OrderItemGridController.splitDetail(e);
+                        OrderItemGridController.rollup(e);
                     }
                     catch (ex) {
                         FwFunc.showError(ex);
@@ -438,9 +438,9 @@ class OrderBase {
                         FwFunc.showError(ex);
                     }
                 });
-                FwMenu.addSubMenuItem($viewgroup, 'Show Split Details', '', (e: JQuery.ClickEvent) => {
+                FwMenu.addSubMenuItem($viewgroup, 'Rollup Quantities', '', (e: JQuery.ClickEvent) => {
                     try {
-                        OrderItemGridController.splitDetail(e);
+                        OrderItemGridController.rollup(e);
                     }
                     catch (ex) {
                         FwFunc.showError(ex);
@@ -586,9 +586,9 @@ class OrderBase {
                         FwFunc.showError(ex);
                     }
                 });
-                FwMenu.addSubMenuItem($viewgroup, 'Show Split Details', '', (e: JQuery.ClickEvent) => {
+                FwMenu.addSubMenuItem($viewgroup, 'Rollup Quantities', '', (e: JQuery.ClickEvent) => {
                     try {
-                        OrderItemGridController.splitDetail(e);
+                        OrderItemGridController.rollup(e);
                     }
                     catch (ex) {
                         FwFunc.showError(ex);
@@ -734,9 +734,9 @@ class OrderBase {
                         FwFunc.showError(ex);
                     }
                 });
-                FwMenu.addSubMenuItem($viewgroup, 'Show Split Details', '', (e: JQuery.ClickEvent) => {
+                FwMenu.addSubMenuItem($viewgroup, 'Rollup Quantities', '', (e: JQuery.ClickEvent) => {
                     try {
-                        OrderItemGridController.splitDetail(e);
+                        OrderItemGridController.rollup(e);
                     }
                     catch (ex) {
                         FwFunc.showError(ex);
@@ -866,9 +866,9 @@ class OrderBase {
                         FwFunc.showError(ex);
                     }
                 });
-                FwMenu.addSubMenuItem($viewgroup, 'Show Split Details', '', (e: JQuery.ClickEvent) => {
+                FwMenu.addSubMenuItem($viewgroup, 'Rollup Quantities', '', (e: JQuery.ClickEvent) => {
                     try {
-                        OrderItemGridController.splitDetail(e);
+                        OrderItemGridController.rollup(e);
                     }
                     catch (ex) {
                         FwFunc.showError(ex);
@@ -1007,9 +1007,9 @@ class OrderBase {
                         FwFunc.showError(ex);
                     }
                 });
-                FwMenu.addSubMenuItem($viewgroup, 'Show Split Details', '', (e: JQuery.ClickEvent) => {
+                FwMenu.addSubMenuItem($viewgroup, 'Rollup Quantities', '', (e: JQuery.ClickEvent) => {
                     try {
-                        OrderItemGridController.splitDetail(e);
+                        OrderItemGridController.rollup(e);
                     }
                     catch (ex) {
                         FwFunc.showError(ex);

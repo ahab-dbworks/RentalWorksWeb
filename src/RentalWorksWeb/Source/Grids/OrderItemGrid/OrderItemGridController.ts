@@ -1033,19 +1033,19 @@
         await jQuery(document).trigger('click');
     }
     //---------------------------------------------------------------------------------
-    async splitDetail(event: any) {
+    async rollup(event: any) {
         const $orderItemGrid: any = jQuery(event.currentTarget).closest('[data-name="OrderItemGrid"]');
-        let splitDetails: boolean = $orderItemGrid.data('SplitDetails');
-        splitDetails = !splitDetails;
-        $orderItemGrid.data('SplitDetails', splitDetails);
+        let rollup: boolean = $orderItemGrid.data('Rollup');
+        rollup = !rollup;
+        $orderItemGrid.data('Rollup', rollup);
         const $element = jQuery(event.currentTarget);
-        $element.children().text(splitDetails ? 'Roll-up Quantities' : 'Show Split Details');
+        $element.children().text(rollup ? 'Show Split Details' : 'Roll-up Quantities');
 
         const onDataBind = $orderItemGrid.data('ondatabind');
         if (typeof onDataBind == 'function') {
             $orderItemGrid.data('ondatabind', function (request) {
                 onDataBind(request);
-                request.uniqueids.SplitDetails = splitDetails;
+                request.uniqueids.Rollup = rollup;
             });
         }
 

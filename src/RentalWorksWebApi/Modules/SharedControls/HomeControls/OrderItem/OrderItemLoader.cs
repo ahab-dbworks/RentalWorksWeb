@@ -819,30 +819,8 @@ namespace WebApi.Modules.HomeControls.OrderItem
             string orderId = OrderId;
             bool summaryMode = GetUniqueIdAsBoolean("Summary", request).GetValueOrDefault(false);
             bool subs = false;
-            bool splitDetails = GetUniqueIdAsBoolean("SplitDetails", request).GetValueOrDefault(false);
+            bool rollup = GetUniqueIdAsBoolean("Rollup", request).GetValueOrDefault(false);
             _shortagesOnly = GetUniqueIdAsBoolean("ShortagesOnly", request).GetValueOrDefault(false);
-
-            string tableName = "orderitemsummarywebview";
-            if ((splitDetails) || (DetailOnly.GetValueOrDefault(false)))
-            {
-                tableName = "orderitemdetailwebview";
-            }
-
-            OverrideFromClause = " from " + tableName + " [t] with (nolock) " +
-                       " outer apply (select nextgroupheaderitemorder = (case when (t.itemclass = '" + RwConstants.ITEMCLASS_GROUP_HEADING + "') then '' else min(v2.itemorder) end)" +
-                       "               from  " + tableName + " v2 with (nolock)" +
-                       "               where v2.orderid   = t.orderid" +
-                       "               and   v2.itemorder > t.itemorder" +
-                       "               and   v2.itemclass = '" + RwConstants.ITEMCLASS_GROUP_HEADING + "') groupheader" +
-                       " outer apply (select nextsubtotalitemorder = (case " +
-                       "                                                 when (t.itemclass = '" + RwConstants.ITEMCLASS_SUBTOTAL + "')   then t.itemorder " +
-                       "                                                 when (groupheader.nextgroupheaderitemorder < min(v2.itemorder)) then null" +
-                       "                                                 else                                                                 min(v2.itemorder) end)" +
-                       "               from  " + tableName + " v2" +
-                       "               where v2.orderid   = t.orderid" +
-                       "               and   v2.itemorder > t.itemorder" +
-                       "               and   v2.itemclass = '" + RwConstants.ITEMCLASS_SUBTOTAL + "') subtotal";
-
 
             if (string.IsNullOrEmpty(orderId))
             {
@@ -868,6 +846,50 @@ namespace WebApi.Modules.HomeControls.OrderItem
             {
                 subs = GetUniqueIdAsBoolean("Subs", request).GetValueOrDefault(false);
             }
+
+
+            bool hasSubTotal = false;
+            using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
+            {
+                FwSqlCommand qrySt = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout);
+                qrySt.Add("select hassubtotal = (case when exists (select * from masteritem mi where mi.orderid = @orderid and mi.itemclass = '" + RwConstants.ITEMCLASS_SUBTOTAL + "') then 'T' else 'F' end) ");
+                qrySt.AddParameter("@orderid", orderId);
+                FwJsonDataTable dt = qrySt.QueryToFwJsonTableAsync().Result;
+                hasSubTotal = FwConvert.ToBoolean(dt.Rows[0][0].ToString());
+            }
+
+            string tableName = "orderitemdetailwebview";
+            if ((rollup) && (!DetailOnly.GetValueOrDefault(false)))
+            {
+                tableName = "orderitemsummarywebview";
+            }
+
+            OverrideFromClause = " from " + tableName + " [t] with (nolock) ";
+            if (hasSubTotal)
+            {
+                OverrideFromClause +=
+                       " outer apply (select nextgroupheaderitemorder = (case when (t.itemclass = '" + RwConstants.ITEMCLASS_GROUP_HEADING + "') then '' else min(v2.itemorder) end)" +
+                       "               from  " + tableName + " v2 with (nolock)" +
+                       "               where v2.orderid   = t.orderid" +
+                       "               and   v2.itemorder > t.itemorder" +
+                       "               and   v2.itemclass = '" + RwConstants.ITEMCLASS_GROUP_HEADING + "') groupheader" +
+                       " outer apply (select nextsubtotalitemorder = (case " +
+                       "                                                 when (t.itemclass = '" + RwConstants.ITEMCLASS_SUBTOTAL + "')   then t.itemorder " +
+                       "                                                 when (groupheader.nextgroupheaderitemorder < min(v2.itemorder)) then null" +
+                       "                                                 else                                                                 min(v2.itemorder) end)" +
+                       "               from  " + tableName + " v2" +
+                       "               where v2.orderid   = t.orderid" +
+                       "               and   v2.itemorder > t.itemorder" +
+                       "               and   v2.itemclass = '" + RwConstants.ITEMCLASS_SUBTOTAL + "') subtotal";
+            }
+            else
+            {
+                OverrideFromClause +=
+                       "outer apply(select nextgroupheaderitemorder = null) groupheader " +
+                       "outer apply(select nextsubtotalitemorder = null) subtotal";
+            }
+
+
 
 
             base.SetBaseSelectQuery(select, qry, customFields, request);

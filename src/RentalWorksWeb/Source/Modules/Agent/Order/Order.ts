@@ -324,22 +324,6 @@ class Order extends OrderBase {
                         FwFunc.showError(ex);
                     }
                 });
-                FwMenu.addSubMenuItem($optionsgroup, 'Copy Template', '', (e: JQuery.ClickEvent) => {
-                    try {
-                        OrderItemGridController.copyTemplate(e);
-                    }
-                    catch (ex) {
-                        FwFunc.showError(ex);
-                    }
-                });
-                FwMenu.addSubMenuItem($optionsgroup, 'Copy Line-Items', '', (e: JQuery.ClickEvent) => {
-                    try {
-                        OrderItemGridController.copyLineItems(e);
-                    }
-                    catch (ex) {
-                        FwFunc.showError(ex);
-                    }
-                });
                 FwMenu.addSubMenuItem($optionsgroup, 'Lock / Unlock Selected', '', (e: JQuery.ClickEvent) => {
                     try {
                         OrderItemGridController.lockUnlock(e);
@@ -361,22 +345,6 @@ class Order extends OrderBase {
                 FwMenu.addSubMenuItem($viewgroup, 'Summary View', '', (e: JQuery.ClickEvent) => {
                     try {
                         OrderItemGridController.detailSummaryView(e);
-                    }
-                    catch (ex) {
-                        FwFunc.showError(ex);
-                    }
-                });
-                FwMenu.addSubMenuItem($viewgroup, 'Shortages Only', '', (e: JQuery.ClickEvent) => {
-                    try {
-                        OrderItemGridController.shortagesOnly(e);
-                    }
-                    catch (ex) {
-                        FwFunc.showError(ex);
-                    }
-                });
-                FwMenu.addSubMenuItem($viewgroup, 'Show Split Details', '', (e: JQuery.ClickEvent) => {
-                    try {
-                        OrderItemGridController.splitDetail(e);
                     }
                     catch (ex) {
                         FwFunc.showError(ex);
