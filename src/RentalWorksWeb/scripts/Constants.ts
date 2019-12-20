@@ -894,7 +894,7 @@ var Constants = {
                 RetireLossAndDamageItems: { id: '{78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412}' },
                 ColorLegend: { id: '{A2CD9CB6-1C38-4E4E-935C-627D32282480}' },
                 ShortagesOnly: { id: '{873546DE-E8EF-4B34-8215-B2EC65E12056}' },
-                SplitDetails: { id: '{679D6E7A-C212-41A3-88D0-5B48936812A0}' },
+                Rollup: { id: '{679D6E7A-C212-41A3-88D0-5B48936812A0}' },
             }
         },
         OrderNoteGrid: { id: 'DZwS6DaO7Ed8', caption: 'Order Note' },
