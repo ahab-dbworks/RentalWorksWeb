@@ -1530,9 +1530,6 @@
     <MakeDir Directories="$(FwDeploymentDirectory)\Libraries\codemirror" Condition="!Exists('$(FwDeploymentDirectory)\Libraries\codemirror')" ContinueOnError="false" />
     <Exec Command="robocopy &quot;$(FwApplicationDirectory)\Libraries\codemirror&quot; &quot;$(FwDeploymentDirectory)\Libraries\codemirror&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
     <MakeDir Directories="$(FwDeploymentDirectory)\source" Condition="!Exists('$(FwDeploymentDirectory)\source')" ContinueOnError="false" />
-    <MakeDir Directories="$(FwDeploymentDirectory)\source\reports" Condition="!Exists('$(FwDeploymentDirectory)\source\reports')" ContinueOnError="false" />
-    <MakeDir Directories="$(FwDeploymentDirectory)\source\reports\application" Condition="!Exists('$(FwDeploymentDirectory)\source\reports\application')" ContinueOnError="false" />
-    <Exec Command="robocopy &quot;$(FwApplicationDirectory)\source\reports\application&quot; &quot;$(FwDeploymentDirectory)\source\reports\application&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
     <MakeDir Directories="$(FwDeploymentDirectory)\App_Data" Condition="!Exists('$(FwDeploymentDirectory)\App_Data')" ContinueOnError="false" />
     <MakeDir Directories="$(FwDeploymentDirectory)\App_Data\Temp" Condition="!Exists('$(FwDeploymentDirectory)\App_Data\Temp')" ContinueOnError="false" />
     <MakeDir Directories="$(FwDeploymentDirectory)\App_Data\Temp\Downloads" Condition="!Exists('$(FwDeploymentDirectory)\App_Data\Temp\Downloads')" ContinueOnError="false" />
