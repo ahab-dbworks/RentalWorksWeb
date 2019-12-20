@@ -17,7 +17,7 @@ namespace WebApi.Modules.Settings.SystemNumber
         //------------------------------------------------------------------------------------ 
         // POST api/v1/systemnumber/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id: "Auuck8llnimse", ActionType: FwControllerActionTypes.Browse)]
+        [FwControllerMethod(Id: "Auuck8llnimse", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
