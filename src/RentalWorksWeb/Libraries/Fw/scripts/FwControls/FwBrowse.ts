@@ -3570,7 +3570,7 @@ class FwBrowseClass {
                             if ($control.attr('data-refreshaftersave') === 'true' && (typeof $control.attr('data-autosave') === 'undefined' || $control.attr('data-autosave') === 'true') ||
                                 (isNewMode && ($control.attr('data-refreshafterinsert') === 'true') || typeof $control.attr('data-refreshafterinsert') === 'undefined')) {
                                 // mv 2018-07-09 returns a promise so you can do things after the grid reloads from a save
-                                me.search($control)
+                                me.databind($control)
                                     .then(() => {
                                         resolve();
                                     })
