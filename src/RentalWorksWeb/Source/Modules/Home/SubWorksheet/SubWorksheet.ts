@@ -436,19 +436,42 @@ class SubWorksheet {
     }
     //----------------------------------------------------------------------------------------------
     renderPOGrid($form: JQuery): void {
-        const $subPurchaseOrderItemGrid = $form.find('div[data-grid="SubPurchaseOrderItemGrid"]');
-        const $subPurchaseOrderItemGridControl = FwBrowse.loadGridFromTemplate('SubPurchaseOrderItemGrid');
-        $subPurchaseOrderItemGrid.empty().append($subPurchaseOrderItemGridControl);
-        $subPurchaseOrderItemGridControl.data('ondatabind', request => {
-            request.pagesize = 0;
-            request.uniqueids = { OrderId: this.OrderId };
-            request.totalfields = this.gridTotalFields;
+        //const $subPurchaseOrderItemGrid = $form.find('div[data-grid="SubPurchaseOrderItemGrid"]');
+        //const $subPurchaseOrderItemGridControl = FwBrowse.loadGridFromTemplate('SubPurchaseOrderItemGrid');
+        //$subPurchaseOrderItemGrid.empty().append($subPurchaseOrderItemGridControl);
+        //$subPurchaseOrderItemGridControl.data('ondatabind', request => {
+        //    request.pagesize = 0;
+        //    request.uniqueids = { OrderId: this.OrderId };
+        //    request.totalfields = this.gridTotalFields;
+        //});
+        //$subPurchaseOrderItemGridControl.data('beforesave', request => {
+        //    request.SessionId = this.SessionId;
+        //});
+        //FwBrowse.init($subPurchaseOrderItemGridControl);
+        //FwBrowse.renderRuntimeHtml($subPurchaseOrderItemGridControl);
+
+        // ----------
+        FwBrowse.renderGrid({
+            nameGrid: 'SubPurchaseOrderItemGrid',
+            gridSecurityId: '8orfHWAhottty',
+            moduleSecurityId: this.id,
+            $form: $form,
+            pageSize: 10,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                options.hasNew = false;
+                options.hasEdit = true;
+                options.hasDelete = false;
+            },
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    OrderId: this.OrderId
+                };
+                request.totalfields = this.gridTotalFields;
+            },
+            beforeSave: (request: any) => {
+                request.SessionId = this.SessionId;
+            }
         });
-        $subPurchaseOrderItemGridControl.data('beforesave', request => {
-            request.SessionId = this.SessionId;
-        });
-        FwBrowse.init($subPurchaseOrderItemGridControl);
-        FwBrowse.renderRuntimeHtml($subPurchaseOrderItemGridControl);
     }
     //----------------------------------------------------------------------------------------------
 }
