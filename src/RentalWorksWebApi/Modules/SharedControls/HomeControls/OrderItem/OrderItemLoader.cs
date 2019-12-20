@@ -867,6 +867,7 @@ namespace WebApi.Modules.HomeControls.OrderItem
             OverrideFromClause = " from " + tableName + " [t] with (nolock) ";
             if (hasSubTotal)
             {
+                tableName = "masteritem";
                 OverrideFromClause +=
                        " outer apply (select nextgroupheaderitemorder = (case when (t.itemclass = '" + RwConstants.ITEMCLASS_GROUP_HEADING + "') then '' else min(v2.itemorder) end)" +
                        "               from  " + tableName + " v2 with (nolock)" +

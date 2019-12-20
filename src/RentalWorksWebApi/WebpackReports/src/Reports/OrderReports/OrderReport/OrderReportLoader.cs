@@ -58,8 +58,17 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         [FwSqlDataField(column: "weeklyextended", modeltype: FwDataTypes.DecimalString2Digits)]
         public string WeeklyExtended { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "weeklyextendedsubtotal", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string WeeklyExtendedSubTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "periodextended", modeltype: FwDataTypes.DecimalString2Digits)]
         public string PeriodExtended { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "periodextendedsubtotal", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string PeriodExtendedSubTotal{ get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "itemclass", modeltype: FwDataTypes.Text)]
+        public string ItemClass { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderby", modeltype: FwDataTypes.Text)]
         public string OrderBy { get; set; }
