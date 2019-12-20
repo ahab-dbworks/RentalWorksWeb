@@ -539,7 +539,7 @@
                                 <div class="formpage">
                                     <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow" style="display:none">
                                         <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Items in Security Tree are Hidden by Default (IF YOU CHANGE THIS, SAVE AND CLOSE BEFORE EDITING THE TREE)" data-datafield="HideNewMenuOptionsByDefault"></div>
-                                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-datafield="Security" style="display:none;"></div>
+                                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-datafield="Security" data-allcaps="false" style="display:none;"></div>
                                         <div style="margin:10px 10px 10px 10px;">Changing the security tree will take effect for users the next time they login.</div>
                                     </div>
                                     <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
