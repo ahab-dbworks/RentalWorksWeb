@@ -197,7 +197,7 @@ class OrderBase {
             addGridMenu: (options: IAddGridMenuOptions) => {
                 const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
                 const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')
-                const $sutotalinggroup = FwMenu.addSubMenuGroup($optionscolumn, 'Text / Sub-Totals', '')
+                const $sutotalinggroup = FwMenu.addSubMenuGroup($optionscolumn, 'Headers / Text / Sub-Totals', '')
                 FwMenu.addSubMenuItem($optionsgroup, 'QuikSearch', '', (e: JQuery.ClickEvent) => {
                     try {
                         OrderItemGridController.quikSearch(e);
@@ -369,6 +369,7 @@ class OrderBase {
             addGridMenu: (options: IAddGridMenuOptions) => {
                 const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
                 const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')
+                const $sutotalinggroup = FwMenu.addSubMenuGroup($optionscolumn, 'Headers / Text / Sub-Totals', '')
                 FwMenu.addSubMenuItem($optionsgroup, 'QuikSearch', '', (e: JQuery.ClickEvent) => {
                     try {
                         OrderItemGridController.quikSearch(e);
@@ -419,6 +420,30 @@ class OrderBase {
                         }
                     });
                 }
+                FwMenu.addSubMenuItem($sutotalinggroup, 'Insert Header Lines', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.insertHeaderLines(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+                FwMenu.addSubMenuItem($sutotalinggroup, 'Insert Text Lines', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.insertTextLines(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+                FwMenu.addSubMenuItem($sutotalinggroup, 'Insert Sub-Total Lines', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.insertSubTotalLines(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
 
                 const $viewcolumn = FwMenu.addSubMenuColumn(options.$menu);
                 const $viewgroup = FwMenu.addSubMenuGroup($viewcolumn, 'View', 'securityid2')
@@ -517,6 +542,7 @@ class OrderBase {
             addGridMenu: (options: IAddGridMenuOptions) => {
                 const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
                 const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')
+                const $sutotalinggroup = FwMenu.addSubMenuGroup($optionscolumn, 'Headers / Text / Sub-Totals', '')
                 FwMenu.addSubMenuItem($optionsgroup, 'QuikSearch', '', (e: JQuery.ClickEvent) => {
                     try {
                         OrderItemGridController.quikSearch(e);
@@ -567,6 +593,30 @@ class OrderBase {
                         }
                     });
                 }
+                FwMenu.addSubMenuItem($sutotalinggroup, 'Insert Header Lines', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.insertHeaderLines(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+                FwMenu.addSubMenuItem($sutotalinggroup, 'Insert Text Lines', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.insertTextLines(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+                FwMenu.addSubMenuItem($sutotalinggroup, 'Insert Sub-Total Lines', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.insertSubTotalLines(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
 
                 const $viewcolumn = FwMenu.addSubMenuColumn(options.$menu);
                 const $viewgroup = FwMenu.addSubMenuGroup($viewcolumn, 'View', 'securityid2')
@@ -665,6 +715,7 @@ class OrderBase {
             addGridMenu: (options: IAddGridMenuOptions) => {
                 const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
                 const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')
+                const $sutotalinggroup = FwMenu.addSubMenuGroup($optionscolumn, 'Headers / Text / Sub-Totals', '')
                 FwMenu.addSubMenuItem($optionsgroup, 'QuikSearch', '', (e: JQuery.ClickEvent) => {
                     try {
                         OrderItemGridController.quikSearch(e);
@@ -715,6 +766,30 @@ class OrderBase {
                         }
                     });
                 }
+                FwMenu.addSubMenuItem($sutotalinggroup, 'Insert Header Lines', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.insertHeaderLines(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+                FwMenu.addSubMenuItem($sutotalinggroup, 'Insert Text Lines', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.insertTextLines(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+                FwMenu.addSubMenuItem($sutotalinggroup, 'Insert Sub-Total Lines', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.insertSubTotalLines(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
 
                 const $viewcolumn = FwMenu.addSubMenuColumn(options.$menu);
                 const $viewgroup = FwMenu.addSubMenuGroup($viewcolumn, 'View', 'securityid2')
@@ -807,6 +882,7 @@ class OrderBase {
             addGridMenu: (options: IAddGridMenuOptions) => {
                 const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
                 const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')
+                const $sutotalinggroup = FwMenu.addSubMenuGroup($optionscolumn, 'Headers / Text / Sub-Totals', '')
                 FwMenu.addSubMenuItem($optionsgroup, 'QuikSearch', '', (e: JQuery.ClickEvent) => {
                     try {
                         OrderItemGridController.quikSearch(e);
@@ -842,6 +918,30 @@ class OrderBase {
                 FwMenu.addSubMenuItem($optionsgroup, 'Bold / Unbold Selected', '', (e: JQuery.ClickEvent) => {
                     try {
                         OrderItemGridController.boldUnbold(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+                FwMenu.addSubMenuItem($sutotalinggroup, 'Insert Header Lines', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.insertHeaderLines(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+                FwMenu.addSubMenuItem($sutotalinggroup, 'Insert Text Lines', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.insertTextLines(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+                FwMenu.addSubMenuItem($sutotalinggroup, 'Insert Sub-Total Lines', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.insertSubTotalLines(e);
                     }
                     catch (ex) {
                         FwFunc.showError(ex);
@@ -938,6 +1038,7 @@ class OrderBase {
             addGridMenu: (options: IAddGridMenuOptions) => {
                 const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
                 const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')
+                const $sutotalinggroup = FwMenu.addSubMenuGroup($optionscolumn, 'Headers / Text / Sub-Totals', '')
                 FwMenu.addSubMenuItem($optionsgroup, 'QuikSearch', '', (e: JQuery.ClickEvent) => {
                     try {
                         OrderItemGridController.quikSearch(e);
@@ -988,6 +1089,30 @@ class OrderBase {
                         }
                     });
                 }
+                FwMenu.addSubMenuItem($sutotalinggroup, 'Insert Header Lines', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.insertHeaderLines(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+                FwMenu.addSubMenuItem($sutotalinggroup, 'Insert Text Lines', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.insertTextLines(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+                FwMenu.addSubMenuItem($sutotalinggroup, 'Insert Sub-Total Lines', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        OrderItemGridController.insertSubTotalLines(e);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
 
                 const $viewcolumn = FwMenu.addSubMenuColumn(options.$menu);
                 const $viewgroup = FwMenu.addSubMenuGroup($viewcolumn, 'View', 'securityid2')
