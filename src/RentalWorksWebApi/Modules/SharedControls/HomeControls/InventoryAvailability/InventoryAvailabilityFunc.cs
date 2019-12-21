@@ -1281,6 +1281,14 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                         reservation.ReturnToWarehouseId = row[dt.GetColumnNo("returntowarehouseid")].ToString();
                         reservation.ReturnToWarehouseCode = row[dt.GetColumnNo("returntowhcode")].ToString();
                         reservation.ReturnToWarehouse = row[dt.GetColumnNo("returntowarehouse")].ToString();
+
+                        if (string.IsNullOrEmpty(reservation.ReturnToWarehouseId))
+                        {
+                            reservation.ReturnToWarehouseId = reservation.WarehouseId;
+                            reservation.ReturnToWarehouseCode = reservation.WarehouseCode;
+                            reservation.ReturnToWarehouse = reservation.Warehouse;
+                        }
+
                         reservation.OrderId = row[dt.GetColumnNo("orderid")].ToString();
                         reservation.OrderItemId = row[dt.GetColumnNo("masteritemid")].ToString();
                         reservation.OrderType = row[dt.GetColumnNo("ordertype")].ToString();
