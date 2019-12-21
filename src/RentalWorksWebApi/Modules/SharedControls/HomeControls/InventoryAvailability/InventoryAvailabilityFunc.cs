@@ -1391,6 +1391,13 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                                 reservation.ToDateTime = InventoryAvailabilityFunc.LateDateTime;
                             }
                         }
+                        if (reservation.ToDateTime == InventoryAvailabilityFunc.LateDateTime)
+                        {
+                            reservation.QuantityReserved.Owned = 0;
+                            reservation.QuantityReserved.Subbed = 0;
+                            reservation.QuantityReserved.Consigned = 0;
+                        }
+
 
                         if ((reservation.QcRequired) && (reservation.OrderType.Equals(RwConstants.ORDER_TYPE_QUOTE) || reservation.OrderType.Equals(RwConstants.ORDER_TYPE_ORDER)) && ((reservation.QuantityReserved.Owned + reservation.QuantityStaged.Owned + reservation.QuantityOut.Owned) > 0) && (reservation.EnableQcDelay) && ((reservation.QcDelayDays > 0) || (reservation.QcDelayIndefinite)))
                         {
