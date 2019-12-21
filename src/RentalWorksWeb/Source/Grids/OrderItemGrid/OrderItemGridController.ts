@@ -687,24 +687,39 @@
         };
     }
     //----------------------------------------------------------------------------------------------
-    async insertHeaderLines(event) {
+    async getSelectedItemIds(event): Promise<any> {
+        const items = [];
+
         const $browse = jQuery(event.currentTarget).closest('.fwbrowse');
-        const headerItems= [];
         const orderId = $browse.find('.selected [data-browsedatafield="OrderId"]').attr('data-originalvalue');
+        const orderItemId = $browse.find('.selected [data-browsedatafield="OrderItemId"]').attr('data-originalvalue');
         const $selectedCheckBoxes = $browse.find('tbody .cbselectrow:checked');
 
         if (orderId != null) {
+            let orderItem: any = {};
+            orderItem.OrderItemId = orderItemId
+            orderItem.OrderId = orderId;
+            items.push(orderItem);
             for (let i = 0; i < $selectedCheckBoxes.length; i++) {
                 let orderItem: any = {};
                 let orderItemId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderItemId"]').attr('data-originalvalue');
                 orderItem.OrderItemId = orderItemId
                 orderItem.OrderId = orderId;
-                headerItems.push(orderItem);
+                items.push(orderItem);
             }
-            await insertHeaderItems(headerItems);
-            await jQuery(document).trigger('click');
         } else {
             FwNotification.renderNotification('WARNING', 'Select a record.')
+        }
+        return items;
+    }
+    //----------------------------------------------------------------------------------------------
+    async insertHeaderLines(event) {
+        const $browse = jQuery(event.currentTarget).closest('.fwbrowse');
+
+        const items = await this.getSelectedItemIds(event);
+        if (items.length > 0) {
+            await insertHeaderItems(items);
+            await jQuery(document).trigger('click');
         }
 
         function insertHeaderItems(items): void {
@@ -720,22 +735,11 @@
     //----------------------------------------------------------------------------------------------   
     async insertTextLines(event) {
         const $browse = jQuery(event.currentTarget).closest('.fwbrowse');
-        const textItems = [];
-        const orderId = $browse.find('.selected [data-browsedatafield="OrderId"]').attr('data-originalvalue');
-        const $selectedCheckBoxes = $browse.find('tbody .cbselectrow:checked');
 
-        if (orderId != null) {
-            for (let i = 0; i < $selectedCheckBoxes.length; i++) {
-                let orderItem: any = {};
-                let orderItemId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderItemId"]').attr('data-originalvalue');
-                orderItem.OrderItemId = orderItemId
-                orderItem.OrderId = orderId;
-                textItems.push(orderItem);
-            }
-            await insertTextItems(textItems);
+        const items = await this.getSelectedItemIds(event);
+        if (items.length > 0) {
+            await insertTextItems(items);
             await jQuery(document).trigger('click');
-        } else {
-            FwNotification.renderNotification('WARNING', 'Select a record.')
         }
 
         function insertTextItems(items): void {
@@ -751,24 +755,13 @@
     //----------------------------------------------------------------------------------------------
     async insertSubTotalLines(event) {
         const $browse = jQuery(event.currentTarget).closest('.fwbrowse');
-        const subTotalItems = [];
-        const orderId = $browse.find('.selected [data-browsedatafield="OrderId"]').attr('data-originalvalue');
-        const $selectedCheckBoxes = $browse.find('tbody .cbselectrow:checked');
-        
-        if (orderId != null) {
-            for (let i = 0; i < $selectedCheckBoxes.length; i++) {
-                let orderItem: any = {};
-                let orderItemId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderItemId"]').attr('data-originalvalue');
-                orderItem.OrderItemId = orderItemId
-                orderItem.OrderId = orderId;
-                subTotalItems.push(orderItem);
-            }
-            await insertSubTotalItems(subTotalItems);
+
+        const items = await this.getSelectedItemIds(event);
+        if (items.length > 0) {
+            await insertSubTotalItems(items);
             await jQuery(document).trigger('click');
-        } else {
-            FwNotification.renderNotification('WARNING', 'Select a record.')
         }
-        
+
         function insertSubTotalItems(items): void {
         
             FwAppData.apiMethod(true, 'POST', `api/v1/orderitem/insertsubtotals`, items, FwServices.defaultTimeout, function onSuccess(response) {
