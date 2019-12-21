@@ -626,3 +626,8 @@ html.theme-material [data-name="AuditHistoryGrid"] tbody tr.selected td ul:not(.
   border-bottom: 1px solid #BDBDBD;
   margin: 0px 10px 0px 10px;
 }
+
+/*toolbar and dashboard sortable*/
+.selected-modules[data-type="checkboxlist"] {display:flex; flex-direction:column;flex-grow:1;}
+.selected-modules[data-type="checkboxlist"] .fwformfield-control {display:flex;flex-grow:1;flex-direction:column;}
+.selected-modules[data-type="checkboxlist"] ol.sortable {border: 1px solid darkgray;flex-grow:1;min-width:600px !important;}
