@@ -227,7 +227,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
         {
             get
             {
-                string display = FromDateTime.ToString();
+                string display = FwConvert.ToUSShortDate(FromDateTime);
                 return display;
             }
         }
@@ -236,7 +236,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
         {
             get
             {
-                string display = ToDateTime.ToString();
+                string display = FwConvert.ToUSShortDate(ToDateTime);
                 if (ToDateTime.Equals(InventoryAvailabilityFunc.LateDateTime))
                 {
                     display = "No End Date";

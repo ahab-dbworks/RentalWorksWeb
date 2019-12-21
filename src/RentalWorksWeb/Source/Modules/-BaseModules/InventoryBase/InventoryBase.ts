@@ -547,7 +547,7 @@ abstract class InventoryBase {
         if (theDate.length) {
             const html: Array<string> = [];
             html.push(
-                `<div class="fwcontrol fwcontainer fwform popup" data-control="FwContainer" data-type="form" data-caption="Activity Dates" style="height:900px;">
+                `<div class="fwcontrol fwcontainer fwform popup" data-control="FwContainer" data-type="form" data-caption="Reservations" style="height:900px;">
                   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
                     <div class="tabpages">
                       <div class="formpage">
@@ -564,6 +564,8 @@ abstract class InventoryBase {
                                       <th>Deal</th>
                                       <th class="number">Reserved</th>
                                       <th class="number">Sub</th>
+                                      <th class="number">Staged</th>
+                                      <th class="number">Out</th>
                                       <th>From</th>
                                       <th>To</th>
                                     <tr>
@@ -581,7 +583,7 @@ abstract class InventoryBase {
                 </div>`);
 
             const displayDate = event.start.toString('MM/dd/yyyy');
-            const $popup = FwPopup.renderPopup(jQuery(html.join('')), { ismodal: true }, `Activity Dates ${displayDate}`);
+            const $popup = FwPopup.renderPopup(jQuery(html.join('')), { ismodal: true }, `Reservations ${displayDate}`);
             FwPopup.showPopup($popup);
             const $rows: any = [];
             const reservations = theDate[0].Reservations;
@@ -595,6 +597,8 @@ abstract class InventoryBase {
                         <td data-id="${data.DealId}"><span>${data.Deal}</span>${data.Deal !== '' ? '<i class= "material-icons btnpeek">more_horiz</i>' : ''}</td>
                         <td class="number">${data.QuantityReserved.Total}</td>
                         <td class="number">${data.QuantitySub}</td>
+                        <td class="number">${data.QuantityStaged.Total}</td>
+                        <td class="number">${data.QuantityOut.Total}</td>
                         <td>${data.FromDateTimeDisplay}</td>
                         <td>${data.ToDateTimeDisplay}</td>
                     </tr>
