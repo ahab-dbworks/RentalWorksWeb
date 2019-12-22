@@ -1943,7 +1943,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
 
             foreach (TInventoryWarehouseAvailabilityRequestItem availRequestItem in availRequestItems)
             {
-                if ((!availRequestItem.InventoryId.Equals("undefined")) && (!availRequestItem.WarehouseId.Equals("undefined")))
+                if ((!string.IsNullOrEmpty(availRequestItem.InventoryId)) && (!availRequestItem.InventoryId.Equals("undefined")) && (!string.IsNullOrEmpty(availRequestItem.WarehouseId)) && (!availRequestItem.WarehouseId.Equals("undefined")))
                 {
                     if (forceRefresh)
                     {
@@ -2044,7 +2044,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
         {
             TInventoryWarehouseAvailability availData = null;
 
-            if ((!inventoryId.Equals("undefined")) && (!warehouseId.Equals("undefined")))
+            if ((!string.IsNullOrEmpty(inventoryId)) && (!inventoryId.Equals("undefined")) && (!string.IsNullOrEmpty(warehouseId)) && (!warehouseId.Equals("undefined")))
             {
                 availData = new TInventoryWarehouseAvailability(inventoryId, warehouseId);
 

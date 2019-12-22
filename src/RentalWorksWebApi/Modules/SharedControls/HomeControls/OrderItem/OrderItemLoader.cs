@@ -16,6 +16,7 @@ namespace WebApi.Modules.HomeControls.OrderItem
     public class OrderItemLoader : AppDataLoadRecord
     {
         private bool _shortagesOnly = false;
+        private bool _hasSubTotal = false;
 
         //------------------------------------------------------------------------------------ 
         public OrderItemLoader()
@@ -848,14 +849,13 @@ namespace WebApi.Modules.HomeControls.OrderItem
             }
 
 
-            bool hasSubTotal = false;
             using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
             {
                 FwSqlCommand qrySt = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout);
                 qrySt.Add("select hassubtotal = (case when exists (select * from masteritem mi where mi.orderid = @orderid and mi.itemclass = '" + RwConstants.ITEMCLASS_SUBTOTAL + "') then 'T' else 'F' end) ");
                 qrySt.AddParameter("@orderid", orderId);
                 FwJsonDataTable dt = qrySt.QueryToFwJsonTableAsync().Result;
-                hasSubTotal = FwConvert.ToBoolean(dt.Rows[0][0].ToString());
+                _hasSubTotal = FwConvert.ToBoolean(dt.Rows[0][0].ToString());
             }
 
             string tableName = "orderitemdetailwebview";
@@ -865,7 +865,7 @@ namespace WebApi.Modules.HomeControls.OrderItem
             }
 
             OverrideFromClause = " from " + tableName + " [t] with (nolock) ";
-            if (hasSubTotal)
+            if (_hasSubTotal)
             {
                 tableName = "masteritem";
                 OverrideFromClause +=
@@ -1004,21 +1004,23 @@ namespace WebApi.Modules.HomeControls.OrderItem
                     }
                 }
 
-                if (dt.Rows.Count > 0)
+                if (_hasSubTotal)
                 {
-                    foreach (List<object> row in dt.Rows)
+                    if (dt.Rows.Count > 0)
                     {
-                        string itemClass = row[dt.GetColumnNo("ItemClass")].ToString();
-                        if (itemClass.Equals(RwConstants.ITEMCLASS_SUBTOTAL))
+                        foreach (List<object> row in dt.Rows)
                         {
-                            for (int c = 0; c < dt.Columns.Count; c++)
+                            string itemClass = row[dt.GetColumnNo("ItemClass")].ToString();
+                            if (itemClass.Equals(RwConstants.ITEMCLASS_SUBTOTAL))
                             {
-                                if (dt.ColumnNameByIndex[c].EndsWith("SubTotal"))
+                                for (int c = 0; c < dt.Columns.Count; c++)
                                 {
-                                    string subTotalColumnName = dt.ColumnNameByIndex[c];
-                                    string nonSubTotalColumnName = subTotalColumnName.Replace("SubTotal", "");
-                                    //row[dt.GetColumnNo(nonSubTotalColumnName)] = row[dt.GetColumnNo(subTotalColumnName)];
-                                    row[dt.GetColumnNo(nonSubTotalColumnName)] = row[c];
+                                    if (dt.ColumnNameByIndex[c].EndsWith("SubTotal"))
+                                    {
+                                        string subTotalColumnName = dt.ColumnNameByIndex[c];
+                                        string nonSubTotalColumnName = subTotalColumnName.Replace("SubTotal", "");
+                                        row[dt.GetColumnNo(nonSubTotalColumnName)] = row[c];
+                                    }
                                 }
                             }
                         }
