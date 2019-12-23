@@ -222,6 +222,10 @@ abstract class InventoryBase {
                             calendarevents[i].html = `<div style="color:${calendarevents[i].textColor};">${calendarevents[i].text}</div>`
                         }
                     }
+                    // Rates
+                    FwFormField.setValue($form, 'div[data-totalfield="InventoryDailyRate"]', response.InventoryData.InventoryWarehouse.DailyRate);
+                    FwFormField.setValue($form, 'div[data-totalfield="InventoryWeeklyRate"]', response.InventoryData.InventoryWarehouse.WeeklyRate);
+                    FwFormField.setValue($form, 'div[data-totalfield="InventoryMonthlyRate"]', response.InventoryData.InventoryWarehouse.MonthlyRate);
 
                     //for (var i = 0; i < schedulerEvents.length; i++) {
                     //    if (schedulerEvents[i].textColor !== 'rgb(0,0,0') {
