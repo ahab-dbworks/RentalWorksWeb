@@ -1101,6 +1101,15 @@ namespace WebApi.Modules.HomeControls.OrderItem
                         DaysPerWeek = oiOrig.DaysPerWeek;
                     }
 
+                    if (OriginalItemClass.Equals(RwConstants.ITEMCLASS_GROUP_HEADING) || OriginalItemClass.Equals(RwConstants.ITEMCLASS_TEXT) || OriginalItemClass.Equals(RwConstants.ITEMCLASS_SUBTOTAL))
+                    {
+                        Price = 0;
+                        Price2 = 0;
+                        Price3 = 0;
+                        Price4 = 0;
+                        Price5 = 0;
+                    }
+
                     if (QuantityOrdered != null)
                     {
                         if (OriginalItemClass != null)
