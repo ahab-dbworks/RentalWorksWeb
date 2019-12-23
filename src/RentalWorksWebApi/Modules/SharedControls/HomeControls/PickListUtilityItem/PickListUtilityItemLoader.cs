@@ -35,6 +35,9 @@ namespace WebApi.Modules.HomeControls.PickListUtilityItem
         [FwSqlDataField(column: "inventorydepartmentid", modeltype: FwDataTypes.Text)]
         public string InventoryTypeId { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "inventorydepartment", modeltype: FwDataTypes.Text)]
+        public string InventoryType { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inventorydepartmentidnoparent", modeltype: FwDataTypes.Text)]
         public string InventoryTypeIdNoParent { get; set; }
         //------------------------------------------------------------------------------------ 

@@ -36,6 +36,9 @@ namespace WebApi.Modules.HomeControls.PickListUtilityItem
         [FwLogicProperty(Id:"NoARhLrT5bH5", IsReadOnly:true)]
         public string InventoryTypeId { get; set; }
 
+        [FwLogicProperty(Id: "JXXazq96xPK0V", IsReadOnly: true)]
+        public string InventoryType { get; set; }
+
         [FwLogicProperty(Id:"NoARhLrT5bH5", IsReadOnly:true)]
         public string InventoryTypeIdNoParent { get; set; }
 
