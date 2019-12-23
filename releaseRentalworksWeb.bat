@@ -82,7 +82,8 @@ rem echo %closeBrack%
 
 rem Update RentalWorksWeb AssemblyInfo.cs
 set newassemblyline=%openBrack%assembly: AssemblyVersion("%fullversionno%")%closeBrack%
-set "file=%DwRentalWorksWebPath%\src\%productname%Web\Properties\AssemblyInfo.cs"
+set file=%DwRentalWorksWebPath%\src\%productname%Web\Properties\AssemblyInfo.cs
+set count=0
 for /F "delims=" %%a in (%file%) do (
     set /A count+=1
     set "array[!count!]=%%a"
@@ -90,21 +91,22 @@ for /F "delims=" %%a in (%file%) do (
 del %file%
 for /L %%i in (1,1,%count%) do (
    echo !array[%%i]!|find "AssemblyVersion" >nul
-   if errorlevel 1 (echo !array[%%i]!>>%file%) else (call echo !newassemblyline!>>%file%))
+   if errorlevel 1 (echo !array[%%i]!>>%file%) else (call echo !newassemblyline!>>%file%)
+)
 
 rem Update QuikScan AssemblyInfo.cs
 set newassemblyline=%openBrack%assembly: AssemblyVersion("%fullversionno%")%closeBrack%
-set "file=%DwRentalWorksWebPath%\src\RentalWorksQuikScan\Properties\AssemblyInfo.cs"
+set file=%DwRentalWorksWebPath%\src\RentalWorksQuikScan\Properties\AssemblyInfo.cs
+set count=0
 for /F "delims=" %%a in (%file%) do (
     set /A count+=1
-    set "array[!count!]=%%a"
+    set "array2[!count!]=%%a"
 )
 del %file%
 for /L %%i in (1,1,%count%) do (
-   rem set "line=!array[%%i]!"
-   rem echo %line%>>%file%)
-   echo !array[%%i]!|find "AssemblyVersion" >nul
-   if errorlevel 1 (echo !array[%%i]!>>%file%) else (call echo !newassemblyline!>>%file%))
+   echo !array2[%%i]!|find "AssemblyVersion" >nul
+   if errorlevel 1 (echo !array2[%%i]!>>%file%) else (call echo !newassemblyline!>>%file%)
+)
 
 rem We need to commit the version files and Tag the repo here because other commits may come in while we Build
 IF "%commitandftp%"=="y" (
