@@ -763,7 +763,7 @@
         }
 
         function insertSubTotalItems(items): void {
-        
+
             FwAppData.apiMethod(true, 'POST', `api/v1/orderitem/insertsubtotals`, items, FwServices.defaultTimeout, function onSuccess(response) {
                 FwBrowse.databind($browse);
             }, function onError(response) {
@@ -774,7 +774,7 @@
     }
     //----------------------------------------------------------------------------------------------    
     async detailSummaryView(event) {
-        const $orderItemGrid: any = jQuery(event.currenTarget).closest('[data-name="OrderItemGrid"]');
+        const $orderItemGrid: any = jQuery(event.currentTarget).closest('[data-name="OrderItemGrid"]');
 
         let summary: boolean = $orderItemGrid.data('Summary');
         summary = !summary;
