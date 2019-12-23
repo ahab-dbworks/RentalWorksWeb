@@ -490,6 +490,12 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
         public bool NoAvailabilityCheck { get; set; } = false;
         public int LowAvailabilityPercent { get; set; } = 0;
         public int LowAvailabilityQuantity { get; set; } = 0;
+        public decimal DailyRate { get; set; } = 0;
+        public decimal WeeklyRate { get; set; } = 0;
+        public decimal Week2Rate { get; set; } = 0;
+        public decimal Week3Rate { get; set; } = 0;
+        public decimal Week4Rate { get; set; } = 0;
+        public decimal MonthlyRate { get; set; } = 0;
         public List<TPackageAccessory> Accessories { get; set; } = new List<TPackageAccessory>();
 
         public string CombinedKey { get { return InventoryId + "-" + WarehouseId; } }
@@ -1124,7 +1130,8 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                 qry.Add("       a.ownedqty, a.ownedqtyin, a.ownedqtystaged, a.ownedqtyout, a.ownedqtyintransit,                                ");
                 qry.Add("       a.ownedqtyinrepair, a.ownedqtyontruck, a.ownedqtyincontainer, a.ownedqtyqcrequired,                            ");
                 qry.Add("       a.consignedqty, a.consignedqtyin, a.consignedqtystaged, a.consignedqtyout, a.consignedqtyintransit,            ");
-                qry.Add("       a.consignedqtyinrepair, a.consignedqtyontruck, a.consignedqtyincontainer, a.consignedqtyqcrequired             ");
+                qry.Add("       a.consignedqtyinrepair, a.consignedqtyontruck, a.consignedqtyincontainer, a.consignedqtyqcrequired,            ");
+                qry.Add("       a.dailyrate, a.weeklyrate, a.week2rate, a.week3rate, a.week4rate, a.monthlyrate                                ");
                 qry.Add(" from  availabilitymasterwhview a with (nolock)                                                                       ");
                 qry.Add("             join tmpsearchsession t with (nolock) on (a.masterid    = t.masterid and                                 ");
                 qry.Add("                                                       a.warehouseid = t.warehouseid)                                 ");
@@ -1166,6 +1173,13 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                             }
                         }
                     }
+
+                    availData.InventoryWarehouse.DailyRate = FwConvert.ToDecimal(row[dt.GetColumnNo("dailyrate")].ToString());
+                    availData.InventoryWarehouse.WeeklyRate= FwConvert.ToDecimal(row[dt.GetColumnNo("weeklyrate")].ToString());
+                    availData.InventoryWarehouse.Week2Rate= FwConvert.ToDecimal(row[dt.GetColumnNo("week2rate")].ToString());
+                    availData.InventoryWarehouse.Week3Rate= FwConvert.ToDecimal(row[dt.GetColumnNo("week3rate")].ToString());
+                    availData.InventoryWarehouse.Week4Rate= FwConvert.ToDecimal(row[dt.GetColumnNo("week4rate")].ToString());
+                    availData.InventoryWarehouse.MonthlyRate= FwConvert.ToDecimal(row[dt.GetColumnNo("monthlyrate")].ToString());
 
                     availData.InventoryWarehouse.HourlyAvailability = FwConvert.ToBoolean(row[dt.GetColumnNo("availbyhour")].ToString());
                     availData.InventoryWarehouse.NoAvailabilityCheck = FwConvert.ToBoolean(row[dt.GetColumnNo("noavail")].ToString());
