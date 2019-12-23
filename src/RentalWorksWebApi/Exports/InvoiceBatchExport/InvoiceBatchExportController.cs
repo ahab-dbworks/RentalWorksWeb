@@ -29,7 +29,17 @@ namespace WebApi.Modules.Exports.InvoiceBatchExport
             {
                 InvoiceBatchExportLoader l = new InvoiceBatchExportLoader();
                 l.SetDependencies(this.AppConfig, this.UserSession);
+
                 InvoiceBatchExportLoader dt = await l.DoLoad<InvoiceBatchExportLoader>(request);
+
+                //request must contain a DataExportFormatId (provided from the field on the Page)
+                //we need a generic method here that will take an instance of a AppExportLoader ("dt" in this scope) and an Export String (pulled from the provided DataExportFormatId)
+                //   the method should use handlebars to produce a giant string from the data object and the desired export format.
+                //   the method should then produce a text file with that giant string and download it back to the page.
+
+                //for now, the actual filename of the download file is not critical. But going forward we may need to add a field somewhere for user to define how they want the file named
+
+
                 return new OkObjectResult(dt);
             }
             catch (Exception ex)

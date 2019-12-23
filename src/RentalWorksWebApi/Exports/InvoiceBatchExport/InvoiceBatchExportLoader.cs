@@ -7,8 +7,9 @@ using WebApi.Data;
 
 namespace WebApi.Modules.Exports.InvoiceBatchExport
 {
-    public class InvoiceBatchExportRequest
+    public class InvoiceBatchExportRequest  // ideally this class should inherit from a superclass (ie. AppDataExportRequest) where the DataExportFormatId can be declared once there
     {
+        //public string DataExportFormatId  // format id needs to be provided in the request from the page
         public string BatchId { get; set; }
     }
 
