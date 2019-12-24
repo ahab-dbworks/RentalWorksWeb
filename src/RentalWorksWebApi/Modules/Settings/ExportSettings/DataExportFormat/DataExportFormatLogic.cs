@@ -8,11 +8,11 @@ namespace WebApi.Modules.Settings.ExportSettings.DataExportFormat
     {
         //------------------------------------------------------------------------------------ 
         DataExportFormatRecord dataExportFormat = new DataExportFormatRecord();
-        //DataExportFormatLoader dataExportFormatLoader = new DataExportFormatLoader();
+        DataExportFormatLoader dataExportFormatLoader = new DataExportFormatLoader();
         public DataExportFormatLogic()
         {
             dataRecords.Add(dataExportFormat);
-            //dataLoader = dataExportFormatLoader;
+            dataLoader = dataExportFormatLoader;
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "YXM8el7OjZSl", IsPrimaryKey:true)]
@@ -32,6 +32,9 @@ namespace WebApi.Modules.Settings.ExportSettings.DataExportFormat
 
         [FwLogicProperty(Id: "7Y04fzYnZiRT", IsReadOnly: true)]
         public bool? Inactive { get; set; }
+
+        [FwLogicProperty(Id: "BzxD4YdazX0q")]
+        public bool? DefaultFormat { get { return dataExportFormat.DefaultFormat; } set { dataExportFormat.DefaultFormat = value; } }
 
         [FwLogicProperty(Id: "u0kuE0tMspAx")]
         public string DateStamp { get { return dataExportFormat.DateStamp; } set { dataExportFormat.DateStamp = value; } }

@@ -45,7 +45,6 @@ class DataExportFormat {
         //removes field propagation
         $form.off('change', '.fwformfield[data-enabled="true"][data-datafield!=""]:not(.find-field)');
 
-
         this.loadExportTypes($form);
         this.events($form);
         return $form;
@@ -126,6 +125,10 @@ class DataExportFormat {
     }
     //----------------------------------------------------------------------------------------------
     addValidFields($form, exportType) {
+        //update Default Format caption
+        const exportTypeText = $form.find('[data-datafield="ExportType"] option:selected').text();
+        $form.find('[data-datafield="DefaultFormat"] .checkbox-caption').text(`Default Format for ${exportTypeText}`);
+
         //Get valid field names and sort them
         const modulefields = $form.find('.modulefields');
         modulefields.empty();
