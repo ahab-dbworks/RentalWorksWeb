@@ -5,6 +5,10 @@
     generateRow($control, $generatedtr) {
         $generatedtr.find('div[data-browsedatafield="InventoryId"]').data('onchange', function ($tr) {
             $generatedtr.find('.field[data-browsedatafield="Description"]').text($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
+            FwBrowse.setFieldValue($control, $generatedtr, 'SubCategoryId', $tr.find('.field[data-browsedatafield="SubCategoryId"]').attr('data-originalvalue'));
+            $generatedtr.find('.field[data-browsedatafield="CategoryId"]').text($tr.find('.field[data-browsedatafield="CategoryId"]').attr('data-originalvalue'));
+            $generatedtr.find('.field[data-browsedatafield="InventoryTypeId"]').text($tr.find('.field[data-browsedatafield="InventoryTypeId"]').attr('data-originalvalue'));
+
         });
     };
 
@@ -12,9 +16,9 @@
         var validationName = request.module;
 
         if (validationName != null) {
-            var InventoryTypeValue = jQuery($gridbrowse.find('tr.editrow [data-validationname="InventoryTypeValidation"] input')).val();
-            var CategoryTypeValue = jQuery($gridbrowse.find('tr.editrow [data-validationname="SalesCategoryValidation"] input')).val();
-            var SubCategoryTypeValue = jQuery($gridbrowse.find('tr.editrow [data-validationname="SubCategoryValidation"] input')).val();
+            var InventoryTypeValue = FwBrowse.getValueByDataField($validationbrowse, $tr, 'InventoryTypeId');
+            var CategoryTypeId = FwBrowse.getValueByDataField($validationbrowse, $tr, 'CategoryId');
+            var SubCategoryTypeId = FwBrowse.getValueByDataField($validationbrowse, $tr, 'SubCategoryId');
             switch (validationName) {
                 case 'InventoryTypeValidation':
                     request.uniqueids = {
@@ -29,17 +33,22 @@
                 case 'SubCategoryValidation':
                     request.uniqueids = {
                         TypeId: InventoryTypeValue,
-                        CategoryId: CategoryTypeValue
+                        CategoryId: CategoryTypeId
                     };
                     break;
                 case 'SalesInventoryValidation':
                     request.uniqueids = {
                         InventoryTypeId: InventoryTypeValue,
-                        CategoryId: CategoryTypeValue,
-                        SubCategoryId: SubCategoryTypeValue
+                        CategoryId: CategoryTypeId,
+                        SubCategoryId: SubCategoryTypeId
                     };
                     break;
             };
+            for (var prop in request.uniqueids) {
+                if (request.uniqueids[prop] === '') {
+                    delete request.uniqueids[prop];
+                }
+            }
         }
     }
 }

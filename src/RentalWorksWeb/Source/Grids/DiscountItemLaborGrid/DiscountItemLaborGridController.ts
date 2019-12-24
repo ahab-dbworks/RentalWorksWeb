@@ -6,30 +6,35 @@
         var validationName = request.module;
 
         if (validationName != null) {
-            var LaborTypeValue = jQuery($gridbrowse.find('tr.editrow [data-validationname="LaborTypeValidation"] input')).val();
-            var CategoryValue = jQuery($gridbrowse.find('tr.editrow [data-validationname="LaborCategoryValidation"] input')).val();
-            var SubCategoryValue = jQuery($gridbrowse.find('tr.editrow [data-validationname="SubCategoryValidation"] input')).val();
+            var InventoryTypeValue = FwBrowse.getValueByDataField($validationbrowse, $tr, 'InventoryTypeId');
+            var CategoryTypeId = FwBrowse.getValueByDataField($validationbrowse, $tr, 'CategoryId');
+            var SubCategoryTypeId = FwBrowse.getValueByDataField($validationbrowse, $tr, 'SubCategoryId');
 
             switch (validationName) {
                 case 'LaborCategoryValidation':
                     request.uniqueids = {
-                        LaborTypeId: LaborTypeValue
+                        LaborTypeId: InventoryTypeValue
                     };
                     break;
                 case 'SubCategoryValidation':
                     request.uniqueids = {
-                        TypeId: LaborTypeValue,
-                        CategoryId: CategoryValue
+                        TypeId: InventoryTypeValue,
+                        CategoryId: CategoryTypeId
                     };
                     break;
                 case 'LaborRateValidation':
                     request.uniqueids = {
-                        LaborTypeId: LaborTypeValue,
-                        CategoryId: CategoryValue,
-                        SubCategoryId: SubCategoryValue
+                        LaborTypeId: InventoryTypeValue,
+                        CategoryId: CategoryTypeId,
+                        SubCategoryId: SubCategoryTypeId
                     };
                     break;
             };
+            for (var prop in request.uniqueids) {
+                if (request.uniqueids[prop] === '') {
+                    delete request.uniqueids[prop];
+                }
+            }
         }
     }
 

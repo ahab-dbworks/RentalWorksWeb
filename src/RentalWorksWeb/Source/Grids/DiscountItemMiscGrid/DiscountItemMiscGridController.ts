@@ -12,31 +12,36 @@
         var validationName = request.module;
 
         if (validationName != null) {
-            var MiscTypeValue = jQuery($gridbrowse.find('tr.editrow [data-validationname="MiscTypeValidation"] input')).val();
-            var CategoryValue = jQuery($gridbrowse.find('tr.editrow [data-validationname="MiscCategoryValidation"] input')).val();
-            var SubCategoryValue = jQuery($gridbrowse.find('tr.editrow [data-validationname="SubCategoryValidation"] input')).val();
+            var InventoryTypeValue = FwBrowse.getValueByDataField($validationbrowse, $tr, 'InventoryTypeId');
+            var CategoryTypeId = FwBrowse.getValueByDataField($validationbrowse, $tr, 'CategoryId');
+            var SubCategoryTypeId = FwBrowse.getValueByDataField($validationbrowse, $tr, 'SubCategoryId');
 
             switch (validationName) {
                 case 'MiscCategoryValidation':
                     request.uniqueids = {
-                        MiscTypeId: MiscTypeValue
+                        MiscTypeId: InventoryTypeValue
                     };
                     break;
                 case 'SubCategoryValidation':
                     request.uniqueids = {
-                        TypeId: MiscTypeValue,
-                        CategoryId: CategoryValue
+                        TypeId: InventoryTypeValue,
+                        CategoryId: CategoryTypeId
                     };
 
                     break;
                 case 'MiscRateValidation':
                     request.uniqueids = {
-                        MiscTypeId: MiscTypeValue,
-                        CategoryId: CategoryValue,
-                        SubCategoryId: SubCategoryValue
+                        MiscTypeId: InventoryTypeValue,
+                        CategoryId: CategoryTypeId,
+                        SubCategoryId: SubCategoryTypeId
                     };
                     break;
             };
+            for (var prop in request.uniqueids) {
+                if (request.uniqueids[prop] === '') {
+                    delete request.uniqueids[prop];
+                }
+            }
         }
     }
 }

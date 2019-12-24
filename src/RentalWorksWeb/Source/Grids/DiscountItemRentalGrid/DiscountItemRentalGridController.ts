@@ -4,16 +4,16 @@
 
     generateRow($control, $generatedtr) {
         $generatedtr.find('div[data-browsedatafield="InventoryId"]').data('onchange', function ($tr) {
-            $generatedtr.find('.field[data-browsedatafield="Description"] input').val($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
+            $generatedtr.find('.field[data-browsedatafield="Description"]').text($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
         });
     };
 
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $gridbrowse: JQuery, $tr: JQuery) {
         var validationName = request.module;
         if (validationName != null) {
-            var InventoryTypeValue = jQuery($gridbrowse.find('tr.editrow [data-formvalidationname="InventoryTypeValidation"] input')).val();
-            var CategoryTypeId = jQuery($gridbrowse.find('tr.editrow [data-formvalidationname="RentalCategoryValidation"] input')).val();
-            var SubCategoryTypeId = jQuery($gridbrowse.find('tr.editrow [data-formvalidationname="SubCategoryValidation"] input')).val();
+            var InventoryTypeValue = FwBrowse.getValueByDataField($validationbrowse, $tr, 'InventoryTypeId');
+            var CategoryTypeId = FwBrowse.getValueByDataField($validationbrowse, $tr, 'CategoryId');
+            var SubCategoryTypeId = FwBrowse.getValueByDataField($validationbrowse, $tr, 'SubCategoryId');
 
             switch (validationName) {
                 case 'InventoryTypeValidation':
@@ -22,9 +22,11 @@
                     };
                     break;
                 case 'RentalCategoryValidation':
-                    request.uniqueids = {
-                        InventoryTypeId: InventoryTypeValue
-                    };
+                    if (InventoryTypeValue != '') {
+                        request.uniqueids = {
+                            InventoryTypeId: InventoryTypeValue
+                        };
+                    }
                     break;
                 case 'SubCategoryValidation':
                     request.uniqueids = {
@@ -40,6 +42,12 @@
                     };
                     break;
             };
+
+            for (var prop in request.uniqueids) {
+                if (request.uniqueids[prop] === '') {
+                    delete request.uniqueids[prop];
+                }
+            }
         }
     }
 }
