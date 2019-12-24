@@ -747,6 +747,57 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
 
             return minAvail;
         }
+
+
+        public static TInventoryWarehouseAvailability operator +(TInventoryWarehouseAvailability avail1, TInventoryWarehouseAvailability avail2)
+        {
+            TInventoryWarehouseAvailability avail3 = new TInventoryWarehouseAvailability(avail1.InventoryWarehouse.InventoryId, avail1.InventoryWarehouse.WarehouseId);
+            avail3.CloneFrom(avail1);
+            avail3.AvailDataFromDateTime = avail2.AvailDataFromDateTime;
+            avail3.AvailDataToDateTime = avail2.AvailDataToDateTime;
+            avail3.CalculatedDateTime = avail2.CalculatedDateTime;
+            avail3.EnableQcDelay = (avail3.EnableQcDelay || avail2.EnableQcDelay);
+            avail3.HasNegativeConflict = (avail3.HasNegativeConflict || avail2.HasNegativeConflict);
+            avail3.HasPositiveConflict = (avail3.HasPositiveConflict || avail2.HasPositiveConflict);
+            avail3.In = (avail3.In + avail2.In);
+            avail3.InContainer = (avail3.InContainer + avail2.InContainer);
+            avail3.InRepair = (avail3.InRepair + avail2.InRepair);
+            avail3.InTransit = (avail3.InTransit + avail2.InTransit);
+            avail3.Late = (avail3.Late + avail2.Late);
+            avail3.OnTruck = (avail3.OnTruck + avail2.OnTruck);
+            avail3.Out = (avail3.Out + avail2.Out);
+            avail3.Staged = (avail3.Staged + avail2.Staged);
+            avail3.Total = (avail3.Total + avail2.Total);
+
+            //avail3.AvailabilityDatesAndTimes.Clear();
+            wrong
+            foreach (KeyValuePair<DateTime, TInventoryWarehouseAvailabilityDateTime> invWhDateTime2 in avail2.AvailabilityDatesAndTimes)
+            {
+
+                TInventoryWarehouseAvailabilityDateTime invWhDateTime3 = null;
+                if (!avail3.AvailabilityDatesAndTimes.TryGetValue(invWhDateTime2.Key, out invWhDateTime3))
+                {
+                    invWhDateTime3 = new TInventoryWarehouseAvailabilityDateTime(invWhDateTime2.Key);
+                }
+                invWhDateTime3.Available += invWhDateTime2.Value.Available;
+                invWhDateTime3.BecomingAvailable += invWhDateTime2.Value.BecomingAvailable;
+                invWhDateTime3.Reserved += invWhDateTime2.Value.Reserved;
+                invWhDateTime3.Returning += invWhDateTime2.Value.Returning;
+                //invWhDateTime3.Reservations
+
+                avail3.AvailabilityDatesAndTimes.AddOrUpdate(invWhDateTime3.AvailabilityDateTime, invWhDateTime3, (key, existingValue) =>
+                {
+                    existingValue.AvailabilityDateTime = invWhDateTime3.AvailabilityDateTime;
+                    existingValue.Available = invWhDateTime3.Available;
+                    existingValue.Reserved = invWhDateTime3.Reserved;
+                    existingValue.Returning = invWhDateTime3.Returning;
+                    return existingValue;
+                });
+
+            }
+            return avail3;
+        }
+
     }
     //-------------------------------------------------------------------------------------------------------
     public class TAvailabilityCache : ConcurrentDictionary<TInventoryWarehouseAvailabilityKey, TInventoryWarehouseAvailability>
@@ -1383,7 +1434,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                     }
 
                     //local private method to adjust the reservation "to date/time" and "qc date/time"
-                    void adjustReservationToDateTime(ref TInventoryWarehouseAvailabilityReservation res, bool hourlyAvailability) 
+                    void adjustReservationToDateTime(ref TInventoryWarehouseAvailabilityReservation res, bool hourlyAvailability)
                     {
                         if (!hourlyAvailability)
                         {
@@ -1667,6 +1718,98 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
             }
         }
         //-------------------------------------------------------------------------------------------------------
+        private static void CalculateAllWarehouseAvailability(ref TAvailabilityCache availCache)
+        {
+            List<string> inventoryIds = new List<string>();
+            List<string> warehouseIds = new List<string>();
+
+            TAvailabilityCache allWhAvailCache = new TAvailabilityCache();
+
+            /*
+            foreach (KeyValuePair<TInventoryWarehouseAvailabilityKey, TInventoryWarehouseAvailability> availEntry in availCache)
+            {
+                if (!inventoryIds.Contains(availEntry.Key.InventoryId))
+                {
+                    inventoryIds.Add(availEntry.Key.InventoryId);
+                }
+                if (!warehouseIds.Contains(availEntry.Key.WarehouseId))
+                {
+                    warehouseIds.Add(availEntry.Key.WarehouseId);
+                }
+            }
+            */
+            foreach (KeyValuePair<TInventoryWarehouseAvailabilityKey, TInventoryWarehouseAvailability> availEntry in availCache)
+            {
+                TInventoryWarehouseAvailabilityKey allWhAvailKey = new TInventoryWarehouseAvailabilityKey(availEntry.Key.InventoryId, RwConstants.WAREHOUSEID_ALL);
+                TInventoryWarehouseAvailability allWhAvail = null;
+                if (!allWhAvailCache.TryGetValue(allWhAvailKey, out allWhAvail))
+                {
+                    allWhAvail = new TInventoryWarehouseAvailability(allWhAvailKey.InventoryId, allWhAvailKey.WarehouseId);
+                }
+                allWhAvail += availEntry.Value;
+
+                /*
+                TInventoryWarehouseAvailability invWhAvail = null;
+                if (availCache.TryGetValue(new TInventoryWarehouseAvailabilityKey(inventoryId, warehouseId), out invWhAvail))
+                {
+                    allWhAvail.AvailDataFromDateTime = invWhAvail.AvailDataFromDateTime;
+                    allWhAvail.AvailDataToDateTime = invWhAvail.AvailDataToDateTime;
+                    allWhAvail.CalculatedDateTime = invWhAvail.CalculatedDateTime;
+                    allWhAvail.EnableQcDelay = (allWhAvail.EnableQcDelay || invWhAvail.EnableQcDelay);
+                    allWhAvail.HasNegativeConflict = (allWhAvail.HasNegativeConflict || invWhAvail.HasNegativeConflict);
+                    allWhAvail.HasPositiveConflict = (allWhAvail.HasPositiveConflict || invWhAvail.HasPositiveConflict);
+                    allWhAvail.In = (allWhAvail.In + invWhAvail.In);
+                    allWhAvail.InContainer = (allWhAvail.InContainer + invWhAvail.InContainer);
+                    allWhAvail.InRepair = (allWhAvail.InRepair + invWhAvail.InRepair);
+                    allWhAvail.InTransit = (allWhAvail.InTransit + invWhAvail.InTransit);
+                    allWhAvail.Late = (allWhAvail.Late + invWhAvail.Late);
+                    allWhAvail.OnTruck = (allWhAvail.OnTruck + invWhAvail.OnTruck);
+                    allWhAvail.Out = (allWhAvail.Out + invWhAvail.Out);
+                    allWhAvail.Staged = (allWhAvail.Staged + invWhAvail.Staged);
+                    allWhAvail.Total = (allWhAvail.Total + invWhAvail.Total);
+
+                    foreach (KeyValuePair<DateTime, TInventoryWarehouseAvailabilityDateTime> invWhDateTime in invWhAvail.AvailabilityDatesAndTimes)
+                    {
+
+                        TInventoryWarehouseAvailabilityDateTime allWhDateTime = null;
+                        if (allWhAvail.AvailabilityDatesAndTimes.TryGetValue(invWhDateTime.Key, out allWhDateTime))
+                        {
+                        }
+                        else
+                        {
+                            allWhDateTime = new TInventoryWarehouseAvailabilityDateTime(invWhDateTime.Key);
+                        }
+
+                    }
+
+
+
+                    //allWhAvail.InventoryWarehouse
+                    //allWhAvail.QcDelayDays
+                    //allWhAvail.QcRequired
+                    //allWhAvail.QcToDateTime
+                    //allWhAvail.Reservations
+                }
+                */
+
+                allWhAvailCache.AddOrUpdate(allWhAvailKey, allWhAvail, (key, existingValue) =>
+                {
+                    existingValue.CloneFrom(allWhAvail);
+                    return existingValue;
+                });
+            }
+
+            foreach (KeyValuePair<TInventoryWarehouseAvailabilityKey, TInventoryWarehouseAvailability> allWhAvail in allWhAvailCache)
+            {
+                availCache.AddOrUpdate(allWhAvail.Key, allWhAvail.Value, (key, existingValue) =>
+                {
+                    existingValue.CloneFrom(allWhAvail.Value);
+                    return existingValue;
+                });
+            }
+
+        }
+        //-------------------------------------------------------------------------------------------------------
         private static async Task<bool> RefreshAvailability(FwApplicationConfig appConfig, FwUserSession userSession, TInventoryWarehouseAvailabilityRequestItems availRequestItems)
         {
             bool success = true;
@@ -1674,6 +1817,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
             {
                 TAvailabilityCache availCache = await BuildAvailabilityCache(appConfig, userSession, availRequestItems);
                 CalculateFutureAvailability(ref availCache);
+                CalculateAllWarehouseAvailability(ref availCache);
                 foreach (TInventoryWarehouseAvailabilityKey availKey in availCache.Keys)
                 {
                     AvailabilityCache.AddOrUpdate(availKey, availCache[availKey], (key, existingValue) =>

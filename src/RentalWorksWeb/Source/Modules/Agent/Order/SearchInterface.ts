@@ -580,6 +580,7 @@ class SearchInterface {
         let $inventoryContainer       = $popup.find('#inventory');
         let descriptionIndex          = response.ColumnIndex.Description,
             quantityAvailable         = response.ColumnIndex.QuantityAvailable,
+            quantityAvailableAllWh    = response.ColumnIndex.QuantityAvailableAllWarehouses,
             conflictDate              = response.ColumnIndex.ConflictDate,
             quantityIn                = response.ColumnIndex.QuantityIn,
             quantityQcRequired        = response.ColumnIndex.QuantityQcRequired,
@@ -596,6 +597,7 @@ class SearchInterface {
             categoryIndex             = response.ColumnIndex.Category,
             subCategoryIndex          = response.ColumnIndex.SubCategory,
             availabilityStateIndex    = response.ColumnIndex.AvailabilityState,
+            availabilityStateIndexAllWh = response.ColumnIndex.AvailabilityStateAllWarehouses,
             qtyIsStaleIndex           = response.ColumnIndex.QuantityAvailableIsStale,
             icode                     = response.ColumnIndex.ICode,
             partNumber                = response.ColumnIndex.ManufacturerPartNumber,
@@ -642,7 +644,7 @@ class SearchInterface {
                                 <div data-column="ICode" class="columnorder"><div class="gridcaption">I-Code</div><div class="value">${response.Rows[i][icode]}</div></div>
                                 <div data-column="PartNumber" class="columnorder"><div class="gridcaption">Part Number</div><div class="value">${response.Rows[i][partNumber]}</div></div>
                                 <div data-column="ConflictDate" class="columnorder hideColumns"><div class="gridcaption">Conflict</div><div class="value">${conflictdate}</div></div>
-                                <div data-column="AllWh" class="columnorder hideColumns">&#160;</div>
+                                <div data-column="AllWh" class="columnorder hideColumns"><div class="gridcaption">Available</div><div class="available-color value">${response.Rows[i][quantityAvailableAllWh]}</div></div>
                                 <div data-column="In" class="columnorder hideColumns"><div class="gridcaption">In</div><div class="value">${response.Rows[i][quantityIn]}</div></div>
                                 <div data-column="QC" class="columnorder hideColumns"><div class="gridcaption">QC</div><div class="value">${response.Rows[i][quantityQcRequired]}</div></div>
                                 <div data-column="Note" class="columnorder note-button" style="display:none;"><div class="gridcaption">Note</div><textarea class="value">${response.Rows[i][note]}</textarea>${response.Rows[i][note].length > 0 ? '<i class="material-icons">insert_drive_file</i>' : ''}</div>
@@ -665,6 +667,7 @@ class SearchInterface {
             }
 
             $itemcontainer.find('div[data-column="Available"]').attr('data-state', response.Rows[i][availabilityStateIndex]);
+            $itemcontainer.find('div[data-column="AllWh"]').attr('data-state', response.Rows[i][availabilityStateIndexAllWh]);
 
             if (response.Rows[i][classificationIndex] == "K" || response.Rows[i][classificationIndex] == "C") {
                 var $tag = jQuery('<div>').addClass('tag')
@@ -1157,6 +1160,11 @@ class SearchInterface {
                             .attr('data-state', response.AvailabilityState)
                             .find('.value')
                             .text(response.QuantityAvailable);
+
+                        item.find('[data-column="AllWh"]')
+                            .attr('data-state', response.AvailabilityStateAllWarehouses)
+                            .find('.value')
+                            .text(response.QuantityAvailableAllWarehouses);
 
                         item.find('[data-column="ConflictDate"] value').text(response.ConflictDate || "");
 

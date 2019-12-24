@@ -491,6 +491,12 @@ Form tables
 .item-container div[data-column="Available"][data-state="low"] .available-color {background-color:#ffeb3b;}
 .item-container div[data-column="Available"][data-state="noavailcheck"] .available-color {background-color:#00ffff;}
 .item-container div[data-column="Available"][data-state="positiveconflict"] .available-color {background-color:#006600;color:#ffffff;}
+.item-container div[data-column="AllWh"][data-state="enough"] .available-color {background-color:#009933;color:#ffffff;}
+.item-container div[data-column="AllWh"][data-state="negative"] .available-color {background-color:#f44336;color:#ffffff;}
+.item-container div[data-column="AllWh"][data-state="stale"] .available-color {background-color:#1565C0;color:#ffffff;}
+.item-container div[data-column="AllWh"][data-state="low"] .available-color {background-color:#ffeb3b;}
+.item-container div[data-column="AllWh"][data-state="noavailcheck"] .available-color {background-color:#00ffff;}
+.item-container div[data-column="AllWh"][data-state="positiveconflict"] .available-color {background-color:#006600;color:#ffffff;}
 
 .item-container .item-accessories .item-accessory-info {display:flex;align-items:center;padding:5px;position:relative;border-bottom: 1px solid #BDBDBD;background-color:#EEEEEE;}
 .item-container .item-accessories .item-accessory-info .toggleaccessories { text-indent: 1em; }
