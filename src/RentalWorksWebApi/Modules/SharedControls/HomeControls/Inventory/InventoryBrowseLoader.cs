@@ -99,7 +99,8 @@ namespace WebApi.Modules.HomeControls.Inventory
                   " outer apply(select top 1 mw.manifestvalue, mw.aisleloc, mw.shelfloc, q.qty" +
                   "              from  masterwh mw with(nolock)" +
                   "                            join masterwhqty q with(nolock) on(q.masterid = mw.masterid and q.warehouseid = mw.warehouseid)" +
-                  "                  where mw.masterid = t.masterid) mw";
+                  "                  where mw.masterid = t.masterid" +
+                  "                  and   mw.warehouseid = @warehouseid) mw";
 
 
             base.SetBaseSelectQuery(select, qry, customFields, request);
