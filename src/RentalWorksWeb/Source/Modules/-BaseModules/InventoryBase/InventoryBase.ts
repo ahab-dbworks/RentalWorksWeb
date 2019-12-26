@@ -215,7 +215,7 @@ abstract class InventoryBase {
                 }
                 let availRequest = {
                     InventoryId: inventoryId,
-                    WarehouseId: warehouseId,
+                    WarehouseId: warehouseId.split(','),
                     FromDate: startOfMonth,
                     ToDate: endOfMonth,
                 };
@@ -292,7 +292,7 @@ abstract class InventoryBase {
                 }
                 let availRequest = {
                     InventoryId: inventoryId,
-                    WarehouseId: warehouseId,
+                    WarehouseId: warehouseId.split(','),
                     FromDate: start,
                     ToDate: end,
                 };

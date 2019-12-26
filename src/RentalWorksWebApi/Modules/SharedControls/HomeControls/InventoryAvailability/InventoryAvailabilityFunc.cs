@@ -43,7 +43,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
     public class AvailabilityCalendarAndScheduleRequest
     {
         public string InventoryId { get; set; }
-        public string WarehouseId { get; set; }
+        public List<string> WarehouseId { get; set; } = new List<string>();
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }
     }
@@ -673,7 +673,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                     }
                     theDateTime = theDateTime.AddDays(1);        //currently hard-coded for "daily" availability.  will need mods to work for "hourly"  //#jhtodo
                 }
-                
+
 
                 if (!isStale)
                 {
@@ -2198,10 +2198,26 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                 request.ToDate = DateTime.Today;
             }
 
-            TInventoryWarehouseAvailability availData = await GetAvailability(appConfig, userSession, request.InventoryId, request.WarehouseId, request.FromDate, request.ToDate, true, forceRefresh: true);
+            //TInventoryWarehouseAvailability availData = await GetAvailability(appConfig, userSession, request.InventoryId, request.WarehouseId[0], request.FromDate, request.ToDate, refreshIfNeeded: true, forceRefresh: true);
+            TInventoryWarehouseAvailability availData = null;
+
+            if (request.WarehouseId.Count >= 1)
+            {
+                availData = await GetAvailability(appConfig, userSession, request.InventoryId, request.WarehouseId[0], request.FromDate, request.ToDate, refreshIfNeeded: true, forceRefresh: true);
+            }
+
+            if (request.WarehouseId.Count > 1)
+            {
+                for (int w = 1; w < request.WarehouseId.Count; w++)
+                {
+                    TInventoryWarehouseAvailability availData2 = await GetAvailability(appConfig, userSession, request.InventoryId, request.WarehouseId[w], request.FromDate, request.ToDate, refreshIfNeeded: true, forceRefresh: true);
+                    availData += availData2;
+                }
+            }
 
             if (availData != null)
             {
+                string warehouseId = string.Join(',', request.WarehouseId);
                 response.InventoryData = availData;
                 int eventId = 0;
                 string backColor = "";
@@ -2218,7 +2234,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                     {
                         backColor = RwGlobals.AVAILABILITY_COLOR_NO_AVAILABILITY;
                         textColor = RwGlobals.AVAILABILITY_TEXT_COLOR_POSITIVE;
-                        response.InventoryAvailabilityCalendarEvents.Add(buildCalendarDateEvent(theDate, RwConstants.NO_AVAILABILITY_CAPTION, null, backColor, textColor, ref eventId, request.InventoryId, request.WarehouseId));
+                        response.InventoryAvailabilityCalendarEvents.Add(buildCalendarDateEvent(theDate, RwConstants.NO_AVAILABILITY_CAPTION, null, backColor, textColor, ref eventId, request.InventoryId, warehouseId));
                     }
                     else
                     {
@@ -2230,7 +2246,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                             {
                                 backColor = RwGlobals.AVAILABILITY_COLOR_LATE;
                                 textColor = RwGlobals.AVAILABILITY_TEXT_COLOR_LATE;
-                                response.InventoryAvailabilityCalendarEvents.Add(buildCalendarDateEvent(theDate, "Late", availData.Late.OwnedAndConsigned, backColor, textColor, ref eventId, request.InventoryId, request.WarehouseId));
+                                response.InventoryAvailabilityCalendarEvents.Add(buildCalendarDateEvent(theDate, "Late", availData.Late.OwnedAndConsigned, backColor, textColor, ref eventId, request.InventoryId, warehouseId));
                             }
 
                             //available
@@ -2249,14 +2265,14 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                                 backColor = RwGlobals.AVAILABILITY_COLOR_POSITIVE;
                                 textColor = RwGlobals.AVAILABILITY_TEXT_COLOR_POSITIVE;
                             }
-                            response.InventoryAvailabilityCalendarEvents.Add(buildCalendarDateEvent(theDate, "Available", inventoryWarehouseAvailabilityDateTime.Available.OwnedAndConsigned, backColor, textColor, ref eventId, request.InventoryId, request.WarehouseId));
+                            response.InventoryAvailabilityCalendarEvents.Add(buildCalendarDateEvent(theDate, "Available", inventoryWarehouseAvailabilityDateTime.Available.OwnedAndConsigned, backColor, textColor, ref eventId, request.InventoryId, warehouseId));
 
                             //reserved
                             if (inventoryWarehouseAvailabilityDateTime.Reserved.OwnedAndConsigned != 0)
                             {
                                 backColor = RwGlobals.AVAILABILITY_COLOR_RESERVED;
                                 textColor = RwGlobals.AVAILABILITY_TEXT_COLOR_RESERVED;
-                                response.InventoryAvailabilityCalendarEvents.Add(buildCalendarDateEvent(theDate, "Reserved", inventoryWarehouseAvailabilityDateTime.Reserved.OwnedAndConsigned, backColor, textColor, ref eventId, request.InventoryId, request.WarehouseId));
+                                response.InventoryAvailabilityCalendarEvents.Add(buildCalendarDateEvent(theDate, "Reserved", inventoryWarehouseAvailabilityDateTime.Reserved.OwnedAndConsigned, backColor, textColor, ref eventId, request.InventoryId, warehouseId));
                             }
 
                             //returning
@@ -2264,7 +2280,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                             {
                                 backColor = RwGlobals.AVAILABILITY_COLOR_RETURNING;
                                 textColor = RwGlobals.AVAILABILITY_TEXT_COLOR_RETURNING;
-                                response.InventoryAvailabilityCalendarEvents.Add(buildCalendarDateEvent(theDate, "Returning", inventoryWarehouseAvailabilityDateTime.Returning.OwnedAndConsigned, backColor, textColor, ref eventId, request.InventoryId, request.WarehouseId));
+                                response.InventoryAvailabilityCalendarEvents.Add(buildCalendarDateEvent(theDate, "Returning", inventoryWarehouseAvailabilityDateTime.Returning.OwnedAndConsigned, backColor, textColor, ref eventId, request.InventoryId, warehouseId));
                             }
                             response.Dates.Add(new TInventoryAvailabilityCalendarDate(theDate, inventoryWarehouseAvailabilityDateTime.Reservations));
                         }
@@ -2281,7 +2297,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                     backColor = RwGlobals.AVAILABILITY_COLOR_NO_AVAILABILITY;
                     barColor = "";
                     textColor = RwGlobals.AVAILABILITY_TEXT_COLOR_POSITIVE;
-                    response.InventoryAvailabilityScheduleEvents.Add(buildScheduleEvent(resourceId, request.FromDate, request.ToDate, null, RwConstants.NO_AVAILABILITY_CAPTION, backColor, barColor, textColor, ref eventId, request.InventoryId, request.WarehouseId, false));
+                    response.InventoryAvailabilityScheduleEvents.Add(buildScheduleEvent(resourceId, request.FromDate, request.ToDate, null, RwConstants.NO_AVAILABILITY_CAPTION, backColor, barColor, textColor, ref eventId, request.InventoryId, warehouseId, false));
                 }
                 else
                 {
@@ -2304,7 +2320,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                                 backColor = RwGlobals.AVAILABILITY_COLOR_LOW;
                                 textColor = RwGlobals.AVAILABILITY_TEXT_COLOR_LOW;
                             }
-                            response.InventoryAvailabilityScheduleEvents.Add(buildScheduleEvent(resourceId, theDate, theDate, null, AvailabilityNumberToString(inventoryWarehouseAvailabilityDateTime.Available.OwnedAndConsigned), backColor, barColor, textColor, ref eventId, request.InventoryId, request.WarehouseId, false));
+                            response.InventoryAvailabilityScheduleEvents.Add(buildScheduleEvent(resourceId, theDate, theDate, null, AvailabilityNumberToString(inventoryWarehouseAvailabilityDateTime.Available.OwnedAndConsigned), backColor, barColor, textColor, ref eventId, request.InventoryId, warehouseId, false));
                         }
                         theDate = theDate.AddDays(1); //daily availability
                     }
@@ -2325,7 +2341,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                         backColor = RwGlobals.AVAILABILITY_COLOR_QC_REQUIRED;
                         barColor = RwGlobals.AVAILABILITY_COLOR_QC_REQUIRED;
                         textColor = RwGlobals.AVAILABILITY_TEXT_COLOR_QC_REQUIRED;
-                        response.InventoryAvailabilityScheduleEvents.Add(buildScheduleEvent(resourceId, request.FromDate, qcToDateTime, availData.QcRequired.OwnedAndConsigned, "QC Required", backColor, barColor, textColor, ref eventId, request.InventoryId, request.WarehouseId, false));
+                        response.InventoryAvailabilityScheduleEvents.Add(buildScheduleEvent(resourceId, request.FromDate, qcToDateTime, availData.QcRequired.OwnedAndConsigned, "QC Required", backColor, barColor, textColor, ref eventId, request.InventoryId, warehouseId, false));
                     }
                 }
 
@@ -2349,7 +2365,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                             barColor = RwGlobals.IN_TRANSIT_COLOR;
                         }
 
-                        response.InventoryAvailabilityScheduleEvents.AddRange(buildScheduleReservationEvents(resourceId, reservation, qty, backColor, barColor, textColor, ref eventId, request.InventoryId, request.WarehouseId, false, false));
+                        response.InventoryAvailabilityScheduleEvents.AddRange(buildScheduleReservationEvents(resourceId, reservation, qty, backColor, barColor, textColor, ref eventId, request.InventoryId, warehouseId, false, false));
                     }
 
                     //reserved (subbed)
@@ -2361,7 +2377,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                         barColor = RwGlobals.AVAILABILITY_COLOR_RESERVED;
                         textColor = RwGlobals.AVAILABILITY_TEXT_COLOR_RESERVED;
                         qty = reservation.QuantityReserved.Subbed;
-                        response.InventoryAvailabilityScheduleEvents.AddRange(buildScheduleReservationEvents(resourceId, reservation, qty, backColor, barColor, textColor, ref eventId, request.InventoryId, request.WarehouseId, true, false));
+                        response.InventoryAvailabilityScheduleEvents.AddRange(buildScheduleReservationEvents(resourceId, reservation, qty, backColor, barColor, textColor, ref eventId, request.InventoryId, warehouseId, true, false));
                     }
 
                     //staged (owned and consigned)
@@ -2373,7 +2389,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                         backColor = RwGlobals.AVAILABILITY_COLOR_RESERVED;
                         textColor = RwGlobals.AVAILABILITY_TEXT_COLOR_RESERVED;
                         qty = reservation.QuantityStaged.OwnedAndConsigned;
-                        response.InventoryAvailabilityScheduleEvents.AddRange(buildScheduleReservationEvents(resourceId, reservation, qty, backColor, barColor, textColor, ref eventId, request.InventoryId, request.WarehouseId, false, false));
+                        response.InventoryAvailabilityScheduleEvents.AddRange(buildScheduleReservationEvents(resourceId, reservation, qty, backColor, barColor, textColor, ref eventId, request.InventoryId, warehouseId, false, false));
                     }
 
                     //staged (subbed)
@@ -2385,7 +2401,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                         backColor = RwGlobals.SUB_COLOR;
                         textColor = RwGlobals.AVAILABILITY_TEXT_COLOR_RESERVED;
                         qty = reservation.QuantityStaged.Subbed;
-                        response.InventoryAvailabilityScheduleEvents.AddRange(buildScheduleReservationEvents(resourceId, reservation, qty, backColor, barColor, textColor, ref eventId, request.InventoryId, request.WarehouseId, true, false));
+                        response.InventoryAvailabilityScheduleEvents.AddRange(buildScheduleReservationEvents(resourceId, reservation, qty, backColor, barColor, textColor, ref eventId, request.InventoryId, warehouseId, true, false));
                     }
 
                     //out (owned and consigned)
@@ -2409,7 +2425,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                             barColor = RwGlobals.PENDING_EXCHANGE_COLOR;
                         }
                         qty = reservation.QuantityOut.OwnedAndConsigned;
-                        response.InventoryAvailabilityScheduleEvents.AddRange(buildScheduleReservationEvents(resourceId, reservation, qty, backColor, barColor, textColor, ref eventId, request.InventoryId, request.WarehouseId, false, false));
+                        response.InventoryAvailabilityScheduleEvents.AddRange(buildScheduleReservationEvents(resourceId, reservation, qty, backColor, barColor, textColor, ref eventId, request.InventoryId, warehouseId, false, false));
                     }
 
                     //out (subbed)
@@ -2429,7 +2445,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                             barColor = RwGlobals.PENDING_EXCHANGE_COLOR;
                         }
                         qty = reservation.QuantityOut.Subbed;
-                        response.InventoryAvailabilityScheduleEvents.AddRange(buildScheduleReservationEvents(resourceId, reservation, qty, backColor, barColor, textColor, ref eventId, request.InventoryId, request.WarehouseId, true, false));
+                        response.InventoryAvailabilityScheduleEvents.AddRange(buildScheduleReservationEvents(resourceId, reservation, qty, backColor, barColor, textColor, ref eventId, request.InventoryId, warehouseId, true, false));
                     }
 
                     //repair
@@ -2441,7 +2457,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                         backColor = RwGlobals.AVAILABILITY_COLOR_RESERVED;
                         textColor = RwGlobals.AVAILABILITY_TEXT_COLOR_RESERVED;
                         qty = reservation.QuantityInRepair.Total;
-                        response.InventoryAvailabilityScheduleEvents.AddRange(buildScheduleReservationEvents(resourceId, reservation, qty, backColor, barColor, textColor, ref eventId, request.InventoryId, request.WarehouseId, false, false));
+                        response.InventoryAvailabilityScheduleEvents.AddRange(buildScheduleReservationEvents(resourceId, reservation, qty, backColor, barColor, textColor, ref eventId, request.InventoryId, warehouseId, false, false));
                     }
                 }
             }

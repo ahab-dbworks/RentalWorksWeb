@@ -618,12 +618,12 @@
       <!-- Availability Calendar tab -->
       <div data-type="tabpage" id="availabilitycalendartabpage" class="tabpage" data-tabid="availabilitycalendartab">
         <div class="formpage" style="width:auto;">
-          <div class="flexrow" style="max-width:1320px;">
+          <div class="flexrow" style="max-width:1600px;">
             <div class="flexcolumn">
-              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Availability" style="max-width:1000px;">
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Availability" style="max-width:1200px;">
                 <div class="flexrow">
-                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield warehousefilter" data-caption="Filter By Warehouse" data-datafield="" data-validationname="WarehouseValidation" data-displayfield="WarehouseCode" style="flex:0 1 250px; margin-bottom:15px;"></div>
-                  <div class="flexcolumn inv-data-totals" style="flex:0 1 750px;float:right;">
+                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield warehousefilter" data-caption="Filter By Warehouse" data-datafield="" data-validationname="WarehouseValidation" data-displayfield="WarehouseCode" style="flex:0 1 400px; margin-bottom:15px;"></div>
+                  <div class="flexcolumn inv-data-totals" style="flex:0 1 700px;float:right;">
                     <div class="flexrow">
                       <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="Total" data-datafield="" data-enabled="false" data-totalfield="Total" style="flex:0 1 85px"></div>
                       <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield totals" data-caption="In" data-datafield="" data-enabled="false" data-totalfield="In" style="flex:0 1 85px;"></div>
@@ -649,12 +649,14 @@
               </div>
             </div>
           </div>
-          <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Calendar / Schedule">
+          <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Availability Calendar">
             <div class="flexrow" style="max-width:1400px;">
               <div class="flexcolumn">
                 <div data-control="FwScheduler" style="overflow:auto;" class="fwcontrol fwscheduler calendar"></div>
               </div>
             </div>
+          </div>
+          <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Availability Schedule">
             <div class="flexrow" style="max-width:1950px;">
               <div class="flexcolumn cal-sched">
                 <div data-control="FwSchedulerDetailed" class="fwcontrol fwscheduler realscheduler"></div>
