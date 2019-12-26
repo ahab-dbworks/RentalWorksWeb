@@ -99,7 +99,7 @@ class SearchInterface {
                                       <div class="columnorder" style="display:none;" data-column="PartNumber">Part Number</div>
                                       <div class="columnorder hideColumns" data-column="Available">Available</div>
                                       <div class="columnorder hideColumns" data-column="ConflictDate">Conflict Date</div>
-                                      <div class="columnorder hideColumns" data-column="AllWh">All Warehouse</div>
+                                      <div class="columnorder hideColumns" data-column="AllWh">All Warehouses</div>
                                       <div class="columnorder hideColumns" data-column="In">In</div>
                                       <div class="columnorder hideColumns" data-column="QC">QC</div>
                                       <div class="columnorder" style="display:none;" data-column="Note">Note</div>
@@ -1613,6 +1613,7 @@ class SearchInterface {
             const qtyIndex                       = response.ColumnIndex.Quantity;
             const qtyInIndex                     = response.ColumnIndex.QuantityIn;
             const qtyAvailIndex                  = response.ColumnIndex.QuantityAvailable;
+            const qtyAvailableAllWhIndex         = response.ColumnIndex.QuantityAvailableAllWarehouses;
             const conflictIndex                  = response.ColumnIndex.ConflictDate;
             const inventoryIdIndex               = response.ColumnIndex.InventoryId;
             const classificationIndex            = response.ColumnIndex.Classification;
@@ -1623,6 +1624,7 @@ class SearchInterface {
             const thumbnail                      = response.ColumnIndex.Thumbnail;
             const appImageId                     = response.ColumnIndex.ImageId;
             const availabilityStateIndex         = response.ColumnIndex.AvailabilityState;
+            const availabilityStateIndexAllWhIndex = response.ColumnIndex.AvailabilityStateAllWarehouses;
             const isOptionIndex                  = response.ColumnIndex.IsOption;
             const defaultQuantityIndex           = response.ColumnIndex.DefaultQuantity;
             const icodeIndex                     = response.ColumnIndex.ICode;
@@ -1655,6 +1657,7 @@ class SearchInterface {
                                        <div class="columnorder" data-column="PartNumber">${response.Rows[i][partNumberIndex]}</div>
                                        <div class="columnorder hideColumns" data-column="Available"><div class="available-color">${response.Rows[i][qtyAvailIndex]}</div></div>
                                        <div class="columnorder hideColumns" data-column="ConflictDate">${conflictdate}</div>
+                                       <!--Something is wrong by adding this line it throws off the alignment of the columns in this section<div class="columnorder hideColumns" data-column="AllWh"><div class="available-color value">${response.Rows[i][qtyAvailableAllWhIndex]}</div>-->
                                        <div class="hideColumns columnorder" data-column="In">${response.Rows[i][qtyInIndex]}</div>
                                        <div class="columnorder" data-column="Type"></div>
                                        <div class="columnorder" data-column="Category"></div>
@@ -1672,6 +1675,7 @@ class SearchInterface {
                 }
 
                 $itemaccessoryinfo.find('div[data-column="Available"]').attr('data-state', response.Rows[i][availabilityStateIndex]);
+                $itemaccessoryinfo.find('div[data-column="AllWh"]').attr('data-state', response.Rows[i][availabilityStateIndexAllWhIndex]);
 
                 if (response.Rows[i][classificationIndex] == "K" || response.Rows[i][classificationIndex] == "C") {
                     var $tag = jQuery('<div>').addClass('tag')
