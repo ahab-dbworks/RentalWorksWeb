@@ -213,7 +213,13 @@ abstract class InventoryBase {
                 if (inventoryId === null || inventoryId === '') {
                     inventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
                 }
-                FwAppData.apiMethod(true, 'GET', `api/v1/inventoryavailability/calendarandscheduledata?&InventoryId=${inventoryId}&WarehouseId=${warehouseId}&FromDate=${startOfMonth}&ToDate=${endOfMonth}`, null, FwServices.defaultTimeout, response => {
+                let availRequest = {
+                    InventoryId: inventoryId,
+                    WarehouseId: warehouseId,
+                    FromDate: startOfMonth,
+                    ToDate: endOfMonth,
+                };
+                FwAppData.apiMethod(true, 'POST', `api/v1/inventoryavailability/calendarandscheduledata`, availRequest, FwServices.defaultTimeout, response => {
                     FwScheduler.loadYearEventsCallback($control, [{ id: '1', name: '' }], this.yearlyEvents);
                     const calendarevents = response.InventoryAvailabilityCalendarEvents;
                     $control.data('reserveDates', response.Dates);                  // loading reservation data onto control for use in renderDatePopup()
@@ -284,7 +290,13 @@ abstract class InventoryBase {
                 if (inventoryId === null || inventoryId === '') {
                     inventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
                 }
-                FwAppData.apiMethod(true, 'GET', `api/v1/inventoryavailability/calendarandscheduledata?&InventoryId=${inventoryId}&WarehouseId=${warehouseId}&FromDate=${start}&ToDate=${end}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                let availRequest = {
+                    InventoryId: inventoryId,
+                    WarehouseId: warehouseId,
+                    FromDate: start,
+                    ToDate: end,
+                };
+                FwAppData.apiMethod(true, 'POST', `api/v1/inventoryavailability/calendarandscheduledata`, availRequest, FwServices.defaultTimeout, function onSuccess(response) {
                     const schedulerEvents = response.InventoryAvailabilityScheduleEvents;
                     for (let i = 0; i < schedulerEvents.length; i++) {
                         if (schedulerEvents[i].isWarehouseTotal === true) {
