@@ -81,6 +81,22 @@ namespace WebApi.Modules.HomeControls.InventorySearch
         [FwSqlDataField(column: "conflictdate", modeltype: FwDataTypes.Date)]
         public string ConflictDate { get; set; }
         //------------------------------------------------------------------------------------ 
+
+
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Decimal)]
+        public decimal? QuantityAvailableAllWarehouses { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Boolean)]
+        public bool? QuantityAvailableIsStaleAllWarehouses { get; set; } = true;
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Text)]
+        public string AvailabilityStateAllWarehouses { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Date)]
+        public string ConflictDateAllWarehouses { get; set; }
+        //------------------------------------------------------------------------------------ 
+
+
         [FwSqlDataField(column: "qtyin", modeltype: FwDataTypes.Decimal)]
         public decimal? QuantityIn { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -168,6 +184,7 @@ namespace WebApi.Modules.HomeControls.InventorySearch
                             string inventoryId = row[dtOut.GetColumnNo("InventoryId")].ToString();
                             string warehouseId = row[dtOut.GetColumnNo("WarehouseId")].ToString();
                             availRequestItems.Add(new TInventoryWarehouseAvailabilityRequestItem(inventoryId, warehouseId, fromDateTime, toDateTime));
+                            availRequestItems.Add(new TInventoryWarehouseAvailabilityRequestItem(inventoryId, RwConstants.WAREHOUSEID_ALL, fromDateTime, toDateTime));
                         }
 
                         TAvailabilityCache availCache = await InventoryAvailabilityFunc.GetAvailability(AppConfig, UserSession, availRequestItems, refreshIfNeeded: true, forceRefresh: false);
@@ -178,6 +195,7 @@ namespace WebApi.Modules.HomeControls.InventorySearch
                             string warehouseId = row[dtOut.GetColumnNo("WarehouseId")].ToString();
                             decimal qty = FwConvert.ToDecimal(row[dtOut.GetColumnNo("Quantity")]);
 
+                            // this warehouse available
                             decimal qtyAvailable = 0;
                             bool isStale = true;
                             DateTime? conflictDate = null;
@@ -197,6 +215,26 @@ namespace WebApi.Modules.HomeControls.InventorySearch
                             row[dtOut.GetColumnNo("ConflictDate")] = conflictDate;
                             row[dtOut.GetColumnNo("QuantityAvailableIsStale")] = isStale;
                             row[dtOut.GetColumnNo("AvailabilityState")] = availabilityState;
+
+                            // all warehouses available
+                            decimal qtyAvailableAllWarehouses = 0;
+                            bool isStaleAllWarehouses = true;
+                            DateTime? conflictDateAllWarehouses = null;
+                            string availabilityStateAllWarehouses = RwConstants.AVAILABILITY_STATE_STALE;
+                            TInventoryWarehouseAvailability allWhAvailData = null;
+                            if (availCache.TryGetValue(new TInventoryWarehouseAvailabilityKey(inventoryId, RwConstants.WAREHOUSEID_ALL), out allWhAvailData))
+                            {
+                                TInventoryWarehouseAvailabilityMinimum minAvail = allWhAvailData.GetMinimumAvailableQuantity(fromDateTime, toDateTime, qty);
+                                qtyAvailableAllWarehouses = minAvail.MinimumAvailable.OwnedAndConsigned;
+                                conflictDateAllWarehouses = minAvail.FirstConfict;
+                                isStaleAllWarehouses = minAvail.IsStale;
+                                availabilityStateAllWarehouses = minAvail.AvailabilityState;
+                            }
+
+                            row[dtOut.GetColumnNo("QuantityAvailableAllWarehouses")] = qtyAvailableAllWarehouses;
+                            row[dtOut.GetColumnNo("ConflictDateAllWarehouses")] = conflictDateAllWarehouses;
+                            row[dtOut.GetColumnNo("QuantityAvailableIsStaleAllWarehouses")] = isStaleAllWarehouses;
+                            row[dtOut.GetColumnNo("AvailabilityStateAllWarehouses")] = availabilityStateAllWarehouses;
 
                         }
                     }

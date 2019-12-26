@@ -463,6 +463,8 @@ namespace WebApi
         public const string AVAILABILITY_STATE_HISTORY = "history";
         public const string AVAILABILITY_STATE_POSITIVE_CONFLICT = "positiveconflict";
 
+        public const string WAREHOUSEID_ALL = "ALL";
+
 
         //CONTACTS / COMPANY
         public const string COMPANY_TYPE_LEAD = "LEAD";
