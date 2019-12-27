@@ -214,7 +214,7 @@
                 FwScheduler.renderRuntimeHtml($calendar);
                 FwScheduler.init($calendar);
                 FwScheduler.loadControl($calendar);
-                RentalInventoryController.addCalendarEvents($generatedtr, $calendar, inventoryId);
+                RentalInventoryController.addCalSchedEvents($generatedtr, $calendar, inventoryId);
                 const schddate = FwScheduler.getTodaysDate();
                 FwScheduler.navigate($calendar, schddate);
                 FwScheduler.refresh($calendar);
@@ -222,7 +222,7 @@
                 FwSchedulerDetailed.renderRuntimeHtml($scheduler);
                 FwSchedulerDetailed.init($scheduler);
                 FwSchedulerDetailed.loadControl($scheduler);
-                RentalInventoryController.addSchedulerEvents($generatedtr, $scheduler, inventoryId);
+                RentalInventoryController.addCalSchedEvents($generatedtr, $scheduler, inventoryId);
                 FwSchedulerDetailed.navigate($scheduler, schddate, 35);
                 FwSchedulerDetailed.refresh($scheduler);
 
