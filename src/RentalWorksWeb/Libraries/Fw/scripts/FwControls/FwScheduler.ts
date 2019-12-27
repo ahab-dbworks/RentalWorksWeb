@@ -280,20 +280,21 @@ class FwSchedulerClass {
                 FwFunc.showError(ex);
             }
         });
-        $control.on('click', '.btnRefreshCalendar', function () {
-            var currentDay, previousDay, previousWeek, previousMonth, navcalendar, navmonth, navscheduler;
+        $control.on('click', '.btnRefreshCalendar', () => {
             try {
                 FwScheduler.refresh($control);
             } catch (ex) {
                 FwFunc.showError(ex);
             }
         });
-        $control.on('onactivatetab', () => {
-            const $form = $control.closest('.fwform');
-            if ($control.attr('data-refreshonactivatetab') !== 'false' && $form.attr('data-mode') !== 'NEW') {
-                FwScheduler.refresh($control);
-            }
-        });
+        //$control.on('onactivatetab', () => {
+        //    const $form = $control.closest('.fwform');
+
+        //    if ($control.attr('data-refreshonactivatetab') !== 'false' && $form.attr('data-mode') !== 'NEW') {
+        //        FwScheduler.refresh($control);
+        //    }
+        //    $control.attr('data-refreshonactivatetab', 'true');
+        //});
     };
     //---------------------------------------------------------------------------------
     loadControl($control) {
@@ -311,17 +312,15 @@ class FwSchedulerClass {
     };
     //---------------------------------------------------------------------------------
     loadNavCalendar($control) {
-        var navcalendar;
-        navcalendar = new DayPilot.Navigator($control.attr('data-navcalendarid'));
+        const navcalendar = new DayPilot.Navigator($control.attr('data-navcalendarid'));
         $control.data('navcalendar', navcalendar);
         navcalendar.showMonths = 2;
         navcalendar.skipMonths = 2;
         navcalendar.selectMode = "day";
         navcalendar.weekStarts = 0;
         navcalendar.onTimeRangeSelected = function (args) {
-            var dpcalendar;
             try {
-                dpcalendar = $control.data('dpcalendar');
+                const dpcalendar = $control.data('dpcalendar');
                 dpcalendar.startDate = args.start;
                 dpcalendar.days = args.days;
                 FwScheduler.loadEvents($control);
@@ -334,17 +333,15 @@ class FwSchedulerClass {
     };
     //---------------------------------------------------------------------------------
     loadNav5Week($control) {
-        var nav5week;
-        nav5week = new DayPilot.Navigator($control.attr('data-nav5weekid'));
+        const nav5week = new DayPilot.Navigator($control.attr('data-nav5weekid'));
         $control.data('nav5week', nav5week);
         nav5week.showMonths = 3;
         nav5week.skipMonths = 3;
         nav5week.selectMode = "month";
         nav5week.weekStarts = 0;
         nav5week.onTimeRangeSelected = function (args) {
-            var dp5week;
             try {
-                dp5week = $control.data('dp5week');
+                const dp5week = $control.data('dp5week');
                 dp5week.startDate = args.day;
                 dp5week.days = 34;
                 FwScheduler.loadEvents($control);
@@ -357,17 +354,15 @@ class FwSchedulerClass {
     };
     //---------------------------------------------------------------------------------
     loadNavMonth($control) {
-        var navmonth;
-        navmonth = new DayPilot.Navigator($control.attr('data-navmonthid'));
+        const navmonth = new DayPilot.Navigator($control.attr('data-navmonthid'));
         $control.data('navmonth', navmonth);
         navmonth.showMonths = 3;
         navmonth.skipMonths = 3;
         navmonth.selectMode = "month";
         navmonth.weekStarts = 0;
         navmonth.onTimeRangeSelected = function (args) {
-            var dpmonth;
             try {
-                dpmonth = $control.data('dpmonth');
+                const dpmonth = $control.data('dpmonth');
                 dpmonth.startDate = args.start;
                 dpmonth.days = args.days;
                 FwScheduler.loadEvents($control);
@@ -380,17 +375,15 @@ class FwSchedulerClass {
     };
     //---------------------------------------------------------------------------------
     loadNavScheduler($control) {
-        var navscheduler;
-        navscheduler = new DayPilot.Navigator($control.attr('data-navschedulerid'));
+        const navscheduler = new DayPilot.Navigator($control.attr('data-navschedulerid'));
         $control.data('navscheduler', navscheduler);
         navscheduler.showMonths = 2;
         navscheduler.skipMonths = 2;
         navscheduler.selectMode = "month";
         navscheduler.weekStarts = 0;
         navscheduler.onTimeRangeSelected = function (args) {
-            var dpscheduler;
             try {
-                dpscheduler = $control.data('dpscheduler');
+                const dpscheduler = $control.data('dpscheduler');
                 dpscheduler.startDate = args.start;
                 dpscheduler.days = args.days;
                 FwScheduler.loadEvents($control);
@@ -403,8 +396,7 @@ class FwSchedulerClass {
     };
     //---------------------------------------------------------------------------------
     loadCalendar($control) {
-        var dpcalendar;
-        dpcalendar = new DayPilot.Calendar($control.attr('data-dpcalendarid'));
+        const dpcalendar = new DayPilot.Calendar($control.attr('data-dpcalendarid'));
         $control.data('dpcalendar', dpcalendar);
         dpcalendar.cellGroupBy = "Day"
         dpcalendar.eventClickHandling = 'Disabled';
@@ -429,8 +421,7 @@ class FwSchedulerClass {
     };
     //---------------------------------------------------------------------------------
     loadMonth($control) {
-        var dpmonth;
-        dpmonth = new DayPilot.Month($control.attr('data-dpmonthid'));
+        const dpmonth = new DayPilot.Month($control.attr('data-dpmonthid'));
         $control.data('dpmonth', dpmonth);
         dpmonth.cellWidth = 40;
         dpmonth.eventHeight = 25;
@@ -491,8 +482,7 @@ class FwSchedulerClass {
     };
     //---------------------------------------------------------------------------------
     load5Week($control) {
-        var dp5week;
-        dp5week = new DayPilot.Month($control.attr('data-dp5weekid'));
+        const dp5week = new DayPilot.Month($control.attr('data-dp5weekid'));
         $control.data('dp5week', dp5week);
         dp5week.cellWidth = 40;
         dp5week.eventHeight = 25;
@@ -555,8 +545,7 @@ class FwSchedulerClass {
     };
     //---------------------------------------------------------------------------------
     loadYear($control) {
-        var dpyear;
-        dpyear = new DayPilot.Scheduler($control.attr('data-dpyearid'));
+        const dpyear = new DayPilot.Scheduler($control.attr('data-dpyearid'));
         $control.data('dpyear', dpyear);
         dpyear.startDate = this.getFirstSundayMonth(dpyear);
         dpyear.cellWidth = 50;
@@ -585,8 +574,7 @@ class FwSchedulerClass {
     };
     //---------------------------------------------------------------------------------
     loadScheduler($control) {
-        var dpscheduler;
-        dpscheduler = new DayPilot.Scheduler($control.attr('data-dpschedulerid'));
+        const dpscheduler = new DayPilot.Scheduler($control.attr('data-dpschedulerid'));
         $control.data('dpscheduler', dpscheduler);
         dpscheduler.cellWidth = 80;
         dpscheduler.eventHeight = 25;
