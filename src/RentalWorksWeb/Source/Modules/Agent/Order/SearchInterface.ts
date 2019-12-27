@@ -1657,7 +1657,7 @@ class SearchInterface {
                                        <div class="columnorder" data-column="PartNumber">${response.Rows[i][partNumberIndex]}</div>
                                        <div class="columnorder hideColumns" data-column="Available"><div class="available-color">${response.Rows[i][qtyAvailIndex]}</div></div>
                                        <div class="columnorder hideColumns" data-column="ConflictDate">${conflictdate}</div>
-                                       <!--Something is wrong by adding this line it throws off the alignment of the columns in this section<div class="columnorder hideColumns" data-column="AllWh"><div class="available-color value">${response.Rows[i][qtyAvailableAllWhIndex]}</div>-->
+                                       <div class="columnorder hideColumns" data-column="AllWh"><div class="available-color value">${response.Rows[i][qtyAvailableAllWhIndex]}</div></div>
                                        <div class="hideColumns columnorder" data-column="In">${response.Rows[i][qtyInIndex]}</div>
                                        <div class="columnorder" data-column="Type"></div>
                                        <div class="columnorder" data-column="Category"></div>
@@ -1665,7 +1665,6 @@ class SearchInterface {
                                        <div class="columnorder note-button" data-column="Note"><textarea class="value">${response.Rows[i][note]}</textarea>${response.Rows[i][note].length > 0 ? '<i class="material-icons">insert_drive_file</i>' : ''}</div>
                                        <div class="columnorder" data-column="Rate"></div>
                                        <div class="columnorder" data-column="QC"></div>
-                                       <div class="columnorder" data-column="AllWh"></div>
                                      </div>`;
                 let $itemaccessoryinfo = jQuery(accessoryhtml);
                 accessoryContainer.append($itemaccessoryinfo);
