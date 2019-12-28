@@ -51,6 +51,35 @@
 
     generateRow($control, $generatedtr) {
         const $form = $control.closest('.fwform');
+
+
+        FwBrowse.setAfterRenderRowCallback($control, ($tr: JQuery, dt: FwJsonDataTable, rowIndex: number) => {
+            //// Bold Row
+            //if ($tr.find('.order-item-bold').text() === 'true') {
+            //    $tr.css('font-weight', "bold");
+            //}
+
+            // Group Header Row
+            if ($tr.find('.itemclass').text() === 'GH') {
+                $tr.css('font-weight', "bold");
+                $tr.css('background-color', "#ffffcc");
+                $tr.find('.field:not(.groupheaderline) ').text('');
+            }
+
+            // Text Row
+            if ($tr.find('.itemclass').text() === 'T') {
+                $tr.find('.field:not(.textline) ').text('');
+            }
+
+            // Sub-Total Row
+            if ($tr.find('.itemclass').text() === 'ST') {
+                $tr.css('font-weight', "bold");
+                $tr.css('background-color', "#ffff80");
+                $tr.find('.field:not(.subtotalline) ').text('');
+            }
+        });
+
+
         //$generatedtr.find('div[data-browsedatafield="ItemId"]').data('onchange', function ($tr) {
         //    $generatedtr.find('.field[data-browsedatafield="InventoryId"] input').val($tr.find('.field[data-browsedatafield="InventoryId"]').attr('data-originalvalue'));
         //    $generatedtr.find('.field[data-browsedatafield="InventoryId"] input.text').val($tr.find('.field[data-browsedatafield="ICode"]').attr('data-originalvalue'));
