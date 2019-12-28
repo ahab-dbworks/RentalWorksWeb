@@ -1072,9 +1072,9 @@ class SearchInterface {
             let code = e.keyCode || e.which;
             try {
                 if (code === 13) { //Enter Key
-                    self.populateTypeMenu($popup);
+                    this.populateTypeMenu($popup);
                     //self.getInventory($popup, false);
-                    self.getInventory($popup);
+                    this.getInventory($popup);
                 }
             } catch (ex) {
                 FwFunc.showError(ex);
@@ -1101,11 +1101,11 @@ class SearchInterface {
                 $accessoryContainer = $iteminfo.siblings('.item-accessories');
             }
             
-            if ($accessoryContainer.is(":visible")) {
+            if ($accessoryContainer.is(':visible')) {
                 jQuery(e.currentTarget).text('Show Accessories');
-            } else {
+            } else { 
                 jQuery(e.currentTarget).text('Hide Accessories');
-                self.refreshAccessoryQuantity($popup, id, warehouseId, inventoryId, e);
+                this.refreshAccessoryQuantity($popup, id, warehouseId, inventoryId, e);
             }
 
             if ((jQuery('#itemlist').attr('data-view')) == 'GRID') {
@@ -1152,7 +1152,7 @@ class SearchInterface {
                     response => {
                         if (accessoryRefresh == false) {
                             if ($accContainer.length > 0) {
-                                self.refreshAccessoryQuantity($popup, id, warehouseId, inventoryId, e);
+                                this.refreshAccessoryQuantity($popup, id, warehouseId, inventoryId, e);
                             }
                         }
 
@@ -1177,9 +1177,10 @@ class SearchInterface {
             })
             .on('change', '.item-accessory-info [data-column="Quantity"] input', e => {
                 const element = jQuery(e.currentTarget);
+                const inventoryId = element.parents('.item-accessory-info').attr('data-inventoryid');
                 let accRequest: any = {
                     SessionId:   id,
-                    InventoryId: element.parents('.item-accessory-info').attr('data-inventoryid'),
+                    InventoryId: inventoryId,
                     WarehouseId: warehouseId,
                     Quantity:    element.val()
                 };
@@ -1579,6 +1580,9 @@ class SearchInterface {
             $popup.data('refreshaccessories', false)
         }
 
+        //get id for nested toggle accessories
+        const showAccessoriesInventoryId = accessoryContainer.find('.toggleaccessories:contains(Hide)').parents('.item-accessory-info').attr('data-inventoryid');
+
         if (!(accessoryContainer.find('.accColumns').length)) {
             let accessorycolumnshtml =  `<div class="accColumns" style="width:100%; display:none">
                                            <div class="columnorder" data-column="Description">Description</div>
@@ -1725,6 +1729,11 @@ class SearchInterface {
                     $popup.find(`.item-accessories [data-column="${columnOrder[i]}"]`).css('order', i);
                 }
             }
+
+                //open accessories that were visible before they were refreshed
+                if (showAccessoriesInventoryId != undefined) {
+                    accessoryContainer.find(`[data-inventoryid="${showAccessoriesInventoryId}"]`).find('.toggleaccessories').click();
+                }
 
             //let obj = response.Rows.find(x => x[qtyIsStaleIndex] == true);
             //if (typeof obj != 'undefined') {
