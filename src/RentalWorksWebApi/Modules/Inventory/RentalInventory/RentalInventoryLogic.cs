@@ -18,6 +18,7 @@ namespace WebApi.Modules.Inventory.RentalInventory
         {
             dataLoader = inventoryLoader;
             ((InventoryBrowseLoader)browseLoader).AvailFor = RwConstants.INVENTORY_AVAILABLE_FOR_RENT;
+            ForceSave = true;  //justin hoffman 12/29/2019
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "EMtstFgQO6Apj")]
