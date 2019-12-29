@@ -205,7 +205,7 @@ class RentalInventory extends InventoryBase {
         //Inventory Availability Grid
         FwBrowse.renderGrid({
             nameGrid: 'InventoryAvailabilityGrid',
-            gridSecurityId: 'BDwvPyfcT8iY9',
+            gridSecurityId: 'g8sCuKjUVrW1',
             moduleSecurityId: this.id,
             $form: $form,
             pageSize: 10,
@@ -218,9 +218,9 @@ class RentalInventory extends InventoryBase {
                     InventoryId: FwFormField.getValueByDataField($form, 'InventoryId')
                 };
             },
-            beforeSave: (request: any) => {
-                request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
-            }
+            //beforeSave: (request: any) => {
+            //    request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
+            //}
         });
         // ----------
         //const $inventoryConsignmentGrid = $form.find('div[data-grid="InventoryConsignmentGrid"]');
